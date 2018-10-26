@@ -1,0 +1,51 @@
+{
+  "path": "/Mall",
+  "name": "Mall",
+  "componentPath": "Default",
+  "meta": {
+    "title": "商城",
+    "requiresAuth": true
+  },
+  "children": [
+    {
+      "path": "/Mall/Customer",
+      "name": "Customer",
+      "title": "客户",
+      "componentPath": "Content",
+      "children": [
+        {
+          "path": "/Mall/Customer/CustomerManage",
+          "name": "CustomerManage",
+          "title": "客户管理",
+          "componentPath": "Mall/Customer/CustomerManage"
+        }
+      ]
+    },
+    {
+      "path": "/Mall/Marketing",
+      "name": "Marketing",
+      "title": "门店营销",
+      "componentPath": "Content",
+      "children": [
+        {
+          "path": "/Mall/Marketing/CouponManage",
+          "name": "CouponManage",
+          "title": "优惠券管理",
+          "componentPath": "Mall/StoreCoupon/CouponManage"
+        },
+        {
+          "path": "/Mall/Marketing/PeopleSpellGroup",
+          "name": "peopleSpellGroup",
+          "title": "多人拼团",
+          "componentPath": "Mall/Marketing/PeopleSpellGroup"
+        },
+        {
+          "path": "/Mall/Marketing/PreferentialActivities",
+          "name": "PreferentialActivities",
+          "title": "满减/送",
+          "componentPath": "Mall/Marketing/PreferentialActivities"
+        }
+      ]
+    }
+  ]
+}

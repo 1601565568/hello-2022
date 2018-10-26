@@ -1,0 +1,25 @@
+{
+  "path": "/Database",
+  "name": "Database",
+  "componentPath": "Default",
+  "meta": {
+    "title": "工作台",
+    "requiresAuth": true
+  },
+  "children": [
+    {
+      "path": "/WorkBench",
+      "name": "WorkBench",
+      "title": "工作台",
+      "componentPath": "ContentFullScreen",
+      "children": [
+        {
+          "path": "/Overview",
+          "name": "Overview",
+          "title": "数据概览",
+          "componentPath": "WorkBench/Overview"
+        }
+      ]
+    }
+  ]
+}

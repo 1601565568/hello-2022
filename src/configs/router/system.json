@@ -1,0 +1,152 @@
+{
+  "path": "/System",
+  "name": "System",
+  "componentPath": "Default",
+  "meta": {
+    "title": "系统设置",
+    "requiresAuth": true
+  },
+  "children": [
+    {
+      "path": "/System/SystemParameter",
+      "name": "SystemParameter",
+      "title": "系统参数",
+      "componentPath": "Content",
+      "children": [
+        {
+          "path": "/System/SystemParameter/MenuManage",
+          "name": "MenuManage",
+          "title": "菜单管理",
+          "componentPath": "System/SystemParameter/MenuManage"
+        },
+        {
+          "path": "/System/SystemParameter/DataDictionary",
+          "name": "DataDictionary",
+          "title": "数据字典",
+          "componentPath": "System/SystemParameter/DataDictionary"
+        },
+        {
+          "path": "/System/SystemParameter/HashConfig",
+          "name": "HashConfig",
+          "title": "哈希配置",
+          "componentPath": "System/SystemParameter/HashConfig"
+        }
+      ]
+    },
+    {
+      "path": "/SystemUser",
+      "name": "SystemUser",
+      "title": "管理用户",
+      "componentPath": "Content",
+      "children": [
+        {
+          "path": "/SystemUserList",
+          "name": "SystemUserList",
+          "title": "用户列表",
+          "componentPath": "System/User/List"
+        },
+        {
+          "path": "/SystemUserEdit",
+          "name": "systemUserEdit",
+          "title": "编辑用户",
+          "componentPath": "System/User/Edit",
+          "hidden": true
+        },
+        {
+          "path": "/SystemUserAccess",
+          "name": "SystemUserAccess",
+          "title": "设置权限",
+          "componentPath": "System/User/Access",
+          "hidden": true
+        }
+      ]
+    },
+    {
+      "path": "/System/BasicSetup",
+      "name": "BasicSetup",
+      "title": "基础设置",
+      "componentPath": "Content",
+      "children": [
+        {
+          "path": "/System/BasicSetup/ShopManage",
+          "name": "ShopManage",
+          "title": "店铺管理",
+          "componentPath": "ContentTab",
+          "redirect": {
+            "name": "OnlineShop"
+          },
+          "children": [
+            {
+              "path": "/OnlineShop",
+              "name": "OnlineShop",
+              "title": "线上店铺",
+              "componentPath": "System/BasicSetup/OnlineShop"
+            },
+            {
+              "path": "/OfflineShop",
+              "name": "OfflineShop",
+              "title": "线下店铺",
+              "componentPath": "System/BasicSetup/OfflineShop"
+            }
+          ]
+        },
+        {
+          "path": "/System/BasicSetup/BrandManage",
+          "name": "BrandManage",
+          "title": "品牌管理",
+          "componentPath": "System/BasicSetup/BrandManage"
+        },
+        {
+          "path": "/System/BasicSetup/ChannelManage",
+          "name": "ChannelManage",
+          "title": "渠道管理",
+          "componentPath": "System/BasicSetup/ChannelManage"
+        },
+        {
+          "path": "/System/BasicSetup/RoleManage",
+          "name": "RoleManage",
+          "title": "角色管理",
+          "componentPath": "System/BasicSetup/RoleManage"
+        },
+        {
+          "path": "/System/BasicSetup/UserManage",
+          "name": "UserManage",
+          "title": "用户管理",
+          "componentPath": "System/BasicSetup/UserManage"
+        },
+        {
+          "path": "/System/BasicSetup/DepartmentManage",
+          "name": "DepartmentManage",
+          "title": "部门管理",
+          "componentPath": "System/BasicSetup/DepartmentManage"
+        }
+      ]
+    },
+    {
+      "path": "/System/YanShuManage",
+      "name": "YanShuManage",
+      "title": "通道管理",
+      "componentPath": "Content",
+      "children": [
+        {
+          "path": "/System/YanShuManage/YsAccount",
+          "name": "YsAccount",
+          "title": "通道账号管理",
+          "componentPath": "System/YanShuManage/YsAccount"
+        },
+        {
+          "path": "/System/YanShuManage/YsChannel",
+          "name": "YsChannel",
+          "title": "通道标识管理",
+          "componentPath": "System/YanShuManage/YsChannel"
+        },
+        {
+          "path": "/System/YanShuManage/TouchManage",
+          "name": "TouchManage",
+          "title": "客户触达管理",
+          "componentPath": "System/YanShuManage/TouchManage"
+        }
+      ]
+    }
+  ]
+}

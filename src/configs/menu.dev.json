@@ -1,0 +1,283 @@
+{
+  "path": "/examples",
+  "name": "examples",
+  "title": "组件实例",
+  "icon": "assembly",
+  "children": [
+    {
+      "path": "/layout",
+      "name": "layout",
+      "title": "页面框架",
+      "children": [
+        {
+          "path": "/AnalysisMember",
+          "name": "Analysis",
+          "title": "页面TAB",
+          "children": [
+            {
+              "path": "/AnalysisMember",
+              "name": "AnalysisMember",
+              "title": "会员分析"
+            },
+            {
+              "path": "/AnalysisSales",
+              "name": "AnalysisSales",
+              "title": "销售分析"
+            },
+            {
+              "path": "/AnalysisShop",
+              "name": "AnalysisShop",
+              "title": "店铺分析"
+            }
+          ]
+        },
+        {
+          "path": "/Api",
+          "name": "Api",
+          "title": "Api",
+          "icon": "",
+          "children": []
+        },
+        {
+          "path": "/NsCrds",
+          "name": "NsCrds",
+          "title": "NsCrds",
+          "icon": "",
+          "children": []
+        },
+        {
+          "path": "/Form",
+          "name": "NsForm",
+          "title": "表单实例",
+          "icon": "",
+          "children": []
+        },
+        {
+          "path": "/Button",
+          "name": "NsButton",
+          "title": "按钮示例",
+          "children": []
+        },
+        {
+          "path": "/Text",
+          "name": "NsText",
+          "title": "文本示例",
+          "children": []
+        },
+        {
+          "path": "/Steps",
+          "name": "NsSteps",
+          "title": "步骤条",
+          "children": []
+        },
+        {
+          "path": "/Dialog",
+          "name": "NsDialog",
+          "title": "弹窗",
+          "children": []
+        },
+        {
+          "path": "/Message",
+          "name": "NsMessage",
+          "title": "消息提示",
+          "children": []
+        },
+        {
+          "path": "/Tabs",
+          "name": "NsTabs",
+          "title": "内容切换",
+          "children": []
+        },
+        {
+          "path": "/Table",
+          "name": "NsTable",
+          "title": "表格",
+          "children": []
+        },
+        {
+          "path": "/NoData",
+          "name": "NsNoData",
+          "title": "暂无数据",
+          "componentPath": "Examples/NoData"
+        },
+        {
+          "path": "/NsArea",
+          "name": "NsArea",
+          "title": "地区选择",
+          "icon": "",
+          "children": []
+        },
+        {
+          "path": "/NsUpload",
+          "name": "NsUpload",
+          "title": "上传控件",
+          "componentPath": "Examples/NsUpload"
+        },
+        {
+          "path": "/Instructions",
+          "name": "Instructions",
+          "title": "帮助说明",
+          "componentPath": "Examples/Instructions"
+        },
+        {
+          "path": "/Tree",
+          "name": "Tree",
+          "title": "树组件-带图标",
+          "componentPath": "Examples/Tree"
+        }
+      ]
+    },
+    {
+      "path": "/PageModel",
+      "name": "PageModel",
+      "title": "页面布局",
+      "componentPath": "Content",
+      "redirect": {
+        "name": "DefaultLayout"
+      },
+      "children": [
+        {
+          "path": "/DefaultLayout",
+          "name": "DefaultLayout",
+          "title": "默认布局",
+          "children": []
+        },
+        {
+          "path": "/ColumnLayout",
+          "name": "ColumnLayout",
+          "title": "分栏布局",
+          "children": []
+        }
+      ]
+    },
+    {
+      "path": "/PageDemo",
+      "name": "PageDemo",
+      "title": "页面Demo",
+      "componentPath": "Content",
+      "children": [
+        {
+          "path": "/AnalysisRFM",
+          "name": "AnalysisRFM",
+          "title": "RFM模型分析",
+          "children": []
+        },
+        {
+          "path": "/AffairsList",
+          "name": "AffairsList",
+          "title": "事务列表",
+          "children": []
+        },
+        {
+          "path": "/AffairsCount",
+          "name": "AffairsCount",
+          "title": "事务统计",
+          "children": []
+        },
+        {
+          "path": "/ShopDSR",
+          "name": "ShopDSR",
+          "title": "店铺DSR",
+          "children": []
+        },
+        {
+          "path": "/AnalysisPage",
+          "name": "AnalysisPage",
+          "title": "TAB分析页面汇总",
+          "children": [
+            {
+              "path": "/PaymentPeriod",
+              "name": "PaymentPeriod",
+              "title": "付款周期分析"
+            },
+            {
+              "path": "/DeliveryPeriod",
+              "name": "DeliveryPeriod",
+              "title": "发货周期分析"
+            },
+            {
+              "path": "/ReceivePeriod",
+              "name": "ReceivePeriod",
+              "title": "签收周期分析"
+            },
+            {
+              "path": "/ReceiveBehavior",
+              "name": "ReceiveBehavior",
+              "title": "收货行为分析"
+            },
+            {
+              "path": "/StandEvaluation",
+              "name": "StandEvaluation",
+              "title": "评价行为分析"
+            },
+            {
+              "path": "/ShopSrc",
+              "name": "ShopSrc",
+              "title": "有效来源分析"
+            },
+            {
+              "path": "/RelatePage",
+              "name": "RelatePage",
+              "title": "页面关联分析"
+            },
+            {
+              "path": "/IntegralTotal",
+              "name": "IntegralTotal",
+              "title": "积分统计"
+            },
+            {
+              "path": "/TradeMonitorData",
+              "name": "TradeMonitorData",
+              "title": "交易监控"
+            },
+            {
+              "path": "/CrmEffectTrack",
+              "name": "CrmEffectTrack",
+              "title": "CRM实施状态跟踪"
+            },
+            {
+              "path": "/Area",
+              "name": "Area",
+              "title": "地区销售分析"
+            }
+          ]
+        },
+        {
+          "path": "/InfoUpdate",
+          "name": "InfoUpdate",
+          "title": "信息更新",
+          "children": []
+        },
+        {
+          "path": "/AbnormalClean",
+          "name": "AbnormalClean",
+          "title": "异常清洗",
+          "children": []
+        },
+        {
+          "path": "/AnalysisGoods",
+          "name": "AnalysisGoods",
+          "title": "分析商品",
+          "children": [
+            {
+              "path": "/VerticalAnalysis",
+              "name": "VerticalAnalysis",
+              "title": "垂直分析"
+            },
+            {
+              "path": "/ComparisonAnalysis",
+              "name": "ComparisonAnalysis",
+              "title": "对比分析"
+            }
+          ]
+        },
+        {
+          "path": "/Reports",
+          "name": "Reports",
+          "title": "智能分析",
+          "children": []
+        }
+      ]
+    }
+  ]
+}

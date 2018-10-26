@@ -1,0 +1,69 @@
+{
+  "path": "/LoyaltyProgram",
+  "name": "LoyaltyProgram",
+  "componentPath": "Default",
+  "meta": {
+    "title": "忠诚度计划",
+    "requiresAuth": true
+  },
+  "children": [
+    {
+      "path": "/LoyaltyProgram/VipSystem",
+      "name": "VipSystem",
+      "title": "VIP体系",
+      "componentPath": "Content",
+      "children": [
+        {
+          "path": "/LoyaltyProgram/VipSystem/Hierarchy",
+          "name": "Hierarchy",
+          "title": "等级规则设置",
+          "componentPath": "LoyaltyProgram/VipSystem/Hierarchy"
+        },
+        {
+          "path": "/LoyaltyProgram/VipSystem/GradeLog",
+          "name": "GradeLog",
+          "title": "等级变更日志",
+          "componentPath": "LoyaltyProgram/VipSystem/GradeLog"
+        },
+        {
+          "path": "/LoyaltyProgram/VipSystem/GradeBenefitSetting",
+          "name": "GradeBenefitSetting",
+          "title": "等级权益设置",
+          "componentPath": "LoyaltyProgram/VipSystem/GradeBenefitSetting"
+        }
+      ]
+    },
+    {
+      "path": "/LoyaltyProgram/IntegralSystem",
+      "name": "IntegralSystem",
+      "title": "积分体系",
+      "componentPath": "Content",
+      "children": [
+        {
+          "path": "/LoyaltyProgram/IntegralSystem/IntegralRule",
+          "name": "IntegralRule",
+          "title": "积分规则",
+          "componentPath": "LoyaltyProgram/IntegralSystem/IntegralRule"
+        },
+        {
+          "path": "/LoyaltyProgram/IntegralSystem/InteractInfo",
+          "name": "interactInfo",
+          "title": "积分信息",
+          "componentPath": "LoyaltyProgram/Interact"
+        },
+        {
+          "path": "/LoyaltyProgram/IntegralSystem/IntegralActivity",
+          "name": "IntegralActivity",
+          "title": "限时积分活动",
+          "componentPath": "LoyaltyProgram/IntegralActivity"
+        },
+        {
+          "path": "/LoyaltyProgram/IntegralSystem/IntegralClearTask",
+          "name": "integralClearTask",
+          "title": "积分清零",
+          "componentPath": "LoyaltyProgram/IntegralSystem/IntegralClearTask"
+        }
+      ]
+    }
+  ]
+}

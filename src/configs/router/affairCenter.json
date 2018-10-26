@@ -1,0 +1,69 @@
+{
+  "path": "/AffairCenter",
+  "name": "AffairCenter",
+  "componentPath": "Default",
+  "meta": {
+    "title": "事务中心",
+    "requiresAuth": true
+  },
+  "children": [
+    {
+    "path": "/AffairCenter/RateDeal",
+    "name": "RateDeal",
+    "title": "购物关怀",
+    "componentPath": "Content",
+    "children": [
+      {
+        "path": "/AffairCenter/RateDeal/AllRate",
+        "name": "AllRate",
+        "title": "所有评价",
+        "componentPath": "AffairCenter/RateDeal/AllRate"
+      },
+      {
+        "path": "/AffairCenter/RateDeal/ArchivedRate",
+        "name": "ArchiveRate",
+        "title": "归档评价",
+        "componentPath": "AffairCenter/RateDeal/ArchivedRate"
+      },
+      {
+        "path": "/AffairCenter/RateDeal/RateBack",
+        "name": "RateBack",
+        "title": "回评处理",
+        "componentPath": "AffairCenter/RateDeal/RateBack"
+      },
+      {
+        "path": "/AffairCenter/RateDeal/TraderateArchiveAnalysis",
+        "name": "TraderateArchiveAnalysis",
+        "title": "归档分析",
+        "componentPath": "AffairCenter/RateDeal/TraderateArchiveAnalysis"
+      }
+      ]
+    },
+    {
+      "path": "/AffairCenter/AffairManage",
+      "name": "AffairManage",
+      "title": "事务处理",
+      "componentPath": "Content",
+      "children": [
+        {
+          "path": "/AffairCenter/AffairManage/AffairType",
+          "name": "AffairType",
+          "title": "事务类型",
+          "componentPath": "AffairCenter/AffairManage/AffairType"
+        },
+        {
+          "path": "/AffairCenter/AffairManage/AffairList",
+          "name": "AffairList",
+          "title": "事务列表",
+          "componentPath": "AffairCenter/AffairManage/AffairList"
+        },
+        {
+          "path": "/AffairCenter/AffairManage/AffairStatistics",
+          "name": "AffairStatistics",
+          "title": "事务统计",
+          "componentPath": "AffairCenter/AffairManage/AffairStatistics"
+        }
+      ]
+    }
+  ]
+}
