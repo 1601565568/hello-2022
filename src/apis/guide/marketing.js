@@ -54,16 +54,6 @@ export default {
     url: '/guide/preferentialactivities/queryShopOptional',
     method: 'post'
   },
-  //拼团列表删除guide/wmspellgroup/findList
-  deleteSpellGroup: {
-    url: '/guide/wmspellgroup/deleteSpellGroup',
-    method: 'get'
-  },
-  //拼团列表
-  wmspellgroupFindList: {
-    url: '/guide/wmspellgroup/findList',
-    method: 'get'
-  },
   // 查询品牌下商城可用优惠券列表
   findStoreCouponListByBrandId: {
     url: '/coupon/storecoupon/findStoreCouponListByBrandId',
