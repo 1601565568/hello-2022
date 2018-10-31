@@ -91,10 +91,6 @@ export default {
     url: '/core/common/querySmsPlaceholderList',
     method: 'get'
   },
-  getWxTemplateList: {
-    url: '/core/common/getWxTemplateList',
-    method: 'get'
-  },
   queryBrandOptions: {
     url: '/core/common/queryBrandOptions',
     method: 'get'
@@ -109,14 +105,6 @@ export default {
   },
   getKdCouponOptionsMapByShop: {
     url: '/core/common/getKdCouponOptionsMapByShop',
-    method: 'get'
-  },
-  getSmsSignatures: {
-    url: '/core/common/getSmsSignatures',
-    method: 'get'
-  },
-  getMarketingTemplateOptions: {
-    url: '/core/common/getMarketingTemplateOptions',
     method: 'get'
   },
   getMarketingTemplateById: {
@@ -234,18 +222,9 @@ export default {
     method: 'get',
     transformRequest: transData
   },
-  querySysShopOptions: {
-    url: '/core/common/getSysShop4Options',
-    method: 'get'
-  },
   // 获取淘宝店铺信息
   getTopShopData4Options: {
     url: '/core/common/getTopShop4Options',
-    method: 'get'
-  },
-  // 获取所有店铺信息
-  getSysShopData4Options: {
-    url: '/core/common/getSysShop4Options',
     method: 'get'
   },
   // 查询店铺分页表格数据

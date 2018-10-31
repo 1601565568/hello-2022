@@ -20,12 +20,6 @@
           "componentPath": "System/SystemParameter/MenuManage"
         },
         {
-          "path": "/System/SystemParameter/DataDictionary",
-          "name": "DataDictionary",
-          "title": "数据字典",
-          "componentPath": "System/SystemParameter/DataDictionary"
-        },
-        {
           "path": "/System/SystemParameter/HashConfig",
           "name": "HashConfig",
           "title": "哈希配置",

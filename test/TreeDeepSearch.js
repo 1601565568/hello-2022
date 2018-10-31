@@ -589,14 +589,6 @@ let data = [{
       'id': 23,
       'children': []
     }, {
-      'path': '/System/SystemParameter/DataDictionary',
-      'name': 'DataDictionary',
-      'title': '数据字典',
-      'icon': '',
-      'parent': 62,
-      'id': 48,
-      'children': []
-    }, {
       'path': '/System/SystemParameter/HashConfig',
       'name': 'HashConfig',
       'title': '哈希配置',

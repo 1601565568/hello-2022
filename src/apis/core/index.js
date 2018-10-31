@@ -1,6 +1,5 @@
 import apiConf from 'configs/http'
 import access from './access'
-import dataDictionary from './dataDictionary'
 import common from './common'
 import hash from './hash'
 import downloadConfig from './downloadConfig'
@@ -18,7 +17,6 @@ import sysUser from './sysUser'
 import exportDownloadLog from './exportDownloadLog'
 export default {
   access,
-  dataDictionary,
   common,
   hash,
   downloadConfig,
