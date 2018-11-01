@@ -1,30 +1,16 @@
-import CustomerInsight from './customerInsight'
-import AutomaticService from './automaticService'
-import Marketing from './marketing'
-import System from './system'
+import ShopManager from './shopmanager'
+import Reward from './reward'
+import ShopMarketing from './shopmarketing'
+import Other from './other'
 import Examples from './examples'
-import Tool from './tool'
-import LoyaltyProgram from './loyaltyprogram'
-import database from './database'
-import guide from './guide'
-import mall from './mall'
-import affairCenter from './affairCenter'
-import dataInsight from './dataInsight'
-import comnunicate from './comnunicate'
+import Database from './database'
 export default [
-  CustomerInsight,
-  AutomaticService,
-  Marketing,
-  System,
+  ShopManager,
+  Reward,
+  ShopMarketing,
+  Other,
   Examples,
-  Tool,
-  LoyaltyProgram,
-  database,
-  affairCenter,
-  guide,
-  mall,
-  dataInsight,
-  comnunicate,
+  Database,
   // 以下为系统默认路由，修改请请与项目负责人进行确认
   {
     path: '/',
