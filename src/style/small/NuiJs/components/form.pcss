@@ -1,0 +1,80 @@
+.el-form-item {
+  margin-bottom: var(--default-padding-base);
+  .el-form-item__error {
+    border-radius: var(--default-radius-mini);
+  }
+}
+.el-form-item {
+  .el-form-item__label {
+    line-height: var(--default-form-item-height);
+    padding-right: 0;
+  }
+  .el-form-item__content {
+    line-height: var(--default-form-item-height);
+  }
+}
+
+.el-form-item--medium {
+  .el-form-item__label {
+    line-height: var(--default-form-item-large-height);
+  }
+  .el-form-item__content {
+    line-height: var(--default-form-item-large-height);
+  }
+}
+.el-form-item--small {
+  .el-form-item__label {
+    line-height: var(--default-form-item-small-height);
+  }
+  .el-form-item__content {
+    line-height: var(--default-form-item-small-height);
+  }
+}
+@include b(form-item) {
+  @include e(label) {
+    line-height: var(--default-form-item-height);
+  }
+  @include e(content) {
+    line-height:  var(--default-form-item-height);
+  }
+}
+/* 弹窗中表单，最后一个校验被遮挡处理 */
+.el-dialog__body {
+  .el-form {
+    >.el-form-item {
+      &.el-form-validate__unHide{
+        margin-bottom: 25px;
+      }
+    }
+  }
+}
+/* 信息详情表单*/
+.text-form-unique .el-form-item{
+  margin-bottom:0;
+}
+/* 表单多层结构嵌套间距调整 */
+.el-form .el-form-item .el-form-item {
+  &:last-child{
+    margin-bottom: 0;
+  }
+}
+/* 栅格排版组合间距优化*/
+.el-form--inline.el-form-item--small .el-form-grid,.el-form--inline.el-form-item .el-form-grid{
+  &:last-child{
+    margin-right:0;
+  }
+}
+.el-form-grid .el-button +  >>> .el-button, .el-form-grid .el-radio +  >>> .el-radio, .el-form-grid .el-checkbox +  >>> .el-checkbox{
+  margin-left:0;
+}
+/* 按钮间距优先级 */
+.el-form-grid .el-button + .el-button, .el-form-grid .el-radio + .el-radio, .el-form-grid .el-checkbox + .el-checkbox{
+  margin-left: var(--default-margin-small);
+}
+/* 行内表单间距 */
+.el-form--inline .el-form-item{
+  margin-right:var(--default-margin-base) !important;
+  &:last-child{
+    margin-right:0 !important;
+  }
+}

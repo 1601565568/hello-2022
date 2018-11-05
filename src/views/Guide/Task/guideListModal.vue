@@ -1,0 +1,116 @@
+
+<template>
+<!-- 分配导购--弹窗  wanrengang 20180803 -->
+<div class="guidebox">
+  <el-dialog
+  :close-on-click-modal=false
+  :visible.sync="dialogVisible"
+  width="530px"
+  :before-close="handleClose">
+  <span slot="title">
+      <span style="font-size:16px;">分配导购</span> <span style="padding-left:10px;">(<span class="text-error">{{guideTotal}}</span>人,全店{{allGuideTotal}}人)</span>
+    </span>
+    <div class="comDialogBoxCon">
+      <div class="mt10 clearfix">
+          <ul class="guideList">
+              <li v-for="(item,index) in dataList" :key="index">
+                  <div class="imgbox">
+                    <img :src="item.image" alt="">
+                    </div>
+                  <span>{{item.name}}</span>
+              </li>
+          </ul>
+      </div>
+    <!-- 分页 -->
+   <el-pagination v-if="pagination.enable" class="template-table-pagination"
+      :page-sizes="pagination.sizeOpts"
+      :total="pagination.total"
+      :current-page="pagination.page"
+      :page-size="pagination.size"
+      layout="total, prev, pager, next"
+      @current-change="handleCurrentChange">
+  </el-pagination>
+    </div>
+    <span slot="footer" class="dialog-footer">
+      <ns-button @click="handleClose">关闭</ns-button>
+    </span>
+  </el-dialog>
+</div>
+</template>
+<script>
+import listPageMixin from 'mixins/listPage'
+export default {
+  mixins: [listPageMixin],
+  data () {
+    return {
+      loading: false, // 防重复提交
+      dialogVisible: false,
+      allGuideTotal: 0, // 全店导购数
+      guideTotal: 0, // 分配的人数
+      searchform: {},
+      dataList: []
+    }
+  },
+  methods: {
+    showToggle (taskId, shopId) {
+      this.searchObj.searchMap.taskId = taskId
+      this.searchObj.searchMap.shopId = shopId
+      this.dialogVisible = true
+      this.loadListFun()
+    },
+    // 加载列表
+    async loadListFun () {
+      await this.$http
+        .fetch(this.$api.guide.taskQueryShopGuideList, this.searchObj)
+        .then(resp => {
+          this.dataList = resp.result.data
+          this.pagination.total = parseInt(resp.result.recordsTotal)
+          this.guideTotal = parseInt(resp.result.recordsTotal)
+          if (resp.result.ext) {
+            this.allGuideTotal = resp.result.ext.shopTotal
+          }
+        })
+        .catch(resp => {
+          this.$notify.error(resp.msg)
+        })
+    },
+    handleClose () {
+      this.dataList = []
+      this.searchObj.start = 0
+      this.dialogVisible = false
+    }
+  }
+}
+</script>
+<style scoped>
+@component-namespace guidebox {
+  .guideList {
+    padding: 15px 0;
+    width: 500px;
+    li {
+      width: 60px;
+      text-align: center;
+      margin: 10px 20px;
+      font-size: 12px;
+      float: left;
+      min-height:90px;
+      .imgbox {
+        width: 50px;
+        height: 50px;
+        border: 1px solid #f2f2f2;
+        border-radius: 50%;
+        img {
+          width: 48px;
+          height: 48px;
+          border-radius: 50%;
+        }
+      }
+
+      span {
+        color: #999;
+      }
+    }
+    list-style: none;
+  }
+}
+</style>
