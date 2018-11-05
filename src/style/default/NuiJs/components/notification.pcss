@@ -1,0 +1,15 @@
+.el-notification {
+  z-index: 3000!important; /*解决被弹窗遮挡问题*/
+  .el-notification__content {
+    margin: 0;
+  }
+  .el-notification__icon {
+    height:18px;
+    width:18px;
+    font-size: 18px;
+    &:before{
+      position: relative;
+      top: 2px;
+    }
+  }
+}

@@ -1,0 +1,23 @@
+.el-steps {
+  .el-step {
+    &.is-simple:not(:last-of-type) {
+      .el-step__title {
+        max-width: 80%;
+      }
+    }
+  }
+  .el-step__head {
+    line-height: 1;
+  }
+  .el-step__main {
+    .el-step__title {
+      font-size: var(--default-font-size-base);
+      position: relative;
+      top:2px;
+    }
+  }
+  .el-step__line-inner{
+    display: none;
+  }
+  padding: var(--default-padding-base);
+}
