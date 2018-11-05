@@ -1,0 +1,153 @@
+{
+  "path": "/Components",
+  "name": "Components",
+  "componentPath": "Default",
+  "meta": {
+    "title": "组件封装",
+    "requiresAuth": true
+  },
+  "children": [
+    {
+      "path": "/ComponentsForm",
+      "name": "ComponentsForm",
+      "title": "表单组件",
+      "componentPath": "Content",
+      "children": [
+        {
+          "path": "/ComponentsSelectTree",
+          "name": "ComponentsSelectTree",
+          "title": "下拉树",
+          "componentPath": "Examples/ComponentsDemo/SelectTree"
+        },
+        {
+          "path": "/ComponentsFormInput",
+          "name": "ComponentsFormInput",
+          "title": "input框",
+          "componentPath": "Examples/ComponentsDemo/ComponentsFormInput"
+        },
+        {
+          "path": "/ComponentsFormTextarea",
+          "name": "ComponentsFormTextarea",
+          "title": "文本框",
+          "componentPath": "Examples/ComponentsDemo/ComponentsFormTextarea"
+        },
+        {
+          "path": "/ComponentsFormCheckbox",
+          "name": "ComponentsFormCheckbox",
+          "title": "checkbox",
+          "componentPath": "Examples/ComponentsDemo/ComponentsFormCheckbox"
+        },
+        {
+          "path": "/ComponentsFormRadio",
+          "name": "ComponentsFormRadio",
+          "title": "Radio单选",
+          "componentPath": "Examples/ComponentsDemo/ComponentsFormRadio"
+        },
+        {
+          "path": "/ComponentsFormSelect",
+          "name": "ComponentsFormSelect",
+          "title": "下拉框",
+          "componentPath": "Examples/ComponentsDemo/ComponentsFormSelect"
+        },
+        {
+          "path": "/ComponentsFormSwitch",
+          "name": "开关",
+          "title": "开关",
+          "componentPath": "Examples/ComponentsDemo/ComponentsFormSwitch"
+        },
+        {
+          "path": "/ComponentsFormCascader",
+          "name": "ComponentsFormCascader",
+          "title": "级联选择器",
+          "componentPath": "Examples/ComponentsDemo/ComponentsFormCascader"
+        },
+        {
+          "path": "/ComponentsFormDate",
+          "name": "ComponentsFormDate",
+          "title": "日期",
+          "componentPath": "Examples/ComponentsDemo/ComponentsFormDate"
+        },
+        {
+          "path": "/ComponentsFormTime",
+          "name": "ComponentsFormTime",
+          "title": "时间",
+          "componentPath": "Examples/ComponentsDemo/ComponentsFormTime"
+        },
+        {
+          "path": "/ComponentsFormDateTime",
+          "name": "ComponentsFormDateTime",
+          "title": "日期时间",
+          "componentPath": "Examples/ComponentsDemo/ComponentsFormDateTime"
+        },
+        {
+          "path": "/ComponentsFormEditor",
+          "name": "ComponentsFormEditor",
+          "title": "富文本",
+          "componentPath": "Examples/ComponentsDemo/ComponentsFormEditor"
+        },
+        {
+          "path": "/ComponentsFormValidate",
+          "name": "ComponentsFormValidate",
+          "title": "验证",
+          "componentPath": "Examples/ComponentsDemo/ComponentsFormValidate"
+        }
+      ]
+    },
+    {
+      "path": "/ComponentsList",
+      "name": "ComponentsList",
+      "title": "列表组件",
+      "componentPath": "Content",
+      "children": [
+        {
+          "path": "/ComponentsListList",
+          "name": "ComponentsListList",
+          "title": "默认列表",
+          "componentPath": "Examples/ComponentsDemo/ComponentsListList"
+        },
+        {
+          "path": "/ComponentsListDataType",
+          "name": "ComponentsListDataType",
+          "title": "数据类型",
+          "componentPath": "Examples/ComponentsDemo/ComponentsListDataType"
+        },
+        {
+          "path": "/ComponentsListFilter",
+          "name": "ComponentsListFilter",
+          "title": "过滤筛选",
+          "componentPath": "Examples/ComponentsDemo/ComponentsListFilter"
+        },
+        {
+          "path": "/ComponentsListFormatter",
+          "name": "ComponentsListFormatter",
+          "title": "格式化",
+          "componentPath": "Examples/ComponentsDemo/ComponentsListFormatter"
+        },
+        {
+          "path": "/ComponentsListPagination",
+          "name": "ComponentsListPagination",
+          "title": "分页功能",
+          "componentPath": "Examples/ComponentsDemo/ComponentsListPagination"
+        },
+        {
+          "path": "/ComponentsListSearch",
+          "name": "ComponentsListSearch",
+          "title": "搜索功能",
+          "componentPath": "Examples/ComponentsDemo/ComponentsListSearch"
+        },
+        {
+          "path": "/ComponentsListExpand",
+          "name": "ComponentsListExpand",
+          "title": "折叠功能",
+          "componentPath": "Examples/ComponentsDemo/ComponentsListExpand"
+        },
+        {
+          "path": "/ComponentsListCustomBtn",
+          "name": "ComponentsListCustomBtn",
+          "title": "按钮功能",
+          "componentPath": "Examples/ComponentsDemo/ComponentsListCustomBtn"
+        }
+      ]
+    }
+  ]
+}

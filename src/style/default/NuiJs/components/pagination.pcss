@@ -1,0 +1,30 @@
+.el-pagination {
+  text-align: right;
+  padding: var(--default-padding-base) var(--default-padding-xlarger);
+  background: var(--theme-color-white);
+  box-shadow: var(--default-box-shadow-base);
+  border-radius: 0 0 var(--default-radius-small) var(--default-radius-small);
+  .el-pagination__total {
+    float: left;
+  }
+  .el-pagination__sizes {
+    float: left;
+  }
+  &.is-background {
+    .el-pager li {
+      &.active {
+        background-color: var(--theme-color-primary-light);
+      }
+    }
+  }
+  .el-pager li {
+    font-weight: normal;
+  }
+  .el-input__suffix {
+    right: 1px;
+    bottom: 2px;
+    height: 26px;
+    -webkit-transform: scale(1);
+    transform: scale(1);
+  }
+}
