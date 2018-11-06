@@ -155,7 +155,7 @@ export default {
   methods: {
     initShopList () {
       var _this = this
-      _this.$http.fetch(_this.$api.core.sysShop.queryShopByBrandId, {
+      _this.$http.fetch(_this.$api.core.sysShop.getBrandList, {
         'length': 100000,
         'start': 0,
         searchMap: {

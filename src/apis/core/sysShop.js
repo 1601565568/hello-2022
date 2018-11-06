@@ -52,7 +52,7 @@ export default {
   },
   // 品牌店铺下拉列表
   getBrandList: {
-    url: '/core/sysshop/getBrandList',
+    url: '/core/sgshop/getBrandList',
     method: 'get'
   },
   // 线下门店删除
