@@ -12,7 +12,7 @@
             <el-form-grid size="xmd">
               <el-form-item prop="shop">
                 <el-select placeholder="所属门店" v-model="model.sgGuideShop.shop_id" filterable>
-                  <el-option v-for="shop in shopFindList" :label="shop.shop_name" :value="shop.id"
+                  <el-option v-for="shop in shopFindList" :label="shop.shopName" :value="shop.id"
                              :key="shop.id"></el-option>
                 </el-select>
               </el-form-item>

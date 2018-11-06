@@ -162,8 +162,8 @@ export default {
           'shopStatus': 1
         }
       }).then(resp => {
-        if (resp.success && resp.result.data != null) {
-          _this.shopFindList = resp.result.data
+        if (resp.success && resp.result != null) {
+          _this.shopFindList = resp.result
         }
       }).catch((resp) => {
         _this.$notify.error('查询失败：' + resp.msg)
