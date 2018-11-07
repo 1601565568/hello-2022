@@ -14,7 +14,7 @@
          <!-- 左边上角操作区域 -->
           <el-col :span="7">
             <div class="topTip">
-              <ns-button type="primary" @click="AddShowToggle">批量设置</ns-button><span class="tipInfo">单位：<span v-if="searchObj.searchMap.type==1">人</span><span v-if="searchObj.searchMap.type==0">元</span></span>
+              <ns-button type="primary" @click="AddShowToggle">批量设置</ns-button><span class="tipInfo">单位：<span v-if="searchObj.searchMap.type==1">人</span><span v-if="searchObj.searchMap.type==0">万元</span></span>
             </div>
           </el-col>
           <el-col :span="17">
@@ -309,6 +309,13 @@ export default {
         .fetch(this.$api.guide.guide.shopIndexList, searchObj)
         .then(resp => {
           this.dataList = resp.result.data
+          this.dataList.map(item => {
+            for (let i in item) {
+              if (i !== 'id' || i !== 'shopId' || i !== 'shopName' || i !== 'shopStatus' || i !== 'shopType') {
+                item[i] = (item[i] / 10000).toFixed(2)
+              }
+            }
+          })
           this.pagination.total = parseInt(resp.result.recordsTotal)
         })
         .catch(resp => {
