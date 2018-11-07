@@ -44,7 +44,7 @@
         <el-form-item label="所属门店：">
           <el-form-grid>
             <el-select placeholder="请选择所属门店" v-model="model.shop" clearable filterable>
-              <el-option v-for="shop in shopFindList" :label="shop.shop_name" :value="shop.id"
+              <el-option v-for="shop in shopFindList" :label="shop.shopName" :value="shop.id"
                          :key="shop.id"></el-option>
             </el-select>
           </el-form-grid>

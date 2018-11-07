@@ -155,15 +155,15 @@ export default {
   methods: {
     initShopList () {
       var _this = this
-      _this.$http.fetch(_this.$api.core.sysShop.queryShopByBrandId, {
+      _this.$http.fetch(_this.$api.core.sysShop.getBrandList, {
         'length': 100000,
         'start': 0,
         searchMap: {
           'shopStatus': 1
         }
       }).then(resp => {
-        if (resp.success && resp.result.data != null) {
-          _this.shopFindList = resp.result.data
+        if (resp.success && resp.result != null) {
+          _this.shopFindList = resp.result
         }
       }).catch((resp) => {
         _this.$notify.error('查询失败：' + resp.msg)
