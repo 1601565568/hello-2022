@@ -59,9 +59,9 @@ export default {
       {
         // 高级搜索字段
         customerName: '',
-        storeCouponTitle: '',
-        storeCouponType: null,
-        storeCouponStatus: null
+        couponTitle: '',
+        couponType: null,
+        couponStatus: null
       },
       {validTime: []})
     var that = this

@@ -21,7 +21,7 @@ export default {
   marketing,
   // 所有导购模块全部整合在此
   comGetBrandForShopList: {// 获取品牌下的店铺
-    url: '/core/sysshop/getBrandList',
+    url: '/core/sgshop/getBrandList',
     method: 'get'
   },
   materialList: {
