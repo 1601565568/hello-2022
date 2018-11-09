@@ -3,7 +3,8 @@
 <div class="addSCBox">
   <el-dialog
   :title="titleText"
-  :close-on-click-modal=false
+  :close-on-click-modal='false'
+  :close-on-press-escape='true'
   :visible.sync="dialogVisible"
   width="620px"
   :before-close="handleClose">

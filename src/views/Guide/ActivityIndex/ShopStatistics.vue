@@ -192,7 +192,7 @@
       <el-table-column
         label="完成销售额/还差（元）"
         align="center"
-        width="120"
+        width="200"
       >
       <template slot-scope="scope">
         <span>{{scope.row.sellComplete}}</span>/<span class="text-error">

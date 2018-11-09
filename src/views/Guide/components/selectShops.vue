@@ -2,7 +2,9 @@
 <!-- 选择门店 wanrengang 20180818 -->
 <div class="selectShopBox">
 <el-dialog
-  title="选择店铺"
+  title="选择门店"
+  :close-on-press-escape='true'
+  :close-on-click-modal='false'
   :visible.sync="dialogVisible"
   width="800px" append-to-body
   :before-close="handleClose">
@@ -16,7 +18,7 @@
                 :element-loading-text="$t('prompt.loading')"
                 @selection-change="handleSelectionChange">
                 <el-table-column type="selection" width="55"></el-table-column>
-                <el-table-column prop="shopName" label="店铺名称"></el-table-column>
+                <el-table-column prop="shopName" label="门店名称"></el-table-column>
             </el-table>
           </div>
           <div class="selecedBox">
@@ -34,7 +36,7 @@
     <ns-button  type="primary" @click="okFun">确定</ns-button>
   </span>
 </el-dialog>
-  <ns-button  type="primary" @click="openFun">选择店铺</ns-button> 已选择<span class="text-error">{{hasShopArr.length}}</span>家店铺
+  <ns-button  type="primary" @click="openFun">选择门店</ns-button> 已选择<span class="text-error">{{hasShopArr.length}}</span>家门店
 </div>
 </template>
 <script>
@@ -102,7 +104,7 @@ export default {
           this.$notify.error(resp.msg)
         })
     },
-    // 打开弹窗回显已经选择的店铺
+    // 打开弹窗回显已经选择的门店
     openFun () {
       const self = this
       let params = Object.assign({}, {searchMap: Object.assign({}, this.params)})

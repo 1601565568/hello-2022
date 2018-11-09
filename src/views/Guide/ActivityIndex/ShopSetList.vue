@@ -108,7 +108,7 @@
         label="营业状态"
       >
       <template slot-scope="scope">
-        {{scope.row.shopStatus|shopStatus}}
+        {{scope.row.shopStatus||shopStatus}}
       </template>
       </el-table-column>
       <el-table-column
@@ -289,7 +289,7 @@ export default {
     // 打开弹窗
     AddShowToggle () {
       if (this.selectedArr.length === 0) {
-        this.$notify.error('请选择店铺')
+        this.$notify.error('请选择门店')
         return
       }
       // 重置选择的门店
