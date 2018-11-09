@@ -87,7 +87,7 @@ export default {
     var validateMaterial = (rule, value, callback) => {
       if (this.$refs.form.model.type === 2) {
         if (!this.$refs.form.model.materialId) {
-          callback(new Error('请选择素材!'))
+          callback(new Error('请选择素材'))
         } else {
           callback()
         }
