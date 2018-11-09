@@ -114,7 +114,7 @@ export default {
           that.shopList = resp.result
         }
       }).catch(() => {
-        that.$notify.error('门店查询失败')
+        that.$notify.error('查询失败')
       })
     },
     /**

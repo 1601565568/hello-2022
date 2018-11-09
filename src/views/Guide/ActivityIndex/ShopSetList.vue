@@ -106,10 +106,8 @@
       </el-table-column>
       <el-table-column
         label="营业状态"
+        prop="shopStatusMean"
       >
-      <template slot-scope="scope">
-        {{scope.row.shopStatus||shopStatus}}
-      </template>
       </el-table-column>
       <el-table-column
         label="1月"
@@ -310,9 +308,23 @@ export default {
         .then(resp => {
           this.dataList = resp.result.data
           this.dataList.map(item => {
-            for (let i in item) {
-              if (i !== 'id' || i !== 'shopId' || i !== 'shopName' || i !== 'shopStatus' || i !== 'shopType') {
-                item[i] = (item[i] / 10000).toFixed(2)
+            switch (item.shopStatus) {
+              case 0 : item.shopStatusMean = '删除'; break
+              case -1 : item.shopStatusMean = '暂停'; break
+              case -2 : item.shopStatusMean = '已关店'; break
+              case 1 : item.shopStatusMean = '正常营业'; break
+            }
+            if (searchObj.searchMap.type === 0) {
+              for (let i in item) {
+                if (i.indexOf('quota') !== -1) {
+                  item[i] = (item[i] / 10000).toFixed(2)
+                }
+              }
+            } else {
+              for (let i in item) {
+                if (i.indexOf('quota') !== -1 && item[i] === null) {
+                  item[i] = 0
+                }
               }
             }
           })

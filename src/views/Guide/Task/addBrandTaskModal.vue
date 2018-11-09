@@ -172,7 +172,7 @@ export default {
           }
         })
         .catch(() => {
-          this.$notify.error('门店查询失败')
+          this.$notify.error('查询失败')
         })
     },
     showToggle (obj) {
