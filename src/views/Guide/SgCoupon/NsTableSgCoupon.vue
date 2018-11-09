@@ -13,8 +13,8 @@
     <template slot="searchSearch">
       <el-form :model="model" :inline="true" @submit.native.prevent class="pull-right">
         <el-form-item v-show="_data._queryConfig.expand === false">
-          <el-input ref="quickText" style="width: 250px" v-model="model.storeCouponTitle" placeholder="请输入优惠券名称或编码" @keyup.enter.native="$quickSearchAction$('storeCouponTitle')">
-            <i class="el-icon-search el-input__icon" slot="suffix" name="name" @click="$quickSearchAction$('storeCouponTitle')"></i>
+          <el-input ref="quickText" style="width: 250px" v-model="model.couponTitle" placeholder="请输入优惠券名称或编码" @keyup.enter.native="$quickSearchAction$('couponTitle')">
+            <i class="el-icon-search el-input__icon" slot="suffix" name="name" @click="$quickSearchAction$('couponTitle')"></i>
           </el-input>
         </el-form-item>
         <el-form-item>
@@ -36,14 +36,14 @@
                :model="model" :rules="rules" :inline="true">
         <el-form-item label="优惠券：">
           <el-form-grid size="xmd">
-            <el-input  type="text" v-model="model.storeCouponTitle" placeholder="请输入优惠券名称或编码">
+            <el-input  type="text" v-model="model.couponTitle" placeholder="请输入优惠券名称或编码">
             </el-input>
           </el-form-grid>
         </el-form-item>
         <el-form-item label="卡券类型：">
           <el-form-grid size="xmd" >
             <el-form-item prop="storeCouponType">
-              <el-select  v-model="model.storeCouponType" clearable filterable placeholder="请选择卡券类型">
+              <el-select  v-model="model.couponType" clearable filterable placeholder="请选择卡券类型">
                 <el-option label="代金券" value="1"></el-option>
                 <el-option label="折扣券" value="2"></el-option>
                 <el-option label="兑换券" value="3"></el-option>
@@ -54,7 +54,7 @@
         <el-form-item label="状态：">
           <el-form-grid size="xmd">
             <el-form-item prop="storeCouponState">
-              <el-select  v-model="model.storeCouponStatus" clearable filterable placeholder="请选择状态">
+              <el-select  v-model="model.couponStatus" clearable filterable placeholder="请选择状态">
                 <el-option label="启用" value="1"></el-option>
                 <el-option label="禁用" value="0"></el-option>
               </el-select>
@@ -138,7 +138,7 @@
                          label="发放门店" :sortable="false" >
           <template slot-scope="scope">
             <span v-if="scope.row.type == 0">公用</span>
-            <a href="javascript:" @click="showListDialog(scope.row.activityId)" v-else>{{scope.row.shopTotal}}</a>
+            <a href="javascript:" @click="showListDialog(scope.row.activityCouponId)" v-else>{{scope.row.shopTotal}}</a>
           </template>
         </el-table-column>
       </el-table>

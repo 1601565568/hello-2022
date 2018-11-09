@@ -58,7 +58,7 @@
           </el-table-column>
           <el-table-column
             label="已领取(张)"
-            prop="nouseTotal"
+            prop="noUseTotal"
             align="center"
           >
           </el-table-column>
@@ -161,8 +161,8 @@
         await this.$http
                    .fetch(this.$api.guide.activityCoupon.findActivityShopCoupon, searchObj)
                    .then(resp => {
-                     this.topTotaObj.activityTotal = resp.result.activityTotal
-                     this.topTotaObj.activityNouse = resp.result.activityNouse
+                     this.topTotaObj.activityTotal = resp.result.couponTotal
+                     this.topTotaObj.activityNouse = resp.result.couponNoUse
                      this.topTotaObj.shopTotal = resp.result.shopTotal
                      this.dataList = resp.result.shopList
                      console.log(resp.result)

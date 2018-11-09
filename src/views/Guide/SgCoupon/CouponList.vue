@@ -7,9 +7,9 @@
       <el-form ref="form" :rules="rules" :model="activityModel" label-width="120px" class="form-main">
         <el-form-item label="优惠券：" required>
           <el-form-grid size="xmd">
-            <el-form-item prop="ecrp_coupon_id">
-              <el-select v-model="activityModel.ecrp_coupon_id" :placeholder="$t('prompt.select')" @change="storeCouponChange">
-                <el-option v-for="coupon in storeCouponList" :label="coupon.title"
+            <el-form-item prop="coupon_id">
+              <el-select v-model="activityModel.coupon_id" :placeholder="$t('prompt.select')" @change="storeCouponChange">
+                <el-option v-for="coupon in storeCouponList" :label="coupon.storeCouponTitle"
                            :key="coupon.id" :value="coupon.id"></el-option>
               </el-select>
             </el-form-item>
@@ -17,7 +17,7 @@
           </el-form-grid>
         </el-form-item>
 
-        <el-form-item label="总数量：" v-if="activityModel.ecrp_coupon_id > 0">
+        <el-form-item label="总数量：" v-if="activityModel.coupon_id > 0">
           <el-form-grid size="xmd">
             <el-form-item prop="store_coupon_total" v-if="storeModel.maxType == 0">
               <el-input disabled="disabled" value="不限量"></el-input>
@@ -30,16 +30,16 @@
 
         <el-form-item label="配额：" required>
           <el-form-grid size="xmd">
-            <el-form-item prop="activity_coupon_total" :rules = "{required:true, message:'配额不能为空'}">
-              <el-input v-if="activityModel.type ==0" placeholder="请输入正整数" type="number" v-model="activityModel.activity_coupon_total"
+            <el-form-item prop="coupon_total" :rules = "{required:true, message:'配额不能为空'}">
+              <el-input v-if="activityModel.type ==0" placeholder="请输入正整数" type="number" v-model="activityModel.coupon_total"
                         auto-complete="off" @change="activityCouponTotal()"></el-input>
-              <el-input v-if="activityModel.type ==1" disabled="disabled" placeholder="请输入正整数" type="number" v-model="activityModel.activity_coupon_total"
+              <el-input v-if="activityModel.type ==1" disabled="disabled" placeholder="请输入正整数" type="number" v-model="activityModel.coupon_total"
                         auto-complete="off" @change="activityCouponTotal()"></el-input>
             </el-form-item>
           </el-form-grid>
         </el-form-item>
 
-        <el-form-item label="分配方式：" required v-if="activityModel.ecrp_coupon_id > 0">
+        <el-form-item label="分配方式：" required v-if="activityModel.coupon_id > 0">
           <el-form-grid>
             <el-form-item prop="type">
               <el-radio-group v-model="activityModel.type">
@@ -51,7 +51,7 @@
           <el-form-grid block class="text-info"><i class="el-icon-info"></i>公用：所有门店共享配额；自由分配：默认均分，可再行调整</el-form-grid>
         </el-form-item>
 
-        <div class="coupon" v-if="activityModel.ecrp_coupon_id > 0">
+        <div class="coupon" v-if="activityModel.coupon_id > 0">
           <div class="coupon-preview">
             <div class="coupon-preview-amount text-error" v-if="storeModel.couponType == 1">
               ￥<span class="coupon-amount__large">{{storeModel.couponValue}}</span>

@@ -6,12 +6,17 @@ export default {
   },
   // 查询store 优惠券列表
   findStoreCouponList: {
-    url: '/guide/sgactivitycoupon/queryStoreCoupnList',
+    url: '/guide/sgactivitycoupon/findStoreCouponList',
     method: 'post'
   },
   // 保存导购活动
   saveActiviCoupon: {
     url: '/guide/sgactivitycoupon/saveActiviCoupon',
+    method: 'post'
+  },
+  // 查询优惠券店铺适用范围
+  findCouponShop: {
+    url: '/guide/sgactivitycoupon/findCouponShop',
     method: 'post'
   },
   // 活动优惠券明细

@@ -4,7 +4,7 @@ export default {
   mixins: [formMixin],
   data: function () {
     let rules = {
-      ecrp_coupon_id: [{
+      coupon_id: [{
         required: true,
         validator: (rule, value, callback) => {
           if (value === '' || value === null || value === 0) {
@@ -41,6 +41,7 @@ export default {
       county: null
     }
     let storeModel = {
+      couponCode: null,           // 优惠券编码
       couponTitle: null,          // 标题
       couponType: null,           // 门店优惠券类型（0：未知，1：代金券、2：折扣券、3：兑换券）
       couponValue: null,          // store_coupon_type=1:面值;  store_coupon_type=2: 折扣额 8.5在数据库存的0.85
@@ -55,8 +56,9 @@ export default {
     }
     let activityModel = {
       type: 0,
-      ecrp_coupon_id: null,
-      activity_coupon_total: 0
+      coupon_id: null,
+      coupon_code: null,
+      coupon_total: 0
     }
     let shopModel = {
       shop_coupon_total: null,
@@ -93,8 +95,9 @@ export default {
       var _this = this
       _this.activityModel = {
         type: 0,
-        ecrp_coupon_id: null,
-        activity_coupon_total: 0
+        coupon_id: null,
+        coupon_code: null,
+        coupon_total: 0
       }
       _this.shopModel = {
         shop_coupon_total: 0,
@@ -117,22 +120,22 @@ export default {
     activityCouponTotal: function () {
       var _this = this
       var regin = /^(0|[1-9][0-9]*)$/
-      var flag = regin.test(_this.activityModel.activity_coupon_total)
+      var flag = regin.test(_this.activityModel.coupon_total)
       if (!flag) {
-        _this.activityModel.activity_coupon_total = 0
+        _this.activityModel.coupon_total = 0
         _this.$notify.info('请输入整数')
         return
       }
-      var ecrpCouponId = _this.activityModel.ecrp_coupon_id
-      if (ecrpCouponId === 0 || ecrpCouponId === null || ecrpCouponId === '') {
-        _this.activityModel.activity_coupon_total = 0
+      var couponId = _this.activityModel.coupon_id
+      if (couponId === 0 || couponId === null || couponId === '') {
+        _this.activityModel.coupon_total = 0
         _this.$notify.info('请选择优惠券')
         return
       }
       // _this.storeModel.couponTotal = 0 代表不限额，不做数量校验
       if (_this.storeModel.maxType > 0) {
-        if (_this.storeModel.couponTotal < _this.activityModel.activity_coupon_total) {
-          _this.activityModel.activity_coupon_total = 0
+        if (_this.storeModel.couponTotal < _this.activityModel.coupon_total) {
+          _this.activityModel.coupon_total = 0
           _this.$notify.info('配额不能大于优惠券总数')
         }
       }
@@ -171,25 +174,27 @@ export default {
     storeCouponChange: function (value) {
       var _this = this
       console.log(value)
-      _this.activityModel.ecrp_coupon_id = value
-      _this.findOnlineShopList(value)
+      _this.activityModel.coupon_id = value
       _this.activityModel.type = 0
       for (var i = 0; i < _this.storeCouponList.length; i++) {
         if (value === _this.storeCouponList[i].id) {
-          _this.storeModel.couponTitle = null
-          if (_this.storeCouponList[i].title !== null && _this.storeCouponList[i].title.length > 20) {
+          _this.activityModel.coupon_code = _this.storeCouponList[i].storeCouponCode
+          _this.storeModel.couponCode = _this.storeCouponList[i].storeCouponCode
+          _this.findOnlineShopList(_this.storeModel.couponCode)
+          _this.storeModel.couponTitle = _this.storeCouponList[i].storeCouponTitle
+          if (_this.storeModel.couponTitle !== null && _this.storeModel.couponTitle.length > 20) {
             _this.storeModel.couponTitle = _this.storeCouponList[i].title.substr(0, 19) + '...'
           }
-          _this.storeModel.couponType = Number(_this.storeCouponList[i].couponType)
-          _this.storeModel.couponValue = _this.storeCouponList[i].couponValue
-          _this.storeModel.couponTotal = Number(_this.storeCouponList[i].total)
-          _this.storeModel.maxType = Number(_this.storeCouponList[i].maxType)
-          _this.storeModel.dateType = Number(_this.storeCouponList[i].dateType)
-          _this.storeModel.startTime = _this.storeCouponList[i].start_time
-          _this.storeModel.endTime = _this.storeCouponList[i].end_time
-          _this.storeModel.after_get_valid_days = Number(_this.storeCouponList[i].after_get_valid_days)
-          _this.storeModel.valid_days = Number(_this.storeCouponList[i].valid_days)
-          _this.storeModel.conditionJson = _this.storeCouponList[i].conditionJson
+          _this.storeModel.couponType = Number(_this.storeCouponList[i].storeCouponType)
+          _this.storeModel.couponValue = _this.storeCouponList[i].storeCouponValue
+          _this.storeModel.couponTotal = Number(_this.storeCouponList[i].maxIssueAmount)
+          _this.storeModel.maxType = Number(_this.storeCouponList[i].maxIssueAmount)
+          _this.storeModel.dateType = Number(_this.storeCouponList[i].dateValidType)
+          _this.storeModel.startTime = _this.storeCouponList[i].startTime
+          _this.storeModel.endTime = _this.storeCouponList[i].endTime
+          _this.storeModel.after_get_valid_days = Number(_this.storeCouponList[i].afterGetValidDays)
+          _this.storeModel.valid_days = Number(_this.storeCouponList[i].validDays)
+          _this.storeModel.conditionJson = _this.storeCouponList[i].useConditionStr
           break
         }
       }
@@ -197,13 +202,13 @@ export default {
     /**
      * 查询所有的店铺店铺列表
      */
-    findOnlineShopList: function (couponId) {
+    findOnlineShopList: function (couponCode) {
       var _this = this
-      _this.$http.fetch(_this.$api.coupon.storeCoupon.findValidityShop, {
+      _this.$http.fetch(_this.$api.guide.activityCoupon.findCouponShop, {
         'length': 100000,
         'start': 0,
         searchMap: {
-          'storeCouponId': Number(couponId),
+          'storeCouponCode': couponCode,
           'isOnline': 0
         }
       }).then(resp => {
@@ -224,11 +229,11 @@ export default {
      */
     findShopList: function (status) {
       var _this = this
-      _this.$http.fetch(_this.$api.coupon.storeCoupon.findValidityShop, {
+      _this.$http.fetch(_this.$api.guide.activityCoupon.findCouponShop, {
         'length': _this.paginations.size,
         'start': _this.paginations.size * (_this.paginations.page - 1),
         searchMap: {
-          'storeCouponId': Number(_this.activityModel.ecrp_coupon_id),
+          'storeCouponCode': _this.storeModel.couponCode,
           'isOnline': 0
         }
       }).then(resp => {
@@ -257,7 +262,7 @@ export default {
     calcQuota: function (thisPageList) {
       var _this = this
       // 优惠券总数
-      var couponTotal = Number(_this.activityModel.activity_coupon_total)
+      var couponTotal = Number(_this.activityModel.coupon_total)
       // 计算倍数
       var multiple = parseInt(couponTotal / _this.shopAllList.length)
       // 计算余数
@@ -280,6 +285,7 @@ export default {
         let newShopObject = JSON.parse(shopObj)
         _this.shopList.push(newShopObject)
       }
+      console.log(_this.shopList)
       _this.paginations.total = _this.shopAllList.length
     },
     /**
@@ -290,11 +296,11 @@ export default {
     inputChange: function (row) {
       var _this = this
       var total = 0
-      var couponTotal = _this.activityModel.activity_coupon_total
-      var ecrpCouponId = _this.activityModel.ecrp_coupon_id
+      var couponTotal = _this.activityModel.coupon_total
+      var couponId = _this.activityModel.coupon_id
       // 判断是否选择优惠券
-      if (ecrpCouponId === 0 || ecrpCouponId === null || ecrpCouponId === '') {
-        _this.activityModel.activity_coupon_total = 0
+      if (couponId === 0 || couponId === null || couponId === '') {
+        _this.activityModel.coupon_total = 0
         _this.$notify.info('请选择优惠券')
         row.shopCouponNumber = 0
         return
@@ -321,7 +327,7 @@ export default {
         }
       }
       // 给总数赋值
-      _this.activityModel.activity_coupon_total = total
+      _this.activityModel.coupon_total = total
       // 将当前行转换为深拷贝 set进 map
       let shopObj = JSON.stringify(row)
       let newShopObject = JSON.parse(shopObj)
@@ -345,9 +351,9 @@ export default {
      */
     onSearchShop: function () {
       var _this = this
-      _this.$http.fetch(_this.$api.coupon.storeCoupon.findValidityShop, {
+      _this.$http.fetch(_this.$api.guide.activityCoupon.findCouponShop, {
         searchMap: {
-          'storeCouponId': Number(_this.activityModel.ecrp_coupon_id),
+          'storeCouponCode': _this.storeModel.couponCode,
           'shop_name': _this.shopSearch.shopName
         },
         'length': _this.paginations.size
@@ -373,13 +379,13 @@ export default {
       var _this = this
       _this.$refs.form.validate((valid) => {
         if (valid) {
-          if (_this.activityModel.activity_coupon_total === 0) {
+          if (_this.activityModel.coupon_total === 0) {
             _this.$notify.error('配额必须大于0')
             return
           }
           // 判断优惠券是否超额 _this.storeModel.couponTotal = 0 代表不限量
           if (_this.storeModel.maxType > 0) {
-            if (_this.storeModel.couponTotal < _this.activityModel.activity_coupon_total) {
+            if (_this.storeModel.couponTotal < _this.activityModel.coupon_total) {
               // _this.$notify.info('门店总配额不能超过优惠券总配额')
               return
             }
