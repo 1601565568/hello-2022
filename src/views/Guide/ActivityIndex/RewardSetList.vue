@@ -62,7 +62,7 @@
       </el-table-column>
       <el-table-column
         label="状态"
-        width="84"
+        width="320"
         show-overflow-tooltip
         >
         <template slot-scope="scope">
@@ -94,10 +94,10 @@
         </div>
       </template>
       </el-table-column>
-      <el-table-column
+      <!-- <el-table-column
         label="分享奖励"
-      >
-      <template slot-scope="scope">
+      > -->
+      <!-- <template slot-scope="scope">
         <div v-if="scope.row.shareStatus">
           每{{scope.row.shareNum}}条UV奖励{{scope.row.shareReward}}元
         </div>
@@ -105,7 +105,7 @@
           暂未设置
         </div>
       </template>
-      </el-table-column>
+      </el-table-column> -->
 
       <el-table-column
         label="操作"
