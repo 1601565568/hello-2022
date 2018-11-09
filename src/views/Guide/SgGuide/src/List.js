@@ -153,6 +153,56 @@ export default {
     }
   },
   methods: {
+    allDelete (row) {
+      console.log('0980909')
+      var _this = this
+      console.log('0980909')
+      _this.$confirm('请先选择要删除的选项!', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      })
+      console.log('path:', _this.$refs.table.handleSelectionChange)
+      // if (_this.$refs.table.handleSelectionChange().length === 0) {
+      //   _this.$confirm('请先选择要删除的选项!', '提示', {
+      //     confirmButtonText: '确定',
+      //     cancelButtonText: '取消',
+      //     type: 'warning'
+      //   })
+      // }
+      // _this.$confirm('请确认是否对已选中的选项进行删除操作!', '提示', {
+      //   confirmButtonText: '确定',
+      //   cancelButtonText: '取消',
+      //   type: 'warning'
+      // }).then(() => {
+      //   var params = {
+      //     transGuideId: row.id,
+      //     transStatus: 0
+      //   }
+      //   _this.guideLeave(params, false)
+      // })
+    },
+    onKeyUp (e) {
+      var key = window.event.keyCode
+      var _this = this
+      if (key === 13) {
+        _this.onSave()
+      }
+    },
+    ondelete (row) {
+      var _this = this
+      _this.$confirm('请确认是否对' + row.name + ' 进行删除操作!', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        var params = {
+          transGuideId: row.id,
+          transStatus: 0
+        }
+        _this.guideLeave(params, false)
+      })
+    },
     initShopList () {
       var _this = this
       _this.$http.fetch(_this.$api.core.sysShop.getBrandList, {
@@ -186,7 +236,6 @@ export default {
       this.row = row
       if (row) {
         this.title = '编辑导购信息'
-
         this.model.sgGuide = {
           id: row.id,
           name: row.name,
@@ -212,8 +261,6 @@ export default {
     onSave () {
       var _this = this
       var guide = this.model.sgGuide
-      console.log('guide')
-      console.log(guide)
       var guideShop = this.model.sgGuideShop
       var allImageUrl = null
       _this.$refs.addForm.validate((valid) => {
@@ -276,9 +323,11 @@ export default {
         },
         length: 10000
       }).then(resp => {
+        console.log('resp:', resp)
         if (resp.success && resp.result.data != null) {
           _this.guideList = resp.result.data
         }
+        console.log(' _this.guideList:', _this.guideList)
       }).catch((resp) => {
         _this.$notify.error('查询失败：' + resp.msg)
       })

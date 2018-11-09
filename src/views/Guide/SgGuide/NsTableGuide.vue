@@ -1,5 +1,5 @@
 <template>
-  <ns-page-table @add="$emit('add')" @onAddCustomer="$emit('onAddCustomer')" @quit="$emit('quit')" @shopEdit="$emit('shopEdit')">
+  <ns-page-table @add="$emit('add')"  @allDelete="$emit('allDelete')" @onAddCustomer="$emit('onAddCustomer')" @quit="$emit('quit')" @shopEdit="$emit('shopEdit')" @delete="$emit('ondelete')">
     <!-- 按钮 -->
     <template slot="buttons">
       <ns-table-operate-button :buttons="_data._table.table_buttons">
@@ -13,7 +13,7 @@
     <template slot="searchSearch">
       <el-form :model="quickSearchModel" :inline="true" @submit.native.prevent  class="pull-right">
         <el-form-item v-show="_data._queryConfig.expand === false">
-          <el-input ref="quickText" style="width: 250px" v-model="model.name" placeholder="请输入工号/姓名/昵称/手机号" >
+          <el-input ref="quickText" style="width: 250px" v-model="model.name" placeholder="请输入工号/姓名/昵称/手机号" @keyup.enter.native="$quickSearchAction$('name')">
             <i class="el-icon-search el-input__icon" slot="suffix" name="name" @click="$quickSearchAction$('name')"></i>
           </el-input>
         </el-form-item>
@@ -37,7 +37,7 @@
 
         <el-form-item label="关键字：">
           <el-form-grid size="xmd">
-            <el-input style="width:180px" autofocus v-model="model.name" placeholder="请输入工号/姓名/昵称/手机号"></el-input>
+            <el-input style="width:180px" autofocus=true v-model="model.name" placeholder="请输入工号/姓名/昵称/手机号"></el-input>
           </el-form-grid>
         </el-form-item>
 
@@ -61,7 +61,7 @@
       </el-form>
 
       <div class="template-table__more-btn">
-        <ns-button type="primary" @click="$searchAction$()">搜索</ns-button>
+        <ns-button type="primary" @click="search">搜索</ns-button>
         <ns-button @click="$resetInputAction$()">重置</ns-button>
       </div>
     </template>
@@ -78,25 +78,42 @@
       <!-- 手机号 :width="120" -->
       <!-- 操作（只有一项文字的80px,两项文字120px,三项文字160px） -->
 
-      <el-table ref="table" :data="_data._table.data" stripe>
-        <el-table-column prop="work_id" label="工号" align="center" width="100"></el-table-column>
+      <el-table ref="table" :data="_data._table.data" stripe @selection-change="handleSelectionChange">
+        <el-table-column type="selection" width="55"></el-table-column>
+        <el-table-column prop="work_id" label="工号" align="center" width="100">
+          <template slot-scope="scope">
+            {{scope.row.work_id?scope.row.work_id:'-'}}
+          </template>
+        </el-table-column>
         <el-table-column prop="name" label="姓名" align="center"></el-table-column>
-        <el-table-column prop="nickname" label="昵称" align="center" ></el-table-column>
+        <el-table-column prop="nickname" label="昵称" align="center" >
+          <template slot-scope="scope">
+            {{scope.row.nickname?scope.row.nickname:'-'}}
+          </template >  
+        </el-table-column>
         <el-table-column prop="mobile" label="联系方式" align="center" width="150"></el-table-column>
         <el-table-column label="所属区域" align="left" width="150">
           <template slot-scope="scope">
-            {{scope.row.province}}/{{scope.row.city}}/{{scope.row.district}}
+            <!-- {{scope.row.province}}/{{scope.row.city}}/{{scope.row.district}} -->
+            {{!scope.row.province&&!scope.row.city&&!scope.row.district?'-':scope.row.province/scope.row.city/scope.row.district}}
           </template>
         </el-table-column>
         <el-table-column prop="shopName" label="所属门店" align="center" width="150">
+          <template slot-scope="scope">
+            {{scope.row.shopName?scope.row.shopName:'-'}}
+          </template>
         </el-table-column>
         <el-table-column prop="job" label="职务" align="center" >
           <template slot-scope="scope">{{scope.row.job == 1 ? "店长" : "导购"}}
           </template>
         </el-table-column>
         <el-table-column prop="state" label="状态" align="center" >
-          <template slot-scope="scope">{{scope.row.state == 1 ? "在职" : "离职"}}
-          </template>
+          <!-- <template slot-scope="scope">{{scope.row.state == 1 ? "在职" : "离职"}}
+          </template> -->
+          <el-tooltip :content="'Switch value: ' + scope.row.state" placement="top" slot-scope="scope" >
+            <el-switch v-model="scope.row.state===1?false:true" active-color='#13ce66' inactive-color='#888888'   active-text="启用" inactive-text="禁用"> </el-switch>
+          </el-tooltip>
+          <!-- <template v-if="scope.row.state == 2 " slot-scope="scope">已离职</template>  -->
         </el-table-column>
         <el-table-column :show-overflow-tooltip="true" label="操作" align="center">
           <template slot-scope="scope">

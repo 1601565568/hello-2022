@@ -19,6 +19,12 @@ export default {
           this.$emit('add')
         },
         'name': '新增'
+      },
+      {
+        'func': function () {
+          this.$emit('allDelete')
+        },
+        'name': '删除'
       }
     ]
     const operateButtons = [
@@ -28,6 +34,15 @@ export default {
         },
         'icon': '',
         'name': '编辑',
+        'auth': '',
+        'visible': ''
+      },
+      {
+        'func': function (args) {
+          this.$emit('delete', args.row)
+        },
+        'icon': '',
+        'name': '删除',
         'auth': '',
         'visible': ''
       },
@@ -87,7 +102,9 @@ export default {
         quickSearchNames: quickSearchNames,
         quickSearchMap: {}
       },
-      _queryConfig: {expand: false}
+      _queryConfig: {expand: false},
+      multipleSelection: [],
+      select: true
     }
   },
 
@@ -101,6 +118,18 @@ export default {
   },
   computed: {},
   methods: {
+    search () {
+      var _this = this
+      if (_this.model.name === null) {
+        _this.$confirm('请输入工号/姓名/昵称/手机号!')
+      } else if (_this.model.shop === null) {
+        _this.$confirm('请选择所属门店!')
+      } else if (_this.model.job === null) {
+        _this.$confirm('请选择职务!')
+      } else {
+        _this.$searchAction$()
+      }
+    },
     initShopList () {
       var _this = this
       _this.$http.fetch(_this.$api.core.sysShop.getBrandList, {
@@ -131,6 +160,10 @@ export default {
         return item.id === guideId
       })
       return retVal
+    },
+    handleSelectionChange (val) {
+      this.multipleSelection = val
+      return this.multipleSelection
     },
     // 解析后台传进来的字符串
     strToJson (str) {

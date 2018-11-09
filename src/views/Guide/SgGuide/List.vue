@@ -1,19 +1,19 @@
 <template>
   <div>
     <ns-table-guide ref="table" :url=$api.guide.guide.findList @add="onAddCustomer"
-    @shopEdit="shopEdit" @onAddCustomer="onAddCustomer" @quit="quit">
+    @shopEdit="shopEdit" @allDelete="allDelete" @ondelete="ondelete" @onAddCustomer="onAddCustomer" @quit="quit">
     </ns-table-guide>
 
     <!-- 新增修改客户开始-->
-    <el-dialog :title="title" :visible.sync="dialogFormVisible" width="460px" :before-close="closeDialog">
+    <el-dialog :title="title" :visible.sync="dialogFormVisible" width="460px"  @keyup.enter.native="onKeyUp" :before-close="closeDialog">
       <div class="guideBox" style="overflow-x:hidden;overflow-y:auto;">
         <el-form :model="model.sgGuide" ref="addForm" label-width="100px" :rules="rules" >
           <el-form-item label="所属门店：" required>
             <el-form-grid size="xmd">
               <el-form-item prop="shop">
-                <el-select placeholder="所属门店" v-model="model.sgGuideShop.shop_id" filterable>
+                <el-select placeholder="所属门店" v-model="model.sgGuideShop.shop_id" filterable focus=true>
                   <el-option v-for="shop in shopFindList" :label="shop.shopName" :value="shop.id"
-                             :key="shop.id"></el-option>
+                             :key="shop.id" autofocus=true></el-option>
                 </el-select>
               </el-form-item>
             </el-form-grid>
