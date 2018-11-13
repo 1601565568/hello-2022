@@ -3,7 +3,8 @@
 <div class="addSCBox">
   <el-dialog
   :title="titleText"
-  :close-on-click-modal=false
+  :close-on-click-modal='false'
+  :close-on-press-escape='true'
   :visible.sync="dialogVisible"
   width="620px"
   :before-close="handleClose">
@@ -87,7 +88,7 @@ export default {
     var validateMaterial = (rule, value, callback) => {
       if (this.$refs.form.model.type === 2) {
         if (!this.$refs.form.model.materialId) {
-          callback(new Error('请选择素材!'))
+          callback(new Error('请选择素材'))
         } else {
           callback()
         }
@@ -171,7 +172,7 @@ export default {
           }
         })
         .catch(() => {
-          this.$notify.error('门店查询失败')
+          this.$notify.error('查询失败')
         })
     },
     showToggle (obj) {

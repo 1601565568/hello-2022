@@ -24,17 +24,17 @@
         专属导购提成
         <el-form-item  prop="age">
           <el-input type="number" style="width:60px" v-model.number="saveObj.onlineSalesRewardExclusive" auto-complete="off"></el-input>
-        </el-form-item>%;
+        </el-form-item><span>%;</span>
       </div>
       <div class="addItemCon">
         门店成单：成单导购提成
         <el-form-item  prop="age">
           <el-input type="number" style="width:60px" v-model.number="saveObj.salesRewardOrder" auto-complete="off"></el-input>
-        </el-form-item>%;
+        </el-form-item><span>%;</span>
         专属导购提成
         <el-form-item  prop="age">
           <el-input type="number" style="width:60px" v-model.number="saveObj.salesRewardExclusive" auto-complete="off"></el-input>
-        </el-form-item>%;
+        </el-form-item><span>%;</span>
       </div>
       <div class="addTitBox">
         <span class="addTitText">招募新会员奖励</span>
@@ -46,7 +46,7 @@
         招募奖励：每招募一名新会员奖励
         <el-form-item  prop="age">
           <el-input type="number" style="width:60px" v-model.number="saveObj.memberReward" auto-complete="off"></el-input>
-        </el-form-item>元;
+        </el-form-item><span >元。</span>
       </div>
 
       <!-- <div class="addTitBox">

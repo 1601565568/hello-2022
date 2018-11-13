@@ -74,7 +74,7 @@
       <el-col :span="12" :gutter="5">
         <div class="overview-echart__item">
           <div class="overview-content__title">
-            <span>店铺排行</span>
+            <span>门店排行</span>
             <el-radio-group v-model="rankingsDays" class="float-right" @change="switchShop">
               <el-radio-button label="7">7天</el-radio-button>
               <el-radio-button label="30">30天</el-radio-button>
