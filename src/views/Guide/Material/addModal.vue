@@ -19,7 +19,7 @@
             </el-radio-group>
           </el-form-item>
           <el-form-item label="素材标题："  prop = "title">
-            <el-input type="text" placeholder="请输入素材标题" v-model="saveObj.title"></el-input>
+            <el-input type="text" placeholder="请输入素材标题" autofocus=true  v-model="saveObj.title"></el-input>
           </el-form-item>
 
           <el-form-item label="所属分组：" prop="subdivision_id">
@@ -35,6 +35,10 @@
             <el-form-item>
                 <el-input resize="none" type="textarea" v-model="saveObj.content" placeholder="请输入推广文案"></el-input>
             </el-form-item>
+          </el-form-item>
+          <el-form-item  label="二维码链接：" v-if="saveObj.m_type==1" prop="urlPic">
+              <el-input  v-model="saveObj.urlPic" placeholder="请输入二维码链接"></el-input>
+              <p><i class="el-icon-info text-tips">推广图片中如果有带参二维码，请务必设置该项</i></p>
           </el-form-item>
             <el-form-item v-if="saveObj.m_type==1" label="推广图片：" prop="imgUrl">
                 <div class="comUploadBox">
@@ -62,12 +66,6 @@
                     <div class="clearfix"></div>
                     <div style="color:#999">上传图片不能大于200KB;图片最多上传9张</div>
                 </div>
-
-            </el-form-item>
-
-            <el-form-item  label="二维码链接：" v-if="saveObj.m_type==1" prop="urlPic">
-                <el-input  v-model="saveObj.urlPic" placeholder="请输入二维码链接"></el-input>
-                <p><i class="el-icon-info text-tips">推广图片中如果有带参二维码，请务必设置该项</i></p>
             </el-form-item>
             <!-- 链接开始 -->
             <el-form-item  v-if="saveObj.m_type==0"  prop="url" label="推广链接：">
@@ -114,13 +112,12 @@ export default {
       if (value === '') {
         callback(new Error('请输入链接'))
       } else if (!isURL(value)) {
-        callback(new Error('请输入正确的链接'))
+        // callback(new Error('请输入正确的链接'))
       } else {
         callback()
       }
     }
     var validateURLImg = (rule, value, callback) => {
-      console.log(value)
       if (value === undefined || value === null) {
         callback()
       } else if (!isURL(value)) {
@@ -168,8 +165,12 @@ export default {
         imgUrl: [
           { required: true, message: '请上传推广图片', trigger: 'change' }
         ],
-        url: [{ required: true, validator: validateURL, trigger: 'blur' }],
-        urlPic: [{ validator: validateURLImg, trigger: 'blur' }]
+        url: [
+          { required: true, validator: validateURL, trigger: 'blur' }
+        ],
+        urlPic: [
+          { required: true, validator: validateURLImg, trigger: 'blur' }
+        ]
       }
     }
   },

@@ -3,17 +3,15 @@
     <ns-table-guide ref="table" :url=$api.guide.guide.findList @add="onAddCustomer"
     @shopEdit="shopEdit" @allDelete="allDelete" @ondelete="ondelete" @onAddCustomer="onAddCustomer" @quit="quit">
     </ns-table-guide>
-
     <!-- 新增修改客户开始-->
-    <el-dialog :title="title" :visible.sync="dialogFormVisible" width="460px"  @keyup.enter.native="onKeyUp" :before-close="closeDialog">
+    <el-dialog :title="title" :visible.sync="dialogFormVisible" width="460px"  @keyup.enter.native="onKeyUp" @keyup.esc.native="onKeyUp" >
       <div class="guideBox" style="overflow-x:hidden;overflow-y:auto;">
         <el-form :model="model.sgGuide" ref="addForm" label-width="100px" :rules="rules" >
           <el-form-item label="所属门店：" required>
             <el-form-grid size="xmd">
               <el-form-item prop="shop">
-                <el-select placeholder="所属门店" v-model="model.sgGuideShop.shop_id" filterable focus=true>
-                  <el-option v-for="shop in shopFindList" :label="shop.shopName" :value="shop.id"
-                             :key="shop.id" autofocus=true></el-option>
+                <el-select placeholder="所属门店" v-model="model.sgGuideShop.shop_id" filterable >
+                  <el-option v-for="shop in shopFindList" :label="shop.shopName" :value="shop.id" :key="shop.id"></el-option>
                 </el-select>
               </el-form-item>
             </el-form-grid>
@@ -42,7 +40,7 @@
               </el-form-item>
             </el-form-grid>
           </el-form-item>
-          <el-form-item label="性别：">
+          <el-form-item label="性别：" required>
             <el-form-grid size="xmd">
               <el-form-item prop="sex">
                 <el-radio-group v-model="model.sgGuide.sex">
@@ -55,7 +53,7 @@
           <el-form-item label="手机号：" required>
             <el-form-grid size="xmd">
               <el-form-item prop="mobile">
-                <el-input type="text" v-model="model.sgGuide.mobile" placeholder="请输入手机号">
+                <el-input v-model="model.sgGuide.mobile" placeholder="请输入手机号">
                 </el-input>
               </el-form-item>
             </el-form-grid>

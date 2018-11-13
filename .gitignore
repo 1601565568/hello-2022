@@ -40,6 +40,10 @@ yarn-error.log*
 *.njsproj
 *.sln
 /config/index.js
+<<<<<<< HEAD
 .gitignore
 package.json
 package-lock.json
+=======
+.gitignore
+>>>>>>> 3c0e651b7ba63292d9fd1827d8bdb2517fa2a29d

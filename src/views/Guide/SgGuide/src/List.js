@@ -75,7 +75,7 @@ export default {
           trigger: 'blur',
           validator: (rule, value, callback) => {
             if (this.model.sgGuideShop.shop_id === null || this.model.sgGuideShop.shop_id === 0) {
-              callback(new Error('请选择所属店铺'))
+              callback(new Error('请选择所属门店'))
             } else {
               callback()
             }
@@ -88,7 +88,7 @@ export default {
       ],
       'mobile': [
         {required: true, message: '请输入手机号', trigger: 'blur'},
-        {pattern: /^[1][3,4,5,7,8][0-9]{9}$/, message: '手机号格式错误'}
+        {pattern: /^[1][3,4,5,7,8][0-9]{9}$/, message: '手机号格式错误，手机号只能是纯数字，请您重新输入！'}
       ]
     }
     let that = this
@@ -156,13 +156,16 @@ export default {
     allDelete (row) {
       console.log('0980909')
       var _this = this
+      var state = null
+      state = _this.$refs.table.handleSelectionChange('0000')
+
       console.log('0980909')
-      _this.$confirm('请先选择要删除的选项!', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      })
-      console.log('path:', _this.$refs.table.handleSelectionChange)
+      // _this.$confirm('请先选择要删除的选项!', '提示', {
+      //   confirmButtonText: '确定',
+      //   cancelButtonText: '取消',
+      //   type: 'warning'
+      // })
+      console.log('path:', state)
       // if (_this.$refs.table.handleSelectionChange().length === 0) {
       //   _this.$confirm('请先选择要删除的选项!', '提示', {
       //     confirmButtonText: '确定',
@@ -188,20 +191,34 @@ export default {
       if (key === 13) {
         _this.onSave()
       }
+      if (key === 27) {
+        _this.closeDialog()
+      }
     },
     ondelete (row) {
+      console.log(row)
       var _this = this
-      _this.$confirm('请确认是否对' + row.name + ' 进行删除操作!', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        var params = {
-          transGuideId: row.id,
-          transStatus: 0
+      _this.$http.fetch(_this.$api.guide.guide.deleteGuides, {
+        guideId: row.id
+      }).then(resp => {
+        if (resp.success && resp.result != null) {
+          _this.shopFindList = resp.result
         }
-        _this.guideLeave(params, false)
+      }).catch((resp) => {
+        _this.$notify.error('查询失败：' + resp.msg)
       })
+
+      // _this.$confirm('请确认是否对' + row.name + ' 进行删除操作!', '提示', {
+      //   confirmButtonText: '确定',
+      //   cancelButtonText: '取消',
+      //   type: 'warning'
+      // }).then(() => {
+      //   var params = {
+      //     transGuideId: row.id,
+      //     transStatus: 0
+      //   }
+      //   _this.guideLeave(params, false)
+      // })
     },
     initShopList () {
       var _this = this
@@ -329,6 +346,9 @@ export default {
         }
         console.log(' _this.guideList:', _this.guideList)
       }).catch((resp) => {
+        // if(resp.msg === undefined){
+        //   _this.$notify.error('查询失败：' + resp.msg)
+        // }
         _this.$notify.error('查询失败：' + resp.msg)
       })
     },

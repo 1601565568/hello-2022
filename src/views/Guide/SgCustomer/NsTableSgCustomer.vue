@@ -107,19 +107,19 @@
                 :element-loading-text="$t('prompt.loading')" @sort-change="$orderChange$">
 
         <el-table-column :show-overflow-tooltip="true" type="default" prop="transName" align="left"
-                         label="转出人" :sortable="false" :width="350">
+                         label="转出人" :sortable="false" :width="300">
           <template slot-scope="scope">
             {{scope.row.transName}} [{{scope.row.transShopName}}]
           </template>
         </el-table-column>
         <el-table-column :show-overflow-tooltip="true" type="default" prop="receiveName" align="left"
-                         label="转入人" :sortable="false" :width="350">
+                         label="转入人" :sortable="false" :width="300">
           <template slot-scope="scope">
             {{scope.row.receiveName}} [{{scope.row.receiveShopName}}]
           </template>
         </el-table-column>
-        <el-table-column :show-overflow-tooltip="true" type="default" prop="customer_num" align="left"
-                         label="转移人数" :sortable="false" :width="260">
+        <el-table-column :show-overflow-tooltip="true" type="default" prop="customer_num" align="right"
+                         label="转移人数" :sortable="false" :width="100">
           <template slot-scope="scope">
             <a href="javascript:" @click="showListDialog(scope.row.id)">{{scope.row.customer_num}}</a>
           </template>
@@ -170,16 +170,16 @@
     <!-- 表格-结束 -->
 
     <!-- 分页 -->
-    <template slot="pagination">
+    <template slot="pagination" >
       <el-pagination v-if="_data._pagination.enable" class="template-table__pagination"
                      :page-sizes="_data._pagination.sizeOpts" :total="_data._pagination.total"
                      :current-page="_data._pagination.page" :page-size="_data._pagination.size"
                      layout="total, sizes, prev, pager, next, jumper" @size-change="$sizeChange$"
-                     @current-change="$pageChange$">
+                     @current-change="$pageChange$" >
       </el-pagination>
 
 
-      <el-dialog :visible.sync="showCustomerDialogVisible" width="800px" :before-close="onCancleDialog" :vetically=true>
+      <el-dialog :title="title" :visible.sync="showCustomerDialogVisible" width="800px" :before-close="onCancleDialog" :vetically=true>
         <div style="overflow-x:hidden;overflow-y:auto;">
           <el-table :data="customerData">
             <el-table-column prop="customerName" label="姓名" align="center" width="200"></el-table-column>
