@@ -66,6 +66,13 @@ export default {
   rewardruleSave: {// 门店提成保存
     url: '/guide/rewardrule/save',
     method: 'post'
+  },
+  updateGuideStatus: {// 更改导购启用状态
+    url: '/guide/guide/updateGuideStatus',
+    method: 'get'
+  },
+  deleteGuides: {// 单个、批量删除导购
+    url: '/guide/guide/deleteGuides',
+    method: 'post'
   }
-
 }

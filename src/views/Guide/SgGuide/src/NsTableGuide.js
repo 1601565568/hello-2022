@@ -55,6 +55,15 @@ export default {
         'auth': '',
         'visible': ''
       }
+      // {
+      //   'func': function (args) {
+      //     this.$emit('quit', args.row)
+      //   },
+      //   'icon': '',
+      //   'name': '启用/禁用',
+      //   'auth': '',
+      //   'visible': ''
+      // }
     ]
     let quickInput = [{
       'template': '',
@@ -120,12 +129,8 @@ export default {
   methods: {
     search () {
       var _this = this
-      if (_this.model.name === null) {
-        _this.$confirm('请输入工号/姓名/昵称/手机号!')
-      } else if (_this.model.shop === null) {
-        _this.$confirm('请选择所属门店!')
-      } else if (_this.model.job === null) {
-        _this.$confirm('请选择职务!')
+      if (_this.model.name === null && _this.model.shop === null && _this.model.job === null) {
+        _this.$confirm('请编辑您要搜索的信息!')
       } else {
         _this.$searchAction$()
       }
@@ -183,6 +188,21 @@ export default {
           job: ''
         }
       }
+    },
+    changeState (state, id) {
+      console.log(this.$api.guide.guide.updateGuideStatus)
+      let _this = this
+      state === true ? state = 1 : state = 0
+      _this.$http.fetch(_this.$api.guide.guide.updateGuideStatus, {
+        guideId: id,
+        status: state
+      }).then(resp => {
+        if (resp.success && resp.result != null) {
+          _this.shopFindList = resp.result
+        }
+      }).catch((resp) => {
+        _this.$notify.error('查询失败：' + resp.msg)
+      })
     }
   }
 }

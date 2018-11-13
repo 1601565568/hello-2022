@@ -1,20 +1,13 @@
 import tableMixin from 'mixins/table'
 
 export default {
-  name: 'NsTableSgCustomer',
+  name: 'NsTableSgCoupon',
   mixins: [tableMixin],
   props: {
     types: Object
   },
   data: function () {
     var pagination = {
-      enable: true,
-      size: 15,
-      sizeOpts: [15, 25, 50, 100],
-      page: 1,
-      total: 0
-    }
-    var paginations = {
       enable: true,
       size: 15,
       sizeOpts: [15, 25, 50, 100],
@@ -42,6 +35,12 @@ export default {
     ]
 
     var operateButtons = [
+      {
+        'func': function () {
+          this.$emit('add')
+        },
+        'name': '新增'
+      }
     ]
 
     var quickInput = [{
@@ -59,10 +58,10 @@ export default {
     var model = Object.assign({},
       {
         // 高级搜索字段
-        transName: '',
-        receiveName: '',
-        transType: '',
-        operationType: ''
+        customerName: '',
+        couponTitle: '',
+        couponType: null,
+        couponStatus: null
       },
       {validTime: []})
     var that = this
@@ -85,16 +84,15 @@ export default {
     })
 
     return {
-      customerData: null,
-      showCustomerDialogVisible: false,
+      onAddCouponVisible: true,
       model: model,
-      title: null,
       quickSearchModel: quickSearchModel,
       rules: Object.assign({}, {}, {}),
+      state: {},
       tableData: null,
-      url: this.$api.guide.guide.findTransRecordList,
+      grades: [],
+      url: this.$api.guide.activityCoupon.findList,
       _pagination: pagination,
-      paginations: paginations,
       _table: {
         table_buttons: tableButtons,
         operate_buttons: operateButtons,
@@ -146,56 +144,24 @@ export default {
   components: {},
   methods: {
     showListDialog (id) {
-      var _this = this
-      _this.title = '转移人数列表'
-      _this.showCustomerDialogVisible = true
-      _this.findCustomerDetail(id)
-      // this.$emit('showListDialogMain', id)
+      console.log(id)
+      this.$emit('showListDialogMain', id)
     },
     onSearch () {
       console.log('搜索响应')
     },
     initTableData () {
       var _this = this
-      _this.$http.fetch(_this.$api.guide.guide.findTransRecordList, {
+      _this.$http.fetch(_this.$api.guide.activityCoupon.findList, {
         length: _this._data._pagination.size
       }).then(resp => {
-        console.log(resp)
-        if (resp.success === true && resp.result.data != null) {
+        if (resp.success && resp.result.data != null) {
           _this._data._table.data = resp.result.data
           _this._data._pagination.total = parseInt(resp.result.recordsTotal)
         }
       }).catch((resp) => {
         _this.$notify.error('查询失败：' + resp.msg)
       })
-    },
-    findCustomerDetail (transRecordId) {
-      var _this = this
-      _this.$http.fetch(_this.$api.guide.guide.findCustomerTransRecordList, {
-        searchMap: {
-          transRecordId: transRecordId
-        }
-      }).then(resp => {
-        if (resp.success === true && resp.result.data != null) {
-          _this.customerData = resp.result.data
-          _this._data.paginations.total = parseInt(resp.result.recordsTotal)
-        }
-      }).catch((resp) => {
-        _this.$notify.error('查询失败：' + resp.msg)
-      })
-    },
-    // 关闭自定义转移弹窗
-    onCancleDialog () {
-      var _this = this
-      _this.paginationss = {
-        enable: true,
-        size: 10,
-        sizeOpts: [10, 20, 50],
-        page: 1,
-        total: 0
-      }
-      _this.customerData = null
-      _this.showCustomerDialogVisible = false
     }
   }
 }

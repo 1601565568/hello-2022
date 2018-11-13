@@ -94,8 +94,7 @@
         <el-table-column prop="mobile" label="联系方式" align="center" width="150"></el-table-column>
         <el-table-column label="所属区域" align="left" width="150">
           <template slot-scope="scope">
-            <!-- {{scope.row.province}}/{{scope.row.city}}/{{scope.row.district}} -->
-            {{!scope.row.province&&!scope.row.city&&!scope.row.district?'-':scope.row.province/scope.row.city/scope.row.district}}
+            {{!scope.row.province&&!scope.row.city&&!scope.row.district?'-':scope.row.province+'/'+scope.row.city+'/'+scope.row.district}}
           </template>
         </el-table-column>
         <el-table-column prop="shopName" label="所属门店" align="center" width="150">
@@ -110,8 +109,8 @@
         <el-table-column prop="state" label="状态" align="center" >
           <!-- <template slot-scope="scope">{{scope.row.state == 1 ? "在职" : "离职"}}
           </template> -->
-          <el-tooltip :content="'Switch value: ' + scope.row.state" placement="top" slot-scope="scope" >
-            <el-switch v-model="scope.row.state===1?false:true" active-color='#13ce66' inactive-color='#888888'   active-text="启用" inactive-text="禁用"> </el-switch>
+          <el-tooltip :content="'Switch value: ' + scope.row.state" placement="top" slot-scope="scope">
+            <el-switch @change="changeState(scope.row.state,scope.row.id)" v-model="scope.row.state"   active-color='#13ce66' inactive-color='#888888'   active-text="启用" inactive-text="禁用"> </el-switch>
           </el-tooltip>
           <!-- <template v-if="scope.row.state == 2 " slot-scope="scope">已离职</template>  -->
         </el-table-column>

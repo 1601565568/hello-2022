@@ -9,34 +9,99 @@
    <div class="template-table">
       <!-- 简单搜索start -->
   <div class="template-table__bar">
+    <!-- <ns-table-sg-coupon ref="table" @showListDialogMain="showListDialogFun" :url=$api.guide.guide.findList @add="addCoupon"></ns-table-sg-coupon> -->
+    <!-- <template slot="searchSearch">
+      <el-form :model="model" :inline="true" @submit.native.prevent class="pull-right">
+        <el-form-item v-show="_data._queryConfig.expand === false">
+          <el-input ref="quickText" style="width: 250px" v-model="model.couponTitle" placeholder="请输入优惠券名称或编码" @keyup.enter.native="$quickSearchAction$('couponTitle')">
+            <i class="el-icon-search el-input__icon" slot="suffix" name="name" @click="$quickSearchAction$('couponTitle')"></i>
+          </el-input>
+        </el-form-item>
+        <el-form-item>
+          <ns-button type="text" @click="$handleTabClick">
+            {{collapseText}}
+            <i :class="{'el-icon--right': true, 'el-icon-arrow-down': !_data._queryConfig.expand, 'el-icon-arrow-up': _data._queryConfig.expand} ">
+            </i>
+          </ns-button>
+        </el-form-item>
+      </el-form>
+    </template> -->
       <el-row class="template-table__bar-base">
          <!-- 左边上角操作区域 -->
-          <el-col :span="7">
-             <ns-button type="primary" @click="AddShowToggle({})">新增</ns-button>
-             <ns-button type="primary" @click="setGroudShowToggle">批量设置分组</ns-button>
-          </el-col>
-          <el-col :span="17">
-            <!-- 右上角操作区域 -->
-            <div class="float-right tabSearchBtn">
-              <ns-button @click="tabSearchType" style="padding: 9px 0 9px 10px;opacity: 0.5;color: #002041;" type="text">{{searchType.tipText}}<i :class="{'el-icon--right': true, 'el-icon-arrow-down': !searchType.advanced, 'el-icon-arrow-up': searchType.advanced} ">
-                </i></ns-button>
-            </div>
-            <el-form ref="searchform" class="float-right" v-if="!searchType.advanced" :inline="true" :model="searchform">
-              <el-form-item label="素材标题：" prop="title">
-                <el-input v-model="searchform.title" placeholder="请输入素材标题"></el-input>
-              </el-form-item>
+        
+        <el-col :span="7">
+            <ns-button type="primary" @click="AddShowToggle({})">新增</ns-button>
+            <ns-button type="primary" @click="setGroudShowToggle">批量设置分组</ns-button>
+        </el-col>
+        <el-col :span="17">
+          <!-- 右上角操作区域 -->
+          <div class="float-right tabSearchBtn">
+            <ns-button @click="tabSearchType" style="padding: 9px 0 9px 10px;opacity: 0.5;color: #002041;" type="text">{{searchType.tipText}}<i :class="{'el-icon--right': true, 'el-icon-arrow-down': !searchType.advanced, 'el-icon-arrow-up': searchType.advanced} ">
+              </i></ns-button>
+          </div>
+          <el-form ref="searchform" class="float-right" v-if="!searchType.advanced" :inline="true" :model="searchform">
+            <el-form-item label="素材标题：" prop="title">
+              <el-input v-model="searchform.title" placeholder="请输入素材标题"></el-input>
+            </el-form-item>
 
-              <el-form-item>
-                <ns-button type="primary" @click="submitForm('searchform')">搜索</ns-button>
-                <ns-button @click="resetForm('searchform')">重置</ns-button>
-              </el-form-item>
-            </el-form>
+            <el-form-item>
+              <ns-button type="primary" @click="submitForm('searchform')">搜索</ns-button>
+              <ns-button @click="resetForm('searchform')">重置</ns-button>
+            </el-form-item>
+          </el-form>
         </el-col>
       </el-row>
-  <!-- 简单搜索end -->
+  <!-- 简单搜索end-->
 <!-- 高级搜索start -->
   <div class="template-table-search" v-show="searchType.advanced">
       <div class="template-table__bar-more">
+      <!-- <template slot="advancedSearch" v-if="_data._queryConfig.expand">
+      <el-form ref="table_filter_form" label-width="80px" @keyup.enter.native="onSearch" class="surround-btn"
+               :model="model" :rules="rules" :inline="true">
+        <el-form-item label="优惠券：">
+          <el-form-grid size="xmd">
+            <el-input  type="text" v-model="model.couponTitle" placeholder="请输入优惠券名称或编码">
+            </el-input>
+          </el-form-grid>
+        </el-form-item>
+        <el-form-item label="卡券类型：">
+          <el-form-grid size="xmd" >
+            <el-form-item prop="storeCouponType">
+              <el-select  v-model="model.couponType" clearable filterable placeholder="请选择卡券类型">
+                <el-option label="代金券" value="1"></el-option>
+                <el-option label="折扣券" value="2"></el-option>
+                <el-option label="兑换券" value="3"></el-option>
+              </el-select>
+            </el-form-item>
+          </el-form-grid>
+        </el-form-item>
+        <el-form-item label="状态：">
+          <el-form-grid size="xmd">
+            <el-form-item prop="storeCouponState">
+              <el-select  v-model="model.couponStatus" clearable filterable placeholder="请选择状态">
+                <el-option label="启用" value="1"></el-option>
+                <el-option label="禁用" value="0"></el-option>
+              </el-select>
+            </el-form-item>
+          </el-form-grid>
+        </el-form-item>
+        <el-form-item label="失效时间：" prop="time">
+          <el-date-picker
+            v-model="model.validTime"
+            type="datetimerange"
+            :picker-options="pickerOptions"
+            range-separator="至"
+            start-placeholder="请选择开始日期"
+            end-placeholder="请选择结束日期"
+            align="right">
+          </el-date-picker>
+        </el-form-item>
+      </el-form>
+      <div class="template-table__more-btn">
+        <ns-button type="primary" @click="submitForm('searchform')">搜索</ns-button>
+        <ns-button @click="resetForm('searchform')">重置</ns-button>
+      </div>
+    </template> -->
         <el-form ref="searchform" label-width="80px"  class="surround-btn" :model="searchform"  :inline="true">
           <el-form-item label="素材标题：" prop="title">
             <el-input v-model="searchform.title"></el-input>
@@ -163,6 +228,7 @@ import apiRequestConfirm from 'utils/apiRequestConfirm'
 import addModal from './addModal'
 import setGroudModal from './setGroudModal'
 import listItemShow from './components/listItemShow'
+import NsTableSgCoupon from './NsTableSgCoupon'
 import moment from 'moment'
 export default {
   mixins: [listPageMixin],
@@ -374,7 +440,8 @@ export default {
     apiRequestConfirm,
     addModal,
     listItemShow,
-    setGroudModal
+    setGroudModal,
+    NsTableSgCoupon
   }
 }
 </script>
