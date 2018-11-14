@@ -169,6 +169,7 @@
       <el-table-column
         label="店长"
         width="220"
+        align="center"
         prop="guideNames"
         show-overflow-tooltip
         >
@@ -176,6 +177,7 @@
       <el-table-column
         label="完成招募/还差（人）"
         align="center"
+        width="200"
       >
       <template slot-scope="scope">
         <span>{{scope.row.recruitComplete}}</span>/

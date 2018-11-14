@@ -314,7 +314,7 @@ export default {
               case -2 : item.shopStatusMean = '已关店'; break
               case 1 : item.shopStatusMean = '正常营业'; break
             }
-            if (searchObj.searchMap.type === 0) {
+            if (searchObj.searchMap.type === 0 || searchObj.searchMap.type === '0') {
               for (let i in item) {
                 if (i.indexOf('quota') !== -1) {
                   item[i] = (item[i] / 10000).toFixed(2)
@@ -328,6 +328,7 @@ export default {
               }
             }
           })
+          console.log(this.dataList)
           this.pagination.total = parseInt(resp.result.recordsTotal)
         })
         .catch(resp => {

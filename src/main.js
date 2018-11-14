@@ -7,6 +7,7 @@ import App from './App'
 import router from './router'
 import store from './store'
 import {i18n} from './i18n'
+import echarts from 'echarts'
 import './register.js'
 import 'apusjs-log'
 import 'normalize.css'
@@ -14,6 +15,7 @@ import './style/small/NuiJs/index.scss'
 import './style/small/index.pcss'
 
 Vue.prototype.$ELEMENT = { size: 'small' }
+Vue.prototype.$echarts = echarts
 Vue.config.productionTip = false
 Vue.config.devtools = true
 // OfflinePluginRuntime.install()
