@@ -313,17 +313,17 @@ export default {
     // 查询客户列表
     findCustomerList (page, pageSize) {
       var _this = this
-      _this.$http.fetch(_this.$api.guide.guide.getBrandCustomerListByGuideId, {
+      _this.$http.fetch(_this.$api.guide.guide.findCustomerList, {
         searchMap: {
-          'guide_id': _this.guideId,
-          'shop_id': _this.shopId,
+          'guideId': _this.guideId,
+          'shopId': _this.shopId,
           'pageSize': _this.paginations.size,
-          'page': _this.paginations.size * (_this.paginations.page - 1)
+          'pageNo': _this.paginations.page
         }
       }).then(resp => {
         if (resp.success && resp.result != null) {
           _this.tableDataCustomer = resp.result.data
-          _this.paginations.total = parseInt(resp.result.recordsTotal)
+          _this.paginations.total = parseInt(resp.result.total)
           _this.chooseCustomerFocus()
         }
       }).catch((resp) => {
@@ -346,19 +346,16 @@ export default {
         }
         console.log(' _this.guideList:', _this.guideList)
       }).catch((resp) => {
-        // if(resp.msg === undefined){
-        //   _this.$notify.error('查询失败：' + resp.msg)
-        // }
         _this.$notify.error('查询失败：' + resp.msg)
       })
     },
     quit (row) {
       var _this = this
       _this.transferWay = '1'
-      _this.$http.fetch(_this.$api.guide.guide.getBrandCustomerTotal, {
+      _this.$http.fetch(_this.$api.guide.guide.getCustomerCount, {
         searchMap: {
-          'guide_id': row.id,
-          'shop_id': row.shop_id
+          'guideId': row.id,
+          'shopId': row.shop_id
         }
       }).then(resp => {
         if (resp.result.recordsFiltered > 0) {
@@ -458,9 +455,9 @@ export default {
         }
         for (let index = 0; index < _this.allPageCustomer.length; index++) {
           if (index === 0) {
-            _this.customerIds = _this.allPageCustomer[index].id
+            _this.customerIds = _this.allPageCustomer[index].customerId
           } else {
-            _this.customerIds += ',' + _this.allPageCustomer[index].id
+            _this.customerIds += ',' + _this.allPageCustomer[index].customerId
           }
         }
       } else {
@@ -528,7 +525,7 @@ export default {
       if (unSelected !== null && unSelected !== undefined && unSelected.length > 0) {
         for (let x = 0; x < _this.allPageCustomer.length; x++) {
           for (let y; y < unSelected.length; y++) {
-            if (_this.allPageCustomer[x].id === unSelected[y]) {
+            if (_this.allPageCustomer[x].customerId === unSelected[y]) {
               _this.allPageCustomer.splice(x, 1)
               x--
             }
@@ -536,10 +533,10 @@ export default {
         }
       } else {
         for (let x = 0; x < selected.length; x++) {
-          map.set(selected[x].id + '', selected[x])
+          map.set(selected[x].customerId + '', selected[x])
         }
         for (let y = 0; y < _this.allPageCustomer.length; y++) {
-          map.set(_this.allPageCustomer[y].id + '', _this.allPageCustomer[y])
+          map.set(_this.allPageCustomer[y].customerId + '', _this.allPageCustomer[y])
         }
         map.forEach(function (value, key, map) {
           arrays.push(value)
@@ -572,7 +569,7 @@ export default {
       _this.thisPageCustomer = selected
       if (row !== null) {
         for (let x = 0; x < _this.allPageCustomer.length; x++) {
-          if (_this.allPageCustomer[x].id === row.id) {
+          if (_this.allPageCustomer[x].customerId === row.customerId) {
             _this.allPageCustomer.splice(x, 1)
             break
           }
@@ -587,7 +584,7 @@ export default {
       if (_this.allPageCustomer.length > 0) {
         _this.tableDataCustomer.filter(function (item, index) {
           for (var i = 0; i < _this.allPageCustomer.length; i++) {
-            if (_this.allPageCustomer[i].id === item.id) {
+            if (_this.allPageCustomer[i].customerId === item.customerId) {
               setTimeout(function () {
                 _this.$refs.chooseCustomer.toggleRowSelection(item)
               }, 0)
@@ -650,17 +647,6 @@ export default {
         return false
       }
     }
-    // uploadFile: function (file) {
-    //   var _this = this
-    //   let param = new FormData()
-    //   param.append('file', file.file)
-    //   _this.$http.fetch(this.$api.guide.guide.uploadImg, param)
-    //   .then((resp) => {
-    //     _this.model.sgGuide.image = _this.imageRoot + resp.result.fileKey
-    //   }).catch((resp) => {
-    //     this.$notify.error('上传图片失败' + resp.result)
-    //   })
-    // }
   },
   mounted: function () {
     var _this = this

@@ -19,8 +19,12 @@ export default {
     url: '/guide/guide/updateGuideCustomer',
     method: 'post'
   },
-  getBrandCustomerListByGuideId: { // 根据导购id查询对应的所有的客户
-    url: '/guide/guide/getBrandCustomerListByGuideId',
+  findCustomerList: { // 根据导购id查询对应的所有的客户
+    url: '/guide/guide/findCustomerList',
+    method: 'post'
+  },
+  getCustomerCount: { // 根据导购id查询对应的所有的客户数量
+    url: '/guide/guide/getCustomerCount',
     method: 'post'
   },
   findTransRecordList: { // 客户转移记录列表
@@ -29,10 +33,6 @@ export default {
   },
   findCustomerTransRecordList: { // 客户转移记录详情
     url: '/guide/guide/findCustomerTransRecordList',
-    method: 'post'
-  },
-  getBrandCustomerTotal: { // 查询导购下面的客户总数
-    url: '/guide/guide/getBrandCustomerTotal',
     method: 'post'
   },
   checkGuideWorkId: {
