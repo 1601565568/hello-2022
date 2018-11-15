@@ -178,7 +178,7 @@ export default {
       }).then(resp => {
         if (resp.success === true && resp.result.data != null) {
           _this.customerData = resp.result.data
-          _this._data.paginations.total = parseInt(resp.result.recordsTotal)
+          _this._data.paginations.total = parseInt(resp.result.total)
         }
       }).catch((resp) => {
         _this.$notify.error('查询失败：' + resp.msg)
