@@ -39,12 +39,13 @@ export default {
       },
       {
         'func': function (args) {
-          this.$emit('delete', args.row)
+          this.$emit('ondelete', args.row)
         },
         'icon': '',
         'name': '删除',
         'auth': '',
-        'visible': ''
+        'visible': '',
+        'color': '#f00'
       },
       {
         'func': function (args) {
@@ -55,15 +56,6 @@ export default {
         'auth': '',
         'visible': ''
       }
-      // {
-      //   'func': function (args) {
-      //     this.$emit('quit', args.row)
-      //   },
-      //   'icon': '',
-      //   'name': '启用/禁用',
-      //   'auth': '',
-      //   'visible': ''
-      // }
     ]
     let quickInput = [{
       'template': '',
@@ -167,8 +159,7 @@ export default {
       return retVal
     },
     handleSelectionChange (val) {
-      this.multipleSelection = val
-      return this.multipleSelection
+      this.$emit('handleSelectionChange', val)
     },
     // 解析后台传进来的字符串
     strToJson (str) {
@@ -190,7 +181,6 @@ export default {
       }
     },
     changeState (state, id) {
-      console.log(this.$api.guide.guide.updateGuideStatus)
       let _this = this
       state === true ? state = 1 : state = 0
       _this.$http.fetch(_this.$api.guide.guide.updateGuideStatus, {

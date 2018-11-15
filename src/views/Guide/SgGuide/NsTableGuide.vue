@@ -1,5 +1,5 @@
 <template>
-  <ns-page-table @add="$emit('add')"  @allDelete="$emit('allDelete')" @onAddCustomer="$emit('onAddCustomer')" @quit="$emit('quit')" @shopEdit="$emit('shopEdit')" @delete="$emit('ondelete')">
+  <ns-page-table @add="$emit('add')"  @allDelete="$emit('allDelete')" @onAddCustomer="$emit('onAddCustomer')" @quit="$emit('quit')" @shopEdit="$emit('shopEdit')" @ondelete="$emit('ondelete')">
     <!-- 按钮 -->
     <template slot="buttons">
       <ns-table-operate-button :buttons="_data._table.table_buttons">
@@ -106,18 +106,18 @@
           <template slot-scope="scope">{{scope.row.job == 1 ? "店长" : "导购"}}
           </template>
         </el-table-column>
-        <el-table-column prop="state" label="状态" align="center" >
-          <!-- <template slot-scope="scope">{{scope.row.state == 1 ? "在职" : "离职"}}
-          </template> -->
-          <el-tooltip :content="'Switch value: ' + scope.row.state" placement="top" slot-scope="scope">
+        
+        <el-table-column prop="status" label="状态" align="center">
+          <el-tooltip :content="'Switch value: ' + scope.row.state" placement="top" slot-scope="scope" v-if="scope.row.status === 0 || scope.row.state === 1">
             <el-switch @change="changeState(scope.row.state,scope.row.id)" v-model="scope.row.state"   active-color='#13ce66' inactive-color='#888888'   active-text="启用" inactive-text="禁用"> </el-switch>
           </el-tooltip>
-          <!-- <template v-if="scope.row.state == 2 " slot-scope="scope">已离职</template>  -->
+          <template slot-scope="scope" v-if="scope.row.status === 2">已离职</template> 
         </el-table-column>
         <el-table-column :show-overflow-tooltip="true" label="操作" align="center">
           <template slot-scope="scope">
             <ns-table-column-operate-button :buttons="_data._table.operate_buttons"
                                             :prop="scope"></ns-table-column-operate-button>
+                                            <!-- <a class="text-error" style="color:#f00" href="javascript:" @click="delsTipFun(scope.row.id)">删除</a> -->
           </template>
         </el-table-column>
 
@@ -148,5 +148,4 @@
 </script>
 
 <style scoped>
-
 </style>

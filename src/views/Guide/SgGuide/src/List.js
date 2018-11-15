@@ -88,7 +88,7 @@ export default {
       ],
       'mobile': [
         {required: true, message: '请输入手机号', trigger: 'blur'},
-        {pattern: /^[1][3,4,5,7,8][0-9]{9}$/, message: '手机号格式错误，手机号只能是纯数字，请您重新输入！'}
+        {pattern: /^[1][3,4,5,7,8][0-9]{9}$/, message: '手机号格式错误，请您重新输入！'}
       ]
     }
     let that = this
@@ -116,14 +116,18 @@ export default {
       dialogFormVisible: false,
       shopFormVisible: false,             //  店铺弹窗
       resignFormVisible: false,           // 导购离职弹窗
+      deleteFormVisible: false,            // 删除员工弹窗
       specifyTransferFormVisible: false,  // 离职-指定转移弹窗
       customFormVisible: false,           // 离职-自定义转移弹窗
+      allDeleteFormVisible: false,        // 批量删除员工弹窗
       customerIds: null,                  // 转移的客户ids，用逗号隔开
       allPageCustomer: [],                // 选择的所有的客户
       thisPageCustomer: [],               // 当前页面全选的客户
       pageChange: true,                   // 当前页数
       guideId: null,                      //  当前导购的id
       shopId: null,
+      successCount: null,
+      failCount: null,
       receiveGuideId: null,               //  接收的导购id
       customerTotal: null,
       rules: rules,
@@ -133,9 +137,31 @@ export default {
       shopFindList: [],
       guideShopList: [],
       tableDataCustomer: [],        // 客户集合
+      multipleSelection: [],
+      multipleSelections: [],
       model: model,
+      logoValue: null,
+      nicknameValue: null,
+      birthdayValue: null,
+      sexsValue: null,
+      mobileValue: null,
+      jobsValue: null,
+      namesValue: null,
+      storeValue: null,
+      workIdChangeValue: null,
+      // logoChange: false,
+      // nicknameChange: false,
+      // birthdayChange: false,
+      // sexsChange: false,
+      // mobileChange: false,
+      // jobsChange: false,
+      // namesChange: false,
+      // storeChange: false,
+      // workIdChangeChange: false,
+      changeObj: {},
       quickSearchModel: quickSearchModel,
       state: {},
+      obj: {},
       _pagination: pagination,
       paginations: paginations,
       _table: {
@@ -153,37 +179,75 @@ export default {
     }
   },
   methods: {
-    allDelete (row) {
-      console.log('0980909')
+    logo (value) {
+      let _this = this
+      _this.logoValue = value
+      _this.changeObj.logoChange = true
+    },
+    nickname (value) {
+      let _this = this
+      _this.nicknameValue = value
+      _this.changeObj.nicknameChange = true
+    },
+    birthday (value) {
+      let _this = this
+      _this.birthdayValue = value
+      _this.changeObj.birthdayChange = true
+    },
+    sexs (value) {
+      let _this = this
+      _this.sexsValue = value
+      _this.changeObj.sexsChange = true
+    },
+    mobile (value) {
+      let _this = this
+      _this.mobileValue = value
+      _this.changeObj.mobileChange = true
+    },
+    jobs (value) {
+      let _this = this
+      _this.jobsValue = value
+      _this.changeObj.jobsChange = true
+    },
+    names (value) {
+      let _this = this
+      _this.namesValue = value
+      _this.changeObj.namesChange = true
+    },
+    store (vId) {
+      let _this = this
+      _this.storeValue = vId
+      _this.changeObj.storeChange = true
+    },
+    handleSelectionChange (value) {
+      this.multipleSelection = value
+    },
+    allDelete () {
       var _this = this
-      var state = null
-      state = _this.$refs.table.handleSelectionChange('0000')
+      if (this.multipleSelection.length < 1) {
+        _this.$confirm('请先选择要删除的选项!', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(resp => {
 
-      console.log('0980909')
-      // _this.$confirm('请先选择要删除的选项!', '提示', {
-      //   confirmButtonText: '确定',
-      //   cancelButtonText: '取消',
-      //   type: 'warning'
-      // })
-      console.log('path:', state)
-      // if (_this.$refs.table.handleSelectionChange().length === 0) {
-      //   _this.$confirm('请先选择要删除的选项!', '提示', {
-      //     confirmButtonText: '确定',
-      //     cancelButtonText: '取消',
-      //     type: 'warning'
-      //   })
-      // }
-      // _this.$confirm('请确认是否对已选中的选项进行删除操作!', '提示', {
-      //   confirmButtonText: '确定',
-      //   cancelButtonText: '取消',
-      //   type: 'warning'
-      // }).then(() => {
-      //   var params = {
-      //     transGuideId: row.id,
-      //     transStatus: 0
-      //   }
-      //   _this.guideLeave(params, false)
-      // })
+        })
+      } else {
+        this.multipleSelection.map(item => {
+          this.multipleSelections.push(item.id)
+        })
+        _this.$http.fetch(_this.$api.guide.guide.deleteGuides, {
+          guideIds: this.multipleSelections.join(',')
+        }).then(resp => {
+          if (resp.result.failCount > 0) {
+            _this.successCount = resp.result.successCount
+            _this.failCount = resp.result.failCount
+            _this.allDeleteFormVisible = true
+          }
+        }).catch((resp) => {
+          _this.$notify.error('查询失败：' + resp.msg)
+        })
+      }
     },
     onKeyUp (e) {
       var key = window.event.keyCode
@@ -192,33 +256,49 @@ export default {
         _this.onSave()
       }
       if (key === 27) {
-        _this.closeDialog()
+        if (_this.changeObj.workIdChangeChange || _this.changeObj.logoChange || _this.changeObj.nicknameChange || _this.changeObj.birthdayChange || _this.changeObj.sexsChange || _this.changeObj.mobileChange || _this.changeObj.jobsChange || _this.changeObj.namesChange || _this.changeObj.storeChange) {
+          _this.$confirm('内容被修改是否要保存！', '提示', {
+            confirmButtonText: '保存',
+            cancelButtonText: '取消',
+            type: 'warning'
+          }).then(() => {
+            if (_this.changeObj.storeChange) {
+              _this.model.sgGuideShop.shop_id = _this.storeValue
+            } else if (_this.changeObj.namesChange) {
+              _this.model.sgGuide.name = _this.namesValue
+            } else if (_this.changeObj.nicknameChange) {
+              _this.model.sgGuide.nickname = _this.nicknameValue
+            } else if (_this.changeObj.birthdayChange) {
+              _this.model.sgGuide.birthday = _this.birthdayValue
+            } else if (_this.changeObj.sexsChange) {
+              _this.model.sgGuide.sex = _this.sexsValue
+            } else if (_this.changeObj.mobileChange) {
+              _this.model.sgGuide.mobile = _this.mobileValue
+            } else if (_this.changeObj.jobsChange) {
+              _this.model.sgGuideShop.job = _this.jobsValue
+            } else if (_this.changeObj.workIdChangeChange) {
+              _this.model.sgGuide.work_id = _this.workIdChangeValue
+            } else if (_this.changeObj.logoChange) {
+              _this.model.sgGuide.image = _this.logoValue
+            }
+            _this.dialogFormVisible = false
+          })
+        } else {
+          _this.dialogFormVisible = false
+        }
       }
     },
     ondelete (row) {
-      console.log(row)
       var _this = this
       _this.$http.fetch(_this.$api.guide.guide.deleteGuides, {
-        guideId: row.id
+        guideIds: row.id
       }).then(resp => {
-        if (resp.success && resp.result != null) {
-          _this.shopFindList = resp.result
+        if (resp.result.failCount > 0) {
+          _this.deleteFormVisible = true
         }
       }).catch((resp) => {
         _this.$notify.error('查询失败：' + resp.msg)
       })
-
-      // _this.$confirm('请确认是否对' + row.name + ' 进行删除操作!', '提示', {
-      //   confirmButtonText: '确定',
-      //   cancelButtonText: '取消',
-      //   type: 'warning'
-      // }).then(() => {
-      //   var params = {
-      //     transGuideId: row.id,
-      //     transStatus: 0
-      //   }
-      //   _this.guideLeave(params, false)
-      // })
     },
     initShopList () {
       var _this = this
@@ -251,6 +331,7 @@ export default {
     // 新增客户
     onAddCustomer (row) {
       this.row = row
+      console.log('row:', row)
       if (row) {
         this.title = '编辑导购信息'
         this.model.sgGuide = {
@@ -269,9 +350,25 @@ export default {
           shop_id: row.shop_id
         }
       } else {
+        console.log('hhhh:', this.model.sgGuide)
         this.title = '新增导购信息'
-        this.row = null
-        Object.assign(this.$data.model, this.$options.data().model)
+        this.model.sgGuide = {
+          id: this.model.sgGuide.id,
+          name: this.model.sgGuide.name,
+          nickname: this.model.sgGuide.nickname,
+          sex: this.model.sgGuide.sex,
+          mobile: this.model.sgGuide.mobile,
+          birthday: this.model.sgGuide.birthday === null ? null : new Date(row.birthday),
+          work_id: this.model.sgGuide.work_id,
+          image: this.model.sgGuide.image
+        }
+        this.model.sgGuideShop = {
+          id: this.model.sgGuideShop.gsId,
+          job: this.model.sgGuideShop.job,
+          shop_id: this.model.sgGuideShop.shop_id
+        }
+        // this.row = null
+        // Object.assign(this.$data.model, this.$options.data().model)
       }
       this.dialogFormVisible = true
     },
@@ -344,11 +441,7 @@ export default {
         if (resp.success && resp.result.data != null) {
           _this.guideList = resp.result.data
         }
-        console.log(' _this.guideList:', _this.guideList)
       }).catch((resp) => {
-        // if(resp.msg === undefined){
-        //   _this.$notify.error('查询失败：' + resp.msg)
-        // }
         _this.$notify.error('查询失败：' + resp.msg)
       })
     },
@@ -612,8 +705,10 @@ export default {
      * 校验工号
      * @param list
      */
-    workIdChange: function () {
+    workIdChange (value) {
       var _this = this
+      _this.changeObj.workIdChangeChange = true
+      _this.workIdChangeValue = value
       // var regin = /^(0|[1-9][0-9]*)$/
       // var flag = regin.test(_this.model.sgGuide.work_id)
       var guideId = null
@@ -638,7 +733,6 @@ export default {
       _this.model.sgGuide.image = res.result.url
     },
     closeDialog () {
-      console.log('closeDialog')
       Object.assign(this.$data.model, this.$options.data().model)
       this.$refs.addForm.resetFields()
       this.dialogFormVisible = false
@@ -665,5 +759,9 @@ export default {
   mounted: function () {
     var _this = this
     _this.initShopList()
+    // .then(resp => {
+    //   console.log('ioioioo:', _this.shopFindList)
+    // })
+    // _this.model.sgGuideShop.shop_id = _this.shopFindList[0].id
   }
 }
