@@ -1,7 +1,7 @@
 <template>
   <div>
     <ns-table-guide ref="table" :url=$api.guide.guide.findList @add="onAddCustomer"
-    @shopEdit="shopEdit" @allDelete="allDelete" @ondelete="ondelete" @onAddCustomer="onAddCustomer" @quit="quit">
+    @shopEdit="shopEdit" @allDelete="allDelete" @ondelete="ondelete" @onAddCustomer="onAddCustomer" @quit="quit" @handleSelectionChange="handleSelectionChange">
     </ns-table-guide>
     <!-- 新增修改客户开始-->
     <el-dialog :title="title" :visible.sync="dialogFormVisible" width="460px"  @keyup.enter.native="onKeyUp" @keyup.esc.native="onKeyUp" >
@@ -10,7 +10,7 @@
           <el-form-item label="所属门店：" required>
             <el-form-grid size="xmd">
               <el-form-item prop="shop">
-                <el-select placeholder="所属门店" v-model="model.sgGuideShop.shop_id" filterable >
+                <el-select placeholder="所属门店" @change="store" v-model="model.sgGuideShop.shop_id" filterable >
                   <el-option v-for="shop in shopFindList" :label="shop.shopName" :value="shop.id" :key="shop.id"></el-option>
                 </el-select>
               </el-form-item>
@@ -19,7 +19,7 @@
           <el-form-item label="姓名：" required>
             <el-form-grid size="xmd">
               <el-form-item prop="name">
-                <el-input type="text" v-model="model.sgGuide.name" placeholder="请输入姓名">
+                <el-input type="text" @change="names" v-model="model.sgGuide.name" placeholder="请输入姓名">
                 </el-input>
               </el-form-item>
             </el-form-grid>
@@ -27,7 +27,7 @@
           <el-form-item label="昵称：" required>
             <el-form-grid size="xmd">
               <el-form-item prop="nickname">
-                <el-input type="text" v-model="model.sgGuide.nickname" placeholder="请输入昵称">
+                <el-input type="text" @change="nickname" v-model="model.sgGuide.nickname" placeholder="请输入昵称">
                 </el-input>
               </el-form-item>
             </el-form-grid>
@@ -35,7 +35,7 @@
           <el-form-item label="生日：">
             <el-form-grid size="xmd">
               <el-form-item prop="birthday">
-                <el-date-picker v-model="model.sgGuide.birthday" type="date" :picker-options="pickerOptions" placeholder="选择日期">
+                <el-date-picker v-model="model.sgGuide.birthday" @change="birthday" type="date" :picker-options="pickerOptions" placeholder="选择日期">
                 </el-date-picker>
               </el-form-item>
             </el-form-grid>
@@ -43,7 +43,7 @@
           <el-form-item label="性别：" required>
             <el-form-grid size="xmd">
               <el-form-item prop="sex">
-                <el-radio-group v-model="model.sgGuide.sex">
+                <el-radio-group @change="sexs" v-model="model.sgGuide.sex">
                   <el-radio :label="1">男</el-radio>
                   <el-radio :label="0">女</el-radio>
                 </el-radio-group>
@@ -53,7 +53,7 @@
           <el-form-item label="手机号：" required>
             <el-form-grid size="xmd">
               <el-form-item prop="mobile">
-                <el-input v-model="model.sgGuide.mobile" placeholder="请输入手机号">
+                <el-input v-model="model.sgGuide.mobile" @change="mobile" placeholder="请输入手机号">
                 </el-input>
               </el-form-item>
             </el-form-grid>
@@ -61,7 +61,7 @@
           <el-form-item label="职务：" required>
             <el-form-grid size="xmd">
               <el-form-item prop="job">
-                <el-radio-group v-model="model.sgGuideShop.job">
+                <el-radio-group v-model="model.sgGuideShop.job" @change="jobs">
                   <el-radio :label="0">导购</el-radio>
                   <el-radio :label="1">店长</el-radio>
                 </el-radio-group>
@@ -72,7 +72,7 @@
           <el-form-item label="工号：">
             <el-form-grid size="xmd">
               <el-form-item prop="work_id">
-                <el-input type="text" v-model="model.sgGuide.work_id" @change="workIdChange()" placeholder="请输入工号">
+                <el-input type="text" v-model="model.sgGuide.work_id" @change="workIdChange" placeholder="请输入工号">
               </el-input>
               </el-form-item>
             </el-form-grid>
@@ -81,7 +81,7 @@
           <el-form-item label="头像：" class="el-inline-block">
             <el-form-grid style="width: 320px;">
               <el-form-item prop="logo">
-                <el-upload class="avatar-uploader"
+                <el-upload class="avatar-uploader" @change="logo"
                 :action="this.$api.core.sgUploadFile('test')"
                            accept=".jpg,.jpeg,.png,.bmp,.gif" :show-file-list="false"
                            :on-success="handleAvatarSuccess"
@@ -97,7 +97,7 @@
       </div>
       <div slot="footer" class="dialog-footer">
         <ns-button @click="closeDialog">取消</ns-button>
-        <ns-button type="primary" @click="onSave">保存</ns-button>
+        <ns-button type="primary" @click="onSave">确定</ns-button>
       </div>
     </el-dialog>
     <!--  新增修改客户结束 -->
@@ -135,7 +135,34 @@
       </div>
     </el-dialog>
     <!--  导购离职弹窗结束  -->
-
+    <!--  批量删除员工提示弹框开始 -->
+    <el-dialog title="请先转移导购的会员" width="500px" :visible.sync="allDeleteFormVisible">
+      <div style="height: 100px;overflow-x:hidden;overflow-y:auto;margin-top: 10px;">
+        删除说明：
+        成功删除员工{{successCount}}名，其中{{failCount}}员工名下有专属会员而不能批量删除，请先转移其会员后再删除
+        <!-- <el-form label-width="100px">
+          <el-row :gutter="30">
+            删除说明：
+            删除需要先对该员工的客户进行转移，转移完成之后，才能操作删除
+          </el-row>
+        </el-form> -->
+      </div>
+    </el-dialog>
+    <!--  批量删除员工提示弹框结束 -->
+    <!--  删除员工提示弹框开始 -->
+    <el-dialog title="请先转移导购的会员" width="500px" :visible.sync="deleteFormVisible">
+      <div style="height: 100px;overflow-x:hidden;overflow-y:auto;margin-top: 10px;">
+        删除说明：
+        删除需要先对该员工的客户进行转移，转移完成之后，才能操作删除
+        <!-- <el-form label-width="100px">
+          <el-row :gutter="30">
+            删除说明：
+            删除需要先对该员工的客户进行转移，转移完成之后，才能操作删除
+          </el-row>
+        </el-form> -->
+      </div>
+    </el-dialog>
+    <!--  删除员工提示弹框结束 -->
     <!--  指定导购转移弹窗开始  -->
     <el-dialog title="指定导购转移" :visible.sync="specifyTransferFormVisible" :before-close="onCancelSpecifyTransfer">
       <div style="height: 300px;overflow-x:hidden;overflow-y:auto;margin-top: 10px;">
