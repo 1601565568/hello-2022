@@ -131,7 +131,6 @@ export default {
       var tableConfig = this._data._table
       tableConfig.loadingtable = true
       return this.$http.fetch(this.url, params).then((resp) => {
-        console.log("tableMixin:",resp)
         that._data._table.data = resp.result.data
         that._data._pagination.total = parseInt(resp.result.recordsTotal)
         if (that._data._pagination.total > 0) {
