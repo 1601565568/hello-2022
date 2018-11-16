@@ -246,17 +246,14 @@ export default {
     },
     // 提交搜索
     submitForm (formName) {
-      this.searchObj.searchMap.sourcetypeid = this.searchform.type
+      this.searchObj.searchMap.type = this.searchform.type
       this.searchObj.searchMap.state = this.searchform.state
       this.searchObj.searchMap.name = this.searchform.name
-
-      console.log(this.searchObj)
       // 组装搜索对象
       this.loadListFun()
     },
     // 选择门店
     handleSelectionChange (val) {
-      console.log(val)
       this.selectedArr = val
     }
   },
