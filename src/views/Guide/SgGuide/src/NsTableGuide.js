@@ -161,6 +161,15 @@ export default {
     handleSelectionChange (val) {
       this.$emit('handleSelectionChange', val)
     },
+    onRedactFun (val) {
+      this.$emit('onRedactFun', val)
+    },
+    onDelsTipFun (val) {
+      this.$emit('onDelsTipFun', val)
+    },
+    dimissionFun (val) {
+      this.$emit('dimissionFun', val)
+    },
     // 解析后台传进来的字符串
     strToJson (str) {
       if (str && str.length > 0) {

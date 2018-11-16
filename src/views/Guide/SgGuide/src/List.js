@@ -140,6 +140,7 @@ export default {
       multipleSelection: [],
       multipleSelections: [],
       model: model,
+      changeValue: {},
       logoValue: null,
       nicknameValue: null,
       birthdayValue: null,
@@ -149,15 +150,6 @@ export default {
       namesValue: null,
       storeValue: null,
       workIdChangeValue: null,
-      // logoChange: false,
-      // nicknameChange: false,
-      // birthdayChange: false,
-      // sexsChange: false,
-      // mobileChange: false,
-      // jobsChange: false,
-      // namesChange: false,
-      // storeChange: false,
-      // workIdChangeChange: false,
       changeObj: {},
       quickSearchModel: quickSearchModel,
       state: {},
@@ -181,42 +173,42 @@ export default {
   methods: {
     logo (value) {
       let _this = this
-      _this.logoValue = value
+      _this.changeValue.logoValue = value
       _this.changeObj.logoChange = true
     },
     nickname (value) {
       let _this = this
-      _this.nicknameValue = value
+      _this.changeValue.nicknameValue = value
       _this.changeObj.nicknameChange = true
     },
     birthday (value) {
       let _this = this
-      _this.birthdayValue = value
+      _this.changeValue.birthdayValue = value
       _this.changeObj.birthdayChange = true
     },
     sexs (value) {
       let _this = this
-      _this.sexsValue = value
+      _this.changeValue.sexsValue = value
       _this.changeObj.sexsChange = true
     },
     mobile (value) {
       let _this = this
-      _this.mobileValue = value
+      _this.changeValue.mobileValue = value
       _this.changeObj.mobileChange = true
     },
     jobs (value) {
       let _this = this
-      _this.jobsValue = value
+      _this.changeValue.jobsValue = value
       _this.changeObj.jobsChange = true
     },
     names (value) {
       let _this = this
-      _this.namesValue = value
+      _this.changeValue.namesValue = value
       _this.changeObj.namesChange = true
     },
     store (vId) {
       let _this = this
-      _this.storeValue = vId
+      _this.changeValue.storeValue = vId
       _this.changeObj.storeChange = true
     },
     handleSelectionChange (value) {
@@ -225,13 +217,14 @@ export default {
     allDelete () {
       var _this = this
       if (this.multipleSelection.length < 1) {
-        _this.$confirm('请先选择要删除的选项!', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(resp => {
+        this.$notify.error('请选择门店')
+        // _this.$confirm('请先选择要删除的选项!', '提示', {
+        //   confirmButtonText: '确定',
+        //   cancelButtonText: '取消',
+        //   type: 'warning'
+        // }).then(resp => {
 
-        })
+        // })
       } else {
         this.multipleSelection.map(item => {
           this.multipleSelections.push(item.id)
@@ -288,7 +281,7 @@ export default {
         }
       }
     },
-    ondelete (row) {
+    onDelsTipFun (row) {
       var _this = this
       _this.$http.fetch(_this.$api.guide.guide.deleteGuides, {
         guideIds: row.id
@@ -296,6 +289,7 @@ export default {
         if (resp.result.failCount > 0) {
           _this.deleteFormVisible = true
         }
+        _this.findGuideList()
       }).catch((resp) => {
         _this.$notify.error('查询失败：' + resp.msg)
       })
@@ -329,9 +323,17 @@ export default {
       })
     },
     // 新增客户
-    onAddCustomer (row) {
+    // redactFun () {
+    //   this.$emit('redactFun', val)
+    // },
+    // delsTipFun () {
+    //   this.$emit('delsTipFun', val)
+    // },
+    // dimissionFun () {
+    //   this.$emit('dimissionFun', val)
+    // },
+    onRedactFun (row) {
       this.row = row
-      console.log('row:', row)
       if (row) {
         this.title = '编辑导购信息'
         this.model.sgGuide = {
@@ -445,8 +447,9 @@ export default {
         _this.$notify.error('查询失败：' + resp.msg)
       })
     },
-    quit (row) {
+    dimissionFun (row) {
       var _this = this
+      console.log(row)
       _this.transferWay = '1'
       _this.$http.fetch(_this.$api.guide.guide.getCustomerCount, {
         searchMap: {
@@ -708,7 +711,7 @@ export default {
     workIdChange (value) {
       var _this = this
       _this.changeObj.workIdChangeChange = true
-      _this.workIdChangeValue = value
+      _this.changeValue.workIdChangeValue = value
       // var regin = /^(0|[1-9][0-9]*)$/
       // var flag = regin.test(_this.model.sgGuide.work_id)
       var guideId = null

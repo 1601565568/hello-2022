@@ -1,5 +1,6 @@
 <template>
-  <ns-page-table @add="$emit('add')"  @allDelete="$emit('allDelete')" @onAddCustomer="$emit('onAddCustomer')" @quit="$emit('quit')" @shopEdit="$emit('shopEdit')" @ondelete="$emit('ondelete')">
+  <!-- <ns-page-table @add="$emit('add')"  @allDelete="$emit('allDelete')" @onAddCustomer="$emit('onAddCustomer')" @quit="$emit('quit')" @shopEdit="$emit('shopEdit')" @ondelete="$emit('ondelete')"> -->
+  <ns-page-table @add="$emit('add')"  @allDelete="$emit('allDelete')" @shopEdit="$emit('shopEdit')" > 
     <!-- 按钮 -->
     <template slot="buttons">
       <ns-table-operate-button :buttons="_data._table.table_buttons">
@@ -13,7 +14,7 @@
     <template slot="searchSearch">
       <el-form :model="quickSearchModel" :inline="true" @submit.native.prevent  class="pull-right">
         <el-form-item v-show="_data._queryConfig.expand === false">
-          <el-input ref="quickText" style="width: 250px" v-model="model.name" placeholder="请输入工号/姓名/昵称/手机号" @keyup.enter.native="$quickSearchAction$('name')">
+          <el-input ref="quickText" style="width: 250px" v-model="model.name" placeholder="请输入工号/姓名/昵称/手机号" @keyup.enter.native="$quickSearchAction$('name')" clearable>
             <i class="el-icon-search el-input__icon" slot="suffix" name="name" @click="$quickSearchAction$('name')"></i>
           </el-input>
         </el-form-item>
@@ -37,7 +38,7 @@
 
         <el-form-item label="关键字：">
           <el-form-grid size="xmd">
-            <el-input style="width:180px" autofocus=true v-model="model.name" placeholder="请输入工号/姓名/昵称/手机号"></el-input>
+            <el-input style="width:180px" autofocus=true v-model="model.name" placeholder="请输入工号/姓名/昵称/手机号" clearable></el-input>
           </el-form-grid>
         </el-form-item>
 
@@ -106,18 +107,29 @@
           <template slot-scope="scope">{{scope.row.job == 1 ? "店长" : "导购"}}
           </template>
         </el-table-column>
-        
-        <el-table-column prop="status" label="状态" align="center">
-          <el-tooltip :content="'Switch value: ' + scope.row.state" placement="top" slot-scope="scope" v-if="scope.row.status === 0 || scope.row.state === 1">
-            <el-switch @change="changeState(scope.row.state,scope.row.id)" v-model="scope.row.state"   active-color='#13ce66' inactive-color='#888888'   active-text="启用" inactive-text="禁用"> </el-switch>
-          </el-tooltip>
-          <template slot-scope="scope" v-if="scope.row.status === 2">已离职</template> 
-        </el-table-column>
-        <el-table-column :show-overflow-tooltip="true" label="操作" align="center">
+
+        <el-table-column prop="status" label="状态" align="left">
           <template slot-scope="scope">
-            <ns-table-column-operate-button :buttons="_data._table.operate_buttons"
-                                            :prop="scope"></ns-table-column-operate-button>
-                                            <!-- <a class="text-error" style="color:#f00" href="javascript:" @click="delsTipFun(scope.row.id)">删除</a> -->
+            <div v-if="scope.row.status === 2">
+              <p>已离职</p>
+            </div>
+            <div v-if="scope.row.status === 0 || scope.row.status === 1">
+              <el-switch @change="changeState(scope.row.state,scope.row.id)" v-model="scope.row.state"   active-color='#13ce66' inactive-color='#888888'   active-text="启用" inactive-text="禁用"> </el-switch>
+            </div>
+          </template>
+        </el-table-column>
+        <el-table-column prop="status,row" :show-overflow-tooltip="true" label="操作" align="left">
+          <template slot-scope="scope">
+            <div>
+              <ns-button style="color:#0091FA" @click="onRedactFun(scope.row)" type="text">编辑</ns-button>
+              <ns-button style="color:#f00" @click="onDelsTipFun(scope.row)" type="text">删除</ns-button>
+              <ns-button v-if="scope.row.status === 0 || scope.row.status === 1" style="color:#0091FA" @click="dimissionFun(scope.row)" type="text">离职</ns-button>
+              <!-- <a class="text-error" style="color:#0091FA" href="javascript:" @click="redactFun(scope.row.id)">编辑</a>
+              <a class="text-error" style="color:#f00" href="javascript:" @click="delsTipFun(scope.row.id)">删除</a>
+              <a v-if="scope.row.status === 0 || scope.row.status === 1" class="text-error" style="color:#0091FA" href="javascript:" @click="dimissionFun(scope.row.id)">离职</a> -->
+            </div>
+            <!-- <ns-table-column-operate-button :buttons="_data._table.operate_buttons"
+                                            :prop="scope"></ns-table-column-operate-button> -->
           </template>
         </el-table-column>
 

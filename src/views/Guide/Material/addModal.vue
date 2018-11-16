@@ -92,7 +92,7 @@
     </div>
     <span slot="footer" class="dialog-footer">
       <ns-button @click="handleClose">取 消</ns-button>
-      <ns-button type="primary" :loading="loading" @click="saveFun">确 定</ns-button>
+      <ns-button type="primary" :loading="loading" @click="saveFun">保存</ns-button>
     </span>
   </el-dialog>
   <el-dialog :visible.sync="dialogImgVisible">

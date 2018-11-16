@@ -1,5 +1,5 @@
 <template>
-<!-- 新增任务弹窗  wanrengang 201800803 -->
+<!-- 门店任务详情弹窗-->
 <div class="shopDetailBox">
   <el-dialog
   :close-on-click-modal=false
@@ -35,9 +35,10 @@
       <el-table-column prop="name" label="姓名"></el-table-column>
       <el-table-column label="状态" align="center" width="80">
         <template slot-scope="{row}">
-          <span v-if="row.state === 3">完成</span>
           <span v-if="row.state === 1">执行中</span>
           <span v-if="row.state === 2">已关闭</span>
+          <span v-if="row.state === 3">完成</span>
+          <span v-if="row.state === 4">已过期</span>
         </template>
       </el-table-column>
       <el-table-column prop="completeTime" label="完成时间"></el-table-column>
@@ -105,7 +106,6 @@ export default {
   methods: {
     // 提交搜索
     submitForm (formName) {
-      console.log(this.searchObj)
       // 组装搜索对象
       // this.loadListFun()
     },
@@ -139,7 +139,6 @@ export default {
         if (myDate > new Date(obj.endTime)) {
           myDate = obj.endTime
         }
-        console.log(myDate)
         this.queryDate = moment(myDate).format('YYYY-MM-DD')
         this.searchObj.searchMap.queryDate = moment(myDate).format('YYYY-MM-DD')
       }
