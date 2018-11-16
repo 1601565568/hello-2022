@@ -112,8 +112,6 @@ export default {
   mounted: function () {
     var vm = this
     vm.initShopList()
-    console.log("vm:",vm._data._table.operate_buttons[2].name)
-    // console.log('scope.row.work_id:', args)
     if (typeof this.$init === 'function') {
     } else {
       this.$reload()
