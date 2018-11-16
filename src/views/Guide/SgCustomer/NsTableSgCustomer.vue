@@ -182,7 +182,7 @@
       <el-dialog :title="title" :visible.sync="showCustomerDialogVisible" width="800px" :before-close="onCancleDialog" :vetically=true>
         <div style="overflow-x:hidden;overflow-y:auto;">
           <el-table :data="customerData">
-            <el-table-column prop="customerName" label="姓名" align="center" width="200"></el-table-column>
+            <el-table-column prop="name" label="姓名" align="center" width="200"></el-table-column>
             <el-table-column prop="sex" label="性别" align="center" width="150">
               <template slot-scope="scope">
                 <span v-if="scope.row.sex == 0">
@@ -198,7 +198,7 @@
             </el-table-column>
             <el-table-column prop="mobile" label="手机号" align="center" width="200">
             </el-table-column>
-            <el-table-column prop="createTime" label="创建时间" align="center" width="200"></el-table-column>
+            <el-table-column prop="memberCard" label="会员卡号" align="center" width="200"></el-table-column>
           </el-table>
         </div>
         <!--分页开始-->
