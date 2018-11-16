@@ -112,6 +112,8 @@ export default {
   mounted: function () {
     var vm = this
     vm.initShopList()
+    console.log("vm:",vm._data._table.operate_buttons[2].name)
+    // console.log('scope.row.work_id:', args)
     if (typeof this.$init === 'function') {
     } else {
       this.$reload()
@@ -160,6 +162,15 @@ export default {
     },
     handleSelectionChange (val) {
       this.$emit('handleSelectionChange', val)
+    },
+    onRedactFun (val) {
+      this.$emit('onRedactFun', val)
+    },
+    onDelsTipFun (val) {
+      this.$emit('onDelsTipFun', val)
+    },
+    dimissionFun (val) {
+      this.$emit('dimissionFun', val)
     },
     // 解析后台传进来的字符串
     strToJson (str) {

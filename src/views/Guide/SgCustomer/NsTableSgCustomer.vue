@@ -119,14 +119,14 @@
           </template>
         </el-table-column>
         <el-table-column :show-overflow-tooltip="true" type="default" prop="customer_num" align="right"
-                         label="转移人数" :sortable="false" :width="100">
+                         label="转移人数" :sortable="false" :width="80">
           <template slot-scope="scope">
             <a href="javascript:" @click="showListDialog(scope.row.id)">{{scope.row.customer_num}}</a>
           </template>
 
         </el-table-column>
         <el-table-column :show-overflow-tooltip="true" type="default" prop="trans_type" align="left"
-                         label="转移类型" :sortable="false" >
+                         label="转移类型" :sortable="false">
           <template slot-scope="scope">
             <span v-if="scope.row.trans_type == 1">
               门店均分
@@ -146,7 +146,7 @@
           </template>
         </el-table-column>
         <el-table-column :show-overflow-tooltip="true" type="default" prop="operation_type" align="left"
-                         label="操作类型" :sortable="false" >
+                         label="操作类型" :sortable="false">
           <template slot-scope="scope">
             <span v-if="scope.row.operation_type == 0">
               品牌转移
@@ -160,10 +160,10 @@
           </template>
         </el-table-column>
         <el-table-column :show-overflow-tooltip="true" type="default" prop="operation" align="left"
-                         label="操作人ID" :sortable="false" >
+                         label="操作人ID" :sortable="false">
         </el-table-column>
         <el-table-column :show-overflow-tooltip="true" type="default" prop="create_time" align="left"
-                         label="转移时间" :sortable="false" >
+                         label="转移时间" :sortable="false" :width="240">
         </el-table-column>
       </el-table>
     </template>

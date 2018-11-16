@@ -1,7 +1,9 @@
 <template>
   <div>
-    <ns-table-guide ref="table" :url=$api.guide.guide.findList @add="onAddCustomer"
-    @shopEdit="shopEdit" @allDelete="allDelete" @ondelete="ondelete" @onAddCustomer="onAddCustomer" @quit="quit" @handleSelectionChange="handleSelectionChange">
+    <ns-table-guide ref="table" :url=$api.guide.guide.findList @add="onRedactFun"
+    @shopEdit="shopEdit" @allDelete="allDelete" @onDelsTipFun="onDelsTipFun" @onRedactFun="onRedactFun" @dimissionFun="dimissionFun" @handleSelectionChange="handleSelectionChange">
+    <!-- <ns-table-guide ref="table" :url=$api.guide.guide.findList @add="onRedactFun"
+    @shopEdit="shopEdit" @allDelete="allDelete" @ondelete="ondelete" @onAddCustomer="onRedactFun" @quit="quit" @handleSelectionChange="handleSelectionChange"> -->
     </ns-table-guide>
     <!-- 新增修改客户开始-->
     <el-dialog :title="title" :visible.sync="dialogFormVisible" width="460px"  @keyup.enter.native="onKeyUp" @keyup.esc.native="onKeyUp" >
@@ -19,7 +21,7 @@
           <el-form-item label="姓名：" required>
             <el-form-grid size="xmd">
               <el-form-item prop="name">
-                <el-input type="text" @change="names" v-model="model.sgGuide.name" placeholder="请输入姓名">
+                <el-input type="text" @change="names" v-model="model.sgGuide.name" placeholder="请输入姓名" clearable>
                 </el-input>
               </el-form-item>
             </el-form-grid>
@@ -27,7 +29,7 @@
           <el-form-item label="昵称：" required>
             <el-form-grid size="xmd">
               <el-form-item prop="nickname">
-                <el-input type="text" @change="nickname" v-model="model.sgGuide.nickname" placeholder="请输入昵称">
+                <el-input type="text" @change="nickname" v-model="model.sgGuide.nickname" placeholder="请输入昵称" clearable>
                 </el-input>
               </el-form-item>
             </el-form-grid>
@@ -53,7 +55,7 @@
           <el-form-item label="手机号：" required>
             <el-form-grid size="xmd">
               <el-form-item prop="mobile">
-                <el-input v-model="model.sgGuide.mobile" @change="mobile" placeholder="请输入手机号">
+                <el-input v-model="model.sgGuide.mobile" @change="mobile" placeholder="请输入手机号" clearable>
                 </el-input>
               </el-form-item>
             </el-form-grid>
@@ -72,7 +74,7 @@
           <el-form-item label="工号：">
             <el-form-grid size="xmd">
               <el-form-item prop="work_id">
-                <el-input type="text" v-model="model.sgGuide.work_id" @change="workIdChange" placeholder="请输入工号">
+                <el-input type="text" v-model="model.sgGuide.work_id" @change="workIdChange" placeholder="请输入工号" clearable>
               </el-input>
               </el-form-item>
             </el-form-grid>
@@ -110,7 +112,7 @@
             <el-form-item label="客户总数：">
               <el-form-grid size="xmd">
                 <el-form-item>
-                  <el-input type="text" v-model="customerTotal" disabled="disabled">
+                  <el-input type="text" v-model="customerTotal" disabled="disabled" clearable>
                   </el-input>
                 </el-form-item>
               </el-form-grid>

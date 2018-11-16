@@ -104,7 +104,7 @@
     </template> -->
         <el-form ref="searchform" label-width="80px"  class="surround-btn" :model="searchform"  :inline="true">
           <el-form-item label="素材标题：" prop="title">
-            <el-input v-model="searchform.title"></el-input>
+            <el-input v-model="searchform.title" placeholder="请输入素材标题"></el-input>
           </el-form-item>
           <el-form-item label="分组：" prop="subdivision_id">
                 <el-select v-model="searchform.subdivision_id" placeholder="请选择分组">
