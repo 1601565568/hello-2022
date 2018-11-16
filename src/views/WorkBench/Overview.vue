@@ -1,244 +1,306 @@
 <template>
   <div class="overview-content">
-    <el-row class="overview-content__grid" :gutter="5">
-      <el-col :span="6" v-for="(data, index) in constantlyData1" :key="data.id">
-        <el-card class="overview-content__item" shadow="never">
-          <div class="overview-content__item-left">
-            <p>
-              <span v-if="data.type === 'price'">￥</span>
-              <el-countup
-                class="font-size-large"
-                :start="0"
-                :end="data.value"
-                :duration="4"
-                :decimal="data.decimal">
-              </el-countup>
-            </p>
-            <p class="text-secondary">
-              {{data.totalTitle}}
-              <el-popover
-                placement="bottom"
-                width="250"
-                trigger="hover">
-                <el-row class="overview-popover">
-                  <template v-for="dataIndex of data.titleNum">
-                      <el-col :span="13" class="text-right">
-                      {{dataIndex.title}}：
-                    </el-col>
-                    <el-col :span="11">
-                      {{dataIndex.num}}
-                    </el-col>
-                  </template>
-                </el-row>
-                <i slot="reference" class="el-icon-info"></i>
-              </el-popover>
-            </p>
+    <el-row class="overview-content__grid" :gutter="15">
+      <el-col :span="6">
+        <div class='overview-content__item'>
+            <div style='height:61px;text-align：center;padding-top:20px'>
+              <el-date-picker
+              v-model="searchObj.monthDate"
+              type="date"
+              placeholder="选择月">
+            </el-date-picker>
+            </div>
+            <div class='el-card-body date'>
+              <el-select v-model="searchObj.id" filterable placeholder="请选择门店" @change='shopSelect(searchObj.id)'>
+              <el-option
+                v-for="(item,index) in shopArr"
+                :key="item.id"
+                :label="item.shopName"
+                :value="item.id">
+              </el-option>
+            </el-select>
+            </div>
+        </div>
+      </el-col>
+      <el-col :span="6">
+        <div class='overview-content__item'>
+          <p class='el-card-tit'>销售额</p>
+          <div class='el-card-body clearfix'>
+            <span class='el-card-num float-left' v-if='getRewardInfoObj.payment'>+{{getRewardInfoObj.payment}}</span>
+            <el-progress type="circle" :percentage="getRewardInfoObj.paymentPersent" :width='90' color='#0091FA' class='float-right'></el-progress>
           </div>
-          <div class="overview-content__item-right">
-            <img v-if="index === 0" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBzdGFuZGFsb25lPSJubyI/PjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+PHN2ZyBjbGFzcz0iaWNvbiIgd2lkdGg9IjIwMHB4IiBoZWlnaHQ9IjE5OC40NXB4IiB2aWV3Qm94PSIwIDAgMTAzMiAxMDI0IiB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTUwNy42MjM2MzUgMTAxNS43MjMyNUE1MDMuNzIzMTY4IDUwMy43MjMxNjggMCAwIDEgNTE2LjM3Njg1NyA4LjI3NjkxNWg4LjkxODM3OGE1MDMuNzIzMTY4IDUwMy43MjMxNjggMCAwIDEtOC41ODgwNjcgMTAwNy40NDYzMzV6IiBmaWxsPSIjRkZGRkZGIiAvPjxwYXRoIGQ9Ik01MTYuMzc2ODU3IDAuMDE5MTU4djE2LjUxNTUxNGg4Ljc1MzIyM0E0OTUuNDY1NDExIDQ5NS40NjU0MTEgMCAwIDEgNTE2LjM3Njg1NyAxMDA3LjQ2NTQ5M2gtOC43NTMyMjJBNDk1LjQ2NTQxMSA0OTUuNDY1NDExIDAgMCAxIDUxNi4zNzY4NTcgMTYuNTM0NjcyVjAuMDE5MTU4bTAgMGE1MTEuOTgwOTI1IDUxMS45ODA5MjUgMCAwIDAtOC43NTMyMjIgMTAyMy45NjE4NDlINTE2LjM3Njg1N2E1MTEuOTgwOTI1IDUxMS45ODA5MjUgMCAwIDAgOC43NTMyMjMtMTAyMy45NjE4NDl6IiBmaWxsPSIjRENERkU2IiAvPjxwYXRoIGQ9Ik0zNDMuNzg5NzM5IDM5OC44Njg4MTRINTI2LjI4NjE2NmEyNC43NzMyNzEgMjQuNzczMjcxIDAgMCAwIDI0LjYwODExNS0yNC43NzMyNzFWMzU1LjEwMjcwMkEyNC42MDgxMTUgMjQuNjA4MTE1IDAgMCAwIDUyNi4yODYxNjYgMzMwLjMyOTQzMmgtMTgxLjY3MDY1MWEyNC43NzMyNzEgMjQuNzczMjcxIDAgMCAwLTI0LjYwODExNSAyNC43NzMyN3YxOC45OTI4NDFhMjQuNjA4MTE1IDI0LjYwODExNSAwIDAgMCAyNC42MDgxMTUgMjQuNzczMjcxeiBtMTUxLjI4MjEwNiA4OS4xODM3NzRBMTM1LjQyNzIxMiAxMzUuNDI3MjEyIDAgMCAxIDUyMy42NDM2ODQgNDYyLjQ1MzU0MXYtMTguMzMyMjJBMjQuNjA4MTE1IDI0LjYwODExNSAwIDAgMCA0OTkuODYxMzQ0IDQxOS41MTMyMDZoLTE1Ny4wNjI1MzVBMjQuNjA4MTE1IDI0LjYwODExNSAwIDAgMCAzMTguMTkwNjkzIDQ0NC4xMjEzMjF2MTkuMTU3OTk2YTI0Ljc3MzI3MSAyNC43NzMyNzEgMCAwIDAgMjQuNjA4MTE2IDI0Ljc3MzI3MXpNMzE4LjE5MDY5MyA1MzMuMzA1MDk1djE4Ljk5Mjg0MWEyNC40NDI5NiAyNC40NDI5NiAwIDAgMCAyNC40NDI5NiAyNC43NzMyNzFoMTE5LjA3Njg1NGExMzcuNTc0MjI5IDEzNy41NzQyMjkgMCAwIDEgMTguMzMyMjItNjguNTM5MzgyaC0xMzYuOTEzNjA4YTI0LjExMjY1IDI0LjExMjY1IDAgMCAwLTIzLjk0NzQ5NSAyNC43NzMyN3ogbTI0LjI3NzgwNSA2NC40MTA1MDRhMjQuNzczMjcxIDI0Ljc3MzI3MSAwIDAgMC0yNC4yNzc4MDUgMjQuNzczMjd2MTguOTkyODQxYTI0Ljc3MzI3MSAyNC43NzMyNzEgMCAwIDAgMjQuNjA4MTE2IDI0Ljc3MzI3aDE1Mi4xMDc4ODFhMTM2LjI1Mjk4OCAxMzYuMjUyOTg4IDAgMCAxLTMxLjIxNDMyMS02OC41MzkzODF6TTU5OC45NTQ0MjYgNDYwLjYzNjgzNWExMTYuNTk5NTI3IDExNi41OTk1MjcgMCAxIDAgMTE1LjYwODU5NiAxMTUuNjA4NTk2IDExNS42MDg1OTYgMTE1LjYwODU5NiAwIDAgMC0xMTUuNjA4NTk2LTExNS42MDg1OTZ6IG00Ni4yNDM0MzggMTM1LjU5MjM2N2E4Ljc1MzIyMiA4Ljc1MzIyMiAwIDAgMSA5LjA4MzUzMyA4LjU4ODA2OCA4LjkxODM3NyA4LjkxODM3NyAwIDAgMS05LjA4MzUzMyA4Ljc1MzIyMmgtMzMuMDMxMDI3djE4LjY2MjUzYTEyLjIyMTQ4IDEyLjIyMTQ4IDAgMCAxLTI0LjI3NzgwNSAwdi0xOC42NjI1M2gtMzMuMDMxMDI4YTguOTE4Mzc3IDguOTE4Mzc3IDAgMCAxLTkuMDgzNTMyLTguNzUzMjIyIDguOTE4Mzc3IDguOTE4Mzc3IDAgMCAxIDkuMDgzNTMyLTguNTg4MDY4aDMzLjAzMTAyOHYtMTIuMzg2NjM1aC0zMy4wMzEwMjhhOC45MTgzNzcgOC45MTgzNzcgMCAwIDEtOS4wODM1MzItOC43NTMyMjIgOC45MTgzNzcgOC45MTgzNzcgMCAwIDEgOS4wODM1MzItOC41ODgwNjdoMzMuMDMxMDI4di05Ljc0NDE1M2wtMzMuMDMxMDI4LTMxLjcwOTc4N2E5Ljc0NDE1MyA5Ljc0NDE1MyAwIDAgMSAwLTE0LjIwMzM0MSAxMS4yMzA1NDkgMTEuMjMwNTQ5IDAgMCAxIDE1LjAyOTExOCAwbDI5Ljg5MzA4IDI4LjkwMjE0OSAzMC4wNTgyMzUtMjguOTAyMTQ5YTExLjIzMDU0OSAxMS4yMzA1NDkgMCAwIDEgMTUuMDI5MTE3IDAgOS43NDQxNTMgOS43NDQxNTMgMCAwIDEgMCAxNC4yMDMzNDFsLTMzLjAzMTAyNyAzMS43MDk3ODd2OS43NDQxNTNoMzMuMDMxMDI3YTguNzUzMjIyIDguNzUzMjIyIDAgMCAxIDkuMDgzNTMzIDguNTg4MDY3IDguOTE4Mzc3IDguOTE4Mzc3IDAgMCAxLTkuMDgzNTMzIDguNzUzMjIyaC0zMy4wMzEwMjd2MTIuMzg2NjM1eiBtMCAwIiBmaWxsPSIjMDA5MUZBIiAvPjwvc3ZnPg==" alt="">
-            <img v-else-if="index === 1" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBzdGFuZGFsb25lPSJubyI/PjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+PHN2ZyBjbGFzcz0iaWNvbiIgd2lkdGg9IjIwMHB4IiBoZWlnaHQ9IjE5OC40NXB4IiB2aWV3Qm94PSIwIDAgMTAzMiAxMDI0IiB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTUwNy42MjM2MzUgMTAxNS43MjMyNUE1MDMuNzIzMTY4IDUwMy43MjMxNjggMCAwIDEgNTE2LjM3Njg1NyA4LjI3NjkxNWg4LjkxODM3OGE1MDMuNzIzMTY4IDUwMy43MjMxNjggMCAwIDEtOC41ODgwNjcgMTAwNy40NDYzMzV6IiBmaWxsPSIjRkZGRkZGIiAvPjxwYXRoIGQ9Ik01MTYuMzc2ODU3IDAuMDE5MTU4djE2LjUxNTUxNGg4Ljc1MzIyM0E0OTUuNDY1NDExIDQ5NS40NjU0MTEgMCAwIDEgNTE2LjM3Njg1NyAxMDA3LjQ2NTQ5M2gtOC43NTMyMjJBNDk1LjQ2NTQxMSA0OTUuNDY1NDExIDAgMCAxIDUxNi4zNzY4NTcgMTYuNTM0NjcyVjAuMDE5MTU4bTAgMGE1MTEuOTgwOTI1IDUxMS45ODA5MjUgMCAwIDAtOC43NTMyMjIgMTAyMy45NjE4NDlINTE2LjM3Njg1N2E1MTEuOTgwOTI1IDUxMS45ODA5MjUgMCAwIDAgOC43NTMyMjMtMTAyMy45NjE4NDl6IiBmaWxsPSIjRENERkU2IiAvPjxwYXRoIGQ9Ik01NTEuODg1MjEyIDMzOC41ODcxODloLTc0LjE1NDY1N2ExOC42NjI1MyAxOC42NjI1MyAwIDAgMCAwIDM3LjE1OTkwNmg3NC42NTAxMjJhMTguODI3Njg2IDE4LjgyNzY4NiAwIDAgMCAwLTM3LjE1OTkwNnogbTgwLjQzMDU1MiAxMi4zODY2MzVoLTM2LjgyOTU5NmEzOC4xNTA4MzcgMzguMTUwODM3IDAgMCAxIDAgNi4xMTA3NGMwIDE1LjY4OTczOC0xMS4wNjUzOTQgMzEuMDQ5MTY2LTI0LjExMjY1IDMxLjA0OTE2NmgtMTEyLjk2NjExNEEyOS4zOTc2MTQgMjkuMzk3NjE0IDAgMCAxIDQzMy43OTkyODkgMzU3LjA4NDU2NGEyNS41OTkwNDYgMjUuNTk5MDQ2IDAgMCAxIDAtNi4xMTA3NGgtMzYuOTk0NzUxYy0yOS44OTMwOCAwLTM3LjMyNTA2MSAxNy41MDY0NDUtMzcuMzI1MDYxIDQyLjYxMDAyNXYyNDkuNTQ5NDEyYzAgMjcuMDg1NDQyIDEwLjU2OTkyOSA0Mi4yNzk3MTUgMzkuNjM3MjMzIDQyLjI3OTcxNWgyMzEuMjE3MTkyYzI5LjA2NzMwNCAwIDQzLjI3MDY0Ni0xMS44OTExNyA0My4yNzA2NDYtNDIuMjc5NzE1VjM5My41ODM4NDlBMzguMTUwODM3IDM4LjE1MDgzNyAwIDAgMCA2MzEuOTg1NDUzIDM1MC45NzM4MjR6IG0tMzcuOTg1NjgyIDI0Ni40MTE0NjRINDMzLjc5OTI4OWExNC4zNjg0OTcgMTQuMzY4NDk3IDAgMCAxLTExLjg5MTE3LTEzLjU0MjcyMSAxMS4yMzA1NDkgMTEuMjMwNTQ5IDAgMCAxIDEwLjkwMDIzOS0xMS4yMzA1NDloMTYwLjAzNTMyOGExMS43MjYwMTUgMTEuNzI2MDE1IDAgMCAxIDExLjM5NTcwNCAxMS4yMzA1NDljMCA2LjExMDc0LTQuMTI4ODc4IDEzLjU0MjcyMS0xMC4wNzQ0NjMgMTMuNTQyNzIxeiBtMC02Ni4wNjIwNTRoLTE1OS43MDUwMTdjLTUuOTQ1NTg1IDAtOS43NDQxNTMtNi42MDYyMDUtOS43NDQxNTMtMTIuNTUxNzkxYTEyLjA1NjMyNSAxMi4wNTYzMjUgMCAwIDEgMTAuOTAwMjM5LTEyLjIyMTQ4aDE2MC4wMzUzMjdhMTIuNTUxNzkgMTIuNTUxNzkgMCAwIDEgMTEuMzk1NzA1IDEyLjIyMTQ4IDEzLjcwNzg3NiAxMy43MDc4NzYgMCAwIDEtMTIuMjIxNDggMTIuNTUxNzkxeiBtMC02Ny44Nzg3NjJoLTE1OS43MDUwMTdjLTUuOTQ1NTg1IDAtOS43NDQxNTMtNi42MDYyMDUtOS43NDQxNTMtMTIuNTUxNzlhMTIuMDU2MzI1IDEyLjA1NjMyNSAwIDAgMSAxMC45MDAyMzktMTIuMjIxNDhoMTYwLjAzNTMyN2ExMi41NTE3OSAxMi41NTE3OSAwIDAgMSAxMS4zOTU3MDUgMTIuMjIxNDggMTMuNzA3ODc2IDEzLjcwNzg3NiAwIDAgMS0xMi4yMjE0OCAxMi41NTE3OXogbTAgMCIgZmlsbD0iIzJFQzA2MSIgLz48L3N2Zz4=" alt="">
-            <img v-else-if="index === 2" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBzdGFuZGFsb25lPSJubyI/PjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+PHN2ZyBjbGFzcz0iaWNvbiIgd2lkdGg9IjIwMHB4IiBoZWlnaHQ9IjE5OC40NXB4IiB2aWV3Qm94PSIwIDAgMTAzMiAxMDI0IiB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTUwNy42MjM2MzUgMTAxNS43MjMyNUE1MDMuNzIzMTY4IDUwMy43MjMxNjggMCAwIDEgNTE2LjM3Njg1NyA4LjI3NjkxNWg4LjkxODM3OGE1MDMuNzIzMTY4IDUwMy43MjMxNjggMCAwIDEtOC41ODgwNjcgMTAwNy40NDYzMzV6IiBmaWxsPSIjRkZGRkZGIiAvPjxwYXRoIGQ9Ik01MTYuMzc2ODU3IDAuMDE5MTU4djE2LjUxNTUxNGg4Ljc1MzIyM0E0OTUuNDY1NDExIDQ5NS40NjU0MTEgMCAwIDEgNTE2LjM3Njg1NyAxMDA3LjQ2NTQ5M2gtOC43NTMyMjJBNDk1LjQ2NTQxMSA0OTUuNDY1NDExIDAgMCAxIDUxNi4zNzY4NTcgMTYuNTM0NjcyVjAuMDE5MTU4bTAgMGE1MTEuOTgwOTI1IDUxMS45ODA5MjUgMCAwIDAtOC43NTMyMjIgMTAyMy45NjE4NDlINTE2LjM3Njg1N2E1MTEuOTgwOTI1IDUxMS45ODA5MjUgMCAwIDAgOC43NTMyMjMtMTAyMy45NjE4NDl6IiBmaWxsPSIjRENERkU2IiAvPjxwYXRoIGQ9Ik00MjEuNDEyNjU0IDQwNy4xMjY1NzFjMCA3NC42NTAxMjIgODYuMjEwOTgxIDEyOS4zMTY0NzIgMTY1LjE1NTEzNyA2OS41MzAzMTIgNTkuNjIxMDA0LTc4LjI4MzUzNSA1LjExOTgwOS0xNjUuMTU1MTM3LTY5LjUzMDMxMy0xNjUuMTU1MTM3YTk0Ljc5OTA0OSA5NC43OTkwNDkgMCAwIDAtOTQuOTY0MjA0IDk0Ljk2NDIwNHogbTAgMCIgZmlsbD0iI0ZGQUMwMCIgLz48cGF0aCBkPSJNNTQ2LjYwMDI0OCA1MDQuNDAyOTQ2TDUxNi4zNzY4NTcgNTM0LjYyNjMzNmwtMzAuMjIzMzktMzAuMjIzMzlBMTkwLjA5MzU2MyAxOTAuMDkzNTYzIDAgMCAwIDMyNi40NDg0NSA2OTIuMDE5MTgyaDM3OS44NTY4MTVhMTkwLjA5MzU2MyAxOTAuMDkzNTYzIDAgMCAwLTE1OS43MDUwMTctMTg3LjYxNjIzNnpNNTE2LjM3Njg1NyA2NjQuOTMzNzM5bC0zMy4wMzEwMjctMzMuMDMxMDI3IDMzLjAzMTAyNy05Ny42MDY2ODYgMzMuMDMxMDI4IDk3LjYwNjY4NnogbTAgMCIgZmlsbD0iI0ZGQUMwMCIgLz48L3N2Zz4=" alt="">
-            <img v-else-if="index === 3" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBzdGFuZGFsb25lPSJubyI/PjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+PHN2ZyBjbGFzcz0iaWNvbiIgd2lkdGg9IjIwMHB4IiBoZWlnaHQ9IjE5OC40NXB4IiB2aWV3Qm94PSIwIDAgMTAzMiAxMDI0IiB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTUwNy42MjM2MzUgMTAxNS43MjMyNUE1MDMuNzIzMTY4IDUwMy43MjMxNjggMCAwIDEgNTE2LjM3Njg1NyA4LjI3NjkxNWg4LjkxODM3OGE1MDMuNzIzMTY4IDUwMy43MjMxNjggMCAwIDEtOC41ODgwNjcgMTAwNy40NDYzMzV6IiBmaWxsPSIjRkZGRkZGIiAvPjxwYXRoIGQ9Ik01MTYuMzc2ODU3IDAuMDE5MTU4djE2LjUxNTUxNGg4Ljc1MzIyM0E0OTUuNDY1NDExIDQ5NS40NjU0MTEgMCAwIDEgNTE2LjM3Njg1NyAxMDA3LjQ2NTQ5M2gtOC43NTMyMjJBNDk1LjQ2NTQxMSA0OTUuNDY1NDExIDAgMCAxIDUxNi4zNzY4NTcgMTYuNTM0NjcyVjAuMDE5MTU4bTAgMGE1MTEuOTgwOTI1IDUxMS45ODA5MjUgMCAwIDAtOC43NTMyMjIgMTAyMy45NjE4NDlINTE2LjM3Njg1N2E1MTEuOTgwOTI1IDUxMS45ODA5MjUgMCAwIDAgOC43NTMyMjMtMTAyMy45NjE4NDl6IiBmaWxsPSIjRENERkU2IiAvPjxwYXRoIGQ9Ik0zMTguMTkwNjkzIDQzOS45OTI0NDNsMS4zMjEyNDEtMy40NjgyNThhMjQuNDQyOTYgMjQuNDQyOTYgMCAwIDEgMjEuNjM1MzIzLTE2LjUxNTUxNCAyNC45Mzg0MjYgMjQuOTM4NDI2IDAgMCAxIDIzLjk0NzQ5NSAxMy4yMTI0MTEgMjMuMjg2ODc0IDIzLjI4Njg3NCAwIDAgMS0zLjMwMzEwMyAyNi4yNTk2NjdsLTIuMzEyMTcyIDIuOTcyNzkyYzE4LjMzMjIyIDExLjA2NTM5NCAzNi42NjQ0NCAyMS44MDA0NzggNTQuODMxNTA2IDMzLjAzMTAyOGwyMC42NDQzOTIgMTIuMzg2NjM1YTYuMjc1ODk1IDYuMjc1ODk1IDAgMCAwIDUuMTE5ODA5IDEuMTU2MDg2IDUuNzgwNDMgNS43ODA0MyAwIDAgMCAzLjk2MzcyMy0zLjMwMzEwM2w2My4wODkyNjMtMTExLjMxNDU2MmEyNC43NzMyNzEgMjQuNzczMjcxIDAgMCAxLTE1LjUyNDU4My0yMS42MzUzMjMgMjIuNDYxMDk5IDIyLjQ2MTA5OSAwIDAgMSA3LjQzMTk4MS0xOC4xNjcwNjUgMjUuMTAzNTgxIDI1LjEwMzU4MSAwIDAgMSAxOC42NjI1MzEtNy43NjIyOTEgMjUuNTk5MDQ2IDI1LjU5OTA0NiAwIDAgMSAxOC4wMDE5MSA4LjkxODM3N2MxMC40MDQ3NzQgMTIuMzg2NjM1IDYuNjA2MjA1IDI2LjkyMDI4Ny05LjkwOTMwOSAzNy44MjA1MjYgNS4yODQ5NjQgOS41Nzg5OTggMTAuNTY5OTI5IDE5LjMyMzE1MSAxNi41MTU1MTQgMjguOTAyMTQ5bDQ1LjU4MjgxOCA4MC40MzA1NTJjMy40NjgyNTggNi4xMTA3NCA1Ljc4MDQzIDYuNzcxMzYxIDExLjg5MTE3IDMuMTM3OTQ4bDcwLjE5MDkzMy00MS45NDk0MDUgMy4zMDMxMDMtMS45ODE4NjJhMjQuOTM4NDI2IDI0LjkzODQyNiAwIDAgMS04LjI1Nzc1Ny0xNi41MTU1MTMgMjQuMTEyNjUgMjQuMTEyNjUgMCAwIDEgMjAuNDc5MjM3LTI1LjEwMzU4MSAyNC45Mzg0MjYgMjQuOTM4NDI2IDAgMCAxIDI4LjA3NjM3MyAxNi41MTU1MTNsMC45OTA5MzEgMi44MDc2Mzh2OC4yNTc3NTdhMjUuNTk5MDQ2IDI1LjU5OTA0NiAwIDAgMS0yNi4yNTk2NjcgMTkuODE4NjE2bC0xLjQ4NjM5NiA0LjI5NDAzNC00MS4yODg3ODQgMTM3LjI0MzkxOGMtMS44MTY3MDcgNS45NDU1ODUtMy45NjM3MjMgNy40MzE5ODEtMTAuMjM5NjE5IDcuNDMxOTgySDM5Ny43OTU0NjljLTYuNjA2MjA1IDAtOC43NTMyMjItMS40ODYzOTYtMTAuNTY5OTI5LTcuNDMxOTgycS0xNi41MTU1MTQtNTUuNjU3MjgxLTMzLjAzMTAyNy0xMTEuNDc5NzE3Yy0yLjk3Mjc5Mi0xMC4wNzQ0NjMtNS45NDU1ODUtMTkuOTgzNzcyLTkuMDgzNTMzLTMwLjA1ODIzNWEyNS4xMDM1ODEgMjUuMTAzNTgxIDAgMCAxLTIzLjQ1MjAyOS0xMi44ODIxMDEgNjIuNTkzNzk3IDYyLjU5Mzc5NyAwIDAgMS0yLjk3Mjc5Mi02LjkzNjUxNXogbTE5OC4xODYxNjQgMjAxLjE1ODk1N2gxMTAuOTg0MjUzYTE4LjY2MjUzIDE4LjY2MjUzIDAgMCAxIDE5LjMyMzE1MSAxNi41MTU1MTNBMTguMTY3MDY1IDE4LjE2NzA2NSAwIDAgMSA2MzEuOTg1NDUzIDY3Ny4xNTUyMkg0MDUuMjI3NDVhMTguNDk3Mzc1IDE4LjQ5NzM3NSAwIDAgMS0xOC4wMDE5MS0xMi4yMjE0ODEgMTYuNTE1NTE0IDE2LjUxNTUxNCAwIDAgMSA2LjQ0MTA1MS0xOS45ODM3NzEgMjIuOTU2NTY0IDIyLjk1NjU2NCAwIDAgMSAxMi4yMjE0OC0zLjYzMzQxM2gxMTAuMzIzNjMxeiBtMCAwIiBmaWxsPSIjRjc1RDVBIiAvPjwvc3ZnPg==" alt="">
+        </div>
+      </el-col>
+      <el-col :span="6">
+        <div class='overview-content__item'>
+          <p class='el-card-tit'>招募会员</p>
+          <div class='el-card-body clearfix'>
+            <span class='el-card-num float-left' v-if='getRewardInfoObj.memberCount'>+{{getRewardInfoObj.memberCount}}</span>
+            <el-progress type="circle" :percentage="getRewardInfoObj.memberCountPersent" :width='90' color='#50D065' class='float-right'></el-progress>
           </div>
-        </el-card>
+        </div>
+      </el-col>
+      <el-col :span="6">
+        <div class='overview-content__item'>
+          <div class='el-card-tit'>
+            <p class='el-card-tit-one'>导购提成奖励</p>
+            <p class='el-card-tit-two'>{{getRewardInfoObj.reward ? '¥' + getRewardInfoObj.reward :''}}</p>
+          </div>
+
+          <div class='el-card-body clearfix'>
+              <el-row  :gutter="5">
+                <el-col :span="9">
+                  <p class='el-card-body-tit'>销售提成</p>
+                  <p class='el-card-body-num'>{{getRewardInfoObj.sellReward ?  getRewardInfoObj.sellReward :'0'}}</p>
+                </el-col>
+                <el-col :span="6">
+                  <p class='el-card-body-add'>+</p>
+                </el-col>
+                <el-col :span="9">
+                  <p class='el-card-body-tit'>招募会员</p>
+                  <p class='el-card-body-num'>{{getRewardInfoObj.recruitReward ? getRewardInfoObj.recruitReward :'0'}}</p>
+                </el-col>
+              </el-row>
+          </div>
+        </div>
+      </el-col>
+
+    </el-row>
+    <el-row class='overview-content__mid':gutter="16">
+      <el-col :span="6" >
+        <div class='overview-content__mid-item bg-white'>
+          <p class='subtitle'>常用功能</p>
+          <div class="mid-item-btn" style='height:400px'>
+            <div class="flex flex-between">
+              <ns-button type='primary'>任务管理</ns-button>
+              <ns-button type='primary'>指标管理</ns-button>
+              <ns-button type='primary'>员工离职</ns-button>
+            </div>
+            <div class="flex flex-between">
+              <ns-button type='primary'>卡券管理</ns-button>
+              <ns-button type='primary'>商品管理</ns-button>
+              <ns-button type='primary'>任务管理</ns-button>
+            </div>
+          </div>
+        </div>
+       </el-col>
+      <el-col :span="18" class='overview-content__mid-item'>
+        <div class='overview-content__mid-item bg-white'>
+          <p class='subtitle'>销售业绩</p>
+        </div>
+        <div style='background-color:#ffffff'>
+          <business-echarts :options="sellOption" class="oscillogram" auto-resize></business-echarts>
+        </div>
       </el-col>
     </el-row>
-    <el-row class="overview-content__echart" :gutter="5">
-      <el-col :span="12">
-        <div class="overview-echart__item">
-          <div class="overview-content__title">
-            <span>销售趋势</span>
-            <el-radio-group v-model="salesTrendDays" class="float-right" @change="switchSale">
-              <el-radio-button label="7">7天</el-radio-button>
-              <el-radio-button label="30">30天</el-radio-button>
-            </el-radio-group>
+    <el-row class='overview-content__mid':gutter="16">
+      <el-col :span="6" >
+        <div class='overview-content__mid-item bg-white'>
+          <p class='subtitle'>销售
+            <span class='subtitle-abs top5'>TOP5</span>
+            <span class='subtitle-abs all'>查看所有</span>
+          </p>
+          <div class="mid-item-ul" style='height:250px'>
+            <div class="" v-if='!guideSellRankingArr.length'>
+              <ns-no-data>暂无销售数据</ns-no-data>
+            </div>
+            <div class="mid-item-li flex flex-between" v-for="(item,index) in guideSellRankingArr">
+              <span>{{index}}. {{item.name}}<i style='color:#909399;font-style:normal'>（{{item.shopName}}）</i></span>
+              <span style='color:#909399'>{{item.perf_all}}</span>
+            </div>
           </div>
-          <div v-loading.lock="loadingSale"
+        </div>
+       </el-col>
+      <el-col :span="18" class='overview-content__mid-item'>
+        <div class='overview-content__mid-item bg-white'>
+          <p class='subtitle'>门店销售TOP5</p>
+        </div>
+        <div  class='bot-map flex ' >
+          <div class="map-echart">
+              <business-echarts :options="mapOption" class="oscillogram" auto-resize style='height:250px'></business-echarts>
+          </div>
+          <div class="map-card">
+            <span class="map-card-tit">{{findShopSellRankingArr[0].shopName}}</span>
+            <span class="map-card-sell">销售额：{{findShopSellRankingArr[0].payment}}</span>
+            <span class="map-card-rec">招募会员:{{findShopSellRankingArr[0].member_count}}</span>
+          </div>
+          <div class="map-list">
+            <div class="map-item" v-for='(item, index) in findShopSellRankingArr' :key='index'>
+              <div class="map-item-title">{{item.shopName}}</div>
+              <div class="map-item-progress" v-if='item.shopName'>
+                <el-progress :percentage="item.per" color="#8e71c7"></el-progress>
+              </div>
+            </div>
+          </div>
+        </div>
+      </el-col>
+    </el-row>
+    <!-- <el-row class="overview-content__echart" :gutter="5">
+      <el-col :span="12">
+       <div v-loading.lock="loadingSale"
                :element-loading-text="$t('prompt.loading')">
-            <!-- 暂无数据结构 -->
             <div class="no-data" v-if="!isSaleData">
             </div>
-            <template v-if="isSaleData">
+            <template>
               <business-echarts :options="option" class="oscillogram" auto-resize></business-echarts>
             </template>
-            <el-form class="constantly-form">
-              <el-form-item>
-                <el-radio-group v-model="salesTrendRadio" class="spacing-button" @change="saleChange">
-                  <el-radio-button v-for="rad in salesTrendRadioData" :key="rad" :label="rad"></el-radio-button>
-                </el-radio-group>
-              </el-form-item>
-            </el-form>
-          </div>
-        </div>
-      </el-col>
-      <el-col :span="12" :gutter="5">
-        <div class="overview-echart__item">
-          <div class="overview-content__title">
-            <span>门店排行</span>
-            <el-radio-group v-model="rankingsDays" class="float-right" @change="switchShop">
-              <el-radio-button label="7">7天</el-radio-button>
-              <el-radio-button label="30">30天</el-radio-button>
-            </el-radio-group>
-          </div>
-          <div v-loading.lock="loadingShop"
-                 :element-loading-text="$t('prompt.loading')">
-            <!-- 暂无数据结构 -->
-            <div class="no-data" v-if="!isShopData">
-            </div>
-            <template v-if="isShopData">
-               <business-echarts :options="shopOption" class="oscillogram" auto-resize></business-echarts>
-            </template>
-            <el-form class="constantly-form">
-              <el-form-item>
-                <el-radio-group v-model="rankingsRadio" class="spacing-button"  @change="shopChange">
-                  <el-radio-button v-for="rad in rankingsRadioData" :key="rad" :label="rad"></el-radio-button>
-                </el-radio-group>
-              </el-form-item>
-            </el-form>
-          </div>
-        </div>
-      </el-col>
-    </el-row>
 
-    <el-row class="overview-content__echart" :gutter="5">
-      <el-col :span="12">
-        <div class="overview-echart__item">
-          <div class="overview-content__title">
-            <span>会员发展趋势</span>
-            <el-radio-group v-model="sourceDays" class="float-right" @change="switchGrade">
-              <el-radio-button label="7">7天</el-radio-button>
-              <el-radio-button label="30">30天</el-radio-button>
-            </el-radio-group>
-          </div>
-          <div v-loading.lock="loadingMember"
-               :element-loading-text="$t('prompt.loading')">
-            <!-- 暂无数据结构 -->
-            <div class="no-data" v-if="isMemberData">
-            </div>
-            <template v-if="!isMemberData">
-              <business-echarts :options="memberOption" class="oscillogram" auto-resize></business-echarts>
-            </template>
-          </div>
           </div>
       </el-col>
-      <el-col :span="12" :gutter="5">
-        <div class="overview-echart__item">
-          <div class="overview-content__title">
-            <span>入会来源分布</span>
-            <el-radio-group v-model="developmentTrendDays" class="float-right" @change="switchSource">
-              <el-radio-button label="7">7天</el-radio-button>
-              <el-radio-button label="30">30天</el-radio-button>
-            </el-radio-group>
-          </div>
-          <div v-loading.lock="loadingSource"
-               :element-loading-text="$t('prompt.loading')">
-            <!-- 暂无数据结构 -->
-            <div class="no-data" v-if="!isSourceData">
-            </div>
-            <template v-if="isSourceData">
-              <business-echarts :options="sourceOption" class="oscillogram" auto-resize></business-echarts>
-            </template>
-          </div>
-          </div>
-      </el-col>
-    </el-row>
 
-    <el-row class="overview-content__activity" :gutter="5">
-      <el-col :span="12">
-        <div class="overview-activity__item">
-          <div class="overview-content__title">
-            <span>营销日历</span>
-          </div>
-          <div>
-            <el-calendar class="activity-wrap__calendar"
-                         ref="activityCalendar"
-                         :date-cell-content="dateCellRenderMarket"
-                         :almanac="activity">
-            </el-calendar>
-          </div>
-        </div>
-      </el-col>
-      <el-col :span="12" :gutter="5">
-        <div class="overview-area__item">
-          <div class="overview-content__title">
-            <span>客户关怀</span>
-          </div>
-          <div class="overview-area__content clearfix">
-            <router-link class="list-area" :to="{ name: 'FirstUrgePay'}">
-              <img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBzdGFuZGFsb25lPSJubyI/PjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+PHN2ZyBjbGFzcz0iaWNvbiIgd2lkdGg9IjIwMHB4IiBoZWlnaHQ9IjE5OC40NXB4IiB2aWV3Qm94PSIwIDAgMTAzMiAxMDI0IiB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTUwNy42MjM2MzUgMTAxNS43MjMyNUE1MDMuNzIzMTY4IDUwMy43MjMxNjggMCAwIDEgNTE2LjM3Njg1NyA4LjI3NjkxNWg4LjkxODM3OGE1MDMuNzIzMTY4IDUwMy43MjMxNjggMCAwIDEtOC41ODgwNjcgMTAwNy40NDYzMzV6IiBmaWxsPSIjRkZGRkZGIiAvPjxwYXRoIGQ9Ik01MTYuMzc2ODU3IDAuMDE5MTU4djE2LjUxNTUxNGg4Ljc1MzIyM0E0OTUuNDY1NDExIDQ5NS40NjU0MTEgMCAwIDEgODYzLjIwMjY0NSA4NjUuNTk3MjMxIDQ5Mi44MjI5MjkgNDkyLjgyMjkyOSAwIDAgMSA1MTYuMzc2ODU3IDEwMDcuNDY1NDkzaC04Ljc1MzIyMkE0OTUuNDY1NDExIDQ5NS40NjU0MTEgMCAwIDEgNTE2LjM3Njg1NyAxNi41MzQ2NzJWMC4wMTkxNThtMCAwYTUxMS45ODA5MjUgNTExLjk4MDkyNSAwIDAgMC04Ljc1MzIyMiAxMDIzLjk2MTg0OUg1MTYuMzc2ODU3YTUxMS45ODA5MjUgNTExLjk4MDkyNSAwIDAgMCA4Ljc1MzIyMy0xMDIzLjk2MTg0OXoiIGZpbGw9IiNEQ0RGRTYiIC8+PHBhdGggZD0iTTU1NC4wMzIyMjkgNjQ3LjI2MjE0QTc4Ljc3OSA3OC43NzkgMCAwIDEgNjY4LjE1NDQyOCA1NzguMDYyMTM3VjM1OS41NjE4OTFhNTQuMDA1NzMgNTQuMDA1NzMgMCAwIDAtNTQuNTAxMTk1LTU0LjAwNTczSDM4MC45NDk2NDVhNTUuNDkyMTI2IDU1LjQ5MjEyNiAwIDAgMC0xMS43MjYwMTUgMS4zMjEyNDEgNTMuNjc1NDIgNTMuNjc1NDIgMCAwIDAtNDIuNzc1MTggNTIuNTE5MzM0djI4OC41MjYwMjRhNTguMjk5NzYzIDU4LjI5OTc2MyAwIDAgMCAxLjMyMTI0MSAxMS44OTExNyA1My41MTAyNjQgNTMuNTEwMjY0IDAgMCAwIDUyLjM1NDE3OCA0Mi40NDQ4N2gxOTYuODY0OTI0YTc3LjEyNzQ0OSA3Ny4xMjc0NDkgMCAwIDEtMjIuOTU2NTY0LTU0Ljk5NjY2eiBtLTQ0Ljc1NzA0Mi0xNi41MTU1MTRoLTI3LjQxNTc1M3YtNTYuMTUyNzQ3aC02Ny43MTM2MDZ2LTIyLjQ2MTA5OGg2Ny41NDg0NTF2LTM3LjY1NTM3MWgtNjcuMzgzMjk2di0yNC4xMTI2NWg1Ny44MDQyOThsLTY4LjUzOTM4Mi0xMTcuMjYwMTQ4aDI4LjA3NjM3M2EzLjEzNzk0OCAzLjEzNzk0OCAwIDAgMSAzLjQ2ODI1OCAyLjE0NzAxNyA3NTcuMjM2MzAzIDc1Ny4yMzYzMDMgMCAwIDAgNTMuNjc1NDIgOTMuOTczMjczYzIuOTcyNzkyIDQuNjI0MzQ0IDUuMjg0OTY0IDkuNDEzODQzIDcuOTI3NDQ2IDE0LjUzMzY1Mkw1MzIuODkyMzcxIDQxOS4wMTc3NGwyNC43NzMyNzEtNDMuOTMxMjY2YTQuNzg5NDk5IDQuNzg5NDk5IDAgMCAxIDMuOTYzNzIzLTIuMzEyMTcyaDI2LjU4OTk3N2wtNjguMDQzOTE2IDExNy40MjUzMDJoNTMuNjc1NDE5djIzLjk0NzQ5NWgtNjYuMDYyMDU1djM3LjY1NTM3Mmg2Ni4wNjIwNTV2MjIuMjk1OTQzaC02Ni4wNjIwNTV6IiBmaWxsPSIjMDA5MUZBIiAvPjxwYXRoIGQ9Ik02MzkuNDE3NDM1IDU4Ni4xNTQ3MzlhNjYuMDYyMDU1IDY2LjA2MjA1NSAwIDEgMCA2Ni4wNjIwNTQgNjYuMDYyMDU1IDY2LjA2MjA1NSA2Ni4wNjIwNTUgMCAwIDAtNjYuMDYyMDU0LTY2LjA2MjA1NXogbTI5Ljg5MzA3OSAxMDIuMDY1ODc1YTE5LjE1Nzk5NiAxOS4xNTc5OTYgMCAwIDEtNy40MzE5ODEgMS45ODE4NjFoLTM2Ljk5NDc1MWExMy41NDI3MjEgMTMuNTQyNzIxIDAgMCAxLTEzLjM3NzU2Ni0xMy4yMTI0MTF2LTUwLjcwMjYyN2ExMi44ODIxMDEgMTIuODgyMTAxIDAgMCAxIDEwLjIzOTYxOS0xMi44ODIxIDEyLjU1MTc5IDEyLjU1MTc5IDAgMCAxIDE0LjM2ODQ5NyA3LjU5NzEzNiAxNi41MTU1MTQgMTYuNTE1NTE0IDAgMCAxIDAuOTkwOTMxIDYuNjA2MjA1djM2LjE2ODk3NWgyNC45Mzg0MjVhMTIuODgyMTAxIDEyLjg4MjEwMSAwIDAgMSA3LjEwMTY3MSAyMy43ODIzNHoiIGZpbGw9IiMwMDkxRkEiIC8+PC9zdmc+">
-              <span>首次催付</span>
-              <template v-if="markType.FirstUrgePayment !=0">
-                <label>{{markType.FirstUrgePayment}}</label>
-              </template>
-            </router-link>
-            <router-link class="list-area" :to="{ name: 'CloseUrgePay'}">
-              <img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBzdGFuZGFsb25lPSJubyI/PjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+PHN2ZyBjbGFzcz0iaWNvbiIgd2lkdGg9IjIwMHB4IiBoZWlnaHQ9IjE5OC40NXB4IiB2aWV3Qm94PSIwIDAgMTAzMiAxMDI0IiB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTUwNy42MjM2MzUgMTAxNS43MjMyNUE1MDMuNzIzMTY4IDUwMy43MjMxNjggMCAwIDEgNTE2LjM3Njg1NyA4LjI3NjkxNWg4LjkxODM3OGE1MDMuNzIzMTY4IDUwMy43MjMxNjggMCAwIDEtOC41ODgwNjcgMTAwNy40NDYzMzV6IiBmaWxsPSIjRkZGRkZGIiAvPjxwYXRoIGQ9Ik01MTYuMzc2ODU3IDAuMDE5MTU4djE2LjUxNTUxNGg4Ljc1MzIyM0E0OTUuNDY1NDExIDQ5NS40NjU0MTEgMCAwIDEgODYzLjIwMjY0NSA4NjUuNTk3MjMxIDQ5Mi44MjI5MjkgNDkyLjgyMjkyOSAwIDAgMSA1MTYuMzc2ODU3IDEwMDcuNDY1NDkzaC04Ljc1MzIyMkE0OTUuNDY1NDExIDQ5NS40NjU0MTEgMCAwIDEgNTE2LjM3Njg1NyAxNi41MzQ2NzJWMC4wMTkxNThtMCAwYTUxMS45ODA5MjUgNTExLjk4MDkyNSAwIDAgMC04Ljc1MzIyMiAxMDIzLjk2MTg0OUg1MTYuMzc2ODU3YTUxMS45ODA5MjUgNTExLjk4MDkyNSAwIDAgMCA4Ljc1MzIyMy0xMDIzLjk2MTg0OXoiIGZpbGw9IiNEQ0RGRTYiIC8+PHBhdGggZD0iTTY5Ni44OTE0MjIgNjE1LjA1Njg4OGwtMzAuMzg4NTQ1LTIyLjk1NjU2NGEyMi4xMzA3ODggMjIuMTMwNzg4IDAgMCAxLTguMjU3NzU3LTE2LjUxNTUxNHYtMTA5LjMzMjdhMTMzLjYxMDUwNiAxMzMuNjEwNTA2IDAgMCAwLTExLjM5NTcwNC01NC4zMzYwNCAxMzIuMTI0MTEgMTMyLjEyNDExIDAgMCAwLTMwLjM4ODU0Ni00My45MzEyNjcgMTM4LjIzNDg1IDEzOC4yMzQ4NSAwIDAgMC00NC43NTcwNDItMjkuODkzMDhsLTE4LjgyNzY4NS02LjYwNjIwNXYtMTUuMDI5MTE4YTM2LjQ5OTI4NSAzNi40OTkyODUgMCAwIDAtNzIuODMzNDE2IDB2MTUuMDI5MTE4YTgzLjQwMzM0NCA4My40MDMzNDQgMCAwIDAtMTguOTkyODQgNi42MDYyMDUgMTM4LjIzNDg1IDEzOC4yMzQ4NSAwIDAgMC00NC43NTcwNDMgMjkuODkzMDggMTMyLjEyNDExIDEzMi4xMjQxMSAwIDAgMC0zMC4yMjMzOSA0My45MzEyNjcgMTMzLjYxMDUwNiAxMzMuNjEwNTA2IDAgMCAwLTExLjM5NTcwNCA1NC4zMzYwNHYxMDcuODQ2MzA0YTIwLjk3NDcwMiAyMC45NzQ3MDIgMCAwIDEtOC40MjI5MTIgMTYuNTE1NTE0bC0zMC4yMjMzOSAyMy4xMjE3MTlhMzMuMDMxMDI3IDMzLjAzMTAyNyAwIDAgMC0xMS4zOTU3MDUgMzcuMTU5OTA2IDMxLjg3NDk0MSAzMS44NzQ5NDEgMCAwIDAgMTEuMzk1NzA1IDE1LjY4OTczOCAyNi41ODk5NzcgMjYuNTg5OTc3IDAgMCAwIDE5LjY1MzQ2MSA3LjQzMTk4MWgzMjAuNzMxMjc2YTMzLjAzMTAyNyAzMy4wMzEwMjcgMCAwIDAgMjAuNDc5MjM3LTYuNjA2MjA2IDM0Ljg0NzczNCAzNC44NDc3MzQgMCAwIDAgMTEuMzk1NzA1LTE2LjUxNTUxMyAzMi4wNDAwOTcgMzIuMDQwMDk3IDAgMCAwIDAtMTkuMzIzMTUxIDMzLjAzMTAyNyAzMy4wMzEwMjcgMCAwIDAtMTIuMDU2MzI1LTE4LjAwMTkxek01MTYuMzc2ODU3IDMwNi4wNTE2MjdhMTAuMjM5NjE4IDEwLjIzOTYxOCAwIDAgMSAxMC41Njk5MjkgMTAuNDA0NzczdjkuMDgzNTMzaC0yMS45NjU2MzN2LTkuMDgzNTMzYTEwLjczNTA4NCAxMC43MzUwODQgMCAwIDEgMTAuNzM1MDg0LTEwLjQwNDc3M3ogbS00Ny44OTQ5ODkgMzkwLjI2MTU4OGE0Ny44OTQ5OSA0Ny44OTQ5OSAwIDAgMCA5NS42MjQ4MjQgMGgtOTYuMjg1NDQ1eiBtLTc3LjEyNzQ0OS0zNTguMjIxNDkyYTEyLjg4MjEwMSAxMi44ODIxMDEgMCAwIDAgNC40NTkxODktNy43NjIyOTEgMTMuMDQ3MjU2IDEzLjA0NzI1NiAwIDAgMC0yLjk3Mjc5My05LjA4MzUzMyAxMi41NTE3OSAxMi41NTE3OSAwIDAgMC05LjkwOTMwOC00LjQ1OTE4OCA5LjI0ODY4OCA5LjI0ODY4OCAwIDAgMC03LjU5NzEzNiAyLjk3Mjc5MiAyMjguMDc5MjQ0IDIyOC4wNzkyNDQgMCAwIDAtNTUuMzI2OTcxIDY0LjA4MDE5MyAyMTEuNzI4ODg2IDIxMS43Mjg4ODYgMCAwIDAtMjYuNTg5OTc3IDgyLjU3NzU2OSAxMi41NTE3OSAxMi41NTE3OSAwIDAgMCAyNS4xMDM1OCAyLjMxMjE3MiAxOTIuNDA1NzM1IDE5Mi40MDU3MzUgMCAwIDEgNzIuODMzNDE2LTEyOS42NDY3ODN6IG0zMjAuNzMxMjc2IDQ0Ljc1NzA0MmEyMjguNDA5NTU0IDIyOC40MDk1NTQgMCAwIDAtNTUuMzI2OTcxLTY0LjA4MDE5MyAxNi41MTU1MTQgMTYuNTE1NTE0IDAgMCAwLTcuNTk3MTM2LTIuOTcyNzkyIDEyLjU1MTc5IDEyLjU1MTc5IDAgMCAwLTkuOTA5MzA5IDQuNDU5MTg5IDExLjcyNjAxNSAxMS43MjYwMTUgMCAwIDAgMS40ODYzOTcgMTYuNTE1NTEzIDE5NS4zNzg1MjcgMTk1LjM3ODUyNyAwIDAgMSA3Mi44MzM0MTUgMTI5LjQ4MTYyOCAxMy4wNDcyNTYgMTMuMDQ3MjU2IDAgMCAwIDEyLjg4MjEwMSAxMS4yMzA1NDloMS40ODYzOTZhMTMuNzA3ODc2IDEzLjcwNzg3NiAwIDAgMCA4LjQyMjkxMi00LjQ1OTE4OSAxMy41NDI3MjEgMTMuNTQyNzIxIDAgMCAwIDIuOTcyNzkyLTguOTE4Mzc3IDIzOS44MDUyNTkgMjM5LjgwNTI1OSAwIDAgMC0yNy4yNTA1OTctODIuNTc3NTY5eiBtMCAwIiBmaWxsPSIjRkZBQzAwIiAvPjwvc3ZnPg==">
-              <span>关闭前催付</span>
-              <template v-if="markType.BeforeCloseUrgePayment !=0">
-                <label>{{markType.BeforeCloseUrgePayment}}</label>
-              </template>
-            </router-link>
-            <router-link class="list-area" :to="{ name: 'OrderingConcern'}">
-              <img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBzdGFuZGFsb25lPSJubyI/PjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+PHN2ZyBjbGFzcz0iaWNvbiIgd2lkdGg9IjIwMHB4IiBoZWlnaHQ9IjE5OC40NXB4IiB2aWV3Qm94PSIwIDAgMTAzMiAxMDI0IiB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTUwNy42MjM2MzUgMTAxNS43MjMyNUE1MDMuNzIzMTY4IDUwMy43MjMxNjggMCAwIDEgNTE2LjM3Njg1NyA4LjI3NjkxNWg4LjkxODM3OGE1MDMuNzIzMTY4IDUwMy43MjMxNjggMCAwIDEtOC41ODgwNjcgMTAwNy40NDYzMzV6IiBmaWxsPSIjRkZGRkZGIiAvPjxwYXRoIGQ9Ik01MTYuMzc2ODU3IDAuMDE5MTU4djE2LjUxNTUxNGg4Ljc1MzIyM0E0OTUuNDY1NDExIDQ5NS40NjU0MTEgMCAwIDEgNTE2LjM3Njg1NyAxMDA3LjQ2NTQ5M2gtOC43NTMyMjJBNDk1LjQ2NTQxMSA0OTUuNDY1NDExIDAgMCAxIDUxNi4zNzY4NTcgMTYuNTM0NjcyVjAuMDE5MTU4bTAgMGE1MTEuOTgwOTI1IDUxMS45ODA5MjUgMCAwIDAtOC43NTMyMjIgMTAyMy45NjE4NDlINTE2LjM3Njg1N2E1MTEuOTgwOTI1IDUxMS45ODA5MjUgMCAwIDAgOC43NTMyMjMtMTAyMy45NjE4NDl6IiBmaWxsPSIjRENERkU2IiAvPjxwYXRoIGQ9Ik02OTEuNDQxMzAzIDU4NS40OTQxMTloLTEuNjUxNTUyYTM4LjMxNTk5MiAzOC4zMTU5OTIgMCAwIDAtMjkuODkzMDc5IDE2LjUxNTUxM2wtNy40MzE5ODIgMTAuMjM5NjE5LTcuOTI3NDQ2LTEwLjA3NDQ2NGEzOS4zMDY5MjMgMzkuMzA2OTIzIDAgMCAwLTMxLjA0OTE2Ni0xNS4zNTk0MjcgMzYuMDAzODIgMzYuMDAzODIgMCAwIDAtMjYuNTg5OTc3IDEyLjA1NjMyNSA0OS41NDY1NDEgNDkuNTQ2NTQxIDAgMCAwLTEyLjcxNjk0NiAzNC4xODcxMTMgNDMuOTMxMjY2IDQzLjkzMTI2NiAwIDAgMCAxLjk4MTg2MiAxMy41NDI3MjF2MC44MjU3NzZjMS44MTY3MDcgOC4wOTI2MDIgMTEuODkxMTcgMjQuMjc3ODA1IDQ5LjU0NjU0MSA1NS4zMjY5NzEgOC41ODgwNjcgNi45MzY1MTYgMjEuNjM1MzIzIDE2LjUxNTUxNCAyNy40MTU3NTMgMjAuNjQ0MzkyIDYuNzcxMzYxLTQuOTU0NjU0IDE1LjY4OTczOC0xMi4wNTYzMjUgMjYuNDI0ODIyLTIxLjEzOTg1OGw5LjQxMzg0My04LjI1Nzc1NmMzMS4yMTQzMjEtMjguMDc2MzczIDM3Ljk4NTY4Mi00Mi4xMTQ1NiAzOS4xNDE3NjctNDguMDYwMTQ1YTUwLjM3MjMxNyA1MC4zNzIzMTcgMCAwIDAgMS44MTY3MDctMTQuMDM4MTg3IDQzLjEwNTQ5MSA0My4xMDU0OTEgMCAwIDAtMzkuODAyMzg4LTQ1LjA4NzM1MnogbTAgMCIgZmlsbD0iI0Y3NUQ1QSIgLz48cGF0aCBkPSJNNTU3LjMzNTMzMSA2NTIuMDUxNjM5YTgwLjI2NTM5NyA4MC4yNjUzOTcgMCAwIDEtMi44MDc2MzctMTkuMzIzMTUxIDcwLjUyMTI0MyA3MC41MjEyNDMgMCAwIDEgMTguMzMyMjItNDkuNTQ2NTQxIDU1LjgyMjQzNiA1NS44MjI0MzYgMCAwIDEgNDAuNjI4MTY0LTE4LjAwMTkxIDU2LjgxMzM2NyA1Ni44MTMzNjcgMCAwIDEgMzguNDgxMTQ3IDE0LjY5ODgwNyA1Ny4zMDg4MzMgNTcuMzA4ODMzIDAgMCAxIDM3Ljk4NTY4MS0xNS42ODk3MzhWMzI1LjM3NDc3OGEzNS4zNDMxOTkgMzUuMzQzMTk5IDAgMCAwLTM0LjUxNzQyMy0zNi4wMDM4MkgzMzYuMTkyNjAzQTM1LjM0MzE5OSAzNS4zNDMxOTkgMCAwIDAgMzAxLjY3NTE3OSAzMjUuMzc0Nzc4djM3Mi43NTUxNDRhMzUuMzQzMTk5IDM1LjM0MzE5OSAwIDAgMCAzNC41MTc0MjQgMzYuMDAzODJINjM1LjI4ODU1NmMtNi40NDEwNS00LjYyNDM0NC0xNC42OTg4MDctMTAuNzM1MDg0LTIwLjY0NDM5Mi0xNi41MTU1MTQtMzUuMTc4MDQ0LTI4LjQwNjY4NC01My4zNDUxMDktNDkuNTQ2NTQxLTU3LjMwODgzMy02Ni4wNjIwNTV6IG0tMTg4LjI3Njg1Ni0yNjcuNTUxMzIyaDI1My4zNDc5OHY1MS44NTg3MTNIMzY5LjA1ODQ3NXogbTAgMTAxLjQwNTI1NGgyNTMuMzQ3OTh2NTEuODU4NzEzSDM2OS4wNTg0NzV6IG0wIDE1My4yNjM5Njd2LTUxLjg1ODcxM2gxNTguODc5MjQydjUxLjg1ODcxM3ogbTAgMCIgZmlsbD0iI0Y3NUQ1QSIgLz48L3N2Zz4=">
-              <span>下单关怀</span>
-              <template v-if="markType.OrderingConcern != 0">
-                <label>{{markType.OrderingConcern}}</label>
-              </template>
-            </router-link>
-            <router-link class="list-area" :to="{ name: 'PayConcern'}">
-              <img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBzdGFuZGFsb25lPSJubyI/PjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+PHN2ZyBjbGFzcz0iaWNvbiIgd2lkdGg9IjIwMHB4IiBoZWlnaHQ9IjE5OC40NXB4IiB2aWV3Qm94PSIwIDAgMTAzMiAxMDI0IiB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTUwNy42MjM2MzUgMTAxNS43MjMyNUE1MDMuNzIzMTY4IDUwMy43MjMxNjggMCAwIDEgNTE2LjM3Njg1NyA4LjI3NjkxNWg4LjkxODM3OGE1MDMuNzIzMTY4IDUwMy43MjMxNjggMCAwIDEtOC41ODgwNjcgMTAwNy40NDYzMzV6IiBmaWxsPSIjRkZGRkZGIiAvPjxwYXRoIGQ9Ik01MTYuMzc2ODU3IDAuMDE5MTU4djE2LjUxNTUxNGg4Ljc1MzIyM0E0OTUuNDY1NDExIDQ5NS40NjU0MTEgMCAwIDEgNTE2LjM3Njg1NyAxMDA3LjQ2NTQ5M2gtOC43NTMyMjJBNDk1LjQ2NTQxMSA0OTUuNDY1NDExIDAgMCAxIDUxNi4zNzY4NTcgMTYuNTM0NjcyVjAuMDE5MTU4bTAgMGE1MTEuOTgwOTI1IDUxMS45ODA5MjUgMCAwIDAtOC43NTMyMjIgMTAyMy45NjE4NDlINTE2LjM3Njg1N2E1MTEuOTgwOTI1IDUxMS45ODA5MjUgMCAwIDAgOC43NTMyMjMtMTAyMy45NjE4NDl6IiBmaWxsPSIjRENERkU2IiAvPjxwYXRoIGQ9Ik03MjUuNDYzMjYxIDMzNy40MzExMDNBNDAuMjk3ODUzIDQwLjI5Nzg1MyAwIDAgMCA2ODUuMDAwMjUyIDI5Ny4yOTg0MDVIMzE3LjE5OTc2MmE0MC4yOTc4NTMgNDAuMjk3ODUzIDAgMCAwLTQwLjI5Nzg1MyA0MC4xMzI2OTh2NDQuNTkxODg3aDQ0OC41NjEzNTJ6IG0tODkuMTgzNzc0IDEzNi41ODMyOThhMTM1LjA5NjkwMiAxMzUuMDk2OTAyIDAgMCAxIDg5LjE4Mzc3NCAzMy4wMzEwMjd2LTY2LjA2MjA1NEgyNzYuOTAxOTA5VjYxMS4wOTMxNjVhNDAuMjk3ODUzIDQwLjI5Nzg1MyAwIDAgMCA0MC4yOTc4NTMgMzkuOTY3NTQzaDE5MC41ODkwMjhhMTMzLjExNTA0IDEzMy4xMTUwNCAwIDAgMS02LjYwNjIwNS00MS42MTkwOTUgMTM0Ljc2NjU5MiAxMzQuNzY2NTkyIDAgMCAxIDEzNS4wOTY5MDItMTM0LjYwMTQzNnogbTAgMCIgZmlsbD0iI0Y3NUQ1QSIgLz48cGF0aCBkPSJNNzQ2LjI3MjgwOCA1NjMuMDMzMDJhMTIxLjcxOTMzNiAxMjEuNzE5MzM2IDAgMCAwLTI1Ljc2NDIwMS0zNy4zMjUwNjEgMTI1LjY4MzA1OSAxMjUuNjgzMDU5IDAgMCAwLTM3Ljk4NTY4Mi0yNS40MzM4OTEgMTEzLjQ2MTU3OSAxMTMuNDYxNTc5IDAgMCAwLTQ1LjkxMzEyOC05LjI0ODY4OCAxMTUuNjA4NTk2IDExNS42MDg1OTYgMCAwIDAtNDYuNTczNzQ4IDkuMjQ4Njg4IDEyNy42NjQ5MjEgMTI3LjY2NDkyMSAwIDAgMC0zNy45ODU2ODIgMjUuNDMzODkxIDEyNC42OTIxMjggMTI0LjY5MjEyOCAwIDAgMC0yNS43NjQyMDEgMzcuMzI1MDYxIDExNS42MDg1OTYgMTE1LjYwODU5NiAwIDAgMCAwIDkxLjQ5NTk0NiAxMjAuNzI4NDA1IDEyMC43Mjg0MDUgMCAwIDAgMjUuNzY0MjAxIDM3LjMyNTA2MSAxMTQuNjE3NjY1IDExNC42MTc2NjUgMCAwIDAgMzcuOTg1NjgyIDI1LjEwMzU4MSAxMTcuNzU1NjEzIDExNy43NTU2MTMgMCAwIDAgNDYuNTczNzQ4IDkuMDgzNTMyIDExOS41NzIzMTkgMTE5LjU3MjMxOSAwIDAgMCA4My44OTg4MS0zNC4xODcxMTMgMTIwLjcyODQwNSAxMjAuNzI4NDA1IDAgMCAwIDI1Ljc2NDIwMS0zNy4zMjUwNjEgMTE1LjYwODU5NiAxMTUuNjA4NTk2IDAgMCAwIDAtOTEuNDk1OTQ2eiBtLTE2NS4xNTUxMzcgMTEyLjMwNTQ5M2E0OS41NDY1NDEgNDkuNTQ2NTQxIDAgMCAwIDMzLjAzMTAyOC00Ni43Mzg5MDRoLTQ5LjU0NjU0MmExMi41NTE3OSAxMi41NTE3OSAwIDAgMS0xMi41NTE3OS0xMi4zODY2MzUgMTIuNzE2OTQ2IDEyLjcxNjk0NiAwIDAgMSA1LjQ1MDEyLTEwLjQwNDc3NGw3MC4xOTA5MzMtNjkuODYwNjIzYTEyLjg4MjEwMSAxMi44ODIxMDEgMCAwIDEgMTguNjYyNTMtMC44MjU3NzVsNzIuOTk4NTcxIDcyLjY2ODI2YTEyLjU1MTc5IDEyLjU1MTc5IDAgMCAxLTkuNDEzODQzIDIwLjgwOTU0N2gtMzguODExNDU3YTU3LjMwODgzMyA1Ny4zMDg4MzMgMCAwIDEtOTAuMzM5ODYgNDYuNzM4OTA0eiBtMCAwIiBmaWxsPSIjRjc1RDVBIiAvPjwvc3ZnPg==">
-              <span>付款关怀</span>
-              <template v-if="markType.PayConcern != 0">
-                <label>{{markType.PayConcern}}</label>
-              </template>
-            </router-link>
-            <router-link class="list-area" :to="{ name: 'ConsignNotify'}">
-              <img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBzdGFuZGFsb25lPSJubyI/PjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+PHN2ZyBjbGFzcz0iaWNvbiIgd2lkdGg9IjIwMHB4IiBoZWlnaHQ9IjE5OC40NXB4IiB2aWV3Qm94PSIwIDAgMTAzMiAxMDI0IiB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTUwNy42MjM2MzUgMTAxNS43MjMyNUE1MDMuNzIzMTY4IDUwMy43MjMxNjggMCAwIDEgNTE2LjM3Njg1NyA4LjI3NjkxNWg4LjkxODM3OGE1MDMuNzIzMTY4IDUwMy43MjMxNjggMCAwIDEtOC41ODgwNjcgMTAwNy40NDYzMzV6IiBmaWxsPSIjRkZGRkZGIiAvPjxwYXRoIGQ9Ik01MTYuMzc2ODU3IDAuMDE5MTU4djE2LjUxNTUxNGg4Ljc1MzIyM0E0OTUuNDY1NDExIDQ5NS40NjU0MTEgMCAwIDEgNTE2LjM3Njg1NyAxMDA3LjQ2NTQ5M2gtOC43NTMyMjJBNDk1LjQ2NTQxMSA0OTUuNDY1NDExIDAgMCAxIDUxNi4zNzY4NTcgMTYuNTM0NjcyVjAuMDE5MTU4bTAgMGE1MTEuOTgwOTI1IDUxMS45ODA5MjUgMCAwIDAtOC43NTMyMjIgMTAyMy45NjE4NDlINTE2LjM3Njg1N2E1MTEuOTgwOTI1IDUxMS45ODA5MjUgMCAwIDAgOC43NTMyMjMtMTAyMy45NjE4NDl6IiBmaWxsPSIjRENERkU2IiAvPjxwYXRoIGQ9Ik0yNzYuOTAxOTA5IDU0NS4wMzExMXY5OS4wOTMwODJhMjcuNDE1NzUzIDI3LjQxNTc1MyAwIDAgMCAyNy41ODA5MDggMjcuMjUwNTk4aDIxLjEzOTg1N2E2Ny4yMTgxNDEgNjcuMjE4MTQxIDAgMCAxIDAtOC4yNTc3NTcgNTYuNDgzMDU3IDU2LjQ4MzA1NyAwIDAgMSAxMTIuOTY2MTE0IDAgNDUuMjUyNTA4IDQ1LjI1MjUwOCAwIDAgMSAwIDguMjU3NzU3aDExLjU2MDg2YTI3LjQxNTc1MyAyNy40MTU3NTMgMCAwIDAgMjYuNDI0ODIxLTI3LjI1MDU5OFY0NjQuMjcwMjQ4YTI3LjI1MDU5OCAyNy4yNTA1OTggMCAwIDAtMjcuNTgwOTA3LTI3LjA4NTQ0MkgzNjcuNzM3MjM0Yy00LjI5NDAzNCAwLTEwLjkwMDIzOSAxLjY1MTU1MS0yNS4yNjg3MzYgMTUuMDI5MTE3YTM1NC45MTgzODkgMzU0LjkxODM4OSAwIDAgMC0yOC4yNDE1MjggMzAuMzg4NTQ1IDM3MS45MjkzNjggMzcxLjkyOTM2OCAwIDAgMC0yNC45Mzg0MjYgMzQuMDIxOTU4QTU1LjY1NzI4MSA1NS42NTcyODEgMCAwIDAgMjc2LjkwMTkwOSA1NDUuMDMxMTF6IG0xNi41MTU1MTQgMGE1Ni4zMTc5MDIgNTYuMzE3OTAyIDAgMCAxIDEwLjczNTA4My0yMS40NzAxNjggMzU1LjU3OTAxIDM1NS41NzkwMSAwIDAgMSAyMy42MTcxODUtMzEuNzA5Nzg2aDYzLjI1NDQxOGExMC43MzUwODQgMTAuNzM1MDg0IDAgMCAxIDEwLjkwMDIzOSAxMC41Njk5Mjl2MzcuOTg1NjgxYTEwLjczNTA4NCAxMC43MzUwODQgMCAwIDEtMTAuOTAwMjM5IDEwLjU2OTkyOWgtOTcuNDQxNTMxeiBtMCAwIiBmaWxsPSIjRkZBQzAwIiAvPjxwYXRoIGQ9Ik0zODEuNjEwMjY2IDYyMy44MTAxMWEzOS4xNDE3NjcgMzkuMTQxNzY3IDAgMSAwIDM5LjgwMjM4OCAzOC45NzY2MTMgMzkuNDcyMDc4IDM5LjQ3MjA3OCAwIDAgMC0zOS44MDIzODgtMzguOTc2NjEzeiBtMjUwLjM3NTE4NyAwYTM5LjE0MTc2NyAzOS4xNDE3NjcgMCAxIDAgMzkuODAyMzg4IDM4Ljk3NjYxM0EzOS40NzIwNzggMzkuNDcyMDc4IDAgMCAwIDYzMS45ODU0NTMgNjIzLjgxMDExeiBtLTcuNDMxOTgxLTMwMS43Mzg0MzVhNjMuMjU0NDE3IDYzLjI1NDQxNyAwIDEgMCA2NC40MTA1MDQgNjMuMjU0NDE4IDYzLjc0OTg4MyA2My43NDk4ODMgMCAwIDAtNjQuNDEwNTA0LTYzLjI1NDQxOHogbTI1LjU5OTA0NiA4My41Njg0OTloLTMzLjAzMTAyN2E1LjQ1MDEyIDUuNDUwMTIgMCAwIDEtNS40NTAxMTktNS40NTAxMTl2LTQzLjYwMDk1NmE1LjQ1MDEyIDUuNDUwMTIgMCAwIDEgNS40NTAxMTktNS40NTAxMiA1LjQ1MDEyIDUuNDUwMTIgMCAwIDEgNS42MTUyNzUgNS40NTAxMnYzOC4xNTA4MzZoMjcuNDE1NzUyYTUuNDUwMTIgNS40NTAxMiAwIDAgMSA1LjYxNTI3NSA1LjQ1MDEyIDUuNjE1Mjc1IDUuNjE1Mjc1IDAgMCAxLTUuNjE1Mjc1IDUuNDUwMTE5eiBtMCAwIiBmaWxsPSIjRkZBQzAwIiAvPjxwYXRoIGQ9Ik00ODcuNDc0NzA5IDM3MS4xMjI3NTFoNTYuNjQ4MjExYTcxLjUxMjE3NCA3MS41MTIxNzQgMCAwIDAtMS40ODYzOTYgMTQuNjk4ODA3IDgwLjI2NTM5NyA4MC4yNjUzOTcgMCAwIDAgMTYwLjM2NTYzOCAwIDcxLjUxMjE3NCA3MS41MTIxNzQgMCAwIDAtMS40ODYzOTYtMTQuNjk4ODA3aDI2Ljc1NTEzMmEyNy4yNTA1OTggMjcuMjUwNTk4IDAgMCAxIDI3LjU4MDkwOCAyNy4wODU0NDJWNjQ0LjEyNDE5MmEyNy40MTU3NTMgMjcuNDE1NzUzIDAgMCAxLTI3LjU4MDkwOCAyNy4wODU0NDNoLTQwLjQ2MzAwOGE0NC41OTE4ODcgNDQuNTkxODg3IDAgMCAwIDAtOC4wOTI2MDIgNTYuNDgzMDU3IDU2LjQ4MzA1NyAwIDAgMC0xMTIuOTY2MTE0IDAgNDQuNTkxODg3IDQ0LjU5MTg4NyAwIDAgMCAwIDguMDkyNjAyaC04Ny4zNjcwNjdBMjcuMjUwNTk4IDI3LjI1MDU5OCAwIDAgMSA0NTkuODkzODAxIDY0NC4xMjQxOTJWMzk4LjIwODE5M2EyNy4yNTA1OTggMjcuMjUwNTk4IDAgMCAxIDI3LjU4MDkwOC0yNy4wODU0NDJ6IG0wIDAiIGZpbGw9IiNGRkFDMDAiIC8+PC9zdmc+">
-              <span>发货提醒</span>
-              <template v-if="markType.ConsignNotify != 0">
-                <label>{{markType.ConsignNotify}}</label>
-              </template>
-            </router-link>
-            <router-link class="list-area" :to="{ name: 'ArrivedNotify'}">
-              <img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBzdGFuZGFsb25lPSJubyI/PjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+PHN2ZyBjbGFzcz0iaWNvbiIgd2lkdGg9IjIwMHB4IiBoZWlnaHQ9IjE5OC40NXB4IiB2aWV3Qm94PSIwIDAgMTAzMiAxMDI0IiB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTUwNy42MjM2MzUgMTAxNS43MjMyNUE1MDMuNzIzMTY4IDUwMy43MjMxNjggMCAwIDEgNTE2LjM3Njg1NyA4LjI3NjkxNWg4LjkxODM3OGE1MDMuNzIzMTY4IDUwMy43MjMxNjggMCAwIDEtOC41ODgwNjcgMTAwNy40NDYzMzV6IiBmaWxsPSIjRkZGRkZGIiAvPjxwYXRoIGQ9Ik01MTYuMzc2ODU3IDAuMDE5MTU4djE2LjUxNTUxNGg4Ljc1MzIyM0E0OTUuNDY1NDExIDQ5NS40NjU0MTEgMCAwIDEgNTE2LjM3Njg1NyAxMDA3LjQ2NTQ5M2gtOC43NTMyMjJBNDk1LjQ2NTQxMSA0OTUuNDY1NDExIDAgMCAxIDUxNi4zNzY4NTcgMTYuNTM0NjcyVjAuMDE5MTU4bTAgMGE1MTEuOTgwOTI1IDUxMS45ODA5MjUgMCAwIDAtOC43NTMyMjIgMTAyMy45NjE4NDlINTE2LjM3Njg1N2E1MTEuOTgwOTI1IDUxMS45ODA5MjUgMCAwIDAgOC43NTMyMjMtMTAyMy45NjE4NDl6IiBmaWxsPSIjRENERkU2IiAvPjxwYXRoIGQ9Ik02ODkuMjk0Mjg2IDQ0OS41NzE0NDFhMTczLjQxMjg5NCAxNzMuNDEyODk0IDAgMCAwLTM0NS44MzQ4NTcgMHYxMy41NDI3MjFhMTcyLjU4NzExOCAxNzIuNTg3MTE4IDAgMCAwIDIzLjI4Njg3NCA4Ni44NzE2MDJsMjEuMTM5ODU4IDI5LjM5NzYxNEw1MTYuMzc2ODU3IDczNC45NTk1MTdsMTI4Ljk4NjE2Mi0xNTUuNTc2MTM5IDIxLjEzOTg1OC0yOS4zOTc2MTRBMTcyLjU4NzExOCAxNzIuNTg3MTE4IDAgMCAwIDY4OS43ODk3NTEgNDYyLjQ1MzU0MXYtMTMuNTQyNzIxek01MTYuMzc2ODU3IDUzMi42NDQ0NzVBNjkuMzY1MTU4IDY5LjM2NTE1OCAwIDAgMSA0NDcuMDExNyA0NjIuNDUzNTQxYTcyLjMzNzk1IDcyLjMzNzk1IDAgMCAxIDEuMzIxMjQxLTEzLjU0MjcyMSA2OS4zNjUxNTggNjkuMzY1MTU4IDAgMCAxIDEzNi4wODc4MzMgMCA3My44MjQzNDYgNzMuODI0MzQ2IDAgMCAxIDEuMzIxMjQxIDEzLjU0MjcyMSA2OS4zNjUxNTggNjkuMzY1MTU4IDAgMCAxLTY5LjM2NTE1OCA3MC4xOTA5MzR6IG0wIDAiIGZpbGw9IiMwMDkxRkEiIC8+PC9zdmc+">
-              <span>到达提醒</span>
-              <template v-if="markType.ArrivedNotify != 0">
-                <label>{{markType.ArrivedNotify}}</label>
-              </template>
-            </router-link>
-            <router-link class="list-area" :to="{ name: 'ReceiveConcern'}">
-              <img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBzdGFuZGFsb25lPSJubyI/PjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+PHN2ZyBjbGFzcz0iaWNvbiIgd2lkdGg9IjIwMHB4IiBoZWlnaHQ9IjE5OC40NXB4IiB2aWV3Qm94PSIwIDAgMTAzMiAxMDI0IiB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTUwNy42MjM2MzUgMTAxNS43MjMyNUE1MDMuNzIzMTY4IDUwMy43MjMxNjggMCAwIDEgNTE2LjM3Njg1NyA4LjI3NjkxNWg4LjkxODM3OGE1MDMuNzIzMTY4IDUwMy43MjMxNjggMCAwIDEtOC41ODgwNjcgMTAwNy40NDYzMzV6IiBmaWxsPSIjRkZGRkZGIiAvPjxwYXRoIGQ9Ik01MTYuMzc2ODU3IDAuMDE5MTU4djE2LjUxNTUxNGg4Ljc1MzIyM0E0OTUuNDY1NDExIDQ5NS40NjU0MTEgMCAwIDEgNTE2LjM3Njg1NyAxMDA3LjQ2NTQ5M2gtOC43NTMyMjJBNDk1LjQ2NTQxMSA0OTUuNDY1NDExIDAgMCAxIDUxNi4zNzY4NTcgMTYuNTM0NjcyVjAuMDE5MTU4bTAgMGE1MTEuOTgwOTI1IDUxMS45ODA5MjUgMCAwIDAtOC43NTMyMjIgMTAyMy45NjE4NDlINTE2LjM3Njg1N2E1MTEuOTgwOTI1IDUxMS45ODA5MjUgMCAwIDAgOC43NTMyMjMtMTAyMy45NjE4NDl6IiBmaWxsPSIjRENERkU2IiAvPjxwYXRoIGQ9Ik02NjAuMzkyMTM3IDU3OS4yMTgyMjNhNzMuODI0MzQ2IDczLjgyNDM0NiAwIDEgMCA3Ni4xMzY1MTggNzMuNjU5MTkxIDc0LjgxNTI3NyA3NC44MTUyNzcgMCAwIDAtNzYuMTM2NTE4LTczLjY1OTE5MXogbTQ5LjU0NjU0MSA1NC4zMzYwNGwtNTQuOTk2NjYxIDUyLjUxOTMzNGMtNi4yNzU4OTUgNS45NDU1ODUtOS41Nzg5OTggNC45NTQ2NTQtMTIuMzg2NjM1IDIuMzEyMTcybC0zMy4wMzEwMjctMzEuNzA5Nzg2YTYuOTM2NTE2IDYuOTM2NTE2IDAgMCAxIDAtMTAuMDc0NDY0IDcuMjY2ODI2IDcuMjY2ODI2IDAgMCAxIDEwLjQwNDc3MyAwTDY0OC41MDA5NjcgNjcyLjIwMDU2NWw1MS44NTg3MTMtNDkuNTQ2NTQxYTcuNzYyMjkxIDcuNzYyMjkxIDAgMCAxIDEwLjczNTA4NCAwIDYuOTM2NTE2IDYuOTM2NTE2IDAgMCAxIDAgMTAuMjM5NjE5ek00NTAuMzE0ODAzIDM0MC43MzQyMDZoMTAxLjU3MDQwOWEyMS44MDA0NzggMjEuODAwNDc4IDAgMCAwIDAtNDMuNDM1ODAxSDQ1MC4zMTQ4MDNhMjEuODAwNDc4IDIxLjgwMDQ3OCAwIDAgMCAwIDQzLjQzNTgwMXpNNjYyLjcwNDMwOSA1NjEuNTQ2NjI0YTg3LjUzMjIyMyA4Ny41MzIyMjMgMCAwIDEgMzMuMDMxMDI3IDYuNjA2MjA1VjM3MC40NjIxM2E0NS43NDc5NzMgNDUuNzQ3OTczIDAgMCAwLTUwLjcwMjYyNy00OS41NDY1NDFINTk4Ljk1NDQyNkEzNi4xNjg5NzUgMzYuMTY4OTc1IDAgMCAxIDU3MC4zODI1ODcgMzYzLjM2MDQ1OWgtMTQwLjU0NzAyMWEzNC42ODI1NzkgMzQuNjgyNTc5IDAgMCAxLTMwLjcxODg1Ni0zNi4xNjg5NzUgNTEuNjkzNTU4IDUxLjY5MzU1OCAwIDAgMSAwLTcuMTAxNjcxaC00Ni4yNDM0MzhjLTM3LjE1OTkwNiAwLTQ2LjQwODU5MyAyMC4zMTQwODItNDYuNDA4NTk0IDQ5LjU0NjU0MnYyOTIuMzI0NTkyYzAgMzEuNzA5Nzg2IDEzLjIxMjQxMSA0OS41NDY1NDEgNDkuNTQ2NTQxIDQ5LjU0NjU0MWgyMjUuMTA2NDUyQTkyLjk4MjM0MiA5Mi45ODIzNDIgMCAwIDEgNjYyLjcwNDMwOSA1NjEuNTQ2NjI0eiBtLTI1Ny44MDcxNjktMTMwLjMwNzQwM2gxOTguMTg2MTY0YTE1LjE5NDI3MyAxNS4xOTQyNzMgMCAwIDEgMTQuMDM4MTg3IDE0LjIwMzM0MSAxNi41MTU1MTQgMTYuNTE1NTE0IDAgMCAxLTE1LjAyOTExNyAxNC42OTg4MDhoLTE5OC4xODYxNjVhMTMuNzA3ODc2IDEzLjcwNzg3NiAwIDAgMS0xMi4wNTYzMjUtMTQuNjk4ODA4IDE0LjM2ODQ5NyAxNC4zNjg0OTcgMCAwIDEgMTMuNTQyNzIxLTE0LjIwMzM0MXogbTg5LjE4Mzc3NCAxOTIuNDA1NzM0aC05MC44MzUzMjVhMTMuNzA3ODc2IDEzLjcwNzg3NiAwIDAgMS0xMS44OTExNy0xNC42OTg4MDcgMTQuMzY4NDk3IDE0LjM2ODQ5NyAwIDAgMSAxMy4zNzc1NjYtMTQuMjAzMzQyaDkwLjE3NDcwNWExNS4xOTQyNzMgMTUuMTk0MjczIDAgMCAxIDE0LjIwMzM0MSAxNC4yMDMzNDIgMTYuNTE1NTE0IDE2LjUxNTUxNCAwIDAgMS0xNS4wMjkxMTcgMTQuNjk4ODA3eiBtLTkxLjY2MTEwMS04MC40MzA1NTJhMTYuNTE1NTE0IDE2LjUxNTUxNCAwIDAgMS0xNC41MzM2NTItMTYuNTE1NTEzIDEzLjU0MjcyMSAxMy41NDI3MjEgMCAwIDEgMTMuMzc3NTY2LTEzLjA0NzI1Nkg1OTguOTU0NDI2YTE0LjAzODE4NyAxNC4wMzgxODcgMCAwIDEgMTQuMDM4MTg3IDEzLjA0NzI1NmMwIDcuMjY2ODI2LTQuOTU0NjU0IDE2LjUxNTUxNC0xMi4zODY2MzYgMTYuNTE1NTEzeiBtMCAwIiBmaWxsPSIjRkZBQzAwIiAvPjwvc3ZnPg==">
-              <span>签收关怀</span>
-              <template v-if="markType.ReceiveConcern != 0">
-                <label>{{markType.ReceiveConcern}}</label>
-              </template>
-            </router-link>
-            <router-link class="list-area" :to="{ name: 'ConfirmConcern'}">
-              <img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBzdGFuZGFsb25lPSJubyI/PjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+PHN2ZyBjbGFzcz0iaWNvbiIgd2lkdGg9IjIwMHB4IiBoZWlnaHQ9IjE5OC40NXB4IiB2aWV3Qm94PSIwIDAgMTAzMiAxMDI0IiB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTUwNy42MjM2MzUgMTAxNS43MjMyNUE1MDMuNzIzMTY4IDUwMy43MjMxNjggMCAwIDEgNTE2LjM3Njg1NyA4LjI3NjkxNWg4LjkxODM3OGE1MDMuNzIzMTY4IDUwMy43MjMxNjggMCAwIDEtOC41ODgwNjcgMTAwNy40NDYzMzV6IiBmaWxsPSIjRkZGRkZGIiAvPjxwYXRoIGQ9Ik01MTYuMzc2ODU3IDAuMDE5MTU4djE2LjUxNTUxNGg4Ljc1MzIyM0E0OTUuNDY1NDExIDQ5NS40NjU0MTEgMCAwIDEgNTE2LjM3Njg1NyAxMDA3LjQ2NTQ5M2gtOC43NTMyMjJBNDk1LjQ2NTQxMSA0OTUuNDY1NDExIDAgMCAxIDUxNi4zNzY4NTcgMTYuNTM0NjcyVjAuMDE5MTU4bTAgMGE1MTEuOTgwOTI1IDUxMS45ODA5MjUgMCAwIDAtOC43NTMyMjIgMTAyMy45NjE4NDlINTE2LjM3Njg1N2E1MTEuOTgwOTI1IDUxMS45ODA5MjUgMCAwIDAgOC43NTMyMjMtMTAyMy45NjE4NDl6IiBmaWxsPSIjRENERkU2IiAvPjxwYXRoIGQ9Ik01MTYuMzc2ODU3IDI4OS4wNDA2NDhhMjI0LjI4MDY3NiAyMjQuMjgwNjc2IDAgMCAwLTIwNi43NzQyMzEgMzA5LjMzNTU3MSAyMDguNzU2MDkzIDIwOC43NTYwOTMgMCAwIDAgMTIwLjU2MzI1IDEyMC4zOTgwOTVBMjIzLjQ1NDkgMjIzLjQ1NDkgMCAxIDAgNTE2LjM3Njg1NyAyODkuMDQwNjQ4eiBtMi4zMTIxNzIgMzIwLjA3MDY1NWwtMzguODExNDU3IDM4Ljk3NjYxMmgtMC45OTA5MzFsLTM4Ljk3NjYxMi0zOC45NzY2MTItODcuNTMyMjIzLTg3LjUzMjIyMiAzOC40ODExNDctMzkuMzA2OTIzaDAuOTkwOTMxbDg3LjUzMjIyMyA4Ny4zNjcwNjcgMTYxLjUyMTcyNC0xNjEuNTIxNzI0YTAuOTkwOTMxIDAuOTkwOTMxIDAgMCAxIDAuOTkwOTMxIDBMNjgwLjM3NTkwOCA0NDUuOTM4MDI4YTAuOTkwOTMxIDAuOTkwOTMxIDAgMCAxIDAgMC45OTA5MzF6IG0wIDAiIGZpbGw9IiNGNzVENUEiIC8+PC9zdmc+">
-              <span>确认关怀</span>
-              <template v-if="markType.ConfirmConcern != 0">
-                <label>{{markType.ConfirmConcern}}</label>
-              </template>
-            </router-link>
-            <router-link class="list-area" :to="{ name: 'RefundConcern'}">
-              <img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBzdGFuZGFsb25lPSJubyI/PjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+PHN2ZyBjbGFzcz0iaWNvbiIgd2lkdGg9IjIwMHB4IiBoZWlnaHQ9IjE5OC40NXB4IiB2aWV3Qm94PSIwIDAgMTAzMiAxMDI0IiB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTUwNy42MjM2MzUgMTAxNS43MjMyNUE1MDMuNzIzMTY4IDUwMy43MjMxNjggMCAwIDEgNTE2LjM3Njg1NyA4LjI3NjkxNWg4LjkxODM3OGE1MDMuNzIzMTY4IDUwMy43MjMxNjggMCAwIDEtOC41ODgwNjcgMTAwNy40NDYzMzV6IiBmaWxsPSIjRkZGRkZGIiAvPjxwYXRoIGQ9Ik01MTYuMzc2ODU3IDAuMDE5MTU4djE2LjUxNTUxNGg4Ljc1MzIyM0E0OTUuNDY1NDExIDQ5NS40NjU0MTEgMCAwIDEgNTE2LjM3Njg1NyAxMDA3LjQ2NTQ5M2gtOC43NTMyMjJBNDk1LjQ2NTQxMSA0OTUuNDY1NDExIDAgMCAxIDUxNi4zNzY4NTcgMTYuNTM0NjcyVjAuMDE5MTU4bTAgMGE1MTEuOTgwOTI1IDUxMS45ODA5MjUgMCAwIDAtOC43NTMyMjIgMTAyMy45NjE4NDlINTE2LjM3Njg1N2E1MTEuOTgwOTI1IDUxMS45ODA5MjUgMCAwIDAgOC43NTMyMjMtMTAyMy45NjE4NDl6IiBmaWxsPSIjRENERkU2IiAvPjxwYXRoIGQ9Ik01MTYuMzc2ODU3IDI4MC43ODI4OTFjLTE4MS42NzA2NTEgMC0zMTMuNzk0NzYgMjA5LjkxMjE3OS0xNjkuNDQ5MTcgNDAwLjY2NjM2MkM1MzcuNjgxODcgODI2LjYyMDYxOCA3NDcuNTk0MDQ5IDY5My42NzA3MzMgNzQ3LjU5NDA0OSA1MTIuMDAwMDgzYTIzMS4yMTcxOTIgMjMxLjIxNzE5MiAwIDAgMC0yMzEuMjE3MTkyLTIzMS4yMTcxOTJ6TTMzNy44NDQxNTQgNDcxLjA0MTYwOWExODUuOTY0Njg0IDE4NS45NjQ2ODQgMCAwIDEgMjIwLjE1MTc5OC0xNDMuODUwMTI1IDE4OS4xMDI2MzIgMTg5LjEwMjYzMiAwIDAgMSAxNDQuMDE1Mjc5IDE3MC4xMDk3OTFjMC45OTA5MzEgMTAuNzM1MDg0LTQuNDU5MTg5IDE0LjUzMzY1Mi0xMC41Njk5MjggMTQuNjk4ODA4LTEyLjU1MTc5IDAtNzMuODI0MzQ2LTM1LjM0MzE5OS03NS44MDYyMDgtMzcuMTU5OTA2LTQuNjI0MzQ0LTQuNDU5MTg5LTIuODA3NjM3LTEwLjA3NDQ2MyAxLjk4MTg2MS0xMC43MzUwODRzMzEuMzc5NDc2LTMuOTYzNzIzIDMxLjM3OTQ3Ni0zLjk2MzcyM2ExNDMuMTg5NTA0IDE0My4xODk1MDQgMCAwIDAtMTAxLjA3NDk0My05MC4xNzQ3MDUgMTQ2LjQ5MjYwNiAxNDYuNDkyNjA2IDAgMCAwLTE3My40MTI4OTQgMTExLjY0NDg3MnMtMS4xNTYwODYgOC41ODgwNjctNy41OTcxMzYgOC40MjI5MTJhMTE2LjU5OTUyNyAxMTYuNTk5NTI3IDAgMCAxLTIzLjQ1MjAzLTguMDkyNjAxYy01Ljc4MDQzLTIuODA3NjM3LTcuNDMxOTgxLTEuOTgxODYyLTUuNjE1Mjc1LTEwLjkwMDIzOXogbTIzNy44MjMzOTggMjUuOTI5MzU2YTE5LjMyMzE1MSAxOS4zMjMxNTEgMCAwIDEgMCAzOC40ODExNDdINTMyLjg5MjM3MXY2LjExMDc0aDQyLjI3OTcxNWExOS4zMjMxNTEgMTkuMzIzMTUxIDAgMCAxIDAgMzguNDgxMTQ3SDUzMi44OTIzNzF2MjQuNzczMjcxYTE5LjMyMzE1MSAxOS4zMjMxNTEgMCAxIDEtMzguNDgxMTQ3IDB2LTI0Ljc3MzI3MWgtMzcuMzI1MDYxYTE5LjMyMzE1MSAxOS4zMjMxNTEgMCAwIDEgMC0zOC40ODExNDdoMzcuODIwNTI3di02LjExMDc0aC0zNy44MjA1MjdhMTkuMzIzMTUxIDE5LjMyMzE1MSAwIDAgMSAwLTM4LjQ4MTE0N2gzNy44MjA1Mjd2LTMuNjMzNDEzTDQ0Ni42ODEzOSA0NjIuNDUzNTQxYTE4Ljk5Mjg0MSAxOC45OTI4NDEgMCAwIDEtNS43ODA0My0yNi40MjQ4MjFBMTkuMTU3OTk2IDE5LjE1Nzk5NiAwIDAgMSA0NjYuODMwMzE2IDQyOS40MjI1MTRsNDYuOTA0MDU5IDMwLjIyMzM5TDU2NS45MjMzOTkgNDI5LjQyMjUxNGExOS4xNTc5OTYgMTkuMTU3OTk2IDAgMCAxIDI2LjI1OTY2NiA2LjYwNjIwNiAxOS4zMjMxNTEgMTkuMzIzMTUxIDAgMCAxLTYuNjA2MjA1IDI2LjQyNDgyMUw1MzIuODkyMzcxIDQ5My44MzMwMTh2My4xMzc5NDd6TTY5OC4wNDc1MDggNTUwLjMxNjA3NHY0LjEyODg3OWExODUuNzk5NTI5IDE4NS43OTk1MjkgMCAwIDEtMjIyLjk1OTQzNSAxNDIuMDMzNDE4IDE4OC43NzIzMjIgMTg4Ljc3MjMyMiAwIDAgMS0xNDQuMDE1Mjc5LTE2OS43Nzk0ODFjLTAuODI1Nzc2LTEzLjcwNzg3NiA4Ljc1MzIyMi0xNi41MTU1MTQgMTguODI3Njg1LTExLjIzMDU1czYxLjEwNzQwMSAzNC44NDc3MzQgNjcuNTQ4NDUxIDM4Ljk3NjYxM2E2Ljc3MTM2MSA2Ljc3MTM2MSAwIDAgMS0yLjE0NzAxNiAxMy4wNDcyNTZsLTI5LjA2NzMwNCAyLjY0MjQ4MkExNDIuNTI4ODgzIDE0Mi41Mjg4ODMgMCAwIDAgNjU3LjA4OTAzNCA1NDUuMDMxMTFjMC0xLjY1MTU1MSAwLTEuMzIxMjQxIDAuOTkwOTMxLTQuNzg5NDk5czEuNjUxNTUxLTguNzUzMjIyIDguNDIyOTEyLTYuNDQxMDUgMjMuMTIxNzE5IDcuMjY2ODI2IDI4LjQwNjY4NCA4LjU4ODA2NyA0LjQ1OTE4OSAzLjMwMzEwMyAzLjc5ODU2OCA4LjA5MjYwMXogbTAgMCIgZmlsbD0iIzAwOTFGQSIgLz48L3N2Zz4=">
-              <span>退款关怀</span>
-              <template v-if="markType.RefundConcern != 0">
-                <label>{{markType.RefundConcern}}</label>
-              </template>
-            </router-link>
-          </div>
-        </div>
-      </el-col>
-    </el-row>
+    </el-row> -->
   </div>
 </template>
 <script>
   import index from './src/index.js'
   export default index
 </script>
-<style>
+<style scoped lang='scss'>
   @import "../../style/small/variables.pcss";
+  .subtitle{
+    font-size: 14px;
+    line-height: 20px;
+    color: #606266;
+    padding: 20px 20px;
+    border-bottom:1px solid #D8D8D8;
+    position: relative;
+    .subtitle-abs{
+      position: absolute;
+      &.top5{
+        font-size: 14px;
+        color: #606266;
+        line-height: 20px;
+        left: 20px;
+        bottom: 0px
+      }
+      &.all{
+        font-size: 12px;
+        color: #0091FA;
+        line-height: 17px;
+        right: 20px;
+        top:22px;
+      }
+    }
+  }
+  .bot-map{
+    background-color:#ffffff;
+    // padding: 16px 0 17px 20px;
+    .map-echart{
+      width:43%;
+    }
+    .map-card{
+      padding: 56px 0;
+      width: 18%;
+      border: 1px solid #DCDFE6;
+      border-radius: 3px;
+      margin: 0 64px 0 50px;
+      .map-card-tit,.map-card-sell,.map-card-rec{
+        display: block;
+        text-align:center;
+      }
+      .map-card-tit{
+        font-size: 28px;
+        color: #0292FB;
+        line-height: 40px;
+      }
+      .map-card-sell,.map-card-rec{
+        font-size: 13px;
+        color: #33393E;
+        line-height: 18px;
+      }
+      .map-card-sell{
+        margin: 30px 0 7px 0
+      }
+    }
+    .map-list{
+      flex:1
+    }
+  }
+  .bot-map .eharts{
+    height: 265px;
+  }
+  .bg-white{
+    background: #ffffff
+  }
+  .overview-content__mid{
+    .mid-item-btn{
+      height: 352px;
+      padding: 20px 16px 0 16px;
+      >div{
+        margin-bottom: 15px;
+      }
+    }
+    .mid-item-ul{
+      .mid-item-li{
+        padding: 15px 20px;
+        color: #606266;
+        font-size: 14px;
+        line-height: 20px;
+        border-bottom:1px solid #D8D8D8;
+      }
+      .mid-item-li:last-child{
+        border:none
+      }
+    }
+  }
+  .overview-content__item{
+    background: #ffffff;
+    .el-card-tit {
+      font-size: 14px;
+      line-height: 20px;
+      color: #606266;
+      padding: 20px 20px;
+      border-bottom:1px solid #D8D8D8;
+      .el-card-tit-one{
+        text-align: center;
+      }
+      .el-card-tit-two{
+        color: #33393E;
+        font-weight:blod;
+        line-height:28px;
+        margin-top:10px;
+        font-size: 28px;
+        text-align: center;
+        height: 28px;
+      }
+    }
+    .el-card-body{
+      padding: 16px 20px;
+      &.date{
+        padding: 0 20px;
+        padding-top: 29px;
+        height: 122px;
+      }
+      .el-select{
+        width: 100%;
+      }
+      .el-card-num{
+        font-size: 24px;
+        color: #151B00;
+        line-height: 90px;
+      }
+      .el-card-body-tit{
+        color: #909399;
+        font-size: 14px;
+        line-height: 20px;
+        text-align: center;
+      }
+      .el-card-body-num{
+        color: #33393E;
+        font-size: 14px;
+        font-weight: bold;
+        line-height: 20px;
+        text-align: center;
+        margin-top:12px;
+      }
+      .el-card-body-add{
+        font-size: 30px;
+        color: #33393E;
+        line-height: 52px;
+        text-align: center;
+      }
+    }
+  }
   @component-namespace overview {
     @b content {
       .el-row {
@@ -253,20 +315,7 @@
         margin-bottom: var(--default-margin-base);
         @b content {
           @e item {
-            position: relative;
-            padding: var(--default-padding-base);
-            background-color: var(--theme-color-white);
-            border: none;
-            &:before {
-              position: absolute;
-              top: 0;
-              left: 0;
-              content: ' ';
-              height: 5px;
-              width: 100%;
-              background: var(--theme-color-primary);
-              border-radius: var(--default-radius-mini);
-            }
+
             .el-card__body {
               position: relative;
               .overview-content__item-left {

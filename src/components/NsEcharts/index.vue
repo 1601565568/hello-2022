@@ -12,6 +12,7 @@
 <script>
 import echarts from 'echarts'
 import debounce from 'lodash.debounce'
+import '../../../node_modules/echarts/map/js/china.js'
 import Vue from 'vue'
 
 // enumerating ECharts events for now
