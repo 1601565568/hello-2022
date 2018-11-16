@@ -11,7 +11,7 @@
     <div class="comDialogBoxCon">
       <div class="template-table-search">
         <div class="template-table__bar-more">
-          <el-form ref="searchform" label-width="80px"  class="surround-btn"  :inline="true">
+          <el-form ref="searchform" label-width="80px"  class="surround-btn"  :inline="true" :model="searchform">
             <el-form-item label="所在区域：" style="margin-right:0;" prop="area">
               <el-form-grid width="300" prop="area">
                 <ns-area  :props="searchform.key" @change="onAreaChange" change-on-select v-model="searchform.area"></ns-area>
@@ -23,6 +23,7 @@
           </el-form>
           <div class="template-table__more-btn">
             <ns-button type="primary" @click="submitForm('searchform')">搜索</ns-button>
+            <ns-button @click="resetForm('searchform')">重置</ns-button>
           </div>
         </div>
       </div>
@@ -103,6 +104,10 @@ export default {
   methods: {
     onAreaChange (e) {
       console.log(e)
+    },
+    resetForm (formName) {
+      this.$refs[formName].resetFields()
+      this.submitForm()
     },
     submitForm (formName) {
       // 组装搜索对象
