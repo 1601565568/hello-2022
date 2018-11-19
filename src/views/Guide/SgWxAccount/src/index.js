@@ -104,6 +104,17 @@ export default {
         }
       })
     },
+    onDelete (row) {
+      let that = this
+      console.log(row.id)
+      that.$http.fetch(that.$api.guide.sgwxaccount.delete, {id: row.id}).then(() => {
+        that.dialogFormVisible = false
+        that.$notify.success('删除成功')
+        that.$reload()
+      }).catch((resp) => {
+        that.$notify.error(resp.msg || '删除失败')
+      })
+    },
     /**
      * 处理请求参数
      * @param params
