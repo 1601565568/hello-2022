@@ -1,6 +1,6 @@
 <template>
   <!-- <ns-page-table @add="$emit('add')"  @allDelete="$emit('allDelete')" @onAddCustomer="$emit('onAddCustomer')" @quit="$emit('quit')" @shopEdit="$emit('shopEdit')" @ondelete="$emit('ondelete')"> -->
-  <ns-page-table @add="$emit('add')"  @allDelete="$emit('allDelete')" @shopEdit="$emit('shopEdit')" > 
+  <ns-page-table @add="$emit('add')"  @allDelete="$emit('allDelete')" @shopEdit="$emit('shopEdit')" >
     <!-- 按钮 -->
     <template slot="buttons">
       <ns-table-operate-button :buttons="_data._table.table_buttons">
@@ -90,7 +90,7 @@
         <el-table-column prop="nickname" label="昵称" align="center" >
           <template slot-scope="scope">
             {{scope.row.nickname?scope.row.nickname:'-'}}
-          </template >  
+          </template >
         </el-table-column>
         <el-table-column prop="mobile" label="联系方式" align="center" width="150"></el-table-column>
         <el-table-column label="所属区域" align="left" width="150">
@@ -114,7 +114,9 @@
               <p>已离职</p>
             </div>
             <div v-if="scope.row.status === 0 || scope.row.status === 1">
-              <el-switch @change="changeState(scope.row.state,scope.row.id)" v-model="scope.row.state"   active-color='#13ce66' inactive-color='#888888'   active-text="启用" inactive-text="禁用"> </el-switch>
+              <el-switch @change="changeState(scope.row.status,scope.row.id)" v-model="scope.row.status"
+                         :active-value="0" :inactive-value="1" active-color='#13ce66' inactive-color='#888888'
+                         active-text="启用" inactive-text="禁用"> </el-switch>
             </div>
           </template>
         </el-table-column>

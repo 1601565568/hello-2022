@@ -352,7 +352,6 @@ export default {
           shop_id: row.shop_id
         }
       } else {
-        console.log('hhhh:', this.model.sgGuide)
         this.title = '新增导购信息'
         this.model.sgGuide = {
           id: this.model.sgGuide.id,
@@ -439,7 +438,6 @@ export default {
         },
         length: 10000
       }).then(resp => {
-        console.log('resp:', resp)
         if (resp.success && resp.result.data != null) {
           _this.guideList = resp.result.data
         }
@@ -449,7 +447,6 @@ export default {
     },
     dimissionFun (row) {
       var _this = this
-      console.log(row)
       _this.transferWay = '1'
       _this.$http.fetch(_this.$api.guide.guide.getCustomerCount, {
         searchMap: {
@@ -751,9 +748,5 @@ export default {
   mounted: function () {
     var _this = this
     _this.initShopList()
-    // .then(resp => {
-    //   console.log('ioioioo:', _this.shopFindList)
-    // })
-    // _this.model.sgGuideShop.shop_id = _this.shopFindList[0].id
   }
 }

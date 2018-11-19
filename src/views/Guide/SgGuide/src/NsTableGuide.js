@@ -191,7 +191,6 @@ export default {
     },
     changeState (state, id) {
       let _this = this
-      state === true ? state = 1 : state = 0
       _this.$http.fetch(_this.$api.guide.guide.updateGuideStatus, {
         guideId: id,
         status: state
