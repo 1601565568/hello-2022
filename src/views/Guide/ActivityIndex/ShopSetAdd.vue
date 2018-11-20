@@ -137,7 +137,6 @@ export default {
   created: function () {},
   methods: {
     showToggle (data, name) {
-      console.log('name:', name === '0')
       this.saveObj.type = data.type
       this.saveObj.year = data.year
       this.selectedArr = data.selectedArr

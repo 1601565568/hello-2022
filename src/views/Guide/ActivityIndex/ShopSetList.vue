@@ -110,89 +110,41 @@
         prop="shopStatusMean"
       >
       </el-table-column>
-      <el-table-column
-        label="1月"
-        prop="quota1"
-        width='74'
-        align="center"
-      >
+      <el-table-column label="1月" width='74' align="center">
+        <template slot-scope="{row}">{{row.quota1 && parseFloat(row.quota1) > 0 ? row.quota1 : '-'}}</template>
       </el-table-column>
-      <el-table-column
-        label="2月"
-        width='74'
-        prop="quota2"
-        align="center"
-      >
+      <el-table-column label="2月" width='74' align="center">
+        <template slot-scope="{row}">{{row.quota2 && parseFloat(row.quota2) > 0 ? row.quota2 : '-'}}</template>
       </el-table-column>
-      <el-table-column
-        label="3月"
-        width='74'
-        prop="quota3"
-        align="center"
-      >
+      <el-table-column label="3月" width='74' align="center">
+        <template slot-scope="{row}">{{row.quota3 && parseFloat(row.quota3) > 0 ? row.quota3: '-'}}</template>
       </el-table-column>
-      <el-table-column
-        label="4月"
-        width='74'
-        prop="quota4"
-        align="center"
-      >
+      <el-table-column label="4月" width='74' align="center">
+        <template slot-scope="{row}">{{row.quota4 && parseFloat(row.quota4) > 0 ? row.quota4: '-'}}</template>
       </el-table-column>
-      <el-table-column
-        label="5月"
-        width='74'
-        prop="quota5"
-        align="center"
-      >
+      <el-table-column label="5月" width='74' align="center">
+        <template slot-scope="{row}">{{row.quota5 && parseFloat(row.quota5) > 0 ? row.quota5: '-'}}</template>
       </el-table-column>
-      <el-table-column
-        label="6月"
-        width='74'
-        prop="quota6"
-        align="center"
-      >
+      <el-table-column label="6月" width='74' align="center">
+        <template slot-scope="{row}">{{row.quota6 && parseFloat(row.quota6) > 0 ? row.quota6: '-'}}</template>
       </el-table-column>
-      <el-table-column
-        label="7月"
-        width='74'
-        prop="quota7"
-        align="center"
-      >
+      <el-table-column label="7月" width='74' align="center">
+        <template slot-scope="{row}">{{row.quota7 && parseFloat(row.quota7) > 0 ? row.quota7: '-'}}</template>
       </el-table-column>
-      <el-table-column
-        label="8月"
-        width='74'
-        prop="quota8"
-        align="center"
-      >
+      <el-table-column label="8月" width='74' align="center">
+        <template slot-scope="{row}">{{row.quota8 && parseFloat(row.quota8) > 0 ? row.quota8: '-'}}</template>
       </el-table-column>
-      <el-table-column
-        label="9月"
-        width='74'
-        prop="quota9"
-        align="center"
-      >
+      <el-table-column label="9月" width='74' align="center">
+        <template slot-scope="{row}">{{row.quota9 && parseFloat(row.quota9) > 0 ? row.quota9: '-'}}</template>
       </el-table-column>
-      <el-table-column
-        label="10月"
-        width='74'
-        prop="quota10"
-        align="center"
-      >
+      <el-table-column label="10月" width='74' align="center">
+        <template slot-scope="{row}">{{row.quota10 && parseFloat(row.quota10) > 0 ? row.quota10: '-'}}</template>
       </el-table-column>
-      <el-table-column
-        label="11月"
-        width='74'
-        prop="quota11"
-        align="center"
-      >
+      <el-table-column label="11月" width='74' align="center">
+        <template slot-scope="{row}">{{row.quota11 && parseFloat(row.quota11) > 0 ? row.quota11: '-'}}</template>
       </el-table-column>
-      <el-table-column
-        label="12月"
-        width='74'
-        prop="quota12"
-        align="center"
-      >
+      <el-table-column label="12月" width='74' align="center">
+        <template slot-scope="{row}">{{row.quota12 && parseFloat(row.quota12) > 0 ? row.quota12: '-'}}</template>
       </el-table-column>
 
     </el-table>
@@ -330,7 +282,6 @@ export default {
               }
             }
           })
-          console.log(this.dataList)
           this.pagination.total = parseInt(resp.result.recordsTotal)
         })
         .catch(resp => {

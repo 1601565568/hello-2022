@@ -17,7 +17,7 @@
       </div>
     </el-dialog>
     <div class="picBox" v-if="itemObj.m_type==1">
-      <div class="tit">{{itemObj.content}}</div>
+      <div class="tit">{{itemObj.content.length>77?itemObj.content.substr(0,77)+'…':itemObj.content.substr(0,77)}}</div>
       <ul class="imgList">
         <li v-for="(item,index) in itemObj.imageList.slice(0,3)" :key="index">
           <img @click="showImg(index, itemObj.m_type)" :src="item" alt="">
@@ -30,7 +30,7 @@
     <a :href="itemObj.url" target="_blank" class="shareBox" v-if="itemObj.m_type==0">
       <!--<img @click="showImg(0, itemObj.m_type)" v-show="itemObj.imageList[0]" :src="itemObj.imageList[0]" alt="">-->
       <img :src="itemObj.imageList[0]" alt="">
-      <div class="tit">{{itemObj.content}}</div>
+      <div class="tit">{{itemObj.content.length>77?itemObj.content.substr(0,70)+'…':itemObj.content.substr(0,70)}}</div>
     </a>
   </div>
 </template>
@@ -160,6 +160,7 @@
     border-radius: 1px;
     display: block;
     max-width: 500px;
+    overflow: hidden;
     img {
       width: 50px;
       height: 50px;float: left;
@@ -170,12 +171,13 @@
       } */
     }
     .tit{
-      padding-top: 6px;
+      padding-top: 3px;
       display: -webkit-box;
       overflow: hidden;
       -webkit-line-clamp: 2;
       -webkit-box-orient: vertical;
       color: #333;
+      line-height: 1.9;
     }
   }
   .picBox {

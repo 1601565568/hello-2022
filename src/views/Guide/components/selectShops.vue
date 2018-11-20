@@ -46,7 +46,7 @@ export default {
     api: {
       type: Object,
       default () {
-        return this.$api.guide.queryOfflineShopList
+        return this.$api.guide.shop.findBrandShopList
       }
     },
     hasShopArr: {
@@ -83,7 +83,7 @@ export default {
       this.$http
         .fetch(this.api, searchObj)
         .then(resp => {
-          this.dataList = resp.result.data
+          this.dataList = resp.result
           this.tableLoading = false
           this.$nextTick(function () {
             let hasArr = []
