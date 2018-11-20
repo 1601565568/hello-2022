@@ -21,7 +21,7 @@
           <el-form-item label="姓名：" required>
             <el-form-grid size="xmd">
               <el-form-item prop="name">
-                <el-input type="text" @change="names" v-model="model.sgGuide.name" placeholder="请输入姓名" clearable>
+                <el-input type="text" @change="names" v-model="model.sgGuide.name" placeholder="请输入姓名" autofocus=true clearable>
                 </el-input>
               </el-form-item>
             </el-form-grid>
