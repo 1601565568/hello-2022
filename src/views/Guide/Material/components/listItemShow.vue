@@ -3,10 +3,9 @@
   <div class="materialItem">
 
     <el-dialog
-      :title="title"
       :visible.sync="dialogVisible"
-      width="560px"
-      :before-close="handleClose">
+      :before-close="handleClose"
+      >
       <div class="slide-show">
         <div class="slide-img">
           <img :src="itemObj.imageList[nowIndex]">
@@ -31,10 +30,11 @@
         </li>
       </ul>
     </div>
-    <div class="shareBox" v-if="itemObj.m_type==0">
-      <img @click="showImg(0, itemObj.m_type)" v-show="itemObj.imageList[0]" :src="itemObj.imageList[0]" alt="">
+    <a :href="itemObj.url" target="_blank" class="shareBox" v-if="itemObj.m_type==0">
+      <!--<img @click="showImg(0, itemObj.m_type)" v-show="itemObj.imageList[0]" :src="itemObj.imageList[0]" alt="">-->
+      <img :src="itemObj.imageList[0]" alt="">
       <div class="tit">{{itemObj.content}}</div>
-    </div>
+    </a>
   </div>
 </template>
 <script>
@@ -44,7 +44,6 @@
     },
     data () {
       return {
-        title: '查看图片',
         dialogVisible: false,
         nowIndex: 0
       }
@@ -87,10 +86,9 @@
 <style scoped>
 @component-namespace materialItem {
   .slide-show {
-    width: 540px;
-    height: 340px;
+    width: 100%;
     overflow: hidden;
-    margin: 20px 0 10px;
+    margin: 50px 0 40px;
     position: relative;
     .iconLeft{
       cursor: pointer;
@@ -113,23 +111,25 @@
     /* border: 1px solid #f2f2f2; */
   }
   .slide-img {
-    width: 540px;
-    height: 280px;
+    width: 100%;
     overflow: hidden;
     text-align: center;
     vertical-align: middle;
+    margin-bottom: 50px;
     img {
       display: inline-block;
-      max-height: 280px;
-      max-width: 540px;
+      max-height: 350px;
+      max-width: 100%;
     }
   }
 
   .slide-pages {
-    width: 540px;
+    width: 80%;
     height: 50px;
     margin-top: 10px;
-    padding: 0;
+    padding: 0 0 0 10%;
+    position: fixed;
+    bottom: 28px;
     li {
       width: 50px;
       margin: 0 4px;
@@ -156,21 +156,38 @@
     }
   }
   .shareBox {
+    height: 60px;
+    padding: 5px;
+    margin: 5px 0;
+    background-color: #e4eaec;
+    border-radius: 1px;
+    display: block;
+    max-width: 500px;
     img {
       width: 50px;
       height: 50px;float: left;
       margin-right: 5px;
       cursor: pointer;
-      &:hover {
+      /* &:hover {
         opacity: 0.8;
-      }
+      } */
     }
-    .tit{width: 220px;float: left;}
+    .tit{
+      padding-top: 6px;
+      display: -webkit-box;
+      overflow: hidden;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      color: #333;
+    }
   }
   .picBox {
-    width: 300px;
     .tit {
-      width: 300px;
+      display: -webkit-box;
+      overflow: hidden;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      max-width: 500px;
     }
     .imgList {
       list-style: none;
@@ -186,7 +203,6 @@
         cursor: pointer;
         line-height: 50px;
         color: #999;
-        border:1px solid #f2f2f2;
         img {
           width: 50px;
           height: 50px;
@@ -198,5 +214,28 @@
     }
   }
 }
+
 </style>
 
+<style>
+.el-dialog {
+  width: 100% !important;
+  background: none !important;
+  -webkit-box-shadow: none !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+}
+.v-modal {
+  opacity: 0.96 !important;
+}
+.el-dialog__header {
+  height: 50px;
+  width: 50px;
+  position: fixed;
+  right: 6px;
+  top: 0;
+}
+.el-dialog__headerbtn {
+  font-size: 26px !important;
+}
+</style>

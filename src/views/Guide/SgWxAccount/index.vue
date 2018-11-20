@@ -12,33 +12,37 @@
                   resizable v-loading.lock="_data._table.loadingtable"
                   :element-loading-text="$t('prompt.loading')" @sort-change="$orderChange$">
           <el-table-column prop="name" label="微信名称"></el-table-column>
-          <el-table-column prop="appid" label="应用ID" align="center"></el-table-column>
-          <el-table-column label="企业微信id" align="center">
+          <el-table-column prop="appid" label="应用ID" align="left" width="180"></el-table-column>
+          <el-table-column label="企业微信id" align="left" width="180">
             <template slot-scope="{row}">
-              <div v-if="row.corpid === null">-</div>
-              <div v-else>{{row.corpid}}</div>
+              <span v-if="row.corpid === null">-</span>
+              <span v-else>{{row.corpid}}</span>
             </template>
           </el-table-column>
-          <el-table-column label="ECRP开放平台ID" align="center">
+          <el-table-column label="ECRP开放平台ID" align="left" width="150">
             <template slot-scope="{row}">
               <div v-if="row.open_key === null">-</div>
               <div v-else>{{row.open_key}}</div>
             </template>
           </el-table-column>
-          <el-table-column label="支付ID" align="center">
+          <el-table-column label="支付ID" align="left" width="139">
             <template slot-scope="{row}">
-              <div v-if="row.pay_id === null">-</div>
-              <div v-else>{{row.pay_id}}</div>
+              <span v-if="row.pay_id === null">-</span>
+              <span v-else>{{row.pay_id}}</span>
             </template>
           </el-table-column>
-          <el-table-column prop="update_time" label="更新时间" width="160" align="center"></el-table-column>
-          <el-table-column :show-overflow-tooltip="true" label="操作" align="center" width="80">
+          <el-table-column prop="update_time" label="更新时间" width="160" align="left"></el-table-column>
+          <el-table-column :show-overflow-tooltip="true" label="操作" align="right" width="80">
             <template slot-scope="scope">
-              <div class="tmp-cell__buttons">
+              <span class="tmp-cell__buttons">
                 <ns-button type="text" @click="onSaveOpen(scope.row)">编辑</ns-button>
+<<<<<<< HEAD
+              </span>
+=======
                 <ns-button v-if="scope.row.appid !== 'wxd018c65db8b66408' && scope.row.appid !== 'wx088d6dbeea9c68c3'"
                            type="text" @click="onDelete(scope.row)">删除</ns-button>
               </div>
+>>>>>>> 8dc65231bcdd8bdf1a12b380b642abe0f36982ea
             </template>
           </el-table-column>
         </el-table>
