@@ -2,10 +2,7 @@
   <!-- 素材对像列表显示 wanrengang 20180802 -->
   <div class="materialItem">
 
-    <el-dialog
-      :visible.sync="dialogVisible"
-      :before-close="handleClose"
-      >
+    <el-dialog :visible.sync="dialogVisible" :before-close="handleClose" customClass="custom-dialog">
       <div class="slide-show">
         <div class="slide-img">
           <img :src="itemObj.imageList[nowIndex]">
@@ -218,24 +215,24 @@
 </style>
 
 <style>
-.el-dialog {
+.custom-dialog {
   width: 100% !important;
   background: none !important;
   -webkit-box-shadow: none !important;
   box-shadow: none !important;
   border-radius: 0 !important;
 }
-.v-modal {
+.materialItem .v-modal {
   opacity: 0.96 !important;
 }
-.el-dialog__header {
+.custom-dialog .el-dialog__header {
   height: 50px;
   width: 50px;
   position: fixed;
   right: 6px;
   top: 0;
 }
-.el-dialog__headerbtn {
+.custom-dialog .el-dialog__headerbtn {
   font-size: 26px !important;
 }
 </style>
