@@ -26,10 +26,10 @@
           "componentPath": "Guide/SgCustomer/NsTableSgCustomer"
         },
         {
-          "path": "/Guide/customerManagement ",
-          "name": "CUSTOMER_MANAGEMENT",
+          "path": "/Guide/Customer/CustomerManage",
+          "name": "CUSTOMER_MANAGER",
           "title": "导购客户管理",
-          "componentPath": "Guide/CustomerManagement/NsTableSgCustomer"
+          "componentPath": "Guide/Customer/CustomerManage"
         }
       ]
     }
