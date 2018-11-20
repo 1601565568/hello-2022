@@ -217,7 +217,7 @@ export default {
     },
     async findShopList () { // 查询店铺
       await this.$http
-        .fetch(this.$api.overView.findShopList)
+        .fetch(this.$api.guide.shop.findBrandShopList)
         .then(resp => {
           this.shopArr = [...this.shopArr, ...resp.result]
         })

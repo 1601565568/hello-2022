@@ -136,7 +136,7 @@ export default {
      */
     findShopList: function () {
       const that = this
-      that.$http.fetch(that.$api.core.sysShop.getBrandList, {isOnline: 0}).then((resp) => {
+      that.$http.fetch(that.$api.guide.shop.findBrandShopList, {isOnline: 0}).then((resp) => {
         that.shopList = resp.result
         if (that.shopList && that.shopList.length > 0) {
           that.shopId = that.shopList[0].id

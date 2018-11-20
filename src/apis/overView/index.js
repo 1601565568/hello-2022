@@ -20,10 +20,5 @@ export default {
     url: '/Overview/findShopSellRanking',
     method: 'get',
     transformRequest: transData
-  },
-  findShopList: {
-    url: '/core/sgshop/findShopList',
-    method: 'get',
-    transformRequest: transData
   }
 }
