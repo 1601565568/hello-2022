@@ -118,6 +118,9 @@
                          :active-value="0" :inactive-value="1" active-color='#13ce66' inactive-color='#888888'
                          active-text="启用" inactive-text="禁用"> </el-switch>
             </div>
+            <!-- <div v-if="scope.row.status === 0 || scope.row.status === 1">
+              <el-switch @change="changeState(scope.row.state,scope.row.id)" v-model="scope.row.state"   active-color='#13ce66' inactive-color='#888888'   active-text="启用" inactive-text="禁用"> </el-switch>
+            </div> -->
           </template>
         </el-table-column>
         <el-table-column prop="status,row" :show-overflow-tooltip="true" label="操作" align="right" width="120">

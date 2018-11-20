@@ -50,7 +50,7 @@
               <span class="text-error" :class="{'text-error':row.shopStatus<0}">{{row.shopStatus|shopStatus}}</span> 
           </template>
         </el-table-column>
-        <el-table-column prop="managerName" width="86" label="店长"></el-table-column>
+        <!-- <el-table-column prop="managerName" width="86" label="店长"></el-table-column> -->
         <el-table-column prop="guideTotal" width="80" label="分配导购"></el-table-column>
         <el-table-column  width="80" label="完成度">
           <template slot-scope="{row}">

@@ -283,6 +283,7 @@ export default {
     },
     tabHandleClick (tab, event) {
       this.searchObj.searchMap.type = tab.name
+      this.activeName = tab.name
       this.loadListFun()
     },
     // 打开弹窗
@@ -297,7 +298,7 @@ export default {
       this.saveObj.type = this.searchObj.searchMap.type
       // 传递保存时需要的参数
       this.$nextTick(() => {
-        this.$refs.addDialogDom.showToggle(this.saveObj)
+        this.$refs.addDialogDom.showToggle(this.saveObj, this.activeName)
       })
     },
     // 加载列表
