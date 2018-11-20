@@ -81,29 +81,29 @@
 
       <el-table ref="table" :data="_data._table.data" stripe @selection-change="handleSelectionChange">
         <el-table-column type="selection" width="55"></el-table-column>
-        <el-table-column prop="work_id" label="工号" align="center" width="100">
+        <el-table-column prop="work_id" label="工号" align="left" width="100">
           <template slot-scope="scope">
             {{scope.row.work_id?scope.row.work_id:'-'}}
           </template>
         </el-table-column>
-        <el-table-column prop="name" label="姓名" align="center"></el-table-column>
-        <el-table-column prop="nickname" label="昵称" align="center" >
+        <el-table-column prop="name" label="姓名" align="left"></el-table-column>
+        <el-table-column prop="nickname" label="昵称" align="left" >
           <template slot-scope="scope">
             {{scope.row.nickname?scope.row.nickname:'-'}}
           </template >  
         </el-table-column>
-        <el-table-column prop="mobile" label="联系方式" align="center" width="150"></el-table-column>
+        <el-table-column prop="mobile" label="联系方式" align="left" width="150"></el-table-column>
         <el-table-column label="所属区域" align="left" width="150">
           <template slot-scope="scope">
             {{!scope.row.province&&!scope.row.city&&!scope.row.district?'-':scope.row.province+'/'+scope.row.city+'/'+scope.row.district}}
           </template>
         </el-table-column>
-        <el-table-column prop="shopName" label="所属门店" align="center" width="150">
+        <el-table-column prop="shopName" label="所属门店" align="left" width="150">
           <template slot-scope="scope">
             {{scope.row.shopName?scope.row.shopName:'-'}}
           </template>
         </el-table-column>
-        <el-table-column prop="job" label="职务" align="center" >
+        <el-table-column prop="job" label="职务" align="left" >
           <template slot-scope="scope">{{scope.row.job == 1 ? "店长" : "导购"}}
           </template>
         </el-table-column>
@@ -114,8 +114,13 @@
               <p>已离职</p>
             </div>
             <div v-if="scope.row.status === 0 || scope.row.status === 1">
-              <el-switch @change="changeState(scope.row.state,scope.row.id)" v-model="scope.row.state"   active-color='#13ce66' inactive-color='#888888'   active-text="启用" inactive-text="禁用"> </el-switch>
+              <el-switch @change="changeState(scope.row.status,scope.row.id)" v-model="scope.row.status"
+                         :active-value="0" :inactive-value="1" active-color='#13ce66' inactive-color='#888888'
+                         active-text="启用" inactive-text="禁用"> </el-switch>
             </div>
+            <!-- <div v-if="scope.row.status === 0 || scope.row.status === 1">
+              <el-switch @change="changeState(scope.row.state,scope.row.id)" v-model="scope.row.state"   active-color='#13ce66' inactive-color='#888888'   active-text="启用" inactive-text="禁用"> </el-switch>
+            </div> -->
           </template>
         </el-table-column>
         <el-table-column prop="status,row" :show-overflow-tooltip="true" label="操作" align="left">
