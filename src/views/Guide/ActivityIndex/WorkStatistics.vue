@@ -123,15 +123,18 @@
         prop="workId"
         width="120"
       >
+      <template slot-scope="scope">
+        {{scope.row.workId?scope.row.workId:'-'}}
+      </template>
       </el-table-column>
       <el-table-column
         label="姓名"
         prop="name"
+        width="180"
       >
       </el-table-column>
       <el-table-column
         label="门店名称"
-        width="220"
         prop="shopName"
         show-overflow-tooltip
         >

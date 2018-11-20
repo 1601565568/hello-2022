@@ -161,7 +161,7 @@
       >
       <el-table-column
         type="selection"
-        width="55">
+        width="42">
       </el-table-column>
       <el-table-column
         label="素材标题"
@@ -174,13 +174,13 @@
         label="内容"
       >
       <template slot-scope="scope">
-          <listItemShow :itemObj="scope.row"></listItemShow>
+        <listItemShow :itemObj="scope.row"></listItemShow>
       </template>
       </el-table-column>
-      <el-table-column prop="source_name" label="发布方" align="center" width="200">
+      <el-table-column prop="source_name" label="发布方" align="left" width="190">
 
       </el-table-column>
-      <el-table-column prop="subName" label="分组" width="200" align="center">
+      <el-table-column prop="subName" label="分组" width="170" align="left">
         <template slot-scope="scope">
           <el-select @change="setGroudFun(scope.row.id,scope.row.subdivision_id)" v-model="scope.row.subdivision_id" placeholder="请选择">
             <el-option v-for="item in groudList"
@@ -189,15 +189,14 @@
             :value="item.subdivision_id">
             </el-option>
           </el-select>
-      </template>
-
+        </template>
       </el-table-column>
-      <el-table-column prop="create_time" label="发布时间 " width="200" align="center">
+      <el-table-column prop="create_time" label="发布时间 " width="150" align="left">
       </el-table-column>
       <el-table-column
         label="操作"
-        width="96"
-        align="center"
+        width="80"
+        align="right"
       >
       <template slot-scope="scope">
         <ns-button @click="AddShowToggle(scope.row)" type="text">编辑</ns-button>

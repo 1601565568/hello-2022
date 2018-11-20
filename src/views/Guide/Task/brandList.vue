@@ -83,23 +83,23 @@
       style="width: 100%"
       >
       <el-table-column prop="name" label="名称"></el-table-column>
-      <el-table-column prop="name" align="center" label="指派门店" width="84">
+      <el-table-column prop="name" align="left" label="指派门店" width="120">
         <template slot-scope="{row}">
           <a @click="shopListModalDomShowToggle(row.id)" href="javascript:" v-if="row.targetIds === 0">全部门店</a>
           <a @click="shopListModalDomShowToggle(row.id)" href="javascript:" v-else>{{row.allNum}}家</a>
         </template>
       </el-table-column>
-      <el-table-column label="执行时间" align="center">
+      <el-table-column label="执行时间" align="left" width="300">
         <template slot-scope="{row}">{{row.startTime}}至{{row.endTime}}</template>
       </el-table-column>
-      <el-table-column prop="type" label="类型" align="center" width="80">
+      <el-table-column prop="type" label="类型" align="left" width="70">
         <template slot-scope="{row}">
           <span v-if="row.type === 0">营销</span>
           <span v-if="row.type === 1">关怀</span>
           <span v-if="row.type === 2">分享</span>
         </template>
       </el-table-column>
-      <el-table-column prop="status" label="状态" align="center" width="80">
+      <el-table-column prop="status" label="状态" align="left" width="70">
         <template slot-scope="{row}">
           <span v-if="row.state === 1" class="text-primary">执行中</span>
           <span v-if="row.state === 4" class="text-warning">已过期</span>
@@ -108,8 +108,8 @@
       </el-table-column>
       <el-table-column
         label="操作"
-        width="96"
-        align="center"
+        width="86"
+        align="right"
       >
       <template slot-scope="scope">
         <ns-button @click="AddShowToggle(scope.row)" type="text">编辑</ns-button>

@@ -209,7 +209,7 @@ export default {
         if (obj.materialId) {
           this.selectMaterial.id = obj.materialId
           this.selectMaterial.materialTitle = obj.materialTitle
-          this.model.id = obj.materialId
+          this.model.id = obj.id
           this.model.materialTitle = obj.materialTitle
         }
         console.log(this.model)

@@ -6,5 +6,9 @@ export default {
   save: {
     url: '/guide/sgwxaccount/save',
     method: 'post'
+  },
+  delete: {
+    url: '/guide/sgwxaccount/delete',
+    method: 'post'
   }
 }

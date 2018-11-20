@@ -96,7 +96,7 @@
       @selection-change="handleSelectionChange">
       <el-table-column
         type="selection"
-        width="55">
+        width="42">
       </el-table-column>
       <el-table-column
         label="门店名称"
@@ -106,6 +106,7 @@
       </el-table-column>
       <el-table-column
         label="营业状态"
+        width="86"
         prop="shopStatusMean"
       >
       </el-table-column>

@@ -51,46 +51,46 @@
       @selection-change="handleSelectionChange">
       <el-table-column
         type="selection"
-        width="55">
+        width="42">
       </el-table-column>
       <el-table-column
         label="门店名称"
-        width="220"
         prop="shopName"
         show-overflow-tooltip
         >
       </el-table-column>
       <el-table-column
         label="状态"
-        width="320"
+        width="150"
+        align="left"
         show-overflow-tooltip
         >
         <template slot-scope="scope">
-        {{scope.row.shopStatus|shopStatus}}
-      </template>
+          <span>{{scope.row.shopStatus|shopStatus}}</span>
+        </template>
       </el-table-column>
       <el-table-column
         label="销售提成"
+        width="300"
       >
-      <template slot-scope="scope">
-        <div v-if="scope.row.salesStatus">
-          线上：成单导购 {{scope.row.onlineSalesRewardOrder}}% + 专属导购 {{scope.row.onlineSalesRewardExclusive}}%<br>
-          线下：成单导购 {{scope.row.salesRewardOrder}}% + 专属导购 {{scope.row.salesRewardExclusive}}%<br>
+        <template slot-scope="scope"><div v-if="scope.row.salesStatus">
+          <span>线上：成单导购 {{scope.row.onlineSalesRewardOrder}}% + 专属导购 {{scope.row.onlineSalesRewardExclusive}}%<br></span>
+          <span>线下：成单导购 {{scope.row.salesRewardOrder}}% + 专属导购 {{scope.row.salesRewardExclusive}}%<br></span>
         </div>
         <div v-else>
-          暂未设置
-        </div>
-      </template>
+          <span>暂未设置</span>
+        </div></template>
       </el-table-column>
       <el-table-column
         label="招募新会员奖励"
+        width="280"
       >
       <template slot-scope="scope">
         <div v-if="scope.row.memberStatus">
-          每招募一名新会员提成 {{scope.row.memberReward}} 元<br>
+          <span>每招募一名新会员提成 {{scope.row.memberReward}} 元</span>
         </div>
         <div v-else>
-          暂未设置
+          <span>暂未设置</span>
         </div>
       </template>
       </el-table-column>
@@ -110,6 +110,7 @@
       <el-table-column
         label="操作"
         width="60"
+        align="right"
       >
       <template slot-scope="scope">
         <ns-button @click="itemSetFun(scope.row)" type="text">设置</ns-button>

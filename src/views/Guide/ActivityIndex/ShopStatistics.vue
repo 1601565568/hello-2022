@@ -8,7 +8,6 @@
       <el-row class="template-table__bar-base">
          <!-- 左边上角操作区域 -->
           <el-col :span="7">
-             &nbsp
           </el-col>
           <el-col :span="17">
             <!-- 右上角操作区域 -->
@@ -139,13 +138,13 @@
       style="width: 100%">
       <el-table-column
         label="门店名称"
-        width="220"
         prop="shopName"
         show-overflow-tooltip
         >
       </el-table-column>
       <el-table-column
         label="区域"
+        width="180"
         show-overflow-tooltip
         >
         <template slot-scope="scope">
@@ -154,22 +153,24 @@
       </el-table-column>
       <el-table-column
         label="类型"
+        width="77"
       >
       <template slot-scope="scope">
-        {{scope.row.shopType|shopType}}
+        <span>{{scope.row.shopType|shopType}}</span>
       </template>
       </el-table-column>
       <el-table-column
         label="状态"
+        width="100"
       >
       <template slot-scope="scope">
-        {{scope.row.shopStatus|shopStatus}}
+        <span>{{scope.row.shopStatus|shopStatus}}</span>
       </template>
       </el-table-column>
       <el-table-column
         label="店长"
-        width="220"
-        align="center"
+        width="180"
+        align="left"
         prop="guideNames"
         show-overflow-tooltip
         >
