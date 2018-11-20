@@ -131,12 +131,14 @@ export default {
       curMonth: 5,
       dialogVisible: false,
       selectedArr: [],
-      shopList: []
+      shopList: [],
+      status: null
     }
   },
   created: function () {},
   methods: {
     showToggle (data, name) {
+      this.status = name
       this.saveObj.type = data.type
       this.saveObj.year = data.year
       this.selectedArr = data.selectedArr
@@ -144,8 +146,6 @@ export default {
       var myDate = new Date()
       var curYear = myDate.getFullYear()
       var curMonth = myDate.getMonth()
-      console.log(curYear)
-      console.log(curMonth)
       if (parseInt(curYear) > parseInt(data.year)) {
         // 之前的全部不可设置
         this.curMonth = 13
@@ -180,7 +180,6 @@ export default {
       this.dialogVisible = true
     },
     handleSelectionChange (val) {
-      console.log(val)
       this.multipleSelection = val
     },
     async saveFun () {
@@ -193,7 +192,7 @@ export default {
           shopId: value.shopId
         })
       })
-      if (name === '0') {
+      if (this.status === '0') {
         this.saveObj.quota1 = this.shopList[0].quota1 * 10000
         this.saveObj.quota2 = this.shopList[0].quota2 * 10000
         this.saveObj.quota3 = this.shopList[0].quota3 * 10000
@@ -232,7 +231,6 @@ export default {
       this.$props.callBack()
     },
     handleClose () {
-      console.log('handleClose')
       this.dialogVisible = false
     }
   }
