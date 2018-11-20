@@ -112,7 +112,7 @@ export default {
       if (value === '') {
         callback(new Error('请输入链接'))
       } else if (!isURL(value)) {
-        // callback(new Error('请输入正确的链接'))
+        callback(new Error('路径必须带http或者是https格式！'))
       } else {
         callback()
       }
@@ -179,6 +179,12 @@ export default {
     selChange (e) {
       console.log(e)
     },
+    // linkChange (url) {
+    //   console.log('url:', url)
+    //   if (url.indexOf('http') < 0 || url.indexOf('https') < 0) {
+    //     this.$notify.error('路径必须带http或者是https格式！')
+    //   }
+    // },
     showToggle (obj, groudArr) {
       this.groudList = groudArr
       // 数据重置
