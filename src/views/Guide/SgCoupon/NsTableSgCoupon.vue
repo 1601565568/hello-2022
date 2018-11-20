@@ -110,8 +110,13 @@
             <span>优惠券编码:{{scope.row.couponCode}}</span>
           </template>
         </el-table-column>
+<<<<<<< HEAD
         <el-table-column :show-overflow-tooltip="true" type="default" align="left"
                          label="有效时间" :sortable="false" width="200">
+=======
+        <el-table-column :show-overflow-tooltip="true" type="default" align="center"
+                         label="有效时间" :sortable="false" width="150">
+>>>>>>> 8dc65231bcdd8bdf1a12b380b642abe0f36982ea
           <template slot-scope="{row}">
             <div v-if="row.dateValidType == 0">
               <span>{{row.startTime}}</span><br>
@@ -124,6 +129,7 @@
             </div>
           </template>
         </el-table-column>
+<<<<<<< HEAD
         <el-table-column :show-overflow-tooltip="true" type="default" prop="createTime" align="left"
                          label="创建时间" :sortable="false" width="200">
         </el-table-column>
@@ -132,6 +138,16 @@
         </el-table-column>
         <el-table-column :show-overflow-tooltip="true" type="default" prop="type" align="left"
                          label="状态" :sortable="false" width="80">
+=======
+        <el-table-column :show-overflow-tooltip="true" type="default" prop="createTime" align="center"
+                         label="创建时间" :sortable="false" width="150">
+        </el-table-column>
+        <el-table-column :show-overflow-tooltip="true" type="default" prop="couponTotal" align="center"
+                         label="配额" :sortable="false">
+        </el-table-column>
+        <el-table-column :show-overflow-tooltip="true" type="default" prop="type" align="center"
+                         label="状态" :sortable="false">
+>>>>>>> 8dc65231bcdd8bdf1a12b380b642abe0f36982ea
           <template slot-scope="scope">{{scope.row.couponStatus == '0' ? "禁用" : "启用"}}
           </template>
         </el-table-column>
@@ -140,6 +156,13 @@
           <template slot-scope="scope">
             <span v-if="scope.row.type == 0">公用</span>
             <a href="javascript:" @click="showListDialog(scope.row.activityCouponId)" v-else>{{scope.row.shopTotal}}</a>
+          </template>
+        </el-table-column>
+        <el-table-column :show-overflow-tooltip="true" type="default" prop="couponType" align="center"
+                         label="发放情况" :sortable="false" >
+          <template slot-scope="scope">
+            已领取：{{scope.row.noUseTotal}}张<br>
+            已使用：{{scope.row.useTotal}}张
           </template>
         </el-table-column>
       </el-table>

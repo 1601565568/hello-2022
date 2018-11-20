@@ -9,12 +9,12 @@
       :response-limit = false
       width="800px"
       :before-close="handleClose">
-      <div class="topTip">总配额:<span>{{topTotaObj.activityTotal}}</span>张；总领取:<span>{{topTotaObj.activityNouse}}</span>张；未领取:<span>{{topTotaObj.activityTotal-topTotaObj.activityNouse}}</span>张；总发放门店:<span>{{topTotaObj.shopTotal}}</span>家</div>
+      <div class="topTip">总配额:<span>{{topTotaObj.activityTotal}}</span>张；总领取:<span>{{topTotaObj.couponNoUse}}</span>张；未领取:<span>{{topTotaObj.activityTotal-topTotaObj.couponNoUse}}</span>张；总发放门店:<span>{{topTotaObj.shopTotal}}</span>家</div>
       <div class="template-table__bar-more">
         <el-form ref="searchform" label-width="80px"  class="surround-btn" :model="searchform"  :inline="true">
           <el-form-item label="所在区域：" style="margin-right:0;" prop="district">
             <el-form-grid width="260" prop="area">
-              <ns-area  :props="searchform.key" @change="onAreaChange" change-on-select v-model="searchform.district"></ns-area>
+              <ns-area  :props="searchform.key" @change="onAreaChange" change-on-select v-model="searchform.area"></ns-area>
             </el-form-grid>
           </el-form-item>
           <el-form-item label="门店名称：" prop="shopName">
@@ -104,7 +104,7 @@
         selectedArr: [],
         topTotaObj: {
           activityTotal: 40,
-          activityNouse: 10
+          couponNoUse: 10
         },
         searchform: {
           // 区域选择相关start
@@ -162,10 +162,9 @@
                    .fetch(this.$api.guide.activityCoupon.findActivityShopCoupon, searchObj)
                    .then(resp => {
                      this.topTotaObj.activityTotal = resp.result.couponTotal
-                     this.topTotaObj.activityNouse = resp.result.couponNoUse
+                     this.topTotaObj.couponNoUse = resp.result.couponNoUse
                      this.topTotaObj.shopTotal = resp.result.shopTotal
                      this.dataList = resp.result.shopList
-                     console.log(resp.result)
                      this.pagination.total = parseInt(resp.result.shopTotal)
                    })
                    .catch(resp => {

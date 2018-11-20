@@ -84,7 +84,6 @@ export default {
   methods: {
     showListDialogFun (id) {
       this.$nextTick(() => {
-        console.log(this.$refs.listDialogDom)
         this.$refs.listDialogDom.showToggle(id)
       })
     },
@@ -173,7 +172,6 @@ export default {
      */
     storeCouponChange: function (value) {
       var _this = this
-      console.log(value)
       _this.activityModel.coupon_id = value
       _this.activityModel.type = 0
       for (var i = 0; i < _this.storeCouponList.length; i++) {
@@ -285,7 +283,6 @@ export default {
         let newShopObject = JSON.parse(shopObj)
         _this.shopList.push(newShopObject)
       }
-      console.log(_this.shopList)
       _this.paginations.total = _this.shopAllList.length
     },
     /**

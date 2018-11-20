@@ -36,7 +36,13 @@
             <template slot-scope="scope">
               <span class="tmp-cell__buttons">
                 <ns-button type="text" @click="onSaveOpen(scope.row)">编辑</ns-button>
+<<<<<<< HEAD
               </span>
+=======
+                <ns-button v-if="scope.row.appid !== 'wxd018c65db8b66408' && scope.row.appid !== 'wx088d6dbeea9c68c3'"
+                           type="text" @click="onDelete(scope.row)">删除</ns-button>
+              </div>
+>>>>>>> 8dc65231bcdd8bdf1a12b380b642abe0f36982ea
             </template>
           </el-table-column>
         </el-table>
