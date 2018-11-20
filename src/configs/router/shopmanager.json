@@ -24,6 +24,12 @@
           "name": "TRANS_CUSTOMER_RECORD",
           "title": "客户转移记录",
           "componentPath": "Guide/SgCustomer/NsTableSgCustomer"
+        },
+        {
+          "path": "/Guide/customerManagement ",
+          "name": "CUSTOMER_MANAGEMENT",
+          "title": "导购客户管理",
+          "componentPath": "Guide/CustomerManagement/NsTableSgCustomer"
         }
       ]
     }
