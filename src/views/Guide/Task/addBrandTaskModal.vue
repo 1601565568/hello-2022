@@ -165,7 +165,7 @@ export default {
      */
     async findShopList () {
       await this.$http
-        .fetch(this.$api.core.sysShop.getBrandList, { isOnline: 0 })
+        .fetch(this.$api.guide.shop.findBrandShopList, { isOnline: 0 })
         .then(resp => {
           if (resp.success === true) {
             this.shopList = resp.result

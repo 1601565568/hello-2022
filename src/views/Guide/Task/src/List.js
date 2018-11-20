@@ -109,7 +109,7 @@ export default {
      */
     findShopList: function () {
       const that = this
-      that.$http.fetch(that.$api.core.sysShop.getBrandList, {isOnline: 0}).then((resp) => {
+      that.$http.fetch(that.$api.guide.shop.findBrandShopList, {isOnline: 0}).then((resp) => {
         if (resp.success === true) {
           that.shopList = resp.result
         }

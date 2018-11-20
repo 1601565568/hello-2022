@@ -296,13 +296,7 @@ export default {
     },
     initShopList () {
       var _this = this
-      _this.$http.fetch(_this.$api.core.sysShop.getBrandList, {
-        'length': 100000,
-        'start': 0,
-        searchMap: {
-          'shopStatus': 1
-        }
-      }).then(resp => {
+      _this.$http.fetch(_this.$api.guide.shop.findBrandShopList, {isOnline: 0}).then(resp => {
         if (resp.success && resp.result != null) {
           _this.shopFindList = resp.result
         }

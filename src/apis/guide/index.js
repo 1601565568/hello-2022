@@ -109,10 +109,5 @@ export default {
     // 门店任务详情新
     url: '/guide/task/queryShopTaskExecution',
     method: 'post'
-  },
-  queryOfflineShopList: {
-    // 线下店铺列表
-    url: '/guide/shopgoods/queryOfflineShopList',
-    method: 'post'
   }
 }
