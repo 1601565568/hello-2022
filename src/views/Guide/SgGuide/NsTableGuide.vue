@@ -80,35 +80,35 @@
       <!-- 操作（只有一项文字的80px,两项文字120px,三项文字160px） -->
 
       <el-table ref="table" :data="_data._table.data" stripe @selection-change="handleSelectionChange">
-        <el-table-column type="selection" width="55"></el-table-column>
-        <el-table-column prop="work_id" label="工号" align="center" width="100">
+        <el-table-column type="selection" width="42"></el-table-column>
+        <el-table-column prop="work_id" label="工号" align="left" width="88">
           <template slot-scope="scope">
             {{scope.row.work_id?scope.row.work_id:'-'}}
           </template>
         </el-table-column>
-        <el-table-column prop="name" label="姓名" align="center"></el-table-column>
-        <el-table-column prop="nickname" label="昵称" align="center" >
+        <el-table-column prop="name" label="姓名" align="left" width="130"></el-table-column>
+        <el-table-column prop="nickname" label="昵称" align="left" width="130">
           <template slot-scope="scope">
             {{scope.row.nickname?scope.row.nickname:'-'}}
           </template >  
         </el-table-column>
-        <el-table-column prop="mobile" label="联系方式" align="center" width="150"></el-table-column>
-        <el-table-column label="所属区域" align="left" width="150">
-          <template slot-scope="scope">
-            {{!scope.row.province&&!scope.row.city&&!scope.row.district?'-':scope.row.province+'/'+scope.row.city+'/'+scope.row.district}}
-          </template>
-        </el-table-column>
-        <el-table-column prop="shopName" label="所属门店" align="center" width="150">
+        <el-table-column prop="mobile" label="联系方式" align="left" width="120"></el-table-column>
+        <el-table-column prop="shopName" label="所属门店" align="left">
           <template slot-scope="scope">
             {{scope.row.shopName?scope.row.shopName:'-'}}
           </template>
         </el-table-column>
-        <el-table-column prop="job" label="职务" align="center" >
+        <el-table-column label="所属区域" align="left" width="180">
+          <template slot-scope="scope">
+            {{!scope.row.province&&!scope.row.city&&!scope.row.district?'-':scope.row.province+'/'+scope.row.city+'/'+scope.row.district}}
+          </template>
+        </el-table-column>
+        <el-table-column prop="job" label="职务" align="left" width="60">
           <template slot-scope="scope">{{scope.row.job == 1 ? "店长" : "导购"}}
           </template>
         </el-table-column>
 
-        <el-table-column prop="status" label="状态" align="left">
+        <el-table-column prop="status" label="状态" align="center" width="150">
           <template slot-scope="scope">
             <div v-if="scope.row.status === 2">
               <p>已离职</p>
@@ -118,7 +118,7 @@
             </div>
           </template>
         </el-table-column>
-        <el-table-column prop="status,row" :show-overflow-tooltip="true" label="操作" align="left">
+        <el-table-column prop="status,row" :show-overflow-tooltip="true" label="操作" align="right" width="120">
           <template slot-scope="scope">
             <div>
               <ns-button style="color:#0091FA" @click="onRedactFun(scope.row)" type="text">编辑</ns-button>
@@ -160,4 +160,5 @@
 </script>
 
 <style scoped>
+
 </style>

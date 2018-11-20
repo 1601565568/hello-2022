@@ -83,25 +83,25 @@
       style="width: 100%"
       >
       <el-table-column prop="name" label="名称"></el-table-column>
-      <el-table-column prop="name" align="center" label="分配导购" width="84">
+      <el-table-column prop="name" align="left" label="分配导购" width="90">
         <template slot-scope="{row}">
-          <a @click="shopListModalDomShowToggle(row.id,row.shopId)" href="javascript:" v-if="row.guideIds === 0">全部门店</a>
+          <a @click="shopListModalDomShowToggle(row.id,row.shopId)" href="javascript:" v-if="row.guideIds === 0">全部导购</a>
           <a @click="shopListModalDomShowToggle(row.id,row.shopId)" href="javascript:" v-else>{{row.allNum}}人</a>
         </template>
       </el-table-column>
-      <el-table-column label="执行时间" align="center">
+      <el-table-column label="执行时间" align="left" width="280">
         <template slot-scope="{row}">{{row.startTime}}至{{row.endTime}}</template>
       </el-table-column>
-      <el-table-column prop="type" label="类型" align="center" width="80">
+      <el-table-column prop="type" label="类型" align="left" width="80">
         <template slot-scope="{row}">
           <span v-if="row.type === 0">营销</span>
           <span v-if="row.type === 1">关怀</span>
           <span v-if="row.type === 2">分享</span>
         </template>
       </el-table-column>
-      <el-table-column prop="createUserName" label="创建人"></el-table-column>
+      <el-table-column prop="createUserName" label="创建人" width="150"></el-table-column>
       <el-table-column prop="createShopName" label="创建门店"></el-table-column>
-      <el-table-column prop="status" label="状态" align="center" width="80">
+      <el-table-column prop="status" label="状态" align="left" width="80">
         <template slot-scope="{row}">
           <span v-if="row.state === 1" class="text-primary">执行中</span>
           <span v-if="row.state === 4" class="text-warning">已过期</span>
@@ -110,8 +110,8 @@
       </el-table-column>
       <el-table-column
         label="操作"
-        width="96"
-        align="center"
+        width="50"
+        align="right"
       >
       <template slot-scope="scope">
         <ns-button @click="AddShowToggle(scope.row)" type="text">详情</ns-button>

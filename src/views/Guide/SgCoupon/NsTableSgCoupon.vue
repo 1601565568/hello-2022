@@ -96,46 +96,47 @@
                 resizable v-loading.lock="_data._table.loadingtable"
                 :element-loading-text="$t('prompt.loading')" @sort-change="$orderChange$">
 
-        <el-table-column :show-overflow-tooltip="true" type="default" prop="activityId" align="left" :width="200"
+        <el-table-column :show-overflow-tooltip="true" type="default" prop="activityId" align="left" :width="210"
                          label="面额" :sortable="false">
           <template slot-scope="scope">
             <couponItem :itemObj="scope.row"></couponItem>
           </template>
         </el-table-column>
         <el-table-column :show-overflow-tooltip="true" type="default" prop="title" align="left"
-                         label="卡券信息" :sortable="false" :width="260">
+                         label="卡券信息" :sortable="false">
           <template slot-scope="scope">
-            <span class="w80">优惠券名称:</span>{{scope.row.couponTitle}}<br>
-            <span class="w80">使用说明:</span>{{scope.row.useConditionStr}}<br>
-            <span class="w80">优惠券编码:</span>{{scope.row.couponCode}}
+            <span>优惠券名称:{{scope.row.couponTitle}}</span><br>
+            <span>使用说明:{{scope.row.useConditionStr}}</span><br>
+            <span>优惠券编码:{{scope.row.couponCode}}</span>
           </template>
         </el-table-column>
-        <el-table-column :show-overflow-tooltip="true" type="default" align="center"
+        <el-table-column :show-overflow-tooltip="true" type="default" align="left"
                          label="有效时间" :sortable="false" width="200">
           <template slot-scope="{row}">
             <div v-if="row.dateValidType == 0">
-              <div>{{row.startTime}}</div>
-              <div>{{row.endTime}}</div>
+              <span>{{row.startTime}}</span><br>
+              <span>~</span><br>
+              <span>{{row.endTime}}</span>
             </div>
             <div v-if="row.dateValidType == 1">
-              <div>领取后第{{row.afterGetValidDays}}天有效</div>
-              <div>有效期{{row.validDays}}天</div>
+              <span>领取后第{{row.afterGetValidDays}}天有效</span><br>
+              <span>有效期{{row.validDays}}天</span>
             </div>
           </template>
         </el-table-column>
-        <el-table-column :show-overflow-tooltip="true" type="default" prop="createTime" align="center"
+        <el-table-column :show-overflow-tooltip="true" type="default" prop="createTime" align="left"
                          label="创建时间" :sortable="false" width="200">
         </el-table-column>
-        <el-table-column :show-overflow-tooltip="true" type="default" prop="couponTotal" align="center"
-                         label="配额" :sortable="false" >
+        <el-table-column :show-overflow-tooltip="true" type="default" prop="couponTotal" align="left"
+                         label="配额" :sortable="false" width="80">
         </el-table-column>
-        <el-table-column :show-overflow-tooltip="true" type="default" prop="type" align="center"
-                         label="状态" :sortable="false" >
+        <el-table-column :show-overflow-tooltip="true" type="default" prop="type" align="left"
+                         label="状态" :sortable="false" width="80">
           <template slot-scope="scope">{{scope.row.couponStatus == '0' ? "禁用" : "启用"}}
           </template>
         </el-table-column>
         <el-table-column :show-overflow-tooltip="true" type="default" prop="couponType" align="center"
-                         label="发放门店" :sortable="false" >
+                         label="发放门店" :sortable="false" width="70">
           <template slot-scope="scope">
             <span v-if="scope.row.type == 0">公用</span>
             <a href="javascript:" @click="showListDialog(scope.row.activityCouponId)" v-else>{{scope.row.shopTotal}}</a>

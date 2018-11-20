@@ -83,16 +83,17 @@
       </el-table-column>
       <el-table-column
         label="素材数"
-        align="center"
+        align="left"
         prop="counts"
+        width="150"
       >
       </el-table-column>
-      <el-table-column prop="update_time" label="更新时间 " width="200" align="center">
+      <el-table-column prop="update_time" label="更新时间 " width="200" align="left">
       </el-table-column>
       <el-table-column
         label="操作"
-        width="96"
-        align="center"
+        width="100"
+        align="right"
       >
       <template slot-scope="scope">
         <ns-button @click="AddShowToggle(scope.row)" type="text">编辑</ns-button>

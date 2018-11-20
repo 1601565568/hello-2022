@@ -107,26 +107,26 @@
                 :element-loading-text="$t('prompt.loading')" @sort-change="$orderChange$">
 
         <el-table-column :show-overflow-tooltip="true" type="default" prop="transName" align="left"
-                         label="转出人" :sortable="false" :width="300">
+                         label="转出人" :sortable="false" width="300">
           <template slot-scope="scope">
             {{scope.row.transName}} [{{scope.row.transShopName}}]
           </template>
         </el-table-column>
         <el-table-column :show-overflow-tooltip="true" type="default" prop="receiveName" align="left"
-                         label="转入人" :sortable="false" :width="300">
+                         label="转入人" :sortable="false">
           <template slot-scope="scope">
             {{scope.row.receiveName}} [{{scope.row.receiveShopName}}]
           </template>
         </el-table-column>
-        <el-table-column :show-overflow-tooltip="true" type="default" prop="customer_num" align="right"
-                         label="转移人数" :sortable="false" :width="80">
+        <el-table-column :show-overflow-tooltip="true" type="default" prop="customer_num" align="left"
+                         label="转移人数" :sortable="false" width="80">
           <template slot-scope="scope">
             <a href="javascript:" @click="showListDialog(scope.row.id)">{{scope.row.customer_num}}</a>
           </template>
 
         </el-table-column>
         <el-table-column :show-overflow-tooltip="true" type="default" prop="trans_type" align="left"
-                         label="转移类型" :sortable="false">
+                         label="转移类型" :sortable="false" width="110">
           <template slot-scope="scope">
             <span v-if="scope.row.trans_type == 1">
               门店均分
@@ -146,7 +146,7 @@
           </template>
         </el-table-column>
         <el-table-column :show-overflow-tooltip="true" type="default" prop="operation_type" align="left"
-                         label="操作类型" :sortable="false">
+                         label="操作类型" :sortable="false" width="80">
           <template slot-scope="scope">
             <span v-if="scope.row.operation_type == 0">
               品牌转移
@@ -160,10 +160,10 @@
           </template>
         </el-table-column>
         <el-table-column :show-overflow-tooltip="true" type="default" prop="operation" align="left"
-                         label="操作人ID" :sortable="false">
+                         label="操作人ID" :sortable="false" width="80">
         </el-table-column>
-        <el-table-column :show-overflow-tooltip="true" type="default" prop="create_time" align="left"
-                         label="转移时间" :sortable="false" :width="240">
+        <el-table-column :show-overflow-tooltip="true" type="default" prop="create_time" align="right"
+                         label="转移时间" :sortable="false" width="180">
         </el-table-column>
       </el-table>
     </template>
