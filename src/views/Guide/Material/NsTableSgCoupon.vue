@@ -106,7 +106,7 @@
                          label="卡券信息" :sortable="false" :width="260">
           <template slot-scope="scope">
             <span class="w80">优惠券名称:</span>{{scope.row.couponTitle}}<br>
-            <span class="w80">使用说明:</span>{{scope.row.useConditionStr}}<br>
+            <span class="w80">使用条件:</span>{{scope.row.useConditionStr}}<br>
             <span class="w80">优惠券编码:</span>{{scope.row.couponCode}}
           </template>
         </el-table-column>
