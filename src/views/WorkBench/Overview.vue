@@ -120,9 +120,9 @@
               <business-echarts :options="mapOption" class="oscillogram" auto-resize style='height:250px'></business-echarts>
           </div>
           <div class="map-card">
-            <span class="map-card-tit">{{findShopSellRankingArr[0].shopName}}</span>
-            <span class="map-card-sell">销售额：{{findShopSellRankingArr[0].payment}}</span>
-            <span class="map-card-rec">招募会员:{{findShopSellRankingArr[0].member_count}}</span>
+            <span class="map-card-tit">{{findShopSellRankingArr[0] && findShopSellRankingArr[0].shopName}}</span>
+            <span class="map-card-sell">销售额：{{findShopSellRankingArr[0] ? findShopSellRankingArr[0].payment : 0}}</span>
+            <span class="map-card-rec">招募会员:{{findShopSellRankingArr[0] ? findShopSellRankingArr[0].member_count : 0}}</span>
           </div>
           <div class="map-list">
             <div class="map-item" v-for='(item, index) in findShopSellRankingArr' :key='index'>
