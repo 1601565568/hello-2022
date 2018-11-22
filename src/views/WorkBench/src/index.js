@@ -42,6 +42,9 @@ export default {
         shopName: '所有门店',
         id: null
       }], // 所有门店
+      shopMap: {},
+      average: [],
+      currentMonth: null,
       searchObj: {
         id: null,
         monthDate: ''
@@ -111,14 +114,14 @@ export default {
           itemStyle: {
             normal: {
               lineStyle: {
-                width: 2,
+                width: 1,
                 type: 'dotted' // 'dotted'虚线 'solid'实线
               }
             }
           }
         }
         ],
-        color: ['#0091FA', '#FFDDDD', '#4fcc8d', '#ffdb5c', '#ff9f7f', '#7fa4e1']
+        color: ['#0091FA', '#999', '#4fcc8d', '#ffdb5c', '#ff9f7f', '#7fa4e1']
       },
       mapOption: { // 进行相关配置
         backgroundColor: '#ffffff',
@@ -206,8 +209,7 @@ export default {
         this.getRewardInfo(id)
       }
     },
-    getMonthLength (date) { // 给定一个日期  计算出当月天数
-      let d = new Date(date)
+    getMonthLength (d) { // 给定一个日期  计算出当月天数
       // 将日期设置为下月一号
       d.setMonth(d.getMonth() + 1)
       d.setDate('1')
@@ -220,6 +222,9 @@ export default {
         .fetch(this.$api.guide.shop.findBrandShopList)
         .then(resp => {
           this.shopArr = [...this.shopArr, ...resp.result]
+          for (let i = 0; i < resp.result.length; i++) {
+            this.shopMap[resp.result[i].id] = resp.result[i].shopName
+          }
         })
         .catch(resp => {
           this.$notify.error('查询失败：')
@@ -238,14 +243,10 @@ export default {
           if (resp.result !== null || resp.result.length !== 0) {
             resp.result.map(item => {
               item.perf_all = item.perf_all.toFixed(2)
-              that.shopArr.map(shopItem => {
-                if (item.shop_id === shopItem.id) {
-                  item.shopName = shopItem.shopName
-                }
-              })
+              item.shopName = that.shopMap[item.shop_id] || '未知门店'
             })
           }
-          this.guideSellRankingArr = resp.result
+          this.guideSellRankingArr = resp.result || []
         })
         .catch(resp => {
           this.$notify.error('查询失败：')
@@ -253,12 +254,12 @@ export default {
     },
     async findSellReward (id) { // 当月销售业绩按日查询
       this.sellOption.xAxis.data = []
-      for (let i = 1; i <= this.getMonthLength('2018-11'); i++) {
+      for (let i = 1; i <= this.getMonthLength(new Date()); i++) {
         this.sellOption.xAxis.data.push(i + '日')
       }
       let parms = {}
       let that = this
-      parms.monthDate = '2018-11'
+      parms.monthDate = this.currentMonth
       if (id) {
         parms.shopId = id
       }
@@ -266,7 +267,12 @@ export default {
         .fetch(this.$api.overView.findSellReward, parms)
         .then(resp => {
           that.sellOption.series[0].data = resp.result.total
-          that.sellOption.series[1].data = resp.result.average
+          if (!id) {
+            that.average = resp.result.average
+            that.sellOption.series[1].data = []
+          } else {
+            that.sellOption.series[1].data = that.average
+          }
         })
         .catch(resp => {
           this.$notify.error('查询失败：')
@@ -274,7 +280,7 @@ export default {
     },
     async getRewardInfo (id) { // 当月业绩情况查询
       let parms = {}
-      parms.monthDate = '2018-11'
+      parms.monthDate = this.currentMonth
       if (id) {
         parms.shopId = id
       }
@@ -297,7 +303,6 @@ export default {
               }
             }
             this.getRewardInfoObj = resp.result
-            console.log(this.getRewardInfoObj)
           }
         })
         .catch(resp => {
@@ -307,20 +312,19 @@ export default {
     async findShopSellRanking () { // 当月门店排行查询
       let parms = {}
       let that = this
-      parms.monthDate = '2018-11'
+      parms.monthDate = this.currentMonth
       await this.$http
         .fetch(this.$api.overView.findShopSellRanking, parms)
         .then(resp => {
           resp.result.map(item => {
             item.value = [item.longitude, item.latitude]
-            that.shopArr.map(shopItem => {
-              if (item.shop_id === shopItem.id) {
-                item.shopName = shopItem.shopName
-                item.name = shopItem.shopName
-              }
-            })
+            item.shopName = that.shopMap[item.shop_id] || '未知门店'
+            item.name = that.shopMap[item.shop_id] || '未知门店'
           })
-          this.findShopSellRankingArr = resp.result
+          for (let i = 0; i < resp.result.length; i++) {
+            resp.result[i].shopName = that.shopMap[resp.result[i].shop_id] || '未知门店'
+          }
+          this.findShopSellRankingArr = resp.result || []
           this.mapOption.series[0].data = resp.result
         })
         .catch(resp => {
@@ -329,6 +333,7 @@ export default {
     }
   },
   mounted () {
+    this.currentMonth = new Date().getFullYear() + '-' + (new Date().getMonth() + 1)
     this.findShopList()
     this.findGuideSellRanking()
     this.findSellReward()
