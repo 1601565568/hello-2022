@@ -158,7 +158,7 @@
 </script>
 
 <style scoped>
-  @import "../../style/small/variables.pcss";
+   @import "../../style/small/variables.pcss";
   .nav {
     display: flex;
     width: 100%;
@@ -174,7 +174,7 @@
     z-index: 1001;
     box-sizing: border-box;
     box-shadow: 0 2px 4px 0 #E3E3E3;
-    >>> .logout {
+    .logout {
       width: var(--head-nav-height);
       height: var(--head-nav-height);
       line-height: var(--head-nav-height);
@@ -201,7 +201,7 @@
   }
   @b nav-logo{
     width: 199px;
-    text-align: center;
+    padding-left: 30px;
     img{
         width:144px;
        vertical-align: middle;
@@ -273,7 +273,7 @@
     border-radius: 100%;
   }
   @b brand-btn{
-    margin-right: 22px;
+    margin-right: 24px;
     width: 116px;
     height: 32px;
     line-height: 31px;
@@ -307,8 +307,8 @@
     }
     .nav-menu__item{
       .iconfont{
-        font-size: 18px;
-        margin-bottom:2px;
+        font-size: 22px;
+        margin-bottom: 3px;
       }
     }
   }
