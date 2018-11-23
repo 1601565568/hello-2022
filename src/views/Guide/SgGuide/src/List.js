@@ -216,21 +216,14 @@ export default {
     },
     allDelete () {
       var _this = this
-      if (this.multipleSelection.length < 1) {
-        this.$notify.error('请选择门店')
-        // _this.$confirm('请先选择要删除的选项!', '提示', {
-        //   confirmButtonText: '确定',
-        //   cancelButtonText: '取消',
-        //   type: 'warning'
-        // }).then(resp => {
-
-        // })
+      if (_this.multipleSelection.length < 1) {
+        _this.$notify.error('请选择员工')
       } else {
-        this.multipleSelection.map(item => {
-          this.multipleSelections.push(item.id)
+        _this.multipleSelection.map(item => {
+          _this.multipleSelections.push(item.id)
         })
         _this.$http.fetch(_this.$api.guide.guide.deleteGuides, {
-          guideIds: this.multipleSelections.join(',')
+          guideIds: _this.multipleSelections.join(',')
         }).then(resp => {
           if (resp.result.failCount > 0) {
             _this.successCount = resp.result.successCount
@@ -289,6 +282,7 @@ export default {
         if (resp.result.failCount > 0) {
           _this.deleteFormVisible = true
         }
+        _this.guideList = []
         _this.findGuideList()
       }).catch((resp) => {
         _this.$notify.error('查询失败：' + resp.msg)
