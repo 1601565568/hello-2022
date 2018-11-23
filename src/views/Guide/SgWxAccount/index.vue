@@ -19,12 +19,6 @@
               <span v-else>{{row.corpid}}</span>
             </template>
           </el-table-column>
-          <el-table-column label="ECRP开放平台ID" align="left" width="150">
-            <template slot-scope="{row}">
-              <div v-if="row.open_key === null">-</div>
-              <div v-else>{{row.open_key}}</div>
-            </template>
-          </el-table-column>
           <el-table-column label="支付ID" align="left" width="139">
             <template slot-scope="{row}">
               <span v-if="row.pay_id === null">-</span>
@@ -74,12 +68,6 @@
         </el-form-item>
         <el-form-item label="企业密钥：" prop="corpsecret">
           <el-input type="text" placeholder="请输入企业密钥" v-model="model.corpsecret" maxlength="50"></el-input>
-        </el-form-item>
-        <el-form-item label="ECRP开放平台ID：" prop="openKey">
-          <el-input type="text" placeholder="请输入ECRP开放平台ID" v-model="model.openKey" maxlength="32"></el-input>
-        </el-form-item>
-        <el-form-item label="ECRP开放平台密钥：" prop="openSecret">
-          <el-input type="text" placeholder="请输入ECRP开放平台密钥" v-model="model.openSecret" maxlength="32"></el-input>
         </el-form-item>
         <el-form-item label="支付ID：" prop="payId">
           <el-input type="text" placeholder="请输入支付ID" v-model="model.payId" maxlength="50"></el-input>
