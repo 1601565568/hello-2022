@@ -92,12 +92,12 @@ export default {
         // quickSearchNames: quickSearchNames,
         quickSearchMap: {}
       },
-      _queryConfig: {expand: false},
+      _queryConfig: { expand: false },
       multipleSelection: [],
       select: true,
       shopFindList: [],
       shopFindListLength: [],
-      quanbuArr: {id: -1, pId: null, label: '全部会员'}
+      quanbuArr: { id: -1, pId: null, label: '全部会员'}
     }
   },
 
@@ -111,7 +111,7 @@ export default {
   },
   computed: {},
   methods: {
-    search () {
+    search() {
       var _this = this
       if (_this.model.name === null && _this.model.shop === null && _this.model.job === null) {
         _this.$confirm('请编辑您要搜索的信息!')
@@ -119,7 +119,7 @@ export default {
         _this.$searchAction$()
       }
     },
-    initShopList () {
+    initShopList() {
       var _this = this
       _this.$http.fetch(_this.$api.guide.guide.customerGetGuideTree).then(resp => {
         if (resp.success && resp.result != null) {
@@ -134,44 +134,44 @@ export default {
         _this.$notify.error('查询失败：' + resp.msg)
       })
     },
-    shopDel (index) {
+    shopDel(index) {
       this.guideShopList.splice(index, 1)
     },
-    disabled (shopId) {
+    disabled(shopId) {
       let retVal = this.guideShopList.some(item => {
         return item.shopId === shopId
       })
       return retVal
     },
-    thisGuideDisabled (guideId) {
+    thisGuideDisabled(guideId) {
       let retVal = this.guideShopList.some(item => {
         return item.id === guideId
       })
       return retVal
     },
 
-    handleSelectionChange (val) {
+    handleSelectionChange(val) {
       this.$emit('handleSelectionChange', val)
     },
 
-    onRedactFun (val) {
+    onRedactFun(val) {
       this.$emit('onRedactFun', val)
     },
-    onDelsTipFun (val) {
+    onDelsTipFun(val) {
       this.$emit('onDelsTipFun', val)
     },
-    dimissionFun (val) {
+    dimissionFun(val) {
       this.$emit('dimissionFun', val)
     },
     // 解析后台传进来的字符串
-    strToJson (str) {
+    strToJson(str) {
       if (str && str.length > 0) {
         return JSON.parse(str)
       } else {
         return null
       }
     },
-    getListFirst (list) {
+    getListFirst(list) {
       if (list && list.length > 0) {
         return list[0]
       } else {
@@ -182,7 +182,7 @@ export default {
         }
       }
     },
-    changeState (state, id) {
+    changeState(state, id) {
       let _this = this
       _this.$http.fetch(_this.$api.guide.guide.updateGuideStatus, {
         guideId: id,
