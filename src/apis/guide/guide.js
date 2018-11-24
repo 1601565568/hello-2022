@@ -74,5 +74,17 @@ export default {
   deleteGuides: {// 单个、批量删除导购
     url: '/guide/guide/deleteGuides',
     method: 'post'
+  },
+  customerFindCustomerList: {// 导购客户管理列表查询
+    url: '/guide/customer/findCustomerList',
+    method: 'post'
+  },
+  updateCustomerGuide: {// 导购客户管理更换导购
+    url: '/guide/customer/updateCustomerGuide',
+    method: 'post'
+  },
+  customerGetGuideTree: {// 查询店铺导购树
+    url: '/guide/guide/getGuideTree',
+    method: 'post'
   }
 }
