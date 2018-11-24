@@ -14,7 +14,8 @@ module.exports = {
       context: ['/crmWebApi/**/*'],
       // target: "http://120.27.159.167:30001", // local: 'http://localhost:8360', formal:  'http://120.27.159.167:30001'
       // target: 'http://127.0.0.1:8089',
-      target: 'http://47.96.228.119:8089',
+      // target: 'http://47.96.228.119:8089',
+      target: 'https://sg.ecrpcloud.com',
       // target: 'http://127.0.0.1:30001',
       // target: 'http://localhost:30001',
       changeOrigin: true,
@@ -29,13 +30,14 @@ module.exports = {
        */
       context: ['/casLogin'],
       // target: "http://120.27.159.167:30001", // local: 'http://localhost:8360', formal:  'http://120.27.159.167:30001'
-      target: 'http://47.96.228.119:8089',
+      // target: 'http://47.96.228.119:8089',
+      target: 'https://sg.ecrpcloud.com',
       changeOrigin: true,
     }
     ],
     // Various Dev Server settings
     host: 'localhost', // can be overwritten by process.env.HOST
-    port: 8080, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
+    port: 80, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
     autoOpenBrowser: false,
     errorOverlay: true,
     notifyOnErrors: true,
