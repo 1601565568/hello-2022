@@ -21,7 +21,7 @@
           <div class="brand-btn">
             <span class="brand-name">{{$store.state.user.brand.name}}</span><i class="el-icon-arrow-down el-icon--right"></i>
           </div>
-          <el-dropdown-menu slot="dropdown">
+          <el-dropdown-menu slot="dropdown" style='left : 1643px'>
             <el-dropdown-item v-for="(brand ,index) in $store.state.user.brands"
                               :key="index" :command="brand.viewId">{{brand.viewName}}
             </el-dropdown-item>
@@ -312,4 +312,9 @@
       }
     }
   }
+</style>
+<style>
+.el-dropdown-menu, .el-popper ,.el-dropdown-menu--small{
+  left:1643px !important
+}
 </style>

@@ -43,6 +43,7 @@ export default {
     }
     let model = Object.assign({}, findVo, {}, searchModel)
     return {
+      filterTreeText: '',
       model: model,
       quickSearchModel: quickSearchModel,
       _pagination: pagination,
@@ -57,10 +58,15 @@ export default {
       select: true,
       shopFindList: [],
       shopFindListLength: [],
-      quanbuArr: {id: -1, pId: null, label: '全部会员'}
+      allGuideArr: { id: -1, pId: null, label: '全部导购' }
     }
   },
-
+  watch: {
+    // 导购树过滤
+    filterTreeText (val) {
+      this.$refs.guideTree.filter(val)
+    }
+  },
   mounted: function () {
     var vm = this
     vm.initShopList()
@@ -71,6 +77,11 @@ export default {
   },
   computed: {},
   methods: {
+    // 树节点过滤
+    onFilterNode (value, data) {
+      if (!value) return true
+      return data.label.indexOf(value) !== -1
+    },
     search () {
       var _this = this
       if (_this.model.name === null && _this.model.shop === null && _this.model.job === null) {
@@ -84,7 +95,7 @@ export default {
       _this.$http.fetch(_this.$api.guide.guide.customerGetGuideTree).then(resp => {
         if (resp.success && resp.result != null) {
           _this.shopFindList = resp.result
-          _this.shopFindList.unshift(_this.quanbuArr)
+          _this.shopFindList.unshift(_this.allGuideArr)
           console.log('jkjkjl:', _this.shopFindList)
           _this.shopFindList.map(item => {
             console.log(item)
@@ -141,6 +152,19 @@ export default {
           job: ''
         }
       }
+    },
+    changeState (state, id) {
+      let _this = this
+      _this.$http.fetch(_this.$api.guide.guide.updateGuideStatus, {
+        guideId: id,
+        status: state
+      }).then(resp => {
+        if (resp.success && resp.result != null) {
+          _this.shopFindList = resp.result
+        }
+      }).catch((resp) => {
+        _this.$notify.error('查询失败：' + resp.msg)
+      })
     }
     // changeState(state, id) {
     //   let _this = this

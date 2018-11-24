@@ -3,11 +3,15 @@
     <el-row class="overview-content__grid" :gutter="15">
       <el-col :span="6">
         <div class='overview-content__item'>
-            <div style='height:61px;text-align：center;padding-top:20px'>
-              <el-date-picker
+            <div class="c-change" style='height:61px;text-align：center;padding-top:20px;padding-left:20px'>
+
+            <el-date-picker
+              @change='change'
               v-model="searchObj.monthDate"
-              type="date"
-              placeholder="选择月">
+              type="month"
+              placeholder="选择月"
+
+              >
             </el-date-picker>
             </div>
             <div class='el-card-body date'>
@@ -26,7 +30,7 @@
         <div class='overview-content__item'>
           <p class='el-card-tit'>销售额</p>
           <div class='el-card-body clearfix'>
-            <span class='el-card-num float-left' v-if='getRewardInfoObj.payment'>+{{getRewardInfoObj.payment}}</span>
+            <span class='el-card-num float-left'>+{{getRewardInfoObj.payment||0}}</span>
             <el-progress type="circle" :percentage="getRewardInfoObj.paymentPersent" :width='90' color='#0091FA' class='float-right'></el-progress>
           </div>
         </div>
@@ -35,7 +39,7 @@
         <div class='overview-content__item'>
           <p class='el-card-tit'>招募会员</p>
           <div class='el-card-body clearfix'>
-            <span class='el-card-num float-left' v-if='getRewardInfoObj.memberCount'>+{{getRewardInfoObj.memberCount}}</span>
+            <span class='el-card-num float-left' >+{{getRewardInfoObj.memberCount || 0}}</span>
             <el-progress type="circle" :percentage="getRewardInfoObj.memberCountPersent" :width='90' color='#50D065' class='float-right'></el-progress>
           </div>
         </div>
@@ -44,7 +48,7 @@
         <div class='overview-content__item'>
           <div class='el-card-tit'>
             <p class='el-card-tit-one'>导购提成奖励</p>
-            <p class='el-card-tit-two'>{{getRewardInfoObj.reward ? '¥' + getRewardInfoObj.reward :''}}</p>
+            <p class='el-card-tit-two'>{{getRewardInfoObj.reward !=null? '¥' + getRewardInfoObj.reward :''}}</p>
           </div>
 
           <div class='el-card-body clearfix'>
@@ -67,19 +71,42 @@
 
     </el-row>
     <el-row class='overview-content__mid':gutter="16">
-      <el-col :span="6" >
+      <!-- <el-col :span="6" >
         <div class='overview-content__mid-item bg-white'>
           <p class='subtitle'>常用功能</p>
           <div class="mid-item-btn" style='height:400px'>
             <div class="flex flex-between">
-              <ns-button type='primary'>任务管理</ns-button>
-              <ns-button type='primary'>指标管理</ns-button>
-              <ns-button type='primary'>员工离职</ns-button>
+              <router-link class="list-area" :to="{ name: 'GUIDE_TASK'}">
+                <ns-button type='primary'>任务管理</ns-button>
+              </router-link>
+              <router-link class="list-area" :to="{ name: 'ACTIVITY_INDEX_SHOP_SETLIST'}">
+                <ns-button type='primary'>指标管理</ns-button>
+              </router-link>
+              <router-link class="list-area" :to="{ name: 'YGGL'}">
+                <ns-button type='primary'>员工离职</ns-button>
+              </router-link>
             </div>
             <div class="flex flex-between">
-              <ns-button type='primary'>卡券管理</ns-button>
-              <ns-button type='primary'>商品管理</ns-button>
-              <ns-button type='primary'>任务管理</ns-button>
+              <router-link class="list-area" :to="{ name: 'KQGL'}">
+                <ns-button type='primary'>卡券管理</ns-button>
+              </router-link>
+            </div>
+          </div>
+        </div>
+       </el-col> -->
+       <el-col :span="6" >
+        <div class='overview-content__mid-item bg-white'>
+          <p class='subtitle'>销售
+            <span class='subtitle-abs top5'>TOP5</span>
+            <span class='subtitle-abs all'>查看所有</span>
+          </p>
+          <div class="mid-item-ul" style='height:400px'>
+            <div class="" v-if='!guideSellRankingArr.length'>
+              <ns-no-data>暂无销售数据</ns-no-data>
+            </div>
+            <div class="mid-item-li flex flex-between" v-for="(item,index) in guideSellRankingArr">
+              <span>{{index}}. {{item.name}}<i style='color:#909399;font-style:normal'>（{{item.shopName}}）</i></span>
+              <span style='color:#909399'>{{item.perf_all}}</span>
             </div>
           </div>
         </div>
@@ -93,7 +120,7 @@
         </div>
       </el-col>
     </el-row>
-    <el-row class='overview-content__mid':gutter="16">
+    <!-- <el-row class='overview-content__mid':gutter="16">
       <el-col :span="6" >
         <div class='overview-content__mid-item bg-white'>
           <p class='subtitle'>销售
@@ -134,7 +161,7 @@
           </div>
         </div>
       </el-col>
-    </el-row>
+    </el-row> -->
     <!-- <el-row class="overview-content__echart" :gutter="5">
       <el-col :span="12">
        <div v-loading.lock="loadingSale"
@@ -668,4 +695,9 @@
     }
   }
 
+</style>
+<style>
+  .c-change .el-input__inner{
+    padding-left: 30px !important;
+  }
 </style>

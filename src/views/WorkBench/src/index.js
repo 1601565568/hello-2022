@@ -47,7 +47,7 @@ export default {
       currentMonth: null,
       searchObj: {
         id: null,
-        monthDate: ''
+        monthDate: '2018-11'
       },
       getRewardInfoObj: {}, // 当月业绩情况对象
       guideSellRankingArr: [],
@@ -209,6 +209,13 @@ export default {
         this.getRewardInfo(id)
       }
     },
+    change () {
+      this.searchObj.monthDate = ('' + this.searchObj.monthDate.getFullYear() + '-' + (this.searchObj.monthDate.getMonth() + 1))
+      this.findGuideSellRanking()
+      this.findSellReward()
+      this.getRewardInfo()
+      this.findShopSellRanking()
+    },
     getMonthLength (d) { // 给定一个日期  计算出当月天数
       // 将日期设置为下月一号
       d.setMonth(d.getMonth() + 1)
@@ -233,7 +240,7 @@ export default {
     async findGuideSellRanking (id) { // 查询导购排行
       let parms = {}
       let that = this
-      parms.monthDate = '2018-06'
+      parms.monthDate = this.searchObj.monthDate
       if (id) {
         parms.shopId = id
       }
@@ -259,7 +266,7 @@ export default {
       }
       let parms = {}
       let that = this
-      parms.monthDate = this.currentMonth
+      parms.monthDate = this.searchObj.monthDate
       if (id) {
         parms.shopId = id
       }
@@ -280,7 +287,7 @@ export default {
     },
     async getRewardInfo (id) { // 当月业绩情况查询
       let parms = {}
-      parms.monthDate = this.currentMonth
+      parms.monthDate = this.searchObj.monthDate
       if (id) {
         parms.shopId = id
       }
@@ -312,7 +319,7 @@ export default {
     async findShopSellRanking () { // 当月门店排行查询
       let parms = {}
       let that = this
-      parms.monthDate = this.currentMonth
+      parms.monthDate = this.searchObj.monthDate
       await this.$http
         .fetch(this.$api.overView.findShopSellRanking, parms)
         .then(resp => {
