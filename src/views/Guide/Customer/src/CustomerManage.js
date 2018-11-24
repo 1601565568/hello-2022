@@ -42,7 +42,6 @@ export default {
     // })
     return {
       imageRoot: api.API_ROOT + '/core/file/showImage?fileKey=',
-      title: '',
       brandId: null,
       title: '导购更换列表',
       dialogFormVisible: false,
@@ -176,33 +175,6 @@ export default {
       _this.paginations.page = 1
       _this.findCustomerList()
     },
-    // 利用map key的唯一性去重
-    handRepeatCustomer (selected, unSelected) {
-      var _this = this
-      var map = new Map()
-      var arrays = []
-      if (unSelected !== null && unSelected !== undefined && unSelected.length > 0) {
-        for (let x = 0; x < _this.allPageCustomer.length; x++) {
-          for (let y; y < unSelected.length; y++) {
-            if (_this.allPageCustomer[x].customerId === unSelected[y]) {
-              _this.allPageCustomer.splice(x, 1)
-              x--
-            }
-          }
-        }
-      } else {
-        for (let x = 0; x < selected.length; x++) {
-          map.set(selected[x].customerId + '', selected[x])
-        }
-        for (let y = 0; y < _this.allPageCustomer.length; y++) {
-          map.set(_this.allPageCustomer[y].customerId + '', _this.allPageCustomer[y])
-        }
-        map.forEach(function (value, key, map) {
-          arrays.push(value)
-        })
-        _this.allPageCustomer = arrays
-      }
-    },
     selectAll: function (selected) {
       var _this = this
       // 当前页全选
@@ -271,18 +243,11 @@ export default {
       this.row = null
     },
     onSave () {
-      console.log('value:', this.value)
       var _this = this
       if (_this.value !== null) {
         _this.multipleSelection.map(item => {
           _this.customerIdList.push(item.customerId)
         })
-        // this.model.sgGuide = {
-        //   customerIds: _this.customerIdList.join(','),
-        //   newGuideId: _this.value.id,
-        //   oldGuideId: _this.value.id,
-        //   shopId: _this.value.parentId
-        // }
         this.$http.fetch(this.$api.guide.guide.updateCustomerGuide, {
           customerIds: _this.customerIdList.join(','),
           newGuideId: Number(_this.value),
@@ -291,17 +256,15 @@ export default {
         }).then(resp => {
           _this.closeDialog()
           _this.$notify.success('保存成功')
-          this.$refs.table.$reload()
+          _this.$refs.table.$reload()
         }).catch((resp) => {
-          this.model.sgGuide.image = allImageUrl
+          // _this.model.sgGuide.image = allImageUrl
           _this.$notify.error('保存失败：' + resp.msg)
         })
       } else {
         _this.$notify.error('请选择要更换的导购！')
       }
-      
-      
-    },
+    }
   },
   mounted: function () {
     var _this = this
