@@ -42,7 +42,6 @@ export default {
     // })
     return {
       imageRoot: api.API_ROOT + '/core/file/showImage?fileKey=',
-      title: '',
       brandId: null,
       title: '导购更换列表',
       dialogFormVisible: false,
@@ -293,15 +292,12 @@ export default {
           _this.$notify.success('保存成功')
           this.$refs.table.$reload()
         }).catch((resp) => {
-          this.model.sgGuide.image = allImageUrl
           _this.$notify.error('保存失败：' + resp.msg)
         })
       } else {
         _this.$notify.error('请选择要更换的导购！')
       }
-      
-      
-    },
+    }
   },
   mounted: function () {
     var _this = this

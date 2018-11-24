@@ -2,21 +2,22 @@
   <el-row class="overview-content__grid" :gutter="15">
       <el-col :span="4">
         <div class="template-page__row-left">
-          <el-input ref="quickText" style="width: 250px" v-model="model.name" placeholder="输入姓名或工号" clearable>
+          <el-input ref="quickText" style="width: 250px" v-model="filterTreeText" placeholder="输入姓名或工号" clearable>
             <i class="el-icon-search el-input__icon" slot="suffix" name="name" @click="$quickSearchAction$('name')"></i>
           </el-input>
-            <el-tree class="filter-tree" :data="shopFindList">
+            <el-tree class="filter-tree" ref="guideTree" :data="shopFindList"
+                     default-expand-all :filter-node-method="onFilterNode">
               <div class="subdivision-tree-node" slot-scope="{ node, data }" >
-                <span>{{node.label}}</span> 
+                <span>{{node.label}}</span>
                 <span class="subdivision-tree-node-icon">
                   <span>
-                    
+
                   </span>
                   <span>
-                    
+
                   </span>
                   <span>
-                    
+
                   </span>
                 </span>
               </div>
@@ -165,8 +166,8 @@
     </template>
     <!-- 分页-结束 -->
   </ns-page-table>
-      </el-col>    
-  </el-row> 
+      </el-col>
+  </el-row>
 </template>
 
 <script>
