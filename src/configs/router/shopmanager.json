@@ -28,7 +28,7 @@
         {
           "path": "/Guide/Customer/CustomerManage",
           "name": "CUSTOMER_MANAGER",
-          "title": "导购客户管理",
+          "title": "客户管理",
           "componentPath": "Guide/Customer/CustomerManage"
         }
       ]

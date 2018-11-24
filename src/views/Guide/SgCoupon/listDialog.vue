@@ -138,7 +138,7 @@
     },
     methods: {
       onAreaChange (e) {
-        console.log(e)
+        console.log('e:', e)
       },
       showToggle (id) {
         this.searchObj.searchMap.id = id
@@ -147,6 +147,7 @@
       },
       // 提交搜索
       submitForm (formName) {
+        console.log('formName:', formName)
         // 组装搜索对象
         this.searchObj.searchMap.province = this.searchform.area[0]
         this.searchObj.searchMap.city = this.searchform.area[1]
