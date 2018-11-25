@@ -187,7 +187,7 @@ export default {
       let _this = this
       _this.$http.fetch(_this.$api.guide.guide.updateGuideStatus, {
         guideId: id,
-        status: state === 1 ? state = 0 : state = 1
+        status: state
       }).then(resp => {
         if (resp.success) {
           _this.$notify.success('切换成功！')
