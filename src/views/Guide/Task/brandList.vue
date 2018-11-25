@@ -83,7 +83,7 @@
       style="width: 100%"
       >
       <el-table-column prop="name" label="名称"></el-table-column>
-      <el-table-column prop="name" align="right" label="指派门店" width="120" >
+      <el-table-column prop="name" align="left" label="指派门店" width="120" >
         <template slot-scope="{row}">
           <a @click="shopListModalDomShowToggle(row.id)" href="javascript:" v-if="row.targetIds === 0">全部门店</a>
           <a @click="shopListModalDomShowToggle(row.id)" href="javascript:" v-else>{{row.allNum}}家</a>
