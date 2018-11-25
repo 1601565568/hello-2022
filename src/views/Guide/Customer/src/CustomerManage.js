@@ -213,6 +213,7 @@ export default {
         }).then(resp => {
           _this.closeDialog()
           _this.$notify.success('保存成功')
+          _this.$refs.table.$reload()
         }).catch((resp) => {
           _this.$notify.error('保存失败：' + resp.msg)
         })
