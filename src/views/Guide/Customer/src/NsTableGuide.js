@@ -22,26 +22,13 @@ export default {
       }
     ]
     let quickSearchModel = {}
-    let searchModel = {
-      sgGuide: {
-        guideId: null,
-        name: null,
-        nickname: null,
-        mobile: null
-      },
-      sgGuideShop: {
-        id: null,
-        shopId: null,
-        job: 0
-      }
-    }
     let findVo = {
       'name': null,
       'shop': null,
       'job': null,
       'guideState': 1
     }
-    let model = Object.assign({}, findVo, {}, searchModel)
+    let model = Object.assign({}, findVo, {})
     return {
       filterTreeText: '',
       model: model,
@@ -49,8 +36,6 @@ export default {
       _pagination: pagination,
       _table: {
         table_buttons: tableButtons,
-        // operate_buttons: operateButtons,
-        // quickSearchNames: quickSearchNames,
         quickSearchMap: {}
       },
       _queryConfig: { expand: false },
@@ -58,7 +43,9 @@ export default {
       select: true,
       shopFindList: [],
       shopFindListLength: [],
-      allGuideArr: { id: -1, pId: null, label: '全部导购' }
+      dataList: [],
+      allGuideArr: { id: null, pId: null, label: '全部导购' },
+      shuJushuzu: {}
     }
   },
   watch: {
@@ -77,6 +64,11 @@ export default {
   },
   computed: {},
   methods: {
+    onClickNode (data) {
+      var _this = this
+      _this.shuJushuzu = data
+      _this.$reload()
+    },
     // 树节点过滤
     onFilterNode (value, data) {
       if (!value) return true
@@ -96,10 +88,6 @@ export default {
         if (resp.success && resp.result != null) {
           _this.shopFindList = resp.result
           _this.shopFindList.unshift(_this.allGuideArr)
-          console.log('jkjkjl:', _this.shopFindList)
-          _this.shopFindList.map(item => {
-            console.log(item)
-          })
         }
       }).catch((resp) => {
         _this.$notify.error('查询失败：' + resp.msg)
@@ -142,42 +130,11 @@ export default {
         return null
       }
     },
-    getListFirst (list) {
-      if (list && list.length > 0) {
-        return list[0]
-      } else {
-        return {
-          district: '',
-          name: '',
-          job: ''
-        }
-      }
-    },
-    changeState (state, id) {
-      let _this = this
-      _this.$http.fetch(_this.$api.guide.guide.updateGuideStatus, {
-        guideId: id,
-        status: state
-      }).then(resp => {
-        if (resp.success && resp.result != null) {
-          _this.shopFindList = resp.result
-        }
-      }).catch((resp) => {
-        _this.$notify.error('查询失败：' + resp.msg)
-      })
+    '$handleParams': function (params) {
+      var _this = this
+      params.searchMap.guideId = Number(_this.shuJushuzu.id)
+      params.searchMap.shopId = Number(_this.shuJushuzu.parentId)
+      return params
     }
-    // changeState(state, id) {
-    //   let _this = this
-    //   _this.$http.fetch(_this.$api.guide.guide.updateGuideStatus, {
-    //     guideId: id,
-    //     status: state
-    //   }).then(resp => {
-    //     if (resp.success && resp.result != null) {
-    //       _this.shopFindList = resp.result
-    //     }
-    //   }).catch((resp) => {
-    //     _this.$notify.error('查询失败：' + resp.msg)
-    //   })
-    // }
   }
 }

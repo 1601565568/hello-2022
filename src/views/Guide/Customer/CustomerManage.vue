@@ -4,9 +4,9 @@
       @shopEdit="shopEdit" @onRedactFun="onRedactFun" @handleSelectionChange="handleSelectionChange">
     </ns-table-guide>
     <!--  自定义客户转移弹窗开始  -->
-    <el-dialog :title="title" width="560px" height="300px" :visible.sync="shopFindListShow"  @keyup.enter.native="onKeyUp" @keyup.esc.native="onKeyUp">
+    <el-dialog :title="title" width="560px" height="300px" :visible.sync="shopFindListShow" @keyup.enter.native="onKeyUp" @keyup.esc.native="onKeyUp">
       <div class="guideBox" style="overflow-x:hidden;overflow-y:auto;">
-        <el-select v-model="value" placeholder="请选择要更换的导购" >
+        <el-select v-model="value" placeholder="请选择要更换的导购">
           <el-option
             v-for="item in shopFindList"
             :key="item.id"
@@ -20,6 +20,49 @@
         <ns-button type="primary" @click="onSave">确定</ns-button>
       </div>
     </el-dialog>
+    <el-dialog :title="title" :visible.sync="shopKuhuShow" width="600px"  @keyup.enter.native="onKeyUp" @keyup.esc.native="onKeyUp" >
+    <div>
+      <div class="kehuBox-main">
+        <div class="kehuBox-main-top">
+          <p>
+            <img :src="items.image" class="man-img">
+            <span class="man-name">{{items.gradeName}}</span>
+            <span>{{items.grade}}</span>
+          </p>
+          <!-- <p class="p-button">X</p> -->
+        </div>
+        <div>
+          <div class="kehuBox-main-span">
+            <el-row>
+              <el-col :span='8'><span>姓名：{{items.customerName}}</span></el-col>
+              <el-col :span='8'><span>会员卡：{{items.memberCard}}</span></el-col>
+              <el-col :span='8'><span>生日：{{items.birthday}}</span></el-col>
+            </el-row>
+            <el-row>
+              <el-col :span='8'><span>性别：{{items.sex}}</span></el-col>
+              <el-col :span='8'><span>手机号：{{items.mobile}}</span></el-col>
+              <el-col :span='8'><span>地址：{{items.address}}</span></el-col>
+            </el-row>
+            <el-row>
+              <el-col :span='8'><span>积分：{{items.point}}</span></el-col>
+              <!-- <el-col :span='8'><span>优惠券：{{items.point}}</span></el-col> -->
+            </el-row>
+            <!-- <p> <span>性别：{{items.sex}}</span><span>手机号：{{items.mobile}}</span><span>地址：{{items.address}}</span></p>
+            <p> <span>积分：{{items.point}}</span> <span>{{items.point}}</span></p> -->
+          </div>
+          <div>
+            <p class="p-title">客户印象：</p>
+            <p>{{items.impression}}</p>
+            <p class="p-title">客户标签：</p>
+            <p v-for="item in items.tagList" :key="item.id">
+              <span>{{item.name}}+':'+{{item.value}}</span>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    </el-dialog>
+      
   </div>
 </template>
 
@@ -56,15 +99,44 @@ export default CustomerManage
     height: 128px;
     display: block;
   }
-  .shopFindListShow{
-    width: 600px;
-    height:300px;
-    background-color: #fff;
-    position: fixed;
-    top: 40%;
-    left: 40%;
-    /* padding:0 50% 50% 0; */
-
+  .kehuBox-main {
+    padding: 10px 20px 30px;
+  }
+  .kehuBox-main-top{
+    display: flex;
+    justify-content:space-between;
+    height: 35px;
+    line-height: 35px;
+    font-size: 12px;
+    color: #999;
+  }
+  .kehuBox-main-main{
+    display: flex;
+    align-items:flex-start;
+  }
+  .kehuBox-main-span {
+    padding: 20px 0 0;
+  }
+  .kehuBox-main-span span{
+    font-size: 12px;
+    line-height: 2.3;
+  }
+  .man-img{
+    width: 35px;
+    height: 35px;
+    border: 1px solid #999;
+    border-radius: 50%;
+    float: left;
+  }
+  .man-name {
+    font-size: 15px;
+    color: #000000;
+    padding-left: 10px;
+  }
+  .p-title {
+    padding: 20px 0 5px;
+    color: #000000;
+    font-weight: 600;
   }
 </style>
 

@@ -276,16 +276,23 @@ export default {
     },
     onDelsTipFun (row) {
       var _this = this
-      _this.$http.fetch(_this.$api.guide.guide.deleteGuides, {
-        guideIds: row.id
-      }).then(resp => {
-        if (resp.result.failCount > 0) {
-          _this.deleteFormVisible = true
-        }
-        _this.guideList = []
-        _this.findGuideList()
-      }).catch((resp) => {
-        _this.$notify.error('查询失败：' + resp.msg)
+      _this.$confirm('请确认是否对 ' + row.name + ' 进行删除操作!', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        _this.$http.fetch(_this.$api.guide.guide.deleteGuides, {
+          guideIds: row.id
+        }).then(resp => {
+          if (resp.result.failCount > 0) {
+            _this.deleteFormVisible = true
+          }
+          _this.$notify.success('删除成功')
+          _this.guideList = []
+          _this.findGuideList()
+        }).catch((resp) => {
+          _this.$notify.error('删除失败，原因：' + resp.msg)
+        })
       })
     },
     initShopList () {
@@ -310,16 +317,6 @@ export default {
         _this.$notify.error('查询失败,' + resp.msg)
       })
     },
-    // 新增客户
-    // redactFun () {
-    //   this.$emit('redactFun', val)
-    // },
-    // delsTipFun () {
-    //   this.$emit('delsTipFun', val)
-    // },
-    // dimissionFun () {
-    //   this.$emit('dimissionFun', val)
-    // },
     onRedactFun (row) {
       this.row = row
       if (row) {

@@ -1,30 +1,19 @@
 <template>
-  <el-row class="overview-content__grid" :gutter="15">
-      <el-col :span="4">
+<div calss="NsTableGuide_main">
+  
         <div class="template-page__row-left">
           <el-input ref="quickText" style="width: 250px" v-model="filterTreeText" placeholder="输入姓名或工号" clearable>
             <i class="el-icon-search el-input__icon" slot="suffix" name="name" @click="$quickSearchAction$('name')"></i>
           </el-input>
             <el-tree class="filter-tree" ref="guideTree" :data="shopFindList"
-                     default-expand-all :filter-node-method="onFilterNode">
+                     default-expand-all :filter-node-method="onFilterNode" @node-click="onClickNode">
               <div class="subdivision-tree-node" slot-scope="{ node, data }" >
                 <span>{{node.label}}</span>
-                <span class="subdivision-tree-node-icon">
-                  <span>
-
-                  </span>
-                  <span>
-
-                  </span>
-                  <span>
-
-                  </span>
-                </span>
               </div>
             </el-tree>
         </div>
-      </el-col>
-      <el-col :span="20">
+        <div  class="template-page__row-right">
+
         <ns-page-table @add="$emit('add')"  @shopEdit="$emit('shopEdit')" >
     <!-- 按钮 -->
     <template slot="buttons">
@@ -69,13 +58,13 @@
 
         <el-form-item label="手机号：">
           <el-form-grid size="xmd">
-            <el-input style="width:180px" autofocus=true v-model="model.name" placeholder="请输入手机号" clearable></el-input>
+            <el-input style="width:180px" autofocus=true v-model="model.mobile" placeholder="请输入手机号" clearable></el-input>
           </el-form-grid>
         </el-form-item>
 
         <el-form-item label="昵称：">
           <el-form-grid size="xmd">
-            <el-input style="width:180px" autofocus=true v-model="model.name" placeholder="请输入昵称" clearable></el-input>
+            <el-input style="width:180px" autofocus=true v-model="model.nickName" placeholder="请输入昵称" clearable></el-input>
           </el-form-grid>
         </el-form-item>
       </el-form>
@@ -100,7 +89,7 @@
 
       <el-table ref="table" :data="_data._table.data" stripe @selection-change="handleSelectionChange">
         <el-table-column type="selection" width="42"></el-table-column>
-        <el-table-column prop="name" label="客户姓名" align="left" width="180">
+        <el-table-column prop="name" label="客户姓名" align="left" width="150">
           <template slot-scope="scope">
             {{scope.row.name?scope.row.name:'-'}}
           </template>
@@ -120,7 +109,7 @@
               </div>
           </template>
         </el-table-column>
-        <el-table-column prop="nickName" label="昵称" align="left" width="180">
+        <el-table-column prop="nickName" label="昵称" align="left" width="160">
           <template slot-scope="scope">
             {{scope.row.nickName?scope.row.nickName:'-'}}
           </template>
@@ -135,12 +124,12 @@
               {{scope.row.guideName ? scope.row.guideName : "-"}}
           </template>
         </el-table-column>
-        <el-table-column prop="registerTime" label="招募时间" align="left" width="180">
+        <el-table-column prop="registerTime" label="招募时间" align="left" width="160">
             <template slot-scope="scope">
               {{scope.row.registerTime?scope.row.registerTime:'-'}}
             </template>
         </el-table-column>
-        <el-table-column prop="status,row" :show-overflow-tooltip="true" label="操作" align="right" width="120">
+        <el-table-column prop="status,row" :show-overflow-tooltip="true" label="操作" align="right" width="60">
           <template slot-scope="scope">
             <div>
               <ns-button style="color:#0091FA" @click="onRedactFun(scope.row)" type="text">详情</ns-button>
@@ -166,8 +155,9 @@
     </template>
     <!-- 分页-结束 -->
   </ns-page-table>
-      </el-col>
-  </el-row>
+
+    </div>
+  </div>
 </template>
 
 <script>
@@ -177,12 +167,42 @@
 </script>
 
 <style scoped>
-  .subdivision-tree-node{
-    position: felx;
-    justify-content:space-between;
+  .template-page__row-left {
+    width: 260px;
+    position: absolute;
+    left: 210px;
+    top: 70px;
+    z-index: 2;
   }
-  .template-page__row-left{
-    height:685px;
+  .template-page__row-right {
+    position: absolute;
+    top: 70px;
+    left: 0;
+    z-index: 1;
+    width: 100%;
+    margin: 0;
   }
-
+  .template-table {
+    margin: 0 10px 0 480px;
+  }
+  @media screen and (min-width: 1624px) {
+    .template-page__row-left {
+      width: 260px;
+      position: absolute;
+      left: 210px;
+      top: 90px;
+      z-index: 2;
+    }
+    .template-page__row-right {
+      position: absolute;
+      top: 90px;
+      left: 0;
+      z-index: 1;
+      width: 100%;
+      margin: 0;
+    }
+    .template-table {
+      margin: 0 10px 0 480px;
+    }
+  }
 </style>

@@ -86,5 +86,13 @@ export default {
   customerGetGuideTree: {// 查询店铺导购树
     url: '/guide/guide/getGuideTree',
     method: 'post'
+  },
+  customerGetDetail: {// 客户详情
+    url: '/guide/customer/getDetail',
+    method: 'post'
+  },
+  queryCustomerCouponNum: {// 查询客户可用优惠券数量
+    url: '/guide/customer/queryCustomerCouponNum',
+    method: 'get'
   }
 }

@@ -22,24 +22,6 @@ export default {
       'guideState': 1
     }
     let model = Object.assign({}, findVo, {}, searchModel)
-    // let model = Object.assign({}, findVo, {}, searchModel)
-    // let that = this
-    // quickInput.map(item => {
-    //   Object.defineProperty(quickSearchModel, item.name, {
-    //     get: function () {
-    //       return model[item.name]
-    //     },
-    //     set: function (val) {
-    //       model[item.name] = val
-    //       // TODO 由于特殊需求导致以下列写法
-    //       if (item.type === 'radio') {
-    //         that._data._table.quickSearchMap[item.name] = val
-    //         that.$quickSearch$()
-    //       }
-    //     },
-    //     enumerable: true
-    //   })
-    // })
     return {
       imageRoot: api.API_ROOT + '/core/file/showImage?fileKey=',
       brandId: null,
@@ -61,8 +43,33 @@ export default {
       guideShopList: [],
       tableDataCustomer: [],        // 客户集合
       multipleSelection: [],
-      multipleSelections: [],
+      multipleSelections: [],       // 客户详情数组
       customerIdList: [],
+      kehushow: false,
+      items: {
+        address: '浙江省/杭州市/西湖区',
+        id: '0',
+        birthday: '2018-09-09',
+        createTime: '2018-08-08',
+        customerId: '88888888',
+        customerName: 'Temo',
+        grade: 'VIP8',
+        gradeName: '高级会员',
+        image: 'https://ecrm.oss-cn-hangzhou.aliyuncs.com/test/201811/120,910,104,359,001/e6d44b7b-88a8-47c8-9822-cccb54745b37.png',
+        impression: '“伟大的变革——庆祝改革开放40周年大型展览”目前正在中国国家博物馆举行，展览上的“时光杂货铺”内陈列的展品呈现了改革开放40年来人民衣食住行等生活方式的变迁，带领人们“穿越”历史，重温美好时光。',
+        memberCard: '888888888',
+        mobile: '15888888888',
+        point: '88888888',
+        sex: '男',
+        tagList: [
+          {
+            id: '999999',
+            name: 'kkkkkk',
+            tagType: '009',
+            value: '998877'
+          }
+        ]
+      },
       model: model,
       changeValue: {},
       logoValue: null,
@@ -79,18 +86,34 @@ export default {
       state: {},
       obj: {},
       shopFindListShow: false,
-      pickerOptions: {
-        disabledDate (time) {
-          return time.getTime() > Date.now() - 8.64e7
-        }
-      },
+      shopKuhuShow: false,
+      // pickerOptions: {
+      //   disabledDate (time) {
+      //     return time.getTime() > Date.now() - 8.64e7
+      //   }
+      // },
       _queryConfig: {expand: false}
     }
   },
   methods: {
+    onKeyUp (e) {
+      var key = window.event.keyCode
+      var _this = this
+      if (key === 13) {
+        _this.onSave()
+      } else if (key === 27) {
+        _this.$confirm('内容被修改是否要保存！', '提示', {
+          confirmButtonText: '保存',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+        })
+      } else {
+        _this.shopFindListShow = false
+      }
+    },
     handleSelectionChange (value) {
       this.multipleSelection = value
-      console.log(this.multipleSelection)
     },
     initShopList () {
       var _this = this
@@ -99,25 +122,32 @@ export default {
           resp.result.map(item => {
             _this.shopFindList.push(...item.children)
           })
-          console.log('kkkkk:', _this.shopFindList)
-          // _this.shopFindList = resp.result
         }
       }).catch((resp) => {
         _this.$notify.error('查询失败：' + resp.msg)
       })
     },
-    onRedactFun () {
+    // 更换导购弹窗\详情展示
+    onRedactFun (val) {
       var _this = this
-      if (_this.multipleSelection.length > 0) {
-        _this.$confirm('正在对 ' + _this.multipleSelection.length + ' 名会员进行导购更换!', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
+      if (val === undefined) {
+        if (this.multipleSelection.length > 0) {
           _this.shopFindListShow = true
-        })
+        } else {
+          _this.$notify.error('请选择要更换导购的客户')
+        }
       } else {
-        _this.$notify.error('请选择要进行导购更换的会员！')
+        _this.$http.fetch(_this.$api.guide.guide.customerGetDetail, {
+          customerId: Number(val.customerId),
+          guideId: Number(val.guideId),
+          shopId: null
+        }).then(resp => {
+          if (resp.success && resp.result != null) {
+            _this.items = resp.result
+          }
+        }).catch((resp) => {
+          _this.$notify.error('查询失败：' + resp.msg)
+        })
       }
     },
     shopEdit (row) {
@@ -128,7 +158,6 @@ export default {
         _this.shopFormVisible = true
       }
     },
-    // 离职js开始
     // 查询客户列表
     findCustomerList (page, pageSize) {
       var _this = this
@@ -146,21 +175,8 @@ export default {
           _this.chooseCustomerFocus()
         }
       }).catch((resp) => {
-        // _this.$notify.error('查询失败：' + resp.msg)
+        _this.$notify.error('查询失败：' + resp.msg)
       })
-    },
-    // 关闭自定义转移弹窗
-    onCancelCustomTransfer () {
-      var _this = this
-      _this.paginations = {
-        enable: true,
-        size: 10,
-        sizeOpts: [5, 10, 15],
-        page: 1,
-        total: 0
-      }
-      _this.customFormVisible = false
-      _this.receiveGuideId = null
     },
     // 分页-页数改变
     customerPageChange (page) {
@@ -175,90 +191,29 @@ export default {
       _this.paginations.page = 1
       _this.findCustomerList()
     },
-    selectAll: function (selected) {
-      var _this = this
-      // 当前页全选
-      if (selected.length !== 0) {
-        var arrays = []
-        for (var a = 0; a < selected.length; a++) {
-          arrays.push(selected[a])
-        }
-        _this.thisPageCustomer = arrays
-        if (_this.allPageCustomer.length > 0) {
-          // 数组去重
-          _this.handRepeatCustomer(arrays, null)
-        } else {
-          _this.allPageCustomer = arrays
-        }
-      } else {
-        // 当前页全不选
-        _this.handRepeatCustomer(null, _this.thisPageCustomer)
-      }
-    },
-    selectRow: function (selected, row) {
-      var _this = this
-      _this.thisPageCustomer = selected
-      if (row !== null) {
-        for (let x = 0; x < _this.allPageCustomer.length; x++) {
-          if (_this.allPageCustomer[x].customerId === row.customerId) {
-            _this.allPageCustomer.splice(x, 1)
-            break
-          }
-        }
-      }
-      if (selected.length > 0) {
-        _this.handRepeatCustomer(selected, null)
-      }
-    },
-    chooseCustomerFocus: function () {
-      var _this = this
-      if (_this.allPageCustomer.length > 0) {
-        _this.tableDataCustomer.filter(function (item, index) {
-          for (var i = 0; i < _this.allPageCustomer.length; i++) {
-            if (_this.allPageCustomer[i].customerId === item.customerId) {
-              setTimeout(function () {
-                _this.$refs.chooseCustomer.toggleRowSelection(item)
-              }, 0)
-            }
-          }
-        })
-      }
-    },
-    disabled (shopId) {
-      let retVal = this.guideShopList.some(item => {
-        return item.shopId === shopId
-      })
-      return retVal
-    },
-    thisGuideDisabled (guideId) {
-      let retVal = this.guideShopList.some(item => {
-        return item.id === guideId
-      })
-      return retVal
-    },
     closeDialog () {
-      Object.assign(this.$data.model, this.$options.data().model)
-      this.$refs.addForm.resetFields()
-      this.dialogFormVisible = false
-      this.row = null
+      this.shopFindListShow = false
     },
     onSave () {
       var _this = this
+      _this.shopFindList.map(item => {
+        if (_this.value === item.id) {
+          _this.value = item
+        }
+      })
       if (_this.value !== null) {
         _this.multipleSelection.map(item => {
           _this.customerIdList.push(item.customerId)
         })
         this.$http.fetch(this.$api.guide.guide.updateCustomerGuide, {
           customerIds: _this.customerIdList.join(','),
-          newGuideId: Number(_this.value),
+          newGuideId: Number(_this.value.id),
           oldGuideId: Number(_this.value.id),
           shopId: Number(_this.value.parentId)
         }).then(resp => {
           _this.closeDialog()
           _this.$notify.success('保存成功')
-          _this.$refs.table.$reload()
         }).catch((resp) => {
-          // _this.model.sgGuide.image = allImageUrl
           _this.$notify.error('保存失败：' + resp.msg)
         })
       } else {
