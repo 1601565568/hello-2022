@@ -13,7 +13,7 @@
             </div>
           </el-col>
           <el-col :span="17">
-            <el-form ref="searchform" class="float-right"  :inline="true" :model="searchform">
+            <el-form ref="searchform" class="float-right"  :inline="true" :model="searchform" style='padding-top:3px'>
               <el-form-item label="门店名称：" prop="shopName">
                 <el-input v-model="searchform.shopName" placeholder="请输入门店名称" clearable></el-input>
               </el-form-item>
