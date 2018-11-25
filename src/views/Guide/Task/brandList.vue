@@ -20,9 +20,9 @@
               <ns-button @click="tabSearchType" style="padding: 9px 0 9px 10px;opacity: 0.5;color: #002041;" type="text">{{searchType.tipText}}<i :class="{'el-icon--right': true, 'el-icon-arrow-down': !searchType.advanced, 'el-icon-arrow-up': searchType.advanced} ">
                 </i></ns-button>
             </div>
-            <el-form ref="searchform" class="float-right" v-if="!searchType.advanced" :inline="true" :model="searchform">
+            <el-form ref="searchform" class="float-right" v-if="!searchType.advanced" :inline="true" :model="searchform" style='padding-top:3px'>
               <el-form-item label="任务名称：" prop="name">
-                <el-input v-model="searchform.name" placeholder="请输入任务名称"></el-input>
+                <el-input v-model="searchform.name" placeholder="请输入任务名称" clearable></el-input>
               </el-form-item>
 
               <el-form-item>
@@ -38,7 +38,7 @@
       <div class="template-table__bar-more">
         <el-form ref="searchform" label-width="80px"  class="surround-btn" :model="searchform"  :inline="true">
           <el-form-item label="任务名称：" prop="name">
-            <el-input v-model="searchform.name"  placeholder="请输入任务名称"></el-input>
+            <el-input v-model="searchform.name"  placeholder="请输入任务名称" clearable></el-input>
           </el-form-item>
           <el-form-item label="类型：" prop="type">
               <el-select  v-model="searchform.type" placeholder="请选择类型">
@@ -83,7 +83,7 @@
       style="width: 100%"
       >
       <el-table-column prop="name" label="名称"></el-table-column>
-      <el-table-column prop="name" align="left" label="指派门店" width="120">
+      <el-table-column prop="name" align="right" label="指派门店" width="120" >
         <template slot-scope="{row}">
           <a @click="shopListModalDomShowToggle(row.id)" href="javascript:" v-if="row.targetIds === 0">全部门店</a>
           <a @click="shopListModalDomShowToggle(row.id)" href="javascript:" v-else>{{row.allNum}}家</a>

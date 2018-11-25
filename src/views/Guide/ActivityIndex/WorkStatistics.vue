@@ -16,7 +16,7 @@
               <ns-button @click="tabSearchType" style="padding: 9px 0 9px 10px;opacity: 0.5;color: #002041;" type="text">{{searchType.tipText}}<i :class="{'el-icon--right': true, 'el-icon-arrow-down': !searchType.advanced, 'el-icon-arrow-up': searchType.advanced} ">
                 </i></ns-button>
             </div>
-            <el-form ref="searchform" class="float-right" v-if="!searchType.advanced" :inline="true" :model="searchform">
+            <el-form ref="searchform" class="float-right" v-if="!searchType.advanced" :inline="true" :model="searchform" style='padding-top:3px'>
               <el-form-item  prop="type">
                 <el-select
                 style="width:100px"
@@ -46,7 +46,7 @@
                 </el-date-picker>
               </el-form-item>
               <el-form-item label="门店名称：" prop="shopName">
-                <el-input v-model="searchform.shopName" placeholder="请输入门店名称"></el-input>
+                <el-input v-model="searchform.shopName" placeholder="请输入门店名称" clearable></el-input>
               </el-form-item>
               <el-form-item>
                 <ns-button type="primary" @click="submitForm('searchform')">搜索</ns-button>
@@ -60,7 +60,7 @@
   <div class="template-table-search" v-if="searchType.advanced">
       <div class="template-table__bar-more">
         <el-form ref="searchform" label-width="80px"  class="surround-btn" :model="searchform"  :inline="true">
-          <el-form-item  prop="type">
+          <el-form-item  prop="type" label="查询类型：">
             <el-select
             style="width:100px"
             v-model="searchform.type" placeholder="请选择">
@@ -89,13 +89,13 @@
             </el-date-picker>
           </el-form-item>
           <el-form-item label="门店名称："  prop="shopName">
-            <el-input v-model="searchform.shopName" placeholder="请输入门店名称"></el-input>
+            <el-input v-model="searchform.shopName" placeholder="请输入门店名称" clearable></el-input>
           </el-form-item>
           <el-form-item label="工号："  prop="workId">
-            <el-input v-model="searchform.workId" placeholder="请输入工号"></el-input>
+            <el-input v-model="searchform.workId" placeholder="请输入工号" clearable></el-input>
           </el-form-item>
           <el-form-item label="姓名："  prop="name">
-            <el-input v-model="searchform.name" placeholder="请输入姓名"></el-input>
+            <el-input v-model="searchform.name" placeholder="请输入姓名" clearable></el-input>
           </el-form-item>
         </el-form>
         <div class="template-table__more-btn">

@@ -12,7 +12,7 @@
       <el-form ref="form" :rules="rules" placement="right" label-width="110px"
                :model="model">
         <el-form-item label="任务名称：" prop="name">
-          <el-input style="width:400px;" v-model="model.name"></el-input>
+          <el-input style="width:400px;" v-model="model.name" clearable></el-input>
         </el-form-item>
         <el-form-item label="执行时间：" required prop="activityTime">
           <el-date-picker
@@ -48,7 +48,7 @@
               </el-form-grid>
         </el-form-item>
         <el-form-item label="简述：" prop="remark">
-         <el-input style="width:400px;" type="textarea" v-model="model.remark"></el-input>
+         <el-input style="width:400px;" type="textarea" v-model="model.remark" ></el-input>
         </el-form-item>
         <el-form-item label="执行次数：" prop="runType">
           <el-radio-group v-model="model.runType">
@@ -252,6 +252,7 @@ export default {
           // 置空已经选择的素材
           this.selectMaterial = {}
           this.handleClose()
+          this.$notify.success(resp.msg)
           // 回调刷新列表
           this.$props.callBack()
         })

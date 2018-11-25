@@ -15,7 +15,7 @@
           <el-col :span="17">
             <el-form ref="searchform" class="float-right"  :inline="true" :model="searchform">
               <el-form-item label="门店名称：" prop="shopName">
-                <el-input v-model="searchform.shopName" placeholder="请输入门店名称"></el-input>
+                <el-input v-model="searchform.shopName" placeholder="请输入门店名称" clearable></el-input>
               </el-form-item>
               <el-form-item label="状态：" prop="shopStatus">
                 <el-select v-model="searchform.shopStatus"  placeholder="请选择状态">
@@ -212,6 +212,7 @@ export default {
       this.selectedArr = []
       this.selectedArr.push(item)
       this.AddShowToggle()
+      this.selectedArr = []
     },
     // 选择门店
     handleSelectionChange (val) {
@@ -221,6 +222,7 @@ export default {
     // 加载列表
     async loadListFun (data) {
       this.loading = true
+      this.selectedArr = []
       let searchObj = data || this.searchObj
       await this.$http
         .fetch(this.$api.guide.guide.rewardruleList, searchObj)
