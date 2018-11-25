@@ -313,8 +313,4 @@
     }
   }
 </style>
-<style>
-.el-dropdown-menu, .el-popper ,.el-dropdown-menu--small{
-  left:1643px !important
-}
-</style>
+

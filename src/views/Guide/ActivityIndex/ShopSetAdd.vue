@@ -221,7 +221,9 @@ export default {
       }
       await this.$http
         .fetch(this.$api.guide.guide.shopIndexSave, this.saveObj)
-        .then(resp => {})
+        .then(resp => {
+          this.$notify.success('保存成功')
+        })
         .catch(resp => {
           this.$notify.error('保存失败')
         })

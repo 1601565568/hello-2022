@@ -40,19 +40,19 @@
       >
         <el-table-column prop="shopName" label="门店名称"></el-table-column>
         <el-table-column prop="address" label="区域"></el-table-column>
-        <el-table-column width="64" label="类型">            
+        <el-table-column width="64" label="类型">
             <template slot-scope="{row}">
                 {{row.shopType|shopType}}
             </template>
         </el-table-column>
         <el-table-column  width="84" label="状态">
           <template slot-scope="{row}">
-              <span class="text-error" :class="{'text-error':row.shopStatus<0}">{{row.shopStatus|shopStatus}}</span> 
+              <span class="text-error" :class="{'text-error':row.shopStatus<0}">{{row.shopStatus|shopStatus}}</span>
           </template>
         </el-table-column>
         <!-- <el-table-column prop="managerName" width="86" label="店长"></el-table-column> -->
-        <el-table-column prop="guideTotal" width="80" label="分配导购"></el-table-column>
-        <el-table-column  width="80" label="完成度">
+        <el-table-column prop="guideTotal" width="80" label="分配导购" align='right'></el-table-column>
+        <el-table-column  width="80" label="完成度" align='right'>
           <template slot-scope="{row}">
             {{row.completion + '%'}}
           </template>

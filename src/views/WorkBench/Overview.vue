@@ -1,6 +1,6 @@
 <template>
   <div class="overview-content">
-    <el-row class="overview-content__grid" :gutter="15">
+    <el-row class="overview-content__grid" :gutter="10">
       <el-col :span="6">
         <div class='overview-content__item'>
             <div class="c-change" style='height:61px;text-align：center;padding-top:20px;padding-left:20px'>
@@ -10,7 +10,7 @@
               v-model="searchObj.monthDate"
               type="month"
               placeholder="选择月"
-
+              popper-class='selectMonthPicker'
               >
             </el-date-picker>
             </div>
@@ -30,7 +30,7 @@
         <div class='overview-content__item'>
           <p class='el-card-tit'>销售额</p>
           <div class='el-card-body clearfix'>
-            <span class='el-card-num float-left'>+{{getRewardInfoObj.payment||0}}</span>
+            <span class='el-card-num float-left'>+{{getRewardInfoObj.payment||'0.00'}}</span>
             <el-progress type="circle" :percentage="getRewardInfoObj.paymentPersent" :width='90' color='#0091FA' class='float-right'></el-progress>
           </div>
         </div>
@@ -39,7 +39,7 @@
         <div class='overview-content__item'>
           <p class='el-card-tit'>招募会员</p>
           <div class='el-card-body clearfix'>
-            <span class='el-card-num float-left' >+{{getRewardInfoObj.memberCount || 0}}</span>
+            <span class='el-card-num float-left' >+{{getRewardInfoObj.memberCount || '0.00'}}</span>
             <el-progress type="circle" :percentage="getRewardInfoObj.memberCountPersent" :width='90' color='#50D065' class='float-right'></el-progress>
           </div>
         </div>
@@ -55,14 +55,14 @@
               <el-row  :gutter="5">
                 <el-col :span="9">
                   <p class='el-card-body-tit'>销售提成</p>
-                  <p class='el-card-body-num'>{{getRewardInfoObj.sellReward ?  getRewardInfoObj.sellReward :'0'}}</p>
+                  <p class='el-card-body-num'>{{getRewardInfoObj.sellReward ?  getRewardInfoObj.sellReward :'0.00'}}</p>
                 </el-col>
                 <el-col :span="6">
                   <p class='el-card-body-add'>+</p>
                 </el-col>
                 <el-col :span="9">
                   <p class='el-card-body-tit'>招募会员</p>
-                  <p class='el-card-body-num'>{{getRewardInfoObj.recruitReward ? getRewardInfoObj.recruitReward :'0'}}</p>
+                  <p class='el-card-body-num'>{{getRewardInfoObj.recruitReward ? getRewardInfoObj.recruitReward :'0.00'}}</p>
                 </el-col>
               </el-row>
           </div>
@@ -70,7 +70,7 @@
       </el-col>
 
     </el-row>
-    <el-row class='overview-content__mid':gutter="16">
+    <el-row class='overview-content__mid':gutter="10" style='margin-top:10px'>
       <!-- <el-col :span="6" >
         <div class='overview-content__mid-item bg-white'>
           <p class='subtitle'>常用功能</p>
@@ -98,7 +98,7 @@
         <div class='overview-content__mid-item bg-white'>
           <p class='subtitle'>销售
             <span class='subtitle-abs top5'>TOP5</span>
-            <span class='subtitle-abs all'>查看所有</span>
+            <!-- <span class='subtitle-abs all'>查看所有</span> -->
           </p>
           <div class="mid-item-ul" style='height:400px'>
             <div class="" v-if='!guideSellRankingArr.length'>
@@ -184,6 +184,9 @@
 </script>
 <style scoped lang='scss'>
   @import "../../style/small/variables.pcss";
+  .selectMonthPicker{
+    width: 100px
+  }
   .subtitle{
     font-size: 14px;
     line-height: 20px;
@@ -192,7 +195,8 @@
     border-bottom:1px solid #D8D8D8;
     position: relative;
     .subtitle-abs{
-      position: absolute;
+      position: relative;
+      top: 1px;
       &.top5{
         font-size: 14px;
         color: #606266;

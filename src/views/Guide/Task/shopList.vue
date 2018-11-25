@@ -22,7 +22,7 @@
             </div>
             <el-form ref="searchform" class="float-right" v-if="!searchType.advanced" :inline="true" :model="searchform">
               <el-form-item label="任务名称：" prop="name">
-                <el-input v-model="searchform.name" placeholder="请输入任务名称"></el-input>
+                <el-input v-model="searchform.name" placeholder="请输入任务名称" clearable></el-input>
               </el-form-item>
 
               <el-form-item>
@@ -38,7 +38,7 @@
       <div class="template-table__bar-more">
         <el-form ref="searchform" label-width="80px"  class="surround-btn" :model="searchform"  :inline="true">
           <el-form-item label="任务名称：" prop="name">
-            <el-input v-model="searchform.name" placeholder="请输入任务名称"></el-input>
+            <el-input v-model="searchform.name" placeholder="请输入任务名称" clearable></el-input>
           </el-form-item>
           <el-form-item label="类型：" prop="type">
               <el-select  v-model="searchform.type" placeholder="请选择类型">
