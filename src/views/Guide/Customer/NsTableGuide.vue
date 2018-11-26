@@ -2,7 +2,7 @@
 <div calss="NsTableGuide_main">
   
         <div class="template-page__row-left">
-          <el-input ref="quickText" style="width: 250px" v-model="filterTreeText" placeholder="输入姓名或工号" clearable>
+          <el-input ref="quickText" style="width: 210px" v-model="filterTreeText" placeholder="输入姓名或工号" clearable>
             <i class="el-icon-search el-input__icon" slot="suffix" name="name" @click="$quickSearchAction$('name')"></i>
           </el-input>
             <el-tree class="filter-tree" ref="guideTree" :data="shopFindList"
@@ -109,7 +109,7 @@
               </div>
           </template>
         </el-table-column>
-        <el-table-column prop="nickName" label="昵称" align="left" width="160">
+        <el-table-column prop="nickName" label="昵称" align="left" width="120">
           <template slot-scope="scope">
             {{scope.row.nickName?scope.row.nickName:'-'}}
           </template>
@@ -168,7 +168,7 @@
 
 <style scoped>
   .template-page__row-left {
-    width: 260px;
+    width: 220px;
     position: absolute;
     left: 210px;
     top: 70px;
@@ -183,11 +183,11 @@
     margin: 0;
   }
   .template-table {
-    margin: 0 10px 0 480px;
+    margin: 0 10px 0 440px;
   }
   @media screen and (min-width: 1624px) {
     .template-page__row-left {
-      width: 260px;
+      width: 220px;
       position: absolute;
       left: 210px;
       top: 90px;
@@ -202,7 +202,7 @@
       margin: 0;
     }
     .template-table {
-      margin: 0 10px 0 480px;
+      margin: 0 10px 0 440px;
     }
   }
 </style>
