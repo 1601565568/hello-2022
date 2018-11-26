@@ -16,7 +16,7 @@
       <div>
         <span>执行日期：{{initObj.startTime}} ~ {{initObj.endTime}}</span>
         <span style="margin-left: 20px">
-          <el-date-picker class="dataBox" v-model="queryDate" :editable="false" align="right" type="date" placeholder="选择执行日期"></el-date-picker>
+          <el-date-picker class="dataBox" v-model="queryDate" :editable="false" align="right" type="date" placeholder="选择执行日期" @change='change'></el-date-picker>
           </span>
       </div>
       <div class="content">
@@ -108,6 +108,9 @@ export default {
     submitForm (formName) {
       // 组装搜索对象
       // this.loadListFun()
+    },
+    change () {
+      this.loadListFun(this.queryDate)
     },
     // 加载列表
     async loadListFun (data) {

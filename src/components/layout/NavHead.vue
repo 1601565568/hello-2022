@@ -253,8 +253,14 @@
       font-size: 30px;
       vertical-align: -5px;
       &.icon-admin{
-        font-size: 24px;
-        padding: 4px;
+          &.icon-admin{
+          font-size: 24px;
+          padding: 4px 4px 3px;
+          &:before{
+            position: relative;
+            top:-1px;
+          }
+        }
       }
       &.icon-yunpingtai2{
         margin-right:18px;
