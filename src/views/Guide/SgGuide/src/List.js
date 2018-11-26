@@ -141,6 +141,20 @@ export default {
       multipleSelections: [],
       model: model,
       changeValue: {},
+      newAdd: {
+        brand_id: null,
+        name: null,
+        nickname: null,
+        sex: 1,
+        mobile: null,
+        birthday: null,
+        work_id: '',
+        password: null,
+        image: '',
+        id: null,
+        shop_id: null,
+        job: 0
+      },
       logoValue: null,
       nicknameValue: null,
       birthdayValue: null,
@@ -249,23 +263,23 @@ export default {
             type: 'warning'
           }).then(() => {
             if (_this.changeObj.storeChange) {
-              _this.model.sgGuideShop.shop_id = _this.storeValue
+              _this.newAdd.shop_id = _this.storeValue
             } else if (_this.changeObj.namesChange) {
-              _this.model.sgGuide.name = _this.namesValue
+              _this.newAdd.name = _this.namesValue
             } else if (_this.changeObj.nicknameChange) {
-              _this.model.sgGuide.nickname = _this.nicknameValue
+              _this.newAdd.nickname = _this.nicknameValue
             } else if (_this.changeObj.birthdayChange) {
-              _this.model.sgGuide.birthday = _this.birthdayValue
+              _this.newAdd.birthday = _this.birthdayValue
             } else if (_this.changeObj.sexsChange) {
-              _this.model.sgGuide.sex = _this.sexsValue
+              _this.newAdd.sex = _this.sexsValue
             } else if (_this.changeObj.mobileChange) {
-              _this.model.sgGuide.mobile = _this.mobileValue
+              _this.newAdd.mobile = _this.mobileValue
             } else if (_this.changeObj.jobsChange) {
-              _this.model.sgGuideShop.job = _this.jobsValue
+              _this.newAdd.job = _this.jobsValue
             } else if (_this.changeObj.workIdChangeChange) {
-              _this.model.sgGuide.work_id = _this.workIdChangeValue
+              _this.newAdd.work_id = _this.workIdChangeValue
             } else if (_this.changeObj.logoChange) {
-              _this.model.sgGuide.image = _this.logoValue
+              _this.newAdd.image = _this.logoValue
             }
             _this.dialogFormVisible = false
           })
@@ -318,6 +332,7 @@ export default {
       })
     },
     onRedactFun (row) {
+      console.log('row', row)
       this.row = row
       if (row) {
         this.title = '编辑导购信息'
@@ -339,22 +354,20 @@ export default {
       } else {
         this.title = '新增导购信息'
         this.model.sgGuide = {
-          id: this.model.sgGuide.id,
-          name: this.model.sgGuide.name,
-          nickname: this.model.sgGuide.nickname,
-          sex: this.model.sgGuide.sex,
-          mobile: this.model.sgGuide.mobile,
-          birthday: this.model.sgGuide.birthday === null ? null : new Date(row.birthday),
-          work_id: this.model.sgGuide.work_id,
-          image: this.model.sgGuide.image
+          id: this.newAdd.id,
+          name: this.newAdd.name,
+          nickname: this.newAdd.nickname,
+          sex: this.newAdd.sex,
+          mobile: this.newAdd.mobile,
+          birthday: this.newAdd.birthday === null ? null : new Date(row.birthday),
+          work_id: this.newAdd.work_id,
+          image: this.newAdd.image
         }
         this.model.sgGuideShop = {
-          id: this.model.sgGuideShop.gsId,
-          job: this.model.sgGuideShop.job,
-          shop_id: this.model.sgGuideShop.shop_id
+          id: this.newAdd.gsId,
+          job: this.newAdd.job,
+          shop_id: this.newAdd.shop_id
         }
-        // this.row = null
-        // Object.assign(this.$data.model, this.$options.data().model)
       }
       this.dialogFormVisible = true
     },
