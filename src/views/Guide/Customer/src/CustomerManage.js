@@ -145,7 +145,9 @@ export default {
           shopId: null
         }).then(resp => {
           if (resp.success && resp.result != null) {
+            _this.shopKuhuShow = true
             _this.items = resp.result
+            console.log('_this.items:', _this.items)
           }
         }).catch((resp) => {
           _this.$notify.error('查询失败：' + resp.msg)

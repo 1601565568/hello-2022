@@ -39,9 +39,9 @@
               <el-col :span='8'><span>生日：{{items.birthday}}</span></el-col>
             </el-row>
             <el-row>
-              <el-col :span='8'><span>性别：{{items.sex}}</span></el-col>
+              <el-col :span='8'><span>性别：{{items.sex === 1?'男':'女'}}</span></el-col>
               <el-col :span='8'><span>手机号：{{items.mobile}}</span></el-col>
-              <el-col :span='8'><span>地址：{{items.address}}</span></el-col>
+              <el-col :span='8'><span>地址：{{items.province+'/'+items.city}}</span></el-col>
             </el-row>
             <el-row>
               <el-col :span='8'><span>积分：{{items.point}}</span></el-col>
@@ -55,7 +55,7 @@
             <p>{{items.impression}}</p>
             <p class="p-title">客户标签：</p>
             <p v-for="item in items.tagList" :key="item.id">
-              <span>{{item.name}}+':'+{{item.value}}</span>
+              <span>{{item.name+':'+item.value}}</span>
             </p>
           </div>
         </div>
