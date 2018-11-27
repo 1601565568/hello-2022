@@ -309,6 +309,7 @@ export default {
                 resp.result.memberCountPersent = (resp.result.memberCount * 100 / resp.result.recruitQuota).toFixed(2)
               }
             }
+            resp.result.payment = resp.result.payment.toFixed(2)
             resp.result.reward = resp.result.reward.toFixed(2)
             resp.result.sellReward = resp.result.sellReward.toFixed(2)
             resp.result.recruitReward = resp.result.recruitReward.toFixed(2)
