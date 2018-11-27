@@ -310,10 +310,10 @@ export default {
         }).then(resp => {
           if (resp.result.failCount > 0) {
             _this.deleteFormVisible = true
+          } else {
+            _this.$notify.success('删除成功')
+            _this.$refs.table.$reload()
           }
-          _this.$notify.success('删除成功')
-          _this.guideList = []
-          _this.findGuideList()
         }).catch((resp) => {
           _this.$notify.error('删除失败，原因：' + resp.msg)
         })
@@ -342,7 +342,6 @@ export default {
       })
     },
     onRedactFun (row) {
-      console.log('row', row)
       this.row = row
       if (row) {
         this.title = '编辑导购信息'
