@@ -16,7 +16,7 @@
       <div>
         <span>执行日期：{{initObj.startTime}} ~ {{initObj.endTime}}</span>
         <span style="margin-left: 20px" v-if='initObj.runType === 1'>
-          <el-date-picker class="dataBox" v-model="queryDate" :editable="false" align="right" type="date" placeholder="选择执行日期" @change='change'></el-date-picker>
+          <el-date-picker class="dataBox" v-model="queryDate" :editable="false" align="right" type="date" placeholder="选择执行日期" @change='change' :clearable='false'></el-date-picker>
           </span>
       </div>
       <div class="content">

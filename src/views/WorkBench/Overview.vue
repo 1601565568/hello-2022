@@ -11,6 +11,7 @@
               type="month"
               placeholder="选择月"
               popper-class='selectMonthPicker'
+              :clearable='false'
               >
             </el-date-picker>
             </div>
@@ -96,8 +97,8 @@
        </el-col> -->
        <el-col :span="6" >
         <div class='overview-content__mid-item bg-white'>
-          <p class='subtitle'>销售
-            <span class='subtitle-abs top5'>TOP5</span>
+          <p class='subtitle'>
+            销售<span class='subtitle-abs top5'>TOP5</span>
             <!-- <span class='subtitle-abs all'>查看所有</span> -->
           </p>
           <div class="mid-item-ul" style='height:400px'>
@@ -198,10 +199,10 @@
       position: relative;
       top: 1px;
       &.top5{
-        font-size: 14px;
+        font-size: 12px;
         color: #606266;
         line-height: 20px;
-        left: 20px;
+        left: 5px;
         bottom: 0px
       }
       &.all{

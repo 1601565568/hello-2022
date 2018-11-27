@@ -36,10 +36,10 @@
                 <el-input resize="none" type="textarea" v-model="saveObj.content" placeholder="请输入推广文案"></el-input>
             </el-form-item>
           </el-form-item>
-          <el-form-item  label="二维码链接：" v-if="saveObj.m_type==1" prop="urlPic">
+          <!-- <el-form-item  label="二维码链接：" v-if="saveObj.m_type==1" prop="urlPic">
               <el-input  v-model="saveObj.urlPic" placeholder="请输入二维码链接"></el-input>
               <p><i class="el-icon-info text-tips">推广图片中如果有带参二维码，请务必设置该项</i></p>
-          </el-form-item>
+          </el-form-item> -->
             <el-form-item v-if="saveObj.m_type==1" label="推广图片：" prop="imgUrl">
                 <div class="comUploadBox">
                     <ul class="comUploadList">
@@ -74,7 +74,7 @@
           <el-form-item v-if="saveObj.m_type==0" label="封面图片：">
               <div class="comUploadBox">
                    <el-upload class="avatar-uploader"
-                        :action="this.$api.core.sgUploadFile('test')"  
+                        :action="this.$api.core.sgUploadFile('test')"
                         accept=".jpg,.jpeg,.png,.bmp,.gif"
                         :show-file-list="false"
                         list-type="picture-card"
