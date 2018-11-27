@@ -5,7 +5,7 @@
           <el-input ref="quickText" style="width: 210px" v-model="filterTreeText" placeholder="输入姓名或工号" clearable>
             <i class="el-icon-search el-input__icon" slot="suffix" name="name" @click="$quickSearchAction$('name')"></i>
           </el-input>
-            <el-tree class="filter-tree" ref="guideTree" :data="shopFindList"
+            <el-tree class="filter-tree" ref="guideTree" :data="shopFindList" highlight-current
                      default-expand-all :filter-node-method="onFilterNode" @node-click="onClickNode">
               <div class="subdivision-tree-node" slot-scope="{ node, data }" >
                 <span>{{node.label}}</span>
