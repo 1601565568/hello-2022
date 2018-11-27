@@ -456,32 +456,32 @@ export default {
     dimissionFun (row) {
       var _this = this
       _this.transferWay = '1'
-      _this.$http.fetch(_this.$api.guide.guide.getCustomerCount, {
-        searchMap: {
-          'guideId': row.id,
-          'shopId': row.shop_id
-        }
-      }).then(resp => {
-        if (resp.result.recordsFiltered > 0) {
-          _this.guideId = row.id
-          _this.shopId = row.shop_id
-          _this.customerTotal = resp.result.recordsFiltered
-          _this.resignFormVisible = true
-        } else {
-          _this.$confirm('请确认是否对 ' + row.name + ' 进行离职操作!', '提示', {
-            confirmButtonText: '确定',
-            cancelButtonText: '取消',
-            type: 'warning'
-          }).then(() => {
+      _this.$confirm('请确认是否对 ' + row.name + ' 进行离职操作!', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        _this.$http.fetch(_this.$api.guide.guide.getCustomerCount, {
+          searchMap: {
+            'guideId': row.id,
+            'shopId': row.shop_id
+          }
+        }).then(resp => {
+          if (resp.result.recordsFiltered > 0) {
+            _this.guideId = row.id
+            _this.shopId = row.shop_id
+            _this.customerTotal = resp.result.recordsFiltered
+            _this.resignFormVisible = true
+          } else {
             var params = {
               transGuideId: row.id,
               transStatus: 0
             }
             _this.guideLeave(params, false)
-          })
-        }
-      }).catch((resp) => {
-        _this.$notify.error('查询失败：' + resp.msg)
+          }
+        }).catch((resp) => {
+          _this.$notify.error('查询失败：' + resp.msg)
+        })
       })
     },
     onConfirmResign () {
