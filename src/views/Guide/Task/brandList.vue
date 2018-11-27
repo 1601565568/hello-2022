@@ -99,6 +99,9 @@
           <span v-if="row.type === 2">分享</span>
         </template>
       </el-table-column>
+       <el-table-column label="执行次数" align="left" width="80">
+          <template slot-scope="{row}">{{row.runType?"一次性":"每日执行"}}</template>
+        </el-table-column>
       <el-table-column prop="status" label="状态" align="left" width="70">
         <template slot-scope="{row}">
           <span v-if="row.state === 1" class="text-primary">执行中</span>
