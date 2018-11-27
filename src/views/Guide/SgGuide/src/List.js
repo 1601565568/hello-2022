@@ -139,6 +139,7 @@ export default {
       tableDataCustomer: [],        // 客户集合
       multipleSelection: [],
       multipleSelections: [],
+      allDeleteName: [],
       model: model,
       changeValue: {},
       newAdd: {
@@ -234,18 +235,27 @@ export default {
         _this.$notify.error('请选择员工')
       } else {
         _this.multipleSelection.map(item => {
-          _this.multipleSelections.push(item.id)
+          _this.allDeleteName.push(item.name)
         })
-        _this.$http.fetch(_this.$api.guide.guide.deleteGuides, {
-          guideIds: _this.multipleSelections.join(',')
-        }).then(resp => {
-          if (resp.result.failCount > 0) {
-            _this.successCount = resp.result.successCount
-            _this.failCount = resp.result.failCount
-            _this.allDeleteFormVisible = true
-          }
-        }).catch((resp) => {
-          _this.$notify.error('查询失败：' + resp.msg)
+        _this.$confirm('请确认是否对 ' + _this.allDeleteName.join('、') + ' 进行删除操作!', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          _this.multipleSelection.map(item => {
+            _this.multipleSelections.push(item.id)
+          })
+          _this.$http.fetch(_this.$api.guide.guide.deleteGuides, {
+            guideIds: _this.multipleSelections.join(',')
+          }).then(resp => {
+            if (resp.result.failCount > 0) {
+              _this.successCount = resp.result.successCount
+              _this.failCount = resp.result.failCount
+              _this.allDeleteFormVisible = true
+            }
+          }).catch((resp) => {
+            _this.$notify.error('查询失败：' + resp.msg)
+          })
         })
       }
     },

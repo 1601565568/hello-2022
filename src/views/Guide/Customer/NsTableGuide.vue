@@ -2,7 +2,7 @@
 <div calss="NsTableGuide_main">
   
         <div class="template-page__row-left">
-          <el-input ref="quickText" style="width: 210px" v-model="filterTreeText" placeholder="输入姓名或工号" clearable>
+          <el-input ref="quickText" style="width: 210px" v-model="filterTreeText" placeholder="输入姓名或工号">
             <i class="el-icon-search el-input__icon" slot="suffix" name="name" @click="$quickSearchAction$('name')"></i>
           </el-input>
             <el-tree class="filter-tree" ref="guideTree" :data="shopFindList" highlight-current
@@ -28,7 +28,7 @@
     <template slot="searchSearch">
       <el-form :model="quickSearchModel" :inline="true" @submit.native.prevent  class="pull-right">
         <el-form-item v-show="_data._queryConfig.expand === false">
-          <el-input ref="quickText" style="width: 250px" v-model="model.name" placeholder="姓名/手机号/会员卡号" @keyup.enter.native="$quickSearchAction$('name')" clearable>
+          <el-input ref="quickText" style="width: 250px" v-model="model.name" placeholder="姓名/手机号/会员卡号" @keyup.enter.native="$quickSearchAction$('name')">
             <i class="el-icon-search el-input__icon" slot="suffix" name="name" @click="$quickSearchAction$('name')"></i>
           </el-input>
         </el-form-item>
