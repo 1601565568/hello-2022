@@ -15,8 +15,8 @@
       </div>
       <div>
         <span>执行日期：{{initObj.startTime}} ~ {{initObj.endTime}}</span>
-        <span style="margin-left: 20px">
-          <el-date-picker class="dataBox" v-model="queryDate" :editable="false" align="right" type="date" placeholder="选择执行日期"></el-date-picker>
+        <span style="margin-left: 20px" v-if='initObj.runType === 1'>
+          <el-date-picker class="dataBox" v-model="queryDate" :editable="false" align="right" type="date" placeholder="选择执行日期" @change='change'></el-date-picker>
           </span>
       </div>
       <div class="content">
@@ -84,7 +84,8 @@ export default {
         title: '',
         content: '',
         startTime: null,
-        endTime: null
+        endTime: null,
+        runType: ''
       },
       searchform: {
         time: []
@@ -109,6 +110,10 @@ export default {
       // 组装搜索对象
       // this.loadListFun()
     },
+    change () {
+      this.searchObj.searchMap.queryDate = moment(this.queryDate).format('YYYY-MM-DD')
+      this.loadListFun()
+    },
     // 加载列表
     async loadListFun (data) {
       this.loading = true
@@ -129,6 +134,7 @@ export default {
     showToggle (obj) {
       this.initObj.content = obj.content
       this.initObj.title = obj.name
+      this.initObj.runType = obj.runType
       this.initObj.startTime = moment(obj.startTime).format('YYYY-MM-DD')
       this.initObj.endTime = moment(obj.endTime).format('YYYY-MM-DD')
       this.dialogVisible = true

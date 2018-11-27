@@ -105,7 +105,7 @@
               <ns-no-data>暂无销售数据</ns-no-data>
             </div>
             <div class="mid-item-li flex flex-between" v-for="(item,index) in guideSellRankingArr">
-              <span>{{index}}. {{item.name}}<i style='color:#909399;font-style:normal'>（{{item.shopName}}）</i></span>
+              <span>{{index+1}}. {{item.name}}<i style='color:#909399;font-style:normal'>（{{item.shopName}}）</i></span>
               <span style='color:#909399'>{{item.perf_all}}</span>
             </div>
           </div>
@@ -263,7 +263,7 @@
     }
     .mid-item-ul{
       .mid-item-li{
-        padding: 15px 20px;
+        padding: 25px 20px;
         color: #606266;
         font-size: 14px;
         line-height: 20px;
