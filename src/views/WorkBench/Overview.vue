@@ -3,7 +3,7 @@
     <el-row class="overview-content__grid" :gutter="10">
       <el-col :span="6">
         <div class='overview-content__item'>
-            <div class="c-change" style='height:61px;text-align：center;padding-top:20px;padding-left:20px'>
+            <div class="c-change" style='height:61px;text-align：center;padding-top:45px;padding-left:45px'>
 
             <el-date-picker
               @change='change'
@@ -299,8 +299,8 @@
     .el-card-body{
       padding: 16px 20px;
       &.date{
-        padding: 0 20px;
-        padding-top: 29px;
+        padding: 0 45px;
+        padding-top: 45px;
         height: 122px;
       }
       .el-select{
