@@ -252,6 +252,9 @@ export default {
               _this.successCount = resp.result.successCount
               _this.failCount = resp.result.failCount
               _this.allDeleteFormVisible = true
+            } else {
+              _this.$notify.success('删除成功')
+              _this.$refs.table.$reload()
             }
           }).catch((resp) => {
             _this.$notify.error('查询失败：' + resp.msg)

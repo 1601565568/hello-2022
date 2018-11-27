@@ -101,10 +101,10 @@
         </el-table-column>
         <el-table-column prop="grade,memberCard" label="客户类型/卡号" align="left" >
           <template slot-scope="scope">
-              <div v-if="scope.row.memberCard != null && scope.row.grade">
-                {{scope.row.grade?scope.row.grade:'-' +'/'+scope.row.memberCard}}
+              <div v-if="scope.row.memberCard !=null || scope.row.grade !== null">
+                {{scope.row.grade?scope.row.grade:'会员' +' / '+scope.row.memberCard}}
               </div>
-              <div v-else>
+              <div v-if="scope.row.memberCard == null && scope.row.grade === null">
                 非会员
               </div>
           </template>

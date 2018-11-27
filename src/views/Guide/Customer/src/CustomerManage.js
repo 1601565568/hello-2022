@@ -129,6 +129,8 @@ export default {
     },
     // 更换导购弹窗\详情展示
     onRedactFun (val) {
+      console.log('val:', val)
+      // return false
       var _this = this
       if (val === undefined) {
         if (this.multipleSelection.length > 0) {
@@ -138,7 +140,7 @@ export default {
         }
       } else {
         _this.$http.fetch(_this.$api.guide.guide.customerGetDetail, {
-          customerId: Number(val.customerId),
+          customerId: val.customerId,
           guideId: Number(val.guideId),
           shopId: null
         }).then(resp => {
