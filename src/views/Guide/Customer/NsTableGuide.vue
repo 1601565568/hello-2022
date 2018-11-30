@@ -5,8 +5,9 @@
           <el-input ref="quickText" style="width: 210px" v-model="filterTreeText" placeholder="输入姓名或工号">
             <i class="el-icon-search el-input__icon" slot="suffix" name="name" @click="$quickSearchAction$('name')"></i>
           </el-input>
-            <el-tree class="filter-tree" ref="guideTree" :data="shopFindList" highlight-current
-                     default-expand-all :filter-node-method="onFilterNode" @node-click="onClickNode">
+            <el-tree class="filter-tree" ref="guideTree" :data="shopFindList" highlight-current 
+                  node-key="id" :default-expand-all="false" :expand-on-click-node="false" :default-checked-keys="[0]"
+                  :filter-node-method="onFilterNode" @node-click="onClickNode">
               <div class="subdivision-tree-node" slot-scope="{ node, data }" >
                 <span>{{node.label}}</span>
               </div>
@@ -28,7 +29,7 @@
     <template slot="searchSearch">
       <el-form :model="quickSearchModel" :inline="true" @submit.native.prevent  class="pull-right">
         <el-form-item v-show="_data._queryConfig.expand === false">
-          <el-input ref="quickText" style="width: 250px" v-model="model.name" placeholder="姓名/手机号/会员卡号" @keyup.enter.native="$quickSearchAction$('name')">
+          <el-input ref="quickText" style="width: 250px" v-model="model.mobile" placeholder="手机号" @keyup.enter.native="$quickSearchAction$('name')">
             <i class="el-icon-search el-input__icon" slot="suffix" name="name" @click="$quickSearchAction$('name')"></i>
           </el-input>
         </el-form-item>
@@ -58,19 +59,19 @@
 
         <el-form-item label="手机号：">
           <el-form-grid size="xmd">
-            <el-input style="width:180px" autofocus=true v-model="model.mobile" placeholder="请输入手机号" clearable></el-input>
+            <el-input style="width:180px" autofocus=true v-model="model.mobile" placeholder="请输入手机号"></el-input>
           </el-form-grid>
         </el-form-item>
 
         <el-form-item label="昵称：">
           <el-form-grid size="xmd">
-            <el-input style="width:180px" autofocus=true v-model="model.nickName" placeholder="请输入昵称" clearable></el-input>
+            <el-input style="width:180px" autofocus=true v-model="model.nickName" placeholder="请输入昵称"></el-input>
           </el-form-grid>
         </el-form-item>
       </el-form>
 
       <div class="template-table__more-btn">
-        <ns-button type="primary" @click="search">搜索</ns-button>
+        <ns-button type="primary" @click="$searchAction$()">搜索</ns-button>
         <ns-button @click="$resetInputAction$()">重置</ns-button>
       </div>
     </template>
@@ -87,9 +88,9 @@
       <!-- 手机号 :width="120" -->
       <!-- 操作（只有一项文字的80px,两项文字120px,三项文字160px） -->
 
-      <el-table ref="table" :data="_data._table.data" stripe @selection-change="handleSelectionChange">
+      <el-table ref="table" :data="_data._table.data" stripe @selection-change="handleSelectionChange" v-loading="loading">
         <el-table-column type="selection" width="42"></el-table-column>
-        <el-table-column prop="name" label="客户姓名" align="left" width="150">
+        <el-table-column prop="name" label="会员姓名" align="left" width="150">
           <template slot-scope="scope">
             {{scope.row.name?scope.row.name:'-'}}
           </template>
@@ -99,7 +100,7 @@
             {{scope.row.mobile?scope.row.mobile:'-'}}
           </template >
         </el-table-column>
-        <el-table-column prop="grade,memberCard" label="客户类型/卡号" align="left" >
+        <el-table-column prop="grade,memberCard" label="会员类型/卡号" align="left" >
           <template slot-scope="scope">
               <div v-if="scope.row.memberCard !=null || scope.row.grade !== null">
                 {{scope.row.grade?scope.row.grade:'会员' +' / '+scope.row.memberCard}}

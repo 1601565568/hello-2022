@@ -44,8 +44,9 @@ export default {
       shopFindList: [],
       shopFindListLength: [],
       dataList: [],
-      allGuideArr: { id: null, pId: null, label: '全部导购' },
-      shuJushuzu: {}
+      allGuideArr: { id: 0, pId: null, label: '全部导购' },
+      shuJushuzu: {},
+      loading: false
     }
   },
   watch: {
@@ -59,7 +60,10 @@ export default {
     vm.initShopList()
     if (typeof vm.$init === 'function') {
     } else {
-      vm.$reload()
+      vm.loading = true
+      vm.$reload().then(rep => {
+        vm.loading = vm._data._loading
+      })
     }
   },
   computed: {},
@@ -67,21 +71,24 @@ export default {
     onClickNode (data) {
       var _this = this
       _this.shuJushuzu = data
-      _this.$reload()
+      _this.loading = true
+      _this.$reload().then(rep => {
+        _this.loading = _this._data._loading
+      })
     },
     // 树节点过滤
     onFilterNode (value, data) {
       if (!value) return true
       return data.label.indexOf(value) !== -1
     },
-    search () {
-      var _this = this
-      if (_this.model.name === null && _this.model.shop === null && _this.model.job === null) {
-        _this.$confirm('请编辑您要搜索的信息!')
-      } else {
-        _this.$searchAction$()
-      }
-    },
+    // search () {
+    //   var _this = this
+    //   if (_this.model.name === null && _this.model.mobile === null && _this.model.nickName === null) {
+    //     _this.$confirm('请编辑您要搜索的信息!')
+    //   } else {
+    //     _this.$searchAction$()
+    //   }
+    // },
     initShopList () {
       var _this = this
       _this.$http.fetch(_this.$api.guide.guide.customerGetGuideTree).then(resp => {

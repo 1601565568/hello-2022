@@ -10,7 +10,7 @@
             <el-form-item prop="coupon_id">
               <el-select v-model="activityModel.coupon_id" :placeholder="$t('prompt.select')" @change="storeCouponChange">
                 <el-option v-for="coupon in storeCouponList" :label="coupon.storeCouponTitle"
-                           :key="coupon.id" :value="coupon.id"></el-option>
+                           :key="coupon.id" :value="coupon.id" class="{storeCouponList.length == 0?'optionClass':''}"></el-option>
               </el-select>
             </el-form-item>
 
@@ -202,5 +202,9 @@
   .coupon-title{
     width: 20px;
     white-space:normal
+  }
+  /deep/ .optionClass{
+    height:60px;
+
   }
 </style>

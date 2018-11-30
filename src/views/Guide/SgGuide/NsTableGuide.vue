@@ -62,7 +62,7 @@
       </el-form>
 
       <div class="template-table__more-btn">
-        <ns-button type="primary" @click="search">搜索</ns-button>
+        <ns-button type="primary" @click="$searchAction$()">搜索</ns-button>
         <ns-button @click="$resetInputAction$()">重置</ns-button>
       </div>
     </template>

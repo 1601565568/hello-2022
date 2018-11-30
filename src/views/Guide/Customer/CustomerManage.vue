@@ -51,9 +51,9 @@
             <p> <span>积分：{{items.point}}</span> <span>{{items.point}}</span></p> -->
           </div>
           <div>
-            <p class="p-title">客户印象：</p>
+            <p class="p-title">会员印象：</p>
             <p>{{items.impression}}</p>
-            <p class="p-title">客户标签：</p>
+            <p class="p-title">会员标签：</p>
             <p v-for="item in items.tagList" :key="item.id">
               <span>{{item.name+':'+item.value}}</span>
             </p>

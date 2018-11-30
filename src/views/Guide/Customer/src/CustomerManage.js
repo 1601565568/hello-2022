@@ -129,7 +129,6 @@ export default {
     },
     // 更换导购弹窗\详情展示
     onRedactFun (val) {
-      console.log('val:', val)
       // return false
       var _this = this
       if (val === undefined) {
@@ -147,7 +146,6 @@ export default {
           if (resp.success && resp.result != null) {
             _this.shopKuhuShow = true
             _this.items = resp.result
-            console.log('_this.items:', _this.items)
           }
         }).catch((resp) => {
           _this.$notify.error('查询失败：' + resp.msg)
@@ -212,7 +210,6 @@ export default {
         this.$http.fetch(this.$api.guide.guide.updateCustomerGuide, {
           customerIds: _this.customerIdList.join(','),
           newGuideId: Number(_this.value.id),
-          oldGuideId: Number(_this.value.id),
           shopId: Number(_this.value.parentId)
         }).then(resp => {
           _this.closeDialog()
