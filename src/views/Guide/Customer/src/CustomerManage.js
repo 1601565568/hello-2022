@@ -129,7 +129,6 @@ export default {
     },
     // 更换导购弹窗\详情展示
     onRedactFun (val) {
-      // return false
       var _this = this
       if (val === undefined) {
         if (this.multipleSelection.length > 0) {
@@ -138,6 +137,7 @@ export default {
           _this.$notify.error('请选择要更换导购的客户')
         }
       } else {
+        _this.title = '详情列表'
         _this.$http.fetch(_this.$api.guide.guide.customerGetDetail, {
           customerId: val.customerId,
           guideId: Number(val.guideId),

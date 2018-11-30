@@ -364,7 +364,7 @@ export default {
           shop_id: row.shop_id
         }
       } else {
-        this.title = '新增导购信息'
+        this.title = '新增员工'
         this.model.sgGuide = {
           id: this.newAdd.id,
           name: this.newAdd.name,

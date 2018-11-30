@@ -1,4 +1,5 @@
 import tableMixin from 'mixins/table'
+import moment from 'moment'
 export default {
   name: 'NsTableGuide',
   mixins: [tableMixin],
@@ -24,8 +25,8 @@ export default {
     let quickSearchModel = {}
     let findVo = {
       'name': null,
-      'shop': null,
-      'job': null,
+      'mobile': null,
+      'nickName': null,
       'guideState': 1
     }
     let model = Object.assign({}, findVo, {})
@@ -68,6 +69,9 @@ export default {
   },
   computed: {},
   methods: {
+    moment (time) {
+      return moment(time).format('YYYY-MM-DD hh:mm:ss')
+    },
     onClickNode (data) {
       var _this = this
       _this.shuJushuzu = data
@@ -81,14 +85,6 @@ export default {
       if (!value) return true
       return data.label.indexOf(value) !== -1
     },
-    // search () {
-    //   var _this = this
-    //   if (_this.model.name === null && _this.model.mobile === null && _this.model.nickName === null) {
-    //     _this.$confirm('请编辑您要搜索的信息!')
-    //   } else {
-    //     _this.$searchAction$()
-    //   }
-    // },
     initShopList () {
       var _this = this
       _this.$http.fetch(_this.$api.guide.guide.customerGetGuideTree).then(resp => {

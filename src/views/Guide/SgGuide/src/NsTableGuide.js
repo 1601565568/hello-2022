@@ -119,14 +119,6 @@ export default {
   },
   computed: {},
   methods: {
-    search () {
-      var _this = this
-      if (_this.model.name === null && _this.model.shop === null && _this.model.job === null) {
-        _this.$confirm('请编辑您要搜索的信息!')
-      } else {
-        _this.$searchAction$()
-      }
-    },
     initShopList () {
       var _this = this
       _this.$http.fetch(_this.$api.guide.shop.findBrandShopList, {isOnline: 0}).then(resp => {

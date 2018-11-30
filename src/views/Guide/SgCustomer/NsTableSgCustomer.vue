@@ -197,8 +197,11 @@
               </template>
             </el-table-column>
             <el-table-column prop="mobile" label="手机号" align="center" width="200">
+              <template slot-scope="scope">{{scope.row.mobile?scope.row.mobile:'-'}}</template>
             </el-table-column>
-            <el-table-column prop="memberCard" label="会员卡号" align="center" width="200"></el-table-column>
+            <el-table-column prop="memberCard" label="会员卡号" align="center" width="200">
+              <template slot-scope="scope">{{scope.row.memberCard?scope.row.memberCard:'-'}}</template>
+            </el-table-column>
           </el-table>
         </div>
         <!--分页开始-->
