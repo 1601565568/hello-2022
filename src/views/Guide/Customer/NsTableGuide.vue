@@ -2,7 +2,7 @@
 <div calss="NsTableGuide_main">
   
         <div class="template-page__row-left">
-          <el-input ref="quickText" style="width: 210px" v-model="filterTreeText" placeholder="输入姓名或工号">
+          <el-input ref="quickText" style="width: 210px" v-model="filterTreeText" placeholder="输入姓名">
             <i class="el-icon-search el-input__icon" slot="suffix" name="name" @click="$quickSearchAction$('name')"></i>
           </el-input>
             <el-tree class="filter-tree" ref="guideTree" :data="shopFindList" highlight-current 
@@ -10,6 +10,7 @@
                   :filter-node-method="onFilterNode" @node-click="onClickNode">
               <div class="subdivision-tree-node" slot-scope="{ node, data }" >
                 <span>{{node.label}}</span>
+                <!-- <span>{{node.id}}</span> -->
               </div>
             </el-tree>
         </div>
@@ -90,7 +91,7 @@
 
       <el-table ref="table" :data="_data._table.data" stripe @selection-change="handleSelectionChange" v-loading="loading">
         <el-table-column type="selection" width="42"></el-table-column>
-        <el-table-column prop="name" label="会员姓名" align="left" width="150">
+        <el-table-column prop="name" label="会员姓名" align="left" width="100">
           <template slot-scope="scope">
             {{scope.row.name?scope.row.name:'-'}}
           </template>

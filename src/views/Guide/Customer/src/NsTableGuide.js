@@ -73,6 +73,7 @@ export default {
       return moment(time).format('YYYY-MM-DD hh:mm:ss')
     },
     onClickNode (data) {
+      console.log(data)
       var _this = this
       _this.shuJushuzu = data
       _this.loading = true
@@ -135,8 +136,12 @@ export default {
     },
     '$handleParams': function (params) {
       var _this = this
-      params.searchMap.guideId = Number(_this.shuJushuzu.id)
-      params.searchMap.shopId = Number(_this.shuJushuzu.parentId)
+      if (_this.shuJushuzu.parentId === '0') {
+        params.searchMap.shopId = Number(_this.shuJushuzu.id)
+      } else {
+        params.searchMap.guideId = Number(_this.shuJushuzu.id)
+        params.searchMap.shopId = Number(_this.shuJushuzu.parentId)
+      }
       return params
     }
   }
