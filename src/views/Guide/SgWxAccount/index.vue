@@ -13,7 +13,7 @@
                   :element-loading-text="$t('prompt.loading')" @sort-change="$orderChange$">
           <el-table-column prop="name" label="微信名称"></el-table-column>
           <el-table-column prop="appid" label="应用ID" align="left" width="180"></el-table-column>
-          <el-table-column label="企业微信id" align="left" width="180">
+          <el-table-column label="企业ID" align="left" width="180">
             <template slot-scope="{row}">
               <span v-if="row.corpid === null">-</span>
               <span v-else>{{row.corpid}}</span>

@@ -47,7 +47,7 @@ export default {
       currentMonth: null,
       searchObj: {
         id: null,
-        monthDate: '2018-11'
+        monthDate: ''
       },
       getRewardInfoObj: {}, // 当月业绩情况对象
       guideSellRankingArr: [],
@@ -344,7 +344,7 @@ export default {
     }
   },
   mounted () {
-    this.currentMonth = new Date().getFullYear() + '-' + (new Date().getMonth() + 1)
+    this.searchObj.monthDate = new Date().getFullYear() + '-' + (new Date().getMonth() + 1)
     this.findShopList()
     this.findGuideSellRanking()
     this.findSellReward()
