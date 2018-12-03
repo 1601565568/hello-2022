@@ -145,8 +145,8 @@
         <el-table-column :show-overflow-tooltip="true" type="default" prop="couponType" align="right"
                          label="发放情况" :sortable="false" width="160">
           <template slot-scope="scope">
-            已领取：{{scope.row.noUseTotal?scope.row.noUseTotal:'-'}}&nbsp;张<br>
-            已使用：{{scope.row.useTotal?scope.row.useTotal:'-'}}&nbsp;张
+            已领取：{{scope.row.noUseTotal?scope.row.noUseTotal:'0'}}&nbsp;张<br>
+            已使用：{{scope.row.useTotal?scope.row.useTotal:'0'}}&nbsp;张
           </template>
         </el-table-column>
       </el-table>

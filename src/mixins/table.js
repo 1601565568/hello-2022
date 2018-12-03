@@ -49,6 +49,7 @@ export default {
       state: {},
       nameMap: {},
       textToShow: {},
+      _loading: false,
       _helpState: false,
       _queryConfig: {
         expand: false,
@@ -141,6 +142,7 @@ export default {
       }).catch(() => {
         that.$notify.error('网络异常，获取数据失败！')
       }).finally(() => {
+        that._data._loading = false
         tableConfig.loadingtable = false
       })
     },
@@ -151,6 +153,7 @@ export default {
       this.$reload()
       this.$formatTextToShow$()
     },
+    // 重置功能
     $resetInputAction$: function () {
       if (typeof this.$resetInput === 'function') {
         var model = this.$resetInput(this.model)

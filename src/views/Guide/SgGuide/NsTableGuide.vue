@@ -62,7 +62,7 @@
       </el-form>
 
       <div class="template-table__more-btn">
-        <ns-button type="primary" @click="search">搜索</ns-button>
+        <ns-button type="primary" @click="$searchAction$()">搜索</ns-button>
         <ns-button @click="$resetInputAction$()">重置</ns-button>
       </div>
     </template>
@@ -80,7 +80,7 @@
       <!-- 操作（只有一项文字的80px,两项文字120px,三项文字160px） -->
 
       <el-table ref="table" :data="_data._table.data" stripe @selection-change="handleSelectionChange">
-        <el-table-column type="selection" width="42"></el-table-column>
+        <el-table-column type="selection" width="42" class="table_selection"></el-table-column>
         <el-table-column prop="work_id" label="工号" align="left" width="88">
           <template slot-scope="scope">
             {{scope.row.work_id?scope.row.work_id:'-'}}
@@ -163,7 +163,3 @@
 
   export default guide
 </script>
-
-<style scoped>
-
-</style>

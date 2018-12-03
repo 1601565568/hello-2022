@@ -1,4 +1,5 @@
 import tableMixin from 'mixins/table'
+import moment from 'moment'
 export default {
   name: 'NsTableGuide',
   mixins: [tableMixin],
@@ -24,8 +25,8 @@ export default {
     let quickSearchModel = {}
     let findVo = {
       'name': null,
-      'shop': null,
-      'job': null,
+      'mobile': null,
+      'nickName': null,
       'guideState': 1
     }
     let model = Object.assign({}, findVo, {})
@@ -44,8 +45,9 @@ export default {
       shopFindList: [],
       shopFindListLength: [],
       dataList: [],
-      allGuideArr: { id: null, pId: null, label: '全部导购' },
-      shuJushuzu: {}
+      allGuideArr: { id: 0, pId: null, label: '全部导购' },
+      shuJushuzu: {},
+      loading: false
     }
   },
   watch: {
@@ -59,28 +61,30 @@ export default {
     vm.initShopList()
     if (typeof vm.$init === 'function') {
     } else {
-      vm.$reload()
+      vm.loading = true
+      vm.$reload().then(rep => {
+        vm.loading = vm._data._loading
+      })
     }
   },
   computed: {},
   methods: {
+    moment (time) {
+      return moment(time).format('YYYY-MM-DD hh:mm:ss')
+    },
     onClickNode (data) {
+      console.log(data)
       var _this = this
       _this.shuJushuzu = data
-      _this.$reload()
+      _this.loading = true
+      _this.$reload().then(rep => {
+        _this.loading = _this._data._loading
+      })
     },
     // 树节点过滤
     onFilterNode (value, data) {
       if (!value) return true
       return data.label.indexOf(value) !== -1
-    },
-    search () {
-      var _this = this
-      if (_this.model.name === null && _this.model.shop === null && _this.model.job === null) {
-        _this.$confirm('请编辑您要搜索的信息!')
-      } else {
-        _this.$searchAction$()
-      }
     },
     initShopList () {
       var _this = this
@@ -132,8 +136,12 @@ export default {
     },
     '$handleParams': function (params) {
       var _this = this
-      params.searchMap.guideId = Number(_this.shuJushuzu.id)
-      params.searchMap.shopId = Number(_this.shuJushuzu.parentId)
+      if (_this.shuJushuzu.parentId === '0') {
+        params.searchMap.shopId = Number(_this.shuJushuzu.id)
+      } else {
+        params.searchMap.guideId = Number(_this.shuJushuzu.id)
+        params.searchMap.shopId = Number(_this.shuJushuzu.parentId)
+      }
       return params
     }
   }

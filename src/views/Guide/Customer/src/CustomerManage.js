@@ -129,8 +129,6 @@ export default {
     },
     // 更换导购弹窗\详情展示
     onRedactFun (val) {
-      console.log('val:', val)
-      // return false
       var _this = this
       if (val === undefined) {
         if (this.multipleSelection.length > 0) {
@@ -139,12 +137,14 @@ export default {
           _this.$notify.error('请选择要更换导购的客户')
         }
       } else {
+        _this.title = '详情列表'
         _this.$http.fetch(_this.$api.guide.guide.customerGetDetail, {
           customerId: val.customerId,
           guideId: Number(val.guideId),
           shopId: null
         }).then(resp => {
           if (resp.success && resp.result != null) {
+            _this.shopKuhuShow = true
             _this.items = resp.result
           }
         }).catch((resp) => {
@@ -210,7 +210,6 @@ export default {
         this.$http.fetch(this.$api.guide.guide.updateCustomerGuide, {
           customerIds: _this.customerIdList.join(','),
           newGuideId: Number(_this.value.id),
-          oldGuideId: Number(_this.value.id),
           shopId: Number(_this.value.parentId)
         }).then(resp => {
           _this.closeDialog()

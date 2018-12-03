@@ -34,28 +34,29 @@
         <div>
           <div class="kehuBox-main-span">
             <el-row>
-              <el-col :span='8'><span>姓名：{{items.customerName}}</span></el-col>
-              <el-col :span='8'><span>会员卡：{{items.memberCard}}</span></el-col>
-              <el-col :span='8'><span>生日：{{items.birthday}}</span></el-col>
+              <el-col :span='8'><span>姓名：{{items.customerName|| '-'}}</span></el-col>
+              <el-col :span='8'><span>会员卡：{{items.memberCard|| '-'}}</span></el-col>
+              <el-col :span='8'><span>生日：{{items.birthday || '-'}}</span></el-col>
             </el-row>
             <el-row>
-              <el-col :span='8'><span>性别：{{items.sex}}</span></el-col>
-              <el-col :span='8'><span>手机号：{{items.mobile}}</span></el-col>
-              <el-col :span='8'><span>地址：{{items.address}}</span></el-col>
+              <el-col :span='8'><span>性别：{{items.sex === 1?'男':'女'}}</span></el-col>
+              <el-col :span='8'><span>手机号：{{items.mobile|| '-'}}</span></el-col>
+              <!-- <el-col :span='8'><span>地址：{{items.province?items.province:'-'+'/'+items.city?items.city:'-'}}</span></el-col> -->
+              <el-col :span='8'><span>地址：{{items.province === null&&items.province === null?'-':items.city+' / '+items.city}}</span></el-col>
             </el-row>
             <el-row>
-              <el-col :span='8'><span>积分：{{items.point}}</span></el-col>
+              <el-col :span='8'><span>积分：{{items.point|| '-'}}</span></el-col>
               <!-- <el-col :span='8'><span>优惠券：{{items.point}}</span></el-col> -->
             </el-row>
             <!-- <p> <span>性别：{{items.sex}}</span><span>手机号：{{items.mobile}}</span><span>地址：{{items.address}}</span></p>
             <p> <span>积分：{{items.point}}</span> <span>{{items.point}}</span></p> -->
           </div>
           <div>
-            <p class="p-title">客户印象：</p>
-            <p>{{items.impression}}</p>
-            <p class="p-title">客户标签：</p>
+            <p class="p-title">会员印象：</p>
+            <p>{{items.impression|| '-'}}</p>
+            <p class="p-title">会员标签：</p>
             <p v-for="item in items.tagList" :key="item.id">
-              <span>{{item.name}}+':'+{{item.value}}</span>
+              <span>{{item.name===null&&item.value===null?'-':item.name+':'+item.value}}</span>
             </p>
           </div>
         </div>

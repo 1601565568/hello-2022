@@ -44,7 +44,7 @@
           </el-table-column>
           <el-table-column
             label="所属地区"
-            align="center"
+            align="left"
           >
             <template slot-scope="scope">
               <span>{{scope.row.province}}{{scope.row.city}}{{scope.row.address}}</span>
@@ -52,20 +52,20 @@
           </el-table-column>
           <el-table-column
             label="发放数量(张)"
-            align="center"
+            align="right"
             prop="shopCouponTotal"
           >
           </el-table-column>
           <el-table-column
             label="已领取(张)"
             prop="noUseTotal"
-            align="center"
+            align="right"
           >
           </el-table-column>
           <el-table-column
             label="已使用(张)"
             prop="useTotal"
-            align="center"
+            align="right"
           >
           </el-table-column>
 
