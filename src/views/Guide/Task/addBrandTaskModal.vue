@@ -123,7 +123,7 @@ export default {
       rules: {
         name: [
           { required: true, message: '请输入任务名称', trigger: 'blur' },
-          { min: 4, max: 20, message: '长度在4-20个字符以内', trigger: 'blur' }
+          { min: 4, max: 10, message: '长度在4-10个字符以内', trigger: 'blur' }
         ],
         activityTime: [
           { required: true, message: '请选择执行时间', trigger: 'blur' }
