@@ -193,6 +193,11 @@ export default {
     blurWorkPrefix () {
       this.disabledWorkPrefix = true
     },
+    transfer () {
+      this.$router.push({
+        path: '/Guide/Customer/CustomerManage'
+      })
+    },
     logo (value) {
       let _this = this
       _this.changeValue.logoValue = value
