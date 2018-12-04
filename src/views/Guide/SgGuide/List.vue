@@ -74,8 +74,12 @@
           <el-form-item label="工号：">
             <el-form-grid size="xmd">
               <el-form-item prop="work_id">
-                <el-input type="text" v-model="model.sgGuide.work_id" @change="workIdChange" placeholder="请输入工号" clearable>
-              </el-input>
+                    <div class="page_add_guide_workid" style='display:flex'>
+                      <el-form-grid size="xxs"><el-input disabled  value='1111'/></el-form-grid>
+                      <el-input type="text" v-model="model.sgGuide.work_id" @change="workIdChange" placeholder="请输入工号" clearable/>
+                      <span style='color:transparent'>1</span>
+                      <ns-button type='text'>修改前缀</ns-button>
+                    </div>
               </el-form-item>
             </el-form-grid>
           </el-form-item>
