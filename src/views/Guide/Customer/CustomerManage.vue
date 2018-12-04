@@ -25,7 +25,8 @@
       <div class="kehuBox-main">
         <div class="kehuBox-main-top">
           <p>
-            <img :src="items.image" class="man-img">
+            <img :src="items.image" class="man-img" v-if="items.image !== null">
+            <span v-if="items.image === null" class="img-show"></span>
             <span class="man-name">{{items.gradeName}}</span>
             <span>{{items.grade}}</span>
           </p>
@@ -42,7 +43,7 @@
               <el-col :span='8'><span>性别：{{items.sex === 1?'男':'女'}}</span></el-col>
               <el-col :span='8'><span>手机号：{{items.mobile|| '-'}}</span></el-col>
               <!-- <el-col :span='8'><span>地址：{{items.province?items.province:'-'+'/'+items.city?items.city:'-'}}</span></el-col> -->
-              <el-col :span='8'><span>地址：{{items.province === null&&items.province === null?'-':items.city+' / '+items.city}}</span></el-col>
+              <el-col :span='8'><span>地址：{{items.province === null&&items.province === null?'-':items.province+' / '+items.city}}</span></el-col>
             </el-row>
             <el-row>
               <el-col :span='8'><span>积分：{{items.point|| '-'}}</span></el-col>
@@ -128,6 +129,15 @@ export default CustomerManage
     border: 1px solid #999;
     border-radius: 50%;
     float: left;
+  }
+  .img-show{
+    width: 35px;
+    height: 35px;
+    border: 1px solid #999;
+    border-radius: 50%;
+    float: left;
+    background: url("../../../assets/iconSvg/huiyuan.svg")no-repeat 6px 6px;
+    background-size: 20px;
   }
   .man-name {
     font-size: 15px;
