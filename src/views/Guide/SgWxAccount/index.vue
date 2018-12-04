@@ -26,7 +26,7 @@
             </template>
           </el-table-column>
           <el-table-column prop="update_time" label="更新时间" width="160" align="left"></el-table-column>
-          <el-table-column :show-overflow-tooltip="true" label="操作" align="right" width="80">
+          <el-table-column :show-overflow-tooltip="true" label="操作" align="right" width="82">
             <template slot-scope="scope">
               <span class="tmp-cell__buttons">
                 <ns-button type="text" @click="onSaveOpen(scope.row)">编辑</ns-button>
