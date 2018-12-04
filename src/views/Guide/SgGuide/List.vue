@@ -10,7 +10,7 @@
       <div class="guideBox" style="overflow-x:hidden;overflow-y:auto;">
         <el-form :model="model.sgGuide" ref="addForm" label-width="100px" :rules="rules" >
           <el-form-item label="所属门店：" required>
-            <el-form-grid size="xmd">
+            <el-form-grid size="xxmd">
               <el-form-item prop="shop">
                 <el-select placeholder="所属门店" @change="store" v-model="model.sgGuideShop.shop_id" filterable >
                   <el-option v-for="shop in shopFindList" :label="shop.shopName" :value="shop.id" :key="shop.id"></el-option>
@@ -19,7 +19,7 @@
             </el-form-grid>
           </el-form-item>
           <el-form-item label="姓名：" required>
-            <el-form-grid size="xmd">
+            <el-form-grid size="xxmd">
               <el-form-item prop="name">
                 <el-input type="text" @change="names" v-model="model.sgGuide.name" placeholder="请输入姓名" autofocus=true clearable>
                 </el-input>
@@ -27,7 +27,7 @@
             </el-form-grid>
           </el-form-item>
           <el-form-item label="昵称：" required>
-            <el-form-grid size="xmd">
+            <el-form-grid size="xxmd">
               <el-form-item prop="nickname">
                 <el-input type="text" @change="nickname" v-model="model.sgGuide.nickname" placeholder="请输入昵称" clearable>
                 </el-input>
@@ -35,7 +35,7 @@
             </el-form-grid>
           </el-form-item>
           <el-form-item label="生日：">
-            <el-form-grid size="xmd">
+            <el-form-grid size="xxmd">
               <el-form-item prop="birthday">
                 <el-date-picker v-model="model.sgGuide.birthday" @change="birthday" type="date" :picker-options="pickerOptions" placeholder="选择日期">
                 </el-date-picker>
@@ -43,7 +43,7 @@
             </el-form-grid>
           </el-form-item>
           <el-form-item label="性别：" required>
-            <el-form-grid size="xmd">
+            <el-form-grid size="xxmd">
               <el-form-item prop="sex">
                 <el-radio-group @change="sexs" v-model="model.sgGuide.sex">
                   <el-radio :label="1">男</el-radio>
@@ -53,7 +53,7 @@
             </el-form-grid>
           </el-form-item>
           <el-form-item label="手机号：" required>
-            <el-form-grid size="xmd">
+            <el-form-grid size="xxmd">
               <el-form-item prop="mobile">
                 <el-input v-model="model.sgGuide.mobile" @change="mobile" placeholder="请输入手机号" clearable>
                 </el-input>
@@ -61,7 +61,7 @@
             </el-form-grid>
           </el-form-item>
           <el-form-item label="职务：" required>
-            <el-form-grid size="xmd">
+            <el-form-grid size="xxmd">
               <el-form-item prop="job">
                 <el-radio-group v-model="model.sgGuideShop.job" @change="jobs">
                   <el-radio :label="0">导购</el-radio>
@@ -71,14 +71,14 @@
             </el-form-grid>
           </el-form-item>
 
-          <el-form-item label="工号：">
-            <el-form-grid size="xmd">
+          <el-form-item label="工号：" required>
+            <el-form-grid size="xxmd">
               <el-form-item prop="work_id">
                     <div class="page_add_guide_workid" style='display:flex'>
-                      <el-form-grid size="xxs"><el-input disabled  value='1111'/></el-form-grid>
-                      <el-input type="text" v-model="model.sgGuide.work_id" @change="workIdChange" placeholder="请输入工号" clearable/>
+                      <el-form-grid size="sm"><el-input :disabled="disabledWorkPrefix"  v-model="model.sgGuide.work_prefix" @blur='blurWorkPrefix'/></el-form-grid>
+                      <el-input type="text" v-model="model.sgGuide.work_number" @change="workIdChange" placeholder="请输入工号" clearable/>
                       <span style='color:transparent'>1</span>
-                      <ns-button type='text'>修改前缀</ns-button>
+                      <ns-button type='text' @click='updateWorkPrefix'>修改前缀</ns-button>
                     </div>
               </el-form-item>
             </el-form-grid>
@@ -114,7 +114,7 @@
         <el-form label-width="100px">
           <el-row :gutter="30">
             <el-form-item label="客户总数：">
-              <el-form-grid size="xmd">
+              <el-form-grid size="xxmd">
                 <el-form-item>
                   <el-input type="text" v-model="customerTotal" disabled="disabled" clearable>
                   </el-input>
@@ -122,7 +122,7 @@
               </el-form-grid>
             </el-form-item>
             <el-form-item label="转移方式：">
-              <el-form-grid size="xmd">
+              <el-form-grid size="xxmd">
                 <el-form-item prop="transferWay">
                   <el-select placeholder="转移方式" v-model="transferWay">
                     <el-option value="1" label="同门店均分"></el-option>
@@ -175,7 +175,7 @@
         <el-form label-width="100px">
           <el-row :gutter="30">
             <el-form-item label="选择导购：">
-              <el-form-grid size="xmd">
+              <el-form-grid size="xxmd">
                 <el-form-item>
                   <el-select placeholder="请选择指定导购" v-model="receiveGuideId" filterable>
                     <el-option v-for="guide in guideList" :label="guide.name"
