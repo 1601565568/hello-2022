@@ -186,6 +186,11 @@ export default {
     }
   },
   methods: {
+    transfer () {
+      this.$router.push({
+        path: '/Guide/Customer/CustomerManage'
+      })
+    },
     logo (value) {
       let _this = this
       _this.changeValue.logoValue = value
@@ -719,8 +724,6 @@ export default {
       var _this = this
       _this.changeObj.workIdChangeChange = true
       _this.changeValue.workIdChangeValue = value
-      // var regin = /^(0|[1-9][0-9]*)$/
-      // var flag = regin.test(_this.model.sgGuide.work_id)
       var guideId = null
       if (_this.row != null) {
         guideId = _this.row.id
