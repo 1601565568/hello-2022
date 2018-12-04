@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class='page_add_coupon'>
     <ns-table-sg-coupon ref="table" @showListDialogMain="showListDialogFun" :url=$api.guide.guide.findList @add="addCoupon"></ns-table-sg-coupon>
     <!-- 新增弹窗 -->
     <el-dialog ref="addCouponDialog"  :title="title" :visible.sync="addCouponDialogVisible" width="800px">
@@ -152,6 +152,7 @@
 
 <style scoped>
   @import "../../../style/small/variables.pcss";
+
   .coupon-form{
     text-align: right;
     padding-right: 80px;
@@ -207,4 +208,11 @@
     height:60px;
 
   }
+</style>
+<style>
+.page_add_coupon  .el-select-dropdown__wrap , .el-scrollbar__wrap {
+
+      /* margin: 0 ! important */
+  }
+
 </style>
