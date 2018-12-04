@@ -55,53 +55,6 @@
 <!-- 高级搜索start -->
   <div class="template-table-search" v-show="searchType.advanced">
       <div class="template-table__bar-more">
-      <!-- <template slot="advancedSearch" v-if="_data._queryConfig.expand">
-      <el-form ref="table_filter_form" label-width="80px" @keyup.enter.native="onSearch" class="surround-btn"
-               :model="model" :rules="rules" :inline="true">
-        <el-form-item label="优惠券：">
-          <el-form-grid size="xmd">
-            <el-input  type="text" v-model="model.couponTitle" placeholder="请输入优惠券名称或编码">
-            </el-input>
-          </el-form-grid>
-        </el-form-item>
-        <el-form-item label="卡券类型：">
-          <el-form-grid size="xmd" >
-            <el-form-item prop="storeCouponType">
-              <el-select  v-model="model.couponType" clearable filterable placeholder="请选择卡券类型">
-                <el-option label="代金券" value="1"></el-option>
-                <el-option label="折扣券" value="2"></el-option>
-                <el-option label="兑换券" value="3"></el-option>
-              </el-select>
-            </el-form-item>
-          </el-form-grid>
-        </el-form-item>
-        <el-form-item label="状态：">
-          <el-form-grid size="xmd">
-            <el-form-item prop="storeCouponState">
-              <el-select  v-model="model.couponStatus" clearable filterable placeholder="请选择状态">
-                <el-option label="启用" value="1"></el-option>
-                <el-option label="禁用" value="0"></el-option>
-              </el-select>
-            </el-form-item>
-          </el-form-grid>
-        </el-form-item>
-        <el-form-item label="失效时间：" prop="time">
-          <el-date-picker
-            v-model="model.validTime"
-            type="datetimerange"
-            :picker-options="pickerOptions"
-            range-separator="至"
-            start-placeholder="请选择开始日期"
-            end-placeholder="请选择结束日期"
-            align="right">
-          </el-date-picker>
-        </el-form-item>
-      </el-form>
-      <div class="template-table__more-btn">
-        <ns-button type="primary" @click="submitForm('searchform')">搜索</ns-button>
-        <ns-button @click="resetForm('searchform')">重置</ns-button>
-      </div>
-    </template> -->
         <el-form ref="searchform" label-width="80px"  class="surround-btn" :model="searchform"  :inline="true">
           <el-form-item label="素材标题：" prop="title">
             <el-input v-model="searchform.title" placeholder="请输入素材标题"></el-input>
@@ -444,3 +397,8 @@ export default {
   }
 }
 </script>
+<style>
+.mt10{
+  border-radius: 3px 3px 0 0 !important
+}
+</style>
