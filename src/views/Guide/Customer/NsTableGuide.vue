@@ -29,9 +29,11 @@
     <template slot="searchSearch">
       <el-form :model="quickSearchModel" :inline="true" @submit.native.prevent  class="pull-right">
         <el-form-item v-show="_data._queryConfig.expand === false">
-          <el-input ref="quickText" style="width: 250px" v-model="model.mobile" placeholder="手机号" @keyup.enter.native="$searchAction$()">
-            <i class="el-icon-search el-input__icon" slot="suffix" moblie="moblie" @click="$searchAction$()"></i>
+          <el-input ref="quickText" style="width: 250px" v-model="model.mobile" placeholder="手机号" @keyup.enter.native="$searchAction$()" clearable>
+            <!-- <i class="el-icon-search el-input__icon" slot="suffix" moblie="moblie" @click="$searchAction$()"></i> -->
           </el-input>
+          <ns-button type="primary" @click="$searchAction$()">搜索</ns-button>
+          <ns-button @click="$resetInputAction$()">重置</ns-button>
         </el-form-item>
 
         <el-form-item>
@@ -59,13 +61,13 @@
 
         <el-form-item label="手机号：">
           <el-form-grid size="xmd">
-            <el-input style="width:180px" autofocus=true v-model="model.mobile" placeholder="请输入手机号"></el-input>
+            <el-input style="width:180px" autofocus=true v-model="model.mobile" placeholder="请输入手机号" clearable></el-input>
           </el-form-grid>
         </el-form-item>
 
         <el-form-item label="昵称：">
           <el-form-grid size="xmd">
-            <el-input style="width:180px" autofocus=true v-model="model.nickName" placeholder="请输入昵称"></el-input>
+            <el-input style="width:180px" autofocus=true v-model="model.nickName" placeholder="请输入昵称" clearable></el-input>
           </el-form-grid>
         </el-form-item>
       </el-form>
