@@ -19,33 +19,33 @@
       <div class="addItemCon">
         线上成单：成单导购提成
         <el-form-item  prop="age">
-          <el-input type="number" style="width:60px" v-model.number="saveObj.onlineSalesRewardOrder" auto-complete="off"></el-input>
+          <el-input type="number" style="width:60px" v-model.number="saveObj.onlineSalesRewardOrder" auto-complete="off" step="0.0001"></el-input>
         </el-form-item>%;
         专属导购提成
         <el-form-item  prop="age">
-          <el-input type="number" style="width:60px" v-model.number="saveObj.onlineSalesRewardExclusive" auto-complete="off"></el-input>
+          <el-input type="number" style="width:60px" v-model.number="saveObj.onlineSalesRewardExclusive" auto-complete="off" step="0.0001"></el-input>
         </el-form-item><span>%;</span>
       </div>
       <div class="addItemCon">
         门店成单：成单导购提成
         <el-form-item  prop="age">
-          <el-input type="number" style="width:60px" v-model.number="saveObj.salesRewardOrder" auto-complete="off"></el-input>
+          <el-input type="number" style="width:60px" v-model.number="saveObj.salesRewardOrder" auto-complete="off" step="0.0001"></el-input>
         </el-form-item><span>%;</span>
         专属导购提成
         <el-form-item  prop="age">
-          <el-input type="number" style="width:60px" v-model.number="saveObj.salesRewardExclusive" auto-complete="off"></el-input>
+          <el-input type="number" style="width:60px" v-model.number="saveObj.salesRewardExclusive" auto-complete="off" step="0.0001"></el-input>
         </el-form-item><span>%;</span>
       </div>
       <div class="addTitBox">
         <span class="addTitText">招募新会员奖励</span>
         <el-form-item>
-          <el-switch  :active-value="1" :inactive-value="0" v-model="saveObj.memberStatus"></el-switch>
+          <el-switch  :active-value="1" :inactive-value="0" v-model="saveObj.memberStatus" step="0.0001"></el-switch>
         </el-form-item>
       </div>
       <div class="addItemCon">
         招募奖励：每招募一名新会员奖励
         <el-form-item  prop="age">
-          <el-input type="number" style="width:60px" v-model.number="saveObj.memberReward" auto-complete="off"></el-input>
+          <el-input type="number" style="width:60px" v-model.number="saveObj.memberReward" auto-complete="off" step="0.0001"></el-input>
         </el-form-item><span >元。</span>
       </div>
 

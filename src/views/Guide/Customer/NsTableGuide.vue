@@ -1,11 +1,10 @@
 <template>
 <div calss="NsTableGuide_main">
-  
         <div class="template-page__row-left">
           <el-input ref="quickText" style="width: 210px" v-model="filterTreeText" placeholder="输入姓名">
             <i class="el-icon-search el-input__icon" slot="suffix" name="name" @click="$quickSearchAction$('name')"></i>
           </el-input>
-            <el-tree class="filter-tree" ref="guideTree" :data="shopFindList" highlight-current 
+            <el-tree class="filter-tree" ref="guideTree" :data="shopFindList" highlight-current
                   node-key="id" :default-expand-all="false" :expand-on-click-node="false" :default-checked-keys="[0]"
                   :filter-node-method="onFilterNode" @node-click="onClickNode">
               <div class="subdivision-tree-node" slot-scope="{ node, data }" >
@@ -181,7 +180,6 @@
     top: 70px;
     left: 0;
     z-index: 1;
-    width: 100%;
     margin: 0;
   }
   .template-table {

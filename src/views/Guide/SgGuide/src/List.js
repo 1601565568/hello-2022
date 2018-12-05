@@ -372,7 +372,7 @@ export default {
           work_prefix: row.work_prefix
         }
         this.model.sgGuideShop = {
-          id: row.gsId,
+          gsId: row.gsId,
           job: row.job,
           shop_id: row.shop_id
         }
