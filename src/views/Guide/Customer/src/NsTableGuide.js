@@ -70,7 +70,7 @@ export default {
   computed: {},
   methods: {
     moment (time) {
-      return moment(time).format('YYYY-MM-DD hh:mm:ss')
+      return moment(time).format('YYYY-MM-DD HH:mm:ss')
     },
     onClickNode (data) {
       console.log(data)
