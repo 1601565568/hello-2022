@@ -13,10 +13,13 @@
     <template slot="searchSearch">
       <el-form :model="model" :inline="true" @submit.native.prevent class="pull-right">
         <el-form-item v-show="_data._queryConfig.expand === false">
-          <el-input ref="quickText" style="width: 250px" v-model="model.transName" placeholder="请输入转出人" @keyup.enter.native="$quickSearchAction$('transName')">
-            <i class="el-icon-search el-input__icon" slot="suffix" name="name" @click="$quickSearchAction$('transName')"></i>
+          <el-input ref="quickText" style="width: 250px" v-model="model.transName" placeholder="请输入转出人" @keyup.enter.native="$quickSearchAction$('transName')" clearable>
+            <!-- <i class="el-icon-search el-input__icon" slot="suffix" name="name" @click="$quickSearchAction$('transName')"></i> -->
           </el-input>
+          <ns-button type="primary" @click="$searchAction$()">搜索</ns-button>
+          <ns-button @click="$resetInputAction$()">重置</ns-button>
         </el-form-item>
+
         <el-form-item>
           <ns-button type="text" @click="$handleTabClick">
             {{collapseText}}
@@ -36,13 +39,13 @@
                :model="model" :rules="rules" :inline="true">
         <el-form-item label="转出人：">
           <el-form-grid size="xmd">
-            <el-input  type="text" v-model="model.transName" placeholder="请输入转出人">
+            <el-input  type="text" v-model="model.transName" placeholder="请输入转出人" clearable>
             </el-input>
           </el-form-grid>
         </el-form-item>
         <el-form-item label="转入人：">
           <el-form-grid size="xmd">
-            <el-input  type="text" v-model="model.receiveName" placeholder="请输入转入人">
+            <el-input  type="text" v-model="model.receiveName" placeholder="请输入转入人" clearable>
             </el-input>
           </el-form-grid>
         </el-form-item>
@@ -237,3 +240,5 @@
 <style scoped>
 .w80{width: 76px;text-align: right; display: inline-block;}
 </style>
+
+

@@ -1,11 +1,10 @@
 <template>
 <div calss="NsTableGuide_main">
-  
         <div class="template-page__row-left">
           <el-input ref="quickText" style="width: 210px" v-model="filterTreeText" placeholder="输入姓名">
             <i class="el-icon-search el-input__icon" slot="suffix" name="name" @click="$quickSearchAction$('name')"></i>
           </el-input>
-            <el-tree class="filter-tree" ref="guideTree" :data="shopFindList" highlight-current 
+            <el-tree class="filter-tree" ref="guideTree" :data="shopFindList" highlight-current
                   node-key="id" :default-expand-all="false" :expand-on-click-node="false" :default-checked-keys="[0]"
                   :filter-node-method="onFilterNode" @node-click="onClickNode">
               <div class="subdivision-tree-node" slot-scope="{ node, data }" >
@@ -30,9 +29,11 @@
     <template slot="searchSearch">
       <el-form :model="quickSearchModel" :inline="true" @submit.native.prevent  class="pull-right">
         <el-form-item v-show="_data._queryConfig.expand === false">
-          <el-input ref="quickText" style="width: 250px" v-model="model.mobile" placeholder="手机号" @keyup.enter.native="$searchAction$()">
-            <i class="el-icon-search el-input__icon" slot="suffix" moblie="moblie" @click="$searchAction$()"></i>
+          <el-input ref="quickText" style="width: 250px" v-model="model.mobile" placeholder="手机号" @keyup.enter.native="$searchAction$()" clearable>
+            <!-- <i class="el-icon-search el-input__icon" slot="suffix" moblie="moblie" @click="$searchAction$()"></i> -->
           </el-input>
+          <ns-button type="primary" @click="$searchAction$()">搜索</ns-button>
+          <ns-button @click="$resetInputAction$()">重置</ns-button>
         </el-form-item>
 
         <el-form-item>
@@ -60,13 +61,13 @@
 
         <el-form-item label="手机号：">
           <el-form-grid size="xmd">
-            <el-input style="width:180px" autofocus=true v-model="model.mobile" placeholder="请输入手机号"></el-input>
+            <el-input style="width:180px" autofocus=true v-model="model.mobile" placeholder="请输入手机号" clearable></el-input>
           </el-form-grid>
         </el-form-item>
 
         <el-form-item label="昵称：">
           <el-form-grid size="xmd">
-            <el-input style="width:180px" autofocus=true v-model="model.nickName" placeholder="请输入昵称"></el-input>
+            <el-input style="width:180px" autofocus=true v-model="model.nickName" placeholder="请输入昵称" clearable></el-input>
           </el-form-grid>
         </el-form-item>
       </el-form>
@@ -181,7 +182,6 @@
     top: 70px;
     left: 0;
     z-index: 1;
-    width: 100%;
     margin: 0;
   }
   .template-table {

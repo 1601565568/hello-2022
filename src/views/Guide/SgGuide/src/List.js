@@ -47,7 +47,7 @@ export default {
         sex: 1,
         mobile: null,
         birthday: null,
-        work_id: '',
+        work_num: '',
         password: null,
         image: ''
       },
@@ -109,6 +109,7 @@ export default {
       })
     })
     return {
+      disabledWorkPrefix: true,
       imageRoot: api.API_ROOT + '/core/file/showImage?fileKey=',
       title: '',
       transferWay: '1',
@@ -149,7 +150,7 @@ export default {
         sex: 1,
         mobile: null,
         birthday: null,
-        work_id: '',
+        work_num: '',
         password: null,
         image: '',
         id: null,
@@ -186,6 +187,17 @@ export default {
     }
   },
   methods: {
+    updateWorkPrefix () {
+      this.disabledWorkPrefix = false
+    },
+    blurWorkPrefix () {
+      this.disabledWorkPrefix = true
+    },
+    transfer () {
+      this.$router.push({
+        path: '/Guide/Customer/CustomerManage'
+      })
+    },
     logo (value) {
       let _this = this
       _this.changeValue.logoValue = value
@@ -290,7 +302,7 @@ export default {
             } else if (_this.changeObj.jobsChange) {
               _this.newAdd.job = _this.jobsValue
             } else if (_this.changeObj.workIdChangeChange) {
-              _this.newAdd.work_id = _this.workIdChangeValue
+              _this.newAdd.work_num = _this.workIdChangeValue
             } else if (_this.changeObj.logoChange) {
               _this.newAdd.image = _this.logoValue
             }
@@ -345,6 +357,7 @@ export default {
       })
     },
     onRedactFun (row) {
+      console.log(row)
       this.row = row
       if (row) {
         this.title = '编辑导购信息'
@@ -355,33 +368,46 @@ export default {
           sex: row.sex,
           mobile: row.mobile,
           birthday: row.birthday === null ? null : new Date(row.birthday),
-          work_id: row.work_id,
-          image: row.image
+          work_number: row.work_number,
+          image: row.image,
+          work_prefix: row.work_prefix
         }
         this.model.sgGuideShop = {
           id: row.gsId,
           job: row.job,
           shop_id: row.shop_id
         }
+        this.model.updateAllGuidePrefix = 1
+        this.dialogFormVisible = true
       } else {
         this.title = '新增员工'
-        this.model.sgGuide = {
-          id: this.newAdd.id,
-          name: this.newAdd.name,
-          nickname: this.newAdd.nickname,
-          sex: this.newAdd.sex,
-          mobile: this.newAdd.mobile,
-          birthday: this.newAdd.birthday === null ? null : new Date(row.birthday),
-          work_id: this.newAdd.work_id,
-          image: this.newAdd.image
-        }
-        this.model.sgGuideShop = {
-          id: this.newAdd.gsId,
-          job: this.newAdd.job,
-          shop_id: this.newAdd.shop_id
-        }
+        let that = this
+
+        that.$http.fetch(this.$api.guide.guide.findGuideNewWorkNumAndPrefix, {}
+        ).then(resp => {
+          this.model.sgGuide = {
+            id: this.newAdd.id,
+            name: this.newAdd.name,
+            nickname: this.newAdd.nickname,
+            sex: this.newAdd.sex,
+            mobile: this.newAdd.mobile,
+            birthday: this.newAdd.birthday === null ? null : new Date(row.birthday),
+            image: this.newAdd.image,
+            work_prefix: resp.result.workPrefix,
+            work_number: resp.result.workNumber
+          }
+          this.model.sgGuideShop = {
+            id: this.newAdd.gsId,
+            job: this.newAdd.job,
+            shop_id: this.newAdd.shop_id
+          }
+          this.model.updateAllGuidePrefix = 1
+          this.dialogFormVisible = true
+        }).catch((err) => {
+          console.log('err', err)
+          that.$notify.error('查询失败:' + err.msg)
+        })
       }
-      this.dialogFormVisible = true
     },
     onSave () {
       var _this = this
@@ -394,15 +420,17 @@ export default {
             guide.birthday = moment(guide.birthday).format('YYYY-MM-DD')
           }
           if (guide.birthday === null) guide.birthday = ''
-          if (guide.work_id === null) guide.work_id = ''
+          if (guide.work_num === null) guide.work_num = ''
           this.$http.fetch(this.$api.guide.guide.saveOrUpdateGuide, {
             sgGuide: guide,
-            sgGuideShop: guideShop
+            sgGuideShop: guideShop,
+            updateAllGuidePrefix: _this.model.updateAllGuidePrefix
           }).then(resp => {
             _this.closeDialog()
             _this.$notify.success('保存成功')
             this.$refs.table.$reload()
           }).catch((resp) => {
+            _this.closeDialog()
             this.model.sgGuide.image = allImageUrl
             _this.$notify.error('保存失败：' + resp.msg)
           })
@@ -720,17 +748,17 @@ export default {
       _this.changeObj.workIdChangeChange = true
       _this.changeValue.workIdChangeValue = value
       // var regin = /^(0|[1-9][0-9]*)$/
-      // var flag = regin.test(_this.model.sgGuide.work_id)
+      // var flag = regin.test(_this.model.sgGuide.work_num)
       var guideId = null
       if (_this.row != null) {
         guideId = _this.row.id
       }
       _this.$http.fetch(this.$api.guide.guide.checkGuideWorkId, {
         id: guideId,
-        work_id: _this.model.sgGuide.work_id
+        work_num: _this.model.sgGuide.work_num
       }).then((resp) => {
         if (resp.result !== '0') {
-          _this.model.sgGuide.work_id = null
+          _this.model.sgGuide.work_num = null
           this.$notify.info('工号存在，请重新输入')
         }
       }).catch((resp) => {

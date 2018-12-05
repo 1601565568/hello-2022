@@ -13,9 +13,11 @@
     <template slot="searchSearch">
       <el-form :model="model" :inline="true" @submit.native.prevent class="pull-right">
         <el-form-item v-show="_data._queryConfig.expand === false">
-          <el-input ref="quickText" style="width: 250px" v-model="model.couponTitle" placeholder="请输入优惠券名称或编码" @keyup.enter.native="$quickSearchAction$('couponTitle')">
-            <i class="el-icon-search el-input__icon" slot="suffix" name="name" @click="$quickSearchAction$('couponTitle')"></i>
+          <el-input ref="quickText" style="width: 250px" v-model="model.couponTitle" placeholder="请输入优惠券名称或编码" @keyup.enter.native="$quickSearchAction$('couponTitle')" clearable>
+            <!-- <i class="el-icon-search el-input__icon" slot="suffix" name="name" @click="$quickSearchAction$('couponTitle')"></i> -->
           </el-input>
+          <ns-button type="primary" @click="$searchAction$()">搜索</ns-button>
+          <ns-button @click="$resetInputAction$()">重置</ns-button>
         </el-form-item>
         <el-form-item>
           <ns-button type="text" @click="$handleTabClick">
@@ -36,7 +38,7 @@
                :model="model" :rules="rules" :inline="true">
         <el-form-item label="优惠券：">
           <el-form-grid size="xmd">
-            <el-input  type="text" v-model="model.couponTitle" placeholder="请输入优惠券名称或编码">
+            <el-input  type="text" v-model="model.couponTitle" placeholder="请输入优惠券名称或编码" clearable>
             </el-input>
           </el-form-grid>
         </el-form-item>

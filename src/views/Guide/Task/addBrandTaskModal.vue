@@ -123,7 +123,7 @@ export default {
       rules: {
         name: [
           { required: true, message: '请输入任务名称', trigger: 'blur' },
-          { min: 4, max: 10, message: '长度在4-10个字符以内', trigger: 'blur' }
+          { min: 4, max: 25, message: '长度在4-25以内', trigger: 'blur' }
         ],
         activityTime: [
           { required: true, message: '请选择执行时间', trigger: 'blur' }
@@ -209,7 +209,7 @@ export default {
         if (obj.materialId) {
           this.selectMaterial.id = obj.materialId
           this.selectMaterial.materialTitle = obj.materialTitle
-          this.model.id = obj.id
+          this.model.materialId = obj.materialId
           this.model.materialTitle = obj.materialTitle
         }
         console.log(this.model)
@@ -221,7 +221,9 @@ export default {
     },
     // 提交保存
     saveFun () {
+      console.log(this.model)
       this.$refs.form.validate(valid => {
+        console.log(valid)
         if (valid) {
           if (this.model.activityTime.length === 2) {
             this.model.startTime = moment(this.model.activityTime[0]).format(

@@ -26,7 +26,7 @@
             </template>
           </el-table-column>
           <el-table-column prop="update_time" label="更新时间" width="160" align="left"></el-table-column>
-          <el-table-column :show-overflow-tooltip="true" label="操作" align="right" width="80">
+          <el-table-column :show-overflow-tooltip="true" label="操作" align="right" width="82">
             <template slot-scope="scope">
               <span class="tmp-cell__buttons">
                 <ns-button type="text" @click="onSaveOpen(scope.row)">编辑</ns-button>
@@ -78,7 +78,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <ns-button @click="dialogFormVisible = false">取消</ns-button>
-        <ns-save type="primary" @click="onSave">保存</ns-save>
+        <ns-button type="primary" @click="onSave">确定</ns-button>
       </div>
     </el-dialog>
   </div>

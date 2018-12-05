@@ -94,5 +94,10 @@ export default {
   queryCustomerCouponNum: {// 查询客户可用优惠券数量
     url: '/guide/customer/queryCustomerCouponNum',
     method: 'get'
+  },
+  findGuideNewWorkNumAndPrefix: {
+    url: '/guide/guide/findGuideNewWorkNumAndPrefix',
+    method: 'get'
   }
+
 }

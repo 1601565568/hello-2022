@@ -10,7 +10,7 @@
       <div class="guideBox" style="overflow-x:hidden;overflow-y:auto;">
         <el-form :model="model.sgGuide" ref="addForm" label-width="100px" :rules="rules" >
           <el-form-item label="所属门店：" required>
-            <el-form-grid size="xmd">
+            <el-form-grid size="xxmd">
               <el-form-item prop="shop">
                 <el-select placeholder="所属门店" @change="store" v-model="model.sgGuideShop.shop_id" filterable >
                   <el-option v-for="shop in shopFindList" :label="shop.shopName" :value="shop.id" :key="shop.id"></el-option>
@@ -19,7 +19,7 @@
             </el-form-grid>
           </el-form-item>
           <el-form-item label="姓名：" required>
-            <el-form-grid size="xmd">
+            <el-form-grid size="xxmd">
               <el-form-item prop="name">
                 <el-input type="text" @change="names" v-model="model.sgGuide.name" placeholder="请输入姓名" autofocus=true clearable>
                 </el-input>
@@ -27,7 +27,7 @@
             </el-form-grid>
           </el-form-item>
           <el-form-item label="昵称：" required>
-            <el-form-grid size="xmd">
+            <el-form-grid size="xxmd">
               <el-form-item prop="nickname">
                 <el-input type="text" @change="nickname" v-model="model.sgGuide.nickname" placeholder="请输入昵称" clearable>
                 </el-input>
@@ -35,7 +35,7 @@
             </el-form-grid>
           </el-form-item>
           <el-form-item label="生日：">
-            <el-form-grid size="xmd">
+            <el-form-grid size="xxmd">
               <el-form-item prop="birthday">
                 <el-date-picker v-model="model.sgGuide.birthday" @change="birthday" type="date" :picker-options="pickerOptions" placeholder="选择日期">
                 </el-date-picker>
@@ -43,7 +43,7 @@
             </el-form-grid>
           </el-form-item>
           <el-form-item label="性别：" required>
-            <el-form-grid size="xmd">
+            <el-form-grid size="xxmd">
               <el-form-item prop="sex">
                 <el-radio-group @change="sexs" v-model="model.sgGuide.sex">
                   <el-radio :label="1">男</el-radio>
@@ -53,7 +53,7 @@
             </el-form-grid>
           </el-form-item>
           <el-form-item label="手机号：" required>
-            <el-form-grid size="xmd">
+            <el-form-grid size="xxmd">
               <el-form-item prop="mobile">
                 <el-input v-model="model.sgGuide.mobile" @change="mobile" placeholder="请输入手机号" clearable>
                 </el-input>
@@ -61,29 +61,39 @@
             </el-form-grid>
           </el-form-item>
           <el-form-item label="职务：" required>
-            <el-form-grid size="xmd">
-              <el-form-item prop="job">
+            <el-form-grid size="xxmd">
+
                 <el-radio-group v-model="model.sgGuideShop.job" @change="jobs">
                   <el-radio :label="0">导购</el-radio>
                   <el-radio :label="1">店长</el-radio>
                 </el-radio-group>
-              </el-form-item>
+
             </el-form-grid>
           </el-form-item>
 
-          <el-form-item label="工号：">
-            <el-form-grid size="xmd">
+          <el-form-item label="工号：" required>
+            <el-form-grid size="xxmd">
               <el-form-item prop="work_id">
                     <div class="page_add_guide_workid" style='display:flex'>
-                      <el-form-grid size="xxs"><el-input disabled  value='1111'/></el-form-grid>
-                      <el-input type="text" v-model="model.sgGuide.work_id" @change="workIdChange" placeholder="请输入工号" clearable/>
+                      <el-form-grid size="sm"><el-input :disabled="disabledWorkPrefix"  v-model="model.sgGuide.work_prefix" @blur='blurWorkPrefix'/></el-form-grid>
+                      <el-input type="text" v-model="model.sgGuide.work_number"  placeholder="请输入工号" clearable/>
+                      <!-- @change="workIdChange" -->
                       <span style='color:transparent'>1</span>
-                      <ns-button type='text'>修改前缀</ns-button>
+                      <ns-button type='text' @click='updateWorkPrefix'>修改前缀</ns-button>
                     </div>
               </el-form-item>
             </el-form-grid>
           </el-form-item>
-
+          <el-form-item label="前缀：" required>
+            <el-form-grid size="xxmd">
+              <el-form-item prop="sex">
+                <el-radio-group  v-model="model.updateAllGuidePrefix">
+                  <el-radio :label="1">修改所有</el-radio>
+                  <el-radio :label="0">修改当前</el-radio>
+                </el-radio-group>
+              </el-form-item>
+            </el-form-grid>
+          </el-form-item>
           <el-form-item label="头像：" class="el-inline-block">
             <el-form-grid style="width: 320px;">
               <el-form-item prop="logo">
@@ -114,7 +124,7 @@
         <el-form label-width="100px">
           <el-row :gutter="30">
             <el-form-item label="客户总数：">
-              <el-form-grid size="xmd">
+              <el-form-grid size="xxmd">
                 <el-form-item>
                   <el-input type="text" v-model="customerTotal" disabled="disabled" clearable>
                   </el-input>
@@ -122,7 +132,7 @@
               </el-form-grid>
             </el-form-item>
             <el-form-item label="转移方式：">
-              <el-form-grid size="xmd">
+              <el-form-grid size="xxmd">
                 <el-form-item prop="transferWay">
                   <el-select placeholder="转移方式" v-model="transferWay">
                     <el-option value="1" label="同门店均分"></el-option>
@@ -142,30 +152,26 @@
     </el-dialog>
     <!--  导购离职弹窗结束  -->
     <!--  批量删除员工提示弹框开始 -->
-    <el-dialog title="请先转移导购的会员" width="500px" :visible.sync="allDeleteFormVisible">
-      <div style="height: 100px;overflow-x:hidden;overflow-y:auto;margin-top: 10px;">
+    <el-dialog title="请先转移导购的会员" width="500px" height="300px" :visible.sync="allDeleteFormVisible">
+      <div style="height: 60px;overflow-x:hidden;overflow-y:auto;margin-top: 10px;">
         删除说明：
-        成功删除员工{{successCount}}名，其中{{failCount}}员工名下有专属会员而不能批量删除，请先转移其会员后再删除
-        <!-- <el-form label-width="100px">
-          <el-row :gutter="30">
-            删除说明：
-            删除需要先对该员工的客户进行转移，转移完成之后，才能操作删除
-          </el-row>
-        </el-form> -->
+        删除需要先对该员工的客户进行转移，转移完成之后，才能操作删除
+      </div>
+      <div style="height: 40px;overflow-x:hidden;overflow-y:auto;margin: 10px 0 0 240px;">
+        <ns-button @click="allDeleteFormVisible = false">取消删除</ns-button>
+        <ns-button type="primary" @click="transfer">前往转移</ns-button>
       </div>
     </el-dialog>
     <!--  批量删除员工提示弹框结束 -->
     <!--  删除员工提示弹框开始 -->
     <el-dialog title="请先转移导购的会员" width="500px" :visible.sync="deleteFormVisible">
-      <div style="height: 100px;overflow-x:hidden;overflow-y:auto;margin-top: 10px;">
+      <div style="height: 60px;overflow-x:hidden;overflow-y:auto;margin-top: 10px;">
         删除说明：
         删除需要先对该员工的客户进行转移，转移完成之后，才能操作删除
-        <!-- <el-form label-width="100px">
-          <el-row :gutter="30">
-            删除说明：
-            删除需要先对该员工的客户进行转移，转移完成之后，才能操作删除
-          </el-row>
-        </el-form> -->
+      </div>
+      <div style="height:40px;overflow-x:hidden;overflow-y:auto;margin: 10px 0 0 240px;">
+        <ns-button @click="deleteFormVisible = false">取消删除</ns-button>
+        <ns-button type="primary" @click="transfer">前往转移</ns-button>
       </div>
     </el-dialog>
     <!--  删除员工提示弹框结束 -->
@@ -175,7 +181,7 @@
         <el-form label-width="100px">
           <el-row :gutter="30">
             <el-form-item label="选择导购：">
-              <el-form-grid size="xmd">
+              <el-form-grid size="xxmd">
                 <el-form-item>
                   <el-select placeholder="请选择指定导购" v-model="receiveGuideId" filterable>
                     <el-option v-for="guide in guideList" :label="guide.name"
