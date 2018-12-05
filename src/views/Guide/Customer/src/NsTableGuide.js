@@ -73,7 +73,6 @@ export default {
       return moment(time).format('YYYY-MM-DD HH:mm:ss')
     },
     onClickNode (data) {
-      console.log(data)
       var _this = this
       _this.shuJushuzu = data
       _this.loading = true
