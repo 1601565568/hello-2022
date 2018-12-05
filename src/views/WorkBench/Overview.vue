@@ -705,4 +705,9 @@
   .c-change .el-input__inner{
     padding-left: 30px !important;
   }
+
+  .el-table{
+    border-radius:10px !important
+  }
+
 </style>

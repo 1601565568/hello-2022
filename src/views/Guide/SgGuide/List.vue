@@ -62,12 +62,12 @@
           </el-form-item>
           <el-form-item label="职务：" required>
             <el-form-grid size="xxmd">
-              <el-form-item prop="job">
+
                 <el-radio-group v-model="model.sgGuideShop.job" @change="jobs">
                   <el-radio :label="0">导购</el-radio>
                   <el-radio :label="1">店长</el-radio>
                 </el-radio-group>
-              </el-form-item>
+
             </el-form-grid>
           </el-form-item>
 
@@ -76,14 +76,24 @@
               <el-form-item prop="work_id">
                     <div class="page_add_guide_workid" style='display:flex'>
                       <el-form-grid size="sm"><el-input :disabled="disabledWorkPrefix"  v-model="model.sgGuide.work_prefix" @blur='blurWorkPrefix'/></el-form-grid>
-                      <el-input type="text" v-model="model.sgGuide.work_number" @change="workIdChange" placeholder="请输入工号" clearable/>
+                      <el-input type="text" v-model="model.sgGuide.work_number"  placeholder="请输入工号" clearable/>
+                      <!-- @change="workIdChange" -->
                       <span style='color:transparent'>1</span>
                       <ns-button type='text' @click='updateWorkPrefix'>修改前缀</ns-button>
                     </div>
               </el-form-item>
             </el-form-grid>
           </el-form-item>
-
+          <el-form-item label="前缀：" required>
+            <el-form-grid size="xxmd">
+              <el-form-item prop="sex">
+                <el-radio-group  v-model="model.updateAllGuidePrefix">
+                  <el-radio :label="1">修改所有</el-radio>
+                  <el-radio :label="0">修改当前</el-radio>
+                </el-radio-group>
+              </el-form-item>
+            </el-form-grid>
+          </el-form-item>
           <el-form-item label="头像：" class="el-inline-block">
             <el-form-grid style="width: 320px;">
               <el-form-item prop="logo">

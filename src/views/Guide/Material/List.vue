@@ -28,7 +28,7 @@
     </template> -->
       <el-row class="template-table__bar-base">
          <!-- 左边上角操作区域 -->
-        
+
         <el-col :span="7">
             <ns-button type="primary" @click="AddShowToggle({})">新增</ns-button>
             <ns-button type="primary" @click="setGroudShowToggle">批量设置分组</ns-button>
@@ -41,7 +41,7 @@
           </div>
           <el-form ref="searchform" class="float-right" v-if="!searchType.advanced" :inline="true" :model="searchform">
             <el-form-item label="素材标题：" prop="title">
-              <el-input v-model="searchform.title" placeholder="请输入素材标题"></el-input>
+              <el-input v-model="searchform.title" placeholder="请输入素材标题" clearable></el-input>
             </el-form-item>
 
             <el-form-item>
@@ -57,7 +57,7 @@
       <div class="template-table__bar-more">
         <el-form ref="searchform" label-width="80px"  class="surround-btn" :model="searchform"  :inline="true">
           <el-form-item label="素材标题：" prop="title">
-            <el-input v-model="searchform.title" placeholder="请输入素材标题"></el-input>
+            <el-input v-model="searchform.title" placeholder="请输入素材标题" clearable></el-input>
           </el-form-item>
           <el-form-item label="分组：" prop="subdivision_id">
                 <el-select v-model="searchform.subdivision_id" placeholder="请选择分组">
