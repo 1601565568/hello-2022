@@ -707,7 +707,7 @@
   }
 
   .el-table{
-    border-radius:10px !important
+    border-radius:3px !important
   }
 
 </style>
