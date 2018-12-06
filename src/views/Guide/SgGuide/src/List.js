@@ -370,7 +370,7 @@ export default {
           birthday: row.birthday === null ? null : new Date(row.birthday),
           work_number: row.work_number,
           image: row.image,
-          work_prefix: 'NXKJ'
+          work_prefix: row.work_prefix
         }
         this.model.sgGuideShop = {
           id: row.gsId,
@@ -389,16 +389,16 @@ export default {
           mobile: this.newAdd.mobile,
           birthday: this.newAdd.birthday === null ? null : new Date(row.birthday),
           image: this.newAdd.image,
-          work_prefix: 'NXKJ',
-          work_number: 30
+          work_prefix: 'DG',
+          work_number: 100
         }
         this.model.sgGuideShop = {
           id: this.newAdd.gsId,
           job: this.newAdd.job,
           shop_id: this.newAdd.shop_id
         }
-        // this.model.updateAllGuidePrefix = 1
-        // this.dialogFormVisible = true
+        this.model.updateAllGuidePrefix = 1
+        this.dialogFormVisible = true
       }
     },
     onSave () {
