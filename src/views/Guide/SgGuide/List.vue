@@ -76,7 +76,7 @@
               <el-form-item prop="work_id">
                     <div class="page_add_guide_workid" style='display:flex'>
                       <!--<el-form-grid size="sm"><el-input :disabled="disabledWorkPrefix"  v-model="model.sgGuide.work_prefix" @blur='blurWorkPrefix'/></el-form-grid>-->
-                      <el-input type="text" v-model="model.sgGuide.work_number"  placeholder="请输入工号" clearable/>
+                      <el-input type="text" v-model="model.sgGuide.work_id"  placeholder="请输入工号" clearable/>
                       <!-- @change="workIdChange" -->
                       <!--<span style='color:transparent'>1</span>
                       <ns-button type='text' @click='updateWorkPrefix'>修改前缀</ns-button>-->
