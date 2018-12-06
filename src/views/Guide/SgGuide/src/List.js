@@ -633,7 +633,7 @@ export default {
         if (!isClose) {
           _this.$refs.table.$reload()
         }
-        _this.$notify.success(resp.result)
+        _this.$notify.success(resp.msg)
       }).catch((resp) => {
         _this.$notify.error('修改失败 ' + resp.msg)
       })
