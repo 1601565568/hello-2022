@@ -49,7 +49,6 @@ export default {
         birthday: null,
         work_num: '',
         password: null,
-        work_id: null,
         image: ''
       },
       sgGuideShop: {
@@ -371,7 +370,6 @@ export default {
           birthday: row.birthday === null ? null : new Date(row.birthday),
           work_number: row.work_number,
           image: row.image,
-          work_id: row.work_id,
           work_prefix: row.work_prefix
         }
         this.model.sgGuideShop = {
@@ -383,24 +381,32 @@ export default {
         this.dialogFormVisible = true
       } else {
         this.title = '新增员工'
-        this.model.sgGuide = {
-          id: this.newAdd.id,
-          name: this.newAdd.name,
-          nickname: this.newAdd.nickname,
-          sex: this.newAdd.sex,
-          mobile: this.newAdd.mobile,
-          birthday: this.newAdd.birthday === null ? null : new Date(row.birthday),
-          image: this.newAdd.image,
-          work_prefix: 'DG',
-          work_number: null
-        }
-        this.model.sgGuideShop = {
-          id: this.newAdd.gsId,
-          job: this.newAdd.job,
-          shop_id: this.newAdd.shop_id
-        }
-        this.model.updateAllGuidePrefix = 1
-        this.dialogFormVisible = true
+        let that = this
+
+        that.$http.fetch(this.$api.guide.guide.findGuideNewWorkNumAndPrefix, {}
+        ).then(resp => {
+          this.model.sgGuide = {
+            id: this.newAdd.id,
+            name: this.newAdd.name,
+            nickname: this.newAdd.nickname,
+            sex: this.newAdd.sex,
+            mobile: this.newAdd.mobile,
+            birthday: this.newAdd.birthday === null ? null : new Date(row.birthday),
+            image: this.newAdd.image,
+            work_prefix: resp.result.workPrefix,
+            work_number: resp.result.workNumber
+          }
+          this.model.sgGuideShop = {
+            id: this.newAdd.gsId,
+            job: this.newAdd.job,
+            shop_id: this.newAdd.shop_id
+          }
+          this.model.updateAllGuidePrefix = 1
+          this.dialogFormVisible = true
+        }).catch((err) => {
+          console.log('err', err)
+          that.$notify.error('查询失败:' + err.msg)
+        })
       }
     },
     onSave () {
