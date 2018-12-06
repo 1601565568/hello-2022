@@ -29,7 +29,7 @@
         </el-dropdown>
       </div>
       <div class="go-nascent-cloud" title="返回云平台">
-          <i class="iconfont icon-yunpingtai2" @click="onBackCloud"></i>
+          <a :href="cloudUrl"><i class="iconfont icon-yunpingtai2"></i></a>
       </div>
       <div class="userinfo" :title="$store.state.user.remumber.remumber_login_info.nick">
         <el-dropdown
@@ -54,11 +54,13 @@
     name: 'NavHead',
     data () {
       return {
-        activeName: ''
+        activeName: '',
+        cloudUrl: ''
       }
     },
     mounted () {
       this.setBrandsInView()
+      this.onBackCloud()
       this.activeName = this.$route.matched[0].name
     },
     methods: {
@@ -66,9 +68,7 @@
         let that = this
         that.$http.fetch(that.$api.core.access.getCloudPlatformAddress)
           .then((resp) => {
-            window.location.href = resp.result
-          }).catch(() => {
-            that.$notify.error('返回失败，请重试！')
+            that.cloudUrl = resp.result
           })
       },
       /**
