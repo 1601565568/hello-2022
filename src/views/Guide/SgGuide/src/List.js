@@ -49,6 +49,7 @@ export default {
         birthday: null,
         work_num: '',
         password: null,
+        work_id: null,
         image: ''
       },
       sgGuideShop: {
@@ -370,6 +371,7 @@ export default {
           birthday: row.birthday === null ? null : new Date(row.birthday),
           work_number: row.work_number,
           image: row.image,
+          work_id: row.work_id,
           work_prefix: row.work_prefix
         }
         this.model.sgGuideShop = {
@@ -390,7 +392,7 @@ export default {
           birthday: this.newAdd.birthday === null ? null : new Date(row.birthday),
           image: this.newAdd.image,
           work_prefix: 'DG',
-          work_number: 100
+          work_number: null
         }
         this.model.sgGuideShop = {
           id: this.newAdd.gsId,
