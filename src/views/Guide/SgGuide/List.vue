@@ -1,9 +1,9 @@
 <template>
   <div>
     <ns-table-guide ref="table" :url=$api.guide.guide.findList @add="onRedactFun"
-    @shopEdit="shopEdit" @allDelete="allDelete" @onDelsTipFun="onDelsTipFun" @onRedactFun="onRedactFun" @dimissionFun="dimissionFun" @handleSelectionChange="handleSelectionChange">
-    <!-- <ns-table-guide ref="table" :url=$api.guide.guide.findList @add="onRedactFun"
-    @shopEdit="shopEdit" @allDelete="allDelete" @ondelete="ondelete" @onAddCustomer="onRedactFun" @quit="quit" @handleSelectionChange="handleSelectionChange"> -->
+                    @shopEdit="shopEdit" @allDelete="allDelete" @onDelsTipFun="onDelsTipFun" @onRedactFun="onRedactFun" @dimissionFun="dimissionFun" @handleSelectionChange="handleSelectionChange">
+      <!-- <ns-table-guide ref="table" :url=$api.guide.guide.findList @add="onRedactFun"
+      @shopEdit="shopEdit" @allDelete="allDelete" @ondelete="ondelete" @onAddCustomer="onRedactFun" @quit="quit" @handleSelectionChange="handleSelectionChange"> -->
     </ns-table-guide>
     <!-- 新增修改客户开始-->
     <el-dialog :title="title" :visible.sync="dialogFormVisible" width="460px"  @keyup.enter.native="onKeyUp" @keyup.esc.native="onKeyUp" >
@@ -63,10 +63,10 @@
           <el-form-item label="职务：" required>
             <el-form-grid size="xxmd">
 
-                <el-radio-group v-model="model.sgGuideShop.job" @change="jobs">
-                  <el-radio :label="0">导购</el-radio>
-                  <el-radio :label="1">店长</el-radio>
-                </el-radio-group>
+              <el-radio-group v-model="model.sgGuideShop.job" @change="jobs">
+                <el-radio :label="0">导购</el-radio>
+                <el-radio :label="1">店长</el-radio>
+              </el-radio-group>
 
             </el-form-grid>
           </el-form-item>
@@ -74,13 +74,13 @@
           <el-form-item label="工号：" required>
             <el-form-grid size="xxmd">
               <el-form-item prop="work_id">
-                    <div class="page_add_guide_workid" style='display:flex'>
-                      <el-form-grid size="sm"><el-input :disabled="disabledWorkPrefix"  v-model="model.sgGuide.work_prefix" @blur='blurWorkPrefix'/></el-form-grid>
-                      <el-input type="text" v-model="model.sgGuide.work_number"  placeholder="请输入工号" clearable/>
-                      <!-- @change="workIdChange" -->
-                      <span style='color:transparent'>1</span>
-                      <ns-button type='text' @click='updateWorkPrefix'>修改前缀</ns-button>
-                    </div>
+                <div class="page_add_guide_workid" style='display:flex'>
+                  <el-form-grid size="sm"><el-input :disabled="disabledWorkPrefix"  v-model="model.sgGuide.work_prefix" @blur='blurWorkPrefix'/></el-form-grid>
+                  <el-input type="text" v-model="model.sgGuide.work_number"  placeholder="请输入工号" clearable/>
+                  <!-- @change="workIdChange" -->
+                  <span style='color:transparent'>1</span>
+                  <ns-button type='text' @click='updateWorkPrefix'>修改前缀</ns-button>
+                </div>
               </el-form-item>
             </el-form-grid>
           </el-form-item>
@@ -98,7 +98,7 @@
             <el-form-grid style="width: 320px;">
               <el-form-item prop="logo">
                 <el-upload class="avatar-uploader" @change="logo"
-                :action="this.$api.core.sgUploadFile('test')"
+                           :action="this.$api.core.sgUploadFile('test')"
                            accept=".jpg,.jpeg,.png,.bmp,.gif" :show-file-list="false"
                            :on-success="handleAvatarSuccess"
                            :before-upload="beforeAvatarUpload">
@@ -241,15 +241,15 @@
 </template>
 
 <script>
-import List from './src/List'
-import NsTableGuide from './NsTableGuide'
-List.components = {
-  NsTableGuide
-}
-export default List
+  import List from './src/List'
+  import NsTableGuide from './NsTableGuide'
+  List.components = {
+    NsTableGuide
+  }
+  export default List
 </script>
 <style scoped>
->>>.avatar-uploader .el-upload {
+  >>>.avatar-uploader .el-upload {
     border: 1px dashed #d9d9d9;
     border-radius: 6px;
     cursor: pointer;
@@ -259,7 +259,7 @@ export default List
   .avatar-uploader .el-upload:hover {
     border-color: #409EFF;
   }
- .avatar-uploader .avatar-uploader-icon {
+  .avatar-uploader .avatar-uploader-icon {
     font-size: 28px;
     color: #8c939d;
     width: 128px;

@@ -15,7 +15,7 @@
           <ul class="guideList">
               <li v-for="(item,index) in dataList" :key="index">
                   <div class="imgbox">
-                    <img :src="item.image" alt="">
+                    <img :src="item.image||require('../../../assets/iconSvg/huiyuan.svg')" alt="">
                     </div>
                   <span>{{item.name}}</span>
               </li>

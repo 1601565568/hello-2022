@@ -21,6 +21,7 @@
       </div>
     </el-dialog>
     <el-dialog :title="title" :visible.sync="shopKuhuShow" width="600px"  @keyup.enter.native="onKeyUp" @keyup.esc.native="onKeyUp" >
+      <img src="../../../assets/iconSvg/huiyuan.svg" alt="客道" />
     <div>
       <div class="kehuBox-main">
         <div class="kehuBox-main-top">
@@ -64,7 +65,7 @@
       </div>
     </div>
     </el-dialog>
-      
+
   </div>
 </template>
 

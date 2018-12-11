@@ -183,6 +183,7 @@
     left: 0;
     z-index: 1;
     margin: 0;
+    width: 100%;
   }
   .template-table {
     margin: 0 10px 0 440px;
