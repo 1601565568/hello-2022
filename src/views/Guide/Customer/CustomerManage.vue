@@ -27,8 +27,8 @@
           <p>
             <img :src="items.image" class="man-img" v-if="items.image !== null">
             <span v-if="items.image === null" class="img-show"></span>
-            <span class="man-name">{{items.gradeName}}</span>
-            <span>{{items.grade}}</span>
+            <span class="man-name">{{items.gradeName || items.customerName}}</span>
+            <span v-if="items.grade !== null">VIP{{items.grade}}</span>
           </p>
           <!-- <p class="p-button">X</p> -->
         </div>
