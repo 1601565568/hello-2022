@@ -205,16 +205,19 @@ export default {
         if (obj.m_type === 1) {
           this.saveObj.urlPic = this.saveObj.url
         }
-        console.log(obj)
       }
       this.dialogVisible = true
     },
     handleSelectionChange (val) {
-      console.log(val)
       this.multipleSelection = val
     },
     delImgFun (index) {
-      this.saveObj.imageList.splice(index, 1)
+      if (this.saveObj.imageList.length < 2) {
+        this.$notify.warning('上传图片不得少于一张')
+        return false
+      } else {
+        this.saveObj.imageList.splice(index, 1)
+      }
     },
     // 分组
     async loadGroup () {

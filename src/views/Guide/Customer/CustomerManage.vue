@@ -21,15 +21,15 @@
       </div>
     </el-dialog>
     <el-dialog :title="title" :visible.sync="shopKuhuShow" width="600px"  @keyup.enter.native="onKeyUp" @keyup.esc.native="onKeyUp" >
-      <img src="../../../assets/iconSvg/huiyuan.svg" alt="客道" />
+      <!-- <img src="../../../assets/iconSvg/huiyuan.svg" alt="客道" /> -->
     <div>
       <div class="kehuBox-main">
         <div class="kehuBox-main-top">
           <p>
             <img :src="items.image" class="man-img" v-if="items.image !== null">
             <span v-if="items.image === null" class="img-show"></span>
-            <span class="man-name">{{items.gradeName}}</span>
-            <span>{{items.grade}}</span>
+            <span class="man-name">{{items.gradeName || items.customerName}}</span>
+            <span>{{items.grade === null ? '-' : items.grade}}</span>
           </p>
           <!-- <p class="p-button">X</p> -->
         </div>

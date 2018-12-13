@@ -108,7 +108,7 @@
                 {{scope.row.grade?scope.row.grade:'会员' +' / '+scope.row.memberCard}}
               </div>
               <div v-if="scope.row.memberCard == null && scope.row.grade === null">
-                非会员
+                未绑卡
               </div>
           </template>
         </el-table-column>
