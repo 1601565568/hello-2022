@@ -137,8 +137,8 @@ export default CustomerManage
     border: 1px solid #999;
     border-radius: 50%;
     float: left;
-    background: url("../../../assets/iconSvg/huiyuan.svg")no-repeat 6px 6px;
-    background-size: 20px;
+    background: url("../../../assets/default-user.png")no-repeat;
+    background-size: 33px;
   }
   .man-name {
     font-size: 15px;

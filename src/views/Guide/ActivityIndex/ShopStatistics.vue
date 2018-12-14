@@ -18,6 +18,7 @@
             <el-form ref="searchform" class="float-right" v-if="!searchType.advanced" :inline="true" :model="searchform" style='padding-top:3px'>
               <el-form-item  prop="type">
                 <el-select
+                clearable
                 style="width:100px"
                 v-model="searchform.type" placeholder="请选择">
                 <el-option
@@ -62,6 +63,7 @@
         <el-form ref="searchform" label-width="80px"  class="surround-btn" :model="searchform"  :inline="true">
           <el-form-item  prop="type" label="查询类型：">
             <el-select
+            clearable
             style="width:100px"
             v-model="searchform.type" placeholder="请选择">
             <el-option
@@ -93,11 +95,11 @@
           </el-form-item>
           <el-form-item label="所在区域：" style="margin-right:0;" prop="area">
             <el-form-grid width="300" prop="area">
-              <ns-area  :props="searchform.key" @change="onAreaChange" change-on-select v-model="searchform.area"></ns-area>
+              <ns-area  :props="searchform.key" @change="onAreaChange" change-on-select v-model="searchform.area" clearable></ns-area>
             </el-form-grid>
           </el-form-item>
           <el-form-item label="状态：" prop="shopStatus">
-            <el-select v-model="searchform.shopStatus"  placeholder="请选择">
+            <el-select v-model="searchform.shopStatus"  placeholder="请选择" clearable>
               <el-option  v-for="item in statusOptions"
               :key="item.value"
               :label="item.label"
@@ -106,7 +108,7 @@
             </el-select>
           </el-form-item>
           <el-form-item label="类型：" prop="shopType">
-            <el-select v-model="searchform.shopType" placeholder="请选择">
+            <el-select v-model="searchform.shopType" placeholder="请选择" clearable>
               <el-option v-for="item in shopTypeOptions"
               :key="item.value"
               :label="item.label"

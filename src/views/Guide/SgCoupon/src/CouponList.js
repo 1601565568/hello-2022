@@ -78,7 +78,8 @@ export default {
       activityModel: activityModel,                 // 活动表model
       shopModel: shopModel,                         // 店铺表model
       storeModel: storeModel,                       // store model
-      addCouponDialogVisible: false                 // 新增弹窗是否显示控制
+      addCouponDialogVisible: false,                 // 新增弹窗是否显示控制
+      storeCouponListLength: 0
     }
   },
   methods: {
@@ -164,6 +165,7 @@ export default {
       }).then(resp => {
         if (resp.success && resp.result != null) {
           _this.storeCouponList = resp.result
+          _this.storeCouponListLength = resp.result.length
         }
       }).catch((resp) => {
         _this.$notify.error('查询活动优惠券列表失败：' + resp.msg)

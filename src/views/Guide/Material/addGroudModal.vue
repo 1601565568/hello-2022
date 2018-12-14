@@ -9,9 +9,9 @@
   width="380px"
   :before-close="handleClose">
     <div class="comDialogBoxCon" style="padding:10px 0 20px ">
-        <el-form :rules="rules" ref="searchform" :model="saveObj"  :inline="true">           
+        <el-form :rules="rules" ref="searchform" :model="saveObj"  :inline="true">
             <el-form-item  label-width="100px" label="分组名称：" prop="subdivision_name">
-               <el-input maxlength='20' style="width:220px" v-model="saveObj.subdivision_name"></el-input>
+               <el-input maxlength='20' style="width:220px" v-model="saveObj.subdivision_name" clearable></el-input>
             </el-form-item>
         </el-form>
     </div>
