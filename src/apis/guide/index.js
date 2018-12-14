@@ -1,4 +1,3 @@
-import task from './task'
 import guide from './guide'
 import shop from './shop'
 import material from './materials'
@@ -9,7 +8,6 @@ import goods from './goods'
 import sgwxaccount from './sgwxaccount'
 import marketing from './marketing'
 export default {
-  task,
   guide,
   shop,
   material,

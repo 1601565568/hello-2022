@@ -1,24 +1,34 @@
-import transData from 'utils/transData'
-
 export default {
   findSellReward: {
     url: '/Overview/findSellReward',
-    method: 'get',
-    transformRequest: transData
+    method: 'get'
   },
   getRewardInfo: {
     url: '/Overview/getRewardInfo',
-    method: 'get',
-    transformRequest: transData
+    method: 'get'
   },
   findGuideSellRanking: {
     url: '/Overview/findGuideSellRanking',
-    method: 'get',
-    transformRequest: transData
+    method: 'get'
   },
   findShopSellRanking: {
     url: '/Overview/findShopSellRanking',
-    method: 'get',
-    transformRequest: transData
+    method: 'get'
+  },
+  findDailyTrend: {
+    url: '/Overview/findDailyTrend',
+    method: 'post'
+  },
+  findDailyReward: {
+    url: '/Overview/findDailyReward',
+    method: 'post'
+  },
+  findGuideRanking: {
+    url: '/Overview/findGuideRanking',
+    method: 'post'
+  },
+  findShopRanking: {
+    url: '/Overview/findShopRanking',
+    method: 'post'
   }
 }
