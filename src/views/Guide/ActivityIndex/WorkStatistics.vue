@@ -20,7 +20,8 @@
               <el-form-item  prop="type">
                 <el-select
                 style="width:100px"
-                v-model="searchform.type" placeholder="请选择">
+                v-model="searchform.type" placeholder="请选择"
+                clearable>
                   <el-option
                   v-for="item in typeOptions"
                   :key="item.value"
@@ -62,6 +63,7 @@
         <el-form ref="searchform" label-width="80px"  class="surround-btn" :model="searchform"  :inline="true">
           <el-form-item  prop="type" label="查询类型：">
             <el-select
+            clearable
             style="width:100px"
             v-model="searchform.type" placeholder="请选择">
             <el-option

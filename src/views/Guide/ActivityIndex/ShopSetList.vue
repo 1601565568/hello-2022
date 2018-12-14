@@ -32,6 +32,7 @@
                   type="year"
                   placeholder="选择年"
                   @change="yearChange"
+                  clearable
                   >
                 </el-date-picker>
               </el-form-item>
@@ -55,7 +56,7 @@
               v-model="searchform.year"
               type="year"
               :editable="false"
-              :clearable="false"
+              clearable
               placeholder="选择年"
               >
             </el-date-picker>
@@ -64,7 +65,7 @@
             <el-input v-model="searchform.shopName" placeholder="请输入门店名称" clearable></el-input>
           </el-form-item>
           <el-form-item label="状态：" prop="shopStatus">
-            <el-select v-model="searchform.shopStatus" placeholder="请选择状态">
+            <el-select v-model="searchform.shopStatus" placeholder="请选择状态" clearable >
               <el-option  v-for="item in statusOptions"
               :key="item.value"
               :label="item.label"

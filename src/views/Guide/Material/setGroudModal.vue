@@ -9,9 +9,9 @@
   width="320px"
   :before-close="handleClose">
     <div class="comDialogBoxCon" style="padding:10px 0 20px ">
-        <el-form ref="searchform" :model="saveObj"  :inline="true">           
+        <el-form ref="searchform" :model="saveObj"  :inline="true">
             <el-form-item  label-width="100px" :rules="{required: true, message: '请选择分组', trigger: 'change'}" label="请选择分组：" prop="subdivision_id">
-                <el-select style="width:180px" v-model="saveObj.subdivision_id" placeholder="请选择">
+                <el-select style="width:180px" v-model="saveObj.subdivision_id" placeholder="请选择" clearable>
                     <el-option v-for="item in groudList"
                         :key="item.subdivision_id"
                         :label="item.subdivision_name"

@@ -8,7 +8,7 @@
         <el-form-item label="优惠券：" required>
           <el-form-grid size="xmd">
             <el-form-item prop="coupon_id">
-              <el-select v-model="activityModel.coupon_id" :placeholder="$t('prompt.select')" @change="storeCouponChange">
+              <el-select v-model="activityModel.coupon_id" :placeholder="$t('prompt.select')" @change="storeCouponChange" title>
                 <el-option v-for="coupon in storeCouponList" :label="coupon.storeCouponTitle"
                            :key="coupon.id" :value="coupon.id" class="{storeCouponList.length == 0?'optionClass':''}"></el-option>
               </el-select>
