@@ -87,6 +87,7 @@ export default {
       obj: {},
       shopFindListShow: false,
       shopKuhuShow: false,
+      result: null,
       // pickerOptions: {
       //   disabledDate (time) {
       //     return time.getTime() > Date.now() - 8.64e7
@@ -147,6 +148,14 @@ export default {
             _this.shopKuhuShow = true
             _this.items = resp.result
           }
+        }).catch((resp) => {
+          _this.$notify.error('查询失败：' + resp.msg)
+        })
+
+        _this.$http.fetch(_this.$api.guide.guide.customerQueryValidPoint, {
+          customerId: val.customerId
+        }).then(resp => {
+          _this.result = resp.result
         }).catch((resp) => {
           _this.$notify.error('查询失败：' + resp.msg)
         })
