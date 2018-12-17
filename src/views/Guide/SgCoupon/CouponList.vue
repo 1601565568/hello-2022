@@ -6,15 +6,20 @@
 
       <el-form ref="form" :rules="rules" :model="activityModel" label-width="120px" class="form-main">
         <el-form-item label="优惠券：" required>
-          <el-form-grid size="xmd">
-            <el-form-item prop="coupon_id">
-              <el-select v-model="activityModel.coupon_id" :placeholder="$t('prompt.select')" @change="storeCouponChange">
-                <el-option v-for="coupon in storeCouponList" :label="coupon.storeCouponTitle"
-                           :key="coupon.id" :value="coupon.id" class="{storeCouponList.length == 0?'optionClass':''}"></el-option>
-              </el-select>
-            </el-form-item>
 
-          </el-form-grid>
+              <el-form-grid size="xmd">
+              <el-form-item prop="coupon_id">
+                <el-select v-model="activityModel.coupon_id" :placeholder="$t('prompt.select')" @change="storeCouponChange" clearable>
+                  <div :class="storeCouponListLength?'':'no_store_coupon'">
+                    <el-option v-for="coupon in storeCouponList" :label="coupon.storeCouponTitle"
+                            :key="coupon.id" :value="coupon.id" class="{storeCouponList.length == 0?'optionClass':''}"></el-option>
+                  </div>
+                </el-select>
+
+              </el-form-item>
+
+            </el-form-grid>
+
         </el-form-item>
 
         <el-form-item label="总数量：" v-if="activityModel.coupon_id > 0">

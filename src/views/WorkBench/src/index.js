@@ -825,7 +825,6 @@ export default {
         this.rewardOption.xAxis.data.push(i + '日')
       }
       this.searchObj.monthDate = ('' + this.searchObj.monthDate.getFullYear() + '-' + (this.searchObj.monthDate.getMonth() + 1))
-      console.log(this.searchObj)
       if (this.searchObj.id) {
         this.getRewardInfo(this.searchObj.id)
         this.findDailySell(this.searchObj.id)
@@ -942,7 +941,7 @@ export default {
               sellRewardArr.push(item.sale)
               recruitRewardArr.push(item.recruit)
             })
-            that.isRecruitData = true
+            that.isRewardDate = true
             that.rewardOption.series[0].data = recruitRewardArr
             that.rewardOption.series[1].data = sellRewardArr
           }

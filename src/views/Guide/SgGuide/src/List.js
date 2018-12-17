@@ -119,6 +119,7 @@ export default {
       })
     })
     return {
+      showUpdateAllGuidePrefix: false,
       disabledWorkPrefix: true,
       imageRoot: api.API_ROOT + '/core/file/showImage?fileKey=',
       title: '',
@@ -199,6 +200,7 @@ export default {
   methods: {
     updateWorkPrefix () {
       this.disabledWorkPrefix = false
+      this.showUpdateAllGuidePrefix = true
     },
     blurWorkPrefix () {
       this.disabledWorkPrefix = true
@@ -367,6 +369,10 @@ export default {
       })
     },
     onRedactFun (row) {
+<<<<<<< HEAD
+=======
+      this.showUpdateAllGuidePrefix = false
+>>>>>>> 10f7ff11555d50061cfe7c35c104eccbef0e2b15
       this.row = row
       if (row) {
         this.title = '编辑导购信息'
@@ -386,7 +392,7 @@ export default {
           job: row.job,
           shop_id: row.shop_id
         }
-        this.model.updateAllGuidePrefix = 1
+        this.model.updateAllGuidePrefix = 0
         this.dialogFormVisible = true
       } else {
         this.title = '新增员工'
@@ -410,7 +416,7 @@ export default {
             job: this.newAdd.job,
             shop_id: this.newAdd.shop_id
           }
-          this.model.updateAllGuidePrefix = 1
+          this.model.updateAllGuidePrefix = 0
           this.dialogFormVisible = true
         }).catch((err) => {
           console.log('err', err)
@@ -432,8 +438,8 @@ export default {
           if (guide.work_num === null) guide.work_num = ''
           this.$http.fetch(this.$api.guide.guide.saveOrUpdateGuide, {
             sgGuide: guide,
-            sgGuideShop: guideShop,
-            updateAllGuidePrefix: _this.model.updateAllGuidePrefix
+            sgGuideShop: guideShop
+            // updateAllGuidePrefix: _this.model.updateAllGuidePrefix
           }).then(resp => {
             _this.closeDialog()
             _this.$notify.success('保存成功')

@@ -81,7 +81,7 @@
               </el-form-item>
             </el-form-grid>
           </el-form-item>
-          <el-form-item label="前缀：" required>
+          <el-form-item label="前缀：" required v-if='showUpdateAllGuidePrefix'>
             <el-form-grid size="xxmd">
               <el-form-item prop="sex">
                 <el-radio-group  v-model="model.updateAllGuidePrefix">

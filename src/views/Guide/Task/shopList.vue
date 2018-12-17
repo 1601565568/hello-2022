@@ -41,7 +41,7 @@
             <el-input v-model="searchform.name" placeholder="请输入任务名称" clearable></el-input>
           </el-form-item>
           <el-form-item label="类型：" prop="type">
-              <el-select  v-model="searchform.type" placeholder="请选择类型">
+              <el-select  v-model="searchform.type" placeholder="请选择类型" clearable>
                   <el-option v-for="item in typeOptions"
                   :key="item.value"
                   :label="item.label"
@@ -51,7 +51,7 @@
               </el-form-item>
 
               <el-form-item label="状态：" prop="state">
-              <el-select  v-model="searchform.state" placeholder="请选择状态">
+              <el-select  v-model="searchform.state" placeholder="请选择状态" clearable>
                   <el-option v-for="item in statusOptions"
                   :key="item.value"
                   :label="item.label"

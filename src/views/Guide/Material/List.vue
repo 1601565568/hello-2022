@@ -60,7 +60,7 @@
             <el-input v-model="searchform.title" placeholder="请输入素材标题" clearable></el-input>
           </el-form-item>
           <el-form-item label="分组：" prop="subdivision_id">
-                <el-select v-model="searchform.subdivision_id" placeholder="请选择分组">
+                <el-select v-model="searchform.subdivision_id" placeholder="请选择分组" clearable>
                   <el-option v-for="item in groudList"
                   :key="item.subdivision_id"
                   :label="item.subdivision_name"
@@ -70,7 +70,7 @@
               </el-form-item>
 
               <el-form-item label="发布方：" prop="source_id">
-              <el-select  v-model="searchform.source_id" placeholder="请选择发布方">
+              <el-select  v-model="searchform.source_id" placeholder="请选择发布方" clearable>
                   <el-option v-for="item in sourceList"
                   :key="item.id"
                   :label="item.shopName"

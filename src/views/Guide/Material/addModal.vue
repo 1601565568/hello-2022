@@ -19,11 +19,11 @@
             </el-radio-group>
           </el-form-item>
           <el-form-item label="素材标题："  prop = "title">
-            <el-input type="text" placeholder="请输入素材标题" autofocus=true  v-model="saveObj.title"></el-input>
+            <el-input type="text" placeholder="请输入素材标题" autofocus=true  v-model="saveObj.title" clearable></el-input>
           </el-form-item>
 
           <el-form-item label="所属分组：" prop="subdivision_id">
-            <el-select @change="selChange" v-model="saveObj.subdivision_id" placeholder="请选择">
+            <el-select @change="selChange" v-model="saveObj.subdivision_id" placeholder="请选择" clearable>
                     <el-option v-for="item in groudList"
                         :key="item.subdivision_id"
                         :label="item.subdivision_name"
@@ -69,7 +69,7 @@
             </el-form-item>
             <!-- 链接开始 -->
             <el-form-item  v-if="saveObj.m_type==0"  prop="url" label="推广链接：">
-                <el-input v-model="saveObj.url" placeholder="请输入推广链接"></el-input>
+                <el-input v-model="saveObj.url" placeholder="请输入推广链接" clearable></el-input>
             </el-form-item>
           <el-form-item v-if="saveObj.m_type==0" label="封面图片：">
               <div class="comUploadBox">
