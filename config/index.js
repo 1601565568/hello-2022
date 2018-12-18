@@ -21,16 +21,16 @@ module.exports = {
         '^/crmWebApi': ''
       }
     },
-	{
-      /**
-       *  cas登录使用
-       */
-      context: ['/casLogin'],
-      // target: "http://120.27.159.167:30001", // local: 'http://localhost:8360', formal:  'http://120.27.159.167:30001'
-      // 正式 target: 'http://120.27.159.74:80',
-      target: 'http://47.96.228.119:8089',
-      changeOrigin: true,
-    }
+      {
+        /**
+         *  cas登录使用
+         */
+        context: ['/casLogin'],
+        // target: "http://120.27.159.167:30001", // local: 'http://localhost:8360', formal:  'http://120.27.159.167:30001'
+        // 正式 target: 'http://120.27.159.74:80',
+        target: 'http://47.96.228.119:8089',
+        changeOrigin: true,
+      }
     ],
     // Various Dev Server settings
     host: 'localhost', // can be overwritten by process.env.HOST
