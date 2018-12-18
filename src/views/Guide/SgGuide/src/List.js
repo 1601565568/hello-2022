@@ -436,7 +436,6 @@ export default {
           this.$http.fetch(this.$api.guide.guide.saveOrUpdateGuide, {
             sgGuide: guide,
             sgGuideShop: guideShop
-            // updateAllGuidePrefix: _this.model.updateAllGuidePrefix
           }).then(resp => {
             _this.closeDialog()
             _this.$notify.success('保存成功')
@@ -484,7 +483,8 @@ export default {
       _this.$http.fetch(_this.$api.guide.guide.findList, {
         searchMap: {
           'guideState': 1,
-          'guideId': _this.guideId
+          'guideId': _this.guideId,
+          'status': 1
         },
         length: 10000
       }).then(resp => {
