@@ -369,10 +369,7 @@ export default {
       })
     },
     onRedactFun (row) {
-<<<<<<< HEAD
-=======
       this.showUpdateAllGuidePrefix = false
->>>>>>> 10f7ff11555d50061cfe7c35c104eccbef0e2b15
       this.row = row
       if (row) {
         this.title = '编辑导购信息'
