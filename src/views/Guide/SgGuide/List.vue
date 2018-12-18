@@ -182,7 +182,7 @@
                 <el-form-item>
                   <el-select placeholder="请选择指定导购" v-model="receiveGuideId" filterable>
                     <el-option v-for="guide in guideList" :label="guide.name"
-                               :value="guide.id" :key="guide.id">
+                               :disabled="thisGuideDisabled(guide.id)" :value="guide.id" :key="guide.id">
                     </el-option>
                   </el-select>
                 </el-form-item>

@@ -645,9 +645,9 @@ export default {
         if (!isClose) {
           _this.$refs.table.$reload()
         }
-        _this.$notify.success(resp.msg)
+        _this.$notify.success('操作成功')
       }).catch((resp) => {
-        _this.$notify.error('修改失败 ' + resp.msg)
+        _this.$notify.error('操作成功 ' + resp.msg)
       })
     },
     // 分页-页数改变
@@ -746,10 +746,12 @@ export default {
       return retVal
     },
     thisGuideDisabled (guideId) {
-      let retVal = this.guideShopList.some(item => {
-        return item.id === guideId
-      })
-      return retVal
+      let _this = this
+      if (guideId === _this.guideId) {
+        return true
+      } else {
+        return false
+      }
     },
     /**
      * 校验工号
