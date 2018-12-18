@@ -91,6 +91,10 @@ export default {
     url: '/guide/customer/getDetail',
     method: 'post'
   },
+  customerQueryValidPoint: {// 查询会员可用积分
+    url: '/guide/customer/queryValidPoint',
+    method: 'get'
+  },
   queryCustomerCouponNum: {// 查询客户可用优惠券数量
     url: '/guide/customer/queryCustomerCouponNum',
     method: 'get'

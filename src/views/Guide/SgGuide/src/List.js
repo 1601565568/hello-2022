@@ -16,10 +16,7 @@ export default {
       page: 1,
       total: 0
     }
-    const tableButtons = [
-      {
-      }
-    ]
+    const tableButtons = [{}]
     const operateButtons = [
       {
         'func': function () {
@@ -89,6 +86,19 @@ export default {
       'mobile': [
         {required: true, message: '请输入手机号', trigger: 'blur'},
         {pattern: /^[1][3,4,5,7,8][0-9]{9}$/, message: '手机号格式错误，请您重新输入！'}
+      ],
+      'work_id': [
+        {
+          required: true,
+          trigger: 'blur',
+          validator: (rule, value, callback) => {
+            if (this.model.sgGuide.work_number === '') {
+              callback(new Error('请输入工号'))
+            } else {
+              callback()
+            }
+          }
+        }
       ]
     }
     let that = this
@@ -99,7 +109,7 @@ export default {
         },
         set: function (val) {
           model[item.name] = val
-          // TODO 由于特殊需求导致以下列写法
+          // todo 由于特殊需求导致以下列写法
           if (item.type === 'radio') {
             that._data._table.quickSearchMap[item.name] = val
             that.$quickSearch$()
@@ -359,7 +369,10 @@ export default {
       })
     },
     onRedactFun (row) {
+<<<<<<< HEAD
+=======
       this.showUpdateAllGuidePrefix = false
+>>>>>>> 10f7ff11555d50061cfe7c35c104eccbef0e2b15
       this.row = row
       if (row) {
         this.title = '编辑导购信息'
@@ -512,7 +525,7 @@ export default {
             _this.guideLeave(params, false)
           }
         }).catch((resp) => {
-          _this.$notify.error('查询失败：' + resp.msg)
+          // _this.$notify.error('查询失败：' + resp.msg)
         })
       })
     },
