@@ -85,8 +85,8 @@
       <el-table-column prop="name" label="名称"></el-table-column>
       <el-table-column prop="name" align="left" label="分配导购" width="90">
         <template slot-scope="{row}">
-          <a href="javascript:" v-if="row.guideIds === '0'" @click="shopListModalDomShowToggle(row.id,row.shopId)">全部导购</a>
-          <a @click="shopListModalDomShowToggle(row.id,row.shopId)" href="javascript:" v-else>{{row.allNum}}人</a>
+          <!-- <a href="javascript:" v-if="row.guideIds === '0'" @click="shopListModalDomShowToggle(row.id,row.shopId)">全部导购</a> -->
+          <a @click="shopListModalDomShowToggle(row.id,row.shopId)" href="javascript:">{{row.allNum}}人</a>
         </template>
       </el-table-column>
 

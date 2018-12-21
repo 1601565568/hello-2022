@@ -188,10 +188,10 @@ export default {
   },
   created: function () {
     // 获取当前年份---默认加载当前年
-    var myDate = new Date()
-    var curYear = myDate.getFullYear()
-    this.searchObj.searchMap.year = curYear
-    this.searchObj.searchMap.type = 0// 0销售指标、1招募会员指标
+    // var myDate = new Date()
+    // var curYear = myDate.getFullYear()
+    // this.searchObj.searchMap.year = curYear
+    // this.searchObj.searchMap.type = 0// 0销售指标、1招募会员指标
     this.loadListFun(this.searchObj)
   },
   methods: {

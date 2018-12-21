@@ -22,7 +22,11 @@
             </div>
             <el-form ref="searchform" class="float-right" v-if="!searchType.advanced" :inline="true" :model="searchform" style='padding-top:3px'>
               <el-form-item label="任务名称：" prop="name">
-                <el-input v-model="searchform.name" placeholder="请输入任务名称" clearable></el-input>
+                <el-input
+                  v-model="searchform.name"
+                  placeholder="请输入任务名称"
+                  clearable
+                  ></el-input>
               </el-form-item>
 
               <el-form-item>
