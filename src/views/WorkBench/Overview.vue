@@ -1,393 +1,420 @@
 <template>
-  <div class="overview">
-    <el-row class="overview_top" :gutter="5">
-      <el-col :span="6">
-        <div class="overview_top_item  overview_top_item_one">
-          <div class="one_content">
-            <div class="one_content_lf flex">
-              <div>
-                <span class='span_xmd'>时间 ：</span>
-                <el-form-grid size="xmd">
-                  <el-date-picker
-                    prefix-icon='none'
-                    @change='change'
-                    v-model="searchObj.monthDate"
-                    type="month"
-                    clear-icon='none'
-                    placeholder="选择月">
-                  </el-date-picker>
-                </el-form-grid>
-              </div>
-              <div>
-                <span class='span_xmd'>门店 ：</span>
-                <el-form-grid size="xmd">
-                  <el-select v-model="searchObj.id" filterable placeholder="请选择门店" @change='shopSelect(searchObj.id)'>
+  <!--商城首页Demo-->
+  <div class="overview-content">
+    <el-row class="overview-content__grid" :gutter="5">
+        <el-col :span="6">
+          <el-card class="overview-content__item" shadow="never">
+              <div class="overview-content__item--select">
+                时间：
+                <el-select v-model="value" placeholder="请选择" round>
                   <el-option
-                    v-for="(item,index) in shopArr"
-                    :key="item.id"
-                    :label="item.shopName"
-                    :value="item.id">
+                    v-for="item in options"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value">
                   </el-option>
-                  </el-select>
-                </el-form-grid>
+                </el-select>
               </div>
+              <div class="overview-content__item--select">
+                门店：
+                <el-select v-model="value" placeholder="请选择">
+                  <el-option
+                    v-for="item in options"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value">
+                  </el-option>
+                </el-select>
+              </div>
+          </el-card>
+        </el-col>
+        <el-col :span="6">
+          <el-card class="overview-content__item" shadow="never">
+            <div class="overview-content__item-left">
+              <p class="font-size-base text-secondary">
+                销售金额
+              </p>
+              <p>
+                <span class="font-size-large">￥</span>
+                <el-countup
+                  class="font-size-large"
+                  :start="0"
+                  :end="85315.00"
+                  :duration="1.5"
+                  :decimal="2">
+                </el-countup>
+              </p>
             </div>
+            <div class="overview-content__item-right">
+              <el-progress type="circle" :width=70 :stroke-width=4 :percentage="25" color="#0091FA"></el-progress>
+            </div>
+          </el-card>
+        </el-col>
+        <el-col :span="6">
+          <el-card class="overview-content__item" shadow="never">
+            <div class="overview-content__item-left">
+              <p class="font-size-base text-secondary">
+                招募会员
+              </p>
+              <p>
+                <el-countup
+                  class="font-size-large"
+                  :start="0"
+                  :end="853"
+                  :duration="1.5"
+                  :decimal="0">
+                </el-countup>
+                <span class="text-secondary">(总：12405931)</span>
+              </p>
+            </div>
+            <div class="overview-content__item-right">
+              <el-progress type="circle" :width=70 :stroke-width=4 :percentage="80" color="#f56c6c" :show-text=false></el-progress>
+              <p class="overview-content__item-right--progress-text">目标</p>
+            </div>
+          </el-card>
+        </el-col>
+        <el-col :span="6">
+          <el-card class="overview-content__item" shadow="never">
+              <p class="font-size-base text-secondary">
+                导购销售提成+招募奖励
+              </p>
+              <p>
+                <span class="font-size-large">￥</span>
+                <el-countup
+                  class="font-size-xlarge"
+                  :start="0"
+                  :end="5999.00"
+                  :duration="1.5"
+                  :decimal="2">
+                </el-countup>
+                <span class="text-secondary">(￥5000.00 + ￥999.00)</span>
+              </p>
+          </el-card>
+        </el-col>
+      </el-row>
+    <el-row class="overview-content__echart" :gutter="5">
+      <el-col :span="12">
+        <div class="overview-echart__item">
+          <div class="overview-content__title">
+            <span>销售趋势（元）</span>
+          </div>
+          <div v-loading.lock="false"
+               :element-loading-text="$t('prompt.loading')">
+            <!-- 暂无数据结构 -->
+            <div class="no-data" v-if="!isSaleData">
+            </div>
+            <template v-if="isSaleData">
+              <business-echarts :options="lineChartOption1" class="oscillogram" auto-resize></business-echarts>
+            </template>
           </div>
         </div>
       </el-col>
-      <el-col :span="6" >
-        <div class="overview_top_item overview_top_item_two">
-            <div class='two_content flex flex-between'>
-              <div class='two_content_lf flex'>
-                <span class='span_tit'>销售金额</span>
-                <span class='span_num'>+{{getRewardInfoObj.payment||'0.00'}}</span>
-              </div>
-              <el-progress type="circle" :percentage="getRewardInfoObj.paymentPersent" :width='70' color='#0091fa'></el-progress>
+      <el-col :span="12">
+        <div class="overview-echart__item">
+          <div class="overview-content__title overview-content__title--pink">
+            <span>招募会员趋势</span>
+          </div>
+          <div v-loading.lock="false"
+               :element-loading-text="$t('prompt.loading')">
+            <!-- 暂无数据结构 -->
+            <div class="no-data" v-if="!isSaleData">
+            </div>
+            <template v-if="isSaleData">
+              <business-echarts :options="lineChartOption2" class="oscillogram" auto-resize></business-echarts>
+            </template>
           </div>
         </div>
       </el-col>
-      <el-col :span="6">
-        <div class="overview_top_item overview_top_item_two overview_top_item_three">
-            <div class='two_content flex flex-between'>
-              <div class='two_content_lf flex'>
-                <span class='span_tit'>招募会员</span>
-                <span class='span_num'>+{{getRewardInfoObj.memberCount || '0.00'}}
-                  <i class='span_rg'>(总 :12405931)</i>
-                </span>
-              </div>
-              <el-progress type="circle" :percentage="getRewardInfoObj.memberCountPersent" :width='70' color='#ff5c5c' ></el-progress>
+    </el-row>
+    <el-row class="overview-content__echart" :gutter="5">
+      <el-col :span="24">
+        <div class="overview-echart__item overview-echart__item--big">
+          <div class="overview-content__title overview-content__title--yellow">
+            <span>导购提成及奖励</span>
+          </div>
+          <div v-loading.lock="false"
+               :element-loading-text="$t('prompt.loading')">
+            <!-- 暂无数据结构 -->
+            <div class="no-data" v-if="!isSaleData">
+            </div>
+            <template v-if="isSaleData">
+              <business-echarts :options="rewardChartOption" class="oscillogram" auto-resize></business-echarts>
+            </template>
           </div>
         </div>
       </el-col>
-      <el-col :span="6" >
-        <div class="overview_top_item overview_top_item_two overview_top_item_four">
-            <div class='two_content flex flex-between'>
-              <div class='two_content_lf flex'>
-                <span class='span_tit'>导购提成奖励+招募奖励</span>
-                <span class='span_num'>{{getRewardInfoObj.reward !=null? '¥' + getRewardInfoObj.reward :''}}
-                  <i class='span_rg'>（￥{{getRewardInfoObj.sellReward ?  getRewardInfoObj.sellReward :'0.00'}}+￥{{getRewardInfoObj.recruitReward ? getRewardInfoObj.recruitReward :'0.00'}}）</i>
-                </span>
-              </div>
+    </el-row>
+    <el-row class="overview-content__echart" :gutter="5">
+      <el-col :span="12">
+        <div class="overview-echart__item overview-echart__item--larger">
+          <div class="overview-content__title">
+            <span>门店销售排行榜</span>
+          </div>
+          <div v-loading.lock="false"
+               :element-loading-text="$t('prompt.loading')">
+            <!-- 暂无数据结构 -->
+            <div class="no-data" v-if="!isSaleData">
+            </div>
+            <template v-if="isSaleData">
+              <business-echarts :options="barChartOption1" class="oscillogram" auto-resize></business-echarts>
+            </template>
           </div>
         </div>
       </el-col>
-
-    </el-row>
-    <el-row :gutter="5" style='margin-top:5px'>
-        <el-col :span="12">
-        <div class='bg_white sell_echarts' v-loading.lock="loadingSell" :element-loading-text="$t('prompt.loading')">
-          <div class="sell_echarts_flag"></div>
-          <template v-if="!isSellData">
-            <div class="no-data"  style='height:442px'></div>
-            <div class="echarts_title">销售趋势</div>
-          </template>
-          <template v-if="isSellData">
-            <business-echarts :options="sellOption" class="oscillogram" auto-resize ></business-echarts>
-          </template>
-        </div>
-      </el-col>
       <el-col :span="12">
-        <div class='bg_white recruit_echarts' v-loading.lock="loadingRecruit" :element-loading-text="$t('prompt.loading')">
-          <div class="recruit_echarts_flag"></div>
-          <template v-if="!isRecruitData">
-            <div class="no-data" style='height:442px'></div>
-            <div class="echarts_title">招募会员趋势</div>
-          </template>
-          <template v-if="isRecruitData">
-            <business-echarts :options="recruitOption" class="oscillogram" auto-resize></business-echarts>
-          </template>
-      </div>
-      </el-col>
-    </el-row>
-    <el-row  style='margin-top:5px'>
-        <div class='bg_white reward_echarts' v-loading.lock="loadingReward" :element-loading-text="$t('prompt.loading')">
-          <div class="reward_echarts_flag"></div>
-          <template v-if="!isRewardDate">
-            <div class="no-data"  style='height:500px'></div>
-            <div class="echarts_title">导购提成及奖励</div>
-          </template>
-          <template v-if="isRewardDate">
-            <business-echarts :options="rewardOption" class="oscillogram" auto-resize></business-echarts>
-          </template>
-
-        </div>
-    </el-row>
-    <el-row :gutter="5" style='margin-top:5px'>
-      <el-col :span="12">
-        <div class='bg_white shopSellOption_echarts' v-loading.lock="loadingShopSell" :element-loading-text="$t('prompt.loading')">
-          <div class="shop_sell_echarts_flag"></div>
-           <template v-if="!isShopSellData">
-            <div class="no-data" style='height:680px'></div>
-            <div class="echarts_title">门店销售排行榜</div>
-          </template>
-          <template v-if="isShopSellData">
-            <business-echarts :options="shopSellOption" class="oscillogram" auto-resize></business-echarts>
-          </template>
-        </div>
-      </el-col>
-      <el-col :span="12">
-        <div class='bg_white guideSellOption_echarts' v-loading.lock="loadingGuideSell" :element-loading-text="$t('prompt.loading')">
-          <div class="guide_sell_echarts_flag"></div>
-          <template  v-if="!isGuideSellData">
-            <div class="no-data"  style='height:680px'></div>
-            <div class="echarts_title">导购销售排行榜</div>
-          </template>
-          <template v-if="isGuideSellData">
-            <business-echarts :options="guideSellOption" class="oscillogram" auto-resize></business-echarts>
-          </template>
+        <div class="overview-echart__item overview-echart__item--larger">
+          <div class="overview-content__title">
+            <span>导购销售排行榜</span>
+          </div>
+          <div v-loading.lock="false"
+               :element-loading-text="$t('prompt.loading')">
+            <!-- 暂无数据结构 -->
+            <div class="no-data" v-if="!isSaleData">
+            </div>
+            <template v-if="isSaleData">
+              <business-echarts :options="barChartOption2" class="oscillogram" auto-resize></business-echarts>
+            </template>
+          </div>
         </div>
       </el-col>
     </el-row>
-    <el-row :gutter="5" style='margin-top:5px'>
-        <el-col :span="12">
-        <div class='bg_white shopRecruitOption_echarts' v-loading.lock="loadingShopRecruit" :element-loading-text="$t('prompt.loading')">
-          <div class="shop_recruit_echarts_flag"></div>
-          <template v-if="!isShopRecruitData">
-            <div class="no-data"  style='height:680px'></div>
-            <div class="echarts_title">门店招募排行榜</div>
-          </template>
-          <template v-if="isShopRecruitData">
-            <business-echarts :options="shopRecruitOption" class="oscillogram" auto-resize></business-echarts>
-          </template>
+    <el-row class="overview-content__echart" :gutter="5">
+      <el-col :span="12">
+        <div class="overview-echart__item overview-echart__item--larger">
+          <div class="overview-content__title">
+            <span>门店销售排行榜</span>
+          </div>
+          <div v-loading.lock="false"
+               :element-loading-text="$t('prompt.loading')">
+            <!-- 暂无数据结构 -->
+            <div class="no-data" v-if="!isSaleData">
+            </div>
+            <template v-if="isSaleData">
+              <business-echarts :options="barChartOption3" class="oscillogram" auto-resize></business-echarts>
+            </template>
+          </div>
         </div>
       </el-col>
       <el-col :span="12">
-        <div class='bg_white guideRecruitOption_echarts' v-loading.lock="loadingGuideRecruit" :element-loading-text="$t('prompt.loading')">
-          <div class="guide_recruit_echarts_flag"></div>
-          <template v-if="!isGuideRecruitData">
-            <div class="no-data"  style='height:680px'></div>
-            <div class="echarts_title">导购招募排行榜</div>
-          </template>
-           <template v-if="isGuideRecruitData">
-            <business-echarts :options="guideRecruitOption" class="oscillogram" auto-resize></business-echarts>
-          </template>
-
+        <div class="overview-echart__item overview-echart__item--larger">
+          <div class="overview-content__title">
+            <span>导购销售排行榜</span>
+          </div>
+          <div v-loading.lock="false"
+               :element-loading-text="$t('prompt.loading')">
+            <!-- 暂无数据结构 -->
+            <div class="no-data" v-if="!isSaleData">
+            </div>
+            <template v-if="isSaleData">
+              <business-echarts :options="barChartOption4" class="oscillogram" auto-resize></business-echarts>
+            </template>
+          </div>
         </div>
       </el-col>
     </el-row>
   </div>
 </template>
+
 <script>
-  import index from './src/index.js'
+  import index from './src/index'
   export default index
 </script>
-<style scoped lang='scss'>
+
+<style scoped>
   @import "../../style/small/variables.pcss";
-  .bg_white{
-    background: #ffffff
-  }
-  .overview_top_item{
-    height:106px;
-    border-radius: 4px;
-    padding-top: 4px;
-    padding-left: 0px !important;
-    padding-right: 0px !important;
-    &.overview_top_item_one{
-      background-color:#0091fa;
-    }
-    &.overview_top_item_two{
-      background-color:#50d065;
-    }
-    &.overview_top_item_three{
-      background-color:#ff5c5c;
-    }
-    &.overview_top_item_four{
-      background-color:#fdc400;
-    }
-  }
-  .one_content{
-    background-color: #fff;
-    height: 102px;
-    .one_content_lf{
-      height: 86px;
-      padding-top: 16px;
-      margin: 0 auto;
-      flex-direction: column;
-      align-items: center;
-      .span_xmd{
-        position: relative;
-        top: 3px;
-      }
-    }
-  }
-  .overview_top_item_two {
-    .two_content{
-      background-color: #fff;
-      height: 102px;
-      padding: 0 40px 0 44px;
-       .two_content_lf{
-        flex: 1;
-        height: 60px;
-        flex-direction: column;
-        justify-content: space-between;
-        align-items: flex-start;
-        .span_tit{
-          font-size: 14px;
-          font-weight: blod;
-          color:#999;
+  @component-namespace overview {
+    @b content {
+      .el-row {
+        & + .el-row {
+          margin-top: var(--default-margin-base);
         }
-        .span_num{
-          font-size: 20px;
-          font-weight: blod;
-          color:#000;
-          .span_rg{
-            font-size: 12px;
-            color: #999;
-            font-style: normal;
-            font-weight: normal;
+        > .el-col {
+          /*box-shadow: var(--default-box-shadow-base);*/
+        }
+      }
+      @e grid {
+        margin-bottom: var(--default-margin-base);
+        @b content {
+          @e item {
+            position: relative;
+            padding: var(--default-padding-base);
+            background-color: var(--theme-color-white);
+            border: none;
+            &:before {
+              position: absolute;
+              top: 0;
+              left: 0;
+              content: ' ';
+              height: 5px;
+              width: 100%;
+              border-radius: var(--default-radius-mini);
+            }
+            >>>.el-card__body {
+              height: 100px;
+              padding: 16px 20px;
+              position: relative;
+              span {
+                font-weight: bold;
+              }
+              p {
+                padding-top: 6px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                margin-left: var(--default-margin-xlarger);
+                margin-bottom: var(--default-margin-larger);
+              }
+              .text-secondary {
+                font-weight: normal;
+              }
+              .overview-content__item-left {
+                margin-right: 80px;
+              }
+              .overview-content__item-right {
+                position: absolute;
+                top: 50%;
+                right: 40px;
+                margin-top: -30px;
+                width: 60px;
+                height: 60px;
+                img {
+                  width: 60px;
+                  height: 60px;
+                }
+                .overview-content__item-right--progress-text {
+                  position: absolute;
+                  top: 42%;
+                  left: 38%;
+                  margin: 0;
+                  padding: 0;
+                }
+              }
+            }
+            @m select {
+              padding: var(--default-padding-base);
+              display: flex;
+              align-items: center;
+              >>> .el-select {
+                padding-left: var(--default-padding-larger);
+                flex: 1;
+              }
+            }
+          }
+        }
+        .el-col {
+          &:first-child {
+            .overview-content__item:before {
+              background: var(--theme-color-success);
+            }
+          }
+          &:nth-child(2) {
+            .overview-content__item:before {
+              background: var(--theme-color-primary);
+            }
+          }
+          &:nth-child(3) {
+            .overview-content__item:before {
+              background: var(--theme-color-danger);
+            }
+          }
+          &:nth-child(4) {
+            .overview-content__item:before {
+              background: var(--theme-color-warning);
+            }
+          }
+        }
+      }
+      @e title {
+        line-height: 30px;
+        padding: 20px;
+        >span {
+          font-size: var(--default-font-size-middle);
+          font-weight: bold;
+          position: relative;
+          display: inline-block;
+          line-height: 1;
+          padding: 0 0 0 var(--default-padding-xlarger);
+          &:before {
+            content: " ";
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            width: 4px;
+            background-color: var(--theme-color-primary);
+          }
+        }
+        .el-radio-group {
+          padding: 3px;
+          .el-radio-button__inner {
+            padding: var(--default-padding-base) var(--default-padding-larger);
+          }
+        }
+
+        @m color-pink {
+          >span {
+            &:before {
+              background-color: #FF3A3A;
+            }
+          }
+        }
+        @m color-yellow {
+          >span {
+            &:before {
+              background-color: #F7C71F;
+            }
+          }
+        }
+      }
+      @e echart {
+        @b echart {
+          @e item {
+            background-color: var(--theme-color-white);
+            border-radius: var(--default-radius-mini);
+            overflow: hidden;
+            .el-form {
+              padding: var(--default-padding-base);
+              .el-form-item {
+                margin: 0;
+              }
+              .spacing-button {
+                display: block;
+                margin-top: var(--default-margin-larger);
+                text-align: center;
+                .el-radio-button {
+                  margin: 0 var(--default-margin-larger);
+                  .el-radio-button__inner {
+                    padding: var(--default-padding-base) var(--default-padding-larger);
+                    border-radius: var(--default-radius-mini);
+                    border: 1px solid var(--theme-base-border-color-primary);
+                    box-shadow: none;
+                  }
+                }
+              }
+            }
+            .echarts {
+              padding-left: var(--default-padding-larger);
+              width: 100%;
+            }
+            .no-data {
+              width: 100%;
+              height: 360px;
+              background: url(data:image/jpeg;base64,/9j/4QAYRXhpZgAASUkqAAgAAAAAAAAAAAAAAP/sABFEdWNreQABAAQAAABkAAD/4QONaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wLwA8P3hwYWNrZXQgYmVnaW49Iu+7vyIgaWQ9Ilc1TTBNcENlaGlIenJlU3pOVGN6a2M5ZCI/PiA8eDp4bXBtZXRhIHhtbG5zOng9ImFkb2JlOm5zOm1ldGEvIiB4OnhtcHRrPSJBZG9iZSBYTVAgQ29yZSA1LjMtYzAxMSA2Ni4xNDU2NjEsIDIwMTIvMDIvMDYtMTQ6NTY6MjcgICAgICAgICI+IDxyZGY6UkRGIHhtbG5zOnJkZj0iaHR0cDovL3d3dy53My5vcmcvMTk5OS8wMi8yMi1yZGYtc3ludGF4LW5zIyI+IDxyZGY6RGVzY3JpcHRpb24gcmRmOmFib3V0PSIiIHhtbG5zOnhtcE1NPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvbW0vIiB4bWxuczpzdFJlZj0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL3NUeXBlL1Jlc291cmNlUmVmIyIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bXBNTTpPcmlnaW5hbERvY3VtZW50SUQ9InhtcC5kaWQ6YWJmOTRjYmQtN2UwZi0xZDQ1LWFhNDItZGZhNDc2NzJkZjRmIiB4bXBNTTpEb2N1bWVudElEPSJ4bXAuZGlkOjg1NkQwQTM1Q0I5NDExRTg5Mzc4ODNFQTg0M0YyQzY2IiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOjg1NkQwQTM0Q0I5NDExRTg5Mzc4ODNFQTg0M0YyQzY2IiB4bXA6Q3JlYXRvclRvb2w9IkFkb2JlIFBob3Rvc2hvcCBDQyAyMDE3IChXaW5kb3dzKSI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOmZjMjI1OGRlLWNlMDAtZjc0OC1hZTdiLTExNTc3N2FmNWFiYiIgc3RSZWY6ZG9jdW1lbnRJRD0iYWRvYmU6ZG9jaWQ6cGhvdG9zaG9wOmJlNWVjZDE3LWNiNjctMTFlOC05MmFjLWNlNDA1NzdlZjMxNyIvPiA8L3Jk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) center center no-repeat;
+            }
+
+            @m big {
+              .echarts {
+                height: 500px;
+              }
+            }
+            @m larger {
+              .echarts {
+                height: 550px;
+              }
+            }
           }
         }
       }
     }
-  }
-  .subtitle{
-    font-size: 17px;
-    line-height: 16px;
-    color: #333;
-    padding: 20px 20px 20px 37px;
-    font-weight: 600;
-    border-bottom:1px solid #D8D8D8;
-    position: relative;
-    &:before {
-      position: absolute;
-      content: '';
-      width: 5px;
-      height: 17px;
-      border-radius: 2px;
-      background-color:blue;
-      left: 20px;
-      top: 20px;
-    }
-  }
-  .no-data {
-    width: 100%;
-    height: 360px;
-    background: url("data:image/png;base64,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") center center no-repeat;
-  }
-</style>
-<style>
-  .echarts_title{
-    position: absolute;
-      font-size: 17px;
-      font-weight: 900;
-      left: 37px;
-      top: 18px;
-  }
-  .overview .one_content_lf .el-input__inner{
-    border-radius: 15px !important;
-    padding-left: 15px !important;
-  }
-  .overview .one_content_lf .el-input__suffix{
-    right: 9px !important;
-  }
-  .overview .one_content_lf .el-input__suffix .el-select__caret{
-    margin-left: 5px !important;
-  }
-  .sell_echarts{
-    position: relative;
-  }
-  .sell_echarts .echarts{
-    height: 442px !important;
-  }
-  .sell_echarts .sell_echarts_flag{
-    position: absolute;
-    left: 20px ;
-    top: 20px ;
-    border-radius: 2px ;
-    width: 5px;
-    height: 17px ;
-    background: rgb(18,153,250,0.6);
-  }
-  .recruit_echarts{
-    position: relative;
-  }
-  .recruit_echarts .recruit_echarts_flag{
-    position: absolute;
-    left: 20px ;
-    top: 20px ;
-    border-radius: 2px ;
-    width: 5px;
-    height: 17px ;
-    background: rgb(255,58,58,0.6);
-  }
-  .recruit_echarts .echarts{
-    height: 442px !important;
-  }
-  .reward_echarts{
-    position: relative;
-  }
-  .reward_echarts .reward_echarts_flag{
-    position: absolute;
-    left: 20px ;
-    top: 20px ;
-    border-radius: 2px ;
-    width: 5px;
-    height: 17px ;
-    background: rgb(247,199,31);
-  }
-  .reward_echarts .echarts{
-    height: 500px !important;
-  }
-  /* 门店销售，导购销售echarts */
-  .shopSellOption_echarts {
-    position: relative;
-  }
-  .shopSellOption_echarts .echarts{
-    height: 680px !important;
-  }
-  .shopSellOption_echarts .shop_sell_echarts_flag{
-    position: absolute;
-    left: 20px ;
-    top: 20px ;
-    border-radius: 2px ;
-    width: 5px;
-    height: 17px ;
-    background: #3963ff;
-  }
-  .guideSellOption_echarts {
-    position: relative;
-  }
-  .guideSellOption_echarts .echarts{
-    height: 680px !important;
-  }
-  .guideSellOption_echarts .guide_sell_echarts_flag{
-    position: absolute;
-    left: 20px ;
-    top: 20px ;
-    border-radius: 2px ;
-    width: 5px;
-    height: 17px ;
-    background: #a963ff;
-  }
-  /* 门店招募，导购招募echarts */
-  .shopRecruitOption_echarts {
-    position: relative;
-  }
-  .shopRecruitOption_echarts .echarts{
-    height: 680px !important;
-  }
-  .shopRecruitOption_echarts .shop_recruit_echarts_flag{
-    position: absolute;
-    left: 20px ;
-    top: 20px ;
-    border-radius: 2px ;
-    width: 5px;
-    height: 17px ;
-    background: #ff5215;
-  }
-  .guideRecruitOption_echarts {
-    position: relative;
-  }
-  .guideRecruitOption_echarts .echarts{
-    height: 680px !important;
-  }
-  .guideRecruitOption_echarts .guide_recruit_echarts_flag{
-    position: absolute;
-    left: 20px ;
-    top: 20px ;
-    border-radius: 2px ;
-    width: 5px;
-    height: 17px ;
-    background: #1fc47c;
   }
 </style>
