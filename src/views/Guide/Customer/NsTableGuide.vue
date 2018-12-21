@@ -4,6 +4,7 @@
           <el-input ref="quickText" style="width: 210px" v-model="filterTreeText" placeholder="输入姓名">
             <i class="el-icon-search el-input__icon" slot="suffix" name="name" @click="$quickSearchAction$('name')"></i>
           </el-input>
+          <el-scrollbar style="overflow-x: hidden">
             <el-tree class="filter-tree" ref="guideTree" :data="shopFindList" highlight-current
                   node-key="id" :default-expand-all="false" :expand-on-click-node="false" :default-checked-keys="[0]"
                   :filter-node-method="onFilterNode" @node-click="onClickNode">
@@ -12,6 +13,7 @@
                 <!-- <span>{{node.id}}</span> -->
               </div>
             </el-tree>
+          </el-scrollbar>
         </div>
         <div  class="template-page__row-right">
 

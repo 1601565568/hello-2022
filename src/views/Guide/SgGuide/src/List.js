@@ -16,10 +16,7 @@ export default {
       page: 1,
       total: 0
     }
-    const tableButtons = [
-      {
-      }
-    ]
+    const tableButtons = [{}]
     const operateButtons = [
       {
         'func': function () {
@@ -89,6 +86,19 @@ export default {
       'mobile': [
         {required: true, message: '请输入手机号', trigger: 'blur'},
         {pattern: /^[1][3,4,5,7,8][0-9]{9}$/, message: '手机号格式错误，请您重新输入！'}
+      ],
+      'work_id': [
+        {
+          required: true,
+          trigger: 'blur',
+          validator: (rule, value, callback) => {
+            if (this.model.sgGuide.work_number === '') {
+              callback(new Error('请输入工号'))
+            } else {
+              callback()
+            }
+          }
+        }
       ]
     }
     let that = this
@@ -99,7 +109,7 @@ export default {
         },
         set: function (val) {
           model[item.name] = val
-          // TODO 由于特殊需求导致以下列写法
+          // todo 由于特殊需求导致以下列写法
           if (item.type === 'radio') {
             that._data._table.quickSearchMap[item.name] = val
             that.$quickSearch$()
@@ -426,7 +436,6 @@ export default {
           this.$http.fetch(this.$api.guide.guide.saveOrUpdateGuide, {
             sgGuide: guide,
             sgGuideShop: guideShop
-            // updateAllGuidePrefix: _this.model.updateAllGuidePrefix
           }).then(resp => {
             _this.closeDialog()
             _this.$notify.success('保存成功')
@@ -474,7 +483,8 @@ export default {
       _this.$http.fetch(_this.$api.guide.guide.findList, {
         searchMap: {
           'guideState': 1,
-          'guideId': _this.guideId
+          'guideId': _this.guideId,
+          'status': 1
         },
         length: 10000
       }).then(resp => {
@@ -512,7 +522,7 @@ export default {
             _this.guideLeave(params, false)
           }
         }).catch((resp) => {
-          _this.$notify.error('查询失败：' + resp.msg)
+          // _this.$notify.error('查询失败：' + resp.msg)
         })
       })
     },
@@ -635,9 +645,9 @@ export default {
         if (!isClose) {
           _this.$refs.table.$reload()
         }
-        _this.$notify.success(resp.msg)
+        _this.$notify.success('操作成功')
       }).catch((resp) => {
-        _this.$notify.error('修改失败 ' + resp.msg)
+        _this.$notify.error('操作成功 ' + resp.msg)
       })
     },
     // 分页-页数改变
@@ -736,10 +746,12 @@ export default {
       return retVal
     },
     thisGuideDisabled (guideId) {
-      let retVal = this.guideShopList.some(item => {
-        return item.id === guideId
-      })
-      return retVal
+      let _this = this
+      if (guideId === _this.guideId) {
+        return true
+      } else {
+        return false
+      }
     },
     /**
      * 校验工号

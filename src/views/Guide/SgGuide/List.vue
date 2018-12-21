@@ -62,21 +62,18 @@
           </el-form-item>
           <el-form-item label="职务：" required>
             <el-form-grid size="xxmd">
-
               <el-radio-group v-model="model.sgGuideShop.job" @change="jobs">
                 <el-radio :label="0">导购</el-radio>
                 <el-radio :label="1">店长</el-radio>
               </el-radio-group>
-
             </el-form-grid>
           </el-form-item>
-
           <el-form-item label="工号：" required>
             <el-form-grid size="xxmd">
               <el-form-item prop="work_id">
                 <div class="page_add_guide_workid" style='display:flex'>
                   <el-form-grid size="sm"><el-input :disabled="disabledWorkPrefix"  v-model="model.sgGuide.work_prefix" @blur='blurWorkPrefix'/></el-form-grid>
-                  <el-input type="text" v-model="model.sgGuide.work_number"  placeholder="请输入工号" clearable/>
+                  <el-input type="text" v-model="model.sgGuide.work_number" placeholder="请输入工号" clearable/>
                   <!-- @change="workIdChange" -->
                   <span style='color:transparent'>1</span>
                   <ns-button type='text' @click='updateWorkPrefix'>修改前缀</ns-button>
@@ -185,7 +182,7 @@
                 <el-form-item>
                   <el-select placeholder="请选择指定导购" v-model="receiveGuideId" filterable>
                     <el-option v-for="guide in guideList" :label="guide.name"
-                               :value="guide.id" :key="guide.id">
+                               :disabled="thisGuideDisabled(guide.id)" :value="guide.id" :key="guide.id">
                     </el-option>
                   </el-select>
                 </el-form-item>

@@ -31,7 +31,6 @@
             <span class="man-name">{{items.gradeName || items.customerName}}</span>
             <span>{{items.grade === null ? '-' : items.grade}}</span>
           </p>
-          <!-- <p class="p-button">X</p> -->
         </div>
         <div>
           <div class="kehuBox-main-span">
@@ -47,7 +46,7 @@
               <el-col :span='8'><span>地址：{{items.province === null&&items.province === null?'-':items.province+' / '+items.city}}</span></el-col>
             </el-row>
             <el-row>
-              <el-col :span='8'><span>积分：{{items.point|| '-'}}</span></el-col>
+              <el-col :span='8'><span>积分：{{result|| '-'}}</span></el-col>
               <!-- <el-col :span='8'><span>优惠券：{{items.point}}</span></el-col> -->
             </el-row>
             <!-- <p> <span>性别：{{items.sex}}</span><span>手机号：{{items.mobile}}</span><span>地址：{{items.address}}</span></p>
