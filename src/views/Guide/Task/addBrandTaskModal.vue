@@ -21,6 +21,7 @@
               range-separator="至"
               start-placeholder="开始日期"
               @change="timeFun"
+              :picker-options="pickerOptions0"
               end-placeholder="结束日期">
             </el-date-picker>
         </el-form-item>
@@ -97,6 +98,11 @@ export default {
       }
     }
     return {
+      pickerOptions0: {
+        disabledDate (time) {
+          return time.getTime() < Date.now() - 8.64e7
+        }
+      },
       pickerOptions2: {
         onPick: function (e) {}
       },
