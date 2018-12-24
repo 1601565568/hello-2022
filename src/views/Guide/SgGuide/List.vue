@@ -26,7 +26,7 @@
               </el-form-item>
             </el-form-grid>
           </el-form-item>
-          <el-form-item label="昵称：" required>
+          <el-form-item label="昵称：" >
             <el-form-grid size="xxmd">
               <el-form-item prop="nickname">
                 <el-input type="text" @change="nickname" v-model="model.sgGuide.nickname" placeholder="请输入昵称" clearable>

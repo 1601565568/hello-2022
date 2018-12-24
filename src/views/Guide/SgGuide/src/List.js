@@ -80,7 +80,7 @@ export default {
         }
       ],
       'nickname': [
-        {required: true, message: '请输入昵称', trigger: 'blur'},
+        // {required: true, message: '请输入昵称', trigger: 'blur'},
         {min: 0, max: 20, message: '已超过可输入长度', trigger: 'blur,change'}
       ],
       'mobile': [
@@ -371,7 +371,7 @@ export default {
     onRedactFun (row) {
       this.row = row
       if (row) {
-        this.title = '编辑导购信息'
+        this.title = '编辑员工信息'
         this.model.sgGuide = {
           id: row.id,
           name: row.name,
@@ -494,6 +494,7 @@ export default {
         _this.$notify.error('查询失败：' + resp.msg)
       })
     },
+     // 会员离职
     dimissionFun (row) {
       var _this = this
       _this.transferWay = '1'
