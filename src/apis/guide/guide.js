@@ -102,6 +102,9 @@ export default {
   findGuideNewWorkNumAndPrefix: {
     url: '/guide/guide/findGuideNewWorkNumAndPrefix',
     method: 'get'
+  },
+  taskDeleteTask: {
+    url: '/guide/task/deleteTask',
+    method: 'get'
   }
-
 }

@@ -213,6 +213,7 @@ export default {
         }
       })
       if (_this.value !== null) {
+        _this.customerIdList = []
         _this.multipleSelection.map(item => {
           _this.customerIdList.push(item.customerId)
         })
