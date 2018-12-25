@@ -59,6 +59,10 @@ export default {
     url: '/guide/guideperf/findList',
     method: 'post'
   },
+  guidePerfDetailList: {// 导购工作统计列表分页查询
+    url: '/guide/guideperf/findDetailList',
+    method: 'post'
+  },
   rewardruleList: {// 门店提成列表分页查询
     url: '/guide/rewardrule/findList',
     method: 'post'
