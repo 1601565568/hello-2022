@@ -22,6 +22,18 @@ export default {
       },
       {
         'func': function () {
+          this.$emit('replaceStores')
+        },
+        'name': '更换门店'
+      },
+      {
+        'func': function () {
+          this.$emit('dimission')
+        },
+        'name': '离职'
+      },
+      {
+        'func': function () {
           this.$emit('allDelete')
         },
         'name': '删除'

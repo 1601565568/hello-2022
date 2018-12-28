@@ -85,7 +85,7 @@ export default {
       ],
       'mobile': [
         {required: true, message: '请输入手机号', trigger: 'blur'},
-        {pattern: /^[1][3,4,5,7,8][0-9]{9}$/, message: '手机号格式错误，请您重新输入！'}
+        {pattern: /^[1][3,4,5,6,7,8,9][0-9]{9}$/, message: '手机号格式错误，请您重新输入！'}
       ],
       'work_id': [
         {
@@ -148,6 +148,8 @@ export default {
       shopList: [],
       shopFindList: [],
       guideShopList: [],
+      dimissionArry: [],      // 批量离职员工数组
+      replaceStoresArry: [],  // 批量更换门店数组
       tableDataCustomer: [],        // 客户集合
       multipleSelection: [],
       multipleSelections: [],
@@ -252,12 +254,15 @@ export default {
     },
     handleSelectionChange (value) {
       this.multipleSelection = value
+      this.dimissionArry = value
+      this.replaceStoresArry = value
     },
-    allDelete () {
+    allDelete () { // 组团删除功能
       var _this = this
       if (_this.multipleSelection.length < 1) {
-        _this.$notify.error('请选择员工')
+        _this.$notify.error('请选择要操作的员工')
       } else {
+        _this.allDeleteName = []
         _this.multipleSelection.map(item => {
           _this.allDeleteName.push(item.name)
         })
@@ -271,6 +276,74 @@ export default {
           })
           _this.$http.fetch(_this.$api.guide.guide.deleteGuides, {
             guideIds: _this.multipleSelections.join(',')
+          }).then(resp => {
+            if (resp.result.failCount > 0) {
+              _this.successCount = resp.result.successCount
+              _this.failCount = resp.result.failCount
+              _this.allDeleteFormVisible = true
+            } else {
+              _this.$notify.success('删除成功')
+              _this.$refs.table.$reload()
+            }
+          }).catch((resp) => {
+            _this.$notify.error('查询失败：' + resp.msg)
+          })
+        })
+      }
+    },
+    dimission () { // 组团离职功能
+      var _this = this
+      if (_this.dimissionArry.length < 1) {
+        _this.$notify.error('请选择要操作的员工')
+      } else {
+        _this.allDeleteName = []
+        _this.dimissionArry.map(item => {
+          _this.allDeleteName.push(item.name)
+        })
+        _this.$confirm('请确认是否对 ' + _this.allDeleteName.join('、') + ' 进行离职操作!', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          _this.dimissionArry.map(item => {
+            _this.dimissionArry.push(item.id)
+          })
+          _this.$http.fetch(_this.$api.guide.guide.deleteGuides, {
+            guideIds: _this.dimissionArry.join(',')
+          }).then(resp => {
+            if (resp.result.failCount > 0) {
+              _this.successCount = resp.result.successCount
+              _this.failCount = resp.result.failCount
+              _this.allDeleteFormVisible = true
+            } else {
+              _this.$notify.success('删除成功')
+              _this.$refs.table.$reload()
+            }
+          }).catch((resp) => {
+            _this.$notify.error('查询失败：' + resp.msg)
+          })
+        })
+      }
+    },
+    replaceStores () { // 组团更换门店功能
+      var _this = this
+      if (_this.replaceStoresArry.length < 1) {
+        _this.$notify.error('请选择要操作的员工')
+      } else {
+        _this.allDeleteName = []
+        _this.replaceStoresArry.map(item => {
+          _this.allDeleteName.push(item.name)
+        })
+        _this.$confirm('请确认是否对 ' + _this.allDeleteName.join('、') + ' 进行更换门店操作!', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          _this.replaceStoresArry.map(item => {
+            _this.replaceStoresArry.push(item.id)
+          })
+          _this.$http.fetch(_this.$api.guide.guide.deleteGuides, {
+            guideIds: _this.replaceStoresArry.join(',')
           }).then(resp => {
             if (resp.result.failCount > 0) {
               _this.successCount = resp.result.successCount

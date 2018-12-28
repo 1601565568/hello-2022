@@ -42,8 +42,20 @@
             <el-row>
               <el-col :span='8'><span>性别：{{items.sex === 1?'男':'女'}}</span></el-col>
               <el-col :span='8'><span>手机号：{{items.mobile|| '-'}}</span></el-col>
-              <!-- <el-col :span='8'><span>地址：{{items.province?items.province:'-'+'/'+items.city?items.city:'-'}}</span></el-col> -->
-              <el-col :span='8'><span>地址：{{items.province === null&&items.province === null?'-':items.province+' / '+items.city}}</span></el-col>
+            </el-row>
+            <el-row>
+              <el-col :span='24'>
+                <span>
+                  地区：{{items.province === null&&items.city === null&&items.district === null?'-':items.province+' / '+items.city+' / '+items.district}}
+                </span>
+              </el-col>
+            </el-row>
+            <el-row>
+              <el-col :span='24'>
+                <span>
+                  地址：{{items.address === null?'-':items.address}}
+                </span>
+              </el-col>
             </el-row>
             <el-row>
               <el-col :span='8'><span>积分：{{result|| '-'}}</span></el-col>

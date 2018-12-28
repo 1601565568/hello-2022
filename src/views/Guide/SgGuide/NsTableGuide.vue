@@ -1,6 +1,6 @@
 <template>
   <!-- <ns-page-table @add="$emit('add')"  @allDelete="$emit('allDelete')" @onAddCustomer="$emit('onAddCustomer')" @quit="$emit('quit')" @shopEdit="$emit('shopEdit')" @ondelete="$emit('ondelete')"> -->
-  <ns-page-table @add="$emit('add')"  @allDelete="$emit('allDelete')" @shopEdit="$emit('shopEdit')" >
+  <ns-page-table @add="$emit('add')" @replaceStores="$emit('replaceStores')" @dimission="$emit('dimission')"  @allDelete="$emit('allDelete')" @shopEdit="$emit('shopEdit')" >
     <!-- 按钮 -->
     <template slot="buttons">
       <ns-table-operate-button :buttons="_data._table.table_buttons">

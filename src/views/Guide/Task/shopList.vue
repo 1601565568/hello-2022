@@ -100,7 +100,7 @@
       </el-table-column>
 
       <el-table-column label="执行次数" align="left" width="80">
-        <template slot-scope="{row}">{{row.runType?"一次性":"每日执行"}}</template>
+        <template slot-scope="{row}">{{row.runType?"每日执行":"一次性"}}</template>
       </el-table-column>
 
       <el-table-column prop="createUserName" label="创建人" width="120"></el-table-column>

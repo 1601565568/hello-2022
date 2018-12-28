@@ -1,7 +1,7 @@
 <template>
   <div>
     <ns-table-guide ref="table" :url=$api.guide.guide.findList @add="onRedactFun"
-                    @shopEdit="shopEdit" @allDelete="allDelete" @onDelsTipFun="onDelsTipFun" @onRedactFun="onRedactFun" @dimissionFun="dimissionFun" @handleSelectionChange="handleSelectionChange">
+                    @shopEdit="shopEdit" @allDelete="allDelete" @dimission="dimission" @replaceStores="replaceStores" @onDelsTipFun="onDelsTipFun" @onRedactFun="onRedactFun" @dimissionFun="dimissionFun" @handleSelectionChange="handleSelectionChange">
       <!-- <ns-table-guide ref="table" :url=$api.guide.guide.findList @add="onRedactFun"
       @shopEdit="shopEdit" @allDelete="allDelete" @ondelete="ondelete" @onAddCustomer="onRedactFun" @quit="quit" @handleSelectionChange="handleSelectionChange"> -->
     </ns-table-guide>
