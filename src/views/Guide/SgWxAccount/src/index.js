@@ -121,9 +121,9 @@ export default {
     },
     onToAuthorize () {
       var that = this
+      var tempPage = window.open('', ' _blank')
       that.$http.fetch(that.$api.guide.sgwxaccount.getAuthUrl).then((resp) => {
-        that.weixinUrl = resp.result
-        window.location.href = that.weixinUrl
+        tempPage.location = resp.result
       }).catch((resp) => {
         that.$notify.error(resp.msg || '保存失败')
       })
