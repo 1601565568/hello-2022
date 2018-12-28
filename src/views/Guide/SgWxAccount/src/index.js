@@ -12,6 +12,12 @@ export default {
           that.onSaveOpen({})
         },
         'name': '新增'
+      },
+      {
+        'func': function () {
+          that.onAuthorization({})
+        },
+        'name': '授权'
       }
     ]
     return {
@@ -25,13 +31,19 @@ export default {
         openKey: null,
         openSecret: null,
         payId: null,
-        paySecret: null
+        paySecret: null,
+        param: {}
       },
       titleText: '',
+      titleTexts: '小程序代码模版',
+      authorizationText: '微信号授权',
       url: this.$api.guide.sgwxaccount.findList,
       payTotal: null,
       rechargeTotal: null,
       dialogFormVisible: false,
+      newestDialog: false,
+      authorization: false,
+      weixinUrl: null,
       _table: {
         table_buttons: tableButtons
       },
@@ -77,7 +89,46 @@ export default {
     }
   },
   methods: {
-    onSaveOpen (row) {
+    uploading () { // 上传
+      console.log('0000')
+    },
+    underReview () { // 审核中
+      console.log('1111')
+    },
+    auditSuccess () { // 审核成功
+      console.log('2222')
+    },
+    published () { // 已发布
+      console.log('3333')
+    },
+    submitted () { // 提交审核
+      console.log('4444')
+    },
+    auditFailur () { // 审核失败
+      console.log('5555')
+    },
+    newest () { // 同步最新
+      this.$queryList$(this.param)
+    },
+    domainName () { // 域名配置
+      console.log('6666')
+    },
+    qrCode () { // 体验二维码
+      console.log('7777')
+    },
+    release () { // 发布
+      console.log('8888')
+    },
+    onToAuthorize () {
+      var that = this
+      that.$http.fetch(that.$api.guide.sgwxaccount.getAuthUrl).then((resp) => {
+        that.weixinUrl = resp.result
+        window.location.href = that.weixinUrl
+      }).catch((resp) => {
+        that.$notify.error(resp.msg || '保存失败')
+      })
+    },
+    onSaveOpen (row) { // 新增
       this.titleText = (row.id && '编辑') || '新增'
       this.model.id = row.id
       this.model.name = row.name
@@ -90,6 +141,10 @@ export default {
       this.model.payId = row.pay_id
       this.model.paySecret = row.pay_secret
       this.dialogFormVisible = true
+      this.newestDialog = true
+    },
+    onAuthorization () {
+      this.authorization = true
     },
     onSave () {
       let that = this
@@ -97,6 +152,7 @@ export default {
         if (valid) {
           that.$http.fetch(that.$api.guide.sgwxaccount.save, that.model).then(() => {
             that.dialogFormVisible = false
+            that.newestDialog = false
             that.$notify.success('保存成功')
             that.$reload()
           }).catch((resp) => {
@@ -109,9 +165,9 @@ export default {
       apiRequestConfirm('永久删除该数据')
       .then(() => {
         let that = this
-        console.log(row.id)
         that.$http.fetch(that.$api.guide.sgwxaccount.delete, {id: row.id}).then(() => {
           that.dialogFormVisible = false
+          that.newestDialog = false
           that.$notify.success('删除成功')
           that.$reload()
         }).catch((resp) => {
@@ -127,6 +183,7 @@ export default {
      * @returns {*}
      */
     $handleParams: function (params) {
+      this.param = params
       if (params.searchMap && params.searchMap.time && params.searchMap.time.length > 0) {
         params.searchMap.timeStart = params.searchMap.time[0]
         params.searchMap.timeEnd = params.searchMap.time[1]
