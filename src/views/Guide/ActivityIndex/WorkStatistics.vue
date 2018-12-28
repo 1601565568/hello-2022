@@ -456,7 +456,7 @@ export default {
       var _this = this
       _this.pagination1.size = pageSize
       _this.pagination1.page = 1
-      _this.guideId = null
+      // _this.guideId = null
       _this.findDetailData(_this.guideId)
     },
     // 关闭奖励弹窗

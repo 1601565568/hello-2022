@@ -206,7 +206,7 @@
         <p>点击授权跳转到微信公众平台授权页面，授权微信号</p>
       </div>         
       <div slot="footer" class="authorization_footer">
-        <ns-button @click="dialogFormVisible = false">取消</ns-button>
+        <ns-button @click="authorization = false">取消</ns-button>
         <ns-button type="primary" @click="onToAuthorize">去授权</ns-button>
       </div>
     </el-dialog>
