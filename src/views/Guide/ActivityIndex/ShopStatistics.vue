@@ -241,7 +241,7 @@
         <!-- el-form 需添加  @keyup.enter.native="onSearch" 配置，实现回车搜索， onSearch 为搜索方法 -->
         <!-- el-form 需添加  surround-btn 类名 配置环绕按钮效果 -->
         <el-form ref="table_filter_form" label-width="80px" @keyup.enter.native="onSearch" class="surround-btn" :inline="true">
-          <el-form-item label="姓名：">
+          <el-form-item label="姓名111：">
             <el-form-grid size="xmd">
               <el-input  type="text" v-model="customerName">
               </el-input>
@@ -279,6 +279,9 @@
                        @current-change="pageChange"
         >
         </el-pagination>
+        <div slot="footer" class="dialog-footer">
+          <ns-button @click="onCancleRecruitDialog">关闭</ns-button>
+        </div>
       </el-dialog>
       <!--        奖励弹窗结束        -->
 
@@ -328,6 +331,9 @@
                        @current-change="pageChange"
         >
         </el-pagination>
+        <div slot="footer" class="dialog-footer">
+          <ns-button @click="onCancleSellDialog">关闭</ns-button>
+        </div>
       </el-dialog>
       <!--        提成弹窗结束        -->
 

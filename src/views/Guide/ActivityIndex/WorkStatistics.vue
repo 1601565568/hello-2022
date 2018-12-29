@@ -231,6 +231,9 @@
                    @current-change="pageChange"
     >
     </el-pagination>
+    <div slot="footer" class="dialog-footer">
+      <ns-button @click="onCancleRecruitDialog">关闭</ns-button>
+    </div>
   </el-dialog>
   <!--        奖励弹窗结束        -->
 
@@ -279,6 +282,9 @@
                    @current-change="pageChange"
     >
     </el-pagination>
+    <div slot="footer" class="dialog-footer">
+      <ns-button @click="onCancleSellDialog">关闭</ns-button>
+    </div>
   </el-dialog>
   <!--        提成弹窗结束        -->
 
