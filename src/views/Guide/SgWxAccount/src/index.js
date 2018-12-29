@@ -37,12 +37,14 @@ export default {
       titleText: '',
       titleTexts: '小程序代码模版',
       authorizationText: '微信号授权',
+      miniProgramText: '小程序信息',
       url: this.$api.guide.sgwxaccount.findList,
       payTotal: null,
       rechargeTotal: null,
       dialogFormVisible: false,
       newestDialog: false,
       authorization: false,
+      miniProgram: false,
       weixinUrl: null,
       _table: {
         table_buttons: tableButtons
@@ -141,7 +143,8 @@ export default {
       this.model.payId = row.pay_id
       this.model.paySecret = row.pay_secret
       this.dialogFormVisible = true
-      this.newestDialog = true
+      // this.newestDialog = true
+      // this.miniProgram = true
     },
     onAuthorization () {
       this.authorization = true
