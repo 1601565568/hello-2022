@@ -96,7 +96,7 @@
         <el-table-column type="selection" width="42"></el-table-column>
         <el-table-column prop="name" label="会员姓名" align="left" width="100">
           <template slot-scope="scope">
-            {{scope.row.name?scope.row.name:'-'}}
+            {{scope.row.name || '-'}}
           </template>
         </el-table-column>
         <el-table-column prop="mobile" label="手机号" align="left" width="120">

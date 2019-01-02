@@ -29,9 +29,10 @@
           <el-form-grid>
             <el-radio-group v-model="model.type">
                 <el-radio class="radio" :label="0">营销任务</el-radio>
-                <el-radio class="radio" :label="1">关怀任务</el-radio>
+                <!-- <el-radio class="radio" :label="1">关怀任务</el-radio> -->
+                <el-radio class="radio" :label="1">日常任务</el-radio>
                 <el-radio class="radio" :label="2">分享任务</el-radio>
-              </el-radio-group>
+            </el-radio-group>
           </el-form-grid>
         </el-form-item>
         <el-form-item label="指派门店："  prop="shopRangeType">

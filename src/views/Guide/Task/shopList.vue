@@ -1,7 +1,7 @@
 
 <template>
 <!-- 门店工作统计  wanrengang 20180716 -->
-<div>
+<div class="shopListbox">
   <el-tabs v-model="activeTabName" @tab-click="tabHandleClick">
     <el-tab-pane label="品牌任务" name="/Guide/Task/List"></el-tab-pane>
     <el-tab-pane label="门店任务" name="/Guide/Task/shopList"></el-tab-pane>
@@ -49,7 +49,6 @@
                   </el-option>
                 </el-select>
               </el-form-item>
-
               <el-form-item label="状态：" prop="state">
               <el-select  v-model="searchform.state" placeholder="请选择状态" clearable>
                   <el-option v-for="item in statusOptions"
@@ -59,7 +58,6 @@
                   </el-option>
                 </el-select>
               </el-form-item>
-
         </el-form>
         <div class="template-table__more-btn">
           <ns-button type="primary" @click="submitForm('searchform')">搜索</ns-button>
@@ -102,10 +100,10 @@
       </el-table-column>
 
       <el-table-column label="执行次数" align="left" width="80">
-        <template slot-scope="{row}">{{row.runType?"一次性":"每日执行"}}</template>
+        <template slot-scope="{row}">{{row.runType?"每日执行":"一次性"}}</template>
       </el-table-column>
 
-      <el-table-column prop="createUserName" label="创建人" width="150"></el-table-column>
+      <el-table-column prop="createUserName" label="创建人" width="120"></el-table-column>
       <el-table-column prop="createShopName" label="创建门店"></el-table-column>
       <el-table-column prop="status" label="状态" align="left" width="80">
         <template slot-scope="{row}">
@@ -116,11 +114,12 @@
       </el-table-column>
       <el-table-column
         label="操作"
-        width="50"
+        width="100"
         align="right"
       >
-      <template slot-scope="scope">
-        <ns-button @click="AddShowToggle(scope.row)" type="text">详情</ns-button>
+      <template slot-scope="scope" class="operation">
+          <ns-button @click="AddShowToggle(scope.row)" type="text">详情</ns-button>
+          <ns-button style="color:#f00" @click="deleteToggle(scope.row)" type="text">删除</ns-button>
       </template>
       </el-table-column>
     </el-table>
@@ -167,10 +166,8 @@ export default {
           label: '分享'
         }
       ],
-
       statusOptions: [
         {
-
           value: '1',
           label: '执行中'
         },
@@ -184,15 +181,12 @@ export default {
         time: []
       },
       dataList: [
-
       ]
-
     }
   },
   created: function () {
     this.loadListFun()
   },
-
   methods: {
     // 加载列表
     async loadListFun (data) {
@@ -239,10 +233,38 @@ export default {
     },
     // 打开弹窗--编辑
     AddShowToggle (obj) {
+      console.log('obj', obj)
       // 传递保存时需要的参数
       this.$nextTick(() => {
         this.$refs.detailDialogDom.showToggle(obj)
       })
+    },
+    // 删除功能
+    deleteToggle (obj) {
+      apiRequestConfirm('永久删除该数据')
+      .then(() => {
+        this.deleteTask(obj)
+      })
+      .catch(() => {
+        // 点击取消事件
+      })
+    },
+    async deleteTask (val) {
+      let obj = {
+        taskId: val.id
+      }
+      await this.$http
+        .fetch(this.$api.guide.guide.taskDeleteTask, obj)
+        .then(resp => {
+          this.$notify({
+            type: 'success',
+            message: '删除成功!'
+          })
+          this.loadListFun(this.searchObj)
+        })
+        .catch(resp => {
+          this.$notify.error(resp.msg)
+        })
     },
     // 打开弹窗--分配导购
     shopListModalDomShowToggle (id, shipId) {
@@ -271,5 +293,10 @@ export default {
   }
 }
 </script>
-<style scoped>
+<style>
+@component-namespace shopDetailBox {
+  .operation{
+    padding-right:0;
+  }
+}
 </style>

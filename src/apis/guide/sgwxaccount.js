@@ -10,5 +10,9 @@ export default {
   delete: {
     url: '/guide/sgwxaccount/delete',
     method: 'post'
+  },
+  getAuthUrl: {
+    url: '/guide/appletcallback/getAuthUrl',
+    method: 'post'
   }
 }
