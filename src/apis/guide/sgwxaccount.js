@@ -14,5 +14,25 @@ export default {
   getAuthUrl: {
     url: '/guide/appletcallback/getAuthUrl',
     method: 'post'
+  },
+  getAppletInfo: { // 小程序信息页面详情
+    url: '/guide/wechatsetting/getAppletInfo',
+    method: 'get'
+  },
+  submitTemplateToAudit: { // 提交审核
+    url: '/guide/wechatsetting/submitTemplateToAudit',
+    method: 'post'
+  },
+  templateToRelease: { // 发布已审核成功的模板（发布小程序）
+    url: '/guide/wechatsetting/templateToRelease',
+    method: 'get'
+  },
+  getAppletCategoryList: { // 查询小程序可选类目
+    url: '/guide/wechatsetting/getAppletCategoryList',
+    method: 'get'
+  },
+  getAppletPageList: { // 查询小程序页面配置
+    url: '/guide/wechatsetting/getAppletPageList',
+    method: 'get'
   }
 }

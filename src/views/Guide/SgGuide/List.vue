@@ -1,7 +1,7 @@
 <template>
   <div>
     <ns-table-guide ref="table" :url=$api.guide.guide.findList @add="onRedactFun"
-                    @shopEdit="shopEdit" @allDelete="allDelete" @dimission="dimission" @replaceStores="replaceStores" @onDelsTipFun="onDelsTipFun" @onRedactFun="onRedactFun" @dimissionFun="dimissionFun" @handleSelectionChange="handleSelectionChange">
+                    @shopEdit="shopEdit" @allDelete="allDelete" @dimission="dimission" @showShop="showShop" @onDelsTipFun="onDelsTipFun" @onRedactFun="onRedactFun" @dimissionFun="dimissionFun" @handleSelectionChange="handleSelectionChange">
       <!-- <ns-table-guide ref="table" :url=$api.guide.guide.findList @add="onRedactFun"
       @shopEdit="shopEdit" @allDelete="allDelete" @ondelete="ondelete" @onAddCustomer="onRedactFun" @quit="quit" @handleSelectionChange="handleSelectionChange"> -->
     </ns-table-guide>
@@ -114,7 +114,6 @@
       </div>
     </el-dialog>
     <!--  新增修改客户结束 -->
-
     <!--  导购离职弹窗开始  -->
     <el-dialog title="转移客户" :visible.sync="resignFormVisible">
       <div style="height: 300px;overflow-x:hidden;overflow-y:auto;margin-top: 10px;">
@@ -197,7 +196,6 @@
       </div>
     </el-dialog>
     <!-- 指定导购转移转移弹窗结束  -->
-
     <!--  自定义客户转移弹窗开始  -->
     <el-dialog title="自定义转移" :visible.sync="customFormVisible" :before-close="onCancelCustomTransfer">
       <div style="overflow-x:hidden;overflow-y:auto;margin-top: 10px;">
@@ -231,6 +229,21 @@
         </el-select>
         <ns-button @click="onCancelCustomTransfer">取消</ns-button>
         <ns-button type="primary" @click="onSaveCustomTransfer">确定</ns-button>
+      </div>
+    </el-dialog>
+    <!--  自定义客户转移弹窗开始  -->
+    <el-dialog :title="shopTitle" width="560px" height="300px" :visible.sync="shopFindListShow" @keyup.enter.native="onKeyUp" @keyup.esc.native="onKeyUp">
+      <div class="guideBox" style="overflow-x:hidden;overflow-y:auto;">
+        <!-- <el-select placeholder="所属门店" @change="store" v-model="model.sgGuideShop.shop_id" filterable >
+                  <el-option v-for="shop in shopFindList" :label="shop.shopName" :value="shop.id" :key="shop.id"></el-option>
+                </el-select> -->
+        <el-select v-model="model.sgGuideShop.shop_id" @change="changeShop" placeholder="请选择要更换的门店">
+          <el-option  v-for="item in shopFindList" :key="item.id"  :label="item.shopName"  :value="item.id"></el-option>
+        </el-select>
+      </div>
+      <div slot="footer" class="dialog-footer">
+        <ns-button @click="shopFindListShow = false">取消</ns-button>
+        <ns-button type="primary" @click="replaceStores">确定</ns-button>
       </div>
     </el-dialog>
     <!--  自定义客户转移弹窗开始  -->

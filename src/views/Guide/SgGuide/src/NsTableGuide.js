@@ -22,7 +22,7 @@ export default {
       },
       {
         'func': function () {
-          this.$emit('replaceStores')
+          this.$emit('showShop')
         },
         'name': '更换门店'
       },

@@ -34,10 +34,17 @@ export default {
         paySecret: null,
         param: {}
       },
+      obj: {
+        appId: null
+      },
+      appObj: {},
+      appid: null,
+      presentObj: {},
       titleText: '',
       titleTexts: '小程序代码模版',
       authorizationText: '微信号授权',
       miniProgramText: '小程序信息',
+      autidText: '提交审核',
       url: this.$api.guide.sgwxaccount.findList,
       payTotal: null,
       rechargeTotal: null,
@@ -45,6 +52,7 @@ export default {
       newestDialog: false,
       authorization: false,
       miniProgram: false,
+      dialogAutid: false,
       weixinUrl: null,
       _table: {
         table_buttons: tableButtons
@@ -130,24 +138,88 @@ export default {
         that.$notify.error(resp.msg || '保存失败')
       })
     },
-    onSaveOpen (row) { // 新增
-      this.titleText = (row.id && '编辑') || '新增'
-      this.model.id = row.id
-      this.model.name = row.name
-      this.model.appid = row.appid
-      this.model.secret = row.secret
-      this.model.corpid = row.corpid
-      this.model.corpsecret = row.corpsecret
-      this.model.openKey = row.open_key
-      this.model.openSecret = row.open_secret
-      this.model.payId = row.pay_id
-      this.model.paySecret = row.pay_secret
-      this.dialogFormVisible = true
+    onSaveOpen (row) { // 新增或编辑
+      var that = this
+      if (row.wx_status === 1) {
+        this.dialogFormVisible = true
+        this.titleText = (row.id && '编辑') || '新增'
+        this.model.id = row.id
+        this.model.name = row.name
+        this.model.appid = row.appid
+        this.model.secret = row.secret
+        this.model.corpid = row.corpid
+        this.model.corpsecret = row.corpsecret
+        this.model.openKey = row.open_key
+        this.model.openSecret = row.open_secret
+        this.model.payId = row.pay_id
+        this.model.paySecret = row.pay_secret
+      } else {
+        this.miniProgram = true
+        this.obj.appId = row.appid
+        this.$http.fetch(that.$api.guide.sgwxaccount.getAppletInfo, this.obj).then((resp) => {
+          this.appObj = resp
+        }).catch((resp) => {
+          that.$notify.error(resp.msg || '请求失败')
+        })
+      }
       // this.newestDialog = true
-      // this.miniProgram = true
     },
     onAuthorization () {
       this.authorization = true
+    },
+    onUpdate () {},
+    onRelieve () {},
+    onAutid (appid) {
+      this.presentObj.appId = appid
+      this.dialogAutid = true
+      var that = this
+      console.log('appid:', this.presentObj.appId)
+      // 查询小程序可选类目
+      that.$http.fetch(that.$api.guide.sgwxaccount.getAppletCategoryList, that.presentObj).then((resp) => {
+        console.log('查询小程序可选类目:', resp)
+      }).catch((resp) => {
+        that.$notify.error(resp.msg || '保存失败')
+      })
+      // 查询小程序页面配置
+      that.$http.fetch(that.$api.guide.sgwxaccount.getAppletPageList, that.presentObj).then((resp) => {
+        console.log('查询小程序页面配置:', resp)
+      }).catch((resp) => {
+        that.$notify.error(resp.msg || '保存失败')
+      })
+    },
+    onPresent () { // 提交审核
+      var that = this
+      that.$http.fetch(that.$api.guide.sgwxaccount.submitTemplateToAudit, that.presentObj).then(() => {
+
+      }).catch((resp) => {
+        that.$notify.error(resp.msg || '保存失败')
+      })
+    },
+    onPublish (latestStatus) { // 发布小程序
+      console.log('90099090')
+      console.log('90099090:', latestStatus)
+      var that = this
+      if (latestStatus === 3) {
+        this.$confirm('是否确认发布小程序', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          that.$http.fetch(that.$api.guide.sgwxaccount.templateToRelease, that.obj).then(() => {
+
+          }).catch((resp) => {
+            that.$notify.error(resp.msg || '保存失败')
+          })
+        })
+      } else if (latestStatus === 1 || latestStatus === 2 || latestStatus === 5) {
+        this.$confirm('小程序版本尚未审核通过', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+
+        })
+      }
     },
     onSave () {
       let that = this
@@ -199,6 +271,7 @@ export default {
       let tableConfig = this._data._table
       tableConfig.loadingtable = true
       return this.$http.fetch(this.url, params).then((resp) => {
+        console.log('resp:', resp.result.data)
         that.payTotal = resp.result.payTotal
         that.rechargeTotal = resp.result.rechargeTotal
         that._data._table.data = resp.result.data

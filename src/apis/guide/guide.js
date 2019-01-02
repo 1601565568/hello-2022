@@ -110,5 +110,13 @@ export default {
   taskDeleteTask: {
     url: '/guide/task/deleteTask',
     method: 'get'
+  },
+  guideLeave: { // 批量离职
+    url: '/guide/guide/guideLeave',
+    method: 'post'
+  },
+  updateShopId: { // 批量更换门店
+    url: '/guide/guide/updateShopId',
+    method: 'post'
   }
 }
