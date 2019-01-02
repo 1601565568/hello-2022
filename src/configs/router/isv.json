@@ -1,0 +1,26 @@
+
+{
+  "path": "/operate/wechat",
+  "name": "OPERATE_WECHAT",
+  "componentPath": "DefaultOperate",
+  "meta": {
+    "title": "授权",
+    "requiresAuth": true
+  },
+  "children": [{
+    "path": "/operate/wechat/",
+    "name": "OPERATE_WECHAT",
+    "title": "授权",
+    "componentPath": "ContentOperate",
+    "children": [
+      {
+        "path": "/operate/wechat/addPages",
+        "name": "ADD_PAGES",
+        "title": "新增页面",
+        "componentPath": "ISV/addPages"
+      }
+    ]
+  }]
+}
+
+

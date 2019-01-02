@@ -41,7 +41,7 @@ export default {
             }
           })
           // 菜单初始化
-          commit(types.UPDATE_USER_MENUS, {
+          commit(types.UPDATE_OPERATE_MENUS, {
             menus: data.menus
           })
           // 视角初始化

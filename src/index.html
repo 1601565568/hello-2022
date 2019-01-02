@@ -7,9 +7,11 @@
   <link rel="icon" href="/static/images/favicon.ico" type="image/x-icon"/>
   <title>最伙导购</title>
   <script>
+// alert(window.location.href)
     function isReplace() {
       function getQueryVariable(variable)
       {
+
         var query = window.location.search.substring(1);
         var vars = query.split("&");
         for (var i=0;i<vars.length;i++) {
@@ -22,7 +24,7 @@
       if(session && session === 'true') {
         window.history.pushState(null, null, window.location.pathname + window.location.search.replace('session=true&','').replace('&session=true','').replace('?session=true',''));
       } else if(window.location.href.indexOf('/LoginError') === -1){
-          window.location.href = '/casLogin?router=' + encodeURIComponent(window.location.pathname + window.location.search)
+        // window.location.href = '/casLogin?router=' + encodeURIComponent(window.location.pathname + window.location.search)
       }
     }
     isReplace()

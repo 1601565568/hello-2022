@@ -262,10 +262,11 @@
 
         <div style="overflow-x:hidden;overflow-y:auto;">
           <el-table :data="detailData">
-            <el-table-column prop="name" label="会员" align="center" width="180"></el-table-column>
-            <el-table-column prop="name" label="昵称" align="center" width="180"></el-table-column>
-            <el-table-column prop="createTime" label="招募时间" align="center" width="200"></el-table-column>
-            <el-table-column prop="reward" label="奖励" align="center" width="180"></el-table-column>
+            <el-table-column prop="guideName" label="导购" align="center" width="150"></el-table-column>
+            <el-table-column prop="name" label="会员" align="center" width="150"></el-table-column>
+            <el-table-column prop="name" label="昵称" align="center" width="150"></el-table-column>
+            <el-table-column prop="createTime" label="招募时间" align="center" width="180"></el-table-column>
+            <el-table-column prop="reward" label="奖励" align="center" width="150"></el-table-column>
           </el-table>
         </div>
         <!--分页开始-->
@@ -279,6 +280,9 @@
                        @current-change="pageChange"
         >
         </el-pagination>
+        <div slot="footer" class="dialog-footer">
+          <ns-button @click="onCancleRecruitDialog">关闭</ns-button>
+        </div>
       </el-dialog>
       <!--        奖励弹窗结束        -->
 
@@ -310,11 +314,12 @@
 
         <div style="overflow-x:hidden;overflow-y:auto;">
           <el-table :data="detailData">
-            <el-table-column prop="name" label="名称" align="center" width="100"></el-table-column>
+            <el-table-column prop="guideName" label="导购" align="center" width="80"></el-table-column>
+            <el-table-column prop="name" label="名称" align="center" width="80"></el-table-column>
             <el-table-column prop="tradeId" label="订单编号" align="center" width="150"></el-table-column>
-            <el-table-column prop="payment" label="订单实付(不含运费)" align="center" width="150"></el-table-column>
+            <el-table-column prop="payment" label="订单实付(不含运费)" align="center" width="120"></el-table-column>
             <el-table-column prop="createTime" label="时间" align="center" width="150"></el-table-column>
-            <el-table-column prop="reward" label="提成" align="center" width="100"></el-table-column>
+            <el-table-column prop="reward" label="提成" align="center" width="80"></el-table-column>
           </el-table>
         </div>
         <!--分页开始-->
@@ -328,6 +333,9 @@
                        @current-change="pageChange"
         >
         </el-pagination>
+        <div slot="footer" class="dialog-footer">
+          <ns-button @click="onCancleSellDialog">关闭</ns-button>
+        </div>
       </el-dialog>
       <!--        提成弹窗结束        -->
 

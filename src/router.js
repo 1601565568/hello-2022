@@ -13,12 +13,21 @@ const router = new Router({
 })
 
 router.beforeEach((to, from, next) => {
+  if (to.path.indexOf('/operate') !== -1 || to.path.indexOf('/Isv') !== -1) {
+    return next()
+  }
   if (to.matched.some((record) => record.meta.requiresAuth)) {
     // this route requires auth, check if logged in
     // if not, redirect to login page.
+
     if (!store.state.user.remumber.remumber_flag) {
       store.dispatch('user/login').then(() => {
         next()
+        // next({ path: '/operate',
+        //   query: {
+        //     redirect: to.fullPath
+        //   } // 将跳转的路由path作为参数，登录成功后跳转到该路由
+        // })
       })
     } else {
       next()

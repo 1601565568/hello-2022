@@ -115,6 +115,7 @@
       }
     },
     mounted: function () {
+      console.log(this.$store)
       if (typeof this.$init === 'function') {
         this.$init(this, this.$generateParams$)
       } else {
