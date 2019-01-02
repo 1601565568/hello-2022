@@ -1,7 +1,7 @@
 <template>
   <header class="nav">
       <router-link class="nav-logo" :to="{ name: 'index'}">
-        <img src="../../assets/logo.png" alt="客道"/>
+        <img src="../../assets/logo.png" alt="客道" />
       </router-link>
     <div class="nav-menu">
       <div v-for='(item,index) in $store.state.operate.menus'
@@ -15,7 +15,7 @@
         </router-link>
       </div>
     </div>
-    <div class="nav-tool">
+    <!-- <div class="nav-tool">
       <div class="head-nav-info">
         <el-dropdown @command="onHandleViewCommand" trigger="click">
           <div class="brand-btn">
@@ -45,7 +45,7 @@
             </el-dropdown-menu>
         </el-dropdown>
       </div>
-    </div>
+    </div> -->
   </header>
 </template>
 
