@@ -37,6 +37,8 @@ export default {
       obj: {
         appId: null
       },
+      shopManager_radio: '1',
+      shoppingGuide_radio: '0',
       appObj: {},
       appid: null,
       presentObj: {},
@@ -99,35 +101,13 @@ export default {
     }
   },
   methods: {
-    uploading () { // 上传
-      console.log('0000')
+    shopManager () {
+      this.shopManager_radio = '1'
+      this.shoppingGuide_radio = '0'
     },
-    underReview () { // 审核中
-      console.log('1111')
-    },
-    auditSuccess () { // 审核成功
-      console.log('2222')
-    },
-    published () { // 已发布
-      console.log('3333')
-    },
-    submitted () { // 提交审核
-      console.log('4444')
-    },
-    auditFailur () { // 审核失败
-      console.log('5555')
-    },
-    newest () { // 同步最新
-      this.$queryList$(this.param)
-    },
-    domainName () { // 域名配置
-      console.log('6666')
-    },
-    qrCode () { // 体验二维码
-      console.log('7777')
-    },
-    release () { // 发布
-      console.log('8888')
+    shoppingGuide () {
+      this.shopManager_radio = '0'
+      this.shoppingGuide_radio = '1'
     },
     onToAuthorize () {
       var that = this
@@ -140,27 +120,28 @@ export default {
     },
     onSaveOpen (row) { // 新增或编辑
       var that = this
+      this.dialogFormVisible = true
+      this.titleText = (row.id && '编辑') || '新增'
+      this.model.id = row.id
+      this.model.name = row.name
+      this.model.appid = row.appid
+      this.model.secret = row.secret
+      this.model.corpid = row.corpid
+      this.model.corpsecret = row.corpsecret
+      this.model.openKey = row.open_key
+      this.model.openSecret = row.open_secret
+      this.model.payId = row.pay_id
+      that.model.paySecret = row.pay_secret
       if (row.wx_status === 1) {
-        this.dialogFormVisible = true
-        this.titleText = (row.id && '编辑') || '新增'
-        this.model.id = row.id
-        this.model.name = row.name
-        this.model.appid = row.appid
-        this.model.secret = row.secret
-        this.model.corpid = row.corpid
-        this.model.corpsecret = row.corpsecret
-        this.model.openKey = row.open_key
-        this.model.openSecret = row.open_secret
-        this.model.payId = row.pay_id
-        this.model.paySecret = row.pay_secret
+
       } else {
-        this.miniProgram = true
-        this.obj.appId = row.appid
-        this.$http.fetch(that.$api.guide.sgwxaccount.getAppletInfo, this.obj).then((resp) => {
-          this.appObj = resp
-        }).catch((resp) => {
-          that.$notify.error(resp.msg || '请求失败')
-        })
+        // this.miniProgram = true
+        // this.obj.appId = row.appid
+        // this.$http.fetch(that.$api.guide.sgwxaccount.getAppletInfo, this.obj).then((resp) => {
+        //   this.appObj = resp
+        // }).catch((resp) => {
+        //   that.$notify.error(resp.msg || '请求失败')
+        // })
       }
       // this.newestDialog = true
     },
@@ -173,16 +154,13 @@ export default {
       this.presentObj.appId = appid
       this.dialogAutid = true
       var that = this
-      console.log('appid:', this.presentObj.appId)
       // 查询小程序可选类目
       that.$http.fetch(that.$api.guide.sgwxaccount.getAppletCategoryList, that.presentObj).then((resp) => {
-        console.log('查询小程序可选类目:', resp)
       }).catch((resp) => {
         that.$notify.error(resp.msg || '保存失败')
       })
       // 查询小程序页面配置
       that.$http.fetch(that.$api.guide.sgwxaccount.getAppletPageList, that.presentObj).then((resp) => {
-        console.log('查询小程序页面配置:', resp)
       }).catch((resp) => {
         that.$notify.error(resp.msg || '保存失败')
       })
@@ -196,8 +174,6 @@ export default {
       })
     },
     onPublish (latestStatus) { // 发布小程序
-      console.log('90099090')
-      console.log('90099090:', latestStatus)
       var that = this
       if (latestStatus === 3) {
         this.$confirm('是否确认发布小程序', '提示', {
@@ -271,7 +247,6 @@ export default {
       let tableConfig = this._data._table
       tableConfig.loadingtable = true
       return this.$http.fetch(this.url, params).then((resp) => {
-        console.log('resp:', resp.result.data)
         that.payTotal = resp.result.payTotal
         that.rechargeTotal = resp.result.rechargeTotal
         that._data._table.data = resp.result.data

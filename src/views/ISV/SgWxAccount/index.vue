@@ -26,10 +26,11 @@
             </template>
           </el-table-column>
           <el-table-column prop="update_time" label="更新时间" width="160" align="left"></el-table-column>
-          <el-table-column :show-overflow-tooltip="true" label="操作" align="right" width="112">
+          <el-table-column :show-overflow-tooltip="true" label="操作" align="right" width="172">
             <template slot-scope="scope">
               <span class="tmp-cell__buttons">
                 <ns-button type="text" @click="onSaveOpen(scope.row)">编辑</ns-button>
+                <ns-button type="text" @click="onSaveOpen(scope.row)">代码模版</ns-button>
                 <ns-button v-if="scope.row.appid !== 'wxd018c65db8b66408' && scope.row.appid !== 'wx088d6dbeea9c68c3'"
                            type="text" @click="onDelete(scope.row)">删除</ns-button>
               </span>
