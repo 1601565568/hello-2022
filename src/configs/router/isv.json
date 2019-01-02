@@ -18,6 +18,12 @@
         "name": "ADD_PAGES",
         "title": "新增页面",
         "componentPath": "ISV/addPages"
+      },
+      {
+        "path": "/operate/wechat/SgWxAccount",
+        "name": "SG_WXACCOUNT",
+        "title": "授权管理",
+        "componentPath": "ISV/SgWxAccount/index"
       }
     ]
   }]
