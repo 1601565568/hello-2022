@@ -6,7 +6,7 @@ export default {
   /**
    * 更新用户拥有的菜单信息
    * @param state
-   * @param user_menus  用户拥有的菜单信息
+   * @param operate_menus  用户拥有的菜单信息
    */
   UPDATE_OPERATE_MENUS (state, {menus}) {
     state.menus = menus
@@ -16,59 +16,59 @@ export default {
   /**
    * 移除用户拥有的菜单信息
    * @param state
-   * @param user_menus  用户拥有的菜单信息
+   * @param operate_menus  用户拥有的菜单信息
    */
-  [types.REMOVE_USER_MENUS] (state) {
+  [types.REMOVE_OPERATE_MENUS] (state) {
     state.menus = []
-    LocalStorage.remove('user_menus')
+    LocalStorage.remove('operate_menus')
   },
 
   /**
    * 更新用户拥有的品牌视角信息
    * @param state
-   * @param user_menus  用户拥有的品牌视角信息
+   * @param operate_menus  用户拥有的品牌视角信息
    */
-  [types.UPDATE_USER_BRANDS] (state, {brands}) {
+  [types.UPDATE_OPERATE_BRANDS] (state, {brands}) {
     state.brands = brands
-    LocalStorage.set('user_brands', state.brands)
+    LocalStorage.set('operate_brands', state.brands)
   },
 
   /**
    * 移除用户拥有的品牌视角信息
    * @param state
-   * @param user_menus  用户拥有的品牌视角信息
+   * @param operate_menus  用户拥有的品牌视角信息
    */
-  [types.REMOVE_USER_BRANDS] (state) {
+  [types.REMOVE_OPERATE_BRANDS] (state) {
     state.brands = []
-    LocalStorage.remove('user_brands')
+    LocalStorage.remove('operate_brands')
   },
   /**
    * 更新用户当前的品牌视角信息
    * @param state
-   * @param user_menus  用户拥有的品牌视角信息
+   * @param operate_menus  用户拥有的品牌视角信息
    */
-  [types.UPDATE_USER_BRAND] (state, {brand}) {
+  [types.UPDATE_OPERATE_BRAND] (state, {brand}) {
     state.brand = brand
-    LocalStorage.set('user_brand', state.brand)
+    LocalStorage.set('operate_brand', state.brand)
   },
 
   /**
    * 移除用户当前品牌视角信息
    * @param state
-   * @param user_menus  用户拥有的品牌视角信息
+   * @param operate_menus  用户拥有的品牌视角信息
    */
-  [types.REMOVE_USER_BRAND] (state) {
+  [types.REMOVE_OPERATE_BRAND] (state) {
     state.brand = []
-    LocalStorage.remove('user_brand')
+    LocalStorage.remove('operate_brand')
   },
   /**
    * 更新是否记住密码
    * @param state
-   * @param user_db 用户信息
+   * @param operate_db 用户信息
    */
-  [types.UPDATE_REMUMBER] (state, userDb) {
-    state.remumber.remumber_flag = userDb.remumber_flag
-    state.remumber.remumber_login_info = userDb.remumber_login_info
+  [types.UPDATE_REMUMBER] (state, operateDb) {
+    state.remumber.remumber_flag = operateDb.remumber_flag
+    state.remumber.remumber_login_info = operateDb.remumber_login_info
 
     LocalStorage.set('remumber_flag', state.remumber.remumber_flag)
     LocalStorage.set('remumber_login_info', state.remumber.remumber_login_info)

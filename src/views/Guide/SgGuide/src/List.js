@@ -901,6 +901,7 @@ export default {
   },
   mounted: function () {
     var _this = this
+    console.log(this.$store)
     _this.initShopList()
   }
 }

@@ -7,7 +7,7 @@ export default {
     brand
   }) => {
     return new Promise((resolve, reject) => {
-      commit(types.UPDATE_USER_BRAND, {
+      commit(types.UPDATE_OPERATE_BRAND, {
         brand
       })
       resolve()
@@ -15,7 +15,7 @@ export default {
   },
   remove_user_brand: ({commit}) => {
     return new Promise((resolve, reject) => {
-      commit(types.REMOVE_USER_BRAND)
+      commit(types.REMOVE_OPERATE_BRAND)
       resolve()
     })
   },
@@ -45,11 +45,11 @@ export default {
             menus: data.menus
           })
           // 视角初始化
-          commit(types.UPDATE_USER_BRANDS, {
+          commit(types.UPDATE_OPERATE_BRANDS, {
             brands: data.brands
           })
           // 当前视角初始化
-          commit(types.UPDATE_USER_BRAND, {
+          commit(types.UPDATE_OPERATE_BRAND, {
             brand: data.brand
           })
 
@@ -75,9 +75,9 @@ export default {
       http.fetch(api.core.access.exit).then((resp) => {
         commit(types.UPDATE_LOGIN_REFRESH, true)
         commit(types.REMOVE_REMUMBER)
-        commit(types.REMOVE_USER_MENUS)
-        commit(types.REMOVE_USER_BRANDS)
-        commit(types.REMOVE_USER_BRAND)
+        commit(types.REMOVE_OPERATE_MENUS)
+        commit(types.REMOVE_OPERATE_BRANDS)
+        commit(types.REMOVE_OPERATE_BRAND)
         window.location.href = resp.result ? resp.result : '/casLogin'
         resolve(resp)
       }).catch(reject)
@@ -87,9 +87,9 @@ export default {
     return new Promise((resolve, reject) => {
       // commit(types.UPDATE_LOGIN_REFRESH, true)
       // commit(types.REMOVE_REMUMBER)
-      // commit(types.REMOVE_USER_MENUS)
-      // commit(types.REMOVE_USER_BRANDS)
-      // commit(types.REMOVE_USER_BRAND)
+      // commit(types.REMOVE_OPERATE_MENUS)
+      // commit(types.REMOVE_OPERATE_BRANDS)
+      // commit(types.REMOVE_OPERATE_BRAND)
       // window.location.href = '/casLogin'
       resolve()
     })
