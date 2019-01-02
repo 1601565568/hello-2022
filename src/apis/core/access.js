@@ -12,7 +12,7 @@ const treeFn = (err, rows) => {
   function findItemChild (item) {
     var arrayList = []
     for (var i in allMenu) {
-      if (allMenu[i].parent === item.id) {
+      if (Number(allMenu[i].parent) === Number(item.id)) {
         arrayList.push(allMenu[i])
       }
     }
@@ -89,6 +89,59 @@ export default {
     url: '/core/access/hasLoginAccountExist',
     method: 'get'
   },
+  getCloudSession: {
+    url: '/operate/getSession',
+    method: 'get',
+    callback: function (res, resolve, reject) {
+      if (res.data.success) {
+        res.data.result = {
+          name: res.data.result.loginAccount,
+          nick: res.data.result.userName,
+          menus: res.data.result.menus,
+          brands: res.data.result.views,
+          brand: {
+            id: res.data.result.currentView.viewId,
+            name: res.data.result.currentView.viewName,
+            brandType: res.data.result.currentView.viewType
+          }
+        }
+
+        if (res.data.result.menus.length > 0) {
+          res.data.result.menus = treeFn(null, res.data.result.menus.map((v) => {
+            return {
+              path: v.url ? v.url : '',
+              name: v.code,
+              title: v.name,
+              icon: v.icon ? v.icon : '',
+              parent: v.parent_id,
+              id: v.id
+            }
+          }))
+            // 默认跳转到第子级第一个菜单
+          res.data.result.menus.map((item) => {
+            if (item.children.length > 0) {
+              item.children.map((subItem) => {
+                if (subItem.children.length > 0 && subItem.children[0].path) {
+                  subItem.path = subItem.children[0].path
+                }
+                return subItem
+              })
+              item.path = item.children[0].path
+            }
+            return item
+          })
+        }
+
+        resolve(res.data.result)
+      } else {
+        reject(res.data)
+      }
+    }
+  },
+  operateLogin: {
+    url: '/operate/login',
+    method: 'post'
+  },
   exit: {
     url: '/core/access/exit',
     method: 'get'
@@ -96,5 +149,14 @@ export default {
   getCloudPlatformAddress: {
     url: '/getCloudPlatformAddress',
     method: 'get'
+  },
+  saveOrUpdateMenu: {
+    url: '/operate/saveOrUpdateMenu',
+    method: 'post'
+  },
+  deleteMenu: {
+    url: ' /operate/deleteMenu',
+    method: 'get'
   }
+
 }

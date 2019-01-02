@@ -6,6 +6,7 @@ import actions from './actions'
 import mutations from './mutations'
 import leftmenu from './modules/leftmenu'
 import user from './modules/user'
+import operate from './modules/operate'
 
 Vue.use(Vuex)
 
@@ -16,6 +17,7 @@ export default new Vuex.Store({
   mutations,
   modules: {
     user,
-    leftmenu
+    leftmenu,
+    operate
   }
 })

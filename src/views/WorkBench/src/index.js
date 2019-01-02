@@ -532,5 +532,8 @@ export default {
         ]
       }
     }
+  },
+  mounted () {
+    console.log('VUEX:', this.$store)
   }
 }
