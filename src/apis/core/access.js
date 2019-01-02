@@ -157,6 +157,11 @@ export default {
   deleteMenu: {
     url: ' /operate/deleteMenu',
     method: 'get'
+  },
+  getListSession: {
+    url: '/operate/getSession',
+    method: 'get'
+
   }
 
 }
