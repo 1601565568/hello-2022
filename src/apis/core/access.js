@@ -151,11 +151,11 @@ export default {
     method: 'get'
   },
   saveOrUpdateMenu: {
-    url: '/operate/saveOrUpdateMenu',
+    url: '/operate/action/saveOrUpdateMenu',
     method: 'post'
   },
   deleteMenu: {
-    url: ' /operate/deleteMenu',
+    url: '/operate/action/deleteMenu',
     method: 'get'
   },
   getListSession: {

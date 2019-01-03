@@ -6,25 +6,25 @@
           <el-card class="overview-content__item" shadow="never">
               <div class="overview-content__item--select">
                 时间：
-                <el-select v-model="value" placeholder="请选择" round>
-                  <el-option
-                    v-for="item in options"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value">
-                  </el-option>
-                </el-select>
+                <el-date-picker
+                    prefix-icon='none'
+                    @change='change'
+                    type="month"
+                    v-model="searchObj.monthDate"
+                    clear-icon='none'
+                    placeholder="选择月">
+                  </el-date-picker>
               </div>
               <div class="overview-content__item--select">
                 门店：
-                <el-select v-model="value" placeholder="请选择">
+                <el-select v-model="searchObj.id" filterable placeholder="请选择门店" @change='shopSelect(searchObj.id)'>
                   <el-option
-                    v-for="item in options"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value">
+                    v-for="(item,index) in shopArr"
+                    :key="item.id"
+                    :label="item.shopName"
+                    :value="item.id">
                   </el-option>
-                </el-select>
+                  </el-select>
               </div>
           </el-card>
         </el-col>
@@ -36,17 +36,18 @@
               </p>
               <p>
                 <span class="font-size-large">￥</span>
-                <el-countup
+                <span class="font-size-large">{{getRewardInfoObj.payment}}</span>
+                <!-- <el-countup
                   class="font-size-large"
                   :start="0"
-                  :end="85315.00"
+                  :end="getRewardInfoObj.payment||0"
                   :duration="1.5"
                   :decimal="2">
-                </el-countup>
+                </el-countup> -->
               </p>
             </div>
             <div class="overview-content__item-right">
-              <el-progress type="circle" :width=70 :stroke-width=4 :percentage="25" color="#0091FA"></el-progress>
+              <el-progress type="circle" :width=70 :stroke-width=4 :percentage="getRewardInfoObj.paymentPersent" color="#0091FA"></el-progress>
             </div>
           </el-card>
         </el-col>
@@ -56,20 +57,21 @@
               <p class="font-size-base text-secondary">
                 招募会员
               </p>
-              <p>
-                <el-countup
+              <p >
+                <span class="font-size-large">{{getRewardInfoObj.memberCount}}</span>
+                <!-- <el-countup
                   class="font-size-large"
                   :start="0"
-                  :end="853"
-                  :duration="1.5"
-                  :decimal="0">
-                </el-countup>
-                <span class="text-secondary">(总：12405931)</span>
+                  :end="||0"
+                  :duration="1.5">
+                </el-countup> -->
+                <span class="text-secondary">(总：未给招募总数字段)</span>
               </p>
             </div>
             <div class="overview-content__item-right">
-              <el-progress type="circle" :width=70 :stroke-width=4 :percentage="80" color="#f56c6c" :show-text=false></el-progress>
-              <p class="overview-content__item-right--progress-text">目标</p>
+              <el-progress type="circle" :width=70 :stroke-width=4 :percentage="getRewardInfoObj.memberCountPersent" color="#f56c6c" ></el-progress>
+              <!-- <p class="overview-content__item-right--progress-text">{{getRewardInfoObj.recruitQuota}}</p> -->
+              <!-- :show-text=false -->
             </div>
           </el-card>
         </el-col>
@@ -80,14 +82,15 @@
               </p>
               <p>
                 <span class="font-size-large">￥</span>
-                <el-countup
+                <span class="font-size-xlarge">{{getRewardInfoObj.reward}}</span>
+                <!-- <el-countup
                   class="font-size-xlarge"
                   :start="0"
-                  :end="5999.00"
+                  :end=
                   :duration="1.5"
                   :decimal="2">
-                </el-countup>
-                <span class="text-secondary">(￥5000.00 + ￥999.00)</span>
+                </el-countup> -->
+                <span class="text-secondary">（￥{{getRewardInfoObj.sellReward}}+￥{{getRewardInfoObj.recruitReward}}）</span>
               </p>
           </el-card>
         </el-col>
@@ -98,13 +101,13 @@
           <div class="overview-content__title">
             <span>销售趋势（元）</span>
           </div>
-          <div v-loading.lock="false"
+          <div v-loading.lock="loadingShopSell"
                :element-loading-text="$t('prompt.loading')">
             <!-- 暂无数据结构 -->
-            <div class="no-data" v-if="!isSaleData">
+            <div class="no-data" v-if="!isSaleData" style='height:400px'>
             </div>
             <template v-if="isSaleData">
-              <business-echarts :options="lineChartOption1" class="oscillogram" auto-resize></business-echarts>
+              <business-echarts :options="saleOption" class="oscillogram" auto-resize></business-echarts>
             </template>
           </div>
         </div>
@@ -114,13 +117,13 @@
           <div class="overview-content__title overview-content__title--pink">
             <span>招募会员趋势</span>
           </div>
-          <div v-loading.lock="false"
+          <div v-loading.lock="loadingRecruit"
                :element-loading-text="$t('prompt.loading')">
             <!-- 暂无数据结构 -->
-            <div class="no-data" v-if="!isSaleData">
+            <div class="no-data" v-if="!isRecruitData" style='height:400px'>
             </div>
-            <template v-if="isSaleData">
-              <business-echarts :options="lineChartOption2" class="oscillogram" auto-resize></business-echarts>
+            <template v-if="isRecruitData">
+              <business-echarts :options="recruitOption" class="oscillogram" auto-resize></business-echarts>
             </template>
           </div>
         </div>
@@ -132,13 +135,12 @@
           <div class="overview-content__title overview-content__title--yellow">
             <span>导购提成及奖励</span>
           </div>
-          <div v-loading.lock="false"
+          <div v-loading.lock="loadingReward"
                :element-loading-text="$t('prompt.loading')">
             <!-- 暂无数据结构 -->
-            <div class="no-data" v-if="!isSaleData">
-            </div>
-            <template v-if="isSaleData">
-              <business-echarts :options="rewardChartOption" class="oscillogram" auto-resize></business-echarts>
+            <div class="no-data" v-if="!isRewardDate"></div>
+            <template v-if="isRewardDate">
+              <business-echarts :options="rewardOption" class="oscillogram" auto-resize></business-echarts>
             </template>
           </div>
         </div>
@@ -150,13 +152,13 @@
           <div class="overview-content__title">
             <span>门店销售排行榜</span>
           </div>
-          <div v-loading.lock="false"
+          <div v-loading.lock="loadingShopSell"
                :element-loading-text="$t('prompt.loading')">
             <!-- 暂无数据结构 -->
-            <div class="no-data" v-if="!isSaleData">
+            <div class="no-data" v-if="!isShopSellData" style='height:550px'>
             </div>
-            <template v-if="isSaleData">
-              <business-echarts :options="barChartOption1" class="oscillogram" auto-resize></business-echarts>
+            <template v-if="isShopSellData">
+              <business-echarts :options="shopSellOption" class="oscillogram" auto-resize></business-echarts>
             </template>
           </div>
         </div>
@@ -166,13 +168,13 @@
           <div class="overview-content__title">
             <span>导购销售排行榜</span>
           </div>
-          <div v-loading.lock="false"
+          <div v-loading.lock="loadingGuideSell"
                :element-loading-text="$t('prompt.loading')">
             <!-- 暂无数据结构 -->
-            <div class="no-data" v-if="!isSaleData">
+            <div class="no-data" v-if="!isGuideSellData" style='height:550px'>
             </div>
-            <template v-if="isSaleData">
-              <business-echarts :options="barChartOption2" class="oscillogram" auto-resize></business-echarts>
+            <template v-if="isGuideSellData">
+              <business-echarts :options="guideSellOption" class="oscillogram" auto-resize></business-echarts>
             </template>
           </div>
         </div>
@@ -182,15 +184,15 @@
       <el-col :span="12">
         <div class="overview-echart__item overview-echart__item--larger">
           <div class="overview-content__title">
-            <span>门店销售排行榜</span>
+            <span>门店招募排行榜</span>
           </div>
-          <div v-loading.lock="false"
+          <div v-loading.lock="loadingShopRecruit"
                :element-loading-text="$t('prompt.loading')">
             <!-- 暂无数据结构 -->
-            <div class="no-data" v-if="!isSaleData">
+            <div class="no-data" v-if="!isShopRecruitData" style='height:550px'>
             </div>
-            <template v-if="isSaleData">
-              <business-echarts :options="barChartOption3" class="oscillogram" auto-resize></business-echarts>
+            <template v-if="isShopRecruitData">
+              <business-echarts :options="shopRecruitOption" class="oscillogram" auto-resize></business-echarts>
             </template>
           </div>
         </div>
@@ -198,15 +200,15 @@
       <el-col :span="12">
         <div class="overview-echart__item overview-echart__item--larger">
           <div class="overview-content__title">
-            <span>导购销售排行榜</span>
+            <span>导购招募排行榜</span>
           </div>
-          <div v-loading.lock="false"
+          <div v-loading.lock="loadingGuideRecruit"
                :element-loading-text="$t('prompt.loading')">
             <!-- 暂无数据结构 -->
-            <div class="no-data" v-if="!isSaleData">
+            <div class="no-data" v-if="!isGuideRecruitData" style='height:550px'>
             </div>
-            <template v-if="isSaleData">
-              <business-echarts :options="barChartOption4" class="oscillogram" auto-resize></business-echarts>
+            <template v-if="isGuideRecruitData">
+              <business-echarts :options="guideRecruitOption" class="oscillogram" auto-resize></business-echarts>
             </template>
           </div>
         </div>
@@ -275,8 +277,8 @@
                 top: 50%;
                 right: 40px;
                 margin-top: -30px;
-                width: 60px;
-                height: 60px;
+                width: 70px;
+                height: 70px;
                 img {
                   width: 60px;
                   height: 60px;
@@ -294,8 +296,8 @@
               padding: var(--default-padding-base);
               display: flex;
               align-items: center;
-              >>> .el-select {
-                padding-left: var(--default-padding-larger);
+              >>> .el-select,.el-date-editor{
+                /* padding-left: var(--default-padding-larger); */
                 flex: 1;
               }
             }

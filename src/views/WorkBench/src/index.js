@@ -7,64 +7,37 @@ export default {
     businessEcharts
   },
   data () {
+    let monthDate = new Date().getFullYear() + '-' + (new Date().getMonth() + 1)
+    let xAxisArr = []
+    for (let i = 1; i <= this.getMonthLength(new Date()); i++) {
+      xAxisArr.push(i + '日')
+    }
     return {
-      options: [{
-        value: '选项1',
-        label: '2018.11'
-      }, {
-        value: '选项2',
-        label: '2018.12'
-      }],
-      value: '选项1',
-      constantlyData1: [
-        {
-          type: 'price',
-          value: 0,
-          totalTitle: '今日付款总额',
-          decimal: 2,
-          titleNum: [
-            {title: '昨日付款总额', num: 0},
-            {title: '近30日付款总额', num: 0},
-            {title: '今日退款总额', num: 0}
-          ]
-        },
-        {
-          type: 'number',
-          value: 0,
-          totalTitle: '今日付款订单',
-          decimal: 0,
-          titleNum: [
-            {title: '昨日付款订单', num: 0},
-            {title: '近30日付款订单', num: 0},
-            {title: '今日付款订单', num: 0}
-          ]
-        },
-        {
-          type: 'number',
-          value: 0,
-          totalTitle: '今日付款客户',
-          decimal: 0,
-          titleNum: [
-            {title: '昨日付款客户', num: 0},
-            {title: '近30日付款客户', num: 0},
-            {title: '今日回购客户', num: 0}
-          ]
-        },
-        {
-          type: 'number',
-          value: 0,
-          totalTitle: '今日新增会员',
-          decimal: 0,
-          titleNum: [
-            {title: '昨日新增会员', num: 0},
-            {title: '近30日新增会员', num: 0},
-            {title: '今日新增会员', num: 0}
-          ]
-        }
-      ],
+      searchObj: {
+        id: null,
+        monthDate: monthDate
+      },
+      shopArr: [{
+        shopName: '所有门店',
+        id: null
+      }], // 所有门店
+      shopMap: {},
+      getRewardInfoObj: {}, // 当月业绩情况对象
       isSaleData: true, // 是否有数据展示
-      isSaleData1: false, // 是否有数据展示
-      lineChartOption1: {
+      isRecruitData: true,
+      isRewardDate: true,
+      isShopSellData: true,
+      isGuideSellData: true,
+      isShopRecruitData: true,
+      isGuideRecruitData: true,
+      loadingSell: false,
+      loadingRecruit: false,
+      loadingReward: false,
+      loadingShopSell: false,
+      loadingGuideSell: false,
+      loadingShopRecruit: false,
+      loadingGuideRecruit: false,
+      saleOption: {
         tooltip: {
           formatter: '{c}',
           borderColor: '#E4E7ED',
@@ -86,7 +59,7 @@ export default {
           axisLabel: {
             padding: [10, 0, 0, 0]
           },
-          data: ['1', '2', '3', '4', '5', '6', '7']
+          data: xAxisArr
         },
         yAxis: {
           type: 'value',
@@ -110,7 +83,7 @@ export default {
         },
         series: [{
           color: '#1299FA',
-          data: [400, 800, 650, 900, 600, 950, 500],
+          data: [],
           smooth: 0.35,
           symbolSize: 8,
           type: 'line',
@@ -130,9 +103,9 @@ export default {
           }
         }]
       },
-      lineChartOption2: {
+      recruitOption: {
         tooltip: {
-          formatter: '{c}',
+          // formatter: '{c}',
           borderColor: '#E4E7ED',
           borderWidth: 1.4,
           backgroundColor: '#fff',
@@ -152,7 +125,7 @@ export default {
           axisLabel: {
             padding: [10, 0, 0, 0]
           },
-          data: ['1', '2', '3', '4', '5', '6', '7']
+          data: xAxisArr
         },
         yAxis: {
           type: 'value',
@@ -176,7 +149,7 @@ export default {
         },
         series: [{
           color: '#FF3A3A',
-          data: [400, 800, 650, 900, 600, 950, 500],
+          data: [],
           smooth: 0.35,
           symbolSize: 8,
           type: 'line',
@@ -196,7 +169,7 @@ export default {
           }
         }]
       },
-      barChartOption1: {
+      shopSellOption: {
         tooltip: {
           trigger: 'axis',
           axisPointer: {            // 坐标轴指示器，坐标轴触发有效
@@ -238,12 +211,13 @@ export default {
           axisTick: {
             show: false
           },
+          inverse: true,
           axisLabel: {
             color: '#999999',
             padding: [0, 10, 0, 0]
           },
           type: 'category',
-          data: ['厦门sm店', '福州万达店', '厦门前埔店', '泉州店', '成都天泉店', '郑州二七店', '莆田正荣店', '北京王府井店', '扬州店', '广州天河店']
+          data: []
         },
         series: {
           barWidth: 24,
@@ -257,10 +231,10 @@ export default {
               ])
           },
           type: 'bar',
-          data: [30000, 60000, 105000, 120000, 140000, 155000, 170000, 190000, 220000, 240000]
+          data: []
         }
       },
-      barChartOption2: {
+      guideSellOption: {
         tooltip: {
           trigger: 'axis',
           axisPointer: {            // 坐标轴指示器，坐标轴触发有效
@@ -307,7 +281,7 @@ export default {
             padding: [0, 10, 0, 0]
           },
           type: 'category',
-          data: ['厦门sm店', '福州万达店', '厦门前埔店', '泉州店', '成都天泉店', '郑州二七店', '莆田正荣店', '北京王府井店', '扬州店', '广州天河店']
+          data: []
         },
         series: {
           barWidth: 24,
@@ -321,10 +295,10 @@ export default {
               ])
           },
           type: 'bar',
-          data: [30000, 60000, 105000, 120000, 140000, 155000, 170000, 190000, 220000, 240000]
+          data: []
         }
       },
-      barChartOption3: {
+      shopRecruitOption: {
         tooltip: {
           trigger: 'axis',
           axisPointer: {            // 坐标轴指示器，坐标轴触发有效
@@ -366,12 +340,13 @@ export default {
           axisTick: {
             show: false
           },
+          inverse: true,
           axisLabel: {
             color: '#999999',
             padding: [0, 10, 0, 0]
           },
           type: 'category',
-          data: ['厦门sm店', '福州万达店', '厦门前埔店', '泉州店', '成都天泉店', '郑州二七店', '莆田正荣店', '北京王府井店', '扬州店', '广州天河店']
+          data: []
         },
         series: {
           barWidth: 24,
@@ -385,10 +360,10 @@ export default {
               ])
           },
           type: 'bar',
-          data: [30000, 60000, 105000, 120000, 140000, 155000, 170000, 190000, 220000, 240000]
+          data: []
         }
       },
-      barChartOption4: {
+      guideRecruitOption: {
         tooltip: {
           trigger: 'axis',
           axisPointer: {            // 坐标轴指示器，坐标轴触发有效
@@ -434,8 +409,9 @@ export default {
             color: '#999999',
             padding: [0, 10, 0, 0]
           },
+          inverse: true,
           type: 'category',
-          data: ['厦门sm店', '福州万达店', '厦门前埔店', '泉州店', '成都天泉店', '郑州二七店', '莆田正荣店', '北京王府井店', '扬州店', '广州天河店']
+          data: []
         },
         series: {
           barWidth: 24,
@@ -449,10 +425,10 @@ export default {
               ])
           },
           type: 'bar',
-          data: [30000, 60000, 105000, 120000, 140000, 155000, 170000, 190000, 220000, 240000]
+          data: []
         }
       },
-      rewardChartOption: {
+      rewardOption: {
         color: ['#FD9B00', '#F7C71F'],
         tooltip: {
           trigger: 'axis',
@@ -488,7 +464,7 @@ export default {
               show: false
             },
             type: 'category',
-            data: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15']
+            data: xAxisArr
           }
         ],
         yAxis: [
@@ -516,7 +492,7 @@ export default {
             barCategoryGap: '30px',
             type: 'bar',
             stack: 'stack',
-            data: [120, 132, 101, 134, 90, 230, 210, 123, 221, 154, 310, 120, 132, 101, 134, 120, 132, 101, 134, 90, 230, 210, 123, 221, 154, 310, 120, 132, 101, 134]
+            data: []
           },
           {
             itemStyle: {
@@ -527,13 +503,311 @@ export default {
             name: '招募奖励',
             type: 'bar',
             stack: 'stack',
-            data: [150, 232, 201, 154, 190, 230, 310, 323, 290, 350, 150, 232, 201, 154, 190, 150, 232, 201, 154, 190, 230, 310, 323, 290, 350, 150, 232, 201, 154, 190]
+            data: []
           }
         ]
       }
     }
   },
+  methods: {
+    change () {
+      this.saleOption.xAxis.data = []
+      this.recruitOption.xAxis.data = []
+      this.rewardOption.xAxis.data = []
+      let monthLength = this.getMonthLength(this.searchObj.monthDate)
+      for (let i = 1; i <= monthLength; i++) {
+        this.saleOption.xAxis.data.push(i + '日')
+        this.recruitOption.xAxis.data.push(i + '日')
+        this.rewardOption.xAxis.data.push(i + '日')
+      }
+      this.searchObj.monthDate = ('' + this.searchObj.monthDate.getFullYear() + '-' + (this.searchObj.monthDate.getMonth() + 1))
+      if (this.searchObj.id) {
+        this.getRewardInfo(this.searchObj.id)
+        this.findDailySell(this.searchObj.id)
+        this.findDailyRecruit(this.searchObj.id)
+        this.findDailyReward(this.searchObj.id)
+        this.findShopRanking(0, this.searchObj.id)
+        this.findShopRanking(1, this.searchObj.id)
+        this.findGuideRanking(0, this.searchObj.id)
+        this.findGuideRanking(1, this.searchObj.id)
+      } else {
+        this.getRewardInfo()
+        this.findDailySell()
+        this.findDailyRecruit()
+        this.findDailyReward()
+        this.findShopRanking()
+        this.findShopRanking(1)
+        this.findGuideRanking(0, null)
+        this.findGuideRanking(1, null)
+      }
+    },
+    shopSelect (id) {
+      if (id === null) {
+        this.getRewardInfo()
+        this.findDailySell()
+        this.findDailyRecruit()
+        this.findDailyReward()
+        this.findGuideRanking(0, null)
+        this.findGuideRanking(1, null)
+      } else {
+        this.getRewardInfo(id)
+        this.findDailySell(id)
+        this.findDailyRecruit(id)
+        this.findDailyReward(id)
+        this.findGuideRanking(0, id)
+        this.findGuideRanking(1, id)
+      }
+    },
+    getMonthLength (d) { // 给定一个日期  计算出当月天数
+      // 将日期设置为下月一号
+      d.setMonth(d.getMonth() + 1)
+      d.setDate('1')
+      // 获取本月最后一天
+      d.setDate(d.getDate() - 1)
+      return d.getDate()
+    },
+    async findShopList () { // 查询店铺
+      await this.$http
+        .fetch(this.$api.guide.shop.findBrandShopList)
+        .then(resp => {
+          this.shopArr = [...this.shopArr, ...resp.result]
+          for (let i = 0; i < resp.result.length; i++) {
+            this.shopMap[resp.result[i].id] = resp.result[i].shopName
+          }
+        })
+        .catch(resp => {
+          this.$notify.error('查询失败：')
+        })
+    },
+    async getRewardInfo (id) { // 当月业绩情况查询
+      let parms = {}
+      parms.monthDate = this.searchObj.monthDate
+      if (id) {
+        parms.shopId = id
+      }
+      await this.$http
+        .fetch(this.$api.overView.getRewardInfo, parms)
+        .then(resp => {
+          if (resp !== null) {
+            if (!resp.result.sellQuota || resp.result.payment > resp.result.sellQuota) {
+              resp.result.paymentPersent = 100
+            } else {
+              resp.result.paymentPersent = Number((resp.result.payment ? Number((resp.result.payment * 100 / resp.result.sellQuota).toFixed(2)) : 0))
+            }
+            if (!resp.result.recruitQuota || resp.result.memberCount > resp.result.recruitQuota) {
+              resp.result.memberCountPersent = 100
+            } else {
+              if (!resp.result.memberCount) {
+                resp.result.memberCountPersent = 0
+              } else {
+                resp.result.memberCountPersent = Number((resp.result.memberCount * 100 / resp.result.recruitQuota).toFixed(2))
+              }
+            }
+            resp.result.payment = (resp.result.payment || 0).toFixed(2)
+            resp.result.reward = (resp.result.reward || 0).toFixed(2)
+            resp.result.sellReward = (resp.result.sellReward || 0).toFixed(2)
+            resp.result.recruitReward = (resp.result.recruitReward || 0).toFixed(2)
+            this.getRewardInfoObj = resp.result
+          }
+        })
+        .catch(resp => {
+          this.$notify.error('查询失败：')
+        })
+    },
+    async findDailySell (id) { // 当月销售业绩按日查询
+      this.loadingSell = true
+      let parms = {
+        type: 0
+      }
+      let that = this
+      parms.monthDate = this.searchObj.monthDate
+      if (id) {
+        parms.shopId = id
+      }
+      await this.$http
+        .fetch(this.$api.overView.findDailyTrend, parms)
+        .then(resp => {
+          that.loadingSell = false
+          if (resp.result === null || resp.result.length === 0) {
+            that.isSaleData = false
+          } else {
+            that.isSaleData = true
+            that.sellOption.series[0].data = resp.result
+          }
+        })
+        .catch(resp => {
+          this.$notify.error('查询失败：')
+        })
+    },
+    async findDailyRecruit (id) { // 当月招募人数按日查询
+      this.loadingRecruit = true
+      let parms = {
+        type: 1
+      }
+      let that = this
+      parms.monthDate = this.searchObj.monthDate
+      if (id) {
+        parms.shopId = id
+      }
+      await this.$http
+        .fetch(this.$api.overView.findDailyTrend, parms)
+        .then(resp => {
+          that.loadingRecruit = false
+          if (resp.result === null || resp.result.length === 0) {
+            that.isRecruitData = false
+          } else {
+            that.isRecruitData = true
+            that.recruitOption.series[0].data = resp.result.map(Number)
+          }
+        })
+        .catch(resp => {
+          that.$notify.error('查询失败：')
+        })
+    },
+    async findDailyReward (id) { // 当月收益按日查询
+      this.loadingReward = true
+      let sellRewardArr = []
+      let recruitRewardArr = []
+      let parms = {}
+      let that = this
+      parms.monthDate = this.searchObj.monthDate
+      if (id) {
+        parms.shopId = id
+      }
+      await this.$http
+        .fetch(this.$api.overView.findDailyReward, parms)
+        .then(resp => {
+          that.loadingReward = false
+          if (resp.result === null || resp.result.length === 0) {
+            that.isRewardDate = false
+          } else {
+            resp.result.map(item => {
+              sellRewardArr.push(item.sale)
+              recruitRewardArr.push(item.recruit)
+            })
+            that.isRewardDate = true
+            that.rewardOption.series[0].data = recruitRewardArr
+            that.rewardOption.series[1].data = sellRewardArr
+          }
+        })
+        .catch(resp => {
+          that.$notify.error('查询失败：')
+        })
+    },
+    async findGuideRanking (type, id) { // 当月导购排行查询
+      let parms = {
+        type: (type || 0)
+      } // 0代表销售 1代表招募
+      if (id) {
+        parms.shopId = id
+      }
+      if (!parms.type) {
+        this.loadingGuideSell = true // 门店销售
+      } else {
+        this.loadingGuideRecruit = true // 门店招募
+      }
+      let that = this
+      parms.monthDate = this.searchObj.monthDate
+      await this.$http
+        .fetch(this.$api.overView.findGuideRanking, parms)
+        .then(resp => {
+          if (!parms.type) { // 导购销售排行
+            let guideNameArr = []
+            let perfAllArr = []
+            that.loadingGuideSell = false
+            if (resp.result === null || resp.result.length === 0) {
+              that.isGuideSellData = false
+            } else {
+              resp.result.map(item => {
+                guideNameArr.push(item.name)
+                perfAllArr.push(item.perf_all)
+              })
+              that.isGuideSellData = true
+              that.guideSellOption.yAxis[0].data = guideNameArr
+              that.guideSellOption.series[0].data = perfAllArr
+              console.log('444444444444')
+            }
+          } else { // 导购招募
+            let guideNameArr = []
+            let perfAllArr = []
+            that.loadingGuideRecruit = false
+            if (resp.result === null || resp.result.length === 0) {
+              that.isGuideRecruitData = false
+            } else {
+              resp.result.map(item => {
+                guideNameArr.push(item.name)
+                perfAllArr.push(item.perf_all)
+              })
+              that.isGuideRecruitData = true
+              that.guideRecruitOption.yAxis.data = guideNameArr
+              that.guideRecruitOption.series.data = perfAllArr
+            }
+          }
+        })
+        .catch(resp => {
+          this.$notify.error('查询失败：')
+        })
+    },
+    async findShopRanking (type) { // 当月门店排行查询
+      let parms = {
+        type: (type || 0)
+      } // 0代表销售 1代表招募
+      if (!parms.type) {
+        this.loadingShopSell = true // 门店销售
+      } else {
+        this.loadingShopRecruit = true // 门店招募
+      }
+      let that = this
+      parms.monthDate = this.searchObj.monthDate
+      await this.$http
+        .fetch(this.$api.overView.findShopRanking, parms)
+        .then(resp => {
+          if (!parms.type) {
+            let shopNameArr = []
+            let paymentArr = []
+            that.loadingShopSell = false
+            if (resp.result === null || resp.result.length === 0) {
+              that.isShopSellData = false
+            } else {
+              resp.result.map(item => {
+                shopNameArr.push(item.shop_name)
+                paymentArr.push(item.payment)
+              })
+              that.isShopSellData = true
+              that.shopSellOption.yAxis.data = shopNameArr
+              that.shopSellOption.series.data = paymentArr
+            }
+          } else {
+            let shopNameArr = []
+            let memberCountArr = []
+            that.loadingShopRecruit = false
+            if (resp.result === null || resp.result.length === 0) {
+              that.isShopRecruitData = false
+            } else {
+              resp.result.map(item => {
+                shopNameArr.push(item.shop_name)
+                memberCountArr.push(item.member_count)
+              })
+              that.isShopRecruitData = true
+              that.shopRecruitOption.yAxis.data = shopNameArr
+              that.shopRecruitOption.series.data = memberCountArr
+            }
+          }
+        })
+        .catch(resp => {
+          this.$notify.error('查询失败：')
+        })
+    }
+  },
   mounted () {
-    console.log('VUEX:', this.$store)
+    this.findShopList()
+    this.getRewardInfo()
+    this.findDailySell()
+    this.findDailyRecruit()
+    this.findDailyReward()
+    this.findShopRanking()
+    this.findShopRanking(1)
+    this.findGuideRanking(0, null)
+    this.findGuideRanking(1, null)
   }
 }

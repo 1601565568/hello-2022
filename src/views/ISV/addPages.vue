@@ -8,8 +8,8 @@
       <!-- 表格 -->
       <template slot="table">
         <el-table ref="table" :data="_data._table.data" class="template-table__main" stripe resizable v-loading.lock="_data._table.loadingtable" :element-loading-text="$t('prompt.loading')" @sort-change="$orderChange$">
-          <el-table-column prop="name" label="页面标题"></el-table-column>
-          <el-table-column prop="code" label="页面code" align="left" width="280"></el-table-column>
+          <el-table-column prop="name" label="菜单标题"></el-table-column>
+          <el-table-column prop="code" label="菜单编码" align="left" width="280"></el-table-column>
           <el-table-column prop="url" label="页面路径" align="left" width="250"></el-table-column>
           <el-table-column label="ID" align="left" width="139" prop="id"></el-table-column>
           <el-table-column prop="parent_id" label="父级ID"  align="left"></el-table-column>
@@ -36,28 +36,22 @@
       </template> -->
     </ns-page-table>
     <!-- 最新弹窗模板详情开始 -->
-    <el-dialog size="small" :title="titleText" :visible.sync="dialogFormVisible" :modal-append-to-body="false" @before-close="closeDialog()">
+    <el-dialog width="40%" :title="titleText" :visible.sync="dialogFormVisible" :modal-append-to-body="false" @before-close="closeDialog()">
       <el-form :model="model" ref="form" label-width="150px" :rules="rules" placement="right">
-        <el-form-item label="微信名称：" prop="name" required>
-          <el-input type="text" placeholder="请输入微信名称" v-model="model.name" maxlength="10"></el-input>
+        <el-form-item label="菜单标题：" prop="name" required>
+          <el-input type="text" placeholder="请输入页面标题" v-model="model.name" maxlength="10"></el-input>
         </el-form-item>
-        <el-form-item label="应用ID：" prop="appid" required>
-          <el-input type="text" placeholder="请输入应用ID" v-model="model.appid" maxlength="32"></el-input>
+        <el-form-item label="父级菜单：" prop="parent_id" required>
+          <el-input type="text" placeholder="请输入父菜单ID" v-model="model.parent_id" maxlength="10"></el-input>
         </el-form-item>
-        <el-form-item label="应用密钥：" prop="secret" required>
-          <el-input type="text" placeholder="请输入应用密钥" v-model="model.secret" maxlength="50"></el-input>
+        <el-form-item label="菜单编码：" prop="code" required>
+          <el-input type="text" placeholder="请输入菜单编码" v-model="model.code" maxlength="32"></el-input>
         </el-form-item>
-        <el-form-item label="企业ID：" prop="corpid">
-          <el-input type="text" placeholder="请输入企业ID" v-model="model.corpid" maxlength="32"></el-input>
+        <el-form-item label="页面路径：" prop="url" required>
+          <el-input type="text" placeholder="请输入页面路径" v-model="model.url" maxlength="30"></el-input>
         </el-form-item>
-        <el-form-item label="企业密钥：" prop="corpsecret">
-          <el-input type="text" placeholder="请输入企业密钥" v-model="model.corpsecret" maxlength="50"></el-input>
-        </el-form-item>
-        <el-form-item label="支付ID：" prop="payId">
-          <el-input type="text" placeholder="请输入支付ID" v-model="model.payId" maxlength="50"></el-input>
-        </el-form-item>
-        <el-form-item label="支付密钥：" prop="paySecret">
-          <el-input type="text" placeholder="请输入支付密钥" v-model="model.paySecret" maxlength="100"></el-input>
+        <el-form-item label="页面描述：" prop="description">
+          <el-input type="text" placeholder="请输入页面描述" v-model="model.description" maxlength="30"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -96,18 +90,9 @@ export default {
     ]
     return {
       model: {
-        id: null,
-        name: null,
-        appid: null,
-        secret: null,
-        corpid: null,
-        corpsecret: null,
-        openKey: null,
-        openSecret: null,
-        payId: null,
-        paySecret: null,
-        param: {}
+
       },
+      menuArr: [],
       obj: {
         appId: null
       },
@@ -132,7 +117,7 @@ export default {
         table_buttons: tableButtons
       },
       rules: {
-        'name': [{required: true, message: '请输入微信名称'}, {
+        'name': [{required: true, message: '请输入菜单名称'}, {
           validator: (rule, value, callback) => {
             if (value && value.length > 10) {
               callback(new Error('名称长度不得超过10位'))
@@ -142,20 +127,21 @@ export default {
           },
           trigger: 'blur'
         }],
-        'appid': [{required: true, message: '请输入应用ID'}, {
+        'parent_id': [{required: true, message: '请输入父菜单ID'}],
+        'code': [{required: true, message: '请输入菜单编码'}, {
           validator: (rule, value, callback) => {
             if (value && value.length > 32) {
-              callback(new Error('应用ID长度不得超过32位'))
+              callback(new Error('菜单编码长度不得超过32位'))
             } else {
               callback()
             }
           },
           trigger: 'blur'
         }],
-        'secret': [{required: true, message: '请输入应用密钥'}, {
+        'url': [{required: true, message: '请输入页面配置路径'}, {
           validator: (rule, value, callback) => {
-            if (value && value.length > 50) {
-              callback(new Error('应用密钥长度不得超过50位'))
+            if (value && value.length > 30) {
+              callback(new Error('页面配置路径长度不得超过30位'))
             } else {
               callback()
             }
@@ -173,21 +159,17 @@ export default {
     }
   },
   methods: {
+    menuChage () {
+      console.log(this.model)
+    },
     onSaveOpen (row) { // 新增或编辑
       if (row.id) {
         this.dialogFormVisible = true
         this.titleText = '编辑页面'
-        this.model.id = row.id
-        this.model.name = row.name
-        this.model.appid = row.appid
-        this.model.secret = row.secret
-        this.model.corpid = row.corpid
-        this.model.corpsecret = row.corpsecret
-        this.model.openKey = row.open_key
-        this.model.openSecret = row.open_secret
-        this.model.payId = row.pay_id
-        this.model.paySecret = row.pay_secret
+        this.model = row
       } else {
+        this.titleText = '新增页面'
+        this.model = {}
         this.dialogFormVisible = true
       }
       // this.newestDialog = true
@@ -253,11 +235,19 @@ export default {
       let that = this
       that.$refs.form.validate((valid) => {
         if (valid) {
-          that.$http.fetch(that.$api.guide.sgwxaccount.save, that.model).then(() => {
+          that.$http.fetch(that.$api.core.access.saveOrUpdateMenu, that.model).then(() => {
             that.dialogFormVisible = false
-            that.newestDialog = false
             that.$notify.success('保存成功')
             that.$reload()
+            that.$http.fetch(that.$api.core.access.getCloudSession)
+              .then((data) => {
+                that.$store.commit('operate/UPDATE_OPERATE_MENUS', {
+                  menus: data.menus
+                })
+              })
+              .catch(resp => {
+
+              })
           }).catch((resp) => {
             that.$notify.error(resp.msg || '保存失败')
           })
@@ -268,11 +258,19 @@ export default {
       apiRequestConfirm('永久删除该数据')
       .then(() => {
         let that = this
-        that.$http.fetch(that.$api.guide.sgwxaccount.delete, {id: row.id}).then(() => {
+        that.$http.fetch(that.$api.core.access.deleteMenu, {id: row.id}).then(() => {
           that.dialogFormVisible = false
-          that.newestDialog = false
           that.$notify.success('删除成功')
           that.$reload()
+          that.$http.fetch(that.$api.core.access.getCloudSession)
+              .then((data) => {
+                that.$store.commit('operate/UPDATE_OPERATE_MENUS', {
+                  menus: data.menus
+                })
+              })
+              .catch(resp => {
+
+              })
         }).catch((resp) => {
           that.$notify.error(resp.msg || '删除失败')
         })
@@ -300,6 +298,7 @@ export default {
       tableConfig.loadingtable = true
       return this.$http.fetch(this.url).then((resp) => {
         console.log('resp:', resp)
+        this.menuArr = [{name: '根菜单', parent_id: '0'}, ...resp.result.menus]
         that._data._table.data = resp.result.menus
         // that.payTotal = resp.result.payTotal
         // that.rechargeTotal = resp.result.rechargeTotal
