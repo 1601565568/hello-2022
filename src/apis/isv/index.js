@@ -53,5 +53,45 @@ export default {
   getAppletCategoryList: {
     url: '/guide/wechatsetting/getAppletCategoryList',
     method: 'get'
+  },
+  // 查询域名配置
+  wechatsettingGetDomainInfo: {
+    url: '/guide/wechatsetting/getDomainInfo',
+    method: 'get'
+  },
+  // 查询小程序列表
+  wechatsettingGetAppletList: {
+    url: '/guide/wechatsetting/getAppletList',
+    method: 'post'
+  },
+  // 查询小程序可选类目
+  wechatsettingGetAppletCategoryList: {
+    url: '/guide/wechatsetting/getAppletCategoryList',
+    method: 'get'
+  },
+  // 查询小程序页面配置
+  wechatsettingGetAppletPageList: {
+    url: '/guide/wechatsetting/getAppletPageList',
+    method: 'get'
+  },
+  // 查询已审核成功的模板
+  getAuthedAppletCodeTemplate: {
+    url: '/guide/wechatsetting/getAuthedAppletCodeTemplate',
+    method: 'get'
+  },
+  // 查询模板列表
+  getAppletCodeTemplateList: {
+    url: '/guide/wechatsetting/getAppletCodeTemplateList',
+    method: 'post'
+  },
+  // 查询模板详情信息
+  getTemplateInfo: {
+    url: '/guide/wechatsetting/getTemplateInfo',
+    method: 'get'
+  },
+  // 获取体验二维码
+  getQrcode: {
+    url: '/uide/wechatsetting/getQrcode',
+    method: 'get'
   }
 }
