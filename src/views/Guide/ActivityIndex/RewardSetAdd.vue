@@ -3,7 +3,8 @@
 <!-- 门店指标--编辑弹窗  wanrengang 20180713 -->
 <div>
   <el-dialog
-  title="批量设置提成奖励"
+  :title="title"
+  width='30%'
   :close-on-click-modal=false
   :visible.sync="dialogVisible"
   :before-close="handleClose">
@@ -88,6 +89,7 @@ export default {
       saveObj: {
         list: []
       },
+      title: '',
       curMonth: 5,
       dialogVisible: false,
       selectedArr: [],
@@ -103,7 +105,10 @@ export default {
 
       // 单条就回显
       if (data.selectedArr.length === 1) {
+        this.title = '设置提成奖励'
         this.saveObj = JSON.parse(JSON.stringify(data.selectedArr[0]))
+      } else {
+        this.title = '批量设置提成奖励'
       }
       this.dialogVisible = true
     },
