@@ -64,7 +64,7 @@
                   :end="||0"
                   :duration="1.5">
                 </el-countup> -->
-                <span class="text-secondary">(总：未给招募总数字段)</span>
+                <span class="text-secondary">(总：{{getRewardInfoObj.memberTotal}})</span>
               </p>
             </div>
             <div class="overview-content__item-right">
