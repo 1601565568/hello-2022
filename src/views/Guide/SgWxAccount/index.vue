@@ -58,19 +58,21 @@
                :modal-append-to-body="false"
                @before-close="closeDialog()">
       <div  class="dialog-top">
-        <el-radio v-model="shopManager_radio" label="1" @change="shopManager">店长</el-radio>
-        <el-radio v-model="shoppingGuide_radio" label="1" @change="shoppingGuide">导购</el-radio>
+        <el-radio v-if="model.type === -1" v-model="shopManager_radio" :disabled='true' label="1">店长</el-radio>
+        <el-radio v-else v-model="shopManager_radio" label="1" @change="shopManager">店长</el-radio>
+        <el-radio v-if="model.type === -1" v-model="shoppingGuide_radio" :disabled='true' label="1">导购</el-radio>
+        <el-radio v-else v-model="shoppingGuide_radio" label="1" @change="shoppingGuide">导购</el-radio>
       </div>     
       <el-form :model="model" ref="form" label-width="150px" :rules="rules" placement="right">
         <el-form-item label="微信名称：" prop="name" required>
-          <el-input v-if="model.type !== -1" type="text" :disabled='true' placeholder="请输入微信名称" v-model="model.name" maxlength="10"></el-input>
+          <el-input v-if="model.from_type === 1" type="text" :disabled='true' placeholder="请输入微信名称" v-model="model.name" maxlength="10"></el-input>
           <el-input v-else type="text" placeholder="请输入微信名称" v-model="model.name" maxlength="10"></el-input>
         </el-form-item>
         <el-form-item label="应用ID：" prop="appid" required>
-          <el-input v-if="model.type !== -1" type="text" :disabled='true' placeholder="请输入应用ID" v-model="model.appid" maxlength="32"></el-input>
+          <el-input v-if="model.from_type === 1" type="text" :disabled='true' placeholder="请输入应用ID" v-model="model.appid" maxlength="32"></el-input>
           <el-input v-else type="text" placeholder="请输入应用ID" v-model="model.appid" maxlength="32"></el-input>
         </el-form-item>
-        <el-form-item label="应用密钥：" prop="secret" required>
+        <el-form-item v-if="model.from_type === 1" label="应用密钥：" prop="secret" required>
           <el-input type="text" placeholder="请输入应用密钥" v-model="model.secret" maxlength="50"></el-input>
         </el-form-item>
         <el-form-item label="企业ID：" prop="corpid">
@@ -218,7 +220,7 @@
 .shanghu{
   color:#FF8C00 !important;
 }
-img{
+.shanghu img{
   width: 30px;
   height: 30px;
   border-radius: 50%;

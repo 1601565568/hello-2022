@@ -91,7 +91,17 @@ export default {
   },
   // 获取体验二维码
   getQrcode: {
-    url: '/uide/wechatsetting/getQrcode',
+    url: '/guide/wechatsetting/getQrcode',
+    method: 'get'
+  },
+  // 上传代码模板
+  codeTemplateUpload: {
+    url: '/guide/wechatsetting/codeTemplateUpload',
+    method: 'post'
+  },
+  // 审核撤回
+  auditingRevert: {
+    url: '/guide/wechatsetting/auditingRevert',
     method: 'get'
   }
 }

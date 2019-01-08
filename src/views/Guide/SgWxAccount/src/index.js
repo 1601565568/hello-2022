@@ -32,6 +32,8 @@ export default {
         openSecret: null,
         payId: null,
         paySecret: null,
+        type: null,
+        from_type: null,
         param: {}
       },
       obj: {
@@ -104,10 +106,12 @@ export default {
     shopManager () {
       this.shopManager_radio = '1'
       this.shoppingGuide_radio = '0'
+      // this.model.type = 1
     },
     shoppingGuide () {
       this.shopManager_radio = '0'
       this.shoppingGuide_radio = '1'
+      // this.model.type = 0
     },
     onToAuthorize () {
       var that = this
@@ -121,6 +125,8 @@ export default {
     onSaveOpen (row) { // 新增或编辑
       var that = this
       this.dialogFormVisible = true
+      this.shopManager_radio = '1'
+      this.shoppingGuide_radio = '0'
       this.titleText = (row.id && '编辑') || '新增'
       this.model.id = row.id
       this.model.name = row.name
@@ -131,6 +137,8 @@ export default {
       this.model.openKey = row.open_key
       this.model.openSecret = row.open_secret
       this.model.payId = row.pay_id
+      this.model.type = row.type
+      this.model.from_type = row.from_type
       that.model.paySecret = row.pay_secret
       if (row.wx_status === 1) {
 
@@ -199,6 +207,7 @@ export default {
     },
     onSave () {
       let that = this
+      that.shopManager_radio === '1' ? that.model.type = 1 : that.model.type = 0
       that.$refs.form.validate((valid) => {
         if (valid) {
           that.$http.fetch(that.$api.guide.sgwxaccount.save, that.model).then(() => {
