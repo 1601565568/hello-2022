@@ -34,5 +34,13 @@ export default {
   getAppletPageList: { // 查询小程序页面配置
     url: '/guide/wechatsetting/getAppletPageList',
     method: 'get'
+  },
+  getAppletCodeTemplateList: { // 查询模板列表
+    url: '/guide/wechatsetting/getAppletCodeTemplateList',
+    method: 'post'
+  },
+  refreshCodeTemplate: { // 同步最新
+    url: '/guide/wechatsetting/refreshCodeTemplate',
+    method: 'get'
   }
 }

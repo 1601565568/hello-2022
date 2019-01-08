@@ -10,7 +10,7 @@
         <el-table ref="table" :data="_data._table.data" class="template-table__main"
                   stripe
                   resizable v-loading.lock="_data._table.loadingtable"
-                  :element-loading-text="$t('prompt.loading')" @sort-change="$orderChange$">
+                  :element-loading-text="$t('prompt.loading')" @sort-change="$orderChange$"> 
           <el-table-column prop="name" label="微信名称"></el-table-column>
           <el-table-column prop="appid" label="应用ID" align="left" width="180"></el-table-column>
           <el-table-column label="企业ID" align="left" width="180">
@@ -30,7 +30,7 @@
             <template slot-scope="scope">
               <span class="tmp-cell__buttons">
                 <ns-button type="text" @click="onSaveOpen(scope.row)">编辑</ns-button>
-                <ns-button type="text" @click="onSaveOpen(scope.row)">代码模版</ns-button>
+                <ns-button type="text" @click="onCodeTemplate(scope.row)">代码模版</ns-button>
                 <ns-button v-if="scope.row.appid !== 'wxd018c65db8b66408' && scope.row.appid !== 'wx088d6dbeea9c68c3'"
                            type="text" @click="onDelete(scope.row)">删除</ns-button>
               </span>
@@ -58,15 +58,20 @@
                :visible.sync="dialogFormVisible"
                :modal-append-to-body="false"
                @before-close="closeDialog()">
-      <template slot="button">
-        <ns-table-operate-button :button="_data._table.table_button"></ns-table-operate-button>
-      </template>     
+       <div  class="dialog-top">
+          <el-radio v-if="model.type === -1" v-model="shopManager_radio" :disabled='true' label="1" @change="shopManager">店长</el-radio>
+          <el-radio v-else v-model="shopManager_radio" label="1" @change="shopManager">店长</el-radio>
+          <el-radio v-if="model.type === -1" v-model="shoppingGuide_radio" :disabled='true' label="1" @change="shoppingGuide">导购</el-radio>
+          <el-radio v-else v-model="shoppingGuide_radio" label="1" @change="shoppingGuide">导购</el-radio>
+        </div>       
       <el-form :model="model" ref="form" label-width="150px" :rules="rules" placement="right">
         <el-form-item label="微信名称：" prop="name" required>
-          <el-input type="text" placeholder="请输入微信名称" v-model="model.name" maxlength="10"></el-input>
+          <el-input v-if="model.from_type === 1" type="text" :disabled='true' placeholder="请输入微信名称" v-model="model.name" maxlength="10"></el-input>
+          <el-input v-else type="text" placeholder="请输入微信名称" v-model="model.name" maxlength="10"></el-input>
         </el-form-item>
         <el-form-item label="应用ID：" prop="appid" required>
-          <el-input type="text" placeholder="请输入应用ID" v-model="model.appid" maxlength="32"></el-input>
+          <el-input v-if="model.from_type === 1" type="text" :disabled='true' placeholder="请输入应用ID" v-model="model.appid" maxlength="32"></el-input>
+          <el-input v-else type="text" placeholder="请输入应用ID" v-model="model.appid" maxlength="32"></el-input>
         </el-form-item>
         <el-form-item label="应用密钥：" prop="secret" required>
           <el-input type="text" placeholder="请输入应用密钥" v-model="model.secret" maxlength="50"></el-input>
@@ -91,7 +96,7 @@
     </el-dialog>
     <!-- 初始弹窗结束 -->
     <!-- 授权小程序弹窗开始 -->
-    <el-dialog size="small" class="newestDialog" :title="miniProgramText" width="80%"
+    <el-dialog size="small" class="newestDialog" :title="titleText" width="80%"
               :visible.sync="miniProgram"
               :modal-append-to-body="false" :close-on-click-modal="true"
               @before-close="closeDialog()">
@@ -133,33 +138,29 @@
     </el-dialog>
     <!-- 授权小程序弹窗结束 -->
     <!-- 提交审核弹窗开始 -->
-    <el-dialog size="small" :title="autidText"
+    <el-dialog size="small" :title="titleText"
                :visible.sync="dialogAutid"
-               :modal-append-to-body="false"
+               :modal-append-to-body="false" :close-on-click-modal="true"
                @before-close="closeDialog()">
-      <el-form :model="model" ref="form" label-width="150px" :rules="rules" placement="right">
-        <el-form-item label="模版Id：" prop="templateId" required>
-          <el-input type="text" disabled ="false" placeholder="请输入微信名称" v-model="model.templateId"  maxlength="10"></el-input>
+      <el-form :model="underReviewObj" ref="form" label-width="150px" :rules="rules" placement="right">
+        <el-form-item label="模版Id：" prop="template_id"  required>
+          <el-input type="text" placeholder="请输入模版Id" v-model="obj.template_id"  maxlength="10"></el-input>
         </el-form-item>
         <el-form-item label="自定义标签：" prop="appid" required>
-          <el-input type="textarea" max="20" placeholder="小程序的标签，多个标签用空格分隔，标签不能多于10个，标签成都不超过20" v-model="model.appid" maxlength="32"></el-input>
+          <el-input type="textarea" max="20" placeholder="小程序的标签，多个标签用空格分隔，标签不能多于10个，标签长度不超过20"></el-input>
         </el-form-item>
-        <el-form-item label="可选类目：" prop="secret" required>
-           <el-select placeholder="请选择职务" v-model="model.job" clearable>
-              <el-option label="店长" :value="1"></el-option>
-              <el-option label="导购" :value="0"></el-option>
-            </el-select>
-          <!-- <el-input type="text" placeholder="请输入应用密钥" v-model="model.secret" maxlength="50"></el-input> -->
+        <el-form-item label="可选类目：" prop="shop" required>
+          <el-select placeholder="请选择可选类目" @change="categoryStore" v-model="categoryList.first_id" >
+            <el-option v-for="shop in categoryList" :label="shop.first_class" :value="shop.first_id" :key="shop.first_id"></el-option>
+          </el-select>
         </el-form-item>
         <el-form-item label="页面地址：" prop="corpid" required>
-           <el-select placeholder="请选择职务" v-model="model.job" clearable>
-              <el-option label="店长" :value="1"></el-option>
-              <el-option label="导购" :value="0"></el-option>
-            </el-select>
-          <!-- <el-input type="text" placeholder="请输入企业ID" v-model="model.corpid" maxlength="32"></el-input> -->
+          <el-select placeholder="请选择页面地址" @change="pageStore" v-model="pageList" >
+            <el-option v-for="shop in pageList" :value="shop" :key="shop"></el-option>
+          </el-select>
         </el-form-item>
         <el-form-item label="页面标题：" prop="corpsecret" required>
-          <el-input type="text" max="32" placeholder="请输入企业密钥" v-model="model.corpsecret" maxlength="50"></el-input>
+          <el-input type="text" max="32" placeholder="请输入页面标题" maxlength="50"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -169,7 +170,7 @@
     </el-dialog>
     <!-- 提交审核弹窗结束 -->
     <!-- 最新弹窗主页面开始 -->
-    <el-dialog size="small" class="newestDialog" :title="titleTexts" width="60%"
+    <el-dialog size="small" class="newestDialog" :title="titleText" width="60%"
               :visible.sync="newestDialog"
               :modal-append-to-body="false" :close-on-click-modal="true"
               @before-close="closeDialog()">
@@ -179,104 +180,198 @@
         <ns-button type="primary" @click="qrCode">体验二维码</ns-button>
         <ns-button type="primary" @click="release">发布</ns-button>
       </el-row>
-      <el-table ref="table" :data="_data._table.data" stripe >
-        <el-table-column prop="work_id" label="模板ID" align="left" width="88">
-          <template slot-scope="scope">
-            {{scope.row.work_id?scope.row.work_id:'-'}}
-          </template>
-        </el-table-column>
-        <el-table-column prop="name" label="版本" align="center" width="130"></el-table-column>
-        <el-table-column prop="nickname" label="开发者" align="center">
-          <template slot-scope="scope">
-            {{scope.row.nickname?scope.row.nickname:'-'}}
-          </template >
-        </el-table-column>
-        <el-table-column prop="mobile" label="备注" align="center" ></el-table-column>
-        <el-table-column prop="status,row" :show-overflow-tooltip="true" label="操作" align="center" width="120">
-          <template slot-scope="scope">
+      <el-table ref="table" :data="modelArry" stripe >
+        <el-table-column prop="template_id" label="模版ID"  align="left" width="88"></el-table-column>
+        <el-table-column prop="version" label="版本" align="center" width="130"></el-table-column>
+        <el-table-column prop="developer" label="开发者" align="center"></el-table-column>
+        <el-table-column prop="user_desc" label="备注" align="center" ></el-table-column>
+        <el-table-column prop="status" :show-overflow-tooltip="true" label="操作" align="center" width="120">
+          <template slot-scope="{row}">
             <div>
-              <ns-button type="primary"  @click="uploading(scope.row)">
+              <ns-button v-if="row.status === 0" type="primary"  @click="uploading(row)">
                 上传
               </ns-button>
-              <ns-button @click="underReview(scope.row)">
+              <ns-button class="underReview" v-if="row.status === 2" @click="underReview(row)">
                 审核中
               </ns-button>
-              <ns-button type="primary" @click="auditSuccess(scope.row)">
+              <ns-button v-if="row.status === 3" type="primary" @click="auditSuccess(row)">
                 审核成功
               </ns-button>
-              <ns-button type="text" @click="published(scope.row)">
+              <ns-button v-if="row.status === 4" type="text" @click="published(row)">
                 已发布
               </ns-button>
-              <ns-button type="primary" @click="submitted(scope.row)">
+              <ns-button v-if="row.status === 1" type="primary" @click="submitted(row)">
                 提交审核
               </ns-button>
-              <ns-button @click="auditFailure(scope.row)">
+              <ns-button class="auditFailure" v-if="row.status === -1" @click="auditFailure(row)">
                 审核失败
               </ns-button>
             </div>
           </template>
         </el-table-column>
       </el-table>
-      <el-pagination v-if="_data._pagination.enable" class="template-table__pagination"
-                          :page-sizes="_data._pagination.sizeOpts" :total="_data._pagination.total"
-                          :current-page="_data._pagination.page" :page-size="_data._pagination.size"
-                          layout="total, sizes, prev, pager, next, jumper" @size-change="$sizeChange$"
-                          @current-change="$pageChange$">
-          </el-pagination>
       <div slot="footer" class="dialog-footer">
-        <ns-button @click="dialogFormVisible = false">取消</ns-button>
+        <ns-button @click="newestDialog = false">取消</ns-button>
         <ns-button type="primary" @click="onSave">确定</ns-button>
       </div>
     </el-dialog>
     <!-- 最新弹窗主页面结束 -->
     <!-- 最新弹窗模板详情开始 -->
+    <el-dialog :title="titleText" 
+      :visible.sync="shopKuhuShow" 
+      width="600px"  
+      @keyup.enter.native="onKeyUp" 
+      @keyup.esc.native="onKeyUp" >
+    <div>
+      <div class="kehuBox-main">
+        <div>
+          <div class="kehuBox-main-span">
+            <el-row>
+              <el-col :span='20'><span>模版Id：{{underReviewObj.template_id || '-'}}</span></el-col>
+            </el-row>
+            <el-row>
+              <el-col :span='20'><span>版本号：{{underReviewObj.version || '-'}}</span></el-col>
+            </el-row>
+            <el-row>
+              <el-col :span='20'><span>开发者：{{underReviewObj.developer || '-'}}</span></el-col>
+            </el-row>
+            <el-row>
+              <el-col :span='20'><span>代码备注：{{underReviewObj.user_desc || '-'}}</span></el-col>
+            </el-row>
+            <el-row>
+              <el-col :span='20'><span>自定义标签：{{underReviewObj.audit_tags || '-'}}</span></el-col>
+            </el-row>
+            <el-row>
+              <el-col :span='20'>
+                <p>可选类目：
+                  <!-- <span>{{underReviewObj.audit_category.first_class || '-'}}</span> -->
+                  <span>-</span>
+                  <!-- <span>{{underReviewObj.audit_category.second_class || '-'}}</span> -->
+                </p>
+              </el-col>
+            </el-row>
+            <el-row>
+              <el-col :span='20'><span>页面地址：{{underReviewObj.audit_address || '-'}}</span></el-col>
+            </el-row>
+            <el-row>
+              <el-col :span='20'><span>页面标题：{{underReviewObj.audit_title || '-'}}</span></el-col>
+            </el-row>
+            <!-- <el-row v-if='underReviewObj.audit_error_msg !== null'>
+              <el-col :span='20'><span>上次审核错误信息：{{underReviewObj.audit_error_msg || '-'}}</span></el-col>
+            </el-row> -->
+            <el-row v-if='underReviewObj.audit_error_msg !== null'>
+              <el-col :span='20'>上次审核错误信息：<span v-html="underReviewObj.audit_error_msg"></span></el-col>
+            </el-row>
+          </div>
+          <div slot="footer" class="dialog_footer">
+            <ns-button @click="shopKuhuShow = false">取消</ns-button>
+            <ns-button type="primary" @click="onSave">{{checkText}}</ns-button>
+          </div>
+        </div>
+      </div>
+    </div>
+    </el-dialog>
+    <!-- 最新弹窗模板详情结束 -->
+    <!-- 最新弹窗服务器域名开始 -->
     <el-dialog size="small" :title="titleText"
-               :visible.sync="dialogFormVisible"
+               :visible.sync="domainNameVisible"
                :modal-append-to-body="false"
                @before-close="closeDialog()">
-      <el-form :model="model" ref="form" label-width="150px" :rules="rules" placement="right">
-        <el-form-item label="微信名称：" prop="name" required>
-          <el-input type="text" placeholder="请输入微信名称" v-model="model.name" maxlength="10"></el-input>
+      <div  class="dialog_domainName">
+        <p>服务器域名</p>
+      </div>       
+      <el-form :model="underReviewObj" ref="form" label-width="150px" :rules="rules" placement="left">
+        <el-form-item label="request：" prop="request" required>
+          <el-input type="text" v-model="underReviewObj.request_domain" maxlength="10"></el-input>
         </el-form-item>
-        <el-form-item label="应用ID：" prop="appid" required>
-          <el-input type="text" placeholder="请输入应用ID" v-model="model.appid" maxlength="32"></el-input>
+        <el-form-item label="socket：" prop="socket" required>
+          <el-input type="text" v-model="underReviewObj.ws_request_domain" maxlength="32"></el-input>
         </el-form-item>
-        <el-form-item label="应用密钥：" prop="secret" required>
-          <el-input type="text" placeholder="请输入应用密钥" v-model="model.secret" maxlength="50"></el-input>
+        <el-form-item label="upliadFile：" prop="upliadFile" required>
+          <el-input type="text" v-model="underReviewObj.upload_domain" maxlength="50"></el-input>
         </el-form-item>
-        <el-form-item label="企业ID：" prop="corpid">
-          <el-input type="text" placeholder="请输入企业ID" v-model="model.corpid" maxlength="32"></el-input>
+        <el-form-item label="downloadFile：" prop="downloadFile">
+          <el-input type="text" v-model="underReviewObj.download_domain" maxlength="32"></el-input>
         </el-form-item>
-        <el-form-item label="企业密钥：" prop="corpsecret">
-          <el-input type="text" placeholder="请输入企业密钥" v-model="model.corpsecret" maxlength="50"></el-input>
-        </el-form-item>
-        <el-form-item label="支付ID：" prop="payId">
-          <el-input type="text" placeholder="请输入支付ID" v-model="model.payId" maxlength="50"></el-input>
-        </el-form-item>
-        <el-form-item label="支付密钥：" prop="paySecret">
-          <el-input type="text" placeholder="请输入支付密钥" v-model="model.paySecret" maxlength="100"></el-input>
+      </el-form>
+      <div  class="dialog_domainName">
+        <p>业务域名</p>
+      </div>       
+      <el-form :model="model" ref="form" label-width="150px" :rules="rules" placement="left">
+        <el-form-item label="webViewDomain：" prop="webViewDomain" required>
+          <el-input type="text" v-model="underReviewObj.webview_domain" maxlength="10"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <ns-button @click="dialogFormVisible = false">取消</ns-button>
-        <ns-button type="primary" @click="onSave">确定</ns-button>
+        <ns-button type="primary" @click="onSaveDomainName(underReviewObj)">确定</ns-button>
       </div>
     </el-dialog>
-    <!-- 最新弹窗模板详情结束 -->
-    <!-- 最新弹窗服务器域名开始 -->
-
     <!-- 最新弹窗服务器域名结束 -->
     <!-- 最新弹窗二维码开始 -->
-
+    <el-dialog size="small" class="authorization" :title="titleText" width="40%"
+               :visible.sync="qrCodeShow"
+               :modal-append-to-body="false"
+               @before-close="closeDialog()">
+              <div class="qrCode">
+                <img class="qrCode_img" :src="img"/>
+              </div>
+              <div slot="footer" class="dialog_footer">
+                <ns-button type="primary" @click="qrCodeShow = false">确定</ns-button>
+              </div>
+    </el-dialog>
     <!-- 最新弹窗二维码结束 -->
     <!-- 最新弹窗模板上传开始 -->
-
+    <el-dialog size="small" class="authorization" :title="titleText" width="40%"
+               :visible.sync="newauthorization"
+               :modal-append-to-body="false"
+               @before-close="closeDialog()">
+        <el-form :model="underReviewObj" ref="form" label-width="150px" :rules="rules" placement="left">
+          <el-form-item label="模版Id：" prop="template_id" required>
+            <el-input type="text" placeholder="请输入模版Id" v-model="underReviewObj.template_id" maxlength="10"></el-input>
+          </el-form-item>
+          <el-form-item label="版本号：" prop="version" required>
+            <el-input type="text" placeholder="请输入版本号" v-model="underReviewObj.version" maxlength="32"></el-input>
+          </el-form-item>
+          <el-form-item label="代码备注：" prop="user_desc" required>
+            <el-input type="textarea" placeholder="代码备注" v-model="underReviewObj.user_desc" maxlength="50"></el-input>
+          </el-form-item>
+          <el-form-item label="外跳小程序白名单：" prop="developer">
+            <el-input type="textarea" placeholder="需要跳转的小程序appId列表，多个appId以，隔开，最大输入9个" v-model="underReviewObj.appId_array" ></el-input>
+          </el-form-item>
+        </el-form>
+      <div slot="footer" >
+        <ns-button @click="newauthorization = false">取消</ns-button>
+        <ns-button type="primary" @click="affirmUploading">上传</ns-button>
+      </div>
+    </el-dialog>
     <!-- 最新弹窗模板上传结束 -->
-    <!-- 最新弹窗提交审核开始 -->
-
-    <!-- 最新弹窗提交审核结束 -->
+    <!-- 最新弹窗发布开始 -->
+     <el-dialog size="small" class="authorization" :title="titleText" width="40%"
+               :visible.sync="releaseShow"
+               :modal-append-to-body="false"
+               @before-close="closeDialog()">
+        <div class="releaseShow_div">确认发布将发布已审核成功的模板</div>       
+        <el-row class="releaseShow_row">
+          <el-col :span='6'><span>模版Id</span></el-col>
+          <el-col :span='6'><span>页面标题</span></el-col>
+          <el-col :span='6'><span>页面地址</span></el-col>
+          <el-col :span='6'><span>操作</span></el-col>
+        </el-row>
+        <el-row class="releaseShow_lastRow">
+          <el-col :span='6'><span>{{underReviewObj.template_id}}</span></el-col>
+          <el-col :span='6'><span>{{underReviewObj.audit_title}}</span></el-col>
+          <el-col :span='6'><span>{{underReviewObj.audit_address}}</span></el-col>
+          <el-col :span='6'><ns-button type="primary" @click="releaseParticulars(underReviewObj.app_id,underReviewObj.template_id)">详情</ns-button></el-col>
+        </el-row>
+      <div slot="footer" class="authorization_footer">
+        <ns-button @click="releaseShow = false">取消</ns-button>
+        <ns-button type="primary" @click="releaseUploading">上传</ns-button>
+      </div>
+    </el-dialog>
+    <!-- 最新弹窗发布结束 -->
     <!-- 最新弹窗微信号授权开始 -->
-    <el-dialog size="small" class="authorization" :title="authorizationText" width="40%"
+    <el-dialog size="small" class="authorization" :title="titleText" width="25%"
                :visible.sync="authorization"
                :modal-append-to-body="false"
                @before-close="closeDialog()">
@@ -292,22 +387,33 @@
     <!-- 最新弹窗微信号授权结束 -->
   </div>
 </template>
-
 <script>
   import index from './src/index'
-
   export default index
 </script>
 <style>
 .dialog_mian{
   padding:10px 30px 30px;
 }
+.dialog_footer{
+  margin: 10px 0 0 400px;
+}
+.underReview{
+  color: #FF8C00
+}
+.dialog-top{
+  border-top:1px solid #ddd;
+  padding:10px 0 10px 78px;
+}
+.auditFailure{
+  color:red
+}
 .dialog_mian_logo{
   display: flex;
   justify-items:inherit;
   align-items:center;
 }
-.dialog_mian_logo img{
+.dialog_mian_logo .shoplogo{
   margin-right:5px;
 }
 .dialog_mian_topText p sapn{
@@ -319,11 +425,6 @@
 }
 .shanghu{
   color:#FF8C00 !important;
-}
-img{
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
 }
 <!-- .authorization{
   border-bottom: 1px solid #888888;
@@ -337,9 +438,6 @@ img{
 .newestDialog .el-dialog__body{
   padding: 0 !important;
 }
-.el-row{
-  padding-top:15px;
-}
 <!-- .el-row{
   padding-top:15px;
   border-bottom: 8px solid #eee;
@@ -347,5 +445,40 @@ img{
 .dialog_mian{
   padding:10px 20px;
 }
-
+.dialog_mian_logo img{
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+}
+.qrCode{
+  display: flex;
+  justify-content: center;
+  align-items: center
+}
+.qrCode_img{
+  width: 280px;
+  height: 280px;
+}
+.dialog_domainName{
+  background-color: #dddddd;
+  margin-bottom:15px; 
+  padding-left:10px;
+}
+.releaseShow_div{
+  font-size: 16px;
+  color: #FF8C00;
+  margin-bottom:10px;
+}
+.releaseShow_row{
+  margin-bottom:10px;
+  border-bottom: 1px solid #ddd;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 0 20px;
+  text-align: center;
+}
+.releaseShow_lastRow{
+  padding: 0 20px;
+  text-align: center;
+}
 </style>

@@ -20,7 +20,6 @@
           <ns-button type="primary" @click="$searchAction$()">搜索</ns-button>
           <ns-button @click="$resetInputAction$()">重置</ns-button>
         </el-form-item>
-
         <el-form-item>
           <ns-button type="text" @click="$handleTabClick">
             {{collapseText}}
