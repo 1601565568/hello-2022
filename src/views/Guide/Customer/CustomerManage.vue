@@ -5,7 +5,7 @@
     </ns-table-guide>
     <!--  自定义客户转移弹窗开始  -->
     <el-dialog :title="title" width="560px" height="300px" :visible.sync="shopFindListShow" @keyup.enter.native="onKeyUp" @keyup.esc.native="onKeyUp">
-      <div class="guideBox" style="overflow-x:hidden;overflow-y:auto;">
+      <div class="guideBox" style="overflow-x:hidden;overflow-y:auto;text-align:center">
         <el-select v-model="value" placeholder="请选择要更换的导购">
           <el-option
             v-for="item in shopFindList"

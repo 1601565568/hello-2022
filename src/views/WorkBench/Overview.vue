@@ -11,13 +11,12 @@
                     @change='change'
                     type="month"
                     v-model="searchObj.monthDate"
-                    clear-icon='none'
                     placeholder="选择月">
                   </el-date-picker>
               </div>
               <div class="overview-content__item--select">
                 门店：
-                <el-select v-model="searchObj.id" filterable placeholder="请选择门店" @change='shopSelect(searchObj.id)'>
+                <el-select v-model="searchObj.id" filterable clearable placeholder="请选择门店" @change='shopSelect(searchObj.id)'>
                   <el-option
                     v-for="(item,index) in shopArr"
                     :key="item.id"
@@ -65,7 +64,7 @@
                   :end="||0"
                   :duration="1.5">
                 </el-countup> -->
-                <span class="text-secondary">(总：未给招募总数字段)</span>
+                <span class="text-secondary">(总：{{getRewardInfoObj.memberTotal}})</span>
               </p>
             </div>
             <div class="overview-content__item-right">

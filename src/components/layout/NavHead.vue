@@ -64,16 +64,11 @@
       this.activeName = this.$route.matched[0].name
     },
     methods: {
-      onBackCloud: function () {
+      onBackCloud () {
         let that = this
-        that.$http.fetch(that.$api.core.access.getCloudPlatformAddress)
-          .then((resp) => {
-            // if (!resp.success) {
-            //   window.location.href = '/casLogin'
-            // }
-            console.log('2222222', resp)
-            that.cloudUrl = resp.result
-          }).catch(res => console.log(res))
+        that.$http.fetch(that.$api.core.access.getCloudPlatformAddress).then((resp) => {
+          that.cloudUrl = resp.result
+        })
       },
       /**
        * 退出登录

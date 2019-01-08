@@ -607,6 +607,7 @@ export default {
             resp.result.reward = (resp.result.reward || 0).toFixed(2)
             resp.result.sellReward = (resp.result.sellReward || 0).toFixed(2)
             resp.result.recruitReward = (resp.result.recruitReward || 0).toFixed(2)
+            resp.result.memberTotal = resp.result.memberTotal || '未给字段'
             this.getRewardInfoObj = resp.result
           }
         })
