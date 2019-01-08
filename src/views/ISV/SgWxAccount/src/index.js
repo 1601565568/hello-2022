@@ -85,16 +85,6 @@ export default {
           },
           trigger: 'blur'
         }],
-        'appid': [{required: true, message: '请输入应用ID'}, {
-          validator: (rule, value, callback) => {
-            if (value && value.length > 32) {
-              callback(new Error('应用ID长度不得超过32位'))
-            } else {
-              callback()
-            }
-          },
-          trigger: 'blur'
-        }],
         'secret': [{required: true, message: '请输入应用密钥'}, {
           validator: (rule, value, callback) => {
             if (value && value.length > 50) {
@@ -155,16 +145,21 @@ export default {
           },
           trigger: 'blur'
         }],
-        '模版Id': [{required: true, message: '请输入模版Id'}, {
-          validator: (rule, value, callback) => {
-            if (value && value.length > 50) {
-              callback(new Error('应用密钥长度不得超过50位'))
-            } else {
-              callback()
-            }
+        'template_id': [
+          {
+            required: true,
+            message: '请输入模版Id'
           },
-          trigger: 'blur'
-        }],
+          {
+            validator: (rule, value, callback) => {
+              if (value && value.length > 50) {
+                callback(new Error('应用密钥长度不得超过50位'))
+              } else {
+                callback()
+              }
+            },
+            trigger: 'blur'
+          }],
         '版本号': [{required: true, message: '请输入版本号'}, {
           validator: (rule, value, callback) => {
             if (value && value.length > 50) {
@@ -185,16 +180,21 @@ export default {
           },
           trigger: 'blur'
         }],
-        '自定义标签': [{required: true, message: '请输入自定义标签'}, {
-          validator: (rule, value, callback) => {
-            if (value && value.length > 50) {
-              callback(new Error('小程序的标签，多个标签用空格分隔，标签不能多于10个，标签长度不超过20'))
-            } else {
-              callback()
-            }
+        'appid': [
+          {
+            required: true,
+            message: '请输入自定义标签'
           },
-          trigger: 'blur'
-        }],
+          {
+            validator: (rule, value, callback) => {
+              if (value && value.length > 50) {
+                callback(new Error('小程序的标签，多个标签用空格分隔，标签不能多于10个，标签长度不超过20'))
+              } else {
+                callback()
+              }
+            },
+            trigger: 'blur'
+          }],
         '可选类目': [{required: true, message: '请输入自定义标签'}, {
           validator: (rule, value, callback) => {
             if (value && value.length > 50) {
@@ -205,26 +205,37 @@ export default {
           },
           trigger: 'blur'
         }],
-        '页面地址': [{required: true, message: '请输入页面地址'}, {
-          validator: (rule, value, callback) => {
-            if (value && value.length > 50) {
-              callback(new Error('小程序的标签，多个标签用空格分隔，标签不能多于10个，标签长度不超过20'))
-            } else {
-              callback()
-            }
+        'corpid': [
+          {
+            required: true,
+            message: '请选择页面地址'
+          }
+          // {
+          //   validator: (rule, value, callback) => {
+          //     if (value && value.length > 50) {
+          //       callback(new Error('小程序的标签，多个标签用空格分隔，标签不能多于10个，标签长度不超过20'))
+          //     } else {
+          //       callback()
+          //     }
+          //   },
+          //   trigger: 'blur'
+          // }
+        ],
+        'corpsecret': [
+          {
+            required: true,
+            message: '请输入页面标题'
           },
-          trigger: 'blur'
-        }],
-        '页面标题': [{required: true, message: '请输入页面标题'}, {
-          validator: (rule, value, callback) => {
-            if (value && value.length > 50) {
-              callback(new Error('小程序的标签，多个标签用空格分隔，标签不能多于10个，标签长度不超过20'))
-            } else {
-              callback()
-            }
-          },
-          trigger: 'blur'
-        }]
+          {
+            validator: (rule, value, callback) => {
+              if (value && value.length > 50) {
+                callback(new Error('请输入页面标题'))
+              } else {
+                callback()
+              }
+            },
+            trigger: 'blur'
+          }]
       }
     }
   },

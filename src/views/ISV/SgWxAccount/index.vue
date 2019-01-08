@@ -10,7 +10,7 @@
         <el-table ref="table" :data="_data._table.data" class="template-table__main"
                   stripe
                   resizable v-loading.lock="_data._table.loadingtable"
-                  :element-loading-text="$t('prompt.loading')" @sort-change="$orderChange$"> 
+                  :element-loading-text="$t('prompt.loading')" @sort-change="$orderChange$">
           <el-table-column prop="name" label="微信名称"></el-table-column>
           <el-table-column prop="appid" label="应用ID" align="left" width="180"></el-table-column>
           <el-table-column label="企业ID" align="left" width="180">
@@ -63,7 +63,7 @@
           <el-radio v-else v-model="shopManager_radio" label="1" @change="shopManager">店长</el-radio>
           <el-radio v-if="model.type === -1" v-model="shoppingGuide_radio" :disabled='true' label="1" @change="shoppingGuide">导购</el-radio>
           <el-radio v-else v-model="shoppingGuide_radio" label="1" @change="shoppingGuide">导购</el-radio>
-        </div>       
+        </div>
       <el-form :model="model" ref="form" label-width="150px" :rules="rules" placement="right">
         <el-form-item label="微信名称：" prop="name" required>
           <el-input v-if="model.from_type === 1" type="text" :disabled='true' placeholder="请输入微信名称" v-model="model.name" maxlength="10"></el-input>
@@ -144,7 +144,7 @@
                @before-close="closeDialog()">
       <el-form :model="underReviewObj" ref="form" label-width="150px" :rules="rules" placement="right">
         <el-form-item label="模版Id：" prop="template_id"  required>
-          <el-input type="text" placeholder="请输入模版Id" v-model="obj.template_id"  maxlength="10"></el-input>
+          <el-input type="text" placeholder="请输入模版Id" v-model="underReviewObj.template_id"  maxlength="10"></el-input>
         </el-form-item>
         <el-form-item label="自定义标签：" prop="appid" required>
           <el-input type="textarea" max="20" placeholder="小程序的标签，多个标签用空格分隔，标签不能多于10个，标签长度不超过20"></el-input>
@@ -155,12 +155,15 @@
           </el-select>
         </el-form-item>
         <el-form-item label="页面地址：" prop="corpid" required>
-          <el-select placeholder="请选择页面地址" @change="pageStore" v-model="pageList" >
-            <el-option v-for="shop in pageList" :value="shop" :key="shop"></el-option>
-          </el-select>
+          <el-form-grid  size="lg">
+            <el-select placeholder="请选择页面地址" @change="pageStore" v-model="underReviewObj.corpid" >
+              <el-option v-for="shop in pageList" :value="shop" :key="shop"></el-option>
+            </el-select>
+          </el-form-grid>
+
         </el-form-item>
-        <el-form-item label="页面标题：" prop="corpsecret" required>
-          <el-input type="text" max="32" placeholder="请输入页面标题" maxlength="50"></el-input>
+        <el-form-item label="页面标题："  prop="corpsecret" required>
+          <el-input type="text" max="32" placeholder="请输入页面标题" maxlength="50" v-model='underReviewObj.corpsecret'></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -217,10 +220,10 @@
     </el-dialog>
     <!-- 最新弹窗主页面结束 -->
     <!-- 最新弹窗模板详情开始 -->
-    <el-dialog :title="titleText" 
-      :visible.sync="shopKuhuShow" 
-      width="600px"  
-      @keyup.enter.native="onKeyUp" 
+    <el-dialog :title="titleText"
+      :visible.sync="shopKuhuShow"
+      width="600px"
+      @keyup.enter.native="onKeyUp"
       @keyup.esc.native="onKeyUp" >
     <div>
       <div class="kehuBox-main">
@@ -279,7 +282,7 @@
                @before-close="closeDialog()">
       <div  class="dialog_domainName">
         <p>服务器域名</p>
-      </div>       
+      </div>
       <el-form :model="underReviewObj" ref="form" label-width="150px" :rules="rules" placement="left">
         <el-form-item label="request：" prop="request" required>
           <el-input type="text" v-model="underReviewObj.request_domain" maxlength="10"></el-input>
@@ -296,7 +299,7 @@
       </el-form>
       <div  class="dialog_domainName">
         <p>业务域名</p>
-      </div>       
+      </div>
       <el-form :model="model" ref="form" label-width="150px" :rules="rules" placement="left">
         <el-form-item label="webViewDomain：" prop="webViewDomain" required>
           <el-input type="text" v-model="underReviewObj.webview_domain" maxlength="10"></el-input>
@@ -351,7 +354,7 @@
                :visible.sync="releaseShow"
                :modal-append-to-body="false"
                @before-close="closeDialog()">
-        <div class="releaseShow_div">确认发布将发布已审核成功的模板</div>       
+        <div class="releaseShow_div">确认发布将发布已审核成功的模板</div>
         <el-row class="releaseShow_row">
           <el-col :span='6'><span>模版Id</span></el-col>
           <el-col :span='6'><span>页面标题</span></el-col>
@@ -378,7 +381,7 @@
       <div>
         <p class="shanghu">一个微信号只能授权给一个商户！</p>
         <p>点击授权跳转到微信公众平台授权页面，授权微信号</p>
-      </div>         
+      </div>
       <div slot="footer" class="authorization_footer">
         <ns-button @click="authorization = false">取消</ns-button>
         <ns-button type="primary" @click="onToAuthorize">去授权</ns-button>
@@ -433,7 +436,7 @@
   padding:0 10px;
 }
 <!-- .newestDialog .el-dialog__header{
-  border-bottom:1px solid #888; 
+  border-bottom:1px solid #888;
 } -->
 .newestDialog .el-dialog__body{
   padding: 0 !important;
@@ -461,7 +464,7 @@
 }
 .dialog_domainName{
   background-color: #dddddd;
-  margin-bottom:15px; 
+  margin-bottom:15px;
   padding-left:10px;
 }
 .releaseShow_div{
