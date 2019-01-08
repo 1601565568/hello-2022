@@ -55,7 +55,7 @@
               })
           })
           .catch(resp => {
-
+            that.$notify.error('提示：' + resp.msg)
           })
        }
      }
@@ -65,7 +65,7 @@
 <style scoped>
 .content-ecrp_login{
   position: fixed;
-  z-index: 9999;
+  z-index: 2006;
   height: 100%;
   background: white;
   width: 100%;

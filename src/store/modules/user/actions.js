@@ -85,12 +85,12 @@ export default {
   },
   regainSession: ({commit}) => {
     return new Promise((resolve, reject) => {
-      // commit(types.UPDATE_LOGIN_REFRESH, true)
-      // commit(types.REMOVE_REMUMBER)
-      // commit(types.REMOVE_USER_MENUS)
-      // commit(types.REMOVE_USER_BRANDS)
-      // commit(types.REMOVE_USER_BRAND)
-      // window.location.href = '/casLogin'
+      commit(types.UPDATE_LOGIN_REFRESH, true)
+      commit(types.REMOVE_REMUMBER)
+      commit(types.REMOVE_USER_MENUS)
+      commit(types.REMOVE_USER_BRANDS)
+      commit(types.REMOVE_USER_BRAND)
+      window.location.href = '/casLogin'
       resolve()
     })
   }

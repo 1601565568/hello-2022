@@ -74,7 +74,7 @@ export default class Callback {
          */
         if (resData[api.API_STATUS_FIELD]) {
           // 判断是否session过期
-          if (resData[api.API_STATUS_FIELD] === ErrorCode.USER_SESSION_EXPIRE) {
+          if (resData[api.API_STATUS_FIELD] === ErrorCode.USER_SESSION_EXPIRE && window.location.href.indexOf('/operate') === -1) {
             store.dispatch('user/regainSession')
             return
           }
