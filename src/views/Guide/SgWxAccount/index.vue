@@ -72,7 +72,7 @@
           <el-input v-if="model.from_type === 1" type="text" :disabled='true' placeholder="请输入应用ID" v-model="model.appid" maxlength="32"></el-input>
           <el-input v-else type="text" placeholder="请输入应用ID" v-model="model.appid" maxlength="32"></el-input>
         </el-form-item>
-        <el-form-item v-if="model.from_type === 1" label="应用密钥：" prop="secret" required>
+        <el-form-item v-if="model.from_type === 1 || titleText === '新增'" label="应用密钥：" prop="secret" required>
           <el-input type="text" placeholder="请输入应用密钥" v-model="model.secret" maxlength="50"></el-input>
         </el-form-item>
         <el-form-item label="企业ID：" prop="corpid">

@@ -32,8 +32,7 @@
                   type="year"
                   placeholder="选择年"
                   @change="yearChange"
-                  clearable
-                  >
+                  clearable>
                 </el-date-picker>
               </el-form-item>
               <el-form-item label="门店名称：" prop="shopName">
@@ -206,12 +205,12 @@ export default {
       selectedArr: [],
       searchform: {
         shopName: '',
-        year: '2018' // 年份,
+        year: '2019' // 年份,
       },
       // 新增保存时提交对象
       saveObj: {
         type: 0, // 销售指标
-        year: '2018', // 年份,
+        year: '2019', // 年份,
         selectedArr: []
       }
     }
@@ -249,6 +248,8 @@ export default {
       this.saveObj.selectedArr = this.selectedArr
       this.saveObj.year = this.searchObj.searchMap.year
       this.saveObj.type = this.searchObj.searchMap.type
+      console.log(this.saveObj)
+
       // 传递保存时需要的参数
       this.$nextTick(() => {
         this.$refs.addDialogDom.showToggle(this.saveObj, this.activeName)

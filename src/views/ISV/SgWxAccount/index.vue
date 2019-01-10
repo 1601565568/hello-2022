@@ -30,7 +30,7 @@
             <template slot-scope="scope">
               <span class="tmp-cell__buttons">
                 <ns-button type="text" @click="onSaveOpen(scope.row)">编辑</ns-button>
-                <ns-button type="text" @click="onCodeTemplate(scope.row)">代码模版</ns-button>
+                <ns-button v-if="scope.row.wx_status === 1" type="text" @click="onCodeTemplate(scope.row)">代码模版</ns-button>
                 <ns-button v-if="scope.row.appid !== 'wxd018c65db8b66408' && scope.row.appid !== 'wx088d6dbeea9c68c3'"
                            type="text" @click="onDelete(scope.row)">删除</ns-button>
               </span>
@@ -48,10 +48,6 @@
                        @current-change="$pageChange$">
         </el-pagination>
       </template>
-      <!-- 分页-结束 -->
-       <!-- <template slot="buttons">
-        <ns-table-operate-button :buttons="_data._table.table_button"></ns-table-operate-button>
-      </template> -->
     </ns-page-table>
     <!-- 初始弹窗开始 -->
     <el-dialog size="small" :title="titleText"
@@ -73,7 +69,7 @@
           <el-input v-if="model.from_type === 1" type="text" :disabled='true' placeholder="请输入应用ID" v-model="model.appid" maxlength="32"></el-input>
           <el-input v-else type="text" placeholder="请输入应用ID" v-model="model.appid" maxlength="32"></el-input>
         </el-form-item>
-        <el-form-item label="应用密钥：" prop="secret" required>
+        <el-form-item v-if="model.from_type === 1 || titleText === '新增'" label="应用密钥：" prop="secret" required>
           <el-input type="text" placeholder="请输入应用密钥" v-model="model.secret" maxlength="50"></el-input>
         </el-form-item>
         <el-form-item label="企业ID：" prop="corpid">
@@ -95,80 +91,38 @@
       </div>
     </el-dialog>
     <!-- 初始弹窗结束 -->
-    <!-- 授权小程序弹窗开始 -->
-    <el-dialog size="small" class="newestDialog" :title="titleText" width="80%"
-              :visible.sync="miniProgram"
-              :modal-append-to-body="false" :close-on-click-modal="true"
-              @before-close="closeDialog()">
-      <div class="dialog_mian">
-        <div class="dialog_mian_logo">
-          <img calss="shoplogo" src="../../../assets/shoplogo.png" />
-          <h4>最火导购</h4>
-          <p>（<ns-button type="text" @click="onUpdate">更新授权</ns-button>/<ns-button type="text" @click="onRelieve">解除授权</ns-button>）</p>
-        </div>
-        <div class="dialog_mian_topText">
-          <p><span>介绍：</span>最伙导购是一款辅助线下实体店导购员应用，可以提升用户消费体验</p>
-          <p><span>认证：</span>{{appObj.verify_type === 0 ? "已认证" : "未认证"}}</p>
-          <p><span>主体信息：</span>{{appObj.principal_name}}</p>
-          <p><span>AppID：</span>{{appObj.appid}}</p>
-        </div>
-        <div class="dialog_mian_centerText">
-          <el-row>
-              <el-col :span='8'><span>线上版本：{{appObj.online_version}}</span></el-col>
-              <el-col :span='8'><span>{{appObj.online_version}}</span></el-col>
-              <el-col :span='8'>小程序尚未发布<ns-button type="text" @click="onPublish(appObj.latestStatus)">（发布小程序）</ns-button></el-col>
-          </el-row>
-          <el-row>
-              <el-col :span='8'><span>更新时间：{{appObj.update_time}}</span></el-col>
-              <el-col :span='8'><span>2018-12-03 16:53:30</span></el-col>
-          </el-row>
-          <el-row>
-              <el-col :span='8'><span>更新状态：{{appObj.online_version < appObj.latestAuditVersion ? '':'线上版本为最新版本'}}</span></el-col>
-              <el-col :span='8'><span>
-                {{appObj.latestAuditVersion}}版本{{appObj.latestStatus === 1 ? '已上传未审核' : appObj.latestStatus === 2 ? '审核中' : appObj.latestStatus === 3 ? '审核成功' : appObj.latestStatus === 4 ? '已发布' : appObj.latestStatus === 5 ? '已撤回' : ''}}</span>,点击<ns-button type="text" @click="onAutid(appObj.appid)">提交微信审核</ns-button>,重新发布</el-col>
-          </el-row>
-        </div>
-        <div class="dialog_mian_bottomText">
-          <el-row>
-              <el-col :span='12'><span>支付设置：</span>商户编号：2958371925，商户密钥：ecehg3205t321kfsgl（修改）</el-col>
-              <el-col :span='12'><span>未设置：</span>（新增）</el-col>
-          </el-row>
-        </div>
-      </div>
-    </el-dialog>
-    <!-- 授权小程序弹窗结束 -->
     <!-- 提交审核弹窗开始 -->
     <el-dialog size="small" :title="titleText"
                :visible.sync="dialogAutid"
                :modal-append-to-body="false" :close-on-click-modal="true"
                @before-close="closeDialog()">
-      <el-form :model="underReviewObj" ref="form" label-width="150px" :rules="rules" placement="right">
+      <el-form :model="submittedObj" ref="form" label-width="150px" :rules="checkRules" placement="right">
         <el-form-item label="模版Id：" prop="template_id"  required>
-          <el-input type="text" placeholder="请输入模版Id" v-model="underReviewObj.template_id"  maxlength="10"></el-input>
+          <el-input type="text" placeholder="请输入模版Id" v-model="submittedObj.template_id"  maxlength="10"></el-input>
         </el-form-item>
         <el-form-item label="自定义标签：" prop="appid" required>
-          <el-input type="textarea" max="20" placeholder="小程序的标签，多个标签用空格分隔，标签不能多于10个，标签长度不超过20"></el-input>
+          <el-input type="textarea" max="20" v-model="submittedObj.appid" placeholder="小程序的标签，多个标签用空格分隔，标签不能多于10个，标签长度不超过20"></el-input>
         </el-form-item>
-        <el-form-item label="可选类目：" prop="shop" required>
-          <el-select placeholder="请选择可选类目" @change="categoryStore" v-model="categoryList.first_id" >
-            <el-option v-for="shop in categoryList" :label="shop.first_class" :value="shop.first_id" :key="shop.first_id"></el-option>
+        <el-form-item label="可选类目：" prop="firstId" required>
+          <el-select placeholder="请选择可选类目" v-model="submittedObj.firstId" >
+            <el-option v-for="shop in submittedObj.categoryList" :label="shop.theSecond_class" :value="shop.first_id" :key="shop.first_id"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="页面地址：" prop="corpid" required>
+        <el-form-item label="页面地址：" prop="secondId" required>
           <el-form-grid  size="lg">
-            <el-select placeholder="请选择页面地址" @change="pageStore" v-model="underReviewObj.corpid" >
-              <el-option v-for="shop in pageList" :value="shop" :key="shop"></el-option>
+            <el-select placeholder="请选择页面地址" v-model="submittedObj.secondId" >
+              <el-option v-for="shop in submittedObj.pageList" :value="shop" :key="shop"></el-option>
             </el-select>
           </el-form-grid>
 
         </el-form-item>
         <el-form-item label="页面标题："  prop="corpsecret" required>
-          <el-input type="text" max="32" placeholder="请输入页面标题" maxlength="50" v-model='underReviewObj.corpsecret'></el-input>
+          <el-input type="text" max="32" placeholder="请输入页面标题" maxlength="50" v-model='submittedObj.corpsecret'></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <ns-button @click="dialogAutid = false">取消</ns-button>
-        <ns-button type="primary" @click="onPresent()">提交</ns-button>
+        <ns-button type="primary" @click="onPresent(submittedObj)">提交</ns-button>
       </div>
     </el-dialog>
     <!-- 提交审核弹窗结束 -->
@@ -200,7 +154,7 @@
               <ns-button v-if="row.status === 3" type="primary" @click="auditSuccess(row)">
                 审核成功
               </ns-button>
-              <ns-button v-if="row.status === 4" type="text" @click="published(row)">
+              <ns-button v-if="row.status === 4" type="text">
                 已发布
               </ns-button>
               <ns-button v-if="row.status === 1" type="primary" @click="submitted(row)">
@@ -230,45 +184,42 @@
         <div>
           <div class="kehuBox-main-span">
             <el-row>
-              <el-col :span='20'><span>模版Id：{{underReviewObj.template_id || '-'}}</span></el-col>
+              <el-col :span='20'><span>模版Id：{{particularsObj.template_id || '-'}}</span></el-col>
             </el-row>
             <el-row>
-              <el-col :span='20'><span>版本号：{{underReviewObj.version || '-'}}</span></el-col>
+              <el-col :span='20'><span>版本号：{{particularsObj.version || '-'}}</span></el-col>
             </el-row>
             <el-row>
-              <el-col :span='20'><span>开发者：{{underReviewObj.developer || '-'}}</span></el-col>
+              <el-col :span='20'><span>开发者：{{particularsObj.developer || '-'}}</span></el-col>
             </el-row>
             <el-row>
-              <el-col :span='20'><span>代码备注：{{underReviewObj.user_desc || '-'}}</span></el-col>
+              <el-col :span='20'><span>代码备注：{{particularsObj.user_desc || '-'}}</span></el-col>
             </el-row>
             <el-row>
-              <el-col :span='20'><span>自定义标签：{{underReviewObj.audit_tags || '-'}}</span></el-col>
+              <el-col :span='20'><span>自定义标签：{{particularsObj.audit_tags || '-'}}</span></el-col>
             </el-row>
             <el-row>
               <el-col :span='20'>
                 <p>可选类目：
-                  <!-- <span>{{underReviewObj.audit_category.first_class || '-'}}</span> -->
+                  <!-- <span>{{particularsObj.audit_category.first_class || '-'}}</span> -->
                   <span>-</span>
-                  <!-- <span>{{underReviewObj.audit_category.second_class || '-'}}</span> -->
+                  <!-- <span>{{particularsObj.audit_category.second_class || '-'}}</span> -->
                 </p>
               </el-col>
             </el-row>
             <el-row>
-              <el-col :span='20'><span>页面地址：{{underReviewObj.audit_address || '-'}}</span></el-col>
+              <el-col :span='20'><span>页面地址：{{particularsObj.audit_address || '-'}}</span></el-col>
             </el-row>
             <el-row>
-              <el-col :span='20'><span>页面标题：{{underReviewObj.audit_title || '-'}}</span></el-col>
+              <el-col :span='20'><span>页面标题：{{particularsObj.audit_title || '-'}}</span></el-col>
             </el-row>
-            <!-- <el-row v-if='underReviewObj.audit_error_msg !== null'>
-              <el-col :span='20'><span>上次审核错误信息：{{underReviewObj.audit_error_msg || '-'}}</span></el-col>
-            </el-row> -->
-            <el-row v-if='underReviewObj.audit_error_msg !== null'>
-              <el-col :span='20'>上次审核错误信息：<span v-html="underReviewObj.audit_error_msg"></span></el-col>
+            <el-row v-if='particularsObj.audit_error_msg !== null'>
+              <el-col :span='20'>上次审核错误信息：<span v-html="particularsObj.audit_error_msg"></span></el-col>
             </el-row>
           </div>
           <div slot="footer" class="dialog_footer">
             <ns-button @click="shopKuhuShow = false">取消</ns-button>
-            <ns-button type="primary" @click="onSave">{{checkText}}</ns-button>
+            <ns-button type="primary" @click="uploadAgain(particularsObj)">{{checkText}}</ns-button>
           </div>
         </div>
       </div>
@@ -283,31 +234,31 @@
       <div  class="dialog_domainName">
         <p>服务器域名</p>
       </div>
-      <el-form :model="underReviewObj" ref="form" label-width="150px" :rules="rules" placement="left">
-        <el-form-item label="request：" prop="request" required>
-          <el-input type="text" v-model="underReviewObj.request_domain" maxlength="10"></el-input>
+      <el-form :model="domainNameObj" ref="form" label-width="150px" :rules="domainNameRules" placement="left">
+        <el-form-item label="request：" prop="request_domain" required>
+          <el-input type="text" v-model="domainNameObj.request_domain" maxlength="10"></el-input>
         </el-form-item>
-        <el-form-item label="socket：" prop="socket" required>
-          <el-input type="text" v-model="underReviewObj.ws_request_domain" maxlength="32"></el-input>
+        <el-form-item label="socket：" prop="ws_request_domain" required>
+          <el-input type="text" v-model="domainNameObj.ws_request_domain" maxlength="32"></el-input>
         </el-form-item>
-        <el-form-item label="upliadFile：" prop="upliadFile" required>
-          <el-input type="text" v-model="underReviewObj.upload_domain" maxlength="50"></el-input>
+        <el-form-item label="upliadFile：" prop="upload_domain" required>
+          <el-input type="text" v-model="domainNameObj.upload_domain" maxlength="50"></el-input>
         </el-form-item>
-        <el-form-item label="downloadFile：" prop="downloadFile">
-          <el-input type="text" v-model="underReviewObj.download_domain" maxlength="32"></el-input>
+        <el-form-item label="downloadFile：" prop="download_domain">
+          <el-input type="text" v-model="domainNameObj.download_domain" maxlength="32"></el-input>
         </el-form-item>
       </el-form>
       <div  class="dialog_domainName">
         <p>业务域名</p>
       </div>
-      <el-form :model="model" ref="form" label-width="150px" :rules="rules" placement="left">
-        <el-form-item label="webViewDomain：" prop="webViewDomain" required>
-          <el-input type="text" v-model="underReviewObj.webview_domain" maxlength="10"></el-input>
+      <el-form :model="domainNameObj" ref="form" label-width="150px" :rules="businessRules" placement="left">
+        <el-form-item label="webViewDomain：" prop="webview_domain" required>
+          <el-input type="text" v-model="domainNameObj.webview_domain" maxlength="10"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <ns-button @click="dialogFormVisible = false">取消</ns-button>
-        <ns-button type="primary" @click="onSaveDomainName(underReviewObj)">确定</ns-button>
+        <ns-button @click="domainNameVisible = false">取消</ns-button>
+        <ns-button type="primary" @click="onSaveDomainName(domainNameObj)">确定</ns-button>
       </div>
     </el-dialog>
     <!-- 最新弹窗服务器域名结束 -->
@@ -329,7 +280,7 @@
                :visible.sync="newauthorization"
                :modal-append-to-body="false"
                @before-close="closeDialog()">
-        <el-form :model="underReviewObj" ref="form" label-width="150px" :rules="rules" placement="left">
+        <el-form :model="underReviewObj" ref="form" label-width="150px" :rules="uploadingRules" placement="left">
           <el-form-item label="模版Id：" prop="template_id" required>
             <el-input type="text" placeholder="请输入模版Id" v-model="underReviewObj.template_id" maxlength="10"></el-input>
           </el-form-item>
@@ -337,7 +288,7 @@
             <el-input type="text" placeholder="请输入版本号" v-model="underReviewObj.version" maxlength="32"></el-input>
           </el-form-item>
           <el-form-item label="代码备注：" prop="user_desc" required>
-            <el-input type="textarea" placeholder="代码备注" v-model="underReviewObj.user_desc" maxlength="50"></el-input>
+            <el-input type="textarea" placeholder="请输入代码备注" v-model="underReviewObj.user_desc" maxlength="50"></el-input>
           </el-form-item>
           <el-form-item label="外跳小程序白名单：" prop="developer">
             <el-input type="textarea" placeholder="需要跳转的小程序appId列表，多个appId以，隔开，最大输入9个" v-model="underReviewObj.appId_array" ></el-input>
@@ -345,7 +296,7 @@
         </el-form>
       <div slot="footer" >
         <ns-button @click="newauthorization = false">取消</ns-button>
-        <ns-button type="primary" @click="affirmUploading">上传</ns-button>
+        <ns-button type="primary" @click="affirmUploading(underReviewObj)">上传</ns-button>
       </div>
     </el-dialog>
     <!-- 最新弹窗模板上传结束 -->
@@ -362,14 +313,15 @@
           <el-col :span='6'><span>操作</span></el-col>
         </el-row>
         <el-row class="releaseShow_lastRow">
-          <el-col :span='6'><span>{{underReviewObj.template_id}}</span></el-col>
-          <el-col :span='6'><span>{{underReviewObj.audit_title}}</span></el-col>
-          <el-col :span='6'><span>{{underReviewObj.audit_address}}</span></el-col>
-          <el-col :span='6'><ns-button type="primary" @click="releaseParticulars(underReviewObj.app_id,underReviewObj.template_id)">详情</ns-button></el-col>
+          <el-col :span='6'><span>{{succeedObj.template_id || '-'}}</span></el-col>
+          <el-col :span='6'><span>{{succeedObj.audit_title || '-'}}</span></el-col>
+          <el-col :span='6'><span>{{succeedObj.audit_address || '-'}}</span></el-col>
+          <el-col :span='6' v-if="succeedObj.template_id === undefined"><ns-button disabled type="primary" @click="releaseParticulars(succeedObj)">详情</ns-button></el-col>
+          <el-col :span='6' v-else><ns-button type="primary" @click="releaseParticulars(succeedObj)">详情</ns-button></el-col>
         </el-row>
       <div slot="footer" class="authorization_footer">
         <ns-button @click="releaseShow = false">取消</ns-button>
-        <ns-button type="primary" @click="releaseUploading">上传</ns-button>
+        <ns-button type="primary" @click="releaseShow = false">确认</ns-button>
       </div>
     </el-dialog>
     <!-- 最新弹窗发布结束 -->
@@ -399,7 +351,7 @@
   padding:10px 30px 30px;
 }
 .dialog_footer{
-  margin: 10px 0 0 400px;
+  margin: 10px 0 20px 400px;
 }
 .underReview{
   color: #FF8C00
