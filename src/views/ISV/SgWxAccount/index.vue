@@ -163,6 +163,9 @@
               <ns-button class="auditFailure" v-if="row.status === -1" @click="auditFailure(row)">
                 审核失败
               </ns-button>
+              <ns-button class="auditFailure" v-if="row.status === 5" @click="auditFailure(row)">
+                已撤回
+              </ns-button>
             </div>
           </template>
         </el-table-column>
@@ -201,9 +204,9 @@
             <el-row>
               <el-col :span='20'>
                 <p>可选类目：
-                  <!-- <span>{{particularsObj.audit_category.first_class || '-'}}</span> -->
+                  <span v-if="particularsObj.audit_category === {}">{{particularsObj.audit_category.first_class || '-'}}</span>
                   <span>-</span>
-                  <!-- <span>{{particularsObj.audit_category.second_class || '-'}}</span> -->
+                  <span v-if="particularsObj.audit_category === {}">{{particularsObj.audit_category.second_class || '-'}}</span>
                 </p>
               </el-col>
             </el-row>
@@ -321,7 +324,7 @@
         </el-row>
       <div slot="footer" class="authorization_footer">
         <ns-button @click="releaseShow = false">取消</ns-button>
-        <ns-button type="primary" @click="releaseShow = false">确认</ns-button>
+        <ns-button type="primary" @click="onPublish(succeedObj)">确认</ns-button>
       </div>
     </el-dialog>
     <!-- 最新弹窗发布结束 -->
@@ -351,7 +354,9 @@
   padding:10px 30px 30px;
 }
 .dialog_footer{
-  margin: 10px 0 20px 400px;
+  margin: 10px 0 10px 0;
+  display: flex;
+  justify-content: flex-end;
 }
 .underReview{
   color: #FF8C00
@@ -410,7 +415,7 @@
   justify-content: center;
   align-items: center
 }
-.qrCode_img{
+.qrCode .qrCode_img{
   width: 280px;
   height: 280px;
 }

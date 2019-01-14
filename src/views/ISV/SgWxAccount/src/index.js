@@ -383,7 +383,7 @@ export default {
       this.checkText = '确认'
       this.templateForDetails(row)
     },
-    submitted (row) { // 提交审核
+    submitted (row) { // 提交审核展示详情
       var that = this
       let obj = {}
       that.titleText = '提交审核'
@@ -520,34 +520,30 @@ export default {
       that.$http.fetch(that.$api.guide.sgwxaccount.submitTemplateToAudit, obj).then((resp) => {
         if (resp.success) {
           that.$notify.success('提交成功')
+          that.dialogAutid = false
         }
       }).catch((resp) => {
         that.$notify.error(resp.msg || '保存失败')
       })
     },
     onPublish (latestStatus) { // 发布小程序
-      var that = this
-      if (latestStatus === 3) {
-        this.$confirm('是否确认发布小程序', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          that.$http.fetch(that.$api.guide.sgwxaccount.templateToRelease, that.obj).then((resp) => {
-            if (resp.success) {
-              that.$notify.success('发布成功')
-            }
-          }).catch((resp) => {
-            that.$notify.error(resp.msg || '发布失败')
-          })
+      let that = this
+      let obj = {}
+      obj.appId = latestStatus.app_id
+      this.$confirm('是否确认发布小程序', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        that.$http.fetch(that.$api.guide.sgwxaccount.templateToRelease, obj).then((resp) => {
+          if (resp.success) {
+            that.$notify.success('发布成功')
+            that.releaseShow = false
+          }
+        }).catch((resp) => {
+          that.$notify.error(resp.msg || '发布失败')
         })
-      } else if (latestStatus === 1 || latestStatus === 2 || latestStatus === 5) {
-        this.$confirm('小程序版本尚未审核通过', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {})
-      }
+      })
     },
     onSave () {
       let that = this
@@ -592,6 +588,7 @@ export default {
         .then(resp => {
           resp.result.audit_category = JSON.parse(resp.result.audit_category)
           that.particularsObj = resp.result
+          console.log('kjlkjkl:', that.particularsObj)
         })
         .catch(resp => {
           this.$notify.error(resp.msg || '查询失败')
