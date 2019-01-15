@@ -408,7 +408,7 @@
 .dialog_mian_logo img{
   width: 30px;
   height: 30px;
-  border-radius: 50%;
+  /* border-radius: 50%; */
 }
 .qrCode{
   display: flex;

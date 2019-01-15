@@ -207,7 +207,7 @@
   border-top:1px solid #ddd;
   padding:10px 0 10px 78px;
 }
-.dialog_mian_logo img{
+.dialog_mian_logo .shoplogo{
   margin-right:5px;
 }
 .dialog_mian_topText p sapn{
@@ -220,11 +220,11 @@
 .shanghu{
   color:#FF8C00 !important;
 }
-.shanghu img{
+/* .shanghu img{
   width: 30px;
   height: 30px;
   border-radius: 50%;
-}
+} */
 .newestDialog{
   padding:0 10px;
 }
