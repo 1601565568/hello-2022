@@ -206,8 +206,6 @@ export default {
       })
     },
     onPublish (latestStatus) { // 发布小程序
-      console.log('90099090')
-      console.log('90099090:', latestStatus)
       var that = this
       if (latestStatus === 3) {
         this.$confirm('是否确认发布小程序', '提示', {
@@ -340,11 +338,11 @@ export default {
 .shanghu {
   color: #ff8c00 !important;
 }
-img {
+/* img {
   width: 30px;
   height: 30px;
   border-radius: 50%;
-}
+} */
 <!-- .authorization {
   border-bottom: 1px solid #888888;
 }
