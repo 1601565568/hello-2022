@@ -190,58 +190,68 @@ export default {
           }]
       },
       domainNameRules: {
-        'request_domain': [{required: true, message: '请输入request合法域名'}, {
-          validator: (rule, value, callback) => {
-            if (value && value.length > 50) {
-              callback(new Error(''))
-            } else {
-              callback()
-            }
-          },
-          trigger: 'blur'
-        }],
-        'ws_request_domain': [{required: true, message: '请输入socket合法域名'}, {
-          validator: (rule, value, callback) => {
-            if (value && value.length > 50) {
-              callback(new Error(''))
-            } else {
-              callback()
-            }
-          },
-          trigger: 'blur'
-        }],
-        'upload_domain': [{required: true, message: '请输入uploadFile合法域名'}, {
-          validator: (rule, value, callback) => {
-            if (value && value.length > 50) {
-              callback(new Error(''))
-            } else {
-              callback()
-            }
-          },
-          trigger: 'blur'
-        }],
-        'download_domain': [{required: true, message: '请输入downloadFile合法域名'}, {
-          validator: (rule, value, callback) => {
-            if (value && value.length > 50) {
-              callback(new Error(''))
-            } else {
-              callback()
-            }
-          },
-          trigger: 'blur'
-        }]
+        'request_domain': [{required: true, message: '请输入request合法域名'}
+        // , {
+        //   validator: (rule, value, callback) => {
+        //     if (value && value.length > 50) {
+        //       callback(new Error(''))
+        //     } else {
+        //       callback()
+        //     }
+        //   },
+        //   trigger: 'blur'
+        // }
+        ],
+        'ws_request_domain': [{required: true, message: '请输入socket合法域名'}
+        // , {
+        //   validator: (rule, value, callback) => {
+        //     if (value && value.length > 50) {
+        //       callback(new Error(''))
+        //     } else {
+        //       callback()
+        //     }
+        //   },
+        //   trigger: 'blur'
+        // }
+        ],
+        'upload_domain': [{required: true, message: '请输入uploadFile合法域名'}
+        // , {
+        //   validator: (rule, value, callback) => {
+        //     if (value && value.length > 50) {
+        //       callback(new Error(''))
+        //     } else {
+        //       callback()
+        //     }
+        //   },
+        //   trigger: 'blur'
+        // }
+        ],
+        'download_domain': [{required: true, message: '请输入downloadFile合法域名'}
+        // , {
+        //   validator: (rule, value, callback) => {
+        //     if (value && value.length > 50) {
+        //       callback(new Error(''))
+        //     } else {
+        //       callback()
+        //     }
+        //   },
+        //   trigger: 'blur'
+        // }
+        ]
       },
       businessRules: {
-        'webview_domain': [{required: true, message: '请输入小程序业务域名'}, {
-          validator: (rule, value, callback) => {
-            if (value && value.length > 50) {
-              callback(new Error(''))
-            } else {
-              callback()
-            }
-          },
-          trigger: 'blur'
-        }]
+        'webview_domain': [{required: true, message: '请输入小程序业务域名'}
+        // , {
+        //   validator: (rule, value, callback) => {
+        //     if (value && value.length > 50) {
+        //       callback(new Error(''))
+        //     } else {
+        //       callback()
+        //     }
+        //   },
+        //   trigger: 'blur'
+        // }
+        ]
       },
       uploadingRules: {
         'template_id': [{required: true, message: '请输入模版Id'}, {
