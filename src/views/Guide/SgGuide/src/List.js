@@ -641,6 +641,9 @@ export default {
                 }
                 if (guide.birthday === null) guide.birthday = ''
                 if (guide.work_num === null) guide.work_num = ''
+                _this.subordinateStores.map((item, i) => {
+                  guideShop[i] = Object.assign({job: 1, shop_id: item}, guideShop[i])
+                })
                 this.$http.fetch(this.$api.guide.guide.saveOrUpdateGuide, {
                   sgGuide: guide,
                   sgGuideShopList: guideShop,
