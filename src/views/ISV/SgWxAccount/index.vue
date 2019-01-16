@@ -239,16 +239,16 @@
       </div>
       <el-form :model="domainNameObj" ref="form" label-width="150px" :rules="domainNameRules" placement="left">
         <el-form-item label="request：" prop="request_domain" required>
-          <el-input type="text" v-model="domainNameObj.request_domain" maxlength="10"></el-input>
+          <el-input type="text" v-model="domainNameObj.request_domain" ></el-input>
         </el-form-item>
         <el-form-item label="socket：" prop="ws_request_domain" required>
-          <el-input type="text" v-model="domainNameObj.ws_request_domain" maxlength="32"></el-input>
+          <el-input type="text" v-model="domainNameObj.ws_request_domain" ></el-input>
         </el-form-item>
         <el-form-item label="upliadFile：" prop="upload_domain" required>
-          <el-input type="text" v-model="domainNameObj.upload_domain" maxlength="50"></el-input>
+          <el-input type="text" v-model="domainNameObj.upload_domain" ></el-input>
         </el-form-item>
         <el-form-item label="downloadFile：" prop="download_domain">
-          <el-input type="text" v-model="domainNameObj.download_domain" maxlength="32"></el-input>
+          <el-input type="text" v-model="domainNameObj.download_domain" ></el-input>
         </el-form-item>
       </el-form>
       <div  class="dialog_domainName">
@@ -256,7 +256,7 @@
       </div>
       <el-form :model="domainNameObj" ref="form" label-width="150px" :rules="businessRules" placement="left">
         <el-form-item label="webViewDomain：" prop="webview_domain" required>
-          <el-input type="text" v-model="domainNameObj.webview_domain" maxlength="10"></el-input>
+          <el-input type="text" v-model="domainNameObj.webview_domain"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
