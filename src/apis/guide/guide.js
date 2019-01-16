@@ -118,5 +118,13 @@ export default {
   updateShopId: { // 批量更换门店
     url: '/guide/guide/updateShopId',
     method: 'post'
+  },
+  findGuideShopList: { // 导购门店详情
+    url: '/guide/guide/findGuideShopList',
+    method: 'get'
+  },
+  findGuideShopCustomerSum: { // 更改门店导购的客户数
+    url: '/guide/guide/findGuideShopCustomerSum',
+    method: 'post'
   }
 }
