@@ -316,7 +316,6 @@ export default {
       _this.subordinateStores.map((item, i) => {
         guideShop[i] = Object.assign({job: 1, shop_id: item}, guideShop[i])
       })
-      guideShop.shift()
       _this.$refs.addForm.validate((valid) => {
         if (valid) {
           if (guide.birthday instanceof Date) {
@@ -669,7 +668,6 @@ export default {
           this.subordinateStores.map((item, i) => {
             guideShop[i] = Object.assign({job: 1, shop_id: item}, guideShop[i])
           })
-          guideShop.shift()
           _this.$refs.addForm.validate(valid => {
             if (valid) {
               if (guide.birthday instanceof Date) {
