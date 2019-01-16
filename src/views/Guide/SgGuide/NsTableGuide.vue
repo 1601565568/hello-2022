@@ -94,14 +94,20 @@
           </template >
         </el-table-column>
         <el-table-column prop="mobile" label="联系方式" align="left" width="120"></el-table-column>
-        <el-table-column prop="shopName" label="所属门店" align="left">
+        <el-table-column prop="shopName,count" label="所属门店" align="left">
           <template slot-scope="scope">
-            {{scope.row.shopName?scope.row.shopName:'-'}}
+            <ns-button style="color:#0091FA" @click="scopeRowCount(scope.row.id)" v-if="scope.row.count > 1" type="text">{{scope.row.count}}家</ns-button>
+            <div v-else>
+              {{scope.row.shopName?scope.row.shopName:'-'}}
+            </div>
           </template>
         </el-table-column>
-        <el-table-column label="所属区域" align="left" width="180">
+        <el-table-column prop='count' label="所属区域" align="left" width="180">
           <template slot-scope="scope">
-            {{!scope.row.province&&!scope.row.city&&!scope.row.district?'-':scope.row.province+'/'+scope.row.city+'/'+scope.row.district}}
+            <ns-button style="color:#0091FA" @click="scopeRowCount(scope.row.id)" v-if="scope.row.count > 1" type="text">查看详情</ns-button>
+            <div v-else>
+              {{!scope.row.province&&!scope.row.city&&!scope.row.district?'-':scope.row.province+'/'+scope.row.city+'/'+scope.row.district}}
+            </div>
           </template>
         </el-table-column>
         <el-table-column prop="job" label="职务" align="left" width="60">
@@ -119,9 +125,6 @@
                          :active-value="1" :inactive-value="0" active-color='#13ce66' inactive-color='#888888'
                          active-text="启用" inactive-text="禁用"> </el-switch>
             </div>
-            <!-- <div v-if="scope.row.status === 0 || scope.row.status === 1">
-              <el-switch @change="changeState(scope.row.state,scope.row.id)" v-model="scope.row.state"   active-color='#13ce66' inactive-color='#888888'   active-text="启用" inactive-text="禁用"> </el-switch>
-            </div> -->
           </template>
         </el-table-column>
         <el-table-column prop="status,row" :show-overflow-tooltip="true" label="操作" align="right" width="120">
@@ -142,7 +145,6 @@
       </el-table>
     </template>
     <!-- 表格-结束 -->
-
     <!-- 分页 -->
     <template slot="pagination">
       <el-pagination v-if="_data._pagination.enable" class="template-table-pagination"
@@ -161,6 +163,10 @@
 
 <script>
   import guide from './src/NsTableGuide'
-
   export default guide
 </script>
+<style>
+.scope_row_count{
+  color: blue;
+}
+</style>

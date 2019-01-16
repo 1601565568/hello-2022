@@ -1,18 +1,35 @@
 <template>
   <div>
-    <ns-table-guide ref="table" :url=$api.guide.guide.findList @add="onRedactFun"
+    <ns-table-guide ref="table" :url=$api.guide.guide.findList @add="onRedactFun" @scopeRowCount="scopeRowCount"
                     @shopEdit="shopEdit" @allDelete="allDelete" @dimission="dimission" @showShop="showShop" @onDelsTipFun="onDelsTipFun" @onRedactFun="onRedactFun" @dimissionFun="dimissionFun" @handleSelectionChange="handleSelectionChange">
-      <!-- <ns-table-guide ref="table" :url=$api.guide.guide.findList @add="onRedactFun"
-      @shopEdit="shopEdit" @allDelete="allDelete" @ondelete="ondelete" @onAddCustomer="onRedactFun" @quit="quit" @handleSelectionChange="handleSelectionChange"> -->
     </ns-table-guide>
     <!-- 新增修改客户开始-->
     <el-dialog :title="title" :visible.sync="dialogFormVisible" width="460px"  @keyup.enter.native="onKeyUp" @keyup.esc.native="onKeyUp" >
       <div class="guideBox" style="overflow-x:hidden;overflow-y:auto;">
         <el-form :model="model.sgGuide" ref="addForm" label-width="100px" :rules="rules" >
+          <el-form-item label="职务：" required>
+            <el-form-grid size="xxmd">
+              <el-radio-group v-model="model.sgGuideShop.job" @change="jobs">
+                <el-radio :label="0">导购</el-radio>
+                <el-radio :label="1">店长</el-radio>
+              </el-radio-group>
+            </el-form-grid>
+          </el-form-item>
           <el-form-item label="所属门店：" required>
             <el-form-grid size="xxmd">
-              <el-form-item prop="shop">
-                <el-select placeholder="所属门店" @change="store" v-model="model.sgGuideShop.shop_id" filterable >
+              <el-form-item prop="shops" v-if="guideValue === 1" > 
+                <el-select placeholder="所属门店" @change="store" v-model="subordinateStores" multiple>
+                  <el-option v-for="shop in shopFindList" :label="shop.shopName" :value="shop.id" :key="shop.id"></el-option>
+                </el-select>
+                 <!-- <el-select v-else placeholder="所属门店" @change="store" v-model="model.sgGuideShop.shop_id" filterable >
+                  <el-option v-for="shop in shopFindList" :label="shop.shopName" :value="shop.id" :key="shop.id"></el-option>
+                </el-select> -->
+              </el-form-item>
+              <el-form-item prop="shop" v-else > 
+                <!-- <el-select v-if="guideValue === 1" placeholder="所属门店" @change="store" v-model="subordinateStores" multiple>
+                  <el-option v-for="shop in shopFindList" :label="shop.shopName" :value="shop.id" :key="shop.id"></el-option>
+                </el-select> -->
+                 <el-select placeholder="所属门店" @change="store" v-model="model.sgGuideShop.shop_id" filterable >
                   <el-option v-for="shop in shopFindList" :label="shop.shopName" :value="shop.id" :key="shop.id"></el-option>
                 </el-select>
               </el-form-item>
@@ -60,14 +77,6 @@
               </el-form-item>
             </el-form-grid>
           </el-form-item>
-          <el-form-item label="职务：" required>
-            <el-form-grid size="xxmd">
-              <el-radio-group v-model="model.sgGuideShop.job" @change="jobs">
-                <el-radio :label="0">导购</el-radio>
-                <el-radio :label="1">店长</el-radio>
-              </el-radio-group>
-            </el-form-grid>
-          </el-form-item>
           <el-form-item label="工号：" required>
             <el-form-grid size="xxmd">
               <el-form-item prop="work_id">
@@ -83,8 +92,8 @@
           </el-form-item>
           <el-form-item label="前缀：" required v-if='showUpdateAllGuidePrefix'>
             <el-form-grid size="xxmd">
-              <el-form-item prop="sex">
-                <el-radio-group  v-model="model.updateAllGuidePrefix">
+              <el-form-item prop="updateAllGuidePrefix">
+                <el-radio-group v-model="model.sgGuideShop.updateAllGuidePrefix">
                   <el-radio :label="1">修改所有</el-radio>
                   <el-radio :label="0">修改当前</el-radio>
                 </el-radio-group>
@@ -110,7 +119,7 @@
       </div>
       <div slot="footer" class="dialog-footer">
         <ns-button @click="closeDialog">取消</ns-button>
-        <ns-button type="primary" @click="onSave">确定</ns-button>
+        <ns-button type="primary" @click="onSave(model)">确定</ns-button>
       </div>
     </el-dialog>
     <!--  新增修改客户结束 -->
@@ -234,9 +243,6 @@
     <!--  自定义客户转移弹窗开始  -->
     <el-dialog :title="shopTitle" width="560px" height="300px" :visible.sync="shopFindListShow" @keyup.enter.native="onKeyUp" @keyup.esc.native="onKeyUp">
       <div class="guideBox" style="overflow-x:hidden;overflow-y:auto;">
-        <!-- <el-select placeholder="所属门店" @change="store" v-model="model.sgGuideShop.shop_id" filterable >
-                  <el-option v-for="shop in shopFindList" :label="shop.shopName" :value="shop.id" :key="shop.id"></el-option>
-                </el-select> -->
         <el-select v-model="model.sgGuideShop.shop_id" @change="changeShop" placeholder="请选择要更换的门店">
           <el-option  v-for="item in shopFindList" :key="item.id"  :label="item.shopName"  :value="item.id"></el-option>
         </el-select>
@@ -247,6 +253,45 @@
       </div>
     </el-dialog>
     <!--  自定义客户转移弹窗开始  -->
+    <!-- 所属门店查看详情开始 -->
+      <el-dialog :title="memberBelongingtitle"  :visible.sync="scopeRowCountShow" width="460px" >
+        <el-table ref="table" :data="shopFindList" >
+          <el-table-column prop="name" label="所属门店" align="left" width="208">
+            <template slot-scope="scope">
+              {{scope.row.name || '-'}}
+            </template>
+          </el-table-column>
+          <el-table-column prop="address" label="所属区域" align="left" width="208">
+            <template slot-scope="scope">
+              {{scope.row.address || '-'}}
+            </template>
+          </el-table-column>
+        </el-table>
+      </el-dialog>
+    <!-- 所属门店查看详情结束 -->
+    <!-- 所属门店查看详情开始 -->
+    <el-dialog :title="title"  :visible.sync="memberBelongingShow" width="460px" >
+      <el-form>
+      <el-form-item label="会员归属方式：" required>
+        <el-form-grid size="xxmd">
+          <el-radio-group v-model="model.sgGuideShop.memberBelonging" @change="memberBelonging">
+            <el-radio :label="1">员工<i class="el-icon-question"></i></el-radio>
+            <el-radio :label="2">门店<i class="el-icon-question"></i></el-radio>
+          </el-radio-group>
+        </el-form-grid>
+      </el-form-item>
+      </el-form>
+      <div v-if="memberBelongingShows" class="guideBox" style="overflow-x:hidden;overflow-y:auto;">
+        <el-select v-model="model.sgGuideShop.shop_id" @change="changeMemberBelonging" placeholder="请选择要更换的门店">
+          <el-option  v-for="item in shopFindList" :key="item.id"  :label="item.shopName"  :value="item.id"></el-option>
+        </el-select>
+      </div>
+      <div slot="footer" class="dialog-footer">
+        <ns-button @click="memberBelongingShow = false">取消</ns-button>
+        <ns-button type="primary" @click="memberBelongingEnsure(model)">确定</ns-button>
+      </div>
+    </el-dialog>  
+    <!-- 所属门店查看详情结束 -->
   </div>
 </template>
 
