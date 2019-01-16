@@ -629,7 +629,7 @@ export default {
           guideId: model.sgGuideShop.id,
           shopIds: this.subordinateStores.join(',')
         }).then(resp => {
-          if (resp.result.result.sum === 0) {
+          if (resp.result.result.sum > 0) {
             _this.memberBelongingtitle = '选择会员归属'
             _this.memberBelongingShow = true
             sgGuideVo = this.model.sgGuideVo
