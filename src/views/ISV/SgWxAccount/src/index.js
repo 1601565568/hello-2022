@@ -301,7 +301,7 @@ export default {
       obj.appId = particularsObj.app_id
       obj.templateId = particularsObj.template_id
       if (that.checkText === '重新提交审核') {
-        this.onPresent(particularsObj)
+        that.onPresent(particularsObj)
       } else if (that.checkText === '撤回审核') {
         that.$http.fetch(that.$api.isv.auditingRevert, obj).then((resp) => {
           if (resp.success) {
@@ -317,6 +317,10 @@ export default {
     onSaveDomainName (domainNameObj) { // 配置域名保存
       var that = this
       that.$http.fetch(that.$api.isv.setModifyDomain, domainNameObj).then((resp) => {
+        if (resp.success) {
+          that.$notify.success('配置域名保存成功')
+          that.domainNameVisible = false
+        }
       }).catch((resp) => {
         that.$notify.error(resp.msg || '保存失败')
       })
@@ -514,19 +518,12 @@ export default {
       let that = this
       let obj = {}
       obj.appId = underReviewObj.app_id
-      obj.pageStr = underReviewObj.secondId
-      obj.tags = underReviewObj.appid
+      obj.pageStr = underReviewObj.audit_address
+      obj.tags = underReviewObj.audit_tags
       obj.templateId = underReviewObj.template_id
-      obj.title = underReviewObj.corpsecret
+      obj.title = underReviewObj.audit_title
       obj.categoryStr = {}
-      underReviewObj.categoryList.map(item => {
-        if (item.first_id === underReviewObj.firstId) {
-          obj.categoryStr.first_class = item.first_class
-          obj.categoryStr.first_id = item.first_id
-          obj.categoryStr.second_class = item.second_class
-          obj.categoryStr.second_id = item.second_id
-        }
-      })
+      obj.categoryStr = underReviewObj.audit_category
       that.$http.fetch(that.$api.guide.sgwxaccount.submitTemplateToAudit, obj).then((resp) => {
         if (resp.success) {
           that.$notify.success('提交成功')
