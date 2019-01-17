@@ -57,7 +57,7 @@
           <template slot-scope="scope">
             <div>
               <ns-button style="color:#0091FA" @click="onRedactFun(scope.row)" type="text">编辑</ns-button>
-              <ns-button style="color:#f00" @click="onDelsTipFun(scope.row)" type="text">删除</ns-button>
+              <!-- <ns-button style="color:#f00" @click="onDelsTipFun(scope.row)" type="text">删除</ns-button> -->
             </div>
           </template>
         </el-table-column>
