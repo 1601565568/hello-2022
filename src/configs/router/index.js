@@ -5,6 +5,7 @@ import Other from './other'
 import Examples from './examples'
 import Database from './database'
 import Isv from './isv'
+import Management from './management'
 export default [
   ShopManager,
   Reward,
@@ -13,6 +14,7 @@ export default [
   Examples,
   Database,
   Isv,
+  Management,
   // 以下为系统默认路由，修改请请与项目负责人进行确认
   {
     path: '/',

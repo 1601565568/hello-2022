@@ -135,7 +135,6 @@ export default {
           },
           {
             validator: (rule, value, callback) => {
-              console.log(rule, value)
               if (value && value.length > 50) {
                 callback(new Error(''))
               } else {
@@ -152,7 +151,6 @@ export default {
           },
           {
             validator: (rule, value, callback) => {
-              console.log(rule, value)
               if (value && value.length > 50) {
                 callback(new Error('小程序的标签，多个标签用空格分隔，标签不能多于10个，标签长度不超过20'))
               } else {
@@ -190,68 +188,13 @@ export default {
           }]
       },
       domainNameRules: {
-        'request_domain': [{required: true, message: '请输入request合法域名'}
-        // , {
-        //   validator: (rule, value, callback) => {
-        //     if (value && value.length > 50) {
-        //       callback(new Error(''))
-        //     } else {
-        //       callback()
-        //     }
-        //   },
-        //   trigger: 'blur'
-        // }
-        ],
-        'ws_request_domain': [{required: true, message: '请输入socket合法域名'}
-        // , {
-        //   validator: (rule, value, callback) => {
-        //     if (value && value.length > 50) {
-        //       callback(new Error(''))
-        //     } else {
-        //       callback()
-        //     }
-        //   },
-        //   trigger: 'blur'
-        // }
-        ],
-        'upload_domain': [{required: true, message: '请输入uploadFile合法域名'}
-        // , {
-        //   validator: (rule, value, callback) => {
-        //     if (value && value.length > 50) {
-        //       callback(new Error(''))
-        //     } else {
-        //       callback()
-        //     }
-        //   },
-        //   trigger: 'blur'
-        // }
-        ],
-        'download_domain': [{required: true, message: '请输入downloadFile合法域名'}
-        // , {
-        //   validator: (rule, value, callback) => {
-        //     if (value && value.length > 50) {
-        //       callback(new Error(''))
-        //     } else {
-        //       callback()
-        //     }
-        //   },
-        //   trigger: 'blur'
-        // }
-        ]
+        'request_domain': [{required: true, message: '请输入request合法域名'}],
+        'ws_request_domain': [{required: true, message: '请输入socket合法域名'}],
+        'upload_domain': [{required: true, message: '请输入uploadFile合法域名'}],
+        'download_domain': [{required: true, message: '请输入downloadFile合法域名'}]
       },
       businessRules: {
-        'webview_domain': [{required: true, message: '请输入小程序业务域名'}
-        // , {
-        //   validator: (rule, value, callback) => {
-        //     if (value && value.length > 50) {
-        //       callback(new Error(''))
-        //     } else {
-        //       callback()
-        //     }
-        //   },
-        //   trigger: 'blur'
-        // }
-        ]
+        'webview_domain': [{required: true, message: '请输入小程序业务域名'}]
       },
       uploadingRules: {
         'template_id': [{required: true, message: '请输入模版Id'}, {
@@ -421,7 +364,6 @@ export default {
         that.$notify.error(resp.msg || '请求失败')
       })
       that.submittedObj = row
-      console.log('row:', row)
     },
     auditFailure (row) { // 审核失败
       this.shopKuhuShow = true

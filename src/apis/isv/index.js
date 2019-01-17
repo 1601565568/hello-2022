@@ -103,5 +103,15 @@ export default {
   auditingRevert: {
     url: '/guide/wechatsetting/auditingRevert',
     method: 'get'
+  },
+  // 查询定时服务列表
+  findServiceExecutionList: {
+    url: '/operate/action/findServiceExecutionList',
+    method: 'post'
+  },
+  // 更新服务状态
+  updateServiceExecution: {
+    url: '/operate/action/updateServiceExecution',
+    method: 'post'
   }
 }

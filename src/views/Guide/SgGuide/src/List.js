@@ -316,6 +316,7 @@ export default {
       _this.subordinateStores.map((item, i) => {
         guideShop[i] = Object.assign({job: 1, shop_id: item}, guideShop[i])
       })
+      // guideShop.shift()
       _this.$refs.addForm.validate((valid) => {
         if (valid) {
           if (guide.birthday instanceof Date) {
@@ -619,7 +620,6 @@ export default {
       let _this = this
       let guide = this.model.sgGuide
       let guideShop = []
-      guideShop.push(this.model.sgGuideShop)
       let sgGuideVo = {}
       let allImageUrl = null
       let updateAllGuidePrefix = this.model.sgGuideShop.updateAllGuidePrefix

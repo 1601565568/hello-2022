@@ -126,5 +126,9 @@ export default {
   findGuideShopCustomerSum: { // 更改门店导购的客户数
     url: '/guide/guide/findGuideShopCustomerSum',
     method: 'post'
+  },
+  findShopGuide: { // 查询店铺导购列表
+    url: '/guide/guide/findShopGuide',
+    method: 'post'
   }
 }
