@@ -392,13 +392,14 @@ export default {
           _this.shopCouponList = []
           _this.shopMap.forEach(function (value, key, map) {
             var shop = {}
-            shop.shop_id = value.id
-            shop.shop_coupon_total = parseInt(value.shopCouponNumber)
+            shop.shopId = value.id
+            shop.shopCouponTotal = parseInt(value.shopCouponNumber)
+            shop.shopName = value.shopName
             _this.shopCouponList.push(shop)
           })
           _this.$http.fetch(_this.$api.guide.activityCoupon.saveActiviCoupon, {
             sgActivityCoupon: _this.activityModel,
-            sgShopCouponList: _this.shopCouponList
+            couponShopList: _this.shopCouponList
           }).then(resp => {
             if (resp.success) {
               _this.addCouponDialogVisible = false
