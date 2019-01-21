@@ -2,6 +2,13 @@ import api from 'configs/http'
 // import moment from 'moment/moment'
 export default {
   data: function () {
+    let pagination = {
+      enable: true,
+      size: 15,
+      sizeOpts: [15, 25, 50, 100],
+      page: 1,
+      total: 0
+    }
     let searchModel = {
       sgGuide: {
         guideId: null,
@@ -46,32 +53,11 @@ export default {
       multipleSelections: [],       // 客户详情数组
       customerIdList: [],
       kehushow: false,
-      items: {
-        address: '浙江省/杭州市/西湖区',
-        id: '0',
-        birthday: '2018-09-09',
-        createTime: '2018-08-08',
-        customerId: '88888888',
-        customerName: 'Temo',
-        grade: 'VIP8',
-        gradeName: '高级会员',
-        image: 'https://ecrm.oss-cn-hangzhou.aliyuncs.com/test/201811/120,910,104,359,001/e6d44b7b-88a8-47c8-9822-cccb54745b37.png',
-        impression: '“伟大的变革——庆祝改革开放40周年大型展览”目前正在中国国家博物馆举行，展览上的“时光杂货铺”内陈列的展品呈现了改革开放40年来人民衣食住行等生活方式的变迁，带领人们“穿越”历史，重温美好时光。',
-        memberCard: '888888888',
-        mobile: '15888888888',
-        point: '88888888',
-        sex: '男',
-        tagList: [
-          {
-            id: '999999',
-            name: 'kkkkkk',
-            tagType: '009',
-            value: '998877'
-          }
-        ]
-      },
+      pagination: pagination,
       model: model,
+      items: {},
       changeValue: {},
+      particularsObj: [],
       logoValue: null,
       nicknameValue: null,
       birthdayValue: null,
@@ -82,6 +68,7 @@ export default {
       storeValue: null,
       workIdChangeValue: null,
       value: null,
+      radio: '1',
       changeObj: {},
       state: {},
       obj: {},
@@ -97,6 +84,41 @@ export default {
     }
   },
   methods: {
+    searchAction (model) { // 搜索
+      this.guideFindList(model)
+    },
+    resetInputAction () { // 重置
+      this.guideFindList()
+    },
+    async guideFindList (model) { // 导购列表
+      let that = this
+      let shopList = []
+      let obj = {
+        length: 15,
+        searchMap: {
+          shopId: null,
+          keyword: null
+        },
+        start: 0
+      }
+      if (model !== undefined) {
+        obj.searchMap.keyword = model.name
+        obj.searchMap.shopId = parseInt(model.shop)
+      }
+      await this.$http
+        .fetch(that.$api.guide.guide.findShopGuide, obj)
+        .then(resp => {
+          that.particularsObj = [...resp.result]
+          that.particularsObj.map(item => {
+            shopList.push(item.shopId)
+          })
+          that.shopList = new Set(shopList)
+          that.shopList = Array.from(that.shopList)
+        })
+        .catch(resp => {
+          this.$notify.error(resp.msg || '查询失败')
+        })
+    },
     onKeyUp (e) {
       var key = window.event.keyCode
       var _this = this
@@ -113,7 +135,24 @@ export default {
         _this.shopFindListShow = false
       }
     },
+    // 分页-页数改变
+    shopPageChange (page) {
+      console.log('page:', page)
+      var _this = this
+      _this.paginations.page = page
+      _this.guideFindList()
+    },
+    // 分页-大小改变
+    shopSizeChange (pageSize) {
+      var _this = this
+      _this.paginations.size = pageSize
+      _this.paginations.page = 1
+      _this.guideFindList()
+    },
     handleSelectionChange (value) {
+      this.multipleSelection = value
+    },
+    guideChange (value) {
       this.multipleSelection = value
     },
     initShopList () {
@@ -130,10 +169,12 @@ export default {
     },
     // 更换导购弹窗\详情展示
     onRedactFun (val) {
+      console.log('val:', this.multipleSelection)
       var _this = this
       if (val === undefined) {
         if (this.multipleSelection.length > 0) {
           _this.shopFindListShow = true
+          _this.guideFindList()
         } else {
           _this.$notify.error('请选择要更换导购的客户')
         }
@@ -207,6 +248,8 @@ export default {
     },
     onSave () {
       var _this = this
+      console.log('_this.shopFindList:', _this.shopFindList)
+      console.log('_this.shopFindList:', _this.value)
       _this.shopFindList.map(item => {
         if (_this.value === item.id) {
           _this.value = item

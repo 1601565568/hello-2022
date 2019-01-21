@@ -96,15 +96,15 @@
         <el-table-column prop="mobile" label="联系方式" align="left" width="120"></el-table-column>
         <el-table-column prop="shopName,count" label="所属门店" align="left">
           <template slot-scope="scope">
-            <ns-button style="color:#0091FA" @click="scopeRowCount(scope.row.id)" v-if="scope.row.count > 1" type="text">{{scope.row.count}}家</ns-button>
+            <ns-button style="color:#0091FA" @click="scopeRowCount(scope.row)" v-if="scope.row.count > 1" type="text">{{scope.row.count}}家</ns-button>
             <div v-else>
               {{scope.row.shopName?scope.row.shopName:'-'}}
             </div>
           </template>
         </el-table-column>
-        <el-table-column prop='count' label="所属区域" align="left" width="180">
+        <el-table-column prop='count' label="所属地区" align="left" width="180">
           <template slot-scope="scope">
-            <ns-button style="color:#0091FA" @click="scopeRowCount(scope.row.id)" v-if="scope.row.count > 1" type="text">查看详情</ns-button>
+            <ns-button style="color:#0091FA" @click="scopeRowCount(scope.row)" v-if="scope.row.count > 1" type="text">查看详情</ns-button>
             <div v-else>
               {{!scope.row.province&&!scope.row.city&&!scope.row.district?'-':scope.row.province+'/'+scope.row.city+'/'+scope.row.district}}
             </div>

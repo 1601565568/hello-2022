@@ -33,6 +33,7 @@
                 <ns-button v-if="scope.row.wx_status === 1" type="text" @click="onCodeTemplate(scope.row)">代码模版</ns-button>
                 <ns-button v-if="scope.row.appid !== 'wxd018c65db8b66408' && scope.row.appid !== 'wx088d6dbeea9c68c3'"
                            type="text" @click="onDelete(scope.row)">删除</ns-button>
+                <ns-button v-if="scope.row.from_type === 1" type="text" @click="onRefresh(scope.row)">刷新</ns-button>
               </span>
             </template>
           </el-table-column>

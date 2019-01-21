@@ -208,6 +208,8 @@ export default {
     onSave () {
       let that = this
       that.shopManager_radio === '1' ? that.model.type = 1 : that.model.type = 0
+      delete that.model.param
+      console.log('model:', that.model)
       that.$refs.form.validate((valid) => {
         if (valid) {
           that.$http.fetch(that.$api.guide.sgwxaccount.save, that.model).then(() => {

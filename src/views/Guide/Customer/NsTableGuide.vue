@@ -106,8 +106,8 @@
         </el-table-column>
         <el-table-column prop="grade,memberCard" label="会员类型/卡号" align="left" >
           <template slot-scope="scope">
-              <div v-if="scope.row.memberCard !=null || scope.row.grade !== null">
-                {{scope.row.grade?scope.row.grade:'会员' +' / '+scope.row.memberCard}}
+              <div v-if="scope.row.memberCard !==null || scope.row.grade !== null">
+                {{scope.row.grade === '0'? '-'+ ' / ' +scope.row.memberCard :'会员等级' + scope.row.grade + ' / '+scope.row.memberCard}}
               </div>
               <div v-if="scope.row.memberCard == null && scope.row.grade === null">
                 未绑卡

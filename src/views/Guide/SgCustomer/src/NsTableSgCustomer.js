@@ -147,7 +147,7 @@ export default {
   methods: {
     showListDialog (id) {
       var _this = this
-      _this.title = '转移人数列表'
+      _this.title = '转移会员'
       _this.showCustomerDialogVisible = true
       _this.findCustomerDetail(id)
       // this.$emit('showListDialogMain', id)

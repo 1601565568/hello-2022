@@ -254,19 +254,22 @@
     </el-dialog>
     <!--  自定义客户转移弹窗开始  -->
     <!-- 所属门店查看详情开始 -->
-      <el-dialog :title="memberBelongingtitle"  :visible.sync="scopeRowCountShow" width="460px" >
-        <el-table ref="table" :data="shopFindList" >
-          <el-table-column prop="name" label="所属门店" align="left" width="208">
+      <el-dialog :title="memberBelongingtitle"  :visible.sync="scopeRowCountShow" width="660px" >
+        <el-table ref="table" :data="shopFindLists" >
+          <el-table-column prop="name" label="所属门店" align="left" width="320">
             <template slot-scope="scope">
               {{scope.row.name || '-'}}
             </template>
           </el-table-column>
-          <el-table-column prop="address" label="所属区域" align="left" width="208">
+          <el-table-column prop="address" label="所属地区" align="left" width="320">
             <template slot-scope="scope">
               {{scope.row.address || '-'}}
             </template>
           </el-table-column>
         </el-table>
+        <div slot="footer" class="scopeRowCountShow_footer">
+          <ns-button class="scopeRowCountShow_button" @click="scopeRowCountShow = false">关闭</ns-button>
+        </div>
       </el-dialog>
     <!-- 所属门店查看详情结束 -->
     <!-- 所属门店查看详情开始 -->
@@ -327,6 +330,9 @@
     width: 128px;
     height: 128px;
     display: block;
+  }
+  .scopeRowCountShow_footer{
+    margin: 10px 0 10px 0
   }
 </style>
 

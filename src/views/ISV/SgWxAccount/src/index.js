@@ -494,7 +494,7 @@ export default {
         })
       })
     },
-    onSave () {
+    onSave () { // 小程序保存功能
       let that = this
       that.shopManager_radio === '1' ? that.model.type = 1 : that.model.type = 0
       that.$refs.form.validate((valid) => {
@@ -510,7 +510,7 @@ export default {
         }
       })
     },
-    onDelete (row) {
+    onDelete (row) { // 小程序删除功能
       apiRequestConfirm('永久删除该数据')
       .then(() => {
         let that = this
@@ -524,6 +524,20 @@ export default {
         })
       }).catch(() => {
         // 点击取消事件
+      })
+    },
+    onRefresh (row) { // 小程序刷新功能
+      let that = this
+      let obj = {}
+      obj.appId = row.appid
+      this.$http.fetch(that.$api.guide.guide.refreshAuthedAppletInfo, obj)
+      .then(resp => {
+        if (resp.success) {
+          this.$notify.success(resp.msg)
+        }
+      })
+      .catch(resp => {
+        this.$notify.error(resp.msg || '查询失败')
       })
     },
     async templateForDetails (succeedObj) { // 模板详情

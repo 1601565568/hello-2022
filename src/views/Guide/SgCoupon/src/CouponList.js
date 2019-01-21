@@ -92,8 +92,6 @@ export default {
      * 重置表单数据
      */
     resetForm (formName) {
-      console.log(89899890)
-      console.log(formName)
       var _this = this
       _this.activityModel = {
         type: 0,

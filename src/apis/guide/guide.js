@@ -130,5 +130,18 @@ export default {
   findShopGuide: { // 查询店铺导购列表
     url: '/guide/guide/findShopGuide',
     method: 'post'
+  },
+  findShopListOnCondition: { // 按条件查询店铺
+    url: '/core/sgshop/findShopListOnCondition',
+    method: 'post'
+  },
+  getWechatQrcode: { // 获取二维码
+    url: 'app/guide/whd/getWechatQrcode',
+    method: 'post'
+  },
+  // 刷新小程序信息(包括token信息)
+  refreshAuthedAppletInfo: {
+    url: '/guide/wechatsetting/refreshAuthedAppletInfo',
+    method: 'get'
   }
 }

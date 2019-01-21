@@ -31,25 +31,25 @@ export default {
       titleText: '修改状态弹框',
       domainNameVisible: false,
       options: [{
-        value: '选项1',
+        value: '销售业绩',
         label: 0
       }, {
-        value: '选项2',
+        value: '招募业绩',
         label: 1
       }, {
-        value: '选项3',
+        value: '订单同步',
         label: 2
       }, {
-        value: '选项4',
+        value: '导购会员同步',
         label: 3
       }, {
-        value: '选项5',
+        value: '门店同步',
         label: 4
       }, {
-        value: '选项6',
+        value: '优惠券记录同步',
         label: 5
       }, {
-        value: '选项7',
+        value: '优惠券',
         label: 6
       }]
     }

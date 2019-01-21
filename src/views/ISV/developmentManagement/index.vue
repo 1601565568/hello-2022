@@ -8,7 +8,7 @@
       <el-form :model="searchModel" :inline="true" @submit.native.prevent  class="pull-right">
         <el-form-item v-show="_data._queryConfig.expand === false">
           <el-select v-model="searchModel.type" clearable  placeholder="请选择">
-            <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.label"></el-option>
+            <el-option v-for="item in options" :key="item.value" :label="item.value" :value="item.label"></el-option>
           </el-select>
           <!-- <el-input ref="quickText" style="width: 250px" v-model="searchModel.type" placeholder="请输入虚拟视角ID/服务状态" @keyup.enter.native="$quickSearchAction$('name')" clearable>
           </el-input> -->

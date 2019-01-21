@@ -31,7 +31,10 @@
 
         <el-col :span="7">
             <ns-button type="primary" @click="AddShowToggle({})">新增</ns-button>
-            <ns-button type="primary" @click="setGroudShowToggle">批量设置分组</ns-button>
+            <ns-button type="primary" v-if="color" @click="setGroudShowToggle">批量设置分组</ns-button>
+            <ns-button type="info" disabled v-else  >批量设置分组</ns-button>
+            <ns-button type="primary" v-if="color" @click="deleteSubdivision">删除</ns-button>
+            <ns-button disabled type="info" v-else >删除</ns-button>
         </el-col>
         <el-col :span="17">
           <!-- 右上角操作区域 -->
@@ -193,12 +196,7 @@ export default {
           shopName: '品牌'
         }
       ],
-      groudList: [
-        // {
-        //   subdivision_id: 1,
-        //   subdivision_name: '分组名'
-        // }
-      ],
+      groudList: [],
       statusOptions: [
         {
           // 状态
@@ -215,6 +213,7 @@ export default {
         }
       ],
       selectedArr: [],
+      color: false,
       searchform: {
         time: []
       },
@@ -298,7 +297,6 @@ export default {
       await this.$http
         .fetch(this.$api.guide.materialGroudListAll, {})
         .then(resp => {
-          console.log(resp.result.data)
           this.groudList = resp.result
         })
         .catch(resp => {
@@ -312,7 +310,6 @@ export default {
       await this.$http
         .fetch(this.$api.guide.comGetBrandForShopList, {isOnline: 0})
         .then(resp => {
-          console.log(resp.result)
           this.sourceList = this.sourceList.concat(resp.result)
         })
         .catch(resp => {
@@ -356,7 +353,7 @@ export default {
     },
     // 打开弹窗--设置分组
     setGroudShowToggle () {
-      if (this.selectedArr.length === 0) {
+      if (this.selectedArr.length < 1) {
         this.$notify.error('请选择素材')
         return
       }
@@ -365,7 +362,30 @@ export default {
         this.$refs.setGroudDialogDom.showToggle(this.selectedArr, this.groudList)
       })
     },
-
+    // 打开弹窗--批量删除
+    deleteSubdivision () {
+      let that = this
+      let obj = {materialIds: ''}
+      let arry = []
+      that.selectedArr.map(item => {
+        arry.push(item.id)
+      })
+      obj.materialIds = arry.join(',')
+      apiRequestConfirm('永久删除该数据')
+        .then(() => {
+          that.$http
+            .fetch(that.$api.guide.material.batchDeleteMaterial, obj)
+            .then(resp => {
+              that.$notify.success('删除成功！')
+            })
+            .catch(resp => {
+              that.$notify.error(resp.msg || '删除失败！')
+            })
+        })
+        .catch(() => {
+          // 点击取消事件
+        })
+    },
     // 提交搜索
     submitForm (formName) {
       this.searchObj.searchMap.source_id = this.searchform.source_id
@@ -378,14 +398,13 @@ export default {
         this.searchObj.searchMap.time_start = ''
         this.searchObj.searchMap.time_end = ''
       }
-      console.log(this.searchObj)
       // 组装搜索对象
       this.loadListFun()
     },
     // 选择门店
     handleSelectionChange (val) {
-      console.log(val)
       this.selectedArr = val
+      val.length > 0 ? this.color = true : this.color = false
     }
   },
   components: {
