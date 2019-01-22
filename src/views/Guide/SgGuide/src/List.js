@@ -692,6 +692,30 @@ export default {
               })
             }
           })
+        } else {
+          _this.$refs.addForm.validate(valid => {
+            if (valid) {
+              if (guide.birthday instanceof Date) {
+                guide.birthday = moment(guide.birthday).format('YYYY-MM-DD')
+              }
+              if (guide.birthday === null) guide.birthday = ''
+              if (guide.work_num === null) guide.work_num = ''
+              this.$http.fetch(this.$api.guide.guide.saveOrUpdateGuide, {
+                sgGuide: guide,
+                sgGuideShopList: guideShop,
+                sgGuideVo: sgGuideVo,
+                updateAllGuidePrefix: updateAllGuidePrefix
+              }).then(resp => {
+                _this.closeDialog()
+                _this.$notify.success('保存成功')
+                this.$refs.table.$reload()
+              }).catch((resp) => {
+                _this.closeDialog()
+                this.model.sgGuide.image = allImageUrl
+                _this.$notify.error('保存失败：' + resp.msg)
+              })
+            }
+          })
         }
       }
     },
