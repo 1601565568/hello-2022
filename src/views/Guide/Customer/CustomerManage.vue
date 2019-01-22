@@ -107,7 +107,7 @@
         <div>
           <div class="kehuBox-main-span">
             <el-row>
-              <el-col :span='8'><span>姓名：{{items.customerName|| '-'}}</span></el-col>
+              <el-col :span='8'><span>昵称：{{items.outAlias|| '-'}}</span></el-col>
               <el-col :span='8'><span>会员卡：{{items.memberCard|| '-'}}</span></el-col>
               <el-col :span='8'><span>生日：{{items.birthday || '-'}}</span></el-col>
             </el-row>
