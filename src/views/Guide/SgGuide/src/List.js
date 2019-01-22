@@ -428,6 +428,10 @@ export default {
       if (_this.replaceStoresArry.length < 1) {
         _this.$notify.error('请选择要操作的员工')
       } else {
+        _this.allDeleteName = []
+        _this.dimissionArry.map(item => {
+          _this.allDeleteName.push(item.name)
+        })
         _this.$confirm('请确认是否对 ' + _this.allDeleteName.join('、') + ' 进行更换门店操作!', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
