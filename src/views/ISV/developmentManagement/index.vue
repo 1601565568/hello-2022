@@ -1,5 +1,6 @@
 <template>
  <div>
+   <!-- <ns-table-isv ref="table" :url=$api.isv.findServiceExecutionList></ns-table-isv> -->
   <ns-page-table>
     <!-- 简单搜索 -->
     <!-- el-form 需添加 @submit.native.prevent 配置 -->
@@ -13,7 +14,7 @@
           <!-- <el-input ref="quickText" style="width: 250px" v-model="searchModel.type" placeholder="请输入虚拟视角ID/服务状态" @keyup.enter.native="$quickSearchAction$('name')" clearable>
           </el-input> -->
           <ns-button type="primary" @click="searchAction(searchModel)">搜索</ns-button>
-          <ns-button @click="resetInputAction()">重置</ns-button>
+          <ns-button @click="resetInputAction(searchModel)">重置</ns-button>
         </el-form-item>
         <el-form-item>
         </el-form-item>
@@ -66,6 +67,14 @@
     <!-- 表格-结束 -->
     <!-- 分页 -->
     <template slot="pagination">
+      <el-pagination v-if="_data.pagination.enable" class="template-table__pagination"
+                      :page-sizes="_data.pagination.sizeOpts" :total="_data.pagination.total"
+                      :current-page="_data.pagination.page" :page-size="_data.pagination.size"
+                      layout="total, sizes, prev, pager, next, jumper" @size-change="$sizeChange$"
+                      @current-change="$pageChange$">
+      </el-pagination>
+    </template>
+    <!-- <template slot="pagination">
     <el-pagination v-if="_data.pagination.enable" class="template-table-pagination"
                     :page-sizes="_data.pagination.sizeOpts"
                     :total="_data.pagination.total"
@@ -75,7 +84,7 @@
                     @size-change="sizeChange"
                     @current-change="pageChange">
     </el-pagination>
-    </template>
+    </template> -->
     <!-- 分页-结束 --> 
   </ns-page-table>
     <el-dialog size="small" :title="titleText"

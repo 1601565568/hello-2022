@@ -33,8 +33,8 @@
           <el-form-item label="所属门店：">
             <el-form-grid>
               <el-select placeholder="请选择所属门店" v-model="model.shop" clearable filterable>
-                <el-option v-for="shop in shopList" :label="shop" :value="shop"
-                          :key="shop"></el-option>
+                <el-option v-for="shop in shopList" :label="shop.shopName" :value="shop.id"
+                          :key="shop.id"></el-option>
               </el-select>
             </el-form-grid>
           </el-form-item>
@@ -51,7 +51,7 @@
           <!-- <el-radio v-model="radio" label="1">备选项</el-radio> -->
           <template slot-scope="scope">
             <div class="customerManage">
-              <el-radio :label="0" v-model="radio"></el-radio>
+              <el-radio :label="scope.$index" v-model="radio" @change.native="getCurrentRow(scope.row,scope.$index)"></el-radio>
             </div>
           </template>
         </el-table-column>

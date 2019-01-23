@@ -68,7 +68,7 @@ export default {
       storeValue: null,
       workIdChangeValue: null,
       value: null,
-      radio: '1',
+      radio: null,
       changeObj: {},
       state: {},
       obj: {},
@@ -84,13 +84,29 @@ export default {
     }
   },
   methods: {
+    getCurrentRow (row, index) { // 单选按钮
+      this.radio = index
+      this.value = row
+      console.log('roe:', row)
+    },
     searchAction (model) { // 搜索
       this.guideFindList(model)
     },
     resetInputAction () { // 重置
       this.guideFindList()
     },
-    async guideFindList (model) { // 导购列表
+    async findBrandShopList (model) { // 门店列表查询
+      let that = this
+      await this.$http
+        .fetch(that.$api.guide.shop.findBrandShopList, {isOnline: 0})
+        .then(resp => {
+          that.shopList = [...resp.result]
+        })
+        .catch(resp => {
+          this.$notify.error(resp.msg || '查询失败')
+        })
+    },
+    async guideFindList (model) { // 导购列表查询
       let that = this
       let shopList = []
       let obj = {
@@ -109,8 +125,14 @@ export default {
         .fetch(that.$api.guide.guide.findShopGuide, obj)
         .then(resp => {
           that.particularsObj = [...resp.result]
-          that.particularsObj.map(item => {
-            shopList.push(item.shopId)
+          console.log('sdsd:')
+          that.particularsObj.map((item, i) => {
+            console.log('item:', item[i].id)
+            if (item[i].id === item[i + 1].id) {
+              item.splice(item[i], item[i + 1])
+            }
+            console.log('item:', item)
+            // shopList.push(item.id)
           })
           that.shopList = new Set(shopList)
           that.shopList = Array.from(that.shopList)
@@ -137,7 +159,6 @@ export default {
     },
     // 分页-页数改变
     shopPageChange (page) {
-      console.log('page:', page)
       var _this = this
       _this.paginations.page = page
       _this.guideFindList()
@@ -169,12 +190,12 @@ export default {
     },
     // 更换导购弹窗\详情展示
     onRedactFun (val) {
-      console.log('val:', this.multipleSelection)
       var _this = this
       if (val === undefined) {
         if (this.multipleSelection.length > 0) {
           _this.shopFindListShow = true
           _this.guideFindList()
+          _this.findBrandShopList()
         } else {
           _this.$notify.error('请选择要更换导购的客户')
         }
@@ -248,13 +269,6 @@ export default {
     },
     onSave () {
       var _this = this
-      console.log('_this.shopFindList:', _this.shopFindList)
-      console.log('_this.shopFindList:', _this.value)
-      _this.shopFindList.map(item => {
-        if (_this.value === item.id) {
-          _this.value = item
-        }
-      })
       if (_this.value !== null) {
         _this.customerIdList = []
         _this.multipleSelection.map(item => {
@@ -263,7 +277,7 @@ export default {
         this.$http.fetch(this.$api.guide.guide.updateCustomerGuide, {
           customerIds: _this.customerIdList.join(','),
           newGuideId: Number(_this.value.id),
-          shopId: Number(_this.value.parentId)
+          shopId: Number(_this.value.shopId)
         }).then(resp => {
           _this.closeDialog()
           _this.$notify.success('保存成功')

@@ -143,5 +143,15 @@ export default {
   refreshAuthedAppletInfo: {
     url: '/guide/wechatsetting/refreshAuthedAppletInfo',
     method: 'get'
+  },
+  // 查询列表
+  operationlogFindList: {
+    url: '/guide/operationlog/findList',
+    method: 'post'
+  },
+  // 查询详情
+  operationlogGetDetail: {
+    url: '/guide/operationlog/getDetail',
+    method: 'get'
   }
 }

@@ -30,7 +30,10 @@ export default {
         openKey: null,
         openSecret: null,
         payId: null,
+        groupId: null,
         paySecret: null,
+        user_corpsecret: null,
+        address_corpsecret: null,
         param: {}
       },
       obj: {
@@ -91,101 +94,17 @@ export default {
         table_buttons: tableButtons
       },
       rules: {
-        'name': [{required: true, message: '请输入微信名称'}, {
-          validator: (rule, value, callback) => {
-            if (value && value.length > 10) {
-              callback(new Error('名称长度不得超过10位'))
-            } else {
-              callback()
-            }
-          },
-          trigger: 'blur'
-        }],
-        'secret': [{required: true, message: '请输入应用密钥'}, {
-          validator: (rule, value, callback) => {
-            if (value && value.length > 50) {
-              callback(new Error('应用密钥长度不得超过50位'))
-            } else {
-              callback()
-            }
-          },
-          trigger: 'blur'
-        }],
-        'appid': [
-          {
-            required: true,
-            message: '请输入请输入应用ID'
-          },
-          {
-            validator: (rule, value, callback) => {
-              if (value && value.length > 50) {
-                callback(new Error(''))
-              } else {
-                callback()
-              }
-            },
-            trigger: 'blur'
-          }]
+        'name': [{required: true, message: '请输入微信名称'}],
+        'user_corpsecret': [{required: true, message: '请输入外部联系人企业秘钥'}],
+        'address_corpsecret': [{required: true, message: '请输入通讯录企业秘钥'}],
+        'appid': [{required: true, message: '请输入请输入应用ID'}]
       },
       checkRules: {
-        'template_id': [
-          {
-            required: true,
-            message: '请输入模版Id'
-          },
-          {
-            validator: (rule, value, callback) => {
-              if (value && value.length > 50) {
-                callback(new Error(''))
-              } else {
-                callback()
-              }
-            },
-            trigger: 'blur'
-          }
-        ],
-        'appid': [
-          {
-            required: true,
-            message: '请输入自定义标签'
-          },
-          {
-            validator: (rule, value, callback) => {
-              if (value && value.length > 50) {
-                callback(new Error('小程序的标签，多个标签用空格分隔，标签不能多于10个，标签长度不超过20'))
-              } else {
-                callback()
-              }
-            },
-            trigger: 'blur'
-          }],
-        'firstId': [
-          {
-            required: true,
-            message: '请输入可选类目'
-          }
-        ],
-        'secondId': [
-          {
-            required: true,
-            message: '请选择页面地址'
-          }
-        ],
-        'corpsecret': [
-          {
-            required: true,
-            message: '请输入页面标题'
-          },
-          {
-            validator: (rule, value, callback) => {
-              if (value && value.length > 50) {
-                callback(new Error('请输入页面标题'))
-              } else {
-                callback()
-              }
-            },
-            trigger: 'blur'
-          }]
+        'template_id': [{required: true, message: '请输入模版Id'}],
+        'appid': [{required: true, message: '请输入自定义标签，小程序的标签，多个标签用空格分隔，标签不能多于10个，标签长度不超过20'}],
+        'firstId': [{required: true, message: '请输入可选类目'}],
+        'secondId': [{required: true, message: '请选择页面地址'}],
+        'corpsecret': [{required: true, message: '请输入页面标题'}]
       },
       domainNameRules: {
         'request_domain': [{required: true, message: '请输入request合法域名'}],
@@ -197,36 +116,9 @@ export default {
         'webview_domain': [{required: true, message: '请输入小程序业务域名'}]
       },
       uploadingRules: {
-        'template_id': [{required: true, message: '请输入模版Id'}, {
-          validator: (rule, value, callback) => {
-            if (value && value.length > 50) {
-              callback(new Error(''))
-            } else {
-              callback()
-            }
-          },
-          trigger: 'blur'
-        }],
-        'version': [{required: true, message: '请输入版本号'}, {
-          validator: (rule, value, callback) => {
-            if (value && value.length > 50) {
-              callback(new Error(''))
-            } else {
-              callback()
-            }
-          },
-          trigger: 'blur'
-        }],
-        'user_desc': [{required: true, message: '请输入代码备注'}, {
-          validator: (rule, value, callback) => {
-            if (value && value.length > 50) {
-              callback(new Error(''))
-            } else {
-              callback()
-            }
-          },
-          trigger: 'blur'
-        }]
+        'template_id': [{required: true, message: '请输入模版Id'}],
+        'version': [{required: true, message: '请输入版本号'}],
+        'user_desc': [{required: true, message: '请输入代码备注'}]
       }
     }
   },
@@ -241,9 +133,22 @@ export default {
     uploadAgain (particularsObj) { // 重新提交审核
       let that = this
       let obj = {}
+      obj.categoryStr = {}
+      obj.pageStr = particularsObj.audit_address
+      obj.tags = particularsObj.audit_tags
+      obj.title = particularsObj.audit_title
+      obj.categoryStr = particularsObj.audit_category
       obj.appId = particularsObj.app_id
       obj.templateId = particularsObj.template_id
       if (that.checkText === '重新提交审核') {
+        that.$http.fetch(that.$api.guide.sgwxaccount.submitTemplateToAudit, obj).then((resp) => {
+          if (resp.success) {
+            that.$notify.success('提交成功')
+            that.dialogAutid = false
+          }
+        }).catch((resp) => {
+          that.$notify.error(resp.msg || '保存失败')
+        })
         that.onPresent(particularsObj)
       } else if (that.checkText === '撤回审核') {
         that.$http.fetch(that.$api.isv.auditingRevert, obj).then((resp) => {
@@ -350,9 +255,6 @@ export default {
       that.$http.fetch(that.$api.isv.wechatsettingGetAppletCategoryList, obj).then((resp) => { // 查询小程序可选类目
         resp.result.map((item, i) => {
           item.theSecond_class = item.first_class + '-' + item.second_class
-          // if (i === 0) {
-          //   that.submittedObj.firstId = item.first_id
-          // }
         })
         that.submittedObj.categoryList = resp.result
       }).catch((resp) => {
@@ -459,13 +361,17 @@ export default {
     onPresent (underReviewObj) { // 提交审核
       let that = this
       let obj = {}
-      obj.appId = underReviewObj.app_id
-      obj.pageStr = underReviewObj.audit_address
-      obj.tags = underReviewObj.audit_tags
-      obj.templateId = underReviewObj.template_id
-      obj.title = underReviewObj.audit_title
       obj.categoryStr = {}
-      obj.categoryStr = underReviewObj.audit_category
+      underReviewObj.categoryList.map(item => {
+        if (underReviewObj.firstId === item.first_id) {
+          obj.categoryStr = item
+        }
+      })
+      obj.appId = underReviewObj.app_id
+      obj.pageStr = underReviewObj.secondId
+      obj.tags = underReviewObj.appid
+      obj.templateId = underReviewObj.template_id
+      obj.title = underReviewObj.corpsecret
       that.$http.fetch(that.$api.guide.sgwxaccount.submitTemplateToAudit, obj).then((resp) => {
         if (resp.success) {
           that.$notify.success('提交成功')

@@ -130,7 +130,7 @@
         <el-table-column prop="status,row" :show-overflow-tooltip="true" label="操作" align="right" width="120">
           <template slot-scope="scope">
             <div>
-              <ns-button style="color:#0091FA" @click="onRedactFun(scope.row)" type="text">编辑</ns-button>
+              <ns-button style="color:#0091FA" v-if="scope.row.status !== 2" @click="onRedactFun(scope.row)" type="text">编辑</ns-button>
               <ns-button style="color:#f00" @click="onDelsTipFun(scope.row)" type="text">删除</ns-button>
               <ns-button v-if="scope.row.status === 0 || scope.row.status === 1" style="color:#0091FA" @click="dimissionFun(scope.row)" type="text">离职</ns-button>
               <!-- <a class="text-error" style="color:#0091FA" href="javascript:" @click="redactFun(scope.row.id)">编辑</a>

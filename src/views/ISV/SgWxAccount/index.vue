@@ -2,15 +2,69 @@
   <div>
     <ns-page-table>
       <!-- 按钮 -->
-      <template slot="buttons">
-        <ns-table-operate-button :buttons="_data._table.table_buttons"></ns-table-operate-button>
+        <template slot="buttons">
+          <ns-table-operate-button :buttons="_data._table.table_buttons"></ns-table-operate-button>
+        </template>
+      <!-- 简单搜索 -->
+      <!-- el-form 需添加 @submit.native.prevent 配置 -->
+      <!-- el-inpu 需添加  @keyup.enter.native="$quickSearchAction$" 配置，实现回车搜索 -->
+      <template slot="searchSearch">
+        <el-form :model="model" :inline="true" @submit.native.prevent  class="pull-right">
+          <el-form-item v-show="_data._queryConfig.expand === false">
+            <el-input ref="quickText" style="width: 250px" v-model="model.name" placeholder="请输入请输入小程序名称" @keyup.enter.native="$quickSearchAction$('name')" clearable>
+            </el-input>
+            <ns-button type="primary" @click="$searchAction$()">搜索</ns-button>
+            <ns-button @click="$resetInputAction$()">重置</ns-button>
+          </el-form-item>
+          <el-form-item>
+            <ns-button type="text" @click="$handleTabClick">
+              {{collapseText}}
+              <i :class="{'el-icon--right': true, 'el-icon-arrow-down': !_data._queryConfig.expand, 'el-icon-arrow-up': _data._queryConfig.expand} ">
+              </i>
+            </ns-button>
+          </el-form-item>
+        </el-form>
       </template>
+      <!-- 简单搜索-结束 -->  
+      <!-- 高级搜索开始 -->
+      <template slot="advancedSearch" v-if="_data._queryConfig.expand">
+      <el-form ref="table_filter_form" :model="model" label-width="80px" :inline="true">
+
+        <el-form-item label="集团ID：">
+          <el-form-grid size="xmd">
+            <el-input ref="quickText" style="width: 150px" v-model="model.groupId" placeholder="请输入集团ID" @keyup.enter.native="$quickSearchAction$('groupId')" clearable>
+            </el-input>
+          </el-form-grid>
+        </el-form-item>
+
+        <el-form-item label="小程序名称：">
+          <el-form-grid>
+            <el-input ref="quickText" style="width: 150px" v-model="model.name" placeholder="请输入小程序名称" @keyup.enter.native="$quickSearchAction$('name')" clearable>
+            </el-input>
+          </el-form-grid>
+        </el-form-item>
+
+        <el-form-item label="appid：">
+          <el-form-grid>
+            <el-input ref="quickText" style="width: 150px" v-model="model.appid" placeholder="请输入appid" @keyup.enter.native="$quickSearchAction$('appid')" clearable>
+            </el-input>
+          </el-form-grid>
+        </el-form-item>
+      </el-form>
+
+      <div class="template-table__more-btn">
+        <ns-button type="primary" @click="$searchAction$()">搜索</ns-button>
+        <ns-button @click="$resetInputAction$()">重置</ns-button>
+      </div>
+    </template>
+      <!-- 高级搜索结束 -->
       <!-- 表格 -->
       <template slot="table">
         <el-table ref="table" :data="_data._table.data" class="template-table__main"
                   stripe
                   resizable v-loading.lock="_data._table.loadingtable"
                   :element-loading-text="$t('prompt.loading')" @sort-change="$orderChange$">
+          <el-table-column prop="group_id" label="集团ID"></el-table-column>
           <el-table-column prop="name" label="微信名称"></el-table-column>
           <el-table-column prop="appid" label="应用ID" align="left" width="180"></el-table-column>
           <el-table-column label="企业ID" align="left" width="180">
@@ -31,8 +85,7 @@
               <span class="tmp-cell__buttons">
                 <ns-button type="text" @click="onSaveOpen(scope.row)">编辑</ns-button>
                 <ns-button v-if="scope.row.wx_status === 1" type="text" @click="onCodeTemplate(scope.row)">代码模版</ns-button>
-                <ns-button v-if="scope.row.appid !== 'wxd018c65db8b66408' && scope.row.appid !== 'wx088d6dbeea9c68c3'"
-                           type="text" @click="onDelete(scope.row)">删除</ns-button>
+                <ns-button type="text" @click="onDelete(scope.row)">删除</ns-button>
                 <ns-button v-if="scope.row.from_type === 1" type="text" @click="onRefresh(scope.row)">刷新</ns-button>
               </span>
             </template>
@@ -63,27 +116,30 @@
         </div>
       <el-form :model="model" ref="form" label-width="150px" :rules="rules" placement="right">
         <el-form-item label="微信名称：" prop="name" required>
-          <el-input v-if="model.from_type === 1" type="text" :disabled='true' placeholder="请输入微信名称" v-model="model.name" maxlength="10"></el-input>
-          <el-input v-else type="text" placeholder="请输入微信名称" v-model="model.name" maxlength="10"></el-input>
+          <el-input v-if="model.from_type === 1" type="text" :disabled='true' placeholder="请输入微信名称" v-model="model.name"></el-input>
+          <el-input v-else type="text" placeholder="请输入微信名称" v-model="model.name" ></el-input>
         </el-form-item>
         <el-form-item label="应用ID：" prop="appid" required>
-          <el-input v-if="model.from_type === 1" type="text" :disabled='true' placeholder="请输入应用ID" v-model="model.appid" maxlength="32"></el-input>
-          <el-input v-else type="text" placeholder="请输入应用ID" v-model="model.appid" maxlength="32"></el-input>
+          <el-input v-if="model.from_type === 1" type="text" :disabled='true' placeholder="请输入应用ID" v-model="model.appid"></el-input>
+          <el-input v-else type="text" placeholder="请输入应用ID" v-model="model.appid" ></el-input>
         </el-form-item>
-        <el-form-item v-if="model.from_type === 1 || titleText === '新增'" label="应用密钥：" prop="secret" required>
-          <el-input type="text" placeholder="请输入应用密钥" v-model="model.secret" maxlength="50"></el-input>
+        <el-form-item v-if="titleText === '编辑'" label="外部联系人企业秘钥：" prop="user_corpsecret" required>
+          <el-input type="text" placeholder="请输入外部联系人企业秘钥" v-model="model.user_corpsecret" ></el-input>
+        </el-form-item>
+        <el-form-item v-if="titleText === '编辑'" label="通讯录企业秘钥：" prop="address_corpsecret" required>
+          <el-input type="text" placeholder="请输入通讯录企业秘钥" v-model="model.address_corpsecret" ></el-input>
         </el-form-item>
         <el-form-item label="企业ID：" prop="corpid">
-          <el-input type="text" placeholder="请输入企业ID" v-model="model.corpid" maxlength="32"></el-input>
+          <el-input type="text" placeholder="请输入企业ID" v-model="model.corpid" ></el-input>
         </el-form-item>
         <el-form-item label="企业密钥：" prop="corpsecret">
-          <el-input type="text" placeholder="请输入企业密钥" v-model="model.corpsecret" maxlength="50"></el-input>
+          <el-input type="text" placeholder="请输入企业密钥" v-model="model.corpsecret"></el-input>
         </el-form-item>
         <el-form-item label="支付ID：" prop="payId">
-          <el-input type="text" placeholder="请输入支付ID" v-model="model.payId" maxlength="50"></el-input>
+          <el-input type="text" placeholder="请输入支付ID" v-model="model.payId"></el-input>
         </el-form-item>
         <el-form-item label="支付密钥：" prop="paySecret">
-          <el-input type="text" placeholder="请输入支付密钥" v-model="model.paySecret" maxlength="100"></el-input>
+          <el-input type="text" placeholder="请输入支付密钥" v-model="model.paySecret"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -441,5 +497,8 @@
 .releaseShow_lastRow{
   padding: 0 20px;
   text-align: center;
+}
+.button{
+  margin-left:150px
 }
 </style>

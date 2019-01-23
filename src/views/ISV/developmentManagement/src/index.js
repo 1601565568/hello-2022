@@ -69,12 +69,14 @@ export default {
       this.initShopList(model)
     },
     pageChange (model) { // 页数改变
+      console.log('model:', model)
       this.initShopList(model)
     },
     searchAction (model) { // 搜索
       this.initShopList(model)
     },
-    resetInputAction () { // 重置
+    resetInputAction (model) { // 重置
+      model.type = null
       this.initShopList()
     },
     onSave (model) { // 保存
