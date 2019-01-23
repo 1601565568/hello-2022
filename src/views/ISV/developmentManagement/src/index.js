@@ -91,6 +91,7 @@ export default {
       _this.$http.fetch(_this.$api.isv.updateServiceExecution, obj).then(resp => {
         if (resp.success) {
           _this.$notify.success('修改成功！')
+          _this.domainNameVisible = false
         }
       }).catch((resp) => {
         _this.$notify.error('查询失败：' + resp.msg)

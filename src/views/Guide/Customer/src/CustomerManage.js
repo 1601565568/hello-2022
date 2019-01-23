@@ -200,7 +200,7 @@ export default {
           _this.$notify.error('请选择要更换导购的客户')
         }
       } else {
-        _this.title = '详情列表'
+        _this.title = '客户详情'
         _this.$http.fetch(_this.$api.guide.guide.customerGetDetail, {
           customerId: val.customerId,
           guideId: Number(val.guideId),
