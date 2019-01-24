@@ -64,7 +64,7 @@
                   stripe
                   resizable v-loading.lock="_data._table.loadingtable"
                   :element-loading-text="$t('prompt.loading')" @sort-change="$orderChange$">
-          <el-table-column prop="group_id" label="集团ID"></el-table-column>
+          <el-table-column prop="groupId" label="集团ID"></el-table-column>
           <el-table-column prop="name" label="微信名称"></el-table-column>
           <el-table-column prop="appid" label="应用ID" align="left" width="180"></el-table-column>
           <el-table-column label="企业ID" align="left" width="180">
@@ -115,6 +115,9 @@
           <el-radio v-else v-model="shoppingGuide_radio" label="1" @change="shoppingGuide">导购</el-radio>
         </div>
       <el-form :model="model" ref="form" label-width="150px" :rules="rules" placement="right">
+        <el-form-item label="集团id：" prop="groupId" required>
+          <el-input type="text" placeholder="请输入集团id" v-model="model.groupId" ></el-input>
+        </el-form-item>
         <el-form-item label="微信名称：" prop="name" required>
           <el-input v-if="model.from_type === 1" type="text" :disabled='true' placeholder="请输入微信名称" v-model="model.name"></el-input>
           <el-input v-else type="text" placeholder="请输入微信名称" v-model="model.name" ></el-input>
@@ -123,11 +126,11 @@
           <el-input v-if="model.from_type === 1" type="text" :disabled='true' placeholder="请输入应用ID" v-model="model.appid"></el-input>
           <el-input v-else type="text" placeholder="请输入应用ID" v-model="model.appid" ></el-input>
         </el-form-item>
-        <el-form-item v-if="titleText === '编辑'" label="外部联系人企业秘钥：" prop="user_corpsecret" required>
-          <el-input type="text" placeholder="请输入外部联系人企业秘钥" v-model="model.user_corpsecret" ></el-input>
+        <el-form-item label="外部联系人企业秘钥：" prop="userCorpsecret" required>
+          <el-input type="text" placeholder="请输入外部联系人企业秘钥" v-model="model.userCorpsecret" ></el-input>
         </el-form-item>
-        <el-form-item v-if="titleText === '编辑'" label="通讯录企业秘钥：" prop="address_corpsecret" required>
-          <el-input type="text" placeholder="请输入通讯录企业秘钥" v-model="model.address_corpsecret" ></el-input>
+        <el-form-item  label="通讯录企业秘钥：" prop="addressCorpsecret" required>
+          <el-input type="text" placeholder="请输入通讯录企业秘钥" v-model="model.addressCorpsecret" ></el-input>
         </el-form-item>
         <el-form-item label="企业ID：" prop="corpid">
           <el-input type="text" placeholder="请输入企业ID" v-model="model.corpid" ></el-input>
