@@ -210,14 +210,14 @@
       <div style="overflow-x:hidden;overflow-y:auto;margin-top: 10px;">
         <el-table ref="chooseCustomer" :data="tableDataCustomer" @select="selectRow" @select-all="selectAll" stripe>
           <el-table-column type="selection"  width="30"></el-table-column>
-          <el-table-column prop="createTime" label="加入时间" align="center" width="150"></el-table-column>
-          <el-table-column prop="cName" label="姓名" align="center" width="100"></el-table-column>
+          <el-table-column prop="registerTime" label="加入时间" align="center" width="200"></el-table-column>
+          <!-- <el-table-column prop="name" label="姓名" align="center" width="100"></el-table-column> -->
           <el-table-column prop="mobile" label="联系方式" align="center" width="100"></el-table-column>
           <el-table-column prop="memberCard" label="会员卡" align="center" width="100"></el-table-column>
           <el-table-column prop="name" label="绑定导购" align="center" width="100"></el-table-column>
-          <el-table-column prop="payAmount" label="付款总金额/单数" align="center" width="100"></el-table-column>
-          <el-table-column label="余积分" align="center" width="100"></el-table-column>
-          <el-table-column label="公众号" align="center" width="100"></el-table-column>
+          <!-- <el-table-column prop="payAmount" label="付款总金额/单数" align="center" width="100"></el-table-column> -->
+          <!-- <el-table-column label="余积分" align="center" width="100"></el-table-column> -->
+          <!-- <el-table-column label="公众号" align="center" width="100"></el-table-column> -->
         </el-table>
       </div>
       <!-- 分页 -->
