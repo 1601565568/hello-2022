@@ -85,8 +85,8 @@
               <span class="tmp-cell__buttons">
                 <ns-button type="text" @click="onSaveOpen(scope.row)">编辑</ns-button>
                 <ns-button v-if="scope.row.wx_status === 1" type="text" @click="onCodeTemplate(scope.row)">代码模版</ns-button>
-                <ns-button type="text" @click="onDelete(scope.row)">删除</ns-button>
                 <ns-button v-if="scope.row.from_type === 1" type="text" @click="onRefresh(scope.row)">刷新</ns-button>
+                <ns-button type="text" @click="onDelete(scope.row)">删除</ns-button>
               </span>
             </template>
           </el-table-column>
@@ -229,7 +229,7 @@
       </el-table>
       <div slot="footer" class="dialog-footer">
         <ns-button @click="newestDialog = false">取消</ns-button>
-        <ns-button type="primary" @click="onSave">确定</ns-button>
+        <ns-button type="primary" @click="newestDialog = false">确定</ns-button>
       </div>
     </el-dialog>
     <!-- 最新弹窗主页面结束 -->
