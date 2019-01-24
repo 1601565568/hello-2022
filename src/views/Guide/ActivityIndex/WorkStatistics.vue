@@ -20,14 +20,12 @@
               <el-form-item  prop="type">
                 <el-select
                 style="width:100px"
-                v-model="searchform.type" placeholder="请选择"
-                clearable>
+                v-model="searchform.type" placeholder="请选择">
                   <el-option
                   v-for="item in typeOptions"
                   :key="item.value"
                   :label="item.label"
-                  :value="item.value"
-                  >
+                  :value="item.value">
                   </el-option>
                 </el-select>
               </el-form-item>
