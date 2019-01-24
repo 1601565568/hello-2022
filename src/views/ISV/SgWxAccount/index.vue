@@ -365,23 +365,29 @@
                :visible.sync="releaseShow"
                :modal-append-to-body="false"
                @before-close="closeDialog()">
-        <div class="releaseShow_div">确认发布将发布已审核成功的模板</div>
-        <el-row class="releaseShow_row">
-          <el-col :span='6'><span>模版Id</span></el-col>
-          <el-col :span='6'><span>页面标题</span></el-col>
-          <el-col :span='6'><span>页面地址</span></el-col>
-          <el-col :span='6'><span>操作</span></el-col>
-        </el-row>
-        <el-row class="releaseShow_lastRow">
-          <el-col :span='6'><span>{{succeedObj.template_id || '-'}}</span></el-col>
-          <el-col :span='6'><span>{{succeedObj.audit_title || '-'}}</span></el-col>
-          <el-col :span='6'><span>{{succeedObj.audit_address || '-'}}</span></el-col>
-          <el-col :span='6' v-if="succeedObj.template_id === undefined"><ns-button disabled type="primary" @click="releaseParticulars(succeedObj)">详情</ns-button></el-col>
-          <el-col :span='6' v-else><ns-button type="primary" @click="releaseParticulars(succeedObj)">详情</ns-button></el-col>
-        </el-row>
+       <div class="release_div" v-if="succeedObj.template_id">
+          <div class="releaseShow_div">确认发布将发布已审核成功的模板</div>
+          <el-row class="releaseShow_row">
+            <el-col :span='6'><span>模版Id</span></el-col>
+            <el-col :span='6'><span>页面标题</span></el-col>
+            <el-col :span='6'><span>页面地址</span></el-col>
+            <el-col :span='6'><span>操作</span></el-col>
+          </el-row>
+          <el-row class="releaseShow_lastRow">
+            <el-col :span='6'><span>{{succeedObj.template_id || '-'}}</span></el-col>
+            <el-col :span='6'><span>{{succeedObj.audit_title || '-'}}</span></el-col>
+            <el-col :span='6'><span>{{succeedObj.audit_address || '-'}}</span></el-col>
+            <el-col :span='6' v-if="succeedObj.template_id === undefined"><ns-button disabled type="primary" @click="releaseParticulars(succeedObj)">详情</ns-button></el-col>
+            <el-col :span='6' v-else><ns-button type="primary" @click="releaseParticulars(succeedObj)">详情</ns-button></el-col>
+          </el-row>
+       </div>
+       <div class="noSuccee_div" v-else>
+         <div class="releaseShow_div">暂无可发布的模板!</div>
+       </div>
       <div slot="footer" class="authorization_footer">
         <ns-button @click="releaseShow = false">取消</ns-button>
-        <ns-button type="primary" @click="onPublish(succeedObj)">确认</ns-button>
+        <ns-button type="primary" v-if="succeedObj.template_id" @click="onPublish(succeedObj)">确认</ns-button>
+        <ns-button type="primary" v-else @click="releaseShow = false"">确认</ns-button>
       </div>
     </el-dialog>
     <!-- 最新弹窗发布结束 -->
