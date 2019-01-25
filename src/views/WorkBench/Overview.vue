@@ -68,9 +68,17 @@
               </p>
             </div>
             <div class="overview-content__item-right">
-              <el-progress type="circle" :width=70 :stroke-width=4 :percentage="getRewardInfoObj.memberCountPersent" color="#f56c6c" ></el-progress>
-              <!-- <p class="overview-content__item-right--progress-text">{{getRewardInfoObj.recruitQuota}}</p> -->
-              <!-- :show-text=false -->
+               <el-popover
+                  placement="top-start"
+                  trigger="hover"
+                  :content="'完成度：'+getRewardInfoObj.memberCountPersent+'% , 招募目标：'+getRewardInfoObj.recruitQuota">
+                  <div slot="reference">
+                    <el-progress  type="circle" :width=70 :stroke-width=4 :percentage="getRewardInfoObj.memberCountPersent" color="#f56c6c" :show-text=false>
+                    </el-progress>
+                  </div>
+                </el-popover>
+
+              <p class="overview-content__item-right--progress-text">完成度</p>
             </div>
           </el-card>
         </el-col>
@@ -284,8 +292,8 @@
                 }
                 .overview-content__item-right--progress-text {
                   position: absolute;
-                  top: 42%;
-                  left: 38%;
+                  top: 34%;
+                  left: 25%;
                   margin: 0;
                   padding: 0;
                 }
@@ -418,4 +426,9 @@
       }
     }
   }
+</style>
+<style>
+.overview-content .el-popover .el-popover__title{
+      padding: 5px 0 !important;
+}
 </style>

@@ -443,6 +443,7 @@ export default {
     },
     showShop () {
       var _this = this
+      _this.verification = false
       if (_this.replaceStoresArry.length < 1) {
         _this.$notify.error('请选择要操作的员工')
       } else {
@@ -467,7 +468,7 @@ export default {
             })
           })
         } else {
-          _this.$confirm('多换门店禁止批量操作!', '提示', {
+          _this.$confirm('更换门店禁止批量操作!', '提示', {
             confirmButtonText: '确定',
             cancelButtonText: '取消',
             type: 'warning'
@@ -1106,7 +1107,6 @@ export default {
   },
   mounted: function () {
     var _this = this
-    console.log(this.$store)
     _this.initShopList()
   }
 }

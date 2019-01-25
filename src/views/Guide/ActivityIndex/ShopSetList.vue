@@ -273,7 +273,7 @@ export default {
             if (searchObj.searchMap.type === 0 || searchObj.searchMap.type === '0') {
               for (let i in item) {
                 if (i.indexOf('quota') !== -1) {
-                  item[i] = (item[i] / 10000).toFixed(2)
+                  item[i] = (item[i] / 10000)
                 }
               }
             } else {
