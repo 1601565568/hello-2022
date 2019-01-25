@@ -34,6 +34,8 @@ export default {
         paySecret: null,
         type: null,
         from_type: null,
+        userCorpsecret: null,
+        addressCorpsecret: null,
         param: {}
       },
       obj: {
@@ -65,8 +67,8 @@ export default {
       rules: {
         'name': [{required: true, message: '请输入微信名称'}],
         'appid': [{required: true, message: '请输入应用ID'}],
-        'user_corpsecret': [{required: true, message: '请输入外部联系人企业秘钥'}],
-        'address_corpsecret': [{required: true, message: '请输入通讯录企业秘钥'}]
+        'userCorpsecret': [{required: true, message: '请输入外部联系人企业秘钥'}],
+        'addressCorpsecret': [{required: true, message: '请输入通讯录企业秘钥'}]
       }
     }
   },
@@ -122,6 +124,7 @@ export default {
       this.shoppingGuide_radio = '0'
       this.titleText = (row.id && '编辑') || '新增'
       this.model.id = row.id
+      this.model.groupId = row.groupId
       this.model.name = row.name
       this.model.appid = row.appid
       this.model.secret = row.secret
@@ -132,6 +135,8 @@ export default {
       this.model.payId = row.pay_id
       this.model.type = row.type
       this.model.from_type = row.from_type
+      this.model.userCorpsecret = row.userCorpsecret
+      that.model.addressCorpsecret = row.addressCorpsecret
       that.model.paySecret = row.pay_secret
     },
     onAuthorization () {
