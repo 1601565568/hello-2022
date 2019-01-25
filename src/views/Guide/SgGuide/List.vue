@@ -240,19 +240,26 @@
         <ns-button type="primary" @click="onSaveCustomTransfer">确定</ns-button>
       </div>
     </el-dialog>
-    <!--  自定义客户转移弹窗开始  -->
-    <el-dialog :title="shopTitle" width="560px" height="300px" :visible.sync="shopFindListShow" @keyup.enter.native="onKeyUp" @keyup.esc.native="onKeyUp">
+    <!--  更换门店弹窗开始 -->
+    <el-dialog :title="shopTitle" width="560px" height="150px" :visible.sync="shopFindListShow" @keyup.enter.native="onKeyUp" @keyup.esc.native="onKeyUp">
       <div class="guideBox" style="overflow-x:hidden;overflow-y:auto;">
-        <el-select v-model="model.sgGuideShop.shop_id" @change="changeShop" placeholder="请选择要更换的门店">
-          <el-option  v-for="item in shopFindList" :key="item.id"  :label="item.shopName"  :value="item.id"></el-option>
-        </el-select>
+        <el-form>
+          <el-form-item>
+            <el-form-grid size="lg">
+              <el-select v-model="model.sgGuideShop.shop_id" @change="changeShop" placeholder="请选择要更换的门店">
+                <el-option  v-for="item in shopFindList" :key="item.id"  :label="item.shopName"  :value="item.id"></el-option>
+              </el-select>
+            </el-form-grid>
+          </el-form-item>
+        </el-form>
+
       </div>
       <div slot="footer" class="dialog-footer">
         <ns-button @click="shopFindListShow = false">取消</ns-button>
         <ns-button type="primary" @click="replaceStores">确定</ns-button>
       </div>
     </el-dialog>
-    <!--  自定义客户转移弹窗开始  -->
+    <!-- 更换门店弹窗开始  -->
     <!-- 所属门店查看详情开始 -->
       <el-dialog :title="memberBelongingtitle"  :visible.sync="scopeRowCountShow" width="660px" >
         <el-table ref="table" :data="shopFindLists" >
@@ -285,7 +292,7 @@
       </el-form-item>
       </el-form>
       <div v-if="memberBelongingShows" class="guideBox" style="overflow-x:hidden;overflow-y:auto;">
-        <el-select v-model="model.sgGuideShop.shop_id" @change="changeMemberBelonging" placeholder="请选择要更换的门店">
+        <el-select v-model="model.sgGuideShop.shop_id" @change="changeMemberBelonging" placeholder="请选择要更换的门店" :size="medium">
           <el-option  v-for="item in shopFindList" :key="item.id"  :label="item.shopName"  :value="item.id"></el-option>
         </el-select>
       </div>
