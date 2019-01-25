@@ -18,7 +18,7 @@
         align="center"
       >
         <template slot-scope="scope">
-          <el-input  :disabled="curMonth>1?true:false" v-model="scope.row.quota1" placeholder="请输入"></el-input>
+          <el-input  :disabled="curMonth>1?true:false" v-model="scope.row.quota1" type="number" @change="inputFunc(scope.row.quota1, 1)" placeholder="请输入"></el-input>
         </template>
       </el-table-column>
       <el-table-column
@@ -26,7 +26,7 @@
         align="center"
       >
         <template slot-scope="scope">
-          <el-input   :disabled="curMonth>2?true:false" v-model="scope.row.quota2" placeholder="请输入"></el-input>
+          <el-input   :disabled="curMonth>2?true:false" v-model="scope.row.quota2" @change="inputFunc(scope.row.quota2, 2)" placeholder="请输入"></el-input>
         </template>
       </el-table-column>
       <el-table-column
@@ -34,7 +34,7 @@
         align="center"
       >
         <template slot-scope="scope">
-          <el-input  :disabled="curMonth>3?true:false" v-model="scope.row.quota3" placeholder="请输入"></el-input>
+          <el-input  :disabled="curMonth>3?true:false" v-model="scope.row.quota3" @change="inputFunc(scope.row.quota3, 3)" placeholder="请输入"></el-input>
         </template>
       </el-table-column>
       <el-table-column
@@ -42,7 +42,7 @@
         align="center"
       >
         <template slot-scope="scope">
-          <el-input  :disabled="curMonth>4?true:false" v-model="scope.row.quota4" placeholder="请输入"></el-input>
+          <el-input  :disabled="curMonth>4?true:false" v-model="scope.row.quota4" @change="inputFunc(scope.row.quota4, 4)" placeholder="请输入"></el-input>
         </template>
       </el-table-column>
       <el-table-column
@@ -50,7 +50,7 @@
         align="center"
       >
         <template slot-scope="scope">
-          <el-input  :disabled="curMonth>5?true:false" v-model="scope.row.quota5" placeholder="请输入" step='0.01'></el-input>
+          <el-input  :disabled="curMonth>5?true:false" v-model="scope.row.quota5" @change="inputFunc(scope.row.quota5, 5)" placeholder="请输入" step='0.01'></el-input>
         </template>
       </el-table-column>
       <el-table-column
@@ -58,7 +58,7 @@
         align="center"
       >
         <template slot-scope="scope">
-          <el-input  :disabled="curMonth>=6?true:false" v-model="scope.row.quota6" placeholder="请输入"></el-input>
+          <el-input  :disabled="curMonth>=6?true:false" v-model="scope.row.quota6" @change="inputFunc(scope.row.quota6, 6)" placeholder="请输入"></el-input>
         </template>
       </el-table-column>
       <el-table-column
@@ -66,7 +66,7 @@
         align="center"
       >
         <template slot-scope="scope">
-          <el-input  :disabled="curMonth>7?true:false" v-model="scope.row.quota7" placeholder="请输入"></el-input>
+          <el-input  :disabled="curMonth>7?true:false" v-model="scope.row.quota7" @change="inputFunc(scope.row.quota7, 7)" placeholder="请输入"></el-input>
         </template>
       </el-table-column>
       <el-table-column
@@ -74,7 +74,7 @@
         align="center"
       >
         <template slot-scope="scope">
-          <el-input  :disabled="curMonth>8?true:false" v-model="scope.row.quota8" placeholder="请输入"></el-input>
+          <el-input  :disabled="curMonth>8?true:false" v-model="scope.row.quota8" @change="inputFunc(scope.row.quota8, 8)" placeholder="请输入"></el-input>
         </template>
       </el-table-column>
       <el-table-column
@@ -82,7 +82,7 @@
         align="center"
       >
         <template slot-scope="scope">
-          <el-input  :disabled="curMonth>9?true:false" v-model="scope.row.quota9" placeholder="请输入"></el-input>
+          <el-input  :disabled="curMonth>9?true:false" v-model="scope.row.quota9" @change="inputFunc(scope.row.quota9, 9)" placeholder="请输入"></el-input>
         </template>
       </el-table-column>
       <el-table-column
@@ -90,7 +90,7 @@
         align="center"
       >
         <template slot-scope="scope">
-          <el-input  :disabled="curMonth>10?true:false" v-model="scope.row.quota10" placeholder="请输入"></el-input>
+          <el-input  :disabled="curMonth>10?true:false" v-model="scope.row.quota10" @change="inputFunc(scope.row.quota10, 10)" placeholder="请输入"></el-input>
         </template>
       </el-table-column>
       <el-table-column
@@ -98,7 +98,7 @@
         align="center"
       >
         <template slot-scope="scope">
-          <el-input  :disabled="curMonth>11?true:false" v-model="scope.row.quota11" placeholder="请输入"></el-input>
+          <el-input  :disabled="curMonth>11?true:false" v-model="scope.row.quota11" @change="inputFunc(scope.row.quota11, 11)" placeholder="请输入"></el-input>
         </template>
       </el-table-column>
       <el-table-column
@@ -106,7 +106,7 @@
         align="center"
       >
         <template slot-scope="scope">
-          <el-input  :disabled="curMonth>12?true:false" v-model="scope.row.quota12" placeholder="请输入"></el-input>
+          <el-input  :disabled="curMonth>12?true:false" v-model="scope.row.quota12" @change="inputFunc(scope.row.quota12, 12)" placeholder="请输入"></el-input>
         </template>
       </el-table-column>
     </el-table>
@@ -137,6 +137,22 @@ export default {
   },
   created: function () {},
   methods: {
+    inputFunc (value, month) {
+      var _this = this
+      var regin = /^-?\d+\.?\d{0,2}$/
+      if (_this.saveObj.type === '0') {
+        _this.checkNumber(value, month, regin, '最多输入两位小数')
+      } else if (_this.saveObj.type === '1') {
+        regin = /^(0|[1-9][0-9]*)$/
+        _this.checkNumber(value, month, regin, '请输入整数')
+      }
+    },
+    checkNumber (value, month, regin, msg) {
+      if (!regin.test(value)) {
+        this.$notify.info(msg)
+        this.shopList[0]['quota' + month] = 0
+      }
+    },
     showToggle (data, name) {
       this.status = name
       this.saveObj.type = data.type
