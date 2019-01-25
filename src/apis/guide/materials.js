@@ -22,5 +22,9 @@ export default {
   queryMaterials: {
     url: '/guide/material/queryMaterials',
     method: 'get'
+  },
+  batchDeleteMaterial: { // 素材批量删除
+    url: '/guide/material/batchDeleteMaterial',
+    method: 'post'
   }
 }

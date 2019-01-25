@@ -2,6 +2,13 @@ import api from 'configs/http'
 // import moment from 'moment/moment'
 export default {
   data: function () {
+    let pagination = {
+      enable: true,
+      size: 15,
+      sizeOpts: [15, 25, 50, 100],
+      page: 1,
+      total: 0
+    }
     let searchModel = {
       sgGuide: {
         guideId: null,
@@ -46,32 +53,11 @@ export default {
       multipleSelections: [],       // 客户详情数组
       customerIdList: [],
       kehushow: false,
-      items: {
-        address: '浙江省/杭州市/西湖区',
-        id: '0',
-        birthday: '2018-09-09',
-        createTime: '2018-08-08',
-        customerId: '88888888',
-        customerName: 'Temo',
-        grade: 'VIP8',
-        gradeName: '高级会员',
-        image: 'https://ecrm.oss-cn-hangzhou.aliyuncs.com/test/201811/120,910,104,359,001/e6d44b7b-88a8-47c8-9822-cccb54745b37.png',
-        impression: '“伟大的变革——庆祝改革开放40周年大型展览”目前正在中国国家博物馆举行，展览上的“时光杂货铺”内陈列的展品呈现了改革开放40年来人民衣食住行等生活方式的变迁，带领人们“穿越”历史，重温美好时光。',
-        memberCard: '888888888',
-        mobile: '15888888888',
-        point: '88888888',
-        sex: '男',
-        tagList: [
-          {
-            id: '999999',
-            name: 'kkkkkk',
-            tagType: '009',
-            value: '998877'
-          }
-        ]
-      },
+      pagination: pagination,
       model: model,
+      items: {},
       changeValue: {},
+      particularsObj: [],
       logoValue: null,
       nicknameValue: null,
       birthdayValue: null,
@@ -82,6 +68,7 @@ export default {
       storeValue: null,
       workIdChangeValue: null,
       value: null,
+      radio: null,
       changeObj: {},
       state: {},
       obj: {},
@@ -97,6 +84,63 @@ export default {
     }
   },
   methods: {
+    getCurrentRow (row, index) { // 单选按钮
+      this.radio = index
+      this.value = row
+      console.log('roe:', row)
+    },
+    searchAction (model) { // 搜索
+      this.guideFindList(model)
+    },
+    resetInputAction () { // 重置
+      this.guideFindList()
+    },
+    async findBrandShopList (model) { // 门店列表查询
+      let that = this
+      await this.$http
+        .fetch(that.$api.guide.shop.findBrandShopList, {isOnline: 0})
+        .then(resp => {
+          that.shopList = [...resp.result]
+        })
+        .catch(resp => {
+          this.$notify.error(resp.msg || '查询失败')
+        })
+    },
+    async guideFindList (model) { // 导购列表查询
+      let that = this
+      let shopList = []
+      let obj = {
+        length: 15,
+        searchMap: {
+          shopId: null,
+          keyword: null
+        },
+        start: 0
+      }
+      if (model !== undefined) {
+        obj.searchMap.keyword = model.name
+        obj.searchMap.shopId = parseInt(model.shop)
+      }
+      await this.$http
+        .fetch(that.$api.guide.guide.findShopGuide, obj)
+        .then(resp => {
+          that.particularsObj = [...resp.result]
+          console.log('sdsd:')
+          that.particularsObj.map((item, i) => {
+            console.log('item:', item[i].id)
+            if (item[i].id === item[i + 1].id) {
+              item.splice(item[i], item[i + 1])
+            }
+            console.log('item:', item)
+            // shopList.push(item.id)
+          })
+          that.shopList = new Set(shopList)
+          that.shopList = Array.from(that.shopList)
+        })
+        .catch(resp => {
+          this.$notify.error(resp.msg || '查询失败')
+        })
+    },
     onKeyUp (e) {
       var key = window.event.keyCode
       var _this = this
@@ -113,7 +157,23 @@ export default {
         _this.shopFindListShow = false
       }
     },
+    // 分页-页数改变
+    shopPageChange (page) {
+      var _this = this
+      _this.paginations.page = page
+      _this.guideFindList()
+    },
+    // 分页-大小改变
+    shopSizeChange (pageSize) {
+      var _this = this
+      _this.paginations.size = pageSize
+      _this.paginations.page = 1
+      _this.guideFindList()
+    },
     handleSelectionChange (value) {
+      this.multipleSelection = value
+    },
+    guideChange (value) {
       this.multipleSelection = value
     },
     initShopList () {
@@ -134,11 +194,13 @@ export default {
       if (val === undefined) {
         if (this.multipleSelection.length > 0) {
           _this.shopFindListShow = true
+          _this.guideFindList()
+          _this.findBrandShopList()
         } else {
           _this.$notify.error('请选择要更换导购的客户')
         }
       } else {
-        _this.title = '详情列表'
+        _this.title = '客户详情'
         _this.$http.fetch(_this.$api.guide.guide.customerGetDetail, {
           customerId: val.customerId,
           guideId: Number(val.guideId),
@@ -207,11 +269,6 @@ export default {
     },
     onSave () {
       var _this = this
-      _this.shopFindList.map(item => {
-        if (_this.value === item.id) {
-          _this.value = item
-        }
-      })
       if (_this.value !== null) {
         _this.customerIdList = []
         _this.multipleSelection.map(item => {
@@ -220,7 +277,7 @@ export default {
         this.$http.fetch(this.$api.guide.guide.updateCustomerGuide, {
           customerIds: _this.customerIdList.join(','),
           newGuideId: Number(_this.value.id),
-          shopId: Number(_this.value.parentId)
+          shopId: Number(_this.value.shopId)
         }).then(resp => {
           _this.closeDialog()
           _this.$notify.success('保存成功')

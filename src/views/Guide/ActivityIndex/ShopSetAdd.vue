@@ -183,6 +183,7 @@ export default {
       this.multipleSelection = val
     },
     async saveFun () {
+      console.log(this.saveObj)
       this.loading = true
       // 组装选择的门店
       this.saveObj.list = [] // 清空

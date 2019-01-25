@@ -20,6 +20,20 @@
           "componentPath": "Guide/SgWxAccount"
         }
       ]
+    },
+    {
+      "path": "/Guide/OperationLog/List",
+      "name": "LIST",
+      "title": "高级管理",
+      "componentPath": "Content",
+      "children": [
+        {
+          "path": "/Guide/OperationLog/List",
+          "name": "SG_WX_ACCOUNT",
+          "title": "操作日志",
+          "componentPath": "Guide/OperationLog/List"
+        }
+      ]
     }
   ]
 }

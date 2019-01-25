@@ -1,5 +1,5 @@
 import tableMixin from 'mixins/table'
-import apiRequestConfirm from 'utils/apiRequestConfirm'
+// import apiRequestConfirm from 'utils/apiRequestConfirm'
 
 export default {
   name: 'index',
@@ -7,12 +7,12 @@ export default {
   data: function () {
     let that = this
     let tableButtons = [
-      {
-        'func': function () {
-          that.onSaveOpen({})
-        },
-        'name': '新增'
-      },
+      // {
+      //   'func': function () {
+      //     that.onSaveOpen({})
+      //   },
+      //   'name': '新增'
+      // },
       {
         'func': function () {
           that.onAuthorization({})
@@ -34,6 +34,8 @@ export default {
         paySecret: null,
         type: null,
         from_type: null,
+        userCorpsecret: null,
+        addressCorpsecret: null,
         param: {}
       },
       obj: {
@@ -57,41 +59,16 @@ export default {
       authorization: false,
       miniProgram: false,
       dialogAutid: false,
+      cancelAuthorizations: false,
       weixinUrl: null,
       _table: {
         table_buttons: tableButtons
       },
       rules: {
-        'name': [{required: true, message: '请输入微信名称'}, {
-          validator: (rule, value, callback) => {
-            if (value && value.length > 10) {
-              callback(new Error('名称长度不得超过10位'))
-            } else {
-              callback()
-            }
-          },
-          trigger: 'blur'
-        }],
-        'appid': [{required: true, message: '请输入应用ID'}, {
-          validator: (rule, value, callback) => {
-            if (value && value.length > 32) {
-              callback(new Error('应用ID长度不得超过32位'))
-            } else {
-              callback()
-            }
-          },
-          trigger: 'blur'
-        }],
-        'secret': [{required: true, message: '请输入应用密钥'}, {
-          validator: (rule, value, callback) => {
-            if (value && value.length > 50) {
-              callback(new Error('应用密钥长度不得超过50位'))
-            } else {
-              callback()
-            }
-          },
-          trigger: 'blur'
-        }]
+        'name': [{required: true, message: '请输入微信名称'}],
+        'appid': [{required: true, message: '请输入应用ID'}],
+        'userCorpsecret': [{required: true, message: '请输入外部联系人企业秘钥'}],
+        'addressCorpsecret': [{required: true, message: '请输入通讯录企业秘钥'}]
       }
     }
   },
@@ -103,15 +80,33 @@ export default {
     }
   },
   methods: {
+    cancelAuthorization () { // 微信取消授权
+      let that = this
+      let obj = {}
+      obj.length = 15
+      obj.start = 0
+      that.$http.fetch(that.$api.guide.sgwxaccount.findList, obj).then((resp) => {
+        that.payTotal = resp.result.payTotal
+        that.rechargeTotal = resp.result.rechargeTotal
+        that._data._table.data = resp.result.data
+        that._data._pagination.total = parseInt(resp.result.recordsTotal)
+        if (that._data._pagination.total > 0) {
+          that._data._table.key = 1
+        } else if (that._data._pagination.total === 0) {
+          that._data._table.key = 2
+        }
+        that.cancelAuthorizations = false
+      }).catch((resp) => {
+        that.$notify.error(resp.msg || '保存失败')
+      })
+    },
     shopManager () {
       this.shopManager_radio = '1'
       this.shoppingGuide_radio = '0'
-      // this.model.type = 1
     },
     shoppingGuide () {
       this.shopManager_radio = '0'
       this.shoppingGuide_radio = '1'
-      // this.model.type = 0
     },
     onToAuthorize () {
       var that = this
@@ -129,6 +124,7 @@ export default {
       this.shoppingGuide_radio = '0'
       this.titleText = (row.id && '编辑') || '新增'
       this.model.id = row.id
+      this.model.groupId = row.groupId
       this.model.name = row.name
       this.model.appid = row.appid
       this.model.secret = row.secret
@@ -139,19 +135,9 @@ export default {
       this.model.payId = row.pay_id
       this.model.type = row.type
       this.model.from_type = row.from_type
+      this.model.userCorpsecret = row.userCorpsecret
+      that.model.addressCorpsecret = row.addressCorpsecret
       that.model.paySecret = row.pay_secret
-      if (row.wx_status === 1) {
-
-      } else {
-        // this.miniProgram = true
-        // this.obj.appId = row.appid
-        // this.$http.fetch(that.$api.guide.sgwxaccount.getAppletInfo, this.obj).then((resp) => {
-        //   this.appObj = resp
-        // }).catch((resp) => {
-        //   that.$notify.error(resp.msg || '请求失败')
-        // })
-      }
-      // this.newestDialog = true
     },
     onAuthorization () {
       this.authorization = true
@@ -208,6 +194,7 @@ export default {
     onSave () {
       let that = this
       that.shopManager_radio === '1' ? that.model.type = 1 : that.model.type = 0
+      delete that.model.param
       that.$refs.form.validate((valid) => {
         if (valid) {
           that.$http.fetch(that.$api.guide.sgwxaccount.save, that.model).then(() => {
@@ -222,20 +209,7 @@ export default {
       })
     },
     onDelete (row) {
-      apiRequestConfirm('永久删除该数据')
-      .then(() => {
-        let that = this
-        that.$http.fetch(that.$api.guide.sgwxaccount.delete, {id: row.id}).then(() => {
-          that.dialogFormVisible = false
-          that.newestDialog = false
-          that.$notify.success('删除成功')
-          that.$reload()
-        }).catch((resp) => {
-          that.$notify.error(resp.msg || '删除失败')
-        })
-      }).catch(() => {
-        // 点击取消事件
-      })
+      this.cancelAuthorizations = true
     },
     /**
      * 处理请求参数

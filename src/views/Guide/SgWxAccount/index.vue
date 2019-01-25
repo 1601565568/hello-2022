@@ -31,7 +31,7 @@
               <span class="tmp-cell__buttons">
                 <ns-button type="text" @click="onSaveOpen(scope.row)">编辑</ns-button>
                 <ns-button v-if="scope.row.appid !== 'wxd018c65db8b66408' && scope.row.appid !== 'wx088d6dbeea9c68c3'"
-                           type="text" @click="onDelete(scope.row)">删除</ns-button>
+                           type="text" @click="onDelete(scope.row)">取消授权</ns-button>
               </span>
             </template>
           </el-table-column>
@@ -65,27 +65,30 @@
       </div>     
       <el-form :model="model" ref="form" label-width="150px" :rules="rules" placement="right">
         <el-form-item label="微信名称：" prop="name" required>
-          <el-input v-if="model.from_type === 1" type="text" :disabled='true' placeholder="请输入微信名称" v-model="model.name" maxlength="10"></el-input>
-          <el-input v-else type="text" placeholder="请输入微信名称" v-model="model.name" maxlength="10"></el-input>
+          <el-input v-if="model.from_type === 1" type="text" :disabled='true' placeholder="请输入微信名称" v-model="model.name" ></el-input>
+          <el-input v-else type="text" placeholder="请输入微信名称" v-model="model.name" ></el-input>
         </el-form-item>
         <el-form-item label="应用ID：" prop="appid" required>
-          <el-input v-if="model.from_type === 1" type="text" :disabled='true' placeholder="请输入应用ID" v-model="model.appid" maxlength="32"></el-input>
-          <el-input v-else type="text" placeholder="请输入应用ID" v-model="model.appid" maxlength="32"></el-input>
+          <el-input v-if="model.from_type === 1" type="text" :disabled='true' placeholder="请输入应用ID" v-model="model.appid" ></el-input>
+          <el-input v-else type="text" placeholder="请输入应用ID" v-model="model.appid" ></el-input>
         </el-form-item>
-        <el-form-item v-if="model.from_type === 1" label="应用密钥：" prop="secret" required>
-          <el-input type="text" placeholder="请输入应用密钥" v-model="model.secret" maxlength="50"></el-input>
+        <el-form-item label="企业ID：" prop="corpid" required>
+          <el-input type="text" placeholder="请输入企业ID" v-model="model.corpid" ></el-input>
         </el-form-item>
-        <el-form-item label="企业ID：" prop="corpid">
-          <el-input type="text" placeholder="请输入企业ID" v-model="model.corpid" maxlength="32"></el-input>
+        <el-form-item label="企业密钥：" prop="corpsecret" required>
+          <el-input type="text" placeholder="请输入企业密钥" v-model="model.corpsecret"></el-input>
         </el-form-item>
-        <el-form-item label="企业密钥：" prop="corpsecret">
-          <el-input type="text" placeholder="请输入企业密钥" v-model="model.corpsecret" maxlength="50"></el-input>
+        <el-form-item label="外部联系人企业秘钥：" prop="userCorpsecret" required>
+          <el-input type="text" placeholder="请输入外部联系人企业秘钥" v-model="model.userCorpsecret"></el-input>
+        </el-form-item>
+        <el-form-item  label="通讯录企业秘钥：" prop="addressCorpsecret" required>
+          <el-input type="text" placeholder="请输入通讯录企业秘钥"  v-model="model.addressCorpsecret"></el-input>
         </el-form-item>
         <el-form-item label="支付ID：" prop="payId">
-          <el-input type="text" placeholder="请输入支付ID" v-model="model.payId" maxlength="50"></el-input>
+          <el-input type="text" placeholder="请输入支付ID" v-model="model.payId" ></el-input>
         </el-form-item>
         <el-form-item label="支付密钥：" prop="paySecret">
-          <el-input type="text" placeholder="请输入支付密钥" v-model="model.paySecret" maxlength="100"></el-input>
+          <el-input type="text" placeholder="请输入支付密钥" v-model="model.paySecret" ></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -187,6 +190,20 @@
       </div>
     </el-dialog>
     <!-- 最新弹窗微信号授权结束 -->
+    <!-- 最新弹窗取消授权开始 -->
+    <el-dialog size="small" class="authorization" :title="authorizationText" width="40%"
+               :visible.sync="cancelAuthorizations"
+               :modal-append-to-body="false"
+               @before-close="closeDialog()">
+      <div>
+        <p class="shouquan">若要取消授权，请登录<a href="https://mp.weixin.qq.com" target="_blank">【微信公众平台】</a>授权管理页面取消授权</p>
+      </div>         
+      <div slot="footer" class="authorization_footer">
+        <ns-button @click="cancelAuthorizations = false">取消</ns-button>
+        <ns-button type="primary" @click="cancelAuthorization">已取消授权授权</ns-button>
+      </div>
+    </el-dialog>
+    <!-- 最新弹窗取消授权结束 -->
   </div>
 </template>
 
@@ -207,7 +224,7 @@
   border-top:1px solid #ddd;
   padding:10px 0 10px 78px;
 }
-.dialog_mian_logo img{
+.dialog_mian_logo .shoplogo{
   margin-right:5px;
 }
 .dialog_mian_topText p sapn{
@@ -220,16 +237,13 @@
 .shanghu{
   color:#FF8C00 !important;
 }
-.shanghu img{
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-}
 .newestDialog{
   padding:0 10px;
 }
 .dialog_mian{
   padding:10px 20px;
 }
-
+.shouquan{
+  margin-bottom: 20px
+}
 </style>

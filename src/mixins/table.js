@@ -333,12 +333,12 @@ export default {
     $getOriginModel$: function () {
       return this.originModel
     },
-    $pageChange$: function (page) {
+    $pageChange$: function (page) { // 页数改变
       // var _pagination = this._data._pagination
       this._data._pagination.page = page
       return this.$reload()
     },
-    $sizeChange$: function (size) {
+    $sizeChange$: function (size) { // 页数大小
       var pagination = this._data._pagination
       pagination.size = size
       return this.$reload()

@@ -20,9 +20,9 @@ export default {
     const operateButtons = [
       {
         'func': function () {
-          this.$emit('add')
+          this.$emit('synchronousStores')
         },
-        'name': '新增导购'
+        'name': '同步门店'
       }
     ]
     let quickInput = [{
@@ -61,10 +61,14 @@ export default {
       }
     }
     let findVo = {
-      'name': null,
-      'shop': null,
-      'job': null,
-      'guideState': 1
+      'shopName': null,          // 门店名称
+      'city': null,         // 门点所在区域市
+      'district': null,       // 门点所在区域区
+      'province': null,       // 门点所在区域省
+      'shop_type': null,   // 门店类型
+      'phone': null,          // 联系电话
+      'area_region': null,  // 所属地区
+      'shopStatus': null   // 营业状态
     }
     let model = Object.assign({}, findVo, {}, searchModel)
     let rules = {
@@ -138,6 +142,7 @@ export default {
       })
     })
     return {
+      checked: true,
       subordinateStores: [],
       showUpdateAllGuidePrefix: false,
       disabledWorkPrefix: true,
@@ -169,11 +174,9 @@ export default {
       row: null,
       memberBelongingtitle: '',
       memberBelongingShow: false,
-      verification: false,
       guideList: [],
       shopList: [],
       shopFindList: [],
-      shopFindLists: [],
       guideShopList: [],
       dimissionArry: [],      // 批量离职员工数组
       replaceStoresArry: [],  // 批量更换门店数组
@@ -231,12 +234,23 @@ export default {
     }
   },
   methods: {
-    updateWorkPrefix () {
-      this.disabledWorkPrefix = false
-      this.showUpdateAllGuidePrefix = !this.showUpdateAllGuidePrefix
+    subsize () { // 公众号二维码小尺寸
+      console.log('公众号二维码小尺寸')
     },
-    blurWorkPrefix () {
-      this.disabledWorkPrefix = true
+    theSize () { // 公众号二维码中尺寸
+      console.log('公众号二维码中尺寸')
+    },
+    jumboSize () { // 公众号二维码大尺寸
+      console.log('公众号二维码大尺寸')
+    },
+    xiaoSubsize () { // 小程序二维码小尺寸
+      console.log('小程序二维码小尺寸')
+    },
+    xiaoTheSize () { // 小程序二维码中尺寸
+      console.log('小程序二维码中尺寸')
+    },
+    xiaoJumboSize () { // 小程序二维码大尺寸
+      console.log('小程序二维码大尺寸')
     },
     transfer () {
       this.$router.push({
@@ -258,13 +272,14 @@ export default {
       _this.changeValue.birthdayValue = value
       _this.changeObj.birthdayChange = true
     },
+    onAreaChange () { // 城市切换进行赋值
+      let that = this
+      that.model.district = that.searchform.area[2]
+      that.model.city = that.searchform.area[1]
+      that.model.province = that.searchform.area[0]
+    },
     jobs (value) {
       let _this = this
-      if (value === 0) {
-        _this.subordinateStores = []
-      } else {
-        _this.model.sgGuideShop.shop_id = null
-      }
       _this.guideValue = value
       _this.changeValue.jobsValue = value
       _this.changeObj.jobsChange = true
@@ -390,90 +405,65 @@ export default {
       } else {
         _this.allDeleteName = []
         _this.dimissionArry.map(item => {
-          if (item.count > 1) {
-            _this.verification = true
-          } else {
-            _this.allDeleteName.push(item.name)
-          }
+          _this.allDeleteName.push(item.name)
         })
-        if (!_this.verification) {
-          _this.$confirm('请确认是否对 ' + _this.allDeleteName.join('、') + ' 进行离职操作!', '提示', {
-            confirmButtonText: '确定',
-            cancelButtonText: '取消',
-            type: 'warning'
-          }).then(() => {
-            _this.allDeleteName = []
-            _this.dimissionArry.map(item => {
-              if (item.status === 2) {
-                _this.allDeleteName.push(item.name)
-                _this.$confirm(_this.allDeleteName.join('、') + '已经是离职状态!', '提示', {
-                  confirmButtonText: '确定',
-                  cancelButtonText: '取消',
-                  type: 'warning'
-                })
-              } else {
-                dimissionIdArry.push(item.id)
-                dimissionshopIdArry.push(item.shop_id)
-              }
-            })
-            _this.$http.fetch(_this.$api.guide.guide.guideLeave, {
-              guideIds: dimissionIdArry.join(','),
-              shopIds: dimissionshopIdArry.join(',')
-            }).then(resp => {
-              if (resp.result.failCount > 0) {
-                _this.successCount = resp.result.successCount
-                _this.failCount = resp.result.failCount
-                _this.allDeleteFormVisible = true
-              } else {
-                _this.$notify.success('批量离职成功')
-                _this.$refs.table.$reload()
-              }
-            }).catch((resp) => {
-              _this.$notify.error('查询失败：' + resp.msg)
-            })
+        _this.$confirm('请确认是否对 ' + _this.allDeleteName.join('、') + ' 进行离职操作!', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          _this.allDeleteName = []
+          _this.dimissionArry.map(item => {
+            if (item.status === 2) {
+              _this.allDeleteName.push(item.name)
+              _this.$confirm(_this.allDeleteName.join('、') + '已经是离职状态!', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+              })
+            } else {
+              dimissionIdArry.push(item.id)
+              dimissionshopIdArry.push(item.shop_id)
+            }
           })
-        } else {
-          _this.$confirm('多换门店禁止批量操作!', '提示', {
-            confirmButtonText: '确定',
-            cancelButtonText: '取消',
-            type: 'warning'
-          }).then(() => {})
-        }
+          _this.$http.fetch(_this.$api.guide.guide.guideLeave, {
+            guideIds: dimissionIdArry.join(','),
+            shopIds: dimissionshopIdArry.join(',')
+          }).then(resp => {
+            if (resp.result.failCount > 0) {
+              _this.successCount = resp.result.successCount
+              _this.failCount = resp.result.failCount
+              _this.allDeleteFormVisible = true
+            } else {
+              _this.$notify.success('批量离职成功')
+              _this.$refs.table.$reload()
+            }
+          }).catch((resp) => {
+            _this.$notify.error('查询失败：' + resp.msg)
+          })
+        })
       }
     },
     showShop () {
       var _this = this
-      _this.verification = false
       if (_this.replaceStoresArry.length < 1) {
         _this.$notify.error('请选择要操作的员工')
       } else {
         _this.allDeleteName = []
         _this.dimissionArry.map(item => {
-          if (item.count > 1) {
-            _this.verification = true
-          } else {
-            _this.allDeleteName.push(item.name)
-          }
+          _this.allDeleteName.push(item.name)
         })
-        if (!_this.verification) {
-          _this.$confirm('请确认是否对 ' + _this.allDeleteName.join('、') + ' 进行更换门店操作!', '提示', {
-            confirmButtonText: '确定',
-            cancelButtonText: '取消',
-            type: 'warning'
-          }).then(() => {
-            _this.shopFindListShow = true
-            _this.allDeleteName = []
-            _this.replaceStoresArry.map(item => {
-              _this.allDeleteName.push(item.name)
-            })
+        _this.$confirm('请确认是否对 ' + _this.allDeleteName.join('、') + ' 进行更换门店操作!', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          _this.shopFindListShow = true
+          _this.allDeleteName = []
+          _this.replaceStoresArry.map(item => {
+            _this.allDeleteName.push(item.name)
           })
-        } else {
-          _this.$confirm('更换门店禁止批量操作!', '提示', {
-            confirmButtonText: '确定',
-            cancelButtonText: '取消',
-            type: 'warning'
-          }).then(() => {})
-        }
+        })
       }
     },
     replaceStores () { // 组团更换门店功能
@@ -501,52 +491,25 @@ export default {
         })
       }
     },
-    onKeyUp (e) {
-      var key = window.event.keyCode
-      var _this = this
-      if (key === 13) {
-        _this.onSave()
-      }
-      if (key === 27) {
-        if (_this.changeObj.workIdChangeChange || _this.changeObj.logoChange || _this.changeObj.nicknameChange || _this.changeObj.birthdayChange || _this.changeObj.sexsChange || _this.changeObj.mobileChange || _this.changeObj.jobsChange || _this.changeObj.namesChange || _this.changeObj.storeChange) {
-          _this.$confirm('内容被修改是否要保存！', '提示', {
-            confirmButtonText: '保存',
-            cancelButtonText: '取消',
-            type: 'warning'
-          }).then(() => {
-            if (_this.changeObj.storeChange) {
-              _this.newAdd.shop_id = _this.storeValue
-            } else if (_this.changeObj.namesChange) {
-              _this.newAdd.name = _this.namesValue
-            } else if (_this.changeObj.nicknameChange) {
-              _this.newAdd.nickname = _this.nicknameValue
-            } else if (_this.changeObj.birthdayChange) {
-              _this.newAdd.birthday = _this.birthdayValue
-            } else if (_this.changeObj.sexsChange) {
-              _this.newAdd.sex = _this.sexsValue
-            } else if (_this.changeObj.mobileChange) {
-              _this.newAdd.mobile = _this.mobileValue
-            } else if (_this.changeObj.jobsChange) {
-              _this.newAdd.job = _this.jobsValue
-            } else if (_this.changeObj.workIdChangeChange) {
-              _this.newAdd.work_num = _this.workIdChangeValue
-            } else if (_this.changeObj.logoChange) {
-              _this.newAdd.image = _this.logoValue
-            }
-            _this.dialogFormVisible = false
-          })
-        } else {
-          _this.dialogFormVisible = false
-        }
-      }
+    elIconMenu () {
+      let _this = this
+      _this.memberBelongingShow = true
+      _this.title = '下载招募码'
+      // _this.$http.fetch(_this.$api.guide.guide.getWechatQrcode).then(resp => {
+      //   if (resp.success && resp.result != null) {
+      //     _this.shopFindList = resp.result
+      //   }
+      // }).catch((resp) => {
+      //   _this.$notify.error('查询失败：' + resp.msg)
+      // })
     },
     scopeRowCount (data) { // 查看员工属性
       this.scopeRowCountShow = true
-      this.memberBelongingtitle = '查看（' + data.name + '）所属门店详情'
+      this.memberBelongingtitle = '查看员工属性详情'
       var _this = this
-      _this.$http.fetch(_this.$api.guide.guide.findGuideShopList, {guideId: data.id}).then(resp => {
+      _this.$http.fetch(_this.$api.guide.guide.findGuideShopList, {guideId: data}).then(resp => {
         if (resp.success && resp.result != null) {
-          _this.shopFindLists = resp.result
+          _this.shopFindList = resp.result
         }
       }).catch((resp) => {
         _this.$notify.error('查询失败：' + resp.msg)
@@ -595,62 +558,8 @@ export default {
         _this.$notify.error('查询失败,' + resp.msg)
       })
     },
-    onRedactFun (row) { // 编辑和新增功能
-      this.row = row
-      if (row) {
-        this.title = '编辑员工信息'
-        this.guideValue = row.job
-        this.subordinateStores = []
-        this.subordinateStores = row.shop_ids.split(',')
-        this.model.sgGuide = {
-          id: row.id,
-          name: row.name,
-          nickname: row.nickname,
-          sex: row.sex,
-          mobile: row.mobile,
-          birthday: row.birthday === null ? null : new Date(row.birthday),
-          work_number: row.work_number,
-          image: row.image,
-          work_prefix: row.work_prefix
-        }
-        this.model.sgGuideShop = {
-          id: row.gsId,
-          job: row.job,
-          shop_id: row.shop_id
-        }
-        this.model.updateAllGuidePrefix = 0
-        this.showUpdateAllGuidePrefix = false
-        this.dialogFormVisible = true
-      } else {
-        this.title = '新增员工'
-        this.guideValue = 0
-        let that = this
-        this.subordinateStores = []
-        that.$http.fetch(this.$api.guide.guide.findGuideNewWorkNumAndPrefix, {}
-        ).then(resp => {
-          this.model.sgGuide = {
-            id: this.newAdd.id,
-            name: this.newAdd.name,
-            nickname: this.newAdd.nickname,
-            sex: this.newAdd.sex,
-            mobile: this.newAdd.mobile,
-            birthday: this.newAdd.birthday === null ? null : new Date(row.birthday),
-            image: this.newAdd.image,
-            work_prefix: resp.result.workPrefix,
-            work_number: resp.result.workNumber
-          }
-          this.model.sgGuideShop = {
-            id: this.newAdd.gsId,
-            job: this.newAdd.job,
-            shop_id: this.newAdd.shop_id
-          }
-          this.model.updateAllGuidePrefix = 0
-          this.showUpdateAllGuidePrefix = false
-          this.dialogFormVisible = true
-        }).catch((err) => {
-          that.$notify.error('查询失败:' + err.msg)
-        })
-      }
+    onRedactFun () { // 同步门店
+      this.$refs.table.$reload()
     },
     onSave (model) {
       let _this = this
@@ -727,31 +636,6 @@ export default {
               })
             }
           })
-        } else {
-          _this.$refs.addForm.validate(valid => {
-            if (valid) {
-              if (guide.birthday instanceof Date) {
-                guide.birthday = moment(guide.birthday).format('YYYY-MM-DD')
-              }
-              if (guide.birthday === null) guide.birthday = ''
-              if (guide.work_num === null) guide.work_num = ''
-              guideShop[0] = {job: 0, shop_id: model.sgGuideShop.shop_id}
-              this.$http.fetch(this.$api.guide.guide.saveOrUpdateGuide, {
-                sgGuide: guide,
-                sgGuideShopList: guideShop,
-                sgGuideVo: sgGuideVo,
-                updateAllGuidePrefix: updateAllGuidePrefix
-              }).then(resp => {
-                _this.closeDialog()
-                _this.$notify.success('保存成功')
-                this.$refs.table.$reload()
-              }).catch((resp) => {
-                _this.closeDialog()
-                this.model.sgGuide.image = allImageUrl
-                _this.$notify.error('保存失败：' + resp.msg)
-              })
-            }
-          })
         }
       }
     },
@@ -762,201 +646,6 @@ export default {
         _this.queryGuideShopList(row.id)
         _this.shopFormVisible = true
       }
-    },
-    // 离职js开始
-    // 查询客户列表
-    findCustomerList (page, pageSize) {
-      var _this = this
-      _this.$http.fetch(_this.$api.guide.guide.findCustomerList, {
-        searchMap: {
-          'guideId': _this.guideId,
-          'shopId': _this.shopId,
-          'pageSize': _this.paginations.size,
-          'pageNo': _this.paginations.page
-        }
-      }).then(resp => {
-        if (resp.success && resp.result != null) {
-          _this.tableDataCustomer = resp.result.data
-          _this.paginations.total = parseInt(resp.result.total)
-          _this.chooseCustomerFocus()
-        }
-      }).catch((resp) => {
-        // _this.$notify.error('查询失败：' + resp.msg)
-      })
-    },
-    // 查询导购列表
-    findGuideList () {
-      var _this = this
-      _this.$http.fetch(_this.$api.guide.guide.findList, {
-        searchMap: {
-          'guideState': 1,
-          'guideId': _this.guideId,
-          'status': 1
-        },
-        length: 10000
-      }).then(resp => {
-        if (resp.success && resp.result.data != null) {
-          _this.guideList = resp.result.data
-        }
-      }).catch((resp) => {
-        _this.$notify.error('查询失败：' + resp.msg)
-      })
-    },
-     // 会员离职
-    dimissionFun (row) {
-      var _this = this
-      _this.transferWay = '1'
-      _this.$confirm('请确认是否对 ' + row.name + ' 进行离职操作!', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        _this.$http.fetch(_this.$api.guide.guide.getCustomerCount, {
-          searchMap: {
-            'guideId': row.id,
-            'shopId': row.shop_id
-          }
-        }).then(resp => {
-          if (resp.result.recordsFiltered > 0) {
-            _this.guideId = row.id
-            _this.shopId = row.shop_id
-            _this.customerTotal = resp.result.recordsFiltered
-            _this.resignFormVisible = true
-          } else {
-            var params = {
-              transGuideId: row.id,
-              transStatus: 0
-            }
-            _this.guideLeave(params, false)
-          }
-        }).catch((resp) => {
-          // _this.$notify.error('查询失败：' + resp.msg)
-        })
-      })
-    },
-    onConfirmResign () {
-      var _this = this
-      var status = _this.transferWay
-      _this.resignFormVisible = false
-      if (status === '1') {
-        _this.averageTransfer()
-      } else if (status === '2') {
-        _this.findGuideList()
-        _this.specifyTransferFormVisible = true
-      } else if (status === '3') {
-        _this.findCustomerList()
-        _this.findGuideList()
-        _this.customFormVisible = true
-      }
-    },
-    // 平均转移
-    averageTransfer () {
-      var _this = this
-      _this.$confirm('请确认是否对导购客户进行平均转移操作!', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        var params = {
-          transGuideId: _this.guideId,
-          transStatus: 1,
-          resource: 0
-        }
-        _this.guideLeave(params, false)
-      })
-    },
-    // 取消指定转移
-    onCancelSpecifyTransfer () {
-      var _this = this
-      _this.specifyTransferFormVisible = false
-      _this.receiveGuideId = null
-    },
-    // 保存指定导购转移
-    onSaveSpecifyTransfer () {
-      var _this = this
-      if (_this.receiveGuideId === null || _this.receiveGuideId === 0) {
-        _this.$notify.error('请选择指定导购')
-        return
-      }
-      var params = {
-        transGuideId: _this.guideId,
-        receiveGuideId: _this.receiveGuideId,
-        transStatus: 2,  // 对应后台枚举
-        resource: 0  // 对应后台枚举
-      }
-      _this.guideLeave(params, false)
-    },
-    // 关闭自定义转移弹窗
-    onCancelCustomTransfer () {
-      var _this = this
-      _this.paginations = {
-        enable: true,
-        size: 10,
-        sizeOpts: [5, 10, 15],
-        page: 1,
-        total: 0
-      }
-      _this.customFormVisible = false
-      _this.receiveGuideId = null
-    },
-    // 保存自定义转移客户
-    onSaveCustomTransfer () {
-      var _this = this
-      var isLeave = false
-      if (_this.allPageCustomer.length > 0) {
-        if (_this.allPageCustomer.length === _this.paginations.total) {
-          isLeave = true
-        }
-        for (let index = 0; index < _this.allPageCustomer.length; index++) {
-          if (index === 0) {
-            _this.customerIds = _this.allPageCustomer[index].customerId
-          } else {
-            _this.customerIds += ',' + _this.allPageCustomer[index].customerId
-          }
-        }
-      } else {
-        _this.$notify.error('请选择转移的客户')
-        return
-      }
-
-      if (_this.receiveGuideId === null || _this.receiveGuideId === '') {
-        _this.$notify.error('请选择转移的导购')
-        return
-      }
-      var params = {
-        customerIds: _this.customerIds,
-        receiveGuideId: _this.receiveGuideId,
-        transGuideId: _this.guideId,
-        transStatus: 3,   // 对应后台枚举
-        resource: 0,      // 对应后台枚举
-        isLeave: isLeave
-      }
-      _this.guideLeave(params, isLeave)
-    },
-    // 导购离职
-    guideLeave (data, isClose) {
-      var _this = this
-      _this.$http.fetch(_this.$api.guide.guide.updateGuideCustomer, data)
-      .then(resp => {
-        _this.paginations = {
-          enable: true,
-          size: 10,
-          sizeOpts: [5, 10, 15],
-          page: 1,
-          total: 0
-        }
-        _this.receiveGuideId = null
-        _this.customerIds = null
-        _this.guideId = null
-        _this.specifyTransferFormVisible = false
-        _this.customFormVisible = false
-        if (!isClose) {
-          _this.$refs.table.$reload()
-        }
-        _this.$notify.success('操作成功')
-      }).catch((resp) => {
-        _this.$notify.error('操作成功 ' + resp.msg)
-      })
     },
     // 分页-页数改变
     customerPageChange (page) {
@@ -996,26 +685,6 @@ export default {
           arrays.push(value)
         })
         _this.allPageCustomer = arrays
-      }
-    },
-    selectAll: function (selected) {
-      var _this = this
-      // 当前页全选
-      if (selected.length !== 0) {
-        var arrays = []
-        for (var a = 0; a < selected.length; a++) {
-          arrays.push(selected[a])
-        }
-        _this.thisPageCustomer = arrays
-        if (_this.allPageCustomer.length > 0) {
-          // 数组去重
-          _this.handRepeatCustomer(arrays, null)
-        } else {
-          _this.allPageCustomer = arrays
-        }
-      } else {
-        // 当前页全不选
-        _this.handRepeatCustomer(null, _this.thisPageCustomer)
       }
     },
     selectRow: function (selected, row) {
@@ -1107,6 +776,7 @@ export default {
   },
   mounted: function () {
     var _this = this
+    console.log(this.$store)
     _this.initShopList()
   }
 }

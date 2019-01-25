@@ -1,4 +1,5 @@
 import tableMixin from 'mixins/table'
+import NsArea from 'components/NsArea'
 export default {
   name: 'NsTableGuide',
   mixins: [tableMixin],
@@ -16,27 +17,9 @@ export default {
     const tableButtons = [
       {
         'func': function () {
-          this.$emit('add')
+          this.$emit('synchronousStores')
         },
-        'name': '新增'
-      },
-      {
-        'func': function () {
-          this.$emit('showShop')
-        },
-        'name': '更换门店'
-      },
-      {
-        'func': function () {
-          this.$emit('dimission')
-        },
-        'name': '离职'
-      },
-      {
-        'func': function () {
-          this.$emit('allDelete')
-        },
-        'name': '删除'
+        'name': '同步门店'
       }
     ]
     const operateButtons = [
@@ -99,10 +82,14 @@ export default {
       }
     }
     let findVo = {
-      'name': null,
-      'shop': null,
-      'job': null,
-      'guideState': 1
+      'shopName': null,          // 门店名称
+      'city': null,         // 门点所在区域市
+      'district': null,       // 门点所在区域区
+      'province': null,       // 门点所在区域省
+      'shop_type': null,   // 门店类型
+      'phone': null,          // 联系电话
+      'area_region': null,  // 所属地区
+      'shopStatus': null   // 营业状态
     }
     let model = Object.assign({}, findVo, {}, searchModel)
     return {
@@ -117,7 +104,43 @@ export default {
       },
       _queryConfig: {expand: false},
       multipleSelection: [],
-      select: true
+      select: true,
+      shopLeiXing: [{
+        value: 'B',
+        label: '天猫'
+      }, {
+        value: 'C',
+        label: '淘宝店'
+      }, {
+        value: 'ZYD',
+        label: '直营店'
+      }, {
+        value: 'JMD',
+        label: '加盟店'
+      }],
+      operatingStatus: [{
+        value: -2,
+        label: '已关店'
+      }, {
+        value: -1,
+        label: '暂停'
+      }, {
+        value: 0,
+        label: '删除'
+      }, {
+        value: 1,
+        label: '正常营业'
+      }],
+      searchform: {
+        // 区域选择相关start
+        key: {
+          children: 'children',
+          label: 'label',
+          value: 'label',
+          disabled: 'disabled'
+        },
+        area: []
+      }
     }
   },
 
@@ -128,6 +151,9 @@ export default {
     } else {
       this.$reload()
     }
+  },
+  components: {
+    NsArea
   },
   computed: {},
   methods: {
@@ -147,8 +173,17 @@ export default {
           this.$notify.error(resp.msg || '查询失败')
         })
     },
+    elIconMenu () {
+      this.$emit('elIconMenu')
+    },
     scopeRowCount (data) { // 查看门店详情和查看所属区域详情
       this.$emit('scopeRowCount', data)
+    },
+    onAreaChange () { // 城市切换进行赋值
+      let that = this
+      that.model.district = that.searchform.area[2]
+      that.model.city = that.searchform.area[1]
+      that.model.province = that.searchform.area[0]
     },
     initShopList () {
       var _this = this

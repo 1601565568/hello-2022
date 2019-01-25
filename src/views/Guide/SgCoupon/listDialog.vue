@@ -147,12 +147,20 @@
       },
       // 提交搜索
       submitForm (formName) {
-        console.log('formName:', formName)
         // 组装搜索对象
         this.searchObj.searchMap.province = this.searchform.area[0]
         this.searchObj.searchMap.city = this.searchform.area[1]
         this.searchObj.searchMap.district = this.searchform.area[2]
         this.searchObj.searchMap.shopName = this.searchform.shopName
+        this.loadListFun()
+      },
+      resetForm (formName) {
+        this.searchform.area = []
+        this.searchform.shopName = ''
+        this.searchObj.searchMap.province = null
+        this.searchObj.searchMap.city = null
+        this.searchObj.searchMap.district = null
+        this.searchObj.searchMap.shopName = null
         this.loadListFun()
       },
       // 加载列表

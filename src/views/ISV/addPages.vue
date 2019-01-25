@@ -39,19 +39,19 @@
     <el-dialog width="40%" :title="titleText" :visible.sync="dialogFormVisible" :modal-append-to-body="false" @before-close="closeDialog()">
       <el-form :model="model" ref="form" label-width="150px" :rules="rules" placement="right">
         <el-form-item label="菜单标题：" prop="name" required>
-          <el-input type="text" placeholder="请输入页面标题" v-model="model.name" maxlength="10"></el-input>
+          <el-input type="text" placeholder="请输入页面标题" v-model="model.name" ></el-input>
         </el-form-item>
         <el-form-item label="父级菜单：" prop="parent_id" required>
-          <el-input type="text" placeholder="请输入父菜单ID" v-model="model.parent_id" maxlength="10"></el-input>
+          <el-input type="text" placeholder="请输入父菜单ID" v-model="model.parent_id" ></el-input>
         </el-form-item>
         <el-form-item label="菜单编码：" prop="code" required>
-          <el-input type="text" placeholder="请输入菜单编码" v-model="model.code" maxlength="32"></el-input>
+          <el-input type="text" placeholder="请输入菜单编码" v-model="model.code" ></el-input>
         </el-form-item>
         <el-form-item label="页面路径：" prop="url" required>
-          <el-input type="text" placeholder="请输入页面路径" v-model="model.url" maxlength="30"></el-input>
+          <el-input type="text" placeholder="请输入页面路径" v-model="model.url" ></el-input>
         </el-form-item>
         <el-form-item label="页面描述：" prop="description">
-          <el-input type="text" placeholder="请输入页面描述" v-model="model.description" maxlength="30"></el-input>
+          <el-input type="text" placeholder="请输入页面描述" v-model="model.description" ></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -117,37 +117,10 @@ export default {
         table_buttons: tableButtons
       },
       rules: {
-        'name': [{required: true, message: '请输入菜单名称'}, {
-          validator: (rule, value, callback) => {
-            if (value && value.length > 10) {
-              callback(new Error('名称长度不得超过10位'))
-            } else {
-              callback()
-            }
-          },
-          trigger: 'blur'
-        }],
+        'name': [{required: true, message: '请输入菜单名称'}],
         'parent_id': [{required: true, message: '请输入父菜单ID'}],
-        'code': [{required: true, message: '请输入菜单编码'}, {
-          validator: (rule, value, callback) => {
-            if (value && value.length > 32) {
-              callback(new Error('菜单编码长度不得超过32位'))
-            } else {
-              callback()
-            }
-          },
-          trigger: 'blur'
-        }],
-        'url': [{required: true, message: '请输入页面配置路径'}, {
-          validator: (rule, value, callback) => {
-            if (value && value.length > 30) {
-              callback(new Error('页面配置路径长度不得超过30位'))
-            } else {
-              callback()
-            }
-          },
-          trigger: 'blur'
-        }]
+        'code': [{required: true, message: '请输入菜单编码'}],
+        'url': [{required: true, message: '请输入页面配置路径'}]
       }
     }
   },
@@ -206,8 +179,6 @@ export default {
       })
     },
     onPublish (latestStatus) { // 发布小程序
-      console.log('90099090')
-      console.log('90099090:', latestStatus)
       var that = this
       if (latestStatus === 3) {
         this.$confirm('是否确认发布小程序', '提示', {
@@ -340,11 +311,11 @@ export default {
 .shanghu {
   color: #ff8c00 !important;
 }
-img {
+/* img {
   width: 30px;
   height: 30px;
   border-radius: 50%;
-}
+} */
 <!-- .authorization {
   border-bottom: 1px solid #888888;
 }
