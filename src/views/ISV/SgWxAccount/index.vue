@@ -108,10 +108,10 @@
                :visible.sync="dialogFormVisible"
                :modal-append-to-body="false"
                @before-close="closeDialog()">
-       <div  class="dialog-top">
-          <el-radio v-if="model.type === -1" v-model="shopManager_radio" :disabled='true' label="1" @change="shopManager">店长</el-radio>
+        <div  class="dialog-top">
+          <el-radio v-if="model.type !== -1" v-model="shopManager_radio" :disabled='true' label="1" @change="shopManager">店长</el-radio>
           <el-radio v-else v-model="shopManager_radio" label="1" @change="shopManager">店长</el-radio>
-          <el-radio v-if="model.type === -1" v-model="shoppingGuide_radio" :disabled='true' label="1" @change="shoppingGuide">导购</el-radio>
+          <el-radio v-if="model.type !== -1" v-model="shoppingGuide_radio" :disabled='true' label="1" @change="shoppingGuide">导购</el-radio>
           <el-radio v-else v-model="shoppingGuide_radio" label="1" @change="shoppingGuide">导购</el-radio>
         </div>
       <el-form :model="model" ref="form" label-width="150px" :rules="rules" placement="right">
@@ -136,7 +136,7 @@
           <el-input type="text" placeholder="请输入企业密钥" v-model="model.corpsecret"></el-input>
         </el-form-item>
         <el-form-item label="支付ID：" prop="payId">
-          <el-input type="text" placeholder="请输入支付ID" v-model="model.payId"></el-input>
+          <el-input type="text" placeholder="请输入支付ID" v-model="model.pay_id"></el-input>
         </el-form-item>
         <el-form-item label="支付密钥：" prop="paySecret">
           <el-input type="text" placeholder="请输入支付密钥" v-model="model.paySecret"></el-input>

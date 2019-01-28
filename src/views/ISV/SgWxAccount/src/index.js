@@ -29,8 +29,8 @@ export default {
         corpsecret: null,
         openKey: null,
         openSecret: null,
-        payId: null,
-        groupId: null,
+        pay_id: null,
+        group_id: null,
         paySecret: null,
         user_corpsecret: null,
         address_corpsecret: null,
@@ -74,7 +74,7 @@ export default {
         firstId: null,
         secondId: null
       },
-      shopManager_radio: '1',
+      shopManager_radio: '0',
       shoppingGuide_radio: '0',
       titleText: '',
       payTotal: null,
@@ -224,8 +224,13 @@ export default {
           if (resp.success) {
             that.$notify.success('上传成功!')
             that.newauthorization = false
-            // that.parameter.searchMap.appId = that.underReviewObj.app_id
-            // that.onCodeTemplate()
+            that.parameter.searchMap.appId = that.underReviewObj.app_id
+            that.$http.fetch(that.$api.guide.sgwxaccount.getAppletCodeTemplateList, this.parameter).then((resp) => {
+              that.modelArry = resp.result.data
+              that.modelObj.latestAuditVersion = resp.result.latestAuditVersion
+            }).catch((resp) => {
+              that.$notify.error(resp.msg || '请求失败')
+            })
           }
         }).catch((resp) => {
           that.$notify.error(resp.msg || '上传失败')
@@ -275,7 +280,7 @@ export default {
     },
     newest () { // 同步最新
       var that = this
-      that.$http.fetch(that.$api.guide.sgwxaccount.refreshCodeTemplate, this.parameter.searchMap).then((resp) => {
+      that.$http.fetch(that.$api.guide.sgwxaccount.getAppletCodeTemplateList, this.parameter.searchMap).then((resp) => {
         if (resp.result !== null) {
           that.modelArry = resp.result.data
         } else {
@@ -335,25 +340,16 @@ export default {
       })
     },
     onSaveOpen (row) { // 新增或编辑
-      // var that = this
-      this.shopManager_radio = '1'
-      this.shoppingGuide_radio = '0'
+      if (row.type === 1) {
+        this.shopManager_radio = '1'
+        this.shoppingGuide_radio = '0'
+      } else {
+        this.shoppingGuide_radio = '1'
+        this.shopManager_radio = '0'
+      }
       this.dialogFormVisible = true
       this.titleText = (row.id && '编辑') || '新增'
       this.model = row
-      // if (row.wx_status === 1) {
-      //   this.dialogFormVisible = true
-      //   this.titleText = (row.id && '编辑') || '新增'
-      //   this.model = row
-      // } else {
-      //   this.miniProgram = true
-      //   this.obj.appId = row.appid
-      //   this.$http.fetch(that.$api.guide.sgwxaccount.getAppletInfo, this.obj).then((resp) => {
-      //     this.appObj = resp
-      //   }).catch((resp) => {
-      //     that.$notify.error(resp.msg || '请求失败')
-      //   })
-      // }
     },
     onAuthorization () {
       this.authorization = true
@@ -457,7 +453,6 @@ export default {
         .then(resp => {
           resp.result.audit_category = JSON.parse(resp.result.audit_category)
           that.particularsObj = resp.result
-          console.log('kjlkjkl:', that.particularsObj)
         })
         .catch(resp => {
           this.$notify.error(resp.msg || '查询失败')
