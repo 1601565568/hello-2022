@@ -17,7 +17,7 @@
           </el-form-item>
           <el-form-item label="所属门店：" required>
             <el-form-grid size="xxmd">
-              <el-form-item prop="shops" v-if="guideValue === 1" > 
+              <el-form-item prop="shops" v-if="guideValue === 1" >
                 <el-select placeholder="所属门店" @change="store" v-model="subordinateStores" multiple>
                   <el-option v-for="shop in shopFindList" :label="shop.shopName" :value="shop.id" :key="shop.id"></el-option>
                 </el-select>
@@ -25,7 +25,7 @@
                   <el-option v-for="shop in shopFindList" :label="shop.shopName" :value="shop.id" :key="shop.id"></el-option>
                 </el-select> -->
               </el-form-item>
-              <el-form-item prop="shop" v-else > 
+              <el-form-item prop="shop" v-else >
                 <!-- <el-select v-if="guideValue === 1" placeholder="所属门店" @change="store" v-model="subordinateStores" multiple>
                   <el-option v-for="shop in shopFindList" :label="shop.shopName" :value="shop.id" :key="shop.id"></el-option>
                 </el-select> -->
@@ -38,7 +38,7 @@
           <el-form-item label="姓名：" required>
             <el-form-grid size="xxmd">
               <el-form-item prop="name">
-                <el-input type="text" @change="names" v-model="model.sgGuide.name" placeholder="请输入姓名" autofocus=true clearable>
+                <el-input type="text" @change="names" v-model="model.sgGuide.name" placeholder="请输入姓名" :maxlength="20" autofocus=true clearable>
                 </el-input>
               </el-form-item>
             </el-form-grid>
@@ -46,7 +46,7 @@
           <el-form-item label="昵称：" >
             <el-form-grid size="xxmd">
               <el-form-item prop="nickname">
-                <el-input type="text" @change="nickname" v-model="model.sgGuide.nickname" placeholder="请输入昵称" clearable>
+                <el-input type="text" @change="nickname" v-model="model.sgGuide.nickname" placeholder="请输入昵称" :maxlength="20" clearable>
                 </el-input>
               </el-form-item>
             </el-form-grid>
@@ -72,7 +72,7 @@
           <el-form-item label="手机号：" required>
             <el-form-grid size="xxmd">
               <el-form-item prop="mobile">
-                <el-input v-model="model.sgGuide.mobile" @change="mobile" placeholder="请输入手机号" clearable>
+                <el-input v-model="model.sgGuide.mobile" @change="mobile" placeholder="请输入手机号" :maxlength="11" clearable :max="11">
                 </el-input>
               </el-form-item>
             </el-form-grid>
@@ -82,7 +82,7 @@
               <el-form-item prop="work_id">
                 <div class="page_add_guide_workid" style='display:flex'>
                   <el-form-grid size="sm"><el-input :disabled="disabledWorkPrefix"  v-model="model.sgGuide.work_prefix" @blur='blurWorkPrefix'/></el-form-grid>
-                  <el-input type="text" v-model="model.sgGuide.work_number" placeholder="请输入工号" clearable/>
+                  <el-input type="text" v-model="model.sgGuide.work_number" placeholder="请输入工号" :maxlength="10" clearable/>
                   <!-- @change="workIdChange" -->
                   <span style='color:transparent'>1</span>
                   <ns-button type='text' @click='updateWorkPrefix'>修改前缀</ns-button>
@@ -240,19 +240,26 @@
         <ns-button type="primary" @click="onSaveCustomTransfer">确定</ns-button>
       </div>
     </el-dialog>
-    <!--  自定义客户转移弹窗开始  -->
-    <el-dialog :title="shopTitle" width="560px" height="300px" :visible.sync="shopFindListShow" @keyup.enter.native="onKeyUp" @keyup.esc.native="onKeyUp">
+    <!--  更换门店弹窗开始 -->
+    <el-dialog :title="shopTitle" width="560px" height="150px" :visible.sync="shopFindListShow" @keyup.enter.native="onKeyUp" @keyup.esc.native="onKeyUp">
       <div class="guideBox" style="overflow-x:hidden;overflow-y:auto;">
-        <el-select v-model="model.sgGuideShop.shop_id" @change="changeShop" placeholder="请选择要更换的门店">
-          <el-option  v-for="item in shopFindList" :key="item.id"  :label="item.shopName"  :value="item.id"></el-option>
-        </el-select>
+        <el-form>
+          <el-form-item>
+            <el-form-grid size="lg">
+              <el-select v-model="model.sgGuideShop.shop_id" @change="changeShop" placeholder="请选择要更换的门店">
+                <el-option  v-for="item in shopFindList" :key="item.id"  :label="item.shopName"  :value="item.id"></el-option>
+              </el-select>
+            </el-form-grid>
+          </el-form-item>
+        </el-form>
+
       </div>
       <div slot="footer" class="dialog-footer">
         <ns-button @click="shopFindListShow = false">取消</ns-button>
         <ns-button type="primary" @click="replaceStores">确定</ns-button>
       </div>
     </el-dialog>
-    <!--  自定义客户转移弹窗开始  -->
+    <!-- 更换门店弹窗开始  -->
     <!-- 所属门店查看详情开始 -->
       <el-dialog :title="memberBelongingtitle"  :visible.sync="scopeRowCountShow" width="660px" >
         <el-table ref="table" :data="shopFindLists" >
@@ -285,7 +292,7 @@
       </el-form-item>
       </el-form>
       <div v-if="memberBelongingShows" class="guideBox" style="overflow-x:hidden;overflow-y:auto;">
-        <el-select v-model="model.sgGuideShop.shop_id" @change="changeMemberBelonging" placeholder="请选择要更换的门店">
+        <el-select v-model="model.sgGuideShop.shop_id" @change="changeMemberBelonging" placeholder="请选择要更换的门店" :size="medium">
           <el-option  v-for="item in shopFindList" :key="item.id"  :label="item.shopName"  :value="item.id"></el-option>
         </el-select>
       </div>
@@ -293,7 +300,7 @@
         <ns-button @click="memberBelongingShow = false">取消</ns-button>
         <ns-button type="primary" @click="memberBelongingEnsure(model)">确定</ns-button>
       </div>
-    </el-dialog>  
+    </el-dialog>
     <!-- 所属门店查看详情结束 -->
   </div>
 </template>

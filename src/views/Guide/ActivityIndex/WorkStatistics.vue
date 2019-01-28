@@ -20,20 +20,19 @@
               <el-form-item  prop="type">
                 <el-select
                 style="width:100px"
-                v-model="searchform.type" placeholder="请选择"
-                clearable>
+                v-model="searchform.type" placeholder="请选择">
                   <el-option
                   v-for="item in typeOptions"
                   :key="item.value"
                   :label="item.label"
-                  :value="item.value"
-                  >
+                  :value="item.value">
                   </el-option>
                 </el-select>
               </el-form-item>
               <el-form-item  prop="date">
                 <el-date-picker
                   v-if="searchform.type=='1'"
+                  :clearable = "false" :editable = "false"
                   v-model="searchform.date"
                   type="month"
                   placeholder="请选择月份"
@@ -41,6 +40,7 @@
                 </el-date-picker>
                 <el-date-picker
                     v-if="searchform.type=='2'"
+                    :clearable = "false" :editable = "false"
                     v-model="searchform.date"
                     type="date"
                     placeholder="请选择日期">
@@ -63,7 +63,6 @@
         <el-form ref="searchform" label-width="80px"  class="surround-btn" :model="searchform"  :inline="true">
           <el-form-item  prop="type" label="查询类型：">
             <el-select
-            clearable
             style="width:100px"
             v-model="searchform.type" placeholder="请选择">
             <el-option
@@ -78,6 +77,7 @@
             <el-form-item  prop="date">
             <el-date-picker
                 v-if="searchform.type=='1'"
+                :clearable = "false" :editable = "false"
                 v-model="searchform.date"
                 type="month"
                 placeholder="请选择月份"
@@ -85,6 +85,7 @@
             </el-date-picker>
             <el-date-picker
                 v-if="searchform.type=='2'"
+                :clearable = "false" :editable = "false"
                 v-model="searchform.date"
                 type="date"
                 placeholder="请选择日期">

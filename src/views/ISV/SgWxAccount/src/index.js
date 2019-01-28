@@ -32,8 +32,8 @@ export default {
         pay_id: null,
         group_id: null,
         paySecret: null,
-        user_corpsecret: null,
-        address_corpsecret: null,
+        userCorpsecret: null,
+        addressCorpsecret: null,
         param: {}
       },
       obj: {
@@ -94,9 +94,10 @@ export default {
         table_buttons: tableButtons
       },
       rules: {
+        'groupId': [{required: true, message: '请输入集团id'}],
         'name': [{required: true, message: '请输入微信名称'}],
-        'user_corpsecret': [{required: true, message: '请输入外部联系人企业秘钥'}],
-        'address_corpsecret': [{required: true, message: '请输入通讯录企业秘钥'}],
+        'userCorpsecret': [{required: true, message: '请输入外部联系人企业秘钥'}],
+        'addressCorpsecret': [{required: true, message: '请输入通讯录企业秘钥'}],
         'appid': [{required: true, message: '请输入请输入应用ID'}]
       },
       checkRules: {
