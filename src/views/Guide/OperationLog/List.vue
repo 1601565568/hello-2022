@@ -61,7 +61,7 @@
   }
   .kehuBox-main-span_left{
     display: flex;
-    justify-content: flex-start;
+    justify-content:space-around;
     line-height: 35px;
   }
   .kehuBox-main-span_top{

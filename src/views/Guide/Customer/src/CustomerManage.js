@@ -107,6 +107,7 @@ export default {
         })
     },
     async guideFindList (model) { // 导购列表查询
+      // console.log('model:', model)
       let that = this
       let shopList = []
       let obj = {
@@ -124,10 +125,10 @@ export default {
       await this.$http
         .fetch(that.$api.guide.guide.findShopGuide, obj)
         .then(resp => {
-          that.particularsObj = [...resp.result]
-          console.log('sdsd:')
+          that.particularsObj = [...resp.result.data]
+          that.pagination.total = Number(resp.result.recordsTotal)
+          console.log('ioiop:', that.pagination.total)
           that.particularsObj.map((item, i) => {
-            console.log('item:', item[i].id)
             if (item[i].id === item[i + 1].id) {
               item.splice(item[i], item[i + 1])
             }
@@ -190,8 +191,10 @@ export default {
     },
     // 更换导购弹窗\详情展示
     onRedactFun (val) {
+      console.log('val:', val)
       var _this = this
       if (val === undefined) {
+        console.log('val:', this.multipleSelection)
         if (this.multipleSelection.length > 0) {
           _this.shopFindListShow = true
           _this.guideFindList()
@@ -200,6 +203,7 @@ export default {
           _this.$notify.error('请选择要更换导购的客户')
         }
       } else {
+        console.log('val:', val)
         _this.title = '客户详情'
         _this.$http.fetch(_this.$api.guide.guide.customerGetDetail, {
           customerId: val.customerId,

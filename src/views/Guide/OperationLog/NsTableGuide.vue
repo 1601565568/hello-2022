@@ -73,7 +73,7 @@
             <el-input style="width:180px" autofocus=true v-model="model.operatorName" placeholder="请输入品牌方姓名" clearable></el-input>
           </el-form-grid>
           <el-form-grid v-if="model.terminalType === 3">
-            <el-inputstyle="width:180px" autofocus=true v-model="model.operatorId" placeholder="请输入操作人ID" clearable></el-input>
+            <el-input style="width:180px" autofocus=true v-model="model.operatorId" placeholder="请输入操作人ID" clearable></el-input>
           </el-form-grid>
         </el-form-item>
 

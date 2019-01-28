@@ -238,7 +238,7 @@ export default {
       this.shopKuhuShow = true
       this.initList(value)
     },
-    initList (value) { // 组团删除功能
+    initList (value) { // 查询详情列表
       let _this = this
       let arr = []
       let arr1 = []
@@ -246,11 +246,14 @@ export default {
         if (resp.result.afterJson !== null) {
           resp.result.afterJson = JSON.parse(resp.result.afterJson)
           for (let i in resp.result.afterJson) {
+            console.log('lkjk:', resp.result.afterJson[i] === Array)
+            if (resp.result.afterJson[i] === Array) {
+              console.log('lkjkgg:', resp.result.afterJson[i])
+            }
             arr.push(`${i}:${resp.result.afterJson[i]}`)
           }
           resp.result.afterJson = arr
         }
-
         if (resp.result.beforeJson !== null) {
           resp.result.beforeJson = JSON.parse(resp.result.beforeJson)
           for (let i in resp.result.beforeJson) {
