@@ -140,9 +140,10 @@ export default {
     inputFunc (value, month) {
       var _this = this
       var regin = /^-?\d+\.?\d{0,2}$/
-      if (_this.saveObj.type === '0') {
+      console.log(_this.saveObj.type)
+      if (parseInt(_this.saveObj.type) === 0) {
         _this.checkNumber(value, month, regin, '最多输入两位小数')
-      } else if (_this.saveObj.type === '1') {
+      } else if (parseInt(_this.saveObj.type) === 1) {
         regin = /^(0|[1-9][0-9]*)$/
         _this.checkNumber(value, month, regin, '请输入整数')
       }
