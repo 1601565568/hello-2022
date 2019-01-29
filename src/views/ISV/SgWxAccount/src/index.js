@@ -30,7 +30,7 @@ export default {
         openKey: null,
         openSecret: null,
         pay_id: null,
-        group_id: null,
+        groupId: null,
         paySecret: null,
         userCorpsecret: null,
         addressCorpsecret: null,
@@ -344,13 +344,16 @@ export default {
       if (row.type === 1) {
         this.shopManager_radio = '1'
         this.shoppingGuide_radio = '0'
-      } else {
+      } else if (row.type === 0) {
         this.shoppingGuide_radio = '1'
         this.shopManager_radio = '0'
       }
       this.dialogFormVisible = true
       this.titleText = (row.id && '编辑') || '新增'
       this.model = row
+      if (this.titleText === '新增') {
+        this.model.type = -1
+      }
     },
     onAuthorization () {
       this.authorization = true
@@ -399,6 +402,7 @@ export default {
     },
     onSave () { // 小程序保存功能
       let that = this
+      console.log('model:', that.model)
       that.shopManager_radio === '1' ? that.model.type = 1 : that.model.type = 0
       that.$refs.form.validate((valid) => {
         if (valid) {

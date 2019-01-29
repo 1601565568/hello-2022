@@ -260,14 +260,19 @@ export default {
     },
     jobs (value) {
       let _this = this
+      console.log('value1:', value, _this.subordinateStores)
+      console.log('value2:', _this.model.sgGuideShop.job, _this.model.sgGuideShop.shop_id)
       if (value === 0) {
         _this.subordinateStores = []
-      } else {
+      } else if (value === 1) {
         _this.model.sgGuideShop.shop_id = null
       }
       _this.guideValue = value
       _this.changeValue.jobsValue = value
       _this.changeObj.jobsChange = true
+      console.log('value3:', value, _this.subordinateStores)
+      console.log('value4:', _this.model.sgGuideShop.job, _this.model.sgGuideShop.shop_id)
+      console.log('value5:', _this.guideValue === 1)
     },
     memberBelonging (value) {
       let _this = this
@@ -296,9 +301,11 @@ export default {
       _this.changeObj.namesChange = true
     },
     store (vId) {
+      console.log('vId:', vId)
       let _this = this
       _this.changeValue.storeValue = vId
       _this.changeObj.storeChange = true
+      console.log('vId:', _this.changeValue.storeValue)
     },
     changeShop (shopId) {
       this.shopIds = shopId
@@ -339,7 +346,7 @@ export default {
             _this.closeDialog()
             _this.$notify.success('保存成功')
             this.$refs.table.$reload()
-          }).catch((resp) => {
+          }).catch(resp => {
             _this.closeDialog()
             this.model.sgGuide.image = allImageUrl
             _this.$notify.error('保存失败：' + resp.msg)
@@ -385,6 +392,7 @@ export default {
       var _this = this
       var dimissionshopIdArry = []
       var dimissionIdArry = []
+      _this.verification = false
       if (_this.dimissionArry.length < 1) {
         _this.$notify.error('请选择要操作的员工')
       } else {
@@ -433,7 +441,7 @@ export default {
             })
           })
         } else {
-          _this.$confirm('多换门店禁止批量操作!', '提示', {
+          _this.$confirm('多门店禁止批量操作!', '提示', {
             confirmButtonText: '确定',
             cancelButtonText: '取消',
             type: 'warning'
@@ -455,6 +463,7 @@ export default {
             _this.allDeleteName.push(item.name)
           }
         })
+
         if (!_this.verification) {
           _this.$confirm('请确认是否对 ' + _this.allDeleteName.join('、') + ' 进行更换门店操作!', '提示', {
             confirmButtonText: '确定',

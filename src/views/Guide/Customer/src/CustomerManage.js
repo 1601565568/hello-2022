@@ -87,12 +87,13 @@ export default {
     getCurrentRow (row, index) { // 单选按钮
       this.radio = index
       this.value = row
-      console.log('roe:', row)
     },
     searchAction (model) { // 搜索
       this.guideFindList(model)
     },
     resetInputAction () { // 重置
+      this.model.name = null
+      this.model.shop = null
       this.guideFindList()
     },
     async findBrandShopList (model) { // 门店列表查询
@@ -107,9 +108,9 @@ export default {
         })
     },
     async guideFindList (model) { // 导购列表查询
-      // console.log('model:', model)
       let that = this
       let shopList = []
+      let numbers = /^[1-9]+[0-9]*]*$/
       let obj = {
         length: 15,
         searchMap: {
@@ -122,24 +123,24 @@ export default {
         obj.searchMap.keyword = model.name
         obj.searchMap.shopId = parseInt(model.shop)
       }
+      if (numbers.test(model)) {
+        obj.length = model
+      }
       await this.$http
         .fetch(that.$api.guide.guide.findShopGuide, obj)
         .then(resp => {
           that.particularsObj = [...resp.result.data]
           that.pagination.total = Number(resp.result.recordsTotal)
-          console.log('ioiop:', that.pagination.total)
           that.particularsObj.map((item, i) => {
             if (item[i].id === item[i + 1].id) {
               item.splice(item[i], item[i + 1])
             }
-            console.log('item:', item)
-            // shopList.push(item.id)
           })
           that.shopList = new Set(shopList)
           that.shopList = Array.from(that.shopList)
         })
         .catch(resp => {
-          this.$notify.error(resp.msg || '查询失败')
+          // this.$notify.error(resp.msg || '查询失败')
         })
     },
     onKeyUp (e) {
@@ -161,15 +162,15 @@ export default {
     // 分页-页数改变
     shopPageChange (page) {
       var _this = this
-      _this.paginations.page = page
+      _this.pagination.page = page
       _this.guideFindList()
     },
     // 分页-大小改变
     shopSizeChange (pageSize) {
       var _this = this
-      _this.paginations.size = pageSize
-      _this.paginations.page = 1
-      _this.guideFindList()
+      _this.pagination.size = pageSize
+      _this.pagination.page = 1
+      _this.guideFindList(pageSize)
     },
     handleSelectionChange (value) {
       this.multipleSelection = value
@@ -191,10 +192,8 @@ export default {
     },
     // 更换导购弹窗\详情展示
     onRedactFun (val) {
-      console.log('val:', val)
       var _this = this
       if (val === undefined) {
-        console.log('val:', this.multipleSelection)
         if (this.multipleSelection.length > 0) {
           _this.shopFindListShow = true
           _this.guideFindList()
@@ -203,7 +202,6 @@ export default {
           _this.$notify.error('请选择要更换导购的客户')
         }
       } else {
-        console.log('val:', val)
         _this.title = '客户详情'
         _this.$http.fetch(_this.$api.guide.guide.customerGetDetail, {
           customerId: val.customerId,
@@ -242,13 +240,13 @@ export default {
         searchMap: {
           'guideId': _this.guideId,
           'shopId': _this.shopId,
-          'pageSize': _this.paginations.size,
-          'pageNo': _this.paginations.page
+          'pageSize': _this.pagination.size,
+          'pageNo': _this.pagination.page
         }
       }).then(resp => {
         if (resp.success && resp.result != null) {
           _this.tableDataCustomer = resp.result.data
-          _this.paginations.total = parseInt(resp.result.total)
+          _this.pagination.total = parseInt(resp.result.total)
           _this.chooseCustomerFocus()
         }
       }).catch((resp) => {
@@ -258,14 +256,14 @@ export default {
     // 分页-页数改变
     customerPageChange (page) {
       var _this = this
-      _this.paginations.page = page
+      _this.pagination.page = page
       _this.findCustomerList()
     },
     // 分页-大小改变
     customerSizeChange (pageSize) {
       var _this = this
-      _this.paginations.size = pageSize
-      _this.paginations.page = 1
+      _this.pagination.size = pageSize
+      _this.pagination.page = 1
       _this.findCustomerList()
     },
     closeDialog () {

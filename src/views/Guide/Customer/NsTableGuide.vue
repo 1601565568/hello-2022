@@ -1,10 +1,9 @@
 <template>
 <div calss="NsTableGuide_main">
         <div class="template-page__row-left">
-          <el-input ref="quickText" style="width: 210px" v-model="filterTreeText" placeholder="输入姓名">
+          <el-input ref="quickText" style="width: 190px" v-model="filterTreeText" placeholder="输入姓名">
             <i class="el-icon-search el-input__icon" slot="suffix" name="name" @click="$quickSearchAction$('name')"></i>
           </el-input>
-          <el-scrollbar style="overflow-x: hidden">
             <el-tree class="filter-tree" ref="guideTree" :data="shopFindList" highlight-current
                   node-key="id" :default-expand-all="false" :expand-on-click-node="false" :default-checked-keys="[0]"
                   :filter-node-method="onFilterNode" @node-click="onClickNode">
@@ -13,7 +12,6 @@
                 <!-- <span>{{node.id}}</span> -->
               </div>
             </el-tree>
-          </el-scrollbar>
         </div>
         <div  class="template-page__row-right">
 
@@ -177,6 +175,7 @@
     left: 210px;
     top: 70px;
     z-index: 2;
+    overflow: hidden;
   }
   .template-page__row-right {
     position: absolute;
@@ -190,12 +189,16 @@
     margin: 0 10px 0 440px;
   }
   @media screen and (min-width: 1624px) {
+    .el-tree-node__content{
+      width: 210px;
+    }
     .template-page__row-left {
       width: 220px;
       position: absolute;
       left: 210px;
       top: 90px;
       z-index: 2;
+      overflow: hidden;
     }
     .template-page__row-right {
       position: absolute;

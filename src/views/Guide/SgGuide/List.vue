@@ -15,26 +15,42 @@
               </el-radio-group>
             </el-form-grid>
           </el-form-item>
-          <el-form-item label="所属门店：" required>
+          
+          <!-- <el-form-item label="所属门店：" required>
             <el-form-grid size="xxmd">
               <el-form-item prop="shops" v-if="guideValue === 1" >
                 <el-select placeholder="所属门店" @change="store" v-model="subordinateStores" multiple>
-                  <el-option v-for="shop in shopFindList" :label="shop.shopName" :value="shop.id" :key="shop.id"></el-option>
+                  <el-option v-for="shops in shopFindList" :label="shops.shopName" :value="shops.id" :key="shops.id"></el-option>
                 </el-select>
-                 <!-- <el-select v-else placeholder="所属门店" @change="store" v-model="model.sgGuideShop.shop_id" filterable >
-                  <el-option v-for="shop in shopFindList" :label="shop.shopName" :value="shop.id" :key="shop.id"></el-option>
-                </el-select> -->
               </el-form-item>
               <el-form-item prop="shop" v-else >
-                <!-- <el-select v-if="guideValue === 1" placeholder="所属门店" @change="store" v-model="subordinateStores" multiple>
-                  <el-option v-for="shop in shopFindList" :label="shop.shopName" :value="shop.id" :key="shop.id"></el-option>
-                </el-select> -->
                  <el-select placeholder="所属门店" @change="store" v-model="model.sgGuideShop.shop_id" filterable >
                   <el-option v-for="shop in shopFindList" :label="shop.shopName" :value="shop.id" :key="shop.id"></el-option>
                 </el-select>
               </el-form-item>
             </el-form-grid>
+          </el-form-item> -->
+
+          <el-form-item v-if="guideValue === 1"  label="所属门店：" required>
+            <el-form-grid size="xxmd">
+              <el-form-item prop="shops" >
+                <el-select placeholder="所属门店" @change="store" v-model="subordinateStores" multiple>
+                  <el-option v-for="shops in shopFindList" :label="shops.shopName" :value="shops.id" :key="shops.id"></el-option>
+                </el-select>
+              </el-form-item>
+            </el-form-grid>
           </el-form-item>
+
+          <el-form-item v-if="guideValue === 0"  label="所属门店：" required>
+            <el-form-grid size="xxmd">
+              <el-form-item prop="shop">
+                <el-select placeholder="所属门店" @change="store" v-model="model.sgGuideShop.shop_id" filterable >
+                  <el-option v-for="shop in shopFindList" :label="shop.shopName" :value="shop.id" :key="shop.id"></el-option>
+                </el-select>
+              </el-form-item>
+            </el-form-grid>
+          </el-form-item>
+
           <el-form-item label="姓名：" required>
             <el-form-grid size="xxmd">
               <el-form-item prop="name">
@@ -214,7 +230,7 @@
           <!-- <el-table-column prop="name" label="姓名" align="center" width="100"></el-table-column> -->
           <el-table-column prop="mobile" label="联系方式" align="center" width="100"></el-table-column>
           <el-table-column prop="memberCard" label="会员卡" align="center"></el-table-column>
-          <el-table-column prop="name" label="绑定导购" align="center" width="100"></el-table-column>
+          <el-table-column prop="name" label="会员姓名" align="center" width="100"></el-table-column>
           <!-- <el-table-column prop="payAmount" label="付款总金额/单数" align="center" width="100"></el-table-column> -->
           <!-- <el-table-column label="余积分" align="center" width="100"></el-table-column> -->
           <!-- <el-table-column label="公众号" align="center" width="100"></el-table-column> -->
