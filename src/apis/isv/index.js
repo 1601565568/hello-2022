@@ -113,5 +113,10 @@ export default {
   updateServiceExecution: {
     url: '/operate/action/updateServiceExecution',
     method: 'post'
+  },
+  // 数据库查询
+  sqlQuery: {
+    url: '/operate/action/sqlQuery',
+    method: 'post'
   }
 }
