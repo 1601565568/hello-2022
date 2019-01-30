@@ -133,7 +133,7 @@
         </el-table-column>
         <el-table-column prop='operatorName' label="操作人" align="left" width="180">
           <template slot-scope="scope">
-              {{!scope.row.operatorName || '-'}}
+              {{scope.row.operatorName || '-'}}
           </template>
         </el-table-column>
         <el-table-column prop="operatorId" label="操作人ID" align="left" width="100">
