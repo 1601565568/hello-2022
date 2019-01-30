@@ -8,8 +8,8 @@
       <div class="guideBox" style="overflow-x:hidden;overflow-y:auto;text-align:center">
         <el-select v-model="value" placeholder="请选择要更换的导购">
           <el-option
-            v-for="item in shopFindList"
-            :key="item.id"
+            v-for="(item,index) in shopFindList"
+            :key="(item.id+'-'+index)"
             :label="item.label"
             :value="item.id">
           </el-option>
