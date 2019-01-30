@@ -117,7 +117,7 @@
             <el-row>
               <el-col :span='24'>
                 <span>
-                  地区：{{items.province === null&&items.city === null&&items.district === null?'-':items.province+' / '+items.city+' / '+items.district}}
+                  地区：{{items.province === null&&items.city === null&&items.district === null?'-':items.province+' / '+items.city+' / '+(items.district===null?'-':items.district)}}
                 </span>
               </el-col>
             </el-row>
