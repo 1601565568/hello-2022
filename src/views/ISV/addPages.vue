@@ -274,12 +274,12 @@ export default {
         // that.payTotal = resp.result.payTotal
         // that.rechargeTotal = resp.result.rechargeTotal
         //
-        // that._data._pagination.total = parseInt(resp.result.recordsTotal)
-        // if (that._data._pagination.total > 0) {
-        //   that._data._table.key = 1
-        // } else if (that._data._pagination.total === 0) {
-        //   that._data._table.key = 2
-        // }
+        that._data._pagination.total = parseInt(resp.result.menus.length)
+        if (that._data._pagination.total > 0) {
+          that._data._table.key = 1
+        } else if (that._data._pagination.total === 0) {
+          that._data._table.key = 2
+        }
       }).catch(() => {
         that.$notify.error('网络异常，获取数据失败！')
       }).finally(() => {

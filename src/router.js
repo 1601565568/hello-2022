@@ -23,10 +23,10 @@ router.beforeEach((to, from, next) => {
     if (!store.state.user.remumber.remumber_flag) {
       store.dispatch('user/login').then(() => {
         next()
-        // next({ path: '/operate',
+        // next({ path: from.fullPath,
         //   query: {
         //     redirect: to.fullPath
-        //   } // 将跳转的路由path作为参数，登录成功后跳转到该路由
+        //   }
         // })
       })
     } else {
