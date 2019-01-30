@@ -25,7 +25,7 @@
           </el-form-item>
         </el-form>
       </template>
-      <!-- 简单搜索-结束 -->  
+      <!-- 简单搜索-结束 -->
       <!-- 高级搜索开始 -->
       <template slot="advancedSearch" v-if="_data._queryConfig.expand">
       <el-form ref="table_filter_form" :model="model" label-width="80px" :inline="true">
@@ -390,7 +390,7 @@
       <div slot="footer" class="authorization_footer">
         <ns-button @click="releaseShow = false">取消</ns-button>
         <ns-button type="primary" v-if="succeedObj.template_id" @click="onPublish(succeedObj)">确认</ns-button>
-        <ns-button type="primary" v-else @click="releaseShow = false"">确认</ns-button>
+        <ns-button type="primary" v-else @click="releaseShow = false">确认</ns-button>
       </div>
     </el-dialog>
     <!-- 最新弹窗发布结束 -->

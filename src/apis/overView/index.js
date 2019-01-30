@@ -30,5 +30,10 @@ export default {
   findShopRanking: {
     url: '/Overview/findShopRanking',
     method: 'post'
+  },
+  exit: {
+    url: '/core/access/exit',
+    method: 'post'
   }
+
 }
