@@ -281,7 +281,7 @@ export default {
     },
     newest () { // 同步最新
       var that = this
-      that.$http.fetch(that.$api.guide.sgwxaccount.getAppletCodeTemplateList, this.parameter.searchMap).then((resp) => {
+      that.$http.fetch(that.$api.guide.sgwxaccount.getAppletCodeTemplateList, this.parameter).then((resp) => {
         if (resp.result !== null) {
           that.modelArry = resp.result.data
         } else {

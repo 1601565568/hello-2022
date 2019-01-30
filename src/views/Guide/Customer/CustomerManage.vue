@@ -46,9 +46,8 @@
       </div>
       <!--  搜索结束  -->
       <!--  表格开始  -->
-      <el-table ref="table" :data="particularsObj" stripe @selection-change="guideChange">
+      <el-table ref="table" :data="particularsObj" stripe @selection-change="guideChange" :current-row-key="id+'-'+shopId">
         <el-table-column  width="30">
-          <!-- <el-radio v-model="radio" label="1">备选项</el-radio> -->
           <template slot-scope="scope">
             <div class="customerManage">
               <el-radio :label="scope.$index" v-model="radio" @change.native="getCurrentRow(scope.row,scope.$index)"></el-radio>

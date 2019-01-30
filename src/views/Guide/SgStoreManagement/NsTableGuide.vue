@@ -101,28 +101,37 @@
 
       <el-table ref="table" :data="_data._table.data" stripe >
         <!-- <el-table-column type="selection" width="42" class="table_selection"></el-table-column> -->
-        <el-table-column prop="shopName" label="门店名称" align="left" width="180">
+        <el-table-column prop="shopName" label="门店名称" align="left" width="220">
           <template slot-scope="scope">
             {{scope.row.shopName || '-'}}
           </template>
         </el-table-column>
-        <el-table-column prop="name" label="营业状态" align="left" width="100"></el-table-column>
-         <el-table-column prop="mobile" label="地区" align="left" width="210">
+        <el-table-column prop="shopStatus" label="营业状态" align="left" width="100">
+          <template slot-scope="scope">
+            {{scope.row.shopStatus === 0?'删除':scope.row.shopStatus === 1?'正常营业':scope.row.shopStatus === -1?'暂停':'已关店'}}
+          </template>
+        </el-table-column>
+         <el-table-column prop="mobile" label="地区" align="left" >
           <template slot-scope="scope">
             {{!scope.row.province&&!scope.row.city&&!scope.row.district?'-':scope.row.province+'/'+scope.row.city+'/'+scope.row.district}}
           </template >
         </el-table-column>
-        <el-table-column prop="address" label="详细地址" align="left" width="130">
+        <el-table-column prop="address" label="详细地址" align="left" >
           <template slot-scope="scope">
             {{scope.row.address || '-'}}
           </template >
         </el-table-column>
-        <el-table-column prop="shopName,count" label="门店类型" align="left">
+        <el-table-column prop="shopType,count" label="门店类型" align="left" width="180">
           <template slot-scope="scope">
             <ns-button style="color:#0091FA" @click="scopeRowCount(scope.row.id)" v-if="scope.row.count > 1" type="text">{{scope.row.count}}家</ns-button>
             <div v-else>
-              {{scope.row.shopName?scope.row.shopName:'-'}}
+              {{scope.row.shopType === 'ZYD'?'直营店':scope.row.shopType === 'JMD'?'加盟店':scope.row.shopType === 'B'?'天猫':'淘宝'}}
             </div>
+          </template>
+        </el-table-column>
+        <el-table-column prop="phone" label="手机号码" align="left" width="180">
+          <template slot-scope="scope">
+              {{scope.row.phone || '-'}}
           </template>
         </el-table-column>
         <!-- <el-table-column label="招募码" align="left" width="120">

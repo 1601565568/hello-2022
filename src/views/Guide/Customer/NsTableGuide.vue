@@ -163,9 +163,8 @@
 </template>
 
 <script>
-  import guide from './src/NsTableGuide'
-
-  export default guide
+  import NsTableGuide from './src/NsTableGuide'
+  export default NsTableGuide
 </script>
 
 <style scoped>
