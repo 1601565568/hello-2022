@@ -1,5 +1,5 @@
 import api from 'configs/http'
-// import moment from 'moment/moment'
+import tableMixin from 'mixins/table'
 export default {
   data: function () {
     let pagination = {
@@ -83,6 +83,7 @@ export default {
       _queryConfig: {expand: false}
     }
   },
+  mixins: [tableMixin],
   methods: {
     getCurrentRow (row, index) { // 单选按钮
       this.radio = index
@@ -234,9 +235,9 @@ export default {
       }
     },
     // 查询客户列表
-    findCustomerList (page, pageSize) {
+    findCustomerList () {
       var _this = this
-      _this.$http.fetch(_this.$api.guide.guide.findCustomerList, {
+      _this.$http.fetch(_this.$api.guide.guide.customerFindCustomerList, {
         searchMap: {
           'guideId': _this.guideId,
           'shopId': _this.shopId,
@@ -244,7 +245,7 @@ export default {
           'pageNo': _this.pagination.page
         }
       }).then(resp => {
-        if (resp.success && resp.result != null) {
+        if (resp.success && resp.result !== null) {
           _this.tableDataCustomer = resp.result.data
           _this.pagination.total = parseInt(resp.result.total)
           _this.chooseCustomerFocus()
@@ -281,11 +282,13 @@ export default {
           newGuideId: Number(_this.value.id),
           shopId: Number(_this.value.shopId)
         }).then(resp => {
-          _this.closeDialog()
           _this.$notify.success('保存成功')
-          _this.$refs.table.$reload()
+          // _this.$router.go(0)
+          // location.reload()
+          // _this.$refs.table.$reload()
+          _this.closeDialog()
         }).catch((resp) => {
-          _this.$notify.error('保存失败：' + resp.msg)
+          // _this.$notify.error('保存失败：' + resp.msg)
         })
       } else {
         _this.$notify.error('请选择要更换的导购！')

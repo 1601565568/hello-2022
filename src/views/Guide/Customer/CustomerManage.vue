@@ -8,8 +8,8 @@
       <div class="guideBox" style="overflow-x:hidden;overflow-y:auto;text-align:center">
         <el-select v-model="value" placeholder="请选择要更换的导购">
           <el-option
-            v-for="item in shopFindList"
-            :key="item.id"
+            v-for="(item,index) in shopFindList"
+            :key="(item.id+'-'+index)"
             :label="item.label"
             :value="item.id">
           </el-option>
@@ -48,7 +48,6 @@
       <!--  表格开始  -->
       <el-table ref="table" :data="particularsObj" stripe @selection-change="guideChange">
         <el-table-column  width="30">
-          <!-- <el-radio v-model="radio" label="1">备选项</el-radio> -->
           <template slot-scope="scope">
             <div class="customerManage">
               <el-radio :label="scope.$index" v-model="radio" @change.native="getCurrentRow(scope.row,scope.$index)"></el-radio>
