@@ -1,10 +1,10 @@
 <template>
   <div>
-    <ns-table-guide ref="table" :url=$api.guide.guide.customerFindCustomerList @add="onRedactFun"
+    <ns-table-guide ref="table1" :url=$api.guide.guide.customerFindCustomerList @add="onRedactFun"
       @shopEdit="shopEdit" @onRedactFun="onRedactFun" @handleSelectionChange="handleSelectionChange">
     </ns-table-guide>
     <!--  自定义客户转移弹窗开始  -->
-    <el-dialog :title="title" width="560px" height="300px" :visible.sync="shopFindListShow" @keyup.enter.native="onKeyUp" @keyup.esc.native="onKeyUp">
+    <!-- <el-dialog :title="title" width="560px" height="300px" :visible.sync="shopFindListShow" @keyup.enter.native="onKeyUp" @keyup.esc.native="onKeyUp">
       <div class="guideBox" style="overflow-x:hidden;overflow-y:auto;text-align:center">
         <el-select v-model="value" placeholder="请选择要更换的导购">
           <el-option
@@ -19,7 +19,7 @@
         <ns-button @click="closeDialog">取消</ns-button>
         <ns-button type="primary" @click="onSave">确定</ns-button>
       </div>
-    </el-dialog>
+    </el-dialog> -->
     <!--  自定义客户转移弹窗结束  -->
     <el-dialog :title="title" :visible.sync="shopFindListShow" width="800px" >
       <!--  搜索开始  -->
