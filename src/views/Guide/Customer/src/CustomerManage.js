@@ -283,10 +283,12 @@ export default {
           shopId: Number(_this.value.shopId)
         }).then(resp => {
           _this.$notify.success('保存成功')
-          _this.$refs.table.$reload()
+          // _this.$router.go(0)
+          // location.reload()
+          // _this.$refs.table.$reload()
           _this.closeDialog()
         }).catch((resp) => {
-          _this.$notify.error('保存失败：' + resp.msg)
+          // _this.$notify.error('保存失败：' + resp.msg)
         })
       } else {
         _this.$notify.error('请选择要更换的导购！')
