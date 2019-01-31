@@ -86,10 +86,11 @@ export default {
       'city': null,         // 门点所在区域市
       'district': null,       // 门点所在区域区
       'province': null,       // 门点所在区域省
-      'shop_type': null,   // 门店类型
+      'shopType': null,   // 门店类型
       'phone': null,          // 联系电话
       'area_region': null,  // 所属地区
-      'shopStatus': null   // 营业状态
+      'shopStatus': null,   // 营业状态
+      'area': []          // 所属区域
     }
     let model = Object.assign({}, findVo, {}, searchModel)
     return {
@@ -181,9 +182,9 @@ export default {
     },
     onAreaChange () { // 城市切换进行赋值
       let that = this
-      that.model.district = that.searchform.area[2]
-      that.model.city = that.searchform.area[1]
-      that.model.province = that.searchform.area[0]
+      that.model.district = that.model.area[2]
+      that.model.city = that.model.area[1]
+      that.model.province = that.model.area[0]
     },
     initShopList () {
       var _this = this

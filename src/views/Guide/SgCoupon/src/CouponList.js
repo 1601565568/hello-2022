@@ -52,7 +52,8 @@ export default {
       after_get_valid_days: null, // 领取N天后生效
       valid_days: null,           // 有效天数
       maxType: null,              // 类型
-      conditionJson: null         // 使用条件 json
+      conditionJson: null,         // 使用条件 json,
+      remainingQuantity: null      // 优惠券剩余数量
     }
     let activityModel = {
       type: 0,
@@ -173,9 +174,15 @@ export default {
      * 优惠券下拉框改变
      */
     storeCouponChange: function (value) {
+      console.log('value:', value)
       var _this = this
       _this.activityModel.coupon_id = value
       _this.activityModel.type = 0
+      _this.storeCouponList.map(item => {
+        if (value === item.id) {
+          _this.storeModel.remainingQuantity = Number(item.maxIssueAmount) - Number(item.couponFreezeAmount) - Number(item.hadIssueAmount)
+        }
+      })
       for (var i = 0; i < _this.storeCouponList.length; i++) {
         if (value === _this.storeCouponList[i].id) {
           _this.activityModel.coupon_code = _this.storeCouponList[i].storeCouponCode
