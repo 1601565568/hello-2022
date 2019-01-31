@@ -402,7 +402,6 @@ export default {
     },
     onSave () { // 小程序保存功能
       let that = this
-      console.log('model:', that.model)
       that.shopManager_radio === '1' ? that.model.type = 1 : that.model.type = 0
       that.$refs.form.validate((valid) => {
         if (valid) {

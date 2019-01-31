@@ -16,8 +16,8 @@
         <el-form-item label="门店名称：" v-show="_data._queryConfig.expand === false">
           <el-input ref="quickText" style="width: 250px" v-model="model.shopName" placeholder="请输入门店名称" @keyup.enter.native="$quickSearchAction$('name')" clearable>
           </el-input>
-          <ns-button type="primary" @click="$searchAction$()">搜索</ns-button>
-          <ns-button @click="$resetInputAction$()">重置</ns-button>
+          <ns-button type="primary" @click="$searchAction$('searchform')">搜索</ns-button>
+          <ns-button @click="$resetInputAction$('searchform')">重置</ns-button>
         </el-form-item>
         <el-form-item>
           <ns-button type="text" @click="$handleTabClick">
@@ -43,7 +43,7 @@
 
         <el-form-item label="门店类型：">
           <el-form-grid>
-            <el-select placeholder="请选择门店类型" v-model="model.shop_type" clearable filterable>
+            <el-select placeholder="请选择门店类型" v-model="model.shopType" clearable filterable>
               <el-option v-for="shop in shopLeiXing" :label="shop.label" :value="shop.value"
                          :key="shop.value"></el-option>
             </el-select>
@@ -67,7 +67,8 @@
 
         <el-form-item label="所属地区：" style="margin-right:0;" prop="area">
           <el-form-grid width="300" prop="area">
-            <ns-area  :props="searchform.key" @change="onAreaChange" change-on-select v-model="searchform.area" clearable></ns-area>
+            <!-- <ns-area  :props="searchform.key" @change="onAreaChange" change-on-select v-model="searchform.area" clearable></ns-area> -->
+            <ns-area  :props="searchform.key" @change="onAreaChange" change-on-select v-model="model.area" clearable></ns-area>
           </el-form-grid>
         </el-form-item>
 
@@ -82,8 +83,8 @@
       </el-form>
 
       <div class="template-table__more-btn">
-        <ns-button type="primary" @click="$searchAction$()">搜索</ns-button>
-        <ns-button @click="$resetInputAction$()">重置</ns-button>
+        <ns-button type="primary" @click="$searchAction$('searchform')">搜索</ns-button>
+        <ns-button @click="$resetInputAction$('searchform')">重置</ns-button>
       </div>
     </template>
     <!-- 高级搜索-结束 -->
@@ -125,7 +126,7 @@
           <template slot-scope="scope">
             <ns-button style="color:#0091FA" @click="scopeRowCount(scope.row.id)" v-if="scope.row.count > 1" type="text">{{scope.row.count}}家</ns-button>
             <div v-else>
-              {{scope.row.shopType === 'ZYD'?'直营店':scope.row.shopType === 'JMD'?'加盟店':scope.row.shopType === 'B'?'天猫':'淘宝'}}
+              {{scope.row.shopType === 'ZYD'?'直营店':scope.row.shopType === 'JMD'?'加盟店':scope.row.shopType === 'B'?'天猫':scope.row.shopType === 'C'?'淘宝':'-'}}
             </div>
           </template>
         </el-table-column>

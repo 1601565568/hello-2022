@@ -30,8 +30,8 @@ export default {
         corpsecret: null,
         openKey: null,
         openSecret: null,
-        payId: null,
-        paySecret: null,
+        pay_id: null,
+        pay_secret: null,
         type: null,
         from_type: null,
         userCorpsecret: null,
@@ -119,23 +119,23 @@ export default {
     },
     onSaveOpen (row) { // 新增或编辑
       var that = this
-      this.dialogFormVisible = true
-      this.shopManager_radio = '1'
-      this.shoppingGuide_radio = '0'
-      this.titleText = (row.id && '编辑') || '新增'
-      this.model.id = row.id
-      this.model.groupId = row.groupId
-      this.model.name = row.name
-      this.model.appid = row.appid
-      this.model.secret = row.secret
-      this.model.corpid = row.corpid
-      this.model.corpsecret = row.corpsecret
-      this.model.openKey = row.open_key
-      this.model.openSecret = row.open_secret
-      this.model.payId = row.pay_id
-      this.model.type = row.type
-      this.model.from_type = row.from_type
-      this.model.userCorpsecret = row.userCorpsecret
+      that.dialogFormVisible = true
+      that.shopManager_radio = '1'
+      that.shoppingGuide_radio = '0'
+      that.titleText = (row.id && '编辑') || '新增'
+      that.model.id = row.id
+      that.model.groupId = row.groupId
+      that.model.name = row.name
+      that.model.appid = row.appid
+      that.model.secret = row.secret
+      that.model.corpid = row.corpid
+      that.model.corpsecret = row.corpsecret
+      that.model.openKey = row.open_key
+      that.model.open_secret = row.open_secret
+      that.model.pay_id = row.pay_id
+      that.model.type = row.type
+      that.model.from_type = row.from_type
+      that.model.userCorpsecret = row.userCorpsecret
       that.model.addressCorpsecret = row.addressCorpsecret
       that.model.paySecret = row.pay_secret
     },

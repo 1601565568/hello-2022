@@ -142,7 +142,7 @@
           <el-input type="text" placeholder="请输入支付ID" v-model="model.pay_id"></el-input>
         </el-form-item>
         <el-form-item label="支付密钥：" prop="paySecret">
-          <el-input type="text" placeholder="请输入支付密钥" v-model="model.paySecret"></el-input>
+          <el-input type="text" placeholder="请输入支付密钥" v-model="model.pay_secret"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
