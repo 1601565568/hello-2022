@@ -246,10 +246,6 @@ export default {
         if (resp.result.afterJson !== null) {
           resp.result.afterJson = JSON.parse(resp.result.afterJson)
           for (let i in resp.result.afterJson) {
-            console.log('lkjk:', resp.result.afterJson[i] === Array)
-            if (resp.result.afterJson[i] === Array) {
-              console.log('lkjkgg:', resp.result.afterJson[i])
-            }
             arr.push(`${i}:${resp.result.afterJson[i]}`)
           }
           resp.result.afterJson = arr

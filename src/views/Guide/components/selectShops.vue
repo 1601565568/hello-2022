@@ -6,30 +6,58 @@
   :close-on-press-escape='true'
   :close-on-click-modal='false'
   :visible.sync="dialogVisible"
-  width="800px" append-to-body
+  width="80%" append-to-body
   :before-close="handleClose">
       <div class="content">
-          <div class="tableBox">
-              <el-table
-                ref="shopTable"
-                :data="dataList"
-                tooltip-effect="dark"
-                style="width: 100%" v-loading="tableLoading"
-                :element-loading-text="$t('prompt.loading')"
-                @selection-change="handleSelectionChange">
-                <el-table-column type="selection" width="55"></el-table-column>
-                <el-table-column prop="shopName" label="门店名称"></el-table-column>
-            </el-table>
+        <div class="searchAction">
+          <div class="searchAction_top">
+            <el-form ref="table_filter_form" :model="model" label-width="80px" :inline="true">
+              <el-form-item label="店铺名称：">
+                <el-form-grid size="xmd">
+                  <el-input autofocus=true v-model="model.shopName" placeholder="请输入门店名称" clearable></el-input>
+                </el-form-grid>
+              </el-form-item>
+              <el-form-item label="门店类型：">
+                <el-form-grid>
+                  <el-select placeholder="请选择门店类型" v-model="model.shopType" clearable filterable>
+                    <el-option v-for="shop in shopLeiXing" :label="shop.label" :value="shop.value"
+                              :key="shop.value"></el-option>
+                  </el-select>
+                </el-form-grid>
+              </el-form-item>
+              <el-form-item label="所属地区：" style="margin-right:0;" prop="area">
+                <el-form-grid width="220" prop="area">
+                  <ns-area  :props="searchform.key" @change="onAreaChange" change-on-select v-model="model.area" clearable></ns-area>
+                </el-form-grid>
+              </el-form-item>
+            </el-form>
           </div>
-          <div class="selecedBox">
-              <div class="tit">已选择<em>{{multipleSelection.length}}</em>门店</div>
-              <ul class="list">
-                  <li v-for="(item, index) in multipleSelection" :key="item.id">
-                      <span class="name">{{item.shopName}}</span>
-                      <span class="del" @click="toggleSelection([item])"><i class="g-delete el-icon-delete"></i></span>
-                  </li>
-              </ul>
+          <div class="template-table__more-btn">
+            <ns-button type="primary" @click="searchAction(searchform)">搜索</ns-button>
+            <ns-button @click="resetInputAction(searchform)">重置</ns-button>
           </div>
+        </div>
+        <div class="tableBox">
+          <el-table
+            ref="shopTable"
+            :data="dataList"
+            tooltip-effect="dark"
+            style="width: 100%" v-loading="tableLoading"
+            :element-loading-text="$t('prompt.loading')"
+            @selection-change="handleSelectionChange">
+            <el-table-column type="selection" width="55"></el-table-column>
+            <el-table-column prop="shopName" label="门店名称"></el-table-column>
+          </el-table>
+        </div>
+        <div class="selecedBox">
+            <div class="tit">已选择<em>{{multipleSelection.length}}</em>门店</div>
+            <ul class="list">
+                <li v-for="(item, index) in multipleSelection" :key="item.id">
+                    <span class="name">{{item.shopName}}</span>
+                    <span class="del" @click="toggleSelection([item])"><i class="g-delete el-icon-delete"></i></span>
+                </li>
+            </ul>
+        </div>
       </div>
     <span slot="footer" class="dialog-footer">
     <ns-button @click="dialogVisible = false">关闭</ns-button>
@@ -41,12 +69,14 @@
 </template>
 <script>
 import listPageMixin from 'mixins/listPage'
+import tableMixin from 'mixins/table'
+import NsArea from 'components/NsArea'
 export default {
   props: {
     api: {
       type: Object,
       default () {
-        return this.$api.guide.shop.findBrandShopList
+        return this.$api.guide.guide.findShopListOnCondition
       }
     },
     hasShopArr: {
@@ -58,16 +88,64 @@ export default {
     params: {},
     callBack: Function// 选择完后的回调
   },
-  mixins: [listPageMixin],
+  mixins: [listPageMixin, tableMixin],
   data () {
     return {
       tableLoading: false,
       dialogVisible: false,
       dataList: [],
-      multipleSelection: []
+      multipleSelection: [],
+      model: {
+        shopName: null,
+        shopType: null,
+        children: null,
+        disabled: null,
+        city: null,
+        area: []
+      },
+      models: {
+        searchMap: {}
+      },
+      shopLeiXing: [{
+        value: 'B',
+        label: '天猫'
+      }, {
+        value: 'C',
+        label: '淘宝店'
+      }, {
+        value: 'ZYD',
+        label: '直营店'
+      }, {
+        value: 'JMD',
+        label: '加盟店'
+      }],
+      searchform: { // 区域选择相关start
+        key: {
+          children: 'children',
+          label: 'label',
+          value: 'label',
+          disabled: 'disabled'
+        }
+      }
     }
   },
   methods: {
+    resetInputAction () { // 重置功能
+      this.model.shopName = null
+      this.model.area = []
+      this.model.shopType = null
+      this.loadListFun()
+    },
+    searchAction () { // 搜索功能
+      this.models.searchMap = this.model
+      this.loadListFun(this.models)
+    },
+    onAreaChange () { // 城市切换进行赋值
+      let that = this
+      that.model.district = that.model.area[2]
+      that.model.city = that.model.area[1]
+      that.model.province = that.model.area[0]
+    },
     okFun () {
       let arr = []
       this.multipleSelection.forEach(item => {
@@ -83,7 +161,7 @@ export default {
       this.$http
         .fetch(this.api, searchObj)
         .then(resp => {
-          this.dataList = resp.result
+          this.dataList = resp.result.data
           this.tableLoading = false
           this.$nextTick(function () {
             let hasArr = []
@@ -128,6 +206,9 @@ export default {
     handleClose (done) {
       done()
     }
+  },
+  components: {
+    NsArea
   },
   computed: {}
 }
@@ -175,6 +256,16 @@ export default {
       }
     }
   }
+}
+</style>
+<style>
+.searchAction{
+  display: flex;
+  justify-content: space-between;
+  padding-right:20px
+}
+.searchAction_top{
+  margin-top:6px
 }
 </style>
 

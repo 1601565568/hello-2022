@@ -37,17 +37,17 @@
         </el-form-item>
         <el-form-item label="指派门店："  prop="shopRangeType">
           <el-radio-group v-model="model.shopRangeType">
-                <el-radio :label="0">全部门店</el-radio>
-                <el-radio :label="1">指定门店</el-radio>
-              </el-radio-group>
-              <el-form-grid v-if="model.shopRangeType===1"  size="xxmd">
-                <shopSelect :callBack="selectShopBack" :hasShopArr="hasShopArr"></shopSelect>
-                <!-- <el-form-item prop="shopIds">
-                  <el-select style="width:160px;" placeholder="请选择门店" v-model="model.shopIds" multiple filterable>
-                    <el-option v-for="store in shopList" :label="store.shopName" :key="store.id" :value="store.id"></el-option>
-                  </el-select>
-                </el-form-item> -->
-              </el-form-grid>
+            <el-radio :label="0">全部门店</el-radio>
+            <el-radio :label="1">指定门店</el-radio>
+          </el-radio-group>
+          <el-form-grid v-if="model.shopRangeType===1"  size="xxmd">
+            <shopSelect :callBack="selectShopBack" :hasShopArr="hasShopArr"></shopSelect>
+            <!-- <el-form-item prop="shopIds">
+              <el-select style="width:160px;" placeholder="请选择门店" v-model="model.shopIds" multiple filterable>
+                <el-option v-for="store in shopList" :label="store.shopName" :key="store.id" :value="store.id"></el-option>
+              </el-select>
+            </el-form-item> -->
+          </el-form-grid>
         </el-form-item>
         <el-form-item label="简述：" prop="remark">
          <el-input style="width:400px;" type="textarea" v-model="model.remark" ></el-input>
@@ -152,7 +152,6 @@ export default {
     },
     selectShopBack (val) {
       this.hasShopArr = val
-      console.log(val)
     },
     // 选择素材
     selectMaterialShowFun () {
@@ -165,7 +164,6 @@ export default {
       this.model.materialId = obj.id
       this.model.materialTitle = obj.title
       this.selectMaterial = obj
-      console.log(this.model)
     },
     /**
      * 门店查询
@@ -210,7 +208,6 @@ export default {
         } else {
           this.model.shopRangeType = 1
           this.hasShopArr = obj.targetIds.split(',')
-          console.log(this.model)
         }
         // 素材任务时
         if (obj.materialId) {
@@ -219,8 +216,6 @@ export default {
           this.model.materialId = obj.materialId
           this.model.materialTitle = obj.materialTitle
         }
-        console.log(this.model)
-        console.log(obj)
       } else {
         this.titleText = '新增任务'
       }
@@ -228,9 +223,7 @@ export default {
     },
     // 提交保存
     saveFun () {
-      console.log(this.model)
       this.$refs.form.validate(valid => {
-        console.log(valid)
         if (valid) {
           if (this.model.activityTime.length === 2) {
             this.model.startTime = moment(this.model.activityTime[0]).format(
@@ -246,10 +239,7 @@ export default {
           } else {
             this.model.targetIds = 0
           }
-          console.log('shopArr')
-          console.log(this.shopArr)
           this.doSave()
-          console.log(this.model)
         }
       })
     },
