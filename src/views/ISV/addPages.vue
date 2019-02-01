@@ -1,5 +1,6 @@
 <template>
   <div>
+    <ns-button @click='aaaaa'>session过期</ns-button>
     <ns-page-table>
       <!-- 按钮 -->
       <template slot="buttons">
@@ -26,10 +27,19 @@
       </template>
       <!-- 表格-结束 -->
       <!-- 分页 -->
-      <template slot="pagination">
-        <el-pagination v-if="_data._pagination.enable" class="template-table__pagination" :page-sizes="_data._pagination.sizeOpts" :total="_data._pagination.total" :current-page="_data._pagination.page" :page-size="_data._pagination.size" layout="total, sizes, prev, pager, next, jumper" @size-change="$sizeChange$" @current-change="$pageChange$">
-        </el-pagination>
-      </template>
+      <!-- <template slot="pagination">
+        <el-pagination
+          v-if="_data.pagination.enable"
+          class="template-table__pagination"
+          :page-sizes="_data.pagination.sizeOpts"
+          :total="_data.pagination.total"
+          :current-page="_data.pagination.page"
+          :page-size="_data.pagination.size"
+          layout="total, sizes, prev, pager, next, jumper"
+          @size-change="$sizeChange$"
+          @current-change="$pageChange$">
+          </el-pagination>
+      </template> -->
       <!-- 分页-结束 -->
       <!-- <template slot="buttons">
         <ns-table-operate-button :buttons="_data._table.table_button"></ns-table-operate-button>
@@ -73,6 +83,13 @@ export default {
   name: 'index',
   mixins: [tableMixin],
   data: function () {
+    let pagination = {
+      enable: true,
+      size: 15,
+      sizeOpts: [15, 25, 50, 100],
+      page: 1,
+      total: 0
+    }
     let that = this
     let tableButtons = [
       {
@@ -96,6 +113,7 @@ export default {
       obj: {
         appId: null
       },
+      pagination,
       appObj: {},
       appid: null,
       presentObj: {},
@@ -134,6 +152,9 @@ export default {
   methods: {
     menuChage () {
       console.log(this.model)
+    },
+    aaaaa () {
+      this.$http.fetch(this.$api.overView.exit)
     },
     onSaveOpen (row) { // 新增或编辑
       if (row.id) {
@@ -268,16 +289,11 @@ export default {
       let tableConfig = this._data._table
       tableConfig.loadingtable = true
       return this.$http.fetch(this.url).then((resp) => {
-        console.log('resp:', resp)
-        this.menuArr = [{name: '根菜单', parent_id: '0'}, ...resp.result.menus]
         that._data._table.data = resp.result.menus
-        // that.payTotal = resp.result.payTotal
-        // that.rechargeTotal = resp.result.rechargeTotal
-        //
-        that._data._pagination.total = parseInt(resp.result.menus.length)
-        if (that._data._pagination.total > 0) {
+        that._data.pagination.total = parseInt(resp.result.menus.length)
+        if (that._data.pagination.total > 0) {
           that._data._table.key = 1
-        } else if (that._data._pagination.total === 0) {
+        } else if (that._data.pagination.total === 0) {
           that._data._table.key = 2
         }
       }).catch(() => {
