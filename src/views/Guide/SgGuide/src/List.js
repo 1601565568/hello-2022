@@ -861,7 +861,7 @@ export default {
             _this.guideLeave(params, false)
           }
         }).catch((resp) => {
-          // _this.$notify.error('查询失败：' + resp.msg)
+          _this.$notify.error('查询失败：' + resp.msg)
         })
       })
     },
@@ -984,7 +984,7 @@ export default {
         if (!isClose) {
           _this.$refs.table.$reload()
         }
-        _this.$notify.success('操作成功')
+        _this.$notify.success('离职成功')
       }).catch((resp) => {
         _this.$notify.error('操作成功 ' + resp.msg)
       })

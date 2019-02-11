@@ -8,7 +8,7 @@
   :visible.sync="dialogVisible"
   width="1000px"
   :before-close="handleClose">
-    <div class="topTip">指标年份:<span>{{saveObj.year}}</span>年</div>
+    <div class="topTip">指标年份:<span>{{saveObj.year}}</span>年（您好，重新设置指标后，原来设置的指标都会被清除。）</div>
     <el-table
       ref="multipleTable"
       :data="shopList"
