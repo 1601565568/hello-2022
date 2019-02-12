@@ -139,8 +139,7 @@ export default {
           label: 'label',
           value: 'label',
           disabled: 'disabled'
-        },
-        area: []
+        }
       }
     }
   },

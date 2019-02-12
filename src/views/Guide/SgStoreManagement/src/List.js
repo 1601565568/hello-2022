@@ -554,7 +554,13 @@ export default {
       })
     },
     onRedactFun () { // 同步门店
-      this.$refs.table.$reload()
+      let _this = this
+      _this.$http.fetch(this.$api.guide.guide.shopSyn).then(resp => {
+        _this.$notify.success('同步成功！')
+        _this.$refs.table.$reload()
+      }).catch((resp) => {
+        _this.$notify.error('同步失败：' + resp.msg)
+      })
     },
     onSave (model) {
       let _this = this

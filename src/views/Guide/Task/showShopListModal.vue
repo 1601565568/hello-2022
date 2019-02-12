@@ -118,7 +118,6 @@ export default {
       this.loadListFun()
     },
     showToggle (id) {
-      console.log(id)
       this.searchObj.searchMap.taskId = id
       this.dialogVisible = true
       this.loadListFun()

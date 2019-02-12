@@ -248,8 +248,6 @@ export default {
       this.saveObj.selectedArr = this.selectedArr
       this.saveObj.year = this.searchObj.searchMap.year
       this.saveObj.type = this.searchObj.searchMap.type
-      console.log(this.saveObj)
-
       // 传递保存时需要的参数
       this.$nextTick(() => {
         this.$refs.addDialogDom.showToggle(this.saveObj, this.activeName)
@@ -265,9 +263,9 @@ export default {
           this.dataList = resp.result.data
           this.dataList.map(item => {
             switch (item.shopStatus) {
-              case 0 : item.shopStatusMean = '删除'; break
-              case -1 : item.shopStatusMean = '暂停'; break
               case -2 : item.shopStatusMean = '已关店'; break
+              case -1 : item.shopStatusMean = '暂停营业'; break
+              case 0 : item.shopStatusMean = '删除'; break
               case 1 : item.shopStatusMean = '正常营业'; break
             }
             if (searchObj.searchMap.type === 0 || searchObj.searchMap.type === '0') {

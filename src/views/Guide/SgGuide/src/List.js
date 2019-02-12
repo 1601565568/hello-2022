@@ -393,7 +393,7 @@ export default {
     aaaa () {
       this.$http.fetch(this.$api.overView.exit, {})
     },
-    dimission () { // 组团离职功能
+    dimission () { // 批量离职功能
       var _this = this
       var dimissionshopIdArry = []
       var dimissionIdArry = []
@@ -436,7 +436,7 @@ export default {
                 guideIds: dimissionIdArry.join(','),
                 shopIds: dimissionshopIdArry.join(',')
               }).then(resp => {
-                if (resp.result.failCount > 0) {
+                if (resp.result.msg !== '批量离职成功.') {
                   _this.successCount = resp.result.successCount
                   _this.failCount = resp.result.failCount
                   _this.allDeleteFormVisible = true
@@ -861,7 +861,7 @@ export default {
             _this.guideLeave(params, false)
           }
         }).catch((resp) => {
-          // _this.$notify.error('查询失败：' + resp.msg)
+          _this.$notify.error('查询失败：' + resp.msg)
         })
       })
     },
@@ -984,7 +984,7 @@ export default {
         if (!isClose) {
           _this.$refs.table.$reload()
         }
-        _this.$notify.success('操作成功')
+        _this.$notify.success('离职成功')
       }).catch((resp) => {
         _this.$notify.error('操作成功 ' + resp.msg)
       })

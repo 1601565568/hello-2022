@@ -216,7 +216,6 @@ export default {
     },
     // 选择门店
     handleSelectionChange (val) {
-      console.log(val)
       this.selectedArr = val
     },
     // 加载列表

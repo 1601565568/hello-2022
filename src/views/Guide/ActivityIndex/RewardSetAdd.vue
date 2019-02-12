@@ -99,10 +99,7 @@ export default {
   created: function () {},
   methods: {
     showToggle (data) {
-      console.log('showToggle')
-      console.log(data)
       this.selectedArr = data.selectedArr
-
       // 单条就回显
       if (data.selectedArr.length === 1) {
         this.title = '设置提成奖励'
@@ -113,7 +110,6 @@ export default {
       this.dialogVisible = true
     },
     handleSelectionChange (val) {
-      console.log(val)
       this.multipleSelection = val
     },
     async saveFun () {
@@ -126,8 +122,6 @@ export default {
           shopId: value.shopId
         })
       })
-      console.log('saveObj')
-      console.log(this)
       await this.$http
         .fetch(this.$api.guide.guide.rewardruleSave, this.saveObj)
         .then(resp => {
@@ -141,7 +135,6 @@ export default {
         })
     },
     handleClose () {
-      console.log('handleClose')
       this.dialogVisible = false
     }
   }

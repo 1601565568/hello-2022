@@ -153,5 +153,10 @@ export default {
   operationlogGetDetail: {
     url: '/guide/operationlog/getDetail',
     method: 'get'
+  },
+   // 门店管理同步门店
+  shopSyn: {
+    url: '/core/sgshop/shopSyn',
+    method: 'get'
   }
 }
