@@ -52,7 +52,7 @@
           <el-input type="text" placeholder="请输入页面标题" v-model="model.name" ></el-input>
         </el-form-item>
         <el-form-item label="父级菜单：" prop="parent_id" required>
-          <el-input type="text" placeholder="请输入父菜单ID" v-model="model.parent_id" ></el-input>
+          <el-input type="number" placeholder="请输入父菜单ID" v-model="model.parent_id" ></el-input>
         </el-form-item>
         <el-form-item label="菜单编码：" prop="code" required>
           <el-input type="text" placeholder="请输入菜单编码" v-model="model.code" ></el-input>
@@ -306,6 +306,9 @@ export default {
 }
 </script>
 <style>
+.el-input__inner[type="number"] {
+    text-align: left !important ;
+}
 .dialog_mian {
   padding: 10px 30px 30px;
 }

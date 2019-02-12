@@ -46,7 +46,16 @@
               </p>
             </div>
             <div class="overview-content__item-right">
-              <el-progress type="circle" :width=70 :stroke-width=4 :percentage="getRewardInfoObj.paymentPersent" color="#0091FA"></el-progress>
+              <el-popover
+                  placement="top-start"
+                  trigger="hover"
+                  :content="'完成度：'+getRewardInfoObj.paymentPersent+'% , 销售目标：'+getRewardInfoObj.sellQuota">
+                  <div slot="reference">
+                    <el-progress type="circle" :width=70 :stroke-width=4 :percentage="getRewardInfoObj.paymentPersent" color="#0091FA" :show-text=false></el-progress>
+                    </el-progress>
+                  </div>
+                </el-popover>
+                <p class="overview-content__item-right--progress-text">完成度</p>
             </div>
           </el-card>
         </el-col>
