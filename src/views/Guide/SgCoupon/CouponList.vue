@@ -70,6 +70,7 @@
               </p>
               <p class="text-secondary" v-if="storeModel.dateType == 1">
                 领取{{storeModel.after_get_valid_days}}天生效，有效期{{storeModel.valid_days}}天
+                
               </p>
             </div>
           </div>

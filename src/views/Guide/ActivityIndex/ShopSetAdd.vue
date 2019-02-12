@@ -140,7 +140,6 @@ export default {
     inputFunc (value, month) {
       var _this = this
       var regin = /^-?\d+\.?\d{0,2}$/
-      console.log(_this.saveObj.type)
       if (parseInt(_this.saveObj.type) === 0) {
         _this.checkNumber(value, month, regin, '最多输入两位小数')
       } else if (parseInt(_this.saveObj.type) === 1) {
@@ -200,7 +199,6 @@ export default {
       this.multipleSelection = val
     },
     async saveFun () {
-      console.log(this.saveObj)
       this.loading = true
       // 组装选择的门店
       this.saveObj.list = [] // 清空

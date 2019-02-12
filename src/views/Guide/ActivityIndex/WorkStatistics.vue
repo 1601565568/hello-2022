@@ -341,7 +341,6 @@ export default {
     })
     // 获取当前年份---默认加载当前年
     this.searchform.date = moment(new Date()).format('YYYY-MM')
-    console.log(this.searchform.date)
     this.loadListFun()
   },
   methods: {
