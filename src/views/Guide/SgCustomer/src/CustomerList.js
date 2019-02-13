@@ -19,10 +19,8 @@ export default {
   methods: {
     showListDialogFun (id) {
       var _this = this
-      console.log(777888)
       _this.aaaaa = true
       _this.$nextTick(() => {
-        console.log(_this.$refs.listDialogDom)
         _this.$refs.listDialogDom.showToggle(id)
       })
     },

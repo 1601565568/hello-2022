@@ -162,9 +162,33 @@ export default {
     },
     // 分页-页数改变
     shopPageChange (page) {
-      var _this = this
-      _this.pagination.page = page
-      _this.guideFindList()
+      let that = this
+      that.pagination.page = page
+      let shopList = []
+      let obj = {
+        length: 15,
+        searchMap: {
+          shopId: null,
+          keyword: null
+        },
+        start: (page - 1) * 15
+      }
+      this.$http.fetch(that.$api.guide.guide.findShopGuide, obj)
+        .then(resp => {
+          that.particularsObj = [...resp.result.data]
+          that.pagination.total = Number(resp.result.recordsTotal)
+          that.particularsObj.map((item, i) => {
+            if (item[i].id === item[i + 1].id) {
+              item.splice(item[i], item[i + 1])
+            }
+          })
+          that.shopList = new Set(shopList)
+          that.shopList = Array.from(that.shopList)
+        })
+        .catch(resp => {
+          // this.$notify.error(resp.msg || '查询失败')
+        })
+      // _this.guideFindList(page)
     },
     // 分页-大小改变
     shopSizeChange (pageSize) {
