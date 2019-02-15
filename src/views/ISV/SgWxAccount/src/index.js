@@ -17,6 +17,21 @@ export default {
           that.onAuthorization({})
         },
         'name': '授权'
+      },
+      {
+        'func': function () {
+          that.openDialog({})
+        },
+        'name': '草稿箱'
+      }
+    ]
+    let tableButtons2 = [
+      {
+        'func': function (obj) {
+          that.addDraftToTemplate(obj.row.draft_id)
+        },
+        'name': '添加到模板库',
+        'visible': ''
       }
     ]
     return {
@@ -89,9 +104,17 @@ export default {
       miniProgram: false,
       dialogAutid: false,
       releaseShow: false,
+      dialogVisible: false,
+      loadingTable: false,
+      tableList: [],
       weixinUrl: null,
       _table: {
         table_buttons: tableButtons
+      },
+      _table2: {
+        table_buttons2: tableButtons2,
+        operate_buttons: [],
+        quickSearchMap: {}
       },
       rules: {
         'groupId': [{required: true, message: '请输入集团id'}],
@@ -358,6 +381,9 @@ export default {
     onAuthorization () {
       this.authorization = true
     },
+    draftBox () {
+      this.dialogVisible = true
+    },
     onPresent (underReviewObj) { // 提交审核
       let that = this
       let obj = {}
@@ -460,6 +486,28 @@ export default {
         })
         .catch(resp => {
           this.$notify.error(resp.msg || '查询失败')
+        })
+    },
+    openDialog: function () {
+      let that = this
+      that.dialogVisible = true
+      that.loadingTable = true
+      that.$http.fetch(that.$api.isv.getTemplateDraftList)
+        .then((resp) => {
+          that.tableList = resp.result
+          that.loadingTable = false
+        }).catch((resp) => {
+          that.$notify.error(resp.msg)
+          that.loadingTable = false
+        })
+    },
+    addDraftToTemplate: function (draftId) {
+      let that = this
+      that.$http.fetch(that.$api.isv.addDraftToTemplate, {draftId: draftId})
+        .then(() => {
+          that.$notify.success('设置成功')
+        }).catch((resp) => {
+          that.$notify.error(resp.msg)
         })
     },
     /**
