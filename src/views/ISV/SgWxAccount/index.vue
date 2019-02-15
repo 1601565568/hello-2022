@@ -85,7 +85,7 @@
               <span class="tmp-cell__buttons">
                 <ns-button type="text" @click="onSaveOpen(scope.row)">编辑</ns-button>
                 <ns-button v-if="scope.row.wx_status === 1" type="text" @click="onCodeTemplate(scope.row)">代码模版</ns-button>
-                <ns-button v-if="scope.row.from_type === 1" type="text" @click="onRefresh(scope.row)">刷新</ns-button>
+                <ns-button v-if="scope.row.wx_status === 1" type="text" @click="onRefresh(scope.row)">刷新</ns-button>
                 <ns-button type="text" @click="onDelete(scope.row)">删除</ns-button>
               </span>
             </template>

@@ -110,7 +110,7 @@ export default {
     },
     async guideFindList (model) { // 导购列表查询
       let that = this
-      let shopList = []
+      // let shopList = []
       let numbers = /^[1-9]+[0-9]*]*$/
       let obj = {
         length: 15,
@@ -137,7 +137,7 @@ export default {
               item.splice(item[i], item[i + 1])
             }
           })
-          that.shopList = new Set(shopList)
+          that.shopList = new Set(that.shopList)
           that.shopList = Array.from(that.shopList)
         })
         .catch(resp => {
@@ -206,9 +206,9 @@ export default {
     initShopList () {
       var _this = this
       _this.$http.fetch(_this.$api.guide.guide.customerGetGuideTree).then(resp => {
-        if (resp.success && resp.result != null) {
+        if (resp.success && resp.result !== null) {
           resp.result.map(item => {
-            _this.shopFindList.push(...item.children)
+            _this.shopFindList.push(...item)
           })
         }
       }).catch((resp) => {
@@ -271,7 +271,7 @@ export default {
       }).then(resp => {
         if (resp.success && resp.result !== null) {
           _this.tableDataCustomer = resp.result.data
-          _this.pagination.total = parseInt(resp.result.total)
+          _this.pagination.total = parseInt(resp.result.recordsTotal)
           _this.chooseCustomerFocus()
         }
       }).catch((resp) => {

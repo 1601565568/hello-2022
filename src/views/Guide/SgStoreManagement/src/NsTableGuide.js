@@ -126,9 +126,6 @@ export default {
         value: -1,
         label: '暂停'
       }, {
-        value: 0,
-        label: '删除'
-      }, {
         value: 1,
         label: '正常营业'
       }],
