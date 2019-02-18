@@ -60,6 +60,7 @@ export default {
       domainNameObj: {}, // 域名配置对象
       uploadingObj: {}, // 代码模板上传对象
       succeedObj: {}, // 查询已成功模板对象
+      deleteTemplateObj: {}, // 模板删除对象
       submittedObj: {
         firstId: null,
         secondId: null,
@@ -106,6 +107,7 @@ export default {
       releaseShow: false,
       dialogVisible: false,
       loadingTable: false,
+      dialogDeleteTemplate: false,
       tableList: [],
       weixinUrl: null,
       _table: {
@@ -302,6 +304,30 @@ export default {
       this.titleText = '模板详情'
       this.templateForDetails(row)
     },
+    dialogDeleteTemplateShow (row) { // 删除代码模板弹窗
+      this.dialogDeleteTemplate = true
+      this.titleText = '小程序代码模板删除'
+      this.deleteTemplateObj.templateId = row.template_id
+      this.deleteTemplateObj.appId = row.app_id
+    },
+    deleteTemplate () { // 删除模板
+      let that = this
+      let obj = {}
+      obj.templateId = this.deleteTemplateObj.templateId
+      that.$http.fetch(that.$api.isv.deleteTemplate, obj).then((resp) => {
+        if (resp.success) {
+          this.parameter.searchMap.appId = this.deleteTemplateObj.appId
+          that.$http.fetch(that.$api.guide.sgwxaccount.getAppletCodeTemplateList, this.parameter).then(
+             (resp) => { that.modelArry = resp.result.data }).catch((resp) => {
+               that.$notify.error(resp.msg || '请求失败')
+             })
+          this.dialogDeleteTemplate = false
+          that.$notify.success('删除成功')
+        }
+      }).catch((resp) => {
+        that.$notify.error(resp.msg || '请求失败')
+      })
+    },
     newest () { // 同步最新
       var that = this
       that.$http.fetch(that.$api.guide.sgwxaccount.getAppletCodeTemplateList, this.parameter).then((resp) => {
@@ -379,6 +405,7 @@ export default {
       }
     },
     onAuthorization () {
+      this.titleText = ''
       this.authorization = true
     },
     draftBox () {
@@ -494,7 +521,11 @@ export default {
       that.loadingTable = true
       that.$http.fetch(that.$api.isv.getTemplateDraftList)
         .then((resp) => {
-          that.tableList = resp.result
+          if (resp.result.length > 10) {
+            that.tableList = resp.result.slice(-10)
+          } else {
+            that.tableList = resp.result
+          }
           that.loadingTable = false
         }).catch((resp) => {
           that.$notify.error(resp.msg)
@@ -505,7 +536,7 @@ export default {
       let that = this
       that.$http.fetch(that.$api.isv.addDraftToTemplate, {draftId: draftId})
         .then(() => {
-          that.$notify.success('设置成功')
+          that.$notify.success('添加成功')
         }).catch((resp) => {
           that.$notify.error(resp.msg)
         })

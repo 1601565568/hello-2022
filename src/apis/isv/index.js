@@ -84,6 +84,11 @@ export default {
     url: '/guide/wechatsetting/getAppletCodeTemplateList',
     method: 'post'
   },
+  // 删除模板
+  deleteTemplate: {
+    url: '/guide/wechatsetting/deleteTemplate',
+    method: 'get'
+  },
   // 查询模板详情信息
   getTemplateInfo: {
     url: '/guide/wechatsetting/getTemplateInfo',
