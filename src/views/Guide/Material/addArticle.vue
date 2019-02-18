@@ -9,10 +9,26 @@
     width="1000px"
     :before-close="handleClose">
 
-    <div class="comDialogBoxCon flex flex-between">
+    <div class="comDialogBoxCon flex flex-between" style='align-items:flex-start'>
       <vue-ueditor-wrap :config="myConfig" v-model="saveObj.detail" @ready="editorReady"></vue-ueditor-wrap>
-      <el-form :model="saveObj" :rules="rules" ref="addForm" label-width="100px" style="width:440px;">
-          <el-form-item label="所属分组：" prop="subdivision_id">
+      <el-form :model="saveObj" :rules="rules" ref="addForm"  style="width:440px;margin-left:50px">
+        <el-form-item  prop="article">
+            <el-radio-group v-model="saveObj.articleType">
+                <el-radio :label=0>添加文章
+                </el-radio>
+                <el-radio :label=1>添加外链文章
+                </el-radio>
+            </el-radio-group>
+          </el-form-item>
+
+          <el-form-item  prop="content">
+            <el-form-grid size="xxmd">
+              <el-input resize="none" type="textarea" v-model="saveObj.content" placeholder="可在此输入推广文案"></el-input>
+            </el-form-grid>
+          </el-form-item>
+          <p><ns-button type='text'>添加封面图</ns-button>（建议尺寸：800*800）</p>
+          <p style='margin-top:20px'>所属分组 :</p>
+          <el-form-item  prop="subdivision_id">
             <el-select @change="selChange" v-model="saveObj.subdivision_id" placeholder="请选择" clearable>
                     <el-option v-for="item in groudList"
                         :key="item.subdivision_id"
@@ -20,61 +36,6 @@
                         :value="item.subdivision_id">
                         </el-option>
                     </el-select>
-          </el-form-item>
-          <el-form-item label="推广文案："  prop="content">
-            <el-input resize="none" type="textarea" v-model="saveObj.content" placeholder="请输入推广文案"></el-input>
-          </el-form-item>
-
-          <el-form-item  label="推广图片：" prop="imageList">
-              <div class="comUploadBox">
-                  <ul class="comUploadList">
-                      <li class="imgItem" v-for="(item,index) in saveObj.imageList" :key="index">
-                          <img :src="item" class="comUploadImg">
-                          <div class="del" @click="delImgFun(index)">
-                              <i class="el-icon-delete"></i>
-                          </div>
-                      </li>
-                      <li v-if="saveObj.imageList.length<9">
-                          <el-upload class="avatar-uploader"
-                          :action="this.$api.core.sgUploadFile('test')"
-                          accept=".jpg,.jpeg,.png,.bmp,.gif"
-                          :show-file-list="false"
-                          list-type="picture-card"
-                          :on-remove="handleRemove"
-                          :on-success="handleAvatarSuccess"
-                          :before-upload="beforeAvatarUpload"
-                          >
-                          <i   class="el-icon-plus avatar-uploader-icon"></i>
-                      </el-upload>
-                      </li>
-                  </ul>
-                  <div class="clearfix"></div>
-                  <div style="color:#999">上传图片不能大于200KB;图片最多上传9张</div>
-              </div>
-          </el-form-item>
-          <el-form-item  label="小程序链接：" prop="urlPic">
-              <el-select @change="selChange" v-model="saveObj.urlId" placeholder="请选择" clearable>
-                <el-option v-for="item in wechatPageTypeList"
-                    :key="item.id"
-                    :label="item.name"
-                    :value="item.id">
-                    </el-option>
-                </el-select>
-                 <el-select @change="selChange" v-model="saveObj.url" placeholder="请选择" clearable v-if='saveObj.urlId'>
-                  <el-option v-for="item in wechatPageUrlList"
-                      :key="item.url"
-                      :value="item.url">
-                      </el-option>
-                  </el-select>
-          </el-form-item>
-          <el-form-item label="小程序码类型：" prop="codeType" v-if='saveObj.url'>
-            <el-radio-group v-model="saveObj.codeType">
-                <el-radio :label=1 >图片上植入小程序码
-                </el-radio>
-                <el-radio :label=2 >单独增加一张小程序码图
-                </el-radio>
-            </el-radio-group>
-            <p style='margin-top:10px'><i class="el-icon-info text-tips">将在图片中加入带导购参数的小程序码，需门店里有对应信息的才会显示</i></p>
           </el-form-item>
         </el-form>
     </div>
@@ -161,7 +122,7 @@ export default {
           { min: 4, max: 20, message: '长度在4-20个字符以内', trigger: 'blur' }
         ],
         subdivision_id: [
-          { required: true, message: '请选择所属分组', trigger: 'blur' }
+          { message: '请选择所属分组', trigger: 'blur' }
         ],
         groud: [
           { required: true, message: '请选择素材分组', trigger: 'change' }
