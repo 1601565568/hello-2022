@@ -3,12 +3,14 @@
 <!-- 新增素材--编辑弹窗  wanrengang 20180731 -->
 <div class="addMaterialbox">
   <el-dialog
-  :title="modalTit"
-  :close-on-click-modal=false
-  :visible.sync="dialogVisible"
-  width="500px"
-  :before-close="handleClose">
-    <div class="comDialogBoxCon">
+    :title="modalTit"
+    :close-on-click-modal=false
+    :visible.sync="dialogVisible"
+    width="1000px"
+    :before-close="handleClose">
+
+    <div class="comDialogBoxCon flex flex-between">
+      <vue-ueditor-wrap :config="myConfig" v-model="saveObj.detail" @ready="editorReady"></vue-ueditor-wrap>
       <el-form :model="saveObj" :rules="rules" ref="addForm" label-width="100px" style="width:440px;">
           <el-form-item label="所属分组：" prop="subdivision_id">
             <el-select @change="selChange" v-model="saveObj.subdivision_id" placeholder="请选择" clearable>
@@ -74,25 +76,6 @@
             </el-radio-group>
             <p style='margin-top:10px'><i class="el-icon-info text-tips">将在图片中加入带导购参数的小程序码，需门店里有对应信息的才会显示</i></p>
           </el-form-item>
-
-            <!-- 链接开始 -->
-          <!-- <el-form-item v-if="saveObj.m_type==0" label="封面图片：">
-              <div class="comUploadBox">
-                   <el-upload class="avatar-uploader"
-                        :action="this.$api.core.sgUploadFile('test')"
-                        accept=".jpg,.jpeg,.png,.bmp,.gif"
-                        :show-file-list="false"
-                        list-type="picture-card"
-                        :on-remove="handleRemove"
-                        :on-success="handleAvatarSuccess"
-                        :before-upload="beforeAvatarUpload"
-                        >
-                        <img v-if="saveObj.imageList[0]" :src="saveObj.imageList[0]" alt="">
-                        <i  v-else class="el-icon-plus avatar-uploader-icon"></i>
-                    </el-upload>
-                <p style="color:#999">上传图片不能大于200KB</p>
-              </div>
-          </el-form-item> -->
         </el-form>
     </div>
     <span slot="footer" class="dialog-footer">
@@ -103,11 +86,13 @@
   <el-dialog :visible.sync="dialogImgVisible">
   <img width="100%" :src="dialogImageUrl" alt>
 </el-dialog>
+
 </div>
 </template>
 <script>
 import api from 'configs/http'
 // import { isURL } from '../Common/utils.js'
+import VueUeditorWrap from 'vue-ueditor-wrap'
 export default {
   props: {
     callBack: Function
@@ -132,8 +117,21 @@ export default {
     //   }
     // }
     return {
+      editorInstance: {},
+      detail: '',
+      myConfig: {
+        // 你的UEditor资源存放的路径，相对于打包后的index.html
+        UEDITOR_HOME_URL: '/static/UEditor/',
+        // 编辑器不自动被内容撑高
+        autoHeightEnabled: false,
+        // 初始容器高度
+        initialFrameHeight: 240,
+        // 初始容器宽度
+        initialFrameWidth: '100%',
+        serverUrl: ''
+      },
       wechatPageTypeList: [{name: '商品', id: 1}, {name: '优惠券', id: 2}, {name: '营销活动', id: 3}, {name: '商品分类', id: 4}, {name: '自定义页面', id: 5}],
-      wechatPageUrlList: [],
+      wechatPageUrlList: [{url: '/pages/workbench/index', id: 1}, {url: '/pages/workbench/inde', id: 2}, {url: '/pages/workbench/ind', id: 3}],
       loading: false, // 防重复提交
       dialogImageUrl: '',
       modalTit: '新增素材',
@@ -171,8 +169,19 @@ export default {
       }
     }
   },
+  components: {
+    VueUeditorWrap
+  },
   created: function () {},
   methods: {
+    editorReady: function (instance) {
+      // 将实例 instance 存储到 data中
+      this.editorInstance = instance
+      instance.setContent(this.detail || '') // 初始化时，对富文本编辑器进行赋值
+      instance.addListener('blur', () => {
+        this.detail = this.editorInstance.getContent()
+      })
+    },
     selChange (e) {
       console.log(e)
     },
@@ -201,7 +210,8 @@ export default {
           subdivision_id: saveObj.subdivision_id,
           m_type: 1,
           url: saveObj.url,
-          codeType: saveObj.code_type
+          codeType: saveObj.code_type,
+          urlId: 2
         }
       }
       this.dialogVisible = true

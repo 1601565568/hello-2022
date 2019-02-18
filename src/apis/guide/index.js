@@ -24,12 +24,12 @@ export default {
   },
   materialList: {
     // 素材列表
-    url: '/guide/material/findList',
+    url: '/guide/material/findMaterialList',
     method: 'post'
   },
   materialEdit: {
     // 素材编辑
-    url: '/guide/material/saveOrUpdate',
+    url: '/guide/material/saveMaterial',
     method: 'post'
   },
   materialDel: {

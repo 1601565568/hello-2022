@@ -73,19 +73,21 @@ export default {
   logout: ({commit}) => {
     return new Promise((resolve, reject) => {
       http.fetch(api.core.access.exit).then((resp) => {
-        commit(types.UPDATE_LOGIN_REFRESH, true)
+        // commit(types.UPDATE_LOGIN_REFRESH, true)
         commit(types.REMOVE_REMUMBER)
         commit(types.REMOVE_USER_MENUS)
         commit(types.REMOVE_USER_BRANDS)
         commit(types.REMOVE_USER_BRAND)
-        window.location.href = resp.result ? resp.result : '/casLogin'
+        // debugger
+
+        // window.location.href = resp.result ? resp.result : '/casLogin'
         resolve(resp)
       }).catch(reject)
     })
   },
   regainSession: ({commit}) => {
     return new Promise((resolve, reject) => {
-      commit(types.UPDATE_LOGIN_REFRESH, true)
+      // commit(types.UPDATE_LOGIN_REFRESH, true)
       commit(types.REMOVE_REMUMBER)
       commit(types.REMOVE_USER_MENUS)
       commit(types.REMOVE_USER_BRANDS)
