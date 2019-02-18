@@ -85,7 +85,7 @@
               <span class="tmp-cell__buttons">
                 <ns-button type="text" @click="onSaveOpen(scope.row)">编辑</ns-button>
                 <ns-button v-if="scope.row.wx_status === 1" type="text" @click="onCodeTemplate(scope.row)">代码模版</ns-button>
-                <ns-button v-if="scope.row.from_type === 1" type="text" @click="onRefresh(scope.row)">刷新</ns-button>
+                <ns-button v-if="scope.row.wx_status === 1" type="text" @click="onRefresh(scope.row)">刷新</ns-button>
                 <ns-button type="text" @click="onDelete(scope.row)">删除</ns-button>
               </span>
             </template>
@@ -409,6 +409,30 @@
       </div>
     </el-dialog>
     <!-- 最新弹窗微信号授权结束 -->
+    <el-dialog
+      title="草稿箱"
+      :visible.sync="dialogVisible"
+      width="1000px" height="600px">
+      <el-table ref="table" :data="tableList" class="template-table__main"
+                stripe
+                resizable v-loading.lock="loadingTable"
+                :element-loading-text="$t('prompt.loading')">
+        <el-table-column prop="draft_id" align="center" label="草稿ID"></el-table-column>
+        <el-table-column prop="create_time" align="center" label="上传时间"></el-table-column>
+        <el-table-column prop="user_version" align="center" label="版本号"></el-table-column>
+        <el-table-column prop="developer" align="center" label="开发者"></el-table-column>
+        <el-table-column prop="source_miniprogram" align="center" label="小程序  来源"></el-table-column>
+        <el-table-column prop="user_desc" label="描述"></el-table-column>
+        <el-table-column :show-overflow-tooltip="true" label="操作" align="center"
+                         width="120">
+          <template slot-scope="scope">
+            <ns-table-column-operate-button :buttons="_data._table2.table_buttons2"
+                                            :prop="scope">
+            </ns-table-column-operate-button>
+          </template>
+        </el-table-column>
+      </el-table>
+    </el-dialog>
   </div>
 </template>
 <script>
