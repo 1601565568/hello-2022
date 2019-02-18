@@ -16,6 +16,20 @@ export default {
       page: 1,
       total: 0
     }
+    let paginationss = {
+      enable: true,
+      size: 15,
+      sizeOpts: [15, 25, 50, 100],
+      page: 1,
+      total: 0
+    }
+    let customPagination = {
+      enable: true,
+      size: 15,
+      sizeOpts: [15, 25, 50, 100],
+      page: 1,
+      total: 0
+    }
     const tableButtons = [{}]
     const operateButtons = [
       {
@@ -162,7 +176,12 @@ export default {
       allPageCustomer: [],                // 选择的所有的客户
       thisPageCustomer: [],               // 当前页面全选的客户
       pageChange: true,                   // 当前页数
-      guideId: null,                      //  当前导购的id
+      guideId: null,                      // 当前导购的id
+      employeeDetails: null,              // 员工信息详情
+      transferShopSize: null,             // 转移给指定导购页数改变大小
+      transferShopPage: null,             // 转移给指定导购页数跳转
+      customShopSize: null,               // 自定义页数改变大小
+      customShopPage: null,               // 自定义页数跳转
       shopId: null,
       shopIds: null,
       successCount: null,
@@ -188,6 +207,11 @@ export default {
       model: model,
       changeValue: {},
       guideValue: null,
+      transferName: null,
+      transferShopName: null,
+      transferCount: null,
+      transferRadio: '1',
+      radio: null,
       newAdd: {
         brand_id: null,
         name: null,
@@ -218,6 +242,8 @@ export default {
       obj: {},
       _pagination: pagination,
       paginations: paginations,
+      paginationss: paginationss,
+      customPagination: customPagination,
       shopTitle: '门店更换列表',
       scopeRowCountShow: false,
       _table: {
@@ -235,6 +261,16 @@ export default {
     }
   },
   methods: {
+    shopSizeChange () { // 单选按钮
+
+    },
+    shopPageChange () { // 单选按钮
+
+    },
+    getCurrentRow (row, index) { // 单选按钮
+      this.radio = index
+      this.value = row
+    },
     updateWorkPrefix () {
       this.disabledWorkPrefix = false
       this.showUpdateAllGuidePrefix = !this.showUpdateAllGuidePrefix
@@ -316,6 +352,7 @@ export default {
       this.dimissionArry = value
       this.multipleSelection = value
       this.replaceStoresArry = value
+      this.allPageCustomer = value
       this.dimissionArry.map(item => {
         if (item.status === 2) {
           this.accordingToJudgmentShow = true
@@ -649,6 +686,9 @@ export default {
           job: row.job,
           shop_id: row.shop_id
         }
+        this.model.sgGuideVo = {
+          newShopId: row.shop_id
+        }
         this.model.updateAllGuidePrefix = 0
         this.showUpdateAllGuidePrefix = false
         this.dialogFormVisible = true
@@ -795,25 +835,94 @@ export default {
       }
     },
     // 离职js开始
+    // 客户会转移类型选择
+    shiftChange (val) {
+      if (val === '2') {
+        this.model.name = null
+        this.model.shop = null
+        this.model.mobile = null
+        this.model.workId = null
+        this.findGuideList()
+      } else if (val === '3') {
+        this.model.name = null
+        this.model.shop = null
+        this.findCustomerList()
+        this.findGuideList()
+      }
+    },
     // 查询客户列表
     findCustomerList (page, pageSize) {
-      var _this = this
+      let _this = this
+      console.log('_this.guideId:', _this.guideId, _this.model.shop, _this.model.mobile, _this.model.name, _this.model.workId)
       _this.$http.fetch(_this.$api.guide.guide.findCustomerList, {
         searchMap: {
           'guideId': _this.guideId,
-          'shopId': _this.shopId,
-          'pageSize': _this.paginations.size,
-          'pageNo': _this.paginations.page
+          'shopId': _this.model.shop,
+          'pageSize': _this.customShopSize !== null ? _this.paginations.size = _this.customShopSize : _this.paginations.size,
+          'pageNo': _this.customShopPage !== null ? _this.paginations.page = _this.customShopPage : _this.paginations.page,
+          'mobile': _this.model.mobile,
+          'name': _this.model.name,
+          'workId': _this.model.workId
         }
       }).then(resp => {
         if (resp.success && resp.result != null) {
           _this.tableDataCustomer = resp.result.data
+          if (_this.tableDataCustomer.length > 0) {
+            _this.resignFormVisible = true
+          }
+          _this.customPagination.total = parseInt(resp.result.total)
           _this.paginations.total = parseInt(resp.result.total)
           _this.chooseCustomerFocus()
         }
       }).catch((resp) => {
         // _this.$notify.error('查询失败：' + resp.msg)
       })
+    },
+    // 批量设置导购
+    Setupbulksalesguide () {
+
+    },
+    // 转移给指定导购改变页数大小
+    transferShopSizeChange (page) {
+      this.transferShopSize = page
+      this.findGuideList()
+    },
+    // 转移给指定导购页数跳转
+    transferShopPageChange (page) {
+      this.transferShopPage = page
+      this.findGuideList()
+    },
+    // 自定义搜索改变页数大小
+    customShopSizeChange (page) {
+      this.customShopSize = page
+      this.findCustomerList()
+    },
+    // 自定义搜索页数跳转
+    customShopPageChange (page) {
+      this.customShopPage = page
+      this.findCustomerList()
+    },
+    // 转移给指定导购搜索
+    transferSearch () {
+      this.findGuideList()
+    },
+    // 转移给指定导购重置
+    transferToReset () {
+      this.model.name = null
+      this.model.shop = null
+      this.findGuideList()
+    },
+    // 自定义搜索
+    customSearch () {
+      this.findCustomerList()
+    },
+    // 自定义重置
+    customReset () {
+      this.model.name = null
+      this.model.mobile = null
+      this.model.workId = null
+      this.model.shop = null
+      this.findCustomerList()
     },
     // 查询导购列表
     findGuideList () {
@@ -822,13 +931,17 @@ export default {
         searchMap: {
           'guideState': 1,
           'guideId': _this.guideId,
-          'status': 1
+          'status': _this.transferShopPage !== null ? (this.transferShopPage - 1 * 15) : 1,
+          'name': _this.model.name,
+          'shop': _this.model.shop
         },
-        length: 10000
+        length: _this.transferShopSize !== null ? _this.transferShopSize : 10000
       }).then(resp => {
         if (resp.success && resp.result.data != null) {
           _this.guideList = resp.result.data
+          _this.paginationss.total = parseInt(resp.result.recordsTotal)
         }
+        console.log('_this.guideList:', _this.guideList)
       }).catch((resp) => {
         _this.$notify.error('查询失败：' + resp.msg)
       })
@@ -836,6 +949,10 @@ export default {
      // 会员离职
     dimissionFun (row) {
       var _this = this
+      _this.employeeDetails = row
+      _this.transferName = row.name
+      _this.transferShopName = row.shopName
+      _this.transferCount = row.count
       _this.transferWay = '1'
       _this.$confirm('请确认是否对 ' + row.name + ' 进行离职操作!', '提示', {
         confirmButtonText: '确定',
@@ -867,18 +984,30 @@ export default {
     },
     onConfirmResign () {
       var _this = this
-      var status = _this.transferWay
-      _this.resignFormVisible = false
-      if (status === '1') {
+      // var status = _this.transferWay
+      console.log('transferRadio:', this.transferRadio)
+      // _this.resignFormVisible = false
+      if (this.transferRadio === '1') {
         _this.averageTransfer()
-      } else if (status === '2') {
+      } else if (this.transferRadio === '2') {
+        // _this.findGuideList()
+        _this.onSaveSpecifyTransfer()
+        // _this.specifyTransferFormVisible = true
+      } else if (this.transferRadio === '3') {
         _this.findGuideList()
-        _this.specifyTransferFormVisible = true
-      } else if (status === '3') {
         _this.findCustomerList()
-        _this.findGuideList()
-        _this.customFormVisible = true
+        _this.onSaveCustomTransfer()
       }
+      // if (status === '1') {
+      //   _this.averageTransfer()
+      // } else if (status === '2') {
+      //   _this.findGuideList()
+      //   _this.specifyTransferFormVisible = true
+      // } else if (status === '3') {
+      //   _this.findCustomerList()
+      //   _this.findGuideList()
+      //   _this.customFormVisible = true
+      // }
     },
     // 平均转移
     averageTransfer () {
@@ -905,13 +1034,17 @@ export default {
     // 保存指定导购转移
     onSaveSpecifyTransfer () {
       var _this = this
-      if (_this.receiveGuideId === null || _this.receiveGuideId === 0) {
+      if (this.radio === null) {
         _this.$notify.error('请选择指定导购')
         return
       }
+      // if (_this.receiveGuideId === null || _this.receiveGuideId === 0) {
+      //   _this.$notify.error('请选择指定导购')
+      //   return
+      // }
       var params = {
         transGuideId: _this.guideId,
-        receiveGuideId: _this.receiveGuideId,
+        receiveGuideId: _this.value.id,
         transStatus: 2,  // 对应后台枚举
         resource: 0  // 对应后台枚举
       }
@@ -962,11 +1095,14 @@ export default {
         resource: 0,      // 对应后台枚举
         isLeave: isLeave
       }
+
       _this.guideLeave(params, isLeave)
     },
     // 导购离职
     guideLeave (data, isClose) {
+      console.log('data:', data, isClose)
       var _this = this
+      _this.customFormVisible = false
       _this.$http.fetch(_this.$api.guide.guide.updateGuideCustomer, data)
       .then(resp => {
         _this.paginations = {
@@ -978,15 +1114,18 @@ export default {
         }
         _this.receiveGuideId = null
         _this.customerIds = null
-        _this.guideId = null
+        // _this.guideId = null
         _this.specifyTransferFormVisible = false
         _this.customFormVisible = false
+        _this.resignFormVisible = false
         if (!isClose) {
-          _this.$refs.table.$reload()
+          _this.findGuideList()
+          // _this.$refs.table.$reload()
         }
-        _this.$notify.success('离职成功')
+        _this.$notify.success(resp.msg)
+        _this.findCustomerList()
       }).catch((resp) => {
-        _this.$notify.error('操作成功 ' + resp.msg)
+        _this.$notify.error('操作失败 ' + resp.msg)
       })
     },
     // 分页-页数改变
@@ -1071,7 +1210,7 @@ export default {
           for (var i = 0; i < _this.allPageCustomer.length; i++) {
             if (_this.allPageCustomer[i].customerId === item.customerId) {
               setTimeout(function () {
-                _this.$refs.chooseCustomer.toggleRowSelection(item)
+                // _this.$refs.chooseCustomer.toggleRowSelection(item)
               }, 0)
             }
           }
