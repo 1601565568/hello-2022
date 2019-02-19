@@ -29,17 +29,21 @@
     UEDITOR_HOME_URL: URL,
 
         // 服务器统一请求接口路径
-    serverUrl: URL + 'net/controller.ashx',
+    serverUrl: 'http://47.96.228.119:8080/core/sgfile/uploadFile/ueditor',
 
         // 工具栏上的所有的功能按钮和下拉框，可以在new编辑器的实例时选择自己需要的重新定义
     toolbars: [[
-      'source', 'undo', 'redo', 'bold', 'italic',
-      'underline', 'fontsize', 'fontfamily',
-      'justifyleft', 'justifyright', 'justifycenter', 'justifyjustify',
-      'strikethrough', 'superscript', 'subscript', 'removeformat',
-      'formatmatch', 'blockquote', '|',
-      'forecolor', 'backcolor',
-      'selectall', 'cleardoc', 'link', 'unlink', 'preview', 'insertimage', 'emotion'
+      'fullscreen', 'source', '|', 'undo', 'redo', '|',
+      'bold', 'italic', 'underline', 'fontborder', 'strikethrough', 'superscript', 'subscript', 'removeformat', 'formatmatch', 'autotypeset', 'blockquote', 'pasteplain', '|', 'forecolor', 'backcolor', 'insertorderedlist', 'insertunorderedlist', 'selectall', 'cleardoc', '|',
+      'rowspacingtop', 'rowspacingbottom', 'lineheight', '|',
+      'customstyle', 'paragraph', 'fontfamily', 'fontsize', '|',
+      'directionalityltr', 'directionalityrtl', 'indent', '|',
+      'justifyleft', 'justifycenter', 'justifyright', 'justifyjustify', '|', 'touppercase', 'tolowercase', '|',
+      'link', 'unlink', '|',
+      'simpleupload', 'insertimage', 'emotion', 'scrawl', 'attachment', 'map', 'gmap', 'insertframe', 'pagebreak', 'template', 'background', '|',
+      'horizontal', 'date', 'time', 'spechars', 'snapscreen', 'wordimage', '|',
+      //  'inserttable', 'deletetable', 'insertparagraphbeforetable', 'insertrow', 'deleterow', 'insertcol', 'deletecol', 'mergecells', 'mergeright', 'mergedown', 'splittocells', 'splittorows', 'splittocols', 'charts', '|',
+      'preview', 'searchreplace'
     ]],
         // 原配置参数
         //  toolbars: [[
@@ -473,10 +477,10 @@
 
     while (path.length) {
       if ((tmp = path.shift()) === '..') {
-          res.pop()
-        } else if (tmp !== '.') {
-          res.push(tmp)
-        }
+        res.pop()
+      } else if (tmp !== '.') {
+        res.push(tmp)
+      }
     }
 
     return protocol + res.join('/')

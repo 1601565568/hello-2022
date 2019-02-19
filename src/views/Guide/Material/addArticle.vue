@@ -10,7 +10,7 @@
     :before-close="handleClose">
 
     <div class="comDialogBoxCon flex flex-between" style='align-items:flex-start'>
-      <vue-ueditor-wrap :config="myConfig" v-model="saveObj.detail" @ready="editorReady"></vue-ueditor-wrap>
+      <vue-ueditor-wrap :config="myConfig" v-model="detail" @ready="editorReady" @beforeInit="addCustomButtom"></vue-ueditor-wrap>
       <el-form :model="saveObj" :rules="rules" ref="addForm"  style="width:440px;margin-left:50px">
         <el-form-item  prop="article">
             <el-radio-group v-model="saveObj.articleType">
@@ -26,10 +26,31 @@
               <el-input resize="none" type="textarea" v-model="saveObj.content" placeholder="可在此输入推广文案"></el-input>
             </el-form-grid>
           </el-form-item>
-          <p><ns-button type='text'>添加封面图</ns-button>（建议尺寸：800*800）</p>
+          <div class="materialItem">
+
+            <a target="_blank" class="shareBox">
+              <!--<img @click="showImg(0, itemObj.m_type)" v-show="itemObj.imageList[0]" :src="itemObj.imageList[0]" alt="">-->
+              <img :src="saveObj.imageList[0] ? saveObj.imageList[0] : require('../../../assets/small-logo.png')" />
+              <div class="tit">11111111111111111111111111111111111111111111111111111111111111111</div>
+            </a>
+          </div>
+
+          <p>
+            <el-upload class="upload-demo"
+              :action="this.$api.core.sgUploadFile('test')"
+              accept=".jpg,.jpeg,.png,.bmp,.gif"
+              :show-file-list="false"
+              :on-remove="handleRemove"
+              :on-success="handleAvatarSuccess"
+              :before-upload="beforeAvatarUpload"
+              >
+
+              <ns-button size="small" type="text">{{saveObj.imageList[0] ? '修改封面图' : '添加封面图'}}</ns-button>
+              <span>（建议尺寸：800*800）</span>
+            </el-upload></p>
           <p style='margin-top:20px'>所属分组 :</p>
           <el-form-item  prop="subdivision_id">
-            <el-select @change="selChange" v-model="saveObj.subdivision_id" placeholder="请选择" clearable>
+            <el-select v-model="saveObj.subdivision_id" placeholder="请选择" clearable>
                     <el-option v-for="item in groudList"
                         :key="item.subdivision_id"
                         :label="item.subdivision_name"
@@ -58,6 +79,7 @@ export default {
   props: {
     callBack: Function
   },
+
   data () {
     // var validateURL = (rule, value, callback) => {
     //   if (value === '') {
@@ -89,7 +111,7 @@ export default {
         initialFrameHeight: 240,
         // 初始容器宽度
         initialFrameWidth: '100%',
-        serverUrl: ''
+        serverUrl: 'http://ecrpguide.iok.la:10956/ueditor/ueditorConfig'
       },
       wechatPageTypeList: [{name: '商品', id: 1}, {name: '优惠券', id: 2}, {name: '营销活动', id: 3}, {name: '商品分类', id: 4}, {name: '自定义页面', id: 5}],
       wechatPageUrlList: [{url: '/pages/workbench/index', id: 1}, {url: '/pages/workbench/inde', id: 2}, {url: '/pages/workbench/ind', id: 3}],
@@ -100,13 +122,14 @@ export default {
       groudList: [],
       shareimgList: [],
       saveObj: {
-        m_type: 1,
+        m_type: 0,
         title: '',
         codeType: 0,
         content: '',
         url: '',
         shareUrl: '',
-        imageList: []
+        imageList: [''],
+        subdivision_id: null
       },
       curMonth: 5,
       dialogVisible: false,
@@ -121,9 +144,6 @@ export default {
           { required: true, message: '请输入素材标题', trigger: 'blur' },
           { min: 4, max: 20, message: '长度在4-20个字符以内', trigger: 'blur' }
         ],
-        subdivision_id: [
-          { message: '请选择所属分组', trigger: 'blur' }
-        ],
         groud: [
           { required: true, message: '请选择素材分组', trigger: 'change' }
         ]
@@ -135,16 +155,60 @@ export default {
   },
   created: function () {},
   methods: {
+    addPic () {
+      this.detail = '<p><span style="background-color: rgb(0, 0, 0); color: rgb(255, 255, 255);">141324企鹅为全额完全v</span><br/></p>'
+      console.log(this.detail)
+    },
+    addCustomButtom (editorId) {
+      console.log(11111111111111111111)
+      window.UE.registerUI('test-button', function (editor, uiName) {
+    // 注册按钮执行时的 command 命令，使用命令默认就会带有回退操作
+        editor.registerCommand(uiName, {
+          execCommand: function () {
+            editor.execCommand('inserthtml', `<span>这是一段由自定义按钮添加的文字</span>`)
+          }
+        })
+
+    // 创建一个 button
+        var btn = new window.UE.ui.Button({
+      // 按钮的名字
+          name: uiName,
+      // 提示
+          title: '鼠标悬停时的提示文字',
+      // 需要添加的额外样式，可指定 icon 图标，图标路径参考常见问题 2
+          cssRules: "background-image: url('/test-button.png') !important;background-size: cover;",
+      // 点击时执行的命令
+          onclick: function () {
+        // 这里可以不用执行命令，做你自己的操作也可
+            editor.execCommand(uiName)
+          }
+        })
+
+    // 当点到编辑内容上时，按钮要做的状态反射
+        editor.addListener('selectionchange', function () {
+          var state = editor.queryCommandState(uiName)
+          if (state === -1) {
+            btn.setDisabled(true)
+            btn.setChecked(false)
+          } else {
+            btn.setDisabled(false)
+            btn.setChecked(state)
+          }
+        })
+
+    // 因为你是添加 button，所以需要返回这个 button
+        return btn
+      }, 0 /* 指定添加到工具栏上的哪个位置，默认时追加到最后 */, editorId /* 指定这个 UI 是哪个编辑器实例上的，默认是页面上所有的编辑器都会添加这个按钮 */)
+    },
     editorReady: function (instance) {
       // 将实例 instance 存储到 data中
+      console.log(22222)
       this.editorInstance = instance
       instance.setContent(this.detail || '') // 初始化时，对富文本编辑器进行赋值
       instance.addListener('blur', () => {
         this.detail = this.editorInstance.getContent()
       })
-    },
-    selChange (e) {
-      console.log(e)
+      console.log(this.detail)
     },
     // linkChange (url) {
     //   console.log('url:', url)
@@ -156,10 +220,10 @@ export default {
       this.groudList = groudArr
       // 数据重置
       this.saveObj = {
-        m_type: 1,
+        m_type: 0,
         content: '',
         url: '',
-        imageList: []
+        imageList: ['']
       }
       if (obj.id) {
         this.modalTit = '编辑素材'
@@ -169,24 +233,13 @@ export default {
           id: saveObj.id,
           imageList: saveObj.imageList,
           subdivision_id: saveObj.subdivision_id,
-          m_type: 1,
-          url: saveObj.url,
-          codeType: saveObj.code_type,
-          urlId: 2
+          m_type: 0
         }
       }
       this.dialogVisible = true
     },
     handleSelectionChange (val) {
       this.multipleSelection = val
-    },
-    delImgFun (index) {
-      if (this.saveObj.imageList.length < 2) {
-        this.$notify.warning('上传图片不得少于一张')
-        return false
-      } else {
-        this.saveObj.imageList.splice(index, 1)
-      }
     },
     // 分组
     async loadGroup () {
@@ -212,7 +265,6 @@ export default {
     },
     async doSave () {
       this.loading = true
-      console.log('11111111111111111')
       await this.$http
         .fetch(this.$api.guide.materialEdit, this.saveObj)
         .then(resp => {
@@ -233,12 +285,7 @@ export default {
     },
     // 处理上传图片
     handleAvatarSuccess: function (res, file) {
-      console.log(res)
-      if (this.saveObj.m_type === 0) {
-        // 链接就先置空
-        this.saveObj.imageList = []
-      }
-      this.saveObj.imageList.push(res.result.url)
+      this.$set(this.saveObj.imageList, 0, res.result.url)
     },
     beforeAvatarUpload (file) {
       if (file.size / 1024 > 200) {
@@ -277,8 +324,74 @@ export default {
   }
 }
 </script>
+<style scoped>
+/* .shareBox {
+    height: 60px;
+    padding: 5px;
+    margin: 5px 0;
+    background-color: #e4eaec;
+    border-radius: 1px;
+    display: -webkit-box;
+    justify-content: center;
+    align-items: center;
+    max-width: 300px;
+    overflow: hidden;
+    img {
+      width: 50px;
+      height: 50px;
+      margin-right: 5px;
+      cursor: pointer;
+      &:hover {
+        opacity: 0.8;
+      }
+    }
+    .tit{
+      color: #333;
+      line-height: 1.9;
+      height: 100%;
+      flex:1;
+      overflow: hidden;
+      text-overflow:ellipsis;
+      display:-webkit-box;
+      -webkit-box-orient:vertical;
+      -webkit-line-clamp:2;
+    }
+} */
+.shareBox {
+    height: 60px;
+    padding: 5px;
+    margin: 5px 0;
+    background-color: #e4eaec;
+    border-radius: 1px;
+    display: block;
+    max-width: 200px;
+    overflow: hidden;
+    img {
+      width: 50px;
+      height: 50px;float: left;
+      margin-right: 5px;
+      cursor: pointer;
+      /* &:hover {
+        opacity: 0.8;
+      } */
+    }
+    .tit{
+      padding-top: 3px;
+      display: -webkit-box;
+      overflow: hidden;
+      -webkit-line-clamp: 2;
+      /*! autoprefixer: off */
+      -webkit-box-orient: vertical;
+      /* autoprefixer: on */
+      color: #333;
+      line-height: 1.9;
+    }
+  }
+</style>
+
 <style >
 /* 此处scoped暂时不能加，等空闲了再出解决方案 */
+
 @component-namespace addMaterialbox {
   .comDialogBoxCon {
     padding-bottom: 20px;
