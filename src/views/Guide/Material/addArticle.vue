@@ -10,8 +10,18 @@
     :before-close="handleClose">
 
     <div class="comDialogBoxCon flex flex-between" style='align-items:flex-start'>
-      <vue-ueditor-wrap :config="myConfig" v-model="detail" @ready="editorReady" @beforeInit="addCustomButtom"></vue-ueditor-wrap>
-      <el-form :model="saveObj" :rules="rules" ref="addForm"  style="width:440px;margin-left:50px">
+      <div class="comDialogBoxConOut" v-show='saveObj.articleType' style='flex:1'>
+        <el-input  placeholder="请在这里输入标题" size="medium" v-model="saveObj.title"></el-input>
+        <el-input placeholder="请输入合法链接"  size="medium" v-model="saveObj.url">
+          <template slot="prepend">外链:</template>
+        </el-input>
+        <p style='margin-top:10px'><i class="el-icon-info text-tips">外链的内容仅在H5版本中显示，不会出现在小程序中</i></p>
+      </div>
+      <div v-show='!saveObj.articleType'>
+        <vue-ueditor-wrap :config="myConfig" v-model="detail" @ready="editorReady" ></vue-ueditor-wrap>
+      </div>
+
+      <el-form :model="saveObj" :rules="rules" ref="addForm"  style="margin-left:50px">
         <el-form-item  prop="article">
             <el-radio-group v-model="saveObj.articleType">
                 <el-radio :label=0>添加文章
@@ -26,12 +36,17 @@
               <el-input resize="none" type="textarea" v-model="saveObj.content" placeholder="可在此输入推广文案"></el-input>
             </el-form-grid>
           </el-form-item>
+          <el-form-item  prop="title">
+            <el-form-grid size="xxmd">
+              <el-input resize="none" type="text" v-model="saveObj.title" placeholder="请输入标题"></el-input>
+            </el-form-grid>
+          </el-form-item>
           <div class="materialItem">
 
             <a target="_blank" class="shareBox">
               <!--<img @click="showImg(0, itemObj.m_type)" v-show="itemObj.imageList[0]" :src="itemObj.imageList[0]" alt="">-->
               <img :src="saveObj.imageList[0] ? saveObj.imageList[0] : require('../../../assets/small-logo.png')" />
-              <div class="tit">11111111111111111111111111111111111111111111111111111111111111111</div>
+              <div class="tit">{{saveObj.title}}</div>
             </a>
           </div>
 
@@ -49,8 +64,8 @@
               <span>（建议尺寸：800*800）</span>
             </el-upload></p>
           <p style='margin-top:20px'>所属分组 :</p>
-          <el-form-item  prop="subdivision_id">
-            <el-select v-model="saveObj.subdivision_id" placeholder="请选择" clearable>
+          <el-form-item  prop="subdivisionId">
+            <el-select v-model="saveObj.subdivisionId" placeholder="请选择" clearable>
                     <el-option v-for="item in groudList"
                         :key="item.subdivision_id"
                         :label="item.subdivision_name"
@@ -111,7 +126,7 @@ export default {
         initialFrameHeight: 240,
         // 初始容器宽度
         initialFrameWidth: '100%',
-        serverUrl: 'http://ecrpguide.iok.la:10956/ueditor/ueditorConfig'
+        serverUrl: 'http://35.201.165.105:8000/controller.php'
       },
       wechatPageTypeList: [{name: '商品', id: 1}, {name: '优惠券', id: 2}, {name: '营销活动', id: 3}, {name: '商品分类', id: 4}, {name: '自定义页面', id: 5}],
       wechatPageUrlList: [{url: '/pages/workbench/index', id: 1}, {url: '/pages/workbench/inde', id: 2}, {url: '/pages/workbench/ind', id: 3}],
@@ -122,14 +137,15 @@ export default {
       groudList: [],
       shareimgList: [],
       saveObj: {
-        m_type: 0,
+        mType: 0,
         title: '',
         codeType: 0,
         content: '',
         url: '',
         shareUrl: '',
         imageList: [''],
-        subdivision_id: null
+        subdivisionId: null,
+        articleType: 0
       },
       curMonth: 5,
       dialogVisible: false,
@@ -219,22 +235,30 @@ export default {
     showToggle (obj, groudArr) {
       this.groudList = groudArr
       // 数据重置
+      this.detail = ''
       this.saveObj = {
-        m_type: 0,
+        title: '',
         content: '',
         url: '',
-        imageList: ['']
+        shareUrl: '',
+        imageList: [''],
+        subdivisionId: null,
+        articleType: 0,
+        mType: 0
       }
       if (obj.id) {
+        let that = this
         this.modalTit = '编辑素材'
-        let saveObj = JSON.parse(JSON.stringify(obj))
-        this.saveObj = {
-          content: saveObj.content,
-          id: saveObj.id,
-          imageList: saveObj.imageList,
-          subdivision_id: saveObj.subdivision_id,
-          m_type: 0
-        }
+        this.$http.fetch(this.$api.guide.queryMaterial, {id: obj.id})
+        .then(resp => {
+          resp.result.articleType = (resp.result.url ? 1 : 0)
+          that.saveObj = resp.result
+          that.detail = resp.result.textContent || ''
+          // console.log(that.detail)
+        })
+        .catch(resp => {
+          that.$notify.error(resp.msg)
+        })
       }
       this.dialogVisible = true
     },
@@ -265,8 +289,21 @@ export default {
     },
     async doSave () {
       this.loading = true
+      let parms = {
+        content: this.saveObj.content,
+        id: this.saveObj.id,
+        imageList: this.saveObj.imageList,
+        mType: 0,
+        subdivisionId: this.saveObj.subdivisionId,
+        title: this.saveObj.title
+      }
+      if (this.saveObj.articleType) {
+        parms.url = this.saveObj.url
+      } else {
+        parms.textContent = this.detail
+      }
       await this.$http
-        .fetch(this.$api.guide.materialEdit, this.saveObj)
+        .fetch(this.$api.guide.materialEdit, parms)
         .then(resp => {
           this.handleClose()
           // 回调刷新列表
@@ -360,11 +397,11 @@ export default {
 .shareBox {
     height: 60px;
     padding: 5px;
-    margin: 5px 0;
+    margin: 20px 0 0 0;
     background-color: #e4eaec;
     border-radius: 1px;
     display: block;
-    max-width: 200px;
+    max-width: 240px;
     overflow: hidden;
     img {
       width: 50px;
@@ -385,6 +422,7 @@ export default {
       /* autoprefixer: on */
       color: #333;
       line-height: 1.9;
+      word-break: break-word;
     }
   }
 </style>
@@ -456,5 +494,8 @@ export default {
     width: 80px;
     height: 80px;
   }
+}
+.comDialogBoxConOut .el-input{
+  margin:10px 0;
 }
 </style>
