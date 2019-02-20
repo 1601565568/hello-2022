@@ -365,6 +365,82 @@
       </div>
     </el-dialog>
     <!--  导购离职弹窗结束  -->
+    <!--  批量设置到后弹窗开始 -->
+    <el-dialog title="更换导购" width="700px" height="500px" :visible.sync="replaceTheShoppers">
+    <div class="resignFormVisible_otherShoppers">
+          <div class="resignFormVisible_otherShoppers_02">
+            请选择导购
+          </div>
+          <div class="resignFormVisible_otherShoppers_01">
+            <div class="resignFormVisible_otherShoppers_search">
+              <el-form ref="table_filter_form" :model="model" label-width="80px" :inline="true">
+                <el-form-item label="关键字：">
+                  <el-form-grid size="xmd">
+                    <el-input style="width:180px" autofocus=true v-model="model.name" placeholder="请输入工号/姓名/昵称/手机号" clearable></el-input>
+                  </el-form-grid>
+                </el-form-item>
+                <el-form-item label="所属门店：">
+                  <el-form-grid>
+                    <el-select placeholder="请选择所属门店" v-model="model.shop" clearable filterable>
+                      <el-option v-for="shop in shopFindList" :label="shop.shopName" :value="shop.id"
+                                :key="shop.id"></el-option>
+                    </el-select>
+                  </el-form-grid>
+                </el-form-item>
+              </el-form>
+            </div>
+            <div class="template-table__more-btns">
+              <ns-button type="primary" @click="transferSearch()">搜索</ns-button>
+              <ns-button @click="transferToReset()">重置</ns-button>
+            </div>
+          </div>
+            <el-table ref="table" :data="guideList" stripe>
+              <el-table-column  width="30">
+                  <template slot-scope="scope">
+                    <div class="customerManage">
+                      <el-radio :label="scope.$index" v-model="radio" @change.native="getCurrentRow(scope.row,scope.$index)"></el-radio>
+                    </div>
+                  </template>
+              </el-table-column>
+              <el-table-column prop="work_id" label="工号" align="left">
+                <template slot-scope="scope">
+                  {{scope.row.work_id || '-'}}
+                </template>
+              </el-table-column>
+              <el-table-column prop="name" label="姓名" align="left" >
+                <template slot-scope="scope">
+                  {{scope.row.name || '-'}}
+                </template>
+              </el-table-column>
+              <el-table-column prop="mobile" label="联系方式" align="left" width="160">
+                <template slot-scope="scope">
+                  {{scope.row.mobile || '-'}}
+                </template>
+              </el-table-column>
+              <el-table-column prop="shopName" label="所属门店" align="left">
+                <template slot-scope="scope">
+                  {{scope.row.shopName || '-'}}
+                </template>
+              </el-table-column>
+          </el-table>
+          <!-- 分页 -->
+          <el-pagination v-if="_data.paginationss.enable"  class="template-table-pagination" 
+                        :page-sizes="_data.paginationss.sizeOpts"
+                        :total="_data.paginationss.total"
+                        :current-page="_data.paginationss.page"
+                        :page-size="_data.paginationss.size"
+                        layout="total, sizes, prev, pager, next, jumper"
+                        @size-change="transferShopSizeChange"
+                        @current-change="transferShopPageChange">
+          </el-pagination>
+          <!-- 分页-结束 -->
+        </div>
+        <div class="replaceTheShoppers">
+          <ns-button @click="replaceTheShoppers = false">取消</ns-button>
+          <ns-button type="primary" @click="onSaveSpecifyTransfer">确定</ns-button>
+        </div>
+      </el-dialog>
+      <!--  批量设置到后弹窗结束-->
     <!--  批量删除员工提示弹框开始 -->
     <el-dialog title="请先转移导购的会员" width="500px" height="300px" :visible.sync="allDeleteFormVisible">
       <div style="height: 60px;overflow-x:hidden;overflow-y:auto;margin-top: 10px;">
@@ -643,6 +719,12 @@
     display:flex;
     justify-content: flex-end;
     align-items: center;
+  }
+  .replaceTheShoppers{
+    display:flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin:10px 10px 20px 0;
   }
 </style>
 

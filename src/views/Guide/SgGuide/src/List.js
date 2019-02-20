@@ -166,6 +166,7 @@ export default {
       accordingToJudgmentShow: false,
       memberBelongingShowTow: false,             // 会员归属弹窗
       dialogFormVisible: false,
+      replaceTheShoppers: false,           // 批量更换导购
       storeOwnershipDisplay: false,
       shopFormVisible: false,             //  店铺弹窗
       resignFormVisible: false,           // 导购离职弹窗
@@ -936,7 +937,7 @@ export default {
     },
     // 批量设置导购
     Setupbulksalesguide () {
-
+      this.replaceTheShoppers = true
     },
     // 转移给指定导购改变页数大小
     transferShopSizeChange (page) {
@@ -1042,15 +1043,10 @@ export default {
     },
     onConfirmResign () {
       var _this = this
-      // var status = _this.transferWay
-      console.log('transferRadio:', this.transferRadio)
-      // _this.resignFormVisible = false
       if (this.transferRadio === '1') {
         _this.averageTransfer()
       } else if (this.transferRadio === '2') {
-        // _this.findGuideList()
         _this.onSaveSpecifyTransfer()
-        // _this.specifyTransferFormVisible = true
       } else if (this.transferRadio === '3') {
         _this.findGuideList()
         _this.findCustomerList()
