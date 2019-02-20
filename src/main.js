@@ -13,6 +13,10 @@ import 'apusjs-log'
 import 'normalize.css'
 import './style/small/NuiJs/index.scss'
 import './style/small/index.pcss'
+import '../static/UEditor/ueditor.config.js'
+import '../static/UEditor/ueditor.all.min.js'
+import '../static/UEditor/lang/zh-cn/zh-cn.js'
+import '../static/UEditor/ueditor.parse.min.js'
 
 Vue.prototype.$ELEMENT = { size: 'small' }
 Vue.prototype.$echarts = echarts

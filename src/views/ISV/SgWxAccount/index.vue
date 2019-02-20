@@ -198,33 +198,36 @@
         <ns-button type="primary" @click="release">发布</ns-button>
       </el-row>
       <el-table ref="table" :data="modelArry" stripe >
-        <el-table-column prop="template_id" label="模版ID"  align="left" width="88"></el-table-column>
+        <el-table-column prop="template_id" label="模板ID"  align="left" width="88"></el-table-column>
         <el-table-column prop="version" label="版本" align="center" width="130"></el-table-column>
         <el-table-column prop="developer" label="开发者" align="center"></el-table-column>
         <el-table-column prop="user_desc" label="备注" align="center" ></el-table-column>
-        <el-table-column prop="status" :show-overflow-tooltip="true" label="操作" align="center" width="120">
+        <el-table-column prop="status" :show-overflow-tooltip="true" label="操作" align="center" width="180">
           <template slot-scope="{row}">
             <div>
               <ns-button v-if="row.status === 0" type="primary"  @click="uploading(row)">
-                上传
+                &nbsp;&nbsp;上&nbsp;&nbsp;&nbsp;&nbsp;传&nbsp;&nbsp;
               </ns-button>
-              <ns-button class="underReview" v-if="row.status === 2" @click="underReview(row)">
-                审核中
+              <ns-button class="underReview" v-if="row.status === 2" @click="underReview(row)" >
+                &nbsp;审&nbsp;核&nbsp;中&nbsp;
               </ns-button>
-              <ns-button v-if="row.status === 3" type="primary" @click="auditSuccess(row)">
+              <ns-button v-if="row.status === 3" type="text" @click="auditSuccess(row)" >
                 审核成功
               </ns-button>
-              <ns-button v-if="row.status === 4" type="text">
-                已发布
+              <ns-button v-if="row.status === 4" type="primary" >
+                &nbsp;已&nbsp;发&nbsp;布&nbsp;
               </ns-button>
-              <ns-button v-if="row.status === 1" type="primary" @click="submitted(row)">
+              <ns-button v-if="row.status === 1" type="primary" @click="submitted(row)" >
                 提交审核
               </ns-button>
               <ns-button class="auditFailure" v-if="row.status === -1" @click="auditFailure(row)">
                 审核失败
               </ns-button>
               <ns-button class="auditFailure" v-if="row.status === 5" @click="auditFailure(row)">
-                已撤回
+                &nbsp;已&nbsp;撤&nbsp;回&nbsp;
+              </ns-button>
+              <ns-button type="info" @click="dialogDeleteTemplateShow(row)">
+                删除
               </ns-button>
             </div>
           </template>
@@ -233,6 +236,19 @@
       <div slot="footer" class="dialog-footer">
         <ns-button @click="newestDialog = false">取消</ns-button>
         <ns-button type="primary" @click="newestDialog = false">确定</ns-button>
+      </div>
+    </el-dialog>
+    <!--删除代码模板弹窗-->
+    <el-dialog size="small" class="authorization" :title="titleText" width="25%"
+               :visible.sync="dialogDeleteTemplate"
+               :modal-append-to-body="false"
+               @before-close="closeDialog()">
+      <div>
+        <p class="shanghu">将从模板库删除该小程序代码模板</p>
+      </div>
+      <div slot="footer" class="authorization_footer">
+        <ns-button @click="dialogDeleteTemplate = false">取消</ns-button>
+        <ns-button type="primary" @click="deleteTemplate">确认</ns-button>
       </div>
     </el-dialog>
     <!-- 最新弹窗主页面结束 -->
@@ -396,7 +412,7 @@
     <!-- 最新弹窗发布结束 -->
     <!-- 最新弹窗微信号授权开始 -->
     <el-dialog size="small" class="authorization" :title="titleText" width="25%"
-               :visible.sync="authorization"
+                 :visible.sync="authorization"
                :modal-append-to-body="false"
                @before-close="closeDialog()">
       <div>
@@ -418,10 +434,9 @@
                 resizable v-loading.lock="loadingTable"
                 :element-loading-text="$t('prompt.loading')">
         <el-table-column prop="draft_id" align="center" label="草稿ID"></el-table-column>
-        <el-table-column prop="create_time" align="center" label="上传时间"></el-table-column>
         <el-table-column prop="user_version" align="center" label="版本号"></el-table-column>
         <el-table-column prop="developer" align="center" label="开发者"></el-table-column>
-        <el-table-column prop="source_miniprogram" align="center" label="小程序  来源"></el-table-column>
+          <el-table-column prop="source_miniprogram" align="center" label="小程序来源"></el-table-column>
         <el-table-column prop="user_desc" label="描述"></el-table-column>
         <el-table-column :show-overflow-tooltip="true" label="操作" align="center"
                          width="120">
@@ -449,14 +464,14 @@
   justify-content: flex-end;
 }
 .underReview{
-  color: #FF8C00
+  color: #FF8C00;
 }
 .dialog-top{
   border-top:1px solid #ddd;
   padding:10px 0 10px 78px;
 }
 .auditFailure{
-  color:red
+  color:red;
 }
 .dialog_mian_logo{
   display: flex;
@@ -533,5 +548,8 @@
 }
 .button{
   margin-left:150px
+}
+.nsButtonWidth{
+  width: 66px;
 }
 </style>
