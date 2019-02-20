@@ -121,7 +121,7 @@
               <span>{{row.endTime}}</span>
             </div>
             <div v-if="row.dateValidType == 1">
-              <span>领取后{{row.afterGetValidDays}}天生效</span><br>
+              <span>领取后第{{row.afterGetValidDays}}天生效</span><br>
               <span>有效期{{row.validDays}}天</span>
             </div>
           </template>

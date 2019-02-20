@@ -66,10 +66,10 @@
               <span class="coupon-decorate" v-if="storeModel.couponType == 2">折扣券</span>
               <span class="coupon-decorate" v-if="storeModel.couponType == 3">兑换券</span>
               <p class="text-secondary" v-if="storeModel.dateType == 0">
-                {{storeModel.startTime}} -- {{storeModel.endTime}}
+                {{storeModel.startTime}} ~~ {{storeModel.endTime}}
               </p>
               <p class="text-secondary" v-if="storeModel.dateType == 1">
-                领取{{storeModel.after_get_valid_days}}天生效，有效期{{storeModel.valid_days}}天
+                领取{{storeModel.after_get_valid_days}}天后生效，有效期{{storeModel.valid_days}}天
                 
               </p>
             </div>

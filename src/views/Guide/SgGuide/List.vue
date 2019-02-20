@@ -34,7 +34,7 @@
           <el-form-item v-if="guideValue === 1"  label="所属门店：" required>
             <el-form-grid size="xxmd">
               <el-form-item prop="shops" >
-                <el-select placeholder="所属门店" @change="store" v-model="subordinateStores" multiple>
+                <el-select placeholder="所属门店" @change="store($event,row)" @blur="reduce" v-model="subordinateStores" multiple>
                   <el-option v-for="shops in shopFindList" :label="shops.shopName" :value="shops.id" :key="shops.id"></el-option>
                 </el-select>
               </el-form-item>
@@ -44,7 +44,7 @@
           <el-form-item v-if="guideValue === 0"  label="所属门店：" required>
             <el-form-grid size="xxmd">
               <el-form-item prop="shop">
-                <el-select placeholder="所属门店" @change="store" v-model="model.sgGuideShop.shop_id" filterable >
+                <el-select placeholder="所属门店" @change="store($event,row)" v-model="model.sgGuideShop.shop_id" filterable >
                   <el-option v-for="shop in shopFindList" :label="shop.shopName" :value="shop.id" :key="shop.id"></el-option>
                 </el-select>
               </el-form-item>
@@ -135,7 +135,7 @@
       </div>
       <div slot="footer" class="dialog-footer">
         <ns-button @click="closeDialog">取消</ns-button>
-        <ns-button type="primary" @click="onSave(model)">确定</ns-button>
+        <ns-button type="primary" @click="onSave(model)">{{nextStep}}</ns-button>
       </div>
     </el-dialog>
     <!--  新增修改客户结束 -->
@@ -414,6 +414,35 @@
       </div>
     </el-dialog>
     <!-- 指定导购转移转移弹窗结束  -->
+
+    <!-- 选择会员归属弹窗结束  -->
+    <el-dialog title="选择会员归属" :visible.sync="memberBelongingShowTow"  :before-close="onCancelCustomTransfer">
+      <div style="overflow-x:hidden;overflow-y:auto;margin-top: 10px;">您好，请设置被修改掉的所属门店会员的专属导购：</div>
+      <div>会员归属方式：
+        <el-radio-group v-model="memberferRadio">
+          <el-radio  @change='storeOwnership' label="1">员工<i class="el-icon-question"></i></el-radio>
+          <el-radio  @change='storeOwnership' label="2">门店<i class="el-icon-question"></i></el-radio>
+        </el-radio-group>
+      </div>
+      <div v-if="storeOwnershipDisplay">
+        <el-form ref="table_filter_form" :model="model" label-width="60px" :inline="true">
+          <el-form-item label="所属门店：">
+            <el-form-grid>
+              <el-select placeholder="请选择所属门店" v-model="model.shop" clearable filterable>
+                <el-option v-for="shop in shopFindList" :label="shop.shopName" :value="shop.id"
+                          :key="shop.id"></el-option>
+              </el-select>
+            </el-form-grid>
+          </el-form-item>
+        </el-form>
+      </div>
+      <div slot="footer" class="dialog-footer">
+        <ns-button @click="memberBelongingShowTow = false">取消</ns-button>
+        <ns-button type="primary" @click="membershipRetention(model)">保存</ns-button>
+      </div>
+    </el-dialog>
+    <!-- 选择会员归属弹窗开始  -->
+
     <!--  自定义客户转移弹窗开始  -->
     <el-dialog title="自定义转移" :visible.sync="customFormVisible"  :before-close="onCancelCustomTransfer">
       <div style="overflow-x:hidden;overflow-y:auto;margin-top: 10px;">
