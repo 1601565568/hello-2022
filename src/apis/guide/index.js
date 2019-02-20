@@ -32,6 +32,11 @@ export default {
     url: '/guide/material/saveMaterial',
     method: 'post'
   },
+  queryMaterial: {
+    // 素材编辑
+    url: '/guide/material/queryMaterial',
+    method: 'get'
+  },
   materialDel: {
     // 素材删除
     url: '/guide/material/delete',

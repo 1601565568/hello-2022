@@ -138,13 +138,10 @@
         <listItemShow :itemObj="scope.row"></listItemShow>
       </template>
       </el-table-column>
-      <el-table-column  prop="code_type_text" label="带码状态" align="left" width="190">
+      <el-table-column prop="source_name" label="发布方" align="left" width="250">
 
       </el-table-column>
-      <el-table-column prop="source_name" label="发布方" align="left" width="190">
-
-      </el-table-column>
-      <el-table-column prop="subName" label="分组" width="170" align="left">
+      <el-table-column prop="subName" label="分组" width="250" align="left">
         <template slot-scope="scope">
           <el-select @change="setGroudFun(scope.row.id,scope.row.subdivision_id)" v-model="scope.row.subdivision_id" placeholder="请选择">
             <el-option v-for="item in groudList"
@@ -155,7 +152,7 @@
           </el-select>
         </template>
       </el-table-column>
-      <el-table-column prop="create_time" label="发布时间 " width="150" align="left">
+      <el-table-column prop="create_time" label="发布时间 " width="250" align="left">
       </el-table-column>
       <el-table-column
         label="操作"
