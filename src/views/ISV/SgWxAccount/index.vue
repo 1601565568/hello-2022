@@ -202,29 +202,29 @@
         <el-table-column prop="version" label="版本" align="center" width="130"></el-table-column>
         <el-table-column prop="developer" label="开发者" align="center"></el-table-column>
         <el-table-column prop="user_desc" label="备注" align="center" ></el-table-column>
-        <el-table-column prop="status" :show-overflow-tooltip="true" label="操作" align="center" width="150">
+        <el-table-column prop="status" :show-overflow-tooltip="true" label="操作" align="center" width="180">
           <template slot-scope="{row}">
             <div>
               <ns-button v-if="row.status === 0" type="primary"  @click="uploading(row)">
-                上传
+                &nbsp;&nbsp;上&nbsp;&nbsp;&nbsp;&nbsp;传&nbsp;&nbsp;
               </ns-button>
               <ns-button class="underReview" v-if="row.status === 2" @click="underReview(row)" >
-                审核中
+                &nbsp;审&nbsp;核&nbsp;中&nbsp;
               </ns-button>
-              <ns-button v-if="row.status === 3" type="primary" @click="auditSuccess(row)" class="nsButtonWidth">
+              <ns-button v-if="row.status === 3" type="text" @click="auditSuccess(row)" >
                 审核成功
               </ns-button>
-              <ns-button v-if="row.status === 4" type="text" class="nsButtonWidth">
-                已发布
+              <ns-button v-if="row.status === 4" type="primary" >
+                &nbsp;已&nbsp;发&nbsp;布&nbsp;
               </ns-button>
-              <ns-button v-if="row.status === 1" type="primary" @click="submitted(row)" class="nsButtonWidth">
+              <ns-button v-if="row.status === 1" type="primary" @click="submitted(row)" >
                 提交审核
               </ns-button>
               <ns-button class="auditFailure" v-if="row.status === -1" @click="auditFailure(row)">
                 审核失败
               </ns-button>
               <ns-button class="auditFailure" v-if="row.status === 5" @click="auditFailure(row)">
-                已撤回
+                &nbsp;已&nbsp;撤&nbsp;回&nbsp;
               </ns-button>
               <ns-button type="info" @click="dialogDeleteTemplateShow(row)">
                 删除
@@ -464,7 +464,6 @@
   justify-content: flex-end;
 }
 .underReview{
-  width: 66px;
   color: #FF8C00;
 }
 .dialog-top{
@@ -472,7 +471,6 @@
   padding:10px 0 10px 78px;
 }
 .auditFailure{
-  width: 66px;
   color:red;
 }
 .dialog_mian_logo{
