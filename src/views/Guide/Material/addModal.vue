@@ -47,7 +47,7 @@
                       </li>
                   </ul>
                   <div class="clearfix"></div>
-                  <div style="color:#999">上传图片不能大于200KB;图片最多上传9张</div>
+                  <div style="color:#999">上传图片不能大于500KB；图片最多上传9张（加小程序码的最多8张</div>
               </div>
           </el-form-item>
           <el-form-item  label="小程序链接：" prop="urlPic">
@@ -270,8 +270,8 @@ export default {
       this.saveObj.imageList.push(res.result.url)
     },
     beforeAvatarUpload (file) {
-      if (file.size / 1024 > 200) {
-        this.$notify.warning('上传图片不得大于200KB')
+      if (file.size / 1024 > 500) {
+        this.$notify.warning('上传图片不得大于500KB')
         return false
       }
     },

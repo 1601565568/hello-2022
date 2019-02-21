@@ -27,10 +27,11 @@
         </li>
       </ul>
     </div>
+    <div v-if="itemObj.m_type==0">{{itemObj.content.length>77?itemObj.content.substr(0,70)+'…':itemObj.content.substr(0,70)}}</div>
     <a :href="itemObj.url" target="_blank" class="shareBox" v-if="itemObj.m_type==0">
       <!--<img @click="showImg(0, itemObj.m_type)" v-show="itemObj.imageList[0]" :src="itemObj.imageList[0]" alt="">-->
       <img :src="itemObj.imageList[0]" alt="">
-      <div class="tit">{{itemObj.content.length>77?itemObj.content.substr(0,70)+'…':itemObj.content.substr(0,70)}}</div>
+      <div class="tit">{{itemObj.title.length>77?itemObj.title.substr(0,70)+'…':itemObj.title.substr(0,70)}}</div>
     </a>
   </div>
 </template>

@@ -1,3 +1,8 @@
+<style scoped>
+  .topHid{
+    visibility: hidden
+  }
+</style>
 
 <template>
 <!-- 门店工作统计  wanrengang 20180716 -->
@@ -71,12 +76,24 @@
       stripe
       style="width: 100%"
       >
-      <el-table-column
-        label="名称"
-        prop="subdivision_name"
-        show-overflow-tooltip
-        >
+      <el-table-column>
+         <template slot-scope="scope">
+          {{scope.$index+1}}
+        </template>
       </el-table-column>
+      <el-table-column label="排序"  width="550"  align="left">
+        <template slot-scope="scope">
+          <ns-button type='primary' :class="scope.$index?'topShow':'topHid'" @click='exchangeSort(1,scope.row.subdivision_id)'>置顶</ns-button>
+          <ns-button type='primary' :class="scope.$index?'topShow':'topHid'" @click='exchangeSort(2,scope.row.subdivision_id)'>上移</ns-button>
+          <ns-button type='primary' :class="scope.$index!==dataList.length-1?'topShow':'topHid'" @click='exchangeSort(3,scope.row.subdivision_id)'>下移</ns-button>
+          <ns-button type='primary' :class="scope.$index!==dataList.length-1?'topShow':'topHid'" @click='exchangeSort(4,scope.row.subdivision_id)'>置底</ns-button>
+        </template>
+      </el-table-column>
+
+      <el-table-column label="名称" prop="subdivision_name"  show-overflow-tooltip >
+      </el-table-column>
+
+
       <el-table-column
         label="素材数"
         align="left"
@@ -183,6 +200,17 @@ export default {
         })
       this.loading = false
       // 总条数
+    },
+    exchangeSort (type, subdivisionId) {
+      let parms = {type, subdivisionId}
+      this.$http
+        .fetch(this.$api.guide.materialExchangeSort, parms)
+        .then(resp => {
+          this.loadListFun()
+        })
+        .catch(resp => {
+          this.$notify.error(resp.msg)
+        })
     },
     // 删除
     delsTipFun (val) {
