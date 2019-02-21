@@ -408,7 +408,6 @@ export default {
       })
     },
     memberBelongingEnsure (model) { // 多门店门店减少功能
-      console.log('model:', model)
       let _this = this
       let guide = this.model.sgGuide
       let guideShop = []
@@ -937,7 +936,11 @@ export default {
     },
     // 批量设置导购
     Setupbulksalesguide () {
-      this.replaceTheShoppers = true
+      if (this.allPageCustomer.length < 1) {
+        this.$notify.error('请选择转移的客户')
+      } else {
+        this.replaceTheShoppers = true
+      }
     },
     // 转移给指定导购改变页数大小
     transferShopSizeChange (page) {
