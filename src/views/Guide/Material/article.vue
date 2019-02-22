@@ -386,6 +386,7 @@ export default {
           that.$http
             .fetch(that.$api.guide.material.batchDeleteMaterial, obj)
             .then(resp => {
+              that.loadListFun()
               that.$notify.success('删除成功！')
             })
             .catch(resp => {
