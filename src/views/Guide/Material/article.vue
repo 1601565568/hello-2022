@@ -69,7 +69,7 @@
               </el-form-item>
 
               <el-form-item label="发布方：" prop="sourceId">
-              <el-select  v-model="searchform.sourceId" placeholder="请选择发布方" clearable>
+              <el-select  v-model="searchform.sourceId" placeholder="请选择发布方" clearable filterable>
                   <el-option v-for="item in sourceList"
                   :key="item.id"
                   :label="item.shopName"
