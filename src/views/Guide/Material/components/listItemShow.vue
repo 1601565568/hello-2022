@@ -27,7 +27,7 @@
         </li>
       </ul>
     </div>
-    <div class='line2' v-if="itemObj.m_type==0">{{itemObj.content.length>77?itemObj.content.substr(0,70)+'…':itemObj.content.substr(0,70)}}</div>
+    <div class='line2' style='-webkit-box-orient: vertical;' v-if="itemObj.m_type==0">{{itemObj.content.length>77?itemObj.content.substr(0,70)+'…':itemObj.content.substr(0,70)}}</div>
     <a :href="itemObj.url" target="_blank" class="shareBox" v-if="itemObj.m_type==0">
       <!--<img @click="showImg(0, itemObj.m_type)" v-show="itemObj.imageList[0]" :src="itemObj.imageList[0]" alt="">-->
       <img :src="itemObj.imageList[0]" alt="">
@@ -219,7 +219,8 @@
   }
 }
 .line2{
-   overflow: hidden;
+  width: 100%;
+  overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
   -webkit-line-clamp:2;

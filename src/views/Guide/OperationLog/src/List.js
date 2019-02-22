@@ -251,10 +251,10 @@ export default {
               let tagStr = ''
               resp.result.afterJson[i].map(item => {
                 for (let j in item) {
-                  tagArr.push(`${j}:${item[j]}`)
+                  tagArr.push(`${j}:${item[j] || '-'}`)
                 }
               })
-              tagStr = tagArr.join('&&&')
+              tagStr = tagArr.join(',')
               arr.push(`${i}:${tagStr}`)
             } else {
               arr.push(`${i}:${resp.result.afterJson[i]}`)
@@ -270,13 +270,13 @@ export default {
               let tagStr = ''
               resp.result.beforeJson[i].map(item => {
                 for (let j in item) {
-                  tagArr.push(`${j}:${item[j]}`)
+                  tagArr.push(`${j}:${item[j] || '-'}`)
                 }
               })
-              tagStr = tagArr.join('&&&')
+              tagStr = tagArr.join(',')
               arr1.push(`${i}:${tagStr}`)
             } else {
-              arr1.push(`${i}:${resp.result.afterJson[i]}`)
+              arr1.push(`${i}:${resp.result.beforeJson[i]}`)
             }
           }
           resp.result.beforeJson = arr1
