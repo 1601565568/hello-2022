@@ -1,7 +1,7 @@
 <template>
   <!--商城首页Demo-->
   <div class="overview-content">
-    <el-row class="overview-content__grid" :gutter="5">
+      <el-row class="overview-content__grid" :gutter="5">
         <el-col :span="6">
           <el-card class="overview-content__item" shadow="never">
               <div class="overview-content__item--select">

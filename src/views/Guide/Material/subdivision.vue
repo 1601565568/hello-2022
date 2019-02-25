@@ -76,17 +76,17 @@
       stripe
       style="width: 100%"
       >
-      <el-table-column>
+      <el-table-column label="序号">
          <template slot-scope="scope">
           {{scope.$index+1}}
         </template>
       </el-table-column>
       <el-table-column label="排序"  width="550"  align="left">
         <template slot-scope="scope">
-          <ns-button type='primary' :class="scope.$index?'topShow':'topHid'" @click='exchangeSort(1,scope.row.subdivision_id)'>置顶</ns-button>
-          <ns-button type='primary' :class="scope.$index?'topShow':'topHid'" @click='exchangeSort(2,scope.row.subdivision_id)'>上移</ns-button>
-          <ns-button type='primary' :class="scope.$index!==dataList.length-1?'topShow':'topHid'" @click='exchangeSort(3,scope.row.subdivision_id)'>下移</ns-button>
-          <ns-button type='primary' :class="scope.$index!==dataList.length-1?'topShow':'topHid'" @click='exchangeSort(4,scope.row.subdivision_id)'>置底</ns-button>
+          <i class='iconfont icon-zhiding'  :class="scope.$index?'topShow':'topHid'" @click='exchangeSort(1,scope.row.subdivision_id)'></i>
+          <i class='iconfont icon-xiangshang'  :class="scope.$index?'topShow':'topHid'" @click='exchangeSort(2,scope.row.subdivision_id)'></i>
+          <i class='iconfont icon-xiangxia'  :class="scope.$index!==dataList.length-1?'topShow':'topHid'" @click='exchangeSort(3,scope.row.subdivision_id)'></i>
+          <i class='iconfont icon-dibu'  :class="scope.$index!==dataList.length-1?'topShow':'topHid'" @click='exchangeSort(4,scope.row.subdivision_id)'></i>
         </template>
       </el-table-column>
 

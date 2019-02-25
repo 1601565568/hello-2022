@@ -167,6 +167,7 @@ export default {
     showToggle (obj, groudArr) {
       this.groudList = groudArr
       // 数据重置
+      this.modalTit = '新增素材'
       this.saveObj = {
         mType: 1,
         content: '',

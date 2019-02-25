@@ -40,7 +40,7 @@ export default {
         return '暂停营业'
       }
       if (val === -2) {
-        return '已关闭'
+        return '已关店'
       }
       return ''
     },

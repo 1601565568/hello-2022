@@ -36,10 +36,10 @@
               <el-input resize="none" type="textarea" v-model="saveObj.content" placeholder="可在此输入推广文案"></el-input>
             </el-form-grid>
           </el-form-item>
-          <el-form-item  prop="title">
-            <el-form-grid size="xxmd">
-              <el-input resize="none" type="text" v-model="saveObj.title" placeholder="请输入标题"></el-input>
-            </el-form-grid>
+          <el-form-item  prop="title" label="标题：">
+            <!-- <el-form-grid size="xmd"> -->
+              <el-input  type="text" v-model="saveObj.title" placeholder="请输入标题"></el-input>
+            <!-- </el-form-grid> -->
           </el-form-item>
           <div class="materialItem">
 
@@ -63,8 +63,8 @@
               <ns-button size="small" type="text">{{saveObj.imageList[0] ? '修改封面图' : '添加封面图'}}</ns-button>
               <span>（建议尺寸：800*800）</span>
             </el-upload></p>
-          <p style='margin-top:20px'>所属分组 :</p>
-          <el-form-item  prop="subdivisionId">
+          <!-- <p style='margin-top:20px'>所属分组 :</p> -->
+          <el-form-item  prop="subdivisionId" label="所属分组：" style='margin-top:20px'>
             <el-select v-model="saveObj.subdivisionId" placeholder="请选择" clearable>
                     <el-option v-for="item in groudList"
                         :key="item.subdivision_id"
@@ -160,9 +160,10 @@ export default {
           { required: true, message: '请输入素材标题', trigger: 'blur' },
           { min: 4, max: 20, message: '长度在4-20个字符以内', trigger: 'blur' }
         ],
-        groud: [
+        subdivisionId: [
           { required: true, message: '请选择素材分组', trigger: 'change' }
         ]
+
       }
     }
   },
@@ -236,6 +237,7 @@ export default {
       this.groudList = groudArr
       // 数据重置
       this.detail = ''
+      this.modalTit = '新增素材'
       this.saveObj = {
         title: '',
         content: '',
