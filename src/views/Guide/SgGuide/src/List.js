@@ -1011,7 +1011,6 @@ export default {
       _this.employeeDetails = row
       _this.transferName = row.name
       _this.transferShopName = row.shopName
-      _this.transferCount = row.count
       _this.transferWay = '1'
       _this.$confirm('请确认是否对 ' + row.name + ' 进行离职操作!', '提示', {
         confirmButtonText: '确定',
@@ -1028,6 +1027,7 @@ export default {
             _this.guideId = row.id
             _this.shopId = row.shop_id
             _this.customerTotal = resp.result.recordsFiltered
+            _this.transferCount = resp.result.recordsTotal
             _this.resignFormVisible = true
           } else {
             var params = {
