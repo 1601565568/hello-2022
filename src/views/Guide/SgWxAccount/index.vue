@@ -7,7 +7,7 @@
       </template>
       <!-- 表格 -->
       <template slot="table">
-        <el-table ref="table" :data="_data._table.data" class="template-table__main"
+          <el-table ref="table" :data="_data._table.data" class="template-table__main"
                   stripe
                   resizable v-loading.lock="_data._table.loadingtable"
                   :element-loading-text="$t('prompt.loading')" @sort-change="$orderChange$">

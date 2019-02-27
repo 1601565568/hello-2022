@@ -32,8 +32,15 @@
           "name": "SG_WX_ACCOUNT",
           "title": "操作日志",
           "componentPath": "Guide/OperationLog/List"
+        },
+        {
+          "path": "/Guide/LoginLog/List",
+          "name": "SG_LOGIN_LOG",
+          "title": "登录日志",
+          "componentPath": "Guide/LoginLog/List"
         }
       ]
+
     }
   ]
 }
