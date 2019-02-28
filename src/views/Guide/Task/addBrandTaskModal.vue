@@ -29,8 +29,8 @@
           <el-form-grid>
             <el-radio-group v-model="model.type">
                 <el-radio class="radio" :label="0">营销任务</el-radio>
-                <!-- <el-radio class="radio" :label="1">关怀任务</el-radio> -->
-                <el-radio class="radio" :label="1">日常任务</el-radio>
+                <el-radio class="radio" :label="1">回访任务</el-radio>
+                <el-radio class="radio" :label="3">日常任务</el-radio>
                 <el-radio class="radio" :label="2">分享任务</el-radio>
             </el-radio-group>
           </el-form-grid>
