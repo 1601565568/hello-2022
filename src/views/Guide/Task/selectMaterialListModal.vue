@@ -20,8 +20,8 @@
         stripe
         style="width: 100%"
         >
-            <el-table-column prop="subdivision_name" label="素材标题"></el-table-column>
-            <el-table-column prop="title" width="84" label="分组名称"></el-table-column>
+            <el-table-column prop="title" label="素材标题"></el-table-column>
+            <el-table-column prop="subdivision_name" width="84" label="分组名称"></el-table-column>
             <el-table-column prop="create_time" label="发布时间 " width="160"></el-table-column>
             <el-table-column  width="86" label="操作">
                 <template slot-scope="{row}">

@@ -111,7 +111,7 @@
               <el-col :span='8'><span>生日：{{items.birthday || '-'}}</span></el-col>
             </el-row>
             <el-row>
-              <el-col :span='8'><span>性别：{{items.sex === 1?'男':'女'}}</span></el-col>
+              <el-col :span='8'><span>性别：{{items.sex === 1?'男':items.sex === 0?'女':'未知'}}</span></el-col>
               <el-col :span='8'><span>手机号：{{items.mobile|| '-'}}</span></el-col>
             </el-row>
             <el-row>
