@@ -12,17 +12,22 @@
             </el-select>
           </el-form-grid>
           <el-form-grid v-if="model.accountType === 1">
-            <el-select placeholder="请选择所属门店" v-model="model.shopId" clearable filterable>
+            <el-select placeholder="请选择所属门店" v-model="model.shopId" @change="staffFindList" clearable filterable>
               <el-option v-for="shop in shopFindList" :label="shop.shopName" :value="shop.id"
                          :key="shop.id"></el-option>
             </el-select>
           </el-form-grid>
+          <el-form-grid v-if="model.accountType === 1">
+            <el-select placeholder="请选择员工" v-model="model.operatorId" clearable filterable>
+              <el-option v-for="shop in staffFindLists" :label="shop.name" :value="shop.id" :key="shop.id"></el-option>
+            </el-select>
+          </el-form-grid>
           <el-form-grid v-if="model.accountType === 0">
-            <el-input style="width:180px" autofocus=true v-model="model.operatorName" placeholder="请输入品牌方姓名"
+            <el-input style="width:180px" autofocus=true v-model="model.operateName" placeholder="请输入品牌方姓名"
                       clearable></el-input>
           </el-form-grid>
           <el-form-grid v-if="model.accountType === 2">
-            <el-input style="width:180px" autofocus=true v-model="model.operatorId" placeholder="请输入操作人ID"
+            <el-input style="width:180px" autofocus=true v-model="model.operateId" placeholder="请输入操作人ID"
                       clearable></el-input>
           </el-form-grid>
         </el-form-item>
@@ -30,7 +35,7 @@
         <el-form-item label="登录时间：" prop="time">
           <el-date-picker
             v-model="model.validTime"
-            type="datetimerange"
+            type="daterange"
             :picker-options="pickerOptions"
             range-separator="至"
             start-placeholder="请选择开始日期"

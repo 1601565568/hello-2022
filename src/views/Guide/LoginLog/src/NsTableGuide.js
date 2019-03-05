@@ -18,8 +18,8 @@ export default {
     let quickSearchModel = {}
 
     let searchModel = {
-      operatorId: null,
-      operatorName: null,
+      operateId: null,
+      operateName: null,
       shopId: null,
       accountType: null,
       validTime: null
@@ -89,8 +89,11 @@ export default {
     staffFindList () {
       let _this = this
       let obj = {}
-      obj.length = 15
+      let searchMap = {}
       obj.start = 0
+      obj.searchMap = searchMap
+      searchMap.shop = _this.model.shopId
+
       _this.$http.fetch(_this.$api.guide.guide.findList, obj).then(resp => {
         if (resp.success && resp.result != null) {
           _this.staffFindLists = resp.result.data
@@ -106,6 +109,7 @@ export default {
       _this.$http.fetch(_this.$api.guide.shop.findBrandShopList, {isOnline: 0}).then(resp => {
         if (resp.success && resp.result != null) {
           _this.shopFindList = resp.result
+          _this.model.shopId = _this.shopFindList[0].id
         }
       }).catch((resp) => {
         _this.$notify.error('查询失败：' + resp.msg)
