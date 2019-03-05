@@ -152,8 +152,8 @@
           </el-select>
         </template>
       </el-table-column>
-      <el-table-column prop="create_time" label="发布时间 " width="250" align="left">
-      </el-table-column>
+      <el-table-column prop="create_time" label="发布时间 " width="250" align="left">  </el-table-column>
+      <el-table-column prop="pv" label="浏览量" align="center" width="100"></el-table-column>
       <el-table-column
         label="操作"
         width="80"
