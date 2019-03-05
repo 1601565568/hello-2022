@@ -58,8 +58,8 @@
           <el-form-item label="素材内容：" prop="content">
             <el-input v-model="searchform.content" placeholder="请输入素材内容" clearable></el-input>
           </el-form-item>
-          <el-form-item label="分组：" prop="subdivision_id">
-                <el-select v-model="searchform.subdivision_id" placeholder="请选择分组" clearable>
+          <el-form-item label="分组：" prop="subdivisionId">
+                <el-select v-model="searchform.subdivisionId" placeholder="请选择分组" clearable>
                   <el-option v-for="item in groudList"
                   :key="item.subdivision_id"
                   :label="item.subdivision_name"
@@ -68,8 +68,8 @@
                 </el-select>
               </el-form-item>
 
-              <el-form-item label="发布方：" prop="source_id">
-              <el-select  v-model="searchform.source_id" placeholder="请选择发布方" clearable>
+              <el-form-item label="发布方：" prop="sourceId">
+              <el-select  v-model="searchform.sourceId" placeholder="请选择发布方" clearable filterable>
                   <el-option v-for="item in sourceList"
                   :key="item.id"
                   :label="item.shopName"
@@ -77,15 +77,15 @@
                   </el-option>
                 </el-select>
               </el-form-item>
-              <el-form-item label="带码状态：" prop="code_type">
-              <el-select  v-model="searchform.code_type" placeholder="请选择带码状态" clearable>
+              <!-- <el-form-item label="带码状态：" prop="codeType">
+              <el-select  v-model="searchform.codeType" placeholder="请选择带码状态" clearable>
                   <el-option v-for="item in codeTypeList"
                   :key="item.id"
                   :label="item.name"
                   :value="item.id">
                   </el-option>
                 </el-select>
-              </el-form-item>
+              </el-form-item> -->
               <el-form-item label="发布时间：" prop="time">
                 <el-date-picker
                   v-model="searchform.time"
@@ -152,8 +152,8 @@
           </el-select>
         </template>
       </el-table-column>
-      <el-table-column prop="create_time" label="发布时间 " width="250" align="left">
-      </el-table-column>
+      <el-table-column prop="create_time" label="发布时间 " width="250" align="left">  </el-table-column>
+      <el-table-column prop="pv" label="浏览量" align="center" width="100"></el-table-column>
       <el-table-column
         label="操作"
         width="80"
@@ -386,6 +386,7 @@ export default {
           that.$http
             .fetch(that.$api.guide.material.batchDeleteMaterial, obj)
             .then(resp => {
+              that.loadListFun()
               that.$notify.success('删除成功！')
             })
             .catch(resp => {
@@ -398,10 +399,10 @@ export default {
     },
     // 提交搜索
     submitForm (formName) {
-      this.searchObj.searchMap.source_id = this.searchform.source_id
-      this.searchObj.searchMap.subdivision_id = this.searchform.subdivision_id
+      this.searchObj.searchMap.sourceId = this.searchform.sourceId
+      this.searchObj.searchMap.subdivisionId = this.searchform.subdivisionId
       this.searchObj.searchMap.content = this.searchform.content
-      this.searchObj.searchMap.codeType = this.searchform.code_type
+      this.searchObj.searchMap.codeType = this.searchform.codeType
       if (this.searchform.time.length === 2) {
         this.searchObj.searchMap.timeStart = moment(this.searchform.time[0]).format('YYYY-MM-DD HH:mm:ss')
         this.searchObj.searchMap.timeEnd = moment(this.searchform.time[1]).format('YYYY-MM-DD HH:mm:ss')

@@ -1,6 +1,7 @@
 <template>
   <!-- <ns-page-table @add="$emit('add')"  @allDelete="$emit('allDelete')" @onAddCustomer="$emit('onAddCustomer')" @quit="$emit('quit')" @shopEdit="$emit('shopEdit')" @ondelete="$emit('ondelete')"> -->
-  <ns-page-table @add="$emit('add')" @showShop="$emit('showShop')" @viewDetails="$emit('viewDetails')" @dimission="$emit('dimission')"  @allDelete="$emit('allDelete')" @shopEdit="$emit('shopEdit')" >
+  <ns-page-table @add="$emit('add')" @showShop="$emit('showShop')" @viewDetails="$emit('viewDetails')"
+                 @dimission="$emit('dimission')" @allDelete="$emit('allDelete')" @shopEdit="$emit('shopEdit')">
     <!-- 按钮 -->
     <template slot="buttons">
       <ns-table-operate-button :buttons="_data._table.table_buttons">
@@ -39,7 +40,8 @@
         <el-form-item label="数据模块：">
           <el-form-grid size="xmd">
             <el-select placeholder="请选择" v-model="model.moduleType" clearable filterable>
-              <el-option v-for="shop in dataModule" :label="shop.label" :value="shop.value" :key="shop.value"></el-option>
+              <el-option v-for="shop in dataModule" :label="shop.label" :value="shop.value"
+                         :key="shop.value"></el-option>
             </el-select>
           </el-form-grid>
         </el-form-item>
@@ -53,7 +55,8 @@
         <el-form-item label="所属门店：">
           <el-form-grid>
             <el-select placeholder="请选择所属门店" v-model="model.shopId" clearable filterable>
-              <el-option v-for="shop in shopFindList" :label="shop.shopName" :value="shop.id" :key="shop.id"></el-option>
+              <el-option v-for="shop in shopFindList" :label="shop.shopName" :value="shop.id"
+                         :key="shop.id"></el-option>
             </el-select>
           </el-form-grid>
         </el-form-item>
@@ -64,23 +67,25 @@
               <el-option v-for="shop in operator" :label="shop.label" :value="shop.value" :key="shop.value"></el-option>
             </el-select>
           </el-form-grid>
-          <el-form-grid v-if="model.terminalType === 1" >
+          <el-form-grid v-if="model.terminalType === 1">
             <el-select placeholder="员工" v-model="model.operatorId" clearable filterable>
               <el-option v-for="shop in staffFindLists" :label="shop.name" :value="shop.id" :key="shop.id"></el-option>
             </el-select>
           </el-form-grid>
-          <el-form-grid v-if="model.terminalType === 2" >
-            <el-input style="width:180px" autofocus=true v-model="model.operatorName" placeholder="请输入品牌方姓名" clearable></el-input>
+          <el-form-grid v-if="model.terminalType === 2">
+            <el-input style="width:180px" autofocus=true v-model="model.operatorName" placeholder="请输入品牌方姓名"
+                      clearable></el-input>
           </el-form-grid>
           <el-form-grid v-if="model.terminalType === 3">
-            <el-input style="width:180px" autofocus=true v-model="model.operatorId" placeholder="请输入操作人ID" clearable></el-input>
+            <el-input style="width:180px" autofocus=true v-model="model.operatorId" placeholder="请输入操作人ID"
+                      clearable></el-input>
           </el-form-grid>
         </el-form-item>
 
         <el-form-item label="日志时间：" prop="time">
           <el-date-picker
             v-model="model.validTime"
-            type="datetimerange"
+            type="daterange"
             :picker-options="pickerOptions"
             range-separator="至"
             start-placeholder="请选择开始日期"
@@ -123,17 +128,17 @@
         <el-table-column prop="operation" label="操作类型" align="left" width="130">
           <template slot-scope="scope">
             {{scope.row.operation || '-'}}
-          </template >
+          </template>
         </el-table-column>
         <el-table-column prop="moduleName" label="功能板块" align="left" width="120"></el-table-column>
         <el-table-column prop="shopName" label="门店" align="left">
           <template slot-scope="scope">
-              {{scope.row.shopName || '-'}}
+            {{scope.row.shopName || '-'}}
           </template>
         </el-table-column>
         <el-table-column prop='operatorName' label="操作人" align="left" width="180">
           <template slot-scope="scope">
-              {{scope.row.operatorName || '-'}}
+            {{scope.row.operatorName || '-'}}
           </template>
         </el-table-column>
         <el-table-column prop="operatorId" label="操作人ID" align="left" width="100">
@@ -149,7 +154,9 @@
         </el-table-column>
         <el-table-column prop="status" :show-overflow-tooltip="true" label="修改内容" align="right" width="120">
           <template slot-scope="scope">
-            <ns-button style="color:#0091FA" v-if="scope.row.status !== 2" @click="viewDetails(scope.row)" type="text">查看详情</ns-button>
+            <ns-button style="color:#0091FA" v-if="scope.row.status !== 2" @click="viewDetails(scope.row)" type="text">
+              查看详情
+            </ns-button>
           </template>
         </el-table-column>
 
@@ -174,10 +181,11 @@
 
 <script>
   import guide from './src/NsTableGuide'
+
   export default guide
 </script>
 <style>
-.scope_row_count{
-  color: blue;
-}
+  .scope_row_count {
+    color: blue;
+  }
 </style>

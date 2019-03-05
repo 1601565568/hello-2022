@@ -158,6 +158,7 @@ export default {
       this.tableLoading = true
       let searchObj = data || this.searchObj
       searchObj.length = 1000
+      searchObj.searchMap.shopStatus = 1
       this.$http
         .fetch(this.api, searchObj)
         .then(resp => {

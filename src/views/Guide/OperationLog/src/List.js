@@ -246,14 +246,38 @@ export default {
         if (resp.result.afterJson !== null) {
           resp.result.afterJson = JSON.parse(resp.result.afterJson)
           for (let i in resp.result.afterJson) {
-            arr.push(`${i}:${resp.result.afterJson[i]}`)
+            if (Object.prototype.toString.call(resp.result.afterJson[i]) === '[object Array]') {
+              let tagArr = []
+              let tagStr = ''
+              resp.result.afterJson[i].map(item => {
+                for (let j in item) {
+                  tagArr.push(`${j}:${item[j] || '-'}`)
+                }
+              })
+              tagStr = tagArr.join(',')
+              arr.push(`${i}:${tagStr}`)
+            } else {
+              arr.push(`${i}:${resp.result.afterJson[i]}`)
+            }
           }
           resp.result.afterJson = arr
         }
         if (resp.result.beforeJson !== null) {
           resp.result.beforeJson = JSON.parse(resp.result.beforeJson)
           for (let i in resp.result.beforeJson) {
-            arr1.push(`${i}:${resp.result.beforeJson[i]}`)
+            if (Object.prototype.toString.call(resp.result.beforeJson[i]) === '[object Array]') {
+              let tagArr = []
+              let tagStr = ''
+              resp.result.beforeJson[i].map(item => {
+                for (let j in item) {
+                  tagArr.push(`${j}:${item[j] || '-'}`)
+                }
+              })
+              tagStr = tagArr.join(',')
+              arr1.push(`${i}:${tagStr}`)
+            } else {
+              arr1.push(`${i}:${resp.result.beforeJson[i]}`)
+            }
           }
           resp.result.beforeJson = arr1
         }

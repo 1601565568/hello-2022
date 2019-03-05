@@ -27,10 +27,11 @@
         </li>
       </ul>
     </div>
+    <div class='line2' style='-webkit-box-orient: vertical;' v-if="itemObj.m_type==0">{{itemObj.content.length>77?itemObj.content.substr(0,70)+'…':itemObj.content.substr(0,70)}}</div>
     <a :href="itemObj.url" target="_blank" class="shareBox" v-if="itemObj.m_type==0">
       <!--<img @click="showImg(0, itemObj.m_type)" v-show="itemObj.imageList[0]" :src="itemObj.imageList[0]" alt="">-->
       <img :src="itemObj.imageList[0]" alt="">
-      <div class="tit">{{itemObj.content.length>77?itemObj.content.substr(0,70)+'…':itemObj.content.substr(0,70)}}</div>
+      <div class="tit">{{itemObj.title.length>77?itemObj.title.substr(0,70)+'…':itemObj.title.substr(0,70)}}</div>
     </a>
   </div>
 </template>
@@ -217,7 +218,14 @@
     }
   }
 }
-
+.line2{
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp:2;
+  -webkit-box-orient: vertical;
+}
 </style>
 
 <style>

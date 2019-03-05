@@ -209,18 +209,18 @@ export default {
         })
       })
       if (this.status === '0') {
-        this.saveObj.quota1 = this.shopList[0].quota1 * 10000
-        this.saveObj.quota2 = this.shopList[0].quota2 * 10000
-        this.saveObj.quota3 = this.shopList[0].quota3 * 10000
-        this.saveObj.quota4 = this.shopList[0].quota4 * 10000
-        this.saveObj.quota5 = this.shopList[0].quota5 * 10000
-        this.saveObj.quota6 = this.shopList[0].quota6 * 10000
-        this.saveObj.quota7 = this.shopList[0].quota7 * 10000
-        this.saveObj.quota8 = this.shopList[0].quota8 * 10000
-        this.saveObj.quota9 = this.shopList[0].quota9 * 10000
-        this.saveObj.quota10 = this.shopList[0].quota10 * 10000
-        this.saveObj.quota11 = this.shopList[0].quota11 * 10000
-        this.saveObj.quota12 = this.shopList[0].quota12 * 10000
+        this.saveObj.quota1 = (this.shopList[0].quota1 * 10000).toFixed(2)
+        this.saveObj.quota2 = (this.shopList[0].quota2 * 10000).toFixed(2)
+        this.saveObj.quota3 = (this.shopList[0].quota3 * 10000).toFixed(2)
+        this.saveObj.quota4 = (this.shopList[0].quota4 * 10000).toFixed(2)
+        this.saveObj.quota5 = (this.shopList[0].quota5 * 10000).toFixed(2)
+        this.saveObj.quota6 = (this.shopList[0].quota6 * 10000).toFixed(2)
+        this.saveObj.quota7 = (this.shopList[0].quota7 * 10000).toFixed(2)
+        this.saveObj.quota8 = (this.shopList[0].quota8 * 10000).toFixed(2)
+        this.saveObj.quota9 = (this.shopList[0].quota9 * 10000).toFixed(2)
+        this.saveObj.quota10 = (this.shopList[0].quota10 * 10000).toFixed(2)
+        this.saveObj.quota11 = (this.shopList[0].quota11 * 10000).toFixed(2)
+        this.saveObj.quota12 = (this.shopList[0].quota12 * 10000).toFixed(2)
       } else {
         this.saveObj.quota1 = this.shopList[0].quota1
         this.saveObj.quota2 = this.shopList[0].quota2

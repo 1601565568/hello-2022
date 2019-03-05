@@ -633,7 +633,7 @@ export default {
             that.isSaleData = false
           } else {
             that.isSaleData = true
-            that.sellOption.series[0].data = resp.result
+            that.saleOption.series[0].data = resp.result
           }
         })
         .catch(resp => {
@@ -654,12 +654,12 @@ export default {
         .fetch(this.$api.overView.findDailyTrend, parms)
         .then(resp => {
           that.loadingRecruit = false
-          if (resp.result === null || resp.result.length === 0) {
-            that.isRecruitData = false
-          } else {
-            that.isRecruitData = true
-            that.recruitOption.series[0].data = resp.result.map(Number)
-          }
+          // if (resp.result === null || resp.result.length === 0) {
+          //   that.isRecruitData = false
+          // } else {
+          //   that.isRecruitData = true
+          //   that.recruitOption.series[0].data = resp.result.map(Number)
+          // }
         })
         .catch(resp => {
           that.$notify.error('查询失败：')

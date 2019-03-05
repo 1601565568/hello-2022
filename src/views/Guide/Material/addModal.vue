@@ -10,20 +10,21 @@
   :before-close="handleClose">
     <div class="comDialogBoxCon">
       <el-form :model="saveObj" :rules="rules" ref="addForm" label-width="100px" style="width:440px;">
-          <el-form-item label="所属分组：" prop="subdivision_id">
-            <el-select @change="selChange" v-model="saveObj.subdivision_id" placeholder="请选择" clearable>
+          <el-form-item label="所属分组：" prop="subdivisionId">
+            <el-select @change="selChange" v-model="saveObj.subdivisionId" placeholder="请选择" clearable>
                     <el-option v-for="item in groudList"
                         :key="item.subdivision_id"
                         :label="item.subdivision_name"
                         :value="item.subdivision_id">
                         </el-option>
                     </el-select>
+                    <ns-button type='text' @click="$router.push({name:'MaterialSubdivision'})"> + 添加分组</ns-button>
           </el-form-item>
           <el-form-item label="推广文案："  prop="content">
             <el-input resize="none" type="textarea" v-model="saveObj.content" placeholder="请输入推广文案"></el-input>
           </el-form-item>
 
-          <el-form-item  label="推广图片：" prop="imageList">
+          <el-form-item  label="素材图片：" prop="imageList">
               <div class="comUploadBox">
                   <ul class="comUploadList">
                       <li class="imgItem" v-for="(item,index) in saveObj.imageList" :key="index">
@@ -47,7 +48,7 @@
                       </li>
                   </ul>
                   <div class="clearfix"></div>
-                  <div style="color:#999">上传图片不能大于200KB;图片最多上传9张</div>
+                  <div style="color:#999">上传图片不能大于500KB；图片最多上传9张（加小程序码的最多8张</div>
               </div>
           </el-form-item>
           <el-form-item  label="小程序链接：" prop="urlPic">
@@ -74,25 +75,6 @@
             </el-radio-group>
             <p style='margin-top:10px'><i class="el-icon-info text-tips">将在图片中加入带导购参数的小程序码，需门店里有对应信息的才会显示</i></p>
           </el-form-item>
-
-            <!-- 链接开始 -->
-          <!-- <el-form-item v-if="saveObj.m_type==0" label="封面图片：">
-              <div class="comUploadBox">
-                   <el-upload class="avatar-uploader"
-                        :action="this.$api.core.sgUploadFile('test')"
-                        accept=".jpg,.jpeg,.png,.bmp,.gif"
-                        :show-file-list="false"
-                        list-type="picture-card"
-                        :on-remove="handleRemove"
-                        :on-success="handleAvatarSuccess"
-                        :before-upload="beforeAvatarUpload"
-                        >
-                        <img v-if="saveObj.imageList[0]" :src="saveObj.imageList[0]" alt="">
-                        <i  v-else class="el-icon-plus avatar-uploader-icon"></i>
-                    </el-upload>
-                <p style="color:#999">上传图片不能大于200KB</p>
-              </div>
-          </el-form-item> -->
         </el-form>
     </div>
     <span slot="footer" class="dialog-footer">
@@ -141,7 +123,7 @@ export default {
       groudList: [],
       shareimgList: [],
       saveObj: {
-        m_type: 1,
+        mType: 1,
         title: '',
         codeType: 0,
         content: '',
@@ -162,11 +144,11 @@ export default {
           { required: true, message: '请输入素材标题', trigger: 'blur' },
           { min: 4, max: 20, message: '长度在4-20个字符以内', trigger: 'blur' }
         ],
-        subdivision_id: [
+        subdivisionId: [
           { required: true, message: '请选择所属分组', trigger: 'blur' }
         ],
-        groud: [
-          { required: true, message: '请选择素材分组', trigger: 'change' }
+        imageList: [
+          { required: true, message: '请添加素材图片', trigger: 'change' }
         ]
       }
     }
@@ -185,11 +167,13 @@ export default {
     showToggle (obj, groudArr) {
       this.groudList = groudArr
       // 数据重置
+      this.modalTit = '新增素材'
       this.saveObj = {
-        m_type: 1,
+        mType: 1,
         content: '',
         url: '',
-        imageList: []
+        imageList: [],
+        subdivisionId: null
       }
       if (obj.id) {
         this.modalTit = '编辑素材'
@@ -198,11 +182,12 @@ export default {
           content: saveObj.content,
           id: saveObj.id,
           imageList: saveObj.imageList,
-          subdivision_id: saveObj.subdivision_id,
-          m_type: 1,
+          subdivisionId: saveObj.subdivision_id,
+          mType: 1,
           url: saveObj.url,
           codeType: saveObj.code_type
         }
+        console.log(this.saveObj)
       }
       this.dialogVisible = true
     },
@@ -241,7 +226,6 @@ export default {
     },
     async doSave () {
       this.loading = true
-      console.log('11111111111111111')
       await this.$http
         .fetch(this.$api.guide.materialEdit, this.saveObj)
         .then(resp => {
@@ -262,16 +246,11 @@ export default {
     },
     // 处理上传图片
     handleAvatarSuccess: function (res, file) {
-      console.log(res)
-      if (this.saveObj.m_type === 0) {
-        // 链接就先置空
-        this.saveObj.imageList = []
-      }
       this.saveObj.imageList.push(res.result.url)
     },
     beforeAvatarUpload (file) {
-      if (file.size / 1024 > 200) {
-        this.$notify.warning('上传图片不得大于200KB')
+      if (file.size / 1024 > 500) {
+        this.$notify.warning('上传图片不得大于500KB')
         return false
       }
     },

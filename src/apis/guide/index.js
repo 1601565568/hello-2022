@@ -47,6 +47,11 @@ export default {
     url: '/guide/material/setSubdivision',
     method: 'post'
   },
+  materialExchangeSort: {
+    // 素材设置分组
+    url: '/guide/material/exchangeSort',
+    method: 'post'
+  },
   materialFindListByBrandId: {
     // 素材列表--简洁版
     url: '/guide/material/findListByBrandId',

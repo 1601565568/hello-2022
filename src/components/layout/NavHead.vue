@@ -8,7 +8,7 @@
             :index="item.name"
             :key='item.path'
             v-if='!item.hidden && item.name != "examples"'
-            class="nav-menu__item" :class="item.name === activeName ? 'is-selected-item' : ''">
+            class="nav-menu__item" :class="item.name === activeName ? 'is-selected-item' : ''" style='width:106px !important'>
         <router-link :to="item.path" class="nav-menu__item--link">
           <i :class="'iconfont icon-' + item.icon"></i>
           <p class="link-name">{{item.title}}</p>
