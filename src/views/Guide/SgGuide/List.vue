@@ -181,9 +181,9 @@
         <div class="resignFormVisible_way">
           客户转移方式：
           <el-radio-group v-model="transferRadio">
-            <el-radio @change="shiftChange" label="1">同门店均分<i class="el-icon-question"></i></el-radio>
-            <el-radio @change="shiftChange" label="2">转移给指定导购<i class="el-icon-question"></i></el-radio>
-            <el-radio @change="shiftChange" label="3">自定义转移<i class="el-icon-question"></i></el-radio>
+            <el-radio @change="shiftChange" label="1">同门店均分</el-radio>
+            <el-radio @change="shiftChange" label="2">转移给指定导购</el-radio>
+            <el-radio @change="shiftChange" label="3">自定义转移</el-radio>
           </el-radio-group>
         </div>
 

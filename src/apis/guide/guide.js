@@ -144,6 +144,11 @@ export default {
     url: '/guide/wechatsetting/refreshAuthedAppletInfo',
     method: 'get'
   },
+  // 查询登录日志列表
+  loginLogFindList: {
+    url: '/core/findLoginList',
+    method: 'post'
+  },
   // 查询列表
   operationlogFindList: {
     url: '/guide/operationlog/findList',
@@ -154,7 +159,7 @@ export default {
     url: '/guide/operationlog/getDetail',
     method: 'get'
   },
-   // 门店管理同步门店
+  // 门店管理同步门店
   shopSyn: {
     url: '/core/sgshop/shopSyn',
     method: 'get'
