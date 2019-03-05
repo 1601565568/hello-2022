@@ -352,6 +352,9 @@ export default {
     store (vId, row) {
       let _this = this
       let rowArr = row.shop_ids.split(',')
+      console.log('list:', row.shop_ids)
+      console.log('list:', rowArr)
+      console.log('list:', _this.subordinateStores)
       _this.$http.fetch(_this.$api.guide.guide.getCustomerCount, {
         searchMap: {
           'guideId': row.id,
@@ -360,18 +363,28 @@ export default {
       }).then(resp => {
         if (resp.result.recordsFiltered > 0) {
           if (_this.guideValue === 1 && _this.title === '编辑员工信息') {
-            if (vId.length === 0) {
-              _this.nextStep = '下一步'
-            } else if (vId.length < rowArr.length) {
+            if (vId.length === 0 || vId.length < rowArr.length) {
               _this.nextStep = '下一步'
             } else {
-              vId.map(item => {
+              _this.subordinateStores.map(item => {
+                console.log('item:下一步:', row.shop_ids.indexOf(item) === -1)
                 if (row.shop_ids.indexOf(item) === -1) {
+                  console.log('item:下一步')
                   _this.nextStep = '下一步'
-                } else {
-                  _this.nextStep = '确定'
                 }
+                // else {
+                //   _this.nextStep = '确定'
+                //   console.log('item:确定')
+                // }
               })
+
+              // vId.map(item => {
+              //   if (row.shop_ids.indexOf(item) === -1) {
+              //     _this.nextStep = '下一步'
+              //   } else {
+              //     _this.nextStep = '确定'
+              //   }
+              // })
             }
           } else if (_this.guideValue === 0 && _this.title === '编辑员工信息') {
             if (vId !== row.shop_ids) {
@@ -910,6 +923,8 @@ export default {
     // 查询客户列表
     findCustomerList (page, pageSize) {
       let _this = this
+      console.log('page:', page, pageSize)
+      console.log('guideId;', _this.guideId)
       _this.$http.fetch(_this.$api.guide.guide.findCustomerList, {
         searchMap: {
           'guideId': _this.guideId,
@@ -973,8 +988,8 @@ export default {
       this.findGuideList()
     },
     // 自定义搜索
-    customSearch () {
-      this.findCustomerList()
+    customSearch (model) {
+      this.findCustomerList(model)
     },
     // 自定义重置
     customReset () {

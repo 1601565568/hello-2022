@@ -349,15 +349,15 @@
         </div>
       </div>
       <div slot="footer" class="dialog-footer">
-        <div slot="footer" v-if="transferRadio === '3'" class="dialog-footer">
+        <!-- <div slot="footer" v-if="transferRadio === '3'" class="dialog-footer">
           请选择接收客户的导购:
           <el-select placeholder="请选择导购" v-model="receiveGuideId" clearable filterable >
             <el-option v-for="guide in guideList" :label="guide.name" :value="guide.id"
                       :disabled="thisGuideDisabled(guide.id)" :key="guide.id"></el-option>
           </el-select>
-          <!-- <ns-button @click="onCancelCustomTransfer">取消</ns-button>
-          <ns-button type="primary" @click="onSaveCustomTransfer">确定</ns-button> -->
-        </div>
+          <ns-button @click="onCancelCustomTransfer">取消</ns-button>
+          <ns-button type="primary" @click="onSaveCustomTransfer">确定</ns-button>
+        </div> -->
         <div>
           <ns-button type="primary" @click="onConfirmResign">确定转移</ns-button>
           <ns-button @click="resignFormVisible = false">取消</ns-button>
@@ -493,8 +493,8 @@
 
     <!-- 选择会员归属弹窗结束  -->
     <el-dialog title="选择会员归属" :visible.sync="memberBelongingShowTow"  :before-close="onCancelCustomTransfer">
-      <div style="overflow-x:hidden;overflow-y:auto;margin-top: 10px;">您好，请设置被修改掉的所属门店会员的专属导购：</div>
-      <div>会员归属方式：
+      <div style="overflow-x:hidden;overflow-y:auto;margin: 10px 0;">您好，请设置被修改掉的所属门店会员的专属导购：</div>
+      <div class="user_style">会员归属方式：
         <el-radio-group v-model="memberferRadio">
           <el-radio  @change='storeOwnership' label="1">员工<i class="el-icon-question"></i></el-radio>
           <el-radio  @change='storeOwnership' label="2">门店<i class="el-icon-question"></i></el-radio>
@@ -725,6 +725,18 @@
     justify-content: flex-end;
     align-items: center;
     margin:10px 10px 20px 0;
+  }
+  .el-scrollbar__wrap{overflow-x:hidden!important;}
+  .el-scrollbar__bar.is-vertical {
+    width: 0!important; 
+    top: 2px;
+  }
+  .el-scrollbar__bar.is-horizontal {
+    height: 0 !important;
+    left: 2px;
+  }
+  .user_style{
+    margin-bottom:20px
   }
 </style>
 

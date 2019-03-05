@@ -47,8 +47,7 @@
                   end-placeholder="请输入结束日期"
                   align="right">
                 </el-date-picker>
-              </el-form-item>
-
+          </el-form-item>
         </el-form>
         <div class="template-table__more-btn">
           <ns-button type="primary" @click="submitForm('searchform')">搜索</ns-button>
