@@ -84,9 +84,9 @@
       <el-table-column label="排序"  width="550"  align="left">
         <template slot-scope="scope">
           <i class='iconfont icon-zhiding'  :class="scope.$index?'topShow':'topHid'" @click='exchangeSort(1,scope.row.subdivision_id)'></i>
-          <i class='iconfont icon-xiangshang'  :class="scope.$index?'topShow':'topHid'" @click='exchangeSort(2,scope.row.subdivision_id)'></i>
-          <i class='iconfont icon-xiangxia'  :class="scope.$index!==dataList.length-1?'topShow':'topHid'" @click='exchangeSort(3,scope.row.subdivision_id)'></i>
-          <i class='iconfont icon-dibu'  :class="scope.$index!==dataList.length-1?'topShow':'topHid'" @click='exchangeSort(4,scope.row.subdivision_id)'></i>
+          <i class='iconfont icon-topArr1'  :class="scope.$index?'topShow':'topHid'" @click='exchangeSort(2,scope.row.subdivision_id)'></i>
+          <i class='iconfont icon-downArr1'  :class="scope.$index!==dataList.length-1?'topShow':'topHid'" @click='exchangeSort(3,scope.row.subdivision_id)'></i>
+          <i class='iconfont icon-zhidi'  :class="scope.$index!==dataList.length-1?'topShow':'topHid'" @click='exchangeSort(4,scope.row.subdivision_id)'></i>
         </template>
       </el-table-column>
 
