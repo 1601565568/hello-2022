@@ -49,6 +49,18 @@
         "title": "数据查询",
         "componentPath": "ISV/DataQuery/index"
       }
+    ]},{
+    "path": "/operate/sysConfig",
+    "name": "OPERATE_DATA",
+    "title": "系统配置",
+    "componentPath": "ContentOperate",
+    "children": [
+      {
+        "path": "/operate/sysConfig/findList",
+        "name": "SYS_CONFIG",
+        "title": "系统配置",
+        "componentPath": "ISV/SgSysConfig/index"
+      }
     ]}
   ]
 }
