@@ -123,5 +123,20 @@ export default {
   sqlQuery: {
     url: '/operate/action/sqlQuery',
     method: 'post'
+  },
+  // 查询配置项列表
+  findSysConfigList: {
+    url: '/operate/sysConfig/findList',
+    method: 'post'
+  },
+  // 新增修改配置项
+  saveOrUpdateSysConfig: {
+    url: '/operate/sysConfig/saveOrUpdate',
+    method: 'post'
+  },
+  // 删除配置项
+  delSysConfig: {
+    url: '/operate/sysConfig/delSysConfig',
+    method: 'get'
   }
 }

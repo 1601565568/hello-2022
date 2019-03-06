@@ -215,7 +215,6 @@
       justify-content: center;
       min-width: 60px;
       height: 100%;
-      padding: 0 25px;
       margin-right:1px;
       cursor: pointer;
       text-align: center;
@@ -233,6 +232,7 @@
         background: var(--head-item-hover-bg);
       }
       @m link{
+        flex:1;
         display: flex;
         flex-direction: column;
         justify-content: center;

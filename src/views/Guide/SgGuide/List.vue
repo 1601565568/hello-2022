@@ -15,7 +15,7 @@
               </el-radio-group>
             </el-form-grid>
           </el-form-item>
-          
+
           <!-- <el-form-item label="所属门店：" required>
             <el-form-grid size="xxmd">
               <el-form-item prop="shops" v-if="guideValue === 1" >
@@ -173,7 +173,7 @@
     </el-dialog> -->
     <!--  导购离职弹窗结束  -->
     <!--  导购离职弹窗开始  -->
-    <el-dialog title="客户转移" :visible.sync="resignFormVisible" width="75%"> 
+    <el-dialog title="客户转移" :visible.sync="resignFormVisible" width="75%">
       <div style="height: 300px;overflow-x:hidden;overflow-y:auto;margin-top: 10px;">
         <div class="resignFormVisible_title">
           您正在对 {{transferName}}<span> （{{transferShopName}}）</span>的客户 <span>（共{{transferCount}}人）</span>进行转移
@@ -183,22 +183,19 @@
           <el-radio-group v-model="transferRadio">
             <el-radio @change="shiftChange" label="1">
               同门店均分
-              <el-tooltip placement="bottom">
-                <div slot="content">平均分配给会员所属门店的员工</div>
-                <el-button><i class="el-icon-question"></i></el-button>
+              <el-tooltip class="item" effect="light" content="平均分配给会员所属门店员工" placement="bottom">
+               <el-button><i class="el-icon-question"></i></el-button>
               </el-tooltip>
             </el-radio>
             <el-radio @change="shiftChange" label="2">
               转移给指定导购
-              <el-tooltip placement="bottom">
-                <div slot="content">会员全部转移给选择的员工</div>
+              <el-tooltip class="item" effect="light" content="会员全部转给选择的员工" placement="bottom">
                 <el-button><i class="el-icon-question"></i></el-button>
               </el-tooltip>
             </el-radio>
             <el-radio @change="shiftChange" label="3">
               自定义转移
-              <el-tooltip placement="bottom">
-                <div slot="content">自定义选择的会员转移给选择的员工</div>
+              <el-tooltip class="item" effect="light" content="自定义选择会员转移给选择的员工" placement="bottom">
                 <el-button><i class="el-icon-question"></i></el-button>
               </el-tooltip>
             </el-radio>
@@ -261,7 +258,7 @@
               </el-table-column>
           </el-table>
           <!-- 分页 -->
-          <el-pagination v-if="_data.paginationss.enable"  class="template-table-pagination" 
+          <el-pagination v-if="_data.paginationss.enable"  class="template-table-pagination"
                         :page-sizes="_data.paginationss.sizeOpts"
                         :total="_data.paginationss.total"
                         :current-page="_data.paginationss.page"
@@ -337,7 +334,7 @@
                   {{scope.row.work_id || '-'}}
                 </template>
               </el-table-column>
-              
+
               <el-table-column prop="mobile" label="手机号" align="left" width="160">
                 <template slot-scope="scope">
                   {{scope.row.mobile || '-'}}
@@ -352,7 +349,7 @@
               </el-table-column>
             </el-table>
             <!-- 分页 -->
-            <el-pagination v-if="_data.customPagination.enable"  class="template-table-pagination" 
+            <el-pagination v-if="_data.customPagination.enable"  class="template-table-pagination"
                           :page-sizes="_data.customPagination.sizeOpts"
                           :total="_data.customPagination.total"
                           :current-page="_data.customPagination.page"
@@ -441,7 +438,7 @@
               </el-table-column>
           </el-table>
           <!-- 分页 -->
-          <el-pagination v-if="_data.paginationss.enable"  class="template-table-pagination" 
+          <el-pagination v-if="_data.paginationss.enable"  class="template-table-pagination"
                         :page-sizes="_data.paginationss.sizeOpts"
                         :total="_data.paginationss.total"
                         :current-page="_data.paginationss.page"

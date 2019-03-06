@@ -28,6 +28,7 @@
     "moment": "^2.23.0",
     "normalize.css": "^7.0.0",
     "nui-v2": "^2.6.26",
+    "numeral": "^2.0.6",
     "store": "^2.0.12",
     "vue": "^2.5.21",
     "vue-echarts": "^3.1.3",

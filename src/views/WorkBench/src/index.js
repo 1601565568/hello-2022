@@ -1,6 +1,5 @@
 import echarts from 'echarts'
 import businessEcharts from 'components/NsEcharts'
-
 export default {
   name: 'Home',
   components: {
