@@ -113,18 +113,16 @@
           <el-input type="text" placeholder="请输入配置项值" v-model="model.value"></el-input>
         </el-form-item>
         <el-form-item label="配置项类型：" prop="type" required>
-          <el-form-grid>
-            <el-select  v-model="model.type" filterable clearable placeholder="请选择配置项类型">
-              <el-option v-for="(types,index) in typeList" :label="types.label" :value="types.value" :key="types.value"></el-option>
-            </el-select>
-          </el-form-grid>
+          <el-select  v-model="model.type" filterable clearable placeholder="请选择配置项类型">
+            <el-option v-for="(types,index) in typeList" :label="types.label" :value="types.value" :key="types.value"></el-option>
+          </el-select>
         </el-form-item>
         <el-form-item label="备注：" prop="remark">
           <el-input type="text" placeholder="请输入备注" v-model="model.remark"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <ns-button @click="dialogFormVisible = false">取消</ns-button>
+        <ns-button @click="closeDialog()">取消</ns-button>
         <ns-button type="primary" @click="onSave">确定</ns-button>
       </div>
     </el-dialog>
