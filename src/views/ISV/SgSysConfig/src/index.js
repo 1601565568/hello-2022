@@ -41,7 +41,24 @@ export default {
       dialogVisible: false,
       loadingTable: false,
       tableList: [],
-      typeList: [],
+      typeList: [
+        {
+          label: '其他',
+          value: 0
+        }, {
+          label: 'ID',
+          value: 1
+        }, {
+          label: '秘钥',
+          value: 2
+        }, {
+          label: '秘钥',
+          value: 3
+        }, {
+          label: '路由',
+          value: 4
+        }
+      ],
       _table: {
         table_buttons: tableButtons
       },
@@ -53,7 +70,6 @@ export default {
     }
   },
   mounted: function () {
-    this.setTypeList()
     if (typeof this.$init === 'function') {
       this.$init(this, this.$generateParams$)
     } else {
@@ -61,37 +77,14 @@ export default {
     }
   },
   methods: {
-    setTypeList () {
-      var type0 = {}
-      type0.label = '其它'
-      type0.value = '0'
-      this.typeList.push(type0)
-      var type1 = {}
-      type1.label = 'ID'
-      type1.value = '1'
-      this.typeList.push(type1)
-      var type2 = {}
-      type2.label = '秘钥'
-      type2.value = '2'
-      this.typeList.push(type2)
-      var type3 = {}
-      type3.label = '域名'
-      type3.value = '3'
-      this.typeList.push(type3)
-      var type4 = {}
-      type4.label = '路由'
-      type4.value = '4'
-      this.typeList.push(type4)
-      console.log(this.typeList)
-    },
     onSaveOpen (row) { // 新增或编辑
-      console.log(row)
       this.dialogFormVisible = true
       this.titleText = (row.id && '编辑') || '新增'
       this.model = row
     },
     onSave () { // 小程序保存功能shopManager_radio
       let that = this
+      console.log(this.model.type)
       that.model.type = 0
       that.$refs.form.validate((valid) => {
         if (valid) {
