@@ -11,7 +11,7 @@
       <template slot="searchSearch">
         <el-form :model="model" :inline="true" @submit.native.prevent  class="pull-right">
           <el-form-item v-show="_data._queryConfig.expand === false">
-            <el-input ref="quickText" style="width: 250px" v-model="model.name" placeholder="请输入请输入小程序名称" @keyup.enter.native="$quickSearchAction$('name')" clearable>
+            <el-input ref="quickText" style="width: 250px" v-model="model.code" placeholder="请输入配置项编码" @keyup.enter.native="$quickSearchAction$('code')" clearable>
             </el-input>
             <ns-button type="primary" @click="$searchAction$()">搜索</ns-button>
             <ns-button @click="$resetInputAction$()">重置</ns-button>
@@ -32,22 +32,25 @@
 
         <el-form-item label="配置项编码：">
           <el-form-grid size="xmd">
-            <el-input ref="quickText" style="width: 150px" v-model="model.groupId" placeholder="请输入配置项编码" @keyup.enter.native="$quickSearchAction$('groupId')" clearable>
+            <el-input ref="quickText" style="width: 150px" v-model="model.code" placeholder="请输入配置项编码" @keyup.enter.native="$quickSearchAction$('code')" clearable>
             </el-input>
           </el-form-grid>
         </el-form-item>
 
         <el-form-item label="配置项值：">
           <el-form-grid>
-            <el-input ref="quickText" style="width: 150px" v-model="model.name" placeholder="请输入配置项值" @keyup.enter.native="$quickSearchAction$('name')" clearable>
+            <el-input ref="quickText" style="width: 150px" v-model="model.value" placeholder="请输入配置项值" @keyup.enter.native="$quickSearchAction$('value')" clearable>
             </el-input>
           </el-form-grid>
         </el-form-item>
 
         <el-form-item label="配置项类型：">
           <el-form-grid>
-            <el-input ref="quickText" style="width: 150px" v-model="model.appid" placeholder="请输入appid" @keyup.enter.native="$quickSearchAction$('appid')" clearable>
-            </el-input>
+            <!--<el-input ref="quickText" style="width: 150px" v-model="model.appid" placeholder="请输入appid" @keyup.enter.native="$quickSearchAction$('type')" clearable>-->
+            <!--</el-input>-->
+            <el-select ref="quickText" v-model="model.type" placeholder="请选择配置项类型" @keyup.enter.native="$quickSearchAction$('type')" clearable>
+              <el-option v-for="types in typeList" :label="types.label" :value="types.value" :key="types.value"></el-option>
+            </el-select>
           </el-form-grid>
         </el-form-item>
       </el-form>
@@ -110,13 +113,16 @@
           <el-input type="text" placeholder="请输入配置项值" v-model="model.value"></el-input>
         </el-form-item>
         <el-form-item label="配置项类型：" prop="type" required>
-          <el-select  v-model="model.type" filterable clearable placeholder="请选择配置项类型">
-            <el-option label="其它" value="-1">  </el-option>
-            <el-option label="ID" value="1"> </el-option>
-            <el-option label="秘钥" value="2"> </el-option>
-            <el-option label="域名" value="3"> </el-option>
-            <el-option label="路由" value="4"> </el-option>
-          </el-select>
+          <el-form-grid>
+            <el-select  v-model="model.type" filterable clearable placeholder="请选择配置项类型">
+              <el-option v-for="types in typeList" :label="types.label" :value="typeList.value" :key="typeList.value"></el-option>
+              <!--<el-option label="其它" value="-1">  </el-option>-->
+              <!--<el-option label="ID" value="1"> </el-option>-->
+              <!--<el-option label="秘钥" value="2"> </el-option>-->
+              <!--<el-option label="域名" value="3"> </el-option>-->
+              <!--<el-option label="路由" value="4"> </el-option>-->
+            </el-select>
+          </el-form-grid>
         </el-form-item>
         <el-form-item label="备注：" prop="remark">
           <el-input type="text" placeholder="请输入备注" v-model="model.remark"></el-input>
