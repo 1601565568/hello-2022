@@ -18,7 +18,7 @@
             </el-select>
           </el-form-grid>
           <el-form-grid v-if="model.accountType === 1">
-            <el-select placeholder="请选择员工" v-model="model.operatorId" clearable filterable>
+            <el-select placeholder="请选择员工" v-model="model.operateId" clearable filterable>
               <el-option v-for="shop in staffFindLists" :label="shop.name" :value="shop.id" :key="shop.id"></el-option>
             </el-select>
           </el-form-grid>
@@ -65,42 +65,47 @@
       <!-- 操作（只有一项文字的80px,两项文字120px,三项文字160px） -->
 
       <el-table ref="table" :data="_data._table.data" stripe>
-        <el-table-column prop="operateName" label="操作人" align="left" width="160">
+
+        <el-table-column prop="operateName" label="操作人" align="left">
           <template slot-scope="scope">
             {{scope.row.operateName || '-'}}
           </template>
         </el-table-column>
-        <el-table-column prop="operateId" label="操作人ID" align="left" width="160">
+
+        <el-table-column prop="operateId" label="操作人ID" align="left">
           <template slot-scope="scope">
             {{scope.row.operateId || '-'}}
           </template>
         </el-table-column>
-        <el-table-column prop="terminalType" label="终端" align="left" width="160">
+
+        <el-table-column prop="terminalType" label="终端" align="left">
           <template slot-scope="scope">
             <span v-if="scope.row.terminalType === 1">PC端后台</span>
-            <span v-else-if="scope.row.terminalType == 2">导购小程序</span>
-            <span v-else-if="scope.row.terminalType == 3">店长小程序</span>
+            <span v-else-if="scope.row.terminalType === 2">导购小程序</span>
+            <span v-else-if="scope.row.terminalType === 3">店长小程序</span>
             <span v-else>-</span>
           </template>
         </el-table-column>
+
         <el-table-column prop='ipAddress' label="IP地址" align="left">
           <template slot-scope="scope">
             {{scope.row.ipAddress || '-'}}
           </template>
         </el-table-column>
-        <el-table-column prop="loginTime" label="登录时间" align="center" width="200">
+
+        <el-table-column prop="loginTime" label="登录时间">
           <template slot-scope="scope">
             {{scope.row.loginTime || "-"}}
           </template>
         </el-table-column>
 
-        <el-table-column prop="osBrowser" label="浏览器类型" align="center" width="200">
+        <el-table-column prop="osBrowser" label="浏览器类型" align="left">
           <template slot-scope="scope">
             {{scope.row.osBrowser || '-'}}
           </template>
         </el-table-column>
 
-        <el-table-column prop="loginResult" label="登录结果" align="center" width="150">
+        <el-table-column prop="loginResult" label="登录结果" align="left">
           <template slot-scope="scope">
             <span v-if="scope.row.loginResult === 0">成功</span>
             <span v-else-if="scope.row.loginResult === 1">失败</span>
@@ -108,7 +113,7 @@
           </template>
         </el-table-column>
 
-        <el-table-column prop="loginFailureReason" label="失败原因" align="right" width="150">
+        <el-table-column prop="loginFailureReason" label="失败原因" align="right">
           <template slot-scope="scope">
             {{scope.row.loginFailureReason || '-'}}
           </template>
