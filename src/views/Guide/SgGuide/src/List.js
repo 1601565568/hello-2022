@@ -267,7 +267,7 @@ export default {
   },
   methods: {
     memberChange (row) { // 会员归属改变事件
-      console.log('row:', row)
+
     },
     shopSizeChange () { // 单选按钮
 
@@ -309,9 +309,9 @@ export default {
     jobs (value) {
       let _this = this
       if (value === 0) {
-        _this.subordinateStores.push(_this.model.sgGuideShop.shop_id)
-      } else if (value === 1) {
         _this.model.sgGuideShop.shop_id = null
+      } else if (value === 1) {
+        _this.subordinateStores.push(_this.model.sgGuideShop.shop_id)
       }
       _this.guideValue = value
       _this.changeValue.jobsValue = value
@@ -352,9 +352,6 @@ export default {
     store (vId, row) {
       let _this = this
       let rowArr = row.shop_ids.split(',')
-      console.log('list:', row.shop_ids)
-      console.log('list:', rowArr)
-      console.log('list:', _this.subordinateStores)
       _this.$http.fetch(_this.$api.guide.guide.getCustomerCount, {
         searchMap: {
           'guideId': row.id,
@@ -366,25 +363,16 @@ export default {
             if (vId.length === 0 || vId.length < rowArr.length) {
               _this.nextStep = '下一步'
             } else {
-              _this.subordinateStores.map(item => {
-                console.log('item:下一步:', row.shop_ids.indexOf(item) === -1)
+              _this.subordinateStores.some(item => {
                 if (row.shop_ids.indexOf(item) === -1) {
-                  console.log('item:下一步')
                   _this.nextStep = '下一步'
                 }
-                // else {
-                //   _this.nextStep = '确定'
-                //   console.log('item:确定')
-                // }
               })
-
-              // vId.map(item => {
-              //   if (row.shop_ids.indexOf(item) === -1) {
-              //     _this.nextStep = '下一步'
-              //   } else {
-              //     _this.nextStep = '确定'
-              //   }
-              // })
+              _this.subordinateStores.every(item => {
+                if (row.shop_ids.indexOf(item) === -1) {
+                  _this.nextStep = '确定'
+                }
+              })
             }
           } else if (_this.guideValue === 0 && _this.title === '编辑员工信息') {
             if (vId !== row.shop_ids) {
@@ -912,7 +900,7 @@ export default {
         this.model.shop = null
         this.model.mobile = null
         this.model.workId = null
-        this.findGuideList()
+        this.findShopGuide()
       } else if (val === '3') {
         this.model.name = null
         this.model.shop = null
@@ -920,11 +908,33 @@ export default {
         this.findGuideList()
       }
     },
+    // 导购列表查询
+    findShopGuide () {
+      let that = this
+      let obj = {
+        searchMap: {
+          'guideState': 1,
+          'guideId': that.guideId,
+          'status': that.transferShopPage !== null ? (this.transferShopPage - 1 * 15) : 1,
+          'keyword': that.model.name,
+          'shopId': that.model.shop
+        },
+        length: that.transferShopSize !== null ? that.transferShopSize : 10000,
+        start: 0
+      }
+      that.$http.fetch(that.$api.guide.guide.findShopGuide, obj).then(resp => {
+        if (resp.success && resp.result.data != null) {
+          that.guideList = resp.result.data
+          that.paginationss.total = parseInt(resp.result.recordsTotal)
+        }
+      })
+        .catch(resp => {
+          // this.$notify.error(resp.msg || '查询失败')
+        })
+    },
     // 查询客户列表
     findCustomerList (page, pageSize) {
       let _this = this
-      console.log('page:', page, pageSize)
-      console.log('guideId;', _this.guideId)
       _this.$http.fetch(_this.$api.guide.guide.findCustomerList, {
         searchMap: {
           'guideId': _this.guideId,
@@ -960,12 +970,12 @@ export default {
     // 转移给指定导购改变页数大小
     transferShopSizeChange (page) {
       this.transferShopSize = page
-      this.findGuideList()
+      this.findShopGuide()
     },
     // 转移给指定导购页数跳转
     transferShopPageChange (page) {
       this.transferShopPage = page
-      this.findGuideList()
+      this.findShopGuide()
     },
     // 自定义搜索改变页数大小
     customShopSizeChange (page) {
@@ -979,13 +989,13 @@ export default {
     },
     // 转移给指定导购搜索
     transferSearch () {
-      this.findGuideList()
+      this.findShopGuide()
     },
     // 转移给指定导购重置
     transferToReset () {
       this.model.name = null
       this.model.shop = null
-      this.findGuideList()
+      this.findShopGuide()
     },
     // 自定义搜索
     customSearch (model) {
@@ -1070,16 +1080,6 @@ export default {
         _this.findCustomerList()
         _this.onSaveCustomTransfer()
       }
-      // if (status === '1') {
-      //   _this.averageTransfer()
-      // } else if (status === '2') {
-      //   _this.findGuideList()
-      //   _this.specifyTransferFormVisible = true
-      // } else if (status === '3') {
-      //   _this.findCustomerList()
-      //   _this.findGuideList()
-      //   _this.customFormVisible = true
-      // }
     },
     // 平均转移
     averageTransfer () {
@@ -1110,10 +1110,6 @@ export default {
         _this.$notify.error('请选择指定导购')
         return
       }
-      // if (_this.receiveGuideId === null || _this.receiveGuideId === 0) {
-      //   _this.$notify.error('请选择指定导购')
-      //   return
-      // }
       var params = {
         transGuideId: _this.guideId,
         receiveGuideId: _this.value.id,
@@ -1172,7 +1168,6 @@ export default {
     },
     // 导购离职
     guideLeave (data, isClose) {
-      console.log('data:', data, isClose)
       var _this = this
       _this.customFormVisible = false
       _this.$http.fetch(_this.$api.guide.guide.updateGuideCustomer, data)
@@ -1186,13 +1181,11 @@ export default {
         }
         _this.receiveGuideId = null
         _this.customerIds = null
-        // _this.guideId = null
         _this.specifyTransferFormVisible = false
         _this.customFormVisible = false
         _this.resignFormVisible = false
         if (!isClose) {
           _this.findGuideList()
-          // _this.$refs.table.$reload()
         }
         _this.$notify.success(resp.msg)
         _this.findCustomerList()

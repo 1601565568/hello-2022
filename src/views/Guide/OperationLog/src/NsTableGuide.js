@@ -145,12 +145,9 @@ export default {
   methods: {
     staffFindList () {
       let _this = this
-      let obj = {}
-      obj.length = 15
-      obj.start = 0
-      _this.$http.fetch(_this.$api.guide.guide.findList, obj).then(resp => {
+      _this.$http.fetch(_this.$api.guide.guide.getGuideList).then(resp => {
         if (resp.success && resp.result != null) {
-          _this.staffFindLists = resp.result.data
+          _this.staffFindLists = resp.result
         }
       }).catch((resp) => {
         _this.$notify.error('查询失败：' + resp.msg)

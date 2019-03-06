@@ -163,5 +163,10 @@ export default {
   shopSyn: {
     url: '/core/sgshop/shopSyn',
     method: 'get'
+  },
+  // 新增员工展示全部接口
+  getGuideList: {
+    url: '/guide/guide/getGuideList',
+    method: 'get'
   }
 }
