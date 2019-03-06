@@ -138,5 +138,10 @@ export default {
   delSysConfig: {
     url: '/operate/sysConfig/delSysConfig',
     method: 'get'
+  },
+  // 查询小程序模板消息id列表
+  findAppletTemplateList: {
+    url: '/guide/appletTemplate/findList',
+    method: 'post'
   }
 }
