@@ -67,9 +67,9 @@
                   stripe
                   resizable v-loading.lock="_data._table.loadingtable"
                   :element-loading-text="$t('prompt.loading')" @sort-change="$orderChange$">
-          <el-table-column prop="code" label="配置项编码"></el-table-column>
-          <el-table-column prop="code" label="配置项值"></el-table-column>
-          <el-table-column label="配置项类型" align="center" width="300">
+          <el-table-column prop="code" label="配置项编码" width="250"></el-table-column>
+          <el-table-column prop="value" label="配置项值" width="400"></el-table-column>
+          <el-table-column label="配置项类型" align="center">
             <template slot-scope="{row}">
               <span v-if="row.type === 0">其它</span>
               <span v-if="row.type === 1">ID</span>
@@ -78,8 +78,8 @@
               <span v-if="row.type === 4">路由</span>
             </template>
           </el-table-column>
-          <el-table-column prop="remark" label="备注"></el-table-column>
-          <el-table-column :show-overflow-tooltip="true" label="操作" align="right" width="500">
+          <el-table-column prop="remark" label="备注" width="300"></el-table-column>
+          <el-table-column :show-overflow-tooltip="true" label="操作" align="right">
             <template slot-scope="scope">
               <span class="tmp-cell__buttons">
                 <ns-button type="text" @click="onSaveOpen(scope.row)">编辑</ns-button>

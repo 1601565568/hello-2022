@@ -43,7 +43,7 @@ export default {
       tableList: [],
       typeList: [
         {
-          label: '其他',
+          label: '其它',
           value: 0
         }, {
           label: 'ID',
@@ -52,7 +52,7 @@ export default {
           label: '秘钥',
           value: 2
         }, {
-          label: '秘钥',
+          label: '域名',
           value: 3
         }, {
           label: '路由',
