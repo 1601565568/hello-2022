@@ -6,7 +6,7 @@
     <template slot="advancedSearch">
       <el-form ref="table_filter_form" :model="model" label-width="80px" :inline="true">
         <el-form-item label="操作人：">
-          <el-form-grid size="xmd">
+          <el-form-grid>
             <el-select placeholder="员工" v-model="model.accountType" clearable filterable>
               <el-option v-for="shop in operator" :label="shop.label" :value="shop.value" :key="shop.value"></el-option>
             </el-select>
