@@ -77,6 +77,17 @@ export default {
     }
   },
   methods: {
+    closeDialog () {
+      this.dialogFormVisible = false
+      this.model = {
+        id: null,
+        code: null,
+        value: null,
+        remark: null,
+        type: null,
+        param: {}
+      }
+    },
     onSaveOpen (row) { // 新增或编辑
       this.dialogFormVisible = true
       this.titleText = (row.id && '编辑') || '新增'
@@ -84,13 +95,10 @@ export default {
     },
     onSave () { // 小程序保存功能shopManager_radio
       let that = this
-      console.log(this.model.type)
-      that.model.type = 0
       that.$refs.form.validate((valid) => {
         if (valid) {
-          console.log(that.model)
           that.$http.fetch(that.$api.isv.saveOrUpdateSysConfig, that.model).then(() => {
-            that.dialogFormVisible = false
+            that.closeDialog()
             that.newestDialog = false
             that.$notify.success('保存成功')
             that.$reload()
