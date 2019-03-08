@@ -14,15 +14,11 @@
           <el-form-item v-show="_data._queryConfig.expand === false">
             <el-input ref="quickText" style="width: 250px" v-model="model.appid" placeholder="请输入小程序appid" @keyup.enter.native="$quickSearchAction$('code')" clearable>
             </el-input>
+            <el-select ref="quickText" v-model="model.type" placeholder="请选择模板消息类型" @keyup.enter.native="$quickSearchAction$('type')" clearable>
+              <el-option v-for="types in typeList" :label="types.label" :value="types.value" :key="types.value"></el-option>
+            </el-select>
             <ns-button type="primary" @click="$searchAction$()">搜索</ns-button>
             <ns-button @click="$resetInputAction$()">重置</ns-button>
-          </el-form-item>
-          <el-form-item>
-            <ns-button type="text" @click="$handleTabClick">
-              {{collapseText}}
-              <i :class="{'el-icon--right': true, 'el-icon-arrow-down': !_data._queryConfig.expand, 'el-icon-arrow-up': _data._queryConfig.expand} ">
-              </i>
-            </ns-button>
           </el-form-item>
         </el-form>
       </template>
@@ -93,17 +89,17 @@
                :visible.sync="dialogFormVisible"
                :modal-append-to-body="false"
                @before-close="closeDialog()">
-      <el-form :model="model" ref="form" label-width="150px" :rules="rules" placement="right">
+      <el-form :model="subObj" ref="form" label-width="150px" :rules="rules" placement="right">
         <el-form-item label="小程序appid：" prop="appid" required>
-          <el-input type="text" placeholder="请输入小程序appid" v-model="model.code" ></el-input>
+          <el-input type="text" placeholder="请输入小程序appid" v-model="subObj.appid" ></el-input>
         </el-form-item>
         <el-form-item label="模板消息类型：" prop="type" required>
-          <el-select  v-model="model.type" filterable clearable placeholder="请选择模板类型">
+          <el-select  v-model="subObj.type" filterable clearable placeholder="请选择模板类型">
             <el-option v-for="(types,index) in typeList" :label="types.label" :value="types.value" :key="types.value"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="模板id：" prop="template_id">
-          <el-input type="text" placeholder="请输入模板id" v-model="model.template_id"></el-input>
+        <el-form-item label="模板id：" prop="templateId" >
+          <el-input type="text" placeholder="请输入模板id" v-model="subObj.template_id"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">

@@ -141,7 +141,17 @@ export default {
   },
   // 查询小程序模板消息id列表
   findAppletTemplateList: {
-    url: '/guide/appletTemplate/findList',
+    url: '/guide/applettemplate/findList',
     method: 'post'
+  },
+  // 新增或保存小程序模板消息
+  saveOrUpdateAppletTemplate: {
+    url: '/guide/applettemplate/saveOrUpdate',
+    method: 'post'
+  },
+  // 删除小程序模板信息
+  deleteAppletTemplate: {
+    url: '/guide/applettemplate/deleteTemplate',
+    method: 'get'
   }
 }
