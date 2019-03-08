@@ -533,18 +533,18 @@ export default {
         }
       },
       taskProgressOption: {
-        tooltip: {
-          trigger: 'axis',
-          axisPointer: {            // 坐标轴指示器，坐标轴触发有效
-            type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
-          },
-          borderColor: '#E4E7ED',
-          borderWidth: 1.4,
-          backgroundColor: '#fff',
-          textStyle: {
-            color: '#606266'
-          }
-        },
+        // tooltip: {
+        //   trigger: 'axis',
+        //   axisPointer: {            // 坐标轴指示器，坐标轴触发有效
+        //     type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+        //   },
+        //   borderColor: '#E4E7ED',
+        //   borderWidth: 1.4,
+        //   backgroundColor: '#fff',
+        //   textStyle: {
+        //     color: '#606266'
+        //   }
+        // },
         grid: {
           top: '10',
           left: '10',
@@ -600,19 +600,19 @@ export default {
                 }
             }
           },
-          barWidth: 25,
+          barWidth: 14,
           itemStyle: {
             normal: {
-              borderColor: '#4DCEF8',
-              borderWidth: 2,
+              // borderColor: '#4DCEF8',
+              // borderWidth: 2,
               barBorderRadius: 15,
-              color: 'rgba(102, 102, 102,0)'
+              color: '#ddd'
             }
           },
           data: []
         // data: da
         }, {
-          barWidth: 24,
+          barWidth: 14,
           barGap: '-100%',
           label: {
             normal: {
@@ -627,14 +627,6 @@ export default {
               }
             }
           },
-          // label: {
-          //   normal: {
-          //     show: true,
-          //     position: 'right',
-          //     color: '#fff',
-          //     fontSize: 14
-          //   }
-          // },
           itemStyle: {
             barBorderRadius: 15,
             color: new echarts.graphic.LinearGradient(
@@ -700,7 +692,7 @@ export default {
           data: []
         },
         series: {
-          barWidth: 24,
+          barWidth: 14,
           itemStyle: {
             barBorderRadius: [0, 30, 30, 0],
             color: new echarts.graphic.LinearGradient(
@@ -709,6 +701,19 @@ export default {
                 {offset: 0, color: '#FF5215'},
                 {offset: 1, color: '#FF6C00'}
               ])
+          },
+          label: {
+            normal: {
+              show: true,
+              position: 'right',
+              color: '#999999',
+              fontSize: 14,
+              // ${parseInt(taskProgressObj[data.dataIndex].completedCount * 100 / taskProgressObj[data.dataIndex].total)}%
+              formatter:
+                function (data) {
+
+                }
+            }
           },
           type: 'bar',
           data: []
@@ -731,7 +736,7 @@ export default {
           top: '10',
           left: '10',
           right: '56',
-          height: 400,
+          height: 380,
           containLabel: true
         },
         xAxis: {
@@ -766,7 +771,20 @@ export default {
           data: []
         },
         series: [{
-          barWidth: 24,
+          barWidth: 14,
+          label: {
+            normal: {
+              show: true,
+              position: 'right',
+              color: '#999999',
+              fontSize: 14,
+              // ${parseInt(taskProgressObj[data.dataIndex].completedCount * 100 / taskProgressObj[data.dataIndex].total)}%
+              formatter:
+                function (data) {
+
+                }
+            }
+          },
           itemStyle: {
             barBorderRadius: [0, 30, 30, 0],
             color: new echarts.graphic.LinearGradient(
