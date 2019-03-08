@@ -73,18 +73,6 @@
         "title": "模板消息",
         "componentPath": "ISV/SgAppletTemplate/index"
       }
-    ]},{
-    "path": "/operate/customerConfig",
-    "name": "OPERATE_DATA",
-    "title": "会员管理配置",
-    "componentPath": "ContentOperate",
-    "children": [
-      {
-        "path": "/guide/customer/findCustomerList",
-        "name": "APPLET_TEMPLATE",
-        "title": "会员管理配置",
-        "componentPath": "ISV/customerConfig/index"
-      }
     ]}
   ]
 }

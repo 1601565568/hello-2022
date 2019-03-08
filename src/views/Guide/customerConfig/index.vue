@@ -15,7 +15,7 @@
           <div class="form-grid__content" style="margin-left: -100px">
             <el-form-item size="xxs">
               <el-form-grid>
-                <el-radio v-model="model.recruit_type" :label="0" :disabled="status===0" size="xxs">企业微信名片 :</el-radio>
+                <el-radio v-model="model.recruit_type" :label="0" :disabled="status===0" size="xxs">企业微信名片 </el-radio>
               </el-form-grid>
             </el-form-item>
             <el-form-item>
@@ -27,7 +27,7 @@
 
             <el-form-item>
               <el-form-grid>
-                <el-radio v-model="model.recruit_type" :label="1" :disabled="status===0" size="xxs">微信公众号 :</el-radio>
+                <el-radio v-model="model.recruit_type" :label="1" :disabled="status===0" size="xxs">微信公众号 </el-radio>
 
               </el-form-grid>
             </el-form-item>
@@ -39,7 +39,7 @@
 
             <el-form-item >
               <el-form-grid>
-                <el-radio v-model="model.recruit_type" :label="2" :disabled="status===0" size="xxs">会员注册开卡 :</el-radio>
+                <el-radio v-model="model.recruit_type" :label="2" :disabled="status===0" size="xxs">会员注册开卡 </el-radio>
               </el-form-grid>
             </el-form-item>
             <el-form-item>
@@ -59,8 +59,8 @@
             <el-form-item size="xxs">
               <el-form-grid>
                 * 会员可自主更换专属导购 :
-                <el-radio v-model="model.change_type" @change="changeType()" :label="1" :disabled="status===0" size="xxs" style="margin-left: 15px">允许自主更换导购 :</el-radio>
-                <el-radio v-model="model.change_type" @change="changeType()" :label="0" :disabled="status===0" size="xxs">不允许自主更换导购 :</el-radio>
+                <el-radio v-model="model.change_type" @change="changeType()" :label="1" :disabled="status===0" size="xxs" style="margin-left: 15px">允许自主更换导购 </el-radio>
+                <el-radio v-model="model.change_type" @change="changeType()" :label="0" :disabled="status===0" size="xxs">不允许自主更换导购 </el-radio>
               </el-form-grid>
             </el-form-item>
 
