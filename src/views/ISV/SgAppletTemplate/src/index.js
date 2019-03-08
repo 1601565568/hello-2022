@@ -13,18 +13,23 @@ export default {
         'name': '新增'
       }
     ]
+    let subObj = {
+      id: null,
+      appid: null,
+      type: null,
+      teamaplte_id: null
+    }
     return {
       model: {
         id: null,
-        code: null,
-        value: null,
-        remark: null,
+        appid: null,
         type: null,
-        param: {}
+        teamaplte_id: null,
+        name: null
       },
+      subObj: subObj,
       obj: {
-        appId: null,
-        templateId: null
+        appId: null
       },
       parameter: {
         length: 10,
@@ -43,28 +48,21 @@ export default {
       tableList: [],
       typeList: [
         {
-          label: '其它',
+          label: '导购转移提醒',
           value: 0
         }, {
-          label: 'ID',
+          label: '任务分配通知',
           value: 1
         }, {
-          label: '秘钥',
+          label: '优惠券分配通知',
           value: 2
-        }, {
-          label: '域名',
-          value: 3
-        }, {
-          label: '路由',
-          value: 4
         }
       ],
       _table: {
         table_buttons: tableButtons
       },
       rules: {
-        'code': [{required: true, message: '请输入配置项编码'}],
-        'value': [{required: true, message: '请输入配置项值'}],
+        'appid': [{required: true, message: '请输入小程序appid'}],
         'type': [{required: true, message: '请选择类型'}]
       }
     }
@@ -81,49 +79,46 @@ export default {
       this.dialogFormVisible = false
       this.model = {
         id: null,
-        code: null,
-        value: null,
-        remark: null,
+        appid: null,
         type: null,
-        param: {}
+        template_id: null,
+        name: null
       }
     },
     onSaveOpen (row) { // 新增或编辑
       this.dialogFormVisible = true
       this.titleText = (row.id && '编辑') || '新增'
-      this.model = row
+      this.subObj.id = row.id
+      this.subObj.appid = row.appid
+      this.subObj.type = row.type
+      this.subObj.template_id = row.template_id
     },
     onSave () { // 小程序保存功能shopManager_radio
       let that = this
       that.$refs.form.validate((valid) => {
         if (valid) {
-          that.$http.fetch(that.$api.isv.saveOrUpdateSysConfig, that.model).then(() => {
-            that.closeDialog()
-            that.newestDialog = false
-            that.$notify.success('保存成功')
+          this.$http.fetch(this.$api.isv.saveOrUpdateAppletTemplate, this.subObj).then((resp) => {
+            this.dialogFormVisible = false
             that.$reload()
-          }).catch((resp) => {
-            that.$notify.error(resp.msg || '保存失败')
+            that.$notify.success('修改成功')
+          }).catch(() => {
+            that.$notify.error('网络异常，获取数据失败！')
           })
         }
       })
     },
-    onDelete (row) { // 小程序删除功能
-      apiRequestConfirm('永久删除该数据')
-      .then(() => {
+    onDelete (row) { // 小程序模板消息删除
+      apiRequestConfirm('永久删除该数据').then(() => {
         let that = this
-        that.$http.fetch(that.$api.isv.delSysConfig, {id: row.id}).then(() => {
-          that.dialogFormVisible = false
-          that.newestDialog = false
+        that.$http.fetch(this.$api.isv.deleteAppletTemplate, {id: row.id}).then(() => {
           that.$notify.success('删除成功')
           that.$reload()
         }).catch((resp) => {
           that.$notify.error(resp.msg || '删除失败')
         })
-      }).catch(() => {
-        // 点击取消事件
       })
     },
+
     /**
      * 处理请求参数
      * @param params
@@ -142,7 +137,7 @@ export default {
       let that = this
       let tableConfig = this._data._table
       tableConfig.loadingtable = true
-      return this.$http.fetch(this.$api.isv.findSysConfigList, params).then((resp) => {
+      return this.$http.fetch(this.$api.isv.findAppletTemplateList, params).then((resp) => {
         that._data._table.data = resp.result.data
         that._data._pagination.total = parseInt(resp.result.recordsTotal)
         if (that._data._pagination.total > 0) {

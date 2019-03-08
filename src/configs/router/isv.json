@@ -61,6 +61,18 @@
         "title": "系统配置",
         "componentPath": "ISV/SgSysConfig/index"
       }
+    ]},{
+    "path": "/operate/appletTemplate",
+    "name": "OPERATE_DATA",
+    "title": "模板消息",
+    "componentPath": "ContentOperate",
+    "children": [
+      {
+        "path": "/operate/appletTemplate/findList",
+        "name": "APPLET_TEMPLATE",
+        "title": "模板消息",
+        "componentPath": "ISV/SgAppletTemplate/index"
+      }
     ]}
   ]
 }

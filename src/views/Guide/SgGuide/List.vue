@@ -42,8 +42,8 @@
           </el-form-item>
 
           <el-form-item v-if="guideValue === 0"  label="所属门店：" required>
-            <el-form-grid size="xxmd">
-              <el-form-item prop="shop">
+            <el-form-grid size="xxmd" >
+              <el-form-item prop="shop" class="styleIsPerfec">
                 <el-select placeholder="所属门店" @change="store($event,row)" v-model="model.sgGuideShop.shop_id" filterable >
                   <el-option v-for="shop in shopFindList" :label="shop.shopName" :value="shop.id" :key="shop.id"></el-option>
                 </el-select>
@@ -201,7 +201,6 @@
             </el-radio>
           </el-radio-group>
         </div>
-
         <div v-if="transferRadio === '2'" class="resignFormVisible_otherShoppers">
           <div class="resignFormVisible_otherShoppers_02">
             请选择导购
@@ -237,9 +236,9 @@
                     </div>
                   </template>
               </el-table-column>
-              <el-table-column prop="work_id" label="工号" align="left">
+              <el-table-column prop="workId" label="工号" align="left">
                 <template slot-scope="scope">
-                  {{scope.row.work_id || '-'}}
+                  {{scope.row.workId || '-'}}
                 </template>
               </el-table-column>
               <el-table-column prop="name" label="姓名" align="left" >
@@ -364,15 +363,15 @@
         </div>
       </div>
       <div slot="footer" class="dialog-footer">
-        <div slot="footer" v-if="transferRadio === '3'" class="dialog-footer">
+        <!-- <div slot="footer" v-if="transferRadio === '3'" class="dialog-footer">
           请选择接收客户的导购:
           <el-select placeholder="请选择导购" v-model="receiveGuideId" clearable filterable >
             <el-option v-for="guide in guideList" :label="guide.name" :value="guide.id"
                       :disabled="thisGuideDisabled(guide.id)" :key="guide.id"></el-option>
           </el-select>
-          <!-- <ns-button @click="onCancelCustomTransfer">取消</ns-button>
-          <ns-button type="primary" @click="onSaveCustomTransfer">确定</ns-button> -->
-        </div>
+          <ns-button @click="onCancelCustomTransfer">取消</ns-button>
+          <ns-button type="primary" @click="onSaveCustomTransfer">确定</ns-button>
+        </div> -->
         <div>
           <ns-button type="primary" @click="onConfirmResign">确定转移</ns-button>
           <ns-button @click="resignFormVisible = false">取消</ns-button>
@@ -508,19 +507,19 @@
 
     <!-- 选择会员归属弹窗结束  -->
     <el-dialog title="选择会员归属" :visible.sync="memberBelongingShowTow"  :before-close="onCancelCustomTransfer">
-      <div style="overflow-x:hidden;overflow-y:auto;margin-top: 10px;">您好，请设置被修改掉的所属门店会员的专属导购：</div>
-      <div>会员归属方式：
+      <div style="overflow-x:hidden;overflow-y:auto;margin: 10px 0;">您好，请设置被修改掉的所属门店会员的专属导购：</div>
+      <div class="user_style">会员归属方式：
         <el-radio-group v-model="memberferRadio">
-          <el-radio  @change='storeOwnership' label="1">员工<i class="el-icon-question"></i></el-radio>
-          <el-radio  @change='storeOwnership' label="2">门店<i class="el-icon-question"></i></el-radio>
+          <el-radio  @change='storeOwnership' label="1">员工<el-tooltip placement="bottom"><div slot="content">会员归属导购，并且可选择会员的所属门店</div><el-button><i class="el-icon-question"></i></el-button></el-tooltip></el-radio>
+          <el-radio  @change='storeOwnership' label="2">门店<el-tooltip placement="bottom"><div slot="content">会员归属原门店，专属导购为空</div><el-button><i class="el-icon-question"></i></el-button></el-tooltip></el-radio>
         </el-radio-group>
       </div>
-      <div v-if="storeOwnershipDisplay">
+      <div v-if="storeOwnershipDisplay && memberferRadio === '2'">
         <el-form ref="table_filter_form" :model="model" label-width="60px" :inline="true">
-          <el-form-item label="所属门店：">
+          <el-form-item label="所属门店：" class="elFormItem">
             <el-form-grid>
               <el-select placeholder="请选择所属门店" v-model="model.shop" clearable filterable>
-                <el-option v-for="shop in shopFindList" :label="shop.shopName" :value="shop.id"
+                <el-option v-for="shop in subordinateStores" :label="shop.shopName" :value="shop.id"
                           :key="shop.id"></el-option>
               </el-select>
             </el-form-grid>
@@ -535,21 +534,17 @@
     <!-- 选择会员归属弹窗开始  -->
 
     <!--  自定义客户转移弹窗开始  -->
-    <el-dialog title="自定义转移" :visible.sync="customFormVisible"  :before-close="onCancelCustomTransfer">
+    <!-- <el-dialog title="自定义转移" :visible.sync="customFormVisible"  :before-close="onCancelCustomTransfer">
       <div style="overflow-x:hidden;overflow-y:auto;margin-top: 10px;">
         <el-table ref="chooseCustomer" :data="tableDataCustomer" @select="selectRow" @select-all="selectAll" stripe>
           <el-table-column type="selection"  width="40" align="center" disabled></el-table-column>
           <el-table-column prop="registerTime" label="加入时间" align="center" width="200"></el-table-column>
-          <!-- <el-table-column prop="name" label="姓名" align="center" width="100"></el-table-column> -->
           <el-table-column prop="mobile" label="联系方式" align="center" width="100"></el-table-column>
           <el-table-column prop="memberCard" label="会员卡" align="center"></el-table-column>
           <el-table-column prop="name" label="会员姓名" align="center" width="100"></el-table-column>
-          <!-- <el-table-column prop="payAmount" label="付款总金额/单数" align="center" width="100"></el-table-column> -->
-          <!-- <el-table-column label="余积分" align="center" width="100"></el-table-column> -->
-          <!-- <el-table-column label="公众号" align="center" width="100"></el-table-column> -->
         </el-table>
       </div>
-      <!-- 分页 -->
+      分页
       <el-pagination v-if="_data.paginations.enable" class="template-table-pagination"
                      :page-sizes="_data.paginations.sizeOpts"
                      :total="_data.paginations.total"
@@ -568,7 +563,7 @@
         <ns-button @click="onCancelCustomTransfer">取消</ns-button>
         <ns-button type="primary" @click="onSaveCustomTransfer">确定</ns-button>
       </div>
-    </el-dialog>
+    </el-dialog> -->
     <!--  更换门店弹窗开始 -->
     <el-dialog :title="shopTitle" width="560px" height="150px" :visible.sync="shopFindListShow" @keyup.enter.native="onKeyUp" @keyup.esc.native="onKeyUp">
       <div class="guideBox" style="overflow-x:hidden;overflow-y:auto;">
@@ -672,6 +667,9 @@
   }
 </style>
 <style>
+  .styleIsPerfec{
+    height:28px!important;
+  }
   .resignFormVisible_title{
     height:40px;
     display:flex;
@@ -689,6 +687,9 @@
     padding-left:10px;
     border-bottom:1px solid #aaaaaa;
   }
+  .resignFormVisible_otherShoppers{
+    margin-bottom:30px;
+  }
   .resignFormVisible_otherShoppers_01{
     display:flex;
     justify-content: space-between;
@@ -705,6 +706,9 @@
     font-size:14px;
     border-bottom:1px solid #aaaaaa;
     padding-left:10px;
+  }
+  .resignFormVisible_custom{
+    margin-bottom:30px;
   }
   .resignFormVisible_custom_title{
     display:flex;
@@ -740,6 +744,21 @@
     justify-content: flex-end;
     align-items: center;
     margin:10px 10px 20px 0;
+  }
+  .el-scrollbar__wrap{overflow-x:hidden!important;}
+  .el-scrollbar__bar.is-vertical {
+    width: 0!important; 
+    top: 2px;
+  }
+  .el-scrollbar__bar.is-horizontal {
+    height: 0 !important;
+    left: 2px;
+  }
+  .user_style{
+    margin-bottom:20px
+  }
+  .elFormItem{
+    margin-bottom: 17px!important;
   }
 </style>
 

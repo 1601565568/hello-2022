@@ -87,6 +87,14 @@ export default {
     url: '/guide/customer/updateCustomerGuide',
     method: 'post'
   },
+  getCustomerConfig: {// 查询会员配置项
+    url: '/guide/customer/getCustomerConfig',
+    method: 'get'
+  },
+  updateCustomerConfig: {// 更新会员配置项
+    url: '/guide/customer/updateCustomerConfig',
+    method: 'post'
+  },
   customerGetGuideTree: {// 查询店铺导购树
     url: '/guide/guide/getGuideTree',
     method: 'post'
@@ -162,6 +170,11 @@ export default {
   // 门店管理同步门店
   shopSyn: {
     url: '/core/sgshop/shopSyn',
+    method: 'get'
+  },
+  // 新增员工展示全部接口
+  getGuideList: {
+    url: '/guide/guide/getGuideList',
     method: 'get'
   }
 }

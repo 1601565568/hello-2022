@@ -52,8 +52,7 @@
                   end-placeholder="请输入结束日期"
                   align="right">
                 </el-date-picker>
-              </el-form-item>
-
+          </el-form-item>
         </el-form>
         <div class="template-table__more-btn">
           <ns-button type="primary" @click="submitForm('searchform')">搜索</ns-button>
@@ -81,7 +80,8 @@
           {{scope.$index+1}}
         </template>
       </el-table-column>
-      <el-table-column label="排序"  width="550"  align="left">
+      <el-table-column label="排序" width="550" :header-tabel="renderHeader" align="left">
+        <!-- <el-tooltip placement="bottom"><div slot="content">会员归属原门店，专属导购为空</div><button>排序</button><i class="el-icon-question"></i></el-tooltip> -->
         <template slot-scope="scope">
           <i class='iconfont icon-zhiding'  :class="scope.$index?'topShow':'topHid'" @click='exchangeSort(1,scope.row.subdivision_id)'></i>
           <i class='iconfont icon-topArr1'  :class="scope.$index?'topShow':'topHid'" @click='exchangeSort(2,scope.row.subdivision_id)'></i>
@@ -145,8 +145,7 @@ export default {
       searchform: {
         time: []
       },
-      dataList: [
-      ],
+      dataList: [],
       pickerOptions: {
         shortcuts: [
           {
@@ -200,6 +199,16 @@ export default {
         })
       this.loading = false
       // 总条数
+    },
+    renderHeader () {
+      return (
+        <div>
+            <span>排序</span>
+            <el-tooltip class="item" effect="dark" content="素材排序方式" placement="bottom">
+              <button><i class="el-icon-question"></i></button>
+            </el-tooltip>
+        </div>
+      )
     },
     exchangeSort (type, subdivisionId) {
       let parms = {type, subdivisionId}
@@ -281,6 +290,7 @@ export default {
       this.selectedArr = val
     }
   },
+  computed: {},
   components: {
     apiRequestConfirm,
     addGroudModal,
