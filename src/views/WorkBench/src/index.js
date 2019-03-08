@@ -653,12 +653,12 @@ export default {
         .fetch(this.$api.overView.findDailyTrend, parms)
         .then(resp => {
           that.loadingRecruit = false
-          // if (resp.result === null || resp.result.length === 0) {
-          //   that.isRecruitData = false
-          // } else {
-          //   that.isRecruitData = true
-          //   that.recruitOption.series[0].data = resp.result.map(Number)
-          // }
+          if (resp.result === null || resp.result.length === 0) {
+            that.isRecruitData = false
+          } else {
+            that.isRecruitData = true
+            that.recruitOption.series[0].data = resp.result.map(Number)
+          }
         })
         .catch(resp => {
           that.$notify.error('查询失败：')
@@ -805,8 +805,8 @@ export default {
     this.findDailySell()
     this.findDailyRecruit()
     this.findDailyReward()
-    this.findShopRanking()
     this.findShopRanking(1)
+    this.findShopRanking()
     this.findGuideRanking(0, null)
     this.findGuideRanking(1, null)
   }

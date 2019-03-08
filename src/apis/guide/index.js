@@ -7,6 +7,7 @@ import assets from './assets'
 import goods from './goods'
 import sgwxaccount from './sgwxaccount'
 import marketing from './marketing'
+import task from './task'
 export default {
   guide,
   shop,
@@ -17,6 +18,7 @@ export default {
   goods,
   sgwxaccount,
   marketing,
+  task,
   // 所有导购模块全部整合在此
   comGetBrandForShopList: {// 获取品牌下的店铺
     url: '/core/sgshop/getBrandList',
