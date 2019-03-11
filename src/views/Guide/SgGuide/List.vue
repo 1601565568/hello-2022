@@ -456,7 +456,7 @@
       </el-dialog>
       <!--  批量设置到后弹窗结束-->
     <!--  批量删除员工提示弹框开始 -->
-    <el-dialog title="请先转移导购的会员" width="500px" height="300px" :visible.sync="allDeleteFormVisible">
+    <el-dialog title="请先转移导购的会员" width="500px" :visible.sync="allDeleteFormVisible">
       <div style="height: 60px;overflow-x:hidden;overflow-y:auto;margin-top: 10px;">
         删除说明：
         删除需要先对该员工的客户进行转移，转移完成之后，才能操作删除
@@ -745,9 +745,8 @@
     align-items: center;
     margin:10px 10px 20px 0;
   }
-  .el-scrollbar__wrap{overflow-x:hidden!important;}
   .el-scrollbar__bar.is-vertical {
-    width: 0!important; 
+    width: 0!important;
     top: 2px;
   }
   .el-scrollbar__bar.is-horizontal {
