@@ -69,7 +69,16 @@
     <el-col :span="12">
       <div class="overview-echart__item overview-echart__item--pink">
         <div class="overview-content__title flex flex-between">
-          <span>任务进度</span>
+          <div class='span'>任务进度
+            <el-popover
+              placement="bottom"
+              trigger="hover">
+              <el-row class="overview-popover">
+                显示每个任务的进度
+              </el-row>
+              <i slot="reference" class="el-icon-info ml10 fz13" style='color:#999'></i>
+            </el-popover>
+          </div>
           <div>
             <ns-button :type="!searchObj.type?'primary':''" @click="selectTask('brand')">品牌任务</ns-button>
             <ns-button :type="searchObj.type?'primary':''" @click="selectTask('shop')">门店任务</ns-button>
@@ -98,7 +107,16 @@
     <el-col :span="12">
       <div class="overview-echart__item">
         <div class="overview-content__title overview-content__title--pink">
-          <span>燃尽图</span>
+          <div class='span'>燃尽图
+            <el-popover
+              placement="bottom"
+              trigger="hover">
+              <el-row class="overview-popover">
+                统计所有任务的总数和未完成图
+              </el-row>
+              <i slot="reference" class="el-icon-info ml10 fz13" style='color:#999'></i>
+            </el-popover>
+          </div>
         </div>
         <div v-loading.lock="loadingRecruit"
               :element-loading-text="$t('prompt.loading')">
@@ -195,7 +213,7 @@ export default {
           color: '#008000'
         },
         {
-          name: '待完成任务数',
+          name: '任务总数',
           num: ' ',
           color: '#000000'
         }
@@ -596,7 +614,7 @@ export default {
               fontSize: 14,
               formatter:
                 function (data) {
-                  return `${parseInt(taskProgressObj[data.dataIndex].completedCount * 100 / taskProgressObj[data.dataIndex].total)}%`
+                  return `${(taskProgressObj[data.dataIndex].completedCount * 100 / taskProgressObj[data.dataIndex].total).toFixed(2)}%`
                 }
             }
           },
@@ -1241,7 +1259,7 @@ export default {
       @e title {
         line-height: 30px;
         padding: 20px;
-        >span {
+        >.span {
           font-size: var(--default-font-size-middle);
           font-weight: bold;
           position: relative;
