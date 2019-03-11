@@ -76,14 +76,15 @@ export default {
     // 会员可自主更换专属导购的次数 0:不限制次数
     limitTypeChange () {
       if (this.model.limit_type === 0) {
-        this.model.change_num = null
+        this.model.change_num = 0
       }
     },
-    onSave () { // 小程序保存功能shopManager_radio
+    onSave () { // 小程序保存功能shopManagerreload_radio
       let that = this
       that.$http.fetch(that.$api.guide.guide.updateCustomerConfig, that.model).then(() => {
         that.$notify.success('修改成功')
-        that.$reload()
+        // that.$reload()
+        that.reload()
       }).catch((resp) => {
         that.$notify.error(resp.msg || '修改失败')
       })
