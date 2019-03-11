@@ -725,7 +725,6 @@ export default {
               that.isGuideSellData = true
               that.guideSellOption.yAxis[0].data = guideNameArr
               that.guideSellOption.series[0].data = perfAllArr
-              console.log('444444444444')
             }
           } else { // 导购招募
             let guideNameArr = []

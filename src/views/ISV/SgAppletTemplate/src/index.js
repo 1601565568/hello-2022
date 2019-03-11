@@ -17,14 +17,14 @@ export default {
       id: null,
       appid: null,
       type: null,
-      teamaplte_id: null
+      template_id: null
     }
     return {
       model: {
         id: null,
         appid: null,
         type: null,
-        teamaplte_id: null,
+        template_id: null,
         name: null
       },
       subObj: subObj,
@@ -97,12 +97,12 @@ export default {
       let that = this
       that.$refs.form.validate((valid) => {
         if (valid) {
-          this.$http.fetch(this.$api.isv.saveOrUpdateAppletTemplate, this.subObj).then((resp) => {
+          this.$http.fetch(this.$api.isv.saveOrUpdateAppletTemplate, this.subObj).then(resp => {
             this.dialogFormVisible = false
             that.$reload()
             that.$notify.success('修改成功')
-          }).catch(() => {
-            that.$notify.error('网络异常，获取数据失败！')
+          }).catch((resp) => {
+            that.$notify.error(resp.msg || '修改失败')
           })
         }
       })
