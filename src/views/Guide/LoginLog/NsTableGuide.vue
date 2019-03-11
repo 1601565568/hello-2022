@@ -11,9 +11,9 @@
               <el-option v-for="shop in operator" :label="shop.label" :value="shop.value" :key="shop.value"></el-option>
             </el-select>
           </el-form-grid>
-          <el-form-grid v-if="model.accountType === 1 ">
+          <el-form-grid v-if="model.accountType === 1">
             <el-select placeholder="请选择员工" style="width:180px" v-model="model.operateName" clearable filterable>
-              <el-option v-for="shop in staffFindLists" :label="shop.name" :value="shop.id" :key="shop.id"></el-option>
+              <el-option v-for="guide in staffFindLists" :label="guide.name" :value="guide.name" :key="guide.id"></el-option>
             </el-select>
           </el-form-grid>
           <el-form-grid v-if="model.accountType === 0">

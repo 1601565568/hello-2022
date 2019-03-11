@@ -74,6 +74,19 @@ export default {
       }
     }
   },
+  watch: {
+    'model.accountType': {
+      handler: function (newVal, oldVal) {
+        if (newVal === 0 || newVal === 1) {
+          this.model.operateId = null
+          this.model.operateName = null
+        }
+        if (newVal === 2) {
+          this.model.operateName = null
+        }
+      }
+    }
+  },
 
   mounted: function () {
     var vm = this
