@@ -7,11 +7,11 @@
         </template>
     </ns-page-table>
     <el-scrollbar ref="integralRuleHeight" outsider>
-      <el-form label-width="150px" ref="form">
+      <el-form label-width="150px" ref="form" style="height: 800px">
 
         <!-- 会员招募码配置开始 -->
         <div class="form-grid">
-          <div class="form-grid__title" style="font-size: 14px; margin-top: 20px">| 会员招募码配置</div>
+          <div class="form-grid__title" style="margin-top: 10px;">| 会员招募码配置</div>
           <div class="form-grid__content" style="margin-left: -100px">
             <el-form-item size="xxs">
               <el-form-grid>
@@ -53,12 +53,12 @@
         <!-- 会员招募码配置结束 -->
 
         <!-- 会员更换导购配置开始 -->
-        <div class="form-grid">
-          <div class="form-grid__title" style="font-size: 14px; margin-top: 60px">| 会员更换导购配置</div>
+        <div class="form-grid" >
+          <div class="form-grid__title" style="margin-top: 60px;">| 会员更换导购配置</div>
           <div class="form-grid__content" style="margin-left: -100px">
             <el-form-item size="xxs">
               <el-form-grid>
-                * 会员可自主更换专属导购 :
+                会员可自主更换专属导购 :
                 <el-radio v-model="model.change_type" @change="changeType()" :label="1" :disabled="status===0" size="xxs" style="margin-left: 15px">允许自主更换导购 </el-radio>
                 <el-radio v-model="model.change_type" @change="changeType()" :label="0" :disabled="status===0" size="xxs">不允许自主更换导购 </el-radio>
               </el-form-grid>
@@ -96,5 +96,12 @@
 .dialog_mian_topText p{
   height: 30px;
   line-height: 30px;
+}
+.form-grid__title {
+  font-size: 14px;
+  padding: 10px 0 10px 10px;
+  background-color: rgba(242, 242, 242, 1);
+  font-family: 'Arial Negreta', 'Arial Normal', 'Arial';
+  font-weight: 700;
 }
 </style>
