@@ -94,8 +94,9 @@
       <el-table-column prop="type" label="类型" align="left" width="60">
         <template slot-scope="{row}">
           <span v-if="row.type === 0">营销</span>
-          <span v-if="row.type === 1">关怀</span>
+          <span v-if="row.type === 1">回访</span>
           <span v-if="row.type === 2">分享</span>
+          <span v-if="row.type === 3">日常</span>
         </template>
       </el-table-column>
 
@@ -159,11 +160,15 @@ export default {
         },
         {
           value: '1',
-          label: '关怀'
+          label: '回访'
         },
         {
           value: '2',
           label: '分享'
+        },
+        {
+          value: '3',
+          label: '日常'
         }
       ],
       statusOptions: [
