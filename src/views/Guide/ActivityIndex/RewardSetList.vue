@@ -87,7 +87,7 @@
       >
       <template slot-scope="scope">
         <div v-if="scope.row.memberStatus">
-          <span>每招募一名新会员提成 {{scope.row.memberReward}} 元</span>
+          <span>每招募一名新会员提成 {{$numeral(scope.row.memberReward).format('0,0.00')}} 元</span>
         </div>
         <div v-else>
           <span>暂未设置</span>
