@@ -177,10 +177,6 @@ export default {
   },
   data () {
     let queryDate = moment(new Date().setTime(new Date().getTime() - 3600 * 1000 * 24 * 30)).format('YYYY-MM-DD')
-    let xAxisArr = []
-    for (let i = 1; i <= this.getMonthLength(new Date()); i++) {
-      xAxisArr.push(i + '日')
-    }
     return {
       searchObj: {
         pageSize: 5,
@@ -279,7 +275,7 @@ export default {
           axisLabel: {
             padding: [10, 0, 0, 0]
           },
-          data: xAxisArr
+          data: []
         },
         yAxis: {
           type: 'value',
@@ -334,11 +330,14 @@ export default {
           }
         },
         legend: {
-          type: 'scroll',
-          right: 20,
-          data: ['总数', '未完成数'],
+          icon: 'rect',
           itemWidth: 20,
-          itemGap: 36
+          itemHeight: 5,
+          itemGap: 13,
+          right: 20,
+          top: 0,
+          data: ['总数', '未完成数']
+          // itemGap: 36
         },
         xAxis: {
           type: 'category',
@@ -352,7 +351,7 @@ export default {
           axisLabel: {
             padding: [10, 0, 0, 0]
           },
-          data: xAxisArr
+          data: []
         },
         yAxis: {
           type: 'value',
@@ -853,7 +852,7 @@ export default {
               show: false
             },
             type: 'category',
-            data: xAxisArr
+            data: []
           }
         ],
         yAxis: [
@@ -1018,12 +1017,21 @@ export default {
         .fetch(this.$api.guide.task.findDailyStatistics, parms)
         .then(resp => {
           that.loadingRecruit = false
+          let dayArr = []
+          let totalNumArr = []
+          let unfinishedNumArr = []
           if (resp.result === null || resp.result.length === 0) {
             that.isRecruitData = false
           } else {
             that.isRecruitData = true
-            that.recruitOption.series[0].data = resp.result.map(Number)
-            that.recruitOption.series[1].data = resp.result.map(Number)
+            resp.result.map(item => {
+              dayArr.push(item.day)
+              totalNumArr.push(item.totalNum)
+              unfinishedNumArr.push(item.unfinishedNum)
+            })
+            that.recruitOption.xAxis.data = dayArr
+            that.recruitOption.series[0].data = totalNumArr
+            that.recruitOption.series[1].data = unfinishedNumArr
           }
         })
         .catch(resp => {

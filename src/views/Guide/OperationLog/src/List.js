@@ -251,6 +251,7 @@ export default {
               let tagArr = []
               // let tagStr = ''
               resp.result.afterJson[i].map(item => {
+                console.log(item.property)
                 for (let j in item) {
                   tagArr.push(`${j}:${item[j] || '-'}`)
                 }
@@ -278,7 +279,7 @@ export default {
                   tagArr.push(`${j}:${item[j] || '-'}`)
                 }
               })
-              tagStr = tagArr.join(',')
+              tagStr = tagArr.join('          ')
               arr1.push(`${i}:${tagStr}`)
             } else {
               arr1.push(`${i}:${resp.result.beforeJson[i] || ''}`)

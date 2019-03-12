@@ -169,9 +169,9 @@
         width="200"
       >
       <template slot-scope="scope">
-        <span>{{scope.row.sellComplete}}</span>/<span class="text-error">
+        <span>{{$numeral(scope.row.sellComplete).format('0,0.00')}}</span>/<span class="text-error">
           <span v-if="scope.row.sellQuota-scope.row.sellComplete<0">0</span>
-          <span v-else>{{scope.row.sellQuota-scope.row.sellComplete}}</span>
+          <span v-else>{{$numeral(scope.row.sellQuota-scope.row.sellComplete).format('0,0.00')}}</span>
           </span>
       </template>
       </el-table-column>

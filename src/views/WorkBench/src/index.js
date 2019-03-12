@@ -602,10 +602,10 @@ export default {
                 resp.result.memberCountPersent = Number((resp.result.memberCount * 100 / resp.result.recruitQuota).toFixed(2))
               }
             }
-            resp.result.payment = (resp.result.payment || 0).toFixed(2)
-            resp.result.reward = (resp.result.reward || 0).toFixed(2)
-            resp.result.sellReward = (resp.result.sellReward || 0).toFixed(2)
-            resp.result.recruitReward = (resp.result.recruitReward || 0).toFixed(2)
+            resp.result.payment = resp.result.payment || 0
+            resp.result.reward = resp.result.reward || 0
+            resp.result.sellReward = resp.result.sellReward || 0
+            resp.result.recruitReward = resp.result.recruitReward || 0
             resp.result.memberTotal = resp.result.memberTotal || 0
             this.getRewardInfoObj = resp.result
           }

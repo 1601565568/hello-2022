@@ -257,6 +257,7 @@ export default {
     async loadListFun (data) {
       this.loading = true
       let searchObj = data || this.searchObj
+      let that = this
       await this.$http
         .fetch(this.$api.guide.guide.shopIndexList, searchObj)
         .then(resp => {
@@ -271,7 +272,7 @@ export default {
             if (searchObj.searchMap.type === 0 || searchObj.searchMap.type === '0') {
               for (let i in item) {
                 if (i.indexOf('quota') !== -1) {
-                  item[i] = (item[i] / 10000)
+                  item[i] = that.$numeral(item[i] / 10000).format('0,0.00')
                 }
               }
             } else {
