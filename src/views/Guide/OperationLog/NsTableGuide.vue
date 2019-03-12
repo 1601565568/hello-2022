@@ -85,7 +85,7 @@
         <el-form-item label="日志时间：" prop="time">
           <el-date-picker
             v-model="model.validTime"
-            type="daterange"
+            type="datetimerange"
             :picker-options="pickerOptions"
             range-separator="至"
             start-placeholder="请选择开始日期"

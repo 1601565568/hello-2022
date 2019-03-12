@@ -194,7 +194,7 @@
         </span>
       </template>
       </el-table-column>
-      <el-table-column label="奖励" prop="recruitPrice" width="220">
+      <el-table-column label="奖励（元）" prop="recruitPrice" width="220">
         <template slot-scope="scope">
           <span v-if="scope.row.recruitPrice == 0">0</span>
           <a href="javascript:" @click="showRecruitDialog(scope.row.shopId, scope.row.shopName)" v-else>{{scope.row.recruitPrice}}</a>
@@ -216,7 +216,7 @@
           </span>
       </template>
       </el-table-column>
-      <el-table-column label="提成" prop="sellPrice" width="220">
+      <el-table-column label="提成（元）" prop="sellPrice" width="220">
         <template slot-scope="scope">
           <span v-if="scope.row.sellPrice == 0">0</span>
           <a href="javascript:" @click="showSellDialog(scope.row.shopId, scope.row.shopName)" v-else>{{scope.row.sellPrice}}</a>
