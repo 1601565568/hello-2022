@@ -32,6 +32,12 @@
           "componentPath": "Guide/Task/brandList"
         },
         {
+          "path": "/Guide/Task/detail",
+          "name": "GUIDE_DETAIL",
+          "title": "任务管概况",
+          "componentPath": "Guide/Task/detail"
+        },
+        {
           "path": "/Guide/Task/shopList",
           "name": "SHOP_TASK",
           "title": "门店任务",

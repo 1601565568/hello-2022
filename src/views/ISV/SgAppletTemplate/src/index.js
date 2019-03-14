@@ -1,4 +1,5 @@
 import tableMixin from 'mixins/table'
+import apiRequestConfirm from 'utils/apiRequestConfirm'
 export default {
   name: 'index',
   mixins: [tableMixin],
@@ -12,15 +13,21 @@ export default {
         'name': '新增'
       }
     ]
+    let subObj = {
+      id: null,
+      appid: null,
+      type: null,
+      template_id: null
+    }
     return {
       model: {
         id: null,
         appid: null,
         type: null,
         template_id: null,
-        name: null,
-        param: {}
+        name: null
       },
+      subObj: subObj,
       obj: {
         appId: null
       },
@@ -75,17 +82,41 @@ export default {
         appid: null,
         type: null,
         template_id: null,
-        name: null,
-        param: {}
+        name: null
       }
     },
     onSaveOpen (row) { // 新增或编辑
       this.dialogFormVisible = true
       this.titleText = (row.id && '编辑') || '新增'
-      this.model = row
+      this.subObj.id = row.id
+      this.subObj.appid = row.appid
+      this.subObj.type = row.type
+      this.subObj.template_id = row.template_id
     },
     onSave () { // 小程序保存功能shopManager_radio
-
+      let that = this
+      that.$refs.form.validate((valid) => {
+        if (valid) {
+          this.$http.fetch(this.$api.isv.saveOrUpdateAppletTemplate, this.subObj).then(resp => {
+            this.dialogFormVisible = false
+            that.$reload()
+            that.$notify.success('修改成功')
+          }).catch((resp) => {
+            that.$notify.error(resp.msg || '修改失败')
+          })
+        }
+      })
+    },
+    onDelete (row) { // 小程序模板消息删除
+      apiRequestConfirm('永久删除该数据').then(() => {
+        let that = this
+        that.$http.fetch(this.$api.isv.deleteAppletTemplate, {id: row.id}).then(() => {
+          that.$notify.success('删除成功')
+          that.$reload()
+        }).catch((resp) => {
+          that.$notify.error(resp.msg || '删除失败')
+        })
+      })
     },
 
     /**

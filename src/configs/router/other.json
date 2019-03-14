@@ -38,6 +38,12 @@
           "name": "SG_LOGIN_LOG",
           "title": "登录日志",
           "componentPath": "Guide/LoginLog/List"
+        },
+        {
+          "path": "/guide/customer/getCustomerConfig",
+          "name": "APPLET_TEMPLATE",
+          "title": "会员管理配置",
+          "componentPath": "Guide/customerConfig/index"
         }
       ]
 

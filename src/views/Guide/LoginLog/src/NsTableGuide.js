@@ -21,7 +21,7 @@ export default {
       operateId: null,
       operateName: null,
       shopId: null,
-      accountType: null,
+      accountType: 1,
       validTime: null
     }
     return {
@@ -74,6 +74,19 @@ export default {
       }
     }
   },
+  watch: {
+    'model.accountType': {
+      handler: function (newVal, oldVal) {
+        if (newVal === 0 || newVal === 1) {
+          this.model.operateId = null
+          this.model.operateName = null
+        }
+        if (newVal === 2) {
+          this.model.operateName = null
+        }
+      }
+    }
+  },
 
   mounted: function () {
     var vm = this
@@ -88,15 +101,9 @@ export default {
   methods: {
     staffFindList () {
       let _this = this
-      let obj = {}
-      let searchMap = {}
-      obj.start = 0
-      obj.searchMap = searchMap
-      searchMap.shop = _this.model.shopId
-
-      _this.$http.fetch(_this.$api.guide.guide.findList, obj).then(resp => {
+      _this.$http.fetch(_this.$api.guide.guide.getGuideList, {}).then(resp => {
         if (resp.success && resp.result != null) {
-          _this.staffFindLists = resp.result.data
+          _this.staffFindLists = resp.result
         }
       }).catch((resp) => {
         _this.$notify.error('查询失败：' + resp.msg)
@@ -109,7 +116,6 @@ export default {
       _this.$http.fetch(_this.$api.guide.shop.findBrandShopList, {isOnline: 0}).then(resp => {
         if (resp.success && resp.result != null) {
           _this.shopFindList = resp.result
-          _this.model.shopId = _this.shopFindList[0].id
         }
       }).catch((resp) => {
         _this.$notify.error('查询失败：' + resp.msg)

@@ -725,7 +725,7 @@
     margin:10px 10px 20px 0;
   }
   .el-scrollbar__bar.is-vertical {
-    width: 0!important; 
+    width: 0!important;
     top: 2px;
   }
   .el-scrollbar__bar.is-horizontal {

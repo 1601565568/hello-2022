@@ -602,10 +602,10 @@ export default {
                 resp.result.memberCountPersent = Number((resp.result.memberCount * 100 / resp.result.recruitQuota).toFixed(2))
               }
             }
-            resp.result.payment = (resp.result.payment || 0).toFixed(2)
-            resp.result.reward = (resp.result.reward || 0).toFixed(2)
-            resp.result.sellReward = (resp.result.sellReward || 0).toFixed(2)
-            resp.result.recruitReward = (resp.result.recruitReward || 0).toFixed(2)
+            resp.result.payment = resp.result.payment || 0
+            resp.result.reward = resp.result.reward || 0
+            resp.result.sellReward = resp.result.sellReward || 0
+            resp.result.recruitReward = resp.result.recruitReward || 0
             resp.result.memberTotal = resp.result.memberTotal || 0
             this.getRewardInfoObj = resp.result
           }
@@ -653,12 +653,12 @@ export default {
         .fetch(this.$api.overView.findDailyTrend, parms)
         .then(resp => {
           that.loadingRecruit = false
-          // if (resp.result === null || resp.result.length === 0) {
-          //   that.isRecruitData = false
-          // } else {
-          //   that.isRecruitData = true
-          //   that.recruitOption.series[0].data = resp.result.map(Number)
-          // }
+          if (resp.result === null || resp.result.length === 0) {
+            that.isRecruitData = false
+          } else {
+            that.isRecruitData = true
+            that.recruitOption.series[0].data = resp.result.map(Number)
+          }
         })
         .catch(resp => {
           that.$notify.error('查询失败：')
@@ -725,7 +725,6 @@ export default {
               that.isGuideSellData = true
               that.guideSellOption.yAxis[0].data = guideNameArr
               that.guideSellOption.series[0].data = perfAllArr
-              console.log('444444444444')
             }
           } else { // 导购招募
             let guideNameArr = []
@@ -805,8 +804,8 @@ export default {
     this.findDailySell()
     this.findDailyRecruit()
     this.findDailyReward()
-    this.findShopRanking()
     this.findShopRanking(1)
+    this.findShopRanking()
     this.findGuideRanking(0, null)
     this.findGuideRanking(1, null)
   }

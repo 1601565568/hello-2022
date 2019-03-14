@@ -87,6 +87,14 @@ export default {
     url: '/guide/customer/updateCustomerGuide',
     method: 'post'
   },
+  getCustomerConfig: {// 查询会员配置项
+    url: '/guide/customer/getCustomerConfig',
+    method: 'get'
+  },
+  updateCustomerConfig: {// 更新会员配置项
+    url: '/guide/customer/updateCustomerConfig',
+    method: 'post'
+  },
   customerGetGuideTree: {// 查询店铺导购树
     url: '/guide/guide/getGuideTree',
     method: 'post'

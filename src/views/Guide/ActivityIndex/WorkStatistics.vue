@@ -157,28 +157,28 @@
           </span>
       </template>
       </el-table-column>
-      <el-table-column label="奖励" prop="recruitPrice" width="220">
+      <el-table-column label="奖励（元）" prop="recruitPrice" width="220" align="right">
         <template slot-scope="scope">
-          <span v-if="scope.row.recruitPrice == 0">0</span>
-          <a href="javascript:" @click="showRecruitDialog(scope.row.guideId, scope.row.name)" v-else>{{scope.row.recruitPrice}}</a>
+          <span v-if="scope.row.recruitPrice == 0">0.00</span>
+          <a href="javascript:" @click="showRecruitDialog(scope.row.guideId, scope.row.name)" v-else>{{$numeral(scope.row.recruitPrice).format('0,0.00')}}</a>
         </template>
       </el-table-column>
       <el-table-column
         label="销售额/还差（元）"
-        align="center"
+        align="right"
         width="200"
       >
       <template slot-scope="scope">
-        <span>{{scope.row.sellComplete}}</span>/<span class="text-error">
+        <span>{{$numeral(scope.row.sellComplete).format('0,0.00')}}</span>/<span class="text-error">
           <span v-if="scope.row.sellQuota-scope.row.sellComplete<0">0</span>
-          <span v-else>{{scope.row.sellQuota-scope.row.sellComplete}}</span>
+          <span v-else>{{$numeral(scope.row.sellQuota-scope.row.sellComplete).format('0,0.00')}}</span>
           </span>
       </template>
       </el-table-column>
-      <el-table-column label="提成" prop="sellPrice" width="220">
+      <el-table-column label="提成（元）" prop="sellPrice" width="220" align="right">
         <template slot-scope="scope">
-          <span v-if="scope.row.sellPrice == 0">0</span>
-          <a href="javascript:" @click="showSellDialog(scope.row.guideId, scope.row.name)" v-else>{{scope.row.sellPrice}}</a>
+          <span v-if="scope.row.sellPrice == 0">0.00</span>
+          <a href="javascript:" @click="showSellDialog(scope.row.guideId, scope.row.name)" v-else>{{$numeral(scope.row.sellPrice).format('0,0.00')}}</a>
         </template>
       </el-table-column>
     </el-table>

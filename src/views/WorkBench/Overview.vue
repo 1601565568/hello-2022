@@ -7,7 +7,6 @@
               <div class="overview-content__item--select">
                 时间：
                 <el-date-picker
-                    prefix-icon='none'
                     @change='change'
                     type="month"
                     v-model="searchObj.monthDate"
@@ -35,7 +34,7 @@
               </p>
               <p>
                 <span class="font-size-large">￥</span>
-                <span class="font-size-large">{{getRewardInfoObj.payment}}</span>
+                <span class="font-size-large">{{$numeral(getRewardInfoObj.payment).format('0,0.00')}}</span>
                 <!-- <el-countup
                   class="font-size-large"
                   :start="0"
@@ -49,7 +48,7 @@
               <el-popover
                   placement="top-start"
                   trigger="hover"
-                  :content="'完成度：'+getRewardInfoObj.paymentPersent+'% , 销售目标：'+getRewardInfoObj.sellQuota">
+                  :content="'完成度：'+getRewardInfoObj.paymentPersent+'% , 销售目标：'+ $numeral(getRewardInfoObj.sellQuota).format('0,0.00')">
                   <div slot="reference">
                     <el-progress type="circle" :width=70 :stroke-width=4 :percentage="getRewardInfoObj.paymentPersent" color="#0091FA" :show-text=false></el-progress>
                     </el-progress>
@@ -98,7 +97,7 @@
               </p>
               <p>
                 <span class="font-size-large">￥</span>
-                <span class="font-size-xlarge">{{getRewardInfoObj.reward}}</span>
+                <span class="font-size-xlarge">{{$numeral(getRewardInfoObj.reward).format('0,0.00')}}</span>
                 <!-- <el-countup
                   class="font-size-xlarge"
                   :start="0"
@@ -106,7 +105,7 @@
                   :duration="1.5"
                   :decimal="2">
                 </el-countup> -->
-                <span class="text-secondary">（￥{{getRewardInfoObj.sellReward}}+￥{{getRewardInfoObj.recruitReward}}）</span>
+                <span class="text-secondary">（￥{{$numeral(getRewardInfoObj.sellReward).format('0,0.00')}}+￥{{$numeral(getRewardInfoObj.recruitReward).format('0,0.00')}}）</span>
               </p>
           </el-card>
         </el-col>
