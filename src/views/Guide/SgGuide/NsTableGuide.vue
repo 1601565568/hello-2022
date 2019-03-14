@@ -133,12 +133,7 @@
               <ns-button style="color:#0091FA" v-if="scope.row.status !== 2" @click="onRedactFun(scope.row)" type="text">修改</ns-button>
               <ns-button v-if="scope.row.status === 0 || scope.row.status === 1" style="color:#0091FA" @click="dimissionFun(scope.row)" type="text">离职</ns-button>
               <ns-button style="color:#f00" @click="onDelsTipFun(scope.row)" type="text">删除</ns-button>
-              <!-- <a class="text-error" style="color:#0091FA" href="javascript:" @click="redactFun(scope.row.id)">编辑</a>
-              <a class="text-error" style="color:#f00" href="javascript:" @click="delsTipFun(scope.row.id)">删除</a>
-              <a v-if="scope.row.status === 0 || scope.row.status === 1" class="text-error" style="color:#0091FA" href="javascript:" @click="dimissionFun(scope.row.id)">离职</a> -->
             </div>
-            <!-- <ns-table-column-operate-button :buttons="_data._table.operate_buttons"
-                                            :prop="scope"></ns-table-column-operate-button> -->
           </template>
         </el-table-column>
 

@@ -15,7 +15,7 @@
               </el-radio-group>
             </el-form-grid>
           </el-form-item>
-
+          
           <!-- <el-form-item label="所属门店：" required>
             <el-form-grid size="xxmd">
               <el-form-item prop="shops" v-if="guideValue === 1" >
@@ -30,26 +30,29 @@
               </el-form-item>
             </el-form-grid>
           </el-form-item> -->
+          <div>
+            <el-form-item v-if="guideValue === 1"  label="所属门店：" required>
+              <el-form-grid size="xxmd">
+                <el-form-item prop="shops" >
+                  <el-select placeholder="所属门店" @change="store($event,row)" v-model="subordinateStores" multiple>
+                    <el-option v-for="shops in shopFindList" :label="shops.shopName" :value="shops.id" :key="shops.id"></el-option>
+                  </el-select>
+                </el-form-item>
+              </el-form-grid>
+            </el-form-item>
+          </div>
 
-          <el-form-item v-if="guideValue === 1"  label="所属门店：" required>
-            <el-form-grid size="xxmd">
-              <el-form-item prop="shops" >
-                <el-select placeholder="所属门店" @change="store($event,row)" @blur="reduce" v-model="subordinateStores" multiple>
-                  <el-option v-for="shops in shopFindList" :label="shops.shopName" :value="shops.id" :key="shops.id"></el-option>
-                </el-select>
-              </el-form-item>
-            </el-form-grid>
-          </el-form-item>
-
-          <el-form-item v-if="guideValue === 0"  label="所属门店：" required>
-            <el-form-grid size="xxmd" >
-              <el-form-item prop="shop" class="styleIsPerfec">
-                <el-select placeholder="所属门店" @change="store($event,row)" v-model="model.sgGuideShop.shop_id" filterable >
-                  <el-option v-for="shop in shopFindList" :label="shop.shopName" :value="shop.id" :key="shop.id"></el-option>
-                </el-select>
-              </el-form-item>
-            </el-form-grid>
-          </el-form-item>
+          <div>
+            <el-form-item v-if="guideValue === 0"  label="所属门店：" required>
+              <el-form-grid size="xxmd">
+                <el-form-item prop="shop">
+                  <el-select placeholder="所属门店" @change="store($event,row)" v-model="model.sgGuideShop.shop_id" filterable >
+                    <el-option v-for="shop in shopFindList" :label="shop.shopName" :value="shop.id" :key="shop.id"></el-option>
+                  </el-select>
+                </el-form-item>
+              </el-form-grid>
+            </el-form-item>
+          </div>
 
           <el-form-item label="姓名：" required>
             <el-form-grid size="xxmd">
@@ -97,7 +100,7 @@
             <el-form-grid size="xxmd">
               <el-form-item prop="work_id">
                 <div class="page_add_guide_workid" style='display:flex'>
-                  <el-form-grid size="sm"><el-input :disabled="disabledWorkPrefix"  v-model="model.sgGuide.work_prefix" @blur='blurWorkPrefix'/></el-form-grid>
+                  <el-form-grid size="sm"><el-input :disabled="disabledWorkPrefix"  v-model="model.sgGuide.work_prefix"/></el-form-grid>
                   <el-input type="text" v-model="model.sgGuide.work_number" placeholder="请输入工号" :maxlength="10" clearable/>
                   <!-- @change="workIdChange" -->
                   <span style='color:transparent'>1</span>
@@ -135,7 +138,7 @@
       </div>
       <div slot="footer" class="dialog-footer">
         <ns-button @click="closeDialog">取消</ns-button>
-        <ns-button type="primary" @click="onSave(model)">{{nextStep}}</ns-button>
+        <ns-button type="primary" @click="onSave(model)">确定</ns-button>
       </div>
     </el-dialog>
     <!--  新增修改客户结束 -->
@@ -173,7 +176,7 @@
     </el-dialog> -->
     <!--  导购离职弹窗结束  -->
     <!--  导购离职弹窗开始  -->
-    <el-dialog title="客户转移" :visible.sync="resignFormVisible" width="75%">
+    <el-dialog title="客户转移" :visible.sync="resignFormVisible" width="75%"> 
       <div style="height: 300px;overflow-x:hidden;overflow-y:auto;margin-top: 10px;">
         <div class="resignFormVisible_title">
           您正在对 {{transferName}}<span> （{{transferShopName}}）</span>的客户 <span>（共{{transferCount}}人）</span>进行转移
@@ -181,30 +184,16 @@
         <div class="resignFormVisible_way">
           客户转移方式：
           <el-radio-group v-model="transferRadio">
-            <el-radio @change="shiftChange" label="1">
-              同门店均分
-              <el-tooltip class="item" effect="light" content="平均分配给会员所属门店员工" placement="bottom">
-               <el-button><i class="el-icon-question"></i></el-button>
-              </el-tooltip>
-            </el-radio>
-            <el-radio @change="shiftChange" label="2">
-              转移给指定导购
-              <el-tooltip class="item" effect="light" content="会员全部转给选择的员工" placement="bottom">
-                <el-button><i class="el-icon-question"></i></el-button>
-              </el-tooltip>
-            </el-radio>
-            <el-radio @change="shiftChange" label="3">
-              自定义转移
-              <el-tooltip class="item" effect="light" content="自定义选择会员转移给选择的员工" placement="bottom">
-                <el-button><i class="el-icon-question"></i></el-button>
-              </el-tooltip>
-            </el-radio>
+            <el-radio @change="shiftChange" label="1">同门店均分</el-radio>
+            <el-radio @change="shiftChange" label="2">转移给指定导购</el-radio>
+            <el-radio @change="shiftChange" label="3">自定义转移</el-radio>
           </el-radio-group>
         </div>
+
         <div v-if="transferRadio === '2'" class="resignFormVisible_otherShoppers">
-          <div class="resignFormVisible_otherShoppers_02">
+          <!-- <div class="resignFormVisible_otherShoppers_02">
             请选择导购
-          </div>
+          </div> -->
           <div class="resignFormVisible_otherShoppers_01">
             <div class="resignFormVisible_otherShoppers_search">
               <el-form ref="table_filter_form" :model="model" label-width="80px" :inline="true">
@@ -236,9 +225,9 @@
                     </div>
                   </template>
               </el-table-column>
-              <el-table-column prop="workId" label="工号" align="left">
+              <el-table-column prop="work_id" label="工号" align="left">
                 <template slot-scope="scope">
-                  {{scope.row.workId || '-'}}
+                  {{scope.row.work_id || '-'}}
                 </template>
               </el-table-column>
               <el-table-column prop="name" label="姓名" align="left" >
@@ -258,7 +247,7 @@
               </el-table-column>
           </el-table>
           <!-- 分页 -->
-          <el-pagination v-if="_data.paginationss.enable"  class="template-table-pagination"
+          <el-pagination v-if="_data.paginationss.enable"  class="template-table-pagination" 
                         :page-sizes="_data.paginationss.sizeOpts"
                         :total="_data.paginationss.total"
                         :current-page="_data.paginationss.page"
@@ -270,10 +259,6 @@
           <!-- 分页-结束 -->
         </div>
         <div v-if="transferRadio === '3'" class="resignFormVisible_custom">
-          <div class="resignFormVisible_custom_title">
-            <ns-button type="primary" @click="Setupbulksalesguide()">批量设置导购</ns-button>
-            <div>还剩<span class="transferCount">&nbsp;&nbsp;{{transferCount}}&nbsp;</span>个未分配</div>
-          </div>
           <div class="resignFormVisible_custom_01">
             <div class="resignFormVisible_custom_search">
               <el-form ref="table_filter_form" :model="model" label-width="60px" :inline="true">
@@ -334,7 +319,7 @@
                   {{scope.row.work_id || '-'}}
                 </template>
               </el-table-column>
-
+              
               <el-table-column prop="mobile" label="手机号" align="left" width="160">
                 <template slot-scope="scope">
                   {{scope.row.mobile || '-'}}
@@ -349,7 +334,7 @@
               </el-table-column>
             </el-table>
             <!-- 分页 -->
-            <el-pagination v-if="_data.customPagination.enable"  class="template-table-pagination"
+            <el-pagination v-if="_data.customPagination.enable"  class="template-table-pagination" 
                           :page-sizes="_data.customPagination.sizeOpts"
                           :total="_data.customPagination.total"
                           :current-page="_data.customPagination.page"
@@ -363,24 +348,24 @@
         </div>
       </div>
       <div slot="footer" class="dialog-footer">
-        <!-- <div slot="footer" v-if="transferRadio === '3'" class="dialog-footer">
-          请选择接收客户的导购:
-          <el-select placeholder="请选择导购" v-model="receiveGuideId" clearable filterable >
-            <el-option v-for="guide in guideList" :label="guide.name" :value="guide.id"
-                      :disabled="thisGuideDisabled(guide.id)" :key="guide.id"></el-option>
-          </el-select>
-          <ns-button @click="onCancelCustomTransfer">取消</ns-button>
-          <ns-button type="primary" @click="onSaveCustomTransfer">确定</ns-button>
-        </div> -->
-        <div>
-          <ns-button type="primary" @click="onConfirmResign">确定转移</ns-button>
-          <ns-button @click="resignFormVisible = false">取消</ns-button>
-        </div>
+          <div v-if="transferRadio === '3'" class="resignFormVisible_custom_title">
+            <div>还剩<span class="transferCount">&nbsp;&nbsp;{{transferCount}}&nbsp;</span>个未分配</div>
+            <ns-button class="Setupbulksalesguide" type="primary" @click="Setupbulksalesguide()">批量设置导购</ns-button>
+            <ns-button @click="resignFormVisible = false">取消</ns-button>
+          </div>
+          <div v-if="transferRadio === '2'">
+            <ns-button type="primary" @click="onConfirmResign">确定转移</ns-button>
+            <ns-button @click="resignFormVisible = false">取消</ns-button>
+          </div>
+            <!-- <ns-button type="primary" @click="Setupbulksalesguide()">批量设置导购</ns-button>
+            <div>还剩<span class="transferCount">&nbsp;&nbsp;{{transferCount}}&nbsp;</span>个未分配</div>
+            <ns-button type="primary" @click="onConfirmResign">确定转移</ns-button>
+            <ns-button @click="resignFormVisible = false">取消</ns-button> -->
       </div>
     </el-dialog>
     <!--  导购离职弹窗结束  -->
     <!--  批量设置到后弹窗开始 -->
-    <el-dialog title="更换导购" width="700px" height="500px" :visible.sync="replaceTheShoppers">
+    <el-dialog title="更换导购" width="700px" height="350px" :visible.sync="replaceTheShoppers">
     <div class="resignFormVisible_otherShoppers">
           <div class="resignFormVisible_otherShoppers_02">
             请选择导购
@@ -438,7 +423,7 @@
               </el-table-column>
           </el-table>
           <!-- 分页 -->
-          <el-pagination v-if="_data.paginationss.enable"  class="template-table-pagination"
+          <el-pagination v-if="_data.paginationss.enable"  class="template-table-pagination" 
                         :page-sizes="_data.paginationss.sizeOpts"
                         :total="_data.paginationss.total"
                         :current-page="_data.paginationss.page"
@@ -456,7 +441,7 @@
       </el-dialog>
       <!--  批量设置到后弹窗结束-->
     <!--  批量删除员工提示弹框开始 -->
-    <el-dialog title="请先转移导购的会员" width="500px" height="300px" :visible.sync="allDeleteFormVisible">
+    <el-dialog title="请先转移导购的会员" width="500px" :visible.sync="allDeleteFormVisible">
       <div style="height: 60px;overflow-x:hidden;overflow-y:auto;margin-top: 10px;">
         删除说明：
         删除需要先对该员工的客户进行转移，转移完成之后，才能操作删除
@@ -510,16 +495,16 @@
       <div style="overflow-x:hidden;overflow-y:auto;margin: 10px 0;">您好，请设置被修改掉的所属门店会员的专属导购：</div>
       <div class="user_style">会员归属方式：
         <el-radio-group v-model="memberferRadio">
-          <el-radio  @change='storeOwnership' label="1">员工<el-tooltip placement="bottom"><div slot="content">会员归属导购，并且可选择会员的所属门店</div><el-button><i class="el-icon-question"></i></el-button></el-tooltip></el-radio>
-          <el-radio  @change='storeOwnership' label="2">门店<el-tooltip placement="bottom"><div slot="content">会员归属原门店，专属导购为空</div><el-button><i class="el-icon-question"></i></el-button></el-tooltip></el-radio>
+          <el-radio  @change='storeOwnership' label="1">员工<i class="el-icon-question"></i></el-radio>
+          <el-radio  @change='storeOwnership' label="2">门店<i class="el-icon-question"></i></el-radio>
         </el-radio-group>
       </div>
-      <div v-if="storeOwnershipDisplay && memberferRadio === '2'">
+      <div v-if="storeOwnershipDisplay">
         <el-form ref="table_filter_form" :model="model" label-width="60px" :inline="true">
-          <el-form-item label="所属门店：" class="elFormItem">
+          <el-form-item label="所属门店：">
             <el-form-grid>
               <el-select placeholder="请选择所属门店" v-model="model.shop" clearable filterable>
-                <el-option v-for="shop in subordinateStores" :label="shop.shopName" :value="shop.id"
+                <el-option v-for="shop in shopFindList" :label="shop.shopName" :value="shop.id"
                           :key="shop.id"></el-option>
               </el-select>
             </el-form-grid>
@@ -534,17 +519,21 @@
     <!-- 选择会员归属弹窗开始  -->
 
     <!--  自定义客户转移弹窗开始  -->
-    <!-- <el-dialog title="自定义转移" :visible.sync="customFormVisible"  :before-close="onCancelCustomTransfer">
+    <el-dialog title="自定义转移" :visible.sync="customFormVisible"  :before-close="onCancelCustomTransfer">
       <div style="overflow-x:hidden;overflow-y:auto;margin-top: 10px;">
         <el-table ref="chooseCustomer" :data="tableDataCustomer" @select="selectRow" @select-all="selectAll" stripe>
           <el-table-column type="selection"  width="40" align="center" disabled></el-table-column>
           <el-table-column prop="registerTime" label="加入时间" align="center" width="200"></el-table-column>
+          <!-- <el-table-column prop="name" label="姓名" align="center" width="100"></el-table-column> -->
           <el-table-column prop="mobile" label="联系方式" align="center" width="100"></el-table-column>
           <el-table-column prop="memberCard" label="会员卡" align="center"></el-table-column>
           <el-table-column prop="name" label="会员姓名" align="center" width="100"></el-table-column>
+          <!-- <el-table-column prop="payAmount" label="付款总金额/单数" align="center" width="100"></el-table-column> -->
+          <!-- <el-table-column label="余积分" align="center" width="100"></el-table-column> -->
+          <!-- <el-table-column label="公众号" align="center" width="100"></el-table-column> -->
         </el-table>
       </div>
-      分页
+      <!-- 分页 -->
       <el-pagination v-if="_data.paginations.enable" class="template-table-pagination"
                      :page-sizes="_data.paginations.sizeOpts"
                      :total="_data.paginations.total"
@@ -563,7 +552,7 @@
         <ns-button @click="onCancelCustomTransfer">取消</ns-button>
         <ns-button type="primary" @click="onSaveCustomTransfer">确定</ns-button>
       </div>
-    </el-dialog> -->
+    </el-dialog>
     <!--  更换门店弹窗开始 -->
     <el-dialog :title="shopTitle" width="560px" height="150px" :visible.sync="shopFindListShow" @keyup.enter.native="onKeyUp" @keyup.esc.native="onKeyUp">
       <div class="guideBox" style="overflow-x:hidden;overflow-y:auto;">
@@ -667,9 +656,6 @@
   }
 </style>
 <style>
-  .styleIsPerfec{
-    height:28px!important;
-  }
   .resignFormVisible_title{
     height:40px;
     display:flex;
@@ -686,9 +672,6 @@
     align-items: center;
     padding-left:10px;
     border-bottom:1px solid #aaaaaa;
-  }
-  .resignFormVisible_otherShoppers{
-    margin-bottom:30px;
   }
   .resignFormVisible_otherShoppers_01{
     display:flex;
@@ -707,9 +690,6 @@
     border-bottom:1px solid #aaaaaa;
     padding-left:10px;
   }
-  .resignFormVisible_custom{
-    margin-bottom:30px;
-  }
   .resignFormVisible_custom_title{
     display:flex;
     justify-content: space-between;
@@ -717,7 +697,6 @@
     padding:0 10px 0 10px;
     font-size:13px;
     line-height: 40px;
-    border-bottom:1px solid #aaaaaa;
   }
   .transferCount{
     color:#FF0000;
@@ -745,7 +724,6 @@
     align-items: center;
     margin:10px 10px 20px 0;
   }
-  .el-scrollbar__wrap{overflow-x:hidden!important;}
   .el-scrollbar__bar.is-vertical {
     width: 0!important; 
     top: 2px;
@@ -757,8 +735,8 @@
   .user_style{
     margin-bottom:20px
   }
-  .elFormItem{
-    margin-bottom: 17px!important;
+  .Setupbulksalesguide{
+    margin:0 20px !important;
   }
 </style>
 

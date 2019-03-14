@@ -1,6 +1,6 @@
 <template>
   <div>
-    <ns-button @click='aaaaa'>session过期</ns-button>
+    <!-- <ns-button @click='aaaaa'>session过期</ns-button> -->
     <ns-page-table>
       <!-- 按钮 -->
       <template slot="buttons">

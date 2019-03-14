@@ -217,7 +217,7 @@ export default {
     },
     // 更换导购弹窗\详情展示
     onRedactFun (val) {
-      var _this = this
+      let _this = this
       if (val === undefined) {
         if (this.multipleSelection.length > 0) {
           _this.shopFindListShow = true
@@ -229,7 +229,8 @@ export default {
       } else {
         _this.title = '客户详情'
         _this.$http.fetch(_this.$api.guide.guide.customerGetDetail, {
-          customerId: val.customerId,
+          nick: val.nick,
+          nickType: val.nickType,
           guideId: Number(val.guideId),
           shopId: null
         }).then(resp => {
@@ -242,7 +243,9 @@ export default {
         })
 
         _this.$http.fetch(_this.$api.guide.guide.customerQueryValidPoint, {
-          customerId: val.customerId
+          // customerId: val.customerId
+          nick: val.nick,
+          nickType: val.nickType
         }).then(resp => {
           _this.result = resp.result
         }).catch((resp) => {
@@ -295,14 +298,22 @@ export default {
       this.shopFindListShow = false
     },
     onSave () {
-      var _this = this
+      let _this = this
+      let obj = {
+        nick: null,
+        nickType: null
+      }
       if (_this.value !== null) {
         _this.customerIdList = []
         _this.multipleSelection.map(item => {
-          _this.customerIdList.push(item.customerId)
+          obj.nick = item.nick
+          obj.nickType = item.nickType
+          obj = Object.assign({}, obj)
+          _this.customerIdList.push(obj)
         })
+        // _this.customerIdList = JSON.stringify(_this.customerIdList)
         this.$http.fetch(this.$api.guide.guide.updateCustomerGuide, {
-          customerIds: _this.customerIdList.join(','),
+          nickListJson: _this.customerIdList,
           newGuideId: Number(_this.value.id),
           shopId: Number(_this.value.shopId)
         }).then(resp => {

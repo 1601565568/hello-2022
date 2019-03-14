@@ -399,7 +399,7 @@ export default {
       }
       this.dialogFormVisible = true
       this.titleText = (row.id && '编辑') || '新增'
-      this.model = row
+      this.model = Object.assign({}, row)
       if (this.titleText === '新增') {
         this.model.type = -1
       }
