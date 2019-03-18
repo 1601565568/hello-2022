@@ -58,6 +58,7 @@
                 <el-option label="自定义转移" value="3"></el-option>
                 <el-option label="店长转移" value="4"></el-option>
                 <el-option label="导购自离" value="5"></el-option>
+                <el-option label="会员归属转移" value="6"></el-option>
               </el-select>
             </el-form-item>
           </el-form-grid>
@@ -118,7 +119,7 @@
         <el-table-column :show-overflow-tooltip="true" type="default" prop="receiveName" align="left"
                          label="转入人" :sortable="false">
           <template slot-scope="scope">
-            {{scope.row.receiveName}} [{{scope.row.receiveShopName}}]
+            {{scope.row.receiveName || '-'}} [{{scope.row.receiveShopName}}]
           </template>
         </el-table-column>
         <el-table-column :show-overflow-tooltip="true" type="default" prop="customer_num" align="left"
@@ -144,7 +145,10 @@
               店长转移
             </span>
             <span v-if="scope.row.trans_type == 5">
-              导购自离
+              <导购自离></导购自离>
+            </span>
+            <span v-if="scope.row.trans_type == 6">
+              会员归属转移
             </span>
           </template>
         </el-table-column>
