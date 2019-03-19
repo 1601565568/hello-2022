@@ -306,10 +306,11 @@ export default {
       if (_this.value !== null) {
         _this.customerIdList = []
         _this.multipleSelection.map(item => {
+          let nick = {}
           obj.nick = item.nick
           obj.nickType = item.nickType
-          obj = Object.assign({}, obj)
-          _this.customerIdList.push(obj)
+          nick = Object.assign({}, obj)
+          _this.customerIdList.push(nick)
         })
         // _this.customerIdList = JSON.stringify(_this.customerIdList)
         this.$http.fetch(this.$api.guide.guide.updateCustomerGuide, {
