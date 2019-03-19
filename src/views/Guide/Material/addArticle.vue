@@ -6,18 +6,25 @@
     :title="modalTit"
     :close-on-click-modal=false
     :visible.sync="dialogVisible"
-    width="1000px"
+    width="1200px"
     :before-close="handleClose">
 
     <div class="comDialogBoxCon flex flex-between" style='align-items:flex-start'>
       <div class="comDialogBoxConOut" v-show='saveObj.articleType' style='flex:1'>
-        <el-input  placeholder="请在这里输入标题" size="medium" v-model="saveObj.title"></el-input>
+        <el-input  placeholder="请在这里输入标题"   v-model="saveObj.title"  size="medium"></el-input>
         <el-input placeholder="请输入合法链接"  size="medium" v-model="saveObj.url">
           <template slot="prepend">外链:</template>
         </el-input>
         <p style='margin-top:10px'><i class="el-icon-info text-tips">外链的内容仅在H5版本中显示，不会出现在小程序中</i></p>
       </div>
       <div v-show='!saveObj.articleType'>
+        <div class='mb10'>
+            <el-input  type="text" v-model="saveObj.title" placeholder="请输入标题" clearable size="medium"></el-input>
+        </div>
+
+        <!-- <el-form-grid size="xmd"> -->
+
+        <!-- </el-form-grid> -->
         <vue-ueditor-wrap :config="myConfig" v-model="detail" @ready="editorReady" ></vue-ueditor-wrap>
       </div>
 
@@ -36,11 +43,7 @@
               <el-input resize="none" type="textarea" v-model="saveObj.content" placeholder="可在此输入推广文案"></el-input>
             </el-form-grid>
           </el-form-item>
-          <el-form-item  prop="title" label="标题：">
-            <!-- <el-form-grid size="xmd"> -->
-              <el-input  type="text" v-model="saveObj.title" placeholder="请输入标题"></el-input>
-            <!-- </el-form-grid> -->
-          </el-form-item>
+
           <div class="materialItem">
 
             <a target="_blank" class="shareBox">
