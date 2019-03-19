@@ -64,23 +64,23 @@
                   stripe
                   resizable v-loading.lock="_data._table.loadingtable"
                   :element-loading-text="$t('prompt.loading')" @sort-change="$orderChange$">
-          <el-table-column prop="groupId" label="集团ID"></el-table-column>
-          <el-table-column prop="name" label="微信名称"></el-table-column>
-          <el-table-column prop="appid" label="应用ID" align="left" width="180"></el-table-column>
-          <el-table-column label="企业ID" align="left" width="180">
+          <el-table-column prop="groupId" label="集团ID" align="left" ></el-table-column>
+          <el-table-column prop="name" label="微信名称" align="left" ></el-table-column>
+          <el-table-column prop="appid" label="应用ID" align="left" ></el-table-column>
+          <el-table-column label="企业ID" align="left" >
             <template slot-scope="{row}">
               <span v-if="row.corpid === null">-</span>
               <span v-else>{{row.corpid}}</span>
             </template>
           </el-table-column>
-          <el-table-column label="支付ID" align="left" width="139">
+          <el-table-column label="支付ID" align="left" >
             <template slot-scope="{row}">
               <span v-if="row.pay_id === null">-</span>
               <span v-else>{{row.pay_id}}</span>
             </template>
           </el-table-column>
-          <el-table-column prop="update_time" label="更新时间" width="160" align="left"></el-table-column>
-          <el-table-column :show-overflow-tooltip="true" label="操作" align="right" width="172">
+          <el-table-column prop="update_time" label="更新时间" align="left"></el-table-column>
+          <el-table-column :show-overflow-tooltip="true" label="操作" width="190px" align="right">
             <template slot-scope="scope">
               <span class="tmp-cell__buttons">
                 <ns-button type="text" @click="onSaveOpen(scope.row)">编辑</ns-button>
