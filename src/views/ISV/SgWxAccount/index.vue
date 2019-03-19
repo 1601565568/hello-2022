@@ -64,16 +64,16 @@
                   stripe
                   resizable v-loading.lock="_data._table.loadingtable"
                   :element-loading-text="$t('prompt.loading')" @sort-change="$orderChange$">
-          <el-table-column prop="groupId" label="集团ID" align="left" width="200"></el-table-column>
-          <el-table-column prop="name" label="微信名称" align="left" width="200"></el-table-column>
-          <el-table-column prop="appid" label="应用ID" align="left" width="200"></el-table-column>
-          <el-table-column label="企业ID" align="left" width="200">
+          <el-table-column prop="groupId" label="集团ID" align="left" ></el-table-column>
+          <el-table-column prop="name" label="微信名称" align="left" ></el-table-column>
+          <el-table-column prop="appid" label="应用ID" align="left" ></el-table-column>
+          <el-table-column label="企业ID" align="left" >
             <template slot-scope="{row}">
               <span v-if="row.corpid === null">-</span>
               <span v-else>{{row.corpid}}</span>
             </template>
           </el-table-column>
-          <el-table-column label="支付ID" align="left" width="200">
+          <el-table-column label="支付ID" align="left" >
             <template slot-scope="{row}">
               <span v-if="row.pay_id === null">-</span>
               <span v-else>{{row.pay_id}}</span>
