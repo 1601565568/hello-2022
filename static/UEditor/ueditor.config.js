@@ -36,7 +36,7 @@
       'fullscreen', 'source', '|', 'undo', 'redo', '|',
       'bold', 'italic', 'underline', 'fontborder', 'strikethrough', 'superscript', 'subscript', 'removeformat', 'formatmatch', 'autotypeset', 'blockquote', 'pasteplain', '|', 'forecolor', 'backcolor', 'insertorderedlist', 'insertunorderedlist', 'selectall', 'cleardoc', '|',
       'rowspacingtop', 'rowspacingbottom', 'lineheight', '|',
-      'customstyle', 'paragraph', 'fontfamily', 'fontsize', '|',
+      'paragraph', 'fontfamily', 'fontsize', '|',
       'directionalityltr', 'directionalityrtl', 'indent', '|',
       'justifyleft', 'justifycenter', 'justifyright', 'justifyjustify', '|', 'touppercase', 'tolowercase', '|',
       'link', 'unlink', '|',
@@ -80,21 +80,21 @@
         //, charset:"utf-8"
 
         // 若实例化编辑器的页面手动修改的domain，此处需要设置为true
-        //, customDomain:false
+    customDomain: true,
 
         // 常用配置项目
         //, isShow : true    //默认显示编辑器
 
         //, textarea:'editorValue' // 提交表单时，服务器获取编辑器提交内容的所用的参数，多实例时可以给容器name属性，会将name给定的值最为每个实例的键值，不用每次实例化的时候都设置这个值
 
-        //, initialContent:'欢迎使用ueditor!'    //初始化编辑器的内容,也可以通过textarea/script给值，看官网例子
+    initialContent: '从这里开始输入正文',   // 初始化编辑器的内容,也可以通过textarea/script给值，看官网例子
 
         //, autoClearinitialContent:true //是否自动清除编辑器初始内容，注意：如果focus属性设置为true,这个也为真，那么编辑器一上来就会触发导致初始化的内容看不到了
 
         //, focus:false //初始化时，是否让编辑器获得焦点true或false
 
         // 如果自定义，最好给p标签如下的行高，要不输入中文时，会有跳动感
-        //, initialStyle:'p{line-height:1em}'//编辑器层级的基数,可以用来改变字体等
+    initialStyle: 'p{line-height:1em}', // 编辑器层级的基数,可以用来改变字体等
 
         //, iframeCssUrl: URL + '/themes/iframe.css' //给编辑区域的iframe引入一个css文件
 
@@ -110,7 +110,7 @@
         //, autoClearEmptyNode : true //getContent时，是否删除空的inlineElement节点（包括嵌套的情况）
 
         // 启用自动保存
-        //, enableAutoSave: true
+    enableAutoSave: false,
         // 自动保存间隔时间， 单位ms
         //, saveInterval: 500
 
