@@ -98,12 +98,6 @@ export default {
         },
         'name': '新增'
       }
-      // {
-      //   'func': function () {
-      //     that.onAuthorization({})
-      //   },
-      //   'name': '授权'
-      // }
     ]
     return {
       model: {
@@ -160,7 +154,7 @@ export default {
       if (row.id) {
         this.dialogFormVisible = true
         this.titleText = '编辑页面'
-        this.model = row
+        this.model = Object.assign({}, row)
       } else {
         this.titleText = '新增页面'
         this.model = {}

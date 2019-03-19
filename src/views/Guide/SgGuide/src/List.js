@@ -199,6 +199,7 @@ export default {
       memberBelongingShow: false,
       verification: false,
       nextStep: '确定',
+      guideShoppersList: [],
       guideList: [],
       shopList: [],
       shopFindList: [],
@@ -865,21 +866,50 @@ export default {
             }
           } else {
             if (_this.subordinateStores.length !== 0) {
-              if (_this.changeValue.storeValue === undefined) {
-              } else if (_this.changeValue.storeValue.length === 0) {
-                _this.row.shop_ids.split(',').map((item, i) => {
-                  guideId = _this.row.id
-                  shopId = item
-                  _this.getCustomerCount(guideId, shopId)
-                })
-              } else {
-                _this.row.shop_ids.split(',').some(item => {
-                  if (_this.changeValue.storeValue.join(',').indexOf(item) === -1) {
+              if (_this.changeValue.storeValue !== undefined) {
+                if (_this.changeValue.storeValue.length === 0) {
+                  _this.row.shop_ids.split(',').map((item, i) => {
                     guideId = _this.row.id
                     shopId = item
                     _this.getCustomerCount(guideId, shopId)
-                  }
-                })
+                  })
+                } else {
+                  _this.row.shop_ids.split(',').some(item => {
+                    if (_this.changeValue.storeValue.join(',').indexOf(item) === -1) {
+                      guideId = _this.row.id
+                      shopId = item
+                      _this.getCustomerCount(guideId, shopId)
+                    }
+                  })
+
+                  this.subordinateStores.map((item, i) => {
+                    guideShop[i] = Object.assign({job: 1, shop_id: item}, guideShop[i])
+                  })
+                  // guideShop.splice(0, 1)
+                  _this.$refs.addForm.validate(valid => {
+                    if (valid) {
+                      if (guide.birthday instanceof Date) {
+                        guide.birthday = moment(guide.birthday).format('YYYY-MM-DD')
+                      }
+                      if (guide.birthday === null) guide.birthday = ''
+                      if (guide.work_num === null) guide.work_num = ''
+                      this.$http.fetch(this.$api.guide.guide.saveOrUpdateGuide, {
+                        sgGuide: guide,
+                        sgGuideShopList: guideShop,
+                        sgGuideVo: sgGuideVo,
+                        updateAllGuidePrefix: updateAllGuidePrefix
+                      }).then(resp => {
+                        _this.closeDialog()
+                        _this.$notify.success('保存成功')
+                        this.$refs.table.$reload()
+                      }).catch((resp) => {
+                        _this.closeDialog()
+                        this.model.sgGuide.image = allImageUrl
+                        _this.$notify.error('保存失败：' + resp.msg)
+                      })
+                    }
+                  })
+                }
               }
             } else {
               _this.$notify.error('请选择所属门店！')
@@ -983,12 +1013,12 @@ export default {
         this.model.shop = null
         this.model.mobile = null
         this.model.workId = null
-        this.findGuideList()
+        this.guideFindList()
       } else if (val === '3') {
         this.model.name = null
         this.model.shop = null
         this.findCustomerList()
-        this.findGuideList()
+        this.guideFindList()
       }
     },
     // 查询客户列表
@@ -1030,13 +1060,13 @@ export default {
     transferShopSizeChange (page) {
       this.transferShopSize = page
       let pageSize = 1
-      this.findGuideList(page, pageSize)
+      this.guideFindList(page, pageSize)
     },
     // 转移给指定导购页数跳转
     transferShopPageChange (page) {
       this.transferShopPage = page
       let pageChange = 0
-      this.findGuideList(page, pageChange)
+      this.guideFindList(page, pageChange)
     },
     // 自定义搜索改变页数大小
     customShopSizeChange (page) {
@@ -1050,13 +1080,13 @@ export default {
     },
     // 转移给指定导购搜索
     transferSearch () {
-      this.findGuideList()
+      this.guideFindList()
     },
     // 转移给指定导购重置
     transferToReset () {
       this.model.name = null
       this.model.shop = null
-      this.findGuideList()
+      this.guideFindList()
     },
     // 自定义搜索
     customSearch (model) {
@@ -1069,6 +1099,51 @@ export default {
       this.model.workId = null
       this.model.shop = null
       this.findCustomerList()
+    },
+    async guideFindList (page, pages) { // 导购列表查询
+      let _this = this
+      if (pages === 0) { // 页数跳转
+        this.transferShopPage = page
+      } else if (pages === 1) { // 改变页数大小
+        _this.transferShopSize = page
+      }
+      let obj = {
+        length: _this.transferShopSize !== null ? _this.transferShopSize : 10000,
+        searchMap: {
+          shopId: null,
+          keyword: _this.model.name === null ? _this.model.shop === null : _this.model.name
+        },
+        start: _this.transferShopPage !== null ? (this.transferShopPage - 1 * 15) : 1
+      }
+      // if (model !== undefined) {
+      //   obj.searchMap.keyword = model.name
+      //   obj.searchMap.shopId = parseInt(model.shop)
+      // }
+      // if (numbers.test(model)) {
+      //   obj.length = model
+      // }
+      await this.$http
+        .fetch(_this.$api.guide.guide.findShopGuide, obj)
+        .then(resp => {
+          _this.guideList = [...resp.result.data]
+          _this.paginationss.total = Number(resp.result.recordsTotal)
+
+          // if (resp.success && resp.result.data != null) {
+          //   _this.guideList = resp.result.data
+          //   _this.paginationss.total = parseInt(resp.result.recordsTotal)
+          // }
+          _this.particularsObj.map((item, i) => {
+            if (item[i].id === item[i + 1].id) {
+              item.splice(item[i], item[i + 1])
+            }
+          })
+          _this.guideList = new Set(_this.guideList)
+          _this.guideList = Array.from(_this.guideList)
+          console.log('_this.guideList:', _this.guideList)
+        })
+        .catch(resp => {
+          // this.$notify.error(resp.msg || '查询失败')
+        })
     },
     // 查询导购列表
     findGuideList (page, pages) {
@@ -1089,7 +1164,7 @@ export default {
         length: _this.transferShopSize !== null ? _this.transferShopSize : 10000
       }).then(resp => {
         if (resp.success && resp.result.data != null) {
-          _this.guideList = resp.result.data
+          _this.guideShoppersList = resp.result.data
           _this.paginationss.total = parseInt(resp.result.recordsTotal)
         }
       }).catch((resp) => {
@@ -1142,7 +1217,7 @@ export default {
       } else if (_this.transferRadio === '2') {
         // _this.onSaveSpecifyTransfer()
       } else if (_this.transferRadio === '3') {
-        _this.findGuideList()
+        _this.guideFindList()
         _this.findCustomerList()
         // _this.onSaveCustomTransfer()
       }
@@ -1258,11 +1333,11 @@ export default {
         _this.customFormVisible = false
         _this.resignFormVisible = false
         if (!isClose) {
-          _this.findGuideList()
+          _this.guideFindList()
         }
         _this.$notify.success(resp.msg)
         _this.$refs.table.$reload()
-        _this.findCustomerList()
+        // _this.findCustomerList()
       }).catch((resp) => {
         _this.$notify.error('操作失败 ' + resp.msg)
       })
