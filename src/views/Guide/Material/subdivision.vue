@@ -7,6 +7,13 @@
     cursor: pointer;
   }
 </style>
+<style>
+.has-gutter .el-table_2_column_9::after{
+  content: "》";
+  color: blue;
+
+}
+</style>
 
 <template>
 <!-- 门店工作统计  wanrengang 20180716 -->
@@ -84,7 +91,7 @@
           {{scope.$index+1}}
         </template>
       </el-table-column>
-      <el-table-column label="排序" width="200" :header-tabel="renderHeader" align="left">
+      <el-table-column  width="200"  align="left" :render-header="renderHeader">
         <!-- <el-tooltip placement="bottom"><div slot="content">会员归属原门店，专属导购为空</div><button>排序</button><i class="el-icon-question"></i></el-tooltip> -->
         <template slot-scope="scope">
           <i class='iconfont icon-zhiding sort'  :class="scope.$index?'topShow':'topHid'" @click='exchangeSort(1,scope.row.subdivision_id)'></i>
@@ -204,15 +211,9 @@ export default {
       this.loading = false
       // 总条数
     },
-    renderHeader () {
-      return (
-        <div>
-            <span>排序</span>
-            <el-tooltip class="item" effect="dark" content="素材排序方式" placement="bottom">
-              <button><i class="el-icon-question"></i></button>
-            </el-tooltip>
-        </div>
-      )
+    renderHeader (h, data) {
+      // return h('div', [h('span', ['排序 ']), h('el-tooltip', {attrs: {class: 'el-icon-question bg-white', effect: 'dark', content: '素材排序方式', placement: 'bottom'}}, [h('i', {'class': 'el-icon-question'})])])
+      return h('div', {attrs: {class: 'cell', style: 'margin-top:7px'}}, [h('span', ['排序 ']), h('el-tooltip', {attrs: {class: 'el-icon-question bg-white', effect: 'light', content: '素材排序方式', placement: 'bottom'}}, [h('i', {'class': 'el-icon-question', style: 'color:rgb(153, 153, 153)'})])])
     },
     exchangeSort (type, subdivisionId) {
       let parms = {type, subdivisionId}

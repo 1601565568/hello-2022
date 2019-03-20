@@ -98,7 +98,8 @@ export default {
       })
     },
     onRedactFun (model) { // 编辑
-      this.model = model
+      // this.model = model
+      this.model = Object.assign({}, model)
       this.domainNameVisible = true
     },
     onDelsTipFun (val) { // 删除
