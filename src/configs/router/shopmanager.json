@@ -14,28 +14,44 @@
       "componentPath": "Content",
       "children": [
         {
+          "path": "/Guide/SgStoreManagement/List",
+          "name": "ShopManager",
+          "title": "门店列表",
+          "componentPath": "Guide/SgStoreManagement/List"
+        }
+      ]
+    },
+    {
+      "path": "/Guide/SgGuide",
+      "name": "YGGL",
+      "title": "员工管理",
+      "componentPath": "Content",
+      "children": [
+        {
           "path": "/Guide/SgGuide/List",
-          "name": "YGGL",
-          "title": "员工管理",
+          "name": "GuideList",
+          "title": "员工列表",
           "componentPath": "Guide/SgGuide/List"
+        }
+      ]
+    },
+    {
+      "path": "/Guide/SgGuide",
+      "name": "CustomerManage",
+      "title": "会员管理",
+      "componentPath": "Content",
+      "children": [
+        {
+          "path": "/Guide/Customer/CustomerManage",
+          "name": "CustomerList",
+          "title": "会员列表",
+          "componentPath": "Guide/Customer/CustomerManage"
         },
         {
           "path": "/Guide/transCustomerRecord",
           "name": "TRANS_CUSTOMER_RECORD",
           "title": "客户转移记录",
           "componentPath": "Guide/SgCustomer/NsTableSgCustomer"
-        },
-        {
-          "path": "/Guide/Customer/CustomerManage",
-          "name": "CUSTOMER_MANAGER",
-          "title": "客户管理",
-          "componentPath": "Guide/Customer/CustomerManage"
-        },
-        {
-          "path": "/Guide/SgStoreManagement/List",
-          "name": "MDGL",
-          "title": "门店管理",
-          "componentPath": "Guide/SgStoreManagement/List"
         }
       ]
     }

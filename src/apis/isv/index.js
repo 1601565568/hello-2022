@@ -153,5 +153,9 @@ export default {
   deleteAppletTemplate: {
     url: '/guide/applettemplate/deleteTemplate',
     method: 'get'
+  },
+  queryMaterial: {
+    url: '/guide/material/queryMaterial',
+    method: 'post'
   }
 }
