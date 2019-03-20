@@ -15,7 +15,7 @@
       "children": [
         {
           "path": "/Guide/SgStoreManagement/List",
-          "name": "MDGL",
+          "name": "ShopManager",
           "title": "门店列表",
           "componentPath": "Guide/SgStoreManagement/List"
         }
@@ -29,7 +29,7 @@
       "children": [
         {
           "path": "/Guide/SgGuide/List",
-          "name": "YGGL",
+          "name": "GuideList",
           "title": "员工列表",
           "componentPath": "Guide/SgGuide/List"
         }
@@ -43,7 +43,7 @@
       "children": [
         {
           "path": "/Guide/Customer/CustomerManage",
-          "name": "CUSTOMER_MANAGER",
+          "name": "CustomerList",
           "title": "会员列表",
           "componentPath": "Guide/Customer/CustomerManage"
         },
