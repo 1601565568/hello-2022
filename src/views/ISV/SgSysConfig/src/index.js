@@ -91,7 +91,8 @@ export default {
     onSaveOpen (row) { // 新增或编辑
       this.dialogFormVisible = true
       this.titleText = (row.id && '编辑') || '新增'
-      this.model = row
+      this.model = Object.assign({}, row)
+      // this.model = row
     },
     onSave () { // 小程序保存功能shopManager_radio
       let that = this
