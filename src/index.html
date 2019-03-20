@@ -23,7 +23,8 @@
       var session = getQueryVariable('session')
       if(session && session === 'true') {
         window.history.pushState(null, null, window.location.pathname + window.location.search.replace('session=true&','').replace('&session=true','').replace('?session=true',''));
-      } else if(window.location.href.indexOf('/LoginError') === -1 && window.location.href.indexOf('/operate') === -1){
+} else if(window.location.href.indexOf('/LoginError') === -1 && window.location.href.indexOf('/operate') === -1&&
+window.location.href.indexOf('/articlematerialDetail') === -1){
         window.location.href = '/casLogin?router=' + encodeURIComponent(window.location.pathname + window.location.search)
       }
     }

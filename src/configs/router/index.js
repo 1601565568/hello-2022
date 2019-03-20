@@ -29,6 +29,11 @@ export default [
     componentPath: 'Errors/404'
   },
   {
+    path: '/articleMaterialDetail',
+    name: 'articleMaterialDetail',
+    componentPath: 'ISV/articleMaterialDetail'
+  },
+  {
     path: '/401',
     name: '401',
     componentPath: 'Errors/401'

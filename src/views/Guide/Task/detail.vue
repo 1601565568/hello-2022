@@ -134,7 +134,7 @@
     <el-col :span="12">
       <div class="overview-echart__item overview-echart__item--pink">
         <div class="overview-content__title">
-          <span>门店完成任务数排行榜</span>
+          <span class='span'>门店完成任务数排行榜</span>
         </div>
         <div v-loading.lock="loadingShopRecruit"
               :element-loading-text="$t('prompt.loading')">
@@ -150,7 +150,7 @@
     <el-col :span="12">
       <div class="overview-echart__item overview-echart__item--pink">
         <div class="overview-content__title">
-          <span>导购完成任务数排行榜</span>
+          <span class='span'>导购完成任务数排行榜</span>
         </div>
         <div v-loading.lock="loadingGuideRecruit"
               :element-loading-text="$t('prompt.loading')">
