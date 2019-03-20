@@ -829,7 +829,7 @@ export default {
         _this.$notify.error('查询失败：' + resp.msg)
       })
     },
-    async findGuideShopCustomerSum (model) { // 批量查询导购下的会员数量
+    async findGuideShopCustomerSum (guideId, shopId, model) { // 批量查询导购下的会员数量
       let _this = this
       let guide = _this.model.sgGuide
       let guideShop = []
@@ -838,7 +838,7 @@ export default {
       let updateAllGuidePrefix = this.model.sgGuideShop.updateAllGuidePrefix
       _this.$http.fetch(this.$api.guide.guide.findGuideShopCustomerSum, {
         guideId: model.sgGuideShop.id,
-        shopIds: this.subordinateStores.join(',')
+        shopIds: _this.subordinateStores.join(',')
       }).then(resp => {
         if (resp.result.result.sum > 0) {
           _this.memberBelongingtitle = '选择会员归属'
@@ -884,8 +884,10 @@ export default {
       let allImageUrl = null
       let guideId = null
       let shopId = null
+      let shopIds = []
       let updateAllGuidePrefix = this.model.sgGuideShop.updateAllGuidePrefix
-      if (model.sgGuideShop.job === 1 && this.title === '编辑员工信息') {
+      console.log('row:', this.row.count)
+      if (model.sgGuideShop.job === 1 && _this.title === '编辑员工信息') {
         if (_this.guideValue === _this.row.job) {
           if (_this.guideValue === 0) {
             if (_this.row.shop_id !== _this.changeValue.storeValue) {
@@ -903,15 +905,17 @@ export default {
                     _this.getCustomerCount(guideId, shopId)
                   })
                 } else {
+                  console.log('shopIds:', _this.row.shop_ids)
                   _this.row.shop_ids.split(',').some(item => {
                     if (_this.changeValue.storeValue.join(',').indexOf(item) === -1) {
                       guideId = _this.row.id
-                      shopId = item
-                      _this.getCustomerCount(guideId, shopId)
+                      shopIds.push(item)
+                      // _this.getCustomerCount(guideId, shopId)
                     }
                   })
-
-                  this.subordinateStores.map((item, i) => {
+                  console.log('shopIds:', shopIds)
+                  _this.findGuideShopCustomerSum(guideId, shopIds, model)
+                  _this.subordinateStores.map((item, i) => {
                     guideShop[i] = Object.assign({job: _this.guideValue, shop_id: item}, guideShop[i])
                   })
                   // guideShop.splice(0, 1)
@@ -987,7 +991,7 @@ export default {
                   })
                 }
               } else {
-                if (_this.changeValue.storeValue.join(',').indexOf(_this.row.shop_id) === -1) {
+                if (_this.changeValue.storeValue.indexOf(_this.row.shop_id) === -1) {
                   guideId = _this.row.id
                   shopId = _this.row.shop_id
                   _this.getCustomerCount(model, guideId, shopId)
@@ -1054,7 +1058,35 @@ export default {
           })
         } else {
           if (this.title === '编辑员工信息' && model.sgGuideShop.job === 0) {
-            _this.replaceStores()
+            if (model.sgGuideShop.shop_id !== _this.row.shop_id) {
+              guideId = _this.row.id
+              shopId = _this.row.shop_id
+              _this.getCustomerCount(guideId, shopId)
+            }
+            // _this.$refs.addForm.validate(valid => {
+            //   if (valid) {
+            //     if (guide.birthday instanceof Date) {
+            //       guide.birthday = moment(guide.birthday).format('YYYY-MM-DD')
+            //     }
+            //     if (guide.birthday === null) guide.birthday = ''
+            //     if (guide.work_num === null) guide.work_num = ''
+            //     guideShop[0] = {job: 0, shop_id: model.sgGuideShop.shop_id}
+            //     this.$http.fetch(this.$api.guide.guide.saveOrUpdateGuide, {
+            //       sgGuide: guide,
+            //       sgGuideShopList: guideShop,
+            //       sgGuideVo: sgGuideVo,
+            //       updateAllGuidePrefix: updateAllGuidePrefix
+            //     }).then(resp => {
+            //       _this.closeDialog()
+            //       _this.$notify.success('保存成功')
+            //       this.$refs.table.$reload()
+            //     }).catch((resp) => {
+            //       _this.closeDialog()
+            //       this.model.sgGuide.image = allImageUrl
+            //       _this.$notify.error('保存失败：' + resp.msg)
+            //     })
+            //   }
+            // })
           } else {
             _this.$refs.addForm.validate(valid => {
               if (valid) {
@@ -1197,7 +1229,7 @@ export default {
       let obj = {
         length: _this.transferShopSize !== null ? _this.transferShopSize : 15,
         searchMap: {
-          shopId: null,
+          shopId: _this.model.shop,
           keyword: _this.model.name === null ? _this.model.shop === null : _this.model.name,
           noGuideId: _this.guideId
         },

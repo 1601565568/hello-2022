@@ -502,7 +502,19 @@
           <el-radio  @change='storeOwnership' label="2">门店<el-tooltip placement="bottom"><div slot="content">会员归属原门店，专属导购为空</div><i class="el-icon-question"></i></el-tooltip></el-radio>
         </el-radio-group>
       </div>
-      <div v-if="storeOwnershipDisplay">
+      <!-- <div v-if="storeOwnershipDisplay && memberferRadio !== '1' && row.count > 1">
+        <el-form ref="table_filter_form" :model="model" label-width="60px" :inline="true">
+          <el-form-item label="所属门店：">
+            <el-form-grid>
+              <el-select placeholder="请选择所属门店" v-model="model.shop" clearable filterable>
+                <el-option v-for="shop in shopFindList" :label="shop.shopName" :value="shop.id"
+                          :key="shop.id"></el-option>
+              </el-select>
+            </el-form-grid>
+          </el-form-item>
+        </el-form>
+      </div> -->
+      <div v-if="storeOwnershipDisplay && memberferRadio !== '1'">
         <el-form ref="table_filter_form" :model="model" label-width="60px" :inline="true">
           <el-form-item label="所属门店：">
             <el-form-grid>
