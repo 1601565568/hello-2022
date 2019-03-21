@@ -1356,7 +1356,7 @@ export default {
         type: 'warning'
       }).then(() => {
         var params = {
-          isLeave: false,
+          isLeave: 0,
           transGuideId: _this.guideId,
           transStatus: 1,
           resource: 0
@@ -1378,7 +1378,7 @@ export default {
         return
       }
       var params = {
-        isLeave: false,
+        isLeave: 0,
         transGuideId: _this.guideId,
         receiveGuideId: _this.value.id,
         transStatus: 2,  // 对应后台枚举
@@ -1402,14 +1402,14 @@ export default {
     // 保存自定义转移客户
     onSaveCustomTransfer () {
       var _this = this
-      var isLeave = false
+      var isLeave = 0
       let obj = {
         nick: null,
         nickType: null
       }
       if (_this.allPageCustomer.length > 0) {
         if (_this.allPageCustomer.length === _this.paginations.total) {
-          isLeave = true
+          isLeave = 1
         }
         _this.nickVoList = []
         for (let index = 0; index < _this.allPageCustomer.length; index++) {
@@ -1428,7 +1428,7 @@ export default {
         _this.$notify.error('请选择转移的导购')
       } else {
         if (_this.customerTotal === _this.dimissionArry.length) {
-          isLeave = true
+          isLeave = 1
         }
         var params = {
           nickVoList: _this.nickVoList,
