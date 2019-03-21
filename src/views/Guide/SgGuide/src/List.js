@@ -197,6 +197,7 @@ export default {
       memberBelongingShow: false,
       verification: false,
       nextStep: '确定',
+      sum: null,                  // 员工下面的会员数量
       guideShoppersList: [],
       guideList: [],
       shopList: [],
@@ -320,7 +321,7 @@ export default {
       _this.changeObj.jobsChange = true
     },
     storeOwnership (value) {
-      value === '1' ? this.storeOwnershipDisplay = true : this.storeOwnershipDisplay = false
+      value === '2' ? this.storeOwnershipDisplay = true : this.storeOwnershipDisplay = false
     },
     memberBelonging (value) {
       let _this = this
@@ -380,13 +381,18 @@ export default {
       let guide = this.model.sgGuide
       let guideShop = []
       guideShop.push(_this.model.sgGuideShop)
-      _this.model.sgGuideVo.newShopId = model.shop
       _this.model.sgGuideVo.type = Number(_this.memberferRadio)
       let sgGuideVo = _this.model.sgGuideVo
       let allImageUrl = null
-      _this.subordinateStores.map((item, i) => {
-        guideShop[i] = Object.assign({job: model.sgGuideShop.job, shop_id: item}, guideShop[i])
-      })
+      if (_this.memberferRadio === '1') {
+        _this.subordinateStores.map((item, i) => {
+          sgGuideVo = Object.assign({newShopId: _this.model.sgGuideShop.shop_id}, sgGuideVo)
+        })
+      } else {
+        _this.subordinateStores.map((item, i) => {
+          guideShop[i] = Object.assign({job: model.sgGuideShop.job, shop_id: item}, guideShop[i])
+        })
+      }
       // guideShop.shift()
       _this.$refs.addForm.validate((valid) => {
         if (valid) {
@@ -793,6 +799,7 @@ export default {
           'shopId': shopId
         }
       }).then(resp => {
+        _this.sum = resp.result.recordsFiltered
         if (resp.result.recordsFiltered > 0) {
           _this.memberBelongingShowTow = true
         }
@@ -837,9 +844,10 @@ export default {
       let allImageUrl = null
       let updateAllGuidePrefix = this.model.sgGuideShop.updateAllGuidePrefix
       _this.$http.fetch(this.$api.guide.guide.findGuideShopCustomerSum, {
-        guideId: model.sgGuideShop.id,
+        guideId: guideId,
         shopIds: _this.subordinateStores.join(',')
       }).then(resp => {
+        _this.sum = resp.result.result.sum
         if (resp.result.result.sum > 0) {
           _this.memberBelongingtitle = '选择会员归属'
           _this.memberBelongingShow = true
@@ -972,7 +980,7 @@ export default {
                       }
                       if (guide.birthday === null) guide.birthday = ''
                       if (guide.work_num === null) guide.work_num = ''
-                      guideShop[0] = {job: _this.guideValue, shop_id: model.sgGuideShop.shop_id, newShopId: model.sgGuideShop.shop_id}
+                      guideShop[0] = {job: _this.guideValue, shop_id: model.sgGuideShop.shop_id}
                       this.$http.fetch(this.$api.guide.guide.saveOrUpdateGuide, {
                         sgGuide: guide,
                         sgGuideShopList: guideShop,
@@ -1003,7 +1011,7 @@ export default {
                       }
                       if (guide.birthday === null) guide.birthday = ''
                       if (guide.work_num === null) guide.work_num = ''
-                      guideShop[0] = {job: _this.guideValue, shop_id: model.sgGuideShop.shop_id, newShopId: model.sgGuideShop.shop_id}
+                      guideShop[0] = {job: _this.guideValue, shop_id: model.sgGuideShop.shop_id}
                       this.$http.fetch(this.$api.guide.guide.saveOrUpdateGuide, {
                         sgGuide: guide,
                         sgGuideShopList: guideShop,
@@ -1075,7 +1083,7 @@ export default {
                       }
                       if (guide.birthday === null) guide.birthday = ''
                       if (guide.work_num === null) guide.work_num = ''
-                      guideShop[0] = {job: 0, shop_id: model.sgGuideShop.shop_id, newShopId: model.sgGuideShop.shop_id}
+                      guideShop[0] = {job: 0, shop_id: model.sgGuideShop.shop_id}
                       this.$http.fetch(this.$api.guide.guide.saveOrUpdateGuide, {
                         sgGuide: guide,
                         sgGuideShopList: guideShop,
@@ -1105,7 +1113,7 @@ export default {
                 }
                 if (guide.birthday === null) guide.birthday = ''
                 if (guide.work_num === null) guide.work_num = ''
-                guideShop[0] = {job: 0, shop_id: model.sgGuideShop.shop_id, newShopId: model.sgGuideShop.shop_id}
+                guideShop[0] = {job: 0, shop_id: model.sgGuideShop.shop_id }
                 this.$http.fetch(this.$api.guide.guide.saveOrUpdateGuide, {
                   sgGuide: guide,
                   sgGuideShopList: guideShop,
