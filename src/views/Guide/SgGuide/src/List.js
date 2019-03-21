@@ -886,7 +886,6 @@ export default {
       let shopId = null
       let shopIds = []
       let updateAllGuidePrefix = this.model.sgGuideShop.updateAllGuidePrefix
-      console.log('row:', this.row.count)
       if (model.sgGuideShop.job === 1 && _this.title === '编辑员工信息') {
         if (_this.guideValue === _this.row.job) {
           if (_this.guideValue === 0) {
@@ -905,7 +904,6 @@ export default {
                     _this.getCustomerCount(guideId, shopId)
                   })
                 } else {
-                  console.log('shopIds:', _this.row.shop_ids)
                   _this.row.shop_ids.split(',').some(item => {
                     if (_this.changeValue.storeValue.join(',').indexOf(item) === -1) {
                       guideId = _this.row.id
@@ -1393,6 +1391,7 @@ export default {
         if (_this.allPageCustomer.length === _this.paginations.total) {
           isLeave = true
         }
+        console.log('length:', _this.allPageCustomer.length)
         for (let index = 0; index < _this.allPageCustomer.length; index++) {
           if (index === 0) {
             obj.nick = _this.allPageCustomer[index].nick
@@ -1421,7 +1420,7 @@ export default {
         _this.guideLeave(params, isLeave)
       }
     },
-    // 导购离职
+    // 导购会员转移
     guideLeave (data, isClose) {
       var _this = this
       _this.customFormVisible = false
@@ -1436,9 +1435,12 @@ export default {
         }
         _this.receiveGuideId = null
         _this.customerIds = null
+        console.log('data:', data)
+        // _this.getCustomerCount(guideId, shopId, model)
+
         _this.specifyTransferFormVisible = false
         _this.customFormVisible = false
-        _this.resignFormVisible = false
+        // _this.resignFormVisible = false
         if (!isClose) {
           _this.guideFindList()
         }
