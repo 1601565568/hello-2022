@@ -60,6 +60,50 @@
     line-height: (1px * $i);
   }
 }
+.flex {
+  display: -webkit-box;
+  /* Chrome 4+, Safari 3.1, iOS Safari 3.2+ */
+  display: -moz-box;
+  /* Firefox 17- */
+  display: -webkit-flex;
+  /* Chrome 21+, Safari 6.1+, iOS Safari 7+, Opera 15/16 */
+  display: -moz-flex;
+  /* Firefox 18+ */
+  display: -ms-flexbox;
+  /* IE 10 */
+  display: flex;
+}
+.flex-direction{
+  flex-direction: column;
+}
+.flex-direction {
+  flex-direction: column
+}
+
+.flex-between {
+  justify-content: space-between;
+  align-items: center
+}
+
+.flex-center {
+  justify-content: center;
+  align-items: center
+}
+.flex-start {
+  justify-content: flex-start;
+  align-items: center
+}
+.flex-around {
+  justify-content: space-around;
+  align-items: center;
+}
+
 .bg-white{
   background-color: #fff;
+}
+.text-white{
+  color:#fff;
+}
+.text-center{
+  text-align: center
 }
