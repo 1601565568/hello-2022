@@ -70,7 +70,7 @@ export default {
         updateAllGuidePrefix: 0
       },
       sgGuideVo: {
-        newShopId: 0,
+        newShopId: null,
         type: 0
       }
     }
@@ -379,7 +379,7 @@ export default {
       let _this = this
       let guide = this.model.sgGuide
       let guideShop = []
-      guideShop.push(_this.model.sgGuideVo)
+      guideShop.push(_this.model.sgGuideShop)
       _this.model.sgGuideVo.newShopId = model.shop
       _this.model.sgGuideVo.type = Number(_this.memberferRadio)
       let sgGuideVo = _this.model.sgGuideVo
@@ -917,7 +917,7 @@ export default {
                     _this.subordinateStores.map((item, i) => {
                       guideShop[i] = Object.assign({job: _this.guideValue, shop_id: item}, guideShop[i])
                     })
-                    guideShop.splice(0, 1)
+                    // guideShop.splice(0, 1)
                     _this.$refs.addForm.validate(valid => {
                       if (valid) {
                         if (guide.birthday instanceof Date) {
@@ -972,7 +972,7 @@ export default {
                       }
                       if (guide.birthday === null) guide.birthday = ''
                       if (guide.work_num === null) guide.work_num = ''
-                      guideShop[0] = {job: _this.guideValue, shop_id: model.sgGuideShop.shop_id}
+                      guideShop[0] = {job: _this.guideValue, shop_id: model.sgGuideShop.shop_id, newShopId: model.sgGuideShop.shop_id}
                       this.$http.fetch(this.$api.guide.guide.saveOrUpdateGuide, {
                         sgGuide: guide,
                         sgGuideShopList: guideShop,
@@ -1003,7 +1003,7 @@ export default {
                       }
                       if (guide.birthday === null) guide.birthday = ''
                       if (guide.work_num === null) guide.work_num = ''
-                      guideShop[0] = {job: _this.guideValue, shop_id: model.sgGuideShop.shop_id}
+                      guideShop[0] = {job: _this.guideValue, shop_id: model.sgGuideShop.shop_id, newShopId: model.sgGuideShop.shop_id}
                       this.$http.fetch(this.$api.guide.guide.saveOrUpdateGuide, {
                         sgGuide: guide,
                         sgGuideShopList: guideShop,
@@ -1075,7 +1075,7 @@ export default {
                       }
                       if (guide.birthday === null) guide.birthday = ''
                       if (guide.work_num === null) guide.work_num = ''
-                      guideShop[0] = {job: 0, shop_id: model.sgGuideShop.shop_id}
+                      guideShop[0] = {job: 0, shop_id: model.sgGuideShop.shop_id, newShopId: model.sgGuideShop.shop_id}
                       this.$http.fetch(this.$api.guide.guide.saveOrUpdateGuide, {
                         sgGuide: guide,
                         sgGuideShopList: guideShop,
@@ -1105,7 +1105,7 @@ export default {
                 }
                 if (guide.birthday === null) guide.birthday = ''
                 if (guide.work_num === null) guide.work_num = ''
-                guideShop[0] = {job: 0, shop_id: model.sgGuideShop.shop_id}
+                guideShop[0] = {job: 0, shop_id: model.sgGuideShop.shop_id, newShopId: model.sgGuideShop.shop_id}
                 this.$http.fetch(this.$api.guide.guide.saveOrUpdateGuide, {
                   sgGuide: guide,
                   sgGuideShopList: guideShop,
@@ -1403,6 +1403,7 @@ export default {
         if (_this.allPageCustomer.length === _this.paginations.total) {
           isLeave = true
         }
+        _this.nickVoList = []
         for (let index = 0; index < _this.allPageCustomer.length; index++) {
           if (index === 0) {
             obj.nick = _this.allPageCustomer[index].nick
