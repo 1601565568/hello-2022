@@ -174,7 +174,6 @@ export default {
      * 优惠券下拉框改变
      */
     storeCouponChange: function (value) {
-      console.log('value:', value)
       var _this = this
       _this.activityModel.coupon_id = value
       _this.activityModel.type = 0

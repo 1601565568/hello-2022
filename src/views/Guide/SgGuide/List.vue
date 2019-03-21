@@ -369,11 +369,8 @@
     </el-dialog>
     <!--  导购离职弹窗结束  -->
     <!--  批量设置到后弹窗开始 -->
-    <el-dialog title="更换导购" width="700px" height="350px" :visible.sync="replaceTheShoppers">
+    <el-dialog title="更换导购" width="700px" height="410px" :visible.sync="replaceTheShoppers">
     <div class="resignFormVisible_otherShoppers">
-          <div class="resignFormVisible_otherShoppers_02">
-            请选择导购
-          </div>
           <div class="resignFormVisible_otherShoppers_01">
             <div class="resignFormVisible_otherShoppers_search">
               <el-form ref="table_filter_form" :model="model" label-width="80px" :inline="true">
@@ -438,7 +435,9 @@
           </el-pagination>
           <!-- 分页-结束 -->
         </div>
-        <div class="replaceTheShoppers">
+        <!-- <div class="replaceTheShoppers">
+        </div> -->
+        <div slot="footer" class="dialog-footer">
           <ns-button @click="replaceTheShoppers = false">取消</ns-button>
           <ns-button type="primary" @click="onSaveCustomTransfer">确定</ns-button>
         </div>
@@ -503,7 +502,19 @@
           <el-radio  @change='storeOwnership' label="2">门店<el-tooltip placement="bottom"><div slot="content">会员归属原门店，专属导购为空</div><i class="el-icon-question"></i></el-tooltip></el-radio>
         </el-radio-group>
       </div>
-      <div v-if="storeOwnershipDisplay">
+      <!-- <div v-if="storeOwnershipDisplay && memberferRadio !== '1' && row.count > 1">
+        <el-form ref="table_filter_form" :model="model" label-width="60px" :inline="true">
+          <el-form-item label="所属门店：">
+            <el-form-grid>
+              <el-select placeholder="请选择所属门店" v-model="model.shop" clearable filterable>
+                <el-option v-for="shop in shopFindList" :label="shop.shopName" :value="shop.id"
+                          :key="shop.id"></el-option>
+              </el-select>
+            </el-form-grid>
+          </el-form-item>
+        </el-form>
+      </div> -->
+      <div v-if="storeOwnershipDisplay && memberferRadio !== '1'">
         <el-form ref="table_filter_form" :model="model" label-width="60px" :inline="true">
           <el-form-item label="所属门店：">
             <el-form-grid>
@@ -727,6 +738,9 @@
     justify-content: flex-end;
     align-items: center;
     margin:10px 10px 20px 0;
+    position: relative;;
+    float:right;
+    bottom: 0
   }
   .el-scrollbar__bar.is-vertical {
     width: 0!important;
