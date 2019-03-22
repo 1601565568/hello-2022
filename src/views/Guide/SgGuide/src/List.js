@@ -386,7 +386,7 @@ export default {
       let allImageUrl = null
       if (_this.memberferRadio === '1') {
         _this.subordinateStores.map((item, i) => {
-          sgGuideVo = Object.assign({newShopId: item}, sgGuideVo)
+          sgGuideVo.newShopId = _this.model.sgGuideShop.shop_id
         })
       } else {
         _this.subordinateStores.map((item, i) => {
