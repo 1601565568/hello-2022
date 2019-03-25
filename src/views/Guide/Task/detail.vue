@@ -20,8 +20,8 @@
         <i slot="reference" class="el-icon-info ml10 fz13" style='color:#999'></i>
       </el-popover>
   </div>
-  <div class="ptb10 plr20 bg-white mt5">
-    <h3 class="text-secondary">任务统计
+  <div class="bg-white mt5 ">
+    <h3 class="text-secondary lh58  plr20">任务统计
       <el-popover
         placement="bottom"
         trigger="hover">
@@ -31,36 +31,110 @@
         <i slot="reference" class="el-icon-info ml10 fz13" style='color:#999'></i>
       </el-popover>
     </h3>
-    <el-row class="ptb20" :gutter="5">
-      <el-col :span="9" class='flex flex-around' style='border-right:1px solid #999999'>
-        <div class='percentage'>
-          <el-progress type="circle" :percentage="percentage.completed"  :width='90' :show-text='false' :stroke-width=4 color='#008000'></el-progress>
-          <div class='percentage_abs'>
-            完成率
-            <p class='fz14' :style="`color:${arr[2].color}`">{{percentage.completed}}%</p>
+    <el-row class="statistics" :gutter="5" style='height:254px'>
+      <el-col :span="11" class='flex flex-around ptb58' style='height:254px;border-right:1px solid #f2f2f2'>
+        <div class="statistics-pic statistics-total flex flex-center">
+          <div class="round"></div>
+          <div class="text-white fz18" style='opacity:0.9'>任务总数</div>
+          <div class=" text-white fz32 mt24">{{infoObj.total}}</div>
+        </div>
+        <div class="statistics-pic statistics-doing flex flex-center ">
+          <div class="round"></div>
+          <div class="text-white fz18" style='opacity:0.9'>进行中</div>
+          <div class=" text-white fz32 mt24">
+            {{infoObj.unfinishedCount}}
+            <!-- <el-countup
+              class="text-white fz32 mt24"
+              :start="0"
+              :end="Number(infoObj.unfinishedCount)"
+              :duration="1.5">
+            </el-countup> -->
           </div>
         </div>
-        <div class='percentage'>
-          <div class='percentage_abs'>
-            延期率
-            <p class='fz14' :style="`color:${arr[0].color}`">{{percentage.delay}}%</p>
+      </el-col>
+      <el-col :span="13" class='ptb30' style='height:254px'>
+        <div class='statistics-pro statistics-fin flex flex-around '>
+          <div class='flex flex-start'>
+            <div style='position:relative;height:80px'>
+              <el-progress type="circle" :percentage="percentage.completed"  :width='80' :show-text='false' :stroke-width=4 color='#11b37f'></el-progress>
+              <div class='percentage_abs'>
+                <p class='fz12' style='color:#909399'>完成率</p>
+
+                <p class='fz16' style='color:#33393e'>{{percentage.completed}}%</p>
+              </div>
+            </div>
+            <el-popover
+              placement="bottom"
+              trigger="hover">
+              <el-row class="overview-popover">
+                完成率 = （按时完成 + 延期完成）/ 任务总数
+              </el-row>
+              <i slot="reference" class="el-icon-info ml10 fz16" style='color:#acacac'></i>
+            </el-popover>
           </div>
-          <el-progress type="circle" :percentage="percentage.delay"   :show-text='false' :width='90' :stroke-width=4 color='#FF0000'>延期率</el-progress>
+          <div>
+              <div>
+                <span class='fz12' style='color:#909399'>按时完成</span>
+                <el-popover
+                  placement="bottom"
+                  trigger="hover">
+                  <el-row class="overview-popover">
+                    在规定时间内完成的任务数
+                  </el-row>
+                  <i slot="reference" class="el-icon-info ml6 fz13" style='color:#acacac'></i>
+                </el-popover>
+              </div>
+              <div class='fz16 mt14 text-center' style='color:#11b37f'>{{infoObj.finishOnTime}}</div>
+          </div>
+          <div>
+              <div>
+                <span class='fz12' style='color:#909399'>延期完成</span>
+              </div>
+              <div class='fz16 mt14 text-center' style='color:#11b37f'>{{infoObj.finishDelay}}</div>
+          </div>
         </div>
 
-      </el-col>
-      <el-col :span="15" class='flex flex-around' style='height:95px'>
-        <div v-for='(item ,index) in arr' :key='item.index' class='flex flex-direction flex-center'  style='height:95px'>
-          <span >{{item.name}}</span>
-           <!-- <el-countup
-                  class="fz24 mt15"
-                  :style="'color:'+item.color"
-                  :start="0"
-                  :end="item.num"
-                  :duration="1.5">
-                </el-countup> -->
-          <span class='fz24 mt15':style="'min-height:20px;color:'+item.color" >{{item.num}}</span>
+        <div class='statistics-pro statistics-fin flex flex-around mt30'>
+          <div class='flex flex-start'>
+            <div style='position:relative;height:80px'>
+              <el-progress type="circle" :percentage="percentage.delay"  :width='80' :show-text='false' :stroke-width=4 color='#ff5e5e'></el-progress>
+              <div class='percentage_abs'>
+                <p class='fz12' style='color:#909399'>延期率</p>
+
+                <p class='fz16' style='color:#33393e'>{{percentage.delay}}%</p>
+              </div>
+            </div>
+            <el-popover
+              placement="bottom"
+              trigger="hover">
+              <el-row class="overview-popover">
+                延期率 = 延期数/ 任务总数
+              </el-row>
+              <i slot="reference" class="el-icon-info ml10 fz16" style='color:#acacac'></i>
+            </el-popover>
+          </div>
+          <div>
+              <div>
+                <span class='fz12' style='color:#909399'>延期数</span>
+                <el-popover
+                  placement="bottom"
+                  trigger="hover">
+                  <el-row class="overview-popover">
+                    延期数：只有没有按时完成的任务即为延期（包含延期完成和未完成）
+                  </el-row>
+                  <i slot="reference" class="el-icon-info ml6 fz13" style='color:#acacac'></i>
+                </el-popover>
+              </div>
+              <div class='fz16 mt14 text-center' style='color:#ff5e5e'>{{infoObj.delayCount}}</div>
+          </div>
+          <div>
+              <div>
+                <span class='fz12' style='color:#909399'>延期未完成</span>
+              </div>
+              <div class='fz16 mt14 text-center' style='color:#ff5e5e'>{{infoObj.delayUnfinished}}</div>
+          </div>
         </div>
+        <!-- <div class='statistics-pro statistics-del'></div> -->
       </el-col>
     </el-row>
 
@@ -87,9 +161,9 @@
         <div v-loading.lock="loadingShopRecruit"
               :element-loading-text="$t('prompt.loading')">
           <!-- 暂无数据结构 -->
-          <div class="no-data" v-if="!isShopRecruitData" style='height:362px'>
+          <div class="no-data" style='height:362px' v-if="!isTaskProgressData">
           </div>
-          <template v-if="isShopRecruitData">
+          <template v-if="isTaskProgressData">
             <business-echarts :options="taskProgressOption" class="oscillogram" auto-resize style='height:362px'></business-echarts>
           </template>
         </div>
@@ -134,7 +208,7 @@
     <el-col :span="12">
       <div class="overview-echart__item overview-echart__item--pink">
         <div class="overview-content__title">
-          <span>门店完成任务数排行榜</span>
+          <span class='span'>门店完成任务数排行榜</span>
         </div>
         <div v-loading.lock="loadingShopRecruit"
               :element-loading-text="$t('prompt.loading')">
@@ -150,7 +224,7 @@
     <el-col :span="12">
       <div class="overview-echart__item overview-echart__item--pink">
         <div class="overview-content__title">
-          <span>导购完成任务数排行榜</span>
+          <span class='span'>导购完成任务数排行榜</span>
         </div>
         <div v-loading.lock="loadingGuideRecruit"
               :element-loading-text="$t('prompt.loading')">
@@ -170,6 +244,7 @@
 import echarts from 'echarts'
 import businessEcharts from 'components/NsEcharts'
 import moment from 'moment'
+var myColor = ['#ff402c', '#ff592c', '#ff8f2c', '#ff8f2c', '#ffb22c']
 let taskProgressObj = {}
 export default {
   components: {
@@ -178,6 +253,7 @@ export default {
   data () {
     let queryDate = moment(new Date().setTime(new Date().getTime() - 3600 * 1000 * 24 * 30)).format('YYYY-MM-DD')
     return {
+      infoObj: {},
       searchObj: {
         pageSize: 5,
         pageStart: 0,
@@ -246,6 +322,7 @@ export default {
       isGuideSellData: true,
       isShopRecruitData: true,
       isGuideRecruitData: true,
+      isTaskProgressData: true,
       loadingSell: false,
       loadingRecruit: false,
       loadingReward: false,
@@ -375,48 +452,49 @@ export default {
         },
         series: [
           {
-            color: '#FF3A3A',
+            color: '#227afb',
             name: '总数',
             data: [],
             smooth: false,
             symbolSize: 8,
-            type: 'line',
-            areaStyle: {
-              color: {
-                type: 'linear',
-                x: 0,
-                y: 0,
-                x2: 0,
-                y2: 1,
-                colorStops: [{
-                  offset: 0, color: 'rgba(255, 58, 58, 0.6)' // 0% 处的颜色
-                }, {
-                  offset: 1, color: 'rgba(255, 58, 58, 0.1)' // 100% 处的颜色
-                }]
-              }
-            }
+            type: 'line'
+            // areaStyle: {
+            //   color: '#2dcdbe'
+            //   // {
+            //   //   type: 'linear',
+            //   //   x: 0,
+            //   //   y: 0,
+            //   //   x2: 0,
+            //   //   y2: 1,
+            //   //   colorStops: [{
+            //   //     offset: 0, color: 'rgba(255, 58, 58, 0.6)' // 0% 处的颜色
+            //   //   }, {
+            //   //     offset: 1, color: 'rgba(255, 58, 58, 0.1)' // 100% 处的颜色
+            //   //   }]
+            //   // }
+            // }
           },
           {
-            color: '#FF3A3A',
+            color: '#2dcdbe',
             name: '未完成数',
             data: [],
             smooth: false,
             symbolSize: 8,
-            type: 'line',
-            areaStyle: {
-              color: {
-                type: 'linear',
-                x: 0,
-                y: 0,
-                x2: 0,
-                y2: 1,
-                colorStops: [{
-                  offset: 0, color: 'rgba(255, 58, 58, 0.6)' // 0% 处的颜色
-                }, {
-                  offset: 1, color: 'rgba(255, 58, 58, 0.1)' // 100% 处的颜色
-                }]
-              }
-            }
+            type: 'line'
+            // areaStyle: {
+            //   color: {
+            //     type: 'linear',
+            //     x: 0,
+            //     y: 0,
+            //     x2: 0,
+            //     y2: 1,
+            //     colorStops: [{
+            //       offset: 0, color: 'rgba(255, 58, 58, 0.6)' // 0% 处的颜色
+            //     }, {
+            //       offset: 1, color: 'rgba(255, 58, 58, 0.1)' // 100% 处的颜色
+            //     }]
+            //   }
+            // }
           }
         ]
       },
@@ -605,11 +683,12 @@ export default {
         series: [{
           type: 'bar',
           barGap: '-100%',
+          yAxisIndex: 0,
           label: {
             normal: {
               show: true,
               position: 'right',
-              color: '#000',
+              color: '#ff8f2c',
               fontSize: 14,
               formatter:
                 function (data) {
@@ -630,7 +709,8 @@ export default {
         // data: da
         }, {
           barWidth: 14,
-          barGap: '-100%',
+          // barGap: '-100%',
+          yAxisIndex: 0,
           label: {
             normal: {
               show: true,
@@ -646,12 +726,16 @@ export default {
           },
           itemStyle: {
             barBorderRadius: 15,
-            color: new echarts.graphic.LinearGradient(
-              0, 0, 1, 1,
-              [
-                {offset: 0, color: '#FF5215'},
-                {offset: 1, color: '#FF6C00'}
-              ])
+            // color: new echarts.graphic.LinearGradient(
+            //   0, 0, 1, 1,
+            //   [
+            //     {offset: 0, color: '#FF5215'},
+            //     {offset: 1, color: '#FF6C00'}
+            //   ]),
+            color: function (params) {
+              var num = myColor.length
+              return myColor[params.dataIndex % num]
+            }
           },
           type: 'bar',
           data: []
@@ -898,6 +982,16 @@ export default {
     }
   },
   methods: {
+    getArr (arr, add) {
+      var newArr = []
+      for (var i = 0; i < 10; i++) {
+        newArr[i] = add
+      }
+      for (var j = 0; j < arr.length; j++) {
+        newArr[j] = arr[j]
+      }
+      return newArr
+    },
     change (e) {
       this.init()
     },
@@ -962,20 +1056,20 @@ export default {
         .fetch(this.$api.guide.task.getTaskCount, parms)
         .then(resp => {
           if (resp !== null) {
-            this.arr[0].num = Number(resp.result.unfinishedCount || 0)
-            this.arr[1].num = Number(resp.result.delayCount || 0)
-            this.arr[2].num = Number(resp.result.completedCount || 0)
-            this.arr[3].num = Number(resp.result.total || 0)
-            if (!resp.result.total || resp.result.completedCount > resp.result.total) {
+            for (let i in resp.result) {
+              resp.result[i] = Number(resp.result[i] || 0)
+            }
+            this.infoObj = resp.result
+            this.infoObj.delayCount = this.infoObj.finishDelay + this.infoObj.delayUnfinished
+            if (!resp.result.total || (resp.result.finishOnTime + resp.result.finishDelay) > resp.result.total) {
               this.percentage.completed = 100
             } else {
-              this.percentage.completed = Number((resp.result.completedCount ? Number((resp.result.completedCount * 100 / resp.result.total).toFixed(2)) : 0))
+              this.percentage.completed = Number(((resp.result.finishOnTime + resp.result.finishDelay) * 100 / resp.result.total).toFixed(2))
             }
-            // this.percentage.completed = Number((resp.result.completedCount * 100 / resp.result.total).toFixed(2))
-            if (!resp.result.total || resp.result.delayCount > resp.result.total) {
+            if (!resp.result.total || (resp.result.finishDelay + resp.result.delayUnfinished) > resp.result.total) {
               this.percentage.delay = 100
             } else {
-              this.percentage.delay = Number((resp.result.delayCount ? Number((resp.result.delayCount * 100 / resp.result.total).toFixed(2)) : 0))
+              this.percentage.delay = Number(((resp.result.finishDelay + resp.result.delayUnfinished) * 100 / resp.result.total).toFixed(2))
             }
             // this.percentage.delay = Number((resp.result.delayCount * 100 / resp.result.total).toFixed(2))
           }
@@ -1087,8 +1181,8 @@ export default {
               perfAllArr.push(item.completedCount)
             })
             that.isGuideRecruitData = true
-            that.guideRecruitOption.yAxis.data = guideNameArr
-            that.guideRecruitOption.series[0].data = perfAllArr
+            that.guideRecruitOption.yAxis.data = that.getArr(guideNameArr, '暂无导购')
+            that.guideRecruitOption.series[0].data = that.getArr(perfAllArr, 0)
           }
         })
         .catch(resp => {
@@ -1132,7 +1226,7 @@ export default {
           let memberCountArr = []
           that.loadingShopRecruit = false
           if (resp.result === null || resp.result.length === 0) {
-            // that.isShopRecruitData = false
+
           } else {
             that.taskProgressOption.series[0].data = []
             resp.result.data.map(item => {
@@ -1163,7 +1257,7 @@ export default {
   }
 }
 </script>
-<style scoped>
+<style scoped lang='scss'>
 @import "../../../style/small/variables.pcss";
   @component-namespace overview {
     @b content {
@@ -1355,6 +1449,32 @@ export default {
           }
         }
       }
+    }
+  }
+  .statistics{
+    border-top: 1px solid #f2f2f2
+  }
+  .statistics-pic{
+    width: 220px;
+    height: 140px;
+    border-radius: 6px;
+    position: relative;
+    flex-direction: column;
+    .round{
+      width: 10px;
+      height: 10px;
+      border: 2px solid #fde7d6;
+      border-radius: 50%;
+      position: absolute;
+      right: 16px;
+      top: 14px;
+
+    }
+    &.statistics-total{
+      background-image: linear-gradient(45deg, #2089f1 0%, #3bb4f8 100%);
+    }
+    &.statistics-doing{
+      background-image: linear-gradient(45deg, #f75726 0%, #f78832 100%);
     }
   }
   .percentage{
