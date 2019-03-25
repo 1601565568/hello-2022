@@ -157,5 +157,20 @@ export default {
   queryMaterial: {
     url: '/guide/material/queryMaterial',
     method: 'post'
+  },
+  // 查找缓存中所有的Key
+  findCacheKeys: {
+    url: '/guide/cache/findCacheKeys',
+    method: 'get'
+  },
+  // 根据缓存中的Key拿值
+  getCacheKeyValue: {
+    url: '/guide/cache/getCacheKeyValue',
+    method: 'get'
+  },
+  // 移除缓存中的Key
+  removeCacheKey: {
+    url: '/guide/cache/removeCacheKey',
+    method: 'get'
   }
 }
