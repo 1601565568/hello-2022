@@ -55,7 +55,11 @@
         that.$http.fetch(this.$api.isv.getCacheKeyValue, {'cacheKey': that.cacheKey}).then(resp => {
           that.cacheVlaue = null
           if (resp.result && resp.result !== '') {
-            that.cacheVlaue = JSON.stringify(JSON.parse(resp.result), null, '\t')
+            try {
+              that.cacheVlaue = JSON.stringify(JSON.parse(resp.result), null, '\t')
+            } catch (e) {
+              that.cacheVlaue = resp.result
+            }
           }
         }).catch((resp) => {
           that.$notify.error(resp.msg)
