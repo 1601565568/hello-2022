@@ -172,5 +172,10 @@ export default {
   removeCacheKey: {
     url: '/guide/cache/removeCacheKey',
     method: 'get'
+  },
+  // 移除所有的Key
+  removeAllCacheKey: {
+    url: '/guide/cache/removeAllCacheKey',
+    method: 'get'
   }
 }

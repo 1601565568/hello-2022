@@ -11,6 +11,7 @@
         </el-autocomplete>
         <ns-button type="primary" @click="findKeyValue">查询</ns-button>
         <ns-button type="primary" @click="removeCacheKey">删除</ns-button>
+        <ns-button type="primary" @click="removeAllCacheKey">删除全部</ns-button>
       </el-form-item>
       <el-form-item label="缓存key对应的值" >
         <el-input
@@ -72,6 +73,14 @@
           that.cacheVlaue = null
         }).catch(resp => {
           that.$notify.error(resp.msg)
+        })
+      },
+      removeAllCacheKey () {
+        let that = this
+        that.$http.fetch(this.$api.isv.removeAllCacheKey).then(resp => {
+          that.$notify.success('删除成功')
+        }).catch(resp => {
+          that.$notify.error('删除失败')
         })
       }
     },
