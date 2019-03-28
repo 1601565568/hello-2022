@@ -249,24 +249,20 @@ export default {
           for (let i in resp.result.afterJson) {
             if (Object.prototype.toString.call(resp.result.afterJson[i]) === '[object Array]') {
               let tagArr = []
-              // let tagStr = ''
+              let tagStr = ''
               resp.result.afterJson[i].map(item => {
                 console.log(item.property)
                 for (let j in item) {
                   tagArr.push(`${j}:${item[j] || '-'}`)
                 }
               })
-              // tagStr = tagArr.join('\ </br>')
-              // `${i}:${tagStr}`
-              arr.push({
-                arr: tagArr
-              })
+              tagStr = tagArr.join('          ')
+              arr.push(`${i}:${tagStr}`)
             } else {
               arr.push(`${i}:${resp.result.afterJson[i] || ''}`)
             }
           }
           resp.result.afterJson = arr
-          console.log(arr)
         }
         if (resp.result.beforeJson !== null) {
           resp.result.beforeJson = JSON.parse(resp.result.beforeJson)

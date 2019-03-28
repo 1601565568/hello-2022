@@ -25,7 +25,7 @@
                 </div>
               </div>
               <div class="kehuBox-main-span_bottom">
-                <div  v-for="(item, i) in changeValue.afterJson" :key="i">
+                <div v-for="(item, i) in changeValue.afterJson" :key="i">
                   <span>{{item}}</span>
                 </div>
               </div>
