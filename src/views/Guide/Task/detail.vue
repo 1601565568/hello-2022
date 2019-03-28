@@ -15,7 +15,7 @@
         placement="bottom"
         trigger="hover">
         <el-row class="overview-popover">
-          根据任务的开始时间进行筛选
+          根据任务的开始时间筛选，结束时间默认为当前时间
         </el-row>
         <i slot="reference" class="el-icon-info ml10 fz13" style='color:#999'></i>
       </el-popover>
@@ -26,7 +26,7 @@
         placement="bottom"
         trigger="hover">
         <el-row class="overview-popover">
-          根据任务的数量计算任务完成数占比和任务延期率
+          任务总数：统计所有的任务数量；进行中：统计进行中的任务数
         </el-row>
         <i slot="reference" class="el-icon-info ml10 fz13" style='color:#999'></i>
       </el-popover>
@@ -148,7 +148,7 @@
               placement="bottom"
               trigger="hover">
               <el-row class="overview-popover">
-                显示每个任务的进度
+                任务显示根据任务的开始时间进行筛选；例如：筛选时间为2019-03-01至现在，则显示任务开始时间为2019-03-01至现在的任务
               </el-row>
               <i slot="reference" class="el-icon-info ml10 fz13" style='color:#999'></i>
             </el-popover>
@@ -186,7 +186,7 @@
               placement="bottom"
               trigger="hover">
               <el-row class="overview-popover">
-                统计所有任务的总数和未完成图
+                统计所有任务的总数和未完成数（未完成数：进行中任务+延期未完成任务）
               </el-row>
               <i slot="reference" class="el-icon-info ml10 fz13" style='color:#999'></i>
             </el-popover>
@@ -209,6 +209,14 @@
       <div class="overview-echart__item overview-echart__item--pink">
         <div class="overview-content__title">
           <span class='span'>门店完成任务数排行榜</span>
+          <el-popover
+            placement="bottom"
+            trigger="hover">
+            <el-row class="overview-popover">
+              完成任务包含按时完成和延期完成
+            </el-row>
+            <i slot="reference" class="el-icon-info ml6 fz13" style='color:#acacac'></i>
+          </el-popover>
         </div>
         <div v-loading.lock="loadingShopRecruit"
               :element-loading-text="$t('prompt.loading')">
@@ -225,6 +233,14 @@
       <div class="overview-echart__item overview-echart__item--pink">
         <div class="overview-content__title">
           <span class='span'>导购完成任务数排行榜</span>
+          <el-popover
+            placement="bottom"
+            trigger="hover">
+            <el-row class="overview-popover">
+              完成任务包含按时完成和延期完成
+            </el-row>
+            <i slot="reference" class="el-icon-info ml6 fz13" style='color:#acacac'></i>
+          </el-popover>
         </div>
         <div v-loading.lock="loadingGuideRecruit"
               :element-loading-text="$t('prompt.loading')">
@@ -1181,8 +1197,8 @@ export default {
               perfAllArr.push(item.completedCount)
             })
             that.isGuideRecruitData = true
-            that.guideRecruitOption.yAxis.data = that.getArr(guideNameArr, '暂无导购')
-            that.guideRecruitOption.series[0].data = that.getArr(perfAllArr, 0)
+            that.guideRecruitOption.yAxis.data = guideNameArr
+            that.guideRecruitOption.series[0].data = perfAllArr
           }
         })
         .catch(resp => {

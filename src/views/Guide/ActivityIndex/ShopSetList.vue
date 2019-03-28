@@ -31,7 +31,6 @@
                   v-model="searchform.year"
                   type="year"
                   placeholder="选择年"
-                  @change="yearChange"
                   clearable>
                 </el-date-picker>
               </el-form-item>
@@ -183,25 +182,6 @@ export default {
           label: '暂停营业'
         }
       ],
-      shopTypeOptions: [
-        {
-          // 状态
-          value: 'B',
-          label: '天猫'
-        },
-        {
-          value: 'C',
-          label: '淘宝店'
-        },
-        {
-          value: 'ZYD',
-          label: '直营店'
-        },
-        {
-          value: 'JMD',
-          label: '加盟'
-        }
-      ],
       selectedArr: [],
       searchform: {
         shopName: '',
@@ -299,14 +279,10 @@ export default {
     // 提交搜索
     submitForm (formName) {
       // 组装搜索对象
-      this.searchObj.searchMap.shopType = this.searchform.shopType
       this.searchObj.searchMap.shopName = this.searchform.shopName
       this.searchObj.searchMap.shopStatus = this.searchform.shopStatus
+      this.searchObj.searchMap.year = moment(this.searchform.year).format('YYYY')
       this.loadListFun()
-    },
-    // 选择年份
-    yearChange (e) {
-      this.searchObj.searchMap.year = moment(e).format('YYYY')
     }
   },
   components: {

@@ -261,13 +261,11 @@ export default {
       this.searchObj.searchMap.state = this.searchform.state
       this.searchObj.searchMap.name = this.searchform.name
 
-      console.log(this.searchObj)
       // 组装搜索对象
       this.loadListFun()
     },
     // 选择门店
     handleSelectionChange (val) {
-      console.log(val)
       this.selectedArr = val
     }
   },
