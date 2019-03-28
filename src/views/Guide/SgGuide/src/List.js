@@ -1460,7 +1460,6 @@ export default {
           } else {
             _this.resignFormVisible = true
           }
-          _this.findCustomerList()
         }).catch((resp) => {
           _this.$notify.error('查询失败：' + resp.msg)
         })
@@ -1471,8 +1470,7 @@ export default {
           _this.guideFindList()
         }
         _this.$notify.success(resp.msg)
-        // _this.$refs.table.$reload()
-        // _this.findCustomerList()
+        _this.$refs.table.$reload()
       }).catch((resp) => {
         _this.$notify.error('操作失败 ' + resp.msg)
       })
