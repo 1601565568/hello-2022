@@ -1,8 +1,9 @@
 <template>
-  <!-- 素材对像列表显示 wanrengang 20180802 -->
+  <!-- 素材对象列表显示 -->
   <div class="materialItem">
-
-    <el-dialog :visible.sync="dialogVisible" :before-close="handleClose" customClass="custom-dialog">
+    <!-- 查看图片大图-->
+    <el-dialog :visible.sync="imageVisible" :before-close="handleClose" :close-on-click-modal=false
+               customClass="custom-dialog">
       <div class="slide-show">
         <div class="slide-img">
           <img :src="itemObj.imageList[nowIndex]">
@@ -16,7 +17,8 @@
         <div class="iconRight" @click="nextImg(1)"></div>
       </div>
     </el-dialog>
-    <div class="picBox" v-if="itemObj.m_type==1">
+    <!--素材内容-->
+    <div class="picBox" v-if="itemObj.m_type === 1">
       <div class="tit">{{itemObj.content.length>77?itemObj.content.substr(0,77)+'…':itemObj.content.substr(0,77)}}</div>
       <ul class="imgList">
         <li v-for="(item,index) in itemObj.imageList.slice(0,3)" :key="index">
@@ -27,8 +29,8 @@
         </li>
       </ul>
     </div>
-    <div class='line2' style='-webkit-box-orient: vertical;' v-if="itemObj.m_type==0">{{itemObj.content.length>77?itemObj.content.substr(0,70)+'…':itemObj.content.substr(0,70)}}</div>
-    <a :href="itemObj.url" target="_blank" class="shareBox" v-if="itemObj.m_type==0">
+    <div class='line2' style='-webkit-box-orient: vertical;' v-if="itemObj.m_type === 0">{{itemObj.content.length>77?itemObj.content.substr(0,70)+'…':itemObj.content.substr(0,70)}}</div>
+    <a :href="itemObj.url" target="_blank" class="shareBox" v-if="itemObj.m_type === 0">
       <!--<img @click="showImg(0, itemObj.m_type)" v-show="itemObj.imageList[0]" :src="itemObj.imageList[0]" alt="">-->
       <img :src="itemObj.imageList[0]" alt="">
       <div class="tit">{{itemObj.title.length>77?itemObj.title.substr(0,70)+'…':itemObj.title.substr(0,70)}}</div>
@@ -42,7 +44,7 @@
     },
     data () {
       return {
-        dialogVisible: false,
+        imageVisible: false,
         nowIndex: 0
       }
     },
@@ -56,7 +58,7 @@
           return
         }
         this.nowIndex = index
-        this.dialogVisible = true
+        this.imageVisible = true
       },
       handleClose (done) {
         done()

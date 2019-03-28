@@ -148,7 +148,6 @@ export default {
   },
   methods: {
     timeFun (val) {
-      console.log(val)
     },
     selectShopBack (val) {
       this.hasShopArr = val
@@ -162,7 +161,7 @@ export default {
     // 选择素材回调
     selectMaterialBack (obj) {
       this.model.materialId = obj.id
-      this.model.materialTitle = obj.title
+      this.model.materialTitle = obj.content
       this.selectMaterial = obj
     },
     /**
