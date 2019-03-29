@@ -3,7 +3,7 @@
   <div class="materialItem">
     <!-- 查看图片大图-->
     <el-dialog :visible.sync="imageVisible" :before-close="handleClose" :close-on-click-modal=false
-               customClass="custom-dialog">
+               customClass="custom-dialog" :append-to-body="appendToBody">
       <div class="slide-show">
         <div class="slide-img">
           <img :src="itemObj.imageList[nowIndex]">
@@ -40,7 +40,13 @@
 <script>
   export default {
     props: {
-      itemObj: Object
+      itemObj: Object,
+      appendToBody: {
+        type: Boolean,
+        default: function () {
+          return false
+        }
+      }
     },
     data () {
       return {
@@ -49,7 +55,6 @@
       }
     },
     created: function () {
-      // console.log(this.itemObj)
     },
     methods: {
       // 显示弹窗
@@ -60,8 +65,8 @@
         this.nowIndex = index
         this.imageVisible = true
       },
-      handleClose (done) {
-        done()
+      handleClose () {
+        this.imageVisible = false
       },
       nextImg (type) {
         if (type === 1) {
