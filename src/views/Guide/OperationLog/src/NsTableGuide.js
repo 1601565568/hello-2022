@@ -30,39 +30,18 @@ export default {
     let searchModel = {
       operator: 1,
       operators: null,
-      staff: null,
-      brandParty: null,
       moduleType: null,
       operatorId: null,
       operatorName: null,
       shopId: null,
       terminalType: null,
-      validTime: null,
-      sgGuide: {
-        brand_id: null,
-        name: null,
-        nickname: null,
-        sex: 1,
-        mobile: null,
-        birthday: null,
-        work_id: null,
-        password: null,
-        image: null,
-        validTime: null,
-        dataModule: null
-
-      },
-      sgGuideShop: {
-        id: null,
-        shop_id: null,
-        job: 0
-      }
+      validTime: null
     }
     let findVo = {
       'name': null,
       'shop': null,
       'job': null,
-      'guideState': 1
+      'targetId': null
     }
     let model = Object.assign({}, findVo, {}, searchModel)
     return {
@@ -94,8 +73,8 @@ export default {
         {label: '授权管理', value: 10}
       ],
       operator: [
-        {label: '员工', value: 1},
-        {label: '品牌方', value: 2},
+        {label: '员工', value: 2},
+        {label: '品牌方', value: 1},
         {label: '操作人ID', value: 3}
       ],
       pickerOptions: {
@@ -143,6 +122,12 @@ export default {
   },
   computed: {},
   methods: {
+    /** 搜索操作人监听事件 */
+    terminalTypeChange (val) {
+      let _this = this
+      _this.model.operatorId = null
+      _this.model.operatorName = null
+    },
     staffFindList () {
       let _this = this
       _this.$http.fetch(_this.$api.guide.guide.getGuideList).then(resp => {
@@ -152,8 +137,6 @@ export default {
       }).catch((resp) => {
         _this.$notify.error('查询失败：' + resp.msg)
       })
-    },
-    handleClose () {
     },
     initShopList () {
       var _this = this
