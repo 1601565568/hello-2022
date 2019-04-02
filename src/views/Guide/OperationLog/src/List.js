@@ -256,7 +256,7 @@ export default {
                   tagArr.push(`${j}:${item[j] || '-'}`)
                 }
               })
-              tagStr = tagArr.join('          ')
+              tagStr = tagArr.join('      ')
               arr.push(`${i}:${tagStr}`)
             } else {
               arr.push(`${i}:${resp.result.afterJson[i] || ''}`)
@@ -275,7 +275,7 @@ export default {
                   tagArr.push(`${j}:${item[j] || '-'}`)
                 }
               })
-              tagStr = tagArr.join('          ')
+              tagStr = tagArr.join('      ')
               arr1.push(`${i}:${tagStr}`)
             } else {
               arr1.push(`${i}:${resp.result.beforeJson[i] || ''}`)

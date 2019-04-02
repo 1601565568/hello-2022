@@ -21,7 +21,7 @@
         >
             <el-table-column prop="content" label="素材内容">
               <template slot-scope="scope">
-                <listItemShow :itemObj="scope.row"></listItemShow>
+                <listItemShow :itemObj="scope.row" :appendToBody="true"></listItemShow>
               </template>
             </el-table-column>
           <el-table-column width="100" label="素材类型">
