@@ -152,7 +152,7 @@
           </template>
         </el-table-column>
 
-        <el-table-column prop="targetId" label="数据库ID" align="center" width="150">
+        <el-table-column prop="targetId" label="数据库ID" align="center" width="160">
           <template slot-scope="scope">
             {{scope.row.targetId || '-'}}
           </template>
