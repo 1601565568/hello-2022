@@ -1,5 +1,5 @@
 <template>
-  <div v-html='textContent'>
+  <div v-html='textContent' class='articleMaterialDetail'>
   </div>
 </template>
 
@@ -36,13 +36,10 @@ height: auto;
 margin: 0 auto;
 display: block
 }
-</style>
-<style>
-.loader-noCache{
-  display: none !important
-}
-body{
-  background: #ffffff ;
+.articleMaterialDetail{
+  position: fixed;
+  z-index: 2006;
+  background: white;
 }
 </style>
 
