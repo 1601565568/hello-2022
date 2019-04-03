@@ -25,7 +25,7 @@
                 </div>
               </div>
               <div class="kehuBox-main-span_bottom">
-                <div  v-for="(item, i) in changeValue.afterJson" :key="i">
+                <div v-for="(item, i) in changeValue.afterJson" :key="i">
                   <span>{{item}}</span>
                 </div>
               </div>
@@ -61,6 +61,7 @@
   }
   .kehuBox-main-span_left{
     display: flex;
+    margin-right: 5px;
     justify-content:space-around;
     line-height: 35px;
   }

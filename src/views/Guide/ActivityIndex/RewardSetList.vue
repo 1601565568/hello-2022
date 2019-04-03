@@ -74,7 +74,7 @@
         width="300"
       >
         <template slot-scope="scope"><div v-if="scope.row.salesStatus">
-          <span>线上：成单导购 {{scope.row.onlineSalesRewardOrder}}<span v-if="scope.row.onlineSalesRewardOrder === null">0</span>% + 专属导购 {{scope.row.onlineSalesRewardExclusive}}<span v-if="scope.row.salesRewardExclusive === null">0</span>%<br></span>
+          <span>线上：成单导购 {{scope.row.onlineSalesRewardOrder}}<span v-if="scope.row.onlineSalesRewardOrder === null">0</span>% + 专属导购 {{scope.row.onlineSalesRewardExclusive}}<span v-if="scope.row.onlineSalesRewardExclusive === null">0</span>%<br></span>
           <span>线下：成单导购 {{scope.row.salesRewardOrder}}<span v-if="scope.row.salesRewardOrder === null">0</span>% + 专属导购 {{scope.row.salesRewardExclusive}}<span v-if="scope.row.salesRewardExclusive === null">0</span>%<br></span>
         </div>
         <div v-else>

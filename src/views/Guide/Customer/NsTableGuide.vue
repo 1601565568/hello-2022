@@ -122,7 +122,7 @@
             {{!scope.row.province&&!scope.row.city&&!scope.row.district?'-':scope.row.province+'/'+scope.row.city+'/'+scope.row.district}}
           </template>
         </el-table-column> -->
-        <el-table-column prop="guideName" label="专属导购" align="left" width="120">
+        <el-table-column prop="guideName" label="专属导购" align="left" width="180">
           <template slot-scope="scope">
               {{scope.row.guideName ? scope.row.guideName : "-"}}
           </template>

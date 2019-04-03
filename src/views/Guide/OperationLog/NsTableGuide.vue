@@ -46,11 +46,11 @@
           </el-form-grid>
         </el-form-item>
 
-        <!-- <el-form-item label="数据库ID：">
+         <el-form-item label="数据库ID：">
           <el-form-grid>
-            <el-input style="width:180px" autofocus=true v-model="model.name" placeholder="请输入数据库ID" clearable></el-input>
+            <el-input style="width:180px" autofocus=true v-model="model.targetId" placeholder="请输入数据库ID" clearable></el-input>
           </el-form-grid>
-        </el-form-item> -->
+        </el-form-item>
 
         <el-form-item label="所属门店：">
           <el-form-grid>
@@ -63,16 +63,16 @@
 
         <el-form-item label="操作人：">
           <el-form-grid>
-            <el-select placeholder="员工" v-model="model.terminalType" clearable filterable>
+            <el-select placeholder="员工" v-model="model.terminalType" @change="terminalTypeChange" clearable filterable>
               <el-option v-for="shop in operator" :label="shop.label" :value="shop.value" :key="shop.value"></el-option>
             </el-select>
           </el-form-grid>
-          <el-form-grid v-if="model.terminalType === 1">
+          <el-form-grid v-if="model.terminalType === 2">
             <el-select placeholder="员工" v-model="model.operatorId" clearable filterable>
               <el-option v-for="shop in staffFindLists" :label="shop.name" :value="shop.id" :key="shop.id"></el-option>
             </el-select>
           </el-form-grid>
-          <el-form-grid v-if="model.terminalType === 2">
+          <el-form-grid v-if="model.terminalType === 1">
             <el-input style="width:180px" autofocus=true v-model="model.operatorName" placeholder="请输入品牌方姓名"
                       clearable></el-input>
           </el-form-grid>
@@ -83,15 +83,20 @@
         </el-form-item>
 
         <el-form-item label="日志时间：" prop="time">
-          <el-date-picker
-            v-model="model.validTime"
-            type="datetimerange"
-            :picker-options="pickerOptions"
-            range-separator="至"
-            start-placeholder="请选择开始日期"
-            end-placeholder="请选择结束日期"
-            align="right">
-          </el-date-picker>
+          <el-form-grid>
+            <el-date-picker
+              v-model="model.validTime"
+              type="datetimerange"
+              :picker-options="pickerOptions"
+              range-separator="至"
+              start-placeholder="请选择开始日期"
+              end-placeholder="请选择结束日期"
+              align="right">
+            </el-date-picker>
+          </el-form-grid>
+          <el-form-grid>
+            <el-tooltip content="仅支持查询最近36个月内的操作日志" placement="right"><i class="el-icon-info text-tips"></i></el-tooltip>
+          </el-form-grid>
         </el-form-item>
 
         <!-- <el-form-item label="日志时间：">
@@ -147,7 +152,7 @@
           </template>
         </el-table-column>
 
-        <el-table-column prop="targetId" label="数据库ID" align="center" width="150">
+        <el-table-column prop="targetId" label="数据库ID" align="center" width="160">
           <template slot-scope="scope">
             {{scope.row.targetId || '-'}}
           </template>

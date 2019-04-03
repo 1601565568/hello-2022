@@ -11,7 +11,6 @@
     <div class="comDialogBoxCon">
       <div class="mt10">
         <el-table
-        ref="multipleTable"
         :data="dataList"
         :lock-scroll="false"
         v-loading="loading"
@@ -20,10 +19,20 @@
         stripe
         style="width: 100%"
         >
-            <el-table-column prop="content" label="素材内容"></el-table-column>
-            <el-table-column prop="subdivision_name" width="84" label="分组名称"></el-table-column>
-            <el-table-column prop="create_time" label="发布时间 " width="160"></el-table-column>
-            <el-table-column  width="86" label="操作">
+            <el-table-column prop="content" label="素材内容">
+              <template slot-scope="scope">
+                <listItemShow :itemObj="scope.row" :appendToBody="true"></listItemShow>
+              </template>
+            </el-table-column>
+          <el-table-column width="100" label="素材类型">
+            <template slot-scope="{row}">
+              <span v-if="row.m_type === 0">文章素材</span>
+              <span v-else>图文素材</span>
+            </template>
+          </el-table-column>
+            <el-table-column prop="subdivision_name" align="left" width="120" label="分组名称"></el-table-column>
+            <el-table-column prop="create_time" label="发布时间" align="center" width="160"></el-table-column>
+            <el-table-column  width="80" label="操作">
                 <template slot-scope="{row}">
                     <span v-if="row.id === selectObj.id">已选择</span>
                     <a v-else href="javascript:" class="text-primary" @click="selectMaterialFun(row)">选择</a>
@@ -50,10 +59,14 @@
 </template>
 <script>
 import listPageMixin from 'mixins/listPage'
+import listItemShow from '../Material/components/listItemShow'
 export default {
   mixins: [listPageMixin],
   props: {
     callBack: Function
+  },
+  components: {
+    listItemShow
   },
   data () {
     return {
@@ -65,7 +78,6 @@ export default {
   },
   methods: {
     showToggle (obj) {
-      console.log(obj)
       if (obj.id) {
         this.selectObj = obj
       }

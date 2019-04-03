@@ -386,7 +386,7 @@ export default {
       let allImageUrl = null
       if (_this.memberferRadio === '1') {
         _this.subordinateStores.map((item, i) => {
-          sgGuideVo = Object.assign({newShopId: _this.model.sgGuideShop.shop_id}, sgGuideVo)
+          sgGuideVo.newShopId = _this.model.sgGuideShop.shop_id
         })
       } else {
         _this.subordinateStores.map((item, i) => {
@@ -573,16 +573,13 @@ export default {
       var _this = this
       var dimissionIdArry = []
       let guideId = null
-      let shopId = null
       if (_this.shopIds !== null) {
         _this.replaceStoresArry.map(item => {
           if (item.shop_id !== _this.shopIds) {
             guideId = item.id
-            shopId = item.shop_id
             _this.$http.fetch(_this.$api.guide.guide.getCustomerCount, {
               searchMap: {
-                'guideId': guideId,
-                'shopId': shopId
+                'guideId': guideId
               }
             }).then(resp => {
               if (resp.result.recordsFiltered > 0) {
@@ -786,7 +783,7 @@ export default {
         })
       }
     },
-    async getCustomerCount (guideId, shopId, model) { // 查询导购下的会员数量
+    async getCustomerCount (guideId) { // 查询导购下的会员数量
       let _this = this
       // let guide = _this.model.sgGuide
       // let guideShop = []
@@ -795,8 +792,7 @@ export default {
       // let updateAllGuidePrefix = this.model.sgGuideShop.updateAllGuidePrefix
       await _this.$http.fetch(_this.$api.guide.guide.getCustomerCount, {
         searchMap: {
-          'guideId': guideId,
-          'shopId': shopId
+          'guideId': guideId
         }
       }).then(resp => {
         _this.sum = resp.result.recordsFiltered
@@ -900,7 +896,7 @@ export default {
             if (_this.row.shop_id !== _this.changeValue.storeValue) {
               guideId = _this.row.id
               shopId = _this.row.shop_id
-              _this.getCustomerCount(guideId, shopId)
+              _this.getCustomerCount(shopId)
             }
           } else {
             if (_this.subordinateStores.length !== 0) {
@@ -909,7 +905,7 @@ export default {
                   _this.row.shop_ids.split(',').map((item, i) => {
                     guideId = _this.row.id
                     shopId = item
-                    _this.getCustomerCount(guideId, shopId)
+                    _this.getCustomerCount(shopId)
                   })
                 } else {
                   _this.row.shop_ids.split(',').some(item => {
@@ -971,7 +967,7 @@ export default {
                 if (_this.subordinateStores.join(',').indexOf(_this.row.shop_id) === -1) {
                   guideId = _this.row.id
                   shopId = _this.row.shop_id
-                  _this.getCustomerCount(guideId, shopId, model)
+                  _this.getCustomerCount(shopId)
                 } else {
                   _this.$refs.addForm.validate(valid => {
                     if (valid) {
@@ -1002,7 +998,7 @@ export default {
                 if (_this.changeValue.storeValue.indexOf(_this.row.shop_id) === -1) {
                   guideId = _this.row.id
                   shopId = _this.row.shop_id
-                  _this.getCustomerCount(model, guideId, shopId)
+                  _this.getCustomerCount(guideId)
                 } else {
                   _this.$refs.addForm.validate(valid => {
                     if (valid) {
@@ -1069,8 +1065,7 @@ export default {
             if (model.sgGuideShop.shop_id !== _this.row.shop_id) {
               _this.$http.fetch(_this.$api.guide.guide.getCustomerCount, {
                 searchMap: {
-                  'guideId': _this.row.id,
-                  'shopId': _this.row.shop_id
+                  'guideId': _this.row.id
                 }
               }).then(resp => {
                 if (resp.result.recordsFiltered > 0) {
@@ -1113,7 +1108,7 @@ export default {
                 }
                 if (guide.birthday === null) guide.birthday = ''
                 if (guide.work_num === null) guide.work_num = ''
-                guideShop[0] = {job: 0, shop_id: model.sgGuideShop.shop_id }
+                guideShop[0] = { job: 0, shop_id: model.sgGuideShop.shop_id }
                 this.$http.fetch(this.$api.guide.guide.saveOrUpdateGuide, {
                   sgGuide: guide,
                   sgGuideShopList: guideShop,
@@ -1310,8 +1305,7 @@ export default {
       }).then(() => {
         _this.$http.fetch(_this.$api.guide.guide.getCustomerCount, {
           searchMap: {
-            'guideId': row.id,
-            'shopId': row.shop_id
+            'guideId': row.id
           }
         }).then(resp => {
           if (resp.result.recordsFiltered > 0) {
@@ -1458,8 +1452,7 @@ export default {
         _this.customerIds = null
         _this.$http.fetch(_this.$api.guide.guide.getCustomerCount, {
           searchMap: {
-            'guideId': data.transGuideId,
-            'shopId': _this.shopId
+            'guideId': data.transGuideId
           }
         }).then(resp => {
           if (resp.result.recordsFiltered < 1) {
@@ -1467,7 +1460,6 @@ export default {
           } else {
             _this.resignFormVisible = true
           }
-          _this.findCustomerList()
         }).catch((resp) => {
           _this.$notify.error('查询失败：' + resp.msg)
         })
@@ -1478,8 +1470,7 @@ export default {
           _this.guideFindList()
         }
         _this.$notify.success(resp.msg)
-        // _this.$refs.table.$reload()
-        // _this.findCustomerList()
+        _this.$refs.table.$reload()
       }).catch((resp) => {
         _this.$notify.error('操作失败 ' + resp.msg)
       })
