@@ -14,7 +14,7 @@ export default {
   },
   mounted: function () {
     let arr = window.location.href.replace(/guideId=/g, '').replace(/materialId=/g, '').split('?')[1].split('&')
-    let parms = {materialId: arr[1], guideId: arr[0]}
+    let parms = {id: arr[1], guideId: arr[0]}
     this.$http.fetch(this.$api.isv.queryMaterial, parms)
           .then(resp => {
             this.textContent = resp.result.textContent

@@ -723,8 +723,8 @@ export default {
                 perfAllArr.push(item.perf_all)
               })
               that.isGuideSellData = true
-              that.guideSellOption.yAxis[0].data = guideNameArr
-              that.guideSellOption.series[0].data = perfAllArr
+              that.guideSellOption.yAxis.data = guideNameArr
+              that.guideSellOption.series.data = perfAllArr
             }
           } else { // 导购招募
             let guideNameArr = []

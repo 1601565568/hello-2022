@@ -156,7 +156,7 @@ export default {
   },
   queryMaterial: {
     url: '/guide/material/queryMaterial',
-    method: 'post'
+    method: 'get'
   },
   // 查找缓存中所有的Key
   findCacheKeys: {
