@@ -4,13 +4,13 @@
 <div>
   <el-dialog
   :title="title"
-  width='30%'
+  width='40%'
   :close-on-click-modal=false
   :visible.sync="dialogVisible"
   :before-close="handleClose">
     <div class="topTip">已选门店:<span>{{selectedArr.length}}</span>家</div>
     <div class="comDialogBoxCon">
-      <el-form ref="form" :inline="true" :model="saveObj">
+      <el-form ref="form" :inline="true" :model="saveObj" :rules="rules">
       <div class="addTitBox">
         <span class="addTitText">销售提成</span>
         <el-form-item>
@@ -19,35 +19,39 @@
       </div>
       <div class="addItemCon">
         线上成单：成单导购提成
-        <el-form-item  prop="age">
-          <el-input type="number" style="width:60px" v-model.number="saveObj.onlineSalesRewardOrder" auto-complete="off" step="0.0001"></el-input>
-        </el-form-item>%;
+        <el-form-item  prop="onlineSalesRewardOrder">
+          <el-input-number style="width:80px" :controls="false" :precision="2"
+                           v-model.number="saveObj.onlineSalesRewardOrder"></el-input-number>
+        </el-form-item>%；
         专属导购提成
-        <el-form-item  prop="age">
-          <el-input type="number" style="width:60px" v-model.number="saveObj.onlineSalesRewardExclusive" auto-complete="off" step="0.0001"></el-input>
-        </el-form-item><span>%;</span>
+        <el-form-item  prop="onlineSalesRewardExclusive">
+          <el-input-number style="width:80px" :controls="false" :precision="2"
+                           v-model.number="saveObj.onlineSalesRewardExclusive"></el-input-number>
+        </el-form-item><span>%</span>
       </div>
       <div class="addItemCon">
         门店成单：成单导购提成
-        <el-form-item  prop="age">
-          <el-input type="number" style="width:60px" v-model.number="saveObj.salesRewardOrder" auto-complete="off" step="0.0001"></el-input>
-        </el-form-item><span>%;</span>
+        <el-form-item  prop="salesRewardOrder">
+          <el-input-number style="width:80px" :controls="false" :precision="2"
+                           v-model.number="saveObj.salesRewardOrder"></el-input-number>
+        </el-form-item><span>%；</span>
         专属导购提成
-        <el-form-item  prop="age">
-          <el-input type="number" style="width:60px" v-model.number="saveObj.salesRewardExclusive" auto-complete="off" step="0.0001"></el-input>
-        </el-form-item><span>%;</span>
+        <el-form-item  prop="salesRewardExclusive">
+          <el-input-number style="width:80px" :controls="false" :precision="2"
+                           v-model.number="saveObj.salesRewardExclusive"></el-input-number>
+        </el-form-item><span>%</span>
       </div>
       <div class="addTitBox">
         <span class="addTitText">招募新会员奖励</span>
         <el-form-item>
-          <el-switch  :active-value="1" :inactive-value="0" v-model="saveObj.memberStatus" step="0.0001"></el-switch>
+          <el-switch  :active-value="1" :inactive-value="0" v-model="saveObj.memberStatus"></el-switch>
         </el-form-item>
       </div>
       <div class="addItemCon">
         招募奖励：每招募一名新会员奖励
-        <el-form-item  prop="age">
-          <el-input type="number" style="width:60px" v-model.number="saveObj.memberReward" auto-complete="off" step="0.0001"></el-input>
-        </el-form-item><span >元。</span>
+        <el-form-item  prop="memberReward">
+          <el-input-number style="width:80px" :controls="false" v-model.number="saveObj.memberReward"></el-input-number>
+        </el-form-item><span >元</span>
       </div>
 
       <!-- <div class="addTitBox">
@@ -84,10 +88,30 @@ export default {
     callBack: Function
   },
   data () {
+    // 校验数值
+    let checkNumber = (rule, value, callback) => {
+      if (value === null || value === '') {
+        callback()
+      } else {
+        let arr = /^([-+]?\d{1,10})(\.\d{1,2})?$/
+        if (!arr.test(value)) {
+          callback(new Error('请输入10位以内整数且最多2位小数'))
+        } else {
+          callback()
+        }
+      }
+    }
     return {
       loading: false, // 防重复提交
       saveObj: {
         list: []
+      },
+      rules: {
+        onlineSalesRewardOrder: [{validator: checkNumber, trigger: 'blur'}],
+        onlineSalesRewardExclusive: [{validator: checkNumber, trigger: 'blur'}],
+        salesRewardOrder: [{validator: checkNumber, trigger: 'blur'}],
+        salesRewardExclusive: [{validator: checkNumber, trigger: 'blur'}],
+        memberReward: [{validator: checkNumber, trigger: 'blur'}]
       },
       title: '',
       curMonth: 5,
@@ -113,26 +137,29 @@ export default {
       this.multipleSelection = val
     },
     async saveFun () {
-      this.loading = true
-      // 组装选择的门店
-      this.saveObj.list = [] // 清空
-      this.selectedArr.forEach((value, key) => {
-        this.saveObj.list.push({
-          id: value.id,
-          shopId: value.shopId
-        })
+      this.$refs.form.validate(valid => {
+        if (valid) {
+          this.loading = true
+          // 组装选择的门店
+          this.saveObj.list = [] // 清空
+          this.selectedArr.forEach((value, key) => {
+            this.saveObj.list.push({
+              id: value.id,
+              shopId: value.shopId
+            })
+          })
+          this.$http.fetch(this.$api.guide.guide.rewardruleSave, this.saveObj)
+                     .then(resp => {
+                       this.loading = false
+                       this.handleClose()
+            // 回调刷新列表
+                       this.$props.callBack()
+                     })
+                     .catch(resp => {
+                       this.$notify.error(resp.msg)
+                     })
+        }
       })
-      await this.$http
-        .fetch(this.$api.guide.guide.rewardruleSave, this.saveObj)
-        .then(resp => {
-          this.loading = false
-          this.handleClose()
-          // 回调刷新列表
-          this.$props.callBack()
-        })
-        .catch(resp => {
-          this.$notify.error(resp.msg)
-        })
     },
     handleClose () {
       this.dialogVisible = false
