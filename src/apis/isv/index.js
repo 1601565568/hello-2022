@@ -158,6 +158,10 @@ export default {
     url: '/guide/material/queryMaterial',
     method: 'get'
   },
+  openQueryMaterial: {
+    url: '/guide/open/queryMaterial',
+    method: 'get'
+  },
   // 查找缓存中所有的Key
   findCacheKeys: {
     url: '/guide/cache/findCacheKeys',

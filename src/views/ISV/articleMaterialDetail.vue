@@ -15,7 +15,7 @@ export default {
   mounted: function () {
     let arr = window.location.href.replace(/guideId=/g, '').replace(/materialId=/g, '').split('?')[1].split('&')
     let parms = {id: arr[1], guideId: arr[0]}
-    this.$http.fetch(this.$api.isv.queryMaterial, parms)
+    this.$http.fetch(this.$api.isv.openQueryMaterial, parms)
           .then(resp => {
             this.textContent = resp.result.textContent
           })
@@ -40,6 +40,8 @@ display: block
   position: fixed;
   z-index: 2006;
   background: white;
+  min-width: 100%;
+  min-height: 100%
 }
 </style>
 

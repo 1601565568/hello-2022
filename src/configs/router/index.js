@@ -29,7 +29,7 @@ export default [
     componentPath: 'Errors/404'
   },
   {
-    path: '/articleMaterialDetail',
+    path: '/operate/articleMaterialDetail',
     name: 'articleMaterialDetail',
     componentPath: 'ISV/articleMaterialDetail'
   },
