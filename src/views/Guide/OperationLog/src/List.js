@@ -248,16 +248,13 @@ export default {
           console.log(resp.result.afterJson)
           for (let i in resp.result.afterJson) {
             if (Object.prototype.toString.call(resp.result.afterJson[i]) === '[object Array]') {
-              let tagArr = []
-              let tagStr = ''
               resp.result.afterJson[i].map(item => {
-                console.log(item.property)
+                let str = ''
                 for (let j in item) {
-                  tagArr.push(`${j}:${item[j] || '-'}`)
+                  str = str + `${j}:${item[j] || '-'}，`
                 }
+                arr.push(str.substring(0, str.length - 1))
               })
-              tagStr = tagArr.join('      ')
-              arr.push(`${i}:${tagStr}`)
             } else {
               arr.push(`${i}:${resp.result.afterJson[i] || ''}`)
             }
@@ -268,15 +265,13 @@ export default {
           resp.result.beforeJson = JSON.parse(resp.result.beforeJson)
           for (let i in resp.result.beforeJson) {
             if (Object.prototype.toString.call(resp.result.beforeJson[i]) === '[object Array]') {
-              let tagArr = []
-              let tagStr = ''
               resp.result.beforeJson[i].map(item => {
+                let str = ''
                 for (let j in item) {
-                  tagArr.push(`${j}:${item[j] || '-'}`)
+                  str = str + `${j}:${item[j] || '-'}，`
                 }
+                arr1.push(str.substring(0, str.length - 1))
               })
-              tagStr = tagArr.join('      ')
-              arr1.push(`${i}:${tagStr}`)
             } else {
               arr1.push(`${i}:${resp.result.beforeJson[i] || ''}`)
             }
