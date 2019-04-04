@@ -686,8 +686,8 @@ export default {
               recruitRewardArr.push(item.recruit)
             })
             that.isRewardDate = true
-            that.rewardOption.series[0].data = recruitRewardArr
-            that.rewardOption.series[1].data = sellRewardArr
+            that.rewardOption.series[0].data = sellRewardArr
+            that.rewardOption.series[1].data = recruitRewardArr
           }
         })
         .catch(resp => {
