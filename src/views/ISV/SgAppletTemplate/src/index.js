@@ -51,11 +51,26 @@ export default {
           label: '导购转移提醒',
           value: 0
         }, {
-          label: '任务分配通知',
+          label: '任务分配提醒',
           value: 1
         }, {
-          label: '优惠券分配通知',
+          label: '优惠券分配提醒',
           value: 2
+        }, {
+          label: '订单待发货提醒',
+          value: 3
+        }, {
+          label: '订单待备货提醒',
+          value: 4
+        }, {
+          label: '订单取消提醒',
+          value: 5
+        }, {
+          label: '退款申请提醒',
+          value: 6
+        }, {
+          label: '新订单提醒',
+          value: 8
         }
       ],
       _table: {
@@ -98,11 +113,11 @@ export default {
       that.$refs.form.validate((valid) => {
         if (valid) {
           this.$http.fetch(this.$api.isv.saveOrUpdateAppletTemplate, this.subObj).then(resp => {
-            this.dialogFormVisible = false
+            that.dialogFormVisible = false
             that.$reload()
-            that.$notify.success('修改成功')
+            that.$notify.success('保存成功')
           }).catch((resp) => {
-            that.$notify.error(resp.msg || '修改失败')
+            that.$notify.error(resp.msg || '保存失败')
           })
         }
       })
@@ -110,7 +125,7 @@ export default {
     onDelete (row) { // 小程序模板消息删除
       apiRequestConfirm('永久删除该数据').then(() => {
         let that = this
-        that.$http.fetch(this.$api.isv.deleteAppletTemplate, {id: row.id}).then(() => {
+        that.$http.fetch(this.$api.isv.deleteAppletTemplate, {id: row.id, templateId: row.template_id, appid: row.appid}).then(() => {
           that.$notify.success('删除成功')
           that.$reload()
         }).catch((resp) => {
