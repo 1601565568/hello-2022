@@ -96,6 +96,20 @@
           "componentPath": "ISV/CacheManager/index"
         }
       ]
+    },
+    {
+      "path": "/operate/contactWay",
+      "name": "CONTACT_WAY_MANAGER",
+      "title": "联系我管理",
+      "componentPath": "ContentOperate",
+      "children": [
+        {
+          "path": "/operate/contactWay/manager",
+          "name": "CONTACT_WAY_MANAGER",
+          "title": "联系我管理",
+          "componentPath": "ISV/SgEnterpriseContactWay/index"
+        }
+      ]
     }
   ]
 }

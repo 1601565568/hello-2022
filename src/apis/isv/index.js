@@ -181,5 +181,20 @@ export default {
   removeAllCacheKey: {
     url: '/guide/cache/removeAllCacheKey',
     method: 'get'
+  },
+  // 获取联系我管理列表
+  getContactWayGuideInfo: {
+    url: '/guide/open/getContactWayGuideInfo',
+    method: 'post'
+  },
+  // 设置联系我
+  setGuideContactWay: {
+    url: '/guide/open/setContactWay',
+    method: 'post'
+  },
+  // 删除联系我
+  deleteContactWay: {
+    url: '/guide/open/deleteContactWay',
+    method: 'post'
   }
 }
