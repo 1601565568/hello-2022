@@ -50,7 +50,8 @@
       <div class="addItemCon">
         招募奖励：每招募一名新会员奖励
         <el-form-item  prop="memberReward">
-          <el-input-number style="width:80px" :controls="false" v-model.number="saveObj.memberReward"></el-input-number>
+          <el-input-number style="width:80px" :controls="false" :precision="2"
+                           v-model.number="saveObj.memberReward"></el-input-number>
         </el-form-item><span >元</span>
       </div>
 
