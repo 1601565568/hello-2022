@@ -1212,12 +1212,14 @@ export default {
     },
     // 转移给指定导购搜索
     transferSearch () {
+      this.transferShopPage = 1
       this.guideFindList()
     },
     // 转移给指定导购重置
     transferToReset () {
       this.model.name = null
       this.model.shop = null
+      this.transferShopPage = 1
       this.guideFindList()
     },
     // 自定义搜索
@@ -1246,7 +1248,7 @@ export default {
           keyword: _this.model.name === null ? _this.model.shop === null : _this.model.name,
           noGuideId: _this.guideId
         },
-        start: _this.transferShopPage !== null ? ((this.transferShopPage - 1) * 15) : 1
+        start: _this.transferShopPage !== null ? ((this.transferShopPage - 1) * 15) : 0
       }
       await this.$http
         .fetch(_this.$api.guide.guide.findShopGuide, obj)
