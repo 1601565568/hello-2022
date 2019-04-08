@@ -13,6 +13,7 @@
 </template>
 
 <script>
+import loaderNoCacheClose from 'utils/loaderNoCacheClose'
 export default {
   name: 'index',
   mixins: [],
@@ -23,6 +24,9 @@ export default {
       brandName: '',
       createTime: ''
     }
+  },
+  created () {
+    loaderNoCacheClose()
   },
   mounted: function () {
     let arr = window.location.href.replace(/guideId=/g, '').replace(/materialId=/g, '').split('?')[1].split('&')
