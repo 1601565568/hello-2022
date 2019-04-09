@@ -238,6 +238,7 @@ export default {
     // 提交搜索
     submitForm (formName) {
       // 组装搜索对象
+      this.searchObj.start = 0
       this.searchObj.searchMap.shopType = this.searchform.shopType
       this.searchObj.searchMap.shopName = this.searchform.shopName
       this.searchObj.searchMap.shopStatus = this.searchform.shopStatus

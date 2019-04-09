@@ -157,6 +157,7 @@ export default {
                        this.$props.callBack()
                      })
                      .catch(resp => {
+                       this.loading = false
                        this.$notify.error(resp.msg)
                      })
         }
