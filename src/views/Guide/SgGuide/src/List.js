@@ -1474,7 +1474,6 @@ export default {
         _this.specifyTransferFormVisible = false
         _this.customFormVisible = false
         _this.replaceTheShoppers = false
-        debugger
         if (!isClose) {
           _this.guideFindList()
           _this.findCustomerList()
