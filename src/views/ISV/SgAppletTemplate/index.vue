@@ -29,7 +29,7 @@
 
           <el-form-item label="小程序appid：">
             <el-form-grid size="xmd">
-              <el-input ref="quickText" style="width: 150px" v-model="model.appid" placeholder="请输入小程序appid" @keyup.enter.native="$quickSearchAction$('code')" clearable>
+              <el-input ref="quickText" v-model="model.appid" placeholder="请输入小程序appid" @keyup.enter.native="$quickSearchAction$('code')" clearable>
               </el-input>
             </el-form-grid>
           </el-form-item>

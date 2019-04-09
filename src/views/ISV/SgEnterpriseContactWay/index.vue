@@ -72,12 +72,13 @@
                   stripe
                   resizable v-loading.lock="_data._table.loadingtable"
                   :element-loading-text="$t('prompt.loading')" @sort-change="$orderChange$">
-          <el-table-column prop="groupId" width="150" label="集团Id" ></el-table-column>
-          <el-table-column prop="guideId" width="120" label="导购Id" ></el-table-column>
+          <el-table-column prop="groupId" label="集团Id" ></el-table-column>
+          <el-table-column prop="guideId" label="导购Id" ></el-table-column>
           <el-table-column prop="guideName" label="导购姓名" ></el-table-column>
-          <el-table-column prop="configId" label="联系我configId" ></el-table-column>
           <el-table-column prop="shopName" label="门店名称" ></el-table-column>
+          <el-table-column prop="shopId" label="门店Id" ></el-table-column>
           <el-table-column prop="brandId" label="虚拟门店Id" ></el-table-column>
+          <el-table-column prop="configId" width="260" label="联系我configId" ></el-table-column>
           <el-table-column :show-overflow-tooltip="true" label="操作" align="right">
             <template slot-scope="scope">
               <span class="tmp-cell__buttons">
@@ -104,16 +105,21 @@
                :visible.sync="dialogFormVisible"
                :modal-append-to-body="false"
                @before-close="closeDialog()">
-      <el-form :model="model" ref="form" :rules="rules" >
-        <el-form-grid size="small">
-          <el-form-item label="导购ID："  required>
+      <el-form :model="model" label-width="170px" ref="form" :rules="rules" >
+          <el-form-item v-if="!model.id" label="导购ID："  required>
             <el-input  type="text" placeholder="请输入导购ID" v-model="model.guideId" ></el-input>
           </el-form-item>
-        </el-form-grid>
+          <el-form-item v-if="model.id" label="企业微信联系我configId："  required>
+            <el-input  type="text" placeholder="请输入configId" v-model="model.configId" ></el-input>
+          </el-form-item>
+          <el-form-item v-if="model.id" label="外部客户添加不需要验证："  required>
+            <el-radio v-model="model.skipVerify" :label="true">是</el-radio>
+            <el-radio v-model="model.skipVerify" :label="false">否</el-radio>
+          </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <ns-button @click="closeDialog()">取消</ns-button>
-        <ns-button type="primary" @click="onSave">保存</ns-button>
+        <ns-button type="primary" @click="onSave()">保存</ns-button>
       </div>
     </el-dialog>
     <!-- 初始弹窗结束 -->

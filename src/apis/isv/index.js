@@ -196,5 +196,10 @@ export default {
   deleteContactWay: {
     url: '/guide/open/deleteContactWay',
     method: 'post'
+  },
+  // 更新联系我
+  updateContactWay: {
+    url: '/guide/open/updateContactWay',
+    method: 'post'
   }
 }

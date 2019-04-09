@@ -15,10 +15,13 @@ export default {
     ]
     return {
       model: {
+        id: null,
         groupId: null,
         guideId: null,
         guideName: null,
         configId: null,
+        skipVerify: null,
+        shopId: null,
         shopName: null,
         brandId: null,
         param: {}
@@ -77,10 +80,14 @@ export default {
       this.dialogFormVisible = false
       this.model = {
         id: null,
-        code: null,
-        value: null,
-        remark: null,
-        type: null,
+        groupId: null,
+        guideId: null,
+        guideName: null,
+        configId: null,
+        skipVerify: null,
+        shopId: null,
+        shopName: null,
+        brandId: null,
         param: {}
       }
     },
@@ -88,18 +95,26 @@ export default {
       this.dialogFormVisible = true
       this.titleText = (row.id && '编辑') || '新增'
       this.model = Object.assign({}, row)
-      // this.model = row
     },
     onSave () { // 小程序保存功能shopManager_radio
       let that = this
-      that.$http.fetch(that.$api.isv.setGuideContactWay, {guideId: that.model.guideId}).then(() => {
-        that.closeDialog()
-        that.newestDialog = false
-        that.$notify.success('设置成功')
-        that.$reload()
-      }).catch((resp) => {
-        that.$notify.error(resp.msg || '设置失败')
-      })
+      if (that.model.id) {
+        that.$http.fetch(that.$api.isv.updateContactWay, that.model).then(() => {
+          that.closeDialog()
+          that.$notify.success('设置成功')
+          that.$reload()
+        }).catch((resp) => {
+          that.$notify.error(resp.msg || '设置失败')
+        })
+      } else {
+        that.$http.fetch(that.$api.isv.setGuideContactWay, {guideId: that.model.guideId}).then(() => {
+          that.closeDialog()
+          that.$notify.success('设置成功')
+          that.$reload()
+        }).catch((resp) => {
+          that.$notify.error(resp.msg || '设置失败')
+        })
+      }
     },
     onDelete (row) { // 小程序删除功能
       apiRequestConfirm('永久删除该数据')
@@ -107,7 +122,6 @@ export default {
         let that = this
         that.$http.fetch(that.$api.isv.deleteContactWay, {guideId: row.guideId}).then(() => {
           that.dialogFormVisible = false
-          that.newestDialog = false
           that.$notify.success('删除成功')
           that.$reload()
         }).catch((resp) => {
