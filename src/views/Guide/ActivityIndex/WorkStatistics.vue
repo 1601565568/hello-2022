@@ -267,7 +267,7 @@
       <el-table :data="detailData">
         <el-table-column prop="name" label="名称" align="center" width="100"></el-table-column>
         <el-table-column prop="tradeId" label="订单编号" align="center" width="150"></el-table-column>
-        <el-table-column prop="payment" label="订单实付(不含运费)" align="center" width="150"></el-table-column>
+        <el-table-column prop="payment" label="订单实付(含运费)" align="center" width="150"></el-table-column>
         <el-table-column prop="createTime" label="时间" align="center" width="150"></el-table-column>
         <el-table-column prop="reward" label="提成" align="center" width="100"></el-table-column>
       </el-table>
