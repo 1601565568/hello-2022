@@ -323,6 +323,7 @@ export default {
         type: '1' // 1按月、2按日
       },
       // 弹窗字段
+      type: null,
       title: null,
       guideId: null,
       detailData: null,
@@ -349,12 +350,14 @@ export default {
       _this.title = name + '-招募明细'
       _this.showRecruitDialogVisible = true
       _this.guideId = guideId
+      _this.type = 0
       _this.findDetailData(guideId)
     },
     showSellDialog (guideId, name) {
       var _this = this
       _this.title = name + '-提成明细'
       _this.guideId = guideId
+      _this.type = 1
       _this.showSellDialogVisible = true
       _this.findDetailData(guideId)
     },
@@ -405,6 +408,7 @@ export default {
     formReset () {
       this.customerName = null
       this.tradeNo = null
+      this.type = null
       this.findDetailData(this.guideId)
     },
     findDetailData (guideId) {
@@ -427,6 +431,7 @@ export default {
           name: _this.customerName,
           tradeNo: _this.tradeNo,
           type: _this.searchform.type,
+          rewardType: _this.type,
           date: _this.searchObj.searchMap.date
         }
       }).then(resp => {
