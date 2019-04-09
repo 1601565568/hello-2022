@@ -8,7 +8,10 @@
   :visible.sync="dialogVisible"
   width="1000px"
   :before-close="handleClose">
-    <div class="topTip">指标年份:<span>{{saveObj.year}}</span>年（您好，重新设置指标后，原来设置的指标都会被清除。）</div>
+    <div class="topTip">指标年份:<span>{{saveObj.year}}</span>年（您好，重新设置指标后，原来设置的指标都会被清除。）
+      <span v-if="saveObj.type <= 0">最多输入两位小数</span>
+      <span v-if="saveObj.type > 0">请输入正整数</span>
+    </div>
     <el-table
       ref="multipleTable"
       :data="shopList"
@@ -82,7 +85,7 @@
         align="center"
       >
         <template slot-scope="scope">
-          <el-input  :disabled="curMonth>9?true:false" v-model="scope.row.quota9" @change="inputFunc(scope.row.quota9, 9)" placeholder="请输入"></el-input>
+          <el-input :disabled="curMonth>9?true:false" :precision="1" v-model="scope.row.quota9" @change="inputFunc(scope.row.quota9, 9)" placeholder="请输入"></el-input>
         </template>
       </el-table-column>
       <el-table-column
@@ -149,7 +152,7 @@ export default {
     },
     checkNumber (value, month, regin, msg) {
       if (!regin.test(value)) {
-        this.$notify.info(msg)
+        // this.$notify.info(msg)
         this.shopList[0]['quota' + month] = 0
       }
     },

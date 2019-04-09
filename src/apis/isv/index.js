@@ -139,20 +139,20 @@ export default {
     url: '/operate/sysConfig/delSysConfig',
     method: 'get'
   },
-  // 查询小程序模板消息id列表
+  // 查询小程序模板消息模板列表
   findAppletTemplateList: {
     url: '/guide/applettemplate/findList',
     method: 'post'
   },
-  // 新增或保存小程序模板消息
+  // 新增或保存小程序模板消息模板
   saveOrUpdateAppletTemplate: {
     url: '/guide/applettemplate/saveOrUpdate',
     method: 'post'
   },
-  // 删除小程序模板信息
+  // 删除小程序模板信息模板
   deleteAppletTemplate: {
     url: '/guide/applettemplate/deleteTemplate',
-    method: 'get'
+    method: 'post'
   },
   queryMaterial: {
     url: '/guide/material/queryMaterial',
