@@ -386,6 +386,7 @@ export default {
           'YYYY-MM'
         )
       }
+      this.searchObj.start = 0
       this.searchObj.searchMap.shopName = this.searchform.shopName
       this.searchObj.searchMap.name = this.searchform.name
       this.searchObj.searchMap.workId = this.searchform.workId

@@ -146,7 +146,7 @@
       </el-table-column>
       <el-table-column
         label="区域"
-        width="180"
+        width="140"
         show-overflow-tooltip
         >
         <template slot-scope="scope">
@@ -180,7 +180,7 @@
       <el-table-column
         label="门店招募/还差（人）"
         align="center"
-        width="200"
+        width="140"
       >
       <template slot-scope="scope">
         <span>{{scope.row.recruitComplete}}</span>/
@@ -194,7 +194,7 @@
         </span>
       </template>
       </el-table-column>
-      <el-table-column label="奖励（元）" prop="recruitPrice" width="220" align="right">
+      <el-table-column label="奖励（元）" prop="recruitPrice" width="80" align="right">
         <template slot-scope="scope">
           <span v-if="scope.row.recruitPrice == 0">0.00</span>
           <a href="javascript:" @click="showRecruitDialog(scope.row.shopId, scope.row.shopName)" v-else>{{$numeral(scope.row.recruitPrice).format('0,0.00')}}</a>
@@ -203,7 +203,7 @@
       <el-table-column
         label="门店销售额/还差（元）"
         align="right"
-        width="200"
+        width="150"
       >
       <template slot-scope="scope">
         <span>{{$numeral(scope.row.sellComplete).format('0,0.00')}}</span>/<span class="text-error">
@@ -216,7 +216,7 @@
           </span>
       </template>
       </el-table-column>
-      <el-table-column label="提成（元）" prop="sellPrice" width="220" align="right">
+      <el-table-column label="提成（元）" prop="sellPrice" width="80" align="right">
         <template slot-scope="scope">
           <span v-if="scope.row.sellPrice == 0">0.00</span>
           <a href="javascript:" @click="showSellDialog(scope.row.shopId, scope.row.shopName)" v-else>{{$numeral(scope.row.sellPrice).format('0,0.00')}}</a>
@@ -479,6 +479,7 @@ export default {
         )
       }
       // 组装搜索对象
+      this.searchObj.start = 0
       this.searchObj.searchMap.province = this.searchform.area[0]
       this.searchObj.searchMap.city = this.searchform.area[1]
       this.searchObj.searchMap.district = this.searchform.area[2]
