@@ -80,6 +80,11 @@ export default {
       'job': null,
       'guideState': 1
     }
+    let customFindVo = {
+      'name': null,
+      'shop': null,
+      'mobile': null
+    }
     let model = Object.assign({}, findVo, {}, searchModel)
     let rules = {
       'name': [
@@ -253,6 +258,7 @@ export default {
       customPagination: customPagination,
       shopTitle: '门店更换列表',
       scopeRowCountShow: false,
+      customFindVo: customFindVo,
       _table: {
         table_buttons: tableButtons,
         operate_buttons: operateButtons,
@@ -1159,12 +1165,11 @@ export default {
       _this.$http.fetch(_this.$api.guide.guide.findCustomerList, {
         searchMap: {
           'guideId': _this.guideId,
-          'shopId': _this.model.shop,
           'pageSize': _this.customShopSize !== null ? _this.paginations.size = _this.customShopSize : _this.paginations.size,
           'pageNo': _this.customShopPage !== null ? _this.paginations.page = _this.customShopPage : _this.paginations.page,
-          'mobile': _this.model.mobile,
-          'name': _this.model.name,
-          'workId': _this.model.workId
+          'mobile': _this.customFindVo.mobile,
+          'name': _this.customFindVo.name,
+          'shopId': _this.customFindVo.shop
         }
       }).then(resp => {
         if (resp.success && resp.result != null) {
@@ -1461,6 +1466,7 @@ export default {
             _this.resignFormVisible = false
           } else {
             _this.resignFormVisible = true
+            _this.transferCount = resp.result.recordsFiltered
           }
         }).catch((resp) => {
           _this.$notify.error('查询失败：' + resp.msg)
