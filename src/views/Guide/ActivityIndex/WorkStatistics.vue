@@ -350,14 +350,14 @@ export default {
       _this.title = name + '-招募明细'
       _this.showRecruitDialogVisible = true
       _this.guideId = guideId
-      _this.type = 0
+      _this.type = 1
       _this.findDetailData(guideId)
     },
     showSellDialog (guideId, name) {
       var _this = this
       _this.title = name + '-提成明细'
       _this.guideId = guideId
-      _this.type = 1
+      _this.type = 0
       _this.showSellDialogVisible = true
       _this.findDetailData(guideId)
     },

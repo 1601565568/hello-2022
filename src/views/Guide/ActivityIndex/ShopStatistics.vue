@@ -437,7 +437,7 @@ export default {
       _this.title = shopName + '-招募明细'
       _this.showRecruitDialogVisible = true
       _this.shopId = shopId
-      _this.type = 0
+      _this.type = 1
       _this.findDetailData(shopId)
     },
     showSellDialog (shopId, shopName) {
@@ -445,7 +445,7 @@ export default {
       _this.title = shopName + '-提成明细'
       _this.showSellDialogVisible = true
       _this.shopId = shopId
-      _this.type = 1
+      _this.type = 0
       _this.findDetailData(shopId)
     },
     dateTiemFun (e) {
