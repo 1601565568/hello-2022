@@ -415,6 +415,7 @@ export default {
       customerName: null,
       tradeNo: null,
       shopId: null,
+      type: null,
       pagination1: pagination1
     }
   },
@@ -436,6 +437,7 @@ export default {
       _this.title = shopName + '-招募明细'
       _this.showRecruitDialogVisible = true
       _this.shopId = shopId
+      _this.type = 0
       _this.findDetailData(shopId)
     },
     showSellDialog (shopId, shopName) {
@@ -443,6 +445,7 @@ export default {
       _this.title = shopName + '-提成明细'
       _this.showSellDialogVisible = true
       _this.shopId = shopId
+      _this.type = 1
       _this.findDetailData(shopId)
     },
     dateTiemFun (e) {
@@ -518,6 +521,7 @@ export default {
           tradeNo: _this.tradeNo,
           name: _this.customerName,
           type: this.searchform.type,
+          rewardType: _this.type,
           date: _this.searchObj.searchMap.date
         }
       }).then(resp => {
