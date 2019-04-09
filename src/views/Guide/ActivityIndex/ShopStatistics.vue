@@ -491,6 +491,7 @@ export default {
     },
     // 明细-------------------------------------------------------------------------------------------------  //
     formSearch () {
+      this.pagination1.page = 1
       this.findDetailData(this.shopId)
     },
     formReset () {

@@ -111,6 +111,7 @@ export default {
     },
     submitForm (formName) {
       // 组装搜索对象
+      this.searchObj.start = 0
       this.searchObj.searchMap.province = this.searchform.area[0]
       this.searchObj.searchMap.city = this.searchform.area[1]
       this.searchObj.searchMap.district = this.searchform.area[2]
