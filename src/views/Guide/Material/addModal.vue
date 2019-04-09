@@ -51,7 +51,7 @@
                   <div style="color:#999">上传图片不能大于500KB；图片最多上传9张（加小程序码的最多8张</div>
               </div>
           </el-form-item>
-          <el-form-item  label="小程序链接：" prop="urlPic">
+          <!-- <el-form-item  label="小程序链接：" prop="urlPic">
               <el-select @change="selChange" v-model="saveObj.urlId" placeholder="请选择" clearable>
                 <el-option v-for="item in wechatPageTypeList"
                     :key="item.id"
@@ -65,7 +65,7 @@
                       :value="item.url">
                       </el-option>
                   </el-select>
-          </el-form-item>
+          </el-form-item> -->
           <el-form-item label="小程序码类型：" prop="codeType" v-if='saveObj.url'>
             <el-radio-group v-model="saveObj.codeType">
                 <el-radio :label=1 >图片上植入小程序码
