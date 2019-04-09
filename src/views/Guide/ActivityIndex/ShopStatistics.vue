@@ -247,12 +247,6 @@
               </el-input>
             </el-form-grid>
           </el-form-item>
-          <el-form-item label="订单号：">
-            <el-form-grid size="xmd">
-              <el-input  type="text" v-model="tradeNo">
-              </el-input>
-            </el-form-grid>
-          </el-form-item>
           <el-form-item>
             <ns-button type="primary" @click="formSearch('searchform')">搜索</ns-button>
             <ns-button @click="formReset('searchform')">重置</ns-button>
