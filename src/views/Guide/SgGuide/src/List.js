@@ -1476,11 +1476,12 @@ export default {
         _this.replaceTheShoppers = false
         if (!isClose) {
           _this.guideFindList()
+          _this.findCustomerList()
         }
         _this.$notify.success(resp.msg)
         _this.$refs.table.$reload()
       }).catch((resp) => {
-        _this.$notify.error('操作失败 ' + resp.msg)
+        // _this.$notify.error('操作失败 ' + resp.msg)
       })
     },
     // 分页-页数改变
