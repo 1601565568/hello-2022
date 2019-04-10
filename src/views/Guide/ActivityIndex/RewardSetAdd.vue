@@ -1,7 +1,7 @@
 
 <template>
 <!-- 门店指标--编辑弹窗  wanrengang 20180713 -->
-<div>
+<div class="page-rewardSetAdd">
   <el-dialog
   :title="title"
   width='40%'
@@ -20,24 +20,24 @@
       <div class="addItemCon">
         线上成单：成单导购提成
         <el-form-item  prop="onlineSalesRewardOrder">
-          <el-input-number style="width:80px" :controls="false" :precision="2"
+          <el-input-number class="inputSize" :controls="false" :precision="2"
                            v-model.number="saveObj.onlineSalesRewardOrder"></el-input-number>
         </el-form-item>%；
         专属导购提成
         <el-form-item  prop="onlineSalesRewardExclusive">
-          <el-input-number style="width:80px" :controls="false" :precision="2"
+          <el-input-number class="inputSize" :controls="false" :precision="2"
                            v-model.number="saveObj.onlineSalesRewardExclusive"></el-input-number>
         </el-form-item><span>%</span>
       </div>
       <div class="addItemCon">
-        门店成单：成单导购提成
+        线下成单：成单导购提成
         <el-form-item  prop="salesRewardOrder">
-          <el-input-number style="width:80px" :controls="false" :precision="2"
+          <el-input-number class="inputSize" :controls="false" :precision="2"
                            v-model.number="saveObj.salesRewardOrder"></el-input-number>
         </el-form-item><span>%；</span>
         专属导购提成
         <el-form-item  prop="salesRewardExclusive">
-          <el-input-number style="width:80px" :controls="false" :precision="2"
+          <el-input-number class="inputSize" :controls="false" :precision="2"
                            v-model.number="saveObj.salesRewardExclusive"></el-input-number>
         </el-form-item><span>%</span>
       </div>
@@ -50,7 +50,7 @@
       <div class="addItemCon">
         招募奖励：每招募一名新会员奖励
         <el-form-item  prop="memberReward">
-          <el-input-number style="width:80px" :controls="false" :precision="2"
+          <el-input-number class="inputSize" :controls="false" :precision="2"
                            v-model.number="saveObj.memberReward"></el-input-number>
         </el-form-item><span >元</span>
       </div>
@@ -200,4 +200,13 @@ export default {
 .el-form--inline .el-form-item {
   margin-right: 5px !important;
 }
+.inputSize {
+  width: 100px;
+}
+</style>
+<style>
+  .page-rewardSetAdd .el-input__inner{
+    padding-right: 10px !important;
+    text-align: right;
+  }
 </style>
