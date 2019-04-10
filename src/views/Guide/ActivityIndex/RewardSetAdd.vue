@@ -30,7 +30,7 @@
         </el-form-item><span>%</span>
       </div>
       <div class="addItemCon">
-        线下成单：成单导购提成
+        门店成单：成单导购提成
         <el-form-item  prop="salesRewardOrder">
           <el-input-number class="inputSize" :controls="false" :precision="2"
                            v-model.number="saveObj.salesRewardOrder"></el-input-number>
