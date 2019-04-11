@@ -11,7 +11,14 @@
 
     <div class="comDialogBoxCon flex flex-between" style='align-items:flex-start'>
       <div class="comDialogBoxConOut" v-show='saveObj.articleType' style='flex:1'>
-        <el-input  placeholder="请在这里输入标题"   v-model="saveObj.title"  size="medium"></el-input>
+        <el-form :model="saveObj" :rules="rules" >
+          <el-form-item  prop="title">
+            <el-form-grid size="xxmd">
+              <el-input  placeholder="请在这里输入标题" v-model="saveObj.title"  size="medium"></el-input>
+            </el-form-grid>
+          </el-form-item>
+        </el-form>
+
         <el-input placeholder="请输入合法链接"  size="medium" v-model="saveObj.url">
           <template slot="prepend">外链:</template>
         </el-input>
@@ -21,10 +28,6 @@
         <div class='mb10'>
             <el-input  type="text" v-model="saveObj.title" placeholder="请输入标题" clearable size="medium"></el-input>
         </div>
-
-        <!-- <el-form-grid size="xmd"> -->
-
-        <!-- </el-form-grid> -->
         <vue-ueditor-wrap :config="myConfig" v-model="detail" @ready="editorReady" ></vue-ueditor-wrap>
       </div>
 
@@ -160,8 +163,9 @@ export default {
       },
       rules: {
         title: [
+          // console.log('jkjklkjlj:00000'),
           { required: true, message: '请输入素材标题', trigger: 'blur' },
-          { min: 4, max: 20, message: '长度在4-20个字符以内', trigger: 'blur' }
+          { min: 4, max: 50, message: '限制长度为50个字以内', trigger: 'blur,change' }
         ],
         subdivisionId: [
           { required: true, message: '请选择素材分组', trigger: 'change' }
@@ -177,10 +181,8 @@ export default {
   methods: {
     addPic () {
       this.detail = '<p><span style="background-color: rgb(0, 0, 0); color: rgb(255, 255, 255);">141324企鹅为全额完全v</span><br/></p>'
-      console.log(this.detail)
     },
     addCustomButtom (editorId) {
-      console.log(11111111111111111111)
       window.UE.registerUI('test-button', function (editor, uiName) {
     // 注册按钮执行时的 command 命令，使用命令默认就会带有回退操作
         editor.registerCommand(uiName, {
@@ -222,13 +224,11 @@ export default {
     },
     editorReady: function (instance) {
       // 将实例 instance 存储到 data中
-      console.log(22222)
       this.editorInstance = instance
       instance.setContent(this.detail || '') // 初始化时，对富文本编辑器进行赋值
       instance.addListener('blur', () => {
         this.detail = this.editorInstance.getContent()
       })
-      console.log(this.detail)
     },
     // linkChange (url) {
     //   console.log('url:', url)

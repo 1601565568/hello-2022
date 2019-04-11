@@ -361,10 +361,6 @@
             <ns-button type="primary" @click="averageTransfer">确定转移</ns-button>
             <ns-button @click="resignFormVisible = false">取消</ns-button>
           </div>
-            <!-- <ns-button type="primary" @click="Setupbulksalesguide()">批量设置导购</ns-button>
-            <div>还剩<span class="transferCount">&nbsp;&nbsp;{{transferCount}}&nbsp;</span>个未分配</div>
-            <ns-button type="primary" @click="onConfirmResign">确定转移</ns-button>
-            <ns-button @click="resignFormVisible = false">取消</ns-button> -->
       </div>
     </el-dialog>
     <!--  导购离职弹窗结束  -->
@@ -514,12 +510,12 @@
           </el-form-item>
         </el-form>
       </div> -->
-      <div v-if="storeOwnershipDisplay && memberferRadio !== '1'">
+      <div v-if="storeOwnershipDisplay && memberferRadio === '2'">
         <el-form ref="table_filter_form" :model="model" label-width="60px" :inline="true">
           <el-form-item label="所属门店：">
             <el-form-grid>
               <el-select placeholder="请选择所属门店" v-model="model.shop" clearable filterable>
-                <el-option v-for="shop in shopFindList" :label="shop.shopName" :value="shop.id"
+                <el-option v-for="shop in memberBelongingList" :label="shop.shopName" :value="shop.id"
                           :key="shop.id"></el-option>
               </el-select>
             </el-form-grid>
