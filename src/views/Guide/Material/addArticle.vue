@@ -19,7 +19,7 @@
       </div>
       <div v-show='!saveObj.articleType'>
         <div class='mb10'>
-            <el-input  type="text" v-model="saveObj.title" placeholder="请输入标题" clearable size="medium"></el-input>
+            <el-input  type="text" v-model="saveObj.title" maxlength='50' placeholder="请输入标题，长度在4-50个字符以内" clearable size="medium"></el-input>
         </div>
 
         <!-- <el-form-grid size="xmd"> -->
@@ -161,7 +161,7 @@ export default {
       rules: {
         title: [
           { required: true, message: '请输入素材标题', trigger: 'blur' },
-          { min: 4, max: 20, message: '长度在4-20个字符以内', trigger: 'blur' }
+          { min: 4, max: 50, message: '长度在4-50个字符以内', trigger: 'blur' }
         ],
         subdivisionId: [
           { required: true, message: '请选择素材分组', trigger: 'change' }
