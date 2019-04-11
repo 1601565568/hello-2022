@@ -146,7 +146,7 @@
       </el-table-column>
       <el-table-column
         label="区域"
-        width="180"
+        width="140"
         show-overflow-tooltip
         >
         <template slot-scope="scope">
@@ -180,7 +180,7 @@
       <el-table-column
         label="门店招募/还差（人）"
         align="center"
-        width="200"
+        width="140"
       >
       <template slot-scope="scope">
         <span>{{scope.row.recruitComplete}}</span>/
@@ -194,7 +194,7 @@
         </span>
       </template>
       </el-table-column>
-      <el-table-column label="奖励（元）" prop="recruitPrice" width="220" align="right">
+      <el-table-column label="奖励（元）" prop="recruitPrice" width="80" align="right">
         <template slot-scope="scope">
           <span v-if="scope.row.recruitPrice == 0">0.00</span>
           <a href="javascript:" @click="showRecruitDialog(scope.row.shopId, scope.row.shopName)" v-else>{{$numeral(scope.row.recruitPrice).format('0,0.00')}}</a>
@@ -203,7 +203,7 @@
       <el-table-column
         label="门店销售额/还差（元）"
         align="right"
-        width="200"
+        width="150"
       >
       <template slot-scope="scope">
         <span>{{$numeral(scope.row.sellComplete).format('0,0.00')}}</span>/<span class="text-error">
@@ -216,7 +216,7 @@
           </span>
       </template>
       </el-table-column>
-      <el-table-column label="提成（元）" prop="sellPrice" width="220" align="right">
+      <el-table-column label="提成（元）" prop="sellPrice" width="80" align="right">
         <template slot-scope="scope">
           <span v-if="scope.row.sellPrice == 0">0.00</span>
           <a href="javascript:" @click="showSellDialog(scope.row.shopId, scope.row.shopName)" v-else>{{$numeral(scope.row.sellPrice).format('0,0.00')}}</a>
@@ -244,12 +244,6 @@
           <el-form-item label="姓名：">
             <el-form-grid size="xmd">
               <el-input  type="text" v-model="customerName">
-              </el-input>
-            </el-form-grid>
-          </el-form-item>
-          <el-form-item label="订单号：">
-            <el-form-grid size="xmd">
-              <el-input  type="text" v-model="tradeNo">
               </el-input>
             </el-form-grid>
           </el-form-item>
@@ -314,10 +308,10 @@
 
         <div style="overflow-x:hidden;overflow-y:auto;">
           <el-table :data="detailData">
-            <el-table-column prop="guideName" label="导购" align="center" width="80"></el-table-column>
+            <el-table-column prop="guideName" label="导购" align="center" width="120"></el-table-column>
             <el-table-column prop="name" label="名称" align="center" width="80"></el-table-column>
-            <el-table-column prop="tradeId" label="订单编号" align="center" width="150"></el-table-column>
-            <el-table-column prop="payment" label="订单实付(不含运费)" align="center" width="120"></el-table-column>
+            <el-table-column prop="tradeId" label="订单编号" align="center" width="180"></el-table-column>
+            <el-table-column prop="payment" label="订单实付(含运费)" align="center" width="150"></el-table-column>
             <el-table-column prop="createTime" label="时间" align="center" width="150"></el-table-column>
             <el-table-column prop="reward" label="提成" align="center" width="80"></el-table-column>
           </el-table>
@@ -415,6 +409,7 @@ export default {
       customerName: null,
       tradeNo: null,
       shopId: null,
+      type: null,
       pagination1: pagination1
     }
   },
@@ -436,6 +431,7 @@ export default {
       _this.title = shopName + '-招募明细'
       _this.showRecruitDialogVisible = true
       _this.shopId = shopId
+      _this.type = 1
       _this.findDetailData(shopId)
     },
     showSellDialog (shopId, shopName) {
@@ -443,6 +439,7 @@ export default {
       _this.title = shopName + '-提成明细'
       _this.showSellDialogVisible = true
       _this.shopId = shopId
+      _this.type = 0
       _this.findDetailData(shopId)
     },
     dateTiemFun (e) {
@@ -479,6 +476,7 @@ export default {
         )
       }
       // 组装搜索对象
+      this.searchObj.start = 0
       this.searchObj.searchMap.province = this.searchform.area[0]
       this.searchObj.searchMap.city = this.searchform.area[1]
       this.searchObj.searchMap.district = this.searchform.area[2]
@@ -490,6 +488,7 @@ export default {
     },
     // 明细-------------------------------------------------------------------------------------------------  //
     formSearch () {
+      this.pagination1.page = 1
       this.findDetailData(this.shopId)
     },
     formReset () {
@@ -517,6 +516,7 @@ export default {
           tradeNo: _this.tradeNo,
           name: _this.customerName,
           type: this.searchform.type,
+          rewardType: _this.type,
           date: _this.searchObj.searchMap.date
         }
       }).then(resp => {

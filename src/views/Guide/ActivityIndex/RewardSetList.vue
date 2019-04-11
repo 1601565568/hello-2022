@@ -75,7 +75,7 @@
       >
         <template slot-scope="scope"><div v-if="scope.row.salesStatus">
           <span>线上：成单导购 {{scope.row.onlineSalesRewardOrder}}<span v-if="scope.row.onlineSalesRewardOrder === null">0</span>% + 专属导购 {{scope.row.onlineSalesRewardExclusive}}<span v-if="scope.row.onlineSalesRewardExclusive === null">0</span>%<br></span>
-          <span>线下：成单导购 {{scope.row.salesRewardOrder}}<span v-if="scope.row.salesRewardOrder === null">0</span>% + 专属导购 {{scope.row.salesRewardExclusive}}<span v-if="scope.row.salesRewardExclusive === null">0</span>%<br></span>
+          <span>门店：成单导购 {{scope.row.salesRewardOrder}}<span v-if="scope.row.salesRewardOrder === null">0</span>% + 专属导购 {{scope.row.salesRewardExclusive}}<span v-if="scope.row.salesRewardExclusive === null">0</span>%<br></span>
         </div>
         <div v-else>
           <span>暂未设置</span>
@@ -155,25 +155,6 @@ export default {
           label: '已关店'
         }
       ],
-      shopTypeOptions: [
-        {
-          // 状态
-          value: 'B',
-          label: '天猫'
-        },
-        {
-          value: 'C',
-          label: '淘宝店'
-        },
-        {
-          value: 'ZYD',
-          label: '直营店'
-        },
-        {
-          value: '-JMD',
-          label: '加盟'
-        }
-      ],
       selectedArr: [],
       searchform: {
         shopName: ''
@@ -238,6 +219,7 @@ export default {
     // 提交搜索
     submitForm (formName) {
       // 组装搜索对象
+      this.searchObj.start = 0
       this.searchObj.searchMap.shopType = this.searchform.shopType
       this.searchObj.searchMap.shopName = this.searchform.shopName
       this.searchObj.searchMap.shopStatus = this.searchform.shopStatus

@@ -279,6 +279,7 @@ export default {
             color: '#999999',
             padding: [0, 10, 0, 0]
           },
+          inverse: true,
           type: 'category',
           data: []
         },

@@ -161,7 +161,7 @@
     </el-dialog> -->
     <!--  导购离职弹窗结束  -->
     <!--  导购离职弹窗开始  -->
-    <el-dialog title="客户转移" :visible.sync="resignFormVisible" width="75%"> 
+    <el-dialog title="客户转移" :visible.sync="resignFormVisible" width="75%">
       <div style="height: 300px;overflow-x:hidden;overflow-y:auto;margin-top: 10px;">
         <div class="resignFormVisible_title">
           您正在对 {{transferName}}<span> （{{transferShopName}}）</span>的客户 <span>（共{{transferCount}}人）</span>进行转移
@@ -247,7 +247,7 @@
               </el-table-column>
           </el-table>
           <!-- 分页 -->
-          <el-pagination v-if="_data.paginationss.enable"  class="template-table-pagination" 
+          <el-pagination v-if="_data.paginationss.enable"  class="template-table-pagination"
                         :page-sizes="_data.paginationss.sizeOpts"
                         :total="_data.paginationss.total"
                         :current-page="_data.paginationss.page"
@@ -264,12 +264,12 @@
               <el-form ref="table_filter_form" :model="model" label-width="60px" :inline="true">
                 <el-form-item label="姓名：">
                   <el-form-grid>
-                    <el-input style="width:100px" autofocus=true v-model="model.name" placeholder="请输入姓名" clearable></el-input>
+                    <el-input style="width:100px" autofocus=true v-model="customFindVo.name" placeholder="请输入姓名" clearable></el-input>
                   </el-form-grid>
                 </el-form-item>
                 <el-form-item label="手机：">
                   <el-form-grid>
-                    <el-input style="width:140px" autofocus=true v-model="model.mobile" placeholder="请输入手机号" clearable></el-input>
+                    <el-input style="width:140px" autofocus=true v-model="customFindVo.mobile" placeholder="请输入手机号" clearable></el-input>
                   </el-form-grid>
                 </el-form-item>
 
@@ -281,7 +281,7 @@
 
                 <el-form-item label="所属门店：">
                   <el-form-grid>
-                    <el-select placeholder="请选择所属门店" v-model="model.shop" clearable filterable>
+                    <el-select placeholder="请选择所属门店" v-model="customFindVo.shop" clearable filterable>
                       <el-option v-for="shop in shopFindList" :label="shop.shopName" :value="shop.id"
                                 :key="shop.id"></el-option>
                     </el-select>
@@ -319,7 +319,7 @@
                   {{scope.row.work_id || '-'}}
                 </template>
               </el-table-column>
-              
+
               <el-table-column prop="mobile" label="手机号" align="left" width="160">
                 <template slot-scope="scope">
                   {{scope.row.mobile || '-'}}
@@ -334,7 +334,7 @@
               </el-table-column>
             </el-table>
             <!-- 分页 -->
-            <el-pagination v-if="_data.customPagination.enable"  class="template-table-pagination" 
+            <el-pagination v-if="_data.customPagination.enable"  class="template-table-pagination"
                           :page-sizes="_data.customPagination.sizeOpts"
                           :total="_data.customPagination.total"
                           :current-page="_data.customPagination.page"
@@ -420,7 +420,7 @@
               </el-table-column>
           </el-table>
           <!-- 分页 -->
-          <el-pagination v-if="_data.paginationss.enable"  class="template-table-pagination" 
+          <el-pagination v-if="_data.paginationss.enable"  class="template-table-pagination"
                         :page-sizes="_data.paginationss.sizeOpts"
                         :total="_data.paginationss.total"
                         :current-page="_data.paginationss.page"

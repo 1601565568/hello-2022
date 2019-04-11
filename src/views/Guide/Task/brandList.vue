@@ -257,6 +257,7 @@ export default {
     },
     // 提交搜索
     submitForm (formName) {
+      this.searchObj.start = 0
       this.searchObj.searchMap.type = this.searchform.type
       this.searchObj.searchMap.state = this.searchform.state
       this.searchObj.searchMap.name = this.searchform.name

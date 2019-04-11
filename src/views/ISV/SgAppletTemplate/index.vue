@@ -15,7 +15,7 @@
             <el-input ref="quickText" style="width: 250px" v-model="model.appid" placeholder="请输入小程序appid" @keyup.enter.native="$quickSearchAction$('code')" clearable>
             </el-input>
             <el-select ref="quickText" v-model="model.type" placeholder="请选择模板消息类型" @keyup.enter.native="$quickSearchAction$('type')" clearable>
-              <el-option v-for="types in typeList" :label="types.label" :value="types.value" :key="types.value"></el-option>
+                <el-option v-for="types in typeList" :label="types.label" :value="types.value" :key="types.value"></el-option>
             </el-select>
             <ns-button type="primary" @click="$searchAction$()">搜索</ns-button>
             <ns-button @click="$resetInputAction$()">重置</ns-button>
@@ -29,7 +29,7 @@
 
           <el-form-item label="小程序appid：">
             <el-form-grid size="xmd">
-              <el-input ref="quickText" style="width: 150px" v-model="model.appid" placeholder="请输入小程序appid" @keyup.enter.native="$quickSearchAction$('code')" clearable>
+              <el-input ref="quickText" v-model="model.appid" placeholder="请输入小程序appid" @keyup.enter.native="$quickSearchAction$('code')" clearable>
               </el-input>
             </el-form-grid>
           </el-form-item>
@@ -59,8 +59,13 @@
           <el-table-column label="模板消息类型" align="center" width="300">
             <template slot-scope="{row}">
               <span v-if="row.type === 0">导购转移提醒</span>
-              <span v-if="row.type === 1">任务分配通知</span>
-              <span v-if="row.type === 2">优惠券分配通知</span>
+              <span v-if="row.type === 1">任务分配提醒</span>
+              <span v-if="row.type === 2">优惠券分配提醒</span>
+              <span v-if="row.type === 3">订单待发货提醒</span>
+              <span v-if="row.type === 4">订单待备货提醒</span>
+              <span v-if="row.type === 5">订单取消提醒</span>
+              <span v-if="row.type === 6">退款申请提醒</span>
+              <span v-if="row.type === 8">新订单提醒</span>
             </template>
           </el-table-column>
           <el-table-column :show-overflow-tooltip="true" label="操作" align="right" width="500">
@@ -87,23 +92,27 @@
     <!-- 初始弹窗开始 -->
     <el-dialog size="small" :title="titleText"
                :visible.sync="dialogFormVisible"
+               width="40%"
                :modal-append-to-body="false"
                @before-close="closeDialog()">
       <el-form :model="subObj" ref="form" label-width="150px" :rules="rules" placement="right">
-        <el-form-item label="小程序appid：" prop="appid" required>
+        <el-form-item label="小程序appid：" v-if="!subObj.id"  prop="appid" required>
           <el-input type="text" placeholder="请输入小程序appid" v-model="subObj.appid" ></el-input>
         </el-form-item>
-        <el-form-item label="模板消息类型：" prop="type" required>
-          <el-select  v-model="subObj.type" filterable clearable placeholder="请选择模板类型">
+        <el-form-item label="模板消息类型：" prop="type" required >
+          <el-select v-if="subObj.id" disabled v-model="subObj.type" filterable clearable placeholder="请选择模板类型">
+            <el-option v-for="(types,index) in typeList" :label="types.label" :value="types.value" :key="types.value"></el-option>
+          </el-select>
+          <el-select v-if="!subObj.id" v-model="subObj.type" filterable clearable placeholder="请选择模板类型">
             <el-option v-for="(types,index) in typeList" :label="types.label" :value="types.value" :key="types.value"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="模板id：" prop="templateId" >
+        <el-form-item label="模板id：" v-if="subObj.id" prop="templateId" >
           <el-input type="text" placeholder="请输入模板id" v-model="subObj.template_id"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <ns-button @click="closeDialog()">取消</ns-button>
+        <ns-button @click="closeDialog">取消</ns-button>
         <ns-button type="primary" @click="onSave">确定</ns-button>
       </div>
     </el-dialog>

@@ -26,7 +26,7 @@
       </div>
       <div v-show='!saveObj.articleType'>
         <div class='mb10'>
-            <el-input  type="text" v-model="saveObj.title" placeholder="请输入标题" clearable size="medium"></el-input>
+            <el-input  type="text" v-model="saveObj.title" maxlength='50' placeholder="请输入标题，长度在4-50个字符以内" clearable size="medium"></el-input>
         </div>
         <vue-ueditor-wrap :config="myConfig" v-model="detail" @ready="editorReady" ></vue-ueditor-wrap>
       </div>
@@ -165,7 +165,11 @@ export default {
         title: [
           // console.log('jkjklkjlj:00000'),
           { required: true, message: '请输入素材标题', trigger: 'blur' },
+<<<<<<< HEAD
           { min: 4, max: 50, message: '限制长度为50个字以内', trigger: 'blur,change' }
+=======
+          { min: 4, max: 50, message: '长度在4-50个字符以内', trigger: 'blur' }
+>>>>>>> 9187d606f13cc0370723348f0b8292f3d07a157b
         ],
         subdivisionId: [
           { required: true, message: '请选择素材分组', trigger: 'change' }

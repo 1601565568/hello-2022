@@ -139,20 +139,20 @@ export default {
     url: '/operate/sysConfig/delSysConfig',
     method: 'get'
   },
-  // 查询小程序模板消息id列表
+  // 查询小程序模板消息模板列表
   findAppletTemplateList: {
     url: '/guide/applettemplate/findList',
     method: 'post'
   },
-  // 新增或保存小程序模板消息
+  // 新增或保存小程序模板消息模板
   saveOrUpdateAppletTemplate: {
     url: '/guide/applettemplate/saveOrUpdate',
     method: 'post'
   },
-  // 删除小程序模板信息
+  // 删除小程序模板信息模板
   deleteAppletTemplate: {
     url: '/guide/applettemplate/deleteTemplate',
-    method: 'get'
+    method: 'post'
   },
   queryMaterial: {
     url: '/guide/material/queryMaterial',
@@ -181,5 +181,25 @@ export default {
   removeAllCacheKey: {
     url: '/guide/cache/removeAllCacheKey',
     method: 'get'
+  },
+  // 获取联系我管理列表
+  getContactWayGuideInfo: {
+    url: '/guide/open/getContactWayGuideInfo',
+    method: 'post'
+  },
+  // 设置联系我
+  setGuideContactWay: {
+    url: '/guide/open/setContactWay',
+    method: 'post'
+  },
+  // 删除联系我
+  deleteContactWay: {
+    url: '/guide/open/deleteContactWay',
+    method: 'post'
+  },
+  // 更新联系我
+  updateContactWay: {
+    url: '/guide/open/updateContactWay',
+    method: 'post'
   }
 }
