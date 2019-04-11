@@ -387,7 +387,7 @@ export default {
       this.dialogFormVisible = true
       this.titleText = (row.id && '编辑') || '新增'
       this.model = Object.assign({}, row)
-      if (this.titleText === '新增) ') {
+      if (this.titleText === '新增') {
         //  新增修改小程序来源为配置
         this.model.fromType = 0
       }
