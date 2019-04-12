@@ -44,11 +44,13 @@ export default {
         corpsecret: null,
         openKey: null,
         openSecret: null,
-        pay_id: null,
+        payId: null,
         groupId: null,
         paySecret: null,
         userCorpsecret: null,
         addressCorpsecret: null,
+        fromType: null,
+        type: null,
         param: {}
       },
       obj: {
@@ -90,8 +92,6 @@ export default {
         firstId: null,
         secondId: null
       },
-      shopManager_radio: '0',
-      shoppingGuide_radio: '0',
       titleText: '',
       payTotal: null,
       rechargeTotal: null,
@@ -123,7 +123,9 @@ export default {
         'name': [{required: true, message: '请输入微信名称'}],
         'userCorpsecret': [{required: true, message: '请输入外部联系人企业秘钥'}],
         'addressCorpsecret': [{required: true, message: '请输入通讯录企业秘钥'}],
-        'appid': [{required: true, message: '请输入请输入应用ID'}]
+        'appid': [{required: true, message: '请输入请输入应用ID'}],
+        'secret': [{required: true, message: '请输入请输入应用秘钥'}],
+        'type': [{required: true, message: '小选择小程序类型'}]
       },
       checkRules: {
         'template_id': [{required: true, message: '请输入模版Id'}],
@@ -198,14 +200,6 @@ export default {
       }).catch((resp) => {
         that.$notify.error(resp.msg || '保存失败')
       })
-    },
-    shopManager () { // 店长勾选
-      this.shopManager_radio = '1'
-      this.shoppingGuide_radio = '0'
-    },
-    shoppingGuide () { // 导购勾选
-      this.shopManager_radio = '0'
-      this.shoppingGuide_radio = '1'
     },
     onCodeTemplate (row) { // 代码模版点击按钮
       var that = this
@@ -390,18 +384,12 @@ export default {
       })
     },
     onSaveOpen (row) { // 新增或编辑
-      if (row.type === 1) {
-        this.shopManager_radio = '1'
-        this.shoppingGuide_radio = '0'
-      } else if (row.type === 0) {
-        this.shoppingGuide_radio = '1'
-        this.shopManager_radio = '0'
-      }
       this.dialogFormVisible = true
       this.titleText = (row.id && '编辑') || '新增'
       this.model = Object.assign({}, row)
       if (this.titleText === '新增') {
-        this.model.type = -1
+        //  新增修改小程序来源为配置
+        this.model.fromType = 0
       }
     },
     onAuthorization () {
@@ -455,13 +443,13 @@ export default {
     },
     onSave () { // 小程序保存功能
       let that = this
-      that.shopManager_radio === '1' ? that.model.type = 1 : that.model.type = 0
       that.$refs.form.validate((valid) => {
         if (valid) {
           that.$http.fetch(that.$api.guide.sgwxaccount.save, that.model).then(() => {
             that.dialogFormVisible = false
             that.newestDialog = false
             that.$notify.success('保存成功')
+            that.model = {}
             that.$reload()
           }).catch((resp) => {
             that.$notify.error(resp.msg || '保存失败')
@@ -477,6 +465,7 @@ export default {
           that.dialogFormVisible = false
           that.newestDialog = false
           that.$notify.success('删除成功')
+          that.model = {}
           that.$reload()
         }).catch((resp) => {
           that.$notify.error(resp.msg || '删除失败')
@@ -489,14 +478,10 @@ export default {
       let that = this
       let obj = {}
       obj.appId = row.appid
-      this.$http.fetch(that.$api.guide.guide.refreshAuthedAppletInfo, obj)
-      .then(resp => {
-        if (resp.success) {
-          this.$notify.success(resp.msg)
-        }
-      })
-      .catch(resp => {
-        this.$notify.error(resp.msg || '查询失败')
+      this.$http.fetch(that.$api.guide.guide.refreshAuthedAppletInfo, obj).then(resp => {
+        this.$notify.success(resp.msg)
+      }).catch(resp => {
+        this.$notify.error(resp.msg || '刷新失败')
       })
     },
     async templateForDetails (succeedObj) { // 模板详情
