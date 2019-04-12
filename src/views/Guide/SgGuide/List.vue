@@ -494,7 +494,7 @@
       <div style="overflow-x:hidden;overflow-y:auto;margin: 10px 0;">您好，请设置被修改掉的所属门店会员的专属导购：</div>
       <div class="user_style">会员归属方式：
         <el-radio-group v-model="memberferRadio">
-          <el-radio  @change='storeOwnership' label="1">员工<el-tooltip placement="bottom"><div slot="content">会员归属导购，并且可选择会员的所属门店</div><i class="el-icon-question"></i></el-tooltip></el-radio>
+          <el-radio  @change='storeOwnership' label="1">员工<el-tooltip placement="bottom"><div slot="content">{{memberferRadio+'000000'}}会员归属导购，并且可选择会员的所属门店</div><i class="el-icon-question"></i></el-tooltip></el-radio>
           <el-radio  @change='storeOwnership' label="2">门店<el-tooltip placement="bottom"><div slot="content">会员归属原门店，专属导购为空</div><i class="el-icon-question"></i></el-tooltip></el-radio>
         </el-radio-group>
       </div>
