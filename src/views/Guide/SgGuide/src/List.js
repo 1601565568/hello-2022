@@ -359,7 +359,9 @@ export default {
 
       this.memberBelongingList = shopListArr
       _this.changeValue.storeValue = vId
-      _this.memberBelongingShopid = this.memberBelongingList[0].id
+      if (this.memberBelongingList.length > 0) {
+        _this.memberBelongingShopid = this.memberBelongingList[0].id
+      }
       _this.shopIds = vId
       _this.changeObj.storeChange = true
       _this.replaceStoresArry.push(row)
@@ -387,7 +389,7 @@ export default {
       let _this = this
       let guide = this.model.sgGuide
       let guideShop = []
-      guideShop.push(_this.model.sgGuideShop)
+      // guideShop.push(_this.model.sgGuideShop)
       _this.model.sgGuideVo.type = Number(_this.memberBelongingRadio)
       let sgGuideVo = _this.model.sgGuideVo
       let allImageUrl = null
@@ -416,6 +418,7 @@ export default {
           } else {
             sgGuideVo.newShopId = null
           }
+          console.log('_this.subordinateStores:', guideShop)
           this.$http.fetch(this.$api.guide.guide.saveOrUpdateGuide, {
             sgGuide: guide,
             sgGuideShopList: guideShop,
