@@ -84,8 +84,8 @@
             <template slot-scope="scope">
               <span class="tmp-cell__buttons">
                 <ns-button type="text" @click="onSaveOpen(scope.row)">编辑</ns-button>
-                <ns-button v-if="scope.row.wx_status === 1" type="text" @click="onCodeTemplate(scope.row)">代码模版</ns-button>
-                <ns-button v-if="scope.row.wx_status === 1" type="text" @click="onRefresh(scope.row)">刷新</ns-button>
+                <ns-button v-if="scope.row.wxStatus === 1" type="text" @click="onCodeTemplate(scope.row)">代码模版</ns-button>
+                <ns-button type="text" @click="onRefresh(scope.row)">刷新</ns-button>
                 <ns-button type="text" @click="onDelete(scope.row)">删除</ns-button>
               </span>
             </template>
@@ -108,23 +108,24 @@
                :visible.sync="dialogFormVisible"
                :modal-append-to-body="false"
                @before-close="closeDialog()">
-        <div  class="dialog-top">
-          <el-radio v-if="model.type !== -1" v-model="shopManager_radio" :disabled='true' label="1" @change="shopManager">店长</el-radio>
-          <el-radio v-else v-model="shopManager_radio" label="1" @change="shopManager">店长</el-radio>
-          <el-radio v-if="model.type !== -1" v-model="shoppingGuide_radio" :disabled='true' label="1" @change="shoppingGuide">导购</el-radio>
-          <el-radio v-else v-model="shoppingGuide_radio" label="1" @change="shoppingGuide">导购</el-radio>
-        </div>
       <el-form :model="model" ref="form" label-width="150px" :rules="rules" placement="right">
+        <el-form-item label="小程序类型：" prop="type" required>
+            <el-radio  v-model="model.type" :label="1" >店长</el-radio>
+            <el-radio  v-model="model.type" :label="0" >导购</el-radio>
+        </el-form-item>
         <el-form-item label="集团id：" prop="groupId" required>
           <el-input type="text" placeholder="请输入集团id" v-model="model.groupId" ></el-input>
         </el-form-item>
         <el-form-item label="微信名称：" prop="name" required>
-          <el-input v-if="model.from_type === 1" type="text" :disabled='true' placeholder="请输入微信名称" v-model="model.name"></el-input>
+          <el-input v-if="model.fromType === 1" type="text" :disabled='true' placeholder="请输入微信名称" v-model="model.name"></el-input>
           <el-input v-else type="text" placeholder="请输入微信名称" v-model="model.name" ></el-input>
         </el-form-item>
         <el-form-item label="应用ID：" prop="appid" required>
-          <el-input v-if="model.from_type === 1" type="text" :disabled='true' placeholder="请输入应用ID" v-model="model.appid"></el-input>
+          <el-input v-if="model.fromType === 1" type="text" :disabled='true' placeholder="请输入应用ID" v-model="model.appid"></el-input>
           <el-input v-else type="text" placeholder="请输入应用ID" v-model="model.appid" ></el-input>
+        </el-form-item>
+        <el-form-item v-if="model.fromType !== 1" label="应用秘钥：" prop="secret" required>
+          <el-input type="text" placeholder="请输入应用秘钥" v-model="model.secret"></el-input>
         </el-form-item>
         <el-form-item label="外部联系人企业秘钥：" prop="userCorpsecret" required>
           <el-input type="text" placeholder="请输入外部联系人企业秘钥" v-model="model.userCorpsecret" ></el-input>
@@ -139,15 +140,15 @@
           <el-input type="text" placeholder="请输入企业密钥" v-model="model.corpsecret"></el-input>
         </el-form-item>
         <el-form-item label="支付ID：" prop="payId">
-          <el-input type="text" placeholder="请输入支付ID" v-model="model.pay_id"></el-input>
+          <el-input type="text" placeholder="请输入支付ID" v-model="model.payId"></el-input>
         </el-form-item>
         <el-form-item label="支付密钥：" prop="paySecret">
-          <el-input type="text" placeholder="请输入支付密钥" v-model="model.pay_secret"></el-input>
+          <el-input type="text" placeholder="请输入支付密钥" v-model="model.paySecret"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <ns-button @click="dialogFormVisible = false">取消</ns-button>
-        <ns-button type="primary" @click="onSave">确定</ns-button>
+          <ns-button type="primary" @click="onSave">确定</ns-button>
       </div>
     </el-dialog>
     <!-- 初始弹窗结束 -->

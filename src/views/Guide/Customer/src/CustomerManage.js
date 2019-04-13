@@ -231,6 +231,7 @@ export default {
         _this.$http.fetch(_this.$api.guide.guide.customerGetDetail, {
           nick: val.nick,
           nickType: val.nickType,
+          customerFrom: val.customerFrom,
           guideId: Number(val.guideId),
           shopId: null
         }).then(resp => {
@@ -245,7 +246,8 @@ export default {
         _this.$http.fetch(_this.$api.guide.guide.customerQueryValidPoint, {
           // customerId: val.customerId
           nick: val.nick,
-          nickType: val.nickType
+          nickType: val.nickType,
+          customerFrom: val.customerFrom
         }).then(resp => {
           _this.result = resp.result
         }).catch((resp) => {
@@ -301,7 +303,8 @@ export default {
       let _this = this
       let obj = {
         nick: null,
-        nickType: null
+        nickType: null,
+        customerFrom: null
       }
       if (_this.value !== null) {
         _this.customerIdList = []
@@ -309,6 +312,7 @@ export default {
           let nick = {}
           obj.nick = item.nick
           obj.nickType = item.nickType
+          obj.customerFrom = Number(item.customerFrom)
           nick = Object.assign({}, obj)
           _this.customerIdList.push(nick)
         })

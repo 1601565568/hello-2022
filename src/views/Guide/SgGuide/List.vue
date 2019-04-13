@@ -361,10 +361,6 @@
             <ns-button type="primary" @click="averageTransfer">确定转移</ns-button>
             <ns-button @click="resignFormVisible = false">取消</ns-button>
           </div>
-            <!-- <ns-button type="primary" @click="Setupbulksalesguide()">批量设置导购</ns-button>
-            <div>还剩<span class="transferCount">&nbsp;&nbsp;{{transferCount}}&nbsp;</span>个未分配</div>
-            <ns-button type="primary" @click="onConfirmResign">确定转移</ns-button>
-            <ns-button @click="resignFormVisible = false">取消</ns-button> -->
       </div>
     </el-dialog>
     <!--  导购离职弹窗结束  -->
@@ -498,28 +494,16 @@
       <div style="overflow-x:hidden;overflow-y:auto;margin: 10px 0;">您好，请设置被修改掉的所属门店会员的专属导购：</div>
       <div class="user_style">会员归属方式：
         <el-radio-group v-model="memberferRadio">
-          <el-radio  @change='storeOwnership' label="1">员工<el-tooltip placement="bottom"><div slot="content">会员归属导购，并且可选择会员的所属门店</div><i class="el-icon-question"></i></el-tooltip></el-radio>
-          <el-radio  @change='storeOwnership' label="2">门店<el-tooltip placement="bottom"><div slot="content">会员归属原门店，专属导购为空</div><i class="el-icon-question"></i></el-tooltip></el-radio>
+          <el-radio  @change='storeOwnership' :label="1">员工<el-tooltip placement="bottom"><div slot="content">{{memberferRadio+'000000'}}会员归属导购，并且可选择会员的所属门店</div><i class="el-icon-question"></i></el-tooltip></el-radio>
+          <el-radio  @change='storeOwnership' :label="2">门店<el-tooltip placement="bottom"><div slot="content">会员归属原门店，专属导购为空</div><i class="el-icon-question"></i></el-tooltip></el-radio>
         </el-radio-group>
       </div>
-      <!-- <div v-if="storeOwnershipDisplay && memberferRadio !== '1' && row.count > 1">
+      <div>
         <el-form ref="table_filter_form" :model="model" label-width="60px" :inline="true">
           <el-form-item label="所属门店：">
             <el-form-grid>
               <el-select placeholder="请选择所属门店" v-model="model.shop" clearable filterable>
-                <el-option v-for="shop in shopFindList" :label="shop.shopName" :value="shop.id"
-                          :key="shop.id"></el-option>
-              </el-select>
-            </el-form-grid>
-          </el-form-item>
-        </el-form>
-      </div> -->
-      <div v-if="storeOwnershipDisplay && memberferRadio !== '1'">
-        <el-form ref="table_filter_form" :model="model" label-width="60px" :inline="true">
-          <el-form-item label="所属门店：">
-            <el-form-grid>
-              <el-select placeholder="请选择所属门店" v-model="model.shop" clearable filterable>
-                <el-option v-for="shop in shopFindList" :label="shop.shopName" :value="shop.id"
+                <el-option v-for="shop in memberBelongingList" :label="shop.shopName" :value="shop.id"
                           :key="shop.id"></el-option>
               </el-select>
             </el-form-grid>
@@ -612,15 +596,15 @@
       <el-form>
       <el-form-item label="会员归属方式：" required>
         <el-form-grid size="xxmd">
-          <el-radio-group v-model="model.sgGuideShop.memberBelonging" @change="memberBelonging">
-            <el-radio :label="1">员工<i class="el-icon-question"></i></el-radio>
-            <el-radio :label="2">门店<i class="el-icon-question"></i></el-radio>
+          <el-radio-group v-model="memberBelongingRadio">
+            <el-radio @change='memberBelonging' label='1'>员工<i class="el-icon-question"></i></el-radio>
+            <el-radio @change='memberBelonging' label='2'>门店<i class="el-icon-question"></i></el-radio>
           </el-radio-group>
         </el-form-grid>
       </el-form-item>
       </el-form>
-      <div v-if="memberBelongingShows" class="guideBox" style="overflow-x:hidden;overflow-y:auto;">
-        <el-select v-model="model.sgGuideShop.shop_id" @change="changeMemberBelonging" placeholder="请选择要更换的门店" :size="medium">
+      <div v-if="memberBelongingShows && memberBelongingRadio === '2'" class="guideBox" style="overflow-x:hidden;overflow-y:auto;">
+        <el-select v-model="model.sgGuideShop.shop_id" @change="changeMemberBelonging" placeholder="请选择要更换的门店">
           <el-option  v-for="item in shopFindList" :key="item.id"  :label="item.shopName"  :value="item.id"></el-option>
         </el-select>
       </div>
