@@ -14,8 +14,8 @@ module.exports = {
       context: ['/crmWebApi/**/*'],
       // target: 'http://120.27.159.74:80',
       // target: 'http://47.96.228.119:8089',
-      // target: 'https://sg.ecrpcloud.com',
-      target: 'http://47.96.228.119:8088',
+      target: 'https://sg.ecrpcloud.com',
+      // target: 'http://47.96.228.119:8088',
       // target: 'http://localhost:30001',
       changeOrigin: true,
       // secure: false,  // 如果是https接口，需要配置这个参数
@@ -30,9 +30,9 @@ module.exports = {
         context: ['/casLogin'],
         // target: "http://120.27.159.167:30001", // local: 'http://localhost:8360', formal:  'http://120.27.159.167:30001'
         // target: 'http://120.27.159.74:80',
-        // target: 'https://sg.ecrpcloud.com',
+        target: 'https://sg.ecrpcloud.com',
         // target: 'http://47.96.228.119:8089',
-        target: 'http://47.96.228.119:8088',
+        // target: 'http://47.96.228.119:8088',
         // target: 'http://localhost:30001',
         changeOrigin: true,
       }
