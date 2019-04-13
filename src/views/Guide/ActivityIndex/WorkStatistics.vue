@@ -160,7 +160,7 @@
       <el-table-column label="奖励（元）" prop="recruitPrice" width="220" align="right">
         <template slot-scope="scope">
           <span v-if="scope.row.recruitPrice == 0">0.00</span>
-          <a href="javascript:" @click="showRecruitDialog(scope.row.guideId, scope.row.name)" v-else>{{$numeral(scope.row.recruitPrice).format('0,0.00')}}</a>
+          <a href="javascript:" @click="showRecruitDialog(scope.row.guideId, scope.row.name,scope.row.shopId)" v-else>{{$numeral(scope.row.recruitPrice).format('0,0.00')}}</a>
         </template>
       </el-table-column>
       <el-table-column
@@ -178,7 +178,7 @@
       <el-table-column label="提成（元）" prop="sellPrice" width="220" align="right">
         <template slot-scope="scope">
           <span v-if="scope.row.sellPrice == 0">0.00</span>
-          <a href="javascript:" @click="showSellDialog(scope.row.guideId, scope.row.name)" v-else>{{$numeral(scope.row.sellPrice).format('0,0.00')}}</a>
+          <a href="javascript:" @click="showSellDialog(scope.row.guideId, scope.row.name,scope.row.shopId)" v-else>{{$numeral(scope.row.sellPrice).format('0,0.00')}}</a>
         </template>
       </el-table-column>
     </el-table>
@@ -331,7 +331,8 @@ export default {
       showSellDialogVisible: false,
       customerName: null,
       tradeNo: null,
-      pagination1: pagination1
+      pagination1: pagination1,
+      shopId: null
     }
   },
   created: function () {
@@ -345,19 +346,21 @@ export default {
     this.loadListFun()
   },
   methods: {
-    showRecruitDialog (guideId, name) {
+    showRecruitDialog (guideId, name, shopId) {
       var _this = this
       _this.title = name + '-招募明细'
       _this.showRecruitDialogVisible = true
       _this.guideId = guideId
+      _this.shopId = shopId
       _this.type = 1
       _this.findDetailData(guideId)
     },
-    showSellDialog (guideId, name) {
+    showSellDialog (guideId, name, shopId) {
       var _this = this
       _this.title = name + '-提成明细'
       _this.guideId = guideId
       _this.type = 0
+      _this.shopId = shopId
       _this.showSellDialogVisible = true
       _this.findDetailData(guideId)
     },
@@ -429,6 +432,7 @@ export default {
         length: _this.pagination1.size,
         searchMap: {
           guideId: guideId,
+          shopId: _this.shopId,
           name: _this.customerName,
           tradeNo: _this.tradeNo,
           type: _this.searchform.type,
@@ -485,6 +489,7 @@ export default {
       _this.tradeNo = null
       _this.customerName = null
       _this.guideId = null
+      _this.shopId = null
       _this.showRecruitDialogVisible = false
     },
     // 关闭提成弹窗
@@ -501,6 +506,7 @@ export default {
       _this.tradeNo = null
       _this.detailData = null
       _this.guideId = null
+      _this.shopId = null
       _this.showSellDialogVisible = false
     }
 

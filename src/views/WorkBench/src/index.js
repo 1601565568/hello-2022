@@ -38,7 +38,7 @@ export default {
       loadingGuideRecruit: false,
       saleOption: {
         tooltip: {
-          formatter: '{c}',
+          // formatter: '{c}',
           borderColor: '#E4E7ED',
           borderWidth: 1.4,
           backgroundColor: '#fff',
