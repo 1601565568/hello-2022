@@ -596,15 +596,15 @@
       <el-form>
       <el-form-item label="会员归属方式：" required>
         <el-form-grid size="xxmd">
-          <el-radio-group v-model="model.sgGuideShop.memberBelonging">
-            <el-radio @change='memberBelonging' :label="1">员工<i class="el-icon-question"></i></el-radio>
-            <el-radio @change='memberBelonging' :label="2">门店<i class="el-icon-question"></i></el-radio>
+          <el-radio-group v-model="memberBelongingRadio">
+            <el-radio @change='memberBelonging' label='1'>员工<i class="el-icon-question"></i></el-radio>
+            <el-radio @change='memberBelonging' label='2'>门店<i class="el-icon-question"></i></el-radio>
           </el-radio-group>
         </el-form-grid>
       </el-form-item>
       </el-form>
-      <div v-if="memberBelongingShows && model.sgGuideShop.memberBelonging === '2'" class="guideBox" style="overflow-x:hidden;overflow-y:auto;">
-        <el-select v-model="model.sgGuideShop.shop_id" @change="changeMemberBelonging" placeholder="请选择要更换的门店" :size="medium">
+      <div v-if="memberBelongingShows && memberBelongingRadio === '2'" class="guideBox" style="overflow-x:hidden;overflow-y:auto;">
+        <el-select v-model="model.sgGuideShop.shop_id" @change="changeMemberBelonging" placeholder="请选择要更换的门店">
           <el-option  v-for="item in shopFindList" :key="item.id"  :label="item.shopName"  :value="item.id"></el-option>
         </el-select>
       </div>

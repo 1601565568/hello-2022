@@ -66,7 +66,6 @@ export default {
         id: null,
         shop_id: '',
         job: 0,
-        memberBelonging: 1,
         updateAllGuidePrefix: 0
       },
       sgGuideVo: {
@@ -166,6 +165,7 @@ export default {
       imageRoot: api.API_ROOT + '/core/file/showImage?fileKey=',
       title: '',
       transferWay: '1',
+      memberBelongingRadio: '1',
       brandId: null,
       memberBelongingShows: false,
       accordingToJudgmentShow: false,
@@ -275,14 +275,6 @@ export default {
     }
   },
   methods: {
-    memberChange (row) { // 会员归属改变事件
-    },
-    shopSizeChange () { // 单选按钮
-
-    },
-    shopPageChange () { // 单选按钮
-
-    },
     getCurrentRow (row, index) { // 单选按钮
       this.radio = index
       this.value = row
@@ -290,9 +282,6 @@ export default {
     updateWorkPrefix () {
       this.disabledWorkPrefix = false
       this.showUpdateAllGuidePrefix = !this.showUpdateAllGuidePrefix
-    },
-    blurWorkPrefix () {
-      this.disabledWorkPrefix = true
     },
     transfer () {
       this.$router.push({
@@ -324,7 +313,8 @@ export default {
             _this.subordinateStores.push(_this.model.sgGuideShop.shop_id)
           }
         } else {
-          if (_this.model.sgGuideShop.shop_id !== null) {
+          if (_this.model.sgGuideShop.shop_id !== null && _this.model.sgGuideShop.shop_id !== '') {
+            _this.subordinateStores = []
             _this.subordinateStores.push(_this.model.sgGuideShop.shop_id)
           }
         }
@@ -342,9 +332,10 @@ export default {
         _this.memberBelongingShows = true
       } else {
         _this.memberBelongingShows = false
-        this.model.sgGuideVo.type = 2
       }
+      _this.model.sgGuideVo.type = value
       _this.changeValue.memberBelongingValue = value
+      _this.memberBelongingRadio = value
       _this.changeObj.memberBelongingChange = true
     },
     sexs (value) {
@@ -415,6 +406,11 @@ export default {
           }
           if (guide.birthday === null) guide.birthday = ''
           if (guide.work_num === null) guide.work_num = ''
+          if (_this.memberBelongingRadio === '1') {
+            sgGuideVo.newShopId = model.sgGuideShop.shop_id
+          } else {
+            sgGuideVo.newShopId = null
+          }
           this.$http.fetch(this.$api.guide.guide.saveOrUpdateGuide, {
             sgGuide: guide,
             sgGuideShopList: guideShop,
@@ -867,7 +863,7 @@ export default {
               guideId = _this.row.id
               shopId = itemArr.join(',')
               _this.findGuideShopCustomerSum(guideId, shopId, model).then((res) => {
-                if (res === 0) {
+                if (res < 1) {
                   _this.subordinateStores.map((item, i) => {
                     guideShop[i] = Object.assign({job: _this.guideValue, shop_id: item}, guideShop[i])
                   })
@@ -894,7 +890,7 @@ export default {
               guideId = _this.row.id
               shopId = _this.changeValue.storeValue
               _this.getCustomerCount(shopId).then((res) => {
-                if (res === '0') {
+                if (res < '1') {
                   guideShop[0] = { job: _this.guideValue, shop_id: model.sgGuideShop.shop_id }
                   if (guide.birthday instanceof Date) {
                     guide.birthday = moment(guide.birthday).format('YYYY-MM-DD')
@@ -924,7 +920,7 @@ export default {
               guideId = _this.row.id
               shopId = itemArr.join(',')
               _this.findGuideShopCustomerSum(guideId, shopId, model).then((res) => {
-                if (res === 0) {
+                if (res < 0) {
                   _this.subordinateStores.map((item, i) => {
                     guideShop[i] = Object.assign({job: _this.guideValue, shop_id: item}, guideShop[i])
                   })
@@ -956,7 +952,7 @@ export default {
               guideId = _this.row.id
               shopId = _this.row.shop_id
               _this.getCustomerCount(guideId).then(res => {
-                if (res === '0') {
+                if (res < '1') {
                   guideShop[0] = { job: _this.guideValue, shop_id: model.sgGuideShop.shop_id }
                   if (guide.birthday instanceof Date) {
                     guide.birthday = moment(guide.birthday).format('YYYY-MM-DD')
@@ -1082,12 +1078,14 @@ export default {
     // 转移给指定导购搜索
     transferSearch () {
       this.transferShopPage = 1
+      this.radio = null
       this.guideFindList()
     },
     // 转移给指定导购重置
     transferToReset () {
       this.model.name = null
       this.model.shop = null
+      this.radio = null
       this.transferShopPage = 1
       this.guideFindList()
     },
@@ -1198,7 +1196,6 @@ export default {
       })
     },
     membershipRetention (model) { // 选择会员归属保存
-      console.log('model')
       this.memberBelongingEnsure(model)
     },
     onConfirmResign () {
@@ -1336,7 +1333,8 @@ export default {
             _this.transferCount = resp.result.recordsFiltered
           }
         }).catch((resp) => {
-          _this.$notify.error('查询失败：' + resp.msg)
+          // _this.$notify.error('查询失败：' + resp.msg)
+          _this.$notify.error('请先转移导购的会员')
         })
         _this.specifyTransferFormVisible = false
         _this.customFormVisible = false
