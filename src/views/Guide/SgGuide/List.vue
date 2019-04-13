@@ -503,7 +503,7 @@
           <el-form-item label="所属门店：">
             <el-form-grid>
               <el-select placeholder="请选择所属门店" v-model="model.shop" clearable filterable>
-                <el-option v-for="shop in memberBelongingList" :label="shop.shopName" :value="shop.id"
+                <el-option v-for="shop in shopFindList" :label="shop.shopName" :value="shop.id"
                           :key="shop.id"></el-option>
               </el-select>
             </el-form-grid>
@@ -603,9 +603,9 @@
         </el-form-grid>
       </el-form-item>
       </el-form>
-      <div v-if="memberBelongingShows && memberBelongingRadio === '2'" class="guideBox" style="overflow-x:hidden;overflow-y:auto;">
+      <div v-if="storeOwnershipDisplay && memberBelongingRadio === '2'" class="guideBox" style="overflow-x:hidden;overflow-y:auto;">
         <el-select v-model="model.sgGuideShop.shop_id" @change="changeMemberBelonging" placeholder="请选择要更换的门店">
-          <el-option  v-for="item in shopFindList" :key="item.id"  :label="item.shopName"  :value="item.id"></el-option>
+          <el-option  v-for="item in memberBelongingList" :key="item.id"  :label="item.shopName"  :value="item.id"></el-option>
         </el-select>
       </div>
       <div slot="footer" class="dialog-footer">
