@@ -604,7 +604,7 @@
       </el-form-item>
       </el-form>
       <div v-if="storeOwnershipDisplay && memberBelongingRadio === '1'" class="guideBox" style="overflow-x:hidden;overflow-y:auto;">
-        <el-select v-model="model.sgGuideShop.shop_id" @change="changeMemberBelonging" placeholder="请选择要更换的门店">
+        <el-select v-model="memberBelongingShopid" @change="changeMemberBelonging" placeholder="请选择要更换的门店">
           <el-option  v-for="item in memberBelongingList" :key="item.id"  :label="item.shopName"  :value="item.id"></el-option>
         </el-select>
       </div>
