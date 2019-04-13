@@ -358,6 +358,7 @@ export default {
 
       this.memberBelongingList = shopListArr
       _this.changeValue.storeValue = vId
+      _this.model.sgGuideShop.shop_id = this.memberBelongingList[0].id
       _this.shopIds = vId
       _this.changeObj.storeChange = true
       _this.replaceStoresArry.push(row)
