@@ -328,7 +328,6 @@ export default {
       that.$http.fetch(that.$api.guide.sgwxaccount.getAppletCodeTemplateList, this.parameter).then((resp) => {
         if (resp.result !== null) {
           that.modelArry = resp.result.data
-        } else {
           that.$notify.success('更新成功')
         }
       }).catch((resp) => {
