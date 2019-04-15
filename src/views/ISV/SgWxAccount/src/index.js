@@ -14,16 +14,17 @@ export default {
       },
       {
         'func': function () {
-          that.onAuthorization({})
-        },
-        'name': '授权'
-      },
-      {
-        'func': function () {
           that.openDialog({})
         },
         'name': '草稿箱'
       }
+      /*,
+      {
+        'func': function () {
+          that.onAuthorization({})
+        },
+        'name': '授权'
+      } */
     ]
     let tableButtons2 = [
       {
