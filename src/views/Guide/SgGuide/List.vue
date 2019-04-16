@@ -128,39 +128,6 @@
     </el-dialog>
     <!--  新增修改客户结束 -->
     <!--  导购离职弹窗开始  -->
-    <!-- <el-dialog title="转移客户" :visible.sync="resignFormVisible">
-      <div style="height: 300px;overflow-x:hidden;overflow-y:auto;margin-top: 10px;">
-        <el-form label-width="100px">
-          <el-row :gutter="30">
-            <el-form-item label="客户总数：">
-              <el-form-grid size="xxmd">
-                <el-form-item>
-                  <el-input type="text" v-model="customerTotal" disabled="disabled" clearable>
-                  </el-input>
-                </el-form-item>
-              </el-form-grid>
-            </el-form-item>
-            <el-form-item label="转移方式：">
-              <el-form-grid size="xxmd">
-                <el-form-item prop="transferWay">
-                  <el-select placeholder="转移方式" v-model="transferWay">
-                    <el-option value="1" label="同门店均分"></el-option>
-                    <el-option value="2" label="转移给指定导购"></el-option>
-                    <el-option value="3" label="自定义转移"></el-option>
-                  </el-select>
-                </el-form-item>
-              </el-form-grid>
-            </el-form-item>
-          </el-row>
-        </el-form>
-      </div>
-      <div slot="footer" class="dialog-footer">
-        <ns-button @click="resignFormVisible = false">取消</ns-button>
-        <ns-button type="primary" @click="onConfirmResign">确定</ns-button>
-      </div>
-    </el-dialog> -->
-    <!--  导购离职弹窗结束  -->
-    <!--  导购离职弹窗开始  -->
     <el-dialog title="客户转移" :visible.sync="resignFormVisible" width="75%">
       <div style="height: 300px;overflow-x:hidden;overflow-y:auto;margin-top: 10px;">
         <div class="resignFormVisible_title">
@@ -439,30 +406,6 @@
         </div>
       </el-dialog>
       <!--  批量设置到后弹窗结束-->
-    <!--  批量删除员工提示弹框开始 -->
-    <el-dialog title="请先转移导购的会员" width="500px" :visible.sync="allDeleteFormVisible">
-      <div style="height: 60px;overflow-x:hidden;overflow-y:auto;margin-top: 10px;">
-        删除说明：
-        删除需要先对该员工的客户进行转移，转移完成之后，才能操作删除
-      </div>
-      <div style="height: 40px;overflow-x:hidden;overflow-y:auto;margin: 10px 0 0 240px;">
-        <ns-button @click="allDeleteFormVisible = false">取消删除</ns-button>
-        <ns-button type="primary" @click="transfer">前往转移</ns-button>
-      </div>
-    </el-dialog>
-    <!--  批量删除员工提示弹框结束 -->
-    <!--  删除员工提示弹框开始 -->
-    <el-dialog title="请先转移导购的会员" width="500px" :visible.sync="deleteFormVisible">
-      <div style="height: 60px;overflow-x:hidden;overflow-y:auto;margin-top: 10px;">
-        删除说明：
-        删除需要先对该员工的客户进行转移，转移完成之后，才能操作删除
-      </div>
-      <div style="height:40px;overflow-x:hidden;overflow-y:auto;margin: 10px 0 0 240px;">
-        <ns-button @click="deleteFormVisible = false">取消删除</ns-button>
-        <ns-button type="primary" @click="transfer">前往转移</ns-button>
-      </div>
-    </el-dialog>
-    <!--  删除员工提示弹框结束 -->
     <!--  指定导购转移弹窗开始  -->
     <el-dialog title="指定导购转移" :visible.sync="specifyTransferFormVisible" :before-close="onCancelSpecifyTransfer">
       <div style="height: 300px;overflow-x:hidden;overflow-y:auto;margin-top: 10px;">
@@ -488,34 +431,38 @@
       </div>
     </el-dialog>
     <!-- 指定导购转移转移弹窗结束  -->
-
-    <!-- 选择会员归属弹窗结束  -->
-    <el-dialog title="选择会员归属" :visible.sync="memberBelongingShowTow"  :before-close="onCancelCustomTransfer">
-      <div style="overflow-x:hidden;overflow-y:auto;margin: 10px 0;">您好，请设置被修改掉的所属门店会员的专属导购：</div>
-      <div class="user_style">会员归属方式：
-        <el-radio-group v-model="memberferRadio">
-          <el-radio  @change='storeOwnership' :label="1">员工<el-tooltip placement="bottom"><div slot="content">{{memberferRadio+'000000'}}会员归属导购，并且可选择会员的所属门店</div><i class="el-icon-question"></i></el-tooltip></el-radio>
-          <el-radio  @change='storeOwnership' :label="2">门店<el-tooltip placement="bottom"><div slot="content">会员归属原门店，专属导购为空</div><i class="el-icon-question"></i></el-tooltip></el-radio>
-        </el-radio-group>
-      </div>
-      <div>
-        <el-form ref="table_filter_form" :model="model" label-width="60px" :inline="true">
-          <el-form-item label="所属门店：">
-            <el-form-grid>
-              <el-select placeholder="请选择所属门店" v-model="model.shop" clearable filterable>
-                <el-option v-for="shop in shopFindList" :label="shop.shopName" :value="shop.id"
-                          :key="shop.id"></el-option>
-              </el-select>
-            </el-form-grid>
-          </el-form-item>
-        </el-form>
+    <el-dialog title="提示" width="35%" :visible.sync="multipleStoresAreNotSupportedShow"  :before-close="bulkReplacementStores">
+      <div class="bulkReplacementStores">
+        <div class="bulkReplacementStores_logo">
+          <span>X</span>
+        </div>
+        <div>
+          <div class="user_style_text">
+            员工所属门店有多门店，不允许批量{{switchStateName}}！
+          </div>
+          <div class="user_style">
+            仅支持单门店批量更换门店！
+          </div>
+        </div>
       </div>
       <div slot="footer" class="dialog-footer">
-        <ns-button @click="memberBelongingShowTow = false">取消</ns-button>
-        <ns-button type="primary" @click="membershipRetention(model)">保存</ns-button>
+        <ns-button type="primary" @click="bulkReplacementStores">确定</ns-button>
       </div>
     </el-dialog>
-    <!-- 选择会员归属弹窗开始  -->
+    <!-- 批量操作提示弹窗开始  -->
+      <el-dialog title="提示" width="35%" :visible.sync="returnInformationShow"  :before-close="bulkReplacementStores">
+      <div class="bulkReplacementStores_box">
+        <div class="bulkReplacementStores_state">成功删除<text>{{theNumberOfsuccessful}}</text>名，失败删除<text>{{theNumberOfFailures}}</text>名。</div>
+        <div class="bulkReplacementStores_name">失败员工姓名：{{nameArr}}</div>
+        <div class="bulkReplacementStores_cause">失败原因：有会员的员工，不能批量删除，需要转移后才能批量删除。</div>
+        <div class="bulkReplacementStores_transfer">是否前往会员列表转移？</div>
+      </div>
+      <div slot="footer" class="dialog-footer">
+        <ns-button @click="bulkReplacementStores">取消</ns-button>
+        <ns-button type="primary" @click="toTransfer">前往转移</ns-button>
+      </div>
+    </el-dialog>
+    <!-- 批量操作提示弹窗结束  -->
 
     <!--  自定义客户转移弹窗开始  -->
     <el-dialog title="自定义转移" :visible.sync="customFormVisible"  :before-close="onCancelCustomTransfer">
@@ -734,11 +681,67 @@
     height: 0 !important;
     left: 2px;
   }
+  .user_style_text{
+    font-size:14px;
+    font-weight:600
+  }
   .user_style{
-    margin-bottom:20px
+    width:180px;
+    margin-bottom:20px;
+    color:#FF0000;
+    font-size:12px;
+    background:rgba(255,0,0,0.1);
+    padding:3px 10px;
+    margin-top:20px;
+    border-radius:5px;
+  }
+  .bulkReplacementStores{
+    display:flex;
+    justify-content:flex-start;
+    align-items:flex-start;
+    padding-left:20px;
+  }
+  .bulkReplacementStores_logo{
+    width:40px;
+    height:40px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    border-radius:100px;
+    background-color:#FF0000;
+    margin-right:20px;
+  }
+  .bulkReplacementStores_logo span{
+    color:#fff;
+    font-weight:600;
+    font-size:20px
   }
   .Setupbulksalesguide{
     margin:0 20px !important;
+  }
+  .bulkReplacementStores_box div{
+    padding:8px 2px;
+    font-size:14px
+  }
+  .bulkReplacementStores_status{
+    color:#333;
+  }
+  .bulkReplacementStores_status text{
+    color:#000;
+    font-weight:600 ;
+  }
+  .bulkReplacementStores_name{
+    
+    color:#ff0000;
+  }
+  .bulkReplacementStores_cause{
+    color:#999;
+    background:rgba(188,188,188,0.3);
+    border-radius:5px;
+    margin-bottom:20px
+  }
+  .bulkReplacementStores_box .bulkReplacementStores_transfer{
+    font-weight:600;
   }
 </style>
 
