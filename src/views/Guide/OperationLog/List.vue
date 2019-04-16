@@ -3,7 +3,7 @@
     <ns-table-guide ref="table" :url=$api.guide.guide.operationlogFindList @viewDetails = "viewDetails">
     </ns-table-guide>
     <!--  查看详情弹窗开始  -->
-    <el-dialog :title="title" :visible.sync="shopKuhuShow" width="1000px"  >
+    <el-dialog :title="title" :visible.sync="detailShow" width="1000px"  >
     <div>
       <div class="kehuBox-main">
         <div class="kehuBox-main-top">

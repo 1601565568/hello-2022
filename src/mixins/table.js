@@ -155,6 +155,7 @@ export default {
     },
     // 重置功能
     $resetInputAction$: function () {
+      console.log(111)
       if (typeof this.$resetInput === 'function') {
         var model = this.$resetInput(this.model)
         if (model) {

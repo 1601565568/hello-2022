@@ -1,32 +1,13 @@
 import tableMixin from 'mixins/table'
+import targetDetail from '../targetDetail'
 export default {
   name: 'NsTableGuide',
   mixins: [tableMixin],
+  components: {targetDetail},
   props: {
     url: Object
   },
   data: function () {
-    let pagination = {
-      enable: true,
-      size: 15,
-      sizeOpts: [15, 25, 50, 100],
-      page: 1,
-      total: 0
-    }
-    const tableButtons = []
-    const operateButtons = []
-    let quickInput = [{
-      'template': '',
-      'inline': false,
-      'name': 'name',
-      'text': '任务名称',
-      'placeholder': '请输入任务名称',
-      'type': 'text',
-      'value': ''
-    }]
-    let quickSearchNames = quickInput.map(x => x.name)
-    let quickSearchModel = {}
-
     let searchModel = {
       operator: 1,
       operators: null,
@@ -45,16 +26,9 @@ export default {
     }
     let model = Object.assign({}, findVo, {}, searchModel)
     return {
+      showTargetDetail: false,
       model: model,
-      quickSearchModel: quickSearchModel,
-      _pagination: pagination,
-      _table: {
-        table_buttons: tableButtons,
-        operate_buttons: operateButtons,
-        quickSearchNames: quickSearchNames,
-        quickSearchMap: {}
-      },
-      _queryConfig: {expand: false},
+      quickSearchModel: {},
       title: '变更详情',
       multipleSelection: [],
       staffFindLists: [],
@@ -150,6 +124,10 @@ export default {
     },
     viewDetails (value) {
       this.$emit('viewDetails', value)
+    },
+    showDetail () {
+      let _this = this
+      _this.showTargetDetail = true
     }
   }
 }
