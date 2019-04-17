@@ -6,7 +6,7 @@
                customClass="custom-dialog" :append-to-body="appendToBody">
       <div class="slide-show">
         <div class="slide-img">
-          <img :src="itemObj.imageList[nowIndex]">
+          <img :src="itemObj.imageList !== undefined ? itemObj.imageList[nowIndex] : null">
         </div>
         <ul class="slide-pages">
           <li v-for="(item, index) in itemObj.imageList" :key="index" @click="goto(index)">
@@ -54,8 +54,7 @@
         nowIndex: 0
       }
     },
-    created: function () {
-    },
+    created: function () {},
     methods: {
       // 显示弹窗
       showImg (index, type) {
