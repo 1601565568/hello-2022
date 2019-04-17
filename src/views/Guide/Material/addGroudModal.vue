@@ -46,7 +46,6 @@ export default {
   created: function () {},
   methods: {
     showToggle (obj) {
-      console.log(obj)
       if (obj.subdivision_id) {
         this.titleText = '编辑素材分组'
       } else {
@@ -60,7 +59,6 @@ export default {
     },
     delImgFun (index) {
       this.imgList.splice(index, 1)
-      console.log(index)
     },
 
     // 提交保存

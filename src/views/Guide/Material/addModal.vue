@@ -156,7 +156,6 @@ export default {
   created: function () {},
   methods: {
     selChange (e) {
-      console.log(e)
     },
     // linkChange (url) {
     //   console.log('url:', url)
@@ -187,7 +186,6 @@ export default {
           url: saveObj.url,
           codeType: saveObj.code_type
         }
-        console.log(this.saveObj)
       }
       this.dialogVisible = true
     },
@@ -276,7 +274,6 @@ export default {
     //     });
     // },
     handleRemove (file, fileList) {
-      console.log(file, fileList)
     },
     handlePictureCardPreview (file) {
       this.dialogImageUrl = file.url
