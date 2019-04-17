@@ -153,14 +153,12 @@ export default {
       // this.$emit('showListDialogMain', id)
     },
     onSearch () {
-      console.log('搜索响应')
     },
     initTableData () {
       var _this = this
       _this.$http.fetch(_this.$api.guide.guide.findTransRecordList, {
         length: _this._data._pagination.size
       }).then(resp => {
-        console.log(resp)
         if (resp.success === true && resp.result.data != null) {
           _this._data._table.data = resp.result.data
           _this._data._pagination.total = parseInt(resp.result.recordsTotal)
