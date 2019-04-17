@@ -4,7 +4,8 @@ export default {
     return {
       title: '变更详情',
       detailShow: false,
-      changeValue: {}
+      changeValue: {},
+      sum: null
     }
   },
   methods: {
@@ -52,6 +53,14 @@ export default {
           resp.result.beforeJson = arr1
         }
         this.changeValue = resp.result
+        this.sum = null
+        if (arr.length !== 0 && arr1.length !== 0) {
+          arr.map((item, i) => {
+            if (arr1[i] !== item) {
+              this.sum = i
+            }
+          })
+        }
       }).catch((resp) => {
         _this.$notify.error('查询失败：' + resp.msg)
       })

@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- <ns-page-table @add="$emit('add')"  @allDelete="$emit('allDelete')" @onAddCustomer="$emit('onAddCustomer')" @quit="$emit('quit')" @shopEdit="$emit('shopEdit')" @ondelete="$emit('ondelete')"> -->
-    <ns-page-table @add="$emit('add')" @showShop="$emit('showShop')" @viewDetails="$emit('viewDetails')"
+    <ns-page-table @add="$emit('add')" @showShop="$emit('showShop')" @viewDetails="$emit('viewDetails')" 
                    @dimission="$emit('dimission')" @allDelete="$emit('allDelete')" @shopEdit="$emit('shopEdit')">
       <!-- 按钮 -->
       <template slot="buttons">
@@ -129,7 +129,7 @@
         <!-- 手机号 :width="120" -->
         <!-- 操作（只有一项文字的80px,两项文字120px,三项文字160px） -->
 
-        <el-table ref="table" :data="_data._table.data" stripe>
+        <el-table ref="table" :data="_data._table.data" stripe >
           <el-table-column prop="createTime" label="日志时间" align="left" width="160">
             <template slot-scope="scope">
               {{scope.row.createTime || '-'}}

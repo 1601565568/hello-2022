@@ -21,12 +21,12 @@
             <div class="kehuBox-main-span_left">
               <div class="kehuBox-main-span_top">
                 <div v-for="(item, i) in changeValue.beforeJson" :key="i">
-                  <span>{{item}}</span>
+                  <span  :class="i===sum?'warning-row':''">{{item}}</span>
                 </div>
               </div>
               <div class="kehuBox-main-span_bottom">
                 <div v-for="(item, i) in changeValue.afterJson" :key="i">
-                  <span>{{item}}</span>
+                  <span :class="i===sum?'warning-row':''">{{item}}</span>
                 </div>
               </div>
             </div>
@@ -69,6 +69,11 @@
   }
   .kehuBox-main-span_bottom{
     float: right;
+  }
+  .warning-row {
+    background: palevioletred;
+    color: white;
+    padding:3px;
   }
 </style>
 
