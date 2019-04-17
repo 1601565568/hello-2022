@@ -13,7 +13,6 @@ const router = new Router({
 })
 
 router.beforeEach((to, from, next) => {
-  console.log(to, from)
   if (to.path.indexOf('/operate') !== -1 || to.path.indexOf('/Isv') !== -1) {
     return next()
   }

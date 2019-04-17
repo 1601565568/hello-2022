@@ -74,7 +74,7 @@
           <el-form-item v-if="saveObj.m_type==0" label="封面图片：">
               <div class="comUploadBox">
                    <el-upload class="avatar-uploader"
-                        :action="this.$api.core.sgUploadFile('test')"  
+                        :action="this.$api.core.sgUploadFile('test')"
                         accept=".jpg,.jpeg,.png,.bmp,.gif"
                         :show-file-list="false"
                         list-type="picture-card"
@@ -177,7 +177,6 @@ export default {
   created: function () {},
   methods: {
     selChange (e) {
-      console.log(e)
     },
     // linkChange (url) {
     //   console.log('url:', url)
@@ -205,12 +204,10 @@ export default {
         if (obj.m_type === 1) {
           this.saveObj.urlPic = this.saveObj.url
         }
-        console.log(obj)
       }
       this.dialogVisible = true
     },
     handleSelectionChange (val) {
-      console.log(val)
       this.multipleSelection = val
     },
     delImgFun (index) {
@@ -263,7 +260,6 @@ export default {
     },
     // 处理上传图片
     handleAvatarSuccess: function (res, file) {
-      console.log(res)
       if (this.saveObj.m_type === 0) {
         // 链接就先置空
         this.saveObj.imageList = []
@@ -299,7 +295,6 @@ export default {
     //     });
     // },
     handleRemove (file, fileList) {
-      console.log(file, fileList)
     },
     handlePictureCardPreview (file) {
       this.dialogImageUrl = file.url
