@@ -193,7 +193,6 @@ export default {
       this.selectedArr = []
       this.selectedArr.push(item)
       this.AddShowToggle()
-      this.selectedArr = []
     },
     // 选择门店
     handleSelectionChange (val) {
