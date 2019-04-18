@@ -176,5 +176,15 @@ export default {
   getGuideList: {
     url: '/guide/guide/getGuideList',
     method: 'get'
+  },
+  // 加解密工具接口
+  encryptionAndDecryption: {
+    url: '/guide/helptool/encryptionAndDecryption',
+    method: 'get'
+  },
+  // 根据导购ids查询客户数
+  findGuideCustomerSum: {
+    url: '/guide/guide/findGuideCustomerSum',
+    method: 'post'
   }
 }

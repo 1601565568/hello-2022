@@ -19,25 +19,25 @@ export default {
           this.$emit('add')
         },
         'name': '新增'
+      },
+      {
+        'func': function () {
+          this.$emit('showShop')
+        },
+        'name': '批量更换门店'
+      },
+      {
+        'func': function () {
+          this.$emit('dimission')
+        },
+        'name': '批量离职'
+      },
+      {
+        'func': function () {
+          this.$emit('allDelete')
+        },
+        'name': '批量删除'
       }
-      // {
-      //   'func': function () {
-      //     this.$emit('showShop')
-      //   },
-      //   'name': '更换门店'
-      // },
-      // {
-      //   'func': function () {
-      //     this.$emit('dimission')
-      //   },
-      //   'name': '离职'
-      // },
-      // {
-      //   'func': function () {
-      //     this.$emit('allDelete')
-      //   },
-      //   'name': '删除'
-      // }
     ]
     const operateButtons = [
       {
