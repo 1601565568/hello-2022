@@ -452,9 +452,9 @@
     <!-- 批量操作提示弹窗开始  -->
       <el-dialog title="提示" width="35%" :visible.sync="returnInformationShow"  :before-close="bulkReplacementStores">
       <div class="bulkReplacementStores_box">
-        <div class="bulkReplacementStores_state">成功删除<text>{{theNumberOfsuccessful}}</text>名，失败删除<text>{{theNumberOfFailures}}</text>名。</div>
+        <div class="bulkReplacementStores_state">成功{{switchStateName}}<text>{{theNumberOfsuccessful}}</text>名，失败{{switchStateName}}<text>{{theNumberOfFailures}}</text>名。</div>
         <div class="bulkReplacementStores_name">失败员工姓名：{{nameArr}}</div>
-        <div class="bulkReplacementStores_cause">失败原因：有会员的员工，不能批量删除，需要转移后才能批量删除。</div>
+        <div class="bulkReplacementStores_cause">失败原因：有会员的员工，不能批量{{switchStateName}}，需要转移后才能批量{{switchStateName}}。</div>
         <div class="bulkReplacementStores_transfer">是否前往会员列表转移？</div>
       </div>
       <div slot="footer" class="dialog-footer">
@@ -558,6 +558,24 @@
       <div slot="footer" class="dialog-footer">
         <ns-button @click="memberBelongingShow = false">取消</ns-button>
         <ns-button type="primary" @click="memberBelongingEnsure(model)">确定</ns-button>
+      </div>
+    </el-dialog>
+    <!-- 所属门店查看详情结束 -->
+    <!-- 所属门店查看详情开始 -->
+    <el-dialog :title="title"  :visible.sync="replacementStoresHaveMembersShow" width="460px" >
+      <el-form>
+      <el-form-item label="会员归属方式：" required>
+        <el-form-grid size="xxmd">
+          <el-radio-group v-model="replacementStoresHaveMembersRadio">
+            <el-radio label='1'>员工<i class="el-icon-question"></i></el-radio>
+            <el-radio label='2'>门店<i class="el-icon-question"></i></el-radio>
+          </el-radio-group>
+        </el-form-grid>
+      </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <ns-button @click="replacementStoresHaveMembersShow = false">取消</ns-button>
+        <ns-button type="primary" @click="selectStoreButton()">确定</ns-button>
       </div>
     </el-dialog>
     <!-- 所属门店查看详情结束 -->
