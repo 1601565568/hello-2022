@@ -145,7 +145,6 @@ export default {
   },
   methods: {
     menuChage () {
-      console.log(this.model)
     },
     aaaaa () {
       this.$http.fetch(this.$api.overView.exit)
@@ -171,16 +170,13 @@ export default {
       this.presentObj.appId = appid
       this.dialogAutid = true
       var that = this
-      console.log('appid:', this.presentObj.appId)
       // 查询小程序可选类目
       that.$http.fetch(that.$api.guide.sgwxaccount.getAppletCategoryList, that.presentObj).then((resp) => {
-        console.log('查询小程序可选类目:', resp)
       }).catch((resp) => {
         that.$notify.error(resp.msg || '保存失败')
       })
       // 查询小程序页面配置
       that.$http.fetch(that.$api.guide.sgwxaccount.getAppletPageList, that.presentObj).then((resp) => {
-        console.log('查询小程序页面配置:', resp)
       }).catch((resp) => {
         that.$notify.error(resp.msg || '保存失败')
       })

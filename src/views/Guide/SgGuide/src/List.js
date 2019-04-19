@@ -167,6 +167,12 @@ export default {
       transferWay: '1',
       memberBelongingRadio: '1',
       brandId: null,
+      replacementStoresHaveMembersShow: false,       // 批量更换门店有会员弹窗
+      switchStateName: null,                   // 批量更换门店与批量离职提示切换字段
+      theNumberOfsuccessful: null,            // 批量操作返回的成功的人数
+      theNumberOfFailures: null,            // 批量操作返回的失败的人数
+      returnInformationShow: false,                // 批量操作返回信息提示弹窗
+      multipleStoresAreNotSupportedShow: false,   // 多门店更换提示不支持员工多门店
       accordingToJudgmentShow: false,
       memberBelongingShowTow: false,             // 会员归属弹窗
       dialogFormVisible: false,
@@ -198,11 +204,13 @@ export default {
       rules: rules,
       row: null,
       memberBelongingtitle: '',
+      memberBelongingShopid: null,
       memberBelongingShow: false,
       verification: false,
       nextStep: '确定',
       sum: null,                  // 员工下面的会员数量
       guideShoppersList: [],
+      nameArr: [],            // 批量删除、批量离职、批量更换门店返回没有成功的员工的名字数组
       guideList: [],
       shopList: [],
       shopFindList: [],
@@ -222,6 +230,7 @@ export default {
       transferCount: null,
       transferRadio: '1',
       memberferRadio: '2',
+      replacementStoresHaveMembersRadio: '1',
       radio: null,
       newAdd: {
         brand_id: null,
@@ -274,6 +283,15 @@ export default {
     }
   },
   methods: {
+    toTransfer () { // 批量操作前往会员管理页面按钮
+      this.$router.push({
+        path: '/Guide/Customer/CustomerManage'
+      })
+    },
+    bulkReplacementStores () { // 批量更换门店
+      this.multipleStoresAreNotSupportedShow = false
+      this.returnInformationShow = false
+    },
     getCurrentRow (row, index) { // 单选按钮
       this.radio = index
       this.value = row
@@ -358,6 +376,9 @@ export default {
 
       this.memberBelongingList = shopListArr
       _this.changeValue.storeValue = vId
+      if (this.memberBelongingList.length > 0) {
+        _this.memberBelongingShopid = this.memberBelongingList[0].id
+      }
       _this.shopIds = vId
       _this.changeObj.storeChange = true
       _this.replaceStoresArry.push(row)
@@ -367,7 +388,7 @@ export default {
     },
     changeMemberBelonging (value) {
       this.model.sgGuideVo.newShopId = value
-      this.model.sgGuideShop.shop_id = value
+      this.memberBelongingShopid = value
       this.model.sgGuideVo.type = 1
     },
     handleSelectionChange (value) {
@@ -385,13 +406,12 @@ export default {
       let _this = this
       let guide = this.model.sgGuide
       let guideShop = []
-      guideShop.push(_this.model.sgGuideShop)
       _this.model.sgGuideVo.type = Number(_this.memberBelongingRadio)
       let sgGuideVo = _this.model.sgGuideVo
       let allImageUrl = null
       if (_this.memberferRadio === '1') {
         _this.subordinateStores.map((item, i) => {
-          sgGuideVo.newShopId = _this.model.sgGuideShop.shop_id
+          sgGuideVo.newShopId = _this.memberBelongingShopid
         })
       } else {
         if (_this.guideValue === 0) {
@@ -410,7 +430,7 @@ export default {
           if (guide.birthday === null) guide.birthday = ''
           if (guide.work_num === null) guide.work_num = ''
           if (_this.memberBelongingRadio === '1') {
-            sgGuideVo.newShopId = model.sgGuideShop.shop_id
+            sgGuideVo.newShopId = _this.memberBelongingShopid
           } else {
             sgGuideVo.newShopId = null
           }
@@ -433,7 +453,10 @@ export default {
       })
     },
     allDelete () { // 组团删除功能
-      var _this = this
+      let _this = this
+      _this.nameArr = []
+      _this.multipleSelections = []
+      _this.switchStateName = '删除'
       if (_this.multipleSelection.length < 1) {
         _this.$notify.error('请选择要操作的员工')
       } else {
@@ -455,6 +478,22 @@ export default {
             if (resp.result.failCount > 0) {
               _this.successCount = resp.result.successCount
               _this.failCount = resp.result.failCount
+              resp.result.guideNames.split(',').map((item, i) => {
+                if (_this.nameArr.indexOf(resp.result.guideNames.split(',')[i]) === -1) {
+                  _this.nameArr.push(item)
+                } else {
+                  if (item === _this.multipleSelection[_this.nameArr.indexOf(resp.result.guideNames.split(',')[i])].name) {
+                    _this.nameArr[_this.nameArr.indexOf(resp.result.guideNames.split(',')[i])] = _this.multipleSelection[_this.nameArr.indexOf(resp.result.guideNames.split(',')[i])].name + '(' + _this.multipleSelection[_this.nameArr.indexOf(resp.result.guideNames.split(',')[i])].work_id + ')'
+                  }
+                  if (item === _this.multipleSelection[i].name) {
+                    _this.nameArr[i] = _this.multipleSelection[i].name + '(' + _this.multipleSelection[i].work_id + ')'
+                  }
+                }
+              })
+              _this.nameArr = _this.nameArr.join('，')
+              _this.returnInformationShow = true
+              _this.successCount = resp.result.successCount
+              _this.failCount = resp.result.failCount
               _this.allDeleteFormVisible = true
             } else {
               _this.$notify.success('删除成功')
@@ -470,7 +509,9 @@ export default {
       this.$http.fetch(this.$api.overView.exit, {})
     },
     dimission () { // 批量离职功能
-      var _this = this
+      let _this = this
+      _this.switchStateName = '离职'
+      _this.nameArr = []
       var dimissionshopIdArry = []
       var dimissionIdArry = []
       _this.verification = false
@@ -509,33 +550,43 @@ export default {
                 dimissionshopIdArry.push(item.shop_id)
               })
               _this.$http.fetch(_this.$api.guide.guide.guideLeave, {
-                guideIds: dimissionIdArry.join(','),
-                shopIds: dimissionshopIdArry.join(',')
+                guideIds: dimissionIdArry.join(',')
               }).then(resp => {
-                if (resp.result.msg !== '批量离职成功.') {
-                  _this.$notify.error(resp.result.msg)
-                  // _this.successCount = resp.result.msg
-                  // _this.failCount = resp.result.failCount
+                if (resp.result.failCount > 0) {
+                  _this.theNumberOfsuccessful = resp.result.successCount
+                  _this.theNumberOfFailures = resp.result.failCount
+                  resp.result.guideNames.split(',').map((item, i) => {
+                    if (_this.nameArr.indexOf(resp.result.guideNames.split(',')[i]) === -1) {
+                      _this.nameArr.push(item)
+                    } else {
+                      if (item === _this.multipleSelection[i].name) {
+                        _this.nameArr[i] = _this.multipleSelection[i].name + '(' + _this.multipleSelection[i].work_id + ')'
+                      }
+                    }
+                  })
+                  _this.nameArr = _this.nameArr.join('，')
+                  _this.returnInformationShow = true
+                  // _this.$notify.error(resp.result.msg)
+                  _this.successCount = resp.result.successCount
+                  _this.failCount = resp.result.failCount
+                  console.log('_this.successCount:', _this.successCount, _this.failCount)
                 } else {
                   _this.$notify.success('批量离职成功')
                   _this.$refs.table.$reload()
                 }
               }).catch((resp) => {
-                _this.$notify.error('查询失败：' + resp.msg)
+                _this.$notify.error('批量离职失败：' + resp.msg)
               })
             })
           } else {
-            _this.$confirm('多门店禁止批量操作!', '提示', {
-              confirmButtonText: '确定',
-              cancelButtonText: '取消',
-              type: 'warning'
-            }).then(() => {})
+            _this.multipleStoresAreNotSupportedShow = true
           }
         }
       }
     },
     showShop () { // 组团进行更换门店操作
-      var _this = this
+      let _this = this
+      _this.switchStateName = '更换门店'
       _this.verification = false
       _this.allDeleteName = []
       if (_this.replaceStoresArry.length < 1) {
@@ -548,7 +599,7 @@ export default {
           }
         })
         if (_this.accordingToJudgmentShow) {
-          _this.$confirm(_this.allDeleteName.join('、') + ' 已是离职状态、不能对其进行更换门店操作!', '提示', {
+          _this.$confirm(' 离职的员工、不允许更换门店操作!', '提示', {
             confirmButtonText: '确定',
             cancelButtonText: '取消',
             type: 'warning'
@@ -574,73 +625,70 @@ export default {
               })
             })
           } else {
-            _this.$confirm('所属多门店，更换门店禁止批量操作!', '提示', {
-              confirmButtonText: '确定',
-              cancelButtonText: '取消',
-              type: 'warning'
-            }).then(() => {})
+            _this.multipleStoresAreNotSupportedShow = true
           }
         }
       }
     },
+    async updateShopId () { // 查询导购下的会员数量
+      let _this = this
+      let dimissionIdArry = []
+      _this.nameArr = []
+      _this.replaceStoresArry.map(item => {
+        dimissionIdArry.push(item.id)
+      })
+      await _this.$http.fetch(_this.$api.guide.guide.updateShopId, {
+        guideIds: dimissionIdArry.join(','),
+        shopId: Number(this.shopIds),
+        type: _this.replacementStoresHaveMembersShow ? Number(_this.replacementStoresHaveMembersRadio) : ''
+      }).then(resp => {
+        if (resp.result.failCount > 0) {
+          _this.theNumberOfsuccessful = resp.result.successCount
+          _this.theNumberOfFailures = resp.result.failCount
+          resp.result.guideNames.split(',').map((item, i) => {
+            if (_this.nameArr.indexOf(resp.result.guideNames.split(',')[i]) === -1) {
+              _this.nameArr.push(item)
+            } else {
+              if (item === _this.multipleSelection[i].name) {
+                _this.nameArr[i] = _this.multipleSelection[i].name + '(' + _this.multipleSelection[i].work_id + ')'
+              }
+            }
+          })
+          _this.nameArr = _this.nameArr.join('，')
+          _this.returnInformationShow = true
+          // _this.$notify.error(resp.result.msg)
+          _this.successCount = resp.result.successCount
+          _this.failCount = resp.result.failCount
+        } else {
+          _this.shopFindListShow = false
+          _this.replacementStoresHaveMembersShow = false
+          _this.$notify.success('批量更换门店成功')
+          _this.$refs.table.$reload()
+        }
+      }).catch((resp) => {
+        _this.$notify.error('批量更换门店失败：' + resp.msg)
+      })
+    },
+    selectStoreButton () { //  选择门店按钮
+      this.updateShopId()
+    },
     replaceStores () { // 组团更换门店功能
-      var _this = this
-      var dimissionIdArry = []
-      let guideId = null
-      if (_this.shopIds !== null) {
-        _this.replaceStoresArry.map(item => {
-          if (item.shop_id !== _this.shopIds) {
-            guideId = item.id
-            _this.$http.fetch(_this.$api.guide.guide.getCustomerCount, {
-              searchMap: {
-                'guideId': guideId
-              }
-            }).then(resp => {
-              if (resp.result.recordsFiltered > 0) {
-                _this.memberBelongingShowTow = true
-              } else {
-                dimissionIdArry.push(item.id)
-                _this.$http.fetch(_this.$api.guide.guide.updateShopId, {
-                  guideIds: dimissionIdArry.join(','),
-                  shopId: this.shopIds
-                }).then(resp => {
-                  if (resp.result.failCount > 0) {
-                    _this.successCount = resp.result.successCount
-                    _this.failCount = resp.result.failCount
-                    _this.allDeleteFormVisible = true
-                  } else {
-                    _this.shopFindListShow = false
-                    _this.$notify.success('批量更换门店成功')
-                    _this.$refs.table.$reload()
-                  }
-                }).catch((resp) => {
-                  _this.$notify.error('查询失败：' + resp.msg)
-                })
-              }
-            }).catch((resp) => {
-              _this.$notify.error('查询失败：' + resp.msg)
-            })
-          } else {
-            dimissionIdArry.push(item.id)
-            _this.$http.fetch(_this.$api.guide.guide.updateShopId, {
-              guideIds: dimissionIdArry.join(','),
-              shopId: this.shopIds
-            }).then(resp => {
-              if (resp.result.failCount > 0) {
-                _this.successCount = resp.result.successCount
-                _this.failCount = resp.result.failCount
-                _this.allDeleteFormVisible = true
-              } else {
-                _this.shopFindListShow = false
-                _this.$notify.success('批量更换门店成功')
-                _this.$refs.table.$reload()
-              }
-            }).catch((resp) => {
-              _this.$notify.error('查询失败：' + resp.msg)
-            })
-          }
-        })
-      }
+      let _this = this
+      let dimissionIdArry = []
+      _this.replaceStoresArry.map(item => {
+        dimissionIdArry.push(item.id)
+      })
+      _this.$http.fetch(_this.$api.guide.guide.findGuideCustomerSum, {
+        guideIds: dimissionIdArry.join(',')
+      }).then(resp => {
+        if (resp.result.sum > 0) {
+          _this.replacementStoresHaveMembersShow = true
+        } else {
+          _this.updateShopId()
+        }
+      }).catch(() => {
+        _this.$notify.error('查询失败')
+      })
     },
     onKeyUp (e) {
       var key = window.event.keyCode
@@ -693,7 +741,7 @@ export default {
         _this.$notify.error('查询失败：' + resp.msg)
       })
     },
-    onDelsTipFun (row) {
+    onDelsTipFun (row) { // 删除操作
       var _this = this
       _this.$confirm('请确认是否对 ' + row.name + ' 进行删除操作!', '提示', {
         confirmButtonText: '确定',
@@ -852,7 +900,6 @@ export default {
       let guideId = null
       let shopId = null
       let shopArr = []
-      // let itemArr = []
       if (_this.row) {
         shopArr = _this.row.shop_ids.split(',')
         if (_this.guideValue === 1 && _this.title === '编辑员工信息') {
@@ -873,38 +920,6 @@ export default {
                 _this.memberBelongingShow = true
               }
             })
-
-            // _this.row.shop_ids.split(',').map(item => {
-            //   if (_this.subordinateStores.indexOf(item) === -1) {
-            //     itemArr.push(item)
-            //   }
-            // })
-            // if (itemArr.length !== 0) {
-            //   guideId = _this.row.id
-            //   shopId = itemArr.join(',')
-            //   _this.findGuideShopCustomerSum(guideId, shopId, model).then((res) => {
-            //     if (res < 1) {
-            //       _this.subordinateStores.map((item, i) => {
-            //         guideShop[i] = Object.assign({job: _this.guideValue, shop_id: item}, guideShop[i])
-            //       })
-            //       if (guide.birthday instanceof Date) {
-            //         guide.birthday = moment(guide.birthday).format('YYYY-MM-DD')
-            //       }
-            //       _this.saveOrUpdateGuide(guide, guideShop, sgGuideVo)
-            //     } else {
-            //       _this.memberBelongingtitle = '选择会员归属'
-            //       _this.memberBelongingShow = true
-            //     }
-            //   })
-            // } else {
-            //   _this.subordinateStores.map((item, i) => {
-            //     guideShop[i] = Object.assign({job: _this.guideValue, shop_id: item}, guideShop[i])
-            //   })
-            //   if (guide.birthday instanceof Date) {
-            //     guide.birthday = moment(guide.birthday).format('YYYY-MM-DD')
-            //   }
-            //   _this.saveOrUpdateGuide(guide, guideShop, sgGuideVo)
-            // }
           } else {
             if (shopArr.indexOf(_this.changeValue.storeValue) === -1) {
               guideId = _this.row.id
@@ -948,36 +963,6 @@ export default {
                 _this.memberBelongingShow = true
               }
             })
-            // _this.row.shop_ids.split(',').map(item => {
-            //   if (item !== _this.changeValue.storeValue) {
-            //     itemArr.push(item)
-            //   }
-            // })
-            // if (itemArr.length !== 0) {
-            //   guideId = _this.row.id
-            //   shopId = itemArr.join(',')
-            //   _this.findGuideShopCustomerSum(guideId, shopId, model).then((res) => {
-            //     if (res < 0) {
-            //       _this.subordinateStores.map((item, i) => {
-            //         guideShop[i] = Object.assign({job: _this.guideValue, shop_id: item}, guideShop[i])
-            //       })
-
-            //       if (guide.birthday instanceof Date) {
-            //         guide.birthday = moment(guide.birthday).format('YYYY-MM-DD')
-            //       }
-            //       _this.saveOrUpdateGuide(guide, guideShop, sgGuideVo)
-            //     } else {
-            //       _this.memberBelongingtitle = '选择会员归属'
-            //       _this.memberBelongingShow = true
-            //     }
-            //   })
-            // } else {
-            //   guideShop[0] = { job: _this.guideValue, shop_id: model.sgGuideShop.shop_id }
-            //   if (guide.birthday instanceof Date) {
-            //     guide.birthday = moment(guide.birthday).format('YYYY-MM-DD')
-            //   }
-            //   _this.saveOrUpdateGuide(guide, guideShop, sgGuideVo)
-            // }
           } else {
             if (_this.row.id === _this.changeValue.storeValue) {
               guideShop[0] = { job: _this.guideValue, shop_id: model.sgGuideShop.shop_id }
@@ -1003,33 +988,34 @@ export default {
             }
           }
         }
-      }
-      if (model.sgGuideShop.job === 1 && _this.title === '新增员工') {
-        this.subordinateStores.map((item, i) => {
-          guideShop[i] = Object.assign({job: _this.guideValue, shop_id: item}, guideShop[i])
-        })
-        _this.$refs.addForm.validate(valid => {
-          if (valid) {
-            if (guide.birthday instanceof Date) {
-              guide.birthday = moment(guide.birthday).format('YYYY-MM-DD')
+      } else {
+        if (model.sgGuideShop.job === 1 && _this.title === '新增员工') {
+          this.subordinateStores.map((item, i) => {
+            guideShop[i] = Object.assign({job: _this.guideValue, shop_id: item}, guideShop[i])
+          })
+          _this.$refs.addForm.validate(valid => {
+            if (valid) {
+              if (guide.birthday instanceof Date) {
+                guide.birthday = moment(guide.birthday).format('YYYY-MM-DD')
+              }
+              if (guide.birthday === null) guide.birthday = ''
+              if (guide.work_num === null) guide.work_num = ''
             }
-            if (guide.birthday === null) guide.birthday = ''
-            if (guide.work_num === null) guide.work_num = ''
-          }
-        })
-        _this.saveOrUpdateGuide(guide, guideShop, sgGuideVo)
-      } else if (model.sgGuideShop.job === 0 && _this.title === '新增员工') {
-        guideShop[0] = { job: 0, shop_id: model.sgGuideShop.shop_id }
-        _this.$refs.addForm.validate(valid => {
-          if (valid) {
-            if (guide.birthday instanceof Date) {
-              guide.birthday = moment(guide.birthday).format('YYYY-MM-DD')
+          })
+          _this.saveOrUpdateGuide(guide, guideShop, sgGuideVo)
+        } else if (model.sgGuideShop.job === 0 && _this.title === '新增员工') {
+          guideShop[0] = { job: 0, shop_id: model.sgGuideShop.shop_id }
+          _this.$refs.addForm.validate(valid => {
+            if (valid) {
+              if (guide.birthday instanceof Date) {
+                guide.birthday = moment(guide.birthday).format('YYYY-MM-DD')
+              }
+              if (guide.birthday === null) guide.birthday = ''
+              if (guide.work_num === null) guide.work_num = ''
             }
-            if (guide.birthday === null) guide.birthday = ''
-            if (guide.work_num === null) guide.work_num = ''
-          }
-        })
-        _this.saveOrUpdateGuide(guide, guideShop, sgGuideVo)
+          })
+          _this.saveOrUpdateGuide(guide, guideShop, sgGuideVo)
+        }
       }
     },
     shopEdit (row) {

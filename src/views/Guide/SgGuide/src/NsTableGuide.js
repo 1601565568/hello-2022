@@ -24,19 +24,19 @@ export default {
       //   'func': function () {
       //     this.$emit('showShop')
       //   },
-      //   'name': '更换门店'
+      //   'name': '批量更换门店'
       // },
       // {
       //   'func': function () {
       //     this.$emit('dimission')
       //   },
-      //   'name': '离职'
+      //   'name': '批量离职'
       // },
       // {
       //   'func': function () {
       //     this.$emit('allDelete')
       //   },
-      //   'name': '删除'
+      //   'name': '批量删除'
       // }
     ]
     const operateButtons = [

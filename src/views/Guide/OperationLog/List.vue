@@ -3,7 +3,7 @@
     <ns-table-guide ref="table" :url=$api.guide.guide.operationlogFindList @viewDetails = "viewDetails">
     </ns-table-guide>
     <!--  查看详情弹窗开始  -->
-    <el-dialog :title="title" :visible.sync="shopKuhuShow" width="1000px"  >
+    <el-dialog :title="title" :visible.sync="detailShow" width="1000px"  >
     <div>
       <div class="kehuBox-main">
         <div class="kehuBox-main-top">
@@ -21,12 +21,12 @@
             <div class="kehuBox-main-span_left">
               <div class="kehuBox-main-span_top">
                 <div v-for="(item, i) in changeValue.beforeJson" :key="i">
-                  <span>{{item}}</span>
+                  <span  :class="i===sum?'warning-row':''">{{item}}</span>
                 </div>
               </div>
               <div class="kehuBox-main-span_bottom">
                 <div v-for="(item, i) in changeValue.afterJson" :key="i">
-                  <span>{{item}}</span>
+                  <span :class="i===sum?'warning-row':''">{{item}}</span>
                 </div>
               </div>
             </div>
@@ -69,6 +69,11 @@
   }
   .kehuBox-main-span_bottom{
     float: right;
+  }
+  .warning-row {
+    background: palevioletred;
+    color: white;
+    padding:3px;
   }
 </style>
 

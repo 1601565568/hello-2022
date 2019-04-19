@@ -164,22 +164,22 @@ export default {
   },
   // 查找缓存中所有的Key
   findCacheKeys: {
-    url: '/guide/cache/findCacheKeys',
+    url: '/guide/helptool/findCacheKeys',
     method: 'get'
   },
   // 根据缓存中的Key拿值
   getCacheKeyValue: {
-    url: '/guide/cache/getCacheKeyValue',
+    url: '/guide/helptool/getCacheKeyValue',
     method: 'get'
   },
   // 移除缓存中的Key
   removeCacheKey: {
-    url: '/guide/cache/removeCacheKey',
+    url: '/guide/helptool/removeCacheKey',
     method: 'get'
   },
   // 移除所有的Key
   removeAllCacheKey: {
-    url: '/guide/cache/removeAllCacheKey',
+    url: '/guide/helptool/removeAllCacheKey',
     method: 'get'
   },
   // 获取联系我管理列表

@@ -190,10 +190,11 @@ export default {
       })
     },
     itemSetFun (item) {
+      var selectedArrBck = this.selectedArr
       this.selectedArr = []
       this.selectedArr.push(item)
       this.AddShowToggle()
-      this.selectedArr = []
+      this.selectedArr = selectedArrBck
     },
     // 选择门店
     handleSelectionChange (val) {

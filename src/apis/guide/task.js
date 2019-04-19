@@ -1,4 +1,8 @@
 export default {
+  queryTaskList: {
+    url: '/guide/task/queryTaskList',
+    method: 'post'
+  },
   getTaskCount: {
     url: '/guide/task/getTaskCount',
     method: 'get'
