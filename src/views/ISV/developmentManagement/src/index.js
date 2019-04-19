@@ -69,7 +69,6 @@ export default {
       this.initShopList(model)
     },
     pageChange (model) { // 页数改变
-      console.log('model:', model)
       this.initShopList(model)
     },
     searchAction (model) { // 搜索
@@ -103,7 +102,6 @@ export default {
       this.domainNameVisible = true
     },
     onDelsTipFun (val) { // 删除
-      console.log('val:', val)
     },
     async initShopList (succeedObj) { // 模板详情
       let that = this

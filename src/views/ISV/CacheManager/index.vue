@@ -7,7 +7,7 @@
     <div v-if="buttoncolor===0">
       <el-form>
         <el-form-item label="输入要缓存中的key值：" required>
-          <el-autocomplete style="width: 250px"
+          <el-autocomplete style="width: 350px"
             v-model="cacheKey" popper-append-to-body
             clearable
             :fetch-suggestions="querySearchAsync"
@@ -31,7 +31,7 @@
     <div v-if="buttoncolor===1">
       <el-form>
         <el-form-item label="内容：" required>
-          <el-autocomplete style="width: 250px"
+          <el-autocomplete style="width: 350px"
             v-model="obj.data" popper-append-to-body
             clearable
             :fetch-suggestions="querySearchAsync"

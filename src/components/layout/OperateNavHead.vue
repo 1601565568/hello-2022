@@ -61,7 +61,6 @@
     mounted () {
       this.setBrandsInView()
       this.onBackCloud()
-      console.log(this.$route)
       this.activeName = this.$route.matched[0].name
     },
     methods: {

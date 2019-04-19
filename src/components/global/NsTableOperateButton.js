@@ -6,7 +6,6 @@ function createDropItems (createElement, context, btnOpts) {
       'nativeOn': {
         click: function ($event) {
           console.log($event)
-          console.log(1)
           // item.func.call(context, context['scope'])
         }
       }
@@ -59,7 +58,6 @@ export default {
         nativeOn: {
           click: function ($event) {
             console.log($event)
-             console.log(1)
             x.func.call(parentContext)
           }
         }

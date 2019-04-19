@@ -32,7 +32,7 @@
 
         <el-form-item label="导购姓名：">
           <el-form-grid size="xmd">
-            <el-input ref="quickText" style="width: 150px" v-model="model.guideName" placeholder="导购姓名" @keyup.enter.native="$quickSearchAction$('guideName')" clearable>
+            <el-input ref="quickText" style="width: 150px" v-model="model.guideName" placeholder="请输入导购姓名" @keyup.enter.native="$quickSearchAction$('guideName')" clearable>
             </el-input>
           </el-form-grid>
         </el-form-item>
@@ -44,16 +44,16 @@
           </el-form-grid>
         </el-form-item>
 
-        <el-form-item label="虚拟店铺Id：">
+        <el-form-item label="门店Id：">
           <el-form-grid>
-            <el-input ref="quickText" style="width: 150px" v-model="model.brandId" placeholder="请输入虚拟店铺Id" @keyup.enter.native="$quickSearchAction$('brandId')" clearable>
+            <el-input ref="quickText" style="width: 150px" v-model="model.shopId" placeholder="请输入门店Id" @keyup.enter.native="$quickSearchAction$('shopId')" clearable>
             </el-input>
           </el-form-grid>
         </el-form-item>
 
-        <el-form-item label="门店Id：">
+        <el-form-item label="虚拟门店Id：">
           <el-form-grid>
-            <el-input ref="quickText" style="width: 150px" v-model="model.shopId" placeholder="请输入门店Id" @keyup.enter.native="$quickSearchAction$('shopId')" clearable>
+            <el-input ref="quickText" style="width: 150px" v-model="model.brandId" placeholder="请输入虚拟门店Id" @keyup.enter.native="$quickSearchAction$('brandId')" clearable>
             </el-input>
           </el-form-grid>
         </el-form-item>
