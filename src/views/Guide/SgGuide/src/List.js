@@ -454,6 +454,7 @@ export default {
     },
     allDelete () { // 组团删除功能
       let _this = this
+      _this.switchStateName = '删除'
       if (_this.multipleSelection.length < 1) {
         _this.$notify.error('请选择要操作的员工')
       } else {
@@ -495,7 +496,6 @@ export default {
               _this.$refs.table.$reload()
             }
           }).catch((resp) => {
-            _this.switchStateName = '删除'
             _this.$notify.error('查询失败：' + resp.msg)
           })
         })
@@ -506,6 +506,7 @@ export default {
     },
     dimission () { // 批量离职功能
       let _this = this
+      _this.switchStateName = '离职'
       var dimissionshopIdArry = []
       var dimissionIdArry = []
       _this.verification = false
@@ -574,7 +575,6 @@ export default {
               })
             })
           } else {
-            _this.switchStateName = '离职'
             _this.multipleStoresAreNotSupportedShow = true
           }
         }
@@ -582,6 +582,7 @@ export default {
     },
     showShop () { // 组团进行更换门店操作
       let _this = this
+      _this.switchStateName = '更换门店'
       _this.verification = false
       _this.allDeleteName = []
       if (_this.replaceStoresArry.length < 1) {
@@ -620,7 +621,6 @@ export default {
               })
             })
           } else {
-            _this.switchStateName = '更换门店'
             _this.multipleStoresAreNotSupportedShow = true
           }
         }
