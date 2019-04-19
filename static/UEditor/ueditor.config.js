@@ -29,23 +29,20 @@
     UEDITOR_HOME_URL: URL,
 
         // 服务器统一请求接口路径
-    serverUrl: 'http://47.96.228.119:8080/core/sgfile/uploadFile/ueditor',
+    serverUrl: 'http://35.201.165.105:8000/controller.php',
 
         // 工具栏上的所有的功能按钮和下拉框，可以在new编辑器的实例时选择自己需要的重新定义
     toolbars: [[
-      'fullscreen', 'source', '|', 'undo', 'redo', '|',
-      'bold', 'italic', 'underline', 'fontborder', 'strikethrough', 'superscript', 'subscript', 'removeformat', 'formatmatch', 'autotypeset', 'blockquote', 'pasteplain', '|', 'forecolor', 'backcolor', 'insertorderedlist', 'insertunorderedlist', 'selectall', 'cleardoc', '|',
-      'rowspacingtop', 'rowspacingbottom', 'lineheight', '|',
-      'paragraph', 'fontfamily', 'fontsize', '|',
-      'directionalityltr', 'directionalityrtl', 'indent', '|',
-      'justifyleft', 'justifycenter', 'justifyright', 'justifyjustify', '|', 'touppercase', 'tolowercase', '|',
-      'link', 'unlink', '|',
-      'simpleupload', 'insertimage', 'emotion', 'scrawl', 'attachment', 'map', 'gmap', 'insertframe', 'pagebreak', 'template', 'background', '|',
-      'horizontal', 'date', 'time', 'spechars', 'snapscreen', 'wordimage', '|',
-      //  'inserttable', 'deletetable', 'insertparagraphbeforetable', 'insertrow', 'deleterow', 'insertcol', 'deletecol', 'mergecells', 'mergeright', 'mergedown', 'splittocells', 'splittorows', 'splittocols', 'charts', '|',
-      'preview', 'searchreplace'
+      'undo', 'redo', 'bold', 'italic',
+      'underline', 'fontsize', 'fontfamily',
+      'justifyleft', 'justifyright', 'justifycenter', 'justifyjustify',
+      'strikethrough', 'superscript', 'subscript', 'removeformat',
+      'formatmatch', 'blockquote', '|',
+      'forecolor', 'backcolor',
+      'insertimage', 'emotion', '|',
+      'selectall', 'cleardoc', 'preview'
     ]],
-        // 原配置参数
+        // 原配置参数s
         //  toolbars: [[
         //   'fullscreen', 'source', '|', 'undo', 'redo', '|',
         //   'bold', 'italic', 'underline', 'fontborder', 'strikethrough', 'superscript', 'subscript', 'removeformat', 'formatmatch', 'autotypeset', 'blockquote', 'pasteplain', '|', 'forecolor', 'backcolor', 'insertorderedlist', 'insertunorderedlist', 'selectall', 'cleardoc', '|',
@@ -94,7 +91,7 @@
         //, focus:false //初始化时，是否让编辑器获得焦点true或false
 
         // 如果自定义，最好给p标签如下的行高，要不输入中文时，会有跳动感
-    initialStyle: 'p{line-height:1em}', // 编辑器层级的基数,可以用来改变字体等
+    // initialStyle: 'p{line-height:1em}', // 编辑器层级的基数,可以用来改变字体等
 
         //, iframeCssUrl: URL + '/themes/iframe.css' //给编辑区域的iframe引入一个css文件
 
@@ -110,7 +107,7 @@
         //, autoClearEmptyNode : true //getContent时，是否删除空的inlineElement节点（包括嵌套的情况）
 
         // 启用自动保存
-    enableAutoSave: false,
+    // enableAutoSave: false,
         // 自动保存间隔时间， 单位ms
         //, saveInterval: 500
 

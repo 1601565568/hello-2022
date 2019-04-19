@@ -24,14 +24,15 @@
         </el-input>
         <p style='margin-top:10px'><i class="el-icon-info text-tips">外链的内容仅在H5版本中显示，不会出现在小程序中</i></p>
       </div>
-      <div v-show='!saveObj.articleType'>
+      <div v-show='!saveObj.articleType' style='flex:1'>
         <div class='mb10'>
             <el-input  type="text" v-model="saveObj.title" maxlength='50' placeholder="请输入标题，长度在4-50个字符以内" clearable size="medium"></el-input>
         </div>
-        <vue-ueditor-wrap :config="myConfig" v-model="detail" @ready="editorReady" ></vue-ueditor-wrap>
+        <vue-ueditor-wrap :config="myConfig" v-model="detail" @ready="editorReady"></vue-ueditor-wrap>
+         <!-- @beforeInit="addCustomDialog" -->
       </div>
 
-      <el-form :model="saveObj" :rules="rules" ref="addForm"  style="margin-left:50px">
+      <el-form :model="saveObj" :rules="rules" ref="addForm"  style="margin-left:20px">
         <el-form-item  prop="article">
             <el-radio-group v-model="saveObj.articleType">
                 <el-radio :label=0>添加文章
@@ -127,12 +128,14 @@ export default {
         // 你的UEditor资源存放的路径，相对于打包后的index.html
         UEDITOR_HOME_URL: '/static/UEditor/',
         // 编辑器不自动被内容撑高
-        autoHeightEnabled: false,
+        autoHeightEnabled: true,
         // 初始容器高度
-        initialFrameHeight: 240,
+        initialFrameHeight: 300,
         // 初始容器宽度
         initialFrameWidth: '100%',
-        serverUrl: 'http://47.96.228.119:8089/core/sgueditorfile/ueditorFile'
+        // serverUrl: 'http://47.96.228.119:8080/core/sgueditorfile/ueditorFile'
+        serverUrl: 'http://35.201.165.105:8000/controller.php'
+
       },
       wechatPageTypeList: [{name: '商品', id: 1}, {name: '优惠券', id: 2}, {name: '营销活动', id: 3}, {name: '商品分类', id: 4}, {name: '自定义页面', id: 5}],
       wechatPageUrlList: [{url: '/pages/workbench/index', id: 1}, {url: '/pages/workbench/inde', id: 2}, {url: '/pages/workbench/ind', id: 3}],
@@ -182,46 +185,82 @@ export default {
     addPic () {
       this.detail = '<p><span style="background-color: rgb(0, 0, 0); color: rgb(255, 255, 255);">141324企鹅为全额完全v</span><br/></p>'
     },
-    addCustomButtom (editorId) {
-      window.UE.registerUI('test-button', function (editor, uiName) {
-    // 注册按钮执行时的 command 命令，使用命令默认就会带有回退操作
-        editor.registerCommand(uiName, {
-          execCommand: function () {
-            editor.execCommand('inserthtml', `<span>这是一段由自定义按钮添加的文字</span>`)
-          }
-        })
-
-    // 创建一个 button
-        var btn = new window.UE.ui.Button({
-      // 按钮的名字
+    addCustomDialog (editorId) {
+      window.UE.registerUI('test-dialog', function (editor, uiName) {
+    // 创建 dialog
+        var dialog = new window.UE.ui.Dialog({
+      // 指定弹出层中页面的路径，这里只能支持页面，路径参考常见问题 2
+          iframeUrl: '../../../../static/UEditor/dialogs/customizeDialogPage/customizeDialogPage.html',
+      // 需要指定当前的编辑器实例
+          editor: editor,
+      // 指定 dialog 的名字
           name: uiName,
-      // 提示
-          title: '鼠标悬停时的提示文字',
-      // 需要添加的额外样式，可指定 icon 图标，图标路径参考常见问题 2
-          cssRules: "background-image: url('/test-button.png') !important;background-size: cover;",
-      // 点击时执行的命令
+      // dialog 的标题
+          title: '请输入小程序的链接',
+      // 指定 dialog 的外围样式
+          cssRules: 'width:600px;height:300px;',
+      // 如果给出了 buttons 就代表 dialog 有确定和取消
+          buttons: [
+            {
+              className: 'edui-okbutton',
+              label: '确定',
+              onclick: function () {
+                dialog.close(true)
+              }
+            },
+            {
+              className: 'edui-cancelbutton',
+              label: '取消',
+              onclick: function () {
+                dialog.close(false)
+              }
+            }
+          ]
+        })
+
+    // 参考上面的自定义按钮
+        var btn = new window.UE.ui.Button({
+          name: 'dialog-button',
+          title: '小程序链接',
+          cssRules: `background-position: -500px 0`,
           onclick: function () {
-        // 这里可以不用执行命令，做你自己的操作也可
-            editor.execCommand(uiName)
+        // 渲染dialog
+            dialog.render()
+            dialog.open()
           }
         })
 
-    // 当点到编辑内容上时，按钮要做的状态反射
-        editor.addListener('selectionchange', function () {
-          var state = editor.queryCommandState(uiName)
-          if (state === -1) {
-            btn.setDisabled(true)
-            btn.setChecked(false)
-          } else {
-            btn.setDisabled(false)
-            btn.setChecked(state)
-          }
-        })
-
-    // 因为你是添加 button，所以需要返回这个 button
         return btn
-      }, 0 /* 指定添加到工具栏上的哪个位置，默认时追加到最后 */, editorId /* 指定这个 UI 是哪个编辑器实例上的，默认是页面上所有的编辑器都会添加这个按钮 */)
+      } /* 0  指定添加到工具栏上的那个位置，默认时追加到最后 , editorId 指定这个UI是哪个编辑器实例上的，默认是页面上所有的编辑器都会添加这个按钮 */)
     },
+    // addCustomButtom (editorId) {
+    //   window.UE.registerUI('test-button', function (editor, uiName) {
+    //     editor.registerCommand(uiName, {
+    //       execCommand: function () {
+    //         editor.execCommand('inserthtml', `<span>这是一段由自定义按钮添加的文字</span>`)
+    //       }
+    //     })
+    //     var btn = new window.UE.ui.Button({
+    //       name: uiName,
+    //       title: '小程序链接',
+    //       cssRules: 'background-position: -500px 0',
+    //       onclick: function () {
+    //         editor.execCommand(uiName)
+    //       }
+    //     })
+    //     editor.addListener('selectionchange', function () {
+    //       var state = editor.queryCommandState(uiName)
+    //       if (state === -1) {
+    //         btn.setDisabled(true)
+    //         btn.setChecked(false)
+    //       } else {
+    //         btn.setDisabled(false)
+    //         btn.setChecked(state)
+    //       }
+    //     })
+    //     return btn
+    //   })
+    // },
     editorReady: function (instance) {
       // 将实例 instance 存储到 data中
       this.editorInstance = instance

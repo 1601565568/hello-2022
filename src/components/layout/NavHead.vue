@@ -74,9 +74,7 @@
        * 退出登录
        */
       logout () {
-        this.$store.dispatch('user/logout').then((resp) => {
-
-        }).catch(() => {
+        this.$store.dispatch('user/logout').catch(() => {
           this.$notify.error('退出失败，系统异常！')
         })
       },
