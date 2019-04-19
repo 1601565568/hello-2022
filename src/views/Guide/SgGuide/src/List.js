@@ -454,6 +454,8 @@ export default {
     },
     allDelete () { // 组团删除功能
       let _this = this
+      _this.nameArr = []
+      _this.multipleSelections = []
       _this.switchStateName = '删除'
       if (_this.multipleSelection.length < 1) {
         _this.$notify.error('请选择要操作的员工')
@@ -476,7 +478,6 @@ export default {
             if (resp.result.failCount > 0) {
               _this.successCount = resp.result.successCount
               _this.failCount = resp.result.failCount
-              _this.nameArr = []
               resp.result.guideNames.split(',').map((item, i) => {
                 if (_this.nameArr.indexOf(resp.result.guideNames.split(',')[i]) === -1) {
                   _this.nameArr.push(item)
@@ -510,6 +511,7 @@ export default {
     dimission () { // 批量离职功能
       let _this = this
       _this.switchStateName = '离职'
+      _this.nameArr = []
       var dimissionshopIdArry = []
       var dimissionIdArry = []
       _this.verification = false
@@ -553,7 +555,6 @@ export default {
                 if (resp.result.failCount > 0) {
                   _this.theNumberOfsuccessful = resp.result.successCount
                   _this.theNumberOfFailures = resp.result.failCount
-                  _this.nameArr = []
                   resp.result.guideNames.split(',').map((item, i) => {
                     if (_this.nameArr.indexOf(resp.result.guideNames.split(',')[i]) === -1) {
                       _this.nameArr.push(item)
@@ -632,6 +633,7 @@ export default {
     async updateShopId () { // 查询导购下的会员数量
       let _this = this
       let dimissionIdArry = []
+      _this.nameArr = []
       _this.replaceStoresArry.map(item => {
         dimissionIdArry.push(item.id)
       })
@@ -643,7 +645,6 @@ export default {
         if (resp.result.failCount > 0) {
           _this.theNumberOfsuccessful = resp.result.successCount
           _this.theNumberOfFailures = resp.result.failCount
-          _this.nameArr = []
           resp.result.guideNames.split(',').map((item, i) => {
             if (_this.nameArr.indexOf(resp.result.guideNames.split(',')[i]) === -1) {
               _this.nameArr.push(item)
