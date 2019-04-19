@@ -452,7 +452,7 @@
     <!-- 批量操作提示弹窗开始  -->
       <el-dialog title="提示" width="35%" :visible.sync="returnInformationShow"  :before-close="bulkReplacementStores">
       <div class="bulkReplacementStores_box">
-        <div class="bulkReplacementStores_state">成功{{switchStateName}}<text>{{theNumberOfsuccessful}}</text>名，失败{{switchStateName}}<text>{{theNumberOfFailures}}</text>名。</div>
+        <div class="bulkReplacementStores_state">成功{{switchStateName}}<text>{{successCount}}</text>名，失败{{switchStateName}}<text>{{failCount}}</text>名。</div>
         <div class="bulkReplacementStores_name">失败员工姓名：{{nameArr}}</div>
         <div class="bulkReplacementStores_cause">失败原因：有会员的员工，不能批量{{switchStateName}}，需要转移后才能批量{{switchStateName}}。</div>
         <div class="bulkReplacementStores_transfer">是否前往会员列表转移？</div>

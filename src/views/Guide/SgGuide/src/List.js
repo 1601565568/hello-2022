@@ -473,21 +473,19 @@ export default {
             guideIds: _this.multipleSelections.join(',')
           }).then(resp => {
             if (resp.result.failCount > 0) {
-              _this.theNumberOfsuccessful = resp.result.successCount
-              _this.theNumberOfFailures = resp.result.failCount
+              _this.successCount = resp.result.successCount
+              _this.failCount = resp.result.failCount
               _this.nameArr = []
               resp.result.guideNames.split(',').map((item, i) => {
                 if (_this.nameArr.indexOf(resp.result.guideNames.split(',')[i]) === -1) {
                   _this.nameArr.push(item)
                 } else {
-                  _this.multipleSelection.map(items => {
-                    if (Number(items.name) === resp.result.guideNames.split(',')[i]) {
-                      _this.nameArr[resp.result.guideNames.split(',')[i]] = items.name + items.work_id
-                    }
-                  })
+                  if (item === _this.multipleSelection[i].name) {
+                    _this.nameArr[i] = _this.multipleSelection[i].name + _this.multipleSelection[i].work_id
+                  }
                 }
               })
-              _this.nameArr = String(_this.nameArr)
+              _this.nameArr = _this.nameArr.join('，')
               _this.returnInformationShow = true
               _this.successCount = resp.result.successCount
               _this.failCount = resp.result.failCount
@@ -556,24 +554,23 @@ export default {
                     if (_this.nameArr.indexOf(resp.result.guideNames.split(',')[i]) === -1) {
                       _this.nameArr.push(item)
                     } else {
-                      _this.multipleSelection.map(items => {
-                        if (Number(items.name) === resp.result.guideNames.split(',')[i]) {
-                          _this.nameArr[resp.result.guideNames.split(',')[i]] = items.name + items.work_id
-                        }
-                      })
+                      if (item === _this.multipleSelection[i].name) {
+                        _this.nameArr[i] = _this.multipleSelection[i].name + _this.multipleSelection[i].work_id
+                      }
                     }
                   })
-                  _this.nameArr = String(_this.nameArr)
+                  _this.nameArr = _this.nameArr.join('，')
                   _this.returnInformationShow = true
-                  _this.$notify.error(resp.result.msg)
-                  _this.successCount = resp.result.msg
+                  // _this.$notify.error(resp.result.msg)
+                  _this.successCount = resp.result.successCount
                   _this.failCount = resp.result.failCount
+                  console.log('_this.successCount:', _this.successCount, _this.failCount)
                 } else {
                   _this.$notify.success('批量离职成功')
                   _this.$refs.table.$reload()
                 }
               }).catch((resp) => {
-                _this.$notify.error('查询失败：' + resp.msg)
+                _this.$notify.error('批量离职失败：' + resp.msg)
               })
             })
           } else {
@@ -648,17 +645,15 @@ export default {
             if (_this.nameArr.indexOf(resp.result.guideNames.split(',')[i]) === -1) {
               _this.nameArr.push(item)
             } else {
-              _this.multipleSelection.map(items => {
-                if (Number(items.name) === resp.result.guideNames.split(',')[i]) {
-                  _this.nameArr[resp.result.guideNames.split(',')[i]] = items.name + items.work_id
-                }
-              })
+              if (item === _this.multipleSelection[i].name) {
+                _this.nameArr[i] = _this.multipleSelection[i].name + _this.multipleSelection[i].work_id
+              }
             }
           })
-          _this.nameArr = String(_this.nameArr)
+          _this.nameArr = _this.nameArr.join('，')
           _this.returnInformationShow = true
-          _this.$notify.error(resp.result.msg)
-          _this.successCount = resp.result.msg
+          // _this.$notify.error(resp.result.msg)
+          _this.successCount = resp.result.successCount
           _this.failCount = resp.result.failCount
         } else {
           _this.shopFindListShow = false
