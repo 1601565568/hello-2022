@@ -481,8 +481,11 @@ export default {
                 if (_this.nameArr.indexOf(resp.result.guideNames.split(',')[i]) === -1) {
                   _this.nameArr.push(item)
                 } else {
+                  if (item === _this.multipleSelection[_this.nameArr.indexOf(resp.result.guideNames.split(',')[i])].name) {
+                    _this.nameArr[_this.nameArr.indexOf(resp.result.guideNames.split(',')[i])] = _this.multipleSelection[_this.nameArr.indexOf(resp.result.guideNames.split(',')[i])].name + '(' + _this.multipleSelection[_this.nameArr.indexOf(resp.result.guideNames.split(',')[i])].work_id + ')'
+                  }
                   if (item === _this.multipleSelection[i].name) {
-                    _this.nameArr[i] = _this.multipleSelection[i].name + _this.multipleSelection[i].work_id
+                    _this.nameArr[i] = _this.multipleSelection[i].name + '(' + _this.multipleSelection[i].work_id + ')'
                   }
                 }
               })
@@ -556,7 +559,7 @@ export default {
                       _this.nameArr.push(item)
                     } else {
                       if (item === _this.multipleSelection[i].name) {
-                        _this.nameArr[i] = _this.multipleSelection[i].name + _this.multipleSelection[i].work_id
+                        _this.nameArr[i] = _this.multipleSelection[i].name + '(' + _this.multipleSelection[i].work_id + ')'
                       }
                     }
                   })
@@ -646,7 +649,7 @@ export default {
               _this.nameArr.push(item)
             } else {
               if (item === _this.multipleSelection[i].name) {
-                _this.nameArr[i] = _this.multipleSelection[i].name + _this.multipleSelection[i].work_id
+                _this.nameArr[i] = _this.multipleSelection[i].name + '(' + _this.multipleSelection[i].work_id + ')'
               }
             }
           })
