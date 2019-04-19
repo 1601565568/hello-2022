@@ -16,6 +16,7 @@ module.exports = {
       // target: 'http://47.96.228.119:8089',
       // target: 'https://sg.ecrpcloud.com',
       target: 'http://47.96.228.119:8088',
+      // target: 'http://192.168.80.70:30001',
       // target: 'http://localhost:30001',
       changeOrigin: true,
       // secure: false,  // 如果是https接口，需要配置这个参数
@@ -33,6 +34,7 @@ module.exports = {
         // target: 'https://sg.ecrpcloud.com',
         // target: 'http://47.96.228.119:8089',
         target: 'http://47.96.228.119:8088',
+        // target: 'http://192.168.80.70:30001',
         // target: 'http://localhost:30001',
         changeOrigin: true,
       }
