@@ -5,7 +5,7 @@ export default {
       title: '变更详情',
       detailShow: false,
       changeValue: {},
-      sum: null
+      sum: []
     }
   },
   methods: {
@@ -53,11 +53,13 @@ export default {
           resp.result.beforeJson = arr1
         }
         this.changeValue = resp.result
-        this.sum = null
+        this.sum = []
         if (arr.length !== 0 && arr1.length !== 0) {
           arr.map((item, i) => {
             if (arr1[i] !== item) {
-              this.sum = i
+              this.sum.push(i)
+            } else {
+              this.sum.push(null)
             }
           })
         }

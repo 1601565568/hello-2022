@@ -31,13 +31,9 @@
     <div v-if="buttoncolor===1">
       <el-form>
         <el-form-item label="内容：" required>
-          <el-autocomplete style="width: 350px"
-            v-model="obj.data" popper-append-to-body
-            clearable
-            :fetch-suggestions="querySearchAsync"
-            placeholder="请输入key值"
-            @select="handleSelect">
-          </el-autocomplete>
+          <el-input type="text" style="width: 250px" v-model="obj.data"
+            placeholder="请输入内容">
+          </el-input>
         </el-form-item>
         <el-form-item label="类型：" required>
             <el-form-grid size="xxmd">
@@ -86,9 +82,9 @@
     methods: {
       generate () { // 生成按钮
         let _this = this
-        if (this.obj.cryptKey === null) {
+        if (this.obj.data === null) {
           this.$notify.error('内容为必填项！')
-        } else if (this.obj.cryptKey.length % 8 !== 0) {
+        } else if (this.obj.cryptKey !== null && this.obj.cryptKey.length % 8 !== 0) {
           this.$notify.error('自定义密钥长度必须为8的整数倍！')
         } else {
           this.$http.fetch(_this.$api.guide.guide.encryptionAndDecryption, {
