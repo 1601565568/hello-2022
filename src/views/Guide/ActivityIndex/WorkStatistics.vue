@@ -130,11 +130,16 @@
         {{scope.row.workId?scope.row.workId:'-'}}
       </template>
       </el-table-column>
-      <el-table-column
-        label="姓名"
-        prop="name"
-        width="180"
-      >
+      <el-table-column label="姓名" prop="name" width="200">
+        <template slot-scope="scope">
+          <p v-if="scope.row.status == 2">
+            {{scope.row.name }}<span style="color: red">(已离职)</span>
+          </p>
+          <p v-else-if="scope.row.gsState == 0 || scope.row.gsShopId == null">
+            {{scope.row.name}}<span style="color: red">(已更换门店)</span>
+          </p>
+          <span v-else>{{scope.row.name}}</span>
+        </template>
       </el-table-column>
       <el-table-column
         label="门店名称"
