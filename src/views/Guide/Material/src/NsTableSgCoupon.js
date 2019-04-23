@@ -63,7 +63,7 @@ export default {
         couponType: null,
         couponStatus: null
       },
-      {validTime: []})
+      { validTime: [] })
     var that = this
 
     quickInput.map(item => {

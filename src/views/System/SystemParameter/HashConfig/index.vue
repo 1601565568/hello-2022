@@ -64,10 +64,10 @@
 </template>
 
 <script>
-  import index from './src/index'
-  import NsTableHash from './NsTableHash'
-  index.components = {
-    NsTableHash
-  }
-  export default index
+import index from './src/index'
+import NsTableHash from './NsTableHash'
+index.components = {
+  NsTableHash
+}
+export default index
 </script>

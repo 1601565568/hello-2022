@@ -11,20 +11,20 @@
 </template>
 
 <script>
-  import loaderNoCacheClose from 'utils/loaderNoCacheClose'
-  export default {
-    data () {
-      return {}
-    },
-    methods: {},
-    created () {
-      loaderNoCacheClose()
-    },
-    mounted () {
-      let heightMain = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight
-      this.$refs.errorContent.style.height = heightMain + 'px'
-    }
+import loaderNoCacheClose from 'web-crm/src/utils/loaderNoCacheClose'
+export default {
+  data () {
+    return {}
+  },
+  methods: {},
+  created () {
+    loaderNoCacheClose()
+  },
+  mounted () {
+    let heightMain = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight
+    this.$refs.errorContent.style.height = heightMain + 'px'
   }
+}
 </script>
 
 <style scoped>

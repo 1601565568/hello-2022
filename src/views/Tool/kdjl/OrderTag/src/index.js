@@ -19,7 +19,7 @@ export default {
         trade_tag_content: '',
         selectShop: [],
         saleTime: '',
-        giftList: [{name: '', num: '', code: '', remark: ''}]
+        giftList: [{ name: '', num: '', code: '', remark: '' }]
       },
       pickerOptions: {
         disabledDate: function (time) {
@@ -29,18 +29,18 @@ export default {
         }
       },
       rules: {
-        shop_id: [{required: true, message: '请选择店铺', trigger: 'change'}],
-        saleTime: [{required: true, message: '请选择预发售时间', trigger: 'change'}],
-        selectShop: [{validator: (rule, value, callback) => {
+        shop_id: [{ required: true, message: '请选择店铺', trigger: 'change' }],
+        saleTime: [{ required: true, message: '请选择预发售时间', trigger: 'change' }],
+        selectShop: [{ validator: (rule, value, callback) => {
           if (value.length > 0) {
             callback()
           } else {
             callback(new Error('请选择预售商品'))
           }
         },
-          trigger: 'change'
+        trigger: 'change'
         }],
-        trade_tag_content: [{validator: (rule, value, callback) => {
+        trade_tag_content: [{ validator: (rule, value, callback) => {
           if (value !== '') {
             if (value.length > 255) {
               callback(new Error('长度在 1 到 255 个字符'))
@@ -51,9 +51,9 @@ export default {
             callback()
           }
         },
-          trigger: 'blur'
+        trigger: 'blur'
         }],
-        giftList: [{validator: (rule, value, callback) => {
+        giftList: [{ validator: (rule, value, callback) => {
           let valName = ''
           for (let gift of value) {
             if (gift.name === '') {
@@ -78,14 +78,14 @@ export default {
             callback()
           }
         },
-          trigger: 'blur'
+        trigger: 'blur'
         }],
         trade_tag_name: [
-          {required: true, message: '请输入标签名称', trigger: 'blur'},
-          {min: 1, max: 50, message: '长度在 1 到 50 个字符', trigger: 'blur'},
-          {validator: (rule, value, callback) => {
+          { required: true, message: '请输入标签名称', trigger: 'blur' },
+          { min: 1, max: 50, message: '长度在 1 到 50 个字符', trigger: 'blur' },
+          { validator: (rule, value, callback) => {
             if (vm.model.trade_tag_type === '0') {
-              vm.$http.fetch(vm.$api.kdjl.jlOrderTag.checkTagName, {tagName: value, tagType: vm.model.trade_tag_type})
+              vm.$http.fetch(vm.$api.kdjl.jlOrderTag.checkTagName, { tagName: value, tagType: vm.model.trade_tag_type })
                 .then((resp) => {
                   if (resp.code === ErrorCode.TITLE_REPEAT) {
                     callback(new Error(resp.msg))
@@ -99,7 +99,7 @@ export default {
               callback()
             }
           },
-            trigger: 'blur'}
+          trigger: 'blur' }
         ]
       }
     }
@@ -125,7 +125,7 @@ export default {
       vm.visible = true
     },
     addGift () {
-      vm.model.giftList.push({name: '', num: '', code: '', remark: ''})
+      vm.model.giftList.push({ name: '', num: '', code: '', remark: '' })
     },
     delGift (index) {
       vm.model.giftList.splice(index, 1)
@@ -143,13 +143,13 @@ export default {
             item: []
           }
           for (let item of vm.model.selectShop) {
-            content.item.push({itemId: item.sysGoodsId, Title: item.title})
+            content.item.push({ itemId: item.sysGoodsId, Title: item.title })
           }
           vm.model.trade_tag_content = JSON.stringify(content)
           break
         }
         case '2': {
-          let gift = {giftList: vm.model.giftList}
+          let gift = { giftList: vm.model.giftList }
           vm.model.trade_tag_content = JSON.stringify(gift)
           break
         }
@@ -162,15 +162,15 @@ export default {
           vm.setContent()
           vm.loading = true
           vm.$http.fetch(vm.$api.kdjl.jlOrderTag.save, vm.model)
-          .then((resp) => {
-            vm.$notify.success(resp.msg)
-            vm.$refs.order.$reload()
-            vm.onClose()
-          }).catch((resp) => {
-            vm.$notify.error(resp.msg)
-          }).finally(() => {
-            vm.loading = false
-          })
+            .then((resp) => {
+              vm.$notify.success(resp.msg)
+              vm.$refs.order.$reload()
+              vm.onClose()
+            }).catch((resp) => {
+              vm.$notify.error(resp.msg)
+            }).finally(() => {
+              vm.loading = false
+            })
         } else {
           return false
         }

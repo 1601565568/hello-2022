@@ -1,5 +1,5 @@
 import tableMixin from 'mixins/table'
-import apiRequestConfirm from 'utils/apiRequestConfirm'
+import apiRequestConfirm from 'web-crm/src/utils/apiRequestConfirm'
 
 export default {
   name: 'NsTableRoleManage',
@@ -76,7 +76,7 @@ export default {
 
     var quickSearchNames = quickInput.map(x => x.name)
     var quickSearchModel = {}
-    var model = Object.assign({}, {'role_name$LK': '', 'state$EQ': 1}, {})
+    var model = Object.assign({}, { 'role_name$LK': '', 'state$EQ': 1 }, {})
     var that = this
 
     quickInput.map(item => {
@@ -128,7 +128,7 @@ export default {
       var that = this
       apiRequestConfirm('删除角色').then(function () {
         that.$http.fetch(that.$api.core.sysRole.batchDetele
-          , {'ids': ids})
+          , { 'ids': ids })
           .then((resp) => {
             that.$notify.success(resp.msg)
             that.$reload()

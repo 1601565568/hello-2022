@@ -61,21 +61,21 @@ export default {
         class_type_id: ''
       },
       transDaTaRules: {
-        class_type: [{required: true, message: '请选择分类短语类型', trigger: 'change'},
-          {validator: (rule, value, callback) => {
+        class_type: [{ required: true, message: '请选择分类短语类型', trigger: 'change' },
+          { validator: (rule, value, callback) => {
             if (JSON.stringify(this.transDaTa.class_type) !== '{}') {
               callback()
             } else {
               callback(new Error('请选择分类短语类型'))
             }
-          }}]
+          } }]
       },
       TypeRules: {
-        type_name: [{required: true, message: '请输入短语分类名', trigger: 'blur'},
-          {min: 1, max: 50, message: '长度在 1 到 50 个字符', trigger: 'blur'},
-          {validator: (rule, value, callback) => {
+        type_name: [{ required: true, message: '请输入短语分类名', trigger: 'blur' },
+          { min: 1, max: 50, message: '长度在 1 到 50 个字符', trigger: 'blur' },
+          { validator: (rule, value, callback) => {
             if (value !== '') {
-              vm.$http.fetch(vm.$api.kdjl.phraseType.checkType, {name: vm.phraseType.type_name, id: vm.phraseType.id})
+              vm.$http.fetch(vm.$api.kdjl.phraseType.checkType, { name: vm.phraseType.type_name, id: vm.phraseType.id })
                 .then((resp) => {
                   if (resp.code === ErrorCode.TITLE_REPEAT) {
                     callback(new Error(resp.msg))
@@ -88,42 +88,42 @@ export default {
             } else {
               callback(new Error('请输入短语分类名'))
             }
-          }}
+          } }
         ]
       },
       rules: {
-        class_type: [{required: true, message: '请选择分类短语类型', trigger: 'change'},
-          {validator: (rule, value, callback) => {
+        class_type: [{ required: true, message: '请选择分类短语类型', trigger: 'change' },
+          { validator: (rule, value, callback) => {
             if (JSON.stringify(this.model.class_type) !== '{}') {
               callback()
             } else {
               callback(new Error('请选择分类短语类型'))
             }
-          }}],
+          } }],
         class_phrase: [
-          {required: true, message: '请输入快捷内容', trigger: 'blur'},
-          {min: 1, max: 200, message: '长度在 1 到 200 个字符', trigger: 'blur'},
-          {validator: (rule, value, callback) => {
+          { required: true, message: '请输入快捷内容', trigger: 'blur' },
+          { min: 1, max: 200, message: '长度在 1 到 200 个字符', trigger: 'blur' },
+          { validator: (rule, value, callback) => {
             if (value !== '') {
               if (JSON.stringify(this.model.class_type) !== '{}') {
                 var typeId = vm.model.class_type.value
-                vm.$http.fetch(vm.$api.kdjl.phrase.checkType, {phrase: vm.model.class_phrase, typeId: typeId, id: vm.model.id})
-                .then((resp) => {
-                  if (resp.code === ErrorCode.TITLE_REPEAT) {
+                vm.$http.fetch(vm.$api.kdjl.phrase.checkType, { phrase: vm.model.class_phrase, typeId: typeId, id: vm.model.id })
+                  .then((resp) => {
+                    if (resp.code === ErrorCode.TITLE_REPEAT) {
+                      callback(new Error(resp.msg))
+                    } else {
+                      callback()
+                    }
+                  }).catch((resp) => {
                     callback(new Error(resp.msg))
-                  } else {
-                    callback()
-                  }
-                }).catch((resp) => {
-                  callback(new Error(resp.msg))
-                }).finally()
+                  }).finally()
               } else {
                 callback()
               }
             } else {
               callback(new Error('请输入快捷内容'))
             }
-          }}
+          } }
         ]
       }
     }
@@ -134,7 +134,7 @@ export default {
      * @param val
      */
     filterNode (value, data) {
-      if (!value) return true
+      if (!value) { return true }
       return data.label.indexOf(value) !== -1
     },
     onNodeClick (data) {
@@ -197,7 +197,7 @@ export default {
     onDeleteClick: function (data, node) {
       var info = '是否确定删除“' + data.label + '”节点？'
       var url = vm.$api.kdjl.phraseType.deleteById
-      var params = {id: data.id}
+      var params = { id: data.id }
       vm.$confirm(info, '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
@@ -234,7 +234,7 @@ export default {
     getTreeData: function () {
       vm.loading = true
       vm.root.children = []
-      vm.$http.fetch(vm.$api.kdjl.phraseType.queryTree, {shopId: vm.shopId})
+      vm.$http.fetch(vm.$api.kdjl.phraseType.queryTree, { shopId: vm.shopId })
         .then((resp) => {
           if (resp.result.tree !== null) {
             vm.root.children = resp.result.tree
@@ -317,15 +317,15 @@ export default {
           vm.loading = true
           vm.model.class_type_id = vm.model.class_type.value
           vm.$http.fetch(vm.$api.kdjl.phrase.saveOrUpdate, vm.model)
-          .then((resp) => {
-            vm.$notify.success(resp.msg)
-            vm.dataReload()
-            vm.onClose()
-          }).catch((resp) => {
-            vm.$notify.error(resp.msg)
-          }).finally(() => {
-            vm.loading = false
-          })
+            .then((resp) => {
+              vm.$notify.success(resp.msg)
+              vm.dataReload()
+              vm.onClose()
+            }).catch((resp) => {
+              vm.$notify.error(resp.msg)
+            }).finally(() => {
+              vm.loading = false
+            })
         } else {
           return false
         }
@@ -371,7 +371,7 @@ export default {
         if (valid) {
           vm.loading = true
           vm.transDaTa.class_type_id = vm.transDaTa.class_type.value
-          vm.$http.fetch(vm.$api.kdjl.phrase.batchUpdateClassTypeId, {ids: vm.transDaTa.ids, typeId: vm.transDaTa.class_type_id})
+          vm.$http.fetch(vm.$api.kdjl.phrase.batchUpdateClassTypeId, { ids: vm.transDaTa.ids, typeId: vm.transDaTa.class_type_id })
             .then((resp) => {
               vm.$notify.success(resp.msg)
               if (vm.model.is_public === '0') {
@@ -427,19 +427,19 @@ export default {
         if (valid) {
           vm.loading = false
           vm.$http.fetch(vm.$api.kdjl.phrase.importFile, param)
-              .then((resp) => {
-                if (resp.msg === ErrorCode.SUBMIT_FAIL) {
-                  vm.$notify.warning('上传分类短语数量：0')
-                } else {
-                  vm.$notify.success(resp.msg)
-                  vm.dataReload()
-                }
-                vm.onCloseImportDialog()
-              }).catch((resp) => {
-                vm.$notify.error(resp.msg)
-              }).finally(() => {
-                vm.loading = false
-              })
+            .then((resp) => {
+              if (resp.msg === ErrorCode.SUBMIT_FAIL) {
+                vm.$notify.warning('上传分类短语数量：0')
+              } else {
+                vm.$notify.success(resp.msg)
+                vm.dataReload()
+              }
+              vm.onCloseImportDialog()
+            }).catch((resp) => {
+              vm.$notify.error(resp.msg)
+            }).finally(() => {
+              vm.loading = false
+            })
         } else {
           return false
         }
@@ -466,14 +466,14 @@ export default {
           center: false,
           type: 'warning'
         }).then((value) => {
-          vm.$http.fetch(vm.$api.kdjl.phrase.exportFile, {phrases: obj, shopId: vm.shopId, isPublic: vm.model.is_public, value: value.value})
+          vm.$http.fetch(vm.$api.kdjl.phrase.exportFile, { phrases: obj, shopId: vm.shopId, isPublic: vm.model.is_public, value: value.value })
             .then((resp) => {
             }).catch((resp) => {
             // 创建一个blob对象,file的一种
               let blob = new Blob([resp], { type: 'application/x-xls' })
               let link = document.createElement('a')
               link.href = window.URL.createObjectURL(blob)
-            // 配置下载的文件名
+              // 配置下载的文件名
               link.download = (value.value !== null ? value.value : '分类短语' + moment(new Date()).format('YYYYMMDDhhmmss')) + '.xls'
               link.click()
             }).finally()

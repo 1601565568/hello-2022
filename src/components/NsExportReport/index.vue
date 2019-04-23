@@ -20,75 +20,75 @@
 </template>
 
 <script>
-  export default {
-    name: 'NsExportReport',
-    data: function () {
-      return {
-        visible: false,
-        aliasFileName: '',
-        confirmBtnLoading: false,
-        params: ''
+export default {
+  name: 'NsExportReport',
+  data: function () {
+    return {
+      visible: false,
+      aliasFileName: '',
+      confirmBtnLoading: false,
+      params: ''
+    }
+  },
+  props: {
+    title: {
+      type: String,
+      default: function () {
+        return '生成导出任务'
       }
     },
-    props: {
-      title: {
-        type: String,
-        default: function () {
-          return '生成导出任务'
-        }
-      },
-      createExportTaskApi: {
-        type: Object,
-        default: function () {
-          return this.$api.core.common.createExportTask
-        }
+    createExportTaskApi: {
+      type: Object,
+      default: function () {
+        return this.$api.core.common.createExportTask
       }
-    },
-    methods: {
-      /**
+    }
+  },
+  methods: {
+    /**
        *  导出
        **/
-      export: function (params) {
-        this.visible = true
-        if (!params) {
-          throw new Error('未传入导出参数')
-        }
-        if (!params.exportSource || !params.hasOwnProperty('exportSource')) {
-          throw new Error('导出参数传入错误：[exportSource]')
-        }
-        if (!params.paramJson || !params.hasOwnProperty('paramJson')) {
-          throw new Error('导出参数传入错误：[paramJson]')
-        }
-        this.params = params
-      },
-      /**
+    export: function (params) {
+      this.visible = true
+      if (!params) {
+        throw new Error('未传入导出参数')
+      }
+      if (!params.exportSource || !params.hasOwnProperty('exportSource')) {
+        throw new Error('导出参数传入错误：[exportSource]')
+      }
+      if (!params.paramJson || !params.hasOwnProperty('paramJson')) {
+        throw new Error('导出参数传入错误：[paramJson]')
+      }
+      this.params = params
+    },
+    /**
        *  处理提交参数
        **/
-      handleSubmitParams: function (params) {
-        let submitParams = {
-          paramJson: JSON.stringify(params.paramJson),
-          exportSource: params.exportSource,
-          // 默认xlsx格式
-          exportType: params.exportType ? params.exportType : 3
-        }
-        if (this.aliasFileName) {
-          submitParams.aliasFileName = this.aliasFileName
-        }
-        return submitParams
-      },
-      onClose: function () {
-        this.aliasFileName = ''
-        this.exportTaskId = ''
-        this.visible = false
-        this.params = ''
-      },
-      /**
+    handleSubmitParams: function (params) {
+      let submitParams = {
+        paramJson: JSON.stringify(params.paramJson),
+        exportSource: params.exportSource,
+        // 默认xlsx格式
+        exportType: params.exportType ? params.exportType : 3
+      }
+      if (this.aliasFileName) {
+        submitParams.aliasFileName = this.aliasFileName
+      }
+      return submitParams
+    },
+    onClose: function () {
+      this.aliasFileName = ''
+      this.exportTaskId = ''
+      this.visible = false
+      this.params = ''
+    },
+    /**
        * 确定更新自定义文件名
        */
-      onSave: function () {
-        this.confirmBtnLoading = true
-        let that = this
-        this.$http.fetch(this.createExportTaskApi, this.handleSubmitParams(that.params))
+    onSave: function () {
+      this.confirmBtnLoading = true
+      let that = this
+      this.$http.fetch(this.createExportTaskApi, this.handleSubmitParams(that.params))
         .then(() => {
           that.$notify.success('导出任务已生成，请到【文件下载】中下载！')
           that.onClose()
@@ -97,9 +97,9 @@
         }).finally(() => {
           that.confirmBtnLoading = false
         })
-      }
     }
   }
+}
 </script>
 <style scoped>
 

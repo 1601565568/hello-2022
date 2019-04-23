@@ -63,65 +63,64 @@
 </template>
 
 <script>
-  import tableMixin from 'mixins/table'
-  import TemplateList from './templateList'
-  import DomainSetting from './domainSetting'
-  import DraftList from './draftList'
+import tableMixin from 'mixins/table'
+import TemplateList from './templateList'
+import DomainSetting from './domainSetting'
+import DraftList from './draftList'
 
-  export default {
-    name: 'AppletTable',
-    components: {
-      DraftList,
-      TemplateList,
-      DomainSetting
-    },
-    mixins: [tableMixin],
-    data: function () {
-      let operateButtons = []
-      let tableButtons = [
-        {
-          'func': function (obj) {
-            this.$refs.draft.openDialog()
-          },
-          'icon': '$.noop',
-          'name': '草稿箱'
+export default {
+  name: 'AppletTable',
+  components: {
+    DraftList,
+    TemplateList,
+    DomainSetting
+  },
+  mixins: [tableMixin],
+  data: function () {
+    let operateButtons = []
+    let tableButtons = [
+      {
+        'func': function (obj) {
+          this.$refs.draft.openDialog()
         },
-        {
-          'func': function (obj) {
-            this.$refs.template.openDialog(obj.row.app_id)
-          },
-          'icon': '$.noop',
-          'name': '代码模板'
+        'icon': '$.noop',
+        'name': '草稿箱'
+      },
+      {
+        'func': function (obj) {
+          this.$refs.template.openDialog(obj.row.app_id)
         },
-        {
-          'func': function (obj) {
-            this.$refs.domain.openDialog(obj.row.id)
-          },
-          'icon': '$.noop',
-          'name': '域名配置'
-        }
-      ]
+        'icon': '$.noop',
+        'name': '代码模板'
+      },
+      {
+        'func': function (obj) {
+          this.$refs.domain.openDialog(obj.row.id)
+        },
+        'icon': '$.noop',
+        'name': '域名配置'
+      }
+    ]
 
-      return {
-        model: {},
-        quickSearchModel: {},
-        rules: Object.assign({}, {}, {}),
-        url: this.$api.isv.getAppletList,
-        _table: {
-          table_buttons: tableButtons,
-          operate_buttons: operateButtons,
-          quickSearchMap: {}
-        }
+    return {
+      model: {},
+      quickSearchModel: {},
+      rules: Object.assign({}, {}, {}),
+      url: this.$api.isv.getAppletList,
+      _table: {
+        table_buttons: tableButtons,
+        operate_buttons: operateButtons,
+        quickSearchMap: {}
       }
-    },
-    mounted: function () {
-      if (typeof this.$init === 'function') {
-        this.$init(this, this.$generateParams$)
-      } else {
-        this.$reload()
-      }
-    },
-    methods: {}
-  }
+    }
+  },
+  mounted: function () {
+    if (typeof this.$init === 'function') {
+      this.$init(this, this.$generateParams$)
+    } else {
+      this.$reload()
+    }
+  },
+  methods: {}
+}
 </script>
-

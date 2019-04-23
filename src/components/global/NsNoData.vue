@@ -8,28 +8,28 @@
 </template>
 
 <script>
-  /**
+/**
    * size,icon,height
    * @param {String} title   save/submit/determineine   save
    * 不开放的API  type、round
    */
-  export default {
-    name: 'NsNoData',
-    props: {
-      size: {
-        type: String,
-        default: 'sm'
-      },
-      icon: {
-        type: String,
-        default: 'zanwushuju'
-      },
-      height: {
-        type: String,
-        default: null
-      }
+export default {
+  name: 'NsNoData',
+  props: {
+    size: {
+      type: String,
+      default: 'sm'
+    },
+    icon: {
+      type: String,
+      default: 'zanwushuju'
+    },
+    height: {
+      type: String,
+      default: null
     }
   }
+}
 </script>
 <style scoped>
   @import "../../style/small/variables.pcss";

@@ -152,14 +152,13 @@
 </template>
 
 <script>
-  import ShopGoodsTable from './src/ShopGoodsTable'
-  import NsDroptree from 'components/NsDroptree'
+import ShopGoodsTable from './src/ShopGoodsTable'
+import NsDroptree from 'components/NsDroptree'
 
-  ShopGoodsTable.components = {NsDroptree}
-  export default ShopGoodsTable
+ShopGoodsTable.components = { NsDroptree }
+export default ShopGoodsTable
 </script>
 
 <style scoped>
 
 </style>
-

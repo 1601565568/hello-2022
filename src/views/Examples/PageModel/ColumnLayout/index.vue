@@ -25,10 +25,10 @@
 </template>
 
 <script>
-  import index from './src/index'
-  import ColumnTable from './ColumnTable'
-  index.components = {
-    ColumnTable
-  }
-  export default index
+import index from './src/index'
+import ColumnTable from './ColumnTable'
+index.components = {
+  ColumnTable
+}
+export default index
 </script>

@@ -41,9 +41,9 @@ export default {
         table_buttons: tableButtons
       },
       rules: {
-        'code': [{required: true, message: '请输入配置项编码'}],
-        'value': [{required: true, message: '请输入配置项值'}],
-        'type': [{required: true, message: '请选择类型'}]
+        'code': [{ required: true, message: '请输入配置项编码' }],
+        'value': [{ required: true, message: '请输入配置项值' }],
+        'type': [{ required: true, message: '请选择类型' }]
       }
     }
   },

@@ -25,12 +25,12 @@ export default {
             color: '#252525'
           },
           pieces: [
-            {min: 10000000, label: '>1000万', color: 'rgba(16, 109, 221, 1)'},
-            {min: 5000000, max: 10000000, label: '500万-1000万', color: 'rgba(16, 109, 221, .85)'},
-            {min: 1000000, max: 5000000, label: '100万-500万', color: 'rgba(16, 109, 221, .70)'},
-            {min: 100000, max: 1000000, label: '10万-100万', color: 'rgba(16, 109, 221, .55)'},
-            {min: 10000, max: 100000, label: '1-10万', color: 'rgba(16, 109, 221, .40)'},
-            {min: 0, max: 10000, label: '0-1万', color: '#5d9cec'}
+            { min: 10000000, label: '>1000万', color: 'rgba(16, 109, 221, 1)' },
+            { min: 5000000, max: 10000000, label: '500万-1000万', color: 'rgba(16, 109, 221, .85)' },
+            { min: 1000000, max: 5000000, label: '100万-500万', color: 'rgba(16, 109, 221, .70)' },
+            { min: 100000, max: 1000000, label: '10万-100万', color: 'rgba(16, 109, 221, .55)' },
+            { min: 10000, max: 100000, label: '1-10万', color: 'rgba(16, 109, 221, .40)' },
+            { min: 0, max: 10000, label: '0-1万', color: '#5d9cec' }
           ]
         },
         series: [

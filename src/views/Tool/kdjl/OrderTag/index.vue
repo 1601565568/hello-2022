@@ -27,7 +27,6 @@
               </el-form-grid>
             </el-form-item>
 
-
             <el-form-item label="标签名称：" prop="trade_tag_name" required>
               <el-form-grid size="xmd">
                 <el-input type="text" v-model.trim="model.trade_tag_name" placeholder="请输入标签名称" :disabled="model.trade_tag_type != 0"> </el-input>
@@ -114,12 +113,12 @@
 </template>
 
 <script>
-  import index from './src/index'
-  import NsTableOrder from './NsTableOrder'
-  import NsGoodsSelect from 'components/NsGoodsSelect'
-  index.components = {
-    NsTableOrder,
-    NsGoodsSelect
-  }
-  export default index
+import index from './src/index'
+import NsTableOrder from './NsTableOrder'
+import NsGoodsSelect from 'components/NsGoodsSelect'
+index.components = {
+  NsTableOrder,
+  NsGoodsSelect
+}
+export default index
 </script>

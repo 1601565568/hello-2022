@@ -1,9 +1,9 @@
-import transData from 'utils/transData'
+import transData from 'web-crm/src/utils/transData'
 const treeFn = (err, rows) => {
-  if (err) throw err
+  if (err) { throw err }
   // get all data
   // create a id= null root for forest 新建id为null的对象做为森林的根
-  var result = [{'id': '0', 'children': []}]
+  var result = [{ 'id': '0', 'children': [] }]
   var allMenu = rows
   var output = getAllChild(result)
   return output
@@ -35,7 +35,7 @@ const treeFn = (err, rows) => {
   }
 }
 export default {
-  getSession: {
+  getUserInfo: {
     url: '/getSession',
     method: 'post',
     callback: function (res, resolve, reject) {
@@ -117,7 +117,7 @@ export default {
               id: v.id
             }
           }))
-            // 默认跳转到第子级第一个菜单
+          // 默认跳转到第子级第一个菜单
           res.data.result.menus.map((item) => {
             if (item.children.length > 0) {
               item.children.map((subItem) => {

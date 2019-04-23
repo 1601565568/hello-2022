@@ -17,7 +17,7 @@ export default {
       let _this = this
       let arr = []
       let arr1 = []
-      _this.$http.fetch(_this.$api.guide.guide.operationlogGetDetail, {id: Number(value.id)}).then(resp => {
+      _this.$http.fetch(_this.$api.guide.guide.operationlogGetDetail, { id: Number(value.id) }).then(resp => {
         if (resp.result.afterJson !== null) {
           resp.result.afterJson = JSON.parse(resp.result.afterJson)
           for (let i in resp.result.afterJson) {

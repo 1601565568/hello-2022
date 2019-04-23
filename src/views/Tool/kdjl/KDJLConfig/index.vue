@@ -348,12 +348,12 @@
 </template>
 
 <script>
-  import index from './src/index'
-  import NsArea from 'components/NsArea'
-  index.components = {
-    NsArea
-  }
-  export default index
+import index from './src/index'
+import NsArea from 'components/NsArea'
+index.components = {
+  NsArea
+}
+export default index
 </script>
 
 <style scoped>

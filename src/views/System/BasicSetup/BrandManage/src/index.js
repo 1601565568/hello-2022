@@ -13,11 +13,11 @@ export default {
       checkedIndexShops: new Map(), // 页面加载得到店铺数据
       checkAllShops: new Map(), // 所有店铺信息
       shops: [],
-      channels: [{id: 1, label: '线上', children: [], checked: false, parentId: '0'}, {id: 0, label: '线下', children: [], checked: false}],
+      channels: [{ id: 1, label: '线上', children: [], checked: false, parentId: '0' }, { id: 0, label: '线下', children: [], checked: false }],
       indexAllSelect: false,
       allSelect: false,
       allShopIds: [], // 得到所有店铺id
-      isOnline: {text: '', value: ''},
+      isOnline: { text: '', value: '' },
       checkList: false,
       brandLoading: false,
       relationLoading: false,
@@ -51,14 +51,14 @@ export default {
         start: 0
       },
       rules: {
-        tag_name: [{required: true, message: '请输入品牌名称'}, {validator: (rule, value, callback) => {
+        tag_name: [{ required: true, message: '请输入品牌名称' }, { validator: (rule, value, callback) => {
           if (this.brandModel.tag_name !== '') {
             var id = '0'
             if (typeof (this.brandModel.id) !== 'undefined') {
               id = this.brandModel.id
             }
             vm.$http.fetch(vm.$api.core.brand.queryByTagName
-                , {'tagName': vm.brandModel.tag_name, 'id': id})
+              , { 'tagName': vm.brandModel.tag_name, 'id': id })
               .then((resp) => {
                 if (resp.code === ErrorCode.TITLE_REPEAT) {
                   callback(new Error('此品牌名称已存在,请重新输入'))
@@ -70,9 +70,9 @@ export default {
             callback(new Error('请输入品牌名称'))
           }
         },
-          trigger: 'blur'},
-          { min: 1, max: 50, message: '已超过可输入长度', trigger: 'blur' }],
-        checkPlatForm: [{validator: (rule, value, callback) => {
+        trigger: 'blur' },
+        { min: 1, max: 50, message: '已超过可输入长度', trigger: 'blur' }],
+        checkPlatForm: [{ validator: (rule, value, callback) => {
           if (vm.underLine) {
             callback()
           } else {
@@ -83,9 +83,9 @@ export default {
             }
           }
         },
-          trigger: 'change'}
+        trigger: 'change' }
         ],
-        remark: [{min: 1, max: 200, message: '请输入 1 到 200 个字符', trigger: 'change'}]
+        remark: [{ min: 1, max: 200, message: '请输入 1 到 200 个字符', trigger: 'change' }]
       }
     }
   },
@@ -142,26 +142,26 @@ export default {
       var start = (vm.pagination.page - 1) * vm.pagination.pageSize
       var length = vm.pagination.pageSize
       vm.$http.fetch(vm.$api.core.sysShop.queryShopByPlatFormAndShopByTadId, { platForm: vm.searchModel.platform, tagId: obj.row.id, start: start, length: length })
-      .then((resp) => {
-        if (resp.result != null) {
-          for (let shop of resp.result.shop) {
-            vm.checkAllShops.set(shop.value, 0)
-          }
-          for (let selectShop of resp.result.selectShops) {
-            vm.checkAllShops.set(selectShop, 1)
-          }
-          vm.pagination.total = parseInt(resp.result.indexSelectShop.recordsTotal)
-          vm.shops = resp.result.indexSelectShop.data
-          for (let shop of vm.shops) {
-            if (vm.checkAllShops.get(shop.value) === 1) {
-              vm.checkedShops.push(shop.value)
+        .then((resp) => {
+          if (resp.result != null) {
+            for (let shop of resp.result.shop) {
+              vm.checkAllShops.set(shop.value, 0)
             }
+            for (let selectShop of resp.result.selectShops) {
+              vm.checkAllShops.set(selectShop, 1)
+            }
+            vm.pagination.total = parseInt(resp.result.indexSelectShop.recordsTotal)
+            vm.shops = resp.result.indexSelectShop.data
+            for (let shop of vm.shops) {
+              if (vm.checkAllShops.get(shop.value) === 1) {
+                vm.checkedShops.push(shop.value)
+              }
+            }
+            vm.visibleShop = true
+            vm.selectCount()
+            vm.checked()
           }
-          vm.visibleShop = true
-          vm.selectCount()
-          vm.checked()
-        }
-      })
+        })
     },
     getTable: function () {
       vm.indexAllSelect = false
@@ -233,18 +233,18 @@ export default {
         }
       }
       vm.relationLoading = true
-      vm.$http.fetch(vm.$api.core.brand.saveShopAndTags, {'shopIds': ids, 'tagId': vm.tagId})
-      .then((resp) => {
-        vm.$notify.success('关联店铺成功')
-        vm.onCloseRelation()
-      }).catch((resp) => {
-        vm.$notify.error(resp.msg)
-      }).finally(() => {
-        vm.relationLoading = false
-      })
+      vm.$http.fetch(vm.$api.core.brand.saveShopAndTags, { 'shopIds': ids, 'tagId': vm.tagId })
+        .then((resp) => {
+          vm.$notify.success('关联店铺成功')
+          vm.onCloseRelation()
+        }).catch((resp) => {
+          vm.$notify.error(resp.msg)
+        }).finally(() => {
+          vm.relationLoading = false
+        })
     },
     onCloseRelation () {
-      vm.isOnline = {text: '', value: ''}
+      vm.isOnline = { text: '', value: '' }
       vm.indexAllSelect = false
       vm.allSelect = false
       vm.searchModel.isOnline = ''
@@ -350,16 +350,16 @@ export default {
         if (valid) {
           that.brandLoading = true
           that.$http.fetch(that.$api.core.brand.saveOrUpdateSysTags, vm.brandModel)
-          .then((resp) => {
-            delete vm.brandModel.id
-            that.onCloseDialog()
-            that.$refs.table.$reload()
-            that.$notify.success(resp.msg)
-          }).catch((err) => {
-            that.$notify.error(err.msg)
-          }).finally(() => {
-            vm.brandLoading = false
-          })
+            .then((resp) => {
+              delete vm.brandModel.id
+              that.onCloseDialog()
+              that.$refs.table.$reload()
+              that.$notify.success(resp.msg)
+            }).catch((err) => {
+              that.$notify.error(err.msg)
+            }).finally(() => {
+              vm.brandLoading = false
+            })
         } else {
           return false
         }
@@ -396,8 +396,8 @@ export default {
   },
   mounted: function () {
     vm.$http.fetch(vm.$api.core.common.queryPlatForm)
-    .then((resp) => {
-      vm.platForm = resp.result
-    })
+      .then((resp) => {
+        vm.platForm = resp.result
+      })
   }
 }

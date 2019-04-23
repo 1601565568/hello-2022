@@ -1,5 +1,5 @@
 import tableMixin from 'mixins/table'
-import apiRequestConfirm from 'utils/apiRequestConfirm'
+import apiRequestConfirm from 'web-crm/src/utils/apiRequestConfirm'
 export default {
   name: 'index',
   mixins: [tableMixin],
@@ -107,7 +107,7 @@ export default {
           that.$notify.error(resp.msg || '设置失败')
         })
       } else {
-        that.$http.fetch(that.$api.isv.setGuideContactWay, {guideId: that.model.guideId}).then(() => {
+        that.$http.fetch(that.$api.isv.setGuideContactWay, { guideId: that.model.guideId }).then(() => {
           that.closeDialog()
           that.$notify.success('设置成功')
           that.$reload()
@@ -118,18 +118,18 @@ export default {
     },
     onDelete (row) { // 小程序删除功能
       apiRequestConfirm('永久删除该数据')
-      .then(() => {
-        let that = this
-        that.$http.fetch(that.$api.isv.deleteContactWay, {guideId: row.guideId}).then(() => {
-          that.dialogFormVisible = false
-          that.$notify.success('删除成功')
-          that.$reload()
-        }).catch((resp) => {
-          that.$notify.error(resp.msg || '删除失败')
-        })
-      }).catch(() => {
+        .then(() => {
+          let that = this
+          that.$http.fetch(that.$api.isv.deleteContactWay, { guideId: row.guideId }).then(() => {
+            that.dialogFormVisible = false
+            that.$notify.success('删除成功')
+            that.$reload()
+          }).catch((resp) => {
+            that.$notify.error(resp.msg || '删除失败')
+          })
+        }).catch(() => {
         // 点击取消事件
-      })
+        })
     },
     /**
      * 处理请求参数

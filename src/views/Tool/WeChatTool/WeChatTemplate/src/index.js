@@ -19,15 +19,15 @@ var mixin = {
           validator: (rule, value, callback) => {
             if (value) {
               this.$http.fetch(this.$api.touch.wxTemplate.hasNameExist
-                , {id: vue.model.id ? vue.model.id : 0, name: value}).then((resp) => {
-                  if (resp.code === ErrorCode.TITLE_REPEAT) {
-                    callback(new Error('此模板名称已存在,请重新输入'))
-                  } else {
-                    callback()
-                  }
-                }).catch(() => {
-                  callback(new Error('远程校验失败'))
-                })
+                , { id: vue.model.id ? vue.model.id : 0, name: value }).then((resp) => {
+                if (resp.code === ErrorCode.TITLE_REPEAT) {
+                  callback(new Error('此模板名称已存在,请重新输入'))
+                } else {
+                  callback()
+                }
+              }).catch(() => {
+                callback(new Error('远程校验失败'))
+              })
             }
           },
           trigger: 'blur'
@@ -107,7 +107,7 @@ export default {
       var that = this
       that.dialogTitle = '修改微信模板'
       that.saveType = 'edit'
-      this.$http.fetch(this.$api.touch.wxTemplate.queryById, {id: data.id}).then((resp) => {
+      this.$http.fetch(this.$api.touch.wxTemplate.queryById, { id: data.id }).then((resp) => {
         that.setModel(that.handleEchoData(resp.result))
       }).catch(() => {
         that.$notify.error('数据请求失败')

@@ -20,9 +20,9 @@ export default {
         marketingManner: 0
       },
       rules: {
-        smsTemplateId: [{required: true, message: '请选择', trigger: 'change'}],
-        smsSignature: [{required: true, message: '请选择', trigger: 'change'}],
-        smsContent: [{required: true, message: '请输入短信内容', trigger: 'change'}]
+        smsTemplateId: [{ required: true, message: '请选择', trigger: 'change' }],
+        smsSignature: [{ required: true, message: '请选择', trigger: 'change' }],
+        smsContent: [{ required: true, message: '请输入短信内容', trigger: 'change' }]
       },
       data2: [{
         id: 1,

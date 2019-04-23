@@ -83,7 +83,7 @@
 </template>
 
 <script>
-  import NsTableTeam from './src/NsTableTeam'
+import NsTableTeam from './src/NsTableTeam'
 
-  export default NsTableTeam
+export default NsTableTeam
 </script>

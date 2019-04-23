@@ -1,7 +1,7 @@
 import formMixin from 'mixins/form'
 import treeMixin from 'mixins/tree'
 import ErrorCode from '@/config/errorCode'
-import apiRequestConfirm from 'utils/apiRequestConfirm'
+import apiRequestConfirm from 'web-crm/src/utils/apiRequestConfirm'
 
 var vm
 export default {
@@ -269,7 +269,7 @@ export default {
     // 点击删除按钮
     onDeleteClick: function (data, node) {
       var url = vm.$api.core.menu.deleteById
-      var params = {id: data.id, menuName: data.label}
+      var params = { id: data.id, menuName: data.label }
       // 是否批量删除
       var batchDel = false
       if (!node.isLeaf) {
@@ -329,7 +329,7 @@ export default {
       let that = this
       this.$http.fetch(this.$api.core.menu.updateMenuPath, params).then((resp) => {
         that.$set(node, 'data', Object.assign({}, node.data,
-          {id: params.id, parentId: params.parent_id}))
+          { id: params.id, parentId: params.parent_id }))
         that.$notify.success(resp.msg)
       }).catch(() => {
         that.$refs.tree.refresh()
@@ -341,7 +341,7 @@ export default {
      * @param val
      */
     filterNode (value, data) {
-      if (!value) return true
+      if (!value) { return true }
       return data.label.indexOf(value) !== -1
     },
     onCloseNode () {

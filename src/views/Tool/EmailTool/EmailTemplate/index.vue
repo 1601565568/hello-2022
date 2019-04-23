@@ -400,17 +400,17 @@
     </div>
 </template>
 <script>
-  import index from './src/index'
-  import VueUeditorWrap from 'vue-ueditor-wrap'
-  import NsTableEmailTemplate from './NsTableEmailTemplate'
-  import NsGoodsSelectDialog from 'components/NsGoodsSelectDialog'
+import index from './src/index'
+import VueUeditorWrap from 'vue-ueditor-wrap'
+import NsTableEmailTemplate from './NsTableEmailTemplate'
+import NsGoodsSelectDialog from 'components/NsGoodsSelectDialog'
 
-  index.components = {
-    NsTableEmailTemplate,
-    NsGoodsSelectDialog,
-    VueUeditorWrap
-  }
-  export default index
+index.components = {
+  NsTableEmailTemplate,
+  NsGoodsSelectDialog,
+  VueUeditorWrap
+}
+export default index
 </script>
 <style scoped>
   @import "../../../../style/small/variables.pcss";
@@ -486,7 +486,6 @@
     height: 100%;
     vertical-align: top
   }
-
 
   .mailtemplate-select__table .goods-addpic .goods-deletepic {
     display: none;

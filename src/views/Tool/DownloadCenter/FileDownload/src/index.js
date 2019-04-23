@@ -5,7 +5,7 @@ var mixin = {
   data: function () {
     return {
       rules: {
-        'mobile': [{required: true, message: '请输入手机号'}, {
+        'mobile': [{ required: true, message: '请输入手机号' }, {
           min: 0,
           max: 255,
           message: '已超过可输入长度'
@@ -21,7 +21,7 @@ var mixin = {
           },
           trigger: 'change,blur'
         }],
-        'verificationCode': [{required: true, message: '请输入验证码'}, {
+        'verificationCode': [{ required: true, message: '请输入验证码' }, {
           min: 0,
           max: 6,
           message: '已超过可输入长度'
@@ -122,7 +122,7 @@ var mixin = {
         that.downloadData.id = data.id
         that.downloadData.downLoad_addr = data.downLoad_addr
         that.downloadData.aliasFileName = data.alias_file_name
-        that.$http.fetch(this.$api.core.downloadConfig.queryDownLoadConfig, {id: this.$store.state.user.brand.id})
+        that.$http.fetch(this.$api.core.downloadConfig.queryDownLoadConfig, { id: this.$store.state.user.brand.id })
           .then((resp) => {
             if (resp.result.is_download_validate === 1) {
               that.model.mobile = resp.result.validate_mobile
@@ -138,7 +138,7 @@ var mixin = {
     },
     onDownload: function () {
       that.$notify.info('下载中... (下载完成时间预计1-4分钟，请耐心等待)')
-      this.$http.fetch(this.$api.core.exportTask.download, {id: that.downloadData.downLoad_addr, exportId: that.downloadData.id})
+      this.$http.fetch(this.$api.core.exportTask.download, { id: that.downloadData.downLoad_addr, exportId: that.downloadData.id })
         .then((resp) => {
           that.$notify.success('下载完成')
         }).catch((resp) => {
@@ -155,7 +155,7 @@ var mixin = {
   }
 }
 var that
-export default{
+export default {
   mixins: [formMixin, mixin],
   data: function () {
     return {

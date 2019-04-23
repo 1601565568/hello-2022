@@ -32,7 +32,7 @@ export default {
         'name': '删除'
       }
     ]
-    let quickInput = [{'name': 'title'}]
+    let quickInput = [{ 'name': 'title' }]
     let quickSearchNames = quickInput.map(x => x.name)
     let quickSearchModel = {}
     let model = Object.assign({},
@@ -89,7 +89,7 @@ export default {
         type: 'warning',
         cancelButtonText: '取消'
       }).then(() => {
-        that.$http.fetch(that.$api.guide.goods.deleteGoods, {sys_item_id: row.sys_item_id}).then(() => {
+        that.$http.fetch(that.$api.guide.goods.deleteGoods, { sys_item_id: row.sys_item_id }).then(() => {
           that.$message.success('删除成功')
           that.$reload()
         }).catch((resp) => {

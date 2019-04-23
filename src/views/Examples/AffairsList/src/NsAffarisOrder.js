@@ -145,7 +145,7 @@ export default {
       }
     },
     // 在渲染表头的时候，会调用此方法，h为createElement的缩写版  添加on.change事件即可
-    renderProductId (h, {column}) {
+    renderProductId (h, { column }) {
       return h('business-inner-checkbox', {
         props: {
           checkboxValInner: this.checkboxValInner,

@@ -261,16 +261,16 @@
 </template>
 
 <script>
-  import index from './src/index'
-  import NsTableAffairs from './NsTableAffairs'
-  import NsAffarisOrder from './NsAffarisOrder'
-  import NsDatetime from 'components/NsDatetime'
-  index.components = {
-    NsTableAffairs,
-    NsAffarisOrder,
-    NsDatetime
-  }
-  export default index
+import index from './src/index'
+import NsTableAffairs from './NsTableAffairs'
+import NsAffarisOrder from './NsAffarisOrder'
+import NsDatetime from 'components/NsDatetime'
+index.components = {
+  NsTableAffairs,
+  NsAffarisOrder,
+  NsDatetime
+}
+export default index
 </script>
 
 <style scoped>

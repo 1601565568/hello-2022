@@ -160,13 +160,13 @@
 </template>
 
 <script>
-  import GoodsTable from './GoodsTable'
-  import GoodsIndex from './src/GoodsIndex'
-  import NsDroptree from 'components/NsDroptree'
-  import VueUeditorWrap from 'vue-ueditor-wrap'
+import GoodsTable from './GoodsTable'
+import GoodsIndex from './src/GoodsIndex'
+import NsDroptree from 'components/NsDroptree'
+import VueUeditorWrap from 'vue-ueditor-wrap'
 
-  GoodsIndex.components = {GoodsTable, NsDroptree, VueUeditorWrap}
-  export default GoodsIndex
+GoodsIndex.components = { GoodsTable, NsDroptree, VueUeditorWrap }
+export default GoodsIndex
 </script>
 
 <style scoped>

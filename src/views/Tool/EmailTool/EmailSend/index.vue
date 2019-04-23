@@ -73,13 +73,13 @@
   </div>
 </template>
 <script>
-  import index from './src/index'
-  import VueUeditorWrap from 'vue-ueditor-wrap'
+import index from './src/index'
+import VueUeditorWrap from 'vue-ueditor-wrap'
 
-  index.components = {
-    VueUeditorWrap
-  }
-  export default index
+index.components = {
+  VueUeditorWrap
+}
+export default index
 </script>
 
 <style scoped>

@@ -26,8 +26,7 @@
 </template>
 
 <script>
-  export default {
-    name: 'NsPageCharts'
-  }
+export default {
+  name: 'NsPageCharts'
+}
 </script>
-

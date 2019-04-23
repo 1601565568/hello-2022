@@ -58,15 +58,15 @@ export default {
               callback(new Error('请输入正确渠道名称'))
             } else {
               vm.$http.fetch(vm.$api.core.menu.hasNameInBrotherExist, params)
-              .then((resp) => {
-                if (resp.code === ErrorCode.TITLE_REPEAT) {
-                  callback(new Error('此渠道名称已存在,请重新输入'))
-                } else {
-                  callback()
-                }
-              }).catch(() => {
-                vm.$notify.error('远程校验失败')
-              })
+                .then((resp) => {
+                  if (resp.code === ErrorCode.TITLE_REPEAT) {
+                    callback(new Error('此渠道名称已存在,请重新输入'))
+                  } else {
+                    callback()
+                  }
+                }).catch(() => {
+                  vm.$notify.error('远程校验失败')
+                })
             }
           },
           trigger: 'blur'
@@ -89,15 +89,15 @@ export default {
       vm.loading = true
       vm.root.children = []
       vm.$http.fetch(vm.$api.core.channel.queryChannelTree)
-      .then((resp) => {
-        vm.root.children = resp.result
-        vm.$set(vm, 'treeData', [vm.root])
-      }).catch(() => {
-        vm.emptyText = vm.$t('prompt.noData')
-        vm.$notify.error('加载失败')
-      }).finally(() => {
-        vm.loading = false
-      })
+        .then((resp) => {
+          vm.root.children = resp.result
+          vm.$set(vm, 'treeData', [vm.root])
+        }).catch(() => {
+          vm.emptyText = vm.$t('prompt.noData')
+          vm.$notify.error('加载失败')
+        }).finally(() => {
+          vm.loading = false
+        })
     },
     // 保存
     onSaveMenu: function () {
@@ -181,7 +181,7 @@ export default {
     onDeleteClick: function (data, node) {
       var info = '是否确定删除“' + data.label + '”节点？'
       var url = vm.$api.core.channel.deleteById
-      var params = {id: data.id}
+      var params = { id: data.id }
       vm.$confirm(info, '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
@@ -211,7 +211,7 @@ export default {
      * @param val
      */
     filterNode (value, data) {
-      if (!value) return true
+      if (!value) { return true }
       return data.label.indexOf(value) !== -1
     },
     onCloseNode () {

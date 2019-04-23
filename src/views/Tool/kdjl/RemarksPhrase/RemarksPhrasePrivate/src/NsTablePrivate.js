@@ -1,5 +1,5 @@
 import tableMixin from 'mixins/table'
-import apiRequestConfirm from 'utils/apiRequestConfirm'
+import apiRequestConfirm from 'web-crm/src/utils/apiRequestConfirm'
 
 export default {
   name: 'NsTablePrivate',
@@ -29,7 +29,7 @@ export default {
           }
           var that = this
           that.$http.fetch(that.$api.kdjl.remarks.updateMemoType
-            , {type: 1, id: obj.row.id})
+            , { type: 1, id: obj.row.id })
             .then().catch((resp) => {
               that.$notify.error(resp.msg)
             })
@@ -48,7 +48,7 @@ export default {
           }
           var that = this
           that.$http.fetch(that.$api.kdjl.remarks.updateMemoType
-            , {type: 0, id: obj.row.id})
+            , { type: 0, id: obj.row.id })
             .then().catch((resp) => {
               that.$notify.error(resp.msg)
             })
@@ -72,7 +72,7 @@ export default {
           let that = this
           apiRequestConfirm('删除备注短语').then(function () {
             that.$http.fetch(that.$api.kdjl.remarks.deleteById
-              , {ids: obj.row.id.split(',')})
+              , { ids: obj.row.id.split(',') })
               .then((resp) => {
                 that.$notify.success(resp.msg)
                 that.$reload()
@@ -108,7 +108,7 @@ export default {
             apiRequestConfirm('删除所选择备注短语').then(function () {
               let ids = data.map(x => x.id)
               that.$http.fetch(that.$api.kdjl.remarks.deleteById
-                , {ids: ids})
+                , { ids: ids })
                 .then((resp) => {
                   that.$notify.success(resp.msg)
                   that.$parent.$reload()
@@ -125,7 +125,7 @@ export default {
       }
     ]
 
-    var model = {staus: '', shopId: ''}
+    var model = { staus: '', shopId: '' }
 
     return {
       model: model,
@@ -158,7 +158,7 @@ export default {
     },
     changeStatus: function (obj) {
       var that = this
-      this.$http.fetch(this.$api.kdjl.remarks.updateMemoStaus, {status: obj.memo_staus, id: obj.id})
+      this.$http.fetch(this.$api.kdjl.remarks.updateMemoStaus, { status: obj.memo_staus, id: obj.id })
         .then((resp) => {
           that.$notify.success(resp.msg)
         }).catch((resp) => {
@@ -174,7 +174,7 @@ export default {
       other.memo_order = indexObj.memo_order
       indexObj.memo_order = frontOrder
       var that = this
-      this.$http.fetch(this.$api.kdjl.remarks.updateOrder, {id: indexObj.id, order: indexObj.memo_order, otherId: other.id, otherOrder: other.memo_order})
+      this.$http.fetch(this.$api.kdjl.remarks.updateOrder, { id: indexObj.id, order: indexObj.memo_order, otherId: other.id, otherOrder: other.memo_order })
         .then((resp) => {
           data.splice(index - 1, 1, indexObj)
           data.splice(index, 1, other)
@@ -192,7 +192,7 @@ export default {
       other.memo_order = obj.row.memo_order
       indexObj.memo_order = backOrder
       var that = this
-      this.$http.fetch(this.$api.kdjl.remarks.updateOrder, {id: indexObj.id, order: indexObj.memo_order, otherId: other.id, otherOrder: other.memo_order})
+      this.$http.fetch(this.$api.kdjl.remarks.updateOrder, { id: indexObj.id, order: indexObj.memo_order, otherId: other.id, otherOrder: other.memo_order })
         .then((resp) => {
           data.splice(index + 1, 1, indexObj)
           data.splice(index, 1, other)

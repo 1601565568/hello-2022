@@ -1,5 +1,5 @@
 import tableMixin from 'mixins/table'
-import apiRequestConfirm from 'utils/apiRequestConfirm'
+import apiRequestConfirm from 'web-crm/src/utils/apiRequestConfirm'
 export default {
   name: 'NsYsChannel',
   mixins: [tableMixin],
@@ -28,7 +28,7 @@ export default {
         'func': function (args) {
           var that = this
           apiRequestConfirm('删除该通道').then(() => {
-            that.$http.fetch(this.$api.touch.ysChannel.deleteById, {id: args.row.id})
+            that.$http.fetch(this.$api.touch.ysChannel.deleteById, { id: args.row.id })
               .then(resp => {
                 that.$notify.success(resp.msg)
                 that.$reload()
@@ -66,7 +66,7 @@ export default {
 
     var quickSearchNames = quickInput.map(x => x.name)
     var quickSearchModel = {}
-    var model = Object.assign({}, {sp_name: '', channel_code: '', channel_type: ''}, {})
+    var model = Object.assign({}, { sp_name: '', channel_code: '', channel_type: '' }, {})
     var that = this
     quickInput.map(item => {
       Object.defineProperty(quickSearchModel, item.name, {
@@ -99,7 +99,7 @@ export default {
         quickSearchNames: quickSearchNames,
         quickSearchMap: {}
       },
-      _queryConfig: {expand: false}
+      _queryConfig: { expand: false }
     }
   },
   mounted: function () {

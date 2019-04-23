@@ -8,28 +8,28 @@
   </div>
 </template>
 <script>
-  import TreeParentSearch from 'utils/TreeParentSearch'
-  export default {
-    data () {
-      return {
-        thatTabList: []
-      }
-    },
-    methods: {
-      getThatTabList () {
-        this.thatTabList = TreeParentSearch(this.$store.state.user.menus, 'name', 'children', this.$route.name)
-      }
-    },
-    created () {
-      this.getThatTabList()
-    },
-    watch: {
-      '$route' () {
-        this.getThatTabList()
-      }
+import TreeParentSearch from 'web-crm/src/utils/TreeParentSearch'
+export default {
+  data () {
+    return {
+      thatTabList: []
     }
-
+  },
+  methods: {
+    getThatTabList () {
+      this.thatTabList = TreeParentSearch(this.$store.state.user.menus, 'name', 'children', this.$route.name)
+    }
+  },
+  created () {
+    this.getThatTabList()
+  },
+  watch: {
+    '$route' () {
+      this.getThatTabList()
+    }
   }
+
+}
 </script>
 
 <style scoped>

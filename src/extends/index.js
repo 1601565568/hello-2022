@@ -6,7 +6,7 @@ import Message from 'nui-v2/lib/message.js'
 import Notification from 'nui-v2/lib/notification.js'
 import http from './http'
 import apis from '@/apis'
-import {i18n} from '../i18n'
+import {i18n} from 'web-crm/src/i18n'
 
 export default {
   install (Vue, options) {

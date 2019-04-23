@@ -3,5 +3,3 @@
    AnalysisShop
  </div>
 </template>
-
-

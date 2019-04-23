@@ -12,7 +12,7 @@ export default {
       shopNum: 0, // 选择店铺数量
       dataTree: [], // 菜单树
       readWrite: [1], // 读写
-      readWriteOptions: [{label: '可读', value: 1}, {label: '可写', value: 0}],
+      readWriteOptions: [{ label: '可读', value: 1 }, { label: '可写', value: 0 }],
       powerRadio: 1, // 选择部门
       shopIndex: [], // 所有店铺
       copyShop: {}, // 为了进行重新设置店铺内容
@@ -35,7 +35,7 @@ export default {
         selectShops: [], // 选择店铺
         indexSelect: false, // 本页全选
         allSelect: false, //  全部全选
-        selectShop: {  // 搜索条件
+        selectShop: { // 搜索条件
           platform: [], // 平台
           areaRegion: [], // 地区
           channel: [], // 渠道
@@ -53,14 +53,14 @@ export default {
         },
         roleRule: {
           roleName: [
-            {required: true, message: '请输入角色名称', trigger: 'change'},
-            {min: 1, max: 30, message: '请输入 1 到 30 个字符', trigger: 'change'},
+            { required: true, message: '请输入角色名称', trigger: 'change' },
+            { min: 1, max: 30, message: '请输入 1 到 30 个字符', trigger: 'change' },
             {
               validator: (rule, value, callback) => {
                 if ($.trim(value).length > 0) {
                   var that = this
                   that.$http.fetch(that.$api.core.sysRole.findByRoleName,
-                  {id: that.roleModel.role.roleId, roleName: that.roleModel.role.roleName}).then((resp) => {
+                    { id: that.roleModel.role.roleId, roleName: that.roleModel.role.roleName }).then((resp) => {
                     if (resp.code === ErrorCode.TITLE_REPEAT) {
                       callback(new Error('此角色名称已存在,请重新输入'))
                     } else {
@@ -74,7 +74,7 @@ export default {
               trigger: 'change'
             }
           ],
-          remark: [{min: 1, max: 250, message: '请输入 1 到 250 个字符', trigger: 'change'}]
+          remark: [{ min: 1, max: 250, message: '请输入 1 到 250 个字符', trigger: 'change' }]
         }
       }
     }
@@ -96,29 +96,29 @@ export default {
       searchMap.length = that.shop.paginationShop.size
       table.searchMap = searchMap
       that.$http.fetch(that.$api.core.sysRole.findShopGrant, table)
-      .then((resp) => {
-        that.shop.brandList = resp.result.brands
-        that.shopIndex = resp.result.shopIndex
-        that.area = resp.result.area
-        that.dataTree = resp.result.tree
-        for (let shop of resp.result.brand4shop) {
-          that.brand4shop.set(shop.tag, shop.shops)
-        }
-        that.shop.selectShop.brands = new Map()
-        that.shop.paginationShop.total = parseInt(resp.result.count)
-        if (that.shop.brandList.length > 0) {
-          that.shop.selectShop.brands = []
-          that.shop.selectShop.brands.push(that.shop.brandList[0].value)
-        }
-        if (that.shop.brandList != null) {
-          for (var brand of that.shop.brandList) {
-            var shops = {
-              shops: []
-            }
-            that.selectBrandShop.set(brand.value, shops)
+        .then((resp) => {
+          that.shop.brandList = resp.result.brands
+          that.shopIndex = resp.result.shopIndex
+          that.area = resp.result.area
+          that.dataTree = resp.result.tree
+          for (let shop of resp.result.brand4shop) {
+            that.brand4shop.set(shop.tag, shop.shops)
           }
-        }
-      })
+          that.shop.selectShop.brands = new Map()
+          that.shop.paginationShop.total = parseInt(resp.result.count)
+          if (that.shop.brandList.length > 0) {
+            that.shop.selectShop.brands = []
+            that.shop.selectShop.brands.push(that.shop.brandList[0].value)
+          }
+          if (that.shop.brandList != null) {
+            for (var brand of that.shop.brandList) {
+              var shops = {
+                shops: []
+              }
+              that.selectBrandShop.set(brand.value, shops)
+            }
+          }
+        })
     },
     handleCheckIndexChange (obj) { // 处理本页全选
       if (this.shop.selectShop.brands.length > 0) {
@@ -223,7 +223,7 @@ export default {
         this.checkSelect()
       }
     },
-    checkSelect () {  // 是否选中
+    checkSelect () { // 是否选中
       if (this.shopIndex.length === this.shop.selectShops.length && this.shopIndex.length > 0) {
         this.isIndeterminate = false
         this.shop.indexSelect = true
@@ -265,40 +265,40 @@ export default {
       this.copyRole = JSON.parse(JSON.stringify(this.copyRole))
       var that = this
       that.title = '编辑角色'
-      that.$http.fetch(that.$api.core.sysRole.getRoleById, {'id': obj.id})
-      .then((resp) => {
-        that.shop.isViewInfo = obj.is_view_info === 0
-        var role = {
-          roleId: obj.id,
-          roleName: obj.role_name,
-          remark: obj.remark
-        }
-        that.roleModel.role = Object.assign({}, role)
-        for (let menu of resp.result.menu) {
-          that.menuId.push(menu.menu_id)
-        }
-        if (resp.result.shop !== null) {
-          for (let tagShop of resp.result.shop) {
-            var brandShop = that.selectBrandShop.get(tagShop.tag)
-            brandShop.shops = tagShop.shops
+      that.$http.fetch(that.$api.core.sysRole.getRoleById, { 'id': obj.id })
+        .then((resp) => {
+          that.shop.isViewInfo = obj.is_view_info === 0
+          var role = {
+            roleId: obj.id,
+            roleName: obj.role_name,
+            remark: obj.remark
           }
-          that.shop.selectShops = that.selectBrandShop.get(that.shop.selectShop.brands[0]).shops
-        }
-        that.checkSelect()
-        that.stepsActive = 0
-      }).finally(() => {
-        that.visible = true
-        that.$nextTick(() => {
-          that.$refs.roleManageTreeHeight.$el.children[0].style.height = '475px'
-          that.$refs.roleManageHeight.$el.children[0].style.height = '400px'
-          that.$refs.tree.setCheckedKeys(that.menuId)
-          var powerPackage = JSON.parse(obj.power_package)
-          that.powerRadio = powerPackage.type
+          that.roleModel.role = Object.assign({}, role)
+          for (let menu of resp.result.menu) {
+            that.menuId.push(menu.menu_id)
+          }
+          if (resp.result.shop !== null) {
+            for (let tagShop of resp.result.shop) {
+              var brandShop = that.selectBrandShop.get(tagShop.tag)
+              brandShop.shops = tagShop.shops
+            }
+            that.shop.selectShops = that.selectBrandShop.get(that.shop.selectShop.brands[0]).shops
+          }
+          that.checkSelect()
+          that.stepsActive = 0
+        }).finally(() => {
+          that.visible = true
           that.$nextTick(() => {
-            that.readWrite = powerPackage.value === 2 ? [1, 0] : [1]
+            that.$refs.roleManageTreeHeight.$el.children[0].style.height = '475px'
+            that.$refs.roleManageHeight.$el.children[0].style.height = '400px'
+            that.$refs.tree.setCheckedKeys(that.menuId)
+            var powerPackage = JSON.parse(obj.power_package)
+            that.powerRadio = powerPackage.type
+            that.$nextTick(() => {
+              that.readWrite = powerPackage.value === 2 ? [1, 0] : [1]
+            })
           })
         })
-      })
     },
     handleSizeChange (val) {
       this.shop.paginationShop.size = val
@@ -345,20 +345,20 @@ export default {
       }
       table.searchMap.shopName = that.shop.selectShop.shopName
       that.$http.fetch(that.$api.core.sysRole.queryShopByRole, table)
-      .then((resp) => {
-        that.shopIndex = resp.result.shop
-        that.shop.paginationShop.total = parseInt(resp.result.count)
-        that.shop.selectShops = []
-        var shops = that.selectBrandShop.get(this.shop.selectShop.brands[0]).shops
-        for (let shopIndex of that.shopIndex) {
-          for (let selectShop of shops) {
-            if (shopIndex.value === selectShop) {
-              that.shop.selectShops.push(shopIndex.value)
+        .then((resp) => {
+          that.shopIndex = resp.result.shop
+          that.shop.paginationShop.total = parseInt(resp.result.count)
+          that.shop.selectShops = []
+          var shops = that.selectBrandShop.get(this.shop.selectShop.brands[0]).shops
+          for (let shopIndex of that.shopIndex) {
+            for (let selectShop of shops) {
+              if (shopIndex.value === selectShop) {
+                that.shop.selectShops.push(shopIndex.value)
+              }
             }
           }
-        }
-        that.checkSelect()
-      })
+          that.checkSelect()
+        })
     },
     clearDialog () {
       this.menuId = []
@@ -411,7 +411,7 @@ export default {
           tagShopList.push(tagShop)
         }
       }
-      var powerPackage = {type: this.powerRadio, value: this.readWrite.length}
+      var powerPackage = { type: this.powerRadio, value: this.readWrite.length }
       var model = {
         roleId: this.roleModel.role.roleId,
         roleName: this.roleModel.role.roleName,
@@ -422,14 +422,14 @@ export default {
         tagIdAndShopIds: tagShopList
       }
       that.$http.fetch(that.$api.core.sysRole.saveOrUpdate, model)
-      .then((resp) => {
-        that.$refs.table.$reload()
-        that.$notify.success(resp.msg)
-      }).catch((resp) => {
-        this.$notify.error(resp.msg)
-      }).finally(() => {
-        that.saveLoading = false
-      })
+        .then((resp) => {
+          that.$refs.table.$reload()
+          that.$notify.success(resp.msg)
+        }).catch((resp) => {
+          this.$notify.error(resp.msg)
+        }).finally(() => {
+          that.saveLoading = false
+        })
       this.stepsActive++
       this.clearDialog()
     },

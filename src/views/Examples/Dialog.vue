@@ -1400,329 +1400,329 @@
   </div>
 </template>
 <script>
-  import NsArea from 'components/NsArea'
-  import NsDatetime from 'components/NsDatetime'
-  import NsButton from '../../components/global/NsButton.vue'
-  import businessEcharts from 'components/NsEcharts'
+import NsArea from 'components/NsArea'
+import NsDatetime from 'components/NsDatetime'
+import NsButton from '../../components/global/NsButton.vue'
+import businessEcharts from 'components/NsEcharts'
 
-  export default {
-    components: {
-      NsButton,
-      NsArea,
-      NsDatetime,
-      businessEcharts
-    },
-    data () {
-      var pagination = {
-        enable: true,
-        size: 15,
-        sizeOpts: [15, 25, 50, 100],
-        page: 1,
-        total: 0
-      }
-      return {
-        // 回款/未回款饼图
-        option: {
-          tooltip: {
-            trigger: 'item',
-            formatter: '{a} <br/>{b} : {c} ({d}%)'
-          },
-          legend: {
-            x: 'center',
-            y: 'bottom',
-            data: ['回款金额', '未回款金额']
-          },
-          calculable: false,
-          series: [
-            {
-              type: 'pie',
-              radius: '50%',
-              center: ['50%', '50%'],
-              data: [{
-                value: 30,
-                name: '回款金额'
-              }, { value: 70,
-                name: '未回款金额'}]
-            }
-          ],
-          color: ['#4fcc8d', '#41a2e8']
+export default {
+  components: {
+    NsButton,
+    NsArea,
+    NsDatetime,
+    businessEcharts
+  },
+  data () {
+    var pagination = {
+      enable: true,
+      size: 15,
+      sizeOpts: [15, 25, 50, 100],
+      page: 1,
+      total: 0
+    }
+    return {
+      // 回款/未回款饼图
+      option: {
+        tooltip: {
+          trigger: 'item',
+          formatter: '{a} <br/>{b} : {c} ({d}%)'
         },
-        // 回款/未回款饼图-end
-        // 回款/未回款图表
-        option2: {
-          tooltip: {
-            trigger: 'axis',
+        legend: {
+          x: 'center',
+          y: 'bottom',
+          data: ['回款金额', '未回款金额']
+        },
+        calculable: false,
+        series: [
+          {
+            type: 'pie',
+            radius: '50%',
+            center: ['50%', '50%'],
+            data: [{
+              value: 30,
+              name: '回款金额'
+            }, { value: 70,
+              name: '未回款金额' }]
+          }
+        ],
+        color: ['#4fcc8d', '#41a2e8']
+      },
+      // 回款/未回款饼图-end
+      // 回款/未回款图表
+      option2: {
+        tooltip: {
+          trigger: 'axis',
+          axisPointer: {
+            type: 'cross',
+            crossStyle: {
+              color: '#999'
+            }
+          }
+        },
+        color: ['#41a2e8', '#4fcc8d', '#ff6e71'],
+        legend: {
+          x: 'center',
+          y: 'bottom',
+          data: ['催款金额', '回款金额', '回款成功率']
+        },
+        xAxis: [
+          {
+            type: 'category',
+            data: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月'],
             axisPointer: {
-              type: 'cross',
-              crossStyle: {
-                color: '#999'
-              }
+              type: 'shadow'
             }
-          },
-          color: ['#41a2e8', '#4fcc8d', '#ff6e71'],
-          legend: {
-            x: 'center',
-            y: 'bottom',
-            data: ['催款金额', '回款金额', '回款成功率']
-          },
-          xAxis: [
-            {
-              type: 'category',
-              data: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月'],
-              axisPointer: {
-                type: 'shadow'
-              }
-            }
-          ],
-          yAxis: [
-            {
-              type: 'value',
-              name: '金额',
-              min: 0,
-              max: 250,
-              interval: 50,
-              axisLabel: {
-                formatter: '{value} 元'
-              }
-            },
-            {
-              type: 'value',
-              name: '比例',
-              min: 0,
-              max: 100,
-              interval: 20,
-              axisLabel: {
-                formatter: '{value} %'
-              }
-            }
-          ],
-          series: [
-            {
-              name: '催款金额',
-              type: 'bar',
-              data: [2.0, 4.9, 7.0, 23.2, 25.6, 76.7, 135.6, 162.2]
-            },
-            {
-              name: '回款金额',
-              type: 'bar',
-              data: [2.6, 5.9, 9.0, 26.4, 28.7, 70.7, 175.6, 182.2]
-            },
-            {
-              name: '回款成功率',
-              type: 'line',
-              yAxisIndex: 1,
-              data: [2.0, 2.2, 3.3, 4.5, 6.3, 10.2, 20.3, 23.4]
-            }
-          ]
-        },
-        // 回款/未回款图表-end
-        activeName: 'first',
-        create_time: [],
-        value: '',
-        currentAll: false,
-        isAll: false,
-        currentPage4: 4,
-        shopNames: '',
-        num1: '',
-        shopName: '',
-        areaName: '',
-        numberSet: '',
-        shopNameTable: '',
-        // 地区选择
-        key: {
-          children: 'children',
-          label: 'label',
-          value: 'id',
-          disabled: 'disabled'
-        },
-        selectedOptions3: [110000, 110100],
-        // 表格数据
-        tableData: [{
-          shopNameTable: '九堡东方电子商务园店',
-          areaName: '浙江省杭州市江干区'
-        },
-        {
-          shopNameTable: '杭州砂之船店',
-          areaName: '浙江省杭州市江干区'
-        },
-        {
-          shopNameTable: '厦门瑞景商业广场店',
-          areaName: '福建省厦门市思明区'
-        }],
-        url: this.$api.database.black.queryTable,
-        _pagination: pagination,
-        _table: {
-          quickSearchMap: {}
-        },
-        dialogVisible: false,
-        dialogVisible1: false,
-        dialogVisible2: false,
-        dialogVisible3: false,
-        dialogVisible4: false,
-        dialogVisible5: false,
-        dialogVisible6: false,
-        dialogVisible7: false,
-        loading: false,
-        // 表单数据
-        dynamicValidateForm: {
-          name: 'admin',
-          status: true,
-          isUrgeOne: false,
-          isExcludePayed: false,
-          H5TemplateId: [],
-          birthday: '1992-11-5',
-          date1: null,
-          startDateTime: null,
-          endDateTime: null,
-          email: '',
-          age: '',
-          number: '',
-          pattern: 2
-        },
-        form_related_dynamicValidateForm: {
-          // 优惠券类型
-          coupon: [
-            {
-              value: '10元无门槛优惠券',
-              label: '10元无门槛优惠券'
-            },
-            {
-              value: '优惠券2',
-              label: '优惠券2'
-            }
-          ],
-          // 互动模板
-          interactiveTemplate: [
-            {
-              value: '电脑电脑电脑电脑电脑电脑电脑电脑电脑电脑电脑电脑电脑电脑电脑电脑2',
-              label: '电脑电脑电脑电脑电脑电脑电脑电脑电脑电脑电脑电脑电脑电脑电脑电脑'
-            }, {
-              value: 'iPad',
-              label: 'iPad'
-            }, {
-              value: 'phone1311',
-              label: '手3机434500'
-            }, {
-              value: 'p3h3one22',
-              label: '手机533p32手机23'
-            },
-            {
-              value: 'phonet33',
-              label: '1手机3手机3'
-            },
-            {
-              value: 'phon2e111',
-              label: '手机'
-            }, {
-              value: 'phone222',
-              label: '手机2手机6'
-            },
-            {
-              value: 'phone333',
-              label: '手机3'
-            }
-          ],
-          options: [{
-            value: '选项1',
-            label: '选项1'
-          }, {
-            value: '选项2',
-            label: '选项2'
-          }, {
-            value: '选项3',
-            label: '选项3'
-          }, {
-            value: '选项4',
-            label: '选项4'
-          }, {
-            value: '选项5',
-            label: '选项5'
-          }],
-          value5: []
-        },
-        // 表单校验规则
-        form_rules: {
-          name: [{
-            required: true,
-            message: '姓名不能为空！',
-            trigger: 'blur'
-          }],
-          email: [{
-            required: true,
-            message: '邮箱不能为空！',
-            trigger: 'blur'
-          }, {
-            type: 'email',
-            message: '邮箱格式不正确！',
-            trigger: 'blur'
-          }]
-        },
-        // 催付时间（选择时间段）
-        analysisExpectTime: [],
-        tableData3: [
+          }
+        ],
+        yAxis: [
           {
-            date: '2016-03-03',
-            date1: 0,
-            date2: 1,
-            date3: 2,
-            date4: 0,
-            date5: 1,
-            date6: 2,
-            date7: 0,
-            date8: 1
+            type: 'value',
+            name: '金额',
+            min: 0,
+            max: 250,
+            interval: 50,
+            axisLabel: {
+              formatter: '{value} 元'
+            }
           },
           {
-            date: '2016-04-03',
-            date1: 0,
-            date2: 1,
-            date3: 2,
-            date4: 0,
-            date5: 1,
-            date6: 2,
-            date7: 0,
-            date8: 1
+            type: 'value',
+            name: '比例',
+            min: 0,
+            max: 100,
+            interval: 20,
+            axisLabel: {
+              formatter: '{value} %'
+            }
+          }
+        ],
+        series: [
+          {
+            name: '催款金额',
+            type: 'bar',
+            data: [2.0, 4.9, 7.0, 23.2, 25.6, 76.7, 135.6, 162.2]
           },
           {
-            date: '2016-05-03',
-            date1: 0,
-            date2: 1,
-            date3: 2,
-            date4: 0,
-            date5: 1,
-            date6: 2,
-            date7: 0,
-            date8: 1
+            name: '回款金额',
+            type: 'bar',
+            data: [2.6, 5.9, 9.0, 26.4, 28.7, 70.7, 175.6, 182.2]
+          },
+          {
+            name: '回款成功率',
+            type: 'line',
+            yAxisIndex: 1,
+            data: [2.0, 2.2, 3.3, 4.5, 6.3, 10.2, 20.3, 23.4]
           }
         ]
-      }
-    },
-    methods: {
-      handleClose (done) {
-        this.$confirm('确认关闭？')
-          .then(_ => {
-            done()
-          })
-          .catch(_ => {})
       },
-      onOpendialog () {
-        var that = this
-        that.dialogVisible = true
+      // 回款/未回款图表-end
+      activeName: 'first',
+      create_time: [],
+      value: '',
+      currentAll: false,
+      isAll: false,
+      currentPage4: 4,
+      shopNames: '',
+      num1: '',
+      shopName: '',
+      areaName: '',
+      numberSet: '',
+      shopNameTable: '',
+      // 地区选择
+      key: {
+        children: 'children',
+        label: 'label',
+        value: 'id',
+        disabled: 'disabled'
       },
-      onSearch () {
-        console.log('搜索响应')
+      selectedOptions3: [110000, 110100],
+      // 表格数据
+      tableData: [{
+        shopNameTable: '九堡东方电子商务园店',
+        areaName: '浙江省杭州市江干区'
       },
-      onChange (data) {
-        console.log(data)
+      {
+        shopNameTable: '杭州砂之船店',
+        areaName: '浙江省杭州市江干区'
       },
-      handleChange (value) {
-        console.log(value)
-      }
-    },
-    created () {
-    },
-    mounted () {
+      {
+        shopNameTable: '厦门瑞景商业广场店',
+        areaName: '福建省厦门市思明区'
+      }],
+      url: this.$api.database.black.queryTable,
+      _pagination: pagination,
+      _table: {
+        quickSearchMap: {}
+      },
+      dialogVisible: false,
+      dialogVisible1: false,
+      dialogVisible2: false,
+      dialogVisible3: false,
+      dialogVisible4: false,
+      dialogVisible5: false,
+      dialogVisible6: false,
+      dialogVisible7: false,
+      loading: false,
+      // 表单数据
+      dynamicValidateForm: {
+        name: 'admin',
+        status: true,
+        isUrgeOne: false,
+        isExcludePayed: false,
+        H5TemplateId: [],
+        birthday: '1992-11-5',
+        date1: null,
+        startDateTime: null,
+        endDateTime: null,
+        email: '',
+        age: '',
+        number: '',
+        pattern: 2
+      },
+      form_related_dynamicValidateForm: {
+        // 优惠券类型
+        coupon: [
+          {
+            value: '10元无门槛优惠券',
+            label: '10元无门槛优惠券'
+          },
+          {
+            value: '优惠券2',
+            label: '优惠券2'
+          }
+        ],
+        // 互动模板
+        interactiveTemplate: [
+          {
+            value: '电脑电脑电脑电脑电脑电脑电脑电脑电脑电脑电脑电脑电脑电脑电脑电脑2',
+            label: '电脑电脑电脑电脑电脑电脑电脑电脑电脑电脑电脑电脑电脑电脑电脑电脑'
+          }, {
+            value: 'iPad',
+            label: 'iPad'
+          }, {
+            value: 'phone1311',
+            label: '手3机434500'
+          }, {
+            value: 'p3h3one22',
+            label: '手机533p32手机23'
+          },
+          {
+            value: 'phonet33',
+            label: '1手机3手机3'
+          },
+          {
+            value: 'phon2e111',
+            label: '手机'
+          }, {
+            value: 'phone222',
+            label: '手机2手机6'
+          },
+          {
+            value: 'phone333',
+            label: '手机3'
+          }
+        ],
+        options: [{
+          value: '选项1',
+          label: '选项1'
+        }, {
+          value: '选项2',
+          label: '选项2'
+        }, {
+          value: '选项3',
+          label: '选项3'
+        }, {
+          value: '选项4',
+          label: '选项4'
+        }, {
+          value: '选项5',
+          label: '选项5'
+        }],
+        value5: []
+      },
+      // 表单校验规则
+      form_rules: {
+        name: [{
+          required: true,
+          message: '姓名不能为空！',
+          trigger: 'blur'
+        }],
+        email: [{
+          required: true,
+          message: '邮箱不能为空！',
+          trigger: 'blur'
+        }, {
+          type: 'email',
+          message: '邮箱格式不正确！',
+          trigger: 'blur'
+        }]
+      },
+      // 催付时间（选择时间段）
+      analysisExpectTime: [],
+      tableData3: [
+        {
+          date: '2016-03-03',
+          date1: 0,
+          date2: 1,
+          date3: 2,
+          date4: 0,
+          date5: 1,
+          date6: 2,
+          date7: 0,
+          date8: 1
+        },
+        {
+          date: '2016-04-03',
+          date1: 0,
+          date2: 1,
+          date3: 2,
+          date4: 0,
+          date5: 1,
+          date6: 2,
+          date7: 0,
+          date8: 1
+        },
+        {
+          date: '2016-05-03',
+          date1: 0,
+          date2: 1,
+          date3: 2,
+          date4: 0,
+          date5: 1,
+          date6: 2,
+          date7: 0,
+          date8: 1
+        }
+      ]
     }
+  },
+  methods: {
+    handleClose (done) {
+      this.$confirm('确认关闭？')
+        .then(_ => {
+          done()
+        })
+        .catch(_ => {})
+    },
+    onOpendialog () {
+      var that = this
+      that.dialogVisible = true
+    },
+    onSearch () {
+      console.log('搜索响应')
+    },
+    onChange (data) {
+      console.log(data)
+    },
+    handleChange (value) {
+      console.log(value)
+    }
+  },
+  created () {
+  },
+  mounted () {
   }
+}
 </script>
 
 <style scoped>

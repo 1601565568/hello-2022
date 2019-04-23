@@ -289,302 +289,302 @@
   </div>
 </template>
 <script>
-  import moment from 'moment'
-  import NsShopSelect from 'components/NsShopSelect'
-  import NsGoodsSelect from 'components/NsGoodsSelect'
+import moment from 'moment'
+import NsShopSelect from 'components/NsShopSelect'
+import NsGoodsSelect from 'components/NsGoodsSelect'
 
-  export default {
-    props: {
-      callBack: Function
-    },
-    data () {
-      // 校验礼品
-      var checkGift = (rule, value, callback) => {
-        if (this.saveObj.storeCouponType === 3) {
-          if (value.length === 0) {
-            callback(new Error('请选择商品'))
+export default {
+  props: {
+    callBack: Function
+  },
+  data () {
+    // 校验礼品
+    var checkGift = (rule, value, callback) => {
+      if (this.saveObj.storeCouponType === 3) {
+        if (value.length === 0) {
+          callback(new Error('请选择商品'))
+        } else {
+          callback()
+        }
+      } else {
+        callback()
+      }
+    }
+    // 校验面额/折扣
+    var checkMoney = (rule, value, callback) => {
+      // 代金券
+      if (this.saveObj.storeCouponType === 1) {
+        if (value === '') {
+          callback(new Error('请输入面额'))
+        } else {
+          let arr = /^([-+]?\d{1,10})(\.\d{1,2})?$/
+          if (!arr.test(value)) {
+            callback(new Error('面额必须10位整数以内且最多2位小数'))
           } else {
             callback()
           }
-        } else {
-          callback()
         }
-      }
-      // 校验面额/折扣
-      var checkMoney = (rule, value, callback) => {
-        // 代金券
-        if (this.saveObj.storeCouponType === 1) {
-          if (value === '') {
-            callback(new Error('请输入面额'))
-          } else {
-            let arr = /^([-+]?\d{1,10})(\.\d{1,2})?$/
-            if (!arr.test(value)) {
-              callback(new Error('面额必须10位整数以内且最多2位小数'))
-            } else {
-              callback()
-            }
-          }
-        } else if (this.saveObj.storeCouponType === 2) {
-          // 折扣券
-          if (value === '') {
-            callback(new Error('请输入折扣'))
-          } else {
-            let r = /^((0\.[1-9]{1})|(([1-9]{1})(\.\d{1})?))$/
-            if (!r.test(value)) {
-              callback(new Error('折扣必须小于10且最多1位小数'))
-            } else {
-              callback()
-            }
-          }
+      } else if (this.saveObj.storeCouponType === 2) {
+        // 折扣券
+        if (value === '') {
+          callback(new Error('请输入折扣'))
         } else {
-          callback()
+          let r = /^((0\.[1-9]{1})|(([1-9]{1})(\.\d{1})?))$/
+          if (!r.test(value)) {
+            callback(new Error('折扣必须小于10且最多1位小数'))
+          } else {
+            callback()
+          }
         }
+      } else {
+        callback()
       }
-      let that = this
-      // 校验规则
-      let rules = {
-        storeCouponTitle: [
-          {required: true, message: '请输入优惠券名称', trigger: 'blur'},
-          {min: 3, max: 10, message: '长度在 3 到 10个字符', trigger: 'blur'}
-        ],
-        storeCouponValue: [{validator: checkMoney, trigger: 'blur'}],
-        giftArr: [{validator: checkGift, trigger: 'change'}],
-        // 发行量
-        maxIssueAmount: [{
-          validator: (rule, val, call) => {
-            if (that.saveObj.issueAmountType === 1) {
-              if (!val) {
-                call(new Error('请输入最大发行量'))
-              }
-            }
-            call()
-          }
-        }],
-        afterGetValidDays: [{
-          validator: (rule, val, call) => {
-            if (that.saveObj.dateValidType === 1) {
-              if (!val) {
-                call(new Error('不能为空'))
-              }
-            }
-            call()
-          }
-        }],
-        validDays: [{
-          validator: (rule, val, call) => {
-            if (that.saveObj.dateValidType === 1) {
-              if (!val) {
-                call(new Error('不能为空'))
-              }
-            }
-            call()
-          }
-        }],
-        couponTimeArr: [{
-          validator: (rule, val, call) => {
-            if (that.saveObj.dateValidType === 0) {
-              if (!val || val.length <= 0) {
-                call(new Error('请选择有效时间'))
-              } else {
-                call()
-              }
-            }
-            call()
-          }
-        }],
-        endDateTime: [{
-          validator: (rule, val, call) => {
+    }
+    let that = this
+    // 校验规则
+    let rules = {
+      storeCouponTitle: [
+        { required: true, message: '请输入优惠券名称', trigger: 'blur' },
+        { min: 3, max: 10, message: '长度在 3 到 10个字符', trigger: 'blur' }
+      ],
+      storeCouponValue: [{ validator: checkMoney, trigger: 'blur' }],
+      giftArr: [{ validator: checkGift, trigger: 'change' }],
+      // 发行量
+      maxIssueAmount: [{
+        validator: (rule, val, call) => {
+          if (that.saveObj.issueAmountType === 1) {
             if (!val) {
-              call(new Error('请选择截止时间'))
+              call(new Error('请输入最大发行量'))
+            }
+          }
+          call()
+        }
+      }],
+      afterGetValidDays: [{
+        validator: (rule, val, call) => {
+          if (that.saveObj.dateValidType === 1) {
+            if (!val) {
+              call(new Error('不能为空'))
+            }
+          }
+          call()
+        }
+      }],
+      validDays: [{
+        validator: (rule, val, call) => {
+          if (that.saveObj.dateValidType === 1) {
+            if (!val) {
+              call(new Error('不能为空'))
+            }
+          }
+          call()
+        }
+      }],
+      couponTimeArr: [{
+        validator: (rule, val, call) => {
+          if (that.saveObj.dateValidType === 0) {
+            if (!val || val.length <= 0) {
+              call(new Error('请选择有效时间'))
             } else {
               call()
             }
           }
-        }]
-      }
-      return {
-        addRules: rules,
-        validTimeArr: [new Date(), new Date()], // 可用时间段
-        invalidDateList: [], // 不可用日期
-        loading: false, // 防重复提交
-        shopArr: [],
-        saveObj: {
-          couponTimeArr: [], // 有效时间
-          // 订单商品
-          goods: [],
-          giftArr: [],
-          // 店铺
-          storeCouponType: 1,
-          storeCouponTitle: '',
-          storeCouponValue: '',
-          issueAmountType: 1, // 发行量的类型
-          maxIssueAmount: '',
-          useCondition: {
-            // 使用条件
-            type: 0
-          },
-          useRange: {
-            // 筛选商品
-            itemRangeType: 0, // 商品筛选类型（0不限 1包含指定商品 2排除指定商品 ）
-            shopRangeType: 0 // 门店指定类型（0不限 1仅限所选门店 2排除所选门店）
-          },
-          tradeCountValidType: 0, // 0表示不限
-          validTime: {
-            type: 0, // 可用时段类型（0全部时段 1部分时段）
-            endTime: '',
-            startTime: ''
-          },
-          invalidDate: {
-            type: 0, // 不可用日期类型（0不限制 1指定日期）
-            dayList: []
-          },
-          dateValidType: 0, // 固定时间
-          endDateTime: '',
-
-          maxIssueCount: 1, // 领券限制
-          remark: ''
-        },
-        curMonth: 5,
-        dialogVisible: false,
-        selectedArr: [],
-        shopList: []
-      }
-    },
-    created: function () {},
-    methods: {
-      // 返回列表
-      backList (val) {
-        this.$emit('showList', val)
-      },
-      // 选择可用时间段
-      validTimeFun (e) {
-        console.log(e)
-      },
-      // 选择相对时间
-      couponEndTimeFun (e) {
-        if (e) {
-          this.saveObj.endTime = moment(e).format('YYYY-MM-DD HH:mm:ss')
+          call()
         }
-      },
-      showToggle () {
-        this.invalidDateList = []
-        this.saveObj = {
-          couponTimeArr: [],
-          // 订单商品
-          goods: [],
-          giftArr: [],
-          // 店铺
-          storeCouponType: 1,
-          storeCouponTitle: '',
-          storeCouponValue: '',
-          issueAmountType: 1, // 发行量的类型
-          maxIssueAmount: '',
-          useCondition: {
-            // 使用条件
-            type: 0
-          },
-          useRange: {
-            // 筛选商品
-            itemRangeType: 0, // 商品筛选类型（0不限 1包含指定商品 2排除指定商品 ）
-            shopRangeType: 0 // 门店指定类型（0不限 1仅限所选门店 2排除所选门店）
-          },
-          tradeCountValidType: 0, // 0表示不限
-          validTime: {
-            type: 0, // 可用时段类型（0全部时段 1部分时段）
-            endTime: '',
-            startTime: ''
-          },
-          invalidDate: {
-            type: 0, // 不可用日期类型（0不限制 1指定日期）
-            dayList: []
-          },
-          dateValidType: 0, // 固定时间
-          endDateTime: '',
-
-          maxIssueCount: 1, // 领券限制
-          remark: ''
-        }
-        this.dialogVisible = true
-      },
-      handleSelectionChange (val) {
-        this.multipleSelection = val
-      },
-      saveFun (formName) {
-        this.$refs[formName].validate(valid => {
-          if (valid) {
-            // 有效时间--固定
-            if (this.saveObj.dateValidType === 0) {
-              this.saveObj.startTime = moment(this.saveObj.couponTimeArr[0]).format('YYYY-MM-DD HH:mm:ss')
-              this.saveObj.endTime = moment(this.saveObj.couponTimeArr[1]).format('YYYY-MM-DD HH:mm:ss')
-            }
-            this.doSaveFun()
+      }],
+      endDateTime: [{
+        validator: (rule, val, call) => {
+          if (!val) {
+            call(new Error('请选择截止时间'))
           } else {
-            return false
+            call()
           }
-        })
+        }
+      }]
+    }
+    return {
+      addRules: rules,
+      validTimeArr: [new Date(), new Date()], // 可用时间段
+      invalidDateList: [], // 不可用日期
+      loading: false, // 防重复提交
+      shopArr: [],
+      saveObj: {
+        couponTimeArr: [], // 有效时间
+        // 订单商品
+        goods: [],
+        giftArr: [],
+        // 店铺
+        storeCouponType: 1,
+        storeCouponTitle: '',
+        storeCouponValue: '',
+        issueAmountType: 1, // 发行量的类型
+        maxIssueAmount: '',
+        useCondition: {
+          // 使用条件
+          type: 0
+        },
+        useRange: {
+          // 筛选商品
+          itemRangeType: 0, // 商品筛选类型（0不限 1包含指定商品 2排除指定商品 ）
+          shopRangeType: 0 // 门店指定类型（0不限 1仅限所选门店 2排除所选门店）
+        },
+        tradeCountValidType: 0, // 0表示不限
+        validTime: {
+          type: 0, // 可用时段类型（0全部时段 1部分时段）
+          endTime: '',
+          startTime: ''
+        },
+        invalidDate: {
+          type: 0, // 不可用日期类型（0不限制 1指定日期）
+          dayList: []
+        },
+        dateValidType: 0, // 固定时间
+        endDateTime: '',
 
-        // 回调刷新列表
-        // this.$props.callBack()
+        maxIssueCount: 1, // 领券限制
+        remark: ''
       },
-      async doSaveFun () {
-        let that = this
-        if (this.saveObj.validTime.type === 1) {
-          // 部分时段可用
-          this.saveObj.validTime.startTime = moment(this.validTimeArr[0]).format(
-            'HH:mm:ss'
-          )
-          this.saveObj.validTime.endTime = moment(this.validTimeArr[1]).format(
-            'HH:mm:ss'
-          )
-        }
-        // 不可用日期
-        if (this.invalidDateList.length > 0) {
-          this.saveObj.invalidDate.dayList = []
-          for (let i = 0, len = this.invalidDateList.length; i < len; i++) {
-            this.saveObj.invalidDate.dayList.push(
-              moment(this.invalidDateList[i]).format('YYYY-MM-DD')
-            )
-          }
-        }
-        // 若单数限制tradeCountValidType为0则
-        if (this.saveObj.tradeCountValidType === 0) {
-          this.saveObj.tradeCountValid = 0
-        }
-        if (this.saveObj.issueAmountType === 0) {
-          this.saveObj.maxIssueAmount = 0
-        }
-        if (this.saveObj.giftArr.length > 0) {
-          this.saveObj.giftJson = JSON.stringify(this.saveObj.giftArr)
-          // 特殊处理下，目前后端不方便调整
-          this.saveObj.storeCouponValue = 0
-        }
-        if (this.shopArr.length > 0) {
-          this.saveObj.useRange.shopJson = JSON.stringify(this.shopArr)
-        }
-        if (this.saveObj.goods.length > 0) {
-          this.saveObj.useRange.itemJson = JSON.stringify(this.saveObj.goods)
-        }
-        this.loading = true
-        await
-          this.$http.fetch(this.$api.coupon.storeCoupon.saveOrUpdateCoupon, this.saveObj).then(() => {
-            this.dialogVisible = false
-            // this.$refs.addForm.resetFields()
-            this.$props.callBack()
-          }).catch(resp => {
-            that.$notify.error(resp.msg)
-          })
-        this.loading = false
-      },
-      handleClose () {
-        this.dialogVisible = false
-        this.$refs.addForm.resetFields()
+      curMonth: 5,
+      dialogVisible: false,
+      selectedArr: [],
+      shopList: []
+    }
+  },
+  created: function () {},
+  methods: {
+    // 返回列表
+    backList (val) {
+      this.$emit('showList', val)
+    },
+    // 选择可用时间段
+    validTimeFun (e) {
+      console.log(e)
+    },
+    // 选择相对时间
+    couponEndTimeFun (e) {
+      if (e) {
+        this.saveObj.endTime = moment(e).format('YYYY-MM-DD HH:mm:ss')
       }
     },
-    components: {
-      NsGoodsSelect,
-      NsShopSelect
+    showToggle () {
+      this.invalidDateList = []
+      this.saveObj = {
+        couponTimeArr: [],
+        // 订单商品
+        goods: [],
+        giftArr: [],
+        // 店铺
+        storeCouponType: 1,
+        storeCouponTitle: '',
+        storeCouponValue: '',
+        issueAmountType: 1, // 发行量的类型
+        maxIssueAmount: '',
+        useCondition: {
+          // 使用条件
+          type: 0
+        },
+        useRange: {
+          // 筛选商品
+          itemRangeType: 0, // 商品筛选类型（0不限 1包含指定商品 2排除指定商品 ）
+          shopRangeType: 0 // 门店指定类型（0不限 1仅限所选门店 2排除所选门店）
+        },
+        tradeCountValidType: 0, // 0表示不限
+        validTime: {
+          type: 0, // 可用时段类型（0全部时段 1部分时段）
+          endTime: '',
+          startTime: ''
+        },
+        invalidDate: {
+          type: 0, // 不可用日期类型（0不限制 1指定日期）
+          dayList: []
+        },
+        dateValidType: 0, // 固定时间
+        endDateTime: '',
+
+        maxIssueCount: 1, // 领券限制
+        remark: ''
+      }
+      this.dialogVisible = true
+    },
+    handleSelectionChange (val) {
+      this.multipleSelection = val
+    },
+    saveFun (formName) {
+      this.$refs[formName].validate(valid => {
+        if (valid) {
+          // 有效时间--固定
+          if (this.saveObj.dateValidType === 0) {
+            this.saveObj.startTime = moment(this.saveObj.couponTimeArr[0]).format('YYYY-MM-DD HH:mm:ss')
+            this.saveObj.endTime = moment(this.saveObj.couponTimeArr[1]).format('YYYY-MM-DD HH:mm:ss')
+          }
+          this.doSaveFun()
+        } else {
+          return false
+        }
+      })
+
+      // 回调刷新列表
+      // this.$props.callBack()
+    },
+    async doSaveFun () {
+      let that = this
+      if (this.saveObj.validTime.type === 1) {
+        // 部分时段可用
+        this.saveObj.validTime.startTime = moment(this.validTimeArr[0]).format(
+          'HH:mm:ss'
+        )
+        this.saveObj.validTime.endTime = moment(this.validTimeArr[1]).format(
+          'HH:mm:ss'
+        )
+      }
+      // 不可用日期
+      if (this.invalidDateList.length > 0) {
+        this.saveObj.invalidDate.dayList = []
+        for (let i = 0, len = this.invalidDateList.length; i < len; i++) {
+          this.saveObj.invalidDate.dayList.push(
+            moment(this.invalidDateList[i]).format('YYYY-MM-DD')
+          )
+        }
+      }
+      // 若单数限制tradeCountValidType为0则
+      if (this.saveObj.tradeCountValidType === 0) {
+        this.saveObj.tradeCountValid = 0
+      }
+      if (this.saveObj.issueAmountType === 0) {
+        this.saveObj.maxIssueAmount = 0
+      }
+      if (this.saveObj.giftArr.length > 0) {
+        this.saveObj.giftJson = JSON.stringify(this.saveObj.giftArr)
+        // 特殊处理下，目前后端不方便调整
+        this.saveObj.storeCouponValue = 0
+      }
+      if (this.shopArr.length > 0) {
+        this.saveObj.useRange.shopJson = JSON.stringify(this.shopArr)
+      }
+      if (this.saveObj.goods.length > 0) {
+        this.saveObj.useRange.itemJson = JSON.stringify(this.saveObj.goods)
+      }
+      this.loading = true
+      await
+      this.$http.fetch(this.$api.coupon.storeCoupon.saveOrUpdateCoupon, this.saveObj).then(() => {
+        this.dialogVisible = false
+        // this.$refs.addForm.resetFields()
+        this.$props.callBack()
+      }).catch(resp => {
+        that.$notify.error(resp.msg)
+      })
+      this.loading = false
+    },
+    handleClose () {
+      this.dialogVisible = false
+      this.$refs.addForm.resetFields()
     }
+  },
+  components: {
+    NsGoodsSelect,
+    NsShopSelect
   }
+}
 </script>
 <style scoped>
   .fl {

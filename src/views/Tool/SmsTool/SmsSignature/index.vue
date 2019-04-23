@@ -51,10 +51,10 @@
   </div>
 </template>
 <script>
-  import index from './src/index'
-  import NsTableSmsSignature from './NsTableSmsSignature'
-  index.components = {
-    NsTableSmsSignature
-  }
-  export default index
+import index from './src/index'
+import NsTableSmsSignature from './NsTableSmsSignature'
+index.components = {
+  NsTableSmsSignature
+}
+export default index
 </script>

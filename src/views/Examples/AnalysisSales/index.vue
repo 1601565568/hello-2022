@@ -3,4 +3,3 @@
     AnalysisSales
   </div>
 </template>
-

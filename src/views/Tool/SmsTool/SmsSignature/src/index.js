@@ -1,6 +1,6 @@
 import formMixin from 'mixins/form'
 import ErrorCode from '@/config/errorCode'
-import apiRequestConfirm from 'utils/apiRequestConfirm'
+import apiRequestConfirm from 'web-crm/src/utils/apiRequestConfirm'
 // 校验规则
 var mixin = {
   data: function () {
@@ -18,7 +18,7 @@ var mixin = {
             trigger: ['blur', 'change']
           }, {
             validator: (rule, value, callback) => {
-              vue.$http.fetch(vue.$api.touch.smsSignature.hasSignatureExist, {id: vue.model.id ? vue.model.id : 0, signature_name: value})
+              vue.$http.fetch(vue.$api.touch.smsSignature.hasSignatureExist, { id: vue.model.id ? vue.model.id : 0, signature_name: value })
                 .then((resp) => {
                   if (resp.code === ErrorCode.TITLE_REPEAT) {
                     callback(new Error('此签名已存在，请重新输入'))
@@ -96,7 +96,7 @@ var mixin = {
     },
     getSmsSignatureInfo: function (data) {
       let that = this
-      let params = {id: data.id}
+      let params = { id: data.id }
       this.$http.fetch(this.$api.touch.smsSignature.queryById, params)
         .then((resp) => {
           that.setModel({
@@ -125,7 +125,7 @@ var mixin = {
         changeEffective = 0
       }
       apiRequestConfirm(info).then(() => {
-        that.$http.fetch(that.$api.touch.smsSignature.effectiveUpdate, {id: row.id, isEffective: changeEffective})
+        that.$http.fetch(that.$api.touch.smsSignature.effectiveUpdate, { id: row.id, isEffective: changeEffective })
           .then((resp) => {
             that.$notify.success(resp.msg)
             that.$refs.table.$reload()
@@ -147,7 +147,7 @@ var mixin = {
         changeDefault = 0
       }
       apiRequestConfirm(info).then(() => {
-        that.$http.fetch(that.$api.touch.smsSignature.defaultUpdate, {id: row.id, isDefault: changeDefault})
+        that.$http.fetch(that.$api.touch.smsSignature.defaultUpdate, { id: row.id, isDefault: changeDefault })
           .then((resp) => {
             that.$notify.success(resp.msg)
             that.$refs.table.$reload()
@@ -161,7 +161,7 @@ var mixin = {
   }
 }
 var vue
-export default{
+export default {
   mixins: [formMixin, mixin],
   data: function () {
     return {

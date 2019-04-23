@@ -25,41 +25,41 @@
 </template>
 
 <script>
-  var props = {
+var props = {
 
-    data: {
-      type: Array
-    },
-    label: {
-      type: String,
-      default: '下拉树'
-    },
-    placeholder: {
-      type: String,
-      default: '点击选择'
-    }
+  data: {
+    type: Array
+  },
+  label: {
+    type: String,
+    default: '下拉树'
+  },
+  placeholder: {
+    type: String,
+    default: '点击选择'
   }
+}
 
-  var methods = {
-    handleSelectValue (data) {
-      this.dropTreeVisible = false
-      this.dropTreeValue = data.label
-      this.$emit('input', this.dropTreeValue)
-    },
-    getText (format) {
-      return this.$refs.droptreeInput.getText(format)
+var methods = {
+  handleSelectValue (data) {
+    this.dropTreeVisible = false
+    this.dropTreeValue = data.label
+    this.$emit('input', this.dropTreeValue)
+  },
+  getText (format) {
+    return this.$refs.droptreeInput.getText(format)
+  }
+}
+export default {
+  name: 'NsSelectTree',
+  data: function () {
+    return {
+      dropTreeValue: '',
+      dropTreeVisible: false,
+      droptreeWidth: ''
     }
-  }
-  export default {
-    name: 'NsSelectTree',
-    data: function () {
-      return {
-        dropTreeValue: '',
-        dropTreeVisible: false,
-        droptreeWidth: ''
-      }
-    },
-    props: props,
-    methods: methods
-  }
+  },
+  props: props,
+  methods: methods
+}
 </script>

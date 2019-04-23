@@ -126,14 +126,14 @@
 </template>
 
 <script>
-  import index from './src/index'
-  import NsTableBrand from './NsTableBrand'
-  import NsDroptree from 'components/NsDroptree'
-  index.components = {
-    NsTableBrand,
-    NsDroptree
-  }
-  export default index
+import index from './src/index'
+import NsTableBrand from './NsTableBrand'
+import NsDroptree from 'components/NsDroptree'
+index.components = {
+  NsTableBrand,
+  NsDroptree
+}
+export default index
 </script>
 
 <style scoped>

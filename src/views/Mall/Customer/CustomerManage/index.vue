@@ -120,12 +120,12 @@
 </template>
 
 <script>
-  import GoodsTable from './table'
-  import index from './src/index'
-  import NsDroptree from 'components/NsDroptree'
+import GoodsTable from './table'
+import index from './src/index'
+import NsDroptree from 'components/NsDroptree'
 
-  index.components = {GoodsTable, NsDroptree}
-  export default index
+index.components = { GoodsTable, NsDroptree }
+export default index
 </script>
 
 <style scoped lang='scss'>

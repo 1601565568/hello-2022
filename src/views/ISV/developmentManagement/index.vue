@@ -85,7 +85,7 @@
                     @current-change="pageChange">
     </el-pagination>
     </template> -->
-    <!-- 分页-结束 --> 
+    <!-- 分页-结束 -->
   </ns-page-table>
     <el-dialog size="small" :title="titleText"
             :visible.sync="domainNameVisible"
@@ -106,13 +106,13 @@
         <ns-button @click="domainNameVisible = false">取消</ns-button>
         <ns-button type="primary" @click="onSave(model)">确定</ns-button>
       </div>
-    </el-dialog>          
+    </el-dialog>
   </div>
 </template>
 
 <script>
-  import guide from './src/index'
-  export default guide
+import guide from './src/index'
+export default guide
 </script>
 <style>
 .scope_row_count{

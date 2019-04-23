@@ -120,7 +120,7 @@
 </template>
 
 <script>
-  import NsTablePublic from './src/NsTablePublic'
+import NsTablePublic from './src/NsTablePublic'
 
-  export default NsTablePublic
+export default NsTablePublic
 </script>

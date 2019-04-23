@@ -56,16 +56,16 @@ export default {
     let model = Object.assign({}, findVo, {}, searchModel)
     let rules = {
       'title': [
-        {required: true, message: '请输入素材标题', trigger: 'blur'},
-        {min: 0, max: 20, message: '长度在20个字符以内', trigger: 'blur,change'}
+        { required: true, message: '请输入素材标题', trigger: 'blur' },
+        { min: 0, max: 20, message: '长度在20个字符以内', trigger: 'blur,change' }
       ],
       'content': [
-        {required: false, message: '请输入素材文案', trigger: 'blur'},
-        {min: 0, max: 50, message: '长度在50个字符以内', trigger: 'blur,change'}
+        { required: false, message: '请输入素材文案', trigger: 'blur' },
+        { min: 0, max: 50, message: '长度在50个字符以内', trigger: 'blur,change' }
       ],
       'url': [
-        {required: true, message: '请输入二维码链接', trigger: 'blur'},
-        {min: 0, max: 50, message: '长度在50个字符以内', trigger: 'blur,change'}
+        { required: true, message: '请输入二维码链接', trigger: 'blur' },
+        { min: 0, max: 50, message: '长度在50个字符以内', trigger: 'blur,change' }
       ]
     }
     let that = this
@@ -91,7 +91,7 @@ export default {
       transferWay: '1',
       brandId: null,
       dialogFormVisible_image: false, // 添加图文弹窗
-      dialogFormVisible_link: false,  // 添加链接弹窗
+      dialogFormVisible_link: false, // 添加链接弹窗
       dialogFormVisible_update: false, // 设置分组弹窗
       dialogFormVisible_edit: false, // 编辑素材弹窗
       resignFormVisible: false,
@@ -111,7 +111,7 @@ export default {
         quickSearchNames: quickSearchNames,
         quickSearchMap: {}
       },
-      _queryConfig: {expand: false}
+      _queryConfig: { expand: false }
     }
   },
 
@@ -427,7 +427,7 @@ export default {
         type: 'warning',
         cancelButtonText: '取消'
       }).then(() => {
-        that.$http.fetch(that.$api.guide.material.deleteMaterialById, {mId: mId})
+        that.$http.fetch(that.$api.guide.material.deleteMaterialById, { mId: mId })
           .then(resp => {
             that.$notify.success('删除成功' + resp.msg)
             that.$reload()

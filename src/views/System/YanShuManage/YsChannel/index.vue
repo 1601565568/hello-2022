@@ -62,11 +62,11 @@
   </div>
 </template>
 <script>
-  import index from './src/index'
-  import NsYsChannel from './NsYsChannel'
+import index from './src/index'
+import NsYsChannel from './NsYsChannel'
 
-  index.components = {
-    NsYsChannel
-  }
-  export default index
+index.components = {
+  NsYsChannel
+}
+export default index
 </script>

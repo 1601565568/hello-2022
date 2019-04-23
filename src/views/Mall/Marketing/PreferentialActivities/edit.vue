@@ -146,10 +146,6 @@
 
                   </div>
 
-
-
-
-
                 </template>
               </el-table-column>
 
@@ -212,14 +208,14 @@
 </template>
 
 <script>
-  import ActivityGoodsTable from './ActivityGoodsTable'
-  import SgGoodsSelect from '../../../Guide/components/SgGoodsSelect'
-  import ActivityShopTable from './ActivityShopTable'
-  import selectShops from '../../../Guide/components/selectShops'
-  import areaSelect from '../PreferentialActivities/components/areaSelect'
-  import edit from './src/edit'
-  edit.components = {ActivityGoodsTable, SgGoodsSelect, ActivityShopTable, selectShops, areaSelect}
-  export default edit
+import ActivityGoodsTable from './ActivityGoodsTable'
+import SgGoodsSelect from '../../../Guide/components/SgGoodsSelect'
+import ActivityShopTable from './ActivityShopTable'
+import selectShops from '../../../Guide/components/selectShops'
+import areaSelect from '../PreferentialActivities/components/areaSelect'
+import edit from './src/edit'
+edit.components = { ActivityGoodsTable, SgGoodsSelect, ActivityShopTable, selectShops, areaSelect }
+export default edit
 </script>
 
 <style scoped>

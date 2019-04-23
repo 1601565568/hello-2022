@@ -120,6 +120,6 @@
   </ns-page-table>
 </template>
 <script>
-  import NsYsConfigAddInfo from './src/NsYsAccount'
-  export default NsYsConfigAddInfo
+import NsYsConfigAddInfo from './src/NsYsAccount'
+export default NsYsConfigAddInfo
 </script>

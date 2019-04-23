@@ -163,7 +163,7 @@
 </template>
 
 <script>
-  import DefaultTable from './src/DefaultTable'
+import DefaultTable from './src/DefaultTable'
 
-  export default DefaultTable
+export default DefaultTable
 </script>

@@ -83,7 +83,7 @@
   </ns-page-table>
 </template>
 <script>
-  import NsTableReviewTemplate from './src/NsTableReviewTemplate'
+import NsTableReviewTemplate from './src/NsTableReviewTemplate'
 
-  export default NsTableReviewTemplate
+export default NsTableReviewTemplate
 </script>

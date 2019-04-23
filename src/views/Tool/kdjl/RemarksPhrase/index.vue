@@ -46,12 +46,12 @@
 </template>
 
 <script>
-  import index from './src/index'
-  import NsTablePrivate from './RemarksPhrasePrivate/NsTablePrivate'
-  import NsTablePublic from './RemarksPhrasePublic/NsTablePublic'
-  index.components = {
-    NsTablePrivate,
-    NsTablePublic
-  }
-  export default index
+import index from './src/index'
+import NsTablePrivate from './RemarksPhrasePrivate/NsTablePrivate'
+import NsTablePublic from './RemarksPhrasePublic/NsTablePublic'
+index.components = {
+  NsTablePrivate,
+  NsTablePublic
+}
+export default index
 </script>

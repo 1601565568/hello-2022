@@ -55,8 +55,8 @@ export default {
   },
   mounted: function () {
     vm.$http.fetch(vm.$api.core.common.queryPlatForm)
-    .then((resp) => {
-      vm.platForm = resp.result
-    })
+      .then((resp) => {
+        vm.platForm = resp.result
+      })
   }
 }

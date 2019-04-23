@@ -38,11 +38,11 @@
   </div>
 </template>
 <script>
-  import index from './src/index'
-  import NsTableEmailSendLogs from './NsTableEmailSendLogs'
+import index from './src/index'
+import NsTableEmailSendLogs from './NsTableEmailSendLogs'
 
-  index.components = {
-    NsTableEmailSendLogs
-  }
-  export default index
+index.components = {
+  NsTableEmailSendLogs
+}
+export default index
 </script>

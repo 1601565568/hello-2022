@@ -15,22 +15,22 @@
 </template>
 
 <script>
-    import focus from '@/directives/modules/focus'
+import focus from '@/directives/modules/focus'
 
-    import capitalize from '@/filters/modules/capitalize'
+import capitalize from '@/filters/modules/capitalize'
 
-    export default {
-      name: 'directive-test',
-      directives: {
-        focus
-      },
-      filters: {
-        capitalize
-      },
-      data () {
-        return {
-          n: 'hello'
-        }
-      }
+export default {
+  name: 'directive-test',
+  directives: {
+    focus
+  },
+  filters: {
+    capitalize
+  },
+  data () {
+    return {
+      n: 'hello'
     }
+  }
+}
 </script>

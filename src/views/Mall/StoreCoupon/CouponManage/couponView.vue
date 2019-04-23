@@ -52,7 +52,6 @@
                         </span>
                     </td>
 
-
                     <td style="width:50%">
 
                          <span class="w80">发行量:</span>
@@ -184,61 +183,61 @@
   </div>
 </template>
 <script>
-  import listPageMixin from 'mixins/listPage'
-  export default {
-    mixins: [listPageMixin],
-    data () {
-      return {
-        loading: false, // 防重复提交
-        viewObj: {
-          invalidDate: {},
-          validTime: {},
-          useRange: {}// 范围
-        },
-        shopArr: [], // 指定店铺
-        giftArr: [], // 兑换商品
-        goodsArr: [], // 指定商品
-        dialogVisible: false
+import listPageMixin from 'mixins/listPage'
+export default {
+  mixins: [listPageMixin],
+  data () {
+    return {
+      loading: false, // 防重复提交
+      viewObj: {
+        invalidDate: {},
+        validTime: {},
+        useRange: {}// 范围
+      },
+      shopArr: [], // 指定店铺
+      giftArr: [], // 兑换商品
+      goodsArr: [], // 指定商品
+      dialogVisible: false
 
+    }
+  },
+  created: function () {
+    // this.searchObj.searchMap.id = 81
+    // this.loadListFun()
+  },
+  methods: {
+    onAreaChange (e) {
+      console.log(e)
+    },
+    showToggle (obj) {
+      this.viewObj = obj
+      this.dialogVisible = true
+      // 有指定店铺string转数组
+      if (obj.useRange.shopRangeType !== 0) {
+        var jsonObj = JSON.parse(obj.useRange.shopJson)
+        this.shopArr = jsonObj
+      }
+      // 有指定商品string转数组
+      if (obj.useRange.itemRangeType !== 0) {
+        var jsonGoodsObj = JSON.parse(obj.useRange.itemJson)
+        this.goodsArr = jsonGoodsObj
+      }
+      // 有指定礼品string转数组
+      if (obj.giftJson) {
+        var jsonGiftObj = JSON.parse(obj.giftJson)
+        this.giftArr = jsonGiftObj
       }
     },
-    created: function () {
-      // this.searchObj.searchMap.id = 81
-      // this.loadListFun()
+    handleSelectionChange (val) {
+      console.log(val)
+      this.multipleSelection = val
     },
-    methods: {
-      onAreaChange (e) {
-        console.log(e)
-      },
-      showToggle (obj) {
-        this.viewObj = obj
-        this.dialogVisible = true
-        // 有指定店铺string转数组
-        if (obj.useRange.shopRangeType !== 0) {
-          var jsonObj = JSON.parse(obj.useRange.shopJson)
-          this.shopArr = jsonObj
-        }
-        // 有指定商品string转数组
-        if (obj.useRange.itemRangeType !== 0) {
-          var jsonGoodsObj = JSON.parse(obj.useRange.itemJson)
-          this.goodsArr = jsonGoodsObj
-        }
-        // 有指定礼品string转数组
-        if (obj.giftJson) {
-          var jsonGiftObj = JSON.parse(obj.giftJson)
-          this.giftArr = jsonGiftObj
-        }
-      },
-      handleSelectionChange (val) {
-        console.log(val)
-        this.multipleSelection = val
-      },
-      handleClose () {
-        console.log('handleClose')
-        this.dialogVisible = false
-      }
+    handleClose () {
+      console.log('handleClose')
+      this.dialogVisible = false
     }
   }
+}
 </script>
 <style scoped>
 .w80{width: 76px;text-align: right; display: inline-block;}

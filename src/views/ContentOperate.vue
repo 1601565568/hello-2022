@@ -7,12 +7,12 @@
   </div>
 </template>
 <script>
-  import MenuLeft from 'components/layout/OperateMenuLeft'
-  export default {
-    components: {
-      MenuLeft
-    }
+import MenuLeft from 'components/layout/OperateMenuLeft'
+export default {
+  components: {
+    MenuLeft
   }
+}
 </script>
 
 <style scoped>

@@ -15,7 +15,6 @@
           </el-form-grid>
         </el-form-item>
 
-
         <el-form-item label="账号密码：" required>
           <el-form-grid size="xmd">
             <el-form-item  prop = "password"  >
@@ -380,15 +379,15 @@
   </div>
 </template>
 <script>
-  import index from './src/index'
-  import NsYsAccount from './NsYsAccount'
-  import VueUeditorWrap from 'vue-ueditor-wrap'
+import index from './src/index'
+import NsYsAccount from './NsYsAccount'
+import VueUeditorWrap from 'vue-ueditor-wrap'
 
-  index.components = {
-    VueUeditorWrap,
-    NsYsAccount
-  }
-  export default index
+index.components = {
+  VueUeditorWrap,
+  NsYsAccount
+}
+export default index
 </script>
 
 <style scoped>

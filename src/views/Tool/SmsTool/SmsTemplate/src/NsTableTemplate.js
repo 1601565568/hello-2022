@@ -1,5 +1,5 @@
 import tableMixin from 'mixins/table'
-import apiRequestConfirm from 'utils/apiRequestConfirm'
+import apiRequestConfirm from 'web-crm/src/utils/apiRequestConfirm'
 export default {
   name: 'NsTableTemplate',
   mixins: [tableMixin],
@@ -28,16 +28,16 @@ export default {
         'func': function (obj) {
           var that = this
           apiRequestConfirm('删除该模板').then(() => {
-            that.$http.fetch(that.$api.touch.smsTemplate.deleteById, {id: obj.row.id})
-            .then((resp) => {
-              that.$notify.success('删除成功')
-              delete that.model.id
-              that.$parent.$refs.smsTemplate.$reload()
-            }).catch(() => {
-            }).finally(() => {
-              that.loading = false
-              that.wxTemplateVisible = true
-            })
+            that.$http.fetch(that.$api.touch.smsTemplate.deleteById, { id: obj.row.id })
+              .then((resp) => {
+                that.$notify.success('删除成功')
+                delete that.model.id
+                that.$parent.$refs.smsTemplate.$reload()
+              }).catch(() => {
+              }).finally(() => {
+                that.loading = false
+                that.wxTemplateVisible = true
+              })
           }).catch(() => {})
         },
         'icon': '$.noop',
@@ -105,7 +105,7 @@ export default {
     }]
     var quickSearchNames = quickInput.map(x => x.name)
     var quickSearchModel = {}
-    var model = Object.assign({}, {'templateType': '', 'templateTitle': ''}, {})
+    var model = Object.assign({}, { 'templateType': '', 'templateTitle': '' }, {})
 
     return {
       model: model,

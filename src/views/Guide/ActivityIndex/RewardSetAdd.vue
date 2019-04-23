@@ -72,8 +72,6 @@
         </el-form-item>元;
       </div> -->
 
-
-
     </el-form>
     </div>
     <span slot="footer" class="dialog-footer">
@@ -108,11 +106,11 @@ export default {
         list: []
       },
       rules: {
-        onlineSalesRewardOrder: [{validator: checkNumber, trigger: 'blur'}],
-        onlineSalesRewardExclusive: [{validator: checkNumber, trigger: 'blur'}],
-        salesRewardOrder: [{validator: checkNumber, trigger: 'blur'}],
-        salesRewardExclusive: [{validator: checkNumber, trigger: 'blur'}],
-        memberReward: [{validator: checkNumber, trigger: 'blur'}]
+        onlineSalesRewardOrder: [{ validator: checkNumber, trigger: 'blur' }],
+        onlineSalesRewardExclusive: [{ validator: checkNumber, trigger: 'blur' }],
+        salesRewardOrder: [{ validator: checkNumber, trigger: 'blur' }],
+        salesRewardExclusive: [{ validator: checkNumber, trigger: 'blur' }],
+        memberReward: [{ validator: checkNumber, trigger: 'blur' }]
       },
       title: '',
       curMonth: 5,
@@ -150,16 +148,16 @@ export default {
             })
           })
           this.$http.fetch(this.$api.guide.guide.rewardruleSave, this.saveObj)
-                     .then(resp => {
-                       this.loading = false
-                       this.handleClose()
-            // 回调刷新列表
-                       this.$props.callBack()
-                     })
-                     .catch(resp => {
-                       this.loading = false
-                       this.$notify.error(resp.msg)
-                     })
+            .then(resp => {
+              this.loading = false
+              this.handleClose()
+              // 回调刷新列表
+              this.$props.callBack()
+            })
+            .catch(resp => {
+              this.loading = false
+              this.$notify.error(resp.msg)
+            })
         }
       })
     },

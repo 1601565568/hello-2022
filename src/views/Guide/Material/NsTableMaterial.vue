@@ -369,9 +369,9 @@
 </template>
 
 <script>
-  import Material from './src/Material'
+import Material from './src/Material'
 
-  export default Material
+export default Material
 </script>
 <style scoped>
   .rewardRuleBorder {

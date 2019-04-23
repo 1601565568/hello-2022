@@ -24,107 +24,103 @@
   </div>
 </template>
 <script>
-  export default {
-    data () {
-      return {
-        data: [{
-          id: 1,
-          label: '一级 1',
-          keyWord: 'icon-wenjianjia',
-          children: [{
-            label: '二级 1-1',
-            keyWord: 'icon-yonghu2'
-          }]
+export default {
+  data () {
+    return {
+      data: [{
+        id: 1,
+        label: '一级 1',
+        keyWord: 'icon-wenjianjia',
+        children: [{
+          label: '二级 1-1',
+          keyWord: 'icon-yonghu2'
+        }]
+      }, {
+        id: 2,
+        label: '一级 2',
+        keyWord: 'icon-wenjianjia',
+        children: [{
+          label: '二级 2-1',
+          keyWord: 'icon-yonghu1'
         }, {
-          id: 2,
-          label: '一级 2',
-          keyWord: 'icon-wenjianjia',
-          children: [{
-            label: '二级 2-1',
-            keyWord: 'icon-yonghu1'
-          }, {
-            label: '二级 2-2',
-            keyWord: 'icon-yonghu1'
-          }]
+          label: '二级 2-2',
+          keyWord: 'icon-yonghu1'
+        }]
+      }, {
+        id: 3,
+        label: '一级 3',
+        keyWord: 'icon-wenjianjia',
+        children: [{
+          label: '二级 3-1',
+          keyWord: 'icon-yonghu1'
         }, {
-          id: 3,
-          label: '一级 3',
-          keyWord: 'icon-wenjianjia',
+          label: '二级 3-2',
+          keyWord: 'icon-yonghu1'
+        }]
+      }],
+      defaultProps: {
+        children: 'children',
+        label: 'label'
+      },
+      data1: [{
+        id: 1,
+        label: '一级 1',
+        children: [{
+          id: 11,
+          label: '二级 1-1',
           children: [{
-            label: '二级 3-1',
-            keyWord: 'icon-yonghu1'
-          }, {
-            label: '二级 3-2',
-            keyWord: 'icon-yonghu1'
-          }]
-        }],
-        defaultProps: {
-          children: 'children',
-          label: 'label'
-        },
-        data1: [{
-          id: 1,
-          label: '一级 1',
-          children: [{
-            id: 11,
+            id: 111,
             label: '二级 1-1',
             children: [{
-              id: 111,
+              id: 1111,
               label: '二级 1-1',
               children: [{
-                id: 1111,
-                label: '二级 1-1',
-                children: [{
-                  id: 11111,
-                  label: '二级 1-1'
-                }]
+                id: 11111,
+                label: '二级 1-1'
               }]
             }]
           }]
+        }]
+      }, {
+        id: 2,
+        label: '一级 2',
+        children: [{
+          id: 21,
+          label: '二级 2-1'
         }, {
-          id: 2,
-          label: '一级 2',
-          children: [{
-            id: 21,
-            label: '二级 2-1'
-          }, {
-            id: 22,
-            label: '二级 2-2'
-          }]
+          id: 22,
+          label: '二级 2-2'
+        }]
+      }, {
+        id: 3,
+        label: '一级 3',
+        children: [{
+          id: 31,
+          label: '二级 3-1'
         }, {
-          id: 3,
-          label: '一级 3',
-          children: [{
-            id: 31,
-            label: '二级 3-1'
-          }, {
-            id: 32,
-            label: '二级 3-2'
-          }]
-        }],
-        checkedNode: ''
-      }
-    },
-    methods: {
-      handleNodeClick (data) {
-        console.log(data)
-      },
-      handleNodeClickStrictly (data) {
-        this.checkedNode = this.$refs.strictlyTree.getCheckedNodes()
-      }
-    },
-    created () {
-    },
-    mounted () {
+          id: 32,
+          label: '二级 3-2'
+        }]
+      }],
+      checkedNode: ''
     }
+  },
+  methods: {
+    handleNodeClick (data) {
+      console.log(data)
+    },
+    handleNodeClickStrictly (data) {
+      this.checkedNode = this.$refs.strictlyTree.getCheckedNodes()
+    }
+  },
+  created () {
+  },
+  mounted () {
   }
+}
 </script>
 
 <style scoped>
   @import "../../style/small/variables.pcss";
-
-
-
-
 
 </style>

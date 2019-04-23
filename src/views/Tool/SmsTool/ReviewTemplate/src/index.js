@@ -23,7 +23,7 @@ var mixin = {
               if (typeof (that.model.id) !== 'undefined') {
                 id = that.model.id
               }
-              this.$http.fetch(that.$api.touch.reviewTemplate.hasTitleExist, {id: id, templateTitle: that.model.template_title, templateType: 9// 回评模板
+              this.$http.fetch(that.$api.touch.reviewTemplate.hasTitleExist, { id: id, templateTitle: that.model.template_title, templateType: 9// 回评模板
               }).then((resp) => {
                 if (resp.code === ErrorCode.TITLE_REPEAT) {
                   callback(new Error('此模板已存在，请重新输入'))
@@ -59,7 +59,7 @@ var mixin = {
       this.dialogTitle = title
       this.saveType = type
       if (this.saveType === 'edit') {
-        this.$http.fetch(this.$api.touch.reviewTemplate.queryById, {id: data.id})
+        this.$http.fetch(this.$api.touch.reviewTemplate.queryById, { id: data.id })
           .then((resp) => {
             var model = {}
             model.template_title = resp.result.template_title
@@ -133,7 +133,7 @@ export default {
   },
   mixins: [mixin, formMixin],
   created: function () {
-   // vue = this
+    // vue = this
   },
   mounted: function () {
   }

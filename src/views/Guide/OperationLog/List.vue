@@ -40,12 +40,12 @@
 </template>
 
 <script>
-  import List from './src/List'
-  import NsTableGuide from './NsTableGuide'
-  List.components = {
-    NsTableGuide
-  }
-  export default List
+import List from './src/List'
+import NsTableGuide from './NsTableGuide'
+List.components = {
+  NsTableGuide
+}
+export default List
 </script>
 <style scoped>
   .kehuBox-main-top {
@@ -76,4 +76,3 @@
     padding:3px;
   }
 </style>
-

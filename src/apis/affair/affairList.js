@@ -19,7 +19,7 @@ export default {
     url: '/affair/affairlist/queryAffairTypeOption',
     method: 'post'
   },
-/*  getCountAffairList: {
+  /*  getCountAffairList: {
     url: '/affair/affairlist/getCountAffairList',
     method: 'post'
   }, */

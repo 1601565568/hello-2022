@@ -83,8 +83,8 @@ export default {
             radius: '50%',
             center: ['50%', '50%'],
             data: [
-              {value: 335, name: '主动评价'},
-              {value: 310, name: '自动评价'}
+              { value: 335, name: '主动评价' },
+              { value: 310, name: '自动评价' }
             ],
             itemStyle: {
               emphasis: {

@@ -160,6 +160,6 @@
   </ns-page-table>
 </template>
 <script>
-  import NsTableSmsSignature from './src/NsTableSmsSignature'
-  export default NsTableSmsSignature
+import NsTableSmsSignature from './src/NsTableSmsSignature'
+export default NsTableSmsSignature
 </script>

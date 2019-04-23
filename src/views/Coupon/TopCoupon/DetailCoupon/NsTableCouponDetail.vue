@@ -102,7 +102,7 @@
 </template>
 
 <script>
-  import NsTableCouponDetail from './src/NsTableCouponDetail'
+import NsTableCouponDetail from './src/NsTableCouponDetail'
 
-  export default NsTableCouponDetail
+export default NsTableCouponDetail
 </script>

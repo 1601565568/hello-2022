@@ -129,7 +129,7 @@
 </template>
 
 <script>
-  import NsTableWxAccount from './src/NsTableWxAccount'
+import NsTableWxAccount from './src/NsTableWxAccount'
 
-  export default NsTableWxAccount
+export default NsTableWxAccount
 </script>

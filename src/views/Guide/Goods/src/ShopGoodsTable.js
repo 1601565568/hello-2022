@@ -1,5 +1,5 @@
 import tableMixin from 'mixins/table'
-import apiRequestConfirm from 'utils/apiRequestConfirm'
+import apiRequestConfirm from 'web-crm/src/utils/apiRequestConfirm'
 export default {
   name: 'ShopGoodsTable',
   mixins: [tableMixin],
@@ -32,7 +32,7 @@ export default {
         'name': '编辑'
       }
     ]
-    let quickInput = [{'name': 'title'}]
+    let quickInput = [{ 'name': 'title' }]
     let quickSearchNames = quickInput.map(x => x.name)
     let quickSearchModel = {}
     let model = Object.assign({},
@@ -122,13 +122,13 @@ export default {
       }
       apiRequestConfirm(info).then(() => {
         that.$http.fetch(this.$api.guide.goods.updateGoodsShopStatus,
-          {shop_id: that.shopId, sys_item_id: row.sys_item_id, status: status})
-        .then(() => {
-          that.$reload()
-          call()
-        }).catch((resp) => {
-          that.$message.error(resp.msg || '状态更新失败，请重试')
-        })
+          { shop_id: that.shopId, sys_item_id: row.sys_item_id, status: status })
+          .then(() => {
+            that.$reload()
+            call()
+          }).catch((resp) => {
+            that.$message.error(resp.msg || '状态更新失败，请重试')
+          })
       }).catch(() => {})
     },
     /**
@@ -136,7 +136,7 @@ export default {
      */
     findShopList: function () {
       const that = this
-      that.$http.fetch(that.$api.guide.shop.findBrandShopList, {isOnline: 0}).then((resp) => {
+      that.$http.fetch(that.$api.guide.shop.findBrandShopList, { isOnline: 0 }).then((resp) => {
         that.shopList = resp.result
         if (that.shopList && that.shopList.length > 0) {
           that.shopId = that.shopList[0].id
@@ -174,13 +174,13 @@ export default {
       apiRequestConfirm('删除门店商品').then(() => {
         let sysItemIds = data.map(item => item.sys_item_id).join()
         that.$http.fetch(this.$api.guide.goods.deleteShopGoods,
-          {shop_id: that.shopId, sys_item_ids: sysItemIds})
-        .then(() => {
-          that.$message.success('删除成功')
-          that.$reload()
-        }).catch((resp) => {
-          that.$message.error(resp.msg || '删除失败，请重试')
-        })
+          { shop_id: that.shopId, sys_item_ids: sysItemIds })
+          .then(() => {
+            that.$message.success('删除成功')
+            that.$reload()
+          }).catch((resp) => {
+            that.$message.error(resp.msg || '删除失败，请重试')
+          })
       }).catch(() => {})
     },
     /**

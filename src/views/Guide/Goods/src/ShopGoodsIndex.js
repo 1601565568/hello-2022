@@ -4,7 +4,7 @@ export default {
   mixins: [formMixin],
   data: function () {
     let rules = {
-      'sales_price': [{required: true, message: '请输入售价'}, {
+      'sales_price': [{ required: true, message: '请输入售价' }, {
         validator: (rule, value, callback) => {
           if (!/^([-+]?\d{1,14})(\.\d{1,2})?$/.test(value)) {
             callback(new Error('售价必须14位整数以内且最多2位小数'))
@@ -14,7 +14,7 @@ export default {
         },
         trigger: 'blur'
       }],
-      'stock': [{required: true, message: '请输入库存'}, {
+      'stock': [{ required: true, message: '请输入库存' }, {
         validator: (rule, value, callback) => {
           if (!/^([-+]?\d{1,14})(\.\d{1,2})?$/.test(value)) {
             callback(new Error('库存必须14位整数以内且最多2位小数'))
@@ -25,7 +25,7 @@ export default {
         trigger: 'blur'
       }],
       // 分类名称
-      'name': [{required: true, message: '请输入分类名称', trigger: ['blur']},
+      'name': [{ required: true, message: '请输入分类名称', trigger: ['blur'] },
         {
           min: 1,
           max: 20,
@@ -86,7 +86,7 @@ export default {
       for (let i = 0; i < that.goodsInfo.length; i++) {
         goodsArr.push(that.goodsInfo[i].sys_item_id)
       }
-      this.$http.fetch(this.$api.guide.goods.saveShopGoods, {list: goodsArr, shop_id: that.shopId}).then(() => {
+      this.$http.fetch(this.$api.guide.goods.saveShopGoods, { list: goodsArr, shop_id: that.shopId }).then(() => {
         that.$refs.table.$reload()
         that.$notify.success('新增成功')
       }).catch((resp) => {
@@ -111,7 +111,7 @@ export default {
       that.width = '450px'
       if (that.formData.skuCount > 0) {
         that.width = '800px'
-        that.$http.fetch(that.$api.guide.goods.findSkuList, {shop_id: that.shopId, sys_item_id: row.sys_item_id}).then((resp) => {
+        that.$http.fetch(that.$api.guide.goods.findSkuList, { shop_id: that.shopId, sys_item_id: row.sys_item_id }).then((resp) => {
           that.skuList = resp.result
         }).catch(() => {
           that.$notify.error('商品sku查询失败')

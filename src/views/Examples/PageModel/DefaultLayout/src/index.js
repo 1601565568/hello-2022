@@ -22,9 +22,9 @@ export default {
         marketingManner: 0
       },
       rules: {
-        smsTemplateId: [{required: true, message: '请选择', trigger: 'change'}],
-        smsSignature: [{required: true, message: '请选择', trigger: 'change'}],
-        smsContent: [{required: true, message: '请输入短信内容', trigger: 'change'}]
+        smsTemplateId: [{ required: true, message: '请选择', trigger: 'change' }],
+        smsSignature: [{ required: true, message: '请选择', trigger: 'change' }],
+        smsContent: [{ required: true, message: '请输入短信内容', trigger: 'change' }]
       }
     }
   },
@@ -35,10 +35,10 @@ export default {
     // 查询短信占位符
     querySmsPlaceholder: function () {
       let that = this
-      this.$http.fetch(this.$api.core.common.querySmsPlaceholder, {type: 'sms'})
-      .then((resp) => {
-        that.tags = resp.result ? resp.result : {}
-      })
+      this.$http.fetch(this.$api.core.common.querySmsPlaceholder, { type: 'sms' })
+        .then((resp) => {
+          that.tags = resp.result ? resp.result : {}
+        })
     },
     onTrackOpen (obj) {
       vm.tradeVisible = true
@@ -52,8 +52,8 @@ export default {
       vm.$refs.form.validate((valid) => {
         if (valid) {
           vm.$http.fetch(vm.$api.database.customer.sendSms
-            , {'mobiles': vm.model.mobiles, 'smsContent': vm.model.smsContent})
-          .then((resp) => {}).catch((resp) => {})
+            , { 'mobiles': vm.model.mobiles, 'smsContent': vm.model.smsContent })
+            .then((resp) => {}).catch((resp) => {})
         } else {
           return false
         }
@@ -118,37 +118,37 @@ export default {
       param.append('file', file.file)
       that.$http.fetch(this.$api.database.black.importBlack
         , param)
-      .then((resp) => {
-        if (resp.code === ErrorCode.SUBMIT_FAIL) {
-          that.$message({
-            message: '文件上传失败！',
-            type: 'warning'
-          })
-          return false
-        } else {
-          this.$message({
-            message: resp.msg,
-            type: 'success'
-          })
-          that.importVisible = false
-          that.$refs.file.clearFiles()
-        }
-      }).catch((resp) => {})
+        .then((resp) => {
+          if (resp.code === ErrorCode.SUBMIT_FAIL) {
+            that.$message({
+              message: '文件上传失败！',
+              type: 'warning'
+            })
+            return false
+          } else {
+            this.$message({
+              message: resp.msg,
+              type: 'success'
+            })
+            that.importVisible = false
+            that.$refs.file.clearFiles()
+          }
+        }).catch((resp) => {})
     },
     importKdtouchblack: function () {
       this.importVisible = true
     },
     downloadFile: function () {
       this.$http.fetch(this.$api.database.black.download)
-      .then((resp) => {}).catch((resp) => {
-        let url = window.URL.createObjectURL(new Blob([resp]))
-        let link = document.createElement('a')
-        link.style.display = 'none'
-        link.href = url
-        link.setAttribute('download', '黑名单模板.xlsx')
-        document.body.appendChild(link)
-        link.click()
-      })
+        .then((resp) => {}).catch((resp) => {
+          let url = window.URL.createObjectURL(new Blob([resp]))
+          let link = document.createElement('a')
+          link.style.display = 'none'
+          link.href = url
+          link.setAttribute('download', '黑名单模板.xlsx')
+          document.body.appendChild(link)
+          link.click()
+        })
     }
   },
   watch: {

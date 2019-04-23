@@ -174,6 +174,6 @@
   </ns-page-table>
 </template>
 <script>
-  import NsYsChannel from './src/NsYsChannel'
-  export default NsYsChannel
+import NsYsChannel from './src/NsYsChannel'
+export default NsYsChannel
 </script>

@@ -1,4 +1,4 @@
-import isAuthorize from 'utils/isAuthorize'
+import isAuthorize from 'web-crm/src/utils/isAuthorize'
 
 function createDropItems (createElement, context, btnOpts) {
   var dropMenu = btnOpts.map((item, index, arr) => {
@@ -20,10 +20,10 @@ function createDropItems (createElement, context, btnOpts) {
     props: {
       'type': 'primary'
     }
-  }, ['更多菜单', createElement('i', {'class': 'el-icon-caret-bottom el-icon--right'})]) /* 更多 */,
-    createElement('el-dropdown-menu', {
-      'slot': 'dropdown'
-    }, dropMenu) /* 下拉选项 */
+  }, ['更多菜单', createElement('i', { 'class': 'el-icon-caret-bottom el-icon--right' })]) /* 更多 */,
+  createElement('el-dropdown-menu', {
+    'slot': 'dropdown'
+  }, dropMenu) /* 下拉选项 */
   ])])
   return dropWrapper
 }

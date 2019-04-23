@@ -18,55 +18,55 @@
 </template>
 
 <script>
-  export default {
-    name: 'BusToggles',
-    data () {
-      return {
-        isExpanded: false,
-        isOverflow: false,
-        hovering: false
-      }
-    },
-    props: {
-      maxHeight: {
-        type: Number,
-        default: 180
-      }
-    },
-    computed: {
-      // 选择商品 列表展开收缩切换结构 状态值
-      toggleIconClass () {
-        return this.isExpanded ? 'el-icon-caret-top' : 'el-icon-caret-bottom'
-      },
-      controlText () {
-        return this.isExpanded ? '收缩' : '展开'
-      }
-      // 选择商品 列表展开收缩切换结构 状态值/end
-    },
-    methods: {
-      showToggleModel () {
-        if (this.$refs.toggleContent.clientHeight > this.maxHeight || this.$refs.toggleContent.clientHeight === 0) {
-          // 设置内容区域高度超出隐藏
-          this.$refs.toggleContent.style.overflow = 'hidden'
-          this.$refs.toggleContent.style.maxHeight = this.maxHeight + 'px'
-          // 显示底部
-          this.isOverflow = true
-        }
-      },
-      handleToggleFooter () {
-        this.isExpanded = !this.isExpanded
-        if (this.isExpanded) {
-          this.$refs.toggleContent.removeAttribute('style')
-        } else {
-          this.$refs.toggleContent.style.overflow = 'hidden'
-          this.$refs.toggleContent.style.maxHeight = this.maxHeight + 'px'
-        }
-      }
-    },
-    mounted () {
-      this.showToggleModel()
+export default {
+  name: 'BusToggles',
+  data () {
+    return {
+      isExpanded: false,
+      isOverflow: false,
+      hovering: false
     }
+  },
+  props: {
+    maxHeight: {
+      type: Number,
+      default: 180
+    }
+  },
+  computed: {
+    // 选择商品 列表展开收缩切换结构 状态值
+    toggleIconClass () {
+      return this.isExpanded ? 'el-icon-caret-top' : 'el-icon-caret-bottom'
+    },
+    controlText () {
+      return this.isExpanded ? '收缩' : '展开'
+    }
+    // 选择商品 列表展开收缩切换结构 状态值/end
+  },
+  methods: {
+    showToggleModel () {
+      if (this.$refs.toggleContent.clientHeight > this.maxHeight || this.$refs.toggleContent.clientHeight === 0) {
+        // 设置内容区域高度超出隐藏
+        this.$refs.toggleContent.style.overflow = 'hidden'
+        this.$refs.toggleContent.style.maxHeight = this.maxHeight + 'px'
+        // 显示底部
+        this.isOverflow = true
+      }
+    },
+    handleToggleFooter () {
+      this.isExpanded = !this.isExpanded
+      if (this.isExpanded) {
+        this.$refs.toggleContent.removeAttribute('style')
+      } else {
+        this.$refs.toggleContent.style.overflow = 'hidden'
+        this.$refs.toggleContent.style.maxHeight = this.maxHeight + 'px'
+      }
+    }
+  },
+  mounted () {
+    this.showToggleModel()
   }
+}
 </script>
 
 <style scoped>

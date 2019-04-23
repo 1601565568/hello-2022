@@ -47,10 +47,10 @@
 </template>
 
 <script>
-  import index from './src/index'
-  import NsTableWxAccount from './NsTableWxAccount'
-  index.components = {
-    NsTableWxAccount
-  }
-  export default index
+import index from './src/index'
+import NsTableWxAccount from './NsTableWxAccount'
+index.components = {
+  NsTableWxAccount
+}
+export default index
 </script>

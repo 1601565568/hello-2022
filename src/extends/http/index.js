@@ -2,6 +2,7 @@ import axios from 'axios'
 import store from 'store/dist/store.legacy.min.js'
 import Callback from './callback'
 import api from '@/config/http'
+import * as Sentry from '@sentry/browser'
 
 /**
  * 实例Axios
@@ -55,6 +56,12 @@ export default {
             api.callback.call(this, res, resolve, reject)
           }
         }).catch((err) => {
+          if (process.env.VUE_APP_SENTRY_SWITCH === 'true') {
+            Sentry.withScope((scope) => {
+              scope.setTag('http', 'catch')
+              Sentry.captureException(err)
+            })
+          }
           cb.requestErrorCallback(err).then(resolve).catch(reject)
         })
       }

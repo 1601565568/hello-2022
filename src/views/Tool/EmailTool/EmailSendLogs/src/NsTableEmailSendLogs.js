@@ -101,7 +101,7 @@ export default {
         quickSearchNames: quickSearchNames,
         quickSearchMap: {}
       },
-      _queryConfig: {expand: false}
+      _queryConfig: { expand: false }
     }
   },
   mounted: function () {

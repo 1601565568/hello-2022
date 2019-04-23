@@ -5,12 +5,12 @@
 </template>
 
 <script>
-  import index from './src/index'
-  import NsTableExportLog from './NsTableExportLog'
-  index.components = {
-    NsTableExportLog
-  }
-  export default index
+import index from './src/index'
+import NsTableExportLog from './NsTableExportLog'
+index.components = {
+  NsTableExportLog
+}
+export default index
 </script>
 
 <style scoped>

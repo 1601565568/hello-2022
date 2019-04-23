@@ -280,7 +280,6 @@
       </el-dialog>
       <!--        奖励弹窗结束        -->
 
-
       <!--        提成弹窗开始        -->
       <el-dialog :title="title" :visible.sync="showSellDialogVisible" width="800px" :before-close="onCancleSellDialog" :vetically=true>
         <!-- 高级搜索 -->

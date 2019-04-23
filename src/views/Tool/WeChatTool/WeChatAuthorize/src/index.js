@@ -20,7 +20,7 @@ var mixin = {
           },
           {
             validator: (rule, value, callback) => {
-              vue.$http.fetch(vue.$api.touch.wxAccount.hasNameExist, {id: vue.model.id, name: value})
+              vue.$http.fetch(vue.$api.touch.wxAccount.hasNameExist, { id: vue.model.id, name: value })
                 .then((resp) => {
                   if (resp.code === ErrorCode.TITLE_REPEAT) {
                     callback(new Error('此公众号已存在，请重新输入'))
@@ -48,7 +48,7 @@ var mixin = {
           },
           {
             validator: (rule, value, callback) => {
-              vue.$http.fetch(vue.$api.touch.wxAccount.hasAppKeyExist, {id: vue.model.id, appKey: value})
+              vue.$http.fetch(vue.$api.touch.wxAccount.hasAppKeyExist, { id: vue.model.id, appKey: value })
                 .then((resp) => {
                   if (resp.code === ErrorCode.TITLE_REPEAT) {
                     callback(new Error('此AppKey已存在,请重新输入'))
@@ -122,7 +122,7 @@ var mixin = {
     },
     getWxAccountDetails: function (data) {
       let that = this
-      let params = {id: data.id}
+      let params = { id: data.id }
       this.$http.fetch(this.$api.touch.wxAccount.queryById, params)
         .then((resp) => {
           that.setModel({

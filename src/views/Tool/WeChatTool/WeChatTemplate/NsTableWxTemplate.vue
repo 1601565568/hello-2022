@@ -132,7 +132,6 @@
 
         </el-table-column>
 
-
       </el-table>
     </template>
     <template slot="pagination">
@@ -151,7 +150,7 @@
 </template>
 
 <script>
-  import NsTableWxTemplate from './src/NsTableWxTemplate'
+import NsTableWxTemplate from './src/NsTableWxTemplate'
 
-  export default NsTableWxTemplate
+export default NsTableWxTemplate
 </script>

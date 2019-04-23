@@ -1,7 +1,7 @@
 import tableMixin from 'mixins/table'
 import NsDatetime from 'components/NsDatetime'
 import ErrorCode from '@/config/errorCode'
-import apiRequestConfirm from 'utils/apiRequestConfirm'
+import apiRequestConfirm from 'web-crm/src/utils/apiRequestConfirm'
 import Vue from 'vue'
 import $ from 'jquery'
 let vm = this
@@ -77,7 +77,7 @@ export default {
           let that = this
           apiRequestConfirm('删除品牌').then(function () {
             that.$http.fetch(that.$api.core.brand.deleteById
-              , {ids: ids})
+              , { ids: ids })
               .then((resp) => {
                 if (resp.code === ErrorCode.SUCCESS) {
                   that.$notify.success(resp.msg)
@@ -132,7 +132,7 @@ export default {
             if (ids.length > 0) {
               apiRequestConfirm('删除所选择的品牌').then(function () {
                 that.$http.fetch(that.$api.core.brand.deleteById
-                  , {ids: ids})
+                  , { ids: ids })
                   .then((resp) => {
                     if (resp.code === ErrorCode.SUCCESS) {
                       that.$notify.success('删除成功')
@@ -173,7 +173,7 @@ export default {
     }]
     var quickSearchNames = quickInput.map(x => x.name)
     var quickSearchModel = {}
-    var model = Object.assign({}, {tag_name: '', remark: ''}, {time: []})
+    var model = Object.assign({}, { tag_name: '', remark: '' }, { time: [] })
     var that = this
 
     quickInput.map(item => {
@@ -298,7 +298,7 @@ export default {
     onSearch () {
     },
     // 在渲染表头的时候，会调用此方法，h为createElement的缩写版  添加on.change事件即可
-    renderProductId (h, {column}) {
+    renderProductId (h, { column }) {
       return h('business-checkbox', {
         props: {
           brandCheckV: this.brandCheckboxVal,

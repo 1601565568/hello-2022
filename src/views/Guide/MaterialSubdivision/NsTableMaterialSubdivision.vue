@@ -77,9 +77,9 @@
 </template>
 
 <script>
-  import NsTableMaterialSubdivision from './src/NsTableMaterialSubdivision'
+import NsTableMaterialSubdivision from './src/NsTableMaterialSubdivision'
 
-  export default NsTableMaterialSubdivision
+export default NsTableMaterialSubdivision
 </script>
 
 <style scoped>

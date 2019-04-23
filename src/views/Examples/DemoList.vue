@@ -18,28 +18,28 @@
 </template>
 
 <script>
-  import MenuDev from '@/config/menu.dev.json'
-  export default {
-    name: 'DemoList',
-    data () {
-      return {
-        listData: MenuDev,
-        defaultOpeneds: ['页面Demo']
-      }
-    },
-    created () {
-    },
-    mounted () {
-      this.$nextTick(() => {
-        let limitHeight = window.innerHeight - 65
-        this.$refs.demoListHeight.$el.children[0].style.maxHeight = limitHeight + 'px'
-      })
-    },
-    computed: {
-    },
-    methods: {
+import MenuDev from '@/config/menu.dev.json'
+export default {
+  name: 'DemoList',
+  data () {
+    return {
+      listData: MenuDev,
+      defaultOpeneds: ['页面Demo']
     }
+  },
+  created () {
+  },
+  mounted () {
+    this.$nextTick(() => {
+      let limitHeight = window.innerHeight - 65
+      this.$refs.demoListHeight.$el.children[0].style.maxHeight = limitHeight + 'px'
+    })
+  },
+  computed: {
+  },
+  methods: {
   }
+}
 </script>
 
 <style scoped>

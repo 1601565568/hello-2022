@@ -87,8 +87,8 @@ var mixin = {
           trigger: ['blur', 'change']
         }],
         editor: [
-          {required: true, message: '请输入邮件内容，限制10000字', trigger: ['blur']},
-          {min: 1, max: 10007, message: '已超过可输入长度', trigger: ['blur', 'change']}
+          { required: true, message: '请输入邮件内容，限制10000字', trigger: ['blur'] },
+          { min: 1, max: 10007, message: '已超过可输入长度', trigger: ['blur', 'change'] }
         ],
         sp_id: [{
           required: true,
@@ -171,7 +171,7 @@ var mixin = {
     }
   }
 }// 校验规则
-export default{
+export default {
   mixins: [formMixin, mixin],
   data: function () {
     return {
@@ -204,7 +204,7 @@ export default{
     'model.template_id': function (value) {
       var that = this
       if (value !== '' && value !== null && value !== undefined) {
-        that.$http.fetch(that.$api.touch.emailTemplate.queryById, {id: value})
+        that.$http.fetch(that.$api.touch.emailTemplate.queryById, { id: value })
           .then((resp) => {
             var content
             // that.model.template_type = resp.result.template_type

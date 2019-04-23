@@ -220,7 +220,7 @@ import addCoupon from './add'
 import addNum from './addNumDialog'
 import couponItem from 'components/NsCouponItem'
 import detailList from './detailList'
-import apiRequestConfirm from 'utils/apiRequestConfirm'
+import apiRequestConfirm from 'web-crm/src/utils/apiRequestConfirm'
 import addModal from './addModal'
 // 详情
 import couponView from './couponView'

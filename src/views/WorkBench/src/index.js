@@ -171,8 +171,8 @@ export default {
       shopSellOption: {
         tooltip: {
           trigger: 'axis',
-          axisPointer: {            // 坐标轴指示器，坐标轴触发有效
-            type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+          axisPointer: { // 坐标轴指示器，坐标轴触发有效
+            type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
           },
           borderColor: '#E4E7ED',
           borderWidth: 1.4,
@@ -225,8 +225,8 @@ export default {
             color: new echarts.graphic.LinearGradient(
               0, 0, 1, 1,
               [
-                {offset: 0, color: '#3963FF'},
-                {offset: 1, color: '#2B67FF'}
+                { offset: 0, color: '#3963FF' },
+                { offset: 1, color: '#2B67FF' }
               ])
           },
           type: 'bar',
@@ -236,8 +236,8 @@ export default {
       guideSellOption: {
         tooltip: {
           trigger: 'axis',
-          axisPointer: {            // 坐标轴指示器，坐标轴触发有效
-            type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+          axisPointer: { // 坐标轴指示器，坐标轴触发有效
+            type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
           },
           borderColor: '#E4E7ED',
           borderWidth: 1.4,
@@ -290,8 +290,8 @@ export default {
             color: new echarts.graphic.LinearGradient(
               0, 0, 1, 1,
               [
-                {offset: 0, color: '#A964FF'},
-                {offset: 1, color: '#BF63FF'}
+                { offset: 0, color: '#A964FF' },
+                { offset: 1, color: '#BF63FF' }
               ])
           },
           type: 'bar',
@@ -301,8 +301,8 @@ export default {
       shopRecruitOption: {
         tooltip: {
           trigger: 'axis',
-          axisPointer: {            // 坐标轴指示器，坐标轴触发有效
-            type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+          axisPointer: { // 坐标轴指示器，坐标轴触发有效
+            type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
           },
           borderColor: '#E4E7ED',
           borderWidth: 1.4,
@@ -355,8 +355,8 @@ export default {
             color: new echarts.graphic.LinearGradient(
               0, 0, 1, 1,
               [
-                {offset: 0, color: '#FF5215'},
-                {offset: 1, color: '#FF6C00'}
+                { offset: 0, color: '#FF5215' },
+                { offset: 1, color: '#FF6C00' }
               ])
           },
           type: 'bar',
@@ -366,8 +366,8 @@ export default {
       guideRecruitOption: {
         tooltip: {
           trigger: 'axis',
-          axisPointer: {            // 坐标轴指示器，坐标轴触发有效
-            type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+          axisPointer: { // 坐标轴指示器，坐标轴触发有效
+            type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
           },
           borderColor: '#E4E7ED',
           borderWidth: 1.4,
@@ -420,8 +420,8 @@ export default {
             color: new echarts.graphic.LinearGradient(
               0, 0, 1, 1,
               [
-                {offset: 0, color: '#1FC47C'},
-                {offset: 1, color: '#2EC59C'}
+                { offset: 0, color: '#1FC47C' },
+                { offset: 1, color: '#2EC59C' }
               ])
           },
           type: 'bar',
@@ -432,8 +432,8 @@ export default {
         color: ['#FD9B00', '#F7C71F'],
         tooltip: {
           trigger: 'axis',
-          axisPointer: {            // 坐标轴指示器，坐标轴触发有效
-            type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+          axisPointer: { // 坐标轴指示器，坐标轴触发有效
+            type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
           },
           borderColor: '#E4E7ED',
           borderWidth: 1.4,

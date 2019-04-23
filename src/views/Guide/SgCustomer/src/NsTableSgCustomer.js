@@ -64,7 +64,7 @@ export default {
         transType: '',
         operationType: ''
       },
-      {validTime: []})
+      { validTime: [] })
     var that = this
 
     quickInput.map(item => {

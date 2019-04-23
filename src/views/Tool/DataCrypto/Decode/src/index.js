@@ -35,7 +35,7 @@ var mixin = {
     }
   },
   methods: {
-     // 发送邮件
+    // 发送邮件
     onSendEmail: function (data) {
       var that = this
       that.$refs.sendEmailForm.validate(function (valid) {
@@ -70,18 +70,18 @@ var mixin = {
           data.isDecrypt = false
           that.$nextTick(function () {
             this.$http.fetch(this.$api.marketing.mktManage.decrypt, data)
-            .then(resp => {
-              if (resp.success === true) {
-                that.$message.success('加密成功')
-                that.encodeModel.encodeResult = resp.result
-                this.resetForm()
-              } else {
-                that.$message.error(resp.msg)
-              }
-            }).catch(() => {
-            }).finally(() => {
+              .then(resp => {
+                if (resp.success === true) {
+                  that.$message.success('加密成功')
+                  that.encodeModel.encodeResult = resp.result
+                  this.resetForm()
+                } else {
+                  that.$message.error(resp.msg)
+                }
+              }).catch(() => {
+              }).finally(() => {
               // that.saveDisabled = false
-            })
+              })
           })
         } else {
           return false
@@ -93,7 +93,7 @@ var mixin = {
     }
   }
 }// 校验规则
-export default{
+export default {
   mixins: [formMixin, mixin],
   data: function () {
     return {

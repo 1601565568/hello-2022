@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import loaderNoCacheClose from 'utils/loaderNoCacheClose'
+import loaderNoCacheClose from 'web-crm/src/utils/loaderNoCacheClose'
 export default {
   name: 'index',
   mixins: [],
@@ -30,26 +30,26 @@ export default {
   },
   mounted: function () {
     let arr = window.location.href.replace(/guideId=/g, '').replace(/materialId=/g, '').split('?')[1].split('&')
-    let parms = {id: arr[1], guideId: arr[0]}
+    let parms = { id: arr[1], guideId: arr[0] }
     this.$http.fetch(this.$api.isv.openQueryMaterial, parms)
-          .then(resp => {
-            this.title = resp.result.title
-            this.brandName = resp.result.brandName
-            this.textContent = resp.result.textContent.replace(new RegExp('<img', 'gi'), `<img style="background-size:contain;width:100%;height: auto;margin: 0 auto;display: block;"`)
-            let newTime = new Date().getTime()
-            let createTime = new Date(resp.result.createTime).getTime()
-            let time = (newTime - createTime) / 1000
-            if (time < (60 * 60 * 24)) {
-              this.createTime = parseInt(time / 3600) + '小时前'
-            } else if (time < (60 * 60 * 24 * 7)) {
-              this.createTime = parseInt(time / (3600 * 24)) + '天前'
-            } else {
-              this.createTime = resp.result.createTime
-            }
-          })
-          .catch(resp => {
-            // that.$notify.error('提示：' + resp.msg)
-          })
+      .then(resp => {
+        this.title = resp.result.title
+        this.brandName = resp.result.brandName
+        this.textContent = resp.result.textContent.replace(new RegExp('<img', 'gi'), `<img style="background-size:contain;width:100%;height: auto;margin: 0 auto;display: block;"`)
+        let newTime = new Date().getTime()
+        let createTime = new Date(resp.result.createTime).getTime()
+        let time = (newTime - createTime) / 1000
+        if (time < (60 * 60 * 24)) {
+          this.createTime = parseInt(time / 3600) + '小时前'
+        } else if (time < (60 * 60 * 24 * 7)) {
+          this.createTime = parseInt(time / (3600 * 24)) + '天前'
+        } else {
+          this.createTime = resp.result.createTime
+        }
+      })
+      .catch(resp => {
+        // that.$notify.error('提示：' + resp.msg)
+      })
   },
   methods: {
 
@@ -76,5 +76,3 @@ display: block
 
 }
 </style>
-
-

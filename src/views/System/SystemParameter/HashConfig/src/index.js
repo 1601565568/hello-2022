@@ -63,7 +63,7 @@ var mixin = {
     // 获取数据字典详情
     getHashById: function (id) {
       let that = this
-      that.$http.fetch(that.$api.core.hash.queryById, {id: id})
+      that.$http.fetch(that.$api.core.hash.queryById, { id: id })
         .then((resp) => {
           let model = {
             hash_name: resp.result.hash_name,
@@ -114,18 +114,18 @@ export default {
       },
       {
         validator: function (rule, val, callback) {
-              // that.$http.fetch(that.$api.core.hash.isExistHashKey, {
-              //   id: vm.model.id ? vm.model.id : 0,
-              //   hashKey: val
-              // }).then((resp) => {
-              //   if (resp.code === ErrorCode.UNIQUE_REPEAT) {
-              //     callback(new Error('哈希键已存在，请重新输入'))
-              //   } else {
-              //     callback()
-              //   }
-              // }).catch(() => {
-              //   callback(new Error('远程校验失败'))
-              // })
+          // that.$http.fetch(that.$api.core.hash.isExistHashKey, {
+          //   id: vm.model.id ? vm.model.id : 0,
+          //   hashKey: val
+          // }).then((resp) => {
+          //   if (resp.code === ErrorCode.UNIQUE_REPEAT) {
+          //     callback(new Error('哈希键已存在，请重新输入'))
+          //   } else {
+          //     callback()
+          //   }
+          // }).catch(() => {
+          //   callback(new Error('远程校验失败'))
+          // })
           callback()
         },
         trigger: 'change'

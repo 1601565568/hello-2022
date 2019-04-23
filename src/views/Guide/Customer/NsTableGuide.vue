@@ -165,8 +165,8 @@
 </template>
 
 <script>
-  import NsTableGuide from './src/NsTableGuide'
-  export default NsTableGuide
+import NsTableGuide from './src/NsTableGuide'
+export default NsTableGuide
 </script>
 
 <style scoped>

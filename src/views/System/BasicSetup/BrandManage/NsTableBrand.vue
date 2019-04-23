@@ -137,7 +137,7 @@
 </template>
 
 <script>
-  import NsTableBrand from './src/NsTableBrand'
+import NsTableBrand from './src/NsTableBrand'
 
-  export default NsTableBrand
+export default NsTableBrand
 </script>

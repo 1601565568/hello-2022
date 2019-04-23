@@ -130,230 +130,230 @@
 </template>
 
 <script>
-  import tableMixin from 'mixins/table'
-  export default {
-    name: 'ColumnTable',
-    mixins: [tableMixin],
-    props: {
-      types: Object
-    },
-    data: function () {
-      var operateButtons = [
-        {
-          'func': function () {
-          },
-          'icon': '',
-          'name': '新增',
-          'auth': ``,
-          'visible': ``
+import tableMixin from 'mixins/table'
+export default {
+  name: 'ColumnTable',
+  mixins: [tableMixin],
+  props: {
+    types: Object
+  },
+  data: function () {
+    var operateButtons = [
+      {
+        'func': function () {
         },
-        {
-          'func': function () {
-          },
-          'icon': '',
-          'name': '编辑',
-          'auth': ``,
-          'visible': ''
+        'icon': '',
+        'name': '新增',
+        'auth': ``,
+        'visible': ``
+      },
+      {
+        'func': function () {
         },
-        {
-          'func': function () {
-          },
-          'icon': '',
-          'name': '删除',
-          'auth': ``,
-          'visible': ``
-        }
-      ]
-      var tableButtons = [
-        {
-          'func': function (obj) {},
-          'icon': '$.noop',
-          'name': '详情',
-          'auth': ``,
-          'visible': ``
+        'icon': '',
+        'name': '编辑',
+        'auth': ``,
+        'visible': ''
+      },
+      {
+        'func': function () {
         },
-        {
-          'func': function (obj) {},
-          'icon': '$.noop',
-          'name': '修改',
-          'auth': ``,
-          'visible': ``
-        },
-        {
-          'func': function (obj) {},
-          'icon': '$.noop',
-          'name': '删除',
-          'auth': ``,
-          'visible': ``
-        },
-        {
-          'func': function (obj) {
-          },
-          'icon': '$.noop',
-          'name': '跟踪',
-          'auth': ``,
-          'visible': ``
-        }
-      ]
-
-      var quickSearchModel = {}
-      var model = Object.assign({},
-        {
-          name: '',
-          address: ''
-        },
-        {})
-
-      return {
-        model: model,
-        quickSearchModel: quickSearchModel,
-        rules: Object.assign({}, {}, {}),
-        state: {},
-        tableData: [{
-          date: '2016-05-02 12:12:12',
-          name: '赵小虎',
-          number: '12345678901',
-          address: '上海市普陀区金沙江路 1518 弄',
-          state: true
-        }, {
-          date: '2017-07-07 12:12:12',
-          name: '钱小虎',
-          number: '12345678901',
-          address: '上海市普陀区金沙江路 1517 弄',
-          state: true
-        }, {
-          date: '2018-08-08 12:12:12',
-          name: '孙小虎',
-          number: '12345678901',
-          address: '上海市普陀区金沙江路 1519 弄',
-          state: true
-        }, {
-          date: '2015-05-05 12:12:12',
-          name: '李小虎',
-          number: '12345678901',
-          address: '上海市普陀区金沙江路 1516 弄',
-          state: false
-        }],
-        tableList: [{
-          title: '折扣',
-          info: [{
-            title: 'v1',
-            message: [{type: 1, value: 10}]
-          }, {
-            title: 'v2',
-            message: [{type: 1, value: 9}]
-          }, {
-            title: 'v3',
-            message: [{type: 1, value: 8}]
-          }, {
-            title: 'v4',
-            message: [{type: 1, value: 7}]
-          }],
-          state: true
-        }, {
-          title: '送积分',
-          info: [{
-            title: 'v1',
-            message: [{type: 1, value: 100}]
-          }, {
-            title: 'v2',
-            message: [{type: 2, value: 1.5}]
-          }, {
-            title: 'v3',
-            message: [{type: 2, value: 2}]
-          }, {
-            title: 'v4',
-            message: [{type: 2, value: 3}]
-          }],
-          state: true
-        }, {
-          title: '生日礼',
-          info: [{
-            title: 'v1',
-            message: [{type: 1, value: 0}]
-          }, {
-            title: 'v2',
-            message: [{type: 2, value: 50}]
-          }, {
-            title: 'v3',
-            message: [{type: 2, value: 100}]
-          }, {
-            title: 'v4',
-            message: [{type: 2, value: 200}]
-          }],
-          state: true
-        }, {
-          title: '贵宾室',
-          info: [{
-            title: 'v1',
-            message: [{type: 1, value: 0}]
-          }, {
-            title: 'v2',
-            message: [{type: 1, value: 0}]
-          }, {
-            title: 'v3',
-            message: [{type: 2, value: 1}]
-          }, {
-            title: 'v4',
-            message: [{type: 2, value: 2}]
-          }],
-          state: false
-        }],
-        grades: [],
-        url: this.$api.database.black.queryTable,
-        _table: {
-          table_buttons: tableButtons,
-          operate_buttons: operateButtons,
-          quickSearchMap: {}
-        }
+        'icon': '',
+        'name': '删除',
+        'auth': ``,
+        'visible': ``
       }
-    },
+    ]
+    var tableButtons = [
+      {
+        'func': function (obj) {},
+        'icon': '$.noop',
+        'name': '详情',
+        'auth': ``,
+        'visible': ``
+      },
+      {
+        'func': function (obj) {},
+        'icon': '$.noop',
+        'name': '修改',
+        'auth': ``,
+        'visible': ``
+      },
+      {
+        'func': function (obj) {},
+        'icon': '$.noop',
+        'name': '删除',
+        'auth': ``,
+        'visible': ``
+      },
+      {
+        'func': function (obj) {
+        },
+        'icon': '$.noop',
+        'name': '跟踪',
+        'auth': ``,
+        'visible': ``
+      }
+    ]
 
-    mounted: function () {
-    },
-    methods: {
-      /* 表格格式化函数
+    var quickSearchModel = {}
+    var model = Object.assign({},
+      {
+        name: '',
+        address: ''
+      },
+      {})
+
+    return {
+      model: model,
+      quickSearchModel: quickSearchModel,
+      rules: Object.assign({}, {}, {}),
+      state: {},
+      tableData: [{
+        date: '2016-05-02 12:12:12',
+        name: '赵小虎',
+        number: '12345678901',
+        address: '上海市普陀区金沙江路 1518 弄',
+        state: true
+      }, {
+        date: '2017-07-07 12:12:12',
+        name: '钱小虎',
+        number: '12345678901',
+        address: '上海市普陀区金沙江路 1517 弄',
+        state: true
+      }, {
+        date: '2018-08-08 12:12:12',
+        name: '孙小虎',
+        number: '12345678901',
+        address: '上海市普陀区金沙江路 1519 弄',
+        state: true
+      }, {
+        date: '2015-05-05 12:12:12',
+        name: '李小虎',
+        number: '12345678901',
+        address: '上海市普陀区金沙江路 1516 弄',
+        state: false
+      }],
+      tableList: [{
+        title: '折扣',
+        info: [{
+          title: 'v1',
+          message: [{ type: 1, value: 10 }]
+        }, {
+          title: 'v2',
+          message: [{ type: 1, value: 9 }]
+        }, {
+          title: 'v3',
+          message: [{ type: 1, value: 8 }]
+        }, {
+          title: 'v4',
+          message: [{ type: 1, value: 7 }]
+        }],
+        state: true
+      }, {
+        title: '送积分',
+        info: [{
+          title: 'v1',
+          message: [{ type: 1, value: 100 }]
+        }, {
+          title: 'v2',
+          message: [{ type: 2, value: 1.5 }]
+        }, {
+          title: 'v3',
+          message: [{ type: 2, value: 2 }]
+        }, {
+          title: 'v4',
+          message: [{ type: 2, value: 3 }]
+        }],
+        state: true
+      }, {
+        title: '生日礼',
+        info: [{
+          title: 'v1',
+          message: [{ type: 1, value: 0 }]
+        }, {
+          title: 'v2',
+          message: [{ type: 2, value: 50 }]
+        }, {
+          title: 'v3',
+          message: [{ type: 2, value: 100 }]
+        }, {
+          title: 'v4',
+          message: [{ type: 2, value: 200 }]
+        }],
+        state: true
+      }, {
+        title: '贵宾室',
+        info: [{
+          title: 'v1',
+          message: [{ type: 1, value: 0 }]
+        }, {
+          title: 'v2',
+          message: [{ type: 1, value: 0 }]
+        }, {
+          title: 'v3',
+          message: [{ type: 2, value: 1 }]
+        }, {
+          title: 'v4',
+          message: [{ type: 2, value: 2 }]
+        }],
+        state: false
+      }],
+      grades: [],
+      url: this.$api.database.black.queryTable,
+      _table: {
+        table_buttons: tableButtons,
+        operate_buttons: operateButtons,
+        quickSearchMap: {}
+      }
+    }
+  },
+
+  mounted: function () {
+  },
+  methods: {
+    /* 表格格式化函数
        * title 所属权益名称
        * listData 权益名称对应的权益内容
        * value 权益内容对应属性值
        * */
-      dataFormatter (row, index) {
-        var title = row.title
-        var listData = row.info[index].message[0]
-        var value = listData.value
-        if (title === '折扣') {
-          value = this.discountFormatter(value)
-        } else if (title === '送积分') {
-          value = this.integralFormatter(listData, value)
-        } else if (title === '生日礼') {
-          value = this.giftFormatter(value)
-        } else if (title === '贵宾室') {
-          value = this.roomFormatter(value)
-        }
-        return value
-      },
-      /* 折扣权益内容格式化 */
-      discountFormatter (value) {
-        return `${value}折`
-      },
-      /* 送积分权益内容格式化 */
-      integralFormatter (listData, value) {
-        return listData.type === 1 ? `多送${value}` : `${value}倍`
-      },
-      /* 生日礼权益内容格式化 */
-      giftFormatter (value) {
-        return value !== 0 ? `价值${value}元生日大礼包一份` : '-'
-      },
-      /* 贵宾室权益内容格式化 */
-      roomFormatter (value) {
-        return value !== 0 ? `贵宾室服务，可带${value}人` : '-'
-      },
-
-      onSearch () {
-        console.log('搜索响应')
+    dataFormatter (row, index) {
+      var title = row.title
+      var listData = row.info[index].message[0]
+      var value = listData.value
+      if (title === '折扣') {
+        value = this.discountFormatter(value)
+      } else if (title === '送积分') {
+        value = this.integralFormatter(listData, value)
+      } else if (title === '生日礼') {
+        value = this.giftFormatter(value)
+      } else if (title === '贵宾室') {
+        value = this.roomFormatter(value)
       }
+      return value
+    },
+    /* 折扣权益内容格式化 */
+    discountFormatter (value) {
+      return `${value}折`
+    },
+    /* 送积分权益内容格式化 */
+    integralFormatter (listData, value) {
+      return listData.type === 1 ? `多送${value}` : `${value}倍`
+    },
+    /* 生日礼权益内容格式化 */
+    giftFormatter (value) {
+      return value !== 0 ? `价值${value}元生日大礼包一份` : '-'
+    },
+    /* 贵宾室权益内容格式化 */
+    roomFormatter (value) {
+      return value !== 0 ? `贵宾室服务，可带${value}人` : '-'
+    },
+
+    onSearch () {
+      console.log('搜索响应')
     }
   }
+}
 </script>
 
 <style scoped>

@@ -8,8 +8,8 @@ var mixin = {
     return {
       rules: {
         ys_account: [
-          {required: true, message: '请输入账号'},
-          {min: 0, max: 20, message: '已超过可输入长度', trigger: ['blur', 'change']},
+          { required: true, message: '请输入账号' },
+          { min: 0, max: 20, message: '已超过可输入长度', trigger: ['blur', 'change'] },
           {
             validator: (rule, value, callback) => {
               vue.$http.fetch(vue.$api.touch.ysAccount.hasAccountExist, {
@@ -30,7 +30,7 @@ var mixin = {
           }
         ],
         password: [
-          {required: true, message: '请输入密码', trigger: ['blur', 'change']},
+          { required: true, message: '请输入密码', trigger: ['blur', 'change'] },
           {
             validator: (rule, value, callback) => {
               if (value.length > 0 && value.length < 6) {
@@ -45,7 +45,7 @@ var mixin = {
           }
         ],
         use_range: [
-          {required: true, message: '请选择应用品牌', trigger: ['blur', 'change']},
+          { required: true, message: '请选择应用品牌', trigger: ['blur', 'change'] },
           {
             validator: (rule, value, callback) => {
               if (value.length < 1) {
@@ -59,7 +59,7 @@ var mixin = {
       },
       smsRules: {
         targetStr: [
-          {required: true, message: '请输入手机号'},
+          { required: true, message: '请输入手机号' },
           {
             validator: (rule, val, callback) => {
               var repaceReg = /(\\;)+(\n)+|(\n)+(\\;)+|(\n)+|(\\;)+/g
@@ -92,29 +92,29 @@ var mixin = {
           }
         ],
         send_content: [
-          {required: true, message: '请输入短信内容', trigger: ['blur', 'change']},
-          {min: 1, max: 300, message: '已超过可输入长度', trigger: ['blur', 'change']}
+          { required: true, message: '请输入短信内容', trigger: ['blur', 'change'] },
+          { min: 1, max: 300, message: '已超过可输入长度', trigger: ['blur', 'change'] }
         ],
         signature_name: [
-          {required: true, message: '请选择短信签名', trigger: ['blur', 'change']}
+          { required: true, message: '请选择短信签名', trigger: ['blur', 'change'] }
         ],
         sp_id: [
-          {required: true, message: '请选择通道', trigger: ['blur', 'change']}
+          { required: true, message: '请选择通道', trigger: ['blur', 'change'] }
         ]
       },
       emailRules: {
         send_name: [
-          {required: true, message: '请输入发件人名称,限4-50个字', trigger: ['blur', 'change']},
-          {min: 4, max: 50, message: '限4-50个字', trigger: ['blur', 'change']}
+          { required: true, message: '请输入发件人名称,限4-50个字', trigger: ['blur', 'change'] },
+          { min: 4, max: 50, message: '限4-50个字', trigger: ['blur', 'change'] }
         ],
         send_addr: [
-          {required: true, message: '请输入发件人邮箱地址', trigger: ['blur', 'change']},
-          {type: 'email', message: '邮箱地址格式不正确', trigger: ['blur', 'change']},
-          {min: 0, max: 200, message: '已超过可输入长度', trigger: ['blur', 'change']}
+          { required: true, message: '请输入发件人邮箱地址', trigger: ['blur', 'change'] },
+          { type: 'email', message: '邮箱地址格式不正确', trigger: ['blur', 'change'] },
+          { min: 0, max: 200, message: '已超过可输入长度', trigger: ['blur', 'change'] }
         ],
         targetStr: [
-          {required: true, message: '请输入收件人邮箱地址', trigger: ['blur', 'change']},
-          {min: 0, max: 10000, message: '已超过可输入长度', trigger: ['blur', 'change']},
+          { required: true, message: '请输入收件人邮箱地址', trigger: ['blur', 'change'] },
+          { min: 0, max: 10000, message: '已超过可输入长度', trigger: ['blur', 'change'] },
           {
             validator: function (rule, val, callback) {
               // 邮件格式正则
@@ -152,15 +152,15 @@ var mixin = {
           }
         ],
         title_name: [
-          {required: true, message: '请输入邮件标题', trigger: 'blur'},
-          {min: 0, max: 200, message: '已超过可输入长度', trigger: ['blur', 'change']}
+          { required: true, message: '请输入邮件标题', trigger: 'blur' },
+          { min: 0, max: 200, message: '已超过可输入长度', trigger: ['blur', 'change'] }
         ],
         editor: [
-          {required: true, message: '请输入邮件内容，限制10000字', trigger: ['blur']},
-          {min: 1, max: 10007, message: '已超过可输入长度', trigger: ['blur', 'change']}
+          { required: true, message: '请输入邮件内容，限制10000字', trigger: ['blur'] },
+          { min: 1, max: 10007, message: '已超过可输入长度', trigger: ['blur', 'change'] }
         ],
         sp_id: [
-          {required: true, message: '请选择通道', trigger: ['blur', 'change']}
+          { required: true, message: '请选择通道', trigger: ['blur', 'change'] }
         ]
       },
       /* detailRules: {
@@ -301,7 +301,7 @@ var mixin = {
     },
     onGetYsAccountDetail: function (data) {
       let that = this
-      let params = {id: data.id}
+      let params = { id: data.id }
       this.$http.fetch(this.$api.touch.ysAccount.queryById, params)
         .then((resp) => {
           that.setModel({
@@ -319,7 +319,7 @@ var mixin = {
     },
     onLoadAccountInfo: function (data) {
       let that = this
-      let params = {id: data.id}
+      let params = { id: data.id }
       this.$http.fetch(this.$api.touch.ysAccount.getAccountInfo, params)
         .then((resp) => {
           that.detail.id = data.id

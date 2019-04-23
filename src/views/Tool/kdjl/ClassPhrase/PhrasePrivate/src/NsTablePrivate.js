@@ -1,5 +1,5 @@
 import tableMixin from 'mixins/table'
-import apiRequestConfirm from 'utils/apiRequestConfirm'
+import apiRequestConfirm from 'web-crm/src/utils/apiRequestConfirm'
 
 export default {
   name: 'NsTablePrivate',
@@ -41,7 +41,7 @@ export default {
           let that = this
           apiRequestConfirm('删除分类短语').then(function () {
             that.$http.fetch(that.$api.kdjl.phrase.deleteById
-              , {ids: obj.row.id})
+              , { ids: obj.row.id })
               .then((resp) => {
                 that.$notify.success(resp.msg)
                 that.$reload()
@@ -118,7 +118,7 @@ export default {
         apiRequestConfirm('删除所选择分类短语').then(function () {
           let ids = data.map(x => x.id)
           that.$http.fetch(that.$api.kdjl.phrase.deleteById
-            , {ids: ids.join(',')})
+            , { ids: ids.join(',') })
             .then((resp) => {
               that.$notify.success(resp.msg)
               that.$reload()
@@ -157,7 +157,7 @@ export default {
     },
     exportAll () {
       var that = this
-      this.$http.fetch(this.$api.kdjl.phrase.countPhrase, {shopId: that.model.shopId, isPublic: that.model.isPublic})
+      this.$http.fetch(this.$api.kdjl.phrase.countPhrase, { shopId: that.model.shopId, isPublic: that.model.isPublic })
         .then((resp) => {
           if (resp.result === '0') {
             that.$notify.warning('该店铺没有分类短语')

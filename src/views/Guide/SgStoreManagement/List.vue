@@ -50,18 +50,18 @@
         <ns-button @click="memberBelongingShow = false">取消</ns-button>
         <ns-button type="primary" @click="memberBelongingEnsure(model)">确定</ns-button>
       </div>
-    </el-dialog>  
+    </el-dialog>
     <!-- 所属门店查看详情结束 -->
   </div>
 </template>
 
 <script>
-  import List from './src/List'
-  import NsTableGuide from './NsTableGuide'
-  List.components = {
-    NsTableGuide
-  }
-  export default List
+import List from './src/List'
+import NsTableGuide from './NsTableGuide'
+List.components = {
+  NsTableGuide
+}
+export default List
 </script>
 <style scoped>
   >>>.avatar-uploader .el-upload {
@@ -129,4 +129,3 @@
     font-weight: normal;
   }
 </style>
-

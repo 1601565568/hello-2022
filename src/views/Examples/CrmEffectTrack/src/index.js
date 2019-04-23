@@ -128,7 +128,7 @@ export default {
       }
     },
     /* 表格表头内容处理函数 */
-    renderContent (h, {column}) {
+    renderContent (h, { column }) {
       return h('span', '店铺：孔方时代')
     }
   }

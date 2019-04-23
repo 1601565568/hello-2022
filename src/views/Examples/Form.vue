@@ -328,129 +328,129 @@
   </div>
 </template>
 <script>
-  import ElButton from '../../../node_modules/nui-v2/packages/button/src/button.vue'
-  import NsSelectRelevance from '../../components/NsSelectRelevance'
+import ElButton from '../../../node_modules/nui-v2/packages/button/src/button.vue'
+import NsSelectRelevance from '../../components/NsSelectRelevance'
 
-  export default {
-    components: {ElButton, NsSelectRelevance},
-    name: 'edit',
-    data () {
-      return {
-        authTime: '2018-09-13 12:02:00',
-        fileList3: [{
-          name: '第一份上传文件.txt',
-          url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'
-        }, {
-          name: '第二份上传文件.txt',
-          url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'
-        }],
-        dynamicValidateFormBak: null,
-        loading: false,
-        // 表单数据
-        dynamicValidateForm: {
-          name: 'admin',
-          status: true,
-          isUrgeOne: false,
-          isExcludePayed: false,
-          H5TemplateId: [],
-          birthday: '1992-11-5',
-          date1: null,
-          startDateTime: null,
-          endDateTime: null,
-          email: '',
-          age: '',
-          point: '',
-          point2: '',
-          sex: 1,
-          evaluate: 1,
-          level: 1
-        },
-        form_related_dynamicValidateForm: {
-          // 互动模板1
-          interactiveTemplate: [
-            {
-              value: '电脑电脑电脑电脑电脑电脑电脑电脑电脑电脑电脑电脑电脑电脑电脑电脑2',
-              label: '电脑电脑电脑电脑电脑电脑电脑电脑电脑电脑电脑电脑电脑电脑电脑电脑',
-              relevance: true
-            }, {
-              value: 'iPad',
-              label: 'iPad',
-              relevance: true
-            }, {
-              value: 'phone1311',
-              label: '手3机434500',
-              relevance: false
-            }, {
-              value: 'p3h3one22',
-              label: '手机533p32手机23',
-              relevance: false
-            }
-          ],
-          options: [{
-            value: '选项1',
-            label: '选项11'
-          }, {
-            value: '选项2',
-            label: '选项2'
-          }, {
-            value: '选项3',
-            label: '选项3'
-          }, {
-            value: '选项4',
-            label: '选项4'
-          }, {
-            value: '选项5',
-            label: '选项5'
-          }],
-          value5: []
-        },
-        // 表单校验规则
-        form_rules: {
-          name: [{
-            required: true,
-            message: '姓名不能为空！',
-            trigger: 'blur'
-          }],
-          email: [{
-            required: true,
-            message: '邮箱不能为空！',
-            trigger: 'blur'
-          }, {
-            type: 'email',
-            message: '邮箱格式不正确！',
-            trigger: 'blur'
-          }]
-        },
-        // 催付时间（选择时间段）
-        analysisExpectTime: []
-      }
-    },
-    methods: {
-      timeOut () {
-        console.log('倒计时结束！')
+export default {
+  components: { ElButton, NsSelectRelevance },
+  name: 'edit',
+  data () {
+    return {
+      authTime: '2018-09-13 12:02:00',
+      fileList3: [{
+        name: '第一份上传文件.txt',
+        url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'
+      }, {
+        name: '第二份上传文件.txt',
+        url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'
+      }],
+      dynamicValidateFormBak: null,
+      loading: false,
+      // 表单数据
+      dynamicValidateForm: {
+        name: 'admin',
+        status: true,
+        isUrgeOne: false,
+        isExcludePayed: false,
+        H5TemplateId: [],
+        birthday: '1992-11-5',
+        date1: null,
+        startDateTime: null,
+        endDateTime: null,
+        email: '',
+        age: '',
+        point: '',
+        point2: '',
+        sex: 1,
+        evaluate: 1,
+        level: 1
       },
-      handleChange (file, fileList) {
-        this.fileList3 = fileList.slice(-3)
-      },
-      submitForm (formName) {
-        this.$refs[formName].validate((valid) => {
-          if (valid) {
-            alert('submit!')
-          } else {
-            console.log('error submit!!')
-            return false
+      form_related_dynamicValidateForm: {
+        // 互动模板1
+        interactiveTemplate: [
+          {
+            value: '电脑电脑电脑电脑电脑电脑电脑电脑电脑电脑电脑电脑电脑电脑电脑电脑2',
+            label: '电脑电脑电脑电脑电脑电脑电脑电脑电脑电脑电脑电脑电脑电脑电脑电脑',
+            relevance: true
+          }, {
+            value: 'iPad',
+            label: 'iPad',
+            relevance: true
+          }, {
+            value: 'phone1311',
+            label: '手3机434500',
+            relevance: false
+          }, {
+            value: 'p3h3one22',
+            label: '手机533p32手机23',
+            relevance: false
           }
-        })
+        ],
+        options: [{
+          value: '选项1',
+          label: '选项11'
+        }, {
+          value: '选项2',
+          label: '选项2'
+        }, {
+          value: '选项3',
+          label: '选项3'
+        }, {
+          value: '选项4',
+          label: '选项4'
+        }, {
+          value: '选项5',
+          label: '选项5'
+        }],
+        value5: []
       },
-      resetForm (formName) {
-        this.$refs[formName].resetFields()
-      }
+      // 表单校验规则
+      form_rules: {
+        name: [{
+          required: true,
+          message: '姓名不能为空！',
+          trigger: 'blur'
+        }],
+        email: [{
+          required: true,
+          message: '邮箱不能为空！',
+          trigger: 'blur'
+        }, {
+          type: 'email',
+          message: '邮箱格式不正确！',
+          trigger: 'blur'
+        }]
+      },
+      // 催付时间（选择时间段）
+      analysisExpectTime: []
+    }
+  },
+  methods: {
+    timeOut () {
+      console.log('倒计时结束！')
     },
-    mounted () {
-      this.authTime = new Date(new Date().setDate(new Date().getDate() + 1)).toString()
+    handleChange (file, fileList) {
+      this.fileList3 = fileList.slice(-3)
     },
-    watch: {}
-  }
+    submitForm (formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          alert('submit!')
+        } else {
+          console.log('error submit!!')
+          return false
+        }
+      })
+    },
+    resetForm (formName) {
+      this.$refs[formName].resetFields()
+    }
+  },
+  mounted () {
+    this.authTime = new Date(new Date().setDate(new Date().getDate() + 1)).toString()
+  },
+  watch: {}
+}
 </script>
 <style scoped>
   @import "../../style/small/variables.pcss";

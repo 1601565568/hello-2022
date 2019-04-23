@@ -14,11 +14,11 @@
   </div>
 </template>
 <script>
-  export default {
-    data () {
-      return {
-        tabPosition: 'top'
-      }
+export default {
+  data () {
+    return {
+      tabPosition: 'top'
     }
   }
+}
 </script>

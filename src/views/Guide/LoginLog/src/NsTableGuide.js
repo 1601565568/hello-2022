@@ -32,14 +32,14 @@ export default {
         operate_buttons: operateButtons,
         quickSearchMap: {}
       },
-      _queryConfig: {expand: false},
+      _queryConfig: { expand: false },
       staffFindLists: [],
       shopFindList: [],
       select: true,
       operator: [
-        {label: '员工', value: 1},
-        {label: '品牌方', value: 0},
-        {label: '操作人ID', value: 2}
+        { label: '员工', value: 1 },
+        { label: '品牌方', value: 0 },
+        { label: '操作人ID', value: 2 }
       ],
       pickerOptions: {
         shortcuts: [
@@ -113,7 +113,7 @@ export default {
     },
     initShopList () {
       var _this = this
-      _this.$http.fetch(_this.$api.guide.shop.findBrandShopList, {isOnline: 0}).then(resp => {
+      _this.$http.fetch(_this.$api.guide.shop.findBrandShopList, { isOnline: 0 }).then(resp => {
         if (resp.success && resp.result != null) {
           _this.shopFindList = resp.result
         }

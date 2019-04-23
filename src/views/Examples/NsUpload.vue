@@ -34,28 +34,28 @@
   </div>
 </template>
 <script>
-  export default {
-    data () {
-      return {
-        uploadUrl: this.$api.core.uploadFile('test'),
-        fileList: [{name: 'bd_logo.png', url: 'https://www.baidu.com/img/bd_logo1.png'}]
-      }
-    },
-    methods: {
-      handleRemove (file, fileList) {
-        console.log(file, fileList)
-      },
-      handlePreview (file) {
-        console.log(file)
-      },
-      handleExceed (files, fileList) {
-        this.$message.warning(`当前限制选择 5 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`)
-      },
-      beforeRemove (file, fileList) {
-        return this.$confirm(`确定移除 ${file.name}？`)
-      }
-    },
-    mounted () {
+export default {
+  data () {
+    return {
+      uploadUrl: this.$api.core.uploadFile('test'),
+      fileList: [{ name: 'bd_logo.png', url: 'https://www.baidu.com/img/bd_logo1.png' }]
     }
+  },
+  methods: {
+    handleRemove (file, fileList) {
+      console.log(file, fileList)
+    },
+    handlePreview (file) {
+      console.log(file)
+    },
+    handleExceed (files, fileList) {
+      this.$message.warning(`当前限制选择 5 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`)
+    },
+    beforeRemove (file, fileList) {
+      return this.$confirm(`确定移除 ${file.name}？`)
+    }
+  },
+  mounted () {
   }
+}
 </script>

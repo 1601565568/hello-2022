@@ -114,7 +114,7 @@ export default {
     //   }
     // }
     return {
-      wechatPageTypeList: [{name: '商品', id: 1}, {name: '优惠券', id: 2}, {name: '营销活动', id: 3}, {name: '商品分类', id: 4}, {name: '自定义页面', id: 5}],
+      wechatPageTypeList: [{ name: '商品', id: 1 }, { name: '优惠券', id: 2 }, { name: '营销活动', id: 3 }, { name: '商品分类', id: 4 }, { name: '自定义页面', id: 5 }],
       wechatPageUrlList: [],
       loading: false, // 防重复提交
       dialogImageUrl: '',

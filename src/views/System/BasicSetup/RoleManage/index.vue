@@ -175,16 +175,16 @@
 </template>
 
 <script>
-  import NsTableRoleManage from './NsTableRoleManage'
-  import index from './src/index'
-  import NsShopSelect from 'components/NsShopSelect'
-  import NsDroptree from 'components/NsDroptree'
-  index.components = {
-    NsShopSelect,
-    NsDroptree,
-    NsTableRoleManage
-  }
-  export default index
+import NsTableRoleManage from './NsTableRoleManage'
+import index from './src/index'
+import NsShopSelect from 'components/NsShopSelect'
+import NsDroptree from 'components/NsDroptree'
+index.components = {
+  NsShopSelect,
+  NsDroptree,
+  NsTableRoleManage
+}
+export default index
 </script>
 <style scoped>
   @import "../../../../style/small/variables.pcss";

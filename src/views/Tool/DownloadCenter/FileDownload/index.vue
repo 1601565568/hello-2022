@@ -35,11 +35,11 @@
   </div>
 </template>
 <script>
-  import index from './src/index'
-  import NsTableDownload from './NsTableDownload'
+import index from './src/index'
+import NsTableDownload from './NsTableDownload'
 
-  index.components = {
-    NsTableDownload
-  }
-  export default index
+index.components = {
+  NsTableDownload
+}
+export default index
 </script>

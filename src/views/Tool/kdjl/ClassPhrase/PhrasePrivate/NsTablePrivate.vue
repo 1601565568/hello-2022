@@ -83,7 +83,7 @@
 </template>
 
 <script>
-  import NsTablePrivate from './src/NsTablePrivate'
+import NsTablePrivate from './src/NsTablePrivate'
 
-  export default NsTablePrivate
+export default NsTablePrivate
 </script>

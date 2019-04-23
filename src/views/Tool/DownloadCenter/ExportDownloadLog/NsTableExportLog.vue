@@ -109,7 +109,7 @@
 </template>
 
 <script>
-  import NsTableExportLog from './src/NsTableExportLog'
+import NsTableExportLog from './src/NsTableExportLog'
 
-  export default NsTableExportLog
+export default NsTableExportLog
 </script>

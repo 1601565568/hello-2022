@@ -82,7 +82,7 @@ export default {
     },
     // 树节点过滤
     onFilterNode (value, data) {
-      if (!value) return true
+      if (!value) { return true }
       return data.label.indexOf(value) !== -1
     },
     initShopList () {

@@ -9,20 +9,20 @@
   </div>
 </template>
 <script>
-  export default {
-    data () {
-      return {
-        active: 0
-      }
-    },
-    methods: {
-      next () {
-        if (this.active++ > 2) this.active = 0
-      }
-    },
-    created () {
-    },
-    mounted () {
+export default {
+  data () {
+    return {
+      active: 0
     }
+  },
+  methods: {
+    next () {
+      if (this.active++ > 2) { this.active = 0 }
+    }
+  },
+  created () {
+  },
+  mounted () {
   }
+}
 </script>

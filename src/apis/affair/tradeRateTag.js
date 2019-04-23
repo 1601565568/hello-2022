@@ -1,4 +1,4 @@
-import transData from 'utils/transData'
+import transData from 'web-crm/src/utils/transData'
 export default {
   getRateTag: {
     url: '/affair/traderatetag/getRateTag',

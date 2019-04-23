@@ -1,5 +1,5 @@
 import tableMixin from 'mixins/table'
-import apiRequestConfirm from 'utils/apiRequestConfirm'
+import apiRequestConfirm from 'web-crm/src/utils/apiRequestConfirm'
 export default {
   name: 'NsTableWxTemplate',
   mixins: [tableMixin],
@@ -58,7 +58,7 @@ export default {
     }]
     var quickSearchNames = quickInput.map(x => x.name)
     var quickSearchModel = {}
-    var model = {'templateCode': '', 'templateName': '', 'templateType': ''}
+    var model = { 'templateCode': '', 'templateName': '', 'templateType': '' }
     return {
       model: model,
       quickSearchModel: quickSearchModel,
@@ -72,7 +72,7 @@ export default {
         quickSearchNames: quickSearchNames,
         quickSearchMap: {}
       },
-      _queryConfig: {expand: false}
+      _queryConfig: { expand: false }
     }
   },
   mounted: function () {

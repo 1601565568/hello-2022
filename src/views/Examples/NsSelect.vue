@@ -9,89 +9,89 @@
 </template>
 
 <script>
-  export default {
-    name: 'NsSelect',
+export default {
+  name: 'NsSelect',
+  props: {
+    url: Object,
+    params: Object,
+    isDefault: Boolean,
+    value: ,
+    data: {
+      type: [Array],
+      default: function () {
+        return []
+      }
+    },
     props: {
-      url: Object,
-      params: Object,
-      isDefault: Boolean,
-      value: '',
-      data: {
-        type: [Array],
-        default: function () {
-          return []
-        }
-      },
-      props: {
-        type: Object,
-        default: function () {
-          return {
-            label: 'label',
-            value: 'value'
-          }
+      type: Object,
+      default: function () {
+        return {
+          label: 'label',
+          value: 'value'
         }
       }
+    }
+  },
+  data () {
+    return {
+      options: this.data,
+      // 双向绑定值-必须
+      currentValue: this.value
+    }
+  },
+  watch: {
+    currentValue: function (val) {
+      this.$emit('input', val)
     },
-    data () {
-      return {
-        options: this.data,
-        // 双向绑定值-必须
-        currentValue: this.value
-      }
+    value: function (val) {
+      this.currentValue = val
+    }
+  },
+  methods: {
+    getText (format) {
+      return this.$refs.nsselect.getText(format)
     },
-    watch: {
-      currentValue: function (val) {
-        this.$emit('input', val)
-      },
-      value: function (val) {
-        this.currentValue = val
-      }
-    },
-    methods: {
-      getText (format) {
-        return this.$refs.nsselect.getText(format)
-      },
-      refresh () {
-        if (this.url) {
-          this.loadOptions(this.options, this.url)
-        }
-      },
-      /**
-       * 是否选中默认值
-       */
-      selectDefault () {
-        // 是否选中默认值
-        if (this.isDefault) {
-          this.options.forEach((option) => {
-            if (option.isDefault === 1) {
-              this.currentValue = option.value
-            }
-          })
-        }
-      },
-      /**
-       * 异步加载下拉数据
-       */
-      loadOptions (data, url) {
-        data.splice(0)
-        this.$http.fetch(url, this.params).then((resp) => {
-          this.options = resp.result ? resp.result : []
-          this.selectDefault()
-        }).catch((resp) => {
-        })
-      }
-    },
-    created () {
+    refresh () {
       if (this.url) {
         this.loadOptions(this.options, this.url)
       }
     },
-    computed: {
-      listeners () {
-        return {
-          ...this.$listeners
-        }
+    /**
+       * 是否选中默认值
+       */
+    selectDefault () {
+      // 是否选中默认值
+      if (this.isDefault) {
+        this.options.forEach((option) => {
+          if (option.isDefault === 1) {
+            this.currentValue = option.value
+          }
+        })
+      }
+    },
+    /**
+       * 异步加载下拉数据
+       */
+    loadOptions (data, url) {
+      data.splice(0)
+      this.$http.fetch(url, this.params).then((resp) => {
+        this.options = resp.result ? resp.result : []
+        this.selectDefault()
+      }).catch((resp) => {
+      })
+    }
+  },
+  created () {
+    if (this.url) {
+      this.loadOptions(this.options, this.url)
+    }
+  },
+  computed: {
+    listeners () {
+      return {
+        ...this.$listeners
       }
     }
   }
+}
 </script>

@@ -1,5 +1,5 @@
 import tableMixin from 'mixins/table'
-import apiRequestConfirm from 'utils/apiRequestConfirm'
+import apiRequestConfirm from 'web-crm/src/utils/apiRequestConfirm'
 import moment from 'moment'
 
 export default {
@@ -33,7 +33,7 @@ export default {
           let that = this
           apiRequestConfirm('删除优惠券').then(function () {
             that.$http.fetch(that.$api.marketing.coupon.deleteById
-              , {id: obj.row.id})
+              , { id: obj.row.id })
               .then((resp) => {
                 that.$notify.success(resp.msg)
                 that.$reload()
@@ -130,7 +130,7 @@ export default {
   methods: {
     changeStatus: function (obj) {
       var that = this
-      this.$http.fetch(this.$api.marketing.coupon.updateByIdAndJL, {id: obj.id, jl: obj.coupon_jingling_power})
+      this.$http.fetch(this.$api.marketing.coupon.updateByIdAndJL, { id: obj.id, jl: obj.coupon_jingling_power })
         .then((resp) => {
           that.$notify.success(resp.msg)
           that.$reload()

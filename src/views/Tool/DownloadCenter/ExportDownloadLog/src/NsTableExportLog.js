@@ -24,7 +24,7 @@ export default {
     }]
     var quickSearchNames = quickInput.map(x => x.name)
     var quickSearchModel = {}
-    var model = Object.assign({}, {alias_file_name: '', login_account: ''}, {exportTime: []})
+    var model = Object.assign({}, { alias_file_name: '', login_account: '' }, { exportTime: [] })
     var that = this
 
     quickInput.map(item => {

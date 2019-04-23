@@ -1,12 +1,12 @@
 import formMixin from 'mixins/form'
-import apiRequestConfirm from 'utils/apiRequestConfirm'
+import apiRequestConfirm from 'web-crm/src/utils/apiRequestConfirm'
 
 export default {
   mixins: [formMixin],
   data: function () {
     let rules = {
       // 分类名称
-      'name': [{required: true, message: '请输入分类名称', trigger: ['blur']},
+      'name': [{ required: true, message: '请输入分类名称', trigger: ['blur'] },
         {
           min: 1,
           max: 20,
@@ -58,19 +58,19 @@ export default {
     },
     onUpClick: function (data, node) {
       let cid2 = node.previousSibling ? node.previousSibling.data.id : null
-      if (!cid2) return
+      if (!cid2) { return }
       this.moveTreeNode(data, node, cid2, true)
     },
     onDownClick: function (data, node) {
       let cid2 = node.nextSibling ? node.nextSibling.data.id : null
-      if (!cid2) return
+      if (!cid2) { return }
       this.moveTreeNode(data, node, cid2, false)
     },
     moveTreeNode (data, node, cid2, up) {
-      if (this.moveLoading) return
+      if (this.moveLoading) { return }
       this.moveLoading = true
       let that = this
-      this.$http.fetch(this.$api.guide.goods.moveCategory, {cid: data.id, cid2: cid2}).then((resp) => {
+      this.$http.fetch(this.$api.guide.goods.moveCategory, { cid: data.id, cid2: cid2 }).then((resp) => {
         if (resp.success) {
           that.resetMoveTreeNode(that, that.root.children, data.id, up)
           that.$set(that, 'treeData', [that.root])
@@ -147,12 +147,12 @@ export default {
       }
       apiRequestConfirm('删除分类【' + data.label + '】').then(() => {
         that.$http.fetch(this.$api.guide.goods.deleteCategory,
-          {goods_cids: data.ext1}).then(() => {
-            that.getTreeData()
-            that.$notify.success('删除成功')
-          }).catch((resp) => {
-            that.$message.error(resp.msg || '删除失败，请稍后再试')
-          })
+          { goods_cids: data.ext1 }).then(() => {
+          that.getTreeData()
+          that.$notify.success('删除成功')
+        }).catch((resp) => {
+          that.$message.error(resp.msg || '删除失败，请稍后再试')
+        })
       }).catch(() => {})
     },
     // 保存分类

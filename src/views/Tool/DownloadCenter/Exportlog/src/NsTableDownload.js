@@ -40,7 +40,7 @@ export default {
     }]
     var quickSearchNames = quickInput.map(x => x.name)
     var quickSearchModel = {}
-    var model = Object.assign({}, {'download_addr': '', 'user_name': '', 'result_state': ''}, {})
+    var model = Object.assign({}, { 'download_addr': '', 'user_name': '', 'result_state': '' }, {})
     var that = this
 
     quickInput.map(item => {
@@ -73,7 +73,7 @@ export default {
         quickSearchNames: quickSearchNames,
         quickSearchMap: {}
       },
-      _queryConfig: {expand: false}
+      _queryConfig: { expand: false }
     }
   },
   mounted: function () {

@@ -4,7 +4,7 @@
     <ns-page-table>
      <template slot="table">
         <div >
-            <el-row class="template-table__bar-base"> 
+            <el-row class="template-table__bar-base">
                 <el-col :span="16" >
                 商品库
                 </el-col>
@@ -45,7 +45,7 @@
                         @current-change="$pageChange$">
         </el-pagination>
     </template>
-  </ns-page-table>  
+  </ns-page-table>
  </div>
 </template>
 <script>

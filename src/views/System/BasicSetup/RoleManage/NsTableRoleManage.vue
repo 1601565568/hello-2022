@@ -73,7 +73,7 @@
 </template>
 
 <script>
-  import NsTableRoleManage from './src/NsTableRoleManage'
+import NsTableRoleManage from './src/NsTableRoleManage'
 
-  export default NsTableRoleManage
+export default NsTableRoleManage
 </script>

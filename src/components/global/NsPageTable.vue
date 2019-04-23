@@ -40,19 +40,18 @@
 </template>
 
 <script>
-  export default {
-    name: 'NsPageTable',
-    data () {
-      return {
-      }
-    },
-    props: {
-      /* 按钮栏宽度配置 */
-      colButton: {
-        type: Number,
-        default: 8
-      }
+export default {
+  name: 'NsPageTable',
+  data () {
+    return {
+    }
+  },
+  props: {
+    /* 按钮栏宽度配置 */
+    colButton: {
+      type: Number,
+      default: 8
     }
   }
+}
 </script>
-

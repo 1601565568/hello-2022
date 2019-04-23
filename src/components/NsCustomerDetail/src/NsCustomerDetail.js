@@ -126,13 +126,13 @@ export default {
             orderDetail.postFee = obj.row.post_fee
             orderDetail.outTradeId = obj.row.out_trade_id
             orderDetail.payment = obj.row.payment
-            that.$http.fetch(that.$api.database.trade.queryOrderByOutTradeId, {'outTradeId': obj.row.out_trade_id})
-            .then((resp) => {
-              if (resp.success) {
-                orderDetail.order = resp.result
-                that.customerModel.orderVisible = true
-              }
-            })
+            that.$http.fetch(that.$api.database.trade.queryOrderByOutTradeId, { 'outTradeId': obj.row.out_trade_id })
+              .then((resp) => {
+                if (resp.success) {
+                  orderDetail.order = resp.result
+                  that.customerModel.orderVisible = true
+                }
+              })
           },
           'icon': '$.noop',
           'name': '\u8be6\u60c5',
@@ -157,7 +157,7 @@ export default {
           sendTime: '',
           content: ''
         },
-        touchType: [{label: '短信', value: 1}, {label: '邮件', value: 2}, {label: '微信', value: 3}], // 触达来源
+        touchType: [{ label: '短信', value: 1 }, { label: '邮件', value: 2 }, { label: '微信', value: 3 }], // 触达来源
         touchButton: [{ // 触达表格按钮
           'func': function (obj) {
             this.customerModel.DetailTitle = '触达详情'
@@ -174,9 +174,9 @@ export default {
           'visible': ``
         }],
         touchList: [
-          {title: '短信触达次数', number: '0'},
-          {title: '邮件触达次数', number: '0'},
-          {title: '微信触达次数', number: '0'}
+          { title: '短信触达次数', number: '0' },
+          { title: '邮件触达次数', number: '0' },
+          { title: '微信触达次数', number: '0' }
         ], // 统计触达记录
         couponList: {
           expiredCount: 0,
@@ -195,7 +195,7 @@ export default {
         otherType: '0', // 其他类型
         outNickTable: [], // 昵称表格
         nickCount: 0, // 昵称个数
-        outNickForm: {  // 昵称搜索表单
+        outNickForm: { // 昵称搜索表单
           platform: '',
           time: [],
           outNick: ''
@@ -278,7 +278,7 @@ export default {
         }
         rightBlackStr = ',' + rightBlackStr
       }
-      this.$http.fetch(that.$api.database.right.insertBySysCustomerIdAndBrandId, {'sysCustomerId': this.sysCustomerId, 'rightBlackStr': rightBlackStr})
+      this.$http.fetch(that.$api.database.right.insertBySysCustomerIdAndBrandId, { 'sysCustomerId': this.sysCustomerId, 'rightBlackStr': rightBlackStr })
         .then((resp) => {
           if (resp.success) {
             that.$notify.success({
@@ -296,7 +296,7 @@ export default {
       if (this.customerModel.customer.touchList.length > 0) {
         touchList = this.customerModel.customer.touchList
       }
-      this.$http.fetch(that.$api.database.black.insertBySysCustomerIdAndBrandId, {'sysCustomerId': this.sysCustomerId, 'blackType': touchList})
+      this.$http.fetch(that.$api.database.black.insertBySysCustomerIdAndBrandId, { 'sysCustomerId': this.sysCustomerId, 'blackType': touchList })
         .then((resp) => {
           if (resp.success) {
             that.$notify.success({
@@ -309,13 +309,13 @@ export default {
     },
     change (val) {
       var that = this
-      that.$http.fetch(that.$api.database.interact.minorIntegralTypeByType, {'type': val})
-      .then((resp) => {
-        if (resp.success) {
-          that.customerModel.integralForm.integralType = ''
-          that.customerModel.integralType = resp.result
-        }
-      })
+      that.$http.fetch(that.$api.database.interact.minorIntegralTypeByType, { 'type': val })
+        .then((resp) => {
+          if (resp.success) {
+            that.customerModel.integralForm.integralType = ''
+            that.customerModel.integralType = resp.result
+          }
+        })
     },
     onClose () {
       this.customerModel.customer.base.splice(0, this.customerModel.customer.base.length)
@@ -338,9 +338,9 @@ export default {
       this.customerModel.couponForm.time = []
       this.sysCustomerId = ''
       let copyTouchList = [
-        {title: '短信触达次数', number: '0'},
-        {title: '邮件触达次数', number: '0'},
-        {title: '微信触达次数', number: '0'}
+        { title: '短信触达次数', number: '0' },
+        { title: '邮件触达次数', number: '0' },
+        { title: '微信触达次数', number: '0' }
       ]
       this.$set(this.customerModel, 'touchType', copyTouchList)
       this.customerModel.customer.tradeAttr = []
@@ -491,51 +491,51 @@ export default {
       }
     },
     Fen2Yuan (num) {
-      if (typeof num !== 'number' || isNaN(num)) return 0
+      if (typeof num !== 'number' || isNaN(num)) { return 0 }
       return (num / 100).toFixed(2)
     },
     getGroupCareLog () { // 获取分组的触达记录
       this.customerModel.touchList = [
-        {title: '短信触达次数', number: '0'},
-        {title: '邮件触达次数', number: '0'},
-        {title: '微信触达次数', number: '0'}
+        { title: '短信触达次数', number: '0' },
+        { title: '邮件触达次数', number: '0' },
+        { title: '微信触达次数', number: '0' }
       ]
       var that = this
-      that.$http.fetch(that.$api.care.careLog.groupCareLogBySysCustomerId, {'sysCustomerId': this.sysCustomerId})
-      .then((resp) => {
-        if (resp.success) {
-          if (resp.result !== null) {
-            for (let type of resp.result) {
-              switch (type.send_source) {
+      that.$http.fetch(that.$api.care.careLog.groupCareLogBySysCustomerId, { 'sysCustomerId': this.sysCustomerId })
+        .then((resp) => {
+          if (resp.success) {
+            if (resp.result !== null) {
+              for (let type of resp.result) {
+                switch (type.send_source) {
                 // 短信0 邮件1 微信2
-                case 1: that.customerModel.touchList[0].number = type.count; break
-                case 2: that.customerModel.touchList[1].number = type.count; break
-                case 3: that.customerModel.touchList[2].number = type.count; break
-                default:break
+                  case 1: that.customerModel.touchList[0].number = type.count; break
+                  case 2: that.customerModel.touchList[1].number = type.count; break
+                  case 3: that.customerModel.touchList[2].number = type.count; break
+                  default:break
+                }
               }
             }
           }
-        }
-      })
+        })
     },
     getGroupCoupon () { // 获取优惠卷个数
       var that = this
-      that.$http.fetch(that.$api.marketing.coupon.groupBySysCustomerId, {'sysCustomerId': this.sysCustomerId})
-      .then((resp) => {
-        if (resp.success) {
-          if (resp.result.statusCount.length > 0) {
-            for (let status of resp.result.statusCount) {
-              switch (status.status) {
-                case 0: this.customerModel.couponList.noExpiredCount = status.count; break
-                case 1: this.customerModel.couponList.expiredCount = status.count; break
-                default: break
+      that.$http.fetch(that.$api.marketing.coupon.groupBySysCustomerId, { 'sysCustomerId': this.sysCustomerId })
+        .then((resp) => {
+          if (resp.success) {
+            if (resp.result.statusCount.length > 0) {
+              for (let status of resp.result.statusCount) {
+                switch (status.status) {
+                  case 0: this.customerModel.couponList.noExpiredCount = status.count; break
+                  case 1: this.customerModel.couponList.expiredCount = status.count; break
+                  default: break
+                }
               }
             }
+            this.customerModel.couponList.usedCount = resp.result.usedCount
+            this.customerModel.userData[3].num = resp.result.count
           }
-          this.customerModel.couponList.usedCount = resp.result.usedCount
-          this.customerModel.userData[3].num = resp.result.count
-        }
-      })
+        })
     },
     onOpenDetail (sysCustomerId) {
       this.getCustomerDetail(sysCustomerId)
@@ -642,26 +642,26 @@ export default {
               customerModel.customerName = customer.customerName
               customerModel.mobile = customer.mobile
               customerModel.sex = customer.sex
-              customerModel.base.push({title: '生日', value: customer.birthday})
+              customerModel.base.push({ title: '生日', value: customer.birthday })
               if (customer.birthday != null) {
                 var year = customer.birthday.substr(0, 4)
                 var yearNow = new Date().getFullYear()
-                customerModel.base.push({title: '年龄', value: yearNow - year})
+                customerModel.base.push({ title: '年龄', value: yearNow - year })
               } else {
-                customerModel.base.push({title: '年龄', value: ''})
+                customerModel.base.push({ title: '年龄', value: '' })
               }
-              customerModel.base.push({title: '身份证', value: customer.idcard})
-              customerModel.base.push({title: '来源', value: customer.platFormName + ' ' + customer.tag_name})
-              customerModel.base.push({title: '会员等级', value: customer.gradeName == null ? '会员等级0' : customer.gradeName})
-              customerModel.base.push({title: '会员卡号', value: customer.member_card})
-              customerModel.base.push({title: '开卡时间', value: customer.in_member_time})
-              customerModel.base.push({title: '开卡渠道', value: ''})
-              customerModel.base.push({title: '固定电话', value: customer.phone})
-              customerModel.base.push({title: 'QQ', value: customer.qq})
-              customerModel.base.push({title: 'Email', value: customer.email})
-              customerModel.base.push({title: '支付宝', value: customer.buyerAlipayNo})
-              customerModel.base.push({title: '所在地区', value: customer.province + customer.city + customer.district})
-              customerModel.base.push({title: '详细地址', value: customer.address})
+              customerModel.base.push({ title: '身份证', value: customer.idcard })
+              customerModel.base.push({ title: '来源', value: customer.platFormName + ' ' + customer.tag_name })
+              customerModel.base.push({ title: '会员等级', value: customer.gradeName == null ? '会员等级0' : customer.gradeName })
+              customerModel.base.push({ title: '会员卡号', value: customer.member_card })
+              customerModel.base.push({ title: '开卡时间', value: customer.in_member_time })
+              customerModel.base.push({ title: '开卡渠道', value: '' })
+              customerModel.base.push({ title: '固定电话', value: customer.phone })
+              customerModel.base.push({ title: 'QQ', value: customer.qq })
+              customerModel.base.push({ title: 'Email', value: customer.email })
+              customerModel.base.push({ title: '支付宝', value: customer.buyerAlipayNo })
+              customerModel.base.push({ title: '所在地区', value: customer.province + customer.city + customer.district })
+              customerModel.base.push({ title: '详细地址', value: customer.address })
               customerModel.isRightBlack = customer.is_right_black === 1
               customerModel.isMemberBlack = customer.is_member_black === 1
               if (customer.is_un_sub_scribe === 1) {
@@ -673,15 +673,15 @@ export default {
             }
             if (rfm != null) {
               that.setCareTime(rfm)
-              customerModel.tradeAttr.push({title: '订单数量', value: rfm.buy_total_num})
-              customerModel.tradeAttr.push({title: '付款总额', value: rfm.pay_amount})
-              customerModel.tradeAttr.push({title: '每笔单件', value: rfm.price_unit})
-              customerModel.tradeAttr.push({title: '每笔件数', value: rfm.item_unit})
-              customerModel.tradeAttr.push({title: '退款次数', value: rfm.refund_times})
-              customerModel.tradeAttr.push({title: '退款总额', value: rfm.refund_amount})
-              customerModel.tradeAttr.push({title: '最早付款时间', value: rfm.first_pay_time})
-              customerModel.tradeAttr.push({title: '最晚付款时间', value: rfm.last_pay_time})
-              customerModel.tradeAttr.push({title: '付款休眠天数', value: rfm.dormancyDay})
+              customerModel.tradeAttr.push({ title: '订单数量', value: rfm.buy_total_num })
+              customerModel.tradeAttr.push({ title: '付款总额', value: rfm.pay_amount })
+              customerModel.tradeAttr.push({ title: '每笔单件', value: rfm.price_unit })
+              customerModel.tradeAttr.push({ title: '每笔件数', value: rfm.item_unit })
+              customerModel.tradeAttr.push({ title: '退款次数', value: rfm.refund_times })
+              customerModel.tradeAttr.push({ title: '退款总额', value: rfm.refund_amount })
+              customerModel.tradeAttr.push({ title: '最早付款时间', value: rfm.first_pay_time })
+              customerModel.tradeAttr.push({ title: '最晚付款时间', value: rfm.last_pay_time })
+              customerModel.tradeAttr.push({ title: '付款休眠天数', value: rfm.dormancyDay })
               this.customerModel.consumeCount.push({
                 title: '订单总数',
                 number: rfm.pay_all_times === null ? 0 : rfm.pay_all_times
@@ -705,26 +705,26 @@ export default {
             }
           } else {
             this.customerModel.customer.base = [
-              {title: '生日', value: ''}, {title: '年龄', value: ''}, {title: '身份证', value: ''}, {title: '来源', value: ''},
-              {title: '会员等级', value: ''}, {title: '会员卡号', value: ''}, {title: '开卡时间', value: ''}, {
+              { title: '生日', value: '' }, { title: '年龄', value: '' }, { title: '身份证', value: '' }, { title: '来源', value: '' },
+              { title: '会员等级', value: '' }, { title: '会员卡号', value: '' }, { title: '开卡时间', value: '' }, {
                 title: '开卡渠道',
                 value: ''
               },
-              {title: '固定电话', value: ''}, {title: 'QQ', value: ''}, {title: 'Email', value: ''}, {
+              { title: '固定电话', value: '' }, { title: 'QQ', value: '' }, { title: 'Email', value: '' }, {
                 title: '支付宝',
                 value: ''
               },
-              {title: '所在地区', value: ''}, {title: '详细地址', value: ''}
+              { title: '所在地区', value: '' }, { title: '详细地址', value: '' }
             ]
             this.customerModel.customer.tradeAttr = [
-              {title: '订单数量', value: ''}, {title: '付款总额', value: ''}, {title: '每笔单件', value: ''},
-              {title: '每笔件数', value: ''}, {title: '退款次数', value: ''}, {title: '退款总额', value: ''},
-              {title: '最早付款时间', value: ''}, {title: '最晚付款时间', value: ''}, {title: '付款休眠天数', value: ''}
+              { title: '订单数量', value: '' }, { title: '付款总额', value: '' }, { title: '每笔单件', value: '' },
+              { title: '每笔件数', value: '' }, { title: '退款次数', value: '' }, { title: '退款总额', value: '' },
+              { title: '最早付款时间', value: '' }, { title: '最晚付款时间', value: '' }, { title: '付款休眠天数', value: '' }
             ]
             this.customerModel.consumeCount = [
-              {title: '订单总数', number: 0}, {title: '付款总额', number: 0},
-              {title: '平均每笔订单付款额', number: 0}, {title: '平均每笔订单付款额', number: 0},
-              {title: '退款次数', number: 0}, {title: '退款总额', number: 0}]
+              { title: '订单总数', number: 0 }, { title: '付款总额', number: 0 },
+              { title: '平均每笔订单付款额', number: 0 }, { title: '平均每笔订单付款额', number: 0 },
+              { title: '退款次数', number: 0 }, { title: '退款总额', number: 0 }]
           }
           this.detailVisible = true
         }).catch((resp) => {

@@ -1,6 +1,6 @@
 import tableMixin from 'mixins/table'
 import NsDroptree from 'components/NsDroptree'
-import apiRequestConfirm from 'utils/apiRequestConfirm'
+import apiRequestConfirm from 'web-crm/src/utils/apiRequestConfirm'
 import $ from 'jquery'
 
 export default {
@@ -34,7 +34,7 @@ export default {
           let that = this
           apiRequestConfirm('删除用户').then(function () {
             that.$http.fetch(that.$api.core.sysUser.batchDel
-              , {ids: obj.row.id})
+              , { ids: obj.row.id })
               .then((resp) => {
                 that.$notify.success('删除成功')
                 that.$reload()
@@ -67,7 +67,7 @@ export default {
           if (data.length > 0) {
             let ids = data.map(x => x.id)
             apiRequestConfirm('删除所选择的用户').then(function () {
-              that.$http.fetch(that.$api.core.sysUser.batchDel, {ids: ids})
+              that.$http.fetch(that.$api.core.sysUser.batchDel, { ids: ids })
                 .then((resp) => {
                   that.$notify.success('删除成功')
                   that.$parent.$reload()
@@ -166,9 +166,9 @@ export default {
       this.$set(this, 'selectRows', val)
     },
     changeStatus: function (obj) {
-      this.$http.fetch(this.$api.core.sysUser.updateUserStatus, {id: obj.id, userStatus: obj.user_status})
-      .then((resp) => {
-      })
+      this.$http.fetch(this.$api.core.sysUser.updateUserStatus, { id: obj.id, userStatus: obj.user_status })
+        .then((resp) => {
+        })
     },
     onSearch () {
       console.log('搜索响应')

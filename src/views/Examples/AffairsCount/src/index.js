@@ -8,8 +8,8 @@ export default {
     return {
       create_time: [],
       counts_category: '',
-      dataLength: 0,  // 表格行数量
-      columnsSum: [],  // 表格列合计
+      dataLength: 0, // 表格行数量
+      columnsSum: [], // 表格列合计
       columnsAverage: [], // 表格列均值
       tableData3: [{
         date: '2016-05-03',
@@ -49,13 +49,13 @@ export default {
     this.getRowSum() // 表格行合计
   },
   methods: {
-   /* 计算表格行数量 */
+    /* 计算表格行数量 */
     getDataLength () {
       this.dataLength = this.tableData3.length
     },
     /* 获取表格列合计 && 渲染表格列均值 */
     getSummaries (param) {
-      const {columns, data} = param
+      const { columns, data } = param
       const sums = []
       columns.forEach((column, index) => {
         if (index === 0) {

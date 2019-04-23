@@ -5,10 +5,10 @@
 </template>
 
 <script>
-  import index from './src/index'
-  import DefaultTable from './DefaultTable'
-  index.components = {
-    DefaultTable
-  }
-  export default index
+import index from './src/index'
+import DefaultTable from './DefaultTable'
+index.components = {
+  DefaultTable
+}
+export default index
 </script>

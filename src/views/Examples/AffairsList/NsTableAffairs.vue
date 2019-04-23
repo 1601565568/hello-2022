@@ -358,9 +358,9 @@
 </template>
 
 <script>
-  import NsTableAffairs from './src/NsTableAffairs'
+import NsTableAffairs from './src/NsTableAffairs'
 
-  export default NsTableAffairs
+export default NsTableAffairs
 </script>
 
 <style scoped>

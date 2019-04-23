@@ -107,11 +107,11 @@
 
 </template>
 <script>
-  import index from './src/index'
-  import NsSmsTemplate from 'components/NsSmsTemplate'
-  index.components = {
-    NsSmsTemplate
-  }
+import index from './src/index'
+import NsSmsTemplate from 'components/NsSmsTemplate'
+index.components = {
+  NsSmsTemplate
+}
 
-  export default index
+export default index
 </script>

@@ -1,4 +1,4 @@
-import isAuthorize from 'utils/isAuthorize'
+import isAuthorize from 'web-crm/src/utils/isAuthorize'
 
 function replaceWith (scope, exp) {
   exp = ' ' + exp.trim()

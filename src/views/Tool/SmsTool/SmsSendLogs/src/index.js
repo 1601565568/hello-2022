@@ -21,7 +21,7 @@ export default {
       'text': '手机号码',
       'placeholder': '请输手机号码',
       'type': 'text',
-      'isConvenient': false}]
+      'isConvenient': false }]
     var quickSearchNames = quickInput.map(x => x.name)
     var quickSearchModel = {}
     var model = Object.assign({}, {}, {
@@ -66,7 +66,7 @@ export default {
         quickSearchNames: quickSearchNames,
         quickSearchMap: {}
       },
-      _queryConfig: {expand: false}
+      _queryConfig: { expand: false }
     }
   },
   mounted: function () {

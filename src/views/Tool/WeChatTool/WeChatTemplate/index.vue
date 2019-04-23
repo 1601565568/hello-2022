@@ -82,13 +82,13 @@
 </template>
 
 <script>
-  import index from './src/index'
-  import NsTableWxTemplate from './NsTableWxTemplate'
+import index from './src/index'
+import NsTableWxTemplate from './NsTableWxTemplate'
 
-  index.components = {
-    NsTableWxTemplate
-  }
-  export default index
+index.components = {
+  NsTableWxTemplate
+}
+export default index
 </script>
 
 <style scoped>

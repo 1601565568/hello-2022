@@ -105,7 +105,6 @@
                 <!--<business-echarts :options="option" auto-resize v-loading.lock="loadingtable" :element-loading-text="$t('prompt.loading')"></business-echarts>-->
                 <!-- 单图表模式 -->
 
-
                 <!-- 双图表模式 -->
                 <el-row>
                   <el-col :span="12">
@@ -218,8 +217,8 @@
 </template>
 
 <script>
-  import index from './src/index'
-  export default index
+import index from './src/index'
+export default index
 </script>
 
 <style scoped>

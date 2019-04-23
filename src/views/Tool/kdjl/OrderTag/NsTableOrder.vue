@@ -91,7 +91,6 @@
           </template>
         </el-table-column>
 
-
         <el-table-column :show-overflow-tooltip="true" label="操作" align="center"
                          width="100">
           <template slot-scope="scope">
@@ -118,7 +117,7 @@
 </template>
 
 <script>
-  import NsTableOrder from './src/NsTableOrder'
+import NsTableOrder from './src/NsTableOrder'
 
-  export default NsTableOrder
+export default NsTableOrder
 </script>

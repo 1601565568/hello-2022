@@ -186,7 +186,7 @@ export default {
     // 打开弹窗回显已经选择的门店
     openFun () {
       const self = this
-      let params = Object.assign({}, {searchMap: Object.assign({}, this.params)})
+      let params = Object.assign({}, { searchMap: Object.assign({}, this.params) })
       self.loadListFun(params)
       self.dialogVisible = true
     },
@@ -269,4 +269,3 @@ export default {
   margin-top:6px
 }
 </style>
-

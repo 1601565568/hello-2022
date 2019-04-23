@@ -82,15 +82,15 @@ export default {
       }
     }
     let findVo = {
-      'shopName': null,          // 门店名称
-      'city': null,         // 门点所在区域市
-      'district': null,       // 门点所在区域区
-      'province': null,       // 门点所在区域省
-      'shopType': null,   // 门店类型
-      'phone': null,          // 联系电话
-      'area_region': null,  // 所属地区
-      'shopStatus': null,   // 营业状态
-      'area': []          // 所属区域
+      'shopName': null, // 门店名称
+      'city': null, // 门点所在区域市
+      'district': null, // 门点所在区域区
+      'province': null, // 门点所在区域省
+      'shopType': null, // 门店类型
+      'phone': null, // 联系电话
+      'area_region': null, // 所属地区
+      'shopStatus': null, // 营业状态
+      'area': [] // 所属区域
     }
     let model = Object.assign({}, findVo, {}, searchModel)
     return {
@@ -103,7 +103,7 @@ export default {
         quickSearchNames: quickSearchNames,
         quickSearchMap: {}
       },
-      _queryConfig: {expand: false},
+      _queryConfig: { expand: false },
       multipleSelection: [],
       select: true,
       shopLeiXing: [{
@@ -184,7 +184,7 @@ export default {
     },
     initShopList () {
       var _this = this
-      _this.$http.fetch(_this.$api.guide.shop.findBrandShopList, {isOnline: 0}).then(resp => {
+      _this.$http.fetch(_this.$api.guide.shop.findBrandShopList, { isOnline: 0 }).then(resp => {
         if (resp.success && resp.result != null) {
           _this.shopFindList = resp.result
         }

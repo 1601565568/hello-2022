@@ -6,7 +6,7 @@ var mixin = {
     return {
       rules: {
         targetStr: [
-          {required: true, message: '请输入手机号'},
+          { required: true, message: '请输入手机号' },
           {
             validator: (rule, val, callback) => {
               let that = this
@@ -193,7 +193,7 @@ var mixin = {
         this.onHandleSendDate()
         this.$refs.smsImportForm.validate((valid) => {
           if (valid) {
-            that.importSendModel.source_model = 34  // IMPORT_SEND_SMS("短信批量发送-导入发送", "34"),
+            that.importSendModel.source_model = 34 // IMPORT_SEND_SMS("短信批量发送-导入发送", "34"),
             that.$http.fetch(this.$api.touch.smsSend.importSmsSend
               , that.importSendModel)
               .then((resp) => {
@@ -228,7 +228,7 @@ var mixin = {
 }
 // 校验规则
 // var vue
-export default{
+export default {
   mixins: [formMixin, mixin],
   data: function () {
     return {
@@ -266,7 +266,7 @@ export default{
     'model.template_id': function (value) {
       var that = this
       if (value !== '') {
-        that.$http.fetch(that.$api.touch.smsTemplate.queryById, {id: value})
+        that.$http.fetch(that.$api.touch.smsTemplate.queryById, { id: value })
           .then((resp) => {
             that.model.send_content = resp.result.template
           }).catch(() => {

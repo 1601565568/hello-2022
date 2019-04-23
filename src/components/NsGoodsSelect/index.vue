@@ -32,83 +32,83 @@
 </template>
 
 <script>
-  import NsToggles from '../NsToggles'
-  import NsGoodsSelectDialog from '../NsGoodsSelectDialog'
+import NsToggles from '../NsToggles'
+import NsGoodsSelectDialog from '../NsGoodsSelectDialog'
 
-  export default {
-    components: {
-      NsGoodsSelectDialog,
-      NsToggles
-    },
-    name: 'NsGoodsSelect',
-    data () {
-      return {
-        confirmData: this.value || []
-      }
-    },
+export default {
+  components: {
+    NsGoodsSelectDialog,
+    NsToggles
+  },
+  name: 'NsGoodsSelect',
+  data () {
+    return {
+      confirmData: this.value || []
+    }
+  },
+  props: {
     props: {
-      props: {
-        type: Object,
-        default: function () {
-          return {
-            unique: 'sysGoodsId',
-            data: 'data',
-            name: 'title'
-          }
-        }
-      },
-      maxSelectCount: {
-        type: Number,
-        default: function () {
-          return 500
-        }
-      },
-      tableApi: {
-        type: Object,
-        default: function () {
-          return this.$api.core.common.queryGoodsTable4Component
-        }
-      },
-      value: {
-        type: Array,
-        default: function () {
-          return []
-        }
-      },
-      shopIds: String,
-      show: {
-        type: Boolean,
-        default () {
-          return true
+      type: Object,
+      default: function () {
+        return {
+          unique: 'sysGoodsId',
+          data: 'data',
+          name: 'title'
         }
       }
     },
-    methods: {
-      /**
-       *  删除已选择
-       */
-      onDelSelected: function (dataName, index, unique) {
-        this.$refs.goods.onDelSelected(dataName, index, unique)
-      },
-      callbackData: function () {
-        this.$refs.goods.callbackData()
-      },
-      onShow: function () {
-        if (this.show) {
-          this.$refs.goods.onShow()
-        }
-      },
-      dataChange: function (val) {
-        this.confirmData = val
-        this.$emit('input', val)
+    maxSelectCount: {
+      type: Number,
+      default: function () {
+        return 500
       }
     },
-    watch: {
-      value: function (val) {
-        this.confirmData = JSON.parse(JSON.stringify(val))
+    tableApi: {
+      type: Object,
+      default: function () {
+        return this.$api.core.common.queryGoodsTable4Component
+      }
+    },
+    value: {
+      type: Array,
+      default: function () {
+        return []
+      }
+    },
+    shopIds: String,
+    show: {
+      type: Boolean,
+      default () {
+        return true
       }
     }
+  },
+  methods: {
+    /**
+       *  删除已选择
+       */
+    onDelSelected: function (dataName, index, unique) {
+      this.$refs.goods.onDelSelected(dataName, index, unique)
+    },
+    callbackData: function () {
+      this.$refs.goods.callbackData()
+    },
+    onShow: function () {
+      if (this.show) {
+        this.$refs.goods.onShow()
+      }
+    },
+    dataChange: function (val) {
+      this.confirmData = val
+      this.$emit('input', val)
+    }
+  },
+  watch: {
+    value: function (val) {
+      this.confirmData = JSON.parse(JSON.stringify(val))
+    }
   }
+}
 </script>
 
 <style scoped>

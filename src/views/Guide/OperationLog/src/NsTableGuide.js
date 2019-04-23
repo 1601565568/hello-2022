@@ -3,7 +3,7 @@ import targetDetail from '../targetDetail'
 export default {
   name: 'NsTableGuide',
   mixins: [tableMixin],
-  components: {targetDetail},
+  components: { targetDetail },
   props: {
     url: Object
   },
@@ -35,21 +35,21 @@ export default {
       shopFindList: [],
       select: true,
       dataModule: [
-        {label: '员工信息', value: 1},
-        {label: '会员信息', value: 2},
-        {label: '门店指标', value: 3},
-        {label: '任务管理', value: 4},
-        {label: '提成奖励设置', value: 5},
-        {label: '素材分组', value: 6},
-        {label: '素材库', value: 7},
-        {label: '优惠券', value: 8},
-        {label: '导购指标', value: 9},
-        {label: '授权管理', value: 10}
+        { label: '员工信息', value: 1 },
+        { label: '会员信息', value: 2 },
+        { label: '门店指标', value: 3 },
+        { label: '任务管理', value: 4 },
+        { label: '提成奖励设置', value: 5 },
+        { label: '素材分组', value: 6 },
+        { label: '素材库', value: 7 },
+        { label: '优惠券', value: 8 },
+        { label: '导购指标', value: 9 },
+        { label: '授权管理', value: 10 }
       ],
       operator: [
-        {label: '员工', value: 2},
-        {label: '品牌方', value: 1},
-        {label: '操作人ID', value: 3}
+        { label: '员工', value: 2 },
+        { label: '品牌方', value: 1 },
+        { label: '操作人ID', value: 3 }
       ],
       pickerOptions: {
         shortcuts: [
@@ -114,7 +114,7 @@ export default {
     },
     initShopList () {
       var _this = this
-      _this.$http.fetch(_this.$api.guide.shop.findBrandShopList, {isOnline: 0}).then(resp => {
+      _this.$http.fetch(_this.$api.guide.shop.findBrandShopList, { isOnline: 0 }).then(resp => {
         if (resp.success && resp.result != null) {
           _this.shopFindList = resp.result
         }

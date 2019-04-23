@@ -16,17 +16,17 @@
 </template>
 
 <script>
-  export default {
-    name: 'example',
-    data () {
-      return {
-      }
-    },
-    mounted () {
-      let heightMain = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight
-      this.$refs.loadingContent.style.height = heightMain + 'px'
+export default {
+  name: 'example',
+  data () {
+    return {
     }
+  },
+  mounted () {
+    let heightMain = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight
+    this.$refs.loadingContent.style.height = heightMain + 'px'
   }
+}
 </script>
 
 <style scoped>

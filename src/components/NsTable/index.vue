@@ -160,202 +160,207 @@
 </template>
 
 <script>
-  export default {
-    name: 'NsTable',
-    data () {
-      return {
-        loadingMask: false
+export default {
+  name: 'NsTable',
+  data () {
+    return {
+      loadingMask: false
+    }
+  },
+  props: {
+    toolbar: Boolean,
+    toolbarTrisect: Boolean,
+    toolbarBtnsInfo: Array,
+    toolbarGrid: {
+      type: Array,
+      default () {
+        return [16, 8]
       }
     },
-    props: {
-      toolbar: Boolean,
-      toolbarTrisect: Boolean,
-      toolbarBtnsInfo: Array,
-      toolbarGrid: {
-        type: Array,
-        default () {
-          return [16, 8]
-        }
-      },
-      data: {
-        type: Array,
-        default: function () {
-          return []
-        }
-      },
-      tableParam: {
-        type: Object,
-        default () {
-          return {}
-        }
-      },
-      columnParam: Array,
-      // 操作列配置
-      columnBtnsParam: {
-        type: Object,
-        default () {
-        }
-      },
-      selection: {
-        type: Boolean,
-        default: true
-      },
-      selectionColWidth: {
-        type: Number,
-        default: 34
-      },
-      loadingParam: {
-        type: Object,
-        default () {
-          return {
-            text: '正在加载...'
-          }
-        }
-      },
-      pagination: {
-        type: Object,
-        default () {
-          return {
-            currentPage: 1
-          }
-        }
-      },
-      layout: 'total, sizes, prev, pager, next, jumper'
+    data: {
+      type: Array,
+      default: function () {
+        return []
+      }
     },
-    methods: {
-      /**
+    tableParam: {
+      type: Object,
+      default () {
+        return {}
+      }
+    },
+    columnParam: Array,
+    // 操作列配置
+    columnBtnsParam: {
+      type: Object,
+      default () {
+      }
+    },
+    selection: {
+      type: Boolean,
+      default: true
+    },
+    selectionColWidth: {
+      type: Number,
+      default: 34
+    },
+    loadingParam: {
+      type: Object,
+      default () {
+        return {
+          text: '正在加载...'
+        }
+      }
+    },
+    pagination: {
+      type: Object,
+      default () {
+        return {
+          currentPage: 1
+        }
+      }
+    },
+    layout: total,
+    sizes,
+    prev,
+    pager,
+    next,
+    jumper
+  },
+  methods: {
+    /**
        * 自定义搜索工具栏按钮组事件
        * @param btn
        */
-      onToolbarBtnsMethods (btn) {
-        // 数据中有配置fn时，使用数据中的fn，否则对事件进行派发出去
-        if (btn.fn) {
-          btn.fn(btn)
-        } else {
-          this.$emit('toolbar-btns-methods', btn)
-        }
-      },
-      /**
+    onToolbarBtnsMethods (btn) {
+      // 数据中有配置fn时，使用数据中的fn，否则对事件进行派发出去
+      if (btn.fn) {
+        btn.fn(btn)
+      } else {
+        this.$emit('toolbar-btns-methods', btn)
+      }
+    },
+    /**
        * 自定义表格操作列按钮事件
        * @param opts
        */
-      onCustomBtnEvent (opts) {
-        // 数据中有配置fn时，使用数据中的fn，否则对事件进行派发出去
-        if (opts.btnInfo.fn) {
-          opts.btnInfo.fn(opts)
-        } else {
-          this.$emit('column-btns-methods', opts)
-        }
-      },
-      /**
+    onCustomBtnEvent (opts) {
+      // 数据中有配置fn时，使用数据中的fn，否则对事件进行派发出去
+      if (opts.btnInfo.fn) {
+        opts.btnInfo.fn(opts)
+      } else {
+        this.$emit('column-btns-methods', opts)
+      }
+    },
+    /**
        * 改变当前页码事件
        * @param  {number} page 当前页面
        */
-      currentPageChange (page) {
-        this.$emit('current-page-change', page)
-      },
+    currentPageChange (page) {
+      this.$emit('current-page-change', page)
+    },
 
-      /**
+    /**
        * 改变每页显示的数量事件
        * @param  {number} page_size 每页显示的数量
        */
-      pageSizeChange (pageSize) {
-        this.$emit('page-size-change', pageSize)
-      },
-      // 提交筛选
-      onSubmitSearch () {
-        this.$emit('submit-search')
-      },
-      // 重置筛选条件
-      onResetSearch () {
-        this.$emit('reset-search')
-      },
-      // 清空筛选条件
-      onCleanSearch () {
-        this.$emit('clean-search')
-      },
-      // 修改筛选条件
-      onRecoverSearch () {
-        this.$emit('recover-search')
-      },
-      /**
+    pageSizeChange (pageSize) {
+      this.$emit('page-size-change', pageSize)
+    },
+    // 提交筛选
+    onSubmitSearch () {
+      this.$emit('submit-search')
+    },
+    // 重置筛选条件
+    onResetSearch () {
+      this.$emit('reset-search')
+    },
+    // 清空筛选条件
+    onCleanSearch () {
+      this.$emit('clean-search')
+    },
+    // 修改筛选条件
+    onRecoverSearch () {
+      this.$emit('recover-search')
+    },
+    /**
        * 表格原事件 event派发
        */
-      onSelect (selection, row) {
-        this.$emit('select', selection, row)
-      },
-      onSelectAll (selection, row) {
-        this.$emit('select-all', selection, row)
-      },
-      onSelectionChange (rows) {
-        this.$emit('selection-change', rows)
-      },
-      onCellMouseEnter (row, column, cell, event) {
-        this.$emit('cell-mouse-enter', row, column, cell, event)
-      },
-      onCellMouseLeave (row, column, cell, event) {
-        this.$emit('cell-mouse-leave', row, column, cell, event)
-      },
-      onCellClick (row, column, cell, event) {
-        this.$emit('cell-click', row, column, cell, event)
-      },
-      onCellDblclick (row, column, cell, event) {
-        this.$emit('cell-dblclick', row, column, cell, event)
-      },
-      onRowClick (row, event, column) {
-        this.$emit('row-click', row, event, column)
-      },
-      onRowContextmenu (row, event) {
-        this.$emit('row-contextmenu', row, event)
-      },
-      onRowDblclick (row, event) {
-        this.$emit('row-dblclick', row, event)
-      },
-      onHeaderClick (column, event) {
-        this.$emit('header-click', column, event)
-      },
-      onSortChange ({column, prop, order}) {
-        this.$emit('sort-change', {column, prop, order})
-      },
-      onFilterChange (filters) {
-        this.$emit('filter-change', filters)
-      },
-      onCurrentChange (currentRow, oldCurrentRow) {
-        this.$emit('current-change', currentRow, oldCurrentRow)
-      },
-      onHeaderDragend (newWidth, oldWidth, column, event) {
-        this.$emit('header-dragend', newWidth, oldWidth, column, event)
-      },
-      onExpand (row, expanded) {
-        this.$emit('expand', row, expanded)
-      },
-      /**
+    onSelect (selection, row) {
+      this.$emit('select', selection, row)
+    },
+    onSelectAll (selection, row) {
+      this.$emit('select-all', selection, row)
+    },
+    onSelectionChange (rows) {
+      this.$emit('selection-change', rows)
+    },
+    onCellMouseEnter (row, column, cell, event) {
+      this.$emit('cell-mouse-enter', row, column, cell, event)
+    },
+    onCellMouseLeave (row, column, cell, event) {
+      this.$emit('cell-mouse-leave', row, column, cell, event)
+    },
+    onCellClick (row, column, cell, event) {
+      this.$emit('cell-click', row, column, cell, event)
+    },
+    onCellDblclick (row, column, cell, event) {
+      this.$emit('cell-dblclick', row, column, cell, event)
+    },
+    onRowClick (row, event, column) {
+      this.$emit('row-click', row, event, column)
+    },
+    onRowContextmenu (row, event) {
+      this.$emit('row-contextmenu', row, event)
+    },
+    onRowDblclick (row, event) {
+      this.$emit('row-dblclick', row, event)
+    },
+    onHeaderClick (column, event) {
+      this.$emit('header-click', column, event)
+    },
+    onSortChange ({ column, prop, order }) {
+      this.$emit('sort-change', { column, prop, order })
+    },
+    onFilterChange (filters) {
+      this.$emit('filter-change', filters)
+    },
+    onCurrentChange (currentRow, oldCurrentRow) {
+      this.$emit('current-change', currentRow, oldCurrentRow)
+    },
+    onHeaderDragend (newWidth, oldWidth, column, event) {
+      this.$emit('header-dragend', newWidth, oldWidth, column, event)
+    },
+    onExpand (row, expanded) {
+      this.$emit('expand', row, expanded)
+    },
+    /**
        * /end 表格原事件 event派发
        */
-      /**
+    /**
        * 表格原方法methods
        */
-      clearSelection (selection) {
-        return this.$refs.temTable.clearSelection(selection)
-      },
+    clearSelection (selection) {
+      return this.$refs.temTable.clearSelection(selection)
+    },
 
-      toggleRowSelection (row, selected) {
-        return this.$refs.temTable.toggleRowSelection(row, selected)
-      },
+    toggleRowSelection (row, selected) {
+      return this.$refs.temTable.toggleRowSelection(row, selected)
+    },
 
-      setCurrentRow (row) {
-        return this.$refs.temTable.setCurrentRow(row)
-      }
-      /**
+    setCurrentRow (row) {
+      return this.$refs.temTable.setCurrentRow(row)
+    }
+    /**
        * end/表格原事件
        */
-    },
-    watch: {
-      data (data) {
-        if (data) {
-          this.loadingMask = false
-        }
+  },
+  watch: {
+    data (data) {
+      if (data) {
+        this.loadingMask = false
       }
     }
   }
+}
 </script>

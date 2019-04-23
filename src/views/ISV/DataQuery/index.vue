@@ -26,41 +26,40 @@
 </template>
 
 <script>
-  import tableMixin from 'mixins/table'
+import tableMixin from 'mixins/table'
 
-  export default {
-    name: 'DataTable',
-    mixins: [tableMixin],
-    data: function () {
-      return {
-        sql: null,
-        loadingTable: false,
-        tableList: [],
-        cols: [],
-        url: this.$api.isv.sqlQuery
-      }
-    },
-    mounted: function () {
-    },
-    methods: {
-      queryData: function () {
-        let that = this
-        that.loadingTable = true
-        that.cols = []
-        that.$http.fetch(that.url, {sql: that.sql}).then((resp) => {
-          if (resp.result && resp.result.length > 0) {
-            for (let item in resp.result[0]) {
-              that.cols.push(item)
-            }
-            that.tableList = resp.result
+export default {
+  name: 'DataTable',
+  mixins: [tableMixin],
+  data: function () {
+    return {
+      sql: null,
+      loadingTable: false,
+      tableList: [],
+      cols: [],
+      url: this.$api.isv.sqlQuery
+    }
+  },
+  mounted: function () {
+  },
+  methods: {
+    queryData: function () {
+      let that = this
+      that.loadingTable = true
+      that.cols = []
+      that.$http.fetch(that.url, { sql: that.sql }).then((resp) => {
+        if (resp.result && resp.result.length > 0) {
+          for (let item in resp.result[0]) {
+            that.cols.push(item)
           }
-          that.loadingTable = false
-        }).catch((resp) => {
-          that.$notify.error(resp.msg)
-          that.loadingTable = false
-        })
-      }
+          that.tableList = resp.result
+        }
+        that.loadingTable = false
+      }).catch((resp) => {
+        that.$notify.error(resp.msg)
+        that.loadingTable = false
+      })
     }
   }
+}
 </script>
-

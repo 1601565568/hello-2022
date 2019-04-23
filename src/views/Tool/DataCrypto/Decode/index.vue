@@ -81,9 +81,9 @@
   </el-row>
 </template>
 <script>
-  import index from './src/index'
+import index from './src/index'
 
-  index.components = {
-  }
-  export default index
+index.components = {
+}
+export default index
 </script>

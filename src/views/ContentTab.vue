@@ -5,11 +5,11 @@
   </div>
 </template>
 <script>
-  import MenuTab from 'components/layout/MenuTab'
+import MenuTab from 'components/layout/MenuTab'
 
-  export default {
-    components: {
-      MenuTab
-    }
+export default {
+  components: {
+    MenuTab
   }
+}
 </script>

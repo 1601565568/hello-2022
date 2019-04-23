@@ -44,67 +44,67 @@
 </template>
 
 <script>
-  export default {
-    data () {
-      return {
-        win_size: {
-          height: ''
-        },
-        subMenu: [],
-        subMenuDefaultOpeneds: []
-      }
-    },
-    watch: {
-      $route () {
-        this.setSubMenu()
+export default {
+  data () {
+    return {
+      win_size: {
+        height: ''
       },
-      subMenu: {
-        handler (val) {
-          this.scrollbarHeightFun()
-        },
-        immediate: true,
-        deep: true
-      }
+      subMenu: [],
+      subMenuDefaultOpeneds: []
+    }
+  },
+  watch: {
+    $route () {
+      this.setSubMenu()
     },
-    mounted: function () {
-      this.scrollbarHeightFun()
-      window.addEventListener('resize', this.setSize)
+    subMenu: {
+      handler (val) {
+        this.scrollbarHeightFun()
+      },
+      immediate: true,
+      deep: true
+    }
+  },
+  mounted: function () {
+    this.scrollbarHeightFun()
+    window.addEventListener('resize', this.setSize)
+  },
+  methods: {
+    scrollbarHeightFun () {
+      this.$nextTick(() => {
+        let limitHeight = window.innerHeight - 45
+        let scrollbarContent = document.getElementById('left-menu').getElementsByClassName('el-scrollbar__wrap')
+        if (scrollbarContent.length) {
+          scrollbarContent[0].style.maxHeight = limitHeight + 'px'
+        }
+      })
     },
-    methods: {
-      scrollbarHeightFun () {
-        this.$nextTick(() => {
-          let limitHeight = window.innerHeight - 45
-          let scrollbarContent = document.getElementById('left-menu').getElementsByClassName('el-scrollbar__wrap')
-          if (scrollbarContent.length) {
-            scrollbarContent[0].style.maxHeight = limitHeight + 'px'
+    setSize () {
+      this.win_size.height = window.innerHeight + 'px'
+    },
+    setSubMenu (item) {
+      if (item) {
+        this.subMenu = item
+      } else {
+        this.$store.state.user.menus.forEach((item) => {
+          if (this.$route.matched[0].name === item.name) {
+            this.subMenu = item
           }
         })
-      },
-      setSize () {
-        this.win_size.height = window.innerHeight + 'px'
-      },
-      setSubMenu (item) {
-        if (item) {
-          this.subMenu = item
-        } else {
-          this.$store.state.user.menus.forEach((item) => {
-            if (this.$route.matched[0].name === item.name) {
-              this.subMenu = item
-            }
-          })
-        }
       }
-    },
-    created () {
-      this.setSubMenu()
-      this.setSize()
-      this.$store.state.user.menus.forEach((item) => {
-        item.children.forEach((v) => {
-          this.subMenuDefaultOpeneds.push(v.path)
-        })
-      })
     }
+  },
+  created () {
+    this.setSubMenu()
+    this.setSize()
+    this.$store.state.user.menus.forEach((item) => {
+      item.children.forEach((v) => {
+        this.subMenuDefaultOpeneds.push(v.path)
+      })
+    })
   }
+}
 </script>
 
 <style scoped>

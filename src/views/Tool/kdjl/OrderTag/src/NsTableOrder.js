@@ -1,5 +1,5 @@
 import tableMixin from 'mixins/table'
-import apiRequestConfirm from 'utils/apiRequestConfirm'
+import apiRequestConfirm from 'web-crm/src/utils/apiRequestConfirm'
 
 export default {
   name: 'NsTableOrder',
@@ -23,7 +23,7 @@ export default {
           let that = this
           apiRequestConfirm('删除订单标签').then(function () {
             that.$http.fetch(that.$api.kdjl.jlOrderTag.deleteByIds
-              , {ids: obj.row.id})
+              , { ids: obj.row.id })
               .then((resp) => {
                 that.$notify.success(resp.msg)
                 that.$reload()
@@ -59,7 +59,7 @@ export default {
             apiRequestConfirm('删除所选择订单标签').then(function () {
               let ids = data.map(x => x.id)
               that.$http.fetch(that.$api.kdjl.jlOrderTag.deleteByIds
-                , {ids: ids.join(',')})
+                , { ids: ids.join(',') })
                 .then((resp) => {
                   that.$notify.success(resp.msg)
                   that.$parent.$reload()

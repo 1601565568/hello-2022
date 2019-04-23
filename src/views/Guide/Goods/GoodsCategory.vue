@@ -39,11 +39,11 @@
 </template>
 
 <script>
-  import GoodsCategory from './src/GoodsCategory'
-  import NsTree from 'components/NsTree'
+import GoodsCategory from './src/GoodsCategory'
+import NsTree from 'components/NsTree'
 
-  GoodsCategory.components = {NsTree}
-  export default GoodsCategory
+GoodsCategory.components = { NsTree }
+export default GoodsCategory
 </script>
 <style scoped>
 </style>

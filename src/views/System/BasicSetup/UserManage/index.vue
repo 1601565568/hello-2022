@@ -99,12 +99,12 @@
 </template>
 
 <script>
-  import index from './src/index'
-  import NsTableUserManage from './NsTableUserManage'
-  import NsDroptree from 'components/NsDroptree'
-  index.components = {
-    NsTableUserManage,
-    NsDroptree
-  }
-  export default index
+import index from './src/index'
+import NsTableUserManage from './NsTableUserManage'
+import NsDroptree from 'components/NsDroptree'
+index.components = {
+  NsTableUserManage,
+  NsDroptree
+}
+export default index
 </script>

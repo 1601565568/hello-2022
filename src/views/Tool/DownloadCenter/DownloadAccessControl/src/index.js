@@ -22,7 +22,7 @@ export default {
           if (val.length > 20) {
             callback(new Error('已超过可输入长度'))
           }
-          that.$http.fetch(that.$api.core.downloadConfig.validateMobile, {mobile: that.model.validate_mobile}).then((resp) => {
+          that.$http.fetch(that.$api.core.downloadConfig.validateMobile, { mobile: that.model.validate_mobile }).then((resp) => {
             if (resp.code === ErrorCode.MOBILE_ILLEGAL) {
               callback(new Error('手机号码不合法'))
             }

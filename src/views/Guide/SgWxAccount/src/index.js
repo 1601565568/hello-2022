@@ -1,5 +1,5 @@
 import tableMixin from 'mixins/table'
-// import apiRequestConfirm from 'utils/apiRequestConfirm'
+// import apiRequestConfirm from 'web-crm/src/utils/apiRequestConfirm'
 
 export default {
   name: 'index',
@@ -65,10 +65,10 @@ export default {
         table_buttons: tableButtons
       },
       rules: {
-        'name': [{required: true, message: '请输入微信名称'}],
-        'appid': [{required: true, message: '请输入应用ID'}],
-        'userCorpsecret': [{required: true, message: '请输入外部联系人企业秘钥'}],
-        'addressCorpsecret': [{required: true, message: '请输入通讯录企业秘钥'}]
+        'name': [{ required: true, message: '请输入微信名称' }],
+        'appid': [{ required: true, message: '请输入应用ID' }],
+        'userCorpsecret': [{ required: true, message: '请输入外部联系人企业秘钥' }],
+        'addressCorpsecret': [{ required: true, message: '请输入通讯录企业秘钥' }]
       }
     }
   },

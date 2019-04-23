@@ -165,6 +165,6 @@
   </ns-page-table>
 </template>
 <script>
-  import NsTableEmailSendLogs from './src/NsTableEmailSendLogs'
-  export default NsTableEmailSendLogs
+import NsTableEmailSendLogs from './src/NsTableEmailSendLogs'
+export default NsTableEmailSendLogs
 </script>

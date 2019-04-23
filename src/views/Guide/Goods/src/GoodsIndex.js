@@ -4,7 +4,7 @@ export default {
   mixins: [formMixin],
   data: function () {
     let rules = {
-      'title': [{required: true, message: '请输入商品名称'}, {
+      'title': [{ required: true, message: '请输入商品名称' }, {
         validator: (rule, value, callback) => {
           if (value && value.length > 100) {
             callback(new Error('商品名称不得超过100位'))
@@ -14,7 +14,7 @@ export default {
         },
         trigger: 'blur'
       }],
-      'goods_code': [{required: true, message: '请输入商品编号'}, {
+      'goods_code': [{ required: true, message: '请输入商品编号' }, {
         validator: (rule, value, callback) => {
           if (value && value.length > 32) {
             callback(new Error('商品编号不得超过32位'))
@@ -24,7 +24,7 @@ export default {
         },
         trigger: 'blur'
       }],
-      'price': [{required: true, message: '请输入建议零售价'}, {
+      'price': [{ required: true, message: '请输入建议零售价' }, {
         validator: (rule, value, callback) => {
           if (!/^([-+]?\d{1,14})(\.\d{1,2})?$/.test(value)) {
             callback(new Error('建议零售价必须14位整数以内且最多2位小数'))
@@ -59,7 +59,7 @@ export default {
         price: null,
         delete_price: null,
         cost_price: null,
-        typeList: [{type: '', list: [{ value: '' }]}],
+        typeList: [{ type: '', list: [{ value: '' }] }],
         skuList: []
       },
       root: {
@@ -88,21 +88,21 @@ export default {
       detail: '',
       addFlag: true,
       restaurants: [
-        {value: '颜色'},
-        {value: '尺寸'},
-        {value: '尺码'},
-        {value: '规格'},
-        {value: '款式'},
-        {value: '种类'},
-        {value: '净含量'},
-        {value: '版本'},
-        {value: '套餐'},
-        {value: '系列'},
-        {value: '使用'},
-        {value: '包装'},
-        {value: '口味'},
-        {value: '产地'},
-        {value: '有效期'}
+        { value: '颜色' },
+        { value: '尺寸' },
+        { value: '尺码' },
+        { value: '规格' },
+        { value: '款式' },
+        { value: '种类' },
+        { value: '净含量' },
+        { value: '版本' },
+        { value: '套餐' },
+        { value: '系列' },
+        { value: '使用' },
+        { value: '包装' },
+        { value: '口味' },
+        { value: '产地' },
+        { value: '有效期' }
       ]
     }
   },
@@ -112,10 +112,10 @@ export default {
     },
     findNodeTextByCids (list, cids) {
       for (let i = 0; i < list.length; i++) {
-        if (list[i].ext1 === cids) return list[i].label
+        if (list[i].ext1 === cids) { return list[i].label }
         if (list[i].children) {
           let result = this.findNodeTextByCids(list[i].children, cids)
-          if (result) return result
+          if (result) { return result }
         }
       }
       return null
@@ -127,7 +127,7 @@ export default {
     async showGoodsDialog (row) {
       let that = this
       // loading2用于防止同步调接口等待时，多次点击造成重复调用
-      if (that.loading2) return
+      if (that.loading2) { return }
       that.loading2 = true
       that.formData.category = {}
       that.treeData2 = this.$refs.table.$data.treeData2
@@ -169,7 +169,7 @@ export default {
     },
     async showDetailDialog (row) {
       let that = this
-      if (that.loading2) return
+      if (that.loading2) { return }
       that.loading2 = true
       that.goodsDialogTitle = '商品详情'
       await that.$http.fetch(that.$api.guide.goods.getDetail, {
@@ -236,10 +236,10 @@ export default {
       if (that.typeList.length > 0) {
         let length = 1
         for (let i = 0; i < that.typeList.length; i++) {
-          if (!that.typeList[i].type) return false
+          if (!that.typeList[i].type) { return false }
           let list = []
           for (let j = 0; j < that.typeList[i].list.length; j++) {
-            if (!that.typeList[i].list[j].value) return false
+            if (!that.typeList[i].list[j].value) { return false }
             list.push(that.typeList[i].list[j].value)
           }
           typeList.push({
@@ -248,7 +248,7 @@ export default {
           })
           length *= that.typeList[i].list.length
         }
-        if (length !== that.skuList.length) return false
+        if (length !== that.skuList.length) { return false }
         for (let i = 0; i < that.skuList.length; i++) {
           skuList.push({
             type: that.skuList[i].type.split(' '),
@@ -290,7 +290,7 @@ export default {
       that.skuList = skuList
     },
     addGoodsType () {
-      this.typeList.push({type: '', list: [{ value: '' }]})
+      this.typeList.push({ type: '', list: [{ value: '' }] })
     },
     deleteGoodsType (index) {
       let all = 1
@@ -329,7 +329,7 @@ export default {
           let type3 = (length > 2 && typeList[2].list) || [{ value: '' }]
           for (let k = 0; k < type3.length; k++) {
             if (skuList.length < ++num) {
-              skuList.push({type: '', price: null, cost_price: null, picture_url: null, sales_count: 0})
+              skuList.push({ type: '', price: null, cost_price: null, picture_url: null, sales_count: 0 })
             }
             let sku = skuList[num - 1]
             sku.type = (type1[i].value + ' ' + type2[j].value + ' ' + type3[k].value).trim()

@@ -19,11 +19,11 @@ export default {
     return {
       shopId: '',
       couponId: '',
-      model: {coupon_state: '',
+      model: { coupon_state: '',
         send_status: '',
         out_nick: '',
         shop_id: '',
-        coupon_id: ''},
+        coupon_id: '' },
       url: this.$api.marketing.coupon.queryCouponDetail,
       _pagination: pagination,
       _table: {

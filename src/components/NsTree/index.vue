@@ -65,283 +65,283 @@
 </template>
 
 <script>
-  // 异步加载tree数据
-  function loadTreeData (_this, data, url) {
-    // 清空数据，在异步请求数据
-    _this.$http.fetch(url, data).then((json) => {
-      var result = json.result
-      // 顶级节点为空，直接从子节点中获取
-      if (result instanceof Object && !result.hasOwnProperty('id') && !result.hasOwnProperty('label') && result.hasOwnProperty('children')) {
-        data.push(result.children)
-      } else if (result instanceof Object && result.hasOwnProperty('id') && result.hasOwnProperty('label')) {
-        // 顶级节点不为空
-        data.push(result)
-      } else if (Array.isArray(result)) {
-        // 直接返回多个节点
-        data = result
-      } else {
-        throw new Error('数据类型错误')
-      }
-    }).catch(() => {
-      throw new Error('数据请求出错')
-    })
-  }
+// 异步加载tree数据
+function loadTreeData (_this, data, url) {
+  // 清空数据，在异步请求数据
+  _this.$http.fetch(url, data).then((json) => {
+    var result = json.result
+    // 顶级节点为空，直接从子节点中获取
+    if (result instanceof Object && !result.hasOwnProperty('id') && !result.hasOwnProperty('label') && result.hasOwnProperty('children')) {
+      data.push(result.children)
+    } else if (result instanceof Object && result.hasOwnProperty('id') && result.hasOwnProperty('label')) {
+      // 顶级节点不为空
+      data.push(result)
+    } else if (Array.isArray(result)) {
+      // 直接返回多个节点
+      data = result
+    } else {
+      throw new Error('数据类型错误')
+    }
+  }).catch(() => {
+    throw new Error('数据请求出错')
+  })
+}
 
-  export default {
-    name: 'NsTree',
-    data: function () {
-      return {
-        treeData: this.data,
-        nodeFocus: false
+export default {
+  name: 'NsTree',
+  data: function () {
+    return {
+      treeData: this.data,
+      nodeFocus: false
+    }
+  },
+  props: {
+    url: Object,
+    data: {
+      type: Array,
+      default: function () {
+        return []
       }
+    },
+    emptyText: {
+      type: String,
+      default: function () {
+        return this.$t('prompt.noData')
+      }
+    },
+    nodeKey: String,
+    checkStrictly: Boolean,
+    defaultExpandAll: Boolean,
+    expandOnClickNode: {
+      type: Boolean,
+      default: true
+    },
+    autoExpandParent: {
+      type: Boolean,
+      default: true
+    },
+    defaultCheckedKeys: Array,
+    defaultExpandedKeys: Array,
+    renderContent: Function,
+    showCheckbox: {
+      type: Boolean,
+      default: false
+    },
+    maxLength: {
+      type: Number
     },
     props: {
-      url: Object,
-      data: {
-        type: Array,
-        default: function () {
-          return []
+      default: function () {
+        return {
+          children: 'children',
+          label: 'label',
+          icon: 'icon',
+          disabled: 'disabled'
         }
-      },
-      emptyText: {
-        type: String,
-        default: function () {
-          return this.$t('prompt.noData')
-        }
-      },
-      nodeKey: String,
-      checkStrictly: Boolean,
-      defaultExpandAll: Boolean,
-      expandOnClickNode: {
-        type: Boolean,
-        default: true
-      },
-      autoExpandParent: {
-        type: Boolean,
-        default: true
-      },
-      defaultCheckedKeys: Array,
-      defaultExpandedKeys: Array,
-      renderContent: Function,
-      showCheckbox: {
-        type: Boolean,
-        default: false
-      },
-      maxLength: {
-        type: Number
-      },
-      props: {
-        default: function () {
-          return {
-            children: 'children',
-            label: 'label',
-            icon: 'icon',
-            disabled: 'disabled'
-          }
-        }
-      },
-      lazy: {
-        type: Boolean,
-        default: false
-      },
-      highlightCurrent: Boolean,
-      currentNodeKey: [String, Number],
-      load: Function,
-      filterNodeMethod: Function,
-      accordion: Boolean,
-      indent: {
-        type: Number,
-        default: 16
-      },
-      showIcon: Boolean,
-      showIconUp: Boolean,
-      showAddLimit: {
-        type: String,
-        default: '0'
-      },
-      showIconDown: Boolean,
-      iconAdd: {
-        type: String,
-        default: function () {
-          return 'el-icon-plus'
-        }
-      },
-      iconEdit: {
-        type: String,
-        default: function () {
-          return 'el-icon-edit'
-        }
-      },
-      iconDelete: {
-        type: String,
-        default: function () {
-          return 'el-icon-delete'
-        }
-      },
-      iconAlwaysShow: {
-        type: Boolean,
-        default: function () {
-          return false
-        }
-      },
-      labelMaxLength: {
-        type: Number,
-        default: function () {
-          return 10
-        }
-      },
-      draggable: {
-        type: Boolean,
-        default: function () {
-          return false
-        }
-      },
-      allowDrag: Function,
-      allowDrop: Function
-    },
-    watch: {
-      data: function (newVal) {
-        this.$set(this, 'treeData', newVal)
       }
     },
-    methods: {
-      filter: function (value) {
-        if (!this.filterNodeMethod) {
-          throw new Error('[Tree] filterNodeMethod is required when filter')
-        }
-        this.$refs.store.filter(value)
-      },
-      getNodeKey: function (node, index) {
-        const nodeKey = this.nodeKey
-        if (nodeKey && node) {
-          return node.data[nodeKey]
-        }
-        return index
-      },
-      getCheckedNodes: function (leafOnly) {
-        return this.$refs.store.getCheckedNodes(leafOnly)
-      },
-      getCheckedKeys: function (leafOnly) {
-        return this.$refs.store.getCheckedKeys(leafOnly)
-      },
-      setCheckedNodes: function (nodes, leafOnly) {
-        if (!this.nodeKey) {
-          throw new Error('[Tree] nodeKey is required in setCheckedNodes')
-        }
-        this.$refs.store.setCheckedNodes(nodes, leafOnly)
-      },
-      setCheckedKeys: function (keys, leafOnly) {
-        if (!this.nodeKey) {
-          throw new Error('[Tree] nodeKey is required in setCheckedNodes')
-        }
-        this.$refs.store.setCheckedKeys(keys, leafOnly)
-      },
-      setChecked: function (data, checked, deep) {
-        this.$refs.store.setChecked(data, checked, deep)
-      },
-      setCurrentKey: function (data) {
-        this.$refs.store.setCurrentKey(data)
-      },
-      setCurrentNode: function (node) {
-        this.$refs.store.setCurrentNode(node)
-      },
-      getNode: function (data) {
-        this.$refs.store.getNode(data)
-      },
-      remove: function (data) {
-        this.$refs.store.remove(data)
-      },
-      append: function (data, parentNode) {
-        this.$refs.store.append(data, parentNode)
-      },
-      insertBefore: function (data, refNode) {
-        this.$refs.store.insertBefore(data, refNode)
-      },
-      insertAfter: function (data, refNode) {
-        this.$refs.store.insertAfter(data, refNode)
-      },
-      nodeClickHandle: function (nodeData, node, instance) {
-        this.$emit('node-click', nodeData, node, instance)
-      },
-      checkChangeHandle: function (nodeData, node, instance) {
-        this.$emit('check-change', nodeData, node, instance)
-      },
-      nodeExpandHandle: function (nodeData, node, instance) {
-        this.$emit('node-expand', nodeData, node, instance)
-      },
-      nodeCollapseHandle: function (nodeData, node, instance) {
-        this.$emit('node-collapse', nodeData, node, instance)
-      },
-      currentChangeHandle: function (nodeData, node) {
-        this.$emit('current-change', nodeData, node)
-      },
-      iconUpClick: function (data, node, event) {
-        event.stopPropagation()
-        this.$emit('icon-up-click', data, node)
-      },
-      iconDownClick: function (data, node, event) {
-        event.stopPropagation()
-        this.$emit('icon-down-click', data, node)
-      },
-      iconAddClick: function (data, node, event) {
-        event.stopPropagation()
-        this.$emit('icon-add-click', data, node)
-      },
-      iconEditClick: function (data, node, event) {
-        event.stopPropagation()
-        this.$emit('icon-edit-click', data, node)
-      },
-      iconDeleteClick: function (data, node, event) {
-        event.stopPropagation()
-        this.$emit('icon-delete-click', data, node)
-      },
-      nodeDragStart: function (dragNode, event) {
-        this.$emit('node-drag-start', dragNode, event)
-      },
-      nodeDragEnter: function (dragNode, currNode, event) {
-        this.$emit('node-drag-enter', dragNode, currNode, event)
-      },
-      nodeDragLeave: function (dragNode, currNode, event) {
-        this.$emit('node-drag-leave', dragNode, currNode, event)
-      },
-      nodeDragOver: function (dragNode, currNode, event) {
-        this.$emit('node-drag-over', dragNode, currNode, event)
-      },
-      nodeDragEnd: function (dragNode, currNode, position, event) {
-        this.$emit('node-drag-end', dragNode, currNode, position, event)
-      },
-      nodeDrop: function (dragNode, currNode, position, event) {
-        this.$emit('node-drop', dragNode, currNode, position, event)
-      },
-      onNodeMouseMove: function (node) {
-        this.$set(node.data, 'iconShow', true)
-      },
-      onNodeMouseOut: function (node) {
-        this.$set(node.data, 'iconShow', false)
-      },
-      // 新增方法
-      /**
+    lazy: {
+      type: Boolean,
+      default: false
+    },
+    highlightCurrent: Boolean,
+    currentNodeKey: [String, Number],
+    load: Function,
+    filterNodeMethod: Function,
+    accordion: Boolean,
+    indent: {
+      type: Number,
+      default: 16
+    },
+    showIcon: Boolean,
+    showIconUp: Boolean,
+    showAddLimit: {
+      type: String,
+      default: '0'
+    },
+    showIconDown: Boolean,
+    iconAdd: {
+      type: String,
+      default: function () {
+        return 'el-icon-plus'
+      }
+    },
+    iconEdit: {
+      type: String,
+      default: function () {
+        return 'el-icon-edit'
+      }
+    },
+    iconDelete: {
+      type: String,
+      default: function () {
+        return 'el-icon-delete'
+      }
+    },
+    iconAlwaysShow: {
+      type: Boolean,
+      default: function () {
+        return false
+      }
+    },
+    labelMaxLength: {
+      type: Number,
+      default: function () {
+        return 10
+      }
+    },
+    draggable: {
+      type: Boolean,
+      default: function () {
+        return false
+      }
+    },
+    allowDrag: Function,
+    allowDrop: Function
+  },
+  watch: {
+    data: function (newVal) {
+      this.$set(this, 'treeData', newVal)
+    }
+  },
+  methods: {
+    filter: function (value) {
+      if (!this.filterNodeMethod) {
+        throw new Error('[Tree] filterNodeMethod is required when filter')
+      }
+      this.$refs.store.filter(value)
+    },
+    getNodeKey: function (node, index) {
+      const nodeKey = this.nodeKey
+      if (nodeKey && node) {
+        return node.data[nodeKey]
+      }
+      return index
+    },
+    getCheckedNodes: function (leafOnly) {
+      return this.$refs.store.getCheckedNodes(leafOnly)
+    },
+    getCheckedKeys: function (leafOnly) {
+      return this.$refs.store.getCheckedKeys(leafOnly)
+    },
+    setCheckedNodes: function (nodes, leafOnly) {
+      if (!this.nodeKey) {
+        throw new Error('[Tree] nodeKey is required in setCheckedNodes')
+      }
+      this.$refs.store.setCheckedNodes(nodes, leafOnly)
+    },
+    setCheckedKeys: function (keys, leafOnly) {
+      if (!this.nodeKey) {
+        throw new Error('[Tree] nodeKey is required in setCheckedNodes')
+      }
+      this.$refs.store.setCheckedKeys(keys, leafOnly)
+    },
+    setChecked: function (data, checked, deep) {
+      this.$refs.store.setChecked(data, checked, deep)
+    },
+    setCurrentKey: function (data) {
+      this.$refs.store.setCurrentKey(data)
+    },
+    setCurrentNode: function (node) {
+      this.$refs.store.setCurrentNode(node)
+    },
+    getNode: function (data) {
+      this.$refs.store.getNode(data)
+    },
+    remove: function (data) {
+      this.$refs.store.remove(data)
+    },
+    append: function (data, parentNode) {
+      this.$refs.store.append(data, parentNode)
+    },
+    insertBefore: function (data, refNode) {
+      this.$refs.store.insertBefore(data, refNode)
+    },
+    insertAfter: function (data, refNode) {
+      this.$refs.store.insertAfter(data, refNode)
+    },
+    nodeClickHandle: function (nodeData, node, instance) {
+      this.$emit('node-click', nodeData, node, instance)
+    },
+    checkChangeHandle: function (nodeData, node, instance) {
+      this.$emit('check-change', nodeData, node, instance)
+    },
+    nodeExpandHandle: function (nodeData, node, instance) {
+      this.$emit('node-expand', nodeData, node, instance)
+    },
+    nodeCollapseHandle: function (nodeData, node, instance) {
+      this.$emit('node-collapse', nodeData, node, instance)
+    },
+    currentChangeHandle: function (nodeData, node) {
+      this.$emit('current-change', nodeData, node)
+    },
+    iconUpClick: function (data, node, event) {
+      event.stopPropagation()
+      this.$emit('icon-up-click', data, node)
+    },
+    iconDownClick: function (data, node, event) {
+      event.stopPropagation()
+      this.$emit('icon-down-click', data, node)
+    },
+    iconAddClick: function (data, node, event) {
+      event.stopPropagation()
+      this.$emit('icon-add-click', data, node)
+    },
+    iconEditClick: function (data, node, event) {
+      event.stopPropagation()
+      this.$emit('icon-edit-click', data, node)
+    },
+    iconDeleteClick: function (data, node, event) {
+      event.stopPropagation()
+      this.$emit('icon-delete-click', data, node)
+    },
+    nodeDragStart: function (dragNode, event) {
+      this.$emit('node-drag-start', dragNode, event)
+    },
+    nodeDragEnter: function (dragNode, currNode, event) {
+      this.$emit('node-drag-enter', dragNode, currNode, event)
+    },
+    nodeDragLeave: function (dragNode, currNode, event) {
+      this.$emit('node-drag-leave', dragNode, currNode, event)
+    },
+    nodeDragOver: function (dragNode, currNode, event) {
+      this.$emit('node-drag-over', dragNode, currNode, event)
+    },
+    nodeDragEnd: function (dragNode, currNode, position, event) {
+      this.$emit('node-drag-end', dragNode, currNode, position, event)
+    },
+    nodeDrop: function (dragNode, currNode, position, event) {
+      this.$emit('node-drop', dragNode, currNode, position, event)
+    },
+    onNodeMouseMove: function (node) {
+      this.$set(node.data, 'iconShow', true)
+    },
+    onNodeMouseOut: function (node) {
+      this.$set(node.data, 'iconShow', false)
+    },
+    // 新增方法
+    /**
        * 刷新树
        */
-      refresh: function () {
-        var _url = this.url
-        if (_url) {
-          this.treeData = []
-          loadTreeData(this, this.treeData, _url)
-        }
-      },
-      // 截取字符串长度
-      subStrLength: function (str) {
-        return str.length > this.labelMaxLength ? str.substr(0, this.labelMaxLength) + '...' : str
+    refresh: function () {
+      var _url = this.url
+      if (_url) {
+        this.treeData = []
+        loadTreeData(this, this.treeData, _url)
       }
     },
-    created: function () {
-      // 如果url不为空，做异步加载数据
-      if (this.url) {
-        loadTreeData(this, this.treeData, this.url)
-      }
+    // 截取字符串长度
+    subStrLength: function (str) {
+      return str.length > this.labelMaxLength ? str.substr(0, this.labelMaxLength) + '...' : str
+    }
+  },
+  created: function () {
+    // 如果url不为空，做异步加载数据
+    if (this.url) {
+      loadTreeData(this, this.treeData, this.url)
     }
   }
+}
 </script>
 
 <style scoped>

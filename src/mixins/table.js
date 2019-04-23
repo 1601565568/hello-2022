@@ -113,7 +113,7 @@ export default {
     },
     deleteRow: function (api, id) {
       let that = this
-      return that.$http.fetch(api, {id: id}).then(resp => {
+      return that.$http.fetch(api, { id: id }).then(resp => {
         that.$reload()
         that.$notify.success(resp.msg)
       }).catch(() => {
@@ -343,7 +343,7 @@ export default {
       pagination.size = size
       return this.$reload()
     },
-    $orderChange$: function ({column, prop, order}) {
+    $orderChange$: function ({ column, prop, order }) {
       var dir = order === 'ascending'
         ? 'asc' : (order === 'descending') ? 'desc' : undefined
       if (dir) {
@@ -363,7 +363,7 @@ export default {
         length: pagination.size
       }
       var searchMap = $.extend(true, {}, this._data._table.searchMap ? this._data._table.searchMap : this.model)
-      var params = $.extend(true, {}, order, limit, {searchMap: searchMap})
+      var params = $.extend(true, {}, order, limit, { searchMap: searchMap })
       if (typeof this.$handleParams === 'function') {
         return this.$handleParams(params)
       }

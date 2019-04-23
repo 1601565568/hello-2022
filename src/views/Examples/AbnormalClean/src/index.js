@@ -23,8 +23,8 @@ export default {
             radius: '73%',
             center: ['50%', '50%'],
             data: [
-              {value: 9, name: '成功营销人数'},
-              {value: 0, name: '清洗人数'}
+              { value: 9, name: '成功营销人数' },
+              { value: 0, name: '清洗人数' }
             ],
             itemStyle: {
               emphasis: {
@@ -48,8 +48,8 @@ export default {
             radius: '73%',
             center: ['50%', '50%'],
             data: [
-              {value: 11.94, name: '营销成本'},
-              {value: 0, name: '已节约成本'}
+              { value: 11.94, name: '营销成本' },
+              { value: 0, name: '已节约成本' }
             ],
             itemStyle: {
               emphasis: {

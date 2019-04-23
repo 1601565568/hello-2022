@@ -1,6 +1,6 @@
 import tableMixin from 'mixins/table' // 引入tableMixin
 import ErrorCode from '@/config/errorCode'
-import apiRequestConfirm from 'utils/apiRequestConfirm'
+import apiRequestConfirm from 'web-crm/src/utils/apiRequestConfirm'
 export default {
   name: 'NsTableSmsSignature',
   mixins: [tableMixin],
@@ -19,7 +19,7 @@ export default {
         'func': function (args) {
           var that = this
           apiRequestConfirm('删除该签名').then(() => {
-            that.$http.fetch(this.$api.touch.smsSignature.deleteById, {id: args.row.id})
+            that.$http.fetch(this.$api.touch.smsSignature.deleteById, { id: args.row.id })
               .then(resp => {
                 that.$notify.success(resp.msg)
                 that.$reload()
@@ -36,15 +36,15 @@ export default {
         'func': function (args) {
           var that = this
           apiRequestConfirm('提交审核').then(() => {
-            that.$http.fetch(this.$api.touch.smsSignature.submitAudit, {id: args.row.id})
-                .then(resp => {
-                  if (resp.code === ErrorCode.SUCCESS) {
-                    that.$notify.success(resp.msg)
-                  } else {
-                    that.$notify.error(resp.msg)
-                  }
-                  that.$reload()
-                })
+            that.$http.fetch(this.$api.touch.smsSignature.submitAudit, { id: args.row.id })
+              .then(resp => {
+                if (resp.code === ErrorCode.SUCCESS) {
+                  that.$notify.success(resp.msg)
+                } else {
+                  that.$notify.error(resp.msg)
+                }
+                that.$reload()
+              })
           }).catch(() => {
           })
         },
@@ -112,7 +112,7 @@ export default {
     }]
     var quickSearchNames = quickInput.map(x => x.name)
     var quickSearchModel = {}
-    var model = Object.assign({}, {'signatureName': '', 'userName': ''}, {})
+    var model = Object.assign({}, { 'signatureName': '', 'userName': '' }, {})
     var that = this
 
     quickInput.map(item => {
@@ -144,7 +144,7 @@ export default {
         quickSearchNames: quickSearchNames,
         quickSearchMap: {}
       },
-      _queryConfig: {expand: false}
+      _queryConfig: { expand: false }
     }
   },
   mounted: function () {

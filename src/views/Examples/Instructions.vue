@@ -40,11 +40,11 @@
 </template>
 
 <script>
-  export default {
-    data () {
-      return {
-        instructionsState: false
-      }
+export default {
+  data () {
+    return {
+      instructionsState: false
     }
   }
+}
 </script>

@@ -19,10 +19,10 @@ export default {
         id: ''
       },
       rules: {
-        shop_id: [{required: true, message: '请选择店铺', trigger: 'change'}],
+        shop_id: [{ required: true, message: '请选择店铺', trigger: 'change' }],
         memo_phrase: [
-          {required: true, message: '请输入备注短语', trigger: 'blur'},
-          {min: 1, max: 200, message: '长度在 1 到 200 个字符', trigger: 'blur'},
+          { required: true, message: '请输入备注短语', trigger: 'blur' },
+          { min: 1, max: 200, message: '长度在 1 到 200 个字符', trigger: 'blur' },
           {
             validator: (rule, value, callback) => {
               if (value !== '') {
@@ -87,16 +87,16 @@ export default {
         if (valid) {
           vm.loading = true
           vm.$http.fetch(vm.$api.kdjl.remarks.saveOrUpdate, vm.model)
-          .then((resp) => {
-            vm.$notify.success(resp.msg)
-            vm.$refs.public.$reload()
-            vm.$refs.private.$reload()
-            vm.onClose()
-          }).catch((resp) => {
-            vm.$notify.error(resp.msg)
-          }).finally(() => {
-            vm.loading = false
-          })
+            .then((resp) => {
+              vm.$notify.success(resp.msg)
+              vm.$refs.public.$reload()
+              vm.$refs.private.$reload()
+              vm.onClose()
+            }).catch((resp) => {
+              vm.$notify.error(resp.msg)
+            }).finally(() => {
+              vm.loading = false
+            })
         } else {
           return false
         }

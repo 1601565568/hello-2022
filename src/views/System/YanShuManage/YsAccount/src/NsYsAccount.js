@@ -1,6 +1,6 @@
 import tableMixin from 'mixins/table'
 import ErrorCode from '@/config/errorCode'
-import apiRequestConfirm from 'utils/apiRequestConfirm'
+import apiRequestConfirm from 'web-crm/src/utils/apiRequestConfirm'
 export default {
   name: 'NsYsAccount',
   mixins: [tableMixin],
@@ -38,12 +38,12 @@ export default {
         'func': function (args) {
           var that = this
           apiRequestConfirm('删除该账号').then(() => {
-            that.$http.fetch(this.$api.touch.ysChannel.hasChannelExist, {ysAccount: args.row.ys_account})
+            that.$http.fetch(this.$api.touch.ysChannel.hasChannelExist, { ysAccount: args.row.ys_account })
               .then((resp) => {
                 if (resp.code === ErrorCode.YS_CHANNEL_EXIST) {
                   that.$notify.error('存在未删除的通道，请删除通道后重试')
                 } else {
-                  that.$http.fetch(this.$api.touch.ysAccount.deleteById, {id: args.row.id})
+                  that.$http.fetch(this.$api.touch.ysAccount.deleteById, { id: args.row.id })
                     .then(resp => {
                       that.$notify.success(resp.msg)
                       that.$reload()
@@ -84,7 +84,7 @@ export default {
 
     var quickSearchNames = quickInput.map(x => x.name)
     var quickSearchModel = {}
-    var model = Object.assign({}, {'ys_account': ''}, {})
+    var model = Object.assign({}, { 'ys_account': '' }, {})
     var that = this
     quickInput.map(item => {
       Object.defineProperty(quickSearchModel, item.name, {
@@ -115,7 +115,7 @@ export default {
         quickSearchNames: quickSearchNames,
         quickSearchMap: {}
       },
-      _queryConfig: {expand: false}
+      _queryConfig: { expand: false }
     }
   },
   mounted: function () {

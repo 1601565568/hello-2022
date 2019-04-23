@@ -31,11 +31,11 @@
 </template>
 
 <script>
-  import index from './src/index'
-  import NsTableReviewTemplate from './NsTableReviewTemplate'
+import index from './src/index'
+import NsTableReviewTemplate from './NsTableReviewTemplate'
 
-  index.components = {
-    NsTableReviewTemplate
-  }
-  export default index
+index.components = {
+  NsTableReviewTemplate
+}
+export default index
 </script>

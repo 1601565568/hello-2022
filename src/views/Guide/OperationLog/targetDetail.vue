@@ -242,127 +242,127 @@
 </template>
 
 <script>
-  import tableMixin from 'mixins/table'
-  import listItemShow from '../Material/components/listItemShow'
-  export default {
-    name: 'targetDetail',
-    components: {listItemShow},
-    mixins: [tableMixin],
-    props: {
-      dataModule: {
-        type: Array,
-        default: function () {
-          return []
-        }
-      }
-    },
-    data: function () {
-      return {
-        url: null,
-        moduleType: null,
-        tableType: 1,
-        subdivisionList: [],
-        model: {
-          guide: {
-            guideName: null,
-            mobile: null
-          },
-          customer: {
-            name: null,
-            mobile: null
-          },
-          task: {
-            name: null
-          },
-          materialSubdivision: {
-            subdivision_name: null
-          },
-          material: {
-            content: null,
-            subdivisionId: null
-          },
-          shop: {
-            shopName: name
-          },
-          coupon: {
-            title: null,
-            code: null
-          }
-        }
-      }
-    },
-    mounted: function () {
-      this.moduleType = this.dataModule ? this.dataModule[0].value : null
-      this.setUrl(this.moduleType)
-      this.$reload()
-    },
-    created: function () {
-      this.loadMaterialSubdivision()
-    },
-    methods: {
-      setUrl: function (val) {
-        let _this = this
-        switch (val) {
-          case 1: _this.url = this.$api.guide.guide.findList; break
-          case 2: _this.url = this.$api.guide.guide.customerFindCustomerList; break
-          case 3: _this.url = this.$api.guide.guide.findShopListOnCondition; break
-          case 4: _this.url = this.$api.guide.task.queryTaskList; break
-          case 5: _this.url = this.$api.guide.guide.rewardruleList; break
-          case 6: _this.url = this.$api.guide.materialGroudList; break
-          case 7: _this.url = this.$api.guide.materialFindListByBrandId; break
-          case 8: _this.url = this.$api.guide.activityCoupon.findList; break
-          case 9: _this.url = this.$api.guide.guide.findList; break
-          case 10: _this.url = this.$api.guide.sgwxaccount.findList; break
-          default: break
-        }
-      },
-      $resetInput: function () {
-        let _this = this
-        for (let key1 in _this.model) {
-          if (_this.model[key1] instanceof Object) {
-            for (let key2 in _this.model[key1]) {
-              _this.model[key1][key2] = null
-            }
-          } else {
-            _this.model[key1] = null
-          }
-        }
-        this.$searchAction$()
-      },
-      $handleParams: function (params) {
-        let model = {}
-        let _this = this
-        switch (_this.moduleType) {
-          case 1: model = _this.model.guide; break
-          case 2: model = _this.model.customer; break
-          case 3: model = _this.model.shop; break
-          case 4: model = _this.model.task; break
-          case 5: model = _this.model.shop; break
-          case 6: model = _this.model.materialSubdivision; break
-          case 7: model = _this.model.material; break
-          case 8: model = _this.model.coupon; break
-          case 9: model = _this.model.guide; break
-          default: break
-        }
-        params.searchMap = Object.assign({}, {}, {}, model)
-        return params
-      },
-      findList: function () {
-        let _this = this
-        this.$searchAction$()
-        _this.tableType = this.moduleType
-        _this.$refs.table.doLayout()
-      },
-      // 加载素材分组列表
-      async loadMaterialSubdivision () {
-        await this.$http
-                   .fetch(this.$api.guide.materialGroudListAll, {})
-                   .then(resp => {
-                     this.subdivisionList = resp.result
-                   }).catch(resp => {
-                     this.$notify.error(resp.msg)
-                   })
+import tableMixin from 'mixins/table'
+import listItemShow from '../Material/components/listItemShow'
+export default {
+  name: 'targetDetail',
+  components: { listItemShow },
+  mixins: [tableMixin],
+  props: {
+    dataModule: {
+      type: Array,
+      default: function () {
+        return []
       }
     }
+  },
+  data: function () {
+    return {
+      url: null,
+      moduleType: null,
+      tableType: 1,
+      subdivisionList: [],
+      model: {
+        guide: {
+          guideName: null,
+          mobile: null
+        },
+        customer: {
+          name: null,
+          mobile: null
+        },
+        task: {
+          name: null
+        },
+        materialSubdivision: {
+          subdivision_name: null
+        },
+        material: {
+          content: null,
+          subdivisionId: null
+        },
+        shop: {
+          shopName: name
+        },
+        coupon: {
+          title: null,
+          code: null
+        }
+      }
+    }
+  },
+  mounted: function () {
+    this.moduleType = this.dataModule ? this.dataModule[0].value : null
+    this.setUrl(this.moduleType)
+    this.$reload()
+  },
+  created: function () {
+    this.loadMaterialSubdivision()
+  },
+  methods: {
+    setUrl: function (val) {
+      let _this = this
+      switch (val) {
+        case 1: _this.url = this.$api.guide.guide.findList; break
+        case 2: _this.url = this.$api.guide.guide.customerFindCustomerList; break
+        case 3: _this.url = this.$api.guide.guide.findShopListOnCondition; break
+        case 4: _this.url = this.$api.guide.task.queryTaskList; break
+        case 5: _this.url = this.$api.guide.guide.rewardruleList; break
+        case 6: _this.url = this.$api.guide.materialGroudList; break
+        case 7: _this.url = this.$api.guide.materialFindListByBrandId; break
+        case 8: _this.url = this.$api.guide.activityCoupon.findList; break
+        case 9: _this.url = this.$api.guide.guide.findList; break
+        case 10: _this.url = this.$api.guide.sgwxaccount.findList; break
+        default: break
+      }
+    },
+    $resetInput: function () {
+      let _this = this
+      for (let key1 in _this.model) {
+        if (_this.model[key1] instanceof Object) {
+          for (let key2 in _this.model[key1]) {
+            _this.model[key1][key2] = null
+          }
+        } else {
+          _this.model[key1] = null
+        }
+      }
+      this.$searchAction$()
+    },
+    $handleParams: function (params) {
+      let model = {}
+      let _this = this
+      switch (_this.moduleType) {
+        case 1: model = _this.model.guide; break
+        case 2: model = _this.model.customer; break
+        case 3: model = _this.model.shop; break
+        case 4: model = _this.model.task; break
+        case 5: model = _this.model.shop; break
+        case 6: model = _this.model.materialSubdivision; break
+        case 7: model = _this.model.material; break
+        case 8: model = _this.model.coupon; break
+        case 9: model = _this.model.guide; break
+        default: break
+      }
+      params.searchMap = Object.assign({}, {}, {}, model)
+      return params
+    },
+    findList: function () {
+      let _this = this
+      this.$searchAction$()
+      _this.tableType = this.moduleType
+      _this.$refs.table.doLayout()
+    },
+    // 加载素材分组列表
+    async loadMaterialSubdivision () {
+      await this.$http
+        .fetch(this.$api.guide.materialGroudListAll, {})
+        .then(resp => {
+          this.subdivisionList = resp.result
+        }).catch(resp => {
+          this.$notify.error(resp.msg)
+        })
+    }
   }
+}
 </script>

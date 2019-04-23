@@ -44,46 +44,46 @@
 </template>
 
 <script>
-  import tableMixin from 'mixins/table'
-  import SgGoodsSelect from '../../../Guide/components/SgGoodsSelect'
-  export default {
-    name: 'ActivityGoodsTable',
-    mixins: [tableMixin],
-    components: {SgGoodsSelect},
-    props: {
-      showIcon: {
-        type: Boolean,
-        default () {
-          return true
-        }
-      }
-    },
-    data: function () {
-      return {
-        goodsInfo: null,
-        url: this.$api.guide.marketing.queryActivityGoods
-      }
-    },
-    methods: {
-      // 查询选中的商品列表
-      findList: function (goodsIds, activityId) {
-        if (!this._data._table.searchMap) {
-          this._data._table.searchMap = {}
-        }
-        this._data._table.searchMap.goodsIds = goodsIds
-        this._data._table.searchMap.activityId = activityId
-        this.$reload()
-      },
-      // 删除选中的商品
-      deleteGoods: function (row) {
-        for (let i = 0; i < this._data._table.data.length; i++) {
-          if (row.sys_item_id === this._data._table.data[i].sys_item_id) {
-            this._data._table.data.splice(i, 1)
-            break
-          }
-        }
-        this.$emit('delete', row.sys_item_id)
+import tableMixin from 'mixins/table'
+import SgGoodsSelect from '../../../Guide/components/SgGoodsSelect'
+export default {
+  name: 'ActivityGoodsTable',
+  mixins: [tableMixin],
+  components: { SgGoodsSelect },
+  props: {
+    showIcon: {
+      type: Boolean,
+      default () {
+        return true
       }
     }
+  },
+  data: function () {
+    return {
+      goodsInfo: null,
+      url: this.$api.guide.marketing.queryActivityGoods
+    }
+  },
+  methods: {
+    // 查询选中的商品列表
+    findList: function (goodsIds, activityId) {
+      if (!this._data._table.searchMap) {
+        this._data._table.searchMap = {}
+      }
+      this._data._table.searchMap.goodsIds = goodsIds
+      this._data._table.searchMap.activityId = activityId
+      this.$reload()
+    },
+    // 删除选中的商品
+    deleteGoods: function (row) {
+      for (let i = 0; i < this._data._table.data.length; i++) {
+        if (row.sys_item_id === this._data._table.data[i].sys_item_id) {
+          this._data._table.data.splice(i, 1)
+          break
+        }
+      }
+      this.$emit('delete', row.sys_item_id)
+    }
   }
+}
 </script>

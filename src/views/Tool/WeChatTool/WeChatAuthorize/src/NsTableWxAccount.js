@@ -1,5 +1,5 @@
 import tableMixin from 'mixins/table'
-import apiRequestConfirm from 'utils/apiRequestConfirm'
+import apiRequestConfirm from 'web-crm/src/utils/apiRequestConfirm'
 // import ErrorCode from '@/config/errorCode'
 export default {
   name: 'NsTableWxAccount',
@@ -31,12 +31,12 @@ export default {
             type: 'warning'
           }).then(() => {
             that.$http.fetch(that.$api.touch.wxAccount.deleteById,
-              {id: args.row.id}).then(resp => {
-                that.$notify.success(resp.msg)
-                that.$reload()
-              }).catch(() => {
-                that.$notify.error('删除失败')
-              })
+              { id: args.row.id }).then(resp => {
+              that.$notify.success(resp.msg)
+              that.$reload()
+            }).catch(() => {
+              that.$notify.error('删除失败')
+            })
           }).catch(() => {
           })
         },
@@ -73,7 +73,7 @@ export default {
       'value': ''
     }]
     var quickSearchNames = quickInput.map(x => x.name)
-    var model = Object.assign({}, {'name': ''}, {})
+    var model = Object.assign({}, { 'name': '' }, {})
     return {
       model: model,
       rules: Object.assign({}, {}, {}),
@@ -86,7 +86,7 @@ export default {
         quickSearchNames: quickSearchNames,
         quickSearchMap: {}
       },
-      _queryConfig: {expand: false}
+      _queryConfig: { expand: false }
     }
   },
   mounted: function () {
@@ -110,7 +110,7 @@ export default {
         changeStatus = 1
       }
       apiRequestConfirm(info).then(() => {
-        that.$http.fetch(that.$api.touch.wxAccount.statusUpdate, {id: row.id, status: changeStatus}).then(() => {
+        that.$http.fetch(that.$api.touch.wxAccount.statusUpdate, { id: row.id, status: changeStatus }).then(() => {
           call()
         }).catch(() => {
           that.$notify.error('状态更新失败，请重试')

@@ -6,8 +6,8 @@ var mixin = {
     return {
       rules: {
         template_title: [
-          {required: true, message: '请输入邮件标题，限制2-30字', trigger: ['blur', 'change']},
-          {min: 2, max: 30, message: '限2-30个字', trigger: ['blur', 'change']},
+          { required: true, message: '请输入邮件标题，限制2-30字', trigger: ['blur', 'change'] },
+          { min: 2, max: 30, message: '限2-30个字', trigger: ['blur', 'change'] },
           {
             validator: (rule, value, callback) => {
               if (this.model.template_type !== '') {
@@ -16,7 +16,7 @@ var mixin = {
                 if (typeof (that.model.id) !== 'undefined') {
                   id = that.model.id
                 }
-                this.$http.fetch(that.$api.touch.emailTemplate.hasTitleExist, {templateTitle: that.model.template_title, templateType: that.model.template_type, id: id
+                this.$http.fetch(that.$api.touch.emailTemplate.hasTitleExist, { templateTitle: that.model.template_title, templateType: that.model.template_type, id: id
                 }).then((resp) => {
                   if (resp.code === ErrorCode.TITLE_REPEAT) {
                     callback(new Error('此模板已存在，请重新输入'))
@@ -34,8 +34,8 @@ var mixin = {
           }
         ],
         topText: [
-          {min: 0, max: 500, message: '已超过可输入长度', trigger: ['blur', 'change']},
-          {validator: function (rule, val, callback) {
+          { min: 0, max: 500, message: '已超过可输入长度', trigger: ['blur', 'change'] },
+          { validator: function (rule, val, callback) {
             if (vue.model.template_type === 1 || vue.model.template_type === 16 || vue.model.template_type === 13 || vue.model.template_type === 18) {
               callback()
             } else {
@@ -46,14 +46,14 @@ var mixin = {
               }
             }
           },
-            trigger: ['blur', 'change']
+          trigger: ['blur', 'change']
           }],
         editor: [
-          {required: true, message: '请输入邮件内容，限制10000字', trigger: ['blur', 'change']},
-          {min: 1, max: 10007, message: '已超过可输入长度', trigger: ['blur', 'change']}
+          { required: true, message: '请输入邮件内容，限制10000字', trigger: ['blur', 'change'] },
+          { min: 1, max: 10007, message: '已超过可输入长度', trigger: ['blur', 'change'] }
         ],
         senderEmail: [
-          {min: 1, max: 320, message: '已超过可输入长度', trigger: ['blur', 'change']},
+          { min: 1, max: 320, message: '已超过可输入长度', trigger: ['blur', 'change'] },
           {
             validator: function (rule, val, callback) {
               var patten = new RegExp(/^[\w-]+(\.[\w-]+)*@([\w-]+\.)+(com|cn)$/)
@@ -100,7 +100,7 @@ var mixin = {
               if (typeof (that.model.id) !== 'undefined') {
                 id = that.model.id
               }
-              this.$http.fetch(that.$api.touch.smsTemplate.hasTitleExist, {templateTitle: that.model.template_title, templateType: that.model.template_type, id: id
+              this.$http.fetch(that.$api.touch.smsTemplate.hasTitleExist, { templateTitle: that.model.template_title, templateType: that.model.template_type, id: id
               }).then((resp) => {
                 if (resp.code === ErrorCode.TITLE_REPEAT) {
                   callback(new Error('此模板已存在，请重新输入'))
@@ -270,7 +270,7 @@ var mixin = {
       vue.isValidate = true
       that.mailtemplateformvisible = true
       that.$nextTick(function () {
-        this.$http.fetch(this.$api.touch.emailTemplate.queryById, {id: data.id})
+        this.$http.fetch(this.$api.touch.emailTemplate.queryById, { id: data.id })
           .then((resp) => {
             var content
             that.model.id = resp.result.id
@@ -346,7 +346,7 @@ var mixin = {
                 }
               })
           })
-         // that.$message.success('主题：' + emailSend.templateTitle + '测试邮件发送成功')
+          // that.$message.success('主题：' + emailSend.templateTitle + '测试邮件发送成功')
         } else {
           return false
         }
@@ -392,7 +392,7 @@ var mixin = {
             }).catch(() => {
               that.$notify.error('网络异常，保存失败！')
             }).finally(() => {
-                // that.saveDisabled = false
+              // that.saveDisabled = false
             })
           })
         } else {
@@ -433,7 +433,7 @@ var mixin = {
   }
 }// 校验规则
 var vue
-export default{
+export default {
   mixins: [formMixin, mixin],
   data: function () {
     return {

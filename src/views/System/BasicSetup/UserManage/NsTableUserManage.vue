@@ -139,7 +139,7 @@
 </template>
 
 <script>
-  import NsTableUserManage from './src/NsTableUserManage'
+import NsTableUserManage from './src/NsTableUserManage'
 
-  export default NsTableUserManage
+export default NsTableUserManage
 </script>

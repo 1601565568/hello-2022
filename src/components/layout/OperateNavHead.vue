@@ -50,111 +50,111 @@
 </template>
 
 <script>
-  export default {
-    name: 'NavHead',
-    data () {
-      return {
-        activeName: '',
-        cloudUrl: ''
-      }
+export default {
+  name: 'NavHead',
+  data () {
+    return {
+      activeName: '',
+      cloudUrl: ''
+    }
+  },
+  mounted () {
+    this.setBrandsInView()
+    this.onBackCloud()
+    this.activeName = this.$route.matched[0].name
+  },
+  methods: {
+    onBackCloud: function () {
+      let that = this
+      that.$http.fetch(that.$api.core.access.getCloudPlatformAddress)
+        .then((resp) => {
+          that.cloudUrl = resp.result
+        })
     },
-    mounted () {
-      this.setBrandsInView()
-      this.onBackCloud()
-      this.activeName = this.$route.matched[0].name
-    },
-    methods: {
-      onBackCloud: function () {
-        let that = this
-        that.$http.fetch(that.$api.core.access.getCloudPlatformAddress)
-          .then((resp) => {
-            that.cloudUrl = resp.result
-          })
-      },
-      /**
+    /**
        * 退出登录
        */
-      logout () {
-        this.$store.dispatch('user/logout').then((resp) => {
+    logout () {
+      this.$store.dispatch('user/logout').then((resp) => {
 
-        }).catch(() => {
-          this.$notify.error('退出失败，系统异常！')
-        })
-      },
-      /**
+      }).catch(() => {
+        this.$notify.error('退出失败，系统异常！')
+      })
+    },
+    /**
        * 弹出框-修改密码或者系统设置
        * @param {string} cmditem 弹框类型
        */
-      setDialogInfo (cmditem) {
-        if (!cmditem) {
-          // console.log('test')
-          this.$message('菜单选项缺少command属性')
-          return
-        }
-        switch (cmditem) {
-          case 'logout':
-            this.logout()
-            break
-        }
-      },
-      /**
+    setDialogInfo (cmditem) {
+      if (!cmditem) {
+        // console.log('test')
+        this.$message('菜单选项缺少command属性')
+        return
+      }
+      switch (cmditem) {
+        case 'logout':
+          this.logout()
+          break
+      }
+    },
+    /**
        * 设置品牌视角
        */
-      setBrandsInView () {
-        let brand = this.$store.state.user.brand
-        if (!brand) {
-          brand = {
-            id: -1,
-            name: '未创建视角',
-            brandType: -1
-          }
-          this.$store.dispatch('user/update_user_brand', {
-            brand: brand
-          })
+    setBrandsInView () {
+      let brand = this.$store.state.user.brand
+      if (!brand) {
+        brand = {
+          id: -1,
+          name: '未创建视角',
+          brandType: -1
         }
-      },
-      /**
+        this.$store.dispatch('user/update_user_brand', {
+          brand: brand
+        })
+      }
+    },
+    /**
        * 视角切换
        * @param brandId 品牌id
        */
-      changeView (brand) {
-        let params = {
-          brandId: brand.id,
-          brandType: brand.brandType
-        }
-        let that = this
-        return this.$http.fetch(this.$api.core.changeView, params).then(() => {
-          that.$store.dispatch('user/update_user_brand', {
-            brand: brand
-          })
+    changeView (brand) {
+      let params = {
+        brandId: brand.id,
+        brandType: brand.brandType
+      }
+      let that = this
+      return this.$http.fetch(this.$api.core.changeView, params).then(() => {
+        that.$store.dispatch('user/update_user_brand', {
+          brand: brand
         })
-      },
-      /**
+      })
+    },
+    /**
        * 处理视角切换命令
        * @param command
        */
-      onHandleViewCommand: function (command) {
-        // 判断是否品牌视角有改变
-        if (command !== this.$store.state.user.brand.id) {
-          this.$store.state.user.brands.forEach(item => {
-            // 判断是否相等
-            if (item.viewId === command) {
-              let that = this
-              // 视角切换接口
-              this.changeView({id: item.viewId, name: item.viewName, brandType: item.viewType}).then(() => {
-                that.$emit('brand-change', command)
-              })
-            }
-          })
-        }
-      }
-    },
-    watch: {
-      $route () {
-        this.activeName = this.$route.matched[0].name
+    onHandleViewCommand: function (command) {
+      // 判断是否品牌视角有改变
+      if (command !== this.$store.state.user.brand.id) {
+        this.$store.state.user.brands.forEach(item => {
+          // 判断是否相等
+          if (item.viewId === command) {
+            let that = this
+            // 视角切换接口
+            this.changeView({ id: item.viewId, name: item.viewName, brandType: item.viewType }).then(() => {
+              that.$emit('brand-change', command)
+            })
+          }
+        })
       }
     }
+  },
+  watch: {
+    $route () {
+      this.activeName = this.$route.matched[0].name
+    }
   }
+}
 </script>
 
 <style scoped>
@@ -319,4 +319,3 @@
     }
   }
 </style>
-

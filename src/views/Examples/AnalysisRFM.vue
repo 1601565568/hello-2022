@@ -50,294 +50,294 @@
 </template>
 
 <script>
-  export default {
-    data () {
-      return {
-        valueDate: '',
-        options: [{
-          value: '一年',
-          label: '一年'
-        }, {
-          value: '全部',
-          label: '全部'
-        }],
+export default {
+  data () {
+    return {
+      valueDate: '',
+      options: [{
         value: '一年',
-        /* 忠诚度阶梯 */
-        titleX: '忠诚度',
-        titleY: '活跃度',
-        lengthX: 5, // 横轴长度
-        lengthY: 5, // 竖轴长度
-        firColor: '#176cd8',
-        secColor: '#f5a915',
-        domList: [],
-        isOpen: false,
-        lists: [
-          {
-            items: [
-              {
-                title: 'R≤45，F=1',
-                num: '3人（16.53%）',
-                price: '￥0.22',
-                total: '￥0.65'
-              },
-              {
-                title: 'R≤45，F=2',
-                num: '3人（16.53%）',
-                price: '￥0.22',
-                total: '￥0.65'
-              },
-              {
-                title: 'R≤45，F=3',
-                num: '3人（16.53%）',
-                price: '￥0.22',
-                total: '￥0.65'
-              },
-              {
-                title: 'R≤45，F=4',
-                num: '3人（16.53%）',
-                price: '￥0.22',
-                total: '￥0.65'
-              },
-              {
-                title: 'R≤45，F=5',
-                num: '3人（16.53%）',
-                price: '￥0.22',
-                total: '￥0.65'
-              }
-            ]
-          },
-          {
-            items: [
-              {
-                title: 'R≤45，F=1',
-                num: '3人（16.53%）',
-                price: '￥0.22',
-                total: '￥0.65'
-              },
-              {
-                title: 'R≤45，F=1',
-                num: '3人（16.53%）',
-                price: '￥0.22',
-                total: '￥0.65'
-              },
-              {
-                title: 'R≤45，F=1',
-                num: '3人（16.53%）',
-                price: '￥0.22',
-                total: '￥0.65'
-              },
-              {
-                title: 'R≤45，F=1',
-                num: '3人（16.53%）',
-                price: '￥0.22',
-                total: '￥0.65'
-              },
-              {
-                title: 'R≤45，F=1',
-                num: '3人（16.53%）',
-                price: '￥0.22',
-                total: '￥0.65'
-              }
-            ]
-          },
-          {
-            items: [
-              {
-                title: 'R≤45，F=1',
-                num: '3人（16.53%）',
-                price: '￥0.22',
-                total: '￥0.65'
-              },
-              {
-                title: 'R≤45，F=1',
-                num: '3人（16.53%）',
-                price: '￥0.22',
-                total: '￥0.65'
-              },
-              {
-                title: 'R≤45，F=1',
-                num: '3人（16.53%）',
-                price: '￥0.22',
-                total: '￥0.65'
-              },
-              {
-                title: 'R≤45，F=1',
-                num: '3人（16.53%）',
-                price: '￥0.22',
-                total: '￥0.65'
-              },
-              {
-                title: 'R≤45，F=1',
-                num: '3人（16.53%）',
-                price: '￥0.22',
-                total: '￥0.65'
-              }
-            ]
-          },
-          {
-            items: [
-              {
-                title: 'R≤45，F=1',
-                num: '3人（16.53%）',
-                price: '￥0.22',
-                total: '￥0.65'
-              },
-              {
-                title: 'R≤45，F=1',
-                num: '3人（16.53%）',
-                price: '￥0.22',
-                total: '￥0.65'
-              },
-              {
-                title: 'R≤45，F=1',
-                num: '3人（16.53%）',
-                price: '￥0.22',
-                total: '￥0.65'
-              },
-              {
-                title: 'R≤45，F=1',
-                num: '3人（16.53%）',
-                price: '￥0.22',
-                total: '￥0.65'
-              },
-              {
-                title: 'R≤45，F=1',
-                num: '3人（16.53%）',
-                price: '￥0.22',
-                total: '￥0.65'
-              }
-            ]
-          },
-          {
-            items: [
-              {
-                title: 'R≤45，F=1',
-                num: '3人（16.53%）',
-                price: '￥0.22',
-                total: '￥0.65'
-              },
-              {
-                title: 'R≤45，F=1',
-                num: '3人（16.53%）',
-                price: '￥0.22',
-                total: '￥0.65'
-              },
-              {
-                title: 'R≤45，F=1',
-                num: '3人（16.53%）',
-                price: '￥0.22',
-                total: '￥0.65'
-              },
-              {
-                title: 'R≤45，F=1',
-                num: '3人（16.53%）',
-                price: '￥0.22',
-                total: '￥0.65'
-              },
-              {
-                title: 'R≤45，F=1',
-                num: '3人（16.53%）',
-                price: '￥0.22',
-                total: '￥0.65'
-              }
-            ]
-          }
-        ]
-        /* 忠诚度阶梯-end */
-      }
+        label: '一年'
+      }, {
+        value: '全部',
+        label: '全部'
+      }],
+      value: '一年',
+      /* 忠诚度阶梯 */
+      titleX: '忠诚度',
+      titleY: '活跃度',
+      lengthX: 5, // 横轴长度
+      lengthY: 5, // 竖轴长度
+      firColor: '#176cd8',
+      secColor: '#f5a915',
+      domList: [],
+      isOpen: false,
+      lists: [
+        {
+          items: [
+            {
+              title: 'R≤45，F=1',
+              num: '3人（16.53%）',
+              price: '￥0.22',
+              total: '￥0.65'
+            },
+            {
+              title: 'R≤45，F=2',
+              num: '3人（16.53%）',
+              price: '￥0.22',
+              total: '￥0.65'
+            },
+            {
+              title: 'R≤45，F=3',
+              num: '3人（16.53%）',
+              price: '￥0.22',
+              total: '￥0.65'
+            },
+            {
+              title: 'R≤45，F=4',
+              num: '3人（16.53%）',
+              price: '￥0.22',
+              total: '￥0.65'
+            },
+            {
+              title: 'R≤45，F=5',
+              num: '3人（16.53%）',
+              price: '￥0.22',
+              total: '￥0.65'
+            }
+          ]
+        },
+        {
+          items: [
+            {
+              title: 'R≤45，F=1',
+              num: '3人（16.53%）',
+              price: '￥0.22',
+              total: '￥0.65'
+            },
+            {
+              title: 'R≤45，F=1',
+              num: '3人（16.53%）',
+              price: '￥0.22',
+              total: '￥0.65'
+            },
+            {
+              title: 'R≤45，F=1',
+              num: '3人（16.53%）',
+              price: '￥0.22',
+              total: '￥0.65'
+            },
+            {
+              title: 'R≤45，F=1',
+              num: '3人（16.53%）',
+              price: '￥0.22',
+              total: '￥0.65'
+            },
+            {
+              title: 'R≤45，F=1',
+              num: '3人（16.53%）',
+              price: '￥0.22',
+              total: '￥0.65'
+            }
+          ]
+        },
+        {
+          items: [
+            {
+              title: 'R≤45，F=1',
+              num: '3人（16.53%）',
+              price: '￥0.22',
+              total: '￥0.65'
+            },
+            {
+              title: 'R≤45，F=1',
+              num: '3人（16.53%）',
+              price: '￥0.22',
+              total: '￥0.65'
+            },
+            {
+              title: 'R≤45，F=1',
+              num: '3人（16.53%）',
+              price: '￥0.22',
+              total: '￥0.65'
+            },
+            {
+              title: 'R≤45，F=1',
+              num: '3人（16.53%）',
+              price: '￥0.22',
+              total: '￥0.65'
+            },
+            {
+              title: 'R≤45，F=1',
+              num: '3人（16.53%）',
+              price: '￥0.22',
+              total: '￥0.65'
+            }
+          ]
+        },
+        {
+          items: [
+            {
+              title: 'R≤45，F=1',
+              num: '3人（16.53%）',
+              price: '￥0.22',
+              total: '￥0.65'
+            },
+            {
+              title: 'R≤45，F=1',
+              num: '3人（16.53%）',
+              price: '￥0.22',
+              total: '￥0.65'
+            },
+            {
+              title: 'R≤45，F=1',
+              num: '3人（16.53%）',
+              price: '￥0.22',
+              total: '￥0.65'
+            },
+            {
+              title: 'R≤45，F=1',
+              num: '3人（16.53%）',
+              price: '￥0.22',
+              total: '￥0.65'
+            },
+            {
+              title: 'R≤45，F=1',
+              num: '3人（16.53%）',
+              price: '￥0.22',
+              total: '￥0.65'
+            }
+          ]
+        },
+        {
+          items: [
+            {
+              title: 'R≤45，F=1',
+              num: '3人（16.53%）',
+              price: '￥0.22',
+              total: '￥0.65'
+            },
+            {
+              title: 'R≤45，F=1',
+              num: '3人（16.53%）',
+              price: '￥0.22',
+              total: '￥0.65'
+            },
+            {
+              title: 'R≤45，F=1',
+              num: '3人（16.53%）',
+              price: '￥0.22',
+              total: '￥0.65'
+            },
+            {
+              title: 'R≤45，F=1',
+              num: '3人（16.53%）',
+              price: '￥0.22',
+              total: '￥0.65'
+            },
+            {
+              title: 'R≤45，F=1',
+              num: '3人（16.53%）',
+              price: '￥0.22',
+              total: '￥0.65'
+            }
+          ]
+        }
+      ]
+      /* 忠诚度阶梯-end */
+    }
+  },
+  mounted () {
+    this.rfnFun()
+  },
+  methods: {
+    /* 忠诚度初始化函数 */
+    rfnFun () {
+      this.domFun()
+      this.setBackground()
+      this.setOpacity(this.lengthX, this.lengthY)
+      /* 输出内容 */
+      this.domList.forEach((value) => {
+        this.$refs.rfmList.appendChild(value)
+      })
+      /* 填充数据函数 */
+      this.fillData()
     },
-    mounted () {
-      this.rfnFun()
+    /* 循环dom节点 */
+    domFun () {
+      this.lists.forEach((value) => {
+        let domLi = document.createElement('li')
+        this.createDomFun(value, domLi)
+        this.domList.push(domLi)
+      })
     },
-    methods: {
-      /* 忠诚度初始化函数 */
-      rfnFun () {
-        this.domFun()
-        this.setBackground()
-        this.setOpacity(this.lengthX, this.lengthY)
-        /* 输出内容 */
-        this.domList.forEach((value) => {
-          this.$refs.rfmList.appendChild(value)
+    /* 创建dom节点 */
+    createDomFun (listLi, domLi) {
+      listLi.items.forEach(() => {
+        let domDiv = document.createElement('div')
+        domDiv.className = 'rfm-list__content clearfix'
+        let domContent = document.createElement('div')
+        domContent.className = 'list-content clearfix'
+        let domBackground = document.createElement('div')
+        domBackground.className = 'list-bg'
+        domDiv.appendChild(domContent)
+        domDiv.appendChild(domBackground)
+        domLi.appendChild(domDiv)
+      })
+    },
+    /* 循环数据 */
+    fillData () {
+      /* 循环忠诚度中li结构 */
+      this.lists.forEach((value, firIndex, array) => {
+        /* 循环li结构中div子级 */
+        value.items.forEach((value, secIndex, array) => {
+          /* 调用填充数据函数 */
+          this.dataFun(firIndex, secIndex, value)
         })
-        /* 填充数据函数 */
-        this.fillData()
-      },
-      /* 循环dom节点 */
-      domFun () {
-        this.lists.forEach((value) => {
-          let domLi = document.createElement('li')
-          this.createDomFun(value, domLi)
-          this.domList.push(domLi)
-        })
-      },
-      /* 创建dom节点 */
-      createDomFun (listLi, domLi) {
-        listLi.items.forEach(() => {
-          let domDiv = document.createElement('div')
-          domDiv.className = 'rfm-list__content clearfix'
-          let domContent = document.createElement('div')
-          domContent.className = 'list-content clearfix'
-          let domBackground = document.createElement('div')
-          domBackground.className = 'list-bg'
-          domDiv.appendChild(domContent)
-          domDiv.appendChild(domBackground)
-          domLi.appendChild(domDiv)
-        })
-      },
-      /* 循环数据 */
-      fillData () {
-        /* 循环忠诚度中li结构 */
-        this.lists.forEach((value, firIndex, array) => {
-          /* 循环li结构中div子级 */
-          value.items.forEach((value, secIndex, array) => {
-            /* 调用填充数据函数 */
-            this.dataFun(firIndex, secIndex, value)
-          })
-        })
-      },
-      /* 填充数据 */
-      dataFun (firIndex, secIndex, value) {
-        this.$refs.rfmList.children[firIndex].children[secIndex].children[0].innerHTML = `<h4 class="list-title text-center">${value.title}</h4>` +
+      })
+    },
+    /* 填充数据 */
+    dataFun (firIndex, secIndex, value) {
+      this.$refs.rfmList.children[firIndex].children[secIndex].children[0].innerHTML = `<h4 class="list-title text-center">${value.title}</h4>` +
           `<p class="list-data">客户数：${value.num} </p>` +
           `<p class="list-data">客单价：${value.price}</p>` +
           `<p class="list-data">付款总额：${value.total}</p>`
-      },
-      /* 设置忠诚度背景颜色 */
-      setBackground () {
-        for (let i = 0; i < this.domList.length; i++) {
-          for (let j = 0; j < this.domList[i].childNodes.length; j++) {
-            this.domList[i].childNodes[j].childNodes[1].style.backgroundColor = this.firColor
-          }
-          for (let m = i + 1; m < this.domList[i].childNodes.length; m++) {
-            this.domList[i].childNodes[m].childNodes[1].style.backgroundColor = this.secColor
-          }
+    },
+    /* 设置忠诚度背景颜色 */
+    setBackground () {
+      for (let i = 0; i < this.domList.length; i++) {
+        for (let j = 0; j < this.domList[i].childNodes.length; j++) {
+          this.domList[i].childNodes[j].childNodes[1].style.backgroundColor = this.firColor
         }
-      },
-      /* 设置忠诚度背景透明度 */
-      setOpacity (lengthX, lengthY) {
-        let xVlue = 1 / (lengthX - 1)
-        let yVlue = 1 / lengthY
-        for (let i = 0; i < lengthY; i++) {
-          for (let j = 0; j <= i; j++) {
-            this.domList[i].childNodes[j].childNodes[1].style.opacity = (i - j + 1) * yVlue
-          }
-          /* 右上方颜色透明度设置 */
-          for (let h = (lengthY - 1); h > 0; h--) {
-            if (h <= i) {
-              continue
-            }
-            this.domList[i].childNodes[h].childNodes[1].style.opacity = (h - i) * xVlue
-          }
+        for (let m = i + 1; m < this.domList[i].childNodes.length; m++) {
+          this.domList[i].childNodes[m].childNodes[1].style.backgroundColor = this.secColor
         }
-      },
-      /* 执行搜索方法 */
-      onSearch () {
-        console.log('搜索')
       }
     },
-    created () {
+    /* 设置忠诚度背景透明度 */
+    setOpacity (lengthX, lengthY) {
+      let xVlue = 1 / (lengthX - 1)
+      let yVlue = 1 / lengthY
+      for (let i = 0; i < lengthY; i++) {
+        for (let j = 0; j <= i; j++) {
+          this.domList[i].childNodes[j].childNodes[1].style.opacity = (i - j + 1) * yVlue
+        }
+        /* 右上方颜色透明度设置 */
+        for (let h = (lengthY - 1); h > 0; h--) {
+          if (h <= i) {
+            continue
+          }
+          this.domList[i].childNodes[h].childNodes[1].style.opacity = (h - i) * xVlue
+        }
+      }
+    },
+    /* 执行搜索方法 */
+    onSearch () {
+      console.log('搜索')
     }
+  },
+  created () {
   }
+}
 </script>
 
 <style scoped>

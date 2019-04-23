@@ -24,42 +24,42 @@
   </div>
 </template>
 <script>
-   export default {
-     data: function () {
-       return {
-         userName: '',
-         password: ''
-       }
-     },
-     mounted: function () {
+export default {
+  data: function () {
+    return {
+      userName: '',
+      password: ''
+    }
+  },
+  mounted: function () {
 
-     },
-     methods: {
-       nextTo (url) {
-         window.location.href = url
-       },
-       submit () {
-         let parms = {userName: this.userName, password: this.password}
-         let that = this
-         this.$http.fetch(this.$api.core.access.operateLogin, parms)
-          .then(resp => {
-            that.$http.fetch(that.$api.core.access.getCloudSession)
-              .then((data) => {
-                that.$store.commit('operate/UPDATE_OPERATE_MENUS', {
-                  menus: data.menus
-                })
-                that.$router.push({name: 'ADD_PAGES'})
+  },
+  methods: {
+    nextTo (url) {
+      window.location.href = url
+    },
+    submit () {
+      let parms = { userName: this.userName, password: this.password }
+      let that = this
+      this.$http.fetch(this.$api.core.access.operateLogin, parms)
+        .then(resp => {
+          that.$http.fetch(that.$api.core.access.getCloudSession)
+            .then((data) => {
+              that.$store.commit('operate/UPDATE_OPERATE_MENUS', {
+                menus: data.menus
               })
-              .catch(resp => {
+              that.$router.push({ name: 'ADD_PAGES' })
+            })
+            .catch(resp => {
 
-              })
-          })
-          .catch(resp => {
-            that.$notify.error('提示：' + resp.msg)
-          })
-       }
-     }
-   }
+            })
+        })
+        .catch(resp => {
+          that.$notify.error('提示：' + resp.msg)
+        })
+    }
+  }
+}
 </script>
 
 <style scoped>

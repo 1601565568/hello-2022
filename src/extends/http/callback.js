@@ -1,3 +1,4 @@
+import * as Sentry from '@sentry/browser'
 import api from '@/config/http'
 import ErrorCode from '@/config/errorCode'
 
@@ -12,7 +13,6 @@ export default class Callback {
    */
   requestErrorCallback (err) {
     return new Promise((resolve, reject) => {
-      window.LOG.error('requestErrorCallback', err)
       reject(err)
     })
   }
@@ -21,21 +21,21 @@ export default class Callback {
    * 当拿不到后台返回的数据时，直接把axios抓到的数据抛到这里，自己处理
    * @param data
    */
-  axiosCallback (data) {
+  axiosCallback () {
   }
 
   /**
    * 匹配到自定义错误消息字段时，会把状态码和消息抛给这个回调处理，例如提示什么的操作，在这里写就OK了
    * @param resData 后台返回的数据
    */
-  cancelErrorCallback (resData) {
+  cancelErrorCallback () {
   }
 
   /**
    * 匹配不到自定义的错误消息字段时，会把整个数据抛给这个回调处理
    * @param data  后台返回的数据
    */
-  cancelUndefinedErrorCallback (data) {
+  cancelUndefinedErrorCallback () {
   }
 
   /**
@@ -64,6 +64,12 @@ export default class Callback {
          * 如果没有定义此key，那抱歉我也不知道该给啥，还是全部抛给你，自己处理
          */
         if (resData[api.API_SUCCESS_FIELD]) {
+          if (process.env.VUE_APP_SENTRY_SWITCH === 'true') {
+            Sentry.withScope((scope) => {
+              scope.setTag('http', 'success false')
+              Sentry.captureException(data)
+            })
+          }
           resolve(resData)
           return
         }
@@ -74,7 +80,7 @@ export default class Callback {
          */
         if (resData[api.API_STATUS_FIELD]) {
           // 判断是否session过期
-          if (resData[api.API_STATUS_FIELD] === ErrorCode.USER_SESSION_EXPIRE && window.location.href.indexOf('/operate') === -1) {
+          if (resData[api.API_STATUS_FIELD] === ErrorCode.USER_SESSION_EXPIRE) {
             store.dispatch('user/regainSession')
             return
           }
@@ -114,7 +120,7 @@ export default class Callback {
        * 例如：403代表授权失败，需要重新获取授权
        */
       403: (resData) => {
-        window.LOG.error('当返回403时，我需要特殊处理...', resData)
+        // console.log(resData)
       }
     }
     return customCodes[code] || false

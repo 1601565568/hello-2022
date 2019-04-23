@@ -1,5 +1,5 @@
 import tableMixin from 'mixins/table' // 引入tableMixin
-import apiRequestConfirm from 'utils/apiRequestConfirm'
+import apiRequestConfirm from 'web-crm/src/utils/apiRequestConfirm'
 
 export default {
   name: 'NsTableEmailTemplate',
@@ -29,7 +29,7 @@ export default {
         'func': function (args) {
           var that = this
           apiRequestConfirm('删除该邮件模板').then(() => {
-            that.$http.fetch(this.$api.touch.emailTemplate.deleteById, {id: args.row.id})
+            that.$http.fetch(this.$api.touch.emailTemplate.deleteById, { id: args.row.id })
               .then(resp => {
                 that.$notify.success(resp.msg)
                 that.$reload()
@@ -55,7 +55,7 @@ export default {
         'auth': ``,
         'visible': `  `
       }
-     /* 批量删除先不要
+      /* 批量删除先不要
      {
         'func': function () {
           var data = this.$parent.$getSelectionsOfCurrPage()
@@ -104,7 +104,7 @@ export default {
     }]
     var quickSearchNames = quickInput.map(x => x.name)
     var quickSearchModel = {}
-    var model = Object.assign({}, {'templateType': '', 'templateTitle': ''}, {
+    var model = Object.assign({}, { 'templateType': '', 'templateTitle': '' }, {
       'templateType': ''
     })
     var that = this
@@ -145,7 +145,7 @@ export default {
         quickSearchNames: quickSearchNames,
         quickSearchMap: {}
       },
-      _queryConfig: {expand: false}
+      _queryConfig: { expand: false }
     }
   },
   mounted: function () {

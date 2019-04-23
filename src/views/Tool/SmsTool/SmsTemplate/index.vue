@@ -48,10 +48,10 @@
 </template>
 
 <script>
-  import index from './src/index'
-  import NsTableTemplate from './NsTableTemplate'
-  index.components = {
-    NsTableTemplate
-  }
-  export default index
+import index from './src/index'
+import NsTableTemplate from './NsTableTemplate'
+index.components = {
+  NsTableTemplate
+}
+export default index
 </script>

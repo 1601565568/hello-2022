@@ -109,7 +109,7 @@
 </template>
 
 <script>
-  import NsTableEmailTemplate from './src/NsTableEmailTemplate'
+import NsTableEmailTemplate from './src/NsTableEmailTemplate'
 
-  export default NsTableEmailTemplate
+export default NsTableEmailTemplate
 </script>

@@ -62,11 +62,11 @@
 </template>
 
 <script>
-  import ShopGoodsTable from './ShopGoodsTable'
-  import SgGoodsSelect from '../components/SgGoodsSelect'
-  import ShopGoodsIndex from './src/ShopGoodsIndex'
-  ShopGoodsIndex.components = {ShopGoodsTable, SgGoodsSelect}
-  export default ShopGoodsIndex
+import ShopGoodsTable from './ShopGoodsTable'
+import SgGoodsSelect from '../components/SgGoodsSelect'
+import ShopGoodsIndex from './src/ShopGoodsIndex'
+ShopGoodsIndex.components = { ShopGoodsTable, SgGoodsSelect }
+export default ShopGoodsIndex
 </script>
 <style scoped>
 </style>

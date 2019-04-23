@@ -4,9 +4,9 @@ import store from 'store/dist/store.legacy.min.js'
 var vm
 function check () {
   return [
-    {validator: (rule, value, callback) => {
+    { validator: (rule, value, callback) => {
       var reg1 = /^(-)?\d+(\.\d+)?$/ // 验证数字
-      var reg2 = /^\d+(?:\.\d{1,2})?$/  // 验证两位小数，小数可有可无，如果有最多两位
+      var reg2 = /^\d+(?:\.\d{1,2})?$/ // 验证两位小数，小数可有可无，如果有最多两位
       if (!reg1.test(value)) {
         callback(new Error('请输入数字，且最多只能输入两位小数'))
       } else if (!reg2.test(value)) {
@@ -21,7 +21,7 @@ function check () {
         callback()
       }
     },
-      trigger: 'blur'}]
+    trigger: 'blur' }]
 }
 export default {
   mixins: [formMixin],
@@ -29,7 +29,7 @@ export default {
     return {
       shops: [],
       shopName: '',
-      area: [{area: []}],
+      area: [{ area: [] }],
       loading: false,
       key: {
         children: 'children',
@@ -224,7 +224,7 @@ export default {
     setFee (form) {
       vm.provinceTable = JSON.parse(JSON.stringify(vm.provinceCopy))
       vm.fee.shop_id = vm.shopId
-      vm.$http.fetch(vm.$api.kdjl.baseSetting.queryFee, {shopId: vm.fee.shop_id, code: vm.fee.company_code, from: form.split(';')[2]})
+      vm.$http.fetch(vm.$api.kdjl.baseSetting.queryFee, { shopId: vm.fee.shop_id, code: vm.fee.company_code, from: form.split(';')[2] })
         .then((resp) => {
           let data = resp.result
           if (data != null && data.length > 0) {
@@ -306,7 +306,7 @@ export default {
       }
     },
     add () {
-      vm.area.push({area: []})
+      vm.area.push({ area: [] })
     },
     deleteArea (index) {
       vm.area.splice(index, 1)
@@ -340,7 +340,7 @@ export default {
       vm.$http.fetch(vm.$api.kdjl.baseSetting.saveOrUpdate, vm.model)
         .then((resp) => {
           vm.model.id = resp.result
-          vm.oldArea = JSON.parse(JSON.stringify([{area: []}]))
+          vm.oldArea = JSON.parse(JSON.stringify([{ area: [] }]))
           vm.oldArea = JSON.parse(JSON.stringify(vm.area))
           vm.oldCompany = ''
           vm.oldCompany = JSON.parse(JSON.stringify(vm.companyTag))
@@ -369,7 +369,7 @@ export default {
     },
     setData () {
       vm.oldArea = vm.oldArea.splice(0, vm.oldArea.length)
-      vm.$http.fetch(vm.$api.kdjl.baseSetting.queryByShopId, {shopId: vm.shopId})
+      vm.$http.fetch(vm.$api.kdjl.baseSetting.queryByShopId, { shopId: vm.shopId })
         .then((resp) => {
           if (resp.result !== null) {
             var data = resp.result
@@ -392,13 +392,13 @@ export default {
             if (data.deliver_goods_areas !== null) {
               vm.area = []
               for (let area of data.deliver_goods_areas.split(',')) {
-                vm.area.push({area: area.split(';')})
+                vm.area.push({ area: area.split(';') })
               }
             } else {
-              vm.area = [{area: []}]
+              vm.area = [{ area: [] }]
             }
           } else {
-            vm.area = [{area: []}]
+            vm.area = [{ area: [] }]
           }
           vm.oldArea = JSON.parse(JSON.stringify(vm.area))
           if (typeof (data) !== 'undefined' && data.cooperation_express !== null) {

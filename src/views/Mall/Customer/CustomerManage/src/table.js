@@ -17,7 +17,7 @@ export default {
         'name': '发短信'
       }
     ]
-    let quickInput = [{'name': 'customer_name'}]
+    let quickInput = [{ 'name': 'customer_name' }]
     let quickSearchNames = quickInput.map(x => x.name)
     let quickSearchModel = {}
     let model = Object.assign({},

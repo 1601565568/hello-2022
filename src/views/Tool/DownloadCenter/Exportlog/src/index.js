@@ -5,7 +5,7 @@ var mixin = {
   data: function () {
     return {
       rules: {
-        'mobile': [{required: true, message: '请输入手机号'}, {
+        'mobile': [{ required: true, message: '请输入手机号' }, {
           min: 0,
           max: 255,
           message: '已超过可输入长度'
@@ -21,7 +21,7 @@ var mixin = {
           },
           trigger: 'change,blur'
         }],
-        'verificationCode': [{required: true, message: '请输入验证码'}, {
+        'verificationCode': [{ required: true, message: '请输入验证码' }, {
           min: 0,
           max: 6,
           message: '已超过可输入长度'
@@ -116,7 +116,7 @@ var mixin = {
     onBeforeDownload: function (title, data) {
       if (data.result_state === 2) {
         that.downloadData.url = data.download_addr
-        that.$http.fetch(this.$api.core.downloadConfig.queryDownLoadConfig, {id: this.$store.state.user.brand.id})
+        that.$http.fetch(this.$api.core.downloadConfig.queryDownLoadConfig, { id: this.$store.state.user.brand.id })
           .then((resp) => {
             if (resp.result.is_download_validate === 1) {
               that.model.mobile = resp.result.validate_mobile
@@ -131,7 +131,7 @@ var mixin = {
       }
     },
     onDownload: function () {
-      this.$http.fetch(this.$api.core.exportlog.download, {url: that.downloadData.url})
+      this.$http.fetch(this.$api.core.exportlog.download, { url: that.downloadData.url })
         .then((resp) => {}).catch((resp) => {
           let url = window.URL.createObjectURL(new Blob([resp]))
           let link = document.createElement('a')
@@ -147,7 +147,7 @@ var mixin = {
   }
 }
 var that
-export default{
+export default {
   mixins: [formMixin, mixin],
   data: function () {
     return {

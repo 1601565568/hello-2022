@@ -11,12 +11,12 @@
           </el-col>
           <el-col :span="17">
              <!-- 简单搜索 -->
-             <!-- 右上角操作区域 -->    
+             <!-- 右上角操作区域 -->
             <div class="float-right tabSearchBtn">
               <ns-button @click="tabSearchType" style="padding: 9px 0 9px 10px;opacity: 0.5;color: #002041;" type="text">{{searchType.tipText}}<i :class="{'el-icon--right': true, 'el-icon-arrow-down': !searchType.advanced, 'el-icon-arrow-up': searchType.advanced} ">
                 </i></ns-button>
-            </div>  
-            <el-form ref="searchform" v-if="!searchType.advanced" class="float-right" :inline="true" :model="searchform">      
+            </div>
+            <el-form ref="searchform" v-if="!searchType.advanced" class="float-right" :inline="true" :model="searchform">
               <el-form-item label="优惠券券码：" prop="couponDetailNo">
                 <el-input  placeholder="请输入优惠券券码" v-model="searchform.couponDetailNo"></el-input>
               </el-form-item>
@@ -27,11 +27,11 @@
             </el-form>
         </el-col>
       </el-row>
-    
+
     <!-- 简单搜索end -->
     <!-- 高级搜索start -->
   <div class="template-table-search" v-if="searchType.advanced">
-      <div class="template-table__bar-more">         
+      <div class="template-table__bar-more">
         <el-form ref="searchform" label-width="80px"  class="surround-btn" :model="searchform"  :inline="true">
           <el-form-item label="优惠券券码：" prop="couponDetailNo">
             <el-input  placeholder="请输入优惠券券码" v-model="searchform.couponDetailNo"></el-input>
@@ -71,7 +71,7 @@
         </el-form>
         <div class="template-table__more-btn">
           <ns-button type="primary" @click="submitForm('searchform')">搜索</ns-button>
-          <ns-button @click="resetForm('searchform')">重置</ns-button>        
+          <ns-button @click="resetForm('searchform')">重置</ns-button>
         </div>
       </div>
     </div>
@@ -79,7 +79,7 @@
   <!-- 高级搜索end -->
   </div>
    <!-- 筛选end -->
-  <!-- table start -->  
+  <!-- table start -->
   <div class="mt10">
     <el-table
       ref="multipleTable"
@@ -92,13 +92,13 @@
       >
       <el-table-column
         label="优惠券"
-        width="220"       
+        width="220"
         >
         <template slot-scope="scope">
-          <couponItem :itemObj="scope.row"></couponItem>          
+          <couponItem :itemObj="scope.row"></couponItem>
         </template>
       </el-table-column>
-      
+
       <el-table-column
         label="优惠券名称"
       >
@@ -112,7 +112,7 @@
       <template slot-scope="scope">
         <div>
           {{scope.row.couponDetailNo}}
-        </div>        
+        </div>
       </template>
       </el-table-column>
       <el-table-column
@@ -120,7 +120,7 @@
       >
       <template slot-scope="scope">
         {{scope.row.startTime}}<br>
-          {{scope.row.endTime}}        
+          {{scope.row.endTime}}
       </template>
       </el-table-column>
 
@@ -166,7 +166,7 @@
           <div v-else-if="scope.row.useStatus==2">已使用</div>
         </div>
       </template>
-      </el-table-column>      
+      </el-table-column>
     </el-table>
   </div>
 <!-- 分页 -->
@@ -181,7 +181,7 @@
       </el-pagination>
   <!-- table end -->
 
-</div>   
+</div>
 </template>
 <script>
 import moment from 'moment'

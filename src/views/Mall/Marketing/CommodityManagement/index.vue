@@ -2,7 +2,7 @@
   <ns-page-table>
     <!-- 按钮 -->
     <template slot="searchSearch">
-      <el-row class="template-table__bar-base"> 
+      <el-row class="template-table__bar-base">
         <el-col :span="14" >
         商品库
         </el-col>
@@ -195,7 +195,7 @@
 </template>
 
 <script>
-  import index from './src/index'
+import index from './src/index'
 
-  export default index
+export default index
 </script>

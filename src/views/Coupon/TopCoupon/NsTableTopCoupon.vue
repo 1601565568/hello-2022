@@ -178,9 +178,9 @@
 </template>
 
 <script>
-  import NsTableTopCoupon from './src/NsTableTopCoupon'
+import NsTableTopCoupon from './src/NsTableTopCoupon'
 
-  export default NsTableTopCoupon
+export default NsTableTopCoupon
 </script>
 <style scoped>
   @import "../../../style/small/variables.pcss";

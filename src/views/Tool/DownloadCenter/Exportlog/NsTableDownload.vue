@@ -165,7 +165,7 @@
   </ns-page-table>
 </template>
 <script>
-  import NsTableDownload from './src/NsTableDownload'
+import NsTableDownload from './src/NsTableDownload'
 
-  export default NsTableDownload
+export default NsTableDownload
 </script>

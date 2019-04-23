@@ -116,9 +116,9 @@
 </template>
 
 <script>
-  import NsAffarisOrder from './src/NsAffarisOrder'
+import NsAffarisOrder from './src/NsAffarisOrder'
 
-  export default NsAffarisOrder
+export default NsAffarisOrder
 </script>
 
 <style scoped>

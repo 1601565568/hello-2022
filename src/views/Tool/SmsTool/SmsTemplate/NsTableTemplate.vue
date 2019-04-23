@@ -119,7 +119,7 @@
 </template>
 
 <script>
-  import NsTableTemplate from './src/NsTableTemplate'
+import NsTableTemplate from './src/NsTableTemplate'
 
-  export default NsTableTemplate
+export default NsTableTemplate
 </script>

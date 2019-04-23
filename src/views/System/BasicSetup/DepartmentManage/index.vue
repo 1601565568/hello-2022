@@ -68,10 +68,10 @@
 </template>
 
 <script>
-  import index from './src/index'
-  import NsTree from 'components/NsTree'
-  index.components = {
-    NsTree
-  }
-  export default index
+import index from './src/index'
+import NsTree from 'components/NsTree'
+index.components = {
+  NsTree
+}
+export default index
 </script>

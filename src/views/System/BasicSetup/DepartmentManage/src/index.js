@@ -1,7 +1,7 @@
 import formMixin from 'mixins/form'
 import treeMixin from 'mixins/tree'
 import ErrorCode from '@/config/errorCode'
-import apiRequestConfirm from 'utils/apiRequestConfirm'
+import apiRequestConfirm from 'web-crm/src/utils/apiRequestConfirm'
 
 var vm
 export default {
@@ -198,7 +198,7 @@ export default {
         return
       }
       var url = vm.$api.core.department.deleteById
-      var params = {id: data.id}
+      var params = { id: data.id }
       apiRequestConfirm('删除“' + data.label + '”节点').then(() => {
         vm.loading = true
         vm.$http.fetch(url, params).then(resp => {
@@ -248,7 +248,7 @@ export default {
       let that = this
       this.$http.fetch(this.$api.core.department.updateDepartmentPath, params).then((resp) => {
         that.$set(node, 'data', Object.assign({}, node.data,
-          {id: params.id, parentId: params.parentId}))
+          { id: params.id, parentId: params.parentId }))
         that.$notify.success(resp.msg)
       }).catch(() => {
         that.$refs.tree.refresh()
@@ -260,7 +260,7 @@ export default {
      * @param val
      */
     filterNode (value, data) {
-      if (!value) return true
+      if (!value) { return true }
       return data.label.indexOf(value) !== -1
     },
     onCloseNode () {

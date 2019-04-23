@@ -163,7 +163,7 @@
 </template>
 
 <script>
-  import ColumnTable from './src/ColumnTable'
+import ColumnTable from './src/ColumnTable'
 
-  export default ColumnTable
+export default ColumnTable
 </script>

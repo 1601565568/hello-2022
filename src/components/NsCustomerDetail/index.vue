@@ -672,8 +672,8 @@
 </template>
 
 <script>
-  import NsCustomerDetail from './src/NsCustomerDetail'
-  export default NsCustomerDetail
+import NsCustomerDetail from './src/NsCustomerDetail'
+export default NsCustomerDetail
 </script>
 
 <style scoped>

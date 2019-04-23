@@ -486,4 +486,3 @@ export default {
   width: 220px;
 }
 </style>
-

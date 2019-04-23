@@ -205,7 +205,7 @@
 </template>
 
 <script>
-  import NsTableHash from './src/NsTableHash'
+import NsTableHash from './src/NsTableHash'
 
-  export default NsTableHash
+export default NsTableHash
 </script>

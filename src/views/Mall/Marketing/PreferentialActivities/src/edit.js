@@ -82,7 +82,7 @@ export default {
       if (activityId) {
         that.title = '编辑活动'
         that.saveLoading = true
-        that.$http.fetch(that.$api.guide.marketing.queryActivityDetail, {activityId: activityId}).then((resp) => {
+        that.$http.fetch(that.$api.guide.marketing.queryActivityDetail, { activityId: activityId }).then((resp) => {
           let data = resp.result
           that.activityId = activityId
           that.model.name = data.name
@@ -97,7 +97,7 @@ export default {
           that.goodsInfo = data.goodsInfo
           data.rules.forEach(rule => {
             if (!rule.coupons) {
-              rule.coupons = rule.coupons ? rule.coupons : [{id: null, num: null}]
+              rule.coupons = rule.coupons ? rule.coupons : [{ id: null, num: null }]
             }
           })
           that.tableList = data.rules
@@ -190,7 +190,7 @@ export default {
           giveIntegral: false,
           giveCoupon: false,
           giveGift: false,
-          coupons: [{id: null, num: null}]
+          coupons: [{ id: null, num: null }]
         }
         that.tableList.push(setting)
         setting.level = that.tableList.length
@@ -227,7 +227,7 @@ export default {
             return
           }
           that.saveLoading = true
-          let params = Object.assign({}, that.model, {'rules': that.tableList})
+          let params = Object.assign({}, that.model, { 'rules': that.tableList })
           if (that.model.activityTime[0]) {
             params.startTime = moment(that.model.activityTime[0]).format('YYYY-MM-DD HH:mm:ss')
           }
@@ -350,9 +350,9 @@ export default {
     queryGoodsOptional: function () {
       let that = this
       that.$http.fetch(that.$api.guide.marketing.queryGoodsOptional,
-        {shopIds: that.goodsQueryParams.shopIds, activityId: that.goodsQueryParams.activityId, shopType: that.model.shopType}).then((resp) => {
-          that.model.goodsOptional = resp.result
-        }).catch((resp) => {})
+        { shopIds: that.goodsQueryParams.shopIds, activityId: that.goodsQueryParams.activityId, shopType: that.model.shopType }).then((resp) => {
+        that.model.goodsOptional = resp.result
+      }).catch((resp) => {})
     },
     /**
      * 查询是否可选择全部门店
@@ -361,9 +361,9 @@ export default {
     queryShopOptional: function () {
       let that = this
       that.$http.fetch(that.$api.guide.marketing.queryShopOptional,
-        {goodsIds: that.shopQueryParams.goodsIds, activityId: that.shopQueryParams.activityId, goodsType: that.model.goodsType}).then((resp) => {
-          that.model.shopOptional = resp.result
-        }).catch((resp) => {})
+        { goodsIds: that.shopQueryParams.goodsIds, activityId: that.shopQueryParams.activityId, goodsType: that.model.goodsType }).then((resp) => {
+        that.model.shopOptional = resp.result
+      }).catch((resp) => {})
     },
 
     goodsTypeChange: function (val) {
@@ -379,7 +379,7 @@ export default {
     setCouponTitle: function (coupon) {
       let that = this
       let obj = that.couponList.find((item) => {
-// eslint-disable-next-line no-return-assign
+        // eslint-disable-next-line no-return-assign
         return item.couponId = coupon.id
       })
       coupon.title = obj.couponTitle

@@ -24,7 +24,7 @@ var mixin = {
     onEmailDetail: function (data) {
       this.title = '邮件详情'
       this.$nextTick(function () {
-        this.$http.fetch(this.$api.touch.emailSend.queryById, {id: data.id})
+        this.$http.fetch(this.$api.touch.emailSend.queryById, { id: data.id })
           .then((resp) => {
             this.emailSendLogDetail.target = resp.result.target
             this.emailSendLogDetail.targets = resp.result.target.split(',')
@@ -48,7 +48,7 @@ var mixin = {
     }
   }
 }// 校验规则
-export default{
+export default {
   mixins: [formMixin, mixin],
   data: function () {
     return {

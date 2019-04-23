@@ -184,7 +184,7 @@
 </template>
 <script>
 import listPageMixin from 'mixins/listPage'
-import apiRequestConfirm from 'utils/apiRequestConfirm'
+import apiRequestConfirm from 'web-crm/src/utils/apiRequestConfirm'
 import addModal from './addArticle'
 import setGroudModal from './setGroudModal'
 import listItemShow from './components/listItemShow'
@@ -222,7 +222,7 @@ export default {
       searchform: {
         time: []
       },
-      codeTypeList: [{name: '无', id: 0}, {name: '图中附码', id: 1}, {name: '单独码', id: 2}],
+      codeTypeList: [{ name: '无', id: 0 }, { name: '图中附码', id: 1 }, { name: '单独码', id: 2 }],
       dataList: [
 
       ],
@@ -271,7 +271,7 @@ export default {
     async setGroudFun (id, groudId) {
       this.loading = true
       await this.$http
-        .fetch(this.$api.guide.materialSetGroud, {ids: id, subdivision_id: groudId})
+        .fetch(this.$api.guide.materialSetGroud, { ids: id, subdivision_id: groudId })
         .then(resp => {
           this.$notify.success('更新成功')
           // 回调刷新列表
@@ -318,7 +318,7 @@ export default {
     async loadBrandListFun (data) {
       this.loading = true
       await this.$http
-        .fetch(this.$api.guide.comGetBrandForShopList, {isOnline: 0})
+        .fetch(this.$api.guide.comGetBrandForShopList, { isOnline: 0 })
         .then(resp => {
           this.sourceList = this.sourceList.concat(resp.result)
         })
@@ -375,7 +375,7 @@ export default {
     // 打开弹窗--批量删除
     deleteSubdivision () {
       let that = this
-      let obj = {materialIds: ''}
+      let obj = { materialIds: '' }
       let arry = []
       that.selectedArr.map(item => {
         arry.push(item.id)
