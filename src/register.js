@@ -4,7 +4,9 @@ import components from './components/global'
 import mixins from './mixins/global'
 import ets from './extends'
 import filters from './filters'
+import numeral from 'numeral'
 
+Vue.prototype.$numeral = numeral
 /**
  * 全局注册属性或方法
  */

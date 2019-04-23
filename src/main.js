@@ -1,26 +1,28 @@
-// The Vue build version to load with the `import` command
-// (runtime-only or standalone) has been set in webpack.base.conf with an alias.
-// import * as OfflinePluginRuntime from 'offline-plugin/runtime'
 import Vue from 'vue'
-// import * as OfflinePluginRuntime from 'offline-plugin/runtime'
-import App from './App'
+import App from 'web-crm/src/App.vue'
 import router from 'web-crm/src/router'
 import store from './store'
-import {i18n} from './i18n'
-import echarts from 'echarts'
-import './register.js'
+import 'web-crm/src/registerServiceWorker'
+import { i18n } from 'web-crm/src/i18n'
+import './register'
 import 'normalize.css'
 import './style/small/NuiJs/index.scss'
-import './style/small/NuiJs/my.scss'
 import './style/small/index.pcss'
-import numeral from 'numeral'
+import * as Sentry from '@sentry/browser'
+
+if (process.env.VUE_APP_SENTRY_SWITCH === 'true') {
+  Vue.prototype.$sentry = Sentry
+  Sentry.init({
+    dsn: process.env.VUE_APP_SENTRY_DSN,
+    integrations: [new Sentry.Integrations.Vue({ Vue })],
+    release: process.env.VUE_APP_SENTRY_RELEASE,
+    environment: process.env.NODE_ENV
+  })
+}
 
 Vue.prototype.$ELEMENT = { size: 'small' }
-Vue.prototype.$echarts = echarts
-Vue.prototype.$numeral = numeral
 Vue.config.productionTip = false
-Vue.config.devtools = true
-// OfflinePluginRuntime.install()
+Vue.config.devtools = process.env.NODE_ENV === 'development'
 
 new Vue({
   router,
@@ -28,4 +30,3 @@ new Vue({
   i18n,
   render: h => h(App)
 }).$mount('#app')
-
