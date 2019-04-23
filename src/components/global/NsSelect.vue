@@ -10,7 +10,7 @@
              :filterable="filterable"
              :clearable="clearable"
              v-on="listeners">
-    <el-option v-for="item in options" :key="item[props.value]" :label="item[props.label]"
+    <el-option v-for="(item,index) in options" :key="index" :label="item[props.label]"
                :value="item[props.value]"></el-option>
   </el-select>
 </template>
@@ -22,7 +22,9 @@ export default {
     url: Object,
     params: Object,
     isDefault: Boolean,
-    value: ,
+    value: {
+      required: true
+    },
     data: {
       type: [Array],
       default: function () {
@@ -90,8 +92,8 @@ export default {
       }
     },
     /**
-       * 是否选中默认值
-       */
+     * 是否选中默认值
+     */
     selectDefault () {
       // 是否选中默认值
       if (this.isDefault) {
@@ -103,14 +105,13 @@ export default {
       }
     },
     /**
-       * 异步加载下拉数据
-       */
+     * 异步加载下拉数据
+     */
     loadOptions (data, url) {
       data.splice(0)
       this.$http.fetch(url, this.params).then((resp) => {
         this.options = resp.result ? resp.result : []
         this.selectDefault()
-      }).catch((resp) => {
       })
     }
   },
