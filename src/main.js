@@ -9,15 +9,10 @@ import store from './store'
 import {i18n} from './i18n'
 import echarts from 'echarts'
 import './register.js'
-import 'apusjs-log'
 import 'normalize.css'
 import './style/small/NuiJs/index.scss'
 import './style/small/NuiJs/my.scss'
 import './style/small/index.pcss'
-import '../static/UEditor/ueditor.config.js'
-import '../static/UEditor/ueditor.all.min.js'
-import '../static/UEditor/lang/zh-cn/zh-cn.js'
-import '../static/UEditor/ueditor.parse.min.js'
 import numeral from 'numeral'
 
 Vue.prototype.$ELEMENT = { size: 'small' }
@@ -26,12 +21,6 @@ Vue.prototype.$numeral = numeral
 Vue.config.productionTip = false
 Vue.config.devtools = true
 // OfflinePluginRuntime.install()
-window.LOG.setConfig({
-  imgUrl: '//wx-smartcrm.image.alimmdn.com/CRM-Enterprise-Web/temp/r.png?',
-  sample: 1, // 抽样率，100 = 1%，1 = 100%，默认100
-  spmId: 'CRM-Enterprise-Web',
-  startTime: new Date().getTime() // 自定义测速类页面统计起始时间
-})
 
 /* eslint-disable no-new */
 new Vue({
