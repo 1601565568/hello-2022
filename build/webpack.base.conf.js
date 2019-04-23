@@ -13,10 +13,7 @@ module.exports = {
     alias: {
       [packageConfig.name]: resolve(''),
       'mixins': resolve('src/mixins'),
-      'utils': resolve('src/utils'),
-      'components': resolve('src/components'),
-      'views': resolve('src/views'),
-      'vendor': resolve('vendor')
+      'components': resolve('src/components')
     }
   },
   module: {
