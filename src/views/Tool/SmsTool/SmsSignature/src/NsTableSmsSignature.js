@@ -1,5 +1,5 @@
 import tableMixin from 'mixins/table' // 引入tableMixin
-import ErrorCode from 'configs/errorCode'
+import ErrorCode from '@/config/errorCode'
 import apiRequestConfirm from 'utils/apiRequestConfirm'
 export default {
   name: 'NsTableSmsSignature',

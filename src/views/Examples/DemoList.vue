@@ -18,7 +18,7 @@
 </template>
 
 <script>
-  import MenuDev from 'configs/menu.dev.json'
+  import MenuDev from '@/config/menu.dev.json'
   export default {
     name: 'DemoList',
     data () {

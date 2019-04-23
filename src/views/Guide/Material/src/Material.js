@@ -1,5 +1,5 @@
 import tableMixin from 'mixins/table'
-import api from 'configs/http'
+import api from '@/config/http'
 export default {
   props: {
     url: Object

@@ -88,7 +88,7 @@
 </div>
 </template>
 <script>
-import api from 'configs/http'
+import api from '@/config/http'
 // import { isURL } from '../Common/utils.js'
 export default {
   props: {

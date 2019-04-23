@@ -4,7 +4,7 @@
 import Vue from 'vue'
 // import * as OfflinePluginRuntime from 'offline-plugin/runtime'
 import App from './App'
-import router from './router'
+import router from 'web-crm/src/router'
 import store from './store'
 import {i18n} from './i18n'
 import echarts from 'echarts'
@@ -22,12 +22,10 @@ Vue.config.productionTip = false
 Vue.config.devtools = true
 // OfflinePluginRuntime.install()
 
-/* eslint-disable no-new */
 new Vue({
-  el: '#app',
   router,
   store,
   i18n,
-  template: '<App/>',
-  components: {App}
-})
+  render: h => h(App)
+}).$mount('#app')
+

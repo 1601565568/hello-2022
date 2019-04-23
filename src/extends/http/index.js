@@ -1,7 +1,7 @@
 import axios from 'axios'
 import store from 'store/dist/store.legacy.min.js'
 import Callback from './callback'
-import api from 'configs/http'
+import api from '@/config/http'
 
 /**
  * 实例Axios

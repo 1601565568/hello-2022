@@ -1,7 +1,7 @@
 import tableMixin from 'mixins/table'
 import NsDatetime from '../../NsDatetime'
 import $ from 'jquery'
-import ErrorCode from 'configs/errorCode'
+import ErrorCode from '@/config/errorCode'
 import moment from 'moment'
 
 export default {

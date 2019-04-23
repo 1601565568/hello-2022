@@ -1,6 +1,6 @@
 import tableMixin from 'mixins/table'
 import NsDatetime from 'components/NsDatetime'
-import ErrorCode from 'configs/errorCode'
+import ErrorCode from '@/config/errorCode'
 import apiRequestConfirm from 'utils/apiRequestConfirm'
 import Vue from 'vue'
 import $ from 'jquery'

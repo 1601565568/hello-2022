@@ -1,5 +1,5 @@
 import formMixin from 'mixins/form'
-import ErrorCode from 'configs/errorCode'
+import ErrorCode from '@/config/errorCode'
 import moment from 'moment/moment'
 var vue
 var mixin = {

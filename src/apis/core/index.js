@@ -1,4 +1,4 @@
-import apiConf from 'configs/http'
+import apiConf from '@/config/http'
 import access from './access'
 import common from './common'
 import hash from './hash'

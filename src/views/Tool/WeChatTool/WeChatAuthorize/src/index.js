@@ -1,5 +1,5 @@
 import formMixin from 'mixins/form'
-import ErrorCode from 'configs/errorCode'
+import ErrorCode from '@/config/errorCode'
 
 // 校验规则
 var mixin = {

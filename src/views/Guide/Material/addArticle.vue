@@ -94,7 +94,7 @@
 </div>
 </template>
 <script>
-import api from 'configs/http'
+import api from '@/config/http'
 // import { isURL } from '../Common/utils.js'
 import VueUeditorWrap from 'vue-ueditor-wrap'
 export default {

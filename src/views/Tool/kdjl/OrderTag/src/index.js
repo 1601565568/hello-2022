@@ -1,4 +1,4 @@
-import ErrorCode from 'configs/errorCode'
+import ErrorCode from '@/config/errorCode'
 import formMixin from 'mixins/form'
 import moment from 'moment'
 

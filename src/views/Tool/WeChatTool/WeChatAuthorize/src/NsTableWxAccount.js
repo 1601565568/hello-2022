@@ -1,6 +1,6 @@
 import tableMixin from 'mixins/table'
 import apiRequestConfirm from 'utils/apiRequestConfirm'
-// import ErrorCode from 'configs/errorCode'
+// import ErrorCode from '@/config/errorCode'
 export default {
   name: 'NsTableWxAccount',
   mixins: [tableMixin],

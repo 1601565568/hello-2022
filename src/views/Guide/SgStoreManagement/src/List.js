@@ -1,4 +1,4 @@
-import api from 'configs/http'
+import api from '@/config/http'
 import moment from 'moment/moment'
 export default {
   data: function () {

@@ -1,6 +1,6 @@
 import tableMixin from 'mixins/table' // 引入tableMixin
 import NsDatetime from 'components/NsDatetime'
-// import ErrorCode from 'configs/errorCode' // 引入错误代码
+// import ErrorCode from '@/config/errorCode' // 引入错误代码
 export default {
   name: 'NsTableEmailSendLogs',
   mixins: [tableMixin],

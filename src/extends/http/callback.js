@@ -1,5 +1,5 @@
-import api from 'configs/http'
-import ErrorCode from 'configs/errorCode'
+import api from '@/config/http'
+import ErrorCode from '@/config/errorCode'
 
 import store from '@/store'
 /**

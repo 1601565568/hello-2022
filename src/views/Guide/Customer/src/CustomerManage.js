@@ -1,4 +1,4 @@
-import api from 'configs/http'
+import api from '@/config/http'
 import tableMixin from 'mixins/table'
 export default {
   data: function () {

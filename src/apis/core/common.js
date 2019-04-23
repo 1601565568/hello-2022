@@ -1,4 +1,4 @@
-import MenuDev from 'configs/menu.dev.json'
+import MenuDev from '@/config/menu.dev.json'
 import transData from 'utils/transData'
 const treeFn = (err, rows) => {
   if (err) throw err

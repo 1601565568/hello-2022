@@ -1,6 +1,6 @@
 import formMixin from 'mixins/form'
 import treeMixin from 'mixins/tree'
-import ErrorCode from 'configs/errorCode'
+import ErrorCode from '@/config/errorCode'
 import apiRequestConfirm from 'utils/apiRequestConfirm'
 
 var vm

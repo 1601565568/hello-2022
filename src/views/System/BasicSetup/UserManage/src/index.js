@@ -1,7 +1,7 @@
 import formMixin from 'mixins/form'
-import ErrorCode from 'configs/errorCode'
+import ErrorCode from '@/config/errorCode'
 import CryptoJS from 'crypto-js'
-import EncryptKey from 'configs/encryptKey'
+import EncryptKey from '@/config/encryptKey'
 var vm
 function checkPasswordRule () {
   return [

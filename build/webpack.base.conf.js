@@ -12,9 +12,6 @@ module.exports = {
   resolve: {
     alias: {
       [packageConfig.name]: resolve(''),
-      'vue$': 'vue/dist/vue.esm.js',
-      '@': resolve('src'),
-      'configs': resolve('src/configs'),
       'mixins': resolve('src/mixins'),
       'utils': resolve('src/utils'),
       'components': resolve('src/components'),
