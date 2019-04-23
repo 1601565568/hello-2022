@@ -170,8 +170,8 @@ export default {
           this.$notify.error(resp.msg || '查询失败')
         })
     },
-    elIconMenu () {
-      this.$emit('elIconMenu')
+    elIconMenu (row) {
+      this.$emit('elIconMenu', row)
     },
     scopeRowCount (data) { // 查看门店详情和查看所属区域详情
       this.$emit('scopeRowCount', data)
