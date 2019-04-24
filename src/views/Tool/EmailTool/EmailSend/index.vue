@@ -83,7 +83,7 @@ export default index
 </script>
 
 <style scoped>
-  @import "../../../../style/small/variables.pcss";
+  @import "@/style/small/variables.pcss";
   .el-scrollbar + .el-form-item {
     margin: var(--default-margin-base) 0 0 0!important;
   }

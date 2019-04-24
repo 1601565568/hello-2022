@@ -112,7 +112,7 @@ export default {
 </script>
 
 <style scoped>
-  @import "../../style/small/variables.pcss";
+  @import "@/style/small/variables.pcss";
   >>> .tmp-toggles{
     margin-top:0 !important;
   }

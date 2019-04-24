@@ -1726,7 +1726,7 @@ export default {
 </script>
 
 <style scoped>
-  @import "../../style/small/variables.pcss";
+  @import "@/style/small/variables.pcss";
  /* 关联店铺的样式*/
  .relevance-shop__title{
    padding:var(--default-margin-base) var(--default-margin-base) var(--default-margin-larger);

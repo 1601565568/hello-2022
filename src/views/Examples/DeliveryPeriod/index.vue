@@ -98,7 +98,7 @@ export default index
 </script>
 
 <style scoped>
-  @import "../../../style/small/variables.pcss";
+  @import "@/style/small/variables.pcss";
   .analysis-content {
     .template-table__main {
       box-shadow: var(--default-box-shadow-base);

@@ -307,7 +307,7 @@ export default {
 }
 </script>
 <style scoped>
-  @import "../../style/small/variables.pcss";
+  @import "@/style/small/variables.pcss";
   .tmp-signature__tags .el-tag {
     cursor: pointer;
     margin-right: var(--default-margin-small);

@@ -241,7 +241,7 @@ export default index
 </script>
 
 <style scoped>
-  @import "../../../style/small/variables.pcss";
+  @import "@/style/small/variables.pcss";
   .append-average td{
     border-top: 1px solid var(--theme-base-border-color-primary);
     background: var(--theme-bg-color-base);

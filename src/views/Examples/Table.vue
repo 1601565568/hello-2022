@@ -357,7 +357,7 @@ export default {
 </script>
 
 <style scoped>
-  @import "../../style/small/variables.pcss";
+  @import "@/style/small/variables.pcss";
   .text-main {
     padding: var(--default-padding-base);
     margin-bottom: var(--default-margin-base);

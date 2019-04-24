@@ -274,7 +274,7 @@ export default index
 </script>
 
 <style scoped>
-  @import "../../../style/small/variables.pcss";
+  @import "@/style/small/variables.pcss";
   .chat-record {
     >>> .el-collapse-item {
       .el-collapse-item__header {

@@ -108,7 +108,7 @@ export default index
 </script>
 
 <style scoped>
-  @import "../../../style/small/variables.pcss";
+  @import "@/style/small/variables.pcss";
   .template-table__main {
     &.content-style {
       min-height: 150px;

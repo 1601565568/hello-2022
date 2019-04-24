@@ -413,7 +413,7 @@ index.components = {
 export default index
 </script>
 <style scoped>
-  @import "../../../../style/small/variables.pcss";
+  @import "@/style/small/variables.pcss";
   .align-middle-unique{
     position: absolute;
     top:50%;

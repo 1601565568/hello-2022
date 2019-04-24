@@ -7,7 +7,7 @@
 </template>
 
 <style scoped>
-  @import "../style/small/variables.pcss";
+  @import "@/style/small/variables.pcss";
   .content-wrap{
     margin-left: 10px;
     margin-top: 90px;

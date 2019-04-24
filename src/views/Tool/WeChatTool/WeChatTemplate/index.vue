@@ -92,7 +92,7 @@ export default index
 </script>
 
 <style scoped>
-  @import "../../../../style/small/variables.pcss";
+  @import "@/style/small/variables.pcss";
   .receive-part {
     line-height: 20px;
     border: 1px dashed var(--theme-base-border-color-primary);

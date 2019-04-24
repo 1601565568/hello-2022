@@ -341,7 +341,7 @@ export default {
 </script>
 
 <style scoped>
-  @import "../../style/small/variables.pcss";
+  @import "@/style/small/variables.pcss";
   .form-main {
     >>> .el-form-item {
       margin: 0;

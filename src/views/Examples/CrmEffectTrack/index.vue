@@ -281,7 +281,7 @@ export default index
 </script>
 
 <style scoped>
-  @import "../../../style/small/variables.pcss";
+  @import "@/style/small/variables.pcss";
   .template-page__table {
     h3 {
       height: 45px;

@@ -32,7 +32,7 @@ export default {
 }
 </script>
 <style scoped>
-  @import "../../style/small/variables.pcss";
+  @import "@/style/small/variables.pcss";
   @b noData-wrap {
     justify-content:center;
     color: var(--theme-font-color-secondary);
