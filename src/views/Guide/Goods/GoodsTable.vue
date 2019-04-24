@@ -105,7 +105,7 @@
 
 <script>
 import GoodsTable from './src/GoodsTable'
-import NsDroptree from 'components/NsDroptree'
+import NsDroptree from 'web-crm/src/components/NsDroptree'
 
 GoodsTable.components = { NsDroptree }
 export default GoodsTable

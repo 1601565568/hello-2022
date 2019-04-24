@@ -162,7 +162,7 @@
 <script>
 import GoodsTable from './GoodsTable'
 import GoodsIndex from './src/GoodsIndex'
-import NsDroptree from 'components/NsDroptree'
+import NsDroptree from 'web-crm/src/components/NsDroptree'
 import VueUeditorWrap from 'vue-ueditor-wrap'
 
 GoodsIndex.components = { GoodsTable, NsDroptree, VueUeditorWrap }

@@ -290,7 +290,7 @@
 </template>
 <script>
 import moment from 'moment'
-import NsShopSelect from 'components/NsShopSelect'
+import NsShopSelect from 'web-crm/src/components/NsShopSelect'
 import NsGoodsSelect from 'web-crm/src/components/NsGoodsSelect'
 
 export default {

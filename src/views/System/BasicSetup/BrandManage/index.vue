@@ -128,7 +128,7 @@
 <script>
 import index from './src/index'
 import NsTableBrand from './NsTableBrand'
-import NsDroptree from 'components/NsDroptree'
+import NsDroptree from 'web-crm/src/components/NsDroptree'
 index.components = {
   NsTableBrand,
   NsDroptree

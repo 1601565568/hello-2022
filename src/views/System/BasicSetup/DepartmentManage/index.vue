@@ -69,7 +69,7 @@
 
 <script>
 import index from './src/index'
-import NsTree from 'components/NsTree'
+import NsTree from 'web-crm/src/components/NsTree'
 index.components = {
   NsTree
 }

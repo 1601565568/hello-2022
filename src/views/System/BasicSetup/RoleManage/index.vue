@@ -177,8 +177,8 @@
 <script>
 import NsTableRoleManage from './NsTableRoleManage'
 import index from './src/index'
-import NsShopSelect from 'components/NsShopSelect'
-import NsDroptree from 'components/NsDroptree'
+import NsShopSelect from 'web-crm/src/components/NsShopSelect'
+import NsDroptree from 'web-crm/src/components/NsDroptree'
 index.components = {
   NsShopSelect,
   NsDroptree,

@@ -166,7 +166,7 @@
 
 <script>
 import CustomerTable from './src/table'
-import NsDroptree from 'components/NsDroptree'
+import NsDroptree from 'web-crm/src/components/NsDroptree'
 
 CustomerTable.components = { NsDroptree }
 export default CustomerTable

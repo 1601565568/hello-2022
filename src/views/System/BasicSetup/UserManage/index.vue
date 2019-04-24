@@ -101,7 +101,7 @@
 <script>
 import index from './src/index'
 import NsTableUserManage from './NsTableUserManage'
-import NsDroptree from 'components/NsDroptree'
+import NsDroptree from 'web-crm/src/components/NsDroptree'
 index.components = {
   NsTableUserManage,
   NsDroptree

@@ -1,5 +1,5 @@
 import tableMixin from 'web-crm/src/mixins/table'
-import NsDroptree from 'components/NsDroptree'
+import NsDroptree from 'web-crm/src/components/NsDroptree'
 import apiRequestConfirm from 'web-crm/src/utils/apiRequestConfirm'
 import $ from 'jquery'
 

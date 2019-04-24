@@ -153,7 +153,7 @@
 
 <script>
 import ShopGoodsTable from './src/ShopGoodsTable'
-import NsDroptree from 'components/NsDroptree'
+import NsDroptree from 'web-crm/src/components/NsDroptree'
 
 ShopGoodsTable.components = { NsDroptree }
 export default ShopGoodsTable

@@ -403,7 +403,7 @@
 import index from './src/index'
 import VueUeditorWrap from 'vue-ueditor-wrap'
 import NsTableEmailTemplate from './NsTableEmailTemplate'
-import NsGoodsSelectDialog from 'components/NsGoodsSelectDialog'
+import NsGoodsSelectDialog from 'web-crm/src/components/NsGoodsSelectDialog'
 
 index.components = {
   NsTableEmailTemplate,

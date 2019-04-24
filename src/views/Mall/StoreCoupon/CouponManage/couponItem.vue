@@ -8,7 +8,7 @@
 </template>
 <script>
 // import NsGoodsSelect from 'web-crm/src/components/NsGoodsSelect'
-// import NsShopSelect from 'components/NsShopSelect'
+// import NsShopSelect from 'web-crm/src/components/NsShopSelect'
 // index.components = {
 //   NsGoodsSelect,
 //   NsShopSelect

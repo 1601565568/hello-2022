@@ -108,7 +108,7 @@
 </template>
 <script>
 import index from './src/index'
-import NsSmsTemplate from 'components/NsSmsTemplate'
+import NsSmsTemplate from 'web-crm/src/components/NsSmsTemplate'
 index.components = {
   NsSmsTemplate
 }

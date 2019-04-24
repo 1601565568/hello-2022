@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import NsDroptree from 'components/NsDroptree'
+import NsDroptree from 'web-crm/src/components/NsDroptree'
 
 var tableMixin = {
   methods: {

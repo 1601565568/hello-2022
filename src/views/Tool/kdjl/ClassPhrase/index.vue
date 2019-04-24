@@ -162,8 +162,8 @@
 import index from './src/index'
 import NsTablePrivate from './PhrasePrivate/NsTablePrivate'
 import NsTableTeam from './PhraseTeam/NsTableTeam'
-import NsTree from 'components/NsTree'
-import NsDroptree from 'components/NsDroptree'
+import NsTree from 'web-crm/src/components/NsTree'
+import NsDroptree from 'web-crm/src/components/NsDroptree'
 index.components = {
   NsTablePrivate,
   NsTableTeam,

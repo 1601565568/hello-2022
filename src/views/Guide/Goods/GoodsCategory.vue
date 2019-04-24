@@ -40,7 +40,7 @@
 
 <script>
 import GoodsCategory from './src/GoodsCategory'
-import NsTree from 'components/NsTree'
+import NsTree from 'web-crm/src/components/NsTree'
 
 GoodsCategory.components = { NsTree }
 export default GoodsCategory
