@@ -1,18 +1,18 @@
-// import ShopManager from './shopmanager'
-// import Reward from './reward'
-// import ShopMarketing from './shopmarketing'
-// import Other from './other'
+import ShopManager from './shopmanager'
+import Reward from './reward'
+import ShopMarketing from './shopmarketing'
+import Other from './other'
 import Database from './database'
-// import Isv from './isv'
-// import Management from './management'
+import Isv from './isv'
+import Management from './management'
 export default [
-  // ShopManager,
-  // Reward,
-  // ShopMarketing,
-  // Other,
+  ShopManager,
+  Reward,
+  ShopMarketing,
+  Other,
   Database,
-  // Isv,
-  // Management,
+  Isv,
+  Management,
   {
     path: '/operate/articleMaterialDetail',
     name: 'articleMaterialDetail',

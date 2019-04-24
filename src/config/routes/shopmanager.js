@@ -25,7 +25,7 @@ export default {
       'path': '/Guide/SgGuide',
       'name': 'YGGL',
       'title': '员工管理',
-      'component': 'Content',
+      'component': () => import('@/views/Content'),
       'children': [
         {
           'path': '/Guide/SgGuide/List',
@@ -39,7 +39,7 @@ export default {
       'path': '/Guide/SgGuide',
       'name': 'CustomerManage',
       'title': '会员管理',
-      'component': 'Content',
+      'component': () => import('@/views/Content'),
       'children': [
         {
           'path': '/Guide/Customer/CustomerManage',
