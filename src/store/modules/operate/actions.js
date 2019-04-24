@@ -1,5 +1,5 @@
-import http from '../../../extends/http'
-import api from '../../../apis'
+import http from 'web-crm/src/extends/http'
+import api from '@/apis'
 import * as types from './mutations_types'
 
 export default {

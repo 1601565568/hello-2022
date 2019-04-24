@@ -3,17 +3,18 @@ import directives from 'web-crm/src/directives'
 import directivesPrivate from './directives'
 import components from './components/global'
 import mixins from './mixins/global'
-import ets from './extends'
+import ets from 'web-crm/src/extends'
+import etsPrivate from './extends'
 import filters from 'web-crm/src/filters'
 import filtersPrivate from './filters'
-import numeral from 'numeral'
 
-Vue.prototype.$numeral = numeral
+
+
 /**
  * 全局注册属性或方法
  */
 Vue.use(ets)
-
+Vue.use(etsPrivate)
 /**
  * 注册全局指令
  */
