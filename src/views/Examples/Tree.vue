@@ -121,6 +121,6 @@ export default {
 </script>
 
 <style scoped>
-  @import "../../style/small/variables.pcss";
+  @import "@/style/small/variables.pcss";
 
 </style>

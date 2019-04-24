@@ -158,7 +158,7 @@ export default {
 </script>
 
 <style scoped>
-   @import "../../style/small/variables.pcss";
+   @import "@/style/small/variables.pcss";
   .nav {
     display: flex;
     width: 100%;

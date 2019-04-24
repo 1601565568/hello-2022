@@ -219,7 +219,7 @@ export default edit
 </script>
 
 <style scoped>
-  @import "../../../../style/small/variables.pcss";
+  @import "@/style/small/variables.pcss";
   .fl {
     float: left;
     font-size: 12px;

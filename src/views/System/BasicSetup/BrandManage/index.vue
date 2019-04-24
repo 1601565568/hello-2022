@@ -137,7 +137,7 @@ export default index
 </script>
 
 <style scoped>
-  @import "../../../../style/small/variables.pcss";
+  @import "@/style/small/variables.pcss";
   .plat-item {
     border-bottom: 1px solid var(--theme-base-border-color-primary);
     .plat-item__label {

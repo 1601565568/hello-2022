@@ -391,7 +391,7 @@ export default index
 </script>
 
 <style scoped>
-  @import "../../../../style/small/variables.pcss";
+  @import "@/style/small/variables.pcss";
   @component-namespace ys {
     .el-checkbox{
       max-width:90%;

@@ -187,7 +187,7 @@ index.components = {
 export default index
 </script>
 <style scoped>
-  @import "../../../../style/small/variables.pcss";
+  @import "@/style/small/variables.pcss";
   @component-namespace add {
     @b role {
       /* el-form 样式 */

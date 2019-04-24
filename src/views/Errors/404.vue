@@ -28,7 +28,7 @@ export default {
 </script>
 
 <style scoped>
-  @import "../../style/small/variables.pcss";
+  @import "@/style/small/variables.pcss";
   @component-namespace error{
     @b page{
       position: relative;

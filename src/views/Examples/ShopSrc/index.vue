@@ -112,7 +112,7 @@ export default index
 </script>
 
 <style scoped>
-  @import "../../../style/small/variables.pcss";
+  @import "@/style/small/variables.pcss";
   .analysis-content {
     .template-page__table {
       margin-top: var(--default-margin-base);

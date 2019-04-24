@@ -291,7 +291,7 @@
 <script>
 import moment from 'moment'
 import NsShopSelect from 'components/NsShopSelect'
-import NsGoodsSelect from 'components/NsGoodsSelect'
+import NsGoodsSelect from 'web-crm/src/components/NsGoodsSelect'
 
 export default {
   props: {

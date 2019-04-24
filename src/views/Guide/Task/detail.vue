@@ -1274,7 +1274,7 @@ export default {
 }
 </script>
 <style scoped lang='scss'>
-@import "../../../style/small/variables.pcss";
+@import "@/style/small/variables.pcss";
   @component-namespace overview {
     @b content {
       .el-row {

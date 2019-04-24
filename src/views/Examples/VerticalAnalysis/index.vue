@@ -222,7 +222,7 @@ export default index
 </script>
 
 <style scoped>
-  @import "../../../style/small/variables.pcss";
+  @import "@/style/small/variables.pcss";
   .template-page {
     .template-page__row {
       display: block;

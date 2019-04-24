@@ -70,7 +70,7 @@ export default {
 </script>
 
 <style scoped>
-  @import "../../style/small/variables.pcss";
+  @import "@/style/small/variables.pcss";
   @component-namespace tmp{
     @b toggles {
       margin-top: var(--default-margin-small);

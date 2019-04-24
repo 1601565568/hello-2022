@@ -458,7 +458,7 @@ export default {
 </script>
 
 <style scoped>
-  @import "../../style/small/variables.pcss";
+  @import "@/style/small/variables.pcss";
 
   >>> .el-table th {
     line-height: 1;

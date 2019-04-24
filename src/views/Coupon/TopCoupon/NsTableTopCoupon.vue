@@ -183,7 +183,7 @@ import NsTableTopCoupon from './src/NsTableTopCoupon'
 export default NsTableTopCoupon
 </script>
 <style scoped>
-  @import "../../../style/small/variables.pcss";
+  @import "@/style/small/variables.pcss";
   /* 优惠券结构 */
   .coupons {
     overflow:hidden;

@@ -108,7 +108,7 @@ export default {
 </script>
 
 <style scoped>
-  @import "../../style/small/variables.pcss";
+  @import "@/style/small/variables.pcss";
   .el-menu-item:hover, .el-menu-item:focus{
     background: transparent;
   }

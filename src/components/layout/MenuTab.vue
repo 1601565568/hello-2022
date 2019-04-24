@@ -33,7 +33,7 @@ export default {
 </script>
 
 <style scoped>
-  @import "../../style/small/variables.pcss";
+  @import "@/style/small/variables.pcss";
   @component-namespace menu {
     @b tab {
       background-color: var(--theme-color-white);

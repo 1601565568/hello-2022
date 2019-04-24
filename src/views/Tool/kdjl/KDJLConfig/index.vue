@@ -357,7 +357,7 @@ export default index
 </script>
 
 <style scoped>
-  @import "../../../../style/small/variables.pcss";
+  @import "@/style/small/variables.pcss";
   .content-style {
     min-height: 38px;
     padding: var(--default-padding-base) var(--default-padding-base) 0;

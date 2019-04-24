@@ -16,7 +16,7 @@ export default {
 </script>
 
 <style scoped>
-  @import "../style/small/variables.pcss";
+  @import "@/style/small/variables.pcss";
   .content-wrap{
     margin-left: 210px;
     margin-top: 90px;

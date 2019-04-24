@@ -15,7 +15,7 @@
   </div>
 </template>
 <script>
-// import NsGoodsSelect from 'components/NsGoodsSelect'
+// import NsGoodsSelect from 'web-crm/src/components/NsGoodsSelect'
 // import NsShopSelect from 'components/NsShopSelect'
 // index.components = {
 //   NsGoodsSelect,

@@ -267,7 +267,7 @@
 import moment from 'moment'
 import goodsDialog from './goodsDialog'
 import NsShopSelect from 'components/NsShopSelect'
-import NsGoodsSelect from 'components/NsGoodsSelect'
+import NsGoodsSelect from 'web-crm/src/components/NsGoodsSelect'
 export default {
   props: {
     callBack: Function

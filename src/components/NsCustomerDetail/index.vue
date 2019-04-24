@@ -677,7 +677,7 @@ export default NsCustomerDetail
 </script>
 
 <style scoped>
-  @import "../../style/small/variables.pcss";
+  @import "@/style/small/variables.pcss";
   @component-namespace custom {
     @b dialog {
       .integral-label {

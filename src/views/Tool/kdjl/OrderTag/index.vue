@@ -115,7 +115,7 @@
 <script>
 import index from './src/index'
 import NsTableOrder from './NsTableOrder'
-import NsGoodsSelect from 'components/NsGoodsSelect'
+import NsGoodsSelect from 'web-crm/src/components/NsGoodsSelect'
 index.components = {
   NsTableOrder,
   NsGoodsSelect

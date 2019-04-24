@@ -30,7 +30,7 @@ export default {
 </script>
 
 <style scoped>
-  @import "../../style/small/variables.pcss";
+  @import "@/style/small/variables.pcss";
   .loading-content {
     height: 100%;
     background-color: #0f62c7;

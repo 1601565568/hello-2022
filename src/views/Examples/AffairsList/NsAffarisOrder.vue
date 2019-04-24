@@ -122,7 +122,7 @@ export default NsAffarisOrder
 </script>
 
 <style scoped>
-  @import "../../../style/small/variables.pcss";
+  @import "@/style/small/variables.pcss";
   .trade-table {
   >>> thead {
   tr {

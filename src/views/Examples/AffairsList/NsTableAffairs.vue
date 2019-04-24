@@ -364,7 +364,7 @@ export default NsTableAffairs
 </script>
 
 <style scoped>
-  @import "../../../style/small/variables.pcss";
+  @import "@/style/small/variables.pcss";
   /* 事务列表样式 */
   .copy-val {
     position: absolute;

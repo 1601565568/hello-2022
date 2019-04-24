@@ -345,7 +345,7 @@ export default {
 </script>
 
 <style scoped>
-  @import "../../style/small/variables.pcss";
+  @import "@/style/small/variables.pcss";
   .custom-tree-node {
     flex: 1;
     display: flex;
