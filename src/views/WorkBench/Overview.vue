@@ -234,7 +234,15 @@
 
 <script>
 import index from './src/index'
+import businessEcharts from 'web-crm/src/components/NsEcharts'
+import ElProgress from 'nui-v2/lib/progress'
+import ElCard from 'nui-v2/lib/card'
 export default index
+index.components = {
+  businessEcharts,
+  ElProgress,
+  ElCard
+}
 </script>
 
 <style scoped>

@@ -584,9 +584,11 @@
 
 <script>
 import List from './src/List'
+import ElUpload from 'nui-v2/lib/upload'
 import NsTableGuide from './NsTableGuide'
 List.components = {
-  NsTableGuide
+  NsTableGuide,
+  ElUpload
 }
 export default List
 </script>

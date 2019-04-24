@@ -63,7 +63,13 @@
   </div>
 </template>
 <script>
+import NavHead from '@/components/layout/OperateNavHead'
+import ElAutocomplete from 'nui-v2/lib/autocomplete'
 export default {
+  components: {
+    NavHead,
+    ElAutocomplete
+  },
   data () {
     return {
       cacheKey: null,

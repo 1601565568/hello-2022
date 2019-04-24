@@ -6,7 +6,7 @@
 </template>
 <script>
 import loaderNoCacheClose from 'web-crm/src/utils/loaderNoCacheClose'
-import NavHead from '@/components/Layout/OperateNavHead'
+import NavHead from '@/components/layout/OperateNavHead'
 export default {
   components: {
     NavHead
