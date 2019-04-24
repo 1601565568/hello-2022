@@ -28,8 +28,8 @@
         <div class='mb10'>
             <el-input  type="text" v-model="saveObj.title" maxlength='50' placeholder="请输入标题，长度在4-50个字符以内" clearable size="medium"></el-input>
         </div>
-        <vue-ueditor-wrap :config="myConfig" v-model="detail" @ready="editorReady"></vue-ueditor-wrap>
-         <!-- @beforeInit="addCustomDialog" -->
+        <vue-ueditor-wrap :config="myConfig" v-model="detail" @ready="editorReady" @beforeInit="addCustomDialog"></vue-ueditor-wrap>
+         <!--  -->
       </div>
 
       <el-form :model="saveObj" :rules="rules" ref="addForm"  style="margin-left:20px">
@@ -133,8 +133,7 @@ export default {
         initialFrameHeight: 300,
         // 初始容器宽度
         initialFrameWidth: '100%',
-        // serverUrl: 'http://47.96.228.119:8080/core/sgueditorfile/ueditorFile'
-        serverUrl: 'http://35.201.165.105:8000/controller.php'
+        serverUrl: 'http://47.96.228.119:8089/core/ueditor/ueditorConfig'
 
       },
       wechatPageTypeList: [{name: '商品', id: 1}, {name: '优惠券', id: 2}, {name: '营销活动', id: 3}, {name: '商品分类', id: 4}, {name: '自定义页面', id: 5}],
