@@ -1,4 +1,4 @@
-import tableMixin from 'mixins/table' // 引入tableMixin
+import tableMixin from 'web-crm/src/mixins/table' // 引入tableMixin
 import ErrorCode from '@/config/errorCode'
 import apiRequestConfirm from 'web-crm/src/utils/apiRequestConfirm'
 export default {

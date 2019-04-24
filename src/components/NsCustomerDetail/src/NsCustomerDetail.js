@@ -1,4 +1,4 @@
-import tableMixin from 'mixins/table'
+import tableMixin from 'web-crm/src/mixins/table'
 import NsDatetime from '../../NsDatetime'
 import $ from 'jquery'
 import ErrorCode from '@/config/errorCode'

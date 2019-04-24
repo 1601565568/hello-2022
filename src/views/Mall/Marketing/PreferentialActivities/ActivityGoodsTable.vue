@@ -44,7 +44,7 @@
 </template>
 
 <script>
-import tableMixin from 'mixins/table'
+import tableMixin from 'web-crm/src/mixins/table'
 import SgGoodsSelect from '../../../Guide/components/SgGoodsSelect'
 export default {
   name: 'ActivityGoodsTable',

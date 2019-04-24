@@ -1,4 +1,4 @@
-import formMixin from 'mixins/form' // 引入表单验证的一些相关方法
+import formMixin from 'web-crm/src/mixins/form' // 引入表单验证的一些相关方法
 // 校验规则
 var mixin = {
   data: function () {

@@ -1,4 +1,4 @@
-import tableMixin from 'mixins/table'
+import tableMixin from 'web-crm/src/mixins/table'
 import moment from 'moment'
 import apiRequestConfirm from 'web-crm/src/utils/apiRequestConfirm'
 export default {

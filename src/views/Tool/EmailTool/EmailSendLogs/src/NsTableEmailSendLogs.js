@@ -1,4 +1,4 @@
-import tableMixin from 'mixins/table' // 引入tableMixin
+import tableMixin from 'web-crm/src/mixins/table' // 引入tableMixin
 import NsDatetime from 'components/NsDatetime'
 // import ErrorCode from '@/config/errorCode' // 引入错误代码
 export default {

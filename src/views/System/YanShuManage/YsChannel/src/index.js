@@ -1,4 +1,4 @@
-import formMixin from 'mixins/form'
+import formMixin from 'web-crm/src/mixins/form'
 import ErrorCode from '@/config/errorCode'
 import apiRequestConfirm from 'web-crm/src/utils/apiRequestConfirm'
 var vue

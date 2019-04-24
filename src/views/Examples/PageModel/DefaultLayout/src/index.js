@@ -1,4 +1,4 @@
-import formMixin from 'mixins/form'
+import formMixin from 'web-crm/src/mixins/form'
 import ErrorCode from '@/config/errorCode'
 
 var vm

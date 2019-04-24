@@ -1,4 +1,4 @@
-import formMixin from 'mixins/form'
+import formMixin from 'web-crm/src/mixins/form'
 import store from 'store/dist/store.legacy.min.js'
 
 var vm

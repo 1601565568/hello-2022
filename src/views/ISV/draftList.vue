@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import tableMixin from 'mixins/table'
+import tableMixin from 'web-crm/src/mixins/table'
 
 export default {
   name: 'draftList',

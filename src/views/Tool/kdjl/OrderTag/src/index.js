@@ -1,5 +1,5 @@
 import ErrorCode from '@/config/errorCode'
-import formMixin from 'mixins/form'
+import formMixin from 'web-crm/src/mixins/form'
 import moment from 'moment'
 
 var vm

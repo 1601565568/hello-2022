@@ -74,7 +74,7 @@
 </template>
 
 <script>
-import formMixin from 'mixins/form'
+import formMixin from 'web-crm/src/mixins/form'
 import ActivityGoodsTable from './ActivityGoodsTable'
 import ActivityShopTable from './ActivityShopTable'
 export default {

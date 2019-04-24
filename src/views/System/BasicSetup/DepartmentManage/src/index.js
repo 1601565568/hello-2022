@@ -1,4 +1,4 @@
-import formMixin from 'mixins/form'
+import formMixin from 'web-crm/src/mixins/form'
 import treeMixin from '@/mixins/tree'
 import ErrorCode from '@/config/errorCode'
 import apiRequestConfirm from 'web-crm/src/utils/apiRequestConfirm'

@@ -242,7 +242,7 @@
 </template>
 
 <script>
-import tableMixin from 'mixins/table'
+import tableMixin from 'web-crm/src/mixins/table'
 import listItemShow from '../Material/components/listItemShow'
 export default {
   name: 'targetDetail',

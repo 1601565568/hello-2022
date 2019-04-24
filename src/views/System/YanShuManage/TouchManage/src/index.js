@@ -1,4 +1,4 @@
-import formMixin from 'mixins/form'
+import formMixin from 'web-crm/src/mixins/form'
 import ErrorCode from '@/config/errorCode'
 import dataCheck from 'web-crm/src/utils/dataCheck'
 export default {

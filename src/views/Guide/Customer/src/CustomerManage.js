@@ -1,5 +1,5 @@
 import api from '@/config/http'
-import tableMixin from 'mixins/table'
+import tableMixin from 'web-crm/src/mixins/table'
 export default {
   data: function () {
     let pagination = {
