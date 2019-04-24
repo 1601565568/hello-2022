@@ -1,4 +1,4 @@
-import ShopManager from './shopmanager'
+// import ShopManager from './shopmanager'
 // import Reward from './reward'
 // import ShopMarketing from './shopmarketing'
 // import Other from './other'
@@ -6,7 +6,7 @@ import Database from './database'
 // import Isv from './isv'
 // import Management from './management'
 export default [
-  ShopManager,
+  // ShopManager,
   // Reward,
   // ShopMarketing,
   // Other,

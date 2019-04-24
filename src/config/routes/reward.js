@@ -1,7 +1,7 @@
 export default {
   'path': '/Guide/ActivityIndex/ShopSetList',
   'name': 'ACTIVITY_INDEX',
-  'componentPath': () => import('@/views/Default'),
+  'component': () => import('@/views/Default'),
   'meta': {
     'title': '业绩指标',
     'requiresAuth': true
@@ -11,43 +11,43 @@ export default {
       'path': '/operate',
       'name': 'ECRP_LOGIN',
       'title': 'ECRP登录',
-      'componentPath': () => import('@/views/LoginEcrp/index')
+      'component': () => import('@/views/LoginEcrp/index')
     },
     {
       'path': '/Guide/ActivityIndex',
       'name': 'ACTIVITY_INDEX2',
       'title': '业绩指标',
-      'componentPath': () => import('@/views/Content'),
+      'component': () => import('@/views/Content'),
       'children': [
         {
           'path': '/Guide/ActivityIndex/ShopSetList',
           'name': 'ACTIVITY_INDEX_SHOP_SETLIST',
           'title': '门店指标',
-          'componentPath': () => import('@/views/Guide/ActivityIndex/ShopSetList')
+          'component': () => import('@/views/Guide/ActivityIndex/ShopSetList')
         },
         {
           'path': '/Guide/Task/shopList',
           'name': 'SHOP_TASK',
           'title': '门店任务',
-          'componentPath': () => import('@/views/Guide/Task/shopList')
+          'component': () => import('@/views/Guide/Task/shopList')
         },
         {
           'path': '/Guide/ActivityIndex/RewardSetList',
           'name': 'ACTIVITY_INDEX_REWARD_SETLIST',
           'title': '提成奖励设置',
-          'componentPath': () => import('@/views/Guide/ActivityIndex/RewardSetList')
+          'component': () => import('@/views/Guide/ActivityIndex/RewardSetList')
         },
         {
           'path': '/Guide/ActivityIndex/WorkStatistics',
           'name': 'ACTIVITY_INDEX_WORK_STATISTICS',
           'title': '导购工作统计',
-          'componentPath': () => import('@/views/Guide/ActivityIndex/WorkStatistics')
+          'component': () => import('@/views/Guide/ActivityIndex/WorkStatistics')
         },
         {
           'path': '/Guide/ActivityIndex/ShopStatistics',
           'name': 'ACTIVITY_INDEX_SHOP_STATISTICS',
           'title': '门店工作统计',
-          'componentPath': () => import('@/views/Guide/ActivityIndex/ShopStatistics')
+          'component': () => import('@/views/Guide/ActivityIndex/ShopStatistics')
         }
       ]
     },
@@ -55,19 +55,19 @@ export default {
       'path': '/Guide/Task/List',
       'name': 'TaskManger',
       'title': '任务管理',
-      'componentPath': () => import('@/views/Content'),
+      'component': () => import('@/views/Content'),
       'children': [
         {
           'path': '/Guide/Task/List',
           'name': 'GUIDE_TASK',
           'title': '任务管理',
-          'componentPath': () => import('@/views/Guide/Task/brandList')
+          'component': () => import('@/views/Guide/Task/brandList')
         },
         {
           'path': '/Guide/Task/detail',
           'name': 'GUIDE_DETAIL',
           'title': '任务概况',
-          'componentPath': () => import('@/views/Guide/Task/detail')
+          'component': () => import('@/views/Guide/Task/detail')
         }
       ]
     }
