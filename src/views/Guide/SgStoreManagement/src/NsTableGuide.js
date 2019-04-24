@@ -1,5 +1,5 @@
 import tableMixin from 'web-crm/src/mixins/table'
-import NsArea from 'components/NsArea'
+import NsArea from 'web-crm/src/components/NsArea'
 export default {
   name: 'NsTableGuide',
   mixins: [tableMixin],

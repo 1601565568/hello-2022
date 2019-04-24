@@ -186,7 +186,7 @@
 <script>
 import moment from 'moment'
 import listPageMixin from '@/mixins/listPage'
-import couponItem from 'components/NsCouponItem'
+import couponItem from 'web-crm/src/components/NsCouponItem'
 export default {
   mixins: [listPageMixin],
   data () {

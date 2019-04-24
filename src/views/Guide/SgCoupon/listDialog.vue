@@ -90,7 +90,7 @@
 </template>
 <script>
 import listPageMixin from '@/mixins/listPage'
-import NsArea from 'components/NsArea'
+import NsArea from 'web-crm/src/components/NsArea'
 export default {
   mixins: [listPageMixin],
   data () {

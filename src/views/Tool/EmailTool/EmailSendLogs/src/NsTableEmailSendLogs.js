@@ -1,5 +1,5 @@
 import tableMixin from 'web-crm/src/mixins/table' // 引入tableMixin
-import NsDatetime from 'components/NsDatetime'
+import NsDatetime from 'web-crm/src/components/NsDatetime'
 // import ErrorCode from '@/config/errorCode' // 引入错误代码
 export default {
   name: 'NsTableEmailSendLogs',

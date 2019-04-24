@@ -230,8 +230,8 @@
 
 <script>
 import NsTableSgCustomer from './src/NsTableSgCustomer'
-import NsDatetime from 'components/NsDatetime'
-import couponItem from 'components/NsCouponItem'
+import NsDatetime from 'web-crm/src/components/NsDatetime'
+import couponItem from 'web-crm/src/components/NsCouponItem'
 NsTableSgCustomer.components = {
   NsDatetime,
   couponItem

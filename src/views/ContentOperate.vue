@@ -7,7 +7,7 @@
   </div>
 </template>
 <script>
-import MenuLeft from 'components/layout/OperateMenuLeft'
+import MenuLeft from '@/components/Layout/OperateMenuLeft'
 export default {
   components: {
     MenuLeft

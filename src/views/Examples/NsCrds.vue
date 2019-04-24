@@ -7,7 +7,7 @@
 </div>
 </template>
 <script>
-import NsArea from 'components/NsArea'
+import NsArea from 'web-crm/src/components/NsArea'
 import NsButton from '../../components/global/NsButton'
 export default {
   components: { NsButton, NsArea },

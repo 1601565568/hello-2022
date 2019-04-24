@@ -1,5 +1,5 @@
 import tableMixin from 'web-crm/src/mixins/table'
-import NsDatetime from 'components/NsDatetime'
+import NsDatetime from 'web-crm/src/components/NsDatetime'
 import ErrorCode from '@/config/errorCode'
 import apiRequestConfirm from 'web-crm/src/utils/apiRequestConfirm'
 import Vue from 'vue'

@@ -1,5 +1,5 @@
 import echarts from 'echarts'
-import businessEcharts from 'components/NsEcharts'
+import businessEcharts from 'web-crm/src/components/NsEcharts'
 export default {
   name: 'Home',
   components: {

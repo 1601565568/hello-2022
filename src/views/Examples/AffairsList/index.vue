@@ -264,7 +264,7 @@
 import index from './src/index'
 import NsTableAffairs from './NsTableAffairs'
 import NsAffarisOrder from './NsAffarisOrder'
-import NsDatetime from 'components/NsDatetime'
+import NsDatetime from 'web-crm/src/components/NsDatetime'
 index.components = {
   NsTableAffairs,
   NsAffarisOrder,

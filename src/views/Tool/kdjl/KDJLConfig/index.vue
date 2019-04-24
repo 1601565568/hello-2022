@@ -349,7 +349,7 @@
 
 <script>
 import index from './src/index'
-import NsArea from 'components/NsArea'
+import NsArea from 'web-crm/src/components/NsArea'
 index.components = {
   NsArea
 }

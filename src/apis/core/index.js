@@ -32,10 +32,6 @@ export default {
   exportTask,
   sysUser,
   exportDownloadLog,
-  changeView: {
-    url: '/core/access/changeView',
-    method: 'get'
-  },
   /**
    * $api.uploadFile('test')
    * @param {string} module 上传模块名

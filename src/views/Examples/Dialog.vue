@@ -1400,10 +1400,10 @@
   </div>
 </template>
 <script>
-import NsArea from 'components/NsArea'
-import NsDatetime from 'components/NsDatetime'
+import NsArea from 'web-crm/src/components/NsArea'
+import NsDatetime from 'web-crm/src/components/NsDatetime'
 import NsButton from '../../components/global/NsButton.vue'
-import businessEcharts from 'components/NsEcharts'
+import businessEcharts from 'web-crm/src/components/NsEcharts'
 
 export default {
   components: {

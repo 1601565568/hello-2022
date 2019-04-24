@@ -70,7 +70,7 @@
 <script>
 import listPageMixin from '@/mixins/listPage'
 import tableMixin from 'web-crm/src/mixins/table'
-import NsArea from 'components/NsArea'
+import NsArea from 'web-crm/src/components/NsArea'
 export default {
   props: {
     api: {

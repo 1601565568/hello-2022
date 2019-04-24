@@ -1,7 +1,7 @@
 export default {
   'path': '/Guide/Material/imageText',
   'name': 'SHOP_MARKETING',
-  'component': () => import('@/views/Default'),
+  'component': () => import('web-crm/src/views/Default'),
   'meta': {
     'title': '门店营销',
     'requiresAuth': true
@@ -11,7 +11,7 @@ export default {
       'path': '/Guide/Material/imageText',
       'name': 'SHOP_MARKETING2',
       'title': '素材库',
-      'component': () => import('@/views/Content'),
+      'component': () => import('web-crm/src/views/Content'),
       'children': [{
         'path': '/Guide/Material/imageText',
         'name': 'MATERIAL',
@@ -36,7 +36,7 @@ export default {
       'path': '/Guide/SgCoupon/CouponList',
       'name': 'SHOP_MARKETING3',
       'title': '门店营销',
-      'component': () => import('@/views/Content'),
+      'component': () => import('web-crm/src/views/Content'),
       'children': [
         {
           'path': '/Guide/SgCoupon/CouponList',

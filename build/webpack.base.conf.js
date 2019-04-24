@@ -7,24 +7,21 @@ function resolve (dir) {
   return path.join(__dirname, '..', dir)
 }
 
-
 module.exports = {
   resolve: {
     alias: {
-      [packageConfig.name]: resolve(''),
-      'mixins': resolve('src/mixins'),
-      'components': resolve('src/components')
+      [packageConfig.name]: resolve('')
     }
   },
   module: {
-    noParse: function(content) {
-      return /apusjs-log|jquery|lodash|moment/.test(content);
+    noParse: function (content) {
+      return /apusjs-log|jquery|lodash|moment/.test(content)
     }
   },
   plugins: [
     new webpack.ContextReplacementPlugin(
-        /moment[\\\/]locale$/,
-        /^\.\/(zh-cn)$/
+      /moment[\\\/]locale$/,
+      /^\.\/(zh-cn)$/
     )
   ]
 }

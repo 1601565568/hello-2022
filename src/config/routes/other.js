@@ -1,7 +1,7 @@
 export default {
   'path': '/Guide/Others',
   'name': 'SG_OTHERS',
-  'component': () => import('@/views/Default'),
+  'component': () => import('web-crm/src/views/Default'),
   'meta': {
     'title': '其他',
     'requiresAuth': true
@@ -11,7 +11,7 @@ export default {
       'path': '/Guide/Others/SgWxAccount',
       'name': 'WX_ACCOUNT',
       'title': '授权管理',
-      'component': () => import('@/views/Content'),
+      'component': () => import('web-crm/src/views/Content'),
       'children': [
         {
           'path': '/Guide/Others/SgWxAccount',
@@ -25,7 +25,7 @@ export default {
       'path': '/Guide/OperationLog/List',
       'name': 'LIST',
       'title': '高级管理',
-      'component': () => import('@/views/Content'),
+      'component': () => import('web-crm/src/views/Content'),
       'children': [
         {
           'path': '/Guide/OperationLog/List',

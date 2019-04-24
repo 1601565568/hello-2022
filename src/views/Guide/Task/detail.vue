@@ -258,7 +258,7 @@
 </template>
 <script>
 import echarts from 'echarts'
-import businessEcharts from 'components/NsEcharts'
+import businessEcharts from 'web-crm/src/components/NsEcharts'
 import moment from 'moment'
 var myColor = ['#ff402c', '#ff592c', '#ff8f2c', '#ff8f2c', '#ffb22c']
 let taskProgressObj = {}

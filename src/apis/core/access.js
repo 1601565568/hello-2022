@@ -41,6 +41,11 @@ export default {
     callback: function (res, resolve, reject) {
       if (res.data.success) {
         res.data.result = {
+          integralActivityUrl: res.data.result.integralActivityUrl,
+          openDmWechat: res.data.result.openDmWechat,
+          openWechat: res.data.result.openWechat,
+          openAhd: res.data.result.openAhd,
+          companyName: res.data.result.companyName,
           name: res.data.result.loginAccount,
           nick: res.data.result.userName,
           menus: res.data.result.menus,
@@ -48,8 +53,12 @@ export default {
           brand: {
             id: res.data.result.currentView.viewId,
             name: res.data.result.currentView.viewName,
-            brandType: res.data.result.currentView.viewType
-          }
+            brandType: res.data.result.currentView.viewType,
+            isHyt: res.data.result.isHyt,
+            gradeRuleStatus: res.data.result.gradeRuleStatus
+          },
+          productCode: res.data.result.productCode,
+          dataAuth: res.data.result.dataAuth
         }
 
         if (res.data.result.menus.length > 0) {
@@ -74,6 +83,7 @@ export default {
               })
               item.path = item.children[0].path
             }
+
             return item
           })
         }
@@ -162,6 +172,9 @@ export default {
     url: '/operate/getSession',
     method: 'get'
 
+  },
+  changeView: {
+    url: '/core/access/changeView',
+    method: 'get'
   }
-
 }

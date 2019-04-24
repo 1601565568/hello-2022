@@ -5,7 +5,7 @@
   </ns-area>
 </template>
 <script>
-import NsArea from 'components/NsArea'
+import NsArea from 'web-crm/src/components/NsArea'
 export default {
   components: { NsArea },
   data () {

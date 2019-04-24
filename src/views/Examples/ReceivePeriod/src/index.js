@@ -1,6 +1,6 @@
-import NsDatetime from 'components/NsDatetime'
-import businessEcharts from 'components/NsEcharts'
-import NsArea from 'components/NsArea'
+import NsDatetime from 'web-crm/src/components/NsDatetime'
+import businessEcharts from 'web-crm/src/components/NsEcharts'
+import NsArea from 'web-crm/src/components/NsArea'
 
 export default {
   components: {

@@ -12,4 +12,4 @@ $--font-path: '~nui-v2/lib/theme-chalk/fonts';
 // 复写 element-ui组件库样式
 /* 组件 */
 @import "web-crm/src/style/small/NuiJs/components/index.pcss";
-
+@import "./my.scss";

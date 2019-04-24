@@ -1,5 +1,5 @@
-import NsDatetime from 'components/NsDatetime'
-import businessEcharts from 'components/NsEcharts'
+import NsDatetime from 'web-crm/src/components/NsDatetime'
+import businessEcharts from 'web-crm/src/components/NsEcharts'
 import { VoBasic } from 'vue-orgchart'
 import 'vue-orgchart/dist/style.min.css'
 
