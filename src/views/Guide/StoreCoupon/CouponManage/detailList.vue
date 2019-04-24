@@ -185,7 +185,7 @@
 </template>
 <script>
 import moment from 'moment'
-import listPageMixin from 'mixins/listPage'
+import listPageMixin from '@/mixins/listPage'
 import couponItem from 'components/NsCouponItem'
 export default {
   mixins: [listPageMixin],

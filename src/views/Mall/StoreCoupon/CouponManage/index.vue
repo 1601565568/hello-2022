@@ -250,7 +250,7 @@ import apiRequestConfirm from 'web-crm/src/utils/apiRequestConfirm'
 import addModal from './addModal'
 // 详情
 import couponView from './couponView'
-import listPageMixin from 'mixins/listPage'
+import listPageMixin from '@/mixins/listPage'
 export default {
   mixins: [listPageMixin],
   data () {

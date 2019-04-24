@@ -77,7 +77,7 @@
 </div>
 </template>
 <script>
-import listPageMixin from 'mixins/listPage'
+import listPageMixin from '@/mixins/listPage'
 import NsArea from 'components/NsArea'
 export default {
   mixins: [listPageMixin],

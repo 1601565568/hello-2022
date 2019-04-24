@@ -118,7 +118,7 @@
 </div>
 </template>
 <script>
-import listPageMixin from 'mixins/listPage'
+import listPageMixin from '@/mixins/listPage'
 import apiRequestConfirm from 'web-crm/src/utils/apiRequestConfirm'
 import addGroudModal from './addGroudModal'
 import listItemShow from './components/listItemShow'

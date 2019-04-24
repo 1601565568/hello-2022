@@ -164,7 +164,7 @@
 </template>
 <script>
 import moment from 'moment'
-import listPageMixin from 'mixins/listPage'
+import listPageMixin from '@/mixins/listPage'
 import shopSetAdd from './ShopSetAdd'
 export default {
   mixins: [listPageMixin],

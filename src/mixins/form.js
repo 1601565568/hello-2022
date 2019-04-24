@@ -1,4 +1,4 @@
-import common from './common'
+import common from 'web-crm/src/mixins/common'
 
 export default {
   methods: {

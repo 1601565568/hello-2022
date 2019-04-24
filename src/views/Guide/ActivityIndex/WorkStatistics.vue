@@ -293,7 +293,7 @@
 </template>
 <script>
 import moment from 'moment'
-import listPageMixin from 'mixins/listPage'
+import listPageMixin from '@/mixins/listPage'
 export default {
   mixins: [listPageMixin],
   data () {

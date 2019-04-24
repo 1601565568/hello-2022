@@ -58,7 +58,7 @@
 </div>
 </template>
 <script>
-import listPageMixin from 'mixins/listPage'
+import listPageMixin from '@/mixins/listPage'
 import listItemShow from '../Material/components/listItemShow'
 export default {
   mixins: [listPageMixin],

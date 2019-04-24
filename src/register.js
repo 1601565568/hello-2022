@@ -2,13 +2,12 @@ import Vue from 'vue'
 import directives from 'web-crm/src/directives'
 import directivesPrivate from './directives'
 import components from './components/global'
-import mixins from './mixins/global'
+import mixins from 'web-crm/src/mixins/global'
+import mixinsPrivate from './mixins'
 import ets from 'web-crm/src/extends'
 import etsPrivate from './extends'
 import filters from 'web-crm/src/filters'
 import filtersPrivate from './filters'
-
-
 
 /**
  * 全局注册属性或方法
@@ -30,6 +29,7 @@ Vue.use(components)
  * 全局注册混合
  */
 Vue.use(mixins)
+Vue.use(mixinsPrivate)
 
 /**
  * 全局注册过滤器

@@ -49,7 +49,6 @@ export default {
       state: {},
       nameMap: {},
       textToShow: {},
-      _loading: false,
       _helpState: false,
       _queryConfig: {
         expand: false,
@@ -139,10 +138,13 @@ export default {
         } else if (that._data._pagination.total === 0) {
           that._data._table.key = 2
         }
-      }).catch(() => {
-        that.$notify.error('网络异常，获取数据失败！')
+      }).catch((err) => {
+        if (err && err.msg) {
+          that.$notify.error(err.msg)
+        } else {
+          that.$notify.error('网络异常，获取数据失败！')
+        }
       }).finally(() => {
-        that._data._loading = false
         tableConfig.loadingtable = false
       })
     },
@@ -153,7 +155,6 @@ export default {
       this.$reload()
       this.$formatTextToShow$()
     },
-    // 重置功能
     $resetInputAction$: function () {
       if (typeof this.$resetInput === 'function') {
         var model = this.$resetInput(this.model)
@@ -203,7 +204,7 @@ export default {
     $showHelp: function () {
       this._data._helpState = !this._data._helpState
     },
-    $formatText$: function (name, value) {
+    $formatText$: function (name) {
       if (name in this.nameMap) {
         var info = this.nameMap[name]
         if (typeof info.instance.getText === 'function') {
@@ -217,7 +218,7 @@ export default {
         }
       }
     },
-    $resetField$: function (name, value) {
+    $resetField$: function (name) {
       // var model = this.$getOriginModel$()
       this.$set(this.model, name, this.$getOriginModel$().name)
     },
@@ -333,22 +334,25 @@ export default {
     $getOriginModel$: function () {
       return this.originModel
     },
-    $pageChange$: function (page) { // 页数改变
+    $pageChange$: function (page) {
       // var _pagination = this._data._pagination
       this._data._pagination.page = page
       return this.$reload()
     },
-    $sizeChange$: function (size) { // 页数大小
+    $sizeChange$: function (size) {
       var pagination = this._data._pagination
       pagination.size = size
+      pagination.page = 1
       return this.$reload()
     },
-    $orderChange$: function ({ column, prop, order }) {
+    $orderChange$: function (data) {
+      let column = data.column
+      let order = data.order
       var dir = order === 'ascending'
         ? 'asc' : (order === 'descending') ? 'desc' : undefined
       if (dir) {
         this._data._order.orderDir = dir
-        this._data._order.orderKey = column.dbcolumn
+        this._data._order.orderKey = column.sortable
       } else {
         this._data._order.orderDir = undefined
         this._data._order.orderKey = undefined
@@ -375,6 +379,8 @@ export default {
     },
     $quickSearch$: function () {
       this._data._table.searchMap = $.extend(true, {}, this._data._table.quickSearchMap)
+      // 页码变更会触发reload动作
+      this._data._pagination.page = 1
       this.$reload()
     },
     $handleParams: function (params) {

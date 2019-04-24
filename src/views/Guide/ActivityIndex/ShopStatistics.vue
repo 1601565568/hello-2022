@@ -336,7 +336,7 @@
 </template>
 <script>
 import moment from 'moment'
-import listPageMixin from 'mixins/listPage'
+import listPageMixin from '@/mixins/listPage'
 import NsArea from 'components/NsArea'
 export default {
   mixins: [listPageMixin],
