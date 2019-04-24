@@ -1,7 +1,8 @@
 import Vue from 'vue'
 import directives from 'web-crm/src/directives'
 import directivesPrivate from './directives'
-import components from './components'
+import Components from 'web-crm/src/components'
+import ComponentsPrivate from './components'
 import mixins from 'web-crm/src/mixins/global'
 import mixinsPrivate from './mixins'
 import ets from 'web-crm/src/extends'
@@ -23,7 +24,8 @@ Vue.use(directivesPrivate)
 /**
  * 注册全局组件
  */
-Vue.use(components)
+Vue.use(Components)
+Vue.use(ComponentsPrivate)
 
 /**
  * 全局注册混合
