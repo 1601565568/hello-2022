@@ -1,9 +1,14 @@
 import echarts from 'echarts'
 import businessEcharts from 'web-crm/src/components/NsEcharts'
+import ElProgress from 'nui-v2/lib/progress'
+import ElCard from 'nui-v2/lib/card'
+
 export default {
   name: 'Home',
   components: {
-    businessEcharts
+    businessEcharts,
+    ElProgress,
+    ElCard
   },
   data () {
     let monthDate = new Date().getFullYear() + '-' + (new Date().getMonth() + 1)
