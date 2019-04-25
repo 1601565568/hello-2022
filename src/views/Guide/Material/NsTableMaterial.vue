@@ -370,7 +370,8 @@
 
 <script>
 import Material from './src/Material'
-
+import ElUpload from 'nui-v2/lib/upload'
+Material.components = { ElUpload }
 export default Material
 </script>
 <style scoped>

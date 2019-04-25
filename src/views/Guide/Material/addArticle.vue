@@ -95,13 +95,17 @@
 </template>
 <script>
 import api from '@/config/http'
+import ElUpload from 'nui-v2/lib/upload'
 // import { isURL } from '../Common/utils.js'
 import VueUeditorWrap from 'vue-ueditor-wrap'
 export default {
+  components: {
+    VueUeditorWrap,
+    ElUpload
+  },
   props: {
     callBack: Function
   },
-
   data () {
     // var validateURL = (rule, value, callback) => {
     //   if (value === '') {
@@ -176,9 +180,6 @@ export default {
 
       }
     }
-  },
-  components: {
-    VueUeditorWrap
   },
   created: function () {},
   methods: {

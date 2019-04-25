@@ -259,12 +259,14 @@
 <script>
 import echarts from 'echarts'
 import businessEcharts from 'web-crm/src/components/NsEcharts'
+import ElProgress from 'nui-v2/lib/progress'
 import moment from 'moment'
 var myColor = ['#ff402c', '#ff592c', '#ff8f2c', '#ff8f2c', '#ffb22c']
 let taskProgressObj = {}
 export default {
   components: {
-    businessEcharts
+    businessEcharts,
+    ElProgress
   },
   data () {
     let queryDate = moment(new Date().setTime(new Date().getTime() - 3600 * 1000 * 24 * 30)).format('YYYY-MM-DD')
