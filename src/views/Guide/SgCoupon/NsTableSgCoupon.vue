@@ -171,15 +171,15 @@
 </template>
 
 <script>
-  import NsTableSgCoupon from './src/NsTableSgCoupon'
-  import NsDatetime from 'components/NsDatetime'
-  import couponItem from 'components/NsCouponItem'
-  NsTableSgCoupon.components = {
-    NsDatetime,
-    couponItem
+import NsTableSgCoupon from './src/NsTableSgCoupon'
+import NsDatetime from 'web-crm/src/components/NsDatetime'
+import couponItem from 'web-crm/src/components/NsCouponItem'
+NsTableSgCoupon.components = {
+  NsDatetime,
+  couponItem
 
-  }
-  export default NsTableSgCoupon
+}
+export default NsTableSgCoupon
 </script>
 
 <style scoped>

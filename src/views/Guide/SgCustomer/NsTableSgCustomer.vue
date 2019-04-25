@@ -185,7 +185,6 @@
                      @current-change="$pageChange$" >
       </el-pagination>
 
-
       <el-dialog :title="title" :visible.sync="showCustomerDialogVisible" width="800px" :before-close="onCancleDialog" :vetically=true>
         <div style="overflow-x:hidden;overflow-y:auto;">
           <el-table :data="customerData">
@@ -230,19 +229,17 @@
 </template>
 
 <script>
-  import NsTableSgCustomer from './src/NsTableSgCustomer'
-  import NsDatetime from 'components/NsDatetime'
-  import couponItem from 'components/NsCouponItem'
-  NsTableSgCustomer.components = {
-    NsDatetime,
-    couponItem
+import NsTableSgCustomer from './src/NsTableSgCustomer'
+import NsDatetime from 'web-crm/src/components/NsDatetime'
+import couponItem from 'web-crm/src/components/NsCouponItem'
+NsTableSgCustomer.components = {
+  NsDatetime,
+  couponItem
 
-  }
-  export default NsTableSgCustomer
+}
+export default NsTableSgCustomer
 </script>
 
 <style scoped>
 .w80{width: 76px;text-align: right; display: inline-block;}
 </style>
-
-

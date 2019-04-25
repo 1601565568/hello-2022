@@ -27,69 +27,69 @@
   </div>
 </template>
 <script>
-  export default {
-    props: {
-      callBack: Function
-    },
-    data () {
-      let rules = {
-        amount: [{
-          validator: (rule, val, call) => {
-            if (!/^\+?[1-9][0-9]*$/.test(val)) {
-              call(new Error('请输入大于0的整数'))
-            }
-            if (val <= 0) {
-              call(new Error('数量必须大于0'))
-            }
-            call()
+export default {
+  props: {
+    callBack: Function
+  },
+  data () {
+    let rules = {
+      amount: [{
+        validator: (rule, val, call) => {
+          if (!/^\+?[1-9][0-9]*$/.test(val)) {
+            call(new Error('请输入大于0的整数'))
           }
-        }]
-      }
-      return {
-        rules: rules,
-        initObj: {},
-        dialogVisible: false,
-        loading: false, // 防重复提交
-        addNumForm: {
-          amount: null
-        }
-      }
-    },
-    created: function () {},
-    methods: {
-      showToggle (data) {
-        this.dialogVisible = true
-        this.initObj = data
-        this.addNumForm.couponId = data.id
-      },
-      async saveFun () {
-        let validSuccess = false
-        this.$refs.form.validate(valid => {
-          if (valid) {
-            validSuccess = true
+          if (val <= 0) {
+            call(new Error('数量必须大于0'))
           }
-        })
-        if (!validSuccess) {
-          return
+          call()
         }
-        this.loading = true
-        await this.$http.fetch(this.$api.coupon.storeCoupon.updateCouponMaxAmount, this.addNumForm).then(resp => {}).catch(() => {
-          this.$notify.error('保存失败')
-        })
-        this.loading = false
-        this.handleClose()
-        // 回调刷新列表
-        this.$props.callBack('addNum')
-      },
-      handleClose () {
-        this.addNumForm = {
-          amount: null
-        }
-        this.$refs.form.resetFields()
-        this.dialogVisible = false
+      }]
+    }
+    return {
+      rules: rules,
+      initObj: {},
+      dialogVisible: false,
+      loading: false, // 防重复提交
+      addNumForm: {
+        amount: null
       }
     }
+  },
+  created: function () {},
+  methods: {
+    showToggle (data) {
+      this.dialogVisible = true
+      this.initObj = data
+      this.addNumForm.couponId = data.id
+    },
+    async saveFun () {
+      let validSuccess = false
+      this.$refs.form.validate(valid => {
+        if (valid) {
+          validSuccess = true
+        }
+      })
+      if (!validSuccess) {
+        return
+      }
+      this.loading = true
+      await this.$http.fetch(this.$api.coupon.storeCoupon.updateCouponMaxAmount, this.addNumForm).then(resp => {}).catch(() => {
+        this.$notify.error('保存失败')
+      })
+      this.loading = false
+      this.handleClose()
+      // 回调刷新列表
+      this.$props.callBack('addNum')
+    },
+    handleClose () {
+      this.addNumForm = {
+        amount: null
+      }
+      this.$refs.form.resetFields()
+      this.dialogVisible = false
+    }
   }
+}
 </script>
 <style scoped>
 

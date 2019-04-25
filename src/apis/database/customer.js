@@ -1,4 +1,4 @@
-import transData from 'utils/transData'
+import transData from 'web-crm/src/utils/transData'
 export default {
   batchInsert: {
     url: '/vip/touchblack/batchInsert',

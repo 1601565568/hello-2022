@@ -70,7 +70,7 @@
               </p>
               <p class="text-secondary" v-if="storeModel.dateType == 1">
                 领取{{storeModel.after_get_valid_days}}天后生效，有效期{{storeModel.valid_days}}天
-                
+
               </p>
             </div>
           </div>
@@ -136,20 +136,19 @@
 </template>
 
 <script>
-  import List from './src/CouponList'
-  import NsTableSgCoupon from './NsTableSgCoupon'
-  import listDialog from './listDialog.vue'
+import List from './src/CouponList'
+import NsTableSgCoupon from './NsTableSgCoupon'
+import listDialog from './listDialog.vue'
 
-  List.components = {
-    NsTableSgCoupon,
-    listDialog
-  }
-  export default List
+List.components = {
+  NsTableSgCoupon,
+  listDialog
+}
+export default List
 </script>
 
-
 <style scoped>
-  @import "../../../style/small/variables.pcss";
+  @import "@/style/small/variables.pcss";
 
   .coupon-form{
     text-align: right;

@@ -70,14 +70,12 @@
       </div>
     </el-dialog>
 
-
-
   </div>
 </template>
 
 <script>
-import tableMixin from 'mixins/table'
-import apiRequestConfirm from 'utils/apiRequestConfirm'
+import tableMixin from 'web-crm/src/mixins/table'
+import apiRequestConfirm from 'web-crm/src/utils/apiRequestConfirm'
 
 export default {
   name: 'index',
@@ -129,10 +127,10 @@ export default {
         table_buttons: tableButtons
       },
       rules: {
-        'name': [{required: true, message: '请输入菜单名称'}],
-        'parent_id': [{required: true, message: '请输入父菜单ID'}],
-        'code': [{required: true, message: '请输入菜单编码'}],
-        'url': [{required: true, message: '请输入页面配置路径'}]
+        'name': [{ required: true, message: '请输入菜单名称' }],
+        'parent_id': [{ required: true, message: '请输入父菜单ID' }],
+        'code': [{ required: true, message: '请输入菜单编码' }],
+        'url': [{ required: true, message: '请输入页面配置路径' }]
       }
     }
   },
@@ -238,13 +236,13 @@ export default {
     },
     onDelete (row) {
       apiRequestConfirm('永久删除该数据')
-      .then(() => {
-        let that = this
-        that.$http.fetch(that.$api.core.access.deleteMenu, {id: row.id}).then(() => {
-          that.dialogFormVisible = false
-          that.$notify.success('删除成功')
-          that.$reload()
-          that.$http.fetch(that.$api.core.access.getCloudSession)
+        .then(() => {
+          let that = this
+          that.$http.fetch(that.$api.core.access.deleteMenu, { id: row.id }).then(() => {
+            that.dialogFormVisible = false
+            that.$notify.success('删除成功')
+            that.$reload()
+            that.$http.fetch(that.$api.core.access.getCloudSession)
               .then((data) => {
                 that.$store.commit('operate/UPDATE_OPERATE_MENUS', {
                   menus: data.menus
@@ -253,12 +251,12 @@ export default {
               .catch(resp => {
 
               })
-        }).catch((resp) => {
-          that.$notify.error(resp.msg || '删除失败')
-        })
-      }).catch(() => {
+          }).catch((resp) => {
+            that.$notify.error(resp.msg || '删除失败')
+          })
+        }).catch(() => {
         // 点击取消事件
-      })
+        })
     },
     /**
      * 处理请求参数
@@ -348,5 +346,3 @@ export default {
   padding: 10px 20px;
 }
 </style>
-
-

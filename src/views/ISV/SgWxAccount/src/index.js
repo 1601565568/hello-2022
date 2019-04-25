@@ -1,5 +1,5 @@
-import tableMixin from 'mixins/table'
-import apiRequestConfirm from 'utils/apiRequestConfirm'
+import tableMixin from 'web-crm/src/mixins/table'
+import apiRequestConfirm from 'web-crm/src/utils/apiRequestConfirm'
 export default {
   name: 'index',
   mixins: [tableMixin],
@@ -120,34 +120,34 @@ export default {
         quickSearchMap: {}
       },
       rules: {
-        'groupId': [{required: true, message: '请输入集团id'}],
-        'name': [{required: true, message: '请输入微信名称'}],
-        'userCorpsecret': [{required: true, message: '请输入外部联系人企业秘钥'}],
-        'addressCorpsecret': [{required: true, message: '请输入通讯录企业秘钥'}],
-        'appid': [{required: true, message: '请输入请输入应用ID'}],
-        'secret': [{required: true, message: '请输入请输入应用秘钥'}],
-        'type': [{required: true, message: '小选择小程序类型'}]
+        'groupId': [{ required: true, message: '请输入集团id' }],
+        'name': [{ required: true, message: '请输入微信名称' }],
+        'userCorpsecret': [{ required: true, message: '请输入外部联系人企业秘钥' }],
+        'addressCorpsecret': [{ required: true, message: '请输入通讯录企业秘钥' }],
+        'appid': [{ required: true, message: '请输入请输入应用ID' }],
+        'secret': [{ required: true, message: '请输入请输入应用秘钥' }],
+        'type': [{ required: true, message: '小选择小程序类型' }]
       },
       checkRules: {
-        'template_id': [{required: true, message: '请输入模版Id'}],
-        'appid': [{required: true, message: '请输入自定义标签，小程序的标签，多个标签用空格分隔，标签不能多于10个，标签长度不超过20'}],
-        'firstId': [{required: true, message: '请输入可选类目'}],
-        'secondId': [{required: true, message: '请选择页面地址'}],
-        'corpsecret': [{required: true, message: '请输入页面标题'}]
+        'template_id': [{ required: true, message: '请输入模版Id' }],
+        'appid': [{ required: true, message: '请输入自定义标签，小程序的标签，多个标签用空格分隔，标签不能多于10个，标签长度不超过20' }],
+        'firstId': [{ required: true, message: '请输入可选类目' }],
+        'secondId': [{ required: true, message: '请选择页面地址' }],
+        'corpsecret': [{ required: true, message: '请输入页面标题' }]
       },
       domainNameRules: {
-        'request_domain': [{required: true, message: '请输入request合法域名'}],
-        'ws_request_domain': [{required: true, message: '请输入socket合法域名'}],
-        'upload_domain': [{required: true, message: '请输入uploadFile合法域名'}],
-        'download_domain': [{required: true, message: '请输入downloadFile合法域名'}]
+        'request_domain': [{ required: true, message: '请输入request合法域名' }],
+        'ws_request_domain': [{ required: true, message: '请输入socket合法域名' }],
+        'upload_domain': [{ required: true, message: '请输入uploadFile合法域名' }],
+        'download_domain': [{ required: true, message: '请输入downloadFile合法域名' }]
       },
       businessRules: {
-        'webview_domain': [{required: true, message: '请输入小程序业务域名'}]
+        'webview_domain': [{ required: true, message: '请输入小程序业务域名' }]
       },
       uploadingRules: {
-        'template_id': [{required: true, message: '请输入模版Id'}],
-        'version': [{required: true, message: '请输入版本号'}],
-        'user_desc': [{required: true, message: '请输入代码备注'}]
+        'template_id': [{ required: true, message: '请输入模版Id' }],
+        'version': [{ required: true, message: '请输入版本号' }],
+        'user_desc': [{ required: true, message: '请输入代码备注' }]
       }
     }
   },
@@ -313,9 +313,9 @@ export default {
         if (resp.success) {
           this.parameter.searchMap.appId = this.deleteTemplateObj.appId
           that.$http.fetch(that.$api.guide.sgwxaccount.getAppletCodeTemplateList, this.parameter).then(
-             (resp) => { that.modelArry = resp.result.data }).catch((resp) => {
-               that.$notify.error(resp.msg || '请求失败')
-             })
+            (resp) => { that.modelArry = resp.result.data }).catch((resp) => {
+            that.$notify.error(resp.msg || '请求失败')
+          })
           this.dialogDeleteTemplate = false
           that.$notify.success('删除成功')
         }
@@ -459,20 +459,20 @@ export default {
     },
     onDelete (row) { // 小程序删除功能
       apiRequestConfirm('永久删除该数据')
-      .then(() => {
-        let that = this
-        that.$http.fetch(that.$api.guide.sgwxaccount.delete, {id: row.id}).then(() => {
-          that.dialogFormVisible = false
-          that.newestDialog = false
-          that.$notify.success('删除成功')
-          that.model = {}
-          that.$reload()
-        }).catch((resp) => {
-          that.$notify.error(resp.msg || '删除失败')
-        })
-      }).catch(() => {
+        .then(() => {
+          let that = this
+          that.$http.fetch(that.$api.guide.sgwxaccount.delete, { id: row.id }).then(() => {
+            that.dialogFormVisible = false
+            that.newestDialog = false
+            that.$notify.success('删除成功')
+            that.model = {}
+            that.$reload()
+          }).catch((resp) => {
+            that.$notify.error(resp.msg || '删除失败')
+          })
+        }).catch(() => {
         // 点击取消事件
-      })
+        })
     },
     onRefresh (row) { // 小程序刷新功能
       let that = this
@@ -519,7 +519,7 @@ export default {
     },
     addDraftToTemplate: function (draftId) {
       let that = this
-      that.$http.fetch(that.$api.isv.addDraftToTemplate, {draftId: draftId})
+      that.$http.fetch(that.$api.isv.addDraftToTemplate, { draftId: draftId })
         .then(() => {
           that.$notify.success('添加成功')
         }).catch((resp) => {

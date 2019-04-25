@@ -1,4 +1,4 @@
-import tableMixin from 'mixins/table'
+import tableMixin from 'web-crm/src/mixins/table'
 
 export default {
   name: 'NsTableSgCoupon',
@@ -63,7 +63,7 @@ export default {
         couponType: null,
         couponStatus: null
       },
-      {validTime: []})
+      { validTime: [] })
     var that = this
 
     quickInput.map(item => {

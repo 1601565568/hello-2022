@@ -583,12 +583,14 @@
 </template>
 
 <script>
-  import List from './src/List'
-  import NsTableGuide from './NsTableGuide'
-  List.components = {
-    NsTableGuide
-  }
-  export default List
+import List from './src/List'
+import ElUpload from 'nui-v2/lib/upload'
+import NsTableGuide from './NsTableGuide'
+List.components = {
+  NsTableGuide,
+  ElUpload
+}
+export default List
 </script>
 <style scoped>
   >>>.avatar-uploader .el-upload {
@@ -749,7 +751,7 @@
     font-weight:600 ;
   }
   .bulkReplacementStores_name{
-    
+
     color:#ff0000;
   }
   .bulkReplacementStores_cause{
@@ -766,5 +768,3 @@
     font-weight:600
   }
 </style>
-
-

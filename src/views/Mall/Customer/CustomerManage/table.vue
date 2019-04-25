@@ -165,11 +165,11 @@
 </template>
 
 <script>
-  import CustomerTable from './src/table'
-  import NsDroptree from 'components/NsDroptree'
+import CustomerTable from './src/table'
+import NsDroptree from 'web-crm/src/components/NsDroptree'
 
-  CustomerTable.components = {NsDroptree}
-  export default CustomerTable
+CustomerTable.components = { NsDroptree }
+export default CustomerTable
 </script>
 
 <style scoped lang="scss">
@@ -217,5 +217,3 @@
     }
 }
 </style>
-
-

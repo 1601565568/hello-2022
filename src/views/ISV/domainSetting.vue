@@ -58,45 +58,44 @@
 </template>
 
 <script>
-  export default {
-    name: 'detail',
-    data () {
-      return {
-        dialogVisible: false,
-        model: {
-          id: -1,
-          request_domain: null,
-          ws_request_domain: null,
-          upload_domain: null,
-          download_domain: null,
-          webview_domain: null
-        }
+export default {
+  name: 'detail',
+  data () {
+    return {
+      dialogVisible: false,
+      model: {
+        id: -1,
+        request_domain: null,
+        ws_request_domain: null,
+        upload_domain: null,
+        download_domain: null,
+        webview_domain: null
       }
-    },
-    methods: {
-      // 打开弹框
-      openDialog: function (id) {
-        let that = this
-        that.$http.fetch(that.$api.isv.getDomainInfo, {id: id})
+    }
+  },
+  methods: {
+    // 打开弹框
+    openDialog: function (id) {
+      let that = this
+      that.$http.fetch(that.$api.isv.getDomainInfo, { id: id })
         .then((resp) => {
           that.model = resp.result
         }).catch((resp) => {
           that.$notify.error(resp.msg)
         })
-        that.dialogVisible = true
-      },
-      // 保存
-      onSave: function () {
-        let that = this
-        that.$http.fetch(that.$api.isv.setModifyDomain, that.model)
+      that.dialogVisible = true
+    },
+    // 保存
+    onSave: function () {
+      let that = this
+      that.$http.fetch(that.$api.isv.setModifyDomain, that.model)
         .then((resp) => {
           that.$notify.success('保存成功')
           that.dialogVisible = false
         }).catch((resp) => {
           that.$notify.error(resp.msg)
         })
-      }
     }
   }
+}
 </script>
-

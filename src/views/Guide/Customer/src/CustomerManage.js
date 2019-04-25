@@ -1,5 +1,5 @@
-import api from 'configs/http'
-import tableMixin from 'mixins/table'
+import api from '@/config/http'
+import tableMixin from 'web-crm/src/mixins/table'
 export default {
   data: function () {
     let pagination = {
@@ -34,23 +34,23 @@ export default {
       brandId: null,
       title: '导购更换列表',
       dialogFormVisible: false,
-      allPageCustomer: [],                // 选择的所有的客户
-      thisPageCustomer: [],               // 当前页面全选的客户
-      pageChange: true,                   // 当前页数
-      guideId: null,                      //  当前导购的id
+      allPageCustomer: [], // 选择的所有的客户
+      thisPageCustomer: [], // 当前页面全选的客户
+      pageChange: true, // 当前页数
+      guideId: null, //  当前导购的id
       shopId: null,
       successCount: null,
       failCount: null,
-      receiveGuideId: null,               //  接收的导购id
+      receiveGuideId: null, //  接收的导购id
       customerTotal: null,
       row: null,
       guideList: [],
       shopList: [],
       shopFindList: [],
       guideShopList: [],
-      tableDataCustomer: [],        // 客户集合
+      tableDataCustomer: [], // 客户集合
       multipleSelection: [],
-      multipleSelections: [],       // 客户详情数组
+      multipleSelections: [], // 客户详情数组
       customerIdList: [],
       kehushow: false,
       pagination: pagination,
@@ -80,7 +80,7 @@ export default {
       //     return time.getTime() > Date.now() - 8.64e7
       //   }
       // },
-      _queryConfig: {expand: false}
+      _queryConfig: { expand: false }
     }
   },
   mixins: [tableMixin],
@@ -100,7 +100,7 @@ export default {
     async findBrandShopList (model) { // 门店列表查询
       let that = this
       await this.$http
-        .fetch(that.$api.guide.shop.findBrandShopList, {isOnline: 0})
+        .fetch(that.$api.guide.shop.findBrandShopList, { isOnline: 0 })
         .then(resp => {
           that.shopList = [...resp.result]
         })

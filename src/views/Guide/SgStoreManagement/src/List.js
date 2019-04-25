@@ -1,4 +1,4 @@
-import api from 'configs/http'
+import api from '@/config/http'
 import moment from 'moment/moment'
 export default {
   data: function () {
@@ -61,21 +61,21 @@ export default {
       }
     }
     let findVo = {
-      'shopName': null,          // 门店名称
-      'city': null,         // 门点所在区域市
-      'district': null,       // 门点所在区域区
-      'province': null,       // 门点所在区域省
-      'shopType': null,   // 门店类型
-      'phone': null,          // 联系电话
-      'area_region': null,  // 所属地区
-      'shopStatus': null,   // 营业状态
-      'area': []         // 所属区域
+      'shopName': null, // 门店名称
+      'city': null, // 门点所在区域市
+      'district': null, // 门点所在区域区
+      'province': null, // 门点所在区域省
+      'shopType': null, // 门店类型
+      'phone': null, // 联系电话
+      'area_region': null, // 所属地区
+      'shopStatus': null, // 营业状态
+      'area': [] // 所属区域
     }
     let model = Object.assign({}, findVo, {}, searchModel)
     let rules = {
       'name': [
-        {required: true, message: '请输入姓名', trigger: 'blur'},
-        {min: 0, max: 20, message: '已超过可输入长度', trigger: 'blur,change'}
+        { required: true, message: '请输入姓名', trigger: 'blur' },
+        { min: 0, max: 20, message: '已超过可输入长度', trigger: 'blur,change' }
       ],
       'shop': [
         {
@@ -105,11 +105,11 @@ export default {
       ],
       'nickname': [
         // {required: true, message: '请输入昵称', trigger: 'blur'},
-        {min: 0, max: 20, message: '已超过可输入长度', trigger: 'blur,change'}
+        { min: 0, max: 20, message: '已超过可输入长度', trigger: 'blur,change' }
       ],
       'mobile': [
-        {required: true, message: '请输入手机号', trigger: 'blur'},
-        {pattern: /^[1][3,4,5,6,7,8,9][0-9]{9}$/, message: '手机号格式错误，请您重新输入！'}
+        { required: true, message: '请输入手机号', trigger: 'blur' },
+        { pattern: /^[1][3,4,5,6,7,8,9][0-9]{9}$/, message: '手机号格式错误，请您重新输入！' }
       ],
       'work_id': [
         {
@@ -153,23 +153,23 @@ export default {
       brandId: null,
       memberBelongingShows: false,
       dialogFormVisible: false,
-      shopFormVisible: false,             //  店铺弹窗
-      resignFormVisible: false,           // 导购离职弹窗
-      deleteFormVisible: false,            // 删除员工弹窗
-      specifyTransferFormVisible: false,  // 离职-指定转移弹窗
-      customFormVisible: false,           // 离职-自定义转移弹窗
-      allDeleteFormVisible: false,        // 批量删除员工弹窗
-      shopFindListShow: false,            // 更换门店弹窗
-      customerIds: null,                  // 转移的客户ids，用逗号隔开
-      allPageCustomer: [],                // 选择的所有的客户
-      thisPageCustomer: [],               // 当前页面全选的客户
-      pageChange: true,                   // 当前页数
-      guideId: null,                      //  当前导购的id
+      shopFormVisible: false, //  店铺弹窗
+      resignFormVisible: false, // 导购离职弹窗
+      deleteFormVisible: false, // 删除员工弹窗
+      specifyTransferFormVisible: false, // 离职-指定转移弹窗
+      customFormVisible: false, // 离职-自定义转移弹窗
+      allDeleteFormVisible: false, // 批量删除员工弹窗
+      shopFindListShow: false, // 更换门店弹窗
+      customerIds: null, // 转移的客户ids，用逗号隔开
+      allPageCustomer: [], // 选择的所有的客户
+      thisPageCustomer: [], // 当前页面全选的客户
+      pageChange: true, // 当前页数
+      guideId: null, //  当前导购的id
       shopId: null,
       shopIds: null,
       successCount: null,
       failCount: null,
-      receiveGuideId: null,               //  接收的导购id
+      receiveGuideId: null, //  接收的导购id
       customerTotal: null,
       rules: rules,
       row: null,
@@ -179,9 +179,9 @@ export default {
       shopList: [],
       shopFindList: [],
       guideShopList: [],
-      dimissionArry: [],      // 批量离职员工数组
-      replaceStoresArry: [],  // 批量更换门店数组
-      tableDataCustomer: [],        // 客户集合
+      dimissionArry: [], // 批量离职员工数组
+      replaceStoresArry: [], // 批量更换门店数组
+      tableDataCustomer: [], // 客户集合
       multipleSelection: [],
       multipleSelections: [],
       allDeleteName: [],
@@ -231,7 +231,7 @@ export default {
           return time.getTime() > Date.now() - 8.64e7
         }
       },
-      _queryConfig: {expand: false}
+      _queryConfig: { expand: false }
     }
   },
   methods: {
@@ -331,7 +331,7 @@ export default {
       let sgGuideVo = _this.model.sgGuideVo
       let allImageUrl = null
       _this.subordinateStores.map((item, i) => {
-        guideShop[i] = Object.assign({job: 1, shop_id: item}, guideShop[i])
+        guideShop[i] = Object.assign({ job: 1, shop_id: item }, guideShop[i])
       })
       // guideShop.shift()
       _this.$refs.addForm.validate((valid) => {
@@ -339,8 +339,8 @@ export default {
           if (guide.birthday instanceof Date) {
             guide.birthday = moment(guide.birthday).format('YYYY-MM-DD')
           }
-          if (guide.birthday === null) guide.birthday = ''
-          if (guide.work_num === null) guide.work_num = ''
+          if (guide.birthday === null) { guide.birthday = '' }
+          if (guide.work_num === null) { guide.work_num = '' }
           this.$http.fetch(this.$api.guide.guide.saveOrUpdateGuide, {
             sgGuide: guide,
             sgGuideShopList: guideShop,
@@ -502,7 +502,7 @@ export default {
       this.scopeRowCountShow = true
       this.memberBelongingtitle = '查看员工属性详情'
       var _this = this
-      _this.$http.fetch(_this.$api.guide.guide.findGuideShopList, {guideId: data}).then(resp => {
+      _this.$http.fetch(_this.$api.guide.guide.findGuideShopList, { guideId: data }).then(resp => {
         if (resp.success && resp.result != null) {
           _this.shopFindList = resp.result
         }
@@ -533,7 +533,7 @@ export default {
     },
     initShopList () {
       var _this = this
-      _this.$http.fetch(_this.$api.guide.shop.findBrandShopList, {isOnline: 0}).then(resp => {
+      _this.$http.fetch(_this.$api.guide.shop.findBrandShopList, { isOnline: 0 }).then(resp => {
         if (resp.success && resp.result != null) {
           _this.shopFindList = resp.result
         }
@@ -587,10 +587,10 @@ export default {
                 if (guide.birthday instanceof Date) {
                   guide.birthday = moment(guide.birthday).format('YYYY-MM-DD')
                 }
-                if (guide.birthday === null) guide.birthday = ''
-                if (guide.work_num === null) guide.work_num = ''
+                if (guide.birthday === null) { guide.birthday = '' }
+                if (guide.work_num === null) { guide.work_num = '' }
                 _this.subordinateStores.map((item, i) => {
-                  guideShop[i] = Object.assign({job: 1, shop_id: item}, guideShop[i])
+                  guideShop[i] = Object.assign({ job: 1, shop_id: item }, guideShop[i])
                 })
                 this.$http.fetch(this.$api.guide.guide.saveOrUpdateGuide, {
                   sgGuide: guide,
@@ -615,15 +615,15 @@ export default {
       } else {
         if (this.title === '新增员工' && model.sgGuideShop.job === 1) {
           this.subordinateStores.map((item, i) => {
-            guideShop[i] = Object.assign({job: 1, shop_id: item}, guideShop[i])
+            guideShop[i] = Object.assign({ job: 1, shop_id: item }, guideShop[i])
           })
           _this.$refs.addForm.validate(valid => {
             if (valid) {
               if (guide.birthday instanceof Date) {
                 guide.birthday = moment(guide.birthday).format('YYYY-MM-DD')
               }
-              if (guide.birthday === null) guide.birthday = ''
-              if (guide.work_num === null) guide.work_num = ''
+              if (guide.birthday === null) { guide.birthday = '' }
+              if (guide.work_num === null) { guide.work_num = '' }
               this.$http.fetch(this.$api.guide.guide.saveOrUpdateGuide, {
                 sgGuide: guide,
                 sgGuideShopList: guideShop,

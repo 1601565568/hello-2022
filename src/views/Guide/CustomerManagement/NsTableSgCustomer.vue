@@ -101,9 +101,14 @@
 </div>
 </template>
 <script>
-import api from 'configs/http'
+import api from '@/config/http'
+import ElUpload from 'nui-v2/lib/upload'
 import { isURL } from '../Common/utils.js'
+
 export default {
+  components: {
+    ElUpload
+  },
   props: {
     callBack: Function
   },

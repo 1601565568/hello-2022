@@ -133,9 +133,9 @@
 </template>
 
 <script>
-  import guide from './src/NsTableGuide'
+import guide from './src/NsTableGuide'
 
-  export default guide
+export default guide
 </script>
 <style>
   .scope_row_count {

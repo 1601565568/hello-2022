@@ -32,13 +32,11 @@
 </template>
 
 <script>
-  import List from './src/CustomerList'
-  import NsTableSgCustomer from './NsTableSgCustomer'
+import List from './src/CustomerList'
+import NsTableSgCustomer from './NsTableSgCustomer'
 
-  List.components = {
-    NsTableSgCustomer
-  }
-  export default List
+List.components = {
+  NsTableSgCustomer
+}
+export default List
 </script>
-
-

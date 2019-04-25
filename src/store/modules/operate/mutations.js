@@ -8,7 +8,7 @@ export default {
    * @param state
    * @param operate_menus  用户拥有的菜单信息
    */
-  UPDATE_OPERATE_MENUS (state, {menus}) {
+  UPDATE_OPERATE_MENUS (state, { menus }) {
     state.menus = menus
     LocalStorage.set('operate_menus', state.menus)
   },
@@ -28,7 +28,7 @@ export default {
    * @param state
    * @param operate_menus  用户拥有的品牌视角信息
    */
-  [types.UPDATE_OPERATE_BRANDS] (state, {brands}) {
+  [types.UPDATE_OPERATE_BRANDS] (state, { brands }) {
     state.brands = brands
     LocalStorage.set('operate_brands', state.brands)
   },
@@ -47,7 +47,7 @@ export default {
    * @param state
    * @param operate_menus  用户拥有的品牌视角信息
    */
-  [types.UPDATE_OPERATE_BRAND] (state, {brand}) {
+  [types.UPDATE_OPERATE_BRAND] (state, { brand }) {
     state.brand = brand
     LocalStorage.set('operate_brand', state.brand)
   },

@@ -1,4 +1,4 @@
-import apiRequestConfirm from 'utils/apiRequestConfirm'
+import apiRequestConfirm from 'web-crm/src/utils/apiRequestConfirm'
 
 export default {
   queryTable: {

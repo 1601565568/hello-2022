@@ -62,7 +62,7 @@
         <el-radio v-else v-model="shopManager_radio" label="1" @change="shopManager">店长</el-radio>
         <el-radio v-if="model.type === -1" v-model="shoppingGuide_radio" :disabled='true' label="1">导购</el-radio>
         <el-radio v-else v-model="shoppingGuide_radio" label="1" @change="shoppingGuide">导购</el-radio>
-      </div>     
+      </div>
       <el-form :model="model" ref="form" label-width="150px" :rules="rules" placement="right">
         <el-form-item label="微信名称：" prop="name" required>
           <el-input v-if="model.from_type === 1" type="text" :disabled='true' placeholder="请输入微信名称" v-model="model.name" ></el-input>
@@ -183,7 +183,7 @@
       <div>
         <p class="shanghu">一个微信号只能授权给一个商户！</p>
         <p>点击授权跳转到微信公众平台授权页面，授权微信号</p>
-      </div>         
+      </div>
       <div slot="footer" class="authorization_footer">
         <ns-button @click="authorization = false">取消</ns-button>
         <ns-button type="primary" @click="onToAuthorize">去授权</ns-button>
@@ -197,7 +197,7 @@
                @before-close="closeDialog()">
       <div>
         <p class="shouquan">若要取消授权，请登录<a href="https://mp.weixin.qq.com" target="_blank">【微信公众平台】</a>授权管理页面取消授权</p>
-      </div>         
+      </div>
       <div slot="footer" class="authorization_footer">
         <ns-button @click="cancelAuthorizations = false">取消</ns-button>
         <ns-button type="primary" @click="cancelAuthorization">已取消授权授权</ns-button>
@@ -208,8 +208,8 @@
 </template>
 
 <script>
-  import index from './src/index'
-  export default index
+import index from './src/index'
+export default index
 </script>
 <style>
 .dialog_mian{

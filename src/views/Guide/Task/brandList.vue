@@ -143,8 +143,8 @@
 </div>
 </template>
 <script>
-import listPageMixin from 'mixins/listPage'
-import apiRequestConfirm from 'utils/apiRequestConfirm'
+import listPageMixin from '@/mixins/listPage'
+import apiRequestConfirm from 'web-crm/src/utils/apiRequestConfirm'
 import addBrandTaskModal from './addBrandTaskModal'
 import showShopListModal from './showShopListModal'
 // import listItemShow from './components/listItemShow'

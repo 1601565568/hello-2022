@@ -1,5 +1,5 @@
-import tableMixin from 'mixins/table'
-import apiRequestConfirm from 'utils/apiRequestConfirm'
+import tableMixin from 'web-crm/src/mixins/table'
+import apiRequestConfirm from 'web-crm/src/utils/apiRequestConfirm'
 export default {
   name: 'index',
   mixins: [tableMixin],
@@ -77,8 +77,8 @@ export default {
         table_buttons: tableButtons
       },
       rules: {
-        'appid': [{required: true, message: '请输入小程序appid'}],
-        'type': [{required: true, message: '请选择类型'}]
+        'appid': [{ required: true, message: '请输入小程序appid' }],
+        'type': [{ required: true, message: '请选择类型' }]
       }
     }
   },
@@ -125,7 +125,7 @@ export default {
     onDelete (row) { // 小程序模板消息删除
       apiRequestConfirm('永久删除该数据').then(() => {
         let that = this
-        that.$http.fetch(this.$api.isv.deleteAppletTemplate, {id: row.id, templateId: row.template_id, appid: row.appid}).then(() => {
+        that.$http.fetch(this.$api.isv.deleteAppletTemplate, { id: row.id, templateId: row.template_id, appid: row.appid }).then(() => {
           that.$notify.success('删除成功')
           that.$reload()
         }).catch((resp) => {

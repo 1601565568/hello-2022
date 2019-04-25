@@ -1,5 +1,5 @@
-import tableMixin from 'mixins/table'
-import apiRequestConfirm from 'utils/apiRequestConfirm'
+import tableMixin from 'web-crm/src/mixins/table'
+import apiRequestConfirm from 'web-crm/src/utils/apiRequestConfirm'
 export default {
   name: 'index',
   mixins: [tableMixin],
@@ -63,9 +63,9 @@ export default {
         table_buttons: tableButtons
       },
       rules: {
-        'code': [{required: true, message: '请输入配置项编码'}],
-        'value': [{required: true, message: '请输入配置项值'}],
-        'type': [{required: true, message: '请选择类型'}]
+        'code': [{ required: true, message: '请输入配置项编码' }],
+        'value': [{ required: true, message: '请输入配置项值' }],
+        'type': [{ required: true, message: '请选择类型' }]
       }
     }
   },
@@ -111,19 +111,19 @@ export default {
     },
     onDelete (row) { // 小程序删除功能
       apiRequestConfirm('永久删除该数据')
-      .then(() => {
-        let that = this
-        that.$http.fetch(that.$api.isv.delSysConfig, {id: row.id}).then(() => {
-          that.dialogFormVisible = false
-          that.newestDialog = false
-          that.$notify.success('删除成功')
-          that.$reload()
-        }).catch((resp) => {
-          that.$notify.error(resp.msg || '删除失败')
-        })
-      }).catch(() => {
+        .then(() => {
+          let that = this
+          that.$http.fetch(that.$api.isv.delSysConfig, { id: row.id }).then(() => {
+            that.dialogFormVisible = false
+            that.newestDialog = false
+            that.$notify.success('删除成功')
+            that.$reload()
+          }).catch((resp) => {
+            that.$notify.error(resp.msg || '删除失败')
+          })
+        }).catch(() => {
         // 点击取消事件
-      })
+        })
     },
     /**
      * 处理请求参数

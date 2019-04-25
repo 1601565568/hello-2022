@@ -266,8 +266,8 @@
 <script>
 import moment from 'moment'
 import goodsDialog from './goodsDialog'
-import NsShopSelect from 'components/NsShopSelect'
-import NsGoodsSelect from 'components/NsGoodsSelect'
+import NsShopSelect from 'web-crm/src/components/NsShopSelect'
+import NsGoodsSelect from 'web-crm/src/components/NsGoodsSelect'
 export default {
   props: {
     callBack: Function
@@ -486,4 +486,3 @@ export default {
   width: 220px;
 }
 </style>
-

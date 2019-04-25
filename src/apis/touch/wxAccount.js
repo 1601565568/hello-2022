@@ -1,4 +1,4 @@
-import transData from 'utils/transData'
+import transData from 'web-crm/src/utils/transData'
 /**
  * 微信公众号api
  */

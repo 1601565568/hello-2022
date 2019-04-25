@@ -160,8 +160,8 @@
 </template>
 
 <script>
-  import guide from './src/NsTableGuide'
-  export default guide
+import guide from './src/NsTableGuide'
+export default guide
 </script>
 <style>
 .scope_row_count{

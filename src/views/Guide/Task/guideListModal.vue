@@ -38,7 +38,7 @@
 </div>
 </template>
 <script>
-import listPageMixin from 'mixins/listPage'
+import listPageMixin from '@/mixins/listPage'
 export default {
   mixins: [listPageMixin],
   data () {

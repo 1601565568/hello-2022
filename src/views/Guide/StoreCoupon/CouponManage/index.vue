@@ -244,13 +244,13 @@
 import moment from 'moment'
 import addCoupon from './add'
 import addNum from './addNumDialog'
-import couponItem from 'components/NsCouponItem'
+import couponItem from 'web-crm/src/components/NsCouponItem'
 import detailList from './detailList'
-import apiRequestConfirm from 'utils/apiRequestConfirm'
+import apiRequestConfirm from 'web-crm/src/utils/apiRequestConfirm'
 import addModal from './addModal'
 // 详情
 import couponView from './couponView'
-import listPageMixin from 'mixins/listPage'
+import listPageMixin from '@/mixins/listPage'
 export default {
   mixins: [listPageMixin],
   data () {
@@ -365,12 +365,12 @@ export default {
         status: e.couponCommon
       }
       await this.$http
-                 .fetch(this.$api.coupon.storeCoupon.updateCommonStatus, obj)
-                 .then(resp => {
-                 })
-                 .catch(resp => {
-                   this.$notify.error('查询失败')
-                 })
+        .fetch(this.$api.coupon.storeCoupon.updateCommonStatus, obj)
+        .then(resp => {
+        })
+        .catch(resp => {
+          this.$notify.error('查询失败')
+        })
       this.loadListFun(this.searchObj)
     },
     // 删除

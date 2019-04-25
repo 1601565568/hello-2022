@@ -280,7 +280,6 @@
       </el-dialog>
       <!--        奖励弹窗结束        -->
 
-
       <!--        提成弹窗开始        -->
       <el-dialog :title="title" :visible.sync="showSellDialogVisible" width="800px" :before-close="onCancleSellDialog" :vetically=true>
         <!-- 高级搜索 -->
@@ -337,8 +336,8 @@
 </template>
 <script>
 import moment from 'moment'
-import listPageMixin from 'mixins/listPage'
-import NsArea from 'components/NsArea'
+import listPageMixin from '@/mixins/listPage'
+import NsArea from 'web-crm/src/components/NsArea'
 export default {
   mixins: [listPageMixin],
   data () {

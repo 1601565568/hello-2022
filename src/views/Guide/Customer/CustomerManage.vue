@@ -253,4 +253,3 @@ export default CustomerManage
   display: none !important
 }
 </style>
-

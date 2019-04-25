@@ -1,4 +1,4 @@
-import tableMixin from 'mixins/table'
+import tableMixin from 'web-crm/src/mixins/table'
 export default {
   name: 'NsTableMaterialSubdivision',
   mixins: [tableMixin],
@@ -37,8 +37,8 @@ export default {
     }, {})
     let rules = {
       'name': [
-        {required: true, message: '请输入分组名称', trigger: 'blur'},
-        {min: 0, max: 20, message: '长度在20个字符以内', trigger: 'blur'}
+        { required: true, message: '请输入分组名称', trigger: 'blur' },
+        { min: 0, max: 20, message: '长度在20个字符以内', trigger: 'blur' }
       ]
     }
     let that = this
@@ -83,7 +83,7 @@ export default {
         quickSearchNames: quickSearchNames,
         quickSearchMap: {}
       },
-      _queryConfig: {expand: false}
+      _queryConfig: { expand: false }
     }
   },
   mounted: function () {
@@ -178,7 +178,7 @@ export default {
           cancelButtonText: '取消'
         }).then(() => {
           for (var i = 0; i < Sid.length; i++) {
-            this.$http.fetch(this.$api.guide.materialSubdivision.deleteMaterialSubdivisionById, {id: Sid[i]})
+            this.$http.fetch(this.$api.guide.materialSubdivision.deleteMaterialSubdivisionById, { id: Sid[i] })
               .then(resp => {
                 this.$message.success('删除成功')
                 this.$reload()
@@ -200,7 +200,7 @@ export default {
         type: 'warning',
         cancelButtonText: '取消'
       }).then(() => {
-        that.$http.fetch(that.$api.guide.materialSubdivision.deleteMaterialSubdivisionById, {id: Sid})
+        that.$http.fetch(that.$api.guide.materialSubdivision.deleteMaterialSubdivisionById, { id: Sid })
           .then(resp => {
             that.$message.success('删除成功')
             that.$reload()

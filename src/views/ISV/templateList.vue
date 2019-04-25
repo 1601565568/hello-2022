@@ -119,102 +119,102 @@
 </template>
 
 <script>
-  import tableMixin from 'mixins/table'
-  import apiRequestConfirm from 'utils/apiRequestConfirm'
+import tableMixin from 'web-crm/src/mixins/table'
+import apiRequestConfirm from 'web-crm/src/utils/apiRequestConfirm'
 
-  export default {
-    name: 'templateList',
-    mixins: [tableMixin],
-    data: function () {
-      let that = this
-      let operateButtons = [
-        {
-          'func': function () {
-            that.refreshTemplate()
-          },
-          'name': '同步最新'
-        }]
-      let tableButtons = [
-        {
-          'func': function (obj) {
-            that.templateId = obj.row.template_id
-            that.getPageList()
-            that.getCategoryList()
-            that.auditDialogVisible = true
-          },
-          'name': '提交审核',
-          'visible': ''
+export default {
+  name: 'templateList',
+  mixins: [tableMixin],
+  data: function () {
+    let that = this
+    let operateButtons = [
+      {
+        'func': function () {
+          that.refreshTemplate()
         },
-        {
-          'func': function (obj) {
-            that.templateToRelease()
-          },
-          'icon': '$.noop',
-          'name': '发布',
-          'visible': 'scope.row.status === 3'
-        }
-      ]
-
-      return {
-        dialogVisible: false,
-        auditDialogVisible: false,
-        appId: null,
-        templateId: null,
-        pageList: [],
-        categoryList: [],
-        categoryTempList: [], // 类目临时表
-        model: {
-          categoryId: null,
-          pageStr: null,
-          title: null,
-          tags: null
+        'name': '同步最新'
+      }]
+    let tableButtons = [
+      {
+        'func': function (obj) {
+          that.templateId = obj.row.template_id
+          that.getPageList()
+          that.getCategoryList()
+          that.auditDialogVisible = true
         },
-        quickSearchModel: {},
-        rules: Object.assign({}, {}, {}),
-        url: this.$api.isv.getCodeTemplateList,
-        _table: {
-          table_buttons: tableButtons,
-          operate_buttons: operateButtons,
-          quickSearchMap: {}
-        }
+        'name': '提交审核',
+        'visible': ''
+      },
+      {
+        'func': function (obj) {
+          that.templateToRelease()
+        },
+        'icon': '$.noop',
+        'name': '发布',
+        'visible': 'scope.row.status === 3'
       }
+    ]
+
+    return {
+      dialogVisible: false,
+      auditDialogVisible: false,
+      appId: null,
+      templateId: null,
+      pageList: [],
+      categoryList: [],
+      categoryTempList: [], // 类目临时表
+      model: {
+        categoryId: null,
+        pageStr: null,
+        title: null,
+        tags: null
+      },
+      quickSearchModel: {},
+      rules: Object.assign({}, {}, {}),
+      url: this.$api.isv.getCodeTemplateList,
+      _table: {
+        table_buttons: tableButtons,
+        operate_buttons: operateButtons,
+        quickSearchMap: {}
+      }
+    }
+  },
+  mounted: function () {
+  },
+  methods: {
+    // 打开弹框
+    openDialog: function (appId) {
+      this.appId = appId
+      if (!this._data._table.searchMap) {
+        this._data._table.searchMap = {}
+      }
+      this._data._table.searchMap.appId = appId
+      this.$reload()
+      this.dialogVisible = true
     },
-    mounted: function () {
+    // 刷新模板
+    refreshTemplate: function () {
+      let that = this
+      that.$http.fetch(that.$api.isv.refreshCodeTemplate, { appId: that.appId }).then(() => {
+        that.$reload()
+      }).catch((resp) => {
+        that.$notify.error(resp.msg)
+      })
     },
-    methods: {
-      // 打开弹框
-      openDialog: function (appId) {
-        this.appId = appId
-        if (!this._data._table.searchMap) {
-          this._data._table.searchMap = {}
-        }
-        this._data._table.searchMap.appId = appId
-        this.$reload()
-        this.dialogVisible = true
-      },
-      // 刷新模板
-      refreshTemplate: function () {
-        let that = this
-        that.$http.fetch(that.$api.isv.refreshCodeTemplate, {appId: that.appId}).then(() => {
-          that.$reload()
-        }).catch((resp) => {
-          that.$notify.error(resp.msg)
-        })
-      },
-      // 提交代码的页面配置列表
-      getPageList: function () {
-        let that = this
-        that.$http.fetch(that.$api.isv.getAppletPageList, {appId: that.appId}).then((resp) => {
-          that.pageList = resp.result
-        }).catch((resp) => {
-          that.$notify.error(resp.msg)
-        })
-      },
-      // 获取授权小程序帐号的可选类目
-      getCategoryList: function () {
-        let that = this
-        that.$http.fetch(that.$api.isv.getAppletCategoryList, {appId: that.appId}).then((resp) => {
-          /*        let categoryTempList = [
+    // 提交代码的页面配置列表
+    getPageList: function () {
+      let that = this
+      that.$http.fetch(that.$api.isv.getAppletPageList, { appId: that.appId }).then((resp) => {
+        that.pageList = resp.result
+      }).catch((resp) => {
+        that.$notify.error(resp.msg)
+      })
+    },
+    // 获取授权小程序帐号的可选类目
+    getCategoryList: function () {
+      let that = this
+      that.$http.fetch(that.$api.isv.getAppletCategoryList, { appId: that.appId }).then((resp) => {
+        /*        let categoryTempList = [
                     {
                       'first_class': '工具',
                       'second_class': '备忘录',
@@ -230,60 +230,60 @@
                       'third_id': 5
                     }]
                   that.categoryTempList = categoryTempList */
-          let categoryTempList = resp.result
-          if (categoryTempList && categoryTempList.length > 0) {
-            for (let i = 0; i < categoryTempList.length; i++) {
-              let object = {
-                value: null,
-                label: null
-              }
-              object.value = i
-              object.label = categoryTempList[i].first_class
-              if (categoryTempList[i].second_class) {
-                object.label += '|' + categoryTempList[i].second_class
-              }
-              if (categoryTempList[i].third_class) {
-                object.label += '|' + categoryTempList[i].third_class
-              }
-              that.categoryList.push(object)
+        let categoryTempList = resp.result
+        if (categoryTempList && categoryTempList.length > 0) {
+          for (let i = 0; i < categoryTempList.length; i++) {
+            let object = {
+              value: null,
+              label: null
             }
+            object.value = i
+            object.label = categoryTempList[i].first_class
+            if (categoryTempList[i].second_class) {
+              object.label += '|' + categoryTempList[i].second_class
+            }
+            if (categoryTempList[i].third_class) {
+              object.label += '|' + categoryTempList[i].third_class
+            }
+            that.categoryList.push(object)
           }
-        }).catch((resp) => {
-          that.$notify.error(resp.msg)
-        })
-      },
-      // 提交审核
-      submitTemplate: function () {
-        let that = this
-        let params = {}
-        params.appId = that.appId
-        params.templateId = that.templateId
-        params.title = that.model.title
-        params.tags = that.model.tags
-        params.pageStr = 'index'
-        let category = that.categoryTempList[that.model.categoryId]
-        if (category) {
-          params.categoryStr = JSON.stringify(category)
         }
-        that.$http.fetch(that.$api.isv.submitTemplateToAudit, params).then(() => {
-          that.auditDialogVisible = false
+      }).catch((resp) => {
+        that.$notify.error(resp.msg)
+      })
+    },
+    // 提交审核
+    submitTemplate: function () {
+      let that = this
+      let params = {}
+      params.appId = that.appId
+      params.templateId = that.templateId
+      params.title = that.model.title
+      params.tags = that.model.tags
+      params.pageStr = 'index'
+      let category = that.categoryTempList[that.model.categoryId]
+      if (category) {
+        params.categoryStr = JSON.stringify(category)
+      }
+      that.$http.fetch(that.$api.isv.submitTemplateToAudit, params).then(() => {
+        that.auditDialogVisible = false
+        that.$reload()
+      }).catch((resp) => {
+        that.$notify.error(resp.msg)
+      })
+    },
+    // 发布
+    templateToRelease: function () {
+      let that = this
+      apiRequestConfirm('发布模板').then(() => {
+        that.$http.fetch(that.$api.isv.templateToRelease, { appId: that.appId }).then(() => {
           that.$reload()
         }).catch((resp) => {
           that.$notify.error(resp.msg)
         })
-      },
-      // 发布
-      templateToRelease: function () {
-        let that = this
-        apiRequestConfirm('发布模板').then(() => {
-          that.$http.fetch(that.$api.isv.templateToRelease, {appId: that.appId}).then(() => {
-            that.$reload()
-          }).catch((resp) => {
-            that.$notify.error(resp.msg)
-          })
-        }).catch(() => {
-        })
-      }
+      }).catch(() => {
+      })
     }
   }
+}
 </script>

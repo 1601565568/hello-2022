@@ -7,8 +7,8 @@
   </div>
 </template>
 <script>
-// import NsGoodsSelect from 'components/NsGoodsSelect'
-// import NsShopSelect from 'components/NsShopSelect'
+// import NsGoodsSelect from 'web-crm/src/components/NsGoodsSelect'
+// import NsShopSelect from 'web-crm/src/components/NsShopSelect'
 // index.components = {
 //   NsGoodsSelect,
 //   NsShopSelect
@@ -33,4 +33,3 @@ export default {
 <style scoped>
 
 </style>
-

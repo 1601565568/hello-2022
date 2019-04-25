@@ -452,8 +452,8 @@
   </div>
 </template>
 <script>
-  import index from './src/index'
-  export default index
+import index from './src/index'
+export default index
 </script>
 <style>
 .dialog_mian{

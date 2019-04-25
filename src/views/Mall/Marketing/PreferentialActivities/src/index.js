@@ -1,5 +1,5 @@
-import tableMixin from 'mixins/table'
-import apiRequestConfirm from 'utils/apiRequestConfirm'
+import tableMixin from 'web-crm/src/mixins/table'
+import apiRequestConfirm from 'web-crm/src/utils/apiRequestConfirm'
 export default {
   name: 'index',
   mixins: [tableMixin],
@@ -49,7 +49,7 @@ export default {
       name: null,
       state: null
     }
-    let quickInput = [{'name': 'name'}]
+    let quickInput = [{ 'name': 'name' }]
     let quickSearchNames = quickInput.map(x => x.name)
     let quickSearchModel = {}
     quickInput.map(item => {
@@ -131,12 +131,12 @@ export default {
       let that = this
       apiRequestConfirm('删除此活动').then(() => {
         that.$http.fetch(this.$api.guide.marketing.deletePreferentialActivity,
-          {activityId: row.id}).then(() => {
-            that.$reload()
-            that.$notify.success('删除成功')
-          }).catch((resp) => {
-            that.$message.error(resp.msg || '删除失败，请稍后再试')
-          })
+          { activityId: row.id }).then(() => {
+          that.$reload()
+          that.$notify.success('删除成功')
+        }).catch((resp) => {
+          that.$message.error(resp.msg || '删除失败，请稍后再试')
+        })
       }).catch(() => {})
     },
     /**
@@ -146,12 +146,12 @@ export default {
       let that = this
       apiRequestConfirm('提前结束此活动').then(() => {
         that.$http.fetch(this.$api.guide.marketing.endPreferentialActivity,
-          {activityId: row.id}).then(() => {
-            that.$reload()
-            that.$notify.success('活动已结束')
-          }).catch((resp) => {
-            that.$message.error(resp.msg || '活动结束失败，请稍后再试')
-          })
+          { activityId: row.id }).then(() => {
+          that.$reload()
+          that.$notify.success('活动已结束')
+        }).catch((resp) => {
+          that.$message.error(resp.msg || '活动结束失败，请稍后再试')
+        })
       }).catch(() => {})
     }
   }

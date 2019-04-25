@@ -1,5 +1,5 @@
-import transData from 'utils/transData'
-import apiRequestConfirm from 'utils/apiRequestConfirm'
+import transData from 'web-crm/src/utils/transData'
+import apiRequestConfirm from 'web-crm/src/utils/apiRequestConfirm'
 
 export default {
   test: {

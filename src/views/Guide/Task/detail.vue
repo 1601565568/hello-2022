@@ -258,13 +258,15 @@
 </template>
 <script>
 import echarts from 'echarts'
-import businessEcharts from 'components/NsEcharts'
+import businessEcharts from 'web-crm/src/components/NsEcharts'
+import ElProgress from 'nui-v2/lib/progress'
 import moment from 'moment'
 var myColor = ['#ff402c', '#ff592c', '#ff8f2c', '#ff8f2c', '#ffb22c']
 let taskProgressObj = {}
 export default {
   components: {
-    businessEcharts
+    businessEcharts,
+    ElProgress
   },
   data () {
     let queryDate = moment(new Date().setTime(new Date().getTime() - 3600 * 1000 * 24 * 30)).format('YYYY-MM-DD')
@@ -517,8 +519,8 @@ export default {
       shopSellOption: {
         tooltip: {
           trigger: 'axis',
-          axisPointer: {            // 坐标轴指示器，坐标轴触发有效
-            type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+          axisPointer: { // 坐标轴指示器，坐标轴触发有效
+            type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
           },
           borderColor: '#E4E7ED',
           borderWidth: 1.4,
@@ -571,8 +573,8 @@ export default {
             color: new echarts.graphic.LinearGradient(
               0, 0, 1, 1,
               [
-                {offset: 0, color: '#3963FF'},
-                {offset: 1, color: '#2B67FF'}
+                { offset: 0, color: '#3963FF' },
+                { offset: 1, color: '#2B67FF' }
               ])
           },
           type: 'bar',
@@ -582,8 +584,8 @@ export default {
       guideSellOption: {
         tooltip: {
           trigger: 'axis',
-          axisPointer: {            // 坐标轴指示器，坐标轴触发有效
-            type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+          axisPointer: { // 坐标轴指示器，坐标轴触发有效
+            type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
           },
           borderColor: '#E4E7ED',
           borderWidth: 1.4,
@@ -635,8 +637,8 @@ export default {
             color: new echarts.graphic.LinearGradient(
               0, 0, 1, 1,
               [
-                {offset: 0, color: '#A964FF'},
-                {offset: 1, color: '#BF63FF'}
+                { offset: 0, color: '#A964FF' },
+                { offset: 1, color: '#BF63FF' }
               ])
           },
           type: 'bar',
@@ -760,8 +762,8 @@ export default {
       shopRecruitOption: {
         tooltip: {
           trigger: 'axis',
-          axisPointer: {            // 坐标轴指示器，坐标轴触发有效
-            type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+          axisPointer: { // 坐标轴指示器，坐标轴触发有效
+            type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
           },
           borderColor: '#E4E7ED',
           borderWidth: 1.4,
@@ -815,8 +817,8 @@ export default {
             color: new echarts.graphic.LinearGradient(
               0, 0, 1, 1,
               [
-                {offset: 0, color: '#FF5215'},
-                {offset: 1, color: '#FF6C00'}
+                { offset: 0, color: '#FF5215' },
+                { offset: 1, color: '#FF6C00' }
               ])
           },
           label: {
@@ -839,8 +841,8 @@ export default {
       guideRecruitOption: {
         tooltip: {
           trigger: 'axis',
-          axisPointer: {            // 坐标轴指示器，坐标轴触发有效
-            type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+          axisPointer: { // 坐标轴指示器，坐标轴触发有效
+            type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
           },
           borderColor: '#E4E7ED',
           borderWidth: 1.4,
@@ -907,8 +909,8 @@ export default {
             color: new echarts.graphic.LinearGradient(
               0, 0, 1, 1,
               [
-                {offset: 0, color: '#1FC47C'},
-                {offset: 1, color: '#2EC59C'}
+                { offset: 0, color: '#1FC47C' },
+                { offset: 1, color: '#2EC59C' }
               ])
           },
           type: 'bar',
@@ -919,8 +921,8 @@ export default {
         color: ['#FD9B00', '#F7C71F'],
         tooltip: {
           trigger: 'axis',
-          axisPointer: {            // 坐标轴指示器，坐标轴触发有效
-            type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+          axisPointer: { // 坐标轴指示器，坐标轴触发有效
+            type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
           },
           borderColor: '#E4E7ED',
           borderWidth: 1.4,
@@ -1067,7 +1069,7 @@ export default {
         })
     },
     async getTaskCount () { // 当月业绩情况查询
-      let parms = {queryDate: this.queryDate}
+      let parms = { queryDate: this.queryDate }
       await this.$http
         .fetch(this.$api.guide.task.getTaskCount, parms)
         .then(resp => {
@@ -1122,7 +1124,7 @@ export default {
     async findDailyRecruit (id) { // 当月招募人数按日查询
       let that = this
       this.loadingRecruit = true
-      let parms = {queryDate: this.queryDate}
+      let parms = { queryDate: this.queryDate }
       await this.$http
         .fetch(this.$api.guide.task.findDailyStatistics, parms)
         .then(resp => {
@@ -1180,7 +1182,7 @@ export default {
         })
     },
     async findGuideRanking () { // 当月导购排行查询
-      let parms = {queryDate: this.queryDate}
+      let parms = { queryDate: this.queryDate }
       this.loadingGuideRecruit = true
       let that = this
       await this.$http
@@ -1206,7 +1208,7 @@ export default {
         })
     },
     async findShopRanking () { // 当月门店排行查询
-      let parms = {queryDate: this.queryDate}
+      let parms = { queryDate: this.queryDate }
       this.loadingShopRecruit = true // 门店招募
       let that = this
       await this.$http
@@ -1232,7 +1234,7 @@ export default {
         })
     },
     async getTaskProgress () { // 当月门店排行查询
-      let parms = Object.assign({queryDate: this.queryDate}, this.searchObj)
+      let parms = Object.assign({ queryDate: this.queryDate }, this.searchObj)
       // this.loadingShopRecruit = true // 门店招募
       let that = this
       await this.$http
@@ -1274,7 +1276,7 @@ export default {
 }
 </script>
 <style scoped lang='scss'>
-@import "../../../style/small/variables.pcss";
+@import "@/style/small/variables.pcss";
   @component-namespace overview {
     @b content {
       .el-row {

@@ -1,4 +1,4 @@
-import formMixin from 'mixins/form'
+import formMixin from 'web-crm/src/mixins/form'
 
 export default {
   mixins: [formMixin],
@@ -22,7 +22,7 @@ export default {
     async showDetailDialog (row) {
       let that = this
       // loading2用于防止同步调接口等待时，多次点击造成重复调用
-      if (that.loading2) return
+      if (that.loading2) { return }
       that.loading2 = true
       that.customerInfo = row
       if (!row) {
@@ -37,15 +37,15 @@ export default {
         model = Object.assign(model, data)
         model.itemUnit = data.buy_total_num / (data.trade_times || 1)
         model.priceUnit = data.trade_amount / (data.trade_times || 1)
-        if (model.itemUnit)model.itemUnit = model.itemUnit.toFixed(2) + '件'
-        if (model.priceUnit)model.priceUnit = model.priceUnit.toFixed(2) + '元'
+        if (model.itemUnit) { model.itemUnit = model.itemUnit.toFixed(2) + '件' }
+        if (model.priceUnit) { model.priceUnit = model.priceUnit.toFixed(2) + '元' }
         if (data.first_success_time && data.last_success_time && data.trade_times) {
           let time1 = new Date(data.first_success_time).getTime()
           let time2 = new Date(data.last_success_time).getTime()
           model.buyTimesUnit = ((time2 - time1) / data.trade_times) / 24 / 3600 / 1000
-          if (model.buyTimesUnit)model.buyTimesUnit = model.buyTimesUnit.toFixed(3) + '天'
+          if (model.buyTimesUnit) { model.buyTimesUnit = model.buyTimesUnit.toFixed(3) + '天' }
         }
-        if (!model.buyTimesUnit)model.buyTimesUnit = null
+        if (!model.buyTimesUnit) { model.buyTimesUnit = null }
       }).catch(() => {
         that.$notify.error('客户详情查询失败')
       })
@@ -67,7 +67,7 @@ export default {
       let mobile = ''
       let names = ''
       for (let i = 0; i < rows.length; i++) {
-        if (!rows[i].mobile) continue
+        if (!rows[i].mobile) { continue }
         mobile += ',' + rows[i].mobile
         names += ',' + (rows[i].true_name || '尊敬的客户')
       }
@@ -81,7 +81,7 @@ export default {
       this.smsDialog = true
     },
     addSmsName () {
-      if (this.smsContent === null) this.smsContent = ''
+      if (this.smsContent === null) { this.smsContent = '' }
       this.smsContent += this.names.indexOf(',') > 0 ? '{NAME}' : (this.names || '尊敬的客户')
     },
     sendSms () {

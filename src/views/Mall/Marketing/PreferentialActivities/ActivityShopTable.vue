@@ -28,44 +28,44 @@
 </template>
 
 <script>
-  import tableMixin from 'mixins/table'
+import tableMixin from 'web-crm/src/mixins/table'
 
-  export default {
-    name: 'ActivityShopTable',
-    mixins: [tableMixin],
-    props: {
-      showIcon: {
-        type: Boolean,
-        default () {
-          return true
-        }
-      }
-    },
-    data: function () {
-      return {
-        url: this.$api.guide.marketing.queryActivityShops
-      }
-    },
-    methods: {
-      // 查询选中的门店列表
-      findList: function (shopIds, activityId) {
-        if (!this._data._table.searchMap) {
-          this._data._table.searchMap = {}
-        }
-        this._data._table.searchMap.shopIds = shopIds
-        this._data._table.searchMap.activityId = activityId
-        // this.$reload()
-      },
-      // 删除选中的门店
-      deleteShop: function (row) {
-        for (let i = 0; i < this._data._table.data.length; i++) {
-          if (row.id === this._data._table.data[i].id) {
-            this._data._table.data.splice(i, 1)
-            break
-          }
-        }
-        this.$emit('delete', row.id)
+export default {
+  name: 'ActivityShopTable',
+  mixins: [tableMixin],
+  props: {
+    showIcon: {
+      type: Boolean,
+      default () {
+        return true
       }
     }
+  },
+  data: function () {
+    return {
+      url: this.$api.guide.marketing.queryActivityShops
+    }
+  },
+  methods: {
+    // 查询选中的门店列表
+    findList: function (shopIds, activityId) {
+      if (!this._data._table.searchMap) {
+        this._data._table.searchMap = {}
+      }
+      this._data._table.searchMap.shopIds = shopIds
+      this._data._table.searchMap.activityId = activityId
+      // this.$reload()
+    },
+    // 删除选中的门店
+    deleteShop: function (row) {
+      for (let i = 0; i < this._data._table.data.length; i++) {
+        if (row.id === this._data._table.data[i].id) {
+          this._data._table.data.splice(i, 1)
+          break
+        }
+      }
+      this.$emit('delete', row.id)
+    }
   }
+}
 </script>

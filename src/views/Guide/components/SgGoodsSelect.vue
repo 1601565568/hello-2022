@@ -107,344 +107,344 @@
 </template>
 
 <script>
-  import NsDroptree from 'components/NsDroptree'
+import NsDroptree from 'web-crm/src/components/NsDroptree'
 
-  var tableMixin = {
-    methods: {
-      // 表格页数条数改变
-      onSizeChange: function (val) {
-        this.$set(this.pagination, 'currSize', val)
-        this.$set(this.pagination, 'currPage', 1)
-        this.reload()
-      },
-      // 当前页改变
-      onPageChange: function (val) {
-        this.$set(this.pagination, 'currPage', val)
-        this.reload()
-      },
-      /**
+var tableMixin = {
+  methods: {
+    // 表格页数条数改变
+    onSizeChange: function (val) {
+      this.$set(this.pagination, 'currSize', val)
+      this.$set(this.pagination, 'currPage', 1)
+      this.reload()
+    },
+    // 当前页改变
+    onPageChange: function (val) {
+      this.$set(this.pagination, 'currPage', val)
+      this.reload()
+    },
+    /**
        *  加载表格数据
        */
-      reload: function () {
-        let searchParams = {
-          'searchMap': this.table.searchMap || {}
+    reload: function () {
+      let searchParams = {
+        'searchMap': this.table.searchMap || {}
+      }
+      if (this.shopIds) {
+        if (searchParams.searchMap === undefined) {
+          searchParams.searchMap = {}
         }
-        if (this.shopIds) {
-          if (searchParams.searchMap === undefined) {
-            searchParams.searchMap = {}
-          }
-          searchParams.searchMap.shopIds = this.shopIds
-        }
-        if (this.params) {
-          searchParams.searchMap = Object.assign({}, searchParams.searchMap, this.params)
-        }
-        let params = Object.assign({}, this.limit, this.table.order, searchParams)
-        this.queryTable(params)
-      },
-      /**
+        searchParams.searchMap.shopIds = this.shopIds
+      }
+      if (this.params) {
+        searchParams.searchMap = Object.assign({}, searchParams.searchMap, this.params)
+      }
+      let params = Object.assign({}, this.limit, this.table.order, searchParams)
+      this.queryTable(params)
+    },
+    /**
        * 查询表格数据
        * @param params
        */
-      queryTable: function (params) {
-        var that = this
-        // 加载中
-        that.tableLoading = true
-        that.$http.fetch(that.tableApi, params).then(resp => {
-          if (resp.result && resp.result.data && resp.result.data.length > 0) {
-            that.$set(that.table, 'data', resp.result.data)
-            that.$set(that.pagination, 'total', parseInt(resp.result.recordsTotal))
-          } else {
-            that.$set(that.table, 'data', [])
-            that.$set(that.pagination, 'total', 0)
-          }
-        }).catch(() => {
-          that.$notify.error('网络异常，获取数据失败！')
-        }).finally(() => {
-          if (that.pagination.total > 0) {
-            that.$set(that.pagination, 'enable', true)
-          } else {
-            that.$set(that.pagination, 'enable', false)
-          }
-          that.tableLoading = false
-          that.$nextTick(function () {
-            that.toggleSelection(that.selectedData, that.table.data)
-          })
+    queryTable: function (params) {
+      var that = this
+      // 加载中
+      that.tableLoading = true
+      that.$http.fetch(that.tableApi, params).then(resp => {
+        if (resp.result && resp.result.data && resp.result.data.length > 0) {
+          that.$set(that.table, 'data', resp.result.data)
+          that.$set(that.pagination, 'total', parseInt(resp.result.recordsTotal))
+        } else {
+          that.$set(that.table, 'data', [])
+          that.$set(that.pagination, 'total', 0)
+        }
+      }).catch(() => {
+        that.$notify.error('网络异常，获取数据失败！')
+      }).finally(() => {
+        if (that.pagination.total > 0) {
+          that.$set(that.pagination, 'enable', true)
+        } else {
+          that.$set(that.pagination, 'enable', false)
+        }
+        that.tableLoading = false
+        that.$nextTick(function () {
+          that.toggleSelection(that.selectedData, that.table.data)
         })
-      }
+      })
     }
   }
-  export default {
-    name: 'NsGoodsSelectDialog',
-    mixins: [tableMixin],
-    components: {
-      NsDroptree
-    },
-    data () {
-      return {
-        visible: false,
-        table: {
-          // 表格数据
-          data: [],
-          // 排序
-          order: {
-            orderKey: '',
-            orderDir: ''
-          },
-          searchMap: {}
+}
+export default {
+  name: 'NsGoodsSelectDialog',
+  mixins: [tableMixin],
+  components: {
+    NsDroptree
+  },
+  data () {
+    return {
+      visible: false,
+      table: {
+        // 表格数据
+        data: [],
+        // 排序
+        order: {
+          orderKey: '',
+          orderDir: ''
         },
-        // 分页对象
-        pagination: {
-          enable: true,
-          total: 0,
-          currPage: 1,
-          currSize: 10
+        searchMap: {}
+      },
+      // 分页对象
+      pagination: {
+        enable: true,
+        total: 0,
+        currPage: 1,
+        currSize: 10
+      },
+      model: {
+        title: null,
+        outerId: null,
+        cate: {
+          ext1: null
         },
-        model: {
-          title: null,
-          outerId: null,
-          cate: {
-            ext1: null
-          },
-          minPrice: null,
-          maxPrice: null
-        },
-        selectedData: [],
-        // 确认选择的数据
-        confirmData: this.value || [],
-        custom: 'custom',
-        tableLoading: false
+        minPrice: null,
+        maxPrice: null
+      },
+      selectedData: [],
+      // 确认选择的数据
+      confirmData: this.value || [],
+      custom: 'custom',
+      tableLoading: false
+    }
+  },
+  props: {
+    props: {
+      type: Object,
+      default: function () {
+        return {
+          unique: 'sys_item_id',
+          name: 'title'
+        }
       }
     },
-    props: {
-      props: {
-        type: Object,
-        default: function () {
-          return {
-            unique: 'sys_item_id',
-            name: 'title'
-          }
-        }
-      },
-      transSelectedData: {
-        type: Function,
-        default (data) {
-          let transData = {}
-          transData[this.props.unique] = data.sys_item_id
-          transData[this.props.name] = data.title
-          return transData
-        }
-      },
-      maxSelectCount: {
-        type: Number,
-        default: function () {
-          return 500
-        }
-      },
-      showBtn: {
-        type: Boolean,
-        default: function () {
-          return true
-        }
-      },
-      tableApi: {
-        type: Object,
-        default: function () {
-          return this.$api.guide.goods.findGoodsList
-        }
-      },
-      value: {
-        type: Array,
-        default: function () {
-          return []
-        }
-      },
-      shopIds: String,
-      params: {}
+    transSelectedData: {
+      type: Function,
+      default (data) {
+        let transData = {}
+        transData[this.props.unique] = data.sys_item_id
+        transData[this.props.name] = data.title
+        return transData
+      }
     },
-    methods: {
-      // 商品分类点击事件
-      nodeClick: function (nodeData, node, instance) {
-        this.model.cate.ext1 = nodeData.ext1
-      },
-      /**
+    maxSelectCount: {
+      type: Number,
+      default: function () {
+        return 500
+      }
+    },
+    showBtn: {
+      type: Boolean,
+      default: function () {
+        return true
+      }
+    },
+    tableApi: {
+      type: Object,
+      default: function () {
+        return this.$api.guide.goods.findGoodsList
+      }
+    },
+    value: {
+      type: Array,
+      default: function () {
+        return []
+      }
+    },
+    shopIds: String,
+    params: {}
+  },
+  methods: {
+    // 商品分类点击事件
+    nodeClick: function (nodeData, node, instance) {
+      this.model.cate.ext1 = nodeData.ext1
+    },
+    /**
        *  删除已选择
        */
-      onDelSelected: function (dataName, index, unique) {
-        // 删除
-        this.$data[dataName].splice(index, 1)
-        // 表格是否渲染
-        if (this.$refs.table) {
-          for (var i = 0; i < this.table.data.length; i++) {
-            if (unique === this.table.data[i].sys_item_id) {
-              // 删除表格选中
-              this.$refs.table.toggleRowSelection(this.table.data[i], false)
-              break
-            }
-          }
-        }
-      },
-      // 数组去重
-      uniqueArray: function (array) {
-        var r = []
-        for (var i = 0, l = array.length; i < l; i++) {
-          for (var j = i + 1; j < l; j++) {
-            if (array[i][this.props.unique] === array[j][this.props.unique]) {
-              j = ++i
-            }
-          }
-          r.push(this.transSelectedData(array[i]))
-        }
-        return r
-      },
-      /**
-       * 重置数据
-       */
-      resetData: function () {
-        this.$set(this.table, 'pagination', this.$options.data().pagination)
-        this.$set(this.table, 'order', this.$options.data().order)
-        this.$set(this.table, 'searchMap', this.$options.data().searchMap)
-        this.$set(this, 'selectedData', this.$options.data().selectedData)
-        this.$set(this, 'model', this.$options.data().model)
-      },
-      /**
-       * 勾选表格选中
-       */
-      toggleSelection: function (selected, rows) {
-        for (var i = 0; i < rows.length; i++) {
-          for (var j = 0; j < selected.length; j++) {
-            if (rows[i].sys_item_id === selected[j][this.props.unique]) {
-              this.$refs.table.toggleRowSelection(rows[i], true)
-              break
-            }
-          }
-        }
-      },
-      // 选中某行
-      onSelectRow: function (selected, row) {
-        var check = false
-        for (var i = 0; i < selected.length; i++) {
-          if (selected[i].sys_item_id === row.sys_item_id) {
-            check = true
+    onDelSelected: function (dataName, index, unique) {
+      // 删除
+      this.$data[dataName].splice(index, 1)
+      // 表格是否渲染
+      if (this.$refs.table) {
+        for (var i = 0; i < this.table.data.length; i++) {
+          if (unique === this.table.data[i].sys_item_id) {
+            // 删除表格选中
+            this.$refs.table.toggleRowSelection(this.table.data[i], false)
             break
           }
         }
-        this.setSelectedData(check, row)
-      },
-      /**
+      }
+    },
+    // 数组去重
+    uniqueArray: function (array) {
+      var r = []
+      for (var i = 0, l = array.length; i < l; i++) {
+        for (var j = i + 1; j < l; j++) {
+          if (array[i][this.props.unique] === array[j][this.props.unique]) {
+            j = ++i
+          }
+        }
+        r.push(this.transSelectedData(array[i]))
+      }
+      return r
+    },
+    /**
+       * 重置数据
+       */
+    resetData: function () {
+      this.$set(this.table, 'pagination', this.$options.data().pagination)
+      this.$set(this.table, 'order', this.$options.data().order)
+      this.$set(this.table, 'searchMap', this.$options.data().searchMap)
+      this.$set(this, 'selectedData', this.$options.data().selectedData)
+      this.$set(this, 'model', this.$options.data().model)
+    },
+    /**
+       * 勾选表格选中
+       */
+    toggleSelection: function (selected, rows) {
+      for (var i = 0; i < rows.length; i++) {
+        for (var j = 0; j < selected.length; j++) {
+          if (rows[i].sys_item_id === selected[j][this.props.unique]) {
+            this.$refs.table.toggleRowSelection(rows[i], true)
+            break
+          }
+        }
+      }
+    },
+    // 选中某行
+    onSelectRow: function (selected, row) {
+      var check = false
+      for (var i = 0; i < selected.length; i++) {
+        if (selected[i].sys_item_id === row.sys_item_id) {
+          check = true
+          break
+        }
+      }
+      this.setSelectedData(check, row)
+    },
+    /**
        *
        * 设置选中的数据
        **/
-      setSelectedData: function (check, row) {
-        var showSelectedList = this.selectedData
-        // 选中
-        if (check) {
-          showSelectedList.push(this.transSelectedData(row))
-        } else {
-          // 删除未勾选商品数据
-          for (var j = 0; j < showSelectedList.length; j++) {
-            if (showSelectedList[j][this.props.unique] === row.sys_item_id) {
-              this.onDelSelected('selectedData', j, showSelectedList[j][this.props.unique])
-              break
-            }
+    setSelectedData: function (check, row) {
+      var showSelectedList = this.selectedData
+      // 选中
+      if (check) {
+        showSelectedList.push(this.transSelectedData(row))
+      } else {
+        // 删除未勾选商品数据
+        for (var j = 0; j < showSelectedList.length; j++) {
+          if (showSelectedList[j][this.props.unique] === row.sys_item_id) {
+            this.onDelSelected('selectedData', j, showSelectedList[j][this.props.unique])
+            break
           }
         }
-      },
-      /**
+      }
+    },
+    /**
        * 表格勾选所有数据
        */
-      onSelectAll: function (selected) {
-        if (selected.length === 0) {
-          for (var i = 0; i < this.table.data.length; i++) {
-            // 选中表格某行
-            this.setSelectedData(false, this.table.data[i])
-          }
-        } else {
-          this.selectedData = this.uniqueArray(this.selectedData.concat(selected))
+    onSelectAll: function (selected) {
+      if (selected.length === 0) {
+        for (var i = 0; i < this.table.data.length; i++) {
+          // 选中表格某行
+          this.setSelectedData(false, this.table.data[i])
         }
-      },
-      /**
+      } else {
+        this.selectedData = this.uniqueArray(this.selectedData.concat(selected))
+      }
+    },
+    /**
        * 显示弹窗
        */
-      onShow: function () {
-        // 设置选中
-        this.$set(this, 'selectedData', JSON.parse(JSON.stringify(this.confirmData)))
-        this.visible = true
-        this.reload()
-      },
-      /**
+    onShow: function () {
+      // 设置选中
+      this.$set(this, 'selectedData', JSON.parse(JSON.stringify(this.confirmData)))
+      this.visible = true
+      this.reload()
+    },
+    /**
        * 关闭弹窗
        */
-      onClose: function () {
-        this.visible = false
-        this.resetData()
-      },
-      /**
+    onClose: function () {
+      this.visible = false
+      this.resetData()
+    },
+    /**
        * 搜索
        */
-      onSearch: function () {
-        let searchMap = {
-          title: this.model.title,
-          goods_code: this.model.outerId,
-          min_price: this.model.minPrice,
-          max_price: this.model.maxPrice,
-          goods_cids: this.model.cate.ext1
-        }
-        this.$set(this.table, 'searchMap', searchMap)
-        this.pagination.currPage = 1
-        this.reload()
-      },
-      /**
+    onSearch: function () {
+      let searchMap = {
+        title: this.model.title,
+        goods_code: this.model.outerId,
+        min_price: this.model.minPrice,
+        max_price: this.model.maxPrice,
+        goods_cids: this.model.cate.ext1
+      }
+      this.$set(this.table, 'searchMap', searchMap)
+      this.pagination.currPage = 1
+      this.reload()
+    },
+    /**
        * 重置搜索条件
        */
-      onResetSearch: function () {
-        this.$set(this, 'model', this.$options.data().model)
-        this.$set(this.table, 'searchMap', {})
-        this.pagination.currPage = 1
-        this.reload()
-      },
-      /**
+    onResetSearch: function () {
+      this.$set(this, 'model', this.$options.data().model)
+      this.$set(this.table, 'searchMap', {})
+      this.pagination.currPage = 1
+      this.reload()
+    },
+    /**
        * 确认选择
        */
-      onConfirm: function () {
-        if (this.selectedData.length > this.maxSelectCount) {
-          this.$notify.warning('最多选择' + this.maxSelectCount + '件商品')
-        } else {
-          this.confirmData = JSON.parse(JSON.stringify(this.selectedData))
-          console.log(this.confirmData)
-          this.visible = false
-          this.callbackData()
-          this.onResetSearch()
-        }
-      },
-      /**
+    onConfirm: function () {
+      if (this.selectedData.length > this.maxSelectCount) {
+        this.$notify.warning('最多选择' + this.maxSelectCount + '件商品')
+      } else {
+        this.confirmData = JSON.parse(JSON.stringify(this.selectedData))
+        console.log(this.confirmData)
+        this.visible = false
+        this.callbackData()
+        this.onResetSearch()
+      }
+    },
+    /**
        * 返回数据
        */
-      callbackData: function () {
-        this.$emit('input', this.confirmData)
-        this.$emit('change', this.confirmData)
-      }
+    callbackData: function () {
+      this.$emit('input', this.confirmData)
+      this.$emit('change', this.confirmData)
+    }
+  },
+  watch: {
+    value: function (val) {
+      this.confirmData = JSON.parse(JSON.stringify(val))
     },
-    watch: {
-      value: function (val) {
-        this.confirmData = JSON.parse(JSON.stringify(val))
-      },
-      confirmData: function (val) {
-        this.selectedData = JSON.parse(JSON.stringify(val))
-      }
-    },
-    computed: {
-      'limit': function () {
-        return {
-          start: (this.pagination.currPage - 1) * this.pagination.currSize,
-          length: this.pagination.currSize
-        }
+    confirmData: function (val) {
+      this.selectedData = JSON.parse(JSON.stringify(val))
+    }
+  },
+  computed: {
+    'limit': function () {
+      return {
+        start: (this.pagination.currPage - 1) * this.pagination.currSize,
+        length: this.pagination.currSize
       }
     }
   }
+}
 </script>
 
 <style scoped>
-  @import "../../../style/small/variables.pcss";
+  @import "@/style/small/variables.pcss";
 .el-table th {
     line-height: 1;
   }

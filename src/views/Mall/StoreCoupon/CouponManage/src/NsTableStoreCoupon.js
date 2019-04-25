@@ -1,6 +1,6 @@
-import tableMixin from 'mixins/table'
+import tableMixin from 'web-crm/src/mixins/table'
 import moment from 'moment'
-import apiRequestConfirm from 'utils/apiRequestConfirm'
+import apiRequestConfirm from 'web-crm/src/utils/apiRequestConfirm'
 export default {
   name: 'NsTableStoreCoupon',
   mixins: [tableMixin],
@@ -43,7 +43,7 @@ export default {
         'visible': ''
       }
     ]
-    let quickSearchModel = {name: ''}
+    let quickSearchModel = { name: '' }
     let model = {
       name: '',
       state: null,
@@ -61,7 +61,7 @@ export default {
         operate_buttons: operateButtons,
         quickSearchMap: {}
       },
-      _queryConfig: {expand: false}
+      _queryConfig: { expand: false }
     }
   },
   mounted: function () {
@@ -92,13 +92,13 @@ export default {
         info = '启用该优惠券'
       }
       apiRequestConfirm(info).then(() => {
-        that.$http.fetch(that.$api.coupon.storeCoupon.updateStatus, {couponId: row.id, status: status})
-        .then(() => {
-          that.$reload()
-          call()
-        }).catch((resp) => {
-          that.$message.error(resp.msg || '状态更新失败，请重试')
-        })
+        that.$http.fetch(that.$api.coupon.storeCoupon.updateStatus, { couponId: row.id, status: status })
+          .then(() => {
+            that.$reload()
+            call()
+          }).catch((resp) => {
+            that.$message.error(resp.msg || '状态更新失败，请重试')
+          })
       }).catch(() => {})
     },
     /**

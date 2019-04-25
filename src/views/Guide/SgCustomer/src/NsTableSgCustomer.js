@@ -1,4 +1,4 @@
-import tableMixin from 'mixins/table'
+import tableMixin from 'web-crm/src/mixins/table'
 
 export default {
   name: 'NsTableSgCustomer',
@@ -64,7 +64,7 @@ export default {
         transType: '',
         operationType: ''
       },
-      {validTime: []})
+      { validTime: [] })
     var that = this
 
     quickInput.map(item => {

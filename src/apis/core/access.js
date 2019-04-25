@@ -1,9 +1,9 @@
-import transData from 'utils/transData'
+import transData from 'web-crm/src/utils/transData'
 const treeFn = (err, rows) => {
-  if (err) throw err
+  if (err) { throw err }
   // get all data
   // create a id= null root for forest 新建id为null的对象做为森林的根
-  var result = [{'id': '0', 'children': []}]
+  var result = [{ 'id': '0', 'children': [] }]
   var allMenu = rows
   var output = getAllChild(result)
   return output
@@ -35,12 +35,17 @@ const treeFn = (err, rows) => {
   }
 }
 export default {
-  getSession: {
+  getUserInfo: {
     url: '/getSession',
     method: 'post',
     callback: function (res, resolve, reject) {
       if (res.data.success) {
         res.data.result = {
+          integralActivityUrl: res.data.result.integralActivityUrl,
+          openDmWechat: res.data.result.openDmWechat,
+          openWechat: res.data.result.openWechat,
+          openAhd: res.data.result.openAhd,
+          companyName: res.data.result.companyName,
           name: res.data.result.loginAccount,
           nick: res.data.result.userName,
           menus: res.data.result.menus,
@@ -48,8 +53,12 @@ export default {
           brand: {
             id: res.data.result.currentView.viewId,
             name: res.data.result.currentView.viewName,
-            brandType: res.data.result.currentView.viewType
-          }
+            brandType: res.data.result.currentView.viewType,
+            isHyt: res.data.result.isHyt,
+            gradeRuleStatus: res.data.result.gradeRuleStatus
+          },
+          productCode: res.data.result.productCode,
+          dataAuth: res.data.result.dataAuth
         }
 
         if (res.data.result.menus.length > 0) {
@@ -74,6 +83,7 @@ export default {
               })
               item.path = item.children[0].path
             }
+
             return item
           })
         }
@@ -117,7 +127,7 @@ export default {
               id: v.id
             }
           }))
-            // 默认跳转到第子级第一个菜单
+          // 默认跳转到第子级第一个菜单
           res.data.result.menus.map((item) => {
             if (item.children.length > 0) {
               item.children.map((subItem) => {
@@ -162,6 +172,9 @@ export default {
     url: '/operate/getSession',
     method: 'get'
 
+  },
+  changeView: {
+    url: '/core/access/changeView',
+    method: 'get'
   }
-
 }

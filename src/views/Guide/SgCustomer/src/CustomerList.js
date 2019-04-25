@@ -1,4 +1,4 @@
-import formMixin from 'mixins/form'
+import formMixin from 'web-crm/src/mixins/form'
 
 export default {
   mixins: [formMixin],
@@ -11,7 +11,7 @@ export default {
       total: 0
     }
     return {
-      title: null,                            // 新增弹窗标题
+      title: null, // 新增弹窗标题
       showCustomerDialogVisible: false,
       paginations: paginations
     }

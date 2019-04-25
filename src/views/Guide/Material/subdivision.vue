@@ -104,7 +104,6 @@
       <el-table-column label="名称" prop="subdivision_name"  show-overflow-tooltip >
       </el-table-column>
 
-
       <el-table-column
         label="素材数"
         align="left"
@@ -142,8 +141,8 @@
 </div>
 </template>
 <script>
-import listPageMixin from 'mixins/listPage'
-import apiRequestConfirm from 'utils/apiRequestConfirm'
+import listPageMixin from '@/mixins/listPage'
+import apiRequestConfirm from 'web-crm/src/utils/apiRequestConfirm'
 import addGroudModal from './addGroudModal'
 import listItemShow from './components/listItemShow'
 import moment from 'moment'
@@ -213,10 +212,10 @@ export default {
     },
     renderHeader (h, data) {
       // return h('div', [h('span', ['排序 ']), h('el-tooltip', {attrs: {class: 'el-icon-question bg-white', effect: 'dark', content: '素材排序方式', placement: 'bottom'}}, [h('i', {'class': 'el-icon-question'})])])
-      return h('div', {attrs: {class: 'cell', style: 'margin-top:7px'}}, [h('span', ['排序 ']), h('el-tooltip', {attrs: {class: 'el-icon-question bg-white', effect: 'light', content: '调整分类的排列顺序', placement: 'bottom'}}, [h('i', {'class': 'el-icon-question', style: 'color:rgb(153, 153, 153)'})])])
+      return h('div', { attrs: { class: 'cell', style: 'margin-top:7px' } }, [h('span', ['排序 ']), h('el-tooltip', { attrs: { class: 'el-icon-question bg-white', effect: 'light', content: '调整分类的排列顺序', placement: 'bottom' } }, [h('i', { 'class': 'el-icon-question', style: 'color:rgb(153, 153, 153)' })])])
     },
     exchangeSort (type, subdivisionId) {
-      let parms = {type, subdivisionId}
+      let parms = { type, subdivisionId }
       this.$http
         .fetch(this.$api.guide.materialExchangeSort, parms)
         .then(resp => {

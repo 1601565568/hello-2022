@@ -7,16 +7,16 @@
   </div>
 </template>
 <script>
-  import MenuLeft from 'components/layout/OperateMenuLeft'
-  export default {
-    components: {
-      MenuLeft
-    }
+import MenuLeft from '@/components/Layout/OperateMenuLeft'
+export default {
+  components: {
+    MenuLeft
   }
+}
 </script>
 
 <style scoped>
-  @import "../style/small/variables.pcss";
+  @import "@/style/small/variables.pcss";
   .content-wrap{
     margin-left: 210px;
     margin-top: 90px;

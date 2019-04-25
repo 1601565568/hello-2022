@@ -74,62 +74,62 @@
 </template>
 
 <script>
-  import formMixin from 'mixins/form'
-  import ActivityGoodsTable from './ActivityGoodsTable'
-  import ActivityShopTable from './ActivityShopTable'
-  export default {
-    name: 'detail',
-    mixins: [formMixin],
-    components: {ActivityGoodsTable, ActivityShopTable},
-    data: function () {
-      return {
-        dialogVisible: false,
-        loading: false,
-        model: {
-          name: null,
-          startTime: null,
-          endTime: null,
-          remark: null,
-          goodsType: 1,
-          shopType: 1,
-          shopOptional: true,
-          goodsOptional: true,
-          shopInfo: [],
-          goodsInfo: [],
-          rules: []
-        }
-      }
-    },
-    methods: {
-      showData: function (activityId) {
-        let that = this
-        that.loading = true
-        that.$http.fetch(that.$api.guide.marketing.queryActivityDetail, {activityId: activityId}).then((resp) => {
-          let data = resp.result
-          that.model = data
-            // 部分门店时查询门店表格
-          if (data.shopType === 1) {
-            that.$refs.shopsTable.findList(null, activityId)
-          }
-            // 部分商品时查询门店表格
-          if (data.goodsType === 1) {
-            that.$refs.goodsTable.findList(null, activityId)
-          }
-          that.loading = false
-        }).catch((resp) => {
-          that.$notify.error(resp.msg || '活动查询失败')
-        })
-      },
-
-      closeDialog: function () {
-        this.$emit('close', null)
+import formMixin from 'web-crm/src/mixins/form'
+import ActivityGoodsTable from './ActivityGoodsTable'
+import ActivityShopTable from './ActivityShopTable'
+export default {
+  name: 'detail',
+  mixins: [formMixin],
+  components: { ActivityGoodsTable, ActivityShopTable },
+  data: function () {
+    return {
+      dialogVisible: false,
+      loading: false,
+      model: {
+        name: null,
+        startTime: null,
+        endTime: null,
+        remark: null,
+        goodsType: 1,
+        shopType: 1,
+        shopOptional: true,
+        goodsOptional: true,
+        shopInfo: [],
+        goodsInfo: [],
+        rules: []
       }
     }
+  },
+  methods: {
+    showData: function (activityId) {
+      let that = this
+      that.loading = true
+      that.$http.fetch(that.$api.guide.marketing.queryActivityDetail, { activityId: activityId }).then((resp) => {
+        let data = resp.result
+        that.model = data
+        // 部分门店时查询门店表格
+        if (data.shopType === 1) {
+          that.$refs.shopsTable.findList(null, activityId)
+        }
+        // 部分商品时查询门店表格
+        if (data.goodsType === 1) {
+          that.$refs.goodsTable.findList(null, activityId)
+        }
+        that.loading = false
+      }).catch((resp) => {
+        that.$notify.error(resp.msg || '活动查询失败')
+      })
+    },
+
+    closeDialog: function () {
+      this.$emit('close', null)
+    }
   }
+}
 </script>
 
 <style scoped>
-  @import "../../../../style/small/variables.pcss";
+  @import "@/style/small/variables.pcss";
 
   .atLeft {
     padding-top: var(--default-padding-larger);

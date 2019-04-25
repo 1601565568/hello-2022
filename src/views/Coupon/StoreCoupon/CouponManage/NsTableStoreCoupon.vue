@@ -1,6 +1,6 @@
 <template>
   <ns-page-table @edit="$emit('edit')" @add="$emit('add')">
-    
+
     <!-- 简单搜索 -->
     <template slot="searchSearch">
       <el-form :model="quickSearchModel" :inline="true" class="pull-right" @submit.native.prevent>
@@ -134,8 +134,8 @@
 </template>
 
 <script>
-  import NsTableStoreCoupon from './src/NsTableStoreCoupon'
-  export default NsTableStoreCoupon
+import NsTableStoreCoupon from './src/NsTableStoreCoupon'
+export default NsTableStoreCoupon
 </script>
 
 <style scoped>

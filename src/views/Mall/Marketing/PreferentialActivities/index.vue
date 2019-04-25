@@ -80,11 +80,11 @@
 </template>
 
 <script>
-  import index from './src/index'
-  import edit from './edit'
-  import detail from './detail'
-  index.components = {
-    edit, detail
-  }
-  export default index
+import index from './src/index'
+import edit from './edit'
+import detail from './detail'
+index.components = {
+  edit, detail
+}
+export default index
 </script>

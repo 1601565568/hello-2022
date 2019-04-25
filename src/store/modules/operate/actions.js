@@ -1,9 +1,9 @@
-import http from '../../../extends/http'
-import api from '../../../apis'
+import http from 'web-crm/src/extends/http'
+import api from '@/apis'
 import * as types from './mutations_types'
 
 export default {
-  update_user_brand: ({commit}, {
+  update_user_brand: ({ commit }, {
     brand
   }) => {
     return new Promise((resolve, reject) => {
@@ -13,7 +13,7 @@ export default {
       resolve()
     })
   },
-  remove_user_brand: ({commit}) => {
+  remove_user_brand: ({ commit }) => {
     return new Promise((resolve, reject) => {
       commit(types.REMOVE_OPERATE_BRAND)
       resolve()
@@ -25,7 +25,7 @@ export default {
    * @param state
    * @returns {Promise<any>}
    */
-  login: ({commit, state}) => {
+  login: ({ commit, state }) => {
     return new Promise((resolve, reject) => {
       if (new Date().getTime() - state.remumber.remumber_login_info.lastCheckTime > 60 * 1000) {
         console.log('验证登陆已超过60秒，重新远程验证')
@@ -70,7 +70,7 @@ export default {
    * @param state
    * @returns {Promise<any>}
    */
-  logout: ({commit}) => {
+  logout: ({ commit }) => {
     return new Promise((resolve, reject) => {
       http.fetch(api.core.access.exit).then((resp) => {
         commit(types.UPDATE_LOGIN_REFRESH, true)
@@ -83,7 +83,7 @@ export default {
       }).catch(reject)
     })
   },
-  regainSession: ({commit}) => {
+  regainSession: ({ commit }) => {
     return new Promise((resolve, reject) => {
       // commit(types.UPDATE_LOGIN_REFRESH, true)
       // commit(types.REMOVE_REMUMBER)

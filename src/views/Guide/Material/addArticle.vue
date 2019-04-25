@@ -94,14 +94,18 @@
 </div>
 </template>
 <script>
-import api from 'configs/http'
+import api from '@/config/http'
+import ElUpload from 'nui-v2/lib/upload'
 // import { isURL } from '../Common/utils.js'
 import VueUeditorWrap from 'vue-ueditor-wrap'
 export default {
+  components: {
+    VueUeditorWrap,
+    ElUpload
+  },
   props: {
     callBack: Function
   },
-
   data () {
     // var validateURL = (rule, value, callback) => {
     //   if (value === '') {
@@ -136,8 +140,8 @@ export default {
         serverUrl: 'http://47.96.228.119:8089/core/ueditor/ueditorConfig'
 
       },
-      wechatPageTypeList: [{name: '商品', id: 1}, {name: '优惠券', id: 2}, {name: '营销活动', id: 3}, {name: '商品分类', id: 4}, {name: '自定义页面', id: 5}],
-      wechatPageUrlList: [{url: '/pages/workbench/index', id: 1}, {url: '/pages/workbench/inde', id: 2}, {url: '/pages/workbench/ind', id: 3}],
+      wechatPageTypeList: [{ name: '商品', id: 1 }, { name: '优惠券', id: 2 }, { name: '营销活动', id: 3 }, { name: '商品分类', id: 4 }, { name: '自定义页面', id: 5 }],
+      wechatPageUrlList: [{ url: '/pages/workbench/index', id: 1 }, { url: '/pages/workbench/inde', id: 2 }, { url: '/pages/workbench/ind', id: 3 }],
       loading: false, // 防重复提交
       dialogImageUrl: '',
       modalTit: '新增素材',
@@ -176,9 +180,6 @@ export default {
       }
     }
   },
-  components: {
-    VueUeditorWrap
-  },
   created: function () {},
   methods: {
     addPic () {
@@ -186,19 +187,19 @@ export default {
     },
     addCustomDialog (editorId) {
       window.UE.registerUI('test-dialog', function (editor, uiName) {
-    // 创建 dialog
+        // 创建 dialog
         var dialog = new window.UE.ui.Dialog({
-      // 指定弹出层中页面的路径，这里只能支持页面，路径参考常见问题 2
+          // 指定弹出层中页面的路径，这里只能支持页面，路径参考常见问题 2
           iframeUrl: '../../../../static/UEditor/dialogs/customizeDialogPage/customizeDialogPage.html',
-      // 需要指定当前的编辑器实例
+          // 需要指定当前的编辑器实例
           editor: editor,
-      // 指定 dialog 的名字
+          // 指定 dialog 的名字
           name: uiName,
-      // dialog 的标题
+          // dialog 的标题
           title: '请输入小程序的链接',
-      // 指定 dialog 的外围样式
+          // 指定 dialog 的外围样式
           cssRules: 'width:600px;height:300px;',
-      // 如果给出了 buttons 就代表 dialog 有确定和取消
+          // 如果给出了 buttons 就代表 dialog 有确定和取消
           buttons: [
             {
               className: 'edui-okbutton',
@@ -217,13 +218,13 @@ export default {
           ]
         })
 
-    // 参考上面的自定义按钮
+        // 参考上面的自定义按钮
         var btn = new window.UE.ui.Button({
           name: 'dialog-button',
           title: '小程序链接',
           cssRules: `background-position: -500px 0`,
           onclick: function () {
-        // 渲染dialog
+            // 渲染dialog
             dialog.render()
             dialog.open()
           }
@@ -292,16 +293,16 @@ export default {
       if (obj.id) {
         let that = this
         this.modalTit = '编辑素材'
-        this.$http.fetch(this.$api.guide.queryMaterial, {id: obj.id})
-        .then(resp => {
-          resp.result.articleType = (resp.result.url ? 1 : 0)
-          that.saveObj = resp.result
-          that.detail = resp.result.textContent || ''
+        this.$http.fetch(this.$api.guide.queryMaterial, { id: obj.id })
+          .then(resp => {
+            resp.result.articleType = (resp.result.url ? 1 : 0)
+            that.saveObj = resp.result
+            that.detail = resp.result.textContent || ''
           // console.log(that.detail)
-        })
-        .catch(resp => {
-          that.$notify.error(resp.msg)
-        })
+          })
+          .catch(resp => {
+            that.$notify.error(resp.msg)
+          })
       }
       this.dialogVisible = true
     },

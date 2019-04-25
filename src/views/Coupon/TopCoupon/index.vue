@@ -126,12 +126,12 @@
 </template>
 
 <script>
-  import index from './src/index'
-  import NsTableTopCoupon from './NsTableTopCoupon'
-  import NsTableCouponDetail from './DetailCoupon/NsTableCouponDetail'
-  index.components = {
-    NsTableTopCoupon,
-    NsTableCouponDetail
-  }
-  export default index
+import index from './src/index'
+import NsTableTopCoupon from './NsTableTopCoupon'
+import NsTableCouponDetail from './DetailCoupon/NsTableCouponDetail'
+index.components = {
+  NsTableTopCoupon,
+  NsTableCouponDetail
+}
+export default index
 </script>

@@ -24,43 +24,43 @@
 </template>
 
 <script>
-  import tableMixin from 'mixins/table'
+import tableMixin from 'web-crm/src/mixins/table'
 
-  export default {
-    name: 'draftList',
-    mixins: [tableMixin],
-    data: function () {
-      let that = this
-      let tableButtons = [
-        {
-          'func': function (obj) {
-            that.addDraftToTemplate(obj.row.template_id)
-          },
-          'name': '设为模板',
-          'visible': ''
-        }
-      ]
-
-      return {
-        dialogVisible: false,
-        loadingTable: false,
-        tableList: [],
-        _table: {
-          table_buttons: tableButtons,
-          operate_buttons: [],
-          quickSearchMap: {}
-        }
+export default {
+  name: 'draftList',
+  mixins: [tableMixin],
+  data: function () {
+    let that = this
+    let tableButtons = [
+      {
+        'func': function (obj) {
+          that.addDraftToTemplate(obj.row.template_id)
+        },
+        'name': '设为模板',
+        'visible': ''
       }
-    },
-    mounted: function () {
-    },
-    methods: {
-      // 打开弹框
-      openDialog: function () {
-        let that = this
-        that.dialogVisible = true
-        that.loadingTable = true
-        that.$http.fetch(that.$api.isv.getTemplateDraftList)
+    ]
+
+    return {
+      dialogVisible: false,
+      loadingTable: false,
+      tableList: [],
+      _table: {
+        table_buttons: tableButtons,
+        operate_buttons: [],
+        quickSearchMap: {}
+      }
+    }
+  },
+  mounted: function () {
+  },
+  methods: {
+    // 打开弹框
+    openDialog: function () {
+      let that = this
+      that.dialogVisible = true
+      that.loadingTable = true
+      that.$http.fetch(that.$api.isv.getTemplateDraftList)
         .then((resp) => {
           that.tableList = resp.result
           that.loadingTable = false
@@ -68,17 +68,17 @@
           that.$notify.error(resp.msg)
           that.loadingTable = false
         })
-      },
-      // 将草稿设置为模板
-      addDraftToTemplate: function (draftId) {
-        let that = this
-        that.$http.fetch(that.$api.isv.addDraftToTemplate, {draftId: draftId})
+    },
+    // 将草稿设置为模板
+    addDraftToTemplate: function (draftId) {
+      let that = this
+      that.$http.fetch(that.$api.isv.addDraftToTemplate, { draftId: draftId })
         .then(() => {
           that.$notify.success('设置成功')
         }).catch((resp) => {
           that.$notify.error(resp.msg)
         })
-      }
     }
   }
+}
 </script>

@@ -1,6 +1,6 @@
-import formMixin from 'mixins/form'
+import formMixin from 'web-crm/src/mixins/form'
 import moment from 'moment'
-import apiRequestConfirm from 'utils/apiRequestConfirm'
+import apiRequestConfirm from 'web-crm/src/utils/apiRequestConfirm'
 
 export default {
   mixins: [formMixin],
@@ -218,7 +218,7 @@ export default {
     deleteCoupon: function (row) {
       let that = this
       apiRequestConfirm('删除该优惠券').then(() => {
-        that.$http.fetch(that.$api.coupon.storeCoupon.deleteCoupon, {couponId: row.id}).then((resp) => {
+        that.$http.fetch(that.$api.coupon.storeCoupon.deleteCoupon, { couponId: row.id }).then((resp) => {
           if (resp.success === true) {
             that.$message.success('删除成功')
           }

@@ -142,8 +142,8 @@
 </div>
 </template>
 <script>
-import listPageMixin from 'mixins/listPage'
-import apiRequestConfirm from 'utils/apiRequestConfirm'
+import listPageMixin from '@/mixins/listPage'
+import apiRequestConfirm from 'web-crm/src/utils/apiRequestConfirm'
 import shopDetailModal from './shopDetailModal'
 import guideListModal from './guideListModal'
 // import listItemShow from './components/listItemShow'
@@ -247,12 +247,12 @@ export default {
     // 删除功能
     deleteToggle (obj) {
       apiRequestConfirm('永久删除该数据')
-      .then(() => {
-        this.deleteTask(obj)
-      })
-      .catch(() => {
+        .then(() => {
+          this.deleteTask(obj)
+        })
+        .catch(() => {
         // 点击取消事件
-      })
+        })
     },
     async deleteTask (val) {
       let obj = {

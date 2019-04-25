@@ -6,13 +6,13 @@
 </template>
 
 <script>
-  import List from './src/List'
-  import NsTableGuide from './NsTableGuide'
+import List from './src/List'
+import NsTableGuide from './NsTableGuide'
 
-  List.components = {
-    NsTableGuide
-  }
-  export default List
+List.components = {
+  NsTableGuide
+}
+export default List
 </script>
 
 <style scoped>

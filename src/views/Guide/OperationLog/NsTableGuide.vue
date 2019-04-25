@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- <ns-page-table @add="$emit('add')"  @allDelete="$emit('allDelete')" @onAddCustomer="$emit('onAddCustomer')" @quit="$emit('quit')" @shopEdit="$emit('shopEdit')" @ondelete="$emit('ondelete')"> -->
-    <ns-page-table @add="$emit('add')" @showShop="$emit('showShop')" @viewDetails="$emit('viewDetails')" 
+    <ns-page-table @add="$emit('add')" @showShop="$emit('showShop')" @viewDetails="$emit('viewDetails')"
                    @dimission="$emit('dimission')" @allDelete="$emit('allDelete')" @shopEdit="$emit('shopEdit')">
       <!-- 按钮 -->
       <template slot="buttons">
@@ -194,8 +194,8 @@
     </el-dialog></div>
 </template>
 <script>
-  import guide from './src/NsTableGuide'
-  export default guide
+import guide from './src/NsTableGuide'
+export default guide
 </script>
 <style>
   .scope_row_count {

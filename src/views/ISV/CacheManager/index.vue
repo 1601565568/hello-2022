@@ -63,106 +63,41 @@
   </div>
 </template>
 <script>
-  export default {
-    data () {
-      return {
-        cacheKey: null,
-        keys: [],
-        cacheVlaue: null,
-        timeout: null,
-        buttoncolor: 0,
-        result: null,
-        obj: {
-          cryptKey: null,
-          data: null,
-          type: 0
-        }
+import NavHead from '@/components/Layout/OperateNavHead'
+import ElAutocomplete from 'nui-v2/lib/autocomplete'
+export default {
+  components: {
+    NavHead,
+    ElAutocomplete
+  },
+  data () {
+    return {
+      cacheKey: null,
+      keys: [],
+      cacheVlaue: null,
+      timeout: null,
+      buttoncolor: 0,
+      result: null,
+      obj: {
+        cryptKey: null,
+        data: null,
+        type: 0
       }
-    },
-    methods: {
-      generate () { // 生成按钮
-        let _this = this
-        if (this.obj.data === null) {
-          this.$notify.error('内容为必填项！')
-        } else if (this.obj.cryptKey !== null && this.obj.cryptKey.length % 8 !== 0) {
-          this.$notify.error('自定义密钥长度必须为8的整数倍！')
-        } else {
-          this.$http.fetch(_this.$api.guide.guide.encryptionAndDecryption, {
-            'cryptKey': _this.obj.cryptKey,
-            'data': _this.obj.data,
-            'type': _this.obj.type
-          }).then(resp => {
-            if (resp.result) {
-              _this.result = resp.result
-            }
-            _this.$notify.success('保存成功')
-          }).catch(resp => {
-            _this.$notify.error(resp.msg || '保存失败')
-          })
-        }
-      },
-      reset () { // 重置按钮
-        this.obj.cryptKey = null
-        this.obj.data = null
-        this.obj.type = 0
-      },
-      cacheManagement () {
-        this.buttoncolor = 0
-      },
-      encryptionTools () {
-        this.buttoncolor = 1
-      },
-      querySearchAsync (queryString, cb) {
-        var keys = this.keys
-        var results = queryString ? keys.filter(this.createStateFilter(queryString)) : keys
-        clearTimeout(this.timeout)
-        this.timeout = setTimeout(() => {
-          cb(results)
-        }, 200)
-      },
-      createStateFilter (queryString) {
-        return (state) => {
-          return (state.value.toLowerCase().startsWith(queryString.toLowerCase()))
-        }
-      },
-      handleSelect (item) {
-        console.log(item)
-      },
-      findKeyValue () {
-        let that = this
-        that.$http.fetch(this.$api.isv.getCacheKeyValue, {'cacheKey': that.cacheKey}).then(resp => {
-          that.cacheVlaue = null
-          if (resp.result && resp.result !== '') {
-            try {
-              that.cacheVlaue = JSON.stringify(JSON.parse(resp.result), null, '\t')
-            } catch (e) {
-              that.cacheVlaue = resp.result
-            }
-          }
-        }).catch((resp) => {
-          that.$notify.error(resp.msg)
-        })
-      },
-      removeCacheKey () {
-        let that = this
-        that.$http.fetch(this.$api.isv.removeCacheKey, {'cacheKey': that.cacheKey}).then(resp => {
-          that.$notify.success('删除成功')
-          that.cacheVlaue = null
-        }).catch(resp => {
-          that.$notify.error(resp.msg)
-        })
-      },
-      removeAllCacheKey () {
-        let that = this
-        that.$http.fetch(this.$api.isv.removeAllCacheKey).then(resp => {
-          that.$notify.success('删除成功')
-        }).catch(resp => {
-          that.$notify.error('删除失败')
-        })
-      },
-      async encryptionAndDecryption () { // 导购列表查询
-        let _this = this
-        await this.$http.fetch(_this.$api.guide.guide.encryptionAndDecryption, _this.obj).then(resp => {
+    }
+  },
+  methods: {
+    generate () { // 生成按钮
+      let _this = this
+      if (this.obj.data === null) {
+        this.$notify.error('内容为必填项！')
+      } else if (this.obj.cryptKey !== null && this.obj.cryptKey.length % 8 !== 0) {
+        this.$notify.error('自定义密钥长度必须为8的整数倍！')
+      } else {
+        this.$http.fetch(_this.$api.guide.guide.encryptionAndDecryption, {
+          'cryptKey': _this.obj.cryptKey,
+          'data': _this.obj.data,
+          'type': _this.obj.type
+        }).then(resp => {
           if (resp.result) {
             _this.result = resp.result
           }
@@ -172,15 +107,86 @@
         })
       }
     },
-    mounted () {
+    reset () { // 重置按钮
+      this.obj.cryptKey = null
+      this.obj.data = null
+      this.obj.type = 0
+    },
+    cacheManagement () {
+      this.buttoncolor = 0
+    },
+    encryptionTools () {
+      this.buttoncolor = 1
+    },
+    querySearchAsync (queryString, cb) {
+      var keys = this.keys
+      var results = queryString ? keys.filter(this.createStateFilter(queryString)) : keys
+      clearTimeout(this.timeout)
+      this.timeout = setTimeout(() => {
+        cb(results)
+      }, 200)
+    },
+    createStateFilter (queryString) {
+      return (state) => {
+        return (state.value.toLowerCase().startsWith(queryString.toLowerCase()))
+      }
+    },
+    handleSelect (item) {
+      console.log(item)
+    },
+    findKeyValue () {
       let that = this
-      that.$http.fetch(this.$api.isv.findCacheKeys, {'cacheKey': '*'}).then(resp => {
-        if (resp.result && resp.result.length > 0) {
-          this.keys = resp.result
+      that.$http.fetch(this.$api.isv.getCacheKeyValue, { 'cacheKey': that.cacheKey }).then(resp => {
+        that.cacheVlaue = null
+        if (resp.result && resp.result !== '') {
+          try {
+            that.cacheVlaue = JSON.stringify(JSON.parse(resp.result), null, '\t')
+          } catch (e) {
+            that.cacheVlaue = resp.result
+          }
         }
+      }).catch((resp) => {
+        that.$notify.error(resp.msg)
+      })
+    },
+    removeCacheKey () {
+      let that = this
+      that.$http.fetch(this.$api.isv.removeCacheKey, { 'cacheKey': that.cacheKey }).then(resp => {
+        that.$notify.success('删除成功')
+        that.cacheVlaue = null
+      }).catch(resp => {
+        that.$notify.error(resp.msg)
+      })
+    },
+    removeAllCacheKey () {
+      let that = this
+      that.$http.fetch(this.$api.isv.removeAllCacheKey).then(resp => {
+        that.$notify.success('删除成功')
+      }).catch(resp => {
+        that.$notify.error('删除失败')
+      })
+    },
+    async encryptionAndDecryption () { // 导购列表查询
+      let _this = this
+      await this.$http.fetch(_this.$api.guide.guide.encryptionAndDecryption, _this.obj).then(resp => {
+        if (resp.result) {
+          _this.result = resp.result
+        }
+        _this.$notify.success('保存成功')
+      }).catch(resp => {
+        _this.$notify.error(resp.msg || '保存失败')
       })
     }
+  },
+  mounted () {
+    let that = this
+    that.$http.fetch(this.$api.isv.findCacheKeys, { 'cacheKey': '*' }).then(resp => {
+      if (resp.result && resp.result.length > 0) {
+        this.keys = resp.result
+      }
+    })
   }
+}
 </script>
 <style>
 .the_head_button{

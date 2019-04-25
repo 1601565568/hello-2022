@@ -1,4 +1,4 @@
-import api from 'configs/http'
+import api from '@/config/http'
 import moment from 'moment/moment'
 export default {
   data: function () {
@@ -87,8 +87,8 @@ export default {
     let model = Object.assign({}, findVo, {}, searchModel)
     let rules = {
       'name': [
-        {required: true, message: '请输入姓名', trigger: 'blur'},
-        {min: 0, max: 20, message: '已超过可输入长度', trigger: 'blur,change'}
+        { required: true, message: '请输入姓名', trigger: 'blur' },
+        { min: 0, max: 20, message: '已超过可输入长度', trigger: 'blur,change' }
       ],
       'shop': [
         {
@@ -118,10 +118,10 @@ export default {
       ],
       'nickname': [
         // {required: true, message: '请输入昵称', trigger: 'blur'},
-        {min: 0, max: 20, message: '已超过可输入长度', trigger: 'blur,change'}
+        { min: 0, max: 20, message: '已超过可输入长度', trigger: 'blur,change' }
       ],
       'mobile': [
-        {required: true, message: '请输入手机号', trigger: 'blur'},
+        { required: true, message: '请输入手机号', trigger: 'blur' },
         {
           pattern: /^(((13[0-9]{1})|(14[0-9]{1})|(15[0-3]{1})|(15[5-9]{1})|(16[6]{1})|(17[0]{1})|(17[6-8]{1})|(18[0-9]{1})|(19[8-9]{1}))+\d{8})$/,
           message: '手机号格式错误，请您重新输入！'
@@ -167,39 +167,39 @@ export default {
       transferWay: '1',
       memberBelongingRadio: '1',
       brandId: null,
-      replacementStoresHaveMembersShow: false,       // 批量更换门店有会员弹窗
-      switchStateName: null,                   // 批量更换门店与批量离职提示切换字段
-      theNumberOfsuccessful: null,            // 批量操作返回的成功的人数
-      theNumberOfFailures: null,            // 批量操作返回的失败的人数
-      returnInformationShow: false,                // 批量操作返回信息提示弹窗
-      multipleStoresAreNotSupportedShow: false,   // 多门店更换提示不支持员工多门店
+      replacementStoresHaveMembersShow: false, // 批量更换门店有会员弹窗
+      switchStateName: null, // 批量更换门店与批量离职提示切换字段
+      theNumberOfsuccessful: null, // 批量操作返回的成功的人数
+      theNumberOfFailures: null, // 批量操作返回的失败的人数
+      returnInformationShow: false, // 批量操作返回信息提示弹窗
+      multipleStoresAreNotSupportedShow: false, // 多门店更换提示不支持员工多门店
       accordingToJudgmentShow: false,
-      memberBelongingShowTow: false,             // 会员归属弹窗
+      memberBelongingShowTow: false, // 会员归属弹窗
       dialogFormVisible: false,
-      replaceTheShoppers: false,           // 批量更换导购
+      replaceTheShoppers: false, // 批量更换导购
       storeOwnershipDisplay: false,
-      shopFormVisible: false,             //  店铺弹窗
-      resignFormVisible: false,           // 导购离职弹窗
-      deleteFormVisible: false,            // 删除员工弹窗
-      specifyTransferFormVisible: false,  // 离职-指定转移弹窗
-      customFormVisible: false,           // 离职-自定义转移弹窗
-      allDeleteFormVisible: false,        // 批量删除员工弹窗
-      shopFindListShow: false,            // 更换门店弹窗
-      nickVoList: [],                     // 转移的客户数组
-      allPageCustomer: [],                // 选择的所有的客户
-      thisPageCustomer: [],               // 当前页面全选的客户
-      pageChange: true,                   // 当前页数
-      guideId: null,                      // 当前导购的id
-      employeeDetails: null,              // 员工信息详情
-      transferShopSize: null,             // 转移给指定导购页数改变大小
-      transferShopPage: null,             // 转移给指定导购页数跳转
-      customShopSize: null,               // 自定义页数改变大小
-      customShopPage: null,               // 自定义页数跳转
+      shopFormVisible: false, //  店铺弹窗
+      resignFormVisible: false, // 导购离职弹窗
+      deleteFormVisible: false, // 删除员工弹窗
+      specifyTransferFormVisible: false, // 离职-指定转移弹窗
+      customFormVisible: false, // 离职-自定义转移弹窗
+      allDeleteFormVisible: false, // 批量删除员工弹窗
+      shopFindListShow: false, // 更换门店弹窗
+      nickVoList: [], // 转移的客户数组
+      allPageCustomer: [], // 选择的所有的客户
+      thisPageCustomer: [], // 当前页面全选的客户
+      pageChange: true, // 当前页数
+      guideId: null, // 当前导购的id
+      employeeDetails: null, // 员工信息详情
+      transferShopSize: null, // 转移给指定导购页数改变大小
+      transferShopPage: null, // 转移给指定导购页数跳转
+      customShopSize: null, // 自定义页数改变大小
+      customShopPage: null, // 自定义页数跳转
       shopId: null,
       shopIds: null,
       successCount: null,
       failCount: null,
-      receiveGuideId: null,               //  接收的导购id
+      receiveGuideId: null, //  接收的导购id
       customerTotal: null,
       rules: rules,
       row: null,
@@ -208,17 +208,17 @@ export default {
       memberBelongingShow: false,
       verification: false,
       nextStep: '确定',
-      sum: null,                  // 员工下面的会员数量
+      sum: null, // 员工下面的会员数量
       guideShoppersList: [],
-      nameArr: [],            // 批量删除、批量离职、批量更换门店返回没有成功的员工的名字数组
+      nameArr: [], // 批量删除、批量离职、批量更换门店返回没有成功的员工的名字数组
       guideList: [],
       shopList: [],
       shopFindList: [],
       shopFindLists: [],
       guideShopList: [],
-      dimissionArry: [],      // 批量离职员工数组
-      replaceStoresArry: [],  // 批量更换门店数组
-      tableDataCustomer: [],        // 客户集合
+      dimissionArry: [], // 批量离职员工数组
+      replaceStoresArry: [], // 批量更换门店数组
+      tableDataCustomer: [], // 客户集合
       multipleSelection: [],
       multipleSelections: [],
       allDeleteName: [],
@@ -279,7 +279,7 @@ export default {
           return time.getTime() > Date.now() - 8.64e7
         }
       },
-      _queryConfig: {expand: false}
+      _queryConfig: { expand: false }
     }
   },
   methods: {
@@ -418,7 +418,7 @@ export default {
           guideShop[0] = { job: _this.guideValue, shop_id: model.sgGuideShop.shop_id }
         } else {
           _this.subordinateStores.map((item, i) => {
-            guideShop[i] = Object.assign({job: model.sgGuideShop.job, shop_id: item}, guideShop[i])
+            guideShop[i] = Object.assign({ job: model.sgGuideShop.job, shop_id: item }, guideShop[i])
           })
         }
       }
@@ -427,8 +427,8 @@ export default {
           if (guide.birthday instanceof Date) {
             guide.birthday = moment(guide.birthday).format('YYYY-MM-DD')
           }
-          if (guide.birthday === null) guide.birthday = ''
-          if (guide.work_num === null) guide.work_num = ''
+          if (guide.birthday === null) { guide.birthday = '' }
+          if (guide.work_num === null) { guide.work_num = '' }
           if (_this.memberBelongingRadio === '1') {
             sgGuideVo.newShopId = _this.memberBelongingShopid
           } else {
@@ -733,7 +733,7 @@ export default {
       this.scopeRowCountShow = true
       this.memberBelongingtitle = '查看（' + data.name + '）所属门店详情'
       var _this = this
-      _this.$http.fetch(_this.$api.guide.guide.findGuideShopList, {guideId: data.id}).then(resp => {
+      _this.$http.fetch(_this.$api.guide.guide.findGuideShopList, { guideId: data.id }).then(resp => {
         if (resp.success && resp.result != null) {
           _this.shopFindLists = resp.result
         }
@@ -764,7 +764,7 @@ export default {
     },
     initShopList () {
       var _this = this
-      _this.$http.fetch(_this.$api.guide.shop.findBrandShopList, {isOnline: 0}).then(resp => {
+      _this.$http.fetch(_this.$api.guide.shop.findBrandShopList, { isOnline: 0 }).then(resp => {
         if (resp.success && resp.result != null) {
           _this.shopFindList = resp.result
         }
@@ -909,7 +909,7 @@ export default {
             _this.findGuideShopCustomerSum(guideId, shopId, model).then((res) => {
               if (res < 1) {
                 _this.subordinateStores.map((item, i) => {
-                  guideShop[i] = Object.assign({job: _this.guideValue, shop_id: item}, guideShop[i])
+                  guideShop[i] = Object.assign({ job: _this.guideValue, shop_id: item }, guideShop[i])
                 })
                 if (guide.birthday instanceof Date) {
                   guide.birthday = moment(guide.birthday).format('YYYY-MM-DD')
@@ -951,7 +951,7 @@ export default {
             _this.findGuideShopCustomerSum(guideId, shopId, model).then((res) => {
               if (res < 0) {
                 _this.subordinateStores.map((item, i) => {
-                  guideShop[i] = Object.assign({job: _this.guideValue, shop_id: item}, guideShop[i])
+                  guideShop[i] = Object.assign({ job: _this.guideValue, shop_id: item }, guideShop[i])
                 })
 
                 if (guide.birthday instanceof Date) {
@@ -991,15 +991,15 @@ export default {
       } else {
         if (model.sgGuideShop.job === 1 && _this.title === '新增员工') {
           this.subordinateStores.map((item, i) => {
-            guideShop[i] = Object.assign({job: _this.guideValue, shop_id: item}, guideShop[i])
+            guideShop[i] = Object.assign({ job: _this.guideValue, shop_id: item }, guideShop[i])
           })
           _this.$refs.addForm.validate(valid => {
             if (valid) {
               if (guide.birthday instanceof Date) {
                 guide.birthday = moment(guide.birthday).format('YYYY-MM-DD')
               }
-              if (guide.birthday === null) guide.birthday = ''
-              if (guide.work_num === null) guide.work_num = ''
+              if (guide.birthday === null) { guide.birthday = '' }
+              if (guide.work_num === null) { guide.work_num = '' }
             }
           })
           _this.saveOrUpdateGuide(guide, guideShop, sgGuideVo)
@@ -1010,8 +1010,8 @@ export default {
               if (guide.birthday instanceof Date) {
                 guide.birthday = moment(guide.birthday).format('YYYY-MM-DD')
               }
-              if (guide.birthday === null) guide.birthday = ''
-              if (guide.work_num === null) guide.work_num = ''
+              if (guide.birthday === null) { guide.birthday = '' }
+              if (guide.work_num === null) { guide.work_num = '' }
             }
           })
           _this.saveOrUpdateGuide(guide, guideShop, sgGuideVo)
@@ -1183,7 +1183,7 @@ export default {
         _this.$notify.error('查询失败：' + resp.msg)
       })
     },
-     // 会员离职
+    // 会员离职
     dimissionFun (row) {
       var _this = this
       _this.employeeDetails = row
@@ -1267,8 +1267,8 @@ export default {
         isLeave: 0,
         transGuideId: _this.guideId,
         receiveGuideId: _this.value.id,
-        transStatus: 2,  // 对应后台枚举
-        resource: 0  // 对应后台枚举
+        transStatus: 2, // 对应后台枚举
+        resource: 0 // 对应后台枚举
       }
       _this.guideLeave(params, false)
     },
@@ -1322,8 +1322,8 @@ export default {
           nickVoList: _this.nickVoList,
           receiveGuideId: _this.value.id,
           transGuideId: _this.guideId,
-          transStatus: 3,   // 对应后台枚举
-          resource: 0,      // 对应后台枚举
+          transStatus: 3, // 对应后台枚举
+          resource: 0, // 对应后台枚举
           isLeave: isLeave
         }
         _this.guideLeave(params, isLeave)
@@ -1334,43 +1334,43 @@ export default {
       var _this = this
       _this.customFormVisible = false
       _this.$http.fetch(_this.$api.guide.guide.updateGuideCustomer, data)
-      .then(resp => {
-        _this.paginations = {
-          enable: true,
-          size: 10,
-          sizeOpts: [5, 10, 15],
-          page: 1,
-          total: 0
-        }
-        _this.receiveGuideId = null
-        _this.customerIds = null
-        _this.$http.fetch(_this.$api.guide.guide.getCustomerCount, {
-          searchMap: {
-            'guideId': data.transGuideId
+        .then(resp => {
+          _this.paginations = {
+            enable: true,
+            size: 10,
+            sizeOpts: [5, 10, 15],
+            page: 1,
+            total: 0
           }
-        }).then(resp => {
-          if (resp.result.recordsFiltered < 1) {
-            _this.resignFormVisible = false
-          } else {
-            _this.resignFormVisible = true
-            _this.transferCount = resp.result.recordsFiltered
-          }
-        }).catch((resp) => {
+          _this.receiveGuideId = null
+          _this.customerIds = null
+          _this.$http.fetch(_this.$api.guide.guide.getCustomerCount, {
+            searchMap: {
+              'guideId': data.transGuideId
+            }
+          }).then(resp => {
+            if (resp.result.recordsFiltered < 1) {
+              _this.resignFormVisible = false
+            } else {
+              _this.resignFormVisible = true
+              _this.transferCount = resp.result.recordsFiltered
+            }
+          }).catch((resp) => {
           // _this.$notify.error('查询失败：' + resp.msg)
-          _this.$notify.error('请先转移导购的会员')
-        })
-        _this.specifyTransferFormVisible = false
-        _this.customFormVisible = false
-        _this.replaceTheShoppers = false
-        if (!isClose) {
-          _this.guideFindList()
-          _this.findCustomerList()
-        }
-        _this.$notify.success(resp.msg)
-        _this.$refs.table.$reload()
-      }).catch((resp) => {
+            _this.$notify.error('请先转移导购的会员')
+          })
+          _this.specifyTransferFormVisible = false
+          _this.customFormVisible = false
+          _this.replaceTheShoppers = false
+          if (!isClose) {
+            _this.guideFindList()
+            _this.findCustomerList()
+          }
+          _this.$notify.success(resp.msg)
+          _this.$refs.table.$reload()
+        }).catch((resp) => {
         // _this.$notify.error('操作失败 ' + resp.msg)
-      })
+        })
     },
     // 分页-页数改变
     customerPageChange (page) {

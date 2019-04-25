@@ -298,7 +298,7 @@
 </template>
 <script>
 import moment from 'moment'
-import listPageMixin from 'mixins/listPage'
+import listPageMixin from '@/mixins/listPage'
 export default {
   mixins: [listPageMixin],
   data () {
@@ -341,7 +341,7 @@ export default {
     }
   },
   created: function () {
-     // 初始化默认查询本年当月
+    // 初始化默认查询本年当月
     this.searchObj.searchMap = Object.assign(this.searchObj.searchMap, {
       type: '1', // 1按月、2按日
       date: moment(new Date()).format('YYYY-MM') // 年月份,

@@ -4,10 +4,10 @@
   </div>
 </template>
 <script>
-  import List from './src/List'
-  import NsTableMaterialSubdivision from './NsTableMaterialSubdivision'
-  List.components = {
-    NsTableMaterialSubdivision
-  }
-  export default List
+import List from './src/List'
+import NsTableMaterialSubdivision from './NsTableMaterialSubdivision'
+List.components = {
+  NsTableMaterialSubdivision
+}
+export default List
 </script>

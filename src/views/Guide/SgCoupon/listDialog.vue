@@ -89,112 +89,112 @@
   </div>
 </template>
 <script>
-  import listPageMixin from 'mixins/listPage'
-  import NsArea from 'components/NsArea'
-  export default {
-    mixins: [listPageMixin],
-    data () {
-      return {
-        loading: false, // 防重复提交
-        saveObj: {
-          list: []
+import listPageMixin from '@/mixins/listPage'
+import NsArea from 'web-crm/src/components/NsArea'
+export default {
+  mixins: [listPageMixin],
+  data () {
+    return {
+      loading: false, // 防重复提交
+      saveObj: {
+        list: []
+      },
+      curMonth: 5,
+      dialogVisible: false,
+      selectedArr: [],
+      topTotaObj: {
+        activityTotal: 40,
+        couponNoUse: 10
+      },
+      searchform: {
+        // 区域选择相关start
+        key: {
+          children: 'children',
+          label: 'label',
+          value: 'label',
+          disabled: 'disabled'
         },
-        curMonth: 5,
-        dialogVisible: false,
-        selectedArr: [],
-        topTotaObj: {
-          activityTotal: 40,
-          couponNoUse: 10
-        },
-        searchform: {
-          // 区域选择相关start
-          key: {
-            children: 'children',
-            label: 'label',
-            value: 'label',
-            disabled: 'disabled'
-          },
-          area: []
+        area: []
 
-        },
-        dataList: [
-          {
-            shopName: 'shopName',
-            province: 'province',
-            city: 'city',
-            address: 'address',
-            shopCouponTotal: 400,
-            useTotal: 40,
-            remainTotal: 60
+      },
+      dataList: [
+        {
+          shopName: 'shopName',
+          province: 'province',
+          city: 'city',
+          address: 'address',
+          shopCouponTotal: 400,
+          useTotal: 40,
+          remainTotal: 60
 
-          }
-        ],
-        searchObj: {}
-      }
-    },
-    created: function () {
-      // this.searchObj.searchMap.id = 81
-      // this.loadListFun()
-    },
-    methods: {
-      onAreaChange (e) {
-        console.log('e:', e)
-      },
-      showToggle (id) {
-        this.searchObj.searchMap.id = id
-        this.loadListFun()
-        this.dialogVisible = true
-      },
-      // 提交搜索
-      submitForm (formName) {
-        // 组装搜索对象
-        this.searchObj.searchMap.province = this.searchform.area[0]
-        this.searchObj.searchMap.city = this.searchform.area[1]
-        this.searchObj.searchMap.district = this.searchform.area[2]
-        this.searchObj.searchMap.shopName = this.searchform.shopName
-        this.loadListFun()
-      },
-      resetForm (formName) {
-        this.searchform.area = []
-        this.searchform.shopName = ''
-        this.searchObj.searchMap.province = null
-        this.searchObj.searchMap.city = null
-        this.searchObj.searchMap.district = null
-        this.searchObj.searchMap.shopName = null
-        this.loadListFun()
-      },
-      // 加载列表
-      async loadListFun (data) {
-        this.loading = true
-        let searchObj = data || this.searchObj
-        await this.$http
-                   .fetch(this.$api.guide.activityCoupon.findActivityShopCoupon, searchObj)
-                   .then(resp => {
-                     this.topTotaObj.activityTotal = resp.result.couponTotal
-                     this.topTotaObj.couponNoUse = resp.result.couponNoUse
-                     this.topTotaObj.shopTotal = resp.result.shopTotal
-                     this.dataList = resp.result.shopList
-                     this.pagination.total = parseInt(resp.result.shopTotal)
-                   })
-                   .catch(resp => {
-                     this.$message.error('查询失败：')
-                   })
-        this.loading = false
-        // 总条数
-      },
-      handleSelectionChange (val) {
-        console.log(val)
-        this.multipleSelection = val
-      },
-      handleClose () {
-        console.log('handleClose')
-        this.dialogVisible = false
-      }
-    },
-    components: {
-      NsArea
+        }
+      ],
+      searchObj: {}
     }
+  },
+  created: function () {
+    // this.searchObj.searchMap.id = 81
+    // this.loadListFun()
+  },
+  methods: {
+    onAreaChange (e) {
+      console.log('e:', e)
+    },
+    showToggle (id) {
+      this.searchObj.searchMap.id = id
+      this.loadListFun()
+      this.dialogVisible = true
+    },
+    // 提交搜索
+    submitForm (formName) {
+      // 组装搜索对象
+      this.searchObj.searchMap.province = this.searchform.area[0]
+      this.searchObj.searchMap.city = this.searchform.area[1]
+      this.searchObj.searchMap.district = this.searchform.area[2]
+      this.searchObj.searchMap.shopName = this.searchform.shopName
+      this.loadListFun()
+    },
+    resetForm (formName) {
+      this.searchform.area = []
+      this.searchform.shopName = ''
+      this.searchObj.searchMap.province = null
+      this.searchObj.searchMap.city = null
+      this.searchObj.searchMap.district = null
+      this.searchObj.searchMap.shopName = null
+      this.loadListFun()
+    },
+    // 加载列表
+    async loadListFun (data) {
+      this.loading = true
+      let searchObj = data || this.searchObj
+      await this.$http
+        .fetch(this.$api.guide.activityCoupon.findActivityShopCoupon, searchObj)
+        .then(resp => {
+          this.topTotaObj.activityTotal = resp.result.couponTotal
+          this.topTotaObj.couponNoUse = resp.result.couponNoUse
+          this.topTotaObj.shopTotal = resp.result.shopTotal
+          this.dataList = resp.result.shopList
+          this.pagination.total = parseInt(resp.result.shopTotal)
+        })
+        .catch(resp => {
+          this.$message.error('查询失败：')
+        })
+      this.loading = false
+      // 总条数
+    },
+    handleSelectionChange (val) {
+      console.log(val)
+      this.multipleSelection = val
+    },
+    handleClose () {
+      console.log('handleClose')
+      this.dialogVisible = false
+    }
+  },
+  components: {
+    NsArea
   }
+}
 </script>
 <style scoped>
   .comDialogBox {

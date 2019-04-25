@@ -38,54 +38,54 @@
   </div>
 </template>
 <script>
-  export default {
-    props: {
-      itemObj: Object,
-      appendToBody: {
-        type: Boolean,
-        default: function () {
-          return false
+export default {
+  props: {
+    itemObj: Object,
+    appendToBody: {
+      type: Boolean,
+      default: function () {
+        return false
+      }
+    }
+  },
+  data () {
+    return {
+      imageVisible: false,
+      nowIndex: 0
+    }
+  },
+  created: function () {},
+  methods: {
+    // 显示弹窗
+    showImg (index, type) {
+      if (type === 0) {
+        return
+      }
+      this.nowIndex = index
+      this.imageVisible = true
+    },
+    handleClose () {
+      this.imageVisible = false
+    },
+    nextImg (type) {
+      if (type === 1) {
+        this.nowIndex = this.nowIndex + 1
+        if (this.nowIndex >= this.itemObj.imageList.length) {
+          this.nowIndex = 0
+        }
+      } else {
+        this.nowIndex = this.nowIndex - 1
+        if (this.nowIndex < 0) {
+          this.nowIndex = this.itemObj.imageList.length - 1
         }
       }
     },
-    data () {
-      return {
-        imageVisible: false,
-        nowIndex: 0
-      }
-    },
-    created: function () {},
-    methods: {
-      // 显示弹窗
-      showImg (index, type) {
-        if (type === 0) {
-          return
-        }
-        this.nowIndex = index
-        this.imageVisible = true
-      },
-      handleClose () {
-        this.imageVisible = false
-      },
-      nextImg (type) {
-        if (type === 1) {
-          this.nowIndex = this.nowIndex + 1
-          if (this.nowIndex >= this.itemObj.imageList.length) {
-            this.nowIndex = 0
-          }
-        } else {
-          this.nowIndex = this.nowIndex - 1
-          if (this.nowIndex < 0) {
-            this.nowIndex = this.itemObj.imageList.length - 1
-          }
-        }
-      },
-      goto (index) {
-        this.nowIndex = index
-      }
-    },
-    computed: {}
-  }
+    goto (index) {
+      this.nowIndex = index
+    }
+  },
+  computed: {}
+}
 </script>
 <style scoped>
 @component-namespace materialItem {

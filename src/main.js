@@ -1,44 +1,32 @@
-// The Vue build version to load with the `import` command
-// (runtime-only or standalone) has been set in webpack.base.conf with an alias.
-// import * as OfflinePluginRuntime from 'offline-plugin/runtime'
 import Vue from 'vue'
-// import * as OfflinePluginRuntime from 'offline-plugin/runtime'
-import App from './App'
-import router from './router'
+import App from 'web-crm/src/App.vue'
+import router from 'web-crm/src/router'
 import store from './store'
-import {i18n} from './i18n'
-import echarts from 'echarts'
-import './register.js'
-import 'apusjs-log'
+import 'web-crm/src/registerServiceWorker'
+import { i18n } from 'web-crm/src/i18n'
+import './register'
 import 'normalize.css'
 import './style/small/NuiJs/index.scss'
-import './style/small/NuiJs/my.scss'
 import './style/small/index.pcss'
-import '../static/UEditor/ueditor.config.js'
-import '../static/UEditor/ueditor.all.min.js'
-import '../static/UEditor/lang/zh-cn/zh-cn.js'
-import '../static/UEditor/ueditor.parse.min.js'
-import numeral from 'numeral'
+import * as Sentry from '@sentry/browser'
+
+if (process.env.VUE_APP_SENTRY_SWITCH === 'true') {
+  Vue.prototype.$sentry = Sentry
+  Sentry.init({
+    dsn: process.env.VUE_APP_SENTRY_DSN,
+    integrations: [new Sentry.Integrations.Vue({ Vue })],
+    release: process.env.VUE_APP_SENTRY_RELEASE,
+    environment: process.env.NODE_ENV
+  })
+}
 
 Vue.prototype.$ELEMENT = { size: 'small' }
-Vue.prototype.$echarts = echarts
-Vue.prototype.$numeral = numeral
 Vue.config.productionTip = false
-Vue.config.devtools = true
-// OfflinePluginRuntime.install()
-window.LOG.setConfig({
-  imgUrl: '//wx-smartcrm.image.alimmdn.com/CRM-Enterprise-Web/temp/r.png?',
-  sample: 1, // 抽样率，100 = 1%，1 = 100%，默认100
-  spmId: 'CRM-Enterprise-Web',
-  startTime: new Date().getTime() // 自定义测速类页面统计起始时间
-})
+Vue.config.devtools = process.env.NODE_ENV === 'development'
 
-/* eslint-disable no-new */
 new Vue({
-  el: '#app',
   router,
   store,
   i18n,
-  template: '<App/>',
-  components: {App}
-})
+  render: h => h(App)
+}).$mount('#app')
