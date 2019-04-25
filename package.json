@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "bootstrap": "yarn add web-crm --save && yarn install && npm run build:dll",
+    "bootstrap": "yarn install && npm run build:dll",
     "start": "vue-cli-service serve",
     "build": "npm run build-ready && vue-cli-service build",
     "build:dll": "webpack --config build/webpack.dll.conf.js",
