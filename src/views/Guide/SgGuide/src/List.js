@@ -512,6 +512,7 @@ export default {
       let _this = this
       _this.switchStateName = '离职'
       _this.nameArr = []
+      _this.accordingToJudgmentShow = false
       var dimissionshopIdArry = []
       var dimissionIdArry = []
       _this.verification = false
@@ -569,7 +570,6 @@ export default {
                   // _this.$notify.error(resp.result.msg)
                   _this.successCount = resp.result.successCount
                   _this.failCount = resp.result.failCount
-                  console.log('_this.successCount:', _this.successCount, _this.failCount)
                 } else {
                   _this.$notify.success('批量离职成功')
                   _this.$refs.table.$reload()
@@ -599,7 +599,7 @@ export default {
           }
         })
         if (_this.accordingToJudgmentShow) {
-          _this.$confirm(' 离职的员工、不允许更换门店操作!', '提示', {
+          _this.$confirm(' 离职的员工，不允许更换门店操作!', '提示', {
             confirmButtonText: '确定',
             cancelButtonText: '取消',
             type: 'warning'
@@ -618,6 +618,7 @@ export default {
               cancelButtonText: '取消',
               type: 'warning'
             }).then(() => {
+              _this.model.sgGuideShop.shop_id = null
               _this.shopFindListShow = true
               _this.allDeleteName = []
               _this.replaceStoresArry.map(item => {
@@ -1002,7 +1003,9 @@ export default {
               if (guide.work_num === null) { guide.work_num = '' }
             }
           })
-          _this.saveOrUpdateGuide(guide, guideShop, sgGuideVo)
+          if (_this.model.sgGuide.mobile !== null && _this.subordinateStores.length > 0 && _this.model.sgGuide.name !== null) {
+            _this.saveOrUpdateGuide(guide, guideShop, sgGuideVo)
+          }
         } else if (model.sgGuideShop.job === 0 && _this.title === '新增员工') {
           guideShop[0] = { job: 0, shop_id: model.sgGuideShop.shop_id }
           _this.$refs.addForm.validate(valid => {
@@ -1014,7 +1017,9 @@ export default {
               if (guide.work_num === null) { guide.work_num = '' }
             }
           })
-          _this.saveOrUpdateGuide(guide, guideShop, sgGuideVo)
+          if (_this.model.sgGuide.mobile !== null && _this.model.sgGuideShop.shop_id !== null && _this.model.sgGuide.name !== null) {
+            _this.saveOrUpdateGuide(guide, guideShop, sgGuideVo)
+          }
         }
       }
     },

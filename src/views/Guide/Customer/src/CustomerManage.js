@@ -224,10 +224,10 @@ export default {
           _this.guideFindList()
           _this.findBrandShopList()
         } else {
-          _this.$notify.error('请选择要更换导购的客户')
+          _this.$notify.error('请选择要更换导购的会员')
         }
       } else {
-        _this.title = '客户详情'
+        _this.title = '会员详情'
         _this.$http.fetch(_this.$api.guide.guide.customerGetDetail, {
           nick: val.nick,
           nickType: val.nickType,
