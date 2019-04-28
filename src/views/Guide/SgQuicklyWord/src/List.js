@@ -156,13 +156,13 @@ export default {
         arr.push(item.id)
       })
       obj.quicklyWordIds = arr.join(',')
-      that.$http.fetch(that.$api.isv.delSysConfig, obj.then(() => {
+      that.$http.fetch(that.$api.guide.patchChange, obj).then(() => {
         that.closeDialog()
         that.$notify.success('删除成功')
         that.$reload()
       }).catch((resp) => {
         that.$notify.error(resp.msg || '删除失败')
-      }))
+      })
     },
     onDelete (row) { // 快捷话术删除
       apiRequestConfirm('永久删除该数据')

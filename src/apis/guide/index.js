@@ -171,5 +171,11 @@ export default {
   updateQuicklyWordGroupSort: {
     url: '/guide/quicklyword/updateQuicklyWordGroupSort',
     method: 'post'
+  },
+  //快捷话术批量编辑
+  patchChange: {
+    url: '/guide/quicklyword/patchChang',
+    method: 'post'
   }
+
 }

@@ -107,7 +107,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <ns-button @click="closeDialog()">取消</ns-button>
-        <ns-button type="primary" @click="onSave">保存</ns-button>
+        <ns-button type="primary" @click="onPatchChange">保存</ns-button>
       </div>
     </el-dialog>
   </div>
