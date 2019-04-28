@@ -30,11 +30,11 @@
           <el-table-column
             type="selection"
             width="55"></el-table-column>
-          <el-table-column prop="keyWord" label="关键词" ></el-table-column>
-          <el-table-column prop="content" label="话术内容" ></el-table-column>
-          <el-table-column prop="name" label="分组" align="center"></el-table-column>
-          <el-table-column prop="order" label="排序" ></el-table-column>
-          <el-table-column prop="addName" label="添加人" ></el-table-column>
+          <el-table-column prop="keyWord" label="关键词" align="left"></el-table-column>
+          <el-table-column prop="content" label="话术内容" align="left"></el-table-column>
+          <el-table-column prop="name" label="分组" align="left"></el-table-column>
+          <el-table-column prop="order" label="排序" align="left"></el-table-column>
+          <el-table-column prop="addName" label="添加人" align="left"></el-table-column>
           <el-table-column :show-overflow-tooltip="true" label="操作" align="right">
             <template slot-scope="scope">
               <span class="tmp-cell__buttons">
