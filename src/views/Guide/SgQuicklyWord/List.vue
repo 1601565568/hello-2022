@@ -10,7 +10,7 @@
       <!-- el-inpu 需添加  @keyup.enter.native="$quickSearchAction$" 配置，实现回车搜索 -->
       <template slot="searchSearch">
         <el-form :model="model" :inline="true" @submit.native.prevent  class="pull-right">
-          <el-form-item v-show="_data._queryConfig.expand === false">
+          <el-form-item>
             <el-input ref="quickText" style="width: 250px" v-model="model.code" placeholder="请输入关键词/添加人/分类" @keyup.enter.native="$quickSearchAction$('code')" clearable>
             </el-input>
             <ns-button type="primary" @click="$searchAction$()">搜索</ns-button>
@@ -62,19 +62,19 @@
                :modal-append-to-body="false"
                @before-close="closeDialog()">
       <el-form :model="model" ref="form" label-width="150px" :rules="rules" placement="right">
-        <el-form-item label="配置项编码：" prop="code" required>
-          <el-input type="text" placeholder="请输入配置项编码" v-model="model.code" ></el-input>
-        </el-form-item>
-        <el-form-item label="配置项值：" prop="value" required>
-          <el-input type="text" placeholder="请输入配置项值" v-model="model.value"></el-input>
-        </el-form-item>
-        <el-form-item label="配置项类型：" prop="type" required>
-          <el-select  v-model="model.type" filterable clearable placeholder="请选择配置项类型">
-            <el-option v-for="types in typeList" :label="types.label" :value="types.value" :key="types.value"></el-option>
+        <el-form-item label="选择分类：" prop="wordGroupId" required>
+          <el-select  v-model="model.wordGroupId" filterable clearable placeholder="请选择配置项类型">
+            <el-option v-for="group in wordGroupList" :label="group.label" :value="group.value" :key="group.value"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="备注：" prop="remark">
-          <el-input type="text" placeholder="请输入备注" v-model="model.remark"></el-input>
+        <el-form-item label="话术内容：" prop="content" required>
+          <el-input type="text" placeholder="输入话术内容，最多200字" v-model="model.content"></el-input>
+        </el-form-item>
+        <el-form-item label="设置关键词：" prop="keyWord" required>
+          <el-input type="text" placeholder="输入话术内容，最多200字" v-model="model.keyWord"></el-input>
+        </el-form-item>
+        <el-form-item label="添加人：" prop="addName">
+          <el-input type="text" placeholder="请输入备注" v-model="model.addName"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">

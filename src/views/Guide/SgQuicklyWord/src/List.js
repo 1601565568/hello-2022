@@ -48,24 +48,7 @@ export default {
       dialogVisible: false,
       loadingTable: false,
       tableList: [],
-      typeList: [
-        {
-          label: '其它',
-          value: 0
-        }, {
-          label: 'ID',
-          value: 1
-        }, {
-          label: '秘钥',
-          value: 2
-        }, {
-          label: '域名',
-          value: 3
-        }, {
-          label: '路由',
-          value: 4
-        }
-      ],
+      wordGroupList: [],
       _table: {
         table_buttons: tableButtons
       },
