@@ -1,4 +1,5 @@
 import guide from './guide'
+import quicklyworld from './quicklyworld'
 import shop from './shop'
 import material from './materials'
 import materialSubdivision from './materialsubdivision'
@@ -10,6 +11,7 @@ import marketing from './marketing'
 import task from './task'
 export default {
   guide,
+  quicklyworld,
   shop,
   material,
   materialSubdivision,
