@@ -169,7 +169,7 @@ export default {
         length: 15,
         searchMap: {
           shopId: null,
-          keyword: null
+          keyword: that.model.name
         },
         start: (page - 1) * 15
       }
@@ -203,18 +203,18 @@ export default {
     guideChange (value) {
       this.multipleSelection = value
     },
-    initShopList () {
-      var _this = this
-      _this.$http.fetch(_this.$api.guide.guide.customerGetGuideTree).then(resp => {
-        if (resp.success && resp.result !== null) {
-          resp.result.map(item => {
-            _this.shopFindList.push(...item)
-          })
-        }
-      }).catch((resp) => {
-        _this.$notify.error('查询失败：' + resp.msg)
-      })
-    },
+    // initShopList () {
+    //   var _this = this
+    //   _this.$http.fetch(_this.$api.guide.guide.customerGetGuideTree).then(resp => {
+    //     if (resp.success && resp.result !== null) {
+    //       resp.result.map(item => {
+    //         _this.shopFindList.push(...item)
+    //       })
+    //     }
+    //   }).catch((resp) => {
+    //     _this.$notify.error('查询失败：' + resp.msg)
+    //   })
+    // },
     // 更换导购弹窗\详情展示
     onRedactFun (val) {
       let _this = this
