@@ -50,7 +50,7 @@
           </el-form-grid>
         </el-form-item>
 
-        <el-form-item label="联系电话：">
+        <el-form-item label="手机号：">
           <el-form-grid size="xmd">
             <el-input style="width:180px" autofocus=true v-model="model.phone" placeholder="请输入联系电话" clearable></el-input>
           </el-form-grid>
@@ -130,7 +130,7 @@
             </div>
           </template>
         </el-table-column>
-        <el-table-column prop="phone" label="手机号码" align="left" width="180">
+        <el-table-column prop="phone" label="手机号" align="left" width="180">
           <template slot-scope="scope">
               {{scope.row.phone || '-'}}
           </template>

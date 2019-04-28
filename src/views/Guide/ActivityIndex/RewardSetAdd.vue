@@ -82,7 +82,11 @@
 </div>
 </template>
 <script>
+import ElInputNumber from 'nui-v2/lib/input-number'
 export default {
+  components: {
+    ElInputNumber
+  },
   props: {
     callBack: Function
   },
