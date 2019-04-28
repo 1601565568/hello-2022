@@ -11,7 +11,7 @@
       <template slot="searchSearch">
         <el-form :model="model" :inline="true" @submit.native.prevent  class="pull-right">
           <el-form-item>
-            <el-input ref="quickText" style="width: 250px" v-model="model.code" placeholder="请输入关键词/添加人/分类" @keyup.enter.native="$quickSearchAction$('code')" clearable>
+            <el-input ref="quickText" style="width: 250px" v-model="model.searchValue" placeholder="请输入关键词/添加人/分类" @keyup.enter.native="$quickSearchAction$('code')" clearable>
             </el-input>
             <ns-button type="primary" @click="$searchAction$()">搜索</ns-button>
             <ns-button @click="$resetInputAction$()">重置</ns-button>
@@ -33,7 +33,14 @@
           <el-table-column prop="keyWord" label="关键词" align="left"></el-table-column>
           <el-table-column prop="content" label="话术内容" align="left"></el-table-column>
           <el-table-column prop="name" label="分组" align="left"></el-table-column>
-          <el-table-column prop="order" label="排序" align="left"></el-table-column>
+          <el-table-column align="left" label="排序">
+            <template slot-scope="scope">
+              <i class='iconfont icon-zhiding sort'   @click='exchangeSort(1,scope.row.id)'></i>
+              <i class='iconfont icon-topArr1 sort'   @click='exchangeSort(2,scope.row.id)'></i>
+              <i class='iconfont icon-downArr1 sort'   @click='exchangeSort(3,scope.row.id)'></i>
+              <i class='iconfont icon-zhidi sort'  @click='exchangeSort(4,scope.row.id)'></i>
+            </template>
+          </el-table-column>
           <el-table-column prop="addName" label="添加人" align="left"></el-table-column>
           <el-table-column :show-overflow-tooltip="true" label="操作" align="right">
             <template slot-scope="scope">
@@ -63,18 +70,19 @@
                @before-close="closeDialog()">
       <el-form :model="model" ref="form" label-width="150px" :rules="rules" placement="right">
         <el-form-item label="选择分类：" prop="wordGroupId" required>
-          <el-select  v-model="model.wordGroupId" filterable clearable placeholder="请选择配置项类型">
-            <el-option v-for="group in wordGroupList" :label="group.label" :value="group.value" :key="group.value"></el-option>
+          <el-select  v-model="model.wordGroupId" placeholder="请选择话术分类">
+            <el-option v-for="wordGroup in wordGroupList" :label="wordGroup.name" :value="wordGroup.id" :key="wordGroup.id"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="话术内容：" prop="content" required>
           <el-input type="text" placeholder="输入话术内容，最多200字" v-model="model.content"></el-input>
         </el-form-item>
-        <el-form-item label="设置关键词：" prop="keyWord" required>
-          <el-input type="text" placeholder="输入话术内容，最多200字" v-model="model.keyWord"></el-input>
+        <el-form-item label="设置关键词：" prop="keyWord" >
+          <el-input type="text" placeholder="用'，'号隔开，最多设置五个词" v-model="model.keyWord"></el-input>
         </el-form-item>
         <el-form-item label="添加人：" prop="addName">
-          <el-input type="text" placeholder="请输入备注" v-model="model.addName"></el-input>
+          <el-input v-if="model.id" type="text" v-model="model.addName"></el-input>
+          <el-input v-else type="text" disabled="true" v-model="model.addName"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -82,7 +90,26 @@
         <ns-button type="primary" @click="onSave">确定</ns-button>
       </div>
     </el-dialog>
-    <!-- 初始弹窗结束 -->
+    <!-- 批量管理初始弹窗结束 -->
+    <el-dialog size="small" :title="批量管理"
+               :visible.sync="dialogVisiblePatchChange"
+               :modal-append-to-body="false"
+               @before-close="closeDialog()">
+      <el-form :model="model" ref="form" label-width="150px" :rules="rules" placement="right">
+        <el-form-item label="移动到分类：" prop="wordGroupId" required>
+          <el-select  v-model="model.wordGroupId" filterable clearable placeholder="请选择配置项类型">
+            <el-option v-for="wordGroup in wordGroupList" :label="wordGroup.name" :value="wordGroup.id" :key="wordGroup.id"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="编辑关键词：" prop="keyWord" >
+          <el-input type="text" placeholder="用“，”号隔开，最多设置五个词" v-model="model.keyWord"></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <ns-button @click="closeDialog()">取消</ns-button>
+        <ns-button type="primary" @click="onSave">保存</ns-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 <script>
@@ -96,5 +123,9 @@ export default List
 .dialog_mian_topText p{
   height: 30px;
   line-height: 30px;
+}
+.sort{
+  color:#0091FA;
+  cursor: pointer;
 }
 </style>

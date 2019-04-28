@@ -10,19 +10,19 @@ export default {
         'func': function () {
           that.onSaveOpen({})
         },
-        'name': '新增话术'
+        'name': '新增话术',
       },
       {
         'func': function () {
-          that.onSaveOpen({})
+          that.onPatchChangeOpen({})
         },
         'name': '批量管理'
       },
       {
         'func': function () {
-          that.onSaveOpen({})
+          that.onPatchDelete({})
         },
-        'name': '删除'
+        'name': '批量删除'
       }
     ]
     return {
@@ -32,19 +32,23 @@ export default {
         content: null,
         keyWord: null,
         addName: null,
+        searchValue: null,
         param: {}
       },
+      selectedArr: [],
       obj: {},
       parameter: {
         length: 10,
         searchMap: {},
         start: 0
       },
+      addName: null,
       modelObj: {},
       index: 0,
       checkText: '',
       titleText: '',
       dialogFormVisible: false,
+      dialogVisiblePatchChange: false,
       dialogVisible: false,
       loadingTable: false,
       tableList: [],
@@ -59,6 +63,8 @@ export default {
     }
   },
   mounted: function () {
+    this.findQuicklyWordGroupList()
+    this.findAddName()
     if (typeof this.$init === 'function') {
       this.$init(this, this.$generateParams$)
     } else {
@@ -66,30 +72,72 @@ export default {
     }
   },
   methods: {
+    findAddName () {
+      this.$http.fetch(this.$api.guide.findAddName, {}).then(resp => {
+        if (resp.success && resp.result) {
+          this.model.addName = resp.result
+          this.addName = resp.result
+        }
+      })
+    },
+    findQuicklyWordGroupList () {
+      this.$http.fetch(this.$api.guide.findQuicklyWordGroupList, {}).then(resp => {
+        if (resp.success && resp.result.data.length > 0) {
+          this.wordGroupList = resp.result.data
+        }
+      })
+    },
+    handleSelectionChange (val) {
+      this.selectedArr = val
+    },
+    exchangeSort (type, id) {
+      let parms = { type, id }
+      this.$http
+        .fetch(this.$api.guide.updateQuicklyWordSort, parms)
+        .then(resp => {
+          this.$reload()
+        })
+        .catch(resp => {
+          this.$notify.error(resp.msg)
+        })
+    },
     closeDialog () {
       this.dialogFormVisible = false
+      this.dialogVisiblePatchChange = false
       this.model = {
         id: null,
         wordGroupId: null,
         content: null,
         keyWord: null,
         addName: null,
+        searchValue: null,
         param: {}
       }
     },
     onSaveOpen (row) { // 新增或编辑
       this.dialogFormVisible = true
+      this.dialogVisiblePatchChange = false
       this.titleText = (row.id && '编辑') || '新增'
       this.model = Object.assign({}, row)
-      // this.model = row
+      if (!row || !row.id) {
+        this.model.addName = this.addName
+      }
     },
-    onSave () { // 小程序保存功能shopManager_radio
+    onPatchChangeOpen () { // 批量管理
+      if (!this.selectedArr.length > 0){
+        this.$notify.warning("您没有选择任何数据")
+        return
+      }
+      this.dialogVisiblePatchChange = true
+      this.dialogFormVisible = false
+      this.titleText = '批量管理'
+    },
+    onSave () { // 快捷话术保存功能
       let that = this
       that.$refs.form.validate((valid) => {
         if (valid) {
-          that.$http.fetch(that.$api.isv.saveOrUpdateSysConfig, that.model).then(() => {
+          that.$http.fetch(that.$api.guide.saveOrUpdateQuicklyWord, that.model).then(() => {
             that.closeDialog()
-            that.newestDialog = false
             that.$notify.success('保存成功')
             that.$reload()
           }).catch((resp) => {
@@ -98,13 +146,56 @@ export default {
         }
       })
     },
-    onDelete (row) { // 小程序删除功能
+    onPatchChange () { // 快捷话术批量管理
+      let that = this
+      let wordGroupId = that.model.wordGroupId
+      let keyWord = that.model.keyWord
+      let obj = { quicklyWordIds: '', wordGroupId: wordGroupId, keyWord: keyWord }
+      let arr = []
+      that.selectedArr.map(item => {
+        arr.push(item.id)
+      })
+      obj.quicklyWordIds = arr.join(',')
+      that.$http.fetch(that.$api.isv.delSysConfig, obj.then(() => {
+        that.closeDialog()
+        that.$notify.success('删除成功')
+        that.$reload()
+      }).catch((resp) => {
+        that.$notify.error(resp.msg || '删除失败')
+      }))
+    },
+    onDelete (row) { // 快捷话术删除
       apiRequestConfirm('永久删除该数据')
         .then(() => {
           let that = this
-          that.$http.fetch(that.$api.isv.delSysConfig, { id: row.id }).then(() => {
+          that.$http.fetch(that.$api.guide.deleteQuicklyWord, { id: row.id }).then(() => {
             that.dialogFormVisible = false
             that.newestDialog = false
+            that.$notify.success('删除成功')
+            that.$reload()
+          }).catch((resp) => {
+            that.$notify.error(resp.msg || '删除失败')
+          })
+        }).catch(() => {
+        // 点击取消事件
+        })
+    },
+    onPatchDelete () { // 快捷话术批量删除
+      if (!this.selectedArr.length > 0){
+        this.$notify.warning("您没有选择任何数据")
+        return
+      }
+      apiRequestConfirm('永久删除该数据')
+        .then(() => {
+          let that = this
+          let obj = { quicklyWordIds: '' }
+          let arr = []
+          that.selectedArr.map(item => {
+            arr.push(item.id)
+          })
+          obj.quicklyWordIds = arr.join(',')
+          that.$http.fetch(that.$api.guide.patchDeleteQuicklyWord, obj).then(() => {
+            that.closeDialog()
             that.$notify.success('删除成功')
             that.$reload()
           }).catch((resp) => {
