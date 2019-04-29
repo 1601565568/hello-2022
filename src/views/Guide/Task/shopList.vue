@@ -238,7 +238,6 @@ export default {
     },
     // 打开弹窗--编辑
     AddShowToggle (obj) {
-      console.log('obj', obj)
       // 传递保存时需要的参数
       this.$nextTick(() => {
         this.$refs.detailDialogDom.showToggle(obj)

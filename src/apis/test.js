@@ -58,7 +58,6 @@ export default {
      * reject Promise reject方法
      */
     callback: function (res, resolve, reject) {
-      // // console.log('callbackFn function', res)
       resolve(res)
     }
   },

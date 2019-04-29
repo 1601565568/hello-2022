@@ -26,5 +26,17 @@ export default {
   batchDeleteMaterial: { // 素材批量删除
     url: '/guide/material/batchDeleteMaterial',
     method: 'post'
+  },
+  findMallMarketingList: { // 查询商城营销活动列表
+    url: '/guide/marketing/findMallMarketingList',
+    method: 'post'
+  },
+  getGoodsCategory: { // 查询商品分类
+    url: '/guide/goods/getGoodsCategory',
+    method: 'get'
+  },
+  findMallGoodsList: { // 查询商城营销活动列表
+    url: '/guide/goods/findMallGoodsList',
+    method: 'post'
   }
 }

@@ -5,7 +5,7 @@
       <ns-button :type="buttoncolor===1?'primary':'button'" @click="encryptionTools">加密工具</ns-button>
     </div>
     <div v-if="buttoncolor===0">
-      <el-form>
+      <el-form :inline="true">
         <el-form-item label="输入要缓存中的key值：" required>
           <el-autocomplete style="width: 350px"
             v-model="cacheKey" popper-append-to-body
@@ -14,19 +14,33 @@
             placeholder="请输入key值"
             @select="handleSelect">
           </el-autocomplete>
+          <el-form-item label="缓存类型：" prop="type">
+              <el-select v-model="type" placeholder="请选择缓存类型" clearable>
+                <el-option v-for="item in typeList"
+                :key="item.id"
+                :label="item.name"
+                :value="item.id">
+                </el-option>
+              </el-select>
+            </el-form-item>
           <ns-button type="primary" @click="findKeyValue">查询</ns-button>
           <ns-button type="primary" @click="removeCacheKey">删除</ns-button>
           <ns-button type="primary" @click="removeAllCacheKey">删除全部</ns-button>
         </el-form-item>
-        <el-form-item label="缓存key对应的值" >
+
+      </el-form>
+      <div>
+        <span>缓存key对应的值</span>
+        <!-- <el-form-item label="缓存key对应的值" > -->
           <el-input
             readonly
             type="textarea" v-model="cacheVlaue"
             placeholder="暂无数据"
-            :autosize="{ minRows: 4, maxRows: 100}">
+            :autosize="{ minRows: 4, maxRows: 100}"
+            >
           </el-input>
-        </el-form-item>
-      </el-form>
+        <!-- </el-form-item> -->
+      </div>
     </div>
     <div v-if="buttoncolor===1">
       <el-form>
@@ -63,15 +77,17 @@
   </div>
 </template>
 <script>
-import NavHead from '@/components/Layout/OperateNavHead'
+// import NavHead from '@/components/Layout/OperateNavHead'
 import ElAutocomplete from 'nui-v2/lib/autocomplete'
 export default {
   components: {
-    NavHead,
+    // NavHead,
     ElAutocomplete
   },
   data () {
     return {
+      type: null,
+      typeList: [{ name: 'redis', id: 0 }, { name: 'cache', id: 1 }],
       cacheKey: null,
       keys: [],
       cacheVlaue: null,
@@ -132,7 +148,6 @@ export default {
       }
     },
     handleSelect (item) {
-      console.log(item)
     },
     findKeyValue () {
       let that = this

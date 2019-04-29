@@ -144,11 +144,9 @@ export default {
   components: {},
   methods: {
     showListDialog (id) {
-      console.log(id)
       this.$emit('showListDialogMain', id)
     },
     onSearch () {
-      console.log('搜索响应')
     },
     initTableData () {
       var _this = this

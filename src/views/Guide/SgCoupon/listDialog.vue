@@ -138,7 +138,6 @@ export default {
   },
   methods: {
     onAreaChange (e) {
-      console.log('e:', e)
     },
     showToggle (id) {
       this.searchObj.searchMap.id = id
@@ -183,11 +182,9 @@ export default {
       // 总条数
     },
     handleSelectionChange (val) {
-      console.log(val)
       this.multipleSelection = val
     },
     handleClose () {
-      console.log('handleClose')
       this.dialogVisible = false
     }
   },

@@ -146,7 +146,6 @@ export default {
   components: {},
   methods: {
     onSearch () {
-      console.log('搜索响应')
     }
   }
 }

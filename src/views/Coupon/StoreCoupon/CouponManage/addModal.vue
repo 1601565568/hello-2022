@@ -458,7 +458,6 @@ export default {
     },
     // 选择可用时间段
     validTimeFun (e) {
-      console.log(e)
     },
     // 选择相对时间
     couponEndTimeFun (e) {

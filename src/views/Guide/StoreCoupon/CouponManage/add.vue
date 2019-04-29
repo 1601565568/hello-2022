@@ -339,7 +339,6 @@ export default {
     },
     // 选择可用时间段
     validTimeFun (e) {
-      console.log(e)
     },
     // 选择固定时间
     couponTimeFun (e) {
@@ -352,7 +351,6 @@ export default {
     couponEndTimeFun (e) {
       this.saveObj.isSelectEndTiem = 1
       this.saveObj.endTime = moment(e).format('YYYY-MM-DD HH:mm:ss')
-      console.log(e)
     },
     showToggle (data) {
       this.dialogVisible = true

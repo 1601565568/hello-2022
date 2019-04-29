@@ -28,7 +28,7 @@ export default {
   login: ({ commit, state }) => {
     return new Promise((resolve, reject) => {
       if (new Date().getTime() - state.remumber.remumber_login_info.lastCheckTime > 60 * 1000) {
-        console.log('验证登陆已超过60秒，重新远程验证')
+        // console.log('验证登陆已超过60秒，重新远程验证')
         http.fetch(api.core.access.getSession).then((data) => {
           // 登录成功之后，验证是否记住密码，如果记住密码，本地保存记住信息
           commit(types.UPDATE_REMUMBER, {
