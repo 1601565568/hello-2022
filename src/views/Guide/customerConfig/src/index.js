@@ -114,7 +114,6 @@ export default {
         } else {
           _this.model.limit_type = 0
         }
-        console.log(_this.model)
       }).catch(() => {
         _this.$notify.error('网络异常，获取数据失败！')
       }).finally(() => {

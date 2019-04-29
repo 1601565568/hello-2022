@@ -1017,7 +1017,6 @@ export default {
       if (type === 'brand') {
         this.searchObj.pageStart = 0
         this.pagination.page = 1
-        console.log(this.pagination.page)
         this.searchObj.type = 0
       } else {
         this.searchObj.pageStart = 0

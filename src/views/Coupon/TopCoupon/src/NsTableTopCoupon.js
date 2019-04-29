@@ -151,7 +151,6 @@ export default {
       }
     },
     onSearch () {
-      console.log('搜索响应')
     }
   }
 }

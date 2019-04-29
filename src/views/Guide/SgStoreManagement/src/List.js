@@ -236,22 +236,16 @@ export default {
   },
   methods: {
     subsize () { // 公众号二维码小尺寸
-      console.log('公众号二维码小尺寸')
     },
     theSize () { // 公众号二维码中尺寸
-      console.log('公众号二维码中尺寸')
     },
     jumboSize () { // 公众号二维码大尺寸
-      console.log('公众号二维码大尺寸')
     },
     xiaoSubsize () { // 小程序二维码小尺寸
-      console.log('小程序二维码小尺寸')
     },
     xiaoTheSize () { // 小程序二维码中尺寸
-      console.log('小程序二维码中尺寸')
     },
     xiaoJumboSize () { // 小程序二维码大尺寸
-      console.log('小程序二维码大尺寸')
     },
     transfer () {
       this.$router.push({

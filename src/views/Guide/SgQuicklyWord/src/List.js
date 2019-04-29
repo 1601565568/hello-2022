@@ -98,7 +98,6 @@ export default {
       this.$http.fetch(this.$api.guide.findQuicklyWordGroupList, {}).then(resp => {
         if (resp.success && resp.result.data.length > 0) {
           this.wordGroupList = resp.result.data
-          console.log(this.wordGroupList)
         }
       })
     },

@@ -207,7 +207,6 @@ export default {
   },
   methods: {
     onAreaChange (e) {
-      console.log(e)
     },
     showToggle (obj) {
       this.viewObj = obj
@@ -229,11 +228,9 @@ export default {
       }
     },
     handleSelectionChange (val) {
-      console.log(val)
       this.multipleSelection = val
     },
     handleClose () {
-      console.log('handleClose')
       this.dialogVisible = false
     }
   }

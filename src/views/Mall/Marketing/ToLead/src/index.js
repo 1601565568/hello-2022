@@ -36,12 +36,8 @@ export default {
       }
     },
     new () {
-      console.log('00000')
     },
     handleSelect (index, indexPath) {
-      console.log(this.activeIndex)
-      console.log(index)
-      console.log(indexPath)
     }
   },
   mounted () {

@@ -410,7 +410,6 @@ export default {
         this.$notify.warning('最多选择' + this.maxSelectCount + '件商品')
       } else {
         this.confirmData = JSON.parse(JSON.stringify(this.selectedData))
-        console.log(this.confirmData)
         this.visible = false
         this.callbackData()
         this.onResetSearch()

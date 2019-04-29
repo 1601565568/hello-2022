@@ -442,10 +442,8 @@ export default {
       _this.findDetailData(shopId)
     },
     dateTiemFun (e) {
-      console.log(e)
     },
     onAreaChange (e) {
-      console.log(e)
     },
     // 加载列表
     async loadListFun (data) {

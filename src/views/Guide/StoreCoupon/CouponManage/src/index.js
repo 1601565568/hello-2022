@@ -330,7 +330,6 @@ export default {
     handleSaveData: function () {
       let that = this
       let formValue = that.model
-      console.log(formValue)
       // 未知券
       if (formValue.storeCouponType === 0) {
         return null

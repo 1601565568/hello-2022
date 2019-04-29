@@ -103,7 +103,6 @@ export default {
   },
   methods: {
     onAreaChange (e) {
-      console.log(e)
     },
     resetForm (formName) {
       this.$refs[formName].resetFields()

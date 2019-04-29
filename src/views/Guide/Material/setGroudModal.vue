@@ -50,17 +50,14 @@ export default {
         idsArr.push(ids[i].id)
       }
       this.saveObj.ids = idsArr.join(',')
-      console.log(idsArr)
       this.groudList = groudList
       this.dialogVisible = true
     },
     handleSelectionChange (val) {
-      console.log(val)
       this.multipleSelection = val
     },
     delImgFun (index) {
       this.imgList.splice(index, 1)
-      console.log(index)
     },
 
     // 提交保存
