@@ -172,9 +172,14 @@ export default {
     url: '/guide/quicklyword/updateQuicklyWordGroupSort',
     method: 'post'
   },
-  //快捷话术批量编辑
+  // 快捷话术批量编辑
   patchChange: {
     url: '/guide/quicklyword/patchChang',
+    method: 'post'
+  },
+  // 拖拽修改快捷话术分组顺序
+  changeQuicklyWordGroupSort: {
+    url: '/guide/quicklyword/changeQuicklyWordGroupSort',
     method: 'post'
   }
 

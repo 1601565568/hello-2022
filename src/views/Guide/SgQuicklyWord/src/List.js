@@ -10,7 +10,7 @@ export default {
         'func': function () {
           that.onSaveOpen({})
         },
-        'name': '新增话术',
+        'name': '新增话术'
       },
       {
         'func': function () {
@@ -52,7 +52,7 @@ export default {
       dialogVisible: false,
       loadingTable: false,
       tableList: [],
-      wordGroupList: [],
+      wordGroupList: null,
       _table: {
         table_buttons: tableButtons
       },
@@ -72,6 +72,20 @@ export default {
     }
   },
   methods: {
+    handleDrop (draggingNode, dropNode, dropType, ev) {
+      this.changeQuicklyWordGroupSort(draggingNode.data.id, dropNode.data.id)
+    },
+    allowDrop (draggingNode, dropNode, type) {
+      return type !== 'inner'
+    },
+    changeQuicklyWordGroupSort (startId, endId) {
+      this.$http.fetch(this.$api.guide.changeQuicklyWordGroupSort, { startId: startId, endId: endId }).then(resp => {
+        if (resp.success && resp.result) {
+          this.model.addName = resp.result
+          this.addName = resp.result
+        }
+      })
+    },
     findAddName () {
       this.$http.fetch(this.$api.guide.findAddName, {}).then(resp => {
         if (resp.success && resp.result) {
@@ -84,6 +98,7 @@ export default {
       this.$http.fetch(this.$api.guide.findQuicklyWordGroupList, {}).then(resp => {
         if (resp.success && resp.result.data.length > 0) {
           this.wordGroupList = resp.result.data
+          console.log(this.wordGroupList)
         }
       })
     },
@@ -92,14 +107,11 @@ export default {
     },
     exchangeSort (type, id) {
       let parms = { type, id }
-      this.$http
-        .fetch(this.$api.guide.updateQuicklyWordSort, parms)
-        .then(resp => {
-          this.$reload()
-        })
-        .catch(resp => {
-          this.$notify.error(resp.msg)
-        })
+      this.$http.fetch(this.$api.guide.updateQuicklyWordSort, parms).then(resp => {
+        this.$reload()
+      }).catch(resp => {
+        this.$notify.error(resp.msg)
+      })
     },
     closeDialog () {
       this.dialogFormVisible = false
@@ -124,8 +136,8 @@ export default {
       }
     },
     onPatchChangeOpen () { // 批量管理
-      if (!this.selectedArr.length > 0){
-        this.$notify.warning("您没有选择任何数据")
+      if (!this.selectedArr.length > 0) {
+        this.$notify.warning('您没有选择任何数据')
         return
       }
       this.dialogVisiblePatchChange = true
@@ -181,8 +193,8 @@ export default {
         })
     },
     onPatchDelete () { // 快捷话术批量删除
-      if (!this.selectedArr.length > 0){
-        this.$notify.warning("您没有选择任何数据")
+      if (!this.selectedArr.length > 0) {
+        this.$notify.warning('您没有选择任何数据')
         return
       }
       apiRequestConfirm('永久删除该数据')
