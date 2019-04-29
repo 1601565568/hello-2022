@@ -61,7 +61,12 @@ export default {
       return ''
     }
   },
+
   methods: {
+    clearSearch () {
+      this.pagination.page = 1
+      this.searchObj.start = 0
+    },
     // 切换搜索模式
     tabSearchType () {
       this.searchType.advanced = !this.searchType.advanced

@@ -1,125 +1,119 @@
 
 <template>
-<!-- 新增素材--编辑弹窗  wanrengang 20180731 -->
-<div class="addMaterialbox">
-  <el-dialog
-  :title="modalTit"
-  :close-on-click-modal=false
-  :visible.sync="dialogVisible"
-  width="500px"
-  :before-close="handleClose">
-    <div class="comDialogBoxCon">
-      <el-form :model="saveObj" :rules="rules" ref="addForm" label-width="100px" style="width:440px;">
+  <!-- 新增素材--编辑弹窗  wanrengang 20180731 -->
+  <div class="addMaterialbox">
+    <el-dialog :title="modalTit" :close-on-click-modal=false :visible.sync="dialogVisible" width="500px" :before-close="handleClose">
+      <div class="comDialogBoxCon">
+        <el-form :model="saveObj" :rules="rules" ref="addForm" label-width="100px" style="width:440px;">
           <el-form-item label="所属分组：" prop="subdivisionId">
             <el-select @change="selChange" v-model="saveObj.subdivisionId" placeholder="请选择" clearable>
-                    <el-option v-for="item in groudList"
-                        :key="item.subdivision_id"
-                        :label="item.subdivision_name"
-                        :value="item.subdivision_id">
-                        </el-option>
-                    </el-select>
-                    <ns-button type='text' @click="$router.push({name:'MaterialSubdivision'})"> + 添加分组</ns-button>
+              <el-option v-for="item in groudList" :key="item.subdivision_id" :label="item.subdivision_name" :value="item.subdivision_id">
+              </el-option>
+            </el-select>
+            <ns-button type='text' @click="$router.push({name:'MaterialSubdivision'})"> + 添加分组</ns-button>
           </el-form-item>
-          <el-form-item label="推广文案："  prop="content">
+          <el-form-item label="推广文案：" prop="content">
             <el-input resize="none" type="textarea" v-model="saveObj.content" placeholder="请输入推广文案"></el-input>
           </el-form-item>
 
-          <el-form-item  label="素材图片：" prop="imageList">
-              <div class="comUploadBox">
-                  <ul class="comUploadList">
-                      <li class="imgItem" v-for="(item,index) in saveObj.imageList" :key="index">
-                          <img :src="item" class="comUploadImg">
-                          <div class="del" @click="delImgFun(index)">
-                              <i class="el-icon-delete"></i>
-                          </div>
-                      </li>
-                      <li v-if="saveObj.imageList.length<9">
-                          <el-upload class="avatar-uploader"
-                          :action="this.$api.core.sgUploadFile('test')"
-                          accept=".jpg,.jpeg,.png,.bmp,.gif"
-                          :show-file-list="false"
-                          list-type="picture-card"
-                          :on-remove="handleRemove"
-                          :on-success="handleAvatarSuccess"
-                          :before-upload="beforeAvatarUpload"
-                          >
-                          <i   class="el-icon-plus avatar-uploader-icon"></i>
-                      </el-upload>
-                      </li>
-                  </ul>
-                  <div class="clearfix"></div>
-                  <div style="color:#999">上传图片不能大于500KB；图片最多上传9张（加小程序码的最多8张</div>
-              </div>
+          <el-form-item label="素材图片：" prop="imageList">
+            <div class="comUploadBox">
+              <ul class="comUploadList">
+                <li class="imgItem" v-for="(item,index) in saveObj.imageList" :key="index">
+                  <img :src="item" class="comUploadImg">
+                  <div class="del" @click="delImgFun(index)">
+                    <i class="el-icon-delete"></i>
+                  </div>
+                </li>
+                <li v-if="saveObj.imageList.length<9">
+                  <el-upload class="avatar-uploader" :action="this.$api.core.sgUploadFile('test')" accept=".jpg,.jpeg,.png,.bmp,.gif" :show-file-list="false" list-type="picture-card" :on-remove="handleRemove" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
+                    <i class="el-icon-plus avatar-uploader-icon"></i>
+                  </el-upload>
+                </li>
+              </ul>
+              <div class="clearfix"></div>
+              <div style="color:#999">上传图片不能大于500KB；图片最多上传9张（加小程序码的最多8张</div>
+            </div>
           </el-form-item>
-          <!-- <el-form-item  label="小程序链接：" prop="urlPic">
-              <el-select @change="selChange" v-model="saveObj.urlId" placeholder="请选择" clearable>
-                <el-option v-for="item in wechatPageTypeList"
-                    :key="item.id"
-                    :label="item.name"
-                    :value="item.id">
-                    </el-option>
-                </el-select>
-                 <el-select @change="selChange" v-model="saveObj.url" placeholder="请选择" clearable v-if='saveObj.urlId'>
+          <el-form-item label="小程序链接：">
+            <!-- clearable -->
+            <el-select  v-model="saveObj.codeModule" placeholder="请选择" @change='codeModuleChange'>
+              <el-option v-for="item in wechatPageTypeList" :key="item.id" :label="item.name" :value="item.id" >
+              </el-option>
+            </el-select>
+            <template v-if="saveObj.codeModule==1">
+              <el-select v-model="saveObj.codeTarget" placeholder="请选择" clearable  @change='codeTargetChange'>
                   <el-option v-for="item in wechatPageUrlList"
-                      :key="item.url"
-                      :value="item.url">
-                      </el-option>
-                  </el-select>
-          </el-form-item> -->
-          <el-form-item label="小程序码类型：" prop="codeType" v-if='saveObj.url'>
+                  :key="item.codeTarget"
+                  :label="item.codeTargetName"
+                  :value="item.codeTarget">
+                  </el-option>
+              </el-select>
+            </template>
+            <template v-if="saveObj.codeModule==2">
+              <ns-button @click='selectGoods' type='primary' class='ml15'>选择商品</ns-button>
+            </template>
+            <template v-if="saveObj.codeModule==3">
+              <ns-button @click='selectCoupon' type='primary' class='ml15'>选择优惠券</ns-button>
+            </template>
+            <template v-if="saveObj.codeModule==4">
+              <ns-button @click='selectMarket' type='primary' class='ml15'>选择营销活动</ns-button>
+            </template>
+          </el-form-item>
+            <el-form-item :label="saveObj.selectBackName" prop='codeTargetName' v-if="saveObj.codeTargetName&&saveObj.codeModule!=1">
+              <el-form-grid size="xmd"><el-input v-model="saveObj.codeTargetName" :disabled="true"></el-input></el-form-grid>
+            </el-form-item>
+
+          <el-form-item label="小程序码类型：" prop="codeType" v-if='saveObj.codeTarget'>
             <el-radio-group v-model="saveObj.codeType">
-                <el-radio :label=1 >图片上植入小程序码
-                </el-radio>
-                <el-radio :label=2 >单独增加一张小程序码图
-                </el-radio>
+              <el-radio :label="1">图片上植入小程序码
+              </el-radio>
+              <el-radio :label="2">单独增加一张小程序码图
+              </el-radio>
             </el-radio-group>
-            <p style='margin-top:10px'><i class="el-icon-info text-tips">将在图片中加入带导购参数的小程序码，需门店里有对应信息的才会显示</i></p>
+            <p style='line-height:1.5;margin-top:10px'>
+              <i class="el-icon-info text-tips"></i>
+              <span>将在图片中加入带导购参数的小程序码，需门店里有对应信息的才会显示</span>
+            </p>
           </el-form-item>
         </el-form>
-    </div>
-    <span slot="footer" class="dialog-footer">
-      <ns-button @click="handleClose">取 消</ns-button>
-      <ns-button type="primary" :loading="loading" @click="saveFun">确定</ns-button>
-    </span>
-  </el-dialog>
-  <el-dialog :visible.sync="dialogImgVisible">
-  <img width="100%" :src="dialogImageUrl" alt>
-</el-dialog>
-</div>
+      </div>
+      <span slot="footer" class="dialog-footer">
+        <ns-button @click="handleClose">取 消</ns-button>
+        <ns-button type="primary" :loading="loading" @click="saveFun">确定</ns-button>
+      </span>
+    </el-dialog>
+    <el-dialog :visible.sync="dialogImgVisible">
+      <img width="100%" :src="dialogImageUrl" alt>
+    </el-dialog>
+    <SelectMarket ref="selectMarket" :callBack="selectMarketlBack"></SelectMarket>
+    <SelectCoupon ref="selectCoupon" :callBack="selectMarketlBack"></SelectCoupon>
+    <SelectGoods ref="selectGoods" :callBack="selectMarketlBack"></SelectGoods>
+  </div>
 </template>
 <script>
 import api from '@/config/http'
 import ElUpload from 'nui-v2/lib/upload'
+import SelectMarket from './components/selectMarket'
+import SelectCoupon from './components/selectCoupon'
+import SelectGoods from './components/selectGoods'
+// import $ from 'jquery'
 // import { isURL } from '../Common/utils.js'
 export default {
   components: {
-    ElUpload
+    ElUpload,
+    SelectMarket,
+    SelectCoupon,
+    SelectGoods
   },
   props: {
     callBack: Function
   },
   data () {
-    // var validateURL = (rule, value, callback) => {
-    //   if (value === '') {
-    //     callback(new Error('请输入链接'))
-    //   } else if (!isURL(value)) {
-    //     callback(new Error('路径必须带http或者是https格式！'))
-    //   } else {
-    //     callback()
-    //   }
-    // }
-    // var validateURLImg = (rule, value, callback) => {
-    //   if (value === undefined || value === null) {
-    //     callback()
-    //   } else if (!isURL(value)) {
-    //     callback(new Error('请输入正确的二维码链接'))
-    //   } else {
-    //     callback()
-    //   }
-    // }
     return {
-      wechatPageTypeList: [{ name: '商品', id: 1 }, { name: '优惠券', id: 2 }, { name: '营销活动', id: 3 }, { name: '商品分类', id: 4 }, { name: '自定义页面', id: 5 }],
-      wechatPageUrlList: [],
+      // { name: '优惠券', id: 3 },, { name: '自定义页面', id: 5 }
+      wechatPageTypeList: [{ name: '商城主页面', id: 1 }, { name: '商品', id: 2 }, { name: '营销活动', id: 4 }],
+      wechatPageUrlList: [{ codeTargetName: '首页', codeTarget: 1 }, { codeTargetName: '分类', codeTarget: 2 }, { codeTargetName: '我的', codeTarget: 3 }],
       loading: false, // 防重复提交
       dialogImageUrl: '',
       modalTit: '新增素材',
@@ -129,11 +123,12 @@ export default {
       saveObj: {
         mType: 1,
         title: '',
-        codeType: 0,
+        codeType: 1,
         content: '',
         url: '',
         shareUrl: '',
-        imageList: []
+        imageList: [],
+        codeTargetName: ''
       },
       curMonth: 5,
       dialogVisible: false,
@@ -159,14 +154,40 @@ export default {
   },
   created: function () {},
   methods: {
-    selChange (e) {
+    codeModuleChange (e) {
+      this.$set(this.saveObj, 'selectBackName', '')
+      this.$set(this.saveObj, 'codeTarget', '')
+      this.$set(this.saveObj, 'codeTargetName', '')
     },
-    // linkChange (url) {
-    //   console.log('url:', url)
-    //   if (url.indexOf('http') < 0 || url.indexOf('https') < 0) {
-    //     this.$notify.error('路径必须带http或者是https格式！')
-    //   }
-    // },
+    codeTargetChange (e) { // 首页，分类，我的页面选择是添加codeTargetName
+      this.$set(this.saveObj, 'codeTargetName', this.wechatPageUrlList[e - 1].codeTargetName)
+    },
+    selectMarket () {
+      this.$nextTick(() => {
+        this.$refs.selectMarket.showToggle()
+      })
+    },
+    selectCoupon () {
+      this.$nextTick(() => {
+        this.$refs.selectCoupon.showToggle()
+      })
+    },
+    selectGoods () {
+      this.$nextTick(() => {
+        this.$refs.selectGoods.showToggle()
+      })
+    },
+    selectMarketlBack (obj) {
+      if (obj.guid) {
+        this.$set(this.saveObj, 'selectBackName', '活动名称：')
+        this.$set(this.saveObj, 'codeTarget', obj.guid)
+        this.$set(this.saveObj, 'codeTargetName', obj.name)
+      } else if (obj.goodsId) {
+        this.$set(this.saveObj, 'selectBackName', '商品名称：')
+        this.$set(this.saveObj, 'codeTarget', obj.goodsId)
+        this.$set(this.saveObj, 'codeTargetName', obj.title)
+      }
+    },
     showToggle (obj, groudArr) {
       this.groudList = groudArr
       // 数据重置
@@ -176,7 +197,9 @@ export default {
         content: '',
         url: '',
         imageList: [],
-        subdivisionId: null
+        subdivisionId: null,
+        codeType: 1,
+        codeTargetName: ''
       }
       if (obj.id) {
         this.modalTit = '编辑素材'
