@@ -94,6 +94,10 @@
   content: "\e624";
 }
 
+.icon-shanchu1:before {
+  content: "\e6c0";
+}
+
 .icon-copy:before {
   content: "\e680";
 }
@@ -108,6 +112,10 @@
 
 .icon-edit:before {
   content: "\e657";
+}
+
+.icon-bianji1:before {
+  content: "\e6c1";
 }
 
 .icon-label:before {

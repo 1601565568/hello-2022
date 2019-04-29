@@ -1,5 +1,7 @@
 import tableMixin from 'web-crm/src/mixins/table'
 import apiRequestConfirm from 'web-crm/src/utils/apiRequestConfirm'
+import Emotion from './EmotionConfig.js' // 表情配置文件
+
 export default {
   name: 'List',
   mixins: [tableMixin],
@@ -42,6 +44,7 @@ export default {
         searchMap: {},
         start: 0
       },
+      emotionList: Emotion,
       addName: null,
       modelObj: {},
       index: 0,
@@ -98,7 +101,6 @@ export default {
       this.$http.fetch(this.$api.guide.findQuicklyWordGroupList, {}).then(resp => {
         if (resp.success && resp.result.data.length > 0) {
           this.wordGroupList = resp.result.data
-          console.log(this.wordGroupList)
         }
       })
     },

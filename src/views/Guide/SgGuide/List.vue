@@ -97,7 +97,7 @@
           <el-form-item label="前缀：" required v-if='showUpdateAllGuidePrefix'>
             <el-form-grid size="xxmd">
               <el-form-item prop="updateAllGuidePrefix">
-                <el-radio-group v-model="model.sgGuideShop.updateAllGuidePrefix">
+                <el-radio-group v-model="model.updateAllGuidePrefix">
                   <el-radio :label="1">修改所有</el-radio>
                   <el-radio :label="0">修改当前</el-radio>
                 </el-radio-group>

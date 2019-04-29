@@ -1,14 +1,20 @@
 <template>
   <div>
     <div id="box_left" style="height: 100%">
-      <ns-button type="primary">新增分组</ns-button>
+      <ns-button class="newClassification" type="primary">新增分类</ns-button>
       <el-tree
         :data="wordGroupList"
         default-expand-all
         @node-drop="handleDrop"
         draggable
         :allow-drop="allowDrop"
+        :icon-class="icon-bianji1"
         :allow-drag="allowDrag">
+          <div class="subdivision-tree-node">
+            <div>809809898</div>
+            <i class="icon-shanchu1"></i>
+            <i class="icon-bianji1"></i>
+          </div>
       </el-tree>
     </div>
     <div id="box_right">
@@ -103,6 +109,16 @@
         <ns-button type="primary" @click="onSave">确定</ns-button>
       </div>
     </el-dialog>
+    <!-- 表情弹窗 -->
+    <div class="emotion-list_div">
+      <ul class="emotion-list">
+        <li v-for="list in emotionList" :key="list.ShortCut" @click="setEmotionWords(list.ShortCut)">
+          <el-tooltip :content="list.Meaning">
+            <img :src="list.OriginalFile">
+          </el-tooltip>
+        </li>
+      </ul>
+    </div>
     <!-- 批量管理初始弹窗结束 -->
     <el-dialog size="small" :title="批量管理"
                :visible.sync="dialogVisiblePatchChange"
@@ -134,11 +150,14 @@ export default List
     width: 14%;
     height: 500px;
     float: left;
+    background-color: #ffffff;
+    padding:5px 0 0 5px;
   }
   #box_right{
     float: left;
-    margin-left: 1%;
+    padding-left: 1%;
     width: 85%;
+    background-color: #ffffff
   }
 .dialog_mian_topText p sapn{
   color:grey;
@@ -150,5 +169,15 @@ export default List
 .sort{
   color:#0091FA;
   cursor: pointer;
+}
+.emotion-list_div .emotion-list li{
+  list-style: none;
+}
+.emotion-list_div .emotion-list li img{
+  width: 20px;
+  height: 20px;
+}
+.newClassification{
+  margin-bottom: 20px
 }
 </style>

@@ -51,6 +51,7 @@ export default {
     let quickSearchNames = quickInput.map(x => x.name)
     let quickSearchModel = {}
     let searchModel = {
+      updateAllGuidePrefix: 0,
       sgGuide: {
         brand_id: null,
         name: null,
@@ -65,8 +66,7 @@ export default {
       sgGuideShop: {
         id: null,
         shop_id: '',
-        job: 0,
-        updateAllGuidePrefix: 0
+        job: 0
       },
       sgGuideVo: {
         newShopId: null,
@@ -541,6 +541,50 @@ export default {
               _this.allDeleteName.push(item.name)
             }
           })
+          
+          // if (!_this.verification) {
+          //   _this.$confirm('请确认是否对 ' + _this.allDeleteName.join('、') + ' 进行离职操作!', '提示', {
+          //     confirmButtonText: '确定',
+          //     cancelButtonText: '取消',
+          //     type: 'warning'
+          //   }).then(() => {
+          //     _this.dimissionArry.map(item => {
+          //       dimissionIdArry.push(item.id)
+          //       dimissionshopIdArry.push(item.shop_id)
+          //     })
+          //     _this.$http.fetch(_this.$api.guide.guide.guideLeave, {
+          //       guideIds: dimissionIdArry.join(',')
+          //     }).then(resp => {
+          //       if (resp.result.failCount > 0) {
+          //         _this.theNumberOfsuccessful = resp.result.successCount
+          //         _this.theNumberOfFailures = resp.result.failCount
+          //         resp.result.guideNames.split(',').map((item, i) => {
+          //           if (_this.nameArr.indexOf(resp.result.guideNames.split(',')[i]) === -1) {
+          //             _this.nameArr.push(item)
+          //           } else {
+          //             if (item === _this.multipleSelection[i].name) {
+          //               _this.nameArr[i] = _this.multipleSelection[i].name + '(' + _this.multipleSelection[i].work_id + ')'
+          //             }
+          //           }
+          //         })
+          //         _this.nameArr = _this.nameArr.join('，')
+          //         _this.returnInformationShow = true
+          //         // _this.$notify.error(resp.result.msg)
+          //         _this.successCount = resp.result.successCount
+          //         _this.failCount = resp.result.failCount
+          //         console.log('_this.successCount:', _this.successCount, _this.failCount)
+          //       } else {
+          //         _this.$notify.success('批量离职成功')
+          //         _this.$refs.table.$reload()
+          //       }
+          //     }).catch((resp) => {
+          //       _this.$notify.error('批量离职失败：' + resp.msg)
+          //     })
+          //   })
+          // } else {
+          //   _this.multipleStoresAreNotSupportedShow = true
+          // }
+
           _this.$confirm('请确认是否对 ' + _this.allDeleteName.join('、') + ' 进行离职操作!', '提示', {
             confirmButtonText: '确定',
             cancelButtonText: '取消',
@@ -610,18 +654,22 @@ export default {
               _this.allDeleteName.push(item.name)
             }
           })
-          _this.$confirm('请确认是否对 ' + _this.allDeleteName.join('、') + ' 进行更换门店操作!', '提示', {
-            confirmButtonText: '确定',
-            cancelButtonText: '取消',
-            type: 'warning'
-          }).then(() => {
-            _this.model.sgGuideShop.shop_id = null
-            _this.shopFindListShow = true
-            _this.allDeleteName = []
-            _this.replaceStoresArry.map(item => {
-              _this.allDeleteName.push(item.name)
+          if (!_this.verification) {
+            _this.$confirm('请确认是否对 ' + _this.allDeleteName.join('、') + ' 进行更换门店操作!', '提示', {
+              confirmButtonText: '确定',
+              cancelButtonText: '取消',
+              type: 'warning'
+            }).then(() => {
+              _this.model.sgGuideShop.shop_id = null
+              _this.shopFindListShow = true
+              _this.allDeleteName = []
+              _this.replaceStoresArry.map(item => {
+                _this.allDeleteName.push(item.name)
+              })
             })
-          })
+          } else {
+            _this.multipleStoresAreNotSupportedShow = true
+          }
         }
       }
     },
@@ -870,7 +918,7 @@ export default {
     },
     async saveOrUpdateGuide (guide, guideShop, sgGuideVo) { // 新增或编辑保存
       let _this = this
-      let updateAllGuidePrefix = this.model.sgGuideShop.updateAllGuidePrefix
+      let updateAllGuidePrefix = this.model.updateAllGuidePrefix
       let allImageUrl = null
       await this.$http.fetch(this.$api.guide.guide.saveOrUpdateGuide, {
         sgGuide: guide,
@@ -909,7 +957,9 @@ export default {
                 if (guide.birthday instanceof Date) {
                   guide.birthday = moment(guide.birthday).format('YYYY-MM-DD')
                 }
-                _this.saveOrUpdateGuide(guide, guideShop, sgGuideVo)
+                if (_this.model.sgGuide.mobile !== null && _this.subordinateStores.length > 0 && _this.model.sgGuide.name !== null && _this.model.sgGuide.work_prefix !== null) {
+                  _this.saveOrUpdateGuide(guide, guideShop, sgGuideVo)
+                }
               } else {
                 _this.memberBelongingtitle = '选择会员归属'
                 _this.memberBelongingShow = true
@@ -925,7 +975,9 @@ export default {
                   if (guide.birthday instanceof Date) {
                     guide.birthday = moment(guide.birthday).format('YYYY-MM-DD')
                   }
-                  _this.saveOrUpdateGuide(guide, guideShop, sgGuideVo)
+                  if (_this.model.sgGuide.mobile !== null && _this.model.sgGuideShop.shop_id !== null && _this.model.sgGuide.name !== null && _this.model.sgGuide.work_prefix !==null) {
+                    _this.saveOrUpdateGuide(guide, guideShop, sgGuideVo)
+                  }
                 } else {
                   _this.memberBelongingtitle = '选择会员归属'
                   _this.memberBelongingShow = true
@@ -936,7 +988,9 @@ export default {
               if (guide.birthday instanceof Date) {
                 guide.birthday = moment(guide.birthday).format('YYYY-MM-DD')
               }
-              _this.saveOrUpdateGuide(guide, guideShop, sgGuideVo)
+              if (_this.model.sgGuide.mobile !== null && _this.model.sgGuideShop.shop_id !== null && _this.model.sgGuide.name !== null && _this.model.sgGuide.work_prefix !==null) {
+                _this.saveOrUpdateGuide(guide, guideShop, sgGuideVo)
+              }
             }
           }
         } else if (_this.guideValue === 0 && _this.title === '编辑员工信息') {
@@ -952,7 +1006,9 @@ export default {
                 if (guide.birthday instanceof Date) {
                   guide.birthday = moment(guide.birthday).format('YYYY-MM-DD')
                 }
-                _this.saveOrUpdateGuide(guide, guideShop, sgGuideVo)
+                if (_this.model.sgGuide.mobile !== null && _this.subordinateStores.length > 0 && _this.model.sgGuide.name !== null && _this.model.sgGuide.work_prefix !==null) {
+                  _this.saveOrUpdateGuide(guide, guideShop, sgGuideVo)
+                }
               } else {
                 _this.memberBelongingtitle = '选择会员归属'
                 _this.memberBelongingShow = true
@@ -964,7 +1020,9 @@ export default {
               if (guide.birthday instanceof Date) {
                 guide.birthday = moment(guide.birthday).format('YYYY-MM-DD')
               }
-              _this.saveOrUpdateGuide(guide, guideShop, sgGuideVo)
+              if (_this.model.sgGuide.mobile !== null && _this.model.sgGuideShop.shop_id !== null && _this.model.sgGuide.name !== null && _this.model.sgGuide.work_prefix !==null) {
+                _this.saveOrUpdateGuide(guide, guideShop, sgGuideVo)
+              }
             } else {
               guideId = _this.row.id
               shopId = _this.row.shop_id
@@ -974,7 +1032,9 @@ export default {
                   if (guide.birthday instanceof Date) {
                     guide.birthday = moment(guide.birthday).format('YYYY-MM-DD')
                   }
-                  _this.saveOrUpdateGuide(guide, guideShop, sgGuideVo)
+                  if (_this.model.sgGuide.mobile !== null && _this.model.sgGuideShop.shop_id !== null && _this.model.sgGuide.name !== null && _this.model.sgGuide.work_prefix !==null) {
+                    _this.saveOrUpdateGuide(guide, guideShop, sgGuideVo)
+                  }
                 } else {
                   _this.memberBelongingtitle = '选择会员归属'
                   _this.memberBelongingShow = true
@@ -997,7 +1057,7 @@ export default {
               if (guide.work_num === null) { guide.work_num = '' }
             }
           })
-          if (_this.model.sgGuide.mobile !== null && _this.subordinateStores.length > 0 && _this.model.sgGuide.name !== null) {
+          if (_this.model.sgGuide.mobile !== null && _this.subordinateStores.length > 0 && _this.model.sgGuide.name !== null && _this.model.sgGuide.work_prefix !==null) {
             _this.saveOrUpdateGuide(guide, guideShop, sgGuideVo)
           }
         } else if (model.sgGuideShop.job === 0 && _this.title === '新增员工') {
@@ -1011,7 +1071,7 @@ export default {
               if (guide.work_num === null) { guide.work_num = '' }
             }
           })
-          if (_this.model.sgGuide.mobile !== null && _this.model.sgGuideShop.shop_id !== null && _this.model.sgGuide.name !== null) {
+          if (_this.model.sgGuide.mobile !== null && _this.model.sgGuideShop.shop_id !== null && _this.model.sgGuide.name !== null && _this.model.sgGuide.work_prefix !==null) {
             _this.saveOrUpdateGuide(guide, guideShop, sgGuideVo)
           }
         }
