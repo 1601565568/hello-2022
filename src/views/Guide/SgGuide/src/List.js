@@ -457,6 +457,7 @@ export default {
       _this.nameArr = []
       _this.multipleSelections = []
       _this.switchStateName = '删除'
+
       if (_this.multipleSelection.length < 1) {
         _this.$notify.error('请选择要操作的员工')
       } else {
@@ -540,47 +541,43 @@ export default {
               _this.allDeleteName.push(item.name)
             }
           })
-          if (!_this.verification) {
-            _this.$confirm('请确认是否对 ' + _this.allDeleteName.join('、') + ' 进行离职操作!', '提示', {
-              confirmButtonText: '确定',
-              cancelButtonText: '取消',
-              type: 'warning'
-            }).then(() => {
-              _this.dimissionArry.map(item => {
-                dimissionIdArry.push(item.id)
-                dimissionshopIdArry.push(item.shop_id)
-              })
-              _this.$http.fetch(_this.$api.guide.guide.guideLeave, {
-                guideIds: dimissionIdArry.join(',')
-              }).then(resp => {
-                if (resp.result.failCount > 0) {
-                  _this.theNumberOfsuccessful = resp.result.successCount
-                  _this.theNumberOfFailures = resp.result.failCount
-                  resp.result.guideNames.split(',').map((item, i) => {
-                    if (_this.nameArr.indexOf(resp.result.guideNames.split(',')[i]) === -1) {
-                      _this.nameArr.push(item)
-                    } else {
-                      if (item === _this.multipleSelection[i].name) {
-                        _this.nameArr[i] = _this.multipleSelection[i].name + '(' + _this.multipleSelection[i].work_id + ')'
-                      }
-                    }
-                  })
-                  _this.nameArr = _this.nameArr.join('，')
-                  _this.returnInformationShow = true
-                  // _this.$notify.error(resp.result.msg)
-                  _this.successCount = resp.result.successCount
-                  _this.failCount = resp.result.failCount
-                } else {
-                  _this.$notify.success('批量离职成功')
-                  _this.$refs.table.$reload()
-                }
-              }).catch((resp) => {
-                _this.$notify.error('批量离职失败：' + resp.msg)
-              })
+          _this.$confirm('请确认是否对 ' + _this.allDeleteName.join('、') + ' 进行离职操作!', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning'
+          }).then(() => {
+            _this.dimissionArry.map(item => {
+              dimissionIdArry.push(item.id)
+              dimissionshopIdArry.push(item.shop_id)
             })
-          } else {
-            _this.multipleStoresAreNotSupportedShow = true
-          }
+            _this.$http.fetch(_this.$api.guide.guide.guideLeave, {
+              guideIds: dimissionIdArry.join(',')
+            }).then(resp => {
+              if (resp.result.failCount > 0) {
+                _this.theNumberOfsuccessful = resp.result.successCount
+                _this.theNumberOfFailures = resp.result.failCount
+                resp.result.guideNames.split(',').map((item, i) => {
+                  if (_this.nameArr.indexOf(resp.result.guideNames.split(',')[i]) === -1) {
+                    _this.nameArr.push(item)
+                  } else {
+                    if (item === _this.multipleSelection[i].name) {
+                      _this.nameArr[i] = _this.multipleSelection[i].name + '(' + _this.multipleSelection[i].work_id + ')'
+                    }
+                  }
+                })
+                _this.nameArr = _this.nameArr.join('，')
+                _this.returnInformationShow = true
+                // _this.$notify.error(resp.result.msg)
+                _this.successCount = resp.result.successCount
+                _this.failCount = resp.result.failCount
+              } else {
+                _this.$notify.success('批量离职成功')
+                _this.$refs.table.$reload()
+              }
+            }).catch((resp) => {
+              _this.$notify.error('批量离职失败：' + resp.msg)
+            })
+          })
         }
       }
     },
@@ -589,6 +586,7 @@ export default {
       _this.switchStateName = '更换门店'
       _this.verification = false
       _this.allDeleteName = []
+      _this.accordingToJudgmentShow = false
       if (_this.replaceStoresArry.length < 1) {
         _this.$notify.error('请选择要操作的员工')
       } else {
@@ -612,22 +610,18 @@ export default {
               _this.allDeleteName.push(item.name)
             }
           })
-          if (!_this.verification) {
-            _this.$confirm('请确认是否对 ' + _this.allDeleteName.join('、') + ' 进行更换门店操作!', '提示', {
-              confirmButtonText: '确定',
-              cancelButtonText: '取消',
-              type: 'warning'
-            }).then(() => {
-              _this.model.sgGuideShop.shop_id = null
-              _this.shopFindListShow = true
-              _this.allDeleteName = []
-              _this.replaceStoresArry.map(item => {
-                _this.allDeleteName.push(item.name)
-              })
+          _this.$confirm('请确认是否对 ' + _this.allDeleteName.join('、') + ' 进行更换门店操作!', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning'
+          }).then(() => {
+            _this.model.sgGuideShop.shop_id = null
+            _this.shopFindListShow = true
+            _this.allDeleteName = []
+            _this.replaceStoresArry.map(item => {
+              _this.allDeleteName.push(item.name)
             })
-          } else {
-            _this.multipleStoresAreNotSupportedShow = true
-          }
+          })
         }
       }
     },

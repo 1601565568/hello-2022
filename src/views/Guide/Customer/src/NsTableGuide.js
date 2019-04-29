@@ -88,7 +88,7 @@ export default {
     initShopList () {
       var _this = this
       _this.$http.fetch(_this.$api.guide.guide.customerGetGuideTree).then(resp => {
-        if (resp.success && resp.result != null) {
+        if (resp.success && resp.result !== null) {
           _this.shopFindList = resp.result
           _this.shopFindList.unshift(_this.allGuideArr)
         }

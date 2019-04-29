@@ -43,6 +43,12 @@ export default {
           'name': 'KQGL',
           'title': '优惠券发放',
           'component': () => import('@/views/Guide/SgCoupon/CouponList')
+        },
+        {
+          'path': '/Guide/SgQuicklyWord/List',
+          'name': 'QuicklyWord',
+          'title': '快捷话术',
+          'component': () => import('@/views/Guide/SgQuicklyWord/List')
         }
       ]
     }
