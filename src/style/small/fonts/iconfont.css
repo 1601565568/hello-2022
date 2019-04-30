@@ -602,6 +602,10 @@
   content: "\e653";
 }
 
+.icon-biaoqing:before {
+  content: "\e6c2";
+}
+
 .icon-shiwuzhongxin3:before {
   content: "\e692";
 }

@@ -60,7 +60,7 @@ export default [
     'OriginalFile': '/img/expression/12.png'
   },
   {
-    'ShortCut': '[😍]',
+    'ShortCut': '😍',
     'Meaning': '美女',
     'OriginalFile': '/img/expression/13.png'
   },

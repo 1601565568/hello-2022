@@ -47,6 +47,8 @@ export default {
       emotionList: Emotion,
       addName: null,
       modelObj: {},
+      allGuideArr: { name: '全部分组', id: null, label: '全部分组' },
+      InternetMemeShow: false,
       index: 0,
       checkText: '',
       titleText: '',
@@ -75,6 +77,22 @@ export default {
     }
   },
   methods: {
+    faceFace () { // 表情头像按钮
+      this.InternetMemeShow = !this.InternetMemeShow
+    },
+    setEmotionWords (list) { // 选中的表情添加按钮
+      this.model.content = this.model.content + list
+    },
+    onClickNode (data) { // 树节点点击事件
+      this.model.wordGroupId = data.id
+      this.parameter.searchMap = this.model
+      this.$queryList$(this.parameter)
+    },
+    deleteTheGroup () { // 树形菜单删除按钮
+    },
+    compile () { // 树形菜单编辑按钮
+
+    },
     handleDrop (draggingNode, dropNode, dropType, ev) {
       this.changeQuicklyWordGroupSort(draggingNode.data.id, dropNode.data.id)
     },
@@ -101,6 +119,7 @@ export default {
       this.$http.fetch(this.$api.guide.findQuicklyWordGroupList, {}).then(resp => {
         if (resp.success && resp.result.data.length > 0) {
           this.wordGroupList = resp.result.data
+          this.wordGroupList.unshift(this.allGuideArr)
         }
       })
     },
@@ -131,7 +150,7 @@ export default {
     onSaveOpen (row) { // 新增或编辑
       this.dialogFormVisible = true
       this.dialogVisiblePatchChange = false
-      this.titleText = (row.id && '编辑') || '新增'
+      this.titleText = (row.id && '编辑话术') || '新增话术'
       this.model = Object.assign({}, row)
       if (!row || !row.id) {
         this.model.addName = this.addName
