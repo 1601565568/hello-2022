@@ -2,6 +2,7 @@
 const path = require('path')
 const webpack = require('webpack')
 const packageConfig = require('../package.json')
+;(process.env.NODE_ENV === 'production' && require('./getGitLog'))
 
 function resolve (dir) {
   return path.join(__dirname, '..', dir)

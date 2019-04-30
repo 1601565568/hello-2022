@@ -184,12 +184,10 @@
 <% if (process.env.VUE_APP_Dll_PLUGIN === 'true') { %>
 <script src="/temp/components.js"></script>
 <% } %>
-<form name="globalConfig">
-  <input type="hidden" name="lastModified" value="<%= new Date() %>"/>
-</form>
 <% if (process.env.NODE_ENV === 'production') { %>
 <script>
   (function(){if(window.navigator.userAgent.indexOf("Trident/")>-1){var b=document.getElementsByTagName("head")[0];var a=document.createElement("script");a.type="text/javascript";a.src="https://unpkg.com/babel-polyfill@6.26.0/dist/polyfill.min.js";b.appendChild(a)}}());
+  (function(){console.log('<%= process.env.VUE_APP_VERSION %>')}());
 </script>
 <% } %>
 <!-- built files will be auto injected -->
