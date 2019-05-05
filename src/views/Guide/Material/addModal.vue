@@ -60,7 +60,8 @@
               <ns-button @click='selectMarket' type='primary' class='ml15'>选择营销活动</ns-button>
             </template>
           </el-form-item>
-            <el-form-item :label="saveObj.selectBackName" prop='codeTargetName' v-if="saveObj.codeTargetName&&saveObj.codeModule!=1">
+            <el-form-item :label="saveObj.codeModule==2?'商品名称：':saveObj.codeModule==4?'活动名称：':''" prop='codeTargetName' v-if="saveObj.codeModule &&saveObj.codeModule!=1 && saveObj.codeTargetName!=''">
+              <!-- saveObj.codeTargetName&& -->
               <el-form-grid size="xmd"><el-input v-model="saveObj.codeTargetName" :disabled="true"></el-input></el-form-grid>
             </el-form-item>
 
@@ -97,7 +98,7 @@ import ElUpload from 'nui-v2/lib/upload'
 import SelectMarket from './components/selectMarket'
 import SelectCoupon from './components/selectCoupon'
 import SelectGoods from './components/selectGoods'
-// import $ from 'jquery'
+import $ from 'jquery'
 // import { isURL } from '../Common/utils.js'
 export default {
   components: {
@@ -113,7 +114,7 @@ export default {
     return {
       // { name: '优惠券', id: 3 },, { name: '自定义页面', id: 5 }
       wechatPageTypeList: [{ name: '商城主页面', id: 1 }, { name: '商品', id: 2 }, { name: '营销活动', id: 4 }],
-      wechatPageUrlList: [{ codeTargetName: '首页', codeTarget: 1 }, { codeTargetName: '分类', codeTarget: 2 }, { codeTargetName: '我的', codeTarget: 3 }],
+      wechatPageUrlList: [{ codeTargetName: '首页', codeTarget: '1' }, { codeTargetName: '分类', codeTarget: '2' }, { codeTargetName: '我的', codeTarget: '3' }],
       loading: false, // 防重复提交
       dialogImageUrl: '',
       modalTit: '新增素材',
@@ -128,7 +129,8 @@ export default {
         url: '',
         shareUrl: '',
         imageList: [],
-        codeTargetName: ''
+        codeTargetName: '',
+        codeModule: null
       },
       curMonth: 5,
       dialogVisible: false,
@@ -160,7 +162,7 @@ export default {
       this.$set(this.saveObj, 'codeTargetName', '')
     },
     codeTargetChange (e) { // 首页，分类，我的页面选择是添加codeTargetName
-      this.$set(this.saveObj, 'codeTargetName', this.wechatPageUrlList[e - 1].codeTargetName)
+      this.$set(this.saveObj, 'codeTargetName', this.wechatPageUrlList[Number(e) - 1].codeTargetName)
     },
     selectMarket () {
       this.$nextTick(() => {
@@ -189,29 +191,40 @@ export default {
       }
     },
     showToggle (obj, groudArr) {
-      this.groudList = groudArr
-      // 数据重置
-      this.modalTit = '新增素材'
-      this.saveObj = {
-        mType: 1,
-        content: '',
-        url: '',
-        imageList: [],
-        subdivisionId: null,
-        codeType: 1,
-        codeTargetName: ''
-      }
+      let that = this
+
       if (obj.id) {
         this.modalTit = '编辑素材'
-        let saveObj = JSON.parse(JSON.stringify(obj))
+        this.$http.fetch(this.$api.guide.queryMaterial, { id: obj.id })
+          .then(resp => {
+            $.extend(this.saveObj, resp.result)
+          })
+          .catch(resp => {
+            that.$notify.error(resp.msg)
+          })
+        // let saveObj = JSON.parse(JSON.stringify(obj))
+        //  = {
+        //   content: saveObj.content,
+        //   id: saveObj.id,
+        //   imageList: saveObj.imageList,
+        //   subdivisionId: saveObj.subdivision_id,
+        //   mType: 1,
+        //   url: saveObj.url,
+        //   codeType: saveObj.code_type
+        // }
+      } else {
+        this.groudList = groudArr
+        // 数据重置
+        this.modalTit = '新增素材'
         this.saveObj = {
-          content: saveObj.content,
-          id: saveObj.id,
-          imageList: saveObj.imageList,
-          subdivisionId: saveObj.subdivision_id,
           mType: 1,
-          url: saveObj.url,
-          codeType: saveObj.code_type
+          content: '',
+          url: '',
+          imageList: [],
+          subdivisionId: null,
+          codeType: 1,
+          codeTargetName: null,
+          codeModule: null
         }
       }
       this.dialogVisible = true
