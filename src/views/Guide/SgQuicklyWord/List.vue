@@ -1,7 +1,7 @@
 <template>
   <div>
     <div id="box_left" style="height: 100%">
-      <ns-button class="newClassification" type="primary">新增分类</ns-button>
+      <ns-button class="newClassification" type="primary" @click="onSaveQuicklyWordGroupOpen">新增分类</ns-button>
       <div class="Quickwordtreemenu">
         <el-tree :data="wordGroupList" default-expand-all @node-click="onClickNode" @node-drop="handleDrop" draggable :allow-drop="allowDrop" :allow-drag="allowDrag">
         </el-tree>
@@ -136,6 +136,21 @@
       <div slot="footer" class="dialog-footer">
         <ns-button @click="closeDialog()">取消</ns-button>
         <ns-button type="primary" @click="onPatchChange">保存</ns-button>
+      </div>
+    </el-dialog>
+    <!-- 新增分类 -->
+    <el-dialog size="small" :title="titleText"
+               :visible.sync="dialogVisibleSaveQuicklyWordGroup"
+               :modal-append-to-body="false"
+               @before-close="closeDialog()">
+      <el-form :model="model" ref="form" label-width="150px" :rules="rules" placement="right">
+        <el-form-item label="分类名称：" prop="name" required >
+          <el-input type="text" placeholder="请输入分类名称" v-model="model.name"></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <ns-button @click="closeDialog()">取消</ns-button>
+        <ns-button type="primary" @click="saveOrUpdateQuicklyWordGroup">保存</ns-button>
       </div>
     </el-dialog>
   </div>

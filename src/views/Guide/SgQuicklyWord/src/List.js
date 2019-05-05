@@ -33,6 +33,7 @@ export default {
         wordGroupId: null,
         content: null,
         keyWord: null,
+        name: null,
         addName: null,
         searchValue: null,
         param: {}
@@ -54,6 +55,7 @@ export default {
       titleText: '',
       dialogFormVisible: false,
       dialogVisiblePatchChange: false,
+      dialogVisibleSaveQuicklyWordGroup: false,
       dialogVisible: false,
       loadingTable: false,
       tableList: [],
@@ -63,7 +65,8 @@ export default {
       },
       rules: {
         'wordGroupId': [{ required: true, message: '话术类别不能为空' }],
-        'content': [{ required: true, message: '话术内容不能为空' }]
+        'content': [{ required: true, message: '话术内容不能为空' }],
+        'name': [{ required: true, message: '分类内容不能为空' }]
       }
     }
   },
@@ -107,12 +110,29 @@ export default {
         }
       })
     },
+    saveOrUpdateQuicklyWordGroup () {
+      this.$refs.form.validate((valid) => {
+        if (valid) {
+          this.$http.fetch(this.$api.guide.saveOrUpdateQuicklyWordGroup, { id: this.model.id, name: this.model.name }).then(resp => {
+            if (resp.success) {
+              this.$notify.success('新增成功')
+              this.findQuicklyWordGroupList()
+              this.closeDialog()
+            }
+          }).catch(resp => {
+            this.$notify.error(resp.errMsg || '新增失败')
+          })
+        }
+      })
+    },
     findAddName () {
       this.$http.fetch(this.$api.guide.findAddName, {}).then(resp => {
         if (resp.success && resp.result) {
           this.model.addName = resp.result
           this.addName = resp.result
         }
+      }).catch(reason => {
+        this.$notify.warning('系统异常')
       })
     },
     findQuicklyWordGroupList () {
@@ -121,6 +141,8 @@ export default {
           this.wordGroupList = resp.result.data
           this.wordGroupList.unshift(this.allGuideArr)
         }
+      }).catch(reason => {
+        this.$notify.error(reason.errMsg || '系统异常')
       })
     },
     handleSelectionChange (val) {
@@ -137,11 +159,13 @@ export default {
     closeDialog () {
       this.dialogFormVisible = false
       this.dialogVisiblePatchChange = false
+      this.dialogVisibleSaveQuicklyWordGroup = false
       this.model = {
         id: null,
         wordGroupId: null,
         content: null,
         keyWord: null,
+        name: null,
         addName: null,
         searchValue: null,
         param: {}
@@ -151,10 +175,17 @@ export default {
       this.dialogFormVisible = true
       this.dialogVisiblePatchChange = false
       this.titleText = (row.id && '编辑话术') || '新增话术'
+      this.titleText = (row.id && '编辑话术') || '新增话术'
       this.model = Object.assign({}, row)
       if (!row || !row.id) {
         this.model.addName = this.addName
       }
+    },
+    onSaveQuicklyWordGroupOpen (row) {
+      this.dialogVisibleSaveQuicklyWordGroup = true
+      this.dialogFormVisible = false
+      this.dialogVisiblePatchChange = false
+      this.titleText = (row.id && '编辑分类') || '新增分类'
     },
     onPatchChangeOpen () { // 批量管理
       if (!this.selectedArr.length > 0) {
@@ -209,7 +240,7 @@ export default {
           }).catch((resp) => {
             that.$notify.error(resp.msg || '删除失败')
           })
-        }).catch(() => {
+        }).catch(resp => {
         // 点击取消事件
         })
     },
