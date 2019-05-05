@@ -1,15 +1,15 @@
 <template>
   <div>
     <div id="box_left" style="height: 100%">
-      <ns-button type="primary">新增分组</ns-button>
-      <el-tree
-        :data="wordGroupList"
-        default-expand-all
-        @node-drop="handleDrop"
-        draggable
-        :allow-drop="allowDrop"
-        :allow-drag="allowDrag">
-      </el-tree>
+      <ns-button class="newClassification" type="primary" @click="onSaveQuicklyWordGroupOpen">新增分类</ns-button>
+      <div class="Quickwordtreemenu">
+        <el-tree :data="wordGroupList" default-expand-all @node-click="onClickNode" @node-drop="handleDrop" draggable :allow-drop="allowDrop" :allow-drag="allowDrag">
+        </el-tree>
+        <div class="subdivision-tree-node" v-for="item in wordGroupList" :key="item.id">
+          <i class="iconfont icon-shanchu1" @click="deleteTheGroup()"></i>
+          <i class="iconfont icon-bianji1" @click="compile()"></i>
+        </div>
+      </div>
     </div>
     <div id="box_right">
       <ns-page-table>
@@ -88,10 +88,25 @@
           </el-select>
         </el-form-item>
         <el-form-item label="话术内容：" prop="content" required>
-          <el-input type="text" placeholder="输入话术内容，最多200字" v-model="model.content"></el-input>
+          <el-input type="textarea" placeholder="输入话术内容，最多200字" v-model="model.content" maxlength="200" size="small" rows="4"></el-input>
+          <div class="expressionBar_div">
+            <i class="iconfont icon-biaoqing" @click="faceFace"></i>
+          </div>
+        </el-form-item>
+        <el-form-item v-if="InternetMemeShow" label="" prop="" required>
+          <!-- 表情弹窗 -->
+          <div class="emotion-list_div">
+            <div class="emotion-list">
+              <div class="li" v-for="list in emotionList" :key="list.ShortCut" @click="setEmotionWords(list.ShortCut)">
+                <el-tooltip :content="list.Meaning">
+                  <img :src="list.OriginalFile">
+                </el-tooltip>
+              </div>
+            </div>
+          </div>
         </el-form-item>
         <el-form-item label="设置关键词：" prop="keyWord" >
-          <el-input type="text" placeholder="用'，'号隔开，最多设置五个词" v-model="model.keyWord"></el-input>
+          <el-input type="textarea" placeholder="用'，'号隔开，最多设置五个词" v-model="model.keyWord" size="small" rows="3"></el-input>
         </el-form-item>
         <el-form-item label="添加人：" prop="addName">
           <el-input v-if="model.id" type="text" v-model="model.addName"></el-input>
@@ -123,6 +138,21 @@
         <ns-button type="primary" @click="onPatchChange">保存</ns-button>
       </div>
     </el-dialog>
+    <!-- 新增分类 -->
+    <el-dialog size="small" :title="titleText"
+               :visible.sync="dialogVisibleSaveQuicklyWordGroup"
+               :modal-append-to-body="false"
+               @before-close="closeDialog()">
+      <el-form :model="model" ref="form" label-width="150px" :rules="rules" placement="right">
+        <el-form-item label="分类名称：" prop="name" required >
+          <el-input type="text" placeholder="请输入分类名称" v-model="model.name"></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <ns-button @click="closeDialog()">取消</ns-button>
+        <ns-button type="primary" @click="saveOrUpdateQuicklyWordGroup">保存</ns-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 <script>
@@ -134,11 +164,14 @@ export default List
     width: 14%;
     height: 500px;
     float: left;
+    background-color: #ffffff;
+    padding:5px 0 0 5px;
   }
   #box_right{
     float: left;
-    margin-left: 1%;
+    padding-left: 1%;
     width: 85%;
+    background-color: #ffffff
   }
 .dialog_mian_topText p sapn{
   color:grey;
@@ -150,5 +183,39 @@ export default List
 .sort{
   color:#0091FA;
   cursor: pointer;
+}
+.expressionBar_div{
+  width: 100%;
+  height: 30px;
+  background-color:#eee;
+  border-radius: 0 0 3px 3px;
+  padding-left: 5px;
+}
+.expressionBar_div i{
+  font-size: 18px;
+}
+.emotion-list_div {
+  width: 350px;
+  height: 200px;
+  margin-top: 10px;
+}
+.emotion-list_div .emotion-list .li{
+  list-style: none;
+  display: inline-block;
+  margin:0 2px;
+}
+.emotion-list_div .emotion-list .li img{
+  width: 20px;
+  height: 20px;
+}
+.newClassification{
+  margin-bottom: 20px
+}
+.Quickwordtreemenu{
+  display: flex;
+  justify-content: space-around;
+}
+.subdivision-tree-node i{
+  font-size: 12px;
 }
 </style>

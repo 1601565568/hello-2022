@@ -21,8 +21,7 @@ export const API_TIMEOUT = 10000
  * @type {{token: string}}
  */
 export const API_HEADERS = {
-  XRequestedWith: 'XMLHttpRequest', //  用来后端API判断是ajax请求的头，不要删除
-  token: 'scope token'
+  XRequestedWith: 'XMLHttpRequest' //  用来后端API判断是ajax请求的头，不要删除
 }
 
 /**
