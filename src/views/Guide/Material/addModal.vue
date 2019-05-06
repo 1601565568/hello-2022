@@ -25,7 +25,7 @@
                     <i class="el-icon-delete"></i>
                   </div>
                 </li>
-                <li v-if="saveObj.imageList.length<9">
+                <li v-if="saveObj.imageList.length< 10 - saveObj.codeType">
                   <el-upload class="avatar-uploader" :action="this.$api.core.sgUploadFile('test')" accept=".jpg,.jpeg,.png,.bmp,.gif" :show-file-list="false" list-type="picture-card" :on-remove="handleRemove" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
                     <i class="el-icon-plus avatar-uploader-icon"></i>
                   </el-upload>
@@ -195,23 +195,14 @@ export default {
 
       if (obj.id) {
         this.modalTit = '编辑素材'
+        this.groudList = groudArr
         this.$http.fetch(this.$api.guide.queryMaterial, { id: obj.id })
           .then(resp => {
-            $.extend(this.saveObj, resp.result)
+            this.saveObj = $.extend(true, {}, resp.result)
           })
           .catch(resp => {
             that.$notify.error(resp.msg)
           })
-        // let saveObj = JSON.parse(JSON.stringify(obj))
-        //  = {
-        //   content: saveObj.content,
-        //   id: saveObj.id,
-        //   imageList: saveObj.imageList,
-        //   subdivisionId: saveObj.subdivision_id,
-        //   mType: 1,
-        //   url: saveObj.url,
-        //   codeType: saveObj.code_type
-        // }
       } else {
         this.groudList = groudArr
         // 数据重置
@@ -257,12 +248,17 @@ export default {
     // 提交保存
     saveFun () {
       this.$refs.addForm.validate(valid => {
+        console.log(valid)
         if (valid) {
           this.doSave()
         }
       })
     },
     async doSave () {
+      if (this.saveObj.imageList.length >= 9 && this.saveObj.codeType === 2) {
+        this.$notify.warning('加小程序码的素材最多8张图片')
+        return
+      }
       this.loading = true
       await this.$http
         .fetch(this.$api.guide.materialEdit, this.saveObj)
