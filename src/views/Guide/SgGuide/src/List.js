@@ -541,7 +541,7 @@ export default {
               _this.allDeleteName.push(item.name)
             }
           })
-          
+
           // if (!_this.verification) {
           //   _this.$confirm('请确认是否对 ' + _this.allDeleteName.join('、') + ' 进行离职操作!', '提示', {
           //     confirmButtonText: '确定',
@@ -975,7 +975,7 @@ export default {
                   if (guide.birthday instanceof Date) {
                     guide.birthday = moment(guide.birthday).format('YYYY-MM-DD')
                   }
-                  if (_this.model.sgGuide.mobile !== null && _this.model.sgGuideShop.shop_id !== null && _this.model.sgGuide.name !== null && _this.model.sgGuide.work_prefix !==null) {
+                  if (_this.model.sgGuide.mobile !== null && _this.model.sgGuideShop.shop_id !== null && _this.model.sgGuide.name !== null && _this.model.sgGuide.work_prefix !== null) {
                     _this.saveOrUpdateGuide(guide, guideShop, sgGuideVo)
                   }
                 } else {
@@ -988,7 +988,7 @@ export default {
               if (guide.birthday instanceof Date) {
                 guide.birthday = moment(guide.birthday).format('YYYY-MM-DD')
               }
-              if (_this.model.sgGuide.mobile !== null && _this.model.sgGuideShop.shop_id !== null && _this.model.sgGuide.name !== null && _this.model.sgGuide.work_prefix !==null) {
+              if (_this.model.sgGuide.mobile !== null && _this.model.sgGuideShop.shop_id !== null && _this.model.sgGuide.name !== null && _this.model.sgGuide.work_prefix !== null) {
                 _this.saveOrUpdateGuide(guide, guideShop, sgGuideVo)
               }
             }
@@ -1006,7 +1006,7 @@ export default {
                 if (guide.birthday instanceof Date) {
                   guide.birthday = moment(guide.birthday).format('YYYY-MM-DD')
                 }
-                if (_this.model.sgGuide.mobile !== null && _this.subordinateStores.length > 0 && _this.model.sgGuide.name !== null && _this.model.sgGuide.work_prefix !==null) {
+                if (_this.model.sgGuide.mobile !== null && _this.subordinateStores.length > 0 && _this.model.sgGuide.name !== null && _this.model.sgGuide.work_prefix !== null) {
                   _this.saveOrUpdateGuide(guide, guideShop, sgGuideVo)
                 }
               } else {
@@ -1020,7 +1020,7 @@ export default {
               if (guide.birthday instanceof Date) {
                 guide.birthday = moment(guide.birthday).format('YYYY-MM-DD')
               }
-              if (_this.model.sgGuide.mobile !== null && _this.model.sgGuideShop.shop_id !== null && _this.model.sgGuide.name !== null && _this.model.sgGuide.work_prefix !==null) {
+              if (_this.model.sgGuide.mobile !== null && _this.model.sgGuideShop.shop_id !== null && _this.model.sgGuide.name !== null && _this.model.sgGuide.work_prefix !== null) {
                 _this.saveOrUpdateGuide(guide, guideShop, sgGuideVo)
               }
             } else {
@@ -1032,7 +1032,7 @@ export default {
                   if (guide.birthday instanceof Date) {
                     guide.birthday = moment(guide.birthday).format('YYYY-MM-DD')
                   }
-                  if (_this.model.sgGuide.mobile !== null && _this.model.sgGuideShop.shop_id !== null && _this.model.sgGuide.name !== null && _this.model.sgGuide.work_prefix !==null) {
+                  if (_this.model.sgGuide.mobile !== null && _this.model.sgGuideShop.shop_id !== null && _this.model.sgGuide.name !== null && _this.model.sgGuide.work_prefix !== null) {
                     _this.saveOrUpdateGuide(guide, guideShop, sgGuideVo)
                   }
                 } else {
@@ -1057,7 +1057,7 @@ export default {
               if (guide.work_num === null) { guide.work_num = '' }
             }
           })
-          if (_this.model.sgGuide.mobile !== null && _this.subordinateStores.length > 0 && _this.model.sgGuide.name !== null && _this.model.sgGuide.work_prefix !==null) {
+          if (_this.model.sgGuide.mobile !== null && _this.subordinateStores.length > 0 && _this.model.sgGuide.name !== null && _this.model.sgGuide.work_prefix !== null) {
             _this.saveOrUpdateGuide(guide, guideShop, sgGuideVo)
           }
         } else if (model.sgGuideShop.job === 0 && _this.title === '新增员工') {
@@ -1071,7 +1071,7 @@ export default {
               if (guide.work_num === null) { guide.work_num = '' }
             }
           })
-          if (_this.model.sgGuide.mobile !== null && _this.model.sgGuideShop.shop_id !== null && _this.model.sgGuide.name !== null && _this.model.sgGuide.work_prefix !==null) {
+          if (_this.model.sgGuide.mobile !== null && _this.model.sgGuideShop.shop_id !== null && _this.model.sgGuide.name !== null && _this.model.sgGuide.work_prefix !== null) {
             _this.saveOrUpdateGuide(guide, guideShop, sgGuideVo)
           }
         }

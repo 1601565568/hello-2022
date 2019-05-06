@@ -144,7 +144,6 @@
 import listPageMixin from '@/mixins/listPage'
 import apiRequestConfirm from 'web-crm/src/utils/apiRequestConfirm'
 import addGroudModal from './addGroudModal'
-import listItemShow from './components/listItemShow'
 import moment from 'moment'
 export default {
   mixins: [listPageMixin],
@@ -296,9 +295,7 @@ export default {
   },
   computed: {},
   components: {
-    apiRequestConfirm,
-    addGroudModal,
-    listItemShow
+    addGroudModal
   }
 }
 </script>

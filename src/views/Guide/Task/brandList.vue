@@ -271,7 +271,6 @@ export default {
     }
   },
   components: {
-    apiRequestConfirm,
     addBrandTaskModal,
     showShopListModal
     // setGroudModal
