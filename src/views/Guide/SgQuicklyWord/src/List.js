@@ -38,6 +38,10 @@ export default {
         searchValue: null,
         param: {}
       },
+      addOrEditModel: {
+        id: null,
+        name: null
+      },
       selectedArr: [],
       obj: {},
       parameter: {
@@ -67,6 +71,10 @@ export default {
         'wordGroupId': [{ required: true, message: '话术类别不能为空' }],
         'content': [{ required: true, message: '话术内容不能为空' }],
         'name': [{ required: true, message: '分类内容不能为空' }]
+      },
+      addOrEditRules: {
+        'name': [{ required: true, message: '分类内容不能为空' },
+          { max: 10, message: '长度在 10 以内', trigger: 'blur' }]
       }
     }
   },
@@ -93,9 +101,6 @@ export default {
     },
     deleteTheGroup () { // 树形菜单删除按钮
     },
-    compile () { // 树形菜单编辑按钮
-
-    },
     handleDrop (draggingNode, dropNode, dropType, ev) {
       this.changeQuicklyWordGroupSort(draggingNode.data.id, dropNode.data.id)
     },
@@ -111,16 +116,16 @@ export default {
       })
     },
     saveOrUpdateQuicklyWordGroup () {
-      this.$refs.form.validate((valid) => {
+      this.$refs.addOrEditForm.validate((valid) => {
         if (valid) {
-          this.$http.fetch(this.$api.guide.saveOrUpdateQuicklyWordGroup, { id: this.model.id, name: this.model.name }).then(resp => {
+          this.$http.fetch(this.$api.guide.saveOrUpdateQuicklyWordGroup, this.addOrEditModel).then(resp => {
             if (resp.success) {
-              this.$notify.success('新增成功')
+              this.addOrEditModel.id ? this.$notify.success('编辑成功') : this.$notify.success('新增成功')
               this.findQuicklyWordGroupList()
               this.closeDialog()
             }
           }).catch(resp => {
-            this.$notify.error(resp.errMsg || '新增失败')
+            this.addOrEditModel.id ? this.$notify.error(resp.errMsg || '编辑失败') : this.$notify.error(resp.errMsg || '新增失败')
           })
         }
       })
@@ -181,11 +186,21 @@ export default {
         this.model.addName = this.addName
       }
     },
-    onSaveQuicklyWordGroupOpen (row) {
+    onSaveQuicklyWordGroupOpen (item) {
+      this.addOrEditModel = {
+        id: null,
+        name: null
+      }
+      if (item.id) {
+        this.addOrEditModel = {
+          id: item.id,
+          name: item.name
+        }
+      }
+      this.titleText = (item.id && '编辑分类') || '新增分类'
       this.dialogVisibleSaveQuicklyWordGroup = true
       this.dialogFormVisible = false
       this.dialogVisiblePatchChange = false
-      this.titleText = (row.id && '编辑分类') || '新增分类'
     },
     onPatchChangeOpen () { // 批量管理
       if (!this.selectedArr.length > 0) {
