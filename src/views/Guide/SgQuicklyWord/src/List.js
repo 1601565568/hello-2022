@@ -99,7 +99,15 @@ export default {
       this.parameter.searchMap = this.model
       this.$queryList$(this.parameter)
     },
-    deleteTheGroup () { // 树形菜单删除按钮
+    deleteTheGroup (data) { // 树形菜单删除按钮
+      this.$http.fetch(this.$api.guide.deleteQuicklyWordGroup, { id: data.id }).then(resp => {
+        if (resp.success) {
+          this.findQuicklyWordGroupList()
+          this.$notify.success('删除分组成功')
+        }
+      }).catch(resp => {
+        this.$notify.error(resp.errMsg || '删除失败')
+      })
     },
     handleDrop (draggingNode, dropNode, dropType, ev) {
       this.changeQuicklyWordGroupSort(draggingNode.data.id, dropNode.data.id)

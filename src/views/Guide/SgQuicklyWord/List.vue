@@ -11,7 +11,7 @@
       <div class="navTree-item flex flex-between" slot-scope="{ node, data }" >
         <span>{{ data.name }}</span>
         <span v-if='data.id'>
-          <i class="iconfont icon-shanchu1 " @click="deleteTheGroup()" style='font-size:18px'></i>
+          <i class="iconfont icon-shanchu1 " @click="deleteTheGroup(data)" style='font-size:18px'></i>
           <i class="iconfont icon-bianji1 ml10" @click="onSaveQuicklyWordGroupOpen(data)"></i>
         </span>
       </div>
