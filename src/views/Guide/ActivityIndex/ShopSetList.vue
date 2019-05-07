@@ -30,8 +30,7 @@
                   :editable="false"
                   v-model="searchform.year"
                   type="year"
-                  placeholder="选择年"
-                  clearable>
+                  placeholder="选择年">
                 </el-date-picker>
               </el-form-item>
               <el-form-item label="门店名称：" prop="shopName">

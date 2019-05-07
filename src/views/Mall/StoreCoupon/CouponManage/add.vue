@@ -265,7 +265,6 @@
 </template>
 <script>
 import moment from 'moment'
-import goodsDialog from './goodsDialog'
 import NsShopSelect from 'web-crm/src/components/NsShopSelect'
 import NsGoodsSelect from 'web-crm/src/components/NsGoodsSelect'
 export default {
@@ -430,7 +429,6 @@ export default {
     }
   },
   components: {
-    goodsDialog,
     NsGoodsSelect,
     NsShopSelect
   }

@@ -64,7 +64,7 @@
           <template slot-scope="scope">
             <template v-if="scope.row.coupon_state == 'unused'">未使用</template>
             <template v-else-if="scope.row.coupon_state == 'using'">使用中</template>
-            <template v-else="scope.row.coupon_state == 'used'">已使用</template>
+            <template v-else>已使用</template>
           </template>
         </el-table-column>
         <el-table-column :show-overflow-tooltip="true" type="default" prop="send_time"
@@ -81,7 +81,7 @@
             <template v-else-if="scope.row.send_status == 1">发送成功</template>
             <template v-else-if="scope.row.send_status == 2">发送失败</template>
             <template v-else-if="scope.row.send_status == 3">店铺客户</template>
-            <template v-else="scope.row.send_status == 4">超过五张</template>
+            <template v-else-if="scope.row.send_status == 4">超过五张</template>
           </template>
         </el-table-column>
       </el-table>

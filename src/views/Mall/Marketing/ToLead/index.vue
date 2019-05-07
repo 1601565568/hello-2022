@@ -8,7 +8,7 @@
                 <el-col :span="16" >
                 商品库
                 </el-col>
-                <el-col :span="2" @click="">
+                <el-col :span="2" >
                     <ns-button>新建</ns-button>
                 </el-col>
                 <el-col :span="5">

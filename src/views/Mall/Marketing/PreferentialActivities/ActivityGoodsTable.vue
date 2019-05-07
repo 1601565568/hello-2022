@@ -45,11 +45,9 @@
 
 <script>
 import tableMixin from 'web-crm/src/mixins/table'
-import SgGoodsSelect from '../../../Guide/components/SgGoodsSelect'
 export default {
   name: 'ActivityGoodsTable',
   mixins: [tableMixin],
-  components: { SgGoodsSelect },
   props: {
     showIcon: {
       type: Boolean,

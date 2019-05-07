@@ -101,10 +101,10 @@
         </el-form-item>
         <el-form-item label="模板消息类型：" prop="type" required >
           <el-select v-if="subObj.id" disabled v-model="subObj.type" filterable clearable placeholder="请选择模板类型">
-            <el-option v-for="(types,index) in typeList" :label="types.label" :value="types.value" :key="types.value"></el-option>
+            <el-option v-for="(types) in typeList" :label="types.label" :value="types.value" :key="types.value"></el-option>
           </el-select>
           <el-select v-if="!subObj.id" v-model="subObj.type" filterable clearable placeholder="请选择模板类型">
-            <el-option v-for="(types,index) in typeList" :label="types.label" :value="types.value" :key="types.value"></el-option>
+            <el-option v-for="(types) in typeList" :label="types.label" :value="types.value" :key="types.value"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="模板id：" v-if="subObj.id" prop="templateId" >

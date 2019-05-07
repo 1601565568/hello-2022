@@ -436,7 +436,6 @@ export default {
     addNum,
     detailList,
     couponView,
-    apiRequestConfirm,
     addModal
   }
 }

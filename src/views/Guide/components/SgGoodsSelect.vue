@@ -86,7 +86,7 @@
             <div v-if="selectedData.length>0">
               <el-scrollbar style="margin-top: 5px;">
                 <ul class="tmp-choose__goods">
-                  <li v-for="(item,index) in selectedData">
+                  <li v-for="(item,index) in selectedData" :key='index'>
                     <span class="g-name">{{item[props.name]}}</span>
                     <a @click="onDelSelected('selectedData',index,item[props.unique])" class="delete-icon">
                       <i class="g-delete el-icon-delete"></i></a>

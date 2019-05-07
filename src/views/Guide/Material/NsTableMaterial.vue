@@ -107,7 +107,7 @@
               <template slot-scope="scope">
                 分享文案：{{scope.row.content}}<br/>
                 <template v-if="scope.row.imageUrl">
-                  <span v-for="image in scope.row.imageUrl.split(',')"><img :src="image" width="50" height="50" style="margin-right: 10px"/></span>
+                  <span v-for="image in scope.row.imageUrl.split(',')" :key='image'><img :src="image" width="50" height="50" style="margin-right: 10px"/></span>
                 </template><br/>
                 分享链接：{{scope.row.url}}
               </template>

@@ -68,7 +68,7 @@
               <el-form-grid>
                 会员可自主更换专属导购的次数 :
                 <el-select  v-model="model.limit_type" @change="limitTypeChange()" :disabled="status===0" placeholder="请选择" style="width:160px">
-                  <el-option v-for="(types,index) in typeList" :label="types.label" :value="types.value" :key="types.value"></el-option>
+                  <el-option v-for="(types) in typeList" :label="types.label" :value="types.value" :key="types.value"></el-option>
                 </el-select>
               </el-form-grid>
               <el-input v-model="model.change_num" style="width:100px" v-if="model.limit_type > 0" :disabled="status===0"></el-input>

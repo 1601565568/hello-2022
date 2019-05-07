@@ -17,7 +17,7 @@
                 门店：
                 <el-select v-model="searchObj.id" filterable clearable placeholder="请选择门店" @change='shopSelect(searchObj.id)'>
                   <el-option
-                    v-for="(item,index) in shopArr"
+                    v-for="(item) in shopArr"
                     :key="item.id"
                     :label="item.shopName"
                     :value="item.id">
@@ -51,7 +51,6 @@
                   :content="'完成度：'+getRewardInfoObj.paymentPersent+'% , 销售目标：'+ $numeral(getRewardInfoObj.sellQuota).format('0,0.00')">
                   <div slot="reference">
                     <el-progress type="circle" :width=70 :stroke-width=4 :percentage="getRewardInfoObj.paymentPersent" color="#0091FA" :show-text=false></el-progress>
-                    </el-progress>
                   </div>
                 </el-popover>
                 <p class="overview-content__item-right--progress-text">完成度</p>
