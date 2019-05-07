@@ -438,10 +438,10 @@
         </div>
         <div>
           <div class="user_style_text">
-            员工所属门店有多门店，不允许批量更换门店！
+            员工所属门店有多门店，不允许批量{{switchStateName}}！
           </div>
           <div class="user_style">
-            仅支持单门店批量更换门店！
+            仅支持单门店批量{{switchStateName}}！
           </div>
         </div>
       </div>

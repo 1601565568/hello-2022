@@ -31,7 +31,7 @@ export default {
       model: {
         id: null,
         wordGroupId: null,
-        content: null,
+        content: '',
         keyWord: null,
         name: null,
         addName: null,
@@ -151,6 +151,10 @@ export default {
     findQuicklyWordGroupList () {
       this.$http.fetch(this.$api.guide.findQuicklyWordGroupList, {}).then(resp => {
         if (resp.success && resp.result.data.length > 0) {
+          resp.result.data.map(item => {
+            item.shanchu1 = 'iconfont icon-shanchu1'
+            item.bianji1 = 'iconfont icon-bianji1'
+          })
           this.wordGroupList = resp.result.data
           this.wordGroupList.unshift(this.allGuideArr)
         }
@@ -176,7 +180,7 @@ export default {
       this.model = {
         id: null,
         wordGroupId: null,
-        content: null,
+        content: '',
         keyWord: null,
         name: null,
         addName: null,
@@ -185,11 +189,14 @@ export default {
       }
     },
     onSaveOpen (row) { // 新增或编辑
+      let arr = Object.keys(row)
       this.dialogFormVisible = true
       this.dialogVisiblePatchChange = false
       this.titleText = (row.id && '编辑话术') || '新增话术'
       this.titleText = (row.id && '编辑话术') || '新增话术'
-      this.model = Object.assign({}, row)
+      if (arr.length !== 0) {
+        this.model = Object.assign({}, row)
+      }
       if (!row || !row.id) {
         this.model.addName = this.addName
       }
@@ -221,6 +228,7 @@ export default {
     },
     onSave () { // 快捷话术保存功能
       let that = this
+      this.InternetMemeShow = false
       that.$refs.form.validate((valid) => {
         if (valid) {
           that.$http.fetch(that.$api.guide.saveOrUpdateQuicklyWord, that.model).then(() => {

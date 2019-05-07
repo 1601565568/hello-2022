@@ -12,25 +12,10 @@
         <span>{{ data.name }}</span>
         <span v-if='data.id'>
           <i class="iconfont icon-shanchu1 " @click="deleteTheGroup(data)" style='font-size:18px'></i>
-          <i class="iconfont icon-bianji1 ml10" @click="onSaveQuicklyWordGroupOpen(data)"></i>
+          <i class="iconfont icon-bianji1 ml5" @click="onSaveQuicklyWordGroupOpen(data)"></i>
         </span>
       </div>
       </el-tree>
-    <!-- <el-menu
-      default-active="0"
-      class="menu"
-      @open="handleOpen"
-      @close="handleClose">
-      <template v-for="(item, index) in wordGroupList">
-        <el-menu-item  :index="index"  :key="index" class="menu-item flex flex-between">
-          <span >{{item.name}}</span>
-          <div v-if='index>0'>
-
-          </div>
-        </el-menu-item>
-      </template>
-    </el-menu> -->
-
     </div>
     <div id="box_right">
       <ns-page-table>
@@ -109,7 +94,7 @@
           </el-select>
         </el-form-item>
         <el-form-item label="话术内容：" prop="content" required>
-          <el-input type="textarea" placeholder="输入话术内容，最多200字" v-model="model.content" maxlength="200" size="small" rows="4"></el-input>
+            <el-input type="textarea" placeholder="输入话术内容，最多200字" v-model="model.content" maxlength="200" size="small" rows="4"></el-input>
           <div class="expressionBar_div">
             <i class="iconfont icon-biaoqing" @click="faceFace"></i>
           </div>
@@ -191,15 +176,14 @@ export default List
 <style scoped>
  @import "@/style/small/variables.pcss";
   #box_left{
-    width: 14%;
-    /* height: 500px; */
+    width: 220px;
+    margin-right: 10px;
     float: left;
     background-color: #ffffff;
-    /* padding:5px 0 0 5px; */
+    border-radius: 0 0 3px 3px;
   }
   #box_right{
-    float: left;
-    width: 86%;
+    overflow: hidden;
     background-color: #ffffff
   }
 .dialog_mian_topText p sapn{
@@ -247,7 +231,6 @@ export default List
   @b item {
     height: 40px;line-height:40px;
     &.is-active {
-      /* border-right: 2px solid var(--head-nav-bg); */
       background-color: var(--default-menu-active-border);
 
       .item-title {

@@ -541,87 +541,47 @@ export default {
               _this.allDeleteName.push(item.name)
             }
           })
-
-          // if (!_this.verification) {
-          //   _this.$confirm('请确认是否对 ' + _this.allDeleteName.join('、') + ' 进行离职操作!', '提示', {
-          //     confirmButtonText: '确定',
-          //     cancelButtonText: '取消',
-          //     type: 'warning'
-          //   }).then(() => {
-          //     _this.dimissionArry.map(item => {
-          //       dimissionIdArry.push(item.id)
-          //       dimissionshopIdArry.push(item.shop_id)
-          //     })
-          //     _this.$http.fetch(_this.$api.guide.guide.guideLeave, {
-          //       guideIds: dimissionIdArry.join(',')
-          //     }).then(resp => {
-          //       if (resp.result.failCount > 0) {
-          //         _this.theNumberOfsuccessful = resp.result.successCount
-          //         _this.theNumberOfFailures = resp.result.failCount
-          //         resp.result.guideNames.split(',').map((item, i) => {
-          //           if (_this.nameArr.indexOf(resp.result.guideNames.split(',')[i]) === -1) {
-          //             _this.nameArr.push(item)
-          //           } else {
-          //             if (item === _this.multipleSelection[i].name) {
-          //               _this.nameArr[i] = _this.multipleSelection[i].name + '(' + _this.multipleSelection[i].work_id + ')'
-          //             }
-          //           }
-          //         })
-          //         _this.nameArr = _this.nameArr.join('，')
-          //         _this.returnInformationShow = true
-          //         // _this.$notify.error(resp.result.msg)
-          //         _this.successCount = resp.result.successCount
-          //         _this.failCount = resp.result.failCount
-          //         console.log('_this.successCount:', _this.successCount, _this.failCount)
-          //       } else {
-          //         _this.$notify.success('批量离职成功')
-          //         _this.$refs.table.$reload()
-          //       }
-          //     }).catch((resp) => {
-          //       _this.$notify.error('批量离职失败：' + resp.msg)
-          //     })
-          //   })
-          // } else {
-          //   _this.multipleStoresAreNotSupportedShow = true
-          // }
-
-          _this.$confirm('请确认是否对 ' + _this.allDeleteName.join('、') + ' 进行离职操作!', '提示', {
-            confirmButtonText: '确定',
-            cancelButtonText: '取消',
-            type: 'warning'
-          }).then(() => {
-            _this.dimissionArry.map(item => {
-              dimissionIdArry.push(item.id)
-              dimissionshopIdArry.push(item.shop_id)
-            })
-            _this.$http.fetch(_this.$api.guide.guide.guideLeave, {
-              guideIds: dimissionIdArry.join(',')
-            }).then(resp => {
-              if (resp.result.failCount > 0) {
-                _this.theNumberOfsuccessful = resp.result.successCount
-                _this.theNumberOfFailures = resp.result.failCount
-                resp.result.guideNames.split(',').map((item, i) => {
-                  if (_this.nameArr.indexOf(resp.result.guideNames.split(',')[i]) === -1) {
-                    _this.nameArr.push(item)
-                  } else {
-                    if (item === _this.multipleSelection[i].name) {
-                      _this.nameArr[i] = _this.multipleSelection[i].name + '(' + _this.multipleSelection[i].work_id + ')'
+          if (!_this.verification) {
+            _this.$confirm('请确认是否对 ' + _this.allDeleteName.join('、') + ' 进行离职操作!', '提示', {
+              confirmButtonText: '确定',
+              cancelButtonText: '取消',
+              type: 'warning'
+            }).then(() => {
+              _this.dimissionArry.map(item => {
+                dimissionIdArry.push(item.id)
+                dimissionshopIdArry.push(item.shop_id)
+              })
+              _this.$http.fetch(_this.$api.guide.guide.guideLeave, {
+                guideIds: dimissionIdArry.join(',')
+              }).then(resp => {
+                if (resp.result.failCount > 0) {
+                  _this.theNumberOfsuccessful = resp.result.successCount
+                  _this.theNumberOfFailures = resp.result.failCount
+                  resp.result.guideNames.split(',').map((item, i) => {
+                    if (_this.nameArr.indexOf(resp.result.guideNames.split(',')[i]) === -1) {
+                      _this.nameArr.push(item)
+                    } else {
+                      if (item === _this.multipleSelection[i].name) {
+                        _this.nameArr[i] = _this.multipleSelection[i].name + '(' + _this.multipleSelection[i].work_id + ')'
+                      }
                     }
-                  }
-                })
-                _this.nameArr = _this.nameArr.join('，')
-                _this.returnInformationShow = true
-                // _this.$notify.error(resp.result.msg)
-                _this.successCount = resp.result.successCount
-                _this.failCount = resp.result.failCount
-              } else {
-                _this.$notify.success('批量离职成功')
-                _this.$refs.table.$reload()
-              }
-            }).catch((resp) => {
-              _this.$notify.error('批量离职失败：' + resp.msg)
+                  })
+                  _this.nameArr = _this.nameArr.join('，')
+                  _this.returnInformationShow = true
+                  // _this.$notify.error(resp.result.msg)
+                  _this.successCount = resp.result.successCount
+                  _this.failCount = resp.result.failCount
+                } else {
+                  _this.$notify.success('批量离职成功')
+                  _this.$refs.table.$reload()
+                }
+              }).catch((resp) => {
+                _this.$notify.error('批量离职失败：' + resp.msg)
+              })
             })
-          })
+          } else {
+            _this.multipleStoresAreNotSupportedShow = true
+          }
         }
       }
     },
