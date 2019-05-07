@@ -151,7 +151,8 @@ export default {
     },
     findKeyValue () {
       let that = this
-      that.$http.fetch(this.$api.isv.getCacheKeyValue, { 'cacheKey': that.cacheKey }).then(resp => {
+      let parms = { cacheKey: this.cacheKey, type: this.type }
+      that.$http.fetch(this.$api.isv.getCacheKeyValue, parms).then(resp => {
         that.cacheVlaue = null
         if (resp.result && resp.result !== '') {
           try {

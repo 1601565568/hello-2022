@@ -4,7 +4,7 @@
         <img src="../../assets/logo.png" alt="客道" />
       </router-link>
     <div class="nav-menu">
-      <div v-for='(item,index) in $store.state.operate.menus'
+      <div v-for='(item) in $store.state.operate.menus'
             :index="item.name"
             :key='item.path'
             v-if='!item.hidden && item.name != "examples"'

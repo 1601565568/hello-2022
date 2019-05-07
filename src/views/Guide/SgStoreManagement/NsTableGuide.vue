@@ -52,7 +52,7 @@
 
         <el-form-item label="手机号：">
           <el-form-grid size="xmd">
-            <el-input style="width:180px" autofocus=true v-model="model.phone" placeholder="请输入联系电话" clearable></el-input>
+            <el-input style="width:180px" autofocus=true v-model="model.phone" placeholder="请输入手机号" clearable></el-input>
           </el-form-grid>
         </el-form-item>
 

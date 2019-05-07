@@ -8,7 +8,7 @@
       <div>
         <div>
           <i class="el-icon-menu" @click="elIconMenu"></i>
-          <img :src="elIconMenu"></img>
+          <img :src="elIconMenu" />
         </div>
         <div>
           <div><template><el-checkbox v-model="checked"></el-checkbox></template>会员注册时是否需要关注公众号</div>

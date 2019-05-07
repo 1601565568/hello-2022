@@ -858,3 +858,43 @@
   content: "\e6ba";
 }
 
+.icon-gaojiguanli:before {
+  content: "\e6c3";
+}
+
+.icon-huiyuanguanli:before {
+  content: "\e6c4";
+}
+
+.icon-renwuguanli:before {
+  content: "\e6c8";
+}
+
+.icon-yuangongguanli:before {
+  content: "\e6c9";
+}
+
+.icon-sucaiku:before {
+  content: "\e6ca";
+}
+
+.icon-shouquanguanli:before {
+  content: "\e6cb";
+}
+
+.icon-mendianguanli:before {
+  content: "\e6c5";
+}
+
+.icon-qita1:before {
+  content: "\e6c6";
+}
+
+.icon-mendianyingxiao:before {
+  content: "\e6c7";
+}
+
+.icon-yejizhibiao:before {
+  content: "\e6cc";
+}
+

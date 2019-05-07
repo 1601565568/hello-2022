@@ -33,9 +33,14 @@ export default {
         wordGroupId: null,
         content: '',
         keyWord: null,
+        name: null,
         addName: null,
         searchValue: null,
         param: {}
+      },
+      addOrEditModel: {
+        id: null,
+        name: null
       },
       selectedArr: [],
       obj: {},
@@ -54,6 +59,7 @@ export default {
       titleText: '',
       dialogFormVisible: false,
       dialogVisiblePatchChange: false,
+      dialogVisibleSaveQuicklyWordGroup: false,
       dialogVisible: false,
       loadingTable: false,
       tableList: [],
@@ -63,7 +69,12 @@ export default {
       },
       rules: {
         'wordGroupId': [{ required: true, message: '话术类别不能为空' }],
-        'content': [{ required: true, message: '话术内容不能为空' }]
+        'content': [{ required: true, message: '话术内容不能为空' }],
+        'name': [{ required: true, message: '分类内容不能为空' }]
+      },
+      addOrEditRules: {
+        'name': [{ required: true, message: '分类内容不能为空' },
+          { max: 10, message: '长度在 10 以内', trigger: 'blur' }]
       }
     }
   },
@@ -97,11 +108,15 @@ export default {
       this.parameter.searchMap = this.model
       this.$queryList$(this.parameter)
     },
-    deleteTheGroup () { // 树形菜单删除按钮
-      console.log('asa9090sa')
-    },
-    compile () { // 树形菜单编辑按钮
-      console.log('asasa')
+    deleteTheGroup (data) { // 树形菜单删除按钮
+      this.$http.fetch(this.$api.guide.deleteQuicklyWordGroup, { id: data.id }).then(resp => {
+        if (resp.success) {
+          this.findQuicklyWordGroupList()
+          this.$notify.success('删除分组成功')
+        }
+      }).catch(resp => {
+        this.$notify.error(resp.errMsg || '删除失败')
+      })
     },
     handleDrop (draggingNode, dropNode, dropType, ev) {
       this.changeQuicklyWordGroupSort(draggingNode.data.id, dropNode.data.id)
@@ -117,12 +132,29 @@ export default {
         }
       })
     },
+    saveOrUpdateQuicklyWordGroup () {
+      this.$refs.addOrEditForm.validate((valid) => {
+        if (valid) {
+          this.$http.fetch(this.$api.guide.saveOrUpdateQuicklyWordGroup, this.addOrEditModel).then(resp => {
+            if (resp.success) {
+              this.addOrEditModel.id ? this.$notify.success('编辑成功') : this.$notify.success('新增成功')
+              this.findQuicklyWordGroupList()
+              this.closeDialog()
+            }
+          }).catch(resp => {
+            this.addOrEditModel.id ? this.$notify.error(resp.errMsg || '编辑失败') : this.$notify.error(resp.errMsg || '新增失败')
+          })
+        }
+      })
+    },
     findAddName () {
       this.$http.fetch(this.$api.guide.findAddName, {}).then(resp => {
         if (resp.success && resp.result) {
           this.model.addName = resp.result
           this.addName = resp.result
         }
+      }).catch(reason => {
+        this.$notify.warning('系统异常')
       })
     },
     findQuicklyWordGroupList () {
@@ -135,6 +167,8 @@ export default {
           this.wordGroupList = resp.result.data
           this.wordGroupList.unshift(this.allGuideArr)
         }
+      }).catch(reason => {
+        this.$notify.error(reason.errMsg || '系统异常')
       })
     },
     handleSelectionChange (val) {
@@ -151,11 +185,13 @@ export default {
     closeDialog () {
       this.dialogFormVisible = false
       this.dialogVisiblePatchChange = false
+      this.dialogVisibleSaveQuicklyWordGroup = false
       this.model = {
         id: null,
         wordGroupId: null,
         content: null,
         keyWord: null,
+        name: null,
         addName: null,
         searchValue: null,
         param: {}
@@ -165,10 +201,27 @@ export default {
       this.dialogFormVisible = true
       this.dialogVisiblePatchChange = false
       this.titleText = (row.id && '编辑话术') || '新增话术'
+      this.titleText = (row.id && '编辑话术') || '新增话术'
       this.model = Object.assign({}, row)
       if (!row || !row.id) {
         this.model.addName = this.addName
       }
+    },
+    onSaveQuicklyWordGroupOpen (item) {
+      this.addOrEditModel = {
+        id: null,
+        name: null
+      }
+      if (item.id) {
+        this.addOrEditModel = {
+          id: item.id,
+          name: item.name
+        }
+      }
+      this.titleText = (item.id && '编辑分类') || '新增分类'
+      this.dialogVisibleSaveQuicklyWordGroup = true
+      this.dialogFormVisible = false
+      this.dialogVisiblePatchChange = false
     },
     onPatchChangeOpen () { // 批量管理
       if (!this.selectedArr.length > 0) {
@@ -224,7 +277,7 @@ export default {
           }).catch((resp) => {
             that.$notify.error(resp.msg || '删除失败')
           })
-        }).catch(() => {
+        }).catch(resp => {
         // 点击取消事件
         })
     },

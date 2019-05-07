@@ -1,16 +1,36 @@
 <template>
-  <div>
-    <div id="box_left" style="height: 100%">
-      <ns-button class="newClassification" type="primary">新增分类</ns-button>
-      <div class="Quickwordtreemenu">
-        <el-tree :data="wordGroupList" node-key="id" default-expand-all="false" :render-content="renderContent"
-        @node-click="onClickNode" @node-drop="handleDrop" draggable :allow-drop="allowDrop" :allow-drag="allowDrag">
-        </el-tree>
-        <!-- <div class="subdivision-tree-node" v-for="item in wordGroupList" :key="item.id">
-          <i class="iconfont icon-shanchu1" @click="deleteTheGroup()"></i>
-          <i class="iconfont icon-bianji1" @click="compile()"></i>
-        </div> -->
+  <div id='SgQuicklyWordPage'>
+    <div id="box_left">
+      <ns-button class="newClassification ml10 mt5" type="primary" @click="onSaveQuicklyWordGroupOpen">新增分类</ns-button>
+      <el-tree :data="wordGroupList" default-expand-all @node-click="onClickNode" @node-drop="handleDrop" draggable :allow-drop="allowDrop"
+      :allow-drag="allowDrag"
+      node-key="id"
+      :current-node-key='null'
+      :highlight-current = 'true'
+      class='navTree'>
+      <div class="navTree-item flex flex-between" slot-scope="{ node, data }" >
+        <span>{{ data.name }}</span>
+        <span v-if='data.id'>
+          <i class="iconfont icon-shanchu1 " @click="deleteTheGroup(data)" style='font-size:18px'></i>
+          <i class="iconfont icon-bianji1 ml10" @click="onSaveQuicklyWordGroupOpen(data)"></i>
+        </span>
       </div>
+      </el-tree>
+    <!-- <el-menu
+      default-active="0"
+      class="menu"
+      @open="handleOpen"
+      @close="handleClose">
+      <template v-for="(item, index) in wordGroupList">
+        <el-menu-item  :index="index"  :key="index" class="menu-item flex flex-between">
+          <span >{{item.name}}</span>
+          <div v-if='index>0'>
+
+          </div>
+        </el-menu-item>
+      </template>
+    </el-menu> -->
+
     </div>
     <div id="box_right">
       <ns-page-table>
@@ -37,7 +57,7 @@
           <el-table ref="multipleTable" :data="_data._table.data" class="template-table__main"
                     stripe
                     tooltip-effect="dark"
-                    @selection-change="handleSelectionChange">
+                    @selection-change="handleSelectionChange"
             resizable v-loading.lock="_data._table.loadingtable"
             :element-loading-text="$t('prompt.loading')" @sort-change="$orderChange$">
             <el-table-column
@@ -139,27 +159,47 @@
         <ns-button type="primary" @click="onPatchChange">保存</ns-button>
       </div>
     </el-dialog>
+    <!-- 新增分类 -->
+    <el-dialog size="small" :title="titleText"
+               :visible.sync="dialogVisibleSaveQuicklyWordGroup"
+               :modal-append-to-body="false"
+               width='500px'
+               @before-close="closeDialog()">
+      <el-form :model="addOrEditModel" ref="addOrEditForm" label-width="80px" :rules="addOrEditRules" placement="right" class='addOrEditForm'>
+        <el-form-item label="分类名称：" prop="name" required >
+          <el-input type="text" placeholder="请输入分类名称" v-model="addOrEditModel.name"></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <ns-button @click="closeDialog()">取消</ns-button>
+        <ns-button type="primary" @click="saveOrUpdateQuicklyWordGroup">保存</ns-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 <script>
 import List from './src/List'
+import ElMenu from 'nui-v2/lib/menu'
+import ElMenuItem from 'nui-v2/lib/menu-item'
+
+List.components = {
+  ElMenu,
+  ElMenuItem
+}
 export default List
 </script>
 <style scoped>
-  .Quickwordtreemenu .el-tree-node [class$="-tree-node"] {
-    padding-right: 0 !important;
-  }
+ @import "@/style/small/variables.pcss";
   #box_left{
     width: 14%;
-    height: 500px;
+    /* height: 500px; */
     float: left;
     background-color: #ffffff;
-    padding:5px 0 0 5px;
+    /* padding:5px 0 0 5px; */
   }
   #box_right{
     float: left;
-    padding-left: 1%;
-    width: 85%;
+    width: 86%;
     background-color: #ffffff
   }
 .dialog_mian_topText p sapn{
@@ -200,11 +240,57 @@ export default List
 .newClassification{
   margin-bottom: 20px
 }
-.Quickwordtreemenu{
-  display: flex;
-  justify-content: space-around;
-}
 .subdivision-tree-node i{
   font-size: 12px;
+}
+@component-namespace menu {
+  @b item {
+    height: 40px;line-height:40px;
+    &.is-active {
+      /* border-right: 2px solid var(--head-nav-bg); */
+      background-color: var(--default-menu-active-border);
+
+      .item-title {
+        color: var(--head-nav-bg);
+        line-height: 45px;
+      }
+    }
+
+    &:hover {
+      background-color: var(--default-menu-active-border);
+    }
+  }
+
+}
+@component-namespace addOrEditForm {
+  .addOrEditForm{
+    padding: 30px 0 !important
+  }
+
+}
+@component-namespace navTree {
+  .navTree{
+    @b item{
+      flex: 1;
+      height:40px;
+      line-height:40px;
+      padding:0 15px;
+    }
+  }
+
+}
+</style>
+<style lang='scss'>
+ @import "@/style/small/variables.pcss";
+#SgQuicklyWordPage .el-tree-node{
+  &.is-current{
+    background-color: var(--default-menu-active-border);
+  }
+  &:hover {
+      background-color: var(--default-menu-active-border);
+    }
+}
+#SgQuicklyWordPage .el-tree-node__expand-icon{
+  display: none;
 }
 </style>

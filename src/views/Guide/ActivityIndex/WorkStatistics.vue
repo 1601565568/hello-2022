@@ -7,9 +7,7 @@
   <div class="template-table__bar">
       <el-row class="template-table__bar-base">
          <!-- 左边上角操作区域 -->
-          <el-col :span="7">
-             &nbsp
-          </el-col>
+          <el-col :span="7">  </el-col>
           <el-col :span="17">
             <!-- 右上角操作区域 -->
             <div class="float-right tabSearchBtn">

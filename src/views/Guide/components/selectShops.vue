@@ -52,7 +52,7 @@
         <div class="selecedBox">
             <div class="tit">已选择<em>{{multipleSelection.length}}</em>门店</div>
             <ul class="list">
-                <li v-for="(item, index) in multipleSelection" :key="item.id">
+                <li v-for="(item) in multipleSelection" :key="item.id">
                     <span class="name">{{item.shopName}}</span>
                     <span class="del" @click="toggleSelection([item])"><i class="g-delete el-icon-delete"></i></span>
                 </li>
