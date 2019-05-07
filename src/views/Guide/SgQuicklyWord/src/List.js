@@ -31,7 +31,7 @@ export default {
       model: {
         id: null,
         wordGroupId: null,
-        content: null,
+        content: '',
         keyWord: null,
         addName: null,
         searchValue: null,
@@ -77,6 +77,15 @@ export default {
     }
   },
   methods: {
+    renderContent (h, { node, data, store }) {
+      return (
+        <span class="custom-tree-node">
+          <span style="margin-left:5px;">{node.label}</span>
+          <i style="font-size:12px;margin:0 10px 0 20px" class={data.shanchu1} on-click="deleteTheGroup"></i>
+          <i style="font-size:12px;" class={data.bianji1} on-click="compile"></i>
+        </span>
+      )
+    },
     faceFace () { // 表情头像按钮
       this.InternetMemeShow = !this.InternetMemeShow
     },
@@ -89,9 +98,10 @@ export default {
       this.$queryList$(this.parameter)
     },
     deleteTheGroup () { // 树形菜单删除按钮
+      console.log('asa9090sa')
     },
     compile () { // 树形菜单编辑按钮
-
+      console.log('asasa')
     },
     handleDrop (draggingNode, dropNode, dropType, ev) {
       this.changeQuicklyWordGroupSort(draggingNode.data.id, dropNode.data.id)
@@ -118,6 +128,10 @@ export default {
     findQuicklyWordGroupList () {
       this.$http.fetch(this.$api.guide.findQuicklyWordGroupList, {}).then(resp => {
         if (resp.success && resp.result.data.length > 0) {
+          resp.result.data.map(item => {
+            item.shanchu1 = 'iconfont icon-shanchu1'
+            item.bianji1 = 'iconfont icon-bianji1'
+          })
           this.wordGroupList = resp.result.data
           this.wordGroupList.unshift(this.allGuideArr)
         }
@@ -167,6 +181,7 @@ export default {
     },
     onSave () { // 快捷话术保存功能
       let that = this
+      this.InternetMemeShow = false
       that.$refs.form.validate((valid) => {
         if (valid) {
           that.$http.fetch(that.$api.guide.saveOrUpdateQuicklyWord, that.model).then(() => {

@@ -3,12 +3,13 @@
     <div id="box_left" style="height: 100%">
       <ns-button class="newClassification" type="primary">新增分类</ns-button>
       <div class="Quickwordtreemenu">
-        <el-tree :data="wordGroupList" default-expand-all @node-click="onClickNode" @node-drop="handleDrop" draggable :allow-drop="allowDrop" :allow-drag="allowDrag">
+        <el-tree :data="wordGroupList" node-key="id" default-expand-all="false" :render-content="renderContent"
+        @node-click="onClickNode" @node-drop="handleDrop" draggable :allow-drop="allowDrop" :allow-drag="allowDrag">
         </el-tree>
-        <div class="subdivision-tree-node" v-for="item in wordGroupList" :key="item.id">
+        <!-- <div class="subdivision-tree-node" v-for="item in wordGroupList" :key="item.id">
           <i class="iconfont icon-shanchu1" @click="deleteTheGroup()"></i>
           <i class="iconfont icon-bianji1" @click="compile()"></i>
-        </div>
+        </div> -->
       </div>
     </div>
     <div id="box_right">
@@ -88,7 +89,7 @@
           </el-select>
         </el-form-item>
         <el-form-item label="话术内容：" prop="content" required>
-          <el-input type="textarea" placeholder="输入话术内容，最多200字" v-model="model.content" maxlength="200" size="small" rows="4"></el-input>
+            <el-input type="textarea" placeholder="输入话术内容，最多200字" v-model="model.content" maxlength="200" size="small" rows="4"></el-input>
           <div class="expressionBar_div">
             <i class="iconfont icon-biaoqing" @click="faceFace"></i>
           </div>
@@ -145,6 +146,9 @@ import List from './src/List'
 export default List
 </script>
 <style scoped>
+  .Quickwordtreemenu .el-tree-node [class$="-tree-node"] {
+    padding-right: 0 !important;
+  }
   #box_left{
     width: 14%;
     height: 500px;

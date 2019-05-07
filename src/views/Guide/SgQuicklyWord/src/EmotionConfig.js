@@ -285,24 +285,34 @@ export default [
     'OriginalFile': '/img/expression/57.png'
   },
   {
+    'ShortCut': '👻',
+    'Meaning': '幽灵',
+    'OriginalFile': '/img/expression/58.png'
+  },
+  {
+    'ShortCut': '💩',
+    'Meaning': '便便',
+    'OriginalFile': '/img/expression/59.png'
+  },
+  {
     'ShortCut': '🙈',
     'Meaning': '非礼勿视',
-    'OriginalFile': '/img/expression/58.png'
+    'OriginalFile': '/img/expression/60.png'
   },
   {
     'ShortCut': '🙉',
     'Meaning': '非礼勿听',
-    'OriginalFile': '/img/expression/59.png'
+    'OriginalFile': '/img/expression/61.png'
   },
   {
     'ShortCut': '🙊',
     'Meaning': '非礼勿闻',
-    'OriginalFile': '/img/expression/60.png'
+    'OriginalFile': '/img/expression/63.png'
   },
   {
     'ShortCut': '🐷',
     'Meaning': '猪头',
-    'OriginalFile': '/img/expression/61.png'
+    'OriginalFile': '/img/expression/64.png'
   },
   {
     'ShortCut': '🐸',
