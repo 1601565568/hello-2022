@@ -123,9 +123,7 @@ export default {
       miniProgram: false,
       dialogAutid: false,
       weixinUrl: null,
-      _table: {
-        table_buttons: tableButtons
-      },
+      _table: { table_buttons: tableButtons },
       rules: {
         'name': [{ required: true, message: '请输入菜单名称' }],
         'parent_id': [{ required: true, message: '请输入父菜单ID' }],
@@ -151,7 +149,7 @@ export default {
       if (row.id) {
         this.dialogFormVisible = true
         this.titleText = '编辑页面'
-        this.model = Object.assign({}, row)
+        this.model = Object.assign({ }, row)
       } else {
         this.titleText = '新增页面'
         this.model = {}

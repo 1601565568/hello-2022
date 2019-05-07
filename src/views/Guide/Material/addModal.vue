@@ -32,7 +32,7 @@
                 </li>
               </ul>
               <div class="clearfix"></div>
-              <div style="color:#999">上传图片不能大于500KB；图片最多上传9张（加小程序码的最多8张</div>
+              <div style="color:#999">上传图片不能大于500KB；图片最多上传9张（加小程序码的最多8张）</div>
             </div>
           </el-form-item>
           <el-form-item label="小程序链接：">
@@ -88,7 +88,7 @@
       <img width="100%" :src="dialogImageUrl" alt>
     </el-dialog>
     <SelectMarket ref="selectMarket" :callBack="selectMarketlBack"></SelectMarket>
-    <SelectCoupon ref="selectCoupon" :callBack="selectMarketlBack"></SelectCoupon>
+    <!-- <SelectCoupon ref="selectCoupon" :callBack="selectMarketlBack"></SelectCoupon> -->
     <SelectGoods ref="selectGoods" :callBack="selectMarketlBack"></SelectGoods>
   </div>
 </template>
@@ -248,7 +248,6 @@ export default {
     // 提交保存
     saveFun () {
       this.$refs.addForm.validate(valid => {
-        console.log(valid)
         if (valid) {
           this.doSave()
         }
