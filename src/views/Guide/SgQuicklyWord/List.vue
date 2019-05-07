@@ -16,21 +16,6 @@
         </span>
       </div>
       </el-tree>
-    <!-- <el-menu
-      default-active="0"
-      class="menu"
-      @open="handleOpen"
-      @close="handleClose">
-      <template v-for="(item, index) in wordGroupList">
-        <el-menu-item  :index="index"  :key="index" class="menu-item flex flex-between">
-          <span >{{item.name}}</span>
-          <div v-if='index>0'>
-
-          </div>
-        </el-menu-item>
-      </template>
-    </el-menu> -->
-
     </div>
     <div id="box_right">
       <ns-page-table>

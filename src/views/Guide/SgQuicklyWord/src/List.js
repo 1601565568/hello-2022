@@ -88,15 +88,6 @@ export default {
     }
   },
   methods: {
-    renderContent (h, { node, data, store }) {
-      return (
-        <span class="custom-tree-node">
-          <span style="margin-left:5px;">{node.label}</span>
-          <i style="font-size:12px;margin:0 10px 0 20px" class={data.shanchu1} on-click="deleteTheGroup"></i>
-          <i style="font-size:12px;" class={data.bianji1} on-click="compile"></i>
-        </span>
-      )
-    },
     faceFace () { // 表情头像按钮
       this.InternetMemeShow = !this.InternetMemeShow
     },
@@ -189,7 +180,7 @@ export default {
       this.model = {
         id: null,
         wordGroupId: null,
-        content: null,
+        content: '',
         keyWord: null,
         name: null,
         addName: null,
@@ -198,11 +189,14 @@ export default {
       }
     },
     onSaveOpen (row) { // 新增或编辑
+      let arr = Object.keys(row)
       this.dialogFormVisible = true
       this.dialogVisiblePatchChange = false
       this.titleText = (row.id && '编辑话术') || '新增话术'
       this.titleText = (row.id && '编辑话术') || '新增话术'
-      this.model = Object.assign({}, row)
+      if (arr.length !== 0) {
+        this.model = Object.assign({}, row)
+      }
       if (!row || !row.id) {
         this.model.addName = this.addName
       }
