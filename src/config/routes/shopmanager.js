@@ -32,9 +32,29 @@ export default {
           'name': 'GuideList',
           'title': '员工列表',
           'component': () => import('@/views/Guide/SgGuide/List')
+        },
+        {
+          'path': '/Guide/SgMoreAccount/List',
+          'name': 'GuideList',
+          'title': '配置多谋个人号',
+          'component': () => import('@/views/Guide/SgMoreAccount/List')
         }
       ]
     },
+    // {
+    //   'path': '/Guide/SgGuide',
+    //   'name': 'YGGL',
+    //   'title': '员工管理',
+    //   'component': () => import('web-crm/src/views/Content'),
+    //   'children': [
+    //     {
+    //       'path': '/Guide/SgGuide/List',
+    //       'name': 'GuideList',
+    //       'title': '员工列表',
+    //       'component': () => import('@/views/Guide/SgGuide/List')
+    //     }
+    //   ]
+    // },
     {
       'path': '/Guide/SgGuide',
       'name': 'CustomerManage',
