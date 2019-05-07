@@ -97,7 +97,8 @@
       <div class="kehuBox-main">
         <div class="kehuBox-main-top">
           <p>
-            <img :src="items.image" class="man-img" v-if="items.image !== null">
+            <!-- item.image||require('../../../assets/default-user.png') -->
+            <img :src="items.image ||require('../../../assets/default-user.png')" class="man-img" v-if="items.image !== null">
             <span v-if="items.image === null" class="img-show"></span>
             <span class="man-name">{{items.gradeName || items.customerName}}</span>
             <span>{{items.grade === 0 ? '' : "VIP" + items.grade}}</span>
@@ -116,9 +117,28 @@
             </el-row>
             <el-row>
               <el-col :span='24'>
-                <span>
-
-                  地区：{{items.province === null&&items.city === null&&items.district === null?'-/-/-':items.province+' / '+items.city+' / '+(items.district===null?'-':items.district)}}
+                <!-- <span>
+                  地区：{{items.province === null? '-/':items.province+'/'+items.city === null?'-/':items.city+'/'+items.district === null?'-':items.district}}
+                  地区：{{(items.province === null&&items.city === null&&items.district === null)?'-/-/-':items.province+' / '+items.city+' / '+(items.district===null?'-':items.district)}}
+                </span> -->
+                地区：
+                <span v-if='items.province !== null && items.province !== ""'>
+                  {{items.province}}/
+                </span>
+                <span v-else>
+                   -/
+                </span>
+                <span v-if='items.city !== null && items.city !== ""'>
+                  {{items.city}}/
+                </span>
+                <span v-else>
+                  -/
+                </span>
+                <span v-if='items.district !== null && items.district !== ""'>
+                  {{items.district}}
+                </span>
+                <span v-else>
+                  -
                 </span>
               </el-col>
             </el-row>

@@ -701,7 +701,6 @@ export default {
         })
     },
     async findGuideRanking (type, id) { // 当月导购排行查询
-      let estimate = false
       let parms = {
         type: (type || 0)
       } // 0代表销售 1代表招募
@@ -725,10 +724,6 @@ export default {
             if (resp.result === null || resp.result.length === 0) {
               that.isGuideSellData = false
             } else {
-              estimate = resp.result.every(item => {
-                return item.member_count === 0
-              })
-              estimate ? that.isShopRecruitData = false : that.isShopRecruitData = true
               resp.result.map(item => {
                 guideNameArr.push(item.name)
                 perfAllArr.push(item.perf_all)
@@ -759,7 +754,6 @@ export default {
         })
     },
     async findShopRanking (type) { // 当月门店排行查询
-      let estimate = false
       let parms = {
         type: (type || 0)
       } // 0代表销售 1代表招募
@@ -780,10 +774,6 @@ export default {
             if (resp.result === null || resp.result.length === 0) {
               that.isShopSellData = false
             } else {
-              estimate = resp.result.every(item => {
-                return item.member_count === 0
-              })
-              estimate ? that.isShopRecruitData = false : that.isShopRecruitData = true
               resp.result.map(item => {
                 shopNameArr.push(item.shop_name)
                 paymentArr.push(item.payment)
@@ -800,10 +790,12 @@ export default {
               that.isShopRecruitData = false
             } else {
               resp.result.map(item => {
-                shopNameArr.push(item.shop_name)
-                memberCountArr.push(item.member_count)
+                if (item.member_count) {
+                  memberCountArr.push(item.member_count)
+                  shopNameArr.push(item.shop_name)
+                }
               })
-              that.isShopRecruitData = true
+              that.isShopRecruitData = Boolean(memberCountArr.length)
               that.shopRecruitOption.yAxis.data = shopNameArr
               that.shopRecruitOption.series.data = memberCountArr
             }
