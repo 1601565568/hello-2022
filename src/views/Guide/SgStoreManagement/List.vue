@@ -6,10 +6,10 @@
     <!-- 所属门店查看详情开始 -->
     <el-dialog :title="title"  :visible.sync="memberBelongingShow" width="750px" >
       <div>
-        <div>
+        <!-- <div>
           <i class="el-icon-menu" @click="elIconMenu"></i>
           <img :src="elIconMenu" />
-        </div>
+        </div> -->
         <div>
           <div><template><el-checkbox v-model="checked"></el-checkbox></template>会员注册时是否需要关注公众号</div>
           <div>勾选此选项，则下载为微信公众号二维码；否则，下载为会员开卡小程序码。</div>
@@ -26,24 +26,24 @@
             <div>小尺寸：适用于屏幕类、宣传册等</div>
             <span class="last_div">边长约8cm，最佳扫码距离0.5m</span>
           </el-col>
-          <el-col class="elrow_firstcol" :span="8"><ns-button  type="text"><i @click="subsize" class="el-icon-download"></i></ns-button></el-col>
-          <el-col class="elrow_firstcol" :span="8"><ns-button  type="text"><i @click="xiaoSubsize" class="el-icon-download"></i></ns-button></el-col>
+          <el-col class="elrow_firstcol" :span="8"><ns-button  type="text"><a :href="url+0+'&shopId='+succeedObj.shopId+'&size='+0"><i class="el-icon-download"></i></a></ns-button></el-col>
+          <el-col class="elrow_firstcol" :span="8"><ns-button  type="text"><a :href="url+1+'&shopId='+succeedObj.shopId+'&size='+0"><i class="el-icon-download"></i></a></ns-button></el-col>
         </el-row>
         <el-row class="elrow_second">
           <el-col :span="8">
             <div>中尺寸：适用于屏幕类、宣传册等</div>
             <div class="last_div">边长约15cm，最佳扫码距离1m</div>
           </el-col>
-          <el-col class="elrow_firstcol" :span="8"><ns-button  type="text"><i @click="theSize" class="el-icon-download"></i></ns-button></el-col>
-          <el-col class="elrow_firstcol" :span="8"><ns-button  type="text"><i @click="xiaoTheSize" class="el-icon-download"></i></ns-button></el-col>
+          <el-col class="elrow_firstcol" :span="8"><ns-button  type="text"><a :href="url+0+'&shopId='+succeedObj.shopId+'&size='+1"><i class="el-icon-download"></i></a></ns-button></el-col>
+          <el-col class="elrow_firstcol" :span="8"><ns-button  type="text"><a :href="url+1+'&shopId='+succeedObj.shopId+'&size='+1"><i class="el-icon-download"></i></a></ns-button></el-col>
         </el-row>
         <el-row class="elrow_thirdly">
           <el-col :span="8">
             <div>大尺寸：适用于屏幕类、宣传册等</div>
             <div class="last_div">边长约50cm，最佳扫码距离2.5m</div>
           </el-col>
-          <el-col class="elrow_firstcol" :span="8" ><ns-button  type="text"><i @click="jumboSize" class="el-icon-download"></i></ns-button></el-col>
-          <el-col class="elrow_firstcol" :span="8" ><ns-button  type="text"><i @click="xiaoJumboSize" class="el-icon-download"></i></ns-button></el-col>
+          <el-col class="elrow_firstcol" :span="8" ><ns-button  type="text"><a :href="url+0+'&shopId='+succeedObj.shopId+'&size='+2"><i class="el-icon-download"></i></a></ns-button></el-col>
+          <el-col class="elrow_firstcol" :span="8" ><ns-button  type="text"><a :href="url+1+'&shopId='+succeedObj.shopId+'&size='+2"><i class="el-icon-download"></i></a></ns-button></el-col>
         </el-row>
       </div>
       <div slot="footer" class="dialog-footer">
@@ -127,5 +127,8 @@ export default List
   .elrow_first .last_div, .elrow_second .last_div, .elrow_thirdly .last_div{
     font-size: 12px;
     font-weight: normal;
+  }
+  .el-icon-download{
+    font-size: 20px;
   }
 </style>
