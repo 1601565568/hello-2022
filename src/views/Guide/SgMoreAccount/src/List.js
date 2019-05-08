@@ -11,9 +11,8 @@ export default {
     }]
     let quickSearchModel = {}
     let searchModel = {
-      sgGuide: {
-        image: ''
-      }
+      'image': null,
+      'id': null
     }
     let findVo = {
       'shopName': null, // 门店名称
@@ -45,13 +44,21 @@ export default {
       })
     })
     return {
-      dialogFormVisible: false, // 点击上传弹窗
+      dialogUploadVisible: false, // 点击上传弹窗
       model
     }
   },
   methods: {
-    clickOnTheUpload (row) { // 点击上传按钮
-      this.dialogFormVisible = true
+    uploadFile (row) {
+      var _this = this
+      _this.dialogUploadVisible = true
+    },
+    onSaveImage () {
+      console.log('onSave Image')
+    },
+    closeDialog () {
+      var _this = this
+      _this.dialogUploadVisible = false
     }
   },
   mounted: function () {

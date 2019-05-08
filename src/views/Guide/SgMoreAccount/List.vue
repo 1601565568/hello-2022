@@ -1,35 +1,30 @@
 <template>
   <div>
-    <ns-table-more-account ref="table" :url=$api.guide.moreAccount.findList @synchronousStores="onRedactFun" @scopeRowCount="scopeRowCount"
-        @elIconMenu="elIconMenu" @shopEdit="shopEdit" @allDelete="allDelete" @dimission="dimission" @showShop="showShop" @onDelsTipFun="onDelsTipFun" @onRedactFun="onRedactFun" @handleSelectionChange="handleSelectionChange">
+    <ns-table-more-account ref="table" :url=$api.guide.moreAccount.findList  @uploadFile="uploadFile">
     </ns-table-more-account>
-    <!-- 所属门店查看详情开始 -->
-    <el-dialog :title="title" :visible.sync="dialogFormVisible" width="460px" >
+    <!-- 上传二维码弹窗开始 -->
+    <el-dialog :title="title" :visible.sync="dialogUploadVisible" @click="closeDialog" width="460px" >
       <div class="guideBox" style="overflow-x:hidden;overflow-y:auto;">
-        <el-form :model="model.sgGuide" ref="addForm" label-width="100px" :rules="rules" >
-          <el-form-item label="头像：" class="el-inline-block">
+        <el-form :model="model" label-width="100px">
+          <el-form-item label="上传二维码：" class="el-inline-block">
             <el-form-grid style="width: 320px;">
-              <el-form-item prop="logo">
-                <el-upload class="avatar-uploader" @change="logo"
-                           :action="this.$api.core.sgUploadFile('test')"
-                           accept=".jpg,.jpeg,.png,.bmp,.gif" :show-file-list="false"
-                           :on-success="handleAvatarSuccess"
-                           :before-upload="beforeAvatarUpload">
-                  <img width="200px" v-if="model.sgGuide.image" :src="model.sgGuide.image" class="avatar">
-                  <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+              <ul class="comUploadList">
+                <el-upload class="avatar-uploader" :action="this.$api.core.sgUploadFile('test')"
+                           accept=".jpg,.jpeg,.png,.bmp,.gif" :show-file-list="false" list-type="picture-card"
+                           :on-remove="handleRemove" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
+                  <i class="el-icon-plus avatar-uploader-icon"></i>
                 </el-upload>
-                <span>上传图片不能大于200KB</span>
-              </el-form-item>
+              </ul>
             </el-form-grid>
           </el-form-item>
         </el-form>
       </div>
       <div slot="footer" class="dialog-footer">
         <ns-button @click="closeDialog">取消</ns-button>
-        <ns-button type="primary" @click="onSave(model)">确定</ns-button>
+        <ns-button type="primary" @click="onSaveImage">确定</ns-button>
       </div>
     </el-dialog>
-    <!-- 所属门店查看详情结束 -->
+    <!-- 上传二维码弹窗结束 -->
   </div>
 </template>
 
