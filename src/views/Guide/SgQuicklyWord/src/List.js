@@ -106,7 +106,7 @@ export default {
           this.$notify.success('删除分组成功')
         }
       }).catch(resp => {
-        this.$notify.error(resp.errMsg || '删除失败')
+        this.$notify.error(resp.msg || '删除失败')
       })
     },
     handleDrop (draggingNode, dropNode, dropType, ev) {
@@ -133,7 +133,7 @@ export default {
               this.closeDialog()
             }
           }).catch(resp => {
-            this.addOrEditModel.id ? this.$notify.error(resp.errMsg || '编辑失败') : this.$notify.error(resp.errMsg || '新增失败')
+            this.addOrEditModel.id ? this.$notify.error(resp.msg || '编辑失败') : this.$notify.error(resp.msg || '新增失败')
           })
         }
       })
@@ -144,8 +144,8 @@ export default {
           this.model.addName = resp.result
           this.addName = resp.result
         }
-      }).catch(reason => {
-        this.$notify.warning('系统异常')
+      }).catch(resp => {
+        this.$notify.warning(resp.msg || '系统异常')
       })
     },
     findQuicklyWordGroupList () {
@@ -158,8 +158,8 @@ export default {
           this.wordGroupList = resp.result.data
           this.wordGroupList.unshift(this.allGuideArr)
         }
-      }).catch(reason => {
-        this.$notify.error(reason.errMsg || '系统异常')
+      }).catch(resp => {
+        this.$notify.error(resp.msg || '系统异常')
       })
     },
     handleSelectionChange (val) {
@@ -170,7 +170,7 @@ export default {
       this.$http.fetch(this.$api.guide.updateQuicklyWordSort, parms).then(resp => {
         this.$reload()
       }).catch(resp => {
-        this.$notify.error(resp.msg)
+        this.$notify.error(resp.msg || '系统异常')
       })
     },
     closeDialog () {
