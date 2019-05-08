@@ -111,7 +111,7 @@
                 </el-upload>
             </div>
             <div v-if="scope.row.wxCodeUrl">
-              <img width="60px" height="60px" v-if="scope.row.wxCodeUrl" :src="scope.row.wxCodeUrl" class="avatar">
+              <img width="100px" height="100px" v-if="scope.row.wxCodeUrl" :src="scope.row.wxCodeUrl" class="avatar">
             </div>
           </template>
         </el-table-column>
