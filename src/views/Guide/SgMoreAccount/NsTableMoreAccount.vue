@@ -14,7 +14,7 @@
     <template slot="searchSearch">
       <el-form :model="quickSearchModel" :inline="true" @submit.native.prevent  class="pull-right">
         <el-form-item label="微信号/昵称：" v-show="_data._queryConfig.expand === false">
-          <el-input ref="quickText" style="width: 250px" v-model="model.shopName" placeholder="请输入微信号/昵称" @keyup.enter.native="$quickSearchAction$('name')" clearable>
+          <el-input ref="quickText" style="width: 250px" v-model="model.keyword" placeholder="请输入微信号/昵称" @keyup.enter.native="$quickSearchAction$('name')" clearable>
           </el-input>
           <ns-button type="primary" @click="$searchAction$('searchform')">搜索</ns-button>
           <ns-button @click="$resetInputAction$('searchform')">重置</ns-button>
@@ -37,37 +37,36 @@
       <el-form ref="table_filter_form" :model="model" label-width="80px" :inline="true">
         <el-form-item label="微信号：">
           <el-form-grid size="xmd">
-            <el-input style="width:180px" autofocus=true v-model="model.shopName" placeholder="请输入微信号" clearable></el-input>
+            <el-input style="width:180px" autofocus=true v-model="model.wechatId" placeholder="请输入微信号" clearable></el-input>
           </el-form-grid>
         </el-form-item>
 
         <el-form-item label="微信昵称：">
           <el-form-grid>
-            <el-select placeholder="请输入微信昵称" v-model="model.shopType" clearable filterable>
-              <el-option v-for="shop in shopLeiXing" :label="shop.label" :value="shop.value"
-                         :key="shop.value"></el-option>
-            </el-select>
+            <el-form-grid size="xmd">
+              <el-input style="width:180px" autofocus=true v-model="model.wechatId" placeholder="请输入微信昵称" clearable></el-input>
+            </el-form-grid>
           </el-form-grid>
         </el-form-item>
 
         <el-form-item label="关联导购：">
           <el-form-grid size="xmd">
-            <el-input style="width:180px" autofocus=true v-model="model.phone" placeholder="请输入关联导购" clearable></el-input>
+            <el-input style="width:180px" autofocus=true v-model="model.guideInfo" placeholder="请输入姓名/工号" clearable></el-input>
           </el-form-grid>
         </el-form-item>
 
         <el-form-item label="绑定门店：">
           <el-form-grid>
-            <el-select placeholder="请选择绑定门店" v-model="model.shopStatus" clearable filterable>
-              <el-option v-for="shop in operatingStatus" :label="shop.label" :value="shop.value"
-                         :key="shop.value"></el-option>
+            <el-select placeholder="请选择绑定门店" v-model="model.shopId" clearable filterable>
+              <el-option v-for="shop in shopList" :label="shop.shopName" :value="shop.id"
+                         :key="shop.id"></el-option>
             </el-select>
           </el-form-grid>
         </el-form-item>
 
         <el-form-item label="状态：">
           <el-form-grid>
-            <el-select placeholder="请选择营业状态" v-model="model.shopStatus" clearable filterable>
+            <el-select placeholder="请选择营业状态" v-model="model.status" clearable filterable>
               <el-option v-for="shop in operatingStatus" :label="shop.label" :value="shop.value"
                          :key="shop.value"></el-option>
             </el-select>
@@ -95,7 +94,7 @@
 
       <el-table ref="table" :data="_data._table.data" stripe >
         <el-table-column type="selection" width="42" class="table_selection"></el-table-column>
-        <el-table-column prop="shopName" label="个人号" align="left">
+        <el-table-column prop="wechatId" label="个人号" align="left">
           <template slot-scope="scope">
             {{scope.row.wechatId || '-'}}
           </template>
@@ -103,28 +102,28 @@
         <el-table-column prop="shopStatus" label="二维码" align="left" width="100">
           <template slot-scope="scope">
             <div>
-                <ns-button style="color:#0091FA" v-if="!model.sgGuide.image" @click="clickOnTheUpload(scope.row)" type="text">点击上传</ns-button>
-                <img width="60px" height="60px" v-if="model.sgGuide.image" :src="model.sgGuide.image" class="avatar">
+                <ns-button style="color:#0091FA" v-if="!scope.row.wxCodeUrl" @click="clickOnTheUpload(scope.row)" type="text">点击上传</ns-button>
+                <img width="60px" height="60px" v-if="scope.row.wxCodeUrl" :src="scope.row.wxCodeUrl" class="avatar">
             </div>
           </template>
         </el-table-column>
-         <el-table-column prop="mobile" label="微信昵称" align="left" >
+         <el-table-column prop="wechatName" label="微信昵称" align="left" >
           <template slot-scope="scope">
             {{scope.row.wechatName || '-'}}
           </template >
         </el-table-column>
-        <el-table-column prop="address" label="关联导购" align="center" >
+        <el-table-column prop="guideNames" label="关联导购" align="center" >
           <template slot-scope="scope">
             {{scope.row.guideNames || '-'}}
           </template >
         </el-table-column>
-        <el-table-column prop="shopType,count" label="状态" align="left" width="180">
-          <template>
+        <el-table-column prop="status" label="状态" align="left" width="180">
+          <template slot-scope="scope">
             <div>
-                <span v-if="!model.sgGuide.image" type="text">已登陆</span>
-                <span style="color:#F00" v-if="!model.sgGuide.image" type="text">未登录</span>
+              <span v-if="scope.row.status === 0" type="text">已登陆</span>
+              <span style="color:#F00" v-if="scope.row.status !== 0" type="text">未登录</span>
             </div>
-          </template>
+          </template >
         </el-table-column>
         <el-table-column prop="phone" label="操作" align="left" width="180">
             <template slot-scope="scope">
@@ -134,11 +133,6 @@
                 </div>
             </template>
         </el-table-column>
-        <!-- <el-table-column label="招募码" align="left" width="120">
-          <template slot-scope="scope">
-              <ns-button  type="text"><i class="el-icon-menu" @click="elIconMenu"></i></ns-button>
-          </template>
-        </el-table-column> -->
       </el-table>
     </template>
     <!-- 表格-结束 -->
@@ -160,8 +154,8 @@
 </template>
 
 <script>
-import guide from './src/NsTableGuide'
-export default guide
+import moreAccount from './src/NsTableMoreAccount'
+export default moreAccount
 </script>
 <style>
 .scope_row_count{

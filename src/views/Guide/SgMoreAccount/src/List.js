@@ -55,7 +55,5 @@ export default {
     }
   },
   mounted: function () {
-    var _this = this
-    _this.initShopList()
   }
 }

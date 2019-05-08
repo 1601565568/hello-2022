@@ -1,7 +1,7 @@
 import tableMixin from 'web-crm/src/mixins/table'
 import NsArea from 'web-crm/src/components/NsArea'
 export default {
-  name: 'NsTableGuide',
+  name: 'NsTableMoreAccount',
   mixins: [tableMixin],
   props: {
     url: Object
@@ -72,15 +72,12 @@ export default {
       }
     }
     let findVo = {
-      'shopName': null, // 门店名称
-      'city': null, // 门点所在区域市
-      'district': null, // 门点所在区域区
-      'province': null, // 门点所在区域省
-      'shopType': null, // 门店类型
-      'phone': null, // 联系电话
-      'area_region': null, // 所属地区
-      'shopStatus': null, // 营业状态
-      'area': [] // 所属区域
+      'keyword': null, // 门店名称
+      'wechatId': null, // 微信号
+      'wechatName': null, // 微信昵称
+      'guideInfo': null, // 关联导购的ID或者工号
+      'shopId': null, // 绑定门店
+      'status': null // 状态
     }
     let model = Object.assign({}, findVo, {}, searchModel)
     return {
@@ -94,16 +91,8 @@ export default {
         quickSearchMap: {}
       },
       _queryConfig: { expand: false },
-      multipleSelection: [],
       select: true,
-      shopLeiXing: [{
-        value: 'B',
-        label: '天猫'
-      }],
-      operatingStatus: [{
-        value: -2,
-        label: '已关店'
-      }],
+      shopList: [],
       searchform: {
         // 区域选择相关start
         key: {
@@ -141,17 +130,11 @@ export default {
     clickOnTheUpload (row) {
       this.$emit('clickOnTheUpload', row)
     },
-    onAreaChange () { // 城市切换进行赋值
-      let that = this
-      that.model.district = that.model.area[2]
-      that.model.city = that.model.area[1]
-      that.model.province = that.model.area[0]
-    },
     initShopList () {
       var _this = this
       _this.$http.fetch(_this.$api.guide.shop.findBrandShopList, { isOnline: 0 }).then(resp => {
         if (resp.success && resp.result != null) {
-          _this.shopFindList = resp.result
+          _this.shopList = resp.result
         }
       }).catch((resp) => {
         _this.$notify.error('查询失败：' + resp.msg)
