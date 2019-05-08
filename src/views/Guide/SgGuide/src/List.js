@@ -132,7 +132,7 @@ export default {
           required: true,
           trigger: 'blur',
           validator: (rule, value, callback) => {
-            if (this.model.sgGuide.work_number === '') {
+            if (this.model.sgGuide.work_number === '' || model.sgGuide.work_prefix === '') {
               callback(new Error('请输入工号'))
             } else {
               callback()
