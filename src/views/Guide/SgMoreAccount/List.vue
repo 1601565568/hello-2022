@@ -1,8 +1,8 @@
 <template>
   <div>
-    <ns-table-guide ref="table" :url=$api.guide.guide.findShopListOnCondition @synchronousStores="onRedactFun" @scopeRowCount="scopeRowCount"
+    <ns-table-more-account ref="table" :url=$api.guide.moreAccount.findList @synchronousStores="onRedactFun" @scopeRowCount="scopeRowCount"
         @elIconMenu="elIconMenu" @shopEdit="shopEdit" @allDelete="allDelete" @dimission="dimission" @showShop="showShop" @onDelsTipFun="onDelsTipFun" @onRedactFun="onRedactFun" @handleSelectionChange="handleSelectionChange">
-    </ns-table-guide>
+    </ns-table-more-account>
     <!-- 所属门店查看详情开始 -->
     <el-dialog :title="title" :visible.sync="dialogFormVisible" width="460px" >
       <div class="guideBox" style="overflow-x:hidden;overflow-y:auto;">
@@ -35,9 +35,9 @@
 
 <script>
 import List from './src/List'
-import NsTableGuide from './NsTableGuide'
+import NsTableMoreAccount from './NsTableMoreAccount'
 List.components = {
-  NsTableGuide
+  NsTableMoreAccount
 }
 export default List
 </script>

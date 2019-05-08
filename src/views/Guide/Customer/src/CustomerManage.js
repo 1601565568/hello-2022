@@ -264,25 +264,25 @@ export default {
       }
     },
     // 查询客户列表
-    findCustomerList () {
-      var _this = this
-      _this.$http.fetch(_this.$api.guide.guide.customerFindCustomerList, {
-        searchMap: {
-          'guideId': _this.guideId,
-          'shopId': _this.shopId,
-          'pageSize': _this.pagination.size,
-          'pageNo': _this.pagination.page
-        }
-      }).then(resp => {
-        if (resp.success && resp.result !== null) {
-          _this.tableDataCustomer = resp.result.data
-          _this.pagination.total = parseInt(resp.result.recordsTotal)
-          _this.chooseCustomerFocus()
-        }
-      }).catch((resp) => {
-        _this.$notify.error('查询失败：' + resp.msg)
-      })
-    },
+    // findCustomerList () {
+    //   var _this = this
+    //   _this.$http.fetch(_this.$api.guide.guide.customerFindCustomerList, {
+    //     searchMap: {
+    //       'guideId': _this.guideId,
+    //       'shopId': _this.shopId,
+    //       'pageSize': _this.pagination.size,
+    //       'pageNo': _this.pagination.page
+    //     }
+    //   }).then(resp => {
+    //     if (resp.success && resp.result !== null) {
+    //       _this.tableDataCustomer = resp.result.data
+    //       _this.pagination.total = parseInt(resp.result.recordsTotal)
+    //       _this.chooseCustomerFocus()
+    //     }
+    //   }).catch((resp) => {
+    //     // _this.$notify.error('查询失败：' + resp.msg)
+    //   })
+    // },
     // 分页-页数改变
     customerPageChange (page) {
       var _this = this
@@ -334,7 +334,5 @@ export default {
     }
   },
   mounted: function () {
-    var _this = this
-    _this.initShopList()
   }
 }
