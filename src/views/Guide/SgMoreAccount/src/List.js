@@ -143,7 +143,8 @@ export default {
       })
     })
     return {
-      dialogFormVisible: false // 点击上传弹窗
+      dialogFormVisible: false, // 点击上传弹窗
+      model
     }
   },
   methods: {
