@@ -106,7 +106,7 @@
             <div>
                 <ns-button style="color:#0091FA" v-if="!model.sgGuide.image" @click="clickOnTheUpload(scope.row)" type="text">点击上传</ns-button>
                 <img width="60px" height="60px" v-if="model.sgGuide.image" :src="model.sgGuide.image" class="avatar">
-            </div>    
+            </div>
           </template>
         </el-table-column>
          <el-table-column prop="mobile" label="微信昵称" align="left" >
@@ -124,7 +124,7 @@
             <div>
                 <span v-if="!model.sgGuide.image" type="text">已登陆</span>
                 <span style="color:#F00" v-if="!model.sgGuide.image" type="text">未登录</span>
-            </div> 
+            </div>
           </template>
         </el-table-column>
         <el-table-column prop="phone" label="操作" align="left" width="180">
@@ -132,7 +132,7 @@
                 <div>
                     <ns-button style="color:#0091FA" @click="onBindingFun(scope.row)" type="text">绑定</ns-button>
                     <ns-button style="color:#0091FA" @click="onRemoveFun(scope.row)" type="text">移除</ns-button>
-                </div>    
+                </div>
             </template>
         </el-table-column>
         <!-- <el-table-column label="招募码" align="left" width="120">
