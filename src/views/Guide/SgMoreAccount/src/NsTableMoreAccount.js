@@ -127,8 +127,8 @@ export default {
     batchBindShoppingGuide () {
       this.$emit('batchBindShoppingGuide')
     },
-    clickOnTheUpload (row) {
-      this.$emit('clickOnTheUpload', row)
+    uploadFile (row) {
+      this.$emit('uploadFile', row)
     },
     initShopList () {
       var _this = this
@@ -137,7 +137,7 @@ export default {
           _this.shopList = resp.result
         }
       }).catch((resp) => {
-        _this.$notify.error('查询失败：' + resp.msg)
+        _this.$notify.error('查询失败： ' + resp.msg)
       })
     },
     handleSelectionChange (val) {

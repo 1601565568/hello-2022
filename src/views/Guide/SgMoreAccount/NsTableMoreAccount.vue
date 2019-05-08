@@ -1,5 +1,4 @@
 <template>
-  <!-- <ns-page-table @add="$emit('add')"  @allDelete="$emit('allDelete')" @onAddCustomer="$emit('onAddCustomer')" @quit="$emit('quit')" @shopEdit="$emit('shopEdit')" @ondelete="$emit('ondelete')"> -->
   <ns-page-table  @synchronization="$emit('synchronization')" @addPersonalNumber="$emit('addPersonalNumber')" @batchBindShoppingGuide="$emit('batchBindShoppingGuide')"  @showShop="$emit('showShop')" @dimission="$emit('dimission')"  @allDelete="$emit('allDelete')" @shopEdit="$emit('shopEdit')" >
     <!-- 按钮 -->
     <template slot="buttons">
@@ -102,7 +101,7 @@
         <el-table-column prop="shopStatus" label="二维码" align="left" width="100">
           <template slot-scope="scope">
             <div>
-                <ns-button style="color:#0091FA" v-if="!scope.row.wxCodeUrl" @click="clickOnTheUpload(scope.row)" type="text">点击上传</ns-button>
+                <ns-button style="color:#0091FA" v-if="!scope.row.wxCodeUrl" @click="uploadFile(scope.row)" type="text">点击上传</ns-button>
                 <img width="60px" height="60px" v-if="scope.row.wxCodeUrl" :src="scope.row.wxCodeUrl" class="avatar">
             </div>
           </template>
