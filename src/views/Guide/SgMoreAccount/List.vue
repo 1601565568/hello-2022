@@ -1,6 +1,6 @@
 <template>
   <div>
-    <ns-table-guide ref="table" :url=$api.guide.guide.findShopListOnCondition @synchronousStores="onRedactFun" @scopeRowCount="scopeRowCount"
+    <ns-table-guide ref="table" :url=$api.guide.moreAccount.findList @synchronousStores="onRedactFun" @scopeRowCount="scopeRowCount"
         @elIconMenu="elIconMenu" @shopEdit="shopEdit" @allDelete="allDelete" @dimission="dimission" @showShop="showShop" @onDelsTipFun="onDelsTipFun" @onRedactFun="onRedactFun" @handleSelectionChange="handleSelectionChange">
     </ns-table-guide>
     <!-- 所属门店查看详情开始 -->

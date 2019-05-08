@@ -97,8 +97,7 @@
         <el-table-column type="selection" width="42" class="table_selection"></el-table-column>
         <el-table-column prop="shopName" label="个人号" align="left">
           <template slot-scope="scope">
-            {{scope.row.shopName || '-'}}
-            <div>weixinid</div>
+            {{scope.row.wechatId || '-'}}
           </template>
         </el-table-column>
         <el-table-column prop="shopStatus" label="二维码" align="left" width="100">
@@ -111,16 +110,16 @@
         </el-table-column>
          <el-table-column prop="mobile" label="微信昵称" align="left" >
           <template slot-scope="scope">
-            {{!scope.row.province&&!scope.row.city&&!scope.row.district?'-':scope.row.province+'/'+scope.row.city+'/'+scope.row.district}}
+            {{scope.row.wechatName || '-'}}
           </template >
         </el-table-column>
-        <el-table-column prop="address" label="关联导购" align="left" >
+        <el-table-column prop="address" label="关联导购" align="center" >
           <template slot-scope="scope">
-            {{scope.row.address || '-'}}
+            {{scope.row.guideNames || '-'}}
           </template >
         </el-table-column>
         <el-table-column prop="shopType,count" label="状态" align="left" width="180">
-          <template slot-scope="scope">
+          <template>
             <div>
                 <span v-if="!model.sgGuide.image" type="text">已登陆</span>
                 <span style="color:#F00" v-if="!model.sgGuide.image" type="text">未登录</span>
@@ -156,6 +155,7 @@
       </el-pagination>
     </template>
     <!-- 分页-结束 -->
+
   </ns-page-table>
 </template>
 

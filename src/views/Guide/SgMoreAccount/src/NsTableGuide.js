@@ -53,15 +53,6 @@ export default {
         'auth': '',
         'visible': '',
         'color': '#f00'
-      },
-      {
-        'func': function (args) {
-          this.$emit('quit', args.row)
-        },
-        'icon': '',
-        'name': '离职',
-        'auth': '',
-        'visible': ''
       }
     ]
     let quickInput = [{
@@ -77,20 +68,7 @@ export default {
     let quickSearchModel = {}
     let searchModel = {
       sgGuide: {
-        brand_id: null,
-        name: null,
-        nickname: null,
-        sex: 1,
-        mobile: null,
-        birthday: null,
-        work_id: null,
-        password: null,
         image: null
-      },
-      sgGuideShop: {
-        id: null,
-        shop_id: null,
-        job: 0
       }
     }
     let findVo = {
@@ -121,25 +99,10 @@ export default {
       shopLeiXing: [{
         value: 'B',
         label: '天猫'
-      }, {
-        value: 'C',
-        label: '淘宝店'
-      }, {
-        value: 'ZYD',
-        label: '直营店'
-      }, {
-        value: 'JMD',
-        label: '加盟店'
       }],
       operatingStatus: [{
         value: -2,
         label: '已关店'
-      }, {
-        value: -1,
-        label: '暂停'
-      }, {
-        value: 1,
-        label: '正常营业'
       }],
       searchform: {
         // 区域选择相关start
@@ -166,22 +129,6 @@ export default {
   },
   computed: {},
   methods: {
-    async scopeRowCountAndviewDetails (succeedObj) { // 查看门店详情和查看所属区域详情
-      let that = this
-      let obj = {}
-      obj.templateId = succeedObj.template_id
-      obj.appId = succeedObj.app_id
-      that.particularsObj = {}
-      await this.$http
-        .fetch(that.$api.isv.getTemplateInfo, obj)
-        .then(resp => {
-          resp.result.audit_category = JSON.parse(resp.result.audit_category)
-          that.particularsObj = resp.result
-        })
-        .catch(resp => {
-          this.$notify.error(resp.msg || '查询失败')
-        })
-    },
     synchronization () {
       this.$emit('synchronization')
     },
@@ -210,21 +157,6 @@ export default {
         _this.$notify.error('查询失败：' + resp.msg)
       })
     },
-    shopDel (index) {
-      this.guideShopList.splice(index, 1)
-    },
-    disabled (shopId) {
-      let retVal = this.guideShopList.some(item => {
-        return item.shopId === shopId
-      })
-      return retVal
-    },
-    thisGuideDisabled (guideId) {
-      let retVal = this.guideShopList.some(item => {
-        return item.id === guideId
-      })
-      return retVal
-    },
     handleSelectionChange (val) {
       this.$emit('handleSelectionChange', val)
     },
@@ -236,40 +168,6 @@ export default {
     },
     dimissionFun (val) {
       this.$emit('dimissionFun', val)
-    },
-    // 解析后台传进来的字符串
-    strToJson (str) {
-      if (str && str.length > 0) {
-        return JSON.parse(str)
-      } else {
-        return null
-      }
-    },
-    getListFirst (list) {
-      if (list && list.length > 0) {
-        return list[0]
-      } else {
-        return {
-          district: '',
-          name: '',
-          job: ''
-        }
-      }
-    },
-    changeState (state, id) {
-      let _this = this
-      _this.$http.fetch(_this.$api.guide.guide.updateGuideStatus, {
-        guideId: id,
-        status: state
-      }).then(resp => {
-        if (resp.success) {
-          _this.$notify.success('切换成功！')
-        } else {
-          _this.$notify.error('切换失败，原因：' + resp.msg)
-        }
-      }).catch((resp) => {
-        _this.$notify.error('查询失败：' + resp.msg)
-      })
     }
   }
 }
