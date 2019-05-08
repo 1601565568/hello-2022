@@ -140,6 +140,11 @@ export default {
         _this.$notify.error('查询失败： ' + resp.msg)
       })
     },
+    // 处理上传图片
+    handleAvatarSuccess: function (response, file) {
+      var _this = this
+      _this.$reload()
+    },
     handleSelectionChange (val) {
       this.$emit('handleSelectionChange', val)
     },

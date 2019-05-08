@@ -69,6 +69,15 @@ export default {
     }
   },
   /**
+   * $api.sgUploadFile('test')
+   * @param {string} module 上传模块名
+   */
+  sgMoreAccountUploadFile: function (module) {
+    if (typeof module === 'string') {
+      return `${apiConf.API_ROOT}/guide/sgmoreaccount/uploadFile/${module}`
+    }
+  },
+  /**
    * $api.sgDownloadFile('文件fileKey')
    * @param {string} fileKey 文件fileKey
    */
