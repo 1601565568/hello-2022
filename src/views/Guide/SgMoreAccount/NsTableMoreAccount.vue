@@ -98,15 +98,24 @@
             {{scope.row.wechatId || '-'}}
           </template>
         </el-table-column>
-        <el-table-column prop="shopStatus" label="二维码" align="left" width="100">
+        <el-table-column prop="shopStatus" label="二维码" align="left" width="150">
           <template slot-scope="scope">
-            <div>
-                <ns-button style="color:#0091FA" v-if="!scope.row.wxCodeUrl" @click="uploadFile(scope.row)" type="text">点击上传</ns-button>
-                <img width="60px" height="60px" v-if="scope.row.wxCodeUrl" :src="scope.row.wxCodeUrl" class="avatar">
+            <div v-if="!scope.row.wxCodeUrl">
+              <!--@click="uploadFile(scope.row)"-->
+              <el-upload class="upload-demo" :action="$api.core.sgMoreAccountUploadFile(scope.row.id+'')" @change="logo"
+                         accept=".jpg,.jpeg,.png,.bmp,.gif" :show-file-list="false" list-type="picture-card"
+                         :on-success="handleAvatarSuccess">
+                  <ns-button style="color:#0091FA" type="text">
+                    点击上传
+                  </ns-button>
+                </el-upload>
+            </div>
+            <div v-if="scope.row.wxCodeUrl">
+              <img width="100px" height="100px" v-if="scope.row.wxCodeUrl" :src="scope.row.wxCodeUrl" class="avatar">
             </div>
           </template>
         </el-table-column>
-         <el-table-column prop="wechatName" label="微信昵称" align="left" >
+         <el-table-column prop="wechatName" label="微信昵称" align="center" >
           <template slot-scope="scope">
             {{scope.row.wechatName || '-'}}
           </template >
@@ -153,7 +162,12 @@
 </template>
 
 <script>
+import ElUpload from 'nui-v2/lib/upload'
 import moreAccount from './src/NsTableMoreAccount'
+moreAccount.components = {
+  ElUpload
+}
+
 export default moreAccount
 </script>
 <style>
