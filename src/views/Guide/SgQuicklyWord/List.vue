@@ -20,7 +20,7 @@
     <div id="box_right">
       <ns-page-table>
         <!-- 按钮 -->
-        <template slot="buttons">
+        <template slot="buttons" class="quickWordsArt">
           <ns-table-operate-button :buttons="_data._table.table_buttons"></ns-table-operate-button>
         </template>
         <!-- 简单搜索 -->
@@ -48,15 +48,15 @@
             <el-table-column
               type="selection"
               width="55"></el-table-column>
-            <el-table-column prop="keyWord" label="关键词" align="left"></el-table-column>
-            <el-table-column prop="content" label="话术内容" align="left"></el-table-column>
+            <el-table-column prop="keyWord" class="keyword" width="68" label="关键词" align="left"></el-table-column>
+            <el-table-column prop="content" label="话术内容" width="174" height="10" align="left"></el-table-column>
             <el-table-column prop="name" label="分组" align="left"></el-table-column>
             <el-table-column align="left" label="排序">
               <template slot-scope="scope">
-                <i class='iconfont icon-zhiding sort'   @click='exchangeSort(1,scope.row.id)'></i>
-                <i class='iconfont icon-topArr1 sort'   @click='exchangeSort(2,scope.row.id)'></i>
-                <i class='iconfont icon-downArr1 sort'   @click='exchangeSort(3,scope.row.id)'></i>
-                <i class='iconfont icon-zhidi sort'  @click='exchangeSort(4,scope.row.id)'></i>
+                <i class='iconfont icon-zhiding sort' :class="scope.row === _data._table.data[0]?'topHid':''"  @click='exchangeSort(1,scope.row.id)'></i>
+                <i class='iconfont icon-topArr1 sort' :class="scope.row === _data._table.data[0]?'topHid':''"   @click='exchangeSort(2,scope.row.id)'></i>
+                <i class='iconfont icon-downArr1 sort' :class="scope.row === _data._table.data[_data._table.data.length-1]?'topHid':''"   @click='exchangeSort(3,scope.row.id)'></i>
+                <i class='iconfont icon-zhidi sort' :class="scope.row === _data._table.data[_data._table.data.length-1]?'topHid':''"  @click='exchangeSort(4,scope.row.id)'></i>
               </template>
             </el-table-column>
             <el-table-column prop="addName" label="添加人" align="left"></el-table-column>
@@ -87,7 +87,7 @@
                :visible.sync="dialogFormVisible"
                :modal-append-to-body="false"
                @before-close="closeDialog()">
-      <el-form :model="model" ref="form" label-width="150px" :rules="rules" placement="right">
+      <el-form :model="model" ref="form" label-width="90px" :rules="rules" placement="right">
         <el-form-item label="选择分类：" prop="wordGroupId" required>
           <el-select  v-model="model.wordGroupId" placeholder="请选择话术分类">
             <el-option v-for="wordGroup in wordGroupList" :label="wordGroup.name" :value="wordGroup.id" :key="wordGroup.id"></el-option>
@@ -111,7 +111,7 @@
             </div>
           </div>
         </el-form-item>
-        <el-form-item label="设置关键词：" prop="keyWord" >
+        <el-form-item label="设置关键词：" prop="keyWord">
           <el-input type="textarea" placeholder="用'，'号隔开，最多设置五个词" v-model="model.keyWord" size="small" rows="3"></el-input>
         </el-form-item>
         <el-form-item label="添加人：" prop="addName">
@@ -127,14 +127,15 @@
     <el-dialog size="small" :title="批量管理"
                :visible.sync="dialogVisiblePatchChange"
                :modal-append-to-body="false"
+               width='600px'
                @before-close="closeDialog()">
-      <el-form :model="model" ref="form" label-width="150px" :rules="rules" placement="right">
-        <el-form-item label="移动到分类：" prop="wordGroupId" required>
+      <el-form :model="model" ref="form" label-width="90px" :rules="rules" placement="right">
+        <el-form-item label="移动到分类：" prop="wordGroupId" style="margin:25px 0" required>
           <el-select  v-model="model.wordGroupId" filterable clearable placeholder="请选择配置项类型">
             <el-option v-for="wordGroup in wordGroupList" :label="wordGroup.name" :value="wordGroup.id" :key="wordGroup.id"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="编辑关键词：" prop="keyWord" >
+        <el-form-item label="编辑关键词：" prop="keyWord" style="margin-bottom:10px" required>
           <el-input type="text" placeholder="用“，”号隔开，最多设置五个词" v-model="model.keyWord"></el-input>
         </el-form-item>
       </el-form>
@@ -151,7 +152,7 @@
                @before-close="closeDialog()">
       <el-form :model="addOrEditModel" ref="addOrEditForm" label-width="80px" :rules="addOrEditRules" placement="right" class='addOrEditForm'>
         <el-form-item label="分类名称：" prop="name" required >
-          <el-input type="text" placeholder="请输入分类名称" v-model="addOrEditModel.name"></el-input>
+          <el-input type="text" placeholder="请输入分类名称" v-model="addOrEditModel.name" autofocus=true clearable></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -172,6 +173,21 @@ List.components = {
 }
 export default List
 </script>
+<style>
+.el-table--striped .el-table__body tr.el-table__row .el-table_1_column_2{
+  color:mediumvioletred;
+  width: 50px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap
+}
+.topHid {
+    visibility: hidden;
+}
+.el-col-8 .template-table-buttons .el-form-grid{
+  margin-right: 8px
+}
+</style>
 <style scoped>
  @import "@/style/small/variables.pcss";
   #box_left{
@@ -208,7 +224,7 @@ export default List
 }
 .emotion-list_div {
   width: 350px;
-  height: 200px;
+  height: 160px;
   margin-top: 10px;
 }
 .emotion-list_div .emotion-list .li{

@@ -136,7 +136,7 @@
         </el-table-column>
         <el-table-column label="招募码" align="left" width="120">
           <template slot-scope="scope">
-              <ns-button  type="text"><i class="el-icon-menu" @click="elIconMenu(scope.row)"></i></ns-button>
+              <ns-button  type="text"><i class="iconfont icon-erweima" @click="elIconMenu(scope.row)"></i></ns-button>
           </template>
         </el-table-column>
       </el-table>
@@ -163,6 +163,10 @@ import guide from './src/NsTableGuide'
 export default guide
 </script>
 <style>
+.icon-erweima{
+  font-weight: 500;
+  font-size: 30px; 
+}
 .scope_row_count{
   color: blue;
 }
