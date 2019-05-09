@@ -141,7 +141,7 @@
         </el-table-column>
         <el-table-column prop="registerTime" label="招募时间" align="left" width="160">
             <template slot-scope="scope">
-              {{scope.row.registerTime?moment(scope.row.registerTime):'-'}}
+              {{scope.row.activateTime?moment(scope.row.activateTime):'-'}}
             </template>
         </el-table-column>
         <el-table-column prop="status,row" :show-overflow-tooltip="true" label="操作" align="right" width="60">
