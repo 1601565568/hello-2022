@@ -934,7 +934,10 @@ export default {
                   _this.memberBelongingtitle = '选择会员归属'
                   _this.memberBelongingShow = true
                 } else {
-                  guideShop[0] = { job: _this.guideValue, shop_id: model.sgGuideShop.shop_id }
+                  _this.subordinateStores.map((item, i) => {
+                    guideShop[i] = Object.assign({ job: _this.guideValue, shop_id: item }, guideShop[i])
+                  })
+                  // guideShop[0] = { job: _this.guideValue, shop_id: model.sgGuideShop.shop_id }
                   if (guide.birthday instanceof Date) {
                     guide.birthday = moment(guide.birthday).format('YYYY-MM-DD')
                   }
@@ -944,7 +947,10 @@ export default {
                 }
               })
             } else {
-              guideShop[0] = { job: _this.guideValue, shop_id: model.sgGuideShop.shop_id }
+              _this.subordinateStores.map((item, i) => {
+                guideShop[i] = Object.assign({ job: _this.guideValue, shop_id: item }, guideShop[i])
+              })
+              // guideShop[0] = { job: _this.guideValue, shop_id: model.sgGuideShop.shop_id }
               if (guide.birthday instanceof Date) {
                 guide.birthday = moment(guide.birthday).format('YYYY-MM-DD')
               }
@@ -962,10 +968,10 @@ export default {
                 _this.memberBelongingtitle = '选择会员归属'
                 _this.memberBelongingShow = true
               } else {
-                _this.subordinateStores.map((item, i) => {
-                  guideShop[i] = Object.assign({ job: _this.guideValue, shop_id: item }, guideShop[i])
-                })
-
+                guideShop[0] = { job: _this.guideValue, shop_id: model.sgGuideShop.shop_id }
+                // _this.subordinateStores.map((item, i) => {
+                //   guideShop[i] = Object.assign({ job: _this.guideValue, shop_id: item }, guideShop[i])
+                // })
                 if (guide.birthday instanceof Date) {
                   guide.birthday = moment(guide.birthday).format('YYYY-MM-DD')
                 }
