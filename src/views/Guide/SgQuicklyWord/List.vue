@@ -152,6 +152,7 @@
         <el-form-item label="分类名称：" prop="name" required >
           <el-input type="text" placeholder="请输入分类名称" v-model="addOrEditModel.name" ></el-input>
         </el-form-item>
+        <el-input style='display:none'></el-input>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <ns-button @click="closeDialog()">取消</ns-button>
