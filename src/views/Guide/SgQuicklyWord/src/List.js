@@ -99,6 +99,13 @@ export default {
     }
   },
   methods: {
+    onkeydown (e) {
+      let key = window.event.keyCode
+      if (key === 13) {
+        return false
+      }
+      console.log('e:', key)
+    },
     faceFace () { // 表情头像按钮
       this.InternetMemeShow = !this.InternetMemeShow
     },
@@ -174,7 +181,17 @@ export default {
       })
     },
     handleSelectionChange (val) {
+      this.model.wordGroupId = null
+      this.model.keyWord = null
       this.selectedArr = val
+      if (this.selectedArr.length === 1) {
+        this.model.keyWord = val[0].keyWord
+        this.wordGroupList.map(item => {
+          if (item.name === val[0].name) {
+            this.model.wordGroupId = item.id
+          }
+        })
+      }
     },
     exchangeSort (type, id, scope) {
       let parms = { type, id }

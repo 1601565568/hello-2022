@@ -17,8 +17,8 @@
       <div>
         <el-row class="elrow">
           <el-col :span="8" class="elrow_size">尺寸</el-col>
-          <el-col :span="8">公众号二维码<i class="el-icon-question"><div class="publicnumberqrCode"></div></i></el-col>
-          <el-col :span="8">小程序二维码<i class="el-icon-question"><div class="smallprogramqrCode"></div></i></el-col>
+          <el-col :span="8">公众号二维码<i class="el-icon-question"><div class="publicnumberqrCode"><img src="../../../assets/putongerweima.png"></div></i></el-col>
+          <el-col :span="8">小程序二维码<i class="el-icon-question"><div class="smallprogramqrCode"><img src="../../../assets/xiaochengxu.png"></div></i></el-col>
         </el-row>
         <el-row class="elrow_first">
           <el-col  :span="8">
@@ -159,7 +159,6 @@ export default List
   }
   .publicnumberqrCode{
     z-index: 99;
-    background: rgb(245, 193, 97);
     opacity: 0.5;
     position: absolute;
     left: 70px;
@@ -170,7 +169,6 @@ export default List
   }
   .smallprogramqrCode{
     z-index: 99;
-    background:rgb(245, 193, 97);
     opacity: 0.5;
     position: absolute;
     left: 70px;

@@ -45,11 +45,9 @@
                     @selection-change="handleSelectionChange"
             resizable v-loading.lock="_data._table.loadingtable"
             :element-loading-text="$t('prompt.loading')" @sort-change="$orderChange$">
-            <el-table-column
-              type="selection"
-              width="55"></el-table-column>
-            <el-table-column prop="keyWord" class="keyword" width="68" label="关键词" align="left"></el-table-column>
-            <el-table-column prop="content" label="话术内容" width="174" height="10" align="left"></el-table-column>
+            <el-table-column type="selection" width="55"></el-table-column>
+            <el-table-column prop="keyWord" class-name="keyword" width="130" :show-overflow-tooltip="true" label="关键词" align="left"></el-table-column>
+            <el-table-column prop="content" label="话术内容" width="325" :show-overflow-tooltip="true" align="left"></el-table-column>
             <el-table-column prop="name" label="分组" align="left"></el-table-column>
             <el-table-column align="left" label="排序">
               <template slot-scope="scope">
@@ -135,7 +133,7 @@
             <el-option v-for="wordGroup in wordGroupList" :label="wordGroup.name" :value="wordGroup.id" :key="wordGroup.id"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="编辑关键词：" prop="keyWord" style="margin-bottom:10px" required>
+        <el-form-item label="编辑关键词：" prop="keyWord" style="margin-bottom:30px" required>
           <el-input type="text" placeholder="用“，”号隔开，最多设置五个词" v-model="model.keyWord"></el-input>
         </el-form-item>
       </el-form>
@@ -146,13 +144,13 @@
     </el-dialog>
     <!-- 新增分类 -->
     <el-dialog size="small" :title="titleText"
-               :visible.sync="dialogVisibleSaveQuicklyWordGroup"
-               :modal-append-to-body="false"
-               width='500px'
-               @before-close="closeDialog()">
+      :visible.sync="dialogVisibleSaveQuicklyWordGroup"
+      :modal-append-to-body="false"
+      width='500px'
+      @before-close="closeDialog()">
       <el-form :model="addOrEditModel" ref="addOrEditForm" label-width="80px" :rules="addOrEditRules" placement="right" class='addOrEditForm'>
         <el-form-item label="分类名称：" prop="name" required >
-          <el-input type="text" placeholder="请输入分类名称" v-model="addOrEditModel.name" autofocus=true clearable></el-input>
+          <el-input type="text" placeholder="请输入分类名称" v-model="addOrEditModel.name" ></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -174,13 +172,6 @@ List.components = {
 export default List
 </script>
 <style>
-.el-table--striped .el-table__body tr.el-table__row .el-table_1_column_2{
-  color:mediumvioletred;
-  width: 50px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap
-}
 .topHid {
     visibility: hidden;
 }
