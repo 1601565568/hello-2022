@@ -6,19 +6,39 @@
   <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
   <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
   <script type="text/javascript" src="../internal.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+  <script src="https://unpkg.com/nui-v2/lib/index.js"></script>
+  <link rel="stylesheet" href="https://unpkg.com/nui-v2/lib/theme-chalk/index.css">
   <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
   <script src="../../third-party/webuploader/webuploader.min.js"></script>
-  <!-- <script type="text/javascript" src="../image/image.js"></script> -->
-  <link rel="stylesheet" type="text/css" href="../../third-party/webuploader/webuploader.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css"
-    integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"
-    integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous">
+  <!-- <link rel="stylesheet" type="text/css" href="../../third-party/webuploader/webuploader.css"> -->
+  <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css"
+    integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"> -->
+  <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"
+    integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"> -->
   </script>
-  <!-- <link rel="stylesheet" href="../image/image.css" type="text/css" /> -->
 
   <style type="text/css">
-    * {
+  	.addMaterialbox{
+  		padding-top: 20px;
+  	}
+    .el-upload{
+      height: 80px;
+      width: 80px;
+
+    }
+    .avatar-uploader .avatar-uploader-icon{
+    line-height: 80px
+    }
+    .template-table__more-btn {
+	    position: absolute;
+	    right: 0px;
+	    top: 4px;
+		}
+		.template-table-search{
+			position: relative;
+		}
+    /* * {
       margin: 0;
       padding: 0;
       color: #838383;
@@ -31,137 +51,369 @@
 
     .btn-default {
       min-width: 110px !important;
-    }
+    } */
   </style>
 </head>
 
 <body>
-  <div style='margin-top: 50px'>
-    <form class="form-inline">
-      <div class="form-group">
-        <label for="exampleInputName2" class='w100'>显示样式 ：</label>
-        <div class="dropdown" style='display:inline-block'>
-          <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown"
-            aria-haspopup="true" aria-expanded="true">
-            <span style='color:#333' class='show-type-btn'>请选择</span>
-            <span class="caret"></span>
-          </button>
-          <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-            <li class='show-type-item'><a href="#">文字</a></li>
-            <li class='show-type-item'><a href="#">图片</a></li>
-          </ul>
-        </div>
+  <div id="app">
+      <div class="addMaterialbox">
+        <el-form :model="saveObj"  ref="addForm" label-width="100px">
+        	
+            <el-form-item label="显示样式：" prop="">
+            	<el-form-grid size="md">
+	              <el-select  v-model="saveObj.type" clearable>
+	                <el-option v-for="item in typeList" :key="item" :label="item.name"
+	                  :value="item.type">
+	                </el-option>
+	              </el-select>
+              </el-form-grid>
+            </el-form-item>
+          
+            <el-form-item label="文字内容：" prop="content" v-if='!saveObj.type' >
+            	<el-form-grid size="md">
+              <el-input  type="text" v-model="saveObj.content" placeholder="请输入文字内容" style='width:auto'></el-input></el-form-grid>
+            </el-form-item>
+            <el-form-item label="图片：" prop="content" v-if='saveObj.type'>
+              <el-upload class="avatar-uploader"
+                accept=".jpg,.jpeg,.png,.bmp,.gif" :show-file-list="false" list-type="picture-card"
+                >
+                <i class="el-icon-plus avatar-uploader-icon"></i>
+              </el-upload>
+            </el-form-item>
+            <el-form-item label="小程序链接：">
+            	<el-form-grid size="md">
+	              <el-select v-model="saveObj.codeModule" placeholder="请选择" @change='codeModuleChange'>
+	                <el-option v-for="item in wechatPageTypeList" :key="item.id" :label="item.name" :value="item.id">
+	                </el-option>
+	              </el-select>
+              </el-form-grid>
+              <el-form-grid size="md">
+                <el-select v-model="saveObj.codeTarget" placeholder="请选择" clearable v-if="saveObj.codeModule==1">
+                  <el-option v-for="item in wechatPageUrlList" :key="item.codeTarget" :label="item.codeTargetName"
+                    :value="item.codeTarget">
+                  </el-option>
+                </el-select>
+              </el-form-grid>
+              
+              
+            </el-form-item>
+            <template v-if="saveObj.codeModule==2">
+                <div class="selectMarketbox">
+									<div class="template-table-search">
+						        
+						          <el-form ref="searchform"  class="surround-btn" :model="searchObj.searchMap"  :inline="true" label-width="100px"> 
+						            <el-form-item label="商品名称：" prop="title">
+						            	<el-form-grid size="md">
+						              <el-input v-model="searchObj.searchMap.title" placeholder="请输入商品名称" clearable></el-input></el-form-grid>
+						            </el-form-item>
+						            <el-form-item label="商品编号：" prop="goodsCode">
+						            	<el-form-grid size="md">
+						              <el-input v-model="searchObj.searchMap.goodsCode" placeholder="请输入商品编号" clearable></el-input></el-form-grid>
+						            </el-form-item>
+						          </el-form>
+						          <div class="template-table__more-btn">
+						            <el-button type="primary" @click="submitForm('searchform')" size="small">搜索</el-button>
+						            <el-button @click="resetForm('searchform')" size="small">重置</el-button>
+						          </div>
+						
+						      </div>
+							   	<div class="mt10">
+							   
+							      <el-table
+							        ref="multipleTable"
+							        :data="dataList"
+							        v-loading="loading"
+							        tooltip-effect="dark"
+							        stripe
+							        highlight-current-row
+							        
+							        style="width: 100%"
+							        >
+							        <el-table-column  width="30">
+							          <template slot-scope="scope">
+							              <el-radio :label="scope.row.goodsId" v-model="market.goodsId" ></el-radio>
+							          </template>
+							        </el-table-column>
+							        <el-table-column prop="title" label="商品名称" align="left" >
+							        </el-table-column>
+							        <el-table-column prop="goodsCode" label="商品编号" align="left" >
+							        </el-table-column>
+							      </el-table>
+							    </div>
+							    <el-pagination  class="template-table-pagination"
+							        :page-sizes="pagination.sizeOpts"
+							        :total="pagination.total"
+							        :current-page="pagination.page"
+							        :page-size="pagination.size"
+							        layout="total, sizes, prev, pager, next, jumper"
+							        @size-change="handleSizeChange"
+							        @current-change="handleCurrentChange">
+							    </el-pagination>
+
+								</div>
+                
+                
+                
+                
+                
+                
+                
+                
+              </template>
+              
+              <template v-if="saveObj.codeModule==4">
+                <div class="selectMarketbox">
+
+
+      <div class="template-table-search">
+
+          <el-form ref="searchMarketForm" label-width="100px"  class="surround-btn" :model="searchMarket.searchMap"  :inline="true">
+            <el-form-item label="活动类型：" prop="type">
+            	<el-form-grid size="md">
+              <el-select v-model="searchMarket.searchMap.type" placeholder="请选择活动类型" clearable>
+                <el-option v-for="item in groudList"
+                :key="item.type"
+                :label="item.name"
+                :value="item.type">
+                </el-option>
+              </el-select>
+              </el-form-grid>
+            </el-form-item>
+
+            <!-- <el-form-item label="活动名称：" prop="content">
+              <el-input v-model="searchform.content" placeholder="请输入活动名称" clearable></el-input>
+            </el-form-item> -->
+
+          </el-form>
+          <div class="template-table__more-btn">
+            <el-button type="primary" @click="submitMarketForm('searchMarketForm')" size="small">搜索</el-button>
+            <el-button @click="resetMarketForm('searchMarketForm')" size="small">重置</el-button>
+          </div>
+
       </div>
-    </form>
-    <div style='padding: 20px 0'>
-      <form class="form-inline show-type-text" style='visibility: hidden'>
-        <div class="form-group">
-          <label for="exampleInputName2 " class='w100'>文字内容 ：</label>
-          <input type="text" class="form-control" id="exampleInputEmail1" placeholder="请输入文字内容">
-        </div>
-      </form>
-      <form class="form-inline show-type-img" style='display: none'>
-        <div class="form-group">
-          <label for="exampleInputName2" class='w100'>图片 ：</label>
-          <img src="..." alt="..." class="img-thumbnail">
-        </div>
-      </form>
+
+    <div class="mt10">
+      <el-table
+        ref="multipleTable"
+        :data="marketDataList"
+        tooltip-effect="dark"
+        v-loading="loadingMarket"
+        stripe
+        highlight-current-row
+        style="width: 100%"
+        >
+        <el-table-column  width="30">
+          <template slot-scope="scope">
+              <el-radio :label="scope.row.guid" v-model="market.guid" ></el-radio>
+          </template>
+        </el-table-column>
+        <el-table-column prop="name" label="活动名称" align="left" width='180'>
+        </el-table-column>
+        <el-table-column prop="statusStr" label="活动状态" align="left" width='120'>
+        </el-table-column>
+        <el-table-column label="有效时间 "  align="left">
+          <template slot-scope="scope">
+            <span>{{scope.row.startTime}} - {{scope.row.endTime}}</span>
+          </template>
+        </el-table-column>
+      </el-table>
     </div>
-
-
-
-
-    <form class="form-inline">
-      <div class="form-group">
-        <label for="exampleInputEmail2" class='w100'>小程序链接 ：</label>
-        <div class="dropdown" style='display:inline-block'>
-          <button class="btn btn-default dropdown-toggle " type="button" id="dropdownMenu1" data-toggle="dropdown"
-            aria-haspopup="true" aria-expanded="true">
-            <span style='color:#333' class='dropdown-menu-type-btn'>请选择</span>
-            <span class="caret"></span>
-          </button>
-          <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-            <li class='dropdown-menu-type-item'><a href="#">商城主页面</a></li>
-            <li class='dropdown-menu-type-item'><a href="#">商品</a></li>
-            <li class='dropdown-menu-type-item'><a href="#">优惠券</a></li>
-            <li class='dropdown-menu-type-item'><a href="#">营销活动</a></li>
-            <li class='dropdown-menu-type-item'><a href="#">自定义页面</a></li>
-          </ul>
-        </div>
-
-        <div class="dropdown main-page-selection" style='display:inline-block;visibility:hidden'>
-          <button class="btn btn-default dropdown-toggle " type="button" id="dropdownMenu1" data-toggle="dropdown"
-            aria-haspopup="true" aria-expanded="true">
-            <span style='color:#333' class='main-page-btn'>请选择</span>
-            <span class="caret"></span>
-          </button>
-          <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-            <li class='main-page-item'><a href="#">首页</a></li>
-            <li class='main-page-item'><a href="#">分类</a></li>
-            <li class='main-page-item'><a href="#">我的</a></li>
-          </ul>
-        </div>
+    <el-pagination  class="template-table-pagination"
+        :page-sizes="marketPagination.sizeOpts"
+        :total="marketPagination.total"
+        :current-page="marketPagination.page"
+        :page-size="marketPagination.size"
+        layout="total, sizes, prev, pager, next, jumper"
+        @size-change="marketHandleSizeChange"
+        @current-change="marketHandleCurrentChange">
+    </el-pagination>
+</div>
+              </template>
+        </el-form>
       </div>
-      <button type="submit" class="btn btn-default">Send invitation</button>
-    </form>
+      <a href="javascript:window.opener=null;window.open('','_self');window.close();">关闭</a> 
   </div>
   <script type="text/javascript">
-    $('.show-type-item').click(function () {
-      $('.show-type-btn').html($(this).text())
-      if ($(this).text() === '文字') {
-        $('.show-type-text').css('visibility', 'visible').show()
-        $('.show-type-img').hide()
-
-      } else {
-        $('.show-type-img').show()
-        $('.show-type-text').hide()
+  new Vue({
+    el:'#app',
+    data : function () {
+      return {
+      	loading:false,
+      	loadingMarket:false,
+        saveObj: {
+          type:0
+        },
+        typeList:[{name:'文字',type:0},{name:'图片',type:1}],
+        wechatPageTypeList: [{ name: '商城主页面', id: 1 }, { name: '商品', id: 2 }, { name: '营销活动', id: 4 }],
+        wechatPageUrlList: [{ codeTargetName: '首页', codeTarget: '1' }, { codeTargetName: '分类', codeTarget: '2' }, {codeTargetName: '我的', codeTarget: '3' }],
+        searchObj: {
+	        length: 15,
+	        start: 0,
+	        searchMap: {brandId:'1000664'}
+	      },
+	      dataList:[],
+	      market: {
+	        goodsId: ''
+	      },
+	      pagination: {
+        // 分页对象
+	        enable: true,
+	        size: 15,
+	        sizeOpts: [15, 50, 100, 200],
+	        page: 1,
+	        total: 0
+	      },
+	      groudList: [{ name: '多人拼团', type: 2 }, { name: '满减送', type: 3 }, { name: '秒杀', type: 4 }],
+	      searchMarket:{
+	      	length: 15,
+	        start: 0,
+	        searchMap: {brandId:'1000664',type: 2}
+	      },
+	      marketDataList:[],
+	      marketPagination: {
+        // 分页对象
+	        enable: true,
+	        size: 15,
+	        sizeOpts: [15, 50, 100, 200],
+	        page: 1,
+	        total: 0
+	      },
       }
-    })
-    $('.dropdown-menu-type-item').click(function () {
-      let str = $(this).text()
-      $('.main-page-selection').css('visibility', 'hidden')
-      switch (str) {
-        case ("商城主页面"):
-          $('.main-page-selection').css('visibility', 'visible')
-          break;
-        case ("商品"):
+    },
+    methods :{
+    	clearSearchMarket(){
+    		this.marketPagination.page = 1
+      	this.searchMarket.start = 0
+    	},
+    	clearSearchGoods(){
+    		this.pagination.page = 1
+      	this.searchObj.start = 0
+    	},
+    	submitMarketForm(){
+    		this.clearSearchMarket()
+	      this.loadMarketListFun()
+    	},
+    	resetMarketForm(){
+    		this.$refs[formName].resetFields()
+	      this.submitMarketForm()
+    	},
+    	submitForm () {
+	      this.clearSearchGoods()
+	      this.loadListFun()
+	    },
+    	resetForm (formName) {
+	      this.$refs[formName].resetFields()
+	      this.submitForm()
+	    },
+	    handleSizeChange (val) {
+	      this.searchObj.length = val
+	      this.loadListFun()
+	    },
+	    // 分页操作--跳转到对应页数
+	    handleCurrentChange (val) {
+	      this.searchObj.start = (val - 1) * this.searchObj.length
+	      this.loadListFun()
+	    },
+	    marketHandleSizeChange(){
+	    	this.searchMarket.length = val
+	      this.loadMarketListFun()
+	    },
+	    marketHandleCurrentChange (val) {
+	      this.searchMarket.start = (val - 1) * this.searchObj.length
+	      this.loadMarketListFun()
+	    },
+	    loadListFun(){
+	    	let that=this
+	    	this.loading = true
+	    	$.ajax({
+	          async : true, //表示请求是否异步处理
+	          type : "post", //请求类型
+	          contentType:'application/json;charset=UTF-8',
+	          url : "http://47.96.228.119:8088/guide/goods/findMallGoodsList",//请求的 URL地址
+	          dataType : "json",//返回的数据类型
+	          data:JSON.stringify(this.searchObj),
+	          // jsonp: "callbackparam",
+	          success: function (res) {
+	 						that.pagination.total = Number(res.result.recordsTotal)
+        			that.dataList = res.result.data
+	         	},	
+			      error:function (err) {
+			      },
+			      complete:function () {
+			      	that.loading=false
+			      },
+		      });
+	    },
+	    loadMarketListFun(){
+	    	let that=this
+	    	this.loadingMarket=true
+	    	$.ajax({
+	          async : true, //表示请求是否异步处理
+	          type : "post", //请求类型
+	          contentType:'application/json;charset=UTF-8',
+	          url : "http://47.96.228.119:8088/guide/marketing/findMallMarketingList",//请求的 URL地址
+	          dataType : "json",//返回的数据类型
+	          data:JSON.stringify(this.searchMarket),
+	          // jsonp: "callbackparam",
+	          success: function (res) {
+	          	let newTime = new Date().getTime()
+			        res.result.data.map(item => {
+			          let startTime = new Date(item.startTime).getTime()
+			          let endTime = new Date(item.endTime).getTime()
+			          if (newTime < startTime) {
+			            item.statusStr = '未开始'
+			          } else if (newTime > endTime) {
+			            item.statusStr = '已结束'
+			          } else {
+			            item.statusStr = '进行中'
+			          }
+			        })
+	 						that.marketPagination.total = Number(res.result.recordsTotal)
+        			that.marketDataList = res.result.data
+	         	},	
+			      error:function (err) {
+			      },
+			      complete:function () {
+			      	that.loadingMarket=false
+			      },
+		      });
+	    },
+	    codeModuleChange(){
+		    	if(this.saveObj.codeModule==2){
+		    		this.loadListFun()
+		    	}else if(this.saveObj.codeModule==4){
+		    		this.loadMarketListFun()
+		    	}
+		    }
+	   },
+	   
+  	});
+	
+dialog.onok = function () {
+	console.log(1)
+//	debugger
+//	dialog.close();
+//	/pages/Transfer/goodsDetail
+//	/pages/Transfer/preferential
+//首页：pages/index/index
+//分类：pages/TabBar/GoodsList/index
+//我的：pages/TabBar/My/index
+//	dialog.close(true)
+      // if($('#textInput').val()){
+        editor.execCommand('link', utils.clearEmptyAttrs({
+          href: "小程序链接",
+          _href: "/home/index",
+          title: '小程序链接',
+          // target: '_blank',
+          class:'applet'
+         }))
 
-          break;
-        case ("优惠券"):
-
-          break;
-        case ("营销活动"):
-
-          break;
-        case ("自定义页面"):
-
-          break;
-      }
-      $('.dropdown-menu-type-btn').html($(this).text())
-
-    })
-    $('.main-page-item').click(function () {
-      $('.main-page-btn').html($(this).text())
-    })
-    // let typeArr =
-    // [{name:'',type:1},{name:'',type:2},{name:'',type:3},{name:'',type:4},{name:'',type:5}]
-    // typeArr.map(item =>{
-    //   $("#selectType").append(`<option value="${item.type}">${item.name}</option>`);//新增
-    // })
-    function typeChange() {
-      let str = $('#selectType option:selected').val()
-      if (str === 3) {}
-    }
-    dialog.onok = function () {
-      editor.execCommand('mylink', utils.clearEmptyAttrs({
-        href: "http://ueditor.baidu.com",
-        _href: "http://ueditor.baidu.com",
-        title: '1111',
-        target: '_blank'
-      }));
-    };
+ };
     dialog.oncancel = function () {
-      editor.execCommand('inserthtml', '<span>我点击了取消</span>');
+    	console.log(111)
+    	dialog.close(true)
+//    editor.execCommand('inserthtml', '<span>我点击了取消</span>');
     };
   </script>
 </body>
