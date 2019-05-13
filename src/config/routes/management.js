@@ -8,13 +8,13 @@ export default {
   },
   'children': [{
     'path': '/operate/management/',
-    'name': 'OPERATE_MANAGEMENT',
+    'name': 'OPERATE_MANAGEMENT/',
     'title': '定时任务',
     'component': () => import('@/views/ContentOperate'),
     'children': [
       {
         'path': '/operate/management/developmentManagement',
-        'name': 'DEVELOPMENT_MANAGEMENT',
+        'name': 'MANAGEMENT_DEVELOPMENTMANAGEMENT',
         'title': '定时任务',
         'component': () => import('@/views/ISV/developmentManagement/index')
       }

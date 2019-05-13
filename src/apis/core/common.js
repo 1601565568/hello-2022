@@ -77,7 +77,7 @@ export default {
   // 地区树
   queryAreaTree4Component: {
     url: '/core/common/queryAreaTree4Component',
-    method: 'post'
+    method: 'get'
   },
   // 渠道树
   queryChannelTree4Component: {

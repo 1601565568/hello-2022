@@ -15,7 +15,7 @@ export default {
       'children': [
         {
           'path': '/Guide/Others/SgWxAccount',
-          'name': 'SG_WX_ACCOUNT',
+          'name': 'OTHERS_SGWXACCOUNT',
           'title': '授权管理',
           'component': () => import('@/views/Guide/SgWxAccount')
         }

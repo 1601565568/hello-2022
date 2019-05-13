@@ -69,6 +69,17 @@ export default {
       },
       rules: {
         'wordGroupId': [{ required: true, message: '话术类别不能为空' }],
+        'keyWord': [{ required: true, message: '设置关键词内容不能为空' },
+          {
+            validator: (rule, value, callback) => {
+              if ((this.model.keyWord.split('，').length - 1) > 4) {
+                callback(new Error('关键词最多设置五个词'))
+              } else {
+                callback()
+              }
+            }
+          }
+        ],
         'content': [{ required: true, message: '话术内容不能为空' }],
         'name': [{ required: true, message: '分类内容不能为空' }]
       },
@@ -88,6 +99,13 @@ export default {
     }
   },
   methods: {
+    onkeydown (e) {
+      let key = window.event.keyCode
+      if (key === 13) {
+        return false
+      }
+      console.log('e:', key)
+    },
     faceFace () { // 表情头像按钮
       this.InternetMemeShow = !this.InternetMemeShow
     },
@@ -163,9 +181,19 @@ export default {
       })
     },
     handleSelectionChange (val) {
+      this.model.wordGroupId = null
+      this.model.keyWord = null
       this.selectedArr = val
+      if (this.selectedArr.length === 1) {
+        this.model.keyWord = val[0].keyWord
+        this.wordGroupList.map(item => {
+          if (item.name === val[0].name) {
+            this.model.wordGroupId = item.id
+          }
+        })
+      }
     },
-    exchangeSort (type, id) {
+    exchangeSort (type, id, scope) {
       let parms = { type, id }
       this.$http.fetch(this.$api.guide.updateQuicklyWordSort, parms).then(resp => {
         this.$reload()
@@ -196,6 +224,17 @@ export default {
       this.titleText = (row.id && '编辑话术') || '新增话术'
       if (arr.length !== 0) {
         this.model = Object.assign({}, row)
+      } else {
+        this.model = {
+          id: null,
+          wordGroupId: null,
+          content: '',
+          keyWord: null,
+          name: null,
+          addName: null,
+          searchValue: null,
+          param: {}
+        }
       }
       if (!row || !row.id) {
         this.model.addName = this.addName
@@ -245,19 +284,23 @@ export default {
       let that = this
       let wordGroupId = that.model.wordGroupId
       let keyWord = that.model.keyWord
-      let obj = { quicklyWordIds: '', wordGroupId: wordGroupId, keyWord: keyWord }
-      let arr = []
-      that.selectedArr.map(item => {
-        arr.push(item.id)
-      })
-      obj.quicklyWordIds = arr.join(',')
-      that.$http.fetch(that.$api.guide.patchChange, obj).then(() => {
-        that.closeDialog()
-        that.$notify.success('删除成功')
-        that.$reload()
-      }).catch((resp) => {
-        that.$notify.error(resp.msg || '删除失败')
-      })
+      if (this.model.keyWord !== null) {
+        if ((this.model.keyWord.split('，').length - 1) < 4) {
+          let obj = { quicklyWordIds: '', wordGroupId: wordGroupId, keyWord: keyWord }
+          let arr = []
+          that.selectedArr.map(item => {
+            arr.push(item.id)
+          })
+          obj.quicklyWordIds = arr.join(',')
+          that.$http.fetch(that.$api.guide.patchChange, obj).then(() => {
+            that.closeDialog()
+            that.$notify.success('保存成功')
+            that.$reload()
+          }).catch((resp) => {
+            that.$notify.error(resp.msg || '保存失败')
+          })
+        }
+      }
     },
     onDelete (row) { // 快捷话术删除
       apiRequestConfirm('永久删除该数据')

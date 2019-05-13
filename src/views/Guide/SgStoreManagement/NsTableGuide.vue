@@ -101,7 +101,6 @@
       <!-- 操作（只有一项文字的80px,两项文字120px,三项文字160px） -->
 
       <el-table ref="table" :data="_data._table.data" stripe >
-        <!-- <el-table-column type="selection" width="42" class="table_selection"></el-table-column> -->
         <el-table-column prop="shopName" label="门店名称" align="left" width="220">
           <template slot-scope="scope">
             {{scope.row.shopName || '-'}}
@@ -135,11 +134,11 @@
               {{scope.row.phone || '-'}}
           </template>
         </el-table-column>
-        <!-- <el-table-column label="招募码" align="left" width="120">
+        <el-table-column label="招募码" align="left" width="120">
           <template slot-scope="scope">
-              <ns-button  type="text"><i class="el-icon-menu" @click="elIconMenu"></i></ns-button>
+              <ns-button  type="text"><i class="iconfont icon-erweima" @click="elIconMenu(scope.row)"></i></ns-button>
           </template>
-        </el-table-column> -->
+        </el-table-column>
       </el-table>
     </template>
     <!-- 表格-结束 -->
@@ -164,6 +163,10 @@ import guide from './src/NsTableGuide'
 export default guide
 </script>
 <style>
+.icon-erweima{
+  font-weight: 500;
+  font-size: 30px; 
+}
 .scope_row_count{
   color: blue;
 }

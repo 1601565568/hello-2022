@@ -26,6 +26,10 @@
   content: "\e639";
 }
 
+.icon-erweima:before {
+  content: "\e748";
+}
+
 .icon-jiantoushangsheng1:before {
   content: "\e7f1";
 }
@@ -440,6 +444,10 @@
 
 .icon-zhihangzhong:before {
   content: "\e643";
+}
+
+.icon-xiazai:before {
+  content: "\e7a3";
 }
 
 .icon-flag-yellow:before {

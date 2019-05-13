@@ -29,7 +29,7 @@ export default {
       'children': [
         {
           'path': '/Guide/SgGuide/List',
-          'name': 'GuideList',
+          'name': 'Guide_List',
           'title': '员工列表',
           'component': () => import('@/views/Guide/SgGuide/List')
         },

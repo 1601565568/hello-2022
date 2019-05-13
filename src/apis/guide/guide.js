@@ -186,5 +186,10 @@ export default {
   findGuideCustomerSum: {
     url: '/guide/guide/findGuideCustomerSum',
     method: 'post'
+  },
+  // 门店招募二维码下载和小程序二维码下载
+  getShopRecruitmentQrcode: {
+    url: '/guide/ehd/getShopRecruitmentQrcode',
+    method: 'get'
   }
 }

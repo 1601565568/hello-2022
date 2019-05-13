@@ -1,4 +1,3 @@
-
 export default {
   data: function () {
     let quickInput = [{
@@ -12,28 +11,8 @@ export default {
     }]
     let quickSearchModel = {}
     let searchModel = {
-      sgGuide: {
-        brand_id: null,
-        name: null,
-        nickname: null,
-        sex: 1,
-        mobile: null,
-        birthday: null,
-        work_num: '',
-        password: null,
-        image: ''
-      },
-      sgGuideShop: {
-        id: null,
-        shop_id: '',
-        job: 0,
-        memberBelonging: 1,
-        updateAllGuidePrefix: 0
-      },
-      sgGuideVo: {
-        newShopId: 0,
-        type: 0
-      }
+      'image': null,
+      'id': null
     }
     let findVo = {
       'shopName': null, // 门店名称
@@ -65,17 +44,28 @@ export default {
       })
     })
     return {
-      dialogFormVisible: false, // 点击上传弹窗
+      dialogUploadVisible: false, // 点击上传弹窗
       model
     }
   },
   methods: {
-    clickOnTheUpload (row) { // 点击上传按钮
-      this.dialogFormVisible = true
+    handleRemove (file, fileList) {
+    },
+    handlePictureCardPreview (file) {
+      this.dialogImageUrl = file.url
+      this.dialogVisible = true
+    },
+    uploadFile (row) {
+      var _this = this
+      _this.dialogUploadVisible = true
+    },
+    onSaveImage () {
+    },
+    closeDialog () {
+      var _this = this
+      _this.dialogUploadVisible = false
     }
   },
   mounted: function () {
-    var _this = this
-    _this.initShopList()
   }
 }
