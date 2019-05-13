@@ -47,7 +47,7 @@
             :element-loading-text="$t('prompt.loading')" @sort-change="$orderChange$">
             <el-table-column type="selection" width="55"></el-table-column>
             <el-table-column prop="keyWord" class-name="keyword" width="130" :show-overflow-tooltip="true" label="关键词" align="left"></el-table-column>
-            <el-table-column prop="content" label="话术内容" width="325" :show-overflow-tooltip="true" align="left"></el-table-column>
+            <el-table-column prop="content" label="话术内容" width="335" :show-overflow-tooltip="true" align="left"></el-table-column>
             <el-table-column prop="name" label="分组" align="left"></el-table-column>
             <el-table-column align="left" label="排序">
               <template slot-scope="scope">
@@ -173,6 +173,9 @@ List.components = {
 export default List
 </script>
 <style>
+.el-dialog__body {
+  margin-top: 20px;
+}
 .topHid {
     visibility: hidden;
 }

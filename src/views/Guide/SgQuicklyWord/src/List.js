@@ -284,20 +284,22 @@ export default {
       let that = this
       let wordGroupId = that.model.wordGroupId
       let keyWord = that.model.keyWord
-      if ((this.model.keyWord.split('，').length - 1) < 4) {
-        let obj = { quicklyWordIds: '', wordGroupId: wordGroupId, keyWord: keyWord }
-        let arr = []
-        that.selectedArr.map(item => {
-          arr.push(item.id)
-        })
-        obj.quicklyWordIds = arr.join(',')
-        that.$http.fetch(that.$api.guide.patchChange, obj).then(() => {
-          that.closeDialog()
-          that.$notify.success('保存成功')
-          that.$reload()
-        }).catch((resp) => {
-          that.$notify.error(resp.msg || '保存失败')
-        })
+      if (this.model.keyWord !== null) {
+        if ((this.model.keyWord.split('，').length - 1) < 4) {
+          let obj = { quicklyWordIds: '', wordGroupId: wordGroupId, keyWord: keyWord }
+          let arr = []
+          that.selectedArr.map(item => {
+            arr.push(item.id)
+          })
+          obj.quicklyWordIds = arr.join(',')
+          that.$http.fetch(that.$api.guide.patchChange, obj).then(() => {
+            that.closeDialog()
+            that.$notify.success('保存成功')
+            that.$reload()
+          }).catch((resp) => {
+            that.$notify.error(resp.msg || '保存失败')
+          })
+        }
       }
     },
     onDelete (row) { // 快捷话术删除
