@@ -270,18 +270,18 @@ export default [
     'OriginalFile': '/img/expression/54.png'
   },
   {
-    'ShortCut': '😈',
-    'Meaning': '魔鬼',
+    'ShortCut': '👌',
+    'Meaning': 'OK',
     'OriginalFile': '/img/expression/55.png'
   },
   {
-    'ShortCut': '👻',
-    'Meaning': '幽灵',
+    'ShortCut': '👍',
+    'Meaning': '棒',
     'OriginalFile': '/img/expression/56.png'
   },
   {
-    'ShortCut': '💩',
-    'Meaning': '便便',
+    'ShortCut': '😈',
+    'Meaning': '魔鬼',
     'OriginalFile': '/img/expression/57.png'
   },
   {

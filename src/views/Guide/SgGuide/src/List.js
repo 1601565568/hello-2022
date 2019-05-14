@@ -920,7 +920,7 @@ export default {
                 if (guide.birthday instanceof Date) {
                   guide.birthday = moment(guide.birthday).format('YYYY-MM-DD')
                 }
-                if (_this.model.sgGuide.mobile !== null && _this.subordinateStores.length > 0 && _this.model.sgGuide.name !== null && _this.model.sgGuide.work_prefix !== '') {
+                if (_this.model.sgGuide.mobile !== '' && _this.subordinateStores.length > 0 && _this.model.sgGuide.name !== '' && _this.model.sgGuide.work_prefix !== '') {
                   _this.saveOrUpdateGuide(guide, guideShop, sgGuideVo)
                 }
               }
@@ -941,7 +941,7 @@ export default {
                   if (guide.birthday instanceof Date) {
                     guide.birthday = moment(guide.birthday).format('YYYY-MM-DD')
                   }
-                  if (_this.model.sgGuide.mobile !== null && _this.model.sgGuideShop.shop_id !== null && _this.model.sgGuide.name !== null && _this.model.sgGuide.work_prefix !== '') {
+                  if (_this.model.sgGuide.mobile !== '' && _this.model.sgGuideShop.shop_id !== null && _this.model.sgGuide.name !== '' && _this.model.sgGuide.work_prefix !== '') {
                     _this.saveOrUpdateGuide(guide, guideShop, sgGuideVo)
                   }
                 }
@@ -954,7 +954,7 @@ export default {
               if (guide.birthday instanceof Date) {
                 guide.birthday = moment(guide.birthday).format('YYYY-MM-DD')
               }
-              if (_this.model.sgGuide.mobile !== null && _this.model.sgGuideShop.shop_id !== null && _this.model.sgGuide.name !== null && _this.model.sgGuide.work_prefix !== '') {
+              if (_this.model.sgGuide.mobile !== null && _this.model.sgGuideShop.shop_id !== null && _this.model.sgGuide.name !== '' && _this.model.sgGuide.work_prefix !== '') {
                 _this.saveOrUpdateGuide(guide, guideShop, sgGuideVo)
               }
             }
@@ -975,7 +975,7 @@ export default {
                 if (guide.birthday instanceof Date) {
                   guide.birthday = moment(guide.birthday).format('YYYY-MM-DD')
                 }
-                if (_this.model.sgGuide.mobile !== null && _this.subordinateStores.length > 0 && _this.model.sgGuide.name !== null && _this.model.sgGuide.work_prefix !== '') {
+                if (_this.model.sgGuide.mobile !== '' && _this.subordinateStores.length > 0 && _this.model.sgGuide.name !== '' && _this.model.sgGuide.work_prefix !== '') {
                   _this.saveOrUpdateGuide(guide, guideShop, sgGuideVo)
                 }
               }
@@ -986,7 +986,7 @@ export default {
               if (guide.birthday instanceof Date) {
                 guide.birthday = moment(guide.birthday).format('YYYY-MM-DD')
               }
-              if (_this.model.sgGuide.mobile !== null && _this.model.sgGuideShop.shop_id !== null && _this.model.sgGuide.name !== null && _this.model.sgGuide.work_prefix !== '') {
+              if (_this.model.sgGuide.mobile !== '' && _this.model.sgGuideShop.shop_id !== null && _this.model.sgGuide.name !== '' && _this.model.sgGuide.work_prefix !== '') {
                 _this.saveOrUpdateGuide(guide, guideShop, sgGuideVo)
               }
             } else {
@@ -1001,7 +1001,7 @@ export default {
                   if (guide.birthday instanceof Date) {
                     guide.birthday = moment(guide.birthday).format('YYYY-MM-DD')
                   }
-                  if (_this.model.sgGuide.mobile !== null && _this.model.sgGuideShop.shop_id !== null && _this.model.sgGuide.name !== null && _this.model.sgGuide.work_prefix !== '') {
+                  if (_this.model.sgGuide.mobile !== '' && _this.model.sgGuideShop.shop_id !== null && _this.model.sgGuide.name !== '' && _this.model.sgGuide.work_prefix !== '') {
                     _this.saveOrUpdateGuide(guide, guideShop, sgGuideVo)
                   }
                 }
