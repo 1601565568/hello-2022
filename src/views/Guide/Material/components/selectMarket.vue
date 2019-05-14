@@ -123,6 +123,7 @@ export default {
     // 提交保存
     saveFun () {
       this.handleClose()
+      this.market.marketType = this.searchObj.searchMap.type
       this.$props.callBack(this.market)
     },
     handleClose () {

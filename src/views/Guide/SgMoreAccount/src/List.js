@@ -50,7 +50,6 @@ export default {
   },
   methods: {
     handleRemove (file, fileList) {
-      console.log(file, fileList)
     },
     handlePictureCardPreview (file) {
       this.dialogImageUrl = file.url
@@ -61,7 +60,6 @@ export default {
       _this.dialogUploadVisible = true
     },
     onSaveImage () {
-      console.log('onSave Image')
     },
     closeDialog () {
       var _this = this

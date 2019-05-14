@@ -28,7 +28,8 @@
         <div class='mb10'>
             <el-input  type="text" v-model="saveObj.title" maxlength='50' placeholder="请输入标题，长度在4-50个字符以内" clearable size="medium"></el-input>
         </div>
-        <vue-ueditor-wrap :config="myConfig" v-model="detail" @ready="editorReady" @beforeInit="addCustomDialog"></vue-ueditor-wrap>
+        <vue-ueditor-wrap :config="myConfig" v-model="detail" @ready="editorReady" @beforeInit="addCustomButtom"></vue-ueditor-wrap>
+         <!-- @beforeInit="addCustomDialog" -->
          <!--  -->
       </div>
 
@@ -90,18 +91,21 @@
   <el-dialog :visible.sync="dialogImgVisible">
   <img width="100%" :src="dialogImageUrl" alt>
 </el-dialog>
+<articleLink ref="articleLink" :callBack="articleSaveFun"></articleLink>
 
 </div>
 </template>
 <script>
 import api from '@/config/http'
 import ElUpload from 'nui-v2/lib/upload'
-// import { isURL } from '../Common/utils.js'
+import LocalStorage from 'store/dist/store.legacy.min.js'
+import articleLink from './components/articleLink'
 import VueUeditorWrap from 'vue-ueditor-wrap'
 export default {
   components: {
     VueUeditorWrap,
-    ElUpload
+    ElUpload,
+    articleLink
   },
   props: {
     callBack: Function
@@ -186,81 +190,116 @@ export default {
       this.detail = '<p><span style="background-color: rgb(0, 0, 0); color: rgb(255, 255, 255);">141324企鹅为全额完全v</span><br/></p>'
     },
     addCustomDialog (editorId) {
-      window.UE.registerUI('test-dialog', function (editor, uiName) {
-        // 创建 dialog
-        var dialog = new window.UE.ui.Dialog({
-          // 指定弹出层中页面的路径，这里只能支持页面，路径参考常见问题 2
-          iframeUrl: '../../../../static/UEditor/dialogs/customizeDialogPage/customizeDialogPage.html',
-          // 需要指定当前的编辑器实例
-          editor: editor,
-          // 指定 dialog 的名字
-          name: uiName,
-          // dialog 的标题
-          title: '请输入小程序的链接',
-          // 指定 dialog 的外围样式
-          cssRules: 'width:600px;height:300px;',
-          // 如果给出了 buttons 就代表 dialog 有确定和取消
-          buttons: [
-            {
-              className: 'edui-okbutton',
-              label: '确定',
-              onclick: function () {
-                dialog.close(true)
-              }
-            },
-            {
-              className: 'edui-cancelbutton',
-              label: '取消',
-              onclick: function () {
-                dialog.close(false)
-              }
-            }
-          ]
-        })
+      // let that = this
+      // console.log(LocalStorage.get('user_brand'))
+      // window.UE.registerUI('test-dialog', function (editor, uiName) {
+      //   // 创建 dialog
+      //   var dialog = new window.UE.ui.Dialog({
+      //     // 指定弹出层中页面的路径，这里只能支持页面，路径参考常见问题 2
+      //     iframeUrl: '../../../../static/UEditor/dialogs/customizeDialogPage/customizeDialogPage.html?a=1',
+      //     // 需要指定当前的编辑器实例
+      //     editor: editor,
+      //     // 指定 dialog 的名字
+      //     name: uiName,
+      //     // dialog 的标题
+      //     title: '请输入小程序的链接',
+      //     // 指定 dialog 的外围样式
+      //     cssRules: 'width:700px;height:600px;',
+      //     // 如果给出了 buttons 就代表 dialog 有确定和取消
+      //     buttons: [
+      //       {
+      //         className: 'edui-okbutton',
+      //         label: '确定',
+      //         onclick: function () {
+      //           dialog.close(true)
+      //         }
+      //       },
+      //       {
+      //         className: 'edui-cancelbutton',
+      //         label: '取消',
+      //         onclick: function () {
+      //           // dialog.close(false)
+      //         }
+      //       }
+      //     ]
+      //   })
 
-        // 参考上面的自定义按钮
-        var btn = new window.UE.ui.Button({
-          name: 'dialog-button',
-          title: '小程序链接',
-          cssRules: `background-position: -500px 0`,
-          onclick: function () {
-            // 渲染dialog
-            dialog.render()
-            dialog.open()
+      //   // 参考上面的自定义按钮
+      //   var btn = new window.UE.ui.Button({
+      //     name: 'dialog-button',
+      //     title: '小程序链接',
+      //     cssRules: `background-position: -500px 0`,
+      //     onclick: function () {
+      //       // 渲染dialog
+      //       // dialog.render()
+      //       // dialog.open()
+      //       // that.dialogVisible = false
+      //       editor.execCommand('link', utils.clearEmptyAttrs({
+      //         href: '小程序链接',
+      //         _href: '/home/index',
+      //         title: '小程序链接',
+      //         // target: '_blank',
+      //         class: 'applet'
+      //       }))
+      //     }
+      //   })
+
+      //   return btn
+      // } /* 0  指定添加到工具栏上的那个位置，默认时追加到最后 , editorId 指定这个UI是哪个编辑器实例上的，默认是页面上所有的编辑器都会添加这个按钮 */)
+    },
+    selectArticleLink () {
+      this.$nextTick(() => {
+        this.$refs.articleLink.showToggle()
+      })
+    },
+    articleSaveFun (obj) {
+      if (obj.type === 0) {
+        this.editorInstance.execCommand('link', {
+          href: obj.text,
+          _href: obj.codeTarget,
+          title: obj.text,
+          // target: '_blank',
+          class: 'applet'
+        })
+      } else if (obj.type === 1) {
+        this.editorInstance.execCommand('insertimage', {
+          src: obj.img,
+          width: '100',
+          height: '100',
+          alt: obj.codeTarget,
+          class: 'applet'
+        })
+      }
+    },
+    addCustomButtom (editorId) {
+      let that = this
+      window.UE.registerUI('test-button', function (editor, uiName) {
+        editor.registerCommand(uiName, {
+          execCommand: function () {
+            editor.execCommand('inserthtml', `<span>这是一段由自定义按钮添加的文字</span>`)
           }
         })
-
+        var btn = new window.UE.ui.Button({
+          name: uiName,
+          title: '小程序链接',
+          cssRules: 'background-position: -500px 0',
+          onclick: function () {
+            that.selectArticleLink()
+          }
+        })
+        editor.addListener('selectionchange', function () {
+          var state = editor.queryCommandState(uiName)
+          if (state === -1) {
+            btn.setDisabled(true)
+            btn.setChecked(false)
+          } else {
+            btn.setDisabled(false)
+            btn.setChecked(state)
+          }
+        })
         return btn
-      } /* 0  指定添加到工具栏上的那个位置，默认时追加到最后 , editorId 指定这个UI是哪个编辑器实例上的，默认是页面上所有的编辑器都会添加这个按钮 */)
+      })
     },
-    // addCustomButtom (editorId) {
-    //   window.UE.registerUI('test-button', function (editor, uiName) {
-    //     editor.registerCommand(uiName, {
-    //       execCommand: function () {
-    //         editor.execCommand('inserthtml', `<span>这是一段由自定义按钮添加的文字</span>`)
-    //       }
-    //     })
-    //     var btn = new window.UE.ui.Button({
-    //       name: uiName,
-    //       title: '小程序链接',
-    //       cssRules: 'background-position: -500px 0',
-    //       onclick: function () {
-    //         editor.execCommand(uiName)
-    //       }
-    //     })
-    //     editor.addListener('selectionchange', function () {
-    //       var state = editor.queryCommandState(uiName)
-    //       if (state === -1) {
-    //         btn.setDisabled(true)
-    //         btn.setChecked(false)
-    //       } else {
-    //         btn.setDisabled(false)
-    //         btn.setChecked(state)
-    //       }
-    //     })
-    //     return btn
-    //   })
-    // },
     editorReady: function (instance) {
       // 将实例 instance 存储到 data中
       this.editorInstance = instance
