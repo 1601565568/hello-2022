@@ -463,8 +463,8 @@
 
   function optimizationPath (path) {
     var protocol = /^[a-z]+:\/\//.exec(path)[ 0 ]
-      var tmp = null
-      var res = []
+    var tmp = null
+    var res = []
 
     path = path.replace(protocol, '').split('?')[0].split('#')[0]
 

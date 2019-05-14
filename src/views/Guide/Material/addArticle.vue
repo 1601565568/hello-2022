@@ -98,7 +98,6 @@
 <script>
 import api from '@/config/http'
 import ElUpload from 'nui-v2/lib/upload'
-import LocalStorage from 'store/dist/store.legacy.min.js'
 import articleLink from './components/articleLink'
 import VueUeditorWrap from 'vue-ueditor-wrap'
 export default {
