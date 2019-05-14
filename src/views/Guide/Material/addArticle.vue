@@ -134,7 +134,7 @@ export default {
       detail: '',
       myConfig: {
         // 你的UEditor资源存放的路径，相对于打包后的index.html
-        UEDITOR_HOME_URL: '/static/UEditor/',
+        UEDITOR_HOME_URL: '/public/static/UEditor/',
         // 编辑器不自动被内容撑高
         autoHeightEnabled: true,
         // 初始容器高度
@@ -190,62 +190,62 @@ export default {
       this.detail = '<p><span style="background-color: rgb(0, 0, 0); color: rgb(255, 255, 255);">141324企鹅为全额完全v</span><br/></p>'
     },
     addCustomDialog (editorId) {
-      let that = this
-      console.log(LocalStorage.get('user_brand'))
-      window.UE.registerUI('test-dialog', function (editor, uiName) {
-        // 创建 dialog
-        var dialog = new window.UE.ui.Dialog({
-          // 指定弹出层中页面的路径，这里只能支持页面，路径参考常见问题 2
-          iframeUrl: '../../../../static/UEditor/dialogs/customizeDialogPage/customizeDialogPage.html?a=1',
-          // 需要指定当前的编辑器实例
-          editor: editor,
-          // 指定 dialog 的名字
-          name: uiName,
-          // dialog 的标题
-          title: '请输入小程序的链接',
-          // 指定 dialog 的外围样式
-          cssRules: 'width:700px;height:600px;',
-          // 如果给出了 buttons 就代表 dialog 有确定和取消
-          buttons: [
-            {
-              className: 'edui-okbutton',
-              label: '确定',
-              onclick: function () {
-                dialog.close(true)
-              }
-            },
-            {
-              className: 'edui-cancelbutton',
-              label: '取消',
-              onclick: function () {
-                // dialog.close(false)
-              }
-            }
-          ]
-        })
+      // let that = this
+      // console.log(LocalStorage.get('user_brand'))
+      // window.UE.registerUI('test-dialog', function (editor, uiName) {
+      //   // 创建 dialog
+      //   var dialog = new window.UE.ui.Dialog({
+      //     // 指定弹出层中页面的路径，这里只能支持页面，路径参考常见问题 2
+      //     iframeUrl: '../../../../static/UEditor/dialogs/customizeDialogPage/customizeDialogPage.html?a=1',
+      //     // 需要指定当前的编辑器实例
+      //     editor: editor,
+      //     // 指定 dialog 的名字
+      //     name: uiName,
+      //     // dialog 的标题
+      //     title: '请输入小程序的链接',
+      //     // 指定 dialog 的外围样式
+      //     cssRules: 'width:700px;height:600px;',
+      //     // 如果给出了 buttons 就代表 dialog 有确定和取消
+      //     buttons: [
+      //       {
+      //         className: 'edui-okbutton',
+      //         label: '确定',
+      //         onclick: function () {
+      //           dialog.close(true)
+      //         }
+      //       },
+      //       {
+      //         className: 'edui-cancelbutton',
+      //         label: '取消',
+      //         onclick: function () {
+      //           // dialog.close(false)
+      //         }
+      //       }
+      //     ]
+      //   })
 
-        // 参考上面的自定义按钮
-        var btn = new window.UE.ui.Button({
-          name: 'dialog-button',
-          title: '小程序链接',
-          cssRules: `background-position: -500px 0`,
-          onclick: function () {
-            // 渲染dialog
-            // dialog.render()
-            // dialog.open()
-            // that.dialogVisible = false
-            editor.execCommand('link', utils.clearEmptyAttrs({
-              href: '小程序链接',
-              _href: '/home/index',
-              title: '小程序链接',
-              // target: '_blank',
-              class: 'applet'
-            }))
-          }
-        })
+      //   // 参考上面的自定义按钮
+      //   var btn = new window.UE.ui.Button({
+      //     name: 'dialog-button',
+      //     title: '小程序链接',
+      //     cssRules: `background-position: -500px 0`,
+      //     onclick: function () {
+      //       // 渲染dialog
+      //       // dialog.render()
+      //       // dialog.open()
+      //       // that.dialogVisible = false
+      //       editor.execCommand('link', utils.clearEmptyAttrs({
+      //         href: '小程序链接',
+      //         _href: '/home/index',
+      //         title: '小程序链接',
+      //         // target: '_blank',
+      //         class: 'applet'
+      //       }))
+      //     }
+      //   })
 
-        return btn
-      } /* 0  指定添加到工具栏上的那个位置，默认时追加到最后 , editorId 指定这个UI是哪个编辑器实例上的，默认是页面上所有的编辑器都会添加这个按钮 */)
+      //   return btn
+      // } /* 0  指定添加到工具栏上的那个位置，默认时追加到最后 , editorId 指定这个UI是哪个编辑器实例上的，默认是页面上所有的编辑器都会添加这个按钮 */)
     },
     selectArticleLink () {
       this.$nextTick(() => {
@@ -253,7 +253,6 @@ export default {
       })
     },
     articleSaveFun (obj) {
-      console.log(obj)
       if (obj.type === 0) {
         this.editorInstance.execCommand('link', {
           href: obj.text,
@@ -267,7 +266,8 @@ export default {
           src: obj.img,
           width: '100',
           height: '100',
-          alt: obj.codeTarget
+          alt: obj.codeTarget,
+          class: 'applet'
         })
       }
     },
