@@ -134,7 +134,7 @@ export default {
       detail: '',
       myConfig: {
         // 你的UEditor资源存放的路径，相对于打包后的index.html
-        UEDITOR_HOME_URL: '/public/static/UEditor/',
+        UEDITOR_HOME_URL: '/static/UEditor/',
         // 编辑器不自动被内容撑高
         autoHeightEnabled: true,
         // 初始容器高度
