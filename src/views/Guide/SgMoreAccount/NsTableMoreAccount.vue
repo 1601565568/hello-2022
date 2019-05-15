@@ -2,8 +2,7 @@
   <ns-page-table  @synchronization="$emit('synchronization')" @addPersonalNumber="$emit('addPersonalNumber')" @batchBindShoppingGuide="$emit('batchBindShoppingGuide')"  @showShop="$emit('showShop')" @dimission="$emit('dimission')"  @allDelete="$emit('allDelete')" @shopEdit="$emit('shopEdit')" >
     <!-- 按钮 -->
     <template slot="buttons">
-      <ns-table-operate-button :buttons="_data._table.table_buttons">
-      </ns-table-operate-button>
+      <ns-table-operate-button :buttons="_data._table.table_buttons"></ns-table-operate-button>
     </template>
     <!-- 按钮-结束 -->
 
@@ -111,7 +110,7 @@
                 </el-upload>
             </div>
             <div v-if="scope.row.wxCodeUrl">
-              <img width="100px" height="100px" v-if="scope.row.wxCodeUrl" :src="scope.row.wxCodeUrl" class="avatar">
+              <img style="width:99px;height:99px;border-radius:5px" v-if="scope.row.wxCodeUrl" :src="scope.row.wxCodeUrl" class="avatar">
             </div>
           </template>
         </el-table-column>
