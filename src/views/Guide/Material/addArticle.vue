@@ -28,10 +28,8 @@
         <div class='mb10'>
             <el-input  type="text" v-model="saveObj.title" maxlength='50' placeholder="请输入标题，长度在4-50个字符以内" clearable size="medium"></el-input>
         </div>
-        <vue-ueditor-wrap :config="myConfig" v-model="detail" @ready="editorReady"></vue-ueditor-wrap>
+        <vue-ueditor-wrap :config="myConfig" v-model="detail" @ready="editorReady"  @beforeInit="addCustomButtom"></vue-ueditor-wrap>
          <!-- @beforeInit="addCustomDialog" -->
-          <!-- @beforeInit="addCustomButtom" -->
-         <!--  -->
       </div>
 
       <el-form :model="saveObj" :rules="rules" ref="addForm"  style="margin-left:20px">
@@ -261,12 +259,14 @@ export default {
           class: 'applet'
         })
       } else if (obj.type === 1) {
+        console.log( this.editorInstance)
         this.editorInstance.execCommand('insertimage', {
           src: obj.img,
           width: '100',
           height: '100',
           alt: obj.codeTarget,
-          class: 'applet'
+          class: 'applet',
+          href: obj.codeTarget
         })
       }
     },
