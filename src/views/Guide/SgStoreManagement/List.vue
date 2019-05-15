@@ -5,10 +5,9 @@
     </ns-table-guide>
     <!-- 所属门店查看详情开始 -->
     <el-dialog :title="title"  :visible.sync="memberBelongingShow" width="750px" >
-      <div>
-        <div>
-          <i class="el-icon-menu" @click="elIconMenu"></i>
-          <img :src="elIconMenu" />
+      <div class="recruitingcode_title">
+        <div class="recruitingcode">
+          <i class="iconfont icon-erweima"></i>
         </div>
         <div>
           <div><template><el-checkbox v-model="checked"></el-checkbox></template>会员注册时是否需要关注公众号</div>
@@ -18,32 +17,38 @@
       <div>
         <el-row class="elrow">
           <el-col :span="8" class="elrow_size">尺寸</el-col>
-          <el-col :span="8">公众号二维码<i class="el-icon-question"></i></el-col>
-          <el-col :span="8">小程序二维码<i class="el-icon-question"></i></el-col>
+          <el-col :span="8">公众号二维码<i class="el-icon-question"><div class="publicnumberqrCode"><img src="../../../assets/putongerweima.png"></div></i></el-col>
+          <el-col :span="8">小程序二维码<i class="el-icon-question"><div class="smallprogramqrCode"><img src="../../../assets/xiaochengxu.png"></div></i></el-col>
         </el-row>
         <el-row class="elrow_first">
           <el-col  :span="8">
             <div>小尺寸：适用于屏幕类、宣传册等</div>
             <span class="last_div">边长约8cm，最佳扫码距离0.5m</span>
           </el-col>
-          <el-col class="elrow_firstcol" :span="8"><ns-button  type="text"><i @click="subsize" class="el-icon-download"></i></ns-button></el-col>
-          <el-col class="elrow_firstcol" :span="8"><ns-button  type="text"><i @click="xiaoSubsize" class="el-icon-download"></i></ns-button></el-col>
+          <el-col v-if="checked" class="elrow_firstcol" :span="8"><ns-button  type="text"><a :href="url+0+'&shopId='+succeedObj.shopId+'&size='+0"><i class="iconfont icon-xiazai"></i></a></ns-button></el-col>
+          <el-col v-else class="elrow_firstcol" :span="8"><ns-button  type="text"><a href="javascript:void(0)"><i class="iconfont icon-xiazai" style="color:#aaa"></i></a></ns-button></el-col>
+          <el-col v-if="!checked" class="elrow_firstcol" :span="8"><ns-button  type="text"><a :href="url+1+'&shopId='+succeedObj.shopId+'&size='+0"><i class="iconfont icon-xiazai"></i></a></ns-button></el-col>
+          <el-col v-else class="elrow_firstcol" :span="8"><ns-button  type="text"><a href="javascript:void(0)"><i class="iconfont icon-xiazai" style="color:#aaa"></i></a></ns-button></el-col>
         </el-row>
         <el-row class="elrow_second">
           <el-col :span="8">
-            <div>中尺寸：适用于屏幕类、宣传册等</div>
+            <div>中尺寸：适用于海报、展架等</div>
             <div class="last_div">边长约15cm，最佳扫码距离1m</div>
           </el-col>
-          <el-col class="elrow_firstcol" :span="8"><ns-button  type="text"><i @click="theSize" class="el-icon-download"></i></ns-button></el-col>
-          <el-col class="elrow_firstcol" :span="8"><ns-button  type="text"><i @click="xiaoTheSize" class="el-icon-download"></i></ns-button></el-col>
+          <el-col v-if="checked" class="elrow_firstcol" :span="8"><ns-button  type="text"><a :href="url+0+'&shopId='+succeedObj.shopId+'&size='+1"><i class="iconfont icon-xiazai"></i></a></ns-button></el-col>
+          <el-col v-else class="elrow_firstcol" :span="8"><ns-button  type="text"><a href="javascript:void(0)"><i class="iconfont icon-xiazai" style="color:#aaa"></i></a></ns-button></el-col>
+          <el-col v-if="!checked" class="elrow_firstcol" :span="8"><ns-button  type="text"><a :href="url+1+'&shopId='+succeedObj.shopId+'&size='+1"><i class="iconfont icon-xiazai"></i></a></ns-button></el-col>
+          <el-col v-else class="elrow_firstcol" :span="8"><ns-button  type="text"><a href="javascript:void(0)"><i class="iconfont icon-xiazai" style="color:#aaa"></i></a></ns-button></el-col>
         </el-row>
         <el-row class="elrow_thirdly">
           <el-col :span="8">
-            <div>大尺寸：适用于屏幕类、宣传册等</div>
+            <div>大尺寸：适用于幕布、大型广告等</div>
             <div class="last_div">边长约50cm，最佳扫码距离2.5m</div>
           </el-col>
-          <el-col class="elrow_firstcol" :span="8" ><ns-button  type="text"><i @click="jumboSize" class="el-icon-download"></i></ns-button></el-col>
-          <el-col class="elrow_firstcol" :span="8" ><ns-button  type="text"><i @click="xiaoJumboSize" class="el-icon-download"></i></ns-button></el-col>
+          <el-col v-if="checked" class="elrow_firstcol" :span="8" ><ns-button  type="text"><a :href="url+0+'&shopId='+succeedObj.shopId+'&size='+2"><i class="iconfont icon-xiazai"></i></a></ns-button></el-col>
+          <el-col v-else class="elrow_firstcol" :span="8" ><ns-button  type="text"><a href="javascript:void(0)"><i class="iconfont icon-xiazai" style="color:#aaa"></i></a></ns-button></el-col>
+          <el-col v-if="!checked" class="elrow_firstcol" :span="8" ><ns-button  type="text"><a :href="url+1+'&shopId='+succeedObj.shopId+'&size='+2"><i class="iconfont icon-xiazai"></i></a></ns-button></el-col>
+          <el-col v-else class="elrow_firstcol" :span="8" ><ns-button  type="text"><a href="javascript:void(0)"><i class="iconfont icon-xiazai" style="color:#aaa"></i></a></ns-button></el-col>
         </el-row>
       </div>
       <div slot="footer" class="dialog-footer">
@@ -127,5 +132,49 @@ export default List
   .elrow_first .last_div, .elrow_second .last_div, .elrow_thirdly .last_div{
     font-size: 12px;
     font-weight: normal;
+  }
+  .recruitingcode_title{
+    display: flex;
+    justify-content: flex-start;
+  }
+  .recruitingcode{
+    margin: 10px 30px 0 0;
+  }
+  .recruitingcode .icon-erweima{
+    font-size: 40px;
+    font-weight: 600;
+    color:#409EFF;
+  }
+  .icon-xiazai{
+    font-size: 20px;
+  }
+  .el-icon-question:hover .publicnumberqrCode{
+    display: block
+  }
+  .el-icon-question:hover .smallprogramqrCode{
+    display: block
+  }
+  .el-col-8{
+    position: relative;
+  }
+  .publicnumberqrCode{
+    z-index: 99;
+    opacity: 0.5;
+    position: absolute;
+    left: 70px;
+    bottom: -150px;
+    display: none;
+    width: 150px;
+    height: 150px;
+  }
+  .smallprogramqrCode{
+    z-index: 99;
+    opacity: 0.5;
+    position: absolute;
+    left: 70px;
+    bottom: -150px;
+    display: none;
+    width: 150px;
+    height: 150px;
   }
 </style>

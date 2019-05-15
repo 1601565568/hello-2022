@@ -150,6 +150,8 @@ export default {
       imageRoot: api.API_ROOT + '/core/file/showImage?fileKey=',
       title: '',
       transferWay: '1',
+      url: 'http://47.96.228.119:8089/guide/ehd/getShopRecruitmentQrcode?codeType=',
+      // url: 'http://47.96.228.119:8089/guide/ehd/getShopRecruitmentQrcode?codeType=0&'+shopId=1001267+'&size=1',
       brandId: null,
       memberBelongingShows: false,
       dialogFormVisible: false,
@@ -188,6 +190,11 @@ export default {
       model: model,
       changeValue: {},
       guideValue: null,
+      succeedObj: {
+        codeType: null,
+        shopId: null,
+        size: null
+      },
       newAdd: {
         brand_id: null,
         name: null,
@@ -235,18 +242,6 @@ export default {
     }
   },
   methods: {
-    subsize () { // 公众号二维码小尺寸
-    },
-    theSize () { // 公众号二维码中尺寸
-    },
-    jumboSize () { // 公众号二维码大尺寸
-    },
-    xiaoSubsize () { // 小程序二维码小尺寸
-    },
-    xiaoTheSize () { // 小程序二维码中尺寸
-    },
-    xiaoJumboSize () { // 小程序二维码大尺寸
-    },
     transfer () {
       this.$router.push({
         path: '/Guide/Customer/CustomerManage'
@@ -480,17 +475,11 @@ export default {
         })
       }
     },
-    elIconMenu () {
+    elIconMenu (row) {
       let _this = this
+      _this.succeedObj.shopId = row.id
       _this.memberBelongingShow = true
       _this.title = '下载招募码'
-      // _this.$http.fetch(_this.$api.guide.guide.getWechatQrcode).then(resp => {
-      //   if (resp.success && resp.result != null) {
-      //     _this.shopFindList = resp.result
-      //   }
-      // }).catch((resp) => {
-      //   _this.$notify.error('查询失败：' + resp.msg)
-      // })
     },
     scopeRowCount (data) { // 查看员工属性
       this.scopeRowCountShow = true

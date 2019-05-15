@@ -7,7 +7,7 @@
             <el-tree class="filter-tree" ref="guideTree" :data="shopFindList" highlight-current
                   node-key="id" :default-expand-all="false" :expand-on-click-node="false" :default-checked-keys="[0]"
                   :filter-node-method="onFilterNode" @node-click="onClickNode">
-              <div class="subdivision-tree-node" slot-scope="{ node, data }" >
+              <div class="subdivision-tree-node" slot-scope="{ node }" >
                 <span>{{node.label}}</span>
                 <!-- <span>{{node.id}}</span> -->
               </div>
@@ -141,7 +141,7 @@
         </el-table-column>
         <el-table-column prop="registerTime" label="招募时间" align="left" width="160">
             <template slot-scope="scope">
-              {{scope.row.registerTime?moment(scope.row.registerTime):'-'}}
+              {{scope.row.activateTime?moment(scope.row.activateTime):'-'}}
             </template>
         </el-table-column>
         <el-table-column prop="status,row" :show-overflow-tooltip="true" label="操作" align="right" width="60">

@@ -101,7 +101,7 @@
                         <el-checkbox v-model="row.giveCoupon">送优惠券</el-checkbox>
                       </div>
                       <div class="atLeft fl">
-                          <div   v-for="(coupon, index) in row.coupons">
+                          <div   v-for="(coupon, index) in row.coupons" :key='index'>
                             <el-form-grid size="xmd">
                               <el-select placeholder="请选择优惠券" v-model="couponList.id" filterable @change="setCouponTitle(coupon)">
                                 <el-option v-for="c in couponList" :label="c.couponTitle" :key="c.couponId" :value="c.couponId"></el-option>
@@ -125,7 +125,7 @@
                         <el-checkbox v-model="row.giveGift">送赠品</el-checkbox>
                       </div>
                       <div class="atLeft fl">
-                          <div   v-for="(coupon, index) in row.coupons">
+                          <div v-for="(coupon,index) in row.coupons" :key='index'>
                             <el-form-grid size="xmd">
                               <el-select placeholder="还未创建赠品" v-model="couponList.id" filterable @change="setCouponTitle(coupon)">
                                 <el-option v-for="c in couponList" :label="c.couponTitle" :key="c.couponId" :value="c.couponId"></el-option>

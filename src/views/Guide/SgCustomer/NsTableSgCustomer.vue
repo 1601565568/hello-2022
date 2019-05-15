@@ -145,7 +145,7 @@
               店长转移
             </span>
             <span v-if="scope.row.trans_type == 5">
-              <导购自离></导购自离>
+              导购自离
             </span>
             <span v-if="scope.row.trans_type == 6">
               会员归属转移

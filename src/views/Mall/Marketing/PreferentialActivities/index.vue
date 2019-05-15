@@ -29,7 +29,7 @@
                     stripe resizable v-loading.lock="_data._table.loadingtable"
                     :element-loading-text="$t('prompt.loading')" @sort-change="$orderChange$">
             <el-table-column prop="name" label="活动名称" width="200" align="left" show-overflow-tooltip></el-table-column>
-            <el-table-column label="状态	" width="80" align="center">
+            <el-table-column label="状态" width="80" align="center">
               <template slot-scope="{row}">
                 <span v-if="row.state === 0" class="text-error">未开始</span>
                 <span v-else-if="row.state === 1" class="text-success">执行中</span>

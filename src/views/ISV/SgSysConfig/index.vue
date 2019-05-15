@@ -114,7 +114,7 @@
         </el-form-item>
         <el-form-item label="配置项类型：" prop="type" required>
           <el-select  v-model="model.type" filterable clearable placeholder="请选择配置项类型">
-            <el-option v-for="(types,index) in typeList" :label="types.label" :value="types.value" :key="types.value"></el-option>
+            <el-option v-for="(types) in typeList" :label="types.label" :value="types.value" :key="types.value"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="备注：" prop="remark">

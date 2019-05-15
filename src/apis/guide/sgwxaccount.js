@@ -42,5 +42,17 @@ export default {
   refreshCodeTemplate: { // 同步最新
     url: '/guide/wechatsetting/refreshCodeTemplate',
     method: 'get'
+  },
+  appletAuth: { // 授权（传入微信回调原始数据）
+    url: '/guide/appletcallback/appletAuth',
+    method: 'post'
+  },
+  receive: { // tiket（传入微信回调原始数据）
+    url: '/guide/appletcallback/receive',
+    method: 'post'
+  },
+  getMsg: { // msg（传入微信回调原始数据）
+    url: '/guide/appletcallback/getMsg',
+    method: 'post'
   }
 }

@@ -183,7 +183,6 @@ import apiRequestConfirm from 'web-crm/src/utils/apiRequestConfirm'
 import addModal from './addModal'
 import setGroudModal from './setGroudModal'
 import listItemShow from './components/listItemShow'
-import NsTableSgCoupon from './NsTableSgCoupon'
 import moment from 'moment'
 export default {
   mixins: [listPageMixin],
@@ -408,11 +407,9 @@ export default {
     }
   },
   components: {
-    apiRequestConfirm,
     addModal,
     listItemShow,
-    setGroudModal,
-    NsTableSgCoupon
+    setGroudModal
   }
 }
 </script>

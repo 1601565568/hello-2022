@@ -32,7 +32,7 @@
                 </li>
               </ul>
               <div class="clearfix"></div>
-              <div style="color:#999">上传图片不能大于500KB；图片最多上传9张（加小程序码的最多8张</div>
+              <div style="color:#999">上传图片不能大于500KB；图片最多上传9张（加小程序码的最多8张）</div>
             </div>
           </el-form-item>
           <el-form-item label="小程序链接：">
@@ -88,7 +88,7 @@
       <img width="100%" :src="dialogImageUrl" alt>
     </el-dialog>
     <SelectMarket ref="selectMarket" :callBack="selectMarketlBack"></SelectMarket>
-    <SelectCoupon ref="selectCoupon" :callBack="selectMarketlBack"></SelectCoupon>
+    <!-- <SelectCoupon ref="selectCoupon" :callBack="selectMarketlBack"></SelectCoupon> -->
     <SelectGoods ref="selectGoods" :callBack="selectMarketlBack"></SelectGoods>
   </div>
 </template>
@@ -96,7 +96,7 @@
 import api from '@/config/http'
 import ElUpload from 'nui-v2/lib/upload'
 import SelectMarket from './components/selectMarket'
-import SelectCoupon from './components/selectCoupon'
+// import SelectCoupon from './components/selectCoupon'
 import SelectGoods from './components/selectGoods'
 import $ from 'jquery'
 // import { isURL } from '../Common/utils.js'
@@ -104,7 +104,7 @@ export default {
   components: {
     ElUpload,
     SelectMarket,
-    SelectCoupon,
+    // SelectCoupon,
     SelectGoods
   },
   props: {
@@ -248,7 +248,6 @@ export default {
     // 提交保存
     saveFun () {
       this.$refs.addForm.validate(valid => {
-        console.log(valid)
         if (valid) {
           this.doSave()
         }

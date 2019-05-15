@@ -17,8 +17,8 @@
     <el-table ref="table" :data="tableList" class="template-table__main" stripe
               resizable v-loading.lock="loadingTable"
               :element-loading-text="$t('prompt.loading')">
-      <template v-for="(col, index) in cols">
-        <el-table-column align="center" :prop="col" :label="col"></el-table-column>
+      <template v-for="(col,index) in cols" >
+        <el-table-column align="center" :prop="col" :label="col" :key='index'></el-table-column>
       </template>
     </el-table>
     <!-- 表格-结束 -->

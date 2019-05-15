@@ -265,7 +265,6 @@
 </template>
 <script>
 import moment from 'moment'
-import goodsDialog from './goodsDialog'
 import NsShopSelect from 'web-crm/src/components/NsShopSelect'
 import NsGoodsSelect from 'web-crm/src/components/NsGoodsSelect'
 export default {
@@ -359,9 +358,7 @@ export default {
       this.multipleSelection = val
     },
     saveFun (formName) {
-      console.log('formName')
       this.$refs[formName].validate((valid) => {
-        console.log(valid)
         if (valid) {
           // 有效时间--固定
           if (this.saveObj.dateValidType === 0) {
@@ -374,7 +371,6 @@ export default {
           }
           this.doSaveFun()
         } else {
-          console.log('err')
           return false
         }
       })
@@ -396,12 +392,10 @@ export default {
       if (this.invalidDateList.length > 0) {
         this.saveObj.invalidDate.dayList = []
         for (var i = 0, len = this.invalidDateList.length; i < len; i++) {
-          console.log(moment(this.invalidDateList[i]).format('YYYY-MM-DD'))
           this.saveObj.invalidDate.dayList.push(
             moment(this.invalidDateList[i]).format('YYYY-MM-DD')
           )
         }
-        console.log(this.saveObj.invalidDate.dayList)
       }
       // 若单数限制tradeCountValidType为0则
       if (this.saveObj.tradeCountValidType === 0) {
@@ -431,12 +425,10 @@ export default {
       this.loading = false
     },
     handleClose () {
-      console.log('handleClose')
       this.dialogVisible = false
     }
   },
   components: {
-    goodsDialog,
     NsGoodsSelect,
     NsShopSelect
   }

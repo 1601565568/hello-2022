@@ -19,7 +19,6 @@
 </template>
 
 <script>
-import NsDroptree from 'web-crm/src/components/NsDroptree'
 
 var tableMixin = {
   methods: {
@@ -89,7 +88,6 @@ export default {
   name: 'NsGoodsSelectDialog',
   mixins: [tableMixin],
   components: {
-    NsDroptree
   },
   data () {
     return {

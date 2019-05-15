@@ -9,7 +9,7 @@ export default {
   'children': [
     {
       'path': '/operate/wechat/',
-      'name': 'OPERATE_WECHAT',
+      'name': 'OPERATE_WECHAT_ADDPAGES',
       'title': '授权',
       'component': () => import('@/views/ContentOperate'),
       'children': [
@@ -29,7 +29,7 @@ export default {
     },
     {
       'path': '/operate/wechat/',
-      'name': 'OPERATE_WECHAT',
+      'name': 'OPERATE_WECHAT_DEVELOPMENTMANAGEMENT',
       'title': '定时任务',
       'component': () => import('@/views/ContentOperate'),
       'children': [
@@ -43,7 +43,7 @@ export default {
     },
     {
       'path': '/operate/action',
-      'name': 'OPERATE_DATA',
+      'name': 'OPERATE_ACTION',
       'title': '数据查询',
       'component': () => import('@/views/ContentOperate'),
       'children': [
@@ -57,7 +57,7 @@ export default {
     },
     {
       'path': '/operate/sysConfig',
-      'name': 'OPERATE_DATA',
+      'name': 'OPERATE_SYSCONFIG',
       'title': '系统配置',
       'component': () => import('@/views/ContentOperate'),
       'children': [
@@ -71,13 +71,13 @@ export default {
     },
     {
       'path': '/operate/appletTemplate',
-      'name': 'OPERATE_DATA',
+      'name': 'OPERATE_APPLETTEMPLATE',
       'title': '模板消息',
       'component': () => import('@/views/ContentOperate'),
       'children': [
         {
           'path': '/operate/appletTemplate/findList',
-          'name': 'APPLET_TEMPLATE',
+          'name': 'OPERATE_FINDLIST',
           'title': '模板消息',
           'component': () => import('@/views/ISV/SgAppletTemplate/index')
         }
@@ -99,7 +99,7 @@ export default {
     },
     {
       'path': '/operate/contactWay',
-      'name': 'CONTACT_WAY_MANAGER',
+      'name': 'OPERATE_CONTACTWAY',
       'title': '联系我管理',
       'component': () => import('@/views/ContentOperate'),
       'children': [

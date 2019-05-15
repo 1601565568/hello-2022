@@ -36,8 +36,8 @@
                 <div v-if="row.giveIntegral">
                   <span>送{{row.integral}}积分</span>
                 </div>
-                <div v-model="row.giveCoupon">优惠券:</div>
-                <div style="padding-left: 10px;" v-show="row.giveCoupon === true" v-for="(coupon, index) in row.coupons">
+                <div>优惠券:</div>
+                <div style="padding-left: 10px;" v-show="row.giveCoupon === true" v-for="(coupon, index) in row.coupons" :key='index'>
                   <span>【{{coupon.title}}】{{coupon.num}}张</span>
                 </div>
                 <!--<el-checkbox v-model="row.giveGift">送赠品</el-checkbox>-->

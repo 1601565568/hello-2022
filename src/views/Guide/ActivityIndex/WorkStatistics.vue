@@ -133,7 +133,7 @@
           <p v-if="scope.row.status == 2">
             {{scope.row.name }}<span style="color: red">(已离职)</span>
           </p>
-          <p v-else-if="scope.row.gsState == 0 || scope.row.gsShopId == null">
+          <p v-else-if="scope.row.gsState == 0 || scope.row.gsShopId == null || scope.row.gsShopId != scope.row.shopId">
             {{scope.row.name}}<span style="color: red">(已更换门店)</span>
           </p>
           <span v-else>{{scope.row.name}}</span>

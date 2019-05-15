@@ -6,10 +6,10 @@
         <el-col :span="14" >
         商品库
         </el-col>
-        <el-col :span="2" @click="">
+        <el-col :span="2">
             <ns-button>导入</ns-button>
         </el-col>
-        <el-col :span="2" @click="">
+        <el-col :span="2">
             <ns-button>新增</ns-button>
         </el-col>
         <el-col :span="6">
