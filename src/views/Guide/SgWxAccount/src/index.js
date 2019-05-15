@@ -173,21 +173,22 @@ export default {
     async appletAuth () { // 授权（传入微信回调原始数据）
       let _this = this
       await _this.$http.fetch(_this.$api.guide.sgwxaccount.appletAuth).then(resp => {
-        if (resp.seccess) {
-          _this.$notify.seccess('授权成功！')
-        } else {
-          _this.$notify.error(resp.msg || '授权失败!')
-          setTimeout(function () {
-            _this.$router.replace({
-              path: '/Guide/Others/SgWxAccount'
-            })
-          }, 3000)
-        }
+        return resp.msg
+        // if (resp.seccess) {
+        //   _this.$notify.seccess('授权成功！')
+        // } else {
+        //   _this.$notify.error(resp.msg || '授权失败!')
+        //   setTimeout(function () {
+        //     _this.$router.replace({
+        //       path: '/Guide/Others/SgWxAccount'
+        //     })
+        //   }, 3000)
+        // }
       }).catch((resp) => {
         _this.$notify.error(resp.msg || '授权失败!')
         setTimeout(function () {
           _this.$router.replace({
-            path: '/Guide/SgStoreManagement/List'
+            // path: '/Guide/Others/SgWxAccount'
           })
         }, 3000)
       })

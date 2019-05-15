@@ -131,6 +131,13 @@ export default {
   },
   computed: {},
   methods: {
+    ElSliderChange (val) { // 透支权重值发生变化的方法
+      console.log('val:', val)
+
+    },
+    formatTooltip (val) {
+      return val / 10
+    },
     synchronization () {
       this.$emit('synchronization')
     },

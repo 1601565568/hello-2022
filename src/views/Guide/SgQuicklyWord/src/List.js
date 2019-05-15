@@ -69,7 +69,7 @@ export default {
       },
       rules: {
         'wordGroupId': [{ required: true, message: '话术类别不能为空' }],
-        'keyWord': [{ required: true, message: '设置关键词内容不能为空' },
+        'keyWord': [{max: 25, message: '长度在 25 以内', trigger: 'blur,change'},
           {
             validator: (rule, value, callback) => {
               if ((this.model.keyWord.split('，').length - 1) > 4) {

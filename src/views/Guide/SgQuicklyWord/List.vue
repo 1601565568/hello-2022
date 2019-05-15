@@ -97,9 +97,9 @@
             <i class="iconfont icon-biaoqing" @click="faceFace"></i>
           </div>
         </el-form-item>
-        <el-form-item v-if="InternetMemeShow" label="" prop="" required>
+        <el-form-item v-if="InternetMemeShow" label="" prop="">
           <!-- 表情弹窗 -->
-          <div class="emotion-list_div">
+          <div v-if="InternetMemeShow" class="emotion-list_div">
             <div class="emotion-list">
               <div class="li" v-for="list in emotionList" :key="list.ShortCut" @click="setEmotionWords(list.ShortCut)">
                 <el-tooltip :content="list.Meaning">
@@ -133,8 +133,8 @@
             <el-option v-for="wordGroup in wordGroupList" :label="wordGroup.name" :value="wordGroup.id" :key="wordGroup.id"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="编辑关键词：" prop="keyWord" style="margin-bottom:30px" required>
-          <el-input type="text" placeholder="用“，”号隔开，最多设置五个词" v-model="model.keyWord"></el-input>
+        <el-form-item label="编辑关键词：" prop="keyWord" style="margin-bottom:30px">
+          <el-input type="text" placeholder="如果未输入内容，则保持原有关键词不变。用“，”号隔开，最多设置五个词" v-model="model.keyWord"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">

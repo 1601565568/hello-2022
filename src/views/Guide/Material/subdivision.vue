@@ -37,7 +37,6 @@
               <el-form-item label="分组名称：" prop="subdivision_name">
                 <el-input v-model="searchform.subdivision_name" placeholder="请输入分组名称"></el-input>
               </el-form-item>
-
               <el-form-item>
                 <ns-button type="primary" @click="submitForm('searchform')">搜索</ns-button>
                 <ns-button @click="resetForm('searchform')">重置</ns-button>

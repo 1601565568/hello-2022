@@ -26,7 +26,6 @@
               </el-form-grid>
             </el-form-item>
           </div>
-
           <div>
             <el-form-item v-if="guideValue === 0"  label="所属门店：" required>
               <el-form-grid size="xxmd">

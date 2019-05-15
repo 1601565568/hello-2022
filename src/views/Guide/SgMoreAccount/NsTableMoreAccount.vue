@@ -114,9 +114,24 @@
             </div>
           </template>
         </el-table-column>
-         <el-table-column prop="wechatName" label="微信昵称" align="center" >
+        <el-table-column prop="wechatName" label="微信昵称" align="center" >
           <template slot-scope="scope">
             {{scope.row.wechatName || '-'}}
+          </template >
+        </el-table-column>
+        <el-table-column prop="weight" label="透出权重" align="center" >
+          <template slot-scope="scope">
+            <div class="weight_scope">
+              <el-slider v-model="scope.row.weight" :format-tooltip="formatTooltip" change="ElSliderChange"></el-slider>
+              <span class="demonstration">{{Number(scope.row.weight)/10}}</span>
+            </div>
+          </template >
+        </el-table-column>
+        <el-table-column prop="dayNum" label="每日透出次数" align="left" >
+          <template slot-scope="scope">
+            <div>
+              <el-input style="width:60px" v-model="scope.row.dayNum" autofocus=true  clearable></el-input>
+            </div>
           </template >
         </el-table-column>
         <el-table-column prop="guideNames" label="关联导购" align="center" >
@@ -162,14 +177,21 @@
 
 <script>
 import ElUpload from 'nui-v2/lib/upload'
+import ElSlider from 'nui-v2/lib/slider'
 import moreAccount from './src/NsTableMoreAccount'
 moreAccount.components = {
-  ElUpload
+  ElUpload,
+  ElSlider
 }
 
 export default moreAccount
 </script>
 <style>
+.weight_scope{
+  display: fles;
+  justify-content: flex-start;
+  align-items: center
+}
 .scope_row_count{
   color: blue;
 }
