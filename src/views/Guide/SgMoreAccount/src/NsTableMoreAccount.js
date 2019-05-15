@@ -82,6 +82,17 @@ export default {
     let model = Object.assign({}, findVo, {}, searchModel)
     return {
       model: model,
+      obj: {
+        length: 15,
+        searchMap: {
+          guideInfo: '',
+          keyword: '',
+          wechatId: '',
+          wechatName: '',
+          type: 0
+        },
+        start: 0
+      },
       quickSearchModel: quickSearchModel,
       _pagination: pagination,
       _table: {
@@ -107,7 +118,9 @@ export default {
 
   mounted: function () {
     var vm = this
-    vm.initShopList()
+    setTimeout(function () {
+      vm.initShopList()
+    }, 50)
     if (typeof this.$init === 'function') {
     } else {
       this.$reload()
@@ -132,12 +145,12 @@ export default {
     },
     initShopList () {
       var _this = this
-      _this.$http.fetch(_this.$api.guide.shop.findBrandShopList, { isOnline: 0 }).then(resp => {
-        if (resp.success && resp.result != null) {
-          _this.shopList = resp.result
+      _this.$http.fetch(_this.$api.guide.moreAccount.findList, _this.obj).then(resp => {
+        if (resp.success && resp.result !== null) {
+          _this.$refs.table.data = resp.result.data
         }
       }).catch((resp) => {
-        _this.$notify.error('查询失败： ' + resp.msg)
+        _this.$notify.error('查询失败：' + resp.msg)
       })
     },
     // 处理上传图片

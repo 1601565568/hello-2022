@@ -120,8 +120,8 @@ export default {
     onSaveOpen (row) { // 新增或编辑
       var that = this
       that.appletAuth()
-      that.receive()
-      that.getMsg()
+      // that.receive()
+      // that.getMsg()
       that.dialogFormVisible = true
       that.shopManager_radio = '1'
       that.shoppingGuide_radio = '0'
@@ -172,12 +172,24 @@ export default {
     },
     async appletAuth () { // 授权（传入微信回调原始数据）
       let _this = this
-      await _this.$http.fetch(_this.$api.guide.sgwxaccount.appletAuth, {
-        bij: 'success'
-      }).then(resp => {
-        console.log('jkkllkjlklkjjkl:微信回调')
+      await _this.$http.fetch(_this.$api.guide.sgwxaccount.appletAuth).then(resp => {
+        if (resp.seccess) {
+          _this.$notify.seccess('授权成功！')
+        } else {
+          _this.$notify.error(resp.msg || '授权失败!')
+          setTimeout(function () {
+            _this.$router.replace({
+              path: '/Guide/Others/SgWxAccount'
+            })
+          }, 3000)
+        }
       }).catch((resp) => {
-        _this.$notify.error('批量更换门店失败：' + resp.msg)
+        _this.$notify.error(resp.msg || '授权失败!')
+        setTimeout(function () {
+          _this.$router.replace({
+            path: '/Guide/SgStoreManagement/List'
+          })
+        }, 3000)
       })
     },
     async getMsg () { // msg（传入微信回调原始数据）
