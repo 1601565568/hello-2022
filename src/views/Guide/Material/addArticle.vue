@@ -28,8 +28,9 @@
         <div class='mb10'>
             <el-input  type="text" v-model="saveObj.title" maxlength='50' placeholder="请输入标题，长度在4-50个字符以内" clearable size="medium"></el-input>
         </div>
-        <vue-ueditor-wrap :config="myConfig" v-model="detail" @ready="editorReady" @beforeInit="addCustomButtom"></vue-ueditor-wrap>
+        <vue-ueditor-wrap :config="myConfig" v-model="detail" @ready="editorReady"></vue-ueditor-wrap>
          <!-- @beforeInit="addCustomDialog" -->
+          <!-- @beforeInit="addCustomButtom" -->
          <!--  -->
       </div>
 
@@ -98,7 +99,6 @@
 <script>
 import api from '@/config/http'
 import ElUpload from 'nui-v2/lib/upload'
-import LocalStorage from 'store/dist/store.legacy.min.js'
 import articleLink from './components/articleLink'
 import VueUeditorWrap from 'vue-ueditor-wrap'
 export default {
@@ -134,7 +134,6 @@ export default {
       detail: '',
       myConfig: {
         // 你的UEditor资源存放的路径，相对于打包后的index.html
-        UEDITOR_HOME_URL: '/static/UEditor/',
         // 编辑器不自动被内容撑高
         autoHeightEnabled: true,
         // 初始容器高度
