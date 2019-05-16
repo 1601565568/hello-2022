@@ -301,6 +301,20 @@ export default {
             that.$notify.error(resp.msg || '保存失败')
           })
         }
+      } else {
+        let obj = { quicklyWordIds: '', wordGroupId: wordGroupId, keyWord: keyWord }
+        let arr = []
+        that.selectedArr.map(item => {
+          arr.push(item.id)
+        })
+        obj.quicklyWordIds = arr.join(',')
+        that.$http.fetch(that.$api.guide.patchChange, obj).then(() => {
+          that.closeDialog()
+          that.$notify.success('保存成功')
+          that.$reload()
+        }).catch((resp) => {
+          that.$notify.error(resp.msg || '保存失败')
+        })
       }
     },
     onDelete (row) { // 快捷话术删除
