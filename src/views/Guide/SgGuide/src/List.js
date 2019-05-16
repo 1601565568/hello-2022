@@ -180,7 +180,7 @@ export default {
       storeOwnershipDisplay: false,
       shopFormVisible: false, //  店铺弹窗
       resignFormVisible: false, // 导购离职弹窗
-      deleteFormVisible: false, // 删除员工弹窗
+      // deleteFormVisible: false, // 删除员工弹窗
       specifyTransferFormVisible: false, // 离职-指定转移弹窗
       customFormVisible: false, // 离职-自定义转移弹窗
       allDeleteFormVisible: false, // 批量删除员工弹窗
@@ -758,7 +758,7 @@ export default {
           guideIds: row.id
         }).then(resp => {
           if (resp.result.failCount > 0) {
-            _this.deleteFormVisible = true
+            _this.allDeleteFormVisible = true
           } else {
             _this.$notify.success('删除成功')
             _this.$refs.table.$reload()

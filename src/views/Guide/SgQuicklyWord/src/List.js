@@ -72,10 +72,12 @@ export default {
         'keyWord': [{max: 25, message: '长度在 25 以内', trigger: 'blur,change'},
           {
             validator: (rule, value, callback) => {
-              if ((this.model.keyWord.split('，').length - 1) > 4) {
-                callback(new Error('关键词最多设置五个词'))
-              } else {
-                callback()
+              if (this.model.keyWord !== '' && this.model.keyWord !== null) {
+                if ((this.model.keyWord.split('，').length - 1) > 4) {
+                  callback(new Error('关键词最多设置五个词'))
+                } else {
+                  callback()
+                }
               }
             }
           }
