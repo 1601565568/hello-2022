@@ -64,6 +64,12 @@ export default {
           'name': 'TRANS_CUSTOMER_RECORD',
           'title': '客户转移记录',
           'component': () => import('@/views/Guide/SgCustomer/NsTableSgCustomer')
+        },
+        {
+          'path': '/Guide/WeChatCuthorizationCallback',
+          'name': 'WeChatCuthorizationCallback',
+          'title': '微信授权回调',
+          'component': () => import('@/views/Guide/WeChatCuthorizationCallback/List')
         }
       ]
     }

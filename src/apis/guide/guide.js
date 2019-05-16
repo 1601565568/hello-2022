@@ -191,5 +191,10 @@ export default {
   getShopRecruitmentQrcode: {
     url: '/guide/ehd/getShopRecruitmentQrcode',
     method: 'get'
+  },
+  // 修改权重或者透出次数
+  updateMoreAccount: {
+    url: '/guide/sgmoreaccount/updateMoreAccount',
+    method: 'post'
   }
 }

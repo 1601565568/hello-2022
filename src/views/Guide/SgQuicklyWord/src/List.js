@@ -272,7 +272,7 @@ export default {
     onSave () { // 快捷话术保存功能
       let that = this
       this.InternetMemeShow = false
-      that.$refs.form.validate((valid) => {
+      this.$refs.form.validate(valid => {
         if (valid) {
           that.$http.fetch(that.$api.guide.saveOrUpdateQuicklyWord, that.model).then(() => {
             that.closeDialog()

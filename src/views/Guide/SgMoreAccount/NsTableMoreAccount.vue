@@ -122,7 +122,7 @@
         <el-table-column prop="weight" label="透出权重" align="center" >
           <template slot-scope="scope">
             <div class="weight_scope">
-              <el-slider v-model="scope.row.weight" :format-tooltip="formatTooltip" change="ElSliderChange"></el-slider>
+              <el-slider v-model="scope.row.weight" :format-tooltip="formatTooltip" @change="ElSliderChange($event,scope.row)"></el-slider>
               <span class="demonstration">{{Number(scope.row.weight)/10}}</span>
             </div>
           </template >
@@ -130,7 +130,7 @@
         <el-table-column prop="dayNum" label="每日透出次数" align="left" >
           <template slot-scope="scope">
             <div>
-              <el-input style="width:60px" v-model="scope.row.dayNum" autofocus=true  clearable></el-input>
+              <el-input style="width:60px" v-model="scope.row.dayNum" autofocus=true @change="BlurIput($event,scope.row)"  clearable></el-input>
             </div>
           </template >
         </el-table-column>
