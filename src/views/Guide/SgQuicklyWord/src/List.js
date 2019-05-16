@@ -45,7 +45,7 @@ export default {
       selectedArr: [],
       obj: {},
       parameter: {
-        length: 10,
+        length: 15,
         searchMap: {},
         start: 0
       },
@@ -69,7 +69,7 @@ export default {
       },
       rules: {
         'wordGroupId': [{ required: true, message: '话术类别不能为空' }],
-        'keyWord': [{max: 25, message: '长度在 25 以内', trigger: 'blur,change'},
+        'keyWord': [{ max: 25, message: '长度在 25 以内', trigger: 'blur,change' },
           {
             validator: (rule, value, callback) => {
               if (this.model.keyWord !== '' && this.model.keyWord !== null) {
@@ -106,7 +106,6 @@ export default {
       if (key === 13) {
         return false
       }
-      console.log('e:', key)
     },
     faceFace () { // 表情头像按钮
       this.InternetMemeShow = !this.InternetMemeShow
