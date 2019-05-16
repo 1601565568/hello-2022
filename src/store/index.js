@@ -4,6 +4,7 @@ import state from './state'
 import getters from './getters'
 import actions from './actions'
 import mutations from './mutations'
+import common from 'web-crm/src/store/modules/common'
 import user from 'web-crm/src/store/modules/user'
 import operate from './modules/operate'
 
@@ -15,6 +16,7 @@ export default new Vuex.Store({
   actions,
   mutations,
   modules: {
+    common,
     user,
     operate
   }
