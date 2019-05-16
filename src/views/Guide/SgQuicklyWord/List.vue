@@ -2,6 +2,17 @@
   <div id='SgQuicklyWordPage'>
     <div id="box_left">
       <ns-button class="newClassification ml10 mt5" type="primary" @click="onSaveQuicklyWordGroupOpen">新增分类</ns-button>
+      <div class='ptb10 bg-white pl15' style='background-color:#efefef;'>
+        <span class="demonstration">分类</span>
+        <el-popover
+            placement="bottom"
+            trigger="hover">
+            <el-row class="overview-popover">
+              拖动调整分类排序，小程序同步
+            </el-row>
+            <i slot="reference" class="el-icon-question ml5 fz13" style='color:#999'></i>
+          </el-popover>
+      </div>
       <el-tree :data="wordGroupList" default-expand-all @node-click="onClickNode" @node-drop="handleDrop" draggable :allow-drop="allowDrop"
       :allow-drag="allowDrag"
       node-key="id"
