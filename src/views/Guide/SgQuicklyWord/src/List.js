@@ -52,7 +52,7 @@ export default {
       emotionList: Emotion,
       addName: null,
       modelObj: {},
-      allGuideArr: { name: '全部分组', id: null, label: '全部分组' },
+      allGuideArr: { name: '全部分类', id: null, label: '全部分类' },
       InternetMemeShow: false,
       index: 0,
       checkText: '',
@@ -101,6 +101,9 @@ export default {
     }
   },
   methods: {
+    renderHeader (h, data) {
+      return h('div', { attrs: { class: 'cell', style: 'margin-top:7px' } }, [h('span', ['排序 ']), h('el-tooltip', { attrs: { class: 'el-icon-question bg-white', effect: 'light', content: '调整排列顺序小程序同步', placement: 'bottom' } }, [h('i', { 'class': 'el-icon-question', style: 'color:rgb(153, 153, 153)' })])])
+    },
     onkeydown (e) {
       let key = window.event.keyCode
       if (key === 13) {

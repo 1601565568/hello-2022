@@ -39,7 +39,7 @@
         <!-- 简单搜索-结束 -->
         <!-- 表格 -->
         <template slot="table">
-          <el-table ref="multipleTable" :data="_data._table.data" class="template-table__main"
+          <el-table ref="multipleTable" :data="_data._table.data"
                     stripe
                     tooltip-effect="dark"
                     @selection-change="handleSelectionChange"
@@ -48,8 +48,9 @@
             <el-table-column type="selection" width="55"></el-table-column>
             <el-table-column prop="keyWord" class-name="keyword" width="130" :show-overflow-tooltip="true" label="关键词" align="left"></el-table-column>
             <el-table-column prop="content" label="话术内容" width="335" :show-overflow-tooltip="true" align="left"></el-table-column>
-            <el-table-column prop="name" label="分组" align="left"></el-table-column>
-            <el-table-column align="left" label="排序">
+            <el-table-column prop="name" label="分类" align="left"></el-table-column>
+            <el-table-column prop="createTime" label="添加时间" align="left"></el-table-column>
+            <el-table-column align="left" v-if="model.wordGroupId" :render-header="renderHeader">
               <template slot-scope="scope">
                 <i class='iconfont icon-zhiding sort' :class="scope.row === _data._table.data[0]?'topHid':''"  @click='exchangeSort(1,scope.row.id)'></i>
                 <i class='iconfont icon-topArr1 sort' :class="scope.row === _data._table.data[0]?'topHid':''"   @click='exchangeSort(2,scope.row.id)'></i>
