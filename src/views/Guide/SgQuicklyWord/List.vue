@@ -1,7 +1,7 @@
 <template>
   <div id='SgQuicklyWordPage'>
     <div id="box_left">
-      <ns-button class="newClassification ml10 mt5" type="primary" @click="onSaveQuicklyWordGroupOpen">新增分类</ns-button>
+      <ns-button class="newClassification ml10" type="primary" @click="onSaveQuicklyWordGroupOpen">新增分类</ns-button>
       <div class='ptb10 bg-white pl15' style='background-color:#efefef;'>
         <span class="demonstration">分类</span>
         <el-popover
@@ -61,7 +61,7 @@
             <el-table-column prop="content" label="话术内容" width="268" :show-overflow-tooltip="true" align="left"></el-table-column>
             <el-table-column prop="name" label="分类" align="left"></el-table-column>
             <el-table-column prop="createTime" label="添加时间" align="left"></el-table-column>
-            <el-table-column align="left" v-if="model.wordGroupId" :render-header="renderHeader">
+            <el-table-column align="left" v-if="showOrder" :render-header="renderHeader">
               <template slot-scope="scope">
                 <i class='iconfont icon-zhiding sort' :class="scope.row === _data._table.data[0]?'topHid':''"  @click='exchangeSort(1,scope.row.id)'></i>
                 <i class='iconfont icon-topArr1 sort' :class="scope.row === _data._table.data[0]?'topHid':''"   @click='exchangeSort(2,scope.row.id)'></i>
@@ -244,7 +244,7 @@ export default List
   height: 20px;
 }
 .newClassification{
-  margin-bottom: 20px
+  margin-bottom: 10px
 }
 .subdivision-tree-node i{
   font-size: 12px;

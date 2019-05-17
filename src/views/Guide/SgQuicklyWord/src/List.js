@@ -62,6 +62,7 @@ export default {
       dialogVisibleSaveQuicklyWordGroup: false,
       dialogVisible: false,
       loadingTable: false,
+      showOrder: false,
       tableList: [],
       wordGroupList: null,
       _table: {
@@ -117,6 +118,11 @@ export default {
       this.model.content = this.model.content + list
     },
     onClickNode (data) { // 树节点点击事件
+      if (data.id !== null) {
+        this.showOrder = true
+      } else {
+        this.showOrder = false
+      }
       this.model.wordGroupId = data.id
       this.parameter.searchMap = this.model
       this.$queryList$(this.parameter)
@@ -135,7 +141,10 @@ export default {
       this.changeQuicklyWordGroupSort(draggingNode.data.id, dropNode.data.id)
     },
     allowDrop (draggingNode, dropNode, type) {
-      return type !== 'inner'
+      return type !== 'inner' && dropNode.data.id !== null
+    },
+    allowDrag (draggingNode) {
+      return draggingNode.data.id !== null
     },
     changeQuicklyWordGroupSort (startId, endId) {
       this.$http.fetch(this.$api.guide.changeQuicklyWordGroupSort, { startId: startId, endId: endId }).then(resp => {
