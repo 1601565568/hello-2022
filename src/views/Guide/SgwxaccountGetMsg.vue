@@ -2,7 +2,7 @@
   <div class='articleMaterialDetail'>
     <div class='text-bold text-center lh56 fz40'></div>
     <div class=' text-left mt10'>
-      <span class='fz18 lh24'></span>
+      <span class='fz18 lh24'>我是微信回调页面</span>
       <span class='fz18 lh24 ml15'></span>
     </div>
   </div>
