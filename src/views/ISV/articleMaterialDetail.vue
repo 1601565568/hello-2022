@@ -14,6 +14,7 @@
 
 <script>
 import loaderNoCacheClose from 'web-crm/src/utils/loaderNoCacheClose'
+import updateTitle from '../../utils/updateTitle.js'
 export default {
   name: 'index',
   mixins: [],
@@ -27,6 +28,7 @@ export default {
   },
   created () {
     loaderNoCacheClose()
+    updateTitle('素材详情')
   },
   mounted: function () {
     let arr = window.location.href.replace(/guideId=/g, '').replace(/materialId=/g, '').split('?')[1].split('&')

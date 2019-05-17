@@ -259,13 +259,11 @@ export default {
           class: 'applet'
         })
       } else if (obj.type === 1) {
-        console.log( this.editorInstance)
         this.editorInstance.execCommand('insertimage', {
           src: obj.img,
           width: '100',
           height: '100',
-          alt: obj.codeTarget,
-          class: 'applet',
+          class : 'applet',
           href: obj.codeTarget
         })
       }
