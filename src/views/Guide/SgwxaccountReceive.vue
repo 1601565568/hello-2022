@@ -7,7 +7,6 @@
     </div>
   </div>
 </template>
-
 <script>
 import loaderNoCacheClose from 'web-crm/src/utils/loaderNoCacheClose'
 export default {
