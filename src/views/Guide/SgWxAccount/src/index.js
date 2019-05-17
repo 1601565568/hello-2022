@@ -59,10 +59,6 @@ export default {
       authorization: false,
       miniProgram: false,
       dialogAutid: false,
-      auth_code: null, // 微信回调授权字段
-      timestamp: null, // 微信回调授权字段
-      nonce: null, // 微信回调授权字段
-      msg_signature: null, // 微信回调授权字段
       cancelAuthorizations: false,
       weixinUrl: null,
       _table: {
@@ -82,9 +78,6 @@ export default {
     _this.timestamp = this.$route.query.timestamp
     _this.nonce = this.$route.query.nonce
     _this.msg_signature = this.$route.query.msg_signature
-    _this.appletAuth()
-    _this.receive()
-    _this.getMsg()
     if (typeof this.$init === 'function') {
       this.$init(this, this.$generateParams$)
     } else {
@@ -177,55 +170,6 @@ export default {
 
       }).catch((resp) => {
         that.$notify.error(resp.msg || '保存失败')
-      })
-    },
-    async appletAuth () { // 授权（传入微信回调原始数据）
-      let _this = this
-      await _this.$http.fetch(_this.$api.guide.sgwxaccount.appletAuth, {
-        auth_code: _this.auth_code
-      }).then(resp => {
-        return resp.msg
-      }).catch((resp) => {
-        _this.$notify.error(resp.msg || '授权失败!')
-        setTimeout(function () {
-          _this.$router.replace({
-            path: 'http://test_sg.ecrpcloud.com/Guide/Others/SgWxAccount'
-          })
-        }, 3000)
-      })
-    },
-    async getMsg () { // msg（传入微信回调原始数据）
-      let _this = this
-      await _this.$http.fetch(_this.$api.guide.sgwxaccount.getMsg, {
-        timestamp: _this.timestamp,
-        nonce: _this.nonce,
-        msg_signature: _this.msg_signature
-      }).then(resp => {
-        return resp.msg
-      }).catch((resp) => {
-        _this.$notify.error(resp.msg || '授权失败!')
-        setTimeout(function () {
-          _this.$router.replace({
-            path: 'http://test_sg.ecrpcloud.com/Guide/Others/SgWxAccount'
-          })
-        }, 3000)
-      })
-    },
-    async receive () { // tiket（传入微信回调原始数据）
-      let _this = this
-      await _this.$http.fetch(_this.$api.guide.sgwxaccount.receive, {
-        timestamp: _this.timestamp,
-        nonce: _this.nonce,
-        msg_signature: _this.msg_signature
-      }).then(resp => {
-        return resp.msg
-      }).catch((resp) => {
-        _this.$notify.error(resp.msg || '授权失败!')
-        setTimeout(function () {
-          _this.$router.replace({
-            path: 'http://test_sg.ecrpcloud.com/Guide/Others/SgWxAccount'
-          })
-        }, 3000)
       })
     },
     onPublish (latestStatus) { // 发布小程序

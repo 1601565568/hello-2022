@@ -19,9 +19,9 @@ export default [
     'component': () => import('@/views/ISV/articleMaterialDetail')
   },
   {
-    'path': '/Guide/WeChatCuthorizationCallback',
-    'name': 'WeChatCuthorizationCallback',
-    'component': () => import('@/views/Guide/WeChatCuthorizationCallback/List')
+    path: '/Guide/WeChatCuthorizationCallback',
+    name: 'WeChatCuthorizationCallback',
+    'component': () => import('@/views/Guide/WeChatCuthorizationCallback')
   },
   // 以下为系统默认路由，修改请请与项目负责人进行确认
   {
