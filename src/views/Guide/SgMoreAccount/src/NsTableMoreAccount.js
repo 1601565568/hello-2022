@@ -131,9 +131,11 @@ export default {
   },
   computed: {},
   methods: {
-    ElSliderChange (val) { // 透支权重值发生变化的方法
-      console.log('val:', val)
-
+    ElSliderChange (val, row) { // 透支权重值发生变化的方法
+      this.$emit('ElSliderChange', val, row)
+    },
+    BlurIput (val, row) { // 每日透支次数值发生变化的方法
+      this.$emit('BlurIput', val, row)
     },
     formatTooltip (val) {
       return val / 10
