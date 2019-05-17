@@ -54,7 +54,7 @@ export default {
   },
   methods: {
     ElSliderChange (val, row) {
-      this.weight = Number(val / 10)
+      this.weight = Number(val)
       this.id = row.id
       this.changeText = '投出权重'
       this.updateMoreAccount()
