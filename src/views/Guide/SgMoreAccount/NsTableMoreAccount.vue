@@ -42,7 +42,7 @@
         <el-form-item label="微信昵称：">
           <el-form-grid>
             <el-form-grid size="xmd">
-              <el-input style="width:180px" autofocus=true v-model="model.wechatId" placeholder="请输入微信昵称" clearable></el-input>
+              <el-input style="width:180px" autofocus=true v-model="model.wechatName" placeholder="请输入微信昵称" clearable></el-input>
             </el-form-grid>
           </el-form-grid>
         </el-form-item>
@@ -50,15 +50,6 @@
         <el-form-item label="关联导购：">
           <el-form-grid size="xmd">
             <el-input style="width:180px" autofocus=true v-model="model.guideInfo" placeholder="请输入姓名/工号" clearable></el-input>
-          </el-form-grid>
-        </el-form-item>
-
-        <el-form-item label="绑定门店：">
-          <el-form-grid>
-            <el-select placeholder="请选择绑定门店" v-model="model.shopId" clearable filterable>
-              <el-option v-for="shop in shopList" :label="shop.shopName" :value="shop.id"
-                         :key="shop.id"></el-option>
-            </el-select>
           </el-form-grid>
         </el-form-item>
 
