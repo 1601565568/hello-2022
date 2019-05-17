@@ -70,12 +70,14 @@ export default {
       },
       rules: {
         'wordGroupId': [{ required: true, message: '话术类别不能为空' }],
-        'keyWord': [{ max: 25, message: '长度在 25 以内', trigger: 'blur,change' },
+        'keyWord': [
           {
             validator: (rule, value, callback) => {
               if (this.model.keyWord !== '' && this.model.keyWord !== null) {
                 if ((this.model.keyWord.split('，').length - 1) > 4) {
                   callback(new Error('关键词最多设置五个词'))
+                } else if (this.model.keyWord.length > 25) {
+                  callback(new Error('关键词长度在 25 以内'))
                 } else {
                   callback()
                 }
