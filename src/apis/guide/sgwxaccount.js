@@ -45,14 +45,14 @@ export default {
   },
   appletAuth: { // 授权（传入微信回调原始数据）
     url: '/guide/appletcallback/appletAuth',
-    method: 'post'
+    method: 'get'
   },
   receive: { // tiket（传入微信回调原始数据）
     url: '/guide/appletcallback/receive',
-    method: 'post'
+    method: 'get'
   },
   getMsg: { // msg（传入微信回调原始数据）
     url: '/guide/appletcallback/getMsg',
-    method: 'post'
+    method: 'get'
   }
 }

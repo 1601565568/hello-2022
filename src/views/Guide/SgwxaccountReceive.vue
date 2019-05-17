@@ -2,7 +2,7 @@
   <div class='articleMaterialDetail'>
     <div class='text-bold text-center lh56 fz40'></div>
     <div class=' text-left mt10'>
-      <span class='fz18 lh24'></span>
+      <span class='fz18 lh24'>我是微信回调页面</span>
       <span class='fz18 lh24 ml15'></span>
     </div>
   </div>
@@ -41,7 +41,6 @@ export default {
     }
   },
   mounted: function () {
-    console.log('我是魏超超！')
     let _this = this
     _this.timestamp = this.$route.query.timestamp
     _this.nonce = this.$route.query.nonce
