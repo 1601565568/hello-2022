@@ -1,6 +1,6 @@
 <template>
   <div>
-    <ns-table-more-account ref="table" :url=$api.guide.moreAccount.findList  @uploadFile="uploadFile">
+    <ns-table-more-account ref="table" :url=$api.guide.moreAccount.findList  @uploadFile="uploadFile" @ElSliderChange="ElSliderChange" @BlurIput="BlurIput">
     </ns-table-more-account>
     <!-- 上传二维码弹窗开始 -->
     <el-dialog :title="title" :visible.sync="dialogUploadVisible" @click="closeDialog" width="460px" >

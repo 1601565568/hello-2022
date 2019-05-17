@@ -42,7 +42,7 @@
         <el-form-item label="微信昵称：">
           <el-form-grid>
             <el-form-grid size="xmd">
-              <el-input style="width:180px" autofocus=true v-model="model.wechatId" placeholder="请输入微信昵称" clearable></el-input>
+              <el-input style="width:180px" autofocus=true v-model="model.wechatName" placeholder="请输入微信昵称" clearable></el-input>
             </el-form-grid>
           </el-form-grid>
         </el-form-item>
@@ -50,15 +50,6 @@
         <el-form-item label="关联导购：">
           <el-form-grid size="xmd">
             <el-input style="width:180px" autofocus=true v-model="model.guideInfo" placeholder="请输入姓名/工号" clearable></el-input>
-          </el-form-grid>
-        </el-form-item>
-
-        <el-form-item label="绑定门店：">
-          <el-form-grid>
-            <el-select placeholder="请选择绑定门店" v-model="model.shopId" clearable filterable>
-              <el-option v-for="shop in shopList" :label="shop.shopName" :value="shop.id"
-                         :key="shop.id"></el-option>
-            </el-select>
           </el-form-grid>
         </el-form-item>
 
@@ -122,15 +113,15 @@
         <el-table-column prop="weight" label="透出权重" align="center" >
           <template slot-scope="scope">
             <div class="weight_scope">
-              <el-slider v-model="scope.row.weight" :format-tooltip="formatTooltip" change="ElSliderChange"></el-slider>
-              <span class="demonstration">{{Number(scope.row.weight)/10}}</span>
+              <el-slider v-model="scope.row.weight" step="10" max="10" :format-tooltip="formatTooltip" @change="ElSliderChange($event,scope.row)"></el-slider>
+              <span class="demonstration">{{Number(scope.row.weight)}}</span>
             </div>
           </template >
         </el-table-column>
         <el-table-column prop="dayNum" label="每日透出次数" align="left" >
           <template slot-scope="scope">
             <div>
-              <el-input style="width:60px" v-model="scope.row.dayNum" autofocus=true  clearable></el-input>
+              <el-input style="width:60px" v-model="scope.row.dayNum" autofocus=true @change="BlurIput($event,scope.row)"  clearable></el-input>
             </div>
           </template >
         </el-table-column>

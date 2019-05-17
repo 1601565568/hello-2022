@@ -429,6 +429,18 @@
         <ns-button type="primary" @click="onSaveSpecifyTransfer">确定</ns-button>
       </div>
     </el-dialog>
+    <!--  批量删除员工提示弹框开始 -->
+    <el-dialog title="请先转移导购的会员" width="500px" height="300px" :visible.sync="allDeleteFormVisible">
+      <div style="height: 60px;overflow-x:hidden;overflow-y:auto;margin-top: 10px;">
+        删除说明：
+        删除需要先对该员工的客户进行转移，转移完成之后，才能操作删除
+      </div>
+      <div style="height: 40px;overflow-x:hidden;overflow-y:auto;margin: 10px 0 0 240px;">
+        <ns-button @click="allDeleteFormVisible = false">取消删除</ns-button>
+        <ns-button type="primary" @click="transfer">前往转移</ns-button>
+      </div>
+    </el-dialog>
+    <!--  批量删除员工提示弹框结束 -->
     <!-- 指定导购转移转移弹窗结束  -->
     <el-dialog title="提示" width="35%" :visible.sync="multipleStoresAreNotSupportedShow"  :before-close="bulkReplacementStores">
       <div class="bulkReplacementStores">

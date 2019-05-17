@@ -1,7 +1,18 @@
 <template>
   <div id='SgQuicklyWordPage'>
     <div id="box_left">
-      <ns-button class="newClassification ml10 mt5" type="primary" @click="onSaveQuicklyWordGroupOpen">新增分类</ns-button>
+      <ns-button class="newClassification ml10" type="primary" @click="onSaveQuicklyWordGroupOpen">新增分类</ns-button>
+      <div class='ptb10 bg-white pl15' style='background-color:#efefef;'>
+        <span class="demonstration">分类</span>
+        <el-popover
+            placement="bottom"
+            trigger="hover">
+            <el-row class="overview-popover">
+              拖动调整分类排序，小程序同步
+            </el-row>
+            <i slot="reference" class="el-icon-question ml5 fz13" style='color:#999'></i>
+          </el-popover>
+      </div>
       <el-tree :data="wordGroupList" default-expand-all @node-click="onClickNode" @node-drop="handleDrop" draggable :allow-drop="allowDrop"
       :allow-drag="allowDrag"
       node-key="id"
@@ -39,7 +50,7 @@
         <!-- 简单搜索-结束 -->
         <!-- 表格 -->
         <template slot="table">
-          <el-table ref="multipleTable" :data="_data._table.data" class="template-table__main"
+          <el-table ref="multipleTable" :data="_data._table.data"
                     stripe
                     tooltip-effect="dark"
                     @selection-change="handleSelectionChange"
@@ -47,9 +58,10 @@
             :element-loading-text="$t('prompt.loading')" @sort-change="$orderChange$">
             <el-table-column type="selection" width="55"></el-table-column>
             <el-table-column prop="keyWord" class-name="keyword" width="130" :show-overflow-tooltip="true" label="关键词" align="left"></el-table-column>
-            <el-table-column prop="content" label="话术内容" width="335" :show-overflow-tooltip="true" align="left"></el-table-column>
-            <el-table-column prop="name" label="分组" align="left"></el-table-column>
-            <el-table-column align="left" label="排序">
+            <el-table-column prop="content" label="话术内容" width="268" :show-overflow-tooltip="true" align="left"></el-table-column>
+            <el-table-column prop="name" label="分类" align="left"></el-table-column>
+            <el-table-column prop="createTime" label="添加时间" align="left"></el-table-column>
+            <el-table-column align="left" v-if="showOrder" :render-header="renderHeader">
               <template slot-scope="scope">
                 <i class='iconfont icon-zhiding sort' :class="scope.row === _data._table.data[0]?'topHid':''"  @click='exchangeSort(1,scope.row.id)'></i>
                 <i class='iconfont icon-topArr1 sort' :class="scope.row === _data._table.data[0]?'topHid':''"   @click='exchangeSort(2,scope.row.id)'></i>
@@ -232,7 +244,7 @@ export default List
   height: 20px;
 }
 .newClassification{
-  margin-bottom: 20px
+  margin-bottom: 10px
 }
 .subdivision-tree-node i{
   font-size: 12px;

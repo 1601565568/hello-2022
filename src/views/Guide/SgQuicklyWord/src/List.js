@@ -45,14 +45,14 @@ export default {
       selectedArr: [],
       obj: {},
       parameter: {
-        length: 10,
+        length: 15,
         searchMap: {},
         start: 0
       },
       emotionList: Emotion,
       addName: null,
       modelObj: {},
-      allGuideArr: { name: '全部分组', id: null, label: '全部分组' },
+      allGuideArr: { name: '全部分类', id: null, label: '全部分类' },
       InternetMemeShow: false,
       index: 0,
       checkText: '',
@@ -62,6 +62,7 @@ export default {
       dialogVisibleSaveQuicklyWordGroup: false,
       dialogVisible: false,
       loadingTable: false,
+      showOrder: false,
       tableList: [],
       wordGroupList: null,
       _table: {
@@ -69,13 +70,17 @@ export default {
       },
       rules: {
         'wordGroupId': [{ required: true, message: '话术类别不能为空' }],
-        'keyWord': [{max: 25, message: '长度在 25 以内', trigger: 'blur,change'},
+        'keyWord': [
           {
             validator: (rule, value, callback) => {
-              if ((this.model.keyWord.split('，').length - 1) > 4) {
-                callback(new Error('关键词最多设置五个词'))
-              } else {
-                callback()
+              if (this.model.keyWord !== '' && this.model.keyWord !== null) {
+                if ((this.model.keyWord.split('，').length - 1) > 4) {
+                  callback(new Error('关键词最多设置五个词'))
+                } else if (this.model.keyWord.length > 25) {
+                  callback(new Error('关键词长度在 25 以内'))
+                } else {
+                  callback()
+                }
               }
             }
           }
@@ -99,12 +104,14 @@ export default {
     }
   },
   methods: {
+    renderHeader (h, data) {
+      return h('div', { attrs: { class: 'cell', style: 'margin-top:7px' } }, [h('span', ['排序 ']), h('el-tooltip', { attrs: { class: 'el-icon-question bg-white', effect: 'light', content: '调整排列顺序小程序同步', placement: 'bottom' } }, [h('i', { 'class': 'el-icon-question', style: 'color:rgb(153, 153, 153)' })])])
+    },
     onkeydown (e) {
       let key = window.event.keyCode
       if (key === 13) {
         return false
       }
-      console.log('e:', key)
     },
     faceFace () { // 表情头像按钮
       this.InternetMemeShow = !this.InternetMemeShow
@@ -113,6 +120,11 @@ export default {
       this.model.content = this.model.content + list
     },
     onClickNode (data) { // 树节点点击事件
+      if (data.id !== null) {
+        this.showOrder = true
+      } else {
+        this.showOrder = false
+      }
       this.model.wordGroupId = data.id
       this.parameter.searchMap = this.model
       this.$queryList$(this.parameter)
@@ -131,7 +143,10 @@ export default {
       this.changeQuicklyWordGroupSort(draggingNode.data.id, dropNode.data.id)
     },
     allowDrop (draggingNode, dropNode, type) {
-      return type !== 'inner'
+      return type !== 'inner' && dropNode.data.id !== null
+    },
+    allowDrag (draggingNode) {
+      return draggingNode.data.id !== null
     },
     changeQuicklyWordGroupSort (startId, endId) {
       this.$http.fetch(this.$api.guide.changeQuicklyWordGroupSort, { startId: startId, endId: endId }).then(resp => {
@@ -268,7 +283,7 @@ export default {
     onSave () { // 快捷话术保存功能
       let that = this
       this.InternetMemeShow = false
-      that.$refs.form.validate((valid) => {
+      this.$refs.form.validate(valid => {
         if (valid) {
           that.$http.fetch(that.$api.guide.saveOrUpdateQuicklyWord, that.model).then(() => {
             that.closeDialog()
@@ -300,6 +315,20 @@ export default {
             that.$notify.error(resp.msg || '保存失败')
           })
         }
+      } else {
+        let obj = { quicklyWordIds: '', wordGroupId: wordGroupId, keyWord: keyWord }
+        let arr = []
+        that.selectedArr.map(item => {
+          arr.push(item.id)
+        })
+        obj.quicklyWordIds = arr.join(',')
+        that.$http.fetch(that.$api.guide.patchChange, obj).then(() => {
+          that.closeDialog()
+          that.$notify.success('保存成功')
+          that.$reload()
+        }).catch((resp) => {
+          that.$notify.error(resp.msg || '保存失败')
+        })
       }
     },
     onDelete (row) { // 快捷话术删除

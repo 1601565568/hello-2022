@@ -23,6 +23,21 @@ export default [
     name: 'personalWeChat',
     'component': () => import('@/views/third/personalWeChat')
   },
+  {
+    path: '/operate/Guide/SgwxaccountAppletAuth',
+    name: 'SgwxaccountAppletAuth',
+    'component': () => import('@/views/Guide/SgwxaccountAppletAuth')
+  },
+  {
+    path: '/operate/Guide/SgwxaccountGetMsg',
+    name: 'SgwxaccountGetMsg',
+    'component': () => import('@/views/Guide/SgwxaccountGetMsg')
+  },
+  {
+    path: '/operate/Guide/SgwxaccountReceive',
+    name: 'SgwxaccountReceive',
+    'component': () => import('@/views/Guide/SgwxaccountReceive')
+  },
   // 以下为系统默认路由，修改请请与项目负责人进行确认
   {
     'path': '/',
