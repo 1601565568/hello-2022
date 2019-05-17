@@ -19,17 +19,17 @@ export default [
     'component': () => import('@/views/ISV/articleMaterialDetail')
   },
   {
-    path: '/Guide/SgwxaccountAppletAuth',
+    path: '/operate/Guide/SgwxaccountAppletAuth',
     name: 'SgwxaccountAppletAuth',
     'component': () => import('@/views/Guide/SgwxaccountAppletAuth')
   },
   {
-    path: '/Guide/SgwxaccountGetMsg',
+    path: '/operate/Guide/SgwxaccountGetMsg',
     name: 'SgwxaccountGetMsg',
     'component': () => import('@/views/Guide/SgwxaccountGetMsg')
   },
   {
-    path: '/Guide/SgwxaccountReceive',
+    path: '/operate/Guide/SgwxaccountReceive',
     name: 'SgwxaccountReceive',
     'component': () => import('@/views/Guide/SgwxaccountReceive')
   },
