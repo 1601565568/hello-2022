@@ -115,7 +115,6 @@ export default {
   },
 
   mounted: function () {
-    var vm = this
     setTimeout(function () {
     }, 50)
     if (typeof this.$init === 'function') {
