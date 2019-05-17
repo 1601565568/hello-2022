@@ -113,8 +113,8 @@
         <el-table-column prop="weight" label="透出权重" align="center" >
           <template slot-scope="scope">
             <div class="weight_scope">
-              <el-slider v-model="scope.row.weight" step="10" :format-tooltip="formatTooltip" @change="ElSliderChange($event,scope.row)"></el-slider>
-              <span class="demonstration">{{Number(scope.row.weight)/10}}</span>
+              <el-slider v-model="scope.row.weight" step="10" max="10" :format-tooltip="formatTooltip" @change="ElSliderChange($event,scope.row)"></el-slider>
+              <span class="demonstration">{{Number(scope.row.weight)}}</span>
             </div>
           </template >
         </el-table-column>
