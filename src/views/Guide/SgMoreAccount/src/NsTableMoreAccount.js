@@ -67,9 +67,6 @@ export default {
     let quickSearchNames = quickInput.map(x => x.name)
     let quickSearchModel = {}
     let searchModel = {
-      sgGuide: {
-        image: null
-      }
     }
     let findVo = {
       'keyword': null, // 门店名称
@@ -77,7 +74,8 @@ export default {
       'wechatName': null, // 微信昵称
       'guideInfo': null, // 关联导购的ID或者工号
       'shopId': null, // 绑定门店
-      'status': null // 状态
+      'status': null, // 状态
+      'type': 0
     }
     let model = Object.assign({}, findVo, {}, searchModel)
     return {
@@ -119,7 +117,6 @@ export default {
   mounted: function () {
     var vm = this
     setTimeout(function () {
-      vm.initShopList()
     }, 50)
     if (typeof this.$init === 'function') {
     } else {
@@ -151,16 +148,6 @@ export default {
     },
     uploadFile (row) {
       this.$emit('uploadFile', row)
-    },
-    initShopList () {
-      var _this = this
-      _this.$http.fetch(_this.$api.guide.moreAccount.findList, _this.obj).then(resp => {
-        if (resp.success && resp.result !== null) {
-          _this.$refs.table.data = resp.result.data
-        }
-      }).catch((resp) => {
-        _this.$notify.error('查询失败：' + resp.msg)
-      })
     },
     // 处理上传图片
     handleAvatarSuccess: function (response, file) {
