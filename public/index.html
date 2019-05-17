@@ -186,6 +186,25 @@
 <% } %>
 <% if (process.env.NODE_ENV === 'production') { %>
 <script>
+  (function (doc, win) {
+  var u = navigator.userAgent
+  var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1 // android终端
+  var docEl = doc.documentElement
+  var resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize'
+  var recalc = function () {
+    var clientWidth = docEl.clientWidth
+    if (!clientWidth) { return }
+    if (isAndroid) {
+      docEl.style.fontSize = 100 * (clientWidth / 750) + 'px'
+      // docEl.style.fontSize = 100 * (clientWidth / 720) + 'px'
+    } else {
+      docEl.style.fontSize = 100 * (clientWidth / 750) + 'px'
+    }
+  }
+  if (!doc.addEventListener) { return }
+  win.addEventListener(resizeEvt, recalc, false)
+  doc.addEventListener('DOMContentLoaded', recalc, false)
+})(document, window)
   (function(){if(window.navigator.userAgent.indexOf("Trident/")>-1){var b=document.getElementsByTagName("head")[0];var a=document.createElement("script");a.type="text/javascript";a.src="https://unpkg.com/babel-polyfill@6.26.0/dist/polyfill.min.js";b.appendChild(a)}}());
   (function(){console.log('<%= process.env.VUE_APP_VERSION %>')}());
 </script>

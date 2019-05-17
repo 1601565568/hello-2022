@@ -1,0 +1,87 @@
+
+.activity-view {
+    position: fixed;
+    top: 0.88rem;
+    bottom: 0;
+    height: auto;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    .activity {
+        padding-top: .2rem;
+        padding-left: .24rem;
+        padding-right: .24rem;
+    }
+    .activity-item {
+        border-radius: 0.05rem;
+        overflow: hidden;
+        margin-bottom: .25rem;
+        .activity-cover {
+            height: 3.1rem;
+            width: 100%;
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+        .activity-des {
+            background-color: #fff;
+            padding-top: .3rem;
+            padding-left: .24rem;
+            padding-right: .24rem;
+            .activity-des__title {
+                font-size: 0.32rem;
+                line-height: 0.45rem;
+            }
+            .activity-des__limit {
+                margin-top: .18rem;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+            .limit-text p {
+                font-size: 0.24rem;
+                color: #8595A5;
+                line-height: 0.33rem;
+                &:last-child {
+                    margin-top: 0.05rem;
+                }
+            }
+            .limit-tag {
+                border-radius: 0.25rem;
+                overflow: hidden;
+                height: 0.5rem;
+                background: rgba(253, 87, 57, 0.1);
+                padding: .08rem .22rem;
+                color: #fd5739;
+                font-size: .24rem;
+                line-height: 0.33rem;
+                border: 0.5px solid #fd5739;
+            }
+            .activity-des__num {
+                margin-top: .18rem;
+                padding-top: .18rem;
+                padding-bottom: .18rem;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                font-size: 0.24rem;
+                color: #8595A5;
+                line-height: 0.33rem;
+                &:before {
+                    border-top-style: dashed;
+                }
+                b {
+                    color: #FD5739;
+                }
+                i {
+                    color: #778894;
+                    font-size: 0.2rem;
+                }
+            }
+        }
+    }
+}
+
+.view-activity__past {
+    .activity-des__title {
+        color: #999;
+    }
+}

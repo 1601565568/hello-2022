@@ -12,5 +12,9 @@ export default {
   coupon,
   isv,
   mall,
-  overView
+  overView,
+  getMoreAccountByWeight: { // 根据权重查询个人号
+    url: '/guide/sgmoreaccount/getMoreAccountByWeight',
+    method: 'get'
+  }
 }
