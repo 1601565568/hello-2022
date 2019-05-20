@@ -263,7 +263,7 @@ export default {
           src: obj.img,
           width: '100',
           height: '100',
-          class : 'applet',
+          class: 'applet',
           href: obj.codeTarget
         })
       }
