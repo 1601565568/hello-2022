@@ -114,7 +114,7 @@
           <template slot-scope="scope">
             <div class="weight_scope">
               <el-slider v-model="scope.row.weight" step="10" :format-tooltip="formatTooltip" @change="ElSliderChange($event,scope.row)"></el-slider>
-              <span class="demonstration">{{Number(scope.row.weight)/10}}</span>
+              <span class="demonstration">{{Number(scope.row.weight/10)}}</span>
             </div>
           </template >
         </el-table-column>
