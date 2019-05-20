@@ -48,8 +48,8 @@ export default {
     if (this.$route.query.image === 'null') {
       this.$route.query.image = require('../../assets/default-guide-side.png')
     }
-    this.$route.name = decodeURIComponent(this.$route.name)
-    this.$route.shopName = decodeURIComponent(this.$route.name)
+    this.$route.query.name = decodeURIComponent(this.$route.query.name)
+    this.$route.query.shopName = decodeURIComponent(this.$route.query.shopName)
     this.query = this.$route.query
     let parms = { brandId: this.query.brandId }
     this.$http.fetch(this.$api.getMoreAccountByWeight, parms)
