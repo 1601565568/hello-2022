@@ -45,7 +45,9 @@ export default {
 
   },
   mounted: function () {
-    this.$route.query.image = this.$route.query.image || require('../../assets/default-guide-side.png')
+    if (this.$route.query.image === 'null') {
+      this.$route.query.image = require('../../assets/default-guide-side.png')
+    }
     this.query = this.$route.query
     let parms = { brandId: this.query.brandId }
     this.$http.fetch(this.$api.getMoreAccountByWeight, parms)
