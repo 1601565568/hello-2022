@@ -194,6 +194,9 @@ export default List
 .el-col-8 .template-table-buttons .el-form-grid{
   margin-right: 8px
 }
+.el-tooltip__popper{
+  max-width: 78% !important
+}
 </style>
 <style scoped>
  @import "@/style/small/variables.pcss";
