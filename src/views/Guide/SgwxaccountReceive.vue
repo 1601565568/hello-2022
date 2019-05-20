@@ -42,10 +42,12 @@ export default {
     }
   },
   mounted: function () {
-    this.timestamp = this.$route.query.timestamp
-    this.nonce = this.$route.query.nonce
-    this.msg_signature = this.$route.query.msg_signature
-    this.receive()
+    let obj = 'success'
+    return obj
+    // this.timestamp = this.$route.query.timestamp
+    // this.nonce = this.$route.query.nonce
+    // this.msg_signature = this.$route.query.msg_signature
+    // this.receive()
   },
   components: {
   }
