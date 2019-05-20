@@ -1,4 +1,4 @@
-<!DOCTYPE html><% if (process.env.NODE_ENV === 'production') { %> mvbvbb
+<!DOCTYPE html><% if (process.env.NODE_ENV === 'production') { %>
 <script>
 (function() {
   debugger
@@ -202,7 +202,6 @@ for(var d = 0; d < f.length; d++) { var g=f[d].split("=");
 <% } %>
 <% if (process.env.NODE_ENV === 'production') { %>
 <script>
-  alert(1)
   (function(){if(window.navigator.userAgent.indexOf("Trident/")>-1){var b=document.getElementsByTagName("head")[0];var a=document.createElement("script");a.type="text/javascript";a.src="https://unpkg.com/babel-polyfill@6.26.0/dist/polyfill.min.js";b.appendChild(a)}}());
   (function(){console.log('<%= process.env.VUE_APP_VERSION %>')}());
 </script>
