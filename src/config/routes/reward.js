@@ -8,12 +8,6 @@ export default {
   },
   'children': [
     {
-      'path': '/operate',
-      'name': 'ECRP_LOGIN',
-      'title': 'ECRP登录',
-      'component': () => import('@/views/LoginEcrp/index')
-    },
-    {
       'path': '/Guide/ActivityIndex',
       'name': 'ACTIVITY_INDEX2',
       'title': '业绩指标',
