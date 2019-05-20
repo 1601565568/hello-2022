@@ -29,11 +29,7 @@ export default {
         nonce: _this.nonce,
         msg_signature: _this.msg_signature
       }).then(resp => {
-<<<<<<< HEAD
-        return resp
-=======
         code = resp.success
->>>>>>> 1d833a06ea0d8ea23e810ece14f4f124403eaae6
       }).catch((resp) => {
         _this.$notify.error(resp.msg || '授权失败!')
         // setTimeout(function () {
