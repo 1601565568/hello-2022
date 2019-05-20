@@ -28,14 +28,14 @@ export default {
         nonce: _this.nonce,
         msg_signature: _this.msg_signature
       }).then(resp => {
-        return resp.msg
+        return resp
       }).catch((resp) => {
         _this.$notify.error(resp.msg || '授权失败!')
-        setTimeout(function () {
-          _this.$router.replace({
-            path: 'http://test_sg.ecrpcloud.com/Guide/Others/SgWxAccount'
-          })
-        }, 3000)
+        // setTimeout(function () {
+        //   _this.$router.replace({
+        //     path: 'http://test_sg.ecrpcloud.com/Guide/Others/SgWxAccount'
+        //   })
+        // }, 3000)
       })
     }
   },

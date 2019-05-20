@@ -51,20 +51,15 @@ export default {
   },
   methods: {
     onRemoveFun (row) { // 列表移除按钮
-      console.log('ipoiopipoi', row)
     },
     onBindingFun (row) { // 列表编辑按钮
-      console.log('ipoiopipoi:', row)
     },
     CheckOutUnsecretarialSalesLeads () { // 新增秘书号按钮
-      console.log('ipoiopipoi')
     },
     NewSecretaryNumber () { // 查看未加秘书的导购按钮
       this.NewSecretaryNumberShow = true
-      console.log('ipoiopipoi')
     },
     handleRemove (file, fileList) {
-      console.log(file, fileList)
     },
     handlePictureCardPreview (file) {
       this.dialogImageUrl = file.url
@@ -75,7 +70,6 @@ export default {
       _this.dialogUploadVisible = true
     },
     onSaveImage () {
-      console.log('onSave Image')
     },
     closeDialog () {
       var _this = this
