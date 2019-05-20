@@ -38,7 +38,6 @@ export default {
   },
   mounted: function () {
     let _this = this
-    console.log('resp:', resp)
     _this.auth_code = this.$route.query.auth_code
     console.log('wi:', window.location.href)
     _this.appletAuth()

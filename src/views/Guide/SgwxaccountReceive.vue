@@ -23,13 +23,12 @@ export default {
   methods: {
     async receive () { // tiket（传入微信回调原始数据）
       let _this = this
-      let code = null
       await _this.$http.fetch(_this.$api.guide.sgwxaccount.receive, {
         timestamp: _this.timestamp,
         nonce: _this.nonce,
         msg_signature: _this.msg_signature
       }).then(resp => {
-        code = resp.success
+        return resp.success
       }).catch((resp) => {
         _this.$notify.error(resp.msg || '授权失败!')
         // setTimeout(function () {
@@ -38,16 +37,13 @@ export default {
         //   })
         // }, 3000)
       })
-      return code
     }
   },
   mounted: function () {
-    let obj = 'success'
-    return obj
-    // this.timestamp = this.$route.query.timestamp
-    // this.nonce = this.$route.query.nonce
-    // this.msg_signature = this.$route.query.msg_signature
-    // this.receive()
+    this.timestamp = this.$route.query.timestamp
+    this.nonce = this.$route.query.nonce
+    this.msg_signature = this.$route.query.msg_signature
+    this.receive()
   },
   components: {
   }
