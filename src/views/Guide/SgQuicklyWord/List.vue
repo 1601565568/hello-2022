@@ -5,13 +5,13 @@
       <div class='ptb10 bg-white pl15' style='background-color:#efefef;'>
         <span class="demonstration">分类</span>
         <el-popover
-            placement="bottom"
-            trigger="hover">
-            <el-row class="overview-popover">
-              拖动调整分类排序，小程序同步
-            </el-row>
-            <i slot="reference" class="el-icon-question ml5 fz13" style='color:#999'></i>
-          </el-popover>
+          placement="bottom"
+          trigger="hover">
+          <el-row class="overview-popover">
+            拖动调整分类排序，小程序同步
+          </el-row>
+          <i slot="reference" class="el-icon-question ml5 fz13" style='color:#999'></i>
+        </el-popover>
       </div>
       <el-tree :data="wordGroupList" default-expand-all @node-click="onClickNode" @node-drop="handleDrop" draggable :allow-drop="allowDrop"
       :allow-drag="allowDrag"
@@ -58,7 +58,7 @@
             :element-loading-text="$t('prompt.loading')" @sort-change="$orderChange$">
             <el-table-column type="selection" width="55"></el-table-column>
             <el-table-column prop="keyWord" class-name="keyword" width="130" :show-overflow-tooltip="true" label="关键词" align="left"></el-table-column>
-            <el-table-column prop="content" label="话术内容" width="268" :show-overflow-tooltip="true" align="left"></el-table-column>
+            <el-table-column prop="content" label="话术内容" width="228" :show-overflow-tooltip="true" align="left"></el-table-column>
             <el-table-column prop="name" label="分类" align="left"></el-table-column>
             <el-table-column prop="createTime" label="添加时间" align="left"></el-table-column>
             <el-table-column align="left" v-if="showOrder" :render-header="renderHeader">
@@ -100,7 +100,7 @@
       <el-form :model="model" ref="form" label-width="90px" :rules="rules" placement="right">
         <el-form-item label="选择分类：" prop="wordGroupId" required>
           <el-select  v-model="model.wordGroupId" placeholder="请选择话术分类">
-            <el-option v-for="wordGroup in wordGroupList" :label="wordGroup.name" :value="wordGroup.id" :key="wordGroup.id"></el-option>
+            <el-option v-for="wordGroup in selectwordGroupList" :label="wordGroup.name" :value="wordGroup.id" :key="wordGroup.id"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="话术内容：" prop="content" required>
@@ -142,7 +142,7 @@
       <el-form :model="model" ref="form" label-width="90px" :rules="rules" placement="right">
         <el-form-item label="移动到分类：" prop="wordGroupId" style="margin:25px 0" required>
           <el-select  v-model="model.wordGroupId" filterable clearable placeholder="请选择配置项类型">
-            <el-option v-for="wordGroup in wordGroupList" :label="wordGroup.name" :value="wordGroup.id" :key="wordGroup.id"></el-option>
+            <el-option v-for="wordGroup in selectwordGroupList" :label="wordGroup.name" :value="wordGroup.id" :key="wordGroup.id"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="编辑关键词：" prop="keyWord" style="margin-bottom:30px">
@@ -193,6 +193,9 @@ export default List
 }
 .el-col-8 .template-table-buttons .el-form-grid{
   margin-right: 8px
+}
+.el-tooltip__popper{
+  max-width: 78% !important
 }
 </style>
 <style scoped>

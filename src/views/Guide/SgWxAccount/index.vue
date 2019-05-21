@@ -125,9 +125,13 @@
               <el-col :span='8'><span>2018-12-03 16:53:30</span></el-col>
           </el-row>
           <el-row>
-              <el-col :span='8'><span>更新状态：{{appObj.online_version < appObj.latestAuditVersion ? '':'线上版本为最新版本'}}</span></el-col>
-              <el-col :span='8'><span>
-                {{appObj.latestAuditVersion}}版本{{appObj.latestStatus === 1 ? '已上传未审核' : appObj.latestStatus === 2 ? '审核中' : appObj.latestStatus === 3 ? '审核成功' : appObj.latestStatus === 4 ? '已发布' : appObj.latestStatus === 5 ? '已撤回' : ''}}</span>,点击<ns-button type="text" @click="onAutid(appObj.appid)">提交微信审核</ns-button>,重新发布</el-col>
+              <el-col :span='8'>
+                <span>更新状态：{{appObj.online_version < (appObj.latestAuditVersion) ? '':'线上版本为最新版本'}}</span>
+              </el-col>
+              <el-col :span='8'>
+                <span>{{appObj.latestAuditVersion}}版本{{appObj.latestStatus === 1 ? '已上传未审核' : appObj.latestStatus === 2 ? '审核中' : appObj.latestStatus === 3 ? '审核成功' : appObj.latestStatus === 4 ? '已发布' : appObj.latestStatus === 5 ? '已撤回' : ''}}</span>
+                ,点击<ns-button type="text" @click="onAutid(appObj.appid)">提交微信审核</ns-button>,重新发布
+              </el-col>
           </el-row>
         </div>
         <div class="dialog_mian_bottomText">

@@ -167,7 +167,7 @@ export default {
     },
     removeCacheKey () {
       let that = this
-      that.$http.fetch(this.$api.isv.removeCacheKey, { 'cacheKey': that.cacheKey, type: this.type }).then(resp => {
+      that.$http.fetch(this.$api.isv.removeCacheKey, { 'cacheKey': that.cacheKey, type: that.type }).then(resp => {
         that.$notify.success('删除成功')
         that.cacheVlaue = null
       }).catch(resp => {
@@ -176,7 +176,7 @@ export default {
     },
     removeAllCacheKey () {
       let that = this
-      that.$http.fetch(this.$api.isv.removeAllCacheKey).then(resp => {
+      that.$http.fetch(this.$api.isv.removeAllCacheKey, { type: that.type }).then(resp => {
         that.$notify.success('删除成功')
       }).catch(resp => {
         that.$notify.error('删除失败')

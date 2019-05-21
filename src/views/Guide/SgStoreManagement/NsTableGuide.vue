@@ -165,7 +165,7 @@ export default guide
 <style>
 .icon-erweima{
   font-weight: 500;
-  font-size: 30px; 
+  font-size: 30px;
 }
 .scope_row_count{
   color: blue;

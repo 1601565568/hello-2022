@@ -57,6 +57,9 @@
         <el-form-item label="菜单编码：" prop="code" required>
           <el-input type="text" placeholder="请输入菜单编码" v-model="model.code" ></el-input>
         </el-form-item>
+        <el-form-item label="菜单图标：" prop="icon">
+          <el-input type="text" placeholder="请输入菜单图标" v-model="model.icon" ></el-input>
+        </el-form-item>
         <el-form-item label="页面路径：" prop="url" required>
           <el-input type="text" placeholder="请输入页面路径" v-model="model.url" ></el-input>
         </el-form-item>

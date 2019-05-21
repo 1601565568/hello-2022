@@ -19,9 +19,30 @@ export default [
     'component': () => import('@/views/ISV/articleMaterialDetail')
   },
   {
-    path: '/Guide/WeChatCuthorizationCallback',
-    name: 'WeChatCuthorizationCallback',
-    'component': () => import('@/views/Guide/WeChatCuthorizationCallback')
+    path: '/operate/third/personalWeChat',
+    name: 'personalWeChat',
+    'component': () => import('@/views/third/personalWeChat')
+  },
+  {
+    path: '/operate/Guide/SgwxaccountAppletAuth',
+    name: 'SgwxaccountAppletAuth',
+    'component': () => import('@/views/Guide/SgwxaccountAppletAuth')
+  },
+  {
+    path: '/operate/Guide/SgwxaccountGetMsg',
+    name: 'SgwxaccountGetMsg',
+    'component': () => import('@/views/Guide/SgwxaccountGetMsg')
+  },
+  {
+    path: '/operate/Guide/SgwxaccountReceive',
+    name: 'SgwxaccountReceive',
+    'component': () => import('@/views/Guide/SgwxaccountReceive')
+  },
+  {
+    'path': '/operate',
+    'name': 'ECRP_LOGIN',
+    'title': 'ECRP登录',
+    'component': () => import('@/views/LoginEcrp/index')
   },
   // 以下为系统默认路由，修改请请与项目负责人进行确认
   {

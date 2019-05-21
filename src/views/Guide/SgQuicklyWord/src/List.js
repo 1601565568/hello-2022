@@ -52,8 +52,11 @@ export default {
       emotionList: Emotion,
       addName: null,
       modelObj: {},
-      allGuideArr: { name: '全部分类', id: null, label: '全部分类' },
+      allClassArr: { name: '全部分类', id: null, label: '全部分类' },
+      newClassArr: { name: '请选择分类', id: null, label: '请选择分类' },
       InternetMemeShow: false,
+      orignalGroup: null,
+      orignalKeyWord: null,
       index: 0,
       checkText: '',
       titleText: '',
@@ -65,21 +68,23 @@ export default {
       showOrder: false,
       tableList: [],
       wordGroupList: null,
+      selectwordGroupList: null,
       _table: {
         table_buttons: tableButtons
       },
       rules: {
         'wordGroupId': [{ required: true, message: '话术类别不能为空' }],
-        'keyWord': [{ max: 25, message: '长度在 25 以内', trigger: 'blur,change' },
+        'keyWord': [
           {
             validator: (rule, value, callback) => {
               if (this.model.keyWord !== '' && this.model.keyWord !== null) {
                 if ((this.model.keyWord.split('，').length - 1) > 4) {
                   callback(new Error('关键词最多设置五个词'))
-                } else {
-                  callback()
+                } else if (this.model.keyWord.length > 25) {
+                  callback(new Error('关键词长度在 25 以内'))
                 }
               }
+              callback()
             }
           }
         ],
@@ -103,7 +108,7 @@ export default {
   },
   methods: {
     renderHeader (h, data) {
-      return h('div', { attrs: { class: 'cell', style: 'margin-top:7px' } }, [h('span', ['排序 ']), h('el-tooltip', { attrs: { class: 'el-icon-question bg-white', effect: 'light', content: '调整排列顺序小程序同步', placement: 'bottom' } }, [h('i', { 'class': 'el-icon-question', style: 'color:rgb(153, 153, 153)' })])])
+      return h('div', { attrs: { class: 'cell' } }, [h('span', ['排序 ']), h('el-tooltip', { attrs: { class: 'el-icon-question bg-white', effect: 'light', content: '调整排列顺序小程序同步', placement: 'bottom' } }, [h('i', { 'class': 'el-icon-question', style: 'color:rgb(153, 153, 153)' })])])
     },
     onkeydown (e) {
       let key = window.event.keyCode
@@ -155,18 +160,27 @@ export default {
       })
     },
     saveOrUpdateQuicklyWordGroup () {
-      this.$refs.addOrEditForm.validate((valid) => {
-        if (valid) {
-          this.$http.fetch(this.$api.guide.saveOrUpdateQuicklyWordGroup, this.addOrEditModel).then(resp => {
-            if (resp.success) {
-              this.addOrEditModel.id ? this.$notify.success('编辑成功') : this.$notify.success('新增成功')
-              this.findQuicklyWordGroupList()
-              this.closeDialog()
-            }
-          }).catch(resp => {
-            this.addOrEditModel.id ? this.$notify.error(resp.msg || '编辑失败') : this.$notify.error(resp.msg || '新增失败')
-          })
+      // this.$refs.addOrEditForm.validate((valid) => {
+      //   if (valid) {
+      //     this.$http.fetch(this.$api.guide.saveOrUpdateQuicklyWordGroup, this.addOrEditModel).then(resp => {
+      //       if (resp.success) {
+      //         this.addOrEditModel.id ? this.$notify.success('编辑成功') : this.$notify.success('新增成功')
+      //         this.findQuicklyWordGroupList()
+      //         this.closeDialog()
+      //       }
+      //     }).catch(resp => {
+      //       this.addOrEditModel.id ? this.$notify.error(resp.msg || '编辑失败') : this.$notify.error(resp.msg || '新增失败')
+      //     })
+      //   }
+      // })
+      this.$http.fetch(this.$api.guide.saveOrUpdateQuicklyWordGroup, this.addOrEditModel).then(resp => {
+        if (resp.success) {
+          this.addOrEditModel.id ? this.$notify.success('编辑成功') : this.$notify.success('新增成功')
+          this.findQuicklyWordGroupList()
+          this.closeDialog()
         }
+      }).catch(resp => {
+        this.addOrEditModel.id ? this.$notify.error(resp.msg || '编辑失败') : this.$notify.error(resp.msg || '新增失败')
       })
     },
     findAddName () {
@@ -187,7 +201,9 @@ export default {
             item.bianji1 = 'iconfont icon-bianji1'
           })
           this.wordGroupList = resp.result.data
-          this.wordGroupList.unshift(this.allGuideArr)
+          this.selectwordGroupList = this.wordGroupList.slice(0)
+          this.selectwordGroupList.unshift(this.newClassArr)
+          this.wordGroupList.unshift(this.allClassArr)
         }
       }).catch(resp => {
         this.$notify.error(resp.msg || '系统异常')
@@ -233,7 +249,6 @@ export default {
       let arr = Object.keys(row)
       this.dialogFormVisible = true
       this.dialogVisiblePatchChange = false
-      this.titleText = (row.id && '编辑话术') || '新增话术'
       this.titleText = (row.id && '编辑话术') || '新增话术'
       if (arr.length !== 0) {
         this.model = Object.assign({}, row)
@@ -333,7 +348,7 @@ export default {
       apiRequestConfirm('永久删除该数据')
         .then(() => {
           let that = this
-          that.$http.fetch(that.$api.guide.deleteQuicklyWord, { id: row.id }).then(() => {
+          that.$http.fetch(that.$api.guide.deleteQuicklyWord, { quicklyWordIds: String(row.id) }).then(() => {
             that.dialogFormVisible = false
             that.newestDialog = false
             that.$notify.success('删除成功')
@@ -359,7 +374,7 @@ export default {
             arr.push(item.id)
           })
           obj.quicklyWordIds = arr.join(',')
-          that.$http.fetch(that.$api.guide.patchDeleteQuicklyWord, obj).then(() => {
+          that.$http.fetch(that.$api.guide.deleteQuicklyWord, obj).then(() => {
             that.closeDialog()
             that.$notify.success('删除成功')
             that.$reload()
