@@ -36,6 +36,7 @@ const treeFn = (err, rows) => {
 }
 export default {
   getUserInfo: {
+    cancelToken: false,
     url: '/getSession',
     method: 'post',
     callback: function (res, resolve, reject) {
@@ -100,6 +101,7 @@ export default {
     method: 'get'
   },
   getCloudSession: {
+    cancelToken: false,
     url: '/operate/getSession',
     method: 'get',
     callback: function (res, resolve, reject) {
@@ -149,14 +151,17 @@ export default {
     }
   },
   operateLogin: {
+    cancelToken: false,
     url: '/operate/login',
     method: 'post'
   },
   exit: {
+    cancelToken: false,
     url: '/core/access/exit',
     method: 'get'
   },
   getCloudPlatformAddress: {
+    cancelToken: false,
     url: '/getCloudPlatformAddress',
     method: 'get'
   },
@@ -174,6 +179,7 @@ export default {
 
   },
   changeView: {
+    cancelToken: false,
     url: '/core/access/changeView',
     method: 'get'
   }
