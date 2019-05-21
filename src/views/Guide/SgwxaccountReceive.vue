@@ -28,7 +28,7 @@ export default {
         nonce: _this.nonce,
         msg_signature: _this.msg_signature
       }).then(resp => {
-        return resp.success
+        // return resp.success
       }).catch((resp) => {
         _this.$notify.error(resp.msg || '授权失败!')
         // setTimeout(function () {
