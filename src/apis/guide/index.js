@@ -149,11 +149,6 @@ export default {
     url: '/guide/quicklyword/deleteQuicklyWord',
     method: 'post'
   },
-  // 快捷话术删除
-  patchDeleteQuicklyWord: {
-    url: '/guide/quicklyword/patchDeleteQuicklyWord',
-    method: 'post'
-  },
   // 快捷话术排序
   updateQuicklyWordSort: {
     url: '/guide/quicklyword/updateQuicklyWordSort',

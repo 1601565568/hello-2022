@@ -348,7 +348,7 @@ export default {
       apiRequestConfirm('永久删除该数据')
         .then(() => {
           let that = this
-          that.$http.fetch(that.$api.guide.deleteQuicklyWord, { id: row.id }).then(() => {
+          that.$http.fetch(that.$api.guide.deleteQuicklyWord, { quicklyWordIds: String(row.id) }).then(() => {
             that.dialogFormVisible = false
             that.newestDialog = false
             that.$notify.success('删除成功')
@@ -374,7 +374,7 @@ export default {
             arr.push(item.id)
           })
           obj.quicklyWordIds = arr.join(',')
-          that.$http.fetch(that.$api.guide.patchDeleteQuicklyWord, obj).then(() => {
+          that.$http.fetch(that.$api.guide.deleteQuicklyWord, obj).then(() => {
             that.closeDialog()
             that.$notify.success('删除成功')
             that.$reload()
