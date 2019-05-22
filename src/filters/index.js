@@ -1,4 +1,4 @@
 export default {
-  register (Vue) {
+  register (Vue, options) {
   }
 }
