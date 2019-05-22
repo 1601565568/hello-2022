@@ -31,7 +31,7 @@ Vue.use(ComponentsPrivate)
 /**
  * 全局注册混合
  */
-Vue.use(mixins)
+// Vue.use(mixins)
 Vue.use(mixinsPrivate)
 
 /**
