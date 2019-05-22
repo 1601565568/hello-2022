@@ -49,10 +49,21 @@ export default {
       dayNum: null, // 每日透出次数
       weight: null, // 权重
       id: null,
-      changeText: '每日透出次数'
+      changeText: '每日透出次数',
+      wxCodeUrlImage: null, // 二维码变量接收
+      rowId: null
     }
   },
   methods: {
+    handleAvatarSuccess: function (response, file) {
+      this.wxCodeUrlImage = response.result.url
+      this.$refs.table.$reload()
+    },
+    wxCodeUrl (row) {
+      this.dialogUploadVisible = true
+      this.wxCodeUrlImage = row.wxCodeUrl
+      this.rowId = row.id
+    },
     ElSliderChange (val, row) {
       this.weight = Number(val)
       this.id = row.id
@@ -93,10 +104,8 @@ export default {
     onSaveImage () {
     },
     closeDialog () {
-      var _this = this
-      _this.dialogUploadVisible = false
+      this.dialogUploadVisible = false
     }
   },
-  mounted: function () {
-  }
+  mounted () {}
 }

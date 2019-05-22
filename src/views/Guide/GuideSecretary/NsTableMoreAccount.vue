@@ -1,9 +1,8 @@
 <template>
-  <ns-page-table  @NewSecretaryNumber="$emit('NewSecretaryNumber')" @CheckOutUnsecretarialSalesLeads="$emit('CheckOutUnsecretarialSalesLeads')" @showShop="$emit('showShop')" @dimission="$emit('dimission')"  @allDelete="$emit('allDelete')" @shopEdit="$emit('shopEdit')" >
+  <ns-page-table  @newSecretaryNumber="$emit('newSecretaryNumber')" @checkOutUnsecretarialSalesLeads="$emit('checkOutUnsecretarialSalesLeads')" @downloadTheAggregatedqrCode="$emit('downloadTheAggregatedqrCode')"  @showShop="$emit('showShop')" @dimission="$emit('dimission')"  @allDelete="$emit('allDelete')" @shopEdit="$emit('shopEdit')" >
     <!-- 按钮 -->
     <template slot="buttons">
-      <ns-table-operate-button :buttons="_data._table.table_buttons">
-      </ns-table-operate-button>
+      <ns-table-operate-button :buttons="_data._table.table_buttons"></ns-table-operate-button>
     </template>
     <!-- 按钮-结束 -->
 
@@ -21,7 +20,8 @@
         <el-form-item>
           <ns-button type="text" @click="$handleTabClick">
             {{collapseText}}
-            <i :class="{'el-icon--right': true, 'el-icon-arrow-down': !_data._queryConfig.expand, 'el-icon-arrow-up': _data._queryConfig.expand} "></i>
+            <i :class="{'el-icon--right': true, 'el-icon-arrow-down': !_data._queryConfig.expand, 'el-icon-arrow-up': _data._queryConfig.expand} ">
+            </i>
           </ns-button>
         </el-form-item>
       </el-form>
@@ -42,23 +42,14 @@
         <el-form-item label="微信昵称：">
           <el-form-grid>
             <el-form-grid size="xmd">
-              <el-input style="width:180px" autofocus=true v-model="model.wechatId" placeholder="请输入微信昵称" clearable></el-input>
+              <el-input style="width:180px" autofocus=true v-model="model.wechatName" placeholder="请输入微信昵称" clearable></el-input>
             </el-form-grid>
           </el-form-grid>
         </el-form-item>
 
-        <el-form-item label="关联导购：">
+        <el-form-item label="导购：">
           <el-form-grid size="xmd">
             <el-input style="width:180px" autofocus=true v-model="model.guideInfo" placeholder="请输入姓名/工号" clearable></el-input>
-          </el-form-grid>
-        </el-form-item>
-
-        <el-form-item label="绑定门店：">
-          <el-form-grid>
-            <el-select placeholder="请选择绑定门店" v-model="model.shopId" clearable filterable>
-              <el-option v-for="shop in shopList" :label="shop.shopName" :value="shop.id"
-                         :key="shop.id"></el-option>
-            </el-select>
           </el-form-grid>
         </el-form-item>
 
@@ -109,14 +100,14 @@
                   </ns-button>
                 </el-upload>
             </div>
-            <div v-if="scope.row.wxCodeUrl">
-              <img width="100px" height="100px" v-if="scope.row.wxCodeUrl" :src="scope.row.wxCodeUrl" class="avatar">
+            <div v-if="scope.row.wxCodeUrl" @click="wxCodeUrl(scope.row)">
+              <img style="width:99px;height:99px;border-radius:5px" v-if="scope.row.wxCodeUrl" :src="scope.row.wxCodeUrl" class="avatar">
             </div>
           </template>
         </el-table-column>
-         <el-table-column prop="wechatName" label="微信昵称" align="center" >
+        <el-table-column prop="wechatName" align="center" :render-header="renderHeader" >
           <template slot-scope="scope">
-            {{scope.row.wechatName || '-'}}
+            {{scope.row.wechatName}}
           </template >
         </el-table-column>
         <el-table-column prop="guideNames" label="已加导购" align="center" >
@@ -124,18 +115,18 @@
             {{scope.row.guideNames || '-'}}
           </template >
         </el-table-column>
-        <el-table-column prop="status" label="状态" align="left" width="180">
+        <el-table-column prop="status" label="状态" align="left" width="120">
           <template slot-scope="scope">
             <div>
-              <span v-if="scope.row.status === 0" type="text">已登陆</span>
+              <span v-if="scope.row.status === 0" type="text">已登录</span>
               <span style="color:#F00" v-if="scope.row.status !== 0" type="text">未登录</span>
             </div>
           </template >
         </el-table-column>
-        <el-table-column prop="phone" label="操作" align="left" width="180">
+        <el-table-column prop="phone" label="操作" align="left" width="140">
             <template slot-scope="scope">
                 <div>
-                    <ns-button style="color:#0091FA" @click="onBindingFun(scope.row)" type="text">编辑</ns-button>
+                    <!-- <ns-button style="color:#0091FA" @click="onBindingFun(scope.row)" type="text">绑定</ns-button> -->
                     <ns-button style="color:#0091FA" @click="onRemoveFun(scope.row)" type="text">移除</ns-button>
                 </div>
             </template>
@@ -162,14 +153,27 @@
 
 <script>
 import ElUpload from 'nui-v2/lib/upload'
+import ElSlider from 'nui-v2/lib/slider'
 import moreAccount from './src/NsTableMoreAccount'
 moreAccount.components = {
-  ElUpload
+  ElUpload,
+  ElSlider
 }
 
 export default moreAccount
 </script>
 <style>
+.el-col-8 {
+  width: 36.5%;
+}
+.template-table__bar .template-table-buttons .el-form-grid{
+  margin-right:5px !important
+}
+.weight_scope{
+  display: fles;
+  justify-content: flex-start;
+  align-items: center
+}
 .scope_row_count{
   color: blue;
 }

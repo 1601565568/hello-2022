@@ -17,15 +17,21 @@ export default {
     const tableButtons = [
       {
         'func': function () {
-          this.$emit('NewSecretaryNumber')
+          this.$emit('newSecretaryNumber')
         },
         'name': '新增秘书号'
       },
       {
         'func': function () {
-          this.$emit('CheckOutUnsecretarialSalesLeads')
+          this.$emit('checkOutUnsecretarialSalesLeads')
         },
         'name': '查看未加秘书的导购'
+      },
+      {
+        'func': function () {
+          this.$emit('downloadTheAggregatedqrCode')
+        },
+        'name': '下载聚合二维码'
       }
     ]
     const operateButtons = [
@@ -61,9 +67,6 @@ export default {
     let quickSearchNames = quickInput.map(x => x.name)
     let quickSearchModel = {}
     let searchModel = {
-      sgGuide: {
-        image: null
-      }
     }
     let findVo = {
       'keyword': null, // 门店名称
@@ -71,11 +74,24 @@ export default {
       'wechatName': null, // 微信昵称
       'guideInfo': null, // 关联导购的ID或者工号
       'shopId': null, // 绑定门店
-      'status': null // 状态
+      'status': null, // 状态
+      'type': 0
     }
     let model = Object.assign({}, findVo, {}, searchModel)
     return {
       model: model,
+      obj: {
+        length: 15,
+        searchMap: {
+          guideInfo: '',
+          keyword: '',
+          wechatId: '',
+          wechatName: '',
+          type: 0
+        },
+        start: 0
+      },
+      operatingStatus: [{ label: '全部', value: 0 }, { label: '已登陆', value: 1 }, { label: '未登录', value: 2 }],
       quickSearchModel: quickSearchModel,
       _pagination: pagination,
       _table: {
@@ -100,8 +116,6 @@ export default {
   },
 
   mounted: function () {
-    var vm = this
-    vm.initShopList()
     if (typeof this.$init === 'function') {
     } else {
       this.$reload()
@@ -112,30 +126,32 @@ export default {
   },
   computed: {},
   methods: {
-    onRemoveFun (row) {
-      this.$emit('onRemoveFun', row)
+    renderHeader (h, data) {
+      return h('div', { attrs: { class: 'cell', style: 'margin-top:7px' } }, [h('span', ['微信昵称']), h('el-tooltip', { attrs: { class: 'el-icon-question bg-white', effect: 'light', content: '建议微信昵称统一为：品牌名 + 秘书，如：南讯秘书', placement: 'bottom' } }, [h('i', { 'class': 'el-icon-question', style: 'color:rgb(153, 153, 153)' })])])
     },
-    onBindingFun (row) {
-      this.$emit('onBindingFun', row)
+    ElSliderChange (val, row) { // 透支权重值发生变化的方法
+      this.$emit('ElSliderChange', val, row)
     },
-    NewSecretaryNumber () {
-      this.$emit('NewSecretaryNumber')
+    wxCodeUrl (row) {
+      this.$emit('wxCodeUrl', row)
     },
-    CheckOutUnsecretarialSalesLeads () {
-      this.$emit('CheckOutUnsecretarialSalesLeads')
+    BlurIput (val, row) { // 每日透支次数值发生变化的方法
+      this.$emit('BlurIput', val, row)
+    },
+    formatTooltip (val) {
+      return val
+    },
+    synchronization () {
+      this.$emit('synchronization')
+    },
+    addPersonalNumber () { // 查看门店详情和查看所属区域详情
+      this.$emit('addPersonalNumber')
+    },
+    batchBindShoppingGuide () {
+      this.$emit('batchBindShoppingGuide')
     },
     uploadFile (row) {
       this.$emit('uploadFile', row)
-    },
-    initShopList () {
-      var _this = this
-      _this.$http.fetch(_this.$api.guide.shop.findBrandShopList, { isOnline: 0 }).then(resp => {
-        if (resp.success && resp.result != null) {
-          _this.shopList = resp.result
-        }
-      }).catch((resp) => {
-        _this.$notify.error('查询失败： ' + resp.msg)
-      })
     },
     // 处理上传图片
     handleAvatarSuccess: function (response, file) {

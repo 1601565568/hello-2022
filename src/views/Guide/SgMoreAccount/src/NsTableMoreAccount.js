@@ -15,24 +15,24 @@ export default {
       total: 0
     }
     const tableButtons = [
-      {
-        'func': function () {
-          this.$emit('synchronization')
-        },
-        'name': '同步'
-      },
+      // {
+      //   'func': function () {
+      //     this.$emit('synchronization')
+      //   },
+      //   'name': '同步'
+      // },
       {
         'func': function () {
           this.$emit('addPersonalNumber')
         },
         'name': '新增个人号'
-      },
-      {
-        'func': function () {
-          this.$emit('batchBindShoppingGuide')
-        },
-        'name': '批量绑定导购'
       }
+      // {
+      //   'func': function () {
+      //     this.$emit('batchBindShoppingGuide')
+      //   },
+      //   'name': '批量绑定导购'
+      // }
     ]
     const operateButtons = [
       {
@@ -91,6 +91,7 @@ export default {
         },
         start: 0
       },
+      operatingStatus: [{ label: '全部', value: 0 }, { label: '已登陆', value: 1 }, { label: '未登录', value: 2 }],
       quickSearchModel: quickSearchModel,
       _pagination: pagination,
       _table: {
@@ -115,8 +116,6 @@ export default {
   },
 
   mounted: function () {
-    setTimeout(function () {
-    }, 50)
     if (typeof this.$init === 'function') {
     } else {
       this.$reload()
@@ -127,14 +126,23 @@ export default {
   },
   computed: {},
   methods: {
+    dayNumRenderHeader (h, data) {
+      return h('div', { attrs: { class: 'cell', style: 'margin-top:7px' } }, [h('span', ['每日透出次数']), h('el-tooltip', { attrs: { class: 'el-icon-question bg-white', effect: 'light', content: '会员招募时此个人号最多透出次数', placement: 'bottom' } }, [h('i', { 'class': 'el-icon-question', style: 'color:rgb(153, 153, 153)' })])])
+    },
+    renderHeader (h, data) {
+      return h('div', { attrs: { class: 'cell', style: 'margin-top:7px' } }, [h('span', ['透出权重']), h('el-tooltip', { attrs: { class: 'el-icon-question bg-white', effect: 'light', content: '会员招募时根据设置的权重透出此个人号', placement: 'bottom' } }, [h('i', { 'class': 'el-icon-question', style: 'color:rgb(153, 153, 153)' })])])
+    },
     ElSliderChange (val, row) { // 透支权重值发生变化的方法
       this.$emit('ElSliderChange', val, row)
+    },
+    wxCodeUrl (row) {
+      this.$emit('wxCodeUrl', row)
     },
     BlurIput (val, row) { // 每日透支次数值发生变化的方法
       this.$emit('BlurIput', val, row)
     },
     formatTooltip (val) {
-      return val / 10
+      return val
     },
     synchronization () {
       this.$emit('synchronization')

@@ -1,61 +1,38 @@
 <template>
   <div>
-    <ns-table-more-account ref="table" :url=$api.guide.moreAccount.findList  @uploadFile="uploadFile" @onRemoveFun="onRemoveFun" @onBindingFun="onBindingFun" >
+    <ns-table-more-account ref="table" :url=$api.guide.moreAccount.findList  @uploadFile="uploadFile" @ElSliderChange="ElSliderChange" @BlurIput="BlurIput" @wxCodeUrl="wxCodeUrl">
     </ns-table-more-account>
     <!-- 上传二维码弹窗开始 -->
-    <el-dialog :title="title" :visible.sync="dialogUploadVisible" @click="closeDialog" width="460px" >
+    <el-dialog :title="title" :visible.sync="dialogUploadVisible" @click="closeDialog" width="350px" >
       <div class="guideBox" style="overflow-x:hidden;overflow-y:auto;">
-        <el-form :model="model" label-width="100px">
-          <el-form-item label="上传二维码：" class="el-inline-block">
-            <el-form-grid style="width: 320px;">
-              <ul class="comUploadList">
-                <el-upload class="avatar-uploader" :action="this.$api.core.sgUploadFile('test')"
-                           accept=".jpg,.jpeg,.png,.bmp,.gif" :show-file-list="false" list-type="picture-card"
-                           :on-remove="handleRemove" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
-                  <i class="el-icon-plus avatar-uploader-icon"></i>
-                </el-upload>
-              </ul>
-            </el-form-grid>
-          </el-form-item>
-        </el-form>
+        <div>查看二维码:</div>
+        <ul class="comUploadList">
+          <div v-if="wxCodeUrlImage">
+            <img style="width:99px;height:99px;border-radius:5px" v-if="wxCodeUrlImage" :src="wxCodeUrlImage" class="avatar">
+          </div>
+        </ul>
       </div>
       <div slot="footer" class="dialog-footer">
-        <ns-button @click="closeDialog">取消</ns-button>
-        <ns-button type="primary" @click="onSaveImage">确定</ns-button>
+        <el-upload
+          class="avatar-uploader"
+          :action="$api.core.sgMoreAccountUploadFile(rowId+'')"
+          accept=".jpg,.jpeg,.png,.bmp,.gif"
+          :on-success="handleAvatarSuccess" :show-file-list="false" >
+          <ns-button class="dialog-footer_button" type="primary">更换二维码</ns-button>
+        </el-upload>
       </div>
     </el-dialog>
     <!-- 上传二维码弹窗结束 -->
-    <!-- 未加秘书的导购弹窗开始 -->
-    <el-dialog :title="title" :visible.sync="NewSecretaryNumberShow" @click="closeDialog" width="460px" >
-      <div class="guideBox" style="overflow-x:hidden;overflow-y:auto;">
-        <el-form :model="model" label-width="100px">
-          <el-form-item label="上传二维码：" class="el-inline-block">
-            <el-form-grid style="width: 320px;">
-              <ul class="comUploadList">
-                <el-upload class="avatar-uploader" :action="this.$api.core.sgUploadFile('test')"
-                           accept=".jpg,.jpeg,.png,.bmp,.gif" :show-file-list="false" list-type="picture-card"
-                           :on-remove="handleRemove" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
-                  <i class="el-icon-plus avatar-uploader-icon"></i>
-                </el-upload>
-              </ul>
-            </el-form-grid>
-          </el-form-item>
-        </el-form>
-      </div>
-      <div slot="footer" class="dialog-footer">
-        <ns-button @click="closeDialog">取消</ns-button>
-        <ns-button type="primary" @click="onSaveImage">确定</ns-button>
-      </div>
-    </el-dialog>
-    <!-- 未加秘书的导购弹窗结束 -->
   </div>
 </template>
 
 <script>
 import List from './src/List'
 import NsTableMoreAccount from './NsTableMoreAccount'
+import ElUpload from 'nui-v2/lib/upload'
 List.components = {
-  NsTableMoreAccount
+  NsTableMoreAccount,
+  ElUpload
 }
 export default List
 </script>
@@ -114,7 +91,7 @@ export default List
   .elrow_first .elrow_firstcol, .elrow_second .elrow_firstcol, .elrow_thirdly .elrow_firstcol{
     display: flex;
     justify-content: center;
-    align-items: center
+    align-items: center;
   }
   .elrow_first, .elrow_second, .elrow_thirdly{
     display: flex;
@@ -124,4 +101,20 @@ export default List
     font-size: 12px;
     font-weight: normal;
   }
+</style>
+<style>
+.comUploadList{
+  margin:20px 40px 10px 0;
+  display:flex;
+  justify-content:center
+}
+.dialog-footer{
+  display:flex;
+  justify-content:center;
+}
+.dialog-footer .dialog-footer_button{
+  width: 251px;
+  height: 38px;
+  border-radius: 0
+}
 </style>

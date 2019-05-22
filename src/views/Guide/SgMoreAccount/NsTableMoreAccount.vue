@@ -100,7 +100,7 @@
                   </ns-button>
                 </el-upload>
             </div>
-            <div v-if="scope.row.wxCodeUrl">
+            <div v-if="scope.row.wxCodeUrl" @click="wxCodeUrl(scope.row)">
               <img style="width:99px;height:99px;border-radius:5px" v-if="scope.row.wxCodeUrl" :src="scope.row.wxCodeUrl" class="avatar">
             </div>
           </template>
@@ -110,15 +110,15 @@
             {{scope.row.wechatName || '-'}}
           </template >
         </el-table-column>
-        <el-table-column prop="weight" label="透出权重" align="center" >
+        <el-table-column prop="weight" align="center" :render-header="renderHeader" >
           <template slot-scope="scope">
             <div class="weight_scope">
-              <el-slider v-model="scope.row.weight" step="10" :format-tooltip="formatTooltip" @change="ElSliderChange($event,scope.row)"></el-slider>
-              <span class="demonstration">{{Number(scope.row.weight/10)}}</span>
+              <el-slider v-model="scope.row.weight" :format-tooltip="formatTooltip" @change="ElSliderChange($event,scope.row)"></el-slider>
+              <span class="demonstration">{{Number(scope.row.weight)}}</span>
             </div>
           </template >
         </el-table-column>
-        <el-table-column prop="dayNum" label="每日透出次数" align="left" >
+        <el-table-column prop="dayNum" align="left" :render-header="dayNumRenderHeader" >
           <template slot-scope="scope">
             <div>
               <el-input style="width:60px" v-model="scope.row.dayNum" autofocus=true @change="BlurIput($event,scope.row)"  clearable></el-input>
@@ -130,18 +130,18 @@
             {{scope.row.guideNames || '-'}}
           </template >
         </el-table-column>
-        <el-table-column prop="status" label="状态" align="left" width="180">
+        <el-table-column prop="status" label="状态" align="left" width="120">
           <template slot-scope="scope">
             <div>
-              <span v-if="scope.row.status === 0" type="text">已登陆</span>
+              <span v-if="scope.row.status === 0" type="text">已登录</span>
               <span style="color:#F00" v-if="scope.row.status !== 0" type="text">未登录</span>
             </div>
           </template >
         </el-table-column>
-        <el-table-column prop="phone" label="操作" align="left" width="180">
+        <el-table-column prop="phone" label="操作" align="left" width="140">
             <template slot-scope="scope">
                 <div>
-                    <ns-button style="color:#0091FA" @click="onBindingFun(scope.row)" type="text">绑定</ns-button>
+                    <!-- <ns-button style="color:#0091FA" @click="onBindingFun(scope.row)" type="text">绑定</ns-button> -->
                     <ns-button style="color:#0091FA" @click="onRemoveFun(scope.row)" type="text">移除</ns-button>
                 </div>
             </template>

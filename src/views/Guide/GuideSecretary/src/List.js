@@ -45,19 +45,51 @@ export default {
     })
     return {
       dialogUploadVisible: false, // 点击上传弹窗
-      model,
-      NewSecretaryNumberShow: false // 查看未加秘书的导购按钮弹窗
+      model: null,
+      dayNum: null, // 每日透出次数
+      weight: null, // 权重
+      id: null,
+      changeText: '每日透出次数',
+      wxCodeUrlImage: null, // 二维码变量接收
+      rowId: null
     }
   },
   methods: {
-    onRemoveFun (row) { // 列表移除按钮
+    handleAvatarSuccess: function (response, file) {
+      this.wxCodeUrlImage = response.result.url
+      this.$refs.table.$reload()
     },
-    onBindingFun (row) { // 列表编辑按钮
+    wxCodeUrl (row) {
+      this.dialogUploadVisible = true
+      this.wxCodeUrlImage = row.wxCodeUrl
+      this.rowId = row.id
     },
-    CheckOutUnsecretarialSalesLeads () { // 新增秘书号按钮
+    ElSliderChange (val, row) {
+      this.weight = Number(val)
+      this.id = row.id
+      this.changeText = '投出权重'
+      this.updateMoreAccount()
     },
-    NewSecretaryNumber () { // 查看未加秘书的导购按钮
-      this.NewSecretaryNumberShow = true
+    BlurIput (val, row) {
+      this.dayNum = Number(val)
+      this.id = row.id
+      this.changeText = '每日透出次数'
+      this.updateMoreAccount()
+    },
+    async updateMoreAccount () { // 修改权重或者透出次数
+      let _this = this
+      await _this.$http.fetch(_this.$api.guide.guide.updateMoreAccount, {
+        dayNum: _this.dayNum,
+        id: _this.id,
+        weight: _this.weight
+      }).then(resp => {
+        if (resp.success) {
+          _this.$notify.success(this.changeText + '设置成功!：' + resp.msg)
+          _this.$refs.table.$reload()
+        }
+      }).catch((resp) => {
+        _this.$notify.error(this.changeText + '设置失败!: ' + resp.msg)
+      })
     },
     handleRemove (file, fileList) {
     },
@@ -72,10 +104,8 @@ export default {
     onSaveImage () {
     },
     closeDialog () {
-      var _this = this
-      _this.dialogUploadVisible = false
+      this.dialogUploadVisible = false
     }
   },
-  mounted: function () {
-  }
+  mounted () {}
 }
