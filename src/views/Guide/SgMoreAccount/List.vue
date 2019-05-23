@@ -108,6 +108,9 @@ export default List
   }
 </style>
 <style>
+.el-dialog__header{
+  margin-bottom:10px
+}
 .comUploadList{
   margin:20px 40px 10px 0;
   display:flex;

@@ -57,6 +57,7 @@ export default {
   methods: {
     handleAvatarSuccess: function (response, file) {
       this.wxCodeUrlImage = response.result.url
+      this.dialogUploadVisible = false
       this.$refs.table.$reload()
     },
     wxCodeUrl (row) {
