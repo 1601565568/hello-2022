@@ -84,7 +84,7 @@
             <template slot-scope="scope">
               <span class="tmp-cell__buttons">
                 <ns-button type="text" @click="onSaveOpen(scope.row)">编辑</ns-button>
-                <ns-button v-if="scope.row.wxStatus === 1" type="text" @click="onCodeTemplate(scope.row)">代码模版</ns-button>
+                <ns-button v-if="scope.row.wxStatus === 1" type="text" @click="onCodeTemplate(scope.row)">代码模板</ns-button>
                 <ns-button type="text" @click="onRefresh(scope.row)">刷新</ns-button>
                 <ns-button type="text" @click="onDelete(scope.row)">删除</ns-button>
               </span>
@@ -198,7 +198,7 @@
         <ns-button type="primary" @click="qrCode">体验二维码</ns-button>
         <ns-button type="primary" @click="release">发布</ns-button>
       </el-row>
-      <el-table ref="table" :data="modelArry" stripe >
+      <el-table ref="table" :data="modelArry" stripe v-loading="loadingTable" >
         <el-table-column prop="template_id" label="模板ID"  align="left" width="88"></el-table-column>
         <el-table-column prop="version" label="版本" align="center" width="130"></el-table-column>
         <el-table-column prop="developer" label="开发者" align="center"></el-table-column>
