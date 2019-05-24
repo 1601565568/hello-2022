@@ -47,7 +47,8 @@ export default {
         { label: '素材库', value: 7 },
         { label: '优惠券', value: 8 },
         { label: '导购指标', value: 9 },
-        { label: '授权管理', value: 10 }
+        { label: '授权管理', value: 10 },
+        { label: '快捷话术', value: 11 }
       ],
       operator: [
         { label: '员工', value: 2 },

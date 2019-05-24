@@ -203,15 +203,18 @@ export default {
       })
     },
     onCodeTemplate (row) { // 代码模版点击按钮
-      var that = this
+      let that = this
       this.parameter.searchMap.appId = row.appid
-      this.newestDialog = true
+      that.loadingTable = true
+      that.newestDialog = true
       that.titleText = '小程序代码模板'
       that.$http.fetch(that.$api.guide.sgwxaccount.getAppletCodeTemplateList, this.parameter).then((resp) => {
         that.modelArry = resp.result.data
         that.modelObj.latestAuditVersion = resp.result.latestAuditVersion
+        that.loadingTable = false
       }).catch((resp) => {
         that.$notify.error(resp.msg || '请求失败')
+        that.loadingTable = false
       })
     },
     uploading (row) { // 上传
