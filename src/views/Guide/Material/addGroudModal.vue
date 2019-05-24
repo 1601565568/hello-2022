@@ -10,8 +10,8 @@
   :before-close="handleClose">
     <div class="comDialogBoxCon" style="padding:10px 0 20px ">
         <el-form :rules="rules" ref="searchform" :model="saveObj"  :inline="true">
-            <el-form-item  label-width="100px" label="分组名称：" prop="subdivision_name">
-               <el-input maxlength='20' style="width:220px" v-model="saveObj.subdivision_name" clearable placeholder='请输入分组名称，长度在4-20个字符以内'></el-input>
+            <el-form-item  label-width="80px" label="分组名称：" prop="subdivision_name">
+               <el-input maxlength='20' style="width:250px" v-model="saveObj.subdivision_name" clearable placeholder='请输入分组名称，长度在4-20个字符以内'></el-input>
             </el-form-item>
         </el-form>
     </div>

@@ -2,9 +2,9 @@
   <div class='page_add_coupon'>
     <ns-table-sg-coupon ref="table" @showListDialogMain="showListDialogFun" :url=$api.guide.guide.findList @add="addCoupon"></ns-table-sg-coupon>
     <!-- 新增弹窗 -->
-    <el-dialog ref="addCouponDialog"  :title="title" :visible.sync="addCouponDialogVisible" width="800px">
+    <el-dialog ref="addCouponDialog"  :title="title" :visible.sync="addCouponDialogVisible" :width="(activityModel.coupon_id > 0) ? '800px' : '380px'">
 
-      <el-form ref="form" :rules="rules" :model="activityModel" label-width="120px" class="form-main">
+      <el-form ref="form" :rules="rules" :model="activityModel" label-width="80px" class="form-main">
         <el-form-item label="优惠券：" required>
 
               <el-form-grid size="xmd">
@@ -201,9 +201,12 @@ export default List
     width: 20px;
     white-space:normal
   }
-  /deep/ .optionClass{
+  .optionClass{
     height:60px;
 
+  }
+  .form-main{
+    position: relative;
   }
 </style>
 <style>
