@@ -117,9 +117,21 @@ export default {
           if (resp.result) {
             _this.result = resp.result
           }
-          _this.$notify.success('保存成功')
+          let msg = ''
+          if (_this.obj.type === 0) {
+            msg = '加密成功'
+          } else {
+            msg = '解密成功'
+          }
+          _this.$notify.success(msg)
         }).catch(resp => {
-          _this.$notify.error(resp.msg || '保存失败')
+          let msg = ''
+          if (_this.obj.type === 0) {
+            msg = '加密失败'
+          } else {
+            msg = '解密失败'
+          }
+          _this.$notify.error(resp.msg || msg)
         })
       }
     },
