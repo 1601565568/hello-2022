@@ -1,5 +1,5 @@
 <template>
-  <ns-page-table>
+  <ns-page-table @scopeRowCount="scopeRowCount">
       <!-- 搜索 -->
       <template slot="advancedSearch">
         <el-form ref="table_form" @keyup.enter.native="findList()" :inline="true" :model="model" label-width="80px">
@@ -100,12 +100,16 @@
             <el-table-column prop="work_id" label="工号" align="center" :key="1"></el-table-column>
             <el-table-column prop="name" label="姓名" align="left" :key="2"></el-table-column>
             <el-table-column prop="mobile" label="联系方式" align="center" :key="3"></el-table-column>
-            <el-table-column prop="shopName,count" label="所属门店" align="left" :key="4">
+
+            <el-table-column prop="shopName,count" label="所属门店" align="left">
               <template slot-scope="scope">
-                <span class="text-info" v-if="scope.row.count > 1" type="text">{{scope.row.count}}家</span>
-                <span v-else>{{scope.row.shopName?scope.row.shopName:'-'}}</span>
+                <ns-button style="color:#0091FA" @click="scopeRowCount(scope.row)" v-if="scope.row.count > 1" type="text">{{scope.row.count}}家</ns-button>
+                <div v-else>
+                  {{scope.row.shopName || '-'}}
+                </div>
               </template>
             </el-table-column>
+
             <el-table-column prop="id" label="数据库ID" align="center" :key="5"></el-table-column>
           </template>
           <template v-else-if="tableType === 2">
@@ -300,6 +304,10 @@ export default {
     this.loadMaterialSubdivision()
   },
   methods: {
+    scopeRowCount (row) { // 查看员工属性
+      let _this = this
+      _this.$emit('scopeRowCount', row)
+    },
     setUrl: function (val) {
       let _this = this
       switch (val) {

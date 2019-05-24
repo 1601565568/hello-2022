@@ -2,7 +2,7 @@
   <div>
     <!-- <ns-page-table @add="$emit('add')"  @allDelete="$emit('allDelete')" @onAddCustomer="$emit('onAddCustomer')" @quit="$emit('quit')" @shopEdit="$emit('shopEdit')" @ondelete="$emit('ondelete')"> -->
     <ns-page-table @add="$emit('add')" @showShop="$emit('showShop')" @viewDetails="$emit('viewDetails')"
-                   @dimission="$emit('dimission')" @allDelete="$emit('allDelete')" @shopEdit="$emit('shopEdit')">
+                   @dimission="$emit('dimission')" @allDelete="$emit('allDelete')" @shopEdit="$emit('shopEdit')" >
       <!-- 按钮 -->
       <template slot="buttons">
         <ns-table-operate-button :buttons="_data._table.table_buttons">
@@ -187,10 +187,29 @@
       </template>
       <!-- 分页-结束 -->
     </ns-page-table>
-
+    
+      <!-- 所属门店查看详情开始 -->
+      <el-dialog :title="memberBelongingtitle"  :visible.sync="scopeRowCountShow" width="660px" >
+        <el-table ref="table" :data="shopFindLists" >
+          <el-table-column prop="name" label="所属门店" align="left" width="320">
+            <template slot-scope="scope">
+              {{scope.row.name || '-'}}
+            </template>
+          </el-table-column>
+          <el-table-column prop="address" label="所属地区" align="left" width="320">
+            <template slot-scope="scope">
+              {{scope.row.address || '-'}}
+            </template>
+          </el-table-column>
+        </el-table>
+        <div slot="footer" class="scopeRowCountShow_footer">
+          <ns-button class="scopeRowCountShow_button" @click="scopeRowCountShow = false">关闭</ns-button>
+        </div>
+      </el-dialog>
+    <!-- 所属门店查看详情结束 -->
     <!--查询数据库ID弹窗-->
     <el-dialog  title="查询数据库ID" width="800px" height="605px" :visible.sync="showTargetDetail">
-      <target-detail ref="targetDetail" :dataModule = "dataModule"></target-detail>
+      <target-detail ref="targetDetail" :dataModule = "dataModule" @scopeRowCount="scopeRowCount"></target-detail>
     </el-dialog></div>
 </template>
 <script>

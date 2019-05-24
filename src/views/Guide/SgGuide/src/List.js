@@ -681,20 +681,24 @@ export default {
     replaceStores () { // 组团更换门店功能
       let _this = this
       let dimissionIdArry = []
-      _this.replaceStoresArry.map(item => {
-        dimissionIdArry.push(item.id)
-      })
-      _this.$http.fetch(_this.$api.guide.guide.findGuideCustomerSum, {
-        guideIds: dimissionIdArry.join(',')
-      }).then(resp => {
-        if (resp.result.sum > 0) {
-          _this.replacementStoresHaveMembersShow = true
-        } else {
-          _this.updateShopId()
-        }
-      }).catch(() => {
-        _this.$notify.error('查询失败')
-      })
+      if (_this.model.sgGuideShop.shop_id !== null) {
+        _this.replaceStoresArry.map(item => {
+          dimissionIdArry.push(item.id)
+        })
+        _this.$http.fetch(_this.$api.guide.guide.findGuideCustomerSum, {
+          guideIds: dimissionIdArry.join(',')
+        }).then(resp => {
+          if (resp.result.sum > 0) {
+            _this.replacementStoresHaveMembersShow = true
+          } else {
+            _this.updateShopId()
+          }
+        }).catch(() => {
+          _this.$notify.error('查询失败')
+        })
+      } else {
+        _this.$notify.error('请选择要更换的门店！')
+      }
     },
     onKeyUp (e) {
       var key = window.event.keyCode

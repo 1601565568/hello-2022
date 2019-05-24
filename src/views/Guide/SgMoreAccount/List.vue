@@ -5,7 +5,7 @@
     <!-- 上传二维码弹窗开始 -->
     <el-dialog :title="title" :visible.sync="dialogUploadVisible" @click="closeDialog" width="350px" >
       <div class="guideBox" style="overflow-x:hidden;overflow-y:auto;">
-        <div>查看二维码:</div>
+        <div class="viewTheqrCode">查看二维码</div>
         <ul class="comUploadList">
           <div v-if="wxCodeUrlImage">
             <img style="width:99px;height:99px;border-radius:5px" v-if="wxCodeUrlImage" :src="wxCodeUrlImage" class="avatar">
@@ -108,6 +108,9 @@ export default List
   }
 </style>
 <style>
+.viewTheqrCode{
+  font-weight: 800;
+}
 .el-dialog__header{
   margin-bottom:10px
 }
