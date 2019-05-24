@@ -28,6 +28,9 @@ export default {
     return {
       showTargetDetail: false,
       model: model,
+      memberBelongingtitle: null,
+      scopeRowCountShow: false,
+      shopFindLists: null,
       quickSearchModel: {},
       title: '变更详情',
       multipleSelection: [],
@@ -96,6 +99,20 @@ export default {
   },
   computed: {},
   methods: {
+    scopeRowCount (row) {
+      let _this = this
+      this.showTargetDetail = false
+      _this.scopeRowCountShow = true
+      _this.showTargetDetail = false
+      _this.memberBelongingtitle = '查看（' + row.name + '）所属门店详情'
+      _this.$http.fetch(_this.$api.guide.guide.findGuideShopList, { guideId: row.gsId }).then(resp => {
+        if (resp.success && resp.result != null) {
+          _this.shopFindLists = resp.result
+        }
+      }).catch((resp) => {
+        _this.$notify.error('查询失败：' + resp.msg)
+      })
+    },
     /** 搜索操作人监听事件 */
     terminalTypeChange (val) {
       let _this = this
