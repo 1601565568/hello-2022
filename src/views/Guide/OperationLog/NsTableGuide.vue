@@ -187,7 +187,6 @@
       </template>
       <!-- 分页-结束 -->
     </ns-page-table>
-    
       <!-- 所属门店查看详情开始 -->
       <el-dialog :title="memberBelongingtitle"  :visible.sync="scopeRowCountShow" width="660px" >
         <el-table ref="table" :data="shopFindLists" >
