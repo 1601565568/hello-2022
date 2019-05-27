@@ -8,7 +8,7 @@
         <el-form-item label="操作人：">
           <el-form-grid>
             <el-select placeholder="请选择" v-model="model.accountType" clearable filterable>
-              <el-option v-for="shop in operator" :label="shop.label" :value="shop.value" :key="shop.value"></el-option>
+              <el-option v-for="accountType in operator" :label="accountType.label" :value="accountType.value" :key="accountType.value"></el-option>
             </el-select>
           </el-form-grid>
           <el-form-grid v-if="model.accountType === 1">
@@ -69,15 +69,6 @@
         <el-table-column prop="operateId" label="操作人ID" align="left">
           <template slot-scope="scope">
             {{scope.row.operateId || '-'}}
-          </template>
-        </el-table-column>
-
-        <el-table-column prop="terminalType" label="终端" align="left">
-          <template slot-scope="scope">
-            <span v-if="scope.row.terminalType === 1">PC端后台</span>
-            <span v-else-if="scope.row.terminalType === 2">导购小程序</span>
-            <span v-else-if="scope.row.terminalType === 3">店长小程序</span>
-            <span v-else>-</span>
           </template>
         </el-table-column>
 

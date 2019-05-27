@@ -21,7 +21,7 @@ export default {
       operateId: null,
       operateName: null,
       shopId: null,
-      accountType: 1,
+      accountType: null,
       validTime: null
     }
     return {
