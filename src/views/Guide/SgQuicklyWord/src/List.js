@@ -286,7 +286,7 @@ export default {
     },
     onPatchChangeOpen () { // 批量管理
       if (!this.selectedArr.length > 0) {
-        this.$notify.warning('您没有选择任何数据')
+        this.$notify.warning('请选择要操作的数据')
         return
       }
       this.dialogVisiblePatchChange = true

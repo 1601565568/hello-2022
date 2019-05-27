@@ -539,11 +539,8 @@ export default {
     onRedactFun () { // 同步门店
       let _this = this
       _this.$http.fetch(this.$api.guide.guide.shopSyn).then(resp => {
-        _this.$refs.table.$reload().then(resp => {
-          if (resp.success) {
-            _this.$notify.success('同步成功！')
-          }
-        })
+        _this.$notify.success(resp.msg)
+        _this.$refs.table.$reload()
       }).catch((resp) => {
         _this.$notify.error('同步失败：' + resp.msg)
       })

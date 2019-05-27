@@ -134,13 +134,13 @@
       </div>
     </el-dialog>
     <!-- 批量管理初始弹窗结束 -->
-    <el-dialog size="small" :title="批量管理"
+    <el-dialog size="small" title="批量管理"
                :visible.sync="dialogVisiblePatchChange"
                :modal-append-to-body="false"
                width='600px'
                @before-close="closeDialog()">
       <el-form :model="model" ref="form" label-width="90px" :rules="rules" placement="right">
-        <el-form-item label="移动到分类：" prop="wordGroupId" style="margin:25px 0" required>
+        <el-form-item label="移动到分类：" prop="wordGroupIds" style="margin:25px 0">
           <el-select  v-model="model.wordGroupId" filterable clearable placeholder="请选择配置项类型">
             <el-option v-for="wordGroup in selectwordGroupList" :label="wordGroup.name" :value="wordGroup.id" :key="wordGroup.id"></el-option>
           </el-select>

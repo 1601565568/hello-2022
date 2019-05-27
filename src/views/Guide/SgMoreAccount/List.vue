@@ -20,11 +20,6 @@
           :on-success="handleAvatarSuccess" :show-file-list="false" >
           <ns-button class="dialog-footer_button" type="primary">更换二维码</ns-button>
         </el-upload>
-        <!-- <el-upload class="avatar-uploader" :action="this.$api.core.sgUploadFile('test')"
-                    accept=".jpg,.jpeg,.png,.bmp,.gif" :show-file-list="false" list-type="picture-card"
-                    :on-remove="handleRemove" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
-        </el-upload>
-        <ns-button class="dialog-footer_button" type="primary" @click="onSaveImage">更换二维码</ns-button> -->
       </div>
     </el-dialog>
     <!-- 上传二维码弹窗结束 -->
