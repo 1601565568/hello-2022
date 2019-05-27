@@ -185,9 +185,6 @@ List.components = {
 export default List
 </script>
 <style>
-.el-dialog__body {
-  margin-top: 20px;
-}
 .topHid {
     visibility: hidden;
 }
