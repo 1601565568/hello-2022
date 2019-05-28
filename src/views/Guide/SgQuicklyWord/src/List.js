@@ -64,7 +64,9 @@ export default {
       dialogVisiblePatchChange: false,
       dialogVisibleSaveQuicklyWordGroup: false,
       dialogVisible: false,
+      offsetHeight: false,
       loadingTable: false,
+      height: 0,
       showOrder: false,
       tableList: [],
       wordGroupList: null,
@@ -97,9 +99,13 @@ export default {
       }
     }
   },
+  updated () {
+    this.$refs.elTree.offsetHeight > window.screen.availHeight ? this.offsetHeight = true : this.offsetHeight = false
+  },
   mounted: function () {
     this.findQuicklyWordGroupList()
     this.findAddName()
+    this.height = window.innerHeight - 170
     if (typeof this.$init === 'function') {
       this.$init(this, this.$generateParams$)
     } else {

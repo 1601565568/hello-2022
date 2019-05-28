@@ -2,7 +2,7 @@
   <div id='SgQuicklyWordPage'>
     <div id="box_left">
       <ns-button class="newClassification ml10" type="primary" @click="onSaveQuicklyWordGroupOpen">新增分类</ns-button>
-      <div class='ptb10 bg-white pl15' style='background-color:#efefef;'>
+      <div class='ptb10 bg-white pl15' >
         <span class="demonstration">分类</span>
         <el-popover
           placement="bottom"
@@ -13,20 +13,22 @@
           <i slot="reference" class="el-icon-question ml5 fz13" style='color:#999'></i>
         </el-popover>
       </div>
-      <el-tree :data="wordGroupList" default-expand-all @node-click="onClickNode" @node-drop="handleDrop" draggable :allow-drop="allowDrop"
-      :allow-drag="allowDrag"
-      node-key="id"
-      :current-node-key='null'
-      :highlight-current = 'true'
-      class='navTree'>
-      <div class="navTree-item flex flex-between" slot-scope="{ node, data }" >
-        <span>{{ data.name }}</span>
-        <span v-if='data.id'>
-          <i class="iconfont icon-shanchu1 " @click="deleteTheGroup(data)" style='font-size:18px'></i>
-          <i class="iconfont icon-bianji1 ml5" @click="onSaveQuicklyWordGroupOpen(data)"></i>
-        </span>
+      <div :class="offsetHeight?'elTrees':'elTree'" ref="elTree" :style="{ 'height' : height + 'px'}">
+        <el-tree :data="wordGroupList" default-expand-all @node-click="onClickNode" @node-drop="handleDrop" draggable :allow-drop="allowDrop"
+        :allow-drag="allowDrag"
+        node-key="id"
+        :current-node-key='null'
+        :highlight-current = 'true'
+        class='navTree'>
+        <div class="navTree-item flex flex-between" slot-scope="{ node, data }" >
+          <span class="dataName">{{ data.name }}</span>
+          <span v-if='data.id'>
+            <i class="iconfont icon-shanchu1 " @click="deleteTheGroup(data)" style='font-size:18px'></i>
+            <i class="iconfont icon-bianji1 ml5" @click="onSaveQuicklyWordGroupOpen(data)"></i>
+          </span>
+        </div>
+        </el-tree>
       </div>
-      </el-tree>
     </div>
     <div id="box_right">
       <ns-page-table>
@@ -185,6 +187,28 @@ List.components = {
 export default List
 </script>
 <style>
+.elTree{
+  overflow-y: auto;
+  overflow-x: hidden
+}
+.elTrees{
+  overflow-y: hidden;
+  overflow-x: hidden
+}
+.elTrees .navTree-item .dataName{
+  display: inline-block;
+  width: 143px;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap
+}
+.elTree .navTree-item .dataName{
+  display: inline-block;
+  width: 143px;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap
+}
 .el-dialog__body {
   margin-top: 20px;
 }

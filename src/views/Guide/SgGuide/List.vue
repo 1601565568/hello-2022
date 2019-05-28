@@ -84,7 +84,7 @@
             <el-form-grid size="xxmd">
               <el-form-item prop="work_id">
                 <div class="page_add_guide_workid" style='display:flex'>
-                  <el-input :disabled="disabledWorkPrefix"  v-model="model.sgGuide.work_prefix"/>
+                  <el-input :disabled="disabledWorkPrefix"  v-model="model.sgGuide.work_prefix" @change="workPrefix"/>
                   <el-input type="text" v-model="model.sgGuide.work_number" placeholder="请输入工号" :maxlength="10" clearable/>
                   <!-- @change="workIdChange" -->
                   <span style='color:transparent'>1</span>
