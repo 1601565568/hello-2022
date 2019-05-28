@@ -8,7 +8,6 @@
     :visible.sync="dialogVisible"
     width="1200px"
     :before-close="handleClose">
-
     <div class="comDialogBoxCon flex flex-between" style='align-items:flex-start'>
       <div class="comDialogBoxConOut" v-show='saveObj.articleType' style='flex:1'>
         <el-form :model="saveObj" :rules="rules" >
@@ -138,7 +137,7 @@ export default {
         initialFrameHeight: 300,
         // 初始容器宽度
         initialFrameWidth: '100%',
-        serverUrl: 'http://47.96.228.119:8089/core/ueditor/ueditorConfig'
+        serverUrl: 'http://127.0.0.1:8090/core/ueditor/ueditorConfig'
 
       },
       wechatPageTypeList: [{ name: '商品', id: 1 }, { name: '优惠券', id: 2 }, { name: '营销活动', id: 3 }, { name: '商品分类', id: 4 }, { name: '自定义页面', id: 5 }],
