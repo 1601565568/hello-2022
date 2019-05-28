@@ -71,15 +71,6 @@
           </el-form-grid>
         </el-form-item>
 
-        <el-form-item label="会员类型：">
-          <el-form-grid >
-            <el-select v-model="model.customerType"  placeholder="请选择会员类型" :multiple="false">
-              <el-option label="导购会员"  :value="0"></el-option>
-              <el-option label="门店会员"  :value="1"></el-option>
-            </el-select>
-          </el-form-grid>
-        </el-form-item>
-
       </el-form>
 
       <div class="template-table__more-btn">
