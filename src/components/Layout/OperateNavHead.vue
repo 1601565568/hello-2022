@@ -4,16 +4,17 @@
         <img src="../../assets/logo.png" alt="客道" />
       </router-link>
     <div class="nav-menu">
-      <div v-for='(item) in $store.state.operate.menus'
-            :index="item.name"
-            :key='item.path'
-            v-if='!item.hidden && item.name != "examples"'
-            class="nav-menu__item" :class="item.name === activeName ? 'is-selected-item' : ''">
-        <router-link :to="item.path" class="nav-menu__item--link">
-          <i :class="'iconfont icon-' + item.icon"></i>
-          <p class="link-name">{{item.title}}</p>
-        </router-link>
-      </div>
+      <template v-for='(item) in $store.state.operate.menus'>
+         <div :index="item.name"
+              :key='item.path'
+              v-if='!item.hidden && item.name != "examples"'
+              class="nav-menu__item" :class="item.name === activeName ? 'is-selected-item' : ''">
+          <router-link :to="item.path" class="nav-menu__item--link">
+            <i :class="'iconfont icon-' + item.icon"></i>
+            <p class="link-name">{{item.title}}</p>
+          </router-link>
+        </div>
+      </template>
     </div>
   </header>
 </template>
