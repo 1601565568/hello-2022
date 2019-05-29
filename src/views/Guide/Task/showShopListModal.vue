@@ -47,7 +47,7 @@
         </el-table-column>
         <el-table-column  width="84" label="状态">
           <template slot-scope="{row}">
-              <span class="text-error" :class="{'text-error':row.shopStatus<0}">{{row.shopStatus|shopStatus}}</span>
+              <span  :class="row.shopStatus==1?'text-green':'text-error'">{{row.shopStatus|shopStatus}}</span>
           </template>
         </el-table-column>
         <!-- <el-table-column prop="managerName" width="86" label="店长"></el-table-column> -->
@@ -146,3 +146,8 @@ export default {
   }
 }
 </script>
+<style scoped>
+.text-green{
+  color:#67c23a
+}
+</style>
