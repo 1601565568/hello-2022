@@ -98,6 +98,7 @@ import api from '@/config/http'
 import ElUpload from 'nui-v2/lib/upload'
 import articleLink from './components/articleLink'
 import VueUeditorWrap from 'vue-ueditor-wrap'
+import linkBtn from '../../../assets/link-btn.png'
 export default {
   components: {
     VueUeditorWrap,
@@ -276,7 +277,7 @@ export default {
         var btn = new window.UE.ui.Button({
           name: uiName,
           title: '小程序链接',
-          cssRules: 'background-position: -500px 0',
+          cssRules: `width:36px !important;height:39px !important; background-image: url('${linkBtn}') !important;background-size: cover;`,
           onclick: function () {
             that.selectArticleLink()
           }
@@ -573,5 +574,9 @@ export default {
 }
 .comDialogBoxConOut .el-input{
   margin:10px 0;
+}
+.edui-toolbar .edui-for-test-button{
+  display: block !important;
+  width:40px;
 }
 </style>
