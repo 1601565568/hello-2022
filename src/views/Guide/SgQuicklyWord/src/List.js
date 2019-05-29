@@ -166,28 +166,17 @@ export default {
       })
     },
     saveOrUpdateQuicklyWordGroup () {
-      // this.$refs.addOrEditForm.validate((valid) => {
-      //   if (valid) {
-      //     this.$http.fetch(this.$api.guide.saveOrUpdateQuicklyWordGroup, this.addOrEditModel).then(resp => {
-      //       if (resp.success) {
-      //         this.addOrEditModel.id ? this.$notify.success('编辑成功') : this.$notify.success('新增成功')
-      //         this.findQuicklyWordGroupList()
-      //         this.closeDialog()
-      //       }
-      //     }).catch(resp => {
-      //       this.addOrEditModel.id ? this.$notify.error(resp.msg || '编辑失败') : this.$notify.error(resp.msg || '新增失败')
-      //     })
-      //   }
-      // })
-      this.$http.fetch(this.$api.guide.saveOrUpdateQuicklyWordGroup, this.addOrEditModel).then(resp => {
-        if (resp.success) {
-          this.addOrEditModel.id ? this.$notify.success('编辑成功') : this.$notify.success('新增成功')
-          this.findQuicklyWordGroupList()
-          this.closeDialog()
-        }
-      }).catch(resp => {
-        this.addOrEditModel.id ? this.$notify.error(resp.msg || '编辑失败') : this.$notify.error(resp.msg || '新增失败')
-      })
+      if (!(this.addOrEditModel.name.length > 10)) {
+        this.$http.fetch(this.$api.guide.saveOrUpdateQuicklyWordGroup, this.addOrEditModel).then(resp => {
+          if (resp.success) {
+            this.addOrEditModel.id ? this.$notify.success('编辑成功') : this.$notify.success('新增成功')
+            this.findQuicklyWordGroupList()
+            this.closeDialog()
+          }
+        }).catch(resp => {
+          this.addOrEditModel.id ? this.$notify.error(resp.msg || '编辑失败') : this.$notify.error(resp.msg || '新增失败')
+        })
+      }
     },
     findAddName () {
       this.$http.fetch(this.$api.guide.findAddName, {}).then(resp => {
