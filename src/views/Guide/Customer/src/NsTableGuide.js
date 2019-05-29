@@ -47,7 +47,9 @@ export default {
       dataList: [],
       allGuideArr: { id: 0, pId: null, label: '全部导购' },
       shuJushuzu: {},
-      loading: false
+      loading: false,
+      offsetHeight: false,
+      height: 0
     }
   },
   watch: {
@@ -59,6 +61,7 @@ export default {
   mounted: function () {
     var vm = this
     vm.initShopList()
+    vm.height = window.innerHeight - 130
     if (typeof vm.$init === 'function') {
     } else {
       vm.loading = true
@@ -66,6 +69,9 @@ export default {
         vm.loading = vm._data._loading
       })
     }
+  },
+  updated () {
+    this.$refs.elTree.offsetHeight > window.screen.availHeight ? this.offsetHeight = true : this.offsetHeight = false
   },
   computed: {},
   methods: {
