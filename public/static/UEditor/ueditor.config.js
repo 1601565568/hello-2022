@@ -29,7 +29,7 @@
     UEDITOR_HOME_URL: URL,
 
     // 服务器统一请求接口路径
-    serverUrl: 'http://35.201.165.105:8000/controller.php',
+    serverUrl: 'http://test-sg.ecrpcloud.com/crmWebApi/core/ueditor/ueditorConfig',
 
     // 工具栏上的所有的功能按钮和下拉框，可以在new编辑器的实例时选择自己需要的重新定义
     toolbars: [[
@@ -408,7 +408,7 @@
       header: [],
       hr: [],
       i: ['class', 'style'],
-      img: ['src', 'alt', 'title', 'width', 'height', 'id', '_src', 'loadingclass', 'class', 'data-latex','href'],
+      img: ['src', 'alt', 'title', 'width', 'height', 'id', '_src', 'loadingclass', 'class', 'data-latex', 'href'],
       ins: ['datetime'],
       li: ['class', 'style'],
       mark: [],
