@@ -195,6 +195,9 @@ export default List
   overflow-y: hidden;
   overflow-x: hidden
 }
+.elTree::-webkit-scrollbar{
+  width: 3px;
+}
 .elTrees .navTree-item .dataName{
   display: inline-block;
   width: 143px;
@@ -208,9 +211,6 @@ export default List
   overflow:hidden;
   text-overflow:ellipsis;
   white-space:nowrap
-}
-.el-dialog__body {
-  margin-top: 20px;
 }
 .topHid {
     visibility: hidden;

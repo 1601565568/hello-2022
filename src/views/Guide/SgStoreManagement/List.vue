@@ -149,17 +149,18 @@ export default List
     font-size: 20px;
   }
   .el-icon-question:hover .publicnumberqrCode{
-    display: block
+    display: block;
   }
   .el-icon-question:hover .smallprogramqrCode{
-    display: block
+    display: block;
   }
   .el-col-8{
     position: relative;
   }
   .publicnumberqrCode{
     z-index: 99;
-    opacity: 0.5;
+    background-color: #fff;
+    /* opacity: 0.5; */
     position: absolute;
     left: 70px;
     bottom: -150px;
@@ -169,7 +170,8 @@ export default List
   }
   .smallprogramqrCode{
     z-index: 99;
-    opacity: 0.5;
+    background-color: #fff;
+    /* opacity: 0.5; */
     position: absolute;
     left: 70px;
     bottom: -150px;
