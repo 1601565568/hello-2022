@@ -37,11 +37,6 @@
                   </el-upload>
                 </li>
               </ul>
-          <!-- <el-upload class="avatar-uploader"
-            accept=".jpg,.jpeg,.png,.bmp,.gif" :show-file-list="false" list-type="picture-card"
-            >
-            <i class="el-icon-plus avatar-uploader-icon"></i>
-          </el-upload> -->
         </el-form-item>
         <el-form-item label="小程序链接：" prop = 'codeTarget'>
           <el-form-grid size="md">
@@ -68,7 +63,6 @@
           </template>
         </el-form-item>
         <el-form-item :label="saveObj.codeModule==2?'商品名称：':saveObj.codeModule==4?'活动名称：':''"  v-if="saveObj.codeModule &&codeTargetName!=''">
-              <!-- saveObj.codeTargetName&& -->
           <el-form-grid size="md"><el-input v-model="codeTargetName" :disabled="true"></el-input></el-form-grid>
         </el-form-item>
       </el-form>
@@ -79,7 +73,6 @@
     </span>
   </el-dialog>
   <SelectMarket ref="selectMarket" :callBack="selectMarketlBack"></SelectMarket>
-  <!-- <SelectCoupon ref="selectCoupon" :callBack="selectMarketlBack"></SelectCoupon> -->
   <SelectGoods ref="selectGoods" :callBack="selectMarketlBack"></SelectGoods>
 </div>
 </template>
@@ -171,8 +164,6 @@ export default {
         codeModule: null
       }
       this.dialogVisible = true
-      // this.loadListFun()
-      // this.getGoodsCategory()
     },
     handleSelectionChange (val) {
       this.multipleSelection = val
@@ -199,18 +190,6 @@ export default {
       let that = this
       this.loading = true
       await this.$http.fetch(this.$api.guide.material.findMallGoodsList, this.searchObj).then(res => {
-        // let newTime = new Date().getTime()
-        // res.result.data.map(item => {
-        //   let startTime = new Date(item.startTime).getTime()
-        //   let endTime = new Date(item.endTime).getTime()
-        //   if (newTime < startTime) {
-        //     item.statusStr = '未开始'
-        //   } else if (newTime > endTime) {
-        //     item.statusStr = '已结束'
-        //   } else {
-        //     item.statusStr = '进行中'
-        //   }
-        // })
         that.pagination.total = Number(res.result.recordsTotal)
         that.dataList = res.result.data
       }).catch(() => {
@@ -222,18 +201,6 @@ export default {
     async getGoodsCategory () {
       let that = this
       await this.$http.fetch(this.$api.guide.material.getGoodsCategory, {}).then(res => {
-        // let newTime = new Date().getTime()
-        // res.result.data.map(item => {
-        //   let startTime = new Date(item.startTime).getTime()
-        //   let endTime = new Date(item.endTime).getTime()
-        //   if (newTime < startTime) {
-        //     item.statusStr = '未开始'
-        //   } else if (newTime > endTime) {
-        //     item.statusStr = '已结束'
-        //   } else {
-        //     item.statusStr = '进行中'
-        //   }
-        // })
       }).catch(() => {
         that.$notify.error('查询失败：')
       })

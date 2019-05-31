@@ -33,7 +33,6 @@
             </el-form>
         </el-col>
       </el-row>
-
   <!-- 简单搜索end -->
   <!-- 高级搜索start -->
   <div class="template-table-search" v-if="searchType.advanced">
@@ -126,14 +125,12 @@
           </div>
         </template>
         </el-table-column>
-
         <el-table-column
           label="创建时间"
           prop="createTime"
           align="center" :width="200"
         >
         </el-table-column>
-
         <el-table-column
           label="发放情况"
           align="center" :width="250"
@@ -167,11 +164,9 @@
             <div v-else>
               已过期
             </div>
-
           </div>
         </template>
         </el-table-column>
-
         <el-table-column
           label="操作"
           width="250"

@@ -1,5 +1,4 @@
 import tableMixin from 'web-crm/src/mixins/table'
-
 export default {
   name: 'NsTableCouponDetail',
   mixins: [tableMixin],

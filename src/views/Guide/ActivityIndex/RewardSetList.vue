@@ -38,7 +38,6 @@
   </div>
    <!-- 筛选end -->
   <!-- table start -->
-
   <div class="mt10">
     <el-table
       ref="multipleTable"
@@ -94,19 +93,6 @@
         </div>
       </template>
       </el-table-column>
-      <!-- <el-table-column
-        label="分享奖励"
-      > -->
-      <!-- <template slot-scope="scope">
-        <div v-if="scope.row.shareStatus">
-          每{{scope.row.shareNum}}条UV奖励{{scope.row.shareReward}}元
-        </div>
-        <div v-else>
-          暂未设置
-        </div>
-      </template>
-      </el-table-column> -->
-
       <el-table-column
         label="操作"
         width="60"
@@ -128,7 +114,6 @@
           @size-change="handleSizeChange"
           @current-change="handleCurrentChange">
       </el-pagination>
-  <!-- table end -->
  <rewardSetAdd ref="addDialogDom" :callBack="loadListFun"></rewardSetAdd>
 </div>
 </template>
@@ -142,7 +127,6 @@ export default {
     return {
       statusOptions: [
         {
-          // 状态
           value: '1',
           label: '正常营业'
         },
@@ -167,12 +151,7 @@ export default {
       }
     }
   },
-  created: function () {
-    // 获取当前年份---默认加载当前年
-    // var myDate = new Date()
-    // var curYear = myDate.getFullYear()
-    // this.searchObj.searchMap.year = curYear
-    // this.searchObj.searchMap.type = 0// 0销售指标、1招募会员指标
+  created: function () { // 获取当前年份---默认加载当前年
     this.loadListFun(this.searchObj)
   },
   methods: {
@@ -226,7 +205,6 @@ export default {
       this.searchObj.searchMap.shopStatus = this.searchform.shopStatus
       this.loadListFun()
     },
-
     yearChange (e) {
       this.searchObj.searchMap.year = moment(e).format('YYYY')
     }

@@ -27,7 +27,6 @@
         </el-form>
       </template>
       <!-- 简单搜索-结束 -->
-
       <!-- 高级搜索 -->
       <!-- el-form 需添加  @keyup.enter.native="onSearch" 配置，实现回车搜索， onSearch 为搜索方法 -->
       <template slot="advancedSearch" v-if="_data._queryConfig.expand">
@@ -67,7 +66,6 @@
         </div>
       </template>
       <!-- 高级搜索-结束 -->
-
       <!-- 表格 -->
       <template slot="table">
         <el-table ref="table" :data="_data._table.data" class="template-table__main"
@@ -89,7 +87,6 @@
         </el-table>
       </template>
       <!-- 表格-结束 -->
-
       <!-- 分页 -->
       <template slot="pagination">
         <el-pagination v-if="_data._pagination.enable" class="template-table__pagination"
@@ -103,7 +100,6 @@
     </ns-page-table>
   </div>
 </template>
-
 <script>
 import index from './src/index'
 export default index

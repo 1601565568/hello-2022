@@ -105,10 +105,8 @@
     </el-dialog>
   </div>
 </template>
-
 <script>
 import NsDroptree from 'web-crm/src/components/NsDroptree'
-
 var tableMixin = {
   methods: {
     // 表格页数条数改变
@@ -441,90 +439,72 @@ export default {
   }
 }
 </script>
-
 <style scoped>
   @import "@/style/small/variables.pcss";
 .el-table th {
     line-height: 1;
   }
-
   .tmp-choose__result .title {
     line-height: 30px;
     background: #f3f4f4;
     padding: 0 8px;
     border-bottom: 1px solid var(--theme-base-border-color-primary);
   }
-
   .condition-left {
     width: 604px;
   }
-
   .condition-right {
     width: 346px;
     padding-left: 0 !important;
     padding-right: 0 !important;
   }
-
   >>> .el-table--border th:first-child .cell, >>> .el-table--border td:first-child .cell {
     padding-left: 12px;
   }
-
   >>> .el-scrollbar {
     margin-top: 0 !important;
   }
-
   >>> .tmp-toggles {
     margin-top: 0 !important;
   }
-
   >>> .el-scrollbar__bar.is-horizontal {
     display: none;
   }
-
   >>> .el-scrollbar__wrap {
     height: 347px;
   }
-
   >>> .el-loading-spinner .circular {
     height: 22px;
     width: 22px;
     position: relative;
     top: 5px;
   }
-
   >>> .el-table thead th {
     background-color: #F3F4F4;
   }
-
   .tmp-choose__goods {
     list-style: none;
     font-size: 12px;
     padding: var(--default-padding-base);
     background: var(--default-table-tr-hover);
-
   li {
     display: flex;
     flex-wrap: nowrap;
     padding: 0 3px;
-
   .delete-icon {
     padding: 3px 5px;
     position: relative;
     top: -3px;
-
   &
   :hover {
     color: var(--theme-color-warning);
   }
-
   }
   .g-name {
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
   }
-
   }
-
   }
 </style>

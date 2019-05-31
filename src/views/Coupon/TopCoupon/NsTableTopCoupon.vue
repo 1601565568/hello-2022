@@ -6,7 +6,6 @@
       </ns-table-operate-button>
     </template>
     <!-- 按钮-结束 -->
-
     <!-- 简单搜索 -->
     <!-- el-form 需添加 @submit.native.prevent 配置 -->
     <!-- el-inpu 需添加  @keyup.enter.native="$quickSearchAction$" 配置，实现回车搜索 -->
@@ -27,7 +26,6 @@
       </el-form>
     </template>
     <!-- 简单搜索-结束 -->
-
     <!-- 高级搜索 -->
     <!-- el-form 需添加  @keyup.enter.native="onSearch" 配置，实现回车搜索， onSearch 为搜索方法 -->
     <template slot="advancedSearch" v-if="_data._queryConfig.expand">
@@ -65,22 +63,19 @@
       </div>
     </template>
     <!-- 高级搜索-结束 -->
-
     <!-- 表格 -->
     <template slot="table">
       <!-- 表格配置 不能添加 border 配置 -->
       <!-- 表格配置 需添加 stripe （实现斑马线效果） -->
-
       <!-- 表格单元格宽度配置规范 -->
       <!-- 复选框/单选框 :width="45" -->
       <!-- 日期 年月日 :width="100"   年月日时分秒 :width="150" -->
       <!-- 手机号 :width="120" -->
       <!-- 操作栏 单个按钮 :width="80"  多个按钮 :width="120" -->
-
       <el-table ref="table" :data="_data._table.data" class="template-table__main"
-                stripe
-                resizable v-loading.lock="_data._table.loadingtable"
-                :element-loading-text="$t('prompt.loading')" @sort-change="$orderChange$">
+        stripe
+        resizable v-loading.lock="_data._table.loadingtable"
+        :element-loading-text="$t('prompt.loading')" @sort-change="$orderChange$">
         <el-table-column :show-overflow-tooltip="true" type="default" prop="login_account"
                          label="优惠券" dbcolumn="login_account" column="login_account" align="center"
                          :sortable="false" width="200">
@@ -151,7 +146,6 @@
             </el-switch>
           </template>
         </el-table-column>
-
         <el-table-column :show-overflow-tooltip="true" label="操作" align="center"
                          width="100">
           <template slot-scope="scope">
@@ -163,7 +157,6 @@
       </el-table>
     </template>
     <!-- 表格-结束 -->
-
     <!-- 分页 -->
     <template slot="pagination">
       <el-pagination v-if="_data._pagination.enable" class="template-table__pagination"
@@ -176,10 +169,8 @@
     <!-- 分页-结束 -->
   </ns-page-table>
 </template>
-
 <script>
 import NsTableTopCoupon from './src/NsTableTopCoupon'
-
 export default NsTableTopCoupon
 </script>
 <style scoped>
@@ -197,8 +188,7 @@ export default NsTableTopCoupon
     background: var(--theme-color-white);
     line-height: 18px;
   }
-  .coupon-cor:before,
-  .coupon-cor:after {
+  .coupon-cor:before, .coupon-cor:after {
     content: '';
     position: absolute;
     display:inline-block;
@@ -235,7 +225,6 @@ export default NsTableTopCoupon
   .coupon-content {
     display: table;
   }
-
   .coupon-price {
     display: table-cell;
     vertical-align: middle;
@@ -244,54 +233,42 @@ export default NsTableTopCoupon
     padding-right: 5px;
     color: var(--theme-color-danger);
   }
-
   .coupon-word {
     display: table-cell;
   }
-
   .coupon-word__rule {
     background: var(--theme-color-danger);
     color: var(--theme-color-white);
     padding: 1px 2px;
   }
-
   .coupon-word__tip {
     font-size: 14px;
     color: var(--theme-color-danger);
     font-weight: bold;
   }
-  /* 扩展配置 */
-  .cell .coupons {
-    /* margin: var(--theme-margin-small) 0;*/
-  }
   .is-gray-bg .coupon-cor:before,
   .is-gray-bg .coupon-cor:after{
     background: var(--theme-base-border-color-primary);
   }
-
   .el-table--enable-row-hover .el-table__body tr:hover>td .coupon-cor:before,
   .el-table--enable-row-hover .el-table__body tr:hover>td .coupon-cor:after{
     background-color: var(--theme-base-border-color-primary);
   }
   /* 已过期 */
-  .coupons.is-deadline {
-  .coupon-shade{
-    display: inline-block;
+  .coupons .is-deadline {
+    .coupon-shade {
+      display: inline-block;
+    }
+    .coupon-block,.coupon-cor:before,.coupon-cor:after{
+      border:1px solid var(--theme-base-border-color-primary);
+    }
+    .coupon-price,.coupon-word__tip{
+      color:#999;
+    }
+    .coupon-word__rule{
+      background-color: #ccc;
+    }
   }
-  .coupon-block,
-  .coupon-cor:before,
-  .coupon-cor:after{
-    border:1px solid var(--theme-base-border-color-primary);
-  }
-  .coupon-price,
-  .coupon-word__tip{
-    color:#999;
-  }
-  .coupon-word__rule{
-    background-color: #ccc;
-  }
-  }
-
   .coupon-shade {
     position: absolute;
     border: 3px solid var(--theme-color-danger);

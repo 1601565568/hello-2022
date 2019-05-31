@@ -75,11 +75,6 @@ export default {
       shopFindListShow: false,
       shopKuhuShow: false,
       result: null,
-      // pickerOptions: {
-      //   disabledDate (time) {
-      //     return time.getTime() > Date.now() - 8.64e7
-      //   }
-      // },
       _queryConfig: { expand: false }
     }
   },
@@ -110,7 +105,6 @@ export default {
     },
     async guideFindList (model) { // 导购列表查询
       let that = this
-      // let shopList = []
       let numbers = /^[1-9]+[0-9]*]*$/
       let obj = {
         length: 15,
@@ -140,9 +134,7 @@ export default {
           that.shopList = new Set(that.shopList)
           that.shopList = Array.from(that.shopList)
         })
-        .catch(resp => {
-          // this.$notify.error(resp.msg || '查询失败')
-        })
+        .catch(resp => {})
     },
     onKeyUp (e) {
       var key = window.event.keyCode
@@ -186,9 +178,7 @@ export default {
           that.shopList = Array.from(that.shopList)
         })
         .catch(resp => {
-          // this.$notify.error(resp.msg || '查询失败')
         })
-      // _this.guideFindList(page)
     },
     // 分页-大小改变
     shopSizeChange (pageSize) {
@@ -203,18 +193,6 @@ export default {
     guideChange (value) {
       this.multipleSelection = value
     },
-    // initShopList () {
-    //   var _this = this
-    //   _this.$http.fetch(_this.$api.guide.guide.customerGetGuideTree).then(resp => {
-    //     if (resp.success && resp.result !== null) {
-    //       resp.result.map(item => {
-    //         _this.shopFindList.push(...item)
-    //       })
-    //     }
-    //   }).catch((resp) => {
-    //     _this.$notify.error('查询失败：' + resp.msg)
-    //   })
-    // },
     // 更换导购弹窗\详情展示
     onRedactFun (val) {
       let _this = this
@@ -244,7 +222,6 @@ export default {
         })
 
         _this.$http.fetch(_this.$api.guide.guide.customerQueryValidPoint, {
-          // customerId: val.customerId
           nick: val.nick,
           nickType: val.nickType,
           customerFrom: val.customerFrom
@@ -263,26 +240,6 @@ export default {
         _this.shopFormVisible = true
       }
     },
-    // 查询客户列表
-    // findCustomerList () {
-    //   var _this = this
-    //   _this.$http.fetch(_this.$api.guide.guide.customerFindCustomerList, {
-    //     searchMap: {
-    //       'guideId': _this.guideId,
-    //       'shopId': _this.shopId,
-    //       'pageSize': _this.pagination.size,
-    //       'pageNo': _this.pagination.page
-    //     }
-    //   }).then(resp => {
-    //     if (resp.success && resp.result !== null) {
-    //       _this.tableDataCustomer = resp.result.data
-    //       _this.pagination.total = parseInt(resp.result.recordsTotal)
-    //       _this.chooseCustomerFocus()
-    //     }
-    //   }).catch((resp) => {
-    //     // _this.$notify.error('查询失败：' + resp.msg)
-    //   })
-    // },
     // 分页-页数改变
     customerPageChange (page) {
       var _this = this
@@ -316,7 +273,6 @@ export default {
           nick = Object.assign({}, obj)
           _this.customerIdList.push(nick)
         })
-        // _this.customerIdList = JSON.stringify(_this.customerIdList)
         this.$http.fetch(this.$api.guide.guide.updateCustomerGuide, {
           nickListJson: _this.customerIdList,
           newGuideId: Number(_this.value.id),

@@ -14,7 +14,6 @@
             </el-form-item>
           </el-form-grid>
         </el-form-item>
-
         <el-form-item label="店铺：" class = "el-inline-block" required>
           <el-form-grid size="xmd">
             <el-form-item prop = "shop_id" >
@@ -23,7 +22,6 @@
             </el-form-item>
           </el-form-grid>
         </el-form-item>
-
         <el-form-item label="生效时间：" class = "el-inline-block" required>
           <el-form-grid size="xmd">
             <el-form-item prop = "start_time" >
@@ -31,7 +29,6 @@
             </el-form-item>
           </el-form-grid>
         </el-form-item>
-
         <el-form-item label="失效时间：" class = "el-inline-block" required>
           <el-form-grid size="xmd">
             <el-form-item prop = "end_time" >
@@ -39,7 +36,6 @@
             </el-form-item>
           </el-form-grid>
         </el-form-item>
-
         <el-form-item label="面额：" class = "el-inline-block" required>
           <el-form-grid size="xmd">
             <el-form-item prop = "denominations" >
@@ -53,7 +49,6 @@
             </el-form-item>
           </el-form-grid>
         </el-form-item>
-
         <el-form-item label="满足条件：" class = "el-inline-block" required>
           <el-form-grid>
             <el-form-item >
@@ -79,7 +74,6 @@
             </el-form-item>
           </el-form-grid>
         </el-form-item>
-
         <el-form-item label="是否精灵支持：" class = "el-inline-block">
           <el-form-grid size="xmd">
             <el-form-item prop = "coupon_jingling_power" >
@@ -91,7 +85,6 @@
             </el-form-item>
           </el-form-grid>
         </el-form-item>
-
         <el-form-item label="店铺授权：" class = "el-inline-block">
           <el-form-grid>
             <el-form-item prop = "role_id" >
@@ -124,7 +117,6 @@
     </el-dialog>
   </div>
 </template>
-
 <script>
 import index from './src/index'
 import NsTableTopCoupon from './NsTableTopCoupon'

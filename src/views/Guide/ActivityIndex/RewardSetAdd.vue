@@ -54,24 +54,6 @@
                            v-model.number="saveObj.memberReward"></el-input-number>
         </el-form-item><span >元</span>
       </div>
-
-      <!-- <div class="addTitBox">
-        <span class="addTitText">分享奖励</span>
-        <el-form-item>
-          <el-switch  :active-value='1' :inactive-value='0' v-model="saveObj.shareStatus"></el-switch>
-        </el-form-item>
-      </div>
-      <div class="addItemCon">
-       分享奖励：分享链接每
-       <el-form-item  prop="age">
-          <el-input type="number" style="width:60px" v-model.number="saveObj.shareNum" auto-complete="off"></el-input>
-        </el-form-item>个,
-       奖励
-        <el-form-item  prop="age">
-          <el-input type="number" style="width:60px" v-model.number="saveObj.shareReward" auto-complete="off"></el-input>
-        </el-form-item>元;
-      </div> -->
-
     </el-form>
     </div>
     <span slot="footer" class="dialog-footer">

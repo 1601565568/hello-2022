@@ -3,24 +3,6 @@
     <ns-table-guide ref="table1" :url=$api.guide.guide.customerFindCustomerList @add="onRedactFun"
       @shopEdit="shopEdit" @onRedactFun="onRedactFun" @handleSelectionChange="handleSelectionChange">
     </ns-table-guide>
-    <!--  自定义客户转移弹窗开始  -->
-    <!-- <el-dialog :title="title" width="560px" height="300px" :visible.sync="shopFindListShow" @keyup.enter.native="onKeyUp" @keyup.esc.native="onKeyUp">
-      <div class="guideBox" style="overflow-x:hidden;overflow-y:auto;text-align:center">
-        <el-select v-model="value" placeholder="请选择要更换的导购">
-          <el-option
-            v-for="(item,index) in shopFindList"
-            :key="(item.id+'-'+index)"
-            :label="item.label"
-            :value="item.id">
-          </el-option>
-        </el-select>
-      </div>
-      <div slot="footer" class="dialog-footer">
-        <ns-button @click="closeDialog">取消</ns-button>
-        <ns-button type="primary" @click="onSave">确定</ns-button>
-      </div>
-    </el-dialog> -->
-    <!--  自定义客户转移弹窗结束  -->
     <el-dialog :title="title" :visible.sync="shopFindListShow" width="800px" >
       <!--  搜索开始  -->
       <div class="search">
@@ -97,7 +79,6 @@
       <div class="kehuBox-main">
         <div class="kehuBox-main-top">
           <p>
-            <!-- item.image||require('../../../assets/default-user.png') -->
             <img :src="items.image ||require('../../../assets/default-user.png')" class="man-img" v-if="items.image !== null">
             <span v-if="items.image === null" class="img-show"></span>
             <span class="man-name">{{items.gradeName || items.customerName}}</span>
@@ -117,10 +98,6 @@
             </el-row>
             <el-row>
               <el-col :span='24'>
-                <!-- <span>
-                  地区：{{items.province === null? '-/':items.province+'/'+items.city === null?'-/':items.city+'/'+items.district === null?'-':items.district}}
-                  地区：{{(items.province === null&&items.city === null&&items.district === null)?'-/-/-':items.province+' / '+items.city+' / '+(items.district===null?'-':items.district)}}
-                </span> -->
                 地区：
                 <span v-if='items.province !== null && items.province !== ""'>
                   {{items.province}}/
@@ -151,10 +128,7 @@
             </el-row>
             <el-row>
               <el-col :span='8'><span>积分：{{result|| '-'}}</span></el-col>
-              <!-- <el-col :span='8'><span>优惠券：{{items.point}}</span></el-col> -->
             </el-row>
-            <!-- <p> <span>性别：{{items.sex}}</span><span>手机号：{{items.mobile}}</span><span>地址：{{items.address}}</span></p>
-            <p> <span>积分：{{items.point}}</span> <span>{{items.point}}</span></p> -->
           </div>
           <div>
             <p class="p-title">会员印象：</p>
@@ -168,10 +142,8 @@
       </div>
     </div>
     </el-dialog>
-
   </div>
 </template>
-
 <script>
 import CustomerManage from './src/CustomerManage'
 import NsTableGuide from './NsTableGuide'

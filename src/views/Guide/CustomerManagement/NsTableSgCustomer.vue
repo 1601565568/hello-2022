@@ -183,12 +183,6 @@ export default {
   methods: {
     selChange (e) {
     },
-    // linkChange (url) {
-    //   console.log('url:', url)
-    //   if (url.indexOf('http') < 0 || url.indexOf('https') < 0) {
-    //     this.$notify.error('路径必须带http或者是https格式！')
-    //   }
-    // },
     showToggle (obj, groudArr) {
       this.groudList = groudArr
       // 数据重置
@@ -278,27 +272,6 @@ export default {
         return false
       }
     },
-    // uploadFile: function(file) {
-    //   var _this = this;
-    //   let param = new FormData();
-    //   param.append("file", file.file);
-    //   _this.$http
-    //     .fetch(this.$api.core.sgUploadFile("test"), param)
-    //     .then(resp => {
-    //       if (this.saveObj.m_type === 0) {
-    //         // 链接就先置空
-    //         this.saveObj.imageList = [];
-    //       }
-    //       this.saveObj.imgUrl = this.imageRoot + resp.result.fileKey;
-    //       this.saveObj.imageList.push(this.imageRoot + resp.result.fileKey);
-    //       console.log(this.saveObj.imgUrl);
-    //       //   _this.model.sgMaterial.saveObj.imageList =
-    //       //     _this.imageRoot + resp.result.fileKey
-    //     })
-    //     .catch(resp => {
-    //       this.$notify.error("上传图片失败" + resp.result);
-    //     });
-    // },
     handleRemove (file, fileList) {
     },
     handlePictureCardPreview (file) {

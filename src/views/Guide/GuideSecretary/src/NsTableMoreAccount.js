@@ -114,7 +114,6 @@ export default {
       }
     }
   },
-
   mounted: function () {
     if (typeof this.$init === 'function') {
     } else {

@@ -1,6 +1,5 @@
 <template>
   <ns-page-table @edit="$emit('edit')" @add="$emit('add')">
-
     <!-- 简单搜索 -->
     <template slot="searchSearch">
       <el-form :model="quickSearchModel" :inline="true" class="pull-right" @submit.native.prevent>
@@ -70,12 +69,11 @@
     <!-- 表格布局-->
     <template slot="table">
       <el-table ref="table" :data="_data._table.data" class="template-table__main" stripe resizable
-                v-loading.lock="_data._table.loadingtable"
-                 :element-loading-text="$t('prompt.loading')"
-                @sort-change="$orderChange$">
+        v-loading.lock="_data._table.loadingtable"
+        :element-loading-text="$t('prompt.loading')"
+        @sort-change="$orderChange$">
         <el-table-column prop="id" label="ID" align="center"></el-table-column>
         <el-table-column prop="store_coupon_value" label="面额" align="center">
-
         </el-table-column>
         <el-table-column label="优惠券说明" align="left">
           <template slot-scope="{row}">
@@ -107,14 +105,13 @@
         <el-table-column label="状态" align="center" width="80">
           <template slot-scope="{row}">
             <el-switch :value="row.store_coupon_status" :active-value="1" :inactive-value="0"
-                         :before-change="(call, currVal)=>{onStatusChange(call,currVal,row)}"></el-switch>
+              :before-change="(call, currVal)=>{onStatusChange(call,currVal,row)}"></el-switch>
           </template>
         </el-table-column>
         <el-table-column :show-overflow-tooltip="true" label="操作" align="center" width="120">
           <template slot-scope="scope">
             <ns-table-column-operate-button :buttons="_data._table.operate_buttons"
-                                            :prop="scope"></ns-table-column-operate-button>
-
+              :prop="scope"></ns-table-column-operate-button>
           </template>
         </el-table-column>
       </el-table>
@@ -129,7 +126,6 @@
                    @size-change="$sizeChange$"
                    @current-change="$pageChange$">
     </el-pagination>
-
   </ns-page-table>
 </template>
 

@@ -32,7 +32,6 @@
               </el-form-grid>
             </el-form-item>
           </div>
-
           <el-form-item label="发行量：" required>
             <el-radio-group v-model="model.issueAmountType">
               <el-radio :label="0">不限</el-radio>
@@ -46,7 +45,6 @@
               </el-radio>
             </el-radio-group>
           </el-form-item>
-
           <el-form-item label="有效时间：" required>
             <el-form-grid>
               <el-form-item>
@@ -92,7 +90,6 @@
               </el-form-item>
             </el-form-grid>
           </el-form-item>
-
           <el-form-item label="使用条件：">
             <el-form-grid size="xmd">
               <el-radio-group v-model="model.useConditionType">
@@ -152,7 +149,6 @@
               </el-radio-group>
             </el-form-grid>
           </el-form-item>
-
           <el-form-item label="筛选商品：" v-show="model.storeCouponType === 1 || model.storeCouponType === 2">
             <el-form-grid>
               <el-form-item>
@@ -180,7 +176,6 @@
               </div>
             </el-form-grid>
           </el-form-item>
-
           <el-form-item label="指定门店：">
             <el-form-grid>
               <el-form-item>
@@ -197,7 +192,6 @@
               </el-form-item>
             </el-form-grid>
           </el-form-item>
-
           <el-form-item label="单数限制：">
             <el-radio-group v-model="model.tradeCountValidType">
               <el-radio :label="0">不限</el-radio>
@@ -212,7 +206,6 @@
               </el-radio>
             </el-radio-group>
           </el-form-item>
-
           <el-form-item label="可用时段：">
             <el-radio-group v-model="model.validTimeType">
               <el-radio :label="0">全部时段</el-radio>
@@ -226,7 +219,6 @@
               </el-form-item>
             </el-form-grid>
           </el-form-item>
-
           <el-form-item label="不可用日期：">
             <el-radio-group v-model="model.invalidDateType">
               <el-radio :label="0">不限制</el-radio>
@@ -238,7 +230,6 @@
               </el-form-item>
             </el-form-grid>
           </el-form-item>
-
           <el-form-item label="领券限制：">
             <el-form-grid size="xmd">
               <el-form-item prop="maxIssueCount">
@@ -246,7 +237,6 @@
               </el-form-item>
             </el-form-grid>
           </el-form-item>
-
           <el-form-item label="使用说明：">
             <el-form-grid size="xlg">
               <el-form-item prop="remark">

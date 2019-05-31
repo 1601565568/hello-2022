@@ -197,7 +197,7 @@
       </el-pagination>
   <!-- table end -->
 
-  <!--        奖励弹窗开始        -->
+  <!--奖励弹窗开始-->
   <el-dialog :title="title" :visible.sync="showRecruitDialogVisible" width="800px" :before-close="onCancleRecruitDialog" :vetically=true>
     <!-- 高级搜索 -->
     <!-- el-form 需添加  @keyup.enter.native="onSearch" 配置，实现回车搜索， onSearch 为搜索方法 -->
@@ -215,7 +215,6 @@
       </el-form-item>
     </el-form>
     <!-- 高级搜索-结束 -->
-
     <div style="overflow-x:hidden;overflow-y:auto;">
       <el-table :data="detailData">
         <el-table-column prop="name" label="会员" align="center" width="180"></el-table-column>
@@ -239,9 +238,9 @@
       <ns-button @click="onCancleRecruitDialog">关闭</ns-button>
     </div>
   </el-dialog>
-  <!--        奖励弹窗结束        -->
+  <!--奖励弹窗结束-->
 
-  <!--        提成弹窗开始        -->
+  <!--提成弹窗开始-->
   <el-dialog :title="title" :visible.sync="showSellDialogVisible" width="800px" :before-close="onCancleSellDialog" :vetically=true>
     <!-- 高级搜索 -->
     <!-- el-form 需添加  @keyup.enter.native="onSearch" 配置，实现回车搜索， onSearch 为搜索方法 -->
@@ -265,7 +264,6 @@
       </el-form-item>
     </el-form>
     <!-- 高级搜索-结束 -->
-
     <div style="overflow-x:hidden;overflow-y:auto;">
       <el-table :data="detailData">
         <el-table-column prop="name" label="名称" align="center" width="100"></el-table-column>
@@ -290,8 +288,7 @@
       <ns-button @click="onCancleSellDialog">关闭</ns-button>
     </div>
   </el-dialog>
-  <!--        提成弹窗结束        -->
-
+  <!--提成弹窗结束-->
 </div>
 </template>
 <script>
@@ -311,7 +308,6 @@ export default {
       selectedArr: [],
       typeOptions: [
         {
-          // 状态
           value: '2',
           label: '按日查询'
         },
@@ -407,8 +403,7 @@ export default {
       this.$refs[formName].resetFields()
       this.submitForm()
     },
-
-    // 明细-------------------------------------------------------------------------------------------------  //
+    // 明细//
     formSearch () {
       this.findDetailData(this.guideId)
     },
@@ -512,7 +507,6 @@ export default {
       _this.shopId = null
       _this.showSellDialogVisible = false
     }
-
   }
 }
 </script>

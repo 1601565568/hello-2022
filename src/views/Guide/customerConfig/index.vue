@@ -8,7 +8,6 @@
     </ns-page-table>
     <el-scrollbar ref="integralRuleHeight" outsider>
       <el-form label-width="150px" ref="form" style="height: 800px">
-
         <!-- 会员招募码配置开始 -->
         <div class="form-grid">
           <div class="form-grid__title" style="margin-top: 10px;">| 会员招募码配置</div>
@@ -24,7 +23,6 @@
                 会员注册开卡成功后，同步到会员列表，导购可在企业微信上与会员互动进行关怀和营销推广。
               </el-form-grid>
             </el-form-item>
-
             <el-form-item>
               <el-form-grid>
                 <el-radio v-model="model.recruit_type" :label="1" :disabled="status===0" size="xxs">微信公众号 </el-radio>

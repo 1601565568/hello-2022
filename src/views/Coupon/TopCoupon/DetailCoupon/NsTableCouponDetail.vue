@@ -39,28 +39,25 @@
       </div>
     </template>
     <!-- 高级搜索-结束 -->
-
     <!-- 表格 -->
     <template slot="table">
       <!-- 表格配置 不能添加 border 配置 -->
       <!-- 表格配置 需添加 stripe （实现斑马线效果） -->
-
       <!-- 表格单元格宽度配置规范 -->
       <!-- 复选框/单选框 :width="45" -->
       <!-- 日期 年月日 :width="100"   年月日时分秒 :width="150" -->
       <!-- 手机号 :width="120" -->
       <!-- 操作栏 单个按钮 :width="80"  多个按钮 :width="120" -->
-
       <el-table ref="table" :data="_data._table.data" class="template-table__main"
-                stripe
-                resizable v-loading.lock="_data._table.loadingtable"
-                :element-loading-text="$t('prompt.loading')" @sort-change="$orderChange$">
+        stripe
+        resizable v-loading.lock="_data._table.loadingtable"
+        :element-loading-text="$t('prompt.loading')" @sort-change="$orderChange$">
         <el-table-column :show-overflow-tooltip="true" type="default" prop="outNick"
-                         label="淘宝昵称" dbcolumn="outNick" column="outNick" align="left"
-                         :sortable="false">
+          label="淘宝昵称" dbcolumn="outNick" column="outNick" align="left"
+          :sortable="false">
         </el-table-column>
         <el-table-column :show-overflow-tooltip="true" type="default" prop="coupon_state"
-                         label="使用情况"  dbcolumn="coupon_state" column="coupon_state" align="center" :sortable="false">
+          label="使用情况"  dbcolumn="coupon_state" column="coupon_state" align="center" :sortable="false">
           <template slot-scope="scope">
             <template v-if="scope.row.coupon_state == 'unused'">未使用</template>
             <template v-else-if="scope.row.coupon_state == 'using'">使用中</template>
@@ -68,14 +65,14 @@
           </template>
         </el-table-column>
         <el-table-column :show-overflow-tooltip="true" type="default" prop="send_time"
-                         label="发送时间" dbcolumn="send_time" column="send_time" align="center"
-                         :sortable="false">
+          label="发送时间" dbcolumn="send_time" column="send_time" align="center"
+          :sortable="false">
           <template slot-scope="scope">
            {{scope.row.send_time == null? '-': scope.row.send_time}}
           </template>
         </el-table-column>
         <el-table-column :show-overflow-tooltip="true" type="default" label="发放结果"
-                         align="center" :sortable="false" width="100">
+          align="center" :sortable="false" width="100">
           <template slot-scope="scope">
             <template v-if="scope.row.send_status == 0">未发送</template>
             <template v-else-if="scope.row.send_status == 1">发送成功</template>
@@ -87,14 +84,13 @@
       </el-table>
     </template>
     <!-- 表格-结束 -->
-
     <!-- 分页 -->
     <template slot="pagination">
       <el-pagination v-if="_data._pagination.enable" class="template-table__pagination"
-                     :page-sizes="_data._pagination.sizeOpts" :total="_data._pagination.total"
-                     :current-page="_data._pagination.page" :page-size="_data._pagination.size"
-                     layout="total, sizes, prev, pager, next, jumper" @size-change="$sizeChange$"
-                     @current-change="$pageChange$">
+        :page-sizes="_data._pagination.sizeOpts" :total="_data._pagination.total"
+        :current-page="_data._pagination.page" :page-size="_data._pagination.size"
+        layout="total, sizes, prev, pager, next, jumper" @size-change="$sizeChange$"
+        @current-change="$pageChange$">
       </el-pagination>
     </template>
     <!-- 分页-结束 -->

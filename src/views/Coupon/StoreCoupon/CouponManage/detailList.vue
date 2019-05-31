@@ -25,7 +25,6 @@
             </el-form>
         </el-col>
       </el-row>
-
     <!-- 简单搜索end -->
     <!-- 高级搜索start -->
   <div class="template-table-search" v-if="searchType.advanced">
@@ -96,7 +95,6 @@
           <couponItem :itemObj="scope.row"></couponItem>
         </template>
       </el-table-column>
-
       <el-table-column
         label="优惠券名称"
       >
@@ -121,7 +119,6 @@
           {{scope.row.endTime}}
       </template>
       </el-table-column>
-
       <el-table-column
         label="发放客户"
         width="120"
@@ -178,7 +175,6 @@
           @current-change="handleCurrentChange">
       </el-pagination>
   <!-- table end -->
-
 </div>
 </template>
 <script>
@@ -254,7 +250,6 @@ export default {
         }
       ],
       selectedArr: [],
-
       searchform: {
         time: [],
         name: ''

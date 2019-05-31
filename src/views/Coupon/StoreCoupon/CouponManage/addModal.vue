@@ -156,13 +156,10 @@
               <el-form-item v-show="saveObj.storeCouponType === 3">
                 <el-radio :label="4">
                   <el-form-grid>买指定商品可用
-
                   </el-form-grid>
                 </el-radio>
-
                 <el-form-item v-show="saveObj.storeCouponType === 3">
                   <ns-goods-select v-model="saveObj.goods"></ns-goods-select>
-
                 </el-form-item>
               </el-form-item>
             </el-radio-group>
@@ -193,7 +190,6 @@
               <ns-goods-select v-model="saveObj.goods"></ns-goods-select>
             </el-form-item>
           </el-form-item>
-
           <el-form-item label="指定门店：">
             <el-form-grid>
               <el-form-item>
@@ -215,7 +211,6 @@
               <i v-else class="el-icon-info text-tips">不选则默认全部店铺</i>
             </el-form-item>
           </el-form-item>
-
           <!-- 使用范围end -->
           <el-form-item label="单数限制：">
             <el-radio-group v-model="saveObj.tradeCountValidType">
@@ -278,13 +273,8 @@
           <el-form-item label="">
             <ns-button type="primary" @click="saveFun('addForm')">提交保存</ns-button>
           </el-form-item>
-
         </el-form>
       </div>
-      <!-- <span slot="footer" class="dialog-footer">
-        <ns-button @click="handleClose">取 消</ns-button>
-        <ns-button type="primary" :loading="loading" @click="saveFun">确 定</ns-button>
-      </span> -->
     </el-dialog>
   </div>
 </template>
@@ -292,7 +282,6 @@
 import moment from 'moment'
 import NsShopSelect from 'web-crm/src/components/NsShopSelect'
 import NsGoodsSelect from 'web-crm/src/components/NsGoodsSelect'
-
 export default {
   props: {
     callBack: Function
@@ -521,9 +510,6 @@ export default {
           return false
         }
       })
-
-      // 回调刷新列表
-      // this.$props.callBack()
     },
     async doSaveFun () {
       let that = this
@@ -567,7 +553,6 @@ export default {
       await
       this.$http.fetch(this.$api.coupon.storeCoupon.saveOrUpdateCoupon, this.saveObj).then(() => {
         this.dialogVisible = false
-        // this.$refs.addForm.resetFields()
         this.$props.callBack()
       }).catch(resp => {
         that.$notify.error(resp.msg)
@@ -589,21 +574,17 @@ export default {
   .fl {
     float: left;
   }
-
   .fr {
     float: right;
   }
-
   .viewBoxTit {
     height: 42px;
     border-bottom: 1px solid #ccc;
   }
-
   .viewBoxTit span.fl {
     font-size: 18px;
     line-height: 42px;
   }
-
   .addTit {
     font-size: 16px;
     height: 32px;
@@ -611,12 +592,10 @@ export default {
     border-bottom: 1px solid #ccc;
     text-indent: 10px;
   }
-
   .selectBox {
     padding: 15px 0;
     width: 360px;
   }
-
   .selectBox dt {
     font-size: 14px;
     font-weight: 700;
@@ -624,13 +603,11 @@ export default {
     height: 32px;
     line-height: 32px;
   }
-
   .selectBox dd {
     line-height: 24px;
     height: 24px;
     border-bottom: 1px dashed #ccc;
   }
-
   .comInput {
     width: 220px;
   }

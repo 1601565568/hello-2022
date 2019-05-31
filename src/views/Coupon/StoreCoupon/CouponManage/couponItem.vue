@@ -7,26 +7,15 @@
   </div>
 </template>
 <script>
-// import NsGoodsSelect from 'web-crm/src/components/NsGoodsSelect'
-// import NsShopSelect from 'web-crm/src/components/NsShopSelect'
-// index.components = {
-//   NsGoodsSelect,
-//   NsShopSelect
-//
 export default {
   props: {
     itemObj: Object
   },
   data () {
-    return {
-
-    }
+    return {}
   },
-  created: function () {
-  },
-  methods: {
-
-  }
+  created: function () {},
+  methods: {}
 }
 </script>
 <style scoped>

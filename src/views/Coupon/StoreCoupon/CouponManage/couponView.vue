@@ -4,7 +4,6 @@
   <div>
     <el-dialog
       title="查看详情"
-
       :visible.sync="dialogVisible"
       :response-limit = false
       width="1000px"
@@ -51,7 +50,6 @@
                             </span>
                         </span>
                     </td>
-
                     <td style="width:50%">
 
                          <span class="w80">发行量:</span>
@@ -98,7 +96,6 @@
 
             </tbody>
         </table>
-
         <div class="console-sub-title clearfix">
             <div class="pull-left">
                 <h5>
@@ -178,7 +175,6 @@
             </tbody>
         </table>
       </div>
-
     </el-dialog>
   </div>
 </template>
@@ -198,13 +194,9 @@ export default {
       giftArr: [], // 兑换商品
       goodsArr: [], // 指定商品
       dialogVisible: false
-
     }
   },
-  created: function () {
-    // this.searchObj.searchMap.id = 81
-    // this.loadListFun()
-  },
+  created: function () {},
   methods: {
     onAreaChange (e) {
     },
@@ -264,7 +256,6 @@ export default {
     color: #666;
     font-size: 14px;
     font-weight: normal;
-
 }
 .table {
     width: 100%;

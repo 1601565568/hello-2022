@@ -31,7 +31,6 @@
     </div>
     <div class='line2' style='-webkit-box-orient: vertical;' v-if="itemObj.m_type === 0">{{itemObj.content.length>77?itemObj.content.substr(0,70)+'…':itemObj.content.substr(0,70)}}</div>
     <a :href="itemObj.url" target="_blank" class="shareBox" v-if="itemObj.m_type === 0">
-      <!--<img @click="showImg(0, itemObj.m_type)" v-show="itemObj.imageList[0]" :src="itemObj.imageList[0]" alt="">-->
       <img :src="itemObj.imageList[0]" alt="">
       <div class="tit">{{itemObj.title.length>77?itemObj.title.substr(0,70)+'…':itemObj.title.substr(0,70)}}</div>
     </a>
@@ -173,18 +172,13 @@ export default {
       height: 50px;float: left;
       margin-right: 5px;
       cursor: pointer;
-      /* &:hover {
-        opacity: 0.8;
-      } */
     }
     .tit{
       padding-top: 3px;
       display: -webkit-box;
       overflow: hidden;
       -webkit-line-clamp: 2;
-      /*! autoprefixer: off */
       -webkit-box-orient: vertical;
-      /* autoprefixer: on */
       color: #333;
       line-height: 1.9;
     }
@@ -194,9 +188,7 @@ export default {
       display: -webkit-box;
       overflow: hidden;
       -webkit-line-clamp: 2;
-      /*! autoprefixer: off */
       -webkit-box-orient: vertical;
-      /* autoprefixer: on */
       max-width: 500px;
     }
     .imgList {

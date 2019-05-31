@@ -1,7 +1,6 @@
 import tableMixin from 'web-crm/src/mixins/table'
 import apiRequestConfirm from 'web-crm/src/utils/apiRequestConfirm'
 import moment from 'moment'
-
 export default {
   name: 'NsTableTopCoupon',
   mixins: [tableMixin],
@@ -19,15 +18,6 @@ export default {
       total: 0
     }
     var tableButtons = [
-      // {
-      //  'func': function (obj) {
-      //    this.$emit('update-coupon', obj.row)
-      //  },
-      //  'icon': '$.noop',
-      //  'name': '\u4fee\u6539',
-      //  'auth': ``,
-      //  'visible': ``
-      // },
       {
         'func': function (obj) {
           let that = this
@@ -48,7 +38,6 @@ export default {
         'visible': ``
       }
     ]
-
     var operateButtons = [
       {
         'func': function () {
@@ -60,7 +49,6 @@ export default {
         'visible': ``
       }
     ]
-
     var quickInput = [{
       'template': '',
       'inline': false,
@@ -81,7 +69,6 @@ export default {
       },
       {})
     var that = this
-
     quickInput.map(item => {
       Object.defineProperty(quickSearchModel, item.name, {
         get: function () {
@@ -98,7 +85,6 @@ export default {
         enumerable: true
       })
     })
-
     return {
       model: model,
       quickSearchModel: quickSearchModel,
@@ -117,7 +103,6 @@ export default {
       }
     }
   },
-
   mounted: function () {
     if (typeof this.$init === 'function') {
       this.$init(this, this.$generateParams$)
@@ -150,7 +135,6 @@ export default {
         return false
       }
     },
-    onSearch () {
-    }
+    onSearch () {}
   }
 }

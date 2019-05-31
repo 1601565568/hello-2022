@@ -4,7 +4,6 @@
     </ns-table-guide>
   </div>
 </template>
-
 <script>
 import List from './src/List'
 import NsTableGuide from './NsTableGuide'

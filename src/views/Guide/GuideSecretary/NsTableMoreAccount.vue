@@ -5,7 +5,6 @@
       <ns-table-operate-button :buttons="_data._table.table_buttons"></ns-table-operate-button>
     </template>
     <!-- 按钮-结束 -->
-
     <!-- 简单搜索 -->
     <!-- el-form 需添加 @submit.native.prevent 配置 -->
     <!-- el-inpu 需添加  @keyup.enter.native="$quickSearchAction$" 配置，实现回车搜索 -->
@@ -27,7 +26,6 @@
       </el-form>
     </template>
     <!-- 简单搜索-结束 -->
-
     <!-- 高级搜索 -->
     <!-- el-form 需添加  @keyup.enter.native="onSearch" 配置，实现回车搜索， onSearch 为搜索方法 -->
     <!-- el-form 需添加  surround-btn 类名 配置环绕按钮效果 -->
@@ -126,7 +124,6 @@
         <el-table-column prop="phone" label="操作" align="left" width="140">
             <template slot-scope="scope">
                 <div>
-                    <!-- <ns-button style="color:#0091FA" @click="onBindingFun(scope.row)" type="text">绑定</ns-button> -->
                     <ns-button style="color:#0091FA" @click="onRemoveFun(scope.row)" type="text">移除</ns-button>
                 </div>
             </template>
@@ -159,7 +156,6 @@ moreAccount.components = {
   ElUpload,
   ElSlider
 }
-
 export default moreAccount
 </script>
 <style>

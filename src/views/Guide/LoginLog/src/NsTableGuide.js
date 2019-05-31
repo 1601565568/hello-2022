@@ -1,5 +1,4 @@
 import tableMixin from 'web-crm/src/mixins/table'
-
 export default {
   name: 'NsTableGuide',
   mixins: [tableMixin],
@@ -87,7 +86,6 @@ export default {
       }
     }
   },
-
   mounted: function () {
     var vm = this
     vm.initShopList()

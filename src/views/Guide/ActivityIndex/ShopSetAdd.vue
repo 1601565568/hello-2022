@@ -152,7 +152,6 @@ export default {
     },
     checkNumber (value, month, regin, msg) {
       if (!regin.test(value)) {
-        // this.$notify.info(msg)
         this.shopList[0]['quota' + month] = 0
       }
     },

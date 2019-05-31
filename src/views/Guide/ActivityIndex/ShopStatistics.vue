@@ -128,7 +128,6 @@
   </div>
   <!-- 筛选end -->
   <!-- table start -->
-
   <div class="mt10">
     <el-table
       ref="multipleTable"
@@ -253,7 +252,6 @@
           </el-form-item>
         </el-form>
         <!-- 高级搜索-结束 -->
-
         <div style="overflow-x:hidden;overflow-y:auto;">
           <el-table :data="detailData">
             <el-table-column prop="guideName" label="导购" align="center" width="150"></el-table-column>
@@ -278,9 +276,9 @@
           <ns-button @click="onCancleRecruitDialog">关闭</ns-button>
         </div>
       </el-dialog>
-      <!--        奖励弹窗结束        -->
+      <!--奖励弹窗结束-->
 
-      <!--        提成弹窗开始        -->
+      <!--提成弹窗开始 -->
       <el-dialog :title="title" :visible.sync="showSellDialogVisible" width="800px" :before-close="onCancleSellDialog" :vetically=true>
         <!-- 高级搜索 -->
         <!-- el-form 需添加  @keyup.enter.native="onSearch" 配置，实现回车搜索， onSearch 为搜索方法 -->
@@ -304,7 +302,6 @@
           </el-form-item>
         </el-form>
         <!-- 高级搜索-结束 -->
-
         <div style="overflow-x:hidden;overflow-y:auto;">
           <el-table :data="detailData">
             <el-table-column prop="guideName" label="导购" align="center" width="120"></el-table-column>
@@ -330,7 +327,7 @@
           <ns-button @click="onCancleSellDialog">关闭</ns-button>
         </div>
       </el-dialog>
-      <!--        提成弹窗结束        -->
+      <!--提成弹窗结束-->
 
 </div>
 </template>
@@ -351,11 +348,6 @@ export default {
     return {
       test: 'testmy',
       typeOptions: [
-        /* {
-          // 状态
-          value: '2',
-          label: '按日查询'
-        }, */
         {
           value: '1',
           label: '按月查询'
@@ -363,7 +355,6 @@ export default {
       ],
       statusOptions: [
         {
-          // 状态
           value: '1',
           label: '正常营业'
         },
@@ -420,10 +411,8 @@ export default {
     })
     // 获取当前年份---默认加载当前年
     this.searchform.date = moment(new Date()).format('YYYY-MM')
-
     this.loadListFun()
   },
-
   methods: {
     showRecruitDialog (shopId, shopName) {
       var _this = this
@@ -441,10 +430,8 @@ export default {
       _this.type = 0
       _this.findDetailData(shopId)
     },
-    dateTiemFun (e) {
-    },
-    onAreaChange (e) {
-    },
+    dateTiemFun (e) {},
+    onAreaChange (e) {},
     // 加载列表
     async loadListFun (data) {
       this.loading = true

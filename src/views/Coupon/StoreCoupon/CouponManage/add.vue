@@ -18,7 +18,6 @@
         <el-radio :label="3">兑换券</el-radio>
       </el-radio-group>
     </el-form-item>
-
     <el-form-item label="优惠券名称：" prop="storeCouponTitle">
       <el-input type="text"  class="comInput" maxlength=10  v-model="saveObj.storeCouponTitle" placeholder="10个字以内"></el-input>
     </el-form-item>
@@ -174,7 +173,6 @@
           <ns-goods-select v-model="saveObj.goods"></ns-goods-select>
         </el-form-item>
       </el-form-item>
-
       <el-form-item label="指定门店：">
         <el-form-grid>
           <el-form-item>
@@ -259,7 +257,6 @@
   <el-form-item label="">
     <ns-button type="primary" @click="saveFun('addForm')">提交保存</ns-button>
   </el-form-item>
-
   </el-form>
 </div>
 </template>
@@ -374,9 +371,6 @@ export default {
           return false
         }
       })
-
-      // 回调刷新列表
-      // this.$props.callBack()
     },
     async doSaveFun () {
       if (this.saveObj.validTime.type === 1) {

@@ -117,11 +117,9 @@ export default {
       })
       return retVal
     },
-
     handleSelectionChange (val) {
       this.$emit('handleSelectionChange', val)
     },
-
     onRedactFun (val) {
       this.$emit('onRedactFun', val)
     },

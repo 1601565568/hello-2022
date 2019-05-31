@@ -144,7 +144,6 @@
       <el-table-column label="12月" width='80' align="right">
         <template slot-scope="{row}">{{row.quota12 && parseFloat(row.quota12) > 0 ? row.quota12: '-'}}</template>
       </el-table-column>
-
     </el-table>
   </div>
   <!-- 分页 -->
@@ -172,7 +171,6 @@ export default {
       activeName: '0',
       statusOptions: [
         {
-          // 状态
           value: '1',
           label: '正常营业'
         },
@@ -273,7 +271,6 @@ export default {
     // 选择门店
     handleSelectionChange (val) {
       this.selectedArr = val
-      // this.model.monthDay =
     },
     // 提交搜索
     submitForm (formName) {
