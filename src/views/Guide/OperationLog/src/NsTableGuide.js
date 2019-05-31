@@ -48,7 +48,9 @@ export default {
         { label: '优惠券', value: 8 },
         { label: '导购指标', value: 9 },
         { label: '授权管理', value: 10 },
-        { label: '快捷话术', value: 11 }
+        { label: '快捷话术', value: 11 },
+        { label: '售后处理', value: 12 },
+        { label: '订单处理', value: 13 }
       ],
       operator: [
         { label: '员工', value: 2 },

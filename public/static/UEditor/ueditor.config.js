@@ -40,7 +40,7 @@
       'formatmatch', 'blockquote', '|',
       'forecolor', 'backcolor',
       'insertimage', 'emotion', '|',
-      'selectall', 'cleardoc', 'preview'
+      'selectall', 'cleardoc', 'preview', '|'
     ]],
     // 原配置参数s
     //  toolbars: [[

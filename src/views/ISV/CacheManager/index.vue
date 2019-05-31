@@ -86,7 +86,7 @@ export default {
   },
   data () {
     return {
-      type: null,
+      type: 0,
       typeList: [{ name: 'redis', id: 0 }, { name: 'cache', id: 1 }],
       cacheKey: null,
       keys: [],
