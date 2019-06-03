@@ -76,12 +76,16 @@ export default {
         this.shopList[0]['quota' + month] = 0
       } else {
         if (parseInt(this.saveObj.type) === 0) {
-          validateUtil.checkDigitalLength(null, 10, null, Number(value) * 10000, () => {
-            this.shopList[0]['quota' + month] = 0
+          validateUtil.checkDigitalLength(null, 10, null, Number(value) * 10000, (error) => {
+            if (error) {
+              this.shopList[0]['quota' + month] = 0
+            }
           })
         } else {
-          validateUtil.checkDigitalLength(null, 10, null, value, () => {
-            this.shopList[0]['quota' + month] = 0
+          validateUtil.checkDigitalLength(null, 10, null, value, (error) => {
+            if (error) {
+              this.shopList[0]['quota' + month] = 0
+            }
           })
         }
       }
@@ -183,11 +187,6 @@ export default {
     handleClose () {
       this.dialogVisible = false
       this.loading = false
-    },
-    validateSaleQuota (rule, value, callback) {
-      if (value) {
-        validateUtil.checkDigitalLength(null, 10, rule, Number(value) * 10000, callback)
-      }
     }
   }
 }
