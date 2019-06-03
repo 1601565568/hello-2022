@@ -181,7 +181,10 @@ export default {
       ],
       selectedArr: [],
       searchform: {
-        time: []
+        time: [],
+        name: '',
+        type: '',
+        state: ''
       },
       dataList: [
       ]
