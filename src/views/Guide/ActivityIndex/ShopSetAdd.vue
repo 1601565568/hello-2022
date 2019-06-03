@@ -6,121 +6,42 @@
   title="批量设置指标"
   :close-on-click-modal=false
   :visible.sync="dialogVisible"
-  width="1000px"
-  :before-close="handleClose">
+  :before-close="handleClose"
+  width='1200px'>
     <div class="topTip">指标年份:<span>{{saveObj.year}}</span>年（您好，重新设置指标后，原来设置的指标都会被清除。）
       <span v-if="saveObj.type <= 0">最多输入两位小数</span>
       <span v-if="saveObj.type > 0">请输入正整数</span>
     </div>
+    <el-form :label-width='0' :model='shopList[0]'>
     <el-table
       ref="multipleTable"
       :data="shopList"
       tooltip-effect="dark">
       <el-table-column
-        label="1月"
+        :label="n + '月'"
         align="center"
-      >
+        v-for='n in 12'
+        v-bind:key='n'
+        style='width: 110px'>
         <template slot-scope="scope">
-          <el-input  :disabled="curMonth>1?true:false" v-model="scope.row.quota1" type="number" @change="inputFunc(scope.row.quota1, 1)" placeholder="请输入"></el-input>
-        </template>
-      </el-table-column>
-      <el-table-column
-        label="2月"
-        align="center"
-      >
-        <template slot-scope="scope">
-          <el-input   :disabled="curMonth>2?true:false" v-model="scope.row.quota2" @change="inputFunc(scope.row.quota2, 2)" placeholder="请输入"></el-input>
-        </template>
-      </el-table-column>
-      <el-table-column
-        label="3月"
-        align="center"
-      >
-        <template slot-scope="scope">
-          <el-input  :disabled="curMonth>3?true:false" v-model="scope.row.quota3" @change="inputFunc(scope.row.quota3, 3)" placeholder="请输入"></el-input>
-        </template>
-      </el-table-column>
-      <el-table-column
-        label="4月"
-        align="center"
-      >
-        <template slot-scope="scope">
-          <el-input  :disabled="curMonth>4?true:false" v-model="scope.row.quota4" @change="inputFunc(scope.row.quota4, 4)" placeholder="请输入"></el-input>
-        </template>
-      </el-table-column>
-      <el-table-column
-        label="5月"
-        align="center"
-      >
-        <template slot-scope="scope">
-          <el-input  :disabled="curMonth>5?true:false" v-model="scope.row.quota5" @change="inputFunc(scope.row.quota5, 5)" placeholder="请输入" step='0.01'></el-input>
-        </template>
-      </el-table-column>
-      <el-table-column
-        label="6月"
-        align="center"
-      >
-        <template slot-scope="scope">
-          <el-input  :disabled="curMonth>=6?true:false" v-model="scope.row.quota6" @change="inputFunc(scope.row.quota6, 6)" placeholder="请输入"></el-input>
-        </template>
-      </el-table-column>
-      <el-table-column
-        label="7月"
-        align="center"
-      >
-        <template slot-scope="scope">
-          <el-input  :disabled="curMonth>7?true:false" v-model="scope.row.quota7" @change="inputFunc(scope.row.quota7, 7)" placeholder="请输入"></el-input>
-        </template>
-      </el-table-column>
-      <el-table-column
-        label="8月"
-        align="center"
-      >
-        <template slot-scope="scope">
-          <el-input  :disabled="curMonth>8?true:false" v-model="scope.row.quota8" @change="inputFunc(scope.row.quota8, 8)" placeholder="请输入"></el-input>
-        </template>
-      </el-table-column>
-      <el-table-column
-        label="9月"
-        align="center"
-      >
-        <template slot-scope="scope">
-          <el-input :disabled="curMonth>9?true:false" :precision="1" v-model="scope.row.quota9" @change="inputFunc(scope.row.quota9, 9)" placeholder="请输入"></el-input>
-        </template>
-      </el-table-column>
-      <el-table-column
-        label="10月"
-        align="center"
-      >
-        <template slot-scope="scope">
-          <el-input  :disabled="curMonth>10?true:false" v-model="scope.row.quota10" @change="inputFunc(scope.row.quota10, 10)" placeholder="请输入"></el-input>
-        </template>
-      </el-table-column>
-      <el-table-column
-        label="11月"
-        align="center"
-      >
-        <template slot-scope="scope">
-          <el-input  :disabled="curMonth>11?true:false" v-model="scope.row.quota11" @change="inputFunc(scope.row.quota11, 11)" placeholder="请输入"></el-input>
-        </template>
-      </el-table-column>
-      <el-table-column
-        label="12月"
-        align="center"
-      >
-        <template slot-scope="scope">
-          <el-input  :disabled="curMonth>12?true:false" v-model="scope.row.quota12" @change="inputFunc(scope.row.quota12, 12)" placeholder="请输入"></el-input>
+          <el-form-item>
+            <el-input :disabled="curMonth>n" v-model="scope.row['quota' + n]" type="number"
+                      @change="inputFunc(scope.row['quota' + n], n)" placeholder="请输入"></el-input>
+          </el-form-item>
         </template>
       </el-table-column>
     </el-table>
+    </el-form>
     <span slot="footer" class="dialog-footer">
       <ns-button @click="handleClose">取 消</ns-button>
-      <ns-button type="primary" :loading="loading" @click="saveFun">确 定</ns-button>
+      <ns-button type="primary" :loading="loading" :disabled='loading' @click="saveFun">确 定</ns-button>
     </span>
   </el-dialog>
 </div>
 </template>
 <script>
+import validateUtil from '@/utils/validateUtil'
+
 export default {
   props: {
     callBack: Function
@@ -153,6 +74,16 @@ export default {
     checkNumber (value, month, regin, msg) {
       if (!regin.test(value)) {
         this.shopList[0]['quota' + month] = 0
+      } else {
+        if (parseInt(this.saveObj.type) === 0) {
+          validateUtil.checkDigitalLength(null, 10, null, Number(value) * 10000, () => {
+            this.shopList[0]['quota' + month] = 0
+          })
+        } else {
+          validateUtil.checkDigitalLength(null, 10, null, value, () => {
+            this.shopList[0]['quota' + month] = 0
+          })
+        }
       }
     },
     showToggle (data, name) {
@@ -245,13 +176,18 @@ export default {
         .catch(resp => {
           this.$notify.error('保存失败')
         })
-      this.loading = false
       this.handleClose()
       // 回调刷新列表
       this.$props.callBack()
     },
     handleClose () {
       this.dialogVisible = false
+      this.loading = false
+    },
+    validateSaleQuota (rule, value, callback) {
+      if (value) {
+        validateUtil.checkDigitalLength(null, 10, rule, Number(value) * 10000, callback)
+      }
     }
   }
 }
