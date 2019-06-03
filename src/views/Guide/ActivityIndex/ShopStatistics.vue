@@ -389,7 +389,9 @@ export default {
         area: [],
         shopName: '',
         date: '', // 年月份,
-        type: '1' // 1按月、2按日
+        type: '1', // 1按月、2按日
+        shopStatus: '',
+        shopType: ''
       },
       // 弹窗字段
       title: null,
