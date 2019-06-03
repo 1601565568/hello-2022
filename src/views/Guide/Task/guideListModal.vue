@@ -10,7 +10,10 @@
   <span slot="title">
       <span style="font-size:16px;">分配导购</span> <span style="padding-left:10px;">(<span class="text-error">{{guideTotal}}</span>人,全店{{allGuideTotal}}人)</span>
     </span>
-    <div class="comDialogBoxCon">
+    <div class="comDialogBoxCon"
+         v-loading.lock="dialogLoading"
+         :element-loading-text="$t('prompt.loading')"
+        style='min-height: 165px'>
       <div class="mt10 clearfix">
           <ul class="guideList">
               <li v-for="(item,index) in dataList" :key="index">
@@ -48,7 +51,8 @@ export default {
       allGuideTotal: 0, // 全店导购数
       guideTotal: 0, // 分配的人数
       searchform: {},
-      dataList: []
+      dataList: [],
+      dialogLoading: false
     }
   },
   methods: {
@@ -60,6 +64,7 @@ export default {
     },
     // 加载列表
     async loadListFun () {
+      this.dialogLoading = true
       await this.$http
         .fetch(this.$api.guide.taskQueryShopGuideList, this.searchObj)
         .then(resp => {
@@ -73,11 +78,16 @@ export default {
         .catch(resp => {
           this.$notify.error(resp.msg)
         })
+        .finally(() => {
+          this.dialogLoading = false
+        })
     },
     handleClose () {
       this.dataList = []
       this.searchObj.start = 0
       this.dialogVisible = false
+      this.guideTotal = 0
+      this.allGuideTotal = 0
     }
   }
 }

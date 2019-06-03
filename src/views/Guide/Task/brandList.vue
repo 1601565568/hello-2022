@@ -20,19 +20,20 @@
               <ns-button @click="tabSearchType" style="padding: 9px 0 9px 10px;opacity: 0.5;color: #002041;" type="text">{{searchType.tipText}}<i :class="{'el-icon--right': true, 'el-icon-arrow-down': !searchType.advanced, 'el-icon-arrow-up': searchType.advanced} ">
                 </i></ns-button>
             </div>
-            <el-form ref="searchform" class="float-right" v-if="!searchType.advanced" :inline="true" :model="searchform" style='padding-top:3px'>
+            <el-form ref="searchform" class="float-right" v-if="!searchType.advanced" :inline="true" :model="searchform" style='padding-top:3px'
+                     @submit.native.prevent>
               <el-form-item label="任务名称：" prop="name">
                 <el-input
                   v-model="searchform.name"
                   placeholder="请输入任务名称"
                   clearable
-                  ></el-input>
+                  @keyup.enter.native="submitForm('searchform')"></el-input>
               </el-form-item>
 
-              <el-form-item>
-                <ns-button type="primary" @click="submitForm('searchform')">搜索</ns-button>
-                <ns-button @click="resetForm('searchform')">重置</ns-button>
-              </el-form-item>
+<!--              <el-form-item>-->
+<!--                <ns-button type="primary" @click="submitForm('searchform')">搜索</ns-button>-->
+<!--                <ns-button @click="resetForm('searchform')">重置</ns-button>-->
+<!--              </el-form-item>-->
             </el-form>
         </el-col>
       </el-row>
