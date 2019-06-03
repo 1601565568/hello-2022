@@ -710,7 +710,12 @@ export default {
               fontSize: 14,
               formatter:
                 function (data) {
-                  return `${(taskProgressObj[data.dataIndex].completedCount * 100 / taskProgressObj[data.dataIndex].total).toFixed(2)}%`
+                  let total = taskProgressObj[data.dataIndex].total
+                  if (Number(total) === 0) {
+                    return `${Number(0).toFixed(2)}%`
+                  } else {
+                    return `${(taskProgressObj[data.dataIndex].completedCount * 100 / total).toFixed(2)}%`
+                  }
                 }
             }
           },
@@ -1246,9 +1251,10 @@ export default {
 
           } else {
             that.taskProgressOption.series[0].data = []
+            that.taskProgressOption.series[1].data = []
             resp.result.data.map(item => {
               shopNameArr.push(item.name)
-              memberCountArr.push(item.completedCount / Number(item.total))
+              memberCountArr.push(Number(item.total) === 0 ? 0 : (item.completedCount / Number(item.total)))
               that.taskProgressOption.series[0].data.push(1)
             })
             that.pagination.total = Number(resp.result.recordsTotal)
