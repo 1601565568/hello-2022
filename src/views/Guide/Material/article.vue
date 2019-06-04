@@ -5,26 +5,8 @@
    <div class="template-table">
       <!-- 简单搜索start -->
   <div class="template-table__bar">
-    <!-- <ns-table-sg-coupon ref="table" @showListDialogMain="showListDialogFun" :url=$api.guide.guide.findList @add="addCoupon"></ns-table-sg-coupon> -->
-    <!-- <template slot="searchSearch">
-      <el-form :model="model" :inline="true" @submit.native.prevent class="pull-right">
-        <el-form-item v-show="_data._queryConfig.expand === false">
-          <el-input ref="quickText" style="width: 250px" v-model="model.couponTitle" placeholder="请输入优惠券名称或编码" @keyup.enter.native="$quickSearchAction$('couponTitle')">
-            <i class="el-icon-search el-input__icon" slot="suffix" name="name" @click="$quickSearchAction$('couponTitle')"></i>
-          </el-input>
-        </el-form-item>
-        <el-form-item>
-          <ns-button type="text" @click="$handleTabClick">
-            {{collapseText}}
-            <i :class="{'el-icon--right': true, 'el-icon-arrow-down': !_data._queryConfig.expand, 'el-icon-arrow-up': _data._queryConfig.expand} ">
-            </i>
-          </ns-button>
-        </el-form-item>
-      </el-form>
-    </template> -->
       <el-row class="template-table__bar-base">
          <!-- 左边上角操作区域 -->
-
         <el-col :span="7">
             <ns-button type="primary" @click="AddShowToggle({})">新增</ns-button>
             <ns-button type="primary" v-if="color" @click="setGroudShowToggle">批量设置分组</ns-button>
@@ -77,15 +59,6 @@
                   </el-option>
                 </el-select>
               </el-form-item>
-              <!-- <el-form-item label="带码状态：" prop="codeType">
-              <el-select  v-model="searchform.codeType" placeholder="请选择带码状态" clearable>
-                  <el-option v-for="item in codeTypeList"
-                  :key="item.id"
-                  :label="item.name"
-                  :value="item.id">
-                  </el-option>
-                </el-select>
-              </el-form-item> -->
               <el-form-item label="发布时间：" prop="time">
                 <el-date-picker
                   v-model="searchform.time"
@@ -124,13 +97,6 @@
         type="selection"
         width="42">
       </el-table-column>
-      <!-- <el-table-column
-        label="素材标题"
-        width="150"
-        prop="title"
-        show-overflow-tooltip
-        >
-      </el-table-column> -->
       <el-table-column
         label="内容"
       >

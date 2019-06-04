@@ -9,23 +9,6 @@
    <div class="template-table">
       <!-- 简单搜索start -->
   <div class="template-table__bar">
-    <!-- <ns-table-sg-coupon ref="table" @showListDialogMain="showListDialogFun" :url=$api.guide.guide.findList @add="addCoupon"></ns-table-sg-coupon> -->
-    <!-- <template slot="searchSearch">
-      <el-form :model="model" :inline="true" @submit.native.prevent class="pull-right">
-        <el-form-item v-show="_data._queryConfig.expand === false">
-          <el-input ref="quickText" style="width: 250px" v-model="model.couponTitle" placeholder="请输入优惠券名称或编码" @keyup.enter.native="$quickSearchAction$('couponTitle')">
-            <i class="el-icon-search el-input__icon" slot="suffix" name="name" @click="$quickSearchAction$('couponTitle')"></i>
-          </el-input>
-        </el-form-item>
-        <el-form-item>
-          <ns-button type="text" @click="$handleTabClick">
-            {{collapseText}}
-            <i :class="{'el-icon--right': true, 'el-icon-arrow-down': !_data._queryConfig.expand, 'el-icon-arrow-up': _data._queryConfig.expand} ">
-            </i>
-          </ns-button>
-        </el-form-item>
-      </el-form>
-    </template> -->
       <el-row class="template-table__bar-base">
          <!-- 左边上角操作区域 -->
 
