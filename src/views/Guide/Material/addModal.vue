@@ -26,7 +26,7 @@
                   </div>
                 </li>
                 <li v-if="saveObj.imageList.length< 10 - saveObj.codeType">
-                  <el-upload class="avatar-uploader" :action="this.$api.core.sgUploadFile('test')" accept=".jpg,.jpeg,.png,.bmp,.gif" :show-file-list="false" list-type="picture-card" :on-remove="handleRemove" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
+                  <el-upload class="avatar-uploader" :action="this.$api.core.sgUploadFile('test')" accept=".jpg,.jpeg,.png,.bmp,.gif" :show-file-list="false" list-type="picture-card" multiple  :on-remove="handleRemove" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
                     <i class="el-icon-plus avatar-uploader-icon"></i>
                   </el-upload>
                 </li>
@@ -279,7 +279,9 @@ export default {
     },
     // 处理上传图片
     handleAvatarSuccess: function (res, file) {
-      this.saveObj.imageList.push(res.result.url)
+      if (this.saveObj.imageList.length < 9) {
+        this.saveObj.imageList.push(res.result.url)
+      }
     },
     beforeAvatarUpload (file) {
       if (file.size / 1024 > 500) {

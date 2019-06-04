@@ -113,21 +113,16 @@ export default {
       if (data.selectedArr.length === 1) {
         this.shopList = JSON.parse(JSON.stringify(data.selectedArr))
       } else {
-        this.shopList = [
-          {
-            quota1: '',
-            quota2: '',
-            quota3: '',
-            quota4: '',
-            quota5: '',
-            quota6: '',
-            quota7: '',
-            quota8: '',
-            quota9: '',
-            quota10: '',
-            quota11: '',
-            quota12: ''
+        let temp = {}
+        for (let i = 1; i <= 12; i++) {
+          if (this.status === '0') {
+            temp['quota' + i] = '0.00'
+          } else {
+            temp['quota' + i] = '0'
           }
+        }
+        this.shopList = [
+          temp
         ]
       }
       this.dialogVisible = true
