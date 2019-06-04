@@ -198,6 +198,13 @@ export default {
       selectedArr: [],
       color: false,
       searchform: {
+        codeType: null,
+        content: null,
+        mType: 1,
+        sourceId: null,
+        subdivisionId: null,
+        timeEnd: null,
+        timeStart: null,
         time: []
       },
       codeTypeList: [{ name: '无', id: 0 }, { name: '图中附码', id: 1 }, { name: '单独码', id: 2 }],

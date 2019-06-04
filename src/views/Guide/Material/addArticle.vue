@@ -112,9 +112,9 @@ export default {
       myConfig: {
         // 你的UEditor资源存放的路径，相对于打包后的index.html
         // 编辑器不自动被内容撑高
-        autoHeightEnabled: true,
+        autoHeightEnabled: false,
         // 初始容器高度
-        initialFrameHeight: 300,
+        initialFrameHeight: 400,
         // 初始容器宽度
         initialFrameWidth: '100%'
       },
