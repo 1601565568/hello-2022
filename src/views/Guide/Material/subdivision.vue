@@ -150,6 +150,7 @@ export default {
       activeTabName: '/guide/MaterialSubdivision/List',
       selectedArr: [],
       searchform: {
+        subdivision_name: null,
         time: []
       },
       dataList: [],
