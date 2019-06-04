@@ -91,7 +91,6 @@
         </template>
       </el-table-column>
       <el-table-column  width="200"  align="left" :render-header="renderHeader">
-        <!-- <el-tooltip placement="bottom"><div slot="content">会员归属原门店，专属导购为空</div><button>排序</button><i class="el-icon-question"></i></el-tooltip> -->
         <template slot-scope="scope">
           <i class='iconfont icon-zhiding sort'  :class="scope.$index?'topShow':'topHid'" @click='exchangeSort(1,scope.row.subdivision_id)'></i>
           <i class='iconfont icon-topArr1 sort'  :class="scope.$index?'topShow':'topHid'" @click='exchangeSort(2,scope.row.subdivision_id)'></i>
@@ -209,7 +208,6 @@ export default {
       // 总条数
     },
     renderHeader (h, data) {
-      // return h('div', [h('span', ['排序 ']), h('el-tooltip', {attrs: {class: 'el-icon-question bg-white', effect: 'dark', content: '素材排序方式', placement: 'bottom'}}, [h('i', {'class': 'el-icon-question'})])])
       return h('div', { attrs: { class: 'cell', style: 'margin-top:7px' } }, [h('span', ['排序 ']), h('el-tooltip', { attrs: { class: 'el-icon-question bg-white', effect: 'light', content: '调整分类的排列顺序', placement: 'bottom' } }, [h('i', { 'class': 'el-icon-question', style: 'color:rgb(153, 153, 153)' })])])
     },
     exchangeSort (type, subdivisionId) {

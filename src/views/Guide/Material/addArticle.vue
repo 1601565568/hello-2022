@@ -28,7 +28,6 @@
             <el-input  type="text" v-model="saveObj.title" maxlength='50' placeholder="请输入标题，长度在4-50个字符以内" clearable size="medium"></el-input>
         </div>
         <vue-ueditor-wrap :config="myConfig" v-model="detail" @ready="editorReady"  @beforeInit="addCustomButtom"></vue-ueditor-wrap>
-         <!-- @beforeInit="addCustomDialog" -->
       </div>
 
       <el-form :model="saveObj" :rules="rules" ref="addForm"  style="margin-left:20px">
@@ -50,7 +49,6 @@
           <div class="materialItem">
 
             <a target="_blank" class="shareBox">
-              <!--<img @click="showImg(0, itemObj.m_type)" v-show="itemObj.imageList[0]" :src="itemObj.imageList[0]" alt="">-->
               <img :src="saveObj.imageList[0] ? saveObj.imageList[0] : require('../../../assets/small-logo.png')" />
               <div class="tit">{{saveObj.title}}</div>
             </a>
@@ -69,7 +67,6 @@
               <ns-button size="small" type="text">{{saveObj.imageList[0] ? '修改封面图' : '添加封面图'}}</ns-button>
               <span>（建议尺寸：800*800）</span>
             </el-upload></p>
-          <!-- <p style='margin-top:20px'>所属分组 :</p> -->
           <el-form-item  prop="subdivisionId" label="所属分组：" style='margin-top:20px'>
             <el-select v-model="saveObj.subdivisionId" placeholder="请选择" clearable>
                     <el-option v-for="item in groudList"
@@ -109,24 +106,6 @@ export default {
     callBack: Function
   },
   data () {
-    // var validateURL = (rule, value, callback) => {
-    //   if (value === '') {
-    //     callback(new Error('请输入链接'))
-    //   } else if (!isURL(value)) {
-    //     callback(new Error('路径必须带http或者是https格式！'))
-    //   } else {
-    //     callback()
-    //   }
-    // }
-    // var validateURLImg = (rule, value, callback) => {
-    //   if (value === undefined || value === null) {
-    //     callback()
-    //   } else if (!isURL(value)) {
-    //     callback(new Error('请输入正确的二维码链接'))
-    //   } else {
-    //     callback()
-    //   }
-    // }
     return {
       editorInstance: {},
       detail: '',
@@ -168,7 +147,6 @@ export default {
       },
       rules: {
         title: [
-          // console.log('jkjklkjlj:00000'),
           { required: true, message: '请输入素材标题', trigger: 'blur' },
           { min: 4, max: 50, message: '限制长度为50个字以内', trigger: 'blur,change' }
         ],
@@ -183,64 +161,6 @@ export default {
   methods: {
     addPic () {
       this.detail = '<p><span style="background-color: rgb(0, 0, 0); color: rgb(255, 255, 255);">141324企鹅为全额完全v</span><br/></p>'
-    },
-    addCustomDialog (editorId) {
-      // let that = this
-      // console.log(LocalStorage.get('user_brand'))
-      // window.UE.registerUI('test-dialog', function (editor, uiName) {
-      //   // 创建 dialog
-      //   var dialog = new window.UE.ui.Dialog({
-      //     // 指定弹出层中页面的路径，这里只能支持页面，路径参考常见问题 2
-      //     iframeUrl: '../../../../static/UEditor/dialogs/customizeDialogPage/customizeDialogPage.html?a=1',
-      //     // 需要指定当前的编辑器实例
-      //     editor: editor,
-      //     // 指定 dialog 的名字
-      //     name: uiName,
-      //     // dialog 的标题
-      //     title: '请输入小程序的链接',
-      //     // 指定 dialog 的外围样式
-      //     cssRules: 'width:700px;height:600px;',
-      //     // 如果给出了 buttons 就代表 dialog 有确定和取消
-      //     buttons: [
-      //       {
-      //         className: 'edui-okbutton',
-      //         label: '确定',
-      //         onclick: function () {
-      //           dialog.close(true)
-      //         }
-      //       },
-      //       {
-      //         className: 'edui-cancelbutton',
-      //         label: '取消',
-      //         onclick: function () {
-      //           // dialog.close(false)
-      //         }
-      //       }
-      //     ]
-      //   })
-
-      //   // 参考上面的自定义按钮
-      //   var btn = new window.UE.ui.Button({
-      //     name: 'dialog-button',
-      //     title: '小程序链接',
-      //     cssRules: `background-position: -500px 0`,
-      //     onclick: function () {
-      //       // 渲染dialog
-      //       // dialog.render()
-      //       // dialog.open()
-      //       // that.dialogVisible = false
-      //       editor.execCommand('link', utils.clearEmptyAttrs({
-      //         href: '小程序链接',
-      //         _href: '/home/index',
-      //         title: '小程序链接',
-      //         // target: '_blank',
-      //         class: 'applet'
-      //       }))
-      //     }
-      //   })
-
-      //   return btn
-      // } /* 0  指定添加到工具栏上的那个位置，默认时追加到最后 , editorId 指定这个UI是哪个编辑器实例上的，默认是页面上所有的编辑器都会添加这个按钮 */)
     },
     selectArticleLink () {
       this.$nextTick(() => {

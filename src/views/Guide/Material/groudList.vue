@@ -13,7 +13,6 @@
          <!-- 左边上角操作区域 -->
           <el-col :span="7">
              <ns-button type="primary" @click="AddShowToggle({})">新增</ns-button>
-             <!-- <ns-button type="primary" @click="setGroudShowToggle">批量删除</ns-button> -->
           </el-col>
           <el-col :span="17">
             <!-- 右上角操作区域 -->

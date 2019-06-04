@@ -107,13 +107,6 @@
         type="selection"
         width="42">
       </el-table-column>
-      <!-- <el-table-column
-        label="素材标题"
-        width="150"
-        prop="title"
-        show-overflow-tooltip
-        >
-      </el-table-column> -->
       <el-table-column
         label="内容"
       >
