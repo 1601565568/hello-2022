@@ -568,7 +568,7 @@
       </div>
       <div slot="footer" class="dialog-footer">
         <ns-button @click="memberBelongingShow = false">取消</ns-button>
-        <ns-button type="primary" @click="memberBelongingEnsure(model)">确定</ns-button>
+        <ns-button type="primary" @click.once="memberBelongingEnsure(model)">确定</ns-button>
       </div>
     </el-dialog>
     <!-- 所属门店查看详情结束 -->
