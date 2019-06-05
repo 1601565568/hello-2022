@@ -294,6 +294,8 @@
 <script>
 import moment from 'moment'
 import listPageMixin from '@/mixins/listPage'
+import { getErrorMsg } from '../../../utils/toast'
+
 export default {
   mixins: [listPageMixin],
   data () {
@@ -374,7 +376,7 @@ export default {
           this.pagination.total = parseInt(resp.result.recordsTotal)
         })
         .catch(resp => {
-          this.$notify.error('查询失败：')
+          this.$notify.error('查询失败：' + getErrorMsg(resp))
         })
       this.loading = false
       // 总条数
@@ -443,7 +445,7 @@ export default {
           _this._data.pagination1.total = parseInt(resp.result.recordsTotal)
         }
       }).catch((resp) => {
-        _this.$notify.error('查询失败：' + resp.msg)
+        _this.$notify.error('查询失败：' + getErrorMsg(resp))
       })
     },
     // 关闭自定义转移弹窗
