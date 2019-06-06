@@ -1412,7 +1412,7 @@ export default {
           _this.$notify.success(resp.msg)
           _this.$refs.table.$reload()
         }).catch((resp) => {
-        // _this.$notify.error('操作失败 ' + resp.msg)
+          _this.$notify.error('操作失败： ' + resp.msg)
         })
     },
     // 分页-页数改变
