@@ -6,7 +6,7 @@
       <div class="comDialogBoxCon">
         <el-form :model="saveObj" :rules="rules" ref="addForm" label-width="100px" style="width:440px;">
           <el-form-item label="所属分组：" prop="subdivisionId">
-            <el-select @change="selChange" v-model="saveObj.subdivisionId" placeholder="请选择" clearable>
+            <el-select v-model="saveObj.subdivisionId" placeholder="请选择" clearable>
               <el-option v-for="item in groudList" :key="item.subdivision_id" :label="item.subdivision_name" :value="item.subdivision_id">
               </el-option>
             </el-select>
