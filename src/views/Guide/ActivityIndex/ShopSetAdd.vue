@@ -12,7 +12,7 @@
       <span v-if="saveObj.type <= 0">最多输入两位小数</span>
       <span v-if="saveObj.type > 0">请输入正整数</span>
     </div>
-    <el-form :label-width='0' :model='shopList[0]'>
+    <el-form label-width='0' :model='shopList[0]'>
     <el-table
       ref="multipleTable"
       :data="shopList"
@@ -109,22 +109,23 @@ export default {
         // 下一年及未来都可以设置
         this.curMonth = 0
       }
+      let target
       // 如果是选择一家门店就回显对应的指标
       if (data.selectedArr.length === 1) {
-        this.shopList = JSON.parse(JSON.stringify(data.selectedArr))
-      } else {
-        let temp = {}
-        for (let i = 1; i <= 12; i++) {
-          if (this.status === '0') {
-            temp['quota' + i] = '0.00'
-          } else {
-            temp['quota' + i] = '0'
-          }
-        }
-        this.shopList = [
-          temp
-        ]
+        let sl = JSON.parse(JSON.stringify(data.selectedArr))
+        target = sl[0]
       }
+      let temp = {}
+      for (let i = 1; i <= 12; i++) {
+        if (this.status === '0') {
+          temp['quota' + i] = target ? this.$numeral(target['quota' + i]).format('0.00') : '0.00'
+        } else {
+          temp['quota' + i] = target ? this.$numeral(target['quota' + i]).format('0.00') : '0'
+        }
+      }
+      this.shopList = [
+        temp
+      ]
       this.dialogVisible = true
     },
     handleSelectionChange (val) {
