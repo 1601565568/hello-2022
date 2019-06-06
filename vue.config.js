@@ -33,13 +33,13 @@ module.exports = {
   },
   chainWebpack: config => {
     if (process.env.VUE_APP_Dll_PLUGIN === 'true') {
-      config
-        .plugin('DllReferencePlugin')
-        .use(webpack.DllReferencePlugin, [{
-          context: resolve(''),
-          manifest: require(resolve('public/temp/components-manifest.json'))
-        }])
-        .end()
+      // config
+      //   .plugin('DllReferencePlugin')
+      //   .use(webpack.DllReferencePlugin, [{
+      //     context: resolve(''),
+      //     manifest: require(resolve('public/temp/components-manifest.json'))
+      //   }])
+      //   .end()
     }
   }
 }
