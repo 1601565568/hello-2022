@@ -141,7 +141,8 @@ export default {
       ],
       selectedArr: [],
       searchform: {
-        shopName: ''
+        shopName: '',
+        shopStatus: ''
       },
       // 保存时提交对象
       saveObj: {
