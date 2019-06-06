@@ -53,7 +53,7 @@
               v-model="searchform.year"
               type="year"
               :editable="false"
-              clearable='false'
+              :clearable='false'
               placeholder="选择年"
               >
             </el-date-picker>
