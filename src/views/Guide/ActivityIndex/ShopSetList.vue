@@ -276,7 +276,6 @@ export default {
     },
     // 选择门店
     handleSelectionChange (val) {
-      console.log('aaaaaaaaaaaaaaaaaaaaccc',val)
       this.selectedArr = val
     },
     // 提交搜索
