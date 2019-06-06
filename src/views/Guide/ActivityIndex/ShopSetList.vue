@@ -23,7 +23,7 @@
               <ns-button @click="tabSearchType" style="padding: 9px 0 9px 10px;opacity: 0.5;color: #002041;" type="text">{{searchType.tipText}}<i :class="{'el-icon--right': true, 'el-icon-arrow-down': !searchType.advanced, 'el-icon-arrow-up': searchType.advanced} ">
                 </i></ns-button>
             </div>
-            <el-form ref="searchform" class="float-right" v-if="!searchType.advanced" :inline="true" :model="searchform" style='padding-top:3px'>
+            <el-form ref="searchform1" class="float-right" v-if="!searchType.advanced" :inline="true" :model="searchform" style='padding-top:3px'>
               <el-form-item label="年份：" prop="year">
                 <el-date-picker
                   :clearable="false"
@@ -37,8 +37,8 @@
                 <el-input v-model="searchform.shopName" placeholder="请输入门店名称" clearable @keyup.enter.native="submitForm('searchform')"></el-input>
               </el-form-item>
               <el-form-item>
-                <ns-button type="primary" @click="submitForm('searchform')">搜索</ns-button>
-                <ns-button @click="resetForm('searchform')">重置</ns-button>
+                <ns-button type="primary" @click="submitForm('searchform1')">搜索</ns-button>
+                <ns-button @click="resetForm('searchform1')">重置</ns-button>
               </el-form-item>
             </el-form>
         </el-col>
@@ -47,7 +47,7 @@
   <!-- 高级搜索start -->
   <div class="template-table-search" v-if="searchType.advanced">
       <div class="template-table__bar-more">
-        <el-form ref="searchform" label-width="80px"  class="surround-btn" :model="searchform"  :inline="true">
+        <el-form ref="searchform2" label-width="80px"  class="surround-btn" :model="searchform"  :inline="true">
           <el-form-item label="年份：" prop="year">
             <el-date-picker
               v-model="searchform.year"
@@ -72,8 +72,8 @@
           </el-form-item>
         </el-form>
         <div class="template-table__more-btn">
-          <ns-button type="primary" @click="submitForm('searchform')">搜索</ns-button>
-          <ns-button @click="resetForm('searchform')">重置</ns-button>
+          <ns-button type="primary" @click="submitForm('searchform2')">搜索</ns-button>
+          <ns-button @click="resetForm('searchform2')">重置</ns-button>
         </div>
       </div>
       </div>
@@ -167,6 +167,13 @@ import shopSetAdd from './ShopSetAdd'
 export default {
   mixins: [listPageMixin],
   data () {
+    const myDate = new Date()
+    const curYear = myDate.getFullYear()
+    const originSearchform = {
+      shopName: '',
+      year: String(curYear), // 年份,
+      shopStatus: ''
+    }
     return {
       activeName: '0',
       statusOptions: [
@@ -180,14 +187,12 @@ export default {
         }
       ],
       selectedArr: [],
-      searchform: {
-        shopName: '',
-        year: '2019' // 年份,
-      },
+      originSearchform,
+      searchform: { ...originSearchform },
       // 新增保存时提交对象
       saveObj: {
         type: 0, // 销售指标
-        year: '2019', // 年份,
+        year: '', // 年份,
         selectedArr: []
       }
     }
@@ -196,6 +201,7 @@ export default {
     // 获取当前年份---默认加载当前年
     var myDate = new Date()
     var curYear = myDate.getFullYear()
+    this.searchform.year = String(curYear)
     this.searchObj.searchMap.year = curYear
     this.searchObj.searchMap.type = 0
     this.loadListFun(this.searchObj)
@@ -280,6 +286,9 @@ export default {
       this.searchObj.searchMap.shopStatus = this.searchform.shopStatus
       this.searchObj.searchMap.year = moment(this.searchform.year).format('YYYY')
       this.loadListFun()
+    },
+    $resetForm () {
+      this.searchform = { ...this.originSearchform }
     }
   },
   components: {

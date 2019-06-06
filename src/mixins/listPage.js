@@ -95,7 +95,9 @@ export default {
     // 重置搜索
     resetForm (formName) {
       this.$refs[formName].resetFields()
-      console.log(this.searchform)
+      if (this.$resetForm) {
+        this.$resetForm()
+      }
       this.submitForm()
     }
   }
