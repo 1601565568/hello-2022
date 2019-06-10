@@ -91,7 +91,8 @@ export default {
         categoryList: [],
         label: '',
         firstId: null,
-        secondId: null
+        secondId: null,
+        appId_array: ''
       },
       titleText: '',
       payTotal: null,
