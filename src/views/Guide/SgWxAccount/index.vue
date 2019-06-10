@@ -204,7 +204,7 @@
       </div>
       <div slot="footer" class="authorization_footer">
         <ns-button @click="cancelAuthorizations = false">取消</ns-button>
-        <ns-button type="primary" @click="cancelAuthorization">已取消授权授权</ns-button>
+        <ns-button type="primary" @click="cancelAuthorization">已确认取消授权</ns-button>
       </div>
     </el-dialog>
     <!-- 最新弹窗取消授权结束 -->
