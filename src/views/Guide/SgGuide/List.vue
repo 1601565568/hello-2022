@@ -1,7 +1,8 @@
 <template>
   <div>
     <NsTableGuide ref="table" :url=$api.guide.guide.findList @add="onRedactFun" @scopeRowCount="scopeRowCount"
-                    @shopEdit="shopEdit" @allDelete="allDelete" @dimission="dimission" @showShop="showShop" @onDelsTipFun="onDelsTipFun" @onRedactFun="onRedactFun" @dimissionFun="dimissionFun" @handleSelectionChange="handleSelectionChange">
+                    @shopEdit="shopEdit" @allDelete="allDelete" @dimission="dimission" @showShop="showShop"
+                  @onDelsTipFun="onDelsTipFun" @onRedactFun="onRedactFun" @dimissionFun="dimissionFun" @handleSelectionChange="handleSelectionChange">
     </NsTableGuide>
     <!-- 新增修改客户开始-->
     <el-dialog :title="title" :visible.sync="dialogFormVisible" width="460px"  @keyup.enter.native="onKeyUp" @keyup.esc.native="onKeyUp" >

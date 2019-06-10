@@ -1,5 +1,6 @@
 import api from '@/config/http'
 import moment from 'moment/moment'
+
 export default {
   data: function () {
     let pagination = {
@@ -433,8 +434,12 @@ export default {
           if (guide.birthday instanceof Date) {
             guide.birthday = moment(guide.birthday).format('YYYY-MM-DD')
           }
-          if (guide.birthday === null) { guide.birthday = '' }
-          if (guide.work_num === null) { guide.work_num = '' }
+          if (guide.birthday === null) {
+            guide.birthday = ''
+          }
+          if (guide.work_num === null) {
+            guide.work_num = ''
+          }
           if (_this.memberBelongingRadio === '1') {
             sgGuideVo.newShopId = _this.memberBelongingShopid
           } else {
@@ -1034,8 +1039,12 @@ export default {
                   if (guide.birthday instanceof Date) {
                     guide.birthday = moment(guide.birthday).format('YYYY-MM-DD')
                   }
-                  if (guide.birthday === null) { guide.birthday = '' }
-                  if (guide.work_num === null) { guide.work_num = '' }
+                  if (guide.birthday === null) {
+                    guide.birthday = ''
+                  }
+                  if (guide.work_num === null) {
+                    guide.work_num = ''
+                  }
                 }
               })
               if (_this.model.sgGuide.mobile !== null && _this.subordinateStores.length > 0 && _this.model.sgGuide.name !== null && _this.model.sgGuide.work_prefix !== null) {
@@ -1048,8 +1057,12 @@ export default {
                   if (guide.birthday instanceof Date) {
                     guide.birthday = moment(guide.birthday).format('YYYY-MM-DD')
                   }
-                  if (guide.birthday === null) { guide.birthday = '' }
-                  if (guide.work_num === null) { guide.work_num = '' }
+                  if (guide.birthday === null) {
+                    guide.birthday = ''
+                  }
+                  if (guide.work_num === null) {
+                    guide.work_num = ''
+                  }
                 }
               })
               if (_this.model.sgGuide.mobile !== null && _this.model.sgGuideShop.shop_id !== null && _this.model.sgGuide.name !== null && _this.model.sgGuide.work_prefix !== '') {
@@ -1226,7 +1239,7 @@ export default {
         _this.$notify.error('查询失败：' + resp.msg)
       })
     },
-    // 会员离职
+    // 员工离职
     dimissionFun (row) {
       var _this = this
       _this.employeeDetails = row
@@ -1399,7 +1412,7 @@ export default {
               _this.transferCount = resp.result.recordsFiltered
             }
           }).catch((resp) => {
-          // _this.$notify.error('查询失败：' + resp.msg)
+            // _this.$notify.error('查询失败：' + resp.msg)
             _this.$notify.error('请先转移导购的会员')
           })
           _this.specifyTransferFormVisible = false
@@ -1412,7 +1425,9 @@ export default {
           _this.$notify.success(resp.msg)
           _this.$refs.table.$reload()
         }).catch((resp) => {
-          _this.$notify.error('操作失败： ' + resp.msg)
+          if (!resp.msg.test('undefined')) {
+            _this.$notify.error('操作失败： ' + resp.msg)
+          }
         })
     },
     // 分页-页数改变
