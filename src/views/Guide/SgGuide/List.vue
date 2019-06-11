@@ -1,6 +1,6 @@
 <template>
   <div>
-    <NsTableGuide ref="table" :url=$api.guide.guide.findList @add="onRedactFun" @scopeRowCount="scopeRowCount"
+    <NsTableGuide ref="mainTable" :url=$api.guide.guide.findList @add="onRedactFun" @scopeRowCount="scopeRowCount"
                     @shopEdit="shopEdit" @allDelete="allDelete" @dimission="dimission" @showShop="showShop"
                   @onDelsTipFun="onDelsTipFun" @onRedactFun="onRedactFun" @dimissionFun="dimissionFun" @handleSelectionChange="handleSelectionChange">
     </NsTableGuide>

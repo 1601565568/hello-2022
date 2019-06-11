@@ -286,6 +286,7 @@ export default {
   methods: {
     workPrefix (val) {
       this.model.sgGuide.work_prefix = val
+      // eslint-disable-next-line no-console
       console.log('val:', val, this.model.sgGuide.work_prefix)
     },
     formatTooltip (val) {
@@ -850,6 +851,7 @@ export default {
             work_prefix: resp.result.workPrefix,
             work_number: resp.result.workNumber
           }
+          // eslint-disable-next-line no-console
           console.log('work_prefix:', this.model.sgGuide.work_prefix)
           this.model.sgGuideShop = {
             id: this.newAdd.gsId,
@@ -912,8 +914,10 @@ export default {
     },
     onSave (model) {
       let _this = this
+      // eslint-disable-next-line no-console
       console.log('_this.$refs.addForm:', _this.model.sgGuide.work_prefix)
       _this.$refs.addForm.validate(valid => {
+        // eslint-disable-next-line no-console
         console.log('valid:', valid)
         if (valid) {
           let guideShop = []
@@ -1195,6 +1199,7 @@ export default {
         },
         start: _this.transferShopPage !== null ? ((this.transferShopPage - 1) * 15) : 0
       }
+      // debugger
       await this.$http
         .fetch(_this.$api.guide.guide.findShopGuide, obj)
         .then(resp => {
@@ -1421,11 +1426,9 @@ export default {
             _this.findCustomerList()
           }
           _this.$notify.success(resp.msg)
-          _this.$refs.table.$reload()
+          this.$refs.mainTable.$reload()
         }).catch((resp) => {
-          if (!resp.msg.match('undefined')) {
-            _this.$notify.error('操作失败： ' + resp.msg)
-          }
+          _this.$notify.error('操作失败： ' + resp.msg)
         })
     },
     // 分页-页数改变
@@ -1580,7 +1583,7 @@ export default {
   },
   watch: {
     subordinateStores (newValue) {
-      this.storeOwnershipDisplay = !!(newValue && newValue.length > 0);
+      this.storeOwnershipDisplay = !!(newValue && newValue.length > 0)
     }
   }
 }
