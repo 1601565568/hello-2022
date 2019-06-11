@@ -181,7 +181,7 @@
       <el-table-column label="提成（元）" prop="sellPrice" width="220" align="right">
         <template slot-scope="scope">
           <span v-if="scope.row.sellPrice == 0">0.00</span>
-          <a href="javascript:" @click="showSellDialog(scope.row.guideId, scope.row.name,scope.row.shopId)" v-else>{{$numeral(scope.row.sellPrice).format('0,0.00')}}</a>
+          <a href="javascript:" @click="showSellDialog(scope.row.guideId, scope.row.name,scope.row.gsShopId)" v-else>{{$numeral(scope.row.sellPrice).format('0,0.00')}}</a>
         </template>
       </el-table-column>
     </el-table>
@@ -270,7 +270,7 @@
         <el-table-column prop="tradeId" label="订单编号" align="center" width="150"></el-table-column>
         <el-table-column prop="payment" label="订单实付(含运费)" align="center" width="150"></el-table-column>
         <el-table-column prop="createTime" label="时间" align="center" width="150"></el-table-column>
-        <el-table-column prop="reward" label="提成" align="center" width="100"></el-table-column>
+        <el-table-column prop="reward" label="提成" align="center"></el-table-column>
       </el-table>
     </div>
     <!--分页开始-->
