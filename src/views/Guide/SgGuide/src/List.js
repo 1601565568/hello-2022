@@ -805,7 +805,6 @@ export default {
     onRedactFun (row) { // 修改和新增功能
       this.row = row
       if (row) {
-        this.row.shop_ids.indexOf(',') !== -1 ? this.storeOwnershipDisplay = true : this.storeOwnershipDisplay = false
         this.title = '编辑员工信息'
         this.guideValue = row.job
         this.subordinateStores = []
@@ -1578,5 +1577,10 @@ export default {
   mounted: function () {
     var _this = this
     _this.initShopList()
+  },
+  watch: {
+    subordinateStores (newValue) {
+      this.storeOwnershipDisplay = !!(newValue && newValue.length > 0);
+    }
   }
 }
