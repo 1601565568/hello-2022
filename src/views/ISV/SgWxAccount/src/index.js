@@ -221,7 +221,7 @@ export default {
     uploading (row) { // 上传
       var that = this
       that.newauthorization = true
-      that.underReviewObj = row
+      that.underReviewObj = Object.assign({}, row, { appId_array: '' })
       that.underReviewObj.appId_array = ''
       that.titleText = '模板上传'
     },

@@ -370,8 +370,8 @@
           <el-form-item label="代码备注：" prop="user_desc" required>
             <el-input type="textarea" placeholder="请输入代码备注" v-model="underReviewObj.user_desc" maxlength="50"></el-input>
           </el-form-item>
-          <el-form-item label="外跳小程序白名单：" prop="developer">
-            <el-input type="textarea" placeholder="需要跳转的小程序appId列表，多个appId以，隔开，最大输入9个" v-model="underReviewObj.appId_array" ></el-input>
+          <el-form-item label="外跳小程序白名单：" prop="appId_array">
+            <el-input type="textarea" placeholder='需要跳转的小程序appId列表，多个appId以，隔开","最大输入9个' v-model="underReviewObj.appId_array" ></el-input>
           </el-form-item>
         </el-form>
       <div slot="footer" >
