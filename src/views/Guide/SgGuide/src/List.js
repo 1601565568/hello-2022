@@ -1412,7 +1412,6 @@ export default {
               _this.transferCount = resp.result.recordsFiltered
             }
           }).catch((resp) => {
-            // _this.$notify.error('查询失败：' + resp.msg)
             _this.$notify.error('请先转移导购的会员')
           })
           _this.specifyTransferFormVisible = false
@@ -1425,7 +1424,7 @@ export default {
           _this.$notify.success(resp.msg)
           _this.$refs.table.$reload()
         }).catch((resp) => {
-          if (!resp.msg.test('undefined')) {
+          if (!resp.msg.match('undefined')) {
             _this.$notify.error('操作失败： ' + resp.msg)
           }
         })
