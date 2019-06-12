@@ -75,7 +75,7 @@
                          class="template-table-pagination"
                          layout="total, prev, pager, next, jumper"
                          :page-size="pagination.currSize"
-                         :current-page="pagination.currPage"
+                         :current-page.sync="pagination.currPage"
                          :total="pagination.total"
                          @current-change="onPageChange">
           </el-pagination>

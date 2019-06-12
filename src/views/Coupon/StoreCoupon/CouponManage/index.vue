@@ -188,7 +188,7 @@
    <el-pagination v-if="pagination.enable" class="template-table-pagination"
           :page-sizes="pagination.sizeOpts"
           :total="pagination.total"
-          :current-page="pagination.page"
+          :current-page.sync="pagination.page"
           :page-size="pagination.size"
           layout="total, sizes, prev, pager, next, jumper"
           @size-change="handleSizeChange"

@@ -69,7 +69,7 @@
     <template slot="pagination">
       <el-pagination v-if="_data.pagination.enable" class="template-table__pagination"
                       :page-sizes="_data.pagination.sizeOpts" :total="_data.pagination.total"
-                      :current-page="_data.pagination.page" :page-size="_data.pagination.size"
+                      :current-page.sync="_data.pagination.page" :page-size="_data.pagination.size"
                       layout="total, sizes, prev, pager, next, jumper" @size-change="$sizeChange$"
                       @current-change="$pageChange$">
       </el-pagination>
@@ -78,7 +78,7 @@
     <el-pagination v-if="_data.pagination.enable" class="template-table-pagination"
                     :page-sizes="_data.pagination.sizeOpts"
                     :total="_data.pagination.total"
-                    :current-page="_data.pagination.page"
+                    :current-page.sync="_data.pagination.page"
                     :page-size="_data.pagination.size"
                     layout="total, sizes, prev, pager, next, jumper"
                     @size-change="sizeChange"
