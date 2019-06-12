@@ -455,7 +455,7 @@ export default {
             _this.$notify.success('保存成功')
             _this.memberBelongingShowTow = false
             _this.memberBelongingShow = false
-            this.$refs.table.$reload()
+            this.$refs.mainTable.$reload()
           }).catch(resp => {
             _this.closeDialog()
             this.model.sgGuide.image = allImageUrl
@@ -905,7 +905,7 @@ export default {
       }).then(resp => {
         _this.closeDialog()
         _this.$notify.success('保存成功')
-        this.$refs.table.$reload()
+        this.$refs.mainTable.$reload()
       }).catch((resp) => {
         // _this.closeDialog()
         this.model.sgGuide.image = allImageUrl
@@ -1199,7 +1199,6 @@ export default {
         },
         start: _this.transferShopPage !== null ? ((this.transferShopPage - 1) * 15) : 0
       }
-      // debugger
       await this.$http
         .fetch(_this.$api.guide.guide.findShopGuide, obj)
         .then(resp => {
