@@ -510,9 +510,10 @@ export default {
               _this.allDeleteFormVisible = true
             } else {
               _this.$notify.success('删除成功')
-              _this.$refs.table.$reload()
+              _this.$refs.mainTable.$reload()
             }
           }).catch((resp) => {
+            console.log(resp)
             _this.$notify.error('查询失败：' + resp.msg)
           })
         })
@@ -585,7 +586,7 @@ export default {
                   _this.failCount = resp.result.failCount
                 } else {
                   _this.$notify.success('批量离职成功')
-                  _this.$refs.table.$reload()
+                  _this.$refs.mainTable.$reload()
                 }
               }).catch((resp) => {
                 _this.$notify.error('批量离职失败：' + resp.msg)
@@ -678,7 +679,7 @@ export default {
           _this.shopFindListShow = false
           _this.replacementStoresHaveMembersShow = false
           _this.$notify.success('批量更换门店成功')
-          _this.$refs.table.$reload()
+          _this.$refs.mainTable.$reload()
         }
       }).catch((resp) => {
         _this.$notify.error('批量更换门店失败：' + resp.msg)
@@ -774,7 +775,7 @@ export default {
             _this.allDeleteFormVisible = true
           } else {
             _this.$notify.success('删除成功')
-            _this.$refs.table.$reload()
+            _this.$refs.mainTable.$reload()
           }
         }).catch((resp) => {
           _this.$notify.error('删除失败，原因：' + resp.msg)
