@@ -73,17 +73,20 @@ export default {
     },
     checkNumber (value, month, regin, msg) {
       if (!regin.test(value)) {
+        this.$notify.error(msg)
         this.shopList[0]['quota' + month] = 0
       } else {
         if (parseInt(this.saveObj.type) === 0) {
           validateUtil.checkDigitalLength(null, 10, null, Number(value) * 10000, (error) => {
             if (error) {
+              this.$notify.error('最多输入6位数')
               this.shopList[0]['quota' + month] = 0
             }
           })
         } else {
           validateUtil.checkDigitalLength(null, 10, null, value, (error) => {
             if (error) {
+              this.$notify.error('最多输入10位数')
               this.shopList[0]['quota' + month] = 0
             }
           })
