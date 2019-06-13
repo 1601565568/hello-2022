@@ -4,13 +4,13 @@
 <div class="page-rewardSetAdd">
   <el-dialog
   :title="title"
-  width='40%'
+  width='45%'
   :close-on-click-modal=false
   :visible.sync="dialogVisible"
   :before-close="handleClose">
     <div class="topTip">已选门店:<span>{{selectedArr.length}}</span>家</div>
     <div class="comDialogBoxCon">
-      <el-form ref="form" :inline="true" :model="saveObj" :rules="rules">
+      <el-form ref="form" :inline="true" :model="saveObj" :rules="rules" style='margin-bottom: 30px;'>
       <div class="addTitBox">
         <span class="addTitText">销售提成</span>
         <el-form-item>
@@ -92,11 +92,15 @@ export default {
         list: []
       },
       rules: {
-        onlineSalesRewardOrder: [{ validator: checkNumber, trigger: 'blur' }],
-        onlineSalesRewardExclusive: [{ validator: checkNumber, trigger: 'blur' }],
-        salesRewardOrder: [{ validator: checkNumber, trigger: 'blur' }],
-        salesRewardExclusive: [{ validator: checkNumber, trigger: 'blur' }],
-        memberReward: [{ validator: checkNumber, trigger: 'blur' }]
+        onlineSalesRewardOrder: [{ validator: this.checkDecimals, trigger: ['blur', 'change'] },
+          { validator: this.checkMax, trigger: ['blur', 'change'] }],
+        onlineSalesRewardExclusive: [{ validator: this.checkDecimals, trigger: ['blur', 'change'] },
+          { validator: this.checkMax, trigger: ['blur', 'change'] }],
+        salesRewardOrder: [{ validator: this.checkDecimals, trigger: ['blur', 'change'] },
+          { validator: this.checkMax, trigger: ['blur', 'change'] }],
+        salesRewardExclusive: [{ validator: this.checkDecimals, trigger: ['blur', 'change'] },
+          { validator: this.checkMax, trigger: ['blur', 'change'] }],
+        memberReward: [{ validator: checkNumber, trigger: ['blur', 'change'] }]
       },
       title: '',
       curMonth: 5,
@@ -149,6 +153,28 @@ export default {
     },
     handleClose () {
       this.dialogVisible = false
+    },
+    checkMax (rule, value, callback) {
+      let error
+      if (value) {
+        if (Number(value) > 100) {
+          error = '不允许超过100%'
+        }
+      }
+      callback(error)
+    },
+    // 校验数值
+    checkDecimals (rule, value, callback) {
+      if (!value) {
+        callback()
+      } else {
+        let arr = /^([-+]?\d*)(\.\d{1,2})?$/
+        if (!arr.test(value)) {
+          callback(new Error('最多输入2位小数'))
+        } else {
+          callback()
+        }
+      }
     }
   }
 }
