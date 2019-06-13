@@ -162,6 +162,7 @@ export default {
       subordinateStores: [],
       showUpdateAllGuidePrefix: false,
       disabledWorkPrefix: true,
+      isHidden: false, // 确认会员归属确定按钮是否置灰--用于控制多次点击
       imageRoot: api.API_ROOT + '/core/file/showImage?fileKey=',
       title: '',
       transferWay: '1',
@@ -175,7 +176,7 @@ export default {
       multipleStoresAreNotSupportedShow: false, // 多门店更换提示不支持员工多门店
       accordingToJudgmentShow: false,
       memberBelongingShowTow: false, // 会员归属弹窗
-      dialogFormVisible: false,
+      dialogFormVisible: false, // 编辑或新增员工信息弹窗
       replaceTheShoppers: false, // 批量更换导购
       storeOwnershipDisplay: false,
       shopFormVisible: false, //  店铺弹窗
@@ -412,6 +413,7 @@ export default {
     },
     memberBelongingEnsure (model) { // 门店更换保存功能
       let _this = this
+      _this.isHidden = true
       let guide = this.model.sgGuide
       let guideShop = []
       _this.model.sgGuideVo.type = Number(_this.memberBelongingRadio)
@@ -457,7 +459,8 @@ export default {
             _this.memberBelongingShow = false
             this.$refs.mainTable.$reload()
           }).catch(resp => {
-            _this.closeDialog()
+            // _this.closeDialog()
+            _this.isHidden = false
             this.model.sgGuide.image = allImageUrl
             _this.$notify.error('保存失败：' + resp.msg)
           })
@@ -513,7 +516,6 @@ export default {
               _this.$refs.mainTable.$reload()
             }
           }).catch((resp) => {
-            console.log(resp)
             _this.$notify.error('查询失败：' + resp.msg)
           })
         })
@@ -918,8 +920,6 @@ export default {
       // eslint-disable-next-line no-console
       console.log('_this.$refs.addForm:', _this.model.sgGuide.work_prefix)
       _this.$refs.addForm.validate(valid => {
-        // eslint-disable-next-line no-console
-        console.log('valid:', valid)
         if (valid) {
           let guideShop = []
           let guide = model.sgGuide
@@ -1568,6 +1568,7 @@ export default {
       this.$data.model = this.$options.data().model
       this.$refs.addForm.resetFields()
       this.dialogFormVisible = false
+      this.isHidden = false
       this.row = null
     },
     beforeAvatarUpload (file) {
