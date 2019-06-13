@@ -136,7 +136,7 @@
         </div>
         <div class="dialog_mian_bottomText">
           <el-row>
-              <el-col :span='12'><span>支付设置：</span>商户编号：2958371925，商户密钥：ecehg3205t321kfsgl（修改）</el-col>
+              <el-col :span='12'><span>支付设置：</span>商户编号：2958371925，商户密钥：ecehg3205t321kfsgl（编辑）</el-col>
               <el-col :span='12'><span>未设置：</span>（新增）</el-col>
           </el-row>
         </div>
