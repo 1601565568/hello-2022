@@ -97,7 +97,7 @@
                     stripe
                     resizable v-loading.lock="_data._table.loadingtable" @selection-change="selsChange"
                     :element-loading-text="$t('prompt.loading')" @sort-change="$orderChange$">
-            <el-table-column type="selection" align="center" :width="45"></el-table-column>
+            <el-table-column type="selection" align="center" :width="50"></el-table-column>
             <el-table-column prop="title" label="素材标题" align="left" width="200">
               <template slot-scope="scope">
                 {{scope.row.title}}

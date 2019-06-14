@@ -152,7 +152,7 @@
                 stripe
                 resizable v-loading.lock="_data._table.loadingtable"
                :element-loading-text="$t('prompt.loading')" @sort-change="$orderChange$">
-        <el-table-column type="selection" align="center" :width="45">
+        <el-table-column type="selection" align="center" :width="50">
 
         </el-table-column>
         <el-table-column :show-overflow-tooltip="true" type="default" prop="date"

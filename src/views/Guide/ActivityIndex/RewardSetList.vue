@@ -50,7 +50,7 @@
       @selection-change="handleSelectionChange">
       <el-table-column
         type="selection"
-        width="42">
+        align="center" :width="50">
       </el-table-column>
       <el-table-column
         label="门店名称"

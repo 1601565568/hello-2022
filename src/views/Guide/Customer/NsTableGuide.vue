@@ -92,7 +92,7 @@
       <!-- 操作（只有一项文字的80px,两项文字120px,三项文字160px） -->
 
       <el-table ref="table" :data="_data._table.data" stripe @selection-change="handleSelectionChange" v-loading="loading">
-        <el-table-column type="selection" width="42"></el-table-column>
+        <el-table-column type="selection" align="center" :width="50"></el-table-column>
         <el-table-column prop="name" label="会员姓名" align="left" width="100">
           <template slot-scope="scope">
             {{scope.row.name || '-'}}

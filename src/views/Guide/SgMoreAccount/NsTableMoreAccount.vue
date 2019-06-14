@@ -82,7 +82,7 @@
       <!-- 操作（只有一项文字的80px,两项文字120px,三项文字160px） -->
 
       <el-table ref="table" :data="_data._table.data" stripe >
-        <el-table-column type="selection" width="42" class="table_selection"></el-table-column>
+        <el-table-column type="selection" align="center" :width="50"></el-table-column>
         <el-table-column prop="wechatId" label="个人号" align="left">
           <template slot-scope="scope">
             {{scope.row.wechatId || '-'}}

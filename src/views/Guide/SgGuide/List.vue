@@ -264,7 +264,7 @@
           </div>
           <div>
             <el-table ref="table" :data="tableDataCustomer" stripe @selection-change="handleSelectionChange">
-              <el-table-column type="selection" width="42" class="table_selection"></el-table-column>
+              <el-table-column type="selection" align="center" :width="50"></el-table-column>
               <el-table-column prop="name" label="会员姓名" align="left" width="130">
                 <template slot-scope="scope">
                   {{scope.row.name || '-'}}
@@ -481,7 +481,7 @@
     <el-dialog title="自定义转移" :visible.sync="customFormVisible"  :before-close="onCancelCustomTransfer">
       <div style="overflow-x:hidden;overflow-y:auto;margin-top: 10px;">
         <el-table ref="chooseCustomer" :data="tableDataCustomer" @select="selectRow" @select-all="selectAll" stripe>
-          <el-table-column type="selection"  width="40" align="center" disabled></el-table-column>
+          <el-table-column type="selection" align="center" :width="50" disabled></el-table-column>
           <el-table-column prop="registerTime" label="加入时间" align="center" width="200"></el-table-column>
           <!-- <el-table-column prop="name" label="姓名" align="center" width="100"></el-table-column> -->
           <el-table-column prop="mobile" label="联系方式" align="center" width="100"></el-table-column>

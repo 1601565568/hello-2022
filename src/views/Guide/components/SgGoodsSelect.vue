@@ -61,7 +61,7 @@
                     :key="pagination.currPage"
                     v-loading="tableLoading"
                     :element-loading-text="$t('prompt.loading')">
-            <el-table-column type="selection" width="40" align="center"></el-table-column>
+            <el-table-column type="selection" align="center" :width="50"></el-table-column>
             <el-table-column property="title" label="商品名称" show-overflow-tooltip></el-table-column>
             <el-table-column property="goods_code" label="商家编码" show-overflow-tooltip width="120">
               <template slot-scope="{row}">

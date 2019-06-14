@@ -27,7 +27,7 @@
                     stripe
                     resizable v-loading.lock="_data._table.loadingtable" @selection-change="selsChange"
                     :element-loading-text="$t('prompt.loading')" @sort-change="$orderChange$">
-            <el-table-column type="selection" align="center" width="34"></el-table-column>
+            <el-table-column type="selection" align="center" :width="50"></el-table-column>
             <el-table-column prop="name" label="素材分组" align="left"></el-table-column>
             <el-table-column prop="update_time" label="更新时间" align="center" width="200"></el-table-column>
             <el-table-column prop="count" label="素材数" align="center" width="200"></el-table-column>

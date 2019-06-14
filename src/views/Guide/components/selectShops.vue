@@ -45,7 +45,7 @@
             style="width: 100%" v-loading="tableLoading"
             :element-loading-text="$t('prompt.loading')"
             @selection-change="handleSelectionChange">
-            <el-table-column type="selection" width="55"></el-table-column>
+            <el-table-column type="selection" align="center" :width="50"></el-table-column>
             <el-table-column prop="shopName" label="门店名称"></el-table-column>
           </el-table>
         </div>

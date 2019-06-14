@@ -107,7 +107,7 @@
         <el-table ref="table" :data="_data._table.data" class="template-table__main"
                   stripe resizable v-loading.lock="_data._table.loadingtable"
                   :element-loading-text="$t('prompt.loading')">
-          <el-table-column type="selection" align="center" :width="45"></el-table-column>
+          <el-table-column type="selection" align="center" :width="50"></el-table-column>
           <el-table-column label="客户信息" align="left">
             <template slot-scope="scope">
               <img :src="scope.row.customer_head_image" width="30" height="30"/>
