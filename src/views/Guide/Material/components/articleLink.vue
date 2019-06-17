@@ -13,7 +13,7 @@
         <el-form-item label="显示样式：" prop="type" >
           <el-form-grid size="md">
             <el-select  v-model="saveObj.type" clearable>
-              <el-option v-for="item in typeList" :key="item" :label="item.name"
+              <el-option v-for="item in typeList" :key="item.type" :label="item.name"
                 :value="item.type">
               </el-option>
             </el-select>
@@ -99,7 +99,7 @@ export default {
       codeTargetName: '',
       typeList: [{ name: '文字', type: 0 }, { name: '图片', type: 1 }],
       wechatPageTypeList: [{ name: '商城主页面', id: 1 }, { name: '商品', id: 2 }, { name: '营销活动', id: 4 }],
-      wechatPageUrlList: [{ codeTargetName: '首页', codeTarget: '/pages/index/index' }, { codeTargetName: '分类', codeTarget: '/pages/TabBar/GoodsList/index' }, { codeTargetName: '我的', codeTarget: '/pages/TabBar/My/index' }],
+      wechatPageUrlList: [{ codeTargetName: '首页', codeTarget: '/pages/index/index' }, { codeTargetName: '分类', codeTarget: '/pages/TabBar/GoodsClassifyNew/index' }, { codeTargetName: '我的', codeTarget: '/pages/TabBar/My/index' }],
       dialogVisible: false,
       rules: {
         type: [
@@ -137,17 +137,20 @@ export default {
       })
     },
     selectMarketlBack (obj) {
+      console.log(obj)
       if (obj.guid) {
         let path
-        if (obj.marketType === 2 || obj.marketType === 4) {
-          path = `/pages/Transfer/goodsDetail?marketingGuid=${obj.guid}`
+        if (obj.marketType === 2) {
+          path = `/pages/Activity/GroupBuy/GroupBuyDetail/index?marketingGuid=${obj.guid}`
+        } else if (obj.marketType === 4) {
+          path = `/pages/Activity/Seckill/Detail/index?marketingGuid=${obj.guid}`
         } else if (obj.marketType === 3) {
-          path = `/pages/Transfer/preferential?marketingGuid=${obj.guid}`
+          path = `/pages/Activity/FullReduction/Detail/index?marketingGuid=${obj.guid}`
         }
         this.codeTargetName = obj.name
         this.$set(this.saveObj, 'codeTarget', path)
       } else if (obj.goodsId) {
-        let path = `/pages/Transfer/goodsDetail?goodsId=${obj.goodsId}`
+        let path = `/pages/Good/GoodsDetail/index?goodsId=${obj.goodsId}`
         this.codeTargetName = obj.title
         this.$set(this.saveObj, 'codeTarget', path)
       }

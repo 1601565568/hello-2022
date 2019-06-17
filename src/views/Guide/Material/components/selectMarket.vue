@@ -96,12 +96,15 @@ export default {
   data () {
     return {
       market: {
-        guid: ''
+        guid: '',
+        marketType: 0
       },
       loading: false,
-      searchObj: { searchMap: {
-        type: 2
-      } },
+      searchObj: {
+        searchMap: {
+          type: 2
+        }
+      },
       wechatPageTypeList: [{ name: '商城主页面', id: 1 }, { name: '商品', id: 2 }, { name: '优惠券', id: 3 }, { name: '营销活动', id: 4 }, { name: '自定义页面', id: 5 }],
       wechatPageUrlList: [],
       dialogImageUrl: '',
@@ -122,9 +125,9 @@ export default {
     },
     // 提交保存
     saveFun () {
-      this.handleClose()
       this.market.marketType = this.searchObj.searchMap.type
-      this.$props.callBack(this.market)
+      this.$props.callBack(Object.assign({}, this.market, { marketType: this.searchObj.searchMap.type }))
+      this.handleClose()
     },
     handleClose () {
       this.dialogVisible = false
