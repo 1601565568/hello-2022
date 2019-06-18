@@ -1,5 +1,6 @@
 import api from '@/config/http'
 import moment from 'moment/moment'
+import { getErrorMsg } from '@/utils/toast'
 
 export default {
   data: function () {
@@ -516,7 +517,7 @@ export default {
               _this.$refs.mainTable.$reload()
             }
           }).catch((resp) => {
-            _this.$notify.error('查询失败：' + resp.msg)
+            _this.$notify.error(getErrorMsg('查询失败', resp))
           })
         })
       }
@@ -760,7 +761,7 @@ export default {
           _this.shopFindLists = resp.result
         }
       }).catch((resp) => {
-        _this.$notify.error('查询失败：' + resp.msg)
+        _this.$notify.error(getErrorMsg('查询失败', resp))
       })
     },
     onDelsTipFun (row) { // 删除操作
@@ -791,7 +792,7 @@ export default {
           _this.shopFindList = resp.result
         }
       }).catch((resp) => {
-        _this.$notify.error('查询失败：' + resp.msg)
+        _this.$notify.error(getErrorMsg('查询失败', resp))
       })
     },
     queryGuideShopList (guideId) {
@@ -803,7 +804,7 @@ export default {
           _this.guideShopList = resp.result
         }
       }).catch((resp) => {
-        _this.$notify.error('查询失败,' + resp.msg)
+        _this.$notify.error(getErrorMsg('查询失败', resp))
       })
     },
     onRedactFun (row) { // 修改和新增功能
@@ -865,7 +866,7 @@ export default {
           this.showUpdateAllGuidePrefix = false
           this.dialogFormVisible = true
         }).catch((err) => {
-          that.$notify.error('查询失败:' + err.msg)
+          that.$notify.error(getErrorMsg('查询失败', err.msg))
         })
       }
     },
@@ -879,7 +880,7 @@ export default {
       }).then(resp => {
         b = resp.result.recordsFiltered
       }).catch((resp) => {
-        _this.$notify.error('查询失败：' + resp.msg)
+        _this.$notify.error(getErrorMsg('查询失败', resp))
       })
       return b
     },
@@ -1125,7 +1126,7 @@ export default {
           _this.chooseCustomerFocus()
         }
       }).catch((resp) => {
-        // _this.$notify.error('查询失败：' + resp.msg)
+        // _this.$notify.error(getErrorMsg('查询失败', resp))
       })
     },
     // 批量设置导购
@@ -1240,7 +1241,7 @@ export default {
           _this.paginationss.total = parseInt(resp.result.recordsTotal)
         }
       }).catch((resp) => {
-        _this.$notify.error('查询失败：' + resp.msg)
+        _this.$notify.error(getErrorMsg('查询失败', resp))
       })
     },
     // 员工离职
@@ -1274,7 +1275,7 @@ export default {
             _this.guideLeave(params, false)
           }
         }).catch((resp) => {
-          _this.$notify.error('查询失败：' + resp.msg)
+          _this.$notify.error(getErrorMsg('查询失败', resp))
         })
       })
     },

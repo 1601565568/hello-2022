@@ -164,6 +164,7 @@
 import moment from 'moment'
 import listPageMixin from '@/mixins/listPage'
 import shopSetAdd from './ShopSetAdd'
+import { getErrorMsg } from '@/utils/toast'
 export default {
   mixins: [listPageMixin],
   data () {
@@ -269,7 +270,7 @@ export default {
           this.pagination.total = parseInt(resp.result.recordsTotal)
         })
         .catch(resp => {
-          this.$notify.error('查询失败：')
+          this.$notify.error(getErrorMsg('查询失败', resp))
         })
       this.loading = false
       // 总条数

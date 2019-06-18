@@ -1,5 +1,6 @@
 import api from '@/config/http'
 import tableMixin from 'web-crm/src/mixins/table'
+import { getErrorMsg } from '@/utils/toast'
 export default {
   data: function () {
     let pagination = {
@@ -100,7 +101,7 @@ export default {
           that.shopList = [...resp.result]
         })
         .catch(resp => {
-          this.$notify.error(resp.msg || '查询失败')
+          this.$notify.error(getErrorMsg('查询失败', resp))
         })
     },
     async guideFindList (model) { // 导购列表查询
@@ -218,7 +219,7 @@ export default {
             _this.items = resp.result
           }
         }).catch((resp) => {
-          _this.$notify.error('查询失败：' + resp.msg)
+          _this.$notify.error(getErrorMsg('查询失败', resp))
         })
 
         _this.$http.fetch(_this.$api.guide.guide.customerQueryValidPoint, {
@@ -228,7 +229,7 @@ export default {
         }).then(resp => {
           _this.result = resp.result
         }).catch((resp) => {
-          _this.$notify.error('查询失败：' + resp.msg)
+          _this.$notify.error(getErrorMsg('查询失败', resp))
         })
       }
     },

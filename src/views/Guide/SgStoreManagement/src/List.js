@@ -1,5 +1,6 @@
 import api from '@/config/http'
 import moment from 'moment/moment'
+import { getErrorMsg } from '@/utils/toast'
 export default {
   data: function () {
     let pagination = {
@@ -375,7 +376,7 @@ export default {
               _this.$refs.table.$reload()
             }
           }).catch((resp) => {
-            _this.$notify.error('查询失败：' + resp.msg)
+            _this.$notify.error(getErrorMsg('查询失败', resp))
           })
         })
       }
@@ -423,7 +424,7 @@ export default {
               _this.$refs.table.$reload()
             }
           }).catch((resp) => {
-            _this.$notify.error('查询失败：' + resp.msg)
+            _this.$notify.error(getErrorMsg('查询失败', resp))
           })
         })
       }
@@ -471,7 +472,7 @@ export default {
             _this.$refs.table.$reload()
           }
         }).catch((resp) => {
-          _this.$notify.error('查询失败：' + resp.msg)
+          _this.$notify.error(getErrorMsg('查询失败', resp))
         })
       }
     },
@@ -490,7 +491,7 @@ export default {
           _this.shopFindList = resp.result
         }
       }).catch((resp) => {
-        _this.$notify.error('查询失败：' + resp.msg)
+        _this.$notify.error(getErrorMsg('查询失败', resp))
       })
     },
     onDelsTipFun (row) {
@@ -521,7 +522,7 @@ export default {
           _this.shopFindList = resp.result
         }
       }).catch((resp) => {
-        _this.$notify.error('查询失败：' + resp.msg)
+        _this.$notify.error(getErrorMsg('查询失败', resp))
       })
     },
     queryGuideShopList (guideId) {
@@ -533,7 +534,7 @@ export default {
           _this.guideShopList = resp.result
         }
       }).catch((resp) => {
-        _this.$notify.error('查询失败,' + resp.msg)
+        _this.$notify.error(getErrorMsg('查询失败', resp))
       })
     },
     onRedactFun () { // 同步门店

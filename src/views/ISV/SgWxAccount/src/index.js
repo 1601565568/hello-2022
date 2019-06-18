@@ -1,5 +1,6 @@
 import tableMixin from 'web-crm/src/mixins/table'
 import apiRequestConfirm from 'web-crm/src/utils/apiRequestConfirm'
+import { getErrorMsg } from '@/utils/toast'
 export default {
   name: 'index',
   mixins: [tableMixin],
@@ -501,7 +502,7 @@ export default {
           that.particularsObj = resp.result
         })
         .catch(resp => {
-          this.$notify.error(resp.msg || '查询失败')
+          this.$notify.error(getErrorMsg('查询失败', resp))
         })
     },
     openDialog: function () {

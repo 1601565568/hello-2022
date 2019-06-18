@@ -81,6 +81,7 @@ import listPageMixin from '@/mixins/listPage'
 import ElUpload from 'nui-v2/lib/upload'
 import SelectMarket from './selectMarket'
 import SelectGoods from './selectGoods'
+import { getErrorMsg } from '@/utils/toast'
 export default {
   components: {
     ElUpload,
@@ -195,8 +196,8 @@ export default {
       await this.$http.fetch(this.$api.guide.material.findMallGoodsList, this.searchObj).then(res => {
         that.pagination.total = Number(res.result.recordsTotal)
         that.dataList = res.result.data
-      }).catch(() => {
-        that.$notify.error('查询失败：')
+      }).catch((resp) => {
+        that.$notify.error(getErrorMsg('查询失败', resp))
       }).finally(() => {
         this.loading = false
       })
@@ -204,8 +205,8 @@ export default {
     async getGoodsCategory () {
       let that = this
       await this.$http.fetch(this.$api.guide.material.getGoodsCategory, {}).then(res => {
-      }).catch(() => {
-        that.$notify.error('查询失败：')
+      }).catch((resp) => {
+        that.$notify.error(getErrorMsg('查询失败', resp))
       })
     },
     submitForm () {

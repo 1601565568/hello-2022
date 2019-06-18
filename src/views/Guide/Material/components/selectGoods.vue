@@ -104,6 +104,7 @@
 </template>
 <script>
 import listPageMixin from '@/mixins/listPage'
+import { getErrorMsg } from '@/utils/toast'
 export default {
   components: {
   },
@@ -166,7 +167,7 @@ export default {
         that.pagination.total = Number(res.result.recordsTotal)
         that.dataList = res.result.data
       }).catch(() => {
-        that.$notify.error('查询失败：')
+        that.$notify.error(getErrorMsg('查询失败', resp))
       }).finally(() => {
         this.loading = false
       })
@@ -187,7 +188,7 @@ export default {
         //   }
         // })
       }).catch(() => {
-        that.$notify.error('查询失败：')
+        that.$notify.error(getErrorMsg('查询失败', resp))
       })
     },
     submitForm () {

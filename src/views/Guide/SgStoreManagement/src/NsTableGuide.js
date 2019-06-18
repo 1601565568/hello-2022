@@ -1,5 +1,6 @@
 import tableMixin from 'web-crm/src/mixins/table'
 import NsArea from 'web-crm/src/components/NsArea'
+import { getErrorMsg } from '@/utils/toast'
 export default {
   name: 'NsTableGuide',
   mixins: [tableMixin],
@@ -167,7 +168,7 @@ export default {
           that.particularsObj = resp.result
         })
         .catch(resp => {
-          this.$notify.error(resp.msg || '查询失败')
+          this.$notify.error(getErrorMsg('查询失败', resp))
         })
     },
     elIconMenu (row) {
@@ -189,7 +190,7 @@ export default {
           _this.shopFindList = resp.result
         }
       }).catch((resp) => {
-        _this.$notify.error('查询失败：' + resp.msg)
+        _this.$notify.error(getErrorMsg('查询失败', resp))
       })
     },
     shopDel (index) {
@@ -250,7 +251,7 @@ export default {
           _this.$notify.error('切换失败，原因：' + resp.msg)
         }
       }).catch((resp) => {
-        _this.$notify.error('查询失败：' + resp.msg)
+        _this.$notify.error(getErrorMsg('查询失败', resp))
       })
     }
   }

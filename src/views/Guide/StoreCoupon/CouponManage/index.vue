@@ -251,6 +251,7 @@ import addModal from './addModal'
 // 详情
 import couponView from './couponView'
 import listPageMixin from '@/mixins/listPage'
+import { getErrorMsg } from '@/utils/toast'
 export default {
   mixins: [listPageMixin],
   data () {
@@ -354,7 +355,7 @@ export default {
         .then(resp => {
         })
         .catch(resp => {
-          this.$notify.error('查询失败')
+          this.$notify.error(getErrorMsg('查询失败', resp))
         })
       this.loadListFun(this.searchObj)
     },
@@ -369,7 +370,7 @@ export default {
         .then(resp => {
         })
         .catch(resp => {
-          this.$notify.error('查询失败')
+          this.$notify.error(getErrorMsg('查询失败', resp))
         })
       this.loadListFun(this.searchObj)
     },
@@ -394,7 +395,7 @@ export default {
         .then(resp => {
         })
         .catch(resp => {
-          this.$notify.error('查询失败：')
+          this.$notify.error(getErrorMsg('查询失败', resp))
         })
       this.$notify({
         type: 'success',
@@ -446,7 +447,7 @@ export default {
           this.pagination.total = parseInt(resp.result.recordsTotal)
         })
         .catch(resp => {
-          this.$notify.error('查询失败：')
+          this.$notify.error(getErrorMsg('查询失败', resp))
         })
       this.loading = false
       // 总条数

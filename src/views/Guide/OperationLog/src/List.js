@@ -1,4 +1,4 @@
-
+import { getErrorMsg } from '@/utils/toast'
 export default {
   data: function () {
     return {
@@ -64,7 +64,7 @@ export default {
           })
         }
       }).catch((resp) => {
-        _this.$notify.error('查询失败：' + resp.msg)
+        _this.$notify.error(getErrorMsg('查询失败', resp))
       })
     }
   }
