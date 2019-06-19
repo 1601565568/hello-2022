@@ -1350,25 +1350,18 @@ export default {
     onSaveCustomTransfer () {
       var _this = this
       var isLeave = 0
-      let obj = {
-        nick: null,
-        nickType: null,
-        customerFrom: null
-      }
       if (_this.allPageCustomer.length > 0) {
         if (_this.allPageCustomer.length === _this.paginations.total) {
           isLeave = 1
         }
         _this.nickVoList = []
         for (let index = 0; index < _this.allPageCustomer.length; index++) {
-          if (index === 0) {
-            obj.nick = _this.allPageCustomer[index].nick
-            obj.nickType = _this.allPageCustomer[index].nickType
-            obj.customerFrom = _this.allPageCustomer[index].customerFrom
-            _this.nickVoList.push(obj)
-          } else {
-            _this.customerIds += ',' + _this.allPageCustomer[index].customerId
+          let obj = {
+            nick: _this.allPageCustomer[index].nick,
+            nickType: _this.allPageCustomer[index].nickType,
+            customerFrom: _this.allPageCustomer[index].customerFrom
           }
+          _this.nickVoList.push(obj)
         }
       } else {
         _this.$notify.error('请选择转移的客户')
