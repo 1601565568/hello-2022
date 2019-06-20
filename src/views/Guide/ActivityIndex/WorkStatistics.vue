@@ -163,7 +163,7 @@
       <el-table-column label="奖励（元）" prop="recruitPrice" width="220" align="right">
         <template slot-scope="scope">
           <span v-if="scope.row.recruitPrice == 0">0.00</span>
-          <a href="javascript:" @click="showRecruitDialog(scope.row.guideId, scope.row.name,scope.row.shopId)" v-else>{{$numeral(scope.row.recruitPrice).format('0,0.00')}}</a>
+          <a href="javascript:" @click="showRecruitDialog(scope.row.guideId, scope.row.name,scope.row.gsShopId)" v-else>{{$numeral(scope.row.recruitPrice).format('0,0.00')}}</a>
         </template>
       </el-table-column>
       <el-table-column
@@ -189,7 +189,7 @@
   <el-pagination v-if="pagination.enable" class="template-table-pagination"
           :page-sizes="pagination.sizeOpts"
           :total="pagination.total"
-          :current-page="pagination.page"
+          :current-page.sync="pagination.page"
           :page-size="pagination.size"
           layout="total, sizes, prev, pager, next, jumper"
           @size-change="handleSizeChange"
@@ -227,7 +227,7 @@
     <el-pagination v-if="pagination.enable" class="template-table-pagination"
                    :page-sizes="pagination1.sizeOpts"
                    :total="pagination1.total"
-                   :current-page="pagination1.page"
+                   :current-page.sync="pagination1.page"
                    :page-size="pagination1.size"
                    layout="total, sizes, prev, pager, next, jumper"
                    @size-change="sizeChange"
@@ -277,7 +277,7 @@
     <el-pagination v-if="pagination1.enable" class="template-table-pagination"
                    :page-sizes="pagination1.sizeOpts"
                    :total="pagination1.total"
-                   :current-page="pagination1.page"
+                   :current-page.sync="pagination1.page"
                    :page-size="pagination1.size"
                    layout="total, sizes, prev, pager, next, jumper"
                    @size-change="sizeChange"
@@ -294,7 +294,7 @@
 <script>
 import moment from 'moment'
 import listPageMixin from '@/mixins/listPage'
-import { getErrorMsg } from '../../../utils/toast'
+import { getErrorMsg } from '@/utils/toast'
 
 export default {
   mixins: [listPageMixin],
@@ -321,7 +321,9 @@ export default {
       searchform: {
         shopName: '',
         date: '', // 年月份,
-        type: '1' // 1按月、2按日
+        type: '1', // 1按月、2按日
+        workId: '',
+        name: ''
       },
       // 弹窗字段
       type: null,
@@ -376,7 +378,7 @@ export default {
           this.pagination.total = parseInt(resp.result.recordsTotal)
         })
         .catch(resp => {
-          this.$notify.error('查询失败：' + getErrorMsg(resp))
+          this.$notify.error(getErrorMsg('查询失败', resp))
         })
       this.loading = false
       // 总条数
@@ -393,7 +395,7 @@ export default {
           'YYYY-MM'
         )
       }
-      this.searchObj.start = 0
+      this.clearSearch()
       this.searchObj.searchMap.shopName = this.searchform.shopName
       this.searchObj.searchMap.name = this.searchform.name
       this.searchObj.searchMap.workId = this.searchform.workId
@@ -445,7 +447,7 @@ export default {
           _this._data.pagination1.total = parseInt(resp.result.recordsTotal)
         }
       }).catch((resp) => {
-        _this.$notify.error('查询失败：' + getErrorMsg(resp))
+        _this.$notify.error(getErrorMsg('查询失败', resp))
       })
     },
     // 关闭自定义转移弹窗

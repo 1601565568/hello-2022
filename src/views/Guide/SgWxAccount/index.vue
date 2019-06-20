@@ -42,7 +42,7 @@
       <template slot="pagination">
         <el-pagination v-if="_data._pagination.enable" class="template-table__pagination"
                        :page-sizes="_data._pagination.sizeOpts" :total="_data._pagination.total"
-                       :current-page="_data._pagination.page" :page-size="_data._pagination.size"
+                       :current-page.sync="_data._pagination.page" :page-size="_data._pagination.size"
                        layout="total, sizes, prev, pager, next, jumper" @size-change="$sizeChange$"
                        @current-change="$pageChange$">
         </el-pagination>
@@ -136,7 +136,7 @@
         </div>
         <div class="dialog_mian_bottomText">
           <el-row>
-              <el-col :span='12'><span>支付设置：</span>商户编号：2958371925，商户密钥：ecehg3205t321kfsgl（修改）</el-col>
+              <el-col :span='12'><span>支付设置：</span>商户编号：2958371925，商户密钥：ecehg3205t321kfsgl（编辑）</el-col>
               <el-col :span='12'><span>未设置：</span>（新增）</el-col>
           </el-row>
         </div>

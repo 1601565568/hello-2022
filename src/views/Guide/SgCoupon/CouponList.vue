@@ -112,7 +112,7 @@
                        :page-sizes="_data.paginations.sizeOpts"
                        :total="_data.paginations.total"
 
-                       :current-page="_data.paginations.page"
+                       :current-page.sync="_data.paginations.page"
                        :page-size="_data.paginations.size"
                        layout="total, sizes, prev, pager, next, jumper"
                        @size-change="shopSizeChange"

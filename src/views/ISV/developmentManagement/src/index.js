@@ -1,4 +1,5 @@
 import tableMixin from 'web-crm/src/mixins/table'
+import { getErrorMsg } from '@/utils/toast'
 export default {
   name: 'index',
   mixins: [tableMixin],
@@ -93,7 +94,7 @@ export default {
           _this.domainNameVisible = false
         }
       }).catch((resp) => {
-        _this.$notify.error('查询失败：' + resp.msg)
+        _this.$notify.error(getErrorMsg('查询失败', resp))
       })
     },
     onRedactFun (model) { // 编辑
@@ -127,7 +128,7 @@ export default {
           }
         })
         .catch(resp => {
-          that.$notify.error('查询失败：' + resp.msg)
+          that.$notify.error(getErrorMsg('查询失败', resp))
         })
     }
   }

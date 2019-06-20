@@ -92,7 +92,7 @@
       <!-- 操作（只有一项文字的80px,两项文字120px,三项文字160px） -->
 
       <el-table ref="table" :data="_data._table.data" stripe @selection-change="handleSelectionChange" v-loading="loading">
-        <el-table-column type="selection" width="42"></el-table-column>
+        <el-table-column type="selection" align="center" :width="50"></el-table-column>
         <el-table-column prop="name" label="会员姓名" align="left" width="100">
           <template slot-scope="scope">
             {{scope.row.name || '-'}}
@@ -106,7 +106,7 @@
         <el-table-column prop="grade,memberCard" label="会员类型/卡号" align="left" >
           <template slot-scope="scope">
               <div v-if="scope.row.memberCard !==null || scope.row.grade !== null">
-                <span>{{(scope.row.grade === '0' || scope.row.grade === null) ? '-':'会员'+scope.row.grade}}/</span>
+                <span>{{(scope.row.grade === '0' || scope.row.grade === null) ? '非会员':'会员'+scope.row.grade}}/</span>
                 <span>{{scope.row.memberCard === undefined ? '-':scope.row.memberCard}}</span>
                 <!-- {{(scope.row.grade === '0' || scope.row.grade === null) ? '-'+ ' / ' +scope.row.memberCard === undefined?'-':scope.row.memberCard:'会员' + scope.row.grade + ' / '+scope.row.memberCard}} -->
               </div>
@@ -151,7 +151,7 @@
       <el-pagination v-if="_data._pagination.enable" class="template-table-pagination"
                      :page-sizes="_data._pagination.sizeOpts"
                      :total="_data._pagination.total"
-                     :current-page="_data._pagination.page"
+                     :current-page.sync="_data._pagination.page"
                      :page-size="_data._pagination.size"
                      layout="total, sizes, prev, pager, next, jumper"
                      @size-change="$sizeChange$"
@@ -240,4 +240,3 @@ export default NsTableGuide
   white-space:nowrap
 }
 </style>
-

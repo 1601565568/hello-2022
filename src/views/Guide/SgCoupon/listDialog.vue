@@ -74,7 +74,7 @@
         <el-pagination  class="template-table-pagination"
           :page-sizes="pagination.sizeOpts"
           :total="pagination.total"
-          :current-page="pagination.page"
+          :current-page.sync="pagination.page"
           :page-size="pagination.size"
           layout="total, sizes, prev, pager, next, jumper"
           @size-change="handleSizeChange"
@@ -91,6 +91,7 @@
 <script>
 import listPageMixin from '@/mixins/listPage'
 import NsArea from 'web-crm/src/components/NsArea'
+import { getErrorMsg } from '@/utils/toast'
 export default {
   mixins: [listPageMixin],
   data () {
@@ -176,7 +177,7 @@ export default {
           this.pagination.total = parseInt(resp.result.shopTotal)
         })
         .catch(resp => {
-          this.$message.error('查询失败：')
+          this.$message.error(getErrorMsg('查询失败', resp))
         })
       this.loading = false
       // 总条数

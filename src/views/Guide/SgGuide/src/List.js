@@ -1,5 +1,6 @@
 import api from '@/config/http'
 import moment from 'moment/moment'
+import { getErrorMsg } from '@/utils/toast'
 
 export default {
   data: function () {
@@ -162,6 +163,7 @@ export default {
       subordinateStores: [],
       showUpdateAllGuidePrefix: false,
       disabledWorkPrefix: true,
+      isHidden: false, // 确认会员归属确定按钮是否置灰--用于控制多次点击
       imageRoot: api.API_ROOT + '/core/file/showImage?fileKey=',
       title: '',
       transferWay: '1',
@@ -175,7 +177,7 @@ export default {
       multipleStoresAreNotSupportedShow: false, // 多门店更换提示不支持员工多门店
       accordingToJudgmentShow: false,
       memberBelongingShowTow: false, // 会员归属弹窗
-      dialogFormVisible: false,
+      dialogFormVisible: false, // 编辑或新增员工信息弹窗
       replaceTheShoppers: false, // 批量更换导购
       storeOwnershipDisplay: false,
       shopFormVisible: false, //  店铺弹窗
@@ -286,6 +288,7 @@ export default {
   methods: {
     workPrefix (val) {
       this.model.sgGuide.work_prefix = val
+      // eslint-disable-next-line no-console
       console.log('val:', val, this.model.sgGuide.work_prefix)
     },
     formatTooltip (val) {
@@ -411,6 +414,7 @@ export default {
     },
     memberBelongingEnsure (model) { // 门店更换保存功能
       let _this = this
+      _this.isHidden = true
       let guide = this.model.sgGuide
       let guideShop = []
       _this.model.sgGuideVo.type = Number(_this.memberBelongingRadio)
@@ -454,9 +458,10 @@ export default {
             _this.$notify.success('保存成功')
             _this.memberBelongingShowTow = false
             _this.memberBelongingShow = false
-            this.$refs.table.$reload()
+            this.$refs.mainTable.$reload()
           }).catch(resp => {
-            _this.closeDialog()
+            // _this.closeDialog()
+            _this.isHidden = false
             this.model.sgGuide.image = allImageUrl
             _this.$notify.error('保存失败：' + resp.msg)
           })
@@ -509,10 +514,10 @@ export default {
               _this.allDeleteFormVisible = true
             } else {
               _this.$notify.success('删除成功')
-              _this.$refs.table.$reload()
+              _this.$refs.mainTable.$reload()
             }
           }).catch((resp) => {
-            _this.$notify.error('查询失败：' + resp.msg)
+            _this.$notify.error(getErrorMsg('查询失败', resp))
           })
         })
       }
@@ -584,7 +589,7 @@ export default {
                   _this.failCount = resp.result.failCount
                 } else {
                   _this.$notify.success('批量离职成功')
-                  _this.$refs.table.$reload()
+                  _this.$refs.mainTable.$reload()
                 }
               }).catch((resp) => {
                 _this.$notify.error('批量离职失败：' + resp.msg)
@@ -677,7 +682,7 @@ export default {
           _this.shopFindListShow = false
           _this.replacementStoresHaveMembersShow = false
           _this.$notify.success('批量更换门店成功')
-          _this.$refs.table.$reload()
+          _this.$refs.mainTable.$reload()
         }
       }).catch((resp) => {
         _this.$notify.error('批量更换门店失败：' + resp.msg)
@@ -756,7 +761,7 @@ export default {
           _this.shopFindLists = resp.result
         }
       }).catch((resp) => {
-        _this.$notify.error('查询失败：' + resp.msg)
+        _this.$notify.error(getErrorMsg('查询失败', resp))
       })
     },
     onDelsTipFun (row) { // 删除操作
@@ -773,7 +778,7 @@ export default {
             _this.allDeleteFormVisible = true
           } else {
             _this.$notify.success('删除成功')
-            _this.$refs.table.$reload()
+            _this.$refs.mainTable.$reload()
           }
         }).catch((resp) => {
           _this.$notify.error('删除失败，原因：' + resp.msg)
@@ -787,7 +792,7 @@ export default {
           _this.shopFindList = resp.result
         }
       }).catch((resp) => {
-        _this.$notify.error('查询失败：' + resp.msg)
+        _this.$notify.error(getErrorMsg('查询失败', resp))
       })
     },
     queryGuideShopList (guideId) {
@@ -799,7 +804,7 @@ export default {
           _this.guideShopList = resp.result
         }
       }).catch((resp) => {
-        _this.$notify.error('查询失败,' + resp.msg)
+        _this.$notify.error(getErrorMsg('查询失败', resp))
       })
     },
     onRedactFun (row) { // 修改和新增功能
@@ -850,6 +855,7 @@ export default {
             work_prefix: resp.result.workPrefix,
             work_number: resp.result.workNumber
           }
+          // eslint-disable-next-line no-console
           console.log('work_prefix:', this.model.sgGuide.work_prefix)
           this.model.sgGuideShop = {
             id: this.newAdd.gsId,
@@ -860,7 +866,7 @@ export default {
           this.showUpdateAllGuidePrefix = false
           this.dialogFormVisible = true
         }).catch((err) => {
-          that.$notify.error('查询失败:' + err.msg)
+          that.$notify.error(getErrorMsg('查询失败', err.msg))
         })
       }
     },
@@ -874,7 +880,7 @@ export default {
       }).then(resp => {
         b = resp.result.recordsFiltered
       }).catch((resp) => {
-        _this.$notify.error('查询失败：' + resp.msg)
+        _this.$notify.error(getErrorMsg('查询失败', resp))
       })
       return b
     },
@@ -893,6 +899,7 @@ export default {
     },
     async saveOrUpdateGuide (guide, guideShop, sgGuideVo) { // 新增或编辑保存
       let _this = this
+      _this.isHidden = true
       let updateAllGuidePrefix = this.model.updateAllGuidePrefix
       let allImageUrl = null
       await this.$http.fetch(this.$api.guide.guide.saveOrUpdateGuide, {
@@ -903,18 +910,19 @@ export default {
       }).then(resp => {
         _this.closeDialog()
         _this.$notify.success('保存成功')
-        this.$refs.table.$reload()
+        this.$refs.mainTable.$reload()
       }).catch((resp) => {
         // _this.closeDialog()
+        _this.isHidden = false
         this.model.sgGuide.image = allImageUrl
         _this.$notify.error('保存失败：' + resp.msg)
       })
     },
     onSave (model) {
       let _this = this
+      // eslint-disable-next-line no-console
       console.log('_this.$refs.addForm:', _this.model.sgGuide.work_prefix)
       _this.$refs.addForm.validate(valid => {
-        console.log('valid:', valid)
         if (valid) {
           let guideShop = []
           let guide = model.sgGuide
@@ -1120,7 +1128,7 @@ export default {
           _this.chooseCustomerFocus()
         }
       }).catch((resp) => {
-        // _this.$notify.error('查询失败：' + resp.msg)
+        // _this.$notify.error(getErrorMsg('查询失败', resp))
       })
     },
     // 批量设置导购
@@ -1235,7 +1243,7 @@ export default {
           _this.paginationss.total = parseInt(resp.result.recordsTotal)
         }
       }).catch((resp) => {
-        _this.$notify.error('查询失败：' + resp.msg)
+        _this.$notify.error(getErrorMsg('查询失败', resp))
       })
     },
     // 员工离职
@@ -1269,7 +1277,7 @@ export default {
             _this.guideLeave(params, false)
           }
         }).catch((resp) => {
-          _this.$notify.error('查询失败：' + resp.msg)
+          _this.$notify.error(getErrorMsg('查询失败', resp))
         })
       })
     },
@@ -1344,25 +1352,18 @@ export default {
     onSaveCustomTransfer () {
       var _this = this
       var isLeave = 0
-      let obj = {
-        nick: null,
-        nickType: null,
-        customerFrom: null
-      }
       if (_this.allPageCustomer.length > 0) {
         if (_this.allPageCustomer.length === _this.paginations.total) {
           isLeave = 1
         }
         _this.nickVoList = []
         for (let index = 0; index < _this.allPageCustomer.length; index++) {
-          if (index === 0) {
-            obj.nick = _this.allPageCustomer[index].nick
-            obj.nickType = _this.allPageCustomer[index].nickType
-            obj.customerFrom = _this.allPageCustomer[index].customerFrom
-            _this.nickVoList.push(obj)
-          } else {
-            _this.customerIds += ',' + _this.allPageCustomer[index].customerId
+          let obj = {
+            nick: _this.allPageCustomer[index].nick,
+            nickType: _this.allPageCustomer[index].nickType,
+            customerFrom: _this.allPageCustomer[index].customerFrom
           }
+          _this.nickVoList.push(obj)
         }
       } else {
         _this.$notify.error('请选择转移的客户')
@@ -1421,11 +1422,9 @@ export default {
             _this.findCustomerList()
           }
           _this.$notify.success(resp.msg)
-          _this.$refs.table.$reload()
+          this.$refs.mainTable.$reload()
         }).catch((resp) => {
-          if (!resp.msg.match('undefined')) {
-            _this.$notify.error('操作失败： ' + resp.msg)
-          }
+          _this.$notify.error('操作失败： ' + resp.msg)
         })
     },
     // 分页-页数改变
@@ -1565,6 +1564,7 @@ export default {
       this.$data.model = this.$options.data().model
       this.$refs.addForm.resetFields()
       this.dialogFormVisible = false
+      this.isHidden = false
       this.row = null
     },
     beforeAvatarUpload (file) {
@@ -1580,7 +1580,7 @@ export default {
   },
   watch: {
     subordinateStores (newValue) {
-      this.storeOwnershipDisplay = !!(newValue && newValue.length > 0);
+      this.storeOwnershipDisplay = !!(newValue && newValue.length > 0)
     }
   }
 }

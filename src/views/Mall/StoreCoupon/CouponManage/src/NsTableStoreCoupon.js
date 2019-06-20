@@ -29,7 +29,7 @@ export default {
           this.$emit('edit', args.row)
         },
         'icon': '',
-        'name': '修改',
+        'name': '编辑',
         'auth': '',
         'visible': ''
       },

@@ -261,6 +261,7 @@ import echarts from 'echarts'
 import businessEcharts from 'web-crm/src/components/NsEcharts'
 import ElProgress from 'nui-v2/lib/progress'
 import moment from 'moment'
+import { getErrorMsg } from '@/utils/toast'
 var myColor = ['#ff402c', '#ff592c', '#ff8f2c', '#ff8f2c', '#ffb22c']
 let taskProgressObj = {}
 export default {
@@ -1069,7 +1070,7 @@ export default {
           }
         })
         .catch(resp => {
-          this.$notify.error('查询失败：')
+          this.$notify.error(getErrorMsg('查询失败', resp))
         })
     },
     async getTaskCount () { // 当月业绩情况查询
@@ -1097,7 +1098,7 @@ export default {
           }
         })
         .catch(resp => {
-          this.$notify.error('查询失败：')
+          this.$notify.error(getErrorMsg('查询失败', resp))
         })
     },
     async findDailySell (id) { // 当月销售业绩按日查询
@@ -1122,7 +1123,7 @@ export default {
           }
         })
         .catch(resp => {
-          this.$notify.error('查询失败：')
+          this.$notify.error(getErrorMsg('查询失败', resp))
         })
     },
     async findDailyRecruit (id) { // 当月招募人数按日查询
@@ -1152,7 +1153,7 @@ export default {
         })
         .catch(resp => {
           // that.recruitOption.series[0].data = resp.result.map(Number)
-          that.$notify.error('查询失败：')
+          that.$notify.error(getErrorMsg('查询失败', resp))
         })
     },
     async findDailyReward (id) { // 当月收益按日查询
@@ -1182,7 +1183,7 @@ export default {
           }
         })
         .catch(resp => {
-          that.$notify.error('查询失败：')
+          that.$notify.error(getErrorMsg('查询失败', resp))
         })
     },
     async findGuideRanking () { // 当月导购排行查询
@@ -1208,7 +1209,7 @@ export default {
           }
         })
         .catch(resp => {
-          this.$notify.error('查询失败：')
+          this.$notify.error(getErrorMsg('查询失败', resp))
         })
     },
     async findShopRanking () { // 当月门店排行查询
@@ -1234,7 +1235,7 @@ export default {
           }
         })
         .catch(resp => {
-          this.$notify.error('查询失败：')
+          this.$notify.error(getErrorMsg('查询失败', resp))
         })
     },
     async getTaskProgress () { // 当月门店排行查询
@@ -1263,7 +1264,7 @@ export default {
           }
         })
         .catch(resp => {
-          this.$notify.error('查询失败：')
+          this.$notify.error(getErrorMsg('查询失败', resp))
         })
     },
     init () {

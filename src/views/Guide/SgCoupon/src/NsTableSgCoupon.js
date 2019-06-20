@@ -1,5 +1,5 @@
 import tableMixin from 'web-crm/src/mixins/table'
-
+import { getErrorMsg } from '@/utils/toast'
 export default {
   name: 'NsTableSgCoupon',
   mixins: [tableMixin],
@@ -156,7 +156,7 @@ export default {
           _this._data._pagination.total = parseInt(resp.result.recordsTotal)
         }
       }).catch((resp) => {
-        _this.$notify.error('查询失败：' + resp.msg)
+        _this.$notify.error(getErrorMsg('查询失败', resp))
       })
     }
   }

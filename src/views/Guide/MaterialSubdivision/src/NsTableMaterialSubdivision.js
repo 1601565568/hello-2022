@@ -1,4 +1,5 @@
 import tableMixin from 'web-crm/src/mixins/table'
+import { getErrorMsg } from '@/utils/toast'
 export default {
   name: 'NsTableMaterialSubdivision',
   mixins: [tableMixin],
@@ -122,7 +123,7 @@ export default {
           _this.querySubTableList = resp.result.data
         }
       }).catch((resp) => {
-        _this.$message.error('查询失败：' + resp.msg)
+        _this.$message.error(getErrorMsg('查询失败', resp))
       })
     },
     // 新增分组

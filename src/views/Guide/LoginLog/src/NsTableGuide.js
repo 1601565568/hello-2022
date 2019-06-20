@@ -1,4 +1,5 @@
 import tableMixin from 'web-crm/src/mixins/table'
+import { getErrorMsg } from '@/utils/toast'
 export default {
   name: 'NsTableGuide',
   mixins: [tableMixin],
@@ -104,7 +105,7 @@ export default {
           _this.staffFindLists = resp.result
         }
       }).catch((resp) => {
-        _this.$notify.error('查询失败：' + resp.msg)
+        _this.$notify.error(getErrorMsg('查询失败', resp))
       })
     },
     handleClose () {
@@ -116,7 +117,7 @@ export default {
           _this.shopFindList = resp.result
         }
       }).catch((resp) => {
-        _this.$notify.error('查询失败：' + resp.msg)
+        _this.$notify.error(getErrorMsg('查询失败', resp))
       })
     }
   }

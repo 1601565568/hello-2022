@@ -94,7 +94,7 @@
       @selection-change="handleSelectionChange">
       <el-table-column
         type="selection"
-        width="42">
+        align="center" :width="50">
       </el-table-column>
       <el-table-column
         label="门店名称"
@@ -150,7 +150,7 @@
    <el-pagination v-if="pagination.enable" class="template-table-pagination"
           :page-sizes="pagination.sizeOpts"
           :total="pagination.total"
-          :current-page="pagination.page"
+          :current-page.sync="pagination.page"
           :page-size="pagination.size"
           layout="total, sizes, prev, pager, next, jumper"
           @size-change="handleSizeChange"
@@ -164,6 +164,7 @@
 import moment from 'moment'
 import listPageMixin from '@/mixins/listPage'
 import shopSetAdd from './ShopSetAdd'
+import { getErrorMsg } from '@/utils/toast'
 export default {
   mixins: [listPageMixin],
   data () {
@@ -269,7 +270,7 @@ export default {
           this.pagination.total = parseInt(resp.result.recordsTotal)
         })
         .catch(resp => {
-          this.$notify.error('查询失败：')
+          this.$notify.error(getErrorMsg('查询失败', resp))
         })
       this.loading = false
       // 总条数
@@ -288,6 +289,7 @@ export default {
       this.loadListFun()
     },
     $resetForm () {
+      this.clearSearch()
       this.searchform = { ...this.originSearchform }
     }
   },

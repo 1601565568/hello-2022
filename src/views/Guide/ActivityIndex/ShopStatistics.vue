@@ -227,7 +227,7 @@
    <el-pagination v-if="pagination.enable" class="template-table-pagination"
           :page-sizes="pagination.sizeOpts"
           :total="pagination.total"
-          :current-page="pagination.page"
+          :current-page.sync="pagination.page"
           :page-size="pagination.size"
           layout="total, sizes, prev, pager, next, jumper"
           @size-change="handleSizeChange"
@@ -265,7 +265,7 @@
         <el-pagination v-if="pagination.enable" class="template-table-pagination"
                        :page-sizes="pagination1.sizeOpts"
                        :total="pagination1.total"
-                       :current-page="pagination1.page"
+                       :current-page.sync="pagination1.page"
                        :page-size="pagination1.size"
                        layout="total, sizes, prev, pager, next, jumper"
                        @size-change="sizeChange"
@@ -316,7 +316,7 @@
         <el-pagination v-if="pagination.enable" class="template-table-pagination"
                        :page-sizes="pagination1.sizeOpts"
                        :total="pagination1.total"
-                       :current-page="pagination1.page"
+                       :current-page.sync="pagination1.page"
                        :page-size="pagination1.size"
                        layout="total, sizes, prev, pager, next, jumper"
                        @size-change="sizeChange"
@@ -335,6 +335,7 @@
 import moment from 'moment'
 import listPageMixin from '@/mixins/listPage'
 import NsArea from 'web-crm/src/components/NsArea'
+import { getErrorMsg } from '@/utils/toast'
 export default {
   mixins: [listPageMixin],
   data () {
@@ -445,7 +446,7 @@ export default {
           this.pagination.total = parseInt(resp.result.recordsTotal)
         })
         .catch(resp => {
-          this.$notify.error('查询失败：')
+          this.$notify.error(getErrorMsg('查询失败', resp))
         })
       this.loading = false
       // 总条数
@@ -511,7 +512,7 @@ export default {
           _this._data.pagination1.total = parseInt(resp.result.recordsTotal)
         }
       }).catch((resp) => {
-        _this.$notify.error('查询失败：' + resp.msg)
+        _this.$notify.error(getErrorMsg('查询失败', resp))
       })
     },
     // 分页-页数改变

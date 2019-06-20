@@ -89,7 +89,7 @@
     <el-pagination v-if="pagination.enable" class="template-table-pagination"
         :page-sizes="pagination.sizeOpts"
         :total="pagination.total"
-        :current-page="pagination.page"
+        :current-page.sync="pagination.page"
         :page-size="pagination.size"
         layout="total, sizes, prev, pager, next, jumper"
         @size-change="handleSizeChange"
@@ -104,6 +104,7 @@
 </template>
 <script>
 import listPageMixin from '@/mixins/listPage'
+import { getErrorMsg } from '@/utils/toast'
 export default {
   components: {
   },
@@ -165,8 +166,8 @@ export default {
         // })
         that.pagination.total = Number(res.result.recordsTotal)
         that.dataList = res.result.data
-      }).catch(() => {
-        that.$notify.error('查询失败：')
+      }).catch((resp) => {
+        that.$notify.error(getErrorMsg('查询失败', resp))
       }).finally(() => {
         this.loading = false
       })
@@ -186,8 +187,8 @@ export default {
         //     item.statusStr = '进行中'
         //   }
         // })
-      }).catch(() => {
-        that.$notify.error('查询失败：')
+      }).catch((resp) => {
+        that.$notify.error(getErrorMsg('查询失败', resp))
       })
     },
     submitForm () {

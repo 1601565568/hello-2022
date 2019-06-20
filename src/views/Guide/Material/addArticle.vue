@@ -187,33 +187,33 @@ export default {
       }
     },
     addCustomButtom (editorId) {
-      let that = this
-      window.UE.registerUI('test-button', function (editor, uiName) {
-        editor.registerCommand(uiName, {
-          execCommand: function () {
-            editor.execCommand('inserthtml', `<span>这是一段由自定义按钮添加的文字</span>`)
-          }
-        })
-        var btn = new window.UE.ui.Button({
-          name: uiName,
-          title: '小程序链接',
-          cssRules: `width:36px !important;height:39px !important; background-image: url('${linkBtn}') !important;background-size: cover;`,
-          onclick: function () {
-            that.selectArticleLink()
-          }
-        })
-        editor.addListener('selectionchange', function () {
-          var state = editor.queryCommandState(uiName)
-          if (state === -1) {
-            btn.setDisabled(true)
-            btn.setChecked(false)
-          } else {
-            btn.setDisabled(false)
-            btn.setChecked(state)
-          }
-        })
-        return btn
-      })
+      // let that = this
+      // window.UE.registerUI('test-button', function (editor, uiName) {
+      //   editor.registerCommand(uiName, {
+      //     execCommand: function () {
+      //       editor.execCommand('inserthtml', `<span>这是一段由自定义按钮添加的文字</span>`)
+      //     }
+      //   })
+      //   var btn = new window.UE.ui.Button({
+      //     name: uiName,
+      //     title: '小程序链接',
+      //     cssRules: `width:36px !important;height:39px !important; background-image: url('${linkBtn}') !important;background-size: cover;`,
+      //     onclick: function () {
+      //       that.selectArticleLink()
+      //     }
+      //   })
+      //   editor.addListener('selectionchange', function () {
+      //     var state = editor.queryCommandState(uiName)
+      //     if (state === -1) {
+      //       btn.setDisabled(true)
+      //       btn.setChecked(false)
+      //     } else {
+      //       btn.setDisabled(false)
+      //       btn.setChecked(state)
+      //     }
+      //   })
+      //   return btn
+      // })
     },
     editorReady: function (instance) {
       // 将实例 instance 存储到 data中

@@ -6,5 +6,5 @@
  */
 export const getErrorMsg = (prefix, error) => {
   const msg = prefix || ''
-  return msg.concat(error && error.msg ? error.msg : '网络异常')
+  return msg.concat('：').concat(error && error.msg ? error.msg : '网络异常')
 }

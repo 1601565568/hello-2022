@@ -1,6 +1,6 @@
 <template>
   <div>
-    <NsTableGuide ref="table" :url=$api.guide.guide.findList @add="onRedactFun" @scopeRowCount="scopeRowCount"
+    <NsTableGuide ref="mainTable" :url=$api.guide.guide.findList @add="onRedactFun" @scopeRowCount="scopeRowCount"
                     @shopEdit="shopEdit" @allDelete="allDelete" @dimission="dimission" @showShop="showShop"
                   @onDelsTipFun="onDelsTipFun" @onRedactFun="onRedactFun" @dimissionFun="dimissionFun" @handleSelectionChange="handleSelectionChange">
     </NsTableGuide>
@@ -123,7 +123,7 @@
       </div>
       <div slot="footer" class="dialog-footer">
         <ns-button @click="closeDialog">取消</ns-button>
-        <ns-button type="primary" @click="onSave(model)">确定</ns-button>
+        <ns-button type="primary" @click="onSave(model)" :disabled="isHidden">确定</ns-button>
       </div>
     </el-dialog>
     <!--  新增修改客户结束 -->
@@ -218,7 +218,7 @@
           <el-pagination v-if="_data.paginationss.enable"  class="template-table-pagination"
                         :page-sizes="_data.paginationss.sizeOpts"
                         :total="_data.paginationss.total"
-                        :current-page="_data.paginationss.page"
+                        :current-page.sync="_data.paginationss.page"
                         :page-size="_data.paginationss.size"
                         layout="total, sizes, prev, pager, next, jumper"
                         @size-change="transferShopSizeChange"
@@ -264,7 +264,7 @@
           </div>
           <div>
             <el-table ref="table" :data="tableDataCustomer" stripe @selection-change="handleSelectionChange">
-              <el-table-column type="selection" width="42" class="table_selection"></el-table-column>
+              <el-table-column type="selection" align="center" :width="50"></el-table-column>
               <el-table-column prop="name" label="会员姓名" align="left" width="130">
                 <template slot-scope="scope">
                   {{scope.row.name || '-'}}
@@ -305,7 +305,7 @@
             <el-pagination v-if="_data.customPagination.enable"  class="template-table-pagination"
                           :page-sizes="_data.customPagination.sizeOpts"
                           :total="_data.customPagination.total"
-                          :current-page="_data.customPagination.page"
+                          :current-page.sync="_data.customPagination.page"
                           :page-size="_data.customPagination.size"
                           layout="total, sizes, prev, pager, next, jumper"
                           @size-change="customShopSizeChange"
@@ -391,7 +391,7 @@
           <el-pagination v-if="_data.paginationss.enable"  class="template-table-pagination"
                         :page-sizes="_data.paginationss.sizeOpts"
                         :total="_data.paginationss.total"
-                        :current-page="_data.paginationss.page"
+                        :current-page.sync="_data.paginationss.page"
                         :page-size="_data.paginationss.size"
                         layout="total, sizes, prev, pager, next, jumper"
                         @size-change="transferShopSizeChange"
@@ -481,7 +481,7 @@
     <el-dialog title="自定义转移" :visible.sync="customFormVisible"  :before-close="onCancelCustomTransfer">
       <div style="overflow-x:hidden;overflow-y:auto;margin-top: 10px;">
         <el-table ref="chooseCustomer" :data="tableDataCustomer" @select="selectRow" @select-all="selectAll" stripe>
-          <el-table-column type="selection"  width="40" align="center" disabled></el-table-column>
+          <el-table-column type="selection" align="center" :width="50" disabled></el-table-column>
           <el-table-column prop="registerTime" label="加入时间" align="center" width="200"></el-table-column>
           <!-- <el-table-column prop="name" label="姓名" align="center" width="100"></el-table-column> -->
           <el-table-column prop="mobile" label="联系方式" align="center" width="100"></el-table-column>
@@ -496,7 +496,7 @@
       <el-pagination v-if="_data.paginations.enable" class="template-table-pagination"
                      :page-sizes="_data.paginations.sizeOpts"
                      :total="_data.paginations.total"
-                     :current-page="_data.paginations.page"
+                     :current-page.sync="_data.paginations.page"
                      :page-size="_data.paginations.size"
                      layout="total, sizes, prev, pager, next, jumper"
                      @size-change="customerSizeChange"
@@ -570,7 +570,7 @@
       </div>
       <div slot="footer" class="dialog-footer">
         <ns-button @click="memberBelongingShow = false">取消</ns-button>
-        <ns-button type="primary" @click.once="memberBelongingEnsure(model)">确定</ns-button>
+        <ns-button type="primary" @click="memberBelongingEnsure(model)" :disabled="isHidden">确定</ns-button>
       </div>
     </el-dialog>
     <!-- 所属门店查看详情结束 -->
