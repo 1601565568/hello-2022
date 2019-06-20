@@ -123,7 +123,7 @@
       </div>
       <div slot="footer" class="dialog-footer">
         <ns-button @click="closeDialog">取消</ns-button>
-        <ns-button type="primary" @click="onSave(model)">确定</ns-button>
+        <ns-button type="primary" @click="onSave(model)" :disabled="isHidden">确定</ns-button>
       </div>
     </el-dialog>
     <!--  新增修改客户结束 -->

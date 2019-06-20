@@ -899,6 +899,7 @@ export default {
     },
     async saveOrUpdateGuide (guide, guideShop, sgGuideVo) { // 新增或编辑保存
       let _this = this
+      _this.isHidden = true
       let updateAllGuidePrefix = this.model.updateAllGuidePrefix
       let allImageUrl = null
       await this.$http.fetch(this.$api.guide.guide.saveOrUpdateGuide, {
@@ -912,6 +913,7 @@ export default {
         this.$refs.mainTable.$reload()
       }).catch((resp) => {
         // _this.closeDialog()
+        _this.isHidden = false
         this.model.sgGuide.image = allImageUrl
         _this.$notify.error('保存失败：' + resp.msg)
       })
