@@ -138,7 +138,6 @@ export default {
       })
     },
     selectMarketlBack (obj) {
-      console.log(obj)
       if (obj.guid) {
         let path
         if (obj.marketType === 2) {

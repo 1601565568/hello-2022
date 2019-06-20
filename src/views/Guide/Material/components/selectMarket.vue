@@ -152,7 +152,7 @@ export default {
         })
         that.pagination.total = Number(res.result.recordsTotal)
         that.dataList = res.result.data
-      }).catch(() => {
+      }).catch((resp) => {
         that.$notify.error(getErrorMsg('查询失败', resp))
       }).finally(() => {
         this.loading = false

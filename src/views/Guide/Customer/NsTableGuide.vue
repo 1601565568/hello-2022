@@ -240,4 +240,3 @@ export default NsTableGuide
   white-space:nowrap
 }
 </style>
-
