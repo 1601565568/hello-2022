@@ -151,7 +151,7 @@ export default {
       imageRoot: api.API_ROOT + '/core/file/showImage?fileKey=',
       title: '',
       transferWay: '1',
-      url: api.API_ROOT + '/crmWebApi/guide/ehd/getShopRecruitmentQrcode?codeType=',
+      url: api.API_ROOT + '/guide/ehd/getShopRecruitmentQrcode?codeType=',
       // url: 'http://47.96.228.119:8089/guide/ehd/getShopRecruitmentQrcode?codeType=0&'+shopId=1001267+'&size=1',
       brandId: null,
       memberBelongingShows: false,
