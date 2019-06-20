@@ -289,6 +289,7 @@ export default {
       this.loadListFun()
     },
     $resetForm () {
+      this.clearSearch()
       this.searchform = { ...this.originSearchform }
     }
   },

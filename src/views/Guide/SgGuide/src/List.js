@@ -899,6 +899,7 @@ export default {
     },
     async saveOrUpdateGuide (guide, guideShop, sgGuideVo) { // 新增或编辑保存
       let _this = this
+      _this.isHidden = true
       let updateAllGuidePrefix = this.model.updateAllGuidePrefix
       let allImageUrl = null
       await this.$http.fetch(this.$api.guide.guide.saveOrUpdateGuide, {
@@ -912,6 +913,7 @@ export default {
         this.$refs.mainTable.$reload()
       }).catch((resp) => {
         // _this.closeDialog()
+        _this.isHidden = false
         this.model.sgGuide.image = allImageUrl
         _this.$notify.error('保存失败：' + resp.msg)
       })
@@ -1350,25 +1352,18 @@ export default {
     onSaveCustomTransfer () {
       var _this = this
       var isLeave = 0
-      let obj = {
-        nick: null,
-        nickType: null,
-        customerFrom: null
-      }
       if (_this.allPageCustomer.length > 0) {
         if (_this.allPageCustomer.length === _this.paginations.total) {
           isLeave = 1
         }
         _this.nickVoList = []
         for (let index = 0; index < _this.allPageCustomer.length; index++) {
-          if (index === 0) {
-            obj.nick = _this.allPageCustomer[index].nick
-            obj.nickType = _this.allPageCustomer[index].nickType
-            obj.customerFrom = _this.allPageCustomer[index].customerFrom
-            _this.nickVoList.push(obj)
-          } else {
-            _this.customerIds += ',' + _this.allPageCustomer[index].customerId
+          let obj = {
+            nick: _this.allPageCustomer[index].nick,
+            nickType: _this.allPageCustomer[index].nickType,
+            customerFrom: _this.allPageCustomer[index].customerFrom
           }
+          _this.nickVoList.push(obj)
         }
       } else {
         _this.$notify.error('请选择转移的客户')
