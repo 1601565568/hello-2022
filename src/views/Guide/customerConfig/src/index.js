@@ -1,4 +1,5 @@
 import tableMixin from 'web-crm/src/mixins/table'
+import { getErrorMsg } from '@/utils/toast'
 export default {
   name: 'index',
   mixins: [tableMixin],
@@ -86,7 +87,7 @@ export default {
         // that.$reload()
         that.reload()
       }).catch((resp) => {
-        that.$notify.error(resp.msg || '修改失败')
+        that.$notify.error(getErrorMsg('修改失败', resp))
       })
     },
     /**

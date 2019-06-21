@@ -463,7 +463,7 @@ export default {
             // _this.closeDialog()
             _this.isHidden = false
             this.model.sgGuide.image = allImageUrl
-            _this.$notify.error('保存失败：' + resp.msg)
+            _this.$notify.error(getErrorMsg('保存失败', resp))
           })
         }
       })
@@ -592,7 +592,7 @@ export default {
                   _this.$refs.mainTable.$reload()
                 }
               }).catch((resp) => {
-                _this.$notify.error('批量离职失败：' + resp.msg)
+                _this.$notify.error(getErrorMsg('批量离职失败', resp))
               })
             })
           } else {
@@ -685,7 +685,7 @@ export default {
           _this.$refs.mainTable.$reload()
         }
       }).catch((resp) => {
-        _this.$notify.error('批量更换门店失败：' + resp.msg)
+        _this.$notify.error(getErrorMsg('批量更换门店失败', resp))
       })
     },
     selectStoreButton () { //  选择门店按钮
@@ -781,7 +781,7 @@ export default {
             _this.$refs.mainTable.$reload()
           }
         }).catch((resp) => {
-          _this.$notify.error('删除失败，原因：' + resp.msg)
+          _this.$notify.error(getErrorMsg('删除失败，原因', resp))
         })
       })
     },
@@ -893,7 +893,7 @@ export default {
       }).then(resp => {
         a = resp.result.result.sum
       }).catch((resp) => {
-        _this.$notify.error('请求失败：' + resp.msg)
+        _this.$notify.error(getErrorMsg('请求失败：', resp))
       })
       return a
     },
@@ -915,7 +915,7 @@ export default {
         // _this.closeDialog()
         _this.isHidden = false
         this.model.sgGuide.image = allImageUrl
-        _this.$notify.error('保存失败：' + resp.msg)
+        _this.$notify.error(getErrorMsg('保存失败：', resp))
       })
     },
     onSave (model) {
@@ -1217,7 +1217,6 @@ export default {
           _this.guideList = Array.from(_this.guideList)
         })
         .catch(resp => {
-          // this.$notify.error(resp.msg || '查询失败')
         })
     },
     // 查询导购列表
@@ -1424,7 +1423,7 @@ export default {
           _this.$notify.success(resp.msg)
           this.$refs.mainTable.$reload()
         }).catch((resp) => {
-          _this.$notify.error('操作失败： ' + resp.msg)
+          _this.$notify.error(getErrorMsg('操作失败', resp))
         })
     },
     // 分页-页数改变

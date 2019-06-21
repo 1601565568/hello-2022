@@ -283,7 +283,7 @@ export default {
           _this.$refs.table1.$reload()
           _this.closeDialog()
         }).catch((resp) => {
-          _this.$notify.error('保存失败：' + resp.msg)
+          _this.$notify.error(getErrorMsg('保存失败', resp))
         })
       } else {
         _this.$notify.error('请选择要更换的导购！')

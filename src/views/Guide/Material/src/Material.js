@@ -257,7 +257,7 @@ export default {
                 that.$reload()
                 that.dialogFormVisible_image = false
               }).catch((resp) => {
-                that.$notify.error('添加失败' + resp.msg)
+                that.$notify.error(getErrorMsg('添加失败', resp))
               })
             } else {
               that.$notify.error('URL格式错误')
@@ -297,11 +297,11 @@ export default {
               imgList: imgList,
               sub: sub
             }).then(resp => {
-              that.$notify.success('添加成功' + resp.msg)
+              that.$notify.success(getErrorMsg('添加成功', resp))
               that.$reload()
               that.dialogFormVisible_link = false
             }).catch((resp) => {
-              that.$notify.error('添加失败' + resp.msg)
+              that.$notify.error(getErrorMsg('添加失败', resp))
             })
           } else {
             that.$notify.error('URL格式不正确')
@@ -318,11 +318,11 @@ export default {
         ids: ids,
         subId: sub
       }).then(resp => {
-        that.$notify.success('设置成功' + resp.msg)
+        that.$notify.success(getErrorMsg('设置成功', resp))
         that.$reload()
         that.dialogFormVisible_update = false
       }).catch((resp) => {
-        that.$notify.error('设置失败' + resp.msg)
+        that.$notify.error(getErrorMsg('设置失败', resp))
       })
     },
     // 保存修改
@@ -361,11 +361,11 @@ export default {
                 imgList: imgList,
                 sub: sub
               }).then(resp => {
-                that.$notify.success('修改成功' + resp.msg)
+                that.$notify.success(getErrorMsg('修改成功', resp))
                 that.$reload()
                 that.dialogFormVisible_edit = false
               }).catch((resp) => {
-                that.$notify.error('修改失败' + resp.msg)
+                that.$notify.error(getErrorMsg('修改失败', resp))
               })
             } else {
               that.$notify.error('URL格式错误')
@@ -387,11 +387,11 @@ export default {
                     imgList: imgList,
                     sub: sub
                   }).then(resp => {
-                    that.$notify.success('修改成功' + resp.msg)
+                    that.$notify.success(getErrorMsg('修改成功', resp))
                     that.$reload()
                     that.dialogFormVisible_edit = false
                   }).catch((resp) => {
-                    that.$notify.error('修改失败' + resp.msg)
+                    that.$notify.error(getErrorMsg('修改失败', resp))
                   })
                 } else {
                   that.$notify.info('URL格式错误')
@@ -430,10 +430,10 @@ export default {
       }).then(() => {
         that.$http.fetch(that.$api.guide.material.deleteMaterialById, { mId: mId })
           .then(resp => {
-            that.$notify.success('删除成功' + resp.msg)
+            that.$notify.success(getErrorMsg('删除成功', resp))
             that.$reload()
           }).catch((resp) => {
-            that.$notify.error('删除失败' + resp.msg)
+            that.$notify.error(getErrorMsg('删除失败', resp))
           })
       })
     },

@@ -29,6 +29,7 @@
 </div>
 </template>
 <script>
+import { getErrorMsg } from '@/utils/toast'
 export default {
   props: {
     callBack: Function
@@ -78,7 +79,7 @@ export default {
           this.$props.callBack()
         })
         .catch(resp => {
-          this.$notify.error(resp.msg)
+          this.$notify.error(getErrorMsg('查询失败', resp))
         })
       this.loading = false
     },

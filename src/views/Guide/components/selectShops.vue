@@ -71,6 +71,7 @@
 import listPageMixin from '@/mixins/listPage'
 import tableMixin from 'web-crm/src/mixins/table'
 import NsArea from 'web-crm/src/components/NsArea'
+import { getErrorMsg } from '@/utils/toast'
 export default {
   props: {
     api: {
@@ -180,7 +181,7 @@ export default {
           this.pagination.total = parseInt(resp.result.recordsTotal)
         })
         .catch(resp => {
-          this.$notify.error(resp.msg)
+          this.$notify.error(getErrorMsg('查询失败', resp))
         })
     },
     // 打开弹窗回显已经选择的门店

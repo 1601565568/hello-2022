@@ -79,7 +79,7 @@
 <script>
 import tableMixin from 'web-crm/src/mixins/table'
 import apiRequestConfirm from 'web-crm/src/utils/apiRequestConfirm'
-
+import { getErrorMsg } from '@/utils/toast'
 export default {
   name: 'index',
   mixins: [tableMixin],
@@ -172,12 +172,12 @@ export default {
       // 查询小程序可选类目
       that.$http.fetch(that.$api.guide.sgwxaccount.getAppletCategoryList, that.presentObj).then((resp) => {
       }).catch((resp) => {
-        that.$notify.error(resp.msg || '保存失败')
+        that.$notify.error(getErrorMsg('保存失败', resp))
       })
       // 查询小程序页面配置
       that.$http.fetch(that.$api.guide.sgwxaccount.getAppletPageList, that.presentObj).then((resp) => {
       }).catch((resp) => {
-        that.$notify.error(resp.msg || '保存失败')
+        that.$notify.error(getErrorMsg('保存失败', resp))
       })
     },
     onPresent () { // 提交审核
@@ -185,7 +185,7 @@ export default {
       that.$http.fetch(that.$api.guide.sgwxaccount.submitTemplateToAudit, that.presentObj).then(() => {
 
       }).catch((resp) => {
-        that.$notify.error(resp.msg || '保存失败')
+        that.$notify.error(getErrorMsg('保存失败', resp))
       })
     },
     onPublish (latestStatus) { // 发布小程序
@@ -199,7 +199,7 @@ export default {
           that.$http.fetch(that.$api.guide.sgwxaccount.templateToRelease, that.obj).then(() => {
 
           }).catch((resp) => {
-            that.$notify.error(resp.msg || '保存失败')
+            that.$notify.error(getErrorMsg('保存失败', resp))
           })
         })
       } else if (latestStatus === 1 || latestStatus === 2 || latestStatus === 5) {
@@ -230,7 +230,7 @@ export default {
 
               })
           }).catch((resp) => {
-            that.$notify.error(resp.msg || '保存失败')
+            that.$notify.error(getErrorMsg('保存失败', resp))
           })
         }
       })
@@ -253,7 +253,7 @@ export default {
 
               })
           }).catch((resp) => {
-            that.$notify.error(resp.msg || '删除失败')
+            that.$notify.error(getErrorMsg('删除失败', resp))
           })
         }).catch(() => {
         // 点击取消事件

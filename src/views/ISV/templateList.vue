@@ -121,7 +121,7 @@
 <script>
 import tableMixin from 'web-crm/src/mixins/table'
 import apiRequestConfirm from 'web-crm/src/utils/apiRequestConfirm'
-
+import { getErrorMsg } from '@/utils/toast'
 export default {
   name: 'templateList',
   mixins: [tableMixin],
@@ -198,7 +198,7 @@ export default {
       that.$http.fetch(that.$api.isv.refreshCodeTemplate, { appId: that.appId }).then(() => {
         that.$reload()
       }).catch((resp) => {
-        that.$notify.error(resp.msg)
+        that.$notify.error(getErrorMsg('查询失败', resp))
       })
     },
     // 提交代码的页面配置列表
@@ -207,7 +207,7 @@ export default {
       that.$http.fetch(that.$api.isv.getAppletPageList, { appId: that.appId }).then((resp) => {
         that.pageList = resp.result
       }).catch((resp) => {
-        that.$notify.error(resp.msg)
+        that.$notify.error(getErrorMsg('查询失败', resp))
       })
     },
     // 获取授权小程序帐号的可选类目
@@ -249,7 +249,7 @@ export default {
           }
         }
       }).catch((resp) => {
-        that.$notify.error(resp.msg)
+        that.$notify.error(getErrorMsg('查询失败', resp))
       })
     },
     // 提交审核
@@ -269,7 +269,7 @@ export default {
         that.auditDialogVisible = false
         that.$reload()
       }).catch((resp) => {
-        that.$notify.error(resp.msg)
+        that.$notify.error(getErrorMsg('查询失败', resp))
       })
     },
     // 发布
@@ -279,7 +279,7 @@ export default {
         that.$http.fetch(that.$api.isv.templateToRelease, { appId: that.appId }).then(() => {
           that.$reload()
         }).catch((resp) => {
-          that.$notify.error(resp.msg)
+          that.$notify.error(getErrorMsg('查询失败', resp))
         })
       }).catch(() => {
       })

@@ -1,5 +1,6 @@
 import formMixin from 'web-crm/src/mixins/form'
 import moment from 'moment'
+import { getErrorMsg } from '@/utils/toast'
 export default {
   name: 'edit',
   mixins: [formMixin],
@@ -131,7 +132,7 @@ export default {
             that.$refs.goodsTable.findList(null, activityId)
           }
         }).catch((resp) => {
-          that.$notify.error(resp.msg || '活动查询失败')
+          that.$notify.error(getErrorMsg('活动查询失败', resp))
         })
       } else {
         // 打开新增页面
@@ -246,7 +247,7 @@ export default {
               that.backList()
             },
             error: function (resp) {
-              that.$notify.error(resp.msg || '保存失败')
+              that.$notify.error(getErrorMsg('保存失败', resp))
             },
             complete: function () {
               that.saveLoading = false

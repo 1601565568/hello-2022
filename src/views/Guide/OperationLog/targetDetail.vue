@@ -248,6 +248,7 @@
 <script>
 import tableMixin from 'web-crm/src/mixins/table'
 import listItemShow from '../Material/components/listItemShow'
+import { getErrorMsg } from '@/utils/toast'
 export default {
   name: 'targetDetail',
   components: { listItemShow },
@@ -368,7 +369,7 @@ export default {
         .then(resp => {
           this.subdivisionList = resp.result
         }).catch(resp => {
-          this.$notify.error(resp.msg)
+          this.$notify.error(getErrorMsg('查询失败', resp))
         })
     }
   }

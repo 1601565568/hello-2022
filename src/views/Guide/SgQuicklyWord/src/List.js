@@ -1,7 +1,7 @@
 import tableMixin from 'web-crm/src/mixins/table'
 import apiRequestConfirm from 'web-crm/src/utils/apiRequestConfirm'
 import Emotion from './EmotionConfig.js' // 表情配置文件
-
+import { getErrorMsg } from '@/utils/toast'
 export default {
   name: 'List',
   mixins: [tableMixin],
@@ -145,7 +145,7 @@ export default {
           this.$notify.success('删除分组成功')
         }
       }).catch(resp => {
-        this.$notify.error(resp.msg || '删除失败')
+        this.$notify.error(getErrorMsg('删除失败', resp))
       })
     },
     handleDrop (draggingNode, dropNode, dropType, ev) {
@@ -174,7 +174,7 @@ export default {
             this.closeDialog()
           }
         }).catch(resp => {
-          this.addOrEditModel.id ? this.$notify.error(resp.msg || '编辑失败') : this.$notify.error(resp.msg || '新增失败')
+          this.addOrEditModel.id ? this.$notify.error(getErrorMsg('编辑失败', resp)) : this.$notify.error(getErrorMsg('新增失败', resp))
         })
       }
     },
@@ -185,7 +185,7 @@ export default {
           this.addName = resp.result
         }
       }).catch(resp => {
-        this.$notify.warning(resp.msg || '系统异常')
+        this.$notify.warning(getErrorMsg('系统异常', resp))
       })
     },
     findQuicklyWordGroupList () {
@@ -201,7 +201,7 @@ export default {
           this.wordGroupList.unshift(this.allClassArr)
         }
       }).catch(resp => {
-        this.$notify.error(resp.msg || '系统异常')
+        this.$notify.error(getErrorMsg('系统异常', resp))
       })
     },
     handleSelectionChange (val) {
@@ -222,7 +222,7 @@ export default {
       this.$http.fetch(this.$api.guide.updateQuicklyWordSort, parms).then(resp => {
         this.$reload()
       }).catch(resp => {
-        this.$notify.error(resp.msg || '系统异常')
+        this.$notify.error(getErrorMsg('系统异常', resp))
       })
     },
     closeDialog () {
@@ -298,7 +298,7 @@ export default {
             that.$notify.success('保存成功')
             that.$reload()
           }).catch((resp) => {
-            that.$notify.error(resp.msg || '保存失败')
+            that.$notify.error(getErrorMsg('保存失败', resp))
           })
         }
       })
@@ -320,7 +320,7 @@ export default {
             that.$notify.success('保存成功')
             that.$reload()
           }).catch((resp) => {
-            that.$notify.error(resp.msg || '保存失败')
+            that.$notify.error(getErrorMsg('保存失败', resp))
           })
         }
       } else {
@@ -335,7 +335,7 @@ export default {
           that.$notify.success('保存成功')
           that.$reload()
         }).catch((resp) => {
-          that.$notify.error(resp.msg || '保存失败')
+          that.$notify.error(getErrorMsg('保存失败', resp))
         })
       }
     },
@@ -349,7 +349,7 @@ export default {
             that.$notify.success('删除成功')
             that.$reload()
           }).catch((resp) => {
-            that.$notify.error(resp.msg || '删除失败')
+            that.$notify.error(getErrorMsg('删除失败', resp))
           })
         }).catch(resp => {
         // 点击取消事件
@@ -374,7 +374,7 @@ export default {
             that.$notify.success('删除成功')
             that.$reload()
           }).catch((resp) => {
-            that.$notify.error(resp.msg || '删除失败')
+            that.$notify.error(getErrorMsg('删除失败', resp))
           })
         }).catch(() => {
         // 点击取消事件

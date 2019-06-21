@@ -77,6 +77,7 @@
 import formMixin from 'web-crm/src/mixins/form'
 import ActivityGoodsTable from './ActivityGoodsTable'
 import ActivityShopTable from './ActivityShopTable'
+import { getErrorMsg } from '@/utils/toast'
 export default {
   name: 'detail',
   mixins: [formMixin],
@@ -117,7 +118,7 @@ export default {
         }
         that.loading = false
       }).catch((resp) => {
-        that.$notify.error(resp.msg || '活动查询失败')
+        that.$notify.error(getErrorMsg('活动查询失败', resp))
       })
     },
 

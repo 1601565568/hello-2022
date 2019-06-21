@@ -155,6 +155,7 @@ import addModal from './addArticle'
 import setGroudModal from './setGroudModal'
 import listItemShow from './components/listItemShow'
 import moment from 'moment'
+import { getErrorMsg } from '@/utils/toast'
 export default {
   mixins: [listPageMixin],
   data () {
@@ -250,7 +251,7 @@ export default {
           this.loadListFun()
         })
         .catch(resp => {
-          this.$notify.error(resp.msg)
+          this.$notify.error(getErrorMsg('查询失败', resp))
         })
       this.loading = false
     },
@@ -268,7 +269,7 @@ export default {
           this.pagination.total = parseInt(resp.result.recordsTotal)
         })
         .catch(resp => {
-          this.$notify.error(resp.msg)
+          this.$notify.error(getErrorMsg('查询失败', resp))
         })
       this.loading = false
       // 总条数
@@ -282,7 +283,7 @@ export default {
           this.groudList = resp.result
         })
         .catch(resp => {
-          this.$notify.error(resp.msg)
+          this.$notify.error(getErrorMsg('查询失败', resp))
         })
       this.loading = false
     },
@@ -295,7 +296,7 @@ export default {
           this.sourceList = this.sourceList.concat(resp.result)
         })
         .catch(resp => {
-          this.$notify.error(resp.msg)
+          this.$notify.error(getErrorMsg('查询失败', resp))
         })
       this.loading = false
     },
@@ -323,7 +324,7 @@ export default {
           this.loadListFun(this.searchObj)
         })
         .catch(resp => {
-          this.$notify.error(resp.msg)
+          this.$notify.error(getErrorMsg('查询失败', resp))
         })
     },
     // 打开弹窗--编辑
@@ -362,7 +363,7 @@ export default {
               that.$notify.success('删除成功！')
             })
             .catch(resp => {
-              that.$notify.error(resp.msg || '删除失败！')
+              that.$notify.error(getErrorMsg('删除失败', resp))
             })
         })
         .catch(() => {

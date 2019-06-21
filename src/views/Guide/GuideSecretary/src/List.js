@@ -1,3 +1,4 @@
+import { getErrorMsg } from '@/utils/toast'
 export default {
   data: function () {
     let quickInput = [{
@@ -88,7 +89,7 @@ export default {
           _this.$refs.table.$reload()
         }
       }).catch((resp) => {
-        _this.$notify.error(this.changeText + '设置失败!: ' + resp.msg)
+        _this.$notify.error(getErrorMsg(this.changeText + '设置失败!: ', resp))
       })
     },
     handleRemove (file, fileList) {

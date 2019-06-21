@@ -1,6 +1,7 @@
 import tableMixin from 'web-crm/src/mixins/table'
 import moment from 'moment'
 import apiRequestConfirm from 'web-crm/src/utils/apiRequestConfirm'
+import { getErrorMsg } from '@/utils/toast'
 export default {
   name: 'NsTableStoreCoupon',
   mixins: [tableMixin],
@@ -97,7 +98,7 @@ export default {
             that.$reload()
             call()
           }).catch((resp) => {
-            that.$message.error(resp.msg || '状态更新失败，请重试')
+            that.$message.error(getErrorMsg('状态更新失败，请稍后再试', resp))
           })
       }).catch(() => {})
     },

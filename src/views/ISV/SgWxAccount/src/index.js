@@ -178,7 +178,7 @@ export default {
             that.dialogAutid = false
           }
         }).catch((resp) => {
-          that.$notify.error(resp.msg || '保存失败')
+          that.$notify.error(getErrorMsg('保存失败', resp))
         })
         that.onPresent(particularsObj)
       } else if (that.checkText === '撤回审核') {
@@ -187,7 +187,7 @@ export default {
             that.$notify.success('撤回成功')
           }
         }).catch((resp) => {
-          that.$notify.error(resp.msg || '保存失败')
+          that.$notify.error(getErrorMsg('保存失败', resp))
         })
       } else {
         that.shopKuhuShow = false
@@ -201,7 +201,7 @@ export default {
           that.domainNameVisible = false
         }
       }).catch((resp) => {
-        that.$notify.error(resp.msg || '保存失败')
+        that.$notify.error(getErrorMsg('保存失败', resp))
       })
     },
     onCodeTemplate (row) { // 代码模版点击按钮
@@ -215,7 +215,7 @@ export default {
         that.modelObj.latestAuditVersion = resp.result.latestAuditVersion
         that.loadingTable = false
       }).catch((resp) => {
-        that.$notify.error(resp.msg || '请求失败')
+        that.$notify.error(getErrorMsg('请求失败', resp))
         that.loadingTable = false
       })
     },
@@ -255,11 +255,11 @@ export default {
               that.modelArry = resp.result.data
               that.modelObj.latestAuditVersion = resp.result.latestAuditVersion
             }).catch((resp) => {
-              that.$notify.error(resp.msg || '请求失败')
+              that.$notify.error(getErrorMsg('请求失败', resp))
             })
           }
         }).catch((resp) => {
-          that.$notify.error(resp.msg || '上传失败')
+          that.$notify.error(getErrorMsg('上传失败', resp))
         })
       }
     },
@@ -289,12 +289,12 @@ export default {
         })
         that.submittedObj.categoryList = resp.result
       }).catch((resp) => {
-        that.$notify.error(resp.msg || '请求失败')
+        that.$notify.error(getErrorMsg('请求失败', resp))
       })
       that.$http.fetch(that.$api.isv.wechatsettingGetAppletPageList, obj).then((resp) => { // 查询小程序页面配置
         that.submittedObj.pageList = resp.result
       }).catch((resp) => {
-        that.$notify.error(resp.msg || '请求失败')
+        that.$notify.error(getErrorMsg('请求失败', resp))
       })
       that.submittedObj = row
     },
@@ -319,13 +319,13 @@ export default {
           this.parameter.searchMap.appId = this.deleteTemplateObj.appId
           that.$http.fetch(that.$api.guide.sgwxaccount.getAppletCodeTemplateList, this.parameter).then(
             (resp) => { that.modelArry = resp.result.data }).catch((resp) => {
-            that.$notify.error(resp.msg || '请求失败')
+            that.$notify.error(getErrorMsg('请求失败', resp))
           })
           this.dialogDeleteTemplate = false
           that.$notify.success('删除成功')
         }
       }).catch((resp) => {
-        that.$notify.error(resp.msg || '请求失败')
+        that.$notify.error(getErrorMsg('请求失败', resp))
       })
     },
     newest () { // 同步最新
@@ -336,7 +336,7 @@ export default {
           that.$notify.success('更新成功')
         }
       }).catch((resp) => {
-        that.$notify.error(resp.msg || '请求失败')
+        that.$notify.error(getErrorMsg('请求失败', resp))
       })
     },
     domainName () { // 域名配置
@@ -346,7 +346,7 @@ export default {
       that.$http.fetch(that.$api.isv.wechatsettingGetDomainInfo, this.parameter.searchMap).then((resp) => {
         that.domainNameObj = resp.result
       }).catch((resp) => {
-        that.$notify.error(resp.msg || '保存失败')
+        that.$notify.error(getErrorMsg('保存失败', resp))
       })
     },
     qrCode () { // 体验二维码
@@ -355,7 +355,7 @@ export default {
       that.$http.fetch(that.$api.isv.getQrcode, this.parameter.searchMap).then((resp) => {
         that.img = 'data:image/png;base64,' + resp.result
       }).catch((resp) => {
-        that.$notify.error(resp.msg || '保存失败')
+        that.$notify.error(getErrorMsg('保存失败', resp))
       })
       that.qrCodeShow = true
     },
@@ -376,7 +376,7 @@ export default {
           that.succeedObj = {}
         }
       }).catch((resp) => {
-        that.$notify.error(resp.msg || '保存失败')
+        that.$notify.error(getErrorMsg('保存失败', resp))
       })
     },
     onToAuthorize () { // 授权威胁你小程序
@@ -385,7 +385,7 @@ export default {
       that.$http.fetch(that.$api.guide.sgwxaccount.getAuthUrl).then((resp) => {
         tempPage.location = resp.result
       }).catch((resp) => {
-        that.$notify.error(resp.msg || '保存失败')
+        that.$notify.error(getErrorMsg('保存失败', resp))
       })
     },
     onSaveOpen (row) { // 新增或编辑
@@ -424,7 +424,7 @@ export default {
           that.dialogAutid = false
         }
       }).catch((resp) => {
-        that.$notify.error(resp.msg || '保存失败')
+        that.$notify.error(getErrorMsg('保存失败', resp))
       })
     },
     onPublish (latestStatus) { // 发布小程序
@@ -442,7 +442,7 @@ export default {
             that.releaseShow = false
           }
         }).catch((resp) => {
-          that.$notify.error(resp.msg || '发布失败')
+          that.$notify.error(getErrorMsg('发布失败', resp))
         })
       })
     },
@@ -457,7 +457,7 @@ export default {
             that.model = {}
             that.$reload()
           }).catch((resp) => {
-            that.$notify.error(resp.msg || '保存失败')
+            that.$notify.error(getErrorMsg('保存失败', resp))
           })
         }
       })
@@ -473,7 +473,7 @@ export default {
             that.model = {}
             that.$reload()
           }).catch((resp) => {
-            that.$notify.error(resp.msg || '删除失败')
+            that.$notify.error(getErrorMsg('删除失败', resp))
           })
         }).catch(() => {
         // 点击取消事件
@@ -486,7 +486,7 @@ export default {
       this.$http.fetch(that.$api.guide.guide.refreshAuthedAppletInfo, obj).then(resp => {
         this.$notify.success(resp.msg)
       }).catch(resp => {
-        this.$notify.error(resp.msg || '刷新失败')
+        this.$notify.error(getErrorMsg('刷新失败', resp))
       })
     },
     async templateForDetails (succeedObj) { // 模板详情
@@ -518,7 +518,7 @@ export default {
           }
           that.loadingTable = false
         }).catch((resp) => {
-          that.$notify.error(resp.msg)
+          that.$notify.error(getErrorMsg('查询失败', resp))
           that.loadingTable = false
         })
     },
@@ -528,7 +528,7 @@ export default {
         .then(() => {
           that.$notify.success('添加成功')
         }).catch((resp) => {
-          that.$notify.error(resp.msg)
+          that.$notify.error(getErrorMsg('查询失败', resp))
         })
     },
     /**

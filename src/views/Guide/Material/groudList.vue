@@ -121,6 +121,7 @@ import listPageMixin from '@/mixins/listPage'
 import apiRequestConfirm from 'web-crm/src/utils/apiRequestConfirm'
 import addGroudModal from './addGroudModal'
 import moment from 'moment'
+import { getErrorMsg } from '@/utils/toast'
 export default {
   mixins: [listPageMixin],
   data () {
@@ -181,7 +182,7 @@ export default {
           this.pagination.total = parseInt(resp.result.recordsTotal)
         })
         .catch(resp => {
-          this.$notify.error(resp.msg)
+          this.$notify.error(getErrorMsg('查询失败', resp))
         })
       this.loading = false
       // 总条数
@@ -210,7 +211,7 @@ export default {
           this.loadListFun(this.searchObj)
         })
         .catch(resp => {
-          this.$notify.error(resp.msg)
+          this.$notify.error(getErrorMsg('查询失败', resp))
         })
     },
     // 打开弹窗--编辑

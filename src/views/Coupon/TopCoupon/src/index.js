@@ -1,5 +1,6 @@
 import formMixin from 'web-crm/src/mixins/form'
 import moment from 'moment'
+import { getErrorMsg } from '@/utils/toast'
 var vm
 export default {
   mixins: [formMixin],
@@ -146,7 +147,7 @@ export default {
                 vm.$refs.table.$reload()
                 vm.onClose()
               }).catch((resp) => {
-                vm.$notify.error(resp.msg)
+                vm.$notify.error(getErrorMsg('查询失败', resp))
               }).finally(function () {
                 vm.saveLoading = false
               })

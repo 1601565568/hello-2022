@@ -95,7 +95,7 @@ import api from '@/config/http'
 import ElUpload from 'nui-v2/lib/upload'
 import articleLink from './components/articleLink'
 import VueUeditorWrap from 'vue-ueditor-wrap'
-import linkBtn from '../../../assets/link-btn.png'
+import { getErrorMsg } from '@/utils/toast'
 export default {
   components: {
     VueUeditorWrap,
@@ -255,7 +255,7 @@ export default {
           // console.log(that.detail)
           })
           .catch(resp => {
-            that.$notify.error(resp.msg)
+            that.$notify.error(getErrorMsg('查询失败', resp))
           })
       }
       this.dialogVisible = true
@@ -274,7 +274,7 @@ export default {
           this.groupList = resp.result.data
         })
         .catch(resp => {
-          this.$notify.error(resp.msg)
+          this.$notify.error(getErrorMsg('查询失败', resp))
         })
     },
     // 提交保存
@@ -308,7 +308,7 @@ export default {
           this.$props.callBack()
         })
         .catch(resp => {
-          this.$notify.error(resp.msg)
+          this.$notify.error(getErrorMsg('查询失败', resp))
         })
       this.loading = false
     },

@@ -50,7 +50,6 @@ export default {
         }
       })
       .catch(resp => {
-        // that.$notify.error('提示：' + resp.msg)
       })
   },
   methods: {

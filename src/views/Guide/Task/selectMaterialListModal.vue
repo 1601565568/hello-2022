@@ -60,6 +60,7 @@
 <script>
 import listPageMixin from '@/mixins/listPage'
 import listItemShow from '../Material/components/listItemShow'
+import { getErrorMsg } from '@/utils/toast'
 export default {
   mixins: [listPageMixin],
   props: {
@@ -99,7 +100,7 @@ export default {
           this.pagination.total = parseInt(resp.result.recordsTotal)
         })
         .catch(resp => {
-          this.$notify.error(resp.msg)
+          this.$notify.error(getErrorMsg('查询失败', resp))
         })
     },
     handleClose () {

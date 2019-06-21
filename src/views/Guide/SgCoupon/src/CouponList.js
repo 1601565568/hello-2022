@@ -1,5 +1,5 @@
 import formMixin from 'web-crm/src/mixins/form'
-
+import { getErrorMsg } from '@/utils/toast'
 export default {
   mixins: [formMixin],
   data: function () {
@@ -167,7 +167,7 @@ export default {
           _this.storeCouponListLength = resp.result.length
         }
       }).catch((resp) => {
-        _this.$notify.error('查询活动优惠券列表失败：' + resp.msg)
+        _this.$notify.error(getErrorMsg('查询活动优惠券列表失败', resp))
       })
     },
     /**
@@ -227,7 +227,7 @@ export default {
           }
         }
       }).catch((resp) => {
-        _this.$notify.error('查询店铺列表失败：' + resp.msg)
+        _this.$notify.error(getErrorMsg('查询店铺列表失败', resp))
       })
     },
     /**
@@ -259,7 +259,7 @@ export default {
           }
         }
       }).catch((resp) => {
-        _this.$notify.error('查询店铺列表失败：' + resp.msg)
+        _this.$notify.error(getErrorMsg('查询店铺列表失败', resp))
       })
     },
     /**
@@ -374,7 +374,7 @@ export default {
           }
         }
       }).catch((resp) => {
-        _this.$notify.error('查询店铺列表失败：' + resp.msg)
+        _this.$notify.error(getErrorMsg('查询店铺列表失败', resp))
       })
     },
     /**
@@ -413,7 +413,7 @@ export default {
               _this.$notify.success(resp.msg)
             }
           }).catch((resp) => {
-            _this.$notify.error('保存失败：' + resp.msg)
+            _this.$notify.error(getErrorMsg('保存失败', resp))
           })
         }
       })

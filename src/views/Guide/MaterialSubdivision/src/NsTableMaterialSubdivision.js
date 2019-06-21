@@ -157,7 +157,7 @@ export default {
             that.$message.success('保存成功')
             this.$reload()
           }).catch((resp) => {
-            that.$message.error('保存失败' + resp.msg)
+            that.$message.error(getErrorMsg('保存失败', resp))
           })
         }
       })
@@ -185,7 +185,7 @@ export default {
                 this.$reload()
               }
               ).catch((resp) => {
-                this.$message.error('删除失败：' + resp.msg)
+                this.$message.error(getErrorMsg('删除失败', resp))
               })
           }
         })
@@ -206,7 +206,7 @@ export default {
             that.$message.success('删除成功')
             that.$reload()
           }).catch((resp) => {
-            that.$message.error('删除失败：' + resp.msg)
+            that.$message.error(getErrorMsg('删除失败', resp))
           })
       })
     },

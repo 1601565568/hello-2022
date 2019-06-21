@@ -1,5 +1,6 @@
 import tableMixin from 'web-crm/src/mixins/table'
 import apiRequestConfirm from 'web-crm/src/utils/apiRequestConfirm'
+import { getErrorMsg } from '@/utils/toast'
 export default {
   name: 'index',
   mixins: [tableMixin],
@@ -135,7 +136,7 @@ export default {
           that.$reload()
           that.$notify.success('删除成功')
         }).catch((resp) => {
-          that.$message.error(resp.msg || '删除失败，请稍后再试')
+          that.$message.error(getErrorMsg('删除失败，请稍后再试', resp))
         })
       }).catch(() => {})
     },
@@ -150,7 +151,7 @@ export default {
           that.$reload()
           that.$notify.success('活动已结束')
         }).catch((resp) => {
-          that.$message.error(resp.msg || '活动结束失败，请稍后再试')
+          that.$message.error(getErrorMsg('活动结束失败，请稍后再试', resp))
         })
       }).catch(() => {})
     }

@@ -342,7 +342,7 @@ export default {
           }).catch((resp) => {
             _this.closeDialog()
             this.model.sgGuide.image = allImageUrl
-            _this.$notify.error('保存失败：' + resp.msg)
+            _this.$notify.error(getErrorMsg('保存失败', resp))
           })
         }
       })
@@ -511,7 +511,7 @@ export default {
             _this.$refs.table.$reload()
           }
         }).catch((resp) => {
-          _this.$notify.error('删除失败，原因：' + resp.msg)
+          _this.$notify.error(getErrorMsg('删除失败，原因', resp))
         })
       })
     },
@@ -543,7 +543,7 @@ export default {
         _this.$notify.success(resp.msg)
         _this.$refs.table.$reload()
       }).catch((resp) => {
-        _this.$notify.error('同步失败：' + resp.msg)
+        _this.$notify.error(getErrorMsg('同步失败', resp))
       })
     },
     onSave (model) {
@@ -585,13 +585,13 @@ export default {
                 }).catch((resp) => {
                   _this.closeDialog()
                   this.model.sgGuide.image = allImageUrl
-                  _this.$notify.error('保存失败：' + resp.msg)
+                  _this.$notify.error(getErrorMsg('保存失败', resp))
                 })
               }
             })
           }
         }).catch((resp) => {
-          _this.$notify.error('请求失败：' + resp.msg)
+          _this.$notify.error(getErrorMsg('请求失败', resp))
         })
       } else {
         if (this.title === '新增员工' && model.sgGuideShop.job === 1) {
@@ -617,7 +617,7 @@ export default {
               }).catch((resp) => {
                 _this.closeDialog()
                 this.model.sgGuide.image = allImageUrl
-                _this.$notify.error('保存失败：' + resp.msg)
+                _this.$notify.error(getErrorMsg('保存失败', resp))
               })
             }
           })

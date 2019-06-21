@@ -1,5 +1,5 @@
 import formMixin from 'web-crm/src/mixins/form'
-
+import { getErrorMsg } from '@/utils/toast'
 export default {
   mixins: [formMixin],
   data: function () {
@@ -96,7 +96,7 @@ export default {
         names: that.names
       }).then((resp) => {
         if (!resp.success) {
-          that.$notify.error(resp.msg || '发短信失败')
+          that.$notify.error(getErrorMsg('发短信失败', resp))
           return
         }
         that.smsDialog = false
@@ -116,7 +116,7 @@ export default {
         integral: that.integral
       }).then((resp) => {
         if (!resp.success) {
-          that.$notify.error(resp.msg || '发积分失败')
+          that.$notify.error(getErrorMsg('发积分失败', resp))
           return
         }
         that.integralDialog = false

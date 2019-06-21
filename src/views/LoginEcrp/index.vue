@@ -24,6 +24,7 @@
   </div>
 </template>
 <script>
+import { getErrorMsg } from '@/utils/toast'
 export default {
   data: function () {
     return {
@@ -55,7 +56,7 @@ export default {
             })
         })
         .catch(resp => {
-          that.$notify.error('提示：' + resp.msg)
+          that.$notify.error(getErrorMsg('提示', resp))
         })
     }
   }

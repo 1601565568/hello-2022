@@ -216,7 +216,7 @@ export default {
         if (resp.success) {
           _this.$notify.success('切换成功！')
         } else {
-          _this.$notify.error('切换失败，原因：' + resp.msg)
+          _this.$notify.error(getErrorMsg('切换失败，原因', resp))
         }
       }).catch((resp) => {
         _this.$notify.error(getErrorMsg('查询失败', resp))

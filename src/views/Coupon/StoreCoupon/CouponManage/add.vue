@@ -264,6 +264,7 @@
 import moment from 'moment'
 import NsShopSelect from 'web-crm/src/components/NsShopSelect'
 import NsGoodsSelect from 'web-crm/src/components/NsGoodsSelect'
+import { getErrorMsg } from '@/utils/toast'
 export default {
   props: {
     callBack: Function
@@ -414,7 +415,7 @@ export default {
           this.$emit('showList', 'add')
         })
         .catch(resp => {
-          this.$notify.error(resp.msg)
+          this.$notify.error(getErrorMsg('查询失败', resp))
         })
       this.loading = false
     },

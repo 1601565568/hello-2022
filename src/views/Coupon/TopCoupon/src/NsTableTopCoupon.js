@@ -1,6 +1,7 @@
 import tableMixin from 'web-crm/src/mixins/table'
 import apiRequestConfirm from 'web-crm/src/utils/apiRequestConfirm'
 import moment from 'moment'
+import { getErrorMsg } from '@/utils/toast'
 export default {
   name: 'NsTableTopCoupon',
   mixins: [tableMixin],
@@ -29,7 +30,7 @@ export default {
                 that.$reload()
               })
           }).catch((resp) => {
-            that.$notify.error(resp.msg)
+            that.$notify.error(getErrorMsg('查询失败', resp))
           }).catch(() => {})
         },
         'icon': '$.noop',
@@ -120,7 +121,7 @@ export default {
           that.$notify.success(resp.msg)
           that.$reload()
         }).catch((resp) => {
-          that.$notify.error(resp.msg)
+          that.$notify.error(getErrorMsg('查询失败', resp))
         })
     },
     showDetail: function (obj) {

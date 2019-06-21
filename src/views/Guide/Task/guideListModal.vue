@@ -42,6 +42,7 @@
 </template>
 <script>
 import listPageMixin from '@/mixins/listPage'
+import { getErrorMsg } from '@/utils/toast'
 export default {
   mixins: [listPageMixin],
   data () {
@@ -76,7 +77,7 @@ export default {
           }
         })
         .catch(resp => {
-          this.$notify.error(resp.msg)
+          this.$notify.error(getErrorMsg('查询失败', resp))
         })
         .finally(() => {
           this.dialogLoading = false

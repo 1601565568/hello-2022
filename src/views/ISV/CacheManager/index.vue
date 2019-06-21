@@ -79,6 +79,7 @@
 <script>
 // import NavHead from '@/components/Layout/OperateNavHead'
 import ElAutocomplete from 'nui-v2/lib/autocomplete'
+import { getErrorMsg } from '@/utils/toast'
 export default {
   components: {
     // NavHead,
@@ -131,7 +132,7 @@ export default {
           } else {
             msg = '解密失败'
           }
-          _this.$notify.error(resp.msg || msg)
+          _this.$notify.error(getErrorMsg(msg, resp))
         })
       }
     },
@@ -174,7 +175,7 @@ export default {
           }
         }
       }).catch((resp) => {
-        that.$notify.error(resp.msg)
+        that.$notify.error(getErrorMsg('查询失败', resp))
       })
     },
     removeCacheKey () {
@@ -183,7 +184,7 @@ export default {
         that.$notify.success('删除成功')
         that.cacheVlaue = null
       }).catch(resp => {
-        that.$notify.error(resp.msg)
+        that.$notify.error(getErrorMsg('查询失败', resp))
       })
     },
     removeAllCacheKey () {
@@ -202,7 +203,7 @@ export default {
         }
         _this.$notify.success('保存成功')
       }).catch(resp => {
-        _this.$notify.error(resp.msg || '保存失败')
+        _this.$notify.error(getErrorMsg('保存失败', resp))
       })
     }
   },

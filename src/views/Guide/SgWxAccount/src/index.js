@@ -1,6 +1,6 @@
 import tableMixin from 'web-crm/src/mixins/table'
 // import apiRequestConfirm from 'web-crm/src/utils/apiRequestConfirm'
-
+import { getErrorMsg } from '@/utils/toast'
 export default {
   name: 'index',
   mixins: [tableMixin],
@@ -102,7 +102,7 @@ export default {
         }
         that.cancelAuthorizations = false
       }).catch((resp) => {
-        that.$notify.error(resp.msg || '保存失败')
+        that.$notify.error(getErrorMsg('保存失败', resp))
       })
     },
     shopManager () {
@@ -119,7 +119,7 @@ export default {
       that.$http.fetch(that.$api.guide.sgwxaccount.getAuthUrl).then((resp) => {
         tempPage.location = resp.result
       }).catch((resp) => {
-        that.$notify.error(resp.msg || '保存失败')
+        that.$notify.error(getErrorMsg('保存失败', resp))
       })
     },
     onSaveOpen (row) { // 新增或编辑
@@ -156,12 +156,12 @@ export default {
       // 查询小程序可选类目
       that.$http.fetch(that.$api.guide.sgwxaccount.getAppletCategoryList, that.presentObj).then((resp) => {
       }).catch((resp) => {
-        that.$notify.error(resp.msg || '保存失败')
+        that.$notify.error(getErrorMsg('保存失败', resp))
       })
       // 查询小程序页面配置
       that.$http.fetch(that.$api.guide.sgwxaccount.getAppletPageList, that.presentObj).then((resp) => {
       }).catch((resp) => {
-        that.$notify.error(resp.msg || '保存失败')
+        that.$notify.error(getErrorMsg('保存失败', resp))
       })
     },
     onPresent () { // 提交审核
@@ -169,7 +169,7 @@ export default {
       that.$http.fetch(that.$api.guide.sgwxaccount.submitTemplateToAudit, that.presentObj).then(() => {
 
       }).catch((resp) => {
-        that.$notify.error(resp.msg || '保存失败')
+        that.$notify.error(getErrorMsg('保存失败', resp))
       })
     },
     onPublish (latestStatus) { // 发布小程序
@@ -183,7 +183,7 @@ export default {
           that.$http.fetch(that.$api.guide.sgwxaccount.templateToRelease, that.obj).then(() => {
 
           }).catch((resp) => {
-            that.$notify.error(resp.msg || '保存失败')
+            that.$notify.error(getErrorMsg('保存失败', resp))
           })
         })
       } else if (latestStatus === 1 || latestStatus === 2 || latestStatus === 5) {
@@ -208,7 +208,7 @@ export default {
             that.$notify.success('保存成功')
             that.$reload()
           }).catch((resp) => {
-            that.$notify.error(resp.msg || '保存失败')
+            that.$notify.error(getErrorMsg('保存失败', resp))
           })
         }
       })

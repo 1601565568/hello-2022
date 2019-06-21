@@ -46,7 +46,7 @@
 <script>
 import api from '@/config/http'
 import listPageMixin from '@/mixins/listPage'
-// import { isURL } from '../Common/utils.js'
+import { getErrorMsg } from '@/utils/toast'
 export default {
   components: {
   },
@@ -144,7 +144,7 @@ export default {
           this.groupList = resp.result.data
         })
         .catch(resp => {
-          this.$notify.error(resp.msg)
+          this.$notify.error(getErrorMsg('查询失败', resp))
         })
     },
     // 提交保存
@@ -165,7 +165,7 @@ export default {
           this.$props.callBack()
         })
         .catch(resp => {
-          this.$notify.error(resp.msg)
+          this.$notify.error(getErrorMsg('查询失败', resp))
         })
       this.loading = false
     },

@@ -79,6 +79,7 @@
 <script>
 import listPageMixin from '@/mixins/listPage'
 import NsArea from 'web-crm/src/components/NsArea'
+import { getErrorMsg } from '@/utils/toast'
 export default {
   mixins: [listPageMixin],
   data () {
@@ -132,7 +133,7 @@ export default {
           this.pagination.total = parseInt(resp.result.recordsTotal)
         })
         .catch(resp => {
-          this.$notify.error(resp.msg)
+          this.$notify.error(getErrorMsg('查询失败', resp))
         })
     },
     handleClose () {

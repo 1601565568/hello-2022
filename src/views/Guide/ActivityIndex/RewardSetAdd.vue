@@ -65,6 +65,7 @@
 </template>
 <script>
 import ElInputNumber from 'nui-v2/lib/input-number'
+import { getErrorMsg } from '@/utils/toast'
 export default {
   components: {
     ElInputNumber
@@ -146,7 +147,7 @@ export default {
             })
             .catch(resp => {
               this.loading = false
-              this.$notify.error(resp.msg)
+              this.$notify.error(getErrorMsg('查询失败', resp))
             })
         }
       })

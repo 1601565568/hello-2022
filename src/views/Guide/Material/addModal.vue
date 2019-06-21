@@ -100,6 +100,7 @@ import SelectMarket from './components/selectMarket'
 import SelectGoods from './components/selectGoods'
 import $ from 'jquery'
 // import { isURL } from '../Common/utils.js'
+import { getErrorMsg } from '@/utils/toast'
 export default {
   components: {
     ElUpload,
@@ -201,7 +202,7 @@ export default {
             this.saveObj = $.extend(true, {}, resp.result)
           })
           .catch(resp => {
-            that.$notify.error(resp.msg)
+            that.$notify.error(getErrorMsg('查询失败', resp))
           })
       } else {
         this.groudList = groudArr
@@ -242,7 +243,7 @@ export default {
           this.groupList = resp.result.data
         })
         .catch(resp => {
-          this.$notify.error(resp.msg)
+          this.$notify.error(getErrorMsg('查询失败', resp))
         })
     },
     // 提交保存
@@ -267,7 +268,7 @@ export default {
           this.$props.callBack()
         })
         .catch(resp => {
-          this.$notify.error(resp.msg)
+          this.$notify.error(getErrorMsg('查询失败', resp))
         })
       this.loading = false
     },

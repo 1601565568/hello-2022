@@ -58,6 +58,7 @@
 </template>
 
 <script>
+import { getErrorMsg } from '@/utils/toast'
 export default {
   name: 'detail',
   data () {
@@ -81,7 +82,7 @@ export default {
         .then((resp) => {
           that.model = resp.result
         }).catch((resp) => {
-          that.$notify.error(resp.msg)
+          that.$notify.error(getErrorMsg('查询失败', resp))
         })
       that.dialogVisible = true
     },
@@ -93,7 +94,7 @@ export default {
           that.$notify.success('保存成功')
           that.dialogVisible = false
         }).catch((resp) => {
-          that.$notify.error(resp.msg)
+          that.$notify.error(getErrorMsg('查询失败', resp))
         })
     }
   }

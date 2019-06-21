@@ -27,7 +27,7 @@
 
 <script>
 import tableMixin from 'web-crm/src/mixins/table'
-
+import { getErrorMsg } from '@/utils/toast'
 export default {
   name: 'DataTable',
   mixins: [tableMixin],
@@ -56,7 +56,7 @@ export default {
         }
         that.loadingTable = false
       }).catch((resp) => {
-        that.$notify.error(resp.msg)
+        that.$notify.error(getErrorMsg('查询失败', resp))
         that.loadingTable = false
       })
     }
