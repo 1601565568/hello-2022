@@ -99,7 +99,9 @@
         align="right"
       >
       <template slot-scope="scope">
+        <div v-if="scope.row.shopStatus == 1">
         <ns-button @click="itemSetFun(scope.row)" type="text">设置</ns-button>
+        </div>
       </template>
       </el-table-column>
     </el-table>

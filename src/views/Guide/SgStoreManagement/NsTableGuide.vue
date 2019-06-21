@@ -108,7 +108,7 @@
         </el-table-column>
         <el-table-column prop="shopStatus" label="营业状态" align="left" width="100">
           <template slot-scope="scope">
-            {{scope.row.shopStatus === 0?'删除':scope.row.shopStatus === 1?'正常营业':scope.row.shopStatus === -1?'暂停':'已关店'}}
+            {{scope.row.shopStatus === 0?'删除':scope.row.shopStatus === 1?'正常营业':scope.row.shopStatus === -1?'暂停营业':'已关店'}}
           </template>
         </el-table-column>
          <el-table-column prop="mobile" label="地区" align="left" >

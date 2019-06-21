@@ -125,7 +125,7 @@ export default {
         label: '已关店'
       }, {
         value: -1,
-        label: '暂停'
+        label: '暂停营业'
       }, {
         value: 1,
         label: '正常营业'

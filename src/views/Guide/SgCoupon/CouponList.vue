@@ -17,6 +17,7 @@
                 </el-select>
               </el-form-item>
             </el-form-grid>
+          <el-form-grid block class="text-info"><i class="el-icon-info"></i>选择中台已新增的优惠券至导购系统</el-form-grid>
         </el-form-item>
         <el-form-item label="剩余数量：" v-if="activityModel.coupon_id > 0">
           <el-form-grid size="xmd">
@@ -37,6 +38,7 @@
                         auto-complete="off" @change="activityCouponTotal()"></el-input>
             </el-form-item>
           </el-form-grid>
+          <el-form-grid block class="text-info"><i class="el-icon-info"></i>设置优惠券的数量</el-form-grid>
         </el-form-item>
         <el-form-item label="分配方式：" required v-if="activityModel.coupon_id > 0">
           <el-form-grid>
