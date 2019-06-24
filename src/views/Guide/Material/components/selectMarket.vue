@@ -13,7 +13,7 @@
         <div class="template-table__bar-more">
           <el-form ref="searchform" label-width="80px"  class="surround-btn" :model="searchObj.searchMap"  :inline="true">
             <el-form-item label="活动类型：" prop="type">
-              <el-select v-model="searchObj.searchMap.type" placeholder="请选择活动类型" clearable>
+              <el-select v-model="searchObj.searchMap.type" placeholder="请选择活动类型">
                 <el-option v-for="item in groudList"
                 :key="item.type"
                 :label="item.name"
