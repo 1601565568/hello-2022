@@ -125,8 +125,8 @@ export default {
     onSaveOpen (row) { // 新增或编辑
       var that = this
       that.dialogFormVisible = true
-      that.shopManager_radio = '1'
-      that.shoppingGuide_radio = '0'
+      that.shopManager_radio = row.type === 1 ? '1' : '0'
+      that.shoppingGuide_radio = row.type === 0 ? '1' : '0'
       that.titleText = (row.id && '编辑') || '新增'
       that.model.id = row.id
       that.model.groupId = row.groupId
