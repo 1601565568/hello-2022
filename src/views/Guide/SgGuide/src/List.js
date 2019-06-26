@@ -1571,6 +1571,11 @@ export default {
         this.$notify.error('上传图片不得大于200KB')
         return false
       }
+      // 图片格式判断
+      if (!/\.(gif|jpg|jpeg|png|GIF|JPG|PNG|JPEG)$/.test(file)) {
+        this.$notify.error('不支持的图片格式')
+        return false
+      }
     }
   },
   mounted: function () {
