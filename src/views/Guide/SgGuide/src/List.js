@@ -808,6 +808,8 @@ export default {
       })
     },
     onRedactFun (row) { // 修改和新增功能
+      // 初始化门店信息
+      this.initShopList()
       this.row = row
       if (row) {
         this.title = '编辑员工信息'
@@ -1577,10 +1579,6 @@ export default {
         return false
       }
     }
-  },
-  mounted: function () {
-    var _this = this
-    _this.initShopList()
   },
   watch: {
     subordinateStores (newValue) {

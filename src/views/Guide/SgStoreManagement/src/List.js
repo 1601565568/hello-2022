@@ -516,14 +516,14 @@ export default {
       })
     },
     initShopList () {
-      var _this = this
-      _this.$http.fetch(_this.$api.guide.shop.findBrandShopList, { isOnline: 0 }).then(resp => {
-        if (resp.success && resp.result != null) {
-          _this.shopFindList = resp.result
-        }
-      }).catch((resp) => {
-        _this.$notify.error(getErrorMsg('查询失败', resp))
-      })
+      // var _this = this
+      // _this.$http.fetch(_this.$api.guide.shop.findBrandShopList, { isOnline: 0 }).then(resp => {
+      //   if (resp.success && resp.result != null) {
+      //     _this.shopFindList = resp.result
+      //   }
+      // }).catch((resp) => {
+      //   _this.$notify.error(getErrorMsg('查询失败', resp))
+      // })
     },
     queryGuideShopList (guideId) {
       var _this = this
@@ -760,7 +760,7 @@ export default {
     }
   },
   mounted: function () {
-    var _this = this
-    _this.initShopList()
+    // var _this = this
+    // _this.initShopList()
   }
 }
