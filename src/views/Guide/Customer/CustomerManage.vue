@@ -3,7 +3,7 @@
     <ns-table-guide ref="table1" :url=$api.guide.guide.customerFindCustomerList @add="onRedactFun"
       @shopEdit="shopEdit" @onRedactFun="onRedactFun" @handleSelectionChange="handleSelectionChange">
     </ns-table-guide>
-    <el-dialog :title="title" :visible.sync="shopFindListShow" width="800px" >
+    <el-dialog :title="title" :visible.sync="shopFindListShow" width="800px" @close="closeDialog">
       <!--  搜索开始  -->
       <div class="search">
         <el-form class="el_form" ref="table_filter_form" :model="model" label-width="60px" :inline="true">
@@ -32,7 +32,7 @@
         <el-table-column  width="30">
           <template slot-scope="scope">
             <div class="customerManage">
-              <el-radio :label="scope.$index" v-model="radio" @change.native="getCurrentRow(scope.row,scope.$index)"></el-radio>
+              <el-radio :label="scope.$index" v-model="radio"  @change.native="getCurrentRow(scope.row,scope.$index)"></el-radio>
             </div>
           </template>
         </el-table-column>
