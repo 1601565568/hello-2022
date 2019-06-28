@@ -1281,6 +1281,8 @@ export default {
           _this.$notify.error(getErrorMsg('查询失败', resp))
         })
       })
+      // 会员数重新设为null，防止下个员工离职时没有会员仍然弹窗进行会员转移操作
+      _this.transferCount = null
     },
     membershipRetention (model) { // 选择会员归属保存
       this.memberBelongingEnsure(model)
