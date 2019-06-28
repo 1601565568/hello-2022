@@ -7,6 +7,7 @@
   :close-on-click-modal=false
   :visible.sync="dialogVisible"
   width="380px"
+  height="180px"
   :before-close="handleClose">
     <div class="comDialogBoxCon" style="padding:10px 0 20px ">
         <el-form :rules="rules" ref="searchform" :model="saveObj"  :inline="true">

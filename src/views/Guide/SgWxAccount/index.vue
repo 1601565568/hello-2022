@@ -58,10 +58,8 @@
                :modal-append-to-body="false"
                @before-close="closeDialog()">
       <div  class="dialog-top">
-        <el-radio v-if="model.type === -1" v-model="shopManager_radio" :disabled='true' label="1">店长</el-radio>
-        <el-radio v-else v-model="shopManager_radio" label="1" @change="shopManager">店长</el-radio>
-        <el-radio v-if="model.type === -1" v-model="shoppingGuide_radio" :disabled='true' label="1">导购</el-radio>
-        <el-radio v-else v-model="shoppingGuide_radio" label="1" @change="shoppingGuide">导购</el-radio>
+        <el-radio v-model="shopManager_radio" label="1" @change="shopManager">店长</el-radio>
+        <el-radio v-model="shoppingGuide_radio" label="1" @change="shoppingGuide">导购</el-radio>
       </div>
       <el-form :model="model" ref="form" label-width="150px" :rules="rules" placement="right">
         <el-form-item label="微信名称：" prop="name" required>

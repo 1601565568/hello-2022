@@ -10,10 +10,10 @@
     :before-close="handleClose">
     <div class="comDialogBoxCon flex flex-between" style='align-items:flex-start'>
       <div class="comDialogBoxConOut" v-show='saveObj.articleType' style='flex:1'>
-        <el-form :model="saveObj" :rules="rules" >
+        <el-form :model="saveObj" :rules="rules" ref="Form1">
           <el-form-item  prop="title">
             <el-form-grid size="xxmd">
-              <el-input  placeholder="请在这里输入标题" v-model="saveObj.title"  size="medium"></el-input>
+              <el-input  placeholder="请输入标题，长度在4-50个字符以内" v-model="saveObj.title" clearable size="medium"></el-input>
             </el-form-grid>
           </el-form-item>
         </el-form>
@@ -25,7 +25,11 @@
       </div>
       <div v-show='!saveObj.articleType' style='flex:1'>
         <div class='mb10'>
+          <el-form :model="saveObj" :rules="rules" ref="Form2">
+          <el-form-item  prop="title">
             <el-input  type="text" v-model="saveObj.title" maxlength='50' placeholder="请输入标题，长度在4-50个字符以内" clearable size="medium"></el-input>
+          </el-form-item>
+          </el-form>
         </div>
         <vue-ueditor-wrap :config="myConfig" v-model="detail" @ready="editorReady"  @beforeInit="addCustomButtom"></vue-ueditor-wrap>
       </div>
@@ -148,7 +152,7 @@ export default {
       rules: {
         title: [
           { required: true, message: '请输入素材标题', trigger: 'blur' },
-          { min: 4, max: 50, message: '限制长度为50个字以内', trigger: 'blur,change' }
+          { min: 4, max: 50, message: '限制长度在4-50个字符以内', trigger: 'blur' }
         ],
         subdivisionId: [
           { required: true, message: '请选择素材分组', trigger: 'change' }
@@ -280,9 +284,13 @@ export default {
     // 提交保存
     saveFun () {
       this.$refs.addForm.validate(valid => {
-        if (valid) {
-          this.doSave()
-        }
+        this.$refs.Form1.validate(valid1 => {
+          this.$refs.Form2.validate(valid2 => {
+            if (valid && valid1 && valid2) {
+              this.doSave()
+            }
+          })
+        })
       })
     },
     async doSave () {

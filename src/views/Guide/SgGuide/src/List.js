@@ -808,6 +808,8 @@ export default {
       })
     },
     onRedactFun (row) { // 修改和新增功能
+      // 初始化门店信息
+      this.initShopList()
       this.row = row
       if (row) {
         this.title = '编辑员工信息'
@@ -1279,6 +1281,8 @@ export default {
           _this.$notify.error(getErrorMsg('查询失败', resp))
         })
       })
+      // 会员数重新设为null，防止下个员工离职时没有会员仍然弹窗进行会员转移操作
+      _this.transferCount = null
     },
     membershipRetention (model) { // 选择会员归属保存
       this.memberBelongingEnsure(model)
@@ -1571,11 +1575,12 @@ export default {
         this.$notify.error('上传图片不得大于200KB')
         return false
       }
+      // 图片格式判断
+      if (!/\.(gif|jpg|jpeg|png|GIF|JPG|PNG|JPEG)$/.test(file.name)) {
+        this.$notify.error('不支持的图片格式')
+        return false
+      }
     }
-  },
-  mounted: function () {
-    var _this = this
-    _this.initShopList()
   },
   watch: {
     subordinateStores (newValue) {

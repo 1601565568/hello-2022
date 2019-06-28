@@ -199,6 +199,7 @@ export default {
       let _this = this
       if (val === undefined) {
         if (this.multipleSelection.length > 0) {
+          _this.title = '导购更换列表'
           _this.shopFindListShow = true
           _this.guideFindList()
           _this.findBrandShopList()
@@ -256,6 +257,8 @@ export default {
     },
     closeDialog () {
       this.shopFindListShow = false
+      this.radio = null
+      this.pagination.page = 1
     },
     onSave () {
       let _this = this
@@ -291,5 +294,5 @@ export default {
     }
   },
   mounted: function () {
-  }
+  },
 }
