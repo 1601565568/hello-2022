@@ -387,6 +387,11 @@ export default {
     submitForm (formName) {
       this.searchObj.searchMap.sourceId = this.searchform.sourceId
       this.searchObj.searchMap.subdivisionId = this.searchform.subdivisionId
+      if (this.searchform.subdivisionId === '' || this.searchform.subdivisionId === null) {
+        this.searchObj.searchMap.subdivisionId = null
+      } else {
+        this.searchObj.searchMap.subdivisionId = this.searchform.subdivisionId
+      }
       this.searchObj.searchMap.content = this.searchform.content
       this.searchObj.searchMap.codeType = this.searchform.codeType
       if (this.searchform.time.length === 2) {
