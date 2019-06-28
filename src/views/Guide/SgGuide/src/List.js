@@ -550,6 +550,8 @@ export default {
             type: 'warning'
           }).then(() => {})
         } else {
+          // 姓名去重
+          _this.dimissionArry = Array.from(new Set(_this.dimissionArry))
           _this.dimissionArry.map(item => {
             if (item.count > 1) {
               _this.verification = true
