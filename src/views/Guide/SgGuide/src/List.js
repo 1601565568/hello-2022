@@ -603,6 +603,12 @@ export default {
         }
       }
     },
+    // 员工离职时自定义转移会员弹窗复位
+    clearValue () {
+      let _this = this
+      _this.resignFormVisible = false
+      _this.transferRadio = '1'
+    },
     showShop () { // 组团进行更换门店操作
       let _this = this
       _this.switchStateName = '更换门店'
@@ -1587,6 +1593,11 @@ export default {
   watch: {
     subordinateStores (newValue) {
       this.storeOwnershipDisplay = !!(newValue && newValue.length > 0)
+    },
+    resignFormVisible (newRadio) {
+      if (newRadio === false) {
+        this.transferRadio = '1'
+      }
     }
   }
 }
