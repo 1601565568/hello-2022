@@ -49,6 +49,7 @@
       style="width: 100%"
       @selection-change="handleSelectionChange">
       <el-table-column
+        :selectable="selectable"
         type="selection"
         align="center" :width="50">
       </el-table-column>
@@ -124,6 +125,7 @@ import moment from 'moment'
 import listPageMixin from '@/mixins/listPage'
 import rewardSetAdd from './RewardSetAdd'
 import { getErrorMsg } from '@/utils/toast'
+
 export default {
   mixins: [listPageMixin],
   data () {
@@ -159,6 +161,14 @@ export default {
     this.loadListFun(this.searchObj)
   },
   methods: {
+    // 复选框
+    selectable (row, index) {
+      if (row.shopStatus === 1) {
+        return true
+      } else {
+        return false
+      }
+    },
     // 打开弹窗
     AddShowToggle () {
       if (this.selectedArr.length === 0) {
