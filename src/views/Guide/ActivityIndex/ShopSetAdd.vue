@@ -12,7 +12,7 @@
       <span v-if="saveObj.type <= 0">最多输入两位小数</span>
       <span v-if="saveObj.type > 0">请输入正整数</span>
     </div>
-    <el-form label-width='0' :model='shopList[0]'>
+    <el-form label-width='0' :model='shopList[0]' novalidate='novalidate'>
     <el-table
       ref="multipleTable"
       :data="shopList"
