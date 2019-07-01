@@ -77,7 +77,7 @@ export default {
         this.shopList[0]['quota' + month] = 0
       } else {
         if (parseInt(this.saveObj.type) === 0) {
-          validateUtil.checkDigitalLength(null, 10, null, Number(value) * 10000, (error) => {
+          validateUtil.checkDigitalLength(null, 10, null, (Number(value) * 10000).toFixed(0), (error) => {
             if (error) {
               this.$notify.error('最多输入6位数')
               this.shopList[0]['quota' + month] = 0
