@@ -5,6 +5,7 @@ import coupon from './coupon'
 import isv from './isv'
 import mall from './mall'
 import overView from './overView'
+import groupData from './groupData'
 export default {
   test,
   core,
@@ -13,6 +14,7 @@ export default {
   isv,
   mall,
   overView,
+  groupData,
   getMoreAccountByWeight: { // 根据权重查询个人号
     url: '/guide/sgmoreaccount/getMoreAccountByWeight',
     method: 'get'
