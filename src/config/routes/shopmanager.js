@@ -60,6 +60,12 @@ export default {
           'component': () => import('@/views/Guide/Customer/CustomerManage')
         },
         {
+          'path': '/Guide/Customer/FriendManage', // todo 20190701 需要重新定义
+          'name': 'FriendData',
+          'title': '好友数据',
+          'component': () => import('@/views/Guide/FriendData/FriendManage') // todo 20190701 需要重新定义
+        },
+        {
           'path': '/Guide/transCustomerRecord',
           'name': 'TRANS_CUSTOMER_RECORD',
           'title': '客户转移记录',
