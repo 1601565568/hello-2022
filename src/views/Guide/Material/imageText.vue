@@ -393,7 +393,11 @@ export default {
         this.searchObj.searchMap.subdivisionId = this.searchform.subdivisionId
       }
       this.searchObj.searchMap.content = this.searchform.content
-      this.searchObj.searchMap.codeType = this.searchform.codeType
+      if (this.searchform.codeType === '' || this.searchform.codeType === null) {
+        this.searchObj.searchMap.codeType = null
+      } else {
+        this.searchObj.searchMap.codeType = this.searchform.codeType
+      }
       if (this.searchform.time.length === 2) {
         this.searchObj.searchMap.timeStart = moment(this.searchform.time[0]).format('YYYY-MM-DD HH:mm:ss')
         this.searchObj.searchMap.timeEnd = moment(this.searchform.time[1]).format('YYYY-MM-DD HH:mm:ss')
