@@ -20,7 +20,8 @@
                 <el-select
                 clearable
                 style="width:100px"
-                v-model="searchform.type" placeholder="请选择">
+                v-model="searchform.type" placeholder="请选择"
+                :clearable='false'>
                 <el-option
                 v-for="item in typeOptions"
                 :key="item.value"
@@ -67,7 +68,8 @@
             <el-select
             clearable
             style="width:100px"
-            v-model="searchform.type" placeholder="请选择">
+            v-model="searchform.type" placeholder="请选择"
+            :clearable='false'>
             <el-option
             v-for="item in typeOptions"
             :key="item.value"
