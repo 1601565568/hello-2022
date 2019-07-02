@@ -337,7 +337,7 @@ export default {
       }
       // 图片格式判断
       if (!/\.(gif|jpg|jpeg|png|bmp|BMP|GIF|JPG|PNG|JPEG)$/.test(file.name)) {
-        this.$notify.error('不支持的图片格式')
+        this.$notify.error('仅支持jpg/jepg/png/bmp/gif的图片格式')
         return false
       }
     },
