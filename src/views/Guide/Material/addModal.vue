@@ -289,6 +289,11 @@ export default {
         this.$notify.warning('上传图片不得大于500KB')
         return false
       }
+      // 图片格式判断
+      if (!/\.(gif|jpg|jpeg|png|bmp|BMP|GIF|JPG|PNG|JPEG)$/.test(file.name)) {
+        this.$notify.error('不支持的图片格式')
+        return false
+      }
     },
     // uploadFile: function(file) {
     //   var _this = this;
