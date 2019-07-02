@@ -46,7 +46,7 @@
 
           <el-form-item  prop="content">
             <el-form-grid size="xxmd">
-              <el-input resize="none" type="textarea" maxlength='65535' v-model="saveObj.content" placeholder="可在此输入推广文案"></el-input>
+              <el-input resize="none" type="textarea" maxlength='10001' v-model="saveObj.content" placeholder="可在此输入推广文案"></el-input>
             </el-form-grid>
           </el-form-item>
 
@@ -158,7 +158,7 @@ export default {
           { required: true, message: '请选择素材分组', trigger: 'change' }
         ],
         content: [
-          { min: 0, max: 65534, message: '限制长度在65535个字符以内', trigger: 'blur' }
+          { min: 0, max: 10000, message: '限制长度在10000个字符以内', trigger: 'blur' }
         ]
 
       }
