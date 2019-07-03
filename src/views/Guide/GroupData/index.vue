@@ -2,14 +2,16 @@
   <div>
     <div class="template-page__row-left">
       <el-input ref="quickText" style="width: 190px" v-model="filterGroup" placeholder="搜索群名">
-        <i class="el-icon-search el-input__icon" slot="suffix" @click="$quickSearchAction$('wid')"></i>
+        <i class="el-icon-search el-input__icon" slot="suffix" @click="onFilterGroup"></i>
       </el-input>
-      <div class='elTree' ref="elTree" :style="{ 'height' : groupTreeHeight + 'px'}">
-        <el-tree class="filter-tree" ref="guideTree" :data="groupList" highlight-current
+      <div class='elTree' :style="{ 'height' : groupTreeHeight + 'px'}">
+        <el-tree class="filter-tree" ref="groupTree" :data="groupList" highlight-current
                  node-key="id" :default-expand-all="false" :expand-on-click-node="false" :default-checked-keys="[0]"
                  :filter-node-method="onFilterGroupNode" @node-click="onClickGroupNode">
-          <div class="subdivision-tree-node" slot-scope="{ node }">
-            <span>{{node.label}}</span>
+          <div class="subdivision-tree-node" slot-scope="{ node, data }">
+            <el-popover class="item" trigger='hover' :content="node.label + (data.chatroomname ? '('+data.quantity + ')' : ' / ' + data.quantity)" placement="bottom">
+              <span slot="reference">{{wordLimit(node.label + (data.chatroomname ? '('+data.quantity + ')' : ' / ' + data.quantity))}}</span>
+            </el-popover>
           </div>
         </el-tree>
       </div>
@@ -66,7 +68,7 @@
             </el-form-item>
           </el-form>
           <div class="template-table__more-btn">
-            <ns-button type="primary" @click="searchAction">{{$t('operating.search')}}</ns-button>
+            <ns-button type="primary" @click="$searchAction$">{{$t('operating.search')}}</ns-button>
             <ns-button @click="$resetInputAction$">{{$t('operating.reset')}}</ns-button>
           </div>
         </template>
@@ -78,29 +80,33 @@
                     row-key="id"
                     @selection-change="$selectionChange">
             <el-table-column :show-overflow-tooltip="true" type="default" prop="title"
-                             label="头像" :sortable="false">
+                             label="头像" width='80px' :sortable="false">
               <template slot-scope="scope">
                 <div class="avatar-name clearfix">
                   <div class="avatar-name__avatar"><img
-                    :src='scope.row.picture || NoImg' alt="商品图片"></div>
+                    :src='scope.row.head || NoImg' alt="会员头像"></div>
                   <div class="avatar-name__name"></div>
                 </div>
               </template>
             </el-table-column>
-            <el-table-column :show-overflow-tooltip="true" type="default" prop="goods_code"
+            <el-table-column :show-overflow-tooltip="true" type="default" prop="nick"
                              label="微信昵称" :sortable="false">
             </el-table-column>
-            <el-table-column :show-overflow-tooltip="true" type="default" prop=""
-                             label="性别" :sortable="false">
-            </el-table-column>
-            <el-table-column :show-overflow-tooltip="true" type="default" prop=""
-                             label="地区" :sortable="false">
-            </el-table-column>
-            <el-table-column :show-overflow-tooltip="true" type="default" prop=""
+<!--            todo-zsf 暂无以下数据-->
+<!--            <el-table-column :show-overflow-tooltip="true" type="default" prop=""-->
+<!--                             label="性别" :sortable="false">-->
+<!--            </el-table-column>-->
+<!--            <el-table-column :show-overflow-tooltip="true" type="default" prop=""-->
+<!--                             label="地区" :sortable="false">-->
+<!--            </el-table-column>-->
+            <el-table-column :show-overflow-tooltip="true" type="default" prop="displayname"
                              label="所属微信群" :sortable="false">
             </el-table-column>
             <el-table-column :show-overflow-tooltip="true" type="default" prop=""
-                             label="是否好友" :sortable="false">
+                             label="是否好友" :sortable="false" width='80px' align='center'>
+              <template slot-scope='scope'>
+                {{Number(scope.row.isFriend) > 0 ? '是' : '否' }}
+              </template>
             </el-table-column>
             <el-table-column :show-overflow-tooltip="true" label="操作" align="center"
                              width="160px">
@@ -130,6 +136,7 @@ import Index from './src/index'
 export default Index
 </script>
 <style scoped>
+  @import './src/style.pcss';
   @import "@/style/small/variables.pcss";
 
   .template-page__row-left {

@@ -5,6 +5,8 @@ export default {
   mixins: [tableMixin],
   data () {
     return {
+      NoImg: '',
+      url: this.$api.guide.groupData.table,
       _table: {
         operate_buttons: [
           {
@@ -44,10 +46,11 @@ export default {
         ]
       },
       model: {
-        wid: '',
+        ownerId: '',
         nick: '',
         displayname: '',
-        isFriend: ''
+        isFriend: '',
+        chatroomname: ''
       },
       filterGroup: '',
       groupTreeHeight: 0,
@@ -57,22 +60,45 @@ export default {
   mounted () {
     this.groupTreeHeight = window.innerHeight - 130
     this.getWxGroup()
+    this.$searchAction$()
+  },
+  watch: {
+    filterGroup (value) {
+      this.$refs.groupTree.filter(value)
+    }
   },
   methods: {
-    onFilterGroupNode () {
-
+    onFilterGroupNode (value, data) {
+      if (!value) {
+        return true
+      }
+      return data.label.indexOf(value) !== -1
     },
-    onClickGroupNode () {
+    onFilterGroup () {
+      this.$refs.groupTree.filter(this.filterGroup)
+    },
+    onClickGroupNode (data) {
+      this.model.ownerId = data.wid
+      this.model.chatroomname = data.chatroomname
+      this.$searchAction$()
     },
     searchAction () {
 
     },
     getWxGroup () {
       this.$http.fetch(this.$api.guide.groupData.getWxGroup).then(data => {
-        console.log(data)
+        this.groupList = Object.assign([], data.result)
       }).catch(error => {
         this.$notify.error(getErrorMsg('获取群聊出现异常', error))
       })
+    },
+    wordLimit: function (words) {
+      return words.length > 10 ? words.substr(0, 9) + '...' : words
+    },
+    $resetInput () {
+      const origin = this.$getOriginModel$()
+      // 重置时不重置左侧已选择的个人号或群聊
+      return Object.assign({}, origin, { wid: this.model.ownerId, chatroomname: this.model.chatroomname })
     }
   }
 }
