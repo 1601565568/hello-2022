@@ -13,7 +13,7 @@
             <ns-button type='text' @click="$router.push({name:'MaterialSubdivision'})"> + 添加分组</ns-button>
           </el-form-item>
           <el-form-item label="推广文案：" prop="content">
-            <el-input resize="none" type="textarea" maxlength='10001' v-model="saveObj.content" placeholder="请输入推广文案"></el-input>
+            <el-input resize="none" type="textarea" maxlength='10000' v-model="saveObj.content" placeholder="可在此输入推广文案，限制长度在10000个字符以内。"></el-input>
           </el-form-item>
 
           <el-form-item label="素材图片：" prop="imageList">
