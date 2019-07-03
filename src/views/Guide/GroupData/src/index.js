@@ -1,4 +1,5 @@
 import tableMixin from 'web-crm/src/mixins/table'
+import { getErrorMsg } from '@/utils/toast'
 
 export default {
   mixins: [tableMixin],
@@ -25,14 +26,16 @@ export default {
         ],
         table_buttons: [
           {
-            'func': function (scope) {},
+            'func': function (scope) {
+            },
             'icon': '',
             'name': '聊天',
             'auth': ``,
             'visible': ``
           },
           {
-            'func': function (scope) {},
+            'func': function (scope) {
+            },
             'icon': '',
             'name': '详情',
             'auth': ``,
@@ -53,6 +56,7 @@ export default {
   },
   mounted () {
     this.groupTreeHeight = window.innerHeight - 130
+    this.getWxGroup()
   },
   methods: {
     onFilterGroupNode () {
@@ -60,6 +64,15 @@ export default {
     },
     onClickGroupNode () {
     },
-    searchAction () {}
+    searchAction () {
+
+    },
+    getWxGroup () {
+      this.$http.fetch(this.$api.guide.groupData.getWxGroup).then(data => {
+        console.log(data)
+      }).catch(error => {
+        this.$notify.error(getErrorMsg('获取群聊出现异常', error))
+      })
+    }
   }
 }

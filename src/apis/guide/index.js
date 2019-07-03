@@ -10,6 +10,7 @@ import marketing from './marketing'
 import task from './task'
 import moreAccount from './moreAccount'
 import quicklyword from './quicklyword'
+import groupData from './groupData'
 export default {
   guide,
   shop,
@@ -23,6 +24,7 @@ export default {
   task,
   moreAccount,
   quicklyword,
+  groupData,
   // 所有导购模块全部整合在此
   comGetBrandForShopList: {// 获取品牌下的店铺
     url: '/core/sgshop/getBrandList',
