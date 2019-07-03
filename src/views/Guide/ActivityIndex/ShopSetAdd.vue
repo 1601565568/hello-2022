@@ -12,7 +12,7 @@
       <span v-if="saveObj.type <= 0">最多输入两位小数</span>
       <span v-if="saveObj.type > 0">请输入正整数</span>
     </div>
-    <el-form label-width='0' :model='shopList[0]'>
+    <el-form label-width='0' :model='shopList[0]' novalidate='novalidate'>
     <el-table
       ref="multipleTable"
       :data="shopList"
@@ -77,7 +77,7 @@ export default {
         this.shopList[0]['quota' + month] = 0
       } else {
         if (parseInt(this.saveObj.type) === 0) {
-          validateUtil.checkDigitalLength(null, 10, null, Number(value) * 10000, (error) => {
+          validateUtil.checkDigitalLength(null, 10, null, (Number(value) * 10000).toFixed(0), (error) => {
             if (error) {
               this.$notify.error('最多输入6位数')
               this.shopList[0]['quota' + month] = 0
