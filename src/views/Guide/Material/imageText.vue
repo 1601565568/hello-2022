@@ -398,7 +398,7 @@ export default {
       } else {
         this.searchObj.searchMap.codeType = this.searchform.codeType
       }
-      if (this.searchform.time.length === 2) {
+      if (this.searchform.time !== '' && this.searchform.time !== null && this.searchform.time.length === 2) {
         this.searchObj.searchMap.timeStart = moment(this.searchform.time[0]).format('YYYY-MM-DD HH:mm:ss')
         this.searchObj.searchMap.timeEnd = moment(this.searchform.time[1]).format('YYYY-MM-DD HH:mm:ss')
       } else {

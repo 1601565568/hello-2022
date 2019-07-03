@@ -274,7 +274,7 @@ export default {
     // 提交搜索
     submitForm (formName) {
       this.searchObj.searchMap.subdivision_name = this.searchform.subdivision_name
-      if (this.searchform.time.length === 2) {
+      if (this.searchform.time !== '' && this.searchform.time !== null && this.searchform.time.length === 2) {
         this.searchObj.searchMap.time_start = moment(
           this.searchform.time[0]
         ).format('YYYY-MM-DD HH:mm:ss')

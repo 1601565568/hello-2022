@@ -13,7 +13,7 @@
             <ns-button type='text' @click="$router.push({name:'MaterialSubdivision'})"> + 添加分组</ns-button>
           </el-form-item>
           <el-form-item label="推广文案：" prop="content">
-            <el-input resize="none" type="textarea" v-model="saveObj.content" placeholder="请输入推广文案"></el-input>
+            <el-input resize="none" type="textarea" maxlength='10001' v-model="saveObj.content" placeholder="请输入推广文案"></el-input>
           </el-form-item>
 
           <el-form-item label="素材图片：" prop="imageList">
@@ -144,13 +144,16 @@ export default {
       rules: {
         title: [
           { required: true, message: '请输入素材标题', trigger: 'blur' },
-          { min: 4, max: 20, message: '长度在4-20个字符以内', trigger: 'blur' }
+          { min: 4, max: 20, message: '限制长度在4-20个字符以内', trigger: 'blur' }
         ],
         subdivisionId: [
           { required: true, message: '请选择所属分组', trigger: 'blur' }
         ],
         imageList: [
           { required: true, message: '请添加素材图片', trigger: 'change' }
+        ],
+        content: [
+          { min: 0, max: 10000, message: '限制长度在10000个字符以内', trigger: 'blur' }
         ]
       }
     }
