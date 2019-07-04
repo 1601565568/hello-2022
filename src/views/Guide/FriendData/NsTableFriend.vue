@@ -13,7 +13,7 @@
     <template slot="searchSearch">
       <el-form :model="quickSearchModel" :inline="true" @submit.native.prevent  class="pull-right">
         <el-form-item v-show="_data._queryConfig.expand === false">
-          <el-input ref="quickText" style="width: 250px" v-model="model.name" placeholder="请输入工号/姓名/昵称/手机号" @keyup.enter.native="$quickSearchAction$('name')" clearable>
+          <el-input ref="quickText" style="width: 250px" v-model="model.name" placeholder="请输入好友昵称/微信号" @keyup.enter.native="$quickSearchAction$('name')" clearable>
             <!-- <i class="el-icon-search el-input__icon" slot="suffix" name="name" @click="$quickSearchAction$('name')"></i> -->
           </el-input>
           <ns-button type="primary" @click="$searchAction$()">搜索</ns-button>
@@ -36,27 +36,48 @@
     <template slot="advancedSearch" v-if="_data._queryConfig.expand">
       <el-form ref="table_filter_form" :model="model" label-width="80px" :inline="true">
 
-        <el-form-item label="关键字：">
+        <el-form-item label="个人号：">
           <el-form-grid size="xmd">
-            <el-input style="width:180px" autofocus=true v-model="model.name" placeholder="请输入工号/姓名/昵称/手机号" clearable></el-input>
+            <el-input style="width:180px" autofocus=true v-model="model.name"  clearable></el-input>
           </el-form-grid>
         </el-form-item>
 
-        <el-form-item label="所属门店：">
+        <el-form-item label="微信昵称：">
           <el-form-grid>
-            <el-select placeholder="请选择所属门店" v-model="model.shop" clearable filterable>
-              <el-option v-for="shop in shopFindList" :label="shop.shopName" :value="shop.id"
-                         :key="shop.id"></el-option>
-            </el-select>
+              <el-input clearable></el-input>
           </el-form-grid>
         </el-form-item>
 
-        <el-form-item label="职务：">
+        <el-form-item label="好友备注：">
           <el-form-grid>
-            <el-select placeholder="请选择职务" v-model="model.job" clearable>
-              <el-option label="店长" :value="1"></el-option>
-              <el-option label="导购" :value="0"></el-option>
-            </el-select>
+            <el-input  v-model="model.job" clearable>
+
+            </el-input>
+          </el-form-grid>
+        </el-form-item>
+        <el-form-item label="微信号：">
+          <el-form-grid>
+            <el-input></el-input>
+          </el-form-grid>
+        </el-form-item>
+        <el-form-item label="添加时间：">
+          <el-date-picker
+            v-model="addTime"
+            type="daterange"
+            range-separator="-"
+            start-placeholder="开始日期"
+            end-placeholder="结束日期">
+          </el-date-picker>
+        </el-form-item>
+        <el-form-item label="最近交聊时间：">
+          <el-form-grid>
+            <el-date-picker
+              v-model="lastTime"
+              type="daterange"
+              range-separator="-"
+              start-placeholder="开始日期"
+              end-placeholder="结束日期">
+            </el-date-picker>
           </el-form-grid>
         </el-form-item>
       </el-form>
@@ -96,17 +117,11 @@
         <el-table-column prop="shopName,count" label="朋友圈互动数" align="left">
           <template slot-scope="scope">
             <ns-button style="color:#0091FA" @click="scopeRowCount(scope.row)" v-if="scope.row.count > 1" type="text">{{scope.row.count}}家</ns-button>
-            <div v-else>
-              {{scope.row.shopName?scope.row.shopName:'-'}}
-            </div>
           </template>
         </el-table-column>
         <el-table-column prop='count' label="最近交流时间" align="left" width="180">
           <template slot-scope="scope">
             <ns-button style="color:#0091FA" v-if="scope.row.count > 1" type="text">-</ns-button>
-            <div v-else>
-              {{!scope.row.province&&!scope.row.city&&!scope.row.district?'-':scope.row.province+'/'+scope.row.city+'/'+scope.row.district}}
-            </div>
           </template>
         </el-table-column>
         <el-table-column prop="job" label="添加好友时间" align="left" width="60">
@@ -118,8 +133,8 @@
           <template slot-scope="scope">
             <div>
               <ns-button style="color:#0091FA" v-if="scope.row.status !== 2" @click="onRedactFun(scope.row)" type="text">详情</ns-button>
-              <ns-button v-if="scope.row.status === 0 || scope.row.status === 1" style="color:#0091FA" @click="dimissionFun(scope.row)" type="text">聊天</ns-button>
-              <ns-button style="color:#f00" @click="onDelsTipFun(scope.row)" type="text">打标</ns-button>
+              <ns-button style="color:#0091FA" @click="dimissionFun(scope.row)" type="text">聊天</ns-button>
+              <ns-button style="color:#0091FA"  type="text">打标</ns-button>
             </div>
           </template>
         </el-table-column>
