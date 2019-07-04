@@ -126,8 +126,7 @@ export default {
       obj.templateId = succeedObj.template_id
       obj.appId = succeedObj.app_id
       that.particularsObj = {}
-      await this.$http
-        .fetch(that.$api.isv.getTemplateInfo, obj)
+      await this.$http.fetch(that.$api.isv.getTemplateInfo, obj)
         .then(resp => {
           resp.result.audit_category = JSON.parse(resp.result.audit_category)
           that.particularsObj = resp.result
@@ -140,14 +139,14 @@ export default {
       this.$emit('scopeRowCount', data)
     },
     initShopList () {
-      var _this = this
-      _this.$http.fetch(_this.$api.guide.shop.findBrandShopList, { isOnline: 0 }).then(resp => {
-        if (resp.success && resp.result != null) {
-          _this.shopFindList = resp.result
-        }
-      }).catch((resp) => {
-        _this.$notify.error(getErrorMsg('查询失败', resp))
-      })
+      // var _this = this
+      // _this.$http.fetch(_this.$api.guide.shop.findBrandShopList, { isOnline: 0 }).then(resp => {
+      //   if (resp.success && resp.result != null) {
+      //     _this.shopFindList = resp.result
+      //   }
+      // }).catch((resp) => {
+      //   _this.$notify.error(getErrorMsg('查询失败', resp))
+      // })
     },
     shopDel (index) {
       this.guideShopList.splice(index, 1)

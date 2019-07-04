@@ -120,8 +120,8 @@
           </template>
         </el-table-column>
         <el-table-column prop='count' label="最近交流时间" align="left" width="180">
-          <template slot-scope="scope">
-            <ns-button style="color:#0091FA" v-if="scope.row.count > 1" type="text">-</ns-button>
+          <template >
+            <ns-button style="color:#0091FA" type="text">-</ns-button>
           </template>
         </el-table-column>
         <el-table-column prop="job" label="添加好友时间" align="left" width="60">
