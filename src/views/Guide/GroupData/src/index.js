@@ -1,10 +1,12 @@
 import tableMixin from 'web-crm/src/mixins/table'
 import { getErrorMsg } from '@/utils/toast'
-import Add from '../components/add'
+import Add from '../components/Add'
+import GroupDetail from '../components/GroupDetail'
+import MemberDetail from '../components/MemberDetail'
 
 export default {
   mixins: [tableMixin],
-  components: { Add },
+  components: { Add, GroupDetail, MemberDetail },
   data () {
     const that = this
     return {
@@ -41,6 +43,7 @@ export default {
           },
           {
             'func': function (scope) {
+              that.memberDetailDialog.visible = true
             },
             'icon': '',
             'name': '详情',
@@ -60,6 +63,13 @@ export default {
       groupTreeHeight: 0,
       groupList: [],
       addDialog: {
+        visible: false
+      },
+      groupDetailDialog: {
+        visible: false,
+        chatroomname: ''
+      },
+      memberDetailDialog: {
         visible: false
       }
     }
@@ -106,6 +116,25 @@ export default {
       const origin = this.$getOriginModel$()
       // 重置时不重置左侧已选择的个人号或群聊
       return Object.assign({}, origin, { wid: this.model.ownerId, chatroomname: this.model.chatroomname })
+    },
+    renderHeaderDisplayname (h) {
+      return h('span', {}, [
+        h('span', {}, '所属微信群'),
+        h('el-popover', {
+          props: {
+            placement: 'bottom',
+            width: '220',
+            trigger: 'hover',
+            content: '点击群名称，可查看此群下所有微信'
+          }
+        }, [
+          h('i', { slot: 'reference', class: 'iconfont icon-xiangqingyiwen table-header-icon' }, '')
+        ])
+      ])
+    },
+    onShowGroupDetail (v) {
+      this.groupDetailDialog.chatroomname = v.chatroomname
+      this.groupDetailDialog.visible = true
     }
   }
 }

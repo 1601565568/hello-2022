@@ -1,6 +1,8 @@
 <template>
   <div>
     <Add :visible.sync='addDialog.visible'/>
+    <GroupDetail :visible.sync='groupDetailDialog.visible' :chatroomname.sync='groupDetailDialog.chatroomname'/>
+    <MemberDetail :visible.sync='memberDetailDialog.visible'/>
     <div class="template-page__row-left">
       <el-input ref="quickText" style="width: 190px" v-model="filterGroup" placeholder="搜索群名">
         <i class="el-icon-search el-input__icon" slot="suffix" @click="onFilterGroup"></i>
@@ -101,7 +103,17 @@
 <!--                             label="地区" :sortable="false">-->
 <!--            </el-table-column>-->
             <el-table-column :show-overflow-tooltip="true" type="default" prop="displayname"
-                             label="所属微信群" :sortable="false">
+                             label="所属微信群" :sortable="false"
+                             :render-header="renderHeaderDisplayname" >
+              <template slot-scope='scope'>
+                <el-row>
+                  <ns-button type="text" @click='onShowGroupDetail(scope.row)'>{{scope.row.displayname}}</ns-button>
+                </el-row>
+                <el-row>
+                  <span>群公告群公告群公告群公告群公告群公告群公告群公告群公告群公告群公
+                    告群公告群公告群公告群公告群公告群公告群公告群公告群公告群公告群公告群公告群公告群公告群公告群公告</span>
+                </el-row>
+              </template>
             </el-table-column>
             <el-table-column :show-overflow-tooltip="true" type="default" prop=""
                              label="是否好友" :sortable="false" width='80px' align='center'>
@@ -208,5 +220,13 @@ export default Index
     overflow:hidden;
     text-overflow:ellipsis;
     white-space:nowrap
+  }
+
+  >>> .table-header-icon {
+    color: var(--theme-font-color-info);
+    font-size: var(--default-font-size-base);
+    font-weight: normal;
+    padding-left: var(--default-padding-base);
+    cursor: pointer;
   }
 </style>
