@@ -1,9 +1,12 @@
 import tableMixin from 'web-crm/src/mixins/table'
 import { getErrorMsg } from '@/utils/toast'
+import Add from '../components/add'
 
 export default {
   mixins: [tableMixin],
+  components: { Add },
   data () {
+    const that = this
     return {
       NoImg: '',
       url: this.$api.guide.groupData.table,
@@ -11,6 +14,7 @@ export default {
         operate_buttons: [
           {
             'func': function () {
+              that.addDialog.visible = true
             },
             'icon': '',
             'name': '新建群聊',
@@ -54,7 +58,10 @@ export default {
       },
       filterGroup: '',
       groupTreeHeight: 0,
-      groupList: []
+      groupList: [],
+      addDialog: {
+        visible: false
+      }
     }
   },
   mounted () {
