@@ -63,7 +63,7 @@ export default {
           'path': '/Guide/Customer/FriendManage', // todo 20190701 需要重新定义
           'name': 'FriendData',
           'title': '好友数据',
-          'component': () => import('@/views/Guide/FriendData/FriendManage') // todo 20190701 需要重新定义
+          'component': () => import('@/views/Guide/FriendData/List') // todo 20190701 需要重新定义
         },
         {
           'path': '/Guide/GroupData/index',
