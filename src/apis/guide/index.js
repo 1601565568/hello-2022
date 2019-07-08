@@ -11,6 +11,8 @@ import task from './task'
 import moreAccount from './moreAccount'
 import quicklyword from './quicklyword'
 import groupData from './groupData'
+import wxPrivateAccount from './wxPrivateAccount'
+import sensitivePermission from './sensitivePermission'
 export default {
   guide,
   shop,
@@ -25,6 +27,8 @@ export default {
   moreAccount,
   quicklyword,
   groupData,
+  wxPrivateAccount,
+  sensitivePermission,
   // 所有导购模块全部整合在此
   comGetBrandForShopList: {// 获取品牌下的店铺
     url: '/core/sgshop/getBrandList',
