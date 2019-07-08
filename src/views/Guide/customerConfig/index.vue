@@ -19,8 +19,7 @@
             </el-form-item>
             <el-form-item>
               <el-form-grid style="padding-left: 10px">
-                招募时发送企业微信个人名片并添加为外部联系人，导购在聊天窗口发送注册开卡小程序，
-                会员注册开卡成功后，同步到会员列表，导购可在企业微信上与会员互动进行关怀和营销推广。
+                消费者扫导购招募码->加导购企业微信好友->自动发送会员招募消息->会员注册成功->关注公众号
               </el-form-grid>
             </el-form-item>
             <el-form-item>
@@ -31,11 +30,11 @@
             </el-form-item>
             <el-form-item>
               <el-form-grid style="padding-left: 10px">
-                招募时发送微信公众号名片，关注公众号完成注册开卡。微信公众号可自动推送关怀和营销推广。
+                消费者扫导购招募码->关注公众号->自动发送会员招募消息->会员注册成功->加导购企业微信好友
               </el-form-grid>
             </el-form-item>
 
-            <el-form-item >
+           <!-- <el-form-item >
               <el-form-grid>
                 <el-radio v-model="model.recruit_type" :label="2" :disabled="status===0" size="xxs">会员注册开卡 </el-radio>
               </el-form-grid>
@@ -44,7 +43,7 @@
               <el-form-grid style="padding-left: 10px">
                 招募时发送会员注册开卡二维码，直接完成开卡操作。
               </el-form-grid>
-            </el-form-item>
+            </el-form-item>-->
 
           </div>
         </div>
@@ -70,6 +69,7 @@
                 </el-select>
               </el-form-grid>
               <el-input v-model="model.change_num" style="width:100px" v-if="model.limit_type > 0" :disabled="status===0"></el-input>
+              <font v-if="model.limit_type > 0">&nbsp;次</font>
             </el-form-item>
           </div>
         </div>
