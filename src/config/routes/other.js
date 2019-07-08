@@ -47,6 +47,20 @@ export default {
         }
       ]
 
+    },
+    {
+      'path': '/Guide/SensitivePermission/index',
+      'name': 'OTHER_CONFIG',
+      'title': '其他设置',
+      'component': () => import('web-crm/src/views/Content'),
+      'children': [
+        {
+          'path': '/Guide/SensitivePermission/index',
+          'name': 'SENSITIVE_PERMISSION',
+          'title': '敏感权限监控',
+          'component': () => import('@/views/Guide/SensitivePermission/index')
+        }
+      ]
     }
   ]
 }
