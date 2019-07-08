@@ -12,20 +12,24 @@ body {
 .addfriend .addfriend__success {
     font-size: 38px;
     color: #207BFB;
-    line-height: 120px;
     text-align: center;
-    height: 120px;
+    height: 110px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     opacity: 0.9;
     background: #FFFFFF;
     box-shadow: 0 4px 10px 1px rgba(0,0,0,0.10);
 }
 .addfriend .addfriend__success>img {
     width: 50px;
+    margin-right: 10px;
 }
 .addfriend .addfriend__content .content {
     margin: 70px;
     padding: 80px 0 40px;
     background: #FFFFFF;
+    position: relative;
     border-top-left-radius: 20px;
     border-top-right-radius: 20px;
     box-shadow: 0 6px 13px 2px rgba(0,0,0,0.06);
@@ -62,7 +66,7 @@ body {
     margin-top: -20px;
 }
 .content .content__msg {
-    margin: 34px;
+    margin-top: 20px;
 }
 .msg {
     position: relative;
@@ -81,8 +85,9 @@ body {
 .msg  .msg__text {
     font-size: 34px;
     color: #207BFB;
+    text-align: center;
     line-height: 1.6;
-    width: 78%;
+    width: 72%;
     margin: 0 auto ;
     padding: 25px;
     position: relative;
@@ -120,7 +125,7 @@ body {
 }
 .content .content__qrcode {
     width: 50%;
-    margin: 40px auto 0;
+    margin: 55px auto 0;
     background: rgba(0,0,0,0.00);
     box-shadow: 0 6px 13px 2px rgba(64,95,222,0.08);
 }
@@ -132,16 +137,15 @@ body {
     font-size: 40px;
     color: #626466;
     text-align: center;
-    margin-top: 28px;
+    margin-top: 55px;
 }
 .content .content__bottom {
     height: 20px;
-    position: relative;
+    position: absolute;
+    left: 0;
+    bottom: -18px;
 }
 .content .content__bottom  .circleimg {
     width: 100%;
     height: 100%;
-    position: absolute;
-    left: 0;
-    bottom: -55px;
 }
