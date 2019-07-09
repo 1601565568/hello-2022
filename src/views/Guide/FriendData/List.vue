@@ -1,7 +1,7 @@
 <template>
   <div>
-    <NsTableFriend ref="mainTable" :url=$api.guide.guide.findList @add="onRedactFun" @scopeRowCount="scopeRowCount"
-                  @shopEdit="shopEdit" @allDelete="allDelete" @dimission="dimission" @showShop="showShop"
+    <NsTableFriend ref="mainTable" :url=$api.guide.friendData.findList @add="onRedactFun" @scopeRowCount="scopeRowCount"
+                  @shopEdit="shopEdit"  @dimission="dimission" @removeDuplicate="removeDuplicate"
                   @onDelsTipFun="onDelsTipFun" @onRedactFun="onRedactFun" @dimissionFun="dimissionFun" @handleSelectionChange="handleSelectionChange">
     </NsTableFriend>
     <!-- 新增修改客户开始-->

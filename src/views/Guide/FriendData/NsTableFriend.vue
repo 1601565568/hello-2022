@@ -1,5 +1,5 @@
 <template>
-<ns-page-table @add="$emit('add')" @showShop="$emit('showShop')" @dimission="$emit('dimission')"  @allDelete="$emit('allDelete')" @shopEdit="$emit('shopEdit')" :colButton='10'>
+<ns-page-table @add="$emit('add')" @removeDuplicate="$emit('removeDuplicate')" @dimission="$emit('dimission')"  @allDelete="$emit('allDelete')" @shopEdit="$emit('shopEdit')" :colButton='10'>
     <!-- 按钮 -->
     <template slot="buttons">
       <ns-table-operate-button :buttons="_data._table.table_buttons">
@@ -101,22 +101,29 @@
       <!-- 操作（只有一项文字的80px,两项文字120px,三项文字160px） -->
 
       <el-table ref="table" :data="_data._table.data" stripe @selection-change="handleSelectionChange">
-        <el-table-column type="selection" align="center" :width="50"></el-table-column>
-        <el-table-column prop="work_id" label="微信好友" align="left" width="88">
+        <el-table-column prop="friendNick" label="微信好友" align="left" width="88">
           <template slot-scope="scope">
-            {{scope.row.work_id?scope.row.work_id:'-'}}
+            {{scope.row.friendNick?scope.row.friendNick:'-'}}
           </template>
         </el-table-column>
-        <el-table-column prop="name" label="性别" align="left" width="130"></el-table-column>
-        <el-table-column prop="nickname" label="地区" align="left" width="130">
+        <el-table-column prop="sex" label="性别" align="left" width="130"></el-table-column>
+        <el-table-column prop="region" label="地区" align="left" width="130">
+          <template slot-scope="scope">
+            {{scope.row.region?scope.row.region:'-'}}
+          </template >
+        </el-table-column>
+        <el-table-column prop="tag" label="标签" align="left" width="120">
           <template slot-scope="scope">
             {{scope.row.nickname?scope.row.nickname:'-'}}
           </template >
         </el-table-column>
-        <el-table-column prop="mobile" label="标签" align="left" width="120"></el-table-column>
+        <el-table-column prop="privateNick" label="个人号" align="left" width="120">
+          <template slot-scope="scope">
+            {{scope.row.privateNick?scope.row.privateNick:'-'}}
+          </template >
+        </el-table-column>
         <el-table-column prop="shopName,count" label="朋友圈互动数" align="left">
           <template slot-scope="scope">
-            <ns-button style="color:#0091FA" @click="scopeRowCount(scope.row)" v-if="scope.row.count > 1" type="text">{{scope.row.count}}家</ns-button>
           </template>
         </el-table-column>
         <el-table-column prop='count' label="最近交流时间" align="left" width="180">
@@ -125,16 +132,14 @@
           </template>
         </el-table-column>
         <el-table-column prop="job" label="添加好友时间" align="left" width="60">
-          <template slot-scope="scope">{{scope.row.job == 1 ? "店长" : "导购"}}
-          </template>
         </el-table-column>
 
         <el-table-column prop="status,row" :show-overflow-tooltip="true" label="操作" align="right" width="120">
           <template slot-scope="scope">
             <div>
-              <ns-button style="color:#0091FA" v-if="scope.row.status !== 2" @click="onRedactFun(scope.row)" type="text">详情</ns-button>
+              <ns-button style="color:#0091FA"  @click="onRedactFun(scope.row)" type="text">详情</ns-button>
               <ns-button style="color:#0091FA" @click="dimissionFun(scope.row)" type="text">聊天</ns-button>
-              <ns-button style="color:#0091FA"  type="text">打标</ns-button>
+              <ns-button style="color:#0091FA" >打标</ns-button>
             </div>
           </template>
         </el-table-column>

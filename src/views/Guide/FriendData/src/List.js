@@ -468,60 +468,6 @@ export default {
         }
       })
     },
-    allDelete () { // 组团删除功能
-      let _this = this
-      _this.nameArr = []
-      _this.multipleSelections = []
-      _this.switchStateName = '删除'
-
-      if (_this.multipleSelection.length < 1) {
-        _this.$notify.error('请选择要操作的员工')
-      } else {
-        _this.allDeleteName = []
-        _this.multipleSelection.map(item => {
-          _this.allDeleteName.push(item.name)
-        })
-        _this.$confirm('请确认是否对 ' + _this.allDeleteName.join('、') + ' 进行删除操作!', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          _this.multipleSelection.map(item => {
-            _this.multipleSelections.push(item.id)
-          })
-          _this.$http.fetch(_this.$api.guide.guide.deleteGuides, {
-            guideIds: _this.multipleSelections.join(',')
-          }).then(resp => {
-            if (resp.result.failCount > 0) {
-              _this.successCount = resp.result.successCount
-              _this.failCount = resp.result.failCount
-              resp.result.guideNames.split(',').map((item, i) => {
-                if (_this.nameArr.indexOf(resp.result.guideNames.split(',')[i]) === -1) {
-                  _this.nameArr.push(item)
-                } else {
-                  if (item === _this.multipleSelection[_this.nameArr.indexOf(resp.result.guideNames.split(',')[i])].name) {
-                    _this.nameArr[_this.nameArr.indexOf(resp.result.guideNames.split(',')[i])] = _this.multipleSelection[_this.nameArr.indexOf(resp.result.guideNames.split(',')[i])].name + '(' + _this.multipleSelection[_this.nameArr.indexOf(resp.result.guideNames.split(',')[i])].work_id + ')'
-                  }
-                  if (item === _this.multipleSelection[i].name) {
-                    _this.nameArr[i] = _this.multipleSelection[i].name + '(' + _this.multipleSelection[i].work_id + ')'
-                  }
-                }
-              })
-              _this.nameArr = _this.nameArr.join('，')
-              _this.returnInformationShow = true
-              _this.successCount = resp.result.successCount
-              _this.failCount = resp.result.failCount
-              _this.allDeleteFormVisible = true
-            } else {
-              _this.$notify.success('删除成功')
-              _this.$refs.mainTable.$reload()
-            }
-          }).catch((resp) => {
-            _this.$notify.error(getErrorMsg('查询失败', resp))
-          })
-        })
-      }
-    },
     aaaa () {
       this.$http.fetch(this.$api.overView.exit, {})
     },
@@ -601,7 +547,7 @@ export default {
         }
       }
     },
-    showShop () { // 组团进行更换门店操作
+    removeDuplicate () { // 好友排重筛选
       let _this = this
       _this.switchStateName = '更换门店'
       _this.verification = false
@@ -753,16 +699,16 @@ export default {
       }
     },
     scopeRowCount (data) { // 查看员工属性
-      this.scopeRowCountShow = true
-      this.memberBelongingtitle = '查看（' + data.name + '）所属门店详情'
-      var _this = this
-      _this.$http.fetch(_this.$api.guide.guide.findGuideShopList, { guideId: data.id }).then(resp => {
-        if (resp.success && resp.result != null) {
-          _this.shopFindLists = resp.result
-        }
-      }).catch((resp) => {
-        _this.$notify.error(getErrorMsg('查询失败', resp))
-      })
+      // this.scopeRowCountShow = true
+      // this.memberBelongingtitle = '查看（' + data.name + '）所属门店详情'
+      // var _this = this
+      // _this.$http.fetch(_this.$api.guide.guide.findGuideShopList, { guideId: data.id }).then(resp => {
+      //   if (resp.success && resp.result != null) {
+      //     _this.shopFindLists = resp.result
+      //   }
+      // }).catch((resp) => {
+      //   _this.$notify.error(getErrorMsg('查询失败', resp))
+      // })
     },
     onDelsTipFun (row) { // 删除操作
       var _this = this
@@ -786,14 +732,14 @@ export default {
       })
     },
     initShopList () {
-      var _this = this
-      _this.$http.fetch(_this.$api.guide.shop.findBrandShopList, { isOnline: 0 }).then(resp => {
-        if (resp.success && resp.result != null) {
-          _this.shopFindList = resp.result
-        }
-      }).catch((resp) => {
-        _this.$notify.error(getErrorMsg('查询失败', resp))
-      })
+      // var _this = this
+      // _this.$http.fetch(_this.$api.guide.shop.findBrandShopList, { isOnline: 0 }).then(resp => {
+      //   if (resp.success && resp.result != null) {
+      //     _this.shopFindList = resp.result
+      //   }
+      // }).catch((resp) => {
+      //   _this.$notify.error(getErrorMsg('查询失败', resp))
+      // })
     },
     queryGuideShopList (guideId) {
       var _this = this
@@ -1223,29 +1169,29 @@ export default {
     },
     // 查询导购列表
     findGuideList (page, pages) {
-      let _this = this
-      if (pages === 0) { // 页数跳转
-        this.transferShopPage = page
-      } else if (pages === 1) { // 改变页数大小
-        _this.transferShopSize = page
-      }
-      _this.$http.fetch(_this.$api.guide.guide.findList, {
-        searchMap: {
-          'guideState': 1,
-          'guideId': _this.guideId,
-          'status': _this.transferShopPage !== null ? (this.transferShopPage - 1 * 15) : 1,
-          'name': _this.model.name,
-          'shop': _this.model.shop
-        },
-        length: _this.transferShopSize !== null ? _this.transferShopSize : 10000
-      }).then(resp => {
-        if (resp.success && resp.result.data != null) {
-          _this.guideShoppersList = resp.result.data
-          _this.paginationss.total = parseInt(resp.result.recordsTotal)
-        }
-      }).catch((resp) => {
-        _this.$notify.error(getErrorMsg('查询失败', resp))
-      })
+      // let _this = this
+      // if (pages === 0) { // 页数跳转
+      //   this.transferShopPage = page
+      // } else if (pages === 1) { // 改变页数大小
+      //   _this.transferShopSize = page
+      // }
+      // _this.$http.fetch(_this.$api.guide.guide.findList, {
+      //   searchMap: {
+      //     'guideState': 1,
+      //     'guideId': _this.guideId,
+      //     'status': _this.transferShopPage !== null ? (this.transferShopPage - 1 * 15) : 1,
+      //     'name': _this.model.name,
+      //     'shop': _this.model.shop
+      //   },
+      //   length: _this.transferShopSize !== null ? _this.transferShopSize : 10000
+      // }).then(resp => {
+      //   if (resp.success && resp.result.data != null) {
+      //     _this.guideShoppersList = resp.result.data
+      //     _this.paginationss.total = parseInt(resp.result.recordsTotal)
+      //   }
+      // }).catch((resp) => {
+      //   _this.$notify.error(getErrorMsg('查询失败', resp))
+      // })
     },
     // 员工离职
     dimissionFun (row) {

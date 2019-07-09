@@ -23,7 +23,7 @@ export default {
       },
       {
         'func': function () {
-          this.$emit('showShop')
+          this.$emit('removeDuplicate')
         },
         'name': '好友排重筛查'
       }
@@ -71,7 +71,9 @@ export default {
     let quickSearchModel = {}
     let searchModel = {
       sgGuide: {
-        brand_id: null,
+        brand_id: null, // 品牌id
+        friendNick: null, // 好友昵称
+        privateNick: null, // 个人号昵称
         name: null,
         nickname: null,
         sex: 1,
@@ -140,8 +142,9 @@ export default {
     },
     initShopList () {
       // var _this = this
-      // _this.$http.fetch(_this.$api.guide.shop.findBrandShopList, { isOnline: 0 }).then(resp => {
-      //   if (resp.success && resp.result != null) {
+      // _this.$http.fetch(_this.$api.guide.friendData.findList).then(resp => {
+      //   if (resp.success) {
+      //     console.log(resp.result)
       //     _this.shopFindList = resp.result
       //   }
       // }).catch((resp) => {
@@ -193,21 +196,6 @@ export default {
           job: ''
         }
       }
-    },
-    changeState (state, id) {
-      let _this = this
-      _this.$http.fetch(_this.$api.guide.guide.updateGuideStatus, {
-        guideId: id,
-        status: state
-      }).then(resp => {
-        if (resp.success) {
-          _this.$notify.success('切换成功！')
-        } else {
-          _this.$notify.error(getErrorMsg('切换失败，原因', resp))
-        }
-      }).catch((resp) => {
-        _this.$notify.error(getErrorMsg('查询失败', resp))
-      })
     }
   }
 }
