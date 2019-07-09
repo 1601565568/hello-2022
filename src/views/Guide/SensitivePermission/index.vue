@@ -43,6 +43,54 @@
                   :element-loading-text="$t('prompt.loading')" @sort-change="$orderChange$"
                   row-key="id"
                   @selection-change="$selectionChange">
+          <el-table-column :show-overflow-tooltip="true" type="default" prop="nick"
+                           label="微信昵称" :sortable="false">
+            <template slot-scope='scope'>
+              {{`${scope.row.nick}（${scope.row.wid}）`}}
+            </template>
+          </el-table-column>
+          <el-table-column :show-overflow-tooltip="true" type="default" prop="delFriendQuantity"
+                           label="删除好友" sortable="del_friend_quantity" align='right' width='100px'>
+            <template slot-scope='scope'>
+              {{scope.row.delFriendQuantity || 0}}
+            </template>
+          </el-table-column>
+          <el-table-column :show-overflow-tooltip="true" type="default" prop="blockFriendQuantity"
+                           label="拉黑好友" sortable="block_friend_quantity" align='right' width='100px'>
+            <template slot-scope='scope'>
+              {{scope.row.blockFriendQuantity || 0}}
+            </template>
+          </el-table-column>
+          <el-table-column :show-overflow-tooltip="true" type="default" prop="shareCardQuantity"
+                           label="分享名片" sortable="share_card_quantity" align='right' width='100px'>
+            <template slot-scope='scope'>
+              {{scope.row.shareCardQuantity || 0}}
+            </template>
+          </el-table-column>
+          <el-table-column :show-overflow-tooltip="true" type="default" prop="installAppQuantity"
+                           label="安装应用" sortable="install_app_quantity" align='right' width='100px'>
+            <template slot-scope='scope'>
+              {{scope.row.installAppQuantity || 0}}
+            </template>
+          </el-table-column>
+          <el-table-column :show-overflow-tooltip="true" type="default" prop="quitGroupQuantity"
+                           label="退群" sortable="quit_group_quantity" align='right' width='100px'>
+            <template slot-scope='scope'>
+              {{scope.row.quitGroupQuantity || 0}}
+            </template>
+          </el-table-column>
+          <el-table-column :show-overflow-tooltip="true" type="default" prop="redPacketQuantity"
+                           label="发红包" sortable="red_packet_quantity" align='right' width='100px'>
+            <template slot-scope='scope'>
+              {{scope.row.redPacketQuantity || 0}}
+            </template>
+          </el-table-column>
+          <el-table-column :show-overflow-tooltip="true" type="default" prop="sensitiveWordQuantity"
+                           label="敏感词" sortable="sensitive_word_quantity" align='right' width='100px'>
+            <template slot-scope='scope'>
+              {{scope.row.sensitiveWordQuantity || 0}}
+            </template>
+          </el-table-column>
         </el-table>
       </template>
       <template slot="pagination">

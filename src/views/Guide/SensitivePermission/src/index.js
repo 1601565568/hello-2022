@@ -7,6 +7,7 @@ export default {
   mixins: [tableMixin],
   components: { NsDatetime },
   data () {
+    const that = this
     return {
       url: this.$api.guide.sensitivePermission.table,
       _queryConfig: {
@@ -18,7 +19,23 @@ export default {
       },
       defButton: 7,
       quickMode: false,
-      privateAccountSelect: []
+      privateAccountSelect: [],
+      _table: {
+        table_buttons: [
+          {
+            'func': function () {
+            },
+            'icon': '',
+            'name': '查看详情',
+            'auth': ``,
+            'visible': ``
+          }
+        ]
+      },
+      _order: {
+        orderDir: 'sum_quantity',
+        orderKey: 'descending'
+      }
     }
   },
   mounted () {
@@ -46,6 +63,10 @@ export default {
       }).catch(error => {
         this.$notify.error(getErrorMsg('获取个人号列表出现异常', error))
       })
+    },
+    $resetInput () {
+      this.defButton = 7
+      this.todayTime(7)
     }
   }
 }
