@@ -56,6 +56,12 @@ export default {
           'name': 'SgShopGroupRobot_index',
           'title': '门店群AI机器人',
           'component': () => import('@/views/Guide/SgShopGroupRobot/index')
+        },
+        {
+          'path': '/Guide/SgSensitiveWord/index',
+          'name': 'SgSensitiveWord_index',
+          'title': '敏感词管理',
+          'component': () => import('@/views/Guide/SgSensitiveWord/index')
         }
       ]
     },
