@@ -44,6 +44,24 @@ export default {
           'name': 'GuideSecretary_list',
           'title': '导购秘书',
           'component': () => import('@/views/Guide/GuideSecretary/List')
+        },
+        {
+          'path': '/Guide/SgShopGroup/index',
+          'name': 'SgShopGroup_index',
+          'title': '门店群',
+          'component': () => import('@/views/Guide/SgShopGroup/index')
+        },
+        {
+          'path': '/Guide/SgShopGroupRobot/index',
+          'name': 'SgShopGroupRobot_index',
+          'title': '门店群AI机器人',
+          'component': () => import('@/views/Guide/SgShopGroupRobot/index')
+        },
+        {
+          'path': '/Guide/SgSensitiveWord/index',
+          'name': 'SgSensitiveWord_index',
+          'title': '敏感词管理',
+          'component': () => import('@/views/Guide/SgSensitiveWord/index')
         }
       ]
     },
