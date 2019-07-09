@@ -966,7 +966,7 @@ export default {
                 if (shopArr.indexOf(_this.changeValue.storeValue) === -1) {
                   guideId = _this.row.id
                   shopId = _this.changeValue.storeValue
-                  _this.getCustomerCount(shopId).then((res) => {
+                  _this.getCustomerCount(guideId).then((res) => {
                     if (res > '0') {
                       _this.memberBelongingtitle = '选择会员归属'
                       _this.memberBelongingShow = true
