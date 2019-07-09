@@ -13,6 +13,7 @@ import quicklyword from './quicklyword'
 import groupData from './groupData'
 import wxPrivateAccount from './wxPrivateAccount'
 import sensitivePermission from './sensitivePermission'
+import friendData from './friendData'
 export default {
   guide,
   shop,
@@ -24,6 +25,7 @@ export default {
   sgwxaccount,
   marketing,
   task,
+  friendData,
   moreAccount,
   quicklyword,
   groupData,
