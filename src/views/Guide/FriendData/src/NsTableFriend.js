@@ -31,6 +31,7 @@ export default {
     const operateButtons = [
       {
         'func': function (args) {
+          console.log('参数：' + args)
           this.$emit('onAddCustomer', args.row)
         },
         'icon': '',
@@ -70,32 +71,11 @@ export default {
     let quickSearchNames = quickInput.map(x => x.name)
     let quickSearchModel = {}
     let searchModel = {
-      sgGuide: {
-        brand_id: null, // 品牌id
-        friendNick: null, // 好友昵称
-        privateNick: null, // 个人号昵称
-        name: null,
-        nickname: null,
-        sex: 1,
-        mobile: null,
-        birthday: null,
-        work_id: null,
-        password: null,
-        image: null
-      },
-      sgGuideShop: {
-        id: null,
-        shop_id: null,
-        job: 0
-      }
+      friendNick: null, // 好友昵称
+      privateNick: null, // 个人号昵称
+      wName: null
     }
-    let findVo = {
-      'name': null,
-      'shop': null,
-      'job': null,
-      'guideState': 1
-    }
-    let model = Object.assign({}, findVo, {}, searchModel)
+    let model = Object.assign({}, searchModel)
     return {
       model: model,
       quickSearchModel: quickSearchModel,
@@ -104,7 +84,9 @@ export default {
         table_buttons: tableButtons,
         operate_buttons: operateButtons,
         quickSearchNames: quickSearchNames,
-        quickSearchMap: {}
+        quickSearchMap: {},
+        wechatValue: []
+
       },
       _queryConfig: { expand: false },
       multipleSelection: [],
@@ -145,7 +127,8 @@ export default {
       // _this.$http.fetch(_this.$api.guide.friendData.findList).then(resp => {
       //   if (resp.success) {
       //     console.log(resp.result)
-      //     _this.shopFindList = resp.result
+      //     // _this.shopFindList = resp.result
+      //     _this.wechatValue = resp.result
       //   }
       // }).catch((resp) => {
       //   _this.$notify.error(getErrorMsg('查询失败', resp))
@@ -172,11 +155,8 @@ export default {
     onRedactFun (val) {
       this.$emit('onRedactFun', val)
     },
-    onDelsTipFun (val) {
-      this.$emit('onDelsTipFun', val)
-    },
-    dimissionFun (val) {
-      this.$emit('dimissionFun', val)
+    sendWechatMsg (val) {
+      this.$emit('sendWechatMsg', val)
     },
     // 解析后台传进来的字符串
     strToJson (str) {

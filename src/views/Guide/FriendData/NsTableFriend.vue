@@ -101,6 +101,7 @@
       <!-- 操作（只有一项文字的80px,两项文字120px,三项文字160px） -->
 
       <el-table ref="table" :data="_data._table.data" stripe @selection-change="handleSelectionChange">
+        <el-table-column type="selection" align="center" :width="50"></el-table-column>
         <el-table-column prop="friendNick" label="微信好友" align="left" width="88">
           <template slot-scope="scope">
             {{scope.row.friendNick?scope.row.friendNick:'-'}}
@@ -114,16 +115,19 @@
         </el-table-column>
         <el-table-column prop="tag" label="标签" align="left" width="120">
           <template slot-scope="scope">
-            {{scope.row.nickname?scope.row.nickname:'-'}}
+            {{scope.row.tag?scope.row.nickname:'-'}}
           </template >
         </el-table-column>
-        <el-table-column prop="privateNick" label="个人号" align="left" width="120">
+        <el-table-column prop="wid" label="个人号" align="left" width="120">
           <template slot-scope="scope">
-            {{scope.row.privateNick?scope.row.privateNick:'-'}}
+            {{scope.row.wid?scope.row.wid:'-'}}
           </template >
         </el-table-column>
-        <el-table-column prop="shopName,count" label="朋友圈互动数" align="left">
+        <el-table-column prop="num" label="朋友圈互动数" align="left">
           <template slot-scope="scope">
+            赞我：0; 赞他：0。
+            <br>
+            评我：0; 评他：0。
           </template>
         </el-table-column>
         <el-table-column prop='count' label="最近交流时间" align="left" width="180">
@@ -131,15 +135,15 @@
             <ns-button style="color:#0091FA" type="text">-</ns-button>
           </template>
         </el-table-column>
-        <el-table-column prop="job" label="添加好友时间" align="left" width="60">
+        <el-table-column prop="addTime" label="添加好友时间" align="left" width="60">
         </el-table-column>
 
         <el-table-column prop="status,row" :show-overflow-tooltip="true" label="操作" align="right" width="120">
           <template slot-scope="scope">
             <div>
-              <ns-button style="color:#0091FA"  @click="onRedactFun(scope.row)" type="text">详情</ns-button>
-              <ns-button style="color:#0091FA" @click="dimissionFun(scope.row)" type="text">聊天</ns-button>
-              <ns-button style="color:#0091FA" >打标</ns-button>
+              <ns-button style="color:#0091FA"  @click="onRedactFun(scope.row.wid)" type="text">详情</ns-button>
+              <ns-button style="color:#0091FA"  type="text" @click="sendWechatMsg(scope.row)">聊天</ns-button>
+              <ns-button style="color:#0091FA"  type="text" >打标</ns-button>
             </div>
           </template>
         </el-table-column>
