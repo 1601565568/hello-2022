@@ -2,10 +2,11 @@ import moment from 'moment/moment'
 import tableMixin from 'web-crm/src/mixins/table'
 import NsDatetime from 'web-crm/src/components/NsDatetime'
 import { getErrorMsg } from '@/utils/toast'
+import Detail from '../components/Detail'
 
 export default {
   mixins: [tableMixin],
-  components: { NsDatetime },
+  components: { NsDatetime, Detail },
   data () {
     const that = this
     return {
@@ -24,6 +25,7 @@ export default {
         table_buttons: [
           {
             'func': function () {
+              that.detailDialog.visible = true
             },
             'icon': '',
             'name': '查看详情',
@@ -33,14 +35,18 @@ export default {
         ]
       },
       _order: {
-        orderDir: 'sum_quantity',
-        orderKey: 'descending'
+        orderDir: 'desc',
+        orderKey: 'sum_quantity'
+      },
+      detailDialog: {
+        visible: false
       }
     }
   },
   mounted () {
     this.todayTime(7)
     this.initPrivateAccount()
+    this.$searchAction$()
   },
   watch: {
     'model.times' () {

@@ -1,5 +1,6 @@
 <template>
   <div>
+    <Detail :visible.sync='detailDialog.visible'/>
     <ns-page-table>
       <template slot="buttons">
         <ns-table-operate-button :buttons="_data._table.operate_buttons">
@@ -44,7 +45,7 @@
                   row-key="id"
                   @selection-change="$selectionChange">
           <el-table-column :show-overflow-tooltip="true" type="default" prop="nick"
-                           label="微信昵称" :sortable="false">
+                           label="个人号（ ID ）" :sortable="false">
             <template slot-scope='scope'>
               {{`${scope.row.nick}（${scope.row.wid}）`}}
             </template>
@@ -55,24 +56,24 @@
               {{scope.row.delFriendQuantity || 0}}
             </template>
           </el-table-column>
-          <el-table-column :show-overflow-tooltip="true" type="default" prop="blockFriendQuantity"
-                           label="拉黑好友" sortable="block_friend_quantity" align='right' width='100px'>
-            <template slot-scope='scope'>
-              {{scope.row.blockFriendQuantity || 0}}
-            </template>
-          </el-table-column>
+<!--          <el-table-column :show-overflow-tooltip="true" type="default" prop="blockFriendQuantity"-->
+<!--                           label="拉黑好友" sortable="block_friend_quantity" align='right' width='100px'>-->
+<!--            <template slot-scope='scope'>-->
+<!--              {{scope.row.blockFriendQuantity || 0}}-->
+<!--            </template>-->
+<!--          </el-table-column>-->
           <el-table-column :show-overflow-tooltip="true" type="default" prop="shareCardQuantity"
                            label="分享名片" sortable="share_card_quantity" align='right' width='100px'>
             <template slot-scope='scope'>
               {{scope.row.shareCardQuantity || 0}}
             </template>
           </el-table-column>
-          <el-table-column :show-overflow-tooltip="true" type="default" prop="installAppQuantity"
-                           label="安装应用" sortable="install_app_quantity" align='right' width='100px'>
-            <template slot-scope='scope'>
-              {{scope.row.installAppQuantity || 0}}
-            </template>
-          </el-table-column>
+<!--          <el-table-column :show-overflow-tooltip="true" type="default" prop="installAppQuantity"-->
+<!--                           label="安装应用" sortable="install_app_quantity" align='right' width='100px'>-->
+<!--            <template slot-scope='scope'>-->
+<!--              {{scope.row.installAppQuantity || 0}}-->
+<!--            </template>-->
+<!--          </el-table-column>-->
           <el-table-column :show-overflow-tooltip="true" type="default" prop="quitGroupQuantity"
                            label="退群" sortable="quit_group_quantity" align='right' width='100px'>
             <template slot-scope='scope'>
@@ -89,6 +90,14 @@
                            label="敏感词" sortable="sensitive_word_quantity" align='right' width='100px'>
             <template slot-scope='scope'>
               {{scope.row.sensitiveWordQuantity || 0}}
+            </template>
+          </el-table-column>
+          <el-table-column :show-overflow-tooltip="true" label="操作" align="center"
+                           width="160px">
+            <template slot-scope="scope">
+              <ns-table-column-operate-button :buttons="_data._table.table_buttons"
+                                              :prop="scope">
+              </ns-table-column-operate-button>
             </template>
           </el-table-column>
         </el-table>
