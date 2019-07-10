@@ -180,18 +180,6 @@ export default {
     initShopList () {
 
     },
-    queryGuideShopList (guideId) {
-      var _this = this
-      _this.$http.fetch(this.$api.guide.guide.queryGuideShopList, {
-        guide_id: guideId
-      }).then(resp => {
-        if (resp.success && resp.result != null) {
-          _this.guideShopList = resp.result
-        }
-      }).catch((resp) => {
-        _this.$notify.error(getErrorMsg('查询失败', resp))
-      })
-    },
     onRedactFun (wid) { // 好友详情功能
       let _this = this
       _this.$http.fetch(this.$api.guide.friendData.frindDetail,

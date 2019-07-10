@@ -125,6 +125,9 @@
         </el-table-column>
         <el-table-column prop="num" label="朋友圈互动数" align="left">
           <template slot-scope="scope">
+            赞我：0; 赞他：0。
+            <br>
+            评我：0; 评他：0。
           </template>
         </el-table-column>
         <el-table-column prop='count' label="最近交流时间" align="left" width="180">
@@ -140,7 +143,7 @@
             <div>
               <ns-button style="color:#0091FA"  @click="onRedactFun(scope.row.wid)" type="text">详情</ns-button>
               <ns-button style="color:#0091FA"  type="text" @click="sendWechatMsg(scope.row)">聊天</ns-button>
-              <ns-button style="color:#0091FA" >打标</ns-button>
+              <ns-button style="color:#0091FA"  type="text" >打标</ns-button>
             </div>
           </template>
         </el-table-column>
