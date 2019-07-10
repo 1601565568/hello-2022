@@ -1,7 +1,7 @@
 <template>
   <div>
     <NsTableFriend ref="mainTable" :url=$api.guide.friendData.findList @add="onRedactFun"
-                    @dimission="dimission" @removeDuplicate="removeDuplicate"
+                    @sendWechatMsg="sendWechatMsg" @removeDuplicate="removeDuplicate"
                    @onRedactFun="onRedactFun"  @handleSelectionChange="handleSelectionChange">
     </NsTableFriend>
   </div>

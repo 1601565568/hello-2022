@@ -138,8 +138,8 @@
         <el-table-column prop="status,row" :show-overflow-tooltip="true" label="操作" align="right" width="120">
           <template slot-scope="scope">
             <div>
-              <ns-button style="color:#0091FA"  @click="onRedactFun(scope.row)" type="text">详情</ns-button>
-              <ns-button style="color:#0091FA"  type="text">聊天</ns-button>
+              <ns-button style="color:#0091FA"  @click="onRedactFun(scope.row.wid)" type="text">详情</ns-button>
+              <ns-button style="color:#0091FA"  type="text" @click="sendWechatMsg(scope.row)">聊天</ns-button>
               <ns-button style="color:#0091FA" >打标</ns-button>
             </div>
           </template>

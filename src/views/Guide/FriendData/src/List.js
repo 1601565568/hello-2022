@@ -169,8 +169,6 @@ export default {
     aaaa () {
       this.$http.fetch(this.$api.overView.exit, {})
     },
-    dimission () {
-    },
     removeDuplicate () { // 好友排重筛选
     },
     async updateShopId () { // 查询导购下的会员数量
@@ -194,7 +192,27 @@ export default {
         _this.$notify.error(getErrorMsg('查询失败', resp))
       })
     },
-    onRedactFun (row) { // 聊天功能
+    onRedactFun (wid) { // 好友详情功能
+      let _this = this
+      _this.$http.fetch(this.$api.guide.friendData.frindDetail,
+        { wxid: wid }).then(resp => {
+        if (resp.success) {
+          console.log(resp.result)
+        }
+      }).catch(resp => {
+        _this.$notify.error(getErrorMsg('查询失败'), resp)
+      })
+    },
+    sendWechatMsg (wid) { // 好友聊天功能
+      let _this = this
+      _this.$http.fetch(this.$api.guide.friendData.sendMsg,
+        { wxid: wid }).then(resp => {
+        if (resp.success) {
+          console.log(resp.result)
+        }
+      }).catch(resp => {
+        _this.$notify.error(getErrorMsg('查询失败'), resp)
+      })
     },
     // 转移给指定导购改变页数大小
     transferShopSizeChange (page) {

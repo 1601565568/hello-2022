@@ -1,6 +1,14 @@
 export default {
   findList: {
-    url: '/guide/friendData/getFriendDataList',
+    url: '/guide/friendData/friendDataList',
+    method: 'post'
+  },
+  frindDetail: {
+    url: '/guide/friendData/friendDetail',
+    method: 'get'
+  },
+  sendMsg: {
+    url: '/guide/friendData/sentMsg',
     method: 'post'
   }
 }

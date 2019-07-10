@@ -155,6 +155,9 @@ export default {
     onRedactFun (val) {
       this.$emit('onRedactFun', val)
     },
+    sendWechatMsg (val) {
+      this.$emit('sendWechatMsg', val)
+    },
     // 解析后台传进来的字符串
     strToJson (str) {
       if (str && str.length > 0) {
