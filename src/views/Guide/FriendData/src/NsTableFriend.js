@@ -1,8 +1,9 @@
 import tableMixin from 'web-crm/src/mixins/table'
 import { getErrorMsg } from '@/utils/toast'
+import clearValue from '@/mixins/clearValue'
 export default {
   name: 'NsTableFriend',
-  mixins: [tableMixin],
+  mixins: [tableMixin, clearValue],
   props: {
     url: Object
   },
@@ -73,7 +74,11 @@ export default {
     let searchModel = {
       friendNick: null, // 好友昵称
       privateNick: null, // 个人号昵称
-      wName: null
+      remark: null, // 好友备注
+      wid: null, // 个人微信号
+      wName: null, // 好友微信号
+      addTime: null, // 添加时间
+      lastTime: null // 最近聊天时间
     }
     let model = Object.assign({}, searchModel)
     return {
@@ -104,21 +109,6 @@ export default {
   },
   computed: {},
   methods: {
-    async scopeRowCountAndviewDetails (succeedObj) { // 查看门店详情和查看所属区域详情
-      let that = this
-      let obj = {}
-      obj.templateId = succeedObj.template_id
-      obj.appId = succeedObj.app_id
-      that.particularsObj = {}
-      await this.$http.fetch(that.$api.isv.getTemplateInfo, obj)
-        .then(resp => {
-          resp.result.audit_category = JSON.parse(resp.result.audit_category)
-          that.particularsObj = resp.result
-        })
-        .catch(resp => {
-          this.$notify.error(getErrorMsg('查询失败', resp))
-        })
-    },
     scopeRowCount (data) { // 查看门店详情和查看所属区域详情
       this.$emit('scopeRowCount', data)
     },

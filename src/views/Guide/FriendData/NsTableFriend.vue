@@ -38,31 +38,31 @@
 
         <el-form-item label="个人号：">
           <el-form-grid size="xmd">
-            <el-input style="width:180px" autofocus=true v-model="model.name"  clearable></el-input>
+            <el-input style="width:180px" autofocus=true v-model="model.wid"  clearable></el-input>
           </el-form-grid>
         </el-form-item>
 
         <el-form-item label="微信昵称：">
           <el-form-grid>
-              <el-input clearable></el-input>
+              <el-input v-model="model.friendNick" clearable ></el-input>
           </el-form-grid>
         </el-form-item>
 
         <el-form-item label="好友备注：">
           <el-form-grid>
-            <el-input  v-model="model.job" clearable>
+            <el-input  v-model="model.remark" clearable>
 
             </el-input>
           </el-form-grid>
         </el-form-item>
         <el-form-item label="微信号：">
           <el-form-grid>
-            <el-input></el-input>
+            <el-input v-model="model.wName" clearable></el-input>
           </el-form-grid>
         </el-form-item>
         <el-form-item label="添加时间：">
           <el-date-picker
-            v-model="addTime"
+            v-model="model.addTime"
             type="daterange"
             range-separator="-"
             start-placeholder="开始日期"
@@ -72,7 +72,7 @@
         <el-form-item label="最近交聊时间：">
           <el-form-grid>
             <el-date-picker
-              v-model="lastTime"
+              v-model="model.lastTime"
               type="daterange"
               range-separator="-"
               start-placeholder="开始日期"
@@ -107,10 +107,14 @@
             {{scope.row.friendNick?scope.row.friendNick:'-'}}
           </template>
         </el-table-column>
-        <el-table-column prop="sex" label="性别" align="left" width="130"></el-table-column>
-        <el-table-column prop="region" label="地区" align="left" width="130">
+        <el-table-column prop="gender" label="性别" align="left" width="130">
           <template slot-scope="scope">
-            {{scope.row.region?scope.row.region:'-'}}
+            {{scope.row.gender>=0?scope.row.gender>=1?'女':'男':'未知'}}
+          </template >
+        </el-table-column>
+        <el-table-column prop="areaName" label="地区" align="left" width="130">
+          <template slot-scope="scope">
+            {{scope.row.areaName?scope.row.areaName:'-'}}
           </template >
         </el-table-column>
         <el-table-column prop="tag" label="标签" align="left" width="120">
@@ -125,9 +129,9 @@
         </el-table-column>
         <el-table-column prop="num" label="朋友圈互动数" align="left">
           <template slot-scope="scope">
-            赞我：0; 赞他：0。
+            赞我：{{scope.row.likeMe}}; 赞他：{{scope.row.likeHim}}。
             <br>
-            评我：0; 评他：0。
+            评我：{{scope.row.commentMe}}; 评他：{{scope.row.commentHim}}。
           </template>
         </el-table-column>
         <el-table-column prop='count' label="最近交流时间" align="left" width="180">
