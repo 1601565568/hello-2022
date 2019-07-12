@@ -20,7 +20,8 @@
                 <el-select
                 clearable
                 style="width:100px"
-                v-model="searchform.type" placeholder="请选择">
+                v-model="searchform.type" placeholder="请选择"
+                :clearable='false'>
                 <el-option
                 v-for="item in typeOptions"
                 :key="item.value"
@@ -36,6 +37,7 @@
                   v-model="searchform.date"
                   type="month"
                   placeholder="请选择月份"
+                  :clearable='false'
                   >
                 </el-date-picker>
                 <el-date-picker
@@ -43,7 +45,8 @@
                     v-model="searchform.date"
                     type="date"
                     @change="dateTiemFun"
-                    placeholder="请选择日期">
+                    placeholder="请选择日期"
+                    :clearable='false'>
                 </el-date-picker>
               </el-form-item>
               <el-form-item label="门店名称：" prop="shopName">
@@ -65,7 +68,8 @@
             <el-select
             clearable
             style="width:100px"
-            v-model="searchform.type" placeholder="请选择">
+            v-model="searchform.type" placeholder="请选择"
+            :clearable='false'>
             <el-option
             v-for="item in typeOptions"
             :key="item.value"
@@ -81,13 +85,15 @@
               v-model="searchform.date"
               type="month"
               placeholder="请选择月份"
+              :clearable='false'
               >
             </el-date-picker>
             <el-date-picker
                 v-if="searchform.type=='2'"
                 v-model="searchform.date"
                 type="date"
-                placeholder="请选择日期">
+                placeholder="请选择日期"
+                :clearable='false'>
             </el-date-picker>
           </el-form-item>
           <el-form-item label="门店名称：" prop="shopName">

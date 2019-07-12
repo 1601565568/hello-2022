@@ -46,7 +46,7 @@
 
           <el-form-item  prop="content">
             <el-form-grid size="xxmd">
-              <el-input resize="none" type="textarea" v-model="saveObj.content" placeholder="可在此输入推广文案"></el-input>
+              <el-input resize="none" type="textarea" maxlength='10000' v-model="saveObj.content" placeholder="可在此输入推广文案，限制长度在10000个字符以内。"></el-input>
             </el-form-grid>
           </el-form-item>
 
@@ -156,6 +156,9 @@ export default {
         ],
         subdivisionId: [
           { required: true, message: '请选择素材分组', trigger: 'change' }
+        ],
+        content: [
+          { min: 0, max: 10000, message: '限制长度在10000个字符以内', trigger: 'blur' }
         ]
 
       }
@@ -333,6 +336,11 @@ export default {
     beforeAvatarUpload (file) {
       if (file.size / 1024 > 200) {
         this.$notify.warning('上传图片不得大于200KB')
+        return false
+      }
+      // 图片格式判断
+      if (!/\.(gif|jpg|jpeg|png|bmp|BMP|GIF|JPG|PNG|JPEG)$/.test(file.name)) {
+        this.$notify.error('仅支持jpg/jepg/png/bmp/gif的图片格式')
         return false
       }
     },
