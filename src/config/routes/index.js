@@ -1,6 +1,7 @@
 import ShopManager from './shopmanager'
 import Reward from './reward'
 import ShopMarketing from './shopmarketing'
+import examples from './examples'
 import Other from './other'
 import Database from './database'
 import Isv from './isv'
@@ -10,6 +11,7 @@ export default [
   Reward,
   ShopMarketing,
   Other,
+  examples,
   Database,
   Isv,
   Management,
