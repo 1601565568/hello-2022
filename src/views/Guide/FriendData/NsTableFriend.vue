@@ -1,5 +1,5 @@
 <template>
-<ns-page-table @add="$emit('add')" @removeDuplicate="$emit('removeDuplicate')" @dimission="$emit('dimission')"  @allDelete="$emit('allDelete')" @shopEdit="$emit('shopEdit')" :colButton='10'>
+<ns-page-table @add="$emit('add')" @removeDuplicate="$emit('removeDuplicate')" @dimission="$emit('dimission')"  @shopEdit="$emit('shopEdit')" :colButton='10'>
     <!-- 按钮 -->
     <template slot="buttons">
       <ns-table-operate-button :buttons="_data._table.table_buttons">
