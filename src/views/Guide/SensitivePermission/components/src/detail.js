@@ -3,7 +3,8 @@ import tableMixin from 'web-crm/src/mixins/table'
 export default {
   mixins: [tableMixin],
   props: {
-    visible: Boolean
+    visible: Boolean,
+    detailItem: Object
   },
   data () {
     return {
@@ -13,6 +14,7 @@ export default {
       model: {
         type: 0
       },
+      height: '250px',
       _order: {
         orderDir: 'desc',
         orderKey: 'update_time'
@@ -27,7 +29,10 @@ export default {
           columns: [
             {
               name: '微信信息',
-              key: 'nick'
+              key: 'nick',
+              formatContent: (row) => {
+                return row.detailVo.nick ? `${row.detailVo.nick}（${row.detailVo.wid}）` : ''
+              }
             },
             {
               name: '会员状态',
@@ -64,21 +69,31 @@ export default {
           columns: [
             {
               name: '微信信息',
-              key: ''
+              key: 'nick',
+              formatContent: (row) => {
+                return row.detailVo.nick ? `${row.detailVo.nick}（${row.detailVo.wid}）` : ''
+              }
             },
             {
               name: '会员状态',
-              key: '',
-              header: '此微信客户是否为会员'
+              key: 'isMember',
+              header: '此微信客户是否为会员',
+              align: 'right',
+              formatContent: (row) => {
+                if (row.detailVo.isMember === 1) {
+                  return '是'
+                }
+                return '否'
+              }
             },
             {
               name: '专属导购',
-              key: '',
+              key: 'guideName',
               header: '此微信客户是否有专属导购'
             },
             {
               name: '操作时间',
-              key: '',
+              key: 'time',
               sortable: 'update_time',
               align: 'center'
             }
@@ -94,15 +109,21 @@ export default {
           columns: [
             {
               name: '目标微信',
-              key: ''
+              key: 'targetNick',
+              formatContent: (row) => {
+                return row.detailVo.targetNick ? `${row.detailVo.targetNick}（${row.detailVo.targetWid}）` : ''
+              }
             },
             {
               name: '名片信息',
-              key: ''
+              key: 'shareNick',
+              formatContent: (row) => {
+                return row.detailVo.shareNick ? `${row.detailVo.shareNick}（${row.detailVo.shareWid}）` : ''
+              }
             },
             {
               name: '操作时间',
-              key: '',
+              key: 'time',
               sortable: 'update_time',
               align: 'center'
             }
@@ -126,7 +147,7 @@ export default {
             },
             {
               name: '操作时间',
-              key: '',
+              key: 'time',
               sortable: 'update_time',
               align: 'center'
             }
@@ -154,7 +175,7 @@ export default {
             },
             {
               name: '操作时间',
-              key: '',
+              key: 'time',
               sortable: 'update_time',
               align: 'center'
             }
@@ -190,7 +211,7 @@ export default {
             },
             {
               name: '操作时间',
-              key: '',
+              key: 'time',
               sortable: 'update_time',
               align: 'center'
             }
@@ -218,7 +239,7 @@ export default {
             },
             {
               name: '操作时间',
-              key: '',
+              key: 'time',
               sortable: 'update_time',
               align: 'center',
               width: '120px'
@@ -232,6 +253,16 @@ export default {
   watch: {
     visible (value) {
       this.sVisible = value
+      if (value) {
+        this.$searchAction$()
+      }
+    },
+    '_data._table.data' (value) {
+      let defaultHeight = 250
+      if (value.length > 1) {
+        defaultHeight += (value.length - 1) * 30
+        this.height = defaultHeight
+      }
     }
   },
   mounted () {
@@ -240,30 +271,12 @@ export default {
   methods: {
     onClose () {
       this.$emit('update:visible', false)
+      this._data._pagination.page = 1
+      this._data._table.data = []
     },
     onSwitchTable (index) {
       this.showTableIndex = index
       this.$resetInputAction$()
-    },
-    renderHeader (item) {
-      return h => {
-        if (!item.header) {
-          return item.name
-        }
-        return h('span', {}, [
-          h('span', {}, item.name),
-          h('el-popover', {
-            props: {
-              placement: 'bottom',
-              width: '220',
-              trigger: 'hover',
-              content: item.header
-            }
-          }, [
-            h('i', { slot: 'reference', class: 'iconfont icon-xiangqingyiwen table-header-icon' }, '')
-          ])
-        ])
-      }
     },
     $resetInput () {
       this.model.type = this.tableList[this.showTableIndex].type

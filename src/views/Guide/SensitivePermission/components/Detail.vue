@@ -4,7 +4,7 @@
       title="查看详情"
       :visible.sync="sVisible"
       width="1000px"
-      height='500px'
+      :height='height'
       @closed="onClose">
       <div>
         <el-row>
@@ -13,7 +13,7 @@
                        :key='item.name'
                        @click='onSwitchTable(index)'
                        :type="showTableIndex === index ? 'primary' : 'default'"
-                       :plain='showTableIndex === index'>{{`${item.name}（${item.quantity}）`}}</ns-button>
+                       :plain='showTableIndex === index'>{{`${item.name}（${detailItem[item.key + 'Quantity']}）`}}</ns-button>
           </template>
         </el-row>
       </div>
@@ -29,10 +29,18 @@
               <template v-for='item of tableList[showTableIndex].columns'>
                 <el-table-column :key='item.name' :show-overflow-tooltip="true" type="default" :prop="item.key"
                                  :label="item.name" :sortable="item.sortable || false" :align='item.align || "left"'
-                                 :render-header="renderHeader(item)"
+
                                  :width='item.width'>
                   <template slot-scope='scope'>
                     {{item.formatContent ? item.formatContent(scope.row): scope.row.detailVo[item.key]}}
+                  </template>
+                  <template slot='header' scope='header'>
+                    <span>
+                      <span>{{item.name}}</span>
+                      <el-popover v-if='item.header' placement='bottom' width='220' trigger='hover' :content='item.header'>
+                        <i slot='reference' class='iconfont icon-xiangqingyiwen table-header-icon'></i>
+                      </el-popover>
+                    </span>
                   </template>
                 </el-table-column>
               </template>

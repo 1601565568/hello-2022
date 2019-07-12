@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Detail :visible.sync='detailDialog.visible'/>
+    <Detail :visible.sync='detailDialog.visible' :detail-item.sync='detailDialog.detailItem'/>
     <ns-page-table>
       <template slot="buttons">
         <ns-table-operate-button :buttons="_data._table.operate_buttons">

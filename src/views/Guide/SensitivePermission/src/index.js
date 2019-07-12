@@ -24,8 +24,9 @@ export default {
       _table: {
         table_buttons: [
           {
-            'func': function () {
+            'func': function (scope) {
               that.detailDialog.visible = true
+              that.detailDialog.detailItem = Object.assign({}, scope.row)
             },
             'icon': '',
             'name': '查看详情',
@@ -39,7 +40,8 @@ export default {
         orderKey: 'sum_quantity'
       },
       detailDialog: {
-        visible: false
+        visible: false,
+        detailItem: {}
       }
     }
   },
