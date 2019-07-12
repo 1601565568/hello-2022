@@ -114,6 +114,8 @@ export default {
   },
   data () {
     return {
+      title: '',
+      goodsCode: '',
       market: {
         goodsId: ''
       },
