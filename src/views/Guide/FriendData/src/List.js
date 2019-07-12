@@ -89,6 +89,16 @@ export default {
       nick_py_full: null, // 好友昵称全称
       privateNick: null, // 个人号昵称
       wid: null, // 个人号微信id
+      dialogFormVisible: false, // 好友信息弹窗
+      friendDetail: {
+        wid: null, // 个人号id
+        wname: null, // 微信号
+        gender: -1, // 性别
+        head: null, // 头像url
+        nick: null, // 微信昵称
+        areaName: null // 地区
+      }, // 好友详情
+      title: '详情',
       _table: {
         table_buttons: tableButtons,
         operate_buttons: operateButtons,
@@ -116,10 +126,6 @@ export default {
       this.radio = index
       this.value = row
     },
-    updateWorkPrefix () {
-      this.disabledWorkPrefix = false
-      this.showUpdateAllGuidePrefix = !this.showUpdateAllGuidePrefix
-    },
     transfer () {
       this.$router.push({
         path: '/Guide/Customer/CustomerManage'
@@ -129,23 +135,6 @@ export default {
       let _this = this
       _this.changeValue.logoValue = value
       _this.changeObj.logoChange = true
-    },
-    nickname (value) {
-      let _this = this
-      _this.changeValue.nicknameValue = value
-      _this.changeObj.nicknameChange = true
-    },
-    storeOwnership (value) {
-    },
-    sexs (value) {
-      let _this = this
-      _this.changeValue.sexsValue = value
-      _this.changeObj.sexsChange = true
-    },
-    mobile (value) {
-      let _this = this
-      _this.changeValue.mobileValue = value
-      _this.changeObj.mobileChange = true
     },
     names (value) {
       let _this = this
@@ -171,21 +160,16 @@ export default {
     },
     removeDuplicate () { // 好友排重筛选
     },
-    async updateShopId () { // 查询导购下的会员数量
-    },
-    selectStoreButton () { //  选择门店按钮
-      this.updateShopId()
-    },
-
     initShopList () {
 
     },
     onRedactFun (wid) { // 好友详情功能
       let _this = this
+      _this.dialogFormVisible = true
       _this.$http.fetch(this.$api.guide.friendData.frindDetail,
         { wxid: wid }).then(resp => {
         if (resp.success) {
-          console.log(resp.result)
+          _this.friendDetail = resp.result
         }
       }).catch(resp => {
         _this.$notify.error(getErrorMsg('查询失败'), resp)
@@ -201,18 +185,6 @@ export default {
       }).catch(resp => {
         _this.$notify.error(getErrorMsg('查询失败'), resp)
       })
-    },
-    // 转移给指定导购改变页数大小
-    transferShopSizeChange (page) {
-      this.transferShopSize = page
-      let pageSize = 1
-      this.guideFindList(page, pageSize)
-    },
-    // 转移给指定导购页数跳转
-    transferShopPageChange (page) {
-      this.transferShopPage = page
-      let pageChange = 0
-      this.guideFindList(page, pageChange)
     },
     // 分页-页数改变
     customerPageChange (page) {
