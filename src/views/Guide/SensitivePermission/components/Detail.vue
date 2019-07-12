@@ -28,8 +28,12 @@
                       @selection-change="$selectionChange">
               <template v-for='item of tableList[showTableIndex].columns'>
                 <el-table-column :key='item.name' :show-overflow-tooltip="true" type="default" :prop="item.key"
-                                 :label="item.name" :sortable="item.sortable || false" align='right'
-                                 :render-header="renderHeader(item)">
+                                 :label="item.name" :sortable="item.sortable || false" :align='item.align || "left"'
+                                 :render-header="renderHeader(item)"
+                                 :width='item.width'>
+                  <template slot-scope='scope'>
+                    {{item.formatContent ? item.formatContent(scope.row): scope.row.detailVo[item.key]}}
+                  </template>
                 </el-table-column>
               </template>
             </el-table>

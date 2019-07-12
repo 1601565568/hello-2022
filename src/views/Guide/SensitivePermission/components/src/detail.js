@@ -7,11 +7,15 @@ export default {
   },
   data () {
     return {
-      url: this.$api.guide.sensitivePermission.table,
+      url: this.$api.guide.sensitivePermission.detailTable,
       sVisible: false,
       showTableIndex: 0,
       model: {
         type: 0
+      },
+      _order: {
+        orderDir: 'desc',
+        orderKey: 'update_time'
       },
       tableList: [
         {
@@ -23,22 +27,30 @@ export default {
           columns: [
             {
               name: '微信信息',
-              key: ''
+              key: 'nick'
             },
             {
               name: '会员状态',
-              key: '',
-              header: '此微信客户是否为会员'
+              key: 'isMember',
+              header: '此微信客户是否为会员',
+              align: 'right',
+              formatContent: (row) => {
+                if (row.detailVo.isMember === 1) {
+                  return '是'
+                }
+                return '否'
+              }
             },
             {
               name: '专属导购',
-              key: '',
+              key: 'guideName',
               header: '此微信客户是否有专属导购'
             },
             {
               name: '操作时间',
-              key: '',
-              sortable: 'time'
+              key: 'time',
+              sortable: 'update_time',
+              align: 'center'
             }
           ],
           data: []
@@ -48,7 +60,7 @@ export default {
           type: 1,
           quantity: 0,
           show: false,
-          key: 'delFriend',
+          key: 'blockFriend',
           columns: [
             {
               name: '微信信息',
@@ -67,7 +79,8 @@ export default {
             {
               name: '操作时间',
               key: '',
-              sortable: 'time'
+              sortable: 'update_time',
+              align: 'center'
             }
           ],
           data: []
@@ -90,7 +103,8 @@ export default {
             {
               name: '操作时间',
               key: '',
-              sortable: 'time'
+              sortable: 'update_time',
+              align: 'center'
             }
           ],
           data: []
@@ -113,7 +127,8 @@ export default {
             {
               name: '操作时间',
               key: '',
-              sortable: 'time'
+              sortable: 'update_time',
+              align: 'center'
             }
           ],
           data: []
@@ -140,7 +155,8 @@ export default {
             {
               name: '操作时间',
               key: '',
-              sortable: 'time'
+              sortable: 'update_time',
+              align: 'center'
             }
           ],
           data: []
@@ -175,7 +191,8 @@ export default {
             {
               name: '操作时间',
               key: '',
-              sortable: 'time'
+              sortable: 'update_time',
+              align: 'center'
             }
           ],
           data: []
@@ -202,7 +219,9 @@ export default {
             {
               name: '操作时间',
               key: '',
-              sortable: 'time'
+              sortable: 'update_time',
+              align: 'center',
+              width: '120px'
             }
           ],
           data: []
@@ -217,7 +236,6 @@ export default {
   },
   mounted () {
     this.sVisible = this.visible
-    this.$searchAction$()
   },
   methods: {
     onClose () {
