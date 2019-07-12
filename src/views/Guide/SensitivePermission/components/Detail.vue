@@ -8,6 +8,25 @@
       @closed="onClose">
       <div>
         <el-row>
+          <el-col :span='4'>
+            <img style='height:160px;width: 160px' :src='detailItem.head' />
+          </el-col>
+          <el-col :offset='1' :span='19'>
+            <el-row style='height: 40px' align='middle' type='flex'>
+              <span>个人号ID： {{detailItem.wid}}</span>
+            </el-row>
+            <el-row style='height: 40px' align='middle' type='flex'>
+              <span>微信昵称： {{detailItem.nick}}</span>
+            </el-row>
+            <el-row style='height: 40px' align='middle' type='flex'>
+              <span>绑定终端： {{detailItem.deviceNo}}</span>
+            </el-row>
+            <el-row style='height: 40px' align='middle' type='flex'>
+              <span>绑定导购： {{detailItem.guideName}}</span>
+            </el-row>
+          </el-col>
+        </el-row>
+        <el-row>
           <template v-for='(item,index) in tableList'>
             <ns-button v-if='item.show'
                        :key='item.name'

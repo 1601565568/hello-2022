@@ -14,7 +14,7 @@ export default {
       model: {
         type: 0
       },
-      height: '250px',
+      height: '550px',
       _order: {
         orderDir: 'desc',
         orderKey: 'update_time'
@@ -276,7 +276,7 @@ export default {
       }
     },
     '_data._table.data' (value) {
-      let defaultHeight = 250
+      let defaultHeight = 550
       if (value.length > 1) {
         defaultHeight += (value.length - 1) * 30
         this.height = defaultHeight
