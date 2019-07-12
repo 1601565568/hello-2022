@@ -21,61 +21,123 @@
         <div class="dialog-left">
           <div class="dialog-left__input">
             <el-input
-                      placeholder="输入个人号"
-                      v-model="input">
-              <i slot="suffix" class="el-input__icon el-icon-error"></i>
-              <i slot="suffix" class="el-input__icon el-icon-search"></i>
+              placeholder="输入个人号"
+              prefix-icon="el-icon-search"
+              v-model="input"
+              clearable>
             </el-input>
           </div>
           <div class="dialog-left__checkbox">
             <div class="dialog-choice">可选择个人号（408）</div>
-            <el-checkbox-group v-model="checkList" class="checkbox">
-              <div class="dialog-checkbox__item">
-                <el-checkbox label="淘宝优惠群"></el-checkbox>
-              </div>
-              <div class="dialog-checkbox__item">
-                <el-checkbox label="天猫打折群"></el-checkbox>
-              </div>
-              <div class="dialog-checkbox__item">
-                <el-checkbox label="东方1号门店会员群"></el-checkbox>
-              </div>
-              <div class="dialog-checkbox__item">
-                <el-checkbox label="东方2号门店会员群"></el-checkbox>
-              </div>
-              <div class="dialog-checkbox__item">
-                <el-checkbox label="天猫打折群"></el-checkbox>
-              </div>
-              <div class="dialog-checkbox__item">
-                <el-checkbox label="东方1号门店会员群"></el-checkbox>
-              </div>
-              <div class="dialog-checkbox__item">
-                <el-checkbox label="东方2号门店会员群"></el-checkbox>
-              </div>
-            </el-checkbox-group>
+            <el-scrollbar  class="scrollbara">
+              <el-checkbox-group v-model="checkList" class="checkbox">
+                <div class="dialog-checkbox__item">
+                  <el-checkbox label="淘宝优惠群淘宝优惠群淘宝优惠群淘宝优惠群"></el-checkbox>
+                </div>
+                <div class="dialog-checkbox__item">
+                  <el-checkbox label="天猫打折群"></el-checkbox>
+                </div>
+                <div class="dialog-checkbox__item">
+                  <el-checkbox label="东方1号门店会员群"></el-checkbox>
+                </div>
+                <div class="dialog-checkbox__item">
+                  <el-checkbox label="东方2号门店会员群"></el-checkbox>
+                </div>
+                <div class="dialog-checkbox__item">
+                  <el-checkbox label="天猫打折群"></el-checkbox>
+                </div>
+                <div class="dialog-checkbox__item">
+                  <el-checkbox label="东方1号门店会员群"></el-checkbox>
+                </div>
+                <div class="dialog-checkbox__item">
+                  <el-checkbox label="东方2号门店会员群"></el-checkbox>
+                </div>
+                <div class="dialog-checkbox__item">
+                  <el-checkbox label="天猫打折群"></el-checkbox>
+                </div>
+                <div class="dialog-checkbox__item">
+                  <el-checkbox label="东方1号门店会员群"></el-checkbox>
+                </div>
+                <div class="dialog-checkbox__item">
+                  <el-checkbox label="东方2号门店会员群"></el-checkbox>
+                </div>
+                <div class="dialog-checkbox__item">
+                  <el-checkbox label="天猫打折群"></el-checkbox>
+                </div>
+                <div class="dialog-checkbox__item">
+                  <el-checkbox label="东方1号门店会员群"></el-checkbox>
+                </div>
+                <div class="dialog-checkbox__item">
+                  <el-checkbox label="东方2号门店会员群"></el-checkbox>
+                </div>
+              </el-checkbox-group>
+            </el-scrollbar>
           </div>
         </div>
         <div class="dialog-right">
-          <div class="dialog-right__select">已选择个人号（1）</div>
-          <div class="dialog-right__selected">
-            淘宝优惠群（1）
-            <i class="iconfont icon-shanchu2"></i>
-          </div>
-          <div class="dialog-right__selected">
-            淘宝优惠群（1）
-            <i class="iconfont icon-shanchu2"></i>
-          </div>
-          <div class="dialog-right__selected">
-            淘宝优惠群（1）
-            <i class="iconfont icon-shanchu2"></i>
+          <div class="dialog-right__title">已选择个人号（1）</div>
+          <div class="dialog-right__content">
+            <el-scrollbar class="scrollbara">
+              <div class="dialog-selectitem">
+                <span class="dialog-selectitem__discountgroup">淘宝优惠群淘宝优惠群淘宝优惠群淘宝优惠群</span>
+                <i class="iconfont icon-shanchu2"></i>
+              </div>
+              <div class="dialog-selectitem">
+                <span class="dialog-selectitem__discountgroup"> 淘宝优惠群（1）</span>
+                <i class="iconfont icon-shanchu2"></i>
+              </div>
+              <div class="dialog-selectitem">
+                <span class="dialog-selectitem__discountgroup"> 淘宝优惠群（1）</span>
+                <i class="iconfont icon-shanchu2"></i>
+              </div>
+              <div class="dialog-selectitem">
+                <span class="dialog-selectitem__discountgroup">淘宝优惠群淘宝优惠群淘宝优惠群淘宝优惠群</span>
+                <i class="iconfont icon-shanchu2"></i>
+              </div>
+              <div class="dialog-selectitem">
+                <span class="dialog-selectitem__discountgroup"> 淘宝优惠群（1）</span>
+                <i class="iconfont icon-shanchu2"></i>
+              </div>
+              <div class="dialog-selectitem">
+                <span class="dialog-selectitem__discountgroup"> 淘宝优惠群（1）</span>
+                <i class="iconfont icon-shanchu2"></i>
+              </div>
+              <div class="dialog-selectitem">
+                <span class="dialog-selectitem__discountgroup">淘宝优惠群淘宝优惠群淘宝优惠群淘宝优惠群</span>
+                <i class="iconfont icon-shanchu2"></i>
+              </div>
+              <div class="dialog-selectitem">
+                <span class="dialog-selectitem__discountgroup"> 淘宝优惠群（1）</span>
+                <i class="iconfont icon-shanchu2"></i>
+              </div>
+              <div class="dialog-selectitem">
+                <span class="dialog-selectitem__discountgroup"> 淘宝优惠群（1）</span>
+                <i class="iconfont icon-shanchu2"></i>
+              </div>
+              <div class="dialog-selectitem">
+                <span class="dialog-selectitem__discountgroup">淘宝优惠群淘宝优惠群淘宝优惠群淘宝优惠群</span>
+                <i class="iconfont icon-shanchu2"></i>
+              </div>
+              <div class="dialog-selectitem">
+                <span class="dialog-selectitem__discountgroup"> 淘宝优惠群（1）</span>
+                <i class="iconfont icon-shanchu2"></i>
+              </div>
+              <div class="dialog-selectitem">
+                <span class="dialog-selectitem__discountgroup"> 淘宝优惠群（1）</span>
+                <i class="iconfont icon-shanchu2"></i>
+              </div>
+              <div class="dialog-selectitem">
+                <span class="dialog-selectitem__discountgroup">淘宝优惠群淘宝优惠群淘宝优惠群淘宝优惠群</span>
+                <i class="iconfont icon-shanchu2"></i>
+              </div>
+            </el-scrollbar>
           </div>
         </div>
       </div>
-      <div class="dialog-chat__footer">
-        <span slot="footer" class="dialog-btn">
-          <ns-button @click="dialogVisible = false">取消</ns-button>
-          <ns-button @click="dialogVisible = false" class="dialog-btn__next">下一步</ns-button>
-        </span>
-      </div>
+      <span slot="footer" class="dialog-btn">
+        <ns-button @click="dialogVisible = false">取消</ns-button>
+        <ns-button @click="dialogVisible = false" class="dialog-btn__next">下一步</ns-button>
+      </span>
     </el-dialog>
     <!-- 新建群聊弹窗-->
 
@@ -108,55 +170,69 @@
           <div class="dialog-left__input">
             <el-input
               placeholder="输入微信号/昵称"
-              v-model="input">
-              <i slot="suffix" class="el-input__icon el-icon-error"></i>
-              <i slot="suffix" class="el-input__icon el-icon-search"></i>
+              prefix-icon="el-icon-search"
+              v-model="input"
+              clearable>
             </el-input>
           </div>
           <div class="dialog-left__checkbox">
             <div class="dialog-choice">可选择个人号（408）</div>
-            <el-checkbox-group v-model="checkList" class="checkbox">
-              <div class="dialog-checkbox__item">
-                <el-checkbox label="淘宝优惠群"></el-checkbox>
-              </div>
-              <div class="dialog-checkbox__item">
-                <el-checkbox label="天猫打折群"></el-checkbox>
-              </div>
-              <div class="dialog-checkbox__item">
-                <el-checkbox label="东方1号门店会员群"></el-checkbox>
-              </div>
-              <div class="dialog-checkbox__item">
-                <el-checkbox label="东方2号门店会员群"></el-checkbox>
-              </div>
-              <div class="dialog-checkbox__item">
-                <el-checkbox label="天猫打折群"></el-checkbox>
-              </div>
-              <div class="dialog-checkbox__item">
-                <el-checkbox label="东方1号门店会员群"></el-checkbox>
-              </div>
-              <div class="dialog-checkbox__item">
-                <el-checkbox label="东方2号门店会员群"></el-checkbox>
-              </div>
-            </el-checkbox-group>
+            <el-scrollbar class="scrollbarb">
+              <el-checkbox-group v-model="checkList" class="checkbox">
+                <div class="dialog-checkbox__item">
+                  <el-checkbox label="淘宝优惠群"></el-checkbox>
+                </div>
+                <div class="dialog-checkbox__item">
+                  <el-checkbox label="天猫打折群"></el-checkbox>
+                </div>
+                <div class="dialog-checkbox__item">
+                  <el-checkbox label="东方1号门店会员群"></el-checkbox>
+                </div>
+                <div class="dialog-checkbox__item">
+                  <el-checkbox label="东方2号门店会员群"></el-checkbox>
+                </div>
+                <div class="dialog-checkbox__item">
+                  <el-checkbox label="天猫打折群"></el-checkbox>
+                </div>
+                <div class="dialog-checkbox__item">
+                  <el-checkbox label="东方1号门店会员群"></el-checkbox>
+                </div>
+                <div class="dialog-checkbox__item">
+                  <el-checkbox label="东方2号门店会员群"></el-checkbox>
+                </div>
+              </el-checkbox-group>
+            </el-scrollbar>
           </div>
         </div>
         <div class="dialog-right">
-          <div class="dialog-right__select">已选择个人号（1）</div>
-          <div class="dialog-right__selected">
-            淘宝优惠群（1）
-            <i class="iconfont icon-shanchu2"></i>
-          </div>
-          <div class="dialog-right__selected">
-            淘宝优惠群（1）
-            <i class="iconfont icon-shanchu2"></i>
-          </div>
-          <div class="dialog-right__selected">
-            淘宝优惠群（1）
-            <i class="iconfont icon-shanchu2"></i>
+          <div class="dialog-right__title">已选择个人号（1）</div>
+          <div class="dialog-right__content">
+            <el-scrollbar class="scrollbarb">
+              <div class="dialog-selectitem">
+                <span class="dialog-selectitem__discountgroup"> 淘宝优惠群（1）</span>
+                <i class="iconfont icon-shanchu2"></i>
+              </div>
+              <div class="dialog-selectitem">
+                <span class="dialog-selectitem__discountgroup">淘宝优惠群淘宝优惠群淘宝优惠群淘宝优惠群</span>
+                <i class="iconfont icon-shanchu2"></i>
+              </div>
+              <div class="dialog-selectitem">
+                <span class="dialog-selectitem__discountgroup"> 淘宝优惠群（1）</span>
+                <i class="iconfont icon-shanchu2"></i>
+              </div>
+              <div class="dialog-selectitem">
+                <span class="dialog-selectitem__discountgroup"> 淘宝优惠群（1）</span>
+                <i class="iconfont icon-shanchu2"></i>
+              </div>
+              <div class="dialog-selectitem">
+                <span class="dialog-selectitem__discountgroup">淘宝优惠群淘宝优惠群淘宝优惠群淘宝优惠群</span>
+                <i class="iconfont icon-shanchu2"></i>
+              </div>
+            </el-scrollbar>
           </div>
         </div>
       </div>
-      <el-row  class="dialog-chat__bulletin">
+      <el-row class="dialog-chat__bulletin">
         <el-col :span="3">
           <div class="dialog-bulletin">
             群名称：
@@ -166,19 +242,17 @@
           <div class="dialog-edit">
             <el-input
               type="textarea"
-              :rows="2"
+              :rows="4"
               placeholder="请编辑群公告"
-              v-model="textarea" class="dialog-edit__input">
+              v-model="textarea">
             </el-input>
           </div>
         </el-col>
       </el-row>
-      <div class="dialog-chat__footer">
-        <span slot="footer" class="dialog-btn">
-          <ns-button @click="dialogVisible = false">上一步</ns-button>
-          <ns-button @click="dialogVisible = false" class="dialog-btn__next">确定</ns-button>
-        </span>
-      </div>
+      <span slot="footer" class="dialog-btn">
+        <ns-button @click="dialogVisible = false">上一步</ns-button>
+        <ns-button @click="dialogVisible = false" class="dialog-btn__next">确定</ns-button>
+      </span>
     </el-dialog>
     <!-- 新建群聊下一步弹窗-->
 
@@ -188,9 +262,10 @@
       :visible.sync="dialogVisible2"
       width="663px" class="dialog-chat">
       <el-row class="dialog-chat__header">
-        <el-col :span="8">
+        <el-col :span="10">
           <div class="dialog-person">
             <spn class="dialog-person__start">*</spn>
+            <span>选择个人号：</span>
             <el-select v-model="value" placeholder="全部" class="dialog-person__select">
               <el-option
                 v-for="item in options"
@@ -204,9 +279,11 @@
         <el-col :span="11">
           <div class="dialog-searchname">
             <span  class="dialog-searchname__text">搜索微信群：</span>
-            <el-input v-model="input" placeholder="输入群名称"  class="dialog-searchname__input">
-              <i slot="suffix" class="el-input__icon el-icon-error"></i>
-              <i slot="suffix" class="el-input__icon el-icon-search"></i>
+            <el-input
+              placeholder="输入群名称"
+              prefix-icon="el-icon-search"
+              v-model="input"
+              clearable>
             </el-input>
           </div>
         </el-col>
@@ -216,69 +293,73 @@
           </div>
         </el-col>
       </el-row>
-      <div class="dialog-chat__content dialog-chat__content--margintop">
+      <div class="dialog-chat__content dialog-chat__content--top">
         <div class="dialog-left">
           <div class="dialog-left__checkbox">
-            <div class="dialog-choice">可选择微信群</div>
-            <el-checkbox-group v-model="checkList" class="checkbox">
-              <div class="dialog-checkbox__item">
-                <el-checkbox label="易也难"></el-checkbox>
-              </div>
-              <div class="dialog-checkbox__item">
-                <el-checkbox label="易也难"></el-checkbox>
-              </div>
-              <div class="dialog-checkbox__item">
-                <el-checkbox label="孟轻舟"></el-checkbox>
-              </div>
-              <div class="dialog-checkbox__item">
-                <el-checkbox label="易也难"></el-checkbox>
-              </div>
-              <div class="dialog-checkbox__item">
-                <el-checkbox label="孟轻舟"></el-checkbox>
-              </div>
-              <div class="dialog-checkbox__item">
-                <el-checkbox label="易也难"></el-checkbox>
-              </div>
-              <div class="dialog-checkbox__item">
-                <el-checkbox label="孟轻舟"></el-checkbox>
-              </div>
-              <div class="dialog-checkbox__item">
-                <el-checkbox label="易也难"></el-checkbox>
-              </div>
-              <div class="dialog-checkbox__item">
-                <el-checkbox label="孟轻舟"></el-checkbox>
-              </div>
-              <div class="dialog-checkbox__item">
-                <el-checkbox label="易也难"></el-checkbox>
-              </div>
-              <div class="dialog-checkbox__item">
-                <el-checkbox label="孟轻舟"></el-checkbox>
-              </div>
-            </el-checkbox-group>
+            <div class="dialog-choice dialog-marginzero">可选择微信群</div>
+            <el-scrollbar class="scrollbarc">
+              <el-checkbox-group v-model="checkList" class="checkbox">
+                <div class="dialog-checkbox__item">
+                  <el-checkbox label="易也难易也难易也难易也难易也难易也难易也难"></el-checkbox>
+                </div>
+                <div class="dialog-checkbox__item">
+                  <el-checkbox label="易也难"></el-checkbox>
+                </div>
+                <div class="dialog-checkbox__item">
+                  <el-checkbox label="孟轻舟"></el-checkbox>
+                </div>
+                <div class="dialog-checkbox__item">
+                  <el-checkbox label="易也难"></el-checkbox>
+                </div>
+                <div class="dialog-checkbox__item">
+                  <el-checkbox label="孟轻舟"></el-checkbox>
+                </div>
+                <div class="dialog-checkbox__item">
+                  <el-checkbox label="易也难"></el-checkbox>
+                </div>
+                <div class="dialog-checkbox__item">
+                  <el-checkbox label="孟轻舟"></el-checkbox>
+                </div>
+                <div class="dialog-checkbox__item">
+                  <el-checkbox label="易也难"></el-checkbox>
+                </div>
+                <div class="dialog-checkbox__item">
+                  <el-checkbox label="孟轻舟"></el-checkbox>
+                </div>
+                <div class="dialog-checkbox__item">
+                  <el-checkbox label="易也难"></el-checkbox>
+                </div>
+                <div class="dialog-checkbox__item">
+                  <el-checkbox label="孟轻舟"></el-checkbox>
+                </div>
+              </el-checkbox-group>
+            </el-scrollbar>
           </div>
         </div>
-        <div class="dialog-right dialog-right__select--paddingtop">
-          <div class="dialog-right__select">已选择微信群</div>
-          <div class="dialog-right__selected">
-            易也难
-            <i class="iconfont icon-shanchu2"></i>
-          </div>
-          <div class="dialog-right__selected">
-            易也难
-            <i class="iconfont icon-shanchu2"></i>
-          </div>
-          <div class="dialog-right__selected">
-            易也难
-            <i class="iconfont icon-shanchu2"></i>
+        <div class="dialog-right">
+          <div class="dialog-right__title dialog-paddingtop">已选择微信群</div>
+          <div class="dialog-right__content">
+            <el-scrollbar class="scrollbarc">
+              <div class="dialog-selectitem">
+                <span class="dialog-selectitem__discountgroup">易也难易也难易也难易也难易也难易也难易也难</span>
+                <i class="iconfont icon-shanchu2"></i>
+              </div>
+              <div class="dialog-selectitem">
+                <span class="dialog-selectitem__discountgroup">易也难</span>
+                <i class="iconfont icon-shanchu2"></i>
+              </div>
+              <div class="dialog-selectitem">
+                <span class="dialog-selectitem__discountgroup">易也难</span>
+                <i class="iconfont icon-shanchu2"></i>
+              </div>
+            </el-scrollbar>
           </div>
         </div>
       </div>
-      <div class="dialog-chat__footer">
-        <span slot="footer" class="dialog-btn">
-          <ns-button @click="dialogVisible = false">上一步</ns-button>
-          <ns-button @click="dialogVisible = false" class="dialog-btn__next">确定</ns-button>
-        </span>
-      </div>
+      <span slot="footer" class="dialog-btn">
+        <ns-button @click="dialogVisible = false">上一步</ns-button>
+        <ns-button @click="dialogVisible = false" class="dialog-btn__next">确定</ns-button>
+      </span>
     </el-dialog>
     <!-- 好友排重筛选弹窗-->
 
@@ -326,38 +407,38 @@
   </div>
 </template>
 <script>
-  export default {
-    data () {
-      return {
-        radio1: '今天',
-        dialogVisible: false,
-        dialogVisible1: false,
-        dialogVisible2: false,
-        dialogVisible3: false,
-        input: '',
-        radiogroup: '1',
-        checkList: ['选中且禁用','淘宝优惠群'],
-        textarea: '',
-        options: [{
-          value: '选项1',
-          label: '黄金糕'
-        }, {
-          value: '选项2',
-          label: '双皮奶'
-        }, {
-          value: '选项3',
-          label: '蚵仔煎'
-        }, {
-          value: '选项4',
-          label: '龙须面'
-        }, {
-          value: '选项5',
-          label: '北京烤鸭'
-        }],
-        value: ''
-      }
+export default {
+  data () {
+    return {
+      radio1: '今天',
+      dialogVisible: false,
+      dialogVisible1: false,
+      dialogVisible2: false,
+      dialogVisible3: false,
+      input: '',
+      radiogroup: '1',
+      checkList: ['选中且禁用', '淘宝优惠群'],
+      textarea: '',
+      options: [{
+        value: '选项1',
+        label: '黄金糕'
+      }, {
+        value: '选项2',
+        label: '双皮奶'
+      }, {
+        value: '选项3',
+        label: '蚵仔煎'
+      }, {
+        value: '选项4',
+        label: '龙须面'
+      }, {
+        value: '选项5',
+        label: '北京烤鸭'
+      }],
+      value: ''
     }
   }
+}
 </script>
 <style scoped>
   @import "@/style/small/variables.pcss";
@@ -377,33 +458,27 @@
       }
       @e content{
         display: flex;
-        margin: 0 10px;
+        margin: 20px 10px 0;
         @m boderbottom {
           border-bottom: 1px solid  #F2F2F2;;
         }
-        @m margintop {
-          margin-top: 20px;
+        @m top {
+          margin-top: 30px !important;
         }
       }
       @e bulletin {
-        margin-top: 25px;
+        margin: 25px 0 15px;
         padding-right: 10px;
-      }
-      @e footer{
-        text-align: right;
-        margin: 30px 0 20px;
-        padding: 0 10px;
       }
     }
     @b left {
-      width: 60%;
+      width: 55%;
       padding: 0 15px 25px 0;
       border-right: 1px solid #F2F2F2;
       @e input {
         font-size: var(--default-font-size-base);
         color: var(--theme-font-color-primary);
         padding-right: 30%;
-        margin-top: 10px;
       }
       @e checkbox {
         @b choice {
@@ -416,26 +491,35 @@
           @e item {
             color: var(--theme-font-color-primary);
             position: relative;
-            margin-top: 20px;
+            margin-top: 10px;
+            padding-right: 5px;
           }
         }
       }
     }
     @b right {
-      width: 40%;
-      padding: 71px  0 25px 15px;
-      @e select {
+      width: 45%;
+      padding: 0  0 25px 15px;
+      @e title {
         font-size: var(--default-font-size-base);
         color: var(--theme-font-color-primary);
         font-weight: bold;
-        @m paddingtop {
-          padding-top: 25px;
-        }
+        padding-top: 53px;
       }
-      @e selected {
-        font-size: var(--default-font-size-small);
-        color: var(--theme-font-color-primary);
-        margin-top: 20px;
+      @e content {  }
+    }
+    @b selectitem {
+      font-size: var(--default-font-size-small);
+      color: var(--theme-font-color-primary);
+      position: relative;
+      margin: 10px 15px 0 0;
+      cursor: pointer;
+      @e discountgroup {
+        display: inline-block;
+        width: 83%;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
     }
     @b btn {
@@ -452,7 +536,7 @@
       @e group {}
     }
     @b inputname {
-      margin-left: -20px;
+      margin-left: -10px;
     }
     @b max {
       text-align: center;
@@ -472,20 +556,14 @@
     }
     @b edit {
       margin-left: -20px;
-      @e input {
-        height: 62px !important;
-      }
     }
     @b person {
+      font-size: var(--default-font-size-base);
+      color: var(--theme-font-color-black);
       @e start {
         font-size: var(--default-font-size-small);
         color: var(--theme-font-color-red);
         margin-top: 10px;
-      }
-      @e select {
-        font-size: var(--default-font-size-base);
-        color: var(--theme-font-color-black);
-        margin-left: 10px;
       }
     }
     @b searchname {
@@ -498,8 +576,14 @@
     }
     @b find {
       @e btn {
-        margin-left: 20px;
+        margin-left: 15px;
       }
+    }
+    @b marginzero {
+      margin-top: 0 !important;
+    }
+    @b paddingtop {
+      padding-top: 0;
     }
   }
   @component-namespace detail {
@@ -534,27 +618,12 @@
       }
     }
   }
-  >>> .el-input--small .el-input__inner {
-    line-height: 36px;
-    height: 36px;
-  }
-  >>> .el-input__suffix:before {
-    border: none;
-  }
-  >>> .el-icon-error {
-    font-size: var(--default-font-size-base);
-    color:  var(--theme-font-color-gray);
-    margin-top: 5px;
-  }
- >>> .el-icon-search {
-   font-size: var(--default-font-size-middle);
-   color: var(--theme-font-color-secondary);
-   margin-top: 5px;
- }
  .icon-shanchu2 {
    font-size: var(--default-font-size-base);
    color: var(--theme-font-color-gray);
-   float: right;
+   position: absolute;
+   top: 0;
+   right: 0;
  }
   >>> .el-checkbox-group .el-checkbox {
     display: block;
@@ -564,17 +633,35 @@
     right: 0;
     top: 3px;
   }
-  >>> .el-input.el-input--small .el-input__inner {
-    font-size: var(--default-font-size-base);
-  }
-  >>> .el-dialog__header {
-    padding: 15px 20px !important;
-  }
   .icon-tishi {
     font-size: var(--default-font-size-base);
     color: var(--theme-font-color-blue);
   }
-  >>> .el-textarea__inner {
-    height: 62px;
+  >>> .el-checkbox__input.is-checked + .el-checkbox__label {
+    width: 55%;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+  }
+  >>> .el-checkbox__label {
+    width: 55%;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+  }
+  >>> .el-input--prefix .el-input__inner {
+    padding-left: 30px;
+  }
+  >>> .el-input__suffix {
+    top: 5px;
+  }
+  .scrollbara >>> .el-scrollbar__view {
+    max-height: 400px;
+  }
+  .scrollbarb >>> .el-scrollbar__view {
+    max-height: 300px;
+  }
+  .scrollbarc >>> .el-scrollbar__view {
+    max-height: 400px;
   }
 </style>
