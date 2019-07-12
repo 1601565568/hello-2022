@@ -139,11 +139,11 @@ export default {
           columns: [
             {
               name: '应用名称',
-              key: ''
+              key: 'appName'
             },
             {
               name: '应用大小',
-              key: ''
+              key: 'appSize'
             },
             {
               name: '操作时间',
@@ -163,15 +163,18 @@ export default {
           columns: [
             {
               name: '群名称',
-              key: ''
+              key: 'displayname'
             },
             {
               name: '群类型',
-              key: ''
+              key: 'groupType',
+              formatContent: (row) => {
+                return row.detailVo.groupType === 1 ? '门店群' : '普通群'
+              }
             },
             {
               name: '群人数',
-              key: ''
+              key: 'memberCount'
             },
             {
               name: '操作时间',
@@ -191,23 +194,38 @@ export default {
           columns: [
             {
               name: '发送目标',
-              key: ''
+              key: 'targetNick'
             },
             {
               name: '类型',
-              key: ''
+              key: 'type',
+              formatContent: (row) => {
+                if (!row.detailVo.type) {
+                  return ''
+                }
+                switch (row.detailVo.type) {
+                  case 0:
+                    return '个人'
+                  case 1:
+                    return '普通群'
+                  case 2:
+                    return '员工群'
+                  default:
+                    return '未知'
+                }
+              }
             },
             {
               name: '领取人数',
-              key: ''
+              key: 'quantity'
             },
             {
               name: '红包金额',
-              key: ''
+              key: 'amount'
             },
             {
               name: '红包说明',
-              key: ''
+              key: 'remark'
             },
             {
               name: '操作时间',

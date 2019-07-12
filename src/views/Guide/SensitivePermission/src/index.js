@@ -18,7 +18,7 @@ export default {
         times: [],
         ownerId: ''
       },
-      defButton: 7,
+      defButton: 0,
       quickMode: false,
       privateAccountSelect: [],
       _table: {
@@ -46,7 +46,7 @@ export default {
     }
   },
   mounted () {
-    this.todayTime(7)
+    this.todayTime(this.defButton)
     this.initPrivateAccount()
     this.$searchAction$()
   },
@@ -73,8 +73,8 @@ export default {
       })
     },
     $resetInput () {
-      this.defButton = 7
-      this.todayTime(7)
+      this.defButton = 0
+      this.todayTime(0)
     }
   }
 }
