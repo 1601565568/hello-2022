@@ -40,6 +40,9 @@
           <img :src="memberDetail.head || NO_IMG_BIG" class="detail-rightside__img" alt="头像">
         </div>
       </div>
+      <span slot="footer" class="dialog-footer">
+        <ns-button @click="sVisible = false">关闭</ns-button>
+      </span>
     </el-dialog>
   </div>
 </template>

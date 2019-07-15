@@ -94,6 +94,9 @@
             </el-table-column>
             <el-table-column :show-overflow-tooltip="true" type="default" prop="nick"
                              label="微信昵称" :sortable="false">
+              <template slot-scope='scope'>
+                {{scope.row.nick || '-'}}
+              </template>
             </el-table-column>
 <!--            todo-zsf 暂无以下数据-->
 <!--            <el-table-column :show-overflow-tooltip="true" type="default" prop=""-->
