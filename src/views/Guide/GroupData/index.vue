@@ -2,7 +2,7 @@
   <div>
     <Add :visible.sync='addDialog.visible'/>
     <GroupDetail :visible.sync='groupDetailDialog.visible' :chatroomname.sync='groupDetailDialog.chatroomname'/>
-    <MemberDetail :visible.sync='memberDetailDialog.visible'/>
+    <MemberDetail :visible.sync='memberDetailDialog.visible' :member-detail.sync='memberDetailDialog.memberDetail'/>
     <div class="template-page__row-left">
       <el-input ref="quickText" style="width: 190px" v-model="filterGroup" placeholder="搜索群名">
         <i class="el-icon-search el-input__icon" slot="suffix" @click="onFilterGroup"></i>
@@ -110,8 +110,7 @@
                   <ns-button type="text" @click='onShowGroupDetail(scope.row)'>{{scope.row.displayname}}</ns-button>
                 </el-row>
                 <el-row>
-                  <span>群公告群公告群公告群公告群公告群公告群公告群公告群公告群公告群公
-                    告群公告群公告群公告群公告群公告群公告群公告群公告群公告群公告群公告群公告群公告群公告群公告群公告</span>
+                  <span>{{scope.row.chatroomnotice}}</span>
                 </el-row>
               </template>
             </el-table-column>

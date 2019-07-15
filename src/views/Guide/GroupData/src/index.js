@@ -33,16 +33,18 @@ export default {
           }
         ],
         table_buttons: [
+          // {
+          //   'func': function (scope) {
+          //   },
+          //   'icon': '',
+          //   'name': '聊天',
+          //   'auth': ``,
+          //   'visible': ``
+          // },
           {
             'func': function (scope) {
-            },
-            'icon': '',
-            'name': '聊天',
-            'auth': ``,
-            'visible': ``
-          },
-          {
-            'func': function (scope) {
+              console.log(scope)
+              this.memberDetailDialog.memberDetail = Object.assign({}, JSON.parse(JSON.stringify(scope.row)))
               that.memberDetailDialog.visible = true
             },
             'icon': '',
@@ -70,7 +72,8 @@ export default {
         chatroomname: ''
       },
       memberDetailDialog: {
-        visible: false
+        visible: false,
+        memberDetail: {}
       }
     }
   },

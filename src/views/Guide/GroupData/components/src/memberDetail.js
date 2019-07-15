@@ -1,10 +1,14 @@
+import { NO_IMG_BIG } from '@/utils/constants'
+
 export default {
   props: {
-    visible: Boolean
+    visible: Boolean,
+    memberDetail: Object
   },
   data () {
     return {
-      sVisible: false
+      sVisible: false,
+      NO_IMG_BIG
     }
   },
   watch: {
@@ -18,6 +22,7 @@ export default {
   methods: {
     onClose () {
       this.$emit('update:visible', false)
+      this.$emit('update:memberDetail', {})
     }
   }
 }
