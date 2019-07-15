@@ -3,15 +3,21 @@ import tableMixin from 'web-crm/src/mixins/table'
 export default {
   mixins: [tableMixin],
   props: {
-    visible: Boolean
+    visible: Boolean,
+    detailItem: Object
   },
   data () {
     return {
-      url: this.$api.guide.sensitivePermission.table,
+      url: this.$api.guide.sensitivePermission.detailTable,
       sVisible: false,
       showTableIndex: 0,
       model: {
         type: 0
+      },
+      height: '550px',
+      _order: {
+        orderDir: 'desc',
+        orderKey: 'update_time'
       },
       tableList: [
         {
@@ -23,22 +29,33 @@ export default {
           columns: [
             {
               name: '微信信息',
-              key: ''
+              key: 'nick',
+              formatContent: (row) => {
+                return row.detailVo.nick ? `${row.detailVo.nick}（${row.detailVo.wid}）` : ''
+              }
             },
             {
               name: '会员状态',
-              key: '',
-              header: '此微信客户是否为会员'
+              key: 'isMember',
+              header: '此微信客户是否为会员',
+              align: 'right',
+              formatContent: (row) => {
+                if (row.detailVo.isMember === 1) {
+                  return '是'
+                }
+                return '否'
+              }
             },
             {
               name: '专属导购',
-              key: '',
+              key: 'guideName',
               header: '此微信客户是否有专属导购'
             },
             {
               name: '操作时间',
-              key: '',
-              sortable: 'time'
+              key: 'time',
+              sortable: 'update_time',
+              align: 'center'
             }
           ],
           data: []
@@ -48,26 +65,37 @@ export default {
           type: 1,
           quantity: 0,
           show: false,
-          key: 'delFriend',
+          key: 'blockFriend',
           columns: [
             {
               name: '微信信息',
-              key: ''
+              key: 'nick',
+              formatContent: (row) => {
+                return row.detailVo.nick ? `${row.detailVo.nick}（${row.detailVo.wid}）` : ''
+              }
             },
             {
               name: '会员状态',
-              key: '',
-              header: '此微信客户是否为会员'
+              key: 'isMember',
+              header: '此微信客户是否为会员',
+              align: 'right',
+              formatContent: (row) => {
+                if (row.detailVo.isMember === 1) {
+                  return '是'
+                }
+                return '否'
+              }
             },
             {
               name: '专属导购',
-              key: '',
+              key: 'guideName',
               header: '此微信客户是否有专属导购'
             },
             {
               name: '操作时间',
-              key: '',
-              sortable: 'time'
+              key: 'time',
+              sortable: 'update_time',
+              align: 'center'
             }
           ],
           data: []
@@ -81,16 +109,23 @@ export default {
           columns: [
             {
               name: '目标微信',
-              key: ''
+              key: 'targetNick',
+              formatContent: (row) => {
+                return row.detailVo.targetNick ? `${row.detailVo.targetNick}（${row.detailVo.targetWid}）` : ''
+              }
             },
             {
               name: '名片信息',
-              key: ''
+              key: 'shareNick',
+              formatContent: (row) => {
+                return row.detailVo.shareNick ? `${row.detailVo.shareNick}（${row.detailVo.shareWid}）` : ''
+              }
             },
             {
               name: '操作时间',
-              key: '',
-              sortable: 'time'
+              key: 'time',
+              sortable: 'update_time',
+              align: 'center'
             }
           ],
           data: []
@@ -104,16 +139,17 @@ export default {
           columns: [
             {
               name: '应用名称',
-              key: ''
+              key: 'appName'
             },
             {
               name: '应用大小',
-              key: ''
+              key: 'appSize'
             },
             {
               name: '操作时间',
-              key: '',
-              sortable: 'time'
+              key: 'time',
+              sortable: 'update_time',
+              align: 'center'
             }
           ],
           data: []
@@ -127,20 +163,24 @@ export default {
           columns: [
             {
               name: '群名称',
-              key: ''
+              key: 'displayname'
             },
             {
               name: '群类型',
-              key: ''
+              key: 'groupType',
+              formatContent: (row) => {
+                return row.detailVo.groupType === 1 ? '门店群' : '普通群'
+              }
             },
             {
               name: '群人数',
-              key: ''
+              key: 'memberCount'
             },
             {
               name: '操作时间',
-              key: '',
-              sortable: 'time'
+              key: 'time',
+              sortable: 'update_time',
+              align: 'center'
             }
           ],
           data: []
@@ -154,28 +194,44 @@ export default {
           columns: [
             {
               name: '发送目标',
-              key: ''
+              key: 'targetNick'
             },
             {
               name: '类型',
-              key: ''
+              key: 'type',
+              formatContent: (row) => {
+                if (!row.detailVo.type) {
+                  return ''
+                }
+                switch (row.detailVo.type) {
+                  case 0:
+                    return '个人'
+                  case 1:
+                    return '普通群'
+                  case 2:
+                    return '员工群'
+                  default:
+                    return '未知'
+                }
+              }
             },
             {
               name: '领取人数',
-              key: ''
+              key: 'quantity'
             },
             {
               name: '红包金额',
-              key: ''
+              key: 'amount'
             },
             {
               name: '红包说明',
-              key: ''
+              key: 'remark'
             },
             {
               name: '操作时间',
-              key: '',
-              sortable: 'time'
+              key: 'time',
+              sortable: 'update_time',
+              align: 'center'
             }
           ],
           data: []
@@ -201,8 +257,10 @@ export default {
             },
             {
               name: '操作时间',
-              key: '',
-              sortable: 'time'
+              key: 'time',
+              sortable: 'update_time',
+              align: 'center',
+              width: '120px'
             }
           ],
           data: []
@@ -213,39 +271,30 @@ export default {
   watch: {
     visible (value) {
       this.sVisible = value
+      if (value) {
+        this.$searchAction$()
+      }
+    },
+    '_data._table.data' (value) {
+      let defaultHeight = 550
+      if (value.length > 1) {
+        defaultHeight += (value.length - 1) * 30
+        this.height = defaultHeight
+      }
     }
   },
   mounted () {
     this.sVisible = this.visible
-    this.$searchAction$()
   },
   methods: {
     onClose () {
       this.$emit('update:visible', false)
+      this._data._pagination.page = 1
+      this._data._table.data = []
     },
     onSwitchTable (index) {
       this.showTableIndex = index
       this.$resetInputAction$()
-    },
-    renderHeader (item) {
-      return h => {
-        if (!item.header) {
-          return item.name
-        }
-        return h('span', {}, [
-          h('span', {}, item.name),
-          h('el-popover', {
-            props: {
-              placement: 'bottom',
-              width: '220',
-              trigger: 'hover',
-              content: item.header
-            }
-          }, [
-            h('i', { slot: 'reference', class: 'iconfont icon-xiangqingyiwen table-header-icon' }, '')
-          ])
-        ])
-      }
     },
     $resetInput () {
       this.model.type = this.tableList[this.showTableIndex].type

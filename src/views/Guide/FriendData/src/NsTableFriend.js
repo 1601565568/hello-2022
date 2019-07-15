@@ -32,7 +32,6 @@ export default {
     const operateButtons = [
       {
         'func': function (args) {
-          console.log('参数：' + args)
           this.$emit('onAddCustomer', args.row)
         },
         'icon': '',
