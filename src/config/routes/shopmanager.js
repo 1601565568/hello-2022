@@ -58,10 +58,10 @@ export default {
           'component': () => import('@/views/Guide/SgShopGroupRobot/index')
         },
         {
-          'path': '/Guide/SgSensitiveWord/index',
-          'name': 'SgSensitiveWord_index',
+          'path': '/Guide/SensitiveWord/index',
+          'name': 'SensitiveWord_index',
           'title': '敏感词管理',
-          'component': () => import('@/views/Guide/SgSensitiveWord/index')
+          'component': () => import('@/views/Guide/SensitiveWord/index')
         }
       ]
     },
