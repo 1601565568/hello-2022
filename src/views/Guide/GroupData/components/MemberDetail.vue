@@ -49,5 +49,5 @@ import Index from './src/memberDetail'
 export default Index
 </script>
 <style>
-  @import '../src/style.pcss';
+  @import '../src/dialog.pcss';
 </style>

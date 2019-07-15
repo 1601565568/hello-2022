@@ -7,5 +7,9 @@ export default {
   table: {
     url: prefix + 'table',
     method: 'POST'
+  },
+  groupDetailTable: {
+    url: prefix + 'groupDetailTable',
+    method: 'POST'
   }
 }

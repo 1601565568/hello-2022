@@ -3,6 +3,7 @@ import { getErrorMsg } from '@/utils/toast'
 import Add from '../components/Add'
 import GroupDetail from '../components/GroupDetail'
 import MemberDetail from '../components/MemberDetail'
+import { NO_IMG_BIG } from '@/utils/constants'
 
 export default {
   mixins: [tableMixin],
@@ -10,7 +11,7 @@ export default {
   data () {
     const that = this
     return {
-      NoImg: '',
+      NoImg: NO_IMG_BIG,
       url: this.$api.guide.groupData.table,
       _table: {
         operate_buttons: [
@@ -43,7 +44,6 @@ export default {
           // },
           {
             'func': function (scope) {
-              console.log(scope)
               this.memberDetailDialog.memberDetail = Object.assign({}, JSON.parse(JSON.stringify(scope.row)))
               that.memberDetailDialog.visible = true
             },
@@ -69,7 +69,7 @@ export default {
       },
       groupDetailDialog: {
         visible: false,
-        chatroomname: ''
+        groupDetail: {}
       },
       memberDetailDialog: {
         visible: false,
@@ -120,23 +120,8 @@ export default {
       // 重置时不重置左侧已选择的个人号或群聊
       return Object.assign({}, origin, { wid: this.model.ownerId, chatroomname: this.model.chatroomname })
     },
-    renderHeaderDisplayname (h) {
-      return h('span', {}, [
-        h('span', {}, '所属微信群'),
-        h('el-popover', {
-          props: {
-            placement: 'bottom',
-            width: '220',
-            trigger: 'hover',
-            content: '点击群名称，可查看此群下所有微信'
-          }
-        }, [
-          h('i', { slot: 'reference', class: 'iconfont icon-xiangqingyiwen table-header-icon' }, '')
-        ])
-      ])
-    },
     onShowGroupDetail (v) {
-      this.groupDetailDialog.chatroomname = v.chatroomname
+      this.groupDetailDialog.groupDetail = Object.assign({}, JSON.parse(JSON.stringify(v)))
       this.groupDetailDialog.visible = true
     }
   }
