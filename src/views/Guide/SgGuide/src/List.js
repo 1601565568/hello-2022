@@ -611,6 +611,7 @@ export default {
     },
     showShop () { // 组团进行更换门店操作
       let _this = this
+      _this.initShopList()
       _this.switchStateName = '更换门店'
       _this.verification = false
       _this.allDeleteName = []
