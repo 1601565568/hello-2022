@@ -1,8 +1,8 @@
 <template>
   <div>
     <Add :visible.sync='addDialog.visible'/>
-    <GroupDetail :visible.sync='groupDetailDialog.visible' :chatroomname.sync='groupDetailDialog.chatroomname'/>
-    <MemberDetail :visible.sync='memberDetailDialog.visible'/>
+    <GroupDetail :visible.sync='groupDetailDialog.visible' :group-detail.sync='groupDetailDialog.groupDetail'/>
+    <MemberDetail :visible.sync='memberDetailDialog.visible' :member-detail.sync='memberDetailDialog.memberDetail'/>
     <div class="template-page__row-left">
       <el-input ref="quickText" style="width: 190px" v-model="filterGroup" placeholder="搜索群名">
         <i class="el-icon-search el-input__icon" slot="suffix" @click="onFilterGroup"></i>
@@ -94,6 +94,9 @@
             </el-table-column>
             <el-table-column :show-overflow-tooltip="true" type="default" prop="nick"
                              label="微信昵称" :sortable="false">
+              <template slot-scope='scope'>
+                {{scope.row.nick || '-'}}
+              </template>
             </el-table-column>
 <!--            todo-zsf 暂无以下数据-->
 <!--            <el-table-column :show-overflow-tooltip="true" type="default" prop=""-->
@@ -103,16 +106,22 @@
 <!--                             label="地区" :sortable="false">-->
 <!--            </el-table-column>-->
             <el-table-column :show-overflow-tooltip="true" type="default" prop="displayname"
-                             label="所属微信群" :sortable="false"
-                             :render-header="renderHeaderDisplayname" >
+                             label="所属微信群" :sortable="false">
               <template slot-scope='scope'>
                 <el-row>
                   <ns-button type="text" @click='onShowGroupDetail(scope.row)'>{{scope.row.displayname}}</ns-button>
                 </el-row>
                 <el-row>
-                  <span>群公告群公告群公告群公告群公告群公告群公告群公告群公告群公告群公
-                    告群公告群公告群公告群公告群公告群公告群公告群公告群公告群公告群公告群公告群公告群公告群公告群公告</span>
+                  <span>{{scope.row.chatroomnotice || '-'}}</span>
                 </el-row>
+              </template>
+              <template slot='header' scope='header'>
+                    <span>
+                      <span>{{header.column.label}}</span>
+                      <el-popover placement='bottom' width='220' trigger='hover' content='点击群名称，可查看此群下所有微信'>
+                        <i slot='reference' class='iconfont icon-xiangqingyiwen table-header-icon'></i>
+                      </el-popover>
+                    </span>
               </template>
             </el-table-column>
             <el-table-column :show-overflow-tooltip="true" type="default" prop=""

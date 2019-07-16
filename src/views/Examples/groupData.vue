@@ -146,25 +146,19 @@
       title="新建群聊"
       :visible.sync="dialogVisible1"
       width="663px" class="dialog-chat">
-      <el-row  class="dialog-chat__header">
-        <el-col :span="3">
-          <div class="dialog-name">
-            <spn class="dialog-name__start">*</spn>
-            <span class="dialog-name__group">群名称：</span>
-          </div>
-        </el-col>
-        <el-col :span="13">
-          <div class="dialog-inputname">
-            <el-input v-model="input" placeholder="输入群名称"></el-input>
-          </div>
-        </el-col>
-        <el-col :span="4">
+      <el-form  class="dialog-chat__form" inline>
+        <el-form-item label="群名称：" required>
+          <el-form-grid size="lg">
+            <el-input></el-input>
+          </el-form-grid>
+        </el-form-item>
+        <el-form-item>
           <div class="dialog-max">
             <i class="iconfont icon-tishi"></i>
             <span class="dialog-max__length">字数最多15字</span>
           </div>
-        </el-col>
-      </el-row>
+        </el-form-item>
+      </el-form>
       <div class="dialog-chat__content dialog-chat__content--boderbottom">
         <div class="dialog-left">
           <div class="dialog-left__input">
@@ -261,12 +255,10 @@
       title="好友排重筛选"
       :visible.sync="dialogVisible2"
       width="663px" class="dialog-chat">
-      <el-row class="dialog-chat__header">
-        <el-col :span="10">
-          <div class="dialog-person">
-            <spn class="dialog-person__start">*</spn>
-            <span>选择个人号：</span>
-            <el-select v-model="value" placeholder="全部" class="dialog-person__select">
+      <el-form  class="dialog-chat__form" inline>
+        <el-form-item label="选择个人号：" required>
+          <el-form-grid size="md">
+            <el-select v-model="value" placeholder="全部" class="dialog-person__select" size='small'>
               <el-option
                 v-for="item in options"
                 :key="item.value"
@@ -274,25 +266,22 @@
                 :value="item.value">
               </el-option>
             </el-select>
-          </div>
-        </el-col>
-        <el-col :span="11">
-          <div class="dialog-searchname">
-            <span  class="dialog-searchname__text">搜索微信群：</span>
+          </el-form-grid>
+        </el-form-item>
+        <el-form-item label="搜索微信群：">
+          <el-form-grid size="xmd">
             <el-input
               placeholder="输入群名称"
               prefix-icon="el-icon-search"
               v-model="input"
               clearable>
             </el-input>
-          </div>
-        </el-col>
-        <el-col :span="2">
-          <div class="dialog-find">
-            <ns-button type="primary" class="dialog-find__btn">搜索</ns-button>
-          </div>
-        </el-col>
-      </el-row>
+          </el-form-grid>
+          <el-form-grid>
+            <ns-button type="primary">搜索</ns-button>
+          </el-form-grid>
+        </el-form-item>
+      </el-form>
       <div class="dialog-chat__content dialog-chat__content--top">
         <div class="dialog-left">
           <div class="dialog-left__checkbox">
@@ -369,33 +358,33 @@
       :visible.sync="dialogVisible3"
       width="504px" class="detail-dialog">
       <div class="detail-dialog__content">
-        <el-form label-width="80px" class="detail-leftside">
+        <el-form label-width="90px" class="detail-leftside">
           <el-form-item label="微信号：" class="detail-leftside__item">
-            <el-form-grid  class="detail-leftside__item--blackcolor detail-leftside__item--rowheight">baiyu19900408</el-form-grid>
+            <el-form-grid>baiyu19900408</el-form-grid>
           </el-form-item>
           <el-form-item label="微信昵称：" class="detail-leftside__item">
-            <el-form-grid class="detail-leftside__item--blackcolor">长安自在风</el-form-grid>
+            <el-form-grid>长安自在风</el-form-grid>
           </el-form-item>
           <el-form-item label="性别：" class="detail-leftside__item">
-            <el-form-grid class="detail-leftside__item--blackcolor">男</el-form-grid>
+            <el-form-grid>男</el-form-grid>
           </el-form-item>
-          <el-form-item label="地区：" class="detail-leftside__item">
-            <el-form-grid class="detail-leftside__item--blackcolor">中国 / 浙江 / 杭州市</el-form-grid>
+          <el-form-item label="地区：">
+            <el-form-grid>中国 / 浙江 / 杭州市</el-form-grid>
           </el-form-item>
-          <el-form-item label="所属微信群：" class="detail-leftside__item">
-            <el-form-grid class="detail-leftside__item--blackcolor">易也难</el-form-grid>
+          <el-form-item label="所属微信群：">
+            <el-form-grid>易也难</el-form-grid>
           </el-form-item>
-          <el-form-item label="群公告：" class="detail-leftside__item">
-            <el-form-grid class="detail-leftside__item--blackcolor">天王盖地虎，八月十五号三周年店庆2029优惠多多</el-form-grid>
+          <el-form-item label="群公告：">
+            <el-form-grid>天王盖地虎，八月十五号三周年店庆2029优惠多多</el-form-grid>
           </el-form-item>
-          <el-form-item label="入会时间：" class="detail-leftside__item">
-            <el-form-grid class="detail-leftside__item--blackcolor">2019-06-27 11:50:06</el-form-grid>
+          <el-form-item label="入会时间：" >
+            <el-form-grid>2019-06-27 11:50:06</el-form-grid>
           </el-form-item>
-          <el-form-item label="专属导购：" class="detail-leftside__item">
-            <el-form-grid class="detail-leftside__item--blackcolor">易也难</el-form-grid>
+          <el-form-item label="专属导购：">
+            <el-form-grid>易也难</el-form-grid>
           </el-form-item>
-          <el-form-item label="是否与专属导购成为好友关系：" label-width="180px" class="detail-leftside__item">
-            <el-form-grid class="delete-leftside__item--blackcolor">是</el-form-grid>
+          <el-form-item label="是否与专属导购成为好友关系：" label-width="200px">
+            <el-form-grid>是</el-form-grid>
           </el-form-item>
         </el-form>
         <div class="detail-rightside">
@@ -456,11 +445,14 @@ export default {
         padding: 0 10px;
         margin: 5px 0 15px;
       }
+      @e form {
+        padding-left: 5px;
+      }
       @e content{
         display: flex;
         margin: 20px 10px 0;
         @m boderbottom {
-          border-bottom: 1px solid  #F2F2F2;;
+          border-bottom: 1px solid  #F2F2F2;
         }
         @m top {
           margin-top: 30px !important;
@@ -506,7 +498,6 @@ export default {
         font-weight: bold;
         padding-top: 53px;
       }
-      @e content {  }
     }
     @b selectitem {
       font-size: var(--default-font-size-small);
@@ -522,28 +513,11 @@ export default {
         text-overflow: ellipsis;
       }
     }
-    @b btn {
-      @e next {
-        color: var( --theme-color-white);
-        background: var(--theme-background-color-blue);
-      }
-    }
-    @b name {
-      @e start {
-        font-size: var(--default-font-size-small);
-        color: var(--theme-font-color-red);
-      }
-      @e group {}
-    }
-    @b inputname {
-      margin-left: -10px;
-    }
     @b max {
       text-align: center;
-      line-height: 36px;
+      line-height: 28px;
       width: 123px;
-      height: 36px;
-      margin-left: 10px;
+      height: 28px;
       background: #f1f8ff;
       @e length {
         font-size: var(--default-font-size-small);
@@ -560,11 +534,6 @@ export default {
     @b person {
       font-size: var(--default-font-size-base);
       color: var(--theme-font-color-black);
-      @e start {
-        font-size: var(--default-font-size-small);
-        color: var(--theme-font-color-red);
-        margin-top: 10px;
-      }
     }
     @b searchname {
       display: flex;
@@ -596,14 +565,6 @@ export default {
     @b leftside {
       width: 65%;
       padding-top: 10px;
-      @e item {
-        font-size: var(--default-font-size-base);
-        color: var(--theme-font-color-secondary);
-      }
-      @m blackcolor {
-        font-size: var(--default-font-size-base);
-        color: var(--theme-font-color-primary);
-      }
     }
     @b rightside {
       width: 84px;
@@ -617,6 +578,13 @@ export default {
         border-radius: 50%;
       }
     }
+  }
+  >>> .el-form-item__label {
+    font-size: var(--default-font-size-base);
+    color: var(--theme-font-color-secondary);
+  }
+  >>>.el-dialog__body {
+    color: var(--theme-font-color-primary);
   }
  .icon-shanchu2 {
    font-size: var(--default-font-size-base);
@@ -651,9 +619,6 @@ export default {
   }
   >>> .el-input--prefix .el-input__inner {
     padding-left: 30px;
-  }
-  >>> .el-input__suffix {
-    top: 5px;
   }
   .scrollbara >>> .el-scrollbar__view {
     max-height: 400px;

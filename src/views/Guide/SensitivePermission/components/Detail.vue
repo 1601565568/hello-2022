@@ -75,6 +75,9 @@
           </template>
         </ns-page-table>
       </div>
+      <span slot="footer" class="dialog-footer">
+        <ns-button @click="sVisible = false">关闭</ns-button>
+      </span>
     </el-dialog>
   </div>
 </template>
