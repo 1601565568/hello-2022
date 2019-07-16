@@ -358,33 +358,33 @@
       :visible.sync="dialogVisible3"
       width="504px" class="detail-dialog">
       <div class="detail-dialog__content">
-        <el-form label-width="80px" class="detail-leftside">
+        <el-form label-width="90px" class="detail-leftside">
           <el-form-item label="微信号：" class="detail-leftside__item">
-            <el-form-grid  class="detail-leftside__item--blackcolor detail-leftside__item--rowheight">baiyu19900408</el-form-grid>
+            <el-form-grid>baiyu19900408</el-form-grid>
           </el-form-item>
           <el-form-item label="微信昵称：" class="detail-leftside__item">
-            <el-form-grid class="detail-leftside__item--blackcolor">长安自在风</el-form-grid>
+            <el-form-grid>长安自在风</el-form-grid>
           </el-form-item>
           <el-form-item label="性别：" class="detail-leftside__item">
-            <el-form-grid class="detail-leftside__item--blackcolor">男</el-form-grid>
+            <el-form-grid>男</el-form-grid>
           </el-form-item>
-          <el-form-item label="地区：" class="detail-leftside__item">
-            <el-form-grid class="detail-leftside__item--blackcolor">中国 / 浙江 / 杭州市</el-form-grid>
+          <el-form-item label="地区：">
+            <el-form-grid>中国 / 浙江 / 杭州市</el-form-grid>
           </el-form-item>
-          <el-form-item label="所属微信群：" class="detail-leftside__item">
-            <el-form-grid class="detail-leftside__item--blackcolor">易也难</el-form-grid>
+          <el-form-item label="所属微信群：">
+            <el-form-grid>易也难</el-form-grid>
           </el-form-item>
-          <el-form-item label="群公告：" class="detail-leftside__item">
-            <el-form-grid class="detail-leftside__item--blackcolor">天王盖地虎，八月十五号三周年店庆2029优惠多多</el-form-grid>
+          <el-form-item label="群公告：">
+            <el-form-grid>天王盖地虎，八月十五号三周年店庆2029优惠多多</el-form-grid>
           </el-form-item>
-          <el-form-item label="入会时间：" class="detail-leftside__item">
-            <el-form-grid class="detail-leftside__item--blackcolor">2019-06-27 11:50:06</el-form-grid>
+          <el-form-item label="入会时间：" >
+            <el-form-grid>2019-06-27 11:50:06</el-form-grid>
           </el-form-item>
-          <el-form-item label="专属导购：" class="detail-leftside__item">
-            <el-form-grid class="detail-leftside__item--blackcolor">易也难</el-form-grid>
+          <el-form-item label="专属导购：">
+            <el-form-grid>易也难</el-form-grid>
           </el-form-item>
-          <el-form-item label="是否与专属导购成为好友关系：" label-width="180px" class="detail-leftside__item">
-            <el-form-grid class="delete-leftside__item--blackcolor">是</el-form-grid>
+          <el-form-item label="是否与专属导购成为好友关系：" label-width="200px">
+            <el-form-grid>是</el-form-grid>
           </el-form-item>
         </el-form>
         <div class="detail-rightside">
@@ -565,14 +565,6 @@ export default {
     @b leftside {
       width: 65%;
       padding-top: 10px;
-      @e item {
-        font-size: var(--default-font-size-base);
-        color: var(--theme-font-color-secondary);
-      }
-      @m blackcolor {
-        font-size: var(--default-font-size-base);
-        color: var(--theme-font-color-primary);
-      }
     }
     @b rightside {
       width: 84px;
@@ -586,10 +578,13 @@ export default {
         border-radius: 50%;
       }
     }
-    @b start {
-      font-size: var(--default-font-size-small);
-      color: var(--theme-font-color-red);
-    }
+  }
+  >>> .el-form-item__label {
+    font-size: var(--default-font-size-base);
+    color: var(--theme-font-color-secondary);
+  }
+  >>>.el-dialog__body {
+    color: var(--theme-font-color-primary);
   }
  .icon-shanchu2 {
    font-size: var(--default-font-size-base);
