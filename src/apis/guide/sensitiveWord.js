@@ -1,37 +1,39 @@
+const prefix = '/guide/sensitiveWord/'
+
 export default {
-  // 查询
+  // 查询敏感词
   findWordList: {
-    url: '/guide/sensitiveWord/findWordList',
+    url: prefix + 'findWordList',
     method: 'post'
   },
-  // 明细
-  detail: {
-    url: '/guide/sgSensitiveWord/detail',
+  // 新增分组
+  saveGroup: {
+    url: prefix + 'saveGroup',
     method: 'post'
   },
-  // 保存
-  save: {
-    url: '/guide/sgShopGroup/save',
+  // 修改分组
+  updateGroup: {
+    url: prefix + 'updateGroup',
     method: 'post'
   },
-  // 踢出员工
-  removeMember: {
-    url: '/guide/sgShopGroup/removeMember',
+  // 删除分组
+  removeGroup: {
+    url: prefix + 'removeGroup',
     method: 'post'
   },
-  // 解散
-  dissolution: {
-    url: '/guide/sgShopGroup/dissolution',
+  // 分组树
+  getGroupTree: {
+    url: prefix + 'getGroupTree',
     method: 'post'
   },
-  // 查询成员列表
-  findMemberList: {
-    url: '/guide/sgShopGroup/findMemberList',
+  // 保存敏感词
+  saveWord: {
+    url: prefix + 'saveWord',
     method: 'post'
   },
-  // 发送AI通知
-  sendMsg: {
-    url: '/guide/sgShopGroup/sendMsg',
+  // 删除敏感词
+  removeWord: {
+    url: prefix + 'removeWord',
     method: 'post'
   }
 }

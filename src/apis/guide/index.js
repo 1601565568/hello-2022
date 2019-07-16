@@ -13,6 +13,7 @@ import quicklyword from './quicklyword'
 import groupData from './groupData'
 import wxPrivateAccount from './wxPrivateAccount'
 import sensitivePermission from './sensitivePermission'
+import sensitiveWord from './sensitiveWord'
 import friendData from './friendData'
 export default {
   guide,
@@ -31,6 +32,7 @@ export default {
   groupData,
   wxPrivateAccount,
   sensitivePermission,
+  sensitiveWord,
   // 所有导购模块全部整合在此
   comGetBrandForShopList: {// 获取品牌下的店铺
     url: '/core/sgshop/getBrandList',
