@@ -17,7 +17,24 @@ export default {
       searchPrivateAccount: '',
       selectedPrivateAccountItem: [],
       privateAccountMap: {},
-      nextBtnDisabled: true
+      nextBtnDisabled: true,
+      selectedMemberDialog: {
+        visible: false
+      },
+      saveModel: {
+        displayname: '',
+        chatroomnotice: ''
+      },
+      searchFriend: '',
+      selectedFriend: [],
+      friendData: [],
+      selectedFriendItem: [],
+      FriendMap: {},
+      friendPagination: {
+        size: 10,
+        page: 1,
+        total: 0
+      }
     }
   },
   watch: {
@@ -52,6 +69,41 @@ export default {
       value.map(v => {
         Object.assign(this.privateAccountMap, { [v.wid]: v })
       })
+    },
+    friendData (value) {
+      this.FriendMap = {}
+      value.map(v => {
+        Object.assign(this.FriendMap, { [v.wid]: v })
+      })
+    },
+    selectedFriend (value) {
+      // 移除不存在的
+      let del = []
+      this.selectedFriendItem.forEach((v, i) => {
+        if (value.indexOf(v.wid) <= 0) {
+          del.push(i)
+        }
+      })
+      for (let i = 0; i < del.length; i++) {
+        this.selectedFriendItem.splice(del[i], 1)
+      }
+      value.map((v, i) => {
+        // 添加新增的
+        let item = this.FriendMap[v]
+        if (item) {
+          this.selectedFriendItem.push(Object.assign({}, item, { selectedIndex: i }))
+        }
+      })
+    },
+    'selectedMemberDialog.visible' (value) {
+      if (value) {
+        this.loadFriend()
+      }
+    }
+  },
+  computed: {
+    addBtnDisabled: function () {
+      return !this.saveModel.displayname || this.selectedFriend.length < 2
     }
   },
   mounted () {
@@ -61,6 +113,8 @@ export default {
     onClose () {
       this.$emit('update:visible', false)
       this.selectedPrivateAccount = []
+      this.pagination.page = 1
+      this.privateAccountData = []
     },
     loadWxPrivateAccount () {
       this.$http.fetch(this.$api.guide.wxPrivateAccount.tableLite, {
@@ -84,6 +138,33 @@ export default {
     },
     onRemoveSelectedPrivateAccount (value) {
       this.selectedPrivateAccount.splice(value.selectedIndex, 1)
+    },
+    onRemoveSelectedFriend (value) {
+      this.selectedFriend.splice(value.selectedIndex, 1)
+    },
+    loadFriend () {
+      this.$http.fetch(this.$api.guide.wxPrivateAccount.tableFriendLite, {
+        start: (this.friendPagination.page - 1) * this.friendPagination.size,
+        length: this.friendPagination.size,
+        searchMap: {
+          nick: this.searchPrivateAccount
+        }
+      })
+        .then(data => {
+          this.friendData = data.result.data
+          this.friendPagination.total = Number(data.result.recordsTotal)
+        })
+        .catch(error => {
+          this.$notify.error(getErrorMsg('获取个人号列表异常', error))
+        })
+    },
+    onFriendCurrentChange (page) {
+      this.friendPagination.page = page
+      this.loadFriend()
+    },
+    onSelectedMemberDialogClose () {
+      this.friendPagination.page = 1
+      this.friendData = []
     }
   }
 }
