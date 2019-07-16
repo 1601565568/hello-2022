@@ -16,6 +16,11 @@ export default {
     url: prefix + 'updateGroup',
     method: 'post'
   },
+  // 查询是否有敏感词
+  hasWordInGroup: {
+    url: prefix + 'hasWordInGroup',
+    method: 'post'
+  },
   // 删除分组
   removeGroup: {
     url: prefix + 'removeGroup',

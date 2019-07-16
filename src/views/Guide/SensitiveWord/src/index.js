@@ -1,9 +1,11 @@
 import tableMixin from 'web-crm/src/mixins/table'
 import moment from 'moment'
+import LocalStorage from 'store/dist/store.legacy.min.js'
 
 export default {
   mixins: [tableMixin],
   data: function () {
+    let that = this
     let pagination = {
       enable: true,
       size: 15,
@@ -14,7 +16,7 @@ export default {
     const tableButtons = [
       {
         'func': function () {
-          this.$emit('add')
+          that.showWordDetailDlg({})
         },
         'name': '新增敏感词'
       },
@@ -34,12 +36,22 @@ export default {
       isShowAddTreeNodePanel: false,
       // 分组名称
       groupName: '',
+      // 删除分组窗口
+      removeGroupDialogVisible: false,
+      // 删除分组窗口提示信息
+      removeGroupText: '',
+      // 删除分组窗口选择器
+      removeGroupSelectVisible: false,
       // 树加载
       treeLoading: false,
       // 分组列表，可能过滤
       groupList: [],
       // 所有分组列表
       dbGroupList: [],
+      // 删除分组下拉框选项
+      groupOptionsInRemoveGroupDlg: [],
+      // 删除分组下拉框值
+      groupInRemoveGroupDlg: null,
       loading: false,
       // 全部分组
       allGroupArr: { id: null, pId: null, label: '全部敏感词' },
@@ -53,7 +65,23 @@ export default {
       _queryConfig: { expand: false },
       multipleSelection: [],
       url: this.$api.guide.sensitiveWord.findWordList,
-      currGroupId: null
+      isShowSelecntInRemoveGroup: false,
+      searchGroupIds: null,
+      removeGroupModel: {
+        oriGroupId: null,
+        targetGroupId: null
+      },
+      wordDetailDlgVisible: false,
+      wordDetailModel: { name: null, groupId: null },
+      wordDetailRules: {
+        name: [
+          { required: true, message: '请输入敏感词', trigger: 'blur' },
+          { min: 1, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+        ],
+        groupId: [
+          { required: true, message: '请选择分组', trigger: 'change' }
+        ]
+      }
     }
   },
   methods: {
@@ -94,7 +122,7 @@ export default {
           if (callback != null) {
             callback()
           }
-          _this.$notify.info('添加分组成功')
+          _this.$notify.success('添加分组成功')
         } else {
           _this.$notify.error(resp.message)
         }
@@ -109,7 +137,7 @@ export default {
       this.$http.fetch(this.$api.guide.sensitiveWord.updateGroup, params).then(resp => {
         if (resp.success) {
           _this.setAddTreeNodePanelDisplay(false)
-          _this.$notify.info('修改分组成功')
+          _this.$notify.success('修改分组成功')
         } else {
           _this.$notify.error(resp.message)
         }
@@ -117,11 +145,77 @@ export default {
       })
     },
     // 删除分组
-    removeGroup (oriGroupId, targetGroupId) {
+    showRemoveGroupDlg (data) {
+      this.removeGroupModel.oriGroupId = data.id
+      this.removeGroupModel.targetGroupId = null
       let _this = this
-      let params = { oriGroupId: oriGroupId, targetGroupId: targetGroupId }
-      _this.$http.fetch(_this.$api.guide.sensitiveWord.removeGroup, params).then(resp => {
-        _this.loadGroupList()
+      let params = { id: data.id }
+      _this.$http.fetch(_this.$api.guide.sensitiveWord.hasWordInGroup, params).then(resp => {
+        _this.removeGroupText = '确认要删除 <font color="red">' + _this.getGroupNameFromTreeNode(data) + ' </font>分组吗?'
+        _this.removeGroupSelectVisible = resp.result
+        _this.removeGroupDialogVisible = true
+        _this.groupInRemoveGroupDlg = null
+        _this.isShowSelecntInRemoveGroup = resp.result
+        if (resp.result) {
+          // 加载分组options
+          this.loadGroupOptionsInRemoveGroupDlg()
+        }
+      })
+    },
+    // 加载迁移分组下拉框
+    loadGroupOptionsInRemoveGroupDlg () {
+      this.groupOptionsInRemoveGroupDlg = []
+      for (const row of this.dbGroupList) {
+        if (row.id !== null && row.id > 0 && row.id !== this.removeGroupModel.oriGroupId) {
+          this.addOption(this.groupOptionsInRemoveGroupDlg, row, '')
+        }
+      }
+    },
+    addOption (options, row, prefix) {
+      // 自身
+      const label = this.getGroupNameFromTreeNode(row)
+      options.push({ value: row.id, label: label, prefix: prefix })
+      // 子节点
+      if (row.children != null && row.children.length > 0) {
+        for (const childRow of row.children) {
+          const childPrefix = prefix + label
+          if (childRow.id !== this.removeGroupModel.oriGroupId) {
+            this.addOption(options, childRow, childPrefix)
+          }
+        }
+      }
+    },
+    // 删除分组
+    submitRemoveGroup () {
+      this.$refs.removeGroupForm.validate((valid) => {
+        if (valid) {
+          let _this = this
+          _this.$http.fetch(_this.$api.guide.sensitiveWord.removeGroup, this.removeGroupModel).then(resp => {
+            _this.removeGroupDialogVisible = false
+            _this.loadGroupList()
+          })
+        } else {
+          return false
+        }
+      })
+    },
+    // 删除分组
+    removeWord (row) {
+      this.$confirm('请确认是否删除敏感词?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        let _this = this
+        let params = { id: row.id }
+        _this.$http.fetch(_this.$api.guide.sensitiveWord.removeWord, params).then(resp => {
+          _this.$message({
+            type: 'success',
+            message: '删除成功!'
+          })
+          _this.loadGroupList()
+          _this.$reload()
+        })
       })
     },
     // 是否显示树节点的编辑面板
@@ -136,9 +230,13 @@ export default {
     showEditGroupMsgBox (nodeData, isAdd) {
       let _this = this
       let title = isAdd ? '新增分组' : '修改分组'
-      _this.$prompt('请输入分组', title, {
+      _this.$prompt('请输入分组名称，1到5位', title, {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
+        closeOnClickModal: false,
+        inputValidator: function (val) {
+          return val.length > 0 && val.length <= 5
+        },
         inputValue: isAdd ? '' : _this.getGroupNameFromTreeNode(nodeData)
       }).then(({ value }) => {
         if (isAdd) {
@@ -173,19 +271,56 @@ export default {
     // 点击分组
     onClickNode (data) {
       let _this = this
-      this.currGroupId = data.id
+      this.searchGroupIds = this.getAccessibleGroup(data)
       _this.loading = true
       _this.$reload().then(rep => {
         _this.loading = _this._data._loading
       })
     },
+    // 获取所有可访问的分组，包含子节点
+    getAccessibleGroup (data) {
+      if (data.id === null) {
+        return null
+      }
+      let ret = ',' + data.id
+      // 子节点
+      if (data.children !== null) {
+        for (const children of data.children) {
+          ret += ',' + this.getAccessibleGroup(children)
+        }
+      }
+      return ret.substr(1)
+    },
     moment (time) {
       return moment(time).format('YYYY-MM-DD HH:mm:ss')
     },
     '$handleParams': function (params) {
-      let _this = this
-      params.searchMap.groupId = this.currGroupId
+      params.searchMap.groupId = this.searchGroupIds
       return params
+    },
+    // 新增/修改敏感词
+    showWordDetailDlg () {
+      this.wordDetailModel.name = null
+      this.wordDetailModel.groupId = null
+      this.wordDetailModel.creatorName = LocalStorage.get('remumber_login_info').name
+      this.wordDetailDlgVisible = true
+    },
+    // 保存敏感词
+    saveWord () {
+      this.$refs.wordDetailForm.validate((valid) => {
+        if (valid) {
+          let _this = this
+          _this.$http.fetch(_this.$api.guide.sensitiveWord.saveWord, this.wordDetailModel).then(resp => {
+            _this.wordDetailDlgVisible = false
+            _this.loading = true
+            _this.$reload().then(rep => {
+              _this.loading = _this._data._loading
+            })
+          })
+        } else {
+          return false
+        }
+      })
     }
   },
   // 初始化
