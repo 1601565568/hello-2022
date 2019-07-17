@@ -125,7 +125,7 @@
     <!-- 敏感词详情 -->
     <template>
       <el-dialog title="新增敏感词" :visible.sync="wordDetailDlgVisible" width="400px" height="240px">
-        <el-form :model="wordDetailModel" ref="wordDetailForm" :rule="wordDetailRules">
+        <el-form :model="wordDetailForm" ref="wordDetailForm" :rules="wordDetailRules">
           <table cellspacing="0" cellpadding="0">
             <tr>
               <td width="70px">
@@ -133,7 +133,7 @@
               </td>
               <td>
                 <el-form-item prop="name">
-                  <el-input v-model="wordDetailModel.name" style="width:220px"/>
+                  <el-input v-model="wordDetailForm.name" style="width:220px"/>
                 </el-form-item>
               </td>
             </tr>
@@ -147,10 +147,10 @@
               </td>
               <td>
                 <el-form-item prop="groupId">
-                  <el-select placeholder="请选择分组" v-model="wordDetailModel.groupId" clearable filterable
+                  <el-select placeholder="请选择分组" v-model="wordDetailForm.groupId" clearable filterable
                              style="width:220px">
                     <el-option
-                      v-for="item in groupOptionsInRemoveGroupDlg" :key="item.value" :label="item.label"
+                      v-for="item in groupOptionsInWordDlg" :key="item.value" :label="item.label"
                       :value="item.value">
                   <span style="color: #8492a6; " v-if="item.prefix != ''">
                     <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
@@ -167,7 +167,7 @@
                 &nbsp;&nbsp;创建人:
               </td>
               <td>
-                {{wordDetailModel.creatorName}}
+                {{wordDetailForm.creatorName}}
               </td>
             </tr>
             <tr>

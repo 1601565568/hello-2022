@@ -72,11 +72,13 @@ export default {
         targetGroupId: null
       },
       wordDetailDlgVisible: false,
-      wordDetailModel: { name: null, groupId: null },
+      // 新增敏感词分组下拉框选项
+      groupOptionsInWordDlg: [],
+      wordDetailForm: { name: null, groupId: null },
       wordDetailRules: {
         name: [
           { required: true, message: '请输入敏感词', trigger: 'blur' },
-          { min: 1, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+          { min: 1, max: 5, message: '长度在 1 到 5 个字符', trigger: 'blur' }
         ],
         groupId: [
           { required: true, message: '请选择分组', trigger: 'change' }
@@ -101,6 +103,9 @@ export default {
             }
           }
           this.allGroupArr.label = '全部敏感词(' + count + ')'
+          // 刷新下拉框
+          this.groupOptionsInRemoveGroupDlg = this.getGroupOptions(this.removeGroupModel.oriGroupId)
+          this.groupOptionsInWordDlg = this.getGroupOptions(null)
         }
         this.treeLoading = false
       })
@@ -158,20 +163,23 @@ export default {
         _this.isShowSelecntInRemoveGroup = resp.result
         if (resp.result) {
           // 加载分组options
-          this.loadGroupOptionsInRemoveGroupDlg()
+          this.groupOptionsInRemoveGroupDlg = this.getGroupOptions(this.removeGroupModel.oriGroupId)
         }
       })
     },
     // 加载迁移分组下拉框
-    loadGroupOptionsInRemoveGroupDlg () {
-      this.groupOptionsInRemoveGroupDlg = []
+    getGroupOptions (exceptGroupId) {
+      let options = []
       for (const row of this.dbGroupList) {
-        if (row.id !== null && row.id > 0 && row.id !== this.removeGroupModel.oriGroupId) {
-          this.addOption(this.groupOptionsInRemoveGroupDlg, row, '')
+        if (row.id !== null && row.id > 0) {
+          if (exceptGroupId == null || row.id !== exceptGroupId) {
+            this.addOption(options, row, '', exceptGroupId)
+          }
         }
       }
+      return options
     },
-    addOption (options, row, prefix) {
+    addOption (options, row, prefix, exceptGroupId) {
       // 自身
       const label = this.getGroupNameFromTreeNode(row)
       options.push({ value: row.id, label: label, prefix: prefix })
@@ -179,7 +187,7 @@ export default {
       if (row.children != null && row.children.length > 0) {
         for (const childRow of row.children) {
           const childPrefix = prefix + label
-          if (childRow.id !== this.removeGroupModel.oriGroupId) {
+          if (childRow.id !== exceptGroupId) {
             this.addOption(options, childRow, childPrefix)
           }
         }
@@ -300,22 +308,27 @@ export default {
     },
     // 新增/修改敏感词
     showWordDetailDlg () {
-      this.wordDetailModel.name = null
-      this.wordDetailModel.groupId = null
-      this.wordDetailModel.creatorName = LocalStorage.get('remumber_login_info').name
+      this.wordDetailForm.name = null
+      this.wordDetailForm.groupId = null
+      this.wordDetailForm.creatorName = LocalStorage.get('remumber_login_info').name
       this.wordDetailDlgVisible = true
+      this.groupOptionsInWordDlg = this.getGroupOptions(null)
     },
     // 保存敏感词
     saveWord () {
       this.$refs.wordDetailForm.validate((valid) => {
         if (valid) {
           let _this = this
-          _this.$http.fetch(_this.$api.guide.sensitiveWord.saveWord, this.wordDetailModel).then(resp => {
+          _this.$http.fetch(_this.$api.guide.sensitiveWord.saveWord, this.wordDetailForm).then(resp => {
             _this.wordDetailDlgVisible = false
             _this.loading = true
             _this.$reload().then(rep => {
               _this.loading = _this._data._loading
             })
+            this.loadGroupList()
+            _this.$notify.success('保存成功')
+          }).catch(resp => {
+            _this.$notify.error(resp.msg)
           })
         } else {
           return false
