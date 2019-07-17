@@ -15,7 +15,8 @@
 <script>
   window.onload = function () {
     var recruitEntity
-    checkGuide()
+      getAuth()
+      //checkGuide()
     alert(localStorage.getItem('recruitInfo').toString())
   }
 
@@ -50,18 +51,43 @@
 
   function getAuth () {
     let authUrl
-    $.ajax({
-      url: backstageURL + '/getAuthURl',
-      type: 'post',
-      data: { redirectUrl: getRootPath() + '/addFriend.html', platform: '2' },
-      dataType: 'json',
-      success: function (data) {
-        authUrl = data.result
-        window.location.replace(authUrl)
-      }
-    })
+    // $.ajax({
+    //   url: backstageURL + '/getAuthURl',
+    //   type: 'post',
+    //   data: { redirectUrl: getRootPath() + '/checkCustomer.html', platform: '2' },
+    //   dataType: 'JSON',
+    //   contentType:'application/json;charset=utf-8',
+    //   success: function (data) {
+    //     authUrl = data.result
+    //     window.location.replace(authUrl)
+    //   }
+    // })
+
+      this.ajax(backstageURL + '/getAuthURl',{platform: '2' }).then(function(data){
+          window.location.replace(data.result)
+      })
   }
 
+  function ajax(url, data, params) {
+      data = JSON.stringify(data)
+      return new Promise(function(resolve, reject) {
+          $.ajax({
+              url: url,
+              type: params && params.type || 'post',
+              dataType: params && params.dataType || 'JSON',
+              data: data,
+              method:"post",
+              contentType: "application/json;charset=UTF-8",
+              success: function(res) {
+                  resolve(res)
+              },
+              error: function(res) {
+                  alert(res.m)
+              }
+          });
+      });
+
+  }
 </script>
 </body>
 </html>
