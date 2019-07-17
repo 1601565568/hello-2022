@@ -47,19 +47,12 @@
     </div>
 </div>
 <script type="text/javascript" src="./js/jquery-3.4.1.min.js"></script>
+<script type="text/javascript" src="./js/common.js"></script>
 <script>
   window.onload = function(){
     var userJsonStr = sessionStorage.getItem('userEntity');
     alert(localStorage.getItem('user').toString());
-   // window.location.replace("./memberCard.html")
   }
-  //获取参数封装
-  function GetPar(name) {
-    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
-    var r = window.location.search.substr(1).match(reg);
-    if(r != null) return decodeURIComponent(r[2]);
-    return null;
-  };
   function getURl () {
     $.ajax({
       url:'https://wehd.vecrp.com/ehdApi/auth/cardBagAuth',
@@ -68,20 +61,6 @@
       dataType:'json',
       success:function(data){
         alert(data)
-      }
-    })
-  };
-
-  function getAuth () {
-    let authUrl;
-    $.ajax({
-      url:'http://localhost/app/guide/zm/guideRecruit/getAuthURl',
-      type:'post',
-      data:{redirectUrl:'http://192.168.50.61:8080/mobile/memberCard.html',platform:'2'},
-      dataType:'json',
-      success:function(data){
-        authUrl = data.result;
-        window.location.replace(authUrl);
       }
     })
   };

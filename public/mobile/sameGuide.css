@@ -11,6 +11,7 @@ body {
     position: relative;
 }
 .membercard {
+    width: 100%;
 }
 .membercard .membercard__header{
     padding: 35px 20px 15px 20px;

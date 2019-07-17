@@ -9,6 +9,9 @@ html,body {
 body {
     background-image: linear-gradient(231deg, #4AADFA 0%, #5D7CFC 100%);
 }
+.addfriend {
+    width: 100%;
+}
 .addfriend .addfriend__success {
     font-size: 38px;
     color: #207BFB;
