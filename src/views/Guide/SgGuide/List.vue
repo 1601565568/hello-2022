@@ -282,9 +282,9 @@
                 </template>
               </el-table-column>
 
-              <el-table-column prop="work_id" label="会员卡号" align="left">
+              <el-table-column prop="memberCard" label="会员卡号" align="left">
                 <template slot-scope="scope">
-                  {{scope.row.work_id || '-'}}
+                  {{scope.row.memberCard || '-'}}
                 </template>
               </el-table-column>
 
