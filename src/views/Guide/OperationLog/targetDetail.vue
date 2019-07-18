@@ -93,7 +93,7 @@
       <!-- 表格布局-->
       <template slot="table">
         <el-table ref="table" :data="_data._table.data" class="template-table__main" stripe resizable
-                  v-loading.lock="_data._table.loadingtable"
+                  v-loading.lock="_data._table.loadingtable" max-height="480"
                   :element-loading-text="$t('prompt.loading')"
                   @sort-change="$orderChange$">
           <template v-if="tableType === 1 || tableType === 9">
