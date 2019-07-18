@@ -1,7 +1,7 @@
 <template>
 <div calss="NsTableGuide_main">
         <div class="template-page__row-left">
-          <el-input ref="quickText" style="width: 190px" v-model="filterTreeText" placeholder="输入店铺名称" clearable>
+          <el-input ref="quickText" style="width: 190px" v-model="filterTreeText" placeholder="输入店铺或员工名称" clearable>
             <i class="el-icon-search el-input__icon" slot="suffix" name="name" @click="$quickSearchAction$('name')"></i>
           </el-input>
           <div :class="offsetHeight?'elTrees':'elTree'" ref="elTree" :style="{ 'height' : height + 'px'}">
