@@ -240,7 +240,8 @@ export default {
         'start': _this.paginations.size * (_this.paginations.page - 1),
         searchMap: {
           'storeCouponCode': _this.storeModel.couponCode,
-          'isOnline': 0
+          'isOnline': 0,
+          'shop_name': _this.shopSearch.shopName
         }
       }).then(resp => {
         if (resp.success && resp.result.data != null) {
@@ -257,6 +258,7 @@ export default {
               _this.shopList.push(newShopObject)
             }
           }
+          this._data.paginations.total = Number(resp.result.recordsTotal)
         }
       }).catch((resp) => {
         _this.$notify.error(getErrorMsg('查询店铺列表失败', resp))
@@ -291,7 +293,6 @@ export default {
         let newShopObject = JSON.parse(shopObj)
         _this.shopList.push(newShopObject)
       }
-      _this.paginations.total = _this.shopAllList.length
     },
     /**
      * 计算优惠券总数couponTitle
@@ -356,26 +357,8 @@ export default {
      */
     onSearchShop: function () {
       var _this = this
-      _this.$http.fetch(_this.$api.guide.activityCoupon.findCouponShop, {
-        searchMap: {
-          'storeCouponCode': _this.storeModel.couponCode,
-          'shop_name': _this.shopSearch.shopName
-        },
-        'length': _this.paginations.size
-      }).then(resp => {
-        if (resp.success && resp.result != null) {
-          _this.shopList = []
-          for (var a = 0; a < resp.result.data.length; a++) {
-            // 通过key将value取出 转换为深拷贝
-            let shopObject = this.shopMap.get(resp.result.data[a].id)
-            let shopObj = JSON.stringify(shopObject)
-            let newShopObject = JSON.parse(shopObj)
-            _this.shopList.push(newShopObject)
-          }
-        }
-      }).catch((resp) => {
-        _this.$notify.error(getErrorMsg('查询店铺列表失败', resp))
-      })
+      _this.paginations.page = 1
+      this.findShopList()
     },
     /**
      * 保存活动优惠券

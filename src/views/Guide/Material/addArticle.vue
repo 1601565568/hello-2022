@@ -12,15 +12,18 @@
       <div class="comDialogBoxConOut" v-show='saveObj.articleType' style='flex:1'>
         <el-form :model="saveObj" :rules="rules" ref="Form1">
           <el-form-item  prop="title">
-            <el-form-grid size="xxmd">
-              <el-input  placeholder="请输入标题，长度在4-50个字符以内" v-model="saveObj.title" clearable size="medium"></el-input>
-            </el-form-grid>
+              <el-input type="text" maxlength='50' placeholder="请输入标题，长度在4-50个字符以内" v-model="saveObj.title" clearable size="medium"></el-input>
           </el-form-item>
         </el-form>
 
+        <el-form :model="saveObj" :rules="rules" ref="Form1">
+        <el-form-item  prop="url">
         <el-input placeholder="请输入合法链接"  size="medium" v-model="saveObj.url">
           <template slot="prepend">外链:</template>
         </el-input>
+        </el-form-item>
+        </el-form>
+
         <p style='margin-top:10px'><i class="el-icon-info text-tips">外链的内容仅在H5版本中显示，不会出现在小程序中</i></p>
       </div>
       <div v-show='!saveObj.articleType' style='flex:1'>
@@ -153,6 +156,9 @@ export default {
         title: [
           { required: true, message: '请输入素材标题', trigger: 'blur' },
           { min: 4, max: 50, message: '限制长度在4-50个字符以内', trigger: 'blur' }
+        ],
+        url: [
+          { required: true, message: '请输入合法链接', trigger: 'blur' }
         ],
         subdivisionId: [
           { required: true, message: '请选择素材分组', trigger: 'change' }

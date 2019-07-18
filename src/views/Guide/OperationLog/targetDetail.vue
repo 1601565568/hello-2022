@@ -5,7 +5,7 @@
         <el-form ref="table_form" @keyup.enter.native="findList()" :inline="true" :model="model" label-width="80px">
           <el-form-item label="数据模块：">
             <el-form-grid size="sm">
-              <el-select placeholder="请选择" v-model="moduleType" @change="setUrl" clearable filterable>
+              <el-select placeholder="请选择" v-model="moduleType" @change="setUrl"  filterable>
                 <el-option v-for="module in dataModule" :label="module.label" :value="module.value"
                            :key="module.value"></el-option>
               </el-select>
@@ -93,7 +93,7 @@
       <!-- 表格布局-->
       <template slot="table">
         <el-table ref="table" :data="_data._table.data" class="template-table__main" stripe resizable
-                  v-loading.lock="_data._table.loadingtable"
+                  v-loading.lock="_data._table.loadingtable" max-height="480"
                   :element-loading-text="$t('prompt.loading')"
                   @sort-change="$orderChange$">
           <template v-if="tableType === 1 || tableType === 9">

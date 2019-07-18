@@ -409,9 +409,11 @@ export default {
     },
     // 明细//
     formSearch () {
+      this.pagination1.page = 1
       this.findDetailData(this.guideId)
     },
     formReset () {
+      this.pagination1.page = 1
       this.customerName = null
       this.tradeNo = null
       this.type = null
