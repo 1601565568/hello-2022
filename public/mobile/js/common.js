@@ -1,4 +1,4 @@
-var backstageURL = 'http://test-sg.ecrpcloud.com/app/guide/zm/guideRecruit'
+var backstageURL = 'https://zhsg.ecrpcloud.com/app/guide/zm/guideRecruit'
 var getRootPath = function () {
   var curPageUrl = window.document.location.href
   var rootPath = curPageUrl.split('//')[0] + curPageUrl.split('//')[1].split('/')[0] +
