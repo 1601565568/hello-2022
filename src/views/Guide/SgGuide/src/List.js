@@ -511,7 +511,6 @@ export default {
               _this.returnInformationShow = true
               _this.successCount = resp.result.successCount
               _this.failCount = resp.result.failCount
-              _this.allDeleteFormVisible = true
             } else {
               _this.$notify.success('删除成功')
               _this.$refs.mainTable.$reload()
