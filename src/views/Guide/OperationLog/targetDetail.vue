@@ -5,7 +5,7 @@
         <el-form ref="table_form" @keyup.enter.native="findList()" :inline="true" :model="model" label-width="80px">
           <el-form-item label="数据模块：">
             <el-form-grid size="sm">
-              <el-select placeholder="请选择" v-model="moduleType" @change="setUrl" clearable filterable>
+              <el-select placeholder="请选择" v-model="moduleType" @change="setUrl"  filterable>
                 <el-option v-for="module in dataModule" :label="module.label" :value="module.value"
                            :key="module.value"></el-option>
               </el-select>
