@@ -42,24 +42,28 @@
                 if (result.success) {
                     // 根据数据状态跳转不同页面
                     alert(JSON.stringify(result.result))
-                    if(result.result.newMember){
+                    if (result.result.newMember) {
                         // 调用微信官方开卡界面
-                        wx.navigateToMiniProgram({
-                            appId: 'wxeb490c6f9b154ef9', // 固定为此appid，不可改动
-                             extraData: data, // 包括encrypt_card_id outer_str biz三个字段，须从step3中获得的链接中获取参数
-                             success: function() {
-
-                             },
-                            fail: function() {
-
-                            },
-                            complete: function() {
-
-                            }
-                        })
-                    }else{
-                        //
-
+                        // 初始化微信开卡JS-SDK
+                        initWXConfig()
+                        // 跳转开卡
+                        addCard(result.result.memberCard)
+                    } else {
+                        var bean = {
+                            guideImg: result.result.image,
+                            guideName: result.result.sgGuideName,
+                            guideQrCode: result.result.cardUrl,
+                            cardNumber: result.result.memberCard,
+                        }
+                        localStorage.setItem('showData', JSON.stringify(bean))
+                        //非新用户-跳转已经有导购界面
+                        if(recruitInfo.guideId == result.result.sgGuideId){
+                            //同一导购
+                            window.location.replace(getRootPath() + "sameGuide.html")
+                        }else{
+                            //不同导购
+                            window.location.replace(getRootPath() + "memberCard.html")
+                        }
                     }
 
 
@@ -71,6 +75,54 @@
         })
     }
 
+    /**
+     * 初始化微信JS-SDK参数
+     */
+    function initWXConfig() {
+        this.ajax(backstageURL + '/getInitWXConfigParam', {url: location.href.split('#')[0]}).then(function (data) {
+            wx.config(data.result);
+        })
+    }
+
+    /**
+     * 跳转会员领卡
+     */
+    function addCard(cardId) {
+        this.ajax(backstageURL + '/getAddCardExtParam').then(function (data) {
+            wx.addCard({
+                cardList: [{
+                    cardId: cardId,
+                    cardExt: data.result
+                }],
+                success: function (res) {
+                    var cardList = res.cardList; // 添加的卡券列表信息
+                    // 跳转开卡成功页面
+                    alert(JSON.stringify(cardList))
+                    window.location.replace(getRootPath() + "addFriend.html")
+                }
+            });
+        })
+    }
+
+    function ajax(url, data, params) {
+        data = JSON.stringify(data)
+        return new Promise(function (resolve, reject) {
+            $.ajax({
+                url: url,
+                type: params && params.type || 'post',
+                dataType: params && params.dataType || 'JSON',
+                data: data,
+                method: "post",
+                contentType: "application/json;charset=UTF-8",
+                success: function (res) {
+                    resolve(res)
+                },
+                error: function (res) {
+                    alert(res.m)
+                }
+            });
+        });
+    }
 </script>
 </body>
 </html>

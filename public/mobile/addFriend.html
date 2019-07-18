@@ -19,14 +19,14 @@
     <div class="addfriend__content">
         <div class="content">
             <div class="content__avatar">
-                <img src="../img/expression/memberAvatar.jpg" alt="用户头像" class="avatar__img">
+                <img id="guideImg" src="../img/expression/memberAvatar.jpg" alt="导购头像" class="avatar__img">
             </div>
             <div class="content__exclusive">专属导购</div>
-            <div class="content__username">王旺旺</div>
+            <div id="guideName" class="content__username">王旺旺</div>
             <div class="content__msg">
                 <div class="msg">
                     <div class="msg__circle"></div>
-                    <div class="msg__text">"你好，我是您的专属导购王旺旺，有什么问题随时可以咨询哦！”</div>
+                    <div class="msg__text">"你好，我是您的专属导购<span id="guideName1"></span>，有什么问题随时可以咨询哦！”</div>
                 </div>
             </div>
             <div class="content__division">
@@ -37,7 +37,7 @@
                 </div>
             </div>
             <div class="content__qrcode">
-                <img src="../img/expression/memberQrcode.png" alt="二维码" class="qrcodeimg">
+                <img id="guideQrCode" src="../img/expression/memberQrcode.png" alt="二维码" class="qrcodeimg">
             </div>
             <div class="content__become">长按识别二维码添加为好友</div>
             <div class="content__bottom">
@@ -49,22 +49,15 @@
 <script type="text/javascript" src="./js/jquery-3.4.1.min.js"></script>
 <script type="text/javascript" src="./js/common.js"></script>
 <script>
-  window.onload = function(){
-    var userJsonStr = sessionStorage.getItem('userEntity');
-    alert(localStorage.getItem('user').toString());
-  }
-  function getURl () {
-    $.ajax({
-      url:'https://wehd.vecrp.com/ehdApi/auth/cardBagAuth',
-      type:'get',
-      data:{appId: 'wxa698a4d4b8b82666'},
-      dataType:'json',
-      success:function(data){
-        alert(data)
-      }
-    })
-  };
-
+    window.onload = function () {
+        var showData = JSON.parse(localStorage.getItem('showData'));
+        if (showData) {
+            $("#guideImg").attr("src", showData.guideImg)
+            $("#guideName").innerText = showData.sgGuideName;
+            $("#guideName1").innerText = showData.sgGuideName;
+            $("#guideQrCode").attr("src", showData.cardUrl);
+        }
+    }
 </script>
 </body>
 </html>
