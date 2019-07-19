@@ -28,49 +28,47 @@
 
     function getCustomerInfo(encryptNascentId) {
         var recruitInfo = JSON.parse(localStorage.getItem('recruitInfo'));
-        $.ajax({
-            url: backstageURL + '/getCustomerInfo',
-            type: 'post',
-            data: {
-                guideId: recruitInfo.guideId,
-                shopId: recruitInfo.shopId,
-                brandId: recruitInfo.brandId,
-                encryptNascentId: encryptNascentId
-            },
-            dataType: 'json',
-            success: function (result) {
-                if (result.success) {
-                    // 根据数据状态跳转不同页面
-                    alert(JSON.stringify(result.result))
-                    if (result.result.newMember) {
-                        // 调用微信官方开卡界面
-                        // 初始化微信开卡JS-SDK
-                        initWXConfig()
-                        // 跳转开卡
-                        addCard(result.result.memberCard)
-                    } else {
-                        var bean = {
-                            guideImg: result.result.image,
-                            guideName: result.result.sgGuideName,
-                            guideQrCode: result.result.cardUrl,
-                            cardNumber: result.result.memberCard,
-                        }
-                        localStorage.setItem('showData', JSON.stringify(bean))
-                        //非新用户-跳转已经有导购界面
-                        if(recruitInfo.guideId == result.result.sgGuideId){
-                            //同一导购
-                            window.location.replace(getRootPath() + "sameGuide.html")
-                        }else{
-                            //不同导购
-                            window.location.replace(getRootPath() + "memberCard.html")
-                        }
-                    }
-
-
+        this.ajax(backstageURL + '/getCustomerInfo', {
+            guideId: recruitInfo.guideId,
+            shopId: recruitInfo.shopId,
+            brandId: recruitInfo.brandId,
+            encryptNascentId: encryptNascentId
+        }).then(function (result) {
+            if (result.success) {
+                // 根据数据状态跳转不同页面
+                alert(JSON.stringify(result.result))
+                if (result.result.newMember) {
+                    // 调用微信官方开卡界面
+                    // 初始化微信开卡JS-SDK
+                    initWXConfig()
+                    // 跳转开卡
+                    addCard(result.result.memberCard)
                 } else {
-                    // 跳转错误页
-                    alert(result.msg)
+                    console.log(JSON.stringify(result.result))
+                    var bean = {
+                        guideImg: result.result.image,
+                        guideName: result.result.sgGuideName,
+                        guideQrCode: result.result.cardUrl,
+                        memberCard: result.result.memberCard,
+                        shopName: result.result.shopName,
+                        brandName: result.result.brandName,
+                        memberGrade: result.result.memberGrade,
+                    }
+                    localStorage.setItem('showData', JSON.stringify(bean))
+                    console.log("check:"+JSON.stringify("showData").toString())
+                    //非新用户-跳转已经有导购界面
+                    if(recruitInfo.guideId == result.result.sgGuideId){
+                        //同一导购
+                        window.location.replace("sameGuide.html")
+                    }else{
+                        //不同导购
+                        window.location.replace("memberCard.html")
+                    }
                 }
+
+            } else {
+                // 跳转错误页
+                alert(result.msg)
             }
         })
     }
