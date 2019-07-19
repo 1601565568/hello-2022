@@ -16,20 +16,20 @@
         <div class="card">
             <div class="card__message">
                 <div class="avatar">
-                    <img id="customerImg" src="../img/expression/memberAvatar.jpg" alt="用户头像" class="avatar__img">
+                    <img id="customerImg" src="./img/expression/memberAvatar.jpg" alt="用户头像" class="avatar__img">
                 </div>
                 <div class="store">
                     <div class="store__name">
                         <div id="brandName" class="name">优衣库</div>
                         <div class="grade">
-                            <img src="../img/icons/vip.png" alt="会员等级">
+                            <img src="./img/icons/vip.png" alt="会员等级">
                             <text id="gradeLevel" class="grade__level">2</text>
                         </div>
                     </div>
                     <div id="shopName" class="store__address">宝龙一城店</div>
                 </div>
                 <div class="qrcode">
-                    <img src="../img/icons/QRcode.png" alt="二维码">
+                    <img src="./img/icons/QRcode.png" alt="二维码">
                 </div>
             </div>
             <div id="cardNumber" class="card__number">1258 1454 4879 4575</div>
@@ -46,7 +46,7 @@
                 </div>
             </div>
             <div class="content__qrcode">
-                <img id ="guideQrCode" src="../img/expression/memberQrcode.png" alt="二维码" class="qrcodeimg">
+                <img id ="guideQrCode" src="./img/expression/memberQrcode.png" alt="二维码" class="qrcodeimg">
             </div>
             <div class="content__chat">长按识别二维码进行聊天</div>
         </div>
@@ -54,7 +54,7 @@
     <div class="membercard__bottom">
         <div class="replace">
             <div class="replace__guide">如需更换专属导购，进入会员中心。</div>
-            <div class="replace__center">前往会员中心</div>
+            <div class="replace__center" onclick="toCustomerCenter()">前往会员中心</div>
         </div>
     </div>
 </div>
@@ -62,20 +62,52 @@
 <script type="text/javascript" src="./js/common.js"></script>
 <script>
     var encryptNascentId
-    window.onload = function () {
+    $(function () {
         var showData = JSON.parse(localStorage.getItem('showData'));
         if (showData) {
-            $("#guideImg").attr("src", showData.image)
-            $("#guideName").innerText = showData.sgGuideName;
-            $("#guideName1").innerText = showData.sgGuideName;
-            $("#gradeLevel").innerText = showData.gradeLevel;
-            $("#shopName").innerText = showData.shopName;
-            $("#brandName").innerText = showData.brandName;
-            $("#cardNumber").innerText = showData.cardNumber;
-            $("#qrCode").innerText = showData.cardUrl;
+            console.log(JSON.stringify(showData).toString())
+            $('#guideImg').attr("src", showData.guideImg)
+            $('#guideName').html(showData.guideName);
+            $('#guideName1').html(showData.guideName);
+            $('#gradeLevel').html(showData.gradeLevel);
+            $('#shopName').html(showData.shopName);
+            $('#brandName').html(showData.brandName);
+            $('#cardNumber').html(showData.cardNumber);
+            $('#guideQrCode').attr('src', showData.guideQrCode)
         }
+    })
+
+    function toCustomerCenter() {
+        var recruitInfo = JSON.parse(localStorage.getItem('recruitInfo'));
+        // 获取e互动店铺
+        this.ajax(backstageURL + '/getAuthURl',{
+            guideId: recruitInfo.guideId,
+            shopId: recruitInfo.shopId,
+            brandId: recruitInfo.brandId,
+        }).then(function(data){
+            window.location.replace("http://ehd.vecrp.com/shop"+data.result+"/wx55/home")
+        })
     }
 
+    function ajax(url, data, params) {
+        data = JSON.stringify(data)
+        return new Promise(function(resolve, reject) {
+            $.ajax({
+                url: url,
+                type: params && params.type || 'post',
+                dataType: params && params.dataType || 'JSON',
+                data: data,
+                method:"post",
+                contentType: "application/json;charset=UTF-8",
+                success: function(res) {
+                    resolve(res)
+                },
+                error: function(res) {
+                    alert(res.m)
+                }
+            });
+        });
+    }
 </script>
 </body>
 </html>

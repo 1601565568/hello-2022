@@ -56,6 +56,7 @@
                             cardNumber: result.result.memberCard,
                         }
                         localStorage.setItem('showData', JSON.stringify(bean))
+                        console.log("check:"+JSON.stringify("showData").toString())
                         //非新用户-跳转已经有导购界面
                         if(recruitInfo.guideId == result.result.sgGuideId){
                             //同一导购
