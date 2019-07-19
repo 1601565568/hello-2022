@@ -44,13 +44,15 @@
                     // 跳转开卡
                     addCard(result.result.memberCard)
                 } else {
+                    console.log(JSON.stringify(result.result))
                     var bean = {
                         guideImg: result.result.image,
                         guideName: result.result.sgGuideName,
                         guideQrCode: result.result.cardUrl,
-                        cardNumber: result.result.memberCard,
+                        memberCard: result.result.memberCard,
                         shopName: result.result.shopName,
                         brandName: result.result.brandName,
+                        memberGrade: result.result.memberGrade,
                     }
                     localStorage.setItem('showData', JSON.stringify(bean))
                     console.log("check:"+JSON.stringify("showData").toString())
