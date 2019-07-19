@@ -23,7 +23,7 @@
                         <div id="brandName" class="name">优衣库</div>
                         <div class="grade">
                             <img src="./img/icons/vip.png" alt="会员等级">
-                            <text id="gradeLevel" class="grade__level">2</text>
+                            <text id="gradeLevel" class="grade__level">1</text>
                         </div>
                     </div>
                     <div id="shopName" class="store__address">宝龙一城店</div>
@@ -61,7 +61,6 @@
 <script type="text/javascript" src="./js/jquery-3.4.1.min.js"></script>
 <script type="text/javascript" src="./js/common.js"></script>
 <script>
-    var encryptNascentId
     $(function () {
         var showData = JSON.parse(localStorage.getItem('showData'));
         if (showData) {
@@ -80,7 +79,7 @@
     function toCustomerCenter() {
         var recruitInfo = JSON.parse(localStorage.getItem('recruitInfo'));
         // 获取e互动店铺
-        this.ajax(backstageURL + '/getAuthURl',{
+        this.ajax(backstageURL + '/getEHDShopId',{
             guideId: recruitInfo.guideId,
             shopId: recruitInfo.shopId,
             brandId: recruitInfo.brandId,

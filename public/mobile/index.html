@@ -13,79 +13,57 @@
 <script type="text/javascript" src="./js/jquery-3.4.1.min.js"></script>
 <script type="text/javascript" src="./js/common.js"></script>
 <script>
-  window.onload = function () {
-    var recruitEntity
-      checkGuide()
-    // alert(localStorage.getItem('recruitInfo').toString())
-  }
-
-  function checkGuide () {
-    recruitEntity = {
-      guideId: getPar('guideId'),
-      shopId: getPar('shopId'),
-      brandId: getPar('brandId')
+    window.onload = function () {
+        checkGuide()
     }
-    localStorage.setItem('recruitInfo', JSON.stringify(recruitEntity))
-    alert(localStorage.getItem('recruitInfo').toString())
-    $.ajax({
-      url: backstageURL + '/checkGuide',
-      type: 'post',
-      data: {
-        guideId: getPar('guideId'),
-        shopId: getPar('shopId'),
-        brandId: getPar('brandId')
-      },
-      dataType: 'json',
-      success: function (result) {
-        if(result.success){
-          // 跳转授权地址
-          getAuth()
-        }else{
-          // 跳转错误页
-          alert(result.msg)
+
+    function checkGuide() {
+        recruitEntity = {
+            guideId: getPar('guideId'),
+            shopId: getPar('shopId'),
+            brandId: getPar('brandId')
         }
-      }
-    })
-  }
+        localStorage.setItem('recruitInfo', JSON.stringify(recruitEntity))
+        this.ajax(backstageURL + '/checkGuide', {
+            guideId: getPar('guideId'),
+            shopId: getPar('shopId'),
+            brandId: getPar('brandId')
+        }).then(function (result) {
+            if (result.success) {
+                // 跳转授权地址
+                getAuth()
+            } else {
+                // 跳转错误页
+                alert(result.msg)
+            }
+        })
+    }
 
-  function getAuth () {
-    let authUrl
-    // $.ajax({
-    //   url: backstageURL + '/getAuthURl',
-    //   type: 'post',
-    //   data: { redirectUrl: getRootPath() + '/checkCustomer.html', platform: '2' },
-    //   dataType: 'JSON',
-    //   contentType:'application/json;charset=utf-8',
-    //   success: function (data) {
-    //     authUrl = data.result
-    //     window.location.replace(authUrl)
-    //   }
-    // })
+    function getAuth() {
+        this.ajax(backstageURL + '/getAuthURl', {platform: '1'}).then(function (data) {
+            window.location.replace(data.result)
+        })
+    }
 
-      this.ajax(backstageURL + '/getAuthURl',{platform: '1' }).then(function(data){
-          window.location.replace(data.result)
-      })
-  }
-
-  function ajax(url, data, params) {
-      data = JSON.stringify(data)
-      return new Promise(function(resolve, reject) {
-          $.ajax({
-              url: url,
-              type: params && params.type || 'post',
-              dataType: params && params.dataType || 'JSON',
-              data: data,
-              method:"post",
-              contentType: "application/json;charset=UTF-8",
-              success: function(res) {
-                  resolve(res)
-              },
-              error: function(res) {
-                  alert(res.m)
-              }
-          });
-      });
-  }
+    function ajax(url, data, params) {
+        data = JSON.stringify(data)
+        return new Promise(function (resolve, reject) {
+            $.ajax({
+                url: url,
+                type: params && params.type || 'post',
+                dataType: params && params.dataType || 'JSON',
+                data: data,
+                method: "post",
+                contentType: "application/json;charset=UTF-8",
+                success: function (res) {
+                    resolve(res)
+                },
+                error: function (res) {
+                    alert(res.m)
+                }
+            });
+        });
+    }
 </script>
 </body>
 </html>

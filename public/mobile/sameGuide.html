@@ -23,7 +23,7 @@
                         <div id="brandName"  class="name">优衣库</div>
                         <div class="grade">
                             <img src="./img/icons/vip.png" alt="会员等级">
-                            <text id="gradeLevel" class="grade__level">2</text>
+                            <text id="gradeLevel" class="grade__level">1</text>
                         </div>
                     </div>
                     <div  id="shopName"  class="store__address">宝龙一城店</div>
@@ -58,14 +58,14 @@
     window.onload = function () {
         var showData = JSON.parse(localStorage.getItem('showData'));
         if (showData) {
-            $("#guideImg").attr("src", showData.image)
-            $("#guideName").innerText = showData.sgGuideName;
-            $("#guideName1").innerText = showData.sgGuideName;
-            $("#gradeLevel").innerText = showData.gradeLevel;
-            $("#shopName").innerText = showData.shopName;
-            $("#brandName").innerText = showData.brandName;
-            $("#cardNumber").innerText = showData.cardNumber;
-            $("#qrCode").innerText = showData.cardUrl;
+            $('#guideImg').attr("src", showData.guideImg)
+            $('#guideName').html(showData.guideName);
+            $('#guideName1').html(showData.guideName);
+            $('#gradeLevel').html(showData.gradeLevel);
+            $('#shopName').html(showData.shopName);
+            $('#brandName').html(showData.brandName);
+            $('#cardNumber').html(showData.cardNumber);
+            $('#guideQrCode').attr('src', showData.guideQrCode)
         }
     }
 
