@@ -46,11 +46,14 @@ body {
     float: left;
     margin: 10px 0px 0 50px;
 }
+.card .card__message .store  .store__name {
+    display: flex;
+    align-items: center;
+}
 .card .card__message .store .name {
     max-width: 70%;
     font-size: 40px;
     color: #FFFFFF;
-    display: inline-block;
     white-space:nowrap;
     overflow:hidden;
     text-overflow:ellipsis;
@@ -61,8 +64,7 @@ body {
     letter-spacing: 5px;
     height: 45px;
     padding: 0 12px;
-    margin: 8px 0 0 35px;
-    display: inline-block;
+    margin-left: 35px;
     background: rgba(255,255,255,0.00);
     border-radius: 30px;
     border: 1px solid #FFDE00;
