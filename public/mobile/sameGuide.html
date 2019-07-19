@@ -23,7 +23,7 @@
                         <div id="brandName"  class="name">优衣库</div>
                         <div class="grade">
                             <img src="./img/icons/vip.png" alt="会员等级">
-                            <text id="gradeLevel" class="grade__level">1</text>
+                            <text id="memberGrade" class="grade__level">1</text>
                         </div>
                     </div>
                     <div  id="shopName"  class="store__address">宝龙一城店</div>
@@ -32,7 +32,7 @@
                     <img src="./img/icons/QRcode.png" alt="二维码">
                 </div>
             </div>
-            <div id="cardNumber" class="card__number">1258 1454 4879 4575</div>
+            <div id="memberCard" class="card__number">1258 1454 4879 4575</div>
         </div>
     </div>
     <div class="membercard__content">
@@ -61,10 +61,10 @@
             $('#guideImg').attr("src", showData.guideImg)
             $('#guideName').html(showData.guideName);
             $('#guideName1').html(showData.guideName);
-            $('#gradeLevel').html(showData.gradeLevel);
+            $('#memberGrade').html(showData.memberGrade);
             $('#shopName').html(showData.shopName);
             $('#brandName').html(showData.brandName);
-            $('#cardNumber').html(showData.cardNumber);
+            $('#memberCard').html(showData.memberCard);
             $('#guideQrCode').attr('src', showData.guideQrCode)
         }
     }
