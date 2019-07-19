@@ -327,6 +327,9 @@ export default {
     },
     $resetInput: function () {
       let _this = this
+      _this.moduleType = _this.dataModule ? _this.dataModule[0].value : null
+      _this.setUrl(_this.moduleType)
+      _this.tableType = this.moduleType
       for (let key1 in _this.model) {
         if (_this.model[key1] instanceof Object) {
           for (let key2 in _this.model[key1]) {
