@@ -14,7 +14,7 @@
 <script type="text/javascript" src="./js/common.js"></script>
 <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.4.0.js"></script>
 <script>
-    window.onload = function () {
+    $(document).ready(function () {
         var success = getPar('success');
         var msg = getPar('msg');
         var data = getPar('data');
@@ -24,6 +24,9 @@
             // 跳转错误页
             alert(msg)
         }
+    })
+    window.onload = function () {
+
     }
 
     function getCustomerInfo(encryptNascentId) {
@@ -36,13 +39,15 @@
         }).then(function (result) {
             if (result.success) {
                 // 根据数据状态跳转不同页面
-                alert(JSON.stringify(result.result))
-                if (result.result.newMember) {
+                alert("newMember:"+result.result.newMember)
+                if (true) {
                     // 调用微信官方开卡界面
                     // 初始化微信开卡JS-SDK
-                    initWXConfig()
-                    // 跳转开卡
-                    addCard(result.result.memberCard)
+                    initWXConfig(function (cardId) {
+                        // 跳转开卡
+                        addCard(cardId,result.result.memberCard)
+                    })
+
                 } else {
                     console.log(JSON.stringify(result.result))
                     var bean = {
@@ -55,12 +60,12 @@
                         memberGrade: result.result.memberGrade,
                     }
                     localStorage.setItem('showData', JSON.stringify(bean))
-                    console.log("check:"+JSON.stringify("showData").toString())
+                    console.log("check:" + JSON.stringify("showData").toString())
                     //非新用户-跳转已经有导购界面
-                    if(recruitInfo.guideId == result.result.sgGuideId){
+                    if (recruitInfo.guideId == result.result.sgGuideId) {
                         //同一导购
                         window.location.replace("sameGuide.html")
-                    }else{
+                    } else {
                         //不同导购
                         window.location.replace("memberCard.html")
                     }
@@ -76,29 +81,38 @@
     /**
      * 初始化微信JS-SDK参数
      */
-    function initWXConfig() {
-        this.ajax(backstageURL + '/getInitWXConfigParam', {url: location.href.split('#')[0]}).then(function (data) {
-            wx.config(data.result);
+    function initWXConfig(back) {
+        var address = location.href.split('#')[0]
+        this.ajax(backstageURL + '/getInitWXConfigParam', {url: address}).then(function (data) {
+            wx.config(data.result.config);
+            if (back) {
+                back(data.result.cardId)
+            }
         })
     }
 
     /**
      * 跳转会员领卡
      */
-    function addCard(cardId) {
-        this.ajax(backstageURL + '/getAddCardExtParam').then(function (data) {
-            wx.addCard({
-                cardList: [{
-                    cardId: cardId,
-                    cardExt: data.result
-                }],
-                success: function (res) {
-                    var cardList = res.cardList; // 添加的卡券列表信息
-                    // 跳转开卡成功页面
-                    alert(JSON.stringify(cardList))
-                    window.location.replace(getRootPath() + "addFriend.html")
-                }
-            });
+    function addCard(cardId, memberCard) {
+        var newCardId = cardId
+        this.ajax(backstageURL + '/getAddCardExtParam', {code: memberCard}).then(function (data) {
+            wx.ready(function () {
+                wx.addCard({
+                    cardList: [{
+                        cardId: cardId,
+                        cardExt: JSON.stringify(data.result)
+                    }],
+                    success: function (res) {
+                        var cardList = res.cardList; // 添加的卡券列表信息
+                        var guideData = JSON.parse(localStorage.getItem('showData'));
+                        // 跳转开卡成功页面
+                        window.location.replace("addFriend.html?guideQrCode="+guideData.guideQrCode+"&guideName="+guideData.guideName+"&guideImg="+guideData.guideImg)
+                    },
+                    fail: function (res) {
+                    }
+                });
+            })
         })
     }
 
@@ -116,6 +130,7 @@
                     resolve(res)
                 },
                 error: function (res) {
+                    // 跳转错误页
                     alert(res.m)
                 }
             });
