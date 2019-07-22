@@ -341,8 +341,8 @@ export default {
       this.$set(this.saveObj.imageList, 0, res.result.url)
     },
     beforeAvatarUpload (file) {
-      if (file.size / 1024 > 200) {
-        this.$notify.warning('上传图片不得大于200KB')
+      if (file.size / 1024 > 500) {
+        this.$notify.warning('上传图片不得大于500KB')
         return false
       }
       // 图片格式判断

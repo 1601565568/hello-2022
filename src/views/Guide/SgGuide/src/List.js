@@ -1582,8 +1582,8 @@ export default {
       this.row = null
     },
     beforeAvatarUpload (file) {
-      if (file.size / 1024 > 200) {
-        this.$notify.error('上传图片不得大于200KB')
+      if (file.size / 1024 > 500) {
+        this.$notify.error('上传图片不得大于500KB')
         return false
       }
       // 图片格式判断
