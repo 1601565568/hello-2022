@@ -153,6 +153,7 @@ export default {
           { required: true, message: '请添加素材图片', trigger: 'change' }
         ],
         content: [
+          { required: true, message: '请输入推广文案', trigger: 'blur' },
           { min: 0, max: 10000, message: '限制长度在10000个字符以内', trigger: 'blur' }
         ]
       }

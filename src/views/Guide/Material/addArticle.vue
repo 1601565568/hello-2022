@@ -38,16 +38,16 @@
       </div>
 
       <el-form :model="saveObj" :rules="rules" ref="addForm"  style="margin-left:20px">
-        <el-form-item  prop="article">
+        <!--<el-form-item  prop="article">
             <el-radio-group v-model="saveObj.articleType">
                 <el-radio :label=0>添加文章
                 </el-radio>
                 <el-radio :label=1>添加外链文章
                 </el-radio>
             </el-radio-group>
-          </el-form-item>
+          </el-form-item>-->
 
-          <el-form-item  prop="content">
+          <el-form-item label="推广文案：" prop="content">
             <el-form-grid size="xxmd">
               <el-input resize="none" type="textarea" maxlength='10000' v-model="saveObj.content" placeholder="可在此输入推广文案，限制长度在10000个字符以内。"></el-input>
             </el-form-grid>
@@ -157,13 +157,14 @@ export default {
           { required: true, message: '请输入素材标题', trigger: 'blur' },
           { min: 4, max: 50, message: '限制长度在4-50个字符以内', trigger: 'blur' }
         ],
-        url: [
+        /*url: [
           { required: true, message: '请输入合法链接', trigger: 'blur' }
-        ],
+        ],*/
         subdivisionId: [
           { required: true, message: '请选择素材分组', trigger: 'change' }
         ],
         content: [
+          { required: true, message: '请输入推广文案', trigger: 'blur' },
           { min: 0, max: 10000, message: '限制长度在10000个字符以内', trigger: 'blur' }
         ]
 
