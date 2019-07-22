@@ -40,5 +40,10 @@ export default {
   removeWord: {
     url: prefix + 'removeWord',
     method: 'post'
+  },
+  // 监控查询
+  findMonitorList: {
+    url: prefix + 'findMonitorList',
+    method: 'post'
   }
 }

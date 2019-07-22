@@ -55,9 +55,18 @@
         <!-- 表格 -->
         <template slot="table">
           <el-table ref="table" :data="_data._table.data" stripe v-loading="loading" row-key="id">
-            <el-table-column prop="name" label="敏感词" align="left" width="500"/>
-            <el-table-column prop="groupName" label="分组" align="left" width="300"/>
-            <el-table-column prop="count" label="出现次数" align="left" width="200"/>
+            <el-table-column prop="name" label="敏感词" align="left" width="520"/>
+            <el-table-column prop="groupName" label="分组" align="left" width="200"/>
+            <el-table-column prop="guideCount" align="center" width="150" :render-header="renderHeaderGuideCount">
+              <template slot-scope="scope">
+                <span @click="clickCount(scope.row,0)"><font color="blue">{{scope.row.guideCount}}</font></span>
+              </template>
+            </el-table-column>
+            <el-table-column prop="customerCount" align="center" width="150" :render-header="renderHeaderCustomerCount">
+              <template slot-scope="scope">
+                <span @click="clickCount(scope.row,1)"><font color="blue">{{scope.row.guideCount}}</font></span>
+              </template>
+            </el-table-column>
             <el-table-column prop="creatorName" label="创建人" align="left" width="200"/>
             <el-table-column prop="createTime" label="创建时间" align="left" width="150"/>
             <el-table-column prop="status,row" :show-overflow-tooltip="true" label="操作" align="right" width="60">

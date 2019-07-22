@@ -22,7 +22,7 @@ export default {
       },
       {
         'func': function () {
-          this.$emit('add')
+          this.$router.push({ path: '/Guide/SensitiveWord/monitor' })
         },
         'name': '敏感词监控'
       }
@@ -256,6 +256,36 @@ export default {
         }
       })
     },
+    renderHeaderGuideCount (h, data) {
+      return h('div', {
+        attrs: {
+          class: 'cell',
+          style: 'margin-top:7px'
+        }
+      }, [h('span', ['导购发送次']), h('el-tooltip', {
+        attrs: {
+          class: 'el-icon-question bg-white',
+          effect: 'light',
+          content: '敏感词在导购所发送的消息中出现的次数',
+          placement: 'bottom'
+        }
+      }, [h('i', { 'class': 'el-icon-question', style: 'color:rgb(153, 153, 153)' })])])
+    },
+    renderHeaderCustomerCount (h, data) {
+      return h('div', {
+        attrs: {
+          class: 'cell',
+          style: 'margin-top:7px'
+        }
+      }, [h('span', ['会员发送次']), h('el-tooltip', {
+        attrs: {
+          class: 'el-icon-question bg-white',
+          effect: 'light',
+          content: '敏感词在会员所发送的消息中出现的次数',
+          placement: 'bottom'
+        }
+      }, [h('i', { 'class': 'el-icon-question', style: 'color:rgb(153, 153, 153)' })])])
+    },
     // 添加一级分组
     addRootGroup () {
       let _this = this
@@ -298,6 +328,10 @@ export default {
         }
       }
       return ret.substr(1)
+    },
+    // 点击数量
+    clickCount (row, recieve) {
+      this.$router.push({ name: 'SensitiveWord_monitor', params: { name: row.name, recieve: recieve } })
     },
     moment (time) {
       return moment(time).format('YYYY-MM-DD HH:mm:ss')

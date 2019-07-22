@@ -62,6 +62,12 @@ export default {
           'name': 'SensitiveWord_index',
           'title': '敏感词管理',
           'component': () => import('@/views/Guide/SensitiveWord/index')
+        },
+        {
+          'path': '/Guide/SensitiveWord/monitor',
+          'name': 'SensitiveWord_monitor',
+          'title': '敏感词监控',
+          'component': () => import('@/views/Guide/SensitiveWord/monitor')
         }
       ]
     },
