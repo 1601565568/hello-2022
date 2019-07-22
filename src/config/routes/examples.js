@@ -24,6 +24,12 @@ export default {
           'name': 'GroupData',
           'title': 'GroupData',
           'component': () => import('@/views/Examples/groupData')
+        },
+        {
+          'path': '/CircleOfFriends',
+          'name': 'CircleOfFriends',
+          'title': 'CircleOfFriends',
+          'component': () => import('@/views/Examples/circleOfFriends.vue')
         }
       ]
     }
