@@ -37,7 +37,7 @@
           </el-form-item>
           <el-form-item label="小程序链接：">
             <!-- clearable -->
-            <el-select  v-model="saveObj.codeModule" placeholder="请选择" @change='codeModuleChange'>
+            <el-select  v-model="saveObj.codeModule" placeholder="请选择" clearable @change='codeModuleChange'>
               <el-option v-for="item in wechatPageTypeList" :key="item.id" :label="item.name" :value="item.id" >
               </el-option>
             </el-select>
@@ -261,6 +261,9 @@ export default {
       if (this.saveObj.imageList.length >= 9 && this.saveObj.codeType === 2) {
         this.$notify.warning('加小程序码的素材最多8张图片')
         return
+      }
+      if (this.saveObj.codeModule === '' || this.saveObj.codeModule === null) {
+        this.saveObj.codeType = 0
       }
       this.loading = true
       await this.$http
