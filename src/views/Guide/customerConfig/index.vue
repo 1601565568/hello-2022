@@ -50,7 +50,7 @@
         <!-- 会员招募码配置结束 -->
 
         <!-- 会员更换导购配置开始 -->
-        <div class="form-grid" >
+        <!--<div class="form-grid" >
           <div class="form-grid__title" style="margin-top: 60px;">| 会员更换导购配置</div>
           <div class="form-grid__content" style="margin-left: -100px">
             <el-form-item size="xxs">
@@ -72,7 +72,7 @@
               <font v-if="model.limit_type > 0">&nbsp;次</font>
             </el-form-item>
           </div>
-        </div>
+        </div>-->
         <!-- 会员更换导购配置结束 -->
 
         <div v-if="status === 1" style="margin-top: 50px; margin-bottom: 250px; text-align: center;">
