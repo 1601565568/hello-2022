@@ -58,6 +58,12 @@ export default {
           'component': () => import('@/views/Guide/SgShopGroupRobot/index')
         },
         {
+          'path': '/Guide/WxChat/index',
+          'name': 'WxChat_index',
+          'title': '聊天记录',
+          'component': () => import('@/views/Guide/WxChat/index')
+        },
+        {
           'path': '/Guide/SensitiveWord/index',
           'name': 'SensitiveWord_index',
           'title': '敏感词管理',
