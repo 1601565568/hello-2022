@@ -1,428 +1,530 @@
 <template>
-  <div class="talk-chat">
-    <!--<ns-button @click="dialogVisible = true">发朋友圈</ns-button>-->
-    <div class="talk-chat__header">
-      <div class="talk-form">
-        <el-form :inline="true" class="talk-chat__form" label-width="150px">
-          <el-form-item>
-            <ns-button type="primary" @click="dialogVisible = true">发朋友圈</ns-button>
-          </el-form-item>
-          <el-form-item label="个人号：">
-            <el-select v-model="value" filterable placeholder="全部">
-              <el-option
-                v-for="item in options"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value">
-              </el-option>
-            </el-select>
-          </el-form-item >
-          <el-form-item label="内容类型：">
-            <el-select v-model="value" filterable placeholder="全部">
-              <el-option
-                v-for="item in options"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value">
-              </el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item label="关键字：">
-            <el-input v-model="input"></el-input>
-          </el-form-item>
-          <el-form-item label="日期：">
-            <el-date-picker
-              v-model="value2"
-              type="date"
-              placeholder="选择日期">
-            </el-date-picker>
-          </el-form-item>
-          <el-form-item label="关键字：">
-            <el-input v-model="input"></el-input>
-          </el-form-item>
-          <el-form-item label="点赞数：">
-            <el-input v-model="input"></el-input>
-          </el-form-item>
-          <el-form-item label="评论数：">
-            <el-input v-model="input"></el-input>
-          </el-form-item>
-          <el-form-item>
-            <ns-button type="primary">搜索</ns-button>
-            <ns-button >重置</ns-button>
-          </el-form-item>
-          <el-form-item>
-            <button type="button" class="el-button el-button--text el-button--small">
-              <span>
-                展开搜索
-                <i class="el-icon--right el-icon-arrow-down"></i>
-              </span>
-            </button>
-          </el-form-item>
-        </el-form>
-      </div>
-      <div class="talk-personal clearfix">
-        <el-form :inline="true" class="talk-chat__form" label-width="150px">
-          <el-form-item>
-            <div class="talk-personal__notice">
-              <i class="iconfont icon-xiaoxi"></i>
-            </div>
-          </el-form-item>
-          <el-form-item>
-            互动消息
-          </el-form-item>
-          <el-form-item class="talk-personal__checkbox">
-            <el-checkbox v-model="checked">只看未读</el-checkbox>
-          </el-form-item >
-        </el-form>
-      </div>
-    </div>
-    <el-container class="talk-chat__container">
-      <el-aside class="talk-aside">
-        <el-scrollbar ref="fullScreen">
-          <div class="talk-aside__list">
-            <div class="talk-item clearfix">
-              <div class="talk-item__avatar">
-                <img src="https://img.yzcdn.cn/upload_files/2019/01/24/FhbbngOXgEqTbkda8DPNCthA5r5V.jpg" class="talk-avatarimg" alt="朋友圈配图" >
-              </div>
-              <div class="talk-item__content">
-                <div class="talk-name">
-                  <span class="talk-name__call">起个名字好麻烦起个名字好麻烦起个名字好麻烦起</span>
-                  <span class="talk-name__private">个人号：微信昵称（ wechatid ）</span>
+  <el-container class="talk-chat__container">
+    <el-aside class="talk-aside" style="width: 65%">
+      <ns-page-table>
+        <!-- 按钮 -->
+        <template slot="buttons">
+          <ns-button type="primary">发朋友圈</ns-button>
+        </template>
+        <!-- 按钮-结束 -->
+
+        <!-- 简单搜索 -->
+        <!-- el-form 需添加 @submit.native.prevent 配置 -->
+        <!-- el-inpu 需添加  @keyup.enter.native="$quickSearchAction$" 配置，实现回车搜索 -->
+        <template slot="searchSearch">
+          <el-form :model="quickSearchModel" :inline="true" @submit.native.prevent class="pull-right">
+            <el-form-item v-show="_data._queryConfig.expand === false">
+              <el-input ref="quickText" v-model="quickSearchModel.customerName" placeholder="关键字：" @keyup.enter.native="$quickSearchAction$('customerName')">
+                <i class="el-icon-search el-input__icon" slot="suffix" name="name" @click="$quickSearchAction$('customerName')"></i>
+              </el-input>
+            </el-form-item>
+            <el-form-item>
+              <ns-button type="text" @click="$handleTabClick">
+                <!--{{collapseText}}-->
+                {{!_data._queryConfig.expand ? '展开搜索' : '收起搜索'}}
+                <i :class="{'el-icon--right': true, 'el-icon-arrow-down': !_data._queryConfig.expand, 'el-icon-arrow-up': _data._queryConfig.expand} ">
+                </i>
+              </ns-button>
+            </el-form-item>
+          </el-form>
+        </template>
+        <!-- 简单搜索-结束 -->
+
+        <!-- 高级搜索 -->
+        <!-- el-form 需添加  @keyup.enter.native="onSearch" 配置，实现回车搜索， onSearch 为搜索方法 -->
+        <!-- el-form 需添加  surround-btn 类名 配置环绕按钮效果 -->
+        <template slot="advancedSearch" v-if="_data._queryConfig.expand">
+          <el-form ref="table_filter_form" label-width="80px" @keyup.enter.native="onSearch" class="surround-btn"
+                   :model="model" :rules="rules" :inline="true">
+            <el-form-item label="个人号：">
+              <el-form-grid size="xmd">
+                <el-select v-model="model.userType" filterable clearable
+                           :multiple="false">
+                  <el-option label="潜客" value="0">
+                  </el-option>
+                  <el-option label="意向客户" value="1">
+                  </el-option>
+                  <el-option label="成交客户" value="2">
+                  </el-option>
+                </el-select>
+              </el-form-grid>
+            </el-form-item>
+            <el-form-item label="内容类型：">
+              <el-form-grid size="xmd">
+                <el-select v-model="model.userType" filterable clearable
+                           :multiple="false">
+                  <el-option label="潜客" value="0">
+                  </el-option>
+                  <el-option label="意向客户" value="1">
+                  </el-option>
+                  <el-option label="成交客户" value="2">
+                  </el-option>
+                </el-select>
+              </el-form-grid>
+            </el-form-item>
+            <el-form-item label="排序方式：">
+              <el-form-grid size="xmd">
+                <el-select v-model="model.userType" filterable clearable
+                           :multiple="false">
+                  <el-option label="潜客" value="0">
+                  </el-option>
+                  <el-option label="意向客户" value="1">
+                  </el-option>
+                  <el-option label="成交客户" value="2">
+                  </el-option>
+                </el-select>
+              </el-form-grid>
+            </el-form-item>
+            <el-form-item label="关键字：">
+              <el-form-grid size="xmd">
+                <el-input></el-input>
+              </el-form-grid>
+            </el-form-item>
+            <el-form-item label="日期：">
+              <el-form-grid size="xmd">
+                <el-date-picker
+                  type="date"
+                  placeholder="选择日期">
+                </el-date-picker>
+              </el-form-grid>
+            </el-form-item>
+            <el-form-item label="点赞数：">
+              <el-form-grid size="xmd">
+                <el-input></el-input>
+              </el-form-grid>
+            </el-form-item>
+            <el-form-item label="评论数：">
+              <el-form-grid size="xmd">
+                <el-input></el-input>
+              </el-form-grid>
+            </el-form-item>
+          </el-form>
+          <div class="template-table__more-btn">
+            <ns-button type="primary" @click="$searchAction$()">{{$t('operating.search')}}</ns-button>
+            <ns-button @click="$resetInputAction$()">{{$t('operating.reset')}}</ns-button>
+          </div>
+        </template>
+        <!-- 高级搜索-结束 -->
+
+        <!-- 表格 -->
+        <template slot="table">
+          <el-scrollbar ref="fullScreen">
+            <div class="talk-aside__list" ref="asd">
+              <div class="talk-item clearfix">
+                <div class="talk-item__avatar">
+                  <img src="https://img.yzcdn.cn/upload_files/2019/01/24/FhbbngOXgEqTbkda8DPNCthA5r5V.jpg" class="talk-avatarimg" alt="朋友圈配图" >
                 </div>
-                <div class="talk-sentence">散场总是难免的，尽兴而归就好散场总是难免的，尽兴而归就好散场总是难免的，尽兴而归就好散场总是难免的，尽兴而归就好散场总是难免的，尽兴而归就好散场总是难免的，尽兴而归就好</div>
-                <div class="talk-matching clearfix">
-                  <div class="talk-matching__photowall">
-                    <img src="https://img.yzcdn.cn/upload_files/2019/01/24/FhbbngOXgEqTbkda8DPNCthA5r5V.jpg" class="talk-matchingimg" alt="朋友圈配图">
+                <div class="talk-item__content">
+                  <div class="talk-name">
+                    <span class="talk-name__call">起个名字好麻烦起个名字好麻烦起个名字好麻烦起</span>
+                    <span class="talk-name__private">个人号：微信昵称（ wechatid ）</span>
                   </div>
-                  <div class="talk-matching__photowall">
-                    <img src="https://img.yzcdn.cn/upload_files/2019/01/24/FhbbngOXgEqTbkda8DPNCthA5r5V.jpg" class="talk-matchingimg" alt="朋友圈配图">
+                  <div class="talk-sentence">散场总是难免的，尽兴而归就好散场总是难免的，尽兴而归就好散场总是难免的，尽兴而归就好散场总是难免的，尽兴而归就好散场总是难免的，尽兴而归就好散场总是难免的，尽兴而归就好</div>
+                  <div class="talk-matching clearfix">
+                    <div class="talk-matching__photowall">
+                      <img src="https://img.yzcdn.cn/upload_files/2019/01/24/FhbbngOXgEqTbkda8DPNCthA5r5V.jpg" class="talk-matchingimg" alt="朋友圈配图">
+                    </div>
+                    <div class="talk-matching__photowall">
+                      <img src="https://img.yzcdn.cn/upload_files/2019/01/24/FhbbngOXgEqTbkda8DPNCthA5r5V.jpg" class="talk-matchingimg" alt="朋友圈配图">
+                    </div>
+                    <div class="talk-matching__photowall">
+                      <img src="https://img.yzcdn.cn/upload_files/2019/01/24/FhbbngOXgEqTbkda8DPNCthA5r5V.jpg" class="talk-matchingimg" alt="朋友圈配图">
+                    </div>
+                    <div class="talk-matching__photowall">
+                      <img src="https://img.yzcdn.cn/upload_files/2019/01/24/FhbbngOXgEqTbkda8DPNCthA5r5V.jpg" class="talk-matchingimg" alt="朋友圈配图">
+                    </div>
+                    <div class="talk-matching__photowall">
+                      <img src="https://img.yzcdn.cn/upload_files/2019/01/24/FhbbngOXgEqTbkda8DPNCthA5r5V.jpg" class="talk-matchingimg" alt="朋友圈配图">
+                    </div>
+                    <div class="talk-matching__photowall">
+                      <img src="https://img.yzcdn.cn/upload_files/2019/01/24/FhbbngOXgEqTbkda8DPNCthA5r5V.jpg" class="talk-matchingimg" alt="朋友圈配图">
+                    </div>
+                    <div class="talk-matching__photowall">
+                      <img src="https://img.yzcdn.cn/upload_files/2019/01/24/FhbbngOXgEqTbkda8DPNCthA5r5V.jpg" class="talk-matchingimg" alt="朋友圈配图">
+                    </div>
+                    <div class="talk-matching__photowall">
+                      <img src="https://img.yzcdn.cn/upload_files/2019/01/24/FhbbngOXgEqTbkda8DPNCthA5r5V.jpg" class="talk-matchingimg" alt="朋友圈配图">
+                    </div>
+                    <div class="talk-matching__photowall">
+                      <img src="https://img.yzcdn.cn/upload_files/2019/01/24/FhbbngOXgEqTbkda8DPNCthA5r5V.jpg" class="talk-matchingimg" alt="朋友圈配图">
+                    </div>
                   </div>
-                  <div class="talk-matching__photowall">
-                    <img src="https://img.yzcdn.cn/upload_files/2019/01/24/FhbbngOXgEqTbkda8DPNCthA5r5V.jpg" class="talk-matchingimg" alt="朋友圈配图">
-                  </div>
-                  <div class="talk-matching__photowall">
-                    <img src="https://img.yzcdn.cn/upload_files/2019/01/24/FhbbngOXgEqTbkda8DPNCthA5r5V.jpg" class="talk-matchingimg" alt="朋友圈配图">
-                  </div>
-                  <div class="talk-matching__photowall">
-                    <img src="https://img.yzcdn.cn/upload_files/2019/01/24/FhbbngOXgEqTbkda8DPNCthA5r5V.jpg" class="talk-matchingimg" alt="朋友圈配图">
-                  </div>
-                  <div class="talk-matching__photowall">
-                    <img src="https://img.yzcdn.cn/upload_files/2019/01/24/FhbbngOXgEqTbkda8DPNCthA5r5V.jpg" class="talk-matchingimg" alt="朋友圈配图">
-                  </div>
-                  <div class="talk-matching__photowall">
-                    <img src="https://img.yzcdn.cn/upload_files/2019/01/24/FhbbngOXgEqTbkda8DPNCthA5r5V.jpg" class="talk-matchingimg" alt="朋友圈配图">
-                  </div>
-                  <div class="talk-matching__photowall">
-                    <img src="https://img.yzcdn.cn/upload_files/2019/01/24/FhbbngOXgEqTbkda8DPNCthA5r5V.jpg" class="talk-matchingimg" alt="朋友圈配图">
-                  </div>
-                  <div class="talk-matching__photowall">
-                    <img src="https://img.yzcdn.cn/upload_files/2019/01/24/FhbbngOXgEqTbkda8DPNCthA5r5V.jpg" class="talk-matchingimg" alt="朋友圈配图">
-                  </div>
-                  <div class="talk-matching__photowall">
-                    <img src="https://img.yzcdn.cn/upload_files/2019/01/24/FhbbngOXgEqTbkda8DPNCthA5r5V.jpg" class="talk-matchingimg" alt="朋友圈配图">
-                  </div>
-                  <div class="talk-matching__photowall">
-                    <img src="https://img.yzcdn.cn/upload_files/2019/01/24/FhbbngOXgEqTbkda8DPNCthA5r5V.jpg" class="talk-matchingimg" alt="朋友圈配图">
-                  </div>
-                  <div class="talk-matching__photowall">
-                    <img src="https://img.yzcdn.cn/upload_files/2019/01/24/FhbbngOXgEqTbkda8DPNCthA5r5V.jpg" class="talk-matchingimg" alt="朋友圈配图">
-                  </div>
-                </div>
-                <div class="talk-time">2019-06-03 17:17:00</div>
-                <div class="talk-interactive">
+                  <div class="talk-time">2019-06-03 17:17:00</div>
+                  <div class="talk-interactive">
                   <span class="talk-interactive__like">
                     <i class="iconfont icon-dianzan"></i>
                     20
                   </span>
-                  <span class="talk-interactive__comment">
+                    <span class="talk-interactive__comment">
                     <i class="iconfont icon-pinglun"></i>
                     18
                   </span>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div class="talk-item clearfix">
-              <div class="talk-item__avatar">
-                <img src="https://img.yzcdn.cn/upload_files/2019/01/24/FhbbngOXgEqTbkda8DPNCthA5r5V.jpg" class="talk-avatarimg" alt="商品图片" >
-              </div>
-              <div class="talk-item__content">
-                <div class="talk-name">
-                  <span class="talk-name__call">起个名字好麻烦</span>
-                  <span class="talk-name__private">个人号：微信昵称（ wechatid ）</span>
+              <div class="talk-item clearfix">
+                <div class="talk-item__avatar">
+                  <img src="https://img.yzcdn.cn/upload_files/2019/01/24/FhbbngOXgEqTbkda8DPNCthA5r5V.jpg" class="talk-avatarimg" alt="商品图片" >
                 </div>
-                <div class="talk-sentence">散场总是难免的，尽兴而归就好</div>
-                <div class="talk-matching clearfix">
-                  <div class="talk-matching__photowall">
-                    <img src="https://img.yzcdn.cn/upload_files/2019/01/24/FhbbngOXgEqTbkda8DPNCthA5r5V.jpg" class="talk-matchingimg" alt="商品图片">
+                <div class="talk-item__content">
+                  <div class="talk-name">
+                    <span class="talk-name__call">起个名字好麻烦</span>
+                    <span class="talk-name__private">个人号：微信昵称（ wechatid ）</span>
                   </div>
-                  <div class="talk-matching__photowall">
-                    <img src="https://img.yzcdn.cn/upload_files/2019/01/24/FhbbngOXgEqTbkda8DPNCthA5r5V.jpg" class="talk-matchingimg" alt="商品图片">
+                  <div class="talk-sentence">散场总是难免的，尽兴而归就好</div>
+                  <div class="talk-matching clearfix">
+                    <div class="talk-matching__photowall">
+                      <img src="https://img.yzcdn.cn/upload_files/2019/01/24/FhbbngOXgEqTbkda8DPNCthA5r5V.jpg" class="talk-matchingimg" alt="商品图片">
+                    </div>
+                    <div class="talk-matching__photowall">
+                      <img src="https://img.yzcdn.cn/upload_files/2019/01/24/FhbbngOXgEqTbkda8DPNCthA5r5V.jpg" class="talk-matchingimg" alt="商品图片">
+                    </div>
+                    <div class="talk-matching__photowall">
+                      <img src="https://img.yzcdn.cn/upload_files/2019/01/24/FhbbngOXgEqTbkda8DPNCthA5r5V.jpg" class="talk-matchingimg" alt="商品图片">
+                    </div>
+                    <div class="talk-matching__photowall">
+                      <img src="https://img.yzcdn.cn/upload_files/2019/01/24/FhbbngOXgEqTbkda8DPNCthA5r5V.jpg" class="talk-matchingimg" alt="商品图片">
+                    </div>
                   </div>
-                  <div class="talk-matching__photowall">
-                    <img src="https://img.yzcdn.cn/upload_files/2019/01/24/FhbbngOXgEqTbkda8DPNCthA5r5V.jpg" class="talk-matchingimg" alt="商品图片">
-                  </div>
-                  <div class="talk-matching__photowall">
-                    <img src="https://img.yzcdn.cn/upload_files/2019/01/24/FhbbngOXgEqTbkda8DPNCthA5r5V.jpg" class="talk-matchingimg" alt="商品图片">
-                  </div>
-                </div>
-                <div class="talk-time">2019-06-03 17:17:00</div>
-                <div class="talk-interactive">
+                  <div class="talk-time">2019-06-03 17:17:00</div>
+                  <div class="talk-interactive">
                   <span class="talk-interactive__like">
                     <i class="iconfont icon-dianzan colorblue"></i>
                     20
                   </span>
-                  <span class="talk-interactive__comment">
+                    <span class="talk-interactive__comment">
                     <i class="iconfont icon-pinglun"></i>
                     18
                   </span>
-                </div>
-                <div class="talk-detail">
-                  <div class="talk-detail__substance">
-                    <div class="talk-chatmsg">
-                      <i class="iconfont icon-dianzan colorblue"></i>
-                      <span class="colorblue">起个名字好麻烦，长安自在风</span>
+                  </div>
+                  <div class="talk-detail">
+                    <div class="talk-detail__substance">
+                      <div class="talk-chatmsg">
+                        <i class="iconfont icon-dianzan colorblue"></i>
+                        <span class="colorblue">起个名字好麻烦，长安自在风</span>
+                      </div>
+                      <div class="talk-msg">
+                        <div class="talk-msg__item clearfix">
+                          <span class="colorblue">起个名字好麻烦：</span>
+                          <span>我也老了</span>
+                          <span class="talk-msg__item--reply colorblue">回复</span>
+                        </div>
+                        <div class="talk-msg__item clearfix">
+                          <span class="colorblue">长安自在风</span>
+                          <span class="colorblue">回复</span>
+                          <span class="colorblue">起个名字好麻烦：</span>
+                          <span>你还年轻</span>
+                          <span class="colorblue talk-msg__item--reply">回复</span>
+                        </div>
+                        <div class="talk-msg__item clearfix">
+                          <span class="colorblue">起个名字好麻烦</span>
+                          <span class="colorblue">回复</span>
+                          <span class="colorblue">长安自在风：</span>
+                          <span>你骗人</span>
+                          <span class="colorblue talk-msg__item--reply">删除</span>
+                        </div>
+                      </div>
+                      <div  class="talk-circle"></div>
                     </div>
-                    <div class="talk-msg">
-                      <div class="talk-msg__item clearfix">
-                        <span class="colorblue">起个名字好麻烦：</span>
-                        <span>我也老了</span>
-                        <span class="talk-msg__item--reply colorblue">回复</span>
-                      </div>
-                      <div class="talk-msg__item clearfix">
-                        <span class="colorblue">长安自在风</span>
-                        <span class="colorblue">回复</span>
-                        <span class="colorblue">起个名字好麻烦：</span>
-                        <span>你还年轻</span>
-                        <span class="colorblue talk-msg__item--reply">回复</span>
-                      </div>
-                      <div class="talk-msg__item clearfix">
-                        <span class="colorblue">起个名字好麻烦</span>
-                        <span class="colorblue">回复</span>
-                        <span class="colorblue">长安自在风：</span>
-                        <span>你骗人</span>
-                        <span class="colorblue talk-msg__item--reply">删除</span>
-                      </div>
-                    </div>
-                    <div  class="talk-circle"></div>
                   </div>
                 </div>
               </div>
             </div>
+          </el-scrollbar>
+        </template>
+        <!-- 表格-结束 -->
+
+        <!-- 分页 -->
+        <template slot="pagination">
+          <div class="talk-bottom">
+            <el-pagination v-if="_data._pagination.enable" class="template-table__pagination"
+                           :page-sizes="_data._pagination.sizeOpts" :total="_data._pagination.total"
+                           :current-page="_data._pagination.page" :page-size="_data._pagination.size"
+                           layout="total, sizes, prev, pager, next, jumper">
+            </el-pagination>
           </div>
-        </el-scrollbar>
-        <div class="talk-bottom">
-          <div class="template-table-pagination el-pagination">
-            <span class="el-pagination__total">共 83 条</span>
-            <span class="el-pagination__sizes">
-        <div class="el-select el-select--mini">
-          <div class="el-input el-input--mini el-input--suffix">
-            <input type="text" readonly="readonly" autocomplete="off" placeholder="请选择" class="el-input__inner">
-            <span class="el-input__suffix">
-              <span class="el-input__suffix-inner">
-                <i class="el-select__caret el-input__icon el-icon-arrow-up"></i>
-              </span>
-            </span>
+        </template>
+        <!-- 分页-结束 -->
+      </ns-page-table>
+    </el-aside>
+    <el-main class="talk-main">
+      <div class="talk-personal clearfix">
+        <div class="talk-personal__notice">
+          <i class="iconfont icon-xiaoxi"></i>
+        </div>
+        <span class="talk-personal__msg">互动消息</span>
+        <el-checkbox class="talk-personal__checkbox">只看未读</el-checkbox>
+      </div>
+      <el-scrollbar ref="fullScreenright">
+        <div class="talk-main__list">
+          <div class="talk-convey">
+            <div class="talk-convey__name">个人号：微信昵称（ wechatid ）</div>
+            <div class="talk-convey__content clearfix">
+              <div class="talk-headportrait">
+                <img
+                  src="https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/201907/120,910,104,359,001/c436cf04-72fe-4537-9492-467d24800855.jpg"
+                  alt="头像" class="talk-headportrait__img">
+              </div>
+              <div class="talk-redpoint"></div>
+              <div class="talk-personmsg">
+                <div class="talk-personmsg__uname colorblue">长安自在风长安自在风长安自在风长长安自在风</div>
+                <div class="talk-personmsg__about">我上那么多年学,熬那么我上那么多年学我上那么多年学,熬那么我上那么多年学</div>
+                <div class="talk-personmsg__time">2019-05-29 上午09:46:20</div>
+              </div>
+              <div class="talk-photo">
+                <img
+                  src="https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/201907/120,910,104,359,001/fc3960b2-57a7-4f09-a536-ad3a276ddd67.jpg"
+                  alt="朋友圈配图" class="talk-photo__img">
+              </div>
+            </div>
           </div>
-          <div class="el-select-dropdown el-popper" style="display: none; min-width: 110px;"><div class="el-scrollbar" style="">
-            <div class="el-select-dropdown__wrap el-scrollbar__wrap" style="margin-bottom: -17px; margin-right: -17px;">
-              <ul class="el-scrollbar__view el-select-dropdown__list">
-                <li class="el-select-dropdown__item selected"><span>15条/页</span></li>
-                <li class="el-select-dropdown__item"><span>25条/页</span></li>
-                <li class="el-select-dropdown__item"><span>50条/页</span></li>
-                <li class="el-select-dropdown__item"><span>100条/页</span></li>
-              </ul>
+          <div class="talk-convey">
+            <div class="talk-convey__name">个人号：微信昵称（ wechatid ）</div>
+            <div class="talk-convey__content clearfix">
+              <div class="talk-headportrait">
+                <img
+                  src="https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/201907/120,910,104,359,001/c436cf04-72fe-4537-9492-467d24800855.jpg"
+                  alt="头像" class="talk-headportrait__img">
+              </div>
+              <div class="talk-redpoint"></div>
+              <div class="talk-personmsg">
+                <div class="talk-personmsg__uname colorblue">长安自在风</div>
+                <div class="talk-personmsg__about">我上那么多年学,熬那么</div>
+                <div class="talk-personmsg__time">2019-05-29 上午09:46:20</div>
+              </div>
+              <div class="talk-photo">
+                <img
+                  src="https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/201907/120,910,104,359,001/fc3960b2-57a7-4f09-a536-ad3a276ddd67.jpg"
+                  alt="朋友圈配图" class="talk-photo__img">
+              </div>
             </div>
-            <div class="el-scrollbar__bar is-horizontal">
-              <div class="el-scrollbar__thumb" style="transform: translateX(0%);"></div>
+          </div>
+          <div class="talk-convey">
+            <div class="talk-convey__name">个人号：微信昵称（ wechatid ）</div>
+            <div class="talk-convey__content clearfix">
+              <div class="talk-headportrait">
+                <img
+                  src="https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/201907/120,910,104,359,001/c436cf04-72fe-4537-9492-467d24800855.jpg"
+                  alt="头像" class="talk-headportrait__img">
+              </div>
+              <div class="talk-personmsg">
+                <div class="talk-personmsg__uname colorblue">宜室宜家</div>
+                <div class="talk-personmsg__about talk-personmsg__ablue--like">
+                  <i class="iconfont icon-dianzan colorblue"></i>
+                </div>
+                <div class="talk-personmsg__time">2019-05-29 上午09:46:20</div>
+              </div>
+              <div class="talk-photo">
+                <img
+                  src="https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/201907/120,910,104,359,001/fc3960b2-57a7-4f09-a536-ad3a276ddd67.jpg"
+                  alt="朋友圈配图" class="talk-photo__img">
+              </div>
             </div>
-            <div class="el-scrollbar__bar is-vertical">
-            <div class="el-scrollbar__thumb" style="transform: translateY(0%);"></div></div></div>
-          </div></div></span><button type="button" disabled="disabled" class="btn-prev"><i class="el-icon el-icon-arrow-left"></i></button><ul class="el-pager"><li class="number active">1</li><!----><li class="number">2</li><li class="number">3</li><li class="number">4</li><li class="number">5</li><!----></ul><button type="button" class="btn-next"><i class="el-icon el-icon-arrow-right"></i></button><span class="el-pagination__jump">前往<div class="el-input el-input--small el-pagination__editor is-in-pagination"><!----><input type="number" autocomplete="off" min="1" max="6" class="el-input__inner"><!----><!----><!----></div>页</span>
+          </div>
+          <div class="talk-convey">
+            <div class="talk-convey__name">个人号：微信昵称（ wechatid ）</div>
+            <div class="talk-convey__content clearfix">
+              <div class="talk-headportrait">s
+                <img
+                  src="https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/201907/120,910,104,359,001/c436cf04-72fe-4537-9492-467d24800855.jpg"
+                  alt="头像" class="talk-headportrait__img">
+              </div>
+              <div class="talk-personmsg">
+                <div class="talk-personmsg__uname colorblue">长安自在风</div>
+                <div class="talk-personmsg__about">我上那么多年学,熬那么</div>
+                <div class="talk-personmsg__time">2019-05-29 上午09:46:20</div>
+              </div>
+              <div class="talk-photo">
+                <img
+                  src="https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/201907/120,910,104,359,001/fc3960b2-57a7-4f09-a536-ad3a276ddd67.jpg"
+                  alt="朋友圈配图" class="talk-photo__img">
+              </div>
+            </div>
           </div>
         </div>
-      </el-aside>
-      <el-main class="talk-main">
-        <el-scrollbar ref="fullScreenright">
-          <div class="talk-main__list">
-            <div class="talk-convey">
-              <div class="talk-convey__name">个人号：微信昵称（ wechatid ）</div>
-              <div class="talk-convey__content clearfix">
-                <div class="talk-headportrait">
-                  <img src="https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/201907/120,910,104,359,001/c436cf04-72fe-4537-9492-467d24800855.jpg"  alt="头像" class="talk-headportrait__img">
-                </div>
-                <div class="talk-redpoint"></div>
-                <div class="talk-personmsg">
-                  <div class="talk-personmsg__uname colorblue">长安自在风长安自在风长安自在风长长安自在风</div>
-                  <div class="talk-personmsg__about">我上那么多年学,熬那么我上那么多年学我上那么多年学,熬那么我上那么多年学</div>
-                  <div class="talk-personmsg__time">2019-05-29 上午09:46:20</div>
-                </div>
-                <div class="talk-photo">
-                  <img src="https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/201907/120,910,104,359,001/fc3960b2-57a7-4f09-a536-ad3a276ddd67.jpg"  alt="朋友圈配图" class="talk-photo__img">
-                </div>
-              </div>
-            </div>
-            <div class="talk-convey">
-              <div class="talk-convey__name">个人号：微信昵称（ wechatid ）</div>
-              <div class="talk-convey__content clearfix">
-                <div class="talk-headportrait">
-                  <img src="https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/201907/120,910,104,359,001/c436cf04-72fe-4537-9492-467d24800855.jpg"  alt="头像" class="talk-headportrait__img">
-                </div>
-                <div class="talk-redpoint"></div>
-                <div class="talk-personmsg">
-                  <div class="talk-personmsg__uname colorblue">长安自在风</div>
-                  <div class="talk-personmsg__about">我上那么多年学,熬那么</div>
-                  <div class="talk-personmsg__time">2019-05-29 上午09:46:20</div>
-                </div>
-                <div class="talk-photo">
-                  <img src="https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/201907/120,910,104,359,001/fc3960b2-57a7-4f09-a536-ad3a276ddd67.jpg"  alt="朋友圈配图" class="talk-photo__img">
-                </div>
-              </div>
-            </div>
-            <div class="talk-convey">
-              <div class="talk-convey__name">个人号：微信昵称（ wechatid ）</div>
-              <div class="talk-convey__content clearfix">
-                <div class="talk-headportrait">
-                  <img src="https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/201907/120,910,104,359,001/c436cf04-72fe-4537-9492-467d24800855.jpg"  alt="头像" class="talk-headportrait__img">
-                </div>
-                <div class="talk-personmsg">
-                  <div class="talk-personmsg__uname colorblue">宜室宜家</div>
-                  <div class="talk-personmsg__about talk-personmsg__ablue--like">
-                    <i class="iconfont icon-dianzan colorblue"></i>
-                  </div>
-                  <div class="talk-personmsg__time">2019-05-29 上午09:46:20</div>
-                </div>
-                <div class="talk-photo">
-                  <img src="https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/201907/120,910,104,359,001/fc3960b2-57a7-4f09-a536-ad3a276ddd67.jpg"  alt="朋友圈配图" class="talk-photo__img">
-                </div>
-              </div>
-            </div>
-            <div class="talk-convey">
-              <div class="talk-convey__name">个人号：微信昵称（ wechatid ）</div>
-              <div class="talk-convey__content clearfix">
-                <div class="talk-headportrait">s
-                  <img src="https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/201907/120,910,104,359,001/c436cf04-72fe-4537-9492-467d24800855.jpg"  alt="头像" class="talk-headportrait__img">
-                </div>
-                <div class="talk-personmsg">
-                  <div class="talk-personmsg__uname colorblue">长安自在风</div>
-                  <div class="talk-personmsg__about">我上那么多年学,熬那么</div>
-                  <div class="talk-personmsg__time">2019-05-29 上午09:46:20</div>
-                </div>
-                <div class="talk-photo">
-                  <img src="https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/201907/120,910,104,359,001/fc3960b2-57a7-4f09-a536-ad3a276ddd67.jpg"  alt="朋友圈配图" class="talk-photo__img">
-                </div>
-              </div>
-            </div>
-          </div>
-        </el-scrollbar>
-        <div class="talk-main__bottom">
-          <div class="template-table-pagination el-pagination">
-            <span class="el-pagination__total">共35条</span>
-            <span class="el-pagination__sizes">
-        <div class="el-select el-select--mini">
-          <div class="el-input el-input--mini el-input--suffix">
-            <input type="text" readonly="readonly" autocomplete="off" placeholder="请选择" class="el-input__inner">
-            <span class="el-input__suffix">
-              <span class="el-input__suffix-inner">
-                <i class="el-select__caret el-input__icon el-icon-arrow-up"></i>
-              </span>
-            </span>
-          </div>
-          <div class="el-select-dropdown el-popper" style="display: none; min-width: 110px;"><div class="el-scrollbar" style="">
-            <div class="el-select-dropdown__wrap el-scrollbar__wrap" style="margin-bottom: -17px; margin-right: -17px;">
-              <ul class="el-scrollbar__view el-select-dropdown__list">
-                <li class="el-select-dropdown__item selected"><span>15条/页</span></li>
-                <li class="el-select-dropdown__item"><span>25条/页</span></li>
-                <li class="el-select-dropdown__item"><span>50条/页</span></li>
-                <li class="el-select-dropdown__item"><span>100条/页</span></li>
-              </ul>
-            </div>
-            <div class="el-scrollbar__bar is-horizontal">
-              <div class="el-scrollbar__thumb" style="transform: translateX(0%);"></div>
-            </div>
-            <div class="el-scrollbar__bar is-vertical">
-            <div class="el-scrollbar__thumb" style="transform: translateY(0%);"></div></div></div>
-          </div></div></span><button type="button" disabled="disabled" class="btn-prev"><i class="el-icon el-icon-arrow-left"></i></button><ul class="el-pager"><li class="number active">1</li><!----><li class="number">2</li></ul><button type="button" class="btn-next"><i class="el-icon el-icon-arrow-right"></i></button><span class="el-pagination__jump">前往<div class="el-input el-input--small el-pagination__editor is-in-pagination"><!----><input type="number" autocomplete="off" min="1" max="6" class="el-input__inner"><!----><!----><!----></div>页</span>
-          </div>
-        </div>
-      </el-main>
-    </el-container>
-    <!-- 发朋友圈弹窗-->
-    <el-dialog
-      title="提示"
-      :visible.sync="dialogVisible"
-      width="540px"
-      class="dialog-content">
-      <el-form ref="form" label-width="80px">
-        <el-form-item label="选择个人号：">
-          <el-select placeholder="全部" class="el-block">
-            <el-option label="区域一" value="shanghai"></el-option>
-            <el-option label="区域二" value="beijing"></el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="朋友圈内容：" class="dialog-content__subtance">
-          <div class="dialog-detail" style="padding: 10px; border: 1px solid #ddd;">
-            <el-input type="textarea" :rows="8" placeholder="这一刻的想法...."  v-model="textarea">
-            </el-input>
-            <el-upload
-              class="avatar-uploader"
-              action="https://jsonplaceholder.typicode.com/posts/"
-              :show-file-list="false">
-              <img v-if="imageUrl" src="" class="avatar">
-              <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-            </el-upload>
-          </div>
-        </el-form-item>
-      </el-form>
-      <span slot="footer" class="dialog-footer">
-         <ns-button @click="dialogVisible = false">取 消</ns-button>
-         <ns-button type="primary" @click="dialogVisible = false">确 定</ns-button>
-      </span>
-    </el-dialog>
-    <!-- 发朋友圈弹窗-->
-  </div>
+      </el-scrollbar>
+      <div class="talk-main__bottom">
+        <el-pagination
+          layout="prev, pager, next"
+          :total="50">
+        </el-pagination>
+      </div>
+    </el-main>
+  </el-container>
 </template>
 <script>
 import ElUpload from 'nui-v2/lib/upload'
+import ElContainer from 'nui-v2/lib/container'
+import ElMain from 'nui-v2/lib/main'
+import ElAside from 'nui-v2/lib/aside'
 export default {
   components: {
-    ElUpload
+    ElUpload,
+    ElContainer,
+    ElMain,
+    ElAside
   },
-  data () {
+  name: 'circleOfFriends',
+  // mixins: [tableMixin],
+  props: {
+    types: Object
+  },
+  data: function () {
+    var pagination = {
+      enable: true,
+      size: 15,
+      sizeOpts: [15, 25, 50, 100],
+      page: 1,
+      total: 0
+    }
+    var tableButtons = [
+      {
+        'func': function () {},
+        'icon': '$.noop',
+        'name': '\u8be6\u60c5',
+        'auth': ``,
+        'visible': ``
+      },
+      {
+        'func': function (obj) {
+          this.$parent.trackVisible = true
+          this.$parent.model.customerName = obj.row.black_type
+        },
+        'icon': '$.noop',
+        'name': '\u8ddf\u8e2a',
+        'auth': ``,
+        'visible': ``
+      }
+    ]
+
+    var operateButtons = [
+      {
+        'func': function () {
+        },
+        'icon': '',
+        'name': '新增',
+        'auth': ``,
+        'visible': ``
+      },
+      {
+        'func': function () {
+        },
+        'icon': '',
+        'name': this.$t('operating.edit'),
+        'auth': ``,
+        'visible': ''
+      },
+      {
+        'func': function () {
+        },
+        'icon': '',
+        'name': '删除',
+        'auth': ``,
+        'visible': ``
+      }
+    ]
+
+    var quickInput = [{
+      'template': '',
+      'inline': false,
+      'name': 'customerName',
+      'text': '姓名',
+      'placeholder': '请输入姓名',
+      'type': 'text',
+      'value': '',
+      'isConvenient': false
+    }]
+    var quickSearchNames = quickInput.map(x => x.name)
+    var quickSearchModel = {}
+    var model = Object.assign({},
+      {
+        customerName: '',
+        outNick: '',
+        mobile: '',
+        address: '',
+        userType: '',
+        isExit: '',
+        source: '',
+        memberGrade: ''
+      },
+      {})
+    var that = this
+
+    quickInput.map(item => {
+      Object.defineProperty(quickSearchModel, item.name, {
+        get: function () {
+          return model[item.name]
+        },
+        set: function (val) {
+          model[item.name] = val
+          // TODO 由于特殊需求导致下列写法
+          if (item.type === 'radio') {
+            that._data._table.quickSearchMap[item.name] = val
+            that.$quickSearch$()
+          }
+        },
+        enumerable: true
+      })
+    })
+
     return {
-      dialogVisible: false,
-      textarea: '',
-      value1: '',
-      checked: true,
-      input: '',
-      value2: '',
-      options: [{
-        value: '选项1',
-        label: '黄金糕'
+      model: model,
+      quickSearchModel: quickSearchModel,
+      rules: Object.assign({}, {}, {}),
+      state: {},
+      tableData: [{
+        date: '2016-05-02',
+        name: '王小虎',
+        address: '上海市普陀区金沙江路 1518 弄'
       }, {
-        value: '选项2',
-        label: '双皮奶'
+        date: '2016-05-04',
+        name: '王小虎',
+        address: '上海市普陀区金沙江路 1517 弄'
       }, {
-        value: '选项3',
-        label: '蚵仔煎'
+        date: '2016-05-01',
+        name: '王小虎',
+        address: '上海市普陀区金沙江路 1519 弄'
       }, {
-        value: '选项4',
-        label: '龙须面'
-      }, {
-        value: '选项5',
-        label: '北京烤鸭'
+        date: '2016-05-03',
+        name: '王小虎',
+        address: '上海市普陀区金沙江路 1516 弄'
       }],
-      value: ''
+      grades: [],
+      _pagination: pagination,
+      _table: {
+        table_buttons: tableButtons,
+        operate_buttons: operateButtons,
+        quickSearchNames: quickSearchNames,
+        quickSearchMap: {}
+      },
+      _queryConfig: {
+        expand: false
+      }
     }
   },
   mounted () {
-    this.setHeight()
-    this.setEditorFullScreen()
-    window.addEventListener('resize', () => {
-      this.setEditorFullScreen()
+    this.$nextTick(() => {
       this.setHeight()
+      this.setEditorFullScreen()
+      window.addEventListener('resize', () => {
+        this.setEditorFullScreen()
+        this.setHeight()
+      })
     })
   },
   methods: {
+    $handleTabClick: function () {
+      var expand = this._data._queryConfig.expand
+      // var showCondition = this._data._queryConfig.showCondition
+      if (expand) {
+        this._data._queryConfig.expand = false
+      } else {
+        this._data._queryConfig.expand = true
+      }
+      this.$nextTick(() => {
+        this.setHeight()
+      })
+    },
     /**
      * 计算主要显示窗口的高度，动态设置页面内主要内容的高度
      */
@@ -431,15 +533,20 @@ export default {
        *  左侧工具栏高度&因滚动条样式margin-bottom负值17px，需要添加上17px,
        *  15px为底部10px间距和表单5px内边距
        **/
-      const PAGE_TITLE = 64 // 页面标题占据的高度
-      const BTN_BOTTOM = 69 // 底部按钮占据的高度
+      const PAGE_TOP_SEARCH = 39 // 简单搜索的高度
+      const BTN_BOTTOM = 49 // 底部页码占据的高度
       let limitHeight = window.innerHeight -
-        document.getElementsByClassName('nav')[0].getBoundingClientRect().top - // 减去页面结构顶部的margin-top
-        document.getElementsByClassName('talk-form')[0].offsetHeight - 10 - // 减去步骤条高度和marign-bottom
-        BTN_BOTTOM - PAGE_TITLE + 17 - 15
+        document.getElementsByClassName('nav')[0].offsetHeight -
+        document.getElementsByClassName('template-table__bar-more')[0].offsetHeight - // 高级搜索
+        BTN_BOTTOM - PAGE_TOP_SEARCH + 17 - 25;
+      let limitHeightRight = window.innerHeight -
+        document.getElementsByClassName('talk-personal')[0].offsetHeight -
+        document.getElementsByClassName('nav')[0].offsetHeight -
+        BTN_BOTTOM + 17 - 20;
+
 
       this.$refs.fullScreen.$el.children[0].style.maxHeight = limitHeight + 'px'
-      this.$refs.fullScreenright.$el.children[0].style.maxHeight = limitHeight + 'px'
+      this.$refs.fullScreenright.$el.children[0].style.maxHeight = limitHeightRight + 'px'
     },
     /**
      * 计算主要显示窗口的高度，动态设置编辑器占满全屏
@@ -449,10 +556,9 @@ export default {
        *  15px为底部10px间距和表单5px内边距
        **/
       const PAGE_TITLE = 64 // 页面标题占据的高度
-      const BTN_BOTTOM = 69 // 底部按钮占据的高度
+      const BTN_BOTTOM = 49 // 底部按钮占据的高度
       let editorHeight = window.innerHeight -
         document.getElementsByClassName('nav')[0].getBoundingClientRect().top - // 减去页面结构顶部的margin-top
-        document.getElementsByClassName('talk-form')[0].offsetHeight - 10 - // 减去步骤条高度和marign-bottom
         BTN_BOTTOM - PAGE_TITLE - 15
 
       // 设置main高度
@@ -496,7 +602,6 @@ export default {
         display: flex;
       }
       @e container {
-        display: flex;
       }
     }
     @b form {
@@ -506,9 +611,11 @@ export default {
       border-bottom: 1px solid var(--talk-border-color-gray);
     }
     @b personal {
-      width: 30%;
-      margin-left: 10px;
-      padding: 15px 20px 5px;
+      display: flex;
+      align-items: center;
+      position: relative;
+      /*margin-left: 10px;*/
+      padding: 15px 20px;
       background: var(--theme-color-white);
       border-bottom: 1px solid var(--talk-border-color-gray);
       @e notice {
@@ -519,8 +626,14 @@ export default {
         background: var(--talk-font-color-blue);
         border-radius: 50%;
       }
+      @e msg {
+        font-size: var(--default-font-size-large);
+        color: var(--theme-font-color-primary);
+        margin-left: 15px;
+      }
       @e checkbox {
-        float: right;
+        position: absolute;
+        right: 10px;
       }
     }
     @b aside {
@@ -528,11 +641,12 @@ export default {
       background: var(--theme-color-white);
       @e list {
         width: 100%;
-        padding: 0 20px 50px;
+        background: var(--theme-color-white);
       }
     }
     @b item {
-      padding: 30px 0;
+      position: relative;
+      padding: 15px 20px;
       border-bottom: 1px solid var(--talk-border-color-gray);
       &:last-child {
         border: none;
@@ -540,12 +654,14 @@ export default {
       @e avatar {
         width: 52px;
         height: 52px;
-        float: left;
+        position: absolute;
+        top: 27px;
+        left: 25px;
       }
       @e content{
         width: 93%;
         float: left;
-        margin-left: 20px;
+        margin-left: 72px;
       }
     }
     @b avatarimg {
@@ -577,6 +693,7 @@ export default {
       overflow: hidden;
     }
     @b matching {
+      width: 48%;
       margin-top: 20px;
       @e photowall {
         width: 122px;
@@ -646,7 +763,7 @@ export default {
       }
     }
     @b bottom {
-      padding: 15px;
+      padding: 5px 15px;
       border-top: 1px solid var(--talk-border-color-gray);
     }
     @b main {
@@ -657,7 +774,7 @@ export default {
         margin-left: 10px;
       }
       @e bottom {
-        padding: 15px;
+        padding: 5px 15px;
         border-top: 1px solid var(--talk-border-color-gray);
       }
     }
@@ -675,7 +792,7 @@ export default {
         overflow : hidden;
       }
       @e content {
-        position: relative;
+        display: flex;
         margin-top: 20px;
       }
     }
@@ -683,6 +800,7 @@ export default {
       width: 52px;
       height: 52px;
       float: left;
+      position: relative;
       @e img {
         width: 100%;
         height: 100%;
@@ -692,9 +810,9 @@ export default {
     @b redpoint {
       width: 16px;
       height: 16px;
-      position: absolute;
-      left: 40px;
-      top: -4px;
+      position: relative;
+      left: -10px;
+      top: 0;
       background: var(--talk--background-color-red);
       border-radius: 50%;
     }
@@ -751,6 +869,17 @@ export default {
   .icon-xiaoxi {
     font-size: var(--dafault-font-size-xlarge);
     color: var(--theme-color-white);
+  }
+  .el-main {
+    padding: 0 !important;
+  }
+  >>> .template-table__bar {
+    box-shadow: none;
+    padding: 15px 20px;
+    border-bottom: 1px solid var(--talk-border-color-gray);
+  }
+  >>> .el-pagination {
+    box-shadow: none;
   }
   /* 发朋友圈弹窗样式*/
   @component-namespace dialog {
