@@ -64,6 +64,12 @@ export default {
           'name': 'TRANS_CUSTOMER_RECORD',
           'title': '客户转移记录',
           'component': () => import('@/views/Guide/SgCustomer/NsTableSgCustomer')
+        },
+        {
+          'path': '/guide/customer/getCustomerConfig',
+          'name': 'APPLET_TEMPLATE',
+          'title': '会员管理配置',
+          'component': () => import('@/views/Guide/customerConfig/index')
         }
       ]
     }
