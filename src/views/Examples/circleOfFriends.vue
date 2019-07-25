@@ -119,13 +119,13 @@
           </template>
           <!-- 高级搜索-结束 -->
 
-          <!-- 表格 -->
+          <!-- 左边内容滚动区域 -->
           <template slot="table">
             <el-scrollbar ref="fullScreen">
               <div class="talk-aside__list" ref="asd">
                 <div class="talk-item clearfix">
                   <div class="talk-item__avatar">
-                    <img src="https://img.yzcdn.cn/upload_files/2019/01/24/FhbbngOXgEqTbkda8DPNCthA5r5V.jpg" class="talk-avatarimg" alt="朋友圈配图" >
+                    <img src="http://iph.href.lu/500x100" class="talk-avatarimg" alt="朋友圈配图" >
                   </div>
                   <div class="talk-item__content">
                     <div class="talk-name">
@@ -135,7 +135,7 @@
                     <div class="talk-sentence">散场总是难免的，尽兴而归就好散场总是难免的，尽兴而归就好散场总是难免的，尽兴而归就好散场总是难免的，尽兴而归就好散场总是难免的，尽兴而归就好散场总是难免的，尽兴而归就好</div>
                     <div class="talk-matching clearfix">
                       <div class="talk-matching__photowall">
-                        <img src="https://img.yzcdn.cn/upload_files/2019/01/24/FhbbngOXgEqTbkda8DPNCthA5r5V.jpg" class="talk-matchingimg" alt="朋友圈配图">
+                        <img src="http://iph.href.lu/500x100" class="talk-matchingimg" alt="朋友圈配图">
                       </div>
                       <div class="talk-matching__photowall">
                         <img src="https://img.yzcdn.cn/upload_files/2019/01/24/FhbbngOXgEqTbkda8DPNCthA5r5V.jpg" class="talk-matchingimg" alt="朋友圈配图">
@@ -251,7 +251,7 @@
               </div>
             </el-scrollbar>
           </template>
-          <!-- 表格-结束 -->
+          <!-- 左边内容滚动区域-->
 
           <!-- 分页 -->
           <template slot="pagination">
@@ -281,7 +281,7 @@
               <div class="talk-convey__content clearfix">
                 <div class="talk-headportrait">
                   <img
-                    src="https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/201907/120,910,104,359,001/c436cf04-72fe-4537-9492-467d24800855.jpg"
+                    src="http://iph.href.lu/500x100"
                     alt="头像" class="talk-headportrait__img">
                 </div>
                 <div class="talk-redpoint"></div>
@@ -292,7 +292,7 @@
                 </div>
                 <div class="talk-photo">
                   <img
-                    src="https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/201907/120,910,104,359,001/fc3960b2-57a7-4f09-a536-ad3a276ddd67.jpg"
+                    src="http://iph.href.lu/500x100"
                     alt="朋友圈配图" class="talk-photo__img">
                 </div>
               </div>
@@ -372,7 +372,7 @@
     </el-container>
     <!-- 发朋友圈弹窗-->
     <el-dialog
-      title="提示"
+      title="发朋友圈"
       :visible.sync="dialogVisibleShow"
       width="540px"
       class="dialog-content">
@@ -521,7 +521,7 @@ export default {
     })
 
     return {
-      dialogVisibleShow: false,
+      dialogVisible: false,
       model: model,
       quickSearchModel: quickSearchModel,
       rules: Object.assign({}, {}, {}),
@@ -612,11 +612,7 @@ export default {
   }
   @component-namespace talk {
     @b chat {
-      @e header {
-        display: flex;
-      }
-      @e container {
-      }
+      @e container { }
     }
     @b form {
       width: 70%;
@@ -628,8 +624,7 @@ export default {
       display: flex;
       align-items: center;
       position: relative;
-      /*margin-left: 10px;*/
-      padding: 15px 20px;
+      padding: 10px 20px;
       background: var(--theme-color-white);
       border-bottom: 1px solid var(--talk-border-color-gray);
       @e notice {
@@ -641,7 +636,7 @@ export default {
         border-radius: 50%;
       }
       @e msg {
-        font-size: var(--default-font-size-large);
+        font-size: var(--default-font-size-middle);
         color: var(--theme-font-color-primary);
         margin-left: 15px;
       }
@@ -688,7 +683,7 @@ export default {
       height: 26px;
       padding: 20px 0;
       @e call {
-        font-size: var(--default-font-size-middle);
+        font-size: var(--default-font-size-base);
         color: var(--talk-font-color-blue);
       }
       @e private {
@@ -698,7 +693,7 @@ export default {
       }
     }
     @b sentence {
-      font-size: var(--default-font-size-base);
+      font-size: var(--default-font-size-small);
       color: var(--theme-font-color-primary);
       font-weight: bold;
       width: 95%;
@@ -711,7 +706,7 @@ export default {
       margin-top: 20px;
       @e photowall {
         width: 122px;
-        height: 121px;
+        height: 122px;
         margin: 0 10px 10px 0;
         float: left;
       }
@@ -723,7 +718,7 @@ export default {
     @b time {
       font-size: var(--default-font-size-base);
       color: var(--theme-font-color-secondary);
-      margin-top: 15px;
+      margin-top: 5px;
     }
     @b interactive {
       text-align: right;
@@ -792,13 +787,13 @@ export default {
     @b main {
       width: 30%;
       margin-left: 10px;
-      background: var(--theme-color-white);
       @e list {
-        margin-left: 10px;
+        background: var(--theme-color-white);
       }
       @e bottom {
         padding: 5px 15px;
         border-top: 1px solid var(--talk-border-color-gray);
+        background: var(--theme-color-white);
       }
     }
     @b convey {
@@ -846,13 +841,13 @@ export default {
       float: left;
       padding: 5px 20px 0 77px;
       @e uname {
-        font-size: var(--default-font-size-middle);
+        font-size: var(--default-font-size-base);
         text-overflow : ellipsis;
         white-space : nowrap;
         overflow : hidden;
       }
       @e about {
-        font-size: var(--default-font-size-base);
+        font-size: var(--default-font-size-small);
         color: var(--theme-font-color-primary);
         margin-top: 10px;
         text-overflow : ellipsis;
@@ -876,7 +871,7 @@ export default {
       height: 102px;
       position: absolute;
       right: 10px;
-      bottom: 5px;
+      bottom: 0;
       @e img {
         width: 100%;
         height: 100%;
@@ -913,6 +908,9 @@ export default {
   }
   .widthlength {
     width: 92px;
+  }
+  .el-scrollbar {
+    background: var(--theme-color-white);
   }
   /* 发朋友圈弹窗样式*/
   @component-namespace dialog {
