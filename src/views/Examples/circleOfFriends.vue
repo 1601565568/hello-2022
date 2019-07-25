@@ -133,33 +133,53 @@
                       <span class="talk-name__private">个人号：微信昵称（ wechatid ）</span>
                     </div>
                     <div class="talk-sentence">散场总是难免的，尽兴而归就好散场总是难免的，尽兴而归就好散场总是难免的，尽兴而归就好散场总是难免的，尽兴而归就好散场总是难免的，尽兴而归就好散场总是难免的，尽兴而归就好</div>
-                    <div class="talk-matching clearfix">
-                      <div class="talk-matching__photowall">
-                        <img src="http://iph.href.lu/500x100" class="talk-matchingimg" alt="朋友圈配图">
-                      </div>
-                      <div class="talk-matching__photowall">
-                        <img src="https://img.yzcdn.cn/upload_files/2019/01/24/FhbbngOXgEqTbkda8DPNCthA5r5V.jpg" class="talk-matchingimg" alt="朋友圈配图">
-                      </div>
-                      <div class="talk-matching__photowall">
-                        <img src="https://img.yzcdn.cn/upload_files/2019/01/24/FhbbngOXgEqTbkda8DPNCthA5r5V.jpg" class="talk-matchingimg" alt="朋友圈配图">
-                      </div>
-                      <div class="talk-matching__photowall">
-                        <img src="https://img.yzcdn.cn/upload_files/2019/01/24/FhbbngOXgEqTbkda8DPNCthA5r5V.jpg" class="talk-matchingimg" alt="朋友圈配图">
-                      </div>
-                      <div class="talk-matching__photowall">
-                        <img src="https://img.yzcdn.cn/upload_files/2019/01/24/FhbbngOXgEqTbkda8DPNCthA5r5V.jpg" class="talk-matchingimg" alt="朋友圈配图">
-                      </div>
-                      <div class="talk-matching__photowall">
-                        <img src="https://img.yzcdn.cn/upload_files/2019/01/24/FhbbngOXgEqTbkda8DPNCthA5r5V.jpg" class="talk-matchingimg" alt="朋友圈配图">
-                      </div>
-                      <div class="talk-matching__photowall">
-                        <img src="https://img.yzcdn.cn/upload_files/2019/01/24/FhbbngOXgEqTbkda8DPNCthA5r5V.jpg" class="talk-matchingimg" alt="朋友圈配图">
-                      </div>
-                      <div class="talk-matching__photowall">
-                        <img src="https://img.yzcdn.cn/upload_files/2019/01/24/FhbbngOXgEqTbkda8DPNCthA5r5V.jpg" class="talk-matchingimg" alt="朋友圈配图">
-                      </div>
-                      <div class="talk-matching__photowall">
-                        <img src="https://img.yzcdn.cn/upload_files/2019/01/24/FhbbngOXgEqTbkda8DPNCthA5r5V.jpg" class="talk-matchingimg" alt="朋友圈配图">
+                    <div class="talk-matching">
+                      <div class="talk-matching__figurelist">
+                        <div class="talk-li">
+                          <div style="background-image:url(https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/201907/120,910,104,359,001/a2e079dd-e605-49d3-9c10-a3893b413ba0.jpg)" class="talk-li__figure">
+                            <div class="talk-li__figure--img"></div>
+                          </div>
+                        </div>
+                        <div class="talk-li">
+                          <div style="background-image:url(http://iph.href.lu/500x100)" class="talk-li__figure">
+                            <div class="talk-li__figure--img"></div>
+                          </div>
+                        </div>
+                        <div class="talk-li">
+                          <div style="background-image:url(https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/201907/120,910,104,359,001/a2e079dd-e605-49d3-9c10-a3893b413ba0.jpg)" class="talk-li__figure">
+                            <div class="talk-li__figure--img"></div>
+                          </div>
+                        </div>
+                        <div class="talk-li">
+                          <div style="background-image:url(https://img.yzcdn.cn/upload_files/2019/01/24/FhbbngOXgEqTbkda8DPNCthA5r5V.jpg)" class="talk-li__figure">
+                            <div class="talk-li__figure--img"></div>
+                          </div>
+                        </div>
+                        <div class="talk-li">
+                          <div style="background-image:url(https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/201907/120,910,104,359,001/a2e079dd-e605-49d3-9c10-a3893b413ba0.jpg)" class="talk-li__figure">
+                            <div class="talk-li__figure--img"></div>
+                          </div>
+                        </div>
+                        <div class="talk-li">
+                          <div style="background-image:url(http://iph.href.lu/500x100)" class="talk-li__figure">
+                            <div class="talk-li__figure--img"></div>
+                          </div>
+                        </div>
+                        <div class="talk-li">
+                          <div style="background-image:url(https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/201907/120,910,104,359,001/a2e079dd-e605-49d3-9c10-a3893b413ba0.jpg)" class="talk-li__figure">
+                            <div class="talk-li__figure--img"></div>
+                          </div>
+                        </div>
+                        <div class="talk-li">
+                          <div style="background-image:url(https://img.yzcdn.cn/upload_files/2019/01/24/FhbbngOXgEqTbkda8DPNCthA5r5V.jpg)" class="talk-li__figure">
+                            <div class="talk-li__figure--img"></div>
+                          </div>
+                        </div>
+                        <div class="talk-li">
+                          <div style="background-image:url(https://img.yzcdn.cn/upload_files/2019/01/24/FhbbngOXgEqTbkda8DPNCthA5r5V.jpg)" class="talk-li__figure">
+                            <div class="talk-li__figure--img"></div>
+                          </div>
+                        </div>
                       </div>
                     </div>
                     <div class="talk-time">2019-06-03 17:17:00</div>
@@ -185,18 +205,28 @@
                       <span class="talk-name__private">个人号：微信昵称（ wechatid ）</span>
                     </div>
                     <div class="talk-sentence">散场总是难免的，尽兴而归就好</div>
-                    <div class="talk-matching clearfix">
-                      <div class="talk-matching__photowall">
-                        <img src="https://img.yzcdn.cn/upload_files/2019/01/24/FhbbngOXgEqTbkda8DPNCthA5r5V.jpg" class="talk-matchingimg" alt="商品图片">
-                      </div>
-                      <div class="talk-matching__photowall">
-                        <img src="https://img.yzcdn.cn/upload_files/2019/01/24/FhbbngOXgEqTbkda8DPNCthA5r5V.jpg" class="talk-matchingimg" alt="商品图片">
-                      </div>
-                      <div class="talk-matching__photowall">
-                        <img src="https://img.yzcdn.cn/upload_files/2019/01/24/FhbbngOXgEqTbkda8DPNCthA5r5V.jpg" class="talk-matchingimg" alt="商品图片">
-                      </div>
-                      <div class="talk-matching__photowall">
-                        <img src="https://img.yzcdn.cn/upload_files/2019/01/24/FhbbngOXgEqTbkda8DPNCthA5r5V.jpg" class="talk-matchingimg" alt="商品图片">
+                    <div class="talk-matching">
+                      <div class="talk-matching__figurelist">
+                        <div class="talk-li">
+                          <div style="background-image:url(https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/201907/120,910,104,359,001/a2e079dd-e605-49d3-9c10-a3893b413ba0.jpg)" class="talk-li__figure">
+                            <div class="talk-li__figure--img"></div>
+                          </div>
+                        </div>
+                        <div class="talk-li">
+                          <div style="background-image:url(http://iph.href.lu/500x100)" class="talk-li__figure">
+                            <div class="talk-li__figure--img"></div>
+                          </div>
+                        </div>
+                        <div class="talk-li">
+                          <div style="background-image:url(https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/201907/120,910,104,359,001/a2e079dd-e605-49d3-9c10-a3893b413ba0.jpg)" class="talk-li__figure">
+                            <div class="talk-li__figure--img"></div>
+                          </div>
+                        </div>
+                        <div class="talk-li">
+                          <div style="background-image:url(https://img.yzcdn.cn/upload_files/2019/01/24/FhbbngOXgEqTbkda8DPNCthA5r5V.jpg)" class="talk-li__figure">
+                            <div class="talk-li__figure--img"></div>
+                          </div>
+                        </div>
                       </div>
                     </div>
                     <div class="talk-time">2019-06-03 17:17:00</div>
@@ -704,16 +734,42 @@ export default {
     @b matching {
       width: 475px;
       margin-top: 20px;
-      @e photowall {
-        width: 122px;
-        height: 122px;
-        margin: 0 10px 10px 0;
-        float: left;
+      @e figurelist {
+        margin: 0;
+        padding: 0;
+        &:after {
+          content: "";
+          display: block;
+          clear: both;
+          height: 0;
+          overflow: hidden;
+          visibility: hidden;
+        }
       }
     }
-    @b matchingimg {
-      width: 100%;
-      height: 100%;
+    @b li {
+      list-style: none;
+      float: left;
+      width: 122px;
+      margin: 0 2% 2% 0;
+      @e figure {
+        position: relative;
+        width: 100%;
+        height: 0;
+        overflow: hidden;
+        margin: 0;
+        padding-bottom: 100%; /* 关键就在这里 */
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        @m img {
+          display: block;
+          position: absolute;
+          width: 100%;
+          top: 0;
+          bottom: 0;
+        }
+      }
     }
     @b time {
       font-size: var(--default-font-size-base);
@@ -912,6 +968,7 @@ export default {
   .el-scrollbar {
     background: var(--theme-color-white);
   }
+
   /* 发朋友圈弹窗样式*/
   @component-namespace dialog {
     @b content {
