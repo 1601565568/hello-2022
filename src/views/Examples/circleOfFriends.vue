@@ -129,7 +129,7 @@
                   </div>
                   <div class="talk-item__content">
                     <div class="talk-name">
-                      <span class="talk-name__call">起个名字好麻烦起个名字好麻烦起个名字好麻烦起</span>
+                      <span class="talk-name__call colorblue">起个名字好麻烦起个名字好麻烦起个名字好麻烦起</span>
                       <span class="talk-name__private">个人号：微信昵称（ wechatid ）</span>
                     </div>
                     <div class="talk-sentence">散场总是难免的，尽兴而归就好散场总是难免的，尽兴而归就好散场总是难免的，尽兴而归就好散场总是难免的，尽兴而归就好散场总是难免的，尽兴而归就好散场总是难免的，尽兴而归就好</div>
@@ -552,6 +552,7 @@ export default {
 
     return {
       dialogVisible: false,
+      dialogVisibleShow: false,
       model: model,
       quickSearchModel: quickSearchModel,
       rules: Object.assign({}, {}, {}),
@@ -714,7 +715,6 @@ export default {
       padding: 20px 0;
       @e call {
         font-size: var(--default-font-size-base);
-        color: var(--talk-font-color-blue);
       }
       @e private {
         font-size: var(--default-font-size-small);
@@ -768,6 +768,7 @@ export default {
           width: 100%;
           top: 0;
           bottom: 0;
+          cursor: pointer;
         }
       }
     }
@@ -778,15 +779,16 @@ export default {
     }
     @b interactive {
       text-align: right;
-      cursor: pointer;
       @e like {
         font-size: var(--default-font-size-middle);
         color: var(--theme-font-color-primary);
+        cursor: pointer;
       }
       @e comment {
         font-size: var(--default-font-size-middle);
         color: var(--theme-font-color-primary);
         margin-left: 10px;
+        cursor: pointer;
       }
     }
     @b detail {
@@ -946,6 +948,7 @@ export default {
   }
   .colorblue {
     color: var(--talk-font-color-blue);
+    cursor: pointer;
   }
   .icon-xiaoxi {
     font-size: var(--dafault-font-size-xlarge);
