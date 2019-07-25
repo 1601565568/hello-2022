@@ -8,6 +8,7 @@ html,body {
     background: #FFF;
 }
 .fail {
+    display:none;
     padding-top: 132px;
 }
 .fail__bgimg {

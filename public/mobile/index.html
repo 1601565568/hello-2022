@@ -7,8 +7,15 @@
           content="width=device-width, initial-scale=1.0, minimum-scale=1, maximum-scale=1.0, user-scalable=no"/>
     <meta http-equiv="Cache-Control" content="no-siteapp"/>
     <meta name="format-detection" content="telephone=no"/>
+    <link rel="stylesheet" href="invalid.css">
     <title></title>
 </head>
+<div class='fail'>
+    <div class='fail__bgimg'>
+        <img class='img'  src='https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/fail.png' alt="二维码失效图片" />
+    </div>
+    <div class="fail__text">您好，二维码已失效哦~</div>
+</div>
 <body>
 <script type="text/javascript" src="./js/jquery-3.4.1.min.js"></script>
 <script type="text/javascript" src="./js/common.js"></script>
@@ -34,7 +41,8 @@
                 getAuth()
             } else {
                 // 跳转错误页
-                alert(result.msg)
+                $(".fail").show();
+                $('.fail__text').html(result.msg);
             }
         })
     }
@@ -59,7 +67,8 @@
                     resolve(res)
                 },
                 error: function (res) {
-                    alert(res.m)
+                    $(".fail").show();
+                    $('.fail__text').html(result.msg);
                 }
             });
         });
