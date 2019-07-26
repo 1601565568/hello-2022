@@ -1,7 +1,7 @@
 <template>
   <div class="talk-chat">
     <ns-button type="text primary" @click="dialogVisible = true" class="talk-main__header--btn">
-      查看详情
+      详情
     </ns-button>
     <!-- 详情弹窗-->
     <el-dialog
