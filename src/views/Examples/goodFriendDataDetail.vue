@@ -83,7 +83,7 @@ export default {
   components: {
     ElTag
   },
-  data() {
+  data () {
     return {
       dialogVisible: false
     }
