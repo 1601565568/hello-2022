@@ -201,7 +201,7 @@
                   </div>
                   <div class="talk-item__content">
                     <div class="talk-name">
-                      <span class="talk-name__call">起个名字好麻烦</span>
+                      <span class="talk-name__call colorblue">起个名字好麻烦</span>
                       <span class="talk-name__private">个人号：微信昵称（ wechatid ）</span>
                     </div>
                     <div class="talk-sentence">散场总是难免的，尽兴而归就好</div>
@@ -321,9 +321,11 @@
                   <div class="talk-personmsg__time">2019-05-29 上午09:46:20</div>
                 </div>
                 <div class="talk-photo">
-                  <img
-                    src="http://iph.href.lu/500x100"
-                    alt="朋友圈配图" class="talk-photo__img">
+                  <div class="talk-photo__li">
+                    <div style="background-image:url(https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/201907/120,910,104,359,001/a2e079dd-e605-49d3-9c10-a3893b413ba0.jpg)" class="talk-photo__li--figure">
+                      <div class="talk-figureimg"></div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -342,9 +344,11 @@
                   <div class="talk-personmsg__time">2019-05-29 上午09:46:20</div>
                 </div>
                 <div class="talk-photo">
-                  <img
-                    src="https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/201907/120,910,104,359,001/fc3960b2-57a7-4f09-a536-ad3a276ddd67.jpg"
-                    alt="朋友圈配图" class="talk-photo__img">
+                  <div class="talk-photo__li">
+                    <div style="background-image:url(https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/201907/120,910,104,359,001/fc3960b2-57a7-4f09-a536-ad3a276ddd67.jpg)" class="talk-photo__li--figure">
+                      <div class="talk-figureimg"></div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -364,9 +368,11 @@
                   <div class="talk-personmsg__time">2019-05-29 上午09:46:20</div>
                 </div>
                 <div class="talk-photo">
-                  <img
-                    src="https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/201907/120,910,104,359,001/fc3960b2-57a7-4f09-a536-ad3a276ddd67.jpg"
-                    alt="朋友圈配图" class="talk-photo__img">
+                  <div class="talk-photo__li">
+                    <div style="background-image:url(https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/201907/120,910,104,359,001/fc3960b2-57a7-4f09-a536-ad3a276ddd67.jpg)" class="talk-photo__li--figure">
+                      <div class="talk-figureimg"></div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -384,9 +390,11 @@
                   <div class="talk-personmsg__time">2019-05-29 上午09:46:20</div>
                 </div>
                 <div class="talk-photo">
-                  <img
-                    src="https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/201907/120,910,104,359,001/fc3960b2-57a7-4f09-a536-ad3a276ddd67.jpg"
-                    alt="朋友圈配图" class="talk-photo__img">
+                  <div class="talk-photo__li">
+                    <div style="background-image:url(https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/201907/120,910,104,359,001/fc3960b2-57a7-4f09-a536-ad3a276ddd67.jpg)" class="talk-photo__li--figure">
+                      <div class="talk-figureimg"></div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -428,9 +436,9 @@
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
-    <ns-button @click="dialogVisible = false">取 消</ns-button>
-    <ns-button type="primary" @click="dialogVisible = false">确 定</ns-button>
-    </span>
+        <ns-button @click="dialogVisible = false">取 消</ns-button>
+        <ns-button type="primary" @click="dialogVisible = false">确 定</ns-button>
+      </span>
     </el-dialog>
     <!-- 发朋友圈弹窗-->
   </div>
@@ -556,32 +564,7 @@ export default {
       model: model,
       quickSearchModel: quickSearchModel,
       rules: Object.assign({}, {}, {}),
-      state: {},
-      tableData: [{
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1517 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1516 弄'
-      }],
-      grades: [],
       _pagination: pagination,
-      _table: {
-        table_buttons: tableButtons,
-        operate_buttons: operateButtons,
-        quickSearchNames: quickSearchNames,
-        quickSearchMap: {}
-      },
       _queryConfig: {
         expand: false
       }
@@ -682,11 +665,12 @@ export default {
       @e list {
         width: 100%;
         background: var(--theme-color-white);
+        padding-left: 20px;
       }
     }
     @b item {
       position: relative;
-      padding: 15px 20px;
+      margin: 15px 25px 15px 0;
       border-bottom: 1px solid var(--talk-border-color-gray);
       &:last-child {
         border: none;
@@ -695,8 +679,8 @@ export default {
         width: 52px;
         height: 52px;
         position: absolute;
-        top: 20px;
-        left: 25px;
+        top: 5px;
+        left: 0;
       }
       @e content{
         width: 100%;
@@ -748,7 +732,6 @@ export default {
       }
     }
     @b li {
-      list-style: none;
       float: left;
       width: 122px;
       margin: 0 2% 2% 0;
@@ -762,13 +745,13 @@ export default {
         background-position: center;
         background-repeat: no-repeat;
         background-size: cover;
+        cursor: pointer;
         @m img {
           display: block;
           position: absolute;
           width: 100%;
           top: 0;
           bottom: 0;
-          cursor: pointer;
         }
       }
     }
@@ -847,6 +830,7 @@ export default {
       margin-left: 10px;
       @e list {
         background: var(--theme-color-white);
+        padding-left: 20px;
       }
       @e bottom {
         padding: 5px 15px;
@@ -855,7 +839,7 @@ export default {
       }
     }
     @b convey {
-      padding: 30px 15px 15px;
+      padding: 30px 15px 15px 0;
       border-bottom: 1px solid var(--talk-border-color-gray);
       &:last-child {
         border-bottom: none;
@@ -925,14 +909,46 @@ export default {
       }
     }
     @b photo {
-      width: 102px;
-      height: 102px;
       position: absolute;
       right: 10px;
       bottom: 0;
+      margin: 0;
+      padding: 0;
+      &:after {
+        content: "";
+        display: block;
+        clear: both;
+        height: 0;
+        overflow: hidden;
+        visibility: hidden;
+      }
       @e img {
         width: 100%;
         height: 100%;
+      }
+      @e li {
+        float: left;
+        width: 102px;
+        margin: 0 2% 2% 0;
+        @m figure {
+          position: relative;
+          width: 100%;
+          height: 0;
+          overflow: hidden;
+          margin: 0;
+          padding-bottom: 100%; /* 关键就在这里 */
+          background-position: center;
+          background-repeat: no-repeat;
+          background-size: cover;
+          cursor: pointer;
+          @m img {
+            display: block;
+            position: absolute;
+            width: 100%;
+            top: 0;
+            bottom: 0;
+          }
+        }
       }
     }
   }
