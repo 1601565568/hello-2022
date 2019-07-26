@@ -455,8 +455,6 @@ export default {
     ElMain,
     ElAside
   },
-  name: 'circleOfFriends',
-  // mixins: [tableMixin],
   props: {
     types: Object
   },
@@ -468,53 +466,6 @@ export default {
       page: 1,
       total: 0
     }
-    var tableButtons = [
-      {
-        'func': function () {},
-        'icon': '$.noop',
-        'name': '\u8be6\u60c5',
-        'auth': ``,
-        'visible': ``
-      },
-      {
-        'func': function (obj) {
-          this.$parent.trackVisible = true
-          this.$parent.model.customerName = obj.row.black_type
-        },
-        'icon': '$.noop',
-        'name': '\u8ddf\u8e2a',
-        'auth': ``,
-        'visible': ``
-      }
-    ]
-
-    var operateButtons = [
-      {
-        'func': function () {
-        },
-        'icon': '',
-        'name': '新增',
-        'auth': ``,
-        'visible': ``
-      },
-      {
-        'func': function () {
-        },
-        'icon': '',
-        'name': this.$t('operating.edit'),
-        'auth': ``,
-        'visible': ''
-      },
-      {
-        'func': function () {
-        },
-        'icon': '',
-        'name': '删除',
-        'auth': ``,
-        'visible': ``
-      }
-    ]
-
     var quickInput = [{
       'template': '',
       'inline': false,
@@ -562,6 +513,8 @@ export default {
       dialogVisible: false,
       dialogVisibleShow: false,
       model: model,
+      imageUrl: '',
+      textarea: '',
       quickSearchModel: quickSearchModel,
       rules: Object.assign({}, {}, {}),
       _pagination: pagination,
@@ -670,7 +623,7 @@ export default {
     }
     @b item {
       position: relative;
-      margin: 15px 25px 15px 0;
+      padding: 15px 25px 15px 0;
       border-bottom: 1px solid var(--talk-border-color-gray);
       &:last-child {
         border: none;
@@ -679,7 +632,7 @@ export default {
         width: 52px;
         height: 52px;
         position: absolute;
-        top: 5px;
+        top: 20px;
         left: 0;
       }
       @e content{
@@ -770,7 +723,7 @@ export default {
       @e comment {
         font-size: var(--default-font-size-middle);
         color: var(--theme-font-color-primary);
-        margin-left: 10px;
+        margin-left: 15px;
         cursor: pointer;
       }
     }
@@ -873,7 +826,7 @@ export default {
       width: 16px;
       height: 16px;
       position: absolute;
-      left: 45px;
+      left: 40px;
       top: -1px;
       background: var(--talk--background-color-red);
       border-radius: 50%;
