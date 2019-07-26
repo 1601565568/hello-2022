@@ -30,6 +30,18 @@ export default {
           'name': 'CircleOfFriends',
           'title': 'CircleOfFriends',
           'component': () => import('@/views/Examples/circleOfFriends.vue')
+        },
+        {
+          'path': '/WelcomeMessage',
+          'name': 'WelcomeMessage',
+          'title': 'WelcomeMessage',
+          'component': () => import('@/views/Examples/welcomeMessage.vue')
+        },
+        {
+          'path': '/goodFriendDataDetail',
+          'name': 'goodFriendDataDetail',
+          'title': 'goodFriendDataDetail',
+          'component': () => import('@/views/Examples/goodFriendDataDetail.vue')
         }
       ]
     }
