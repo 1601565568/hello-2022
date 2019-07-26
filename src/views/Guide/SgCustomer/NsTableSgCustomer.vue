@@ -49,42 +49,40 @@
             </el-input>
           </el-form-grid>
         </el-form-item>
-        <el-form-item label="转移类型：">
+        <el-form-item label="转移类型：" prop="transMethod">
           <el-form-grid size="xmd" >
-            <el-form-item prop="transMethod">
-              <el-select  v-model="model.transType" clearable filterable placeholder="请选择转移方式">
-                <el-option label="门店均分" value="1"></el-option>
-                <el-option label="指定导购转移" value="2"></el-option>
-                <el-option label="自定义转移" value="3"></el-option>
-                <el-option label="店长转移" value="4"></el-option>
-                <el-option label="导购自离" value="5"></el-option>
-                <el-option label="会员归属转移" value="6"></el-option>
-              </el-select>
-            </el-form-item>
+            <el-select  v-model="model.transType" clearable filterable placeholder="请选择转移方式">
+              <el-option label="门店均分" value="1"></el-option>
+              <el-option label="指定导购转移" value="2"></el-option>
+              <el-option label="自定义转移" value="3"></el-option>
+              <el-option label="店长转移" value="4"></el-option>
+              <el-option label="导购自离" value="5"></el-option>
+              <el-option label="会员归属转移" value="6"></el-option>
+            </el-select>
           </el-form-grid>
         </el-form-item>
-        <el-form-item label="操作类型：">
+        <el-form-item label="操作类型："  prop="transType">
           <el-form-grid size="xmd">
-            <el-form-item prop="transType">
-              <el-select  v-model="model.operationType" clearable filterable placeholder="请选择转移类型">
-                <el-option label="品牌转移" value="0"></el-option>
-                <el-option label="门店转移" value="1"></el-option>
-                <el-option label="导购自离" value="2"></el-option>
-              </el-select>
-            </el-form-item>
+            <el-select  v-model="model.operationType" clearable filterable placeholder="请选择转移类型">
+              <el-option label="品牌转移" value="0"></el-option>
+              <el-option label="门店转移" value="1"></el-option>
+              <el-option label="导购自离" value="2"></el-option>
+            </el-select>
           </el-form-grid>
         </el-form-item>
         <el-form-item label="转移时间：" prop="time">
-          <el-date-picker
-            v-model="model.validTime"
-            value-format="yyyy-MM-dd HH-mm-ss"
-            type="datetimerange"
-            :picker-options="pickerOptions"
-            range-separator="至"
-            start-placeholder="请选择开始日期"
-            end-placeholder="请选择结束日期"
-            align="right">
-          </el-date-picker>
+          <el-form-grid size="xlg">
+            <el-date-picker
+              v-model="model.validTime"
+              value-format="yyyy-MM-dd HH-mm-ss"
+              type="datetimerange"
+              :picker-options="pickerOptions"
+              range-separator="至"
+              start-placeholder="请选择开始日期"
+              end-placeholder="请选择结束日期"
+              align="right">
+            </el-date-picker>
+          </el-form-grid>
         </el-form-item>
       </el-form>
       <div class="template-table__more-btn">
