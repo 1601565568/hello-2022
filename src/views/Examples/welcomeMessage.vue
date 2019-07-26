@@ -1,0 +1,263 @@
+<template>
+  <div ref="welcomeHeight">
+    <el-scrollbar ref="welcomeFullScreen">
+      <div class="welcome-message">
+        <!--<el-breadcrumb separator-class="el-icon-arrow-right">-->
+        <!--<el-breadcrumb-item :to="{ path: '/' }">其他设置</el-breadcrumb-item>-->
+        <!--<el-breadcrumb-item>欢迎语管理</el-breadcrumb-item>-->
+        <!--<el-breadcrumb-item>新增欢迎语</el-breadcrumb-item>-->
+        <!--</el-breadcrumb>-->
+        <el-container class="welcome-message__content">
+          <el-aside width="60%" class="welcome-aside">
+            <div class="welcome-aside__set">配置后，客户将在添加成员为联系人后收到该欢迎语</div>
+            <div class="welcome-aside__input">
+              <el-input
+                type="textarea"
+                :rows="14"
+                placeholder="欢迎！这是一段自动回复消息哦"
+                v-model="textarea">
+              </el-input>
+            </div>
+            <div class="welcome-aside__upload">
+              <el-upload
+                class="avatar-uploader"
+                action="https://jsonplaceholder.typicode.com/posts/"
+                :show-file-list="false">
+                <img v-if="imageUrl" src="" class="avatar">
+                <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                <span class="welcome-square">
+              <i  class="iconfont icon-tupian"></i>
+              图片
+            </span>
+              </el-upload>
+              <span class="welcome-and">或</span>
+              <span class="welcome-square">
+            <i  class="iconfont icon-wangye"></i>
+            网页
+          </span>
+              <span class="welcome-and">或</span>
+              <span class="welcome-square">
+            <i  class="iconfont icon-xiaochengxu"></i>
+            小程序
+          </span>
+            </div>
+            <div class="welcome-operating clearfix">
+              <span class="welcome-operating__use">使用范围：</span>
+              <span class="welcome-operating__member">全部成员</span>
+              <span class="welcome-operating__total">（共1222名导购）</span>
+              <span class="welcome-operating__modify">更改</span>
+            </div>
+          </el-aside>
+          <el-main class="welcome-main">
+            <div class="welcome-main__exampleimg">
+              <img src="https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/example.png"  alt="示例图片" class="welcome-img">
+            </div>
+            <div class="welcome-main__text">会员看到的界面</div>
+          </el-main>
+        </el-container>
+      </div>
+    </el-scrollbar>
+    <div class="form-save__unique">
+      <ns-save></ns-save>
+      <ns-button>取消</ns-button>
+    </div>
+  </div>
+</template>
+<script>
+import ElContainer from 'nui-v2/lib/container'
+import ElMain from 'nui-v2/lib/main'
+import ElAside from 'nui-v2/lib/aside'
+import ElBreadcrumb from 'nui-v2/lib/breadcrumb'
+import ElBreadcrumbItem from 'nui-v2/lib/breadcrumb-item'
+import ElUpload from 'nui-v2/lib/upload'
+export default {
+  components: {
+    ElContainer,
+    ElMain,
+    ElAside,
+    ElBreadcrumb,
+    ElBreadcrumbItem,
+    ElUpload,
+  },
+  data() {
+    return {
+      imageUrl: '',
+      textarea: ''
+    }
+  },
+  mounted: function () {
+    this.setHeight()
+    window.addEventListener('resize', this.setHeight)
+  },
+  beforeDestroy() {
+    window.removeEventListener('resize', this.setHeight)
+  },
+  methods: {
+    /** 计算主要显示窗口的高度，动态设置页面内主要内容的高度 **/
+    setHeight: function () {
+      let limitHeight = window.innerHeight - this.$refs.welcomeHeight.offsetTop - 34
+      this.$refs.welcomeFullScreen.$el.children[0].style.maxHeight = limitHeight + 'px'
+    },
+    handleAvatarSuccess(res, file) {
+      this.imageUrl = URL.createObjectURL(file.raw);
+    },
+    beforeAvatarUpload(file) {
+      const isJPG = file.type === 'image/jpeg';
+      const isLt2M = file.size / 1024 / 1024 < 2;
+
+      if (!isJPG) {
+        this.$message.error('上传头像图片只能是 JPG 格式!');
+      }
+      if (!isLt2M) {
+        this.$message.error('上传头像图片大小不能超过 2MB!');
+      }
+      return isJPG && isLt2M;
+    }
+  }
+}
+</script>
+
+<style scoped>
+  @import "@/style/small/variables.pcss";
+  :root {
+    --welcome-font-color-blue: #0094FC;
+    --welcome-font-color-gray:#8C939D;
+    --welcome-background-color-blue: #E5F4FF;
+    --welcome-background-color-gray: #FCFCFC;
+    --welcome-border-color-gray: #DADADA;
+  }
+  @component-namespace welcome {
+    @b message {
+      padding: 25px 25px 10px;
+      background: var(--theme-color-white);
+      @e content {}
+    }
+    @b aside {
+      @e set {
+        font-size: var(--default-font-size-base);
+        color: var(--theme-font-color-blue);
+        display: inline-block;
+        padding: 10px;
+        background: var(--welcome-background-color-blue);
+      }
+      @e input {
+        margin-top: 20px;
+        background: var(--welcome-background-color-gray);
+      }
+      @e upload {
+        display: flex;
+        align-items: center;
+        padding: 15px;
+        background: var(--welcome-background-color-gray);
+        border-left: 1px solid var(--welcome-border-color-gray);
+        border-right: 1px solid var(--welcome-border-color-gray);
+        border-bottom: 1px solid var(--welcome-border-color-gray);
+      }
+    }
+    @b square {
+      text-align: center;
+      line-height: 41px;
+      height: 41px;
+      margin-left: 10px;
+      padding: 0 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--welcome-border-color-gray);
+    }
+    @b and {
+      font-size: var(--default-font-size-base);
+      color: var(--theme-font-color-secondary);
+      margin-left: 10px;
+    }
+    @b operating {
+      padding: 25px 0;
+      border-bottom: 1px solid var(--welcome-border-color-gray);
+      @e use {
+        font-size: var(--default-font-size-base);
+        color: var(--theme-font-color-regular);
+      }
+      @e member {
+        font-size: var(--default-font-size-base);
+        color: var(--theme-font-color-primary);
+      }
+      @e total {
+        font-size: var(--default-font-size-base);
+        color: var(--theme-font-color-secondary);
+      }
+      @e modify {
+        font-size: var(--default-font-size-base);
+        color: var(--welcome-font-color-blue);
+        float: right;
+      }
+    }
+    @b main {
+      @e exampleimg {
+        width: 303px;
+        height: 573px;
+        margin: 0 auto;
+      }
+      @e text {
+        font-size: var(--default-font-size-base);
+        color: var(--theme-font-color-secondary);
+        text-align: center;
+        margin-top: 10px;
+      }
+    }
+    @b img {
+      width: 100%;
+      height: 100%;
+    }
+  }
+  .avatar-uploader >>> .el-upload {
+    cursor: pointer;
+    .avatar-uploader-icon {
+      font-size: var(--default-font-size-large);
+      color: var(--welcome-font-color-gray);
+    }
+  }
+  .welcome-aside__input >>> .el-textarea.el-input--small .el-textarea__inner {
+    resize: none;
+  }
+  .welcome-aside__upload >>> .avatar-uploader .el-upload {
+    border: none;
+  }
+  >>> .el-main {
+    padding: 0 !important;
+  }
+  .welcome-aside__input >>> .el-textarea__inner {
+    color: var(--theme-font-color-primary);
+    background: var(--welcome-background-color-gray);
+  }
+  >>> .el-upload--text {
+    display: flex;
+    align-items: center;
+  }
+  .icon-tupian {
+    font-size: 26px;
+    color: var(--theme-font-color-secondary);
+    margin-right: 5px;
+  }
+  .icon-wangye {
+    font-size: 24px;
+    color: var(--theme-font-color-secondary);
+    margin-right: 5px;
+  }
+  .icon-xiaochengxu {
+    font-size: 24px;
+    color: var(--theme-font-color-secondary);
+    margin-right: 5px;
+  }
+  .clearfix:after {
+    content: "";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+  }
+  .form-save__unique {
+    padding: 5px 0 5px 150px;
+    border-top: 1px solid var(--theme-base-border-color-primary);
+    background-color: var(--theme-color-white);
+  }
+</style>

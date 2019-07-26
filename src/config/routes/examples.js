@@ -32,6 +32,12 @@ export default {
           'component': () => import('@/views/Examples/circleOfFriends.vue')
         },
         {
+          'path': '/WelcomeMessage',
+          'name': 'WelcomeMessage',
+          'title': 'WelcomeMessage',
+          'component': () => import('@/views/Examples/welcomeMessage.vue')
+        },
+        {
           'path': '/goodFriendDataDetail',
           'name': 'goodFriendDataDetail',
           'title': 'goodFriendDataDetail',
