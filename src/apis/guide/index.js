@@ -16,6 +16,7 @@ import sensitivePermission from './sensitivePermission'
 import sensitiveWord from './sensitiveWord'
 import wxDeviceGuideRelation from './wxDeviceGuideRelation'
 import friendData from './friendData'
+import wxChat from './wxChat'
 import myMoments from './myMoments'
 export default {
   guide,
@@ -36,6 +37,7 @@ export default {
   sensitivePermission,
   sensitiveWord,
   wxDeviceGuideRelation,
+  wxChat,
   myMoments,
   // 所有导购模块全部整合在此
   comGetBrandForShopList: {// 获取品牌下的店铺
