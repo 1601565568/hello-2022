@@ -54,31 +54,29 @@
                 <el-form-grid size="xmd">
                   <el-select v-model="model.userType" filterable clearable
                              :multiple="false">
-                    <el-option label="潜客" value="0">
+                    <el-option label="视频" value="0">
                     </el-option>
-                    <el-option label="意向客户" value="1">
+                    <el-option label="图文" value="1">
                     </el-option>
-                    <el-option label="成交客户" value="2">
+                    <el-option label="链接" value="2">
                     </el-option>
                   </el-select>
                 </el-form-grid>
               </el-form-item>
               <el-form-item label="排序方式：">
                 <el-form-grid size="xmd">
-                  <el-select v-model="model.userType" filterable clearable
+                  <el-select v-model="model.orderType" filterable clearable
                              :multiple="false">
-                    <el-option label="潜客" value="0">
-                    </el-option>
-                    <el-option label="意向客户" value="1">
-                    </el-option>
-                    <el-option label="成交客户" value="2">
-                    </el-option>
+                    <el-option label="点赞数降序" value="0"></el-option>
+                    <el-option label="评论数降序" value="1"></el-option>
+                    <el-option label="点赞数升序" value="2"></el-option>
+                    <el-option label="评论数升序" value="3"></el-option>
                   </el-select>
                 </el-form-grid>
               </el-form-item>
               <el-form-item label="关键字：">
                 <el-form-grid size="xmd">
-                  <el-input></el-input>
+                  <el-input v-model="keyword"></el-input>
                 </el-form-grid>
               </el-form-item>
               <el-form-item label="日期：">
@@ -174,6 +172,7 @@
                                <span class="colorblue">{{comment.respondent?comment.respondent:comment.owner}}：</span>
                                <span>{{comment.content}}</span>
                                <span class="colorblue talk-msglength__reply">回复</span>
+                               <span class="colorblue talk-msglength__reply" v-if="comment.nick==comment.ownerNick">删除</span>
                              </div>
                             </div>
                           </div>
@@ -214,7 +213,7 @@
         <el-scrollbar ref="fullScreenright">
           <div class="talk-main__list">
             <div class="talk-convey" v-for="msg in interationMsgs" :key="msg">
-              <div class="talk-convey__name">个人号：微信昵称（ wechatid ）</div>
+              <div class="talk-convey__name">个人号：{{msg.nick}}（ {{msg.snsOwnerId}} ）</div>
               <div class="talk-convey__content clearfix">
                 <div class="talk-headportrait">
                   <img
@@ -223,7 +222,7 @@
                 </div>
                 <div class="talk-redpoint"></div>
                 <div class="talk-personmsg">
-                  <div class="talk-personmsg__uname colorblue">{{msg.ownerNick}}</div>
+                  <div class="talk-personmsg__uname colorblue">{{msg.commentator?msg.commentator:msg.ownerNick}}</div>
                   <div class="talk-personmsg__about" v-if="msg.previousId!=0">{{msg.info}}</div>
                   <div class="talk-personmsg__about talk-personmsg__ablue--like" v-else-if="msg.previousId==0">
                     <i class="iconfont icon-dianzan colorblue"></i>
@@ -326,13 +325,13 @@ export default {
         outNick: '',
         mobile: '',
         address: '',
-        userType: '',
+        orderType: '',
         isExit: '',
         source: '',
         memberGrade: '',
         snsType: null, // 内容类型
         ownerId: null, // 个人号Id
-        keyword: null // 关键字
+        keyword: '' // 关键字
       },
       {})
     var that = this
@@ -401,9 +400,6 @@ export default {
         if (resp.success && resp.result != null) {
           _this.moments = resp.result.data
           // 获取朋友圈图片
-          let info = JSON.parse(_this.moments.appendJson)
-          let resourceList = info.resourceList
-          console.log('朋友圈内容：' + resourceList)
         }
       }).catch((resp) => {
         _this.$notify.error(getErrorMsg('查询失败', resp))
