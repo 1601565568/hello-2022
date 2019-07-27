@@ -2,13 +2,13 @@ const prefix = '/guide/wxChat/'
 
 export default {
   // 查询聊天对象列表
-  findChatTargetList: {
-    url: prefix + 'findChatTargetList',
+  findTargetList: {
+    url: prefix + 'findTargetList',
     method: 'post'
   },
   // 查询聊天记录
-  findChatHistoryList: {
-    url: prefix + 'findChatHistoryList',
+  findChatList: {
+    url: prefix + 'findChatList',
     method: 'post'
   }
 }

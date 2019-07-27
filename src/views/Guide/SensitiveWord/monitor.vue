@@ -30,14 +30,14 @@
               range-separator="至"
               start-placeholder="开始日期"
               value-format="yyyy-MM-dd"
-              end-placeholder="结束日期" style="width:240px">
+              end-placeholder="结束日期" style="width:210px">
             </el-date-picker>
           </span>
             </el-form-item>
             <el-form-item>
               <span>
                 <el-form-item label="发送人：">
-                  <el-select v-model="model.receive" placeholder="请选择发送人">
+                  <el-select v-model="model.receive" placeholder="请选择发送人" style="width: 100px">
                     <el-option v-for="item in receiveTypeData" :key="item.value" :label="item.label" :value="item.value"/>
                   </el-select>
                 </el-form-item>
