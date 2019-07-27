@@ -6,6 +6,7 @@ import Other from './other'
 import Database from './database'
 import Isv from './isv'
 import Management from './management'
+import ContentManager from './contentmanager'
 export default [
   ShopManager,
   Reward,
@@ -15,6 +16,7 @@ export default [
   Database,
   Isv,
   Management,
+  ContentManager,
   {
     path: '/operate/articleMaterialDetail',
     name: 'articleMaterialDetail',

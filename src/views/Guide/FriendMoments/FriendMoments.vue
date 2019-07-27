@@ -122,17 +122,17 @@
           <!-- 左边内容滚动区域 -->
           <template slot="table">
             <el-scrollbar ref="fullScreen">
-              <div class="talk-aside__list" ref="asd">
+              <div class="talk-aside__list" ref="asd" v-for="moment in this.moments" :key="moment">
                 <div class="talk-item clearfix">
                   <div class="talk-item__avatar">
                     <img src="http://iph.href.lu/500x100" class="talk-avatarimg" alt="朋友圈配图" >
                   </div>
                   <div class="talk-item__content">
                     <div class="talk-name">
-                      <span class="talk-name__call colorblue">起个名字好麻烦起个名字好麻烦起个名字好麻烦起</span>
-                      <span class="talk-name__private">个人号：微信昵称（ wechatid ）</span>
+                      <span class="talk-name__call colorblue">{{moment.ownerNick}}</span>
+                      <span class="talk-name__private">个人号：{{moment.ownerNick}}（ {{moment.ownerId}} ）</span>
                     </div>
-                    <div class="talk-sentence">散场总是难免的，尽兴而归就好散场总是难免的，尽兴而归就好散场总是难免的，尽兴而归就好散场总是难免的，尽兴而归就好散场总是难免的，尽兴而归就好散场总是难免的，尽兴而归就好</div>
+                    <div class="talk-sentence">{{moment.content}}</div>
                     <div class="talk-matching">
                       <div class="talk-matching__figurelist">
                         <div class="talk-li">
@@ -448,6 +448,7 @@ import ElUpload from 'nui-v2/lib/upload'
 import ElContainer from 'nui-v2/lib/container'
 import ElMain from 'nui-v2/lib/main'
 import ElAside from 'nui-v2/lib/aside'
+import { getErrorMsg } from '@/utils/toast'
 export default {
   components: {
     ElUpload,
@@ -487,7 +488,10 @@ export default {
         userType: '',
         isExit: '',
         source: '',
-        memberGrade: ''
+        memberGrade: '',
+        snsType: null, // 内容类型
+        ownerId: null, // 个人号Id
+        keyword: null // 关键字
       },
       {})
     var that = this
@@ -520,10 +524,12 @@ export default {
       _pagination: pagination,
       _queryConfig: {
         expand: false
-      }
+      },
+      moments: null // 朋友圈列表
     }
   },
   mounted () {
+    this.initShopList()
     this.$nextTick(() => {
       this.setHeight()
       window.addEventListener('resize', () => {
@@ -542,6 +548,16 @@ export default {
       }
       this.$nextTick(() => {
         this.setHeight()
+      })
+    },
+    initShopList () {
+      var _this = this
+      _this.$http.fetch(_this.$api.guide.myMoments.momentsList, this.model).then(resp => {
+        if (resp.success && resp.result != null) {
+          _this.moments = resp.result.data
+        }
+      }).catch((resp) => {
+        _this.$notify.error(getErrorMsg('查询失败', resp))
       })
     },
     /**

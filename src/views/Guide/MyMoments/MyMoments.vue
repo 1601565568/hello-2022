@@ -15,7 +15,7 @@
           <template slot="searchSearch">
             <el-form :model="quickSearchModel" :inline="true" @submit.native.prevent class="pull-right">
               <el-form-item v-show="_data._queryConfig.expand === false">
-                <el-input ref="quickText" v-model="quickSearchModel.customerName" placeholder="关键字：" @keyup.enter.native="$quickSearchAction$('customerName')">
+                <el-input ref="quickText" v-model="quickSearchModel.keyword" placeholder="关键字：" @keyup.enter.native="$quickSearchAction$('customerName')">
                   <i class="el-icon-search el-input__icon" slot="suffix" name="name" @click="$quickSearchAction$('customerName')"></i>
                 </el-input>
               </el-form-item>
@@ -122,154 +122,59 @@
           <!-- 左边内容滚动区域 -->
           <template slot="table">
             <el-scrollbar ref="fullScreen">
-              <div class="talk-aside__list" ref="asd">
+              <div class="talk-aside__list" ref="asd" v-for="moment in this.moments" :key="moment">
                 <div class="talk-item clearfix">
                   <div class="talk-item__avatar">
-                    <img src="http://iph.href.lu/500x100" class="talk-avatarimg" alt="朋友圈配图" >
+                    <img :src="moment.head" class="talk-avatarimg" alt="朋友圈配图" >
                   </div>
                   <div class="talk-item__content">
                     <div class="talk-name">
-                      <span class="talk-name__call colorblue">起个名字好麻烦起个名字好麻烦起个名字好麻烦起</span>
-                      <span class="talk-name__private">个人号：微信昵称（ wechatid ）</span>
+                      <span class="talk-name__call colorblue">{{moment.nick}}</span>
+                      <span class="talk-name__private">个人号：{{moment.nick}}（ {{moment.ownerId}} ）</span>
                     </div>
-                    <div class="talk-sentence">散场总是难免的，尽兴而归就好散场总是难免的，尽兴而归就好散场总是难免的，尽兴而归就好散场总是难免的，尽兴而归就好散场总是难免的，尽兴而归就好散场总是难免的，尽兴而归就好</div>
+                    <div class="talk-sentence">{{moment.content}}</div>
                     <div class="talk-matching">
                       <div class="talk-matching__figurelist">
-                        <div class="talk-li">
-                          <div style="background-image:url(https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/201907/120,910,104,359,001/a2e079dd-e605-49d3-9c10-a3893b413ba0.jpg)" class="talk-li__figure">
-                            <div class="talk-li__figure--img"></div>
-                          </div>
-                        </div>
-                        <div class="talk-li">
-                          <div style="background-image:url(http://iph.href.lu/500x100)" class="talk-li__figure">
-                            <div class="talk-li__figure--img"></div>
-                          </div>
-                        </div>
-                        <div class="talk-li">
-                          <div style="background-image:url(https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/201907/120,910,104,359,001/a2e079dd-e605-49d3-9c10-a3893b413ba0.jpg)" class="talk-li__figure">
-                            <div class="talk-li__figure--img"></div>
-                          </div>
-                        </div>
-                        <div class="talk-li">
-                          <div style="background-image:url(https://img.yzcdn.cn/upload_files/2019/01/24/FhbbngOXgEqTbkda8DPNCthA5r5V.jpg)" class="talk-li__figure">
-                            <div class="talk-li__figure--img"></div>
-                          </div>
-                        </div>
-                        <div class="talk-li">
-                          <div style="background-image:url(https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/201907/120,910,104,359,001/a2e079dd-e605-49d3-9c10-a3893b413ba0.jpg)" class="talk-li__figure">
-                            <div class="talk-li__figure--img"></div>
-                          </div>
-                        </div>
-                        <div class="talk-li">
-                          <div style="background-image:url(http://iph.href.lu/500x100)" class="talk-li__figure">
-                            <div class="talk-li__figure--img"></div>
-                          </div>
-                        </div>
-                        <div class="talk-li">
-                          <div style="background-image:url(https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/201907/120,910,104,359,001/a2e079dd-e605-49d3-9c10-a3893b413ba0.jpg)" class="talk-li__figure">
-                            <div class="talk-li__figure--img"></div>
-                          </div>
-                        </div>
-                        <div class="talk-li">
-                          <div style="background-image:url(https://img.yzcdn.cn/upload_files/2019/01/24/FhbbngOXgEqTbkda8DPNCthA5r5V.jpg)" class="talk-li__figure">
-                            <div class="talk-li__figure--img"></div>
-                          </div>
-                        </div>
-                        <div class="talk-li">
-                          <div style="background-image:url(https://img.yzcdn.cn/upload_files/2019/01/24/FhbbngOXgEqTbkda8DPNCthA5r5V.jpg)" class="talk-li__figure">
+                        <div class="talk-li"  v-for="image in images" :key="image" >
+                          <div :style="{backgroundImage: 'url(' + image + ')'} " class="talk-li__figure">
                             <div class="talk-li__figure--img"></div>
                           </div>
                         </div>
                       </div>
                     </div>
-                    <div class="talk-time">2019-06-03 17:17:00</div>
+                    <div class="talk-time">{{moment.snsTime}}</div>
                     <div class="talk-interactive">
-                  <span class="talk-interactive__like">
-                    <i class="iconfont icon-dianzan"></i>
-                    20
-                  </span>
+                      <span class="talk-interactive__like">
+                        <i class="iconfont icon-dianzan"></i>
+                        {{moment.likesNums}}
+                      </span>
                       <span class="talk-interactive__comment">
-                    <i class="iconfont icon-pinglun"></i>
-                    18
-                  </span>
+                        <i class="iconfont icon-pinglun"></i>
+                        {{moment.commentsNums}}
+                      </span>
                     </div>
-                  </div>
-                </div>
-                <div class="talk-item clearfix">
-                  <div class="talk-item__avatar">
-                    <img src="https://img.yzcdn.cn/upload_files/2019/01/24/FhbbngOXgEqTbkda8DPNCthA5r5V.jpg" class="talk-avatarimg" alt="商品图片" >
-                  </div>
-                  <div class="talk-item__content">
-                    <div class="talk-name">
-                      <span class="talk-name__call colorblue">起个名字好麻烦</span>
-                      <span class="talk-name__private">个人号：微信昵称（ wechatid ）</span>
-                    </div>
-                    <div class="talk-sentence">散场总是难免的，尽兴而归就好</div>
-                    <div class="talk-matching">
-                      <div class="talk-matching__figurelist">
-                        <div class="talk-li">
-                          <div style="background-image:url(https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/201907/120,910,104,359,001/a2e079dd-e605-49d3-9c10-a3893b413ba0.jpg)" class="talk-li__figure">
-                            <div class="talk-li__figure--img"></div>
-                          </div>
-                        </div>
-                        <div class="talk-li">
-                          <div style="background-image:url(http://iph.href.lu/500x100)" class="talk-li__figure">
-                            <div class="talk-li__figure--img"></div>
-                          </div>
-                        </div>
-                        <div class="talk-li">
-                          <div style="background-image:url(https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/201907/120,910,104,359,001/a2e079dd-e605-49d3-9c10-a3893b413ba0.jpg)" class="talk-li__figure">
-                            <div class="talk-li__figure--img"></div>
-                          </div>
-                        </div>
-                        <div class="talk-li">
-                          <div style="background-image:url(https://img.yzcdn.cn/upload_files/2019/01/24/FhbbngOXgEqTbkda8DPNCthA5r5V.jpg)" class="talk-li__figure">
-                            <div class="talk-li__figure--img"></div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="talk-time">2019-06-03 17:17:00</div>
-                    <div class="talk-interactive">
-                  <span class="talk-interactive__like">
-                    <i class="iconfont icon-dianzan colorblue"></i>
-                    20
-                  </span>
-                      <span class="talk-interactive__comment">
-                    <i class="iconfont icon-pinglun"></i>
-                    18
-                  </span>
-                    </div>
-                    <div class="talk-detail">
+                    <!--点赞和评论 -->
+                    <div class="talk-detail" v-if="moment.likesNums>0 || moment.commentsNums>0">
                       <div class="talk-detail__substance">
                         <div class="talk-chatmsg">
                           <i class="iconfont icon-dianzan colorblue"></i>
-                          <span class="colorblue">起个名字好麻烦，长安自在风</span>
+                          <span class="colorblue" v-if="moment.likeName" >{{moment.likeName}}</span>
                         </div>
                         <div class="talk-msg">
                           <div class="talk-msg__item clearfix">
-                            <div class="talk-msglength">
-                              <span class="colorblue">起个名字好麻烦：</span>
-                              <span>我也老了我也老了我也老了我也老了我也老了我也老了我也老了我也老了我也老了我也老了我也老了我也老了我也老了我也老了我也老了我也老了我也老了我也老了我也老了我也老了我也老了我也老了我也老了我也老了我也老了我也老了我也老了</span>
-                              <span class="talk-msglength__reply colorblue">回复</span>
-                            </div>
-                          </div>
-                          <div class="talk-msg__item clearfix">
-                            <div class="talk-msglength">
-                              <span class="colorblue">长安自在风</span>
-                              <span>回复</span>
-                              <span class="colorblue">起个名字好麻烦：</span>
-                              <span>你还年轻</span>
-                              <span class="colorblue talk-msglength__reply">回复</span>
-                            </div>
-                          </div>
-                          <div class="talk-msg__item clearfix">
-                            <div class="talk-msglength">
-                              <span class="colorblue">起个名字好麻烦</span>
-                              <span>回复</span>
-                              <span class="colorblue">长安自在风：</span>
-                              <span>你骗人</span>
-                              <span class="colorblue talk-msglength__reply">删除</span>
+                            <div class="talk-msglength" v-for="comment in moment.comments" :key="comment">
+                              <div v-if="comment.previousId ==0">
+                                <span class="colorblue">{{comment.commentator?comment.commentator:comment.ownerNick}}：</span>
+                                <span>{{comment.content}}</span>
+                                <span class="talk-msglength__reply colorblue">回复</span>
+                              </div>
+                             <div v-else-if="comment.previousId != 0">
+                               <span class="colorblue">{{comment.commentator?comment.commentator:comment.ownerNick}}</span>
+                               <span>回复</span>
+                               <span class="colorblue">{{comment.respondent?comment.respondent:comment.owner}}：</span>
+                               <span>{{comment.content}}</span>
+                               <span class="colorblue talk-msglength__reply">回复</span>
+                             </div>
                             </div>
                           </div>
                         </div>
@@ -281,7 +186,7 @@
               </div>
             </el-scrollbar>
           </template>
-          <!-- 左边内容滚动区域-->
+          <!-- 左边内容滚动区域结束-->
 
           <!-- 分页 -->
           <template slot="pagination">
@@ -296,102 +201,38 @@
           <!-- 分页-结束 -->
         </ns-page-table>
       </el-aside>
+      <!--右侧互动消息模块-->
       <el-main class="talk-main">
         <div class="talk-personal clearfix">
           <div class="talk-personal__notice">
             <i class="iconfont icon-xiaoxi"></i>
           </div>
           <span class="talk-personal__msg">互动消息</span>
-          <el-checkbox class="talk-personal__checkbox">只看未读</el-checkbox>
+          <!--暂时无法获取未读消息，先注释 2019/07/26-->
+<!--          <el-checkbox class="talk-personal__checkbox">只看未读</el-checkbox>-->
         </div>
         <el-scrollbar ref="fullScreenright">
           <div class="talk-main__list">
-            <div class="talk-convey">
+            <div class="talk-convey" v-for="msg in interationMsgs" :key="msg">
               <div class="talk-convey__name">个人号：微信昵称（ wechatid ）</div>
               <div class="talk-convey__content clearfix">
                 <div class="talk-headportrait">
                   <img
-                    src="http://iph.href.lu/500x100"
+                    :src="msg.friendHead"
                     alt="头像" class="talk-headportrait__img">
                 </div>
                 <div class="talk-redpoint"></div>
                 <div class="talk-personmsg">
-                  <div class="talk-personmsg__uname colorblue">长安自在风长安自在风长安自在风长长安自在风</div>
-                  <div class="talk-personmsg__about">我上那么多年学,熬那么我上那么多年学我上那么多年学,熬那么我上那么多年学</div>
-                  <div class="talk-personmsg__time">2019-05-29 上午09:46:20</div>
+                  <div class="talk-personmsg__uname colorblue">{{msg.ownerNick}}</div>
+                  <div class="talk-personmsg__about" v-if="msg.previousId!=0">{{msg.info}}</div>
+                  <div class="talk-personmsg__about talk-personmsg__ablue--like" v-else-if="msg.previousId==0">
+                    <i class="iconfont icon-dianzan colorblue"></i>
+                  </div>
+                  <div class="talk-personmsg__time">{{msg.createTime}}</div>
                 </div>
                 <div class="talk-photo">
                   <div class="talk-photo__li">
                     <div style="background-image:url(https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/201907/120,910,104,359,001/a2e079dd-e605-49d3-9c10-a3893b413ba0.jpg)" class="talk-photo__li--figure">
-                      <div class="talk-figureimg"></div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="talk-convey">
-              <div class="talk-convey__name">个人号：微信昵称（ wechatid ）</div>
-              <div class="talk-convey__content clearfix">
-                <div class="talk-headportrait">
-                  <img
-                    src="https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/201907/120,910,104,359,001/c436cf04-72fe-4537-9492-467d24800855.jpg"
-                    alt="头像" class="talk-headportrait__img">
-                </div>
-                <div class="talk-redpoint"></div>
-                <div class="talk-personmsg">
-                  <div class="talk-personmsg__uname colorblue">长安自在风</div>
-                  <div class="talk-personmsg__about">我上那么多年学,熬那么</div>
-                  <div class="talk-personmsg__time">2019-05-29 上午09:46:20</div>
-                </div>
-                <div class="talk-photo">
-                  <div class="talk-photo__li">
-                    <div style="background-image:url(https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/201907/120,910,104,359,001/fc3960b2-57a7-4f09-a536-ad3a276ddd67.jpg)" class="talk-photo__li--figure">
-                      <div class="talk-figureimg"></div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="talk-convey">
-              <div class="talk-convey__name">个人号：微信昵称（ wechatid ）</div>
-              <div class="talk-convey__content clearfix">
-                <div class="talk-headportrait">
-                  <img
-                    src="https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/201907/120,910,104,359,001/c436cf04-72fe-4537-9492-467d24800855.jpg"
-                    alt="头像" class="talk-headportrait__img">
-                </div>
-                <div class="talk-personmsg">
-                  <div class="talk-personmsg__uname colorblue">宜室宜家</div>
-                  <div class="talk-personmsg__about talk-personmsg__ablue--like">
-                    <i class="iconfont icon-dianzan colorblue"></i>
-                  </div>
-                  <div class="talk-personmsg__time">2019-05-29 上午09:46:20</div>
-                </div>
-                <div class="talk-photo">
-                  <div class="talk-photo__li">
-                    <div style="background-image:url(https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/201907/120,910,104,359,001/fc3960b2-57a7-4f09-a536-ad3a276ddd67.jpg)" class="talk-photo__li--figure">
-                      <div class="talk-figureimg"></div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="talk-convey">
-              <div class="talk-convey__name">个人号：微信昵称（ wechatid ）</div>
-              <div class="talk-convey__content clearfix">
-                <div class="talk-headportrait">
-                  <img
-                    src="https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/201907/120,910,104,359,001/c436cf04-72fe-4537-9492-467d24800855.jpg"
-                    alt="头像" class="talk-headportrait__img">
-                </div>
-                <div class="talk-personmsg">
-                  <div class="talk-personmsg__uname colorblue">长安自在风</div>
-                  <div class="talk-personmsg__about">我上那么多年学,熬那么</div>
-                  <div class="talk-personmsg__time">2019-05-29 上午09:46:20</div>
-                </div>
-                <div class="talk-photo">
-                  <div class="talk-photo__li">
-                    <div style="background-image:url(https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/201907/120,910,104,359,001/fc3960b2-57a7-4f09-a536-ad3a276ddd67.jpg)" class="talk-photo__li--figure">
                       <div class="talk-figureimg"></div>
                     </div>
                   </div>
@@ -448,6 +289,7 @@ import ElUpload from 'nui-v2/lib/upload'
 import ElContainer from 'nui-v2/lib/container'
 import ElMain from 'nui-v2/lib/main'
 import ElAside from 'nui-v2/lib/aside'
+import { getErrorMsg } from '@/utils/toast'
 export default {
   components: {
     ElUpload,
@@ -487,7 +329,10 @@ export default {
         userType: '',
         isExit: '',
         source: '',
-        memberGrade: ''
+        memberGrade: '',
+        snsType: null, // 内容类型
+        ownerId: null, // 个人号Id
+        keyword: null // 关键字
       },
       {})
     var that = this
@@ -520,10 +365,16 @@ export default {
       _pagination: pagination,
       _queryConfig: {
         expand: false
-      }
+      },
+      moments: null, // 朋友圈列表
+      images: ['http://img08.tooopen.com/20190724/tooopen_sy_135348534841335.jpg', 'http://img08.tooopen.com/20190724/tooopen_sy_09280628694439.jpg'],
+      likeNames: null, // 点赞的名称
+      interationMsgs: null // 互动消息
     }
   },
   mounted () {
+    this.initMomentsList()
+    this.initInteractionMsgList()
     this.$nextTick(() => {
       this.setHeight()
       window.addEventListener('resize', () => {
@@ -542,6 +393,30 @@ export default {
       }
       this.$nextTick(() => {
         this.setHeight()
+      })
+    },
+    initMomentsList () {
+      var _this = this
+      _this.$http.fetch(_this.$api.guide.myMoments.momentsList, this.model).then(resp => {
+        if (resp.success && resp.result != null) {
+          _this.moments = resp.result.data
+          // 获取朋友圈图片
+          let info = JSON.parse(_this.moments.appendJson)
+          let resourceList = info.resourceList
+          console.log('朋友圈内容：' + resourceList)
+        }
+      }).catch((resp) => {
+        _this.$notify.error(getErrorMsg('查询失败', resp))
+      })
+    },
+    initInteractionMsgList () {
+      var _this = this
+      _this.$http.fetch(_this.$api.guide.myMoments.interactionMsgList, this.model).then(resp => {
+        if (resp.success && resp.result != null) {
+          _this.interationMsgs = resp.result.data
+        }
+      }).catch((resp) => {
+        _this.$notify.error(getErrorMsg('查询失败', resp))
       })
     },
     /**
