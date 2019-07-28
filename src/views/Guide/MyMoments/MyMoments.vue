@@ -43,10 +43,6 @@
                              :multiple="false">
                     <el-option v-for="number in personalNumberList" :label="number.nick" :value="number.wid" :key="number.wid">
                     </el-option>
-<!--                    <el-option label="意向客户" value="1">-->
-<!--                    </el-option>-->
-<!--                    <el-option label="成交客户" value="2">-->
-<!--                    </el-option>-->
                   </el-select>
                 </el-form-grid>
               </el-form-item>
@@ -193,7 +189,9 @@
               <el-pagination v-if="_data._pagination.enable" class="template-table__pagination"
                              :page-sizes="_data._pagination.sizeOpts" :total="_data._pagination.total"
                              :current-page="_data._pagination.page" :page-size="_data._pagination.size"
-                             layout="total, sizes, prev, pager, next, jumper">
+                             layout="total, sizes, prev, pager, next, jumper"
+                             @size-change="$sizeChange$"
+                             @current-change="$pageChange$">
               </el-pagination>
             </div>
           </template>
@@ -256,9 +254,8 @@
       class="dialog-content">
       <el-form ref="form" label-width="80px">
         <el-form-item label="选择个人号：">
-          <el-select placeholder="全部" class="el-block">
-            <el-option label="区域一" value="shanghai"></el-option>
-            <el-option label="区域二" value="beijing"></el-option>
+          <el-select placeholder="全部" v-model="wid" class="el-block">
+            <el-option  v-for="number in personalNumberList" :label="number.nick" :value="number.wid" :key="number.wid"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="朋友圈内容：" class="dialog-content__subtance">
@@ -268,7 +265,9 @@
             <el-upload
               class="avatar-uploader"
               action="https://jsonplaceholder.typicode.com/posts/"
-              :show-file-list="false">
+              :show-file-list="false" accept=".jpg,.jpeg,.png,.bmp,.gif"
+              :on-success="handleAvatarSuccess"
+              :before-upload="beforeAvatarUpload">
               <img v-if="imageUrl" src="" class="avatar">
               <i v-else class="el-icon-plus avatar-uploader-icon"></i>
             </el-upload>
@@ -361,14 +360,16 @@ export default {
       quickSearchModel: quickSearchModel,
       rules: Object.assign({}, {}, {}),
       _pagination: pagination,
+      momentsTotal: 0,
       _queryConfig: {
         expand: false
       },
       moments: null, // 朋友圈列表
-      images: ['http://img08.tooopen.com/20190724/tooopen_sy_135348534841335.jpg', 'http://img08.tooopen.com/20190724/tooopen_sy_09280628694439.jpg'],
+      images: [],
       likeNames: null, // 点赞的名称
       interationMsgs: null, // 互动消息
-      personalNumberList: null // 个人号列表
+      personalNumberList: null, // 个人号列表
+      wid: null // 朋友圈id
     }
   },
   mounted () {
@@ -400,6 +401,8 @@ export default {
       _this.$http.fetch(_this.$api.guide.myMoments.momentsList, this.model).then(resp => {
         if (resp.success && resp.result != null) {
           _this.moments = resp.result.data
+          _this.momentsTotal = resp.result.recordsTotal
+          // _this._data = resp.result
           // 获取朋友圈图片
         }
       }).catch((resp) => {
@@ -443,6 +446,17 @@ export default {
       var _this = this
       _this.model = this.model
       _this.initMomentsList()
+    },
+    beforeAvatarUpload (file) {
+      if (file.size / 1024 > 200) {
+        this.$notify.error('上传图片不得大于200KB')
+        return false
+      }
+      // 图片格式判断
+      if (!/\.(gif|jpg|jpeg|png|GIF|JPG|PNG|JPEG)$/.test(file.name)) {
+        this.$notify.error('不支持的图片格式')
+        return false
+      }
     },
     /**
      * 计算主要显示窗口的高度，动态设置页面内主要内容的高度
