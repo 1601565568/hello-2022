@@ -9,6 +9,8 @@
           range-separator="至"
           start-placeholder="开始日期"
           end-placeholder="结束日期"
+          value-format="yyyy-MM-dd HH:mm:ss"
+          format="yyyy-MM-dd HH:mm:ss"
           align="right">
         </el-date-picker>
       </el-form-item>
@@ -43,115 +45,52 @@
         </el-scrollbar>
       </el-aside>
       <el-main class="talk-main">
-        <div class="talk-main__header">
-          <span class="talk-note">聊天记录 / {{currTargetNick}}</span>
-          <ns-button type="text primary" @click="dialogVisible = true" class="talk-main__header--btn">
-            查看详情
-            <span class="rightarrow"> > </span>
-          </ns-button>
-          <span class="talk-person">个人号：{{currTargetOwnerNick}}（ {{currTargetOwnerId}} )</span>
+        <div v-if="currTargetIndex!=null && targetList[currTargetIndex]!=null">
+          <div class="talk-main__header">
+            <span class="talk-note">聊天记录 / {{targetList[currTargetIndex].talkerName}}</span>
+            <ns-button type="text primary" @click="dialogVisible = true" class="talk-main__header--btn">
+              查看详情
+              <span class="rightarrow"> > </span>
+            </ns-button>
+            <span class="talk-person">个人号：{{targetList[currTargetIndex].ownerName}}（ {{targetList[currTargetIndex].ownerId}} )</span>
+          </div>
+        </div>
+        <div v-else>
+          <div class="talk-main__header">
+            <span class="talk-note">聊天记录</span>
+          </div>
         </div>
         <el-scrollbar class="scrollbarb">
           <div class="talk-main__strip">
-            <div class="talk-strip">
-              <div class="talk-strip__headportrait">
-                <img src="https://img.yzcdn.cn/upload_files/2019/01/24/FhbbngOXgEqTbkda8DPNCthA5r5V.jpg" alt="用户头像" class="talk-image">
-              </div>
-              <div class="talk-strip__uname">
-                <div class="talk-msg">
-                  <span class="talk-msg__uname">顾青</span>
-                  <span class="talk-msg__date">2019-05-29 13:01</span>
+            <template v-for="chat in chatList">
+              <div :class="{'talk-strip':isChatLeft(chat.revieve), 'talk-right': !isChatLeft(chat.revieve), 'clearfix':  !isChatLeft(chat.revieve)}">
+                <div :class="{'talk-strip__headportrait':isChatLeft(chat.revieve), 'talk-right__headportrait': !isChatLeft(chat.revieve), 'clearfix':  !isChatLeft(chat.revieve)}">
+                  <img src="chat.senderImageUrl" alt="用户头像" class="talk-image">
                 </div>
-                <div class="talk-detail">
-                  <div class="talk-detail__record">
-                    <div class="talk-detail__record--circle"></div>
-                    早上好啊，该起床了
+                <div :class="{'talk-strip__uname':isChatLeft(chat.revieve), 'talk-right__uname': !isChatLeft(chat.revieve)}">
+                  <div :class="{'talk-msg':isChatLeft(chat.revieve), 'talk-rightmsg': !isChatLeft(chat.revieve)}">
+                    <span :class="{'talk-msg__uname':isChatLeft(chat.revieve), 'talk-rightmsg__uname': !isChatLeft(chat.revieve)}">chat.senderNick</span>
+                    <span :class="{'talk-msg__date':isChatLeft(chat.revieve), 'talk-rightmsg__date': !isChatLeft(chat.revieve)}">chat.createTime</span>
+                  </div>
+                  <div :class="{'talk-detail':isChatLeft(chat.revieve), 'talk-rightdetail': !isChatLeft(chat.revieve)}">
+                    <div :class="{'talk-detail__record':isChatLeft(chat.revieve), 'talk-rightdetail__record': !isChatLeft(chat.revieve)}">
+                      <div :class="{'talk-detail__record--circle':isChatLeft(chat.revieve), 'talk-rightdetail__record--circle': !isChatLeft(chat.revieve)}"></div>
+                      chat.content
+                    </div>
+                    <div v-if="chat.status===2" :class="{'talk-detail__withdraw':isChatLeft(chat.revieve), 'talk-rightdetail__withdraw': !isChatLeft(chat.revieve)}">已撤回</div>
                   </div>
                 </div>
               </div>
-            </div>
-            <div class="talk-strip">
-              <div class="talk-strip__headportrait">
-                <img src="https://img.yzcdn.cn/upload_files/2019/01/24/FhbbngOXgEqTbkda8DPNCthA5r5V.jpg" alt="用户头像" class="talk-image">
-              </div>
-              <div class="talk-strip__uname">
-                <div class="talk-msg">
-                  <span class="talk-msg__uname">顾青</span>
-                  <span class="talk-msg__date">2019-05-29 13:01</span>
-                </div>
-                <div class="talk-detail">
-                  <div class="talk-detail__record">
-                    <div class="talk-detail__record--circle"></div>
-                    2019过去了一半了，你还不起床吗？
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="talk-right clearfix">
-              <div class="talk-right__headportrait clearfix">
-                <img src="https://img.yzcdn.cn/upload_files/2019/01/24/FhbbngOXgEqTbkda8DPNCthA5r5V.jpg" alt="用户头像" class="talk-image">
-              </div>
-              <div class="talk-right__uname">
-                <div class="talk-rightmsg">
-                  <span class="talk-rightmsg__uname">顾青</span>
-                  <span class="talk-rightmsg__date">2019-05-29 13:01</span>
-                </div>
-                <div class="talk-rightdetail">
-                  <div class="talk-rightdetail__record">
-                    <div class="talk-rightdetail__record--circle"></div>
-                    大中午的不睡觉，你是不是很闲的？大中午的不睡觉，你是不是很闲的?
-                  </div>
-                  <div class="talk-rightdetail__withdraw">已撤回</div>
-                </div>
-              </div>
-            </div>
-            <div class="talk-right clearfix">
-              <div class="talk-right__headportrait clearfix">
-                <img src="https://img.yzcdn.cn/upload_files/2019/01/24/FhbbngOXgEqTbkda8DPNCthA5r5V.jpg" alt="用户头像" class="talk-image">
-              </div>
-              <div class="talk-right__uname">
-                <div class="talk-rightmsg">
-                  <span class="talk-rightmsg__uname">顾青</span>
-                  <span class="talk-rightmsg__date">2019-05-29 13:01</span>
-                </div>
-                <div class="talk-rightdetail">
-                  <div class="talk-rightdetail__record">
-                    <div class="talk-rightdetail__record--circle"></div>
-                    大中午的不睡觉，你是不是很闲的？大中午的不睡觉，你是不是很闲的？大中午的不睡觉，你是不是很闲的？大中午的不睡觉，你是不是很闲的？大中午的不睡觉，你是不是很闲的？大中午的不睡觉，你是不是很闲的？大中午的不睡觉，你是不是很闲的？大中午的不睡觉，你是不是很闲的？
-                  </div>
-                  <div class="talk-rightdetail__withdraw">已撤回</div>
-                </div>
-              </div>
-            </div>
-            <div class="talk-strip">
-              <div class="talk-strip__headportrait">
-                <img src="https://img.yzcdn.cn/upload_files/2019/01/24/FhbbngOXgEqTbkda8DPNCthA5r5V.jpg" alt="用户头像" class="talk-image">
-              </div>
-              <div class="talk-strip__uname">
-                <div class="talk-msg">
-                  <span class="talk-msg__uname">顾青</span>
-                  <span class="talk-msg__date">2019-05-29 13:01</span>
-                </div>
-                <div class="talk-detail">
-                  <div class="talk-detail__record">
-                    <div class="talk-detail__record--circle"></div>
-                    2019过去了一半了，你还不起床吗？
-                  </div>
-                </div>
-              </div>
-            </div>
+            </template>
           </div>
         </el-scrollbar>
       </el-main>
     </el-container>
     <!-- 详情弹窗-->
-    <el-dialog
-      title="查看详情"
-      :visible.sync="dialogVisible"
-      width="442px" class="detail-dialog">
-      <div class="detail-dialog__content">
+    <el-dialog title="查看详情" :visible.sync="dialogVisible" width="442px" class="detail-dialog">
+      <div class="detail-dialog__content" v-if="currTargetIndex!=null && targetList[currTargetIndex]!=null">
         <el-form label-width="80px" class="detail-leftside">
-          <el-form-item label="顾青" label-width="70px">
+          <el-form-item :label="targetList[currTargetIndex].talkerName" label-width="70px">
             <el-form-grid>
               <!-- 男生图标-->
               <i class="iconfont icon-nan1"></i>
@@ -168,7 +107,7 @@
             <el-form-grid>陕西西安</el-form-grid>
           </el-form-item>
           <el-form-item label="微信号：">
-            <el-form-grid>baiyu19900408</el-form-grid>
+            <el-form-grid>{{targetList[currTargetIndex].talker}}</el-form-grid>
           </el-form-item>
         </el-form>
         <div class="detail-rightside">

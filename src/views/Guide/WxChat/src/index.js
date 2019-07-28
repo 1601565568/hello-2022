@@ -3,28 +3,34 @@ import moment from 'moment'
 
 export default {
   mixins: [tableMixin],
-  data() {
+  data () {
     return {
       model: {
         srhDate: [this.getDateFromToday(-30), new Date()],
         wid: null,
         content: null
       },
+      // 保存查询条件,用于聊天查询
+      searchedModel: {
+        srhDate: [],
+        wid: null,
+        content: null
+      },
       pickerOptions: {
         shortcuts: [{
           text: '最近一周',
-          onClick(picker) {
-            picker.$emit('pick', [this.getDateFromToday(-7), new Date()]);
+          onClick (picker) {
+            picker.$emit('pick', [this.getDateFromToday(-7), new Date()])
           }
         }, {
           text: '最近一个月',
-          onClick(picker) {
-            picker.$emit('pick', [this.getDateFromToday(-30)]);
+          onClick (picker) {
+            picker.$emit('pick', [this.getDateFromToday(-30)])
           }
         }, {
           text: '最近三个月',
-          onClick(picker) {
-            picker.$emit('pick', [this.getDateFromToday(-90), new Date()]);
+          onClick (picker) {
+            picker.$emit('pick', [this.getDateFromToday(-90), new Date()])
           }
         }]
       },
@@ -32,29 +38,18 @@ export default {
       url: this.$api.guide.wxChat.findTargetList,
       targetList: [],
       currTargetIndex: null,
-      currTargetOwnerId: null,
-      currTargetOwnerNick: null,
-      currTargetWid: null,
-      currTargetNick: null,
-
-
       dialogVisible: false,
-      formInline: {
-        user: '',
-        region: ''
-      },
-      value8: '',
-      input10: '',
-      value2: new Date(2016, 9, 10, 18, 40),
-      value3: new Date(2016, 9, 10, 18, 40)
+      chatList: [],
+      isChatLoadEnd: false
     }
-  }, methods: {
-    getDateFromToday(addDay) {
+  },
+  methods: {
+    getDateFromToday (addDay) {
       let date = new Date()
       date.setTime(date.getTime() + 3600 * 1000 * 24 * addDay)
       return date
     },
-    loadPrivateAccount() {
+    loadPrivateAccount () {
       let _this = this
       this.$http.fetch(this.$api.guide.wxDeviceGuideRelation.findWidNickSelector).then(resp => {
         if (resp.success && resp.result != null) {
@@ -62,21 +57,47 @@ export default {
         }
       })
     },
-    isCurrTarget(index) {
+    isCurrTarget (index) {
       return index === this.currTargetIndex
     },
-    clickTarget(index) {
+    clickTarget (index) {
       this.currTargetIndex = index
-      let target = this.targetList[index]
-      console.warn(target)
-      this.currTargetOwnerId = target.ownerId
-      this.currTargetOwnerNick = target.ownerName
-      this.currTargetWid = target.talker
-      this.currTargetNick = target.talkerName
-      // 加载数据
+      // 清空并加载数据
+      this.chatList = []
+      this.loadChatLog()
     },
-    search() {
+    loadChatLog () {
       let _this = this
+      let target = this.targetList[this.currTargetIndex]
+      let param = {
+        startTime: this.searchedModel.srhDate[0],
+        endTime: this.searchedModel.srhDate[1],
+        ownerId: target.ownerId,
+        talker: target.talker,
+        content: this.searchedModel.content,
+        start: this.chatList.length
+      }
+
+      this.$http.fetch(this.$api.guide.wxChat.findChatList, param).then(resp => {
+        _this.loading = false
+        _this.chatList = resp.result
+
+        console.warn(resp)
+        if (resp.result.length === 0) {
+          _this.isChatLoadEnd = true
+        } else {
+          this.chatList.pushData(resp.result)
+        }
+      })
+    },
+    isChatLeft () {
+      return true
+    },
+    search () {
+      let _this = this
+      // 日期格式转换
+      this.model.srhDate = [moment(this.model.srhDate[0]).format('YYYY-MM-DD HH:mm:ss'), moment(this.model.srhDate[1]).format('YYYY-MM-DD HH:mm:ss')]
+      this.searchedModel = this.model
       _this.loading = true
       this.$http.fetch(this.$api.guide.wxChat.findTargetList, this.model).then(resp => {
         _this.loading = false
@@ -86,18 +107,18 @@ export default {
         }
       })
     },
-    reset() {
+    reset () {
       this.model.srhDate = [this.getDateFromToday(-30), new Date()]
       this.model.wid = null
       this.model.content = null
       this.search()
     },
-    getHourMinitue(datetime) {
+    getHourMinitue (datetime) {
       return datetime.substr(10, 6)
     }
   },
   // 初始化
   mounted: function () {
     this.loadPrivateAccount()
-  },
+  }
 }
