@@ -39,14 +39,14 @@
                      :model="model" :rules="rules" :inline="true">
               <el-form-item label="个人号：">
                 <el-form-grid size="xmd">
-                  <el-select v-model="model.userType" filterable clearable
+                  <el-select v-model="model.personalNumber" filterable clearable
                              :multiple="false">
-                    <el-option label="潜客" value="0">
+                    <el-option v-for="number in personalNumberList" :label="number.nick" :value="number.wid" :key="number.wid">
                     </el-option>
-                    <el-option label="意向客户" value="1">
-                    </el-option>
-                    <el-option label="成交客户" value="2">
-                    </el-option>
+<!--                    <el-option label="意向客户" value="1">-->
+<!--                    </el-option>-->
+<!--                    <el-option label="成交客户" value="2">-->
+<!--                    </el-option>-->
                   </el-select>
                 </el-form-grid>
               </el-form-item>
@@ -54,9 +54,9 @@
                 <el-form-grid size="xmd">
                   <el-select v-model="model.userType" filterable clearable
                              :multiple="false">
-                    <el-option label="视频" value="0">
+                    <el-option label="视频" value="3">
                     </el-option>
-                    <el-option label="图文" value="1">
+                    <el-option label="图文" value="4">
                     </el-option>
                     <el-option label="链接" value="2">
                     </el-option>
@@ -76,42 +76,42 @@
               </el-form-item>
               <el-form-item label="关键字：">
                 <el-form-grid size="xmd">
-                  <el-input v-model="keyword"></el-input>
+                  <el-input v-model="model.keyword" clearable></el-input>
                 </el-form-grid>
               </el-form-item>
               <el-form-item label="日期：">
                 <el-form-grid size="xmd">
                   <el-date-picker
                     type="date"
-                    placeholder="选择日期">
+                    placeholder="请选择日期" v-model="model.addTime">
                   </el-date-picker>
                 </el-form-grid>
               </el-form-item>
               <el-form-item label="点赞数：">
                 <el-form-grid class="widthlength">
-                  <el-input></el-input>
+                  <el-input v-model="model.likesMin"></el-input>
                 </el-form-grid>
                 <el-form-grid class="text-tips--grey">
                   ~
                 </el-form-grid>
                 <el-form-grid class="widthlength">
-                  <el-input></el-input>
+                  <el-input v-model="model.likesMax"></el-input>
                 </el-form-grid>
               </el-form-item>
               <el-form-item label="评论数：">
                 <el-form-grid class="widthlength">
-                  <el-input></el-input>
+                  <el-input v-model="model.commentsMin"></el-input>
                 </el-form-grid>
                 <el-form-grid class="text-tips--grey">
                   ~
                 </el-form-grid>
                 <el-form-grid class="widthlength">
-                  <el-input></el-input>
+                  <el-input v-model="model.commentsMax"></el-input>
                 </el-form-grid>
               </el-form-item>
             </el-form>
             <div class="template-table__more-btn">
-              <ns-button type="primary" @click="$searchAction$()">{{$t('operating.search')}}</ns-button>
+              <ns-button type="primary" @click="queryMomentsList()">{{$t('operating.search')}}</ns-button>
               <ns-button @click="$resetInputAction$()">{{$t('operating.reset')}}</ns-button>
             </div>
           </template>
@@ -289,6 +289,7 @@ import ElContainer from 'nui-v2/lib/container'
 import ElMain from 'nui-v2/lib/main'
 import ElAside from 'nui-v2/lib/aside'
 import { getErrorMsg } from '@/utils/toast'
+import tableMixin from 'web-crm/src/mixins/table'
 export default {
   components: {
     ElUpload,
@@ -296,6 +297,7 @@ export default {
     ElMain,
     ElAside
   },
+  mixins: [tableMixin],
   props: {
     types: Object
   },
@@ -321,17 +323,14 @@ export default {
     var quickSearchModel = {}
     var model = Object.assign({},
       {
-        customerName: '',
-        outNick: '',
-        mobile: '',
-        address: '',
-        orderType: '',
-        isExit: '',
-        source: '',
-        memberGrade: '',
+        personalNumber: null,
+        addTime: null, // 发送时间
+        likesMin: null, // 点赞最小数
+        likesMax: null, // 点赞最大数
+        commentsMin: null, // 评论最小数
+        commentsMax: null, // 评论最大数
         snsType: null, // 内容类型
-        ownerId: null, // 个人号Id
-        keyword: '' // 关键字
+        keyword: null // 关键字
       },
       {})
     var that = this
@@ -368,10 +367,12 @@ export default {
       moments: null, // 朋友圈列表
       images: ['http://img08.tooopen.com/20190724/tooopen_sy_135348534841335.jpg', 'http://img08.tooopen.com/20190724/tooopen_sy_09280628694439.jpg'],
       likeNames: null, // 点赞的名称
-      interationMsgs: null // 互动消息
+      interationMsgs: null, // 互动消息
+      personalNumberList: null // 个人号列表
     }
   },
   mounted () {
+    this.initPersonalNumberList()
     this.initMomentsList()
     this.initInteractionMsgList()
     this.$nextTick(() => {
@@ -414,6 +415,34 @@ export default {
       }).catch((resp) => {
         _this.$notify.error(getErrorMsg('查询失败', resp))
       })
+    },
+    // 个人号列表
+    initPersonalNumberList () {
+      var _this = this
+      _this.$http.fetch(_this.$api.guide.wxDeviceGuideRelation.findWidNickSelector).then(resp => {
+        if (resp.success && resp.result != null) {
+          _this.personalNumberList = resp.result
+          console.log('ad' + _this.personalNumberList)
+        }
+      }).catch((resp) => {
+        _this.$notify.error(getErrorMsg('查询失败ad', resp))
+      })
+    },
+    queryMomentsList () {
+      var _this = this
+      _this.$http.fetch(_this.$api.guide.myMoments.momentsList, this.model).then(resp => {
+        if (resp.success && resp.result != null) {
+          _this.moments = resp.result.data
+          // 获取朋友圈图片
+        }
+      }).catch((resp) => {
+        _this.$notify.error(getErrorMsg('查询失败', resp))
+      })
+    },
+    rest () {
+      var _this = this
+      _this.model = this.model
+      _this.initMomentsList()
     },
     /**
      * 计算主要显示窗口的高度，动态设置页面内主要内容的高度
