@@ -48,7 +48,7 @@
     <el-container class="talk-chat__container">
       <el-aside class="talk-aside" style="width: 22%;">
           <div class="talk-aside__group">客户 / 群</div>
-          <el-scrollbar class="scrollbara" ref="fullScreen">
+          <el-scrollbar ref="fullScreen">
             <div class="talk-aside__item">
               <div class="talk-item talk-chosen">
                 <div class="talk-item__avatar">
@@ -167,7 +167,7 @@
           </ns-button>
           <span class="talk-person">个人号：昵称（ cpk201807 )</span>
         </div>
-        <el-scrollbar class="scrollbarb" ref="fullScreenright">
+        <el-scrollbar ref="fullScreenright">
           <div class="talk-main__strip">
             <div class="talk-strip">
               <div class="talk-strip__headportrait">
@@ -365,7 +365,7 @@ export default {
      * 计算主要显示窗口的高度，动态设置页面内主要内容的高度
      */
     setHeight: function () {
-      /**  15px为底部10px间距和表单5px内边距  **/
+      /**  15px为顶部表单上面的间距和左右内容的标题上面的间距 **/
       const PAGE_TOP_FORM = 93 // 顶部表单的高度
       const BTN_TITLE = 50 // 左右内容的标题的高度
       let limitHeight = window.innerHeight -
