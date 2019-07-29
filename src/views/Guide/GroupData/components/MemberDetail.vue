@@ -11,7 +11,7 @@
             <el-form-grid  class="detail-leftside__item--blackcolor detail-leftside__item--rowheight">{{memberDetail.wid || '-'}}</el-form-grid>
           </el-form-item>
           <el-form-item label="微信昵称：" class="detail-leftside__item">
-            <el-form-grid class="detail-leftside__item--blackcolor">{{memberDetail.nick || '-'}}</el-form-grid>
+            <el-form-grid class="detail-leftside__item--blackcolor">{{memberDetail.isOwner == "1" ? (memberDetail.ownerNick || '-') : (memberDetail.nick || '-')}}</el-form-grid>
           </el-form-item>
 <!--            todo-zsf 暂无以下数据-->
 <!--          <el-form-item label="性别：" class="detail-leftside__item">-->
@@ -33,11 +33,11 @@
             <el-form-grid class="detail-leftside__item--blackcolor">{{memberDetail.guideName || '-'}}</el-form-grid>
           </el-form-item>
           <el-form-item label="是否与专属导购成为好友关系：" label-width="180px" class="detail-leftside__item">
-            <el-form-grid class="delete-leftside__item--blackcolor">{{memberDetail.isFriend === '1' ? '是' : '否'}}</el-form-grid>
+            <el-form-grid class="delete-leftside__item--blackcolor">{{memberDetail.rId || memberDetail.isOwner == "1" ? '是' : '否'}}</el-form-grid>
           </el-form-item>
         </el-form>
         <div class="detail-rightside">
-          <img :src="memberDetail.head || NO_IMG_BIG" class="detail-rightside__img" alt="头像">
+          <img :src="memberDetail.isOwner == '1' ? (memberDetail.ownerHead || NO_IMG_BIG) : (memberDetail.head || NO_IMG_BIG)" class="detail-rightside__img" alt="头像">
         </div>
       </div>
       <span slot="footer" class="dialog-footer">

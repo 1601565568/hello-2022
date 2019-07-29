@@ -87,7 +87,7 @@
               <template slot-scope="scope">
                 <div class="avatar-name clearfix">
                   <div class="avatar-name__avatar"><img
-                    :src='scope.row.head || NoImg' alt="会员头像"></div>
+                    :src='scope.row.isOwner == "1" ? (scope.row.ownerHead || NoImg) : (scope.row.head || NoImg)' alt="会员头像"></div>
                   <div class="avatar-name__name"></div>
                 </div>
               </template>
@@ -95,7 +95,7 @@
             <el-table-column :show-overflow-tooltip="true" type="default" prop="nick"
                              label="微信昵称" :sortable="false">
               <template slot-scope='scope'>
-                {{scope.row.nick || '-'}}
+                {{scope.row.isOwner == "1" ? (scope.row.ownerNick || '-') : (scope.row.nick || '-')}}
               </template>
             </el-table-column>
 <!--            todo-zsf 暂无以下数据-->
@@ -127,7 +127,7 @@
             <el-table-column :show-overflow-tooltip="true" type="default" prop=""
                              label="是否好友" :sortable="false" width='80px' align='center'>
               <template slot-scope='scope'>
-                {{Number(scope.row.isFriend) > 0 ? '是' : '否' }}
+                {{scope.row.rId || scope.row.isOwner == "1" ? '是' : '否' }}
               </template>
             </el-table-column>
             <el-table-column :show-overflow-tooltip="true" label="操作" align="center"

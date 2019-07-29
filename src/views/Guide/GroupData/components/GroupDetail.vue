@@ -27,7 +27,7 @@
                 <template slot-scope="scope">
                   <div class="avatar-name clearfix">
                     <div class="avatar-name__avatar"><img
-                      :src='scope.row.head || NO_IMG_BIG' alt="会员头像"></div>
+                      :src='scope.row.isOwner == "1" ? (scope.row.ownerHead || NO_IMG_BIG) : (scope.row.head || NO_IMG_BIG)' alt="会员头像"></div>
                     <div class="avatar-name__name"></div>
                   </div>
                 </template>
@@ -35,13 +35,15 @@
               <el-table-column :show-overflow-tooltip="true" type="default" prop="nick"
                                label="微信信息" :sortable="false">
                 <template slot-scope='scope'>
-                  {{`${scope.row.nick}（${scope.row.wid}）`}}
+                  {{`${scope.row.isOwner == "1" ? (scope.row.ownerNick || '-') : (scope.row.nick || '-')}（${scope.row.wid}）`}}
                 </template>
               </el-table-column>
               <el-table-column :show-overflow-tooltip="true" type="default" prop=""
                                label="会员状态" :sortable="false" width='100px' align='right'>
                 <template slot-scope='scope'>
-                  {{scope.row.isMember === '1' ? '是' : '否'}}
+<!--                  todo-zsf 暂时取不到会员状态-->
+                  -
+<!--                  {{scope.row.isMember === '1' ? '是' : '否'}}-->
                 </template>
                 <template slot='header' scope='header'>
                     <span>

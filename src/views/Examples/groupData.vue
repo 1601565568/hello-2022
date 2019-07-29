@@ -146,7 +146,7 @@
       title="新建群聊"
       :visible.sync="dialogVisible1"
       width="663px" class="dialog-chat">
-      <el-form  class="dialog-chat__form" inline>
+      <el-form class="dialog-chat__form" inline>
         <el-form-item label="群名称：" required>
           <el-form-grid size="lg">
             <el-input></el-input>
@@ -158,91 +158,101 @@
             <span class="dialog-max__length">字数最多15字</span>
           </div>
         </el-form-item>
-      </el-form>
-      <div class="dialog-chat__content dialog-chat__content--boderbottom">
-        <div class="dialog-left">
-          <div class="dialog-left__input">
-            <el-input
-              placeholder="输入微信号/昵称"
-              prefix-icon="el-icon-search"
-              v-model="input"
-              clearable>
-            </el-input>
+        <div class="dialog-chat__content dialog-chat__content--boderbottom">
+          <div class="dialog-left">
+            <div class="dialog-left__input">
+              <el-input
+                placeholder="输入微信号/昵称"
+                prefix-icon="el-icon-search"
+                v-model="input"
+                clearable>
+              </el-input>
+            </div>
+            <div class="dialog-left__checkbox">
+              <div class="dialog-choice">可选择个人号（408）</div>
+              <el-scrollbar class="scrollbarb">
+                <el-checkbox-group v-model="checkList" class="checkbox">
+                  <div class="dialog-checkbox__item">
+                    <el-checkbox label="淘宝优惠群"></el-checkbox>
+                  </div>
+                  <div class="dialog-checkbox__item">
+                    <el-checkbox label="天猫打折群"></el-checkbox>
+                  </div>
+                  <div class="dialog-checkbox__item">
+                    <el-checkbox label="东方1号门店会员群"></el-checkbox>
+                  </div>
+                  <div class="dialog-checkbox__item">
+                    <el-checkbox label="东方2号门店会员群"></el-checkbox>
+                  </div>
+                  <div class="dialog-checkbox__item">
+                    <el-checkbox label="天猫打折群"></el-checkbox>
+                  </div>
+                  <div class="dialog-checkbox__item">
+                    <el-checkbox label="东方1号门店会员群"></el-checkbox>
+                  </div>
+                  <div class="dialog-checkbox__item">
+                    <el-checkbox label="东方2号门店会员群"></el-checkbox>
+                  </div>
+                </el-checkbox-group>
+              </el-scrollbar>
+            </div>
           </div>
-          <div class="dialog-left__checkbox">
-            <div class="dialog-choice">可选择个人号（408）</div>
-            <el-scrollbar class="scrollbarb">
-              <el-checkbox-group v-model="checkList" class="checkbox">
-                <div class="dialog-checkbox__item">
-                  <el-checkbox label="淘宝优惠群"></el-checkbox>
+          <div class="dialog-right">
+            <div class="dialog-right__title">已选择个人号（1）</div>
+            <div class="dialog-right__content">
+              <el-scrollbar class="scrollbarb">
+                <div class="dialog-selectitem">
+                  <span class="dialog-selectitem__discountgroup"> 淘宝优惠群（1）</span>
+                  <i class="iconfont icon-shanchu2"></i>
                 </div>
-                <div class="dialog-checkbox__item">
-                  <el-checkbox label="天猫打折群"></el-checkbox>
+                <div class="dialog-selectitem">
+                  <span class="dialog-selectitem__discountgroup">淘宝优惠群淘宝优惠群淘宝优惠群淘宝优惠群</span>
+                  <i class="iconfont icon-shanchu2"></i>
                 </div>
-                <div class="dialog-checkbox__item">
-                  <el-checkbox label="东方1号门店会员群"></el-checkbox>
+                <div class="dialog-selectitem">
+                  <span class="dialog-selectitem__discountgroup"> 淘宝优惠群（1）</span>
+                  <i class="iconfont icon-shanchu2"></i>
                 </div>
-                <div class="dialog-checkbox__item">
-                  <el-checkbox label="东方2号门店会员群"></el-checkbox>
+                <div class="dialog-selectitem">
+                  <span class="dialog-selectitem__discountgroup"> 淘宝优惠群（1）</span>
+                  <i class="iconfont icon-shanchu2"></i>
                 </div>
-                <div class="dialog-checkbox__item">
-                  <el-checkbox label="天猫打折群"></el-checkbox>
+                <div class="dialog-selectitem">
+                  <span class="dialog-selectitem__discountgroup">淘宝优惠群淘宝优惠群淘宝优惠群淘宝优惠群</span>
+                  <i class="iconfont icon-shanchu2"></i>
                 </div>
-                <div class="dialog-checkbox__item">
-                  <el-checkbox label="东方1号门店会员群"></el-checkbox>
-                </div>
-                <div class="dialog-checkbox__item">
-                  <el-checkbox label="东方2号门店会员群"></el-checkbox>
-                </div>
-              </el-checkbox-group>
-            </el-scrollbar>
+              </el-scrollbar>
+            </div>
           </div>
         </div>
-        <div class="dialog-right">
-          <div class="dialog-right__title">已选择个人号（1）</div>
-          <div class="dialog-right__content">
-            <el-scrollbar class="scrollbarb">
-              <div class="dialog-selectitem">
-                <span class="dialog-selectitem__discountgroup"> 淘宝优惠群（1）</span>
-                <i class="iconfont icon-shanchu2"></i>
-              </div>
-              <div class="dialog-selectitem">
-                <span class="dialog-selectitem__discountgroup">淘宝优惠群淘宝优惠群淘宝优惠群淘宝优惠群</span>
-                <i class="iconfont icon-shanchu2"></i>
-              </div>
-              <div class="dialog-selectitem">
-                <span class="dialog-selectitem__discountgroup"> 淘宝优惠群（1）</span>
-                <i class="iconfont icon-shanchu2"></i>
-              </div>
-              <div class="dialog-selectitem">
-                <span class="dialog-selectitem__discountgroup"> 淘宝优惠群（1）</span>
-                <i class="iconfont icon-shanchu2"></i>
-              </div>
-              <div class="dialog-selectitem">
-                <span class="dialog-selectitem__discountgroup">淘宝优惠群淘宝优惠群淘宝优惠群淘宝优惠群</span>
-                <i class="iconfont icon-shanchu2"></i>
-              </div>
-            </el-scrollbar>
-          </div>
-        </div>
-      </div>
-      <el-row class="dialog-chat__bulletin">
-        <el-col :span="3">
-          <div class="dialog-bulletin">
-            群名称：
-          </div>
-        </el-col>
-        <el-col :span="21">
-          <div class="dialog-edit">
+        <el-form-item label="群公告：" required>
+          <el-form-grid size="lg">
             <el-input
               type="textarea"
               :rows="4"
               placeholder="请编辑群公告"
               v-model="textarea">
             </el-input>
-          </div>
-        </el-col>
-      </el-row>
+          </el-form-grid>
+        </el-form-item>
+<!--        <el-row class="dialog-chat__bulletin">-->
+<!--          <el-col :span="3">-->
+<!--            <div class="dialog-bulletin">-->
+<!--              群名称：-->
+<!--            </div>-->
+<!--          </el-col>-->
+<!--          <el-col :span="21">-->
+<!--            <div class="dialog-edit">-->
+<!--              <el-input-->
+<!--                type="textarea"-->
+<!--                :rows="4"-->
+<!--                placeholder="请编辑群公告"-->
+<!--                v-model="textarea">-->
+<!--              </el-input>-->
+<!--            </div>-->
+<!--          </el-col>-->
+<!--        </el-row>-->
+      </el-form>
       <span slot="footer" class="dialog-btn">
         <ns-button @click="dialogVisible = false">上一步</ns-button>
         <ns-button @click="dialogVisible = false" class="dialog-btn__next">确定</ns-button>

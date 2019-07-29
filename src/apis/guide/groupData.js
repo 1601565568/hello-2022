@@ -11,5 +11,9 @@ export default {
   groupDetailTable: {
     url: prefix + 'groupDetailTable',
     method: 'POST'
+  },
+  createChatroom: {
+    url: prefix + 'createChatroom',
+    method: 'POST'
   }
 }

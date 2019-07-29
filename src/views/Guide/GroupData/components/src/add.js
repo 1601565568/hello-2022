@@ -5,6 +5,11 @@ export default {
     visible: Boolean
   },
   data () {
+    const originModel = {
+      displayname: '',
+      chatroomnotice: '',
+      members: []
+    }
     return {
       sVisible: false,
       privateAccountData: [],
@@ -16,26 +21,30 @@ export default {
       },
       searchPrivateAccount: '',
       selectedPrivateAccountItem: [],
-      privateAccountMap: {},
       nextBtnDisabled: true,
       selectedMemberDialog: {
         visible: false
       },
-      saveModel: {
-        displayname: '',
-        chatroomnotice: ''
-      },
-      searchFriend: '',
+      originModel,
+      saveModel: JSON.parse(JSON.stringify(originModel)),
+      searchFriendModel: '',
       privateAccountSelection: [],
       friendData: [],
       selectedFriendItem: [],
-      FriendMap: {},
       friendPagination: {
         size: 10,
         page: 1,
         total: 0
       },
-      loadingPrivateAccountTable: false
+      loadingPrivateAccountTable: false,
+      loadingFriendTable: false,
+      selectedMemberRules: {
+        displayname: [
+          { required: true, message: '请输入群聊名称', trigger: ['blur', 'change'] }
+        ]
+      },
+      friendSelection: [],
+      saving: false
     }
   },
   watch: {
@@ -45,57 +54,6 @@ export default {
         this.loadWxPrivateAccount()
       }
     },
-    // selectedPrivateAccount (value) {
-    //   this.nextBtnDisabled = !value || value.length < 1
-    //   // 移除不存在的
-    //   let del = []
-    //   this.selectedPrivateAccountItem.forEach((v, i) => {
-    //     if (value.indexOf(v.wid) <= 0) {
-    //       del.push(i)
-    //     }
-    //   })
-    //   for (let i = 0; i < del.length; i++) {
-    //     this.selectedPrivateAccountItem.splice(del[i], 1)
-    //   }
-    //   value.map((v, i) => {
-    //     // 添加新增的
-    //     let item = this.privateAccountMap[v]
-    //     if (item) {
-    //       this.selectedPrivateAccountItem.push(Object.assign({}, item, { selectedIndex: i }))
-    //     }
-    //   })
-    // },
-    privateAccountData (value) {
-      this.privateAccountMap = {}
-      value.map(v => {
-        Object.assign(this.privateAccountMap, { [v.wid]: v })
-      })
-    },
-    friendData (value) {
-      this.FriendMap = {}
-      value.map(v => {
-        Object.assign(this.FriendMap, { [v.wid]: v })
-      })
-    },
-    // selectedFriend (value) {
-    //   // 移除不存在的
-    //   let del = []
-    //   this.selectedFriendItem.forEach((v, i) => {
-    //     if (value.indexOf(v.wid) <= 0) {
-    //       del.push(i)
-    //     }
-    //   })
-    //   for (let i = 0; i < del.length; i++) {
-    //     this.selectedFriendItem.splice(del[i], 1)
-    //   }
-    //   value.map((v, i) => {
-    //     // 添加新增的
-    //     let item = this.FriendMap[v]
-    //     if (item) {
-    //       this.selectedFriendItem.push(Object.assign({}, item, { selectedIndex: i }))
-    //     }
-    //   })
-    // },
     'selectedMemberDialog.visible' (value) {
       if (value) {
         this.loadFriend()
@@ -104,7 +62,7 @@ export default {
   },
   computed: {
     addBtnDisabled: function () {
-      return !this.saveModel.displayname || this.selectedFriend.length < 2
+      return !this.saveModel.displayname || this.friendSelection.length < 2
     }
   },
   mounted () {
@@ -113,11 +71,19 @@ export default {
   methods: {
     onClose () {
       this.$emit('update:visible', false)
-      this.selectedPrivateAccount = []
+      this.friendData = []
       this.pagination.page = 1
       this.privateAccountData = []
+      this.privateAccountSelection = []
+      this.friendSelection = []
+      this.saveModel = JSON.parse(JSON.stringify(this.originModel))
+    },
+    searchWxPrivateAccount () {
+      this.pagination.page = 1
+      this.loadWxPrivateAccount()
     },
     loadWxPrivateAccount () {
+      this.loadingPrivateAccountTable = true
       this.$http.fetch(this.$api.guide.wxPrivateAccount.tableLite, {
         start: (this.pagination.page - 1) * this.pagination.size,
         length: this.pagination.size,
@@ -132,6 +98,9 @@ export default {
         .catch(error => {
           this.$notify.error(getErrorMsg('获取个人号列表异常', error))
         })
+        .finally(() => {
+          this.loadingPrivateAccountTable = false
+        })
     },
     onCurrentChange (page) {
       this.pagination.page = page
@@ -140,15 +109,21 @@ export default {
     onRemoveSelectedPrivateAccount (row) {
       this.$refs.privateAccountTable.toggleRowSelection(row, false)
     },
-    // onRemoveSelectedFriend (value) {
-    //   this.selectedFriend.splice(value.selectedIndex, 1)
-    // },
+    onRemoveSelectedFriend (row) {
+      this.$refs.friendTable.toggleRowSelection(row, false)
+    },
+    searchFriend () {
+      this.friendPagination.page = 1
+      this.loadFriend()
+    },
     loadFriend () {
+      this.loadingFriendTable = true
       this.$http.fetch(this.$api.guide.wxPrivateAccount.tableFriendLite, {
         start: (this.friendPagination.page - 1) * this.friendPagination.size,
         length: this.friendPagination.size,
         searchMap: {
-          nick: this.searchPrivateAccount
+          nick: this.searchFriendModel,
+          ownerId: this.privateAccountSelection[0].wid
         }
       })
         .then(data => {
@@ -158,6 +133,9 @@ export default {
         .catch(error => {
           this.$notify.error(getErrorMsg('获取个人号列表异常', error))
         })
+        .finally(() => {
+          this.loadingFriendTable = false
+        })
     },
     onFriendCurrentChange (page) {
       this.friendPagination.page = page
@@ -166,18 +144,51 @@ export default {
     onSelectedMemberDialogClose () {
       this.friendPagination.page = 1
       this.friendData = []
+      this.friendSelection = []
     },
     privateAccountSelectionChange (selection) {
-      if (!selection || selection.length <= 0) {
-        this.$message.error('请选择一个个人号')
-        this.nextBtnDisabled = true
-      } else if (selection && selection.length > 1) {
-        this.$message.error('只允许选择一个个人号')
-        this.nextBtnDisabled = true
-      } else {
-        this.nextBtnDisabled = false
+      if (this.visible) {
+        if (!selection || selection.length <= 0) {
+          this.$message.error('请选择一个个人号')
+          this.nextBtnDisabled = true
+        } else if (selection && selection.length > 1) {
+          this.$message.error('只允许选择一个个人号')
+          this.nextBtnDisabled = true
+        } else {
+          this.nextBtnDisabled = false
+        }
       }
       this.privateAccountSelection = selection
+    },
+    friendSelectionChange (selection) {
+      if (this.selectedMemberDialog.visible) {
+        if (!selection || selection.length <= 1) {
+          this.$message.error('至少选择两个好友')
+        }
+      }
+      this.friendSelection = selection
+    },
+    createGroup () {
+      this.$refs.saveModel.validate(valid => {
+        if (valid) {
+          this.saving = true
+          let params = JSON.parse(JSON.stringify(this.saveModel))
+          params.ownerId = this.privateAccountSelection[0].wid
+          this.friendSelection.map(v => {
+            params.members.push(v.wid)
+          })
+          this.$http.fetch(this.$api.guide.groupData.createChatroom, params)
+            .then(data => {
+              this.$notify.success('创建成功，稍后可在个人号或列表中查看结果')
+            })
+            .catch(error => {
+              this.$notify.error(getErrorMsg('创建群聊出现异常', error))
+            })
+            .finally(() => {
+              this.saving = false
+            })
+        }
+      })
     }
   }
 }
