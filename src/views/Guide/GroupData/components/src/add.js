@@ -26,7 +26,7 @@ export default {
         chatroomnotice: ''
       },
       searchFriend: '',
-      selectedFriend: [],
+      privateAccountSelection: [],
       friendData: [],
       selectedFriendItem: [],
       FriendMap: {},
@@ -34,7 +34,8 @@ export default {
         size: 10,
         page: 1,
         total: 0
-      }
+      },
+      loadingPrivateAccountTable: false
     }
   },
   watch: {
@@ -44,26 +45,26 @@ export default {
         this.loadWxPrivateAccount()
       }
     },
-    selectedPrivateAccount (value) {
-      this.nextBtnDisabled = !value || value.length < 1
-      // 移除不存在的
-      let del = []
-      this.selectedPrivateAccountItem.forEach((v, i) => {
-        if (value.indexOf(v.wid) <= 0) {
-          del.push(i)
-        }
-      })
-      for (let i = 0; i < del.length; i++) {
-        this.selectedPrivateAccountItem.splice(del[i], 1)
-      }
-      value.map((v, i) => {
-        // 添加新增的
-        let item = this.privateAccountMap[v]
-        if (item) {
-          this.selectedPrivateAccountItem.push(Object.assign({}, item, { selectedIndex: i }))
-        }
-      })
-    },
+    // selectedPrivateAccount (value) {
+    //   this.nextBtnDisabled = !value || value.length < 1
+    //   // 移除不存在的
+    //   let del = []
+    //   this.selectedPrivateAccountItem.forEach((v, i) => {
+    //     if (value.indexOf(v.wid) <= 0) {
+    //       del.push(i)
+    //     }
+    //   })
+    //   for (let i = 0; i < del.length; i++) {
+    //     this.selectedPrivateAccountItem.splice(del[i], 1)
+    //   }
+    //   value.map((v, i) => {
+    //     // 添加新增的
+    //     let item = this.privateAccountMap[v]
+    //     if (item) {
+    //       this.selectedPrivateAccountItem.push(Object.assign({}, item, { selectedIndex: i }))
+    //     }
+    //   })
+    // },
     privateAccountData (value) {
       this.privateAccountMap = {}
       value.map(v => {
@@ -76,25 +77,25 @@ export default {
         Object.assign(this.FriendMap, { [v.wid]: v })
       })
     },
-    selectedFriend (value) {
-      // 移除不存在的
-      let del = []
-      this.selectedFriendItem.forEach((v, i) => {
-        if (value.indexOf(v.wid) <= 0) {
-          del.push(i)
-        }
-      })
-      for (let i = 0; i < del.length; i++) {
-        this.selectedFriendItem.splice(del[i], 1)
-      }
-      value.map((v, i) => {
-        // 添加新增的
-        let item = this.FriendMap[v]
-        if (item) {
-          this.selectedFriendItem.push(Object.assign({}, item, { selectedIndex: i }))
-        }
-      })
-    },
+    // selectedFriend (value) {
+    //   // 移除不存在的
+    //   let del = []
+    //   this.selectedFriendItem.forEach((v, i) => {
+    //     if (value.indexOf(v.wid) <= 0) {
+    //       del.push(i)
+    //     }
+    //   })
+    //   for (let i = 0; i < del.length; i++) {
+    //     this.selectedFriendItem.splice(del[i], 1)
+    //   }
+    //   value.map((v, i) => {
+    //     // 添加新增的
+    //     let item = this.FriendMap[v]
+    //     if (item) {
+    //       this.selectedFriendItem.push(Object.assign({}, item, { selectedIndex: i }))
+    //     }
+    //   })
+    // },
     'selectedMemberDialog.visible' (value) {
       if (value) {
         this.loadFriend()
@@ -136,12 +137,12 @@ export default {
       this.pagination.page = page
       this.loadWxPrivateAccount()
     },
-    onRemoveSelectedPrivateAccount (value) {
-      this.selectedPrivateAccount.splice(value.selectedIndex, 1)
+    onRemoveSelectedPrivateAccount (row) {
+      this.$refs.privateAccountTable.toggleRowSelection(row, false)
     },
-    onRemoveSelectedFriend (value) {
-      this.selectedFriend.splice(value.selectedIndex, 1)
-    },
+    // onRemoveSelectedFriend (value) {
+    //   this.selectedFriend.splice(value.selectedIndex, 1)
+    // },
     loadFriend () {
       this.$http.fetch(this.$api.guide.wxPrivateAccount.tableFriendLite, {
         start: (this.friendPagination.page - 1) * this.friendPagination.size,
@@ -165,6 +166,18 @@ export default {
     onSelectedMemberDialogClose () {
       this.friendPagination.page = 1
       this.friendData = []
+    },
+    privateAccountSelectionChange (selection) {
+      if (!selection || selection.length <= 0) {
+        this.$message.error('请选择一个个人号')
+        this.nextBtnDisabled = true
+      } else if (selection && selection.length > 1) {
+        this.$message.error('只允许选择一个个人号')
+        this.nextBtnDisabled = true
+      } else {
+        this.nextBtnDisabled = false
+      }
+      this.privateAccountSelection = selection
     }
   }
 }

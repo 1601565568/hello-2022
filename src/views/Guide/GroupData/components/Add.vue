@@ -17,27 +17,46 @@
             </el-input>
           </div>
           <div class="dialog-left__checkbox">
-            <div class="dialog-choice">可选择个人号</div>
-            <el-scrollbar class="scrollbara">
-              <el-checkbox-group :max="1" v-model="selectedPrivateAccount" class="checkbox">
-                <div v-for="pa of privateAccountData" class="dialog-checkbox__item" :key='pa.wid'>
-                  <el-checkbox :label="pa.wid">{{pa.nick}}</el-checkbox>
-                </div>
-              </el-checkbox-group>
-              <el-pagination class="template-table__pagination"
-                             :total="pagination.total"
-                             :current-page="pagination.page" :page-size="pagination.size"
-                             layout="total, prev, pager, next, jumper"
-                             @current-change="onCurrentChange">
-              </el-pagination>
-            </el-scrollbar>
+<!--            <div class="dialog-choice">可选择个人号</div>-->
+            <el-table ref="privateAccountTable" :data="privateAccountData" class="template-table__main"
+                      stripe
+                      resizable v-loading.lock="loadingPrivateAccountTable"
+                      :element-loading-text="$t('prompt.loading')"
+                      row-key="id"
+                      @selection-change="privateAccountSelectionChange"
+                      :reserve-selection='true'>
+              <el-table-column :show-overflow-tooltip="true" type="default" prop="nick"
+                               label="可选择个人号" :sortable="false">
+              </el-table-column>
+              <el-table-column type="selection" align="right" :width="50"></el-table-column>
+            </el-table>
+            <el-pagination class="template-table__pagination"
+                           :total="pagination.total"
+                           :current-page="pagination.page" :page-size="pagination.size"
+                           layout="total, prev, pager, next, jumper"
+                           @current-change="onCurrentChange">
+            </el-pagination>
+
+<!--            <el-scrollbar class="scrollbara">-->
+<!--              <el-checkbox-group :max="1" v-model="selectedPrivateAccount" class="checkbox">-->
+<!--                <div v-for="pa of privateAccountData" class="dialog-checkbox__item" :key='pa.wid'>-->
+<!--                  <el-checkbox :label="pa.wid">{{pa.nick}}</el-checkbox>-->
+<!--                </div>-->
+<!--              </el-checkbox-group>-->
+<!--              <el-pagination class="template-table__pagination"-->
+<!--                             :total="pagination.total"-->
+<!--                             :current-page="pagination.page" :page-size="pagination.size"-->
+<!--                             layout="total, prev, pager, next, jumper"-->
+<!--                             @current-change="onCurrentChange">-->
+<!--              </el-pagination>-->
+<!--            </el-scrollbar>-->
           </div>
         </div>
         <div class="dialog-right">
           <div class="dialog-right__title">已选择个人号</div>
           <div class="dialog-right__content">
             <el-scrollbar class="scrollbara">
-              <div class="dialog-selectitem" v-for='item of selectedPrivateAccountItem' :key='item.wid'>
+              <div class="dialog-selectitem" v-for='item of privateAccountSelection' :key='item.wid'>
                 <span class="dialog-selectitem__discountgroup">{{item.nick}}</span>
                 <i class="iconfont icon-shanchu2" @click='onRemoveSelectedPrivateAccount(item)'></i>
               </div>
