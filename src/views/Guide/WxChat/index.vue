@@ -11,16 +11,18 @@
           end-placeholder="结束日期"
           value-format="yyyy-MM-dd HH:mm:ss"
           format="yyyy-MM-dd HH:mm:ss"
-          align="right">
+          align="right"
+          :clearable="false"
+          :editable="false">
         </el-date-picker>
       </el-form-item>
       <el-form-item label="个人号：">
-        <el-select v-model="model.wid" filterable placeholder="全部" clearable>
+        <el-select v-model="model.wid" filterable placeholder="全部" clearable @change="widChanged">
           <el-option v-for="item in ownerData" :key="item.wid" :label="item.nick" :value="item.wid"/>
         </el-select>
       </el-form-item >
       <el-form-item label="聊天内容：">
-        <el-input v-model="model.content"/>
+        <el-input v-model="model.content" style="width:200px" :disabled="isContentDiabled" placeholder="按聊天内容查询请先选择个人号"/>
       </el-form-item>
       <el-form-item>
         <ns-button type="primary" @click="search()">搜索</ns-button>
@@ -28,9 +30,9 @@
       </el-form-item>
     </el-form>
     <el-container class="talk-chat__container">
-      <el-aside class="talk-aside">
+      <el-aside class="talk-aside" style="width: 22%;">
         <div class="talk-aside__group">客户 / 群</div>
-        <el-scrollbar class="scrollbara">
+        <el-scrollbar class="scrollbara" ref="fullScreen">
           <div class="talk-aside__item">
             <template v-for="(target, index) in targetList">
               <div class="talk-item" :class="{'talk-chosen':isCurrTarget(index)}" @click="clickTarget(index)">
@@ -65,7 +67,11 @@
             <span class="talk-note">聊天记录</span>
           </div>
         </div>
-        <el-scrollbar class="scrollbarb">
+        <el-scrollbar class="scrollbarb" ref="fullScreenright">
+          <div v-show="!isChatLoadEnd" style="text-align: center;">
+            <div style="height:10px">&nbsp;</div>
+            <font size="3"><a @click="loadChatLog()">查看更多</a></font>
+          </div>
           <div class="talk-main__strip">
             <template v-for="chat in chatList">
               <div :class="{'talk-strip':isChatLeft(chat.revieve), 'talk-right': !isChatLeft(chat.revieve), 'clearfix':  !isChatLeft(chat.revieve)}">
@@ -175,7 +181,6 @@ export default index
       }
     }
     @b aside {
-      width: 22%;
       border-right: 1px solid #EEEEEE;
       @e group {
         font-size: 16px;
@@ -230,7 +235,6 @@ export default index
       border-radius: 50%;
     }
     @b main {
-      flex: 1;
       @e header {
         font-size: 16px;
         color: #33393E;
@@ -438,12 +442,6 @@ export default index
     position: absolute;
     top: 3px;
     right: -18px;
-  }
-  .scrollbara >>> .el-scrollbar__view {
-    max-height: 600px;
-  }
-  .scrollbarb >>> .el-scrollbar__view {
-    max-height: 600px;
   }
   >>> .el-main {
     padding: 0;

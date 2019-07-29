@@ -365,7 +365,7 @@ export default {
      * 计算主要显示窗口的高度，动态设置页面内主要内容的高度
      */
     setHeight: function () {
-      /**  15px为底部10px间距和表单5px内边距  **/
+      /**  15px为顶部表单上面的间距和左右内容的标题上面的间距  **/
       const PAGE_TOP_FORM = 93 // 顶部表单的高度
       const BTN_TITLE = 50 // 左右内容的标题的高度
       let limitHeight = window.innerHeight -
