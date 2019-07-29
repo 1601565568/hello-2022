@@ -1,7 +1,15 @@
+import ElContainer from 'nui-v2/lib/container'
+import ElMain from 'nui-v2/lib/main'
+import ElAside from 'nui-v2/lib/aside'
 import tableMixin from 'web-crm/src/mixins/table'
 import moment from 'moment'
 
 export default {
+  components: {
+    ElContainer,
+    ElMain,
+    ElAside
+  },
   mixins: [tableMixin],
   data () {
     return {
@@ -81,17 +89,13 @@ export default {
       this.$http.fetch(this.$api.guide.wxChat.findChatList, param).then(resp => {
         _this.loading = false
         _this.chatList = resp.result
-
-        console.warn(resp)
         if (resp.result.length === 0) {
           _this.isChatLoadEnd = true
-        } else {
-          this.chatList.pushData(resp.result)
         }
       })
     },
-    isChatLeft () {
-      return true
+    isChatLeft (revieve) {
+      return !revieve
     },
     search () {
       let _this = this
@@ -120,5 +124,6 @@ export default {
   // 初始化
   mounted: function () {
     this.loadPrivateAccount()
+    this.search()
   }
 }

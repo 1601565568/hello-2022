@@ -1,7 +1,7 @@
 <template>
   <div class="talk-chat">
     <el-form :inline="true" class="talk-chat__form" label-width="150px" :model="model">
-      <el-form-item>
+      <el-form-item label="自定义时段：">
         <el-date-picker
           v-model="model.srhDate"
           type="datetimerange"
@@ -34,8 +34,11 @@
           <div class="talk-aside__item">
             <template v-for="(target, index) in targetList">
               <div class="talk-item" :class="{'talk-chosen':isCurrTarget(index)}" @click="clickTarget(index)">
-                <div class="talk-item__avatar">
-                  <img src="https://img.yzcdn.cn/upload_files/2019/01/24/FhbbngOXgEqTbkda8DPNCthA5r5V.jpg" alt="用户头像" class="talk-img">
+                <div v-if="target.talkerType === 2" class="talk-item__avatar talk-item__avatar--bluebg">
+                  <i class="iconfont icon-qun"></i>
+                </div>
+                <div v-else class="talk-item__avatar">
+                  <img :src="target.head" class="talk-img">
                 </div>
                 <div class="talk-item__username">{{target.talkerName}}</div>
                 <div class="talk-item__time">{{getHourMinitue(target.lastTime)}}</div>
@@ -52,7 +55,9 @@
               查看详情
               <span class="rightarrow"> > </span>
             </ns-button>
-            <span class="talk-person">个人号：{{targetList[currTargetIndex].ownerName}}（ {{targetList[currTargetIndex].ownerId}} )</span>
+            <span class="talk-person">个人号：{{targetList[currTargetIndex].ownerName}}
+              （<font color="#0091FA">{{targetList[currTargetIndex].ownerId}}</font>)
+            </span>
           </div>
         </div>
         <div v-else>
@@ -65,19 +70,19 @@
             <template v-for="chat in chatList">
               <div :class="{'talk-strip':isChatLeft(chat.revieve), 'talk-right': !isChatLeft(chat.revieve), 'clearfix':  !isChatLeft(chat.revieve)}">
                 <div :class="{'talk-strip__headportrait':isChatLeft(chat.revieve), 'talk-right__headportrait': !isChatLeft(chat.revieve), 'clearfix':  !isChatLeft(chat.revieve)}">
-                  <img src="chat.senderImageUrl" alt="用户头像" class="talk-image">
+                  <img :src="chat.senderHead" alt="用户头像" class="talk-image">
                 </div>
                 <div :class="{'talk-strip__uname':isChatLeft(chat.revieve), 'talk-right__uname': !isChatLeft(chat.revieve)}">
                   <div :class="{'talk-msg':isChatLeft(chat.revieve), 'talk-rightmsg': !isChatLeft(chat.revieve)}">
-                    <span :class="{'talk-msg__uname':isChatLeft(chat.revieve), 'talk-rightmsg__uname': !isChatLeft(chat.revieve)}">chat.senderNick</span>
-                    <span :class="{'talk-msg__date':isChatLeft(chat.revieve), 'talk-rightmsg__date': !isChatLeft(chat.revieve)}">chat.createTime</span>
+                    <span :class="{'talk-msg__uname':isChatLeft(chat.revieve), 'talk-rightmsg__uname': !isChatLeft(chat.revieve)}">{{chat.senderNick}}</span>
+                    <span :class="{'talk-msg__date':isChatLeft(chat.revieve), 'talk-rightmsg__date': !isChatLeft(chat.revieve)}">{{chat.createTime}}</span>
                   </div>
                   <div :class="{'talk-detail':isChatLeft(chat.revieve), 'talk-rightdetail': !isChatLeft(chat.revieve)}">
                     <div :class="{'talk-detail__record':isChatLeft(chat.revieve), 'talk-rightdetail__record': !isChatLeft(chat.revieve)}">
                       <div :class="{'talk-detail__record--circle':isChatLeft(chat.revieve), 'talk-rightdetail__record--circle': !isChatLeft(chat.revieve)}"></div>
-                      chat.content
+                      {{chat.content}}
                     </div>
-                    <div v-if="chat.status===2" :class="{'talk-detail__withdraw':isChatLeft(chat.revieve), 'talk-rightdetail__withdraw': !isChatLeft(chat.revieve)}">已撤回</div>
+                    <div v-if="chat.cancel" :class="{'talk-detail__withdraw':isChatLeft(chat.revieve), 'talk-rightdetail__withdraw': !isChatLeft(chat.revieve)}">已撤回</div>
                   </div>
                 </div>
               </div>
@@ -93,35 +98,60 @@
           <el-form-item :label="targetList[currTargetIndex].talkerName" label-width="70px">
             <el-form-grid>
               <!-- 男生图标-->
-              <i class="iconfont icon-nan1"></i>
+              <i class="iconfont icon-nan1" v-if="targetList[currTargetIndex].gender===1"></i>
               <!-- 女生图标-->
-              <!--
-              <i class="iconfont icon-nv1"></i>
-              -->
+              <i class="iconfont icon-nv1" v-if="targetList[currTargetIndex].gender===0"></i>
             </el-form-grid>
           </el-form-item>
           <el-form-item label="备注：">
-            <el-form-grid>超级用户</el-form-grid>
+            <el-form-grid></el-form-grid>
           </el-form-item>
           <el-form-item label="地区：">
-            <el-form-grid>陕西西安</el-form-grid>
+            <el-form-grid>{{targetList[currTargetIndex].areaName}}</el-form-grid>
           </el-form-item>
           <el-form-item label="微信号：">
             <el-form-grid>{{targetList[currTargetIndex].talker}}</el-form-grid>
           </el-form-item>
         </el-form>
         <div class="detail-rightside">
-          <img src="https://img.yzcdn.cn/upload_files/2019/01/24/FhbbngOXgEqTbkda8DPNCthA5r5V.jpg" class="detail-rightside__img" alt="商品图片">
+          <img :src="targetList[currTargetIndex].head" class="detail-rightside__img">
         </div>
       </div>
     </el-dialog>
     <!-- 详情弹窗-->
+    <!-- 查询聊天内容弹窗 -->
+    <el-dialog title="查看详情" :visible.sync="dialogVisible" width="442px" class="detail-dialog">
+      <div class="detail-dialog__content" v-if="currTargetIndex!=null && targetList[currTargetIndex]!=null">
+        <el-form label-width="80px" class="detail-leftside">
+          <el-form-item :label="targetList[currTargetIndex].talkerName" label-width="70px">
+            <el-form-grid>
+              <!-- 男生图标-->
+              <i class="iconfont icon-nan1" v-if="targetList[currTargetIndex].gender===1"></i>
+              <!-- 女生图标-->
+              <i class="iconfont icon-nv1" v-if="targetList[currTargetIndex].gender===0"></i>
+            </el-form-grid>
+          </el-form-item>
+          <el-form-item label="备注：">
+            <el-form-grid></el-form-grid>
+          </el-form-item>
+          <el-form-item label="地区：">
+            <el-form-grid>{{targetList[currTargetIndex].areaName}}</el-form-grid>
+          </el-form-item>
+          <el-form-item label="微信号：">
+            <el-form-grid>{{targetList[currTargetIndex].talker}}</el-form-grid>
+          </el-form-item>
+        </el-form>
+        <div class="detail-rightside">
+          <img :src="targetList[currTargetIndex].head" class="detail-rightside__img">
+        </div>
+      </div>
+    </el-dialog>
+    <!-- 查询聊天内容弹窗 -->
   </div>
 </template>
 <script>
-    import index from './src/index'
-
-    export default index
+import index from './src/index'
+export default index
 </script>
 
 <style scoped>
@@ -140,8 +170,6 @@
         }
       }
       @e container {
-        width: 100%;
-        display: flex;
         margin-top: 10px;
         background: var(--theme-color-white);
       }
@@ -412,9 +440,12 @@
     right: -18px;
   }
   .scrollbara >>> .el-scrollbar__view {
-    max-height: 300px;
+    max-height: 600px;
   }
   .scrollbarb >>> .el-scrollbar__view {
     max-height: 600px;
+  }
+  >>> .el-main {
+    padding: 0;
   }
 </style>

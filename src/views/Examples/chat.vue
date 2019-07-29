@@ -303,7 +303,16 @@
   </div>
 </template>
 <script>
+import ElContainer from 'nui-v2/lib/container'
+import ElMain from 'nui-v2/lib/main'
+import ElAside from 'nui-v2/lib/aside'
+
 export default {
+  components: {
+    ElContainer,
+    ElMain,
+    ElAside
+  },
   data() {
     return {
       dialogVisible: false,
@@ -353,8 +362,6 @@ export default {
         }
       }
       @e container {
-        width: 100%;
-        display: flex;
         margin-top: 10px;
         background: var(--theme-color-white);
       }
@@ -629,5 +636,8 @@ export default {
   }
   .scrollbarb >>> .el-scrollbar__view {
     max-height: 600px;
+  }
+  >>> .el-main {
+    padding: 0;
   }
 </style>
