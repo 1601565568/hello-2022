@@ -50,7 +50,48 @@
           </el-aside>
           <el-main class="welcome-main">
             <div class="welcome-main__exampleimg">
-              <img src="https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/example.png"  alt="示例图片" class="welcome-img">
+              <div class="welcome-time">
+                <span class="welcome-time__detail">12:00</span>
+              </div>
+              <div class="welcome-msg clearfix">
+                <img src="https://img.yzcdn.cn/upload_files/2019/01/24/FhbbngOXgEqTbkda8DPNCthA5r5V.jpg"  alt="用户头像" class="welcome-msg__avatar">
+                <div class="welcome-msg__text">
+                  <div class="welcome-news">我通过了你的朋友验证，现在我们可以开始聊天了</div>
+                  <div class="welcome-circle"></div>
+                </div>
+              </div>
+              <div class="welcome-msg clearfix">
+                <img src="https://img.yzcdn.cn/upload_files/2019/01/24/FhbbngOXgEqTbkda8DPNCthA5r5V.jpg"  alt="用户头像" class="welcome-msg__avatar">
+                <div class="welcome-msg__text">
+                  <div class="welcome-news">欢迎您！这是一段自动回复消息～</div>
+                  <div class="welcome-circle"></div>
+                </div>
+              </div>
+              <div class="welcome-time">
+                <span class="welcome-time__detail">
+                  对方为企业微信用户,
+                  <sapn class="welcome-time__detail--colorblue">了解更多</sapn>
+                </span>
+              </div>
+              <div class="welcome-msg clearfix welcome-msg--margintop" style="display: none">
+                <img src="https://img.yzcdn.cn/upload_files/2019/01/24/FhbbngOXgEqTbkda8DPNCthA5r5V.jpg"  alt="用户头像" class="welcome-msg__avatar">
+                <div class="welcome-msg__text">
+                  <div class="welcome-web">
+                    <div class="welcome-web__slogan">线上课程！你想在秋招拿到线上课程！你想在秋招拿到</div>
+                    <div class="welcome-web__propagate clearfix">
+                      <div class="welcome-leftside">有些人秋招还没有准备，有的人秋招很完美有些人秋招还没有准备，有的人秋招很完美</div>
+                      <img src="https://img.yzcdn.cn/upload_files/2019/01/24/FhbbngOXgEqTbkda8DPNCthA5r5V.jpg"  alt="宣传图片" class="welcome-rightside">
+                    </div>
+                  </div>
+                  <div class="welcome-circle"></div>
+                </div>
+              </div>
+              <div class="welcome-msg clearfix">
+                <img src="https://img.yzcdn.cn/upload_files/2019/01/24/FhbbngOXgEqTbkda8DPNCthA5r5V.jpg"  alt="用户头像" class="welcome-msg__avatar">
+                <div class="welcome-image">
+                  <img src="https://img.yzcdn.cn/upload_files/2019/01/24/FhbbngOXgEqTbkda8DPNCthA5r5V.jpg"  alt="用户头像" class="welcome-image__img">
+                </div>
+              </div>
             </div>
             <div class="welcome-main__text">会员看到的界面</div>
           </el-main>
@@ -192,21 +233,108 @@ export default {
       }
     }
     @b main {
+      margin: 0 auto;
       @e exampleimg {
         width: 303px;
         height: 573px;
         margin: 0 auto;
+        padding-top: 80px;
+        background-image: url("https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/bgImg2019.7.29.png");
+        background-repeat: no-repeat;
+        background-size: 100% 100%;
       }
       @e text {
         font-size: var(--default-font-size-base);
         color: var(--theme-font-color-secondary);
         text-align: center;
+      }
+    }
+    @b time {
+      text-align: center;
+      margin-top: 10px;
+      @e detail {
+        color: #FFF;
+        padding: 0 5px;
+        background: #CECECE;
+        display: inline-block;
+        @m colorblue {
+          color: #71add2;
+        }
+      }
+    }
+    @b msg {
+      margin: 0 40px;
+      padding: 10px 0;
+      display: flex;
+      background: #F3F3F3;
+      overflow: hidden;
+      @e avatar {
+        width: 32px;
+        height: 32px;
+        margin-top: 5px;
+      }
+      @e text {
+        position: relative;
+      }
+      @m margintop {
         margin-top: 10px;
       }
     }
-    @b img {
-      width: 100%;
-      height: 100%;
+    @b news {
+      flex: 1;
+      padding: 8px 15px;
+      margin-left: 15px;
+      background: #FFF;
+      border-radius: 8px;
+    }
+    @b web {
+      width: 85%;
+      padding: 8px 15px;
+      margin-left: 15px;
+      background: #FFF;
+      border-radius: 10px;
+      @e slogan {
+        width: 60%;
+        display: inline-block;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+      }
+      @e propagate {
+
+      }
+    }
+    @b leftside {
+      width: 40%;
+      float: left;
+      overflow : hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+    }
+    @b rightside {
+      width: 40px;
+      height: 40px;
+      margin-left: 8px;
+    }
+    @b image {
+      margin-left: 15px;
+      @e img {
+        width: 150px;
+        height: 200px;
+        border-radius: 10px;
+      }
+    }
+    @b circle {
+      width: 0;
+      height: 0;
+      position: absolute;
+      left: 0px;
+      top: 10px;
+      border-width: 8px;
+      border-style: solid;
+      border-color: transparent #FFF transparent transparent;
     }
   }
   .avatar-uploader >>> .el-upload {

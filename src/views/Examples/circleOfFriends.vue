@@ -122,7 +122,7 @@
           <!-- 左边内容滚动区域 -->
           <template slot="table">
             <el-scrollbar ref="fullScreen">
-              <div class="talk-aside__list" ref="asd">
+              <div class="talk-aside__list">
                 <div class="talk-item clearfix">
                   <div class="talk-item__avatar">
                     <img src="http://iph.href.lu/500x100" class="talk-avatarimg" alt="朋友圈配图" >
@@ -251,7 +251,7 @@
                             <div class="talk-msglength">
                               <span class="colorblue">起个名字好麻烦：</span>
                               <span>我也老了我也老了我也老了我也老了我也老了我也老了我也老了我也老了我也老了我也老了我也老了我也老了我也老了我也老了我也老了我也老了我也老了我也老了我也老了我也老了我也老了我也老了我也老了我也老了我也老了我也老了我也老了</span>
-                              <span class="talk-msglength__reply colorblue">回复</span>
+                              <span class="talk-msglength__reply colorblue" @click="dialogVisibleReply = true">回复</span>
                             </div>
                           </div>
                           <div class="talk-msg__item clearfix">
@@ -275,6 +275,43 @@
                         </div>
                         <div  class="talk-circle"></div>
                       </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="talk-item clearfix">
+                  <div class="talk-item__avatar">
+                    <img src="http://iph.href.lu/500x100" class="talk-avatarimg" alt="朋友圈配图" >
+                  </div>
+                  <div class="talk-item__content">
+                    <div class="talk-name">
+                      <span class="talk-name__call colorblue">起个名字好麻烦起个名字好麻烦起个名字好麻烦起</span>
+                      <span class="talk-name__private">个人号：微信昵称（ wechatid ）</span>
+                    </div>
+                    <div>
+                      <span class="talk-sentence">散场总是难免的，尽兴而归就好散场总是难免的，尽兴而归就好散场总是难免的，尽兴而归就好散场总是难免的，
+                      尽兴而归就好散场总是难免的，尽兴而归就好散场总是难免的，尽兴而归就好尽兴而归就好散场总是难免的，尽兴而归就好散场总是难免的，尽兴而归就好</span>
+                      <el-popover
+                        placement="top-start"
+                        title="标题"
+                        width="980"
+                        trigger="click"
+                        content="散场总是难免的，尽兴而归就好散场总是难免的，尽兴而归就好散场总是难免的，
+                      尽兴而归就好散场总是难免的，尽兴而归就好散场总是难免的，尽兴而归就好散场总是难免的，尽兴而归就好散
+                      场总是难免的，尽兴而归就好散场总是难免的，尽兴而归就好散场总是难免的，尽兴而归就好散场总是难免的，
+                      尽兴而归就好散场总是难免的，尽兴而归就好散场总是难免的，尽兴而归就好">
+                        <ns-button slot="reference" type="text">查看更多</ns-button>
+                      </el-popover>
+                    </div>
+                    <div class="talk-time">2019-06-03 17:17:00</div>
+                    <div class="talk-interactive">
+                  <span class="talk-interactive__like">
+                    <i class="iconfont icon-dianzan"></i>
+                    20
+                  </span>
+                      <span class="talk-interactive__comment">
+                    <i class="iconfont icon-pinglun"></i>
+                    18
+                  </span>
                     </div>
                   </div>
                 </div>
@@ -422,7 +459,7 @@
           </el-select>
         </el-form-item>
         <el-form-item label="朋友圈内容：" class="dialog-content__subtance">
-          <div class="dialog-detail" style="padding: 10px; border: 1px solid #ddd;">
+          <div class="dialog-detail">
             <el-input type="textarea" :rows="8" placeholder="这一刻的想法...." v-model="textarea">
             </el-input>
             <el-upload
@@ -441,6 +478,30 @@
       </span>
     </el-dialog>
     <!-- 发朋友圈弹窗-->
+    <!-- 回复弹窗-->
+    <el-dialog
+      title="回复"
+      :visible.sync="dialogVisibleReply"
+      width="460px"
+      class="dialog-content">
+      <el-form ref="form">
+        <el-form-item>
+          <div class="dialog-content__reply">回复我有一棵橘子树我有一棵橘子树我：</div>
+        </el-form-item>
+        <el-form-item  class="dialog-content__subtance dialog-content__subtance--margintop">
+          <div class="dialog-detail dialog-detail--paddingbtm">
+            <el-input type="textarea" :rows="8" placeholder="请输入评论内容" v-model="textarea">
+            </el-input>
+            <i class="iconfont icon-biaoqing"></i>
+          </div>
+        </el-form-item>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+        <ns-button @click="dialogVisible = false">取 消</ns-button>
+        <ns-button type="primary" @click="dialogVisible = false">确 定</ns-button>
+      </span>
+    </el-dialog>
+    <!-- 回复弹窗-->
   </div>
 </template>
 <script>
@@ -512,6 +573,7 @@ export default {
     return {
       dialogVisible: false,
       dialogVisibleShow: false,
+      dialogVisibleReply: false,
       model: model,
       imageUrl: '',
       textarea: '',
@@ -548,20 +610,16 @@ export default {
      * 计算主要显示窗口的高度，动态设置页面内主要内容的高度
      */
     setHeight: function () {
-      /**
-       *  左侧工具栏高度&因滚动条样式margin-bottom负值17px，需要添加上17px,
-       *  15px为底部10px间距和表单5px内边距
-       **/
       const PAGE_TOP_SEARCH = 60 // 简单搜索的高度
       const BTN_BOTTOM = 49 // 底部页码占据的高度
       let limitHeight = window.innerHeight -
         document.getElementsByClassName('nav')[0].offsetHeight -
         document.getElementsByClassName('template-table__bar-more')[0].offsetHeight - // 高级搜索
-        BTN_BOTTOM - PAGE_TOP_SEARCH + 17 - 25;
+        BTN_BOTTOM - PAGE_TOP_SEARCH + 17 - 30
       let limitHeightRight = window.innerHeight -
         document.getElementsByClassName('talk-personal')[0].offsetHeight -
         document.getElementsByClassName('nav')[0].offsetHeight -
-        BTN_BOTTOM + 17 - 20;
+        BTN_BOTTOM + 17 - 25
       this.$refs.fullScreen.$el.children[0].style.maxHeight = limitHeight + 'px'
       this.$refs.fullScreenright.$el.children[0].style.maxHeight = limitHeightRight + 'px'
     }
@@ -663,10 +721,12 @@ export default {
       font-size: var(--default-font-size-small);
       color: var(--theme-font-color-primary);
       font-weight: bold;
-      width: 95%;
+      width: 40%;
+      overflow : hidden;
       text-overflow: ellipsis;
-      white-space: nowrap;
-      overflow: hidden;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
     }
     @b matching {
       width: 475px;
@@ -945,8 +1005,21 @@ export default {
   @component-namespace dialog {
     @b content {
       margin-right: 20px;
+      @e reply {
+        color: var(--theme-font-color-secondary);
+      }
       @e subtance {
-        margin-top: 20px;
+        margin: 20px 0;
+        @m margintop {
+          margin: 0 0 20px;
+        }
+      }
+    }
+    @b detail {
+      padding: 10px;
+      border: 1px solid #DDD;
+      @m paddingbtm {
+        padding: 10px 10px 0;
       }
     }
   }
@@ -961,7 +1034,7 @@ export default {
     margin-top: 20px;
   }
   .avatar-uploader >>> .el-upload {
-    border: 1px dashed #d9d9d9;
+    border: 1px dashed #D9D9D9;
     border-radius: 6px;
     cursor: pointer;
     position: relative;
@@ -971,7 +1044,7 @@ export default {
     }
     .avatar-uploader-icon {
       font-size: 28px;
-      color: #8c939d;
+      color: #8C939D;
       width: 62px;
       height: 62px;
       line-height: 62px;
@@ -988,6 +1061,12 @@ export default {
   }
   .dialog-detail >>>.el-textarea.el-input--small .el-textarea__inner {
     resize: none;
+  }
+  >>> .el-dialog__title {
+    font-size: var(--default-font-size-base);
+  }
+  .icon-biaoqing {
+    font-size: 22px;
   }
   /* 发朋友圈弹窗样式*/
 </style>
