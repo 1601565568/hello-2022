@@ -116,7 +116,7 @@
           <!-- 左边内容滚动区域 -->
           <template slot="table">
             <el-scrollbar ref="fullScreen">
-              <div class="talk-aside__list" ref="asd" v-for="moment in this.moments" :key="moment">
+              <div class="talk-aside__list" ref="asd" v-for="moment in moments" :key="moment.id">
                 <div class="talk-item clearfix">
                   <div class="talk-item__avatar">
                     <img :src="moment.head" class="talk-avatarimg" alt="朋友圈配图" >
@@ -156,7 +156,7 @@
                         </div>
                         <div class="talk-msg">
                           <div class="talk-msg__item clearfix">
-                            <div class="talk-msglength" v-for="comment in moment.comments" :key="comment">
+                            <div class="talk-msglength" v-for="comment in moment.comments" :key="comment.id">
                               <div v-if="comment.previousId ==0">
                                 <span class="colorblue">{{comment.commentator?comment.commentator:comment.ownerNick}}：</span>
                                 <span>{{comment.content}}</span>
@@ -181,6 +181,8 @@
               </div>
             </el-scrollbar>
           </template>
+
+
           <!-- 左边内容滚动区域结束-->
 
           <!-- 分页 -->
@@ -210,7 +212,7 @@
         </div>
         <el-scrollbar ref="fullScreenright">
           <div class="talk-main__list">
-            <div class="talk-convey" v-for="msg in interationMsgs" :key="msg">
+            <div class="talk-convey" v-for="msg in interationMsgs" :key="msg.id">
               <div class="talk-convey__name">个人号：{{msg.nick}}（ {{msg.snsOwnerId}} ）</div>
               <div class="talk-convey__content clearfix">
                 <div class="talk-headportrait">
@@ -241,7 +243,10 @@
         <div class="talk-main__bottom">
           <el-pagination
             layout="prev, pager, next"
-            :total="50">
+            :page-sizes="_data._interactionPagination.sizeOpts" :total="_data._interactionPagination.total"
+            :current-page="_data._interactionPagination.page" :page-size="_data._interactionPagination.size"
+            @size-change="$sizeChange$"
+            @current-change="$pageChange$">
           </el-pagination>
         </div>
       </el-main>
@@ -254,7 +259,7 @@
       class="dialog-content">
       <el-form ref="form" label-width="80px">
         <el-form-item label="选择个人号：">
-          <el-select placeholder="全部" v-model="wid" class="el-block">
+          <el-select placeholder="全部" v-model="wid"  class="el-block">
             <el-option  v-for="number in personalNumberList" :label="number.nick" :value="number.wid" :key="number.wid"></el-option>
           </el-select>
         </el-form-item>
@@ -279,7 +284,7 @@
         <ns-button type="primary" @click="dialogVisible = false">确 定</ns-button>
       </span>
     </el-dialog>
-    <!-- 发朋友圈弹窗-->
+    <!-- 发朋友圈弹窗结束-->
   </div>
 </template>
 <script>
@@ -302,6 +307,13 @@ export default {
   },
   data: function () {
     var pagination = {
+      enable: true,
+      size: 15,
+      sizeOpts: [15, 25, 50, 100],
+      page: 1,
+      total: 0
+    }
+    var interactionPagination = {
       enable: true,
       size: 15,
       sizeOpts: [15, 25, 50, 100],
@@ -332,7 +344,7 @@ export default {
         keyword: null // 关键字
       },
       {})
-    var that = this
+    var _this = this
 
     quickInput.map(item => {
       Object.defineProperty(quickSearchModel, item.name, {
@@ -343,8 +355,8 @@ export default {
           model[item.name] = val
           // TODO 由于特殊需求导致下列写法
           if (item.type === 'radio') {
-            that._data._table.quickSearchMap[item.name] = val
-            that.$quickSearch$()
+            _this._data._table.quickSearchMap[item.name] = val
+            _this.$quickSearch$()
           }
         },
         enumerable: true
@@ -360,6 +372,7 @@ export default {
       quickSearchModel: quickSearchModel,
       rules: Object.assign({}, {}, {}),
       _pagination: pagination,
+      _interactionPagination: interactionPagination,
       momentsTotal: 0,
       _queryConfig: {
         expand: false
@@ -369,7 +382,8 @@ export default {
       likeNames: null, // 点赞的名称
       interationMsgs: null, // 互动消息
       personalNumberList: null, // 个人号列表
-      wid: null // 朋友圈id
+      wid: null, // 朋友圈id
+      url: null
     }
   },
   mounted () {
@@ -398,10 +412,19 @@ export default {
     },
     initMomentsList () {
       var _this = this
-      _this.$http.fetch(_this.$api.guide.myMoments.momentsList, this.model).then(resp => {
+      _this.url = _this.$api.guide.myMoments.momentsList
+      // _this.$reload()
+      let params = _this.$generateParams$()
+      // _this.$queryList$(params)
+      _this.$http.fetch(_this.url, params).then(resp => {
         if (resp.success && resp.result != null) {
           _this.moments = resp.result.data
-          _this.momentsTotal = resp.result.recordsTotal
+          _this._data._pagination.total = parseInt(resp.result.recordsTotal)
+          if (_this._data._pagination.total > 0) {
+            _this._data._table.key = 1
+          } else if (_this._data._pagination.total === 0) {
+            _this._data._table.key = 2
+          }
           // _this._data = resp.result
           // 获取朋友圈图片
         }
@@ -411,9 +434,16 @@ export default {
     },
     initInteractionMsgList () {
       var _this = this
-      _this.$http.fetch(_this.$api.guide.myMoments.interactionMsgList, this.model).then(resp => {
+      _this.url = _this.$api.guide.myMoments.interactionMsgList
+      _this.$http.fetch(_this.url, this.model).then(resp => {
         if (resp.success && resp.result != null) {
           _this.interationMsgs = resp.result.data
+          _this._data._interactionPagination.total = parseInt(resp.result.recordsTotal)
+          if (_this._data._interactionPagination.total > 0) {
+            _this._data._table.key = 1
+          } else if (_this._data._interactionPagination.total === 0) {
+            _this._data._table.key = 2
+          }
         }
       }).catch((resp) => {
         _this.$notify.error(getErrorMsg('查询失败', resp))
@@ -425,10 +455,9 @@ export default {
       _this.$http.fetch(_this.$api.guide.wxDeviceGuideRelation.findWidNickSelector).then(resp => {
         if (resp.success && resp.result != null) {
           _this.personalNumberList = resp.result
-          console.log('ad' + _this.personalNumberList)
         }
       }).catch((resp) => {
-        _this.$notify.error(getErrorMsg('查询失败ad', resp))
+        _this.$notify.error(getErrorMsg('查询失败', resp))
       })
     },
     queryMomentsList () {
@@ -457,6 +486,11 @@ export default {
         this.$notify.error('不支持的图片格式')
         return false
       }
+    },
+    // 处理上传图片
+    'handleAvatarSuccess': function (res, file) {
+      var _this = this
+      _this.model.sgGuide.image = res.result.url
     },
     /**
      * 计算主要显示窗口的高度，动态设置页面内主要内容的高度

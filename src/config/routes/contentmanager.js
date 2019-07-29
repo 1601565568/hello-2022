@@ -20,13 +20,13 @@ export default {
           'component': () => import('@/views/Guide/SensitiveWord/index')
         },
         {
-          'path': '/Guide/MyMoments/index',
+          'path': '/ContentMange/MyMoments/index',
           'name': 'MyMoments',
           'title': '我的朋友圈',
           'component': () => import('@/views/Guide/MyMoments/MyMoments')
         },
         {
-          'path': '/Guide/FriendMoments/index',
+          'path': '/ContentMange/FriendMoments/index',
           'name': 'FriendMoments',
           'title': '好友朋友圈',
           'component': () => import('@/views/Guide/FriendMoments/FriendMoments')
