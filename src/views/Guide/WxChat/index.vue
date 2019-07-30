@@ -32,8 +32,8 @@
     <el-container class="talk-chat__container">
       <el-aside class="talk-aside" style="width: 22%;">
         <div class="talk-aside__group">客户 / 群</div>
-        <el-scrollbar class="scrollbara" ref="fullScreen">
-          <div class="talk-aside__item">
+        <el-scrollbar ref="fullScreen">
+          <div class="talk-aside__item" :loading="containerLoading">
             <template v-for="(target, index) in targetList">
               <div class="talk-item" :class="{'talk-chosen':isCurrTarget(index)}" @click="clickTarget(index)">
                 <div v-if="target.talkerType === 2" class="talk-item__avatar talk-item__avatar--bluebg">
@@ -67,28 +67,28 @@
             <span class="talk-note">聊天记录</span>
           </div>
         </div>
-        <el-scrollbar class="scrollbarb" ref="fullScreenright">
-          <div v-show="!isChatLoadEnd" style="text-align: center;">
-            <div style="height:10px">&nbsp;</div>
-            <font size="3"><a @click="loadChatLog()">查看更多</a></font>
-          </div>
-          <div class="talk-main__strip">
+        <el-scrollbar ref="fullScreenright">
+          <div class="talk-main__strip" :loading="containerLoading">
+            <div v-show="!isChatLoadEnd" style="text-align: center;">
+              <div style="height:10px">&nbsp;</div>
+              <font size="3"><a @click="loadChatLog()">查看更多</a></font>
+            </div>
             <template v-for="chat in chatList">
-              <div :class="{'talk-strip':isChatLeft(chat.revieve), 'talk-right': !isChatLeft(chat.revieve), 'clearfix':  !isChatLeft(chat.revieve)}">
-                <div :class="{'talk-strip__headportrait':isChatLeft(chat.revieve), 'talk-right__headportrait': !isChatLeft(chat.revieve), 'clearfix':  !isChatLeft(chat.revieve)}">
+              <div :class="{'talk-strip':isChatLeft(chat.receive), 'talk-right': !isChatLeft(chat.receive), 'clearfix':  !isChatLeft(chat.receive)}">
+                <div :class="{'talk-strip__headportrait':isChatLeft(chat.receive), 'talk-right__headportrait': !isChatLeft(chat.receive), 'clearfix':  !isChatLeft(chat.receive)}">
                   <img :src="chat.senderHead" alt="用户头像" class="talk-image">
                 </div>
-                <div :class="{'talk-strip__uname':isChatLeft(chat.revieve), 'talk-right__uname': !isChatLeft(chat.revieve)}">
-                  <div :class="{'talk-msg':isChatLeft(chat.revieve), 'talk-rightmsg': !isChatLeft(chat.revieve)}">
-                    <span :class="{'talk-msg__uname':isChatLeft(chat.revieve), 'talk-rightmsg__uname': !isChatLeft(chat.revieve)}">{{chat.senderNick}}</span>
-                    <span :class="{'talk-msg__date':isChatLeft(chat.revieve), 'talk-rightmsg__date': !isChatLeft(chat.revieve)}">{{chat.createTime}}</span>
+                <div :class="{'talk-strip__uname':isChatLeft(chat.receive), 'talk-right__uname': !isChatLeft(chat.receive)}">
+                  <div :class="{'talk-msg':isChatLeft(chat.receive), 'talk-rightmsg': !isChatLeft(chat.receive)}">
+                    <span :class="{'talk-msg__uname':isChatLeft(chat.receive), 'talk-rightmsg__uname': !isChatLeft(chat.receive)}">{{chat.senderNick}}</span>
+                    <span :class="{'talk-msg__date':isChatLeft(chat.receive), 'talk-rightmsg__date': !isChatLeft(chat.receive)}">{{chat.createTime}}</span>
                   </div>
-                  <div :class="{'talk-detail':isChatLeft(chat.revieve), 'talk-rightdetail': !isChatLeft(chat.revieve)}">
-                    <div :class="{'talk-detail__record':isChatLeft(chat.revieve), 'talk-rightdetail__record': !isChatLeft(chat.revieve)}">
-                      <div :class="{'talk-detail__record--circle':isChatLeft(chat.revieve), 'talk-rightdetail__record--circle': !isChatLeft(chat.revieve)}"></div>
+                  <div :class="{'talk-detail':isChatLeft(chat.receive), 'talk-rightdetail': !isChatLeft(chat.receive)}">
+                    <div :class="{'talk-detail__record':isChatLeft(chat.receive), 'talk-rightdetail__record': !isChatLeft(chat.receive)}">
+                      <div :class="{'talk-detail__record--circle':isChatLeft(chat.receive), 'talk-rightdetail__record--circle': !isChatLeft(chat.receive)}"></div>
                       {{chat.content}}
                     </div>
-                    <div v-if="chat.cancel" :class="{'talk-detail__withdraw':isChatLeft(chat.revieve), 'talk-rightdetail__withdraw': !isChatLeft(chat.revieve)}">已撤回</div>
+                    <div v-if="chat.cancel" :class="{'talk-detail__withdraw':isChatLeft(chat.receive), 'talk-rightdetail__withdraw': !isChatLeft(chat.receive)}">已撤回</div>
                   </div>
                 </div>
               </div>

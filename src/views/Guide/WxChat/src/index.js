@@ -14,7 +14,7 @@ export default {
   data () {
     return {
       model: {
-        srhDate: [this.getDateFromToday(-30), new Date()],
+        srhDate: [this.getDateFromToday(-30), this.getndDate(new Date())],
         wid: null,
         content: null
       },
@@ -28,17 +28,17 @@ export default {
         shortcuts: [{
           text: '最近一周',
           onClick (picker) {
-            picker.$emit('pick', [this.getDateFromToday(-7), new Date()])
+            picker.$emit('pick', [this.getDateFromToday(-7), this.getndDate(new Date())])
           }
         }, {
           text: '最近一个月',
           onClick (picker) {
-            picker.$emit('pick', [this.getDateFromToday(-30)])
+            picker.$emit('pick', [this.getDateFromToday(-30), this.getndDate(new Date())])
           }
         }, {
           text: '最近三个月',
           onClick (picker) {
-            picker.$emit('pick', [this.getDateFromToday(-90), new Date()])
+            picker.$emit('pick', [this.getDateFromToday(-90), this.getndDate(new Date())])
           }
         }]
       },
@@ -49,7 +49,8 @@ export default {
       dialogVisible: false,
       chatList: [],
       isChatLoadEnd: false,
-      isContentDiabled: true
+      isContentDiabled: true,
+      containerLoading: false
     }
   },
   methods: {
@@ -57,6 +58,9 @@ export default {
       let date = new Date()
       date.setTime(date.getTime() + 3600 * 1000 * 24 * addDay)
       return date
+    },
+    getndDate (date) {
+      return new Date(new Date(date.toLocaleDateString()).getTime() + 24 * 3600 * 1000 - 1)
     },
     loadPrivateAccount () {
       let _this = this
@@ -88,19 +92,18 @@ export default {
       }
 
       _this.isChatLoadEnd = true
-      _this.loading = true
+      _this.containerLoading = true
       this.$http.fetch(this.$api.guide.wxChat.findChatList, param).then(resp => {
-        _this.loading = false
         for (let row of resp.result) {
-          _this.chatList.push(row)
+          _this.chatList.unshift(row)
         }
         if (resp.result.length >= 2) {
           _this.isChatLoadEnd = false
         }
       })
     },
-    isChatLeft (revieve) {
-      return !revieve
+    isChatLeft (receive) {
+      return !receive
     },
     widChanged () {
       this.isContentDiabled = this.model.wid === null || this.model.wid === ''
@@ -117,10 +120,10 @@ export default {
       // 查询
       this.targetList = []
       this.chatList = []
-      this.loading = true
+      this.containerLoading = true
       this.isChatLoadEnd = true
       this.$http.fetch(this.$api.guide.wxChat.findTargetList, this.model).then(resp => {
-        _this.loading = false
+        _this.containerLoading = false
         _this.targetList = resp.result
         if (_this.targetList.length > 0) {
           _this.clickTarget(0)
@@ -128,7 +131,7 @@ export default {
       })
     },
     reset () {
-      this.model.srhDate = [this.getDateFromToday(-30), new Date()]
+      this.model.srhDate = [this.getDateFromToday(-30), this.getndDate(new Date())]
       this.model.wid = null
       this.model.content = null
       this.search()
