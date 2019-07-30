@@ -14,12 +14,12 @@
             <el-form-grid class="detail-leftside__item--blackcolor">{{memberDetail.isOwner == "1" ? (memberDetail.ownerNick || '-') : (memberDetail.nick || '-')}}</el-form-grid>
           </el-form-item>
 <!--            todo-zsf 暂无以下数据-->
-<!--          <el-form-item label="性别：" class="detail-leftside__item">-->
-<!--            <el-form-grid class="detail-leftside__item&#45;&#45;blackcolor">男</el-form-grid>-->
-<!--          </el-form-item>-->
-<!--          <el-form-item label="地区：" class="detail-leftside__item">-->
-<!--            <el-form-grid class="detail-leftside__item&#45;&#45;blackcolor">中国 / 浙江 / 杭州市</el-form-grid>-->
-<!--          </el-form-item>-->
+          <el-form-item label="性别：" class="detail-leftside__item">
+            <el-form-grid class="detail-leftside__item--blackcolor">-</el-form-grid>
+          </el-form-item>
+          <el-form-item label="地区：" class="detail-leftside__item">
+            <el-form-grid class="detail-leftside__item--blackcolor">-</el-form-grid>
+          </el-form-item>
           <el-form-item label="所属微信群：" class="detail-leftside__item">
             <el-form-grid class="detail-leftside__item--blackcolor">{{memberDetail.displayname || '-'}}</el-form-grid>
           </el-form-item>

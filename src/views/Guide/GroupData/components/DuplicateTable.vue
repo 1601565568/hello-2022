@@ -34,12 +34,18 @@
             </template>
           </el-table-column>
           <!--            todo-zsf 暂无以下数据-->
-          <!--            <el-table-column :show-overflow-tooltip="true" type="default" prop=""-->
-          <!--                             label="性别" :sortable="false">-->
-          <!--            </el-table-column>-->
-          <!--            <el-table-column :show-overflow-tooltip="true" type="default" prop=""-->
-          <!--                             label="地区" :sortable="false">-->
-          <!--            </el-table-column>-->
+          <el-table-column :show-overflow-tooltip="true" type="default" prop=""
+                           label="性别" :sortable="false">
+            <template slot-scope='scope'>
+              -
+            </template>
+          </el-table-column>
+          <el-table-column :show-overflow-tooltip="true" type="default" prop=""
+                           label="地区" :sortable="false">
+            <template slot-scope='scope'>
+              -
+            </template>
+          </el-table-column>
           <el-table-column :show-overflow-tooltip="true" type="default" prop="displayname"
                            label="所属微信群" :sortable="false">
             <template slot-scope='scope'>
@@ -50,14 +56,6 @@
                 <span>{{scope.row.chatroomnotice || '-'}}</span>
               </el-row>
             </template>
-            <template slot='header' scope='header'>
-                    <span>
-                      <span>{{header.column.label}}</span>
-                      <el-popover placement='bottom' width='220' trigger='hover' content='点击群名称，可查看此群下所有微信'>
-                        <i slot='reference' class='iconfont icon-xiangqingyiwen table-header-icon'></i>
-                      </el-popover>
-                    </span>
-            </template>
           </el-table-column>
           <el-table-column :show-overflow-tooltip="true" type="default" prop=""
                            label="是否好友" :sortable="false" width='80px' align='center'>
@@ -65,14 +63,15 @@
               {{scope.row.rId || scope.row.isOwner == "1" ? '是' : '否' }}
             </template>
           </el-table-column>
-          <el-table-column :show-overflow-tooltip="true" label="操作" align="center"
-                           width="160px">
-            <template slot-scope="scope">
-              <ns-table-column-operate-button :buttons="_data._table.table_buttons"
-                                              :prop="scope">
-              </ns-table-column-operate-button>
-            </template>
-          </el-table-column>
+<!--          todo-zsf 暂无移出-->
+<!--          <el-table-column :show-overflow-tooltip="true" label="操作" align="center"-->
+<!--                           width="160px">-->
+<!--            <template slot-scope="scope">-->
+<!--              <ns-table-column-operate-button :buttons="_data._table.table_buttons"-->
+<!--                                              :prop="scope">-->
+<!--              </ns-table-column-operate-button>-->
+<!--            </template>-->
+<!--          </el-table-column>-->
         </el-table>
       </template>
       <template slot="pagination">
@@ -93,4 +92,6 @@ export default Index
 </script>
 <style scoped>
   @import "@/style/small/variables.pcss";
+
+  @import "../src/style.pcss";
 </style>

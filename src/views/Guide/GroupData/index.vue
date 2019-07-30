@@ -100,12 +100,18 @@
               </template>
             </el-table-column>
 <!--            todo-zsf 暂无以下数据-->
-<!--            <el-table-column :show-overflow-tooltip="true" type="default" prop=""-->
-<!--                             label="性别" :sortable="false">-->
-<!--            </el-table-column>-->
-<!--            <el-table-column :show-overflow-tooltip="true" type="default" prop=""-->
-<!--                             label="地区" :sortable="false">-->
-<!--            </el-table-column>-->
+            <el-table-column :show-overflow-tooltip="true" type="default" prop=""
+                             label="性别" :sortable="false">
+              <template slot-scope='scope'>
+                -
+              </template>
+            </el-table-column>
+            <el-table-column :show-overflow-tooltip="true" type="default" prop=""
+                             label="地区" :sortable="false">
+              <template slot-scope='scope'>
+                -
+              </template>
+            </el-table-column>
             <el-table-column :show-overflow-tooltip="true" type="default" prop="displayname"
                              label="所属微信群" :sortable="false">
               <template slot-scope='scope'>

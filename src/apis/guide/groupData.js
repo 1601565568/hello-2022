@@ -15,5 +15,9 @@ export default {
   createChatroom: {
     url: prefix + 'createChatroom',
     method: 'POST'
+  },
+  duplicateTable: {
+    url: prefix + 'duplicateTable',
+    method: 'POST'
   }
 }

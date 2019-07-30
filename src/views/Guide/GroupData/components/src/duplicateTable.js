@@ -11,7 +11,7 @@ export default {
     return {
       sVisible: false,
       model: {},
-      url: this.$api.guide.groupData.table,
+      url: this.$api.guide.groupData.duplicateTable,
       _table: {
         operate_buttons: [
           // todo-zsf 暂无移出功能
@@ -42,6 +42,7 @@ export default {
     visible (value) {
       this.sVisible = value
       if (value) {
+        this.$searchAction$()
       }
     }
   },
@@ -52,6 +53,14 @@ export default {
     onClose () {
       this.$emit('update:visible', false)
       this.$emit('update:wxGroups', [])
+    },
+    $handleParams (params) {
+      let chatroomnames = []
+      this.wxGroups.map(v => {
+        chatroomnames.push(v.chatroomname)
+      })
+      params.searchBean = { chatroomnames }
+      return params
     }
   }
 }
