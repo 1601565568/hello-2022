@@ -123,7 +123,7 @@
           <!-- 高级搜索-结束 -->
 
           <!-- 左边内容滚动区域 -->
-          <template slot="table">
+          <template slot="table" ref="mainTable">
             <el-scrollbar ref="fullScreen">
               <div class="talk-aside__list" ref="asd" v-for="moment in moments" :key="moment.id">
                 <div class="talk-item clearfix">
@@ -137,8 +137,8 @@
                     </div>
                     <div class="talk-sentence">{{moment.content}}</div>
                     <div class="talk-matching">
-                      <div class="talk-matching__figurelist">
-                        <div class="talk-li"  v-for="image in images" :key="image" >
+                      <div class="talk-matching__figurelist" v-if="moment.images" >
+                        <div class="talk-li"  v-for="image in moment.images" :key="image" >
                           <div :style="{backgroundImage: 'url(' + image + ')'} " class="talk-li__figure">
                             <div class="talk-li__figure--img"></div>
                           </div>
@@ -152,7 +152,7 @@
                         {{moment.likesNums}}
                       </span>
                       <span class="talk-interactive__comment">
-                        <i class="iconfont icon-pinglun"  @click="dialogVisibleReply=true"></i>
+                        <i class="iconfont icon-pinglun"  @click="replyComment(moment)"></i>
                         {{moment.commentsNums}}
                       </span>
                     </div>
@@ -169,14 +169,14 @@
                               <div v-if="comment.previousId ==0">
                                 <span class="colorblue">{{comment.commentator?comment.commentator:comment.ownerNick}}：</span>
                                 <span>{{comment.content}}</span>
-                                <span class="talk-msglength__reply colorblue" @click="replyComment(comment)">回复</span>
+                                <span class="talk-msglength__reply colorblue" @click="replyComment(moment,comment)">回复阿萨</span>
                               </div>
                              <div v-else-if="comment.previousId != 0">
                                <span class="colorblue">{{comment.commentator?comment.commentator:comment.ownerNick}}</span>
                                <span>回复</span>
                                <span class="colorblue">{{comment.respondent?comment.respondent:comment.owner}}：</span>
                                <span>{{comment.content}}</span>
-                               <span class="colorblue talk-msglength__reply"  @click="dialogVisibleReply=true">回复</span>
+                               <span class="colorblue talk-msglength__reply"  @click="replyComment(moment,comment)">回复</span>
                                <span class="colorblue talk-msglength__reply" v-if="comment.nick==comment.ownerNick">删除</span>
                              </div>
                             </div>
@@ -300,9 +300,10 @@
       :visible.sync="dialogVisibleReply"
       width="460px"
       class="dialog-content">
-      <el-form ref="form"  >
+      <el-form ref="form" >
         <el-form-item>
-          <div class="dialog-content__reply">{{moment}}：</div>
+          <div class="dialog-content__reply" v-if="otherComment">{{otherComment.ownerNick}}：</div>
+          <div class="dialog-content__reply" v-else-if="otherMoment ">{{otherMoment.nick}}：</div>
         </el-form-item>
         <el-form-item  class="dialog-content__subtance dialog-content__subtance--margintop">
           <div class="dialog-detail dialog-detail--paddingbtm">
@@ -313,8 +314,8 @@
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
-        <ns-button @click="dialogVisibleReply = false">取 消</ns-button>
-        <ns-button type="primary" @click="reply(moment)" :disabled="isHidden">确 定</ns-button>
+        <ns-button @click="closeDialog">取 消</ns-button>
+        <ns-button type="primary" @click="reply()" :disabled="isHidden">确 定</ns-button>
       </span>
     </el-dialog>
     <!-- 回复弹窗-->
@@ -434,7 +435,7 @@ export default {
         expand: false
       },
       moments: null, // 朋友圈列表
-      images: [],
+      // images: [],
       likeNames: null, // 点赞的名称
       interationMsgs: null, // 互动消息
       personalNumberList: null, // 个人号列表
@@ -445,6 +446,8 @@ export default {
         url: '/moments/list/interaction/MINE',
         method: 'post'
       },
+      otherMoment: null,
+      otherComment: null,
       pickerOptions: {
         shortcuts: [
           {
@@ -518,12 +521,13 @@ export default {
             _this._data._table.key = 2
           }
           // let resourceList = resp.result.data.appendJson.resourceList
-          // for (let resource in _this.moments) {
-          //   if (resource.appendJson.url1) {
-          //     _this.images.push(resource.appendJson.url1)
+          // if (resourceList.length > 0) {
+          //   for (let resource in _this.moments) {
+          //     if (resource.appendJson.url2) {
+          //       _this.images.push(resource.appendJson.url2)
+          //     }
           //   }
           // }
-          // 获取朋友圈图片
         }
       }).catch((resp) => {
         _this.$notify.error(getErrorMsg('查询失败ad', resp))
@@ -579,6 +583,12 @@ export default {
         _this.$notify.error(getErrorMsg('查询失败', resp))
       })
     },
+    closeDialog () {
+      this.dialogVisibleReply = false
+      this.otherComment = null
+      this.otherMoment = null
+      this.content = null
+    },
     // 查询朋友圈列表
     queryMomentsList () {
       var _this = this
@@ -602,29 +612,38 @@ export default {
       })
     },
     // 回复评论
-    reply (moment, comment) {
+    reply () {
+      var _this = this
+      _this.isHidden = true
+      console.log('参数：' + _this.otherMoment.ownerId + ',' + _this.otherMoment.snsId + ',' + _this.otherMoment.owner + ',content:' + _this.content)
+      console.log('参数：content:' + _this.content)
+      // console.log('参数：otherComment:' + _this.otherComment ? _this.otherComment.ownerNick:'wu')
+      let replyMomentVo = {
+        wid: _this.otherMoment.ownerId,
+        snsId: _this.otherMoment.snsId,
+        author: _this.otherComment ? _this.otherComment.ownerId : _this.otherMoment.owner,
+        content: _this.content,
+        replyTo: ''
+      }
+      _this.$http.fetch(_this.$api.guide.myMoments.replyComment, replyMomentVo).then(resp => {
+        if (resp.success) {
+          _this.closeDialog()
+          setTimeout(_this.$refs.mainTable.$reload(), 2000)
+          console.log('评论成功')
+        }
+      }).catch((resp) => {
+        _this.isHidden = false
+        _this.$notify.error(getErrorMsg('评论失败', resp))
+      })
+    },
+    replyComment (moment, comment) {
       var _this = this
       _this.dialogVisibleReply = true
-      _this.isHidden = true
-      // console.log('参数：' + moment.ownerId + ',' + moment.snsId + ',' + moment.owner + ',content:' + _this.content)
-      console.log('参数：content:' + _this.content)
-      // let replyMomentVo = {
-      //   wid: moment.ownerId,
-      //   snsId: moment.snsId,
-      //   author: moment.owner,
-      //   content: _this.content,
-      //   replyTo: ''
-      // }
-      // _this.$http.fetch(_this.$api.guide.myMoments.replyComment, replyMomentVo).then(resp => {
-      //   if (resp.success) {
-      //     _this.dialogVisibleReply = false
-      //     setTimeout(_this.initMomentsList(), 2000)
-      //     console.log('评论成功')
-      //   }
-      // }).catch((resp) => {
-      //   _this.isHidden = false
-      //   _this.$notify.error(getErrorMsg('评论失败', resp))
-      // })
+      console.log('moment:' + moment.owner + ',nick:' + moment.nick)
+      _this.otherMoment = moment
+      if (comment) {
+        _this.otherComment = comment
+      }
     },
     // 点赞朋友圈
     like (moment) {
@@ -649,8 +668,8 @@ export default {
     rest () {
       var _this = this
       _this.url = _this.$api.guide.myMoments.momentsList
-      _this.$resetInput$()
-      _this.initMomentsList()
+      _this.$resetInputAction$()
+      // _this.initMomentsList()
     },
     // 发送朋友圈
     sendMoments () {
