@@ -1,11 +1,11 @@
 export default {
   // 朋友圈url
   momentsList: {
-    url: '/moments/list/MY',
+    url: '/moments/list/MINE',
     method: 'post'
   },
   interactionMsgList: {
-    url: '/moments/list/interaction/MY',
+    url: '/moments/list/interaction/MINE',
     method: 'post'
   },
   deleteComment: {

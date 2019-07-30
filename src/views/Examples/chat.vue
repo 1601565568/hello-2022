@@ -46,9 +46,9 @@
       </el-form-item>
     </el-form>
     <el-container class="talk-chat__container">
-      <el-aside class="talk-aside">
+      <el-aside class="talk-aside" style="width: 22%;">
           <div class="talk-aside__group">客户 / 群</div>
-          <el-scrollbar class="scrollbara">
+          <el-scrollbar class="scrollbara" ref="fullScreen">
             <div class="talk-aside__item">
               <div class="talk-item talk-chosen">
                 <div class="talk-item__avatar">
@@ -100,13 +100,6 @@
                 <div class="talk-item__time">13:18</div>
               </div>
               <div class="talk-item">
-                <div class="talk-item__avatar">
-                  <img src="https://img.yzcdn.cn/upload_files/2019/01/24/FhbbngOXgEqTbkda8DPNCthA5r5V.jpg" alt="用户头像" class="talk-img">
-                </div>
-                <div class="talk-item__username">顾青</div>
-                <div class="talk-item__time">13:18</div>
-              </div>
-              <div class="talk-item talk-chosen">
                 <div class="talk-item__avatar">
                   <img src="https://img.yzcdn.cn/upload_files/2019/01/24/FhbbngOXgEqTbkda8DPNCthA5r5V.jpg" alt="用户头像" class="talk-img">
                 </div>
@@ -174,7 +167,7 @@
           </ns-button>
           <span class="talk-person">个人号：昵称（ cpk201807 )</span>
         </div>
-        <el-scrollbar class="scrollbarb">
+        <el-scrollbar class="scrollbarb" ref="fullScreenright">
           <div class="talk-main__strip">
             <div class="talk-strip">
               <div class="talk-strip__headportrait">
@@ -228,21 +221,20 @@
                 </div>
               </div>
             </div>
-            <div class="talk-right clearfix">
-              <div class="talk-right__headportrait clearfix">
+            <div class="talk-strip">
+              <div class="talk-strip__headportrait">
                 <img src="https://img.yzcdn.cn/upload_files/2019/01/24/FhbbngOXgEqTbkda8DPNCthA5r5V.jpg" alt="用户头像" class="talk-image">
               </div>
-              <div class="talk-right__uname">
-                <div class="talk-rightmsg">
-                  <span class="talk-rightmsg__uname">顾青</span>
-                  <span class="talk-rightmsg__date">2019-05-29 13:01</span>
+              <div class="talk-strip__uname">
+                <div class="talk-msg">
+                  <span class="talk-msg__uname">顾青</span>
+                  <span class="talk-msg__date">2019-05-29 13:01</span>
                 </div>
-                <div class="talk-rightdetail">
-                  <div class="talk-rightdetail__record">
-                    <div class="talk-rightdetail__record--circle"></div>
-                    大中午的不睡觉，你是不是很闲的？大中午的不睡觉，你是不是很闲的？大中午的不睡觉，你是不是很闲的？大中午的不睡觉，你是不是很闲的？大中午的不睡觉，你是不是很闲的？大中午的不睡觉，你是不是很闲的？大中午的不睡觉，你是不是很闲的？大中午的不睡觉，你是不是很闲的？
+                <div class="talk-detail">
+                  <div class="talk-detail__record">
+                    <div class="talk-detail__record--circle"></div>
+                    早上好啊，该起床了
                   </div>
-                  <div class="talk-rightdetail__withdraw">已撤回</div>
                 </div>
               </div>
             </div>
@@ -260,6 +252,24 @@
                     <div class="talk-detail__record--circle"></div>
                     2019过去了一半了，你还不起床吗？
                   </div>
+                </div>
+              </div>
+            </div>
+            <div class="talk-right clearfix">
+              <div class="talk-right__headportrait clearfix">
+                <img src="https://img.yzcdn.cn/upload_files/2019/01/24/FhbbngOXgEqTbkda8DPNCthA5r5V.jpg" alt="用户头像" class="talk-image">
+              </div>
+              <div class="talk-right__uname">
+                <div class="talk-rightmsg">
+                  <span class="talk-rightmsg__uname">顾青</span>
+                  <span class="talk-rightmsg__date">2019-05-29 13:01</span>
+                </div>
+                <div class="talk-rightdetail">
+                  <div class="talk-rightdetail__record">
+                    <div class="talk-rightdetail__record--circle"></div>
+                    大中午的不睡觉，你是不是很闲的？大中午的不睡觉，你是不是很闲的?
+                  </div>
+                  <div class="talk-rightdetail__withdraw">已撤回</div>
                 </div>
               </div>
             </div>
@@ -303,7 +313,15 @@
   </div>
 </template>
 <script>
+import ElContainer from 'nui-v2/lib/container'
+import ElMain from 'nui-v2/lib/main'
+import ElAside from 'nui-v2/lib/aside'
 export default {
+  components: {
+    ElContainer,
+    ElMain,
+    ElAside
+  },
   data() {
     return {
       dialogVisible: false,
@@ -333,6 +351,29 @@ export default {
       value2: new Date(2016, 9, 10, 18, 40),
       value3: new Date(2016, 9, 10, 18, 40)
     }
+  },
+  mounted () {
+    this.$nextTick(() => {
+      this.setHeight()
+      window.addEventListener('resize', () => {
+        this.setHeight()
+      })
+    })
+  },
+  methods: {
+    /**
+     * 计算主要显示窗口的高度，动态设置页面内主要内容的高度
+     */
+    setHeight: function () {
+      /**  15px为顶部表单上面的间距和左右内容的标题上面的间距  **/
+      const PAGE_TOP_FORM = 93 // 顶部表单的高度
+      const BTN_TITLE = 50 // 左右内容的标题的高度
+      let limitHeight = window.innerHeight -
+        document.getElementsByClassName('nav')[0].offsetHeight -
+        BTN_TITLE - PAGE_TOP_FORM - 15;
+      this.$refs.fullScreen.$el.children[0].style.maxHeight = limitHeight + 'px'
+      this.$refs.fullScreenright.$el.children[0].style.maxHeight = limitHeight + 'px'
+    }
   }
 }
 </script>
@@ -353,14 +394,11 @@ export default {
         }
       }
       @e container {
-        width: 100%;
-        display: flex;
         margin-top: 10px;
         background: var(--theme-color-white);
       }
     }
     @b aside {
-      width: 22%;
       border-right: 1px solid #EEEEEE;
       @e group {
         font-size: 16px;
@@ -415,7 +453,6 @@ export default {
       border-radius: 50%;
     }
     @b main {
-      flex: 1;
       @e header {
         font-size: 16px;
         color: #33393E;
@@ -624,10 +661,7 @@ export default {
     top: 3px;
     right: -18px;
   }
-  .scrollbara >>> .el-scrollbar__view {
-    max-height: 300px;
-  }
-  .scrollbarb >>> .el-scrollbar__view {
-    max-height: 600px;
+  >>> .el-main {
+    padding: 0;
   }
 </style>

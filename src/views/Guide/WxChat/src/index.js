@@ -1,12 +1,20 @@
+import ElContainer from 'nui-v2/lib/container'
+import ElMain from 'nui-v2/lib/main'
+import ElAside from 'nui-v2/lib/aside'
 import tableMixin from 'web-crm/src/mixins/table'
 import moment from 'moment'
 
 export default {
+  components: {
+    ElContainer,
+    ElMain,
+    ElAside
+  },
   mixins: [tableMixin],
   data () {
     return {
       model: {
-        srhDate: [this.getDateFromToday(-30), new Date()],
+        srhDate: [this.getDateFromToday(-30), this.getndDate(new Date())],
         wid: null,
         content: null
       },
@@ -20,17 +28,17 @@ export default {
         shortcuts: [{
           text: '最近一周',
           onClick (picker) {
-            picker.$emit('pick', [this.getDateFromToday(-7), new Date()])
+            picker.$emit('pick', [this.getDateFromToday(-7), this.getndDate(new Date())])
           }
         }, {
           text: '最近一个月',
           onClick (picker) {
-            picker.$emit('pick', [this.getDateFromToday(-30)])
+            picker.$emit('pick', [this.getDateFromToday(-30), this.getndDate(new Date())])
           }
         }, {
           text: '最近三个月',
           onClick (picker) {
-            picker.$emit('pick', [this.getDateFromToday(-90), new Date()])
+            picker.$emit('pick', [this.getDateFromToday(-90), this.getndDate(new Date())])
           }
         }]
       },
@@ -40,7 +48,9 @@ export default {
       currTargetIndex: null,
       dialogVisible: false,
       chatList: [],
-      isChatLoadEnd: false
+      isChatLoadEnd: false,
+      isContentDiabled: true,
+      containerLoading: false
     }
   },
   methods: {
@@ -48,6 +58,9 @@ export default {
       let date = new Date()
       date.setTime(date.getTime() + 3600 * 1000 * 24 * addDay)
       return date
+    },
+    getndDate (date) {
+      return new Date(new Date(date.toLocaleDateString()).getTime() + 24 * 3600 * 1000 - 1)
     },
     loadPrivateAccount () {
       let _this = this
@@ -78,29 +91,39 @@ export default {
         start: this.chatList.length
       }
 
+      _this.isChatLoadEnd = true
+      _this.containerLoading = true
       this.$http.fetch(this.$api.guide.wxChat.findChatList, param).then(resp => {
-        _this.loading = false
-        _this.chatList = resp.result
-
-        console.warn(resp)
-        if (resp.result.length === 0) {
-          _this.isChatLoadEnd = true
-        } else {
-          this.chatList.pushData(resp.result)
+        for (let row of resp.result) {
+          _this.chatList.unshift(row)
+        }
+        if (resp.result.length >= 2) {
+          _this.isChatLoadEnd = false
         }
       })
     },
-    isChatLeft () {
-      return true
+    isChatLeft (receive) {
+      return !receive
+    },
+    widChanged () {
+      this.isContentDiabled = this.model.wid === null || this.model.wid === ''
+      if (this.isContentDiabled) {
+        this.model.content = ''
+      }
     },
     search () {
       let _this = this
       // 日期格式转换
       this.model.srhDate = [moment(this.model.srhDate[0]).format('YYYY-MM-DD HH:mm:ss'), moment(this.model.srhDate[1]).format('YYYY-MM-DD HH:mm:ss')]
       this.searchedModel = this.model
-      _this.loading = true
+
+      // 查询
+      this.targetList = []
+      this.chatList = []
+      this.containerLoading = true
+      this.isChatLoadEnd = true
       this.$http.fetch(this.$api.guide.wxChat.findTargetList, this.model).then(resp => {
-        _this.loading = false
+        _this.containerLoading = false
         _this.targetList = resp.result
         if (_this.targetList.length > 0) {
           _this.clickTarget(0)
@@ -108,17 +131,37 @@ export default {
       })
     },
     reset () {
-      this.model.srhDate = [this.getDateFromToday(-30), new Date()]
+      this.model.srhDate = [this.getDateFromToday(-30), this.getndDate(new Date())]
       this.model.wid = null
       this.model.content = null
       this.search()
     },
     getHourMinitue (datetime) {
       return datetime.substr(10, 6)
+    },
+    /**
+     * 计算主要显示窗口的高度，动态设置页面内主要内容的高度
+     */
+    setHeight: function () {
+      /**  15px为顶部表单上面的间距和左右内容的标题上面的间距  **/
+      const PAGE_TOP_FORM = 93 // 顶部表单的高度
+      const BTN_TITLE = 50 // 左右内容的标题的高度
+      let limitHeight = window.innerHeight -
+        document.getElementsByClassName('nav')[0].offsetHeight -
+        BTN_TITLE - PAGE_TOP_FORM - 15
+      this.$refs.fullScreen.$el.children[0].style.maxHeight = limitHeight + 'px'
+      this.$refs.fullScreenright.$el.children[0].style.maxHeight = limitHeight + 'px'
     }
   },
   // 初始化
   mounted: function () {
+    this.$nextTick(() => {
+      this.setHeight()
+      window.addEventListener('resize', () => {
+        this.setHeight()
+      })
+    })
     this.loadPrivateAccount()
+    this.search()
   }
 }
