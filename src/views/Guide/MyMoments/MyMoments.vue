@@ -36,7 +36,7 @@
           <!-- el-form 需添加  surround-btn 类名 配置环绕按钮效果 -->
           <template slot="advancedSearch" v-if="_data._queryConfig.expand">
             <el-form ref="table_filter_form" label-width="80px" @keyup.enter.native="onSearch" class="surround-btn"
-                     :model="model" :rules="rules" :inline="true">
+                     :model="model"  :inline="true">
               <el-form-item label="个人号：">
                 <el-form-grid size="xmd">
                   <el-select v-model="model.ownerId" filterable clearable
@@ -104,7 +104,7 @@
                 </el-form-grid>
               </el-form-item>
               <el-form-item label="评论数：">
-                <el-form-grid class="widthlength"  >
+                <el-form-grid class="widthlength">
                   <el-input v-model="model.commentsMin"></el-input>
                 </el-form-grid>
                 <el-form-grid class="text-tips--grey">
@@ -116,7 +116,7 @@
               </el-form-item>
             </el-form>
             <div class="template-table__more-btn">
-              <ns-button type="primary" @click="queryMomentsList()()">{{$t('operating.search')}}</ns-button>
+              <ns-button type="primary" @click="queryMomentsList()">{{$t('operating.search')}}</ns-button>
               <ns-button @click="rest()">{{$t('operating.reset')}}</ns-button>
             </div>
           </template>
@@ -133,7 +133,7 @@
                   <div class="talk-item__content">
                     <div class="talk-name">
                       <span class="talk-name__call colorblue">{{moment.nick}}</span>
-                      <span class="talk-name__private">个人号：{{moment.nick}}（ {{moment.ownerId}} ）</span>
+                      <span class="talk-name__private">个人号：{{moment.nick}}（ {{moment.owner}} ）</span>
                     </div>
                     <div class="talk-sentence">{{moment.content}}</div>
                     <div class="talk-matching">
@@ -148,11 +148,11 @@
                     <div class="talk-time">{{moment.snsTime}}</div>
                     <div class="talk-interactive">
                       <span class="talk-interactive__like">
-                        <i class="iconfont icon-dianzan"></i>
+                        <i class="iconfont icon-dianzan" @click="like(moment)"></i>
                         {{moment.likesNums}}
                       </span>
                       <span class="talk-interactive__comment">
-                        <i class="iconfont icon-pinglun"></i>
+                        <i class="iconfont icon-pinglun"  @click="dialogVisibleReply=true"></i>
                         {{moment.commentsNums}}
                       </span>
                     </div>
@@ -169,14 +169,14 @@
                               <div v-if="comment.previousId ==0">
                                 <span class="colorblue">{{comment.commentator?comment.commentator:comment.ownerNick}}：</span>
                                 <span>{{comment.content}}</span>
-                                <span class="talk-msglength__reply colorblue">回复</span>
+                                <span class="talk-msglength__reply colorblue" @click="replyComment(comment)">回复</span>
                               </div>
                              <div v-else-if="comment.previousId != 0">
                                <span class="colorblue">{{comment.commentator?comment.commentator:comment.ownerNick}}</span>
                                <span>回复</span>
                                <span class="colorblue">{{comment.respondent?comment.respondent:comment.owner}}：</span>
                                <span>{{comment.content}}</span>
-                               <span class="colorblue talk-msglength__reply">回复</span>
+                               <span class="colorblue talk-msglength__reply"  @click="dialogVisibleReply=true">回复</span>
                                <span class="colorblue talk-msglength__reply" v-if="comment.nick==comment.ownerNick">删除</span>
                              </div>
                             </div>
@@ -190,7 +190,6 @@
               </div>
             </el-scrollbar>
           </template>
-
 
           <!-- 左边内容滚动区域结束-->
 
@@ -232,8 +231,8 @@
                 <div class="talk-redpoint"></div>
                 <div class="talk-personmsg">
                   <div class="talk-personmsg__uname colorblue">{{msg.commentator?msg.commentator:msg.ownerNick}}</div>
-                  <div class="talk-personmsg__about" v-if="msg.previousId!=0">{{msg.info}}</div>
-                  <div class="talk-personmsg__about talk-personmsg__ablue--like" v-else-if="msg.previousId==0">
+                  <div class="talk-personmsg__about" v-if="msg.type==2">{{msg.content}}</div>
+                  <div class="talk-personmsg__about talk-personmsg__ablue--like" v-else-if="msg.type==1">
                     <i class="iconfont icon-dianzan colorblue"></i>
                   </div>
                   <div class="talk-personmsg__time">{{msg.createTime}}</div>
@@ -252,10 +251,10 @@
         <div class="talk-main__bottom">
           <el-pagination
             layout="prev, pager, next"
-            :page-sizes="_data._interactionPagination.sizeOpts" :total="_data._interactionPagination.total"
-            :current-page="_data._interactionPagination.page" :page-size="_data._interactionPagination.size"
-            @size-change="$sizeChange$"
-            @current-change="$pageChange$">
+            :page-sizes="_data._otherPagination.sizeOpts" :total="_data._otherPagination.total"
+            :current-page="_data._otherPagination.page" :page-size="_data._otherPagination.size"
+            @size-change="sizeChange"
+            @current-change="interactionPageChange" :url="interactionUrl">
           </el-pagination>
         </div>
       </el-main>
@@ -278,6 +277,7 @@
             </el-input>
             <el-upload
               class="avatar-uploader"
+              list-type="picture-card"
               :action="this.$api.core.sgUploadFile('test')"
               :show-file-list="false" accept=".jpg,.jpeg,.png,.bmp,.gif"
               :on-success="handleAvatarSuccess"
@@ -289,11 +289,35 @@
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
-        <ns-button @click="dialogVisible = false">取 消</ns-button>
+        <ns-button @click="dialogVisibleShow = false">取 消</ns-button>
         <ns-button type="primary" @click="sendMoments" :disabled="isHidden">确 定</ns-button>
       </span>
     </el-dialog>
     <!-- 发朋友圈弹窗结束-->
+    <!-- 回复弹窗-->
+    <el-dialog
+      title="回复"
+      :visible.sync="dialogVisibleReply"
+      width="460px"
+      class="dialog-content">
+      <el-form ref="form"  >
+        <el-form-item>
+          <div class="dialog-content__reply">{{moment}}：</div>
+        </el-form-item>
+        <el-form-item  class="dialog-content__subtance dialog-content__subtance--margintop">
+          <div class="dialog-detail dialog-detail--paddingbtm">
+            <el-input type="textarea" :rows="8" placeholder="请输入评论内容" v-model="content">
+            </el-input>
+            <i class="iconfont icon-biaoqing"></i>
+          </div>
+        </el-form-item>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+        <ns-button @click="dialogVisibleReply = false">取 消</ns-button>
+        <ns-button type="primary" @click="reply(moment)" :disabled="isHidden">确 定</ns-button>
+      </span>
+    </el-dialog>
+    <!-- 回复弹窗-->
   </div>
 </template>
 <script>
@@ -303,6 +327,7 @@ import ElMain from 'nui-v2/lib/main'
 import ElAside from 'nui-v2/lib/aside'
 import { getErrorMsg } from '@/utils/toast'
 import tableMixin from 'web-crm/src/mixins/table'
+import scrollbarMixin from '../../../mixins/scrollbar'
 import moment from 'moment'
 export default {
   components: {
@@ -311,9 +336,11 @@ export default {
     ElMain,
     ElAside
   },
-  mixins: [tableMixin],
+  mixins: [tableMixin, scrollbarMixin],
   props: {
-    types: Object
+    types: Object,
+    comment: Object,
+    moment: Object
   },
   data: function () {
     var pagination = {
@@ -393,6 +420,7 @@ export default {
     return {
       dialogVisible: false,
       dialogVisibleShow: false,
+      dialogVisibleReply: false,
       isHidden: false,
       model: model,
       imageUrl: '',
@@ -400,7 +428,7 @@ export default {
       quickSearchModel: quickSearchModel,
       rules: rules,
       _pagination: pagination,
-      _interactionPagination: interactionPagination,
+      // _interactionPagination: interactionPagination,
       momentsTotal: 0,
       _queryConfig: {
         expand: false
@@ -410,8 +438,13 @@ export default {
       likeNames: null, // 点赞的名称
       interationMsgs: null, // 互动消息
       personalNumberList: null, // 个人号列表
+      content: null, // 回复内容
       wid: null, // 朋友圈id
       url: null,
+      interactionUrl: {
+        url: '/moments/list/interaction/MINE',
+        method: 'post'
+      },
       pickerOptions: {
         shortcuts: [
           {
@@ -502,10 +535,32 @@ export default {
       _this.$http.fetch(_this.url, this.model).then(resp => {
         if (resp.success && resp.result != null) {
           _this.interationMsgs = resp.result.data
-          _this._data._interactionPagination.total = parseInt(resp.result.recordsTotal)
-          if (_this._data._interactionPagination.total > 0) {
+          _this._data._otherPagination.total = parseInt(resp.result.recordsTotal)
+          if (_this._data._otherPagination.total > 0) {
             _this._data._table.key = 1
-          } else if (_this._data._interactionPagination.total === 0) {
+          } else if (_this._data._otherPagination.total === 0) {
+            _this._data._table.key = 2
+          }
+        }
+      }).catch((resp) => {
+        _this.$notify.error(getErrorMsg('查询失败', resp))
+      })
+    },
+    interactionPageChange (page) {
+      var _this = this
+      _this._data._otherPagination.page = page
+      _this.url = _this.$api.guide.myMoments.interactionMsgList
+      var limit = {
+        start: (_this._otherPagination.page - 1) * _this._otherPagination.size,
+        length: _this._otherPagination.size
+      }
+      _this.$http.fetch(_this.url, limit).then(resp => {
+        if (resp.success && resp.result != null) {
+          _this.interationMsgs = resp.result.data
+          _this._data._otherPagination.total = parseInt(resp.result.recordsTotal)
+          if (_this._data._otherPagination.total > 0) {
+            _this._data._table.key = 1
+          } else if (_this._data._otherPagination.total === 0) {
             _this._data._table.key = 2
           }
         }
@@ -524,6 +579,7 @@ export default {
         _this.$notify.error(getErrorMsg('查询失败', resp))
       })
     },
+    // 查询朋友圈列表
     queryMomentsList () {
       var _this = this
       if (_this.model.time !== '' && _this.model.time != null) {
@@ -545,11 +601,58 @@ export default {
         _this.$notify.error(getErrorMsg('查询失败', resp))
       })
     },
+    // 回复评论
+    reply (moment, comment) {
+      var _this = this
+      _this.dialogVisibleReply = true
+      _this.isHidden = true
+      // console.log('参数：' + moment.ownerId + ',' + moment.snsId + ',' + moment.owner + ',content:' + _this.content)
+      console.log('参数：content:' + _this.content)
+      // let replyMomentVo = {
+      //   wid: moment.ownerId,
+      //   snsId: moment.snsId,
+      //   author: moment.owner,
+      //   content: _this.content,
+      //   replyTo: ''
+      // }
+      // _this.$http.fetch(_this.$api.guide.myMoments.replyComment, replyMomentVo).then(resp => {
+      //   if (resp.success) {
+      //     _this.dialogVisibleReply = false
+      //     setTimeout(_this.initMomentsList(), 2000)
+      //     console.log('评论成功')
+      //   }
+      // }).catch((resp) => {
+      //   _this.isHidden = false
+      //   _this.$notify.error(getErrorMsg('评论失败', resp))
+      // })
+    },
+    // 点赞朋友圈
+    like (moment) {
+      var _this = this
+      console.log('参数：' + moment.ownerId + ',' + moment.snsId + ',' + moment.owner)
+      let replyMomentVo = {
+        wid: moment.ownerId,
+        snsId: moment.snsId,
+        author: moment.owner
+      }
+      _this.$http.fetch(_this.$api.guide.myMoments.like, replyMomentVo).then(resp => {
+        if (resp.success) {
+          setTimeout(_this.initMomentsList(), 2000)
+          // _this.initMomentsList()
+          console.log('点赞成功')
+        }
+      }).catch((resp) => {
+        _this.$notify.error(getErrorMsg('点赞失败', resp))
+      })
+    },
+    // 重置
     rest () {
       var _this = this
       _this.url = _this.$api.guide.myMoments.momentsList
-      _this.$resetInputAction$()
+      _this.$resetInput$()
+      _this.initMomentsList()
     },
+    // 发送朋友圈
     sendMoments () {
       var _this = this
       _this.isHidden = true
@@ -558,9 +661,12 @@ export default {
       if (_this.imageUrl.length > 0) {
         let images = []
         images.push(_this.imageUrl)
+        console.log('图片url:' + images)
         _this.$http.fetch(_this.$api.guide.myMoments.sendImages, { wid: _this.wid, content: _this.textarea, images: images }).then(resp => {
           if (resp.success) {
-            _this.dialogVisible = false
+            console.log('发送成功')
+            _this.dialogVisible = true
+            _this.dialogVisibleShow = false
             _this.initMomentsList()
           }
         }).catch((resp) => {
@@ -570,18 +676,20 @@ export default {
       } else {
         _this.$http.fetch(_this.$api.guide.myMoments.sendText, { wid: _this.wid, content: _this.textarea }).then(resp => {
           if (resp.success) {
-            _this.dialogVisible = false
+            console.log('发送成功')
+            _this.dialogVisible = true
+            _this.dialogVisibleShow = false
             _this.initMomentsList()
           }
         }).catch((resp) => {
-          _this.isHidden = false
+          _this.isHidden = true
           _this.$notify.error(getErrorMsg('发送失败', resp))
         })
       }
     },
     beforeAvatarUpload (file) {
-      if (file.size / 1024 > 200) {
-        this.$notify.error('上传图片不得大于200KB')
+      if (file.size / 1024 > 5000) {
+        this.$notify.error('上传图片不得大于5M')
         return false
       }
       // 图片格式判断
@@ -589,6 +697,20 @@ export default {
         this.$notify.error('不支持的图片格式')
         return false
       }
+    },
+    generateParams: function () {
+      var order = this._data._order
+      var pagination = this._data._pagination
+      var limit = {
+        start: (pagination.page - 1) * pagination.size,
+        length: pagination.size
+      }
+      var searchMap = $.extend(true, {}, this._data._table.searchMap ? this._data._table.searchMap : this.model)
+      var params = $.extend(true, {}, order, limit, { searchMap: searchMap })
+      if (typeof this.$handleParams === 'function') {
+        return this.$handleParams(params)
+      }
+      return params
     },
     // 处理上传图片
     'handleAvatarSuccess': function (res, file) {

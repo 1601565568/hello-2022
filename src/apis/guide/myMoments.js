@@ -12,6 +12,14 @@ export default {
     url: '/moments/deleteComment',
     method: 'post'
   },
+  replyComment: {
+    url: '/moments/replyComment',
+    method: 'post'
+  },
+  like: {
+    url: '/moments/like',
+    method: 'post'
+  },
   sendText: {
     url: '/moments/sendText',
     method: 'post'
