@@ -39,7 +39,7 @@
                      :model="model" :rules="rules" :inline="true">
               <el-form-item label="个人号：">
                 <el-form-grid size="xmd">
-                  <el-select v-model="model.personalNumber" filterable clearable
+                  <el-select v-model="model.ownerId" filterable clearable
                              :multiple="false">
                     <el-option v-for="number in personalNumberList" :label="number.nick" :value="number.wid" :key="number.wid">
                     </el-option>
@@ -48,14 +48,13 @@
               </el-form-item>
               <el-form-item label="内容类型：">
                 <el-form-grid size="xmd">
-                  <el-select v-model="model.userType" filterable clearable
+                  <el-select v-model="model.snsType" filterable clearable
                              :multiple="false">
-                    <el-option label="视频" value="3">
-                    </el-option>
-                    <el-option label="图文" value="4">
-                    </el-option>
-                    <el-option label="链接" value="2">
-                    </el-option>
+                    <el-option label="全部" value="0"></el-option>
+                    <el-option label="图文" value="1"></el-option>
+                    <el-option label="文字" value="2"></el-option>
+                    <el-option label="分享链接" value="3"></el-option>
+                    <el-option label="视频" value="4"></el-option>
                   </el-select>
                 </el-form-grid>
               </el-form-item>
@@ -63,10 +62,10 @@
                 <el-form-grid size="xmd">
                   <el-select v-model="model.orderType" filterable clearable
                              :multiple="false">
-                    <el-option label="点赞数降序" value="0"></el-option>
-                    <el-option label="评论数降序" value="1"></el-option>
-                    <el-option label="点赞数升序" value="2"></el-option>
-                    <el-option label="评论数升序" value="3"></el-option>
+                    <el-option label="点赞数降序" value="likesDesc"></el-option>
+                    <el-option label="评论数降序" value="commentsDesc"></el-option>
+                    <el-option label="点赞数升序" value="likesAsc"></el-option>
+                    <el-option label="评论数升序" value="commentsAsc"></el-option>
                   </el-select>
                 </el-form-grid>
               </el-form-item>
@@ -77,9 +76,19 @@
               </el-form-item>
               <el-form-item label="日期：">
                 <el-form-grid size="xmd">
+<!--                  <el-date-picker-->
+<!--                    type="date"-->
+<!--                    placeholder="请选择日期" v-model="model.addTime">-->
+<!--                  </el-date-picker>-->
                   <el-date-picker
-                    type="date"
-                    placeholder="请选择日期" v-model="model.addTime">
+                    v-model="model.time"
+                    type="daterange"
+                    align="right"
+                    unlink-panels
+                    range-separator="至"
+                    start-placeholder="开始日期"
+                    end-placeholder="结束日期"
+                    :picker-options="pickerOptions">
                   </el-date-picker>
                 </el-form-grid>
               </el-form-item>
@@ -95,7 +104,7 @@
                 </el-form-grid>
               </el-form-item>
               <el-form-item label="评论数：">
-                <el-form-grid class="widthlength">
+                <el-form-grid class="widthlength"  >
                   <el-input v-model="model.commentsMin"></el-input>
                 </el-form-grid>
                 <el-form-grid class="text-tips--grey">
@@ -107,8 +116,8 @@
               </el-form-item>
             </el-form>
             <div class="template-table__more-btn">
-              <ns-button type="primary" @click="queryMomentsList()">{{$t('operating.search')}}</ns-button>
-              <ns-button @click="$resetInputAction$()">{{$t('operating.reset')}}</ns-button>
+              <ns-button type="primary" @click="queryMomentsList()()">{{$t('operating.search')}}</ns-button>
+              <ns-button @click="rest()">{{$t('operating.reset')}}</ns-button>
             </div>
           </template>
           <!-- 高级搜索-结束 -->
@@ -119,7 +128,7 @@
               <div class="talk-aside__list" ref="asd" v-for="moment in moments" :key="moment.id">
                 <div class="talk-item clearfix">
                   <div class="talk-item__avatar">
-                    <img :src="moment.head" class="talk-avatarimg" alt="朋友圈配图" >
+                    <img :src="moment.head" class="talk-avatarimg" alt="个人号头像" >
                   </div>
                   <div class="talk-item__content">
                     <div class="talk-name">
@@ -269,11 +278,11 @@
             </el-input>
             <el-upload
               class="avatar-uploader"
-              action="https://jsonplaceholder.typicode.com/posts/"
+              :action="this.$api.core.sgUploadFile('test')"
               :show-file-list="false" accept=".jpg,.jpeg,.png,.bmp,.gif"
               :on-success="handleAvatarSuccess"
               :before-upload="beforeAvatarUpload">
-              <img v-if="imageUrl" src="" class="avatar">
+              <img v-if="imageUrl" :src="imageUrl" class="avatar">
               <i v-else class="el-icon-plus avatar-uploader-icon"></i>
             </el-upload>
           </div>
@@ -281,7 +290,7 @@
       </el-form>
       <span slot="footer" class="dialog-footer">
         <ns-button @click="dialogVisible = false">取 消</ns-button>
-        <ns-button type="primary" @click="dialogVisible = false">确 定</ns-button>
+        <ns-button type="primary" @click="sendMoments" :disabled="isHidden">确 定</ns-button>
       </span>
     </el-dialog>
     <!-- 发朋友圈弹窗结束-->
@@ -294,6 +303,7 @@ import ElMain from 'nui-v2/lib/main'
 import ElAside from 'nui-v2/lib/aside'
 import { getErrorMsg } from '@/utils/toast'
 import tableMixin from 'web-crm/src/mixins/table'
+import moment from 'moment'
 export default {
   components: {
     ElUpload,
@@ -330,18 +340,35 @@ export default {
       'value': '',
       'isConvenient': false
     }]
+    let rules = {
+      'likesMin': [
+        { type: 'number', message: '必须为数字值' }
+      ],
+      'likesMax': [
+        { type: 'number', message: '必须为数字值' }
+      ],
+      'commentsMin': [
+        { type: 'number', message: '必须为数字值' }
+      ],
+      'commentsMax': [
+        { type: 'number', message: '必须为数字值' }
+      ]
+    }
     var quickSearchNames = quickInput.map(x => x.name)
     var quickSearchModel = {}
     var model = Object.assign({},
       {
-        personalNumber: null,
-        addTime: null, // 发送时间
+        ownerId: null, // 个人号id
         likesMin: null, // 点赞最小数
         likesMax: null, // 点赞最大数
         commentsMin: null, // 评论最小数
         commentsMax: null, // 评论最大数
         snsType: null, // 内容类型
-        keyword: null // 关键字
+        keyword: null, // 关键字
+        orderType: null, // 排序方式
+        timeEnd: null,
+        timeStart: null,
+        time: null // 发朋友圈时间
       },
       {})
     var _this = this
@@ -366,11 +393,12 @@ export default {
     return {
       dialogVisible: false,
       dialogVisibleShow: false,
+      isHidden: false,
       model: model,
       imageUrl: '',
       textarea: '',
       quickSearchModel: quickSearchModel,
-      rules: Object.assign({}, {}, {}),
+      rules: rules,
       _pagination: pagination,
       _interactionPagination: interactionPagination,
       momentsTotal: 0,
@@ -383,7 +411,38 @@ export default {
       interationMsgs: null, // 互动消息
       personalNumberList: null, // 个人号列表
       wid: null, // 朋友圈id
-      url: null
+      url: null,
+      pickerOptions: {
+        shortcuts: [
+          {
+            text: '最近一天',
+            onClick (picker) {
+              const end = new Date()
+              const start = new Date()
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 1)
+              picker.$emit('pick', [start, end])
+            }
+          },
+          {
+            text: '最近一周',
+            onClick (picker) {
+              const end = new Date()
+              const start = new Date()
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
+              picker.$emit('pick', [start, end])
+            }
+          },
+          {
+            text: '最近一个月',
+            onClick (picker) {
+              const end = new Date()
+              const start = new Date()
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
+              picker.$emit('pick', [start, end])
+            }
+          }
+        ]
+      }
     }
   },
   mounted () {
@@ -425,11 +484,16 @@ export default {
           } else if (_this._data._pagination.total === 0) {
             _this._data._table.key = 2
           }
-          // _this._data = resp.result
+          // let resourceList = resp.result.data.appendJson.resourceList
+          // for (let resource in _this.moments) {
+          //   if (resource.appendJson.url1) {
+          //     _this.images.push(resource.appendJson.url1)
+          //   }
+          // }
           // 获取朋友圈图片
         }
       }).catch((resp) => {
-        _this.$notify.error(getErrorMsg('查询失败', resp))
+        _this.$notify.error(getErrorMsg('查询失败ad', resp))
       })
     },
     initInteractionMsgList () {
@@ -462,10 +526,20 @@ export default {
     },
     queryMomentsList () {
       var _this = this
-      _this.$http.fetch(_this.$api.guide.myMoments.momentsList, this.model).then(resp => {
+      if (_this.model.time !== '' && _this.model.time != null) {
+        _this.model.timeStart = moment(_this.model.time[0]).format('YYYY-MM-DD HH:mm:ss')
+        _this.model.timeEnd = moment(_this.model.time[1]).format('YYYY-MM-DD HH:mm:ss')
+      }
+      let params = _this.$generateParams$()
+      _this.$http.fetch(_this.$api.guide.myMoments.momentsList, params).then(resp => {
         if (resp.success && resp.result != null) {
           _this.moments = resp.result.data
-          // 获取朋友圈图片
+          _this._data._pagination.total = parseInt(resp.result.recordsTotal)
+          if (_this._data._pagination.total > 0) {
+            _this._data._table.key = 1
+          } else if (_this._data._pagination.total === 0) {
+            _this._data._table.key = 2
+          }
         }
       }).catch((resp) => {
         _this.$notify.error(getErrorMsg('查询失败', resp))
@@ -473,8 +547,37 @@ export default {
     },
     rest () {
       var _this = this
-      _this.model = this.model
-      _this.initMomentsList()
+      _this.url = _this.$api.guide.myMoments.momentsList
+      _this.$resetInputAction$()
+    },
+    sendMoments () {
+      var _this = this
+      _this.isHidden = true
+      console.log('wid' + _this.wid)
+      console.log('内容' + _this.textarea)
+      if (_this.imageUrl.length > 0) {
+        let images = []
+        images.push(_this.imageUrl)
+        _this.$http.fetch(_this.$api.guide.myMoments.sendImages, { wid: _this.wid, content: _this.textarea, images: images }).then(resp => {
+          if (resp.success) {
+            _this.dialogVisible = false
+            _this.initMomentsList()
+          }
+        }).catch((resp) => {
+          _this.isHidden = false
+          _this.$notify.error(getErrorMsg('发送失败', resp))
+        })
+      } else {
+        _this.$http.fetch(_this.$api.guide.myMoments.sendText, { wid: _this.wid, content: _this.textarea }).then(resp => {
+          if (resp.success) {
+            _this.dialogVisible = false
+            _this.initMomentsList()
+          }
+        }).catch((resp) => {
+          _this.isHidden = false
+          _this.$notify.error(getErrorMsg('发送失败', resp))
+        })
+      }
     },
     beforeAvatarUpload (file) {
       if (file.size / 1024 > 200) {
@@ -490,7 +593,7 @@ export default {
     // 处理上传图片
     'handleAvatarSuccess': function (res, file) {
       var _this = this
-      _this.model.sgGuide.image = res.result.url
+      _this.imageUrl = res.result.url
     },
     /**
      * 计算主要显示窗口的高度，动态设置页面内主要内容的高度
