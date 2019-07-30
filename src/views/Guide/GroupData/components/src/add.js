@@ -77,6 +77,7 @@ export default {
       this.privateAccountSelection = []
       this.friendSelection = []
       this.saveModel = JSON.parse(JSON.stringify(this.originModel))
+      this.$refs.saveModel.resetFields()
     },
     searchWxPrivateAccount () {
       this.pagination.page = 1
@@ -180,6 +181,8 @@ export default {
           this.$http.fetch(this.$api.guide.groupData.createChatroom, params)
             .then(data => {
               this.$notify.success('创建成功，稍后可在个人号或列表中查看结果')
+              this.$emit('update:visible', false)
+              this.selectedMemberDialog.visible = false
             })
             .catch(error => {
               this.$notify.error(getErrorMsg('创建群聊出现异常', error))
