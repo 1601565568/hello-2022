@@ -129,6 +129,9 @@
             <el-row>
               <el-col :span='8'><span>积分：{{result|| '-'}}</span></el-col>
             </el-row>
+            <el-row>
+              <el-col :span='8'><span>初次来源：{{'-'}}</span></el-col>
+            </el-row>
           </div>
           <div>
             <p class="p-title">会员印象：</p>
