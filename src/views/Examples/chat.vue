@@ -48,7 +48,7 @@
     <el-container class="talk-chat__container">
       <el-aside class="talk-aside" style="width: 22%;">
           <div class="talk-aside__group">客户 / 群</div>
-          <el-scrollbar class="scrollbara" ref="fullScreen">
+          <el-scrollbar ref="fullScreen">
             <div class="talk-aside__item">
               <div class="talk-item talk-chosen">
                 <div class="talk-item__avatar">
@@ -167,7 +167,7 @@
           </ns-button>
           <span class="talk-person">个人号：昵称（ cpk201807 )</span>
         </div>
-        <el-scrollbar class="scrollbarb" ref="fullScreenright">
+        <el-scrollbar ref="fullScreenright">
           <div class="talk-main__strip">
             <div class="talk-strip">
               <div class="talk-strip__headportrait">
@@ -213,7 +213,7 @@
                   <span class="talk-rightmsg__date">2019-05-29 13:01</span>
                 </div>
                 <div class="talk-rightdetail">
-                  <div class="talk-rightdetail__record">
+                  <div class="talk-rightdetail__record clearfix">
                     <div class="talk-rightdetail__record--circle"></div>
                     大中午的不睡觉，你是不是很闲的？大中午的不睡觉，你是不是很闲的?
                   </div>
@@ -231,7 +231,7 @@
                   <span class="talk-msg__date">2019-05-29 13:01</span>
                 </div>
                 <div class="talk-detail">
-                  <div class="talk-detail__record">
+                  <div class="talk-detail__record clearfix">
                     <div class="talk-detail__record--circle"></div>
                     早上好啊，该起床了
                   </div>
@@ -248,7 +248,7 @@
                   <span class="talk-msg__date">2019-05-29 13:01</span>
                 </div>
                 <div class="talk-detail">
-                  <div class="talk-detail__record">
+                  <div class="talk-detail__record clearfix">
                     <div class="talk-detail__record--circle"></div>
                     2019过去了一半了，你还不起床吗？
                   </div>
@@ -265,9 +265,27 @@
                   <span class="talk-rightmsg__date">2019-05-29 13:01</span>
                 </div>
                 <div class="talk-rightdetail">
-                  <div class="talk-rightdetail__record">
+                  <div class="talk-rightdetail__record clearfix">
                     <div class="talk-rightdetail__record--circle"></div>
                     大中午的不睡觉，你是不是很闲的？大中午的不睡觉，你是不是很闲的?
+                  </div>
+                  <div class="talk-rightdetail__withdraw">已撤回</div>
+                </div>
+              </div>
+            </div>
+            <div class="talk-right clearfix">
+              <div class="talk-right__headportrait clearfix">
+                <img src="https://img.yzcdn.cn/upload_files/2019/01/24/FhbbngOXgEqTbkda8DPNCthA5r5V.jpg" alt="用户头像" class="talk-image">
+              </div>
+              <div class="talk-right__uname">
+                <div class="talk-rightmsg">
+                  <span class="talk-rightmsg__uname">顾青</span>
+                  <span class="talk-rightmsg__date">2019-05-29 13:01</span>
+                </div>
+                <div class="talk-rightdetail clearfix">
+                  <div class="talk-rightdetail__record">
+                    <div class="talk-rightdetail__record--circle"></div>
+                    大中午
                   </div>
                   <div class="talk-rightdetail__withdraw">已撤回</div>
                 </div>
@@ -365,12 +383,11 @@ export default {
      * 计算主要显示窗口的高度，动态设置页面内主要内容的高度
      */
     setHeight: function () {
-      /**  15px为顶部表单上面的间距和左右内容的标题上面的间距  **/
-      const PAGE_TOP_FORM = 93 // 顶部表单的高度
+      /**  15px为顶部表单上面的间距和左右内容的标题上面的间距 **/
       const BTN_TITLE = 50 // 左右内容的标题的高度
       let limitHeight = window.innerHeight -
         document.getElementsByClassName('nav')[0].offsetHeight -
-        BTN_TITLE - PAGE_TOP_FORM - 15;
+        BTN_TITLE - document.getElementsByClassName('talk-chat__form')[0].offsetHeight - 15;
       this.$refs.fullScreen.$el.children[0].style.maxHeight = limitHeight + 'px'
       this.$refs.fullScreenright.$el.children[0].style.maxHeight = limitHeight + 'px'
     }
@@ -545,8 +562,8 @@ export default {
       }
     }
     @b rightmsg {
+      text-align: right;
       padding-top: 5px;
-      float: right;
       @e uname {
         font-size: 14px;
         color: #606266;
@@ -565,8 +582,8 @@ export default {
         margin-top: 8px;
         background: #F2F4F6;
         border-radius: 5px;
-        float: right;
         position: relative;
+        float: right;
         @m circle {
           width:0;
           height:0;
