@@ -4,10 +4,11 @@ import Add from '../components/Add'
 import GroupDetail from '../components/GroupDetail'
 import MemberDetail from '../components/MemberDetail'
 import { NO_IMG_BIG } from '@/utils/constants'
+import Duplicate from '../components/Duplicate'
 
 export default {
   mixins: [tableMixin],
-  components: { Add, GroupDetail, MemberDetail },
+  components: { Add, GroupDetail, MemberDetail, Duplicate },
   data () {
     const that = this
     return {
@@ -26,6 +27,7 @@ export default {
           },
           {
             'func': function () {
+              that.duplicateDialog.visible = true
             },
             'icon': '',
             'name': '重复群成员筛选',
@@ -74,6 +76,9 @@ export default {
       memberDetailDialog: {
         visible: false,
         memberDetail: {}
+      },
+      duplicateDialog: {
+        visible: false
       }
     }
   },

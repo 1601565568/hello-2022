@@ -3,6 +3,7 @@
     <Add :visible.sync='addDialog.visible'/>
     <GroupDetail :visible.sync='groupDetailDialog.visible' :group-detail.sync='groupDetailDialog.groupDetail'/>
     <MemberDetail :visible.sync='memberDetailDialog.visible' :member-detail.sync='memberDetailDialog.memberDetail'/>
+    <Duplicate :visible.sync='duplicateDialog.visible'/>
     <div class="template-page__row-left">
       <el-input ref="quickText" style="width: 190px" v-model="filterGroup" placeholder="搜索群名">
         <i class="el-icon-search el-input__icon" slot="suffix" @click="onFilterGroup"></i>

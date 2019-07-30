@@ -18,6 +18,8 @@ import wxDeviceGuideRelation from './wxDeviceGuideRelation'
 import friendData from './friendData'
 import wxChat from './wxChat'
 import myMoments from './myMoments'
+import wxGroup from './wxGroup'
+
 export default {
   guide,
   shop,
@@ -39,6 +41,7 @@ export default {
   wxDeviceGuideRelation,
   wxChat,
   myMoments,
+  wxGroup,
   // 所有导购模块全部整合在此
   comGetBrandForShopList: {// 获取品牌下的店铺
     url: '/core/sgshop/getBrandList',
