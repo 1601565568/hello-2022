@@ -12,7 +12,7 @@
                  :model="model" :rules="rules" :inline="true">
           <el-form-item label="时间：" class='el-block'>
             <el-form-grid width="350">
-              <ns-datetime type="datetime" width="160" v-model="model.times">
+              <ns-datetime type="datetime" width="160" v-model="model.times" format='yyyy-MM-dd' value-format='yyyyMMdd'>
               </ns-datetime>
             </el-form-grid>
             <el-form-grid>
@@ -90,6 +90,18 @@
                            label="敏感词" sortable="sensitive_word_quantity" align='right' width='100px'>
             <template slot-scope='scope'>
               {{scope.row.sensitiveWordQuantity || 0}}
+            </template>
+          </el-table-column>
+          <el-table-column :show-overflow-tooltip="true" type="default" prop="recallMessageQuantity"
+                           label="撤回消息" sortable="recall_message_quantity" align='right' width='100px'>
+            <template slot-scope='scope'>
+              {{scope.row.recallMessageQuantity || 0}}
+            </template>
+          </el-table-column>
+          <el-table-column :show-overflow-tooltip="true" type="default" prop="deleteMessageQuantity"
+                           label="删除消息" sortable="delete_message_quantity" align='right' width='100px'>
+            <template slot-scope='scope'>
+              {{scope.row.deleteMessageQuantity || 0}}
             </template>
           </el-table-column>
           <el-table-column :show-overflow-tooltip="true" label="操作" align="center"

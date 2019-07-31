@@ -63,7 +63,7 @@ export default {
     todayTime (type) {
       this.defButton = type
       this.quickMode = true
-      this.model.times = [moment().subtract(type, 'days').format('YYYY-MM-DD HH:mm:ss'), type === 1 ? moment().subtract(type, 'days').format('YYYY-MM-DD HH:mm:ss') : moment().format('YYYY-MM-DD HH:mm:ss')]
+      this.model.times = [moment().subtract(type, 'days').format('YYYYMMDD'), type === 1 ? moment().subtract(type, 'days').format('YYYYMMDD') : moment().format('YYYYMMDD')]
     },
     initPrivateAccount () {
       this.$http.fetch(this.$api.guide.wxPrivateAccount.listLite, {}).then(data => {
