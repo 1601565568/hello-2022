@@ -3,8 +3,8 @@
     <!-- 导航 -->
     <div style="v-align:top;height:25px">
       <el-breadcrumb separator="/">
-        <el-breadcrumb-item :to="{ path: '/Guide/SensitiveWord/index' }">内容管理</el-breadcrumb-item>
-        <el-breadcrumb-item :to="{ path: '/Guide/SensitiveWord/index' }">敏感词管理</el-breadcrumb-item>
+        <el-breadcrumb-item :to="{ path: '/Guide/Content' }">内容管理</el-breadcrumb-item>
+        <el-breadcrumb-item :to="{ path: '/ContentMange/SensitiveWord/index' }">敏感词管理</el-breadcrumb-item>
         <el-breadcrumb-item>敏感词监控</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
