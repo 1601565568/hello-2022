@@ -122,189 +122,66 @@
           <!-- 左边内容滚动区域 -->
           <template slot="table">
             <el-scrollbar ref="fullScreen">
-              <div class="talk-aside__list">
-                <div class="talk-item clearfix">
+              <div class="talk-aside__list" ref="asideList">
+                <div class="talk-item clearfix" v-for="(item, index) in list" :key="index">
                   <div class="talk-item__avatar">
-                    <img src="http://iph.href.lu/500x100" class="talk-avatarimg" alt="朋友圈配图" >
+                    <img :src="item.avtar" class="talk-avatarimg" alt="朋友圈配图" >
                   </div>
                   <div class="talk-item__content">
                     <div class="talk-name">
-                      <span class="talk-name__call colorblue">起个名字好麻烦起个名字好麻烦起个名字好麻烦起</span>
-                      <span class="talk-name__private">个人号：微信昵称（ wechatid ）</span>
+                      <span class="talk-name__call colorblue">{{item.name}}</span>
+                      <span class="talk-name__private">个人号：微信昵称（ {{item.webName}}} ）</span>
                     </div>
-                    <div class="talk-sentence">散场总是难免的，尽兴而归就好散场总是难免的，尽兴而归就好散场总是难免的，尽兴而归就好散场总是难免的，尽兴而归就好散场总是难免的，尽兴而归就好散场总是难免的，尽兴而归就好</div>
+                    <div>
+                        <div :class="item.showState && item.showState === 2 ? 'intro-content max' : 'intro-content'" :title="item.sentence">
+                        <span class="merchant-desc" :title="item.showState"> {{item.sentence}}</span>
+                        <div class="unfold" @click="showTotalIntro(index)" v-if="item.showState">
+                          <ns-button type="text">{{item.showState && item.showState === 2 ? '显示更多' : '收起更多'}}</ns-button>
+                        </div>
+                      </div>
+                    </div>
                     <div class="talk-matching">
                       <div class="talk-matching__figurelist">
-                        <div class="talk-li">
-                          <div style="background-image:url(https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/201907/120,910,104,359,001/a2e079dd-e605-49d3-9c10-a3893b413ba0.jpg)" class="talk-li__figure">
-                            <div class="talk-li__figure--img"></div>
-                          </div>
-                        </div>
-                        <div class="talk-li">
-                          <div style="background-image:url(http://iph.href.lu/500x100)" class="talk-li__figure">
-                            <div class="talk-li__figure--img"></div>
-                          </div>
-                        </div>
-                        <div class="talk-li">
-                          <div style="background-image:url(https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/201907/120,910,104,359,001/a2e079dd-e605-49d3-9c10-a3893b413ba0.jpg)" class="talk-li__figure">
-                            <div class="talk-li__figure--img"></div>
-                          </div>
-                        </div>
-                        <div class="talk-li">
-                          <div style="background-image:url(https://img.yzcdn.cn/upload_files/2019/01/24/FhbbngOXgEqTbkda8DPNCthA5r5V.jpg)" class="talk-li__figure">
-                            <div class="talk-li__figure--img"></div>
-                          </div>
-                        </div>
-                        <div class="talk-li">
-                          <div style="background-image:url(https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/201907/120,910,104,359,001/a2e079dd-e605-49d3-9c10-a3893b413ba0.jpg)" class="talk-li__figure">
-                            <div class="talk-li__figure--img"></div>
-                          </div>
-                        </div>
-                        <div class="talk-li">
-                          <div style="background-image:url(http://iph.href.lu/500x100)" class="talk-li__figure">
-                            <div class="talk-li__figure--img"></div>
-                          </div>
-                        </div>
-                        <div class="talk-li">
-                          <div style="background-image:url(https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/201907/120,910,104,359,001/a2e079dd-e605-49d3-9c10-a3893b413ba0.jpg)" class="talk-li__figure">
-                            <div class="talk-li__figure--img"></div>
-                          </div>
-                        </div>
-                        <div class="talk-li">
-                          <div style="background-image:url(https://img.yzcdn.cn/upload_files/2019/01/24/FhbbngOXgEqTbkda8DPNCthA5r5V.jpg)" class="talk-li__figure">
-                            <div class="talk-li__figure--img"></div>
-                          </div>
-                        </div>
-                        <div class="talk-li">
-                          <div style="background-image:url(https://img.yzcdn.cn/upload_files/2019/01/24/FhbbngOXgEqTbkda8DPNCthA5r5V.jpg)" class="talk-li__figure">
+                        <div class="talk-li" v-for="(photos, imagesIndex) in item.imgs" :key="imagesIndex">
+                          <div :style="{ 'background-image': 'url('+ photos + ')'}"class="talk-li__figure">
                             <div class="talk-li__figure--img"></div>
                           </div>
                         </div>
                       </div>
                     </div>
-                    <div class="talk-time">2019-06-03 17:17:00</div>
+                    <div class="talk-time">{{item.time}}</div>
                     <div class="talk-interactive">
-                  <span class="talk-interactive__like">
-                    <i class="iconfont icon-dianzan"></i>
-                    20
-                  </span>
+                      <span class="talk-interactive__like">
+                        <i class="iconfont icon-dianzan"></i>
+                        {{item.like}}
+                      </span>
                       <span class="talk-interactive__comment">
-                    <i class="iconfont icon-pinglun"></i>
-                    18
-                  </span>
-                    </div>
-                  </div>
-                </div>
-                <div class="talk-item clearfix">
-                  <div class="talk-item__avatar">
-                    <img src="https://img.yzcdn.cn/upload_files/2019/01/24/FhbbngOXgEqTbkda8DPNCthA5r5V.jpg" class="talk-avatarimg" alt="商品图片" >
-                  </div>
-                  <div class="talk-item__content">
-                    <div class="talk-name">
-                      <span class="talk-name__call colorblue">起个名字好麻烦</span>
-                      <span class="talk-name__private">个人号：微信昵称（ wechatid ）</span>
-                    </div>
-                    <div class="talk-sentence">散场总是难免的，尽兴而归就好</div>
-                    <div class="talk-matching">
-                      <div class="talk-matching__figurelist">
-                        <div class="talk-li">
-                          <div style="background-image:url(https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/201907/120,910,104,359,001/a2e079dd-e605-49d3-9c10-a3893b413ba0.jpg)" class="talk-li__figure">
-                            <div class="talk-li__figure--img"></div>
-                          </div>
-                        </div>
-                        <div class="talk-li">
-                          <div style="background-image:url(http://iph.href.lu/500x100)" class="talk-li__figure">
-                            <div class="talk-li__figure--img"></div>
-                          </div>
-                        </div>
-                        <div class="talk-li">
-                          <div style="background-image:url(https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/201907/120,910,104,359,001/a2e079dd-e605-49d3-9c10-a3893b413ba0.jpg)" class="talk-li__figure">
-                            <div class="talk-li__figure--img"></div>
-                          </div>
-                        </div>
-                        <div class="talk-li">
-                          <div style="background-image:url(https://img.yzcdn.cn/upload_files/2019/01/24/FhbbngOXgEqTbkda8DPNCthA5r5V.jpg)" class="talk-li__figure">
-                            <div class="talk-li__figure--img"></div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="talk-time">2019-06-03 17:17:00</div>
-                    <div class="talk-interactive">
-                  <span class="talk-interactive__like">
-                    <i class="iconfont icon-dianzan colorblue"></i>
-                    20
-                  </span>
-                      <span class="talk-interactive__comment">
-                    <i class="iconfont icon-pinglun"></i>
-                    18
-                  </span>
+                        <i class="iconfont icon-pinglun"></i>
+                        {{item.comment}}
+                      </span>
                     </div>
                     <div class="talk-detail">
+                      <div class="talk-detail__chatmsg">
+                        <i class="iconfont icon-dianzan colorblue"></i>
+                        <span v-for="likes in item.dianzan" :key="dianzanIndex">
+                            <span class="colorblue">{{likes}}</span>
+                          </span>
+                      </div>
                       <div class="talk-detail__substance">
-                        <div class="talk-chatmsg">
-                          <i class="iconfont icon-dianzan colorblue"></i>
-                          <span class="colorblue">起个名字好麻烦，长安自在风</span>
-                        </div>
-                        <div class="talk-msg">
-                          <div class="talk-msg__item clearfix">
+                        <div class="talk-msg" v-for="comments in item.pinglun" :key="commentsIndex">
+                          <div class="talk-msg__item clearfix" >
                             <div class="talk-msglength">
-                              <span class="colorblue">起个名字好麻烦：</span>
-                              <span>我也老了我也老了我也老了我也老了我也老了我也老了我也老了我也老了我也老了我也老了我也老了我也老了我也老了我也老了我也老了我也老了我也老了我也老了我也老了我也老了我也老了我也老了我也老了我也老了我也老了我也老了我也老了</span>
+                              <span class="colorblue">{{comments.formName}}</span>
+                              <span v-if="comments.toName">回复  <span class="colorblue">{{comments.toName}}</span></span>
+                              <span class="colorblue">：</span>
+                              <span>{{comments.content}}</span>
                               <span class="talk-msglength__reply colorblue" @click="dialogVisibleReply = true">回复</span>
-                            </div>
-                          </div>
-                          <div class="talk-msg__item clearfix">
-                            <div class="talk-msglength">
-                              <span class="colorblue">长安自在风</span>
-                              <span>回复</span>
-                              <span class="colorblue">起个名字好麻烦：</span>
-                              <span>你还年轻</span>
-                              <span class="colorblue talk-msglength__reply">回复</span>
-                            </div>
-                          </div>
-                          <div class="talk-msg__item clearfix">
-                            <div class="talk-msglength">
-                              <span class="colorblue">起个名字好麻烦</span>
-                              <span>回复</span>
-                              <span class="colorblue">长安自在风：</span>
-                              <span>你骗人</span>
-                              <span class="colorblue talk-msglength__reply">删除</span>
+                              <!--<span class="talk-msglength__reply colorblue">删除</span>-->
                             </div>
                           </div>
                         </div>
-                        <div  class="talk-circle"></div>
                       </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="talk-item clearfix">
-                  <div class="talk-item__avatar">
-                    <img src="http://iph.href.lu/500x100" class="talk-avatarimg" alt="朋友圈配图" >
-                  </div>
-                  <div class="talk-item__content">
-                    <div class="talk-name">
-                      <span class="talk-name__call colorblue">起个名字好麻烦起个名字好麻烦起个名字好麻烦起</span>
-                      <span class="talk-name__private">个人号：微信昵称（ wechatid ）</span>
-                    </div>
-                    <div :class="showTotal ? 'total-introduce' : 'detailed-introduce'">
-                      <div class="intro-content" :title="introduce">
-                       <span class="merchant-desc" v-if="introduce" ref="desc">{{introduce}}</span>
-                        <div class="unfold" @click="showTotalIntro" v-if="showExchangeButton">
-                          <p>{{exchangeButton ? '查看全文' : '收起全文'}}</p>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="talk-time">2019-06-03 17:17:00</div>
-                    <div class="talk-interactive">
-                  <span class="talk-interactive__like">
-                    <i class="iconfont icon-dianzan"></i>
-                    20
-                  </span>
-                      <span class="talk-interactive__comment">
-                    <i class="iconfont icon-pinglun"></i>
-                    18
-                  </span>
+                      <div  class="talk-circle"></div>
                     </div>
                   </div>
                 </div>
@@ -505,9 +382,10 @@ import ElUpload from 'nui-v2/lib/upload'
 import ElContainer from 'nui-v2/lib/container'
 import ElMain from 'nui-v2/lib/main'
 import ElAside from 'nui-v2/lib/aside'
+import NsButton from "web-crm/src/components/NsButton";
 export default {
-  name: 'Spread',
   components: {
+    NsButton,
     ElUpload,
     ElContainer,
     ElMain,
@@ -580,14 +458,90 @@ export default {
       _queryConfig: {
         expand: false
       },
-      introduce: '此时我们，这并不的备份。时我们，这并不的备份。时我们，这并不的备份。时我们，这并不的备份。时我们，这并不的备份。时我们，这并不的备份。时我们，这并不的备份。时我们，这并不的备份。时我们，这并不的备份。时我们，这并不的备份。时我们，这并不的备份。',
       // 是否展示所有文本内容
       showTotal: true,
       // 显示展开还是收起
       exchangeButton: true,
       // 是否显示展开收起按钮
       showExchangeButton: false,
-      rem: ''
+      list: [
+        {
+          avtar: 'http://iph.href.lu/500x100',
+          name: '起个名字好麻烦起个名字好麻烦起个名字好麻烦起',
+          webName: 'wechatid',
+          sentence: '散场总是难免的，尽兴而归就好散场总是难免的，尽兴而归就好散场总是难免的，尽兴而归就好散场总是难免的，尽兴而归就好散场总是难免的，尽兴而归就好散场总是难免的，尽兴而归就好',
+          time: '2019-06-03 17:17:00',
+          like: 18,
+          comment: 20,
+          imgs: [
+            'https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/201907/120,910,104,359,001/a2e079dd-e605-49d3-9c10-a3893b413ba0.jpg',
+            'http://iph.href.lu/500x100',
+            'https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/201907/120,910,104,359,001/a2e079dd-e605-49d3-9c10-a3893b413ba0.jpg',
+            'https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/201907/120,910,104,359,001/a2e079dd-e605-49d3-9c10-a3893b413ba0.jpg',
+            'https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/201907/120,910,104,359,001/a2e079dd-e605-49d3-9c10-a3893b413ba0.jpg',
+            'https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/201907/120,910,104,359,001/a2e079dd-e605-49d3-9c10-a3893b413ba0.jpg',
+            'https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/201907/120,910,104,359,001/a2e079dd-e605-49d3-9c10-a3893b413ba0.jpg',
+            'https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/201907/120,910,104,359,001/a2e079dd-e605-49d3-9c10-a3893b413ba0.jpg',
+            'https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/201907/120,910,104,359,001/a2e079dd-e605-49d3-9c10-a3893b413ba0.jpg',
+          ],
+          dianzan: [
+            '起个名字好麻烦，长安自在风',
+            '起个名字好麻烦，长安自在风',
+          ]
+        },
+        {
+          avtar: 'http://iph.href.lu/500x100',
+          name: '起个名字好麻烦起个名字好麻烦起个名字好麻烦起',
+          webName: 'wechatid',
+          sentence: '尽兴而归就好散场总是难免的，尽兴而归就好',
+          time: '2019-06-03 17:17:00',
+          like: 18,
+          comment: 20,
+          imgs: [
+            'https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/201907/120,910,104,359,001/a2e079dd-e605-49d3-9c10-a3893b413ba0.jpg',
+            'http://iph.href.lu/500x100',
+            'https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/201907/120,910,104,359,001/a2e079dd-e605-49d3-9c10-a3893b413ba0.jpg',
+          ],
+          dianzan: [
+            '起个名字好麻烦，长安自在风'
+          ]
+        },
+        {
+          avtar: 'http://iph.href.lu/500x100',
+          name: '起个名字好麻烦起个名字好麻烦起个名字好麻烦起',
+          webName: 'wechatid',
+          sentence: '总是难免的，尽兴而归就好',
+          time: '2019-06-03 17:17:00',
+          like: 18,
+          comment: 20,
+          imgs: [
+            'https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/201907/120,910,104,359,001/a2e079dd-e605-49d3-9c10-a3893b413ba0.jpg',
+            'http://iph.href.lu/500x100',
+            'https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/201907/120,910,104,359,001/a2e079dd-e605-49d3-9c10-a3893b413ba0.jpg',
+            'https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/201907/120,910,104,359,001/a2e079dd-e605-49d3-9c10-a3893b413ba0.jpg'
+          ],
+          dianzan: [
+            '起个名字好麻烦，长安自在风',
+            '起个名字好麻烦，长安自在风',
+          ],
+          pinglun: [
+            {
+              formName: '起个名字好麻烦',
+              content: '我也老了我也老了我也老了我也老了我也老了我也老了我也老了我也老了我也老了我也老了我也老了我也老了我也老了我也老了我也老了我也老了我也老了我也老了我也老了我也老了我也老了我也老了我也老了我也老了我也老了我也老了我也老了'
+            },
+            {
+              formName: '长安自在风',
+              toName: '起个名字好麻烦',
+              content: '你还年轻'
+            },
+            {
+              formName: '起个名字好麻烦',
+              toName: '长安自在风',
+              content: '你骗人'
+            }
+          ]
+        }
+      ],
     }
   },
   mounted () {
@@ -596,8 +550,8 @@ export default {
       window.addEventListener('resize', () => {
         this.setHeight()
       })
-      this.setState()
     })
+    this.setState()
   },
   methods: {
     $handleTabClick: function () {
@@ -629,78 +583,18 @@ export default {
       this.$refs.fullScreen.$el.children[0].style.maxHeight = limitHeight + 'px'
       this.$refs.fullScreenright.$el.children[0].style.maxHeight = limitHeightRight + 'px'
     },
-    showTotalIntro () {
-      console.log(this.showTotal)
-      this.showTotal = !this.showTotal
-      this.exchangeButton = !this.exchangeButton
-    },
-    getRem () {
-      console.log('getRem')
-      const defaultRem = 16
-      let winWidth = window.innerWidth;
-      console.log('winWidth:' + winWidth)
-      let rem = winWidth / 375 * defaultRem
-      return rem;
+    showTotalIntro (index) {
+      this.$set(this.list[index], 'showState', this.list[index].showState === 1 ? 2 : 1)
     },
     setState () {
-      console.log('nextTick')
-      // 判断介绍是否超过两行
-      let rem = parseFloat(this.getRem())
-      console.log('watch 中的rem', rem)
-      if (!this.$refs.desc) {
-        console.log('desc null')
-        return;
-      }
-      let descHeight = window.getComputedStyle(this.$refs.desc).height.replace('px', '')
-      console.log(this.$refs.desc.clientHeight, descHeight)
-      console.log('如果 descHeight 超过' + (0.3 * rem) + '就要显示展开按钮')
-      if (descHeight > 40) {
-        console.log('超过了两行')
-        // 显示展开收起按钮
-        this.showExchangeButton = true
-        this.exchangeButton = true
-        // 不是显示所有
-        this.showTotal = false
-      } else {
-        // 不显示展开收起按钮
-        this.showExchangeButton = false
-        // 没有超过两行就显示所有
-        this.showTotal = true
-        console.log('showExchangeButton', this.showExchangeButton)
-        console.log('showTotal', this.showTotal)
-      }
-    }
-  },
-  watch: {
-    'introduce': function () {
-      this.$nextTick(function () {
-        console.log('nextTick')
-        // 判断介绍是否超过两行
-        let rem = parseFloat(this.getRem())
-        console.log('watch 中的rem', rem)
-        if (!this.$refs.desc) {
-          console.log('desc null')
-          return;
-        }
-        let descHeight = window.getComputedStyle(this.$refs.desc).height.replace('px', '')
-        console.log('descHeight:' + descHeight)
-        console.log('如果 descHeight 超过' + (0.3 * rem) + '就要显示展开按钮')
+      this.list.map((item, index) => {
+        let descHeight = this.$refs.asideList.children[index].children[1].children[1].clientHeight
         if (descHeight > 40) {
-          console.log('超过了两行')
-          // 显示展开收起按钮
-          this.showExchangeButton = true
-          this.exchangeButton = true
-          // 不是显示所有
-          this.showTotal = false
+          this.$set(this.list[index], 'showState', 2)
         } else {
-          // 不显示展开收起按钮
-          this.showExchangeButton = false
-          // 没有超过两行就显示所有
-          this.showTotal = true
-          console.log('showExchangeButton', this.showExchangeButton)
-          console.log('showTotal', this.showTotal)
+          this.$set(this.list[index], 'showState', 0)
         }
-      }.bind(this))
+      })
     }
   }
 }
@@ -809,7 +703,7 @@ export default {
       -webkit-box-orient: vertical;
     }
     @b matching {
-      width: 475px;
+      width: 390px;
       margin-top: 20px;
       @e figurelist {
         margin: 0;
@@ -868,15 +762,17 @@ export default {
       }
     }
     @b detail {
+      position: relative;
       margin-top: 10px;
       background: var(--talk-border-color-gray);
+      @e chatmsg {
+        padding: 16px;
+      }
       @e substance {
         position: relative;
+        border-top: 1px solid var(--talk-borderbottom-color-gray);
+        padding: 0 16px;
       }
-    }
-    @b chatmsg {
-      padding: 16px;
-      border-bottom: 1px solid var(--talk-borderbottom-color-gray);
     }
     @b answer {
       @e reply {
@@ -894,13 +790,12 @@ export default {
       left: 18px;
     }
     @b msg {
-      padding: 16px;
       position: relative;
+      &:first-child {
+        padding-top: 16px;
+      }
       @e item {
-        padding-bottom: 8px;
-        &:last-child {
-          padding-bottom: 0;
-        }
+        padding-bottom: 16px;
       }
     }
     @b msglength {
@@ -1158,103 +1053,36 @@ export default {
   .dialog-content >>> .el-dialog__footer {
     padding: 10px 20px !important;
   }
-  /* 发朋友圈弹窗样式*/
-  .total-introduce {
-    height: auto;
-    overflow: hidden;
-    position: relative;
-    font-size: 12px;
-    color: #434343;
-    margin: 10px;
-    .intro-content {
-      width: 40%;
-      padding-bottom: 30px;
-      .merchant-desc {
-        font-size: var(--default-font-size-small);
-        color: var(--theme-font-color-primary);
-        font-weight: bold;
-        width: 100%;
-        line-height: 21px;
-      }
+  /* 发朋友圈弹窗样式结束*/
+  /* 内容显示更多样式样式*/
+  .intro-content {
+    width: 390px;
+    line-height: 20px;
+    .merchant-desc {
+      display: inline-block;
     }
-    .unfold {
-      display: block;
-      z-index: 11;
-      height: 21px;
-      position: absolute;
-      left: 0;
-      bottom: 0;
-      p {
-        font-size: var(--default-font-size-small);
-        color: var(--talk-font-color-blue);
-        line-height: 21px;
-        margin: 0;
-      }
-    }
-  }
-  .detailed-introduce {
-    font-size: 14px;
-    color: #434343;
-    position: relative;
-    overflow: hidden;
-    margin: 10px;
-    .intro-content {
-      font-size: var(--default-font-size-small);
-      color: var(--theme-font-color-primary);
-      font-weight: bold;
-      max-height: 66px;
-      line-height: 21px;
-      word-wrap: break-word;
-      word-break: break-all;
-      background: #FFF;
-      color: #FFF;
-      overflow: hidden;
-      .merchant-desc {
+    &.max {
+      .unfold {
+        text-align: center;
         width: 100%;
-        line-height: 21px;
+        background-image: -webkit-gradient(linear,left top, left bottom,from(rgba(255,255,255,0)),color-stop(70%, #fff));
+        background-image: linear-gradient(-180deg,rgba(255,255,255,0) 0%,#fff 70%);
+        padding-top: 70px;
+        position: relative;
+        z-index: 9999;
+        margin-top: -66px;
       }
-      &:after,
-      &:before {
-        content: attr(title);
-        position: absolute;
-        left: 0;
-        top: 0;
-        width: 40%;
-        color: #434343;
-      }
-      &:before {
-        display: block;
-        overflow: hidden;
-        z-index: 1;
-        max-height: 41px;
-        background: #FFF;
-      }
-      &:after {
+      .merchant-desc {
+        max-height: 40px;
         display: -webkit-box;
         -webkit-box-orient: vertical;
-        overflow: hidden;
-        height: 41px;
         -webkit-line-clamp: 2;
-        text-overflow: ellipsis;
-        -webkit-box-sizing: border-box;
-        box-sizing: border-box;
-        text-indent: -12em;
-        padding-right: 4em;
-      }
-      .unfold {
-        z-index: 11;
-        height: 21px;
-        outline: 0;
-        position: absolute;
-        left: 0;
-        bottom: 0;
-        p {
-          font-size: var(--default-font-size-small);
-          color: var(--talk-font-color-blue);
-          line-height: 21px;
-          margin: 0;
-        }
+        overflow: hidden;
       }
     }
   }
+  .unfold {
+    text-align: center;
+  }
+  /* 内容显示更多样式样式结束*/
 </style>
