@@ -63,7 +63,19 @@
             </el-form-item>
           </el-form-grid>
         </el-form-item>
-        <el-form-item label="失效时间：" prop="time">
+        <el-form-item label="有效时间："  prop="dateType">
+          <el-select
+            style="width:120px"
+            v-model="model.dateType" placeholder="请选择">
+            <el-option
+              v-for="item in dateTypeOptions"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value">
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item prop="time">
           <el-date-picker
             v-model="model.validTime"
             type="datetimerange"

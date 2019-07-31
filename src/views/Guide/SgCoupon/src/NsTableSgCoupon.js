@@ -61,7 +61,8 @@ export default {
         customerName: '',
         couponTitle: '',
         couponType: null,
-        couponStatus: null
+        couponStatus: null,
+        dateType: '1'
       },
       { validTime: [] })
     var that = this
@@ -133,7 +134,17 @@ export default {
       },
       _queryConfig: {
         expand: false
-      }
+      },
+      dateTypeOptions: [
+        {
+          value: '1',
+          label: '领取有效时间'
+        },
+        {
+          value: '2',
+          label: '使用有效时间'
+        }
+      ]
     }
   },
 

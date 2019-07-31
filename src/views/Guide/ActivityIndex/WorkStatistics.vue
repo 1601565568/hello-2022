@@ -151,8 +151,8 @@
       >
       <template slot-scope="scope">
         <span width="220">{{scope.row.recruitComplete}}</span>/<span class="text-error">
-          <span v-if="scope.row.recruitQuota-scope.row.recruitComplete<0">
-            0
+          <span v-if="scope.row.recruitQuota-scope.row.recruitComplete<=0">
+            -
           </span>
           <span v-else>
             {{scope.row.recruitQuota-scope.row.recruitComplete}}
@@ -173,7 +173,7 @@
       >
       <template slot-scope="scope">
         <span>{{$numeral(scope.row.sellComplete).format('0,0.00')}}</span>/<span class="text-error">
-          <span v-if="scope.row.sellQuota-scope.row.sellComplete<0">0</span>
+          <span v-if="scope.row.sellQuota-scope.row.sellComplete<=0">-</span>
           <span v-else>{{$numeral(scope.row.sellQuota-scope.row.sellComplete).format('0,0.00')}}</span>
           </span>
       </template>
@@ -409,9 +409,11 @@ export default {
     },
     // 明细//
     formSearch () {
+      this.pagination1.page = 1
       this.findDetailData(this.guideId)
     },
     formReset () {
+      this.pagination1.page = 1
       this.customerName = null
       this.tradeNo = null
       this.type = null
