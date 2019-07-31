@@ -189,7 +189,7 @@ export default {
           name: '发红包',
           type: 5,
           quantity: 0,
-          show: true,
+          show: false,
           key: 'redPacket',
           columns: [
             {
@@ -242,6 +242,64 @@ export default {
           quantity: 0,
           show: true,
           key: 'sensitiveWord',
+          columns: [
+            {
+              name: '好友',
+              key: ''
+            },
+            {
+              name: '敏感词',
+              key: ''
+            },
+            {
+              name: '上下文',
+              key: ''
+            },
+            {
+              name: '操作时间',
+              key: 'time',
+              sortable: 'update_time',
+              align: 'center',
+              width: '120px'
+            }
+          ],
+          data: []
+        },
+        {
+          name: '撤回消息',
+          type: 6,
+          quantity: 0,
+          show: true,
+          key: 'recallMessage',
+          columns: [
+            {
+              name: '好友',
+              key: ''
+            },
+            {
+              name: '敏感词',
+              key: ''
+            },
+            {
+              name: '上下文',
+              key: ''
+            },
+            {
+              name: '操作时间',
+              key: 'time',
+              sortable: 'update_time',
+              align: 'center',
+              width: '120px'
+            }
+          ],
+          data: []
+        },
+        {
+          name: '删除消息',
+          type: 6,
+          quantity: 0,
+          show: true,
+          key: 'deleteMessage',
           columns: [
             {
               name: '好友',

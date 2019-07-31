@@ -32,6 +32,20 @@ export default {
           'component': () => import('@/views/Guide/FriendMoments/FriendMoments')
         }
       ]
+    },
+    {
+      'path': '/Guide/Content',
+      'name': 'CONTENT_MANAGER_OTHER',
+      'title': '其他管理',
+      'component': () => import('web-crm/src/views/Content'),
+      'children': [
+        {
+          'path': '/Guide/SgSensitiveWord/index',
+          'name': 'SensitiveWord',
+          'title': '客服管理',
+          'component': () => import('@/views/Guide/SensitiveWord/index')
+        }
+      ]
     }
   ]
 }
