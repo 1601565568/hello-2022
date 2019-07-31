@@ -14,12 +14,6 @@ export default {
       'component': () => import('web-crm/src/views/Content'),
       'children': [
         {
-          'path': '/Guide/SgSensitiveWord/index',
-          'name': 'SensitiveWord',
-          'title': '敏感词管理',
-          'component': () => import('@/views/Guide/SensitiveWord/index')
-        },
-        {
           'path': '/ContentMange/MyMoments/index',
           'name': 'MyMoments',
           'title': '我的朋友圈',
@@ -30,6 +24,38 @@ export default {
           'name': 'FriendMoments',
           'title': '好友朋友圈',
           'component': () => import('@/views/Guide/FriendMoments/FriendMoments')
+        },
+        {
+          'path': '/ContentMange/SensitiveWord/index',
+          'name': 'SensitiveWord',
+          'title': '敏感词管理',
+          'component': () => import('@/views/Guide/SensitiveWord/index')
+        },
+        {
+          'path': '/ContentMange/SensitiveWord/monitor',
+          'name': 'SensitiveWord_monitor',
+          'title': '敏感词监控',
+          'component': () => import('@/views/Guide/SensitiveWord/monitor')
+        },
+        {
+          'path': '/ContentMange/WxChat/index',
+          'name': 'WxChat_index',
+          'title': '聊天记录',
+          'component': () => import('@/views/Guide/WxChat/index')
+        }
+      ]
+    },
+    {
+      'path': '/Guide/Content',
+      'name': 'CONTENT_MANAGER_OTHER',
+      'title': '其他管理',
+      'component': () => import('web-crm/src/views/Content'),
+      'children': [
+        {
+          'path': '/ContentMange/SgSensitiveWord/index',
+          'name': 'SensitiveWord1',
+          'title': '客服管理',
+          'component': () => import('@/views/Guide/SensitiveWord/index')
         }
       ]
     }

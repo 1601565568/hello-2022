@@ -12,15 +12,18 @@
       <div class="comDialogBoxConOut" v-show='saveObj.articleType' style='flex:1'>
         <el-form :model="saveObj" :rules="rules" ref="Form1">
           <el-form-item  prop="title">
-            <el-form-grid size="xxmd">
-              <el-input  placeholder="请输入标题，长度在4-50个字符以内" v-model="saveObj.title" clearable size="medium"></el-input>
-            </el-form-grid>
+              <el-input type="text" maxlength='50' placeholder="请输入标题，长度在4-50个字符以内" v-model="saveObj.title" clearable size="medium"></el-input>
           </el-form-item>
         </el-form>
 
+        <el-form :model="saveObj" :rules="rules" ref="Form1">
+        <el-form-item  prop="url">
         <el-input placeholder="请输入合法链接"  size="medium" v-model="saveObj.url">
           <template slot="prepend">外链:</template>
         </el-input>
+        </el-form-item>
+        </el-form>
+
         <p style='margin-top:10px'><i class="el-icon-info text-tips">外链的内容仅在H5版本中显示，不会出现在小程序中</i></p>
       </div>
       <div v-show='!saveObj.articleType' style='flex:1'>
@@ -35,16 +38,16 @@
       </div>
 
       <el-form :model="saveObj" :rules="rules" ref="addForm"  style="margin-left:20px">
-        <el-form-item  prop="article">
+        <!--<el-form-item  prop="article">
             <el-radio-group v-model="saveObj.articleType">
                 <el-radio :label=0>添加文章
                 </el-radio>
                 <el-radio :label=1>添加外链文章
                 </el-radio>
             </el-radio-group>
-          </el-form-item>
+          </el-form-item>-->
 
-          <el-form-item  prop="content">
+          <el-form-item label="推广文案：" prop="content">
             <el-form-grid size="xxmd">
               <el-input resize="none" type="textarea" maxlength='10000' v-model="saveObj.content" placeholder="可在此输入推广文案，限制长度在10000个字符以内。"></el-input>
             </el-form-grid>
@@ -154,10 +157,14 @@ export default {
           { required: true, message: '请输入素材标题', trigger: 'blur' },
           { min: 4, max: 50, message: '限制长度在4-50个字符以内', trigger: 'blur' }
         ],
+        /*url: [
+          { required: true, message: '请输入合法链接', trigger: 'blur' }
+        ],*/
         subdivisionId: [
           { required: true, message: '请选择素材分组', trigger: 'change' }
         ],
         content: [
+          { required: true, message: '请输入推广文案', trigger: 'blur' },
           { min: 0, max: 10000, message: '限制长度在10000个字符以内', trigger: 'blur' }
         ]
 
@@ -334,8 +341,8 @@ export default {
       this.$set(this.saveObj.imageList, 0, res.result.url)
     },
     beforeAvatarUpload (file) {
-      if (file.size / 1024 > 200) {
-        this.$notify.warning('上传图片不得大于200KB')
+      if (file.size / 1024 > 500) {
+        this.$notify.warning('上传图片不得大于500KB')
         return false
       }
       // 图片格式判断

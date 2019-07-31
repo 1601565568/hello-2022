@@ -287,20 +287,13 @@
                       <span class="talk-name__call colorblue">起个名字好麻烦起个名字好麻烦起个名字好麻烦起</span>
                       <span class="talk-name__private">个人号：微信昵称（ wechatid ）</span>
                     </div>
-                    <div>
-<!--                      <span class="talk-sentence">散场总是难免的，尽兴而归就好散场总是难免的，尽兴而归就好散场总是难免的，尽兴而归就好散场总是难免的，-->
-<!--                      尽兴而归就好散场总是难免的，尽兴而归就好散场总是难免的，尽兴而归就好尽兴而归就好散场总是难免的，尽兴而归就好散场总是难免的，尽兴而归就好</span>-->
-                      <el-popover
-                        placement="top-start"
-                        title="标题"
-                        width="980"
-                        trigger="click"
-                        content="散场总是难免的，尽兴而归就好散场总是难免的，尽兴而归就好散场总是难免的，
-                      尽兴而归就好散场总是难免的，尽兴而归就好散场总是难免的，尽兴而归就好散场总是难免的，尽兴而归就好散
-                      场总是难免的，尽兴而归就好散场总是难免的，尽兴而归就好散场总是难免的，尽兴而归就好散场总是难免的，
-                      尽兴而归就好散场总是难免的，尽兴而归就好散场总是难免的，尽兴而归就好">
-                        <ns-button slot="reference" type="text">查看更多</ns-button>
-                      </el-popover>
+                    <div :class="showTotal ? 'total-introduce' : 'detailed-introduce'">
+                      <div class="intro-content" :title="introduce">
+                       <span class="merchant-desc" v-if="introduce" ref="desc">{{introduce}}</span>
+                        <div class="unfold" @click="showTotalIntro" v-if="showExchangeButton">
+                          <p>{{exchangeButton ? '查看全文' : '收起全文'}}</p>
+                        </div>
+                      </div>
                     </div>
                     <div class="talk-time">2019-06-03 17:17:00</div>
                     <div class="talk-interactive">
@@ -486,7 +479,10 @@
       class="dialog-content">
       <el-form ref="form">
         <el-form-item>
-          <div class="dialog-content__reply">回复我有一棵橘子树我有一棵橘子树我：</div>
+          <div class="dialog-content__reply">
+            回复
+            <span class="dialog-content__reply--text">我有一棵橘子树我有一棵橘子树我：</span>
+          </div>
         </el-form-item>
         <el-form-item  class="dialog-content__subtance dialog-content__subtance--margintop">
           <div class="dialog-detail dialog-detail--paddingbtm">
@@ -510,6 +506,7 @@ import ElContainer from 'nui-v2/lib/container'
 import ElMain from 'nui-v2/lib/main'
 import ElAside from 'nui-v2/lib/aside'
 export default {
+  name: 'Spread',
   components: {
     ElUpload,
     ElContainer,
@@ -582,7 +579,15 @@ export default {
       _pagination: pagination,
       _queryConfig: {
         expand: false
-      }
+      },
+      introduce: '此时我们，这并不的备份。时我们，这并不的备份。时我们，这并不的备份。时我们，这并不的备份。时我们，这并不的备份。时我们，这并不的备份。时我们，这并不的备份。时我们，这并不的备份。时我们，这并不的备份。时我们，这并不的备份。时我们，这并不的备份。',
+      // 是否展示所有文本内容
+      showTotal: true,
+      // 显示展开还是收起
+      exchangeButton: true,
+      // 是否显示展开收起按钮
+      showExchangeButton: false,
+      rem: ''
     }
   },
   mounted () {
@@ -591,6 +596,7 @@ export default {
       window.addEventListener('resize', () => {
         this.setHeight()
       })
+      this.setState()
     })
   },
   methods: {
@@ -622,9 +628,83 @@ export default {
         BTN_BOTTOM + 17 - 25
       this.$refs.fullScreen.$el.children[0].style.maxHeight = limitHeight + 'px'
       this.$refs.fullScreenright.$el.children[0].style.maxHeight = limitHeightRight + 'px'
+    },
+    showTotalIntro () {
+      console.log(this.showTotal)
+      this.showTotal = !this.showTotal
+      this.exchangeButton = !this.exchangeButton
+    },
+    getRem () {
+      console.log('getRem')
+      const defaultRem = 16
+      let winWidth = window.innerWidth;
+      console.log('winWidth:' + winWidth)
+      let rem = winWidth / 375 * defaultRem
+      return rem;
+    },
+    setState () {
+      console.log('nextTick')
+      // 判断介绍是否超过两行
+      let rem = parseFloat(this.getRem())
+      console.log('watch 中的rem', rem)
+      if (!this.$refs.desc) {
+        console.log('desc null')
+        return;
+      }
+      let descHeight = window.getComputedStyle(this.$refs.desc).height.replace('px', '')
+      console.log(this.$refs.desc.clientHeight, descHeight)
+      console.log('如果 descHeight 超过' + (0.3 * rem) + '就要显示展开按钮')
+      if (descHeight > 40) {
+        console.log('超过了两行')
+        // 显示展开收起按钮
+        this.showExchangeButton = true
+        this.exchangeButton = true
+        // 不是显示所有
+        this.showTotal = false
+      } else {
+        // 不显示展开收起按钮
+        this.showExchangeButton = false
+        // 没有超过两行就显示所有
+        this.showTotal = true
+        console.log('showExchangeButton', this.showExchangeButton)
+        console.log('showTotal', this.showTotal)
+      }
+    }
+  },
+  watch: {
+    'introduce': function () {
+      this.$nextTick(function () {
+        console.log('nextTick')
+        // 判断介绍是否超过两行
+        let rem = parseFloat(this.getRem())
+        console.log('watch 中的rem', rem)
+        if (!this.$refs.desc) {
+          console.log('desc null')
+          return;
+        }
+        let descHeight = window.getComputedStyle(this.$refs.desc).height.replace('px', '')
+        console.log('descHeight:' + descHeight)
+        console.log('如果 descHeight 超过' + (0.3 * rem) + '就要显示展开按钮')
+        if (descHeight > 40) {
+          console.log('超过了两行')
+          // 显示展开收起按钮
+          this.showExchangeButton = true
+          this.exchangeButton = true
+          // 不是显示所有
+          this.showTotal = false
+        } else {
+          // 不显示展开收起按钮
+          this.showExchangeButton = false
+          // 没有超过两行就显示所有
+          this.showTotal = true
+          console.log('showExchangeButton', this.showExchangeButton)
+          console.log('showTotal', this.showTotal)
+        }
+      }.bind(this))
     }
   }
 }
+
 </script>
 
 <style scoped>
@@ -1007,11 +1087,14 @@ export default {
       margin-right: 20px;
       @e reply {
         color: var(--theme-font-color-secondary);
+        @m text {
+          margin-left: 5px;
+        }
       }
       @e subtance {
         margin: 20px 0;
         @m margintop {
-          margin: 0 0 20px;
+          margin: 0 0 10px;
         }
       }
     }
@@ -1067,6 +1150,111 @@ export default {
   }
   .icon-biaoqing {
     font-size: 22px;
+    cursor: pointer;
+  }
+  .dialog-content >>> .el-dialog__header {
+    padding: 10px 20px 2px !important;
+  }
+  .dialog-content >>> .el-dialog__footer {
+    padding: 10px 20px !important;
   }
   /* 发朋友圈弹窗样式*/
+  .total-introduce {
+    height: auto;
+    overflow: hidden;
+    position: relative;
+    font-size: 12px;
+    color: #434343;
+    margin: 10px;
+    .intro-content {
+      width: 40%;
+      padding-bottom: 30px;
+      .merchant-desc {
+        font-size: var(--default-font-size-small);
+        color: var(--theme-font-color-primary);
+        font-weight: bold;
+        width: 100%;
+        line-height: 21px;
+      }
+    }
+    .unfold {
+      display: block;
+      z-index: 11;
+      height: 21px;
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      p {
+        font-size: var(--default-font-size-small);
+        color: var(--talk-font-color-blue);
+        line-height: 21px;
+        margin: 0;
+      }
+    }
+  }
+  .detailed-introduce {
+    font-size: 14px;
+    color: #434343;
+    position: relative;
+    overflow: hidden;
+    margin: 10px;
+    .intro-content {
+      font-size: var(--default-font-size-small);
+      color: var(--theme-font-color-primary);
+      font-weight: bold;
+      max-height: 66px;
+      line-height: 21px;
+      word-wrap: break-word;
+      word-break: break-all;
+      background: #FFF;
+      color: #FFF;
+      overflow: hidden;
+      .merchant-desc {
+        width: 100%;
+        line-height: 21px;
+      }
+      &:after,
+      &:before {
+        content: attr(title);
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 40%;
+        color: #434343;
+      }
+      &:before {
+        display: block;
+        overflow: hidden;
+        z-index: 1;
+        max-height: 41px;
+        background: #FFF;
+      }
+      &:after {
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        height: 41px;
+        -webkit-line-clamp: 2;
+        text-overflow: ellipsis;
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+        text-indent: -12em;
+        padding-right: 4em;
+      }
+      .unfold {
+        z-index: 11;
+        height: 21px;
+        outline: 0;
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        p {
+          font-size: var(--default-font-size-small);
+          color: var(--talk-font-color-blue);
+          line-height: 21px;
+          margin: 0;
+        }
+      }
+    }
+  }
 </style>

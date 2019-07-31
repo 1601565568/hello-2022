@@ -511,7 +511,6 @@ export default {
               _this.returnInformationShow = true
               _this.successCount = resp.result.successCount
               _this.failCount = resp.result.failCount
-              _this.allDeleteFormVisible = true
             } else {
               _this.$notify.success('删除成功')
               _this.$refs.mainTable.$reload()
@@ -611,6 +610,7 @@ export default {
     },
     showShop () { // 组团进行更换门店操作
       let _this = this
+      _this.initShopList()
       _this.switchStateName = '更换门店'
       _this.verification = false
       _this.allDeleteName = []
@@ -1191,10 +1191,10 @@ export default {
     },
     // 自定义重置
     customReset () {
-      this.model.name = null
-      this.model.mobile = null
-      this.model.workId = null
-      this.model.shop = null
+      this.customFindVo.name = null
+      this.customFindVo.mobile = null
+      this.customFindVo.workId = null
+      this.customFindVo.shop = null
       this.findCustomerList()
     },
     async guideFindList (page, pages) { // 导购列表查询
@@ -1258,6 +1258,7 @@ export default {
     // 员工离职
     dimissionFun (row) {
       var _this = this
+      _this.initShopList()
       _this.employeeDetails = row
       _this.transferName = row.name
       _this.transferShopName = row.shopName
@@ -1342,7 +1343,8 @@ export default {
         transGuideId: _this.guideId,
         receiveGuideId: _this.value.id,
         transStatus: 2, // 对应后台枚举
-        resource: 0 // 对应后台枚举
+        resource: 0, // 对应后台枚举
+        shopId: _this.value.shopId
       }
       _this.guideLeave(params, false)
     },
@@ -1391,7 +1393,8 @@ export default {
           transGuideId: _this.guideId,
           transStatus: 3, // 对应后台枚举
           resource: 0, // 对应后台枚举
-          isLeave: isLeave
+          isLeave: isLeave,
+          shopId: _this.value.shopId
         }
         _this.guideLeave(params, isLeave)
       }
@@ -1579,8 +1582,8 @@ export default {
       this.row = null
     },
     beforeAvatarUpload (file) {
-      if (file.size / 1024 > 200) {
-        this.$notify.error('上传图片不得大于200KB')
+      if (file.size / 1024 > 500) {
+        this.$notify.error('上传图片不得大于500KB')
         return false
       }
       // 图片格式判断

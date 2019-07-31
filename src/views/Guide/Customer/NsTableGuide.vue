@@ -1,7 +1,7 @@
 <template>
 <div calss="NsTableGuide_main">
         <div class="template-page__row-left">
-          <el-input ref="quickText" style="width: 190px" v-model="filterTreeText" placeholder="输入店铺名称">
+          <el-input ref="quickText" style="width: 190px" v-model="filterTreeText" placeholder="输入店铺名称/导购姓名" clearable>
             <i class="el-icon-search el-input__icon" slot="suffix" name="name" @click="$quickSearchAction$('name')"></i>
           </el-input>
           <div :class="offsetHeight?'elTrees':'elTree'" ref="elTree" :style="{ 'height' : height + 'px'}">
@@ -106,7 +106,7 @@
         <el-table-column prop="grade,memberCard" label="会员类型/卡号" align="left" >
           <template slot-scope="scope">
               <div v-if="scope.row.memberCard !==null || scope.row.grade !== null">
-                <span>{{(scope.row.grade === '0' || scope.row.grade === null) ? '非会员':'会员'+scope.row.grade}}/</span>
+                <span>{{(scope.row.grade === '0' || scope.row.grade === null) ? '非会员':scope.row.grade}}/</span>
                 <span>{{scope.row.memberCard === undefined ? '-':scope.row.memberCard}}</span>
                 <!-- {{(scope.row.grade === '0' || scope.row.grade === null) ? '-'+ ' / ' +scope.row.memberCard === undefined?'-':scope.row.memberCard:'会员' + scope.row.grade + ' / '+scope.row.memberCard}} -->
               </div>

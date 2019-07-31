@@ -22,7 +22,7 @@ export default {
       },
       {
         'func': function () {
-          this.$router.push({ path: '/Guide/SensitiveWord/monitor' })
+          this.$router.push({ path: '/ContentMange/SensitiveWord/monitor' })
         },
         'name': '敏感词监控'
       }
