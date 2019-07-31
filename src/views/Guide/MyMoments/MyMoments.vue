@@ -169,15 +169,16 @@
                               <div v-if="comment.previousId ==0">
                                 <span class="colorblue">{{comment.commentator?comment.commentator:comment.ownerNick}}：</span>
                                 <span>{{comment.content}}</span>
-                                <span class="talk-msglength__reply colorblue" @click="replyComment(moment,comment)">回复阿萨</span>
+                                <span class="talk-msglength__reply colorblue" @click="replyComment(moment,comment)">回复</span>
                               </div>
                              <div v-else-if="comment.previousId != 0">
                                <span class="colorblue">{{comment.commentator?comment.commentator:comment.ownerNick}}</span>
                                <span>回复</span>
-                               <span class="colorblue">{{comment.respondent?comment.respondent:comment.owner}}：</span>
+                               <span class="colorblue">{{comment.friendNick?comment.friendNick:comment.owner}}：</span>
                                <span>{{comment.content}}</span>
                                <span class="colorblue talk-msglength__reply"  @click="replyComment(moment,comment)">回复</span>
-                               <span class="colorblue talk-msglength__reply" v-if="comment.nick==comment.ownerNick">删除</span>
+                               <!-- 暂无删除评论接口，以下一行代码先注释 -->
+<!--                               <span class="colorblue talk-msglength__reply" v-if="comment.nick==comment.ownerNick">删除</span>-->
                              </div>
                             </div>
                           </div>
@@ -228,7 +229,7 @@
                     :src="msg.friendHead"
                     alt="头像" class="talk-headportrait__img">
                 </div>
-                <div class="talk-redpoint"></div>
+<!--                <div class="talk-redpoint"></div>-->
                 <div class="talk-personmsg">
                   <div class="talk-personmsg__uname colorblue">{{msg.commentator?msg.commentator:msg.ownerNick}}</div>
                   <div class="talk-personmsg__about" v-if="msg.type==2">{{msg.content}}</div>
@@ -617,18 +618,21 @@ export default {
       _this.isHidden = true
       console.log('参数：' + _this.otherMoment.ownerId + ',' + _this.otherMoment.snsId + ',' + _this.otherMoment.owner + ',content:' + _this.content)
       console.log('参数：content:' + _this.content)
-      // console.log('参数：otherComment:' + _this.otherComment ? _this.otherComment.ownerNick:'wu')
+      console.log('参数：otherComment:' + _this.otherComment ? _this.otherComment.ownerNick : 'wu')
       let replyMomentVo = {
         wid: _this.otherMoment.ownerId,
         snsId: _this.otherMoment.snsId,
-        author: _this.otherComment ? _this.otherComment.ownerId : _this.otherMoment.owner,
+        author: _this.otherMoment.owner,
         content: _this.content,
-        replyTo: ''
+        replyTo: _this.otherComment ? _this.otherComment.ownerId : _this.otherMoment.owner,
+        commentType: _this.otherComment ? 1 : 0,
+        replyToNick: _this.otherComment ? _this.otherComment.ownerNick : null,
+        commentId: _this.otherComment ? _this.otherComment.cid : null
       }
       _this.$http.fetch(_this.$api.guide.myMoments.replyComment, replyMomentVo).then(resp => {
         if (resp.success) {
+          _this.$notify.success('评论成功')
           _this.closeDialog()
-          setTimeout(_this.$refs.mainTable.$reload(), 2000)
           console.log('评论成功')
         }
       }).catch((resp) => {
@@ -643,6 +647,7 @@ export default {
       _this.otherMoment = moment
       if (comment) {
         _this.otherComment = comment
+        console.log('otherComent' + comment.toString())
       }
     },
     // 点赞朋友圈
@@ -656,9 +661,9 @@ export default {
       }
       _this.$http.fetch(_this.$api.guide.myMoments.like, replyMomentVo).then(resp => {
         if (resp.success) {
-          setTimeout(_this.initMomentsList(), 2000)
+          // setTimeout(_this.initMomentsList(), 2000)
           // _this.initMomentsList()
-          console.log('点赞成功')
+          _this.$notify.success('点赞成功')
         }
       }).catch((resp) => {
         _this.$notify.error(getErrorMsg('点赞失败', resp))
@@ -668,8 +673,12 @@ export default {
     rest () {
       var _this = this
       _this.url = _this.$api.guide.myMoments.momentsList
-      _this.$resetInputAction$()
-      // _this.initMomentsList()
+      let keys = Object.keys(_this.model)
+      for (let i = 0; i < keys.length; i++) {
+        this.model[keys[i]] = null
+      }
+      // _this.$resetInputAction$()
+      _this.initMomentsList()
     },
     // 发送朋友圈
     sendMoments () {
@@ -684,6 +693,7 @@ export default {
         _this.$http.fetch(_this.$api.guide.myMoments.sendImages, { wid: _this.wid, content: _this.textarea, images: images }).then(resp => {
           if (resp.success) {
             console.log('发送成功')
+            _this.$notify.success('发送成功')
             _this.dialogVisible = true
             _this.dialogVisibleShow = false
             _this.initMomentsList()
@@ -696,6 +706,7 @@ export default {
         _this.$http.fetch(_this.$api.guide.myMoments.sendText, { wid: _this.wid, content: _this.textarea }).then(resp => {
           if (resp.success) {
             console.log('发送成功')
+            _this.$notify.success('发送成功')
             _this.dialogVisible = true
             _this.dialogVisibleShow = false
             _this.initMomentsList()
@@ -717,20 +728,20 @@ export default {
         return false
       }
     },
-    generateParams: function () {
-      var order = this._data._order
-      var pagination = this._data._pagination
-      var limit = {
-        start: (pagination.page - 1) * pagination.size,
-        length: pagination.size
-      }
-      var searchMap = $.extend(true, {}, this._data._table.searchMap ? this._data._table.searchMap : this.model)
-      var params = $.extend(true, {}, order, limit, { searchMap: searchMap })
-      if (typeof this.$handleParams === 'function') {
-        return this.$handleParams(params)
-      }
-      return params
-    },
+    // generateParams: function () {
+    //   var order = this._data._order
+    //   var pagination = this._data._pagination
+    //   var limit = {
+    //     start: (pagination.page - 1) * pagination.size,
+    //     length: pagination.size
+    //   }
+    //   var searchMap = $.extend(true, {}, this._data._table.searchMap ? this._data._table.searchMap : this.model)
+    //   var params = $.extend(true, {}, order, limit, { searchMap: searchMap })
+    //   if (typeof this.$handleParams === 'function') {
+    //     return this.$handleParams(params)
+    //   }
+    //   return params
+    // },
     // 处理上传图片
     'handleAvatarSuccess': function (res, file) {
       var _this = this
