@@ -136,7 +136,7 @@
                         <div :class="item.showState && item.showState === 2 ? 'intro-content max' : 'intro-content'" :title="item.sentence">
                         <span class="merchant-desc" :title="item.showState"> {{item.sentence}}</span>
                         <div class="unfold" @click="showTotalIntro(index)" v-if="item.showState">
-                          <ns-button type="text">{{item.showState && item.showState === 2 ? '显示更多' : '收起更多'}}</ns-button>
+                          <ns-button type="text">{{item.showState && item.showState === 2 ? '展开阅读全文' : '收起全文'}}</ns-button>
                         </div>
                       </div>
                     </div>
