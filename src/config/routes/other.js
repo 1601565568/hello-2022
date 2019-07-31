@@ -38,12 +38,6 @@ export default {
           'name': 'SG_LOGIN_LOG',
           'title': '登录日志',
           'component': () => import('@/views/Guide/LoginLog/List')
-        },
-        {
-          'path': '/guide/customer/getCustomerConfig',
-          'name': 'APPLET_TEMPLATE',
-          'title': '会员管理配置',
-          'component': () => import('@/views/Guide/customerConfig/index')
         }
       ]
 

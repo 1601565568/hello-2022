@@ -115,7 +115,7 @@
                   <img width="200px" v-if="model.sgGuide.image" :src="model.sgGuide.image" class="avatar">
                   <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                 </el-upload>
-                <span>上传图片不能大于200KB,仅支持jpg,jpeg,png,gif格式</span>
+                <span>上传图片不能大于500KB,仅支持jpg,jpeg,png,gif格式</span>
               </el-form-item>
             </el-form-grid>
           </el-form-item>
@@ -282,9 +282,9 @@
                 </template>
               </el-table-column>
 
-              <el-table-column prop="work_id" label="会员卡号" align="left">
+              <el-table-column prop="memberCard" label="会员卡号" align="left">
                 <template slot-scope="scope">
-                  {{scope.row.work_id || '-'}}
+                  {{scope.row.memberCard || '-'}}
                 </template>
               </el-table-column>
 

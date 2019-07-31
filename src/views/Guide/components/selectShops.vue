@@ -135,7 +135,9 @@ export default {
       this.model.shopName = null
       this.model.area = []
       this.model.shopType = null
-      this.loadListFun()
+      this.loadListFun({
+        searchMap: {}
+      })
     },
     searchAction () { // 搜索功能
       this.models.searchMap = this.model

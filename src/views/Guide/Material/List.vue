@@ -176,7 +176,7 @@ export default {
       sourceList: [
         {
           id: 0,
-          shopName: '品牌'
+          shopName: this.$store.state.user.brand.name
         }
       ],
       groudList: [],
