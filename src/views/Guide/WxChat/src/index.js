@@ -16,7 +16,7 @@ export default {
     return {
       model: {
         srhDate: [this.getStartDate(-30), this.getEndDate(new Date())],
-        wid: null,
+        ownerId: null,
         content: null
       },
       // 保存查询条件,用于聊天查询
@@ -132,13 +132,16 @@ export default {
       // 日期格式转换
       this.model.srhDate = [moment(this.model.srhDate[0]).format('YYYY-MM-DD'), moment(this.model.srhDate[1]).format('YYYY-MM-DD')]
       this.searchedModel = this.model
+      this.searchedModel.startTime = this.model.srhDate[0]
+      this.searchedModel.endTime = this.model.srhDate[1]
 
       // 查询
       this.chatList = []
       this.targetLoading = true
       this.isChatLoadEnd = true
-      this.$http.fetch(this.$api.guide.wxChat.findTargetList, this.model).then(resp => {
+      this.$http.fetch(this.$api.guide.wxChat.findTargetList, this.searchedModel).then(resp => {
         _this.targetLoading = false
+        _this.isChatLoadEnd = false
         _this.targetList = resp.result
         if (_this.targetList.length > 0) {
           _this.clickTarget(0)
@@ -163,6 +166,9 @@ export default {
       let limitHeight = window.innerHeight -
         document.getElementsByClassName('nav')[0].offsetHeight -
         BTN_TITLE - document.getElementsByClassName('talk-chat__form')[0].offsetHeight - 15
+      if (limitHeight < 400) {
+        limitHeight = 400
+      }
       this.$refs.fullScreen.$el.children[0].style.maxHeight = limitHeight + 'px'
       this.$refs.fullScreenright.$el.children[0].style.maxHeight = limitHeight + 'px'
     }
