@@ -1,6 +1,7 @@
 import tableMixin from 'web-crm/src/mixins/table'
 import moment from 'moment'
 import LocalStorage from 'store/dist/store.legacy.min.js'
+import { getErrorMsg } from '@/utils/toast'
 
 export default {
   mixins: [tableMixin],
@@ -128,9 +129,10 @@ export default {
             callback()
           }
           _this.$notify.success('添加分组成功')
-        } else {
-          _this.$notify.error(resp.message)
         }
+        _this.loadGroupList()
+      }).catch(resp => {
+        this.$notify.error(getErrorMsg('添加分组', resp))
         _this.loadGroupList()
       })
     },
@@ -330,8 +332,8 @@ export default {
       return ret.substr(1)
     },
     // 点击数量
-    clickCount (row, recieve) {
-      this.$router.push({ name: 'SensitiveWord_monitor', params: { name: row.name, recieve: recieve } })
+    clickCount (row, receive) {
+      this.$router.push({ name: 'SensitiveWord_monitor', params: { name: row.name, receive: receive } })
     },
     moment (time) {
       return moment(time).format('YYYY-MM-DD HH:mm:ss')
