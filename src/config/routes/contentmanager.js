@@ -48,12 +48,12 @@ export default {
     {
       'path': '/Guide/Content',
       'name': 'CONTENT_MANAGER_OTHER',
-      'title': '其他管理',
+      'title': '其他',
       'component': () => import('web-crm/src/views/Content'),
       'children': [
         {
-          'path': '/ContentMange/SgSensitiveWord/index',
-          'name': 'SensitiveWord1',
+          'path': '/Guide/Content/CustomerService',
+          'name': 'CustomerService',
           'title': '客服管理',
           'component': () => import('@/views/Guide/SensitiveWord/index')
         }
