@@ -56,24 +56,6 @@ export default {
           'name': 'SgShopGroupRobot_index',
           'title': '门店群AI机器人',
           'component': () => import('@/views/Guide/SgShopGroupRobot/index')
-        },
-        {
-          'path': '/Guide/WxChat/index',
-          'name': 'WxChat_index',
-          'title': '聊天记录',
-          'component': () => import('@/views/Guide/WxChat/index')
-        },
-        {
-          'path': '/Guide/SensitiveWord/index',
-          'name': 'SensitiveWord_index',
-          'title': '敏感词管理',
-          'component': () => import('@/views/Guide/SensitiveWord/index')
-        },
-        {
-          'path': '/Guide/SensitiveWord/monitor',
-          'name': 'SensitiveWord_monitor',
-          'title': '敏感词监控',
-          'component': () => import('@/views/Guide/SensitiveWord/monitor')
         }
       ]
     },

@@ -15,8 +15,8 @@
           <template slot="searchSearch">
             <el-form :model="quickSearchModel" :inline="true" @submit.native.prevent class="pull-right">
               <el-form-item v-show="_data._queryConfig.expand === false">
-                <el-input ref="quickText" v-model="quickSearchModel.keyword" placeholder="关键字：" @keyup.enter.native="$quickSearchAction$('customerName')">
-                  <i class="el-icon-search el-input__icon" slot="suffix" name="name" @click="$quickSearchAction$('customerName')"></i>
+                <el-input ref="quickText" v-model="model.keyword" placeholder="关键字" @keyup.enter.native="$quickSearchAction$(model.keyword)">
+                  <i class="el-icon-search el-input__icon" slot="suffix" name="name" @click="$quickSearchAction$('model.keyword')"></i>
                 </el-input>
               </el-form-item>
               <el-form-item>
@@ -159,9 +159,9 @@
                     <!--点赞和评论 -->
                     <div class="talk-detail" v-if="moment.likesNums>0 || moment.commentsNums>0">
                       <div class="talk-detail__substance">
-                        <div class="talk-chatmsg">
+                        <div class="talk-chatmsg" v-if="moment.likeName">
                           <i class="iconfont icon-dianzan colorblue"></i>
-                          <span class="colorblue" v-if="moment.likeName" >{{moment.likeName}}</span>
+                          <span class="colorblue">{{moment.likeName}}</span>
                         </div>
                         <div class="talk-msg">
                           <div class="talk-msg__item clearfix">
@@ -169,15 +169,16 @@
                               <div v-if="comment.previousId ==0">
                                 <span class="colorblue">{{comment.commentator?comment.commentator:comment.ownerNick}}：</span>
                                 <span>{{comment.content}}</span>
-                                <span class="talk-msglength__reply colorblue" @click="replyComment(moment,comment)">回复阿萨</span>
+                                <span class="talk-msglength__reply colorblue" @click="replyComment(moment,comment)">回复</span>
                               </div>
                              <div v-else-if="comment.previousId != 0">
                                <span class="colorblue">{{comment.commentator?comment.commentator:comment.ownerNick}}</span>
                                <span>回复</span>
-                               <span class="colorblue">{{comment.respondent?comment.respondent:comment.owner}}：</span>
+                               <span class="colorblue">{{comment.friendNick?comment.friendNick:comment.owner}}：</span>
                                <span>{{comment.content}}</span>
                                <span class="colorblue talk-msglength__reply"  @click="replyComment(moment,comment)">回复</span>
-                               <span class="colorblue talk-msglength__reply" v-if="comment.nick==comment.ownerNick">删除</span>
+                               <!-- 暂无删除评论接口，以下一行代码先注释 -->
+<!--                               <span class="colorblue talk-msglength__reply" v-if="comment.nick==comment.ownerNick">删除</span>-->
                              </div>
                             </div>
                           </div>
@@ -200,8 +201,8 @@
                              :page-sizes="_data._pagination.sizeOpts" :total="_data._pagination.total"
                              :current-page="_data._pagination.page" :page-size="_data._pagination.size"
                              layout="total, sizes, prev, pager, next, jumper"
-                             @size-change="$sizeChange$"
-                             @current-change="$pageChange$">
+                             @size-change="sizeChange"
+                             @current-change="pageChange">
               </el-pagination>
             </div>
           </template>
@@ -228,14 +229,14 @@
                     :src="msg.friendHead"
                     alt="头像" class="talk-headportrait__img">
                 </div>
-                <div class="talk-redpoint"></div>
+<!--                <div class="talk-redpoint"></div>-->
                 <div class="talk-personmsg">
                   <div class="talk-personmsg__uname colorblue">{{msg.commentator?msg.commentator:msg.ownerNick}}</div>
                   <div class="talk-personmsg__about" v-if="msg.type==2">{{msg.content}}</div>
                   <div class="talk-personmsg__about talk-personmsg__ablue--like" v-else-if="msg.type==1">
                     <i class="iconfont icon-dianzan colorblue"></i>
                   </div>
-                  <div class="talk-personmsg__time">{{msg.createTime}}</div>
+                  <div class="talk-personmsg__time">{{msg.addTime}}</div>
                 </div>
                 <div class="talk-photo">
                   <div class="talk-photo__li">
@@ -251,9 +252,8 @@
         <div class="talk-main__bottom">
           <el-pagination
             layout="prev, pager, next"
-            :page-sizes="_data._otherPagination.sizeOpts" :total="_data._otherPagination.total"
-            :current-page="_data._otherPagination.page" :page-size="_data._otherPagination.size"
-            @size-change="sizeChange"
+            :page-sizes="interactionPagination.sizeOpts" :total="interactionTotal"
+            :current-page="interactionPagination.page" :page-size="interactionPagination.size"
             @current-change="interactionPageChange" :url="interactionUrl">
           </el-pagination>
         </div>
@@ -272,7 +272,7 @@
           </el-select>
         </el-form-item>
         <el-form-item label="朋友圈内容：" class="dialog-content__subtance">
-          <div class="dialog-detail" style="padding: 10px; border: 1px solid #ddd;">
+          <div class="dialog-detail">
             <el-input type="textarea" :rows="8" placeholder="这一刻的想法...." v-model="textarea">
             </el-input>
             <el-upload
@@ -328,7 +328,6 @@ import ElMain from 'nui-v2/lib/main'
 import ElAside from 'nui-v2/lib/aside'
 import { getErrorMsg } from '@/utils/toast'
 import tableMixin from 'web-crm/src/mixins/table'
-import scrollbarMixin from '../../../mixins/scrollbar'
 import moment from 'moment'
 export default {
   components: {
@@ -337,7 +336,7 @@ export default {
     ElMain,
     ElAside
   },
-  mixins: [tableMixin, scrollbarMixin],
+  mixins: [tableMixin],
   props: {
     types: Object,
     comment: Object,
@@ -429,7 +428,8 @@ export default {
       quickSearchModel: quickSearchModel,
       rules: rules,
       _pagination: pagination,
-      // _interactionPagination: interactionPagination,
+      // eslint-disable-next-line vue/no-reserved-keys
+      interactionPagination: interactionPagination,
       momentsTotal: 0,
       _queryConfig: {
         expand: false
@@ -448,6 +448,7 @@ export default {
       },
       otherMoment: null,
       otherComment: null,
+      interactionTotal: 0,
       pickerOptions: {
         shortcuts: [
           {
@@ -505,29 +506,15 @@ export default {
         this.setHeight()
       })
     },
+    // 初始化朋友圈信息
     initMomentsList () {
       var _this = this
       _this.url = _this.$api.guide.myMoments.momentsList
-      // _this.$reload()
       let params = _this.$generateParams$()
-      // _this.$queryList$(params)
       _this.$http.fetch(_this.url, params).then(resp => {
         if (resp.success && resp.result != null) {
           _this.moments = resp.result.data
           _this._data._pagination.total = parseInt(resp.result.recordsTotal)
-          if (_this._data._pagination.total > 0) {
-            _this._data._table.key = 1
-          } else if (_this._data._pagination.total === 0) {
-            _this._data._table.key = 2
-          }
-          // let resourceList = resp.result.data.appendJson.resourceList
-          // if (resourceList.length > 0) {
-          //   for (let resource in _this.moments) {
-          //     if (resource.appendJson.url2) {
-          //       _this.images.push(resource.appendJson.url2)
-          //     }
-          //   }
-          // }
         }
       }).catch((resp) => {
         _this.$notify.error(getErrorMsg('查询失败ad', resp))
@@ -535,38 +522,61 @@ export default {
     },
     initInteractionMsgList () {
       var _this = this
-      _this.url = _this.$api.guide.myMoments.interactionMsgList
-      _this.$http.fetch(_this.url, this.model).then(resp => {
+      let interactionUrl = _this.$api.guide.myMoments.interactionMsgList
+      var limit = {
+        start: (_this.interactionPagination.page - 1) * _this.interactionPagination.size,
+        length: _this.interactionPagination.size
+      }
+      _this.$http.fetch(interactionUrl, limit).then(resp => {
         if (resp.success && resp.result != null) {
           _this.interationMsgs = resp.result.data
-          _this._data._otherPagination.total = parseInt(resp.result.recordsTotal)
-          if (_this._data._otherPagination.total > 0) {
-            _this._data._table.key = 1
-          } else if (_this._data._otherPagination.total === 0) {
-            _this._data._table.key = 2
-          }
+          _this.interactionTotal = parseInt(resp.result.recordsTotal)
         }
       }).catch((resp) => {
         _this.$notify.error(getErrorMsg('查询失败', resp))
       })
     },
+    sizeChange (size) {
+      var _this = this
+      var pagination = _this._data._pagination
+      pagination.size = size
+      pagination.page = 1
+      let params = this.$generateParams$()
+      _this.$http.fetch(_this.$api.guide.myMoments.momentsList, params).then(resp => {
+        if (resp.success && resp.result != null) {
+          _this.moments = resp.result.data
+          _this._data._pagination.total = parseInt(resp.result.recordsTotal)
+        }
+      }).catch((resp) => {
+        _this.$notify.error(getErrorMsg('查询失败ad', resp))
+      })
+    },
+    pageChange (page) {
+      var _this = this
+      var pagination = _this._data._pagination
+      pagination.page = page
+      let params = this.$generateParams$()
+      _this.$http.fetch(_this.$api.guide.myMoments.momentsList, params).then(resp => {
+        if (resp.success && resp.result != null) {
+          _this.moments = resp.result.data
+          _this._data._pagination.total = parseInt(resp.result.recordsTotal)
+        }
+      }).catch((resp) => {
+        _this.$notify.error(getErrorMsg('查询失败ad', resp))
+      })
+    },
+    // 互动消息分页查询-页面跳转
     interactionPageChange (page) {
       var _this = this
-      _this._data._otherPagination.page = page
-      _this.url = _this.$api.guide.myMoments.interactionMsgList
+      let changePage = page
       var limit = {
-        start: (_this._otherPagination.page - 1) * _this._otherPagination.size,
-        length: _this._otherPagination.size
+        start: (changePage - 1) * _this.interactionPagination.size,
+        length: _this.interactionPagination.size
       }
-      _this.$http.fetch(_this.url, limit).then(resp => {
+      _this.$http.fetch(_this.$api.guide.myMoments.interactionMsgList, limit).then(resp => {
         if (resp.success && resp.result != null) {
           _this.interationMsgs = resp.result.data
-          _this._data._otherPagination.total = parseInt(resp.result.recordsTotal)
-          if (_this._data._otherPagination.total > 0) {
-            _this._data._table.key = 1
-          } else if (_this._data._otherPagination.total === 0) {
-            _this._data._table.key = 2
-          }
+          _this.interactionTotal = parseInt(resp.result.recordsTotal)
         }
       }).catch((resp) => {
         _this.$notify.error(getErrorMsg('查询失败', resp))
@@ -601,11 +611,19 @@ export default {
         if (resp.success && resp.result != null) {
           _this.moments = resp.result.data
           _this._data._pagination.total = parseInt(resp.result.recordsTotal)
-          if (_this._data._pagination.total > 0) {
-            _this._data._table.key = 1
-          } else if (_this._data._pagination.total === 0) {
-            _this._data._table.key = 2
-          }
+        }
+      }).catch((resp) => {
+        _this.$notify.error(getErrorMsg('查询失败', resp))
+      })
+    },
+    $quickSearchAction$ (keyword) {
+      var _this = this
+      let params = _this.$generateParams$()
+      params.searchMap.keyword = keyword
+      _this.$http.fetch(_this.$api.guide.myMoments.momentsList, params).then(resp => {
+        if (resp.success && resp.result != null) {
+          _this.moments = resp.result.data
+          _this._data._pagination.total = parseInt(resp.result.recordsTotal)
         }
       }).catch((resp) => {
         _this.$notify.error(getErrorMsg('查询失败', resp))
@@ -617,18 +635,32 @@ export default {
       _this.isHidden = true
       console.log('参数：' + _this.otherMoment.ownerId + ',' + _this.otherMoment.snsId + ',' + _this.otherMoment.owner + ',content:' + _this.content)
       console.log('参数：content:' + _this.content)
-      // console.log('参数：otherComment:' + _this.otherComment ? _this.otherComment.ownerNick:'wu')
+      console.log('参数：otherComment:' + _this.otherComment ? _this.otherComment.ownerNick : 'wu')
+      let commentType = 0
+      let replyToNick = null
+      if (_this.otherComment) {
+        if (_this.otherComment.ownerNick === _this.otherMoment.owner) {
+          commentType = 0
+          replyToNick = null
+        } else {
+          replyToNick = _this.otherComment.ownerNick
+        }
+      }
       let replyMomentVo = {
         wid: _this.otherMoment.ownerId,
         snsId: _this.otherMoment.snsId,
-        author: _this.otherComment ? _this.otherComment.ownerId : _this.otherMoment.owner,
+        author: _this.otherMoment.owner,
         content: _this.content,
-        replyTo: ''
+        replyTo: _this.otherComment ? _this.otherComment.ownerId : _this.otherMoment.owner,
+        commentType: commentType,
+        replyToNick: replyToNick,
+        commentId: _this.otherComment ? _this.otherComment.cid : null
       }
       _this.$http.fetch(_this.$api.guide.myMoments.replyComment, replyMomentVo).then(resp => {
         if (resp.success) {
+          _this.$notify.success('评论成功')
           _this.closeDialog()
-          setTimeout(_this.$refs.mainTable.$reload(), 2000)
+          _this.$reload()
           console.log('评论成功')
         }
       }).catch((resp) => {
@@ -636,6 +668,7 @@ export default {
         _this.$notify.error(getErrorMsg('评论失败', resp))
       })
     },
+    // 回复评论-打开弹窗并初始化参数
     replyComment (moment, comment) {
       var _this = this
       _this.dialogVisibleReply = true
@@ -643,6 +676,7 @@ export default {
       _this.otherMoment = moment
       if (comment) {
         _this.otherComment = comment
+        console.log('otherComent' + comment.ownerId)
       }
     },
     // 点赞朋友圈
@@ -656,9 +690,7 @@ export default {
       }
       _this.$http.fetch(_this.$api.guide.myMoments.like, replyMomentVo).then(resp => {
         if (resp.success) {
-          setTimeout(_this.initMomentsList(), 2000)
-          // _this.initMomentsList()
-          console.log('点赞成功')
+          _this.$notify.success('点赞成功')
         }
       }).catch((resp) => {
         _this.$notify.error(getErrorMsg('点赞失败', resp))
@@ -668,8 +700,12 @@ export default {
     rest () {
       var _this = this
       _this.url = _this.$api.guide.myMoments.momentsList
-      _this.$resetInputAction$()
-      // _this.initMomentsList()
+      let keys = Object.keys(_this.model)
+      for (let i = 0; i < keys.length; i++) {
+        this.model[keys[i]] = null
+      }
+      // _this.$resetInputAction$()
+      _this.initMomentsList()
     },
     // 发送朋友圈
     sendMoments () {
@@ -684,6 +720,7 @@ export default {
         _this.$http.fetch(_this.$api.guide.myMoments.sendImages, { wid: _this.wid, content: _this.textarea, images: images }).then(resp => {
           if (resp.success) {
             console.log('发送成功')
+            _this.$notify.success('发送成功')
             _this.dialogVisible = true
             _this.dialogVisibleShow = false
             _this.initMomentsList()
@@ -696,6 +733,7 @@ export default {
         _this.$http.fetch(_this.$api.guide.myMoments.sendText, { wid: _this.wid, content: _this.textarea }).then(resp => {
           if (resp.success) {
             console.log('发送成功')
+            _this.$notify.success('发送成功')
             _this.dialogVisible = true
             _this.dialogVisibleShow = false
             _this.initMomentsList()
@@ -717,20 +755,20 @@ export default {
         return false
       }
     },
-    generateParams: function () {
-      var order = this._data._order
-      var pagination = this._data._pagination
-      var limit = {
-        start: (pagination.page - 1) * pagination.size,
-        length: pagination.size
-      }
-      var searchMap = $.extend(true, {}, this._data._table.searchMap ? this._data._table.searchMap : this.model)
-      var params = $.extend(true, {}, order, limit, { searchMap: searchMap })
-      if (typeof this.$handleParams === 'function') {
-        return this.$handleParams(params)
-      }
-      return params
-    },
+    // generateParams: function () {
+    //   var order = this._data._order
+    //   var pagination = this._data._pagination
+    //   var limit = {
+    //     start: (pagination.page - 1) * pagination.size,
+    //     length: pagination.size
+    //   }
+    //   var searchMap = $.extend(true, {}, this._data._table.searchMap ? this._data._table.searchMap : this.model)
+    //   var params = $.extend(true, {}, order, limit, { searchMap: searchMap })
+    //   if (typeof this.$handleParams === 'function') {
+    //     return this.$handleParams(params)
+    //   }
+    //   return params
+    // },
     // 处理上传图片
     'handleAvatarSuccess': function (res, file) {
       var _this = this
