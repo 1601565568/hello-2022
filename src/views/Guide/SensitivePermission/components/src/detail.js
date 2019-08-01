@@ -1,10 +1,12 @@
 import tableMixin from 'web-crm/src/mixins/table'
+import moment from "moment";
 
 export default {
   mixins: [tableMixin],
   props: {
     visible: Boolean,
-    detailItem: Object
+    detailItem: Object,
+    times: Array
   },
   data () {
     return {
@@ -12,7 +14,8 @@ export default {
       sVisible: false,
       showTableIndex: 0,
       model: {
-        type: 0
+        type: 0,
+        times: []
       },
       height: '550px',
       _order: {
@@ -258,7 +261,7 @@ export default {
             {
               name: '操作时间',
               key: 'time',
-              sortable: 'update_time',
+              sortable: 'l.update_time',
               align: 'center',
               width: '120px'
             }
@@ -330,6 +333,7 @@ export default {
     visible (value) {
       this.sVisible = value
       if (value) {
+        this.setTimes()
         this.$searchAction$()
       }
     },
@@ -352,10 +356,26 @@ export default {
     },
     onSwitchTable (index) {
       this.showTableIndex = index
+      if (index === 6) {
+        this.url = this.$api.guide.sensitiveWord.findMonitorList
+      } else {
+        this.url = this.$api.guide.sensitivePermission.detailTable
+      }
       this.$resetInputAction$()
     },
     $resetInput () {
+      this.setTimes()
       this.model.type = this.tableList[this.showTableIndex].type
+    },
+    setTimes () {
+      if (this.showTableIndex === 6) {
+        let times = []
+        times[0] = moment(this.times[0]).format('YYYY-MM-DD')
+        times[1] = moment(this.times[1]).format('YYYY-MM-DD')
+        this.model.createDate = times
+      } else {
+        this.model.times = this.times
+      }
     }
   }
 }

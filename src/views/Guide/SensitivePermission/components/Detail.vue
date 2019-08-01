@@ -46,7 +46,7 @@
                       row-key="id"
                       @selection-change="$selectionChange">
               <template v-for='item of tableList[showTableIndex].columns'>
-                <el-table-column :key='item.name' :show-overflow-tooltip="true" type="default" :prop="item.key"
+                <el-table-column :key='tableList[showTableIndex].key + item.name' :show-overflow-tooltip="true" type="default" :prop="item.key"
                                  :label="item.name" :sortable="item.sortable || false" :align='item.align || "left"'
 
                                  :width='item.width'>
