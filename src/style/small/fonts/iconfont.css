@@ -990,3 +990,27 @@
   content: "\e6de";
 }
 
+.icon-weiguanzhu:before {
+  content: "\e6e3";
+}
+
+.icon-yiguanzhu:before {
+  content: "\e6e4";
+}
+
+.icon-weixin:before {
+  content: "\e6e5";
+}
+
+.icon-shujugailan:before {
+  content: "\e6e6";
+}
+
+.icon-shanchu3:before {
+  content: "\e6e7";
+}
+
+.icon-wangye1:before {
+  content: "\e6e8";
+}
+
