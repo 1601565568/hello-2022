@@ -91,28 +91,28 @@
                   </el-date-picker>
                 </el-form-grid>
               </el-form-item>
-              <el-form-item label="点赞数：">
-                <el-form-grid class="widthlength">
-                  <el-input v-model="model.likesMin"></el-input>
-                </el-form-grid>
-                <el-form-grid class="text-tips--grey">
-                  ~
-                </el-form-grid>
-                <el-form-grid class="widthlength">
-                  <el-input v-model="model.likesMax"></el-input>
-                </el-form-grid>
-              </el-form-item>
-              <el-form-item label="评论数：">
-                <el-form-grid class="widthlength">
-                  <el-input v-model="model.commentsMin"></el-input>
-                </el-form-grid>
-                <el-form-grid class="text-tips--grey">
-                  ~
-                </el-form-grid>
-                <el-form-grid class="widthlength">
-                  <el-input v-model="model.commentsMax"></el-input>
-                </el-form-grid>
-              </el-form-item>
+<!--              <el-form-item label="点赞数：">-->
+<!--                <el-form-grid class="widthlength">-->
+<!--                  <el-input v-model="model.likesMin"></el-input>-->
+<!--                </el-form-grid>-->
+<!--                <el-form-grid class="text-tips&#45;&#45;grey">-->
+<!--                  ~-->
+<!--                </el-form-grid>-->
+<!--                <el-form-grid class="widthlength">-->
+<!--                  <el-input v-model="model.likesMax"></el-input>-->
+<!--                </el-form-grid>-->
+<!--              </el-form-item>-->
+<!--              <el-form-item label="评论数：">-->
+<!--                <el-form-grid class="widthlength">-->
+<!--                  <el-input v-model="model.commentsMin"></el-input>-->
+<!--                </el-form-grid>-->
+<!--                <el-form-grid class="text-tips&#45;&#45;grey">-->
+<!--                  ~-->
+<!--                </el-form-grid>-->
+<!--                <el-form-grid class="widthlength">-->
+<!--                  <el-input v-model="model.commentsMax"></el-input>-->
+<!--                </el-form-grid>-->
+<!--              </el-form-item>-->
             </el-form>
             <div class="template-table__more-btn">
               <ns-button type="primary" @click="queryMomentsList()">{{$t('operating.search')}}</ns-button>
@@ -132,7 +132,7 @@
                   <div class="talk-item__content">
                     <div class="talk-name">
                       <span class="talk-name__call colorblue">{{moment.nick}}</span>
-                      <span class="talk-name__private">个人号：{{moment.nick}}（ {{moment.owner}} ）</span>
+                      <span class="talk-name__private">个人号：{{moment.personalNum}}（ {{moment.ownerId}} ）</span>
                     </div>
                     <div class="talk-sentence">{{moment.content}}</div>
                     <div class="talk-matching">
@@ -169,7 +169,7 @@
                                 <span
                                   class="colorblue">{{comment.commentator?comment.commentator:comment.ownerNick}}：</span>
                                 <span>{{comment.content}}</span>
-                                <span class="talk-msglength__reply colorblue" v-if="comment.ownerId !== moment.owner"
+                                <span class="talk-msglength__reply colorblue" v-if="comment.ownerId !== moment.ownerId"
                                       @click="replyComment(moment,comment)">回复</span>
                               </div>
                               <div v-else-if="comment.previousOwnerNick !== ''">
@@ -178,7 +178,7 @@
                                 <span>回复</span>
                                 <span class="colorblue">{{comment.friendNick?comment.friendNick:comment.owner}}：</span>
                                 <span>{{comment.content}}</span>
-                                <span class="colorblue talk-msglength__reply"
+                                <span class="colorblue talk-msglength__reply" v-if="comment.ownerId !== moment.ownerId"
                                       @click="replyComment(moment,comment)">回复</span>
                                 <!-- 暂无删除评论接口，以下一行代码先注释 -->
                                 <!--                               <span class="colorblue talk-msglength__reply" v-if="comment.nick==comment.ownerNick">删除</span>-->
@@ -229,7 +229,7 @@
               <div class="talk-convey__content clearfix">
                 <div class="talk-headportrait">
                   <img
-                    :src="msg.friendHead"
+                    :src="msg.head?msg.head:msg.friendHead"
                     alt="头像" class="talk-headportrait__img">
                 </div>
                 <!--                <div class="talk-redpoint"></div>-->
@@ -463,6 +463,7 @@ export default {
         this.setHeight()
       })
     })
+    this.setState()
   },
   methods: {
     $handleTabClick: function () {
@@ -562,7 +563,7 @@ export default {
     // 个人号列表
     initPersonalNumberList () {
       var _this = this
-      _this.$http.fetch(_this.$api.guide.wxDeviceGuideRelation.findWidNickSelector).then(resp => {
+      _this.$http.fetch(_this.$api.guide.friendData.queryNickAndWid).then(resp => {
         if (resp.success && resp.result != null) {
           _this.personalNumberList = resp.result
         }
@@ -615,7 +616,7 @@ export default {
       let commentType = 0
       let replyToNick = null
       if (_this.otherComment) {
-        if (_this.otherComment.ownerId === _this.otherMoment.owner) {
+        if (_this.otherComment.ownerId === _this.otherMoment.ownerId) {
           console.log('评论人等于发布人')
           commentType = 0
           replyToNick = null
@@ -716,6 +717,16 @@ export default {
           BTN_BOTTOM + 17 - 20
       this.$refs.fullScreen.$el.children[0].style.maxHeight = limitHeight + 'px'
       this.$refs.fullScreenright.$el.children[0].style.maxHeight = limitHeightRight + 'px'
+    },
+    setState () {
+      this.list.map((item, index) => {
+        let descHeight = this.$refs.asideList.children[index].children[1].children[1].clientHeight
+        if (descHeight > 40) {
+          this.$set(this.list[index], 'showState', 2)
+        } else {
+          this.$set(this.list[index], 'showState', 0)
+        }
+      })
     }
   }
 }

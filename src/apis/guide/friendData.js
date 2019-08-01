@@ -10,5 +10,9 @@ export default {
   sendMsg: {
     url: '/guide/friendData/sentMsg',
     method: 'post'
+  },
+  queryNickAndWid: {
+    url: '/guide/friendData/queryNickAndWid',
+    method: 'get'
   }
 }

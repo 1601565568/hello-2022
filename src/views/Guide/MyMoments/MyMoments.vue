@@ -92,28 +92,28 @@
                   </el-date-picker>
                 </el-form-grid>
               </el-form-item>
-              <el-form-item label="点赞数：">
-                <el-form-grid class="widthlength">
-                  <el-input v-model="model.likesMin"></el-input>
-                </el-form-grid>
-                <el-form-grid class="text-tips--grey">
-                  ~
-                </el-form-grid>
-                <el-form-grid class="widthlength">
-                  <el-input v-model="model.likesMax"></el-input>
-                </el-form-grid>
-              </el-form-item>
-              <el-form-item label="评论数：">
-                <el-form-grid class="widthlength">
-                  <el-input v-model="model.commentsMin"></el-input>
-                </el-form-grid>
-                <el-form-grid class="text-tips--grey">
-                  ~
-                </el-form-grid>
-                <el-form-grid class="widthlength">
-                  <el-input v-model="model.commentsMax"></el-input>
-                </el-form-grid>
-              </el-form-item>
+<!--              <el-form-item label="点赞数：">-->
+<!--                <el-form-grid class="widthlength">-->
+<!--                  <el-input v-model="model.likesMin"></el-input>-->
+<!--                </el-form-grid>-->
+<!--                <el-form-grid class="text-tips&#45;&#45;grey">-->
+<!--                  ~-->
+<!--                </el-form-grid>-->
+<!--                <el-form-grid class="widthlength">-->
+<!--                  <el-input v-model="model.likesMax"></el-input>-->
+<!--                </el-form-grid>-->
+<!--              </el-form-item>-->
+<!--              <el-form-item label="评论数：">-->
+<!--                <el-form-grid class="widthlength">-->
+<!--                  <el-input v-model="model.commentsMin"></el-input>-->
+<!--                </el-form-grid>-->
+<!--                <el-form-grid class="text-tips&#45;&#45;grey">-->
+<!--                  ~-->
+<!--                </el-form-grid>-->
+<!--                <el-form-grid class="widthlength">-->
+<!--                  <el-input v-model="model.commentsMax"></el-input>-->
+<!--                </el-form-grid>-->
+<!--              </el-form-item>-->
             </el-form>
             <div class="template-table__more-btn">
               <ns-button type="primary" @click="queryMomentsList()">{{$t('operating.search')}}</ns-button>
@@ -176,7 +176,7 @@
                                <span>回复</span>
                                <span class="colorblue">{{comment.friendNick?comment.friendNick:comment.owner}}：</span>
                                <span>{{comment.content}}</span>
-                               <span class="colorblue talk-msglength__reply"  @click="replyComment(moment,comment)">回复</span>
+                               <span class="colorblue talk-msglength__reply" v-if="comment.ownerId !== moment.owner"  @click="replyComment(moment,comment)">回复</span>
                                <!-- 暂无删除评论接口，以下一行代码先注释 -->
 <!--                               <span class="colorblue talk-msglength__reply" v-if="comment.nick==comment.ownerNick">删除</span>-->
                              </div>
@@ -275,16 +275,17 @@
           <div class="dialog-detail">
             <el-input type="textarea" :rows="8" placeholder="这一刻的想法...." v-model="textarea">
             </el-input>
-            <el-upload
-              class="avatar-uploader"
-              list-type="picture-card"
-              :action="this.$api.core.sgUploadFile('test')"
-              :show-file-list="false" accept=".jpg,.jpeg,.png,.bmp,.gif"
-              :on-success="handleAvatarSuccess"
-              :before-upload="beforeAvatarUpload">
-              <img v-if="imageUrl" :src="imageUrl" class="avatar">
-              <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-            </el-upload>
+            <!--多谋发送朋友圈接口变更，未接通，暂注释 -->
+<!--            <el-upload-->
+<!--              class="avatar-uploader"-->
+<!--              list-type="picture-card"-->
+<!--              :action="this.$api.core.sgUploadFile('test')"-->
+<!--              :show-file-list="false" accept=".jpg,.jpeg,.png,.bmp,.gif"-->
+<!--              :on-success="handleAvatarSuccess"-->
+<!--              :before-upload="beforeAvatarUpload">-->
+<!--              <img v-if="imageUrl" :src="imageUrl" class="avatar">-->
+<!--              <i v-else class="el-icon-plus avatar-uploader-icon"></i>-->
+<!--            </el-upload>-->
           </div>
         </el-form-item>
       </el-form>
@@ -492,6 +493,7 @@ export default {
         this.setHeight()
       })
     })
+    this.setState()
   },
   methods: {
     $handleTabClick: function () {
@@ -799,6 +801,16 @@ export default {
         BTN_BOTTOM + 17 - 20;
       this.$refs.fullScreen.$el.children[0].style.maxHeight = limitHeight + 'px'
       this.$refs.fullScreenright.$el.children[0].style.maxHeight = limitHeightRight + 'px'
+    },
+    setState () {
+      this.list.map((item, index) => {
+        let descHeight = this.$refs.asideList.children[index].children[1].children[1].clientHeight
+        if (descHeight > 40) {
+          this.$set(this.list[index], 'showState', 2)
+        } else {
+          this.$set(this.list[index], 'showState', 0)
+        }
+      })
     }
   }
 }
