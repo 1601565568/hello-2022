@@ -26,9 +26,9 @@
             <span class="last_div">边长约8cm，最佳扫码距离0.5m</span>
           </el-col>
           <el-col v-if="checked" class="elrow_firstcol" :span="8"><ns-button  type="text"><a :href="url+0+'&shopId='+succeedObj.shopId+'&size='+0"><i class="iconfont icon-xiazai"></i></a></ns-button></el-col>
-          <el-col v-else class="elrow_firstcol" :span="8"><ns-button  type="text"><a href="javascript:void(0)"><i class="iconfont icon-xiazai" style="color:#aaa"></i></a></ns-button></el-col>
+          <el-col v-else class="elrow_firstcol" :span="8"><i class="iconfont icon-xiazai" style="color:#aaa"></i></el-col>
           <el-col v-if="!checked" class="elrow_firstcol" :span="8"><ns-button  type="text"><a :href="url+1+'&shopId='+succeedObj.shopId+'&size='+0"><i class="iconfont icon-xiazai"></i></a></ns-button></el-col>
-          <el-col v-else class="elrow_firstcol" :span="8"><ns-button  type="text"><a href="javascript:void(0)"><i class="iconfont icon-xiazai" style="color:#aaa"></i></a></ns-button></el-col>
+          <el-col v-else class="elrow_firstcol" :span="8"><i class="iconfont icon-xiazai" style="color:#aaa"></i></el-col>
         </el-row>
         <el-row class="elrow_second">
           <el-col :span="8">
@@ -36,9 +36,9 @@
             <div class="last_div">边长约15cm，最佳扫码距离1m</div>
           </el-col>
           <el-col v-if="checked" class="elrow_firstcol" :span="8"><ns-button  type="text"><a :href="url+0+'&shopId='+succeedObj.shopId+'&size='+1"><i class="iconfont icon-xiazai"></i></a></ns-button></el-col>
-          <el-col v-else class="elrow_firstcol" :span="8"><ns-button  type="text"><a href="javascript:void(0)"><i class="iconfont icon-xiazai" style="color:#aaa"></i></a></ns-button></el-col>
+          <el-col v-else class="elrow_firstcol" :span="8"><i class="iconfont icon-xiazai" style="color:#aaa"></i></el-col>
           <el-col v-if="!checked" class="elrow_firstcol" :span="8"><ns-button  type="text"><a :href="url+1+'&shopId='+succeedObj.shopId+'&size='+1"><i class="iconfont icon-xiazai"></i></a></ns-button></el-col>
-          <el-col v-else class="elrow_firstcol" :span="8"><ns-button  type="text"><a href="javascript:void(0)"><i class="iconfont icon-xiazai" style="color:#aaa"></i></a></ns-button></el-col>
+          <el-col v-else class="elrow_firstcol" :span="8"><i class="iconfont icon-xiazai" style="color:#aaa"></i></el-col>
         </el-row>
         <el-row class="elrow_thirdly">
           <el-col :span="8">
@@ -46,9 +46,9 @@
             <div class="last_div">边长约50cm，最佳扫码距离2.5m</div>
           </el-col>
           <el-col v-if="checked" class="elrow_firstcol" :span="8" ><ns-button  type="text"><a :href="url+0+'&shopId='+succeedObj.shopId+'&size='+2"><i class="iconfont icon-xiazai"></i></a></ns-button></el-col>
-          <el-col v-else class="elrow_firstcol" :span="8" ><ns-button  type="text"><a href="javascript:void(0)"><i class="iconfont icon-xiazai" style="color:#aaa"></i></a></ns-button></el-col>
+          <el-col v-else class="elrow_firstcol" :span="8" ><i class="iconfont icon-xiazai" style="color:#aaa"></i></el-col>
           <el-col v-if="!checked" class="elrow_firstcol" :span="8" ><ns-button  type="text"><a :href="url+1+'&shopId='+succeedObj.shopId+'&size='+2"><i class="iconfont icon-xiazai"></i></a></ns-button></el-col>
-          <el-col v-else class="elrow_firstcol" :span="8" ><ns-button  type="text"><a href="javascript:void(0)"><i class="iconfont icon-xiazai" style="color:#aaa"></i></a></ns-button></el-col>
+          <el-col v-else class="elrow_firstcol" :span="8" ><i class="iconfont icon-xiazai" style="color:#aaa"></i></el-col>
         </el-row>
       </div>
       <div slot="footer" class="dialog-footer">
