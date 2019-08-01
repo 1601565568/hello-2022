@@ -57,13 +57,13 @@ export default {
       url: this.$api.guide.sensitiveWord.findMonitorList,
       // 发送人
       receiveTypeData: [{
-        value: '',
+        value: null,
         label: '全部'
       }, {
-        value: '1',
+        value: 1,
         label: '导购'
       }, {
-        value: '0',
+        value: 0,
         label: '会员'
       }],
       // 个人号
@@ -168,10 +168,9 @@ export default {
   },
   // 初始化
   mounted: function () {
-    this.initParams('name', 'recieve')
+    this.initParams('name', 'receive')
     // 默认
     this.model.createDate = [this.addDate(-7), this.addDate(0)]
-    this.model.receive = ''
     this.loadOwnerSelector()
     this.search()
   }

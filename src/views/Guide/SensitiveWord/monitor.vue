@@ -37,7 +37,7 @@
             <el-form-item>
               <span>
                 <el-form-item label="发送人：">
-                  <el-select v-model="model.receive" placeholder="请选择发送人" style="width: 100px">
+                  <el-select v-model="model.receive" placeholder="请选择发送人" style="width: 120px" >
                     <el-option v-for="item in receiveTypeData" :key="item.value" :label="item.label" :value="item.value"/>
                   </el-select>
                 </el-form-item>
@@ -46,7 +46,7 @@
             <el-form-item>
               <span>
                 个人号&nbsp;
-                <el-select v-model="model.ownerWid" placeholder="请选择个人号">
+                <el-select v-model="model.ownerWid" placeholder="请选择个人号" clearable>
                   <el-option v-for="item in ownerData" :key="item.wid" :label="item.nick" :value="item.wid"/>
                 </el-select>
               </span>
