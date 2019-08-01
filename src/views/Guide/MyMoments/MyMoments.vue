@@ -74,7 +74,7 @@
                   <el-input v-model="model.keyword" clearable></el-input>
                 </el-form-grid>
               </el-form-item>
-              <el-form-item label="日期：">
+              <el-form-item label="日期：" class="choicedate">
                 <el-form-grid size="xmd">
 <!--                  <el-date-picker-->
 <!--                    type="date"-->
@@ -1237,4 +1237,7 @@ export default {
     resize: none;
   }
   /* 发朋友圈弹窗样式*/
+  .choicedate >>> .el-date-editor .el-range-separator {
+    width: 17%;
+  }
 </style>
