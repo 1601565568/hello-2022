@@ -4,8 +4,8 @@
       title="查看详情"
       :visible.sync="sVisible"
       width="1000px"
-      :height='height'
       @closed="onClose">
+      <div :style='{height}'>
       <div>
         <el-row>
           <el-col :span='4'>
@@ -48,10 +48,13 @@
               <template v-for='item of tableList[showTableIndex].columns'>
                 <el-table-column :key='tableList[showTableIndex].key + item.name' :show-overflow-tooltip="true" type="default" :prop="item.key"
                                  :label="item.name" :sortable="item.sortable || false" :align='item.align || "left"'
-
                                  :width='item.width'>
                   <template slot-scope='scope'>
-                    {{item.formatContent ? item.formatContent(scope.row): scope.row.detailVo[item.key]}}
+                    <span v-if='item.html' v-html='item.formatContent ? item.formatContent(scope.row) : (tableList[showTableIndex].standard ? scope.row[item.key] : scope.row.detailVo[item.key])'>
+                    </span>
+                    <span v-else>
+                      {{item.formatContent ? item.formatContent(scope.row) : (tableList[showTableIndex].standard ? scope.row[item.key] : scope.row.detailVo[item.key])}}
+                    </span>
                   </template>
                   <template slot='header' scope='header'>
                     <span>
@@ -74,6 +77,7 @@
             </el-pagination>
           </template>
         </ns-page-table>
+      </div>
       </div>
       <span slot="footer" class="dialog-footer">
         <ns-button @click="sVisible = false">关闭</ns-button>

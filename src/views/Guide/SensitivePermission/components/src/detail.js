@@ -1,5 +1,5 @@
 import tableMixin from 'web-crm/src/mixins/table'
-import moment from "moment";
+import moment from 'moment'
 
 export default {
   mixins: [tableMixin],
@@ -17,7 +17,7 @@ export default {
         type: 0,
         times: []
       },
-      height: '550px',
+      height: '350px',
       _order: {
         orderDir: 'desc',
         orderKey: 'update_time'
@@ -58,7 +58,8 @@ export default {
               name: '操作时间',
               key: 'time',
               sortable: 'update_time',
-              align: 'center'
+              align: 'center',
+              width: '150px'
             }
           ],
           data: []
@@ -98,7 +99,8 @@ export default {
               name: '操作时间',
               key: 'time',
               sortable: 'update_time',
-              align: 'center'
+              align: 'center',
+              width: '150px'
             }
           ],
           data: []
@@ -128,7 +130,8 @@ export default {
               name: '操作时间',
               key: 'time',
               sortable: 'update_time',
-              align: 'center'
+              align: 'center',
+              width: '150px'
             }
           ],
           data: []
@@ -152,7 +155,8 @@ export default {
               name: '操作时间',
               key: 'time',
               sortable: 'update_time',
-              align: 'center'
+              align: 'center',
+              width: '150px'
             }
           ],
           data: []
@@ -183,7 +187,8 @@ export default {
               name: '操作时间',
               key: 'time',
               sortable: 'update_time',
-              align: 'center'
+              align: 'center',
+              width: '150px'
             }
           ],
           data: []
@@ -234,7 +239,8 @@ export default {
               name: '操作时间',
               key: 'time',
               sortable: 'update_time',
-              align: 'center'
+              align: 'center',
+              width: '150px'
             }
           ],
           data: []
@@ -245,25 +251,28 @@ export default {
           quantity: 0,
           show: true,
           key: 'sensitiveWord',
+          standard: true,
           columns: [
             {
               name: '好友',
-              key: ''
+              key: 'friendNick',
+              width: '200px'
             },
             {
               name: '敏感词',
-              key: ''
+              key: 'name'
             },
             {
               name: '上下文',
-              key: ''
+              key: 'content',
+              html: true
             },
             {
               name: '操作时间',
-              key: 'time',
-              sortable: 'l.update_time',
+              key: 'createTime',
+              sortable: 'create_time',
               align: 'center',
-              width: '120px'
+              width: '150px'
             }
           ],
           data: []
@@ -292,7 +301,7 @@ export default {
               key: 'time',
               sortable: 'update_time',
               align: 'center',
-              width: '120px'
+              width: '150px'
             }
           ],
           data: []
@@ -321,7 +330,7 @@ export default {
               key: 'time',
               sortable: 'update_time',
               align: 'center',
-              width: '120px'
+              width: '150px'
             }
           ],
           data: []
@@ -333,16 +342,16 @@ export default {
     visible (value) {
       this.sVisible = value
       if (value) {
-        this.setTimes()
+        this.setCondition()
         this.$searchAction$()
       }
     },
     '_data._table.data' (value) {
-      let defaultHeight = 550
+      let defaultHeight = 350
       if (value.length > 1) {
         defaultHeight += (value.length - 1) * 30
-        this.height = defaultHeight
       }
+      this.height = defaultHeight + 'px'
     }
   },
   mounted () {
@@ -355,6 +364,7 @@ export default {
       this._data._table.data = []
     },
     onSwitchTable (index) {
+      this._data._table.data = []
       this.showTableIndex = index
       if (index === 6) {
         this.url = this.$api.guide.sensitiveWord.findMonitorList
@@ -364,14 +374,15 @@ export default {
       this.$resetInputAction$()
     },
     $resetInput () {
-      this.setTimes()
+      this.setCondition()
       this.model.type = this.tableList[this.showTableIndex].type
     },
-    setTimes () {
+    setCondition () {
       if (this.showTableIndex === 6) {
         let times = []
         times[0] = moment(this.times[0]).format('YYYY-MM-DD')
         times[1] = moment(this.times[1]).format('YYYY-MM-DD')
+        this._data._order.orderKey = 'create_time'
         this.model.createDate = times
       } else {
         this.model.times = this.times
