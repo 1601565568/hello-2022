@@ -91,6 +91,7 @@ export default {
     resetInputAction () { // 重置
       this.model.name = null
       this.model.shop = null
+      this.pagination.page = 1
       this.guideFindList()
     },
     async findBrandShopList (model) { // 门店列表查询
