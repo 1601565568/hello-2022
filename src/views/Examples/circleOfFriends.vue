@@ -1069,7 +1069,6 @@ export default {
         background-image: linear-gradient(-180deg,rgba(255,255,255,0) 0%,#fff 70%);
         padding-top: 70px;
         position: relative;
-        z-index: 9999;
         margin-top: -66px;
       }
       .merchant-desc {
