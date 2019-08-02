@@ -74,7 +74,7 @@
                   <el-input v-model="model.keyword" clearable></el-input>
                 </el-form-grid>
               </el-form-item>
-              <el-form-item label="日期：">
+              <el-form-item label="日期：" class="choicedate">
                 <el-form-grid size="xmd">
 <!--                  <el-date-picker-->
 <!--                    type="date"-->
@@ -92,28 +92,28 @@
                   </el-date-picker>
                 </el-form-grid>
               </el-form-item>
-              <el-form-item label="点赞数：">
-                <el-form-grid class="widthlength">
-                  <el-input v-model="model.likesMin"></el-input>
-                </el-form-grid>
-                <el-form-grid class="text-tips--grey">
-                  ~
-                </el-form-grid>
-                <el-form-grid class="widthlength">
-                  <el-input v-model="model.likesMax"></el-input>
-                </el-form-grid>
-              </el-form-item>
-              <el-form-item label="评论数：">
-                <el-form-grid class="widthlength">
-                  <el-input v-model="model.commentsMin"></el-input>
-                </el-form-grid>
-                <el-form-grid class="text-tips--grey">
-                  ~
-                </el-form-grid>
-                <el-form-grid class="widthlength">
-                  <el-input v-model="model.commentsMax"></el-input>
-                </el-form-grid>
-              </el-form-item>
+<!--              <el-form-item label="点赞数：">-->
+<!--                <el-form-grid class="widthlength">-->
+<!--                  <el-input v-model="model.likesMin"></el-input>-->
+<!--                </el-form-grid>-->
+<!--                <el-form-grid class="text-tips&#45;&#45;grey">-->
+<!--                  ~-->
+<!--                </el-form-grid>-->
+<!--                <el-form-grid class="widthlength">-->
+<!--                  <el-input v-model="model.likesMax"></el-input>-->
+<!--                </el-form-grid>-->
+<!--              </el-form-item>-->
+<!--              <el-form-item label="评论数：">-->
+<!--                <el-form-grid class="widthlength">-->
+<!--                  <el-input v-model="model.commentsMin"></el-input>-->
+<!--                </el-form-grid>-->
+<!--                <el-form-grid class="text-tips&#45;&#45;grey">-->
+<!--                  ~-->
+<!--                </el-form-grid>-->
+<!--                <el-form-grid class="widthlength">-->
+<!--                  <el-input v-model="model.commentsMax"></el-input>-->
+<!--                </el-form-grid>-->
+<!--              </el-form-item>-->
             </el-form>
             <div class="template-table__more-btn">
               <ns-button type="primary" @click="queryMomentsList()">{{$t('operating.search')}}</ns-button>
@@ -163,20 +163,20 @@
                           <i class="iconfont icon-dianzan colorblue"></i>
                           <span class="colorblue">{{moment.likeName}}</span>
                         </div>
-                        <div class="talk-msg">
+                        <div class="talk-msg" v-if="moment.comments">
                           <div class="talk-msg__item clearfix">
                             <div class="talk-msglength" v-for="comment in moment.comments" :key="comment.id">
-                              <div v-if="comment.previousId ==0">
+                              <div v-if="comment.previousOwnerNick ===''">
                                 <span class="colorblue">{{comment.commentator?comment.commentator:comment.ownerNick}}：</span>
                                 <span>{{comment.content}}</span>
-                                <span class="talk-msglength__reply colorblue" @click="replyComment(moment,comment)">回复</span>
+                                <span class="talk-msglength__reply colorblue" v-if="comment.ownerId !== moment.owner" @click="replyComment(moment,comment)">回复</span>
                               </div>
-                             <div v-else-if="comment.previousId != 0">
+                             <div v-else-if="comment.previousOwnerNick !== ''">
                                <span class="colorblue">{{comment.commentator?comment.commentator:comment.ownerNick}}</span>
                                <span>回复</span>
                                <span class="colorblue">{{comment.friendNick?comment.friendNick:comment.owner}}：</span>
                                <span>{{comment.content}}</span>
-                               <span class="colorblue talk-msglength__reply"  @click="replyComment(moment,comment)">回复</span>
+                               <span class="colorblue talk-msglength__reply" v-if="comment.ownerId !== moment.owner"  @click="replyComment(moment,comment)">回复</span>
                                <!-- 暂无删除评论接口，以下一行代码先注释 -->
 <!--                               <span class="colorblue talk-msglength__reply" v-if="comment.nick==comment.ownerNick">删除</span>-->
                              </div>
@@ -275,16 +275,17 @@
           <div class="dialog-detail">
             <el-input type="textarea" :rows="8" placeholder="这一刻的想法...." v-model="textarea">
             </el-input>
-            <el-upload
-              class="avatar-uploader"
-              list-type="picture-card"
-              :action="this.$api.core.sgUploadFile('test')"
-              :show-file-list="false" accept=".jpg,.jpeg,.png,.bmp,.gif"
-              :on-success="handleAvatarSuccess"
-              :before-upload="beforeAvatarUpload">
-              <img v-if="imageUrl" :src="imageUrl" class="avatar">
-              <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-            </el-upload>
+            <!--多谋发送朋友圈接口变更，未接通，暂注释 -->
+<!--            <el-upload-->
+<!--              class="avatar-uploader"-->
+<!--              list-type="picture-card"-->
+<!--              :action="this.$api.core.sgUploadFile('test')"-->
+<!--              :show-file-list="false" accept=".jpg,.jpeg,.png,.bmp,.gif"-->
+<!--              :on-success="handleAvatarSuccess"-->
+<!--              :before-upload="beforeAvatarUpload">-->
+<!--              <img v-if="imageUrl" :src="imageUrl" class="avatar">-->
+<!--              <i v-else class="el-icon-plus avatar-uploader-icon"></i>-->
+<!--            </el-upload>-->
           </div>
         </el-form-item>
       </el-form>
@@ -492,6 +493,7 @@ export default {
         this.setHeight()
       })
     })
+    this.setState()
   },
   methods: {
     $handleTabClick: function () {
@@ -509,6 +511,7 @@ export default {
     // 初始化朋友圈信息
     initMomentsList () {
       var _this = this
+      console.log('获取朋友圈内容')
       _this.url = _this.$api.guide.myMoments.momentsList
       let params = _this.$generateParams$()
       _this.$http.fetch(_this.url, params).then(resp => {
@@ -517,11 +520,12 @@ export default {
           _this._data._pagination.total = parseInt(resp.result.recordsTotal)
         }
       }).catch((resp) => {
-        _this.$notify.error(getErrorMsg('查询失败ad', resp))
+        _this.$notify.error(getErrorMsg('查询失败', resp))
       })
     },
     initInteractionMsgList () {
       var _this = this
+      console.log('获取互动消息内容')
       let interactionUrl = _this.$api.guide.myMoments.interactionMsgList
       var limit = {
         start: (_this.interactionPagination.page - 1) * _this.interactionPagination.size,
@@ -548,7 +552,7 @@ export default {
           _this._data._pagination.total = parseInt(resp.result.recordsTotal)
         }
       }).catch((resp) => {
-        _this.$notify.error(getErrorMsg('查询失败ad', resp))
+        _this.$notify.error(getErrorMsg('查询失败', resp))
       })
     },
     pageChange (page) {
@@ -562,7 +566,7 @@ export default {
           _this._data._pagination.total = parseInt(resp.result.recordsTotal)
         }
       }).catch((resp) => {
-        _this.$notify.error(getErrorMsg('查询失败ad', resp))
+        _this.$notify.error(getErrorMsg('查询失败', resp))
       })
     },
     // 互动消息分页查询-页面跳转
@@ -582,6 +586,10 @@ export default {
         _this.$notify.error(getErrorMsg('查询失败', resp))
       })
     },
+    reloadList () {
+      setTimeout(this.initMomentsList(), 4000)
+      setTimeout(this.initInteractionMsgList(), 4000)
+    },
     // 个人号列表
     initPersonalNumberList () {
       var _this = this
@@ -598,6 +606,7 @@ export default {
       this.otherComment = null
       this.otherMoment = null
       this.content = null
+      this.isHidden = false
     },
     // 查询朋友圈列表
     queryMomentsList () {
@@ -616,6 +625,7 @@ export default {
         _this.$notify.error(getErrorMsg('查询失败', resp))
       })
     },
+    // 快速查询
     $quickSearchAction$ (keyword) {
       var _this = this
       let params = _this.$generateParams$()
@@ -633,17 +643,17 @@ export default {
     reply () {
       var _this = this
       _this.isHidden = true
-      console.log('参数：' + _this.otherMoment.ownerId + ',' + _this.otherMoment.snsId + ',' + _this.otherMoment.owner + ',content:' + _this.content)
-      console.log('参数：content:' + _this.content)
-      console.log('参数：otherComment:' + _this.otherComment ? _this.otherComment.ownerNick : 'wu')
       let commentType = 0
       let replyToNick = null
       if (_this.otherComment) {
-        if (_this.otherComment.ownerNick === _this.otherMoment.owner) {
+        if (_this.otherComment.ownerId === _this.otherMoment.owner) {
+          console.log('评论人等于发布人')
           commentType = 0
           replyToNick = null
         } else {
+          console.log('评论人不等于发布人')
           replyToNick = _this.otherComment.ownerNick
+          commentType = 1
         }
       }
       let replyMomentVo = {
@@ -660,8 +670,7 @@ export default {
         if (resp.success) {
           _this.$notify.success('评论成功')
           _this.closeDialog()
-          _this.$reload()
-          console.log('评论成功')
+          _this.reloadList()
         }
       }).catch((resp) => {
         _this.isHidden = false
@@ -672,17 +681,16 @@ export default {
     replyComment (moment, comment) {
       var _this = this
       _this.dialogVisibleReply = true
-      console.log('moment:' + moment.owner + ',nick:' + moment.nick)
+      console.log('发布人：' + moment.nick)
       _this.otherMoment = moment
       if (comment) {
+        console.log('评论人：' + comment.ownerNick)
         _this.otherComment = comment
-        console.log('otherComent' + comment.ownerId)
       }
     },
     // 点赞朋友圈
     like (moment) {
       var _this = this
-      console.log('参数：' + moment.ownerId + ',' + moment.snsId + ',' + moment.owner)
       let replyMomentVo = {
         wid: moment.ownerId,
         snsId: moment.snsId,
@@ -691,6 +699,7 @@ export default {
       _this.$http.fetch(_this.$api.guide.myMoments.like, replyMomentVo).then(resp => {
         if (resp.success) {
           _this.$notify.success('点赞成功')
+          _this.reloadList()
         }
       }).catch((resp) => {
         _this.$notify.error(getErrorMsg('点赞失败', resp))
@@ -716,10 +725,8 @@ export default {
       if (_this.imageUrl.length > 0) {
         let images = []
         images.push(_this.imageUrl)
-        console.log('图片url:' + images)
         _this.$http.fetch(_this.$api.guide.myMoments.sendImages, { wid: _this.wid, content: _this.textarea, images: images }).then(resp => {
           if (resp.success) {
-            console.log('发送成功')
             _this.$notify.success('发送成功')
             _this.dialogVisible = true
             _this.dialogVisibleShow = false
@@ -794,6 +801,16 @@ export default {
         BTN_BOTTOM + 17 - 20;
       this.$refs.fullScreen.$el.children[0].style.maxHeight = limitHeight + 'px'
       this.$refs.fullScreenright.$el.children[0].style.maxHeight = limitHeightRight + 'px'
+    },
+    setState () {
+      this.list.map((item, index) => {
+        let descHeight = this.$refs.asideList.children[index].children[1].children[1].clientHeight
+        if (descHeight > 40) {
+          this.$set(this.list[index], 'showState', 2)
+        } else {
+          this.$set(this.list[index], 'showState', 0)
+        }
+      })
     }
   }
 }
@@ -1220,4 +1237,7 @@ export default {
     resize: none;
   }
   /* 发朋友圈弹窗样式*/
+  .choicedate >>> .el-date-editor .el-range-separator {
+    width: 17%;
+  }
 </style>
