@@ -59,7 +59,8 @@ export default {
             },
             {
               name: '操作时间',
-              key: 'time',
+              key: 'updateTime',
+              standard: true,
               sortable: 'update_time',
               align: 'center',
               width: '150px'
@@ -101,7 +102,8 @@ export default {
             },
             {
               name: '操作时间',
-              key: 'time',
+              key: 'updateTime',
+              standard: true,
               sortable: 'update_time',
               align: 'center',
               width: '150px'
@@ -132,7 +134,8 @@ export default {
             },
             {
               name: '操作时间',
-              key: 'time',
+              key: 'updateTime',
+              standard: true,
               sortable: 'update_time',
               align: 'center',
               width: '150px'
@@ -157,7 +160,8 @@ export default {
             },
             {
               name: '操作时间',
-              key: 'time',
+              key: 'updateTime',
+              standard: true,
               sortable: 'update_time',
               align: 'center',
               width: '150px'
@@ -189,7 +193,8 @@ export default {
             },
             {
               name: '操作时间',
-              key: 'time',
+              key: 'updateTime',
+              standard: true,
               sortable: 'update_time',
               align: 'center',
               width: '150px'
@@ -241,7 +246,8 @@ export default {
             },
             {
               name: '操作时间',
-              key: 'time',
+              key: 'updateTime',
+              standard: true,
               sortable: 'update_time',
               align: 'center',
               width: '150px'
@@ -346,7 +352,7 @@ export default {
     visible (value) {
       this.sVisible = value
       if (value) {
-        // this.model.ownerId = this.detailItem.ownerId
+        this.model.ownerId = this.detailItem.ownerId
         // 敏感词接口的字段名为ownerWid
         this.model.ownerWid = this.detailItem.ownerId
         this.setCondition()
@@ -387,25 +393,26 @@ export default {
       this.model.type = this.tableList[this.showTableIndex].type
     },
     setCondition () {
+      let times = []
+      times[0] = moment(this.times[0]).format('YYYY-MM-DD')
+      times[1] = moment(this.times[1]).format('YYYY-MM-DD')
       if (this.showTableIndex === 6) {
-        let times = []
-        times[0] = moment(this.times[0]).format('YYYY-MM-DD')
-        times[1] = moment(this.times[1]).format('YYYY-MM-DD')
-        this._data._order.orderKey = 'create_time'
         this.model.createDate = times
-
+        this._data._order.orderKey = 'create_time'
       } else if (this.showTableIndex === 7 || this.showTableIndex === 8) {
         this._data._order.orderKey = 'm.createtime'
-        this.model.times = this.times
-
+        this.model.times = times
       } else {
         this._data._order.orderKey = 'create_time'
-        this.model.times = this.times
+        this.model.times = times
       }
+      this._data._order.orderDir = 'desc'
     },
     defaultContent (row, item, tableItem) {
       if (tableItem.standard) {
         return row[item.key]
+      } else if (item.standard) {
+        return row[item.key] || item.defaultValue
       } else {
         return row.detailVo ? (row.detailVo[item.key] || item.defaultValue) : item.defaultValue
       }
