@@ -15,7 +15,9 @@ export default {
       showTableIndex: 0,
       model: {
         type: 0,
-        times: []
+        times: [],
+        ownerId: '',
+        ownerWid: ''
       },
       height: '350px',
       _order: {
@@ -34,7 +36,7 @@ export default {
               name: '微信信息',
               key: 'nick',
               formatContent: (row) => {
-                return row.detailVo.nick ? `${row.detailVo.nick}（${row.detailVo.wid}）` : ''
+                return row.detailVo.wid ? `${row.detailVo.nick || '-'}（${row.detailVo.wid}）` : '-'
               }
             },
             {
@@ -52,7 +54,8 @@ export default {
             {
               name: '专属导购',
               key: 'guideName',
-              header: '此微信客户是否有专属导购'
+              header: '此微信客户是否有专属导购',
+              defaultValue: '-'
             },
             {
               name: '操作时间',
@@ -75,7 +78,7 @@ export default {
               name: '微信信息',
               key: 'nick',
               formatContent: (row) => {
-                return row.detailVo.nick ? `${row.detailVo.nick}（${row.detailVo.wid}）` : ''
+                return row.detailVo.wid ? `${row.detailVo.nick || '-'}（${row.detailVo.wid}）` : '-'
               }
             },
             {
@@ -93,7 +96,8 @@ export default {
             {
               name: '专属导购',
               key: 'guideName',
-              header: '此微信客户是否有专属导购'
+              header: '此微信客户是否有专属导购',
+              defaultValue: '-'
             },
             {
               name: '操作时间',
@@ -116,14 +120,14 @@ export default {
               name: '目标微信',
               key: 'targetNick',
               formatContent: (row) => {
-                return row.detailVo.targetNick ? `${row.detailVo.targetNick}（${row.detailVo.targetWid}）` : ''
+                return row.detailVo.targetWid ? `${row.detailVo.targetNick || '-'}（${row.detailVo.targetWid}）` : '-'
               }
             },
             {
               name: '名片信息',
               key: 'shareNick',
               formatContent: (row) => {
-                return row.detailVo.shareNick ? `${row.detailVo.shareNick}（${row.detailVo.shareWid}）` : ''
+                return row.detailVo.shareWid ? `${row.detailVo.shareNick || '-'}（${row.detailVo.shareWid}）` : '-'
               }
             },
             {
@@ -279,27 +283,27 @@ export default {
         },
         {
           name: '撤回消息',
-          type: 6,
+          type: 7,
           quantity: 0,
           show: true,
+          standard: true,
           key: 'recallMessage',
           columns: [
             {
-              name: '好友',
-              key: ''
+              name: '接收人微信',
+              key: '',
+              formatContent: (row) => {
+                return row.talker ? `${row.nick || '-'}（${row.talker}）` : '-'
+              }
             },
             {
-              name: '敏感词',
-              key: ''
-            },
-            {
-              name: '上下文',
-              key: ''
+              name: '撤回信息内容',
+              key: 'content'
             },
             {
               name: '操作时间',
-              key: 'time',
-              sortable: 'update_time',
+              key: 'createtime',
+              sortable: 'm.createtime',
               align: 'center',
               width: '150px'
             }
@@ -308,27 +312,27 @@ export default {
         },
         {
           name: '删除消息',
-          type: 6,
+          type: 8,
           quantity: 0,
           show: true,
+          standard: true,
           key: 'deleteMessage',
           columns: [
             {
-              name: '好友',
-              key: ''
+              name: '接收人微信',
+              key: '',
+              formatContent: (row) => {
+                return row.talker ? `${row.nick || '-'}（${row.talker}）` : '-'
+              }
             },
             {
-              name: '敏感词',
-              key: ''
-            },
-            {
-              name: '上下文',
-              key: ''
+              name: '删除信息内容',
+              key: 'content'
             },
             {
               name: '操作时间',
-              key: 'time',
-              sortable: 'update_time',
+              key: 'createtime',
+              sortable: 'm.createtime',
               align: 'center',
               width: '150px'
             }
@@ -342,6 +346,9 @@ export default {
     visible (value) {
       this.sVisible = value
       if (value) {
+        // this.model.ownerId = this.detailItem.ownerId
+        // 敏感词接口的字段名为ownerWid
+        this.model.ownerWid = this.detailItem.ownerId
         this.setCondition()
         this.$searchAction$()
       }
@@ -368,6 +375,8 @@ export default {
       this.showTableIndex = index
       if (index === 6) {
         this.url = this.$api.guide.sensitiveWord.findMonitorList
+      } else if (index === 7 || index === 8) {
+        this.url = this.$api.guide.sensitivePermission.detailTableFromLog
       } else {
         this.url = this.$api.guide.sensitivePermission.detailTable
       }
@@ -384,8 +393,21 @@ export default {
         times[1] = moment(this.times[1]).format('YYYY-MM-DD')
         this._data._order.orderKey = 'create_time'
         this.model.createDate = times
-      } else {
+
+      } else if (this.showTableIndex === 7 || this.showTableIndex === 8) {
+        this._data._order.orderKey = 'm.createtime'
         this.model.times = this.times
+
+      } else {
+        this._data._order.orderKey = 'create_time'
+        this.model.times = this.times
+      }
+    },
+    defaultContent (row, item, tableItem) {
+      if (tableItem.standard) {
+        return row[item.key]
+      } else {
+        return row.detailVo ? (row.detailVo[item.key] || item.defaultValue) : item.defaultValue
       }
     }
   }
