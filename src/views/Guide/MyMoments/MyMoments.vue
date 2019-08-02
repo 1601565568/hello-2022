@@ -1192,8 +1192,24 @@ export default {
   @component-namespace dialog {
     @b content {
       margin-right: 20px;
+      @e reply {
+        color: var(--theme-font-color-secondary);
+        @m text {
+          margin-left: 5px;
+        }
+      }
       @e subtance {
-        margin-top: 20px;
+        margin: 20px 0;
+        @m margintop {
+          margin: 0 0 10px;
+        }
+      }
+    }
+    @b detail {
+      padding: 10px;
+      border: 1px solid #DDD;
+      @m paddingbtm {
+        padding: 10px 10px 0;
       }
     }
   }
@@ -1208,22 +1224,22 @@ export default {
     margin-top: 20px;
   }
   .avatar-uploader >>> .el-upload {
-    border: 1px dashed #d9d9d9;
+    border: 1px dashed #D9D9D9;
     border-radius: 6px;
     cursor: pointer;
     position: relative;
     overflow: hidden;
-    &:hover {
-      border-color: #409EFF;
-    }
-    .avatar-uploader-icon {
-      font-size: 28px;
-      color: #8c939d;
-      width: 62px;
-      height: 62px;
-      line-height: 62px;
-      text-align: center;
-    }
+  &:hover {
+     border-color: #409EFF;
+   }
+  .avatar-uploader-icon {
+    font-size: 28px;
+    color: #8C939D;
+    width: 62px;
+    height: 62px;
+    line-height: 62px;
+    text-align: center;
+  }
   }
   .avatar {
     width: 178px;
@@ -1236,7 +1252,20 @@ export default {
   .dialog-detail >>>.el-textarea.el-input--small .el-textarea__inner {
     resize: none;
   }
-  /* 发朋友圈弹窗样式*/
+  >>> .el-dialog__title {
+    font-size: var(--default-font-size-base);
+  }
+  .icon-biaoqing {
+    font-size: 22px;
+    cursor: pointer;
+  }
+  .dialog-content >>> .el-dialog__header {
+    padding: 10px 20px 2px !important;
+  }
+  .dialog-content >>> .el-dialog__footer {
+    padding: 10px 20px !important;
+  }
+  /* 发朋友圈弹窗样式结束*/
   .choicedate >>> .el-date-editor .el-range-separator {
     width: 17%;
   }
