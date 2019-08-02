@@ -80,6 +80,7 @@
           <el-date-picker
             v-model="model.validTime"
             type="datetimerange"
+            value-format="yyyy-MM-dd HH:mm:ss"
             :picker-options="pickerOptions"
             range-separator="至"
             start-placeholder="请选择开始日期"
