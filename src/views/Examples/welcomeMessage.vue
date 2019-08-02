@@ -2,11 +2,6 @@
   <div ref="welcomeHeight">
     <el-scrollbar ref="welcomeFullScreen">
       <div class="welcome-message">
-        <!--<el-breadcrumb separator-class="el-icon-arrow-right">-->
-        <!--<el-breadcrumb-item :to="{ path: '/' }">其他设置</el-breadcrumb-item>-->
-        <!--<el-breadcrumb-item>欢迎语管理</el-breadcrumb-item>-->
-        <!--<el-breadcrumb-item>新增欢迎语</el-breadcrumb-item>-->
-        <!--</el-breadcrumb>-->
         <el-container class="welcome-message__content">
           <el-aside width="60%" class="welcome-aside">
             <div class="welcome-aside__set">配置后，客户将在添加成员为联系人后收到该欢迎语</div>
@@ -18,29 +13,57 @@
                 v-model="textarea">
               </el-input>
             </div>
-            <div class="welcome-aside__upload">
+            <div class="welcome-aside__upload" style="display: none;">
               <el-upload
                 class="avatar-uploader"
                 action="https://jsonplaceholder.typicode.com/posts/"
                 :show-file-list="false">
                 <img v-if="imageUrl" src="" class="avatar">
                 <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-                <span class="welcome-square">
-              <i  class="iconfont icon-tupian"></i>
-              图片
-            </span>
               </el-upload>
+              <span class="welcome-square">
+                <i  class="iconfont icon-tupian"></i>
+                图片
+              </span>
               <span class="welcome-and">或</span>
               <span class="welcome-square">
-            <i  class="iconfont icon-wangye"></i>
-            网页
-          </span>
+                <i  class="iconfont icon-wangye"></i>
+                网页
+              </span>
               <span class="welcome-and">或</span>
               <span class="welcome-square">
-            <i  class="iconfont icon-xiaochengxu"></i>
-            小程序
-          </span>
+                <i  class="iconfont icon-xiaochengxu"></i>
+                小程序
+              </span>
             </div>
+            <!--图片开始-->
+            <div class="welcome-aside__upload" style="display: none;">
+              <span class="welcome-choice welcome-choice--bodernone colorblue clearfix">
+                <i  class="iconfont icon-tupian"></i>
+                <span>头像0.jpg</span>
+                <i  class="iconfont icon-shanchu3 welcome-choice__marginleft"></i>
+              </span>
+            </div>
+            <!--图片结束-->
+            <!--网页开始-->
+            <div class="welcome-aside__upload"  style="display: none;">
+              <span class="welcome-choice welcome-choice--bodernone colorblue clearfix">
+                <i  class="iconfont icon-wangye1"></i>
+                <span class="welcome-choice__showlength">网页网页网页网页网页网页网页网页网页网页网页网页网页网页网页网页网页网页网页网页v网页网页网页
+                网页网页网页网页网页网页网页网页网页网页网页网页网页网页网页网页网页网页网页网页v网页网页网页</span>
+                <i  class="iconfont icon-shanchu3 welcome-choice__marginleft"></i>
+              </span>
+            </div>
+            <!--网页开始-->
+            <!--小程序开始-->
+            <div class="welcome-aside__upload">
+              <span class="welcome-choice welcome-choice--bodernone colorblue clearfix">
+                <i  class="iconfont icon-xiaochengxu"></i>
+                <span>小程序</span>
+                <i  class="iconfont icon-shanchu3 welcome-choice__marginleft" style="float: right"></i>
+              </span>
+            </div>
+            <!--小程序结束-->
             <div class="welcome-operating clearfix">
               <span class="welcome-operating__use">使用范围：</span>
               <span class="welcome-operating__member">全部成员</span>
@@ -50,9 +73,6 @@
           </el-aside>
           <el-main class="welcome-main">
             <div class="welcome-main__exampleimg">
-              <div class="welcome-time">
-                <span class="welcome-time__detail">12:00</span>
-              </div>
               <div class="welcome-msg clearfix">
                 <img src="https://img.yzcdn.cn/upload_files/2019/01/24/FhbbngOXgEqTbkda8DPNCthA5r5V.jpg"  alt="用户头像" class="welcome-msg__avatar">
                 <div class="welcome-msg__text">
@@ -67,13 +87,22 @@
                   <div class="welcome-circle"></div>
                 </div>
               </div>
-              <div class="welcome-time">
-                <span class="welcome-time__detail">
-                  对方为企业微信用户,
-                  <sapn class="welcome-time__detail--colorblue">了解更多</sapn>
-                </span>
+              <!--图片开始-->
+              <div class="welcome-msg clearfix" style="display: none;">
+                <img src="https://img.yzcdn.cn/upload_files/2019/01/24/FhbbngOXgEqTbkda8DPNCthA5r5V.jpg"  alt="用户头像" class="welcome-msg__avatar">
+                <div class="welcome-image">
+                  <div class="welcome-figurelist clearfix">
+                    <div class="welcome-figurelist__li">
+                      <div style="background-image: url(http://iph.href.lu/500x100)" class="welcome-figure">
+                        <div class="welcome-figure__img"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <div class="welcome-msg clearfix welcome-msg--margintop" style="display: none">
+              <!--图片 结束-->
+              <!--网页 开始-->
+              <div class="welcome-msg clearfix" style="display: none;">
                 <img src="https://img.yzcdn.cn/upload_files/2019/01/24/FhbbngOXgEqTbkda8DPNCthA5r5V.jpg"  alt="用户头像" class="welcome-msg__avatar">
                 <div class="welcome-msg__text">
                   <div class="welcome-web">
@@ -86,12 +115,27 @@
                   <div class="welcome-circle"></div>
                 </div>
               </div>
+              <!--网页 结束-->
+              <!--小程序 开始-->
               <div class="welcome-msg clearfix">
                 <img src="https://img.yzcdn.cn/upload_files/2019/01/24/FhbbngOXgEqTbkda8DPNCthA5r5V.jpg"  alt="用户头像" class="welcome-msg__avatar">
-                <div class="welcome-image">
-                  <img src="https://img.yzcdn.cn/upload_files/2019/01/24/FhbbngOXgEqTbkda8DPNCthA5r5V.jpg"  alt="用户头像" class="welcome-image__img">
+                <div class="welcome-msg__text welcome-msg__text--bgcolor">
+                  <div class="welcome-applets">
+                    <div class="welcome-applets__logo">
+                      <img src="https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/logo.png"  alt="logo" class="welcome-applets__logo--img">
+                    </div>
+                    <div class="welcome-applets__name">最伙店长</div>
+                  </div>
+                  <div class="welcome-program">
+                    <div class="welcome-program__name">最伙店长</div>
+                    <div class="welcome-program__logo">
+                      <img src="https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/logo.png"  alt="logo" class="welcome-program__logo--img">
+                    </div>
+                  </div>
+                  <div class="welcome-circle welcome-circle--topleft"></div>
                 </div>
               </div>
+              <!--小程序 结束-->
             </div>
             <div class="welcome-main__text">会员看到的界面</div>
           </el-main>
@@ -108,16 +152,12 @@
 import ElContainer from 'nui-v2/lib/container'
 import ElMain from 'nui-v2/lib/main'
 import ElAside from 'nui-v2/lib/aside'
-import ElBreadcrumb from 'nui-v2/lib/breadcrumb'
-import ElBreadcrumbItem from 'nui-v2/lib/breadcrumb-item'
 import ElUpload from 'nui-v2/lib/upload'
 export default {
   components: {
     ElContainer,
     ElMain,
     ElAside,
-    ElBreadcrumb,
-    ElBreadcrumbItem,
     ElUpload,
   },
   data() {
@@ -188,7 +228,7 @@ export default {
       @e upload {
         display: flex;
         align-items: center;
-        padding: 15px;
+        padding: 10px 15px;
         background: var(--welcome-background-color-gray);
         border-left: 1px solid var(--welcome-border-color-gray);
         border-right: 1px solid var(--welcome-border-color-gray);
@@ -205,6 +245,27 @@ export default {
       align-items: center;
       justify-content: center;
       border: 1px solid var(--welcome-border-color-gray);
+    }
+    @b choice {
+      line-height: 41px;
+      width: 100%;
+      height: 41px;
+      display: flex;
+      align-items: center;
+      border: 1px solid var(--welcome-border-color-gray);
+      cursor: pointer;
+      @e marginleft {
+        margin-left: 10px;
+      }
+      @e showlength {
+        width: 93%;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+      }
+      @m bodernone {
+        border: none;
+      }
     }
     @b and {
       font-size: var(--default-font-size-base);
@@ -230,6 +291,7 @@ export default {
         font-size: var(--default-font-size-base);
         color: var(--welcome-font-color-blue);
         float: right;
+        cursor: pointer;
       }
     }
     @b main {
@@ -249,19 +311,6 @@ export default {
         text-align: center;
       }
     }
-    @b time {
-      text-align: center;
-      margin-top: 10px;
-      @e detail {
-        color: #FFF;
-        padding: 0 5px;
-        background: #CECECE;
-        display: inline-block;
-        @m colorblue {
-          color: #71add2;
-        }
-      }
-    }
     @b msg {
       margin: 0 40px;
       padding: 10px 0;
@@ -275,6 +324,14 @@ export default {
       }
       @e text {
         position: relative;
+        @m bgcolor {
+          width: 78%;
+          position: relative;
+          padding: 15px;
+          margin-left: 15px;
+          background: #FFF;
+          border-radius: 10px;
+        }
       }
       @m margintop {
         margin-top: 10px;
@@ -288,24 +345,25 @@ export default {
       border-radius: 8px;
     }
     @b web {
-      width: 85%;
+      width: 53%;
       padding: 8px 15px;
       margin-left: 15px;
       background: #FFF;
       border-radius: 10px;
       @e slogan {
-        width: 60%;
+        width: 100%;
         display: inline-block;
         text-overflow: ellipsis;
         white-space: nowrap;
         overflow: hidden;
       }
       @e propagate {
-
+        margin-top: 5px;
       }
     }
     @b leftside {
-      width: 40%;
+      font-size: 10px;
+      width: 50%;
       float: left;
       overflow : hidden;
       text-overflow: ellipsis;
@@ -314,16 +372,53 @@ export default {
       -webkit-box-orient: vertical;
     }
     @b rightside {
-      width: 40px;
-      height: 40px;
+      width: 65px;
+      height: 63px;
       margin-left: 8px;
     }
     @b image {
       margin-left: 15px;
       @e img {
-        width: 150px;
-        height: 200px;
+        width: 175px;
+        height: 213px;
         border-radius: 10px;
+      }
+    }
+    @b figurelist {
+      margin: 0;
+      padding: 0;
+      &:after {
+        content: "";
+        display: block;
+        clear: both;
+        height: 0;
+        overflow: hidden;
+        visibility: hidden;
+      }
+      @e li {
+        float: left;
+        width: 175px;
+        height: 213px;
+        margin: 0 2% 2% 0;
+      }
+    }
+    @b figure {
+      position: relative;
+      width: 100%;
+      height: 0;
+      overflow: hidden;
+      margin: 0;
+      padding-bottom: 100%; /* 关键就在这里 */
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+      border-radius: 10px;
+      @e img {
+        display: block;
+        position: absolute;
+        width: 100%;
+        top: 0;
+        bottom: 0;
       }
     }
     @b circle {
@@ -335,6 +430,41 @@ export default {
       border-width: 8px;
       border-style: solid;
       border-color: transparent #FFF transparent transparent;
+      @m topleft {
+        top: 15px;
+        left: -15px;
+      }
+    }
+    @b applets {
+      display: flex;
+      @e logo {
+       @m img {
+         width: 20px;
+         height: 20px;
+         border-radius: 7px;
+       }
+      }
+      @e name {
+        font-size: var(--default-font-size-small);
+        color: var(--theme-font-color-regular);
+        margin-left: 10px;
+      }
+    }
+    @b program {
+      @e name {
+        font-size: var(--default-font-size-base);
+        color: var(--theme-font-color-primary);
+        margin-top: 8px;
+      }
+      @e logo {
+        text-align: center;
+        margin-top: 15px;
+        @m img {
+          width: 98px;
+          height: 100px;
+          border-radius: 20px;
+        }
+      }
     }
   }
   .avatar-uploader >>> .el-upload {
@@ -387,5 +517,39 @@ export default {
     padding: 5px 0 5px 150px;
     border-top: 1px solid var(--theme-base-border-color-primary);
     background-color: var(--theme-color-white);
+  }
+  .colorblue {
+    color: var(--welcome-font-color-blue);
+  }
+  .welcome-choice .icon-tupian {
+    font-size: var(--dafault-font-size-xlarge);
+    color: var(--welcome-font-color-blue);
+    margin-right: 5px;
+  }
+  .welcome-choice .icon-wangye1 {
+    font-size: 26px;
+    color: var(--welcome-font-color-blue);
+    margin-right: 5px;
+  }
+  .welcome-choice .icon-xiaochengxu {
+    font-size: var(--dafault-font-size-xlarge);
+    color: var(--welcome-font-color-blue);
+    margin-right: 5px;
+  }
+  .welcome-choice .icon-shanchu3 {
+    font-size: var(--dafault-font-size-xlarge);
+    color: var(--welcome-font-color-blue);
+  }
+  @e figurelist {
+    margin: 0;
+    padding: 0;
+    &:after {
+      content: "";
+      display: block;
+      clear: both;
+      height: 0;
+      overflow: hidden;
+      visibility: hidden;
+    }
   }
 </style>
