@@ -4,7 +4,7 @@
       <div class="welcome-message">
         <el-container class="welcome-message__content">
           <el-aside width="60%" class="welcome-aside">
-            <div class="welcome-aside__set">配置后，客户将在添加成员为联系人后收到该欢迎语</div>
+            <div class="welcome-aside__set colorblue">配置后，客户将在添加成员为联系人后收到该欢迎语</div>
             <div class="welcome-aside__input">
               <el-input
                 type="textarea"
@@ -13,54 +13,54 @@
                 v-model="textarea">
               </el-input>
             </div>
-            <div class="welcome-aside__upload" style="display: none;">
+            <div class="welcome-aside__upload" v-if="showChoice === 0">
               <el-upload
-                class="avatar-uploader"
+                class="avatar-uploader hand"
                 action="https://jsonplaceholder.typicode.com/posts/"
                 :show-file-list="false">
                 <img v-if="imageUrl" src="" class="avatar">
                 <i v-else class="el-icon-plus avatar-uploader-icon"></i>
               </el-upload>
-              <span class="welcome-square">
+              <span class="welcome-square hand">
                 <i  class="iconfont icon-tupian"></i>
                 图片
               </span>
-              <span class="welcome-and">或</span>
-              <span class="welcome-square">
+              <span class="welcome-or">或</span>
+              <span class="welcome-square hand">
                 <i  class="iconfont icon-wangye"></i>
                 网页
               </span>
-              <span class="welcome-and">或</span>
-              <span class="welcome-square">
+              <span class="welcome-or">或</span>
+              <span class="welcome-square hand">
                 <i  class="iconfont icon-xiaochengxu"></i>
                 小程序
               </span>
             </div>
             <!--图片开始-->
-            <div class="welcome-aside__upload" style="display: none;">
+            <div class="welcome-aside__upload" v-else-if="showChoice === 1">
               <span class="welcome-choice welcome-choice--bodernone colorblue clearfix">
                 <i  class="iconfont icon-tupian"></i>
-                <span>头像0.jpg</span>
-                <i  class="iconfont icon-shanchu3 welcome-choice__marginleft"></i>
+                <span class="welcome-choice__showlength">头像0.jpg</span>
+                <i  class="iconfont icon-shanchu3 welcome-choice__marginleft hand"></i>
               </span>
             </div>
             <!--图片结束-->
             <!--网页开始-->
-            <div class="welcome-aside__upload"  style="display: none;">
+            <div class="welcome-aside__upload" v-else-if="showChoice === 2">
               <span class="welcome-choice welcome-choice--bodernone colorblue clearfix">
                 <i  class="iconfont icon-wangye1"></i>
                 <span class="welcome-choice__showlength">网页网页网页网页网页网页网页网页网页网页网页网页网页网页网页网页网页网页网页网页v网页网页网页
                 网页网页网页网页网页网页网页网页网页网页网页网页网页网页网页网页网页网页网页网页v网页网页网页</span>
-                <i  class="iconfont icon-shanchu3 welcome-choice__marginleft"></i>
+                <i  class="iconfont icon-shanchu3 welcome-choice__marginleft hand"></i>
               </span>
             </div>
             <!--网页开始-->
             <!--小程序开始-->
-            <div class="welcome-aside__upload">
+            <div class="welcome-aside__upload" v-else-if="showChoice === 3">
               <span class="welcome-choice welcome-choice--bodernone colorblue clearfix">
                 <i  class="iconfont icon-xiaochengxu"></i>
-                <span>小程序</span>
-                <i  class="iconfont icon-shanchu3 welcome-choice__marginleft" style="float: right"></i>
+                <span class="welcome-choice__showlength">小程序</span>
+                <i  class="iconfont icon-shanchu3 welcome-choice__marginleft hand"></i>
               </span>
             </div>
             <!--小程序结束-->
@@ -68,7 +68,7 @@
               <span class="welcome-operating__use">使用范围：</span>
               <span class="welcome-operating__member">全部成员</span>
               <span class="welcome-operating__total">（共1222名导购）</span>
-              <span class="welcome-operating__modify">更改</span>
+              <span class="welcome-operating__modify hand">更改</span>
             </div>
           </el-aside>
           <el-main class="welcome-main">
@@ -88,7 +88,7 @@
                 </div>
               </div>
               <!--图片开始-->
-              <div class="welcome-msg clearfix" style="display: none;">
+              <div class="welcome-msg clearfix" v-if="showChoice === 1">
                 <img src="https://img.yzcdn.cn/upload_files/2019/01/24/FhbbngOXgEqTbkda8DPNCthA5r5V.jpg"  alt="用户头像" class="welcome-msg__avatar">
                 <div class="welcome-image">
                   <div class="welcome-figurelist clearfix">
@@ -102,7 +102,7 @@
               </div>
               <!--图片 结束-->
               <!--网页 开始-->
-              <div class="welcome-msg clearfix" style="display: none;">
+              <div class="welcome-msg clearfix" v-else-if="showChoice === 2">
                 <img src="https://img.yzcdn.cn/upload_files/2019/01/24/FhbbngOXgEqTbkda8DPNCthA5r5V.jpg"  alt="用户头像" class="welcome-msg__avatar">
                 <div class="welcome-msg__text">
                   <div class="welcome-web">
@@ -117,7 +117,7 @@
               </div>
               <!--网页 结束-->
               <!--小程序 开始-->
-              <div class="welcome-msg clearfix">
+              <div class="welcome-msg clearfix" v-else-if="showChoice === 3">
                 <img src="https://img.yzcdn.cn/upload_files/2019/01/24/FhbbngOXgEqTbkda8DPNCthA5r5V.jpg"  alt="用户头像" class="welcome-msg__avatar">
                 <div class="welcome-msg__text welcome-msg__text--bgcolor">
                   <div class="welcome-applets">
@@ -158,19 +158,20 @@ export default {
     ElContainer,
     ElMain,
     ElAside,
-    ElUpload,
+    ElUpload
   },
-  data() {
+  data () {
     return {
       imageUrl: '',
-      textarea: ''
+      textarea: '',
+      showChoice: 3
     }
   },
   mounted: function () {
     this.setHeight()
     window.addEventListener('resize', this.setHeight)
   },
-  beforeDestroy() {
+  beforeDestroy () {
     window.removeEventListener('resize', this.setHeight)
   },
   methods: {
@@ -179,20 +180,20 @@ export default {
       let limitHeight = window.innerHeight - this.$refs.welcomeHeight.offsetTop - 34
       this.$refs.welcomeFullScreen.$el.children[0].style.maxHeight = limitHeight + 'px'
     },
-    handleAvatarSuccess(res, file) {
-      this.imageUrl = URL.createObjectURL(file.raw);
+    handleAvatarSuccess (res, file) {
+      this.imageUrl = URL.createObjectURL(file.raw)
     },
-    beforeAvatarUpload(file) {
-      const isJPG = file.type === 'image/jpeg';
-      const isLt2M = file.size / 1024 / 1024 < 2;
+    beforeAvatarUpload (file) {
+      const isJPG = file.type === 'image/jpeg'
+      const isLt2M = file.size / 1024 / 1024 < 2
 
       if (!isJPG) {
-        this.$message.error('上传头像图片只能是 JPG 格式!');
+        this.$message.error('上传头像图片只能是 JPG 格式!')
       }
       if (!isLt2M) {
-        this.$message.error('上传头像图片大小不能超过 2MB!');
+        this.$message.error('上传头像图片大小不能超过 2MB!')
       }
-      return isJPG && isLt2M;
+      return isJPG && isLt2M
     }
   }
 }
@@ -209,56 +210,63 @@ export default {
   }
   @component-namespace welcome {
     @b message {
-      padding: 25px 25px 10px;
+      padding: var(--default-padding-larger);
       background: var(--theme-color-white);
-      @e content {}
     }
     @b aside {
       @e set {
         font-size: var(--default-font-size-base);
-        color: var(--theme-font-color-blue);
         display: inline-block;
         padding: 10px;
         background: var(--welcome-background-color-blue);
+        border-radius: 5px;
       }
       @e input {
-        margin-top: 20px;
+        margin-top: var(--default-margin-larger);
         background: var(--welcome-background-color-gray);
       }
       @e upload {
         display: flex;
         align-items: center;
-        padding: 10px 15px;
+        padding: var(--default-padding-larger);
         background: var(--welcome-background-color-gray);
         border-left: 1px solid var(--welcome-border-color-gray);
         border-right: 1px solid var(--welcome-border-color-gray);
         border-bottom: 1px solid var(--welcome-border-color-gray);
+        border-radius: 0 0 var(--default-radius-mini) var(--default-radius-mini);
       }
     }
     @b square {
       text-align: center;
-      line-height: 41px;
-      height: 41px;
-      margin-left: 10px;
-      padding: 0 10px;
+      line-height: 34px;
+      height: 36px;
+      margin-left: var(--default-margin-larger);
+      padding: 0 var(--default-padding-small);
       display: flex;
       align-items: center;
       justify-content: center;
       border: 1px solid var(--welcome-border-color-gray);
+      border-radius: var(--default-radius-mini);
+      &:hover {
+        color: var(--welcome-font-color-blue);
+        background: var(--welcome-background-color-blue);
+        .iconfont {
+          color: var(--welcome-font-color-blue);
+        }
+      }
     }
     @b choice {
-      line-height: 41px;
+      line-height: 34px;
       width: 100%;
-      height: 41px;
+      height: 36px;
       display: flex;
       align-items: center;
       border: 1px solid var(--welcome-border-color-gray);
-      cursor: pointer;
       @e marginleft {
-        margin-left: 10px;
+        margin-left: var(--default-margin-larger);
       }
       @e showlength {
-        width: 93%;
+        max-width: 93%;
         text-overflow: ellipsis;
         white-space: nowrap;
         overflow: hidden;
@@ -267,13 +275,13 @@ export default {
         border: none;
       }
     }
-    @b and {
+    @b or {
       font-size: var(--default-font-size-base);
       color: var(--theme-font-color-secondary);
-      margin-left: 10px;
+      margin-left: var(--default-margin-larger);
     }
     @b operating {
-      padding: 25px 0;
+      padding: var(--default-padding-larger) 0;
       border-bottom: 1px solid var(--welcome-border-color-gray);
       @e use {
         font-size: var(--default-font-size-base);
@@ -291,7 +299,6 @@ export default {
         font-size: var(--default-font-size-base);
         color: var(--welcome-font-color-blue);
         float: right;
-        cursor: pointer;
       }
     }
     @b main {
@@ -300,7 +307,7 @@ export default {
         width: 303px;
         height: 573px;
         margin: 0 auto;
-        padding-top: 80px;
+        padding: 80px 40px 20px;
         background-image: url("https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/bgImg2019.7.29.png");
         background-repeat: no-repeat;
         background-size: 100% 100%;
@@ -312,45 +319,44 @@ export default {
       }
     }
     @b msg {
-      margin: 0 40px;
-      padding: 10px 0;
+      padding: var(--default-padding-larger) 0;
       display: flex;
-      background: #F3F3F3;
       overflow: hidden;
       @e avatar {
         width: 32px;
         height: 32px;
-        margin-top: 5px;
+        margin-top: var(--default-margin-small);
       }
       @e text {
         position: relative;
         @m bgcolor {
           width: 78%;
           position: relative;
-          padding: 15px;
-          margin-left: 15px;
+          padding: var(--default-padding-xlarger);
+          margin-left: var(--default-margin-xlarger);
           background: #FFF;
           border-radius: 10px;
         }
       }
       @m margintop {
-        margin-top: 10px;
+        margin-top: var(--default-margin-larger);
       }
     }
     @b news {
       flex: 1;
-      padding: 8px 15px;
-      margin-left: 15px;
+      padding: 8px 12px;
+      margin-left: var(--default-margin-xlarger);
       background: #FFF;
       border-radius: 8px;
     }
     @b web {
-      width: 53%;
-      padding: 8px 15px;
-      margin-left: 15px;
+      width: 47%;
+      padding: 8px var(--default-padding-xlarger);
+      margin-left: var(--default-margin-xlarger);
       background: #FFF;
       border-radius: 10px;
       @e slogan {
+        font-size: var(--default-font-size-base);
         width: 100%;
         display: inline-block;
         text-overflow: ellipsis;
@@ -358,12 +364,14 @@ export default {
         overflow: hidden;
       }
       @e propagate {
-        margin-top: 5px;
+        margin-top: var(--default-margin-small);
       }
     }
     @b leftside {
       font-size: 10px;
+      color: var(--theme-font-color-secondary);
       width: 50%;
+      max-height: 60px;
       float: left;
       overflow : hidden;
       text-overflow: ellipsis;
@@ -372,12 +380,12 @@ export default {
       -webkit-box-orient: vertical;
     }
     @b rightside {
-      width: 65px;
-      height: 63px;
-      margin-left: 8px;
+      width: 60px;
+      height: 58px;
+      margin-left: var(--default-margin-xlarger);
     }
     @b image {
-      margin-left: 15px;
+      margin-left: var(--default-margin-xlarger);
       @e img {
         width: 175px;
         height: 213px;
@@ -447,7 +455,7 @@ export default {
       @e name {
         font-size: var(--default-font-size-small);
         color: var(--theme-font-color-regular);
-        margin-left: 10px;
+        margin-left: var(--default-margin-larger);
       }
     }
     @b program {
@@ -458,7 +466,7 @@ export default {
       }
       @e logo {
         text-align: center;
-        margin-top: 15px;
+        margin-top: var(--default-margin-xlarger);
         @m img {
           width: 98px;
           height: 100px;
@@ -491,20 +499,18 @@ export default {
     display: flex;
     align-items: center;
   }
-  .icon-tupian {
+  .welcome-square .iconfont {
+    color: var(--theme-font-color-secondary);
+    margin-right: var(--default-margin-small);
+  }
+  .welcome-square .icon-tupian {
     font-size: 26px;
-    color: var(--theme-font-color-secondary);
-    margin-right: 5px;
   }
-  .icon-wangye {
-    font-size: 24px;
-    color: var(--theme-font-color-secondary);
-    margin-right: 5px;
+  .welcome-square .icon-wangye {
+    font-size: 22px;
   }
-  .icon-xiaochengxu {
+  .welcome-square .icon-xiaochengxu {
     font-size: 24px;
-    color: var(--theme-font-color-secondary);
-    margin-right: 5px;
   }
   .clearfix:after {
     content: "";
@@ -521,20 +527,18 @@ export default {
   .colorblue {
     color: var(--welcome-font-color-blue);
   }
+  .welcome-choice .iconfont {
+    color: var(--welcome-font-color-blue);
+    margin-right: var(--default-margin-small);
+  }
   .welcome-choice .icon-tupian {
     font-size: var(--dafault-font-size-xlarge);
-    color: var(--welcome-font-color-blue);
-    margin-right: 5px;
   }
   .welcome-choice .icon-wangye1 {
     font-size: 26px;
-    color: var(--welcome-font-color-blue);
-    margin-right: 5px;
   }
   .welcome-choice .icon-xiaochengxu {
     font-size: var(--dafault-font-size-xlarge);
-    color: var(--welcome-font-color-blue);
-    margin-right: 5px;
   }
   .welcome-choice .icon-shanchu3 {
     font-size: var(--dafault-font-size-xlarge);
@@ -551,5 +555,11 @@ export default {
       overflow: hidden;
       visibility: hidden;
     }
+  }
+  .hand {
+    cursor: pointer;
+  }
+  >>> .el-textarea__inner {
+    border-radius: var(--default-radius-mini) var(--default-radius-mini) 0 0;
   }
 </style>
