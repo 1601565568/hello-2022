@@ -1182,6 +1182,7 @@ export default {
       this.model.name = null
       this.model.shop = null
       this.radio = null
+      this._data.paginationss.page = 1
       this.transferShopPage = 1
       this.guideFindList()
     },
