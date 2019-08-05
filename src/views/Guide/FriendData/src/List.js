@@ -90,14 +90,14 @@ export default {
       privateNick: null, // 个人号昵称
       wid: null, // 个人号微信id
       dialogFormVisible: false, // 好友信息弹窗
-      friendDetail: {
+      friendDetail: { // 好友详情
         wid: null, // 个人号id
         wname: null, // 微信号
         gender: -1, // 性别
         head: null, // 头像url
         nick: null, // 微信昵称
         areaName: null // 地区
-      }, // 好友详情
+      },
       title: '详情',
       _table: {
         table_buttons: tableButtons,

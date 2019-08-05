@@ -264,7 +264,7 @@
       title="发朋友圈"
       :visible.sync="dialogVisibleShow"
       width="540px"
-      class="dialog-content">
+      class="dialog-content" :before-close="closeDialog">
       <el-form ref="form" label-width="80px">
         <el-form-item label="选择个人号：">
           <el-select placeholder="全部" v-model="wid"  class="el-block">
@@ -300,7 +300,7 @@
       title="回复"
       :visible.sync="dialogVisibleReply"
       width="460px"
-      class="dialog-content">
+      class="dialog-content" :before-close="closeDialog">
       <el-form ref="form" >
         <el-form-item>
           <div class="dialog-content__reply" v-if="otherComment">{{otherComment.ownerNick}}：</div>
@@ -603,6 +603,7 @@ export default {
     },
     closeDialog () {
       this.dialogVisibleReply = false
+      this.dialogVisibleShow = false
       this.otherComment = null
       this.otherMoment = null
       this.content = null
@@ -613,7 +614,7 @@ export default {
       var _this = this
       if (_this.model.time !== '' && _this.model.time != null) {
         _this.model.timeStart = moment(_this.model.time[0]).format('YYYY-MM-DD HH:mm:ss')
-        _this.model.timeEnd = moment(_this.model.time[1]).format('YYYY-MM-DD HH:mm:ss')
+        _this.model.timeEnd = moment(_this.model.time[1]).format('YYYY-MM-DD 23:59:59')
       }
       let params = _this.$generateParams$()
       _this.$http.fetch(_this.$api.guide.myMoments.momentsList, params).then(resp => {
@@ -642,6 +643,10 @@ export default {
     // 回复评论
     reply () {
       var _this = this
+      if (_this.content == null || _this.content.trim.length === 0) {
+        _this.$notify.error('内容不能为空')
+        return
+      }
       _this.isHidden = true
       let commentType = 0
       let replyToNick = null
@@ -719,36 +724,44 @@ export default {
     // 发送朋友圈
     sendMoments () {
       var _this = this
+      if (_this.textarea == null || _this.textarea.trim.length === 0) {
+        _this.$notify.error('内容不能为空')
+        return
+      }
       _this.isHidden = true
       console.log('wid' + _this.wid)
       console.log('内容' + _this.textarea)
-      if (_this.imageUrl.length > 0) {
-        let images = []
-        images.push(_this.imageUrl)
-        _this.$http.fetch(_this.$api.guide.myMoments.sendImages, { wid: _this.wid, content: _this.textarea, images: images }).then(resp => {
-          if (resp.success) {
-            _this.$notify.success('发送成功')
-            _this.dialogVisible = true
-            _this.dialogVisibleShow = false
-            _this.initMomentsList()
-          }
-        }).catch((resp) => {
-          _this.isHidden = false
-          _this.$notify.error(getErrorMsg('发送失败', resp))
-        })
-      } else {
-        _this.$http.fetch(_this.$api.guide.myMoments.sendText, { wid: _this.wid, content: _this.textarea }).then(resp => {
-          if (resp.success) {
-            console.log('发送成功')
-            _this.$notify.success('发送成功')
-            _this.dialogVisible = true
-            _this.dialogVisibleShow = false
-            _this.initMomentsList()
-          }
-        }).catch((resp) => {
-          _this.isHidden = true
-          _this.$notify.error(getErrorMsg('发送失败', resp))
-        })
+      try {
+        if (_this.imageUrl.length > 0) {
+          let images = []
+          images.push(_this.imageUrl)
+          _this.$http.fetch(_this.$api.guide.myMoments.sendImages, { wid: _this.wid, content: _this.textarea, images: images }).then(resp => {
+            if (resp.success) {
+              _this.$notify.success('发送成功')
+              _this.dialogVisible = true
+              _this.dialogVisibleShow = false
+              _this.initMomentsList()
+            }
+          }).catch((resp) => {
+            _this.isHidden = false
+            _this.$notify.error(getErrorMsg('发送失败', resp))
+          })
+        } else {
+          _this.$http.fetch(_this.$api.guide.myMoments.sendText, { wid: _this.wid, content: _this.textarea }).then(resp => {
+            if (resp.success) {
+              console.log('发送成功')
+              _this.$notify.success('发送成功')
+              _this.dialogVisible = true
+              _this.dialogVisibleShow = false
+              _this.initMomentsList()
+            }
+          }).catch((resp) => {
+            _this.isHidden = false
+            _this.$notify.error(getErrorMsg('发送失败', resp))
+          })
+        }
+      } catch (e) {
+        _this.isHidden = false
       }
     },
     beforeAvatarUpload (file) {
@@ -762,20 +775,6 @@ export default {
         return false
       }
     },
-    // generateParams: function () {
-    //   var order = this._data._order
-    //   var pagination = this._data._pagination
-    //   var limit = {
-    //     start: (pagination.page - 1) * pagination.size,
-    //     length: pagination.size
-    //   }
-    //   var searchMap = $.extend(true, {}, this._data._table.searchMap ? this._data._table.searchMap : this.model)
-    //   var params = $.extend(true, {}, order, limit, { searchMap: searchMap })
-    //   if (typeof this.$handleParams === 'function') {
-    //     return this.$handleParams(params)
-    //   }
-    //   return params
-    // },
     // 处理上传图片
     'handleAvatarSuccess': function (res, file) {
       var _this = this
