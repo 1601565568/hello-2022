@@ -228,8 +228,7 @@
                   <div class="talk-personmsg__time">2019-05-29 上午09:46:20</div>
                 </div>
                 <div class="talk-say">
-                  我上那么多年学,熬那么我上那么多年学我上那么多年学,熬那么我上那么多年学我上那么多年学,熬那么我上那么多年学我上那么多年学,熬那么
-                  我上那么多年学我上那么多年学,熬那么我上那么多年学我上那么多年学,熬那么我上那么多年学
+                  朋友圈内容
                 </div>
               </div>
             </div>
@@ -938,7 +937,7 @@ export default {
     }
     @b say {
       width: 102px;
-      max-height: 102px;
+      min-height: 102px;
       position: absolute;
       right: 10px;
       bottom: 0;
