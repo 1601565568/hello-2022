@@ -589,6 +589,7 @@ export default {
         _this.model.timeEnd = moment(_this.model.time[1]).format('YYYY-MM-DD 23:59:59')
       }
       let params = _this.$generateParams$()
+      params.start = 0
       _this.$http.fetch(_this.$api.guide.friendMoments.momentsList, params).then(resp => {
         if (resp.success && resp.result != null) {
           _this.moments = resp.result.data
