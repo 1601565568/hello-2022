@@ -241,7 +241,10 @@
                   </div>
                   <div class="talk-personmsg__time">{{msg.addTime}}</div>
                 </div>
-                <div class="talk-photo">
+                <div class="talk-say" v-if="msg.content">
+                  {{msg.content}}
+                </div>
+                <div class="talk-photo"v-if="!msg.content">
                   <div class="talk-photo__li">
                     <div
                       style="background-image:url(https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/201907/120,910,104,359,001/a2e079dd-e605-49d3-9c10-a3893b413ba0.jpg)"
@@ -270,7 +273,7 @@
       title="回复"
       :visible.sync="dialogVisibleReply"
       width="460px"
-      class="dialog-content">
+      class="dialog-content" :before-close="closeDialog">
       <el-form ref="form">
         <el-form-item>
           <div class="dialog-content__reply" v-if="otherComment">{{otherComment.ownerNick}}：</div>
@@ -583,9 +586,10 @@ export default {
       var _this = this
       if (_this.model.time !== '' && _this.model.time != null) {
         _this.model.timeStart = moment(_this.model.time[0]).format('YYYY-MM-DD HH:mm:ss')
-        _this.model.timeEnd = moment(_this.model.time[1]).format('YYYY-MM-DD HH:mm:ss')
+        _this.model.timeEnd = moment(_this.model.time[1]).format('YYYY-MM-DD 23:59:59')
       }
       let params = _this.$generateParams$()
+      params.start = 0
       _this.$http.fetch(_this.$api.guide.friendMoments.momentsList, params).then(resp => {
         if (resp.success && resp.result != null) {
           _this.moments = resp.result.data
@@ -612,6 +616,11 @@ export default {
     // 回复评论
     reply () {
       var _this = this
+      _this.content = _this.content.replace(/\s*/g, '')
+      if (_this.content == null || _this.content.length === 0) {
+        _this.$notify.error('内容不能为空')
+        return
+      }
       _this.isHidden = true
       let commentType = 0
       let replyToNick = null
@@ -754,34 +763,13 @@ export default {
       border-bottom: 1px solid var(--talk-border-color-gray);
     }
     @b personal {
-      display: flex
-
-    ;
-      align-items: center
-
-    ;
-      position: relative
-
-    ;
-      padding:
-
-    10px
-
-    20px
-
-    ;
+      display: flex  ;
+      align-items: center  ;
+      position: relative  ;
+      padding:  10px  20px  ;
       background:
-
-    var(--theme-color-white
-
-    );
-      border-bottom:
-
-    1px solid
-
-    var(--talk-border-color-gray
-
-    );
+    var(--theme-color-white  );
+      border-bottom:  1px solid  var(--talk-border-color-gray  );
       @e notice {
         text-align: center;
         line-height: 38px;
@@ -801,14 +789,8 @@ export default {
       }
     }
     @b aside {
-      width:
-
-    70%;
-      background:
-
-    var(--theme-color-white
-
-    );
+      width:  70%;
+      background:  var(--theme-color-white  );
       @e list {
         width: 100%;
         background: var(--theme-color-white);
@@ -816,25 +798,9 @@ export default {
       }
     }
     @b item {
-      position: relative
-
-    ;
-      padding:
-
-    15px
-
-    25px
-
-    15px
-
-    0;
-      border-bottom:
-
-    1px solid
-
-    var(--talk-border-color-gray
-
-    );
+      position: relative  ;
+      padding:  15px  25px  15px  0;
+      border-bottom:  1px solid  var(--talk-border-color-gray  );
     &:last-child {
        border: none;
      }
@@ -858,19 +824,9 @@ export default {
       border-radius: 50%;
     }
     @b name {
-      line-height:
-
-    0;
-      height:
-
-    26px
-
-    ;
-      padding:
-
-    20px
-
-    0;
+      line-height:  0;
+      height:  26px  ;
+      padding:  20px  0;
       @e call {
         font-size: var(--default-font-size-base);
       }
@@ -890,23 +846,11 @@ export default {
       overflow: hidden;
     }
     @b matching {
-      width:
-
-    475px
-
-    ;
-      margin-top:
-
-    20px
-
-    ;
+      width:  475px  ;
+      margin-top:  20px  ;
       @e figurelist {
-        margin:
-
-      0;
-        padding:
-
-      0;
+        margin:  0;
+        padding:  0;
       &:after {
          content: "";
          display: block;
@@ -918,48 +862,20 @@ export default {
       }
     }
     @b li {
-      float: left
-
-    ;
-      width:
-
-    122px
-
-    ;
-      margin:
-
-    0 2% 2% 0;
+      float: left  ;
+      width:  122px  ;
+      margin:  0 2% 2% 0;
       @e figure {
-        position: relative
-
-      ;
-        width:
-
-      100%;
-        height:
-
-      0;
-        overflow: hidden
-
-      ;
-        margin:
-
-      0;
-        padding-bottom:
-
-      100%; /* 关键就在这里 */
-        background-position: center
-
-      ;
-        background-repeat: no-repeat
-
-      ;
-        background-size: cover
-
-      ;
-        cursor: pointer
-
-      ;
+        position: relative  ;
+        width:  100%;
+        height:  0;
+        overflow: hidden  ;
+        margin:  0;
+        padding-bottom:  100%; /* 关键就在这里 */
+        background-position: center  ;
+        background-repeat: no-repeat  ;
+        background-size: cover  ;
+        cursor: pointer  ;
         @m img {
           display: block;
           position: absolute;
@@ -991,16 +907,8 @@ export default {
       }
     }
     @b detail {
-      margin-top:
-
-    10px
-
-    ;
-      background:
-
-    var(--talk-border-color-gray
-
-    );
+      margin-top:  10px  ;
+      background:  var(--talk-border-color-gray  );
       @e substance {
         position: relative;
       }
@@ -1025,38 +933,20 @@ export default {
       left: 18px;
     }
     @b msg {
-      padding:
-
-    16px
-
-    ;
-      position: relative
-
-    ;
+      padding:  16px  ;
+      position: relative  ;
       @e item {
-        padding-bottom:
-
-      8px
-
-      ;
+        padding-bottom:  8px  ;
       &:last-child {
          padding-bottom: 0;
        }
       }
     }
     @b msglength {
-      width:
-
-    90%;
-      text-overflow : ellipsis
-
-    ;
-      white-space : nowrap
-
-    ;
-      overflow : hidden
-
-    ;
+      width:  90%;
+      text-overflow : ellipsis  ;
+      white-space : nowrap  ;
+      overflow : hidden  ;
       @e reply {
         position: absolute;
         right: 15px;
@@ -1068,14 +958,8 @@ export default {
       border-top: 1px solid var(--talk-border-color-gray);
     }
     @b main {
-      width:
-
-    30%;
-      margin-left:
-
-    10px
-
-    ;
+      width:  30%;
+      margin-left:  10px  ;
       @e list {
         background: var(--theme-color-white);
         padding-left: 20px;
@@ -1087,22 +971,8 @@ export default {
       }
     }
     @b convey {
-      padding:
-
-    30px
-
-    15px
-
-    15px
-
-    0;
-      border-bottom:
-
-    1px solid
-
-    var(--talk-border-color-gray
-
-    );
+      padding:  30px  15px  15px  0;
+      border-bottom:  1px solid  var(--talk-border-color-gray  );
     &:last-child {
        border-bottom: none;
      }
@@ -1121,25 +991,11 @@ export default {
       }
     }
     @b headportrait {
-      width:
-
-    52px
-
-    ;
-      height:
-
-    52px
-
-    ;
-      position: absolute
-
-    ;
-      left:
-
-    0;
-      top:
-
-    0;
+      width:  52px  ;
+      height:  52px  ;
+      position: absolute  ;
+      left:  0;
+      top:  0;
       @e img {
         width: 100%;
         height: 100%;
@@ -1156,21 +1012,9 @@ export default {
       border-radius: 50%;
     }
     @b personmsg {
-      width:
-
-    72%;
-      float: left
-
-    ;
-      padding:
-
-    5px
-
-    20px
-
-    0 77px
-
-    ;
+      width:  72%;
+      float: left  ;
+      padding:  5px  20px  0 77px  ;
       @e uname {
         font-size: var(--default-font-size-base);
         text-overflow: ellipsis;
@@ -1178,30 +1022,12 @@ export default {
         overflow: hidden;
       }
       @e about {
-        font-size:
-
-      var(--default-font-size-small
-
-      );
-        color:
-
-      var(--theme-font-color-primary
-
-      );
-        margin-top:
-
-      10px
-
-      ;
-        text-overflow : ellipsis
-
-      ;
-        white-space : nowrap
-
-      ;
-        overflow : hidden
-
-      ;
+        font-size:  var(--default-font-size-small);
+        color:  var(--theme-font-color-primary);
+        margin-top:  10px  ;
+        text-overflow : ellipsis  ;
+        white-space : nowrap  ;
+        overflow : hidden  ;
         @m like {
           cursor: pointer;
         }
@@ -1216,23 +1042,11 @@ export default {
       }
     }
     @b photo {
-      position: absolute
-
-    ;
-      right:
-
-    10px
-
-    ;
-      bottom:
-
-    0;
-      margin:
-
-    0;
-      padding:
-
-    0;
+      position: absolute  ;
+      right:  10px  ;
+      bottom:  0;
+      margin:  0;
+      padding:  0;
     &:after {
        content: "";
        display: block;
@@ -1247,48 +1061,21 @@ export default {
         height: 100%;
       }
       @e li {
-        float: left
-
-      ;
-        width:
-
-      102px
-
-      ;
+        float: left  ;
+        width:  102px  ;
         margin:
-
       0 2% 2% 0;
         @m figure {
-          position: relative
-
-        ;
-          width:
-
-        100%;
-          height:
-
-        0;
-          overflow: hidden
-
-        ;
-          margin:
-
-        0;
-          padding-bottom:
-
-        100%; /* 关键就在这里 */
-          background-position: center
-
-        ;
-          background-repeat: no-repeat
-
-        ;
-          background-size: cover
-
-        ;
-          cursor: pointer
-
-        ;
+          position: relative  ;
+          width:  100%;
+          height:  0;
+          overflow: hidden  ;
+          margin:  0;
+          padding-bottom:  100%; /* 关键就在这里 */
+          background-position: center  ;
+          background-repeat: no-repeat  ;
+          background-size: cover  ;
+          cursor: pointer  ;
           @m img {
             display: block;
             position: absolute;
@@ -1298,6 +1085,18 @@ export default {
           }
         }
       }
+    }
+    @b say {
+      width: 102px;
+      min-height: 102px;
+      position: absolute;
+      right: 10px;
+      bottom: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 5;
     }
   }
   .clearfix:after {

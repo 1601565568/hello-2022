@@ -238,7 +238,11 @@
                   </div>
                   <div class="talk-personmsg__time">{{msg.addTime}}</div>
                 </div>
-                <div class="talk-photo">
+                <div class="talk-say" v-if="msg.info">
+                  {{msg.info}}
+                </div>
+                <!-- 有图片的时候显示图片，暂注释-->
+                <div class="talk-photo" v-if="!msg.info">
                   <div class="talk-photo__li">
                     <div style="background-image:url(https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/201907/120,910,104,359,001/a2e079dd-e605-49d3-9c10-a3893b413ba0.jpg)" class="talk-photo__li--figure">
                       <div class="talk-figureimg"></div>
@@ -264,7 +268,7 @@
       title="发朋友圈"
       :visible.sync="dialogVisibleShow"
       width="540px"
-      class="dialog-content">
+      class="dialog-content" :before-close="closeDialog">
       <el-form ref="form" label-width="80px">
         <el-form-item label="选择个人号：">
           <el-select placeholder="全部" v-model="wid"  class="el-block">
@@ -300,7 +304,7 @@
       title="回复"
       :visible.sync="dialogVisibleReply"
       width="460px"
-      class="dialog-content">
+      class="dialog-content" :before-close="closeDialog">
       <el-form ref="form" >
         <el-form-item>
           <div class="dialog-content__reply" v-if="otherComment">{{otherComment.ownerNick}}：</div>
@@ -311,6 +315,7 @@
             <el-input type="textarea" :rows="8" placeholder="请输入评论内容" v-model="content">
             </el-input>
             <i class="iconfont icon-biaoqing"></i>
+            <VEmojiPicker :pack="pack" @select="selectEmoji" />
           </div>
         </el-form-item>
       </el-form>
@@ -330,12 +335,15 @@ import ElAside from 'nui-v2/lib/aside'
 import { getErrorMsg } from '@/utils/toast'
 import tableMixin from 'web-crm/src/mixins/table'
 import moment from 'moment'
+import VEmojiPicker from 'v-emoji-picker';
+import packData from 'v-emoji-picker/data/emojis.json';
 export default {
   components: {
     ElUpload,
     ElContainer,
     ElMain,
-    ElAside
+    ElAside,
+    VEmojiPicker
   },
   mixins: [tableMixin],
   props: {
@@ -417,7 +425,6 @@ export default {
         enumerable: true
       })
     })
-
     return {
       dialogVisible: false,
       dialogVisibleShow: false,
@@ -426,6 +433,7 @@ export default {
       model: model,
       imageUrl: '',
       textarea: '',
+      pack: packData,
       quickSearchModel: quickSearchModel,
       rules: rules,
       _pagination: pagination,
@@ -603,6 +611,7 @@ export default {
     },
     closeDialog () {
       this.dialogVisibleReply = false
+      this.dialogVisibleShow = false
       this.otherComment = null
       this.otherMoment = null
       this.content = null
@@ -613,9 +622,10 @@ export default {
       var _this = this
       if (_this.model.time !== '' && _this.model.time != null) {
         _this.model.timeStart = moment(_this.model.time[0]).format('YYYY-MM-DD HH:mm:ss')
-        _this.model.timeEnd = moment(_this.model.time[1]).format('YYYY-MM-DD HH:mm:ss')
+        _this.model.timeEnd = moment(_this.model.time[1]).format('YYYY-MM-DD 23:59:59')
       }
       let params = _this.$generateParams$()
+      params.start = 0
       _this.$http.fetch(_this.$api.guide.myMoments.momentsList, params).then(resp => {
         if (resp.success && resp.result != null) {
           _this.moments = resp.result.data
@@ -642,6 +652,11 @@ export default {
     // 回复评论
     reply () {
       var _this = this
+      _this.content = _this.content.replace(/\s*/g, '')
+      if (_this.content == null || _this.content.length === 0 || _this.content.length === 0) {
+        _this.$notify.error('内容不能为空')
+        return
+      }
       _this.isHidden = true
       let commentType = 0
       let replyToNick = null
@@ -716,39 +731,55 @@ export default {
       // _this.$resetInputAction$()
       _this.initMomentsList()
     },
+    selectEmoji (emoji) {
+      if (this.content == null) {
+        this.content = ''
+      }
+      this.content = this.content + emoji.emoji
+      // console.log(emoji)
+    },
     // 发送朋友圈
     sendMoments () {
       var _this = this
+      _this.textarea = _this.textarea.replace(/\s*/g, '')
+      if (_this.textarea == null || _this.textarea.length === 0) {
+        _this.$notify.error('内容不能为空')
+        return
+      }
       _this.isHidden = true
       console.log('wid' + _this.wid)
       console.log('内容' + _this.textarea)
-      if (_this.imageUrl.length > 0) {
-        let images = []
-        images.push(_this.imageUrl)
-        _this.$http.fetch(_this.$api.guide.myMoments.sendImages, { wid: _this.wid, content: _this.textarea, images: images }).then(resp => {
-          if (resp.success) {
-            _this.$notify.success('发送成功')
-            _this.dialogVisible = true
-            _this.dialogVisibleShow = false
-            _this.initMomentsList()
-          }
-        }).catch((resp) => {
-          _this.isHidden = false
-          _this.$notify.error(getErrorMsg('发送失败', resp))
-        })
-      } else {
-        _this.$http.fetch(_this.$api.guide.myMoments.sendText, { wid: _this.wid, content: _this.textarea }).then(resp => {
-          if (resp.success) {
-            console.log('发送成功')
-            _this.$notify.success('发送成功')
-            _this.dialogVisible = true
-            _this.dialogVisibleShow = false
-            _this.initMomentsList()
-          }
-        }).catch((resp) => {
-          _this.isHidden = true
-          _this.$notify.error(getErrorMsg('发送失败', resp))
-        })
+      try {
+        if (_this.imageUrl.length > 0) {
+          let images = []
+          images.push(_this.imageUrl)
+          _this.$http.fetch(_this.$api.guide.myMoments.sendImages, { wid: _this.wid, content: _this.textarea, images: images }).then(resp => {
+            if (resp.success) {
+              _this.$notify.success('发送成功')
+              _this.dialogVisible = true
+              _this.dialogVisibleShow = false
+              _this.initMomentsList()
+            }
+          }).catch((resp) => {
+            _this.isHidden = false
+            _this.$notify.error(getErrorMsg('发送失败', resp))
+          })
+        } else {
+          _this.$http.fetch(_this.$api.guide.myMoments.sendText, { wid: _this.wid, content: _this.textarea }).then(resp => {
+            if (resp.success) {
+              console.log('发送成功')
+              _this.$notify.success('发送成功')
+              _this.dialogVisible = true
+              _this.dialogVisibleShow = false
+              _this.initMomentsList()
+            }
+          }).catch((resp) => {
+            _this.isHidden = false
+            _this.$notify.error(getErrorMsg('发送失败', resp))
+          })
+        }
+      } catch (e) {
+        _this.isHidden = false
       }
     },
     beforeAvatarUpload (file) {
@@ -762,20 +793,6 @@ export default {
         return false
       }
     },
-    // generateParams: function () {
-    //   var order = this._data._order
-    //   var pagination = this._data._pagination
-    //   var limit = {
-    //     start: (pagination.page - 1) * pagination.size,
-    //     length: pagination.size
-    //   }
-    //   var searchMap = $.extend(true, {}, this._data._table.searchMap ? this._data._table.searchMap : this.model)
-    //   var params = $.extend(true, {}, order, limit, { searchMap: searchMap })
-    //   if (typeof this.$handleParams === 'function') {
-    //     return this.$handleParams(params)
-    //   }
-    //   return params
-    // },
     // 处理上传图片
     'handleAvatarSuccess': function (res, file) {
       var _this = this
@@ -1150,6 +1167,19 @@ export default {
           }
         }
       }
+    }
+
+    @b say {
+      width: 102px;
+      min-height: 102px;
+      position: absolute;
+      right: 10px;
+      bottom: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 5;
     }
   }
   .clearfix:after {

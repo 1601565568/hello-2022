@@ -22,7 +22,14 @@
       <div class="tit">{{itemObj.content.length>77?itemObj.content.substr(0,77)+'…':itemObj.content.substr(0,77)}}</div>
       <ul class="imgList">
         <li v-for="(item,index) in itemObj.imageList.slice(0,3)" :key="index">
-          <img @click="showImg(index, itemObj.m_type)" :src="item" alt="">
+          <div class="figurelist clearfix">
+            <div class="figurelist__li">
+              <div :style="{ 'background-image': 'url('+ item + ')'}" class="figure" @click="showImg(index, itemObj.m_type)">
+                <div class="figure__img"></div>
+              </div>
+            </div>
+          </div>
+          <!--<img @click="showImg(index, itemObj.m_type)" :src="item" alt="">-->
         </li>
         <li v-if="itemObj.imageList.length>3">
           …
@@ -223,6 +230,45 @@ export default {
   display: -webkit-box;
   -webkit-line-clamp:2;
   -webkit-box-orient: vertical;
+}
+.figurelist {
+  margin: 0;
+  padding: 0;
+  &:after {
+    content: "";
+    display: block;
+    clear: both;
+    height: 0;
+    overflow: hidden;
+    visibility: hidden;
+  }
+  .figurelist__li{
+    float: left;
+    width: 50px;
+    height: 50px;
+    margin: 0 2% 2% 0;
+  }
+}
+.figure {
+  position: relative;
+  width: 100%;
+  height: 0;
+  overflow: hidden;
+  margin: 0;
+  padding-bottom: 100%; /* 关键就在这里 */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  .figure__img{
+    display: block;
+    position: absolute;
+    width: 100%;
+    top: 0;
+    bottom: 0;
+    &:hover {
+      opacity: 0.8;
+    }
+  }
 }
 </style>
 

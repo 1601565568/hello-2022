@@ -36,7 +36,7 @@
 <!-- 高级搜索start -->
   <div class="template-table-search" v-show="searchType.advanced">
       <div class="template-table__bar-more">
-        <el-form ref="searchform" label-width="80px"  class="surround-btn" :model="searchform"  :inline="true">
+        <el-form ref="searchform" label-width="80px"  class="surround-btn" :model="searchform"  :inline="true" @keyup.enter.native="submitForm('searchform')">
           <el-form-item label="素材内容：" prop="content">
             <el-input v-model="searchform.content" placeholder="请输入素材内容" clearable></el-input>
           </el-form-item>
