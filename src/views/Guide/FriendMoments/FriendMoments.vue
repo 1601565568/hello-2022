@@ -270,7 +270,7 @@
       title="回复"
       :visible.sync="dialogVisibleReply"
       width="460px"
-      class="dialog-content">
+      class="dialog-content" :before-close="closeDialog">
       <el-form ref="form">
         <el-form-item>
           <div class="dialog-content__reply" v-if="otherComment">{{otherComment.ownerNick}}：</div>
@@ -583,7 +583,7 @@ export default {
       var _this = this
       if (_this.model.time !== '' && _this.model.time != null) {
         _this.model.timeStart = moment(_this.model.time[0]).format('YYYY-MM-DD HH:mm:ss')
-        _this.model.timeEnd = moment(_this.model.time[1]).format('YYYY-MM-DD HH:mm:ss')
+        _this.model.timeEnd = moment(_this.model.time[1]).format('YYYY-MM-DD 23:59:59')
       }
       let params = _this.$generateParams$()
       _this.$http.fetch(_this.$api.guide.friendMoments.momentsList, params).then(resp => {
@@ -612,6 +612,10 @@ export default {
     // 回复评论
     reply () {
       var _this = this
+      if (_this.content == null || _this.content.trim.length === 0) {
+        _this.$notify.error('内容不能为空')
+        return
+      }
       _this.isHidden = true
       let commentType = 0
       let replyToNick = null
