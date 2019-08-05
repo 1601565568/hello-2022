@@ -185,11 +185,15 @@ export default {
               key: 'groupType',
               formatContent: (row) => {
                 return row.detailVo.groupType === 1 ? '门店群' : '普通群'
-              }
+              },
+              align: 'center',
+              width: '100px'
             },
             {
               name: '群人数',
-              key: 'memberCount'
+              key: 'memberCount',
+              align: 'right',
+              width: '100px'
             },
             {
               name: '操作时间',
@@ -270,7 +274,8 @@ export default {
             },
             {
               name: '敏感词',
-              key: 'name'
+              key: 'name',
+              width: '100px'
             },
             {
               name: '上下文',
