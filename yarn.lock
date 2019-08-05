@@ -10373,6 +10373,13 @@ uuid@^3.0.1, uuid@^3.1.0, uuid@^3.3.2:
   resolved "http://registry.npm.taobao.org/uuid/download/uuid-3.3.2.tgz#1b4af4955eb3077c501c23872fc6513811587131"
   integrity sha1-G0r0lV6zB3xQHCOHL8ZROBFYcTE=
 
+v-emoji-picker@^1.1.4:
+  version "1.1.4"
+  resolved "http://27.154.234.170:18081/repository/npm/v-emoji-picker/-/v-emoji-picker-1.1.4.tgz#ce5f5a03a4c352788e84fae6262c69a20dcfbb26"
+  integrity sha512-rigDCf8i18xfT0mXV0iNaylkMEo7WEqDMjxbqgS9MM06+b3b1VX93uQ0OxeXxfy5Z+t7Sqz7Y1cJ10eHyskZ/w==
+  dependencies:
+    vue "^2.6.10"
+
 v8-compile-cache@^2.0.2:
   version "2.0.2"
   resolved "http://registry.npm.taobao.org/v8-compile-cache/download/v8-compile-cache-2.0.2.tgz#a428b28bb26790734c4fc8bc9fa106fccebf6a6c"
@@ -10537,6 +10544,11 @@ vue@^2.5.13, vue@^2.5.21:
   version "2.5.22"
   resolved "http://registry.npm.taobao.org/vue/download/vue-2.5.22.tgz#3bf88041af08b8539c37b268b70ca79245e9cc30"
   integrity sha1-O/iAQa8IuFOcN7JotwynkkXpzDA=
+
+vue@^2.6.10:
+  version "2.6.10"
+  resolved "http://27.154.234.170:18081/repository/npm/vue/-/vue-2.6.10.tgz#a72b1a42a4d82a721ea438d1b6bf55e66195c637"
+  integrity sha512-ImThpeNU9HbdZL3utgMCq0oiMzAkt1mcgy3/E6zWC/G6AaQoeuFdsl9nDhTDU3X1R6FK7nsIUuRACVcjI+A2GQ==
 
 vuedraggable@^2.14.1, vuedraggable@^2.17.0:
   version "2.17.0"

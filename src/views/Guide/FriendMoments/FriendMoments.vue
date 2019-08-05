@@ -612,7 +612,8 @@ export default {
     // 回复评论
     reply () {
       var _this = this
-      if (_this.content == null || _this.content.trim.length === 0) {
+      _this.content = _this.content.replace(/\s*/g, '')
+      if (_this.content == null || _this.content.length === 0) {
         _this.$notify.error('内容不能为空')
         return
       }

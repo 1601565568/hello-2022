@@ -311,6 +311,7 @@
             <el-input type="textarea" :rows="8" placeholder="请输入评论内容" v-model="content">
             </el-input>
             <i class="iconfont icon-biaoqing"></i>
+            <VEmojiPicker :pack="pack" @select="selectEmoji" />
           </div>
         </el-form-item>
       </el-form>
@@ -330,12 +331,15 @@ import ElAside from 'nui-v2/lib/aside'
 import { getErrorMsg } from '@/utils/toast'
 import tableMixin from 'web-crm/src/mixins/table'
 import moment from 'moment'
+import VEmojiPicker from 'v-emoji-picker';
+import packData from 'v-emoji-picker/data/emojis.json';
 export default {
   components: {
     ElUpload,
     ElContainer,
     ElMain,
-    ElAside
+    ElAside,
+    VEmojiPicker
   },
   mixins: [tableMixin],
   props: {
@@ -417,7 +421,6 @@ export default {
         enumerable: true
       })
     })
-
     return {
       dialogVisible: false,
       dialogVisibleShow: false,
@@ -426,6 +429,7 @@ export default {
       model: model,
       imageUrl: '',
       textarea: '',
+      pack: packData,
       quickSearchModel: quickSearchModel,
       rules: rules,
       _pagination: pagination,
@@ -643,7 +647,8 @@ export default {
     // 回复评论
     reply () {
       var _this = this
-      if (_this.content == null || _this.content.trim.length === 0) {
+      _this.content = _this.content.replace(/\s*/g, '')
+      if (_this.content == null || _this.content.length === 0 || _this.content.length === 0) {
         _this.$notify.error('内容不能为空')
         return
       }
@@ -721,10 +726,18 @@ export default {
       // _this.$resetInputAction$()
       _this.initMomentsList()
     },
+    selectEmoji (emoji) {
+      if (this.content == null) {
+        this.content = ''
+      }
+      this.content = this.content + emoji.emoji
+      // console.log(emoji)
+    },
     // 发送朋友圈
     sendMoments () {
       var _this = this
-      if (_this.textarea == null || _this.textarea.trim.length === 0) {
+      _this.textarea = _this.textarea.replace(/\s*/g, '')
+      if (_this.textarea == null || _this.textarea.length === 0) {
         _this.$notify.error('内容不能为空')
         return
       }
