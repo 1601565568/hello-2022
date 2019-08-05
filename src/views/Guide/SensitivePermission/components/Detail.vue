@@ -50,10 +50,10 @@
                                  :label="item.name" :sortable="item.sortable || false" :align='item.align || "left"'
                                  :width='item.width'>
                   <template slot-scope='scope'>
-                    <span v-if='item.html' v-html='item.formatContent ? item.formatContent(scope.row) : (tableList[showTableIndex].standard ? scope.row[item.key] : scope.row.detailVo[item.key])'>
+                    <span v-if='item.html' v-html='item.formatContent ? item.formatContent(scope.row) : defaultContent(scope.row,item,tableList[showTableIndex])'>
                     </span>
                     <span v-else>
-                      {{item.formatContent ? item.formatContent(scope.row) : (tableList[showTableIndex].standard ? scope.row[item.key] : scope.row.detailVo[item.key])}}
+                      {{item.formatContent ? item.formatContent(scope.row) : defaultContent(scope.row,item,tableList[showTableIndex])}}
                     </span>
                   </template>
                   <template slot='header' scope='header'>

@@ -8,5 +8,9 @@ export default {
   detailTable: {
     url: prefix + 'detailTable',
     method: 'POST'
+  },
+  detailTableFromLog: {
+    url: prefix + 'detailTableFromLog',
+    method: 'POST'
   }
 }
