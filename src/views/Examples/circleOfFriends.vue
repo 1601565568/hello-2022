@@ -143,7 +143,7 @@
                     <div class="talk-matching">
                       <div class="talk-matching__figurelist">
                         <div class="talk-li" v-for="(photos, imagesIndex) in item.imgs" :key="imagesIndex">
-                          <div :style="{ 'background-image': 'url('+ photos + ')'}"class="talk-li__figure">
+                          <div :style="{ 'background-image': 'url('+ photos + ')'}" class="talk-li__figure">
                             <div class="talk-li__figure--img"></div>
                           </div>
                         </div>
@@ -227,12 +227,9 @@
                   <div class="talk-personmsg__about">我上那么多年学,熬那么我上那么多年学我上那么多年学,熬那么我上那么多年学</div>
                   <div class="talk-personmsg__time">2019-05-29 上午09:46:20</div>
                 </div>
-                <div class="talk-photo">
-                  <div class="talk-photo__li">
-                    <div style="background-image:url(https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/201907/120,910,104,359,001/a2e079dd-e605-49d3-9c10-a3893b413ba0.jpg)" class="talk-photo__li--figure">
-                      <div class="talk-figureimg"></div>
-                    </div>
-                  </div>
+                <div class="talk-say">
+                  我上那么多年学,熬那么我上那么多年学我上那么多年学,熬那么我上那么多年学我上那么多年学,熬那么我上那么多年学我上那么多年学,熬那么
+                  我上那么多年学我上那么多年学,熬那么我上那么多年学我上那么多年学,熬那么我上那么多年学
                 </div>
               </div>
             </div>
@@ -486,7 +483,7 @@ export default {
           ],
           dianzan: [
             '起个名字好麻烦，长安自在风',
-            '起个名字好麻烦，长安自在风',
+            '起个名字好麻烦，长安自在风'
           ]
         },
         {
@@ -541,7 +538,7 @@ export default {
             }
           ]
         }
-      ],
+      ]
     }
   },
   mounted () {
@@ -938,6 +935,18 @@ export default {
           }
         }
       }
+    }
+    @b say {
+      width: 102px;
+      max-height: 102px;
+      position: absolute;
+      right: 10px;
+      bottom: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 5;
     }
   }
   .clearfix:after {
