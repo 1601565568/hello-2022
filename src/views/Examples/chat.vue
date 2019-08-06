@@ -41,7 +41,7 @@
         <el-input></el-input>
       </el-form-item>
       <el-form-item>
-        <ns-button type="primary">搜索</ns-button>
+        <ns-button type="primary" @click="dialogVisibleSeacher = true">搜索</ns-button>
         <ns-button >重置</ns-button>
       </el-form-item>
     </el-form>
@@ -328,6 +328,130 @@
       </div>
     </el-dialog>
     <!-- 详情弹窗-->
+    <!-- 搜索内容弹窗-->
+    <el-dialog
+      title="搜索内容"
+      :visible.sync="dialogVisibleSeacher"
+      width="514px" class="search-dialog">
+      <div class="search-dialog__title">
+        <div class="search-avatar">
+          <img src="http://wx.qlogo.cn/mmhead/ver_1/DJ8AjE0VX8qQqQIlMOBYyxbKbLY4Kbibld6P6K6RlbGm81nJMWFls4neZ2nzAicicW5W9D9MGwh4cBsgIBgoHg5tKuawky3pwUxznVpX9duI20/96" class="search-avatar__img" alt="用户头像">
+        </div>
+        <div class="search-username">
+          长安自在风（jwhfjfjjha）
+        </div>
+      </div>
+      <div class="search-input">
+        <el-input ref="quickText" v-model="input" placeholder="请输入内容">
+          <i class="el-icon-search el-input__icon" slot="suffix" name="name"></i>
+        </el-input>
+      </div>
+      <el-scrollbar class="scrollbarseacher">
+        <div class="search-dialog__content">
+          <div class="search-item">
+            <div class="search-item__avatar">
+              <img src="http://wx.qlogo.cn/mmhead/ver_1/DJ8AjE0VX8qQqQIlMOBYyxbKbLY4Kbibld6P6K6RlbGm81nJMWFls4neZ2nzAicicW5W9D9MGwh4cBsgIBgoHg5tKuawky3pwUxznVpX9duI20/96" class="search-avatar__img" alt="用户头像">
+            </div>
+            <div class="search-msg">
+              <div  class="search-msg__uname">开心每一天</div>
+              <div class="search-msg__text"><span class="search-msg__text--checked">你是</span>不是有零钱</div>
+              <span class="search-msg__time">今天 12:33</span>
+            </div>
+          </div>
+          <div class="search-item">
+            <div class="search-item__avatar">
+              <img src="http://wx.qlogo.cn/mmhead/ver_1/HIL7DLFbs8HhTMsp7SqaJafwLK4yXicGL6cTiclQzaIXGsgruea1se3k2r6nPUxtJxSZaCu1Rfsico2wfvZ5z7qn8MCbKdKnVtF5Jh0o5xichD8/96" class="search-avatar__img" alt="用户头像">
+            </div>
+            <div class="search-msg">
+              <div  class="search-msg__uname">开心每一天开心每一天开心每一天开心每一天开心每一天开心每一天开心每一天开心每一天</div>
+              <div class="search-msg__text"><span class="search-msg__text--checked">你是</span>不是有零钱不是有零钱不是有零钱不是有零钱不是有零钱不是有零钱不是有零钱不是有零钱不是有零钱不是有零钱不是有零钱不是有零钱不是有零钱不是有零钱不是有零钱不是有零钱不是有零钱不是有零钱不是有零钱不是有零钱</div>
+              <span class="search-msg__time">今天 12:33</span>
+            </div>
+          </div>
+          <div class="search-item">
+            <div class="search-item__avatar">
+              <img src="http://wx.qlogo.cn/mmhead/ver_1/DJ8AjE0VX8qQqQIlMOBYyxbKbLY4Kbibld6P6K6RlbGm81nJMWFls4neZ2nzAicicW5W9D9MGwh4cBsgIBgoHg5tKuawky3pwUxznVpX9duI20/96" class="search-avatar__img" alt="用户头像">
+            </div>
+            <div class="search-msg">
+              <div  class="search-msg__uname">开心每一天开心每一天开心每一天开心每一天开心每一天开心每一天开心每一天开心每一天</div>
+              <div class="search-msg__text"><span class="search-msg__text--checked">你是</span>不是有零钱不是有零钱不是有零钱不是有零钱不是有零钱不是有零钱不是有零钱不是有零钱不是有零钱不是有零钱不是有零钱不是有零钱不是有零钱不是有零钱不是有零钱不是有零钱不是有零钱不是有零钱不是有零钱不是有零钱</div>
+              <span class="search-msg__time">今天 12:33</span>
+            </div>
+          </div>
+          <div class="search-item">
+            <div class="search-item__avatar">
+              <img src="http://wx.qlogo.cn/mmhead/ver_1/DJ8AjE0VX8qQqQIlMOBYyxbKbLY4Kbibld6P6K6RlbGm81nJMWFls4neZ2nzAicicW5W9D9MGwh4cBsgIBgoHg5tKuawky3pwUxznVpX9duI20/96" class="search-avatar__img" alt="用户头像">
+            </div>
+            <div class="search-msg">
+              <div  class="search-msg__uname">开心每一天开心每一天开心每一天开心每一天开心每一天开心每一天开心每一天开心每一天</div>
+              <div class="search-msg__text"><span class="search-msg__text--checked">你是</span>不是有零钱不是有零钱不是有零钱不是有零钱不是有零钱不是有零钱不是有零钱不是有零钱不是有零钱不是有零钱不是有零钱不是有零钱不是有零钱不是有零钱不是有零钱不是有零钱不是有零钱不是有零钱不是有零钱不是有零钱</div>
+              <span class="search-msg__time">今天 12:33</span>
+            </div>
+          </div>
+          <div class="search-item">
+            <div class="search-item__avatar">
+              <img src="http://wx.qlogo.cn/mmhead/ver_1/HIL7DLFbs8HhTMsp7SqaJafwLK4yXicGL6cTiclQzaIXGsgruea1se3k2r6nPUxtJxSZaCu1Rfsico2wfvZ5z7qn8MCbKdKnVtF5Jh0o5xichD8/96" class="search-avatar__img" alt="用户头像">
+            </div>
+            <div class="search-msg">
+              <div  class="search-msg__uname">开心每一天开心每一天开心每一天开心每一天开心每一天开心每一天开心每一天开心每一天</div>
+              <div class="search-msg__text"><span class="search-msg__text--checked">你是</span>不是有零钱不是有零钱不是有零钱不是有零钱不是有零钱不是有零钱不是有零钱不是有零钱不是有零钱不是有零钱不是有零钱不是有零钱不是有零钱不是有零钱不是有零钱不是有零钱不是有零钱不是有零钱不是有零钱不是有零钱</div>
+              <span class="search-msg__time">今天 12:33</span>
+            </div>
+          </div>
+          <div class="search-item">
+            <div class="search-item__avatar">
+              <img src="http://wx.qlogo.cn/mmhead/ver_1/DJ8AjE0VX8qQqQIlMOBYyxbKbLY4Kbibld6P6K6RlbGm81nJMWFls4neZ2nzAicicW5W9D9MGwh4cBsgIBgoHg5tKuawky3pwUxznVpX9duI20/96" class="search-avatar__img" alt="用户头像">
+            </div>
+            <div class="search-msg">
+              <div  class="search-msg__uname">开心每一天</div>
+              <div class="search-msg__text"><span class="search-msg__text--checked">你是</span>不是有零钱</div>
+              <span class="search-msg__time">今天 12:33</span>
+            </div>
+          </div>
+          <div class="search-item">
+            <div class="search-item__avatar">
+              <img src="http://wx.qlogo.cn/mmhead/ver_1/HIL7DLFbs8HhTMsp7SqaJafwLK4yXicGL6cTiclQzaIXGsgruea1se3k2r6nPUxtJxSZaCu1Rfsico2wfvZ5z7qn8MCbKdKnVtF5Jh0o5xichD8/96" class="search-avatar__img" alt="用户头像">
+            </div>
+            <div class="search-msg">
+              <div  class="search-msg__uname">开心每一天开心每一天开心每一天开心每一天开心每一天开心每一天开心每一天开心每一天</div>
+              <div class="search-msg__text"><span class="search-msg__text--checked">你是</span>不是有零钱不是有零钱不是有零钱不是有零钱不是有零钱不是有零钱不是有零钱不是有零钱不是有零钱不是有零钱不是有零钱不是有零钱不是有零钱不是有零钱不是有零钱不是有零钱不是有零钱不是有零钱不是有零钱不是有零钱</div>
+              <span class="search-msg__time">今天 12:33</span>
+            </div>
+          </div>
+          <div class="search-item">
+            <div class="search-item__avatar">
+              <img src="http://wx.qlogo.cn/mmhead/ver_1/DJ8AjE0VX8qQqQIlMOBYyxbKbLY4Kbibld6P6K6RlbGm81nJMWFls4neZ2nzAicicW5W9D9MGwh4cBsgIBgoHg5tKuawky3pwUxznVpX9duI20/96" class="search-avatar__img" alt="用户头像">
+            </div>
+            <div class="search-msg">
+              <div  class="search-msg__uname">开心每一天开心每一天开心每一天开心每一天开心每一天开心每一天开心每一天开心每一天</div>
+              <div class="search-msg__text"><span class="search-msg__text--checked">你是</span>不是有零钱不是有零钱不是有零钱不是有零钱不是有零钱不是有零钱不是有零钱不是有零钱不是有零钱不是有零钱不是有零钱不是有零钱不是有零钱不是有零钱不是有零钱不是有零钱不是有零钱不是有零钱不是有零钱不是有零钱</div>
+              <span class="search-msg__time">今天 12:33</span>
+            </div>
+          </div>
+          <div class="search-item">
+            <div class="search-item__avatar">
+              <img src="http://wx.qlogo.cn/mmhead/ver_1/DJ8AjE0VX8qQqQIlMOBYyxbKbLY4Kbibld6P6K6RlbGm81nJMWFls4neZ2nzAicicW5W9D9MGwh4cBsgIBgoHg5tKuawky3pwUxznVpX9duI20/96" class="search-avatar__img" alt="用户头像">
+            </div>
+            <div class="search-msg">
+              <div  class="search-msg__uname">开心每一天开心每一天开心每一天开心每一天开心每一天开心每一天开心每一天开心每一天</div>
+              <div class="search-msg__text"><span class="search-msg__text--checked">你是</span>不是有零钱不是有零钱不是有零钱不是有零钱不是有零钱不是有零钱不是有零钱不是有零钱不是有零钱不是有零钱不是有零钱不是有零钱不是有零钱不是有零钱不是有零钱不是有零钱不是有零钱不是有零钱不是有零钱不是有零钱</div>
+              <span class="search-msg__time">今天 12:33</span>
+            </div>
+          </div>
+          <div class="search-item">
+            <div class="search-item__avatar">
+              <img src="http://wx.qlogo.cn/mmhead/ver_1/HIL7DLFbs8HhTMsp7SqaJafwLK4yXicGL6cTiclQzaIXGsgruea1se3k2r6nPUxtJxSZaCu1Rfsico2wfvZ5z7qn8MCbKdKnVtF5Jh0o5xichD8/96" class="search-avatar__img" alt="用户头像">
+            </div>
+            <div class="search-msg">
+              <div  class="search-msg__uname">开心每一天开心每一天开心每一天开心每一天开心每一天开心每一天开心每一天开心每一天</div>
+              <div class="search-msg__text"><span class="search-msg__text--checked">你是</span>不是有零钱不是有零钱不是有零钱不是有零钱不是有零钱不是有零钱不是有零钱不是有零钱不是有零钱不是有零钱不是有零钱不是有零钱不是有零钱不是有零钱不是有零钱不是有零钱不是有零钱不是有零钱不是有零钱不是有零钱</div>
+              <span class="search-msg__time">今天 12:33</span>
+            </div>
+          </div>
+        </div>
+      </el-scrollbar>
+    </el-dialog>
+    <!-- 搜索内容弹窗-->
   </div>
 </template>
 <script>
@@ -340,9 +464,11 @@ export default {
     ElMain,
     ElAside
   },
-  data() {
+  data () {
     return {
       dialogVisible: false,
+      dialogVisibleSeacher: false,
+      input: '',
       formInline: {
         user: '',
         region: ''
@@ -387,7 +513,7 @@ export default {
       const BTN_TITLE = 50 // 左右内容的标题的高度
       let limitHeight = window.innerHeight -
         document.getElementsByClassName('nav')[0].offsetHeight -
-        BTN_TITLE - document.getElementsByClassName('talk-chat__form')[0].offsetHeight - 15;
+        BTN_TITLE - document.getElementsByClassName('talk-chat__form')[0].offsetHeight - 15
       this.$refs.fullScreen.$el.children[0].style.maxHeight = limitHeight + 'px'
       this.$refs.fullScreenright.$el.children[0].style.maxHeight = limitHeight + 'px'
     }
@@ -398,8 +524,9 @@ export default {
 <style scoped>
   @import "@/style/small/variables.pcss";
   :root {
-    --theme-font-color-blue: #0094FC;
-    --theme-font-color-red: #FE2D59;
+    --talk-font-color-blue: #0094FC;
+    --talk-font-color-red: #FE2D59;
+    --search-font-bg-gray: #F9F9F9;
   }
   @component-namespace talk {
     @b chat {
@@ -656,12 +783,12 @@ export default {
   }
   .icon-nan1 {
     font-size: 18px;
-    color: var(--theme-font-color-blue);
+    color: var(--talk-font-color-blue);
     margin-left: 10px;
   }
   .icon-nv1 {
     font-size: 18px;
-    color: var(--theme-font-color-red);
+    color: var(--talk-font-color-red);
     margin-left: 10px;
   }
   .clearfix:after{
@@ -681,4 +808,99 @@ export default {
   >>> .el-main {
     padding: 0;
   }
+  /* 搜索内容弹窗样式*/
+  @component-namespace search {
+    @b dialog {
+      padding-bottom: var(--default-padding-larger);
+      @e title {
+        display: flex;
+        align-items: center;
+      }
+      @e content {
+        margin-top: var(--default-margin-xlarger);
+        border: 1px solid var(--theme-base-border-color-primary);
+        border-radius: var(--default-radius-mini);
+      }
+    }
+    @b avatar {
+      width: 64px;
+      height: 64px;
+      @e img {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+      }
+    }
+    @b username {
+      font-size: var(--default-font-size-middle);
+      color: var(--theme-font-color-primary);
+      width: 85%;
+      margin-left: var(--default-margin-larger);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    @b input {
+      margin-top: var(--default-margin-larger);
+    }
+    @b item {
+      display: flex;
+      align-items: center;
+      padding: var(--dialog-padding-base);
+      border-bottom: 1px solid var(--theme-base-border-color-primary);
+      &:last-child {
+        border-bottom: none;
+      }
+      @e avatar {
+        width: 47px;
+        height: 47px;
+      }
+      &:hover {
+        background: var(--search-font-bg-gray);
+      }
+    }
+    @b msg {
+      width: 85%;
+      position: relative;
+      margin-left: var(--default-margin-xlarger);
+      @e uname {
+        font-size: var(--default-font-size-base);
+        color: var(--theme-font-color-primary);
+        width: 66%;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      @e text {
+        font-size: var(--default-font-size-small);
+        color: var(--theme-font-color-secondary);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        @m checked {
+          color: var(--theme-color-primary);
+          margin-right: var(--default-margin-small);
+        }
+      }
+      @e time {
+        font-size: var(--default-font-size-small);
+        color: var(--theme-font-color-secondary);
+        position: absolute;
+        top: 0;
+        right: 0;
+      }
+    }
+  }
+  .search-dialog >>> .el-dialog__body {
+    padding: var(--dialog-padding-base);
+  }
+  .scrollbarseacher >>> .el-scrollbar__wrap{
+    max-height: 375px;
+    padding-right: var(--default-padding-larger);
+    margin-top: -13px;
+  }
+  .search-dialog >>> .el-scrollbar {
+    margin-top: 10px;
+  }
+  /* 搜索内容弹窗样式*/
 </style>
