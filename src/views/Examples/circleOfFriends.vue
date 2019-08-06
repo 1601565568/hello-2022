@@ -228,7 +228,7 @@
                   <div class="talk-personmsg__time">2019-05-29 上午09:46:20</div>
                 </div>
                 <div class="talk-say">
-                  朋友圈内容
+                  我上那么我上
                 </div>
               </div>
             </div>
