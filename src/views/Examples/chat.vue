@@ -900,7 +900,7 @@ export default {
     margin-top: -13px;
   }
   .search-dialog >>> .el-scrollbar {
-    margin-top: 10px;
+    margin-top: var(--default-margin-larger);
   }
   /* 搜索内容弹窗样式*/
 </style>
