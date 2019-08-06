@@ -109,11 +109,12 @@ export default {
       return s
     },
     search () {
-      let _this = this
-      _this.loading = true
-      this.$reload().then(rep => {
-        _this.loading = false
-      })
+      this.$searchAction$()
+      // let _this = this
+      // _this.loading = true
+      // this.$reload().then(rep => {
+      //   _this.loading = false
+      // })
     },
     reset () {
       this.model.createDate = [this.addDate(-7), this.addDate(0)]

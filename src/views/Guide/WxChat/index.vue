@@ -1,6 +1,6 @@
 <template>
   <div class="talk-chat" style="text-align: left">
-    <el-form :inline="true" class="talk-chat__form" label-width="150px" :model="model">
+    <el-form :inline="true" class="talk-chat__form" label-width="100px" :model="model">
       <el-form-item label="自定义时段：">
         <el-date-picker
           v-model="model.srhDate"
@@ -14,7 +14,7 @@
           align="right"
           :clearable="false"
           :editable="false"
-          style="width: 250px"/>
+          style="width: 225px"/>
       </el-form-item>
       <el-form-item label="个人号：">
         <el-select v-model="model.ownerId" filterable placeholder="全部" clearable @change="widChanged">
@@ -24,7 +24,7 @@
       <el-form-item label="聊天内容：">
         <el-input v-model="model.content" style="width:200px" :disabled="isContentDiabled" placeholder="按聊天内容查询请先选择个人号"/>
       </el-form-item>
-      <span style="margin-left:100px">
+      <span style="margin-left:10px">
         <el-form-item>
           <ns-button type="primary" @click="search()">搜索</ns-button>
           <ns-button @click="reset()">重置</ns-button>
