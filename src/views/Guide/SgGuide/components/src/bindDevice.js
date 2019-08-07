@@ -81,6 +81,7 @@ export default {
           }).then(data => {
             this.$notify.success('设备绑定成功')
             this.sVisible = false
+            this.$emit('reload')
           })
             .catch(error => {
               this.saving = false
