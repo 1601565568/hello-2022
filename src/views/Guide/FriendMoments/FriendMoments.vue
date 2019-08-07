@@ -37,7 +37,7 @@
                      :model="model" :inline="true">
               <el-form-item label="个人号：">
                 <el-form-grid size="xmd">
-                  <el-select v-model="model.ownerId" filterable clearable
+                  <el-select v-model="model.owner" filterable clearable
                              :multiple="false">
                     <el-option v-for="number in personalNumberList" :label="number.nick" :value="number.wid"
                                :key="number.wid">
@@ -360,7 +360,7 @@ export default {
     var quickSearchModel = {}
     var model = Object.assign({},
       {
-        ownerId: null, // 个人号id
+        owner: null, // 个人号id
         likesMin: null, // 点赞最小数
         likesMax: null, // 点赞最大数
         commentsMin: null, // 评论最小数
@@ -566,7 +566,7 @@ export default {
     // 个人号列表
     initPersonalNumberList () {
       var _this = this
-      _this.$http.fetch(_this.$api.guide.friendData.queryNickAndWid).then(resp => {
+      _this.$http.fetch(_this.$api.guide.wxDeviceGuideRelation.findWidNickSelector).then(resp => {
         if (resp.success && resp.result != null) {
           _this.personalNumberList = resp.result
         }
