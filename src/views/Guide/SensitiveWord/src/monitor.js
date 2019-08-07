@@ -61,10 +61,10 @@ export default {
         label: '全部'
       }, {
         value: 1,
-        label: '导购'
+        label: '会员'
       }, {
         value: 0,
-        label: '会员'
+        label: '导购'
       }],
       // 个人号
       ownerData: null,
