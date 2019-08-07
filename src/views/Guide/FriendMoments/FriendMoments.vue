@@ -588,6 +588,7 @@ export default {
         _this.model.timeStart = moment(_this.model.time[0]).format('YYYY-MM-DD HH:mm:ss')
         _this.model.timeEnd = moment(_this.model.time[1]).format('YYYY-MM-DD 23:59:59')
       }
+      _this._data._pagination.page = 1
       let params = _this.$generateParams$()
       params.start = 0
       params.page = 1

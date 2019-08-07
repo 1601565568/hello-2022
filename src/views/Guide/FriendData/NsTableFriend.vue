@@ -136,10 +136,13 @@
         </el-table-column>
         <el-table-column prop='receiveConversationTime' label="最近交流时间" align="left" width="180">
           <template >
-            <ns-button style="color:#0091FA" type="text">-</ns-button>
+            <ns-button style="color:#0091FA" type="text">{{scope.row.receiveConversationTime?scope.row.receiveConversationTime:"-"}}</ns-button>
           </template>
         </el-table-column>
         <el-table-column prop="addTime" label="添加好友时间" align="left" width="60">
+          <template >
+            <ns-button style="color:#0091FA" type="text">{{scope.row.addTime?scope.row.addTime:"-"}}</ns-button>
+          </template>
         </el-table-column>
 
         <el-table-column prop="status,row" :show-overflow-tooltip="true" label="操作" align="right" width="120">
