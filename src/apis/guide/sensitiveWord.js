@@ -11,11 +11,6 @@ export default {
     url: prefix + 'saveGroup',
     method: 'post'
   },
-  // 修改分组
-  updateGroup: {
-    url: prefix + 'updateGroup',
-    method: 'post'
-  },
   // 查询是否有敏感词
   hasWordInGroup: {
     url: prefix + 'hasWordInGroup',

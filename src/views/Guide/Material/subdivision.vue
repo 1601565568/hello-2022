@@ -7,7 +7,7 @@
     cursor: pointer;
   }
 </style>
-<style>
+<style scoped>
 .has-gutter .el-table_2_column_9::after{
   content: "》";
   color: blue;

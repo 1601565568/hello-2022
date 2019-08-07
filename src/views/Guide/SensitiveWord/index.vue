@@ -1,7 +1,9 @@
 <template xmlns:el="http://www.w3.org/1999/html">
   <div calss="NsTable_main">
     <div class="template-page__row-left" v-loading="treeLoading">
-      <el-input v-model="filterTreeText" placeholder="搜索分组" suffix-icon="el-icon-search"/>
+      <el-input v-model="filterTreeText" placeholder="搜索分组" suffix-icon="el-icon-search" style="width: 180px"/>
+      &nbsp;
+      <i class="el-icon-plus" @click="showEditGroupDlg(null, true, true)"/>
       <el-tree :data="groupList" ref="groupTree" node-key="id" :expand-on-click-node="false"
                :filter-node-method="onFilterNode" @node-click="onClickNode" highlight-current>
         <span class="custom-tree-node" slot-scope="{ node, data }"
@@ -11,30 +13,18 @@
             {{ node.label }}
           </span>
           <span v-if="data.ext1!=null" v-show="isShowTreeNodePlus(data.id)">
-            <i class="el-icon-plus" v-if="data.parentId==0" @click.stop="showEditGroupMsgBox(data,true)"/>
-            <i class="el-icon-edit-outline" size="mini" @click.stop="showEditGroupMsgBox(data,false)"/>
+            <i class="el-icon-plus" v-if="data.parentId==0" @click.stop="showEditGroupDlg(data,true,false)"/>
+            <i class="el-icon-edit-outline" size="mini" @click.stop="showEditGroupDlg(data,false,false)"/>
             <i class="el-icon-delete" size="mini" @click.stop="showRemoveGroupDlg(data)" v-show="data.children==null"/>
           </span>
         </span>
       </el-tree>
-      <div v-show="isShowAddTreeNodePanel" style="width:200px;text-align:center;">
-        <el-input placeholder="请输入分组名称" v-model="groupName" style="width:180px" minlength="1" maxlength="5">
-          <i slot="suffix" class="el-input__icon el-icon-check" @click="addRootGroup()"></i>
-          <i slot="suffix" class="el-input__icon el-icon-close" @click="setAddTreeNodePanelDisplay(false)"></i>
-        </el-input>
-      </div>
-      <div style="width:200px;text-align:center;">
-        <i class="el-icon-plus" @click="setAddTreeNodePanelDisplay(!isShowAddTreeNodePanel)">
-          新分组
-        </i>
-      </div>
     </div>
     <div class="template-page__row-right">
       <ns-page-table>
         <!-- 按钮 -->
         <template slot="buttons">
-          <ns-table-operate-button :buttons="_data._table.table_buttons">
-          </ns-table-operate-button>
+          <ns-table-operate-button :buttons="_data._table.table_buttons"/>
         </template>
         <!-- 按钮-结束 -->
 
@@ -42,11 +32,17 @@
         <template slot="searchSearch">
           <el-form :model="model" :inline="true" @submit.native.prevent class="pull-right">
             <el-form-item>
-              <el-input ref="quickText" style="width: 250px" name="name" v-model="model.name" placeholder="搜索敏感词"
-                        @keyup.enter.native="$searchAction$()" clearable>
-              </el-input>
-              <ns-button type="primary" @click="$searchAction$()">搜索</ns-button>
-              <ns-button @click="$resetInputAction$()">重置</ns-button>
+              <el-form-grid block class="text-info">
+                <span>
+                  <i class="el-icon-info"></i>
+                  只对敏感词创建时间后的聊天记录进行监控统计&nbsp;&nbsp;
+                </span>
+                <el-input ref="quickText" style="width: 250px" name="name" v-model="model.name" placeholder="搜索敏感词"
+                          @keyup.enter.native="$searchAction$()" clearable>
+                </el-input>
+                <ns-button type="primary" @click="$searchAction$()">搜索</ns-button>
+                <ns-button @click="$resetInputAction$()">重置</ns-button>
+              </el-form-grid>
             </el-form-item>
           </el-form>
         </template>
@@ -56,21 +52,21 @@
         <template slot="table">
           <el-table ref="table" :data="_data._table.data" stripe row-key="id" v-loading.lock="_data._table.loadingtable"
                     :element-loading-text="$t('prompt.loading')">
-            <el-table-column prop="name" label="敏感词" align="left" width="100"/>
-            <el-table-column prop="groupName" label="分组" align="left" width="100"/>
-            <el-table-column prop="guideCount" align="right" width="120" :render-header="renderHeaderGuideCount">
+            <el-table-column prop="name" label="敏感词" align="left"/>
+            <el-table-column prop="groupName" label="分组" align="left"/>
+            <el-table-column prop="guideCount" align="right" :render-header="renderHeaderGuideCount">
               <template slot-scope="scope">
-                <span @click="clickCount(scope.row,1)"><font color="blue">{{scope.row.guideCount}}</font></span>
+                <span @click="clickCount(scope.row,1)"><font color="#409EFF">{{scope.row.guideCount}}</font></span>
               </template>
             </el-table-column>
-            <el-table-column prop="customerCount" align="right" width="120" :render-header="renderHeaderCustomerCount">
+            <el-table-column prop="customerCount" align="right" :render-header="renderHeaderCustomerCount">
               <template slot-scope="scope">
-                <span @click="clickCount(scope.row,0)"><font color="blue">{{scope.row.customerCount}}</font></span>
+                <span @click="clickCount(scope.row,0)"><font color="#409EFF">{{scope.row.customerCount}}</font></span>
               </template>
             </el-table-column>
-            <el-table-column prop="creatorName" label="创建人" align="left" width="150"/>
-            <el-table-column prop="createTime" label="创建时间" align="left" width="150"/>
-            <el-table-column prop="status,row" :show-overflow-tooltip="true" label="操作" align="right" width="60">
+            <el-table-column prop="creatorName" label="创建人" align="left"/>
+            <el-table-column prop="createTime" label="创建时间" align="left"/>
+            <el-table-column prop="status,row" :show-overflow-tooltip="true" label="操作" align="right">
               <template slot-scope="scope">
                 <ns-button style="color:#0091FA" @click="removeWord(scope.row)" type="text">删除</ns-button>
               </template>
@@ -97,7 +93,8 @@
 
     <!-- 删除分组 -->
     <template>
-      <el-dialog title="确认" :visible.sync="removeGroupDialogVisible" width="400px" height="300px">
+      <el-dialog title="确认" :visible.sync="removeGroupDialogVisible" :width="removeGroupDlgWidth"
+                 :height="removeGroupDlgHeight">
         <el-form :model="removeGroupModel" ref="removeGroupForm">
           <div class="el-header"/>
           <div class="el-main">
@@ -123,7 +120,7 @@
               </el-form-item>
             </div>
           </div>
-          <div class="el-footer">
+          <div class="el-footer" style="text-align: right">
             <ns-button @click="removeGroupDialogVisible=false">取消</ns-button>
             <ns-button type="primary" @click="submitRemoveGroup()">确定</ns-button>
           </div>
@@ -134,7 +131,7 @@
 
     <!-- 敏感词详情 -->
     <template>
-      <el-dialog title="新增敏感词" :visible.sync="wordDetailDlgVisible" width="400px" height="240px">
+      <el-dialog title="新增敏感词" :visible.sync="wordDetailDlgVisible" width="350px" height="240px">
         <el-form :model="wordDetailForm" ref="wordDetailForm" :rules="wordDetailRules">
           <table cellspacing="0" cellpadding="0">
             <tr>
@@ -184,13 +181,46 @@
               <td colspan="2">&nbsp;</td>
             </tr>
           </table>
-          <div class="el-footer">
+          <div class="el-footer" style="text-align: right">
             <ns-button @click="wordDetailDlgVisible=false">取消</ns-button>
-            <ns-button type="primary" @click="saveWord()">确定</ns-button>
+            <ns-button type="primary" @click="saveWord()" :disabled="saveWordDisabled">确定</ns-button>
           </div>
         </el-form>
       </el-dialog>
       <!-- 敏感词详情 结束 -->
+
+      <!-- 二级分组详情 -->
+      <template>
+        <el-dialog :title="addGroupTitle" :visible.sync="groupDetailDlgVisible" width="300px" height="220px">
+          <el-form :model="groupDetailForm" ref="groupDetailForm" :rules="groupDetailRules">
+            <table cellspacing="1" cellpadding="2">
+              <tr>
+                <td>
+                  <font color='red'>*</font> {{addGroupNameLabel}}:
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <el-form-item prop="name">
+                    <el-input v-model="groupDetailForm.name" style="width:270px"/>
+                  </el-form-item>
+                </td>
+              </tr>
+              <tr style="height: 10px">
+                <td><font color="gray" size="1">不支持特殊符号，最多5个字</font></td>
+              </tr>
+              <tr>
+                <td>&nbsp;</td>
+              </tr>
+            </table>
+            <div class="el-footer" style="text-align: right">
+              <ns-button @click="groupDetailDlgVisible=false">取消</ns-button>
+              <ns-button type="primary" @click="saveGroup()" :disabled="saveGroupDisabled">确定</ns-button>
+            </div>
+          </el-form>
+        </el-dialog>
+      </template>
+      <!-- 二级分组详情 结束 -->
     </template>
   </div>
 </template>
@@ -200,6 +230,11 @@
   export default index
 </script>
 <style scoped>
+  .custoremoveGroupClass {
+    width: 400px;
+    height: 300px;
+  }
+
   .custom-tree-node {
     flex: 1;
     display: flex;

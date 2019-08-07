@@ -404,7 +404,7 @@ export default {
   }
 }
 </script>
-<style>
+<style scoped>
 .mt10{
   border-radius: 3px 3px 0 0 !important
 }

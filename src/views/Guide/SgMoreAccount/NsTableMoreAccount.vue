@@ -177,7 +177,7 @@ moreAccount.components = {
 
 export default moreAccount
 </script>
-<style>
+<style scoped>
 .weight_scope{
   display: fles;
   justify-content: flex-start;

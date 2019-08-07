@@ -51,6 +51,6 @@ import Index from './src/memberDetail'
 
 export default Index
 </script>
-<style>
+<style scoped>
   @import '../src/dialog.pcss';
 </style>

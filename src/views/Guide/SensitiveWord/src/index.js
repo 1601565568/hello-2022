@@ -84,7 +84,22 @@ export default {
         groupId: [
           { required: true, message: '请选择分组', trigger: 'change' }
         ]
-      }
+      },
+      saveWordDisabled: false,
+      groupDetailForm: { id: null, name: null, parentGroupId: null },
+      groupDetailDlgVisible: false,
+      groupDetailRules: {
+        name: [
+          { required: true, message: '请输入分组名称', trigger: 'blur' },
+          { min: 1, max: 5, message: '长度在 1 到 5 个字符', trigger: 'blur' }
+        ]
+      },
+      saveGroupDisabled: false,
+      addGroupTitle: null,
+      addGroupNameLabel: null,
+      removeGroupDlgWidth: '400px',
+      removeGroupDlgHeight: '300px',
+      clickGroupId: null
     }
   },
   methods: {
@@ -118,39 +133,6 @@ export default {
       }
       this.isShowAddTreeNodePanel = isShow
     },
-    // 添加分组
-    addGroup (name, parentGroupId, callback) {
-      let _this = this
-      _this.treeLoading = true
-      let params = { name: name, parentGroupId: parentGroupId }
-      this.$http.fetch(_this.$api.guide.sensitiveWord.saveGroup, params).then(resp => {
-        if (resp.success) {
-          if (callback != null) {
-            callback()
-          }
-          _this.$notify.success('添加分组成功')
-        }
-        _this.loadGroupList()
-      }).catch(resp => {
-        this.$notify.error(getErrorMsg('添加分组', resp))
-        _this.loadGroupList()
-      })
-    },
-    // 修改分组
-    updateGroup (name, id) {
-      let _this = this
-      _this.treeLoading = true
-      let params = { name: name, id: id }
-      this.$http.fetch(this.$api.guide.sensitiveWord.updateGroup, params).then(resp => {
-        if (resp.success) {
-          _this.setAddTreeNodePanelDisplay(false)
-          _this.$notify.success('修改分组成功')
-        } else {
-          _this.$notify.error(resp.message)
-        }
-        _this.loadGroupList()
-      })
-    },
     // 删除分组
     showRemoveGroupDlg (data) {
       this.removeGroupModel.oriGroupId = data.id
@@ -165,7 +147,12 @@ export default {
         _this.isShowSelecntInRemoveGroup = resp.result
         if (resp.result) {
           // 加载分组options
-          this.groupOptionsInRemoveGroupDlg = this.getGroupOptions(this.removeGroupModel.oriGroupId)
+          _this.groupOptionsInRemoveGroupDlg = _this.getGroupOptions(this.removeGroupModel.oriGroupId)
+          _this.removeGroupDlgWidth = '300px'
+          _this.removeGroupDlgHeight = '220px'
+        } else {
+          _this.removeGroupDlgWidth = '250px'
+          _this.removeGroupDlgHeight = '160px'
         }
       })
     },
@@ -237,24 +224,43 @@ export default {
       this.currentNodeId = nodeId
     },
     // 新增二级分组/修改分组
-    showEditGroupMsgBox (nodeData, isAdd) {
-      let _this = this
-      let title = isAdd ? '新增分组' : '修改分组'
-      _this.$prompt('请输入分组名称，1到5位', title, {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        closeOnClickModal: false,
-        inputValidator: function (val) {
-          return val.length > 0 && val.length <= 5
-        },
-        inputValue: isAdd ? '' : _this.getGroupNameFromTreeNode(nodeData)
-      }).then(({ value }) => {
-        if (isAdd) {
-          // 新增
-          _this.addGroup(value, nodeData.id, null)
+    showEditGroupDlg (nodeData, isAdd) {
+      this.groupDetailDlgVisible = true
+      this.addGroupTitle = isAdd ? '新增' : '修改'
+      this.saveGroupDisabled = false
+
+      this.groupDetailForm.id = null
+      this.groupDetailForm.name = isAdd ? null : this.getGroupNameFromTreeNode(nodeData)
+      this.addGroupNameLabel = '一级分组名称'
+      this.groupDetailForm.parentGroupId = 0
+      if (nodeData != null) {
+        this.groupDetailForm.id = isAdd ? null : nodeData.id
+        this.groupDetailForm.parentGroupId = isAdd ? nodeData.id : nodeData.parentGroupId
+        if (isAdd || nodeData.parentId !== '0') {
+          this.addGroupNameLabel = '二级分组名称'
+        }
+      }
+    },
+    // 添加分组
+    saveGroup () {
+      this.$refs.groupDetailForm.validate((valid) => {
+        if (valid) {
+          let _this = this
+          this.saveGroupDisabled = true
+          _this.$http.fetch(_this.$api.guide.sensitiveWord.saveGroup, this.groupDetailForm).then(resp => {
+            _this.groupDetailDlgVisible = false
+            _this.treeLoading = true
+            _this.$reload().then(rep => {
+              _this.treeLoading = false
+            })
+            this.loadGroupList()
+            _this.$notify.success('保存分组成功')
+          }).catch(resp => {
+            _this.$notify.error(resp.msg)
+            this.saveGroupDisabled = false
+          })
         } else {
-          // 修改
-          _this.updateGroup(value, nodeData.id)
+          return false
         }
       })
     },
@@ -288,13 +294,6 @@ export default {
         }
       }, [h('i', { 'class': 'el-icon-question', style: 'color:rgb(153, 153, 153)' })])])
     },
-    // 添加一级分组
-    addRootGroup () {
-      let _this = this
-      _this.addGroup(_this.groupName, 0, () => {
-        _this.setAddTreeNodePanelDisplay(false)
-      })
-    },
     // 从树节点label获取名称
     getGroupNameFromTreeNode (nodeData) {
       let name = nodeData.label
@@ -311,6 +310,7 @@ export default {
     // 点击分组
     onClickNode (data) {
       let _this = this
+      this.clickGroupId = data.id
       this.searchGroupIds = this.getAccessibleGroup(data)
       _this.loading = true
       _this.$reload().then(rep => {
@@ -344,8 +344,9 @@ export default {
     },
     // 新增/修改敏感词
     showWordDetailDlg () {
+      this.saveWordDisabled = false
       this.wordDetailForm.name = null
-      this.wordDetailForm.groupId = null
+      this.wordDetailForm.groupId = this.clickGroupId
       this.wordDetailForm.creatorName = LocalStorage.get('remumber_login_info').name
       this.wordDetailDlgVisible = true
       this.groupOptionsInWordDlg = this.getGroupOptions(null)
@@ -355,6 +356,7 @@ export default {
       this.$refs.wordDetailForm.validate((valid) => {
         if (valid) {
           let _this = this
+          this.saveWordDisabled = true
           _this.$http.fetch(_this.$api.guide.sensitiveWord.saveWord, this.wordDetailForm).then(resp => {
             _this.wordDetailDlgVisible = false
             _this.loading = true
@@ -365,6 +367,7 @@ export default {
             _this.$notify.success('保存成功')
           }).catch(resp => {
             _this.$notify.error(resp.msg)
+            this.saveWordDisabled = false
           })
         } else {
           return false

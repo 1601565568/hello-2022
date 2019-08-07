@@ -244,7 +244,7 @@ export default CustomerManage
     margin-bottom: 10px;
   }
 </style>
-<style>
+<style scoped>
 .customerManage .el-radio .el-radio__label{
   display: none !important
 }

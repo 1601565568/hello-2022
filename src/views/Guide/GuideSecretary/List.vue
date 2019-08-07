@@ -102,7 +102,7 @@ export default List
     font-weight: normal;
   }
 </style>
-<style>
+<style scoped>
 .comUploadList{
   margin:20px 40px 10px 0;
   display:flex;

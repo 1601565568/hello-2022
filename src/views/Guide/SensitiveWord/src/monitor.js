@@ -21,28 +21,28 @@ export default {
       {
         'func': function () {
           that.model.createDate = [that.addDate(0), that.addDate(0)]
-          that.search()
+          that.$searchAction$()
         },
         'name': '今天'
       },
       {
         'func': function () {
           that.model.createDate = [that.addDate(-1), that.addDate(-1)]
-          that.search()
+          that.$searchAction$()
         },
         'name': '昨天'
       },
       {
         'func': function () {
           that.model.createDate = [that.addDate(-7), that.addDate(0)]
-          that.search()
+          that.$searchAction$()
         },
         'name': '近7天'
       }
     ]
     return {
       // 表格
-      model: { createDate: null, ownerWid: null, name: null, receive: null },
+      model: { createDate: null, ownerWid: null, name: null, receive: null, screenWidth: 1366 },
       _order: {
         orderDir: null,
         orderKey: null
@@ -92,38 +92,6 @@ export default {
       }
       return date.getFullYear() + '-' + month + '-' + day
     },
-    contentFormatter (row, column) {
-      return this.htmlEncode(row.content)
-    },
-    htmlEncode (str) {
-      let s = ''
-      if (str.length === 0) {
-        return ''
-      }
-      s = str.replace(`&`, '&amp;')
-      s = s.replace(`<`, '&lt;')
-      s = s.replace(`>`, '&gt;')
-      s = s.replace(` `, '&nbsp;')
-      s = s.replace(`'`, '&#39;')
-      s = s.replace(`"`, '&quot;')
-      return s
-    },
-    search () {
-      this.$searchAction$()
-      // let _this = this
-      // _this.loading = true
-      // this.$reload().then(rep => {
-      //   _this.loading = false
-      // })
-    },
-    reset () {
-      this.model.createDate = [this.addDate(-7), this.addDate(0)]
-      this.model.receive = ''
-      this.model.ownerWid = null
-      this.model.name = null
-      this.loadOwnerSelector()
-      this.search()
-    },
     loadOwnerSelector () {
       this.$http.fetch(this.$api.guide.wxDeviceGuideRelation.findWidNickSelector).then(resp => {
         if (resp.success && resp.result != null) {
@@ -164,15 +132,16 @@ export default {
       } else if (column.order === 'descending') {
         this._data._order.orderDir = 'desc'
       }
-      this.search()
+      this.$searchAction$()
     }
   },
   // 初始化
   mounted: function () {
     this.initParams('name', 'receive')
     // 默认
-    this.model.createDate = [this.addDate(-7), this.addDate(0)]
+    // this.model.createDate = [this.addDate(-7), this.addDate(0)]
     this.loadOwnerSelector()
-    this.search()
+    this.$searchAction$()
+    this.model.screenWidth = document.body.clientWidth
   }
 }
