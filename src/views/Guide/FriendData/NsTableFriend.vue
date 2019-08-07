@@ -69,7 +69,7 @@
             end-placeholder="结束日期">
           </el-date-picker>
         </el-form-item>
-        <el-form-item label="最近交聊时间：">
+        <el-form-item label="最近交流时间：">
           <el-form-grid>
             <el-date-picker
               v-model="model.lastTime"
