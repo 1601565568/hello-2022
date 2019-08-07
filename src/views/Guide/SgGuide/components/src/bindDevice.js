@@ -58,6 +58,7 @@ export default {
     bindDevice () {
       this.$refs.saveForm.validate(valid => {
         if (valid) {
+          this.saving = true
           const n = this.model.deviceNos.sort()
           const o = this.guideDeviceNos.sort()
           // const ns = n.join(',')
@@ -72,10 +73,10 @@ export default {
             let deviceNo = o[i]
             if (n.indexOf(deviceNo) < 0) {
               this.$notify.error('不允许解绑设备' + deviceNo)
+              this.saving = false
               return
             }
           }
-          this.saving = true
           this.$http.fetch(this.$api.guide.guideDevice.bind, Object.assign(this.model, { guideId: this.guide.id })).then(data => {
             this.deviceList = Object.assign([], data.result)
           }).then(data => {
