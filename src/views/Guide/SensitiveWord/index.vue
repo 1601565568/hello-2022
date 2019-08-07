@@ -56,21 +56,21 @@
         <template slot="table">
           <el-table ref="table" :data="_data._table.data" stripe row-key="id" v-loading.lock="_data._table.loadingtable"
                     :element-loading-text="$t('prompt.loading')">
-            <el-table-column prop="name" label="敏感词" align="left" width="100"/>
-            <el-table-column prop="groupName" label="分组" align="left" width="100"/>
-            <el-table-column prop="guideCount" align="right" width="120" :render-header="renderHeaderGuideCount">
+            <el-table-column prop="name" label="敏感词" align="left"/>
+            <el-table-column prop="groupName" label="分组" align="left"/>
+            <el-table-column prop="guideCount" align="right" :render-header="renderHeaderGuideCount">
               <template slot-scope="scope">
                 <span @click="clickCount(scope.row,1)"><font color="blue">{{scope.row.guideCount}}</font></span>
               </template>
             </el-table-column>
-            <el-table-column prop="customerCount" align="right" width="120" :render-header="renderHeaderCustomerCount">
+            <el-table-column prop="customerCount" align="right"  :render-header="renderHeaderCustomerCount">
               <template slot-scope="scope">
                 <span @click="clickCount(scope.row,0)"><font color="blue">{{scope.row.customerCount}}</font></span>
               </template>
             </el-table-column>
-            <el-table-column prop="creatorName" label="创建人" align="left" width="150"/>
-            <el-table-column prop="createTime" label="创建时间" align="left" width="150"/>
-            <el-table-column prop="status,row" :show-overflow-tooltip="true" label="操作" align="right" width="60">
+            <el-table-column prop="creatorName" label="创建人" align="left"/>
+            <el-table-column prop="createTime" label="创建时间" align="left"/>
+            <el-table-column prop="status,row" :show-overflow-tooltip="true" label="操作" align="right">
               <template slot-scope="scope">
                 <ns-button style="color:#0091FA" @click="removeWord(scope.row)" type="text">删除</ns-button>
               </template>
