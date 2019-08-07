@@ -56,12 +56,12 @@
             <el-table-column prop="groupName" label="分组" align="left"/>
             <el-table-column prop="guideCount" align="right" :render-header="renderHeaderGuideCount">
               <template slot-scope="scope">
-                <span @click="clickCount(scope.row,1)"><font color="#409EFF">{{scope.row.guideCount}}</font></span>
+                <span @click="clickCount(scope.row,0)"><font color="#409EFF">{{scope.row.guideCount}}</font></span>
               </template>
             </el-table-column>
             <el-table-column prop="customerCount" align="right" :render-header="renderHeaderCustomerCount">
               <template slot-scope="scope">
-                <span @click="clickCount(scope.row,0)"><font color="#409EFF">{{scope.row.customerCount}}</font></span>
+                <span @click="clickCount(scope.row,1)"><font color="#409EFF">{{scope.row.customerCount}}</font></span>
               </template>
             </el-table-column>
             <el-table-column prop="creatorName" label="创建人" align="left"/>

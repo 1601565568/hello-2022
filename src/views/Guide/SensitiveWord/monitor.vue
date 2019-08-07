@@ -115,10 +115,10 @@
             <el-table-column prop="receive" label="发送人" align="left" width="120">
               <template slot-scope='scope'>
                 <span v-if="scope.row.receive">
-                  {{scope.row.ownerNick}}
+                  {{scope.row.friendNick}}
                 </span>
                 <span v-else>
-                  {{scope.row.friendNick}}
+                  {{scope.row.ownerNick}}
                 </span>
               </template>
             </el-table-column>
