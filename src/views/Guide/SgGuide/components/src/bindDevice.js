@@ -46,7 +46,9 @@ export default {
       this.$refs.saveForm.resetFields()
     },
     getBindableYkDeviceList () {
-      this.$http.fetch(this.$api.guide.guideDevice.getBindableYkDeviceList, {}).then(data => {
+      this.$http.fetch(this.$api.guide.guideDevice.getBindableYkDeviceList, {
+        guideId: this.guide.id
+      }).then(data => {
         this.deviceList = Object.assign([], data.result)
       }).catch(error => {
         this.deviceList = []
