@@ -175,7 +175,7 @@
 import friend from './src/NsTableFriend'
 export default friend
 </script>
-<style>
+<style scoped>
 .scope_row_count{
   color: blue;
 }

@@ -455,7 +455,7 @@
 import index from './src/index'
 export default index
 </script>
-<style>
+<style scoped>
 .dialog_mian{
   padding:10px 30px 30px;
 }

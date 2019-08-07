@@ -119,7 +119,7 @@
 import guide from './src/NsTableShopGroupRobot'
 export default guide
 </script>
-<style>
+<style scoped>
 .scope_row_count{
   color: blue;
 }

@@ -162,7 +162,7 @@
 import guide from './src/NsTableGuide'
 export default guide
 </script>
-<style>
+<style scoped>
 .icon-erweima{
   font-weight: 500;
   font-size: 30px;

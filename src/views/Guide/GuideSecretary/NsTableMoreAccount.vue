@@ -158,7 +158,7 @@ moreAccount.components = {
 }
 export default moreAccount
 </script>
-<style>
+<style scoped>
 .el-col-8 {
   width: 36.5%;
 }

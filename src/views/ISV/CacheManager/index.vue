@@ -217,7 +217,7 @@ export default {
   }
 }
 </script>
-<style>
+<style scoped>
 .the_head_button{
   padding:5px 5px;
   background-color:#fff;
