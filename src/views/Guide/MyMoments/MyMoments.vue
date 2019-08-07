@@ -303,7 +303,7 @@
     <el-dialog
       title="回复"
       :visible.sync="dialogVisibleReply"
-      width="460px"
+      width="610px"
       class="dialog-content" :before-close="closeDialog">
       <el-form ref="form" >
         <el-form-item>
@@ -314,8 +314,15 @@
           <div class="dialog-detail dialog-detail--paddingbtm">
             <el-input type="textarea" :rows="8" placeholder="请输入评论内容" v-model="content">
             </el-input>
-            <i class="iconfont icon-biaoqing"></i>
-            <VEmojiPicker :pack="pack" @select="selectEmoji" />
+            <el-popover
+              placement="bottom-start"
+              width="430"
+              v-model="visible2">
+              <div>
+                <VEmojiPicker :pack="pack" @select="selectEmoji" />
+              </div>
+              <el-button slot="reference"><i class="iconfont icon-biaoqing"></i></el-button>
+            </el-popover>
           </div>
         </el-form-item>
       </el-form>
@@ -429,6 +436,7 @@ export default {
       dialogVisible: false,
       dialogVisibleShow: false,
       dialogVisibleReply: false,
+      visible2: false,
       isHidden: false,
       likesMin: null, // 点赞最小数
       likesMax: null, // 点赞最大数
@@ -1306,6 +1314,10 @@ export default {
   }
   .dialog-content >>> .el-dialog__footer {
     padding: 10px 20px !important;
+  }
+  >>> #EmojiPicker {
+    width: 420px;
+    height: 200px;
   }
   /* 发朋友圈弹窗样式结束*/
   .choicedate >>> .el-date-editor .el-range-separator {

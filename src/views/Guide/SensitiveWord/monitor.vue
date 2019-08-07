@@ -18,21 +18,53 @@
         </template>
         <!-- 按钮-结束 -->
 
-        <!-- 搜索 -->
+        <!-- 简单搜索 -->
+        <!-- el-form 需添加 @submit.native.prevent 配置 -->
+        <!-- el-inpu 需添加  @keyup.enter.native="$quickSearchAction$" 配置，实现回车搜索 -->
         <template slot="searchSearch">
           <el-form :model="model" :inline="true" @submit.native.prevent class="pull-right">
+            <el-form-item v-show="_data._queryConfig.expand === false">
+              <span>
+                自定义时段&nbsp;
+                <el-date-picker
+                  v-model="model.createDate"
+                  type="daterange"
+                  range-separator="至"
+                  start-placeholder="开始日期"
+                  value-format="yyyy-MM-dd"
+                  end-placeholder="结束日期" style="width:225px">
+                </el-date-picker>
+                <ns-button type="primary" @click="$searchAction$()">搜索</ns-button>
+                <ns-button @click="$resetInputAction$()">重置</ns-button>
+              </span>
+            </el-form-item>
             <el-form-item>
-          <span>
-            自定义时段&nbsp;
-            <el-date-picker
-              v-model="model.createDate"
-              type="daterange"
-              range-separator="至"
-              start-placeholder="开始日期"
-              value-format="yyyy-MM-dd"
-              end-placeholder="结束日期" style="width:210px">
-            </el-date-picker>
-          </span>
+              <ns-button type="text" @click="$handleTabClick">
+                {{collapseText}}
+                <i :class="{'el-icon--right': true, 'el-icon-arrow-down': !_data._queryConfig.expand, 'el-icon-arrow-up': _data._queryConfig.expand} "></i>
+              </ns-button>
+            </el-form-item>
+          </el-form>
+        </template>
+        <!-- 简单搜索-结束 -->
+
+        <!-- 高级搜索 -->
+        <!-- el-form 需添加  @keyup.enter.native="onSearch" 配置，实现回车搜索， onSearch 为搜索方法 -->
+        <!-- el-form 需添加  surround-btn 类名 配置环绕按钮效果 -->
+        <template slot="advancedSearch" v-if="_data._queryConfig.expand">
+          <el-form ref="table_filter_form" :model="model" label-width="80px" :inline="true">
+            <el-form-item>
+              <span>
+                自定义时段&nbsp;
+                <el-date-picker
+                  v-model="model.createDate"
+                  type="daterange"
+                  range-separator="至"
+                  start-placeholder="开始日期"
+                  value-format="yyyy-MM-dd"
+                  end-placeholder="结束日期" style="width:225px">
+                </el-date-picker>
+              </span>
             </el-form-item>
             <el-form-item>
               <span>
@@ -58,13 +90,13 @@
                           @keyup.enter.native="search()" clearable/>
               </span>
             </el-form-item>
-            <span>
-            <ns-button type="primary" @click="search()">搜索</ns-button>
-            <ns-button @click="reset()">重置</ns-button>
-          </span>
           </el-form>
+          <div class="template-table__more-btn">
+            <ns-button type="primary" @click="$searchAction$()">搜索</ns-button>
+            <ns-button @click="$resetInputAction$()">重置</ns-button>
+          </div>
         </template>
-        <!-- 搜索-结束 -->
+        <!-- 高级搜索-结束 -->
 
         <!-- 表格 -->
         <template slot="table">
@@ -80,7 +112,7 @@
               </template>
             </el-table-column>
             <el-table-column prop="name" label="敏感词" align="left" width="100"/>
-            <el-table-column prop="receive" label="发送人" align="left" width="200">
+            <el-table-column prop="receive" label="发送人" align="left" width="120">
               <template slot-scope='scope'>
                 <span v-if="scope.row.receive">
                   {{scope.row.ownerNick}}
@@ -91,7 +123,7 @@
               </template>
             </el-table-column>
             <el-table-column prop="createTime" label="时间" align="left" width="150" sortable="custom"/>
-            <el-table-column prop="subContent" label="上下文" align="left" width="720">
+            <el-table-column prop="subContent" label="上下文" align="left" width="250">
               <template slot-scope='scope'>
                 <span v-html="scope.row.subContent"></span>
                 <a v-if="scope.row.isSubContent === '1'" @click="openContentDlg(scope.row)">查看</a>

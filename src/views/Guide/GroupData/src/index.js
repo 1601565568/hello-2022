@@ -16,15 +16,15 @@ export default {
       url: this.$api.guide.groupData.table,
       _table: {
         operate_buttons: [
-          {
-            'func': function () {
-              that.addDialog.visible = true
-            },
-            'icon': '',
-            'name': '新建群聊',
-            'auth': ``,
-            'visible': ``
-          },
+          // {
+          //   'func': function () {
+          //     that.addDialog.visible = true
+          //   },
+          //   'icon': '',
+          //   'name': '新建群聊',
+          //   'auth': ``,
+          //   'visible': ``
+          // },
           {
             'func': function () {
               that.duplicateDialog.visible = true

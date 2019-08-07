@@ -74,6 +74,7 @@ export default {
     },
     $resetInput () {
       this.defButton = 0
+      this.model = JSON.parse(JSON.stringify(this.originModel))
       this.todayTime(0)
     }
   }
