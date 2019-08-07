@@ -16,7 +16,7 @@
             <el-form :model="quickSearchModel" :inline="true" @submit.native.prevent class="pull-right">
               <el-form-item v-show="_data._queryConfig.expand === false">
                 <el-input ref="quickText" v-model="model.keyword" placeholder="关键字" @keyup.enter.native="$quickSearchAction$(model.keyword)">
-                  <i class="el-icon-search el-input__icon" slot="suffix" name="name" @click="$quickSearchAction$('model.keyword')"></i>
+                  <i class="el-icon-search el-input__icon" slot="suffix" name="name" @click="$quickSearchAction$(model.keyword)"></i>
                 </el-input>
               </el-form-item>
               <el-form-item>
@@ -50,11 +50,11 @@
                 <el-form-grid size="xmd">
                   <el-select v-model="model.snsType" filterable clearable
                              :multiple="false">
-                    <el-option label="全部" value="0"></el-option>
-                    <el-option label="图文" value="1"></el-option>
-                    <el-option label="文字" value="2"></el-option>
-                    <el-option label="分享链接" value="3"></el-option>
-                    <el-option label="视频" value="4"></el-option>
+                    <el-option label="全部" value="all"></el-option>
+                    <el-option label="图文" value="image"></el-option>
+                    <el-option label="文字" value="text"></el-option>
+                    <el-option label="分享链接" value="link"></el-option>
+                    <el-option label="视频" value="video"></el-option>
                   </el-select>
                 </el-form-grid>
               </el-form-item>
@@ -135,7 +135,8 @@
                       <span class="talk-name__call colorblue">{{moment.nick}}</span>
                       <span class="talk-name__private">个人号：{{moment.nick}}（ {{moment.owner}} ）</span>
                     </div>
-                    <div class="talk-sentence">{{moment.content}}</div>
+                    <div class="talk-sentence">{{moment.content}}
+                    </div>
                     <div class="talk-matching">
                       <div class="talk-matching__figurelist" v-if="moment.images" >
                         <div class="talk-li"  v-for="image in moment.images" :key="image" >
@@ -226,7 +227,7 @@
               <div class="talk-convey__content clearfix">
                 <div class="talk-headportrait">
                   <img
-                    :src="msg.friendHead"
+                    :src="msg.head?msg.head:msg.personalHead"
                     alt="头像" class="talk-headportrait__img">
                 </div>
 <!--                <div class="talk-redpoint"></div>-->
@@ -636,8 +637,10 @@ export default {
         _this.model.timeStart = moment(_this.model.time[0]).format('YYYY-MM-DD HH:mm:ss')
         _this.model.timeEnd = moment(_this.model.time[1]).format('YYYY-MM-DD 23:59:59')
       }
+      _this._data._pagination.page = 1
       let params = _this.$generateParams$()
       params.start = 0
+      params.page = 1
       _this.$http.fetch(_this.$api.guide.myMoments.momentsList, params).then(resp => {
         if (resp.success && resp.result != null) {
           _this.moments = resp.result.data
@@ -669,6 +672,10 @@ export default {
         _this.$notify.error('内容不能为空')
         return
       }
+      if (_this.content.length > 800) {
+        _this.$notify.error('评论内容不能超过800字')
+        return
+      }
       _this.isHidden = true
       let commentType = 0
       let replyToNick = null
@@ -697,9 +704,7 @@ export default {
         if (resp.success) {
           _this.$notify.success('评论成功')
           _this.closeDialog()
-          setTimeout(this.initMomentsList(), 2000)
-          setTimeout(this.initInteractionMsgList(), 2000)
-          // this.reloadList()
+          this.reloadList()
         }
       }).catch((resp) => {
         _this.isHidden = false
@@ -710,6 +715,7 @@ export default {
     replyComment (moment, comment) {
       var _this = this
       _this.dialogVisibleReply = true
+      _this.isHidden = true
       console.log('发布人：' + moment.nick)
       _this.otherMoment = moment
       if (comment) {
@@ -732,9 +738,7 @@ export default {
       _this.$http.fetch(_this.$api.guide.myMoments.like, replyMomentVo).then(resp => {
         if (resp.success) {
           _this.$notify.success('点赞成功')
-          setTimeout(this.initMomentsList(), 4000)
-          setTimeout(this.initInteractionMsgList(), 4000)
-          // _this.reloadList()
+          _this.reloadList()
         }
       }).catch((resp) => {
         _this.$notify.error(getErrorMsg('点赞失败', resp))
@@ -848,6 +852,14 @@ export default {
           this.$set(this.list[index], 'showState', 0)
         }
       })
+    }
+  },
+  watch: {
+    content (newValue) {
+      this.content = newValue
+      if (this.content != null && this.content.replace(/\s*/g, '').length !== 0) {
+        this.isHidden = false
+      }
     }
   }
 }

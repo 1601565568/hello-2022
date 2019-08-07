@@ -13,7 +13,7 @@
                 <el-input ref="quickText" v-model="model.keyword" placeholder="关键字"
                           @keyup.enter.native="$quickSearchAction$(model.keyword)">
                   <i class="el-icon-search el-input__icon" slot="suffix" name="name"
-                     @click="$quickSearchAction$('model.keyword')"></i>
+                     @click="$quickSearchAction$(model.keyword)"></i>
                 </el-input>
               </el-form-item>
               <el-form-item>
@@ -49,11 +49,11 @@
                 <el-form-grid size="xmd">
                   <el-select v-model="model.snsType" filterable clearable
                              :multiple="false">
-                    <el-option label="全部" value="0"></el-option>
-                    <el-option label="图文" value="1"></el-option>
-                    <el-option label="文字" value="2"></el-option>
-                    <el-option label="分享链接" value="3"></el-option>
-                    <el-option label="视频" value="4"></el-option>
+                    <el-option label="全部" value="all"></el-option>
+                    <el-option label="图文" value="image"></el-option>
+                    <el-option label="文字" value="text"></el-option>
+                    <el-option label="分享链接" value="link"></el-option>
+                    <el-option label="视频" value="video"></el-option>
                   </el-select>
                 </el-form-grid>
               </el-form-item>
@@ -588,8 +588,10 @@ export default {
         _this.model.timeStart = moment(_this.model.time[0]).format('YYYY-MM-DD HH:mm:ss')
         _this.model.timeEnd = moment(_this.model.time[1]).format('YYYY-MM-DD 23:59:59')
       }
+      _this._data._pagination.page = 1
       let params = _this.$generateParams$()
       params.start = 0
+      params.page = 1
       _this.$http.fetch(_this.$api.guide.friendMoments.momentsList, params).then(resp => {
         if (resp.success && resp.result != null) {
           _this.moments = resp.result.data
@@ -619,6 +621,10 @@ export default {
       _this.content = _this.content.replace(/\s*/g, '')
       if (_this.content == null || _this.content.length === 0) {
         _this.$notify.error('内容不能为空')
+        return
+      }
+      if (_this.content.length > 800) {
+        _this.$notify.error('评论内容不能超过800字')
         return
       }
       _this.isHidden = true
@@ -736,6 +742,14 @@ export default {
           this.$set(this.list[index], 'showState', 0)
         }
       })
+    }
+  },
+  watch: {
+    content (newValue) {
+      this.content = newValue
+      if (this.content != null && this.content.replace(/\s*/g, '').length !== 0) {
+        this.isHidden = false
+      }
     }
   }
 }

@@ -1,11 +1,12 @@
 import tableMixin from 'web-crm/src/mixins/table'
 import { getErrorMsg } from '@/utils/toast'
 import BindDevice from '../components/BindDevice'
+import NsTableColumnOperateButtonExt from '@/components/NsTableColumnOperateButton'
 
 export default {
   name: 'NsTableGuide',
   mixins: [tableMixin],
-  components: { BindDevice },
+  components: { BindDevice, NsTableColumnOperateButtonExt },
   props: {
     url: Object
   },
@@ -34,7 +35,7 @@ export default {
         'icon': '',
         'name': '绑定终端',
         'auth': ``,
-        'visible': `scope.row.job == 1 || (scope.row.job != 1 && !scope.row.deviceNos) `
+        'visible': `scope.row.status === 1 && (scope.row.job == 1 || (scope.row.job != 1 && !scope.row.deviceNos)) `
       },
       {
         'func': function (scope) {
@@ -53,7 +54,7 @@ export default {
         'name': '删除',
         'auth': ``,
         'visible': ``,
-        'color': '#f00'
+        'class': 'del-btn'
       }
     ]
     const operateButtons = [

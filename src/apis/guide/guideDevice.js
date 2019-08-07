@@ -10,7 +10,7 @@ export default {
     url: prefix + 'bind',
     method: 'POST',
     request: function () {
-      return apiRequestConfirm('已选择的个人号设备绑定给该导购，绑定后无法更换绑定且无法解绑')
+      return apiRequestConfirm('已选择的个人号设备绑定给该导购，绑定后无法更换绑定')
     }
   }
 }

@@ -69,7 +69,7 @@
             end-placeholder="结束日期">
           </el-date-picker>
         </el-form-item>
-        <el-form-item label="最近交聊时间：">
+        <el-form-item label="最近交流时间：">
           <el-form-grid>
             <el-date-picker
               v-model="model.lastTime"
@@ -129,17 +129,20 @@
         </el-table-column>
         <el-table-column prop="num" label="朋友圈互动数" align="left">
           <template slot-scope="scope">
-            赞我：{{scope.row.likeMe}}; 赞他：{{scope.row.likeHim}}。
+            赞我：{{scope.row.likeNum}}; 赞他：{{scope.row.likeHimNum}}。
             <br>
-            评我：{{scope.row.commentMe}}; 评他：{{scope.row.commentHim}}。
+            评我：{{scope.row.commentsNum}}; 评他：{{scope.row.commentsHimNum}}。
           </template>
         </el-table-column>
-        <el-table-column prop='count' label="最近交流时间" align="left" width="180">
+        <el-table-column prop='receiveConversationTime' label="最近交流时间" align="left" width="180">
           <template >
-            <ns-button style="color:#0091FA" type="text">-</ns-button>
+            <ns-button style="color:#0091FA" type="text">{{scope.row.receiveConversationTime?scope.row.receiveConversationTime:"-"}}</ns-button>
           </template>
         </el-table-column>
         <el-table-column prop="addTime" label="添加好友时间" align="left" width="60">
+          <template >
+            <ns-button style="color:#0091FA" type="text">{{scope.row.addTime?scope.row.addTime:"-"}}</ns-button>
+          </template>
         </el-table-column>
 
         <el-table-column prop="status,row" :show-overflow-tooltip="true" label="操作" align="right" width="120">

@@ -41,7 +41,7 @@
             <el-form-grid class="detail-leftside__chat">
               <div>
                 <div class="detail-leftside__chat--black">朋友圈互动次数：</div>
-                <div>赞我：{{friendDetail.likeNum}}；赞他：{{friendDetail.likeHimNum}}</div>
+                <div>赞我：{{friendDetail.likeNum}}；赞他：{{friendDetail.likeHimNum}}；</div>
                 <div>评我：{{friendDetail.commentsNum}}；评他：{{friendDetail.commentsHimNum}}；</div>
               </div>
               <div class="detail-lasttime">

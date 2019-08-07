@@ -1,6 +1,6 @@
 <template>
   <div>
-    <BindDevice :visible.sync="bindDeviceDialog.visible" :guide='bindDeviceDialog.guide'/>
+    <BindDevice :visible.sync="bindDeviceDialog.visible" :guide='bindDeviceDialog.guide' @reload='$reload'/>
 <ns-page-table @add="$emit('add')" @showShop="$emit('showShop')" @dimission="$emit('dimission')"  @allDelete="$emit('allDelete')" @shopEdit="$emit('shopEdit')" :colButton='10'>
     <!-- 按钮 -->
     <template slot="buttons">
@@ -115,7 +115,7 @@
           <template slot-scope="scope">{{scope.row.job == 1 ? "店长" : "导购"}}
           </template>
         </el-table-column>
-        <el-table-column prop="" label="导购终端" align="left" width="100">
+        <el-table-column prop="" label="导购终端" align="left" width="100" :show-overflow-tooltip="true">
           <template slot-scope="scope">
             {{scope.row.deviceNos || '-'}}
           </template>
@@ -146,9 +146,9 @@
         <el-table-column :show-overflow-tooltip="true" label="操作" align="center"
                          width="160px">
           <template slot-scope="scope">
-            <ns-table-column-operate-button :buttons="_data._table.table_buttons"
+            <ns-table-column-operate-button-ext :buttons="_data._table.table_buttons"
                                             :prop="scope">
-            </ns-table-column-operate-button>
+            </ns-table-column-operate-button-ext>
           </template>
         </el-table-column>
 <!--        <el-table-column prop="status,row" :show-overflow-tooltip="true" label="操作" align="right" width="120">-->
@@ -185,6 +185,12 @@
 import guide from './src/NsTableGuide'
 export default guide
 </script>
+<style>
+  @import "@/style/small/variables.pcss";
+  .del-btn {
+    color: var(--theme-color-danger)
+  }
+</style>
 <style scoped>
   @import "@/style/small/variables.pcss";
 
