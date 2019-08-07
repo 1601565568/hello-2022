@@ -92,15 +92,15 @@
                   </el-date-picker>
                 </el-form-grid>
               </el-form-item>
-<!--              <el-form-item label="点赞数：">-->
+<!--              <el-form-item label="点赞数：" >-->
 <!--                <el-form-grid class="widthlength">-->
-<!--                  <el-input v-model="model.likesMin"></el-input>-->
+<!--                  <el-input v-model="likesMin"></el-input>-->
 <!--                </el-form-grid>-->
 <!--                <el-form-grid class="text-tips&#45;&#45;grey">-->
 <!--                  ~-->
 <!--                </el-form-grid>-->
 <!--                <el-form-grid class="widthlength">-->
-<!--                  <el-input v-model="model.likesMax"></el-input>-->
+<!--                  <el-input v-model="likesMax"></el-input>-->
 <!--                </el-form-grid>-->
 <!--              </el-form-item>-->
 <!--              <el-form-item label="评论数：">-->
@@ -148,16 +148,16 @@
                     <div class="talk-time">{{moment.snsTime}}</div>
                     <div class="talk-interactive">
                       <span class="talk-interactive__like">
-                        <i class="iconfont icon-dianzan" @click="like(moment)"></i>
-                        {{moment.likesNums}}
+                        <i class="iconfont icon-dianzan"  @click="like(moment)"></i>
+                        {{moment.likesNum}}
                       </span>
                       <span class="talk-interactive__comment">
                         <i class="iconfont icon-pinglun"  @click="replyComment(moment)"></i>
-                        {{moment.commentsNums}}
+                        {{moment.commentsNum}}
                       </span>
                     </div>
                     <!--点赞和评论 -->
-                    <div class="talk-detail" v-if="moment.likesNums>0 || moment.commentsNums>0">
+                    <div class="talk-detail" v-if="moment.likesNum>0 || moment.commentsNum>0">
                       <div class="talk-detail__substance">
                         <div class="talk-chatmsg" v-if="moment.likeName">
                           <i class="iconfont icon-dianzan colorblue"></i>
@@ -430,6 +430,10 @@ export default {
       dialogVisibleShow: false,
       dialogVisibleReply: false,
       isHidden: false,
+      likesMin: null, // 点赞最小数
+      likesMax: null, // 点赞最大数
+      commentsMin: null, // 评论最小数
+      commentsMax: null, // 评论最大数
       model: model,
       imageUrl: '',
       textarea: '',
@@ -672,7 +676,7 @@ export default {
         }
       }
       let replyMomentVo = {
-        wid: _this.otherMoment.ownerId,
+        wid: _this.otherMoment.owner,
         snsId: _this.otherMoment.snsId,
         author: _this.otherMoment.owner,
         content: _this.content,
@@ -685,7 +689,9 @@ export default {
         if (resp.success) {
           _this.$notify.success('评论成功')
           _this.closeDialog()
-          _this.reloadList()
+          setTimeout(this.initMomentsList(), 2000)
+          setTimeout(this.initInteractionMsgList(), 2000)
+          // this.reloadList()
         }
       }).catch((resp) => {
         _this.isHidden = false
@@ -706,15 +712,21 @@ export default {
     // 点赞朋友圈
     like (moment) {
       var _this = this
+      if (moment.likeName != null && moment.likeName.indexOf(moment.nick) !== -1) {
+        _this.$notify.error('已点赞，不能重复点赞')
+        return
+      }
       let replyMomentVo = {
-        wid: moment.ownerId,
+        wid: moment.owner,
         snsId: moment.snsId,
         author: moment.owner
       }
       _this.$http.fetch(_this.$api.guide.myMoments.like, replyMomentVo).then(resp => {
         if (resp.success) {
           _this.$notify.success('点赞成功')
-          _this.reloadList()
+          setTimeout(this.initMomentsList(), 4000)
+          setTimeout(this.initInteractionMsgList(), 4000)
+          // _this.reloadList()
         }
       }).catch((resp) => {
         _this.$notify.error(getErrorMsg('点赞失败', resp))
