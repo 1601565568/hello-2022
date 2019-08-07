@@ -13,7 +13,7 @@
                 <el-input ref="quickText" v-model="model.keyword" placeholder="关键字"
                           @keyup.enter.native="$quickSearchAction$(model.keyword)">
                   <i class="el-icon-search el-input__icon" slot="suffix" name="name"
-                     @click="$quickSearchAction$('model.keyword')"></i>
+                     @click="$quickSearchAction$(model.keyword)"></i>
                 </el-input>
               </el-form-item>
               <el-form-item>
@@ -590,6 +590,7 @@ export default {
       }
       let params = _this.$generateParams$()
       params.start = 0
+      params.page = 1
       _this.$http.fetch(_this.$api.guide.friendMoments.momentsList, params).then(resp => {
         if (resp.success && resp.result != null) {
           _this.moments = resp.result.data
@@ -740,6 +741,14 @@ export default {
           this.$set(this.list[index], 'showState', 0)
         }
       })
+    }
+  },
+  watch: {
+    content (newValue) {
+      this.content = newValue
+      if (this.content != null && this.content.replace(/\s*/g, '').length !== 0) {
+        this.isHidden = false
+      }
     }
   }
 }

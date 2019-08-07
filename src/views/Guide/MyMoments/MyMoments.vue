@@ -16,7 +16,7 @@
             <el-form :model="quickSearchModel" :inline="true" @submit.native.prevent class="pull-right">
               <el-form-item v-show="_data._queryConfig.expand === false">
                 <el-input ref="quickText" v-model="model.keyword" placeholder="关键字" @keyup.enter.native="$quickSearchAction$(model.keyword)">
-                  <i class="el-icon-search el-input__icon" slot="suffix" name="name" @click="$quickSearchAction$('model.keyword')"></i>
+                  <i class="el-icon-search el-input__icon" slot="suffix" name="name" @click="$quickSearchAction$(model.keyword)"></i>
                 </el-input>
               </el-form-item>
               <el-form-item>
@@ -639,6 +639,7 @@ export default {
       }
       let params = _this.$generateParams$()
       params.start = 0
+      params.page = 1
       _this.$http.fetch(_this.$api.guide.myMoments.momentsList, params).then(resp => {
         if (resp.success && resp.result != null) {
           _this.moments = resp.result.data
@@ -713,6 +714,7 @@ export default {
     replyComment (moment, comment) {
       var _this = this
       _this.dialogVisibleReply = true
+      _this.isHidden = true
       console.log('发布人：' + moment.nick)
       _this.otherMoment = moment
       if (comment) {
@@ -849,6 +851,14 @@ export default {
           this.$set(this.list[index], 'showState', 0)
         }
       })
+    }
+  },
+  watch: {
+    content (newValue) {
+      this.content = newValue
+      if (this.content != null && this.content.replace(/\s*/g, '').length !== 0) {
+        this.isHidden = false
+      }
     }
   }
 }
