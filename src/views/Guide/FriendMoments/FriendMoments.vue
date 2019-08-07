@@ -621,6 +621,10 @@ export default {
         _this.$notify.error('内容不能为空')
         return
       }
+      if (_this.content.length > 800) {
+        _this.$notify.error('评论内容不能超过800字')
+        return
+      }
       _this.isHidden = true
       let commentType = 0
       let replyToNick = null
