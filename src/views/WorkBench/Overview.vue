@@ -442,7 +442,7 @@ index.components = {
     }
   }
 </style>
-<style>
+<style scoped>
 .overview-content .el-popover .el-popover__title{
       padding: 5px 0 !important;
 }

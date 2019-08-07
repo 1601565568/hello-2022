@@ -1281,7 +1281,7 @@ export default {
   }
 }
 </script>
-<style scoped lang='scss'>
+<style scoped >
 @import "@/style/small/variables.pcss";
   @component-namespace overview {
     @b content {

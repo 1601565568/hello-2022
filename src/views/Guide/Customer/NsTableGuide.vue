@@ -241,7 +241,7 @@ export default NsTableGuide
     cursor: pointer;
   }
 </style>
-<style>
+<style scoped>
 .elTree{
   overflow-y: auto;
   overflow-x: hidden

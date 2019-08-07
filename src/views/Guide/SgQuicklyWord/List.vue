@@ -186,7 +186,7 @@ List.components = {
 }
 export default List
 </script>
-<style>
+<style scoped>
 .elTree{
   overflow-y: auto;
   overflow-x: hidden
@@ -312,7 +312,7 @@ export default List
 
 }
 </style>
-<style lang='scss'>
+<style scoped>
  @import "@/style/small/variables.pcss";
 #SgQuicklyWordPage .el-tree-node{
   &.is-current{

@@ -294,7 +294,7 @@ export default {
   }
 }
 </script>
-<style>
+<style scoped>
 .el-input__inner[type="number"] {
     text-align: left !important ;
 }

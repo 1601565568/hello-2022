@@ -51,6 +51,6 @@ import Index from './src/bindDevice'
 
 export default Index
 </script>
-<style>
+<style scoped>
 
 </style>
