@@ -1,8 +1,11 @@
 import tableMixin from 'web-crm/src/mixins/table'
 import { getErrorMsg } from '@/utils/toast'
+import BindDevice from '../components/BindDevice'
+
 export default {
   name: 'NsTableGuide',
   mixins: [tableMixin],
+  components: { BindDevice },
   props: {
     url: Object
   },
@@ -16,28 +19,41 @@ export default {
     }
     const tableButtons = [
       {
-        'func': function () {
-          this.$emit('add')
+        'func': function (scope) {
+          this.onRedactFun(scope.row)
         },
-        'name': '新增'
+        'icon': '',
+        'name': '编辑',
+        'auth': ``,
+        'visible': `scope.row.status !== 2`
       },
       {
-        'func': function () {
-          this.$emit('showShop')
+        'func': function (scope) {
+          this.onShowBindDialog(scope.row)
         },
-        'name': '批量更换门店'
+        'icon': '',
+        'name': '绑定终端',
+        'auth': ``,
+        'visible': `scope.row.job == 1 || (scope.row.job != 1 && !scope.row.deviceNos) `
       },
       {
-        'func': function () {
-          this.$emit('dimission')
+        'func': function (scope) {
+          this.dimissionFun(scope.row)
         },
-        'name': '批量离职'
+        'icon': '',
+        'name': '离职',
+        'auth': ``,
+        'visible': `scope.row.status === 0 || scope.row.status === 1`
       },
       {
-        'func': function () {
-          this.$emit('allDelete')
+        'func': function (scope) {
+          this.onDelsTipFun(scope.row)
         },
-        'name': '批量删除'
+        'icon': '',
+        'name': '删除',
+        'auth': ``,
+        'visible': ``,
+        'color': '#f00'
       }
     ]
     const operateButtons = [
@@ -118,7 +134,11 @@ export default {
       },
       _queryConfig: { expand: false },
       multipleSelection: [],
-      select: true
+      select: true,
+      bindDeviceDialog: {
+        visible: false,
+        guide: {}
+      }
     }
   },
 
@@ -221,6 +241,10 @@ export default {
       }).catch((resp) => {
         _this.$notify.error(getErrorMsg('查询失败', resp))
       })
+    },
+    onShowBindDialog (row) {
+      this.bindDeviceDialog.guide = row
+      this.bindDeviceDialog.visible = true
     }
   }
 }
