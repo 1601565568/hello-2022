@@ -49,11 +49,11 @@
                 <el-form-grid size="xmd">
                   <el-select v-model="model.snsType" filterable clearable
                              :multiple="false">
-                    <el-option label="全部" value="0"></el-option>
-                    <el-option label="图文" value="1"></el-option>
-                    <el-option label="文字" value="2"></el-option>
-                    <el-option label="分享链接" value="3"></el-option>
-                    <el-option label="视频" value="4"></el-option>
+                    <el-option label="全部" value="all"></el-option>
+                    <el-option label="图文" value="image"></el-option>
+                    <el-option label="文字" value="text"></el-option>
+                    <el-option label="分享链接" value="link"></el-option>
+                    <el-option label="视频" value="video"></el-option>
                   </el-select>
                 </el-form-grid>
               </el-form-item>
