@@ -104,7 +104,7 @@
         <el-table-column type="selection" align="center" :width="50"></el-table-column>
         <el-table-column prop="friendNick" label="微信好友" align="left" width="88">
           <template slot-scope="scope">
-            {{scope.row.friendNick?scope.row.friendNick:'-'}}
+            {{scope.row.nick?scope.row.nick:'-'}}
           </template>
         </el-table-column>
         <el-table-column prop="gender" label="性别" align="left" width="130">
@@ -135,14 +135,13 @@
           </template>
         </el-table-column>
         <el-table-column prop='receiveConversationTime' label="最近交流时间" align="left" width="180">
-          <template >
-            <ns-button style="color:#0091FA" type="text">{{scope.row.receiveConversationTime?scope.row.receiveConversationTime:"-"}}</ns-button>
+          <template slot-scope="scope">
+            发：{{scope.row.sendConversationTime?scope.row.sendConversationTime:"-"}}
+            <br>
+            接：{{scope.row.receiveConversationTime?scope.row.receiveConversationTime:"-"}}
           </template>
         </el-table-column>
         <el-table-column prop="addTime" label="添加好友时间" align="left" width="60">
-          <template >
-            <ns-button style="color:#0091FA" type="text">{{scope.row.addTime?scope.row.addTime:"-"}}</ns-button>
-          </template>
         </el-table-column>
 
         <el-table-column prop="status,row" :show-overflow-tooltip="true" label="操作" align="right" width="120">

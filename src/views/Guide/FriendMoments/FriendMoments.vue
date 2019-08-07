@@ -148,15 +148,15 @@
                     <div class="talk-interactive">
                       <span class="talk-interactive__like">
                         <i class="iconfont icon-dianzan" @click="like(moment)"></i>
-                        {{moment.likesNums}}
+                        {{moment.likesNum}}
                       </span>
                       <span class="talk-interactive__comment">
                         <i class="iconfont icon-pinglun" @click="replyComment(moment)"></i>
-                        {{moment.commentsNums}}
+                        {{moment.commentsNum}}
                       </span>
                     </div>
                     <!--点赞和评论 -->
-                    <div class="talk-detail" v-if="moment.likesNums>0 || moment.commentsNums>0">
+                    <div class="talk-detail" v-if="moment.likesNum>0 || moment.commentsNum>0">
                       <div class="talk-detail__substance">
                         <div class="talk-chatmsg" v-if="moment.likeName">
                           <i class="iconfont icon-dianzan colorblue"></i>
