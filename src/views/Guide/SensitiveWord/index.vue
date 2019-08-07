@@ -33,7 +33,7 @@
           <el-form :model="model" :inline="true" @submit.native.prevent class="pull-right">
             <el-form-item>
               <el-form-grid block class="text-info">
-                <span style="marr">
+                <span>
                   <i class="el-icon-info"></i>
                   只对敏感词创建时间后的聊天记录进行监控统计&nbsp;&nbsp;
                 </span>

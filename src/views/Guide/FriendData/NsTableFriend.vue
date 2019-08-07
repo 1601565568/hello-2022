@@ -129,12 +129,12 @@
         </el-table-column>
         <el-table-column prop="num" label="朋友圈互动数" align="left">
           <template slot-scope="scope">
-            赞我：{{scope.row.likeMe}}; 赞他：{{scope.row.likeHim}}。
+            赞我：{{scope.row.likeNum}}; 赞他：{{scope.row.likeHimNum}}。
             <br>
-            评我：{{scope.row.commentMe}}; 评他：{{scope.row.commentHim}}。
+            评我：{{scope.row.commentsNum}}; 评他：{{scope.row.commentsHimNum}}。
           </template>
         </el-table-column>
-        <el-table-column prop='count' label="最近交流时间" align="left" width="180">
+        <el-table-column prop='receiveConversationTime' label="最近交流时间" align="left" width="180">
           <template >
             <ns-button style="color:#0091FA" type="text">-</ns-button>
           </template>
