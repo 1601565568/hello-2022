@@ -109,7 +109,7 @@
         </el-table-column>
         <el-table-column prop="gender" label="性别" align="left" width="130">
           <template slot-scope="scope">
-            {{scope.row.gender>=0?scope.row.gender>=1?'女':'男':'未知'}}
+            {{scope.row.gender>=0?scope.row.gender>=1?'女':'男':'-'}}
           </template >
         </el-table-column>
         <el-table-column prop="areaName" label="地区" align="left" width="130">
@@ -149,7 +149,7 @@
             <div>
               <ns-button style="color:#0091FA"  @click="onRedactFun(scope.row.wid)" type="text">详情</ns-button>
               <ns-button style="color:#0091FA"  type="text" @click="sendWechatMsg(scope.row)">聊天</ns-button>
-              <ns-button style="color:#0091FA"  type="text" >打标</ns-button>
+<!--              <ns-button style="color:#0091FA"  type="text" >打标</ns-button>-->
             </div>
           </template>
         </el-table-column>

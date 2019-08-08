@@ -666,6 +666,7 @@ export default {
     replyComment (moment, comment) {
       var _this = this
       _this.dialogVisibleReply = true
+      _this.isHidden = true
       console.log('发布人：' + moment.nick)
       _this.otherMoment = moment
       if (comment) {
@@ -749,6 +750,8 @@ export default {
       this.content = newValue
       if (this.content != null && this.content.replace(/\s*/g, '').length !== 0) {
         this.isHidden = false
+      } else {
+        this.isHidden = true
       }
     }
   }

@@ -16,12 +16,12 @@ export default {
       total: 0
     }
     const tableButtons = [
-      {
-        'func': function () {
-          this.$emit('add')
-        },
-        'name': '批量打标'
-      },
+      // {
+      //   'func': function () {
+      //     this.$emit('add')
+      //   },
+      //   'name': '批量打标'
+      // },
       {
         'func': function () {
           this.$emit('removeDuplicate')
@@ -49,15 +49,15 @@ export default {
         'visible': '',
         'color': '#f00'
       },
-      {
-        'func': function (args) {
-          this.$emit('quit', args.row)
-        },
-        'icon': '',
-        'name': '打标',
-        'auth': '',
-        'visible': ''
-      }
+      // {
+      //   'func': function (args) {
+      //     this.$emit('quit', args.row)
+      //   },
+      //   'icon': '',
+      //   'name': '打标',
+      //   'auth': '',
+      //   'visible': ''
+      // }
     ]
     let quickInput = [{
       'template': '',

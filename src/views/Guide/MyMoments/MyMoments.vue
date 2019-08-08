@@ -296,7 +296,7 @@
       </el-form>
       <span slot="footer" class="dialog-footer">
         <ns-button @click="dialogVisibleShow = false">取 消</ns-button>
-        <ns-button type="primary" @click="sendMoments" :disabled="isHidden">确 定</ns-button>
+        <ns-button type="primary" @click="sendMoments" :disabled="momentIsHidden">确 定</ns-button>
       </span>
     </el-dialog>
     <!-- 发朋友圈弹窗结束-->
@@ -439,13 +439,14 @@ export default {
       dialogVisibleReply: false,
       visible2: false,
       isHidden: false,
+      momentIsHidden: true,
       likesMin: null, // 点赞最小数
       likesMax: null, // 点赞最大数
       commentsMin: null, // 评论最小数
       commentsMax: null, // 评论最大数
       model: model,
       imageUrl: '',
-      textarea: '',
+      textarea: null,
       pack: packData,
       quickSearchModel: quickSearchModel,
       rules: rules,
@@ -528,6 +529,10 @@ export default {
       this.$nextTick(() => {
         this.setHeight()
       })
+    },
+    initMomentStatus () {
+      this.dialogVisibleShow = false
+      this.momentIsHidden = true
     },
     // 初始化朋友圈信息
     initMomentsList () {
@@ -765,12 +770,16 @@ export default {
     // 发送朋友圈
     sendMoments () {
       var _this = this
+      _this.momentIsHidden = true
       _this.textarea = _this.textarea.replace(/\s*/g, '')
       if (_this.textarea == null || _this.textarea.length === 0) {
         _this.$notify.error('内容不能为空')
         return
       }
-      _this.isHidden = true
+      if (_this.wid == null) {
+        _this.$notify.error('请选择个人号')
+        return
+      }
       console.log('wid' + _this.wid)
       console.log('内容' + _this.textarea)
       try {
@@ -785,7 +794,7 @@ export default {
               _this.initMomentsList()
             }
           }).catch((resp) => {
-            _this.isHidden = false
+            _this.momentIsHidden = false
             _this.$notify.error(getErrorMsg('发送失败', resp))
           })
         } else {
@@ -798,12 +807,12 @@ export default {
               _this.initMomentsList()
             }
           }).catch((resp) => {
-            _this.isHidden = false
+            _this.momentIsHidden = false
             _this.$notify.error(getErrorMsg('发送失败', resp))
           })
         }
       } catch (e) {
-        _this.isHidden = false
+        _this.momentIsHidden = false
       }
     },
     beforeAvatarUpload (file) {
@@ -859,6 +868,22 @@ export default {
       this.content = newValue
       if (this.content != null && this.content.replace(/\s*/g, '').length !== 0) {
         this.isHidden = false
+      } else {
+        this.isHidden = true
+      }
+    },
+    textarea (newValue) {
+      this.textarea = newValue
+      if (this.textarea != null && this.textarea.replace(/\s*/g, '').length !== 0) {
+        this.momentIsHidden = false
+      } else {
+        this.momentIsHidden = true
+      }
+    },
+    wid (newValue) {
+      this.wid = newValue
+      if (this.textarea != null) {
+        this.momentIsHidden = false
       }
     }
   }

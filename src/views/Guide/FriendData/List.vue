@@ -18,25 +18,25 @@
             <el-form-grid class="hidden">{{friendDetail.nick}}</el-form-grid>
           </el-form-item>
           <el-form-item label="性别：">
-            <el-form-grid>{{friendDetail.gender>=0?friendDetail.gender>0?'男':'女':'未知'}}</el-form-grid>
+            <el-form-grid>{{friendDetail.gender>=0?friendDetail.gender>0?'男':'女':'-'}}</el-form-grid>
           </el-form-item>
           <el-form-item label="地区：">
-            <el-form-grid class="hidden">{{friendDetail.areaName}}</el-form-grid>
+            <el-form-grid class="hidden">{{friendDetail.areaName?friendDetail.areaName:"-"}}</el-form-grid>
           </el-form-item>
-          <el-form-item label="标签：" class="margintop">
-            <el-tag>超级会员</el-tag>
-            <el-tag>白领</el-tag>
-            <el-tag>邓林之阴</el-tag>
-            <el-tag>超级会员</el-tag>
-            <el-tag>白领</el-tag>
-            <el-tag>邓林之阴</el-tag>
-            <el-tag>超级会员</el-tag>
-            <el-tag>白领</el-tag>
-            <el-tag>邓林之阴</el-tag>
-            <el-tag>超级会员</el-tag>
-            <el-tag>白领</el-tag>
-            <el-tag>邓林之阴</el-tag>
-          </el-form-item>
+<!--          <el-form-item label="标签：" class="margintop">-->
+<!--            <el-tag>超级会员</el-tag>-->
+<!--            <el-tag>白领</el-tag>-->
+<!--            <el-tag>邓林之阴</el-tag>-->
+<!--            <el-tag>超级会员</el-tag>-->
+<!--            <el-tag>白领</el-tag>-->
+<!--            <el-tag>邓林之阴</el-tag>-->
+<!--            <el-tag>超级会员</el-tag>-->
+<!--            <el-tag>白领</el-tag>-->
+<!--            <el-tag>邓林之阴</el-tag>-->
+<!--            <el-tag>超级会员</el-tag>-->
+<!--            <el-tag>白领</el-tag>-->
+<!--            <el-tag>邓林之阴</el-tag>-->
+<!--          </el-form-item>-->
           <el-form-item label-width="30px" class="margintop">
             <el-form-grid class="detail-leftside__chat">
               <div>
@@ -67,7 +67,8 @@
             <el-form-grid>{{friendDetail.name}}</el-form-grid>
           </el-form-item>
           <el-form-item label="是否与专属导购为好友关系：" label-width="210px">
-            <el-form-grid>{{friendDetail.name?'是':'否'}}</el-form-grid>
+<!--            <el-form-grid>{{friendDetail.name?'是':'否'}}</el-form-grid>-->
+            <el-form-grid>-</el-form-grid>
           </el-form-item>
         </el-form>
         <div class="detail-rightside">
