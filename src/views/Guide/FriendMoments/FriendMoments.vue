@@ -225,7 +225,7 @@
         <el-scrollbar ref="fullScreenright">
           <div class="talk-main__list">
             <div class="talk-convey" v-for="msg in interationMsgs" :key="msg.id">
-              <div class="talk-convey__name">个人号：{{msg.nick}}（ {{msg.snsOwnerId}} ）</div>
+              <div class="talk-convey__name">个人号：{{msg.ownerNick}}（ {{msg.ownerId}} ）</div>
               <div class="talk-convey__content clearfix">
                 <div class="talk-headportrait">
                   <img
@@ -244,7 +244,7 @@
                 <div class="talk-say" v-if="msg.content!==''">
                   {{msg.content}}
                 </div>
-                <div class="talk-photo" v-if="msg.images && msg.content===''">
+                <div class="talk-photo" v-if="msg.images ">
                   <div class="talk-photo__li">
                     <div :style="{backgroundImage: 'url(' + msg.images[0] + ')'} " class="talk-photo__li--figure">
                       <div class="talk-figureimg"></div>
