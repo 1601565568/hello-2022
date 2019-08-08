@@ -52,7 +52,8 @@ export default {
       isChatLoadEnd: false,
       isContentDiabled: true,
       targetLoading: false,
-      chatLoading: false
+      chatLoading: false,
+      btnSearchDisabled: false
     }
   },
   methods: {
@@ -116,6 +117,7 @@ export default {
 
           // this.$refs['fullScreenright'].wrap.scrollTop = document.getElementById('chatLog_0').offsetTop
         }
+        this.btnSearchDisabled = false
       })
     },
     isChatLeft (receive) {
@@ -139,6 +141,7 @@ export default {
       this.chatList = []
       this.targetLoading = true
       this.isChatLoadEnd = true
+      this.btnSearchDisabled = true
       this.$http.fetch(this.$api.guide.wxChat.findTargetList, this.searchedModel).then(resp => {
         _this.targetLoading = false
         _this.isChatLoadEnd = false
@@ -146,11 +149,12 @@ export default {
         if (_this.targetList.length > 0) {
           _this.clickTarget(0)
         }
+        this.btnSearchDisabled = false
       })
     },
     reset () {
       this.model.srhDate = [this.getStartDate(-30), this.getEndDate(new Date())]
-      this.model.wid = null
+      this.model.ownerId = null
       this.model.content = null
       this.search()
     },

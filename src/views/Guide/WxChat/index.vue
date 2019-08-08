@@ -1,36 +1,44 @@
 <template>
   <div class="talk-chat" style="text-align: left">
-    <el-form :inline="true" class="talk-chat__form" label-width="100px" :model="model">
-      <el-form-item label="自定义时段：">
-        <el-date-picker
-          v-model="model.srhDate"
-          type="daterange"
-          :picker-options="pickerOptions"
-          range-separator="至"
-          start-placeholder="开始日期"
-          end-placeholder="结束日期"
-          value-format="yyyy-MM-dd"
-          format="yyyy-MM-dd"
-          align="right"
-          :clearable="false"
-          :editable="false"
-          style="width: 225px"/>
-      </el-form-item>
-      <el-form-item label="个人号：">
-        <el-select v-model="model.ownerId" filterable placeholder="全部" clearable @change="widChanged">
-          <el-option v-for="item in ownerData" :key="item.wid" :label="item.nick" :value="item.wid"/>
-        </el-select>
-      </el-form-item >
-      <el-form-item label="聊天内容：">
-        <el-input v-model="model.content" style="width:200px" :disabled="isContentDiabled" placeholder="按聊天内容查询请先选择个人号"/>
-      </el-form-item>
-      <span style="margin-left:10px">
-        <el-form-item>
-          <ns-button type="primary" @click="search()">搜索</ns-button>
-          <ns-button @click="reset()">重置</ns-button>
-        </el-form-item>
-      </span>
-    </el-form>
+
+    <ns-page-table>
+      <!-- 搜索 -->
+      <template slot="searchSearch">
+        <el-form :model="model" :inline="true" @submit.native.prevent class="pull-right">
+            <el-form-item label="自定义时段：">
+              <el-date-picker
+                v-model="model.srhDate"
+                type="daterange"
+                :picker-options="pickerOptions"
+                range-separator="至"
+                start-placeholder="开始日期"
+                end-placeholder="结束日期"
+                value-format="yyyy-MM-dd"
+                format="yyyy-MM-dd"
+                align="right"
+                :clearable="false"
+                :editable="false"
+                style="width: 225px"/>
+            </el-form-item>
+            <el-form-item label="个人号：">
+              <el-select v-model="model.ownerId" filterable placeholder="全部" clearable @change="widChanged">
+                <el-option v-for="item in ownerData" :key="item.wid" :label="item.nick" :value="item.wid"/>
+              </el-select>
+            </el-form-item >
+            <el-form-item label="聊天内容：">
+              <el-input v-model="model.content" style="width:200px" :disabled="isContentDiabled" @keyup.enter.native="search()" clearable placeholder="按聊天内容查询请先选择个人号"/>
+            </el-form-item>
+            <span style="margin-left:10px">
+              <el-form-item>
+                <ns-button type="primary" @click="search()" :disabled="btnSearchDisabled">搜索</ns-button>
+                <ns-button @click="reset()">重置</ns-button>
+              </el-form-item>
+          </span>
+        </el-form>
+      </template>
+      <!-- 搜索-结束 -->
+    </ns-page-table>
+
     <el-container class="talk-chat__container">
       <el-aside class="talk-aside" style="width: 22%;">
         <div class="talk-aside__group">客户 / 群</div>
