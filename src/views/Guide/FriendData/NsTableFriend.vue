@@ -69,7 +69,7 @@
             end-placeholder="结束日期">
           </el-date-picker>
         </el-form-item>
-        <el-form-item label="最近交流时间：">
+        <el-form-item label="最近交流时间：" label-width="100px">
           <el-form-grid>
             <el-date-picker
               v-model="model.lastTime"
@@ -102,22 +102,31 @@
 
       <el-table ref="table" :data="_data._table.data" stripe @selection-change="handleSelectionChange">
         <el-table-column type="selection" align="center" :width="50"></el-table-column>
+        <el-table-column :show-overflow-tooltip="true" type="default" prop="title"
+                         label="头像" width='60px' align="center" :sortable="false">
+          <template slot-scope="scope">
+            <div class="avatar-name clearfix">
+              <div class="avatar-name__avatar"><img :src='scope.row.head' alt="好友头像" width="50px" height="50px"></div>
+<!--              <div class="avatar-name__name"> {{scope.row.nick?scope.row.nick:'-'}}</div>-->
+            </div>
+          </template>
+        </el-table-column>
         <el-table-column prop="friendNick" label="微信好友" align="left" width="88">
           <template slot-scope="scope">
             {{scope.row.nick?scope.row.nick:'-'}}
           </template>
         </el-table-column>
-        <el-table-column prop="gender" label="性别" align="left" width="130">
+        <el-table-column prop="gender" label="性别" align="left" width="100">
           <template slot-scope="scope">
             {{scope.row.gender>=0?scope.row.gender>=1?'女':'男':'-'}}
           </template >
         </el-table-column>
-        <el-table-column prop="areaName" label="地区" align="left" width="130">
+        <el-table-column prop="areaName" label="地区" align="left" width="100">
           <template slot-scope="scope">
             {{scope.row.areaName?scope.row.areaName:'-'}}
           </template >
         </el-table-column>
-        <el-table-column prop="tag" label="标签" align="left" width="120">
+        <el-table-column prop="tag" label="标签" align="left" width="100">
           <template slot-scope="scope">
             {{scope.row.tag?scope.row.nickname:'-'}}
           </template >
@@ -127,24 +136,24 @@
             {{scope.row.wname?scope.row.wname:scope.row.wid}}
           </template >
         </el-table-column>
-        <el-table-column prop="num" label="朋友圈互动数" align="left">
+        <el-table-column prop="num" label="朋友圈互动数" align="left" width="200">
           <template slot-scope="scope">
             赞我：{{scope.row.likeNum}}; 赞他：{{scope.row.likeHimNum}}。
             <br>
             评我：{{scope.row.commentsNum}}; 评他：{{scope.row.commentsHimNum}}。
           </template>
         </el-table-column>
-        <el-table-column prop='receiveConversationTime' label="最近交流时间" align="left" width="180">
+        <el-table-column prop='receiveConversationTime' label="最近交流时间" align="left" >
           <template slot-scope="scope">
             发：{{scope.row.sendConversationTime?scope.row.sendConversationTime:"-"}}
             <br>
             接：{{scope.row.receiveConversationTime?scope.row.receiveConversationTime:"-"}}
           </template>
         </el-table-column>
-        <el-table-column prop="addTime" label="添加好友时间" align="left" width="60">
+        <el-table-column prop="addTime" label="添加好友时间" align="left" >
         </el-table-column>
 
-        <el-table-column prop="status,row" :show-overflow-tooltip="true" label="操作" align="right" width="120">
+        <el-table-column prop="status,row" :show-overflow-tooltip="true" label="操作" align="center" width="120">
           <template slot-scope="scope">
             <div>
               <ns-button style="color:#0091FA"  @click="onRedactFun(scope.row.wid)" type="text">详情</ns-button>
@@ -178,7 +187,11 @@ import friend from './src/NsTableFriend'
 export default friend
 </script>
 <style scoped>
-.scope_row_count{
+  @import "@/style/small/variables.pcss";
+  .scope_row_count{
   color: blue;
-}
+  }
+  .high{
+    height : 60px
+  }
 </style>
