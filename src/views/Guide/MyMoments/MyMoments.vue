@@ -242,8 +242,8 @@
                 <div class="talk-say" v-if="msg.info!==''">
                   {{msg.info}}
                 </div>
-                <!-- 有图片的时候显示图片，暂注释-->
-                <div class="talk-photo" v-if="msg.images && msg.info===''">
+                <!-- 有图片的时候显示图片-->
+                <div class="talk-photo" v-if="msg.images">
                   <div class="talk-photo__li">
                     <div :style="{backgroundImage: 'url(' + msg.images[0] + ')'} " class="talk-photo__li--figure">
                       <div class="talk-figureimg"></div>

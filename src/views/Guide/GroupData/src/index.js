@@ -57,7 +57,7 @@ export default {
         ]
       },
       model: {
-        ownerId: '',
+        roomowner: '',
         nick: '',
         displayname: '',
         isFriend: '',
@@ -103,7 +103,7 @@ export default {
       this.$refs.groupTree.filter(this.filterGroup)
     },
     onClickGroupNode (data) {
-      this.model.ownerId = data.wid
+      this.model.roomowner = data.wid
       this.model.chatroomname = data.chatroomname
       this.$searchAction$()
     },
@@ -123,7 +123,7 @@ export default {
     $resetInput () {
       const origin = this.$getOriginModel$()
       // 重置时不重置左侧已选择的个人号或群聊
-      return Object.assign({}, origin, { wid: this.model.ownerId, chatroomname: this.model.chatroomname })
+      return Object.assign({}, origin, { wid: this.model.roomowner, chatroomname: this.model.chatroomname })
     },
     onShowGroupDetail (v) {
       this.groupDetailDialog.groupDetail = Object.assign({}, JSON.parse(JSON.stringify(v)))

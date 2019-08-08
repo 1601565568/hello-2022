@@ -35,7 +35,7 @@
               <el-table-column :show-overflow-tooltip="true" type="default" prop="nick"
                                label="微信信息" :sortable="false">
                 <template slot-scope='scope'>
-                  {{`${scope.row.isOwner == "1" ? (scope.row.ownerNick || '-') : (scope.row.nick || '-')}（${scope.row.wid || '-'}）`}}
+                  {{`${scope.row.isOwner == "1" ? (scope.row.ownerNick || '-') : (scope.row.nick || '-')}（${scope.row.wname || scope.row.wid || '-'}）`}}
                 </template>
               </el-table-column>
               <el-table-column :show-overflow-tooltip="true" type="default" prop=""
