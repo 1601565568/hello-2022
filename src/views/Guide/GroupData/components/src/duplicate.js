@@ -8,7 +8,7 @@ export default {
   components: { DuplicateTable },
   data () {
     const searchModelOrigin = {
-      ownerId: '',
+      roomowner: '',
       displayname: ''
     }
     return {

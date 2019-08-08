@@ -8,7 +8,7 @@
       <div class="detail-dialog__content">
         <el-form label-width="80px" class="detail-leftside">
           <el-form-item label="微信号：" class="detail-leftside__item">
-            <el-form-grid  class="detail-leftside__item--blackcolor detail-leftside__item--rowheight">{{memberDetail.wid || '-'}}</el-form-grid>
+            <el-form-grid  class="detail-leftside__item--blackcolor detail-leftside__item--rowheight">{{ memberDetail.wname || memberDetail.wid || '-'}}</el-form-grid>
           </el-form-item>
           <el-form-item label="微信昵称：" class="detail-leftside__item">
             <el-form-grid class="detail-leftside__item--blackcolor">{{memberDetail.isOwner == "1" ? (memberDetail.ownerNick || '-') : (memberDetail.nick || '-')}}</el-form-grid>

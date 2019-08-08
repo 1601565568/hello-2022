@@ -27,7 +27,7 @@ export default {
       if (value) {
         this.model = Object.assign({}, {
           chatroomname: this.groupDetail.chatroomname,
-          ownerId: this.groupDetail.ownerId
+          roomowner: this.groupDetail.roomowner
         })
         this.$searchAction$()
       }
