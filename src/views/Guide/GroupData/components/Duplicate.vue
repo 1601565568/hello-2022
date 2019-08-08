@@ -45,6 +45,9 @@
                     :reserve-selection='true'>
             <el-table-column :show-overflow-tooltip="true" type="default" prop="displayname"
                              label="可选择微信群" :sortable="false">
+              <template slot-scope="scope">
+                {{scope.row.displayname || '-'}}
+              </template>
             </el-table-column>
             <el-table-column type="selection" align="right" :width="50"></el-table-column>
           </el-table>
@@ -61,7 +64,7 @@
         <div class="dialog-right__content">
           <el-scrollbar class="scrollbarc">
             <div class="dialog-selectitem" v-for='item of wxGroupSelection' :key='item.chatroomname'>
-              <span class="dialog-selectitem__discountgroup">{{item.displayname}}</span>
+              <span class="dialog-selectitem__discountgroup">{{item.displayname || '-'}}</span>
               <i class="iconfont icon-shanchu2" @click='onRemoveSelectedWxGroup(item)'></i>
             </div>
           </el-scrollbar>
