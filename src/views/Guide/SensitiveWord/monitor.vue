@@ -148,24 +148,24 @@
         <!-- 分页-结束 -->
       </ns-page-table>
 
-      <!-- 删除分组 -->
+      <!-- 查看 -->
       <template>
         <el-dialog title="查看" :visible.sync="contentDlgVisible" width="600px" height="390px">
           <div class="el-header" style="text-align:center;width:100%;align-items:center"/>
           <div>
             <div v-html="dlgContent"
-                 style="text-align: left; border:1px solid #000;border-radius: 4px;border-color:#DCDFE6;overflow-y:auto;width:96%;height:250px"/>
+                 style="text-align: left; border:1px solid #000;border-radius: 4px;border-color:#DCDFE6;overflow-y:auto;width:96%;height:250px;word-break:break-all;"/>
           </div>
           <div style="height:10px"/>
           <div style="text-align: left">
             发送人:{{dlgNick}}({{dlgWid}})
           </div>
           <div class="el-footer">
-            <ns-button @click="contentDlgVisible=false">确定</ns-button>&nbsp;
+            <ns-button type="primary" @click="contentDlgVisible=false">确定</ns-button>&nbsp;
           </div>
         </el-dialog>
       </template>
-      <!-- 删除分组 结束 -->
+      <!-- 查看 结束 -->
     </div>
   </div>
 </template>
