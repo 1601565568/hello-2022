@@ -106,7 +106,7 @@
                          label="头像" width='60px' align="center" :sortable="false">
           <template slot-scope="scope">
             <div class="avatar-name clearfix">
-              <div class="avatar-name__avatar"><img :src='scope.row.head' alt="好友头像" width="50px" height="50px"></div>
+              <div class="avatar-name__avatar"><img :src='scope.row.head' alt="好友头像"  style="margin-top:5px;width:50px;height:50px;" ></div>
 <!--              <div class="avatar-name__name"> {{scope.row.nick?scope.row.nick:'-'}}</div>-->
             </div>
           </template>
