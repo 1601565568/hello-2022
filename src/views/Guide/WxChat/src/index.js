@@ -173,7 +173,6 @@ export default {
       if (limitHeight < 400) {
         limitHeight = 400
       }
-      console.warn('limitHeight='+limitHeight)
       this.$refs.fullScreen.$el.children[0].style.maxHeight = limitHeight + 'px'
       this.$refs.fullScreenright.$el.children[0].style.maxHeight = limitHeight + 'px'
     }

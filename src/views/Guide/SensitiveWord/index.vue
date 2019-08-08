@@ -96,31 +96,28 @@
       <el-dialog title="确认" :visible.sync="removeGroupDialogVisible" :width="removeGroupDlgWidth"
                  :height="removeGroupDlgHeight">
         <el-form :model="removeGroupModel" ref="removeGroupForm">
-          <div class="el-header"/>
-          <div class="el-main">
-            <p v-html="removeGroupText" style="font-size:15px"/>
-            <p></p>
-            <div v-show="removeGroupSelectVisible">
-              <p><font size="2" color="blue">* 请将组内敏感词转移到其他分组</font></p>
-              <p></p>
-              <el-form-item prop="targetGroupId" v-if="isShowSelecntInRemoveGroup"
-                            :rules="[{ required: true, message: '请选择目标分组', trigger: 'change' }]">
-                <el-select placeholder="请选择目标分组" v-model="removeGroupModel.targetGroupId" clearable filterable
-                           style="width:220px">
-                  <el-option
-                    v-for="item in groupOptionsInRemoveGroupDlg" :key="item.value" :label="item.label"
-                    :value="item.value">
-                  <span style="color: #8492a6; " v-if="item.prefix != ''">
-                    <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                    <span>{{ item.prefix }} -</span>
-                  </span>
-                    <span style="">{{ item.label }}</span>
-                  </el-option>
-                </el-select>
-              </el-form-item>
+            <div v-html="removeGroupText" style="font-size:15px;text-align: center;margin-top: 15px;"/>
+            <div v-if="removeGroupSelectVisible" style="text-align: center;margin-top: 7px;">
+              <font size="2" color="blue">* 请将组内敏感词转移到其他分组</font><br/>
+              <div style="text-align: center;margin-top: 7px;">
+                <el-form-item prop="targetGroupId" v-if="isShowSelecntInRemoveGroup"
+                              :rules="[{ required: true, message: '请选择目标分组', trigger: 'change' }]">
+                  <el-select placeholder="请选择目标分组" v-model="removeGroupModel.targetGroupId" clearable filterable
+                             style="width:220px">
+                    <el-option
+                      v-for="item in groupOptionsInRemoveGroupDlg" :key="item.value" :label="item.label"
+                      :value="item.value">
+                    <span style="color: #8492a6; " v-if="item.prefix != ''">
+                      <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                      <span>{{ item.prefix }} -</span>
+                    </span>
+                      <span style="">{{ item.label }}</span>
+                    </el-option>
+                  </el-select>
+                </el-form-item>
+              </div>
             </div>
-          </div>
-          <div class="el-footer" style="text-align: right">
+          <div class="el-footer" style="text-align: right;margin-top: 10px">
             <ns-button @click="removeGroupDialogVisible=false">取消</ns-button>
             <ns-button type="primary" @click="submitRemoveGroup()">确定</ns-button>
           </div>

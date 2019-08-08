@@ -149,7 +149,7 @@ export default {
           // 加载分组options
           _this.groupOptionsInRemoveGroupDlg = _this.getGroupOptions(this.removeGroupModel.oriGroupId)
           _this.removeGroupDlgWidth = '300px'
-          _this.removeGroupDlgHeight = '220px'
+          _this.removeGroupDlgHeight = '200px'
         } else {
           _this.removeGroupDlgWidth = '250px'
           _this.removeGroupDlgHeight = '160px'
