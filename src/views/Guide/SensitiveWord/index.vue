@@ -24,7 +24,19 @@
       <ns-page-table>
         <!-- 按钮 -->
         <template slot="buttons">
-          <ns-table-operate-button :buttons="_data._table.table_buttons"/>
+          <div class="control">
+            <ns-table-operate-button :buttons="_data._table.table_buttons"/>
+            <span>
+              <el-popover
+                placement="bottom"
+                trigger="hover">
+                  <el-row class="overview-popover">
+                    只对敏感词创建时间后的聊天记录进行监控统计
+                  </el-row>
+                  <i slot="reference" class="el-icon-info ml10 fz13" style='color:#999'></i>
+                </el-popover>
+            </span>
+          </div>
         </template>
         <!-- 按钮-结束 -->
 
@@ -33,10 +45,6 @@
           <el-form :model="model" :inline="true" @submit.native.prevent class="pull-right">
             <el-form-item>
               <el-form-grid block class="text-info">
-                <span>
-                  <i class="el-icon-info"></i>
-                  只对敏感词创建时间后的聊天记录进行监控统计&nbsp;&nbsp;
-                </span>
                 <el-input ref="quickText" style="width: 250px" name="name" v-model="model.name" placeholder="搜索敏感词"
                           @keyup.enter.native="$searchAction$()" clearable>
                 </el-input>
@@ -297,5 +305,12 @@
       text-align: right;
       vert-align: bottom;
     }
+  }
+  >>> .el-col-8 {
+    width: 38.33333%;
+  }
+  .control {
+    display: flex;
+    align-items: center;
   }
 </style>
