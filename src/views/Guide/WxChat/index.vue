@@ -57,7 +57,7 @@
               <el-option v-for="item in ownerData" :key="item.wid" :label="item.nick" :value="item.wid"/>
             </el-select>
           </el-form-item >
-          <el-form-item label="聊天内容：">
+          <el-form-item label="聊天内容：" v-if="false">
             <el-input v-model="model.content" style="width:200px" :disabled="isContentDiabled" @keyup.enter.native="search()" clearable placeholder="按聊天内容查询请先选择个人号"/>
           </el-form-item>
         </el-form>
