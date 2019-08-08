@@ -239,13 +239,13 @@
                   </div>
                   <div class="talk-personmsg__time">{{msg.addTime}}</div>
                 </div>
-                <div class="talk-say" v-if="msg.info">
+                <div class="talk-say" v-if="msg.info!==''">
                   {{msg.info}}
                 </div>
                 <!-- 有图片的时候显示图片，暂注释-->
-                <div class="talk-photo" v-if="!msg.info">
+                <div class="talk-photo" v-if="msg.images && msg.info===''">
                   <div class="talk-photo__li">
-                    <div style="background-image:url(https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/201907/120,910,104,359,001/a2e079dd-e605-49d3-9c10-a3893b413ba0.jpg)" class="talk-photo__li--figure">
+                    <div :style="{backgroundImage: 'url(' + msg.images[0] + ')'} " class="talk-photo__li--figure">
                       <div class="talk-figureimg"></div>
                     </div>
                   </div>
