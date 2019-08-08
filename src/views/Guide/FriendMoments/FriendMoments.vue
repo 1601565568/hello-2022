@@ -241,14 +241,12 @@
                   </div>
                   <div class="talk-personmsg__time">{{msg.addTime}}</div>
                 </div>
-                <div class="talk-say" v-if="msg.content">
+                <div class="talk-say" v-if="msg.content!==''">
                   {{msg.content}}
                 </div>
-                <div class="talk-photo"v-if="!msg.content">
+                <div class="talk-photo" v-if="msg.images && msg.content===''">
                   <div class="talk-photo__li">
-                    <div
-                      style="background-image:url(https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/201907/120,910,104,359,001/a2e079dd-e605-49d3-9c10-a3893b413ba0.jpg)"
-                      class="talk-photo__li--figure">
+                    <div :style="{backgroundImage: 'url(' + msg.images[0] + ')'} " class="talk-photo__li--figure">
                       <div class="talk-figureimg"></div>
                     </div>
                   </div>
@@ -644,7 +642,7 @@ export default {
       let replyMomentVo = {
         wid: _this.otherMoment.ownerId,
         snsId: _this.otherMoment.snsId,
-        author: _this.otherMoment.owner,
+        author: _this.otherMoment.ownerId,
         content: _this.content,
         replyTo: _this.otherComment ? _this.otherComment.ownerId : _this.otherMoment.owner,
         commentType: commentType,
@@ -680,7 +678,7 @@ export default {
       let replyMomentVo = {
         wid: moment.ownerId,
         snsId: moment.snsId,
-        author: moment.owner
+        author: moment.ownerId
       }
       _this.$http.fetch(_this.$api.guide.myMoments.like, replyMomentVo).then(resp => {
         if (resp.success) {
