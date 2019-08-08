@@ -241,8 +241,8 @@
                   </div>
                   <div class="talk-personmsg__time">{{msg.addTime}}</div>
                 </div>
-                <div class="talk-say" v-if="msg.content!==''">
-                  {{msg.content}}
+                <div class="talk-say" v-if="msg.info!==''">
+                  {{msg.info}}
                 </div>
                 <div class="talk-photo" v-if="msg.images ">
                   <div class="talk-photo__li">
@@ -558,8 +558,8 @@ export default {
       })
     },
     reloadList () {
-      setTimeout(this.initMomentsList(), 4000)
-      setTimeout(this.initInteractionMsgList(), 4000)
+      setTimeout(this.initMomentsList, 2000)
+      setTimeout(this.initInteractionMsgList, 2000)
     },
     // 个人号列表
     initPersonalNumberList () {

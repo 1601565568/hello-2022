@@ -36,7 +36,7 @@
           <!-- el-form 需添加  surround-btn 类名 配置环绕按钮效果 -->
           <template slot="advancedSearch" v-if="_data._queryConfig.expand">
             <el-form ref="table_filter_form" label-width="80px" @keyup.enter.native="onSearch" class="surround-btn"
-                     :model="model"  :inline="true">
+                     :model="model"  :inline="true" :rules="numberRules">
               <el-form-item label="个人号：">
                 <el-form-grid size="xmd">
                   <el-select v-model="model.ownerId" filterable clearable
@@ -92,27 +92,35 @@
                   </el-date-picker>
                 </el-form-grid>
               </el-form-item>
-<!--              <el-form-item label="点赞数：" >-->
-<!--                <el-form-grid class="widthlength">-->
-<!--                  <el-input v-model="likesMin"></el-input>-->
-<!--                </el-form-grid>-->
+<!--              <el-form-item label="点赞数：">-->
+<!--                <el-form-item prop="likesMin">-->
+<!--                  <el-form-grid class="widthlength">-->
+<!--                    <el-input v-model="model.likesMin"></el-input>-->
+<!--                  </el-form-grid>-->
+<!--                </el-form-item>-->
 <!--                <el-form-grid class="text-tips&#45;&#45;grey">-->
 <!--                  ~-->
 <!--                </el-form-grid>-->
-<!--                <el-form-grid class="widthlength">-->
-<!--                  <el-input v-model="likesMax"></el-input>-->
-<!--                </el-form-grid>-->
+<!--                <el-form-item prop="likesMax">-->
+<!--                  <el-form-grid class="widthlength">-->
+<!--                    <el-input v-model="model.likesMax"></el-input>-->
+<!--                  </el-form-grid>-->
+<!--                </el-form-item>-->
 <!--              </el-form-item>-->
 <!--              <el-form-item label="评论数：">-->
-<!--                <el-form-grid class="widthlength">-->
-<!--                  <el-input v-model="model.commentsMin"></el-input>-->
-<!--                </el-form-grid>-->
+<!--                <el-form-item prop="commentsMin">-->
+<!--                  <el-form-grid class="widthlength">-->
+<!--                    <el-input v-model="model.commentsMin"></el-input>-->
+<!--                  </el-form-grid>-->
+<!--                </el-form-item>-->
 <!--                <el-form-grid class="text-tips&#45;&#45;grey">-->
 <!--                  ~-->
 <!--                </el-form-grid>-->
-<!--                <el-form-grid class="widthlength">-->
-<!--                  <el-input v-model="model.commentsMax"></el-input>-->
-<!--                </el-form-grid>-->
+<!--                <el-form-item prop="commentsMax">-->
+<!--                  <el-form-grid class="widthlength">-->
+<!--                    <el-input v-model="model.commentsMax"></el-input>-->
+<!--                  </el-form-grid>-->
+<!--                </el-form-item>-->
 <!--              </el-form-item>-->
             </el-form>
             <div class="template-table__more-btn">
@@ -386,16 +394,48 @@ export default {
     }]
     let rules = {
       'likesMin': [
-        { type: 'number', message: '必须为数字值' }
+        { message: '请输入正整数', trigger: 'blur,change' },
+        {
+          pattern: /^[0-9]*[1-9][0-9]*$/,
+          message: '数字格式错误，请您重新输入！'
+        }
       ],
       'likesMax': [
-        { type: 'number', message: '必须为数字值' }
+        { message: '请输入正整数', trigger: 'blur,change' },
+        {
+          pattern: /^[0-9]*[1-9][0-9]*$/,
+          message: '数字格式错误，请您重新输入！'
+        },
+        {
+          validator: (rule, value, callback) => {
+            if (value <= this.model.likesMin) {
+              // eslint-disable-next-line standard/no-callback-literal
+              callback('点赞最大数不能小于或等于最小数')
+            }
+          }
+        }
       ],
       'commentsMin': [
-        { type: 'number', message: '必须为数字值' }
+        { message: '请输入正整数', trigger: 'blur,change' },
+        {
+          pattern: /^[0-9]*[1-9][0-9]*$/,
+          message: '数字格式错误，请您重新输入！'
+        }
       ],
       'commentsMax': [
-        { type: 'number', message: '必须为数字值' }
+        { message: '请输入正整数', trigger: 'blur,change' },
+        {
+          pattern: /^[0-9]*[1-9][0-9]*$/,
+          message: '数字格式错误，请您重新输入！'
+        },
+        {
+          validator: (rule, value, callback) => {
+            if (value <= this.model.commentsMax) {
+              // eslint-disable-next-line standard/no-callback-literal
+              callback('最大数不能小于或等于最小数')
+            }
+          }
+        }
       ]
     }
     var quickSearchNames = quickInput.map(x => x.name)
@@ -449,7 +489,7 @@ export default {
       textarea: null,
       pack: packData,
       quickSearchModel: quickSearchModel,
-      rules: rules,
+      numberRules: rules,
       _pagination: pagination,
       // eslint-disable-next-line vue/no-reserved-keys
       interactionPagination: interactionPagination,
@@ -457,7 +497,7 @@ export default {
       _queryConfig: {
         expand: false
       },
-      moments: null, // 朋友圈列表
+      moments: [], // 朋友圈列表
       // images: [],
       likeNames: null, // 点赞的名称
       interationMsgs: null, // 互动消息
@@ -542,7 +582,7 @@ export default {
       let params = _this.$generateParams$()
       _this.$http.fetch(_this.url, params).then(resp => {
         if (resp.success && resp.result != null) {
-          _this.moments = resp.result.data
+          _this.moments = Object.assign([], resp.result.data)
           _this._data._pagination.total = parseInt(resp.result.recordsTotal)
         }
       }).catch((resp) => {
@@ -613,8 +653,8 @@ export default {
       })
     },
     reloadList () {
-      setTimeout(this.initMomentsList(), 4000)
-      setTimeout(this.initInteractionMsgList(), 4000)
+      setTimeout(this.initMomentsList, 2000)
+      setTimeout(this.initInteractionMsgList, 2000)
     },
     // 个人号列表
     initPersonalNumberList () {
@@ -791,7 +831,7 @@ export default {
               _this.$notify.success('发送成功')
               _this.dialogVisible = true
               _this.dialogVisibleShow = false
-              _this.initMomentsList()
+              _this.reloadList()
             }
           }).catch((resp) => {
             _this.momentIsHidden = false
@@ -804,7 +844,7 @@ export default {
               _this.$notify.success('发送成功')
               _this.dialogVisible = true
               _this.dialogVisibleShow = false
-              _this.initMomentsList()
+              _this.reloadList()
             }
           }).catch((resp) => {
             _this.momentIsHidden = false
@@ -1251,7 +1291,6 @@ export default {
   }
   .colorblue {
     color: var(--talk-font-color-blue);
-    cursor: pointer;
   }
   .icon-xiaoxi {
     font-size: var(--dafault-font-size-xlarge);
