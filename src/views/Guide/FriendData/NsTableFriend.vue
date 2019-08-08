@@ -124,7 +124,7 @@
         </el-table-column>
         <el-table-column prop="wid" label="个人号" align="left" width="120">
           <template slot-scope="scope">
-            {{scope.row.wid?scope.row.wid:'-'}}
+            {{scope.row.wname?scope.row.wname:scope.row.wid}}
           </template >
         </el-table-column>
         <el-table-column prop="num" label="朋友圈互动数" align="left">
