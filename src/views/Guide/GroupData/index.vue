@@ -13,8 +13,8 @@
                  node-key="id" :default-expand-all="false" :expand-on-click-node="false" :default-checked-keys="[0]"
                  :filter-node-method="onFilterGroupNode" @node-click="onClickGroupNode">
           <div class="subdivision-tree-node" slot-scope="{ node, data }">
-            <el-popover class="item" trigger='hover' :content="node.label + (data.chatroomname ? '('+data.quantity + ')' : ' / ' + data.quantity)" placement="bottom">
-              <span slot="reference">{{wordLimit(node.label + (data.chatroomname ? '('+data.quantity + ')' : ' / ' + data.quantity))}}</span>
+            <el-popover class="item" trigger='hover' :content="(node.label || '-') + (data.chatroomname ? '('+data.quantity + ')' : ' / ' + data.quantity)" placement="bottom">
+              <span slot="reference">{{wordLimit((node.label || '-') + (data.chatroomname ? '('+data.quantity + ')' : ' / ' + data.quantity))}}</span>
             </el-popover>
           </div>
         </el-tree>
