@@ -4,7 +4,7 @@
     <ns-page-table>
       <!-- 搜索 -->
       <template slot="searchSearch" >
-        <el-form :model="model" :inline="true" @submit.native.prevent class="pull-right">
+        <el-form :model="model" :inline="true" @submit.native.prevent class="pull-right talk-chat__form">
             <el-form-item label="自定义时段：" v-show="_data._queryConfig.expand === false">
               <el-date-picker
                 v-model="model.srhDate"
