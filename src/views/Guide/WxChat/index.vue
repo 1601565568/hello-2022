@@ -80,7 +80,7 @@
                   <i class="iconfont icon-qun"></i>
                 </div>
                 <div v-else class="talk-item__avatar">
-                  <img :src="target.head||'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/gongzhonghao2019.7.31.png'" class="talk-img">
+                  <img :src="target.head||'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/app/WECHAT_DEFAULT_HEAD.png'" class="talk-img">
                 </div>
                 <div class="talk-item__username">{{target.talkerName||target.talker}}</div>
                 <div class="talk-item__time">{{getHourMinitue(target.lastTime)}}</div>
@@ -116,7 +116,7 @@
             <template v-for="(chat,index) in chatList">
               <div :id="'chatLog0' + index" ref="'chatLog0' + index" :class="{'talk-strip':isChatLeft(chat.receive), 'talk-right': !isChatLeft(chat.receive), 'clearfix':  chat.cancel||chat.delete}">
                 <div :class="{'talk-strip__headportrait':isChatLeft(chat.receive), 'talk-right__headportrait': !isChatLeft(chat.receive), 'clearfix':  chat.cancel||chat.delete}">
-                  <img :src="chat.senderHead||'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/gongzhonghao2019.7.31.png'" alt="用户头像" class="talk-image">
+                  <img :src="chat.senderHead||'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/app/WECHAT_DEFAULT_HEAD.png'" alt="用户头像" class="talk-image">
                 </div>
                 <div :class="{'talk-strip__uname':isChatLeft(chat.receive), 'talk-right__uname': !isChatLeft(chat.receive)}">
                   <div :class="{'talk-msg':isChatLeft(chat.receive), 'talk-rightmsg': !isChatLeft(chat.receive)}">
@@ -168,7 +168,7 @@
           </el-form-item>
         </el-form>
         <div class="detail-rightside" v-show="targetList[currTargetIndex].talkerType===0">
-          <img :src="targetList[currTargetIndex].head||'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/gongzhonghao2019.7.31.png'" class="detail-rightside__img">
+          <img :src="targetList[currTargetIndex].head||'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/app/WECHAT_DEFAULT_HEAD.png'" class="detail-rightside__img">
         </div>
       </div>
     </el-dialog>
