@@ -359,7 +359,7 @@
         </el-form-item>
         <el-form-item  class="dialog-content__subtance dialog-content__subtance--margintop">
           <div class="dialog-detail dialog-detail--paddingbtm">
-            <el-input type="textarea" :rows="8" placeholder="请输入评论内容" v-model="textarea">
+            <el-input type="textarea" :rows="8" placeholder="请输入评论内容" v-model="textarea" maxlength="800">
             </el-input>
             <i class="iconfont icon-biaoqing"></i>
           </div>
