@@ -137,7 +137,7 @@
                     <div class="talk-sentence">{{moment.content}}</div>
                     <div class="talk-matching">
                       <div class="talk-matching__figurelist" v-if="moment.images">
-                        <div class="talk-li" v-for="image in moment.images" :key="image">
+                        <div class="talk-li" v-for="(image,index) in moment.images" :key="index">
                           <div :style="{backgroundImage: 'url(' + image + ')'} " class="talk-li__figure">
                             <div class="talk-li__figure--img"></div>
                           </div>

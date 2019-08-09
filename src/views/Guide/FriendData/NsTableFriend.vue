@@ -140,18 +140,26 @@
             {{scope.row.ownerId}}
           </template >
         </el-table-column>
-        <el-table-column prop="num" label="朋友圈互动数" align="left" width="200">
+        <el-table-column prop="num" label="朋友圈互动数" align="left" width="200" sortable>
           <template slot-scope="scope">
             赞我：{{scope.row.likeNum}}; 赞他：{{scope.row.likeHimNum}}。
             <br>
             评我：{{scope.row.commentsNum}}; 评他：{{scope.row.commentsHimNum}}。
           </template>
         </el-table-column>
-        <el-table-column prop='receiveConversationTime' label="最近交流时间" align="left" >
+        <el-table-column prop='receiveConversationTime' label="最近交流时间" align="left" sortable >
           <template slot-scope="scope">
             发：{{scope.row.sendConversationTime?scope.row.sendConversationTime:"-"}}
             <br>
             接：{{scope.row.receiveConversationTime?scope.row.receiveConversationTime:"-"}}
+          </template>
+          <template slot='header' scope='header'>
+                    <span>
+                      <span>{{header.column.label}}</span>
+                      <el-popover placement='bottom' width='210' trigger='hover' content='发消息：员工向消费者发消息;接消息：员工接到消费者消息。'>
+                        <i slot='reference' class='icon-base icon-xiangqingyiwen table-header-icon'></i>
+                      </el-popover>
+                    </span>
           </template>
         </el-table-column>
         <el-table-column prop="addTime" label="添加好友时间" align="center" >
