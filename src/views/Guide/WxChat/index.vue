@@ -111,10 +111,10 @@
           <div class="talk-main__strip">
             <div style="text-align: center;margin-top:10px">
               <font size="3">
-                <template v-if="isChatLoadEnd">
+                <template v-if="isChatLoadEnd && chatList.length === 0">
                   暂无数据
                 </template>
-                <template v-else>
+                <template v-if="!isChatLoadEnd">
                   <a @click="loadChatLog(false)">查看更多</a>
                 </template>
               </font>
