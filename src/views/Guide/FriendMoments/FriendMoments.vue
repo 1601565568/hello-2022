@@ -124,7 +124,7 @@
           <!-- 左边内容滚动区域 -->
           <template slot="table" ref="mainTable">
             <el-scrollbar ref="fullScreen">
-              <div class="talk-aside__list" ref="asd" v-for="moment in moments" :key="moment.id">
+              <div class="talk-aside__list" ref="asd" v-for="(moment,index) in moments" :key="moment.id">
                 <div class="talk-item clearfix">
                   <div class="talk-item__avatar">
                     <img :src="moment.head" class="talk-avatarimg" alt="个人号头像">
@@ -727,7 +727,7 @@ export default {
       this.$refs.fullScreenright.$el.children[0].style.maxHeight = limitHeightRight + 'px'
     },
     setState () {
-      this.list.map((item, index) => {
+      this.moments.map((moment, index) => {
         let descHeight = this.$refs.asideList.children[index].children[1].children[1].clientHeight
         if (descHeight > 40) {
           this.$set(this.list[index], 'showState', 2)
