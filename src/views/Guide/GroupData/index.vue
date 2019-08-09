@@ -94,20 +94,20 @@
               </template>
             </el-table-column>
             <el-table-column :show-overflow-tooltip="true" type="default" prop="nick"
-                             label="微信昵称" :sortable="false">
+                             label="微信昵称" :sortable="false" width='200px'>
               <template slot-scope='scope'>
                 {{scope.row.isOwner == "1" ? (scope.row.ownerNick || '-') : (scope.row.nick || '-')}}
               </template>
             </el-table-column>
 <!--            todo-zsf 暂无以下数据-->
             <el-table-column :show-overflow-tooltip="true" type="default" prop=""
-                             label="性别" :sortable="false">
+                             label="性别" :sortable="false" align='center' width='80px'>
               <template slot-scope='scope'>
                 -
               </template>
             </el-table-column>
             <el-table-column :show-overflow-tooltip="true" type="default" prop=""
-                             label="地区" :sortable="false">
+                             label="地区" :sortable="false" width='80px'>
               <template slot-scope='scope'>
                 -
               </template>
@@ -138,7 +138,7 @@
               </template>
             </el-table-column>
             <el-table-column :show-overflow-tooltip="true" label="操作" align="center"
-                             width="160px">
+                             width="60px">
               <template slot-scope="scope">
                 <ns-table-column-operate-button :buttons="_data._table.table_buttons"
                                                 :prop="scope">
