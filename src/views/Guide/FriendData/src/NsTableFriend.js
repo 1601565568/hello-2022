@@ -72,6 +72,7 @@ export default {
     let quickSearchModel = {}
     let searchModel = {
       friendNick: null, // 好友昵称
+      ownerId: null, // 个人号id
       privateNick: null, // 个人号昵称
       remark: null, // 好友备注
       wid: null, // 个人微信号
