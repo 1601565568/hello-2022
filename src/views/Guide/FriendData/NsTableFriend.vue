@@ -116,7 +116,7 @@
             {{scope.row.nick?scope.row.nick:'-'}}
           </template>
         </el-table-column>
-        <el-table-column prop="gender" label="性别" align="left" width="100">
+        <el-table-column prop="gender" label="性别" align="center" width="100">
           <template slot-scope="scope">
             {{scope.row.gender>=0?scope.row.gender>=1?'女':'男':'-'}}
           </template >
@@ -150,7 +150,7 @@
             接：{{scope.row.receiveConversationTime?scope.row.receiveConversationTime:"-"}}
           </template>
         </el-table-column>
-        <el-table-column prop="addTime" label="添加好友时间" align="left" >
+        <el-table-column prop="addTime" label="添加好友时间" align="center" >
         </el-table-column>
 
         <el-table-column prop="status,row" :show-overflow-tooltip="true" label="操作" align="center" width="120">
