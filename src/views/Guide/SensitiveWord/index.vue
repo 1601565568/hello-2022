@@ -101,13 +101,13 @@
 
     <!-- 删除分组 -->
     <template>
-      <el-dialog title="确认" :visible.sync="removeGroupDialogVisible" :width="removeGroupDlgWidth"
+      <el-dialog title="提示" :visible.sync="removeGroupDialogVisible" :width="removeGroupDlgWidth"
                  :height="removeGroupDlgHeight">
         <el-form :model="removeGroupModel" ref="removeGroupForm">
-            <div v-html="removeGroupText" style="font-size:15px;text-align: center;margin-top: 15px;"/>
-            <div v-if="removeGroupSelectVisible" style="text-align: center;margin-top: 7px;">
+            <div v-html="removeGroupText" style="font-size:15px;margin-left:95px;margin-top: 15px;"/>
+            <div v-if="removeGroupSelectVisible" style="margin-top: 15px;margin-left:120px;">
               <font size="2" color="blue">* 请将组内敏感词转移到其他分组</font><br/>
-              <div style="text-align: center;margin-top: 7px;">
+              <div style="margin-top: 15px;">
                 <el-form-item prop="targetGroupId" v-if="isShowSelecntInRemoveGroup"
                               :rules="[{ required: true, message: '请选择目标分组', trigger: 'change' }]">
                   <el-select placeholder="请选择目标分组" v-model="removeGroupModel.targetGroupId" clearable filterable
@@ -125,7 +125,7 @@
                 </el-form-item>
               </div>
             </div>
-          <div class="el-footer" style="text-align: right;margin-top: 10px">
+          <div style="text-align: right;margin-top: 30px;margin-right: 7px">
             <ns-button @click="removeGroupDialogVisible=false">取消</ns-button>
             <ns-button type="primary" @click="submitRemoveGroup()">确定</ns-button>
           </div>
