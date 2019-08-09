@@ -4,7 +4,7 @@
 <ns-page-table @add="$emit('add')" @showShop="$emit('showShop')" @dimission="$emit('dimission')"  @allDelete="$emit('allDelete')" @shopEdit="$emit('shopEdit')" :colButton='10'>
     <!-- 按钮 -->
     <template slot="buttons">
-      <ns-table-operate-button :buttons="_data._table.table_buttons">
+      <ns-table-operate-button :buttons="_data._table.operate_buttons">
       </ns-table-operate-button>
     </template>
     <!-- 按钮-结束 -->
