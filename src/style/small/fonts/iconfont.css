@@ -46,10 +46,6 @@
   content: "\e654";
 }
 
-.icon-wenhao:before {
-  content: "\e627";
-}
-
 .icon-file:before {
   content: "\e7aa";
 }
@@ -74,18 +70,6 @@
   content: "\e6fc";
 }
 
-.icon-topArr:before {
-  content: "\e71f";
-}
-
-.icon-downArr:before {
-  content: "\e720";
-}
-
-.icon-suoxiao:before {
-  content: "\e822";
-}
-
 .icon-assembly:before {
   content: "\e61d";
 }
@@ -96,10 +80,6 @@
 
 .icon-shop:before {
   content: "\e624";
-}
-
-.icon-shanchu1:before {
-  content: "\e6c0";
 }
 
 .icon-copy:before {
@@ -128,10 +108,6 @@
 
 .icon-update:before {
   content: "\e622";
-}
-
-.icon-yonghu1:before {
-  content: "\e65a";
 }
 
 .icon-box:before {
@@ -186,10 +162,6 @@
   content: "\e601";
 }
 
-.icon-setting:before {
-  content: "\e602";
-}
-
 .icon-dataScreening:before {
   content: "\e603";
 }
@@ -226,10 +198,6 @@
   content: "\e60c";
 }
 
-.icon-revoke:before {
-  content: "\e60d";
-}
-
 .icon-test:before {
   content: "\e60e";
 }
@@ -250,32 +218,12 @@
   content: "\e612";
 }
 
-.icon-recovery:before {
-  content: "\e613";
-}
-
-.icon-enlarge:before {
-  content: "\e614";
-}
-
-.icon-restore:before {
-  content: "\e615";
-}
-
 .icon-batchEditing:before {
   content: "\e616";
 }
 
 .icon-delete:before {
   content: "\e618";
-}
-
-.icon-fullScreen:before {
-  content: "\e619";
-}
-
-.icon-narrow:before {
-  content: "\e61a";
 }
 
 .icon-show:before {
@@ -360,10 +308,6 @@
 
 .icon-rili:before {
   content: "\e64f";
-}
-
-.icon-xiangqingyiwen:before {
-  content: "\e650";
 }
 
 .icon-yitianxie:before {
@@ -626,10 +570,6 @@
   content: "\e694";
 }
 
-.icon-yunpingtai2:before {
-  content: "\e695";
-}
-
 .icon-kehudongcha2:before {
   content: "\e696";
 }
@@ -648,10 +588,6 @@
 
 .icon-shujuyingxiao2:before {
   content: "\e69a";
-}
-
-.icon-admin:before {
-  content: "\e65b";
 }
 
 .icon-VIPtixi:before {
@@ -734,10 +670,6 @@
   content: "\e69d";
 }
 
-.icon-xiazaizhongxin:before {
-  content: "\e69e";
-}
-
 .icon-zhinengfenxi:before {
   content: "\e69f";
 }
@@ -810,20 +742,12 @@
   content: "\e6b0";
 }
 
-.icon-topArr1:before {
-  content: "\e6bb";
-}
-
 .icon-zhiding:before {
   content: "\e6bc";
 }
 
 .icon-zhidi:before {
   content: "\e6bd";
-}
-
-.icon-downArr1:before {
-  content: "\e6be";
 }
 
 .icon-yijinyong_:before {
@@ -860,10 +784,6 @@
 
 .icon-yonghuguanli:before {
   content: "\e6b9";
-}
-
-.icon-xitongguanli:before {
-  content: "\e6ba";
 }
 
 .icon-gaojiguanli:before {
@@ -972,10 +892,6 @@
 
 .icon-qitashezhi1:before {
   content: "\e6df";
-}
-
-.icon-qitashezhi-:before {
-  content: "\e6e0";
 }
 
 .icon-xitongrizhi:before {

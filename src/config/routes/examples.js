@@ -42,6 +42,12 @@ export default {
           'name': 'goodFriendDataDetail',
           'title': 'goodFriendDataDetail',
           'component': () => import('@/views/Examples/goodFriendDataDetail.vue')
+        },
+        {
+          'path': '/Screening',
+          'name': 'Screening',
+          'title': 'Screening',
+          'component': () => import('@/views/Examples/screening.vue')
         }
       ]
     }

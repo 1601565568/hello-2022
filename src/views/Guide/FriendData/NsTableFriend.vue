@@ -38,7 +38,7 @@
 
         <el-form-item label="个人号：">
           <el-form-grid size="xmd">
-            <el-input style="width:180px" autofocus=true v-model="model.wid"  clearable></el-input>
+            <el-input style="width:180px" autofocus=true v-model="model.ownerId"  clearable></el-input>
           </el-form-grid>
         </el-form-item>
 
@@ -102,7 +102,7 @@
 
       <el-table ref="table" :data="_data._table.data" stripe @selection-change="handleSelectionChange">
         <el-table-column type="selection" align="center" :width="50"></el-table-column>
-        <el-table-column :show-overflow-tooltip="true" type="default" prop="title"
+        <el-table-column type="default" prop="title"
                          label="头像" width='60px' align="center" :sortable="false">
           <template slot-scope="scope">
             <div class="avatar-name clearfix">
@@ -131,9 +131,9 @@
             {{scope.row.tag?scope.row.nickname:'-'}}
           </template >
         </el-table-column>
-        <el-table-column prop="wid" label="个人号" align="left" width="120">
+        <el-table-column prop="wid" label="个人号" align="left" width="170">
           <template slot-scope="scope">
-            {{scope.row.wname?scope.row.wname:scope.row.wid}}
+            {{scope.row.ownerId}}
           </template >
         </el-table-column>
         <el-table-column prop="num" label="朋友圈互动数" align="left" width="200">
