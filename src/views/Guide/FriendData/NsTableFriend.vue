@@ -13,7 +13,7 @@
     <template slot="searchSearch">
       <el-form :model="quickSearchModel" :inline="true" @submit.native.prevent  class="pull-right">
         <el-form-item v-show="_data._queryConfig.expand === false">
-          <el-input ref="quickText" style="width: 250px" v-model="model.name" placeholder="请输入好友昵称/微信号" @keyup.enter.native="$quickSearchAction$('name')" clearable>
+          <el-input ref="quickText" style="width: 250px" v-model="model.keyWord" placeholder="请输入好友昵称/微信号" @keyup.enter.native="$quickSearchAction$('keyWord')" clearable>
             <!-- <i class="el-icon-search el-input__icon" slot="suffix" name="name" @click="$quickSearchAction$('name')"></i> -->
           </el-input>
           <ns-button type="primary" @click="$searchAction$()">搜索</ns-button>
@@ -36,10 +36,10 @@
     <template slot="advancedSearch" v-if="_data._queryConfig.expand">
       <el-form ref="table_filter_form" :model="model" label-width="80px" :inline="true">
 
-        <el-form-item label="个人号：">
-          <el-form-grid size="xmd">
-            <el-input style="width:180px" autofocus=true v-model="model.ownerId"  clearable></el-input>
-          </el-form-grid>
+        <el-form-item label="个人号：" >
+          <el-select placeholder="个人号" v-model="model.ownerId"  class="el-block" filterable style="width: 180px">
+            <el-option  v-for="number in personalNumberList" :label="number.nick" :value="number.wid" :key="number.wid" ></el-option>
+          </el-select>
         </el-form-item>
 
         <el-form-item label="微信昵称：">
@@ -66,7 +66,9 @@
             type="daterange"
             range-separator="-"
             start-placeholder="开始日期"
-            end-placeholder="结束日期">
+            end-placeholder="结束日期"
+            value-format="yyyy-MM-dd HH-mm-ss"
+            :default-time="['00:00:00','23:59:59']">
           </el-date-picker>
         </el-form-item>
         <el-form-item label="最近交流时间：" label-width="100px">
@@ -76,7 +78,9 @@
               type="daterange"
               range-separator="-"
               start-placeholder="开始日期"
-              end-placeholder="结束日期">
+              end-placeholder="结束日期"
+              value-format="yyyy-MM-dd HH-mm-ss"
+              :default-time="['00:00:00','23:59:59']">
             </el-date-picker>
           </el-form-grid>
         </el-form-item>

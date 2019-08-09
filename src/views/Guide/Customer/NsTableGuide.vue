@@ -138,7 +138,7 @@
                     <span>
                       <span>{{header.column.label}}</span>
                       <el-popover placement='bottom' width='220' trigger='hover' content='只判断与当前专属导购的好友关系'>
-                        <i slot='reference' class='iconfont icon-xiangqingyiwen table-header-icon'></i>
+                        <i slot='reference' class='icon-base icon-xiangqingyiwen table-header-icon'></i>
                       </el-popover>
                     </span>
           </template>

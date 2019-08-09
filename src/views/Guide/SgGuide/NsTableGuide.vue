@@ -126,7 +126,7 @@
                         <div slot-scope>
                           需将员工账号与导购终端手机进行绑定，让其能够应用最伙导购系统<br>
                           <span class='tips'>注：</span>使用终端系统的，非离职的，建议不要进行客户转移</div>
-                        <i slot='reference' class='iconfont icon-xiangqingyiwen table-header-icon'></i>
+                        <i slot='reference' class='icon-base icon-xiangqingyiwen table-header-icon'></i>
                       </el-popover>
                     </span>
           </template>
