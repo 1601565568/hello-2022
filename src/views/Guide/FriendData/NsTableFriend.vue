@@ -13,7 +13,7 @@
     <template slot="searchSearch">
       <el-form :model="quickSearchModel" :inline="true" @submit.native.prevent  class="pull-right">
         <el-form-item v-show="_data._queryConfig.expand === false">
-          <el-input ref="quickText" style="width: 250px" v-model="model.keyWord" placeholder="请输入好友昵称/微信号" @keyup.enter.native="$quickSearchAction$('name')" clearable>
+          <el-input ref="quickText" style="width: 250px" v-model="model.keyWord" placeholder="请输入好友昵称/微信号" @keyup.enter.native="$quickSearchAction$('keyWord')" clearable>
             <!-- <i class="el-icon-search el-input__icon" slot="suffix" name="name" @click="$quickSearchAction$('name')"></i> -->
           </el-input>
           <ns-button type="primary" @click="$searchAction$()">搜索</ns-button>
