@@ -482,7 +482,6 @@ export default {
     // 初始化朋友圈信息
     initMomentsList () {
       var _this = this
-      console.log('获取朋友圈内容')
       _this.url = _this.$api.guide.friendMoments.momentsList
       let params = _this.$generateParams$()
       _this.$http.fetch(_this.url, params).then(resp => {
@@ -496,7 +495,6 @@ export default {
     },
     initInteractionMsgList () {
       var _this = this
-      console.log('获取互动消息内容')
       let interactionUrl = _this.$api.guide.friendMoments.interactionMsgList
       var limit = {
         start: (_this.interactionPagination.page - 1) * _this.interactionPagination.size,
@@ -630,11 +628,9 @@ export default {
       let replyToNick = null
       if (_this.otherComment) {
         if (_this.otherComment.ownerId === _this.otherMoment.ownerId) {
-          console.log('评论人等于发布人')
           commentType = 0
           replyToNick = null
         } else {
-          console.log('评论人不等于发布人')
           replyToNick = _this.otherComment.ownerNick
           commentType = 1
         }
@@ -665,10 +661,8 @@ export default {
       var _this = this
       _this.dialogVisibleReply = true
       _this.isHidden = true
-      console.log('发布人：' + moment.nick)
       _this.otherMoment = moment
       if (comment) {
-        console.log('评论人：' + comment.ownerNick)
         _this.otherComment = comment
       }
     },
