@@ -101,18 +101,18 @@
         <!-- 表格 -->
         <template slot="table">
           <el-table ref="table" :data="_data._table.data" stripe v-loading="loading" @sort-change="sortChange">
-            <el-table-column prop="ownerWid" label="个人号" align="left">
+            <el-table-column prop="ownerWid" label="个人号" align="left" width="270">
               <template slot-scope='scope'>
                 {{scope.row.ownerNick}} ({{scope.row.ownerWid}})
               </template>
             </el-table-column>
-            <el-table-column prop="friendWid" label="好友" align="left">
+            <el-table-column prop="friendWid" label="好友" align="left" width="270">
               <template slot-scope='scope'>
                 {{scope.row.friendNick}} ({{scope.row.friendWid}})
               </template>
             </el-table-column>
             <el-table-column prop="name" label="敏感词" align="left" width="100"/>
-            <el-table-column prop="receive" label="发送人" align="left" width="120">
+            <el-table-column prop="receive" label="发送人" align="left" width="150">
               <template slot-scope='scope'>
                 <span v-if="scope.row.receive">
                   {{scope.row.friendNick}}
