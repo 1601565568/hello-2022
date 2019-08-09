@@ -13,8 +13,8 @@
                  node-key="id" :default-expand-all="false" :expand-on-click-node="false" :default-checked-keys="[0]"
                  :filter-node-method="onFilterGroupNode" @node-click="onClickGroupNode">
           <div class="subdivision-tree-node" slot-scope="{ node, data }">
-            <el-popover class="item" trigger='hover' :content="(node.label || '-') + (data.chatroomname ? '('+data.quantity + ')' : ' / ' + data.quantity)" placement="bottom">
-              <span slot="reference">{{wordLimit((node.label || '-') + (data.chatroomname ? '('+data.quantity + ')' : ' / ' + data.quantity))}}</span>
+            <el-popover class="item" trigger='hover' :content="(node.label || data.wid) + (data.chatroomname ? '('+data.quantity + ')' : ' / ' + data.quantity)" placement="bottom">
+              <span slot="reference">{{wordLimit((node.label || data.wid) + (data.chatroomname ? '('+data.quantity + ')' : ' / ' + data.quantity))}}</span>
             </el-popover>
           </div>
         </el-tree>
@@ -94,20 +94,20 @@
               </template>
             </el-table-column>
             <el-table-column :show-overflow-tooltip="true" type="default" prop="nick"
-                             label="微信昵称" :sortable="false">
+                             label="微信昵称" :sortable="false" width='200px'>
               <template slot-scope='scope'>
                 {{scope.row.isOwner == "1" ? (scope.row.ownerNick || '-') : (scope.row.nick || '-')}}
               </template>
             </el-table-column>
 <!--            todo-zsf 暂无以下数据-->
             <el-table-column :show-overflow-tooltip="true" type="default" prop=""
-                             label="性别" :sortable="false">
+                             label="性别" :sortable="false" align='center' width='80px'>
               <template slot-scope='scope'>
                 -
               </template>
             </el-table-column>
             <el-table-column :show-overflow-tooltip="true" type="default" prop=""
-                             label="地区" :sortable="false">
+                             label="地区" :sortable="false" width='80px'>
               <template slot-scope='scope'>
                 -
               </template>
@@ -126,7 +126,7 @@
                     <span>
                       <span>{{header.column.label}}</span>
                       <el-popover placement='bottom' width='220' trigger='hover' content='点击群名称，可查看此群下所有微信'>
-                        <i slot='reference' class='iconfont icon-xiangqingyiwen table-header-icon'></i>
+                        <i slot='reference' class='icon-base icon-xiangqingyiwen table-header-icon'></i>
                       </el-popover>
                     </span>
               </template>
@@ -138,7 +138,7 @@
               </template>
             </el-table-column>
             <el-table-column :show-overflow-tooltip="true" label="操作" align="center"
-                             width="160px">
+                             width="60px">
               <template slot-scope="scope">
                 <ns-table-column-operate-button :buttons="_data._table.table_buttons"
                                                 :prop="scope">

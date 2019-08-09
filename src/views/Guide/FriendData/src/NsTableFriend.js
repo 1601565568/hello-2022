@@ -71,6 +71,7 @@ export default {
     let quickSearchNames = quickInput.map(x => x.name)
     let quickSearchModel = {}
     let searchModel = {
+      keyWord: null, // 快捷搜索（微信号/好友昵称）
       friendNick: null, // 好友昵称
       ownerId: null, // 个人号id
       privateNick: null, // 个人号昵称
@@ -95,6 +96,7 @@ export default {
       },
       _queryConfig: { expand: false },
       multipleSelection: [],
+      personalNumberList: [], // 个人号列表
       select: true
     }
   },
@@ -102,6 +104,7 @@ export default {
   mounted: function () {
     var vm = this
     vm.initShopList()
+    this.initPersonalNumberList()
     if (typeof this.$init === 'function') {
     } else {
       this.$reload()
@@ -123,6 +126,16 @@ export default {
       // }).catch((resp) => {
       //   _this.$notify.error(getErrorMsg('查询失败', resp))
       // })
+    },
+    // 个人号列表
+    initPersonalNumberList () {
+      this.$http.fetch(this.$api.guide.wxDeviceGuideRelation.findWidNickSelector).then(resp => {
+        if (resp.success && resp.result != null) {
+          this.personalNumberList =Object.assign(this.personalNumberList,resp.result)
+        }
+      }).catch((resp) => {
+        this.$notify.error(getErrorMsg('查询失败', resp))
+      })
     },
     shopDel (index) {
       this.guideShopList.splice(index, 1)

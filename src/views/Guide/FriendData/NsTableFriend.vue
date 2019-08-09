@@ -13,7 +13,7 @@
     <template slot="searchSearch">
       <el-form :model="quickSearchModel" :inline="true" @submit.native.prevent  class="pull-right">
         <el-form-item v-show="_data._queryConfig.expand === false">
-          <el-input ref="quickText" style="width: 250px" v-model="model.name" placeholder="请输入好友昵称/微信号" @keyup.enter.native="$quickSearchAction$('name')" clearable>
+          <el-input ref="quickText" style="width: 250px" v-model="model.keyWord" placeholder="请输入好友昵称/微信号" @keyup.enter.native="$quickSearchAction$('keyWord')" clearable>
             <!-- <i class="el-icon-search el-input__icon" slot="suffix" name="name" @click="$quickSearchAction$('name')"></i> -->
           </el-input>
           <ns-button type="primary" @click="$searchAction$()">搜索</ns-button>
@@ -36,10 +36,10 @@
     <template slot="advancedSearch" v-if="_data._queryConfig.expand">
       <el-form ref="table_filter_form" :model="model" label-width="80px" :inline="true">
 
-        <el-form-item label="个人号：">
-          <el-form-grid size="xmd">
-            <el-input style="width:180px" autofocus=true v-model="model.ownerId"  clearable></el-input>
-          </el-form-grid>
+        <el-form-item label="个人号：" >
+          <el-select placeholder="个人号" v-model="model.ownerId"  class="el-block" filterable style="width: 180px">
+            <el-option  v-for="number in personalNumberList" :label="number.nick" :value="number.wid" :key="number.wid" ></el-option>
+          </el-select>
         </el-form-item>
 
         <el-form-item label="微信昵称：">
@@ -66,7 +66,9 @@
             type="daterange"
             range-separator="-"
             start-placeholder="开始日期"
-            end-placeholder="结束日期">
+            end-placeholder="结束日期"
+            value-format="yyyy-MM-dd HH-mm-ss"
+            :default-time="['00:00:00','23:59:59']">
           </el-date-picker>
         </el-form-item>
         <el-form-item label="最近交流时间：" label-width="100px">
@@ -76,7 +78,9 @@
               type="daterange"
               range-separator="-"
               start-placeholder="开始日期"
-              end-placeholder="结束日期">
+              end-placeholder="结束日期"
+              value-format="yyyy-MM-dd HH-mm-ss"
+              :default-time="['00:00:00','23:59:59']">
             </el-date-picker>
           </el-form-grid>
         </el-form-item>
@@ -136,18 +140,26 @@
             {{scope.row.ownerId}}
           </template >
         </el-table-column>
-        <el-table-column prop="num" label="朋友圈互动数" align="left" width="200">
+        <el-table-column prop="num" label="朋友圈互动数" align="left" width="200" sortable>
           <template slot-scope="scope">
             赞我：{{scope.row.likeNum}}; 赞他：{{scope.row.likeHimNum}}。
             <br>
             评我：{{scope.row.commentsNum}}; 评他：{{scope.row.commentsHimNum}}。
           </template>
         </el-table-column>
-        <el-table-column prop='receiveConversationTime' label="最近交流时间" align="left" >
+        <el-table-column prop='receiveConversationTime' label="最近交流时间" align="left" sortable >
           <template slot-scope="scope">
             发：{{scope.row.sendConversationTime?scope.row.sendConversationTime:"-"}}
             <br>
             接：{{scope.row.receiveConversationTime?scope.row.receiveConversationTime:"-"}}
+          </template>
+          <template slot='header' scope='header'>
+                    <span>
+                      <span>{{header.column.label}}</span>
+                      <el-popover placement='bottom' width='210' trigger='hover' content='发消息：员工向消费者发消息;接消息：员工接到消费者消息。'>
+                        <i slot='reference' class='icon-base icon-xiangqingyiwen table-header-icon'></i>
+                      </el-popover>
+                    </span>
           </template>
         </el-table-column>
         <el-table-column prop="addTime" label="添加好友时间" align="center" >

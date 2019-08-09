@@ -137,7 +137,7 @@
                     <div class="talk-sentence">{{moment.content}}</div>
                     <div class="talk-matching">
                       <div class="talk-matching__figurelist" v-if="moment.images">
-                        <div class="talk-li" v-for="image in moment.images" :key="image">
+                        <div class="talk-li" v-for="(image,index) in moment.images" :key="index">
                           <div :style="{backgroundImage: 'url(' + image + ')'} " class="talk-li__figure">
                             <div class="talk-li__figure--img"></div>
                           </div>
@@ -279,7 +279,7 @@
         </el-form-item>
         <el-form-item class="dialog-content__subtance dialog-content__subtance--margintop">
           <div class="dialog-detail dialog-detail--paddingbtm">
-            <el-input type="textarea" :rows="8" placeholder="请输入评论内容" v-model="content">
+            <el-input type="textarea" :rows="8" placeholder="请输入评论内容" maxlength="800" v-model="content">
             </el-input>
             <i class="iconfont icon-biaoqing"></i>
           </div>
@@ -1128,7 +1128,6 @@ export default {
 
   .colorblue {
     color: var(--talk-font-color-blue);
-    cursor: pointer;
   }
 
   .icon-xiaoxi {
