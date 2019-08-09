@@ -59,32 +59,28 @@ export default {
     ]
     const operateButtons = [
       {
-        'func': function (args) {
-          this.$emit('onAddCustomer', args.row)
+        'func': function () {
+          this.$emit('add')
         },
-        'icon': '',
-        'name': '编辑',
-        'auth': '',
-        'visible': ''
+        'name': '新增'
       },
       {
-        'func': function (args) {
-          this.$emit('ondelete', args.row)
+        'func': function () {
+          this.$emit('showShop')
         },
-        'icon': '',
-        'name': '删除',
-        'auth': '',
-        'visible': '',
-        'color': '#f00'
+        'name': '批量更换门店'
       },
       {
-        'func': function (args) {
-          this.$emit('quit', args.row)
+        'func': function () {
+          this.$emit('dimission')
         },
-        'icon': '',
-        'name': '离职',
-        'auth': '',
-        'visible': ''
+        'name': '批量离职'
+      },
+      {
+        'func': function () {
+          this.$emit('allDelete')
+        },
+        'name': '批量删除'
       }
     ]
     let quickInput = [{

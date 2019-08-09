@@ -38,7 +38,7 @@
 
         <el-form-item label="个人号：">
           <el-form-grid size="xmd">
-            <el-input style="width:180px" autofocus=true v-model="model.wid"  clearable></el-input>
+            <el-input style="width:180px" autofocus=true v-model="model.ownerId"  clearable></el-input>
           </el-form-grid>
         </el-form-item>
 
@@ -131,9 +131,9 @@
             {{scope.row.tag?scope.row.nickname:'-'}}
           </template >
         </el-table-column>
-        <el-table-column prop="wid" label="个人号" align="left" width="120">
+        <el-table-column prop="wid" label="个人号" align="left" width="170">
           <template slot-scope="scope">
-            {{scope.row.wname?scope.row.wname:scope.row.wid}}
+            {{scope.row.ownerId}}
           </template >
         </el-table-column>
         <el-table-column prop="num" label="朋友圈互动数" align="left" width="200">
