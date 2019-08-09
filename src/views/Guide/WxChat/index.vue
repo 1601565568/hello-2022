@@ -109,9 +109,15 @@
         </div>
         <el-scrollbar ref="fullScreenright" v-loading.lock="chatLoading" :element-loading-text="$t('prompt.loading')">
           <div class="talk-main__strip">
-            <div v-show="!isChatLoadEnd" style="text-align: center;">
-              <div style="height:10px">&nbsp;</div>
-              <font size="3"><a @click="loadChatLog(false)">查看更多</a></font>
+            <div style="text-align: center;margin-top:10px">
+              <font size="3">
+                <template v-if="isChatLoadEnd">
+                  暂无数据
+                </template>
+                <template v-else>
+                  <a @click="loadChatLog(false)">查看更多</a>
+                </template>
+              </font>
             </div>
             <template v-for="(chat,index) in chatList">
               <div :id="'chatLog0' + index" ref="'chatLog0' + index" :class="{'talk-strip':isChatLeft(chat.receive), 'talk-right': !isChatLeft(chat.receive), 'clearfix':  chat.cancel||chat.delete}">

@@ -3,7 +3,7 @@
     <div class="template-page__row-left" v-loading="treeLoading">
       <el-input v-model="filterTreeText" placeholder="搜索分组" suffix-icon="el-icon-search" style="width: 180px"/>
       &nbsp;
-      <i class="el-icon-plus" @click="showEditGroupDlg(null, true, true)"/>
+      <i class="el-icon-plus" @click="showEditGroupDlg(null, true, true)" style="cursor:pointer;"/>
       <el-tree :data="groupList" ref="groupTree" node-key="id" :expand-on-click-node="false"
                :filter-node-method="onFilterNode" @node-click="onClickNode" highlight-current>
         <span class="custom-tree-node" slot-scope="{ node, data }"
