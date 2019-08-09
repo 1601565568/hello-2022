@@ -169,7 +169,7 @@ export default {
       const BTN_TITLE = 50 // 左右内容的标题的高度
       let limitHeight = window.innerHeight -
         document.getElementsByClassName('nav')[0].offsetHeight -
-        BTN_TITLE - document.getElementsByClassName('talk-chat__form')[0].offsetHeight - 15
+        BTN_TITLE - document.getElementsByClassName('talk-chat__form')[0].offsetHeight - 30
       if (limitHeight < 400) {
         limitHeight = 400
       }

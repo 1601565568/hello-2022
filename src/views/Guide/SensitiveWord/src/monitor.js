@@ -137,11 +137,11 @@ export default {
   },
   // 初始化
   mounted: function () {
+    this.model.screenWidth = document.body.clientWidth
     this.initParams('name', 'receive')
     // 默认
     // this.model.createDate = [this.addDate(-7), this.addDate(0)]
     this.loadOwnerSelector()
     this.$searchAction$()
-    this.model.screenWidth = document.body.clientWidth
   }
 }

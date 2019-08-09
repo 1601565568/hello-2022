@@ -12,7 +12,7 @@
       <div class="detail-dialog__content">
         <el-form label-width="70px" class="detail-leftside">
           <el-form-item label="微信号：">
-            <el-form-grid class="hidden">{{friendDetail.wid}}</el-form-grid>
+            <el-form-grid class="hidden">{{friendDetail.wname?friendDetail.wname:friendDetail.wid}}</el-form-grid>
           </el-form-item>
           <el-form-item label="微信昵称：">
             <el-form-grid class="hidden">{{friendDetail.nick}}</el-form-grid>
@@ -64,7 +64,8 @@
             </el-form-grid>
           </el-form-item>
           <el-form-item label="专属导购：" label-width="100px">
-            <el-form-grid>{{friendDetail.name}}</el-form-grid>
+<!--            <el-form-grid>{{friendDetail.name}}</el-form-grid>-->
+            <el-form-grid>-</el-form-grid>
           </el-form-item>
           <el-form-item label="是否与专属导购为好友关系：" label-width="210px">
 <!--            <el-form-grid>{{friendDetail.name?'是':'否'}}</el-form-grid>-->

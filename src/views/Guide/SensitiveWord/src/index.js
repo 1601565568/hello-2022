@@ -140,7 +140,7 @@ export default {
       let _this = this
       let params = { id: data.id }
       _this.$http.fetch(_this.$api.guide.sensitiveWord.hasWordInGroup, params).then(resp => {
-        _this.removeGroupText = '确认要删除 <font color="red">' + _this.getGroupNameFromTreeNode(data) + ' </font>分组吗?'
+        _this.removeGroupText = '<font size=\'5\' color="#E6A23C"><i class=\'el-icon-warning\'></i></font>&nbsp;&nbsp;确认要删除 <font color="red">' + _this.getGroupNameFromTreeNode(data) + ' </font>分组吗?'
         _this.removeGroupSelectVisible = resp.result
         _this.removeGroupDialogVisible = true
         _this.groupInRemoveGroupDlg = null
@@ -148,11 +148,11 @@ export default {
         if (resp.result) {
           // 加载分组options
           _this.groupOptionsInRemoveGroupDlg = _this.getGroupOptions(this.removeGroupModel.oriGroupId)
-          _this.removeGroupDlgWidth = '300px'
-          _this.removeGroupDlgHeight = '220px'
+          _this.removeGroupDlgWidth = '500px'
+          _this.removeGroupDlgHeight = '240px'
         } else {
-          _this.removeGroupDlgWidth = '250px'
-          _this.removeGroupDlgHeight = '160px'
+          _this.removeGroupDlgWidth = '500px'
+          _this.removeGroupDlgHeight = '155px'
         }
       })
     },

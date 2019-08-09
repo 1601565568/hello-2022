@@ -24,7 +24,19 @@
       <ns-page-table>
         <!-- 按钮 -->
         <template slot="buttons">
-          <ns-table-operate-button :buttons="_data._table.table_buttons"/>
+          <div class="control">
+            <ns-table-operate-button :buttons="_data._table.table_buttons"/>
+            <span>
+              <el-popover
+                placement="bottom"
+                trigger="hover">
+                  <el-row class="overview-popover">
+                    只对敏感词创建时间后的聊天记录进行监控统计
+                  </el-row>
+                  <i slot="reference" class="el-icon-info ml10 fz13" style='color:#999'></i>
+                </el-popover>
+            </span>
+          </div>
         </template>
         <!-- 按钮-结束 -->
 
@@ -33,10 +45,6 @@
           <el-form :model="model" :inline="true" @submit.native.prevent class="pull-right">
             <el-form-item>
               <el-form-grid block class="text-info">
-                <span>
-                  <i class="el-icon-info"></i>
-                  只对敏感词创建时间后的聊天记录进行监控统计&nbsp;&nbsp;
-                </span>
                 <el-input ref="quickText" style="width: 250px" name="name" v-model="model.name" placeholder="搜索敏感词"
                           @keyup.enter.native="$searchAction$()" clearable>
                 </el-input>
@@ -93,34 +101,31 @@
 
     <!-- 删除分组 -->
     <template>
-      <el-dialog title="确认" :visible.sync="removeGroupDialogVisible" :width="removeGroupDlgWidth"
+      <el-dialog title="提示" :visible.sync="removeGroupDialogVisible" :width="removeGroupDlgWidth"
                  :height="removeGroupDlgHeight">
         <el-form :model="removeGroupModel" ref="removeGroupForm">
-          <div class="el-header"/>
-          <div class="el-main">
-            <p v-html="removeGroupText" style="font-size:15px"/>
-            <p></p>
-            <div v-show="removeGroupSelectVisible">
-              <p><font size="2" color="blue">* 请将组内敏感词转移到其他分组</font></p>
-              <p></p>
-              <el-form-item prop="targetGroupId" v-if="isShowSelecntInRemoveGroup"
-                            :rules="[{ required: true, message: '请选择目标分组', trigger: 'change' }]">
-                <el-select placeholder="请选择目标分组" v-model="removeGroupModel.targetGroupId" clearable filterable
-                           style="width:220px">
-                  <el-option
-                    v-for="item in groupOptionsInRemoveGroupDlg" :key="item.value" :label="item.label"
-                    :value="item.value">
-                  <span style="color: #8492a6; " v-if="item.prefix != ''">
-                    <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                    <span>{{ item.prefix }} -</span>
-                  </span>
-                    <span style="">{{ item.label }}</span>
-                  </el-option>
-                </el-select>
-              </el-form-item>
+            <div v-html="removeGroupText" style="font-size:15px;margin-left:95px;margin-top: 15px;"/>
+            <div v-if="removeGroupSelectVisible" style="margin-top: 15px;margin-left:120px;">
+              <font size="2" color="blue">* 请将组内敏感词转移到其他分组</font><br/>
+              <div style="margin-top: 15px;">
+                <el-form-item prop="targetGroupId" v-if="isShowSelecntInRemoveGroup"
+                              :rules="[{ required: true, message: '请选择目标分组', trigger: 'change' }]">
+                  <el-select placeholder="请选择目标分组" v-model="removeGroupModel.targetGroupId" clearable filterable
+                             style="width:220px">
+                    <el-option
+                      v-for="item in groupOptionsInRemoveGroupDlg" :key="item.value" :label="item.label"
+                      :value="item.value">
+                    <span style="color: #8492a6; " v-if="item.prefix != ''">
+                      <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                      <span>{{ item.prefix }} -</span>
+                    </span>
+                      <span style="">{{ item.label }}</span>
+                    </el-option>
+                  </el-select>
+                </el-form-item>
+              </div>
             </div>
-          </div>
-          <div class="el-footer" style="text-align: right">
+          <div style="text-align: right;margin-top: 30px;margin-right: 7px">
             <ns-button @click="removeGroupDialogVisible=false">取消</ns-button>
             <ns-button type="primary" @click="submitRemoveGroup()">确定</ns-button>
           </div>
@@ -300,5 +305,12 @@
       text-align: right;
       vert-align: bottom;
     }
+  }
+  >>> .el-col-8 {
+    width: 38.33333%;
+  }
+  .control {
+    display: flex;
+    align-items: center;
   }
 </style>
