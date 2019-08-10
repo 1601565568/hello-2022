@@ -143,13 +143,13 @@
                       <span class="talk-name__call colorblue">{{moment.nick}}</span>
                       <span class="talk-name__private">个人号：{{moment.nick}}（ {{moment.owner}} ）</span>
                     </div>
-                    <div class="talk-sentence">{{moment.content}}
-<!--                      <div :class="moment.showState && moment.showState === 2 ? 'intro-content max' : 'intro-content'" :title="moment.content">-->
-<!--                        <span class="merchant-desc" :title="moment.showState"> {{moment.content}}</span>-->
-<!--                        <div class="unfold" @click="showTotalIntro(index)" v-if="moment.showState">-->
-<!--                          <ns-button type="text">{{moment.showState && moment.showState === 2 ? '展开阅读全文' : '收起全文'}}</ns-button>-->
-<!--                        </div>-->
-<!--                      </div>-->
+                    <div class="talk-sentence">
+                      <div :class="moment.showState && moment.showState === 2 ? 'intro-content max' : 'intro-content'" :title="moment.content">
+                        <span class="merchant-desc" :title="moment.showState"> {{moment.content}}</span>
+                        <div class="unfold" @click="showTotalIntro(index)" v-if="moment.showState">
+                          <ns-button type="text">{{moment.showState && moment.showState === 2 ? '展开阅读全文' : '收起全文'}}</ns-button>
+                        </div>
+                      </div>
                     </div>
                     <div class="talk-matching">
                       <div class="talk-matching__figurelist" v-if="moment.images" >
@@ -889,7 +889,7 @@ export default {
       this.$refs.fullScreenright.$el.children[0].style.maxHeight = limitHeightRight + 'px'
     },
     showTotalIntro (index) {
-      this.$set(this.moments[index], 'showState', this.list[index].showState === 1 ? 2 : 1)
+      this.$set(this.moments[index], 'showState', this.moments[index].showState === 1 ? 2 : 1)
     },
     setState () {
       this.moments.map((moment, index) => {
