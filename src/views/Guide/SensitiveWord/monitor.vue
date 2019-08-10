@@ -108,7 +108,8 @@
             </el-table-column>
             <el-table-column prop="friendWid" label="好友" align="left" width="270">
               <template slot-scope='scope'>
-                {{scope.row.friendNick}} ({{scope.row.friendWid}})
+                <template v-if="scope.row.chatroomName!==null">{{scope.row.chatroomName}}</template>
+                <template v-else>{{scope.row.friendNick}} ({{scope.row.friendWid}})</template>
               </template>
             </el-table-column>
             <el-table-column prop="name" label="敏感词" align="left" width="100"/>
