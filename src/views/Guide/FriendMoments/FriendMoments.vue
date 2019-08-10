@@ -682,6 +682,10 @@ export default {
     // 点赞朋友圈
     like (moment) {
       var _this = this
+      if (moment.likesWxId != null && moment.likesWxId.indexOf(moment.owner) !== -1) {
+        _this.$notify.error('已点赞，不能重复点赞')
+        return
+      }
       let replyMomentVo = {
         wid: moment.ownerId,
         snsId: moment.snsId,
