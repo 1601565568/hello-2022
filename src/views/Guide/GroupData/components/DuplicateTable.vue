@@ -28,20 +28,20 @@
             </template>
           </el-table-column>
           <el-table-column :show-overflow-tooltip="true" type="default" prop="nick"
-                           label="微信昵称" :sortable="false">
+                           label="微信昵称" :sortable="false" width='200px'>
             <template slot-scope='scope'>
               {{scope.row.isOwner == "1" ? (scope.row.ownerNick || '-') : (scope.row.nick || '-')}}
             </template>
           </el-table-column>
           <!--            todo-zsf 暂无以下数据-->
           <el-table-column :show-overflow-tooltip="true" type="default" prop=""
-                           label="性别" :sortable="false">
+                           label="性别" :sortable="false" width='80px' align='center'>
             <template slot-scope='scope'>
               -
             </template>
           </el-table-column>
           <el-table-column :show-overflow-tooltip="true" type="default" prop=""
-                           label="地区" :sortable="false">
+                           label="地区" :sortable="false" width='80px'>
             <template slot-scope='scope'>
               -
             </template>
