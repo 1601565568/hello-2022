@@ -270,7 +270,7 @@
     <el-dialog
       title="回复"
       :visible.sync="dialogVisibleReply"
-      width="460px"
+      width="610px"
       class="dialog-content" :before-close="closeDialog">
       <el-form ref="form">
         <el-form-item>
@@ -281,7 +281,15 @@
           <div class="dialog-detail dialog-detail--paddingbtm">
             <el-input type="textarea" :rows="8" placeholder="请输入评论内容" maxlength="800" v-model="content">
             </el-input>
-            <i class="iconfont icon-biaoqing"></i>
+            <el-popover
+              placement="bottom-start"
+              width="430"
+              v-model="visible2">
+              <div>
+                <VEmojiPicker :pack="pack" @select="selectEmoji" />
+              </div>
+              <el-button slot="reference"><i class="iconfont icon-biaoqing"></i></el-button>
+            </el-popover>
           </div>
         </el-form-item>
       </el-form>
@@ -301,13 +309,16 @@ import ElAside from 'nui-v2/lib/aside'
 import { getErrorMsg } from '@/utils/toast'
 import tableMixin from 'web-crm/src/mixins/table'
 import moment from 'moment'
+import VEmojiPicker from 'v-emoji-picker'
+import packData from 'v-emoji-picker/data/emojis.json'
 
 export default {
   components: {
     ElUpload,
     ElContainer,
     ElMain,
-    ElAside
+    ElAside,
+    VEmojiPicker
   },
   mixins: [tableMixin],
   props: {
@@ -394,6 +405,7 @@ export default {
       dialogVisible: false,
       dialogVisibleReply: false,
       isHidden: false,
+      visible2: false,
       model: model,
       imageUrl: '',
       textarea: '',
@@ -403,6 +415,7 @@ export default {
       // eslint-disable-next-line vue/no-reserved-keys
       interactionPagination: interactionPagination,
       momentsTotal: 0,
+      pack: packData,
       _queryConfig: {
         expand: false
       },
@@ -693,6 +706,12 @@ export default {
       }
       // _this.$resetInputAction$()
       _this.initMomentsList()
+    },
+    selectEmoji (emoji) {
+      if (this.content == null) {
+        this.content = ''
+      }
+      this.content = this.content + emoji.emoji
     },
     beforeAvatarUpload (file) {
       if (file.size / 1024 > 5000) {
@@ -1227,6 +1246,10 @@ export default {
   }
   .dialog-content >>> .el-dialog__footer {
     padding: 10px 20px !important;
+  }
+  >>> #EmojiPicker {
+    width: 420px;
+    height: 200px;
   }
   /* 发朋友圈弹窗样式结束*/
   .choicedate >>> .el-date-editor .el-range-separator {
