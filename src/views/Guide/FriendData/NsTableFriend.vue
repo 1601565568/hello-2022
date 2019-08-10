@@ -104,7 +104,7 @@
       <!-- 手机号 :width="120" -->
       <!-- 操作（只有一项文字的80px,两项文字120px,三项文字160px） -->
 
-      <el-table ref="table" :data="_data._table.data" stripe @selection-change="handleSelectionChange">
+      <el-table ref="table" :data="_data._table.data" stripe @selection-change="handleSelectionChange" @sort-change="sortChange">
         <el-table-column type="selection" align="center" :width="50"></el-table-column>
         <el-table-column type="default" prop="title"
                          label="头像" width='60px' align="center" :sortable="false">
@@ -140,14 +140,14 @@
             {{scope.row.ownerId}}
           </template >
         </el-table-column>
-        <el-table-column prop="num" label="朋友圈互动数" align="left" width="200" sortable>
+        <el-table-column prop="num" label="朋友圈互动数" align="left" width="200" sortable="custom">
           <template slot-scope="scope">
             赞我：{{scope.row.likeNum}}; 赞他：{{scope.row.likeHimNum}}。
             <br>
             评我：{{scope.row.commentsNum}}; 评他：{{scope.row.commentsHimNum}}。
           </template>
         </el-table-column>
-        <el-table-column prop='receiveConversationTime' label="最近交流时间" align="left" sortable >
+        <el-table-column prop='receiveConversationTime' label="最近交流时间" align="left" sortable="custom" >
           <template slot-scope="scope">
             发：{{scope.row.sendConversationTime?scope.row.sendConversationTime:"-"}}
             <br>
@@ -162,7 +162,7 @@
                     </span>
           </template>
         </el-table-column>
-        <el-table-column prop="addTime" label="添加好友时间" align="center" >
+        <el-table-column prop="addTime" label="添加好友时间" align="center" sortable="custom" >
         </el-table-column>
 
         <el-table-column prop="status,row" :show-overflow-tooltip="true" label="操作" align="center" width="120">
