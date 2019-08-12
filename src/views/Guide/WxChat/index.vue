@@ -156,7 +156,7 @@
     <el-dialog title="查看详情" :visible.sync="dialogVisible" width="442px" class="detail-dialog">
       <div class="detail-dialog__content" v-if="currTargetIndex!=null && targetList[currTargetIndex]!=null">
         <el-form label-width="80px" class="detail-leftside">
-          <el-form-item :label="targetList[currTargetIndex].talkerName" label-width="70px" class="detail-leftside__username">
+          <el-form-item :label="targetList[currTargetIndex].talkerName" label-width="100px" class="detail-leftside__username">
             <el-form-grid>
               <!-- 男生图标-->
               <i class="iconfont icon-nan1" v-if="targetList[currTargetIndex].gender===1"></i>
