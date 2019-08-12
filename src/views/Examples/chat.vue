@@ -46,7 +46,7 @@
       </el-form-item>
     </el-form>
     <el-container class="talk-chat__container">
-      <el-aside class="talk-aside" style="width: 22%;">
+      <el-aside class="talk-aside" style="width: 30%;">
           <div class="talk-aside__group">客户 / 群</div>
           <el-scrollbar ref="fullScreen">
             <div class="talk-aside__item">
@@ -181,7 +181,9 @@
                 <div class="talk-detail">
                   <div class="talk-detail__record">
                     <div class="talk-detail__record--circle"></div>
-                    早上好啊，该起床了
+                    早上好啊，该起床了早上好啊，该起床了早上好啊，该起床了早上好啊，该起床了早上好啊，该起床了早上好啊，该起床了
+                    早上好啊，该起床了早上好啊，该起床了早上好啊，该起床了早上好啊，该起床了早上好啊，该起床了早上好啊，该起床了早上好啊，该起床了早上好啊，该起床了早上好啊，该起床了早上好啊，该起床了早上好啊，该起床了早上好啊，该起床了早上好啊，该起床了
+                    早上好啊，该起床了早上好啊，该起床了早上好啊，该起床了早上好啊，该起床了早上好啊，该起床了
                   </div>
                 </div>
               </div>
@@ -285,7 +287,8 @@
                 <div class="talk-rightdetail clearfix">
                   <div class="talk-rightdetail__record">
                     <div class="talk-rightdetail__record--circle"></div>
-                    大中午
+                    大中午大中午的不睡觉，你是不是很闲的？大中午的不睡觉，你是不是很闲的?大中午的不睡觉，你是不是很闲的？大中午的不睡觉，你是不是很闲的?
+                    大中午的不睡觉，你是不是很闲的？大中午的不睡觉，你是不是很闲的?
                   </div>
                   <div class="talk-rightdetail__withdraw">已撤回</div>
                 </div>
@@ -302,7 +305,7 @@
       width="442px" class="detail-dialog">
       <div class="detail-dialog__content">
         <el-form label-width="80px" class="detail-leftside">
-          <el-form-item label="顾青" label-width="70px">
+          <el-form-item label="顾青" label-width="70px" class="detail-leftside__username">
             <el-form-grid>
               <!-- 男生图标-->
               <i class="iconfont icon-nan1"></i>
@@ -629,10 +632,11 @@ export default {
         width: 52px;
         height: 52px;
         cursor: pointer;
+        flex-shrink: 0;
       }
       @e uname {
-        flex: 1;
         margin-left: 18px;
+        padding-right: 72px;
       }
     }
     @b chosen {
@@ -641,17 +645,20 @@ export default {
     }
     @b right {
       padding: 20px;
-      width: 50%;
+      width: 100%;
       position: relative;
       float: right;
-      clear: both;
       @e headportrait {
         width: 52px;
         height: 52px;
-        float: right;
+        position: absolute;
+        top: 0;
+        right: 20px;
       }
       @e uname {
-        margin-right: 70px;
+        float: right;
+        margin-right: 72px;
+        padding-left: 72px;
       }
     }
     @b msg {
@@ -742,6 +749,7 @@ export default {
       width: 100%;
       height: 100%;
       border-radius: 50%;
+      flex-shrink: 0;
     }
   }
   @component-namespace detail {
@@ -774,6 +782,11 @@ export default {
   }
   >>>.el-dialog__body {
     color: var(--theme-font-color-primary);
+  }
+  .detail-leftside__username >>> .el-form-item__label {
+    font-size: var(--default-font-size-middle);
+    color: var(--theme-font-color-primary);
+    font-weight: bold;
   }
   .icon-qun {
     color: var(--theme-color-white);
