@@ -133,7 +133,7 @@
                 <div class="avatar-name clearfix">
                   <div class="avatar-name__avatar">
                     <img
-                      :src="scope.row.isOwner == "1" ? (scope.row.ownerHead || NoImg) : (scope.row.head || NoImg)"
+                      :src="scope.row.isOwner == '1' ? (scope.row.ownerHead || NoImg) : (scope.row.head || NoImg)"
                       alt="会员头像"
                     />
                   </div>
