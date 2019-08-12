@@ -133,7 +133,7 @@
           <!-- 左边内容滚动区域 -->
           <template slot="table" ref="mainTable">
             <el-scrollbar ref="fullScreen">
-              <div class="talk-aside__list" ref="asd" v-for="moment in moments" :key="moment.id">
+              <div class="talk-aside__list" ref="asideList" v-for="(moment,index) in moments" :key="moment.id">
                 <div class="talk-item clearfix">
                   <div class="talk-item__avatar">
                     <img :src="moment.head" class="talk-avatarimg" alt="个人号头像" >
@@ -143,7 +143,13 @@
                       <span class="talk-name__call colorblue">{{moment.nick}}</span>
                       <span class="talk-name__private">个人号：{{moment.nick}}（ {{moment.owner}} ）</span>
                     </div>
-                    <div class="talk-sentence">{{moment.content}}
+                    <div class="talk-sentence">
+                      <div :class="moment.showState && moment.showState === 2 ? 'intro-content max' : 'intro-content'" :title="moment.content">
+                        <span class="merchant-desc" :title="moment.showState"> {{moment.content}}</span>
+                        <div class="unfold" @click="showTotalIntro(index)" v-if="moment.showState">
+                          <ns-button type="text">{{moment.showState && moment.showState === 2 ? '展开阅读全文' : '收起全文'}}</ns-button>
+                        </div>
+                      </div>
                     </div>
                     <div class="talk-matching">
                       <div class="talk-matching__figurelist" v-if="moment.images" >
@@ -351,8 +357,8 @@ import ElAside from 'nui-v2/lib/aside'
 import { getErrorMsg } from '@/utils/toast'
 import tableMixin from 'web-crm/src/mixins/table'
 import moment from 'moment'
-import VEmojiPicker from 'v-emoji-picker';
-import packData from 'v-emoji-picker/data/emojis.json';
+import VEmojiPicker from 'v-emoji-picker'
+import packData from 'v-emoji-picker/data/emojis.json'
 export default {
   components: {
     ElUpload,
@@ -577,7 +583,6 @@ export default {
     // 初始化朋友圈信息
     initMomentsList () {
       var _this = this
-      console.log('获取朋友圈内容')
       _this.url = _this.$api.guide.myMoments.momentsList
       let params = _this.$generateParams$()
       _this.$http.fetch(_this.url, params).then(resp => {
@@ -591,7 +596,6 @@ export default {
     },
     initInteractionMsgList () {
       var _this = this
-      console.log('获取互动消息内容')
       let interactionUrl = _this.$api.guide.myMoments.interactionMsgList
       var limit = {
         start: (_this.interactionPagination.page - 1) * _this.interactionPagination.size,
@@ -726,11 +730,9 @@ export default {
       let replyToNick = null
       if (_this.otherComment) {
         if (_this.otherComment.ownerId === _this.otherMoment.owner) {
-          console.log('评论人等于发布人')
           commentType = 0
           replyToNick = null
         } else {
-          console.log('评论人不等于发布人')
           replyToNick = _this.otherComment.ownerNick
           commentType = 1
         }
@@ -761,17 +763,15 @@ export default {
       var _this = this
       _this.dialogVisibleReply = true
       _this.isHidden = true
-      console.log('发布人：' + moment.nick)
       _this.otherMoment = moment
       if (comment) {
-        console.log('评论人：' + comment.ownerNick)
         _this.otherComment = comment
       }
     },
     // 点赞朋友圈
     like (moment) {
       var _this = this
-      if (moment.likeName != null && moment.likeName.indexOf(moment.nick) !== -1) {
+      if (moment.likesWxId != null && moment.likesWxId.indexOf(moment.owner) !== -1) {
         _this.$notify.error('已点赞，不能重复点赞')
         return
       }
@@ -805,7 +805,6 @@ export default {
         this.content = ''
       }
       this.content = this.content + emoji.emoji
-      // console.log(emoji)
     },
     // 发送朋友圈
     sendMoments () {
@@ -820,8 +819,6 @@ export default {
         _this.$notify.error('请选择个人号')
         return
       }
-      console.log('wid' + _this.wid)
-      console.log('内容' + _this.textarea)
       try {
         if (_this.imageUrl.length > 0) {
           let images = []
@@ -840,7 +837,6 @@ export default {
         } else {
           _this.$http.fetch(_this.$api.guide.myMoments.sendText, { wid: _this.wid, content: _this.textarea }).then(resp => {
             if (resp.success) {
-              console.log('发送成功')
               _this.$notify.success('发送成功')
               _this.dialogVisible = true
               _this.dialogVisibleShow = false
@@ -892,8 +888,11 @@ export default {
       this.$refs.fullScreen.$el.children[0].style.maxHeight = limitHeight + 'px'
       this.$refs.fullScreenright.$el.children[0].style.maxHeight = limitHeightRight + 'px'
     },
+    showTotalIntro (index) {
+      this.$set(this.moments[index], 'showState', this.moments[index].showState === 1 ? 2 : 1)
+    },
     setState () {
-      this.list.map((item, index) => {
+      this.moments.map((moment, index) => {
         let descHeight = this.$refs.asideList.children[index].children[1].children[1].clientHeight
         if (descHeight > 40) {
           this.$set(this.list[index], 'showState', 2)

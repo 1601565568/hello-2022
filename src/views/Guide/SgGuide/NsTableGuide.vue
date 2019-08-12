@@ -209,5 +209,7 @@ export default guide
     padding-left: var(--default-padding-base);
     cursor: pointer;
   }
-
+  >>> .el-dropdown-link {
+    margin-left: 5px !important;
+  }
 </style>

@@ -33,7 +33,7 @@
             <el-form-grid class="detail-leftside__item--blackcolor">{{memberDetail.guideName || '-'}}</el-form-grid>
           </el-form-item>
           <el-form-item label="是否与专属导购成为好友关系：" label-width="180px" class="detail-leftside__item">
-            <el-form-grid class="delete-leftside__item--blackcolor">{{memberDetail.rId || memberDetail.isOwner == "1" ? '是' : '否'}}</el-form-grid>
+            <el-form-grid class="delete-leftside__item--blackcolor">-</el-form-grid>
           </el-form-item>
         </el-form>
         <div class="detail-rightside">

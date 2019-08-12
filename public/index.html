@@ -188,10 +188,10 @@
 <script>
   (function(){if(window.navigator.userAgent.indexOf("Trident/")>-1){var b=document.getElementsByTagName("head")[0];var a=document.createElement("script");a.type="text/javascript";a.src="https://unpkg.com/babel-polyfill@6.26.0/dist/polyfill.min.js";b.appendChild(a)}}());
   (function(){
-    window.VUE_APP_VERSION = '<%= process.env.VUE_APP_VERSION %>';
-    var data = JSON.parse(window.VUE_APP_VERSION);
-    data.buildTime = new Date(data.buildTime).toLocaleString().replace(/:\d{1,2}$/,' ');
-    console.log(data)
+    // window.VUE_APP_VERSION = '<%= process.env.VUE_APP_VERSION %>';
+    // var data = JSON.parse(window.VUE_APP_VERSION);
+    // data.buildTime = new Date(data.buildTime).toLocaleString().replace(/:\d{1,2}$/,' ');
+    console.log('<%= process.env.VUE_APP_VERSION %>')
   }());
 </script>
 <% } %>

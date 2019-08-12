@@ -105,10 +105,9 @@ export default {
     onClickGroupNode (data) {
       this.model.roomowner = data.wid
       this.model.chatroomname = data.chatroomname
+      this._data._table.quickSearchMap.roomowner = data.wid
+      this._data._table.quickSearchMap.chatroomname = data.chatroomname
       this.$searchAction$()
-    },
-    searchAction () {
-
     },
     getWxGroup () {
       this.$http.fetch(this.$api.guide.groupData.getWxGroup).then(data => {

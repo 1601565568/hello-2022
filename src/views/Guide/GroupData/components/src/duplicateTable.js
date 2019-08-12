@@ -59,7 +59,7 @@ export default {
       this.wxGroups.map(v => {
         chatroomnames.push(v.chatroomname)
       })
-      params.searchBean = { chatroomnames }
+      params.searchMap = { chatroomnames }
       return params
     }
   }

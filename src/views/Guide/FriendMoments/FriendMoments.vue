@@ -124,7 +124,7 @@
           <!-- 左边内容滚动区域 -->
           <template slot="table" ref="mainTable">
             <el-scrollbar ref="fullScreen">
-              <div class="talk-aside__list" ref="asd" v-for="moment in moments" :key="moment.id">
+              <div class="talk-aside__list" ref="asd" v-for="(moment,index) in moments" :key="moment.id">
                 <div class="talk-item clearfix">
                   <div class="talk-item__avatar">
                     <img :src="moment.head" class="talk-avatarimg" alt="个人号头像">
@@ -134,10 +134,17 @@
                       <span class="talk-name__call colorblue">{{moment.nick}}</span>
                       <span class="talk-name__private">个人号：{{moment.personalNum}}（ {{moment.ownerId}} ）</span>
                     </div>
-                    <div class="talk-sentence">{{moment.content}}</div>
+                    <div class="talk-sentence">
+                      <div :class="moment.showState && moment.showState === 2 ? 'intro-content max' : 'intro-content'" :title="moment.content">
+                        <span class="merchant-desc" :title="moment.showState"> {{moment.content}}</span>
+                        <div class="unfold" @click="showTotalIntro(index)" v-if="moment.showState">
+                          <ns-button type="text">{{moment.showState && moment.showState === 2 ? '展开阅读全文' : '收起全文'}}</ns-button>
+                        </div>
+                      </div>
+                    </div>
                     <div class="talk-matching">
                       <div class="talk-matching__figurelist" v-if="moment.images">
-                        <div class="talk-li" v-for="image in moment.images" :key="image">
+                        <div class="talk-li" v-for="(image,index) in moment.images" :key="index">
                           <div :style="{backgroundImage: 'url(' + image + ')'} " class="talk-li__figure">
                             <div class="talk-li__figure--img"></div>
                           </div>
@@ -270,7 +277,7 @@
     <el-dialog
       title="回复"
       :visible.sync="dialogVisibleReply"
-      width="460px"
+      width="610px"
       class="dialog-content" :before-close="closeDialog">
       <el-form ref="form">
         <el-form-item>
@@ -281,7 +288,15 @@
           <div class="dialog-detail dialog-detail--paddingbtm">
             <el-input type="textarea" :rows="8" placeholder="请输入评论内容" maxlength="800" v-model="content">
             </el-input>
-            <i class="iconfont icon-biaoqing"></i>
+            <el-popover
+              placement="bottom-start"
+              width="430"
+              v-model="visible2">
+              <div>
+                <VEmojiPicker :pack="pack" @select="selectEmoji" />
+              </div>
+              <el-button slot="reference"><i class="iconfont icon-biaoqing"></i></el-button>
+            </el-popover>
           </div>
         </el-form-item>
       </el-form>
@@ -301,13 +316,16 @@ import ElAside from 'nui-v2/lib/aside'
 import { getErrorMsg } from '@/utils/toast'
 import tableMixin from 'web-crm/src/mixins/table'
 import moment from 'moment'
+import VEmojiPicker from 'v-emoji-picker'
+import packData from 'v-emoji-picker/data/emojis.json'
 
 export default {
   components: {
     ElUpload,
     ElContainer,
     ElMain,
-    ElAside
+    ElAside,
+    VEmojiPicker
   },
   mixins: [tableMixin],
   props: {
@@ -394,6 +412,7 @@ export default {
       dialogVisible: false,
       dialogVisibleReply: false,
       isHidden: false,
+      visible2: false,
       model: model,
       imageUrl: '',
       textarea: '',
@@ -403,6 +422,7 @@ export default {
       // eslint-disable-next-line vue/no-reserved-keys
       interactionPagination: interactionPagination,
       momentsTotal: 0,
+      pack: packData,
       _queryConfig: {
         expand: false
       },
@@ -482,7 +502,6 @@ export default {
     // 初始化朋友圈信息
     initMomentsList () {
       var _this = this
-      console.log('获取朋友圈内容')
       _this.url = _this.$api.guide.friendMoments.momentsList
       let params = _this.$generateParams$()
       _this.$http.fetch(_this.url, params).then(resp => {
@@ -496,7 +515,6 @@ export default {
     },
     initInteractionMsgList () {
       var _this = this
-      console.log('获取互动消息内容')
       let interactionUrl = _this.$api.guide.friendMoments.interactionMsgList
       var limit = {
         start: (_this.interactionPagination.page - 1) * _this.interactionPagination.size,
@@ -630,11 +648,9 @@ export default {
       let replyToNick = null
       if (_this.otherComment) {
         if (_this.otherComment.ownerId === _this.otherMoment.ownerId) {
-          console.log('评论人等于发布人')
           commentType = 0
           replyToNick = null
         } else {
-          console.log('评论人不等于发布人')
           replyToNick = _this.otherComment.ownerNick
           commentType = 1
         }
@@ -665,16 +681,18 @@ export default {
       var _this = this
       _this.dialogVisibleReply = true
       _this.isHidden = true
-      console.log('发布人：' + moment.nick)
       _this.otherMoment = moment
       if (comment) {
-        console.log('评论人：' + comment.ownerNick)
         _this.otherComment = comment
       }
     },
     // 点赞朋友圈
     like (moment) {
       var _this = this
+      if (moment.likesWxId != null && moment.likesWxId.indexOf(moment.owner) !== -1) {
+        _this.$notify.error('已点赞，不能重复点赞')
+        return
+      }
       let replyMomentVo = {
         wid: moment.ownerId,
         snsId: moment.snsId,
@@ -699,6 +717,12 @@ export default {
       }
       // _this.$resetInputAction$()
       _this.initMomentsList()
+    },
+    selectEmoji (emoji) {
+      if (this.content == null) {
+        this.content = ''
+      }
+      this.content = this.content + emoji.emoji
     },
     beforeAvatarUpload (file) {
       if (file.size / 1024 > 5000) {
@@ -732,8 +756,11 @@ export default {
       this.$refs.fullScreen.$el.children[0].style.maxHeight = limitHeight + 'px'
       this.$refs.fullScreenright.$el.children[0].style.maxHeight = limitHeightRight + 'px'
     },
+    showTotalIntro (index) {
+      this.$set(this.moments[index], 'showState', this.moments[index].showState === 1 ? 2 : 1)
+    },
     setState () {
-      this.list.map((item, index) => {
+      this.moments.map((moment, index) => {
         let descHeight = this.$refs.asideList.children[index].children[1].children[1].clientHeight
         if (descHeight > 40) {
           this.$set(this.list[index], 'showState', 2)
@@ -1233,6 +1260,10 @@ export default {
   }
   .dialog-content >>> .el-dialog__footer {
     padding: 10px 20px !important;
+  }
+  >>> #EmojiPicker {
+    width: 420px;
+    height: 200px;
   }
   /* 发朋友圈弹窗样式结束*/
   .choicedate >>> .el-date-editor .el-range-separator {

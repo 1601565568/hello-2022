@@ -97,7 +97,6 @@ export default {
         start: isClear ? 0 : this.chatList.length
       }
 
-      _this.isChatLoadEnd = true
       this.chatLoading = true
       this.$http.fetch(this.$api.guide.wxChat.findChatList, param).then(resp => {
         if (isClear) {
@@ -106,10 +105,8 @@ export default {
         for (let row of resp.result) {
           _this.chatList.unshift(row)
         }
-        if (resp.result.length >= 10) {
-          _this.isChatLoadEnd = false
-        }
-        this.chatLoading = false
+        _this.isChatLoadEnd = resp.result.length < 10
+        _this.chatLoading = false
         if (isClear && this.chatList.length > 0) {
           // 定位
           // console.warn(this.$refs.fullScreenright)
@@ -117,7 +114,7 @@ export default {
 
           // this.$refs['fullScreenright'].wrap.scrollTop = document.getElementById('chatLog_0').offsetTop
         }
-        this.btnSearchDisabled = false
+        _this.btnSearchDisabled = false
       })
     },
     isChatLeft (receive) {
@@ -140,7 +137,6 @@ export default {
       // 查询
       this.chatList = []
       this.targetLoading = true
-      this.isChatLoadEnd = true
       this.btnSearchDisabled = true
       this.$http.fetch(this.$api.guide.wxChat.findTargetList, this.searchedModel).then(resp => {
         _this.targetLoading = false
@@ -148,6 +144,9 @@ export default {
         _this.targetList = resp.result
         if (_this.targetList.length > 0) {
           _this.clickTarget(0)
+        } else {
+          _this.chatList = []
+          _this.isChatLoadEnd = true
         }
         this.btnSearchDisabled = false
       })

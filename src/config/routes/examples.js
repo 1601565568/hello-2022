@@ -21,7 +21,7 @@ export default {
         },
         {
           'path': '/GroupData',
-          'name': 'GroupData',
+          'name': 'GroupDataExample',
           'title': 'GroupData',
           'component': () => import('@/views/Examples/groupData')
         },
