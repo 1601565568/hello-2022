@@ -79,7 +79,9 @@ export default {
       wid: null, // 个人微信号
       wName: null, // 好友微信号
       addTime: null, // 添加时间
-      lastTime: null // 最近聊天时间
+      lastTime: null, // 最近聊天时间
+      filed: null, // 排序字段
+      orderType: null // 排序类型
     }
     let model = Object.assign({}, searchModel)
     return {
@@ -131,11 +133,22 @@ export default {
     initPersonalNumberList () {
       this.$http.fetch(this.$api.guide.wxDeviceGuideRelation.findWidNickSelector).then(resp => {
         if (resp.success && resp.result != null) {
-          this.personalNumberList =Object.assign(this.personalNumberList,resp.result)
+          this.personalNumberList = Object.assign(this.personalNumberList,resp.result)
         }
       }).catch((resp) => {
         this.$notify.error(getErrorMsg('查询失败', resp))
       })
+    },
+    sortChange (column, prop, order) {
+      console.log(column)
+      if (column.prop == null || column.order == null) {
+        this.model.filed = ''
+        this.model.orderType = ''
+      } else {
+        this.model.filed = column.prop
+        this.model.orderType = column.order
+      }
+      this.$searchAction$()
     },
     shopDel (index) {
       this.guideShopList.splice(index, 1)

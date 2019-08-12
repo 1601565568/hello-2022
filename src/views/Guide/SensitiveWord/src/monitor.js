@@ -9,7 +9,6 @@ export default {
     ElBreadcrumb, ElBreadcrumbItem
   },
   data: function () {
-    let that = this
     let pagination = {
       enable: true,
       size: 15,
@@ -17,32 +16,9 @@ export default {
       page: 1,
       total: 0
     }
-    const tableButtons = [
-      {
-        'func': function () {
-          that.model.createDate = [that.addDate(0), that.addDate(0)]
-          that.$searchAction$()
-        },
-        'name': '今天'
-      },
-      {
-        'func': function () {
-          that.model.createDate = [that.addDate(-1), that.addDate(-1)]
-          that.$searchAction$()
-        },
-        'name': '昨天'
-      },
-      {
-        'func': function () {
-          that.model.createDate = [that.addDate(-7), that.addDate(0)]
-          that.$searchAction$()
-        },
-        'name': '近7天'
-      }
-    ]
     return {
       // 表格
-      model: { createDate: null, ownerWid: null, name: null, receive: null, screenWidth: 1366 },
+      model: { createDate: null, ownerWid: null, name: null, memberSend: null, screenWidth: 1366 },
       _order: {
         orderDir: null,
         orderKey: null
@@ -50,13 +26,12 @@ export default {
       _pagination: pagination,
       loading: false,
       _table: {
-        table_buttons: tableButtons,
         quickSearchMap: {}
       },
       _queryConfig: { expand: false },
       url: this.$api.guide.sensitiveWord.findMonitorList,
       // 发送人
-      receiveTypeData: [{
+      memberSendData: [{
         value: null,
         label: '全部'
       }, {
@@ -71,7 +46,8 @@ export default {
       contentDlgVisible: false,
       dlgContent: null,
       dlgNick: null,
-      dlgWid: null
+      dlgWid: null,
+      dateRadio: null
     }
   },
   methods: {
@@ -91,6 +67,20 @@ export default {
         day = '0' + day
       }
       return date.getFullYear() + '-' + month + '-' + day
+    },
+    chgDate () {
+      switch (this.dateRadio) {
+        case '今天':
+          this.model.createDate = [this.addDate(0), this.addDate(0)]
+          break
+        case '昨天':
+          this.model.createDate = [this.addDate(-1), this.addDate(-1)]
+          break
+        case '近7天':
+          this.model.createDate = [this.addDate(-7), this.addDate(0)]
+          break
+      }
+      this.$searchAction$()
     },
     loadOwnerSelector () {
       this.$http.fetch(this.$api.guide.wxDeviceGuideRelation.findWidNickSelector).then(resp => {
@@ -138,7 +128,7 @@ export default {
   // 初始化
   mounted: function () {
     this.model.screenWidth = document.body.clientWidth
-    this.initParams('name', 'receive')
+    this.initParams('name', 'memberSend')
     // 默认
     // this.model.createDate = [this.addDate(-7), this.addDate(0)]
     this.loadOwnerSelector()

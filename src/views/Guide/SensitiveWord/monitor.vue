@@ -13,8 +13,13 @@
       <ns-page-table>
         <!-- 按钮 -->
         <template slot="buttons">
-          <ns-table-operate-button :buttons="_data._table.table_buttons">
-          </ns-table-operate-button>
+          <span>
+            <el-radio-group v-model="dateRadio" @change="chgDate">
+              <el-radio-button label="今天"></el-radio-button>
+              <el-radio-button label="昨天"></el-radio-button>
+              <el-radio-button label="近7天"></el-radio-button>
+            </el-radio-group>
+          </span>
         </template>
         <!-- 按钮-结束 -->
 
@@ -69,8 +74,8 @@
             <el-form-item>
               <span>
                 <el-form-item label="发送人：">
-                  <el-select v-model="model.receive" placeholder="请选择发送人" style="width: 120px" >
-                    <el-option v-for="item in receiveTypeData" :key="item.value" :label="item.label" :value="item.value"/>
+                  <el-select v-model="model.memberSend" placeholder="请选择发送人" style="width: 120px" >
+                    <el-option v-for="item in memberSendTypeData" :key="item.value" :label="item.label" :value="item.value"/>
                   </el-select>
                 </el-form-item>
               </span>
@@ -108,7 +113,8 @@
             </el-table-column>
             <el-table-column prop="friendWid" label="好友" align="left" width="270">
               <template slot-scope='scope'>
-                {{scope.row.friendNick}} ({{scope.row.friendWid}})
+                <template v-if="scope.row.chatroomName!==null">{{scope.row.chatroomName}}</template>
+                <template v-else>{{scope.row.friendNick}} ({{scope.row.friendWid}})</template>
               </template>
             </el-table-column>
             <el-table-column prop="name" label="敏感词" align="left" width="100"/>
