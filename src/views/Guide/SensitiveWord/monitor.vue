@@ -75,7 +75,7 @@
               <span>
                 <el-form-item label="发送人：">
                   <el-select v-model="model.memberSend" placeholder="请选择发送人" style="width: 120px" >
-                    <el-option v-for="item in memberSendTypeData" :key="item.value" :label="item.label" :value="item.value"/>
+                    <el-option v-for="item in memberSendData" :key="item.value" :label="item.label" :value="item.value"/>
                   </el-select>
                 </el-form-item>
               </span>
