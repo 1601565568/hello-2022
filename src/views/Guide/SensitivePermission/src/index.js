@@ -64,6 +64,7 @@ export default {
       this.defButton = type
       this.quickMode = true
       this.model.times = [moment().subtract(type, 'days').format('YYYYMMDD'), type === 1 ? moment().subtract(type, 'days').format('YYYYMMDD') : moment().format('YYYYMMDD')]
+      this.$searchAction$()
     },
     initPrivateAccount () {
       this.$http.fetch(this.$api.guide.wxPrivateAccount.listLite, {}).then(data => {
