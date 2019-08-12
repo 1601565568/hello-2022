@@ -13,8 +13,13 @@
       <ns-page-table>
         <!-- 按钮 -->
         <template slot="buttons">
-          <ns-table-operate-button :buttons="_data._table.table_buttons">
-          </ns-table-operate-button>
+          <span>
+            <el-radio-group v-model="dateRadio" @change="chgDate">
+              <el-radio-button label="今天"></el-radio-button>
+              <el-radio-button label="昨天"></el-radio-button>
+              <el-radio-button label="近7天"></el-radio-button>
+            </el-radio-group>
+          </span>
         </template>
         <!-- 按钮-结束 -->
 
