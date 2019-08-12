@@ -332,8 +332,8 @@ export default {
       return ret.substr(1)
     },
     // 点击数量
-    clickCount (row, receive) {
-      this.$router.push({ name: 'SensitiveWord_monitor', params: { name: row.name, receive: receive } })
+    clickCount (row, memberSend) {
+      this.$router.push({ name: 'SensitiveWord_monitor', params: { name: row.name, memberSend: memberSend } })
     },
     moment (time) {
       return moment(time).format('YYYY-MM-DD HH:mm:ss')

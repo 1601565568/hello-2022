@@ -9,7 +9,6 @@ export default {
     ElBreadcrumb, ElBreadcrumbItem
   },
   data: function () {
-    let that = this
     let pagination = {
       enable: true,
       size: 15,
@@ -19,7 +18,7 @@ export default {
     }
     return {
       // 表格
-      model: { createDate: null, ownerWid: null, name: null, receive: null, screenWidth: 1366 },
+      model: { createDate: null, ownerWid: null, name: null, memberSend: null, screenWidth: 1366 },
       _order: {
         orderDir: null,
         orderKey: null
@@ -32,7 +31,7 @@ export default {
       _queryConfig: { expand: false },
       url: this.$api.guide.sensitiveWord.findMonitorList,
       // 发送人
-      receiveTypeData: [{
+      memberSendData: [{
         value: null,
         label: '全部'
       }, {
@@ -129,7 +128,7 @@ export default {
   // 初始化
   mounted: function () {
     this.model.screenWidth = document.body.clientWidth
-    this.initParams('name', 'receive')
+    this.initParams('name', 'memberSend')
     // 默认
     // this.model.createDate = [this.addDate(-7), this.addDate(0)]
     this.loadOwnerSelector()
