@@ -24,14 +24,14 @@ export default {
       _table: {
         table_buttons: [
           {
-            'func': function (scope) {
+            func: function (scope) {
               that.detailDialog.visible = true
-              that.detailDialog.detailItem = Object.assign({}, scope.row)
+              that.detailDialog.detailItem = scope.row
             },
-            'icon': '',
-            'name': '查看详情',
-            'auth': ``,
-            'visible': ``
+            icon: '',
+            name: '查看详情',
+            auth: ``,
+            visible: ``
           }
         ]
       },
@@ -63,15 +63,27 @@ export default {
     todayTime (type) {
       this.defButton = type
       this.quickMode = true
-      this.model.times = [moment().subtract(type, 'days').format('YYYYMMDD'), type === 1 ? moment().subtract(type, 'days').format('YYYYMMDD') : moment().format('YYYYMMDD')]
+      this.model.times = [
+        moment()
+          .subtract(type, 'days')
+          .format('YYYYMMDD'),
+        type === 1
+          ? moment()
+            .subtract(type, 'days')
+            .format('YYYYMMDD')
+          : moment().format('YYYYMMDD')
+      ]
       this.$searchAction$()
     },
     initPrivateAccount () {
-      this.$http.fetch(this.$api.guide.wxPrivateAccount.listLite, {}).then(data => {
-        this.privateAccountSelect = Object.assign([], data.result)
-      }).catch(error => {
-        this.$notify.error(getErrorMsg('获取个人号列表出现异常', error))
-      })
+      this.$http
+        .fetch(this.$api.guide.wxPrivateAccount.listLite, {})
+        .then(data => {
+          this.privateAccountSelect = Object.assign([], data.result)
+        })
+        .catch(error => {
+          this.$notify.error(getErrorMsg('获取个人号列表出现异常', error))
+        })
     },
     $resetInput () {
       this.defButton = 0

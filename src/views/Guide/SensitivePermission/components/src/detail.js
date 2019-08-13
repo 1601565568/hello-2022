@@ -1,3 +1,4 @@
+import $ from 'jquery'
 import tableMixin from 'web-crm/src/mixins/table'
 import moment from 'moment'
 
@@ -35,8 +36,10 @@ export default {
             {
               name: '微信信息',
               key: 'nick',
-              formatContent: (row) => {
-                return row.detailVo.wid ? `${row.detailVo.nick || '-'}（${row.detailVo.wid}）` : '-'
+              formatContent: row => {
+                return row.detailVo.wid
+                  ? `${row.detailVo.nick || '-'}（${row.detailVo.wid}）`
+                  : '-'
               }
             },
             {
@@ -44,7 +47,7 @@ export default {
               key: 'isMember',
               header: '此微信客户是否为会员',
               align: 'right',
-              formatContent: (row) => {
+              formatContent: row => {
                 if (row.detailVo.isMember === 1) {
                   return '是'
                 }
@@ -78,8 +81,10 @@ export default {
             {
               name: '微信信息',
               key: 'nick',
-              formatContent: (row) => {
-                return row.detailVo.wid ? `${row.detailVo.nick || '-'}（${row.detailVo.wid}）` : '-'
+              formatContent: row => {
+                return row.detailVo.wid
+                  ? `${row.detailVo.nick || '-'}（${row.detailVo.wid}）`
+                  : '-'
               }
             },
             {
@@ -87,7 +92,7 @@ export default {
               key: 'isMember',
               header: '此微信客户是否为会员',
               align: 'right',
-              formatContent: (row) => {
+              formatContent: row => {
                 if (row.detailVo.isMember === 1) {
                   return '是'
                 }
@@ -121,15 +126,23 @@ export default {
             {
               name: '目标微信',
               key: 'targetNick',
-              formatContent: (row) => {
-                return row.detailVo.targetWid ? `${row.detailVo.targetNick || '-'}（${row.detailVo.targetWid}）` : '-'
+              formatContent: row => {
+                return row.detailVo.targetWid
+                  ? `${row.detailVo.targetNick || '-'}（${
+                    row.detailVo.targetWid
+                  }）`
+                  : '-'
               }
             },
             {
               name: '名片信息',
               key: 'shareNick',
-              formatContent: (row) => {
-                return row.detailVo.shareWid ? `${row.detailVo.shareNick || '-'}（${row.detailVo.shareWid}）` : '-'
+              formatContent: row => {
+                return row.detailVo.shareWid
+                  ? `${row.detailVo.shareNick || '-'}（${
+                    row.detailVo.shareWid
+                  }）`
+                  : '-'
               }
             },
             {
@@ -183,7 +196,7 @@ export default {
             {
               name: '群类型',
               key: 'groupType',
-              formatContent: (row) => {
+              formatContent: row => {
                 return row.detailVo.groupType === 1 ? '门店群' : '普通群'
               },
               align: 'center',
@@ -220,7 +233,7 @@ export default {
             {
               name: '类型',
               key: 'type',
-              formatContent: (row) => {
+              formatContent: row => {
                 if (!row.detailVo.type) {
                   return ''
                 }
@@ -303,7 +316,7 @@ export default {
             {
               name: '接收人微信',
               key: '',
-              formatContent: (row) => {
+              formatContent: row => {
                 return row.talker ? `${row.nick || '-'}（${row.talker}）` : '-'
               }
             },
@@ -332,7 +345,7 @@ export default {
             {
               name: '接收人微信',
               key: '',
-              formatContent: (row) => {
+              formatContent: row => {
                 return row.talker ? `${row.nick || '-'}（${row.talker}）` : '-'
               }
             },
@@ -403,6 +416,7 @@ export default {
       times[1] = moment(this.times[1]).format('YYYY-MM-DD')
       if (this.showTableIndex === 6) {
         this.model.createDate = times
+        this.model.memberSend = 0
         this._data._order.orderKey = 'create_time'
       } else if (this.showTableIndex === 7 || this.showTableIndex === 8) {
         this._data._order.orderKey = 'm.createtime'
@@ -419,8 +433,20 @@ export default {
       } else if (item.standard) {
         return row[item.key] || item.defaultValue
       } else {
-        return row.detailVo ? (row.detailVo[item.key] || item.defaultValue) : item.defaultValue
+        return row.detailVo
+          ? row.detailVo[item.key] || item.defaultValue
+          : item.defaultValue
       }
+    },
+    $searchAction$ () {
+      this._data._table.searchMap = $.extend(true, {}, this.model)
+      // 页码变更会触发reload动作
+      this._data._pagination.page = 1
+      this.$reload().then(data => {
+        const key = this.tableList[this.showTableIndex].key + 'Quantity'
+        this.detailItem[key] = this._data._pagination.total
+      })
+      this.$formatTextToShow$()
     }
   }
 }
