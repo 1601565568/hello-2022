@@ -121,7 +121,9 @@
         align="right"
       >
       <template slot-scope="scope">
+        <span v-if="scope.row.state !== 4" >
         <ns-button @click="AddShowToggle(scope.row)" type="text">编辑</ns-button>
+        </span>
         <a class="text-error" style="color:#f00" href="javascript:" @click="delsTipFun(scope.row.id)">删除</a>
       </template>
       </el-table-column>
