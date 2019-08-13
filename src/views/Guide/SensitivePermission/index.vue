@@ -16,13 +16,13 @@
               </ns-datetime>
             </el-form-grid>
             <el-form-grid>
-              <ns-button @click="todayTime(0)" :type="defButton === 0 ? 'primary' : 'default'" :plain='defButton === 0'>今日</ns-button>
+              <ns-button @click="todayTime(0)" :type="defButton === 0 ? 'primary' : 'default'" >今日</ns-button>
             </el-form-grid>
             <el-form-grid>
-              <ns-button @click="todayTime(1)" :type="defButton === 1 ? 'primary' : 'default'" :plain='defButton === 1'>昨日</ns-button>
+              <ns-button @click="todayTime(1)" :type="defButton === 1 ? 'primary' : 'default'">昨日</ns-button>
             </el-form-grid>
             <el-form-grid>
-              <ns-button @click="todayTime(7)" :type="defButton === 7 ? 'primary' : 'default'" :plain='defButton === 7'>近7天</ns-button>
+              <ns-button @click="todayTime(7)" :type="defButton === 7 ? 'primary' : 'default'">近7天</ns-button>
             </el-form-grid>
           </el-form-item>
           <el-form-item label="个人号：" class='el-block'>
