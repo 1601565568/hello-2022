@@ -416,7 +416,7 @@ export default {
       times[1] = moment(this.times[1]).format('YYYY-MM-DD') + ' 23:59:59'
       if (this.showTableIndex === 6) {
         times[0] = times[0].substr(0, 10)
-        times[1] = times[0].substr(0, 10)
+        times[1] = times[1].substr(0, 10)
         this.model.createDate = times
         this.model.memberSend = 0
         this._data._order.orderKey = 'create_time'
