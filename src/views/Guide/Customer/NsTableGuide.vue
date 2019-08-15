@@ -135,10 +135,11 @@
               {{scope.row.activateTime?moment(scope.row.activateTime):'-'}}
             </template>
         </el-table-column>
-        <el-table-column prop="status,row" :show-overflow-tooltip="true" label="操作" align="right" width="60">
+        <el-table-column prop="status,row" :show-overflow-tooltip="true" label="操作" align="right" width="100">
           <template slot-scope="scope">
             <div>
               <ns-button style="color:#0091FA" @click="onRedactFun(scope.row)" type="text">详情</ns-button>
+              <ns-button style="color:#0091FA" @click="addTag(scope.row)" type="text">打标签</ns-button>
             </div>
           </template>
         </el-table-column>
