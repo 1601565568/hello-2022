@@ -2,7 +2,7 @@
 <template>
   <!-- 新增素材--编辑弹窗  wanrengang 20180731 -->
   <div class="addMaterialbox">
-    <el-dialog :title="modalTit" :close-on-click-modal=false :visible.sync="dialogVisible" width="500px" :before-close="handleClose" customClass="custom-box">
+    <el-dialog :title="modalTit" :close-on-click-modal=false :visible.sync="dialogVisible" width="500px" :before-close="handleClose" class="custom-box">
       <div class="comDialogBoxCon">
         <el-form :model="saveObj" :rules="rules" ref="addForm" label-width="100px" style="width:440px;">
           <el-form-item label="所属分组：" prop="subdivisionId">
