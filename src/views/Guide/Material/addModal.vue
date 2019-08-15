@@ -332,7 +332,7 @@ export default {
   }
 }
 </script>
-<style scoped>
+<style>
 /* 此处scoped暂时不能加，等空闲了再出解决方案 */
 @component-namespace addMaterialbox {
   .comDialogBoxCon {
