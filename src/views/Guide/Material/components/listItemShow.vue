@@ -272,7 +272,7 @@ export default {
 }
 </style>
 
-<style scoped>
+<style>
 .custom-dialog {
   width: 100% !important;
   background: none !important;
