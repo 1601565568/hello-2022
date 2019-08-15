@@ -272,25 +272,25 @@ export default {
 }
 </style>
 
-<style>
-.custom-dialog {
+<style scoped>
+  >>> .custom-dialog {
   width: 100% !important;
   background: none !important;
   -webkit-box-shadow: none !important;
   box-shadow: none !important;
   border-radius: 0 !important;
-}
-.materialItem .v-modal {
+    .el-dialog__header {
+      height: 50px;
+      width: 50px;
+      position: fixed;
+      right: 6px;
+      top: 0;
+    }
+    .el-dialog__headerbtn {
+      font-size: 26px !important;
+    }
+  }
+.materialItem >>> .v-modal {
   opacity: 0.96 !important;
-}
-.custom-dialog .el-dialog__header {
-  height: 50px;
-  width: 50px;
-  position: fixed;
-  right: 6px;
-  top: 0;
-}
-.custom-dialog .el-dialog__headerbtn {
-  font-size: 26px !important;
 }
 </style>
