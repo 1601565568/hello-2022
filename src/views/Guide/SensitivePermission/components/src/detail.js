@@ -412,8 +412,8 @@ export default {
     },
     setCondition () {
       let times = []
-      times[0] = moment(this.times[0]).format('YYYY-MM-DD')
-      times[1] = moment(this.times[1]).format('YYYY-MM-DD')
+      times[0] = moment(this.times[0]).format('YYYY-MM-DD') + ' 00:00:00'
+      times[1] = moment(this.times[1]).format('YYYY-MM-DD') + ' 23:59:59'
       if (this.showTableIndex === 6) {
         this.model.createDate = times
         this.model.memberSend = 0
