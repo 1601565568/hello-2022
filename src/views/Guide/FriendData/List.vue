@@ -40,12 +40,12 @@
           <el-form-item label-width="30px" class="margintop">
             <el-form-grid class="detail-leftside__chat">
               <div>
-                <div class="detail-leftside__chat--black">朋友圈互动次数：</div>
+                <div class="detail-leftside__chat--black typeSize" >朋友圈互动次数：</div>
                 <div>赞我：{{friendDetail.likeNum}}；赞他：{{friendDetail.likeHimNum}}；</div>
                 <div>评我：{{friendDetail.commentsNum}}；评他：{{friendDetail.commentsHimNum}}；</div>
               </div>
               <div class="detail-lasttime">
-                <div class="detail-leftside__chat--black">最后联系时间：</div>
+                <div class="detail-leftside__chat--black typeSize" >最后联系时间：</div>
                 <div>发：{{friendDetail.sendConversationTime?friendDetail.sendConversationTime:'-'}}</div>
                 <div>接：{{friendDetail.receiveConversationTime?friendDetail.receiveConversationTime:'-'}}</div>
               </div>
@@ -54,11 +54,11 @@
           <el-form-item label-width="30px" class="margintop">
             <el-form-grid class="detail-leftside__chat">
               <div>
-                <span class="detail-leftside__chat--black">入会时间：</span>
+                <span class="detail-leftside__chat--black typeSize">入会时间：</span>
                 <span>{{friendDetail.addTime}}</span>
               </div>
               <div class="detail-addtime">
-                <span class="detail-leftside__chat--black">添加好友时间：</span>
+                <span class="detail-leftside__chat--black typeSize">添加好友时间：</span>
                 <span>{{friendDetail.createTime}}</span>
               </div>
             </el-form-grid>
@@ -77,9 +77,6 @@
         </div>
       </div>
     </el-dialog>
-
-
-
 
   </div>
 </template>
@@ -138,6 +135,9 @@ export default List
   }
   .margintop {
     margin-top: 20px;
+  }
+  .typeSize {
+    font-size: 14px
   }
   >>> .el-form-item__label {
     font-size: var(--default-font-size-base);
