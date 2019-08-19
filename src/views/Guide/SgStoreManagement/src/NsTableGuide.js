@@ -184,7 +184,7 @@ export default {
       this.model.shopIds = null
       if (data.ext1) {
         this.model.shopIds = data.ext1
-      } else if (data.label.indexOf('全部数字门店') === -1) {
+      } else if (data.id != 0) {
         this.model.shopIds = '0'
       }
       _this.loading = true
