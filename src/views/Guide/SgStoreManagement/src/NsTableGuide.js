@@ -110,7 +110,6 @@ export default {
       select: true,
       digitalShopList: [],
       digitalShopListLength: [],
-      allDigitalArr: { id: 0, pId: null, label: '全部数字门店' },
       offsetHeight: false,
       shopLeiXing: [{
         value: 'B',
@@ -249,9 +248,7 @@ export default {
       var _this = this
       _this.$http.fetch(_this.$api.guide.shop.findDigitalShopList).then(resp => {
         if (resp.success && resp.result !== null) {
-          console.log('请求数字门店接口')
           _this.digitalShopList = resp.result
-          _this.digitalShopList.unshift(_this.allDigitalArr)
         }
       }).catch((resp) => {
         _this.$notify.error(getErrorMsg('查询失败', resp))
