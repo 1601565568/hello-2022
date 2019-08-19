@@ -182,14 +182,8 @@ export default {
     onClickNode (data) {
       var _this = this
       this.model.shopIds = null
-      if (data.children) {
-        let ids = ''
-        let childrenArr = data.children
-        for (let child of childrenArr) {
-          ids += child.id + ','
-        }
-        ids = ids.substring(0, ids.length - 1)
-        this.model.shopIds = ids
+      if (data.ext1) {
+        this.model.shopIds = data.ext1
       } else if (data.label.indexOf('全部数字门店') === -1) {
         this.model.shopIds = '0'
       }

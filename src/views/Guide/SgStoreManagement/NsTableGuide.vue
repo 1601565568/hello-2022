@@ -56,7 +56,7 @@
           <el-form ref="table_filter_form" :model="model" label-width="80px" :inline="true">
             <el-form-item label="门店名称：">
               <el-form-grid size="xmd">
-                <el-input style="width:180px" autofocus=true v-model="model.shopName" placeholder="请输入门店名称"
+                <el-input style="width:180px" autofocus=true  v-model="model.shopName" placeholder="请输入门店名称"
                           clearable></el-input>
               </el-form-grid>
             </el-form-item>
