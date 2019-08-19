@@ -193,7 +193,6 @@ export default guide
 </script>
 
 <style scoped>
-  @import "@/style/small/variables.pcss";
   .icon-erweima {
     font-weight: 500;
     font-size: 30px;
@@ -205,5 +204,48 @@ export default guide
 
   .el-icon-menu {
     font-size: 24px;
+  }
+  .template-page__row-left {
+    width: 220px;
+    position: absolute;
+    left: 210px;
+    top: 70px;
+    z-index: 2;
+    overflow: hidden;
+  }
+  .template-page__row-right {
+    position: absolute;
+    top: 70px;
+    left: 0;
+    z-index: 1;
+    margin: 0;
+    width: 100%;
+  }
+  .template-table {
+    margin: 0 10px 0 440px;
+  }
+  @media screen and (min-width: 1624px) {
+    .el-tree-node__content{
+      width: 210px;
+    }
+    .template-page__row-left {
+      width: 220px;
+      position: absolute;
+      left: 210px;
+      top: 90px;
+      z-index: 2;
+      overflow: hidden;
+    }
+    .template-page__row-right {
+      position: absolute;
+      top: 90px;
+      left: 0;
+      z-index: 1;
+      width: 100%;
+      margin: 0;
+    }
+    .template-table {
+      margin: 0 10px 0 440px;
+    }
   }
 </style>
