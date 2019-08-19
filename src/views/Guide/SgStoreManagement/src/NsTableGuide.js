@@ -96,6 +96,7 @@ export default {
     let model = Object.assign({}, findVo, {}, searchModel)
     return {
       model: model,
+      filterTreeText: '',
       quickSearchModel: quickSearchModel,
       _pagination: pagination,
       _table: {
@@ -107,6 +108,10 @@ export default {
       _queryConfig: { expand: false },
       multipleSelection: [],
       select: true,
+      digitalShopList: [],
+      digitalShopListLength: [],
+      allDigitalArr: { id: 0, pId: null, label: '全部数字门店' },
+      offsetHeight: false,
       shopLeiXing: [{
         value: 'B',
         label: '天猫'
@@ -145,6 +150,7 @@ export default {
   mounted: function () {
     var vm = this
     vm.initShopList()
+    vm.initDigitalShopList()
     if (typeof this.$init === 'function') {
     } else {
       this.$reload()
@@ -152,6 +158,9 @@ export default {
   },
   components: {
     NsArea
+  },
+  updated () {
+    this.$refs.elTree.offsetHeight > window.screen.availHeight ? this.offsetHeight = true : this.offsetHeight = false
   },
   computed: {},
   methods: {
@@ -171,6 +180,48 @@ export default {
           this.$notify.error(getErrorMsg('查询失败', resp))
         })
     },
+    onClickNode (data) {
+      var _this = this
+      _this.shuJushuzu = data
+      _this.loading = true
+      _this.$reload().then(rep => {
+        _this.loading = _this._data._loading
+      })
+    },
+    // 树节点过滤
+    onFilterNode (value, data, node) {
+      // 如果什么都没填就直接返回
+      if (!value) { return true }
+      // 如果传入的value和data中的label相同说明是匹配到了
+      if (data.label.indexOf(value) !== -1) {
+        return true
+      }
+      // 否则要去判断它是不是选中节点的子节点
+      return this.checkBelongToChooseNode(value, data, node)
+    },
+    // 判断传入的节点是不是选中节点的子节点
+    checkBelongToChooseNode (value, data, node) {
+      const level = node.level
+      // 如果传入的节点本身就是一级节点就不用校验了
+      if (level === 1) {
+        return false
+      }
+      // 先取当前节点的父节点
+      let parentData = node.parent
+      // 遍历当前节点的父节点
+      let index = 0
+      while (index < level - 1) {
+        // 如果匹配到直接返回
+        if (parentData.data.label.indexOf(value) !== -1) {
+          return true
+        }
+        // 否则的话再往上一层做匹配
+        parentData = parentData.parent
+        index++
+      }
+      // 没匹配到返回false
+      return false
+    },
     elIconMenu (row) {
       this.$emit('elIconMenu', row)
     },
@@ -188,6 +239,19 @@ export default {
       _this.$http.fetch(_this.$api.guide.shop.findBrandShopList, { isOnline: 0 }).then(resp => {
         if (resp.success && resp.result != null) {
           _this.shopFindList = resp.result
+        }
+      }).catch((resp) => {
+        _this.$notify.error(getErrorMsg('查询失败', resp))
+      })
+    },
+    // 数字门店列表
+    initDigitalShopList () {
+      var _this = this
+      _this.$http.fetch(_this.$api.guide.shop.findDigitalShopList).then(resp => {
+        if (resp.success && resp.result !== null) {
+          console.log('请求数字门店接口')
+          _this.digitalShopList = resp.result
+          _this.digitalShopList.unshift(_this.allDigitalArr)
         }
       }).catch((resp) => {
         _this.$notify.error(getErrorMsg('查询失败', resp))
@@ -253,6 +317,12 @@ export default {
       }).catch((resp) => {
         _this.$notify.error(getErrorMsg('查询失败', resp))
       })
+    }
+  },
+  watch: {
+    // 导购树过滤
+    filterTreeText (val) {
+      this.$refs.guideTree.filter(val)
     }
   }
 }
