@@ -181,7 +181,18 @@ export default {
     },
     onClickNode (data) {
       var _this = this
-      _this.shuJushuzu = data
+      this.model.shopIds = null
+      if (data.children) {
+        let ids = ''
+        let childrenArr = data.children
+        for (let child of childrenArr) {
+          ids += child.id + ','
+        }
+        ids = ids.substring(0, ids.length - 1)
+        this.model.shopIds = ids
+      } else if (data.label.indexOf('全部数字门店') === -1) {
+        this.model.shopIds = '0'
+      }
       _this.loading = true
       _this.$reload().then(rep => {
         _this.loading = _this._data._loading
@@ -319,7 +330,7 @@ export default {
   watch: {
     // 导购树过滤
     filterTreeText (val) {
-      this.$refs.guideTree.filter(val)
+      this.$refs.shopTree.filter(val)
     }
   }
 }

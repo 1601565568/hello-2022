@@ -5,7 +5,7 @@
         <i class="el-icon-search el-input__icon" slot="suffix" name="name" @click="$quickSearchAction$('name')"></i>
       </el-input>
       <div :class="offsetHeight?'elTrees':'elTree'" ref="elTree" >
-        <el-tree class="filter-tree" ref="guideTree" :data="digitalShopList" highlight-current
+        <el-tree class="filter-tree" ref="shopTree" :data="digitalShopList" highlight-current
                  node-key="id" :default-expand-all="false" :expand-on-click-node="false" :default-checked-keys="[0]"
                  :filter-node-method="onFilterNode" @node-click="onClickNode">
           <div class="subdivision-tree-node" slot-scope="{ node }">
