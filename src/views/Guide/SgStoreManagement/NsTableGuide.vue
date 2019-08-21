@@ -31,7 +31,7 @@
         <template slot="searchSearch">
           <el-form :model="quickSearchModel" :inline="true" @submit.native.prevent class="pull-right">
             <el-form-item label="门店名称：" v-show="_data._queryConfig.expand === false">
-              <el-input ref="quickText" style="width: 250px" v-model="model.shopName" placeholder="请输入门店名称"
+              <el-input ref="quickText" style="width: 250px" v-model="model.shopName" placeholder="请输入线下门店名称/ID"
                         @keyup.enter.native="$quickSearchAction$('shopName')" clearable>
               </el-input>
               <ns-button type="primary" @click="$searchAction$('searchform')">搜索</ns-button>
@@ -56,7 +56,7 @@
           <el-form ref="table_filter_form" :model="model" label-width="80px" :inline="true">
             <el-form-item label="门店名称：">
               <el-form-grid size="xmd">
-                <el-input style="width:180px" autofocus=true  v-model="model.shopName" placeholder="请输入门店名称"
+                <el-input style="width:180px" autofocus=true  v-model="model.shopName" placeholder="请输入线下门店名称"
                           clearable></el-input>
               </el-form-grid>
             </el-form-item>
@@ -123,41 +123,43 @@
           <!-- 操作（只有一项文字的80px,两项文字120px,三项文字160px） -->
 
           <el-table ref="table" :data="_data._table.data" stripe>
-            <el-table-column prop="shopName" label="门店名称" align="left" width="150">
+            <el-table-column prop="shopName" label="线下门店名称&ID" align="left" width="150">
               <template slot-scope="scope">
                 {{scope.row.shopName || '-'}}
+                <p>ID:{{scope.row.id}}</p>
               </template>
             </el-table-column>
-            <el-table-column prop="shopStatus" label="营业状态" align="left" width="100">
-              <template slot-scope="scope">
-                {{scope.row.shopStatus === 0?'删除':scope.row.shopStatus === 1?'正常营业':scope.row.shopStatus ===
-                -1?'暂停营业':'已关店'}}
-              </template>
-            </el-table-column>
-            <el-table-column prop="mobile" label="地区" align="left">
-              <template slot-scope="scope">
-                {{!scope.row.province&&!scope.row.city&&!scope.row.district?'-':scope.row.province+'/'+scope.row.city+'/'+scope.row.district}}
-              </template>
-            </el-table-column>
-            <el-table-column prop="address" label="详细地址" align="left">
-              <template slot-scope="scope">
-                {{scope.row.address || '-'}}
-              </template>
-            </el-table-column>
-            <el-table-column prop="shopType,count" label="门店类型" align="left" width="100">
+
+            <el-table-column prop="shopType,count" label="类型" align="left" width="100">
               <template slot-scope="scope">
                 <ns-button style="color:#0091FA" @click="scopeRowCount(scope.row.id)" v-if="scope.row.count > 1"
                            type="text">{{scope.row.count}}家
                 </ns-button>
                 <div v-else>
-                  {{scope.row.shopType === 'ZYD'?'直营店':scope.row.shopType === 'JMD'?'加盟店':scope.row.shopType ===
+                  {{scope.row.shopType === 'ZYD'?'直营':scope.row.shopType === 'JMD'?'加盟':scope.row.shopType ===
                   'B'?'天猫':scope.row.shopType === 'C'?'淘宝':'-'}}
                 </div>
               </template>
             </el-table-column>
-            <el-table-column prop="phone" label="手机号" align="left" width="180">
+            <el-table-column prop="address" label="地址&地区" align="left">
+              <template slot-scope="scope">
+                {{scope.row.address || '-'}}/{{!scope.row.province&&!scope.row.city&&!scope.row.district?'-':scope.row.province+'/'+scope.row.city+'/'+scope.row.district}}
+              </template>
+            </el-table-column>
+            <el-table-column prop="address" label="关联数字门店" align="left">
+              <template slot-scope="scope">
+                {{scope.row.address || '-'}}
+              </template>
+            </el-table-column>
+            <el-table-column prop="phone" label="联系方式" align="left" width="150">
               <template slot-scope="scope">
                 {{scope.row.phone || '-'}}
+              </template>
+            </el-table-column>
+            <el-table-column prop="shopStatus" label="状态" align="left" width="100">
+              <template slot-scope="scope">
+                {{scope.row.shopStatus === 0?'删除':scope.row.shopStatus === 1?'正常营业':scope.row.shopStatus ===
+                -1?'暂停营业':'已关店'}}
               </template>
             </el-table-column>
             <el-table-column label="招募码" align="left" width="120">
