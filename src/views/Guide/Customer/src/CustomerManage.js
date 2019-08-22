@@ -294,5 +294,5 @@ export default {
     }
   },
   mounted: function () {
-  },
+  }
 }
