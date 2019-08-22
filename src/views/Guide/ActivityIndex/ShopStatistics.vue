@@ -18,7 +18,6 @@
             <el-form ref="searchform" class="float-right" v-if="!searchType.advanced" :inline="true" :model="searchform" style='padding-top:3px'>
               <el-form-item  prop="type">
                 <el-select
-                clearable
                 style="width:100px"
                 v-model="searchform.type" placeholder="请选择"
                 :clearable='false'>
@@ -66,7 +65,6 @@
         <el-form ref="searchform" label-width="80px"  class="surround-btn" :model="searchform"  :inline="true">
           <el-form-item  prop="type" label="查询类型：">
             <el-select
-            clearable
             style="width:100px"
             v-model="searchform.type" placeholder="请选择"
             :clearable='false'>

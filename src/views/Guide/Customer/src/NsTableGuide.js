@@ -27,9 +27,7 @@ export default {
     let quickSearchModel = {}
     let findVo = {
       'name': null,
-      'mobile': null,
-      'nickName': null,
-      'guideState': 1
+      'mobile': null
     }
     let model = Object.assign({}, findVo, {})
     return {
@@ -64,13 +62,13 @@ export default {
     var vm = this
     vm.initShopList()
     vm.height = window.innerHeight - 130
-    if (typeof vm.$init === 'function') {
-    } else {
-      vm.loading = true
-      vm.$reload().then(rep => {
-        vm.loading = vm._data._loading
-      })
-    }
+    // if (typeof vm.$init === 'function') {
+    // } else {
+    //   vm.loading = true
+    //   vm.$reload().then(rep => {
+    //     vm.loading = vm._data._loading
+    //   })
+    // }
   },
   updated () {
     this.$refs.elTree.offsetHeight > window.screen.availHeight ? this.offsetHeight = true : this.offsetHeight = false
@@ -127,7 +125,6 @@ export default {
       _this.$http.fetch(_this.$api.guide.guide.customerGetGuideTree).then(resp => {
         if (resp.success && resp.result !== null) {
           _this.shopFindList = resp.result
-          _this.shopFindList.unshift(_this.allGuideArr)
         }
       }).catch((resp) => {
         _this.$notify.error(getErrorMsg('查询失败', resp))
