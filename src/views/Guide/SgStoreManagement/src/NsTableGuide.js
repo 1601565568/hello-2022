@@ -184,7 +184,7 @@ export default {
       this.model.shopIds = null
       if (data.ext1) {
         this.model.shopIds = data.ext1
-      } else if (data.id != 0) {
+      } else if (data.id !== 0) {
         this.model.shopIds = '0'
       }
       _this.loading = true
