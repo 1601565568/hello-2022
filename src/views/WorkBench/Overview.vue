@@ -245,7 +245,7 @@ index.components = {
 </script>
 
 <style scoped>
-  @import "@/style/small/variables.pcss";
+  @import "@theme/variables.pcss";
   @component-namespace overview {
     @b content {
       .el-row {

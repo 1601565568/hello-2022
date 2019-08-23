@@ -150,7 +150,7 @@ export default List
 </script>
 
 <style scoped>
-  @import "@/style/small/variables.pcss";
+  @import "@theme/variables.pcss";
 
   .coupon-form{
     text-align: right;

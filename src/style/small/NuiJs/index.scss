@@ -1,8 +1,8 @@
 /* .scss文件的变量覆盖原则：上方代码覆盖下方代码 */
 
 // element-ui组件库样式主变量文件修改版
-@import "~web-crm/src/style/small/NuiJs/var";
 @import "var";
+@import "~web-crm/src/style/small/NuiJs/var";
 
 /* 改变 icon 字体路径变量，必需 */
 $--font-path: '~nui-v2/lib/theme-chalk/fonts';
@@ -12,4 +12,6 @@ $--font-path: '~nui-v2/lib/theme-chalk/fonts';
 // 复写 element-ui组件库样式
 /* 组件 */
 @import "web-crm/src/style/small/NuiJs/components/index.pcss";
+@import "../variables.pcss"; // 覆盖上一行复写的组件库样式变量，必需
+
 @import "./my.scss";

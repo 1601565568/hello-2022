@@ -223,7 +223,7 @@ export default List
 }
 </style>
 <style scoped>
- @import "@/style/small/variables.pcss";
+ @import "@theme/variables.pcss";
   #box_left{
     width: 220px;
     margin-right: 10px;
@@ -313,7 +313,7 @@ export default List
 }
 </style>
 <style lang='scss'>
- @import "@/style/small/variables.pcss";
+ @import "@theme/variables.pcss";
 #SgQuicklyWordPage .el-tree-node{
   &.is-current{
     background-color: var(--default-menu-active-border);

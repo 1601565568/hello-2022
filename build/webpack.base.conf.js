@@ -11,7 +11,8 @@ function resolve (dir) {
 module.exports = {
   resolve: {
     alias: {
-      [packageConfig.name]: resolve('')
+      [packageConfig.name]: resolve(''),
+      '@theme': resolve(`src/style/${process.env.VUE_APP_THEME}`)
     }
   },
   module: {

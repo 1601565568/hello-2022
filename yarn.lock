@@ -11121,10 +11121,10 @@ wcwidth@^1.0.1:
   dependencies:
     defaults "^1.0.3"
 
-web-crm@^3.2.4:
-  version "3.2.4"
-  resolved "http://27.154.234.170:18081/repository/npm/web-crm/-/web-crm-3.2.4.tgz#cbf572e2ca095aa6b518dec00ff7dbc358ee330d"
-  integrity sha512-bDdEhlZEUtRQUqA0iD+kENOnkQKWJtph21mCHcwKFJ/pyt6Gxj4sQC/b/PUIUQn7YJig+rRdNKsShg8mb+bDIA==
+web-crm@^4.0.6:
+  version "4.0.6"
+  resolved "http://27.154.234.170:18081/repository/npm/web-crm/-/web-crm-4.0.6.tgz#a867b0304ed6e70ba6847cd4b903da9a5144194d"
+  integrity sha512-jHM9INTJn5PlxD/a99U6tQMSzlY2lM+QYb2ANb/pooGKHVpxy6yiUjkCETrLEeNtspYN3iu996L9Nh+kNtYmeQ==
   dependencies:
     "@sentry/browser" "^4.5.3"
     axios "^0.18.0"
