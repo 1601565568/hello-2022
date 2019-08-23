@@ -125,7 +125,7 @@ export default {
     display: flex;
     align-items: center;
     padding-right: 15px;
-    .iconfont{
+    .icon-base {
       color: #fff;
       font-size: 30px;
       vertical-align: -5px;
@@ -139,7 +139,7 @@ export default {
           }
         }
       }
-      &.icon-yunpingtai2{
+      &.icon-yunpingtai {
         margin-right:18px;
       }
     }
