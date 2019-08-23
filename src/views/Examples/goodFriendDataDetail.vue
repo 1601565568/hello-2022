@@ -70,7 +70,7 @@
           </el-form-item>
         </el-form>
         <div class="detail-rightside">
-          <img src="https://img.yzcdn.cn/upload_files/2019/01/24/FhbbngOXgEqTbkda8DPNCthA5r5V.jpg" class="detail-rightside__img" alt="商品图片">
+          <img src="./src/images/avartar.jpg" class="detail-rightside__img" alt="商品图片">
         </div>
       </div>
     </el-dialog>

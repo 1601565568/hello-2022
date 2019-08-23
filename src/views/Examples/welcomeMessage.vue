@@ -74,14 +74,14 @@
           <el-main class="welcome-main">
             <div class="welcome-main__exampleimg">
               <div class="welcome-msg clearfix">
-                <img src="https://img.yzcdn.cn/upload_files/2019/01/24/FhbbngOXgEqTbkda8DPNCthA5r5V.jpg"  alt="用户头像" class="welcome-msg__avatar">
+                <img src="./src/images/avartar.jpg"  alt="用户头像" class="welcome-msg__avatar">
                 <div class="welcome-msg__text">
                   <div class="welcome-news">我通过了你的朋友验证，现在我们可以开始聊天了</div>
                   <div class="welcome-circle"></div>
                 </div>
               </div>
               <div class="welcome-msg clearfix">
-                <img src="https://img.yzcdn.cn/upload_files/2019/01/24/FhbbngOXgEqTbkda8DPNCthA5r5V.jpg"  alt="用户头像" class="welcome-msg__avatar">
+                <img src="./src/images/avartar.jpg"  alt="用户头像" class="welcome-msg__avatar">
                 <div class="welcome-msg__text">
                   <div class="welcome-news">欢迎您！这是一段自动回复消息～</div>
                   <div class="welcome-circle"></div>
@@ -89,11 +89,11 @@
               </div>
               <!--图片开始-->
               <div class="welcome-msg clearfix" v-if="showChoice === 1">
-                <img src="https://img.yzcdn.cn/upload_files/2019/01/24/FhbbngOXgEqTbkda8DPNCthA5r5V.jpg"  alt="用户头像" class="welcome-msg__avatar">
+                <img src="./src/images/avartar.jpg"  alt="用户头像" class="welcome-msg__avatar">
                 <div class="welcome-image">
                   <div class="welcome-figurelist clearfix">
                     <div class="welcome-figurelist__li">
-                      <div style="background-image: url(http://iph.href.lu/500x100)" class="welcome-figure">
+                      <div :style="{'background-image': 'url('+ imgUrl + ')'}" class="welcome-figure">
                         <div class="welcome-figure__img"></div>
                       </div>
                     </div>
@@ -103,13 +103,13 @@
               <!--图片 结束-->
               <!--网页 开始-->
               <div class="welcome-msg clearfix" v-else-if="showChoice === 2">
-                <img src="https://img.yzcdn.cn/upload_files/2019/01/24/FhbbngOXgEqTbkda8DPNCthA5r5V.jpg"  alt="用户头像" class="welcome-msg__avatar">
+                <img src="./src/images/avartar.jpg"  alt="用户头像" class="welcome-msg__avatar">
                 <div class="welcome-msg__text">
                   <div class="welcome-web">
                     <div class="welcome-web__slogan">线上课程！你想在秋招拿到线上课程！你想在秋招拿到</div>
                     <div class="welcome-web__propagate clearfix">
                       <div class="welcome-leftside">有些人秋招还没有准备，有的人秋招很完美有些人秋招还没有准备，有的人秋招很完美</div>
-                      <img src="https://img.yzcdn.cn/upload_files/2019/01/24/FhbbngOXgEqTbkda8DPNCthA5r5V.jpg"  alt="宣传图片" class="welcome-rightside">
+                      <img src="./src/images/avartar.jpg"  alt="宣传图片" class="welcome-rightside">
                     </div>
                   </div>
                   <div class="welcome-circle"></div>
@@ -118,18 +118,18 @@
               <!--网页 结束-->
               <!--小程序 开始-->
               <div class="welcome-msg clearfix" v-else-if="showChoice === 3">
-                <img src="https://img.yzcdn.cn/upload_files/2019/01/24/FhbbngOXgEqTbkda8DPNCthA5r5V.jpg"  alt="用户头像" class="welcome-msg__avatar">
+                <img src="./src/images/avartar.jpg"  alt="用户头像" class="welcome-msg__avatar">
                 <div class="welcome-msg__text welcome-msg__text--bgcolor">
                   <div class="welcome-applets">
                     <div class="welcome-applets__logo">
-                      <img src="https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/logo.png"  alt="logo" class="welcome-applets__logo--img">
+                      <img src="./src/images/logo.png"  alt="logo" class="welcome-applets__logo--img">
                     </div>
                     <div class="welcome-applets__name">最伙店长</div>
                   </div>
                   <div class="welcome-program">
                     <div class="welcome-program__name">最伙店长</div>
                     <div class="welcome-program__logo">
-                      <img src="https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/logo.png"  alt="logo" class="welcome-program__logo--img">
+                      <img src="./src/images/logo.png"  alt="logo" class="welcome-program__logo--img">
                     </div>
                   </div>
                   <div class="welcome-circle welcome-circle--topleft"></div>
@@ -164,7 +164,8 @@ export default {
     return {
       imageUrl: '',
       textarea: '',
-      showChoice: 3
+      showChoice: 3,
+      imgUrl: require('./src/images/avartar.jpg')
     }
   },
   mounted: function () {
@@ -308,7 +309,7 @@ export default {
         height: 573px;
         margin: 0 auto;
         padding: 80px 40px 20px;
-        background-image: url("https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/bgImg2019.7.29.png");
+        background-image: url("./src/images/bgImg2019.7.29.png");
         background-repeat: no-repeat;
         background-size: 100% 100%;
       }
@@ -380,7 +381,7 @@ export default {
       -webkit-box-orient: vertical;
     }
     @b rightside {
-      width: 60px;
+      width: 58px;
       height: 58px;
       margin-left: var(--default-margin-xlarger);
     }

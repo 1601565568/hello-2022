@@ -52,7 +52,7 @@
             <div class="talk-aside__item">
               <div class="talk-item talk-chosen">
                 <div class="talk-item__avatar">
-                  <img src="https://img.yzcdn.cn/upload_files/2019/01/24/FhbbngOXgEqTbkda8DPNCthA5r5V.jpg" alt="用户头像" class="talk-img">
+                  <img src="./src/images/avartar.jpg" alt="用户头像" class="talk-img">
                 </div>
                 <div class="talk-item__username">顾青</div>
                 <div class="talk-item__time">13:18</div>
@@ -66,7 +66,7 @@
               </div>
               <div class="talk-item">
                 <div class="talk-item__avatar">
-                  <img src="https://img.yzcdn.cn/upload_files/2019/01/24/FhbbngOXgEqTbkda8DPNCthA5r5V.jpg" alt="用户头像" class="talk-img">
+                  <img src="./src/images/avartar.jpg" alt="用户头像" class="talk-img">
                 </div>
                 <div class="talk-item__username">天猫粉丝促销群天猫粉丝促销群天猫粉丝促销群天猫粉丝促销群天猫粉丝促销群</div>
                 <div class="talk-item__time">13:18</div>
@@ -80,28 +80,28 @@
               </div>
               <div class="talk-item">
                 <div class="talk-item__avatar">
-                  <img src="https://img.yzcdn.cn/upload_files/2019/01/24/FhbbngOXgEqTbkda8DPNCthA5r5V.jpg" alt="用户头像" class="talk-img">
+                  <img src="./src/images/avartar.jpg" alt="用户头像" class="talk-img">
                 </div>
                 <div class="talk-item__username">顾青</div>
                 <div class="talk-item__time">13:18</div>
               </div>
               <div class="talk-item">
                 <div class="talk-item__avatar">
-                  <img src="https://img.yzcdn.cn/upload_files/2019/01/24/FhbbngOXgEqTbkda8DPNCthA5r5V.jpg" alt="用户头像" class="talk-img">
+                  <img src="./src/images/avartar.jpg" alt="用户头像" class="talk-img">
                 </div>
                 <div class="talk-item__username">顾青</div>
                 <div class="talk-item__time">13:18</div>
               </div>
               <div class="talk-item">
                 <div class="talk-item__avatar">
-                  <img src="https://img.yzcdn.cn/upload_files/2019/01/24/FhbbngOXgEqTbkda8DPNCthA5r5V.jpg" alt="用户头像" class="talk-img">
+                  <img src="./src/images/avartar.jpg" alt="用户头像" class="talk-img">
                 </div>
                 <div class="talk-item__username">顾青</div>
                 <div class="talk-item__time">13:18</div>
               </div>
               <div class="talk-item">
                 <div class="talk-item__avatar">
-                  <img src="https://img.yzcdn.cn/upload_files/2019/01/24/FhbbngOXgEqTbkda8DPNCthA5r5V.jpg" alt="用户头像" class="talk-img">
+                  <img src="./src/images/avartar.jpg" alt="用户头像" class="talk-img">
                 </div>
                 <div class="talk-item__username">顾青</div>
                 <div class="talk-item__time">13:18</div>
@@ -115,7 +115,7 @@
               </div>
               <div class="talk-item">
                 <div class="talk-item__avatar">
-                  <img src="https://img.yzcdn.cn/upload_files/2019/01/24/FhbbngOXgEqTbkda8DPNCthA5r5V.jpg" alt="用户头像" class="talk-img">
+                  <img src="./src/images/avartar.jpg" alt="用户头像" class="talk-img">
                 </div>
                 <div class="talk-item__username">天猫粉丝促销群天猫粉丝促销群天猫粉丝促销群天猫粉丝促销群天猫粉丝促销群</div>
                 <div class="talk-item__time">13:18</div>
@@ -129,28 +129,28 @@
               </div>
               <div class="talk-item">
                 <div class="talk-item__avatar">
-                  <img src="https://img.yzcdn.cn/upload_files/2019/01/24/FhbbngOXgEqTbkda8DPNCthA5r5V.jpg" alt="用户头像" class="talk-img">
+                  <img src="./src/images/avartar.jpg" alt="用户头像" class="talk-img">
                 </div>
                 <div class="talk-item__username">顾青</div>
                 <div class="talk-item__time">13:18</div>
               </div>
               <div class="talk-item">
                 <div class="talk-item__avatar">
-                  <img src="https://img.yzcdn.cn/upload_files/2019/01/24/FhbbngOXgEqTbkda8DPNCthA5r5V.jpg" alt="用户头像" class="talk-img">
+                  <img src="./src/images/avartar.jpg" alt="用户头像" class="talk-img">
                 </div>
                 <div class="talk-item__username">顾青</div>
                 <div class="talk-item__time">13:18</div>
               </div>
               <div class="talk-item">
                 <div class="talk-item__avatar">
-                  <img src="https://img.yzcdn.cn/upload_files/2019/01/24/FhbbngOXgEqTbkda8DPNCthA5r5V.jpg" alt="用户头像" class="talk-img">
+                  <img src="./src/images/avartar.jpg" alt="用户头像" class="talk-img">
                 </div>
                 <div class="talk-item__username">顾青</div>
                 <div class="talk-item__time">13:18</div>
               </div>
               <div class="talk-item">
                 <div class="talk-item__avatar">
-                  <img src="https://img.yzcdn.cn/upload_files/2019/01/24/FhbbngOXgEqTbkda8DPNCthA5r5V.jpg" alt="用户头像" class="talk-img">
+                  <img src="./src/images/avartar.jpg" alt="用户头像" class="talk-img">
                 </div>
                 <div class="talk-item__username">顾青</div>
                 <div class="talk-item__time">13:18</div>
@@ -171,7 +171,7 @@
           <div class="talk-main__strip">
             <div class="talk-strip">
               <div class="talk-strip__headportrait">
-                <img src="https://img.yzcdn.cn/upload_files/2019/01/24/FhbbngOXgEqTbkda8DPNCthA5r5V.jpg" alt="用户头像" class="talk-image">
+                <img src="./src/images/avartar.jpg" alt="用户头像" class="talk-image">
               </div>
               <div class="talk-strip__uname">
                 <div class="talk-msg">
@@ -190,7 +190,7 @@
             </div>
             <div class="talk-strip">
               <div class="talk-strip__headportrait">
-                <img src="https://img.yzcdn.cn/upload_files/2019/01/24/FhbbngOXgEqTbkda8DPNCthA5r5V.jpg" alt="用户头像" class="talk-image">
+                <img src="./src/images/avartar.jpg" alt="用户头像" class="talk-image">
               </div>
               <div class="talk-strip__uname">
                 <div class="talk-msg">
@@ -207,7 +207,7 @@
             </div>
             <div class="talk-right clearfix">
               <div class="talk-right__headportrait clearfix">
-                <img src="https://img.yzcdn.cn/upload_files/2019/01/24/FhbbngOXgEqTbkda8DPNCthA5r5V.jpg" alt="用户头像" class="talk-image">
+                <img src="./src/images/avartar.jpg" alt="用户头像" class="talk-image">
               </div>
               <div class="talk-right__uname">
                 <div class="talk-rightmsg">
@@ -225,7 +225,7 @@
             </div>
             <div class="talk-strip">
               <div class="talk-strip__headportrait">
-                <img src="https://img.yzcdn.cn/upload_files/2019/01/24/FhbbngOXgEqTbkda8DPNCthA5r5V.jpg" alt="用户头像" class="talk-image">
+                <img src="./src/images/avartar.jpg" alt="用户头像" class="talk-image">
               </div>
               <div class="talk-strip__uname">
                 <div class="talk-msg">
@@ -242,7 +242,7 @@
             </div>
             <div class="talk-strip">
               <div class="talk-strip__headportrait">
-                <img src="https://img.yzcdn.cn/upload_files/2019/01/24/FhbbngOXgEqTbkda8DPNCthA5r5V.jpg" alt="用户头像" class="talk-image">
+                <img src="./src/images/avartar.jpg" alt="用户头像" class="talk-image">
               </div>
               <div class="talk-strip__uname">
                 <div class="talk-msg">
@@ -259,7 +259,7 @@
             </div>
             <div class="talk-right clearfix">
               <div class="talk-right__headportrait clearfix">
-                <img src="https://img.yzcdn.cn/upload_files/2019/01/24/FhbbngOXgEqTbkda8DPNCthA5r5V.jpg" alt="用户头像" class="talk-image">
+                <img src="./src/images/avartar.jpg" alt="用户头像" class="talk-image">
               </div>
               <div class="talk-right__uname">
                 <div class="talk-rightmsg">
@@ -277,7 +277,7 @@
             </div>
             <div class="talk-right clearfix">
               <div class="talk-right__headportrait clearfix">
-                <img src="https://img.yzcdn.cn/upload_files/2019/01/24/FhbbngOXgEqTbkda8DPNCthA5r5V.jpg" alt="用户头像" class="talk-image">
+                <img src="./src/images/avartar.jpg" alt="用户头像" class="talk-image">
               </div>
               <div class="talk-right__uname">
                 <div class="talk-rightmsg">
@@ -326,7 +326,7 @@
           </el-form-item>
         </el-form>
         <div class="detail-rightside">
-          <img src="https://img.yzcdn.cn/upload_files/2019/01/24/FhbbngOXgEqTbkda8DPNCthA5r5V.jpg" class="detail-rightside__img" alt="商品图片">
+          <img src="./src/images/avartar.jpg" class="detail-rightside__img" alt="商品图片">
         </div>
       </div>
     </el-dialog>
@@ -338,7 +338,7 @@
       width="514px" class="search-dialog">
       <div class="search-dialog__title">
         <div class="search-avatar">
-          <img src="http://wx.qlogo.cn/mmhead/ver_1/DJ8AjE0VX8qQqQIlMOBYyxbKbLY4Kbibld6P6K6RlbGm81nJMWFls4neZ2nzAicicW5W9D9MGwh4cBsgIBgoHg5tKuawky3pwUxznVpX9duI20/96" class="search-avatar__img" alt="用户头像">
+          <img src="./src/images/avartar.jpg" class="search-avatar__img" alt="用户头像">
         </div>
         <div class="search-username">
           长安自在风（jwhfjfjjha）
@@ -353,7 +353,7 @@
         <div class="search-dialog__content">
           <div class="search-item">
             <div class="search-item__avatar">
-              <img src="http://wx.qlogo.cn/mmhead/ver_1/DJ8AjE0VX8qQqQIlMOBYyxbKbLY4Kbibld6P6K6RlbGm81nJMWFls4neZ2nzAicicW5W9D9MGwh4cBsgIBgoHg5tKuawky3pwUxznVpX9duI20/96" class="search-avatar__img" alt="用户头像">
+              <img src="./src/images/avartar.jpg" class="search-avatar__img" alt="用户头像">
             </div>
             <div class="search-msg">
               <div  class="search-msg__uname">开心每一天</div>
@@ -363,7 +363,7 @@
           </div>
           <div class="search-item">
             <div class="search-item__avatar">
-              <img src="http://wx.qlogo.cn/mmhead/ver_1/HIL7DLFbs8HhTMsp7SqaJafwLK4yXicGL6cTiclQzaIXGsgruea1se3k2r6nPUxtJxSZaCu1Rfsico2wfvZ5z7qn8MCbKdKnVtF5Jh0o5xichD8/96" class="search-avatar__img" alt="用户头像">
+              <img src="./src/images/avartar.jpg" class="search-avatar__img" alt="用户头像">
             </div>
             <div class="search-msg">
               <div  class="search-msg__uname">开心每一天开心每一天开心每一天开心每一天开心每一天开心每一天开心每一天开心每一天</div>
@@ -373,7 +373,7 @@
           </div>
           <div class="search-item">
             <div class="search-item__avatar">
-              <img src="http://wx.qlogo.cn/mmhead/ver_1/DJ8AjE0VX8qQqQIlMOBYyxbKbLY4Kbibld6P6K6RlbGm81nJMWFls4neZ2nzAicicW5W9D9MGwh4cBsgIBgoHg5tKuawky3pwUxznVpX9duI20/96" class="search-avatar__img" alt="用户头像">
+              <img src="./src/images/avartar.jpg" class="search-avatar__img" alt="用户头像">
             </div>
             <div class="search-msg">
               <div  class="search-msg__uname">开心每一天开心每一天开心每一天开心每一天开心每一天开心每一天开心每一天开心每一天</div>
@@ -383,7 +383,7 @@
           </div>
           <div class="search-item">
             <div class="search-item__avatar">
-              <img src="http://wx.qlogo.cn/mmhead/ver_1/DJ8AjE0VX8qQqQIlMOBYyxbKbLY4Kbibld6P6K6RlbGm81nJMWFls4neZ2nzAicicW5W9D9MGwh4cBsgIBgoHg5tKuawky3pwUxznVpX9duI20/96" class="search-avatar__img" alt="用户头像">
+              <img src="./src/images/avartar.jpg" class="search-avatar__img" alt="用户头像">
             </div>
             <div class="search-msg">
               <div  class="search-msg__uname">开心每一天开心每一天开心每一天开心每一天开心每一天开心每一天开心每一天开心每一天</div>
@@ -393,7 +393,7 @@
           </div>
           <div class="search-item">
             <div class="search-item__avatar">
-              <img src="http://wx.qlogo.cn/mmhead/ver_1/HIL7DLFbs8HhTMsp7SqaJafwLK4yXicGL6cTiclQzaIXGsgruea1se3k2r6nPUxtJxSZaCu1Rfsico2wfvZ5z7qn8MCbKdKnVtF5Jh0o5xichD8/96" class="search-avatar__img" alt="用户头像">
+              <img src="./src/images/avartar.jpg" class="search-avatar__img" alt="用户头像">
             </div>
             <div class="search-msg">
               <div  class="search-msg__uname">开心每一天开心每一天开心每一天开心每一天开心每一天开心每一天开心每一天开心每一天</div>
@@ -403,7 +403,7 @@
           </div>
           <div class="search-item">
             <div class="search-item__avatar">
-              <img src="http://wx.qlogo.cn/mmhead/ver_1/DJ8AjE0VX8qQqQIlMOBYyxbKbLY4Kbibld6P6K6RlbGm81nJMWFls4neZ2nzAicicW5W9D9MGwh4cBsgIBgoHg5tKuawky3pwUxznVpX9duI20/96" class="search-avatar__img" alt="用户头像">
+              <img src="./src/images/avartar.jpg" class="search-avatar__img" alt="用户头像">
             </div>
             <div class="search-msg">
               <div  class="search-msg__uname">开心每一天</div>
@@ -413,7 +413,7 @@
           </div>
           <div class="search-item">
             <div class="search-item__avatar">
-              <img src="http://wx.qlogo.cn/mmhead/ver_1/HIL7DLFbs8HhTMsp7SqaJafwLK4yXicGL6cTiclQzaIXGsgruea1se3k2r6nPUxtJxSZaCu1Rfsico2wfvZ5z7qn8MCbKdKnVtF5Jh0o5xichD8/96" class="search-avatar__img" alt="用户头像">
+              <img src="./src/images/avartar.jpg" class="search-avatar__img" alt="用户头像">
             </div>
             <div class="search-msg">
               <div  class="search-msg__uname">开心每一天开心每一天开心每一天开心每一天开心每一天开心每一天开心每一天开心每一天</div>
@@ -423,7 +423,7 @@
           </div>
           <div class="search-item">
             <div class="search-item__avatar">
-              <img src="http://wx.qlogo.cn/mmhead/ver_1/DJ8AjE0VX8qQqQIlMOBYyxbKbLY4Kbibld6P6K6RlbGm81nJMWFls4neZ2nzAicicW5W9D9MGwh4cBsgIBgoHg5tKuawky3pwUxznVpX9duI20/96" class="search-avatar__img" alt="用户头像">
+              <img src="./src/images/avartar.jpg" class="search-avatar__img" alt="用户头像">
             </div>
             <div class="search-msg">
               <div  class="search-msg__uname">开心每一天开心每一天开心每一天开心每一天开心每一天开心每一天开心每一天开心每一天</div>
@@ -433,7 +433,7 @@
           </div>
           <div class="search-item">
             <div class="search-item__avatar">
-              <img src="http://wx.qlogo.cn/mmhead/ver_1/DJ8AjE0VX8qQqQIlMOBYyxbKbLY4Kbibld6P6K6RlbGm81nJMWFls4neZ2nzAicicW5W9D9MGwh4cBsgIBgoHg5tKuawky3pwUxznVpX9duI20/96" class="search-avatar__img" alt="用户头像">
+              <img src="./src/images/avartar.jpg" class="search-avatar__img" alt="用户头像">
             </div>
             <div class="search-msg">
               <div  class="search-msg__uname">开心每一天开心每一天开心每一天开心每一天开心每一天开心每一天开心每一天开心每一天</div>
@@ -443,7 +443,7 @@
           </div>
           <div class="search-item">
             <div class="search-item__avatar">
-              <img src="http://wx.qlogo.cn/mmhead/ver_1/HIL7DLFbs8HhTMsp7SqaJafwLK4yXicGL6cTiclQzaIXGsgruea1se3k2r6nPUxtJxSZaCu1Rfsico2wfvZ5z7qn8MCbKdKnVtF5Jh0o5xichD8/96" class="search-avatar__img" alt="用户头像">
+              <img src="./src/images/avartar.jpg" class="search-avatar__img" alt="用户头像">
             </div>
             <div class="search-msg">
               <div  class="search-msg__uname">开心每一天开心每一天开心每一天开心每一天开心每一天开心每一天开心每一天开心每一天</div>

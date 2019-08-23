@@ -14,7 +14,7 @@
           <!-- el-inpu 需添加  @keyup.enter.native="$quickSearchAction$" 配置，实现回车搜索 -->
           <template slot="searchSearch">
             <el-form :model="quickSearchModel" :inline="true" @submit.native.prevent class="pull-right">
-              <el-form-item v-show="_data._queryConfig.expand === false">
+              <el-form-item v-show="_data.queryConfig.expand === false">
                 <el-input ref="quickText" v-model="quickSearchModel.customerName" placeholder="关键字：" @keyup.enter.native="$quickSearchAction$('customerName')">
                   <i class="el-icon-search el-input__icon" slot="suffix" name="name" @click="$quickSearchAction$('customerName')"></i>
                 </el-input>
@@ -22,8 +22,8 @@
               <el-form-item>
                 <ns-button type="text" @click="$handleTabClick">
                   <!--{{collapseText}}-->
-                  {{!_data._queryConfig.expand ? '展开搜索' : '收起搜索'}}
-                  <i :class="{'el-icon--right': true, 'el-icon-arrow-down': !_data._queryConfig.expand, 'el-icon-arrow-up': _data._queryConfig.expand} ">
+                  {{!_data.queryConfig.expand ? '展开搜索' : '收起搜索'}}
+                  <i :class="{'el-icon--right': true, 'el-icon-arrow-down': !_data.queryConfig.expand, 'el-icon-arrow-up': _data.queryConfig.expand} ">
                   </i>
                 </ns-button>
               </el-form-item>
@@ -34,7 +34,7 @@
           <!-- 高级搜索 -->
           <!-- el-form 需添加  @keyup.enter.native="onSearch" 配置，实现回车搜索， onSearch 为搜索方法 -->
           <!-- el-form 需添加  surround-btn 类名 配置环绕按钮效果 -->
-          <template slot="advancedSearch" v-if="_data._queryConfig.expand">
+          <template slot="advancedSearch" v-if="_data.queryConfig.expand">
             <el-form ref="table_filter_form" label-width="80px" @keyup.enter.native="onSearch" class="surround-btn"
                      :model="model" :rules="rules" :inline="true">
               <el-form-item label="个人号：">
@@ -163,12 +163,12 @@
                     <div class="talk-detail">
                       <div class="talk-detail__chatmsg">
                         <i class="iconfont icon-dianzan colorblue"></i>
-                        <span v-for="likes in item.dianzan" :key="dianzanIndex">
+                        <span v-for="(likes, dianzanIndex) in item.dianzan" :key="dianzanIndex">
                             <span class="colorblue">{{likes}}</span>
                           </span>
                       </div>
                       <div class="talk-detail__substance">
-                        <div class="talk-msg" v-for="comments in item.pinglun" :key="commentsIndex">
+                        <div class="talk-msg" v-for="(comments, commentsIndex) in item.pinglun" :key="commentsIndex">
                           <div class="talk-msg__item clearfix" >
                             <div class="talk-msglength">
                               <span class="colorblue">{{comments.formName}}</span>
@@ -193,9 +193,9 @@
           <!-- 分页 -->
           <template slot="pagination">
             <div class="talk-bottom">
-              <el-pagination v-if="_data._pagination.enable" class="template-table__pagination"
-                             :page-sizes="_data._pagination.sizeOpts" :total="_data._pagination.total"
-                             :current-page="_data._pagination.page" :page-size="_data._pagination.size"
+              <el-pagination v-if="_data.pagination.enable" class="template-table_pagination"
+                             :page-sizes="_data.pagination.sizeOpts" :total="_data.pagination.total"
+                             :current-page="_data.pagination.page" :page-size="_data.pagination.size"
                              layout="total, sizes, prev, pager, next, jumper">
               </el-pagination>
             </div>
@@ -213,88 +213,26 @@
         </div>
         <el-scrollbar ref="fullScreenright">
           <div class="talk-main__list">
-            <div class="talk-convey">
-              <div class="talk-convey__name">个人号：微信昵称（ wechatid ）</div>
+            <div class="talk-convey" v-for="(convey, conveyIndex) in interactive" :key="conveyIndex">
+              <div class="talk-convey__name">个人号：微信昵称（ {{convey.name}}）</div>
               <div class="talk-convey__content clearfix">
                 <div class="talk-headportrait">
                   <img
-                    src="http://iph.href.lu/500x100"
+                    :src="convey.headportraitUrl"
                     alt="头像" class="talk-headportrait__img">
                 </div>
                 <div class="talk-redpoint"></div>
                 <div class="talk-personmsg">
-                  <div class="talk-personmsg__uname colorblue">长安自在风长安自在风长安自在风长长安自在风</div>
-                  <div class="talk-personmsg__about">我上那么多年学,熬那么我上那么多年学我上那么多年学,熬那么我上那么多年学</div>
-                  <div class="talk-personmsg__time">2019-05-29 上午09:46:20</div>
+                  <div class="talk-personmsg__uname colorblue">{{convey.uname}}</div>
+                  <div class="talk-personmsg__about">{{convey.about}}</div>
+                  <div class="talk-personmsg__time">{{convey.time}}</div>
                 </div>
                 <div class="talk-say">
-                  我上那么我上
-                </div>
-              </div>
-            </div>
-            <div class="talk-convey">
-              <div class="talk-convey__name">个人号：微信昵称（ wechatid ）</div>
-              <div class="talk-convey__content clearfix">
-                <div class="talk-headportrait">
-                  <img
-                    src="https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/201907/120,910,104,359,001/c436cf04-72fe-4537-9492-467d24800855.jpg"
-                    alt="头像" class="talk-headportrait__img">
-                </div>
-                <div class="talk-redpoint"></div>
-                <div class="talk-personmsg">
-                  <div class="talk-personmsg__uname colorblue">长安自在风</div>
-                  <div class="talk-personmsg__about">我上那么多年学,熬那么</div>
-                  <div class="talk-personmsg__time">2019-05-29 上午09:46:20</div>
+                  {{convey.say}}
                 </div>
                 <div class="talk-photo">
                   <div class="talk-photo__li">
-                    <div style="background-image:url(https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/201907/120,910,104,359,001/fc3960b2-57a7-4f09-a536-ad3a276ddd67.jpg)" class="talk-photo__li--figure">
-                      <div class="talk-figureimg"></div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="talk-convey">
-              <div class="talk-convey__name">个人号：微信昵称（ wechatid ）</div>
-              <div class="talk-convey__content clearfix">
-                <div class="talk-headportrait">
-                  <img
-                    src="https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/201907/120,910,104,359,001/c436cf04-72fe-4537-9492-467d24800855.jpg"
-                    alt="头像" class="talk-headportrait__img">
-                </div>
-                <div class="talk-personmsg">
-                  <div class="talk-personmsg__uname colorblue">宜室宜家</div>
-                  <div class="talk-personmsg__about talk-personmsg__ablue--like">
-                    <i class="iconfont icon-dianzan colorblue"></i>
-                  </div>
-                  <div class="talk-personmsg__time">2019-05-29 上午09:46:20</div>
-                </div>
-                <div class="talk-photo">
-                  <div class="talk-photo__li">
-                    <div style="background-image:url(https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/201907/120,910,104,359,001/fc3960b2-57a7-4f09-a536-ad3a276ddd67.jpg)" class="talk-photo__li--figure">
-                      <div class="talk-figureimg"></div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="talk-convey">
-              <div class="talk-convey__name">个人号：微信昵称（ wechatid ）</div>
-              <div class="talk-convey__content clearfix">
-                <div class="talk-headportrait">
-                  <img
-                    src="https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/201907/120,910,104,359,001/c436cf04-72fe-4537-9492-467d24800855.jpg"
-                    alt="头像" class="talk-headportrait__img">
-                </div>
-                <div class="talk-personmsg">
-                  <div class="talk-personmsg__uname colorblue">长安自在风</div>
-                  <div class="talk-personmsg__about">我上那么多年学,熬那么</div>
-                  <div class="talk-personmsg__time">2019-05-29 上午09:46:20</div>
-                </div>
-                <div class="talk-photo">
-                  <div class="talk-photo__li">
-                    <div style="background-image:url(https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/201907/120,910,104,359,001/fc3960b2-57a7-4f09-a536-ad3a276ddd67.jpg)" class="talk-photo__li--figure">
+                    <div :style="{ 'background-image': 'url('+ convey.bgPicUrl + ')'}" class="talk-photo__li--figure">
                       <div class="talk-figureimg"></div>
                     </div>
                   </div>
@@ -378,10 +316,9 @@ import ElUpload from 'nui-v2/lib/upload'
 import ElContainer from 'nui-v2/lib/container'
 import ElMain from 'nui-v2/lib/main'
 import ElAside from 'nui-v2/lib/aside'
-import NsButton from "web-crm/src/components/NsButton";
+
 export default {
   components: {
-    NsButton,
     ElUpload,
     ElContainer,
     ElMain,
@@ -408,7 +345,6 @@ export default {
       'value': '',
       'isConvenient': false
     }]
-    var quickSearchNames = quickInput.map(x => x.name)
     var quickSearchModel = {}
     var model = Object.assign({},
       {
@@ -450,8 +386,8 @@ export default {
       textarea: '',
       quickSearchModel: quickSearchModel,
       rules: Object.assign({}, {}, {}),
-      _pagination: pagination,
-      _queryConfig: {
+      pagination: pagination,
+      queryConfig: {
         expand: false
       },
       // 是否展示所有文本内容
@@ -470,15 +406,15 @@ export default {
           like: 18,
           comment: 20,
           imgs: [
-            'https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/201907/120,910,104,359,001/a2e079dd-e605-49d3-9c10-a3893b413ba0.jpg',
-            'http://iph.href.lu/500x100',
-            'https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/201907/120,910,104,359,001/a2e079dd-e605-49d3-9c10-a3893b413ba0.jpg',
-            'https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/201907/120,910,104,359,001/a2e079dd-e605-49d3-9c10-a3893b413ba0.jpg',
-            'https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/201907/120,910,104,359,001/a2e079dd-e605-49d3-9c10-a3893b413ba0.jpg',
-            'https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/201907/120,910,104,359,001/a2e079dd-e605-49d3-9c10-a3893b413ba0.jpg',
-            'https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/201907/120,910,104,359,001/a2e079dd-e605-49d3-9c10-a3893b413ba0.jpg',
-            'https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/201907/120,910,104,359,001/a2e079dd-e605-49d3-9c10-a3893b413ba0.jpg',
-            'https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/201907/120,910,104,359,001/a2e079dd-e605-49d3-9c10-a3893b413ba0.jpg',
+            require('./src/images/avartar.jpg'),
+            require('./src/images/test.png'),
+            require('./src/images/avartar.jpg'),
+            require('./src/images/avartar.jpg'),
+            require('./src/images/avartar.jpg'),
+            require('./src/images/avartar.jpg'),
+            require('./src/images/avartar.jpg'),
+            require('./src/images/avartar.jpg'),
+            require('./src/images/avartar.jpg')
           ],
           dianzan: [
             '起个名字好麻烦，长安自在风',
@@ -494,9 +430,10 @@ export default {
           like: 18,
           comment: 20,
           imgs: [
-            'https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/201907/120,910,104,359,001/a2e079dd-e605-49d3-9c10-a3893b413ba0.jpg',
-            'http://iph.href.lu/500x100',
-            'https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/201907/120,910,104,359,001/a2e079dd-e605-49d3-9c10-a3893b413ba0.jpg',
+            require('./src/images/avartar.jpg'),
+            require('./src/images/test.png'),
+            require('./src/images/avartar.jpg'),
+            require('./src/images/avartar.jpg')
           ],
           dianzan: [
             '起个名字好麻烦，长安自在风'
@@ -511,14 +448,14 @@ export default {
           like: 18,
           comment: 20,
           imgs: [
-            'https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/201907/120,910,104,359,001/a2e079dd-e605-49d3-9c10-a3893b413ba0.jpg',
-            'http://iph.href.lu/500x100',
-            'https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/201907/120,910,104,359,001/a2e079dd-e605-49d3-9c10-a3893b413ba0.jpg',
-            'https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/201907/120,910,104,359,001/a2e079dd-e605-49d3-9c10-a3893b413ba0.jpg'
+            require('./src/images/avartar.jpg'),
+            require('./src/images/test.png'),
+            require('./src/images/avartar.jpg'),
+            require('./src/images/avartar.jpg')
           ],
           dianzan: [
             '起个名字好麻烦，长安自在风',
-            '起个名字好麻烦，长安自在风',
+            '起个名字好麻烦，长安自在风'
           ],
           pinglun: [
             {
@@ -537,6 +474,40 @@ export default {
             }
           ]
         }
+      ],
+      interactive: [
+        {
+          name: ' wechatid',
+          headportraitUrl: require('./src/images/test.png'),
+          uname: '长安自在风长安自在风长安自在风长长安自在风',
+          about: '我上那么多年学,熬那么我上那么多年学我上那么多年学,熬那么我上那么多年学',
+          time: '2019-05-29 上午09:46:20',
+          say: '我上那么我上'
+        },
+        {
+          name: ' wechatid',
+          headportraitUrl: require('./src/images/avartar.jpg'),
+          uname: '长安自在风长安自在风长安自在风长长安自在风',
+          about: '我上那么多年学,熬那么我上那么多年学我上那么多年学,熬那么我上那么多年学',
+          time: '2019-05-29 上午09:46:20',
+          bgPicUrl: require('./src/images/scenery.jpg')
+        },
+        {
+          name: ' wechatid',
+          headportraitUrl: require('./src/images/test.png'),
+          uname: '长安自在风长安自在风长安自在风长长安自在风',
+          about: '我上那么多年学,熬那么我上那么多年学我上那么多年学,熬那么我上那么多年学',
+          time: '2019-05-29 上午09:46:20',
+          say: '我上那么我上'
+        },
+        {
+          name: ' wechatid',
+          headportraitUrl: require('./src/images/avartar.jpg'),
+          uname: '长安自在风长安自在风长安自在风长长安自在风',
+          about: '我上那么多年学,熬那么我上那么多年学我上那么多年学,熬那么我上那么多年学',
+          time: '2019-05-29 上午09:46:20',
+          bgPicUrl: require('./src/images/scenery.jpg')
+        }
       ]
     }
   },
@@ -551,12 +522,12 @@ export default {
   },
   methods: {
     $handleTabClick: function () {
-      var expand = this._data._queryConfig.expand
-      // var showCondition = this._data._queryConfig.showCondition
+      var expand = this._data.queryConfig.expand
+      // var showCondition = this._data.queryConfig.showCondition
       if (expand) {
-        this._data._queryConfig.expand = false
+        this._data.queryConfig.expand = false
       } else {
-        this._data._queryConfig.expand = true
+        this._data.queryConfig.expand = true
       }
       this.$nextTick(() => {
         this.setHeight()
