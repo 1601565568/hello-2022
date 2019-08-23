@@ -5,5 +5,5 @@
  */
 export default ($route) => {
   // 部分路由无视角选择
-  return true
+  return false
 }

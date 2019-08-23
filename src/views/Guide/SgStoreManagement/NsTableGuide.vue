@@ -1,7 +1,7 @@
 <template>
   <div calss="NsTableGuide_main">
     <div class="template-page__row-left">
-      <el-input ref="quickText" style="width: 190px" v-model="filterTreeText" placeholder="输入店铺名称" clearable>
+      <el-input ref="quickText" style="width: 190px" v-model="filterTreeText" placeholder="请输入数字门店名称" clearable>
         <i class="el-icon-search el-input__icon" slot="suffix" name="name" @click="$quickSearchAction$('name')"></i>
       </el-input>
       <div :class="offsetHeight?'elTrees':'elTree'" ref="elTree" >
@@ -10,6 +10,16 @@
                  :filter-node-method="onFilterNode" @node-click="onClickNode">
           <div class="subdivision-tree-node" slot-scope="{ node }">
             <span>{{node.label}}</span>
+            <span v-if="node.label === '全部'">
+            <el-popover
+              placement="bottom"
+              trigger="hover">
+              <el-row class="overview-popover">
+                查看所有的线下门店
+              </el-row>
+              <i slot="reference" class="el-icon-info text-tips" style='color:#acacac'></i>
+            </el-popover>
+            </span>
           </div>
         </el-tree>
       </div>
@@ -31,7 +41,7 @@
         <template slot="searchSearch">
           <el-form :model="quickSearchModel" :inline="true" @submit.native.prevent class="pull-right">
             <el-form-item label="门店名称：" v-show="_data._queryConfig.expand === false">
-              <el-input ref="quickText" style="width: 250px" v-model="model.shopName" placeholder="请输入线下门店名称/ID"
+              <el-input ref="quickText" style="width: 250px" v-model="model.shopName" placeholder="请输入线下门店名称"
                         @keyup.enter.native="$quickSearchAction$('shopName')" clearable>
               </el-input>
               <ns-button type="primary" @click="$searchAction$('searchform')">搜索</ns-button>
@@ -132,13 +142,8 @@
 
             <el-table-column prop="shopType,count" label="类型" align="left" width="100">
               <template slot-scope="scope">
-                <ns-button style="color:#0091FA" @click="scopeRowCount(scope.row.id)" v-if="scope.row.count > 1"
-                           type="text">{{scope.row.count}}家
-                </ns-button>
-                <div v-else>
                   {{scope.row.shopType === 'ZYD'?'直营':scope.row.shopType === 'JMD'?'加盟':scope.row.shopType ===
                   'B'?'天猫':scope.row.shopType === 'C'?'淘宝':'-'}}
-                </div>
               </template>
             </el-table-column>
             <el-table-column prop="address" label="地址&地区" align="left">
@@ -148,7 +153,12 @@
             </el-table-column>
             <el-table-column prop="digitalShopName" label="关联数字门店" align="left">
               <template slot-scope="scope">
-                {{scope.row.digitalShopName || '-'}}
+                <ns-button style="color:#0091FA" @click="scopeRowCount(scope.row.id)" v-if="scope.row.count > 1"
+                           type="text">{{scope.row.count}}家
+                </ns-button>
+                <div v-else>
+                  {{scope.row.digitalShopName || '-'}}
+                </div>
               </template>
             </el-table-column>
             <el-table-column prop="phone" label="联系方式" align="left" width="150">
