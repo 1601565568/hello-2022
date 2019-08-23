@@ -146,9 +146,9 @@
                 {{scope.row.address || '-'}}/{{!scope.row.province&&!scope.row.city&&!scope.row.district?'-':scope.row.province+'/'+scope.row.city+'/'+scope.row.district}}
               </template>
             </el-table-column>
-            <el-table-column prop="address" label="关联数字门店" align="left">
+            <el-table-column prop="digitalShopName" label="关联数字门店" align="left">
               <template slot-scope="scope">
-                {{scope.row.address || '-'}}
+                {{scope.row.digitalShopName || '-'}}
               </template>
             </el-table-column>
             <el-table-column prop="phone" label="联系方式" align="left" width="150">

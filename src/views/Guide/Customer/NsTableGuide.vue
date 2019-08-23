@@ -101,7 +101,7 @@
         <el-table-column type="selection" align="center" :width="50"></el-table-column>
         <el-table-column prop="name" label="会员姓名" align="left" width="100">
           <template slot-scope="scope">
-            {{scope.row.name || '-'}}
+            {{scope.row.customerName || '-'}}
           </template>
         </el-table-column>
         <el-table-column prop="mobile" label="手机号" align="left" width="120">
@@ -121,9 +121,9 @@
               </div>
           </template>
         </el-table-column>
-        <el-table-column prop="nickName" label="昵称" align="left" width="120">
+        <el-table-column prop="grade" label="等级" align="left" width="120">
           <template slot-scope="scope">
-            {{scope.row.nickName?scope.row.nickName:'-'}}
+            {{scope.row.grade?scope.row.grade:'-'}}
           </template>
         </el-table-column>
         <!-- <el-table-column label="关注状态" align="left" width="180">
@@ -136,7 +136,12 @@
               {{scope.row.guideName ? scope.row.guideName : "-"}}
           </template>
         </el-table-column>
-        <el-table-column prop="registerTime" label="招募时间" align="left" width="160">
+        <el-table-column prop="guideName" label="所属线下门店" align="left" width="180">
+          <template slot-scope="scope">
+            {{scope.row.guideName ? scope.row.guideName : "-"}}
+          </template>
+        </el-table-column>
+        <el-table-column prop="registerTime" label="入库时间" align="left" width="160">
             <template slot-scope="scope">
               {{scope.row.activateTime?moment(scope.row.activateTime):'-'}}
             </template>
