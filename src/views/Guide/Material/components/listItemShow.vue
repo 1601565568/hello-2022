@@ -107,7 +107,7 @@ export default {
       position: absolute;
       left: 0px;
       top:100px;
-      background:url('http://ecrp.oss-cn-hangzhou.aliyuncs.com/admin/comImg/lefticon.png')
+      background:url('./src/images/lefticon.png')
     }
     .iconRight{
       cursor: pointer;
@@ -116,7 +116,7 @@ export default {
       position: absolute;
       right: 0px;
       top:100px;
-      background:url('http://ecrp.oss-cn-hangzhou.aliyuncs.com/admin/comImg/righticon.png') right center;
+      background:url('./src/images/righticon.png') right center;
     }
     /* border: 1px solid #f2f2f2; */
   }
