@@ -142,8 +142,8 @@
 
             <el-table-column prop="shopType,count" label="类型" align="left" width="100">
               <template slot-scope="scope">
-                  {{scope.row.shopType === 'ZYD'?'直营':scope.row.shopType === 'JMD'?'加盟':scope.row.shopType ===
-                  'B'?'天猫':scope.row.shopType === 'C'?'淘宝':'-'}}
+                  {{scope.row.shopType === 'ZYD'?'直营店':scope.row.shopType === 'JMD'?'加盟店':scope.row.shopType ===
+                  'B'?'天猫':scope.row.shopType === 'C'?'淘宝店':'-'}}
               </template>
             </el-table-column>
             <el-table-column prop="address" label="地址&地区" align="left">
