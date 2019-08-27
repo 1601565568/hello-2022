@@ -229,7 +229,7 @@ export default {
     elIconMenu (row) {
       this.$emit('elIconMenu', row)
     },
-    scopeRowCount (data) { // 查看门店详情和查看所属区域详情
+    scopeRowCount (data) { // 查看数字门店详情
       this.$emit('scopeRowCount', data)
     },
     onAreaChange () { // 城市切换进行赋值

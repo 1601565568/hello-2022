@@ -10,5 +10,9 @@ export default {
   findDigitalShopList: {
     url: '/digital/list',
     method: 'get'
+  },
+  findDigitalShopByShopId: {
+    url: '/digital/findDigitalShopByShopId',
+    method: 'get'
   }
 }

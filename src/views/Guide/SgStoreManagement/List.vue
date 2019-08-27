@@ -3,7 +3,7 @@
     <ns-table-guide ref="table" :url=$api.guide.guide.findShopListOnCondition @synchronousStores="onRedactFun" @scopeRowCount="scopeRowCount"
         @elIconMenu="elIconMenu" @shopEdit="shopEdit" @allDelete="allDelete" @dimission="dimission" @showShop="showShop" @onDelsTipFun="onDelsTipFun" @onRedactFun="onRedactFun" @handleSelectionChange="handleSelectionChange">
     </ns-table-guide>
-    <!-- 所属门店查看详情开始 -->
+    <!-- 下载门店招募码开始 -->
     <el-dialog :title="title"  :visible.sync="memberBelongingShow" width="750px" >
       <div class="recruitingcode_title">
         <div class="recruitingcode">
@@ -55,7 +55,33 @@
         <ns-button type="primary" @click="memberBelongingShow = false">确定</ns-button>
       </div>
     </el-dialog>
-    <!-- 所属门店查看详情结束 -->
+    <!-- 下载门店招募码结束 -->
+    <!-- 数字门店查看详情开始 -->
+    <el-dialog :title="memberBelongingtitle"  :visible.sync="scopeRowCountShow" width="1000px" >
+      <el-table ref="table" :data="shopFindList" >
+        <el-table-column prop="name" label="数字门店&ID" align="left" width="300">
+          <template slot-scope="scope">
+            {{scope.row.shop_name || '-'}}
+            <p>ID:{{scope.row.shop_id}}</p>
+          </template>
+        </el-table-column>
+        <el-table-column prop="shop_status" label="状态" align="left" width="300">
+          <template slot-scope="scope">
+            {{scope.row.shopStatus === 0?'删除':scope.row.shopStatus === 1?'正常营业':scope.row.shopStatus ===
+            -1?'暂停营业':'已关店'}}
+          </template>
+        </el-table-column>
+        <el-table-column prop="contact_json" label="联系方式" align="left" width="300">
+          <template slot-scope="scope">
+            {{scope.row.contact_json || '-'}}
+          </template>
+        </el-table-column>
+      </el-table>
+      <div slot="footer" class="scopeRowCountShow_footer">
+        <ns-button class="scopeRowCountShow_button" @click="scopeRowCountShow = false">关闭</ns-button>
+      </div>
+    </el-dialog>
+    <!-- 数字门店查看详情结束 -->
   </div>
 </template>
 
@@ -177,5 +203,8 @@ export default List
     display: none;
     width: 150px;
     height: 150px;
+  }
+  .scopeRowCountShow_footer{
+    margin: 10px 0 10px 0;
   }
 </style>
