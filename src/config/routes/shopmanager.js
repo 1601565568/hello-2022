@@ -44,6 +44,18 @@ export default {
           'name': 'GuideSecretary_list',
           'title': '导购秘书',
           'component': () => import('@/views/Guide/GuideSecretary/List')
+        },
+        {
+          'path': '/Guide/SgShopGroup/index',
+          'name': 'SgShopGroup_index',
+          'title': '门店群',
+          'component': () => import('@/views/Guide/SgShopGroup/index')
+        },
+        {
+          'path': '/Guide/SgShopGroupRobot/index',
+          'name': 'SgShopGroupRobot_index',
+          'title': '门店群AI机器人',
+          'component': () => import('@/views/Guide/SgShopGroupRobot/index')
         }
       ]
     },
@@ -58,6 +70,18 @@ export default {
           'name': 'CustomerList',
           'title': '会员列表',
           'component': () => import('@/views/Guide/Customer/CustomerManage')
+        },
+        {
+          'path': '/Guide/Customer/FriendManage', // todo 20190701 需要重新定义
+          'name': 'FriendData',
+          'title': '好友数据',
+          'component': () => import('@/views/Guide/FriendData/List') // todo 20190701 需要重新定义
+        },
+        {
+          'path': '/Guide/GroupData/index',
+          'name': 'GroupData',
+          'title': '群数据',
+          'component': () => import('@/views/Guide/GroupData/index')
         },
         {
           'path': '/Guide/transCustomerRecord',

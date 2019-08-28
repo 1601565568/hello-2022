@@ -262,7 +262,7 @@ export default {
   }
 }
 </style>
-<style>
+<style scoped>
 .searchAction{
   display: flex;
   justify-content: space-between;

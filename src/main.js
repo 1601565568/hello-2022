@@ -8,6 +8,8 @@ import 'normalize.css'
 import '@theme/NuiJs/index.scss'
 import '@theme/index.pcss'
 import * as Sentry from '@sentry/browser'
+// 是否启动本地原缓存数据
+import './utils/storageControl'
 
 if (process.env.VUE_APP_SENTRY_SWITCH === 'true') {
   Vue.prototype.$sentry = Sentry

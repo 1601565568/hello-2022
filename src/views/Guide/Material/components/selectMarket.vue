@@ -166,7 +166,7 @@ export default {
   }
 }
 </script>
-<style lang='scss'>
+<style scoped>
 .selectMarketbox .current-row{
   td{
     color: #fff !important;

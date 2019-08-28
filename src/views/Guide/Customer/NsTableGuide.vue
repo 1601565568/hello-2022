@@ -136,6 +136,24 @@
               {{scope.row.guideName ? scope.row.guideName : "-"}}
           </template>
         </el-table-column>
+        <el-table-column prop="" label="好友" align="left">
+          <template slot-scope="scope">
+            -
+          </template>
+          <template slot='header' scope='header'>
+                    <span>
+                      <span>{{header.column.label}}</span>
+                      <el-popover placement='bottom' width='220' trigger='hover' content='只判断与当前专属导购的好友关系'>
+                        <i slot='reference' class='icon-base icon-xiangqingyiwen table-header-icon'></i>
+                      </el-popover>
+                    </span>
+          </template>
+        </el-table-column>
+        <el-table-column prop="" label="微信id" align="left">
+          <template slot-scope="scope">
+            -
+          </template>
+        </el-table-column>
         <el-table-column prop="guideName" label="所属线下门店" align="left" width="180">
           <template slot-scope="scope">
             {{scope.row.guideName ? scope.row.guideName : "-"}}
@@ -181,6 +199,8 @@ export default NsTableGuide
 </script>
 
 <style scoped>
+  @import "@/style/small/variables.pcss";
+
   .template-page__row-left {
     width: 220px;
     position: absolute;
@@ -224,8 +244,16 @@ export default NsTableGuide
       margin: 0 10px 0 440px;
     }
   }
+
+  >>> .table-header-icon {
+    color: var(--theme-font-color-info);
+    font-size: var(--default-font-size-base);
+    font-weight: normal;
+    padding-left: var(--default-padding-base);
+    cursor: pointer;
+  }
 </style>
-<style>
+<style scoped>
 .elTree{
   overflow-y: auto;
   overflow-x: hidden

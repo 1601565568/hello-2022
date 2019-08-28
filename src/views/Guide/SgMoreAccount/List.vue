@@ -102,7 +102,7 @@ export default List
     font-weight: normal;
   }
 </style>
-<style>
+<style scoped>
 .viewTheqrCode{
   font-weight: 800;
 }
