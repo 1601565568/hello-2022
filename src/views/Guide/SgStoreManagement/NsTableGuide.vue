@@ -29,10 +29,10 @@
       <ns-page-table @synchronousStores="$emit('synchronousStores')" @showShop="$emit('showShop')"
                      @dimission="$emit('dimission')" @allDelete="$emit('allDelete')" @shopEdit="$emit('shopEdit')">
         <!-- 按钮 -->
-        <template slot="buttons">
+        <!--<template slot="buttons">
           <ns-table-operate-button :buttons="_data._table.table_buttons">
           </ns-table-operate-button>
-        </template>
+        </template>-->
         <!-- 按钮-结束 -->
 
         <!-- 简单搜索 -->
