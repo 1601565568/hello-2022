@@ -9,7 +9,7 @@ function resolve (dir) {
 
 module.exports = {
   transpileDependencies: [resolve('node_modules/web-crm/src')],
-  publicPath: process.env.PUBLIC_PATH,
+  publicPath: process.env.PUBLIC_PATH || '/',
   devServer: {
     port: process.env.PORT,
     proxy: {
