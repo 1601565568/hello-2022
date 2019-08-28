@@ -1,8 +1,11 @@
 import tableMixin from 'web-crm/src/mixins/table'
 import apiRequestConfirm from 'web-crm/src/utils/apiRequestConfirm'
 import { getErrorMsg } from '@/utils/toast'
+import ExperienceMember from '../components/ExperienceMember'
+
 export default {
   name: 'index',
+  components: { ExperienceMember },
   mixins: [tableMixin],
   data: function () {
     let that = this
@@ -114,7 +117,55 @@ export default {
       tableList: [],
       weixinUrl: null,
       _table: {
-        table_buttons: tableButtons
+        table_buttons: tableButtons,
+        table_buttons_ext: [
+          {
+            'func': function (scope) {
+              that.onSaveOpen(scope.row)
+            },
+            'icon': '',
+            'name': '编辑',
+            'auth': ``,
+            'visible': ''
+          },
+          {
+            'func': function (scope) {
+              that.onCodeTemplate(scope.row)
+            },
+            'icon': '',
+            'name': '代码模板',
+            'auth': ``,
+            'visible': 'scope.row.wxStatus === 1'
+          },
+          {
+            'func': function (scope) {
+              that.onRefresh(scope.row)
+            },
+            'icon': '',
+            'name': '刷新',
+            'auth': ``,
+            'visible': ''
+          },
+          {
+            'func': function (scope) {
+              that.onDelete(scope.row)
+            },
+            'icon': '',
+            'name': '删除',
+            'auth': ``,
+            'visible': ''
+          },
+          {
+            'func': function (scope) {
+              that.experienceMemberDialog.appid = scope.row.appid
+              that.experienceMemberDialog.visible = true
+            },
+            'icon': '',
+            'name': '体验成员',
+            'auth': ``,
+            'visible': 'scope.row.wxStatus === 1 && scope.row.fromType === 1'
+          }
+        ]
       },
       _table2: {
         table_buttons2: tableButtons2,
@@ -150,6 +201,10 @@ export default {
         'template_id': [{ required: true, message: '请输入模版Id' }],
         'version': [{ required: true, message: '请输入版本号' }],
         'user_desc': [{ required: true, message: '请输入代码备注' }]
+      },
+      experienceMemberDialog: {
+        visible: false,
+        appid: ''
       }
     }
   },
