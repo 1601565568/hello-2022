@@ -60,7 +60,7 @@ export default {
           },
           productCode: res.data.result.productCode,
           dataAuth: res.data.result.dataAuth,
-          routerAuth: res.data.result.menu,
+          routerAuth: res.data.result.menus,
           cloudUrl: res.data.result.cloudUrl
         }
 
