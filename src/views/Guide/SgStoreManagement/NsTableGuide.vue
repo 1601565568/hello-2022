@@ -71,6 +71,13 @@
               </el-form-grid>
             </el-form-item>
 
+            <el-form-item label="门店ID：">
+              <el-form-grid size="xmd">
+                <el-input style="width:180px" autofocus=true  v-model="model.shopId" placeholder="请输入线下门店ID"
+                          clearable></el-input>
+              </el-form-grid>
+            </el-form-item>
+
             <el-form-item label="门店类型：">
               <el-form-grid>
                 <el-select placeholder="请选择门店类型" v-model="model.shopType" clearable filterable>
