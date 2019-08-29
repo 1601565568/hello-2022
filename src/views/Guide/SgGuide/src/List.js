@@ -880,12 +880,13 @@ export default {
         })
       }
     },
-    async getCustomerCount (guideId) { // 查询导购下的会员数量
+    async getCustomerCount (guideId, shopId) { // 查询导购下的会员数量
       let _this = this
       let b
       await _this.$http.fetch(_this.$api.guide.guide.getCustomerCount, {
         searchMap: {
-          'guideId': guideId
+          'guideId': guideId,
+          'shopId': shopId
         }
       }).then(resp => {
         b = resp.result.recordsFiltered
@@ -966,7 +967,7 @@ export default {
                 if (shopArr.indexOf(_this.changeValue.storeValue) === -1) {
                   guideId = _this.row.id
                   shopId = _this.changeValue.storeValue
-                  _this.getCustomerCount(guideId).then((res) => {
+                  _this.getCustomerCount(guideId, shopId).then((res) => {
                     if (res > '0') {
                       _this.memberBelongingtitle = '选择会员归属'
                       _this.memberBelongingShow = true
@@ -1029,7 +1030,7 @@ export default {
                 } else {
                   guideId = _this.row.id
                   shopId = _this.row.shop_id
-                  _this.getCustomerCount(guideId).then(res => {
+                  _this.getCustomerCount(guideId, shopId).then(res => {
                     if (res > '0') {
                       _this.memberBelongingtitle = '选择会员归属'
                       _this.memberBelongingShow = true
@@ -1416,7 +1417,8 @@ export default {
           _this.customerIds = null
           _this.$http.fetch(_this.$api.guide.guide.getCustomerCount, {
             searchMap: {
-              'guideId': data.transGuideId
+              'guideId': data.transGuideId,
+              'shopIds': data.shopId
             }
           }).then(resp => {
             if (resp.result.recordsFiltered < 1) {

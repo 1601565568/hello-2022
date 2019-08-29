@@ -101,7 +101,7 @@
         <el-table-column type="selection" align="center" :width="50"></el-table-column>
         <el-table-column prop="name" label="会员姓名" align="left" width="100">
           <template slot-scope="scope">
-            {{scope.row.customerName || '-'}}
+            {{scope.row.customerName || scope.row.outAlias || '-'}}
           </template>
         </el-table-column>
         <el-table-column prop="mobile" label="手机号" align="left" width="120">
@@ -136,10 +136,8 @@
               {{scope.row.guideName ? scope.row.guideName : "-"}}
           </template>
         </el-table-column>
-        <el-table-column prop="guideName" label="所属线下门店" align="left" width="180">
-          <template slot-scope="scope">
-            {{scope.row.guideName ? scope.row.guideName : "-"}}
-          </template>
+        <el-table-column prop="offLineShopName" label="所属线下门店" align="left" width="180">
+            {{offLineShopName ? offLineShopName : "-"}}
         </el-table-column>
         <el-table-column prop="registerTime" label="入库时间" align="left" width="160">
             <template slot-scope="scope">

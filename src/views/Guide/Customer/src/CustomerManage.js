@@ -211,9 +211,9 @@ export default {
         _this.$http.fetch(_this.$api.guide.guide.customerGetDetail, {
           nick: val.nick,
           nickType: val.nickType,
-          customerFrom: val.customerFrom,
+          sysCustomerId: val.sysCustomerId,
           guideId: Number(val.guideId),
-          shopId: null
+          shopId: val.shopId
         }).then(resp => {
           if (resp.success && resp.result != null) {
             _this.shopKuhuShow = true
