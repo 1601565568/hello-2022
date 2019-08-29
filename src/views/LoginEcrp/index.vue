@@ -103,7 +103,7 @@ export default {
   cursor:pointer;
 }
 </style>
-<style>
+<style scoped>
 .demo-ruleForm .el-form-item__content{
   margin-left: 0 !important;
   text-align:center;

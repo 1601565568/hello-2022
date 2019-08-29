@@ -128,7 +128,7 @@ index.components = { GoodsTable, NsDroptree }
 export default index
 </script>
 
-<style scoped lang='scss'>
+<style scoped >
   .white-line {
     box-sizing: border-box;
     margin: 10px 0 10px 0;

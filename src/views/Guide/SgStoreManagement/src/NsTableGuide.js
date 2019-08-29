@@ -84,6 +84,7 @@ export default {
     }
     let findVo = {
       'shopName': null, // 门店名称
+      'shopId': null, // 门店ID
       'city': null, // 门点所在区域市
       'district': null, // 门点所在区域区
       'province': null, // 门点所在区域省
@@ -112,11 +113,8 @@ export default {
       digitalShopListLength: [],
       offsetHeight: false,
       shopLeiXing: [{
-        value: 'B',
-        label: '天猫'
-      }, {
-        value: 'C',
-        label: '淘宝店'
+        value: 'LYD',
+        label: '联营店'
       }, {
         value: 'ZYD',
         label: '直营店'

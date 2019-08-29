@@ -215,7 +215,7 @@ export default {
   width: 100px;
 }
 </style>
-<style>
+<style scoped>
   .page-rewardSetAdd .el-input__inner{
     padding-right: 10px !important;
     text-align: right;

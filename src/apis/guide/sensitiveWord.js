@@ -1,0 +1,44 @@
+const prefix = '/guide/sensitiveWord/'
+
+export default {
+  // 查询敏感词
+  findWordList: {
+    url: prefix + 'findWordList',
+    method: 'post'
+  },
+  // 新增分组
+  saveGroup: {
+    url: prefix + 'saveGroup',
+    method: 'post'
+  },
+  // 查询是否有敏感词
+  hasWordInGroup: {
+    url: prefix + 'hasWordInGroup',
+    method: 'post'
+  },
+  // 删除分组
+  removeGroup: {
+    url: prefix + 'removeGroup',
+    method: 'post'
+  },
+  // 分组树
+  getGroupTree: {
+    url: prefix + 'getGroupTree',
+    method: 'post'
+  },
+  // 保存敏感词
+  saveWord: {
+    url: prefix + 'saveWord',
+    method: 'post'
+  },
+  // 删除敏感词
+  removeWord: {
+    url: prefix + 'removeWord',
+    method: 'post'
+  },
+  // 监控查询
+  findMonitorList: {
+    url: prefix + 'findMonitorList',
+    method: 'post'
+  }
+}

@@ -136,6 +136,7 @@
               {{scope.row.guideName ? scope.row.guideName : "-"}}
           </template>
         </el-table-column>
+
         <el-table-column prop="offLineShopName" label="所属线下门店" align="left" width="180">
             {{offLineShopName ? offLineShopName : "-"}}
         </el-table-column>
@@ -179,6 +180,8 @@ export default NsTableGuide
 </script>
 
 <style scoped>
+  @import "@/style/small/variables.pcss";
+
   .template-page__row-left {
     width: 220px;
     position: absolute;
@@ -222,8 +225,16 @@ export default NsTableGuide
       margin: 0 10px 0 440px;
     }
   }
+
+  >>> .table-header-icon {
+    color: var(--theme-font-color-info);
+    font-size: var(--default-font-size-base);
+    font-weight: normal;
+    padding-left: var(--default-padding-base);
+    cursor: pointer;
+  }
 </style>
-<style>
+<style scoped>
 .elTree{
   overflow-y: auto;
   overflow-x: hidden

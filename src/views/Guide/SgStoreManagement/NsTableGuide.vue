@@ -71,6 +71,13 @@
               </el-form-grid>
             </el-form-item>
 
+            <el-form-item label="门店ID：">
+              <el-form-grid size="xmd">
+                <el-input style="width:180px" autofocus=true  v-model="model.shopId" placeholder="请输入线下门店ID"
+                          clearable></el-input>
+              </el-form-grid>
+            </el-form-item>
+
             <el-form-item label="门店类型：">
               <el-form-grid>
                 <el-select placeholder="请选择门店类型" v-model="model.shopType" clearable filterable>
@@ -140,10 +147,10 @@
               </template>
             </el-table-column>
 
-            <el-table-column prop="shopType,count" label="类型" align="left" width="100">
+            <el-table-column prop="shopType,count" label="类型" align="center" width="100">
               <template slot-scope="scope">
                   {{scope.row.shopType === 'ZYD'?'直营店':scope.row.shopType === 'JMD'?'加盟店':scope.row.shopType ===
-                  'B'?'天猫':scope.row.shopType === 'C'?'淘宝店':'-'}}
+                  'LYD'?'联营店':'-'}}
               </template>
             </el-table-column>
             <el-table-column prop="address" label="地址&地区" align="left">

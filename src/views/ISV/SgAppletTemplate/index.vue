@@ -123,7 +123,7 @@
 import index from './src/index'
 export default index
 </script>
-<style>
+<style scoped>
   .dialog_mian_topText p sapn{
     color:grey;
   }
