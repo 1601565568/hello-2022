@@ -83,6 +83,7 @@ export default {
       }
     }
     let findVo = {
+      'name': null,
       'shopName': null, // 门店名称
       'shopId': null, // 门店ID
       'city': null, // 门点所在区域市

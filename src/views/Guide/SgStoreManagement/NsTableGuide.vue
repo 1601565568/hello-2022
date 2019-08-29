@@ -40,9 +40,9 @@
         <!-- el-inpu 需添加  @keyup.enter.native="$quickSearchAction$" 配置，实现回车搜索 -->
         <template slot="searchSearch">
           <el-form :model="quickSearchModel" :inline="true" @submit.native.prevent class="pull-right">
-            <el-form-item label="门店名称：" v-show="_data._queryConfig.expand === false">
-              <el-input ref="quickText" style="width: 250px" v-model="model.shopName" placeholder="请输入线下门店名称"
-                        @keyup.enter.native="$quickSearchAction$('shopName')" clearable>
+            <el-form-item v-show="_data._queryConfig.expand === false">
+              <el-input ref="quickText" style="width: 250px" v-model="model.name" placeholder="请输入线下门店名称/ID"
+                        @keyup.enter.native="$quickSearchAction$('name')" clearable>
               </el-input>
               <ns-button type="primary" @click="$searchAction$('searchform')">搜索</ns-button>
               <ns-button @click="$resetInputAction$('searchform')">重置</ns-button>
