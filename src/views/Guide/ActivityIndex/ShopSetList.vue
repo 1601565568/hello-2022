@@ -60,7 +60,7 @@
           </el-form-item>
           <el-form-item label="门店名称：" prop="shopName">
             <el-input v-model="searchform.shopName" placeholder="请输入门店名称" clearable></el-input>
-          </el-form-item>
+          </el-form-item><!--
           <el-form-item label="状态：" prop="shopStatus">
             <el-select v-model="searchform.shopStatus" placeholder="请选择状态" clearable >
               <el-option  v-for="item in statusOptions"
@@ -69,7 +69,7 @@
               :value="item.value" >
               </el-option>
             </el-select>
-          </el-form-item>
+          </el-form-item>-->
         </el-form>
         <div class="template-table__more-btn">
           <ns-button type="primary" @click="submitForm('searchform2')">搜索</ns-button>
