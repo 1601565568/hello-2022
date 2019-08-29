@@ -189,9 +189,9 @@ export default {
         this.$set(this.saveObj, 'selectBackName', '活动名称：')
         this.$set(this.saveObj, 'codeTarget', obj.guid)
         this.$set(this.saveObj, 'codeTargetName', obj.name)
-      } else if (obj.goodsId) {
+      } else if (obj.outItemId) {
         this.$set(this.saveObj, 'selectBackName', '商品名称：')
-        this.$set(this.saveObj, 'codeTarget', obj.goodsId)
+        this.$set(this.saveObj, 'codeTarget', obj.outItemId)
         this.$set(this.saveObj, 'codeTargetName', obj.title)
       }
     },
