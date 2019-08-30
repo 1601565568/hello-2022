@@ -219,11 +219,24 @@ export default {
         }
       }).then(resp => {
         if (resp.success && resp.result != null) {
-          // 将所有店铺存入map中
-          _this.shopMap = new Map()
-          _this.shopAllList = resp.result.data
-          for (var i = 0; i < _this.shopAllList.length; i++) {
-            _this.shopMap.set(_this.shopAllList[i].id, _this.shopAllList.slice(i, i + 1))
+          if (resp.result.ext != null) {
+            let isContains = resp.result.ext.isContain
+            if (!isContains) {
+              this.$confirm('此优惠券也可以在其他门店购买，是否继续？', '提示', {
+                confirmButtonText: '是',
+                type: 'warning',
+                cancelButtonText: '否'
+              }).then(() => {
+                // 将所有店铺存入map中
+                _this.shopMap = new Map()
+                _this.shopAllList = resp.result.data
+                for (var i = 0; i < _this.shopAllList.length; i++) {
+                  _this.shopMap.set(_this.shopAllList[i].id, _this.shopAllList.slice(i, i + 1))
+                }
+              }).catch(() => {
+                this.activityModel.coupon_id = ''
+              })
+            }
           }
         }
       }).catch((resp) => {
