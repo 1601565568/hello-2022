@@ -180,11 +180,11 @@ export default {
       statusOptions: [
         {
           value: '1',
-          label: '正常营业'
+          label: '正常'
         },
         {
           value: '-1',
-          label: '暂停营业'
+          label: '暂停'
         }
       ],
       selectedArr: [],
@@ -248,10 +248,10 @@ export default {
           this.dataList = resp.result.data
           this.dataList.map(item => {
             switch (item.shopStatus) {
-              case -2 : item.shopStatusMean = '已关店'; break
-              case -1 : item.shopStatusMean = '暂停营业'; break
+              case -2 : item.shopStatusMean = '关店'; break
+              case -1 : item.shopStatusMean = '暂停'; break
               case 0 : item.shopStatusMean = '删除'; break
-              case 1 : item.shopStatusMean = '正常营业'; break
+              case 1 : item.shopStatusMean = '正常'; break
             }
             if (searchObj.searchMap.type === 0 || searchObj.searchMap.type === '0') {
               for (let i in item) {

@@ -133,15 +133,15 @@ export default {
       statusOptions: [
         {
           value: '1',
-          label: '正常营业'
+          label: '正常'
         },
         {
           value: '-1',
-          label: '暂停营业'
+          label: '暂停'
         },
         {
           value: '-2',
-          label: '已关店'
+          label: '关店'
         }
       ],
       selectedArr: [],

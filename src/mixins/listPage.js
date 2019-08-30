@@ -34,13 +34,13 @@ export default {
         return '删除'
       }
       if (val === 1) {
-        return '正常营业'
+        return '正常'
       }
       if (val === -1) {
-        return '暂停营业'
+        return '暂停'
       }
       if (val === -2) {
-        return '已关店'
+        return '关店'
       }
       return ''
     },
@@ -56,7 +56,10 @@ export default {
         return '直营店'
       }
       if (val === 'JMD') {
-        return '加盟'
+        return '加盟店'
+      }
+      if (val === 'LYD') {
+        return '联营店'
       }
       return ''
     }
