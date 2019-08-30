@@ -135,7 +135,7 @@ export default {
       }
       // _this.storeModel.couponTotal = 0 代表不限额，不做数量校验
       if (_this.storeModel.maxType > 0) {
-        if (_this.storeModel.couponTotal < _this.activityModel.coupon_total) {
+        if (_this.storeModel.remainingQuantity < _this.activityModel.coupon_total) {
           _this.activityModel.coupon_total = 0
           _this.$notify.info('配额不能大于优惠券总数')
         }
