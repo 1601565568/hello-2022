@@ -1,6 +1,7 @@
 import tableMixin from 'web-crm/src/mixins/table'
 import NsArea from 'web-crm/src/components/NsArea'
 import { getErrorMsg } from '@/utils/toast'
+import $ from "jquery"
 export default {
   name: 'NsTableGuide',
   mixins: [tableMixin],
@@ -64,25 +65,7 @@ export default {
     }]
     let quickSearchNames = quickInput.map(x => x.name)
     let quickSearchModel = {}
-    let searchModel = {
-      sgGuide: {
-        brand_id: null,
-        name: null,
-        nickname: null,
-        sex: 1,
-        mobile: null,
-        birthday: null,
-        work_id: null,
-        password: null,
-        image: null
-      },
-      sgGuideShop: {
-        id: null,
-        shop_id: null,
-        job: 0
-      }
-    }
-    let findVo = {
+    var findVo = {
       'name': null,
       'shopName': null, // 门店名称
       'shopId': null, // 门店ID
@@ -95,7 +78,7 @@ export default {
       'shopStatus': null, // 营业状态
       'area': [] // 所属区域
     }
-    let model = Object.assign({}, findVo, {}, searchModel)
+    let model = Object.assign({}, findVo)
     return {
       model: model,
       filterTreeText: '',
@@ -179,16 +162,20 @@ export default {
         })
     },
     onClickNode (data) {
-      var _this = this
+      // 重置所有参数
+      this.$resetInput$()
       this.model.shopIds = null
       if (data.ext1) {
         this.model.shopIds = data.ext1
       } else if (data.id !== '0') {
         this.model.shopIds = '0'
+      } else if (data.id === '0') {
+        this.model.shopIds = null
       }
-      _this.loading = true
-      _this.$reload().then(rep => {
-        _this.loading = _this._data._loading
+      this._data._table.searchMap = $.extend(true, {}, this.model)
+      this.loading = true
+      this.$reload().then(rep => {
+        this.loading = this._data._loading
       })
     },
     // 树节点过滤
