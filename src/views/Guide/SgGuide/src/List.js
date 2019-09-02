@@ -391,7 +391,7 @@ export default {
       }
       _this.shopIds = vId
       _this.changeObj.storeChange = true
-      _this.replaceStoresArry.push(row)
+      // _this.replaceStoresArry.push(row)
     },
     changeShop (shopId) {
       this.shopIds = shopId
@@ -518,7 +518,7 @@ export default {
           }).catch((resp) => {
             _this.$notify.error(getErrorMsg('查询失败', resp))
           })
-        })
+        }).catch(() => {})
       }
     },
     aaaa () {
@@ -547,7 +547,7 @@ export default {
             confirmButtonText: '确定',
             cancelButtonText: '取消',
             type: 'warning'
-          }).then(() => {})
+          }).then(() => {}).catch(() => {})
         } else {
           // 姓名去重
           _this.dimissionArry = Array.from(new Set(_this.dimissionArry))
@@ -595,7 +595,7 @@ export default {
               }).catch((resp) => {
                 _this.$notify.error(getErrorMsg('批量离职失败', resp))
               })
-            })
+            }).catch(() => {})
           } else {
             _this.multipleStoresAreNotSupportedShow = true
           }
@@ -629,7 +629,7 @@ export default {
             confirmButtonText: '确定',
             cancelButtonText: '取消',
             type: 'warning'
-          }).then(() => {})
+          }).then(() => {}).catch(() => {})
         } else {
           _this.dimissionArry.map(item => {
             if (item.count > 1) {
@@ -650,6 +650,7 @@ export default {
               _this.replaceStoresArry.map(item => {
                 _this.allDeleteName.push(item.name)
               })
+            }).catch(() => {
             })
           } else {
             _this.multipleStoresAreNotSupportedShow = true
@@ -1310,7 +1311,7 @@ export default {
           resource: 0
         }
         _this.guideLeave(params, false)
-      })
+      }).catch(() => {})
     },
     // 取消指定转移
     onCancelSpecifyTransfer () {
