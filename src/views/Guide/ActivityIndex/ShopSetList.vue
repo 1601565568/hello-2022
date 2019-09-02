@@ -231,7 +231,7 @@ export default {
       }
       // 重置选择的门店
       this.saveObj.selectedArr = this.selectedArr
-      this.saveObj.year = this.searchObj.searchMap.year
+      this.saveObj.year = moment(this.searchform.year).format('YYYY')
       this.saveObj.type = this.searchObj.searchMap.type
       // 传递保存时需要的参数
       this.$nextTick(() => {
