@@ -47,7 +47,6 @@
         }).then(function (result) {
             if (result.success) {
                 // 根据数据状态跳转不同页面
-                alert("newMember:"+result.result.newMember)
                 if (true) {
                     // 调用微信官方开卡界面
                     // 初始化微信开卡JS-SDK
@@ -68,7 +67,6 @@
                         memberGrade: result.result.memberGrade,
                     }
                     localStorage.setItem('showData', JSON.stringify(bean))
-                    console.log("check:" + JSON.stringify("showData").toString())
                     //非新用户-跳转已经有导购界面
                     if (recruitInfo.guideId == result.result.sgGuideId) {
                         //同一导购
@@ -116,7 +114,14 @@
                         var cardList = res.cardList; // 添加的卡券列表信息
                         var guideData = JSON.parse(localStorage.getItem('showData'));
                         // 跳转开卡成功页面
-                        window.location.replace("addFriend.html?guideQrCode="+guideData.guideQrCode+"&guideName="+guideData.guideName+"&guideImg="+guideData.guideImg)
+                        var recruitInfo = JSON.parse(localStorage.getItem('recruitInfo'));
+                        // 根据不同来源，开卡成功后根据来源跳转不同页面（1关注公众号，2微信加好友）
+                        if(recruitInfo.source == 1){
+                            window.location.replace("addFriend.html?guideQrCode="+guideData.guideQrCode+"&guideName="+guideData.guideName+"&guideImg="+guideData.guideImg)
+                        }else{
+                            // 页面刘影还未设计完成
+
+                        }
                     },
                     fail: function (res) {
                         // 跳转错误页

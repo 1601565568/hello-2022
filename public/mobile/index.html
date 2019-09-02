@@ -28,7 +28,8 @@
         recruitEntity = {
             guideId: getPar('guideId'),
             shopId: getPar('shopId'),
-            brandId: getPar('brandId')
+            brandId: getPar('brandId'),
+            source:getPar('source'),
         }
         localStorage.setItem('recruitInfo', JSON.stringify(recruitEntity))
         this.ajax(backstageURL + '/checkGuide', {
