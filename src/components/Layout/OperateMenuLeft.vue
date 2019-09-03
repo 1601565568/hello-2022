@@ -107,7 +107,7 @@ export default {
 </script>
 
 <style scoped>
-  @import "@/style/small/variables.pcss";
+  @import "@theme/variables.pcss";
 
   @component-namespace menu {
     /* 左侧菜单基础样式 */

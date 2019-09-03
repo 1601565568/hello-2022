@@ -157,9 +157,9 @@ export default {
           { required: true, message: '请输入素材标题', trigger: 'blur' },
           { min: 4, max: 50, message: '限制长度在4-50个字符以内', trigger: 'blur' }
         ],
-        /*url: [
+        /* url: [
           { required: true, message: '请输入合法链接', trigger: 'blur' }
-        ],*/
+        ], */
         subdivisionId: [
           { required: true, message: '请选择素材分组', trigger: 'change' }
         ],
@@ -447,7 +447,7 @@ export default {
   }
 </style>
 
-<style >
+<style>
 /* 此处scoped暂时不能加，等空闲了再出解决方案 */
 
 @component-namespace addMaterialbox {

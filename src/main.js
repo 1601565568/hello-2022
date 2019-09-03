@@ -2,13 +2,14 @@ import Vue from 'vue'
 import App from 'web-crm/src/App.vue'
 import router from 'web-crm/src/router'
 import store from './store'
-import 'web-crm/src/registerServiceWorker'
 import { i18n } from 'web-crm/src/i18n'
 import './register'
 import 'normalize.css'
-import './style/small/NuiJs/index.scss'
-import './style/small/index.pcss'
+import '@theme/NuiJs/index.scss'
+import '@theme/index.pcss'
 import * as Sentry from '@sentry/browser'
+// 是否启动本地原缓存数据
+import './utils/storageControl'
 
 if (process.env.VUE_APP_SENTRY_SWITCH === 'true') {
   Vue.prototype.$sentry = Sentry

@@ -59,7 +59,9 @@ export default {
             gradeRuleStatus: res.data.result.gradeRuleStatus
           },
           productCode: res.data.result.productCode,
-          dataAuth: res.data.result.dataAuth
+          dataAuth: res.data.result.dataAuth,
+          routerAuth: res.data.result.menus,
+          cloudUrl: res.data.result.cloudUrl
         }
 
         if (res.data.result.menus.length > 0) {

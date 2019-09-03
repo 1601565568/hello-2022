@@ -150,7 +150,7 @@ export default List
 </script>
 
 <style scoped>
-  @import "@/style/small/variables.pcss";
+  @import "@theme/variables.pcss";
 
   .coupon-form{
     text-align: right;
@@ -211,7 +211,7 @@ export default List
     position: relative;
   }
 </style>
-<style>
+<style scoped>
 .page_add_coupon  .el-select-dropdown__wrap , .el-scrollbar__wrap {
 
       /* margin: 0 ! important */

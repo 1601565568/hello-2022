@@ -7,7 +7,7 @@
     cursor: pointer;
   }
 </style>
-<style>
+<style scoped>
 .has-gutter .el-table_2_column_9::after{
   content: "》";
   color: blue;
@@ -93,8 +93,8 @@
       <el-table-column  width="200"  align="left" :render-header="renderHeader">
         <template slot-scope="scope">
           <i class='iconfont icon-zhiding sort'  :class="scope.$index?'topShow':'topHid'" @click='exchangeSort(1,scope.row.subdivision_id)'></i>
-          <i class='iconfont icon-topArr1 sort'  :class="scope.$index?'topShow':'topHid'" @click='exchangeSort(2,scope.row.subdivision_id)'></i>
-          <i class='iconfont icon-downArr1 sort'  :class="scope.$index!==dataList.length-1?'topShow':'topHid'" @click='exchangeSort(3,scope.row.subdivision_id)'></i>
+          <i class='icon-base icon-topArr sort'  :class="scope.$index?'topShow':'topHid'" @click='exchangeSort(2,scope.row.subdivision_id)'></i>
+          <i class='icon-base icon-downArr sort'  :class="scope.$index!==dataList.length-1?'topShow':'topHid'" @click='exchangeSort(3,scope.row.subdivision_id)'></i>
           <i class='iconfont icon-zhidi sort'  :class="scope.$index!==dataList.length-1?'topShow':'topHid'" @click='exchangeSort(4,scope.row.subdivision_id)'></i>
         </template>
       </el-table-column>

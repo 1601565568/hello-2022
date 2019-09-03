@@ -1,5 +1,6 @@
 <template>
   <div>
+    <experience-member :visible.sync='experienceMemberDialog.visible' :appid='experienceMemberDialog.appid'></experience-member>
     <ns-page-table>
       <!-- 按钮 -->
         <template slot="buttons">
@@ -80,14 +81,17 @@
             </template>
           </el-table-column>
           <el-table-column prop="update_time" label="更新时间" align="left"></el-table-column>
-          <el-table-column :show-overflow-tooltip="true" label="操作" width="190px" align="right">
+          <el-table-column :show-overflow-tooltip="true" label="操作" width="160px" align="right">
             <template slot-scope="scope">
-              <span class="tmp-cell__buttons">
-                <ns-button type="text" @click="onSaveOpen(scope.row)">编辑</ns-button>
-                <ns-button v-if="scope.row.wxStatus === 1" type="text" @click="onCodeTemplate(scope.row)">代码模板</ns-button>
-                <ns-button type="text" @click="onRefresh(scope.row)">刷新</ns-button>
-                <ns-button type="text" @click="onDelete(scope.row)">删除</ns-button>
-              </span>
+<!--              <span class="tmp-cell__buttons">-->
+<!--                <ns-button type="text" @click="onSaveOpen(scope.row)">编辑</ns-button>-->
+<!--                <ns-button v-if="scope.row.wxStatus === 1" type="text" @click="onCodeTemplate(scope.row)">代码模板</ns-button>-->
+<!--                <ns-button type="text" @click="onRefresh(scope.row)">刷新</ns-button>-->
+<!--                <ns-button type="text" @click="onDelete(scope.row)">删除</ns-button>-->
+<!--              </span>-->
+              <ns-table-column-operate-button :buttons="_data._table.table_buttons_ext"
+                                              :prop="scope">
+              </ns-table-column-operate-button>
             </template>
           </el-table-column>
         </el-table>
@@ -455,7 +459,7 @@
 import index from './src/index'
 export default index
 </script>
-<style>
+<style scoped>
 .dialog_mian{
   padding:10px 30px 30px;
 }

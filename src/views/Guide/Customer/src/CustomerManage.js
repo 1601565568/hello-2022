@@ -91,6 +91,7 @@ export default {
     resetInputAction () { // 重置
       this.model.name = null
       this.model.shop = null
+      this.pagination.page = 1
       this.guideFindList()
     },
     async findBrandShopList (model) { // 门店列表查询
@@ -211,9 +212,9 @@ export default {
         _this.$http.fetch(_this.$api.guide.guide.customerGetDetail, {
           nick: val.nick,
           nickType: val.nickType,
-          customerFrom: val.customerFrom,
+          sysCustomerId: val.sysCustomerId,
           guideId: Number(val.guideId),
-          shopId: null
+          shopId: val.shopId
         }).then(resp => {
           if (resp.success && resp.result != null) {
             _this.shopKuhuShow = true
@@ -294,5 +295,5 @@ export default {
     }
   },
   mounted: function () {
-  },
+  }
 }

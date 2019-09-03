@@ -215,7 +215,7 @@
 import guide from './src/NsTableGuide'
 export default guide
 </script>
-<style>
+<style scoped>
   .scope_row_count {
     color: blue;
   }

@@ -192,7 +192,7 @@ export default {
       this.$http.fetch(this.$api.guide.findQuicklyWordGroupList, {}).then(resp => {
         if (resp.success && resp.result.data.length > 0) {
           resp.result.data.map(item => {
-            item.shanchu1 = 'iconfont icon-shanchu1'
+            item.shanchu1 = 'iconfont icon-shanchu'
             item.bianji1 = 'iconfont icon-bianji1'
           })
           this.wordGroupList = resp.result.data

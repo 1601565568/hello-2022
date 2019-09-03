@@ -19,10 +19,12 @@ module.exports = {
          * '@/style/small/variables.pcss'  =>  '项目绝对路径/src/style/small/variables.pcss'
          */
         const ALAIS = {
+          '@theme': path.join(__dirname, `src/style/${process.env.VUE_APP_THEME}`, importAddress.substr(6)), // 项目主题目录
           '@': path.join(__dirname, 'src', importAddress.substr(1)), // 项目业务资源文件目录/src
           '~': path.join(__dirname, 'node_modules', importAddress.substr(1)) // 项目包目录/node_modules
         }
-        return ALAIS[importAddress[0]] ? ALAIS[importAddress[0]] : importAddress
+        // 使用嵌套判断，此外需要优化
+        return importAddress.startsWith('@theme') ? ALAIS['@theme'] : ALAIS[importAddress[0]] ? ALAIS[importAddress[0]] : importAddress
       }
     },
     'saladcss-bem': {

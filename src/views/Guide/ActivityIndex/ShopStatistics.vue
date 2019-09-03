@@ -18,7 +18,6 @@
             <el-form ref="searchform" class="float-right" v-if="!searchType.advanced" :inline="true" :model="searchform" style='padding-top:3px'>
               <el-form-item  prop="type">
                 <el-select
-                clearable
                 style="width:100px"
                 v-model="searchform.type" placeholder="请选择"
                 :clearable='false'>
@@ -66,7 +65,6 @@
         <el-form ref="searchform" label-width="80px"  class="surround-btn" :model="searchform"  :inline="true">
           <el-form-item  prop="type" label="查询类型：">
             <el-select
-            clearable
             style="width:100px"
             v-model="searchform.type" placeholder="请选择"
             :clearable='false'>
@@ -363,15 +361,15 @@ export default {
       statusOptions: [
         {
           value: '1',
-          label: '正常营业'
+          label: '正常'
         },
         {
           value: '-1',
-          label: '暂停营业'
+          label: '暂停'
         },
         {
           value: '-2',
-          label: '已关店'
+          label: '关店'
         }
       ],
       shopTypeOptions: [
@@ -381,7 +379,11 @@ export default {
         },
         {
           value: 'JMD',
-          label: '加盟'
+          label: '加盟店'
+        },
+        {
+          value: 'LYD',
+          label: '联营店'
         }
       ],
       selectedArr: [],

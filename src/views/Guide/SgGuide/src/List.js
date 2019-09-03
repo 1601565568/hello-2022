@@ -391,7 +391,7 @@ export default {
       }
       _this.shopIds = vId
       _this.changeObj.storeChange = true
-      _this.replaceStoresArry.push(row)
+      // _this.replaceStoresArry.push(row)
     },
     changeShop (shopId) {
       this.shopIds = shopId
@@ -518,7 +518,7 @@ export default {
           }).catch((resp) => {
             _this.$notify.error(getErrorMsg('查询失败', resp))
           })
-        })
+        }).catch(() => {})
       }
     },
     aaaa () {
@@ -547,7 +547,7 @@ export default {
             confirmButtonText: '确定',
             cancelButtonText: '取消',
             type: 'warning'
-          }).then(() => {})
+          }).then(() => {}).catch(() => {})
         } else {
           // 姓名去重
           _this.dimissionArry = Array.from(new Set(_this.dimissionArry))
@@ -595,7 +595,7 @@ export default {
               }).catch((resp) => {
                 _this.$notify.error(getErrorMsg('批量离职失败', resp))
               })
-            })
+            }).catch(() => {})
           } else {
             _this.multipleStoresAreNotSupportedShow = true
           }
@@ -629,7 +629,7 @@ export default {
             confirmButtonText: '确定',
             cancelButtonText: '取消',
             type: 'warning'
-          }).then(() => {})
+          }).then(() => {}).catch(() => {})
         } else {
           _this.dimissionArry.map(item => {
             if (item.count > 1) {
@@ -650,6 +650,7 @@ export default {
               _this.replaceStoresArry.map(item => {
                 _this.allDeleteName.push(item.name)
               })
+            }).catch(() => {
             })
           } else {
             _this.multipleStoresAreNotSupportedShow = true
@@ -669,28 +670,13 @@ export default {
         shopId: Number(this.shopIds),
         type: _this.replacementStoresHaveMembersShow ? Number(_this.replacementStoresHaveMembersRadio) : ''
       }).then(resp => {
-        if (resp.result.failCount > 0) {
-          _this.theNumberOfsuccessful = resp.result.successCount
-          _this.theNumberOfFailures = resp.result.failCount
-          resp.result.guideNames.split(',').map((item, i) => {
-            if (_this.nameArr.indexOf(resp.result.guideNames.split(',')[i]) === -1) {
-              _this.nameArr.push(item)
-            } else {
-              if (item === _this.multipleSelection[i].name) {
-                _this.nameArr[i] = _this.multipleSelection[i].name + '(' + _this.multipleSelection[i].work_id + ')'
-              }
-            }
-          })
-          _this.nameArr = _this.nameArr.join('，')
-          _this.returnInformationShow = true
-          // _this.$notify.error(resp.result.msg)
-          _this.successCount = resp.result.successCount
-          _this.failCount = resp.result.failCount
-        } else {
+        if (resp.success) {
           _this.shopFindListShow = false
           _this.replacementStoresHaveMembersShow = false
           _this.$notify.success('批量更换门店成功')
           _this.$refs.mainTable.$reload()
+        } else {
+          _this.$notify.error(getErrorMsg('批量更换门店失败', resp))
         }
       }).catch((resp) => {
         _this.$notify.error(getErrorMsg('批量更换门店失败', resp))
@@ -880,12 +866,13 @@ export default {
         })
       }
     },
-    async getCustomerCount (guideId) { // 查询导购下的会员数量
+    async getCustomerCount (guideId, shopId) { // 查询导购下的会员数量
       let _this = this
       let b
       await _this.$http.fetch(_this.$api.guide.guide.getCustomerCount, {
         searchMap: {
-          'guideId': guideId
+          'guideId': guideId,
+          'shopId': shopId
         }
       }).then(resp => {
         b = resp.result.recordsFiltered
@@ -966,7 +953,7 @@ export default {
                 if (shopArr.indexOf(_this.changeValue.storeValue) === -1) {
                   guideId = _this.row.id
                   shopId = _this.changeValue.storeValue
-                  _this.getCustomerCount(guideId).then((res) => {
+                  _this.getCustomerCount(guideId, shopId).then((res) => {
                     if (res > '0') {
                       _this.memberBelongingtitle = '选择会员归属'
                       _this.memberBelongingShow = true
@@ -1029,7 +1016,7 @@ export default {
                 } else {
                   guideId = _this.row.id
                   shopId = _this.row.shop_id
-                  _this.getCustomerCount(guideId).then(res => {
+                  _this.getCustomerCount(guideId, shopId).then(res => {
                     if (res > '0') {
                       _this.memberBelongingtitle = '选择会员归属'
                       _this.memberBelongingShow = true
@@ -1182,6 +1169,7 @@ export default {
       this.model.name = null
       this.model.shop = null
       this.radio = null
+      this._data.paginationss.page = 1
       this.transferShopPage = 1
       this.guideFindList()
     },
@@ -1323,7 +1311,7 @@ export default {
           resource: 0
         }
         _this.guideLeave(params, false)
-      })
+      }).catch(() => {})
     },
     // 取消指定转移
     onCancelSpecifyTransfer () {
@@ -1416,7 +1404,8 @@ export default {
           _this.customerIds = null
           _this.$http.fetch(_this.$api.guide.guide.getCustomerCount, {
             searchMap: {
-              'guideId': data.transGuideId
+              'guideId': data.transGuideId,
+              'shopIds': data.shopId
             }
           }).then(resp => {
             if (resp.result.recordsFiltered < 1) {

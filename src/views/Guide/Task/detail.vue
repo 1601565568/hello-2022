@@ -1282,7 +1282,7 @@ export default {
 }
 </script>
 <style scoped lang='scss'>
-@import "@/style/small/variables.pcss";
+@import "@theme/variables.pcss";
   @component-namespace overview {
     @b content {
       .el-row {

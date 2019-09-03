@@ -245,7 +245,7 @@ index.components = {
 </script>
 
 <style scoped>
-  @import "@/style/small/variables.pcss";
+  @import "@theme/variables.pcss";
   @component-namespace overview {
     @b content {
       .el-row {
@@ -442,7 +442,7 @@ index.components = {
     }
   }
 </style>
-<style>
+<style scoped>
 .overview-content .el-popover .el-popover__title{
       padding: 5px 0 !important;
 }

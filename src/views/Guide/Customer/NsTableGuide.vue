@@ -1,7 +1,7 @@
 <template>
 <div calss="NsTableGuide_main">
         <div class="template-page__row-left">
-          <el-input ref="quickText" style="width: 190px" v-model="filterTreeText" placeholder="输入店铺名称/导购姓名" clearable>
+          <el-input ref="quickText" style="width: 190px" v-model="filterTreeText" placeholder="输入线下店铺名称" clearable>
             <i class="el-icon-search el-input__icon" slot="suffix" name="name" @click="$quickSearchAction$('name')"></i>
           </el-input>
           <div :class="offsetHeight?'elTrees':'elTree'" ref="elTree" :style="{ 'height' : height + 'px'}">
@@ -55,7 +55,7 @@
 
         <el-form-item label="姓名：">
           <el-form-grid size="xmd">
-            <el-input style="width:180px" autofocus=true v-model="model.name" placeholder="请输入姓名" clearable></el-input>
+            <el-input style="width:180px" autofocus=true v-model="model.customerName" placeholder="请输入姓名" clearable></el-input>
           </el-form-grid>
         </el-form-item>
 
@@ -67,7 +67,13 @@
 
         <el-form-item label="昵称：">
           <el-form-grid size="xmd">
-            <el-input style="width:180px" autofocus=true v-model="model.nickName" placeholder="请输入昵称" clearable></el-input>
+            <el-input style="width:180px" autofocus=true v-model="model.nick" placeholder="请输入昵称" clearable></el-input>
+          </el-form-grid>
+        </el-form-item>
+
+        <el-form-item label="卡号：">
+          <el-form-grid size="xmd">
+            <el-input style="width:180px" autofocus=true v-model="model.cardId" placeholder="请输入卡号" clearable></el-input>
           </el-form-grid>
         </el-form-item>
 
@@ -95,7 +101,7 @@
         <el-table-column type="selection" align="center" :width="50"></el-table-column>
         <el-table-column prop="name" label="会员姓名" align="left" width="100">
           <template slot-scope="scope">
-            {{scope.row.name || '-'}}
+            {{scope.row.customerName || scope.row.outAlias || '-'}}
           </template>
         </el-table-column>
         <el-table-column prop="mobile" label="手机号" align="left" width="120">
@@ -115,9 +121,9 @@
               </div>
           </template>
         </el-table-column>
-        <el-table-column prop="nickName" label="昵称" align="left" width="120">
+        <el-table-column prop="grade" label="等级" align="left" width="120">
           <template slot-scope="scope">
-            {{scope.row.nickName?scope.row.nickName:'-'}}
+            {{scope.row.grade?scope.row.grade:'-'}}
           </template>
         </el-table-column>
         <!-- <el-table-column label="关注状态" align="left" width="180">
@@ -130,7 +136,11 @@
               {{scope.row.guideName ? scope.row.guideName : "-"}}
           </template>
         </el-table-column>
-        <el-table-column prop="registerTime" label="招募时间" align="left" width="160">
+
+        <el-table-column prop="offLineShopName" label="所属线下门店" align="left" width="180">
+            {{offLineShopName ? offLineShopName : "-"}}
+        </el-table-column>
+        <el-table-column prop="registerTime" label="入库时间" align="left" width="160">
             <template slot-scope="scope">
               {{scope.row.activateTime?moment(scope.row.activateTime):'-'}}
             </template>
@@ -170,6 +180,8 @@ export default NsTableGuide
 </script>
 
 <style scoped>
+  @import "@/style/small/variables.pcss";
+
   .template-page__row-left {
     width: 220px;
     position: absolute;
@@ -213,8 +225,16 @@ export default NsTableGuide
       margin: 0 10px 0 440px;
     }
   }
+
+  >>> .table-header-icon {
+    color: var(--theme-font-color-info);
+    font-size: var(--default-font-size-base);
+    font-weight: normal;
+    padding-left: var(--default-padding-base);
+    cursor: pointer;
+  }
 </style>
-<style>
+<style scoped>
 .elTree{
   overflow-y: auto;
   overflow-x: hidden

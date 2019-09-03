@@ -23,7 +23,7 @@
         <div class="navTree-item flex flex-between" slot-scope="{ node, data }" >
           <span class="dataName">{{ data.name }}</span>
           <span v-if='data.id'>
-            <i class="iconfont icon-shanchu1 " @click="deleteTheGroup(data)" style='font-size:18px'></i>
+            <i class="iconfont icon-shanchu " @click="deleteTheGroup(data)" style='font-size:18px'></i>
             <i class="iconfont icon-bianji1 ml5" @click="onSaveQuicklyWordGroupOpen(data)"></i>
           </span>
         </div>
@@ -66,8 +66,8 @@
             <el-table-column align="left" v-if="showOrder" :render-header="renderHeader">
               <template slot-scope="scope">
                 <i class='iconfont icon-zhiding sort' :class="scope.row === _data._table.data[0]?'topHid':''"  @click='exchangeSort(1,scope.row.id)'></i>
-                <i class='iconfont icon-topArr1 sort' :class="scope.row === _data._table.data[0]?'topHid':''"   @click='exchangeSort(2,scope.row.id)'></i>
-                <i class='iconfont icon-downArr1 sort' :class="scope.row === _data._table.data[_data._table.data.length-1]?'topHid':''"   @click='exchangeSort(3,scope.row.id)'></i>
+                <i class='icon-base icon-topArr sort' :class="scope.row === _data._table.data[0]?'topHid':''"   @click='exchangeSort(2,scope.row.id)'></i>
+                <i class='icon-base icon-downArr sort' :class="scope.row === _data._table.data[_data._table.data.length-1]?'topHid':''"   @click='exchangeSort(3,scope.row.id)'></i>
                 <i class='iconfont icon-zhidi sort' :class="scope.row === _data._table.data[_data._table.data.length-1]?'topHid':''"  @click='exchangeSort(4,scope.row.id)'></i>
               </template>
             </el-table-column>
@@ -186,7 +186,7 @@ List.components = {
 }
 export default List
 </script>
-<style>
+<style scoped>
 .elTree{
   overflow-y: auto;
   overflow-x: hidden
@@ -223,7 +223,7 @@ export default List
 }
 </style>
 <style scoped>
- @import "@/style/small/variables.pcss";
+ @import "@theme/variables.pcss";
   #box_left{
     width: 220px;
     margin-right: 10px;
@@ -312,8 +312,8 @@ export default List
 
 }
 </style>
-<style lang='scss'>
- @import "@/style/small/variables.pcss";
+<style lang='scss' scoped>
+ @import "@theme/variables.pcss";
 #SgQuicklyWordPage .el-tree-node{
   &.is-current{
     background-color: var(--default-menu-active-border);

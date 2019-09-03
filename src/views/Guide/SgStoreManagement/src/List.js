@@ -482,11 +482,11 @@ export default {
       _this.memberBelongingShow = true
       _this.title = '下载招募码'
     },
-    scopeRowCount (data) { // 查看员工属性
+    scopeRowCount (data) {
       this.scopeRowCountShow = true
-      this.memberBelongingtitle = '查看员工属性详情'
+      this.memberBelongingtitle = '查看关联数字门店详情'
       var _this = this
-      _this.$http.fetch(_this.$api.guide.guide.findGuideShopList, { guideId: data }).then(resp => {
+      _this.$http.fetch(_this.$api.guide.shop.findDigitalShopByShopId, { shopId: data }).then(resp => {
         if (resp.success && resp.result != null) {
           _this.shopFindList = resp.result
         }

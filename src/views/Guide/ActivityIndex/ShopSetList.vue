@@ -60,7 +60,7 @@
           </el-form-item>
           <el-form-item label="门店名称：" prop="shopName">
             <el-input v-model="searchform.shopName" placeholder="请输入门店名称" clearable></el-input>
-          </el-form-item>
+          </el-form-item><!--
           <el-form-item label="状态：" prop="shopStatus">
             <el-select v-model="searchform.shopStatus" placeholder="请选择状态" clearable >
               <el-option  v-for="item in statusOptions"
@@ -69,7 +69,7 @@
               :value="item.value" >
               </el-option>
             </el-select>
-          </el-form-item>
+          </el-form-item>-->
         </el-form>
         <div class="template-table__more-btn">
           <ns-button type="primary" @click="submitForm('searchform2')">搜索</ns-button>
@@ -105,43 +105,44 @@
       <el-table-column
         label="营业状态"
         width="70"
+        align="center"
         prop="shopStatusMean"
       >
       </el-table-column>
-      <el-table-column label="1月" width='80' align="right">
+      <el-table-column label="1月" width='100' align="right">
         <template slot-scope="{row}">{{row.quota1 && parseFloat(row.quota1) > 0 ? row.quota1 : '-'}}</template>
       </el-table-column>
-      <el-table-column label="2月" width='80' align="right">
+      <el-table-column label="2月" width='100' align="right">
         <template slot-scope="{row}">{{row.quota2 && parseFloat(row.quota2) > 0 ? row.quota2 : '-'}}</template>
       </el-table-column>
-      <el-table-column label="3月" width='80' align="right">
+      <el-table-column label="3月" width='100' align="right">
         <template slot-scope="{row}">{{row.quota3 && parseFloat(row.quota3) > 0 ? row.quota3: '-'}}</template>
       </el-table-column>
-      <el-table-column label="4月" width='80' align="right">
+      <el-table-column label="4月" width='100' align="right">
         <template slot-scope="{row}">{{row.quota4 && parseFloat(row.quota4) > 0 ? row.quota4: '-'}}</template>
       </el-table-column>
-      <el-table-column label="5月" width='80' align="right">
+      <el-table-column label="5月" width='100' align="right">
         <template slot-scope="{row}">{{row.quota5 && parseFloat(row.quota5) > 0 ? row.quota5: '-'}}</template>
       </el-table-column>
-      <el-table-column label="6月" width='80' align="right">
+      <el-table-column label="6月" width='100' align="right">
         <template slot-scope="{row}">{{row.quota6 && parseFloat(row.quota6) > 0 ? row.quota6: '-'}}</template>
       </el-table-column>
-      <el-table-column label="7月" width='80' align="right">
+      <el-table-column label="7月" width='100' align="right">
         <template slot-scope="{row}">{{row.quota7 && parseFloat(row.quota7) > 0 ? row.quota7: '-'}}</template>
       </el-table-column>
-      <el-table-column label="8月" width='80' align="right">
+      <el-table-column label="8月" width='100' align="right">
         <template slot-scope="{row}">{{row.quota8 && parseFloat(row.quota8) > 0 ? row.quota8: '-'}}</template>
       </el-table-column>
-      <el-table-column label="9月" width='80' align="right">
+      <el-table-column label="9月" width='100' align="right">
         <template slot-scope="{row}">{{row.quota9 && parseFloat(row.quota9) > 0 ? row.quota9: '-'}}</template>
       </el-table-column>
-      <el-table-column label="10月" width='80' align="right">
+      <el-table-column label="10月" width='100' align="right">
         <template slot-scope="{row}">{{row.quota10 && parseFloat(row.quota10) > 0 ? row.quota10: '-'}}</template>
       </el-table-column>
-      <el-table-column label="11月" width='80' align="right">
+      <el-table-column label="11月" width='100' align="right">
         <template slot-scope="{row}">{{row.quota11 && parseFloat(row.quota11) > 0 ? row.quota11: '-'}}</template>
       </el-table-column>
-      <el-table-column label="12月" width='80' align="right">
+      <el-table-column label="12月" width='100' align="right">
         <template slot-scope="{row}">{{row.quota12 && parseFloat(row.quota12) > 0 ? row.quota12: '-'}}</template>
       </el-table-column>
     </el-table>
@@ -180,11 +181,11 @@ export default {
       statusOptions: [
         {
           value: '1',
-          label: '正常营业'
+          label: '正常'
         },
         {
           value: '-1',
-          label: '暂停营业'
+          label: '暂停'
         }
       ],
       selectedArr: [],
@@ -230,7 +231,7 @@ export default {
       }
       // 重置选择的门店
       this.saveObj.selectedArr = this.selectedArr
-      this.saveObj.year = this.searchObj.searchMap.year
+      this.saveObj.year = moment(this.searchform.year).format('YYYY')
       this.saveObj.type = this.searchObj.searchMap.type
       // 传递保存时需要的参数
       this.$nextTick(() => {
@@ -248,10 +249,10 @@ export default {
           this.dataList = resp.result.data
           this.dataList.map(item => {
             switch (item.shopStatus) {
-              case -2 : item.shopStatusMean = '已关店'; break
-              case -1 : item.shopStatusMean = '暂停营业'; break
+              case -2 : item.shopStatusMean = '关店'; break
+              case -1 : item.shopStatusMean = '暂停'; break
               case 0 : item.shopStatusMean = '删除'; break
-              case 1 : item.shopStatusMean = '正常营业'; break
+              case 1 : item.shopStatusMean = '正常'; break
             }
             if (searchObj.searchMap.type === 0 || searchObj.searchMap.type === '0') {
               for (let i in item) {

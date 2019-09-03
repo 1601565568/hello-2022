@@ -634,7 +634,7 @@ export default List
     margin: 10px 0 10px 0;
   }
 </style>
-<style>
+<style scoped>
   .resignFormVisible_title{
     height:40px;
     display:flex;

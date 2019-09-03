@@ -126,6 +126,7 @@ export default {
       miniProgram: false,
       dialogAutid: false,
       weixinUrl: null,
+      // eslint-disable-next-line vue/no-reserved-keys
       _table: { table_buttons: tableButtons },
       rules: {
         'name': [{ required: true, message: '请输入菜单名称' }],
@@ -294,7 +295,7 @@ export default {
   }
 }
 </script>
-<style>
+<style scoped>
 .el-input__inner[type="number"] {
     text-align: left !important ;
 }

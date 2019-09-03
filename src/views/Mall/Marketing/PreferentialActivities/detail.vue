@@ -130,7 +130,7 @@ export default {
 </script>
 
 <style scoped>
-  @import "@/style/small/variables.pcss";
+  @import "@theme/variables.pcss";
 
   .atLeft {
     padding-top: var(--default-padding-larger);

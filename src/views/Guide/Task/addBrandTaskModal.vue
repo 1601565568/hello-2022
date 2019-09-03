@@ -14,7 +14,7 @@
         <el-form-item label="任务名称：" prop="name">
           <el-input style="width:400px;" v-model="model.name" clearable placeholder='请输入任务名称,在4-25个长度以内'></el-input>
         </el-form-item>
-        <el-form-item label="执行时间：" required prop="activityTime">
+        <el-form-item label="执行时间：" prop="activityTime">
           <el-date-picker
               v-model="model.activityTime"
               type="datetimerange"
@@ -271,5 +271,5 @@ export default {
   }
 }
 </script>
-<style>
+<style scoped>
 </style>
