@@ -48,7 +48,7 @@
         >
         <el-table-column  width="30">
           <template slot-scope="scope">
-              <el-radio :label="scope.row.guid" v-model="market.guid" ></el-radio>
+              <el-radio :label="scope.row.activityId" v-model="market.activityId" ></el-radio>
           </template>
         </el-table-column>
         <!-- <el-table-column  label="活动类型" align="left" >
@@ -56,9 +56,13 @@
             <span :class='scope.row'>{{searchObj.searchMap.type ==2 ?'多人拼团':searchObj.searchMap.type ==3?'满减送':'秒杀'}}</span>
           </template>
         </el-table-column> -->
-        <el-table-column prop="name" label="活动名称" align="left" >
+        <el-table-column prop="activityName" label="活动名称" align="left" >
         </el-table-column>
-        <el-table-column prop="statusStr" label="活动状态" align="left" >
+        <el-table-column prop="activityStatus" label="活动状态" align="left" >
+          <template slot-scope="scope">
+            {{scope.row.activityStatus === 1?'未开始':scope.row.activityStatus === 2?'进行中':scope.row.activityStatus ===
+            3?'已结束':'-'}}
+          </template>
         </el-table-column>
         <el-table-column label="有效时间 " width="300" align="left">
           <template slot-scope="scope">
@@ -97,6 +101,7 @@ export default {
   data () {
     return {
       market: {
+        activityId: '',
         guid: '',
         marketType: 0
       },
@@ -138,20 +143,12 @@ export default {
       let that = this
       this.loading = true
       await this.$http.fetch(this.$api.guide.material.findMallMarketingList, this.searchObj).then(res => {
-        let newTime = new Date().getTime()
-        res.result.data.map(item => {
-          let startTime = new Date(item.startTime).getTime()
-          let endTime = new Date(item.endTime).getTime()
-          if (newTime < startTime) {
-            item.statusStr = '未开始'
-          } else if (newTime > endTime) {
-            item.statusStr = '已结束'
-          } else {
-            item.statusStr = '进行中'
-          }
-        })
-        that.pagination.total = Number(res.result.recordsTotal)
-        that.dataList = res.result.data
+        if (res.result && res.result.length > 0) {
+          that.dataList = res.result
+          that.pagination.total = Number(that.dataList.length)
+        } else {
+          that.dataList = null
+        }
       }).catch((resp) => {
         that.$notify.error(getErrorMsg('查询失败', resp))
       }).finally(() => {

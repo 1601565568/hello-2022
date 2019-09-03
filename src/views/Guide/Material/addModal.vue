@@ -185,10 +185,10 @@ export default {
       })
     },
     selectMarketlBack (obj) {
-      if (obj.guid) {
+      if (obj.activityId) {
         this.$set(this.saveObj, 'selectBackName', '活动名称：')
-        this.$set(this.saveObj, 'codeTarget', obj.guid)
-        this.$set(this.saveObj, 'codeTargetName', obj.name)
+        this.$set(this.saveObj, 'codeTarget', obj.activityId)
+        this.$set(this.saveObj, 'codeTargetName', obj.activityName)
       } else if (obj.outItemId) {
         this.$set(this.saveObj, 'selectBackName', '商品名称：')
         this.$set(this.saveObj, 'codeTarget', obj.outItemId)
