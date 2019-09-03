@@ -42,7 +42,7 @@
         this.ajax(backstageURL + '/getCustomerInfo', {
             guideId: recruitInfo.guideId,
             shopId: recruitInfo.shopId,
-            brandId: recruitInfo.brandId,
+            groupId: recruitInfo.groupId,
             encryptNascentId: encryptNascentId
         }).then(function (result) {
             if (result.success) {
@@ -63,7 +63,7 @@
                         guideQrCode: result.result.cardUrl,
                         memberCard: result.result.memberCard,
                         shopName: result.result.shopName,
-                        brandName: result.result.brandName,
+                        groupName: result.result.groupName,
                         memberGrade: result.result.memberGrade,
                     }
                     localStorage.setItem('showData', JSON.stringify(bean))

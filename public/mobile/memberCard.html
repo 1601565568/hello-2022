@@ -20,7 +20,7 @@
                 </div>
                 <div class="store">
                     <div class="store__name">
-                        <div id="brandName" class="name">优衣库</div>
+                        <div id="groupName" class="name">优衣库</div>
                         <div class="grade">
                             <img src="./img/icons/vip.png" alt="会员等级">
                             <text id="memberGrade" class="grade__level">1</text>
@@ -70,7 +70,7 @@
             $('#guideName1').html(showData.guideName);
             $('#memberGrade').html(showData.memberGrade);
             $('#shopName').html(showData.shopName);
-            $('#brandName').html(showData.brandName);
+            $('#groupName').html(showData.groupName);
             $('#memberCard').html(showData.memberCard);
             $('#guideQrCode').attr('src', showData.guideQrCode)
         }
@@ -82,7 +82,7 @@
         this.ajax(backstageURL + '/getEHDShopId',{
             guideId: recruitInfo.guideId,
             shopId: recruitInfo.shopId,
-            brandId: recruitInfo.brandId,
+            groupId: recruitInfo.groupId,
         }).then(function(data){
             window.location.replace("http://ehd.vecrp.com/shop"+data.result+"/wx55/home")
         })
