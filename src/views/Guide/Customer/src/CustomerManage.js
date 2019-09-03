@@ -1,6 +1,7 @@
 import api from '@/config/http'
 import tableMixin from 'web-crm/src/mixins/table'
 import { getErrorMsg } from '@/utils/toast'
+import fa from 'nui-v2/src/locale/lang/fa'
 export default {
   data: function () {
     let pagination = {
@@ -73,7 +74,9 @@ export default {
       changeObj: {},
       state: {},
       obj: {},
+      tagData: [],
       shopFindListShow: false,
+      showTag: false,
       shopKuhuShow: false,
       result: null,
       _queryConfig: { expand: false }
@@ -242,6 +245,11 @@ export default {
         _this.queryGuideShopList(row.id)
         _this.shopFormVisible = true
       }
+    },
+    // 保存标签
+    addTag (row) {
+      console.log('打标签')
+      this.showTag = true
     },
     // 分页-页数改变
     customerPageChange (page) {

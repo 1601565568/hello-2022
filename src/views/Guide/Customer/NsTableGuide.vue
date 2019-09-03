@@ -137,8 +137,8 @@
           </template>
         </el-table-column>
 
-        <el-table-column prop="offLineShopName" label="所属线下门店" align="left" width="180">
-            {{offLineShopName ? offLineShopName : "-"}}
+        <el-table-column prop="guideName" label="所属线下门店" align="left" width="180">
+
         </el-table-column>
         <el-table-column prop="registerTime" label="入库时间" align="left" width="160">
             <template slot-scope="scope">
@@ -149,7 +149,7 @@
           <template slot-scope="scope">
             <div>
               <ns-button style="color:#0091FA" @click="onRedactFun(scope.row)" type="text">详情</ns-button>
-              <ns-button style="color:#0091FA" @click="addTag(scope.row)" type="text">打标签</ns-button>
+              <ns-button style="color:#0091FA" @click="saveTag(scope.row)" type="text">打标签</ns-button>
             </div>
           </template>
         </el-table-column>

@@ -151,8 +151,8 @@ export default {
     onRedactFun (val) {
       this.$emit('onRedactFun', val)
     },
-    addTag (val) {
-      this.$emit('onRedactFun', val)
+    saveTag (val) {
+      this.$emit('saveTag', val)
     },
     onDelsTipFun (val) {
       this.$emit('onDelsTipFun', val)
