@@ -80,6 +80,9 @@ export default {
     },
     onClickNode (data) {
       var _this = this
+      if (this._data._table.data.length > 0) {
+        this._data._table.data = []
+      }
       _this.shuJushuzu = data
       _this.loading = true
       _this.$reload().then(rep => {
