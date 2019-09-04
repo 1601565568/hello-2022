@@ -199,7 +199,7 @@ export default {
       this.multipleSelection = value
     },
     // 更换导购弹窗\详情展示
-    onRedactFun (val) {
+    onRedactFun (val, offLineShopId) {
       let _this = this
       if (val === undefined) {
         if (this.multipleSelection.length > 0) {
@@ -213,11 +213,9 @@ export default {
       } else {
         _this.title = '会员详情'
         _this.$http.fetch(_this.$api.guide.guide.customerGetDetail, {
-          nick: val.nick,
-          nickType: val.nickType,
           sysCustomerId: val.sysCustomerId,
           guideId: Number(val.guideId),
-          shopId: val.shopId
+          shopId: offLineShopId
         }).then(resp => {
           if (resp.success && resp.result != null) {
             _this.shopKuhuShow = true

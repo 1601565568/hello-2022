@@ -99,9 +99,9 @@
 
       <el-table ref="table" :data="_data._table.data" stripe @selection-change="handleSelectionChange" v-loading="loading">
         <el-table-column type="selection" align="center" :width="50"></el-table-column>
-        <el-table-column prop="name" label="会员姓名" align="left" width="100">
+        <el-table-column prop="outNick" label="会员姓名" align="left" width="100">
           <template slot-scope="scope">
-            {{scope.row.customerName || scope.row.outAlias || '-'}}
+            {{scope.row.outNick || '-'}}
           </template>
         </el-table-column>
         <el-table-column prop="mobile" label="手机号" align="left" width="120">
@@ -140,15 +140,15 @@
         <el-table-column prop="guideName" label="所属线下门店" align="left" width="180">
 
         </el-table-column>
-        <el-table-column prop="registerTime" label="入库时间" align="left" width="160">
+        <el-table-column prop="inMemberTime" label="入库时间" align="left" width="160">
             <template slot-scope="scope">
-              {{scope.row.activateTime?moment(scope.row.activateTime):'-'}}
+              {{scope.row.inMemberTime?moment(scope.row.inMemberTime):'-'}}
             </template>
         </el-table-column>
         <el-table-column prop="status,row" :show-overflow-tooltip="true" label="操作" align="right" width="100">
           <template slot-scope="scope">
             <div>
-              <ns-button style="color:#0091FA" @click="onRedactFun(scope.row)" type="text">详情</ns-button>
+              <ns-button style="color:#0091FA" @click="onRedactFun(scope.row,offLineShopId)" type="text">详情</ns-button>
               <ns-button style="color:#0091FA" @click="saveTag(scope.row)" type="text">打标签</ns-button>
             </div>
           </template>
