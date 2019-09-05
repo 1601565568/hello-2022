@@ -84,7 +84,7 @@
           </template>
         </el-table-column>
 
-        <el-table-column prop="osBrowser" label="浏览器类型" align="left">
+        <el-table-column prop="osBrowser" label="浏览器类型" align="left" width="180">
           <template slot-scope="scope">
             {{scope.row.osBrowser || '-'}}
           </template>
