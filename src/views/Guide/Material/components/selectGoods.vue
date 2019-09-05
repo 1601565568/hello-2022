@@ -42,8 +42,8 @@
             <el-form-item label="商品名称：" prop="title">
               <el-input v-model="searchObj.searchMap.title" placeholder="请输入商品名称" clearable></el-input>
             </el-form-item>
-            <el-form-item label="商品编号：" prop="goodsCode">
-              <el-input v-model="searchObj.searchMap.goodsCode" placeholder="请输入商品编号" clearable></el-input>
+            <el-form-item label="商品编号：" prop="outerId">
+              <el-input v-model="searchObj.searchMap.outerId" placeholder="请输入商品编号" clearable></el-input>
             </el-form-item>
           </el-form>
           <div class="template-table__more-btn">
@@ -67,7 +67,7 @@
         >
         <el-table-column  width="30">
           <template slot-scope="scope">
-              <el-radio :label="scope.row.goodsId" v-model="market.goodsId" ></el-radio>
+              <el-radio :label="scope.row.outItemId" v-model="outItemId" ></el-radio>
           </template>
         </el-table-column>
         <!-- <el-table-column  label="活动类型" align="left" >
@@ -77,7 +77,7 @@
         </el-table-column> -->
         <el-table-column prop="title" label="商品名称" align="left" >
         </el-table-column>
-        <el-table-column prop="goodsCode" label="商品编号" align="left" >
+        <el-table-column prop="outerId" label="商品编号" align="left" >
         </el-table-column>
         <!-- <el-table-column label="有效时间 " width="300" align="left">
           <template slot-scope="scope">
@@ -114,10 +114,12 @@ export default {
   },
   data () {
     return {
+      outerId: '',
+      outItemId: '',
       title: '',
       goodsCode: '',
       market: {
-        goodsId: ''
+        outItemId: ''
       },
       loading: false,
       searchObj: { searchMap: {
@@ -166,8 +168,12 @@ export default {
         //     item.statusStr = '进行中'
         //   }
         // })
-        that.pagination.total = Number(res.result.recordsTotal)
-        that.dataList = res.result.data
+        if (res.result && res.result.length > 0) {
+          that.dataList = this.unique(res.result, 'outItemId')
+          that.pagination.total = Number(that.dataList.length)
+        } else {
+          that.dataList = null
+        }
       }).catch((resp) => {
         that.$notify.error(getErrorMsg('查询失败', resp))
       }).finally(() => {
@@ -193,6 +199,19 @@ export default {
         that.$notify.error(getErrorMsg('查询失败', resp))
       })
     },
+    // 去重
+    unique (arr, attribute) {
+      var newarr = []
+      var jsonarr = []
+      for (var i = 0; i < arr.length; i++) {
+        console.log(newarr.indexOf(arr[i][attribute]))
+        if (newarr.indexOf(arr[i][attribute]) === -1) { //  -1代表没有找到
+          newarr.push(arr[i][attribute]) // 如果没有找到就把这个name放到arr里面，以便下次循环时用
+          jsonarr.push(arr[i])
+        }
+      }
+      return jsonarr
+    },
     submitForm () {
       this.market = {}
       this.clearSearch()
@@ -201,7 +220,7 @@ export default {
   }
 }
 </script>
-<style lang='scss'>
+<style scoped>
 .selectMarketbox .current-row{
   td{
     color: #fff !important;

@@ -1,3 +1,5 @@
+import apiRequestConfirm from 'web-crm/src/utils/apiRequestConfirm'
+
 export default {
   // 查询小程序table列表
   getAppletList: {
@@ -201,5 +203,16 @@ export default {
   updateContactWay: {
     url: '/guide/open/updateContactWay',
     method: 'post'
+  },
+  bindOrUnBindExperienceMember: {
+    url: '/guide/wechatsetting/bindOrUnBindExperienceMember',
+    method: 'post',
+    request: (config) => {
+      const data = config.data
+      if (data.type === 0) {
+        return apiRequestConfirm('解绑该账号的体验权限，解绑后该账号将无法进入体验版')
+      }
+      return Promise.resolve()
+    }
   }
 }

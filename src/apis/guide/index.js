@@ -10,6 +10,18 @@ import marketing from './marketing'
 import task from './task'
 import moreAccount from './moreAccount'
 import quicklyword from './quicklyword'
+import groupData from './groupData'
+import wxPrivateAccount from './wxPrivateAccount'
+import sensitivePermission from './sensitivePermission'
+import sensitiveWord from './sensitiveWord'
+import wxDeviceGuideRelation from './wxDeviceGuideRelation'
+import friendData from './friendData'
+import wxChat from './wxChat'
+import myMoments from './myMoments'
+import friendMoments from './friendMoments'
+import wxGroup from './wxGroup'
+import guideDevice from './guideDevice'
+
 export default {
   guide,
   shop,
@@ -21,8 +33,19 @@ export default {
   sgwxaccount,
   marketing,
   task,
+  friendData,
   moreAccount,
   quicklyword,
+  groupData,
+  wxPrivateAccount,
+  sensitivePermission,
+  sensitiveWord,
+  wxDeviceGuideRelation,
+  wxChat,
+  myMoments,
+  friendMoments,
+  wxGroup,
+  guideDevice,
   // 所有导购模块全部整合在此
   comGetBrandForShopList: {// 获取品牌下的店铺
     url: '/core/sgshop/getBrandList',

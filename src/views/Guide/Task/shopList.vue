@@ -298,7 +298,7 @@ export default {
   }
 }
 </script>
-<style>
+<style scoped>
 @component-namespace shopDetailBox {
   .operation{
     padding-right:0;

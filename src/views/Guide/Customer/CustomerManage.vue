@@ -1,7 +1,7 @@
 <template>
   <div>
     <ns-table-guide ref="table1" :url=$api.guide.guide.customerFindCustomerList @add="onRedactFun"
-      @shopEdit="shopEdit" @onRedactFun="onRedactFun" @handleSelectionChange="handleSelectionChange">
+      @shopEdit="shopEdit" @saveTag="addTag" @onRedactFun="onRedactFun" @handleSelectionChange="handleSelectionChange">
     </ns-table-guide>
     <el-dialog :title="title" :visible.sync="shopFindListShow" width="800px" @close="closeDialog">
       <!--  搜索开始  -->
@@ -129,6 +129,9 @@
             <el-row>
               <el-col :span='8'><span>积分：{{result|| '-'}}</span></el-col>
             </el-row>
+            <el-row>
+              <el-col :span='8'><span>初次来源：{{'-'}}</span></el-col>
+            </el-row>
           </div>
           <div>
             <p class="p-title">会员印象：</p>
@@ -141,6 +144,56 @@
         </div>
       </div>
     </div>
+    </el-dialog>
+    <!-- 打标签-->
+    <el-dialog
+      title="自定义属性"
+      :visible.sync="showTag"
+      width="900px" height="500px">
+      <div>
+        <el-form>
+          <el-form-item>
+            已选8属性，80属性值
+          </el-form-item>
+          <el-form-item>
+            <el-row>
+              <el-col :span="8">
+                <el-form-grid>
+                  <ns-button>清空选择</ns-button>
+                </el-form-grid>
+              </el-col>
+              <el-col :span="16" style="text-align: right">
+                <el-form-grid>
+                  <el-input  placeholder="请输入属性名称"></el-input>
+                </el-form-grid>
+                <el-form-grid>
+                  <ns-button type="primary">搜索</ns-button>
+                </el-form-grid>
+              </el-col>
+            </el-row>
+          </el-form-item>
+        </el-form>
+        <el-table ref="table" :data="tagData" stripe>
+          <el-table-column prop="attributeName" label="属性名称" width="350">
+          </el-table-column>
+          <el-table-column label="属性值">
+            <template slot-scope="scope">
+              <div style="padding: 5px 0;">
+                <el-checkbox-group v-model="scope.row.checkList" v-if="scope.row.type === 0">
+                  <el-checkbox v-for="item in scope.row.List" :label="item" :key="item"></el-checkbox>
+                </el-checkbox-group>
+                <el-radio-group v-model="scope.row.radio" v-else>
+                  <el-radio v-for="item1 in scope.row.List1" :label="item1" :key="item1">{{item1}}</el-radio>
+                </el-radio-group>
+              </div>
+            </template>
+          </el-table-column>
+        </el-table>
+      </div>
+      <span slot="footer">
+        <ns-button @click="dialogVisible = false">取 消</ns-button>
+        <ns-button type="primary" @click="dialogVisible = false">保存</ns-button>
+      </span>
     </el-dialog>
   </div>
 </template>
@@ -241,7 +294,7 @@ export default CustomerManage
     margin-bottom: 10px;
   }
 </style>
-<style>
+<style scoped>
 .customerManage .el-radio .el-radio__label{
   display: none !important
 }

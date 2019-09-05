@@ -1,8 +1,12 @@
 import tableMixin from 'web-crm/src/mixins/table'
 import { getErrorMsg } from '@/utils/toast'
+import BindDevice from '../components/BindDevice'
+import NsTableColumnOperateButtonExt from '@/components/NsTableColumnOperateButton'
+
 export default {
   name: 'NsTableGuide',
   mixins: [tableMixin],
+  components: { BindDevice, NsTableColumnOperateButtonExt },
   props: {
     url: Object
   },
@@ -15,6 +19,45 @@ export default {
       total: 0
     }
     const tableButtons = [
+      {
+        'func': function (scope) {
+          this.onRedactFun(scope.row)
+        },
+        'icon': '',
+        'name': '编辑',
+        'auth': ``,
+        'visible': `scope.row.status !== 2`
+      },
+      {
+        'func': function (scope) {
+          this.onShowBindDialog(scope.row)
+        },
+        'icon': '',
+        'name': '绑定终端',
+        'auth': ``,
+        'visible': `scope.row.status === 1 && (scope.row.job == 1 || (scope.row.job != 1 && !scope.row.deviceNos)) `
+      },
+      {
+        'func': function (scope) {
+          this.dimissionFun(scope.row)
+        },
+        'icon': '',
+        'name': '离职',
+        'auth': ``,
+        'visible': `scope.row.status === 0 || scope.row.status === 1`
+      },
+      {
+        'func': function (scope) {
+          this.onDelsTipFun(scope.row)
+        },
+        'icon': '',
+        'name': '删除',
+        'auth': ``,
+        'visible': ``,
+        'class': 'del-btn'
+      }
+    ]
+    const operateButtons = [
       {
         'func': function () {
           this.$emit('add')
@@ -38,36 +81,6 @@ export default {
           this.$emit('allDelete')
         },
         'name': '批量删除'
-      }
-    ]
-    const operateButtons = [
-      {
-        'func': function (args) {
-          this.$emit('onAddCustomer', args.row)
-        },
-        'icon': '',
-        'name': '编辑',
-        'auth': '',
-        'visible': ''
-      },
-      {
-        'func': function (args) {
-          this.$emit('ondelete', args.row)
-        },
-        'icon': '',
-        'name': '删除',
-        'auth': '',
-        'visible': '',
-        'color': '#f00'
-      },
-      {
-        'func': function (args) {
-          this.$emit('quit', args.row)
-        },
-        'icon': '',
-        'name': '离职',
-        'auth': '',
-        'visible': ''
       }
     ]
     let quickInput = [{
@@ -118,7 +131,11 @@ export default {
       },
       _queryConfig: { expand: false },
       multipleSelection: [],
-      select: true
+      select: true,
+      bindDeviceDialog: {
+        visible: false,
+        guide: {}
+      }
     }
   },
 
@@ -169,6 +186,14 @@ export default {
         return item.shopId === shopId
       })
       return retVal
+    },
+    // 设置job清空时值为null而不是''
+    setJobNull () {
+      this.model.job = null
+    },
+    // 设置shop清空时值为null而不是''
+    setShopNull () {
+      this.model.shop = null
     },
     thisGuideDisabled (guideId) {
       let retVal = this.guideShopList.some(item => {
@@ -221,6 +246,10 @@ export default {
       }).catch((resp) => {
         _this.$notify.error(getErrorMsg('查询失败', resp))
       })
+    },
+    onShowBindDialog (row) {
+      this.bindDeviceDialog.guide = row
+      this.bindDeviceDialog.visible = true
     }
   }
 }

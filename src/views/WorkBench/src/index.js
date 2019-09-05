@@ -3,6 +3,8 @@ import businessEcharts from 'web-crm/src/components/NsEcharts'
 import ElProgress from 'nui-v2/lib/progress'
 import ElCard from 'nui-v2/lib/card'
 import { getErrorMsg } from '@/utils/toast'
+import isMenuAuth from 'web-crm/src/utils/isMenuAuth'
+import store from '@/store'
 
 export default {
   name: 'Home',
@@ -817,5 +819,12 @@ export default {
     this.findShopRanking()
     this.findGuideRanking(0, null)
     this.findGuideRanking(1, null)
+  },
+  beforeRouteEnter (to, from, next) {
+    if (isMenuAuth(to.name, store.state.user.remumber.remumber_login_info.routerAuth)) {
+      next()
+    } else {
+      next(store.state.user.menus[0].path)
+    }
   }
 }
