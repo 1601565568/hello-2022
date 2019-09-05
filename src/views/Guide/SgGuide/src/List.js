@@ -487,11 +487,15 @@ export default {
           type: 'warning'
         }).then(() => {
           _this.multipleSelection.map(item => {
-            _this.multipleSelections.push(item.id)
+            let params = {}
+            params.guideIds = item.id
+            params.shopId = item.shop_id
+            _this.multipleSelections.push(params)
           })
-          _this.$http.fetch(_this.$api.guide.guide.deleteGuides, {
-            guideIds: _this.multipleSelections.join(',')
-          }).then(resp => {
+          _this.$http.fetch(_this.$api.guide.guide.deleteGuides,
+            // guideIds: _this.multipleSelections.join(',')
+            _this.multipleSelections
+          ).then(resp => {
             if (resp.result.failCount > 0) {
               _this.successCount = resp.result.successCount
               _this.failCount = resp.result.failCount
@@ -765,9 +769,12 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        _this.$http.fetch(_this.$api.guide.guide.deleteGuides, {
-          guideIds: row.id
-        }).then(resp => {
+        let paramArr = []
+        let param = {}
+        param.guideIds = row.id
+        param.shopId = row.shop_id
+        paramArr.push(param)
+        _this.$http.fetch(_this.$api.guide.guide.deleteGuides, paramArr).then(resp => {
           if (resp.result.failCount > 0) {
             _this.allDeleteFormVisible = true
           } else {
@@ -1258,7 +1265,8 @@ export default {
       }).then(() => {
         _this.$http.fetch(_this.$api.guide.guide.getCustomerCount, {
           searchMap: {
-            'guideId': row.id
+            'guideId': row.id,
+            'shopId': row.shop_ids
           }
         }).then(resp => {
           if (resp.result.recordsFiltered > 0) {

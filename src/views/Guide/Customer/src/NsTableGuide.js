@@ -47,6 +47,7 @@ export default {
       dataList: [],
       allGuideArr: { id: 0, pId: null, label: '全部导购' },
       shuJushuzu: {},
+      offLineShopId: null,
       loading: false,
       offsetHeight: false,
       height: 0
@@ -80,6 +81,11 @@ export default {
     },
     onClickNode (data) {
       var _this = this
+      if (this._data._table.data.length > 0) {
+        this._data._table.data = []
+      }
+      _this.offLineShopId = data.id
+      console.log(_this.offLineShopId)
       _this.shuJushuzu = data
       _this.loading = true
       _this.$reload().then(rep => {
@@ -148,11 +154,11 @@ export default {
     handleSelectionChange (val) {
       this.$emit('handleSelectionChange', val)
     },
-    onRedactFun (val) {
-      this.$emit('onRedactFun', val)
+    onRedactFun (val, offLineShopId) {
+      this.$emit('onRedactFun', val, offLineShopId)
     },
-    addTag (val) {
-      this.$emit('onRedactFun', val)
+    saveTag (val) {
+      this.$emit('saveTag', val)
     },
     onDelsTipFun (val) {
       this.$emit('onDelsTipFun', val)
