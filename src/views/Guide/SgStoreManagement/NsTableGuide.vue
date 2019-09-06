@@ -40,9 +40,9 @@
         <!-- el-inpu 需添加  @keyup.enter.native="$quickSearchAction$" 配置，实现回车搜索 -->
         <template slot="searchSearch">
           <el-form :model="quickSearchModel" :inline="true" @submit.native.prevent class="pull-right">
-            <el-form-item label="门店名称：" v-show="_data._queryConfig.expand === false">
-              <el-input ref="quickText" style="width: 250px" v-model="model.shopName" placeholder="请输入线下门店名称"
-                        @keyup.enter.native="$quickSearchAction$('shopName')" clearable>
+            <el-form-item v-show="_data._queryConfig.expand === false">
+              <el-input ref="quickText" style="width: 250px" v-model="model.name" placeholder="请输入线下门店名称/ID"
+                        @keyup.enter.native="$quickSearchAction$('name')" clearable>
               </el-input>
               <ns-button type="primary" @click="$searchAction$('searchform')">搜索</ns-button>
               <ns-button @click="$resetInputAction$('searchform')">重置</ns-button>
@@ -67,6 +67,13 @@
             <el-form-item label="门店名称：">
               <el-form-grid size="xmd">
                 <el-input style="width:180px" autofocus=true  v-model="model.shopName" placeholder="请输入线下门店名称"
+                          clearable></el-input>
+              </el-form-grid>
+            </el-form-item>
+
+            <el-form-item label="门店ID：">
+              <el-form-grid size="xmd">
+                <el-input style="width:180px" autofocus=true  v-model="model.shopId" placeholder="请输入线下门店ID"
                           clearable></el-input>
               </el-form-grid>
             </el-form-item>
@@ -168,12 +175,12 @@
             </el-table-column>
             <el-table-column prop="shopStatus" label="状态" align="left" width="100">
               <template slot-scope="scope">
-                {{scope.row.shopStatus === 0?'删除':scope.row.shopStatus === 1?'正常营业':scope.row.shopStatus ===
-                -1?'暂停营业':'已关店'}}
+                {{scope.row.shopStatus === 0?'删除':scope.row.shopStatus === 1?'正常':scope.row.shopStatus ===
+                -1?'暂停':'关店'}}
               </template>
             </el-table-column>
             <el-table-column label="招募码" align="left" width="120">
-              <template slot-scope="scope" v-if="scope.row.shopStatus !== -1">
+              <template slot-scope="scope" v-if="scope.row.shopStatus == 1">
                 <ns-button type="text"><i class="iconfont icon-erweima" @click="elIconMenu(scope.row)"></i></ns-button>
               </template>
             </el-table-column>

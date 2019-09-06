@@ -168,7 +168,7 @@
         <el-table-column :show-overflow-tooltip="true" type="default" prop="operation" align="left"
                          label="操作人ID" :sortable="false" width="80">
         </el-table-column>
-        <el-table-column :show-overflow-tooltip="true" type="default" prop="create_time" align="right"
+        <el-table-column :show-overflow-tooltip="true" type="default" prop="createTime" align="right"
                          label="转移时间" :sortable="false" width="180">
         </el-table-column>
       </el-table>

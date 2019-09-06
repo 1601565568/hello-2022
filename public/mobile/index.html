@@ -28,13 +28,14 @@
         recruitEntity = {
             guideId: getPar('guideId'),
             shopId: getPar('shopId'),
-            brandId: getPar('brandId')
+            groupId: getPar('groupId'),
+            source:getPar('source'),
         }
         localStorage.setItem('recruitInfo', JSON.stringify(recruitEntity))
         this.ajax(backstageURL + '/checkGuide', {
             guideId: getPar('guideId'),
             shopId: getPar('shopId'),
-            brandId: getPar('brandId')
+            groupId: getPar('groupId')
         }).then(function (result) {
             if (result.success) {
                 // 跳转授权地址

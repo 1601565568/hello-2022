@@ -119,7 +119,7 @@
             <couponItem :itemObj="scope.row"></couponItem>
           </template>
         </el-table-column>
-        <el-table-column :show-overflow-tooltip="true" type="default" prop="title" align="left"
+        <el-table-column :show-overflow-tooltip="true" type="default" prop="title" align="left" width="220"
                          label="卡券信息" :sortable="false">
           <template slot-scope="scope">
             <span>优惠券名称:{{scope.row.couponTitle}}</span><br>
@@ -128,7 +128,7 @@
           </template>
         </el-table-column>
         <el-table-column :show-overflow-tooltip="true" type="default" align="left"
-                         label="有效时间" :sortable="false" width="180">
+                         label="有效时间" :sortable="false" >
           <template slot-scope="{row}">
             <div v-if="row.dateValidType == 0">
               <span>{{row.startTime}}</span><br>

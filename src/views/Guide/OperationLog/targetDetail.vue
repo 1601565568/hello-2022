@@ -174,9 +174,9 @@
             <el-table-column label="门店名称" prop="shopName" show-overflow-tooltip :key="21"></el-table-column>
             <el-table-column label="状态" width="150" align="left" show-overflow-tooltip :key="22">
               <template slot-scope="{row}">
-                <span v-if="row.shopStatus === 1">正常营业</span>
-                <span v-else-if="row.shopStatus === -1">暂停营业</span>
-                <span v-else-if="row.shopStatus === -2">已关店</span>
+                <span v-if="row.shopStatus === 1">正常</span>
+                <span v-else-if="row.shopStatus === -1">暂停</span>
+                <span v-else-if="row.shopStatus === -2">关店</span>
               </template>
             </el-table-column>
             <el-table-column prop="shopId" label="数据库ID" align="center" :key="23"></el-table-column>
@@ -185,9 +185,9 @@
             <el-table-column label="门店名称" prop="shopName" show-overflow-tooltip :key="31"></el-table-column>
             <el-table-column label="状态" width="150" align="left" show-overflow-tooltip :key="32">
               <template slot-scope="{row}">
-                <span v-if="row.shopStatus === 1">正常营业</span>
-                <span v-else-if="row.shopStatus === -1">暂停营业</span>
-                <span v-else-if="row.shopStatus === -2">已关店</span>
+                <span v-if="row.shopStatus === 1">正常</span>
+                <span v-else-if="row.shopStatus === -1">暂停</span>
+                <span v-else-if="row.shopStatus === -2">关店</span>
               </template>
             </el-table-column>
             <el-table-column prop="id" label="数据库ID" align="center" :key="33"></el-table-column>

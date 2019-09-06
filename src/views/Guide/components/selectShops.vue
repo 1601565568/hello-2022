@@ -119,6 +119,9 @@ export default {
       }, {
         value: 'JMD',
         label: '加盟店'
+      }, {
+        value: 'LYD',
+        label: '联营店'
       }],
       searchform: { // 区域选择相关start
         key: {

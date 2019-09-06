@@ -67,8 +67,8 @@
         </el-table-column>
         <el-table-column prop="shop_status" label="状态" align="left" width="300">
           <template slot-scope="scope">
-            {{scope.row.shopStatus === 0?'删除':scope.row.shopStatus === 1?'正常营业':scope.row.shopStatus ===
-            -1?'暂停营业':'已关店'}}
+            {{scope.row.shopStatus === 0?'删除':scope.row.shopStatus === 1?'正常':scope.row.shopStatus ===
+            -1?'暂停':'关店'}}
           </template>
         </el-table-column>
         <el-table-column prop="contact_json" label="联系方式" align="left" width="300">

@@ -135,7 +135,7 @@ export default {
       }
       // _this.storeModel.couponTotal = 0 代表不限额，不做数量校验
       if (_this.storeModel.maxType > 0) {
-        if (_this.storeModel.couponTotal < _this.activityModel.coupon_total) {
+        if (_this.storeModel.remainingQuantity < _this.activityModel.coupon_total) {
           _this.activityModel.coupon_total = 0
           _this.$notify.info('配额不能大于优惠券总数')
         }
@@ -182,7 +182,7 @@ export default {
           _this.storeModel.remainingQuantity = Number(item.maxIssueAmount) - Number(item.couponFreezeAmount) - Number(item.hadIssueAmount)
         }
       })
-      for (var i = 0; i < _this.storeCouponList.length; i++) {
+      for (let i = 0; i < _this.storeCouponList.length; i++) {
         if (value === _this.storeCouponList[i].id) {
           _this.activityModel.coupon_code = _this.storeCouponList[i].storeCouponCode
           _this.storeModel.couponCode = _this.storeCouponList[i].storeCouponCode
@@ -219,11 +219,31 @@ export default {
         }
       }).then(resp => {
         if (resp.success && resp.result != null) {
-          // 将所有店铺存入map中
-          _this.shopMap = new Map()
-          _this.shopAllList = resp.result.data
-          for (var i = 0; i < _this.shopAllList.length; i++) {
-            _this.shopMap.set(_this.shopAllList[i].id, _this.shopAllList.slice(i, i + 1))
+          if (resp.result.ext != null) {
+            let isContains = resp.result.ext.isContain
+            if (!isContains) {
+              this.$confirm('此优惠券也可以在其他门店购买，是否继续？', '提示', {
+                confirmButtonText: '是',
+                type: 'warning',
+                cancelButtonText: '否'
+              }).then(() => {
+                // 将所有店铺存入map中
+                _this.shopMap = new Map()
+                _this.shopAllList = resp.result.data
+                for (let i = 0; i < _this.shopAllList.length; i++) {
+                  _this.shopMap.set(_this.shopAllList[i].id, _this.shopAllList.slice(i, i + 1))
+                }
+              }).catch(() => {
+                this.activityModel.coupon_id = ''
+              })
+            }
+          } else {
+            // 将所有店铺存入map中
+            _this.shopMap = new Map()
+            _this.shopAllList = resp.result.data
+            for (let i = 0; i < _this.shopAllList.length; i++) {
+              _this.shopMap.set(_this.shopAllList[i].id, _this.shopAllList.slice(i, i + 1))
+            }
           }
         }
       }).catch((resp) => {
@@ -246,18 +266,19 @@ export default {
       }).then(resp => {
         if (resp.success && resp.result.data != null) {
           // 第一次点击radio的时候计算均值
-          if (status) {
-            _this.calcQuota(resp.result.data)
-          } else {
-            _this.shopList = []
-            for (var a = 0; a < resp.result.data.length; a++) {
-              // 通过key将value取出 转换为深拷贝
-              let shopObject = this.shopMap.get(resp.result.data[a].id)
-              let shopObj = JSON.stringify(shopObject)
-              let newShopObject = JSON.parse(shopObj)
-              _this.shopList.push(newShopObject)
-            }
-          }
+          // if (status) {
+          _this.calcQuota(resp.result.data)
+          // } else {
+          //   _this.shopList = []
+          //   _this.shopList = Object.assign({}, resp.result.data)
+          //   for (let a = 0; a < resp.result.data.length; a++) {
+          //     // 通过key将value取出 转换为深拷贝
+          //     let shopObject = this.shopMap.get(resp.result.data[a].id)
+          //     let shopObj = JSON.stringify(shopObject)
+          //     let newShopObject = JSON.parse(shopObj)
+          //     _this.shopList.push(newShopObject)
+          //   }
+          // }
           this._data.paginations.total = Number(resp.result.recordsTotal)
         }
       }).catch((resp) => {
@@ -268,30 +289,28 @@ export default {
      * 计算每个店铺的配额
      */
     calcQuota: function (thisPageList) {
-      var _this = this
       // 优惠券总数
-      var couponTotal = Number(_this.activityModel.coupon_total)
+      let couponTotal = Number(this.activityModel.coupon_total)
       // 计算倍数
-      var multiple = parseInt(couponTotal / _this.shopAllList.length)
+      let multiple = parseInt(couponTotal / this.shopAllList.length)
       // 计算余数
-      var remainder = couponTotal % this.shopAllList.length
-      for (var i = 0; i < _this.shopAllList.length; i++) {
-        var shop = {}
-        shop = _this.shopAllList[i]
+      let remainder = couponTotal % this.shopAllList.length
+      for (let i = 0; i < this.shopAllList.length; i++) {
+        let shop = {}
+        shop = this.shopAllList[i]
         if (remainder >= i + 1) {
           shop.shopCouponNumber = multiple + 1
         } else {
           shop.shopCouponNumber = multiple
         }
-        _this.shopMap.set(shop.id, shop)
+        this.shopMap.set(shop.id, shop)
       }
-
-      for (var a = 0; a < thisPageList.length; a++) {
+      for (let a = 0; a < thisPageList.length; a++) {
         // 通过key将value取出 转换为深拷贝
-        let shopObject = _this.shopMap.get(thisPageList[a].id)
+        let shopObject = this.shopMap.get(thisPageList[a].id)
         let shopObj = JSON.stringify(shopObject)
         let newShopObject = JSON.parse(shopObj)
-        _this.shopList.push(newShopObject)
+        this.shopList.push(newShopObject)
       }
     },
     /**
@@ -342,6 +361,9 @@ export default {
     // 分页-页数改变
     shopPageChange (page) {
       var _this = this
+      if (this.shopList.length > 0) {
+        this.shopList = []
+      }
       _this.paginations.page = page
       _this.findShopList()
     },

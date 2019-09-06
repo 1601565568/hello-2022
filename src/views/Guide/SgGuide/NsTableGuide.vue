@@ -46,7 +46,7 @@
 
         <el-form-item label="所属门店：">
           <el-form-grid>
-            <el-select placeholder="请选择所属门店" v-model="model.shop" clearable filterable>
+            <el-select placeholder="请选择所属门店" v-model="model.shop" clearable filterable @clear="setShopNull">
               <el-option v-for="shop in shopFindList" :label="shop.shopName" :value="shop.id"
                          :key="shop.id"></el-option>
             </el-select>
@@ -55,7 +55,7 @@
 
         <el-form-item label="职务：">
           <el-form-grid>
-            <el-select placeholder="请选择职务" v-model="model.job" clearable>
+            <el-select placeholder="请选择职务" v-model="model.job" clearable @clear="setJobNull">
               <el-option label="店长" :value="1"></el-option>
               <el-option label="导购" :value="0"></el-option>
             </el-select>

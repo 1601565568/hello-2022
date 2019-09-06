@@ -1,6 +1,7 @@
 import api from '@/config/http'
 import tableMixin from 'web-crm/src/mixins/table'
 import { getErrorMsg } from '@/utils/toast'
+import fa from 'nui-v2/src/locale/lang/fa'
 export default {
   data: function () {
     let pagination = {
@@ -73,7 +74,9 @@ export default {
       changeObj: {},
       state: {},
       obj: {},
+      tagData: [],
       shopFindListShow: false,
+      showTag: false,
       shopKuhuShow: false,
       result: null,
       _queryConfig: { expand: false }
@@ -196,7 +199,7 @@ export default {
       this.multipleSelection = value
     },
     // 更换导购弹窗\详情展示
-    onRedactFun (val) {
+    onRedactFun (val, offLineShopId) {
       let _this = this
       if (val === undefined) {
         if (this.multipleSelection.length > 0) {
@@ -210,11 +213,9 @@ export default {
       } else {
         _this.title = '会员详情'
         _this.$http.fetch(_this.$api.guide.guide.customerGetDetail, {
-          nick: val.nick,
-          nickType: val.nickType,
-          customerFrom: val.customerFrom,
+          sysCustomerId: val.sysCustomerId,
           guideId: Number(val.guideId),
-          shopId: null
+          shopId: offLineShopId
         }).then(resp => {
           if (resp.success && resp.result != null) {
             _this.shopKuhuShow = true
@@ -242,6 +243,11 @@ export default {
         _this.queryGuideShopList(row.id)
         _this.shopFormVisible = true
       }
+    },
+    // 保存标签
+    addTag (row) {
+      console.log('打标签')
+      this.showTag = true
     },
     // 分页-页数改变
     customerPageChange (page) {

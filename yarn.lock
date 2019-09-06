@@ -7080,6 +7080,11 @@ nanomatch@^1.2.9:
     snapdragon "^0.8.1"
     to-regex "^3.0.1"
 
+natives@^1.1.6:
+  version "1.1.6"
+  resolved "http://27.154.234.170:18081/repository/npm/natives/-/natives-1.1.6.tgz#a603b4a498ab77173612b9ea1acdec4d980f00bb"
+  integrity sha512-6+TDFewD4yxY14ptjKaS63GVdtKiES1pTPyxn9Jb0rBqPMZ7VcCiooEhPNsr+mqHtMGxa/5c/HhcC4uPEUw/nA==
+
 natural-compare@^1.4.0:
   version "1.4.0"
   resolved "http://registry.npm.taobao.org/natural-compare/download/natural-compare-1.4.0.tgz#4abebfeed7541f2c27acfb29bdbbd15c8d5ba4f7"
@@ -7369,15 +7374,16 @@ nui-v2@^2.7.13:
     throttle-debounce "^1.0.1"
     vuedraggable "^2.14.1"
 
-nui-v2@^2.7.18:
-  version "2.7.18"
-  resolved "http://27.154.234.170:18081/repository/npm/nui-v2/-/nui-v2-2.7.18.tgz#1617fe18e2d7bf113eee99621fd1b8ea539e94ba"
-  integrity sha512-U+jpVVklGcxvttionn/KhFXwpPGDbDmT/L0jIlgdLVvxxrAIYPggRxcSl1ps5qrTgolmav9AYwqHdMj9BDJavA==
+nui-v2@^2.8.3:
+  version "2.8.3"
+  resolved "http://27.154.234.170:18081/repository/npm/nui-v2/-/nui-v2-2.8.3.tgz#4b73fdaa5aaf336dc59234d5f2ec2c4447aee743"
+  integrity sha512-DgEjZqFX8p+9neBcmK4DZlvI+jfWPD0szWoe8xN9Bx4I6iqg5PT5MqSJPRdobWJuDfF6l8dIMEqHlI7sa6Myvg==
   dependencies:
     async-validator "~1.8.1"
     babel-helper-vue-jsx-merge-props "^2.0.0"
     countup.js "^1.7.1"
     deepmerge "^1.2.0"
+    natives "^1.1.6"
     normalize-wheel "^1.0.1"
     resize-observer-polyfill "^1.5.0"
     throttle-debounce "^1.0.1"
@@ -10896,6 +10902,13 @@ uuid@^3.0.1, uuid@^3.1.0, uuid@^3.3.2:
   resolved "http://registry.npm.taobao.org/uuid/download/uuid-3.3.2.tgz#1b4af4955eb3077c501c23872fc6513811587131"
   integrity sha1-G0r0lV6zB3xQHCOHL8ZROBFYcTE=
 
+v-emoji-picker@^1.1.4:
+  version "1.1.6"
+  resolved "http://27.154.234.170:18081/repository/npm/v-emoji-picker/-/v-emoji-picker-1.1.6.tgz#7b83bffbe56d9fb26b84d29355871e06033108b6"
+  integrity sha512-4UQlMeqEE2EGnqK654H5CeahEsgt3Y5iqmSbA8XTglAlx4a37LkJ0e3XN524KEEwQUV54dR3OdTkBi7l1BoVYw==
+  dependencies:
+    vue "^2.6.10"
+
 v8-compile-cache@^2.0.2:
   version "2.0.2"
   resolved "http://registry.npm.taobao.org/v8-compile-cache/download/v8-compile-cache-2.0.2.tgz#a428b28bb26790734c4fc8bc9fa106fccebf6a6c"
@@ -11061,6 +11074,11 @@ vue@^2.5.13, vue@^2.5.21:
   resolved "http://registry.npm.taobao.org/vue/download/vue-2.5.22.tgz#3bf88041af08b8539c37b268b70ca79245e9cc30"
   integrity sha1-O/iAQa8IuFOcN7JotwynkkXpzDA=
 
+vue@^2.6.10:
+  version "2.6.10"
+  resolved "http://27.154.234.170:18081/repository/npm/vue/-/vue-2.6.10.tgz#a72b1a42a4d82a721ea438d1b6bf55e66195c637"
+  integrity sha512-ImThpeNU9HbdZL3utgMCq0oiMzAkt1mcgy3/E6zWC/G6AaQoeuFdsl9nDhTDU3X1R6FK7nsIUuRACVcjI+A2GQ==
+
 vuedraggable@^2.14.1, vuedraggable@^2.17.0:
   version "2.17.0"
   resolved "http://registry.npm.taobao.org/vuedraggable/download/vuedraggable-2.17.0.tgz#489c16c9bcb9eb06f441944d3c52e5f2bb7060f9"
@@ -11121,10 +11139,10 @@ wcwidth@^1.0.1:
   dependencies:
     defaults "^1.0.3"
 
-web-crm@^4.0.6:
-  version "4.0.6"
-  resolved "http://27.154.234.170:18081/repository/npm/web-crm/-/web-crm-4.0.6.tgz#a867b0304ed6e70ba6847cd4b903da9a5144194d"
-  integrity sha512-jHM9INTJn5PlxD/a99U6tQMSzlY2lM+QYb2ANb/pooGKHVpxy6yiUjkCETrLEeNtspYN3iu996L9Nh+kNtYmeQ==
+web-crm@^4.0.14:
+  version "4.0.14"
+  resolved "http://27.154.234.170:18081/repository/npm/web-crm/-/web-crm-4.0.14.tgz#c0594cc2931f2766cbf35420251d9e2afac36c8e"
+  integrity sha512-6h7+NzGoANO3nJgvpo4zqm0PHNMzF5GXBCaWj90ESPvwiXPvzepOYd7U2d1/dYUFHHkMwDxmqSMDKpu6aJqImg==
   dependencies:
     "@sentry/browser" "^4.5.3"
     axios "^0.18.0"
@@ -11134,7 +11152,7 @@ web-crm@^4.0.6:
     lodash "^4.17.11"
     moment "^2.24.0"
     normalize.css "^8.0.1"
-    nui-v2 "^2.7.18"
+    nui-v2 "^2.8.3"
     numeral "^2.0.6"
     register-service-worker "^1.5.2"
     store "^2.0.12"
