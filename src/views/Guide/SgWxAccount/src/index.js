@@ -234,7 +234,10 @@ export default {
       let that = this
       let tableConfig = this._data._table
       tableConfig.loadingtable = true
-      return this.$http.fetch(this.url, params).then((resp) => {
+      let obj = {}
+      obj.length = 15
+      obj.start = 0
+      return this.$http.fetch(this.url, obj).then((resp) => {
         that.payTotal = resp.result.payTotal
         that.rechargeTotal = resp.result.rechargeTotal
         that._data._table.data = resp.result.data
