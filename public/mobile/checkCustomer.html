@@ -47,7 +47,7 @@
         }).then(function (result) {
             if (result.success) {
                 // 根据数据状态跳转不同页面
-                if (true) {
+                if (result.result.newMember) {
                     // 调用微信官方开卡界面
                     // 初始化微信开卡JS-SDK
                     initWXConfig(function (cardId) {
@@ -57,23 +57,32 @@
 
                 } else {
                     console.log(JSON.stringify(result.result))
-                    var bean = {
-                        guideImg: result.result.image,
-                        guideName: result.result.sgGuideName,
-                        guideQrCode: result.result.cardUrl,
-                        memberCard: result.result.memberCard,
-                        shopName: result.result.shopName,
-                        groupName: result.result.groupName,
-                        memberGrade: result.result.memberGrade,
-                    }
-                    localStorage.setItem('showData', JSON.stringify(bean))
+                    // var bean = {
+                    //     guideImg: result.result.image,
+                    //     guideName: result.result.sgGuideName,
+                    //     guideQrCode: result.result.cardUrl,
+                    //     agoShopName:result.result.agoShopName,
+                    //     memberCard: result.result.memberCard,
+                    //     shopName: result.result.shopName,
+                    //     groupName: result.result.groupName,
+                    //     newImage: result.result.newImage,
+                    //     newSgGuideName: result.result.newSgGuideName,
+                    //     newSgGuideId: result.result.newSgGuideId,
+                    //     memberGrade: result.result.memberGrade,
+                    // }
+                    localStorage.setItem('showData', JSON.stringify(result.result))
                     //非新用户-跳转已经有导购界面
                     if (recruitInfo.guideId == result.result.sgGuideId) {
                         //同一导购
                         window.location.replace("sameGuide.html")
                     } else {
-                        //不同导购
-                        window.location.replace("memberCard.html")
+                        //不同导购-判断是否允许自主更换导购
+                        if(result.result.changeSgTwo){
+                            window.location.replace("exchangeGuide.html")
+                        }else{
+                            //不允许自主更换
+                            window.location.replace("memberCard.html")
+                        }
                     }
                 }
 
@@ -119,8 +128,8 @@
                         if(recruitInfo.source == 1){
                             window.location.replace("addFriend.html?guideQrCode="+guideData.guideQrCode+"&guideName="+guideData.guideName+"&guideImg="+guideData.guideImg)
                         }else{
-                            // 页面刘影还未设计完成
-
+                            //
+                            window.location.replace("successfulCardOpening.html?guideQrCode="+guideData.guideQrCode+"&guideName="+guideData.guideName+"&guideImg="+guideData.guideImg)
                         }
                     },
                     fail: function (res) {
