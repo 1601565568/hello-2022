@@ -85,7 +85,6 @@ export default {
         this._data._table.data = []
       }
       _this.offLineShopId = data.id
-      console.log(_this.offLineShopId)
       _this.shuJushuzu = data
       _this.loading = true
       _this.$reload().then(rep => {

@@ -278,9 +278,9 @@ export default {
         _this.customerIdList = []
         _this.multipleSelection.map(item => {
           let nick = {}
-          obj.nick = item.nick
-          obj.nickType = item.nickType
-          obj.customerFrom = Number(item.customerFrom)
+          obj.nick = item.outNick
+          obj.platform = item.platform === 302 ? 19 : item.platform
+          // obj.customerFrom = Number(item.customerFrom)
           nick = Object.assign({}, obj)
           _this.customerIdList.push(nick)
         })

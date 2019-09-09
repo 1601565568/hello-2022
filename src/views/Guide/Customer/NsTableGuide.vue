@@ -131,13 +131,13 @@
             {{!scope.row.province&&!scope.row.city&&!scope.row.district?'-':scope.row.province+'/'+scope.row.city+'/'+scope.row.district}}
           </template>
         </el-table-column> -->
-        <el-table-column prop="guideName" label="专属导购" align="left" width="180">
+        <el-table-column prop="sgExclusiveGuideId" label="专属导购" align="left" width="180">
           <template slot-scope="scope">
-              {{scope.row.guideName ? scope.row.guideName : "-"}}
+              {{scope.row.sgExclusiveGuideId ? scope.row.sgExclusiveGuideId : "-"}}
           </template>
         </el-table-column>
 
-        <el-table-column prop="guideName" label="所属线下门店" align="left" width="180">
+        <el-table-column prop="sgExclusiveShopId" label="所属线下门店" align="left" width="180">
 
         </el-table-column>
         <el-table-column prop="inMemberTime" label="入库时间" align="left" width="160">
