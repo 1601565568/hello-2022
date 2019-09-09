@@ -7360,24 +7360,25 @@ nth-check@^1.0.2, nth-check@~1.0.1:
   dependencies:
     boolbase "~1.0.0"
 
-nui-v2@^2.7.13:
-  version "2.7.13"
-  resolved "http://27.154.234.170:18081/repository/npm/nui-v2/-/nui-v2-2.7.13.tgz#8b415dc1042803eb1dc3e9f5b58cd1e1d2e359b5"
-  integrity sha512-RX/v6wsDTyzZ8MX2Siz4eHszx6NKQ1OS7dxpjiYMlGDY7n6gUzhdyYngQHt0hvAWNkFjA1mLId6hBUAtwY4HJw==
+nui-v2@^2.8.3:
+  version "2.8.3"
+  resolved "http://27.154.234.170:18081/repository/npm/nui-v2/-/nui-v2-2.8.3.tgz#4b73fdaa5aaf336dc59234d5f2ec2c4447aee743"
+  integrity sha512-DgEjZqFX8p+9neBcmK4DZlvI+jfWPD0szWoe8xN9Bx4I6iqg5PT5MqSJPRdobWJuDfF6l8dIMEqHlI7sa6Myvg==
   dependencies:
     async-validator "~1.8.1"
     babel-helper-vue-jsx-merge-props "^2.0.0"
     countup.js "^1.7.1"
     deepmerge "^1.2.0"
+    natives "^1.1.6"
     normalize-wheel "^1.0.1"
     resize-observer-polyfill "^1.5.0"
     throttle-debounce "^1.0.1"
     vuedraggable "^2.14.1"
 
-nui-v2@^2.8.3:
-  version "2.8.3"
-  resolved "http://27.154.234.170:18081/repository/npm/nui-v2/-/nui-v2-2.8.3.tgz#4b73fdaa5aaf336dc59234d5f2ec2c4447aee743"
-  integrity sha512-DgEjZqFX8p+9neBcmK4DZlvI+jfWPD0szWoe8xN9Bx4I6iqg5PT5MqSJPRdobWJuDfF6l8dIMEqHlI7sa6Myvg==
+nui-v2@^2.8.5:
+  version "2.8.5"
+  resolved "http://27.154.234.170:18081/repository/npm/nui-v2/-/nui-v2-2.8.5.tgz#11512ae68c0f65e83c67f1a4b63e67d83d7bb6ac"
+  integrity sha512-89/XRvdbF30xvM1z5QhjYIqxzikIaBBSrkC2+2jYkuth96euWKPtxLFX2EGIArvG4ptu4Pk21BoHwWTAlezJZw==
   dependencies:
     async-validator "~1.8.1"
     babel-helper-vue-jsx-merge-props "^2.0.0"
