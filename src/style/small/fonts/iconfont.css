@@ -58,10 +58,6 @@
   content: "\e629";
 }
 
-.icon-wenjianjia:before {
-  content: "\e723";
-}
-
 .icon-pre-payment:before {
   content: "\e632";
 }
@@ -928,5 +924,21 @@
 
 .icon-wangye1:before {
   content: "\e6e8";
+}
+
+.icon-icon_integration:before {
+  content: "\e76f";
+}
+
+.icon-icon_discount:before {
+  content: "\e770";
+}
+
+.icon-icon_coupon:before {
+  content: "\e771";
+}
+
+.icon-jiantou:before {
+  content: "\e6f4";
 }
 
