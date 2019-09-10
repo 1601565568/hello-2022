@@ -48,6 +48,12 @@ export default {
           'name': 'Screening',
           'title': 'Screening',
           'component': () => import('@/views/Examples/screening.vue')
+        },
+        {
+          'path': '/customerList',
+          'name': 'customerList',
+          'title': '客户列表',
+          'component': () => import('@/views/Examples/customerList.vue')
         }
       ]
     }
