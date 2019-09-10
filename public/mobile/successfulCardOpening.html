@@ -35,5 +35,22 @@
         </div>
     </div>
 </div>
+<script type="text/javascript" src="./js/jquery-3.4.1.min.js"></script>
+<script type="text/javascript" src="./js/common.js"></script>
+<script>
+    $(document).ready(function () {
+        var guideImg = getPar('guideImg');
+        var sgGuideName = getPar('sgGuideName');
+        var guideQrCode = getPar('guideQrCode');
+        $("#guideImg").attr("src", guideImg)
+        $("#guideName").innerText = sgGuideName;
+        $("#guideName1").innerText = sgGuideName;
+        $("#guideQrCode").attr("src", guideQrCode);
+    })
+    //页面加载完成
+    $(document).onload(function () {
+        setTimeout($('.addfriend__success').style.display='none',3000);
+    })
+</script>
 </body>
 </html>
