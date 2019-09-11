@@ -176,12 +176,11 @@
   </div>
 </template>
 <script>
-  import monitor from './src/monitor.js'
+import monitor from './src/monitor.js'
 
-  export default monitor
+export default monitor
 </script>
 <style scoped>
-
 
   .demo-table-expand {
     font-size: 0;

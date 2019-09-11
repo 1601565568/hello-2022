@@ -215,7 +215,8 @@ export default {
       nameArr: [], // 批量删除、批量离职、批量更换门店返回没有成功的员工的名字数组
       guideList: [],
       shopList: [],
-      shopFindList: [],
+      shopFindList: [], // 门店下拉列表
+      restShopFindList: [], // 复位门店下拉列表（用于判断shopFindList数量不等于初始值时复位）
       shopFindLists: [],
       guideShopList: [],
       dimissionArry: [], // 批量离职员工数组
@@ -284,6 +285,9 @@ export default {
       },
       _queryConfig: { expand: false }
     }
+  },
+  mounted () {
+    this.initShopList()
   },
   methods: {
     workPrefix (val) {
@@ -614,7 +618,7 @@ export default {
     },
     showShop () { // 组团进行更换门店操作
       let _this = this
-      _this.initShopList()
+      // _this.initShopList()
       _this.switchStateName = '更换门店'
       _this.verification = false
       _this.allDeleteName = []
@@ -791,6 +795,7 @@ export default {
       _this.$http.fetch(_this.$api.guide.shop.findBrandShopList, { isOnline: 0 }).then(resp => {
         if (resp.success && resp.result != null) {
           _this.shopFindList = resp.result
+          _this.restShopFindList = resp.result
         }
       }).catch((resp) => {
         _this.$notify.error(getErrorMsg('查询失败', resp))
@@ -810,13 +815,36 @@ export default {
     },
     onRedactFun (row) { // 修改和新增功能
       // 初始化门店信息
-      this.initShopList()
+      // this.initShopList()
+      if (this.shopFindList.length !== this.restShopFindList.length) {
+        this.shopFindList = this.restShopFindList
+      }
       this.row = row
       if (row) {
         this.title = '编辑员工信息'
         this.guideValue = row.job
         this.subordinateStores = []
         this.subordinateStores = row.shop_ids.split(',')
+        // 获取没有id的
+        this.shopIds = []
+        this.noShopIds = []
+        for (let i = 0; i < this.shopFindList.length; i++) {
+          this.shopIds.push(this.shopFindList[i].id)
+        }
+        for (let i = 0; i < this.subordinateStores.length; i++) {
+          if (this.shopIds.indexOf(this.subordinateStores[i]) === -1) {
+            this.noShopIds.push(this.subordinateStores[i])
+          }
+        }
+        if (this.noShopIds.length > 0) {
+          this.$http.fetch(this.$api.guide.shop.findShopListByShopIds, { shopIds: this.noShopIds.toString() }).then(resp => {
+            if (resp.success && resp.result != null) {
+              this.shopFindList = this.shopFindList.concat(resp.result)
+            }
+          }).catch((resp) => {
+            this.$notify.error(getErrorMsg('查询失败', resp))
+          })
+        }
         this.nextStep = '确定'
         this.model.sgGuide = {
           id: row.id,
@@ -1253,7 +1281,7 @@ export default {
     // 员工离职
     dimissionFun (row) {
       var _this = this
-      _this.initShopList()
+      // _this.initShopList()
       _this.employeeDetails = row
       _this.transferName = row.name
       _this.transferShopName = row.shopName

@@ -1,7 +1,7 @@
 import tableMixin from 'web-crm/src/mixins/table'
 import NsArea from 'web-crm/src/components/NsArea'
 import { getErrorMsg } from '@/utils/toast'
-import $ from "jquery"
+import $ from 'jquery'
 export default {
   name: 'NsTableGuide',
   mixins: [tableMixin],
