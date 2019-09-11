@@ -75,7 +75,7 @@
     function toChangeGuide() {
         var showData = JSON.parse(localStorage.getItem('showData'));
         var recruitInfo = JSON.parse(localStorage.getItem('recruitInfo'));
-        // 获取e互动店铺
+        // 更换导购
         this.ajax(backstageURL + '/changeGuide', {
             newSgGuideId: showData.newSgGuideId,
             oldGuideId: showData.sgGuideId,
@@ -84,6 +84,7 @@
             groupId: recruitInfo.groupId,
         }).then(function (data) {
             if (data.result.success) {
+                alert("更换导购成功")
                 if (1 == recruitInfo.source) {
 
                 } else {

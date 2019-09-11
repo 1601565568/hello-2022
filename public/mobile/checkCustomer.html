@@ -52,7 +52,7 @@
                     // 初始化微信开卡JS-SDK
                     initWXConfig(function (cardId) {
                         // 跳转开卡
-                        addCard(cardId,result.result.memberCard)
+                        addCard(cardId,result.result.memberCard,recruitInfo.shopId,recruitInfo.groupId)
                     })
 
                 } else {
@@ -98,8 +98,9 @@
      * 初始化微信JS-SDK参数
      */
     function initWXConfig(back) {
+        var recruitInfo = JSON.parse(localStorage.getItem('recruitInfo'));
         var address = location.href.split('#')[0]
-        this.ajax(backstageURL + '/getInitWXConfigParam', {url: address}).then(function (data) {
+        this.ajax(backstageURL + '/getInitWXConfigParam', {url: address,shopId:recruitInfo.shopId,groupId:recruitInfo.groupId}).then(function (data) {
             wx.config(data.result.config);
             if (back) {
                 back(data.result.cardId)
@@ -110,9 +111,9 @@
     /**
      * 跳转会员领卡
      */
-    function addCard(cardId, memberCard) {
+    function addCard(cardId, memberCard,shopId,groupId) {
         var newCardId = cardId
-        this.ajax(backstageURL + '/getAddCardExtParam', {code: memberCard}).then(function (data) {
+        this.ajax(backstageURL + '/getAddCardExtParam', {code: memberCard,shopId:shopId,groupId:groupId}).then(function (data) {
             wx.ready(function () {
                 wx.addCard({
                     cardList: [{
