@@ -245,9 +245,9 @@
   </div>
 </template>
 <script>
-import Index from "./src/index";
+import Index from './src/index'
 
-export default Index;
+export default Index
 </script>
 <style scoped>
 @import "./src/style.pcss";

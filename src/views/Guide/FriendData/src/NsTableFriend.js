@@ -48,7 +48,7 @@ export default {
         'auth': '',
         'visible': '',
         'color': '#f00'
-      },
+      }
       // {
       //   'func': function (args) {
       //     this.$emit('quit', args.row)
@@ -133,7 +133,7 @@ export default {
     initPersonalNumberList () {
       this.$http.fetch(this.$api.guide.wxDeviceGuideRelation.findWidNickSelector).then(resp => {
         if (resp.success && resp.result != null) {
-          this.personalNumberList = Object.assign(this.personalNumberList,resp.result)
+          this.personalNumberList = Object.assign(this.personalNumberList, resp.result)
         }
       }).catch((resp) => {
         this.$notify.error(getErrorMsg('查询失败', resp))

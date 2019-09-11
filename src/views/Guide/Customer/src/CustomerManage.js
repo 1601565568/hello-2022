@@ -79,7 +79,73 @@ export default {
       showTag: false,
       shopKuhuShow: false,
       result: null,
-      _queryConfig: { expand: false }
+      _queryConfig: { expand: false },
+      // 弹窗假数据
+      selectedTabName: 'basic',
+      dialogVisible: false,
+      value1: '',
+      value2: '',
+      remark: '备注备注备基础信息基础信息基础信息基础信息基础信息',
+      options: [{
+        value: '选项1',
+        label: '黄金糕'
+      }, {
+        value: '选项2',
+        label: '双皮奶'
+      }],
+      value3: '',
+      startDateTime: null,
+      endDateTime: null,
+      tableData: [{
+        integral: '增加 93',
+        time: '2019-08-15 11:39:00',
+        type: '赠送'
+      },
+      {
+        integral: '增加 93',
+        time: '2019-08-15 11:39:00',
+        type: '赠送'
+      },
+      {
+        integral: '增加 93',
+        time: '2019-08-15 11:39:00',
+        type: '赠送'
+      },
+      {
+        integral: '增加 93',
+        time: '2019-08-15 11:39:00',
+        type: '赠送'
+      },
+      {
+        integral: '增加 93',
+        time: '2019-08-15 11:39:00',
+        type: '赠送'
+      },
+      {
+        integral: '增加 93',
+        time: '2019-08-15 11:39:00',
+        type: '赠送'
+      },
+      {
+        integral: '增加 93',
+        time: '2019-08-15 11:39:00',
+        type: '赠送'
+      },
+      {
+        integral: '增加 93',
+        time: '2019-08-15 11:39:00',
+        type: '赠送'
+      },
+      {
+        integral: '增加 93',
+        time: '2019-08-15 11:39:00',
+        type: '赠送'
+      },
+      {
+        integral: '增加 93',
+        time: '2019-08-15 11:39:00',
+        type: '赠送'
+      }]
     }
   },
   mixins: [tableMixin],
@@ -87,6 +153,8 @@ export default {
     getCurrentRow (row, index) { // 单选按钮
       this.radio = index
       this.value = row
+    },
+    handleClick (tab, event) {
     },
     searchAction (model) { // 搜索
       this.guideFindList(model)
@@ -224,16 +292,16 @@ export default {
         }).catch((resp) => {
           _this.$notify.error(getErrorMsg('查询失败', resp))
         })
-
-        _this.$http.fetch(_this.$api.guide.guide.customerQueryValidPoint, {
-          nick: val.nick,
-          nickType: val.nickType,
-          customerFrom: val.customerFrom
-        }).then(resp => {
-          _this.result = resp.result
-        }).catch((resp) => {
-          _this.$notify.error(getErrorMsg('查询失败', resp))
-        })
+        // 积分暂时无法查询，先注释 20190911
+        // _this.$http.fetch(_this.$api.guide.guide.customerQueryValidPoint, {
+        //   nick: val.nick,
+        //   nickType: val.nickType,
+        //   customerFrom: val.customerFrom
+        // }).then(resp => {
+        //   _this.result = resp.result
+        // }).catch((resp) => {
+        //   _this.$notify.error(getErrorMsg('查询失败', resp))
+        // })
       }
     },
     shopEdit (row) {

@@ -528,11 +528,11 @@ export default {
       let limitHeight = window.innerHeight -
         document.getElementsByClassName('nav')[0].offsetHeight -
         document.getElementsByClassName('template-table__bar-more')[0].offsetHeight - // 高级搜索
-        BTN_BOTTOM - PAGE_TOP_SEARCH + 17 - 25;
+        BTN_BOTTOM - PAGE_TOP_SEARCH + 17 - 25
       let limitHeightRight = window.innerHeight -
         document.getElementsByClassName('talk-personal')[0].offsetHeight -
         document.getElementsByClassName('nav')[0].offsetHeight -
-        BTN_BOTTOM + 17 - 20;
+        BTN_BOTTOM + 17 - 20
       this.$refs.fullScreen.$el.children[0].style.maxHeight = limitHeight + 'px'
       this.$refs.fullScreenright.$el.children[0].style.maxHeight = limitHeightRight + 'px'
     },
