@@ -201,7 +201,7 @@ export default {
 </script>
 
 <style scoped>
-  @import "@/style/small/variables.pcss";
+  @import "@theme/variables.pcss";
   :root {
     --welcome-font-color-blue: #0094FC;
     --welcome-font-color-gray:#8C939D;

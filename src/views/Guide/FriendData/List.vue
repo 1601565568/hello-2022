@@ -91,7 +91,7 @@ export default List
 </script>
 
 <style scoped>
-  @import "@/style/small/variables.pcss";
+  @import "@theme/variables.pcss";
   @component-namespace detail {
     @b dialog {
       @e content {

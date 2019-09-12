@@ -251,7 +251,7 @@ export default Index
 </script>
 <style scoped>
 @import "./src/style.pcss";
-@import "@/style/small/variables.pcss";
+@import "@theme/variables.pcss";
 
 .template-page__row-left {
   width: 220px;

@@ -91,7 +91,7 @@ import Index from './src/detail'
 export default Index
 </script>
 <style scoped>
-  @import "@/style/small/variables.pcss";
+  @import "@theme/variables.pcss";
   >>> .table-header-icon {
     color: var(--theme-font-color-info);
     font-size: var(--default-font-size-base);

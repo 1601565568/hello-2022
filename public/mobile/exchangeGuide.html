@@ -16,23 +16,23 @@
         <div class="content">
             <div class="content__item">
                 <div class="headportrait">
-                    <img src="./img/expression/memberAvatar.jpg" alt="头像" class="headportrait__avatarpic">
+                    <img id="image" src="./img/expression/memberDefault.png" alt="头像" class="headportrait__avatarpic">
                     <div class="headportrait__only">现专属导购</div>
                 </div>
                 <div class="arrow">
                     <img src="./img/expression/arrow.png" alt="箭头" class="arrow__img">
                 </div>
                 <div class="headportrait">
-                    <img src="./img/expression/memberAvatar.jpg" alt="头像" class="headportrait__avatarpic">
+                    <img id="newImage" src="./img/expression/memberDefault.png" alt="头像" class="headportrait__avatarpic">
                 </div>
             </div>
             <div class="detail">
                 <div class="detail__item">
-                    <div class="uname">顾起航</div>
+                    <div id="sgGuideName" class="uname">顾起航</div>
                     <div class="store" id="agoShopName"></div>
                 </div>
                 <div class="detail__item">
-                    <div class="uname">聂导</div>
+                    <div id="newSgGuideName" class="uname">聂导</div>
                     <div class="store" id="shopName"></div>
                 </div>
             </div>
@@ -42,16 +42,16 @@
             <div class="division__leftcircle"></div>
             <div class="division__rightcircle"></div>
         </div>
-        <div class="unique">您只能有一个奥迪专属导购哦!</div>
+        <div class="unique">您只能有一个专属导购哦!</div>
         <div class="replace">
             <span>是否替换</span>
-            <span class="replace__name">聂导</span>
+            <span id="newSgGuideName1" class="replace__name">聂导</span>
             <span>为您的专属导购？</span>
         </div>
         <div class="noexchange">若不更换，请直接关闭页面</div>
     </div>
     <div class="exchange__btn">
-        <div class="confirm">确认更换</div>
+        <div class="confirm" onclick="toChangeGuide()">确认更换</div>
     </div>
 </div>
 <script type="text/javascript" src="./js/jquery-3.4.1.min.js"></script>
@@ -59,9 +59,63 @@
 <script>
     $(document).ready(function () {
         var showData = JSON.parse(localStorage.getItem('showData'));
-        $("#agoShopName").attr("src", showData.agoShopName)
-        $("#shopName").attr("src", showData.shopName);
+        $("#agoShopName").html(showData.agoShopName)
+        $("#shopName").html(showData.shopName);
+        if (showData.image) {
+            $("#image").attr("src", showData.image);
+        }
+        if (showData.newImage) {
+            $("#newImage").attr("src", showData.newImage);
+        }
+        $("#sgGuideName").html(showData.sgGuideName);
+        $("#newSgGuideName").html(showData.newSgGuideName);
+        $("#newSgGuideName1").html(showData.newSgGuideName);
     })
+
+    function toChangeGuide() {
+        var showData = JSON.parse(localStorage.getItem('showData'));
+        var recruitInfo = JSON.parse(localStorage.getItem('recruitInfo'));
+        // 更换导购
+        this.ajax(backstageURL + '/changeGuide', {
+            newSgGuideId: showData.newSgGuideId,
+            oldGuideId: showData.sgGuideId,
+            nick: showData.nick,
+            shopId:recruitInfo.shopId,
+            groupId: recruitInfo.groupId,
+        }).then(function (data) {
+            if (data.result.success) {
+                alert("更换导购成功")
+                if (1 == recruitInfo.source) {
+
+                } else {
+
+                }
+            } else {
+
+            }
+        })
+    }
+    function ajax(url, data, params) {
+        data = JSON.stringify(data)
+        return new Promise(function (resolve, reject) {
+            $.ajax({
+                url: url,
+                type: params && params.type || 'post',
+                dataType: params && params.dataType || 'JSON',
+                data: data,
+                method: "post",
+                contentType: "application/json;charset=UTF-8",
+                success: function (res) {
+                    resolve(res)
+                },
+                error: function (res) {
+                    // 跳转错误页
+                    $(".fail").show();
+                    $('.fail__text').html(res.msg);
+                }
+            });
+        });
+    }
 </script>
 </body>
 </html>

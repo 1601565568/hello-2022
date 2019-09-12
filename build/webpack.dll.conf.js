@@ -13,7 +13,7 @@ const baseWebpackConfig = {
   resolve: baseCliWebpackConfig.resolve,
   module: baseCliWebpackConfig.module,
   entry: {
-    components: [resolve('src/style/small/NuiJs/index.scss')].concat(getDllList({
+    components: [resolve('src/theme/small/NuiJs/index.scss')].concat(getDllList({
       list: ['components', 'directives/modules', 'filters/modules', 'mixins', 'utils'],
       exclude: { 'Layout': false }
     }))

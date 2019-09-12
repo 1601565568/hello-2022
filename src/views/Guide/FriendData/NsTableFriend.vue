@@ -199,7 +199,7 @@ import friend from './src/NsTableFriend'
 export default friend
 </script>
 <style scoped>
-  @import "@/style/small/variables.pcss";
+  @import "@theme/variables.pcss";
   .scope_row_count{
   color: blue;
   }
