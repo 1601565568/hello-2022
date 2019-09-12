@@ -111,6 +111,10 @@ export default {
     url: '/guide/customer/queryCustomerCouponNum',
     method: 'get'
   },
+  queryAllTag: {// 查询店铺启动标签接口
+    url: '/guide/customer/getAllTag',
+    method: 'get'
+  },
   findGuideNewWorkNumAndPrefix: {
     url: '/guide/guide/findGuideNewWorkNumAndPrefix',
     method: 'get'

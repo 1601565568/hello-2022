@@ -1,5 +1,5 @@
 <template>
-<div calss="NsTableGuide_main">
+  <div calss="NsTableGuide_main">
         <div class="template-page__row-left">
           <el-input ref="quickText" style="width: 190px" v-model="filterTreeText" placeholder="输入线下店铺名称" clearable>
             <i class="el-icon-search el-input__icon" slot="suffix" name="name" @click="$quickSearchAction$('name')"></i>
@@ -149,7 +149,7 @@
           <template slot-scope="scope">
             <div>
               <ns-button style="color:#0091FA" @click="onRedactFun(scope.row,offLineShopId)" type="text">详情</ns-button>
-              <ns-button style="color:#0091FA" @click="saveTag(scope.row)" type="text">打标签</ns-button>
+              <ns-button style="color:#0091FA" @click="showTagDailog(scope.row)" type="text">打标签</ns-button>
             </div>
           </template>
         </el-table-column>

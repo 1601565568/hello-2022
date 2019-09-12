@@ -75,8 +75,10 @@ export default {
       state: {},
       obj: {},
       tagData: [],
+      checkboxList: [],
       shopFindListShow: false,
       showTag: false,
+      mapTag: null,
       shopKuhuShow: false,
       result: null,
       _queryConfig: { expand: false },
@@ -85,7 +87,7 @@ export default {
       dialogVisible: false,
       value1: '',
       value2: '',
-      remark: '备注备注备基础信息基础信息基础信息基础信息基础信息',
+      remark: '备注备注备基础信息',
       options: [{
         value: '选项1',
         label: '黄金糕'
@@ -312,10 +314,18 @@ export default {
         _this.shopFormVisible = true
       }
     },
-    // 保存标签
-    addTag (row) {
-      console.log('打标签')
+    // 显示启用的标签
+    showTagData (row) {
       this.showTag = true
+      this.$http.fetch(this.$api.guide.guide.queryAllTag, {shopId: row.sgExclusiveShopId
+      }).then(resp => {
+        if (resp.success && resp.result != null) {
+          this.tagData = resp.result
+          this.mapTag = new Map()
+        }
+      }).catch((resp) => {
+        this.$notify.error(getErrorMsg('查询失败', resp))
+      })
     },
     // 分页-页数改变
     customerPageChange (page) {
@@ -334,6 +344,20 @@ export default {
       this.shopFindListShow = false
       this.radio = null
       this.pagination.page = 1
+    },
+    addCheckbox (row, item) {
+      var tag = 'tag' + row.id
+      if (tag.id) {
+
+      }else {
+
+      }
+
+      tag.id = row.id
+      tag.value = item
+      this.mapTag.set(row.id, item)
+      console.log(row.id)
+      console.log('item:' + item)
     },
     onSave () {
       let _this = this
@@ -369,5 +393,12 @@ export default {
     }
   },
   mounted: function () {
+  },
+  watch: {
+    checkboxList (newValue) {
+      // console.log(newValue)
+      // this.checkboxList.push(newValue)
+      console.log('数组值：' + this.checkboxList)
+    }
   }
 }

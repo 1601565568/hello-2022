@@ -156,8 +156,8 @@ export default {
     onRedactFun (val, offLineShopId) {
       this.$emit('onRedactFun', val, offLineShopId)
     },
-    saveTag (val) {
-      this.$emit('saveTag', val)
+    showTagDailog (val) {
+      this.$emit('showTag', val)
     },
     onDelsTipFun (val) {
       this.$emit('onDelsTipFun', val)

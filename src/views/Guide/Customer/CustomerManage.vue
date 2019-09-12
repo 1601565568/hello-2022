@@ -1,9 +1,9 @@
 <template>
   <div>
     <ns-table-guide ref="table1" :url=$api.guide.guide.customerFindCustomerList @add="onRedactFun"
-      @shopEdit="shopEdit" @saveTag="addTag" @onRedactFun="onRedactFun" @handleSelectionChange="handleSelectionChange">
+      @shopEdit="shopEdit" @showTag="showTagData" @onRedactFun="onRedactFun" @handleSelectionChange="handleSelectionChange">
     </ns-table-guide>
-    // 更换导购弹窗
+    <!--更换导购弹窗-->
     <el-dialog :title="title" :visible.sync="shopFindListShow" width="800px" @close="closeDialog">
       <!--  搜索开始  -->
       <div class="search">
@@ -75,7 +75,7 @@
         <ns-button type="primary" @click="onSave">确定</ns-button>
       </div>
     </el-dialog>
-    // 客户详情弹窗（已作废）
+    <!-- 客户详情弹窗（已作废）-->
     <el-dialog :title="title" :visible.sync="dialogVisible" width="600px"  @keyup.enter.native="onKeyUp" @keyup.esc.native="onKeyUp" >
     <div>
       <div class="kehuBox-main">
@@ -147,7 +147,7 @@
       </div>
     </div>
     </el-dialog>
-    // 新客户详情弹窗
+    <!-- 新客户详情弹窗-->
     <el-dialog
       title="详情"
       :visible.sync="shopKuhuShow"
@@ -669,25 +669,43 @@
           </el-form-item>
         </el-form>
         <el-table ref="table" :data="tagData" stripe>
-          <el-table-column prop="attributeName" label="属性名称" width="350">
-          </el-table-column>
-          <el-table-column label="属性值">
+          <el-table-column prop="name" label="属性名称" width="350"></el-table-column>
+          <el-table-column label="属性值" prop="value">
             <template slot-scope="scope">
               <div style="padding: 5px 0;">
-                <el-checkbox-group v-model="scope.row.checkList" v-if="scope.row.type === 0">
-                  <el-checkbox v-for="item in scope.row.List" :label="item" :key="item"></el-checkbox>
-                </el-checkbox-group>
-                <el-radio-group v-model="scope.row.radio" v-else>
-                  <el-radio v-for="item1 in scope.row.List1" :label="item1" :key="item1">{{item1}}</el-radio>
+                <!--输入框-->
+                <el-input v-model="scope.row.value" placeholder="请输入内容" autosize size="small" v-if="scope.row.tagType === 0" clearable></el-input>
+                <!--下拉选-->
+                <el-select v-model="scope.row.value"  placeholder="请选择" v-else-if="scope.row.tagType === 1">
+                  <el-option
+                    v-for="item in scope.row.tagArr.split('|')" :key="item" :label="item"
+                    :value="item">
+                  </el-option>
+                </el-select>
+                <!--日期-->
+                <el-date-picker
+                  v-model="scope.row.value"
+                  type="daterange"
+                  range-separator="至"
+                  start-placeholder="开始日期"
+                  end-placeholder="结束日期" v-else-if="scope.row.tagType===2">
+                </el-date-picker>
+                <!--单选框-->
+                <el-radio-group v-model="scope.row.value" v-else-if="scope.row.tagType === 3" >
+                  <el-radio v-for="item1 in scope.row.tagArr.split('|')" :label="item1" :key="item1">{{item1}}</el-radio>
                 </el-radio-group>
+                <!-- 复选框 -->
+                <el-checkbox-group v-model="checkboxList" v-else-if="scope.row.tagType === 4"  >
+                  <el-checkbox v-for="item in scope.row.tagArr.split('|')" :label="item" :key="item" @change="addCheckbox(scope.row,item)"></el-checkbox>
+                </el-checkbox-group>
               </div>
             </template>
           </el-table-column>
         </el-table>
       </div>
       <span slot="footer">
-        <ns-button @click="dialogVisible = false">取 消</ns-button>
-        <ns-button type="primary" @click="dialogVisible = false">保存</ns-button>
+        <ns-button @click="showTag = false">取 消</ns-button>
+        <ns-button type="primary" @click="showTag = false">保存</ns-button>
       </span>
     </el-dialog>
   </div>
