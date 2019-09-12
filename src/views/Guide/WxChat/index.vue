@@ -188,7 +188,7 @@ export default index
 </script>
 
 <style scoped>
-  @import "@/style/small/variables.pcss";
+  @import "@theme/variables.pcss";
   :root {
     --theme-font-color-blue: #0094FC;
     --theme-font-color-red: #FE2D59;

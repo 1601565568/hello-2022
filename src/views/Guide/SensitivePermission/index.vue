@@ -131,5 +131,5 @@ import Index from './src/index'
 export default Index
 </script>
 <style scoped>
-  @import "@/style/small/variables.pcss";
+  @import "@theme/variables.pcss";
 </style>

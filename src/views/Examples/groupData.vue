@@ -440,7 +440,7 @@ export default {
 }
 </script>
 <style scoped>
-  @import "@/style/small/variables.pcss";
+  @import "@theme/variables.pcss";
   :root {
     --theme-font-color-gray: #BBBBBB;
     --theme-font-color-blue: #1789FB;

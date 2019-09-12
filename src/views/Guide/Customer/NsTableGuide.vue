@@ -180,7 +180,7 @@ export default NsTableGuide
 </script>
 
 <style scoped>
-  @import "@/style/small/variables.pcss";
+  @import "@theme/variables.pcss";
 
   .template-page__row-left {
     width: 220px;
