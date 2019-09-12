@@ -9,7 +9,7 @@ import ets from 'web-crm/src/extends'
 import etsPrivate from './extends'
 import filters from 'web-crm/src/filters'
 import filtersPrivate from './filters'
-
+import './assets/icons'
 /**
  * 全局注册属性或方法
  */

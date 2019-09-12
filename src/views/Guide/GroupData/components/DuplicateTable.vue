@@ -91,7 +91,7 @@ import Index from './src/duplicateTable'
 export default Index
 </script>
 <style scoped>
-  @import "@/style/small/variables.pcss";
+  @import "@theme/variables.pcss";
 
   @import "../src/style.pcss";
 </style>

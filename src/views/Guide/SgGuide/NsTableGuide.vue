@@ -186,13 +186,13 @@ import guide from './src/NsTableGuide'
 export default guide
 </script>
 <style>
-  @import "@/style/small/variables.pcss";
+  @import "@theme/variables.pcss";
   .del-btn {
     color: var(--theme-color-danger)
   }
 </style>
 <style scoped>
-  @import "@/style/small/variables.pcss";
+  @import "@theme/variables.pcss";
 
 .scope_row_count{
   color: blue;

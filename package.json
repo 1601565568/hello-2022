@@ -63,6 +63,7 @@
     "postcss-nested": "^4.1.1",
     "saladcss-bem": "^0.0.2",
     "sass-loader": "^7.0.1",
+    "svg-sprite-loader": "^4.1.6",
     "vue-template-compiler": "^2.5.21",
     "wantu-nodejsSDK": "^0.0.1",
     "webpack-cli": "^3.2.1"

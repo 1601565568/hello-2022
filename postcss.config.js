@@ -19,7 +19,7 @@ module.exports = {
          * '@/style/small/variables.pcss'  =>  '项目绝对路径/src/style/small/variables.pcss'
          */
         const ALAIS = {
-          '@theme': path.join(__dirname, `src/style/${process.env.VUE_APP_THEME}`, importAddress.substr(6)), // 项目主题目录
+          '@theme': path.join(__dirname, `src/theme/${process.env.VUE_APP_THEME}`, importAddress.substr(6)), // 项目主题目录
           '@': path.join(__dirname, 'src', importAddress.substr(1)), // 项目业务资源文件目录/src
           '~': path.join(__dirname, 'node_modules', importAddress.substr(1)) // 项目包目录/node_modules
         }

@@ -525,7 +525,7 @@ export default {
 </script>
 
 <style scoped>
-  @import "@/style/small/variables.pcss";
+  @import "@theme/variables.pcss";
   :root {
     --talk-font-color-blue: #0094FC;
     --talk-font-color-red: #FE2D59;
