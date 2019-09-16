@@ -74,11 +74,23 @@ export default {
       changeObj: {},
       state: {},
       obj: {},
-      tagData: [],
-      checkboxList: [],
       shopFindListShow: false,
       showTag: false,
-      mapTag: null,
+      tagData: [],
+      mapTag: [],
+      textIds: '', // 会员打标签输入框id集合
+      selectIds: '', // 会员打标签下拉选id集合
+      dateIds: '', // 会员打标签日期id集合
+      checkboxIds: '', // 会员打标签复选框id集合
+      radioIds: '', // 会员打标签单选框id集合
+      checkboxList: [], // 标签页复选框绑定值
+      radioList: [], // 标签页单选框绑定值
+      textList: '', // 标签页输入框绑定值
+      dateList: [], // 标签页时间绑定值
+      selectList: '', // 标签页下拉选绑定值
+      attribute: 0, // 标签属性
+      attributeValue: 0, // 标签属性值
+      sysCustomerId: '', // 会员id
       shopKuhuShow: false,
       result: null,
       _queryConfig: { expand: false },
@@ -317,11 +329,15 @@ export default {
     // 显示启用的标签
     showTagData (row) {
       this.showTag = true
+      this.sysCustomerId = row.sysCustomerId
+      if (this.sysCustomerId.length > 0 && this.sysCustomerId !== row.sysCustomerId) {
+        // 清空选项
+        this.restTag()
+      }
       this.$http.fetch(this.$api.guide.guide.queryAllTag, {shopId: row.sgExclusiveShopId
       }).then(resp => {
         if (resp.success && resp.result != null) {
           this.tagData = resp.result
-          this.mapTag = new Map()
         }
       }).catch((resp) => {
         this.$notify.error(getErrorMsg('查询失败', resp))
@@ -345,19 +361,191 @@ export default {
       this.radio = null
       this.pagination.page = 1
     },
-    addCheckbox (row, item) {
-      var tag = 'tag' + row.id
-      if (tag.id) {
-
-      }else {
-
+    addText (row) {
+      console.log('row.value:' + row.value)
+      console.log('index:' + this.textIds.indexOf(row.id))
+      if (this.textIds.indexOf(row.id) > -1) {
+        for (let i = 0; i < this.mapTag.length; i++) {
+          let check = this.mapTag[i]
+          if (check.id === row.id) {
+            if (row.value.trim().length === 0) { // 判断是否为空
+              this.mapTag.splice(i, 1)
+              this.textIds = this.textIds.replace(row.id + ',', '')
+              this.attribute -= 1
+              this.attributeValue -= 1
+            } else {
+              check.value = row.value
+            }
+          }
+        }
+      } else {
+        this.textIds += row.id + ','
+        let check = {}
+        check.id = row.id
+        check.value = row.value
+        this.mapTag.push(check)
+        this.attribute += 1
+        this.attributeValue += 1
       }
-
-      tag.id = row.id
-      tag.value = item
-      this.mapTag.set(row.id, item)
-      console.log(row.id)
+      console.log('textIds:' + this.textIds)
+      console.log('更新后数据：' + JSON.stringify(this.mapTag))
+    },
+    addSelect (row) {
+      console.log('item:' + row.value)
+      console.log('index:' + this.selectIds.indexOf(row.id))
+      if (this.selectIds.indexOf(row.id) > -1) {
+        console.log(1)
+        for (let i = 0; i < this.mapTag.length; i++) {
+          let check = this.mapTag[i]
+          if (check.id === row.id) {
+            if (check.value.indexOf(row.value) > -1) {
+              this.mapTag.splice(i, 1)
+              this.selectIds = this.selectIds.replace(row.id + ',', '')
+            } else {
+              check.value = row.value
+              this.attribute += 1
+              this.attributeValue += 1
+            }
+          }
+        }
+      } else {
+        console.log(2)
+        this.selectIds += row.id + ','
+        let check = {}
+        check.id = row.id
+        check.value = row.value
+        this.mapTag.push(check)
+        this.attribute += 1
+        this.attributeValue += 1
+      }
+      console.log('selectIds:' + this.selectIds)
+      console.log('更新后数据：' + JSON.stringify(this.mapTag))
+    },
+    addDate (row) {
+      console.log('item:' + row.value)
+      if (this.dateIds.indexOf(row.id) > -1) {
+        for (let i = 0; i < this.mapTag.length; i++) {
+          let check = this.mapTag[i]
+          if (check.id === row.id) {
+            if (!row.value) {
+              this.mapTag.splice(i, 1)
+              this.dateIds = this.dateIds.replace(row.id + ',', '')
+            } else {
+              check.value = row.value.join(',')
+              this.attribute += 1
+              this.attributeValue += 1
+            }
+          }
+        }
+      } else {
+        this.dateIds += row.id + ','
+        let check = {}
+        check.id = row.id
+        check.value = row.value.join(',')
+        this.mapTag.push(check)
+        this.attribute += 1
+        this.attributeValue += 1
+      }
+      console.log('dateIds:' + this.dateIds)
+      console.log('更新后数据：' + JSON.stringify(this.mapTag))
+    },
+    addRadio (row, item) {
       console.log('item:' + item)
+      console.log('index:' + this.radioIds.indexOf(row.id))
+      if (this.radioIds.indexOf(row.id) > -1) {
+        for (let i = 0; i < this.mapTag.length; i++) {
+          let check = this.mapTag[i]
+          if (check.id === row.id) {
+            if (check.value.indexOf(item) > -1) {
+              check.value = check.value.replace(item, '')
+              if (check.value.length === 0) {
+                this.mapTag.splice(i, 1)
+                this.radioIds = this.radioIds.replace(row.id + ',', '')
+              }
+            } else {
+              check.value = item
+              this.attribute += 1
+              this.attributeValue += 1
+            }
+          }
+        }
+      } else {
+        this.radioIds += row.id + ','
+        let check = {}
+        check.id = row.id
+        check.value = item
+        this.mapTag.push(check)
+        this.attribute += 1
+        this.attributeValue += 1
+      }
+      console.log('radioIds:' + this.radioIds)
+      console.log('更新后数据：' + JSON.stringify(this.mapTag))
+    },
+    addCheckbox (row, item) {
+      console.log('item:' + item)
+      console.log('index:' + this.checkboxIds.indexOf(row.id))
+      if (this.checkboxIds.indexOf(row.id) > -1) {
+        for (let i = 0; i < this.mapTag.length; i++) {
+          let check = this.mapTag[i]
+          if (check.id === row.id) {
+            if (check.value.indexOf(item) > -1) { // 判断已选择值是否包含新值
+              check.value = check.value.replace(item + '|', '') // 去除值
+              this.attributeValue -= 1
+              if (check.value.length === 1) { // 假如只剩下"|" 删除该值
+                this.mapTag.splice(i, 1)
+                this.checkboxIds = this.checkboxIds.replace(row.id + ',', '')
+                this.attribute -= 1
+              } else {
+                this.mapTag[i].value = check.value
+              }
+            } else {
+              check.value += item + '|'
+              this.attributeValue += 1
+            }
+          }
+        }
+      } else {
+        this.checkboxIds += row.id + ','
+        let check = {}
+        check.id = row.id
+        check.value = '|' + item + '|'
+        this.mapTag.push(check)
+        this.attribute += 1
+        this.attributeValue += 1
+      }
+      console.log('checkboxIds:' + this.checkboxIds)
+      console.log('更新后数据：' + JSON.stringify(this.mapTag))
+    },
+    saveTag () { // 保存标签
+      console.log('*********')
+      if (this.mapTag.length === 0) {
+        this.$notify.error('未选择属性')
+      } else {
+        this.$http.fetch(this.$api.guide.guide.saveTag, {
+          sysCustomerId: this.sysCustomerId,
+          tagList: JSON.stringify(this.mapTag)
+        }).then(resp => {
+          if (resp.success && resp.result != null) {
+            this.$notify.success('保存成功！')
+          }
+        }).catch((resp) => {
+          this.$notify.error(getErrorMsg('保存失败', resp))
+        })
+      }
+    },
+    // 清空标签
+    restTag () {
+      this.mapTag = []
+      this.radioIds = ''
+      this.textIds = ''
+      this.selectIds = ''
+      this.dateIds = ''
+      this.checkboxIds = ''
+      this.checkboxList = []
+      this.radioList = []
+      this.textList = ''
+      this.dateList = []
+      this.selectList = ''
     },
     onSave () {
       let _this = this
@@ -395,10 +583,10 @@ export default {
   mounted: function () {
   },
   watch: {
-    checkboxList (newValue) {
-      // console.log(newValue)
-      // this.checkboxList.push(newValue)
-      console.log('数组值：' + this.checkboxList)
-    }
+    // checkboxList (newValue) {
+    //   // console.log(newValue)
+    //   // this.checkboxList.push(newValue)
+    //   console.log('数组值：' + JSON.stringify(this.mapTag))
+    // }
   }
 }

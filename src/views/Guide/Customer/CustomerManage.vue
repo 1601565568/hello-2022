@@ -648,13 +648,13 @@
       <div>
         <el-form>
           <el-form-item>
-            已选8属性，80属性值
+            已选{{attribute}}属性，{{attributeValue}}属性值
           </el-form-item>
           <el-form-item>
             <el-row>
               <el-col :span="8">
                 <el-form-grid>
-                  <ns-button>清空选择</ns-button>
+                  <ns-button @click="restTag">清空选择</ns-button>
                 </el-form-grid>
               </el-col>
               <el-col :span="16" style="text-align: right">
@@ -674,38 +674,44 @@
             <template slot-scope="scope">
               <div style="padding: 5px 0;">
                 <!--输入框-->
-                <el-input v-model="scope.row.value" placeholder="请输入内容" autosize size="small" v-if="scope.row.tagType === 0" clearable></el-input>
+                <el-input v-model="scope.row.value"
+                          placeholder="请输入内容"
+                          autosize size="small"
+                          v-if="scope.row.tagType === 0" @change="addText(scope.row)" clearable></el-input>
                 <!--下拉选-->
-                <el-select v-model="scope.row.value"  placeholder="请选择" v-else-if="scope.row.tagType === 1">
+                <el-select v-model="scope.row.value"  placeholder="请选择" v-else-if="scope.row.tagType === 1" clearable @change="addSelect(scope.row)">
                   <el-option
                     v-for="item in scope.row.tagArr.split('|')" :key="item" :label="item"
-                    :value="item">
+                    :value="item" >
                   </el-option>
                 </el-select>
                 <!--日期-->
                 <el-date-picker
                   v-model="scope.row.value"
                   type="daterange"
+                  value-format="yyyy-MM-dd HH:mm:ss"
                   range-separator="至"
                   start-placeholder="开始日期"
-                  end-placeholder="结束日期" v-else-if="scope.row.tagType===2">
+                  end-placeholder="结束日期" v-else-if="scope.row.tagType===2" @change="addDate(scope.row)">
                 </el-date-picker>
                 <!--单选框-->
-                <el-radio-group v-model="scope.row.value" v-else-if="scope.row.tagType === 3" >
-                  <el-radio v-for="item1 in scope.row.tagArr.split('|')" :label="item1" :key="item1">{{item1}}</el-radio>
+                <el-radio-group v-model="radioList" v-else-if="scope.row.tagType === 3" >
+                  <el-radio v-for="item1 in scope.row.tagArr.split('|')" :label="item1" :key="item1"
+                            @change="addRadio(scope.row,item1)">{{item1}}</el-radio>
                 </el-radio-group>
                 <!-- 复选框 -->
                 <el-checkbox-group v-model="checkboxList" v-else-if="scope.row.tagType === 4"  >
-                  <el-checkbox v-for="item in scope.row.tagArr.split('|')" :label="item" :key="item" @change="addCheckbox(scope.row,item)"></el-checkbox>
+                  <el-checkbox v-for="item in scope.row.tagArr.split('|')" :label="item" :key="item"
+                               @change="addCheckbox(scope.row,item)"></el-checkbox>
                 </el-checkbox-group>
               </div>
             </template>
           </el-table-column>
         </el-table>
       </div>
-      <span slot="footer">
-        <ns-button @click="showTag = false">取 消</ns-button>
-        <ns-button type="primary" @click="showTag = false">保存</ns-button>
+      <span slot="footer" class="dialog-footer">
+        <ns-button @click="showTag = false">取 消a</ns-button>
+        <ns-button type="primary" @click="saveTag">保阿斯蒂芬存</ns-button>
       </span>
     </el-dialog>
   </div>
