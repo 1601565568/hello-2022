@@ -64,7 +64,8 @@ import { getErrorMsg } from '@/utils/toast'
 export default {
   mixins: [listPageMixin],
   props: {
-    callBack: Function
+    callBack: Function,
+    hasShopArr: Array
   },
   components: {
     listItemShow
@@ -93,6 +94,7 @@ export default {
     // 分组
     async loadListFun () {
       // 素材列表
+      this.searchObj.searchMap.shopIds = this.hasShopArr.join(',')
       await this.$http
         .fetch(this.$api.guide.materialFindListByBrandId, this.searchObj)
         .then(resp => {
