@@ -74,7 +74,7 @@
       <ns-button type="primary" :loading="loading" @click="saveFun">确 定</ns-button>
     </span>
   </el-dialog>
-  <selectMaterialListModal :callBack="selectMaterialBack" ref="selectDialogDom"></selectMaterialListModal>
+  <selectMaterialListModal :callBack="selectMaterialBack" ref="selectDialogDom" :hasShopArr="hasShopArr"></selectMaterialListModal>
 
 </div>
 </template>
