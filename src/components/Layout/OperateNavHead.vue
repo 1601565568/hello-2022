@@ -10,7 +10,7 @@
               v-if='!item.hidden && item.name != "examples"'
               class="nav-menu__item" :class="item.name === activeName ? 'is-selected-item' : ''">
           <router-link :to="item.path" class="nav-menu__item--link">
-            <i :class="'iconfont icon-' + item.icon"></i>
+            <Icon className="icon" type="item.icon"/>
             <p class="link-name">{{item.title}}</p>
           </router-link>
         </div>
@@ -99,7 +99,7 @@ export default {
       text-align: center;
       color: #fff;
       font-size: 14px;
-      .iconfont{
+      .icon{
         font-size: 24px;
         margin-bottom:8px;
         color: #fff;
@@ -189,7 +189,7 @@ export default {
       padding:0 15px;
     }
     .nav-menu__item{
-      .iconfont{
+      .icon{
         font-size: 22px;
         margin-bottom: 3px;
       }

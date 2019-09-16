@@ -7,7 +7,7 @@
     <el-dialog :title="title"  :visible.sync="memberBelongingShow" width="750px" >
       <div class="recruitingcode_title">
         <div class="recruitingcode">
-          <i class="iconfont icon-erweima"></i>
+          <Icon className="icon-erweima" type="erweima"/>
         </div>
         <div>
           <div><template><el-checkbox v-model="checked"></el-checkbox></template>会员注册时是否需要关注公众号</div>
@@ -25,30 +25,30 @@
             <div>小尺寸：适用于屏幕类、宣传册等</div>
             <span class="last_div">边长约8cm，最佳扫码距离0.5m</span>
           </el-col>
-          <el-col v-if="checked" class="elrow_firstcol" :span="8"><ns-button  type="text"><a :href="url+0+'&shopId='+succeedObj.shopId+'&size='+0"><i class="iconfont icon-xiazai"></i></a></ns-button></el-col>
-          <el-col v-else class="elrow_firstcol" :span="8"><i class="iconfont icon-xiazai" style="color:#aaa"></i></el-col>
-          <el-col v-if="!checked" class="elrow_firstcol" :span="8"><ns-button  type="text"><a :href="url+1+'&shopId='+succeedObj.shopId+'&size='+0"><i class="iconfont icon-xiazai"></i></a></ns-button></el-col>
-          <el-col v-else class="elrow_firstcol" :span="8"><i class="iconfont icon-xiazai" style="color:#aaa"></i></el-col>
+          <el-col v-if="checked" class="elrow_firstcol" :span="8"><ns-button  type="text"><a :href="url+0+'&shopId='+succeedObj.shopId+'&size='+0"><Icon className="icon-xiazai" type="xiazai"/></a></ns-button></el-col>
+          <el-col v-else class="elrow_firstcol" :span="8"><Icon className="icon-xiazaia" type="xiazai"/></el-col>
+          <el-col v-if="!checked" class="elrow_firstcol" :span="8"><ns-button  type="text"><a :href="url+1+'&shopId='+succeedObj.shopId+'&size='+0"><Icon className="icon-xiazai" type="xiazai"/></a></ns-button></el-col>
+          <el-col v-else class="elrow_firstcol" :span="8"><Icon className="icon-xiazaia" type="xiazai"/></el-col>
         </el-row>
         <el-row class="elrow_second">
           <el-col :span="8">
             <div>中尺寸：适用于海报、展架等</div>
             <div class="last_div">边长约15cm，最佳扫码距离1m</div>
           </el-col>
-          <el-col v-if="checked" class="elrow_firstcol" :span="8"><ns-button  type="text"><a :href="url+0+'&shopId='+succeedObj.shopId+'&size='+1"><i class="iconfont icon-xiazai"></i></a></ns-button></el-col>
-          <el-col v-else class="elrow_firstcol" :span="8"><i class="iconfont icon-xiazai" style="color:#aaa"></i></el-col>
-          <el-col v-if="!checked" class="elrow_firstcol" :span="8"><ns-button  type="text"><a :href="url+1+'&shopId='+succeedObj.shopId+'&size='+1"><i class="iconfont icon-xiazai"></i></a></ns-button></el-col>
-          <el-col v-else class="elrow_firstcol" :span="8"><i class="iconfont icon-xiazai" style="color:#aaa"></i></el-col>
+          <el-col v-if="checked" class="elrow_firstcol" :span="8"><ns-button  type="text"><a :href="url+0+'&shopId='+succeedObj.shopId+'&size='+1"><Icon className="icon-xiazai" type="xiazai"/></a></ns-button></el-col>
+          <el-col v-else class="elrow_firstcol" :span="8"><Icon className="icon-xiazaia" type="xiazai"/></el-col>
+          <el-col v-if="!checked" class="elrow_firstcol" :span="8"><ns-button  type="text"><a :href="url+1+'&shopId='+succeedObj.shopId+'&size='+1"><Icon className="icon-xiazai" type="xiazai"/></a></ns-button></el-col>
+          <el-col v-else class="elrow_firstcol" :span="8"><Icon className="icon-xiazaia" type="xiazai"/></el-col>
         </el-row>
         <el-row class="elrow_thirdly">
           <el-col :span="8">
             <div>大尺寸：适用于幕布、大型广告等</div>
             <div class="last_div">边长约50cm，最佳扫码距离2.5m</div>
           </el-col>
-          <el-col v-if="checked" class="elrow_firstcol" :span="8" ><ns-button  type="text"><a :href="url+0+'&shopId='+succeedObj.shopId+'&size='+2"><i class="iconfont icon-xiazai"></i></a></ns-button></el-col>
-          <el-col v-else class="elrow_firstcol" :span="8" ><i class="iconfont icon-xiazai" style="color:#aaa"></i></el-col>
-          <el-col v-if="!checked" class="elrow_firstcol" :span="8" ><ns-button  type="text"><a :href="url+1+'&shopId='+succeedObj.shopId+'&size='+2"><i class="iconfont icon-xiazai"></i></a></ns-button></el-col>
-          <el-col v-else class="elrow_firstcol" :span="8" ><i class="iconfont icon-xiazai" style="color:#aaa"></i></el-col>
+          <el-col v-if="checked" class="elrow_firstcol" :span="8" ><ns-button  type="text"><a :href="url+0+'&shopId='+succeedObj.shopId+'&size='+2"><Icon className="icon-xiazai" type="xiazai"/></a></ns-button></el-col>
+          <el-col v-else class="elrow_firstcol" :span="8" ><Icon className="icon-xiazaia" type="xiazai"/></el-col>
+          <el-col v-if="!checked" class="elrow_firstcol" :span="8" ><ns-button  type="text"><a :href="url+1+'&shopId='+succeedObj.shopId+'&size='+2"><Icon className="icon-xiazai" type="xiazai"/></a></ns-button></el-col>
+          <el-col v-else class="elrow_firstcol" :span="8" ><Icon className="icon-xiazaia" type="xiazai"/></el-col>
         </el-row>
       </div>
       <div slot="footer" class="dialog-footer">
@@ -165,13 +165,20 @@ export default List
   .recruitingcode{
     margin: 10px 30px 0 0;
   }
-  .recruitingcode .icon-erweima{
+  .icon-erweima{
     font-size: 40px;
     font-weight: 600;
-    color:#409EFF;
+    color: #409EFF;
+    position: relative;
+    top: -10px;
+    left: 10px;
   }
   .icon-xiazai{
     font-size: 20px;
+  }
+  .icon-xiazaia{
+    font-size: 20px;
+    color: #aaa;
   }
   .el-icon-question:hover .publicnumberqrCode{
     display: block;

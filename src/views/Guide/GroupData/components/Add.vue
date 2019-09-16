@@ -43,7 +43,7 @@
             <el-scrollbar class="scrollbara">
               <div class="dialog-selectitem" v-for='item of privateAccountSelection' :key='item.wid'>
                 <span class="dialog-selectitem__discountgroup">{{item.nick}}</span>
-                <i class="iconfont icon-shanchu2" @click='onRemoveSelectedPrivateAccount(item)'></i>
+                <i @click='onRemoveSelectedPrivateAccount(item)'><Icon type="shanchu2"/></i>
               </div>
             </el-scrollbar>
           </div>
@@ -69,7 +69,7 @@
         </el-form-item>
         <el-form-item>
           <div class="dialog-max">
-            <i class="iconfont icon-tishi"></i>
+            <Icon type="tishi"/>
             <span class="dialog-max__length">字数最多15字</span>
           </div>
         </el-form-item>
@@ -111,7 +111,7 @@
               <el-scrollbar class="scrollbarb">
                 <div class="dialog-selectitem" v-for='item in friendSelection' :key='item.wid'>
                   <span class="dialog-selectitem__discountgroup">{{item.nick}}</span>
-                  <i class="iconfont icon-shanchu2" @click='onRemoveSelectedFriend(item)'></i>
+                  <i @click='onRemoveSelectedFriend(item)'><Icon type="shanchu2"/></i>
                 </div>
               </el-scrollbar>
             </div>
