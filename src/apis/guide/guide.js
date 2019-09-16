@@ -115,6 +115,10 @@ export default {
     url: '/guide/customer/getAllTag',
     method: 'get'
   },
+  saveTag: {// 更新会员属性
+    url: '/guide/customer/saveTag',
+    method: 'post'
+  },
   findGuideNewWorkNumAndPrefix: {
     url: '/guide/guide/findGuideNewWorkNumAndPrefix',
     method: 'get'
