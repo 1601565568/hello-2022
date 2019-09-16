@@ -22,7 +22,8 @@
               start-placeholder="开始日期"
               @change="timeFun"
               :picker-options="pickerOptions0"
-              end-placeholder="结束日期">
+              end-placeholder="结束日期"
+              :default-time="['00:00:00', '23:59:59']">
             </el-date-picker>
         </el-form-item>
         <el-form-item label="类型：" prop="type">
