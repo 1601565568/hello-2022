@@ -27,7 +27,7 @@
                 </div>
             </div>
             <div class="content__qrcode">
-                <img id="guideQrCode" src="./img/expression/memberQrcode.png" alt="二维码" class="qrcodeimg">
+                <img id="oaQrCode" src="./img/expression/memberQrcode.png" alt="二维码" class="qrcodeimg">
             </div>
             <div class="content__bottom">
                 <img src="./img/expression/halfcircle.png" alt="底部半圆" class="circleimg">
@@ -39,13 +39,10 @@
 <script type="text/javascript" src="./js/common.js"></script>
 <script>
     $(document).ready(function () {
-        var guideImg = getPar('guideImg');
-        var sgGuideName = getPar('sgGuideName');
-        var guideQrCode = getPar('guideQrCode');
-        $("#guideImg").attr("src", guideImg)
-        $("#guideName").innerText = sgGuideName;
-        $("#guideName1").innerText = sgGuideName;
-        $("#guideQrCode").attr("src", guideQrCode);
+        var showData = JSON.parse(localStorage.getItem('showData'));
+        if (showData) {
+            $('#oaQrCode').attr("src", showData.oaQrCode)
+        }
     })
     //页面加载完成
     $(document).onload(function () {
