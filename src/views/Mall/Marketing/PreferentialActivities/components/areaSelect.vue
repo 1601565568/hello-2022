@@ -5,7 +5,7 @@
       <el-row class="tmp-choose">
         <el-col :span="24">
           <div class="tmp-choose__title">
-            <ns-button type="primary" @click="onShow"><i class="el-icon-edit"></i></ns-button>
+            <ns-button type="primary" @click="onShow"><Icon fontType="el-icon-edit"></Icon></ns-button>
             <span class="total">已选择<b class="text-danger padding-lr-base">{{confirmData.length}}</b>件商品</span></div>
         </el-col>
       </el-row>

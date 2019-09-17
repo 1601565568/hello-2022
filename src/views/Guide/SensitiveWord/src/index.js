@@ -140,7 +140,7 @@ export default {
       let _this = this
       let params = { id: data.id }
       _this.$http.fetch(_this.$api.guide.sensitiveWord.hasWordInGroup, params).then(resp => {
-        _this.removeGroupText = '<font size=\'5\' color="#E6A23C"><i class=\'el-icon-warning\'></i></font>&nbsp;&nbsp;确认要删除 <font color="red">' + _this.getGroupNameFromTreeNode(data) + ' </font>分组吗?'
+        _this.removeGroupText = '<font size=\'5\' color="#E6A23C"><Icon fontType=\'el-icon-warning\'></Icon></font>&nbsp;&nbsp;确认要删除 <font color="red">' + _this.getGroupNameFromTreeNode(data) + ' </font>分组吗?'
         _this.removeGroupSelectVisible = resp.result
         _this.removeGroupDialogVisible = true
         _this.groupInRemoveGroupDlg = null
@@ -272,12 +272,13 @@ export default {
         }
       }, [h('span', ['导购发送次']), h('el-tooltip', {
         attrs: {
-          class: 'el-icon-question bg-white',
+          fontType: 'el-icon-question',
+          class: 'bg-white',
           effect: 'light',
           content: '敏感词在导购所发送的消息中出现的次数',
           placement: 'bottom'
         }
-      }, [h('i', { 'class': 'el-icon-question', style: 'color:rgb(153, 153, 153)' })])])
+      }, [h('i', { 'fontType': 'el-icon-question', style: 'color:rgb(153, 153, 153)' })])])
     },
     renderHeaderCustomerCount (h, data) {
       return h('div', {
@@ -287,12 +288,13 @@ export default {
         }
       }, [h('span', ['会员发送次']), h('el-tooltip', {
         attrs: {
-          class: 'el-icon-question bg-white',
+          fontType: 'el-icon-question',
+          class: 'bg-white',
           effect: 'light',
           content: '敏感词在会员所发送的消息中出现的次数',
           placement: 'bottom'
         }
-      }, [h('i', { 'class': 'el-icon-question', style: 'color:rgb(153, 153, 153)' })])])
+      }, [h('i', { 'fontType': 'el-icon-question', style: 'color:rgb(153, 153, 153)' })])])
     },
     // 从树节点label获取名称
     getGroupNameFromTreeNode (nodeData) {

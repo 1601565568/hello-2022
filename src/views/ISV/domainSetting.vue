@@ -8,7 +8,7 @@
              class="form-main"
              :model="model"
              ref="form">
-      <div class="tmp-tips text-warning"><i class="el-icon-warning"></i>
+      <div class="tmp-tips text-warning"><Icon fontType="el-icon-warning"></Icon>
         第三方平台旗下授权的小程序，只可配置本平台服务器域名列表中的域名，必须以https://开头，多个域名以,隔开
       </div>
       <el-form-item label="request：">

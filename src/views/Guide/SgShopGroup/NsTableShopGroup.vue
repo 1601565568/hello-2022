@@ -21,8 +21,8 @@
         <el-form-item>
           <ns-button type="text" @click="$handleTabClick">
             {{collapseText}}
-            <i :class="{'el-icon--right': true, 'el-icon-arrow-down': !_data._queryConfig.expand, 'el-icon-arrow-up': _data._queryConfig.expand} ">
-            </i>
+            <Icon className="el-icon--right" v-if="_data._queryConfig.expand" fontType="el-icon-arrow-up"/>
+            <Icon className="el-icon--right" v-else fontType="el-icon-arrow-down"/>
           </ns-button>
         </el-form-item>
       </el-form>

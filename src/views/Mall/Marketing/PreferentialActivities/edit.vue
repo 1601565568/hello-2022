@@ -91,7 +91,7 @@
                            <area-Select ref="area" v-model="goodsInfo" @change="addGoods"
                                :params="goodsQueryParams" :table-api="$api.guide.marketing.findGoodsList"></area-Select>
 
-                           <ns-button type='text' circle='circle'><i class="el-icon-question"></i></ns-button>
+                           <ns-button type='text' circle='circle'><Icon fontType="el-icon-question"></Icon></ns-button>
                            <!-- <activity-goods-table ref="goodsTable" @delete="deleteGoods"></activity-goods-table> -->
                       </div>
                   </div>
@@ -111,11 +111,11 @@
                               <el-input v-model.trim="coupon.num"><template slot="append">张</template></el-input>
                             </el-form-grid>
                             <el-form-grid v-show="index > 0">
-                              <ns-button @click="deleteCoupon(row.coupons, index)"><i class="el-icon-delete"></i>
+                              <ns-button @click="deleteCoupon(row.coupons, index)"><Icon fontType="el-icon-delete"></Icon>
                               </ns-button>
                             </el-form-grid>
                             <el-form-grid v-show="index === row.coupons.length-1">
-                              <ns-button @click="addCoupon(row.coupons)"><i class="el-icon-plus"></i></ns-button>
+                              <ns-button @click="addCoupon(row.coupons)"><Icon fontType="el-icon-plus"></Icon></ns-button>
                             </el-form-grid>
                           </div>
                       </div>
@@ -135,11 +135,11 @@
                               <el-input v-model.trim="coupon.num"><template slot="append">张</template></el-input>
                             </el-form-grid>
                             <el-form-grid v-show="index > 0">
-                              <ns-button @click="deleteCoupon(row.coupons, index)"><i class="el-icon-delete"></i>
+                              <ns-button @click="deleteCoupon(row.coupons, index)"><Icon fontType="el-icon-delete"></Icon>
                               </ns-button>
                             </el-form-grid>
                             <el-form-grid v-show="index === row.coupons.length-1">
-                              <ns-button @click="addCoupon(row.coupons)"><i class="el-icon-plus"></i></ns-button>
+                              <ns-button @click="addCoupon(row.coupons)"><Icon fontType="el-icon-plus"></Icon></ns-button>
                             </el-form-grid>
                           </div>
                       </div>
@@ -152,8 +152,8 @@
               <el-table-column label="操作" align="center" width="100">
                 <template slot-scope="{row}">
                   <ns-button @click="deleteRule(row)"
-                             type="text"><i
-                    class="el-icon-delete"></i>
+                             type="text"><Icon
+                    fontType="el-icon-delete"></Icon>
                   </ns-button>
                 </template>
               </el-table-column>

@@ -28,12 +28,12 @@
                 <li class="imgItem" v-if="saveObj.img">
                   <img :src="saveObj.img" class="comUploadImg">
                   <div class="del" @click="delImgFun(index)">
-                    <i class="el-icon-delete"></i>
+                    <Icon fontType="el-icon-delete"></Icon>
                   </div>
                 </li>
                 <li v-else>
                   <el-upload class="avatar-uploader" :action="this.$api.core.sgUploadFile('test')" accept=".jpg,.jpeg,.png,.bmp,.gif" :show-file-list="false" list-type="picture-card" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
-                    <i class="el-icon-plus avatar-uploader-icon"></i>
+                    <Icon fontType="el-icon-plus" className="avatar-uploader-icon"></Icon>
                   </el-upload>
                 </li>
               </ul>

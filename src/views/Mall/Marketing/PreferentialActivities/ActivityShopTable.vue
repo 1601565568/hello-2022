@@ -9,7 +9,7 @@
           <el-table-column prop="address" label="区域" align="center" show-overflow-tooltip></el-table-column>
           <el-table-column label="操作" align="center" width="120" v-if="showIcon">
             <template slot-scope="{row}">
-              <ns-button @click="deleteShop(row)" type="text"><i class="el-icon-delete"></i></ns-button>
+              <ns-button @click="deleteShop(row)" type="text"><Icon fontType="el-icon-delete"></Icon></ns-button>
             </template>
           </el-table-column>
         </el-table>

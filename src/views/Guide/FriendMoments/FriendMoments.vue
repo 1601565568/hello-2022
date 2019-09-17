@@ -12,17 +12,16 @@
               <el-form-item v-show="_data._queryConfig.expand === false">
                 <el-input ref="quickText" v-model="model.keyword" placeholder="关键字"
                           @keyup.enter.native="$quickSearchAction$(model.keyword)">
-                  <i class="el-icon-search el-input__icon" slot="suffix" name="name"
-                     @click="$quickSearchAction$(model.keyword)"></i>
+                  <Icon fontType="el-icon-search" className="el-input__icon" slot="suffix" name="name"
+                     @click="$quickSearchAction$(model.keyword)"></Icon>
                 </el-input>
               </el-form-item>
               <el-form-item>
                 <ns-button type="text" @click="$handleTabClick">
                   <!--{{collapseText}}-->
                   {{!_data._queryConfig.expand ? '展开搜索' : '收起搜索'}}
-                  <i
-                    :class="{'el-icon--right': true, 'el-icon-arrow-down': !_data._queryConfig.expand, 'el-icon-arrow-up': _data._queryConfig.expand} ">
-                  </i>
+                  <Icon className="el-icon--right" v-if="_data._queryConfig.expand" fontType="el-icon-arrow-up"/>
+                  <Icon className="el-icon--right" v-else fontType="el-icon-arrow-down"/>
                 </ns-button>
               </el-form-item>
             </el-form>

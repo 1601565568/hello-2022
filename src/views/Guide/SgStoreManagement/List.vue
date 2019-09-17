@@ -17,8 +17,8 @@
       <div>
         <el-row class="elrow">
           <el-col :span="8" class="elrow_size">尺寸</el-col>
-          <el-col :span="8">公众号二维码<i class="el-icon-question"><div class="publicnumberqrCode"><img src="../../../assets/putongerweima.png"></div></i></el-col>
-          <el-col :span="8">小程序二维码<i class="el-icon-question"><div class="smallprogramqrCode"><img src="../../../assets/xiaochengxu.png"></div></i></el-col>
+          <el-col :span="8">公众号二维码<span class="icon-question"><Icon className="iconQuestion" fontType="el-icon-question"/><div class="publicnumberqrCode"><img src="../../../assets/putongerweima.png"></div></span></el-col>
+          <el-col :span="8">小程序二维码<span class="icon-question"><Icon className="iconQuestion" fontType="el-icon-question"/><div class="smallprogramqrCode"><img src="../../../assets/xiaochengxu.png"></div></span></el-col>
         </el-row>
         <el-row class="elrow_first">
           <el-col  :span="8">
@@ -180,11 +180,15 @@ export default List
     font-size: 20px;
     color: #aaa;
   }
-  .el-icon-question:hover .publicnumberqrCode{
+  .icon-question:hover .publicnumberqrCode{
     display: block;
   }
-  .el-icon-question:hover .smallprogramqrCode{
+  .icon-question:hover .smallprogramqrCode{
     display: block;
+  }
+  .iconQuestion{
+    position: relative;
+    top: 2px;
   }
   .el-col-8{
     position: relative;

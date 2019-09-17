@@ -3,7 +3,7 @@
     <div class="template-page__row-left" v-loading="treeLoading">
       <el-input v-model="filterTreeText" placeholder="搜索分组" suffix-icon="el-icon-search" style="width: 180px"/>
       &nbsp;
-      <i class="el-icon-plus" @click="showEditGroupDlg(null, true, true)" style="cursor:pointer;"/>
+      <Icon fontType="el-icon-plus" @click="showEditGroupDlg(null, true, true)" style="cursor:pointer;"/>
       <el-tree :data="groupList" ref="groupTree" node-key="id" :expand-on-click-node="false"
                :filter-node-method="onFilterNode" @node-click="onClickNode" highlight-current>
         <span class="custom-tree-node" slot-scope="{ node, data }"
@@ -13,9 +13,9 @@
             {{ node.label }}
           </span>
           <span v-if="data.ext1!=null" v-show="isShowTreeNodePlus(data.id)">
-            <i class="el-icon-plus" v-if="data.parentId==0" @click.stop="showEditGroupDlg(data,true,false)"/>
-            <i class="el-icon-edit-outline" size="mini" @click.stop="showEditGroupDlg(data,false,false)"/>
-            <i class="el-icon-delete" size="mini" @click.stop="showRemoveGroupDlg(data)" v-show="data.children==null"/>
+            <Icon fontType="el-icon-plus" v-if="data.parentId==0" @click.stop="showEditGroupDlg(data,true,false)"/>
+            <Icon fontType="el-icon-edit-outline" size="mini" @click.stop="showEditGroupDlg(data,false,false)"/>
+            <Icon fontType="el-icon-delete" size="mini" @click.stop="showRemoveGroupDlg(data)" v-show="data.children==null"/>
           </span>
         </span>
       </el-tree>
@@ -33,7 +33,7 @@
                   <el-row class="overview-popover">
                     只对敏感词创建时间后的聊天记录进行监控统计
                   </el-row>
-                  <i slot="reference" class="el-icon-info ml10 fz13" style='color:#999'></i>
+                  <Icon slot="reference" fontType="el-icon-info" className="ml10 fz13" style='color:#999'></Icon>
                 </el-popover>
             </span>
           </div>

@@ -20,8 +20,10 @@
           <el-col :span="17">
             <!-- 右上角操作区域 -->
             <div class="float-right tabSearchBtn">
-              <ns-button @click="tabSearchType" style="padding: 9px 0 9px 10px;opacity: 0.5;color: #002041;" type="text">{{searchType.tipText}}<i :class="{'el-icon--right': true, 'el-icon-arrow-down': !searchType.advanced, 'el-icon-arrow-up': searchType.advanced} ">
-                </i></ns-button>
+              <ns-button @click="tabSearchType" style="padding: 9px 0 9px 10px;opacity: 0.5;color: #002041;" type="text">{{searchType.tipText}}
+                <Icon className="el-icon--right" v-if="searchType.advanced" fontType="el-icon-arrow-up"/>
+                <Icon className="el-icon--right" v-else fontType="el-icon-arrow-down"/>
+              </ns-button>
             </div>
             <el-form ref="searchform1" class="float-right" v-if="!searchType.advanced" :inline="true" :model="searchform" style='padding-top:3px'>
               <el-form-item label="年份：" prop="year">

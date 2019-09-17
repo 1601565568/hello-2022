@@ -38,7 +38,7 @@
           </el-form-item>
           <el-form-item  label="二维码链接：" v-if="saveObj.m_type==1" prop="urlPic">
               <el-input  v-model="saveObj.urlPic" placeholder="请输入二维码链接"></el-input>
-              <p><i class="el-icon-info text-tips">推广图片中如果有带参二维码，请务必设置该项</i></p>
+              <p><Icon fontType="el-icon-info" className="text-tips">推广图片中如果有带参二维码，请务必设置该项</Icon></p>
           </el-form-item>
             <el-form-item v-if="saveObj.m_type==1" label="推广图片：" prop="imgUrl">
                 <div class="comUploadBox">
@@ -46,7 +46,7 @@
                         <li class="imgItem" v-for="(item,index) in saveObj.imageList" :key="index">
                             <img :src="item" class="comUploadImg">
                             <div class="del" @click="delImgFun(index)">
-                                <i class="el-icon-delete"></i>
+                                <Icon fontType="el-icon-delete"></Icon>
                             </div>
                         </li>
                         <li v-if="saveObj.imageList.length<9">
@@ -59,7 +59,7 @@
                             :on-success="handleAvatarSuccess"
                             :before-upload="beforeAvatarUpload"
                             >
-                            <i   class="el-icon-plus avatar-uploader-icon"></i>
+                            <Icon fontType="el-icon-plus" className="avatar-uploader-icon"></Icon>
                         </el-upload>
                         </li>
                     </ul>
@@ -83,7 +83,7 @@
                         :before-upload="beforeAvatarUpload"
                         >
                         <img v-if="saveObj.imageList[0]" :src="saveObj.imageList[0]" alt="">
-                        <i  v-else class="el-icon-plus avatar-uploader-icon"></i>
+                        <Icon v-else fontType="el-icon-plus" className="avatar-uploader-icon"></Icon>
                     </el-upload>
                 <p style="color:#999">上传图片不能大于200KB</p>
               </div>

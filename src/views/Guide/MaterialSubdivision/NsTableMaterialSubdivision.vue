@@ -15,7 +15,7 @@
                 <el-form :model="quickSearchModel" :inline="true" class="pull-right">
                   <el-form-item v-show="_data._queryConfig.expand === false">
                     <el-input ref="quickText" v-model="quickSearchModel.subName" placeholder="请输入查询分组名称">
-                      <i class="el-icon-search el-input__icon" slot="suffix" @click="$quickSearchAction$('subName')"></i>
+                      <Icon fontType="el-icon-search" className="el-input__icon" slot="suffix" @click="$quickSearchAction$('subName')"></Icon>
                     </el-input>
                   </el-form-item>
                 </el-form>

@@ -24,8 +24,8 @@
           <el-form-item>
             <ns-button type="text" @click="$handleTabClick">
               {{collapseText}}
-              <i :class="{'el-icon--right': true, 'el-icon-arrow-down': !_data._queryConfig.expand, 'el-icon-arrow-up': _data._queryConfig.expand} ">
-              </i>
+              <Icon className="el-icon--right" v-if="_data._queryConfig.expand" fontType="el-icon-arrow-up"/>
+              <Icon className="el-icon--right" v-else fontType="el-icon-arrow-down"/>
             </ns-button>
           </el-form-item>
         </el-form>
@@ -53,7 +53,7 @@
             </el-form-grid>
              <el-form-grid><ns-button class="text-info" type="text" @click="showTargetDetail = true">查询ID</ns-button></el-form-grid>
              <el-form-grid>
-               <el-tooltip content="查询数据模块中需查询数据的数据库ID" placement="right"><i class="el-icon-info text-tips"></i></el-tooltip>
+               <el-tooltip content="查询数据模块中需查询数据的数据库ID" placement="right"><Icon fontType="el-icon-info" className="text-tips"></Icon></el-tooltip>
              </el-form-grid>
           </el-form-item>
 
@@ -100,7 +100,7 @@
               </el-date-picker>
             </el-form-grid>
             <el-form-grid>
-              <el-tooltip content="仅支持查询最近36个月内的操作日志" placement="right"><i class="el-icon-info text-tips"></i></el-tooltip>
+              <el-tooltip content="仅支持查询最近36个月内的操作日志" placement="right"><Icon fontType="el-icon-info" className="text-tips"></Icon></el-tooltip>
             </el-form-grid>
           </el-form-item>
 

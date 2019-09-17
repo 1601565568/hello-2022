@@ -54,7 +54,7 @@
             <ul class="list">
                 <li v-for="(item) in multipleSelection" :key="item.id">
                     <span class="name">{{item.shopName}}</span>
-                    <span class="del" @click="toggleSelection([item])"><i class="g-delete el-icon-delete"></i></span>
+                    <span class="del" @click="toggleSelection([item])"><Icon fontType="el-icon-delete" className="g-delete"></Icon></span>
                 </li>
             </ul>
         </div>

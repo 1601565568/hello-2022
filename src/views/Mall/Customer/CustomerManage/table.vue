@@ -11,14 +11,14 @@
           <el-form-item v-show="_data._queryConfig.expand === false">
             <el-input ref="quickText" v-model.trim="quickSearchModel.customer_name" placeholder="客户名称"
                       @keyup.enter.native="$quickSearchAction$('customer_name')">
-              <i class="el-icon-search el-input__icon" slot="suffix" @click="$quickSearchAction$('customer_name')"></i>
+              <Icon fontType="el-icon-search" className="el-input__icon" slot="suffix" @click="$quickSearchAction$('customer_name')"></Icon>
             </el-input>
           </el-form-item>
           <el-form-item>
             <ns-button type="text" @click="$handleTabClick">
               {{collapseText}}
-              <i :class="{'el-icon--right': true, 'el-icon-arrow-down': !_data._queryConfig.expand,
-              'el-icon-arrow-up': _data._queryConfig.expand}"></i>
+              <Icon className="el-icon--right" v-if="_data._queryConfig.expand" fontType="el-icon-arrow-up"/>
+              <Icon className="el-icon--right" v-else fontType="el-icon-arrow-down"/>
             </ns-button>
           </el-form-item>
         </el-form>

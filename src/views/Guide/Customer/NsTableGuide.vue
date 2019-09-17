@@ -2,7 +2,7 @@
   <div calss="NsTableGuide_main">
         <div class="template-page__row-left">
           <el-input ref="quickText" style="width: 190px" v-model="filterTreeText" placeholder="输入线下店铺名称" clearable>
-            <i class="el-icon-search el-input__icon" slot="suffix" name="name" @click="$quickSearchAction$('name')"></i>
+            <i class="el-input__icon" slot="suffix" name="name" @click="$quickSearchAction$('name')"><Icon fontType="el-icon-search"/></i>
           </el-input>
           <div :class="offsetHeight?'elTrees':'elTree'" ref="elTree" :style="{ 'height' : height + 'px'}">
             <el-tree class="filter-tree" ref="guideTree" :data="shopFindList" highlight-current
@@ -30,7 +30,7 @@
       <el-form :model="quickSearchModel" :inline="true" @submit.native.prevent  class="pull-right">
         <el-form-item v-show="_data._queryConfig.expand === false">
           <el-input ref="quickText" style="width: 250px" v-model="model.mobile" placeholder="手机号" @keyup.enter.native="$searchAction$()" clearable>
-            <!-- <i class="el-icon-search el-input__icon" slot="suffix" moblie="moblie" @click="$searchAction$()"></i> -->
+            <!-- <i class="el-input__icon" slot="suffix" moblie="moblie" @click="$searchAction$()"><Icon fontType="el-icon-search"/></i> -->
           </el-input>
           <ns-button type="primary" @click="$searchAction$()">搜索</ns-button>
           <ns-button @click="$resetInputAction$()">重置</ns-button>
@@ -39,8 +39,8 @@
         <el-form-item>
           <ns-button type="text" @click="$handleTabClick">
             {{collapseText}}
-            <i :class="{'el-icon--right': true, 'el-icon-arrow-down': !_data._queryConfig.expand, 'el-icon-arrow-up': _data._queryConfig.expand} ">
-            </i>
+            <Icon className="el-icon--right" v-if="_data._queryConfig.expand" fontType="el-icon-arrow-up"/>
+            <Icon className="el-icon--right" v-else fontType="el-icon-arrow-down"/>
           </ns-button>
         </el-form-item>
       </el-form>

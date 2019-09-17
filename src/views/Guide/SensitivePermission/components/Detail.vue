@@ -60,7 +60,7 @@
                     <span>
                       <span>{{item.name}}</span>
                       <el-popover v-if='item.header' placement='bottom' width='220' trigger='hover' :content='item.header'>
-                        <i slot='reference' class='table-header-icon'><Icon type="xiangqingyiwen"/></i>
+                        <i slot='reference' class='table-header-icon'><Icon type="xiangqingyiwen" /></i>
                       </el-popover>
                     </span>
                   </template>

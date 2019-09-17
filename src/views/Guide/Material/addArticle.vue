@@ -24,7 +24,7 @@
         </el-form-item>
         </el-form>
 
-        <p style='margin-top:10px'><i class="el-icon-info text-tips">外链的内容仅在H5版本中显示，不会出现在小程序中</i></p>
+        <p style='margin-top:10px'><Icon fontType="el-icon-info" className="text-tips">外链的内容仅在H5版本中显示，不会出现在小程序中</Icon></p>
       </div>
       <div v-show='!saveObj.articleType' style='flex:1'>
         <div class='mb10'>

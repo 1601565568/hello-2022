@@ -12,7 +12,7 @@
     <Duplicate :visible.sync="duplicateDialog.visible" />
     <div class="template-page__row-left">
       <el-input ref="quickText" style="width: 190px" v-model="filterGroup" placeholder="搜索群名">
-        <i class="el-icon-search el-input__icon" slot="suffix" @click="onFilterGroup"></i>
+        <Icon fontType="el-icon-search" className="el-input__icon" slot="suffix" @click="onFilterGroup"></Icon>
       </el-input>
       <div class="elTree" :style="{ 'height' : groupTreeHeight + 'px'}">
         <el-tree
@@ -56,19 +56,19 @@
                 placeholder="请输入微信昵称"
                 @keyup.enter.native="$quickSearchAction$('nick')"
               >
-                <i
-                  class="el-icon-search el-input__icon"
+                <Icon
+                  fontType="el-icon-search"
+                  className="el-input__icon"
                   slot="suffix"
                   @click="$quickSearchAction$('nick')"
-                ></i>
+                ></Icon>
               </el-input>
             </el-form-item>
             <el-form-item>
               <ns-button type="text" @click="$handleTabClick">
                 {{collapseText}}
-                <i
-                  :class="{'el-icon--right': true, 'el-icon-arrow-down': !_data._queryConfig.expand, 'el-icon-arrow-up': _data._queryConfig.expand} "
-                ></i>
+                <Icon className="el-icon--right" v-if="_data._queryConfig.expand" fontType="el-icon-arrow-up"/>
+                <Icon className="el-icon--right" v-else fontType="el-icon-arrow-down"/>
               </ns-button>
             </el-form-item>
           </el-form>

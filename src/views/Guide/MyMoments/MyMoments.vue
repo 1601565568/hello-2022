@@ -16,15 +16,15 @@
             <el-form :model="quickSearchModel" :inline="true" @submit.native.prevent class="pull-right">
               <el-form-item v-show="_data._queryConfig.expand === false">
                 <el-input ref="quickText" v-model="model.keyword" placeholder="关键字" @keyup.enter.native="$quickSearchAction$(model.keyword)">
-                  <i class="el-icon-search el-input__icon" slot="suffix" name="name" @click="$quickSearchAction$(model.keyword)"></i>
+                  <Icon fontType="el-icon-search" className="el-input__icon" slot="suffix" name="name" @click="$quickSearchAction$(model.keyword)"></Icon>
                 </el-input>
               </el-form-item>
               <el-form-item>
                 <ns-button type="text" @click="$handleTabClick">
                   <!--{{collapseText}}-->
                   {{!_data._queryConfig.expand ? '展开搜索' : '收起搜索'}}
-                  <i :class="{'el-icon--right': true, 'el-icon-arrow-down': !_data._queryConfig.expand, 'el-icon-arrow-up': _data._queryConfig.expand} ">
-                  </i>
+                  <Icon className="el-icon--right" v-if="_data._queryConfig.expand" fontType="el-icon-arrow-up"/>
+                  <Icon className="el-icon--right" v-else fontType="el-icon-arrow-down"/>
                 </ns-button>
               </el-form-item>
             </el-form>
@@ -303,7 +303,7 @@
 <!--              :on-success="handleAvatarSuccess"-->
 <!--              :before-upload="beforeAvatarUpload">-->
 <!--              <img v-if="imageUrl" :src="imageUrl" class="avatar">-->
-<!--              <i v-else class="el-icon-plus avatar-uploader-icon"></i>-->
+<!--              <Icon v-else fontType="el-icon-plus" className="avatar-uploader-icon"></i>-->
 <!--            </el-upload>-->
           </div>
         </el-form-item>
