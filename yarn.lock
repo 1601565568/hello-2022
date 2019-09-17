@@ -7445,25 +7445,10 @@ nth-check@^1.0.2, nth-check@~1.0.1:
   dependencies:
     boolbase "~1.0.0"
 
-nui-v2@^2.8.3:
-  version "2.8.3"
-  resolved "http://27.154.234.170:18081/repository/npm/nui-v2/-/nui-v2-2.8.3.tgz#4b73fdaa5aaf336dc59234d5f2ec2c4447aee743"
-  integrity sha512-DgEjZqFX8p+9neBcmK4DZlvI+jfWPD0szWoe8xN9Bx4I6iqg5PT5MqSJPRdobWJuDfF6l8dIMEqHlI7sa6Myvg==
-  dependencies:
-    async-validator "~1.8.1"
-    babel-helper-vue-jsx-merge-props "^2.0.0"
-    countup.js "^1.7.1"
-    deepmerge "^1.2.0"
-    natives "^1.1.6"
-    normalize-wheel "^1.0.1"
-    resize-observer-polyfill "^1.5.0"
-    throttle-debounce "^1.0.1"
-    vuedraggable "^2.14.1"
-
-nui-v2@^2.8.5:
-  version "2.8.5"
-  resolved "http://27.154.234.170:18081/repository/npm/nui-v2/-/nui-v2-2.8.5.tgz#11512ae68c0f65e83c67f1a4b63e67d83d7bb6ac"
-  integrity sha512-89/XRvdbF30xvM1z5QhjYIqxzikIaBBSrkC2+2jYkuth96euWKPtxLFX2EGIArvG4ptu4Pk21BoHwWTAlezJZw==
+nui-v2@^2.8.7:
+  version "2.8.7"
+  resolved "http://27.154.234.170:18081/repository/npm/nui-v2/-/nui-v2-2.8.7.tgz#8ed2b73987fee938c601b9e8a55e98f5132a8432"
+  integrity sha512-54u2J/shQx7uHAeirvVtVKkb4xmBQ3Y5tURX7xsZRdzy2gf/+75dPsKoP2eeFsX18lgoiirqiA8fWgrjNWSEtQ==
   dependencies:
     async-validator "~1.8.1"
     babel-helper-vue-jsx-merge-props "^2.0.0"
@@ -11360,10 +11345,10 @@ wcwidth@^1.0.1:
   dependencies:
     defaults "^1.0.3"
 
-web-crm@^4.0.23:
-  version "4.0.23"
-  resolved "http://27.154.234.170:18081/repository/npm/web-crm/-/web-crm-4.0.23.tgz#333986954ce58d58a2970e415d495a253702f019"
-  integrity sha512-T5HwiFq61AlL0+iMCarZvNQvFmPbTlM43+vbLyWPC6o0OHHQshN1u9BDM3mIR3Uem7TbxRQT3EsUuAz5DB0Dhw==
+web-crm@^4.0.24:
+  version "4.0.24"
+  resolved "http://27.154.234.170:18081/repository/npm/web-crm/-/web-crm-4.0.24.tgz#038d436c9c7a3087c7785ad95f34d9d89745c0f9"
+  integrity sha512-JftLbSHA/V/v0H+iux8PHR7pO5QOjLBpnfp7Nczzk1pGpLKba5TkBVH/NR4GWjLGRu2gEZEZw1R3WmuDYODblg==
   dependencies:
     "@sentry/browser" "^4.5.3"
     axios "^0.18.0"
@@ -11373,7 +11358,7 @@ web-crm@^4.0.23:
     lodash "^4.17.11"
     moment "^2.24.0"
     normalize.css "^8.0.1"
-    nui-v2 "^2.8.3"
+    nui-v2 "^2.8.7"
     numeral "^2.0.6"
     register-service-worker "^1.5.2"
     store "^2.0.12"
