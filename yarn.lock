@@ -7445,10 +7445,10 @@ nth-check@^1.0.2, nth-check@~1.0.1:
   dependencies:
     boolbase "~1.0.0"
 
-nui-v2@^2.8.7:
-  version "2.8.7"
-  resolved "http://27.154.234.170:18081/repository/npm/nui-v2/-/nui-v2-2.8.7.tgz#8ed2b73987fee938c601b9e8a55e98f5132a8432"
-  integrity sha512-54u2J/shQx7uHAeirvVtVKkb4xmBQ3Y5tURX7xsZRdzy2gf/+75dPsKoP2eeFsX18lgoiirqiA8fWgrjNWSEtQ==
+nui-v2@^2.8.9:
+  version "2.8.9"
+  resolved "http://27.154.234.170:18081/repository/npm/nui-v2/-/nui-v2-2.8.9.tgz#741018eac98ee20f5877c4d18969b43c5b7877ff"
+  integrity sha512-BV3YA1hYexODPKYJ7cdYOVBJw5I8hjICSoXb/Kj6WbKRdybpgzY2YCix8TOTihEc2Q4m1kIxC/urzmwsT02Luw==
   dependencies:
     async-validator "~1.8.1"
     babel-helper-vue-jsx-merge-props "^2.0.0"
@@ -11345,10 +11345,10 @@ wcwidth@^1.0.1:
   dependencies:
     defaults "^1.0.3"
 
-web-crm@^4.0.24:
-  version "4.0.24"
-  resolved "http://27.154.234.170:18081/repository/npm/web-crm/-/web-crm-4.0.24.tgz#038d436c9c7a3087c7785ad95f34d9d89745c0f9"
-  integrity sha512-JftLbSHA/V/v0H+iux8PHR7pO5QOjLBpnfp7Nczzk1pGpLKba5TkBVH/NR4GWjLGRu2gEZEZw1R3WmuDYODblg==
+web-crm@^4.0.25:
+  version "4.0.25"
+  resolved "http://27.154.234.170:18081/repository/npm/web-crm/-/web-crm-4.0.25.tgz#ff54590f7420cf6f9ce3841135d1d0f165a62ba1"
+  integrity sha512-CuQxRoqVndjrDf7ypd45zSBabnFxTgSW6mVyu6xNJkIa/Diu2uTHvepOW3RokNv2EFT6sBTty4bkBobMplSNJQ==
   dependencies:
     "@sentry/browser" "^4.5.3"
     axios "^0.18.0"
@@ -11358,7 +11358,7 @@ web-crm@^4.0.24:
     lodash "^4.17.11"
     moment "^2.24.0"
     normalize.css "^8.0.1"
-    nui-v2 "^2.8.7"
+    nui-v2 "^2.8.9"
     numeral "^2.0.6"
     register-service-worker "^1.5.2"
     store "^2.0.12"

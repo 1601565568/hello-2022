@@ -24,7 +24,7 @@
     "lodash": "^4.17.11",
     "moment": "^2.24.0",
     "normalize.css": "^8.0.1",
-    "nui-v2": "^2.8.7",
+    "nui-v2": "^2.8.9",
     "numeral": "^2.0.6",
     "perfect-scrollbar": "^1.4.0",
     "register-service-worker": "^1.5.2",
@@ -37,7 +37,7 @@
     "vue-ueditor-wrap": "^2.4.0",
     "vuedraggable": "^2.17.0",
     "vuex": "^3.0.1",
-    "web-crm": "^4.0.24"
+    "web-crm": "^4.0.25"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.3.0",
