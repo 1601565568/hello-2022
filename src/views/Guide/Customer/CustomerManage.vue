@@ -657,14 +657,15 @@
                   <ns-button @click="restTag">清空选择</ns-button>
                 </el-form-grid>
               </el-col>
-              <el-col :span="16" style="text-align: right">
-                <el-form-grid>
-                  <el-input  placeholder="请输入属性名称"></el-input>
-                </el-form-grid>
-                <el-form-grid>
-                  <ns-button type="primary">搜索</ns-button>
-                </el-form-grid>
-              </el-col>
+              <!-- 4.0版本搜索功能未完成，4.1版本后再添加 20190917 -->
+<!--              <el-col :span="16" style="text-align: right">-->
+<!--                <el-form-grid>-->
+<!--                  <el-input  placeholder="请输入属性名称"></el-input>-->
+<!--                </el-form-grid>-->
+<!--                <el-form-grid>-->
+<!--                  <ns-button type="primary">搜索</ns-button>-->
+<!--                </el-form-grid>-->
+<!--              </el-col>-->
             </el-row>
           </el-form-item>
         </el-form>
