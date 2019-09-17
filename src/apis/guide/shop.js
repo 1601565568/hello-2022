@@ -7,6 +7,10 @@ export default {
     url: '/core/sgshop/findShopList',
     method: 'get'
   },
+  findGroupShopList: {
+    url: '/core/sgshop/findGroupShopList',
+    method: 'get'
+  },
   findShopListByShopIds: {
     url: '/core/sgshop/findShopListByShopIds',
     method: 'post'

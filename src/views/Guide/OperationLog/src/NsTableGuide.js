@@ -135,7 +135,7 @@ export default {
     },
     initShopList () {
       var _this = this
-      _this.$http.fetch(_this.$api.guide.shop.findBrandShopList, { isOnline: 0 }).then(resp => {
+      _this.$http.fetch(_this.$api.guide.shop.findGroupShopList, { isOnline: 0 }).then(resp => {
         if (resp.success && resp.result != null) {
           _this.shopFindList = resp.result
         }
