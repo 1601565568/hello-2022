@@ -343,19 +343,19 @@ export default {
               tagInfo.id = tag.id
               tagInfo.value = tag.value
               this.mapTag.push(tagInfo)
-            }
-            if (tag.tagType === 4) {
-              if (tag.value.indexOf('|') > -1) {
-                // tag.value = tag.value.substring(1, tag.value.length - 1)
-                this.checkboxIds += tag.id + ','
+              this.attribute += 1
+              if (tag.tagType !== 4 && tag.tagType !== 2) {
+                this.attributeValue += 1
+              } else if (tag.tagType === 4) {
                 let valueArr = tag.value.split('|')
+                let num = valueArr.length
+                this.attributeValue += num - 1
+                this.checkboxIds += tag.id + ','
                 this.checkboxList.push.apply(this.checkboxList, valueArr)
-              } else {
-                this.checkboxList.push(tag.value)
+              } else if (tag.tagType === 2) {
+                let timeArr = tag.value.split(',')
+                tag.value = timeArr
               }
-            } else if (tag.tagType === 2) {
-              let timeArr = tag.value.split(',')
-              tag.value = timeArr
             }
           }
         }
