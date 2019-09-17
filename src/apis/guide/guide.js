@@ -113,7 +113,11 @@ export default {
   },
   queryAllTag: {// 查询店铺启动标签接口
     url: '/guide/customer/getAllTag',
-    method: 'get'
+    method: 'post'
+  },
+  queryCustomerTag: {// 查询会员已有标签接口
+    url: '/guide/customer/getCustomerTag',
+    method: 'post'
   },
   saveTag: {// 更新会员属性
     url: '/guide/customer/saveTag',

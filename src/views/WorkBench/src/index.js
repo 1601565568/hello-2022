@@ -821,7 +821,7 @@ export default {
     this.findGuideRanking(1, null)
   },
   beforeRouteEnter (to, from, next) {
-    if (isMenuAuth(to.name, store.state.user.remumber.remumber_login_info.routerAuth)) {
+    if (isMenuAuth(to.path, store.state.user.remumber.remumber_login_info.routerAuth)) {
       next()
     } else {
       next(store.state.user.menus[0].path)

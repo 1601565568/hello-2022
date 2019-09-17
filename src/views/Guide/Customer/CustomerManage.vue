@@ -657,14 +657,15 @@
                   <ns-button @click="restTag">清空选择</ns-button>
                 </el-form-grid>
               </el-col>
-              <el-col :span="16" style="text-align: right">
-                <el-form-grid>
-                  <el-input  placeholder="请输入属性名称"></el-input>
-                </el-form-grid>
-                <el-form-grid>
-                  <ns-button type="primary">搜索</ns-button>
-                </el-form-grid>
-              </el-col>
+              <!-- 4.0版本搜索功能未完成，4.1版本后再添加 20190917 -->
+<!--              <el-col :span="16" style="text-align: right">-->
+<!--                <el-form-grid>-->
+<!--                  <el-input  placeholder="请输入属性名称"></el-input>-->
+<!--                </el-form-grid>-->
+<!--                <el-form-grid>-->
+<!--                  <ns-button type="primary">搜索</ns-button>-->
+<!--                </el-form-grid>-->
+<!--              </el-col>-->
             </el-row>
           </el-form-item>
         </el-form>
@@ -695,7 +696,7 @@
                   end-placeholder="结束日期" v-else-if="scope.row.tagType===2" @change="addDate(scope.row)">
                 </el-date-picker>
                 <!--单选框-->
-                <el-radio-group v-model="radioList" v-else-if="scope.row.tagType === 3" >
+                <el-radio-group v-model="scope.row.value" v-else-if="scope.row.tagType === 3" >
                   <el-radio v-for="item1 in scope.row.tagArr.split('|')" :label="item1" :key="item1"
                             @change="addRadio(scope.row,item1)">{{item1}}</el-radio>
                 </el-radio-group>
@@ -710,8 +711,8 @@
         </el-table>
       </div>
       <span slot="footer" class="dialog-footer">
-        <ns-button @click="showTag = false">取 消a</ns-button>
-        <ns-button type="primary" @click="saveTag">保阿斯蒂芬存</ns-button>
+        <ns-button @click="closeTag">取 消</ns-button>
+        <ns-button type="primary" @click="saveTag">保存</ns-button>
       </span>
     </el-dialog>
   </div>
@@ -812,6 +813,11 @@ export default CustomerManage
     padding:0;
     margin-bottom: 10px;
   }
+.dialog-footer{
+  display:flex;
+  justify-content: flex-end;
+  align-items: center;
+}
 
 @import "@theme/variables.pcss";
 
