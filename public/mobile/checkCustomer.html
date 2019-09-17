@@ -43,6 +43,7 @@
             guideId: recruitInfo.guideId,
             shopId: recruitInfo.shopId,
             groupId: recruitInfo.groupId,
+            source: recruitInfo.source,
             encryptNascentId: encryptNascentId
         }).then(function (result) {
             if (result.success) {
@@ -57,19 +58,6 @@
 
                 } else {
                     console.log(JSON.stringify(result.result))
-                    // var bean = {
-                    //     guideImg: result.result.image,
-                    //     guideName: result.result.sgGuideName,
-                    //     guideQrCode: result.result.cardUrl,
-                    //     agoShopName:result.result.agoShopName,
-                    //     memberCard: result.result.memberCard,
-                    //     shopName: result.result.shopName,
-                    //     groupName: result.result.groupName,
-                    //     newImage: result.result.newImage,
-                    //     newSgGuideName: result.result.newSgGuideName,
-                    //     newSgGuideId: result.result.newSgGuideId,
-                    //     memberGrade: result.result.memberGrade,
-                    // }
                     localStorage.setItem('showData', JSON.stringify(result.result))
                     //非新用户-跳转已经有导购界面
                     if (recruitInfo.guideId == result.result.sgGuideId) {
@@ -125,12 +113,17 @@
                         var guideData = JSON.parse(localStorage.getItem('showData'));
                         // 跳转开卡成功页面
                         var recruitInfo = JSON.parse(localStorage.getItem('recruitInfo'));
-                        // 根据不同来源，开卡成功后根据来源跳转不同页面（1关注公众号，2微信加好友）
-                        if(recruitInfo.source == 1){
-                            window.location.replace("addFriend.html?guideQrCode="+guideData.guideQrCode+"&guideName="+guideData.guideName+"&guideImg="+guideData.guideImg)
+                        if(guideData.pointAdd || guideData.pointAttention){
+                            // 根据不同来源，开卡成功后根据来源跳转不同页面（1关注公众号，2微信加好友）
+                            if(recruitInfo.source == 1){
+                                window.location.replace("addFriend.html?guideQrCode="+guideData.guideQrCode+"&guideName="+guideData.guideName+"&guideImg="+guideData.guideImg)
+                            }else{
+                                //
+                                window.location.replace("successfulCardOpening.html");
+                            }
                         }else{
-                            //
-                            window.location.replace("successfulCardOpening.html?guideQrCode="+guideData.guideQrCode+"&guideName="+guideData.guideName+"&guideImg="+guideData.guideImg)
+                            // 跳转不关注公众号，不加好友成功页面
+                            window.location.replace("successNo.html");
                         }
                     },
                     fail: function (res) {

@@ -181,7 +181,7 @@
             </el-table-column>
             <el-table-column label="招募码" align="left" width="120">
               <template slot-scope="scope" v-if="scope.row.shopStatus == 1">
-                <ns-button type="text"><i class="iconfont icon-erweima" @click="elIconMenu(scope.row)"></i></ns-button>
+                <ns-button type="text"><i @click="elIconMenu(scope.row)"><Icon className="icon-erweima" type="erweima"/></i></ns-button>
               </template>
             </el-table-column>
           </el-table>

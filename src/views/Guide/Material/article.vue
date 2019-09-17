@@ -104,19 +104,19 @@
         <listItemShow :itemObj="scope.row"></listItemShow>
       </template>
       </el-table-column>
-      <el-table-column prop="source_name" label="发布方" align="left" width="250">
-
-      </el-table-column>
       <el-table-column prop="subName" label="分组" width="250" align="left">
         <template slot-scope="scope">
           <el-select @change="setGroudFun(scope.row.id,scope.row.subdivision_id)" v-model="scope.row.subdivision_id" placeholder="请选择">
             <el-option v-for="item in groudList"
-            :key="item.subdivision_id"
-            :label="item.subdivision_name"
-            :value="item.subdivision_id">
+                       :key="item.subdivision_id"
+                       :label="item.subdivision_name"
+                       :value="item.subdivision_id">
             </el-option>
           </el-select>
         </template>
+      </el-table-column>
+      <el-table-column prop="source_name" label="发布方" align="left" width="250">
+
       </el-table-column>
       <el-table-column prop="create_time" label="发布时间 " width="250" align="left">  </el-table-column>
       <el-table-column prop="pv" label="浏览量" align="center" width="100"></el-table-column>

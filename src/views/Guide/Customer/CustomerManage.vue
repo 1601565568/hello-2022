@@ -158,9 +158,9 @@
                     width="80" height="80" bgColor="#FFF" circle="true"/>
           <div class="dialog-avatar__figure">
             <!-- 男生图标-->
-            <i class="iconfont icon-nan1 dialog-avatar__figure--male" v-if="items.sex===1"></i>
+            <i class="dialog-avatar__figure--male" v-if="items.sex===1"><Icon type="nan1"/></i>
             <!-- 女生图标-->
-            <i class="iconfont icon-nv1 dialog-avatar__figure--female" v-if="items.sex===0"></i>
+            <i class="dialog-avatar__figure--female" v-if="items.sex===0"><Icon type="nv1"/></i>
           </div>
           <div class="dialog-avatar__level">
             V{{items.grade}}会员
@@ -173,19 +173,19 @@
           <el-form-item label="会员折扣：" class="el-inline-block dialog-favorable">
             <el-form-grid size="xs">
               <span>8折</span>
-              <i class="iconfont icon-icon_discount dialog-favorable__text dialog-favorable__text--discount"></i>
+              <i class="dialog-favorable__text dialog-favorable__text--discount"><Icon type="icon_discount"/></i>
             </el-form-grid>
           </el-form-item>
           <el-form-item label="积分2：" class="el-inline-block dialog-favorable">
             <el-form-grid size="xs">
               <span>2460</span>
-              <i class="iconfont icon-icon_integration dialog-favorable__text dialog-favorable__text--integration"></i>
+              <i class="dialog-favorable__text dialog-favorable__text--integration"><Icon type="icon_integration"/></i>
             </el-form-grid>
           </el-form-item>
           <el-form-item label="积分5：" class="el-inline-block dialog-favorable">
             <el-form-grid size="xs">
               <span>1857</span>
-              <i class="iconfont icon-icon_integration dialog-favorable__text dialog-favorable__text--integration"></i>
+              <i class="dialog-favorable__text dialog-favorable__text--integration"><Icon type="icon_integration"/></i>
             </el-form-grid>
           </el-form-item>
           <el-form-item label="手机：" class="el-inline-block">
@@ -194,13 +194,13 @@
           <el-form-item label="积分1：" class="el-inline-block dialog-favorable">
             <el-form-grid size="xs">
               <span>3998</span>
-              <i class="iconfont icon-icon_integration dialog-favorable__text dialog-favorable__text--integration"></i>
+              <i class="dialog-favorable__text dialog-favorable__text--integration"><Icon type="icon_integration"/></i>
             </el-form-grid>
           </el-form-item>
           <el-form-item label="积分3：" class="el-inline-block dialog-favorable">
             <el-form-grid size="xs">
               <span>2120</span>
-              <i class="iconfont icon-icon_integration dialog-favorable__text dialog-favorable__text--integration"></i>
+              <i class="dialog-favorable__text dialog-favorable__text--integration"><Icon type="icon_integration"/></i>
             </el-form-grid>
           </el-form-item>
           <el-form-item label="" class="el-inline-block dialog-favorable">
@@ -223,13 +223,13 @@
           <el-form-item label="优惠券：" class="el-inline-block dialog-favorable">
             <el-form-grid size="xs">
               <span>100</span>
-              <i class="iconfont icon-icon_coupon dialog-favorable__text dialog-favorable__text--coupon"></i>
+              <i class="dialog-favorable__text dialog-favorable__text--coupon"><Icon type="icon_coupon"/></i>
             </el-form-grid>
           </el-form-item>
           <el-form-item label="积分4：" class="el-inline-block dialog-favorable">
             <el-form-grid size="xs">
               <span>1257</span>
-              <i class="iconfont icon-icon_integration dialog-favorable__text dialog-favorable__text--integration"></i>
+              <i class="dialog-favorable__text dialog-favorable__text--integration"><Icon type="icon_integration"/></i>
             </el-form-grid>
           </el-form-item>
         </el-form>
@@ -306,7 +306,7 @@
                     width="200"
                     trigger="hover"
                     content="这是一段内容,这是一段内容,这是一段内容,这是一段内容。">
-                    <i class="xiangqingyiwen-icon icon-base icon-xiangqingyiwen dialog-doubt" slot="reference"></i>
+                    <i class="xiangqingyiwen-icon dialog-doubt" slot="reference"><Icon type="xiangqingyiwen"/></i>
                   </el-popover>
                 </el-form-item>
                 <el-form-item class="dialog-merchandise">
@@ -321,7 +321,7 @@
                       width="200"
                       trigger="hover"
                       content="这是一段内容,这是一段内容,这是一段内容,这是一段内容。">
-                      <i class="xiangqingyiwen-icon icon-base icon-xiangqingyiwen dialog-doubt" slot="reference"></i>
+                      <i class="xiangqingyiwen-icon dialog-doubt" slot="reference"><Icon type="xiangqingyiwen"/></i>
                     </el-popover>
                   </el-form-grid>
                   <el-form-grid size="md">
@@ -331,7 +331,7 @@
                       width="200"
                       trigger="hover"
                       content="这是一段内容,这是一段内容,这是一段内容,这是一段内容。">
-                      <i class="xiangqingyiwen-icon icon-base icon-xiangqingyiwen dialog-doubt" slot="reference"></i>
+                      <i class="xiangqingyiwen-icon dialog-doubt" slot="reference"><Icon type="xiangqingyiwen"/></i>
                     </el-popover>
                   </el-form-grid>
                   <el-form-grid size="md">
@@ -341,7 +341,7 @@
                       width="200"
                       trigger="hover"
                       content="这是一段内容,这是一段内容,这是一段内容,这是一段内容。">
-                      <i class="xiangqingyiwen-icon icon-base icon-xiangqingyiwen dialog-doubt" slot="reference"></i>
+                      <i class="xiangqingyiwen-icon dialog-doubt" slot="reference"><Icon type="xiangqingyiwen"/></i>
                     </el-popover>
                   </el-form-grid>
                 </el-form-item>
@@ -352,7 +352,7 @@
                       width="200"
                       trigger="hover"
                       content="这是一段内容,这是一段内容,这是一段内容,这是一段内容。">
-                      <i class="xiangqingyiwen-icon icon-base icon-xiangqingyiwen dialog-doubt" slot="reference"></i>
+                      <i class="xiangqingyiwen-icon dialog-doubt" slot="reference"><Icon type="xiangqingyiwen"/></i>
                     </el-popover>
                   </el-form-grid>
                   <el-form-grid size="xmd" class="dialog-checkbtn">

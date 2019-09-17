@@ -37,23 +37,12 @@
     </div>
     <div class="membercard__content">
         <div class="content">
-            <div class="content__msg">Dear，（<span id="guideName1"></span>）已经是你的绑定导购啦！</div>
-            <div class="content__division">
-                <div class="division">
-                    <div class="division__line"></div>
-                    <div class="division__leftcircle"></div>
-                    <div class="division__rightcircle"></div>
-                </div>
-            </div>
-            <!--<div class="content__qrcode">-->
-                <!--<img id ="guideQrCode" src="./img/expression/memberQrcode.png" alt="二维码" class="qrcodeimg">-->
-            <!--</div>-->
-            <!--<div class="content__chat">长按识别二维码进行聊天</div>-->
             <div class="content__headportrait">
                 <img id="guideImg" src="./img/expression/memberAvatar.jpg" alt="头像" class="headportrait">
             </div>
             <div class="content__only">专属导购</div>
             <div class="content__uname" id="guideName">顾起航</div>
+            <div class="content__msg">Dear，您已经是我们的会员了哦！</div>
         </div>
     </div>
 </div>
@@ -63,9 +52,9 @@
     window.onload = function () {
         var showData = JSON.parse(localStorage.getItem('showData'));
         if (showData) {
-            $('#guideImg').attr("src", showData.guideImg)
-            $('#guideName').html(showData.guideName);
-            $('#guideName1').html(showData.guideName);
+            $('#guideImg').attr("src", showData.newImage)
+            $('#guideName').html(showData.newSgGuideName);
+            $('#guideName1').html(showData.newSgGuideName);
             $('#memberGrade').html(showData.memberGrade);
             $('#shopName').html(showData.shopName);
             $('#groupName').html(showData.groupName);

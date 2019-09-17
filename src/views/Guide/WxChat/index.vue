@@ -77,7 +77,7 @@
             <template v-for="(target, index) in targetList">
               <div class="talk-item" :class="{'talk-chosen':isCurrTarget(index)}" @click="clickTarget(index)">
                 <div v-if="target.talkerType === 2" class="talk-item__avatar talk-item__avatar--bluebg">
-                  <i class="iconfont icon-qun"></i>
+                  <Icon className="icon-qun" type="qun"/>
                 </div>
                 <div v-else class="talk-item__avatar">
                   <img :src="target.head||require('./src/images/WECHAT_DEFAULT_HEAD.png')" class="talk-img">
@@ -159,9 +159,9 @@
           <el-form-item :label="targetList[currTargetIndex].talkerName" label-width="100px" class="detail-leftside__username">
             <el-form-grid>
               <!-- 男生图标-->
-              <i class="iconfont icon-nan1" v-if="targetList[currTargetIndex].gender===1"></i>
+              <i v-if="targetList[currTargetIndex].gender===1"><Icon className="icon-nan1" type="nan1"/></i>
               <!-- 女生图标-->
-              <i class="iconfont icon-nv1" v-if="targetList[currTargetIndex].gender===0"></i>
+              <i v-if="targetList[currTargetIndex].gender===0"><Icon className="icon-nv1" type="nv1"/></i>
             </el-form-grid>
           </el-form-item>
             <el-form-item label="备注：">

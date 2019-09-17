@@ -163,11 +163,11 @@
                     <div class="talk-time">{{moment.snsTime}}</div>
                     <div class="talk-interactive">
                       <span class="talk-interactive__like">
-                        <i class="iconfont icon-dianzan"  @click="like(moment)"></i>
+                        <i @click="like(moment)"><Icon type="dianzan"/></i>
                         {{moment.likesNum}}
                       </span>
                       <span class="talk-interactive__comment">
-                        <i class="iconfont icon-pinglun"  @click="replyComment(moment)"></i>
+                        <i @click="replyComment(moment)"><Icon type="pinglun"/></i>
                         {{moment.commentsNum}}
                       </span>
                     </div>
@@ -175,7 +175,7 @@
                     <div class="talk-detail" v-if="moment.likesNum>0 || moment.commentsNum>0">
                       <div class="talk-detail__substance">
                         <div class="talk-chatmsg" v-if="moment.likeName">
-                          <i class="iconfont icon-dianzan colorblue"></i>
+                          <i class="colorblue"><Icon type="dianzan"/></i>
                           <span class="colorblue">{{moment.likeName}}</span>
                         </div>
                         <div class="talk-msg" v-if="moment.comments">
@@ -228,7 +228,7 @@
       <el-main class="talk-main">
         <div class="talk-personal clearfix">
           <div class="talk-personal__notice">
-            <i class="iconfont icon-xiaoxi"></i>
+           <Icon className="icon-xiaoxi" type="xiaoxi"/>
           </div>
           <span class="talk-personal__msg">互动消息</span>
           <!--暂时无法获取未读消息，先注释 2019/07/26-->
@@ -249,7 +249,7 @@
                   <div class="talk-personmsg__uname colorblue">{{msg.commentator?msg.commentator:msg.ownerNick}}</div>
                   <div class="talk-personmsg__about" v-if="msg.type==2">{{msg.content}}</div>
                   <div class="talk-personmsg__about talk-personmsg__ablue--like" v-else-if="msg.type==1">
-                    <i class="iconfont icon-dianzan colorblue"></i>
+                    <i class="colorblue"><Icon type="dianzan"/></i>
                   </div>
                   <div class="talk-personmsg__time">{{msg.addTime}}</div>
                 </div>
@@ -336,7 +336,7 @@
               <div>
                 <VEmojiPicker :pack="pack" @select="selectEmoji" />
               </div>
-              <el-button slot="reference"><i class="iconfont icon-biaoqing"></i></el-button>
+              <el-button slot="reference"><Icon className="icon-biaoqing" type="biaoqing"/></el-button>
             </el-popover>
           </div>
         </el-form-item>

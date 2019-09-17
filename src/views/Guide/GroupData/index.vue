@@ -202,7 +202,7 @@
                     trigger="hover"
                     content="点击群名称，可查看此群下所有微信"
                   >
-                    <i slot="reference" class="icon-base icon-xiangqingyiwen table-header-icon"></i>
+                    <i slot="reference" class="table-header-icon"><Icon type="xiangqingyiwen"/></i>
                   </el-popover>
                 </span>
               </template>

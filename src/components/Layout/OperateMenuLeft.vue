@@ -15,8 +15,7 @@
                             :index='item.path'
                             v-if="item.children.length <1 "
                             class="menu-sub__item">
-                                <span class="item-title"><i
-                                  :class="'menu-icon--noChild iconfont icon-' + item.icon"></i>{{item.title}}</span>
+                                <span class="item-title"><i :class="'menu-icon--noChild'"><Icon :type="item.icon"/></i>{{item.title}}</span>
               </el-menu-item>
               <!--有三级菜单-->
               <el-submenu
@@ -24,7 +23,7 @@
                 :key='item.path'
                 v-if="item.children.length >0 ">
                 <template slot="title">
-                  <span class="el-submenu__item"><i :class="'submenu__item-icon iconfont icon-' + item.icon"></i>{{item.title}}</span>
+                  <span class="el-submenu__item"><i :class="'submenu__item-icon'"><Icon :type="item.icon"/></i>{{item.title}}</span>
                 </template>
                 <el-menu-item
                   v-for='(child) in item.children'

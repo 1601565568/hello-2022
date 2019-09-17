@@ -23,8 +23,8 @@
         <div class="navTree-item flex flex-between" slot-scope="{ node, data }" >
           <span class="dataName">{{ data.name }}</span>
           <span v-if='data.id'>
-            <i class="iconfont icon-shanchu " @click="deleteTheGroup(data)" style='font-size:18px'></i>
-            <i class="iconfont icon-bianji1 ml5" @click="onSaveQuicklyWordGroupOpen(data)"></i>
+            <i @click="deleteTheGroup(data)" style='font-size:18px'><Icon type="shanchu"/></i>
+            <i class="ml5" @click="onSaveQuicklyWordGroupOpen(data)"><Icon type="bianji1"/></i>
           </span>
         </div>
         </el-tree>
@@ -65,10 +65,10 @@
             <el-table-column prop="createTime" label="添加时间" align="left"></el-table-column>
             <el-table-column align="left" v-if="showOrder" :render-header="renderHeader">
               <template slot-scope="scope">
-                <i class='iconfont icon-zhiding sort' :class="scope.row === _data._table.data[0]?'topHid':''"  @click='exchangeSort(1,scope.row.id)'></i>
-                <i class='icon-base icon-topArr sort' :class="scope.row === _data._table.data[0]?'topHid':''"   @click='exchangeSort(2,scope.row.id)'></i>
-                <i class='icon-base icon-downArr sort' :class="scope.row === _data._table.data[_data._table.data.length-1]?'topHid':''"   @click='exchangeSort(3,scope.row.id)'></i>
-                <i class='iconfont icon-zhidi sort' :class="scope.row === _data._table.data[_data._table.data.length-1]?'topHid':''"  @click='exchangeSort(4,scope.row.id)'></i>
+                <i class='sort' :class="scope.row === _data._table.data[0]?'topHid':''"  @click='exchangeSort(1,scope.row.id)'><Icon type="zhiding"/></i>
+                <i class='sort' :class="scope.row === _data._table.data[0]?'topHid':''"   @click='exchangeSort(2,scope.row.id)'><Icon type="topArr"/></i>
+                <i class='sort' :class="scope.row === _data._table.data[_data._table.data.length-1]?'topHid':''"   @click='exchangeSort(3,scope.row.id)'><Icon type="downArr"/></i>
+                <i class='sort' :class="scope.row === _data._table.data[_data._table.data.length-1]?'topHid':''"  @click='exchangeSort(4,scope.row.id)'><Icon type="zhidi"/></i>
               </template>
             </el-table-column>
             <el-table-column prop="addName" label="添加人" align="left"></el-table-column>
@@ -108,7 +108,7 @@
         <el-form-item label="话术内容：" prop="content" required>
             <el-input type="textarea" placeholder="输入话术内容，最多200字" v-model="model.content" maxlength="200" size="small" rows="4"></el-input>
           <div class="expressionBar_div">
-            <i class="iconfont icon-biaoqing" @click="faceFace"></i>
+            <i @click="faceFace"><Icon type="biaoqing"/></i>
           </div>
         </el-form-item>
         <el-form-item v-if="InternetMemeShow" label="" prop="">

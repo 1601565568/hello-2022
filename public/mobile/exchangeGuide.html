@@ -85,13 +85,9 @@
         }).then(function (data) {
             if (data.result.success) {
                 alert("更换导购成功")
-                if (1 == recruitInfo.source) {
-
-                } else {
-
-                }
+                window.location.replace("successNo.html");
             } else {
-
+                window.location.replace("invalid.html?msg=更换导购失败");
             }
         })
     }
