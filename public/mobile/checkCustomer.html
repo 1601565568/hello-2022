@@ -53,7 +53,7 @@
                     // 初始化微信开卡JS-SDK
                     initWXConfig(function (cardId) {
                         // 跳转开卡
-                        addCard(cardId,result.result.memberCard,recruitInfo.shopId,recruitInfo.groupId)
+                        addCard(cardId,result.result.memberCard,recruitInfo.shopId,recruitInfo.groupId,result.result.outerStr)
                     })
 
                 } else {
@@ -99,9 +99,9 @@
     /**
      * 跳转会员领卡
      */
-    function addCard(cardId, memberCard,shopId,groupId) {
+    function addCard(cardId, memberCard,shopId,groupId,outerStr) {
         var newCardId = cardId
-        this.ajax(backstageURL + '/getAddCardExtParam', {code: memberCard,shopId:shopId,groupId:groupId}).then(function (data) {
+        this.ajax(backstageURL + '/getAddCardExtParam', {code: memberCard,shopId:shopId,groupId:groupId,outerStr:outerStr}).then(function (data) {
             wx.ready(function () {
                 wx.addCard({
                     cardList: [{
