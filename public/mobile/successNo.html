@@ -50,16 +50,16 @@
 <script type="text/javascript" src="./js/common.js"></script>
 <script>
     window.onload = function () {
-        var showData = JSON.parse(localStorage.getItem('showData'));
-        if (showData) {
-            $('#guideImg').attr("src", showData.newImage)
-            $('#guideName').html(showData.newSgGuideName);
-            $('#guideName1').html(showData.newSgGuideName);
-            $('#memberGrade').html(showData.memberGrade);
-            $('#shopName').html(showData.shopName);
-            $('#groupName').html(showData.groupName);
-            $('#memberCard').html(showData.memberCard);
-            $('#guideQrCode').attr('src', showData.guideQrCode)
+        var noData = JSON.parse(localStorage.getItem('showData'));
+        if (noData) {
+            $('#guideImg').attr("src", noData.newImage)
+            $('#guideName').html(noData.newSgGuideName);
+            $('#guideName1').html(noData.newSgGuideName);
+            $('#memberGrade').html(noData.memberGrade);
+            $('#shopName').html(noData.shopName);
+            $('#groupName').html(noData.groupName);
+            $('#memberCard').html(noData.memberCard);
+            $('#guideQrCode').attr('src', noData.guideQrCode)
         }
     }
 
