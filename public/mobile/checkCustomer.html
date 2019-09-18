@@ -111,6 +111,7 @@
                     success: function (res) {
                         var cardList = res.cardList; // 添加的卡券列表信息
                         var guideData = JSON.parse(localStorage.getItem('showData'));
+                        alert(localStorage.getItem('showData'));
                         // 跳转开卡成功页面
                         var recruitInfo = JSON.parse(localStorage.getItem('recruitInfo'));
                         if(guideData.pointAdd || guideData.pointAttention){
