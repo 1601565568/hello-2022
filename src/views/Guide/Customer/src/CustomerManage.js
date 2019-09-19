@@ -344,18 +344,33 @@ export default {
               tagInfo.value = tag.value
               this.mapTag.push(tagInfo)
               this.attribute += 1
-              if (tag.tagType !== 4 && tag.tagType !== 2) {
-                this.attributeValue += 1
-              } else if (tag.tagType === 4) {
-                let valueArr = tag.value.split('|')
-                let num = valueArr.length
-                this.attributeValue += (num - 1)
-                this.checkboxIds.push(tag.id)
-                this.checkboxList.push.apply(this.checkboxList, valueArr)
-              } else if (tag.tagType === 2) {
-                let timeArr = tag.value.split(',')
-                tag.value = timeArr
-                this.attributeValue += 1
+              // 0表示文本框，1表示下拉选择，2表示日期 ， 3 : 单选框 4 ： 复选框
+              switch (tag.tagType) {
+                case 0:
+                  this.textIds.push(tag.id)
+                  this.attributeValue += 1
+                  break
+                case 1:
+                  this.selectIds.push(tag.id)
+                  this.attributeValue += 1
+                  break
+                case 2:
+                  this.dateIds.push(tag.id)
+                  let timeArr = tag.value.split(',')
+                  tag.value = timeArr
+                  this.attributeValue += 1
+                  break
+                case 3:
+                  this.radioIds.push(tag.id)
+                  this.attributeValue += 1
+                  break
+                case 4:
+                  let valueArr = tag.value.split('|')
+                  let num = valueArr.length
+                  this.attributeValue += (num - 1)
+                  this.checkboxIds.push(tag.id)
+                  this.checkboxList.push.apply(this.checkboxList, valueArr)
+                  break
               }
             }
           }
@@ -384,13 +399,15 @@ export default {
       this.pagination.page = 1
     },
     addText (row) {
-      if (this.textIds.indexOf(row.id) > -1) {
+      let num = this.textIds.indexOf(row.id)
+      if (num > -1) {
         for (let i = 0; i < this.mapTag.length; i++) {
           let check = this.mapTag[i]
           if (check.id === row.id) {
-            if (row.value.trim().length === 0) { // 判断是否为空
+            if (row.value.trim.length === 0) {
+              // 判断是否为空
               this.mapTag.splice(i, 1)
-              this.textIds = this.textIds.slice(row.id, 1)
+              this.textIds.splice(num, 1)
               this.attribute -= 1
               this.attributeValue -= 1
             } else {
@@ -410,13 +427,14 @@ export default {
       console.log('更新后数据：' + JSON.stringify(this.mapTag))
     },
     addSelect (row) {
-      if (this.selectIds.indexOf(row.id) > -1) {
+      let num = this.selectIds.indexOf(row.id)
+      if (num > -1) {
         for (let i = 0; i < this.mapTag.length; i++) {
           let check = this.mapTag[i]
           if (check.id === row.id) {
             if (check.value.indexOf(row.value) > -1) {
               this.mapTag.splice(i, 1)
-              this.selectIds.slice(row.id, 1)
+              this.selectIds.splice(num, 1)
             } else {
               check.value = row.value
               this.attribute += 1
@@ -436,13 +454,14 @@ export default {
       console.log('更新后数据：' + JSON.stringify(this.mapTag))
     },
     addDate (row) {
-      if (this.dateIds.indexOf(row.id) > -1) {
+      let num = this.dateIds.indexOf(row.id)
+      if (num > -1) {
         for (let i = 0; i < this.mapTag.length; i++) {
           let check = this.mapTag[i]
           if (check.id === row.id) {
             if (!row.value) {
               this.mapTag.splice(i, 1)
-              this.dateIds.slice(row.id, 1)
+              this.dateIds.splice(num, 1)
             } else {
               check.value = row.value.join(',')
               this.attribute += 1
@@ -462,18 +481,16 @@ export default {
       console.log('更新后数据：' + JSON.stringify(this.mapTag))
     },
     addRadio (row, item) {
-      if (this.radioIds.indexOf(row.id) > -1) {
+      let num = this.radioIds.indexOf(row.id)
+      if (num > -1) {
         for (let i = 0; i < this.mapTag.length; i++) {
           let check = this.mapTag[i]
           if (check.id === row.id) { // 假如选中数据已包含在数组中
-            if (check.id === 4) {
-              this.mapTag.splice(i, 1)
-            }
             if (check.value.indexOf(item) > -1) { // 假如选中值重复则去除
               check.value = check.value.replace(item, '')
               if (check.value.length === 0) {
                 this.mapTag.splice(i, 1)
-                this.radioIds.slice(row.id, 1)
+                this.radioIds.splice(num, 1)
               }
             } else {
               check.value = item
@@ -495,16 +512,18 @@ export default {
     },
     addCheckbox (row, item) {
       // 出现匹配失败的问题 判断4 变成判断504匹配成功
-      if (this.checkboxIds.indexOf(row.id) > -1) {
+      let num = this.checkboxIds.indexOf(row.id)
+      if (num > -1) {
         for (let i = 0; i < this.mapTag.length; i++) {
           let check = this.mapTag[i]
           if (check.id === row.id) {
-            if (check.value.indexOf(item) > -1) { // 判断已选择值是否包含新值
+            if (check.value.indexOf(item) > -1) {
+              // 判断已选择值是否包含新值
               check.value = check.value.replace(item + '|', '') // 去除值
               this.attributeValue -= 1
               if (check.value.length === 1) { // 假如只剩下"|" 删除该值
                 this.mapTag.splice(i, 1)
-                this.checkboxIds.slice(row.id, 1)
+                this.checkboxIds.splice(num, 1)
                 this.attribute -= 1
               } else {
                 this.mapTag[i].value = check.value
