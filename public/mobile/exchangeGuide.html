@@ -76,7 +76,7 @@
         var showData = JSON.parse(localStorage.getItem('showData'));
         var recruitInfo = JSON.parse(localStorage.getItem('recruitInfo'));
         // 更换导购
-        this.ajax(backstageURL + '/changeGuide', {
+        ajax(backstageURL + '/changeGuide', {
             newSgGuideId: showData.newSgGuideId,
             oldGuideId: showData.sgGuideId,
             nick: showData.nick,

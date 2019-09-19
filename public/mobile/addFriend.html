@@ -50,13 +50,21 @@
 <script type="text/javascript" src="./js/common.js"></script>
 <script>
     $(document).ready(function () {
-        var guideImg = getPar('guideImg');
-        var sgGuideName = getPar('sgGuideName');
-        var guideQrCode = getPar('guideQrCode');
-        $("#guideImg").attr("src", guideImg)
-        $("#guideName").innerText = sgGuideName;
-        $("#guideName1").innerText = sgGuideName;
-        $("#guideQrCode").attr("src", guideQrCode);
+        var noData = JSON.parse(localStorage.getItem('showData'));
+        if (noData) {
+            $('#guideImg').attr("src", noData.newImage)
+            $('#guideName').html(noData.newSgGuideName);
+            $('#guideName1').html(noData.newSgGuideName);
+            $('#memberGrade').html(noData.memberGrade);
+            $('#shopName').html(noData.shopName);
+            $('#groupName').html(noData.groupName);
+            $('#memberCard').html(noData.memberCard);
+            $('#guideQrCode').attr('src', noData.oaQrCode)
+        }
+    })
+    //页面加载完成
+    $(document).onload(function () {
+        setTimeout($('.addfriend__success').style.display='none',3000);
     })
 </script>
 </body>

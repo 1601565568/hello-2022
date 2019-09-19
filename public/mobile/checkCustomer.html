@@ -44,9 +44,11 @@
             shopId: recruitInfo.shopId,
             groupId: recruitInfo.groupId,
             source: recruitInfo.source,
+            wechatNo: recruitInfo.wechatNo,
             encryptNascentId: encryptNascentId
         }).then(function (result) {
             if (result.success) {
+                localStorage.setItem('showData', JSON.stringify(result.result))
                 // 根据数据状态跳转不同页面
                 if (result.result.newMember) {
                     // 调用微信官方开卡界面
@@ -58,7 +60,6 @@
 
                 } else {
                     console.log(JSON.stringify(result.result))
-                    localStorage.setItem('showData', JSON.stringify(result.result))
                     //非新用户-跳转已经有导购界面
                     if (recruitInfo.guideId == result.result.sgGuideId) {
                         //同一导购
@@ -111,9 +112,7 @@
                     success: function (res) {
                         var cardList = res.cardList; // 添加的卡券列表信息
                         var guideData = JSON.parse(localStorage.getItem('showData'));
-                        alert(localStorage.getItem('showData'));
                         // 跳转开卡成功页面
-                        var recruitInfo = JSON.parse(localStorage.getItem('recruitInfo'));
                         if(guideData.pointAdd || guideData.pointAttention){
                             // 根据不同来源，开卡成功后根据来源跳转不同页面（1关注公众号，2微信加好友）
                             if(recruitInfo.source == 1){
