@@ -12,14 +12,14 @@
 </head>
 <body>
 <div class="addfriend">
-    <div class="addfriend__success">
+    <div class="addfriend__success" id="addFriendSuccess">
         <img src="./img/icons/duigou.png" alt="对勾">
         开卡成功
     </div>
     <div class="addfriend__content">
         <div class="content">
             <div class="content__avatar">
-                <img id="guideImg" src="./img/expression/memberDefault.png" alt="导购头像" class="avatar__img">
+                <img id="guideImg" src="./img/expression/memberQrcode.png" alt="导购头像" class="avatar__img">
             </div>
             <div class="content__exclusive">专属导购</div>
             <div id="guideName" class="content__username">王旺旺</div>
@@ -52,19 +52,21 @@
     $(document).ready(function () {
         var noData = JSON.parse(localStorage.getItem('showData'));
         if (noData) {
-            $('#guideImg').attr("src", noData.newImage)
+            if(noData.newImage){
+                $('#guideImg').attr("src", noData.newImage)
+            }
             $('#guideName').html(noData.newSgGuideName);
             $('#guideName1').html(noData.newSgGuideName);
             $('#memberGrade').html(noData.memberGrade);
             $('#shopName').html(noData.shopName);
             $('#groupName').html(noData.groupName);
             $('#memberCard').html(noData.memberCard);
-            $('#guideQrCode').attr('src', noData.oaQrCode)
+            $('#guideQrCode').attr('src', noData.newCardUrl)
         }
     })
     //页面加载完成
     $(document).onload(function () {
-        setTimeout($('.addfriend__success').style.display='none',3000);
+        setTimeout($('#addFriendSuccess').style.display='none',3000);
     })
 </script>
 </body>

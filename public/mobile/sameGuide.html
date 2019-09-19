@@ -60,20 +60,21 @@
 <script type="text/javascript" src="./js/jquery-3.4.1.min.js"></script>
 <script type="text/javascript" src="./js/common.js"></script>
 <script>
-    window.onload = function () {
-        var showData = JSON.parse(localStorage.getItem('showData'));
-        if (showData) {
-            $('#guideImg').attr("src", showData.guideImg)
-            $('#guideName').html(showData.guideName);
-            $('#guideName1').html(showData.guideName);
-            $('#memberGrade').html(showData.memberGrade);
-            $('#shopName').html(showData.shopName);
-            $('#groupName').html(showData.groupName);
-            $('#memberCard').html(showData.memberCard);
-            $('#guideQrCode').attr('src', showData.guideQrCode)
+    $(document).ready(function () {
+        var noData = JSON.parse(localStorage.getItem('showData'));
+        if (noData) {
+            if(noData.newImage){
+                $('#guideImg').attr("src", noData.newImage)
+            }
+            $('#guideName').html(noData.newSgGuideName);
+            $('#guideName1').html(noData.newSgGuideName);
+            $('#memberGrade').html(noData.memberGrade);
+            $('#shopName').html(noData.shopName);
+            $('#groupName').html(noData.groupName);
+            $('#memberCard').html(noData.memberCard);
+            $('#guideQrCode').attr('src', noData.newCardUrl)
         }
-    }
-
+    })
 </script>
 </body>
 </html>

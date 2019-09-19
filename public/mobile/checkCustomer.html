@@ -102,6 +102,7 @@
      */
     function addCard(cardId, memberCard,shopId,groupId,outerStr) {
         var newCardId = cardId
+        var recruitInfo = JSON.parse(localStorage.getItem('recruitInfo'));
         this.ajax(backstageURL + '/getAddCardExtParam', {code: memberCard,shopId:shopId,groupId:groupId,outerStr:outerStr}).then(function (data) {
             wx.ready(function () {
                 wx.addCard({
@@ -116,7 +117,7 @@
                         if(guideData.pointAdd || guideData.pointAttention){
                             // 根据不同来源，开卡成功后根据来源跳转不同页面（1关注公众号，2微信加好友）
                             if(recruitInfo.source == 1){
-                                window.location.replace("addFriend.html?guideQrCode="+guideData.guideQrCode+"&guideName="+guideData.guideName+"&guideImg="+guideData.guideImg)
+                                window.location.replace("addFriend.html");
                             }else{
                                 //
                                 window.location.replace("successfulCardOpening.html");
