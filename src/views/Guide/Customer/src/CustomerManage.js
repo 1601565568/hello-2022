@@ -499,10 +499,6 @@ export default {
         for (let i = 0; i < this.mapTag.length; i++) {
           let check = this.mapTag[i]
           if (check.id === row.id) {
-            console.log(121)
-            if (check.id === 504) {
-              this.mapTag.splice(i, 1)
-            }
             if (check.value.indexOf(item) > -1) { // 判断已选择值是否包含新值
               check.value = check.value.replace(item + '|', '') // 去除值
               this.attributeValue -= 1
