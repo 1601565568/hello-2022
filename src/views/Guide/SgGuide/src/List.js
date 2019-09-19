@@ -1140,6 +1140,7 @@ export default {
     // 查询客户列表
     findCustomerList (page, pageSize) {
       let _this = this
+      console.log(JSON.stringify(this.customFindVo))
       _this.$http.fetch(_this.$api.guide.guide.findCustomerList, {
         searchMap: {
           'guideId': _this.guideId,
@@ -1282,6 +1283,7 @@ export default {
     dimissionFun (row) {
       var _this = this
       // _this.initShopList()
+      _this.customFindVo.shop = row.shop_id
       _this.employeeDetails = row
       _this.transferName = row.name
       _this.transferShopName = row.shopName
