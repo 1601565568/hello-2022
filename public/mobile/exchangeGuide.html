@@ -71,25 +71,29 @@
         $("#newSgGuideName").html(showData.newSgGuideName);
         $("#newSgGuideName1").html(showData.newSgGuideName);
     })
-
+    var change = true;
     function toChangeGuide() {
         var showData = JSON.parse(localStorage.getItem('showData'));
         var recruitInfo = JSON.parse(localStorage.getItem('recruitInfo'));
-        // 更换导购
-        ajax(backstageURL + '/changeGuide', {
-            newSgGuideId: showData.newSgGuideId,
-            oldGuideId: showData.sgGuideId,
-            nick: showData.nick,
-            shopId:recruitInfo.shopId,
-            groupId: recruitInfo.groupId,
-        }).then(function (data) {
-            if (data.result.success) {
-                alert("更换导购成功")
-                window.location.replace("successNo.html");
-            } else {
-                window.location.replace("invalid.html?msg=更换导购失败");
-            }
-        })
+        if(change){
+            // 更换导购
+            change = false;
+            ajax(backstageURL + '/changeGuide', {
+                newSgGuideId: showData.newSgGuideId,
+                oldGuideId: showData.sgGuideId,
+                nick: showData.nick,
+                shopId:recruitInfo.shopId,
+                groupId: recruitInfo.groupId,
+            }).then(function (result) {
+                alert( JSON.parse(result)
+                if (result.success) {
+                    alert("更换导购成功")
+                    window.location.replace("successNo.html");
+                } else {
+                    window.location.replace("invalid.html?msg=更换导购失败");
+                }
+            })
+        }
     }
     function ajax(url, data, params) {
         data = JSON.stringify(data)
