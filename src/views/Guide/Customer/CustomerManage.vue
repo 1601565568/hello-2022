@@ -168,7 +168,7 @@
         </div>
         <el-form label-width="100px">
           <el-form-item label="姓名：" class="el-inline-block">
-            <el-form-grid size="xs">{{items.outAlias|| '-'}}</el-form-grid>
+            <el-form-grid size="xs">{{items.customerName|| items.outAlias|| '-'}}</el-form-grid>
           </el-form-item>
           <el-form-item label="会员折扣：" class="el-inline-block dialog-favorable">
             <el-form-grid size="xs">
@@ -268,31 +268,9 @@
             </div>
             <div class="dialog-basic">
               <div class="dialog-basic__title">自定义属性</div>
-              <el-form label-width="180px" class="dialog-basic__form">
-                <el-form-item label="希望在哪看到护肤小知识：" class="el-inline-block">
-                  <el-form-grid size="xxmd">1994-08-07</el-form-grid>
-                </el-form-item>
-                <el-form-item label="公众号状态：" class="el-inline-block">
-                  <el-form-grid size="xxmd">已关注</el-form-grid>
-                </el-form-item>
-                <el-form-item label="会员卡号：" class="el-inline-block">
-                  <el-form-grid size="xxmd">12346647323683638</el-form-grid>
-                </el-form-item>
-                <el-form-item label="性别：" class="el-inline-block">
-                  <el-form-grid size="xxmd">女</el-form-grid>
-                </el-form-item>
-                <el-form-item label="开卡时间：" class="el-inline-block">
-                  <el-form-grid size="xxmd">2019-08-07 10:07:09</el-form-grid>
-                </el-form-item>
-                <el-form-item label="Email：" class="el-inline-block">
-                  <el-form-grid size="xxmd">Bumblebee@yeah.net</el-form-grid>
-                </el-form-item>
-                <el-form-item label="所在地区：" class="el-inline-block">
-                  <el-form-grid size="xxmd">福建厦门市湖里区</el-form-grid>
-                </el-form-item>
-                <el-form-item label="详细地址：" class="el-inline-block">
-                  <el-form-grid size="xxmd">金山街道软件园二期观日路22号401
-                  </el-form-grid>
+              <el-form label-width="180px" class="dialog-basic__form" >
+                <el-form-item :label="tag.name+'：'" class="el-inline-block" v-for="tag in items.tagList" :key="tag.id">
+                  <el-form-grid size="xxmd">{{tag.value}}</el-form-grid>
                 </el-form-item>
               </el-form>
             </div>
@@ -644,7 +622,7 @@
     <el-dialog
       title="自定义属性"
       :visible.sync="showTag"
-      width="900px" height="500px">
+      width="900px" height="500px" @close="closeTag">
       <div>
         <el-form>
           <el-form-item>
