@@ -103,11 +103,11 @@
       <div class="dialog_mian">
         <div class="dialog_mian_logo">
           <img calss="shoplogo" src="../../../assets/shoplogo.png" />
-          <h4>最火导购</h4>
+          <h4>智慧导购</h4>
           <p>（<ns-button type="text" @click="onUpdate">更新授权</ns-button>/<ns-button type="text" @click="onRelieve">解除授权</ns-button>）</p>
         </div>
         <div class="dialog_mian_topText">
-          <p><span>介绍：</span>最伙导购是一款辅助线下实体店导购员应用，可以提升用户消费体验</p>
+          <p><span>介绍：</span>智慧导购是一款辅助线下实体店导购员应用，可以提升用户消费体验</p>
           <p><span>认证：</span>{{appObj.verify_type === 0 ? "已认证" : "未认证"}}</p>
           <p><span>主体信息：</span>{{appObj.principal_name}}</p>
           <p><span>AppID：</span>{{appObj.appid}}</p>
