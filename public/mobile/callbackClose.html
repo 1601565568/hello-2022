@@ -17,6 +17,21 @@
 <script>
     window.onload = function () {
         wx.closeWindow();
+        window.close();
+        var guideData = JSON.parse(localStorage.getItem('showData'));
+        // 跳转开卡成功页面
+        if(guideData.pointAdd || guideData.pointAttention){
+            // 根据不同来源，开卡成功后根据来源跳转不同页面（1关注公众号，2微信加好友）
+            if(recruitInfo.source == 1){
+                window.location.replace("addFriend.html");
+            }else{
+                //
+                window.location.replace("successfulCardOpening.html");
+            }
+        }else{
+            // 跳转不关注公众号，不加好友成功页面
+            window.location.replace("successNo.html");
+        }
     }
 </script>
 </body>

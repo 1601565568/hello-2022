@@ -28,11 +28,11 @@
             </div>
             <div class="detail">
                 <div class="detail__item">
-                    <div id="sgGuideName" class="uname">顾起航</div>
+                    <div id="sgGuideName" class="uname"></div>
                     <div class="store" id="agoShopName"></div>
                 </div>
                 <div class="detail__item">
-                    <div id="newSgGuideName" class="uname">聂导</div>
+                    <div id="newSgGuideName" class="uname"></div>
                     <div class="store" id="shopName"></div>
                 </div>
             </div>
@@ -58,42 +58,37 @@
 <script type="text/javascript" src="./js/common.js"></script>
 <script>
     $(document).ready(function () {
-        var showData = JSON.parse(localStorage.getItem('showData'));
-        $("#agoShopName").html(showData.agoShopName)
-        $("#shopName").html(showData.shopName);
-        if (showData.image) {
-            $("#image").attr("src", showData.image);
+        var changeData = JSON.parse(localStorage.getItem('showData'));
+        $("#agoShopName").html(changeData.agoShopName)
+        $("#shopName").html(changeData.shopName);
+        if (changeData.image) {
+            $("#image").attr("src", changeData.image);
         }
-        if (showData.newImage) {
-            $("#newImage").attr("src", showData.newImage);
+        if (changeData.newImage) {
+            $("#newImage").attr("src", changeData.newImage);
         }
-        $("#sgGuideName").html(showData.sgGuideName);
-        $("#newSgGuideName").html(showData.newSgGuideName);
-        $("#newSgGuideName1").html(showData.newSgGuideName);
+        $("#sgGuideName").html(changeData.sgGuideName);
+        $("#newSgGuideName").html(changeData.newSgGuideName);
+        $("#newSgGuideName1").html(changeData.newSgGuideName);
     })
-    var change = true;
     function toChangeGuide() {
-        var showData = JSON.parse(localStorage.getItem('showData'));
+        var toChangeData = JSON.parse(localStorage.getItem('showData'));
         var recruitInfo = JSON.parse(localStorage.getItem('recruitInfo'));
-        if(change){
-            // 更换导购
-            change = false;
-            ajax(backstageURL + '/changeGuide', {
-                newSgGuideId: showData.newSgGuideId,
-                oldGuideId: showData.sgGuideId,
-                nick: showData.nick,
-                shopId:recruitInfo.shopId,
-                groupId: recruitInfo.groupId,
-            }).then(function (result) {
-                alert( JSON.parse(result)
-                if (result.success) {
-                    alert("更换导购成功")
-                    window.location.replace("successNo.html");
-                } else {
-                    window.location.replace("invalid.html?msg=更换导购失败");
-                }
-            })
-        }
+        // 更换导购
+        this.ajax(backstageURL + '/changeGuide', {
+            newSgGuideId: toChangeData.newSgGuideId,
+            oldGuideId: toChangeData.sgGuideId,
+            nick: toChangeData.nick,
+            shopId:recruitInfo.shopId,
+            groupId: recruitInfo.groupId,
+        }).then(function (result) {
+            if (result.success) {
+                alert("更换导购成功")
+                window.location.replace("successNo.html");
+            } else {
+                window.location.replace("invalid.html?msg=更换导购失败");
+            }
+        })
     }
     function ajax(url, data, params) {
         data = JSON.stringify(data)
