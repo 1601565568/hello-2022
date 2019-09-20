@@ -2,53 +2,52 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-    <meta name="divport"
-          content="width=device-width, initial-scale=1.0, minimum-scale=1, maximum-scale=1.0, user-scalable=no"/>
-    <meta http-equiv="Cache-Control" content="no-siteapp"/>
-    <meta name="format-detection" content="telephone=no"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta content="user-scalable=no" id="viewport" name="viewport" />
+    <meta content="width=device-width, initial-scale=1.0, minimum-scale=1, maximum-scale=1.0, user-scalable=no"
+          id="divport" name="divport" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta name="format-detection" content="telephone=no" />
     <link rel="stylesheet" href="customerDetails.css">
     <title>客户详情</title>
 </head>
 <body>
 <div class="detail">
     <div class="detail__header">
-        <img src="https://img.alicdn.com/imgextra/i4/645690921/O1CN01Q1rjbi1IfrITTcm0O_!!645690921.jpg_430x430q90.jpg" alt="用户头像" class="avatar">
-        <div class="uname">张三丰张三丰张三丰张三丰张三丰张三丰张三丰张三丰张三丰张三丰张三丰张三丰</div>
-        <!-- 男性图标 -->
-        <!--<img src="./img/expression/nan.png" alt="用户头像" class="gender">-->
-        <!-- 女性图标 -->
-        <img src="./img/expression/nv.png" alt="用户头像" class="gender">
+        <img src=""
+             alt="用户头像" class="avatar customerHeadImage">
+        <div class="uname outAlias">-</div>
+        <img src="" style='display: none' alt="性别" class="gender">
     </div>
     <div class="detail__content">
         <div class="content">
             <div class="content__title">姓名：</div>
-            <div class="content__substance">张飞</div>
+            <div class="content__substance customerName">-</div>
         </div>
         <div class="content content--place">
             <div class="content__title">电话：</div>
-            <div class="content__substance">189 ×××× 8888</div>
-            <img src="./img/expression/dianhua.png" alt="用户头像" class="content__phone">
+            <div class="content__substance mobile">-</div>
+            <a href="sms:18688888888"><img src="./img/expression/dianhua.png" alt="手机" class="content__phone"></a>
         </div>
         <div class="content">
             <div class="content__title">VIP等级：</div>
-            <div class="content__substance">至尊会员</div>
+            <div class="content__substance grade">-</div>
         </div>
         <div class="content">
             <div class="content__title">专属导购：</div>
-            <div class="content__substance">李圣杰</div>
+            <div class="content__substance guideName">-</div>
         </div>
         <div class="content">
             <div class="content__title">所属门店：</div>
-            <div class="content__substance">西湖旗舰店</div>
+            <div class="content__substance shopName">-</div>
         </div>
         <div class="content">
             <div class="content__title">微信号：</div>
-            <div class="content__substance">nascent</div>
+            <div class="content__substance wid">-</div>
         </div>
         <div class="content">
             <div class="content__title">生日：</div>
-            <div class="content__substance">1997.01.01</div>
+            <div class="content__substance">-</div>
         </div>
         <div class="content">
             <div class="content__title">淘宝用户名：</div>
@@ -64,11 +63,121 @@
         </div>
         <div class="content content--place">
             <div class="content__title">备注：</div>
-            <input type="text" placeholder="请输入" class="content__input">
-            <div class="content__substance content__substance--edit">编辑</div>
+            <input type="text" readonly='readonly' placeholder="请输入" class="content__input remark">
+            <div class="content__substance content__substance--edit editButton" onclick='editRemark()'>编辑</div>
         </div>
     </div>
     <div class="detail__save">保存</div>
 </div>
 </body>
+<script type="text/javascript" src="./js/jquery-3.4.1.min.js"></script>
+<script type="text/javascript" src="./js/common.js"></script>
+<script>
+    let isEdit = true
+    let saving = false
+    const editRemark = function () {
+        const $remark = $('.remark')
+        const $editButton = $('.editButton')
+        if (saving) {
+            return
+        }
+        if (isEdit) {
+            isEdit = false
+            $remark.removeAttr('readonly')
+            $editButton.html('保存')
+        } else {
+            saving = true
+            fetch({
+                url: 'wx/customer/editRemark',
+                method: 'post'
+            }, {
+                remark: $remark.val()
+            })
+                .then(data => {
+                    saving = false
+                    isEdit = false
+                    $remark.attr('readonly', 'readonly')
+                    $editButton.html('编辑')
+                    //    todo-zsf 弹窗提示
+                })
+                .catch(error => {
+                    saving = false
+                })
+
+        }
+    }
+    const processSex = (sex) => {
+        // 处理性别，性别 -1未知，0：女，1：男
+        let url
+        switch (sex) {
+            case 0:
+                url = './img/expression/nv.png'
+                break
+            case 1:
+                url = './img/expression/nan.png'
+                break
+            default:
+        }
+        const $el = $('.gender')
+        if (url) {
+            $el.attr('src', url).show()
+        } else {
+            $el.hide()
+        }
+    }
+
+    const typeMap = {
+        customerHeadImage: 'src',
+        sex: processSex,
+        mobile: function (mobile) {
+            // todo-zsf 缺少手机号
+            return formatMobile('17605021126')
+        }
+    }
+
+    const toError = (type = 0, message = '') => {
+        window.location.replace('error.html?type=' + type + '&message=' + encodeURIComponent(message))
+    }
+    $(function () {
+        const ownerWid = getPar('ownerWid')
+        const wid = getPar('wid')
+
+        if (!ownerWid || !wid) {
+            toError(0, '参数错误：个人号微信号或好友微信号都不允许空')
+            return
+        }
+
+        fetch({
+            url: 'wx/customer/getCustomerDetail',
+            method: 'post'
+        }, { ownerWid, wid })
+            .then(data => {
+                const customer = data.result
+                Object.assign(customer, { wid: wid })
+                Object.keys(customer).map(k => {
+                    const type = typeMap[k]
+                    const $el = $('.' + k)
+                    let value = customer[k]
+                    if ($el) {
+                        if (type) {
+                            if (typeof type === 'function') {
+                                const temp = type(value)
+                                if (!temp) {
+                                    return
+                                }
+                                value = temp
+                            } else {
+                                $el.attr(type, value || '-')
+                                return
+                            }
+
+                        }
+                        $el.html(value || '-')
+                    }
+                })
+            }).catch(error => {
+            toError(0, error && error.msg ? error.msg : '')
+        })
+    })
+</script>
 </html>

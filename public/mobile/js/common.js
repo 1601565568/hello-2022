@@ -14,3 +14,34 @@ var getPar = function (name) {
   }
   return null
 }
+
+var apiRoot = 'http://127.0.0.1/app/'
+
+var fetch = function (api, data) {
+  return new Promise(function (resolve, reject) {
+    $.ajax({
+      url: apiRoot + api.url,
+      type: api.method || 'get',
+      dataType: api.dataType || 'JSON',
+      data: JSON.stringify(data),
+      cache: false,
+      contentType: "application/json;charset=UTF-8",
+      success: function (res) {
+        if(res && res.success){
+          resolve(res)
+        } else {
+          reject(res)
+        }
+      },
+      error: function (res) {
+        reject(res)
+      }
+    });
+  });
+}
+
+var formatMobile = function (mobile) {
+  if (mobile && mobile.length === 11) {
+    return mobile.substr(0, 3) + ' **** ' + mobile.substr(7)
+  }
+}
