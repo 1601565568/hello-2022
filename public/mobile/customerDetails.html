@@ -27,7 +27,7 @@
         <div class="content content--place">
             <div class="content__title">电话：</div>
             <div class="content__substance mobile">-</div>
-            <a href="sms:18688888888"><img src="./img/expression/dianhua.png" alt="手机" class="content__phone"></a>
+            <a class='mobileA' href="javascript:void(0)"><img src="./img/expression/dianhua.png" alt="手机" class="content__phone"></a>
         </div>
         <div class="content">
             <div class="content__title">VIP等级：</div>
@@ -138,8 +138,12 @@
         },
         sex: processSex,
         mobile: function (mobile) {
-            // todo-zsf 缺少手机号
-            return formatMobile('17605021126')
+            mobile = '17605021126'
+            if (mobile) {
+                // todo-zsf 缺少手机号
+                $('.mobileA').attr('href', 'tel:' + mobile)
+            }
+            return formatMobile(mobile)
         }
     }
 
