@@ -276,7 +276,7 @@ export default {
     guideChange (value) {
       this.multipleSelection = value
     },
-    // 更换导购弹窗\详情展示
+    // 会员详情展示
     onRedactFun (val, offLineShopId) {
       let _this = this
       if (val === undefined) {
@@ -323,7 +323,7 @@ export default {
       }
     },
     // 显示启用的标签
-    showTagData (row) {
+    showTagData (row, offLineShopId) {
       this.showTag = true
       this.sysCustomerId = row.sysCustomerId
       if (this.sysCustomerId.length > 0 && this.sysCustomerId !== row.sysCustomerId) {
@@ -331,7 +331,7 @@ export default {
         this.restTag()
       }
       this.$http.fetch(this.$api.guide.guide.queryAllTag, {
-        'shopId': row.sgExclusiveShopId,
+        'shopId': row.sgExclusiveShopId !== 0 ? row.sgExclusiveShopId : offLineShopId,
         'sysCustomerId': row.sysCustomerId
       }).then(resp => {
         if (resp.success && resp.result != null) {
@@ -367,7 +367,7 @@ export default {
                 case 4:
                   let valueArr = tag.value.split('|')
                   let num = valueArr.length
-                  this.attributeValue += (num - 1)
+                  this.attributeValue += (num - 2)
                   this.checkboxIds.push(tag.id)
                   this.checkboxList.push.apply(this.checkboxList, valueArr)
                   break
@@ -424,7 +424,6 @@ export default {
         this.attribute += 1
         this.attributeValue += 1
       }
-      console.log('更新后数据：' + JSON.stringify(this.mapTag))
     },
     addSelect (row) {
       let num = this.selectIds.indexOf(row.id)
@@ -451,7 +450,6 @@ export default {
         this.attribute += 1
         this.attributeValue += 1
       }
-      console.log('更新后数据：' + JSON.stringify(this.mapTag))
     },
     addDate (row) {
       let num = this.dateIds.indexOf(row.id)
@@ -478,7 +476,6 @@ export default {
         this.attribute += 1
         this.attributeValue += 1
       }
-      console.log('更新后数据：' + JSON.stringify(this.mapTag))
     },
     addRadio (row, item) {
       let num = this.radioIds.indexOf(row.id)
@@ -508,7 +505,6 @@ export default {
         this.attribute += 1
         this.attributeValue += 1
       }
-      console.log('更新后数据：' + JSON.stringify(this.mapTag))
     },
     addCheckbox (row, item) {
       // 出现匹配失败的问题 判断4 变成判断504匹配成功
@@ -544,7 +540,6 @@ export default {
         this.attribute += 1
         this.attributeValue += 1
       }
-      console.log('更新后数据：' + JSON.stringify(this.mapTag))
     },
     saveTag () { // 保存标签
       if (this.mapTag.length === 0) {

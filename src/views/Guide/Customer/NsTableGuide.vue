@@ -2,7 +2,7 @@
   <div calss="NsTableGuide_main">
         <div class="template-page__row-left">
           <el-input ref="quickText" style="width: 190px" v-model="filterTreeText" placeholder="输入线下店铺名称" clearable>
-            <i class="el-input__icon" slot="suffix" name="name" @click="$quickSearchAction$('name')"><Icon fontType="el-icon-search"/></i>
+<!--            <i class="el-input__icon" slot="suffix" name="name" @click="$quickSearchAction$('name')"><Icon fontType="el-icon-search"/></i>-->
           </el-input>
           <div :class="offsetHeight?'elTrees':'elTree'" ref="elTree" :style="{ 'height' : height + 'px'}">
             <el-tree class="filter-tree" ref="guideTree" :data="shopFindList" highlight-current
@@ -90,7 +90,6 @@
     <template slot="table">
       <!-- 表格配置 不能添加 border 配置 -->
       <!-- 表格配置 需添加 stripe （实现斑马线效果） -->
-
       <!-- 表格单元格宽度配置规范 -->
       <!-- 复选框/单选框 :width="45" -->
       <!-- 日期 年月日 :width="100"   年月日时分秒 :width="150" -->
@@ -151,7 +150,7 @@
           <template slot-scope="scope">
             <div>
               <ns-button style="color:#0091FA" @click="onRedactFun(scope.row,offLineShopId)" type="text">详情</ns-button>
-              <ns-button style="color:#0091FA" @click="showTagDailog(scope.row)" type="text">打标签</ns-button>
+              <ns-button style="color:#0091FA" @click="showTagDailog(scope.row,offLineShopId)" type="text">打标签</ns-button>
             </div>
           </template>
         </el-table-column>

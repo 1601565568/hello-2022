@@ -267,12 +267,12 @@
               <el-table-column type="selection" align="center" :width="50"></el-table-column>
               <el-table-column prop="name" label="会员姓名" align="left" width="130">
                 <template slot-scope="scope">
-                  {{scope.row.name || '-'}}
+                  {{scope.row.customerName || '-'}}
                 </template>
               </el-table-column>
               <el-table-column prop="nickName" label="会员昵称" align="left" width="130">
                 <template slot-scope="scope">
-                  {{scope.row.nickName || '-'}}
+                  {{scope.row.outNick || '-'}}
                 </template>
               </el-table-column>
 
