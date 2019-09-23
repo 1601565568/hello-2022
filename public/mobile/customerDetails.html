@@ -31,7 +31,7 @@
         </div>
         <div class="content">
             <div class="content__title">VIP等级：</div>
-            <div class="content__substance grade">-</div>
+            <div class="content__substance gradeName">-</div>
         </div>
         <div class="content">
             <div class="content__title">专属导购：</div>
@@ -67,7 +67,7 @@
             <div class="content__substance content__substance--edit editButton" onclick='editRemark()'>编辑</div>
         </div>
     </div>
-    <div class="detail__save">保存</div>
+    <!--    <div class="detail__save">保存</div>-->
 </div>
 </body>
 <script type="text/javascript" src="./js/jquery-3.4.1.min.js"></script>
@@ -75,6 +75,9 @@
 <script>
     let isEdit = true
     let saving = false
+    let customerModel
+    let ownerWid
+    let wid
     const editRemark = function () {
         const $remark = $('.remark')
         const $editButton = $('.editButton')
@@ -88,20 +91,22 @@
         } else {
             saving = true
             fetch({
-                url: 'wx/customer/editRemark',
+                url: 'wx/customer/edit',
                 method: 'post'
             }, {
+                ownerWid,
+                customerId: customerModel.customerId,
                 remark: $remark.val()
             })
                 .then(data => {
                     saving = false
-                    isEdit = false
+                    isEdit = true
                     $remark.attr('readonly', 'readonly')
                     $editButton.html('编辑')
-                    //    todo-zsf 弹窗提示
                 })
                 .catch(error => {
                     saving = false
+                    alert(error && error.msg ? error.msg : '未知异常')
                 })
 
         }
@@ -139,8 +144,8 @@
         window.location.replace('error.html?type=' + type + '&message=' + encodeURIComponent(message))
     }
     $(function () {
-        const ownerWid = getPar('ownerWid')
-        const wid = getPar('wid')
+        ownerWid = getPar('ownerWid')
+        wid = getPar('wid')
 
         if (!ownerWid || !wid) {
             toError(0, '参数错误：个人号微信号或好友微信号都不允许空')
@@ -153,6 +158,11 @@
         }, { ownerWid, wid })
             .then(data => {
                 const customer = data.result
+                if (!customer) {
+                    toError(0, '未查到会员信息')
+                    return
+                }
+                customerModel = customer
                 Object.assign(customer, { wid: wid })
                 Object.keys(customer).map(k => {
                     const type = typeMap[k]

@@ -15,7 +15,7 @@ var getPar = function (name) {
   return null
 }
 
-var apiRoot = 'https://zhsg.ecrpcloud.com/app/'
+var apiRoot = 'http://127.0.0.1/app/'
 
 var fetch = function (api, data) {
   return new Promise(function (resolve, reject) {
