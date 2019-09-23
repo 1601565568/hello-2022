@@ -61,6 +61,7 @@ html {
     font-size: 36px;
     color: #292C2E;
     max-width: 65%;
+    height: auto;
     margin-left: 50px;
     border: none;
     outline: none;
