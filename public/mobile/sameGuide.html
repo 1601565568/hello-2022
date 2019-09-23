@@ -71,7 +71,7 @@
             $('#memberGrade').html(noData.memberGrade);
             $('#shopName').html(noData.shopName);
             $('#groupName').html(noData.groupName);
-            $('#memberCard').html(noData.memberCard);
+            $('#memberCard').html(noData.memberCard.replace(/(.{4})/g,'$1 '));
             $('#guideQrCode').attr('src', noData.newCardUrl)
         }
     })
