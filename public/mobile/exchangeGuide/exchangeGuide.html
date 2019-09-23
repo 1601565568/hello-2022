@@ -7,7 +7,7 @@
           content="width=device-width, initial-scale=1.0, minimum-scale=1, maximum-scale=1.0, user-scalable=no"/>
     <meta http-equiv="Cache-Control" content="no-siteapp"/>
     <meta name="format-detection" content="telephone=no"/>
-    <link rel="stylesheet" href="exchangeGuide.css">
+    <link rel="stylesheet" href="./exchangeGuide.css">
     <title>我的专属导购</title>
 </head>
 <body>
@@ -16,14 +16,14 @@
         <div class="content">
             <div class="content__item">
                 <div class="headportrait">
-                    <img id="image" src="./img/expression/memberDefault.png" alt="头像" class="headportrait__avatarpic">
+                    <img id="image" src="../img/expression/memberDefault.png" alt="头像" class="headportrait__avatarpic">
                     <div class="headportrait__only">现专属导购</div>
                 </div>
                 <div class="arrow">
-                    <img src="./img/expression/arrow.png" alt="箭头" class="arrow__img">
+                    <img src="../img/expression/arrow.png" alt="箭头" class="arrow__img">
                 </div>
                 <div class="headportrait">
-                    <img id="newImage" src="./img/expression/memberDefault.png" alt="头像" class="headportrait__avatarpic">
+                    <img id="newImage" src="../img/expression/memberDefault.png" alt="头像" class="headportrait__avatarpic">
                 </div>
             </div>
             <div class="detail">
@@ -54,8 +54,8 @@
         <div class="confirm" onclick="toChangeGuide()">确认更换</div>
     </div>
 </div>
-<script type="text/javascript" src="./js/jquery-3.4.1.min.js"></script>
-<script type="text/javascript" src="./js/common.js"></script>
+<script type="text/javascript" src="../js/jquery-3.4.1.min.js"></script>
+<script type="text/javascript" src="../js/common.js"></script>
 <script>
     $(document).ready(function () {
         var changeData = JSON.parse(localStorage.getItem('showData'));
@@ -84,9 +84,9 @@
         }).then(function (result) {
             if (result.success) {
                 alert("更换导购成功")
-                window.location.replace("successNo.html");
+                window.location.replace("../sameGuide/successNo.html");
             } else {
-                window.location.replace("invalid.html?msg=更换导购失败");
+                window.location.replace("../invalid/invalid.html?msg=更换导购失败");
             }
         })
     }

@@ -63,14 +63,14 @@
                     //非新用户-跳转已经有导购界面
                     if (recruitInfo.guideId == result.result.sgGuideId) {
                         //同一导购
-                        window.location.replace("sameGuide.html")
+                        window.location.replace("./addFriend/addFriend.html")
                     } else {
                         //不同导购-判断是否允许自主更换导购
                         if(result.result.changeSgTwo){
-                            window.location.replace("exchangeGuide.html")
+                            window.location.replace("./exchangeGuide/exchangeGuide.html")
                         }else{
                             //不允许自主更换
-                            window.location.replace("memberCard.html")
+                            window.location.replace("./memberCard/memberCard.html")
                         }
                     }
                 }
@@ -117,14 +117,14 @@
                         if(guideData.pointAdd || guideData.pointAttention){
                             // 根据不同来源，开卡成功后根据来源跳转不同页面（1关注公众号，2微信加好友）
                             if(recruitInfo.source == 1){
-                                window.location.replace("addFriend.html");
+                                window.location.replace("./addFriend/addFriend.html");
                             }else{
                                 //
-                                window.location.replace("successfulCardOpening.html");
+                                window.location.replace("./successfulCardOpening/successfulCardOpening.html");
                             }
                         }else{
                             // 跳转不关注公众号，不加好友成功页面
-                            window.location.replace("successNo.html");
+                            window.location.replace("./sameGuide/successNo.html");
                         }
                     },
                     fail: function (res) {

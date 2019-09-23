@@ -7,7 +7,7 @@
           content="width=device-width, initial-scale=1.0, minimum-scale=1, maximum-scale=1.0, user-scalable=no"/>
     <meta http-equiv="Cache-Control" content="no-siteapp"/>
     <meta name="format-detection" content="telephone=no"/>
-    <link rel="stylesheet" href="sameGuide.css">
+    <link rel="stylesheet" href="./sameGuide.css">
     <title>会员卡</title>
 </head>
 <body>
@@ -15,21 +15,22 @@
     <div class="membercard__header">
         <div class="card">
             <div class="card__message">
-                <div class="avatar">
-                    <img id="customerImg" src="./img/expression/memberDefault.png" alt="用户头像" class="avatar__img">
-                </div>
+                <!--<div class="avatar">-->
+                    <!--<img id="customerImg" src="../img/expression/memberDefault.png" alt="用户头像" class="avatar__img">-->
+                <!--</div>-->
+                <img src="../img/expression/memberDefault.png" alt="用户头像" class="defaultimg">
                 <div class="store">
                     <div class="store__name">
                         <div id="groupName"  class="name"></div>
                         <div class="grade">
-                            <img src="./img/icons/vip.png" alt="会员等级">
+                            <img src="../img/icons/vip.png" alt="会员等级">
                             <text id="memberGrade" class="grade__level">0</text>
                         </div>
                     </div>
                     <div  id="shopName"  class="store__address"></div>
                 </div>
                 <div class="qrcode">
-                    <img id="guideQrCode" src="./img/icons/QRcode.png" alt="二维码">
+                    <img id="guideQrCode" src="../img/icons/QRcode.png" alt="二维码">
                 </div>
             </div>
             <div id="memberCard" class="card__number"></div>
@@ -37,32 +38,44 @@
     </div>
     <div class="membercard__content">
         <div class="content">
+            <div class="content__msg">Dear，（<span id="guideName1"></span>）已经是你的绑定导购啦！</div>
+            <div class="content__division">
+                <div class="division">
+                    <div class="division__line"></div>
+                    <div class="division__leftcircle"></div>
+                    <div class="division__rightcircle"></div>
+                </div>
+            </div>
+            <!--<div class="content__qrcode">-->
+                <!--<img id ="guideQrCode" src="./img/expression/memberQrcode.png" alt="二维码" class="qrcodeimg">-->
+            <!--</div>-->
+            <!--<div class="content__chat">长按识别二维码进行聊天</div>-->
             <div class="content__headportrait">
-                <img id="guideImg" src="./img/expression/memberAvatar.jpg" alt="头像" class="headportrait">
+                <img id="guideImg" src="../img/expression/memberAvatar.jpg" alt="头像" class="headportrait">
             </div>
             <div class="content__only">专属导购</div>
             <div class="content__uname" id="guideName">顾起航</div>
-            <div class="content__msg">Dear，您已经是我们的会员了哦！</div>
         </div>
     </div>
 </div>
-<script type="text/javascript" src="./js/jquery-3.4.1.min.js"></script>
-<script type="text/javascript" src="./js/common.js"></script>
+<script type="text/javascript" src="../js/jquery-3.4.1.min.js"></script>
+<script type="text/javascript" src="../js/common.js"></script>
 <script>
-    window.onload = function () {
+    $(document).ready(function () {
         var noData = JSON.parse(localStorage.getItem('showData'));
         if (noData) {
-            $('#guideImg').attr("src", noData.newImage)
+            if(noData.newImage){
+                $('#guideImg').attr("src", noData.newImage)
+            }
             $('#guideName').html(noData.newSgGuideName);
             $('#guideName1').html(noData.newSgGuideName);
             $('#memberGrade').html(noData.memberGrade);
             $('#shopName').html(noData.shopName);
             $('#groupName').html(noData.groupName);
             $('#memberCard').html(noData.memberCard.replace(/(.{4})/g,'$1 '));
-            $('#guideQrCode').attr('src', noData.guideQrCode)
+            $('#guideQrCode').attr('src', noData.newCardUrl)
         }
-    }
-
+    })
 </script>
 </body>
 </html>

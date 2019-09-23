@@ -7,19 +7,22 @@
           content="width=device-width, initial-scale=1.0, minimum-scale=1, maximum-scale=1.0, user-scalable=no"/>
     <meta http-equiv="Cache-Control" content="no-siteapp"/>
     <meta name="format-detection" content="telephone=no"/>
-    <link rel="stylesheet" href="addFriend.css">
+    <link rel="stylesheet" href="./addFriend.css">
     <title>添加好友页面</title>
 </head>
 <body>
 <div class="addfriend">
     <div class="addfriend__success" id="addFriendSuccess">
-        <img src="./img/icons/duigou.png" alt="对勾">
+        <img src="../img/icons/duigou.png" alt="对勾">
         开卡成功
     </div>
     <div class="addfriend__content">
         <div class="content">
             <div class="content__avatar">
-                <img id="guideImg" src="./img/expression/memberQrcode.png" alt="导购头像" class="avatar__img">
+                <!-- 动态图片 -->
+                <!--<img id="guideImg" src="../img/expression/memberQrcode.png" alt="导购头像" class="avatarimg">-->
+                <!-- 默认图片 -->
+                <img src="../img/expression/memberDefault.png" alt="用户头像" class="defaultimg">
             </div>
             <div class="content__exclusive">专属导购</div>
             <div id="guideName" class="content__username">王旺旺</div>
@@ -37,17 +40,17 @@
                 </div>
             </div>
             <div class="content__qrcode">
-                <img id="guideQrCode" src="./img/expression/memberQrcode.png" alt="二维码" class="qrcodeimg">
+                <img id="guideQrCode" src="../img/expression/memberQrcode.png" alt="二维码" class="qrcodeimg">
             </div>
             <div class="content__become">长按识别二维码添加为好友</div>
             <div class="content__bottom">
-                <img src="./img/expression/halfcircle.png" alt="底部半圆" class="circleimg">
+                <img src="../img/expression/halfcircle.png" alt="底部半圆" class="circleimg">
             </div>
         </div>
     </div>
 </div>
-<script type="text/javascript" src="./js/jquery-3.4.1.min.js"></script>
-<script type="text/javascript" src="./js/common.js"></script>
+<script type="text/javascript" src="../js/jquery-3.4.1.min.js"></script>
+<script type="text/javascript" src="../js/common.js"></script>
 <script>
     $(document).ready(function () {
         var noData = JSON.parse(localStorage.getItem('showData'));

@@ -86,7 +86,7 @@ body {
     width: 23px;
     height: 46px;
     position: absolute;
-    left: -2px;
+    left: 0;
     top: -14px;
     background: #F2F2F2;
     border-radius:  0 23px 23px 0;
@@ -95,7 +95,7 @@ body {
     width: 23px;
     height: 46px;
     position: absolute;
-    right: -2px;
+    right: 0;
     top: -14px;
     background: #F2F2F2;
     border-radius: 23px 0 0 23px;

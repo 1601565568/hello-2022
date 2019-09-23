@@ -7,7 +7,7 @@
           content="width=device-width, initial-scale=1.0, minimum-scale=1, maximum-scale=1.0, user-scalable=no"/>
     <meta http-equiv="Cache-Control" content="no-siteapp"/>
     <meta name="format-detection" content="telephone=no"/>
-    <link rel="stylesheet" href="memberCard.css">
+    <link rel="stylesheet" href="./memberCard.css">
     <title>会员卡</title>
 </head>
 <body>
@@ -15,21 +15,24 @@
     <div class="membercard__header">
         <div class="card">
             <div class="card__message">
-                <div class="avatar">
-                    <img id="customerImg" src="./img/expression/memberDefault.png" alt="用户头像" class="avatar__img">
-                </div>
+                <!-- 动态图片 -->
+                <!--<div class="avatar">-->
+                    <!--<img id="customerImg" src="../img/expression/memberDefault.png" alt="用户头像" class="avatar__img">-->
+                <!--</div>-->
+                <!-- 默认图片 -->
+                <img src="../img/expression/memberDefault.png" alt="用户头像" class="defaultimg">
                 <div class="store">
                     <div class="store__name">
                         <div id="groupName" class="name">优衣库</div>
                         <div class="grade">
-                            <img src="./img/icons/vip.png" alt="会员等级">
+                            <img src="../img/icons/vip.png" alt="会员等级">
                             <text id="memberGrade" class="grade__level">1</text>
                         </div>
                     </div>
                     <div id="shopName" class="store__address">宝龙一城店</div>
                 </div>
                 <div class="qrcode">
-                    <img src="./img/icons/QRcode.png" alt="二维码">
+                    <img src="../img/icons/QRcode.png" alt="二维码">
                 </div>
             </div>
             <div id="memberCard" class="card__number">1258 1454 4879 4575</div>
@@ -46,7 +49,7 @@
                 </div>
             </div>
             <div class="content__qrcode">
-                <img id ="guideQrCode" src="./img/expression/memberQrcode.png" alt="二维码" class="qrcodeimg">
+                <img id ="guideQrCode" src="../img/expression/memberQrcode.png" alt="二维码" class="qrcodeimg">
             </div>
             <div class="content__chat">长按识别二维码进行聊天</div>
         </div>
@@ -58,8 +61,8 @@
         <!--</div>-->
     <!--</div>-->
 </div>
-<script type="text/javascript" src="./js/jquery-3.4.1.min.js"></script>
-<script type="text/javascript" src="./js/common.js"></script>
+<script type="text/javascript" src="../js/jquery-3.4.1.min.js"></script>
+<script type="text/javascript" src="../js/common.js"></script>
 <script>
     $(function () {
         var showData = JSON.parse(localStorage.getItem('showData'));
