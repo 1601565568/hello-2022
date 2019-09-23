@@ -132,7 +132,10 @@
     }
 
     const typeMap = {
-        customerHeadImage: 'src',
+        customerHeadImage: {
+            type: 'src',
+            defaultValue: 'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/app/default-user.png'
+        },
         sex: processSex,
         mobile: function (mobile) {
             // todo-zsf 缺少手机号
@@ -155,7 +158,7 @@
         fetch({
             url: 'wx/customer/getCustomerDetail',
             method: 'post'
-        }, { ownerWid, wid })
+        }, { ownerWid, wid, customerId: 215885226 })
             .then(data => {
                 const customer = data.result
                 if (!customer) {
@@ -176,6 +179,9 @@
                                     return
                                 }
                                 value = temp
+                            } else if(typeof type === 'object') {
+                                $el.attr(type.type, value || type.defaultValue)
+                                return
                             } else {
                                 $el.attr(type, value || '-')
                                 return
