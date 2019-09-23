@@ -14,7 +14,7 @@
 <body>
 <div class="detail">
     <div class="detail__header">
-        <img src=""
+        <img src="https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/app/default-user.png"
              alt="用户头像" class="avatar customerHeadImage">
         <div class="uname outAlias">-</div>
         <img src="" style='display: none' alt="性别" class="gender">
@@ -27,7 +27,7 @@
         <div class="content content--place">
             <div class="content__title">电话：</div>
             <div class="content__substance mobile">-</div>
-            <a href="sms:18688888888"><img src="./img/expression/dianhua.png" alt="手机" class="content__phone"></a>
+            <a class='mobileA' href="javascript:void(0)"><img style='top: 28px;' src="./img/expression/dianhua.png" alt="手机" class="content__phone"></a>
         </div>
         <div class="content">
             <div class="content__title">VIP等级：</div>
@@ -132,11 +132,18 @@
     }
 
     const typeMap = {
-        customerHeadImage: 'src',
+        customerHeadImage: {
+            type: 'src',
+            defaultValue: 'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/app/default-user.png'
+        },
         sex: processSex,
         mobile: function (mobile) {
-            // todo-zsf 缺少手机号
-            return formatMobile('17605021126')
+            mobile = '17605021126'
+            if (mobile) {
+                // todo-zsf 缺少手机号
+                $('.mobileA').attr('href', 'tel:' + mobile)
+            }
+            return formatMobile(mobile)
         }
     }
 
@@ -155,7 +162,7 @@
         fetch({
             url: 'wx/customer/getCustomerDetail',
             method: 'post'
-        }, { ownerWid, wid })
+        }, { ownerWid, wid, customerId: 215885226 })
             .then(data => {
                 const customer = data.result
                 if (!customer) {
@@ -176,6 +183,9 @@
                                     return
                                 }
                                 value = temp
+                            } else if(typeof type === 'object') {
+                                $el.attr(type.type, value || type.defaultValue)
+                                return
                             } else {
                                 $el.attr(type, value || '-')
                                 return
