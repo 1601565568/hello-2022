@@ -48,10 +48,10 @@
             <!--网页开始-->
             <div class="welcome-aside__upload" v-else-if="showChoice === 2">
               <span class="welcome-choice welcome-choice--bodernone colorblue clearfix">
-                <i  class="iconfont icon-wangye1"></i>
+                <i class="iconfont icon-wangye1"></i>
                 <span class="welcome-choice__showlength">网页网页网页网页网页网页网页网页网页网页网页网页网页网页网页网页网页网页网页网页v网页网页网页
                 网页网页网页网页网页网页网页网页网页网页网页网页网页网页网页网页网页网页网页网页v网页网页网页</span>
-                <i  class="iconfont icon-shanchu3 welcome-choice__marginleft hand"></i>
+                <i class="iconfont icon-shanchu3 welcome-choice__marginleft hand"></i>
               </span>
             </div>
             <!--网页开始-->

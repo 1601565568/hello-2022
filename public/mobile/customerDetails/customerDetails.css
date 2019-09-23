@@ -16,13 +16,13 @@ html {
     border-radius: 10px;
 }
 .avatar {
-    width: 108px;
-    height: 108px;
+    width: 138px;
+    height: 138px;
     border-radius: 50%;
     flex-shrink: 0;
 }
 .uname {
-    font-size: 32px;
+    font-size: 40px;
     color: #292C2E;
     max-width: 78%;
     margin-left: 30px;
@@ -37,7 +37,6 @@ html {
     flex-shrink: 0;
 }
 .content {
-    font-size: 38px;
     display: flex;
     align-items: center;
     padding: 30px 0;
@@ -47,22 +46,24 @@ html {
     position: relative;
 }
 .content .content__title {
-    font-size: 28px;
+    font-size: 36px;
     color: #999999;
     width: 228px;
     text-align: right;
     flex-shrink: 0;
 }
 .content .content__substance {
-    font-size: 28px;
+    font-size: 36px;
     color: #292C2E;
     margin-left: 50px;
 }
 .content .content__input {
-    font-size: 28px;
+    font-size: 36px;
     color: #292C2E;
+    max-width: 65%;
     margin-left: 50px;
     border: none;
+    outline: none;
 }
 input::placeholder {
     color: #BBBBBB;
@@ -79,12 +80,12 @@ input::placeholder {
     right: 18px;
 }
 .detail__save {
-    font-size: 32px;
+    font-size: 40px;
     color: #FFFFFF;
     text-align: center;
-    line-height: 88px;
+    line-height: 108px;
     width: 100%;
-    height: 88px;
+    height: 108px;
     position: fixed;
     bottom: 0;
     left: 0;
