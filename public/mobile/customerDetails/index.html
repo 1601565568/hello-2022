@@ -8,8 +8,8 @@
           id="divport" name="divport" />
     <meta http-equiv="Cache-Control" content="no-siteapp" />
     <meta name="format-detection" content="telephone=no" />
-    <link rel="stylesheet" href="customerDetails.css">
-    <title>客户详情</title>
+    <link rel="stylesheet" href="index.css">
+    <title>客户aaa详情</title>
 </head>
 <body>
 <div class="detail">
@@ -27,7 +27,7 @@
         <div class="content content--place">
             <div class="content__title">电话：</div>
             <div class="content__substance mobile">-</div>
-            <a class='mobileA' href="javascript:void(0)"><img style='top: 28px;' src="./img/expression/dianhua.png" alt="手机" class="content__phone"></a>
+            <a class='mobileA' href="javascript:void(0)"><img style='top: 28px;' src="/mobile/img/expression/dianhua.png" alt="手机" class="content__phone"></a>
         </div>
         <div class="content">
             <div class="content__title">VIP等级：</div>
@@ -70,8 +70,8 @@
     <!--    <div class="detail__save">保存</div>-->
 </div>
 </body>
-<script type="text/javascript" src="./js/jquery-3.4.1.min.js"></script>
-<script type="text/javascript" src="./js/common.js"></script>
+<script type="text/javascript" src="/mobile/js/jquery-3.4.1.min.js"></script>
+<script type="text/javascript" src="/mobile/js/common.js"></script>
 <script>
     let isEdit = true
     let saving = false
@@ -116,10 +116,10 @@
         let url
         switch (sex) {
             case 0:
-                url = './img/expression/nv.png'
+                url = '/mobile/img/expression/nv.png'
                 break
             case 1:
-                url = './img/expression/nan.png'
+                url = '/mobile/img/expression/nan.png'
                 break
             default:
         }
@@ -148,7 +148,7 @@
     }
 
     const toError = (type = 0, message = '') => {
-        window.location.replace('error.html?type=' + type + '&message=' + encodeURIComponent(message))
+        window.location.replace('/mobile/error.html?type=' + type + '&message=' + encodeURIComponent(message))
     }
     $(function () {
         ownerWid = getPar('ownerWid')
