@@ -308,7 +308,7 @@
                       placement="bottom"
                       width="200"
                       trigger="hover"
-                      content="这是一段内容,这是一段内容,这是一段内容,这是一段内容。">
+                      content="这是一段内容。">
                       <i class="xiangqingyiwen-icon dialog-doubt" slot="reference"><Icon type="xiangqingyiwen"/></i>
                     </el-popover>
                   </el-form-grid>
@@ -318,7 +318,7 @@
                       placement="bottom"
                       width="200"
                       trigger="hover"
-                      content="这是一段内容,这是一段内容,这是一段内容,这是一段内容。">
+                      content="这是一段内容。">
                       <i class="xiangqingyiwen-icon dialog-doubt" slot="reference"><Icon type="xiangqingyiwen"/></i>
                     </el-popover>
                   </el-form-grid>
@@ -329,7 +329,7 @@
                       placement="bottom"
                       width="200"
                       trigger="hover"
-                      content="这是一段内容,这是一段内容,这是一段内容,这是一段内容。">
+                      content="这是一段内容。">
                       <i class="xiangqingyiwen-icon dialog-doubt" slot="reference"><Icon type="xiangqingyiwen"/></i>
                     </el-popover>
                   </el-form-grid>
@@ -340,227 +340,7 @@
               </el-form>
             </div>
           </el-tab-pane>
-          <el-tab-pane label="积分1信息" name="integralone">
-            <div class="dialog-integral">
-              <el-form class="dialog-integral__form">
-                <el-form-item class="dialog-formitem">
-                  <el-form-grid class="dialog-formitem__choice">
-                    请选择：
-                  </el-form-grid>
-                  <el-form-grid size="md">
-                    <el-date-picker type="datetime" placeholder="请选择" v-model="startDateTime">
-                    </el-date-picker>
-                  </el-form-grid>
-                  <el-form-grid>
-                    -
-                  </el-form-grid>
-                  <el-form-grid size="md">
-                    <el-date-picker type="datetime" placeholder="请选择" v-model="endDateTime"></el-date-picker>
-                  </el-form-grid>
-                  <el-form-grid class="dialog-formitem__type">
-                    变更类型：
-                  </el-form-grid>
-                  <el-form-grid size="md">
-                    <el-select v-model="value3" placeholder="请选择">
-                      <el-option
-                        v-for="item in options"
-                        :key="item.value3"
-                        :label="item.label"
-                        :value="item.value3">
-                      </el-option>
-                    </el-select>
-                  </el-form-grid>
-                  <el-form-grid size="md">
-                    <el-select v-model="value3" placeholder="请选择">
-                      <el-option
-                        v-for="item in options"
-                        :key="item.value3"
-                        :label="item.label"
-                        :value="item.value3">
-                      </el-option>
-                    </el-select>
-                  </el-form-grid>
-                  <el-form-grid>
-                    <ns-button type="primary">搜索</ns-button>
-                  </el-form-grid>
-                </el-form-item>
-              </el-form>
-              <el-table ref="table" :data="tableData" stripe>
-                <el-table-column prop="integral" label="满减积分" align="center">
-                </el-table-column>
-                <el-table-column prop="time" label="变更时间" align="center" :width="250">
-                </el-table-column>
-                <el-table-column prop="type" label="类型" align="center">
-                </el-table-column>
-              </el-table>
-            </div>
-          </el-tab-pane>
-          <el-tab-pane label="积分2信息" name="integraltwo">
-            <div class="dialog-integral">
-              <el-form class="dialog-integral__form">
-                <el-form-item class="dialog-formitem">
-                  <el-form-grid class="dialog-formitem__choice">
-                    请选择：
-                  </el-form-grid>
-                  <el-form-grid size="md">
-                    <el-date-picker type="datetime" placeholder="请选择" v-model="startDateTime">
-                    </el-date-picker>
-                  </el-form-grid>
-                  <el-form-grid>
-                    -
-                  </el-form-grid>
-                  <el-form-grid size="md">
-                    <el-date-picker type="datetime" placeholder="请选择" v-model="endDateTime"></el-date-picker>
-                  </el-form-grid>
-                  <el-form-grid class="dialog-formitem__type">
-                    变更类型：
-                  </el-form-grid>
-                  <el-form-grid size="md">
-                    <el-select v-model="value3" placeholder="请选择">
-                      <el-option
-                        v-for="item in options"
-                        :key="item.value3"
-                        :label="item.label"
-                        :value="item.value3">
-                      </el-option>
-                    </el-select>
-                  </el-form-grid>
-                  <el-form-grid size="md">
-                    <el-select v-model="value3" placeholder="请选择">
-                      <el-option
-                        v-for="item in options"
-                        :key="item.value3"
-                        :label="item.label"
-                        :value="item.value3">
-                      </el-option>
-                    </el-select>
-                  </el-form-grid>
-                  <el-form-grid>
-                    <ns-button type="primary">搜索</ns-button>
-                  </el-form-grid>
-                </el-form-item>
-              </el-form>
-              <el-table ref="table" :data="tableData" stripe>
-                <el-table-column prop="integral" label="满减积分" align="center">
-                </el-table-column>
-                <el-table-column prop="time" label="变更时间" align="center" :width="250">
-                </el-table-column>
-                <el-table-column prop="type" label="类型" align="center">
-                </el-table-column>
-              </el-table>
-            </div>
-          </el-tab-pane>
-          <el-tab-pane label="积分3信息" name="integralthree">
-            <div class="dialog-integral">
-              <el-form class="dialog-integral__form">
-                <el-form-item class="dialog-formitem">
-                  <el-form-grid class="dialog-formitem__choice">
-                    请选择：
-                  </el-form-grid>
-                  <el-form-grid size="md">
-                    <el-date-picker type="datetime" placeholder="请选择" v-model="startDateTime">
-                    </el-date-picker>
-                  </el-form-grid>
-                  <el-form-grid>
-                    -
-                  </el-form-grid>
-                  <el-form-grid size="md">
-                    <el-date-picker type="datetime" placeholder="请选择" v-model="endDateTime"></el-date-picker>
-                  </el-form-grid>
-                  <el-form-grid class="dialog-formitem__type">
-                    变更类型：
-                  </el-form-grid>
-                  <el-form-grid size="md">
-                    <el-select v-model="value3" placeholder="请选择">
-                      <el-option
-                        v-for="item in options"
-                        :key="item.value3"
-                        :label="item.label"
-                        :value="item.value3">
-                      </el-option>
-                    </el-select>
-                  </el-form-grid>
-                  <el-form-grid size="md">
-                    <el-select v-model="value3" placeholder="请选择">
-                      <el-option
-                        v-for="item in options"
-                        :key="item.value3"
-                        :label="item.label"
-                        :value="item.value3">
-                      </el-option>
-                    </el-select>
-                  </el-form-grid>
-                  <el-form-grid>
-                    <ns-button type="primary">搜索</ns-button>
-                  </el-form-grid>
-                </el-form-item>
-              </el-form>
-              <el-table ref="table" :data="tableData" stripe>
-                <el-table-column prop="integral" label="满减积分" align="center">
-                </el-table-column>
-                <el-table-column prop="time" label="变更时间" align="center" :width="250">
-                </el-table-column>
-                <el-table-column prop="type" label="类型" align="center">
-                </el-table-column>
-              </el-table>
-            </div>
-          </el-tab-pane>
-          <el-tab-pane label="积分4信息" name="integralfour">
-            <div class="dialog-integral">
-              <el-form class="dialog-integral__form">
-                <el-form-item class="dialog-formitem">
-                  <el-form-grid class="dialog-formitem__choice">
-                    请选择：
-                  </el-form-grid>
-                  <el-form-grid size="md">
-                    <el-date-picker type="datetime" placeholder="请选择" v-model="startDateTime">
-                    </el-date-picker>
-                  </el-form-grid>
-                  <el-form-grid>
-                    -
-                  </el-form-grid>
-                  <el-form-grid size="md">
-                    <el-date-picker type="datetime" placeholder="请选择" v-model="endDateTime"></el-date-picker>
-                  </el-form-grid>
-                  <el-form-grid class="dialog-formitem__type">
-                    变更类型：
-                  </el-form-grid>
-                  <el-form-grid size="md">
-                    <el-select v-model="value3" placeholder="请选择">
-                      <el-option
-                        v-for="item in options"
-                        :key="item.value3"
-                        :label="item.label"
-                        :value="item.value3">
-                      </el-option>
-                    </el-select>
-                  </el-form-grid>
-                  <el-form-grid size="md">
-                    <el-select v-model="value3" placeholder="请选择">
-                      <el-option
-                        v-for="item in options"
-                        :key="item.value3"
-                        :label="item.label"
-                        :value="item.value3">
-                      </el-option>
-                    </el-select>
-                  </el-form-grid>
-                  <el-form-grid>
-                    <ns-button type="primary">搜索</ns-button>
-                  </el-form-grid>
-                </el-form-item>
-              </el-form>
-              <el-table ref="table" :data="tableData" stripe>
-                <el-table-column prop="integral" label="满减积分" align="center">
-                </el-table-column>
-                <el-table-column prop="time" label="变更时间" align="center" :width="250">
-                </el-table-column>
-                <el-table-column prop="type" label="类型" align="center">
-                </el-table-column>
-              </el-table>
-            </div>
-          </el-tab-pane>
-          <el-tab-pane label="积分5信息" name="integralfive">
+          <el-tab-pane :label="'积分'+(i+1)+'信息'" name="integralone" v-for="(itegral,i) in items.integralAccountList" :key="i" >
             <div class="dialog-integral">
               <el-form class="dialog-integral__form">
                 <el-form-item class="dialog-formitem">

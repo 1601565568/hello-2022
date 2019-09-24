@@ -106,56 +106,7 @@ export default {
       value3: '',
       startDateTime: null,
       endDateTime: null,
-      tableData: [{
-        integral: '增加 93',
-        time: '2019-08-15 11:39:00',
-        type: '赠送'
-      },
-      {
-        integral: '增加 93',
-        time: '2019-08-15 11:39:00',
-        type: '赠送'
-      },
-      {
-        integral: '增加 93',
-        time: '2019-08-15 11:39:00',
-        type: '赠送'
-      },
-      {
-        integral: '增加 93',
-        time: '2019-08-15 11:39:00',
-        type: '赠送'
-      },
-      {
-        integral: '增加 93',
-        time: '2019-08-15 11:39:00',
-        type: '赠送'
-      },
-      {
-        integral: '增加 93',
-        time: '2019-08-15 11:39:00',
-        type: '赠送'
-      },
-      {
-        integral: '增加 93',
-        time: '2019-08-15 11:39:00',
-        type: '赠送'
-      },
-      {
-        integral: '增加 93',
-        time: '2019-08-15 11:39:00',
-        type: '赠送'
-      },
-      {
-        integral: '增加 93',
-        time: '2019-08-15 11:39:00',
-        type: '赠送'
-      },
-      {
-        integral: '增加 93',
-        time: '2019-08-15 11:39:00',
-        type: '赠送'
-      }]
+      tableData: []
     }
   },
   mixins: [tableMixin],
@@ -165,6 +116,38 @@ export default {
       this.value = row
     },
     handleClick (tab, event) {
+      console.log('tab:' + tab.toString())
+      console.log(tab.label)
+      // 假如切换到积分tab
+      if (tab.label.indexOf('积分') > -1) {
+        let num = tab.label.substr(2, 1)
+        let index = num - 1
+        let accountCode = this.items.integralAccountList[num - 1].integralAccount
+        this.getIntegralList(this.items.customerId, accountCode, index)
+      }
+      // else if (tab.label.indexOf('交易') > -1) {
+      //
+      // }
+    },
+    getIntegralList (customerId, accountCode, index) { // 查询会员积分
+      this.$http.fetch(this.$api.guide.guide.queryCustomerIntegral, {
+        customerId: customerId,
+        accountCode: accountCode
+      }).then(resp => {
+        this.tableData[index] = resp.result
+      }).catch(resp => {
+        this.$notify.error(getErrorMsg('查询失败', resp))
+      })
+    },
+    getCustomerRfmInfo (customerId, accountCode, index) { // 查询会员Rfm信息
+      this.$http.fetch(this.$api.guide.guide.queryCustomerRfmInfo, {
+        customerId: customerId,
+        accountCode: accountCode
+      }).then(resp => {
+        this.tagData[index] = resp.result
+      }).catch(resp => {
+        this.$notify.error(getErrorMsg('查询失败', resp))
+      })
     },
     searchAction (model) { // 搜索
       this.guideFindList(model)

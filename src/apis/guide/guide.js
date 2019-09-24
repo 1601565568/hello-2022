@@ -107,6 +107,14 @@ export default {
     url: '/guide/customer/queryValidPoint',
     method: 'get'
   },
+  queryCustomerIntegral: { // 查询会员积分日志 20190924 add
+    url: '/guide/customer/getIntegralList',
+    method: 'post'
+  },
+  queryCustomerRfmInfo: { // 查询会员Rfm信息 20190924 add
+    url: '/guide/customer/getRfmInfo',
+    method: 'post'
+  },
   queryCustomerCouponNum: {// 查询客户可用优惠券数量
     url: '/guide/customer/queryCustomerCouponNum',
     method: 'get'
