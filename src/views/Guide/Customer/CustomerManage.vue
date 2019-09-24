@@ -176,30 +176,30 @@
               <i class="dialog-favorable__text dialog-favorable__text--discount"><Icon type="icon_discount"/></i>
             </el-form-grid>
           </el-form-item>
-          <el-form-item label="积分2：" class="el-inline-block dialog-favorable">
+          <el-form-item label="积分2：" class="el-inline-block dialog-favorable" v-if="integralIsShow[1]">
             <el-form-grid size="xs">
-              <span>2460</span>
+              <span>{{integralIsNum[1]}}</span>
               <i class="dialog-favorable__text dialog-favorable__text--integration"><Icon type="icon_integration"/></i>
             </el-form-grid>
           </el-form-item>
-          <el-form-item label="积分5：" class="el-inline-block dialog-favorable">
+          <el-form-item label="积分5：" class="el-inline-block dialog-favorable" v-if="integralIsShow[4]">
             <el-form-grid size="xs">
-              <span>1857</span>
+              <span>{{integralIsNum[4]}}</span>
               <i class="dialog-favorable__text dialog-favorable__text--integration"><Icon type="icon_integration"/></i>
             </el-form-grid>
           </el-form-item>
           <el-form-item label="手机：" class="el-inline-block">
             <el-form-grid size="xs">{{items.mobile}}</el-form-grid>
           </el-form-item>
-          <el-form-item label="积分1：" class="el-inline-block dialog-favorable">
+          <el-form-item label="积分1：" class="el-inline-block dialog-favorable" v-if="integralIsShow[0]">
             <el-form-grid size="xs">
-              <span>3998</span>
+              <span>{{integralIsNum[0]}}</span>
               <i class="dialog-favorable__text dialog-favorable__text--integration"><Icon type="icon_integration"/></i>
             </el-form-grid>
           </el-form-item>
-          <el-form-item label="积分3：" class="el-inline-block dialog-favorable">
+          <el-form-item label="积分3：" class="el-inline-block dialog-favorable" v-if="integralIsShow[2]">
             <el-form-grid size="xs">
-              <span>2120</span>
+              <span>{{integralIsNum[2]}}</span>
               <i class="dialog-favorable__text dialog-favorable__text--integration"><Icon type="icon_integration"/></i>
             </el-form-grid>
           </el-form-item>
@@ -226,9 +226,9 @@
               <i class="dialog-favorable__text dialog-favorable__text--coupon"><Icon type="icon_coupon"/></i>
             </el-form-grid>
           </el-form-item>
-          <el-form-item label="积分4：" class="el-inline-block dialog-favorable">
+          <el-form-item label="积分4：" class="el-inline-block dialog-favorable" v-if="integralIsShow[3]">
             <el-form-grid size="xs">
-              <span>1257</span>
+              <span>{{integralIsNum[3]}}</span>
               <i class="dialog-favorable__text dialog-favorable__text--integration"><Icon type="icon_integration"/></i>
             </el-form-grid>
           </el-form-item>
@@ -275,7 +275,7 @@
               </el-form>
             </div>
           </el-tab-pane>
-          <el-tab-pane label="交易信息" name="transaction">
+          <el-tab-pane label="交易信息" name="transaction" v-model="rfmInfo">
             <div class="dialog-transaction">
               <el-form class="dialog-transaction__form">
                 <el-form-item label="当前客户累计交易额（元）">
@@ -283,32 +283,32 @@
                     placement="bottom"
                     width="200"
                     trigger="hover"
-                    content="这是一段内容,这是一段内容,这是一段内容,这是一段内容。">
+                    content="交易成功订单的总金额（包含退款金额）">
                     <i class="xiangqingyiwen-icon dialog-doubt" slot="reference"><Icon type="xiangqingyiwen"/></i>
                   </el-popover>
                 </el-form-item>
                 <el-form-item class="dialog-merchandise">
-                  <el-form-grid class="dialog-merchandise__money">¥360.00</el-form-grid>
-                  <el-form-grid class="dialog-merchandise__frequency">（交易次数：1）</el-form-grid>
+                  <el-form-grid class="dialog-merchandise__money">¥{{rfmInfo.tradeAmount}}</el-form-grid>
+                  <el-form-grid class="dialog-merchandise__frequency">（交易次数：{{rfmInfo.tradeTimes}}）</el-form-grid>
                 </el-form-item>
                 <el-form-item class="dialog-detail">
                   <el-form-grid size="md">
-                    回购周期：未回购
+                    回购周期：{{rfmInfo.buyBackAllPeriod}}
                     <el-popover
                       placement="bottom"
                       width="200"
                       trigger="hover"
-                      content="这是一段内容,这是一段内容,这是一段内容,这是一段内容。">
+                      content="（最近一次交易成功时间-第一次交易成功时间）/（交易成功次数-1）">
                       <i class="xiangqingyiwen-icon dialog-doubt" slot="reference"><Icon type="xiangqingyiwen"/></i>
                     </el-popover>
                   </el-form-grid>
                   <el-form-grid size="md">
-                    笔单价：360.00元
+                    笔单价：{{rfmInfo.priceUnit}}元
                     <el-popover
                       placement="bottom"
                       width="200"
                       trigger="hover"
-                      content="这是一段内容。">
+                      content="交易成功总额/交易成功订单数（包含退款）">
                       <i class="xiangqingyiwen-icon dialog-doubt" slot="reference"><Icon type="xiangqingyiwen"/></i>
                     </el-popover>
                   </el-form-grid>
@@ -318,18 +318,19 @@
                       placement="bottom"
                       width="200"
                       trigger="hover"
-                      content="这是一段内容。">
+                      content="交易成功订单商品数量/交易成功订单数（包含退款）">
                       <i class="xiangqingyiwen-icon dialog-doubt" slot="reference"><Icon type="xiangqingyiwen"/></i>
                     </el-popover>
                   </el-form-grid>
                 </el-form-item>
                 <el-form-item label="最近交易：">
                   <el-form-grid size="xxlg">
+                    {{rfmInfo.lastSuccessTime}}
                     <el-popover
                       placement="bottom"
                       width="200"
                       trigger="hover"
-                      content="这是一段内容。">
+                      content="最近一笔交易成功时间">
                       <i class="xiangqingyiwen-icon dialog-doubt" slot="reference"><Icon type="xiangqingyiwen"/></i>
                     </el-popover>
                   </el-form-grid>
@@ -385,10 +386,10 @@
                   </el-form-grid>
                 </el-form-item>
               </el-form>
-              <el-table ref="table" :data="tableData" stripe>
-                <el-table-column prop="integral" label="满减积分" align="center">
+              <el-table ref="table" :data="tableData[i]" stripe>
+                <el-table-column prop="total" label="满减积分" align="center">
                 </el-table-column>
-                <el-table-column prop="time" label="变更时间" align="center" :width="250">
+                <el-table-column prop="expiredTime" label="变更时间" align="center" :width="250">
                 </el-table-column>
                 <el-table-column prop="type" label="类型" align="center">
                 </el-table-column>

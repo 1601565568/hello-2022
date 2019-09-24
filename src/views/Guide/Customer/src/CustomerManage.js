@@ -77,6 +77,8 @@ export default {
       shopFindListShow: false,
       showTag: false,
       tagData: [],
+      integralIsShow: [false, false, false, false, false], // 控制会员详情积分是否显示
+      integralIsNum: [0, 0, 0, 0, 0], // 控制会员详情积分
       mapTag: [],
       textIds: [], // 会员打标签输入框id集合
       selectIds: [], // 会员打标签下拉选id集合
@@ -88,6 +90,7 @@ export default {
       attributeValue: 0, // 标签属性值
       sysCustomerId: '', // 会员id
       shopKuhuShow: false,
+      rfmInfo: {}, // rfm信息
       result: null,
       _queryConfig: { expand: false },
       // 弹窗假数据
@@ -116,18 +119,15 @@ export default {
       this.value = row
     },
     handleClick (tab, event) {
-      console.log('tab:' + tab.toString())
-      console.log(tab.label)
       // 假如切换到积分tab
       if (tab.label.indexOf('积分') > -1) {
         let num = tab.label.substr(2, 1)
         let index = num - 1
         let accountCode = this.items.integralAccountList[num - 1].integralAccount
         this.getIntegralList(this.items.customerId, accountCode, index)
+      } else if (tab.label.indexOf('交易') > -1) {
+        this.getCustomerRfmInfo(this.items.customerId, this.items.sgShopId)
       }
-      // else if (tab.label.indexOf('交易') > -1) {
-      //
-      // }
     },
     getIntegralList (customerId, accountCode, index) { // 查询会员积分
       this.$http.fetch(this.$api.guide.guide.queryCustomerIntegral, {
@@ -139,12 +139,12 @@ export default {
         this.$notify.error(getErrorMsg('查询失败', resp))
       })
     },
-    getCustomerRfmInfo (customerId, accountCode, index) { // 查询会员Rfm信息
+    getCustomerRfmInfo (customerId, shopId) { // 查询会员Rfm信息
       this.$http.fetch(this.$api.guide.guide.queryCustomerRfmInfo, {
         customerId: customerId,
-        accountCode: accountCode
+        shopId: shopId
       }).then(resp => {
-        this.tagData[index] = resp.result
+        this.rfmInfo = resp.result
       }).catch(resp => {
         this.$notify.error(getErrorMsg('查询失败', resp))
       })
@@ -281,6 +281,12 @@ export default {
           if (resp.success && resp.result != null) {
             _this.shopKuhuShow = true
             _this.items = resp.result
+            let integral = _this.items.integralAccountList.length
+            if (integral > 0) {
+              for (let i = 0; i < integral; i++) {
+                this.integralIsShow[i] = true
+              }
+            }
           }
         }).catch((resp) => {
           _this.$notify.error(getErrorMsg('查询失败', resp))
