@@ -164,6 +164,16 @@ export default {
             'name': '体验成员',
             'auth': ``,
             'visible': 'scope.row.wxStatus === 1 && scope.row.fromType === 1'
+          },
+          {
+            'func': function (scope) {
+              that.experienceMemberDialog.appid = scope.row.appid
+              that.experienceMemberDialog.visible = true
+            },
+            'icon': '',
+            'name': '插件管理',
+            'auth': ``,
+            'visible': ''
           }
         ]
       },
