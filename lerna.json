@@ -1,0 +1,8 @@
+{
+  "packages": [".temp/icons-pro"],
+  "version": "independent",
+  "bootstrap": {
+    "npmClientArgs": []
+  },
+  "npmClient": "yarn"
+}

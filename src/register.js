@@ -9,7 +9,16 @@ import ets from 'web-crm/src/extends'
 import etsPrivate from './extends'
 import filters from 'web-crm/src/filters'
 import filtersPrivate from './filters'
-import './assets/icons'
+import * as allIcons from '@ant-design/icons'
+import * as allIconsPrivate from '../.temp/icons-pro/lib/index.js'
+import Icon from '@nascent/icons-vue'
+
+/**
+ * 全局注册图标
+ */
+Icon.add(...Object.keys(allIcons).map(key => allIcons[key]))
+Icon.add(...Object.keys(allIconsPrivate).map(key => allIconsPrivate[key]))
+Vue.use(Icon)
 /**
  * 全局注册属性或方法
  */

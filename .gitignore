@@ -24,4 +24,5 @@ yarn-error.log*
 *.sw*
 
 # temp directories and files
+.temp
 /public/temp
