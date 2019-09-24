@@ -27,7 +27,8 @@
         <div class="content content--place">
             <div class="content__title">电话：</div>
             <div class="content__substance mobile">-</div>
-            <a class='mobileA' href="javascript:void(0)"><img src="/mobile/img/expression/dianhua.png" alt="手机" class="content__phone"></a>
+            <a class='mobileA' href="javascript:void(0)"><img src="/mobile/img/expression/dianhua.png" alt="手机"
+                                                              class="content__phone"></a>
         </div>
         <div class="content">
             <div class="content__title">VIP等级：</div>
@@ -67,7 +68,8 @@
             <div class="content__substance impression">-</div>
             <!-- 输入备注 -->
             <!--<div class="content__pillar"></div>-->
-            <textarea style='display: none' name="a" placeholder="请输入" class="content__textarea impressionEdit"></textarea>
+            <textarea style='display: none' name="a" placeholder="请输入"
+                      class="content__textarea impressionEdit"></textarea>
             <div class="content__substance content__substance--edit editButton" onclick='editRemark()'>编辑</div>
         </div>
     </div>
@@ -156,11 +158,18 @@
         impression: function (impression) {
             $('.impressionEdit').val(impression)
             $('.impression').text(impression)
+        },
+        birthday: function (birthday) {
+            birthday = birthday || '-'
+            if (birthday) {
+                birthday = birthday.substr(0, 10)
+            }
+            return birthday
         }
     }
 
     const toError = (type = 0, message = '') => {
-        // window.location.replace('/mobile/error.html?type=' + type + '&message=' + encodeURIComponent(message))
+        window.location.replace('/mobile/error.html?type=' + type + '&message=' + encodeURIComponent(message))
     }
     $(function () {
         ownerWid = getPar('ownerWid')
@@ -195,7 +204,7 @@
                                     return
                                 }
                                 value = temp
-                            } else if(typeof type === 'object') {
+                            } else if (typeof type === 'object') {
                                 $el.attr(type.type, value || type.defaultValue)
                                 return
                             } else {
