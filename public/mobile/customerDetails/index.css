@@ -1,28 +1,37 @@
-html {
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+html,body {
+    height: 100%;
     background: #F5F5F5;
+}
+.detail {
+    padding-bottom: 60px;
 }
 .detail  .detail__header {
     display: flex;
     align-items: center;
-    padding: 30px;
-    margin: 30px;
+    padding: 10px;
+    margin: 10px;
     background: #FFFFFF;
-    border-radius: 10px;
+    border-radius: 5px;
 }
 .detail  .detail__content {
-    margin: 30px;
-    padding: 0 30px;
+    margin: 10px;
+    padding: 0 10px;
     background: #FFFFFF;
-    border-radius: 10px;
+    border-radius: 5px;
 }
 .avatar {
-    width: 138px;
-    height: 138px;
+    width: 54px;
+    height: 54px;
     border-radius: 50%;
     flex-shrink: 0;
 }
 .uname {
-    font-size: 40px;
+    font-size: 16px;
     color: #292C2E;
     max-width: 78%;
     margin-left: 30px;
@@ -31,62 +40,83 @@ html {
     text-overflow: ellipsis;
 }
 .gender {
-    width: 29px;
-    height: 29px;
-    margin-left: 20px;
+    width: 15px;
+    height: 15px;
+    margin-left: 10px;
     flex-shrink: 0;
 }
 .content {
     display: flex;
     align-items: center;
-    padding: 30px 0;
+    padding: 15px 0;
     border-bottom: 1px solid #F2F2F2;
 }
 .content--place {
+    display: flex;
+    align-items: center;
     position: relative;
 }
+.content--padding {
+    padding: 11px 0;
+}
 .content .content__title {
-    font-size: 36px;
+    font-size: 14px;
     color: #999999;
-    width: 228px;
+    width: 114px;
     text-align: right;
     flex-shrink: 0;
 }
 .content .content__substance {
-    font-size: 36px;
+    font-size: 14px;
     color: #292C2E;
-    margin-left: 50px;
+    margin-left: 25px;
 }
-.content .content__input {
-    font-size: 36px;
+.content .content__pillar {
+    width: 1px;
+    height: 13px;
+    position: relative;
+    top: 0;
+    left: 25px;
+    background: #1876FC;
+    border-radius: 1.5px;
+}
+.content .content__textarea {
+    font-size: 14px;
     color: #292C2E;
-    max-width: 65%;
-    height: auto;
-    margin-left: 50px;
+    width: 45%;
+    height: 15px;
+    position: relative;
+    left: 30px;
+    background: none;
     border: none;
     outline: none;
 }
-input::placeholder {
+textarea::placeholder {
+    font-size: 14px;
     color: #BBBBBB;
 }
+textarea{
+    resize:none
+}
 .content .content__phone {
-    width: 45px;
-    height: 43px;
+    width: 18px;
+    height: 17px;
     position: absolute;
-    right: 20px;
+    top: 16px;
+    right: 5px;
 }
 .content .content__substance--edit {
     color: #1876FC;
     position: absolute;
-    right: 18px;
+    right: 5px;
 }
 .detail__save {
-    font-size: 40px;
+    font-size: 16px;
     color: #FFFFFF;
     text-align: center;
-    line-height: 108px;
+    line-height: 44px;
     width: 100%;
-    height: 108px;
+    height: 44px;
     position: fixed;
     bottom: 0;
     left: 0;

@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
     <meta content="user-scalable=no" id="viewport" name="viewport" />
     <meta content="width=device-width, initial-scale=1.0, minimum-scale=1, maximum-scale=1.0, user-scalable=no"
-          id="divport" name="divport" />
+          id="divport" name="viewport" />
     <meta http-equiv="Cache-Control" content="no-siteapp" />
     <meta name="format-detection" content="telephone=no" />
     <link rel="stylesheet" href="index.css">
@@ -17,7 +17,7 @@
         <img src="https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/app/default-user.png"
              alt="用户头像" class="avatar customerHeadImage">
         <div class="uname outAlias">-</div>
-        <img src="" style='display: none' alt="性别" class="gender">
+        <img src="" style='display: none'  alt="性别" class="gender">
     </div>
     <div class="detail__content">
         <div class="content">
@@ -27,7 +27,7 @@
         <div class="content content--place">
             <div class="content__title">电话：</div>
             <div class="content__substance mobile">-</div>
-            <a class='mobileA' href="javascript:void(0)"><img style='top: 28px;' src="/mobile/img/expression/dianhua.png" alt="手机" class="content__phone"></a>
+            <a class='mobileA' href="javascript:void(0)"><img src="../img/expression/dianhua.png" alt="手机" class="content__phone"></a>
         </div>
         <div class="content">
             <div class="content__title">VIP等级：</div>
@@ -61,16 +61,20 @@
             <div class="content__title">有赞用户名：</div>
             <div class="content__substance">-</div>
         </div>
-        <div class="content content--place">
+        <div class="content content--place content--padding">
             <div class="content__title">备注：</div>
-            <input type="text" readonly='readonly' placeholder="请输入" class="content__input remark">
+            <!-- 未输入备注之前 -->
+            <div class="content__substance">-</div>
+            <!-- 输入备注 -->
+            <!--<div class="content__pillar"></div>-->
+            <!--<textarea name="a" placeholder="请输入" class="content__textarea"></textarea>-->
             <div class="content__substance content__substance--edit editButton" onclick='editRemark()'>编辑</div>
         </div>
     </div>
-    <!--    <div class="detail__save">保存</div>-->
+    <div class="detail__save">保存</div>
 </div>
 </body>
-<script type="text/javascript" src="/mobile/js/jquery-3.4.1.min.js"></script>
+<script type="text/javascript" src="./mobile/js/jquery-3.4.1.min.js"></script>
 <script type="text/javascript" src="/mobile/js/common.js"></script>
 <script>
     let isEdit = true
