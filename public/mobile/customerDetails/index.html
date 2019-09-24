@@ -9,15 +9,15 @@
     <meta http-equiv="Cache-Control" content="no-siteapp" />
     <meta name="format-detection" content="telephone=no" />
     <link rel="stylesheet" href="index.css">
-    <title>客户aaa详情</title>
+    <title>客户详情</title>
 </head>
 <body>
 <div class="detail">
     <div class="detail__header">
         <img src="https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/app/default-user.png"
              alt="用户头像" class="avatar customerHeadImage">
-        <div class="uname outAlias">-</div>
-        <img src="" style='display: none'  alt="性别" class="gender">
+        <div class="uname customerName">-</div>
+        <img src="" style='display: none' alt="性别" class="gender">
     </div>
     <div class="detail__content">
         <div class="content">
@@ -27,7 +27,7 @@
         <div class="content content--place">
             <div class="content__title">电话：</div>
             <div class="content__substance mobile">-</div>
-            <a class='mobileA' href="javascript:void(0)"><img src="../img/expression/dianhua.png" alt="手机" class="content__phone"></a>
+            <a class='mobileA' href="javascript:void(0)"><img src="/mobile/img/expression/dianhua.png" alt="手机" class="content__phone"></a>
         </div>
         <div class="content">
             <div class="content__title">VIP等级：</div>
@@ -47,11 +47,11 @@
         </div>
         <div class="content">
             <div class="content__title">生日：</div>
-            <div class="content__substance">-</div>
+            <div class="content__substance birthday">-</div>
         </div>
         <div class="content">
             <div class="content__title">淘宝用户名：</div>
-            <div class="content__substance">-</div>
+            <div class="content__substance outNick">-</div>
         </div>
         <div class="content">
             <div class="content__title">京东用户名：</div>
@@ -64,17 +64,16 @@
         <div class="content content--place content--padding">
             <div class="content__title">备注：</div>
             <!-- 未输入备注之前 -->
-            <div class="content__substance">-</div>
+            <div class="content__substance impression">-</div>
             <!-- 输入备注 -->
             <!--<div class="content__pillar"></div>-->
-            <!--<textarea name="a" placeholder="请输入" class="content__textarea"></textarea>-->
+            <textarea style='display: none' name="a" placeholder="请输入" class="content__textarea impressionEdit"></textarea>
             <div class="content__substance content__substance--edit editButton" onclick='editRemark()'>编辑</div>
         </div>
     </div>
-    <div class="detail__save">保存</div>
 </div>
 </body>
-<script type="text/javascript" src="./mobile/js/jquery-3.4.1.min.js"></script>
+<script type="text/javascript" src="/mobile/js/jquery-3.4.1.min.js"></script>
 <script type="text/javascript" src="/mobile/js/common.js"></script>
 <script>
     let isEdit = true
@@ -83,30 +82,36 @@
     let ownerWid
     let wid
     const editRemark = function () {
-        const $remark = $('.remark')
         const $editButton = $('.editButton')
+        const $impression = $('.impression')
+        const $impressionEdit = $('.impressionEdit')
         if (saving) {
             return
         }
         if (isEdit) {
             isEdit = false
-            $remark.removeAttr('readonly')
             $editButton.html('保存')
+            $impression.hide()
+            $impressionEdit.show()
+
         } else {
             saving = true
+            const impression = $impressionEdit.val()
             fetch({
                 url: 'wx/customer/edit',
                 method: 'post'
             }, {
-                ownerWid,
                 customerId: customerModel.customerId,
-                remark: $remark.val()
+                guideId: customerModel.guideId,
+                impression: impression
             })
                 .then(data => {
                     saving = false
                     isEdit = true
-                    $remark.attr('readonly', 'readonly')
                     $editButton.html('编辑')
+                    $impression.text(impression)
+                    $impressionEdit.hide()
+                    $impression.show()
                 })
                 .catch(error => {
                     saving = false
@@ -142,17 +147,20 @@
         },
         sex: processSex,
         mobile: function (mobile) {
-            mobile = '17605021126'
             if (mobile) {
                 // todo-zsf 缺少手机号
                 $('.mobileA').attr('href', 'tel:' + mobile)
             }
             return formatMobile(mobile)
+        },
+        impression: function (impression) {
+            $('.impressionEdit').val(impression)
+            $('.impression').text(impression)
         }
     }
 
     const toError = (type = 0, message = '') => {
-        window.location.replace('/mobile/error.html?type=' + type + '&message=' + encodeURIComponent(message))
+        // window.location.replace('/mobile/error.html?type=' + type + '&message=' + encodeURIComponent(message))
     }
     $(function () {
         ownerWid = getPar('ownerWid')
@@ -166,9 +174,9 @@
         fetch({
             url: 'wx/customer/getCustomerDetail',
             method: 'post'
-        }, { ownerWid, wid, customerId: 215885226 })
+        }, { ownerWid, wid })
             .then(data => {
-                const customer = data.result
+                let customer = data.result
                 if (!customer) {
                     toError(0, '未查到会员信息')
                     return
