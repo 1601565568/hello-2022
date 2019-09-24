@@ -1,0 +1,128 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+html,body {
+    height: 100%;
+    background: #F2F2F2;
+}
+.code {
+    margin: 9px 15px;
+    background: #FFF;
+    border-radius: 5px;
+}
+.code__head {
+    padding: 15px;
+    position: relative;
+    border-bottom: 1px solid #E3E3E3;
+}
+.user {
+    display: flex;
+    align-items: center;
+}
+.user__avatar{
+    width: 68px;
+    height: 68px;
+    flex-shrink: 0;
+    border-radius: 50%;
+}
+.user__info {
+    flex: 1;
+    margin-left: 14px;
+}
+.level {
+    display: flex;
+    align-items: center;
+}
+.level__name {
+    font-size: 16px;
+    color: #333;
+    max-width: 65%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.level__number {
+    position: relative;
+    top: 3px;
+    left: 7px;
+}
+.detail {
+    font-size: 10px;
+    color: #FE0406;
+    position: absolute;
+    top: 6px;
+    left: 17px;
+}
+.userphone {
+    font-size: 14px;
+    color: #333;
+    margin-top: 11px;
+}
+.user__rightcircle {
+    width: 8px;
+    height: 16px;
+    position: absolute;
+    right: 0;
+    bottom: -8px;
+    background-color: #F2F2F2;
+    border-radius: 8px 0 0 8px;
+}
+.user__leftcircle {
+    width: 8px;
+    height: 16px;
+    position: absolute;
+    left: 0;
+    bottom: -8px;
+    background-color: #F2F2F2;
+    border-radius: 0 8px 8px 0;
+}
+.code__body {
+    text-align: center;
+    padding-top: 24px;
+}
+.stripecode__img {
+    width: 281px;
+    height: 68px;
+}
+.qrcode {
+    margin: 24px auto 0;
+}
+.qrcode__pic {
+    width: 141px;
+    height: 141px;
+}
+.code__footer {
+    display: flex;
+    align-items: center;
+    padding: 39px 0 26px;
+}
+.welfare {
+    text-align: center;
+    flex: 1;
+}
+.welfare__item {
+    font-size: 12px;
+    color: #666;
+    margin-top: 4px;
+}
+.welfare__total {
+    font-size: 16px;
+    color: #333;
+    font-weight: bold;
+}
+.welfare__number {
+    font-size: 16px;
+    color: #FE0406;
+    font-weight: bold;
+}
+.line {
+    width: 1px;
+    height: 26px;
+    background: #C6C6C6;
+}
+.memberv {
+    width: 24px;
+    height: 20px;
+}
