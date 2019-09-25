@@ -21,6 +21,7 @@ import myMoments from './myMoments'
 import friendMoments from './friendMoments'
 import wxGroup from './wxGroup'
 import guideDevice from './guideDevice'
+import group from './group'
 
 export default {
   guide,
@@ -46,6 +47,7 @@ export default {
   friendMoments,
   wxGroup,
   guideDevice,
+  group,
   // 所有导购模块全部整合在此
   comGetBrandForShopList: {// 获取品牌下的店铺
     url: '/core/sgshop/getBrandList',
