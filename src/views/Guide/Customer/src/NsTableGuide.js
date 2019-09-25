@@ -84,7 +84,7 @@ export default {
       if (this._data._table.data.length > 0) {
         this._data._table.data = []
       }
-      _this.offLineShopId = data.id
+      _this.offLineShopId = data.parentId != 0 ? data.parentId : data.id
       _this.shuJushuzu = data
       _this.loading = true
       _this.$reload().then(rep => {
