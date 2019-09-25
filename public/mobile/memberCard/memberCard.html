@@ -31,7 +31,7 @@
                     </div>
                     <div id="shopName" class="store__address">宝龙一城店</div>
                 </div>
-                <div class="qrcode">
+                <div class="qrcode" onclick="toNewCode()">
                     <img src="../img/icons/QRcode.png" alt="二维码">
                 </div>
             </div>
@@ -78,6 +78,10 @@
             $('#guideQrCode').attr('src', showData.cardUrl)
         }
     })
+
+    function toNewCode() {
+        window.location.replace("../newCode/newCode.html");
+    }
 
     function toCustomerCenter() {
         var recruitInfo = JSON.parse(localStorage.getItem('recruitInfo'));

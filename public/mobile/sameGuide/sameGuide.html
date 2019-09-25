@@ -28,8 +28,8 @@
                     </div>
                     <div id="shopName" class="store__address"></div>
                 </div>
-                <div class="qrcode">
-                    <img id="guideQrCode" src="../img/icons/QRcode.png" alt="二维码">
+                <div class="qrcode"  onclick="toNewCode()">
+                    <img src="../img/icons/QRcode.png" alt="二维码">
                 </div>
             </div>
             <div id="memberCard" class="card__number"></div>
@@ -75,6 +75,9 @@
             $('#guideQrCode').attr('src', noData.newCardUrl)
         }
     })
+    function toNewCode() {
+        window.location.replace("../newCode/newCode.html");
+    }
 </script>
 </body>
 </html>
