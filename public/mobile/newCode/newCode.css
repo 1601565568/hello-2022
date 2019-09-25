@@ -80,23 +80,24 @@ html,body {
 }
 .code__body {
     text-align: center;
-    padding-top: 24px;
+    padding: 24px 0 34px;
 }
 .stripecode__img {
     width: 281px;
     height: 68px;
 }
 .qrcode {
-    margin: 24px auto 0;
+
 }
 .qrcode__pic {
     width: 141px;
     height: 141px;
+    margin: 24px auto 0;
 }
 .code__footer {
     display: flex;
     align-items: center;
-    padding: 39px 0 26px;
+    padding-bottom: 26px;
 }
 .welfare {
     text-align: center;
