@@ -287,6 +287,7 @@ export default {
                 this.integralIsShow[i] = true
               }
             }
+            this.integralIsNum[0] = this.items.point
           }
         }).catch((resp) => {
           _this.$notify.error(getErrorMsg('查询失败', resp))

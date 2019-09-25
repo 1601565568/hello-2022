@@ -8,12 +8,12 @@ html,body {
     background: #FFF;
 }
 .fail {
-    display:none;
-    padding-top: 132px;
+    display: none;
+    padding-top: 66px;
 }
 .fail__bgimg {
-    width: 201px;
-    height: 202px;
+    width: 101px;
+    height: 101px;
     margin: 0 auto;
 }
 .img {
@@ -21,8 +21,8 @@ html,body {
     height: 100%;
 }
 .fail__text {
-    font-size: 32px;
+    font-size: 16px;
     text-align: center;
     color: #999999;
-    margin: 56px auto 0;
+    margin: 28px auto 0;
 }

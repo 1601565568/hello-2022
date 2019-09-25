@@ -69,6 +69,20 @@ export default {
           'component': () => import('@/views/Guide/SensitivePermission/index')
         }
       ]
+    },
+    {
+      'path': '/Guide/CompanyInfo',
+      'name': 'CustomerContact',
+      'title': '公司信息',
+      'component': () => import('web-crm/src/views/Content'),
+      'children': [
+        {
+          'path': '/account/companyInformation',
+          'name': 'companyInformation',
+          'title': '公司logo',
+          'component': () => import('@/views/Guide/Logo/index')
+        }
+      ]
     }
   ]
 }

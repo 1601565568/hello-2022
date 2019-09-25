@@ -62,20 +62,20 @@ export default {
     {
       'path': '/Guide/SgGuide',
       'name': 'CustomerManage',
-      'title': '会员管理',
+      'title': '客户管理',
       'component': () => import('web-crm/src/views/Content'),
       'children': [
         {
           'path': '/Guide/Customer/CustomerManage',
           'name': 'CustomerList',
-          'title': '会员列表',
+          'title': '客户列表',
           'component': () => import('@/views/Guide/Customer/CustomerManage')
         },
         {
-          'path': '/Guide/Customer/FriendManage', // todo 20190701 需要重新定义
+          'path': '/Guide/Customer/FriendManage',
           'name': 'FriendData',
           'title': '好友数据',
-          'component': () => import('@/views/Guide/FriendData/List') // todo 20190701 需要重新定义
+          'component': () => import('@/views/Guide/FriendData/List')
         },
         {
           'path': '/Guide/GroupData/index',
@@ -92,7 +92,7 @@ export default {
         {
           'path': '/guide/customer/getCustomerConfig',
           'name': 'APPLET_TEMPLATE',
-          'title': '会员管理配置',
+          'title': '客户管理配置',
           'component': () => import('@/views/Guide/customerConfig/index')
         }
       ]
