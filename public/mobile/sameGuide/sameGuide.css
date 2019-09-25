@@ -49,7 +49,7 @@ body {
 .card .card__message .store {
     max-width: 66%;
     float: left;
-    margin: 5px 0 0 15px;
+    margin: 10px 0 0 15px;
 }
 .card .card__message .store  .store__name {
     display: flex;
@@ -111,7 +111,6 @@ body {
     padding: 20px 0;
     position: relative;
     background: #FFFFFF;
-    box-shadow: 0 6px 13px 2px rgba(0,0,0,.04);
     border-radius: 5px;
 }
 .membercard__content  .content .content__msg {
@@ -135,23 +134,19 @@ body {
     opacity: 0.1;
     border: 1Px dotted #9D9D9D;
 }
-.division .division__leftcircle {
-    width: 9px;
-    height: 18px;
+.division .division__circle {
+    width: 17px;
+    height: 17px;
     position: absolute;
-    left: -1px;
-    top: -7px;
+    top: -8px;
     background: #F2F2F2;
-    border-radius:  0 9px 9px 0;
+    border-radius:  50%;
 }
-.division .division__rightcircle {
-    width: 9px;
-    height: 18px;
-    position: absolute;
-    right: -1px;
-    top: -7px;
-    background: #F2F2F2;
-    border-radius: 9px 0 0 9px;
+.division .division__circle--left {
+    left: -8px;
+}
+.division .division__circle--right {
+    right: -8px;
 }
 .content .content__qrcode {
     width: 50%;
@@ -169,6 +164,7 @@ body {
     font-weight: bold;
     text-align: center;
     margin-top: 15px;
+    padding: 0 20px;
 }
 .content__headportrait {
     width: 95px;
@@ -189,7 +185,7 @@ body {
     margin: 0 auto;
     padding: 2px 8px;
     position: relative;
-    top: -23px;
+    top: -22px;
     background: #FEECEC;
     border: 1px solid rgba(246,70,71,0.50);
     border-radius: 20px;
@@ -199,4 +195,5 @@ body {
     color: #292C2E;
     text-align: center;
     margin: -15px 0 20px;
+    padding: 0 20px;
 }

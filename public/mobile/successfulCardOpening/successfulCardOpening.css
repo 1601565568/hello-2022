@@ -7,16 +7,16 @@ html,body {
     height: 100%;
 }
 body {
-    background-image: linear-gradient(231deg, #4AADFA 0%, #5D7CFC 100%);
+    background-image: linear-gradient(234deg, #4AADFA 0%, #5D7CFC 100%);
 }
 .addfriend {
     width: 100%;
 }
 .addfriend .addfriend__success {
-    font-size: 38px;
+    font-size: 14px;
     color: #207BFB;
     text-align: center;
-    height: 110px;
+    height: 44px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -25,55 +25,52 @@ body {
     box-shadow: 0 4px 10px 1px rgba(0,0,0,0.10);
 }
 .addfriend .addfriend__success>img {
-    width: 50px;
-    margin-right: 10px;
+    width: 18px;
+    margin-right: 5px;
 }
 .addfriend .addfriend__content .content {
-    margin: 140px 100px;
-    padding: 67px 0 40px;
+    margin: 55px 40px;
+    padding: 25px 0 55px;
     background: #FFFFFF;
     position: relative;
-    border-top-left-radius: 20px;
-    border-top-right-radius: 20px;
-    box-shadow: 0 6px 13px 2px rgba(0,0,0,0.06);
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
 }
 .addfriend .addfriend__content .content .content__news {
     text-align: center;
-    font-size: 36px;
+    font-size: 14px;
     color: #292C2E;
+    padding: 0 20px;
 }
 .division {
-    margin-top: 57px;
+    margin-top: 20px;
     position: relative;
 }
 .division  .division__line {
     width: 88%;
     margin: 0 auto;
-    opacity: 0.1;
-    background: rgba(0,0,0,0.00);
-    border: 2px solid #4BABFA;
+    opacity: 0.2;
+    border: 1px solid #00ACFF;
 }
-.division .division__leftcircle {
-    width: 23px;
-    height: 46px;
+.division .division__circle {
+    width: 9px;
+    height: 18px;
     position: absolute;
-    left: 0px;
-    top: -14px;
-    background: #5392FA;
-    border-radius:  0 23px 23px 0;
+    top: -9px;
 }
-.division .division__rightcircle {
-    width: 23px;
-    height: 46px;
-    position: absolute;
-    right: 0px;
-    top: -14px;
-    background: #4DA4FA;
-    border-radius: 23px 0 0 23px;
+.division .division__circle--left {
+    left: 0;
+    background: #5593FB;
+    border-radius:  0 9px 9px 0;
+}
+.division .division__circle--right {
+    right: 0;
+    background: #4EA4FA;
+    border-radius: 9px 0 0 9px;
 }
 .content .content__qrcode {
     width: 50%;
-    margin: 130px auto;
+    margin: 45px auto 0;
     background: rgba(0,0,0,0.00);
     box-shadow: 0 6px 13px 2px rgba(64,95,222,0.08);
 }
@@ -82,10 +79,10 @@ body {
     height: 100%;
 }
 .content .content__bottom {
-    height: 20px;
+    height: 10px;
     position: absolute;
     left: 0;
-    bottom: -18px;
+    bottom: 0;
 }
 .content .content__bottom  .circleimg {
     width: 100%;
