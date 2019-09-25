@@ -61,7 +61,7 @@ import Index from './src/pluginManagement'
 export default Index
 </script>
 <style scoped>
-  @import "@/style/small/variables.pcss";
+  @import "@theme/variables.pcss";
 
   @b avatar-name {
     height: 50px;
