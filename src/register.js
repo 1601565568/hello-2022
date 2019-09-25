@@ -10,7 +10,7 @@ import etsPrivate from './extends'
 import filters from 'web-crm/src/filters'
 import filtersPrivate from './filters'
 import * as allIcons from '@ant-design/icons'
-import * as allIconsPrivate from '../.temp/icons-pro/lib/index.js'
+import * as allIconsPrivate from '../.temp/icons-pro'
 import Icon from '@nascent/icons-vue'
 
 /**

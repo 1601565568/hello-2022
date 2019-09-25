@@ -1486,10 +1486,10 @@
     call-me-maybe "^1.0.1"
     glob-to-regexp "^0.3.0"
 
-"@nascent/icons-pro@^1.0.4":
-  version "1.0.4"
-  resolved "http://27.154.234.170:18081/repository/npm/@nascent/icons-pro/-/icons-pro-1.0.4.tgz#3d172f5b7d808db70ce6f9fba34f484238a93aa4"
-  integrity sha512-gBLB4hx8Uhrhx6KicPG3Tc7re7I8hf6RtgzTdnmLaL1C4bPpv2zG0yc5IM5214DcTRnMYpkDAD/X1n/08nyc3A==
+"@nascent/icons-pro@^1.0.6":
+  version "1.0.6"
+  resolved "http://27.154.234.170:18081/repository/npm/@nascent/icons-pro/-/icons-pro-1.0.6.tgz#5c563d49b1becffcbd665a188189b3a56b2db587"
+  integrity sha512-WZ+ag+3/wDU5VnwjWyHe32kh7TWQYW+9kbNV/DNNp/ku023fISVbXpbN4yrKyUj3q6Wf9cVvurK12FCzF5jwNA==
 
 "@nascent/icons-vue@^1.0.4":
   version "1.0.4"

@@ -13,10 +13,10 @@ body {
     width: 100%;
 }
 .exchange .exchange__main {
-    margin: 70px;
-    padding: 120px 0 100px;
+    margin: 27px;
+    padding: 40px 0;
     background: #FFF;
-    border-radius: 20px;
+    border-radius: 10px;
 }
 .content {
     position: relative;
@@ -25,25 +25,25 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 100px;
+    padding: 0 8%;
 }
 .headportrait {
    position: relative;
 }
 .headportrait  .headportrait__avatarpic {
-    width: 210px;
-    height: 210px;
+    width: 97px;
+    height: 97px;
     border-radius: 50%;
 }
 .headportrait  .headportrait__only {
-    font-size: 30px;
+    font-size: 10px;
     color: #F64647;
-    line-height: 48px;
     text-align: center;
-    width: 200px;
-    height: 50px;
+    line-height: 20px;
+    width: 72px;
+    height: 22px;
     position: absolute;
-    top: 170px;
+    top: 71px;
     left: 50%;
     transform: translateX(-50%);
     background: #FEECEC;
@@ -51,95 +51,96 @@ body {
     border-radius: 50px;
 }
 .uname {
-    font-size: 36px;
+    font-size: 14px;
     color: #292C2E;
     text-align: center;
     max-width: 100%;
-    margin-top: 15px;
+    margin-top: -2px;
 }
 .store {
-    font-size: 32px;
+    font-size: 12px;
     color: #999;
     text-align: center;
     max-width: 100%;
-    margin-top: 5px;
+    margin-top: 3px;
 }
 .arrow {
-    width: 45px;
-    height: 30px;
+    width: 18px;
+    height: 14px;
 }
 .arrow .arrow__img {
     width: 100%;
     height: 100%;
 }
 .division {
-    margin-top: 90px;
+    margin-top: 40px;
     position: relative;
 }
 .division  .division__line {
     width: 88%;
-    height: 2px;
+    height: 1px;
     margin: 0 auto;
-    background: #F2F2F2;
+    background: rgba(242,242,242,1);
 }
 .division .division__leftcircle {
-    width: 23px;
-    height: 46px;
+    width: 9px;
+    height: 18px;
     position: absolute;
     left: 0;
-    top: -14px;
+    top: -7px;
     background: #F2F2F2;
-    border-radius:  0 23px 23px 0;
+    border-radius:  0 9px 9px 0;
 }
 .division .division__rightcircle {
-    width: 23px;
-    height: 46px;
+    width: 9px;
+    height: 18px;
     position: absolute;
     right: 0;
-    top: -14px;
+    top: -7px;
     background: #F2F2F2;
-    border-radius: 23px 0 0 23px;
+    border-radius: 9px 0 0 9px;
 }
 .unique {
-    font-size: 34px;
+    font-size: 14px;
     color: #666;
     text-align: center;
-    margin-top: 70px;
+    margin-top: 35px;
 }
 .replace {
-    font-size: 36px;
+    font-size: 14px;
     color: #666;
     text-align: center;
-    margin-top: 25px;
+    margin-top: 10px;
 }
 .replace .replace__name {
+    font-size: 16px;
     color: #000;
     font-weight: bold;
     margin: 0 5px;
 }
 .noexchange {
-    font-size: 34px;
+    font-size: 14px;
     color: #999;
     text-align: center;
-    margin-top: 50px;
+    margin-top: 25px;
 }
 .exchange__btn {
-    padding: 80px 100px 0;
+    padding: 40px 50px 0;
 }
 .confirm {
-    font-size: 42px;
-    line-height: 130px;
+    font-size: 16px;
+    line-height: 50px;
     text-align: center;
     color: #FFF;
     width: 100%;
-    height: 130px;
+    height: 50px;
     background: #207BFB;
-    border-radius: 100px;
+    border-radius: 50px;
 }
 .detail {
     display: flex;
 }
 .detail .detail__item {
     flex: 1;
-    padding: 0 30px;
+    padding: 0 15px;
 }
