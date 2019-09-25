@@ -2,10 +2,11 @@ import tableMixin from 'web-crm/src/mixins/table'
 import apiRequestConfirm from 'web-crm/src/utils/apiRequestConfirm'
 import { getErrorMsg } from '@/utils/toast'
 import ExperienceMember from '../components/ExperienceMember'
+import PluginManagement from '../components/PluginManagement'
 
 export default {
   name: 'index',
-  components: { ExperienceMember },
+  components: { ExperienceMember, PluginManagement },
   mixins: [tableMixin],
   data: function () {
     let that = this
@@ -167,13 +168,13 @@ export default {
           },
           {
             'func': function (scope) {
-              that.experienceMemberDialog.appid = scope.row.appid
-              that.experienceMemberDialog.visible = true
+              that.pluginManagementDialog.appid = scope.row.appid
+              that.pluginManagementDialog.visible = true
             },
             'icon': '',
             'name': '插件管理',
             'auth': ``,
-            'visible': ''
+            'visible': 'scope.row.wxStatus === 1 && scope.row.fromType === 1'
           }
         ]
       },
@@ -213,6 +214,10 @@ export default {
         'user_desc': [{ required: true, message: '请输入代码备注' }]
       },
       experienceMemberDialog: {
+        visible: false,
+        appid: ''
+      },
+      pluginManagementDialog: {
         visible: false,
         appid: ''
       }

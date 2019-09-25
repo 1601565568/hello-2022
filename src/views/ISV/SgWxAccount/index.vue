@@ -1,5 +1,6 @@
 <template>
   <div>
+    <plugin-management :visible.sync='pluginManagementDialog.visible' :appid='pluginManagementDialog.appid'></plugin-management>
     <experience-member :visible.sync='experienceMemberDialog.visible' :appid='experienceMemberDialog.appid'></experience-member>
     <ns-page-table>
       <!-- 按钮 -->
