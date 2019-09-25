@@ -3,17 +3,17 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "bootstrap": "yarn install && node ./build/copyIconsPro.js && cross-env VUE_APP_SVG_DIR=../../../src/icons lerna bootstrap --registry=https://registry.npm.taobao.org && npm run build:dll",
+    "postinstall": "npm run clean:build && npm run build:icons && npm run build:dll",
     "start": "vue-cli-service serve",
-    "build": "npm run build-ready && vue-cli-service build",
+    "build": "npm run clean:build && npm run build:icons && vue-cli-service build",
+    "build:icons": "node ./build/copyIconsPro.js && cross-env VUE_APP_SVG_DIR=../../../src/icons lerna bootstrap --registry=https://registry.npm.taobao.org",
     "build:dll": "webpack --config build/webpack.dll.conf.js",
-    "build-ready": "rimraf dist && rimraf public/temp",
+    "clean:build": "rimraf dist public/temp node_modules/.cache",
     "lint": "vue-cli-service lint",
-    "test:unit": "vue-cli-service test:unit",
     "test:e2e": "vue-cli-service test:e2e",
+    "test:unit": "vue-cli-service test:unit",
     "upDateOss": "node build/upLoadFolderToOss.js",
-    "deploy": "npm run build && npm run upDateOss",
-    "upcrm": "yarn add web-crm --save"
+    "upEcrpEcrm": "yarn add web-crm --save"
   },
   "dependencies": {
     "@ant-design/icons": "^2.1.1",
