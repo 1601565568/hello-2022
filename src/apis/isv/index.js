@@ -214,5 +214,9 @@ export default {
       }
       return Promise.resolve()
     }
+  },
+  applyPlugin: {
+    url: '/guide/wechatsetting/applyPlugin',
+    method: 'post'
   }
 }
