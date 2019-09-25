@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "postinstall": "npm run clean:build && npm run build:icons && npm run build:dll",
+    "bootstrap": "yarn install && npm run clean:build && npm run build:icons && npm run build:dll",
     "start": "vue-cli-service serve",
-    "build": "npm run clean:build && npm run build:icons && vue-cli-service build",
+    "build": "npm run clean:build && vue-cli-service build",
     "build:icons": "node ./build/copyIconsPro.js && cross-env VUE_APP_SVG_DIR=../../../src/icons lerna bootstrap --registry=https://registry.npm.taobao.org",
     "build:dll": "webpack --config build/webpack.dll.conf.js",
     "clean:build": "rimraf dist public/temp node_modules/.cache",
