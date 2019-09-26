@@ -36,7 +36,7 @@
             if (result.success) {
                 localStorage.setItem('showData', JSON.stringify(result.result))
                 // 跳转开卡成功页面
-                if(guideData.pointAdd || guideData.pointAttention){
+                if(result.result.pointAdd || result.result.pointAttention){
                     // 根据不同来源，开卡成功后根据来源跳转不同页面（1关注公众号，2微信加好友）
                     if(recruitInfo.source == 1){
                         window.location.replace("./addFriend/addFriend.html");
