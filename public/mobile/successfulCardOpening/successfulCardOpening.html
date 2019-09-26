@@ -12,7 +12,7 @@
 </head>
 <body>
 <div class="addfriend">
-    <div class="addfriend__success">
+    <div class="addfriend__success" id="addFriendSuccess">
         <img src="../img/icons/duigou.png" alt="打勾">
         开卡成功
     </div>
@@ -43,10 +43,7 @@
         if (showData) {
             $('#oaQrCode').attr("src", showData.oaQrCode)
         }
-    })
-    //页面加载完成
-    $(document).onload(function () {
-        setTimeout($('.addfriend__success').style.display='none',3000);
+        setTimeout($('#addFriendSuccess').fadeOut("slow"),30000);
     })
 </script>
 </body>
