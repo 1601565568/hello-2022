@@ -59,7 +59,9 @@
     window.onload = function () {
         var noData = JSON.parse(localStorage.getItem('showData'));
         if (noData) {
-            $('#guideImg').attr("src", noData.newImage)
+            if(noData.newImage){
+                $('#guideImg').attr("src", noData.newImage)
+            }
             $('#guideName').html(noData.newSgGuideName);
             $('#guideName1').html(noData.newSgGuideName);
             $('#memberGrade').html(noData.memberGrade);
