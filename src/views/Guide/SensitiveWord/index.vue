@@ -3,7 +3,7 @@
     <div class="template-page__row-left" v-loading="treeLoading">
       <el-input v-model="filterTreeText" placeholder="搜索分组" suffix-icon="el-icon-search" style="width: 180px"/>
       &nbsp;
-      <Icon fontType="el-icon-plus" @click="showEditGroupDlg(null, true, true)" style="cursor:pointer;"/>
+      <Icon type="plus" @click="showEditGroupDlg(null, true, true)" style="cursor:pointer;"/>
       <el-tree :data="groupList" ref="groupTree" node-key="id" :expand-on-click-node="false"
                :filter-node-method="onFilterNode" @node-click="onClickNode" highlight-current>
         <span class="custom-tree-node" slot-scope="{ node, data }"
@@ -13,9 +13,9 @@
             {{ node.label }}
           </span>
           <span v-if="data.ext1!=null" v-show="isShowTreeNodePlus(data.id)">
-            <Icon fontType="el-icon-plus" v-if="data.parentId==0" @click.stop="showEditGroupDlg(data,true,false)"/>
-            <Icon fontType="el-icon-edit-outline" size="mini" @click.stop="showEditGroupDlg(data,false,false)"/>
-            <Icon fontType="el-icon-delete" size="mini" @click.stop="showRemoveGroupDlg(data)" v-show="data.children==null"/>
+            <Icon type="plus" v-if="data.parentId==0" @click.stop="showEditGroupDlg(data,true,false)"/>
+            <Icon type="form" @click.stop="showEditGroupDlg(data,false,false)"/>
+            <Icon type="delete" @click.stop="showRemoveGroupDlg(data)" v-show="data.children==null"/>
           </span>
         </span>
       </el-tree>
@@ -62,18 +62,45 @@
                     :element-loading-text="$t('prompt.loading')">
             <el-table-column prop="name" label="敏感词" align="left"/>
             <el-table-column prop="groupName" label="分组" align="left"/>
-            <el-table-column prop="guideCount" align="right" :render-header="renderHeaderGuideCount">
+            <el-table-column :show-overflow-tooltip="true" type="default" prop="guideCount" label="导购发送次数" :sortable="false" align="right">
               <template slot-scope="scope">
                 <span @click="clickCount(scope.row,0)" style="cursor:pointer;"><font color="#409EFF">{{scope.row.guideCount}}</font></span>
               </template>
+              <template slot="header" scope="header">
+                <span>
+                  <span>导购发送次数</span>
+                  <el-popover
+                    placement="bottom"
+                    width="220"
+                    trigger="hover"
+                    content="敏感词在导购所发送的消息中出现的次数"
+                  >
+                    <i slot="reference" class="table-header-icon"><Icon type="xiangqingyiwen"/></i>
+                  </el-popover>
+                </span>
+              </template>
             </el-table-column>
-            <el-table-column prop="customerCount" align="right" :render-header="renderHeaderCustomerCount">
+            <el-table-column :show-overflow-tooltip="true" type="default" prop="customerCount" label="会员发送次数" :sortable="false" align="right">
               <template slot-scope="scope">
-                <span @click="clickCount(scope.row,1)" style="cursor:pointer;"><font color="#409EFF">{{scope.row.customerCount}}</font></span>
+                <span @click="clickCount(scope.row,1)" style="cursor:pointer;">
+                  <font color="#409EFF">{{scope.row.customerCount}}</font>
+                </span>
+              </template>
+              <template slot="header" scope="header">
+                <span>
+                  <span>导购发送次数</span>
+                  <el-popover
+                    placement="bottom"
+                    width="220"
+                    trigger="hover"
+                    content="敏感词在会员所发送的消息中出现的次数">
+                    <i slot="reference" class="table-header-icon"><Icon type="xiangqingyiwen"/></i>
+                  </el-popover>
+                </span>
               </template>
             </el-table-column>
             <el-table-column prop="creatorName" label="创建人" align="left"/>
-            <el-table-column prop="createTime" label="创建时间" align="left"/>
+            <el-table-column prop="createTime" label="创建时间" align="center" width="240"/>
             <el-table-column prop="status,row" :show-overflow-tooltip="true" label="操作" align="right">
               <template slot-scope="scope">
                 <ns-button style="color:#0091FA" @click="removeWord(scope.row)" type="text">删除</ns-button>
