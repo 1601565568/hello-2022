@@ -94,7 +94,6 @@ export default {
     }
   },
   mounted: function () {
-    console.log('获取logo')
     this.$http.fetch(this.$api.guide.group.getLogo, {}).then((resp) => {
       if (resp.result) {
         this.imageUrl = resp.result

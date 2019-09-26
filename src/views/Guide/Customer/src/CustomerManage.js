@@ -126,7 +126,7 @@ export default {
         let accountCode = this.items.integralAccountList[num - 1].integralAccount
         this.getIntegralList(this.items.customerId, accountCode, index)
       } else if (tab.label.indexOf('交易') > -1) {
-        this.getCustomerRfmInfo(this.items.customerId, this.items.sgShopId)
+        this.getCustomerRfmInfo(this.items.customerId, this.items.sgShopId ==0 ? this.items.shopId:this.items.sgShopId)
       }
     },
     getIntegralList (customerId, accountCode, index) { // 查询会员积分
@@ -607,6 +607,16 @@ export default {
       } else {
         _this.$notify.error('请选择要更换的导购！')
       }
+    },
+    disposeArea (province, city) {
+      let area = ''
+      if (this.items.province) {
+        area += this.items.province
+      }
+      if (this.items.city){
+        area += this.items.city
+      }
+      return area
     }
   },
   mounted: function () {

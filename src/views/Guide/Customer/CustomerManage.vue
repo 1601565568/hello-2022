@@ -75,83 +75,11 @@
         <ns-button type="primary" @click="onSave">确定</ns-button>
       </div>
     </el-dialog>
-    <!-- 客户详情弹窗（已作废）-->
-    <el-dialog :title="title" :visible.sync="dialogVisible" width="600px"  @keyup.enter.native="onKeyUp" @keyup.esc.native="onKeyUp" >
-    <div>
-      <div class="kehuBox-main">
-        <div class="kehuBox-main-top">
-          <p>
-            <img :src="items.image ||require('../../../assets/default-user.png')" class="man-img" v-if="items.image !== null">
-            <span v-if="items.image === null" class="img-show"></span>
-            <span class="man-name">{{items.gradeName || items.customerName}}</span>
-            <span>{{items.grade === 0 ? '' : "VIP" + items.grade}}</span>
-          </p>
-        </div>
-        <div>
-          <div class="kehuBox-main-span">
-            <el-row>
-              <el-col :span='8'><span>昵称：{{items.outAlias|| '-'}}</span></el-col>
-              <el-col :span='8'><span>会员卡：{{items.memberCard|| '-'}}</span></el-col>
-              <el-col :span='8'><span>生日：{{items.birthday || '-'}}</span></el-col>
-            </el-row>
-            <el-row>
-              <el-col :span='8'><span>性别：{{items.sex === 1?'男':items.sex === 0?'女':'未知'}}</span></el-col>
-              <el-col :span='8'><span>手机号：{{items.mobile|| '-'}}</span></el-col>
-            </el-row>
-            <el-row>
-              <el-col :span='24'>
-                地区：
-                <span v-if='items.province !== null && items.province !== ""'>
-                  {{items.province}}/
-                </span>
-                <span v-else>
-                   -/
-                </span>
-                <span v-if='items.city !== null && items.city !== ""'>
-                  {{items.city}}/
-                </span>
-                <span v-else>
-                  -/
-                </span>
-                <span v-if='items.district !== null && items.district !== ""'>
-                  {{items.district}}
-                </span>
-                <span v-else>
-                  -
-                </span>
-              </el-col>
-            </el-row>
-            <el-row>
-              <el-col :span='24'>
-                <span>
-                  地址：{{items.address === null?'-':items.address}}
-                </span>
-              </el-col>
-            </el-row>
-            <el-row>
-              <el-col :span='8'><span>积分：{{result|| '-'}}</span></el-col>
-            </el-row>
-            <el-row>
-              <el-col :span='8'><span>初次来源：{{'-'}}</span></el-col>
-            </el-row>
-          </div>
-          <div>
-            <p class="p-title">会员印象：</p>
-            <p>{{items.impression|| '-'}}</p>
-            <p class="p-title">会员标签：</p>
-            <p v-for="item in items.tagList" :key="item.id">
-              <span>{{item.name===null&&item.value===null?'-':item.name+':'+item.value}}</span>
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-    </el-dialog>
     <!-- 新客户详情弹窗-->
     <el-dialog
       title="详情"
       :visible.sync="shopKuhuShow"
-      width="900px" height="500px" class="dialog-container"  @keyup.enter.native="onKeyUp" @keyup.esc.native="onKeyUp">
+      width="900px" height="500px" class="dialog-container"  @keyup.enter.native="onKeyUp" @keyup.esc.native="onKeyUp" @close="selectedTabName='basic'">
       <div class="dialog-container__msg">
         <div class="dialog-avatar">
           <el-image mode="aspectFit" src="https://img.alicdn.com/imgextra/i4/645690921/O1CN01Q1rjbi1IfrITTcm0O_!!645690921.jpg_430x430q90.jpg"
@@ -209,13 +137,14 @@
           </el-form-item>
           <el-form-item label="备注：" class="el-inline-block">
             <el-form-grid size="xs">
-              <span v-if="remark.length<16">
-                {{remark}}
+              <span v-if="items.customerRemark && items.customerRemark.length<16">
+                sd
+                {{items.customerRemark||'-'}}
               </span>
               <div v-else>
-                <el-tooltip :content="remark" placement="bottom">
-                  <div slot="content">{{remark}}</div>
-                  <span class="dialog-hidden">{{remark}}</span>
+                <el-tooltip :content="items.customerRemark" placement="bottom">
+                  <div slot="content">{{items.customerRemark||'ces'}}</div>
+                  <span class="dialog-hidden">{{items.customerRemark}}</span>
                 </el-tooltip>
               </div>
             </el-form-grid>
@@ -253,16 +182,16 @@
                   <el-form-grid size="xxmd">{{items.sex === 1?'男':items.sex === 0?'女':'未知'}}</el-form-grid>
                 </el-form-item>
                 <el-form-item label="开卡时间：" class="el-inline-block">
-                  <el-form-grid size="xxmd">{{items.bindTime}}</el-form-grid>
+                  <el-form-grid size="xxmd">{{items.bindTime||'-'}}</el-form-grid>
                 </el-form-item>
                 <el-form-item label="Email：" class="el-inline-block">
-                  <el-form-grid size="xxmd">{{items.email}}</el-form-grid>
+                  <el-form-grid size="xxmd">{{items.email||'-'}}</el-form-grid>
                 </el-form-item>
                 <el-form-item label="所在地区：" class="el-inline-block">
-                  <el-form-grid size="xxmd">{{items.province+items.city}}</el-form-grid>
+                  <el-form-grid size="xxmd">{{items.province?items.province:''+items.city?items.city:''}}</el-form-grid>
                 </el-form-item>
                 <el-form-item label="详细地址：" class="el-inline-block">
-                  <el-form-grid size="xxmd">{{items.address}}</el-form-grid>
+                  <el-form-grid size="xxmd">{{items.address||'-'}}</el-form-grid>
                 </el-form-item>
               </el-form>
             </div>
@@ -358,30 +287,31 @@
                   <el-form-grid size="md">
                     <el-date-picker type="datetime" placeholder="请选择" v-model="endDateTime"></el-date-picker>
                   </el-form-grid>
-                  <el-form-grid class="dialog-formitem__type">
-                    变更类型：
-                  </el-form-grid>
-                  <el-form-grid size="md">
-                    <el-select v-model="value3" placeholder="请选择">
-                      <el-option
-                        v-for="item in options"
-                        :key="item.value3"
-                        :label="item.label"
-                        :value="item.value3">
-                      </el-option>
-                    </el-select>
-                  </el-form-grid>
-                  <el-form-grid size="md">
-                    <el-select v-model="value3" placeholder="请选择">
-                      <el-option
-                        v-for="item in options"
-                        :key="item.value3"
-                        :label="item.label"
-                        :value="item.value3">
-                      </el-option>
-                    </el-select>
-                  </el-form-grid>
-                  <el-form-grid>
+                  <!--20190926 先注释掉搜索功能，待积分平台接口完整再添加-->
+<!--                  <el-form-grid class="dialog-formitem__type">-->
+<!--                    变更类型：-->
+<!--                  </el-form-grid>-->
+<!--                  <el-form-grid size="md">-->
+<!--                    <el-select v-model="value3" placeholder="请选择">-->
+<!--                      <el-option-->
+<!--                        v-for="item in options"-->
+<!--                        :key="item.value3"-->
+<!--                        :label="item.label"-->
+<!--                        :value="item.value3">-->
+<!--                      </el-option>-->
+<!--                    </el-select>-->
+<!--                  </el-form-grid>-->
+<!--                  <el-form-grid size="md">-->
+<!--                    <el-select v-model="value3" placeholder="请选择">-->
+<!--                      <el-option-->
+<!--                        v-for="item in options"-->
+<!--                        :key="item.value3"-->
+<!--                        :label="item.label"-->
+<!--                        :value="item.value3">-->
+<!--                      </el-option>-->
+<!--                    </el-select>-->
+<!--                  </el-form-grid>-->
+                  <el-form-grid align="left">
                     <ns-button type="primary">搜索</ns-button>
                   </el-form-grid>
                 </el-form-item>

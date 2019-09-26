@@ -80,37 +80,33 @@ body {
     width: 88%;
     height: 1px;
     margin: 0 auto;
-    background: rgba(242,242,242,1);
-}
-.division .division__leftcircle {
-    width: 9px;
-    height: 18px;
-    position: absolute;
-    left: 0;
-    top: -7px;
     background: #F2F2F2;
-    border-radius:  0 9px 9px 0;
 }
-.division .division__rightcircle {
-    width: 9px;
-    height: 18px;
+.division .division__circle {
+    width: 17px;
+    height: 17px;
     position: absolute;
-    right: 0;
-    top: -7px;
+    top: -8px;
     background: #F2F2F2;
-    border-radius: 9px 0 0 9px;
+    border-radius:  50%;
+}
+.division .division__circle--left {
+    left: -8px;
+}
+.division .division__circle--right {
+    right: -8px;
 }
 .unique {
     font-size: 14px;
     color: #666;
     text-align: center;
-    margin-top: 35px;
+    padding: 35px 20px 0;
 }
 .replace {
     font-size: 14px;
     color: #666;
     text-align: center;
-    margin-top: 10px;
+    padding: 10px 20px 0;
 }
 .replace .replace__name {
     font-size: 16px;
@@ -122,7 +118,7 @@ body {
     font-size: 14px;
     color: #999;
     text-align: center;
-    margin-top: 25px;
+    padding: 25px 20px 0;
 }
 .exchange__btn {
     padding: 40px 50px 0;

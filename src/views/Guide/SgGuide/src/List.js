@@ -406,6 +406,7 @@ export default {
       this.model.sgGuideVo.type = 1
     },
     handleSelectionChange (value) {
+      console.log(value)
       this.dimissionArry = value
       this.multipleSelection = value
       this.replaceStoresArry = value
@@ -1398,8 +1399,8 @@ export default {
         _this.nickVoList = []
         for (let index = 0; index < _this.allPageCustomer.length; index++) {
           let obj = {
-            nick: _this.allPageCustomer[index].nick,
-            nickType: _this.allPageCustomer[index].nickType,
+            nick: _this.allPageCustomer[index].outNick,
+            nickType: _this.allPageCustomer[index].platform,
             customerFrom: _this.allPageCustomer[index].customerFrom
           }
           _this.nickVoList.push(obj)

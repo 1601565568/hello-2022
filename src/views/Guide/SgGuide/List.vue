@@ -20,7 +20,7 @@
             <el-form-item v-if="guideValue === 1"  label="所属门店：" required>
               <el-form-grid size="xxmd">
                 <el-form-item prop="shops" >
-                  <el-select placeholder="所属门店" @change="store($event,row)" v-model="subordinateStores" multiple>
+                  <el-select placeholder="所属门店" @change="store($event,row)" v-model="subordinateStores" multiple filterable>
                     <el-option v-for="shops in shopFindList" :label="shops.shopName" :value="shops.id" :key="shops.id"></el-option>
                   </el-select>
                 </el-form-item>
