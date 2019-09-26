@@ -406,7 +406,6 @@ export default {
       this.model.sgGuideVo.type = 1
     },
     handleSelectionChange (value) {
-      console.log(value)
       this.dimissionArry = value
       this.multipleSelection = value
       this.replaceStoresArry = value
@@ -1141,7 +1140,6 @@ export default {
     // 查询客户列表
     findCustomerList (page, pageSize) {
       let _this = this
-      console.log(JSON.stringify(this.customFindVo))
       _this.$http.fetch(_this.$api.guide.guide.findCustomerList, {
         searchMap: {
           'guideId': _this.guideId,
