@@ -65,7 +65,7 @@
             $('#memberGrade').html(noData.memberGrade);
             $('#shopName').html(noData.shopName);
             $('#groupName').html(noData.groupName);
-            $('#groupImage').html(noData.groupImage);
+            $('#groupImage').attr("src", noData.groupImage)
             $('#memberCard').html(noData.memberCard.replace(/(.{4})/g,'$1 '));
             $('#guideQrCode').attr('src', noData.guideQrCode)
         }
