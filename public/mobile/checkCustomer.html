@@ -111,21 +111,24 @@
                         cardExt: JSON.stringify(data.result)
                     }],
                     success: function (res) {
-                        var cardList = res.cardList; // 添加的卡券列表信息
-                        var guideData = JSON.parse(localStorage.getItem('showData'));
-                        // 跳转开卡成功页面
-                        if(guideData.pointAdd || guideData.pointAttention){
-                            // 根据不同来源，开卡成功后根据来源跳转不同页面（1关注公众号，2微信加好友）
-                            if(recruitInfo.source == 1){
-                                window.location.replace("./addFriend/addFriend.html");
-                            }else{
-                                //
-                                window.location.replace("./successfulCardOpening/successfulCardOpening.html");
-                            }
-                        }else{
-                            // 跳转不关注公众号，不加好友成功页面
-                            window.location.replace("./sameGuide/successNo.html");
-                        }
+                        //成功后直接关闭页面
+                        wx.closeWindow();
+                        window.close();
+                        // var cardList = res.cardList; // 添加的卡券列表信息
+                        // var guideData = JSON.parse(localStorage.getItem('showData'));
+                        // // 跳转开卡成功页面
+                        // if(guideData.pointAdd || guideData.pointAttention){
+                        //     // 根据不同来源，开卡成功后根据来源跳转不同页面（1关注公众号，2微信加好友）
+                        //     if(recruitInfo.source == 1){
+                        //         window.location.replace("./addFriend/addFriend.html");
+                        //     }else{
+                        //         //
+                        //         window.location.replace("./successfulCardOpening/successfulCardOpening.html");
+                        //     }
+                        // }else{
+                        //     // 跳转不关注公众号，不加好友成功页面
+                        //     window.location.replace("./sameGuide/successNo.html");
+                        // }html
                     },
                     fail: function (res) {
                         // 跳转错误页
@@ -134,6 +137,21 @@
                     }
                 });
             })
+        })
+    }
+
+    function getNewCustomerInfo() {
+        var toChangeData = JSON.parse(localStorage.getItem('showData'));
+        var recruitInfo = JSON.parse(localStorage.getItem('recruitInfo'));
+        // 获取会员信息
+        this.ajax(backstageURL + '/getNewCustomerInfo', {
+            nick: toChangeData.nick,
+            shopId:recruitInfo.shopId,
+            groupId: recruitInfo.groupId,
+        }).then(function (result) {
+            if (result.success) {
+
+            }
         })
     }
 
