@@ -131,9 +131,11 @@
                         // }html
                     },
                     fail: function (res) {
+                        wx.closeWindow();
+                        window.close();
                         // 跳转错误页
-                        $(".fail").show();
-                        $('.fail__text').html("领卡失败");
+                       // $(".fail").show();
+                       // $('.fail__text').html("领卡失败");
                     }
                 });
             })
