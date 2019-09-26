@@ -389,6 +389,7 @@ export default {
       this.shopFindListShow = false
       this.radio = null
       this.pagination.page = 1
+      this.pagination.size = 15
     },
     addText (row) {
       let num = this.textIds.indexOf(row.id)
