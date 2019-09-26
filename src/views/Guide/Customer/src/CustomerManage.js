@@ -287,6 +287,8 @@ export default {
                 this.integralIsShow[i] = true
               }
             }
+            _this.items.province = _this.disposeArea(_this.items.province, _this.items.city)
+            _this.items.customerName = _this.disposeOutNick(_this.items.customerName, _this.items.outAlias)
             this.integralIsNum[0] = this.items.point
           }
         }).catch((resp) => {
@@ -387,6 +389,7 @@ export default {
       this.shopFindListShow = false
       this.radio = null
       this.pagination.page = 1
+      this.pagination.size = 15
     },
     addText (row) {
       let num = this.textIds.indexOf(row.id)
@@ -610,13 +613,22 @@ export default {
     },
     disposeArea (province, city) {
       let area = ''
-      if (this.items.province) {
-        area += this.items.province
+      if (province) {
+        area += province
       }
-      if (this.items.city){
-        area += this.items.city
+      if (city) {
+        area += city
+      }
+      if (area.length === 0) {
+        return '-'
       }
       return area
+    },
+    disposeOutNick (customerName, outNick) {
+      if (customerName.length === 0) {
+        return outNick.substring(0, 5) + '...'
+      }
+      return customerName
     }
   },
   mounted: function () {
