@@ -14,10 +14,10 @@
 <div class="code">
     <div class="code__head">
         <div class="user">
-            <img src="../img/expression/memberDefault.png" class="user__avatar" mode='widthFix' />
+            <img id="memberImage" src="../img/expression/memberDefault.png" class="user__avatar" mode='widthFix' />
             <div class="user__info">
                 <div class="level">
-                    <div class="level__name">昵称</div>
+                    <div class="level__name" id="memberNick">昵称</div>
                     <div class="level__number">
                         <img src="../img/expression/member.png" alt="等级" class="memberv">
                         <span class="detail" id="memberGrade">0</span>
@@ -61,7 +61,11 @@
             JsBarcode(".stripecode__img", noData.memberCard, {
                 displayValue:false,
             });
+            if(noData.memberImage){
+                $('#memberImage').attr("src", noData.memberImage)
+            }
             $('#memberGrade').html(noData.memberGrade);
+            $('#memberNick').html(noData.memberNick);
             $('#memberCard').html(noData.memberCard.replace(/(.{4})/g,'$1 '));
             if(noData.memberCard){
                 $('#memberCard').html(noData.memberCard.replace(/(.{4})/g,'$1 '));
