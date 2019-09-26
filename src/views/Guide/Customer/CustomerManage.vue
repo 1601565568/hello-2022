@@ -96,7 +96,7 @@
         </div>
         <el-form label-width="100px">
           <el-form-item label="姓名：" class="el-inline-block">
-            <el-form-grid size="xs">{{items.customerName|| items.outAlias|| '-'}}</el-form-grid>
+            <el-form-grid size="xs">{{items.customerName}}</el-form-grid>
           </el-form-item>
           <el-form-item label="会员折扣：" class="el-inline-block dialog-favorable">
             <el-form-grid size="xs">
@@ -188,7 +188,7 @@
                   <el-form-grid size="xxmd">{{items.email||'-'}}</el-form-grid>
                 </el-form-item>
                 <el-form-item label="所在地区：" class="el-inline-block">
-                  <el-form-grid size="xxmd">{{items.province?items.province:''+items.city?items.city:''}}</el-form-grid>
+                  <el-form-grid size="xxmd">{{items.province}}</el-form-grid>
                 </el-form-item>
                 <el-form-item label="详细地址：" class="el-inline-block">
                   <el-form-grid size="xxmd">{{items.address||'-'}}</el-form-grid>

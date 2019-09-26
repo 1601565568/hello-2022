@@ -17,7 +17,7 @@
                 <!--<div class="avatar">-->
                     <!--<img id="customerImg" src="../img/expression/memberDefault.png" alt="用户头像" class="avatar__img">-->
                 <!--</div>-->
-                <img src="../img/expression/memberDefault.png" alt="用户头像" class="defaultimg">
+                <img id="groupImage" src="../img/expression/memberDefault.png" alt="用户头像" class="defaultimg">
                 <div class="store">
                     <div class="store__name">
                         <div id="groupName"  class="name"></div>
@@ -46,7 +46,7 @@
                 </div>
             </div>
             <div class="content__headportrait">
-                <img id="guideImg" src="../img/expression/memberAvatar.jpg" alt="头像" class="headportrait">
+                <img id="guideImg"  src="../img/expression/memberDefault.png" alt="头像" class="headportrait">
             </div>
             <div class="content__only">专属导购</div>
             <div class="content__uname" id="guideName">顾起航</div>
@@ -59,12 +59,15 @@
     window.onload = function () {
         var noData = JSON.parse(localStorage.getItem('showData'));
         if (noData) {
-            $('#guideImg').attr("src", noData.newImage)
+            if(noData.newImage){
+                $('#guideImg').attr("src", noData.newImage)
+            }
             $('#guideName').html(noData.newSgGuideName);
             $('#guideName1').html(noData.newSgGuideName);
             $('#memberGrade').html(noData.memberGrade);
             $('#shopName').html(noData.shopName);
             $('#groupName').html(noData.groupName);
+            $('#groupImage').attr("src", noData.groupImage)
             $('#memberCard').html(noData.memberCard.replace(/(.{4})/g,'$1 '));
             $('#guideQrCode').attr('src', noData.guideQrCode)
         }

@@ -65,10 +65,7 @@
             $('#memberCard').html(noData.memberCard.replace(/(.{4})/g,'$1 '));
             $('#guideQrCode').attr('src', noData.newCardUrl)
         }
-    })
-    //页面加载完成
-    $(document).onload(function () {
-        setTimeout($('#addFriendSuccess').style.display='none',3000);
+        setTimeout($('#addFriendSuccess').hide(),300000);
     })
 </script>
 </body>

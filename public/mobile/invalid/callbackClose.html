@@ -15,23 +15,65 @@
 <script type="text/javascript" src="../js/common.js"></script>
 <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.4.0.js"></script>
 <script>
-    window.onload = function () {
-        wx.closeWindow();
-        window.close();
-        var guideData = JSON.parse(localStorage.getItem('showData'));
-        // 跳转开卡成功页面
-        if(guideData.pointAdd || guideData.pointAttention){
-            // 根据不同来源，开卡成功后根据来源跳转不同页面（1关注公众号，2微信加好友）
-            if(recruitInfo.source == 1){
-                window.location.replace("../addFriend/addFriend.html");
-            }else{
-                //
-                window.location.replace("../successfulCardOpening/successfulCardOpening.html");
-            }
-        }else{
-            // 跳转不关注公众号，不加好友成功页面
-            window.location.replace("../sameGuide/successNo.html");
+    $(document).ready(function () {
+        var nick = getPar('nick');
+        var groupId = getPar('groupId');
+        var shopId = getPar('shopId');
+        var scanSource = getPar('scanSource');
+        if (nick && groupId && shopId && scanSource) {
+            getNewCustomerInfo(nick,groupId,shopId,scanSource)
+        } else {
+            // 参数缺失
+            wx.closeWindow();
+            window.close();
         }
+    })
+    function getNewCustomerInfo(nick,groupId,shopId,scanSource) {
+        this.ajax(backstageURL + '/getNewCustomerInfo', {
+            nick: nick,
+            shopId: shopId,
+            groupId: groupId,
+        }).then(function (result) {
+            debugger
+            if (result.success) {
+                localStorage.setItem('showData', JSON.stringify(result.result))
+                // 跳转开卡成功页面
+                if(result.result.pointAdd || result.result.pointAttention){
+                    // 根据不同来源，开卡成功后根据来源跳转不同页面（1关注公众号，2微信加好友）
+                    if(scanSource == 1){
+                        window.location.replace("/mobile/addFriend/addFriend.html");
+                    }else{
+                        //
+                        window.location.replace("/mobile/successfulCardOpening/successfulCardOpening.html");
+                    }
+                }else{
+                    // 跳转不关注公众号，不加好友成功页面
+                    window.location.replace("/mobile/sameGuide/successNo.html");
+                }
+            }
+        })
+    }
+
+    function ajax(url, data, params) {
+        data = JSON.stringify(data)
+        return new Promise(function (resolve, reject) {
+            $.ajax({
+                url: url,
+                type: params && params.type || 'post',
+                dataType: params && params.dataType || 'JSON',
+                data: data,
+                method: "post",
+                contentType: "application/json;charset=UTF-8",
+                success: function (res) {
+                    resolve(res)
+                },
+                error: function (res) {
+                    // 跳转错误页
+                    $(".fail").show();
+                    $('.fail__text').html(res.msg);
+                }
+            });
+        });
     }
 </script>
 </body>

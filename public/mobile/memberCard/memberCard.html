@@ -20,7 +20,7 @@
                     <!--<img id="customerImg" src="../img/expression/memberDefault.png" alt="用户头像" class="avatar__img">-->
                 <!--</div>-->
                 <!-- 默认图片 -->
-                <img src="../img/expression/memberDefault.png" alt="用户头像" class="defaultimg">
+                <img id="groupImage" src="../img/expression/memberDefault.png" alt="用户头像" class="defaultimg">
                 <div class="store">
                     <div class="store__name">
                         <div id="groupName" class="name"></div>
@@ -74,6 +74,7 @@
             $('#memberGrade').html(showData.memberGrade);
             $('#shopName').html(showData.shopName);
             $('#groupName').html(showData.groupName);
+            $('#groupImage').html(showData.groupImage);
             $('#memberCard').html(showData.memberCard.replace(/(.{4})/g,'$1 '));
             $('#guideQrCode').attr('src', showData.cardUrl)
         }
