@@ -49,7 +49,7 @@
                     <span>
                       <span>{{header.column.label}}</span>
                       <el-popover placement='bottom' width='220' trigger='hover' content='此微信客户是否为会员'>
-                        <i slot='reference' class='table-header-icon'><Icon type="xiangqingyiwen"/></i>
+                        <i slot='reference' class='table-header-icon'><Icon fontType="el-icon-info" /></i>
                       </el-popover>
                     </span>
                 </template>
@@ -63,7 +63,7 @@
                     <span>
                       <span>{{header.column.label}}</span>
                       <el-popover placement='bottom' width='220' trigger='hover' content='此微信客户是否有专属导购'>
-                        <i slot='reference' class='table-header-icon'><Icon type="xiangqingyiwen"/></i>
+                        <i slot='reference' class='table-header-icon'><Icon fontType="el-icon-info" /></i>
                       </el-popover>
                     </span>
                 </template>
