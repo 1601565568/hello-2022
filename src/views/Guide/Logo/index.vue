@@ -29,14 +29,14 @@
                     <Icon fontType="el-icon-warning" className="company-example__size--warning"/>
                     该logo将在用户端透出，建议图片尺寸为1:1。
                   </span>
-                  <el-popover placement="bottom" trigger="click">
+                  <el-popover placement="bottom" trigger="click" @show="disposePopover" @hide="disposePopover">
                     <img src="./src/images/exampleImg.png" alt="示例图片" class="company-example__size--distance"/>
                     <span class="company-example__check" slot="reference">
                       查看示例
                       <!-- 向下的箭头 -->
-                      <Icon fontType="el-icon-arrow-down" className="company-arrow company-arrow--big"/>
+                      <Icon fontType="el-icon-arrow-down" v-if="isPopover" className="company-arrow company-arrow--big"/>
                       <!-- 向上的箭头 -->
-                      <!--<Icon fontType="el-icon-arrow-up" className="company-arrow company-arrow&#45;&#45;small"/>-->
+                      <Icon fontType="el-icon-arrow-up" v-if="!isPopover"  className="company-arrow company-arrow--small"/>
                     </span>
                   </el-popover>
                 </div>
@@ -54,14 +54,17 @@
 
 <script>
 import ElUpload from 'nui-v2/lib/upload'
+import ElCard from 'nui-v2/lib/card'
 
 export default {
   components: {
-    ElUpload
+    ElUpload,
+    ElCard
   },
   data () {
     return {
-      imageUrl: ''
+      imageUrl: '',
+      isPopover: false
     }
   },
   methods: {
@@ -91,6 +94,9 @@ export default {
           this.$notify.error('保存失败')
         })
       }
+    },
+    disposePopover () {
+      this.isPopover = !this.isPopover
     }
   },
   mounted: function () {
