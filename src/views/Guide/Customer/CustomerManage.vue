@@ -409,8 +409,10 @@
 <script>
 import CustomerManage from './src/CustomerManage'
 import NsTableGuide from './NsTableGuide'
+import ElImage from 'nui-v2/lib/image'
 CustomerManage.components = {
-  NsTableGuide
+  NsTableGuide,
+  ElImage
 }
 export default CustomerManage
 </script>

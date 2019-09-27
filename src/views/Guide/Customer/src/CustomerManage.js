@@ -2,6 +2,7 @@ import api from '@/config/http'
 import tableMixin from 'web-crm/src/mixins/table'
 import { getErrorMsg } from '@/utils/toast'
 import fa from 'nui-v2/src/locale/lang/fa'
+import ElCard from 'nui-v2/lib/card'
 export default {
   data: function () {
     let pagination = {
