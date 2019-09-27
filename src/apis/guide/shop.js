@@ -7,6 +7,10 @@ export default {
     url: '/core/sgshop/findShopList',
     method: 'get'
   },
+  findIsShopLegal: {
+    url: '/core/sgshop/findIsShopLegal',
+    method: 'get'
+  },
   findGroupShopList: {
     url: '/core/sgshop/findGroupShopList',
     method: 'get'

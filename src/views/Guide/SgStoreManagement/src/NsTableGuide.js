@@ -213,7 +213,16 @@ export default {
       return false
     },
     elIconMenu (row) {
-      this.$emit('elIconMenu', row)
+      var _this = this
+      _this.$http.fetch(_this.$api.guide.shop.findIsShopLegal, {
+        shopId: row.id
+      }).then(resp => {
+        if (resp.success) {
+          this.$emit('elIconMenu', row)
+        }
+      }).catch((resp) => {
+        _this.$notify.error(getErrorMsg('下载失败', resp))
+      })
     },
     scopeRowCount (data) { // 查看数字门店详情
       this.$emit('scopeRowCount', data)
