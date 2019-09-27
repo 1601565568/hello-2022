@@ -75,18 +75,6 @@
         window.location.replace("../newCode/newCode.html");
     }
 
-    function toCustomerCenter() {
-        var recruitInfo = JSON.parse(localStorage.getItem('recruitInfo'));
-        // 获取e互动店铺
-        this.ajax(backstageURL + '/getEHDShopId',{
-            guideId: recruitInfo.guideId,
-            shopId: recruitInfo.shopId,
-            groupId: recruitInfo.groupId,
-        }).then(function(data){
-            window.location.replace("http://ehd.vecrp.com/shop"+data.result+"/wx55/home")
-        })
-    }
-
     function ajax(url, data, params) {
         data = JSON.stringify(data)
         return new Promise(function(resolve, reject) {
