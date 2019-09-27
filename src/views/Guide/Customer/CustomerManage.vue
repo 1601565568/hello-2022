@@ -82,7 +82,7 @@
       width="900px" height="500px" class="dialog-container"  @keyup.enter.native="onKeyUp" @keyup.esc.native="onKeyUp" @close="selectedTabName='basic'">
       <div class="dialog-container__msg">
         <div class="dialog-avatar">
-          <el-image mode="aspectFit" src="https://img.alicdn.com/imgextra/i4/645690921/O1CN01Q1rjbi1IfrITTcm0O_!!645690921.jpg_430x430q90.jpg"
+          <el-image mode="aspectFit" :src="items.customerHeadImage"
                     width="80" height="80" bgColor="#FFF" circle="true"/>
           <div class="dialog-avatar__figure">
             <!-- 男生图标-->
