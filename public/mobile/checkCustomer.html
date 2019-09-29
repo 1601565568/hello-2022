@@ -70,8 +70,8 @@
                     // 原导购不存在，导购相同
                     if(result.result.pointAdd || result.result.pointAttention){
                         // 根据不同来源，开卡成功后根据来源跳转不同页面（1关注公众号，2微信加好友）
-                        if(scanSource == 1){
-                            window.location.replace("./memberCard/memberCard.html");
+                        if(recruitInfo.source == 1){
+                            window.location.replace("./addFriend/addFriend.html");
                         }else{
                             //
                             window.location.replace("./successfulCardOpening/successfulCardOpening.html");
