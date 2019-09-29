@@ -80,6 +80,7 @@ export default {
       tagData: [],
       integralIsShow: [false, false, false, false, false], // 控制会员详情积分是否显示
       integralIsNum: [0, 0, 0, 0, 0], // 控制会员详情积分
+      integralName: ['', '', '', '', ''], // 控制会员详情积分
       mapTag: [],
       textIds: [], // 会员打标签输入框id集合
       selectIds: [], // 会员打标签下拉选id集合
@@ -282,15 +283,18 @@ export default {
           if (resp.success && resp.result != null) {
             _this.shopKuhuShow = true
             _this.items = resp.result
-            let integral = _this.items.integralAccountList.length
-            if (integral > 0) {
-              for (let i = 0; i < integral; i++) {
-                this.integralIsShow[i] = true
+
+            if (_this.items.assetJson) {
+              let assetJson = JSON.parse(_this.items.assetJson)
+              for (let j = 0; j < assetJson.length; j++) {
+                let info = assetJson[j]
+                this.integralName[j] = info.alias
+                this.integralIsNum[j] = info.score
+                this.integralIsShow[j] = true
               }
             }
             _this.items.province = _this.disposeArea(_this.items.province, _this.items.city)
             _this.items.customerName = _this.disposeOutNick(_this.items.customerName, _this.items.outAlias)
-            this.integralIsNum[0] = this.items.point
           }
         }).catch((resp) => {
           _this.$notify.error(getErrorMsg('查询失败', resp))
