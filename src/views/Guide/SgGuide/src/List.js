@@ -1208,6 +1208,11 @@ export default {
       this.transferShopPage = 1
       this.guideFindList()
     },
+    // 转移给指定导购取消
+    cancelTransferToReset () {
+      this.resignFormVisible = false
+      this.transferShopSize = this._data.paginationss.sizeOpts[0]
+    },
     // 自定义搜索
     customSearch (model) {
       this.findCustomerList(model)

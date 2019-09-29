@@ -323,7 +323,7 @@
           </div>
           <div v-if="transferRadio === '2'">
             <ns-button type="primary" @click="onConfirmResign">确定转移</ns-button>
-            <ns-button @click="resignFormVisible = false">取消</ns-button>
+            <ns-button @click="cancelTransferToReset">取消</ns-button>
           </div>
           <div v-if="transferRadio === '1'">
             <ns-button type="primary" @click="averageTransfer">确定转移</ns-button>
