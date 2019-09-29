@@ -349,8 +349,6 @@ export default {
                   break
                 case 2:
                   this.dateIds.push(tag.id)
-                  let timeArr = tag.value.split(',')
-                  tag.value = timeArr
                   this.attributeValue += 1
                   break
                 case 3:
@@ -450,12 +448,16 @@ export default {
       if (num > -1) {
         for (let i = 0; i < this.mapTag.length; i++) {
           let check = this.mapTag[i]
+          // 如果mapTag包含该数据
           if (check.id === row.id) {
+            // 如果时间为null则删除
             if (!row.value) {
               this.mapTag.splice(i, 1)
               this.dateIds.splice(num, 1)
+              this.attribute -= 1
+              this.attributeValue -= 1
             } else {
-              check.value = row.value.join(',')
+              check.value = row.value
               this.attribute += 1
               this.attributeValue += 1
             }
@@ -465,7 +467,7 @@ export default {
         this.dateIds.push(row.id)
         let check = {}
         check.id = row.id
-        check.value = row.value.join(',')
+        check.value = row.value
         this.mapTag.push(check)
         this.attribute += 1
         this.attributeValue += 1
@@ -501,7 +503,6 @@ export default {
       }
     },
     addCheckbox (row, item) {
-      // 出现匹配失败的问题 判断4 变成判断504匹配成功
       let num = this.checkboxIds.indexOf(row.id)
       if (num > -1) {
         for (let i = 0; i < this.mapTag.length; i++) {

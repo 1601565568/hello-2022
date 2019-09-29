@@ -378,11 +378,9 @@
                 <!--日期-->
                 <el-date-picker
                   v-model="scope.row.value"
-                  type="daterange"
-                  value-format="yyyy-MM-dd HH:mm:ss"
-                  range-separator="至"
-                  start-placeholder="开始日期"
-                  end-placeholder="结束日期" v-else-if="scope.row.tagType===2" @change="addDate(scope.row)">
+                  type="date"
+                  value-format="yyyy-MM-dd" placeholder="请选择日期"
+                   v-else-if="scope.row.tagType===2" @change="addDate(scope.row)" >
                 </el-date-picker>
                 <!--单选框-->
                 <el-radio-group v-model="scope.row.value" v-else-if="scope.row.tagType === 3" >
