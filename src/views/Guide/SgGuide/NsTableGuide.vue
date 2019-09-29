@@ -203,7 +203,6 @@ export default guide
   }
 
   >>> .table-header-icon {
-    color: var(--theme-font-color-info);
     font-size: var(--default-font-size-base);
     font-weight: normal;
     padding-left: var(--default-padding-base);

@@ -51,9 +51,9 @@
             <el-form-grid>
               <el-input style="width:180px" autofocus=true v-model="model.targetId" placeholder="请输入数据库ID" clearable></el-input>
             </el-form-grid>
-             <el-form-grid><ns-button class="text-info" type="text" @click="showTargetDetail = true">查询ID</ns-button></el-form-grid>
+             <el-form-grid><ns-button className="text-tips" type="text" @click="showTargetDetail = true">查询ID</ns-button></el-form-grid>
              <el-form-grid>
-               <el-tooltip content="查询数据模块中需查询数据的数据库ID" placement="right"><Icon fontType="el-icon-info" className="text-tips"></Icon></el-tooltip>
+               <el-tooltip content="查询数据模块中需查询数据的数据库ID" placement="right"><Icon fontType="el-icon-info" /></el-tooltip>
              </el-form-grid>
           </el-form-item>
 
@@ -100,7 +100,7 @@
               </el-date-picker>
             </el-form-grid>
             <el-form-grid>
-              <el-tooltip content="仅支持查询最近36个月内的操作日志" placement="right"><Icon fontType="el-icon-info" className="text-tips"></Icon></el-tooltip>
+              <el-tooltip content="仅支持查询最近36个月内的操作日志" placement="right"><Icon fontType="el-icon-info" /></el-tooltip>
             </el-form-grid>
           </el-form-item>
 
