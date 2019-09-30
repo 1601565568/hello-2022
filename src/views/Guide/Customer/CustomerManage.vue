@@ -104,13 +104,13 @@
               <i class="dialog-favorable__text dialog-favorable__text--discount"><Icon type="icon_discount"/></i>
             </el-form-grid>
           </el-form-item>
-          <el-form-item label="积分2：" class="el-inline-block dialog-favorable" v-if="integralIsShow[1]">
+          <el-form-item :label="integralName[1]+'：'" class="el-inline-block dialog-favorable" v-if="integralIsShow[1]">
             <el-form-grid size="xs">
               <span>{{integralIsNum[1]}}</span>
               <i class="dialog-favorable__text dialog-favorable__text--integration"><Icon type="icon_integration"/></i>
             </el-form-grid>
           </el-form-item>
-          <el-form-item label="积分5：" class="el-inline-block dialog-favorable" v-if="integralIsShow[4]">
+          <el-form-item :label="integralName[4]+'：'" class="el-inline-block dialog-favorable" v-if="integralIsShow[4]">
             <el-form-grid size="xs">
               <span>{{integralIsNum[4]}}</span>
               <i class="dialog-favorable__text dialog-favorable__text--integration"><Icon type="icon_integration"/></i>
@@ -119,13 +119,13 @@
           <el-form-item label="手机：" class="el-inline-block">
             <el-form-grid size="xs">{{items.mobile}}</el-form-grid>
           </el-form-item>
-          <el-form-item label="积分1：" class="el-inline-block dialog-favorable" v-if="integralIsShow[0]">
+          <el-form-item :label="integralName[0]+'：'" class="el-inline-block dialog-favorable" v-if="integralIsShow[0]">
             <el-form-grid size="xs">
               <span>{{integralIsNum[0]}}</span>
               <i class="dialog-favorable__text dialog-favorable__text--integration"><Icon type="icon_integration"/></i>
             </el-form-grid>
           </el-form-item>
-          <el-form-item label="积分3：" class="el-inline-block dialog-favorable" v-if="integralIsShow[2]">
+          <el-form-item :label="integralName[2]+'：'" class="el-inline-block dialog-favorable" v-if="integralIsShow[2]">
             <el-form-grid size="xs">
               <span>{{integralIsNum[2]}}</span>
               <i class="dialog-favorable__text dialog-favorable__text--integration"><Icon type="icon_integration"/></i>
@@ -155,7 +155,7 @@
               <i class="dialog-favorable__text dialog-favorable__text--coupon"><Icon type="icon_coupon"/></i>
             </el-form-grid>
           </el-form-item>
-          <el-form-item label="积分4：" class="el-inline-block dialog-favorable" v-if="integralIsShow[3]">
+          <el-form-item :label="integralName[3]+'：'" class="el-inline-block dialog-favorable" v-if="integralIsShow[3]">
             <el-form-grid size="xs">
               <span>{{integralIsNum[3]}}</span>
               <i class="dialog-favorable__text dialog-favorable__text--integration"><Icon type="icon_integration"/></i>
@@ -378,11 +378,9 @@
                 <!--日期-->
                 <el-date-picker
                   v-model="scope.row.value"
-                  type="daterange"
-                  value-format="yyyy-MM-dd HH:mm:ss"
-                  range-separator="至"
-                  start-placeholder="开始日期"
-                  end-placeholder="结束日期" v-else-if="scope.row.tagType===2" @change="addDate(scope.row)">
+                  type="date"
+                  value-format="yyyy-MM-dd" placeholder="请选择日期"
+                   v-else-if="scope.row.tagType===2" @change="addDate(scope.row)" >
                 </el-date-picker>
                 <!--单选框-->
                 <el-radio-group v-model="scope.row.value" v-else-if="scope.row.tagType === 3" >

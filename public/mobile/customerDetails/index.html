@@ -168,15 +168,15 @@
         }
     }
 
-    const toError = (type = 0, message = '') => {
-        window.location.replace('/mobile/error.html?type=' + type + '&message=' + encodeURIComponent(message))
+    const toError = (type = 3, message = '') => {
+        window.location.href = '/mobile/prompt/prompt.html?type=' + type + '&message=' + encodeURIComponent(message)
     }
     $(function () {
         ownerWid = getPar('ownerWid')
         wid = getPar('wid')
 
         if (!ownerWid || !wid) {
-            toError(0, '参数错误：个人号微信号或好友微信号都不允许空')
+            toError(3, '参数错误：个人号微信号或好友微信号都不允许空')
             return
         }
 
@@ -187,7 +187,7 @@
             .then(data => {
                 let customer = data.result
                 if (!customer) {
-                    toError(0, '未查到会员信息')
+                    toError(1, '未查到会员信息')
                     return
                 }
                 customerModel = customer
@@ -217,7 +217,7 @@
                     }
                 })
             }).catch(error => {
-            toError(0, error && error.msg ? error.msg : '')
+            toError(3, error && error.msg ? error.msg : '')
         })
     })
 </script>

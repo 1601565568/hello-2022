@@ -80,6 +80,7 @@ export default {
       tagData: [],
       integralIsShow: [false, false, false, false, false], // 控制会员详情积分是否显示
       integralIsNum: [0, 0, 0, 0, 0], // 控制会员详情积分
+      integralName: ['', '', '', '', ''], // 控制会员详情积分
       mapTag: [],
       textIds: [], // 会员打标签输入框id集合
       selectIds: [], // 会员打标签下拉选id集合
@@ -282,15 +283,18 @@ export default {
           if (resp.success && resp.result != null) {
             _this.shopKuhuShow = true
             _this.items = resp.result
-            let integral = _this.items.integralAccountList.length
-            if (integral > 0) {
-              for (let i = 0; i < integral; i++) {
-                this.integralIsShow[i] = true
+
+            if (_this.items.assetJson) {
+              let assetJson = JSON.parse(_this.items.assetJson)
+              for (let j = 0; j < assetJson.length; j++) {
+                let info = assetJson[j]
+                this.integralName[j] = info.alias
+                this.integralIsNum[j] = info.score
+                this.integralIsShow[j] = true
               }
             }
             _this.items.province = _this.disposeArea(_this.items.province, _this.items.city)
             _this.items.customerName = _this.disposeOutNick(_this.items.customerName, _this.items.outAlias)
-            this.integralIsNum[0] = this.items.point
           }
         }).catch((resp) => {
           _this.$notify.error(getErrorMsg('查询失败', resp))
@@ -349,8 +353,6 @@ export default {
                   break
                 case 2:
                   this.dateIds.push(tag.id)
-                  let timeArr = tag.value.split(',')
-                  tag.value = timeArr
                   this.attributeValue += 1
                   break
                 case 3:
@@ -450,12 +452,16 @@ export default {
       if (num > -1) {
         for (let i = 0; i < this.mapTag.length; i++) {
           let check = this.mapTag[i]
+          // 如果mapTag包含该数据
           if (check.id === row.id) {
+            // 如果时间为null则删除
             if (!row.value) {
               this.mapTag.splice(i, 1)
               this.dateIds.splice(num, 1)
+              this.attribute -= 1
+              this.attributeValue -= 1
             } else {
-              check.value = row.value.join(',')
+              check.value = row.value
               this.attribute += 1
               this.attributeValue += 1
             }
@@ -465,7 +471,7 @@ export default {
         this.dateIds.push(row.id)
         let check = {}
         check.id = row.id
-        check.value = row.value.join(',')
+        check.value = row.value
         this.mapTag.push(check)
         this.attribute += 1
         this.attributeValue += 1
@@ -501,7 +507,6 @@ export default {
       }
     },
     addCheckbox (row, item) {
-      // 出现匹配失败的问题 判断4 变成判断504匹配成功
       let num = this.checkboxIds.indexOf(row.id)
       if (num > -1) {
         for (let i = 0; i < this.mapTag.length; i++) {
