@@ -36,7 +36,7 @@
     </div>
     <div class="membercard__content">
         <div class="content">
-            <div class="content__msg">Dear，你已经有绑定导购啦！</div>
+            <div class="content__msg" id="guideMsg"></div>
             <div class="content__division">
                 <div class="division">
                     <div class="division__line"></div>
@@ -57,7 +57,6 @@
     $(function () {
         var showData = JSON.parse(localStorage.getItem('showData'));
         if (showData) {
-            console.log(JSON.stringify(showData).toString())
             $('#memberGrade').html(showData.memberGrade);
             $('#shopName').html(showData.shopName);
             $('#groupName').html(showData.groupName);
@@ -65,8 +64,13 @@
                 $('#groupImage').attr('src',showData.groupImage);
             }
             $('#memberCard').html(showData.memberCard.replace(/(.{4})/g,'$1 '));
-            if(showData.cardUrl){
+            if(showData.newCardUrl){
                 $('#guideQrCode').attr('src', showData.newCardUrl)
+            }
+            if(showData.newSgGuideId != showData.sgGuideId){
+                $('#guideMsg').html("Dear，你已经有绑定导购啦！");
+            }else{
+                $('#guideMsg').html("Dear，（"+showData.newSgGuideName+"）已经是你的绑定导购啦！");
             }
         }
     })
