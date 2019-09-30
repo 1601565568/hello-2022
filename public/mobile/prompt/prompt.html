@@ -7,27 +7,68 @@
     <meta http-equiv="Cache-Control"  content="no-siteapp" />
     <meta name="format-detection" content="telephone=no" />
     <link rel="stylesheet" href="./prompt.css">
-    <title>提示</title>
+    <title>出错啦</title>
 </head>
 <body>
 <div class="prompt">
     <div class="prompt__img">
         <!-- 没有权限提示图片 -->
-        <img src="../img/expression/noPermission.png" alt="没有权限提示图片" class="picture">
+        <img style='display:none' src="../img/expression/noPermission.png" alt="没有权限提示图片" class="picture no_permission">
         <!-- 暂无数据提示图片 -->
-        <!--<img src="../img/expression/noData.png" alt="暂无数据提示图片" class="picture">-->
+        <img style='display:none' src="../img/expression/noData.png" alt="暂无数据提示图片" class="picture no_data">
         <!-- 错误提示图片 -->
-        <!--<img src="../img/expression/error.png" alt="错误提示图片" class="picture">-->
+        <img style='display:none' src="../img/expression/error.png" alt="错误提示图片" class="picture system_error">
     </div>
     <!-- 没有权限提示文字 -->
-    <div class="prompt__text">抱歉~您没有权限</div>
+    <div style='display:none' class="prompt__text no_permission no_permission_msg">抱歉~您没有权限</div>
     <!-- 暂无数据提示文字 -->
-    <!--<div class="prompt__text">暂无数据</div>-->
+    <div style='display:none' class="prompt__text no_data no_data_msg">暂无数据</div>
     <!-- 错误提示文字 -->
-    <!--<div class="prompt__text">抱歉~页面出错了</div>-->
-    <!--<div class="prompt__errorcode">错误码：4041</div>-->
+    <div style='display:none' class="prompt__text system_error system_error_msg">抱歉~页面出错了</div>
+<!--    <div class="prompt__errorcode">错误码：4041</div>-->
     <div class="prompt__btn prompt__btn--refresh">刷新</div>
     <div class="prompt__btn prompt__btn--home">回首页</div>
 </div>
 </body>
+<script type="text/javascript" src="/mobile/js/jquery-3.4.1.min.js"></script>
+<script type="text/javascript" src="/mobile/js/common.js"></script>
+<script>
+
+    $('.prompt__btn--refresh').on('click', () => {
+        let redirectUrl = getPar('redirectUrl')
+
+        if (redirectUrl) {
+            window.location.replace(decodeURIComponent(redirectUrl))
+        } else {
+            window.history.go(-1);
+        }
+    })
+
+    $(()=>{
+        const type = getPar('type')
+        const message = getPar('message')
+        let typeText
+        let messageText
+        switch(type){
+            case '1':
+                typeText = 'no_permission'
+                messageText = message || '抱歉~您没有权限'
+                break;
+            case '2':
+                typeText = 'no_data'
+                messageText = '暂无数据'
+                break;
+            case '3':
+                typeText = 'system_error'
+                messageText = message || '未知异常'
+                break;
+            default:
+                typeText = 'system_error'
+                messageText = message || '未知异常'
+        }
+        $('.' + typeText + '_msg').html(messageText)
+        $('.' + typeText).show()
+    })
+
+</script>
 </html>
