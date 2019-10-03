@@ -151,7 +151,7 @@
           </el-form-item>
           <el-form-item label="优惠券：" class="el-inline-block dialog-favorable">
             <el-form-grid size="xs">
-              <span>0</span>
+              <span>{{items.couponNum||0}}</span>
               <i class="dialog-favorable__text dialog-favorable__text--coupon"><Icon type="icon_coupon"/></i>
             </el-form-grid>
           </el-form-item>
