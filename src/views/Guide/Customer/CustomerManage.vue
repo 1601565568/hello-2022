@@ -151,7 +151,7 @@
           </el-form-item>
           <el-form-item label="优惠券：" class="el-inline-block dialog-favorable">
             <el-form-grid size="xs">
-              <span>100</span>
+              <span>0</span>
               <i class="dialog-favorable__text dialog-favorable__text--coupon"><Icon type="icon_coupon"/></i>
             </el-form-grid>
           </el-form-item>
@@ -270,7 +270,63 @@
               </el-form>
             </div>
           </el-tab-pane>
-          <el-tab-pane :label="'积分'+(i+1)+'信息'" name="integralone" v-for="(itegral,i) in items.integralAccountList" :key="i" >
+          <el-tab-pane label="积分1信息" name="integral1" v-if="integralLogIsShow[0]" >
+          <div class="dialog-integral">
+            <el-form class="dialog-integral__form">
+              <el-form-item class="dialog-formitem">
+                <el-form-grid class="dialog-formitem__choice">
+                  请选择：
+                </el-form-grid>
+                <el-form-grid size="md">
+                  <el-date-picker type="datetime" placeholder="请选择" v-model="startDateTime">
+                  </el-date-picker>
+                </el-form-grid>
+                <el-form-grid>
+                  -
+                </el-form-grid>
+                <el-form-grid size="md">
+                  <el-date-picker type="datetime" placeholder="请选择" v-model="endDateTime"></el-date-picker>
+                </el-form-grid>
+                <!--20190926 先注释掉搜索功能，待积分平台接口完整再添加-->
+                <!--                  <el-form-grid class="dialog-formitem__type">-->
+                <!--                    变更类型：-->
+                <!--                  </el-form-grid>-->
+                <!--                  <el-form-grid size="md">-->
+                <!--                    <el-select v-model="value3" placeholder="请选择">-->
+                <!--                      <el-option-->
+                <!--                        v-for="item in options"-->
+                <!--                        :key="item.value3"-->
+                <!--                        :label="item.label"-->
+                <!--                        :value="item.value3">-->
+                <!--                      </el-option>-->
+                <!--                    </el-select>-->
+                <!--                  </el-form-grid>-->
+                <!--                  <el-form-grid size="md">-->
+                <!--                    <el-select v-model="value3" placeholder="请选择">-->
+                <!--                      <el-option-->
+                <!--                        v-for="item in options"-->
+                <!--                        :key="item.value3"-->
+                <!--                        :label="item.label"-->
+                <!--                        :value="item.value3">-->
+                <!--                      </el-option>-->
+                <!--                    </el-select>-->
+                <!--                  </el-form-grid>-->
+                <el-form-grid align="left">
+                  <ns-button type="primary">搜索</ns-button>
+                </el-form-grid>
+              </el-form-item>
+            </el-form>
+            <el-table ref="table" :data="tableData[i]" stripe>
+              <el-table-column prop="total" label="满减积分" align="center">
+              </el-table-column>
+              <el-table-column prop="expiredTime" label="变更时间" align="center" :width="250">
+              </el-table-column>
+              <el-table-column prop="type" label="类型" align="center">
+              </el-table-column>
+            </el-table>
+          </div>
+        </el-tab-pane>
+          <el-tab-pane label="积分2信息" name="integral2" v-if="integralLogIsShow[1]" >
             <div class="dialog-integral">
               <el-form class="dialog-integral__form">
                 <el-form-item class="dialog-formitem">
@@ -288,29 +344,197 @@
                     <el-date-picker type="datetime" placeholder="请选择" v-model="endDateTime"></el-date-picker>
                   </el-form-grid>
                   <!--20190926 先注释掉搜索功能，待积分平台接口完整再添加-->
-<!--                  <el-form-grid class="dialog-formitem__type">-->
-<!--                    变更类型：-->
-<!--                  </el-form-grid>-->
-<!--                  <el-form-grid size="md">-->
-<!--                    <el-select v-model="value3" placeholder="请选择">-->
-<!--                      <el-option-->
-<!--                        v-for="item in options"-->
-<!--                        :key="item.value3"-->
-<!--                        :label="item.label"-->
-<!--                        :value="item.value3">-->
-<!--                      </el-option>-->
-<!--                    </el-select>-->
-<!--                  </el-form-grid>-->
-<!--                  <el-form-grid size="md">-->
-<!--                    <el-select v-model="value3" placeholder="请选择">-->
-<!--                      <el-option-->
-<!--                        v-for="item in options"-->
-<!--                        :key="item.value3"-->
-<!--                        :label="item.label"-->
-<!--                        :value="item.value3">-->
-<!--                      </el-option>-->
-<!--                    </el-select>-->
-<!--                  </el-form-grid>-->
+                  <!--                  <el-form-grid class="dialog-formitem__type">-->
+                  <!--                    变更类型：-->
+                  <!--                  </el-form-grid>-->
+                  <!--                  <el-form-grid size="md">-->
+                  <!--                    <el-select v-model="value3" placeholder="请选择">-->
+                  <!--                      <el-option-->
+                  <!--                        v-for="item in options"-->
+                  <!--                        :key="item.value3"-->
+                  <!--                        :label="item.label"-->
+                  <!--                        :value="item.value3">-->
+                  <!--                      </el-option>-->
+                  <!--                    </el-select>-->
+                  <!--                  </el-form-grid>-->
+                  <!--                  <el-form-grid size="md">-->
+                  <!--                    <el-select v-model="value3" placeholder="请选择">-->
+                  <!--                      <el-option-->
+                  <!--                        v-for="item in options"-->
+                  <!--                        :key="item.value3"-->
+                  <!--                        :label="item.label"-->
+                  <!--                        :value="item.value3">-->
+                  <!--                      </el-option>-->
+                  <!--                    </el-select>-->
+                  <!--                  </el-form-grid>-->
+                  <el-form-grid align="left">
+                    <ns-button type="primary">搜索</ns-button>
+                  </el-form-grid>
+                </el-form-item>
+              </el-form>
+              <el-table ref="table" :data="tableData[i]" stripe>
+                <el-table-column prop="total" label="满减积分" align="center">
+                </el-table-column>
+                <el-table-column prop="expiredTime" label="变更时间" align="center" :width="250">
+                </el-table-column>
+                <el-table-column prop="type" label="类型" align="center">
+                </el-table-column>
+              </el-table>
+            </div>
+          </el-tab-pane>
+          <el-tab-pane label="积分3信息" name="integral3" v-if="integralLogIsShow[2]" >
+            <div class="dialog-integral">
+              <el-form class="dialog-integral__form">
+                <el-form-item class="dialog-formitem">
+                  <el-form-grid class="dialog-formitem__choice">
+                    请选择：
+                  </el-form-grid>
+                  <el-form-grid size="md">
+                    <el-date-picker type="datetime" placeholder="请选择" v-model="startDateTime">
+                    </el-date-picker>
+                  </el-form-grid>
+                  <el-form-grid>
+                    -
+                  </el-form-grid>
+                  <el-form-grid size="md">
+                    <el-date-picker type="datetime" placeholder="请选择" v-model="endDateTime"></el-date-picker>
+                  </el-form-grid>
+                  <!--20190926 先注释掉搜索功能，待积分平台接口完整再添加-->
+                  <!--                  <el-form-grid class="dialog-formitem__type">-->
+                  <!--                    变更类型：-->
+                  <!--                  </el-form-grid>-->
+                  <!--                  <el-form-grid size="md">-->
+                  <!--                    <el-select v-model="value3" placeholder="请选择">-->
+                  <!--                      <el-option-->
+                  <!--                        v-for="item in options"-->
+                  <!--                        :key="item.value3"-->
+                  <!--                        :label="item.label"-->
+                  <!--                        :value="item.value3">-->
+                  <!--                      </el-option>-->
+                  <!--                    </el-select>-->
+                  <!--                  </el-form-grid>-->
+                  <!--                  <el-form-grid size="md">-->
+                  <!--                    <el-select v-model="value3" placeholder="请选择">-->
+                  <!--                      <el-option-->
+                  <!--                        v-for="item in options"-->
+                  <!--                        :key="item.value3"-->
+                  <!--                        :label="item.label"-->
+                  <!--                        :value="item.value3">-->
+                  <!--                      </el-option>-->
+                  <!--                    </el-select>-->
+                  <!--                  </el-form-grid>-->
+                  <el-form-grid align="left">
+                    <ns-button type="primary">搜索</ns-button>
+                  </el-form-grid>
+                </el-form-item>
+              </el-form>
+              <el-table ref="table" :data="tableData[i]" stripe>
+                <el-table-column prop="total" label="满减积分" align="center">
+                </el-table-column>
+                <el-table-column prop="expiredTime" label="变更时间" align="center" :width="250">
+                </el-table-column>
+                <el-table-column prop="type" label="类型" align="center">
+                </el-table-column>
+              </el-table>
+            </div>
+          </el-tab-pane>
+          <el-tab-pane label="积分4信息" name="integral4" v-if="integralLogIsShow[3]" >
+            <div class="dialog-integral">
+              <el-form class="dialog-integral__form">
+                <el-form-item class="dialog-formitem">
+                  <el-form-grid class="dialog-formitem__choice">
+                    请选择：
+                  </el-form-grid>
+                  <el-form-grid size="md">
+                    <el-date-picker type="datetime" placeholder="请选择" v-model="startDateTime">
+                    </el-date-picker>
+                  </el-form-grid>
+                  <el-form-grid>
+                    -
+                  </el-form-grid>
+                  <el-form-grid size="md">
+                    <el-date-picker type="datetime" placeholder="请选择" v-model="endDateTime"></el-date-picker>
+                  </el-form-grid>
+                  <!--20190926 先注释掉搜索功能，待积分平台接口完整再添加-->
+                  <!--                  <el-form-grid class="dialog-formitem__type">-->
+                  <!--                    变更类型：-->
+                  <!--                  </el-form-grid>-->
+                  <!--                  <el-form-grid size="md">-->
+                  <!--                    <el-select v-model="value3" placeholder="请选择">-->
+                  <!--                      <el-option-->
+                  <!--                        v-for="item in options"-->
+                  <!--                        :key="item.value3"-->
+                  <!--                        :label="item.label"-->
+                  <!--                        :value="item.value3">-->
+                  <!--                      </el-option>-->
+                  <!--                    </el-select>-->
+                  <!--                  </el-form-grid>-->
+                  <!--                  <el-form-grid size="md">-->
+                  <!--                    <el-select v-model="value3" placeholder="请选择">-->
+                  <!--                      <el-option-->
+                  <!--                        v-for="item in options"-->
+                  <!--                        :key="item.value3"-->
+                  <!--                        :label="item.label"-->
+                  <!--                        :value="item.value3">-->
+                  <!--                      </el-option>-->
+                  <!--                    </el-select>-->
+                  <!--                  </el-form-grid>-->
+                  <el-form-grid align="left">
+                    <ns-button type="primary">搜索</ns-button>
+                  </el-form-grid>
+                </el-form-item>
+              </el-form>
+              <el-table ref="table" :data="tableData[i]" stripe>
+                <el-table-column prop="total" label="满减积分" align="center">
+                </el-table-column>
+                <el-table-column prop="expiredTime" label="变更时间" align="center" :width="250">
+                </el-table-column>
+                <el-table-column prop="type" label="类型" align="center">
+                </el-table-column>
+              </el-table>
+            </div>
+          </el-tab-pane>
+          <el-tab-pane label="积分5信息" name="integral5" v-if="integralLogIsShow[4]" >
+            <div class="dialog-integral">
+              <el-form class="dialog-integral__form">
+                <el-form-item class="dialog-formitem">
+                  <el-form-grid class="dialog-formitem__choice">
+                    请选择：
+                  </el-form-grid>
+                  <el-form-grid size="md">
+                    <el-date-picker type="datetime" placeholder="请选择" v-model="startDateTime">
+                    </el-date-picker>
+                  </el-form-grid>
+                  <el-form-grid>
+                    -
+                  </el-form-grid>
+                  <el-form-grid size="md">
+                    <el-date-picker type="datetime" placeholder="请选择" v-model="endDateTime"></el-date-picker>
+                  </el-form-grid>
+                  <!--20190926 先注释掉搜索功能，待积分平台接口完整再添加-->
+                  <!--                  <el-form-grid class="dialog-formitem__type">-->
+                  <!--                    变更类型：-->
+                  <!--                  </el-form-grid>-->
+                  <!--                  <el-form-grid size="md">-->
+                  <!--                    <el-select v-model="value3" placeholder="请选择">-->
+                  <!--                      <el-option-->
+                  <!--                        v-for="item in options"-->
+                  <!--                        :key="item.value3"-->
+                  <!--                        :label="item.label"-->
+                  <!--                        :value="item.value3">-->
+                  <!--                      </el-option>-->
+                  <!--                    </el-select>-->
+                  <!--                  </el-form-grid>-->
+                  <!--                  <el-form-grid size="md">-->
+                  <!--                    <el-select v-model="value3" placeholder="请选择">-->
+                  <!--                      <el-option-->
+                  <!--                        v-for="item in options"-->
+                  <!--                        :key="item.value3"-->
+                  <!--                        :label="item.label"-->
+                  <!--                        :value="item.value3">-->
+                  <!--                      </el-option>-->
+                  <!--                    </el-select>-->
+                  <!--                  </el-form-grid>-->
                   <el-form-grid align="left">
                     <ns-button type="primary">搜索</ns-button>
                   </el-form-grid>
@@ -388,7 +612,7 @@
                             @change="addRadio(scope.row,item1)">{{item1}}</el-radio>
                 </el-radio-group>
                 <!-- 复选框 -->
-                <el-checkbox-group v-model="checkboxList" v-else-if="scope.row.tagType === 4"  >
+                <el-checkbox-group v-model="checkboxObject[scope.row.id]" v-else-if="scope.row.tagType === 4"  >
                   <el-checkbox v-for="item in scope.row.tagArr.split('|')" :label="item" :key="item"
                                @change="addCheckbox(scope.row,item)"></el-checkbox>
                 </el-checkbox-group>

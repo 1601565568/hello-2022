@@ -88,6 +88,7 @@ export default {
       checkboxIds: [], // 会员打标签复选框id集合
       radioIds: [], // 会员打标签单选框id集合
       checkboxList: [], // 标签页复选框绑定值
+      checkboxObject: {}, // 标签页复选框绑定值
       attribute: 0, // 标签属性
       attributeValue: 0, // 标签属性值
       sysCustomerId: '', // 会员id
@@ -111,7 +112,9 @@ export default {
       value3: '',
       startDateTime: null,
       endDateTime: null,
-      tableData: []
+      tableData: [],
+      integralAccountArr: [],
+      integralLogIsShow: [false, false, false, false, false]
     }
   },
   mixins: [tableMixin],
@@ -121,19 +124,20 @@ export default {
       this.value = row
     },
     handleClick (tab, event) {
+      console.log(tab.label)
       // 假如切换到积分tab
       if (tab.label.indexOf('积分') > -1) {
         let num = tab.label.substr(2, 1)
         let index = num - 1
         let accountCode = this.items.integralAccountList[num - 1].integralAccount
-        this.getIntegralList(this.items.customerId, accountCode, index)
+        this.getIntegralList(this.items.nick, accountCode, index)
       } else if (tab.label.indexOf('交易') > -1) {
-        this.getCustomerRfmInfo(this.items.customerId, this.items.sgShopId ==0 ? this.items.shopId:this.items.sgShopId)
+        this.getCustomerRfmInfo(this.items.customerId, this.items.sgShopId == 0 ? this.items.shopId : this.items.sgShopId)
       }
     },
-    getIntegralList (customerId, accountCode, index) { // 查询会员积分
+    getIntegralList (nick, accountCode, index) { // 查询会员积分
       this.$http.fetch(this.$api.guide.guide.queryCustomerIntegral, {
-        customerId: customerId,
+        nick: nick,
         accountCode: accountCode
       }).then(resp => {
         this.tableData[index] = resp.result
@@ -284,6 +288,15 @@ export default {
             _this.shopKuhuShow = true
             _this.items = resp.result
 
+            if (_this.items.integralAccountList) {
+              let length = _this.items.integralAccountList.length
+              for (let i = 0; i < length; i++) {
+                _this.integralLogIsShow[i] = true
+                this.integralName[i] = '积分' + (i + 1)
+                this.integralIsShow[i] = true
+              }
+              _this.integralAccountArr.push(_this.items.integralAccountList)
+            }
             if (_this.items.assetJson) {
               let assetJson = JSON.parse(_this.items.assetJson)
               for (let j = 0; j < assetJson.length; j++) {
@@ -365,6 +378,18 @@ export default {
                   this.attributeValue += (num - 2)
                   this.checkboxIds.push(tag.id)
                   this.checkboxList.push.apply(this.checkboxList, valueArr)
+                  this.checkboxObject[tag.id] = valueArr
+                  break
+              }
+            } else {
+              switch (tag.tagType) {
+                case 4:
+                  // let valueArr = tag.value.split('|')
+                  // let num = valueArr.length
+                  // this.attributeValue += (num - 2)
+                  // this.checkboxIds.push(tag.id)
+                  // this.checkboxList.push.apply(this.checkboxList, valueArr)
+                  this.checkboxObject[tag.id] = ''
                   break
               }
             }
@@ -400,7 +425,7 @@ export default {
         for (let i = 0; i < this.mapTag.length; i++) {
           let check = this.mapTag[i]
           if (check.id === row.id) {
-            if (row.value.trim.length === 0) {
+            if (row.value.trim().length === 0) {
               // 判断是否为空
               this.mapTag.splice(i, 1)
               this.textIds.splice(num, 1)
@@ -412,13 +437,16 @@ export default {
           }
         }
       } else {
-        this.textIds.push(row.id)
-        let check = {}
-        check.id = row.id
-        check.value = row.value
-        this.mapTag.push(check)
-        this.attribute += 1
-        this.attributeValue += 1
+        console.log('3')
+        if (row.value.trim().length !== 0) {
+          this.textIds.push(row.id)
+          let check = {}
+          check.id = row.id
+          check.value = row.value
+          this.mapTag.push(check)
+          this.attribute += 1
+          this.attributeValue += 1
+        }
       }
     },
     addSelect (row) {
@@ -477,6 +505,7 @@ export default {
         this.attributeValue += 1
       }
     },
+    // 单选框处理逻辑
     addRadio (row, item) {
       let num = this.radioIds.indexOf(row.id)
       if (num > -1) {
@@ -506,7 +535,9 @@ export default {
         this.attributeValue += 1
       }
     },
+    // 复选框处理逻辑
     addCheckbox (row, item) {
+      console.log(row.value)
       let num = this.checkboxIds.indexOf(row.id)
       if (num > -1) {
         for (let i = 0; i < this.mapTag.length; i++) {
