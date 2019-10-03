@@ -242,7 +242,7 @@
                     </el-popover>
                   </el-form-grid>
                   <el-form-grid size="md">
-                    连带率：0件
+                    连带率：{{rfmInfo.itemUnit}}件
                     <el-popover
                       placement="bottom"
                       width="200"
