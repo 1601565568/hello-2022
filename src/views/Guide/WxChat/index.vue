@@ -58,8 +58,8 @@
               <el-option v-for="item in ownerData" :key="item.wid" :label="item.nick" :value="item.wid"/>
             </el-select>
           </el-form-item >
-          <el-form-item label="聊天内容：" v-if="false">
-            <el-input v-model="model.content" style="width:200px" :disabled="isContentDiabled" @keyup.enter.native="search()" clearable placeholder="按聊天内容查询请先选择个人号"/>
+          <el-form-item label="聊天内容：">
+            <el-input v-model="model.content" style="width:200px" :disabled="isContentDisabled" @keyup.enter.native="search()" clearable placeholder="按聊天内容查询请先选择个人号"/>
           </el-form-item>
         </el-form>
         <div class="template-table__more-btn">
@@ -84,7 +84,7 @@
                   <img :src="target.head||require('./src/images/WECHAT_DEFAULT_HEAD.png')" class="talk-img">
                 </div>
                 <div class="talk-item__username">{{target.talkerName||target.talker}}</div>
-                <div class="talk-item__time">{{getHourMinitue(target.lastTime)}}</div>
+                <div class="talk-item__time">{{getHourMinute(target.lastTime)}}</div>
               </div>
             </template>
           </div>
@@ -181,6 +181,47 @@
       </div>
     </el-dialog>
     <!-- 详情弹窗-->
+    <!-- 搜索内容弹窗-->
+    <el-dialog
+      title="搜索内容"
+      :visible.sync="dialogVisibleSearcher"
+      width="514px" class="search-dialog">
+      <div class="search-dialog__title" >
+        <div class="search-avatar">
+          <img :src="currentOwner.head" class="search-avatar__img" alt="用户头像">
+        </div>
+        <div class="search-username">
+          {{currentOwner.nick}}（{{currentOwner.wid}}）
+        </div>
+      </div>
+      <div class="search-input">
+        <el-input ref="quickText" v-model="contentKeyWord" placeholder="请输入内容">
+          <i class="el-icon-search el-input__icon" slot="suffix" name="name" :disabled="btnSearchContentDisabled" @click="searchByContent"></i>
+        </el-input>
+      </div>
+      <el-scrollbar class="scrollbarseacher" v-loading.lock="contentLoading">
+        <div class="search-dialog__content" v-if="contentList.length > 0">
+          <template v-for="chat in contentList">
+            <div class="search-item" :key="chat.id" @click="locateKeyWord(chat.id, chat.createTime)">
+              <div class="search-item__avatar">
+                <img :src="chat.senderHead" class="search-avatar__img" alt="用户头像">
+              </div>
+              <div class="search-msg">
+                <div  class="search-msg__uname">{{chat.senderNick}}</div>
+                <div class="search-msg__text" v-html="renderContent(chat.content)"></div>
+                <span class="search-msg__time">{{chat.createTime}}</span>
+              </div>
+            </div>
+          </template>
+        </div>
+        <div class="search-dialog__content" v-else>
+          <div class="search-item">
+            <div class="search-item__avatar" style="text-align: center;width: 100%;">无相关搜索内容</div>
+          </div>
+        </div>
+      </el-scrollbar>
+    </el-dialog>
+    <!-- 搜索内容弹窗-->
   </div>
 </template>
 <script>
@@ -191,8 +232,9 @@ export default index
 <style scoped>
   @import "@theme/variables.pcss";
   :root {
-    --theme-font-color-blue: #0094FC;
-    --theme-font-color-red: #FE2D59;
+    --talk-font-color-blue: #0094FC;
+    --talk-font-color-red: #FE2D59;
+    --search-font-bg-gray: #F9F9F9;
   }
   @component-namespace talk {
     @b chat {
@@ -261,7 +303,6 @@ export default index
       width: 100%;
       height: 100%;
       border-radius: 50%;
-      flex-shrink: 0;
     }
     @b main {
       @e header {
@@ -358,20 +399,6 @@ export default index
           border-color: transparent #F2F4F6 transparent transparent;
         }
       }
-      @e withdraw {
-        font-size: 12px;
-        color: #FF1A1A;
-        text-align: center;
-        line-height: 26px;
-        height: 26px;
-        display: inline-block;
-        float: left;
-        margin-top: 15px;
-        padding: 0 10px;
-        border-radius: 30px;
-        background: rgba(255,44,44,.06);
-        clear: both;
-      }
     }
     @b rightmsg {
       text-align: right;
@@ -427,6 +454,7 @@ export default index
       width: 100%;
       height: 100%;
       border-radius: 50%;
+      flex-shrink: 0;
     }
   }
   @component-namespace detail {
@@ -473,12 +501,12 @@ export default index
   }
   .icon-nan1 {
     font-size: 18px;
-    color: var(--theme-font-color-blue);
+    color: var(--talk-font-color-blue);
     margin-left: 10px;
   }
   .icon-nv1 {
     font-size: 18px;
-    color: var(--theme-font-color-red);
+    color: var(--talk-font-color-red);
     margin-left: 10px;
   }
   .clearfix:after{
@@ -498,4 +526,99 @@ export default index
   >>> .el-main {
     padding: 0;
   }
+  /* 搜索内容弹窗样式*/
+  @component-namespace search {
+    @b dialog {
+      padding-bottom: var(--default-padding-larger);
+      @e title {
+        display: flex;
+        align-items: center;
+      }
+      @e content {
+        margin-top: var(--default-margin-xlarger);
+        border: 1px solid var(--theme-base-border-color-primary);
+        border-radius: var(--default-radius-mini);
+      }
+    }
+    @b avatar {
+      width: 64px;
+      height: 64px;
+      @e img {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+      }
+    }
+    @b username {
+      font-size: var(--default-font-size-middle);
+      color: var(--theme-font-color-primary);
+      width: 85%;
+      margin-left: var(--default-margin-larger);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    @b input {
+      margin-top: var(--default-margin-larger);
+    }
+    @b item {
+      display: flex;
+      align-items: center;
+      padding: var(--dialog-padding-base);
+      border-bottom: 1px solid var(--theme-base-border-color-primary);
+      &:last-child {
+        border-bottom: none;
+      }
+      @e avatar {
+        width: 47px;
+        height: 47px;
+      }
+      &:hover {
+        background: var(--search-font-bg-gray);
+      }
+    }
+    @b msg {
+      width: 85%;
+      position: relative;
+      margin-left: var(--default-margin-xlarger);
+      @e uname {
+        font-size: var(--default-font-size-base);
+        color: var(--theme-font-color-primary);
+        width: 66%;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      @e text {
+        font-size: var(--default-font-size-small);
+        color: var(--theme-font-color-secondary);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        @m checked {
+          color: var(--theme-color-primary);
+          margin-right: var(--default-margin-small);
+        }
+      }
+      @e time {
+        font-size: var(--default-font-size-small);
+        color: var(--theme-font-color-secondary);
+        position: absolute;
+        top: 0;
+        right: 0;
+      }
+    }
+  }
+  .search-dialog >>> .el-dialog__body {
+    padding: var(--dialog-padding-base);
+  }
+  .scrollbarseacher >>> .el-scrollbar__wrap{
+    max-height: 375px;
+    padding-right: var(--default-padding-larger);
+    margin-top: -13px;
+  }
+  .search-dialog >>> .el-scrollbar {
+    margin-top: var(--default-margin-larger);
+  }
+  /* 搜索内容弹窗样式*/
 </style>

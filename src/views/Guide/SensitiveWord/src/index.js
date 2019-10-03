@@ -57,7 +57,7 @@ export default {
       // 全部分组
       allGroupArr: { id: null, pId: null, label: '全部敏感词' },
       // 表格
-      model: { groupId: null, name: null },
+      model: { wordGroupId: null, name: null },
       _pagination: pagination,
       _table: {
         table_buttons: tableButtons,
@@ -75,13 +75,13 @@ export default {
       wordDetailDlgVisible: false,
       // 新增敏感词分组下拉框选项
       groupOptionsInWordDlg: [],
-      wordDetailForm: { name: null, groupId: null },
+      wordDetailForm: { name: null, wordGroupId: null },
       wordDetailRules: {
         name: [
           { required: true, message: '请输入敏感词', trigger: 'blur' },
           { min: 1, max: 5, message: '长度在 1 到 5 个字符', trigger: 'blur' }
         ],
-        groupId: [
+        wordGroupId: [
           { required: true, message: '请选择分组', trigger: 'change' }
         ]
       },
@@ -341,14 +341,14 @@ export default {
       return moment(time).format('YYYY-MM-DD HH:mm:ss')
     },
     '$handleParams': function (params) {
-      params.searchMap.groupId = this.searchGroupIds
+      params.searchMap.wordGroupId = this.searchGroupIds
       return params
     },
     // 新增/修改敏感词
     showWordDetailDlg () {
       this.saveWordDisabled = false
       this.wordDetailForm.name = null
-      this.wordDetailForm.groupId = this.clickGroupId
+      this.wordDetailForm.wordGroupId = this.clickGroupId
       this.wordDetailForm.creatorName = LocalStorage.get('remumber_login_info').name
       this.wordDetailDlgVisible = true
       this.groupOptionsInWordDlg = this.getGroupOptions(null)

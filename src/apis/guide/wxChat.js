@@ -10,5 +10,10 @@ export default {
   findChatList: {
     url: prefix + 'findChatList',
     method: 'post'
+  },
+  // 按内容查询聊天记录
+  findByContent: {
+    url: prefix + 'findByContent',
+    method: 'post'
   }
 }

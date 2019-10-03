@@ -17,7 +17,9 @@ export default {
       model: {
         srhDate: [this.getStartDate(-30), this.getEndDate(new Date())],
         ownerId: null,
-        content: null
+        content: null,
+        id: null,
+        createTime: null
       },
       // 保存查询条件,用于聊天查询
       searchedModel: {
@@ -49,11 +51,18 @@ export default {
       currTargetIndex: null,
       dialogVisible: false,
       chatList: [],
+      contentList: [],
       isChatLoadEnd: false,
-      isContentDiabled: true,
       targetLoading: false,
       chatLoading: false,
-      btnSearchDisabled: false
+      contentLoading: false,
+      btnSearchDisabled: false,
+      dialogVisibleSearcher: false,
+      btnSearchContentDisabled: false,
+      currentOwner: { wid: null, name: null, head: '' },
+      contentKeyWord: null,
+      contentSearchKeyWord: null,
+      isContentDisabled: true
     }
   },
   methods: {
@@ -88,15 +97,30 @@ export default {
     loadChatLog (isClear) {
       let _this = this
       let target = this.targetList[this.currTargetIndex]
-      let param = {
-        startTime: this.searchedModel.srhDate[0],
-        endTime: this.searchedModel.srhDate[1],
-        ownerId: target.ownerId,
-        talker: target.talker,
-        content: this.searchedModel.content,
-        start: isClear ? 0 : this.chatList.length
+      let endTime = this.searchedModel.srhDate[1]
+      let id = this.searchedModel.id
+      let createTime = this.searchedModel.createTime
+      let content = this.searchedModel.content
+      if (!isClear) {
+        let firstRecord = this.chatList[0]
+        endTime = firstRecord.createTime
+        id = firstRecord.id
+        content = null
+        createTime = null
       }
 
+      let param = {
+        startTime: this.searchedModel.srhDate[0],
+        endTime: endTime,
+        ownerId: target.ownerId,
+        talker: target.talker,
+        content: content,
+        start: 0,
+        id: id,
+        createTime: createTime
+      }
+      console.warn(this.chatList)
+      console.warn(param)
       this.chatLoading = true
       this.$http.fetch(this.$api.guide.wxChat.findChatList, param).then(resp => {
         if (isClear) {
@@ -108,11 +132,14 @@ export default {
         _this.isChatLoadEnd = resp.result.length < 10
         _this.chatLoading = false
         if (isClear && this.chatList.length > 0) {
-          // 定位
-          // console.warn(this.$refs.fullScreenright)
-          // console.warn(this.$refs.fullScreenright.$el.chatLog0)
+          if (this.searchedModel.id !== null) {
+            // 按内容查询需要定位
+            console.warn('定位')
+            // console.warn(this.$refs.fullScreenright)
+            // console.warn(this.$refs.fullScreenright.$el.chatLog0)
 
-          // this.$refs['fullScreenright'].wrap.scrollTop = document.getElementById('chatLog_0').offsetTop
+            // this.$refs['fullScreenright'].wrap.scrollTop = document.getElementById('chatLog_0').offsetTop
+          }
         }
         _this.btnSearchDisabled = false
       })
@@ -121,20 +148,64 @@ export default {
       return receive
     },
     widChanged () {
-      this.isContentDiabled = this.model.wid === null || this.model.wid === ''
-      if (this.isContentDiabled) {
+      this.isContentDisabled = this.model.ownerId === null || this.model.ownerId === ''
+      if (this.isContentDisabled) {
         this.model.content = ''
       }
     },
     search () {
+      if (this.model.content !== '' && this.model.content !== null) {
+        if (this.model.ownerId === '' || this.model.ownerId === null) {
+          this.$notify.warning('请选择个人号')
+          return
+        }
+        this.showContentDlg()
+      } else {
+        // 清除隐藏条件
+        this.model.id = null
+        this.model.createTime = null
+        this.searchChat()
+      }
+    },
+    showContentDlg () {
+      // 个人号信息
+      this.currentOwner = this.ownerData.find((value, index, arr) => {
+        return value.wid === this.model.ownerId
+      })
+      this.dialogVisibleSearcher = true
+      this.contentKeyWord = this.model.content
+      // 查询包含内容的聊天记录
+      this.searchByContent()
+    },
+    // 按内容查询
+    searchByContent () {
       let _this = this
+      // 日期格式转换
+      this.model.srhDate = [moment(this.model.srhDate[0]).format('YYYY-MM-DD'), moment(this.model.srhDate[1]).format('YYYY-MM-DD')]
+      this.searchedModel = Object.assign({}, this.model)
+      this.searchedModel.content = this.contentKeyWord
+      this.contentSearchKeyWord = this.contentKeyWord
+      this.searchedModel.startTime = this.searchedModel.srhDate[0]
+      this.searchedModel.endTime = this.searchedModel.srhDate[1]
+      this.contentList = []
+      this.contentLoading = true
+      this.btnSearchContentDisabled = true
+      this.$http.fetch(this.$api.guide.wxChat.findByContent, this.searchedModel).then(resp => {
+        console.warn(resp)
+        _this.contentList = resp.result
+        _this.contentLoading = false
+        _this.btnSearchContentDisabled = false
+      })
+    },
+    // 普通查询
+    searchChat () {
       // 日期格式转换
       this.model.srhDate = [moment(this.model.srhDate[0]).format('YYYY-MM-DD'), moment(this.model.srhDate[1]).format('YYYY-MM-DD')]
       this.searchedModel = this.model
       this.searchedModel.startTime = this.model.srhDate[0]
       this.searchedModel.endTime = this.model.srhDate[1]
 
-      // 查询
+      let _this = this
       this.chatList = []
       this.targetLoading = true
       this.btnSearchDisabled = true
@@ -148,7 +219,7 @@ export default {
           _this.chatList = []
           _this.isChatLoadEnd = true
         }
-        this.btnSearchDisabled = false
+        _this.btnSearchDisabled = false
       })
     },
     reset () {
@@ -157,8 +228,26 @@ export default {
       this.model.content = null
       this.search()
     },
-    getHourMinitue (datetime) {
+    getHourMinute (datetime) {
       return datetime.substr(10, 6)
+    },
+    /**
+     * 关键字高亮
+     * @param content
+     */
+    renderContent (content) {
+      return content.replace(this.contentSearchKeyWord, '<span><font color=\'#0091FA\'>' + this.contentSearchKeyWord + '</font></span>')
+    },
+    /**
+     * 点击聊天记录，定位
+     */
+    locateKeyWord (id, createTime) {
+      // 设置隐藏查询参数
+      // 关闭窗口
+      this.dialogVisibleSearcher = false
+      this.model.id = id
+      this.model.createTime = createTime
+      this.searchChat()
     },
     /**
      * 计算主要显示窗口的高度，动态设置页面内主要内容的高度
@@ -168,7 +257,7 @@ export default {
       const BTN_TITLE = 50 // 左右内容的标题的高度
       let limitHeight = window.innerHeight -
         document.getElementsByClassName('nav')[0].offsetHeight -
-        BTN_TITLE - document.getElementsByClassName('talk-chat__form')[0].offsetHeight - 30
+        BTN_TITLE - document.getElementsByClassName('talk-chat__form')[0].offsetHeight - 70
       if (limitHeight < 400) {
         limitHeight = 400
       }
@@ -186,5 +275,14 @@ export default {
     })
     this.loadPrivateAccount()
     this.search()
+  },
+  watch: {
+    dialogVisibleSearcher () {
+      if (this.dialogVisibleSearcher) {
+        this.contentKeyWord = this.model.content
+      } else {
+        this.model.content = this.contentKeyWord
+      }
+    }
   }
 }

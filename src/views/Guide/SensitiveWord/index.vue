@@ -185,8 +185,8 @@
                 <font color='red'>*</font>选择分组:
               </td>
               <td>
-                <el-form-item prop="groupId">
-                  <el-select placeholder="请选择分组" v-model="wordDetailForm.groupId" clearable filterable
+                <el-form-item prop="wordGroupId">
+                  <el-select placeholder="请选择分组" v-model="wordDetailForm.wordGroupId" clearable filterable
                              style="width:220px">
                     <el-option
                       v-for="item in groupOptionsInWordDlg" :key="item.value" :label="item.label"
