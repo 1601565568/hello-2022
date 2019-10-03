@@ -202,7 +202,7 @@
                     trigger="hover"
                     content="点击群名称，可查看此群下所有微信"
                   >
-                    <i slot="reference" class="table-header-icon"><Icon type="xiangqingyiwen"/></i>
+                    <i slot="reference" class="table-header-icon"><Icon fontType="el-icon-info" /></i>
                   </el-popover>
                 </span>
               </template>
@@ -324,7 +324,6 @@ export default Index
 }
 
 >>> .table-header-icon {
-  color: var(--theme-font-color-info);
   font-size: var(--default-font-size-base);
   font-weight: normal;
   padding-left: var(--default-padding-base);

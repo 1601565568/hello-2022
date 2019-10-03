@@ -126,7 +126,7 @@
                         <div slot-scope>
                           需将员工账号与导购终端手机进行绑定，让其能够应用智慧导购系统<br>
                           <span class='tips'>注：</span>使用终端系统的，非离职的，建议不要进行客户转移</div>
-                        <i slot='reference' class='table-header-icon'><Icon type="xiangqingyiwen"/></i>
+                        <i slot='reference' class='table-header-icon'><Icon fontType="el-icon-info" /></i>
                       </el-popover>
                     </span>
           </template>
@@ -203,7 +203,6 @@ export default guide
   }
 
   >>> .table-header-icon {
-    color: var(--theme-font-color-info);
     font-size: var(--default-font-size-base);
     font-weight: normal;
     padding-left: var(--default-padding-base);

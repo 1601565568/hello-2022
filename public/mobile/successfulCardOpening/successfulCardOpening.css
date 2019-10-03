@@ -4,7 +4,7 @@
     box-sizing: border-box;
 }
 html,body {
-    height: 100%;
+    min-height: 100%;
 }
 body {
     background-image: linear-gradient(234deg, #4AADFA 0%, #5D7CFC 100%);
@@ -59,12 +59,12 @@ body {
     top: -9px;
 }
 .division .division__circle--left {
-    left: 0;
+    left: -1px;
     background: #5593FB;
     border-radius:  0 9px 9px 0;
 }
 .division .division__circle--right {
-    right: 0;
+    right: -1px;
     background: #4EA4FA;
     border-radius: 9px 0 0 9px;
 }

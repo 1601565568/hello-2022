@@ -381,10 +381,11 @@ export default Moments
       background: var(--theme-color-white);
       border-bottom: 1px solid var(--talk-border-color-gray);
       @e notice {
-        text-align: center;
-        line-height: 38px;
         width: 38px;
         height: 38px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
         background: var(--talk-font-color-blue);
         border-radius: 50%;
       }

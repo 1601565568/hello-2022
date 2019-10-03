@@ -550,20 +550,24 @@ export default {
       }
     },
     shopSelect (id) {
-      if (id === null) {
-        this.getRewardInfo()
-        this.findDailySell()
-        this.findDailyRecruit()
-        this.findDailyReward()
-        this.findGuideRanking(0, null)
-        this.findGuideRanking(1, null)
+      if (this.searchObj.monthDate) {
+        if (id === null) {
+          this.getRewardInfo()
+          this.findDailySell()
+          this.findDailyRecruit()
+          this.findDailyReward()
+          this.findGuideRanking(0, null)
+          this.findGuideRanking(1, null)
+        } else {
+          this.getRewardInfo(id)
+          this.findDailySell(id)
+          this.findDailyRecruit(id)
+          this.findDailyReward(id)
+          this.findGuideRanking(0, id)
+          this.findGuideRanking(1, id)
+        }
       } else {
-        this.getRewardInfo(id)
-        this.findDailySell(id)
-        this.findDailyRecruit(id)
-        this.findDailyReward(id)
-        this.findGuideRanking(0, id)
-        this.findGuideRanking(1, id)
+        this.$notify.error('月份不能为空')
       }
     },
     getMonthLength (d) { // 给定一个日期  计算出当月天数

@@ -15,12 +15,8 @@
     <div class="membercard__header">
         <div class="card">
             <div class="card__message">
-                <!-- 动态图片 -->
-                <!--<div class="avatar">-->
-                    <!--<img id="customerImg" src="../img/expression/memberDefault.png" alt="用户头像" class="avatar__img">-->
-                <!--</div>-->
                 <!-- 默认图片 -->
-                <img id="groupImage" src="../img/expression/memberDefault.png" alt="用户头像" class="defaultimg">
+                <img id="groupImage" src="../img/expression/memberDefault.png" alt="品牌LOGO" class="defaultimg">
                 <div class="store">
                     <div class="store__name">
                         <div id="groupName" class="name"></div>
@@ -40,7 +36,7 @@
     </div>
     <div class="membercard__content">
         <div class="content">
-            <div class="content__msg">Dear，你已经有绑定导购啦！</div>
+            <div class="content__msg" id="guideMsg"></div>
             <div class="content__division">
                 <div class="division">
                     <div class="division__line"></div>
@@ -54,12 +50,6 @@
             <div class="content__chat">长按识别二维码进行聊天</div>
         </div>
     </div>
-    <!--<div class="membercard__bottom">-->
-        <!--<div class="replace">-->
-            <!--<div class="replace__guide">如需更换专属导购，进入会员中心。</div>-->
-            <!--<div class="replace__center" onclick="toCustomerCenter()">前往会员中心</div>-->
-        <!--</div>-->
-    <!--</div>-->
 </div>
 <script type="text/javascript" src="../js/jquery-3.4.1.min.js"></script>
 <script type="text/javascript" src="../js/common.js"></script>
@@ -67,33 +57,26 @@
     $(function () {
         var showData = JSON.parse(localStorage.getItem('showData'));
         if (showData) {
-            console.log(JSON.stringify(showData).toString())
-            $('#guideImg').attr("src", showData.guideImg)
-            $('#guideName').html(showData.guideName);
-            $('#guideName1').html(showData.guideName);
             $('#memberGrade').html(showData.memberGrade);
             $('#shopName').html(showData.shopName);
             $('#groupName').html(showData.groupName);
-            $('#groupImage').html(showData.groupImage);
+            if(showData.groupImage){
+                $('#groupImage').attr('src',showData.groupImage);
+            }
             $('#memberCard').html(showData.memberCard.replace(/(.{4})/g,'$1 '));
-            $('#guideQrCode').attr('src', showData.cardUrl)
+            if(showData.newCardUrl){
+                $('#guideQrCode').attr('src', showData.newCardUrl)
+            }
+            if(showData.newSgGuideId != showData.sgGuideId){
+                $('#guideMsg').html("Dear，你已经有绑定导购啦！");
+            }else{
+                $('#guideMsg').html("Dear，（"+showData.newSgGuideName+"）已经是你的绑定导购啦！");
+            }
         }
     })
 
     function toNewCode() {
         window.location.replace("../newCode/newCode.html");
-    }
-
-    function toCustomerCenter() {
-        var recruitInfo = JSON.parse(localStorage.getItem('recruitInfo'));
-        // 获取e互动店铺
-        this.ajax(backstageURL + '/getEHDShopId',{
-            guideId: recruitInfo.guideId,
-            shopId: recruitInfo.shopId,
-            groupId: recruitInfo.groupId,
-        }).then(function(data){
-            window.location.replace("http://ehd.vecrp.com/shop"+data.result+"/wx55/home")
-        })
     }
 
     function ajax(url, data, params) {
