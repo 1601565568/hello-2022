@@ -90,8 +90,8 @@
             <!-- 女生图标-->
             <i class="dialog-avatar__figure--female" v-if="items.sex===0"><Icon type="nv1"/></i>
           </div>
-          <div class="dialog-avatar__level">
-            V{{items.grade}}会员
+          <div class="dialog-avatar__level" v-if="items.grade>0">
+            {{items.gradeName}}
           </div>
         </div>
         <el-form label-width="100px">
