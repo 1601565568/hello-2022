@@ -79,7 +79,7 @@
     <el-dialog
       title="详情"
       :visible.sync="shopKuhuShow"
-      width="900px" height="500px" class="dialog-container"  @keyup.enter.native="onKeyUp" @keyup.esc.native="onKeyUp" @close="selectedTabName='basic'">
+      width="900px" height="500px" class="dialog-container"  @keyup.enter.native="onKeyUp" @keyup.esc.native="onKeyUp" @close="closeDetailDialog">
       <div class="dialog-container__msg">
         <div class="dialog-avatar">
           <el-image mode="aspectFit" :src="items.customerHeadImage"
@@ -100,7 +100,7 @@
           </el-form-item>
           <el-form-item label="会员折扣：" class="el-inline-block dialog-favorable">
             <el-form-grid size="xs">
-              <span>8折</span>
+              <span>-</span>
               <i class="dialog-favorable__text dialog-favorable__text--discount"><Icon type="icon_discount"/></i>
             </el-form-grid>
           </el-form-item>
@@ -278,14 +278,14 @@
                   请选择：
                 </el-form-grid>
                 <el-form-grid size="md">
-                  <el-date-picker type="datetime" placeholder="请选择" v-model="startDateTime">
+                  <el-date-picker type="datetime" placeholder="请选择" v-model="startTimes[0]" format="yyyy-MM-dd HH:mm:ss" value-format="yyyy-MM-dd HH-mm-ss">
                   </el-date-picker>
                 </el-form-grid>
                 <el-form-grid>
                   -
                 </el-form-grid>
                 <el-form-grid size="md">
-                  <el-date-picker type="datetime" placeholder="请选择" v-model="endDateTime"></el-date-picker>
+                  <el-date-picker type="datetime" placeholder="请选择" v-model="endTimes[0]" format="yyyy-MM-dd 23-59-59" value-format="yyyy-MM-dd 23-59-59"></el-date-picker>
                 </el-form-grid>
                 <!--20190926 先注释掉搜索功能，待积分平台接口完整再添加-->
                 <!--                  <el-form-grid class="dialog-formitem__type">-->
@@ -312,16 +312,19 @@
                 <!--                    </el-select>-->
                 <!--                  </el-form-grid>-->
                 <el-form-grid align="left">
-                  <ns-button type="primary">搜索</ns-button>
+                  <ns-button type="primary" @click="seachIntegral()" >搜索</ns-button>
                 </el-form-grid>
               </el-form-item>
             </el-form>
-            <el-table ref="table" :data="tableData[i]" stripe>
+            <el-table ref="table" :data="tableData[0]" stripe>
               <el-table-column prop="total" label="满减积分" align="center">
               </el-table-column>
               <el-table-column prop="expiredTime" label="变更时间" align="center" :width="250">
               </el-table-column>
               <el-table-column prop="type" label="类型" align="center">
+                <template slot-scope="scope">
+                  {{scope.row.type==1?'赠送':scope.row.type==3?'扣减':''}}
+                </template>
               </el-table-column>
             </el-table>
           </div>
@@ -372,12 +375,15 @@
                   </el-form-grid>
                 </el-form-item>
               </el-form>
-              <el-table ref="table" :data="tableData[i]" stripe>
+              <el-table ref="table" :data="tableData[1]" stripe>
                 <el-table-column prop="total" label="满减积分" align="center">
                 </el-table-column>
                 <el-table-column prop="expiredTime" label="变更时间" align="center" :width="250">
                 </el-table-column>
                 <el-table-column prop="type" label="类型" align="center">
+                  <template slot-scope="scope">
+                    {{scope.row.type==1?'赠送':scope.row.type==3?'扣减':''}}
+                  </template>
                 </el-table-column>
               </el-table>
             </div>
@@ -428,12 +434,15 @@
                   </el-form-grid>
                 </el-form-item>
               </el-form>
-              <el-table ref="table" :data="tableData[i]" stripe>
+              <el-table ref="table" :data="tableData[2]" stripe>
                 <el-table-column prop="total" label="满减积分" align="center">
                 </el-table-column>
                 <el-table-column prop="expiredTime" label="变更时间" align="center" :width="250">
                 </el-table-column>
                 <el-table-column prop="type" label="类型" align="center">
+                  <template slot-scope="scope">
+                    {{scope.row.type==1?'赠送':scope.row.type==3?'扣减':''}}
+                  </template>
                 </el-table-column>
               </el-table>
             </div>
@@ -484,12 +493,15 @@
                   </el-form-grid>
                 </el-form-item>
               </el-form>
-              <el-table ref="table" :data="tableData[i]" stripe>
+              <el-table ref="table" :data="tableData[3]" stripe>
                 <el-table-column prop="total" label="满减积分" align="center">
                 </el-table-column>
                 <el-table-column prop="expiredTime" label="变更时间" align="center" :width="250">
                 </el-table-column>
                 <el-table-column prop="type" label="类型" align="center">
+                  <template slot-scope="scope">
+                    {{scope.row.type==1?'赠送':scope.row.type==3?'扣减':''}}
+                  </template>
                 </el-table-column>
               </el-table>
             </div>
@@ -540,12 +552,15 @@
                   </el-form-grid>
                 </el-form-item>
               </el-form>
-              <el-table ref="table" :data="tableData[i]" stripe>
+              <el-table ref="table" :data="tableData[4]" stripe>
                 <el-table-column prop="total" label="满减积分" align="center">
                 </el-table-column>
                 <el-table-column prop="expiredTime" label="变更时间" align="center" :width="250">
                 </el-table-column>
                 <el-table-column prop="type" label="类型" align="center">
+                  <template slot-scope="scope">
+                    {{scope.row.type==1?'赠送':scope.row.type==3?'扣减':''}}
+                  </template>
                 </el-table-column>
               </el-table>
             </div>
@@ -612,7 +627,7 @@
                             @change="addRadio(scope.row,item1)">{{item1}}</el-radio>
                 </el-radio-group>
                 <!-- 复选框 -->
-                <el-checkbox-group v-model="checkboxObject[scope.row.id]" v-else-if="scope.row.tagType === 4"  >
+                <el-checkbox-group :value="checkboxObject[scope.row.id]" v-else-if="scope.row.tagType === 4"  >
                   <el-checkbox v-for="item in scope.row.tagArr.split('|')" :label="item" :key="item"
                                @change="addCheckbox(scope.row,item)"></el-checkbox>
                 </el-checkbox-group>

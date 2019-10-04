@@ -1,8 +1,7 @@
 import api from '@/config/http'
 import tableMixin from 'web-crm/src/mixins/table'
 import { getErrorMsg } from '@/utils/toast'
-import fa from 'nui-v2/src/locale/lang/fa'
-import ElCard from 'nui-v2/lib/card'
+
 export default {
   data: function () {
     let pagination = {
@@ -112,7 +111,10 @@ export default {
       value3: '',
       startDateTime: null,
       endDateTime: null,
+      startTimes: [],
+      endTimes: [],
       tableData: [],
+      searchParam: {}, // 积分查询条件
       integralAccountArr: [],
       integralLogIsShow: [false, false, false, false, false]
     }
@@ -130,20 +132,42 @@ export default {
         let num = tab.label.substr(2, 1)
         let index = num - 1
         let accountCode = this.items.integralAccountList[num - 1].integralAccount
-        this.getIntegralList(this.items.nick, accountCode, index)
+        this.searchParam.accountCode = accountCode
+        this.searchParam.nick = this.items.customerId
+        this.searchParam.index = index
+        this.getIntegralList(this.items.customerId, accountCode, index)
       } else if (tab.label.indexOf('交易') > -1) {
         this.getCustomerRfmInfo(this.items.customerId, this.items.sgShopId == 0 ? this.items.shopId : this.items.sgShopId)
       }
     },
     getIntegralList (nick, accountCode, index) { // 查询会员积分
-      this.$http.fetch(this.$api.guide.guide.queryCustomerIntegral, {
-        nick: nick,
-        accountCode: accountCode
-      }).then(resp => {
-        this.tableData[index] = resp.result
+      this.$http.fetch(this.$api.guide.guide.queryCustomerIntegral, this.searchParam
+      ).then(resp => {
+        this.$set(this.tableData, index, resp.result)
+        // this.tableData[index] = resp.result
       }).catch(resp => {
         this.$notify.error(getErrorMsg('查询失败', resp))
       })
+    },
+    // 积分搜索
+    seachIntegral () {
+      let index = this.searchParam.index
+      let startTime = this.startTimes[index]
+      let endTime = this.endTimes[index]
+      if ((!startTime && endTime) || (startTime && !endTime)) {
+        this.$notify.error('开始时间和结束时间都要选择')
+        return
+      }
+      if (startTime && endTime) {
+        this.searchParam.startTime = startTime
+        this.searchParam.endTime = endTime
+      }
+      this.getIntegralList(index)
+    },
+    closeDetailDialog () {
+      this.selectedTabName = 'basic'
+      this.startTimes = []
+      this.endTimes = []
     },
     getCustomerRfmInfo (customerId, shopId) { // 查询会员Rfm信息
       this.$http.fetch(this.$api.guide.guide.queryCustomerRfmInfo, {
@@ -335,10 +359,11 @@ export default {
     // 显示启用的标签
     showTagData (row, offLineShopId) {
       this.showTag = true
-      this.sysCustomerId = row.sysCustomerId
       if (this.sysCustomerId.length > 0 && this.sysCustomerId !== row.sysCustomerId) {
+        // console.log('客户Id不等于当前行客户id')
         // 清空选项
         this.restTag()
+        // this.sysCustomerId = row.sysCustomerId
       }
       this.$http.fetch(this.$api.guide.guide.queryAllTag, {
         'shopId': row.sgExclusiveShopId !== 0 ? row.sgExclusiveShopId : offLineShopId,
@@ -377,23 +402,19 @@ export default {
                   let num = valueArr.length
                   this.attributeValue += (num - 2)
                   this.checkboxIds.push(tag.id)
-                  this.checkboxList.push.apply(this.checkboxList, valueArr)
-                  this.checkboxObject[tag.id] = valueArr
+                  // 深入响应式原理，this.checkboxObject[idName] = valueArr 该赋值方法不可用
+                  this.$set(this.checkboxObject, tag.id, valueArr)
                   break
               }
             } else {
               switch (tag.tagType) {
                 case 4:
-                  // let valueArr = tag.value.split('|')
-                  // let num = valueArr.length
-                  // this.attributeValue += (num - 2)
-                  // this.checkboxIds.push(tag.id)
-                  // this.checkboxList.push.apply(this.checkboxList, valueArr)
-                  this.checkboxObject[tag.id] = ''
+                  this.$set(this.checkboxObject, tag.id, [])
                   break
               }
             }
           }
+          // console.log('复选框属性：' + JSON.stringify(this.checkboxObject))
           console.log('数据：' + JSON.stringify(this.mapTag))
         }
       }).catch((resp) => {
@@ -437,7 +458,6 @@ export default {
           }
         }
       } else {
-        console.log('3')
         if (row.value.trim().length !== 0) {
           this.textIds.push(row.id)
           let check = {}
@@ -449,6 +469,7 @@ export default {
         }
       }
     },
+    // 下拉选处理
     addSelect (row) {
       let num = this.selectIds.indexOf(row.id)
       if (num > -1) {
@@ -475,6 +496,7 @@ export default {
         this.attributeValue += 1
       }
     },
+    // 日期处理逻辑
     addDate (row) {
       let num = this.dateIds.indexOf(row.id)
       if (num > -1) {
@@ -537,12 +559,14 @@ export default {
     },
     // 复选框处理逻辑
     addCheckbox (row, item) {
-      console.log(row.value)
+      // console.log('item：' + item)
+      // console.log('当前行属性：' + JSON.stringify(this.checkboxObject[row.id]))
       let num = this.checkboxIds.indexOf(row.id)
       if (num > -1) {
         for (let i = 0; i < this.mapTag.length; i++) {
           let check = this.mapTag[i]
           if (check.id === row.id) {
+            // 如果参数中已经存在已选择的值则去除
             if (check.value.indexOf(item) > -1) {
               // 判断已选择值是否包含新值
               check.value = check.value.replace(item + '|', '') // 去除值
@@ -551,11 +575,18 @@ export default {
                 this.mapTag.splice(i, 1)
                 this.checkboxIds.splice(num, 1)
                 this.attribute -= 1
+                this.$set(this.checkboxObject, row.id, [])
               } else {
                 this.mapTag[i].value = check.value
+                let valueArr = check.value.split('|')
+                // console.log(JSON.stringify(removeEmpty(valueArr)))
+                this.$set(this.checkboxObject, row.id, valueArr)
               }
             } else {
               check.value += item + '|'
+              let valueArr = check.value.split('|')
+              // console.log(JSON.stringify(removeEmpty(valueArr)))
+              this.$set(this.checkboxObject, row.id, valueArr)
               this.attributeValue += 1
             }
           }
@@ -567,9 +598,23 @@ export default {
         row.value = '|' + item + '|'
         check.value = row.value
         this.mapTag.push(check)
+        let itemArr = [item]
+        // console.log(JSON.stringify(removeEmpty(itemArr)))
+        this.$set(this.checkboxObject, row.id, itemArr)
         this.attribute += 1
         this.attributeValue += 1
       }
+      // console.log('参数：' + JSON.stringify(this.mapTag))
+      // console.log('checkboxObject：' + JSON.stringify(this.checkboxObject))
+    },
+    removeEmpty(valueArr) {
+      for (let i=0; i<valueArr.length; i++) {
+        let va=valueArr[i]
+        if(va.length===0){
+          valueArr.splice(i,1)
+        }
+      }
+      return valueArr
     },
     saveTag () { // 保存标签
       if (this.mapTag.length === 0) {
@@ -607,12 +652,14 @@ export default {
       this.selectIds = []
       this.dateIds = []
       this.checkboxIds = []
-      this.checkboxList = []
+      // this.checkboxList = []
+      this.checkboxObject = {}
       this.attribute = 0
       this.attributeValue = 0
     },
     closeTag () {
       this.showTag = false
+      this.restTag()
       this.attribute = 0
       this.attributeValue = 0
     },
