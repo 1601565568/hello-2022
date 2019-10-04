@@ -120,7 +120,7 @@
         </el-table-column>
         <el-table-column prop="grade" label="等级" align="left" width="120">
           <template slot-scope="scope">
-            {{scope.row.grade?scope.row.grade:'-'}}
+            {{scope.row.grade>0?scope.row.gradeName:'-'}}
           </template>
         </el-table-column>
         <!-- <el-table-column label="关注状态" align="left" width="180">
