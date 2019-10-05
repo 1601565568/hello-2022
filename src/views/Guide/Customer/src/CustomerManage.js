@@ -230,8 +230,7 @@ export default {
           })
           that.shopList = new Set(that.shopList)
           that.shopList = Array.from(that.shopList)
-        })
-        .catch(resp => {})
+        }).catch(resp => {})
     },
     onKeyUp (e) {
       var key = window.event.keyCode
@@ -317,8 +316,9 @@ export default {
               let length = _this.items.integralAccountList.length
               for (let i = 0; i < length; i++) {
                 _this.integralLogIsShow[i] = true
-                // this.integralName[i] = '积分' + (i + 1)
+                // 积分名称
                 this.integralName[i] = _this.items.integralAccountList[i].integralAlias
+                // 积分显示
                 this.integralIsShow[i] = true
                 this.accountCode[this.integralName[i]] = _this.items.integralAccountList[i].integralAccount
               }
@@ -326,12 +326,14 @@ export default {
             }
             if (_this.items.assetJson) {
               let assetJson = JSON.parse(_this.items.assetJson)
+              let length = _this.items.integralAccountList.length
               for (let j = 0; j < assetJson.length; j++) {
                 let info = assetJson[j]
-                for (let i in this.accountCode) {
-                  let value = this.accountCode[i]
-                  if (value.indexOf(info.account) > -1) {
-                    this.integralIsNum[j] = info.score
+                for (let i = 0; i < length; i++) {
+                  // 积分别名
+                  let accountCode = _this.items.integralAccountList[i].integralAccount
+                  if (accountCode.indexOf(info.account) > -1) {
+                    this.integralIsNum[i] = info.score
                   }
                 }
               }
@@ -702,6 +704,5 @@ export default {
   },
   mounted: function () {
   },
-  computed: {
-  }
+  computed: {}
 }
