@@ -328,6 +328,7 @@ export default {
               let assetJson = JSON.parse(_this.items.assetJson)
               for (let j = 0; j < assetJson.length; j++) {
                 let info = assetJson[j]
+
                 this.integralName[j] = info.alias
                 this.integralIsNum[j] = info.score
               }
@@ -479,10 +480,10 @@ export default {
             if (check.value.indexOf(row.value) > -1) {
               this.mapTag.splice(i, 1)
               this.selectIds.splice(num, 1)
+              this.attribute -= 1
+              this.attributeValue -= 1
             } else {
               check.value = row.value
-              this.attribute += 1
-              this.attributeValue += 1
             }
           }
         }
@@ -512,8 +513,6 @@ export default {
               this.attributeValue -= 1
             } else {
               check.value = row.value
-              this.attribute += 1
-              this.attributeValue += 1
             }
           }
         }

@@ -319,7 +319,7 @@
             <el-table ref="table" :data="tableData[integralName[0]]" stripe>
               <el-table-column prop="total" label="满减积分" align="center">
               </el-table-column>
-              <el-table-column prop="expiredTime" label="变更时间" align="center" :width="250">
+              <el-table-column prop="createTime" label="变更时间" align="center" :width="250">
               </el-table-column>
               <el-table-column prop="type" label="类型" align="center">
                 <template slot-scope="scope">
@@ -378,7 +378,7 @@
               <el-table ref="table" :data="tableData[integralName[1]]" stripe>
                 <el-table-column prop="total" label="满减积分" align="center">
                 </el-table-column>
-                <el-table-column prop="expiredTime" label="变更时间" align="center" :width="250">
+                <el-table-column prop="createTime" label="变更时间" align="center" :width="250">
                 </el-table-column>
                 <el-table-column prop="type" label="类型" align="center">
                   <template slot-scope="scope">
@@ -437,7 +437,7 @@
               <el-table ref="table" :data="tableData[integralName[2]]" stripe>
                 <el-table-column prop="total" label="满减积分" align="center">
                 </el-table-column>
-                <el-table-column prop="expiredTime" label="变更时间" align="center" :width="250">
+                <el-table-column prop="createTime" label="变更时间" align="center" :width="250">
                 </el-table-column>
                 <el-table-column prop="type" label="类型" align="center">
                   <template slot-scope="scope">
@@ -496,7 +496,7 @@
               <el-table ref="table" :data="tableData[integralName[3]]" stripe>
                 <el-table-column prop="total" label="满减积分" align="center">
                 </el-table-column>
-                <el-table-column prop="expiredTime" label="变更时间" align="center" :width="250">
+                <el-table-column prop="createTime" label="变更时间" align="center" :width="250">
                 </el-table-column>
                 <el-table-column prop="type" label="类型" align="center">
                   <template slot-scope="scope">
@@ -555,7 +555,7 @@
               <el-table ref="table" :data="tableData[integralName[4]]" stripe>
                 <el-table-column prop="total" label="满减积分" align="center">
                 </el-table-column>
-                <el-table-column prop="expiredTime" label="变更时间" align="center" :width="250">
+                <el-table-column prop="createTime" label="变更时间" align="center" :width="250">
                 </el-table-column>
                 <el-table-column prop="type" label="类型" align="center">
                   <template slot-scope="scope">
