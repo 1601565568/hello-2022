@@ -100,7 +100,7 @@
           </el-form-item>
           <el-form-item label="会员折扣：" class="el-inline-block dialog-favorable">
             <el-form-grid size="xs">
-              <span>-</span>
+              <span>{{items.discount || '-'}}</span>
               <i class="dialog-favorable__text dialog-favorable__text--discount"><Icon type="icon_discount"/></i>
             </el-form-grid>
           </el-form-item>
