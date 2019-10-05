@@ -359,12 +359,9 @@ export default {
     // 显示启用的标签
     showTagData (row, offLineShopId) {
       this.showTag = true
-      if (this.sysCustomerId.length > 0 && this.sysCustomerId !== row.sysCustomerId) {
-        // console.log('客户Id不等于当前行客户id')
-        // 清空选项
-        this.restTag()
-        // this.sysCustomerId = row.sysCustomerId
-      }
+      console.log('客户Id:' + this.sysCustomerId)
+      console.log('当前行客户Id:' + row.sysCustomerId)
+      this.sysCustomerId = row.sysCustomerId
       this.$http.fetch(this.$api.guide.guide.queryAllTag, {
         'shopId': row.sgExclusiveShopId !== 0 ? row.sgExclusiveShopId : offLineShopId,
         'sysCustomerId': row.sysCustomerId
@@ -405,16 +402,19 @@ export default {
                   // 深入响应式原理，this.checkboxObject[idName] = valueArr 该赋值方法不可用
                   this.$set(this.checkboxObject, tag.id, valueArr)
                   break
+                default:
+                  break
               }
             } else {
               switch (tag.tagType) {
                 case 4:
                   this.$set(this.checkboxObject, tag.id, [])
                   break
+                default:
+                  break
               }
             }
           }
-          // console.log('复选框属性：' + JSON.stringify(this.checkboxObject))
           console.log('数据：' + JSON.stringify(this.mapTag))
         }
       }).catch((resp) => {
@@ -534,17 +534,7 @@ export default {
         for (let i = 0; i < this.mapTag.length; i++) {
           let check = this.mapTag[i]
           if (check.id === row.id) { // 假如选中数据已包含在数组中
-            if (check.value.indexOf(item) > -1) { // 假如选中值重复则去除
-              check.value = check.value.replace(item, '')
-              if (check.value.length === 0) {
-                this.mapTag.splice(i, 1)
-                this.radioIds.splice(num, 1)
-              }
-            } else {
-              check.value = item
-              this.attribute += 1
-              this.attributeValue += 1
-            }
+            check.value = item
           }
         }
       } else {
@@ -579,7 +569,6 @@ export default {
               } else {
                 this.mapTag[i].value = check.value
                 let valueArr = check.value.split('|')
-                // console.log(JSON.stringify(removeEmpty(valueArr)))
                 this.$set(this.checkboxObject, row.id, valueArr)
               }
             } else {
@@ -599,22 +588,11 @@ export default {
         check.value = row.value
         this.mapTag.push(check)
         let itemArr = [item]
-        // console.log(JSON.stringify(removeEmpty(itemArr)))
         this.$set(this.checkboxObject, row.id, itemArr)
         this.attribute += 1
         this.attributeValue += 1
       }
       // console.log('参数：' + JSON.stringify(this.mapTag))
-      // console.log('checkboxObject：' + JSON.stringify(this.checkboxObject))
-    },
-    removeEmpty(valueArr) {
-      for (let i=0; i<valueArr.length; i++) {
-        let va=valueArr[i]
-        if(va.length===0){
-          valueArr.splice(i,1)
-        }
-      }
-      return valueArr
     },
     saveTag () { // 保存标签
       if (this.mapTag.length === 0) {
@@ -652,17 +630,17 @@ export default {
       this.selectIds = []
       this.dateIds = []
       this.checkboxIds = []
-      // this.checkboxList = []
-      this.checkboxObject = {}
+      for (let id in this.checkboxObject) {
+        this.$set(this.checkboxObject, id, [])
+      }
       this.attribute = 0
       this.attributeValue = 0
     },
     closeTag () {
       this.showTag = false
       this.restTag()
-      this.attribute = 0
-      this.attributeValue = 0
     },
+    // 更换导购
     onSave () {
       let _this = this
       let obj = {
@@ -675,7 +653,7 @@ export default {
         _this.multipleSelection.map(item => {
           let nick = {}
           obj.nick = item.outNick
-          obj.platform = item.platform === 302 ? 19 : item.platform
+          obj.platform = this.changePlatform(item.platform)
           // obj.customerFrom = Number(item.customerFrom)
           nick = Object.assign({}, obj)
           _this.customerIdList.push(nick)
@@ -695,6 +673,15 @@ export default {
         _this.$notify.error('请选择要更换的导购！')
       }
     },
+    // 将platform转化成中台需要的参数
+    changePlatform (platform) {
+      if (platform === 301 || platform === 302 || platform === 300) {
+        return 19
+      } else {
+        return platform
+      }
+    },
+    // 处理区域信息
     disposeArea (province, city) {
       let area = ''
       if (province) {
@@ -718,9 +705,5 @@ export default {
   mounted: function () {
   },
   computed: {
-    disposeCheckValue (value) {
-      let arr = value.replace('|', ',')
-      return arr
-    }
   }
 }

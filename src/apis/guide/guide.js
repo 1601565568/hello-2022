@@ -115,6 +115,10 @@ export default {
     url: '/guide/customer/getRfmInfo',
     method: 'post'
   },
+  queryCustomerGradeInfo: { // 查询会员等级信息 20191004 add
+    url: '/guide/customer/getGradeInfo',
+    method: 'post'
+  },
   queryCustomerCouponNum: {// 查询客户可用优惠券数量
     url: '/guide/customer/queryCustomerCouponNum',
     method: 'get'

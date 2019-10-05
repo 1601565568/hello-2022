@@ -627,7 +627,7 @@
                             @change="addRadio(scope.row,item1)">{{item1}}</el-radio>
                 </el-radio-group>
                 <!-- 复选框 -->
-                <el-checkbox-group :value="checkboxObject[scope.row.id]" v-else-if="scope.row.tagType === 4"  >
+                <el-checkbox-group v-model="checkboxObject[scope.row.id]" v-else-if="scope.row.tagType === 4"  >
                   <el-checkbox v-for="item in scope.row.tagArr.split('|')" :label="item" :key="item"
                                @change="addCheckbox(scope.row,item)"></el-checkbox>
                 </el-checkbox-group>
