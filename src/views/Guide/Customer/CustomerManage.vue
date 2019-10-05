@@ -270,7 +270,7 @@
               </el-form>
             </div>
           </el-tab-pane>
-          <el-tab-pane label="积分1信息" name="integral1" v-if="integralLogIsShow[0]" >
+          <el-tab-pane :label="integralName[0]" name="integral1" v-if="integralLogIsShow[0]" >
           <div class="dialog-integral">
             <el-form class="dialog-integral__form">
               <el-form-item class="dialog-formitem">
@@ -312,11 +312,11 @@
                 <!--                    </el-select>-->
                 <!--                  </el-form-grid>-->
                 <el-form-grid align="left">
-                  <ns-button type="primary" @click="seachIntegral()" >搜索</ns-button>
+                  <ns-button type="primary" @click="seachIntegral" >搜索</ns-button>
                 </el-form-grid>
               </el-form-item>
             </el-form>
-            <el-table ref="table" :data="tableData[0]" stripe>
+            <el-table ref="table" :data="tableData[integralName[0]]" stripe>
               <el-table-column prop="total" label="满减积分" align="center">
               </el-table-column>
               <el-table-column prop="expiredTime" label="变更时间" align="center" :width="250">
@@ -329,7 +329,7 @@
             </el-table>
           </div>
         </el-tab-pane>
-          <el-tab-pane label="积分2信息" name="integral2" v-if="integralLogIsShow[1]" >
+          <el-tab-pane :label="integralName[1]"  name="integral2" v-if="integralLogIsShow[1]" >
             <div class="dialog-integral">
               <el-form class="dialog-integral__form">
                 <el-form-item class="dialog-formitem">
@@ -371,11 +371,11 @@
                   <!--                    </el-select>-->
                   <!--                  </el-form-grid>-->
                   <el-form-grid align="left">
-                    <ns-button type="primary">搜索</ns-button>
+                    <ns-button type="primary" @click="seachIntegral">搜索</ns-button>
                   </el-form-grid>
                 </el-form-item>
               </el-form>
-              <el-table ref="table" :data="tableData[1]" stripe>
+              <el-table ref="table" :data="tableData[integralName[1]]" stripe>
                 <el-table-column prop="total" label="满减积分" align="center">
                 </el-table-column>
                 <el-table-column prop="expiredTime" label="变更时间" align="center" :width="250">
@@ -388,7 +388,7 @@
               </el-table>
             </div>
           </el-tab-pane>
-          <el-tab-pane label="积分3信息" name="integral3" v-if="integralLogIsShow[2]" >
+          <el-tab-pane :label="integralName[2]"  name="integral3" v-if="integralLogIsShow[2]" >
             <div class="dialog-integral">
               <el-form class="dialog-integral__form">
                 <el-form-item class="dialog-formitem">
@@ -430,11 +430,11 @@
                   <!--                    </el-select>-->
                   <!--                  </el-form-grid>-->
                   <el-form-grid align="left">
-                    <ns-button type="primary">搜索</ns-button>
+                    <ns-button type="primary" @click="seachIntegral">搜索</ns-button>
                   </el-form-grid>
                 </el-form-item>
               </el-form>
-              <el-table ref="table" :data="tableData[2]" stripe>
+              <el-table ref="table" :data="tableData[integralName[2]]" stripe>
                 <el-table-column prop="total" label="满减积分" align="center">
                 </el-table-column>
                 <el-table-column prop="expiredTime" label="变更时间" align="center" :width="250">
@@ -447,7 +447,7 @@
               </el-table>
             </div>
           </el-tab-pane>
-          <el-tab-pane label="积分4信息" name="integral4" v-if="integralLogIsShow[3]" >
+          <el-tab-pane :label="integralName[3]"  name="integral4" v-if="integralLogIsShow[3]" >
             <div class="dialog-integral">
               <el-form class="dialog-integral__form">
                 <el-form-item class="dialog-formitem">
@@ -489,11 +489,11 @@
                   <!--                    </el-select>-->
                   <!--                  </el-form-grid>-->
                   <el-form-grid align="left">
-                    <ns-button type="primary">搜索</ns-button>
+                    <ns-button type="primary" @click="seachIntegral">搜索</ns-button>
                   </el-form-grid>
                 </el-form-item>
               </el-form>
-              <el-table ref="table" :data="tableData[3]" stripe>
+              <el-table ref="table" :data="tableData[integralName[3]]" stripe>
                 <el-table-column prop="total" label="满减积分" align="center">
                 </el-table-column>
                 <el-table-column prop="expiredTime" label="变更时间" align="center" :width="250">
@@ -506,7 +506,7 @@
               </el-table>
             </div>
           </el-tab-pane>
-          <el-tab-pane label="积分5信息" name="integral5" v-if="integralLogIsShow[4]" >
+          <el-tab-pane :label="integralName[4]"  name="integral5" v-if="integralLogIsShow[4]" >
             <div class="dialog-integral">
               <el-form class="dialog-integral__form">
                 <el-form-item class="dialog-formitem">
@@ -548,11 +548,11 @@
                   <!--                    </el-select>-->
                   <!--                  </el-form-grid>-->
                   <el-form-grid align="left">
-                    <ns-button type="primary">搜索</ns-button>
+                    <ns-button type="primary" @click="seachIntegral">搜索</ns-button>
                   </el-form-grid>
                 </el-form-item>
               </el-form>
-              <el-table ref="table" :data="tableData[4]" stripe>
+              <el-table ref="table" :data="tableData[integralName[4]]" stripe>
                 <el-table-column prop="total" label="满减积分" align="center">
                 </el-table-column>
                 <el-table-column prop="expiredTime" label="变更时间" align="center" :width="250">

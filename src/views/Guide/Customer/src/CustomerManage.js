@@ -93,6 +93,7 @@ export default {
       sysCustomerId: '', // 会员id
       shopKuhuShow: false,
       rfmInfo: {}, // rfm信息
+      accountCode: {}, // 用于保存积分账号
       result: null,
       _queryConfig: { expand: false },
       // 弹窗假数据
@@ -126,25 +127,24 @@ export default {
       this.value = row
     },
     handleClick (tab, event) {
-      console.log(tab.label)
       // 假如切换到积分tab
-      if (tab.label.indexOf('积分') > -1) {
-        let num = tab.label.substr(2, 1)
-        let index = num - 1
-        let accountCode = this.items.integralAccountList[num - 1].integralAccount
+      if (tab.label.indexOf('基础信息') === -1 && tab.label.indexOf('交易信息') === -1) {
+        // let num = tab.label.substr(2, 1)
+        // let index = num - 1
+        // let accountCode = this.items.integralAccountList[num - 1].integralAccount
+        let tabName = tab.label
+        let accountCode = this.accountCode[tab.label]
         this.searchParam.accountCode = accountCode
         this.searchParam.nick = this.items.customerId
-        this.searchParam.index = index
-        this.getIntegralList(this.items.customerId, accountCode, index)
+        this.getIntegralList(this.items.customerId, accountCode, tabName)
       } else if (tab.label.indexOf('交易') > -1) {
         this.getCustomerRfmInfo(this.items.customerId, this.items.sgShopId == 0 ? this.items.shopId : this.items.sgShopId)
       }
     },
-    getIntegralList (nick, accountCode, index) { // 查询会员积分
+    getIntegralList (nick, accountCode, tabName) { // 查询会员积分
       this.$http.fetch(this.$api.guide.guide.queryCustomerIntegral, this.searchParam
       ).then(resp => {
-        this.$set(this.tableData, index, resp.result)
-        // this.tableData[index] = resp.result
+        this.$set(this.tableData, tabName, resp.result)
       }).catch(resp => {
         this.$notify.error(getErrorMsg('查询失败', resp))
       })
@@ -168,6 +168,7 @@ export default {
       this.selectedTabName = 'basic'
       this.startTimes = []
       this.endTimes = []
+      this.accountCode = {}
     },
     getCustomerRfmInfo (customerId, shopId) { // 查询会员Rfm信息
       this.$http.fetch(this.$api.guide.guide.queryCustomerRfmInfo, {
@@ -316,8 +317,10 @@ export default {
               let length = _this.items.integralAccountList.length
               for (let i = 0; i < length; i++) {
                 _this.integralLogIsShow[i] = true
-                this.integralName[i] = '积分' + (i + 1)
+                // this.integralName[i] = '积分' + (i + 1)
+                this.integralName[i] = _this.items.integralAccountList[i].integralAlias
                 this.integralIsShow[i] = true
+                this.accountCode[this.integralName[i]] = _this.items.integralAccountList[i].integralAccount
               }
               _this.integralAccountArr.push(_this.items.integralAccountList)
             }
@@ -327,7 +330,6 @@ export default {
                 let info = assetJson[j]
                 this.integralName[j] = info.alias
                 this.integralIsNum[j] = info.score
-                this.integralIsShow[j] = true
               }
             }
             _this.items.province = _this.disposeArea(_this.items.province, _this.items.city)
@@ -359,8 +361,6 @@ export default {
     // 显示启用的标签
     showTagData (row, offLineShopId) {
       this.showTag = true
-      console.log('客户Id:' + this.sysCustomerId)
-      console.log('当前行客户Id:' + row.sysCustomerId)
       this.sysCustomerId = row.sysCustomerId
       this.$http.fetch(this.$api.guide.guide.queryAllTag, {
         'shopId': row.sgExclusiveShopId !== 0 ? row.sgExclusiveShopId : offLineShopId,
@@ -549,8 +549,6 @@ export default {
     },
     // 复选框处理逻辑
     addCheckbox (row, item) {
-      // console.log('item：' + item)
-      // console.log('当前行属性：' + JSON.stringify(this.checkboxObject[row.id]))
       let num = this.checkboxIds.indexOf(row.id)
       if (num > -1) {
         for (let i = 0; i < this.mapTag.length; i++) {
@@ -574,7 +572,6 @@ export default {
             } else {
               check.value += item + '|'
               let valueArr = check.value.split('|')
-              // console.log(JSON.stringify(removeEmpty(valueArr)))
               this.$set(this.checkboxObject, row.id, valueArr)
               this.attributeValue += 1
             }
@@ -592,7 +589,6 @@ export default {
         this.attribute += 1
         this.attributeValue += 1
       }
-      // console.log('参数：' + JSON.stringify(this.mapTag))
     },
     saveTag () { // 保存标签
       if (this.mapTag.length === 0) {
