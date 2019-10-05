@@ -328,9 +328,12 @@ export default {
               let assetJson = JSON.parse(_this.items.assetJson)
               for (let j = 0; j < assetJson.length; j++) {
                 let info = assetJson[j]
-
-                this.integralName[j] = info.alias
-                this.integralIsNum[j] = info.score
+                for (let i in this.accountCode) {
+                  let value = this.accountCode[i]
+                  if (value.indexOf(info.account) > -1) {
+                    this.integralIsNum[j] = info.score
+                  }
+                }
               }
             }
             _this.items.province = _this.disposeArea(_this.items.province, _this.items.city)
