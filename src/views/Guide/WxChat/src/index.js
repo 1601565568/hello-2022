@@ -119,8 +119,6 @@ export default {
         id: id,
         createTime: createTime
       }
-      console.warn(this.chatList)
-      console.warn(param)
       this.chatLoading = true
       this.$http.fetch(this.$api.guide.wxChat.findChatList, param).then(resp => {
         if (isClear) {
@@ -134,15 +132,15 @@ export default {
         if (isClear && this.chatList.length > 0) {
           if (this.searchedModel.id !== null) {
             // 按内容查询需要定位
-            console.warn('定位')
-            // console.warn(this.$refs.fullScreenright)
-            // console.warn(this.$refs.fullScreenright.$el.chatLog0)
-
-            // this.$refs['fullScreenright'].wrap.scrollTop = document.getElementById('chatLog_0').offsetTop
+            setTimeout(_this.locateContent, 500)
           }
         }
         _this.btnSearchDisabled = false
       })
+    },
+    locateContent () {
+      let id = this.searchedModel.id
+      this.$refs['fullScreenright'].wrap.scrollTop = document.getElementById('chatLog_' + id).offsetTop
     },
     isChatLeft (receive) {
       return receive
@@ -187,11 +185,11 @@ export default {
       this.contentSearchKeyWord = this.contentKeyWord
       this.searchedModel.startTime = this.searchedModel.srhDate[0]
       this.searchedModel.endTime = this.searchedModel.srhDate[1]
+      this.searchedModel.id = null
       this.contentList = []
       this.contentLoading = true
       this.btnSearchContentDisabled = true
       this.$http.fetch(this.$api.guide.wxChat.findByContent, this.searchedModel).then(resp => {
-        console.warn(resp)
         _this.contentList = resp.result
         _this.contentLoading = false
         _this.btnSearchContentDisabled = false

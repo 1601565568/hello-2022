@@ -122,8 +122,8 @@
                 </template>
               </font>
             </div>
-            <template v-for="(chat,index) in chatList">
-              <div :id="'chatLog0' + index" ref="'chatLog0' + index" :class="{'talk-strip':isChatLeft(chat.receive), 'talk-right': !isChatLeft(chat.receive), 'clearfix':  chat.cancel||chat.delete}">
+            <template v-for="(chat) in chatList">
+              <div :id="'chatLog_' + chat.id" :key="chat.id" ref="'chatLog0' + index" :class="{'talk-strip':isChatLeft(chat.receive), 'talk-right': !isChatLeft(chat.receive), 'clearfix':  chat.cancel||chat.delete}">
                 <div :class="{'talk-strip__headportrait':isChatLeft(chat.receive), 'talk-right__headportrait': !isChatLeft(chat.receive), 'clearfix':  chat.cancel||chat.delete}">
                   <img :src="chat.senderHead||require('./src/images/WECHAT_DEFAULT_HEAD.png')" alt="用户头像" class="talk-image">
                 </div>
