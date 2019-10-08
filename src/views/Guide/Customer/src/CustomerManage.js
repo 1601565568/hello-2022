@@ -1,8 +1,7 @@
 import api from '@/config/http'
 import tableMixin from 'web-crm/src/mixins/table'
 import { getErrorMsg } from '@/utils/toast'
-import fa from 'nui-v2/src/locale/lang/fa'
-import ElCard from 'nui-v2/lib/card'
+
 export default {
   data: function () {
     let pagination = {
@@ -94,6 +93,7 @@ export default {
       sysCustomerId: '', // 会员id
       shopKuhuShow: false,
       rfmInfo: {}, // rfm信息
+      accountCode: {}, // 用于保存积分账号
       result: null,
       _queryConfig: { expand: false },
       // 弹窗假数据
@@ -112,7 +112,10 @@ export default {
       value3: '',
       startDateTime: null,
       endDateTime: null,
+      startTimes: [],
+      endTimes: [],
       tableData: [],
+      searchParam: {}, // 积分查询条件
       integralAccountArr: [],
       integralLogIsShow: [false, false, false, false, false]
     }
@@ -124,26 +127,48 @@ export default {
       this.value = row
     },
     handleClick (tab, event) {
-      console.log(tab.label)
       // 假如切换到积分tab
-      if (tab.label.indexOf('积分') > -1) {
-        let num = tab.label.substr(2, 1)
-        let index = num - 1
-        let accountCode = this.items.integralAccountList[num - 1].integralAccount
-        this.getIntegralList(this.items.nick, accountCode, index)
+      if (tab.label.indexOf('基础信息') === -1 && tab.label.indexOf('交易信息') === -1) {
+        // let num = tab.label.substr(2, 1)
+        // let index = num - 1
+        // let accountCode = this.items.integralAccountList[num - 1].integralAccount
+        let tabName = tab.label
+        let accountCode = this.accountCode[tab.label]
+        this.searchParam.accountCode = accountCode
+        this.searchParam.nick = this.items.customerId
+        this.getIntegralList(this.items.customerId, accountCode, tabName)
       } else if (tab.label.indexOf('交易') > -1) {
         this.getCustomerRfmInfo(this.items.customerId, this.items.sgShopId == 0 ? this.items.shopId : this.items.sgShopId)
       }
     },
-    getIntegralList (nick, accountCode, index) { // 查询会员积分
-      this.$http.fetch(this.$api.guide.guide.queryCustomerIntegral, {
-        nick: nick,
-        accountCode: accountCode
-      }).then(resp => {
-        this.tableData[index] = resp.result
+    getIntegralList (nick, accountCode, tabName) { // 查询会员积分
+      this.$http.fetch(this.$api.guide.guide.queryCustomerIntegral, this.searchParam
+      ).then(resp => {
+        this.$set(this.tableData, tabName, resp.result)
       }).catch(resp => {
         this.$notify.error(getErrorMsg('查询失败', resp))
       })
+    },
+    // 积分搜索
+    seachIntegral () {
+      let index = this.searchParam.index
+      let startTime = this.startTimes[index]
+      let endTime = this.endTimes[index]
+      if ((!startTime && endTime) || (startTime && !endTime)) {
+        this.$notify.error('开始时间和结束时间都要选择')
+        return
+      }
+      if (startTime && endTime) {
+        this.searchParam.startTime = startTime
+        this.searchParam.endTime = endTime
+      }
+      this.getIntegralList(index)
+    },
+    closeDetailDialog () {
+      this.selectedTabName = 'basic'
+      this.startTimes = []
+      this.endTimes = []
+      this.accountCode = {}
     },
     getCustomerRfmInfo (customerId, shopId) { // 查询会员Rfm信息
       this.$http.fetch(this.$api.guide.guide.queryCustomerRfmInfo, {
@@ -205,8 +230,7 @@ export default {
           })
           that.shopList = new Set(that.shopList)
           that.shopList = Array.from(that.shopList)
-        })
-        .catch(resp => {})
+        }).catch(resp => {})
     },
     onKeyUp (e) {
       var key = window.event.keyCode
@@ -292,18 +316,26 @@ export default {
               let length = _this.items.integralAccountList.length
               for (let i = 0; i < length; i++) {
                 _this.integralLogIsShow[i] = true
-                this.integralName[i] = '积分' + (i + 1)
+                // 积分名称
+                this.integralName[i] = _this.items.integralAccountList[i].integralAlias
+                // 积分显示
                 this.integralIsShow[i] = true
+                this.accountCode[this.integralName[i]] = _this.items.integralAccountList[i].integralAccount
               }
               _this.integralAccountArr.push(_this.items.integralAccountList)
             }
             if (_this.items.assetJson) {
               let assetJson = JSON.parse(_this.items.assetJson)
+              let length = _this.items.integralAccountList.length
               for (let j = 0; j < assetJson.length; j++) {
                 let info = assetJson[j]
-                this.integralName[j] = info.alias
-                this.integralIsNum[j] = info.score
-                this.integralIsShow[j] = true
+                for (let i = 0; i < length; i++) {
+                  // 积分别名
+                  let accountCode = _this.items.integralAccountList[i].integralAccount
+                  if (accountCode.indexOf(info.account) > -1) {
+                    this.integralIsNum[i] = info.score
+                  }
+                }
               }
             }
             _this.items.province = _this.disposeArea(_this.items.province, _this.items.city)
@@ -336,10 +368,6 @@ export default {
     showTagData (row, offLineShopId) {
       this.showTag = true
       this.sysCustomerId = row.sysCustomerId
-      if (this.sysCustomerId.length > 0 && this.sysCustomerId !== row.sysCustomerId) {
-        // 清空选项
-        this.restTag()
-      }
       this.$http.fetch(this.$api.guide.guide.queryAllTag, {
         'shopId': row.sgExclusiveShopId !== 0 ? row.sgExclusiveShopId : offLineShopId,
         'sysCustomerId': row.sysCustomerId
@@ -377,19 +405,18 @@ export default {
                   let num = valueArr.length
                   this.attributeValue += (num - 2)
                   this.checkboxIds.push(tag.id)
-                  this.checkboxList.push.apply(this.checkboxList, valueArr)
-                  this.checkboxObject[tag.id] = valueArr
+                  // 深入响应式原理，this.checkboxObject[idName] = valueArr 该赋值方法不可用
+                  this.$set(this.checkboxObject, tag.id, valueArr)
+                  break
+                default:
                   break
               }
             } else {
               switch (tag.tagType) {
                 case 4:
-                  // let valueArr = tag.value.split('|')
-                  // let num = valueArr.length
-                  // this.attributeValue += (num - 2)
-                  // this.checkboxIds.push(tag.id)
-                  // this.checkboxList.push.apply(this.checkboxList, valueArr)
-                  this.checkboxObject[tag.id] = ''
+                  this.$set(this.checkboxObject, tag.id, [])
+                  break
+                default:
                   break
               }
             }
@@ -437,7 +464,6 @@ export default {
           }
         }
       } else {
-        console.log('3')
         if (row.value.trim().length !== 0) {
           this.textIds.push(row.id)
           let check = {}
@@ -449,6 +475,7 @@ export default {
         }
       }
     },
+    // 下拉选处理
     addSelect (row) {
       let num = this.selectIds.indexOf(row.id)
       if (num > -1) {
@@ -458,10 +485,10 @@ export default {
             if (check.value.indexOf(row.value) > -1) {
               this.mapTag.splice(i, 1)
               this.selectIds.splice(num, 1)
+              this.attribute -= 1
+              this.attributeValue -= 1
             } else {
               check.value = row.value
-              this.attribute += 1
-              this.attributeValue += 1
             }
           }
         }
@@ -475,6 +502,7 @@ export default {
         this.attributeValue += 1
       }
     },
+    // 日期处理逻辑
     addDate (row) {
       let num = this.dateIds.indexOf(row.id)
       if (num > -1) {
@@ -490,8 +518,6 @@ export default {
               this.attributeValue -= 1
             } else {
               check.value = row.value
-              this.attribute += 1
-              this.attributeValue += 1
             }
           }
         }
@@ -512,17 +538,7 @@ export default {
         for (let i = 0; i < this.mapTag.length; i++) {
           let check = this.mapTag[i]
           if (check.id === row.id) { // 假如选中数据已包含在数组中
-            if (check.value.indexOf(item) > -1) { // 假如选中值重复则去除
-              check.value = check.value.replace(item, '')
-              if (check.value.length === 0) {
-                this.mapTag.splice(i, 1)
-                this.radioIds.splice(num, 1)
-              }
-            } else {
-              check.value = item
-              this.attribute += 1
-              this.attributeValue += 1
-            }
+            check.value = item
           }
         }
       } else {
@@ -537,12 +553,12 @@ export default {
     },
     // 复选框处理逻辑
     addCheckbox (row, item) {
-      console.log(row.value)
       let num = this.checkboxIds.indexOf(row.id)
       if (num > -1) {
         for (let i = 0; i < this.mapTag.length; i++) {
           let check = this.mapTag[i]
           if (check.id === row.id) {
+            // 如果参数中已经存在已选择的值则去除
             if (check.value.indexOf(item) > -1) {
               // 判断已选择值是否包含新值
               check.value = check.value.replace(item + '|', '') // 去除值
@@ -551,11 +567,16 @@ export default {
                 this.mapTag.splice(i, 1)
                 this.checkboxIds.splice(num, 1)
                 this.attribute -= 1
+                this.$set(this.checkboxObject, row.id, [])
               } else {
                 this.mapTag[i].value = check.value
+                let valueArr = check.value.split('|')
+                this.$set(this.checkboxObject, row.id, valueArr)
               }
             } else {
               check.value += item + '|'
+              let valueArr = check.value.split('|')
+              this.$set(this.checkboxObject, row.id, valueArr)
               this.attributeValue += 1
             }
           }
@@ -567,6 +588,8 @@ export default {
         row.value = '|' + item + '|'
         check.value = row.value
         this.mapTag.push(check)
+        let itemArr = [item]
+        this.$set(this.checkboxObject, row.id, itemArr)
         this.attribute += 1
         this.attributeValue += 1
       }
@@ -607,15 +630,17 @@ export default {
       this.selectIds = []
       this.dateIds = []
       this.checkboxIds = []
-      this.checkboxList = []
+      for (let id in this.checkboxObject) {
+        this.$set(this.checkboxObject, id, [])
+      }
       this.attribute = 0
       this.attributeValue = 0
     },
     closeTag () {
       this.showTag = false
-      this.attribute = 0
-      this.attributeValue = 0
+      this.restTag()
     },
+    // 更换导购
     onSave () {
       let _this = this
       let obj = {
@@ -628,7 +653,7 @@ export default {
         _this.multipleSelection.map(item => {
           let nick = {}
           obj.nick = item.outNick
-          obj.platform = item.platform === 302 ? 19 : item.platform
+          obj.platform = this.changePlatform(item.platform)
           // obj.customerFrom = Number(item.customerFrom)
           nick = Object.assign({}, obj)
           _this.customerIdList.push(nick)
@@ -648,6 +673,15 @@ export default {
         _this.$notify.error('请选择要更换的导购！')
       }
     },
+    // 将platform转化成中台需要的参数
+    changePlatform (platform) {
+      if (platform === 301 || platform === 302 || platform === 300) {
+        return 19
+      } else {
+        return platform
+      }
+    },
+    // 处理区域信息
     disposeArea (province, city) {
       let area = ''
       if (province) {
@@ -670,10 +704,5 @@ export default {
   },
   mounted: function () {
   },
-  computed: {
-    disposeCheckValue (value) {
-      let arr = value.replace('|', ',')
-      return arr
-    }
-  }
+  computed: {}
 }
