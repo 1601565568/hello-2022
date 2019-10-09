@@ -82,8 +82,8 @@
       width="900px" height="500px" class="dialog-container"  @keyup.enter.native="onKeyUp" @keyup.esc.native="onKeyUp" @close="closeDetailDialog">
       <div class="dialog-container__msg">
         <div class="dialog-avatar">
-          <el-image mode="aspectFit" :src="items.customerHeadImage"
-                    width="80" height="80" bgColor="#FFF" circle="true"/>
+          <el-image mode="aspectFit" :src="items.customerHeadImage|| defaultImage"
+                    style="width: 80px; height: 80px" />
           <div class="dialog-avatar__figure">
             <!-- 男生图标-->
             <i class="dialog-avatar__figure--male" v-if="items.sex===1"><Icon type="nan1"/></i>
@@ -765,6 +765,7 @@ export default CustomerManage
   @b avatar {
     width: 80px;
     position: relative;
+    left: 4px;
     @e figure {
       text-align: center;
       line-height: 26px;
