@@ -113,8 +113,8 @@ export default {
       startDateTime: null,
       endDateTime: null,
       defaultImage:'https://cube.elemecdn.com/9/c2/f0ee8a3c7c9638a54940382568c9dpng.png',
-      startTimes: [],
-      endTimes: [],
+      startTime: null,
+      endTime: null,
       tableData: [],
       searchParam: {}, // 积分查询条件
       integralAccountArr: [],
@@ -133,16 +133,17 @@ export default {
         // let num = tab.label.substr(2, 1)
         // let index = num - 1
         // let accountCode = this.items.integralAccountList[num - 1].integralAccount
+        this.restParams()
         let tabName = tab.label
         let accountCode = this.accountCode[tab.label]
         this.searchParam.accountCode = accountCode
         this.searchParam.nick = this.items.customerId
-        this.getIntegralList(this.items.customerId, accountCode, tabName)
+        this.getIntegralList(tabName)
       } else if (tab.label.indexOf('交易') > -1) {
         this.getCustomerRfmInfo(this.items.customerId, this.items.sgShopId == 0 ? this.items.shopId : this.items.sgShopId)
       }
     },
-    getIntegralList (nick, accountCode, tabName) { // 查询会员积分
+    getIntegralList (tabName) { // 查询会员积分
       this.$http.fetch(this.$api.guide.guide.queryCustomerIntegral, this.searchParam
       ).then(resp => {
         this.$set(this.tableData, tabName, resp.result)
@@ -151,24 +152,33 @@ export default {
       })
     },
     // 积分搜索
-    seachIntegral () {
-      let index = this.searchParam.index
-      let startTime = this.startTimes[index]
-      let endTime = this.endTimes[index]
+    seachIntegral (index) {
+      let startTime = this.startTime
+      let endTime = this.endTime
       if ((!startTime && endTime) || (startTime && !endTime)) {
         this.$notify.error('开始时间和结束时间都要选择')
+        return
+      }
+      if (startTime > endTime) {
+        this.$notify.error('开始时间必须小于结束时间')
         return
       }
       if (startTime && endTime) {
         this.searchParam.startTime = startTime
         this.searchParam.endTime = endTime
       }
-      this.getIntegralList(index)
+      this.getIntegralList(this.integralName[index])
+    },
+    // 初始化参数
+    restParams () {
+      this.searchParam = {}
+      this.startTime = null
+      this.endTime = null
     },
     closeDetailDialog () {
       this.selectedTabName = 'basic'
-      this.startTimes = []
-      this.endTimes = []
+      this.startTime = null
+      this.endTime = null
       this.accountCode = {}
     },
     getCustomerRfmInfo (customerId, shopId) { // 查询会员Rfm信息
