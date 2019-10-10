@@ -163,11 +163,21 @@ export default {
         this.$notify.error('开始时间必须小于结束时间')
         return
       }
-      if (startTime && endTime) {
-        this.searchParam.startTime = startTime
-        this.searchParam.endTime = endTime
-      }
+      this.searchParam.startTime = startTime
+      this.searchParam.endTime = endTime
       this.getIntegralList(this.integralName[index])
+    },
+    // 开始时间清除处理
+    disposeStartTime (value) {
+      if (!value) {
+        this.startTime = null
+      }
+    },
+    // 结束时间清除处理
+    disposeEndTime (value) {
+      if (!value) {
+        this.endTime = null
+      }
     },
     // 初始化参数
     restParams () {
@@ -338,13 +348,12 @@ export default {
             if (_this.items.assetJson) {
               let assetJson = JSON.parse(_this.items.assetJson)
               let length = _this.items.integralAccountList.length
-              for (let j = 0; j < assetJson.length; j++) {
-                let info = assetJson[j]
+              for (let name in assetJson) {
                 for (let i = 0; i < length; i++) {
                   // 积分别名
                   let accountCode = _this.items.integralAccountList[i].integralAccount
-                  if (accountCode.indexOf(info.account) > -1) {
-                    this.integralIsNum[i] = info.score
+                  if (accountCode.indexOf(name) > -1) {
+                    this.integralIsNum[i] = assetJson[name]
                   }
                 }
               }

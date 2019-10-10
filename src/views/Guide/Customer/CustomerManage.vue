@@ -278,14 +278,17 @@
                   请选择：
                 </el-form-grid>
                 <el-form-grid size="md">
-                  <el-date-picker type="datetime" placeholder="请选择" v-model="startTime" format="yyyy-MM-dd HH:mm:ss" value-format="yyyy-MM-dd HH-mm-ss">
+                  <el-date-picker type="datetime" placeholder="请选择" v-model="startTime" format="yyyy-MM-dd HH:mm:ss"
+                                  value-format="yyyy-MM-dd HH-mm-ss" @change="disposeStartTime">
                   </el-date-picker>
                 </el-form-grid>
                 <el-form-grid>
                   -
                 </el-form-grid>
                 <el-form-grid size="md">
-                  <el-date-picker type="datetime" placeholder="请选择" v-model="endTime" format="yyyy-MM-dd 23-59-59" value-format="yyyy-MM-dd 23-59-59"></el-date-picker>
+                  <el-date-picker type="datetime" placeholder="请选择" v-model="endTime" format="yyyy-MM-dd 23-59-59"
+                                  value-format="yyyy-MM-dd 23-59-59" @change="disposeEndTime">
+                  </el-date-picker>
                 </el-form-grid>
                 <!--20190926 先注释掉搜索功能，待积分平台接口完整再添加-->
                 <!--                  <el-form-grid class="dialog-formitem__type">-->
@@ -337,14 +340,17 @@
                     请选择：
                   </el-form-grid>
                   <el-form-grid size="md">
-                    <el-date-picker type="datetime" placeholder="请选择" v-model="startTime">
+                    <el-date-picker type="datetime" placeholder="请选择" v-model="startTime" format="yyyy-MM-dd HH:mm:ss"
+                                    value-format="yyyy-MM-dd HH-mm-ss" @change="disposeStartTime">
                     </el-date-picker>
                   </el-form-grid>
                   <el-form-grid>
                     -
                   </el-form-grid>
                   <el-form-grid size="md">
-                    <el-date-picker type="datetime" placeholder="请选择" v-model="endTime"></el-date-picker>
+                    <el-date-picker type="datetime" placeholder="请选择" v-model="endTime" format="yyyy-MM-dd 23-59-59"
+                                    value-format="yyyy-MM-dd 23-59-59" @change="disposeEndTime">
+                    </el-date-picker>
                   </el-form-grid>
                   <!--20190926 先注释掉搜索功能，待积分平台接口完整再添加-->
                   <!--                  <el-form-grid class="dialog-formitem__type">-->
@@ -396,14 +402,17 @@
                     请选择：
                   </el-form-grid>
                   <el-form-grid size="md">
-                    <el-date-picker type="datetime" placeholder="请选择" v-model="startTime">
+                    <el-date-picker type="datetime" placeholder="请选择" v-model="startTime" format="yyyy-MM-dd HH:mm:ss"
+                                    value-format="yyyy-MM-dd HH-mm-ss" @change="disposeStartTime">
                     </el-date-picker>
                   </el-form-grid>
                   <el-form-grid>
                     -
                   </el-form-grid>
                   <el-form-grid size="md">
-                    <el-date-picker type="datetime" placeholder="请选择" v-model="endTime"></el-date-picker>
+                    <el-date-picker type="datetime" placeholder="请选择" v-model="endTime" format="yyyy-MM-dd 23-59-59"
+                                    value-format="yyyy-MM-dd 23-59-59" @change="disposeEndTime">
+                    </el-date-picker>
                   </el-form-grid>
                   <!--20190926 先注释掉搜索功能，待积分平台接口完整再添加-->
                   <!--                  <el-form-grid class="dialog-formitem__type">-->
@@ -455,14 +464,17 @@
                     请选择：
                   </el-form-grid>
                   <el-form-grid size="md">
-                    <el-date-picker type="datetime" placeholder="请选择" v-model="startTime">
+                    <el-date-picker type="datetime" placeholder="请选择" v-model="startTime" format="yyyy-MM-dd HH:mm:ss"
+                                    value-format="yyyy-MM-dd HH-mm-ss" @change="disposeStartTime">
                     </el-date-picker>
                   </el-form-grid>
                   <el-form-grid>
                     -
                   </el-form-grid>
                   <el-form-grid size="md">
-                    <el-date-picker type="datetime" placeholder="请选择" v-model="endTime"></el-date-picker>
+                    <el-date-picker type="datetime" placeholder="请选择" v-model="endTime" format="yyyy-MM-dd 23-59-59"
+                                    value-format="yyyy-MM-dd 23-59-59" @change="disposeEndTime">
+                    </el-date-picker>
                   </el-form-grid>
                   <!--20190926 先注释掉搜索功能，待积分平台接口完整再添加-->
                   <!--                  <el-form-grid class="dialog-formitem__type">-->
@@ -514,14 +526,17 @@
                     请选择：
                   </el-form-grid>
                   <el-form-grid size="md">
-                    <el-date-picker type="datetime" placeholder="请选择" v-model="startTime">
+                    <el-date-picker type="datetime" placeholder="请选择" v-model="startTime" format="yyyy-MM-dd HH:mm:ss"
+                                    value-format="yyyy-MM-dd HH-mm-ss" @change="disposeStartTime">
                     </el-date-picker>
                   </el-form-grid>
                   <el-form-grid>
                     -
                   </el-form-grid>
                   <el-form-grid size="md">
-                    <el-date-picker type="datetime" placeholder="请选择" v-model="endTime"></el-date-picker>
+                    <el-date-picker type="datetime" placeholder="请选择" v-model="endTime" format="yyyy-MM-dd 23-59-59"
+                                    value-format="yyyy-MM-dd 23-59-59" @change="disposeEndTime">
+                    </el-date-picker>
                   </el-form-grid>
                   <!--20190926 先注释掉搜索功能，待积分平台接口完整再添加-->
                   <!--                  <el-form-grid class="dialog-formitem__type">-->
