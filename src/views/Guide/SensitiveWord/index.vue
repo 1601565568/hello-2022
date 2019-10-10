@@ -88,7 +88,7 @@
               </template>
               <template slot="header" scope="header">
                 <span>
-                  <span>导购发送次数</span>
+                  <span>会员发送次数</span>
                   <el-popover
                     placement="bottom"
                     width="220"
