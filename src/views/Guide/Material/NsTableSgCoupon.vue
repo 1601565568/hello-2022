@@ -162,8 +162,8 @@
 
 <script>
 import NsTableSgCoupon from './src/NsTableSgCoupon'
-import NsDatetime from 'web-crm/src/components/NsDatetime'
-import couponItem from 'web-crm/src/components/NsCouponItem'
+import NsDatetime from '@nascent/ecrp-ecrm/src/components/NsDatetime'
+import couponItem from '@nascent/ecrp-ecrm/src/components/NsCouponItem'
 NsTableSgCoupon.components = {
   NsDatetime,
   couponItem

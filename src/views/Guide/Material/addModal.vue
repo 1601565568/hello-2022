@@ -94,7 +94,7 @@
 </template>
 <script>
 import api from '@/config/http'
-import ElUpload from 'nui-v2/lib/upload'
+import ElUpload from '@nascent/nui/lib/upload'
 import SelectMarket from './components/selectMarket'
 // import SelectCoupon from './components/selectCoupon'
 import SelectGoods from './components/selectGoods'

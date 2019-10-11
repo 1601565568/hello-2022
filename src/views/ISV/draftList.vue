@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import tableMixin from 'web-crm/src/mixins/table'
+import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import { getErrorMsg } from '@/utils/toast'
 export default {
   name: 'draftList',

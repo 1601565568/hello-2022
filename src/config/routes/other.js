@@ -1,7 +1,7 @@
 export default {
   'path': '/Guide/Others',
   'name': 'SG_OTHERS',
-  'component': () => import('web-crm/src/views/Default'),
+  'component': () => import('@nascent/ecrp-ecrm/src/views/Default'),
   'meta': {
     'title': '其他',
     'requiresAuth': true
@@ -11,7 +11,7 @@ export default {
       'path': '/Guide/Others/SgWxAccount',
       'name': 'WX_ACCOUNT',
       'title': '授权管理',
-      'component': () => import('web-crm/src/views/Content'),
+      'component': () => import('@nascent/ecrp-ecrm/src/views/Content'),
       'children': [
         {
           'path': '/Guide/Others/SgWxAccount',
@@ -25,7 +25,7 @@ export default {
       'path': '/Guide/OperationLog/List',
       'name': 'LIST',
       'title': '系统日志',
-      'component': () => import('web-crm/src/views/Content'),
+      'component': () => import('@nascent/ecrp-ecrm/src/views/Content'),
       'children': [
         {
           'path': '/Guide/OperationLog/List',
@@ -46,7 +46,7 @@ export default {
       'path': '/Guide/SensitivePermission/index',
       'name': 'OTHER_CONFIG',
       'title': '其他设置',
-      'component': () => import('web-crm/src/views/Content'),
+      'component': () => import('@nascent/ecrp-ecrm/src/views/Content'),
       'children': [
         {
           'path': '/Guide/SensitivePermission/index',
@@ -60,7 +60,7 @@ export default {
       'path': '/Guide/CustomerContact',
       'name': 'CustomerContact',
       'title': '客户联系',
-      'component': () => import('web-crm/src/views/Content'),
+      'component': () => import('@nascent/ecrp-ecrm/src/views/Content'),
       'children': [
         {
           'path': '/Guide/CustomerContact/WelcomeWord',
@@ -74,7 +74,7 @@ export default {
       'path': '/Guide/CompanyInfo',
       'name': 'CustomerContact',
       'title': '公司信息',
-      'component': () => import('web-crm/src/views/Content'),
+      'component': () => import('@nascent/ecrp-ecrm/src/views/Content'),
       'children': [
         {
           'path': '/account/companyInformation',

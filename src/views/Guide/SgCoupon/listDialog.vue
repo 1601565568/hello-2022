@@ -90,7 +90,7 @@
 </template>
 <script>
 import listPageMixin from '@/mixins/listPage'
-import NsArea from 'web-crm/src/components/NsArea'
+import NsArea from '@nascent/ecrp-ecrm/src/components/NsArea'
 import { getErrorMsg } from '@/utils/toast'
 export default {
   mixins: [listPageMixin],

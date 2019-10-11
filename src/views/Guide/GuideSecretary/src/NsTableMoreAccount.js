@@ -1,5 +1,5 @@
-import tableMixin from 'web-crm/src/mixins/table'
-import NsArea from 'web-crm/src/components/NsArea'
+import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
+import NsArea from '@nascent/ecrp-ecrm/src/components/NsArea'
 export default {
   name: 'NsTableMoreAccount',
   mixins: [tableMixin],

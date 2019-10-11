@@ -13,6 +13,7 @@ function resolve (dir) {
 module.exports = {
   resolve: {
     alias: {
+      'vue$': 'vue/dist/vue.js',
       [packageConfig.name]: resolve(''),
       '@theme': resolve(`src/theme/${process.env.VUE_APP_THEME}`)
     }

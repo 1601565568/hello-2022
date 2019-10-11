@@ -41,9 +41,9 @@
 </template>
 
 <script>
-import ElMenu from 'nui-v2/lib/menu'
-import ElMenuItem from 'nui-v2/lib/menu-item'
-import ElSubmenu from 'nui-v2/lib/submenu'
+import ElMenu from '@nascent/nui/lib/menu'
+import ElMenuItem from '@nascent/nui/lib/menu-item'
+import ElSubmenu from '@nascent/nui/lib/submenu'
 
 export default {
   data () {

@@ -1,6 +1,6 @@
-import tableMixin from 'web-crm/src/mixins/table'
+import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import moment from 'moment'
-import apiRequestConfirm from 'web-crm/src/utils/apiRequestConfirm'
+import apiRequestConfirm from '@nascent/ecrp-ecrm/src/utils/apiRequestConfirm'
 import { getErrorMsg } from '@/utils/toast'
 export default {
   name: 'NsTableStoreCoupon',

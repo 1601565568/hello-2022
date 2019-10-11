@@ -122,7 +122,7 @@
 <script>
 import GoodsTable from './table'
 import index from './src/index'
-import NsDroptree from 'web-crm/src/components/NsDroptree'
+import NsDroptree from '@nascent/ecrp-ecrm/src/components/NsDroptree'
 
 index.components = { GoodsTable, NsDroptree }
 export default index

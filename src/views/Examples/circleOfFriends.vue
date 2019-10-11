@@ -312,10 +312,10 @@
   </div>
 </template>
 <script>
-import ElUpload from 'nui-v2/lib/upload'
-import ElContainer from 'nui-v2/lib/container'
-import ElMain from 'nui-v2/lib/main'
-import ElAside from 'nui-v2/lib/aside'
+import ElUpload from '@nascent/nui/lib/upload'
+import ElContainer from '@nascent/nui/lib/container'
+import ElMain from '@nascent/nui/lib/main'
+import ElAside from '@nascent/nui/lib/aside'
 
 export default {
   components: {

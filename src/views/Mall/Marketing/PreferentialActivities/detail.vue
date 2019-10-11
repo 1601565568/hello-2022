@@ -74,7 +74,7 @@
 </template>
 
 <script>
-import formMixin from 'web-crm/src/mixins/form'
+import formMixin from '@nascent/ecrp-ecrm/src/mixins/form'
 import ActivityGoodsTable from './ActivityGoodsTable'
 import ActivityShopTable from './ActivityShopTable'
 import { getErrorMsg } from '@/utils/toast'

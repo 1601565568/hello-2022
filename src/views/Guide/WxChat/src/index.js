@@ -1,7 +1,7 @@
-import ElContainer from 'nui-v2/lib/container'
-import ElMain from 'nui-v2/lib/main'
-import ElAside from 'nui-v2/lib/aside'
-import tableMixin from 'web-crm/src/mixins/table'
+import ElContainer from '@nascent/nui/lib/container'
+import ElMain from '@nascent/nui/lib/main'
+import ElAside from '@nascent/nui/lib/aside'
+import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import moment from 'moment'
 
 export default {

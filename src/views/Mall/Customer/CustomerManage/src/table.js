@@ -1,4 +1,4 @@
-import tableMixin from 'web-crm/src/mixins/table'
+import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 export default {
   name: 'CustomerTable',
   mixins: [tableMixin],

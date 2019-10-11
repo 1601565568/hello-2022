@@ -676,7 +676,7 @@
 <script>
 import CustomerManage from './src/CustomerManage'
 import NsTableGuide from './NsTableGuide'
-import ElImage from 'nui-v2/lib/image'
+import ElImage from '@nascent/nui/lib/image'
 CustomerManage.components = {
   NsTableGuide,
   ElImage

@@ -1,7 +1,7 @@
 export default {
   'path': '/Guide/ActivityIndex/ShopSetList',
   'name': 'ACTIVITY_INDEX',
-  'component': () => import('web-crm/src/views/Default'),
+  'component': () => import('@nascent/ecrp-ecrm/src/views/Default'),
   'meta': {
     'title': '业绩指标',
     'requiresAuth': true
@@ -11,7 +11,7 @@ export default {
       'path': '/Guide/ActivityIndex',
       'name': 'ACTIVITY_INDEX2',
       'title': '业绩指标',
-      'component': () => import('web-crm/src/views/Content'),
+      'component': () => import('@nascent/ecrp-ecrm/src/views/Content'),
       'children': [
         {
           'path': '/Guide/ActivityIndex/ShopSetList',
@@ -49,7 +49,7 @@ export default {
       'path': '/Guide/Task/List',
       'name': 'TaskManger',
       'title': '任务管理',
-      'component': () => import('web-crm/src/views/Content'),
+      'component': () => import('@nascent/ecrp-ecrm/src/views/Content'),
       'children': [
         {
           'path': '/Guide/Task/List',

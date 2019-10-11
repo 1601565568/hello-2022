@@ -29,7 +29,7 @@
 <script>
 import List from './src/List'
 import NsTableMoreAccount from './NsTableMoreAccount'
-import ElUpload from 'nui-v2/lib/upload'
+import ElUpload from '@nascent/nui/lib/upload'
 List.components = {
   NsTableMoreAccount,
   ElUpload

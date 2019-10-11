@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import loaderNoCacheClose from 'web-crm/src/utils/loaderNoCacheClose'
+import loaderNoCacheClose from '@nascent/ecrp-ecrm/src/utils/loaderNoCacheClose'
 import updateTitle from '../../utils/updateTitle.js'
 (function (doc, win) {
   var docEl = doc.documentElement

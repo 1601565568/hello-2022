@@ -140,7 +140,7 @@
 </template>
 <script>
 import listPageMixin from '@/mixins/listPage'
-import apiRequestConfirm from 'web-crm/src/utils/apiRequestConfirm'
+import apiRequestConfirm from '@nascent/ecrp-ecrm/src/utils/apiRequestConfirm'
 import addGroudModal from './addGroudModal'
 import moment from 'moment'
 import { getErrorMsg } from '@/utils/toast'

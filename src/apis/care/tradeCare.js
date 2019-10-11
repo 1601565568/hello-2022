@@ -1,4 +1,4 @@
-import transData from 'web-crm/src/utils/transData'
+import transData from '@nascent/ecrp-ecrm/src/utils/transData'
 export default {
   queryTable: {
     url: '/care/tradecare/queryTable',

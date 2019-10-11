@@ -1,4 +1,4 @@
-import transData from 'web-crm/src/utils/transData'
+import transData from '@nascent/ecrp-ecrm/src/utils/transData'
 export default {
   queryAllRate: { // 所有评价列表
     url: '/affair/traderate/queryAllRateList',

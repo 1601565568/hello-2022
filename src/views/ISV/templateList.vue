@@ -119,8 +119,8 @@
 </template>
 
 <script>
-import tableMixin from 'web-crm/src/mixins/table'
-import apiRequestConfirm from 'web-crm/src/utils/apiRequestConfirm'
+import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
+import apiRequestConfirm from '@nascent/ecrp-ecrm/src/utils/apiRequestConfirm'
 import { getErrorMsg } from '@/utils/toast'
 export default {
   name: 'templateList',

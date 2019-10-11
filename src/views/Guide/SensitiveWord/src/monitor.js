@@ -1,7 +1,7 @@
-import tableMixin from 'web-crm/src/mixins/table'
+import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import moment from 'moment'
-import ElBreadcrumb from 'nui-v2/lib/breadcrumb'
-import ElBreadcrumbItem from 'nui-v2/lib/breadcrumb-item'
+import ElBreadcrumb from '@nascent/nui/lib/breadcrumb'
+import ElBreadcrumbItem from '@nascent/nui/lib/breadcrumb-item'
 
 export default {
   mixins: [tableMixin],

@@ -106,7 +106,7 @@
   </div>
 </template>
 <script>
-import NsDroptree from 'web-crm/src/components/NsDroptree'
+import NsDroptree from '@nascent/ecrp-ecrm/src/components/NsDroptree'
 var tableMixin = {
   methods: {
     // 表格页数条数改变

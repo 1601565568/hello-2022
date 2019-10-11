@@ -166,7 +166,7 @@
 
 <script>
 import CustomerTable from './src/table'
-import NsDroptree from 'web-crm/src/components/NsDroptree'
+import NsDroptree from '@nascent/ecrp-ecrm/src/components/NsDroptree'
 
 CustomerTable.components = { NsDroptree }
 export default CustomerTable

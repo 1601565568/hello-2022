@@ -149,8 +149,8 @@
 </template>
 
 <script>
-import ElUpload from 'nui-v2/lib/upload'
-import ElSlider from 'nui-v2/lib/slider'
+import ElUpload from '@nascent/nui/lib/upload'
+import ElSlider from '@nascent/nui/lib/slider'
 import moreAccount from './src/NsTableMoreAccount'
 moreAccount.components = {
   ElUpload,

@@ -1,9 +1,9 @@
 import echarts from 'echarts'
-import businessEcharts from 'web-crm/src/components/NsEcharts'
-import ElProgress from 'nui-v2/lib/progress'
-import ElCard from 'nui-v2/lib/card'
+import businessEcharts from '@nascent/ecrp-ecrm/src/components/NsEcharts'
+import ElProgress from '@nascent/nui/lib/progress'
+import ElCard from '@nascent/nui/lib/card'
 import { getErrorMsg } from '@/utils/toast'
-import isMenuAuth from 'web-crm/src/utils/isMenuAuth'
+import isMenuAuth from '@nascent/ecrp-ecrm/src/utils/isMenuAuth'
 import store from '@/store'
 
 export default {

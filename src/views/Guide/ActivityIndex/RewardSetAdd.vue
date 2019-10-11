@@ -64,7 +64,7 @@
 </div>
 </template>
 <script>
-import ElInputNumber from 'nui-v2/lib/input-number'
+import ElInputNumber from '@nascent/nui/lib/input-number'
 import { getErrorMsg } from '@/utils/toast'
 export default {
   components: {

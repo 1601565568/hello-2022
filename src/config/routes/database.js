@@ -1,7 +1,7 @@
 export default {
   'path': '/Database',
   'name': 'Database',
-  'component': () => import('web-crm/src/views/Default'),
+  'component': () => import('@nascent/ecrp-ecrm/src/views/Default'),
   'meta': {
     'title': '工作台',
     'requiresAuth': true
@@ -11,7 +11,7 @@ export default {
       'path': '/WorkBench',
       'name': 'WorkBench',
       'title': '工作台',
-      'component': () => import('web-crm/src/views/ContentFullScreen'),
+      'component': () => import('@nascent/ecrp-ecrm/src/views/ContentFullScreen'),
       'children': [
         {
           'path': '/Overview',

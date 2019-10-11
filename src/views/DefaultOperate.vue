@@ -5,7 +5,7 @@
   </div>
 </template>
 <script>
-import loaderNoCacheClose from 'web-crm/src/utils/loaderNoCacheClose'
+import loaderNoCacheClose from '@nascent/ecrp-ecrm/src/utils/loaderNoCacheClose'
 import NavHead from '@/components/Layout/OperateNavHead'
 export default {
   components: {

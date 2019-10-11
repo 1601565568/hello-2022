@@ -1,4 +1,4 @@
-import formMixin from 'web-crm/src/mixins/form'
+import formMixin from '@nascent/ecrp-ecrm/src/mixins/form'
 import { getErrorMsg } from '@/utils/toast'
 export default {
   mixins: [formMixin],

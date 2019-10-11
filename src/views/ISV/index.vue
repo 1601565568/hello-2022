@@ -63,7 +63,7 @@
 </template>
 
 <script>
-import tableMixin from 'web-crm/src/mixins/table'
+import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import TemplateList from './templateList'
 import DomainSetting from './domainSetting'
 import DraftList from './draftList'

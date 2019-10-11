@@ -78,7 +78,7 @@
 </template>
 <script>
 // import NavHead from '@/components/Layout/OperateNavHead'
-import ElAutocomplete from 'nui-v2/lib/autocomplete'
+import ElAutocomplete from '@nascent/nui/lib/autocomplete'
 import { getErrorMsg } from '@/utils/toast'
 export default {
   components: {

@@ -265,8 +265,8 @@
 </template>
 <script>
 import moment from 'moment'
-import NsShopSelect from 'web-crm/src/components/NsShopSelect'
-import NsGoodsSelect from 'web-crm/src/components/NsGoodsSelect'
+import NsShopSelect from '@nascent/ecrp-ecrm/src/components/NsShopSelect'
+import NsGoodsSelect from '@nascent/ecrp-ecrm/src/components/NsGoodsSelect'
 import { getErrorMsg } from '@/utils/toast'
 export default {
   props: {

@@ -99,7 +99,7 @@
 </template>
 <script>
 import api from '@/config/http'
-import ElUpload from 'nui-v2/lib/upload'
+import ElUpload from '@nascent/nui/lib/upload'
 import articleLink from './components/articleLink'
 import VueUeditorWrap from 'vue-ueditor-wrap'
 import { getErrorMsg } from '@/utils/toast'

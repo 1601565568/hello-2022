@@ -184,7 +184,7 @@
 <script>
 import moment from 'moment'
 import listPageMixin from '@/mixins/listPage'
-import couponItem from 'web-crm/src/components/NsCouponItem'
+import couponItem from '@nascent/ecrp-ecrm/src/components/NsCouponItem'
 import { getErrorMsg } from '@/utils/toast'
 export default {
   mixins: [listPageMixin],

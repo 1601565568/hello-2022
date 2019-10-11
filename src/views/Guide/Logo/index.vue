@@ -53,8 +53,8 @@
 </template>
 
 <script>
-import ElUpload from 'nui-v2/lib/upload'
-import ElCard from 'nui-v2/lib/card'
+import ElUpload from '@nascent/nui/lib/upload'
+import ElCard from '@nascent/nui/lib/card'
 
 export default {
   components: {

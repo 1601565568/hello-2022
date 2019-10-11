@@ -558,7 +558,7 @@
 </template>
 
 <script>
-import ElImage from 'nui-v2/lib/image'
+import ElImage from '@nascent/nui/lib/image'
 
 export default {
   components: {

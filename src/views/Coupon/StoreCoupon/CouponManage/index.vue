@@ -213,9 +213,9 @@
 import moment from 'moment'
 import addCoupon from './add'
 import addNum from './addNumDialog'
-import couponItem from 'web-crm/src/components/NsCouponItem'
+import couponItem from '@nascent/ecrp-ecrm/src/components/NsCouponItem'
 import detailList from './detailList'
-import apiRequestConfirm from 'web-crm/src/utils/apiRequestConfirm'
+import apiRequestConfirm from '@nascent/ecrp-ecrm/src/utils/apiRequestConfirm'
 import addModal from './addModal'
 // 详情
 import couponView from './couponView'

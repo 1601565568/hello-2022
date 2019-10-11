@@ -597,7 +597,7 @@
 
 <script>
 import List from './src/List'
-import ElUpload from 'nui-v2/lib/upload'
+import ElUpload from '@nascent/nui/lib/upload'
 import NsTableGuide from './NsTableGuide'
 List.components = {
   NsTableGuide,

@@ -1,5 +1,5 @@
 import api from '@/config/http'
-import tableMixin from 'web-crm/src/mixins/table'
+import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import { getErrorMsg } from '@/utils/toast'
 
 export default {
@@ -112,7 +112,7 @@ export default {
       value3: '',
       startDateTime: null,
       endDateTime: null,
-      defaultImage:'https://cube.elemecdn.com/9/c2/f0ee8a3c7c9638a54940382568c9dpng.png',
+      defaultImage: 'https://cube.elemecdn.com/9/c2/f0ee8a3c7c9638a54940382568c9dpng.png',
       startTime: null,
       endTime: null,
       tableData: [],

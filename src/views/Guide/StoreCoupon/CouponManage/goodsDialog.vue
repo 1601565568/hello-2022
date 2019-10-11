@@ -15,8 +15,8 @@
   </div>
 </template>
 <script>
-// import NsGoodsSelect from 'web-crm/src/components/NsGoodsSelect'
-// import NsShopSelect from 'web-crm/src/components/NsShopSelect'
+// import NsGoodsSelect from '@nascent/ecrp-ecrm/src/components/NsGoodsSelect'
+// import NsShopSelect from '@nascent/ecrp-ecrm/src/components/NsShopSelect'
 // index.components = {
 //   NsGoodsSelect,
 //   NsShopSelect

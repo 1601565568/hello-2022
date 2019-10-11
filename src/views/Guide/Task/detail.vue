@@ -258,8 +258,8 @@
 </template>
 <script>
 import echarts from 'echarts'
-import businessEcharts from 'web-crm/src/components/NsEcharts'
-import ElProgress from 'nui-v2/lib/progress'
+import businessEcharts from '@nascent/ecrp-ecrm/src/components/NsEcharts'
+import ElProgress from '@nascent/nui/lib/progress'
 import moment from 'moment'
 import { getErrorMsg } from '@/utils/toast'
 var myColor = ['#ff402c', '#ff592c', '#ff8f2c', '#ff8f2c', '#ffb22c']

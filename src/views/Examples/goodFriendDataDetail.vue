@@ -78,7 +78,7 @@
   </div>
 </template>
 <script>
-import ElTag from 'nui-v2/lib/tag'
+import ElTag from '@nascent/nui/lib/tag'
 export default {
   components: {
     ElTag

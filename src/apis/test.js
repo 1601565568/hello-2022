@@ -1,5 +1,5 @@
-import transData from 'web-crm/src/utils/transData'
-import apiRequestConfirm from 'web-crm/src/utils/apiRequestConfirm'
+import transData from '@nascent/ecrp-ecrm/src/utils/transData'
+import apiRequestConfirm from '@nascent/ecrp-ecrm/src/utils/apiRequestConfirm'
 
 export default {
   test: {

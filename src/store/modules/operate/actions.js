@@ -1,4 +1,4 @@
-import http from 'web-crm/src/extends/http'
+import http from '@nascent/ecrp-ecrm/src/extends/http'
 import api from '@/apis'
 import * as types from './mutations_types'
 

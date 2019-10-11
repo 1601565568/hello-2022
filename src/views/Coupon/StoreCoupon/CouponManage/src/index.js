@@ -1,6 +1,6 @@
-import formMixin from 'web-crm/src/mixins/form'
+import formMixin from '@nascent/ecrp-ecrm/src/mixins/form'
 import moment from 'moment'
-import apiRequestConfirm from 'web-crm/src/utils/apiRequestConfirm'
+import apiRequestConfirm from '@nascent/ecrp-ecrm/src/utils/apiRequestConfirm'
 
 export default {
   mixins: [formMixin],

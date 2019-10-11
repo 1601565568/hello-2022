@@ -78,7 +78,7 @@
 </template>
 <script>
 import listPageMixin from '@/mixins/listPage'
-import ElUpload from 'nui-v2/lib/upload'
+import ElUpload from '@nascent/nui/lib/upload'
 import SelectMarket from './selectMarket'
 import SelectGoods from './selectGoods'
 import { getErrorMsg } from '@/utils/toast'

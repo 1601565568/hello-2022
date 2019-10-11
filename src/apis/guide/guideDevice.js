@@ -1,4 +1,4 @@
-import apiRequestConfirm from 'web-crm/src/utils/apiRequestConfirm'
+import apiRequestConfirm from '@nascent/ecrp-ecrm/src/utils/apiRequestConfirm'
 
 const prefix = 'guide/guideDevice/'
 

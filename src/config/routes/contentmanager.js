@@ -1,7 +1,7 @@
 export default {
   'path': '/Guide/Content',
   'name': 'CONTENT_MANAGER',
-  'component': () => import('web-crm/src/views/Default'),
+  'component': () => import('@nascent/ecrp-ecrm/src/views/Default'),
   'meta': {
     'title': '内容管理',
     'requiresAuth': true
@@ -11,7 +11,7 @@ export default {
       'path': '/Guide/Content',
       'name': 'CONTENT_MANAGER2',
       'title': '内容管理',
-      'component': () => import('web-crm/src/views/Content'),
+      'component': () => import('@nascent/ecrp-ecrm/src/views/Content'),
       'children': [
         {
           'path': '/ContentMange/MyMoments/index',
@@ -49,7 +49,7 @@ export default {
       'path': '/Guide/Content',
       'name': 'CONTENT_MANAGER_OTHER',
       'title': '其他',
-      'component': () => import('web-crm/src/views/Content'),
+      'component': () => import('@nascent/ecrp-ecrm/src/views/Content'),
       'children': [
         {
           'path': '/Guide/Content/CustomerService',

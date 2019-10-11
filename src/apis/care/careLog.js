@@ -1,4 +1,4 @@
-import transData from 'web-crm/src/utils/transData'
+import transData from '@nascent/ecrp-ecrm/src/utils/transData'
 export default {
   queryCareLogBySysCustomerId: { // 根据系统会员id找触达日志列表
     url: '/care/carelog/queryCareLogBySysCustomerId',

@@ -1,7 +1,7 @@
 export default {
   'path': '/Guide/SgGuide/List',
   'name': 'SHOP_MANAGER',
-  'component': () => import('web-crm/src/views/Default'),
+  'component': () => import('@nascent/ecrp-ecrm/src/views/Default'),
   'meta': {
     'title': '门店管理',
     'requiresAuth': true
@@ -11,7 +11,7 @@ export default {
       'path': '/Guide/SgGuide',
       'name': 'SHOP_MANAGER2',
       'title': '门店管理',
-      'component': () => import('web-crm/src/views/Content'),
+      'component': () => import('@nascent/ecrp-ecrm/src/views/Content'),
       'children': [
         {
           'path': '/Guide/SgStoreManagement/List',
@@ -25,7 +25,7 @@ export default {
       'path': '/Guide/SgGuide',
       'name': 'YGGL',
       'title': '员工管理',
-      'component': () => import('web-crm/src/views/Content'),
+      'component': () => import('@nascent/ecrp-ecrm/src/views/Content'),
       'children': [
         {
           'path': '/Guide/SgGuide/List',
@@ -63,7 +63,7 @@ export default {
       'path': '/Guide/SgGuide',
       'name': 'CustomerManage',
       'title': '客户管理',
-      'component': () => import('web-crm/src/views/Content'),
+      'component': () => import('@nascent/ecrp-ecrm/src/views/Content'),
       'children': [
         {
           'path': '/Guide/Customer/CustomerManage',

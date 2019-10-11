@@ -44,17 +44,17 @@ export default [
   {
     'path': '/Errors/:msg?',
     'name': 'Errors',
-    'component': () => import('web-crm/src/views/Errors/Errors')
+    'component': () => import('@nascent/ecrp-ecrm/src/views/Errors/Errors')
   },
   {
     'path': '/404',
     'name': '404',
-    'component': () => import('web-crm/src/views/Errors/404')
+    'component': () => import('@nascent/ecrp-ecrm/src/views/Errors/404')
   },
   {
     'path': '/401',
     'name': '401',
-    'component': () => import('web-crm/src/views/Errors/401')
+    'component': () => import('@nascent/ecrp-ecrm/src/views/Errors/401')
   },
   {
     'path': '/*',

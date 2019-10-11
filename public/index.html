@@ -12,7 +12,6 @@
   <meta http-equiv="X-UA-Compatible" content="IE=11;edge"/>
   <link rel="icon" href="<%= BASE_URL %>favicon.ico"/>
   <title>智慧导购</title>
-  <link rel="dns-prefetch" href="//wx-smartcrm.image.alimmdn.com" />
 </head>
 <body>
 <noscript>
@@ -182,9 +181,6 @@
   </div>
 </div>
 <div id="app"></div>
-<% if (process.env.VUE_APP_Dll_PLUGIN === 'true') { %>
-<script src="/temp/components.js"></script>
-<% } %>
 <% if (process.env.NODE_ENV === 'production') { %>
 <script>
   (function(){if(window.navigator.userAgent.indexOf("Trident/")>-1){var b=document.getElementsByTagName("head")[0];var a=document.createElement("script");a.type="text/javascript";a.src="https://unpkg.com/babel-polyfill@6.26.0/dist/polyfill.min.js";b.appendChild(a)}}());

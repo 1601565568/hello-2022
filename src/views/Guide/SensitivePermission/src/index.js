@@ -1,6 +1,6 @@
 import moment from 'moment/moment'
-import tableMixin from 'web-crm/src/mixins/table'
-import NsDatetime from 'web-crm/src/components/NsDatetime'
+import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
+import NsDatetime from '@nascent/ecrp-ecrm/src/components/NsDatetime'
 import { getErrorMsg } from '@/utils/toast'
 import Detail from '../components/Detail'
 

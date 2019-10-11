@@ -1,4 +1,4 @@
-import transData from 'web-crm/src/utils/transData'
+import transData from '@nascent/ecrp-ecrm/src/utils/transData'
 const treeFn = (err, rows) => {
   if (err) { throw err }
   // get all data

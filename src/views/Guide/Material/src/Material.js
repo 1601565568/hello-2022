@@ -1,4 +1,4 @@
-import tableMixin from 'web-crm/src/mixins/table'
+import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import api from '@/config/http'
 import { getErrorMsg } from '@/utils/toast'
 export default {

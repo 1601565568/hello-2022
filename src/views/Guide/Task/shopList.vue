@@ -141,7 +141,7 @@
 </template>
 <script>
 import listPageMixin from '@/mixins/listPage'
-import apiRequestConfirm from 'web-crm/src/utils/apiRequestConfirm'
+import apiRequestConfirm from '@nascent/ecrp-ecrm/src/utils/apiRequestConfirm'
 import shopDetailModal from './shopDetailModal'
 import guideListModal from './guideListModal'
 import { getErrorMsg } from '@/utils/toast'

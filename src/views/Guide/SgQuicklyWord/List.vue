@@ -177,8 +177,8 @@
 </template>
 <script>
 import List from './src/List'
-import ElMenu from 'nui-v2/lib/menu'
-import ElMenuItem from 'nui-v2/lib/menu-item'
+import ElMenu from '@nascent/nui/lib/menu'
+import ElMenuItem from '@nascent/nui/lib/menu-item'
 
 List.components = {
   ElMenu,

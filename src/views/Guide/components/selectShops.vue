@@ -69,8 +69,8 @@
 </template>
 <script>
 import listPageMixin from '@/mixins/listPage'
-import tableMixin from 'web-crm/src/mixins/table'
-import NsArea from 'web-crm/src/components/NsArea'
+import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
+import NsArea from '@nascent/ecrp-ecrm/src/components/NsArea'
 import { getErrorMsg } from '@/utils/toast'
 export default {
   props: {

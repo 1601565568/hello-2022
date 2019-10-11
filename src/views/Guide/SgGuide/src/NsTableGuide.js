@@ -1,4 +1,4 @@
-import tableMixin from 'web-crm/src/mixins/table'
+import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import { getErrorMsg } from '@/utils/toast'
 import BindDevice from '../components/BindDevice'
 import NsTableColumnOperateButtonExt from '@/components/NsTableColumnOperateButton'

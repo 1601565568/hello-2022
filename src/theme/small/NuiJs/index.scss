@@ -2,16 +2,16 @@
 
 // element-ui组件库样式主变量文件修改版
 @import "var";
-@import "~web-crm/src/theme/small/NuiJs/var";
+@import "~@nascent/ecrp-ecrm/src/theme/small/NuiJs/var";
 
 /* 改变 icon 字体路径变量，必需 */
-$--font-path: '~nui-v2/lib/theme-chalk/fonts';
+$--font-path: '~@nascent/nui/lib/theme-chalk/fonts';
 
 // element-ui组件库样式原文件
-@import "~nui-v2/packages/theme-chalk/src/index";
+@import "~@nascent/nui/packages/theme-chalk/src/index";
 // 复写 element-ui组件库样式
 /* 组件 */
-@import "web-crm/src/theme/small/NuiJs/components/index.pcss";
+@import "@nascent/ecrp-ecrm/src/theme/small/NuiJs/components/index.pcss";
 @import "../variables.pcss"; // 覆盖上一行复写的组件库样式变量，必需
 
 @import "./my.scss";

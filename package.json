@@ -3,21 +3,21 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "bootstrap": "yarn install && npm run clean:build && npm run build:icons && npm run build:dll",
+    "bootstrap": "yarn install && npm run clean:build && npm run build:icons",
     "start": "vue-cli-service serve",
     "build": "npm run clean:build && vue-cli-service build",
     "build:icons": "node ./build/copyIconsPro.js && cross-env VUE_APP_SVG_DIR=../../../src/icons lerna bootstrap --registry=https://registry.npm.taobao.org",
-    "build:dll": "webpack --config build/webpack.dll.conf.js",
     "clean:build": "rimraf dist public/temp node_modules/.cache",
     "lint": "vue-cli-service lint",
     "test:e2e": "vue-cli-service test:e2e",
     "test:unit": "vue-cli-service test:unit",
-    "upDateOss": "node build/upLoadFolderToOss.js",
-    "upEcrpEcrm": "yarn add web-crm --save"
+    "upDateOss": "node build/upLoadFolderToOss.js"
   },
   "dependencies": {
     "@ant-design/icons": "^2.1.1",
-    "@nascent/icons-vue": "^1.0.4",
+    "@nascent/ecrp-ecrm": "~4.0",
+    "@nascent/icons-vue": "^1.0.6",
+    "@nascent/nui": "^2.9.6",
     "@sentry/browser": "^4.5.3",
     "axios": "^0.18.0",
     "crypto-js": "^3.1.9-1",
@@ -26,7 +26,6 @@
     "lodash": "^4.17.11",
     "moment": "^2.24.0",
     "normalize.css": "^8.0.1",
-    "nui-v2": "^2.9.5",
     "numeral": "^2.0.6",
     "perfect-scrollbar": "^1.4.0",
     "register-service-worker": "^1.5.2",
@@ -38,8 +37,7 @@
     "vue-router": "^3.0.1",
     "vue-ueditor-wrap": "^2.4.0",
     "vuedraggable": "^2.17.0",
-    "vuex": "^3.0.1",
-    "web-crm": "^4.0.33"
+    "vuex": "^3.0.1"
   },
   "devDependencies": {
     "@nascent/icons-pro": "^1.0.6",
