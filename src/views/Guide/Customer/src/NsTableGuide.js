@@ -26,8 +26,11 @@ export default {
     ]
     let quickSearchModel = {}
     let findVo = {
-      'name': null,
-      'mobile': null
+      'customerName': null,
+      'nick': null,
+      'mobile': null,
+      'cardId': null,
+      'time': null
     }
     let model = Object.assign({}, findVo, {})
     return {
