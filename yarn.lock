@@ -1531,6 +1531,14 @@
   resolved "http://27.154.234.170:18081/repository/npm/@nascent/icons-pro/-/icons-pro-1.0.6.tgz#5c563d49b1becffcbd665a188189b3a56b2db587"
   integrity sha512-WZ+ag+3/wDU5VnwjWyHe32kh7TWQYW+9kbNV/DNNp/ku023fISVbXpbN4yrKyUj3q6Wf9cVvurK12FCzF5jwNA==
 
+"@nascent/icons-vue@^1.0.10":
+  version "1.0.10"
+  resolved "http://27.154.234.170:18081/repository/npm/@nascent/icons-vue/-/icons-vue-1.0.10.tgz#05de6e27ac8f249ed5f8a56ca5667f479f110964"
+  integrity sha512-hA+M3jxmkj7CeD+pwJ9/2/MMPUyU0YDNnvDfUZ0RarJlyj3LYbLNLGHDCeuR446RGLuQLoJkpXm/4kt0IwFNjQ==
+  dependencies:
+    "@ant-design/colors" "^3.1.0"
+    babel-runtime "^6.26.0"
+
 "@nascent/icons-vue@^1.0.6":
   version "1.0.6"
   resolved "http://27.154.234.170:18081/repository/npm/@nascent/icons-vue/-/icons-vue-1.0.6.tgz#a838b7a9fcf6cd6003816673a0bf07894b0ac42a"

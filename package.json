@@ -16,7 +16,7 @@
   "dependencies": {
     "@ant-design/icons": "^2.1.1",
     "@nascent/ecrp-ecrm": "~4.0",
-    "@nascent/icons-vue": "^1.0.6",
+    "@nascent/icons-vue": "^1.0.10",
     "@nascent/nui": "^2.9.6",
     "@sentry/browser": "^4.5.3",
     "axios": "^0.18.0",
