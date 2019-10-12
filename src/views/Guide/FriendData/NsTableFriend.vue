@@ -120,7 +120,7 @@
             {{scope.row.nick?scope.row.nick:'-'}}
           </template>
         </el-table-column>
-        <el-table-column prop="gender" label="性别" align="center" width="100">
+        <el-table-column prop="gender" label="性别" align="center" width="60">
           <template slot-scope="scope">
             {{scope.row.gender>=0?scope.row.gender>=1?'女':'男':'-'}}
           </template >
@@ -140,7 +140,7 @@
             {{scope.row.ownerId}}
           </template >
         </el-table-column>
-        <el-table-column prop="num" label="朋友圈互动数" align="left" width="200" sortable="custom">
+        <el-table-column prop="num" label="朋友圈互动数" align="left" width="160" sortable="custom">
           <template slot-scope="scope">
             赞我：{{scope.row.likeNum}}; 赞他：{{scope.row.likeHimNum}}。
             <br>
