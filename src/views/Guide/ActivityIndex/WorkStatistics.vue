@@ -344,10 +344,10 @@ export default {
     // 初始化默认查询本年当月
     this.searchObj.searchMap = Object.assign(this.searchObj.searchMap, {
       type: '1', // 1按月、2按日
-      date: moment(new Date()).format('YYYY-MM') // 年月份,
+      date: moment(new Date()) // 年月份,
     })
     // 获取当前年份---默认加载当前年
-    this.searchform.date = moment(new Date()).format('YYYY-MM')
+    this.searchform.date = moment(new Date())
     this.loadListFun()
   },
   methods: {
