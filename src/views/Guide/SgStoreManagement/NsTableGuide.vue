@@ -105,7 +105,7 @@
             <el-form-item label="所属地区：" style="margin-right:0;" prop="area">
               <el-form-grid width="300" prop="area">
                 <!-- <ns-area  :props="searchform.key" @change="onAreaChange" change-on-select v-model="searchform.area" clearable></ns-area> -->
-                <ns-area :props="searchform.key" @change="onAreaChange" change-on-select v-model="model.area"
+                <ns-area :props="searchform.key" @change="onAreaChange" v-model="model.area"
                          clearable></ns-area>
               </el-form-grid>
             </el-form-item>

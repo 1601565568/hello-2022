@@ -14,7 +14,7 @@
         <el-form ref="searchform" label-width="80px"  class="surround-btn" :model="searchform"  :inline="true">
           <el-form-item label="所在区域：" style="margin-right:0;" prop="district">
             <el-form-grid width="260" prop="area">
-              <ns-area  :props="searchform.key" @change="onAreaChange" change-on-select v-model="searchform.area"></ns-area>
+              <ns-area  :props="searchform.key" @change="onAreaChange" v-model="searchform.area"></ns-area>
             </el-form-grid>
           </el-form-item>
           <el-form-item label="门店名称：" prop="shopName">
