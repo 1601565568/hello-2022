@@ -89,6 +89,10 @@ export default {
         }
       })
     },
+    reset () {
+      this.dateRadio = null
+      this.$resetInputAction$()
+    },
     openContentDlg (row) {
       this.contentDlgVisible = true
       this.dlgContent = row.content

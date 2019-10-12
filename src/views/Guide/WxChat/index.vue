@@ -399,6 +399,20 @@ export default index
           border-color: transparent #F2F4F6 transparent transparent;
         }
       }
+      @e withdraw {
+        font-size: 12px;
+        color: #FF1A1A;
+        text-align: center;
+        line-height: 26px;
+        height: 26px;
+        display: inline-block;
+        float: right;
+        margin-top: 15px;
+        padding: 0 10px;
+        border-radius: 30px;
+        background: rgba(255,44,44,.06);
+        clear: both;
+      }
     }
     @b rightmsg {
       text-align: right;
