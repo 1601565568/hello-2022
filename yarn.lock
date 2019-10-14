@@ -1500,13 +1500,14 @@
     call-me-maybe "^1.0.1"
     glob-to-regexp "^0.3.0"
 
-"@nascent/ecrp-ecrm@~4.0":
-  version "4.0.44"
-  resolved "http://27.154.234.170:18081/repository/npm/@nascent/ecrp-ecrm/-/ecrp-ecrm-4.0.44.tgz#85a671e34749934f2d7b7255b012ba92144d0700"
-  integrity sha512-dCFJ0Yc0aRtbcCH2SKKHQNWqElp9GFpHWKYGKVGb5o07bznvumNze/FJuZfGKMVJteSJeknqumHSKozOXLuw4g==
+"@nascent/ecrp-ecrm@^4.0.51":
+  version "4.0.51"
+  resolved "http://27.154.234.170:18081/repository/npm/@nascent/ecrp-ecrm/-/ecrp-ecrm-4.0.51.tgz#3771892b5a961ab7004ac1ebb231312b8dd3ed5b"
+  integrity sha512-AgsJsSCGN+zMu+Zm71Hw1PrXQQx1my0lGxe1FHoQWP2Qm/XmVGPnG5joFvzHxpsgwGoGxm2Q17xMEr3e8eZaJQ==
   dependencies:
     "@ant-design/icons" "^2.1.1"
-    "@nascent/icons-vue" "^1.0.6"
+    "@nascent/icons-vue" "^1.0.10"
+    "@nascent/log" "^0.1.7"
     "@nascent/nui" "^2.9.6"
     "@sentry/browser" "^4.5.3"
     axios "^0.18.0"
@@ -1531,13 +1532,21 @@
   resolved "http://27.154.234.170:18081/repository/npm/@nascent/icons-pro/-/icons-pro-1.0.6.tgz#5c563d49b1becffcbd665a188189b3a56b2db587"
   integrity sha512-WZ+ag+3/wDU5VnwjWyHe32kh7TWQYW+9kbNV/DNNp/ku023fISVbXpbN4yrKyUj3q6Wf9cVvurK12FCzF5jwNA==
 
-"@nascent/icons-vue@^1.0.6":
-  version "1.0.6"
-  resolved "http://27.154.234.170:18081/repository/npm/@nascent/icons-vue/-/icons-vue-1.0.6.tgz#a838b7a9fcf6cd6003816673a0bf07894b0ac42a"
-  integrity sha512-UZcNCo/pwbNMpN4KD0sGtyltBjtLT0ee7E6EZXbDO3JzuF2wQE4exxE5q2VVFSoCJyEyQ+QeXXQC0FldCYk0Fw==
+"@nascent/icons-vue@^1.0.10":
+  version "1.0.10"
+  resolved "http://27.154.234.170:18081/repository/npm/@nascent/icons-vue/-/icons-vue-1.0.10.tgz#05de6e27ac8f249ed5f8a56ca5667f479f110964"
+  integrity sha512-hA+M3jxmkj7CeD+pwJ9/2/MMPUyU0YDNnvDfUZ0RarJlyj3LYbLNLGHDCeuR446RGLuQLoJkpXm/4kt0IwFNjQ==
   dependencies:
     "@ant-design/colors" "^3.1.0"
     babel-runtime "^6.26.0"
+
+"@nascent/log@^0.1.7":
+  version "0.1.7"
+  resolved "http://27.154.234.170:18081/repository/npm/@nascent/log/-/log-0.1.7.tgz#c28a6c1497ff9c259075b5666b55a912cacf02d0"
+  integrity sha512-NHvCBRYyCjYqzUs/QvNrIvEMxppt58UFi4+DKJWox/hxAY/UshVH0pWjyT7hlLL0zFqTLN+idU5JYlOXyu4qZg==
+  dependencies:
+    vue "^2.5.2"
+    vue-router "^3.0.1"
 
 "@nascent/nui@^2.9.6":
   version "2.9.6"
@@ -12735,7 +12744,7 @@ vue-ueditor-wrap@^2.4.0:
   resolved "https://registry.npm.taobao.org/vue-ueditor-wrap/download/vue-ueditor-wrap-2.4.1.tgz#bb0fbc02ce9c7cc6d074f4ace597840f6772e3c1"
   integrity sha1-uw+8As6cfMbQdPSs5ZeED2dy48E=
 
-vue@^2.5.13, vue@^2.5.21:
+vue@^2.5.13, vue@^2.5.2, vue@^2.5.21:
   version "2.6.10"
   resolved "https://registry.npm.taobao.org/vue/download/vue-2.6.10.tgz#a72b1a42a4d82a721ea438d1b6bf55e66195c637"
   integrity sha1-pysaQqTYKnIepDjRtr9V5mGVxjc=

@@ -421,6 +421,7 @@ export default {
       this.type = null
       this.findDetailData(this.guideId)
     },
+    // 提成明细
     findDetailData (guideId) {
       var _this = this
       // 组装搜索对象

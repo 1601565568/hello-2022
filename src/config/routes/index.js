@@ -42,24 +42,14 @@ export default [
     }
   },
   {
-    'path': '/Errors/:msg?',
+    'path': '/errors/:msg?',
     'name': 'Errors',
     'component': () => import('@nascent/ecrp-ecrm/src/views/Errors/Errors')
   },
   {
-    'path': '/404',
-    'name': '404',
-    'component': () => import('@nascent/ecrp-ecrm/src/views/Errors/404')
-  },
-  {
-    'path': '/401',
-    'name': '401',
-    'component': () => import('@nascent/ecrp-ecrm/src/views/Errors/401')
-  },
-  {
-    'path': '/*',
-    'redirect': {
-      'name': '404'
+    path: '/*',
+    redirect: {
+      name: 'Errors'
     }
   }
   // 不可在/* 之后配置 路由

@@ -76,6 +76,19 @@
             <el-input style="width:180px" autofocus=true v-model="model.cardId" placeholder="请输入卡号" clearable></el-input>
           </el-form-grid>
         </el-form-item>
+        <el-form-item label="入会时间：" prop="time">
+          <el-date-picker
+            v-model="model.time"
+            type="datetimerange"
+            value-format="yyyy-MM-dd HH:mm:ss"
+            :picker-options="pickerOptions"
+            range-separator="至"
+            start-placeholder="请选择开始日期"
+            end-placeholder="请选择结束日期"
+            :default-time="['00:00:00','23:59:59']"
+            align="right">
+          </el-date-picker>
+        </el-form-item>
 
       </el-form>
 

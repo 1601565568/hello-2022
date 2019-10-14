@@ -15,9 +15,9 @@
         <el-col :span="7">
             <ns-button type="primary" @click="AddShowToggle({})">新增</ns-button>
             <ns-button type="primary" v-if="color" @click="setGroudShowToggle">批量设置分组</ns-button>
-            <ns-button type="info" disabled v-else  >批量设置分组</ns-button>
+            <ns-button type="primary" disabled v-else  >批量设置分组</ns-button>
             <ns-button type="primary" v-if="color" @click="deleteSubdivision">删除</ns-button>
-            <ns-button disabled type="info" v-else >删除</ns-button>
+            <ns-button disabled type="primary" v-else >删除</ns-button>
         </el-col>
         <el-col :span="17">
           <!-- 右上角操作区域 -->

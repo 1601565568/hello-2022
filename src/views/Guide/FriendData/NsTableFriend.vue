@@ -120,34 +120,34 @@
             {{scope.row.nick?scope.row.nick:'-'}}
           </template>
         </el-table-column>
-        <el-table-column prop="gender" label="性别" align="center" width="100">
+        <el-table-column prop="gender" label="性别" align="center" width="60">
           <template slot-scope="scope">
             {{scope.row.gender>=0?scope.row.gender>=1?'女':'男':'-'}}
           </template >
         </el-table-column>
-        <el-table-column prop="areaName" label="地区" align="left" width="100">
+        <el-table-column prop="areaName" label="地区" align="left">
           <template slot-scope="scope">
             {{scope.row.areaName?scope.row.areaName:'-'}}
           </template >
         </el-table-column>
-        <el-table-column prop="tag" label="标签" align="left" width="100">
+        <el-table-column prop="tag" label="标签" align="left" >
           <template slot-scope="scope">
             {{scope.row.tag?scope.row.nickname:'-'}}
           </template >
         </el-table-column>
-        <el-table-column prop="wid" label="个人号" align="left" width="170">
+        <el-table-column prop="wid" label="个人号" align="left" width="150">
           <template slot-scope="scope">
             {{scope.row.ownerId}}
           </template >
         </el-table-column>
-        <el-table-column prop="num" label="朋友圈互动数" align="left" width="200" sortable="custom">
+        <el-table-column prop="num" label="朋友圈互动数" align="left" width="140" sortable="custom">
           <template slot-scope="scope">
             赞我：{{scope.row.likeNum}}; 赞他：{{scope.row.likeHimNum}}。
             <br>
             评我：{{scope.row.commentsNum}}; 评他：{{scope.row.commentsHimNum}}。
           </template>
         </el-table-column>
-        <el-table-column prop='receiveConversationTime' label="最近交流时间" align="left" sortable="custom" >
+        <el-table-column prop='receiveConversationTime' label="最近交流时间" align="left" width="180" sortable="custom" >
           <template slot-scope="scope">
             发：{{scope.row.sendConversationTime?scope.row.sendConversationTime:"-"}}
             <br>
@@ -162,14 +162,14 @@
                     </span>
           </template>
         </el-table-column>
-        <el-table-column prop="addTime" label="添加好友时间" align="center" sortable="custom" >
+        <el-table-column prop="addTime" label="添加好友时间" align="center" width="160" sortable="custom" >
         </el-table-column>
 
-        <el-table-column prop="status,row" :show-overflow-tooltip="true" label="操作" align="center" width="120">
+        <el-table-column prop="status,row" :show-overflow-tooltip="true" label="操作" align="center" width="80">
           <template slot-scope="scope">
             <div>
               <ns-button style="color:#0091FA"  @click="onRedactFun(scope.row.wid)" type="text">详情</ns-button>
-              <ns-button style="color:#0091FA"  type="text" @click="sendWechatMsg(scope.row)">聊天</ns-button>
+<!--              <ns-button style="color:#0091FA"  type="text" @click="sendWechatMsg(scope.row)">聊天</ns-button>-->
 <!--              <ns-button style="color:#0091FA"  type="text" >打标</ns-button>-->
             </div>
           </template>
