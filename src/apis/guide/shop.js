@@ -26,5 +26,9 @@ export default {
   findDigitalShopByShopId: {
     url: '/digital/findDigitalShopByShopId',
     method: 'get'
+  },
+  findShopGrade: { // 查询店铺等级信息
+    url: '/core/sgshop/findShopGrade',
+    method: 'post'
   }
 }

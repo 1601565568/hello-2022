@@ -30,7 +30,8 @@ export default {
       'nick': null,
       'mobile': null,
       'cardId': null,
-      'time': null
+      'time': null,
+      'grade': null
     }
     let model = Object.assign({}, findVo, {})
     return {
@@ -53,7 +54,8 @@ export default {
       offLineShopId: null,
       loading: false,
       offsetHeight: false,
-      height: 0
+      height: 0,
+      gradeInfo: [] // 等级信息下拉框
     }
   },
   watch: {
@@ -84,6 +86,7 @@ export default {
     },
     onClickNode (data) {
       var _this = this
+      console.log(JSON.stringify(data))
       if (this._data._table.data.length > 0) {
         this._data._table.data = []
       }
@@ -92,6 +95,13 @@ export default {
       _this.loading = true
       _this.$reload().then(rep => {
         _this.loading = _this._data._loading
+      })
+      _this.$http.fetch(_this.$api.guide.shop.findShopGrade,{shopId: _this.offLineShopId}).then(resp => {
+        if (resp.success && resp.result !== null) {
+          _this.gradeInfo = resp.result
+        }
+      }).catch((resp) => {
+        _this.$notify.error(getErrorMsg('查询等级信息失败', resp))
       })
     },
     // 树节点过滤

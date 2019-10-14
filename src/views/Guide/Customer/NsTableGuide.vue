@@ -76,7 +76,15 @@
             <el-input style="width:180px" autofocus=true v-model="model.cardId" placeholder="请输入卡号" clearable></el-input>
           </el-form-grid>
         </el-form-item>
-        <el-form-item label="入会时间：" prop="time">
+        <el-form-item label="等级：">
+          <el-form-grid size="xmd">
+            <el-select placeholder="请选择" v-model="model.grade" clearable filterable>
+              <el-option v-for="grade in gradeInfo" :label="grade.gradeName" :value="grade.grade"
+                         :key="grade.grade"></el-option>
+            </el-select>
+          </el-form-grid>
+        </el-form-item>
+        <el-form-item label="入库时间：" prop="time">
           <el-date-picker
             v-model="model.time"
             type="datetimerange"
