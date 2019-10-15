@@ -195,7 +195,9 @@
       </div>
       <div class="search-input">
         <el-input ref="quickText" v-model="contentKeyWord" placeholder="请输入内容">
-          <i class="el-icon-search el-input__icon" slot="suffix" name="name" :disabled="btnSearchContentDisabled" @click="searchByContent"></i>
+          <i class="el-input__icon" slot="suffix" name="name" :disabled="btnSearchContentDisabled" @click="searchByContent">
+            <Icon type="search"/>
+          </i>
         </el-input>
       </div>
       <el-scrollbar class="scrollbarseacher" v-loading.lock="contentLoading">

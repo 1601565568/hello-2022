@@ -28,13 +28,13 @@
                 <span>{{ node.label }}</span>
                 <span v-show="data.extData.showIcon" class="subdivision-tree-node-icon">
                   <span>
-                    <i v-show="data.extData.showAddIcon" class="el-icon-circle-plus" @click="onAppendNode(node,data)"></i>
+                    <Icon type="plus-circle" theme="filled" v-show="data.extData.showAddIcon" @click="onAppendNode(node,data)"/>
                   </span>
                   <span>
-                    <i v-show="data.extData.showEditIcon" class="el-icon-edit" @click="onEditNode(node,data)"></i>
+                    <Icon type="edit" v-show="data.extData.showEditIcon" @click="onEditNode(node,data)"/>
                   </span>
                   <span>
-                    <i v-show="data.extData.showDeleteIcon" class="el-icon-delete" @click="onDeleteNode(node, data)"></i>
+                    <Icon type="deletes" v-show="data.extData.showDeleteIcon" @click="onDeleteNode(node, data)"/>
                   </span>
                 </span>
               </div>
