@@ -12,7 +12,7 @@
     <Duplicate :visible.sync="duplicateDialog.visible" />
     <div class="template-page__row-left">
       <el-input ref="quickText" style="width: 190px" v-model="filterGroup" placeholder="搜索群名">
-        <Icon fontType="el-icon-search" className="el-input__icon" slot="suffix" @click="onFilterGroup"></Icon>
+        <Icon type="search" className="el-input__icon" style="padding: 5px;" slot="suffix" @click="onFilterGroup"/>
       </el-input>
       <div class="elTree" :style="{ 'height' : groupTreeHeight + 'px'}">
         <el-tree
@@ -57,11 +57,11 @@
                 @keyup.enter.native="$quickSearchAction$('nick')"
               >
                 <Icon
-                  fontType="el-icon-search"
+                  type="search"
                   className="el-input__icon"
                   slot="suffix"
                   @click="$quickSearchAction$('nick')"
-                ></Icon>
+                />
               </el-input>
             </el-form-item>
             <el-form-item>
@@ -202,7 +202,7 @@
                     trigger="hover"
                     content="点击群名称，可查看此群下所有微信"
                   >
-                    <i slot="reference" class="table-header-icon"><Icon fontType="el-icon-info" /></i>
+                    <i slot="reference" class="table-header-icon"><Icon type="info-circle" theme="filled" /></i>
                   </el-popover>
                 </span>
               </template>

@@ -113,7 +113,7 @@
                            :on-success="handleAvatarSuccess"
                            :before-upload="beforeAvatarUpload">
                   <img width="200px" v-if="model.sgGuide.image" :src="model.sgGuide.image" class="avatar">
-                  <Icon fontType="el-icon-plus" v-else className="avatar-uploader-icon"></Icon>
+                  <Icon type="plus" v-else className="avatar-uploader-icon"/>
                 </el-upload>
                 <span>上传图片不能大于500KB,仅支持jpg,jpeg,png,gif格式</span>
               </el-form-item>
@@ -140,19 +140,19 @@
             <el-radio @change="shiftChange" label="1">
               同门店均分
               <el-tooltip class="item" effect="light" content="平均分配给会员所属门店员工" placement="bottom">
-               <Icon fontType="el-icon-question"></Icon>
+               <Icon type="question-circle" theme="filled" />
               </el-tooltip>
             </el-radio>
             <el-radio @change="shiftChange" label="2">
               转移给指定导购
               <el-tooltip class="item" effect="light" content="会员全部转给选择的员工" placement="bottom">
-                <Icon fontType="el-icon-question"></Icon>
+                <Icon type="question-circle" theme="filled" />
               </el-tooltip>
             </el-radio>
             <el-radio @change="shiftChange" label="3">
               自定义转移
               <el-tooltip class="item" effect="light" content="自定义选择会员转移给选择的员工" placement="bottom">
-                <Icon fontType="el-icon-question"></Icon>
+                <Icon type="question-circle" theme="filled" />
               </el-tooltip>
             </el-radio>
           </el-radio-group>
@@ -557,8 +557,8 @@
       <el-form-item label="会员归属方式：" required>
         <el-form-grid size="xxmd">
           <el-radio-group v-model="memberBelongingRadio">
-            <el-radio @change='memberBelonging' label='1'>员工<Icon fontType="el-icon-question"></Icon></el-radio>
-            <el-radio @change='memberBelonging' label='2'>门店<Icon fontType="el-icon-question"></Icon></el-radio>
+            <el-radio @change='memberBelonging' label='1'>员工<Icon type="question-circle" theme="filled" /></el-radio>
+            <el-radio @change='memberBelonging' label='2'>门店<Icon type="question-circle" theme="filled" /></el-radio>
           </el-radio-group>
         </el-form-grid>
       </el-form-item>
@@ -580,8 +580,8 @@
       <el-form-item label="会员归属方式：" required>
         <el-form-grid size="xxmd">
           <el-radio-group v-model="replacementStoresHaveMembersRadio">
-            <el-radio label='1'>员工<Icon fontType="el-icon-question"></Icon></el-radio>
-            <el-radio label='2'>门店<Icon fontType="el-icon-question"></Icon></el-radio>
+            <el-radio label='1'>员工<Icon type="question-circle" theme="filled" /></el-radio>
+            <el-radio label='2'>门店<Icon type="question-circle" theme="filled" /></el-radio>
           </el-radio-group>
         </el-form-grid>
       </el-form-item>

@@ -140,7 +140,7 @@ export default {
       let _this = this
       let params = { id: data.id }
       _this.$http.fetch(_this.$api.guide.sensitiveWord.hasWordInGroup, params).then(resp => {
-        _this.removeGroupText = '<font size=\'5\' color="#E6A23C"><Icon fontType=\'el-icon-warning\'></Icon></font>&nbsp;&nbsp;确认要删除 <font color="red">' + _this.getGroupNameFromTreeNode(data) + ' </font>分组吗?'
+        _this.removeGroupText = '<font size=\'5\' color="#E6A23C"><Icon type=\'exclamation-circle\' theme=\'outlined\' /></font>&nbsp;&nbsp;确认要删除 <font color="red">' + _this.getGroupNameFromTreeNode(data) + ' </font>分组吗?'
         _this.removeGroupSelectVisible = resp.result
         _this.removeGroupDialogVisible = true
         _this.groupInRemoveGroupDlg = null

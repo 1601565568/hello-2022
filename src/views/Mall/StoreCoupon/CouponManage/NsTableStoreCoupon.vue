@@ -7,7 +7,8 @@
         <el-form-item v-show="_data._queryConfig.expand === false">
           <el-input ref="quickText" @keyup.enter.native="$quickSearchAction$('name')"
                     v-model="quickSearchModel.name" placeholder="请输入优惠券名称">
-            <Icon fontType="el-icon-search" className="el-input__icon" slot="suffix" @click="$quickSearchAction$('name')"></Icon>
+            <Icon type="search" className="el-input__icon" style="padding: 5px;" slot="suffix" name="name"
+                  @click="$quickSearchAction$('name')"/>
           </el-input>
         </el-form-item>
         <el-form-item>

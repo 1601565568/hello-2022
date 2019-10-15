@@ -13,7 +13,8 @@
       <el-form :model="quickSearchModel" :inline="true" @submit.native.prevent class="pull-right">
         <el-form-item v-show="_data._queryConfig.expand === false">
           <el-input ref="quickText" v-model.trim="quickSearchModel.couponTitle" placeholder="请输入优惠券名称" @keyup.enter.native="$quickSearchAction$('couponTitle')">
-            <Icon fontType="el-icon-search" className="el-input__icon" slot="suffix" name="name" @click="$quickSearchAction$('couponTitle')"></Icon>
+            <Icon type="search" className="el-input__icon" style="padding: 5px;" slot="suffix" name="name"
+                  @click="$quickSearchAction$('couponTitle')"/>
           </el-input>
         </el-form-item>
         <el-form-item>

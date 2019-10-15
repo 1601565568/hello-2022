@@ -53,7 +53,7 @@
             </el-form-grid>
              <el-form-grid><ns-button className="text-tips" type="text" @click="showTargetDetail = true">查询ID</ns-button></el-form-grid>
              <el-form-grid>
-               <el-tooltip content="查询数据模块中需查询数据的数据库ID" placement="right"><Icon fontType="el-icon-info" /></el-tooltip>
+               <el-tooltip content="查询数据模块中需查询数据的数据库ID" placement="right"><Icon type="info-circle" theme="filled" /></el-tooltip>
              </el-form-grid>
           </el-form-item>
 
@@ -100,7 +100,7 @@
               </el-date-picker>
             </el-form-grid>
             <el-form-grid>
-              <el-tooltip content="仅支持查询最近36个月内的操作日志" placement="right"><Icon fontType="el-icon-info" /></el-tooltip>
+              <el-tooltip content="仅支持查询最近36个月内的操作日志" placement="right"><Icon type="info-circle" theme="filled" /></el-tooltip>
             </el-form-grid>
           </el-form-item>
 

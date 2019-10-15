@@ -12,8 +12,8 @@
               <el-form-item v-show="_data._queryConfig.expand === false">
                 <el-input ref="quickText" v-model="model.keyword" placeholder="关键字"
                           @keyup.enter.native="$quickSearchAction$(model.keyword)">
-                  <Icon fontType="el-icon-search" className="el-input__icon" slot="suffix" name="name"
-                     @click="$quickSearchAction$(model.keyword)"></Icon>
+                  <Icon type="search" className="el-input__icon" style="padding: 5px;" slot="suffix" name="name"
+                        @click="$quickSearchAction$(model.keyword)"/>
                 </el-input>
               </el-form-item>
               <el-form-item>

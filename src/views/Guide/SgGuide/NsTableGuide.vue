@@ -16,7 +16,7 @@
       <el-form :model="quickSearchModel" :inline="true" @submit.native.prevent  class="pull-right">
         <el-form-item v-show="_data._queryConfig.expand === false">
           <el-input ref="quickText" style="width: 250px" v-model="model.name" placeholder="请输入工号/姓名/昵称/手机号" @keyup.enter.native="$quickSearchAction$('name')" clearable>
-<!--             <Icon fontType="el-icon-search" className="el-input__icon" slot="suffix" name="name" @click="$quickSearchAction$('name')"></Icon>-->
+<!--             <Icon type="search" className="el-input__icon" style="padding: 5px;" slot="suffix" name="name" @click="$quickSearchAction$('name')"/>-->
           </el-input>
           <ns-button type="primary" @click="$searchAction$()">搜索</ns-button>
           <ns-button @click="$resetInputAction$()">重置</ns-button>
@@ -126,7 +126,7 @@
                         <div slot-scope>
                           需将员工账号与导购终端手机进行绑定，让其能够应用智慧导购系统<br>
                           <span class='tips'>注：</span>使用终端系统的，非离职的，建议不要进行客户转移</div>
-                        <i slot='reference' class='table-header-icon'><Icon fontType="el-icon-info" /></i>
+                        <i slot='reference' class='table-header-icon'><Icon type="info-circle" theme="filled" /></i>
                       </el-popover>
                     </span>
           </template>

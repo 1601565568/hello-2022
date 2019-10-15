@@ -208,7 +208,7 @@
                 </el-form-item>
               </el-form-grid>
               <Icon v-if="$parent.careType === 'PayConcern'" fontType="el-icon-info" className="text-tips">付款关怀仅支持线上店铺，不选则默认全部店铺</Icon>
-              <Icon fontType="el-icon-info" v-else className="text-tips">不选则默认全部店铺</Icon>
+              <Icon type="info-circle" theme="filled" v-else className="text-tips">不选则默认全部店铺</Icon>
             </el-form-item>
           </el-form-item>
           <!-- 使用范围end -->

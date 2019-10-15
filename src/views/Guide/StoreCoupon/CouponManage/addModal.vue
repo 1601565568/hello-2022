@@ -211,7 +211,7 @@
                                   :params="{isOnline: 0}"></ns-shop-select>
                 </el-form-item>
               </el-form-grid>
-              <Icon fontType="el-icon-info" v-if="$parent.careType === 'PayConcern'" className="text-tips">付款关怀仅支持线上店铺，不选则默认全部店铺</Icon>
+              <Icon type="info-circle" theme="filled" v-if="$parent.careType === 'PayConcern'" className="text-tips">付款关怀仅支持线上店铺，不选则默认全部店铺</Icon>
               <Icon v-else fontType="el-icon-info" className="text-tips">不选则默认全部店铺</Icon>
             </el-form-item>
           </el-form-item>

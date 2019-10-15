@@ -8,7 +8,7 @@
       </el-form-item>
       <el-form-item>
         <ns-button type="primary" @click="queryData">确定</ns-button>
-        <div class="tmp-tips text-warning"><Icon fontType="el-icon-warning"></Icon>
+        <div class="tmp-tips text-warning"><Icon type="exclamation-circle" theme="outlined" />
           目前仅支持数据查询，不允许更新、删除等操作
         </div>
       </el-form-item>

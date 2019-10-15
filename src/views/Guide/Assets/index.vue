@@ -14,7 +14,7 @@
         <el-form :model="quickSearchModel" :inline="true" @submit.native.prevent class="pull-right">
           <el-form-item v-show="_data._queryConfig.expand === false">
             <el-input ref="quickText" v-model.trim="quickSearchModel.searchName" placeholder="会员名称或手机号" @keyup.enter.native="$quickSearchAction$('searchName')">
-              <Icon className="el-input__icon" fontType="el-icon-search" slot="suffix" @click="$quickSearchAction$('searchName')"></Icon>
+              <Icon className="el-input__icon" type="el-icon-search" slot="suffix" @click="$quickSearchAction$('searchName')"/>
             </el-input>
           </el-form-item>
           <el-form-item>

@@ -16,7 +16,8 @@
             <el-form :model="quickSearchModel" :inline="true" @submit.native.prevent class="pull-right">
               <el-form-item v-show="_data._queryConfig.expand === false">
                 <el-input ref="quickText" v-model="model.keyword" placeholder="关键字" @keyup.enter.native="$quickSearchAction$(model.keyword)">
-                  <Icon fontType="el-icon-search" className="el-input__icon" slot="suffix" name="name" @click="$quickSearchAction$(model.keyword)"></Icon>
+                  <Icon type="search" className="el-input__icon" style="padding: 5px;" slot="suffix" name="name"
+                        @click="$quickSearchAction$(model.keyword)"/>
                 </el-input>
               </el-form-item>
               <el-form-item>
@@ -303,7 +304,7 @@
 <!--              :on-success="handleAvatarSuccess"-->
 <!--              :before-upload="beforeAvatarUpload">-->
 <!--              <img v-if="imageUrl" :src="imageUrl" class="avatar">-->
-<!--              <Icon v-else fontType="el-icon-plus" className="avatar-uploader-icon"></i>-->
+<!--              <Icon v-else type="plus" className="avatar-uploader-icon"></i>-->
 <!--            </el-upload>-->
           </div>
         </el-form-item>

@@ -17,7 +17,7 @@
         <el-row class="overview-popover">
           根据任务的开始时间筛选，结束时间默认为当前时间
         </el-row>
-        <Icon slot="reference" fontType="el-icon-info" className="ml10 fz13" style='color:#999'></Icon>
+        <Icon slot="reference" type="info-circle" theme="filled" className="ml10 fz13" style='color:#999'/>
       </el-popover>
   </div>
   <div class="bg-white mt5 ">
@@ -28,7 +28,7 @@
         <el-row class="overview-popover">
           任务总数：统计所有的任务数量；进行中：统计进行中的任务数
         </el-row>
-        <Icon slot="reference" fontType="el-icon-info" className="ml10 fz13" style='color:#999'></Icon>
+        <Icon slot="reference" type="info-circle" theme="filled" className="ml10 fz13" style='color:#999'/>
       </el-popover>
     </h3>
     <el-row class="statistics" :gutter="5" style='height:254px'>
@@ -69,7 +69,7 @@
               <el-row class="overview-popover">
                 完成率 = （按时完成 + 延期完成）/ 任务总数
               </el-row>
-              <Icon slot="reference" fontType="el-icon-info" className="ml10 fz16" style='color:#acacac'></Icon>
+              <Icon slot="reference" type="info-circle" theme="filled" className="ml10 fz16" style='color:#acacac'/>
             </el-popover>
           </div>
           <div>
@@ -81,7 +81,7 @@
                   <el-row class="overview-popover">
                     在规定时间内完成的任务数
                   </el-row>
-                  <Icon slot="reference" fontType="el-icon-info" className="ml6 fz13" style='color:#acacac'></Icon>
+                  <Icon slot="reference" type="info-circle" theme="filled" className="ml6 fz13" style='color:#acacac'/>
                 </el-popover>
               </div>
               <div class='fz16 mt14 text-center' style='color:#11b37f'>{{infoObj.finishOnTime}}</div>
@@ -110,7 +110,7 @@
               <el-row class="overview-popover">
                 延期率 = 延期数/ 任务总数
               </el-row>
-              <Icon slot="reference" fontType="el-icon-info" className="ml10 fz16" style='color:#acacac'></Icon>
+              <Icon slot="reference" type="info-circle" theme="filled" className="ml10 fz16" style='color:#acacac'/>
             </el-popover>
           </div>
           <div>
@@ -122,7 +122,7 @@
                   <el-row class="overview-popover">
                     延期数：只有没有按时完成的任务即为延期（包含延期完成和未完成）
                   </el-row>
-                  <Icon slot="reference" fontType="el-icon-info" className="ml6 fz13" style='color:#acacac'></Icon>
+                  <Icon slot="reference" type="info-circle" theme="filled" className="ml6 fz13" style='color:#acacac'/>
                 </el-popover>
               </div>
               <div class='fz16 mt14 text-center' style='color:#ff5e5e'>{{infoObj.delayCount}}</div>
@@ -150,7 +150,7 @@
               <el-row class="overview-popover">
                 任务显示根据任务的开始时间进行筛选；例如：筛选时间为2019-03-01至现在，则显示任务开始时间为2019-03-01至现在的任务
               </el-row>
-              <Icon slot="reference" fontType="el-icon-info" className="ml10 fz13" style='color:#999'></Icon>
+              <Icon slot="reference" type="info-circle" theme="filled" className="ml10 fz13" style='color:#999'/>
             </el-popover>
           </div>
           <div>
@@ -188,7 +188,7 @@
               <el-row class="overview-popover">
                 统计所有任务的总数和未完成数（未完成数：进行中任务+延期未完成任务）
               </el-row>
-              <Icon slot="reference" fontType="el-icon-info" className="ml10 fz13" style='color:#999'></Icon>
+              <Icon slot="reference" type="info-circle" theme="filled" className="ml10 fz13" style='color:#999'/>
             </el-popover>
           </div>
         </div>
@@ -215,7 +215,7 @@
             <el-row class="overview-popover">
               完成任务包含按时完成和延期完成
             </el-row>
-            <Icon slot="reference" fontType="el-icon-info" className="ml6 fz13" style='color:#acacac'></Icon>
+            <Icon slot="reference" type="info-circle" theme="filled" className="ml6 fz13" style='color:#acacac'/>
           </el-popover>
         </div>
         <div v-loading.lock="loadingShopRecruit"
@@ -239,7 +239,7 @@
             <el-row class="overview-popover">
               完成任务包含按时完成和延期完成
             </el-row>
-            <Icon slot="reference" fontType="el-icon-info" className="ml6 fz13" style='color:#acacac'></Icon>
+            <Icon slot="reference" type="info-circle" theme="filled" className="ml6 fz13" style='color:#acacac'/>
           </el-popover>
         </div>
         <div v-loading.lock="loadingGuideRecruit"
