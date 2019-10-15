@@ -160,7 +160,7 @@
             </el-table>
             <template>
               <div class="addNewRule">
-                <span class="text-primary" @click="addNewRule"><span class="el-icon-circle-plus"> 新增一级优惠</span></span>
+                <span class="text-primary" @click="addNewRule"><span><Icon type="plus-circle" theme="filled" />新增一级优惠</span></span>
               </div>
             </template>
           </div>
