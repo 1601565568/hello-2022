@@ -35,9 +35,9 @@
                 <Icon :type="searchType.advanced ? 'up' : 'down'"/>
               </ns-button>
             </div>
-            <el-form ref="searchform" class="float-right" v-if="!searchType.advanced" :inline="true" :model="searchform">
+            <el-form ref="searchform" class="float-right" @submit.native.prevent v-if="!searchType.advanced" :inline="true" :model="searchform">
               <el-form-item label="分组名称：" prop="subdivision_name">
-                <el-input v-model="searchform.subdivision_name" placeholder="请输入分组名称"></el-input>
+                <el-input v-model="searchform.subdivision_name" placeholder="请输入分组名称" @keyup.enter.native="submitForm('searchform')" clearable></el-input>
               </el-form-item>
               <el-form-item>
                 <ns-button type="primary" @click="submitForm('searchform')">搜索</ns-button>
@@ -50,9 +50,9 @@
 <!-- 高级搜索start -->
   <div class="template-table-search" v-show="searchType.advanced">
       <div class="template-table__bar-more">
-        <el-form ref="searchform" label-width="80px"  class="surround-btn" :model="searchform"  :inline="true">
+        <el-form ref="searchform" label-width="80px" @submit.native.prevent class="surround-btn" :model="searchform"  :inline="true">
           <el-form-item label="分组名称：" prop="subdivision_name">
-            <el-input v-model="searchform.subdivision_name" placeholder="请输入分组名称"></el-input>
+            <el-input v-model="searchform.subdivision_name" placeholder="请输入分组名称" @keyup.enter.native="submitForm('searchform')" clearable></el-input>
           </el-form-item>
           <el-form-item label="更新时间：" prop="time">
                 <el-date-picker
