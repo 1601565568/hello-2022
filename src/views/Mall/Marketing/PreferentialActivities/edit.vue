@@ -152,8 +152,8 @@
               <el-table-column label="操作" align="center" width="100">
                 <template slot-scope="{row}">
                   <ns-button @click="deleteRule(row)"
-                             type="text"><Icon
-                    fontType="el-icon-delete"/>
+                             type="text">
+                    <Icon type="deletes"/>
                   </ns-button>
                 </template>
               </el-table-column>

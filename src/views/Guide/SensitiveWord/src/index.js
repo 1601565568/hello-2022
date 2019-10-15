@@ -273,12 +273,13 @@ export default {
       }, [h('span', ['导购发送次数']), h('icon', {
         attrs: {
           type: 'question-circle',
+          theme: 'filled',
           class: 'bg-white',
           effect: 'light',
           content: '敏感词在导购所发送的消息中出现的次数',
           placement: 'bottom'
         }
-      }, [h('i', { 'fontType': 'question-circle', style: 'color:rgb(153, 153, 153)' })])])
+      }, [h('i', { 'type': 'question-circle',  'theme': 'filled',style: 'color:rgb(153, 153, 153)' })])])
     },
     renderHeaderCustomerCount (h, data) {
       return h('div', {
@@ -288,13 +289,14 @@ export default {
         }
       }, [h('span', ['会员发送次数']), h('el-tooltip', {
         attrs: {
-          fontType: 'el-icon-question',
+          type: 'question-circle',
+          theme: 'filled',
           class: 'bg-white',
           effect: 'light',
           content: '敏感词在会员所发送的消息中出现的次数',
           placement: 'bottom'
         }
-      }, [h('i', { 'fontType': 'el-icon-question', style: 'color:rgb(153, 153, 153)' })])])
+      }, [h('i', { 'type': 'question-circle',  'theme': 'filled', style: 'color:rgb(153, 153, 153)' })])])
     },
     // 从树节点label获取名称
     getGroupNameFromTreeNode (nodeData) {

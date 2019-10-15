@@ -24,8 +24,7 @@
                 <ns-button type="text" @click="$handleTabClick">
                   <!--{{collapseText}}-->
                   {{!_data._queryConfig.expand ? '展开搜索' : '收起搜索'}}
-                  <Icon className="el-icon--right" v-if="_data._queryConfig.expand" fontType="el-icon-arrow-up"/>
-                  <Icon className="el-icon--right" v-else fontType="el-icon-arrow-down"/>
+                  <Icon :type="_data._queryConfig.expand ? 'up' : 'down'"/>
                 </ns-button>
               </el-form-item>
             </el-form>
