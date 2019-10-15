@@ -10,7 +10,7 @@
           <el-row class="overview-popover">
             拖动调整分类排序，小程序同步
           </el-row>
-          <Icon slot="reference" fontType="el-icon-question" className="ml5 fz13" style='color:#999'></Icon>
+          <Icon slot="reference" type="question-circle" theme="filled" className="ml5 fz13" style='color:#999'/>
         </el-popover>
       </div>
       <div :class="offsetHeight?'elTrees':'elTree'" ref="elTree" :style="{ 'height' : height + 'px'}">

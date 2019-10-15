@@ -2,7 +2,8 @@
   <div calss="NsTableGuide_main">
     <div class="template-page__row-left">
       <el-input ref="quickText" style="width: 190px" v-model="filterTreeText" placeholder="请输入数字门店名称" clearable>
-        <Icon fontType="el-icon-search" className="el-input__icon" slot="suffix" name="name" @click="$quickSearchAction$('name')"></Icon>
+        <Icon type="search" className="el-input__icon" style="padding: 5px;" slot="suffix" name="name"
+              @click="$quickSearchAction$('name')"/>
       </el-input>
       <div :class="offsetHeight?'elTrees':'elTree'" ref="elTree" >
         <el-tree class="filter-tree" ref="shopTree" :data="digitalShopList" highlight-current
@@ -17,7 +18,7 @@
               <el-row class="overview-popover">
                 查看所有的线下门店
               </el-row>
-              <Icon slot="reference" fontType="el-icon-info" className="text-tips" style='color:#acacac'></Icon>
+              <Icon slot="reference" type="info-circle" theme="filled" className="text-tips" style='color:#acacac'/>
             </el-popover>
             </span>
           </div>
@@ -50,8 +51,7 @@
             <el-form-item>
               <ns-button type="text" @click="$handleTabClick">
                 {{collapseText}}
-                <Icon className="el-icon--right" v-if="_data._queryConfig.expand" fontType="el-icon-arrow-up"/>
-                <Icon className="el-icon--right" v-else fontType="el-icon-arrow-down"/>
+                <Icon :type="_data._queryConfig.expand ? 'up' : 'down'"/>
               </ns-button>
             </el-form-item>
           </el-form>

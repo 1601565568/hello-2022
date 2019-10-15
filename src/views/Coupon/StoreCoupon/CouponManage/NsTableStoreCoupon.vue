@@ -6,14 +6,14 @@
         <el-form-item v-show="_data._queryConfig.expand === false">
           <el-input ref="quickText" @keyup.enter.native="$quickSearchAction$('name')"
                     v-model="quickSearchModel.name" placeholder="请输入优惠券名称">
-            <Icon fontType="el-icon-search" className="el-input__icon" slot="suffix" @click="$quickSearchAction$('name')"></Icon>
+            <Icon type="search" className="el-input__icon" style="padding: 5px;" slot="suffix"
+                  @click="$quickSearchAction$('name')"/>
           </el-input>
         </el-form-item>
         <el-form-item>
           <ns-button type="text" @click="$handleTabClick">
             {{collapseText}}
-            <Icon className="el-icon--right" v-if="_data._queryConfig.expand" fontType="el-icon-arrow-up"/>
-            <Icon className="el-icon--right" v-else fontType="el-icon-arrow-down"/>
+            <Icon :type="_data._queryConfig.expand ? 'up' : 'down'"/>
           </ns-button>
         </el-form-item>
       </el-form>

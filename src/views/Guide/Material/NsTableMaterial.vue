@@ -19,15 +19,14 @@
                 <el-form :model="quickSearchModel" :inline="true" class="pull-right">
                   <el-form-item v-show="_data._queryConfig.expand === false">
                     <el-input ref="quickText" v-model="quickSearchModel.titleName" placeholder="请输入素材标题">
-                      <Icon fontType="el-icon-search" className="el-input__icon" slot="suffix"
-                         @click="$quickSearchAction$('titleName')"></Icon>
+                      <Icon type="search" className="el-input__icon" style="padding: 5px;" slot="suffix"
+                            @click="$quickSearchAction$('titleName')"/>
                     </el-input>
                   </el-form-item>
                   <el-form-item>
                     <ns-button type="text" @click="$handleTabClick">
                       {{collapseText}}
-                      <Icon className="el-icon--right" v-if="_data._queryConfig.expand" fontType="el-icon-arrow-up"/>
-                      <Icon className="el-icon--right" v-else fontType="el-icon-arrow-down"/>
+                      <Icon :type="_data._queryConfig.expand ? 'up' : 'down'"/>
                     </ns-button>
                   </el-form-item>
                 </el-form>
@@ -191,7 +190,7 @@
                            :on-success="handleAvatarSuccess"
                            :before-upload="beforeAvatarUpload">
                   <img width="150px" height="150px" v-if="model.sgMaterial.imgList" :src="model.sgMaterial.imgList" class="avatar">
-                  <Icon width="200px" fontType="el-icon-plus" className="avatar-uploader-icon"></Icon>
+                  <Icon width="200px" type="plus" className="avatar-uploader-icon"/>
                 </el-upload>
                 <span>上传图片不能大于200KB</span>
               </el-form-item>
@@ -252,7 +251,7 @@
                            :on-success="handleAvatarSuccess"
                            :before-upload="beforeAvatarUpload">
                   <img width="200px" v-if="model.sgMaterial.imgList" :src="model.sgMaterial.imgList" class="avatar">
-                  <Icon width="200px" fontType="el-icon-plus" className="avatar-uploader-icon"></Icon>
+                  <Icon width="200px" type="plus" className="avatar-uploader-icon"/>
                 </el-upload>
                 <span>上传图片不能大于200KB</span>
               </el-form-item>
@@ -349,7 +348,7 @@
                            :on-success="handleAvatarSuccess"
                            :before-upload="beforeAvatarUpload">
                   <img width="150px" height="150px" v-if="model.sgMaterial.imgList" :src="model.sgMaterial.imgList" class="avatar">
-                  <Icon width="200px" fontType="el-icon-plus" className="avatar-uploader-icon"></Icon>
+                  <Icon width="200px" type="plus" className="avatar-uploader-icon"/>
                 </el-upload>
                 <span>上传图片不能大于200KB</span>
               </el-form-item>

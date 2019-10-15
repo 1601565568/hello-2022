@@ -14,7 +14,8 @@
       <el-form :model="quickSearchModel" :inline="true" @submit.native.prevent  class="pull-right">
         <el-form-item v-show="_data._queryConfig.expand === false">
           <el-input ref="quickText" style="width: 250px" v-model="model.keyWord" placeholder="请输入好友昵称/微信号" @keyup.enter.native="$quickSearchAction$('keyWord')" clearable>
-            <!-- <Icon fontType="el-icon-search" className="el-input__icon" slot="suffix" name="name" @click="$quickSearchAction$('name')"></Icon> -->
+            <!--<Icon type="search" className="el-input__icon" style="padding: 5px;" slot="suffix" name="name"-->
+                  <!--@click="$quickSearchAction$('name')"/>-->
           </el-input>
           <ns-button type="primary" @click="$searchAction$()">搜索</ns-button>
           <ns-button @click="$resetInputAction$()">重置</ns-button>
@@ -22,8 +23,7 @@
         <el-form-item>
           <ns-button type="text" @click="$handleTabClick">
             {{collapseText}}
-            <Icon className="el-icon--right" v-if="_data._queryConfig.expand" fontType="el-icon-arrow-up"/>
-            <Icon className="el-icon--right" v-else fontType="el-icon-arrow-down"/>
+            <Icon :type="_data._queryConfig.expand ? 'up' : 'down'"/>
           </ns-button>
         </el-form-item>
       </el-form>

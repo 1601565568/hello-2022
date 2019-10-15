@@ -14,14 +14,14 @@
       <el-form :model="model" :inline="true" @submit.native.prevent class="pull-right">
         <el-form-item v-show="_data._queryConfig.expand === false">
           <el-input ref="quickText" style="width: 250px" v-model="model.couponTitle" placeholder="请输入优惠券名称或编码" @keyup.enter.native="$quickSearchAction$('couponTitle')">
-            <Icon fontType="el-icon-search" className="el-input__icon" slot="suffix" name="name" @click="$quickSearchAction$('couponTitle')"></Icon>
+            <Icon type="search" className="el-input__icon" style="padding: 5px;" slot="suffix" name="name"
+                  @click="$quickSearchAction$('couponTitle')"/>
           </el-input>
         </el-form-item>
         <el-form-item>
           <ns-button type="text" @click="$handleTabClick">
             {{collapseText}}
-            <Icon className="el-icon--right" v-if="_data._queryConfig.expand" fontType="el-icon-arrow-up"/>
-            <Icon className="el-icon--right" v-else fontType="el-icon-arrow-down"/>
+            <Icon :type="_data._queryConfig.expand ? 'up' : 'down'"/>
           </ns-button>
         </el-form-item>
       </el-form>

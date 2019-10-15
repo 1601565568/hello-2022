@@ -15,8 +15,8 @@
                     <el-input placeholder="商品名称/编码" v-model="productName"></el-input>
                 </el-col>
                 <el-col :span="1"  @click="$searchAction$()">
-                    <Icon fontType="el-icon-search"></Icon>
-                </el-col>
+                  <Icon type="search" />
+            </el-col>
             </el-row>
         </div>
         <div>

@@ -56,7 +56,7 @@
                 <el-radio-group v-model="coupon.condition" class="el-inline-block">
                   <el-radio  label="0" :value="0">不限
                     <el-form-item class="el-inline-block">
-                      <el-tooltip placement="top" effect="light" stype=""><Icon fontType="el-icon-info"></Icon>
+                      <el-tooltip placement="top" effect="light" stype=""><Icon type="info-circle" theme="filled" />
                         <div slot="content" style="width: 200px">优惠券的使用条件不能小于面额，如果选择不限，默认使用条件面额+1分。</div>
                       </el-tooltip>
                     </el-form-item>
@@ -91,11 +91,11 @@
               <template v-if="!expire">
                 距离本次授权失效还有：
                 <ns-count-down :date="authTime" type="HMS" format="HH:MM:SS" :callback="timeOut"></ns-count-down>
-                <el-tooltip content="请在授权时间到期之前进行优惠券的创建！" placement="right" effect="light"><Icon fontType="el-icon-info"></Icon></el-tooltip>
+                <el-tooltip content="请在授权时间到期之前进行优惠券的创建！" placement="right" effect="light"><Icon type="info-circle" theme="filled" /></el-tooltip>
                 <ns-button type="primary" round @click="onState()">设为失效</ns-button>
               </template>
               <template v-else>
-                暂未授权或授权已过期，优惠券无法创建，请用 <a @click="grantAuth">主号登录授权</a>。<el-tooltip placement="top" effect="light"><Icon fontType="el-icon-info"></Icon>
+                暂未授权或授权已过期，优惠券无法创建，请用 <a @click="grantAuth">主号登录授权</a>。<el-tooltip placement="top" effect="light"><Icon type="info-circle" theme="filled" />
                 <div slot="content" style="width: 200px">为了保证用户数据安全，淘宝将其中一批操作价格的行为划为高危行为，高危行为需要卖家重新授权，即短授权（二次授权）。</div>
               </el-tooltip>
               </template>

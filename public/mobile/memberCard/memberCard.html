@@ -31,7 +31,7 @@
                     <img src="../img/icons/QRcode.png" alt="二维码">
                 </div>
             </div>
-            <div id="memberCard" class="card__number"></div>
+            <div id="memberMobile" class="card__number"></div>
         </div>
     </div>
     <div class="membercard__content">
@@ -63,7 +63,7 @@
             if(showData.groupImage){
                 $('#groupImage').attr('src',showData.groupImage);
             }
-            $('#memberCard').html(showData.memberCard.replace(/(.{4})/g,'$1 '));
+            $('#memberMobile').html(showData.memberMobile);
             if(showData.newCardUrl){
                 $('#guideQrCode').attr('src', showData.newCardUrl)
             }

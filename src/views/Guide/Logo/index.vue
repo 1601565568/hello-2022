@@ -20,23 +20,20 @@
                   :on-success="handleAvatarSuccess"
                   :before-upload="beforeAvatarUpload">
                   <img v-if="imageUrl" :src="imageUrl" class="company-upload__avatar">
-                  <Icon fontType="el-icon-plus" className="company-upload__tip" v-else/>
+                  <Icon type="plus" className="company-upload__tip" v-else/>
                 </el-upload>
               </el-form-grid>
               <el-form-item>
                 <div class="company-example">
                   <span class="company-example__size">
-                    <Icon fontType="el-icon-warning" className="company-example__size--warning"/>
+                    <Icon type="exclamation-circle" theme="outlined" className="company-example__size--warning"/>
                     该logo将在用户端透出，建议图片尺寸为1:1。
                   </span>
                   <el-popover placement="bottom" trigger="click" @show="disposePopover" @hide="disposePopover">
                     <img src="./src/images/exampleImg.png" alt="示例图片" class="company-example__size--distance"/>
                     <span class="company-example__check" slot="reference">
                       查看示例
-                      <!-- 向下的箭头 -->
-                      <Icon fontType="el-icon-arrow-down" v-if="isPopover" className="company-arrow company-arrow--big"/>
-                      <!-- 向上的箭头 -->
-                      <Icon fontType="el-icon-arrow-up" v-if="!isPopover"  className="company-arrow company-arrow--small"/>
+                      <Icon :type="isPopover ? 'up' : 'down'" className="company-arrow" />
                     </span>
                   </el-popover>
                 </div>
@@ -47,7 +44,7 @@
       </el-card>
     </el-scrollbar>
     <div class="form-save__unique">
-      <ns-button type="primary" size="small" @click="saveLogo">保存</ns-button>
+      <ns-button type="primary" size="small"  @click="saveLogo">保存</ns-button>
     </div>
   </div>
 </template>
@@ -191,13 +188,7 @@ export default {
     font-size: var(--default-font-size-middle);
     color: var(--theme-font-color-secondary);
     position: relative;
-    left: -2px;
-    @m big {
-      top: 2px;
-    }
-    @m small {
-      top: 1px;
-    }
+    top: 2px;
   }
 }
 .company-info >>> .el-card__header {
