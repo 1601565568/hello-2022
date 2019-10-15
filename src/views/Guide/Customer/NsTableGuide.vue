@@ -119,7 +119,7 @@
 
       <el-table ref="table" :data="_data._table.data" stripe @selection-change="handleSelectionChange" v-loading="loading">
         <el-table-column type="selection" align="center" :width="50"></el-table-column>
-        <el-table-column prop="outNick" label="会员姓名" align="left" width="100">
+        <el-table-column prop="outNick" label="姓名" align="left" width="100">
           <template slot-scope="scope">
             {{scope.row.customerName || scope.row.outNick || '-'}}
           </template>
