@@ -303,7 +303,7 @@
 <!--              :on-success="handleAvatarSuccess"-->
 <!--              :before-upload="beforeAvatarUpload">-->
 <!--              <img v-if="imageUrl" :src="imageUrl" class="avatar">-->
-<!--              <Icon v-else type="plus" className="avatar-uploader-icon"></i>-->
+<!--              <i v-else class="el-icon-plus avatar-uploader-icon"></i>-->
 <!--            </el-upload>-->
           </div>
         </el-form-item>

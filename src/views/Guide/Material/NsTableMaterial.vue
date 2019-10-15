@@ -190,7 +190,7 @@
                            :on-success="handleAvatarSuccess"
                            :before-upload="beforeAvatarUpload">
                   <img width="150px" height="150px" v-if="model.sgMaterial.imgList" :src="model.sgMaterial.imgList" class="avatar">
-                  <Icon width="200px" type="plus" className="avatar-uploader-icon"/>
+                  <i width="200px" class="el-icon-plus avatar-uploader-icon"></i>
                 </el-upload>
                 <span>上传图片不能大于200KB</span>
               </el-form-item>
@@ -251,7 +251,7 @@
                            :on-success="handleAvatarSuccess"
                            :before-upload="beforeAvatarUpload">
                   <img width="200px" v-if="model.sgMaterial.imgList" :src="model.sgMaterial.imgList" class="avatar">
-                  <Icon width="200px" type="plus" className="avatar-uploader-icon"/>
+                  <i width="200px" class="el-icon-plus avatar-uploader-icon"></i>
                 </el-upload>
                 <span>上传图片不能大于200KB</span>
               </el-form-item>
@@ -348,7 +348,7 @@
                            :on-success="handleAvatarSuccess"
                            :before-upload="beforeAvatarUpload">
                   <img width="150px" height="150px" v-if="model.sgMaterial.imgList" :src="model.sgMaterial.imgList" class="avatar">
-                  <Icon width="200px" type="plus" className="avatar-uploader-icon"/>
+                  <i width="200px" class="el-icon-plus avatar-uploader-icon"></i>
                 </el-upload>
                 <span>上传图片不能大于200KB</span>
               </el-form-item>

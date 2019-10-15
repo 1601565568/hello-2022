@@ -33,7 +33,7 @@
                 </li>
                 <li v-else>
                   <el-upload class="avatar-uploader" :action="this.$api.core.sgUploadFile('test')" accept=".jpg,.jpeg,.png,.bmp,.gif" :show-file-list="false" list-type="picture-card" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
-                    <Icon type="plus" className="avatar-uploader-icon"/>
+                    <i class="el-icon-plus avatar-uploader-icon"></i>
                   </el-upload>
                 </li>
               </ul>

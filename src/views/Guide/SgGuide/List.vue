@@ -113,7 +113,7 @@
                            :on-success="handleAvatarSuccess"
                            :before-upload="beforeAvatarUpload">
                   <img width="200px" v-if="model.sgGuide.image" :src="model.sgGuide.image" class="avatar">
-                  <Icon type="plus" v-else className="avatar-uploader-icon"/>
+                  <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                 </el-upload>
                 <span>上传图片不能大于500KB,仅支持jpg,jpeg,png,gif格式</span>
               </el-form-item>

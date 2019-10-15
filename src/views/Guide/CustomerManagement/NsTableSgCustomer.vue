@@ -59,7 +59,7 @@
                             :on-success="handleAvatarSuccess"
                             :before-upload="beforeAvatarUpload"
                             >
-                            <Icon type="plus" className="avatar-uploader-icon"/>
+                              <i  class="el-icon-plus avatar-uploader-icon"></i>
                         </el-upload>
                         </li>
                     </ul>
@@ -83,7 +83,7 @@
                         :before-upload="beforeAvatarUpload"
                         >
                         <img v-if="saveObj.imageList[0]" :src="saveObj.imageList[0]" alt="">
-                        <Icon v-else type="plus" className="avatar-uploader-icon"/>
+                        <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                     </el-upload>
                 <p style="color:#999">上传图片不能大于200KB</p>
               </div>
