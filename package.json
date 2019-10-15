@@ -1,6 +1,6 @@
 {
-  "name": "ecrp-sg",
-  "version": "0.1.0",
+  "name": "@nascent/ecrp-sg",
+  "version": "1.0.1",
   "private": true,
   "scripts": {
     "bootstrap": "yarn install && npm run clean:build && npm run build:icons",
@@ -15,8 +15,9 @@
   },
   "dependencies": {
     "@ant-design/icons": "^2.1.1",
-    "@nascent/ecrp-ecrm": "^4.0.56",
+    "@nascent/ecrp-ecrm": "^4.0.57",
     "@nascent/icons-vue": "^1.0.10",
+    "@nascent/log": "^0.1.8",
     "@nascent/nui": "^2.9.6",
     "@sentry/browser": "^4.5.3",
     "axios": "^0.18.0",
