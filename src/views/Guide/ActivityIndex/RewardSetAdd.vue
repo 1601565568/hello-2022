@@ -147,7 +147,7 @@ export default {
             })
             .catch(resp => {
               this.loading = false
-              this.$notify.error(getErrorMsg('查询失败', resp))
+              this.$notify.error(getErrorMsg('保存失败', resp))
             })
         }
       })
