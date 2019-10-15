@@ -2,9 +2,7 @@
 const path = require('path')
 const webpack = require('webpack')
 const packageConfig = require('../package.json')
-if (process.env.NODE_ENV === 'production') {
-  require('./setAppInfo')
-}
+require('./setAppInfo')
 
 function resolve (dir) {
   return path.join(__dirname, '..', dir)
