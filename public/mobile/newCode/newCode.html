@@ -23,7 +23,7 @@
                         <span class="detail" id="memberGrade">0</span>
                     </div>
                 </div>
-                <div class="userphone" id="memberCard"></div>
+                <div class="userphone" id="memberMobile"></div>
             </div>
             <div class="user__rightcircle"></div>
             <div class="user__leftcircle"></div>
@@ -68,7 +68,7 @@
             if(noData.memberNick){
                 $('#memberNick').html(noData.memberNick);
             }
-            $('#memberCard').html(noData.memberCard.replace(/(.{4})/g,'$1 '));
+            $('#memberMobile').html(noData.memberMobile);
             if(noData.memberCard){
                 $('#memberCard').html(noData.memberCard.replace(/(.{4})/g,'$1 '));
                 var qrcode = new QRCode(document.getElementById("qrcode"), {
