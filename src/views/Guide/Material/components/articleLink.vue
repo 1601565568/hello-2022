@@ -33,7 +33,7 @@
                 </li>
                 <li v-else>
                   <el-upload class="avatar-uploader" :action="this.$api.core.sgUploadFile('test')" accept=".jpg,.jpeg,.png,.bmp,.gif" :show-file-list="false" list-type="picture-card" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
-                    <i class="el-icon-plus avatar-uploader-icon"></i>
+                    <Icon type="plus" className="avatar-uploader-icon"/>
                   </el-upload>
                 </li>
               </ul>
@@ -217,6 +217,8 @@ export default {
 }
 </script>
 <style scoped>
+  @import "@theme/variables.pcss";
+
 .selectMarketbox .current-row{
   td{
     color: #fff !important;
@@ -287,5 +289,9 @@ export default {
     width: 80px;
     height: 80px;
   }
+}
+.avatar-uploader-icon {
+  font-size: 28px;
+  color: var(--theme-font-color-secondary);
 }
 </style>

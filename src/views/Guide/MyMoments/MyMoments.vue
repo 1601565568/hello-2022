@@ -294,17 +294,17 @@
           <div class="dialog-detail">
             <el-input type="textarea" :rows="8" placeholder="这一刻的想法...." v-model="textarea">
             </el-input>
-            <!--多谋发送朋友圈接口变更，未接通，暂注释 -->
-<!--            <el-upload-->
-<!--              class="avatar-uploader"-->
-<!--              list-type="picture-card"-->
-<!--              :action="this.$api.core.sgUploadFile('test')"-->
-<!--              :show-file-list="false" accept=".jpg,.jpeg,.png,.bmp,.gif"-->
-<!--              :on-success="handleAvatarSuccess"-->
-<!--              :before-upload="beforeAvatarUpload">-->
-<!--              <img v-if="imageUrl" :src="imageUrl" class="avatar">-->
-<!--              <i v-else class="el-icon-plus avatar-uploader-icon"></i>-->
-<!--            </el-upload>-->
+            <!--多谋发送朋友圈接口变更，未接通，暂注释-->
+            <!--<el-upload-->
+              <!--class="avatar-uploader"-->
+              <!--list-type="picture-card"-->
+              <!--:action="this.$api.core.sgUploadFile('test')"-->
+              <!--:show-file-list="false" accept=".jpg,.jpeg,.png,.bmp,.gif"-->
+              <!--:on-success="handleAvatarSuccess"-->
+              <!--:before-upload="beforeAvatarUpload">-->
+              <!--<img v-if="imageUrl" :src="imageUrl" class="avatar">-->
+              <!--<Icon type="plus" className="avatar-uploader-icon" v-else />-->
+            <!--</el-upload>-->
           </div>
         </el-form-item>
       </el-form>
@@ -776,26 +776,26 @@ export default Moments
     margin-top: 20px;
   }
   .avatar-uploader >>> .el-upload {
-    border: 1px dashed #D9D9D9;
+    width: 100px;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px dashed var(--theme-base-border-color-primary);
     border-radius: 6px;
     cursor: pointer;
-    position: relative;
     overflow: hidden;
-  &:hover {
-     border-color: #409EFF;
-   }
-  .avatar-uploader-icon {
-    font-size: 28px;
-    color: #8C939D;
-    width: 62px;
-    height: 62px;
-    line-height: 62px;
-    text-align: center;
-  }
+    &:hover {
+       border-color: var(--theme-base-link-color-hover);
+     }
+    .avatar-uploader-icon {
+      font-size: 28px;
+      color: var(--theme-font-color-secondary);
+    }
   }
   .avatar {
-    width: 178px;
-    height: 178px;
+    width: 100px;
+    height: 100px;
     display: block;
   }
   >>> .el-textarea__inner {
