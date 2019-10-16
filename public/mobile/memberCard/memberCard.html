@@ -63,7 +63,7 @@
             if(showData.groupImage){
                 $('#groupImage').attr('src',showData.groupImage);
             }
-            $('#memberCard').html(showData.memberCard);
+            $('#memberCard').html(showData.memberCard.replace(/(.{4})/g,'$1 '));
             if(showData.newCardUrl){
                 $('#guideQrCode').attr('src', showData.newCardUrl)
             }

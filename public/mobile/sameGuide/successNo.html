@@ -32,7 +32,7 @@
                     <img src="../img/icons/QRcode.png" alt="二维码">
                 </div>
             </div>
-            <div id="memberMobile" class="card__number"></div>
+            <div id="memberCard" class="card__number"></div>
         </div>
     </div>
     <div class="membercard__content">
@@ -68,7 +68,7 @@
             $('#shopName').html(noData.shopName);
             $('#groupName').html(noData.groupName);
             $('#groupImage').attr("src", noData.groupImage)
-            $('#memberMobile').html(noData.memberMobile);
+            $('#memberCard').html(showData.memberCard.replace(/(.{4})/g,'$1 '));
             $('#guideQrCode').attr('src', noData.guideQrCode)
         }
     }
