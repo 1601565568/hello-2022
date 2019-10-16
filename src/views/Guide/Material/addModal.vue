@@ -144,7 +144,8 @@ export default {
       rules: {
         title: [
           { required: true, message: '请输入素材标题', trigger: 'blur' },
-          { min: 4, max: 20, message: '限制长度在4-20个字符以内', trigger: 'blur' }
+          { min: 4, max: 20, message: '限制长度在4-20个字符以内', trigger: 'blur' },
+          { pattern: /^(?!(\s+$))/, message: '不允许为空' }
         ],
         subdivisionId: [
           { required: true, message: '请选择所属分组', trigger: 'blur' }
@@ -154,7 +155,8 @@ export default {
         ],
         content: [
           { required: true, message: '请输入推广文案', trigger: 'blur' },
-          { min: 0, max: 10000, message: '限制长度在10000个字符以内', trigger: 'blur' }
+          { min: 0, max: 10000, message: '限制长度在10000个字符以内', trigger: 'blur' },
+          { pattern: /^(?!(\s+$))/, message: '不允许为空' }
         ]
       }
     }
@@ -333,8 +335,6 @@ export default {
 }
 </script>
 <style scoped>
-  @import "@theme/variables.pcss";
-
 /* 此处scoped暂时不能加，等空闲了再出解决方案 */
 .addMaterialbox >>> .custom-box {
   .comDialogBoxCon {
@@ -401,8 +401,4 @@ export default {
     height: 80px;
   }
 }
-  .avatar-uploader-icon {
-    font-size: 28px;
-    color: var(--theme-font-color-secondary);
-  }
 </style>
