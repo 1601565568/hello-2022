@@ -333,6 +333,8 @@ export default {
 }
 </script>
 <style scoped>
+  @import "@theme/variables.pcss";
+
 /* 此处scoped暂时不能加，等空闲了再出解决方案 */
 .addMaterialbox >>> .custom-box {
   .comDialogBoxCon {
@@ -399,4 +401,8 @@ export default {
     height: 80px;
   }
 }
+  .avatar-uploader-icon {
+    font-size: 28px;
+    color: var(--theme-font-color-secondary);
+  }
 </style>

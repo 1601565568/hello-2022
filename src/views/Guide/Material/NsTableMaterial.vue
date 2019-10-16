@@ -190,7 +190,7 @@
                            :on-success="handleAvatarSuccess"
                            :before-upload="beforeAvatarUpload">
                   <img width="150px" height="150px" v-if="model.sgMaterial.imgList" :src="model.sgMaterial.imgList" class="avatar">
-                  <Icon width="200px" type="plus" className="avatar-uploader-icon"/>
+                  <Icon width="200px" type="plus" className="avatar-uploader-icon" />
                 </el-upload>
                 <span>上传图片不能大于200KB</span>
               </el-form-item>
@@ -251,7 +251,7 @@
                            :on-success="handleAvatarSuccess"
                            :before-upload="beforeAvatarUpload">
                   <img width="200px" v-if="model.sgMaterial.imgList" :src="model.sgMaterial.imgList" class="avatar">
-                  <Icon width="200px" type="plus" className="avatar-uploader-icon"/>
+                  <Icon width="200px" type="plus" className="avatar-uploader-icon" />
                 </el-upload>
                 <span>上传图片不能大于200KB</span>
               </el-form-item>
@@ -348,7 +348,7 @@
                            :on-success="handleAvatarSuccess"
                            :before-upload="beforeAvatarUpload">
                   <img width="150px" height="150px" v-if="model.sgMaterial.imgList" :src="model.sgMaterial.imgList" class="avatar">
-                  <Icon width="200px" type="plus" className="avatar-uploader-icon"/>
+                  <Icon width="200px" type="plus" className="avatar-uploader-icon" v-else />
                 </el-upload>
                 <span>上传图片不能大于200KB</span>
               </el-form-item>
@@ -373,6 +373,7 @@ Material.components = { ElUpload }
 export default Material
 </script>
 <style scoped>
+  @import "@theme/variables.pcss";
   .rewardRuleBorder {
     margin-top: 10px;
     margin-bottom: 10px;
@@ -385,5 +386,9 @@ export default Material
   .inputTextCenter input::-webkit-inner-spin-button {
     -webkit-appearance: none !important;
     margin: 0;
+  }
+  .avatar-uploader-icon {
+    font-size: 28px;
+    color: var(--theme-font-color-secondary);
   }
 </style>

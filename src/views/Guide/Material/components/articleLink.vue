@@ -217,6 +217,8 @@ export default {
 }
 </script>
 <style scoped>
+  @import "@theme/variables.pcss";
+
 .selectMarketbox .current-row{
   td{
     color: #fff !important;
@@ -287,5 +289,9 @@ export default {
     width: 80px;
     height: 80px;
   }
+}
+.avatar-uploader-icon {
+  font-size: 28px;
+  color: var(--theme-font-color-secondary);
 }
 </style>
