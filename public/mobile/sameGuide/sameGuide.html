@@ -72,7 +72,7 @@
             $('#shopName').html(noData.shopName);
             $('#groupName').html(noData.groupName);
             $('#groupImage').html(noData.groupImage);
-            $('#memberCard').html(showData.memberCard.replace(/(.{4})/g,'$1 '));
+            $('#memberCard').html(noData.memberCard.replace(/(.{4})/g,'$1 '));
             $('#guideQrCode').attr('src', noData.newCardUrl)
         }
     })
