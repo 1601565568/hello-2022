@@ -14,14 +14,14 @@
         <el-form :model="quickSearchModel" :inline="true" @submit.native.prevent class="pull-right">
           <el-form-item v-show="_data._queryConfig.expand === false">
             <el-input ref="quickText" v-model.trim="quickSearchModel.searchName" placeholder="会员名称或手机号" @keyup.enter.native="$quickSearchAction$('searchName')">
-              <Icon className="el-input__icon" fontType="el-icon-search" slot="suffix" @click="$quickSearchAction$('searchName')"></Icon>
+              <Icon type="search" className="el-input__icon" style="padding: 5px;" slot="suffix"
+                @click="$quickSearchAction$('searchName')"/>
             </el-input>
           </el-form-item>
           <el-form-item>
             <ns-button type="text" @click="$handleTabClick">
               {{collapseText}}
-              <Icon className="el-icon--right" v-if="_data._queryConfig.expand" fontType="el-icon-arrow-up"/>
-              <Icon className="el-icon--right" v-else fontType="el-icon-arrow-down"/>
+              <Icon :type="_data._queryConfig.expand ? 'up' : 'down'"/>
             </ns-button>
           </el-form-item>
         </el-form>

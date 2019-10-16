@@ -15,8 +15,9 @@
           <el-col :span="17">
             <!-- 右上角操作区域 -->
             <div class="float-right tabSearchBtn">
-              <ns-button @click="tabSearchType" style="padding: 9px 0 9px 10px;opacity: 0.5;color: #002041;" type="text">{{searchType.tipText}}<i :class="{'el-icon--right': true, 'el-icon-arrow-down': !searchType.advanced, 'el-icon-arrow-up': searchType.advanced} ">
-                </i></ns-button>
+              <ns-button @click="tabSearchType" style="padding: 9px 0 9px 10px;opacity: 0.5;color: #002041;" type="text">{{searchType.tipText}}
+                <Icon :type="searchType.advanced ? 'up' : 'down'"/>
+              </ns-button>
             </div>
             <el-form ref="searchform" class="float-right" v-if="!searchType.advanced" :inline="true" :model="searchform" @submit.native.prevent>
               <el-form-item label="任务名称：" prop="name">

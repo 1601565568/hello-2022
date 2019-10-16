@@ -17,12 +17,11 @@
         <el-col :span="17">
           <!-- 右上角操作区域 -->
           <div class="float-right tabSearchBtn">
-            <ns-button @click="tabSearchType" style="padding: 5px 0 5px 10px;opacity: 0.5;color: #002041;" type="text">{{searchType.tipText}}<i :class="{'el-icon--right': true, 'el-icon-arrow-down': !searchType.advanced, 'el-icon-arrow-up': searchType.advanced} ">
-              </i></ns-button>
+            <ns-button @click="tabSearchType" style="padding: 5px 0 5px 10px;opacity: 0.5;color: #002041;" type="text">{{searchType.tipText}}<Icon :type="searchType.advanced ? 'up' : 'down'"/></ns-button>
           </div>
-          <el-form ref="searchform" class="float-right" v-if="!searchType.advanced" :inline="true" :model="searchform">
+          <el-form ref="searchform" class="float-right" @submit.native.prevent v-if="!searchType.advanced" :inline="true" :model="searchform">
             <el-form-item label="素材内容：" prop="content">
-              <el-input v-model="searchform.content" placeholder="请输入素材内容" clearable></el-input>
+              <el-input v-model="searchform.content" placeholder="请输入素材内容"  @keyup.enter.native="submitForm('searchform')" clearable></el-input>
             </el-form-item>
 
             <el-form-item>
@@ -36,9 +35,9 @@
 <!-- 高级搜索start -->
   <div class="template-table-search" v-show="searchType.advanced">
       <div class="template-table__bar-more">
-        <el-form ref="searchform" label-width="80px"  class="surround-btn" :model="searchform"  :inline="true" @keyup.enter.native="submitForm('searchform')">
+        <el-form ref="searchform" label-width="80px" @submit.native.prevent class="surround-btn" :model="searchform"  :inline="true">
           <el-form-item label="素材内容：" prop="content">
-            <el-input v-model="searchform.content" placeholder="请输入素材内容" clearable></el-input>
+            <el-input v-model="searchform.content" placeholder="请输入素材内容"  @keyup.enter.native="submitForm('searchform')" clearable></el-input>
           </el-form-item>
           <el-form-item label="分组：" prop="subdivisionId">
                 <el-select v-model="searchform.subdivisionId" placeholder="请选择分组" clearable>

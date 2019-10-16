@@ -22,12 +22,12 @@
                 <li class="imgItem" v-for="(item,index) in saveObj.imageList" :key="index">
                   <img :src="item" class="comUploadImg">
                   <div class="del" @click="delImgFun(index)">
-                    <Icon fontType="el-icon-delete"></Icon>
+                    <Icon type="deletes" />
                   </div>
                 </li>
                 <li v-if="saveObj.imageList.length< 10 - saveObj.codeType">
                   <el-upload class="avatar-uploader" :action="this.$api.core.sgUploadFile('test')" accept=".jpg,.jpeg,.png,.bmp,.gif" :show-file-list="false" list-type="picture-card" multiple  :on-remove="handleRemove" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
-                    <Icon fontType="el-icon-plus" className="avatar-uploader-icon"></Icon>
+                    <i class="el-icon-plus avatar-uploader-icon"></i>
                   </el-upload>
                 </li>
               </ul>
@@ -73,7 +73,7 @@
               </el-radio>
             </el-radio-group>
             <p style='line-height:1.5;margin-top:10px'>
-              <Icon fontType="el-icon-info" className="text-tips"></Icon>
+              <Icon type="info-circle" theme="filled" className="text-tips"/>
               <span>将在图片中加入带导购参数的小程序码，需门店里有对应信息的才会显示</span>
             </p>
           </el-form-item>

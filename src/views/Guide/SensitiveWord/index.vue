@@ -33,7 +33,7 @@
                   <el-row class="overview-popover">
                     只对敏感词创建时间后的聊天记录进行监控统计
                   </el-row>
-                  <Icon slot="reference" fontType="el-icon-info" className="ml10 fz13" style='color:#999'></Icon>
+                  <Icon slot="reference" type="info-circle" theme="filled" className="ml10 fz13" style='color:#999'/>
                 </el-popover>
             </span>
           </div>
@@ -75,7 +75,7 @@
                     trigger="hover"
                     content="敏感词在导购所发送的消息中出现的次数"
                   >
-                    <i slot="reference" class="table-header-icon"><Icon fontType="el-icon-info" /></i>
+                    <i slot="reference" class="table-header-icon"><Icon type="info-circle" theme="filled" /></i>
                   </el-popover>
                 </span>
               </template>
@@ -94,7 +94,7 @@
                     width="220"
                     trigger="hover"
                     content="敏感词在会员所发送的消息中出现的次数">
-                    <i slot="reference" class="table-header-icon"><Icon fontType="el-icon-info" /></i>
+                    <i slot="reference" class="table-header-icon"><Icon type="info-circle" theme="filled" /></i>
                   </el-popover>
                 </span>
               </template>

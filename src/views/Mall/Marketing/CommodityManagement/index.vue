@@ -16,14 +16,14 @@
             <el-form :model="quickSearchModel" :inline="true" @submit.native.prevent class="pull-right">
               <el-form-item v-show="_data._queryConfig.expand === false">
                 <el-input ref="quickText" v-model="quickSearchModel.customerName" placeholder="请输入姓名" @keyup.enter.native="$quickSearchAction$('customerName')">
-                  <Icon fontType="el-icon-search" className="el-input__icon" slot="suffix" name="name" @click="$quickSearchAction$('customerName')"></Icon>
-                </el-input>
+                  <Icon type="search" className="el-input__icon" style="padding: 5px;" slot="suffix" name="name"
+                    @click="$quickSearchAction$('customerName')" />
+              </el-input>
               </el-form-item>
               <el-form-item>
                 <ns-button type="text" @click="$handleTabClick">
                   {{collapseText}}
-                  <Icon className="el-icon--right" v-if="_data._queryConfig.expand" fontType="el-icon-arrow-up"/>
-                  <Icon className="el-icon--right" v-else fontType="el-icon-arrow-down"/>
+                  <Icon :type="_data._queryConfig.expand ? 'up' : 'down'"/>
                 </ns-button>
               </el-form-item>
             </el-form>
@@ -43,14 +43,14 @@
       <el-form :model="quickSearchModel" :inline="true" @submit.native.prevent class="pull-right">
         <el-form-item v-show="_data._queryConfig.expand === false">
           <el-input ref="quickText" v-model="quickSearchModel.customerName" placeholder="请输入姓名" @keyup.enter.native="$quickSearchAction$('customerName')">
-            <Icon fontType="el-icon-search" className="el-input__icon" slot="suffix" name="name" @click="$quickSearchAction$('customerName')"></Icon>
+            <Icon type="search" className="el-input__icon" style="padding: 5px;" slot="suffix" name="name"
+              @click="$quickSearchAction$('customerName')"/>
           </el-input>
         </el-form-item>
         <el-form-item>
           <ns-button type="text" @click="$handleTabClick">
             {{collapseText}}
-             <Icon className="el-icon--right" v-if="_data._queryConfig.expand" fontType="el-icon-arrow-up"/>
-            <Icon className="el-icon--right" v-else fontType="el-icon-arrow-down"/>
+             <Icon :type="_data._queryConfig.expand ? 'up' : 'down'"/>
           </ns-button>
         </el-form-item>
       </el-form>

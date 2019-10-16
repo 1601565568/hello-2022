@@ -25,8 +25,7 @@
             <el-form-item>
               <ns-button type="text" @click="$handleTabClick">
                 {{collapseText}}
-                <Icon className="el-icon--right" v-if="_data._queryConfig.expand" fontType="el-icon-arrow-up"/>
-                <Icon className="el-icon--right" v-else fontType="el-icon-arrow-down"/>
+                <Icon :type="_data._queryConfig.expand ? 'up' : 'down'"/>
               </ns-button>
             </el-form-item>
           </el-form>
@@ -196,7 +195,9 @@
       </div>
       <div class="search-input">
         <el-input ref="quickText" v-model="contentKeyWord" placeholder="请输入内容">
-          <i class="el-icon-search el-input__icon" slot="suffix" name="name" :disabled="btnSearchContentDisabled" @click="searchByContent"></i>
+          <i class="el-input__icon" slot="suffix" name="name" :disabled="btnSearchContentDisabled" @click="searchByContent">
+            <Icon type="search"/>
+          </i>
         </el-input>
       </div>
       <el-scrollbar class="scrollbarseacher" v-loading.lock="contentLoading">

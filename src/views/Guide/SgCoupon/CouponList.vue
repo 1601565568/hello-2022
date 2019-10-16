@@ -17,7 +17,7 @@
                 </el-select>
               </el-form-item>
             </el-form-grid>
-          <el-form-grid block class="text-info"><Icon fontType="el-icon-info"></Icon>选择中台已新增的优惠券至导购系统</el-form-grid>
+          <el-form-grid block class="text-info"><Icon type="info-circle" theme="filled" />选择中台已新增的优惠券至导购系统</el-form-grid>
         </el-form-item>
         <el-form-item label="剩余数量：" v-if="activityModel.coupon_id > 0">
           <el-form-grid size="xmd">
@@ -38,7 +38,7 @@
                         auto-complete="off" @change="activityCouponTotal()"></el-input>
             </el-form-item>
           </el-form-grid>
-          <el-form-grid block class="text-info"><Icon fontType="el-icon-info"></Icon>设置优惠券的数量</el-form-grid>
+          <el-form-grid block class="text-info"><Icon type="info-circle" theme="filled" />设置优惠券的数量</el-form-grid>
         </el-form-item>
         <el-form-item label="分配方式：" required v-if="activityModel.coupon_id > 0">
           <el-form-grid>
@@ -49,7 +49,7 @@
               </el-radio-group>
             </el-form-item>
           </el-form-grid>
-          <el-form-grid block class="text-info"><Icon fontType="el-icon-info"></Icon>公用：所有门店共享配额；自由分配：默认均分，可再行调整</el-form-grid>
+          <el-form-grid block class="text-info"><Icon type="info-circle" theme="filled" />公用：所有门店共享配额；自由分配：默认均分，可再行调整</el-form-grid>
         </el-form-item>
         <div class="coupon" v-if="activityModel.coupon_id > 0">
           <div class="coupon-preview">
