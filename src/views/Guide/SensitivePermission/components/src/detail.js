@@ -283,7 +283,10 @@ export default {
             {
               name: '好友',
               key: 'friendNick',
-              width: '200px'
+              width: '200px',
+              formatContent: row => {
+                return row.chatroomName || row.friendNick
+              }
             },
             {
               name: '敏感词',
