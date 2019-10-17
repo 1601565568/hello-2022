@@ -322,7 +322,12 @@
             <el-table ref="table" :data="tableData[integralName[0]]" stripe>
               <el-table-column prop="total" label="增减积分" align="center">
                 <template slot-scope="scope">
-                  {{scope.row.type==1? '+ '+scope.row.total:scope.row.type==3? '- '+scope.row.total:''}}
+                  <span class="text-danger" v-if="scope.row.type==1">
+                  {{'+ '+scope.row.total}}
+                  </span>
+                  <span class="text-success" v-else-if="scope.row.type==3">
+                    {{'- '+scope.row.total}}
+                  </span>
                 </template>
               </el-table-column>
               <el-table-column prop="createTime" label="变更时间" align="center" :width="250">
@@ -387,7 +392,12 @@
               <el-table ref="table" :data="tableData[integralName[1]]" stripe>
                 <el-table-column prop="total" label="增减积分" align="center">
                   <template slot-scope="scope">
-                    {{scope.row.type==1? '+ '+scope.row.total:scope.row.type==3? '- '+scope.row.total:''}}
+                    <span class="text-danger" v-if="scope.row.type==1">
+                      {{'+ '+scope.row.total}}
+                    </span>
+                    <span class="text-success" v-else-if="scope.row.type==3">
+                      {{'- '+scope.row.total}}
+                    </span>
                   </template>
                 </el-table-column>
                 <el-table-column prop="createTime" label="变更时间" align="center" :width="250">
@@ -452,7 +462,12 @@
               <el-table ref="table" :data="tableData[integralName[2]]" stripe>
                 <el-table-column prop="total" label="增减积分" align="center">
                   <template slot-scope="scope">
-                    {{scope.row.type==1? '+ '+scope.row.total:scope.row.type==3? '- '+scope.row.total:''}}
+                    <span class="text-danger" v-if="scope.row.type==1">
+                      {{'+ '+scope.row.total}}
+                    </span>
+                    <span class="text-success" v-else-if="scope.row.type==3">
+                      {{'- '+scope.row.total}}
+                    </span>
                   </template>
                 </el-table-column>
                 <el-table-column prop="createTime" label="变更时间" align="center" :width="250">
@@ -517,7 +532,12 @@
               <el-table ref="table" :data="tableData[integralName[3]]" stripe>
                 <el-table-column prop="total" label="增减积分" align="center">
                   <template slot-scope="scope">
-                    {{scope.row.type==1? '+ '+scope.row.total:scope.row.type==3? '- '+scope.row.total:''}}
+                    <span class="text-danger" v-if="scope.row.type==1">
+                      {{'+ '+scope.row.total}}
+                    </span>
+                    <span class="text-success" v-else-if="scope.row.type==3">
+                      {{'- '+scope.row.total}}
+                    </span>
                   </template>
                 </el-table-column>
                 <el-table-column prop="createTime" label="变更时间" align="center" :width="250">
@@ -582,7 +602,12 @@
               <el-table ref="table" :data="tableData[integralName[4]]" stripe>
                 <el-table-column prop="total" label="增减积分" align="center">
                   <template slot-scope="scope">
-                    {{scope.row.type==1? '+ '+scope.row.total:scope.row.type==3? '- '+scope.row.total:''}}
+                    <span class="text-danger" v-if="scope.row.type==1">
+                      {{'+ '+scope.row.total}}
+                    </span>
+                    <span class="text-success" v-else-if="scope.row.type==3">
+                      {{'- '+scope.row.total}}
+                    </span>
                   </template>
                 </el-table-column>
                 <el-table-column prop="createTime" label="变更时间" align="center" :width="250">
