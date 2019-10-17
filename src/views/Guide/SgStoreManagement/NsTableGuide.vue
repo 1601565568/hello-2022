@@ -154,7 +154,8 @@
             </el-table-column>
             <el-table-column prop="address" label="地址&地区" align="left">
               <template slot-scope="scope">
-                {{scope.row.address || '-'}}/{{!scope.row.province&&!scope.row.city&&!scope.row.district?'-':scope.row.province+'/'+scope.row.city+'/'+scope.row.district}}
+                {{scope.row.address || '-'}}<br>
+                {{!scope.row.province&&!scope.row.city&&!scope.row.district?'-':scope.row.province+'/'+scope.row.city+'/'+scope.row.district}}
               </template>
             </el-table-column>
             <el-table-column prop="digitalShopName" label="关联数字门店" align="left">
