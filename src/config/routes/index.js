@@ -45,6 +45,15 @@ export default [
     'component': () => import('@nascent/ecrp-ecrm/src/views/Errors/Errors')
   },
   {
+    'path': '/icons',
+    'name': 'Icon',
+    'component': () => import('@nascent/ecrp-ecrm/src/views/IconList'),
+    'meta': {
+      'title': 'IconList',
+      'requiresAuth': true
+    }
+  },
+  {
     path: '/*',
     redirect: {
       name: 'Errors'

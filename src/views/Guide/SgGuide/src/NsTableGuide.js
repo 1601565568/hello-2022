@@ -28,15 +28,15 @@ export default {
         'auth': ``,
         'visible': `scope.row.status !== 2`
       },
-      {
-        'func': function (scope) {
-          this.onShowBindDialog(scope.row)
-        },
-        'icon': '',
-        'name': '绑定终端',
-        'auth': ``,
-        'visible': `scope.row.status === 1 && (scope.row.job == 1 || (scope.row.job != 1 && !scope.row.deviceNos)) `
-      },
+      // {
+      //   'func': function (scope) {
+      //     this.onShowBindDialog(scope.row)
+      //   },
+      //   'icon': '',
+      //   'name': '绑定终端',
+      //   'auth': ``,
+      //   'visible': `scope.row.status === 1 && (scope.row.job == 1 || (scope.row.job != 1 && !scope.row.deviceNos)) `
+      // },
       {
         'func': function (scope) {
           this.dimissionFun(scope.row)

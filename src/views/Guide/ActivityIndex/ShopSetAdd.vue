@@ -56,7 +56,8 @@ export default {
       dialogVisible: false,
       selectedArr: [],
       shopList: [],
-      status: null
+      status: null,
+      valid: true
     }
   },
   created: function () {},
@@ -74,12 +75,14 @@ export default {
     checkNumber (value, month, regin, msg) {
       if (!regin.test(value)) {
         this.$notify.error(msg)
+        this.valid = false
         this.shopList[0]['quota' + month] = 0
       } else {
         if (parseInt(this.saveObj.type) === 0) {
           validateUtil.checkDigitalLength(null, 10, null, (Number(value) * 10000).toFixed(0), (error) => {
             if (error) {
               this.$notify.error('最多输入6位数')
+              this.valid = false
               this.shopList[0]['quota' + month] = 0
             }
           })
@@ -87,6 +90,7 @@ export default {
           validateUtil.checkDigitalLength(null, 10, null, value, (error) => {
             if (error) {
               this.$notify.error('最多输入10位数')
+              this.valid = false
               this.shopList[0]['quota' + month] = 0
             }
           })
@@ -135,53 +139,55 @@ export default {
       this.multipleSelection = val
     },
     async saveFun () {
-      this.loading = true
-      // 组装选择的门店
-      this.saveObj.list = [] // 清空
-      this.selectedArr.forEach((value, key) => {
-        this.saveObj.list.push({
-          id: value.id,
-          shopId: value.shopId
+      if (this.valid) {
+        this.loading = true
+        // 组装选择的门店
+        this.saveObj.list = [] // 清空
+        this.selectedArr.forEach((value, key) => {
+          this.saveObj.list.push({
+            id: value.id,
+            shopId: value.shopId
+          })
         })
-      })
-      if (this.status === '0') {
-        this.saveObj.quota1 = (this.shopList[0].quota1 * 10000).toFixed(2)
-        this.saveObj.quota2 = (this.shopList[0].quota2 * 10000).toFixed(2)
-        this.saveObj.quota3 = (this.shopList[0].quota3 * 10000).toFixed(2)
-        this.saveObj.quota4 = (this.shopList[0].quota4 * 10000).toFixed(2)
-        this.saveObj.quota5 = (this.shopList[0].quota5 * 10000).toFixed(2)
-        this.saveObj.quota6 = (this.shopList[0].quota6 * 10000).toFixed(2)
-        this.saveObj.quota7 = (this.shopList[0].quota7 * 10000).toFixed(2)
-        this.saveObj.quota8 = (this.shopList[0].quota8 * 10000).toFixed(2)
-        this.saveObj.quota9 = (this.shopList[0].quota9 * 10000).toFixed(2)
-        this.saveObj.quota10 = (this.shopList[0].quota10 * 10000).toFixed(2)
-        this.saveObj.quota11 = (this.shopList[0].quota11 * 10000).toFixed(2)
-        this.saveObj.quota12 = (this.shopList[0].quota12 * 10000).toFixed(2)
-      } else {
-        this.saveObj.quota1 = this.shopList[0].quota1
-        this.saveObj.quota2 = this.shopList[0].quota2
-        this.saveObj.quota3 = this.shopList[0].quota3
-        this.saveObj.quota4 = this.shopList[0].quota4
-        this.saveObj.quota5 = this.shopList[0].quota5
-        this.saveObj.quota6 = this.shopList[0].quota6
-        this.saveObj.quota7 = this.shopList[0].quota7
-        this.saveObj.quota8 = this.shopList[0].quota8
-        this.saveObj.quota9 = this.shopList[0].quota9
-        this.saveObj.quota10 = this.shopList[0].quota10
-        this.saveObj.quota11 = this.shopList[0].quota11
-        this.saveObj.quota12 = this.shopList[0].quota12
+        if (this.status === '0') {
+          this.saveObj.quota1 = (this.shopList[0].quota1 * 10000).toFixed(2)
+          this.saveObj.quota2 = (this.shopList[0].quota2 * 10000).toFixed(2)
+          this.saveObj.quota3 = (this.shopList[0].quota3 * 10000).toFixed(2)
+          this.saveObj.quota4 = (this.shopList[0].quota4 * 10000).toFixed(2)
+          this.saveObj.quota5 = (this.shopList[0].quota5 * 10000).toFixed(2)
+          this.saveObj.quota6 = (this.shopList[0].quota6 * 10000).toFixed(2)
+          this.saveObj.quota7 = (this.shopList[0].quota7 * 10000).toFixed(2)
+          this.saveObj.quota8 = (this.shopList[0].quota8 * 10000).toFixed(2)
+          this.saveObj.quota9 = (this.shopList[0].quota9 * 10000).toFixed(2)
+          this.saveObj.quota10 = (this.shopList[0].quota10 * 10000).toFixed(2)
+          this.saveObj.quota11 = (this.shopList[0].quota11 * 10000).toFixed(2)
+          this.saveObj.quota12 = (this.shopList[0].quota12 * 10000).toFixed(2)
+        } else {
+          this.saveObj.quota1 = this.shopList[0].quota1
+          this.saveObj.quota2 = this.shopList[0].quota2
+          this.saveObj.quota3 = this.shopList[0].quota3
+          this.saveObj.quota4 = this.shopList[0].quota4
+          this.saveObj.quota5 = this.shopList[0].quota5
+          this.saveObj.quota6 = this.shopList[0].quota6
+          this.saveObj.quota7 = this.shopList[0].quota7
+          this.saveObj.quota8 = this.shopList[0].quota8
+          this.saveObj.quota9 = this.shopList[0].quota9
+          this.saveObj.quota10 = this.shopList[0].quota10
+          this.saveObj.quota11 = this.shopList[0].quota11
+          this.saveObj.quota12 = this.shopList[0].quota12
+        }
+        await this.$http
+          .fetch(this.$api.guide.guide.shopIndexSave, this.saveObj)
+          .then(resp => {
+            this.$notify.success('保存成功')
+          })
+          .catch(resp => {
+            this.$notify.error('保存失败')
+          })
+        this.handleClose()
+        // 回调刷新列表
+        this.$props.callBack()
       }
-      await this.$http
-        .fetch(this.$api.guide.guide.shopIndexSave, this.saveObj)
-        .then(resp => {
-          this.$notify.success('保存成功')
-        })
-        .catch(resp => {
-          this.$notify.error('保存失败')
-        })
-      this.handleClose()
-      // 回调刷新列表
-      this.$props.callBack()
     },
     handleClose () {
       this.dialogVisible = false

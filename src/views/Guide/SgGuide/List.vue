@@ -113,7 +113,7 @@
                            :on-success="handleAvatarSuccess"
                            :before-upload="beforeAvatarUpload">
                   <img width="200px" v-if="model.sgGuide.image" :src="model.sgGuide.image" class="avatar">
-                  <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                  <Icon type="plus" className="avatar-uploader-icon" v-else />
                 </el-upload>
                 <span>上传图片不能大于500KB,仅支持jpg,jpeg,png,gif格式</span>
               </el-form-item>
@@ -606,24 +606,25 @@ List.components = {
 export default List
 </script>
 <style scoped>
+  @import "@theme/variables.pcss";
+
   >>>.avatar-uploader .el-upload {
-    border: 1px dashed #d9d9d9;
+    width: 128px;
+    height: 128px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px dashed var(--theme-base-border-color-primary);
     border-radius: 6px;
     cursor: pointer;
-    position: relative;
     overflow: hidden;
   }
   .avatar-uploader .el-upload:hover {
-    border-color: #409EFF;
+    border-color: var(--theme-base-link-color-hover);
   }
   .avatar-uploader .avatar-uploader-icon {
     font-size: 28px;
-    color: #8c939d;
-    width: 128px;
-    height: 128px;
-    line-height: 128px;
-    text-align: center;
-    display: inline-block;
+    color: var(--theme-font-color-secondary);
   }
   .avatar {
     width: 128px;

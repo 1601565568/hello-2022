@@ -27,7 +27,7 @@
                 </li>
                 <li v-if="saveObj.imageList.length< 10 - saveObj.codeType">
                   <el-upload class="avatar-uploader" :action="this.$api.core.sgUploadFile('test')" accept=".jpg,.jpeg,.png,.bmp,.gif" :show-file-list="false" list-type="picture-card" multiple  :on-remove="handleRemove" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
-                    <i class="el-icon-plus avatar-uploader-icon"></i>
+                    <Icon type="plus" className="avatar-uploader-icon"/>
                   </el-upload>
                 </li>
               </ul>
@@ -144,7 +144,8 @@ export default {
       rules: {
         title: [
           { required: true, message: '请输入素材标题', trigger: 'blur' },
-          { min: 4, max: 20, message: '限制长度在4-20个字符以内', trigger: 'blur' }
+          { min: 4, max: 20, message: '限制长度在4-20个字符以内', trigger: 'blur' },
+          { pattern: /^(?!(\s+$))/, message: '不允许为空' }
         ],
         subdivisionId: [
           { required: true, message: '请选择所属分组', trigger: 'blur' }
@@ -154,7 +155,8 @@ export default {
         ],
         content: [
           { required: true, message: '请输入推广文案', trigger: 'blur' },
-          { min: 0, max: 10000, message: '限制长度在10000个字符以内', trigger: 'blur' }
+          { min: 0, max: 10000, message: '限制长度在10000个字符以内', trigger: 'blur' },
+          { pattern: /^(?!(\s+$))/, message: '不允许为空' }
         ]
       }
     }

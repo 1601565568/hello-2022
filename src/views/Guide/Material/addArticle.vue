@@ -155,7 +155,8 @@ export default {
       rules: {
         title: [
           { required: true, message: '请输入素材标题', trigger: 'blur' },
-          { min: 4, max: 50, message: '限制长度在4-50个字符以内', trigger: 'blur' }
+          { min: 4, max: 50, message: '限制长度在4-50个字符以内', trigger: 'blur' },
+          { pattern: /^(?!(\s+$))/, message: '不允许为空' }
         ],
         /* url: [
           { required: true, message: '请输入合法链接', trigger: 'blur' }
@@ -165,7 +166,8 @@ export default {
         ],
         content: [
           { required: true, message: '请输入推广文案', trigger: 'blur' },
-          { min: 0, max: 10000, message: '限制长度在10000个字符以内', trigger: 'blur' }
+          { min: 0, max: 10000, message: '限制长度在10000个字符以内', trigger: 'blur' },
+          { pattern: /^(?!(\s+$))/, message: '不允许为空' }
         ]
 
       }

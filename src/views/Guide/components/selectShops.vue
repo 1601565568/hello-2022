@@ -6,7 +6,7 @@
   :close-on-press-escape='true'
   :close-on-click-modal='false'
   :visible.sync="dialogVisible"
-  width="70%" append-to-body
+  width="80%" append-to-body
   :before-close="handleClose">
       <div class="content">
         <div class="searchAction">

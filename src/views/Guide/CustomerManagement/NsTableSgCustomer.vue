@@ -59,7 +59,7 @@
                             :on-success="handleAvatarSuccess"
                             :before-upload="beforeAvatarUpload"
                             >
-                              <i  class="el-icon-plus avatar-uploader-icon"></i>
+                              <Icon type="plus" className="avatar-uploader-icon" />
                         </el-upload>
                         </li>
                     </ul>
@@ -83,7 +83,7 @@
                         :before-upload="beforeAvatarUpload"
                         >
                         <img v-if="saveObj.imageList[0]" :src="saveObj.imageList[0]" alt="">
-                        <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                        <Icon type="plus" className="avatar-uploader-icon" v-else />
                     </el-upload>
                 <p style="color:#999">上传图片不能大于200KB</p>
               </div>
@@ -282,6 +282,8 @@ export default {
 }
 </script>
 <style scoped>
+  @import "@theme/variables.pcss";
+
 /* 此处scoped暂时不能加，等空闲了再出解决方案 */
 @component-namespace addMaterialbox {
   .comDialogBoxCon {
@@ -347,5 +349,9 @@ export default {
     width: 80px;
     height: 80px;
   }
+}
+.avatar-uploader-icon {
+  font-size: 28px;
+  color: var(--theme-font-color-secondary);
 }
 </style>
