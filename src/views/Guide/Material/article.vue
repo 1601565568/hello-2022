@@ -379,7 +379,11 @@ export default {
     },
     // 提交搜索
     submitForm (formName) {
-      this.searchObj.searchMap.sourceId = this.searchform.sourceId
+      if (this.searchform.sourceId === '' || this.searchform.sourceId === null) {
+        this.searchObj.searchMap.sourceId = null
+      } else {
+        this.searchObj.searchMap.sourceId = this.searchform.sourceId
+      }
       if (this.searchform.subdivisionId === '' || this.searchform.subdivisionId === null) {
         this.searchObj.searchMap.subdivisionId = null
       } else {
