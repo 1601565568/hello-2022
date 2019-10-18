@@ -88,9 +88,9 @@
             mode="mfit" class="dialog-avatar__headportrait">
           </el-image>
           <div class="dialog-avatar__figure" v-if="items.sex === 1 || items.sex === 0">
-            <Icon v-if="items.sex === 1" type="male" className="dialog-avatar__figure--male" />
+            <Icon v-if="items.sex === 1" type="men" className="dialog-avatar__figure--male" />
             <!-- 女生图标-->
-            <Icon v-else type="female" className="dialog-avatar__figure--female"/>
+            <Icon v-else type="women" className="dialog-avatar__figure--female"/>
           </div>
 <!--          <div class="dialog-avatar__figure">-->
 <!--            &lt;!&ndash; 男生图标&ndash;&gt;-->
