@@ -369,6 +369,14 @@ export default {
           // 点击取消事件
         })
     },
+    // 重置搜索
+    resetForm (formName) {
+      for (let attr in this.searchform) {
+        this.searchform[attr] = null
+      }
+      // this.$refs[formName].resetFields()
+      this.submitForm()
+    },
     // 提交搜索
     submitForm (formName) {
       this.searchObj.searchMap.sourceId = this.searchform.sourceId
