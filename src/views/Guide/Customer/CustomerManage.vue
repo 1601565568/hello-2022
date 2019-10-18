@@ -348,7 +348,7 @@
                 </el-form-item>
                 <el-form-item class="dialog-merchandise">
                   <el-form-grid class="dialog-merchandise__money">¥{{rfmInfo.tradeAmount}}</el-form-grid>
-                  <el-form-grid class="dialog-merchandise__frequency">（交易次数：{{rfmInfo.tradeTimes}}）</el-form-grid>
+                  <el-form-grid class="dialog-merchandise__frequency">（交易次数：{{rfmInfo.payAllTimes||0}}）</el-form-grid>
                 </el-form-item>
                 <el-form-item class="dialog-detail">
                   <el-form-grid size="md">
