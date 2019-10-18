@@ -460,6 +460,30 @@ export default {
       this.loading = false
       // 总条数
     },
+    // 重置搜索
+    resetForm (formName) {
+      for (let attr in this.searchform) {
+        if (attr !== 'date') {
+          if (attr === 'type') {
+            this.searchform.type = this.typeOptions[0].value
+          } else if (attr === 'area') {
+            this.searchform[attr] = []
+          } else if (attr === 'key') {
+            this.searchform.key =
+            {
+              children: 'children',
+              label: 'label',
+              value: 'label',
+              disabled: 'disabled'
+            }
+          } else {
+            this.searchform[attr] = ''
+          }
+        }
+      }
+      // this.$refs[formName].resetFields()
+      this.submitForm()
+    },
     // 提交搜索
     submitForm (formName) {
       if (this.searchform.type === '2') {

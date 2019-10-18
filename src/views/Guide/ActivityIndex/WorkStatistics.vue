@@ -120,11 +120,7 @@
       tooltip-effect="dark"
       stripe
       style="width: 100%">
-      <el-table-column
-        label="工号"
-        prop="workId"
-        width="120"
-      >
+      <el-table-column label="工号" prop="workId" width="120">
       <template slot-scope="scope">
         {{scope.row.workId?scope.row.workId:'-'}}
       </template>
@@ -140,16 +136,9 @@
           <span v-else>{{scope.row.name}}</span>
         </template>
       </el-table-column>
-      <el-table-column
-        label="门店名称"
-        prop="shopName"
-        width="220"
-        >
+      <el-table-column label="门店名称" prop="shopName" width="220">
       </el-table-column>
-      <el-table-column
-        label="导购招募/还差（人）"
-        align="center"
-      >
+      <el-table-column label="导购招募/还差（人）" align="center">
       <template slot-scope="scope">
         <span width="220">{{scope.row.recruitComplete}}</span>/<span class="text-error">
           <span v-if="scope.row.recruitQuota-scope.row.recruitComplete<=0">
@@ -388,13 +377,9 @@ export default {
     submitForm (formName) {
       // 组装搜索对象
       if (this.searchform.type === '2') {
-        this.searchObj.searchMap.date = moment(this.searchform.date).format(
-          'YYYY-MM-DD'
-        )
+        this.searchObj.searchMap.date = moment(this.searchform.date).format('YYYY-MM-DD')
       } else {
-        this.searchObj.searchMap.date = moment(this.searchform.date).format(
-          'YYYY-MM'
-        )
+        this.searchObj.searchMap.date = moment(this.searchform.date).format('YYYY-MM')
       }
       this.clearSearch()
       this.searchObj.searchMap.shopName = this.searchform.shopName
@@ -405,7 +390,18 @@ export default {
     },
     // 重置搜索
     resetForm (formName) {
-      this.$refs[formName].resetFields()
+      for (let attr in this.searchform) {
+        if (attr !== 'date') {
+          if (attr === 'type') {
+            if (this.searchform.type !== 1) {
+              this.searchform.type = this.typeOptions[1].value
+            }
+          } else {
+            this.searchform[attr] = ''
+          }
+        }
+      }
+      // this.$refs[formName].resetFields()
       this.submitForm()
     },
     // 明细//
@@ -425,13 +421,9 @@ export default {
       var _this = this
       // 组装搜索对象
       if (_this.searchform.type === '2') {
-        _this.searchObj.searchMap.date = moment(_this.searchform.date).format(
-          'YYYY-MM-DD'
-        )
+        _this.searchObj.searchMap.date = moment(_this.searchform.date).format('YYYY-MM-DD')
       } else {
-        _this.searchObj.searchMap.date = moment(_this.searchform.date).format(
-          'YYYY-MM'
-        )
+        _this.searchObj.searchMap.date = moment(_this.searchform.date).format('YYYY-MM')
       }
       _this.$http.fetch(_this.$api.guide.guide.guidePerfDetailList, {
         start: (_this.pagination1.page - 1) * _this.pagination1.size,
