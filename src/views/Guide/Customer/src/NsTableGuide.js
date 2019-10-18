@@ -86,7 +86,6 @@ export default {
     },
     onClickNode (data) {
       var _this = this
-      console.log(JSON.stringify(data))
       if (this._data._table.data.length > 0) {
         this._data._table.data = []
       }

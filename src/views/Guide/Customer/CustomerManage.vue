@@ -30,7 +30,7 @@
       <!--  搜索结束  -->
       <!--  表格开始  -->
       <el-table ref="table" :data="particularsObj" stripe @selection-change="guideChange">
-        <el-table-column  width="30">
+        <el-table-column  width="25">
           <template slot-scope="scope">
             <div class="customerManage">
               <el-radio :label="scope.$index" v-model="radio"  @change.native="getCurrentRow(scope.row,scope.$index)"></el-radio>
@@ -104,33 +104,137 @@
               <i class="dialog-favorable__text dialog-favorable__text--discount"><Icon type="icon_discount"/></i>
             </el-form-grid>
           </el-form-item>
-          <el-form-item :label="integralName[1]+'：'" class="el-inline-block dialog-favorable" v-if="integralIsShow[1]">
+          <!--新的积分展示信息-->
+          <el-form-item v-if="integralIsShow[1]" class="el-inline-block dialog-favorable">
+            <template slot="label">
+              <div class="dialog-title">
+                <Icon type="integration" className="dialog-favorable__text dialog-favorable__text--integration dialog-favorable__text--space"/>
+                <div class="dialog-title__text" v-if="integralName[1].length<6">
+                  {{integralName[1]}}
+                </div>
+                <div v-else>
+                  <el-tooltip placement="bottom">
+                    <div slot="content">{{integralName[1]}}</div>
+                    <span class="dialog-conceal">{{integralName[1]}}</span>
+                  </el-tooltip>
+                </div>
+                <div class="dialog-title__colon">：</div>
+              </div>
+            </template>
             <el-form-grid size="xs">
-              <span>{{integralIsNum[1]}}</span>
-              <i class="dialog-favorable__text dialog-favorable__text--integration"><Icon type="icon_integration"/></i>
+              <span>{{integralIsNum[1] || 0}}</span>
             </el-form-grid>
           </el-form-item>
-          <el-form-item :label="integralName[4]+'：'" class="el-inline-block dialog-favorable" v-if="integralIsShow[4]">
+          <el-form-item v-else label="" class="el-inline-block dialog-favorable">
             <el-form-grid size="xs">
-              <span>{{integralIsNum[4]}}</span>
-              <i class="dialog-favorable__text dialog-favorable__text--integration"><Icon type="icon_integration"/></i>
             </el-form-grid>
           </el-form-item>
+
+<!--          <el-form-item :label="integralName[1]+'：'" class="el-inline-block dialog-favorable" v-if="integralIsShow[1]">-->
+<!--            <el-form-grid size="xs">-->
+<!--              <span>{{integralIsNum[1]}}</span>-->
+<!--              <i class="dialog-favorable__text dialog-favorable__text&#45;&#45;integration"><Icon type="icon_integration"/></i>-->
+<!--            </el-form-grid>-->
+<!--          </el-form-item>-->
+
+          <el-form-item v-if="integralIsShow[4]" class="el-inline-block dialog-favorable">
+            <template slot="label">
+              <div class="dialog-title">
+                <Icon type="integration" className="dialog-favorable__text dialog-favorable__text--integration dialog-favorable__text--space"/>
+                <div class="dialog-title__text" v-if="integralName[4].length<6">
+                  {{integralName[4]}}
+                </div>
+                <div v-else>
+                  <el-tooltip placement="bottom">
+                    <div slot="content">{{integralName[4]}}</div>
+                    <span class="dialog-conceal">{{integralName[4]}}</span>
+                  </el-tooltip>
+                </div>
+                <div class="dialog-title__colon">：</div>
+              </div>
+            </template>
+            <el-form-grid size="xs">
+              <span>{{integralIsNum[4] || 0}}</span>
+            </el-form-grid>
+          </el-form-item>
+          <el-form-item v-else label="" class="el-inline-block dialog-favorable">
+            <el-form-grid size="xs">
+            </el-form-grid>
+          </el-form-item>
+
+<!--          <el-form-item :label="integralName[4]+'：'" class="el-inline-block dialog-favorable" v-if="integralIsShow[4]">-->
+<!--            <el-form-grid size="xs">-->
+<!--              <span>{{integralIsNum[4]}}</span>-->
+<!--              <i class="dialog-favorable__text dialog-favorable__text&#45;&#45;integration"><Icon type="icon_integration"/></i>-->
+<!--            </el-form-grid>-->
+<!--          </el-form-item>-->
           <el-form-item label="手机：" class="el-inline-block">
             <el-form-grid size="xs">{{items.mobile}}</el-form-grid>
           </el-form-item>
-          <el-form-item :label="integralName[0]+'：'" class="el-inline-block dialog-favorable" v-if="integralIsShow[0]">
+
+          <el-form-item v-if="integralIsShow[0]" class="el-inline-block dialog-favorable">
+            <template slot="label">
+              <div class="dialog-title">
+                <Icon type="integration" className="dialog-favorable__text dialog-favorable__text--integration dialog-favorable__text--space"/>
+                <div class="dialog-title__text" v-if="integralName[0].length<6">
+                  {{integralName[0]}}
+                </div>
+                <div v-else>
+                  <el-tooltip placement="bottom">
+                    <div slot="content">{{integralName[0]}}</div>
+                    <span class="dialog-conceal">{{integralName[0]}}</span>
+                  </el-tooltip>
+                </div>
+                <div class="dialog-title__colon">：</div>
+              </div>
+            </template>
             <el-form-grid size="xs">
-              <span>{{integralIsNum[0]}}</span>
-              <i class="dialog-favorable__text dialog-favorable__text--integration"><Icon type="icon_integration"/></i>
+              <span>{{integralIsNum[4] || 0}}</span>
             </el-form-grid>
           </el-form-item>
-          <el-form-item :label="integralName[2]+'：'" class="el-inline-block dialog-favorable" v-if="integralIsShow[2]">
+          <el-form-item v-else label="" class="el-inline-block dialog-favorable">
             <el-form-grid size="xs">
-              <span>{{integralIsNum[2]}}</span>
-              <i class="dialog-favorable__text dialog-favorable__text--integration"><Icon type="icon_integration"/></i>
             </el-form-grid>
           </el-form-item>
+
+<!--          <el-form-item :label="integralName[0]+'：'" class="el-inline-block dialog-favorable" v-if="integralIsShow[0]">-->
+<!--            <el-form-grid size="xs">-->
+<!--              <span>{{integralIsNum[0]}}</span>-->
+<!--              <i class="dialog-favorable__text dialog-favorable__text&#45;&#45;integration"><Icon type="icon_integration"/></i>-->
+<!--            </el-form-grid>-->
+<!--          </el-form-item>-->
+
+          <el-form-item v-if="integralIsShow[2]" class="el-inline-block dialog-favorable">
+            <template slot="label">
+              <div class="dialog-title">
+                <Icon type="integration" className="dialog-favorable__text dialog-favorable__text--integration dialog-favorable__text--space"/>
+                <div class="dialog-title__text" v-if="integralName[2].length<6">
+                  {{integralName[2]}}
+                </div>
+                <div v-else>
+                  <el-tooltip placement="bottom">
+                    <div slot="content">{{integralName[2]}}</div>
+                    <span class="dialog-conceal">{{integralName[2]}}</span>
+                  </el-tooltip>
+                </div>
+                <div class="dialog-title__colon">：</div>
+              </div>
+            </template>
+            <el-form-grid size="xs">
+              <span>{{integralIsNum[2] || 0}}</span>
+            </el-form-grid>
+          </el-form-item>
+          <el-form-item v-else label="" class="el-inline-block dialog-favorable">
+            <el-form-grid size="xs">
+            </el-form-grid>
+          </el-form-item>
+
+<!--          <el-form-item :label="integralName[2]+'：'" class="el-inline-block dialog-favorable" v-if="integralIsShow[2]">-->
+<!--            <el-form-grid size="xs">-->
+<!--              <span>{{integralIsNum[2]}}</span>-->
+<!--              <i class="dialog-favorable__text dialog-favorable__text&#45;&#45;integration"><Icon type="icon_integration"/></i>-->
+<!--            </el-form-grid>-->
+<!--          </el-form-item>-->
           <el-form-item label="" class="el-inline-block dialog-favorable">
             <el-form-grid size="xs">
             </el-form-grid>
@@ -155,12 +259,38 @@
               <i class="dialog-favorable__text dialog-favorable__text--coupon"><Icon type="icon_coupon"/></i>
             </el-form-grid>
           </el-form-item>
-          <el-form-item :label="integralName[3]+'：'" class="el-inline-block dialog-favorable" v-if="integralIsShow[3]">
+          <!--新的积分展示信息-->
+          <el-form-item v-if="integralIsShow[3]" class="el-inline-block dialog-favorable">
+            <template slot="label">
+              <div class="dialog-title">
+                <Icon type="integration" className="dialog-favorable__text dialog-favorable__text--integration dialog-favorable__text--space"/>
+                <div class="dialog-title__text" v-if="integralName[3].length<6">
+                  {{integralName[3]}}
+                </div>
+                <div v-else>
+                  <el-tooltip placement="bottom">
+                    <div slot="content">{{integralName[3]}}</div>
+                    <span class="dialog-conceal">{{integralName[3]}}</span>
+                  </el-tooltip>
+                </div>
+                <div class="dialog-title__colon">：</div>
+              </div>
+            </template>
             <el-form-grid size="xs">
-              <span>{{integralIsNum[3]}}</span>
-              <i class="dialog-favorable__text dialog-favorable__text--integration"><Icon type="icon_integration"/></i>
+              <span>{{integralIsNum[3] || 0}}</span>
             </el-form-grid>
           </el-form-item>
+          <el-form-item v-else label="" class="el-inline-block dialog-favorable">
+            <el-form-grid size="xs">
+            </el-form-grid>
+          </el-form-item>
+<!--          <el-form-item :label="integralName[3]+'：'" class="el-inline-block dialog-favorable" v-if="integralIsShow[3]">-->
+<!--            <el-form-grid size="xs">-->
+<!--              <span>{{integralIsNum[3]}}</span>-->
+<!--              <i class="dialog-favorable__text dialog-favorable__text&#45;&#45;integration"><Icon type="icon_integration"/></i>-->
+<!--            </el-form-grid>-->
+<!--          </el-form-item>-->
+
         </el-form>
       </div>
       <div class="dialog-container__tabs">
