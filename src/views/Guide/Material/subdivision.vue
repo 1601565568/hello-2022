@@ -94,10 +94,10 @@
       </el-table-column>
       <el-table-column  width="200"  align="left" :render-header="renderHeader">
         <template slot-scope="scope">
-          <i class='sort' :type="scope.$index?'topShow':'topHid'" @click='exchangeSort(1,scope.row.subdivision_id)'><Icon type="zhiding"/></i>
-          <i class='sort'  :type="scope.$index?'topShow':'topHid'" @click='exchangeSort(2,scope.row.subdivision_id)'><Icon type="topArr"/></i>
-          <i class='sort'  :type="scope.$index!==dataList.length-1?'topShow':'topHid'" @click='exchangeSort(3,scope.row.subdivision_id)'><Icon type="downArr"/></i>
-          <i class='sort'  :type="scope.$index!==dataList.length-1?'topShow':'topHid'" @click='exchangeSort(4,scope.row.subdivision_id)'><Icon type="zhidi"/></i>
+          <i class='sort' :class="scope.$index?'topShow':'topHid'" @click='exchangeSort(1,scope.row.subdivision_id)'><Icon type="zhiding"/></i>
+          <i class='sort' :class="scope.$index?'topShow':'topHid'" @click='exchangeSort(2,scope.row.subdivision_id)'><Icon type="top-arr"/></i>
+          <i class='sort' :class="scope.$index!==dataList.length-1?'topShow':'topHid'" @click='exchangeSort(3,scope.row.subdivision_id)'><Icon type="down-arr"/></i>
+          <i class='sort' :class="scope.$index!==dataList.length-1?'topShow':'topHid'" @click='exchangeSort(4,scope.row.subdivision_id)'><Icon type="zhidi"/></i>
         </template>
       </el-table-column>
 
