@@ -1,8 +1,12 @@
 import api from '@/config/http'
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import { getErrorMsg } from '@/utils/toast'
+import ElImage from '@nascent/nui/lib/image'
 
 export default {
+  components: {
+    ElImage
+  },
   data: function () {
     let pagination = {
       enable: true,
