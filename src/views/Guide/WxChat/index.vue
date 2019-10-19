@@ -509,6 +509,7 @@ export default index
     font-weight: bold;
   }
   .icon-qun {
+    font-size: var(--default-font-size-large);
     color: var(--theme-color-white);
   }
   .icon-geren {

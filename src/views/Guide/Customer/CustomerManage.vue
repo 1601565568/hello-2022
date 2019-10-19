@@ -375,7 +375,7 @@
                     width="200"
                     trigger="hover"
                     content="交易成功订单的总金额（包含退款金额）">
-                    <i class="xiangqingyiwen-icon dialog-doubt" slot="reference"><Icon fontType="el-icon-info" /></i>
+                    <i class="xiangqingyiwen-icon dialog-doubt" slot="reference"><Icon type="question-circle" /></i>
                   </el-popover>
                 </el-form-item>
                 <el-form-item class="dialog-merchandise">
@@ -390,7 +390,7 @@
                       width="200"
                       trigger="hover"
                       content="（最近一次交易成功时间-第一次交易成功时间）/（交易成功次数-1）">
-                      <i class="xiangqingyiwen-icon dialog-doubt" slot="reference"><Icon fontType="el-icon-info" /></i>
+                      <i class="xiangqingyiwen-icon dialog-doubt" slot="reference"><Icon type="question-circle" /></i>
                     </el-popover>
                   </el-form-grid>
                   <el-form-grid size="md">
@@ -400,7 +400,7 @@
                       width="200"
                       trigger="hover"
                       content="交易成功总额/交易成功订单数（包含退款）">
-                      <i class="xiangqingyiwen-icon dialog-doubt" slot="reference"><Icon fontType="el-icon-info" /></i>
+                      <i class="xiangqingyiwen-icon dialog-doubt" slot="reference"><Icon type="question-circle" /></i>
                     </el-popover>
                   </el-form-grid>
                   <el-form-grid size="md">
@@ -410,7 +410,7 @@
                       width="200"
                       trigger="hover"
                       content="交易成功订单商品数量/交易成功订单数（包含退款）">
-                      <i class="xiangqingyiwen-icon dialog-doubt" slot="reference"><Icon fontType="el-icon-info" /></i>
+                      <i class="xiangqingyiwen-icon dialog-doubt" slot="reference"><Icon type="question-circle" /></i>
                     </el-popover>
                   </el-form-grid>
                 </el-form-item>
@@ -422,7 +422,7 @@
                       width="200"
                       trigger="hover"
                       content="最近一笔交易成功时间">
-                      <i class="xiangqingyiwen-icon dialog-doubt" slot="reference"><Icon fontType="el-icon-info" /></i>
+                      <i class="xiangqingyiwen-icon dialog-doubt" slot="reference"><Icon type="question-circle" /></i>
                     </el-popover>
                   </el-form-grid>
                   <el-form-grid size="xmd" class="dialog-checkbtn">

@@ -23,7 +23,7 @@
         <div class="navTree-item flex flex-between" slot-scope="{ node, data }" >
           <span class="dataName">{{ data.name }}</span>
           <span v-if='data.id'>
-            <i @click="deleteTheGroup(data)" style='font-size:18px'><Icon type="shanchu"/></i>
+            <i @click="deleteTheGroup(data)" style='font-size:18px'><Icon type="delete" /></i>
             <i class="ml5" @click="onSaveQuicklyWordGroupOpen(data)"><Icon type="bianji1"/></i>
           </span>
         </div>

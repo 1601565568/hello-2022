@@ -163,11 +163,11 @@
                     <div class="talk-time">{{moment.snsTime}}</div>
                     <div class="talk-interactive">
                       <span class="talk-interactive__like">
-                        <i @click="like(moment)"><Icon type="dianzan"/></i>
+                        <i @click="like(moment)"><Icon type="heart" className="talk-heart"/></i>
                         {{moment.likesNum}}
                       </span>
                       <span class="talk-interactive__comment">
-                        <i @click="replyComment(moment)"><Icon type="pinglun"/></i>
+                        <i @click="replyComment(moment)"><Icon type="pinglun" className="talk-commentary"/></i>
                         {{moment.commentsNum}}
                       </span>
                     </div>
@@ -175,7 +175,7 @@
                     <div class="talk-detail" v-if="moment.likesNum>0 || moment.commentsNum>0">
                       <div class="talk-detail__substance">
                         <div class="talk-chatmsg" v-if="moment.likeName">
-                          <i class="colorblue"><Icon type="dianzan"/></i>
+                          <i class="colorblue"><Icon type="heart" className="talk-heart"/></i>
                           <span class="colorblue">{{moment.likeName}}</span>
                         </div>
                         <div class="talk-msg" v-if="moment.comments">
@@ -249,7 +249,7 @@
                   <div class="talk-personmsg__uname colorblue">{{msg.commentator?msg.commentator:msg.ownerNick}}</div>
                   <div class="talk-personmsg__about" v-if="msg.type==2">{{msg.content}}</div>
                   <div class="talk-personmsg__about talk-personmsg__ablue--like" v-else-if="msg.type==1">
-                    <i class="colorblue"><Icon type="dianzan"/></i>
+                    <i class="colorblue"><Icon type="heart" class="talk-heart" /></i>
                   </div>
                   <div class="talk-personmsg__time">{{msg.addTime}}</div>
                 </div>
@@ -703,6 +703,14 @@ export default Moments
       display: -webkit-box;
       -webkit-box-orient: vertical;
       -webkit-line-clamp: 5;
+    }
+    @b commentary {
+      font-size: var(--dafault-font-size-xlarge);
+      position: relative;
+      top: 1px;
+    }
+    @b heart {
+      font-size: var(--default-font-size-middle);
     }
   }
   .clearfix:after {
