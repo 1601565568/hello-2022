@@ -432,7 +432,6 @@
               </el-form>
             </div>
           </el-tab-pane>
-
           <el-tab-pane v-if="integralLogIsShow[0]" :label="integralName[0]" name="integral1">
             <div class="dialog-integral">
               <ns-page-table>
@@ -517,7 +516,7 @@
                                  :page-sizes="_data.integralPagination.sizeOpts" :total="_data.integralPagination.total"
                                  :current-page="_data.integralPagination.page" :page-size="_data.integralPagination.size"
                                  layout="total, sizes, prev, pager, next, jumper" @size-change="integralSizeChange"
-                                 @current-change="integralPageChange">
+                                 @current-change="integralPageChange" ref="integralPage1">
                   </el-pagination>
                 </template>
               </ns-page-table>
@@ -607,7 +606,7 @@
                                  :page-sizes="_data.integralPagination.sizeOpts" :total="_data.integralPagination.total"
                                  :current-page="_data.integralPagination.page" :page-size="_data.integralPagination.size"
                                  layout="total, sizes, prev, pager, next, jumper" @size-change="integralSizeChange"
-                                 @current-change="integralPageChange">
+                                 @current-change="integralPageChange" ref="integralPage2">
                   </el-pagination>
                 </template>
               </ns-page-table>
@@ -697,7 +696,7 @@
                                  :page-sizes="_data.integralPagination.sizeOpts" :total="_data.integralPagination.total"
                                  :current-page="_data.integralPagination.page" :page-size="_data.integralPagination.size"
                                  layout="total, sizes, prev, pager, next, jumper" @size-change="integralSizeChange"
-                                 @current-change="integralPageChange">
+                                 @current-change="integralPageChange" ref="integralPage3">
                   </el-pagination>
                 </template>
               </ns-page-table>
@@ -787,7 +786,7 @@
                                  :page-sizes="_data.integralPagination.sizeOpts" :total="_data.integralPagination.total"
                                  :current-page="_data.integralPagination.page" :page-size="_data.integralPagination.size"
                                  layout="total, sizes, prev, pager, next, jumper" @size-change="integralSizeChange"
-                                 @current-change="integralPageChange">
+                                 @current-change="integralPageChange" ref="integralPage4">
                   </el-pagination>
                 </template>
               </ns-page-table>
@@ -877,7 +876,7 @@
                                  :page-sizes="_data.integralPagination.sizeOpts" :total="_data.integralPagination.total"
                                  :current-page="_data.integralPagination.page" :page-size="_data.integralPagination.size"
                                  layout="total, sizes, prev, pager, next, jumper" @size-change="integralSizeChange"
-                                 @current-change="integralPageChange">
+                                 @current-change="integralPageChange" ref="integralPage5">
                   </el-pagination>
                 </template>
               </ns-page-table>

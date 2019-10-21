@@ -150,7 +150,6 @@ export default {
         let accountCode = this.accountCode[tab.label]
         this.searchParam.accountCode = accountCode
         this.searchParam.nick = this.items.customerId
-
         this.searchParam.length = this.integralPagination.size
         this.searchParam.pageNo = this.integralPagination.page
         this.getIntegralList(tabName)
@@ -185,13 +184,11 @@ export default {
     },
     // 积分分页-页数改变
     integralPageChange (page) {
-      console.log('page:' + page)
       this.searchParam.pageNo = page
       this.getIntegralList(this.currentIndex)
     },
     // 积分分页-大小改变
     integralSizeChange (pageSize) {
-      console.log('pageSize:' + pageSize)
       this.searchParam.length = pageSize
       this.searchParam.pageNo = 1
       this.getIntegralList(this.currentIndex)
@@ -214,11 +211,20 @@ export default {
       this.startTime = null
       this.endTime = null
     },
+    // 关闭会员详情弹窗
     closeDetailDialog () {
       this.selectedTabName = 'basic'
       this.startTime = null
       this.endTime = null
       this.accountCode = {}
+      this.searchParam = {}
+      // 重置tabs 分页组件size大小
+      for (let i = 1; i <= this.integralLogIsShow.length; i++) {
+        if (this.integralLogIsShow[i - 1]) {
+          let name = 'integralPage' + i
+          this.$refs[name].internalPageSize = 15
+        }
+      }
     },
     getCustomerRfmInfo (customerId, shopId) { // 查询会员Rfm信息
       this.$http.fetch(this.$api.guide.guide.queryCustomerRfmInfo, {
