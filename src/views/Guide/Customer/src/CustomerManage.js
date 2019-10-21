@@ -15,6 +15,13 @@ export default {
       page: 1,
       total: 0
     }
+    let integralPagination = {
+      enable: true,
+      size: 15,
+      sizeOpts: [15, 25, 50, 100],
+      page: 1,
+      total: 0
+    }
     let searchModel = {
       sgGuide: {
         guideId: null,
@@ -60,6 +67,8 @@ export default {
       customerIdList: [],
       kehushow: false,
       pagination: pagination,
+      integralPagination: integralPagination,
+      integralTotal: 0,
       model: model,
       items: {},
       changeValue: {},
@@ -122,6 +131,7 @@ export default {
       tableData: [],
       searchParam: {}, // 积分查询条件
       integralAccountArr: [],
+      currentIndex: '',
       integralLogIsShow: [false, false, false, false, false]
     }
   },
@@ -134,14 +144,15 @@ export default {
     handleClick (tab, event) {
       // 假如切换到积分tab
       if (tab.label.indexOf('基础信息') === -1 && tab.label.indexOf('交易信息') === -1) {
-        // let num = tab.label.substr(2, 1)
-        // let index = num - 1
-        // let accountCode = this.items.integralAccountList[num - 1].integralAccount
         this.restParams()
         let tabName = tab.label
+        this.currentIndex = tab.label
         let accountCode = this.accountCode[tab.label]
         this.searchParam.accountCode = accountCode
         this.searchParam.nick = this.items.customerId
+
+        this.searchParam.length = this.integralPagination.size
+        this.searchParam.pageNo = this.integralPagination.page
         this.getIntegralList(tabName)
       } else if (tab.label.indexOf('交易') > -1) {
         this.getCustomerRfmInfo(this.items.customerId, this.items.sgShopId == 0 ? this.items.shopId : this.items.sgShopId)
@@ -150,7 +161,8 @@ export default {
     getIntegralList (tabName) { // 查询会员积分
       this.$http.fetch(this.$api.guide.guide.queryCustomerIntegral, this.searchParam
       ).then(resp => {
-        this.$set(this.tableData, tabName, resp.result)
+        this.integralPagination.total = parseInt(resp.result.total)
+        this.$set(this.tableData, tabName, resp.result.data)
       }).catch(resp => {
         this.$notify.error(getErrorMsg('查询失败', resp))
       })
@@ -170,6 +182,19 @@ export default {
       this.searchParam.startTime = startTime
       this.searchParam.endTime = endTime
       this.getIntegralList(this.integralName[index])
+    },
+    // 积分分页-页数改变
+    integralPageChange (page) {
+      console.log('page:' + page)
+      this.searchParam.pageNo = page
+      this.getIntegralList(this.currentIndex)
+    },
+    // 积分分页-大小改变
+    integralSizeChange (pageSize) {
+      console.log('pageSize:' + pageSize)
+      this.searchParam.length = pageSize
+      this.searchParam.pageNo = 1
+      this.getIntegralList(this.currentIndex)
     },
     // 开始时间清除处理
     disposeStartTime (value) {
