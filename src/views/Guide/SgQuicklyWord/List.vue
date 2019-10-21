@@ -23,8 +23,8 @@
         <div class="navTree-item flex flex-between" slot-scope="{ node, data }" >
           <span class="dataName">{{ data.name }}</span>
           <span v-if='data.id'>
-            <i @click="deleteTheGroup(data)" style='font-size:18px'><Icon type="delete" /></i>
-            <i class="ml5" @click="onSaveQuicklyWordGroupOpen(data)"><Icon type="bianji1"/></i>
+            <Icon type="delete" @click="deleteTheGroup(data)" className="deleteicon" />
+            <Icon type="bianji-1" @click="onSaveQuicklyWordGroupOpen(data)" className="editicon"/>
           </span>
         </div>
         </el-tree>
@@ -325,4 +325,14 @@ export default List
 #SgQuicklyWordPage .el-tree-node__expand-icon{
   display: none;
 }
+  .deleteicon {
+    font-size: var(--default-font-size-middle);
+    position: relative;
+    top: 2px;
+  }
+  .editicon {
+    font-size: var(--default-font-size-small);
+    position: relative;
+    top: 1px;
+  }
 </style>
