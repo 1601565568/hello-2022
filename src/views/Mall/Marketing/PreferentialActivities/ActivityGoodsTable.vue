@@ -24,7 +24,7 @@
             <template slot-scope="{row}">
               <ns-button @click="deleteGoods(row)"
                          type="text"><Icon
-                type="deletes"/>
+                type="delete"/>
               </ns-button>
             </template>
           </el-table-column>

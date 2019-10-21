@@ -34,7 +34,7 @@
                     <Icon type="edit" v-show="data.extData.showEditIcon" @click="onEditNode(node,data)"/>
                   </span>
                   <span>
-                    <Icon type="deletes" v-show="data.extData.showDeleteIcon" @click="onDeleteNode(node, data)"/>
+                    <Icon type="delete" v-show="data.extData.showDeleteIcon" @click="onDeleteNode(node, data)"/>
                   </span>
                 </span>
               </div>

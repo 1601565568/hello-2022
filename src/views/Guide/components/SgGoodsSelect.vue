@@ -89,7 +89,7 @@
                   <li v-for="(item,index) in selectedData" :key='index'>
                     <span class="g-name">{{item[props.name]}}</span>
                     <a @click="onDelSelected('selectedData',index,item[props.unique])" class="delete-icon">
-                      <i class="g-delete"><Icon type="deletes" /></i></a>
+                      <i class="g-delete"><Icon type="delete" /></i></a>
                   </li>
                 </ul>
               </el-scrollbar>

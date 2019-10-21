@@ -28,7 +28,7 @@
                 <li class="imgItem" v-if="saveObj.img">
                   <img :src="saveObj.img" class="comUploadImg">
                   <div class="del" @click="delImgFun(index)">
-                    <Icon type="deletes" />
+                    <Icon type="delete" />
                   </div>
                 </li>
                 <li v-else>
