@@ -147,6 +147,14 @@
         prop="shopName"
         show-overflow-tooltip
         >
+        <template slot='header' scope='header'>
+          <span>
+            <span>{{header.column.label}}</span>
+            <el-popover placement='bottom' width='100' trigger='hover' content='不显示已删除门店'>
+              <i slot='reference' class='table-header-icon'><Icon type="question-circle" /></i>
+            </el-popover>
+          </span>
+        </template>
       </el-table-column>
       <el-table-column
         label="区域"

@@ -136,6 +136,14 @@
           </p>
           <span v-else>{{scope.row.name}}</span>
         </template>
+        <template slot='header' scope='header'>
+          <span>
+            <span>{{header.column.label}}</span>
+            <el-popover placement='bottom' width='150' trigger='hover' content='不显示已删除门店的导购'>
+              <i slot='reference' class='table-header-icon'><Icon type="question-circle" /></i>
+            </el-popover>
+          </span>
+        </template>
       </el-table-column>
       <el-table-column label="门店名称" prop="shopName" width="220">
       </el-table-column>
