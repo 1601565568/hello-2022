@@ -78,6 +78,7 @@ export default {
         this.valid = false
         this.shopList[0]['quota' + month] = 0
       } else {
+        this.valid = true
         if (parseInt(this.saveObj.type) === 0) {
           validateUtil.checkDigitalLength(null, 10, null, (Number(value) * 10000).toFixed(0), (error) => {
             if (error) {
