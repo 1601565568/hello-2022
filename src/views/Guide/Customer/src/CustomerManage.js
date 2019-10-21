@@ -627,20 +627,19 @@ export default {
           this.mapTag.push(tag)
         }
         // this.$notify.error('未选择属性')
-      } else {
-        this.$http.fetch(this.$api.guide.guide.saveTag, {
-          'sysCustomerId': this.sysCustomerId,
-          'tagList': JSON.stringify(this.mapTag)
-        }).then(resp => {
-          if (resp.success && resp.result != null) {
-            this.closeTag()
-            this.restTag()
-            this.$notify.success('保存成功！')
-          }
-        }).catch((resp) => {
-          this.$notify.error(getErrorMsg('保存失败', resp))
-        })
       }
+      this.$http.fetch(this.$api.guide.guide.saveTag, {
+        'sysCustomerId': this.sysCustomerId,
+        'tagList': JSON.stringify(this.mapTag)
+      }).then(resp => {
+        if (resp.success && resp.result != null) {
+          this.closeTag()
+          this.restTag()
+          this.$notify.success('保存成功！')
+        }
+      }).catch((resp) => {
+        this.$notify.error(getErrorMsg('保存失败', resp))
+      })
     },
     // 清空标签
     restTag () {
