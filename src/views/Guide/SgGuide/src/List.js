@@ -1223,6 +1223,10 @@ export default {
       this.resignFormVisible = false
       this.transferShopSize = this._data.paginationss.sizeOpts[0]
     },
+    // 用于关闭弹窗后设置字段
+    cancelTransferToResetByOne () {
+      this.resignFormVisible = false
+    },
     // 自定义搜索
     customSearch (model) {
       this.findCustomerList(model)

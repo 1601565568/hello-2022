@@ -129,7 +129,7 @@
     <!--  新增修改客户结束 -->
     <!--  导购离职弹窗开始  -->
     <!--  v-if="transferCount" 用于判断导购没有会员时不弹窗  -->
-    <el-dialog title="客户转移" :visible.sync="resignFormVisible" width="75%" v-if="transferCount!==null">
+    <el-dialog title="客户转移" :visible.sync="resignFormVisible" width="75%" v-if="transferCount!==null" @close="cancelTransferToResetByOne">
       <div style="height: 300px;overflow-x:hidden;overflow-y:auto;margin-top: 10px;">
         <div class="resignFormVisible_title">
           您正在对 {{transferName}}<span> （{{transferShopName}}）</span>的客户 <span>（共{{transferCount}}人）</span>进行转移
