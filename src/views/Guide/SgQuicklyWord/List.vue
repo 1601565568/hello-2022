@@ -23,8 +23,8 @@
         <div class="navTree-item flex flex-between" slot-scope="{ node, data }" >
           <span class="dataName">{{ data.name }}</span>
           <span v-if='data.id'>
-            <i @click="deleteTheGroup(data)" style='font-size:18px'><Icon type="shanchu"/></i>
-            <i class="ml5" @click="onSaveQuicklyWordGroupOpen(data)"><Icon type="bianji1"/></i>
+            <Icon type="delete" @click="deleteTheGroup(data)" className="deleteicon" />
+            <Icon type="bianji-1" @click="onSaveQuicklyWordGroupOpen(data)" className="editicon"/>
           </span>
         </div>
         </el-tree>
@@ -66,8 +66,8 @@
             <el-table-column align="left" v-if="showOrder" :render-header="renderHeader">
               <template slot-scope="scope">
                 <i class='sort' :class="scope.row === _data._table.data[0]?'topHid':''"  @click='exchangeSort(1,scope.row.id)'><Icon type="zhiding"/></i>
-                <i class='sort' :class="scope.row === _data._table.data[0]?'topHid':''"   @click='exchangeSort(2,scope.row.id)'><Icon type="topArr"/></i>
-                <i class='sort' :class="scope.row === _data._table.data[_data._table.data.length-1]?'topHid':''"   @click='exchangeSort(3,scope.row.id)'><Icon type="downArr"/></i>
+                <i class='sort' :class="scope.row === _data._table.data[0]?'topHid':''"   @click='exchangeSort(2,scope.row.id)'><Icon type="top-arr"/></i>
+                <i class='sort' :class="scope.row === _data._table.data[_data._table.data.length-1]?'topHid':''"   @click='exchangeSort(3,scope.row.id)'><Icon type="down-arr"/></i>
                 <i class='sort' :class="scope.row === _data._table.data[_data._table.data.length-1]?'topHid':''"  @click='exchangeSort(4,scope.row.id)'><Icon type="zhidi"/></i>
               </template>
             </el-table-column>
@@ -325,4 +325,14 @@ export default List
 #SgQuicklyWordPage .el-tree-node__expand-icon{
   display: none;
 }
+  .deleteicon {
+    font-size: var(--default-font-size-middle);
+    position: relative;
+    top: 2px;
+  }
+  .editicon {
+    font-size: var(--default-font-size-small);
+    position: relative;
+    top: 1px;
+  }
 </style>

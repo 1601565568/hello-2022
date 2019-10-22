@@ -86,9 +86,11 @@ export default {
     },
     onClickNode (data) {
       var _this = this
-      console.log(JSON.stringify(data))
       if (this._data._table.data.length > 0) {
         this._data._table.data = []
+      }
+      if (_this.gradeInfo) {
+        _this.gradeInfo = []
       }
       _this.offLineShopId = data.parentId != 0 ? data.parentId : data.id
       _this.shuJushuzu = data
@@ -96,7 +98,8 @@ export default {
       _this.$reload().then(rep => {
         _this.loading = _this._data._loading
       })
-      _this.$http.fetch(_this.$api.guide.shop.findShopGrade,{shopId: _this.offLineShopId}).then(resp => {
+      _this.$http.fetch(_this.$api.guide.shop.findShopGrade,
+        {shopId: _this.offLineShopId}).then(resp => {
         if (resp.success && resp.result !== null) {
           _this.gradeInfo = resp.result
         }

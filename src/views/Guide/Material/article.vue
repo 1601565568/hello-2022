@@ -369,9 +369,21 @@ export default {
           // 点击取消事件
         })
     },
+    // 重置搜索
+    resetForm (formName) {
+      for (let attr in this.searchform) {
+        this.searchform[attr] = null
+      }
+      // this.$refs[formName].resetFields()
+      this.submitForm()
+    },
     // 提交搜索
     submitForm (formName) {
-      this.searchObj.searchMap.sourceId = this.searchform.sourceId
+      if (this.searchform.sourceId === '' || this.searchform.sourceId === null) {
+        this.searchObj.searchMap.sourceId = null
+      } else {
+        this.searchObj.searchMap.sourceId = this.searchform.sourceId
+      }
       if (this.searchform.subdivisionId === '' || this.searchform.subdivisionId === null) {
         this.searchObj.searchMap.subdivisionId = null
       } else {

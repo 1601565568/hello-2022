@@ -704,7 +704,9 @@ export default {
           guideIds: dimissionIdArry.join(',')
         }).then(resp => {
           if (resp.result.sum > 0) {
-            _this.replacementStoresHaveMembersShow = true
+            // todo 4.0版本导购有会员不能更换门店，4.1版本待中台完善后再取消注释
+            _this.$notify.error('导购名下有会员，请先转移会员')
+            // _this.replacementStoresHaveMembersShow = true
           } else {
             _this.updateShopId()
           }
@@ -970,8 +972,10 @@ export default {
                 shopId = _this.subordinateStores.join(',')
                 _this.findGuideShopCustomerSum(guideId, shopId, model).then((res) => {
                   if (res > 0) {
-                    _this.memberBelongingtitle = '选择会员归属'
-                    _this.memberBelongingShow = true
+                    // todo 4.0版本导购有会员不能更换门店，4.1版本待中台完善后再取消注释
+                    _this.$notify.error('导购名下有会员，请先转移会员')
+                    // _this.memberBelongingtitle = '选择会员归属'
+                    // _this.memberBelongingShow = true
                   } else {
                     _this.subordinateStores.map((item, i) => {
                       guideShop[i] = Object.assign({ job: _this.guideValue, shop_id: item }, guideShop[i])
@@ -990,8 +994,10 @@ export default {
                   shopId = _this.changeValue.storeValue
                   _this.getCustomerCount(guideId, shopId).then((res) => {
                     if (res > '0') {
-                      _this.memberBelongingtitle = '选择会员归属'
-                      _this.memberBelongingShow = true
+                      // todo 4.0版本导购有会员不能更换门店，4.1版本待中台完善后再取消注释
+                      _this.$notify.error('导购名下有会员，请先转移会员')
+                      // _this.memberBelongingtitle = '选择会员归属'
+                      // _this.memberBelongingShow = true
                     } else {
                       _this.subordinateStores.map((item, i) => {
                         guideShop[i] = Object.assign({ job: _this.guideValue, shop_id: item }, guideShop[i])
@@ -1024,8 +1030,10 @@ export default {
                 shopId = _this.changeValue.storeValue
                 _this.findGuideShopCustomerSum(guideId, shopId, model).then((res) => {
                   if (res > 0) {
-                    _this.memberBelongingtitle = '选择会员归属'
-                    _this.memberBelongingShow = true
+                    // todo 4.0版本导购有会员不能更换门店，4.1版本待中台完善后再取消注释
+                    _this.$notify.error('导购名下有会员，请先转移会员')
+                    // _this.memberBelongingtitle = '选择会员归属'
+                    // _this.memberBelongingShow = true
                   } else {
                     guideShop[0] = { job: _this.guideValue, shop_id: model.sgGuideShop.shop_id }
                     // _this.subordinateStores.map((item, i) => {
@@ -1053,8 +1061,10 @@ export default {
                   shopId = _this.row.shop_id
                   _this.getCustomerCount(guideId, shopId).then(res => {
                     if (res > '0') {
-                      _this.memberBelongingtitle = '选择会员归属'
-                      _this.memberBelongingShow = true
+                      // todo 4.0版本导购有会员不能更换门店，4.1版本待中台完善后再取消注释
+                      _this.$notify.error('导购名下有会员，请先转移会员')
+                      // _this.memberBelongingtitle = '选择会员归属'
+                      // _this.memberBelongingShow = true
                     } else {
                       guideShop[0] = { job: _this.guideValue, shop_id: model.sgGuideShop.shop_id }
                       if (guide.birthday instanceof Date) {

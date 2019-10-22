@@ -111,7 +111,7 @@
                               <el-input v-model.trim="coupon.num"><template slot="append">张</template></el-input>
                             </el-form-grid>
                             <el-form-grid v-show="index > 0">
-                              <ns-button @click="deleteCoupon(row.coupons, index)"><Icon type="deletes" />
+                              <ns-button @click="deleteCoupon(row.coupons, index)"><Icon type="delete" />
                               </ns-button>
                             </el-form-grid>
                             <el-form-grid v-show="index === row.coupons.length-1">
@@ -135,7 +135,7 @@
                               <el-input v-model.trim="coupon.num"><template slot="append">张</template></el-input>
                             </el-form-grid>
                             <el-form-grid v-show="index > 0">
-                              <ns-button @click="deleteCoupon(row.coupons, index)"><Icon type="deletes" />
+                              <ns-button @click="deleteCoupon(row.coupons, index)"><Icon type="delete" />
                               </ns-button>
                             </el-form-grid>
                             <el-form-grid v-show="index === row.coupons.length-1">
@@ -153,7 +153,7 @@
                 <template slot-scope="{row}">
                   <ns-button @click="deleteRule(row)"
                              type="text">
-                    <Icon type="deletes"/>
+                    <Icon type="delete"/>
                   </ns-button>
                 </template>
               </el-table-column>

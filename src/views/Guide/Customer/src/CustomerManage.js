@@ -1,10 +1,21 @@
 import api from '@/config/http'
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import { getErrorMsg } from '@/utils/toast'
+import ElImage from '@nascent/nui/lib/image'
 
 export default {
+  components: {
+    ElImage
+  },
   data: function () {
     let pagination = {
+      enable: true,
+      size: 15,
+      sizeOpts: [15, 25, 50, 100],
+      page: 1,
+      total: 0
+    }
+    let integralPagination = {
       enable: true,
       size: 15,
       sizeOpts: [15, 25, 50, 100],
@@ -56,6 +67,8 @@ export default {
       customerIdList: [],
       kehushow: false,
       pagination: pagination,
+      integralPagination: integralPagination,
+      integralTotal: 0,
       model: model,
       items: {},
       changeValue: {},
@@ -118,6 +131,7 @@ export default {
       tableData: [],
       searchParam: {}, // 积分查询条件
       integralAccountArr: [],
+      currentIndex: '',
       integralLogIsShow: [false, false, false, false, false]
     }
   },
@@ -130,14 +144,14 @@ export default {
     handleClick (tab, event) {
       // 假如切换到积分tab
       if (tab.label.indexOf('基础信息') === -1 && tab.label.indexOf('交易信息') === -1) {
-        // let num = tab.label.substr(2, 1)
-        // let index = num - 1
-        // let accountCode = this.items.integralAccountList[num - 1].integralAccount
         this.restParams()
         let tabName = tab.label
+        this.currentIndex = tab.label
         let accountCode = this.accountCode[tab.label]
         this.searchParam.accountCode = accountCode
         this.searchParam.nick = this.items.customerId
+        this.searchParam.length = this.integralPagination.size
+        this.searchParam.pageNo = this.integralPagination.page
         this.getIntegralList(tabName)
       } else if (tab.label.indexOf('交易') > -1) {
         this.getCustomerRfmInfo(this.items.customerId, this.items.sgShopId == 0 ? this.items.shopId : this.items.sgShopId)
@@ -146,7 +160,8 @@ export default {
     getIntegralList (tabName) { // 查询会员积分
       this.$http.fetch(this.$api.guide.guide.queryCustomerIntegral, this.searchParam
       ).then(resp => {
-        this.$set(this.tableData, tabName, resp.result)
+        this.integralPagination.total = parseInt(resp.result.total)
+        this.$set(this.tableData, tabName, resp.result.data)
       }).catch(resp => {
         this.$notify.error(getErrorMsg('查询失败', resp))
       })
@@ -167,6 +182,17 @@ export default {
       this.searchParam.endTime = endTime
       this.getIntegralList(this.integralName[index])
     },
+    // 积分分页-页数改变
+    integralPageChange (page) {
+      this.searchParam.pageNo = page
+      this.getIntegralList(this.currentIndex)
+    },
+    // 积分分页-大小改变
+    integralSizeChange (pageSize) {
+      this.searchParam.length = pageSize
+      this.searchParam.pageNo = 1
+      this.getIntegralList(this.currentIndex)
+    },
     // 开始时间清除处理
     disposeStartTime (value) {
       if (!value) {
@@ -185,11 +211,20 @@ export default {
       this.startTime = null
       this.endTime = null
     },
+    // 关闭会员详情弹窗
     closeDetailDialog () {
       this.selectedTabName = 'basic'
       this.startTime = null
       this.endTime = null
       this.accountCode = {}
+      this.searchParam = {}
+      // 重置tabs 分页组件size大小
+      for (let i = 1; i <= this.integralLogIsShow.length; i++) {
+        if (this.integralLogIsShow[i - 1]) {
+          let name = 'integralPage' + i
+          this.$refs[name].internalPageSize = 15
+        }
+      }
     },
     getCustomerRfmInfo (customerId, shopId) { // 查询会员Rfm信息
       this.$http.fetch(this.$api.guide.guide.queryCustomerRfmInfo, {
@@ -623,20 +658,19 @@ export default {
           this.mapTag.push(tag)
         }
         // this.$notify.error('未选择属性')
-      } else {
-        this.$http.fetch(this.$api.guide.guide.saveTag, {
-          'sysCustomerId': this.sysCustomerId,
-          'tagList': JSON.stringify(this.mapTag)
-        }).then(resp => {
-          if (resp.success && resp.result != null) {
-            this.closeTag()
-            this.restTag()
-            this.$notify.success('保存成功！')
-          }
-        }).catch((resp) => {
-          this.$notify.error(getErrorMsg('保存失败', resp))
-        })
       }
+      this.$http.fetch(this.$api.guide.guide.saveTag, {
+        'sysCustomerId': this.sysCustomerId,
+        'tagList': JSON.stringify(this.mapTag)
+      }).then(resp => {
+        if (resp.success && resp.result != null) {
+          this.closeTag()
+          this.restTag()
+          this.$notify.success('保存成功！')
+        }
+      }).catch((resp) => {
+        this.$notify.error(getErrorMsg('保存失败', resp))
+      })
     },
     // 清空标签
     restTag () {

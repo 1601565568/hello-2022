@@ -147,6 +147,14 @@
         prop="shopName"
         show-overflow-tooltip
         >
+        <template slot='header' scope='header'>
+          <span>
+            <span>{{header.column.label}}</span>
+            <el-popover placement='bottom' width='100' trigger='hover' content='不显示已删除门店'>
+              <i slot='reference' class='table-header-icon'><Icon type="question-circle" /></i>
+            </el-popover>
+          </span>
+        </template>
       </el-table-column>
       <el-table-column
         label="区域"
@@ -459,6 +467,30 @@ export default {
         })
       this.loading = false
       // 总条数
+    },
+    // 重置搜索
+    resetForm (formName) {
+      for (let attr in this.searchform) {
+        if (attr !== 'date') {
+          if (attr === 'type') {
+            this.searchform.type = this.typeOptions[0].value
+          } else if (attr === 'area') {
+            this.searchform[attr] = []
+          } else if (attr === 'key') {
+            this.searchform.key =
+            {
+              children: 'children',
+              label: 'label',
+              value: 'label',
+              disabled: 'disabled'
+            }
+          } else {
+            this.searchform[attr] = ''
+          }
+        }
+      }
+      // this.$refs[formName].resetFields()
+      this.submitForm()
     },
     // 提交搜索
     submitForm (formName) {

@@ -46,7 +46,7 @@
                         <li class="imgItem" v-for="(item,index) in saveObj.imageList" :key="index">
                             <img :src="item" class="comUploadImg">
                             <div class="del" @click="delImgFun(index)">
-                                <Icon type="deletes" />
+                                <Icon type="delete" />
                             </div>
                         </li>
                         <li v-if="saveObj.imageList.length<9">

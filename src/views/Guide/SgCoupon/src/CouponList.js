@@ -266,19 +266,19 @@ export default {
       }).then(resp => {
         if (resp.success && resp.result.data != null) {
           // 第一次点击radio的时候计算均值
-          // if (status) {
-          _this.calcQuota(resp.result.data)
-          // } else {
-          //   _this.shopList = []
-          //   _this.shopList = Object.assign({}, resp.result.data)
-          //   for (let a = 0; a < resp.result.data.length; a++) {
-          //     // 通过key将value取出 转换为深拷贝
-          //     let shopObject = this.shopMap.get(resp.result.data[a].id)
-          //     let shopObj = JSON.stringify(shopObject)
-          //     let newShopObject = JSON.parse(shopObj)
-          //     _this.shopList.push(newShopObject)
-          //   }
-          // }
+          if (status) {
+            _this.calcQuota(resp.result.data)
+          } else {
+            _this.shopList = []
+            // _this.shopList = Object.assign({}, resp.result.data)
+            for (let a = 0; a < resp.result.data.length; a++) {
+              // 通过key将value取出 转换为深拷贝
+              let shopObject = this.shopMap.get(resp.result.data[a].id)
+              let shopObj = JSON.stringify(shopObject)
+              let newShopObject = JSON.parse(shopObj)
+              _this.shopList.push(newShopObject)
+            }
+          }
           this._data.paginations.total = Number(resp.result.recordsTotal)
         }
       }).catch((resp) => {
