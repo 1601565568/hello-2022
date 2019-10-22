@@ -1223,6 +1223,12 @@ export default {
       this.resignFormVisible = false
       this.transferShopSize = this._data.paginationss.sizeOpts[0]
     },
+    // 用于关闭弹窗后将会员总数设为null
+    cancelTransferToResetByOne () {
+      this.transferName = null
+      this.transferShopName = null
+      this.transferCount = null
+    },
     // 自定义搜索
     customSearch (model) {
       this.findCustomerList(model)

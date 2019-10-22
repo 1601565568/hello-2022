@@ -92,12 +92,6 @@
             <!-- 女生图标-->
             <Icon v-else type="women" className="dialog-avatar__figure--female"/>
           </div>
-<!--          <div class="dialog-avatar__figure">-->
-<!--            &lt;!&ndash; 男生图标&ndash;&gt;-->
-<!--            <i class="dialog-avatar__figure&#45;&#45;male" v-if="items.sex===1"><Icon type="nan1"/></i>-->
-<!--            &lt;!&ndash; 女生图标&ndash;&gt;-->
-<!--            <i class="dialog-avatar__figure&#45;&#45;female" v-if="items.sex===0"><Icon type="nv1"/></i>-->
-<!--          </div>-->
           <div class="dialog-avatar__level" v-if="items.grade>0">
             {{items.gradeName}}
           </div>
@@ -106,12 +100,7 @@
           <el-form-item label="姓名：" class="el-inline-block">
             <el-form-grid size="xs">{{items.customerName}}</el-form-grid>
           </el-form-item>
-<!--          <el-form-item label="会员折扣：" class="el-inline-block dialog-favorable">-->
-<!--            <el-form-grid size="xs">-->
-<!--              <span>{{items.discount || '-'}}</span>-->
-<!--              <i class="dialog-favorable__text dialog-favorable__text&#45;&#45;discount"><Icon type="icon_discount"/></i>-->
-<!--            </el-form-grid>-->
-<!--          </el-form-item>-->
+
           <el-form-item class="el-inline-block dialog-favorable">
             <template slot="label">
               <div class="dialog-title">
@@ -149,14 +138,6 @@
             <el-form-grid size="xs">
             </el-form-grid>
           </el-form-item>
-
-<!--          <el-form-item :label="integralName[1]+'：'" class="el-inline-block dialog-favorable" v-if="integralIsShow[1]">-->
-<!--            <el-form-grid size="xs">-->
-<!--              <span>{{integralIsNum[1]}}</span>-->
-<!--              <i class="dialog-favorable__text dialog-favorable__text&#45;&#45;integration"><Icon type="icon_integration"/></i>-->
-<!--            </el-form-grid>-->
-<!--          </el-form-item>-->
-
           <el-form-item v-if="integralIsShow[4]" class="el-inline-block dialog-favorable">
             <template slot="label">
               <div class="dialog-title">
@@ -181,13 +162,6 @@
             <el-form-grid size="xs">
             </el-form-grid>
           </el-form-item>
-
-<!--          <el-form-item :label="integralName[4]+'：'" class="el-inline-block dialog-favorable" v-if="integralIsShow[4]">-->
-<!--            <el-form-grid size="xs">-->
-<!--              <span>{{integralIsNum[4]}}</span>-->
-<!--              <i class="dialog-favorable__text dialog-favorable__text&#45;&#45;integration"><Icon type="icon_integration"/></i>-->
-<!--            </el-form-grid>-->
-<!--          </el-form-item>-->
           <el-form-item label="手机：" class="el-inline-block">
             <el-form-grid size="xs">{{items.mobile}}</el-form-grid>
           </el-form-item>
@@ -209,21 +183,13 @@
               </div>
             </template>
             <el-form-grid size="xs">
-              <span>{{integralIsNum[4] || 0}}</span>
+              <span>{{integralIsNum[0] || 0}}</span>
             </el-form-grid>
           </el-form-item>
           <el-form-item v-else label="" class="el-inline-block dialog-favorable">
             <el-form-grid size="xs">
             </el-form-grid>
           </el-form-item>
-
-<!--          <el-form-item :label="integralName[0]+'：'" class="el-inline-block dialog-favorable" v-if="integralIsShow[0]">-->
-<!--            <el-form-grid size="xs">-->
-<!--              <span>{{integralIsNum[0]}}</span>-->
-<!--              <i class="dialog-favorable__text dialog-favorable__text&#45;&#45;integration"><Icon type="icon_integration"/></i>-->
-<!--            </el-form-grid>-->
-<!--          </el-form-item>-->
-
           <el-form-item v-if="integralIsShow[2]" class="el-inline-block dialog-favorable">
             <template slot="label">
               <div class="dialog-title">
@@ -248,13 +214,6 @@
             <el-form-grid size="xs">
             </el-form-grid>
           </el-form-item>
-
-<!--          <el-form-item :label="integralName[2]+'：'" class="el-inline-block dialog-favorable" v-if="integralIsShow[2]">-->
-<!--            <el-form-grid size="xs">-->
-<!--              <span>{{integralIsNum[2]}}</span>-->
-<!--              <i class="dialog-favorable__text dialog-favorable__text&#45;&#45;integration"><Icon type="icon_integration"/></i>-->
-<!--            </el-form-grid>-->
-<!--          </el-form-item>-->
           <el-form-item label="" class="el-inline-block dialog-favorable">
             <el-form-grid size="xs">
             </el-form-grid>
@@ -285,12 +244,6 @@
               <span>{{items.couponNum||0}}</span>
             </el-form-grid>
           </el-form-item>
-<!--          <el-form-item label="优惠券：" class="el-inline-block dialog-favorable">-->
-<!--            <el-form-grid size="xs">-->
-<!--              <span>{{items.couponNum||0}}</span>-->
-<!--              <i class="dialog-favorable__text dialog-favorable__text&#45;&#45;coupon"><Icon type="icon_coupon"/></i>-->
-<!--            </el-form-grid>-->
-<!--          </el-form-item>-->
           <!--新的积分展示信息-->
           <el-form-item v-if="integralIsShow[3]" class="el-inline-block dialog-favorable">
             <template slot="label">
@@ -572,7 +525,7 @@
                   </el-form>
                 </template>
                 <template slot="table">
-                  <el-table ref="table" :data="tableData[integralName[0]]"
+                  <el-table ref="table" :data="tableData[integralName[1]]"
                             stripe
                             resizable
                             @sort-change="$orderChange$"
@@ -662,7 +615,7 @@
                   </el-form>
                 </template>
                 <template slot="table">
-                  <el-table ref="table" :data="tableData[integralName[0]]"
+                  <el-table ref="table" :data="tableData[integralName[2]]"
                             stripe
                             resizable
                             @sort-change="$orderChange$"
@@ -752,7 +705,7 @@
                   </el-form>
                 </template>
                 <template slot="table">
-                  <el-table ref="table" :data="tableData[integralName[0]]"
+                  <el-table ref="table" :data="tableData[integralName[3]]"
                             stripe
                             resizable
                             @sort-change="$orderChange$"
@@ -842,7 +795,7 @@
                   </el-form>
                 </template>
                 <template slot="table">
-                  <el-table ref="table" :data="tableData[integralName[0]]"
+                  <el-table ref="table" :data="tableData[integralName[4]]"
                             stripe
                             resizable
                             @sort-change="$orderChange$"
@@ -970,259 +923,101 @@ CustomerManage.components = {
 }
 export default CustomerManage
 </script>
-<!--<style scoped>-->
-<!--&gt;>>.avatar-uploader .el-upload {-->
-<!--    border: 1px dashed #d9d9d9;-->
-<!--    border-radius: 6px;-->
-<!--    cursor: pointer;-->
-<!--    position: relative;-->
-<!--    overflow: hidden;-->
-<!--  }-->
-<!--  .avatar-uploader .el-upload:hover {-->
-<!--    border-color: #409EFF;-->
-<!--  }-->
-<!-- .avatar-uploader .avatar-uploader-icon {-->
-<!--    font-size: 28px;-->
-<!--    color: #8c939d;-->
-<!--    width: 128px;-->
-<!--    height: 128px;-->
-<!--    line-height: 128px;-->
-<!--    text-align: center;-->
-<!--    display: inline-block;-->
-<!--  }-->
-<!--  .avatar {-->
-<!--    width: 128px;-->
-<!--    height: 128px;-->
-<!--    display: block;-->
-<!--  }-->
-<!--  .kehuBox-main {-->
-<!--    padding: 10px 20px 30px;-->
-<!--  }-->
-<!--  .kehuBox-main-top{-->
-<!--    display: flex;-->
-<!--    justify-content:space-between;-->
-<!--    height: 35px;-->
-<!--    line-height: 35px;-->
-<!--    font-size: 12px;-->
-<!--    color: #999;-->
-<!--  }-->
-<!--  .kehuBox-main-main{-->
-<!--    display: flex;-->
-<!--    align-items:flex-start;-->
-<!--  }-->
-<!--  .kehuBox-main-span {-->
-<!--    padding: 20px 0 0;-->
-<!--  }-->
-<!--  .kehuBox-main-span span{-->
-<!--    font-size: 12px;-->
-<!--    line-height: 2.3;-->
-<!--  }-->
-<!--  .man-img{-->
-<!--    width: 35px;-->
-<!--    height: 35px;-->
-<!--    border: 1px solid #999;-->
-<!--    border-radius: 50%;-->
-<!--    float: left;-->
-<!--  }-->
-<!--  .img-show{-->
-<!--    width: 35px;-->
-<!--    height: 35px;-->
-<!--    border: 1px solid #999;-->
-<!--    border-radius: 50%;-->
-<!--    float: left;-->
-<!--    background: url("../../../assets/default-user.png")no-repeat;-->
-<!--    background-size: 33px;-->
-<!--  }-->
-<!--  .man-name {-->
-<!--    font-size: 15px;-->
-<!--    color: #000000;-->
-<!--    padding-left: 10px;-->
-<!--  }-->
-<!--  .p-title {-->
-<!--    padding: 20px 0 5px;-->
-<!--    color: #000000;-->
-<!--    font-weight: 600;-->
-<!--  }-->
-<!--  .search{-->
-<!--    display: flex;-->
-<!--    justify-content: space-between;-->
-<!--    padding-right:20px-->
-<!--  }-->
-<!--  .el_form{-->
-<!--    display: flex;-->
-<!--    align-items: center-->
-<!--  }-->
-<!--  .template-table__more-btn{-->
-<!--    display: flex;-->
-<!--    align-items: center;-->
-<!--    padding:0;-->
-<!--    margin-bottom: 10px;-->
-<!--  }-->
-<!--.dialog-footer{-->
-<!--  display:flex;-->
-<!--  justify-content: flex-end;-->
-<!--  align-items: center;-->
-<!--}-->
+<style scoped>
+>>>.avatar-uploader .el-upload {
+    border: 1px dashed #d9d9d9;
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+  .avatar-uploader .el-upload:hover {
+    border-color: #409EFF;
+  }
+ .avatar-uploader .avatar-uploader-icon {
+    font-size: 28px;
+    color: #8c939d;
+    width: 128px;
+    height: 128px;
+    line-height: 128px;
+    text-align: center;
+    display: inline-block;
+  }
+  .avatar {
+    width: 128px;
+    height: 128px;
+    display: block;
+  }
+  .kehuBox-main {
+    padding: 10px 20px 30px;
+  }
+  .kehuBox-main-top{
+    display: flex;
+    justify-content:space-between;
+    height: 35px;
+    line-height: 35px;
+    font-size: 12px;
+    color: #999;
+  }
+  .kehuBox-main-main{
+    display: flex;
+    align-items:flex-start;
+  }
+  .kehuBox-main-span {
+    padding: 20px 0 0;
+  }
+  .kehuBox-main-span span{
+    font-size: 12px;
+    line-height: 2.3;
+  }
+  .man-img{
+    width: 35px;
+    height: 35px;
+    border: 1px solid #999;
+    border-radius: 50%;
+    float: left;
+  }
+  .img-show{
+    width: 35px;
+    height: 35px;
+    border: 1px solid #999;
+    border-radius: 50%;
+    float: left;
+    background: url("../../../assets/default-user.png")no-repeat;
+    background-size: 33px;
+  }
+  .man-name {
+    font-size: 15px;
+    color: #000000;
+    padding-left: 10px;
+  }
+  .p-title {
+    padding: 20px 0 5px;
+    color: #000000;
+    font-weight: 600;
+  }
+  .search{
+    display: flex;
+    justify-content: space-between;
+    padding-right:20px
+  }
+  .el_form{
+    display: flex;
+    align-items: center
+  }
+  .template-table__more-btn{
+    display: flex;
+    align-items: center;
+    padding:0;
+    margin-bottom: 10px;
+  }
+.dialog-footer{
+  display:flex;
+  justify-content: flex-end;
+  align-items: center;
+}
 
-<!--@import "@theme/variables.pcss";-->
-
-<!--:root {-->
-<!--  &#45;&#45;dialog-font-color-red: #FF1985;-->
-<!--  &#45;&#45;dialog&#45;&#45;font-color-brown: #904B00;-->
-<!--}-->
-
-<!--@component-namespace dialog {-->
-<!--  @b container {-->
-<!--    @e msg {-->
-<!--      display: flex;-->
-<!--      padding: var(&#45;&#45;default-padding-larger) 0 var(&#45;&#45;default-padding-larger) var(&#45;&#45;default-padding-small);-->
-<!--      border-bottom: 1px solid var(&#45;&#45;theme-base-border-color-primary);-->
-<!--    }-->
-<!--  }-->
-<!--  @b avatar {-->
-<!--    width: 80px;-->
-<!--    position: relative;-->
-<!--    @e figure {-->
-<!--      width: 26px;-->
-<!--      height: 26px;-->
-<!--      position: absolute;-->
-<!--      right: 2px;-->
-<!--      top: -6px;-->
-<!--      display: flex;-->
-<!--      justify-content: center;-->
-<!--      align-items: center;-->
-<!--      background: var(&#45;&#45;theme-color-white);-->
-<!--      border-radius: 50%;-->
-<!--      @m female {-->
-<!--        font-size: var(&#45;&#45;default-font-size-large);-->
-<!--        color: var(&#45;&#45;dialog-font-color-red);-->
-<!--      }-->
-<!--      @m male {-->
-<!--        font-size: var(&#45;&#45;default-font-size-large);-->
-<!--        color: var(&#45;&#45;theme-color-primary);-->
-<!--      }-->
-<!--    }-->
-<!--    @e level {-->
-<!--      font-size: var(&#45;&#45;default-font-size-small);-->
-<!--      color: var(&#45;&#45;dialog&#45;&#45;font-color-brown);-->
-<!--      text-align: center;-->
-<!--      line-height: 20px;-->
-<!--      width: 64px;-->
-<!--      height: 20px;-->
-<!--      position: absolute;-->
-<!--      left: 8px;-->
-<!--      bottom: 10px;-->
-<!--      background-image: linear-gradient(90deg, #FFCD30 0%, #FFDD74 97%);-->
-<!--      border-radius: 18px;-->
-<!--    }-->
-<!--  }-->
-<!--  @b hidden {-->
-<!--    width: 80px;-->
-<!--    max-height: 28px;-->
-<!--    overflow: hidden;-->
-<!--    text-overflow: ellipsis;-->
-<!--    display: -webkit-box;-->
-<!--    -webkit-line-clamp: 1;-->
-<!--    -webkit-box-orient: vertical;-->
-<!--  }-->
-<!--  @b favorable {-->
-<!--    @e text {-->
-<!--      font-size: var(&#45;&#45;default-font-size-base);-->
-<!--      flex-shrink: 0;-->
-<!--      @m discount {-->
-<!--        color: var(&#45;&#45;theme-color-danger);-->
-<!--      }-->
-<!--      @m integration {-->
-<!--        color: var(&#45;&#45;theme-color-warning);-->
-<!--      }-->
-<!--      @m coupon {-->
-<!--        color: var(&#45;&#45;theme-color-success);-->
-<!--      }-->
-<!--    }-->
-<!--  }-->
-<!--  @b basic {-->
-<!--    @e title {-->
-<!--      line-height: 36px;-->
-<!--      height: 36px;-->
-<!--      font-weight: bold;-->
-<!--      padding-left: 14px;-->
-<!--      background: var(&#45;&#45;default-table-strip-bg);-->
-<!--    }-->
-<!--    @e form {-->
-<!--      padding: var(&#45;&#45;default-padding-xlarger) 0;-->
-<!--    }-->
-<!--  }-->
-<!--  @b integral {-->
-<!--    margin-top: var(&#45;&#45;default-margin-xlarger);-->
-<!--    @e form {-->
-<!--      padding-left: var(&#45;&#45;default-padding-xlarger);-->
-<!--    }-->
-<!--  }-->
-<!--  @b formitem {-->
-<!--    @e choice {-->
-<!--      margin-right: 0;-->
-<!--    }-->
-<!--    @e type {-->
-<!--      margin: 0 0 0 var(&#45;&#45;default-margin-larger);-->
-<!--    }-->
-<!--  }-->
-<!--  @b transaction {-->
-<!--    padding: var(&#45;&#45;default-padding-xlarger);-->
-<!--  }-->
-<!--  @b merchandise {-->
-<!--    @e money {-->
-<!--      font-size: var(&#45;&#45;default-font-size-large);-->
-<!--      font-weight: bold;-->
-<!--    }-->
-<!--    @e frequency {-->
-<!--      color: var(&#45;&#45;theme-font-color-secondary);-->
-<!--    }-->
-<!--  }-->
-<!--  @b detail {-->
-<!--    padding: var(&#45;&#45;default-padding-larger) 0;-->
-<!--    border-bottom: 1px dashed var(&#45;&#45;theme-base-border-color-primary);-->
-<!--  }-->
-<!--  @b checkbtn {-->
-<!--    text-align: right;-->
-<!--    width: 230px;-->
-<!--  }-->
-<!--  @b doubt {-->
-<!--    font-size: var(&#45;&#45;default-font-size-base);-->
-<!--    color: var(&#45;&#45;theme-color-primary);-->
-<!--    position: relative;-->
-<!--    left: 5px;-->
-<!--  }-->
-<!--  @b title {-->
-<!--    display: flex;-->
-<!--    align-items: center;-->
-<!--    @e text {-->
-<!--      text-align: right;-->
-<!--      width: 68px;-->
-<!--    }-->
-<!--    @e colon {-->
-<!--      flex-shrink: 0;-->
-<!--    }-->
-<!--  }-->
-<!--  @b remark {-->
-<!--    width: 80px;-->
-<!--    white-space: nowrap;-->
-<!--    overflow: hidden;-->
-<!--    text-overflow: ellipsis;-->
-<!--  }-->
-<!--  @b conceal {-->
-<!--    width: 68px;-->
-<!--    padding-left: 5px;-->
-<!--    overflow: hidden;-->
-<!--    text-overflow: ellipsis;-->
-<!--    display: -webkit-box;-->
-<!--    -webkit-line-clamp: 1;-->
-<!--    -webkit-box-orient: vertical;-->
-<!--  }-->
-<!--}-->
-<!--.dialog-container >>> .el-tabs__header {-->
-<!--  padding: var(&#45;&#45;default-padding-xlarger) 0 0;-->
-<!--}-->
-<!--</style>-->
+</style>
 
 <!--<style scoped>-->
 <!--.customerManage .el-radio .el-radio__label{-->
@@ -1230,8 +1025,7 @@ export default CustomerManage
 <!--}-->
 <!--</style>-->
 
-
-
+<!-- 会员详情样式-->
 <style scoped>
   @import "@theme/variables.pcss";
 
