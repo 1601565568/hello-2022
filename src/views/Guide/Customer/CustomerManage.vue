@@ -106,12 +106,7 @@
           <el-form-item label="姓名：" class="el-inline-block">
             <el-form-grid size="xs">{{items.customerName}}</el-form-grid>
           </el-form-item>
-<!--          <el-form-item label="会员折扣：" class="el-inline-block dialog-favorable">-->
-<!--            <el-form-grid size="xs">-->
-<!--              <span>{{items.discount || '-'}}</span>-->
-<!--              <i class="dialog-favorable__text dialog-favorable__text&#45;&#45;discount"><Icon type="icon_discount"/></i>-->
-<!--            </el-form-grid>-->
-<!--          </el-form-item>-->
+
           <el-form-item class="el-inline-block dialog-favorable">
             <template slot="label">
               <div class="dialog-title">
@@ -149,14 +144,6 @@
             <el-form-grid size="xs">
             </el-form-grid>
           </el-form-item>
-
-<!--          <el-form-item :label="integralName[1]+'：'" class="el-inline-block dialog-favorable" v-if="integralIsShow[1]">-->
-<!--            <el-form-grid size="xs">-->
-<!--              <span>{{integralIsNum[1]}}</span>-->
-<!--              <i class="dialog-favorable__text dialog-favorable__text&#45;&#45;integration"><Icon type="icon_integration"/></i>-->
-<!--            </el-form-grid>-->
-<!--          </el-form-item>-->
-
           <el-form-item v-if="integralIsShow[4]" class="el-inline-block dialog-favorable">
             <template slot="label">
               <div class="dialog-title">
@@ -181,13 +168,6 @@
             <el-form-grid size="xs">
             </el-form-grid>
           </el-form-item>
-
-<!--          <el-form-item :label="integralName[4]+'：'" class="el-inline-block dialog-favorable" v-if="integralIsShow[4]">-->
-<!--            <el-form-grid size="xs">-->
-<!--              <span>{{integralIsNum[4]}}</span>-->
-<!--              <i class="dialog-favorable__text dialog-favorable__text&#45;&#45;integration"><Icon type="icon_integration"/></i>-->
-<!--            </el-form-grid>-->
-<!--          </el-form-item>-->
           <el-form-item label="手机：" class="el-inline-block">
             <el-form-grid size="xs">{{items.mobile}}</el-form-grid>
           </el-form-item>
@@ -216,14 +196,6 @@
             <el-form-grid size="xs">
             </el-form-grid>
           </el-form-item>
-
-<!--          <el-form-item :label="integralName[0]+'：'" class="el-inline-block dialog-favorable" v-if="integralIsShow[0]">-->
-<!--            <el-form-grid size="xs">-->
-<!--              <span>{{integralIsNum[0]}}</span>-->
-<!--              <i class="dialog-favorable__text dialog-favorable__text&#45;&#45;integration"><Icon type="icon_integration"/></i>-->
-<!--            </el-form-grid>-->
-<!--          </el-form-item>-->
-
           <el-form-item v-if="integralIsShow[2]" class="el-inline-block dialog-favorable">
             <template slot="label">
               <div class="dialog-title">
@@ -248,13 +220,6 @@
             <el-form-grid size="xs">
             </el-form-grid>
           </el-form-item>
-
-<!--          <el-form-item :label="integralName[2]+'：'" class="el-inline-block dialog-favorable" v-if="integralIsShow[2]">-->
-<!--            <el-form-grid size="xs">-->
-<!--              <span>{{integralIsNum[2]}}</span>-->
-<!--              <i class="dialog-favorable__text dialog-favorable__text&#45;&#45;integration"><Icon type="icon_integration"/></i>-->
-<!--            </el-form-grid>-->
-<!--          </el-form-item>-->
           <el-form-item label="" class="el-inline-block dialog-favorable">
             <el-form-grid size="xs">
             </el-form-grid>
@@ -285,12 +250,6 @@
               <span>{{items.couponNum||0}}</span>
             </el-form-grid>
           </el-form-item>
-<!--          <el-form-item label="优惠券：" class="el-inline-block dialog-favorable">-->
-<!--            <el-form-grid size="xs">-->
-<!--              <span>{{items.couponNum||0}}</span>-->
-<!--              <i class="dialog-favorable__text dialog-favorable__text&#45;&#45;coupon"><Icon type="icon_coupon"/></i>-->
-<!--            </el-form-grid>-->
-<!--          </el-form-item>-->
           <!--新的积分展示信息-->
           <el-form-item v-if="integralIsShow[3]" class="el-inline-block dialog-favorable">
             <template slot="label">
@@ -572,7 +531,7 @@
                   </el-form>
                 </template>
                 <template slot="table">
-                  <el-table ref="table" :data="tableData[integralName[0]]"
+                  <el-table ref="table" :data="tableData[integralName[1]]"
                             stripe
                             resizable
                             @sort-change="$orderChange$"
@@ -662,7 +621,7 @@
                   </el-form>
                 </template>
                 <template slot="table">
-                  <el-table ref="table" :data="tableData[integralName[0]]"
+                  <el-table ref="table" :data="tableData[integralName[2]]"
                             stripe
                             resizable
                             @sort-change="$orderChange$"
@@ -752,7 +711,7 @@
                   </el-form>
                 </template>
                 <template slot="table">
-                  <el-table ref="table" :data="tableData[integralName[0]]"
+                  <el-table ref="table" :data="tableData[integralName[3]]"
                             stripe
                             resizable
                             @sort-change="$orderChange$"
@@ -842,7 +801,7 @@
                   </el-form>
                 </template>
                 <template slot="table">
-                  <el-table ref="table" :data="tableData[integralName[0]]"
+                  <el-table ref="table" :data="tableData[integralName[4]]"
                             stripe
                             resizable
                             @sort-change="$orderChange$"
