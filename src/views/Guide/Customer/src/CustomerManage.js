@@ -218,6 +218,9 @@ export default {
       this.endTime = null
       this.accountCode = {}
       this.searchParam = {}
+      this.integralIsShow = [false, false, false, false, false]
+      this.integralIsNum = [0, 0, 0, 0, 0] // 控制会员详情积分
+      this.integralName = ['', '', '', '', '']
       // 重置tabs 分页组件size大小
       for (let i = 1; i <= this.integralLogIsShow.length; i++) {
         if (this.integralLogIsShow[i - 1]) {
