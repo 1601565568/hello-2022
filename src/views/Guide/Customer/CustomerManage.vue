@@ -189,7 +189,7 @@
               </div>
             </template>
             <el-form-grid size="xs">
-              <span>{{integralIsNum[4] || 0}}</span>
+              <span>{{integralIsNum[0] || 0}}</span>
             </el-form-grid>
           </el-form-item>
           <el-form-item v-else label="" class="el-inline-block dialog-favorable">
