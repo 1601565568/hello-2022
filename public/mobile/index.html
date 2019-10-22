@@ -36,7 +36,8 @@
         this.ajax(backstageURL + '/checkGuide', {
             guideId: getPar('guideId'),
             shopId: getPar('shopId'),
-            groupId: getPar('groupId')
+            groupId: getPar('groupId'),
+            source: getPar('source')
         }).then(function (result) {
             if (result.success) {
                 // 跳转授权地址
