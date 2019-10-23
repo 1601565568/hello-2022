@@ -18,7 +18,7 @@
     "@nascent/ecrp-ecrm": "^4.0.63",
     "@nascent/icons-vue": "^1.0.11",
     "@nascent/log": "^0.1.8",
-    "@nascent/nui": "^2.9.6",
+    "@nascent/nui": "^2.9.10",
     "@sentry/browser": "^4.5.3",
     "axios": "^0.18.0",
     "crypto-js": "^3.1.9-1",
