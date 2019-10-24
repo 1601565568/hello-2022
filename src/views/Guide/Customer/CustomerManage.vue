@@ -82,11 +82,10 @@
       width="900px" height="500px" class="dialog-container"  @keyup.enter.native="onKeyUp" @keyup.esc.native="onKeyUp" @close="closeDetailDialog">
       <div class="dialog-container__msg">
         <div class="dialog-avatar">
-          <el-image
+          <img
             style="width: 80px; height: 80px"
             :src="items.customerHeadImage|| defaultImage"
-            mode="mfit" class="dialog-avatar__headportrait">
-          </el-image>
+            mode="mfit" class="dialog-avatar__headportrait"/>
           <div class="dialog-avatar__figure" v-if="items.sex === 1 || items.sex === 0">
             <Icon v-if="items.sex === 1" type="men" className="dialog-avatar__figure--male" />
             <!-- 女生图标-->
