@@ -168,9 +168,9 @@ export default {
         //     item.statusStr = '进行中'
         //   }
         // })
-        if (res.result && res.result.length > 0) {
-          that.dataList = this.unique(res.result, 'outItemId')
-          that.pagination.total = Number(that.dataList.length)
+        if (res.result.data && res.result.data.length > 0) {
+          that.dataList = this.unique(res.result.data, 'outItemId')
+          that.pagination.total = Number(res.result.total)
         } else {
           that.dataList = null
         }

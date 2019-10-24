@@ -1548,6 +1548,20 @@
     vue "^2.5.2"
     vue-router "^3.0.1"
 
+"@nascent/nui@^2.9.10":
+  version "2.9.10"
+  resolved "http://27.154.234.170:18081/repository/npm/@nascent/nui/-/nui-2.9.10.tgz#51be73e54025a9919ec360857323e9922492fdae"
+  integrity sha512-209oi3uARSCuZ6K31Hh1HlRth9pBiw5TL4UarP1V1ZrAl42mJXdOxHKEXxzHDKSpHGH4ZajKlaYVocyJmI4nxw==
+  dependencies:
+    async-validator "~1.8.1"
+    babel-helper-vue-jsx-merge-props "^2.0.0"
+    countup.js "^1.7.1"
+    deepmerge "^1.2.0"
+    normalize-wheel "^1.0.1"
+    resize-observer-polyfill "^1.5.0"
+    throttle-debounce "^1.0.1"
+    vuedraggable "^2.14.1"
+
 "@nascent/nui@^2.9.6":
   version "2.9.6"
   resolved "http://27.154.234.170:18081/repository/npm/@nascent/nui/-/nui-2.9.6.tgz#e8309be5f4039756934a12cd4ca23af1079d4237"

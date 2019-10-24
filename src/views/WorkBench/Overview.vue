@@ -4,7 +4,7 @@
       <el-row class="overview-content__grid" :gutter="5">
         <el-col :span="6">
           <el-card class="overview-content__item" shadow="never">
-              <div class="overview-content__item--select">
+              <div class="overview-content__item--select overview-content__item--time">
                 时间：
                 <el-date-picker
                     @change='change'
@@ -13,7 +13,7 @@
                     placeholder="选择月">
                   </el-date-picker>
               </div>
-              <div class="overview-content__item--select">
+              <div class="overview-content__item--select overview-content__item--store">
                 门店：
                 <el-select v-model="searchObj.id" filterable clearable placeholder="请选择门店" @change='shopSelect(searchObj.id)'>
                   <el-option
@@ -29,7 +29,7 @@
         <el-col :span="6">
           <el-card class="overview-content__item" shadow="never">
             <div class="overview-content__item-left">
-              <p class="font-size-base text-secondary">
+              <p class="text-secondary">
                 销售金额
               </p>
               <p>
@@ -60,7 +60,7 @@
         <el-col :span="6">
           <el-card class="overview-content__item" shadow="never">
             <div class="overview-content__item-left">
-              <p class="font-size-base text-secondary">
+              <p class="text-secondary">
                 招募会员
               </p>
               <p >
@@ -91,7 +91,7 @@
         </el-col>
         <el-col :span="6">
           <el-card class="overview-content__item" shadow="never">
-              <p class="font-size-base text-secondary">
+              <p class="text-secondary">
                 导购销售提成+招募奖励
               </p>
               <p>
@@ -275,7 +275,7 @@ index.components = {
             }
             >>>.el-card__body {
               height: 100px;
-              padding: 16px 20px;
+              padding: 20px;
               position: relative;
               span {
                 font-weight: bold;
@@ -285,19 +285,17 @@ index.components = {
                 overflow: hidden;
                 text-overflow: ellipsis;
                 white-space: nowrap;
-                margin-left: var(--default-margin-xlarger);
-                margin-bottom: var(--default-margin-larger);
               }
               .text-secondary {
                 font-weight: normal;
               }
               .overview-content__item-left {
-                margin-right: 80px;
+                margin-right: 65px;
               }
               .overview-content__item-right {
                 position: absolute;
                 top: 50%;
-                right: 40px;
+                right: 20px;
                 margin-top: -30px;
                 width: 70px;
                 height: 70px;
@@ -315,13 +313,18 @@ index.components = {
               }
             }
             @m select {
-              padding: var(--default-padding-base);
               display: flex;
               align-items: center;
               >>> .el-select,.el-date-editor{
                 /* padding-left: var(--default-padding-larger); */
                 flex: 1;
               }
+            }
+            @m time {
+              padding-top: 2px;
+            }
+            @m store {
+              padding-top: var(--default-padding-base);
             }
           }
         }
@@ -350,9 +353,8 @@ index.components = {
       }
       @e title {
         line-height: 30px;
-        padding: 20px;
+        padding: var(--default-padding-small) var(--default-padding-small) var(--default-padding-small) 0;
         >span {
-          font-size: var(--default-font-size-middle);
           font-weight: bold;
           position: relative;
           display: inline-block;
