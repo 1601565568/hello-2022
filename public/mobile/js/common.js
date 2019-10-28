@@ -1,4 +1,4 @@
-var backstageURL = 'https://zhsg.ecrpcloud.com/app/guide/zm/guideRecruit'
+var backstageURL = 'https://sgapp.vecrp.com/app/guide/zm/guideRecruit'
 var getRootPath = function () {
   var curPageUrl = window.document.location.href
   var rootPath = curPageUrl.split('//')[0] + curPageUrl.split('//')[1].split('/')[0] +
@@ -15,7 +15,7 @@ var getPar = function (name) {
   return null
 }
 
-var apiRoot = 'https://zhsg.ecrpcloud.com/app/'
+var apiRoot = 'https://sgapp.vecrp.com/app/'
 
 var fetch = function (api, data) {
   return new Promise(function (resolve, reject) {

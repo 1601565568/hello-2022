@@ -104,8 +104,8 @@
             <template slot="label">
               <div class="dialog-title">
                 <Icon type="discount" className="dialog-favorable__text dialog-favorable__text--discount"/>
-                <div class="dialog-title__text">会员折扣</div>
-                <div class="dialog-title__colon">：</div>
+                <div class="dialog-title__text dialog-title__text--move">会员折扣</div>
+                <div class="dialog-title__colon dialog-title__colon--location">：</div>
               </div>
             </template>
             <el-form-grid size="xs">
@@ -117,7 +117,7 @@
             <template slot="label">
               <div class="dialog-title">
                 <Icon type="integration" className="dialog-favorable__text dialog-favorable__text--integration dialog-favorable__text--space"/>
-                <div class="dialog-title__text" v-if="integralName[1].length<6">
+                <div class="dialog-title__text" v-if="integralName[1].length<7">
                   {{integralName[1]}}
                 </div>
                 <div v-else>
@@ -141,7 +141,7 @@
             <template slot="label">
               <div class="dialog-title">
                 <Icon type="integration" className="dialog-favorable__text dialog-favorable__text--integration dialog-favorable__text--space"/>
-                <div class="dialog-title__text" v-if="integralName[4].length<6">
+                <div class="dialog-title__text" v-if="integralName[4].length<7">
                   {{integralName[4]}}
                 </div>
                 <div v-else>
@@ -169,7 +169,7 @@
             <template slot="label">
               <div class="dialog-title">
                 <Icon type="integration" className="dialog-favorable__text dialog-favorable__text--integration dialog-favorable__text--space"/>
-                <div class="dialog-title__text" v-if="integralName[0].length<6">
+                <div class="dialog-title__text" v-if="integralName[0].length<7">
                   {{integralName[0]}}
                 </div>
                 <div v-else>
@@ -193,7 +193,7 @@
             <template slot="label">
               <div class="dialog-title">
                 <Icon type="integration" className="dialog-favorable__text dialog-favorable__text--integration dialog-favorable__text--space"/>
-                <div class="dialog-title__text" v-if="integralName[2].length<6">
+                <div class="dialog-title__text" v-if="integralName[2].length<7">
                   {{integralName[2]}}
                 </div>
                 <div v-else>
@@ -235,8 +235,8 @@
             <template slot="label">
               <div class="dialog-title">
                 <Icon type="coupon" className="dialog-favorable__text dialog-favorable__text--coupon"/>
-                <div class="dialog-title__text">优惠券</div>
-                <div class="dialog-title__colon">：</div>
+                <div class="dialog-title__text dialog-title__text--move">优惠券</div>
+                <div class="dialog-title__colon dialog-title__colon--location">：</div>
               </div>
             </template>
             <el-form-grid size="xs">
@@ -248,7 +248,7 @@
             <template slot="label">
               <div class="dialog-title">
                 <Icon type="integration" className="dialog-favorable__text dialog-favorable__text--integration dialog-favorable__text--space"/>
-                <div class="dialog-title__text" v-if="integralName[3].length<6">
+                <div class="dialog-title__text" v-if="integralName[3].length<7">
                   {{integralName[3]}}
                 </div>
                 <div v-else>
@@ -1037,8 +1037,9 @@ export default CustomerManage
     @b container {
       @e msg {
         display: flex;
-        padding: var(--default-padding-larger) 0 var(--default-padding-larger) var(--default-padding-small);
-        border-bottom: 1px solid var(--theme-base-border-color-primary);
+        /*padding: var(--default-padding-larger) 0 var(--default-padding-larger) var(--default-padding-small);*/
+        /*border-bottom: 1px solid var(--theme-base-border-color-primary);*/
+        padding: var(--default-margin-small) 0 var(--default-padding-larger) var(--default-padding-small);
       }
     }
     @b avatar {
@@ -1118,7 +1119,7 @@ export default CustomerManage
       }
     }
     @b integral {
-      margin-top: var(--default-margin-xlarger);
+      margin-top: var(--default-margin-small);
       @e form {
         padding-left: var(--default-padding-xlarger);
       }
@@ -1147,9 +1148,16 @@ export default CustomerManage
       padding: var(--default-padding-larger) 0;
       border-bottom: 1px dashed var(--theme-base-border-color-primary);
     }
-    @b checkbtn {
-      text-align: right;
-      width: 230px;
+    /*@b checkbtn {*/
+    /*  text-align: right;*/
+    /*  width: 230px;*/
+    /*}*/
+    @b transactions {
+      position: relative;
+      @e checkbtn {
+        position: absolute;
+        right: 0;
+      }
     }
     @b doubt {
       font-size: var(--default-font-size-base);
@@ -1162,10 +1170,17 @@ export default CustomerManage
       align-items: center;
       @e text {
         text-align: right;
-        width: 68px;
+        width: 77px;
+        @m move {
+          margin-right: -3px;
+        }
       }
       @e colon {
         flex-shrink: 0;
+        @m location {
+          position: relative;
+          left: 3px;
+        }
       }
     }
     @b remark {
@@ -1175,7 +1190,7 @@ export default CustomerManage
       text-overflow: ellipsis;
     }
     @b conceal {
-      width: 68px;
+      width: 77px;
       padding-left: 5px;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -1186,5 +1201,8 @@ export default CustomerManage
   }
   .dialog-container >>> .el-tabs__header {
     padding: var(--default-padding-xlarger) 0 0;
+  }
+  >>> .el-table .cell {
+    padding: 0 var(--default-padding-small);
   }
 </style>

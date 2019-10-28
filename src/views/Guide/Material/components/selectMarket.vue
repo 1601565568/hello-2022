@@ -143,9 +143,9 @@ export default {
       let that = this
       this.loading = true
       await this.$http.fetch(this.$api.guide.material.findMallMarketingList, this.searchObj).then(res => {
-        if (res.result && res.result.length > 0) {
-          that.dataList = res.result
-          that.pagination.total = Number(that.dataList.length)
+        if (res.result.data && res.result.data.length > 0) {
+          that.dataList = res.result.data
+          that.pagination.total = Number(res.result.total)
         } else {
           that.dataList = null
         }
