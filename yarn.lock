@@ -1500,15 +1500,15 @@
     call-me-maybe "^1.0.1"
     glob-to-regexp "^0.3.0"
 
-"@nascent/ecrp-ecrm@^4.0.63":
-  version "4.0.63"
-  resolved "http://27.154.234.170:18081/repository/npm/@nascent/ecrp-ecrm/-/ecrp-ecrm-4.0.63.tgz#a0f588d84766aee97257f988bdb2f8e8c77882d8"
-  integrity sha512-5XyZFrc3xpQaTCATesVi+iS38xozlTHW8uEmob1CLdQwbgOCuMMO8wUR9uOym4QuvQUDKtR1n9XPvJs1UOeT6w==
+"@nascent/ecrp-ecrm@^4.0.70":
+  version "4.0.70"
+  resolved "http://27.154.234.170:18081/repository/npm/@nascent/ecrp-ecrm/-/ecrp-ecrm-4.0.70.tgz#bb6a01f8c034fbb93cbf6bae54e56269211b947d"
+  integrity sha512-t6xkbqu3VY40oULpmzuB5eG27C7xFUD81MCrejh8HgxVq39RA8q6w9JCMOnkpQqBEVewyByDe8mcvV9cC7YWXQ==
   dependencies:
     "@ant-design/icons" "^2.1.1"
     "@nascent/icons-vue" "^1.0.11"
     "@nascent/log" "^0.1.8"
-    "@nascent/nui" "^2.9.6"
+    "@nascent/nui" "^2.9.10"
     "@sentry/browser" "^4.5.3"
     axios "^0.18.0"
     echarts "^4.2.0-rc.2"
@@ -1552,20 +1552,6 @@
   version "2.9.10"
   resolved "http://27.154.234.170:18081/repository/npm/@nascent/nui/-/nui-2.9.10.tgz#51be73e54025a9919ec360857323e9922492fdae"
   integrity sha512-209oi3uARSCuZ6K31Hh1HlRth9pBiw5TL4UarP1V1ZrAl42mJXdOxHKEXxzHDKSpHGH4ZajKlaYVocyJmI4nxw==
-  dependencies:
-    async-validator "~1.8.1"
-    babel-helper-vue-jsx-merge-props "^2.0.0"
-    countup.js "^1.7.1"
-    deepmerge "^1.2.0"
-    normalize-wheel "^1.0.1"
-    resize-observer-polyfill "^1.5.0"
-    throttle-debounce "^1.0.1"
-    vuedraggable "^2.14.1"
-
-"@nascent/nui@^2.9.6":
-  version "2.9.6"
-  resolved "http://27.154.234.170:18081/repository/npm/@nascent/nui/-/nui-2.9.6.tgz#e8309be5f4039756934a12cd4ca23af1079d4237"
-  integrity sha512-mq2R0PxDo0Ou3eWoaInj02XonqpYoFd7Q5UFeBfVDtJVdJPZDZiE5zwq2JFc+vqCCmI4xKZW0P2g+tOeJF5djA==
   dependencies:
     async-validator "~1.8.1"
     babel-helper-vue-jsx-merge-props "^2.0.0"
