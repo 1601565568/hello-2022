@@ -439,7 +439,7 @@
                             resizable
                             @sort-change="$orderChange$"
                             row-key="id">
-                    <el-table-column prop="integral" label="增减积分" align="center">
+                    <el-table-column prop="integral" :label="'增减' + integralAliasName[0]" align="center">
                       <template slot-scope="scope">
                         <span class="text-danger" v-if="scope.row.type==1">
                           {{'+ '+scope.row.total}}
@@ -529,7 +529,7 @@
                             resizable
                             @sort-change="$orderChange$"
                             row-key="id">
-                    <el-table-column prop="integral" label="增减积分" align="center">
+                    <el-table-column prop="integral" :label="'增减' + integralAliasName[1]" align="center">
                       <template slot-scope="scope">
                         <span class="text-danger" v-if="scope.row.type==1">
                           {{'+ '+scope.row.total}}
@@ -619,7 +619,7 @@
                             resizable
                             @sort-change="$orderChange$"
                             row-key="id">
-                    <el-table-column prop="integral" label="增减积分" align="center">
+                    <el-table-column prop="integral" :label="'增减' + integralAliasName[2]" align="center">
                       <template slot-scope="scope">
                         <span class="text-danger" v-if="scope.row.type==1">
                           {{'+ '+scope.row.total}}
@@ -709,7 +709,7 @@
                             resizable
                             @sort-change="$orderChange$"
                             row-key="id">
-                    <el-table-column prop="integral" label="增减积分" align="center">
+                    <el-table-column prop="integral" :label="'增减' + integralAliasName[3]" align="center">
                       <template slot-scope="scope">
                         <span class="text-danger" v-if="scope.row.type==1">
                           {{'+ '+scope.row.total}}
@@ -799,7 +799,7 @@
                             resizable
                             @sort-change="$orderChange$"
                             row-key="id">
-                    <el-table-column prop="integral" label="增减积分" align="center">
+                    <el-table-column prop="integral" :label="'增减' + integralAliasName[4]" align="center">
                       <template slot-scope="scope">
                         <span class="text-danger" v-if="scope.row.type==1">
                           {{'+ '+scope.row.total}}
