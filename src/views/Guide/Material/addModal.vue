@@ -193,9 +193,9 @@ export default {
         this.$set(this.saveObj, 'codeTarget', obj.activityId)
         this.$set(this.saveObj, 'codeTargetName', obj.activityName)
         this.$set(this.saveObj, 'marketType', obj.marketType)
-      } else if (obj.outItemId) {
+      } else if (obj.sysItemId) {
         this.$set(this.saveObj, 'selectBackName', '商品名称：')
-        this.$set(this.saveObj, 'codeTarget', obj.outItemId)
+        this.$set(this.saveObj, 'codeTarget', obj.sysItemId)
         this.$set(this.saveObj, 'codeTargetName', obj.title)
       }
     },
