@@ -378,7 +378,7 @@
                     </el-popover>
                   </el-form-grid>
                   <el-form-grid size="xmd" class="dialog-checkbtn">
-                    <ns-button type="text">查看历史</ns-button>
+                    <ns-button type="text" v-if="false">查看历史</ns-button>
                   </el-form-grid>
                 </el-form-item>
               </el-form>
