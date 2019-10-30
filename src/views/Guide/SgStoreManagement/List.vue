@@ -58,26 +58,26 @@
     <!-- 下载门店招募码结束 -->
     <!-- 数字门店查看详情开始 -->
     <el-dialog :title="memberBelongingtitle"  :visible.sync="scopeRowCountShow" width="1000px" >
-      <el-table ref="table" :data="shopFindList" >
-        <el-table-column prop="name" label="数字门店&ID" align="left" width="300">
+      <el-table ref="table" :data="shopFindList" stripe>
+        <el-table-column prop="name" label="数字门店&ID" align="left">
           <template slot-scope="scope">
             {{scope.row.shop_name || '-'}}
             <p>ID:{{scope.row.shop_id}}</p>
           </template>
         </el-table-column>
-        <el-table-column prop="shop_status" label="状态" align="left" width="300">
+        <el-table-column prop="shop_status" label="状态" align="center">
           <template slot-scope="scope">
             {{scope.row.shopStatus === 0?'删除':scope.row.shopStatus === 1?'正常':scope.row.shopStatus ===
             -1?'暂停':'关店'}}
           </template>
         </el-table-column>
-        <el-table-column prop="contact_json" label="联系方式" align="left" width="300">
+        <el-table-column prop="contact_json" label="联系方式" align="left">
           <template slot-scope="scope">
             {{scope.row.contact_json || '-'}}
           </template>
         </el-table-column>
       </el-table>
-      <div slot="footer" class="scopeRowCountShow_footer">
+      <div slot="footer">
         <ns-button class="scopeRowCountShow_button" @click="scopeRowCountShow = false">关闭</ns-button>
       </div>
     </el-dialog>
@@ -214,8 +214,5 @@ export default List
     display: none;
     width: 150px;
     height: 150px;
-  }
-  .scopeRowCountShow_footer{
-    margin: 10px 0 10px 0;
   }
 </style>

@@ -1,7 +1,7 @@
 <template>
   <div calss="NsTableGuide_main">
     <div class="template-page__row-left">
-      <el-input ref="quickText" style="width: 190px" v-model="filterTreeText" placeholder="请输入数字门店名称" clearable>
+      <el-input ref="quickText" v-model="filterTreeText" placeholder="请输入数字门店名称" clearable>
         <Icon type="search" className="el-input__icon" style="padding: 5px;" slot="suffix" name="name"
               @click="$quickSearchAction$('name')"/>
       </el-input>
@@ -12,14 +12,9 @@
           <div class="subdivision-tree-node" slot-scope="{ node }">
             <span>{{node.label}}</span>
             <span v-if="node.label === '全部'">
-            <el-popover
-              placement="bottom"
-              trigger="hover">
-              <el-row class="overview-popover">
-                查看所有的线下门店
-              </el-row>
-              <Icon slot="reference" type="info-circle" theme="filled" className="text-tips" style='color:#acacac'/>
-            </el-popover>
+              <el-tooltip content="查看所有的线下门店" placement="right-start">
+                <Icon type="question-circle"/>
+              </el-tooltip>
             </span>
           </div>
         </el-tree>
@@ -173,13 +168,13 @@
                 {{scope.row.phone || '-'}}
               </template>
             </el-table-column>
-            <el-table-column prop="shopStatus" label="状态" align="left" width="100">
+            <el-table-column prop="shopStatus" label="状态" align="center" width="100">
               <template slot-scope="scope">
                 {{scope.row.shopStatus === 0?'删除':scope.row.shopStatus === 1?'正常':scope.row.shopStatus ===
                 -1?'暂停':'关店'}}
               </template>
             </el-table-column>
-            <el-table-column label="招募码" align="left" width="120">
+            <el-table-column label="招募码" align="center" width="120">
               <template slot-scope="scope" v-if="scope.row.shopStatus == 1">
                 <ns-button type="text"><i @click="elIconMenu(scope.row)"><Icon className="icon-erweima" type="erweima"/></i></ns-button>
               </template>
@@ -212,6 +207,8 @@ export default guide
 </script>
 
 <style scoped>
+  @import "@theme/variables.pcss";
+
   .icon-erweima {
     font-weight: 500;
     font-size: 30px;
@@ -241,7 +238,7 @@ export default guide
     width: 100%;
   }
   .template-table {
-    margin: 0 10px 0 440px;
+    margin: 0 10px 10px 435px;
   }
   @media screen and (min-width: 1624px) {
     .el-tree-node__content{
@@ -264,7 +261,7 @@ export default guide
       margin: 0;
     }
     .template-table {
-      margin: 0 10px 0 440px;
+      margin: 0 10px 10px 435px;
     }
   }
 </style>
