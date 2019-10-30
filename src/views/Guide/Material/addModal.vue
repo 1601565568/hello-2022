@@ -131,6 +131,7 @@ export default {
         shareUrl: '',
         imageList: [],
         codeTargetName: '',
+        marketType: null,
         codeModule: null
       },
       curMonth: 5,
@@ -191,6 +192,7 @@ export default {
         this.$set(this.saveObj, 'selectBackName', '活动名称：')
         this.$set(this.saveObj, 'codeTarget', obj.activityId)
         this.$set(this.saveObj, 'codeTargetName', obj.activityName)
+        this.$set(this.saveObj, 'marketType', obj.marketType)
       } else if (obj.outItemId) {
         this.$set(this.saveObj, 'selectBackName', '商品名称：')
         this.$set(this.saveObj, 'codeTarget', obj.outItemId)
@@ -222,6 +224,7 @@ export default {
           subdivisionId: null,
           codeType: 1,
           codeTargetName: null,
+          marketType: null,
           codeModule: null
         }
       }

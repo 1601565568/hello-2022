@@ -65,21 +65,21 @@
           <el-form ref="table_filter_form" :model="model" label-width="80px" :inline="true">
             <el-form-item label="门店名称：">
               <el-form-grid size="xmd">
-                <el-input style="width:180px" autofocus=true  v-model="model.shopName" placeholder="请输入线下门店名称"
+                <el-input style="width:200px" autofocus=true  v-model="model.shopName" placeholder="请输入线下门店名称"
                           clearable></el-input>
               </el-form-grid>
             </el-form-item>
 
             <el-form-item label="门店ID：">
               <el-form-grid size="xmd">
-                <el-input style="width:180px" autofocus=true  v-model="model.shopId" placeholder="请输入线下门店ID"
+                <el-input style="width:200px" autofocus=true  v-model="model.shopId" placeholder="请输入线下门店ID"
                           clearable></el-input>
               </el-form-grid>
             </el-form-item>
 
             <el-form-item label="门店类型：">
               <el-form-grid>
-                <el-select placeholder="请选择门店类型" style="width:180px" v-model="model.shopType" clearable filterable>
+                <el-select placeholder="请选择门店类型" style="width:200px" v-model="model.shopType" clearable filterable>
                   <el-option v-for="shop in shopLeiXing" :label="shop.label" :value="shop.value"
                              :key="shop.value"></el-option>
                 </el-select>
@@ -88,7 +88,7 @@
 
             <el-form-item label="手机号：">
               <el-form-grid size="xmd">
-                <el-input style="width:180px" autofocus=true v-model="model.phone" placeholder="请输入手机号"
+                <el-input style="width:200px" autofocus=true v-model="model.phone" placeholder="请输入手机号"
                           clearable></el-input>
               </el-form-grid>
             </el-form-item>
@@ -104,7 +104,7 @@
 
             <el-form-item label="营业状态：">
               <el-form-grid>
-                <el-select placeholder="请选择营业状态" style="width:180px" v-model="model.shopStatus" clearable filterable>
+                <el-select placeholder="请选择营业状态" style="width:200px" v-model="model.shopStatus" clearable filterable>
                   <el-option v-for="shop in operatingStatus" :label="shop.label" :value="shop.value"
                              :key="shop.value"></el-option>
                 </el-select>
@@ -112,7 +112,7 @@
             </el-form-item>
 
             <el-form-item label="所属地区："  prop="area">
-              <el-form-grid width="300" prop="area">
+              <el-form-grid width="200" prop="area">
                 <!-- <ns-area  :props="searchform.key" @change="onAreaChange" change-on-select v-model="searchform.area" clearable></ns-area> -->
                 <ns-area :props="searchform.key" @change="onAreaChange" v-model="model.area"
                          clearable></ns-area>
