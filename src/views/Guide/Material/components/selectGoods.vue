@@ -169,7 +169,7 @@ export default {
         //   }
         // })
         if (res.result.data && res.result.data.length > 0) {
-          that.dataList = this.unique(res.result.data, 'sysItemId')
+          that.dataList = res.result.data
           that.pagination.total = Number(res.result.total)
         } else {
           that.dataList = null
