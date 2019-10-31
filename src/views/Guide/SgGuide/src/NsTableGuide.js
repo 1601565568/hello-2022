@@ -53,8 +53,7 @@ export default {
         'icon': '',
         'name': '删除',
         'auth': ``,
-        'visible': ``,
-        'class': 'del-btn'
+        'visible': ``
       }
     ]
     const operateButtons = [

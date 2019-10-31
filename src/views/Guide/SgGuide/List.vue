@@ -115,7 +115,7 @@
                   <img width="200px" v-if="model.sgGuide.image" :src="model.sgGuide.image" class="avatar">
                   <Icon type="plus" className="avatar-uploader-icon" v-else />
                 </el-upload>
-                <span>上传图片不能大于500KB,仅支持jpg,jpeg,png,gif格式</span>
+                <span class="text-primary"><Icon type="exclamation-circle" />上传图片不能大于500KB,仅支持jpg,jpeg,png,gif格式</span>
               </el-form-item>
             </el-form-grid>
           </el-form-item>
@@ -446,8 +446,8 @@
     <!-- 指定导购转移转移弹窗结束  -->
     <el-dialog title="提示" width="35%" :visible.sync="multipleStoresAreNotSupportedShow"  :before-close="bulkReplacementStores">
       <div class="bulkReplacementStores">
-        <div class="bulkReplacementStores_logo">
-          <span>X</span>
+        <div class="bulkReplacementStores_logo text-error">
+          <Icon type="close-circle" theme="filled" />
         </div>
         <div>
           <div class="user_style_text">
@@ -534,7 +534,7 @@
     <!-- 更换门店弹窗开始  -->
     <!-- 所属门店查看详情开始 -->
       <el-dialog :title="memberBelongingtitle"  :visible.sync="scopeRowCountShow" width="660px" >
-        <el-table ref="table" :data="shopFindLists" >
+        <el-table ref="table" :data="shopFindLists" stripe>
           <el-table-column prop="name" label="所属门店" align="left" width="320">
             <template slot-scope="scope">
               {{scope.row.name || '-'}}
@@ -546,7 +546,7 @@
             </template>
           </el-table-column>
         </el-table>
-        <div slot="footer" class="scopeRowCountShow_footer">
+        <div slot="footer">
           <ns-button class="scopeRowCountShow_button" @click="scopeRowCountShow = false">关闭</ns-button>
         </div>
       </el-dialog>
@@ -630,9 +630,6 @@ export default List
     width: 128px;
     height: 128px;
     display: block;
-  }
-  .scopeRowCountShow_footer{
-    margin: 10px 0 10px 0;
   }
 </style>
 <style scoped>
@@ -720,14 +717,13 @@ export default List
     font-weight:600
   }
   .user_style{
-    width:180px;
-    margin-bottom:20px;
+    text-align: center;
+    display: inline-block;
     color:#FF0000;
-    font-size:12px;
     background:rgba(255,0,0,0.1);
-    padding:3px 10px;
-    margin-top:20px;
-    border-radius:5px;
+    padding: 3px 10px;
+    margin-top: 10px;
+    border-radius: 5px;
   }
   .bulkReplacementStores{
     display:flex;
@@ -736,19 +732,10 @@ export default List
     padding-left:20px;
   }
   .bulkReplacementStores_logo{
-    width:40px;
-    height:40px;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    border-radius:100px;
-    background-color:#FF0000;
-    margin-right:20px;
-  }
-  .bulkReplacementStores_logo span{
-    color:#fff;
-    font-weight:600;
-    font-size:20px
+    font-size: 24px;
+    position: relative;
+    top: 13px;
+    left: -15px;
   }
   .Setupbulksalesguide{
     margin:0 20px !important;
@@ -780,5 +767,8 @@ export default List
   .bulkReplacementStores_state span{
     padding:0 3px;
     font-weight:600
+  }
+  >>> .el-radio-group {
+    vertical-align: unset;
   }
 </style>
