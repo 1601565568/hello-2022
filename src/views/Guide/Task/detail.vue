@@ -1,7 +1,7 @@
 
 <template>
 <div class='page-task-detail'>
-  <div class='ptb10 bg-white plr20'>
+  <div class='ptb5 bg-white plr10'>
     <span class="demonstration">时间 :</span>
     <el-date-picker
       v-model="queryDate"
@@ -11,26 +11,19 @@
       value-format="yyyy-MM-dd"
       :picker-options="pickerOption">
     </el-date-picker>
-    <el-popover
-        placement="bottom"
-        trigger="hover">
-        <el-row class="overview-popover">
-          根据任务的开始时间筛选，结束时间默认为当前时间
-        </el-row>
-        <Icon slot="reference" type="info-circle" theme="filled" className="ml10 fz13" style='color:#999'/>
-      </el-popover>
+    <el-tooltip content="根据任务的开始时间筛选，结束时间默认为当前时间"
+                placement="right-start">
+      <i class="text-secondary"><Icon type="info-circle" theme="filled" /></i>
+    </el-tooltip>
   </div>
   <div class="bg-white mt5 ">
-    <h3 class="text-secondary lh58  plr20">任务统计
-      <el-popover
-        placement="bottom"
-        trigger="hover">
-        <el-row class="overview-popover">
-          任务总数：统计所有的任务数量；进行中：统计进行中的任务数
-        </el-row>
-        <Icon slot="reference" type="info-circle" theme="filled" className="ml10 fz13" style='color:#999'/>
-      </el-popover>
-    </h3>
+    <div class="text-secondary ptb5 plr10">
+      任务统计
+      <el-tooltip content="任务总数：统计所有的任务数量；进行中：统计进行中的任务数"
+                  placement="right-start">
+        <Icon type="info-circle" theme="filled" />
+      </el-tooltip>
+    </div>
     <el-row class="statistics" :gutter="5" style='height:254px'>
       <el-col :span="11" class='flex flex-around ptb58' style='height:254px;border-right:1px solid #f2f2f2'>
         <div class="statistics-pic statistics-total flex flex-center">
@@ -63,26 +56,18 @@
                 <p class='fz16' style='color:#33393e'>{{percentage.completed}}%</p>
               </div>
             </div>
-            <el-popover
-              placement="bottom"
-              trigger="hover">
-              <el-row class="overview-popover">
-                完成率 = （按时完成 + 延期完成）/ 任务总数
-              </el-row>
-              <Icon slot="reference" type="info-circle" theme="filled" className="ml10 fz16" style='color:#acacac'/>
-            </el-popover>
+            <el-tooltip content="完成率 = （按时完成 + 延期完成）/ 任务总数"
+                        placement="right-start">
+              <i class="text-secondary leftspace"><Icon type="info-circle" theme="filled" /></i>
+            </el-tooltip>
           </div>
           <div>
               <div>
                 <span class='fz12' style='color:#909399'>按时完成</span>
-                <el-popover
-                  placement="bottom"
-                  trigger="hover">
-                  <el-row class="overview-popover">
-                    在规定时间内完成的任务数
-                  </el-row>
-                  <Icon slot="reference" type="info-circle" theme="filled" className="ml6 fz13" style='color:#acacac'/>
-                </el-popover>
+                <el-tooltip content="在规定时间内完成的任务数"
+                            placement="right-start">
+                  <i class="text-secondary"><Icon type="info-circle" theme="filled" /></i>
+                </el-tooltip>
               </div>
               <div class='fz16 mt14 text-center' style='color:#11b37f'>{{infoObj.finishOnTime}}</div>
           </div>
@@ -104,26 +89,18 @@
                 <p class='fz16' style='color:#33393e'>{{percentage.delay}}%</p>
               </div>
             </div>
-            <el-popover
-              placement="bottom"
-              trigger="hover">
-              <el-row class="overview-popover">
-                延期率 = 延期数/ 任务总数
-              </el-row>
-              <Icon slot="reference" type="info-circle" theme="filled" className="ml10 fz16" style='color:#acacac'/>
-            </el-popover>
+            <el-tooltip content=" 延期率 = 延期数/ 任务总数"
+                        placement="right-start">
+              <i class="text-secondary leftspace"><Icon type="info-circle" theme="filled" /></i>
+            </el-tooltip>
           </div>
           <div>
               <div>
                 <span class='fz12' style='color:#909399'>延期数</span>
-                <el-popover
-                  placement="bottom"
-                  trigger="hover">
-                  <el-row class="overview-popover">
-                    延期数：只有没有按时完成的任务即为延期（包含延期完成和未完成）
-                  </el-row>
-                  <Icon slot="reference" type="info-circle" theme="filled" className="ml6 fz13" style='color:#acacac'/>
-                </el-popover>
+                <el-tooltip content="延期数：只有没有按时完成的任务即为延期（包含延期完成和未完成）"
+                            placement="right-start">
+                  <i class="text-secondary"><Icon type="info-circle" theme="filled" /></i>
+                </el-tooltip>
               </div>
               <div class='fz16 mt14 text-center' style='color:#ff5e5e'>{{infoObj.delayCount}}</div>
           </div>
@@ -144,16 +121,12 @@
       <div class="overview-echart__item overview-echart__item--pink">
         <div class="overview-content__title flex flex-between">
           <div class='span'>任务进度
-            <el-popover
-              placement="bottom"
-              trigger="hover">
-              <el-row class="overview-popover">
-                任务显示根据任务的开始时间进行筛选；例如：筛选时间为2019-03-01至现在，则显示任务开始时间为2019-03-01至现在的任务
-              </el-row>
-              <Icon slot="reference" type="info-circle" theme="filled" className="ml10 fz13" style='color:#999'/>
-            </el-popover>
+            <el-tooltip content="任务显示根据任务的开始时间进行筛选；例如：筛选时间为2019-03-01至现在，则显示任务开始时间为2019-03-01至现在的任务"
+                        placement="right-start">
+              <i class="text-secondary"><Icon type="info-circle" theme="filled" /></i>
+            </el-tooltip>
           </div>
-          <div>
+          <div class="mr5">
             <ns-button :type="!searchObj.type?'primary':''" @click="selectTask('brand')">品牌任务</ns-button>
             <ns-button :type="searchObj.type?'primary':''" @click="selectTask('shop')">门店任务</ns-button>
           </div>
@@ -182,14 +155,10 @@
       <div class="overview-echart__item">
         <div class="overview-content__title overview-content__title--pink">
           <div class='span'>燃尽图
-            <el-popover
-              placement="bottom"
-              trigger="hover">
-              <el-row class="overview-popover">
-                统计所有任务的总数和未完成数（未完成数：进行中任务+延期未完成任务）
-              </el-row>
-              <Icon slot="reference" type="info-circle" theme="filled" className="ml10 fz13" style='color:#999'/>
-            </el-popover>
+            <el-tooltip content="统计所有任务的总数和未完成数（未完成数：进行中任务+延期未完成任务）"
+                        placement="right-start">
+              <i class="text-secondary"><Icon type="info-circle" theme="filled" /></i>
+            </el-tooltip>
           </div>
         </div>
         <div v-loading.lock="loadingRecruit"
@@ -209,14 +178,10 @@
       <div class="overview-echart__item overview-echart__item--pink">
         <div class="overview-content__title">
           <span class='span'>门店完成任务数排行榜</span>
-          <el-popover
-            placement="bottom"
-            trigger="hover">
-            <el-row class="overview-popover">
-              完成任务包含按时完成和延期完成
-            </el-row>
-            <Icon slot="reference" type="info-circle" theme="filled" className="ml6 fz13" style='color:#acacac'/>
-          </el-popover>
+          <el-tooltip content="完成任务包含按时完成和延期完成"
+                      placement="right-start">
+            <i class="text-secondary"><Icon type="info-circle" theme="filled" /></i>
+          </el-tooltip>
         </div>
         <div v-loading.lock="loadingShopRecruit"
               :element-loading-text="$t('prompt.loading')">
@@ -232,15 +197,11 @@
     <el-col :span="12">
       <div class="overview-echart__item overview-echart__item--pink">
         <div class="overview-content__title">
-          <span class='span'>导购完成任务数排行榜</span>
-          <el-popover
-            placement="bottom"
-            trigger="hover">
-            <el-row class="overview-popover">
-              完成任务包含按时完成和延期完成
-            </el-row>
-            <Icon slot="reference" type="info-circle" theme="filled" className="ml6 fz13" style='color:#acacac'/>
-          </el-popover>
+          <span class='span'>完成任务包含按时完成和延期完成</span>
+          <el-tooltip content="完成任务包含按时完成和延期完成"
+                      placement="right-start">
+            <i class="text-secondary"><Icon type="info-circle" theme="filled" /></i>
+          </el-tooltip>
         </div>
         <div v-loading.lock="loadingGuideRecruit"
               :element-loading-text="$t('prompt.loading')">
@@ -1510,5 +1471,15 @@ export default {
     top: 50%;
     transform: translate(-50%,-50%);
     text-align: center;
+  }
+  .leftspace {
+    margin-left: var(--default-margin-small);
+  }
+  .overview-content__title {
+    line-height: 30px;
+    padding: 5px 0;
+  }
+  .overview-content__title > .span {
+    font-size: var(--default-font-size-small);
   }
 </style>
