@@ -7,10 +7,13 @@
         </template>
     </ns-page-table>
     <el-scrollbar ref="integralRuleHeight" outsider>
-      <el-form label-width="150px" ref="form" style="height: 800px">
+      <el-form label-width="150px" ref="form">
         <!-- 会员招募码配置开始 -->
         <div class="form-grid">
-          <div class="form-grid__title" style="margin-top: 10px;">| 会员招募码配置</div>
+          <div class="form-grid__title">
+            <div class="bluepillar"></div>
+            会员招募码配置
+          </div>
           <div class="form-grid__content" style="margin-left: -100px">
             <el-form-item size="xxs">
               <el-form-grid>
@@ -75,7 +78,7 @@
         </div>-->
         <!-- 会员更换导购配置结束 -->
 
-        <div v-if="status === 1" style="margin-top: 50px; margin-bottom: 250px; text-align: center;">
+        <div v-if="status === 1" class="form-save__unique">
           <ns-button @click="reload()" >取消</ns-button>
           <ns-button type="primary" @click="onSave">确定</ns-button>
         </div>
@@ -88,18 +91,37 @@ import index from './src/index'
 export default index
 </script>
 <style scoped>
+@import "@theme/variables.pcss";
+
 .dialog_mian_topText p sapn{
   color:grey;
 }
 .dialog_mian_topText p{
-  height: 30px;
   line-height: 30px;
+  height: 30px;
 }
 .form-grid__title {
-  font-size: 14px;
-  padding: 10px 0 10px 10px;
-  background-color: rgba(242, 242, 242, 1);
+  font-size: var(--default-font-size-base);
+  padding: var(--default-padding-larger) 0;
   font-family: 'Arial Negreta', 'Arial Normal', 'Arial';
   font-weight: 700;
+  display: flex;
+  align-items: center;
+}
+.bluepillar {
+  width: 4px;
+  height: 12px;
+  margin-right: var(--default-margin-small);
+  background-color: #0091FA;
+}
+.form-save__unique {
+  padding: var(--default-padding-small) 0 var(--default-padding-small) 61px;
+  border-top: 1px solid var(--theme-base-border-color-primary);
+  background-color: var(--theme-color-white);
+  border-bottom-left-radius: var(--default-radius-mini);
+  border-bottom-right-radius: var(--default-radius-mini);
+}
+>>> .template-table__bar {
+  margin-bottom: 0;
 }
 </style>

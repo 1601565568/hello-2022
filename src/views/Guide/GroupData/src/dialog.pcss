@@ -31,7 +31,6 @@
     }
     @b left {
         width: 55%;
-        padding: 0 15px 25px 0;
         border-right: 1px solid #F2F2F2;
         @e input {
             font-size: var(--default-font-size-base);
@@ -57,9 +56,8 @@
     }
     @b right {
         width: 45%;
-        padding: 0  0 25px 15px;
+        padding: 0 10px;
         @e title {
-            font-size: var(--default-font-size-base);
             color: var(--theme-font-color-primary);
             font-weight: bold;
             padding-top: 53px;
@@ -67,10 +65,10 @@
         @e content {  }
     }
     @b selectitem {
-        font-size: var(--default-font-size-small);
-        color: var(--theme-font-color-primary);
+        color: var(--theme-font-color-regular);
+        line-height: 20px;
         position: relative;
-        margin: 10px 15px 0 0;
+        padding-top: 6px;
         cursor: pointer;
         @e discountgroup {
             display: inline-block;
@@ -141,27 +139,17 @@
         margin-top: 0 !important;
     }
     @b paddingtop {
-        padding-top: 0;
+       padding: 6px 0;
     }
 }
 @component-namespace detail {
     @b dialog {
         @e content {
             position: relative;
-            padding-bottom: 20px;
         }
     }
     @b leftside {
-        width: 65%;
-        padding-top: 10px;
-        @e item {
-            font-size: var(--default-font-size-base);
-            color: var(--theme-font-color-secondary);
-        }
-        @m blackcolor {
-            font-size: var(--default-font-size-base);
-            color: var(--theme-font-color-primary);
-        }
+        width: 75%;
     }
     @b rightside {
         width: 84px;
@@ -175,13 +163,6 @@
             border-radius: 50%;
         }
     }
-}
-.icon-shanchu2 {
-    font-size: var(--default-font-size-base);
-    color: var(--theme-font-color-gray);
-    position: absolute;
-    top: 0;
-    right: 0;
 }
 /*
 >>> .el-checkbox-group .el-checkbox {
@@ -215,9 +196,6 @@
 >>> .el-input--prefix .el-input__inner {
     padding-left: 30px;
 }
->>> .el-input__suffix {
-    //top: 5px;
-}
 .scrollbara >>> .el-scrollbar__view {
     max-height: 400px;
 }
@@ -227,3 +205,8 @@
 .scrollbarc >>> .el-scrollbar__view {
     max-height: 400px;
 }
+.delete {
+  position: relative;
+  top: -2px;
+}
+
