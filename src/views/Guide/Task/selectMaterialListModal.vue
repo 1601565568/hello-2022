@@ -32,7 +32,7 @@
           </el-table-column>
             <el-table-column prop="subdivision_name" align="left" width="120" label="分组名称"></el-table-column>
             <el-table-column prop="create_time" label="发布时间" align="center" width="160"></el-table-column>
-            <el-table-column  width="80" label="操作">
+            <el-table-column  width="80" label="操作" align="center">
                 <template slot-scope="{row}">
                     <span v-if="row.id === selectObj.id">已选择</span>
                     <a v-else href="javascript:" class="text-primary" @click="selectMaterialFun(row)">选择</a>

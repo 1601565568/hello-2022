@@ -90,16 +90,16 @@
       style="width: 100%"
       >
       <el-table-column prop="name" label="名称"></el-table-column>
-      <el-table-column prop="name" align="left" label="指派门店" width="120" >
+      <el-table-column prop="name" label="指派门店" width="120" align="right">
         <template slot-scope="{row}">
           <a @click="shopListModalDomShowToggle(row.id)" href="javascript:" v-if="row.targetIds === 0">全部门店</a>
           <a @click="shopListModalDomShowToggle(row.id)" href="javascript:" v-else>{{row.allNum}}家</a>
         </template>
       </el-table-column>
-      <el-table-column label="执行时间" align="left" width="300">
+      <el-table-column label="执行时间" align="center" width="300">
         <template slot-scope="{row}">{{row.startTime}}至{{row.endTime}}</template>
       </el-table-column>
-      <el-table-column prop="type" label="类型" align="left" width="70">
+      <el-table-column prop="type" label="类型" align="center" width="70">
         <template slot-scope="{row}">
           <span v-if="row.type === 0">营销</span>
           <span v-if="row.type === 1">回访</span>
@@ -107,7 +107,7 @@
           <span v-if="row.type === 3">日常</span>
         </template>
       </el-table-column>
-       <el-table-column label="执行次数" align="left" width="80">
+       <el-table-column label="执行次数" align="center" width="80">
           <template slot-scope="{row}">{{row.runType === 0?"一次性":"每日执行"}}</template>
         </el-table-column>
       <el-table-column prop="status" label="状态" align="left" width="70">
@@ -120,14 +120,14 @@
       <el-table-column
         label="操作"
         width="86"
-        align="right"
+        align="center"
       >
       <template slot-scope="scope">
         <span v-if="scope.row.editAccess === 1" >
         <span v-if="scope.row.state !== 4" >
         <ns-button @click="AddShowToggle(scope.row)" type="text">编辑</ns-button>
         </span>
-        <a class="text-error" style="color:#f00" href="javascript:" @click="delsTipFun(scope.row.id)">删除</a>
+        <a href="javascript:" @click="delsTipFun(scope.row.id)">删除</a>
         </span>
       </template>
       </el-table-column>
