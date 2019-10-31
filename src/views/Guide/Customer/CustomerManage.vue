@@ -77,15 +77,15 @@
     </el-dialog>
     <!-- 新客户详情弹窗-->
     <el-dialog
-      title="详情"
+      title="详情" response-limit :show-scroll-x=false
       :visible.sync="shopKuhuShow"
-      width="900px" height="500px" class="dialog-container"  @keyup.enter.native="onKeyUp" @keyup.esc.native="onKeyUp" @close="closeDetailDialog">
+      width="900px" class="dialog-container"  @keyup.enter.native="onKeyUp" @keyup.esc.native="onKeyUp" @close="closeDetailDialog">
       <div class="dialog-container__msg">
         <div class="dialog-avatar">
-          <img
-            style="width: 80px; height: 80px"
+          <el-image
             :src="items.customerHeadImage|| defaultImage"
-            mode="mfit" class="dialog-avatar__headportrait"/>
+            mode="mfit" class="dialog-avatar__headportrait">
+          </el-image>
           <div class="dialog-avatar__figure" v-if="items.sex === 1 || items.sex === 0">
             <Icon v-if="items.sex === 1" type="men" className="dialog-avatar__figure--male" />
             <!-- 女生图标-->
@@ -322,13 +322,9 @@
             <div class="dialog-transaction">
               <el-form class="dialog-transaction__form">
                 <el-form-item label="当前客户累计交易额（元）">
-                  <el-popover
-                    placement="bottom"
-                    width="200"
-                    trigger="hover"
-                    content="交易成功订单的总金额（包含退款金额）">
-                    <i class="xiangqingyiwen-icon dialog-doubt" slot="reference"><Icon type="question-circle" /></i>
-                  </el-popover>
+                  <el-tooltip content="交易成功订单的总金额（包含退款金额）" placement="right-start">
+                    <i class="questioncircle"><Icon type="question-circle"/></i>
+                  </el-tooltip>
                 </el-form-item>
                 <el-form-item class="dialog-merchandise">
                   <el-form-grid class="dialog-merchandise__money">¥{{rfmInfo.tradeAmount}}</el-form-grid>
@@ -337,45 +333,29 @@
                 <el-form-item class="dialog-detail">
                   <el-form-grid size="md">
                     回购周期：{{rfmInfo.buyBackAllPeriod}}
-                    <el-popover
-                      placement="bottom"
-                      width="200"
-                      trigger="hover"
-                      content="（最近一次交易成功时间-第一次交易成功时间）/（交易成功次数-1）">
-                      <i class="xiangqingyiwen-icon dialog-doubt" slot="reference"><Icon type="question-circle" /></i>
-                    </el-popover>
+                    <el-tooltip content="（最近一次交易成功时间-第一次交易成功时间）/（交易成功次数-1）" placement="right-start">
+                      <Icon type="question-circle"/>
+                    </el-tooltip>
                   </el-form-grid>
                   <el-form-grid size="md">
                     笔单价：{{rfmInfo.priceUnit}}元
-                    <el-popover
-                      placement="bottom"
-                      width="200"
-                      trigger="hover"
-                      content="交易成功总额/交易成功订单数（包含退款）">
-                      <i class="xiangqingyiwen-icon dialog-doubt" slot="reference"><Icon type="question-circle" /></i>
-                    </el-popover>
+                    <el-tooltip content="交易成功总额/交易成功订单数（包含退款）" placement="right-start">
+                      <Icon type="question-circle"/>
+                    </el-tooltip>
                   </el-form-grid>
                   <el-form-grid size="md">
                     连带率：{{rfmInfo.itemUnit}}件
-                    <el-popover
-                      placement="bottom"
-                      width="200"
-                      trigger="hover"
-                      content="交易成功订单商品数量/交易成功订单数（包含退款）">
-                      <i class="xiangqingyiwen-icon dialog-doubt" slot="reference"><Icon type="question-circle" /></i>
-                    </el-popover>
+                    <el-tooltip content="交易成功订单商品数量/交易成功订单数（包含退款）" placement="right-start">
+                      <Icon type="question-circle"/>
+                    </el-tooltip>
                   </el-form-grid>
                 </el-form-item>
                 <el-form-item label="最近交易：">
                   <el-form-grid size="xxlg">
                     {{rfmInfo.lastSuccessTime}}
-                    <el-popover
-                      placement="bottom"
-                      width="200"
-                      trigger="hover"
-                      content="最近一笔交易成功时间">
-                      <i class="xiangqingyiwen-icon dialog-doubt" slot="reference"><Icon type="question-circle" /></i>
-                    </el-popover>
+                    <el-tooltip content="最近一笔交易成功时间" placement="right-start">
+                      <i class="questioncircle"><Icon type="question-circle"/></i>
+                    </el-tooltip>
                   </el-form-grid>
                   <el-form-grid size="xmd" class="dialog-checkbtn">
                     <!--4.0 版本暂无查看历史功能-->
@@ -837,12 +817,15 @@
           </el-tab-pane>
         </el-tabs>
       </div>
+      <span slot="footer">
+        <ns-button @click="shopKuhuShow==false">取 消</ns-button>
+      </span>
     </el-dialog>
     <!-- 打标签-->
     <el-dialog
-      title="自定义属性"
+      title="自定义属性" response-limit :show-scroll-x=false
       :visible.sync="showTag"
-      width="900px" height="500px" @close="closeTag">
+      width="900px" @close="closeTag">
       <div>
         <el-form>
           <el-form-item>
@@ -1046,7 +1029,11 @@ export default CustomerManage
     @b avatar {
       width: 80px;
       position: relative;
+      left: 25px;
+      top: 5px;
       @e headportrait {
+        width: 80px;
+        height: 80px;
         border-radius: 50%;
       }
       @e figure {
@@ -1160,12 +1147,6 @@ export default CustomerManage
         right: 0;
       }
     }
-    @b doubt {
-      font-size: var(--default-font-size-base);
-      color: var(--theme-color-primary);
-      position: relative;
-      left: 5px;
-    }
     @b title {
       display: flex;
       align-items: center;
@@ -1205,5 +1186,9 @@ export default CustomerManage
   }
   >>> .el-table .cell {
     padding: 0 var(--default-padding-small);
+  }
+  .questioncircle {
+    position: relative;
+    left: -4px;
   }
 </style>
