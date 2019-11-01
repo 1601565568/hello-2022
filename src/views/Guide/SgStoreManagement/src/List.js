@@ -144,6 +144,29 @@ export default {
       })
     })
     return {
+      dataList: [
+        {
+          id: 0,
+          introduce: {
+            size: '小尺寸：适用于屏幕类、宣传册等',
+            distance: '边长约8cm，最佳扫码距离0.5m'
+          }
+        },
+        {
+          id: 1,
+          introduce: {
+            size: '中尺寸：适用于海报、展架等',
+            distance: '边长约15cm，最佳扫码距离1m'
+          }
+        },
+        {
+          id: 2,
+          introduce: {
+            size: '大尺寸：适用于幕布、大型广告等',
+            distance: '边长约50cm，最佳扫码距离2.5m'
+          }
+        }
+      ],
       checked: true,
       subordinateStores: [],
       showUpdateAllGuidePrefix: false,

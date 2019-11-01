@@ -7,7 +7,9 @@
     <el-dialog :title="title"  :visible.sync="memberBelongingShow" width="750px" >
       <div class="recruitingcode_title">
         <div class="recruitingcode">
-          <Icon className="icon-erweima" type="erweima"/>
+          <i class="icon-erweima">
+            <Icon type="erweima"/>
+          </i>
         </div>
         <div>
           <div><template><el-checkbox v-model="checked"></el-checkbox></template>会员注册时是否需要关注公众号</div>
@@ -15,43 +17,76 @@
         </div>
       </div>
       <div>
-        <el-row class="elrow">
-          <el-col :span="8" class="elrow_size">尺寸</el-col>
-          <el-col :span="8">公众号二维码<span class="icon-question"><Icon className="iconQuestion" type="question-circle" theme="filled"/><div class="publicnumberqrCode"><img src="../../../assets/putongerweima.png"></div></span></el-col>
-          <el-col :span="8">小程序二维码<span class="icon-question"><Icon className="iconQuestion" type="question-circle" theme="filled"/><div class="smallprogramqrCode"><img src="../../../assets/xiaochengxu.png"></div></span></el-col>
-        </el-row>
-        <el-row class="elrow_first">
-          <el-col  :span="8">
-            <div>小尺寸：适用于屏幕类、宣传册等</div>
-            <span class="last_div">边长约8cm，最佳扫码距离0.5m</span>
-          </el-col>
-          <el-col v-if="checked" class="elrow_firstcol" :span="8"><ns-button  type="text"><a :href="url+0+'&shopId='+succeedObj.shopId+'&size='+0"><Icon className="icon-xiazai" type="xiazai"/></a></ns-button></el-col>
-          <el-col v-else class="elrow_firstcol" :span="8"><Icon className="icon-xiazaia" type="xiazai"/></el-col>
-          <el-col v-if="!checked" class="elrow_firstcol" :span="8"><ns-button  type="text"><a :href="url+1+'&shopId='+succeedObj.shopId+'&size='+0"><Icon className="icon-xiazai" type="xiazai"/></a></ns-button></el-col>
-          <el-col v-else class="elrow_firstcol" :span="8"><Icon className="icon-xiazaia" type="xiazai"/></el-col>
-        </el-row>
-        <el-row class="elrow_second">
-          <el-col :span="8">
-            <div>中尺寸：适用于海报、展架等</div>
-            <div class="last_div">边长约15cm，最佳扫码距离1m</div>
-          </el-col>
-          <el-col v-if="checked" class="elrow_firstcol" :span="8"><ns-button  type="text"><a :href="url+0+'&shopId='+succeedObj.shopId+'&size='+1"><Icon className="icon-xiazai" type="xiazai"/></a></ns-button></el-col>
-          <el-col v-else class="elrow_firstcol" :span="8"><Icon className="icon-xiazaia" type="xiazai"/></el-col>
-          <el-col v-if="!checked" class="elrow_firstcol" :span="8"><ns-button  type="text"><a :href="url+1+'&shopId='+succeedObj.shopId+'&size='+1"><Icon className="icon-xiazai" type="xiazai"/></a></ns-button></el-col>
-          <el-col v-else class="elrow_firstcol" :span="8"><Icon className="icon-xiazaia" type="xiazai"/></el-col>
-        </el-row>
-        <el-row class="elrow_thirdly">
-          <el-col :span="8">
-            <div>大尺寸：适用于幕布、大型广告等</div>
-            <div class="last_div">边长约50cm，最佳扫码距离2.5m</div>
-          </el-col>
-          <el-col v-if="checked" class="elrow_firstcol" :span="8" ><ns-button  type="text"><a :href="url+0+'&shopId='+succeedObj.shopId+'&size='+2"><Icon className="icon-xiazai" type="xiazai"/></a></ns-button></el-col>
-          <el-col v-else class="elrow_firstcol" :span="8" ><Icon className="icon-xiazaia" type="xiazai"/></el-col>
-          <el-col v-if="!checked" class="elrow_firstcol" :span="8" ><ns-button  type="text"><a :href="url+1+'&shopId='+succeedObj.shopId+'&size='+2"><Icon className="icon-xiazai" type="xiazai"/></a></ns-button></el-col>
-          <el-col v-else class="elrow_firstcol" :span="8" ><Icon className="icon-xiazaia" type="xiazai"/></el-col>
-        </el-row>
+        <el-table
+          ref="multipleTable"
+          :data="dataList"
+          tooltip-effect="dark"
+          stripe>
+          <el-table-column label="尺寸">
+            <template slot-scope="scope">
+              <div> {{scope.row.introduce.size}}</div>
+              <div> {{scope.row.introduce.distance}}</div>
+            </template>
+          </el-table-column>
+          <el-table-column label="公众号二维码" align="center">
+            <template slot='header' scope='header'>
+              <span>
+                <span>{{header.column.label}}</span>
+                 <el-tooltip placement="bottom">
+                    <div slot="content">
+                      <img src="../../../assets/putongerweima.png" class="photosize">
+                    </div>
+                    <Icon type="question-circle"/>
+                  </el-tooltip>
+              </span>
+            </template>
+            <template slot-scope="scope">
+              <div v-if="checked">
+                <ns-button  type="text">
+                  <a :href="url+0+'&shopId='+succeedObj.shopId+'&size='+0">
+                    <i class="download">
+                      <Icon type="xiazai"/>
+                    </i>
+                  </a>
+                </ns-button>
+              </div>
+              <div v-else>
+                <i class="download text-secondary">
+                  <Icon type="xiazai"/>
+                </i>
+              </div>
+            </template>
+          </el-table-column>
+          <el-table-column label="小程序二维码" align="center">
+            <template slot='header' scope='header'>
+              <span>
+                <span>{{header.column.label}}</span>
+                 <el-tooltip placement="bottom">
+                    <div slot="content">
+                      <img src="../../../assets/xiaochengxu.png" class="photosize">
+                    </div>
+                    <Icon type="question-circle"/>
+                  </el-tooltip>
+              </span>
+            </template>
+            <template slot-scope="scope">
+              <div v-if="!checked">
+                <ns-button type="text">
+                  <a :href="url+1+'&shopId='+succeedObj.shopId+'&size='+0">
+                    <i class="download"><Icon type="xiazai"/></i>
+                  </a>
+                </ns-button>
+              </div>
+              <div v-else>
+                <i class="download text-secondary" >
+                  <Icon type="xiazai"/>
+                </i>
+              </div>
+            </template>
+          </el-table-column>
+        </el-table>
       </div>
-      <div slot="footer" class="dialog-footer">
+      <div slot="footer">
         <ns-button type="primary" @click="memberBelongingShow = false">确定</ns-button>
       </div>
     </el-dialog>
@@ -94,6 +129,8 @@ List.components = {
 export default List
 </script>
 <style scoped>
+  @import "@theme/variables.pcss";
+
   >>>.avatar-uploader .el-upload {
     border: 1px dashed #d9d9d9;
     border-radius: 6px;
@@ -118,46 +155,6 @@ export default List
     height: 128px;
     display: block;
   }
-  .elrow{
-    background-color: #f0f3f5;
-    font-size: 14px;
-    font-weight: 700;
-    font-style: normal;
-    line-height: 40px;
-    padding-left:10px;
-    margin-top: 15px
-  }
-  .elrow .el-col{
-    display: flex;
-    justify-content: center;
-    align-items: center
-  }
-  .elrow .elrow_size{
-    display: flex;
-    justify-content:flex-start;
-    align-items: center
-  }
-  .elrow_first, .elrow_second, .elrow_thirdly{
-    font-size: 14px;
-    font-weight: 700;
-    font-style: normal;
-    line-height: 30px;
-    padding-left: 10px;
-    margin-top: 15px
-  }
-  .elrow_first .elrow_firstcol, .elrow_second .elrow_firstcol, .elrow_thirdly .elrow_firstcol{
-    display: flex;
-    justify-content: center;
-    align-items: center
-  }
-  .elrow_first, .elrow_second, .elrow_thirdly{
-    display: flex;
-    align-items: center
-  }
-  .elrow_first .last_div, .elrow_second .last_div, .elrow_thirdly .last_div{
-    font-size: 12px;
-    font-weight: normal;
-  }
   .recruitingcode_title{
     display: flex;
     justify-content: flex-start;
@@ -166,53 +163,18 @@ export default List
     margin: 10px 30px 0 0;
   }
   .icon-erweima{
-    font-size: 40px;
+    font-size: 34px;
     font-weight: 600;
     color: #409EFF;
     position: relative;
-    top: -10px;
+    top: -9px;
     left: 10px;
   }
-  .icon-xiazai{
-    font-size: 20px;
+  .download{
+    font-size: var(--dafault-font-size-xlarge);
   }
-  .icon-xiazaia{
-    font-size: 20px;
-    color: #aaa;
-  }
-  .icon-question:hover .publicnumberqrCode{
-    display: block;
-  }
-  .icon-question:hover .smallprogramqrCode{
-    display: block;
-  }
-  .iconQuestion{
-    position: relative;
-    top: 2px;
-  }
-  .el-col-8{
-    position: relative;
-  }
-  .publicnumberqrCode{
-    z-index: 99;
-    background-color: #fff;
-    /* opacity: 0.5; */
-    position: absolute;
-    left: 70px;
-    bottom: -150px;
-    display: none;
-    width: 150px;
-    height: 150px;
-  }
-  .smallprogramqrCode{
-    z-index: 99;
-    background-color: #fff;
-    /* opacity: 0.5; */
-    position: absolute;
-    left: 70px;
-    bottom: -150px;
-    display: none;
-    width: 150px;
-    height: 150px;
+  .photosize {
+    width: 140px;
+    height: 140px;
   }
 </style>
