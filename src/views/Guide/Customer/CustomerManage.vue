@@ -818,7 +818,7 @@
         </el-tabs>
       </div>
       <span slot="footer">
-        <ns-button @click="shopKuhuShow==false">取 消</ns-button>
+        <ns-button @click="closeDetailDialog">取 消</ns-button>
       </span>
     </el-dialog>
     <!-- 打标签-->
