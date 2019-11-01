@@ -4,13 +4,13 @@
 <div class="page-rewardSetAdd">
   <el-dialog
   :title="title"
-  width='45%'
+  width='600px'
   :close-on-click-modal=false
   :visible.sync="dialogVisible"
   :before-close="handleClose">
-    <div class="topTip">已选门店:<span>{{selectedArr.length}}</span>家</div>
+    <div>已选门店:<span class="text-error">{{selectedArr.length}}</span>家</div>
     <div class="comDialogBoxCon">
-      <el-form ref="form" :inline="true" :model="saveObj" :rules="rules" style='margin-bottom: 30px;'>
+      <el-form ref="form" :inline="true" :model="saveObj" :rules="rules">
       <div class="addTitBox">
         <span class="addTitText">销售提成</span>
         <el-form-item>
@@ -181,35 +181,24 @@ export default {
 }
 </script>
 <style scoped>
+  @import "@theme/variables.pcss";
+
 .comDialogBox {
   width: 600px !important;
 }
 .addItemCon {
-  padding: 15px 0 0 10px;
+  padding: 5px 0 0 10px;
 }
 .addTitBox {
-  height: 32px;
-  margin-top: 10px;
-  border-bottom: 1px solid #ccc;
+  border-bottom: 1px solid var(--theme-base-border-color-primary);
 }
 .addTitText {
-  font-size: 16px;
-  height: 20px;
-  line-height: 20px;
   display: inline-block;
-  border-left: 2px solid #0091fa;
+  border-left: 2px solid var(--theme-color-primary);
   padding: 0 8px;
 }
-.topTip {
-  line-height: 32px;
-  height: 32px;
-  font-size: 13px;
-}
-.topTip span {
-  color: #f00;
-}
 .el-form--inline .el-form-item {
-  margin-right: 5px !important;
+  margin-right: var(--default-margin-small) !important;
 }
 .inputSize {
   width: 100px;

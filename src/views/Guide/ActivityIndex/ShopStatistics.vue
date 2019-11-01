@@ -150,15 +150,14 @@
         <template slot='header' scope='header'>
           <span>
             <span>{{header.column.label}}</span>
-            <el-popover placement='bottom' width='100' trigger='hover' content='不显示已删除门店'>
-              <i slot='reference' class='table-header-icon'><Icon type="question-circle" /></i>
-            </el-popover>
+            <el-tooltip content="不显示已删除门店" placement="bottom">
+              <Icon type="question-circle"/>
+            </el-tooltip>
           </span>
         </template>
       </el-table-column>
       <el-table-column
         label="区域"
-        width="140"
         show-overflow-tooltip
         >
         <template slot-scope="scope">
@@ -168,6 +167,7 @@
       <el-table-column
         label="类型"
         width="77"
+        align="center"
       >
       <template slot-scope="scope">
         <span>{{scope.row.shopType|shopType}}</span>
@@ -176,6 +176,7 @@
       <el-table-column
         label="状态"
         width="100"
+        align="center"
       >
       <template slot-scope="scope">
         <span>{{scope.row.shopStatus|shopStatus}}</span>
@@ -183,7 +184,6 @@
       </el-table-column>
       <el-table-column
         label="店长"
-        width="180"
         align="left"
         prop="guideNames"
         show-overflow-tooltip
@@ -191,7 +191,7 @@
       </el-table-column>
       <el-table-column
         label="门店招募/还差（人）"
-        align="center"
+        align="right"
         width="140"
       >
       <template slot-scope="scope">
@@ -206,7 +206,7 @@
         </span>
       </template>
       </el-table-column>
-      <el-table-column label="奖励（元）" prop="recruitPrice" width="80" align="right">
+      <el-table-column label="奖励（元）" prop="recruitPrice" width="100" align="right">
         <template slot-scope="scope">
           <span v-if="scope.row.recruitPrice == 0">0.00</span>
           <a href="javascript:" @click="showRecruitDialog(scope.row.shopId, scope.row.shopName)" v-else>{{$numeral(scope.row.recruitPrice).format('0,0.00')}}</a>
@@ -228,7 +228,7 @@
           </span>
       </template>
       </el-table-column>
-      <el-table-column label="提成（元）" prop="sellPrice" width="80" align="right">
+      <el-table-column label="提成（元）" prop="sellPrice" width="100" align="right">
         <template slot-scope="scope">
           <span v-if="scope.row.sellPrice == 0">0.00</span>
           <a href="javascript:" @click="showSellDialog(scope.row.shopId, scope.row.shopName)" v-else>{{$numeral(scope.row.sellPrice).format('0,0.00')}}</a>

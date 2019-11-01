@@ -61,8 +61,8 @@
       </el-table-column>
       <el-table-column
         label="状态"
-        width="150"
-        align="left"
+        width="50"
+        align="center"
         show-overflow-tooltip
         >
         <template slot-scope="scope">
@@ -71,7 +71,6 @@
       </el-table-column>
       <el-table-column
         label="销售提成"
-        width="300"
       >
         <template slot-scope="scope"><div v-if="scope.row.salesStatus">
           <span>线上：成单导购 {{scope.row.onlineSalesRewardOrder}}<span v-if="scope.row.onlineSalesRewardOrder === null">0</span>% + 专属导购 {{scope.row.onlineSalesRewardExclusive}}<span v-if="scope.row.onlineSalesRewardExclusive === null">0</span>%<br></span>
@@ -83,7 +82,6 @@
       </el-table-column>
       <el-table-column
         label="招募新会员奖励"
-        width="280"
       >
       <template slot-scope="scope">
         <div v-if="scope.row.memberStatus">
@@ -97,7 +95,7 @@
       <el-table-column
         label="操作"
         width="60"
-        align="right"
+        align="center"
       >
       <template slot-scope="scope">
         <div v-if="scope.row.shopStatus == 1">
