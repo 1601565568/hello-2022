@@ -1,17 +1,12 @@
 <template>
   <div id='SgQuicklyWordPage'>
     <div id="box_left">
-      <ns-button class="newClassification ml10" type="primary" @click="onSaveQuicklyWordGroupOpen">新增分类</ns-button>
-      <div class='ptb10 bg-white pl15' >
+      <ns-button type="primary" @click="onSaveQuicklyWordGroupOpen">新增分类</ns-button>
+      <div class='ptb5 bg-white pl5' >
         <span class="demonstration">分类</span>
-        <el-popover
-          placement="bottom"
-          trigger="hover">
-          <el-row class="overview-popover">
-            拖动调整分类排序，小程序同步
-          </el-row>
-          <Icon slot="reference" type="question-circle" theme="filled" className="ml5 fz13" style='color:#999'/>
-        </el-popover>
+        <el-tooltip content="拖动调整分类排序，小程序同步" placement="bottom">
+          <Icon type="question-circle"/>
+        </el-tooltip>
       </div>
       <div :class="offsetHeight?'elTrees':'elTree'" ref="elTree" :style="{ 'height' : height + 'px'}">
         <el-tree :data="wordGroupList" default-expand-all @node-click="onClickNode" @node-drop="handleDrop" draggable :allow-drop="allowDrop"
@@ -24,7 +19,7 @@
           <span class="dataName">{{ data.name }}</span>
           <span v-if='data.id'>
             <Icon type="delete" @click="deleteTheGroup(data)" className="deleteicon" />
-            <Icon type="bianji-1" @click="onSaveQuicklyWordGroupOpen(data)" className="editicon"/>
+            <Icon type="bianji-1" @click="onSaveQuicklyWordGroupOpen(data)"/>
           </span>
         </div>
         </el-tree>
@@ -62,7 +57,7 @@
             <el-table-column prop="keyWord" class-name="keyword" width="130" :show-overflow-tooltip="true" label="关键词" align="left"></el-table-column>
             <el-table-column prop="content" label="话术内容" width="228" :show-overflow-tooltip="true" align="left"></el-table-column>
             <el-table-column prop="name" label="分类" align="left"></el-table-column>
-            <el-table-column prop="createTime" label="添加时间" align="left"></el-table-column>
+            <el-table-column prop="createTime" label="添加时间" align="center"></el-table-column>
             <el-table-column align="left" v-if="showOrder" :render-header="renderHeader">
               <template slot-scope="scope">
                 <i class='sort' :class="scope.row === _data._table.data[0]?'topHid':''"  @click='exchangeSort(1,scope.row.id)'><Icon type="zhiding"/></i>
@@ -72,7 +67,7 @@
               </template>
             </el-table-column>
             <el-table-column prop="addName" label="添加人" align="left"></el-table-column>
-            <el-table-column :show-overflow-tooltip="true" label="操作" align="right">
+            <el-table-column :show-overflow-tooltip="true" label="操作" align="center" width="100px">
               <template slot-scope="scope">
               <span class="tmp-cell__buttons">
                 <ns-button type="text" @click="onSaveOpen(scope.row)">编辑</ns-button>
@@ -142,12 +137,12 @@
                width='600px'
                @before-close="closeDialog()">
       <el-form :model="model" ref="form" label-width="90px" :rules="rules" placement="right">
-        <el-form-item label="移动到分类：" prop="wordGroupIds" style="margin:25px 0">
+        <el-form-item label="移动到分类：" prop="wordGroupIds">
           <el-select  v-model="model.wordGroupId" filterable clearable placeholder="请选择配置项类型">
             <el-option v-for="wordGroup in selectwordGroupList" :label="wordGroup.name" :value="wordGroup.id" :key="wordGroup.id"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="编辑关键词：" prop="keyWord" style="margin-bottom:30px">
+        <el-form-item label="编辑关键词：" prop="keyWord">
           <el-input type="text" placeholder="如果未输入内容，则保持原有关键词不变。用“，”号隔开，最多设置五个词" v-model="model.keyWord"></el-input>
         </el-form-item>
       </el-form>
@@ -207,7 +202,7 @@ export default List
 }
 .elTree .navTree-item .dataName{
   display: inline-block;
-  width: 143px;
+  width: 136px;
   overflow:hidden;
   text-overflow:ellipsis;
   white-space:nowrap
@@ -226,7 +221,8 @@ export default List
  @import "@theme/variables.pcss";
   #box_left{
     width: 220px;
-    margin-right: 10px;
+    margin-right: var(--default-margin-small);
+    padding: var(--default-padding-base);
     float: left;
     background-color: #ffffff;
     border-radius: 0 0 3px 3px;
@@ -255,11 +251,14 @@ export default List
 }
 .expressionBar_div i{
   font-size: 18px;
+  position: relative;
+  top: 2px;
 }
 .emotion-list_div {
   width: 350px;
-  height: 160px;
-  margin-top: 10px;
+  height: 147px;
+  padding-left: var(--default-padding-base);
+  border: 1px solid var(--theme-base-border-color-primary);
 }
 .emotion-list_div .emotion-list .li{
   list-style: none;
@@ -269,9 +268,6 @@ export default List
 .emotion-list_div .emotion-list .li img{
   width: 20px;
   height: 20px;
-}
-.newClassification{
-  margin-bottom: 10px
 }
 .subdivision-tree-node i{
   font-size: 12px;
@@ -304,9 +300,7 @@ export default List
   .navTree{
     @b item{
       flex: 1;
-      height:40px;
-      line-height:40px;
-      padding:0 15px;
+      padding:0 5px;
     }
   }
 
@@ -327,11 +321,6 @@ export default List
 }
   .deleteicon {
     font-size: var(--default-font-size-middle);
-    position: relative;
-    top: 2px;
-  }
-  .editicon {
-    font-size: var(--default-font-size-small);
     position: relative;
     top: 1px;
   }

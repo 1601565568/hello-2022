@@ -30,7 +30,7 @@
           <el-col :span="17">
             <!-- 右上角操作区域 -->
             <div class="float-right tabSearchBtn">
-              <ns-button @click="tabSearchType" style="padding: 9px 0 9px 10px;opacity: 0.5;color: #002041;" type="text">
+              <ns-button @click="tabSearchType" type="text">
                 {{searchType.tipText}}
                 <Icon :type="searchType.advanced ? 'up' : 'down'"/>
               </ns-button>
@@ -77,7 +77,7 @@
   </div>
   <!-- 筛选end -->
   <!-- table start -->
-  <div class="mt10">
+  <div>
     <el-table
       ref="multipleTable"
       :data="dataList"
@@ -92,7 +92,13 @@
           {{scope.$index+1}}
         </template>
       </el-table-column>
-      <el-table-column  width="200"  align="left" :render-header="renderHeader">
+      <el-table-column  width="200"  align="center">
+        <template slot="header" slot-scope="scope">
+          排序
+          <el-tooltip content="调整分类的排列顺序" placement="bottom">
+            <Icon type="question-circle"/>
+          </el-tooltip>
+        </template>
         <template slot-scope="scope">
           <i class='sort' :class="scope.$index?'topShow':'topHid'" @click='exchangeSort(1,scope.row.subdivision_id)'><Icon type="zhiding"/></i>
           <i class='sort' :class="scope.$index?'topShow':'topHid'" @click='exchangeSort(2,scope.row.subdivision_id)'><Icon type="top-arr"/></i>
@@ -106,21 +112,21 @@
 
       <el-table-column
         label="素材数"
-        align="left"
+        align="right"
         prop="counts"
         width="100"
       >
       </el-table-column>
-      <el-table-column prop="update_time" label="更新时间 " width="200" align="left">
+      <el-table-column prop="update_time" label="更新时间 " width="200" align="center">
       </el-table-column>
       <el-table-column
         label="操作"
         width="100"
-        align="right"
+        align="center"
       >
       <template slot-scope="scope">
         <ns-button @click="AddShowToggle(scope.row)" type="text">编辑</ns-button>
-        <a class="text-error" href="javascript:" style="color:#f00" @click="delsTipFun(scope.row.subdivision_id)">删除</a>
+        <a href="javascript:" @click="delsTipFun(scope.row.subdivision_id)">删除</a>
       </template>
       </el-table-column>
     </el-table>
@@ -210,9 +216,6 @@ export default {
         })
       this.loading = false
       // 总条数
-    },
-    renderHeader (h, data) {
-      return h('div', { attrs: { class: 'cell', style: 'margin-top:7px' } }, [h('span', ['排序 ']), h('el-tooltip', { attrs: { class: 'el-icon-info bg-white', effect: 'light', content: '调整分类的排列顺序', placement: 'bottom' } }, [h('i', { 'class': 'el-icon-question', style: 'color:rgb(153, 153, 153)' })])])
     },
     exchangeSort (type, subdivisionId) {
       let parms = { type, subdivisionId }

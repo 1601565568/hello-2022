@@ -91,7 +91,7 @@
   </div>
   <!-- 筛选end -->
   <!-- table start -->
-  <div class="mt10">
+  <div>
     <el-table
       ref="multipleTable"
       :data="dataList"
@@ -113,7 +113,7 @@
         <listItemShow :itemObj="scope.row"></listItemShow>
       </template>
       </el-table-column>
-      <el-table-column prop="subName" label="分组" width="190" align="left">
+      <el-table-column prop="subName" label="分组" width="190" align="center">
         <template slot-scope="scope">
           <el-select @change="setGroudFun(scope.row.id,scope.row.subdivision_id)" v-model="scope.row.subdivision_id" placeholder="请选择">
             <el-option v-for="item in groudList"
@@ -130,16 +130,16 @@
       <el-table-column prop="source_name" label="发布方" align="left" width="190">
 
       </el-table-column>
-      <el-table-column prop="create_time" label="发布时间 " width="150" align="left">
+      <el-table-column prop="create_time" label="发布时间 " width="150" align="center">
       </el-table-column>
       <el-table-column
         label="操作"
         width="80"
-        align="right"
+        align="center"
       >
       <template slot-scope="scope">
         <ns-button @click="AddShowToggle(scope.row)" type="text">编辑</ns-button>
-        <a class="text-error" style="color:#f00" href="javascript:" @click="delsTipFun(scope.row.id)">删除</a>
+        <a href="javascript:" @click="delsTipFun(scope.row.id)">删除</a>
       </template>
       </el-table-column>
     </el-table>

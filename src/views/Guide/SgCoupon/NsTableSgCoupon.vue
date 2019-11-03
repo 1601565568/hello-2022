@@ -42,25 +42,21 @@
             </el-input>
           </el-form-grid>
         </el-form-item>
-        <el-form-item label="卡券类型：">
+        <el-form-item label="卡券类型：" prop="storeCouponType">
           <el-form-grid size="xmd" >
-            <el-form-item prop="storeCouponType">
-              <el-select  v-model="model.couponType" clearable filterable placeholder="请选择卡券类型">
-                <el-option label="代金券" value="1"></el-option>
-                <el-option label="折扣券" value="2"></el-option>
-                <el-option label="兑换券" value="3"></el-option>
-              </el-select>
-            </el-form-item>
+            <el-select  v-model="model.couponType" clearable filterable placeholder="请选择卡券类型">
+              <el-option label="代金券" value="1"></el-option>
+              <el-option label="折扣券" value="2"></el-option>
+              <el-option label="兑换券" value="3"></el-option>
+            </el-select>
           </el-form-grid>
         </el-form-item>
-        <el-form-item label="状态：">
+        <el-form-item label="状态：" prop="storeCouponState">
           <el-form-grid size="xmd">
-            <el-form-item prop="storeCouponState">
-              <el-select  v-model="model.couponStatus" clearable filterable placeholder="请选择状态">
-                <el-option label="启用" value="1"></el-option>
-                <el-option label="禁用" value="0"></el-option>
-              </el-select>
-            </el-form-item>
+            <el-select  v-model="model.couponStatus" clearable filterable placeholder="请选择状态">
+              <el-option label="启用" value="1"></el-option>
+              <el-option label="禁用" value="0"></el-option>
+            </el-select>
           </el-form-grid>
         </el-form-item>
         <el-form-item label="有效时间：">
@@ -127,7 +123,7 @@
             <span>优惠券编码:{{scope.row.couponCode}}</span>
           </template>
         </el-table-column>
-        <el-table-column :show-overflow-tooltip="true" type="default" align="left"
+        <el-table-column :show-overflow-tooltip="true" type="default" align="center"
                          label="有效时间" :sortable="false" >
           <template slot-scope="{row}">
             <div v-if="row.dateValidType == 0">
@@ -141,18 +137,18 @@
             </div>
           </template>
         </el-table-column>
-        <el-table-column :show-overflow-tooltip="true" type="default" prop="createTime" align="left"
+        <el-table-column :show-overflow-tooltip="true" type="default" prop="createTime" align="center"
                          label="创建时间" :sortable="false" width="180">
         </el-table-column>
         <el-table-column :show-overflow-tooltip="true" type="default" prop="couponTotal" align="left"
                          label="配额" :sortable="false" width="70">
         </el-table-column>
-        <el-table-column :show-overflow-tooltip="true" type="default" prop="type" align="left"
+        <el-table-column :show-overflow-tooltip="true" type="default" prop="type" align="center"
                          label="状态" :sortable="false" width="70">
           <template slot-scope="scope">{{scope.row.couponStatus == '0' ? "禁用" : "启用"}}
           </template>
         </el-table-column>
-        <el-table-column :show-overflow-tooltip="true" type="default" prop="couponType" align="left"
+        <el-table-column :show-overflow-tooltip="true" type="default" prop="couponType" align="right"
                          label="发放门店" :sortable="false" width="70">
           <template slot-scope="scope">
             <span v-if="scope.row.type == 0">公用</span>

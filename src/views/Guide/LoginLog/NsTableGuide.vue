@@ -78,7 +78,7 @@
           </template>
         </el-table-column>
 
-        <el-table-column prop="loginTime" label="登录时间">
+        <el-table-column prop="loginTime" label="登录时间" align="center">
           <template slot-scope="scope">
             {{scope.row.loginTime || "-"}}
           </template>
@@ -90,15 +90,15 @@
           </template>
         </el-table-column>
 
-        <el-table-column prop="loginResult" label="登录结果" align="left">
+        <el-table-column prop="loginResult" label="登录结果" align="center">
           <template slot-scope="scope">
-            <span v-if="scope.row.loginResult === 0">成功</span>
-            <span v-else-if="scope.row.loginResult === 1">失败</span>
+            <span v-if="scope.row.loginResult === 0" class="text-success">成功</span>
+            <span v-else-if="scope.row.loginResult === 1" class="text-danger">失败</span>
             <span v-else>-</span>
           </template>
         </el-table-column>
 
-        <el-table-column prop="loginFailureReason" label="失败原因" align="right">
+        <el-table-column prop="loginFailureReason" label="失败原因" align="left">
           <template slot-scope="scope">
             {{scope.row.loginFailureReason || '-'}}
           </template>
@@ -131,5 +131,12 @@ export default guide
 <style scoped>
   .scope_row_count {
     color: blue;
+  }
+  /* 解决搜索和重置按钮那栏的上下间距不一致问题 */
+  >>> .template-table__more-btn {
+    padding: 0;
+  }
+  >>>.template-table__bar-more .el-form >.el-form-item {
+    margin: 0;
   }
 </style>

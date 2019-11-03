@@ -9,7 +9,7 @@
       :response-limit = false
       width="800px"
       :before-close="handleClose">
-      <div class="topTip">总配额:<span>{{topTotaObj.activityTotal}}</span>张；总领取:<span>{{topTotaObj.couponNoUse}}</span>张；未领取:<span>{{topTotaObj.activityTotal-topTotaObj.couponNoUse}}</span>张；总发放门店:<span>{{topTotaObj.shopTotal}}</span>家</div>
+      <div class="topTip">总配额：<span class="text-error">{{topTotaObj.activityTotal}}</span>张；总领取：<span class="text-error">{{topTotaObj.couponNoUse}}</span>张；未领取：<span class="text-error">{{topTotaObj.activityTotal-topTotaObj.couponNoUse}}</span>张；总发放门店：<span class="text-error">{{topTotaObj.shopTotal}}</span>家</div>
       <div class="template-table__bar-more">
         <el-form ref="searchform" label-width="80px"  class="surround-btn" :model="searchform"  :inline="true">
           <el-form-item label="所在区域：" style="margin-right:0;" prop="district">
@@ -217,10 +217,6 @@ export default {
   .topTip {
     line-height: 32px;
     height: 32px;
-    font-size: 13px;
-  }
-  .topTip span {
-    color: #f00;
   }
   .el-form--inline .el-form-item {
     margin-right: 5px !important;

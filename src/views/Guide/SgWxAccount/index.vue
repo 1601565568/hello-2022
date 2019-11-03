@@ -12,21 +12,21 @@
                   resizable v-loading.lock="_data._table.loadingtable"
                   :element-loading-text="$t('prompt.loading')" @sort-change="$orderChange$">
           <el-table-column prop="name" label="微信名称"></el-table-column>
-          <el-table-column prop="appid" label="应用ID" align="left" width="180"></el-table-column>
-          <el-table-column label="企业ID" align="left" width="180">
+          <el-table-column prop="appid" label="应用ID" align="center" width="180"></el-table-column>
+          <el-table-column label="企业ID" align="center" width="180">
             <template slot-scope="{row}">
               <span v-if="row.corpid === null">-</span>
               <span v-else>{{row.corpid}}</span>
             </template>
           </el-table-column>
-          <el-table-column label="支付ID" align="left" width="139">
+          <el-table-column label="支付ID" align="center" width="139">
             <template slot-scope="{row}">
               <span v-if="row.pay_id === null">-</span>
               <span v-else>{{row.pay_id}}</span>
             </template>
           </el-table-column>
-          <el-table-column prop="update_time" label="更新时间" width="160" align="left"></el-table-column>
-          <el-table-column :show-overflow-tooltip="true" label="操作" align="right" width="112">
+          <el-table-column prop="update_time" label="更新时间" width="160" align="center"></el-table-column>
+          <el-table-column :show-overflow-tooltip="true" label="操作" align="center" width="112">
             <template slot-scope="scope">
               <span class="tmp-cell__buttons">
                 <ns-button type="text" @click="onSaveOpen(scope.row)">编辑</ns-button>
@@ -178,12 +178,12 @@
     </el-dialog>
     <!-- 提交审核弹窗结束 -->
     <!-- 最新弹窗微信号授权开始 -->
-    <el-dialog size="small" class="authorization" :title="authorizationText" width="40%"
+    <el-dialog size="small" class="authorization" :title="authorizationText" width="380px"
                :visible.sync="authorization"
                :modal-append-to-body="false"
                @before-close="closeDialog()">
       <div>
-        <p class="shanghu">一个微信号只能授权给一个商户！</p>
+        <p class="text-warning"><Icon type="info-circle" />  一个微信号只能授权给一个商户！</p>
         <p>点击授权跳转到微信公众平台授权页面，授权微信号</p>
       </div>
       <div slot="footer" class="authorization_footer">
@@ -235,9 +235,6 @@ export default index
 .dialog_mian_topText p{
   height: 30px;
   line-height: 30px;
-}
-.shanghu{
-  color:#FF8C00 !important;
 }
 .newestDialog{
   padding:0 10px;

@@ -12,7 +12,7 @@
       <div class="comDialogBoxConOut" v-show='saveObj.articleType' style='flex:1'>
         <el-form :model="saveObj" :rules="rules" ref="Form1">
           <el-form-item  prop="title">
-              <el-input type="text" maxlength='50' placeholder="请输入标题，长度在4-50个字符以内" v-model="saveObj.title" clearable size="medium"></el-input>
+              <el-input type="text" maxlength='50' placeholder="请输入标题，长度在4-50个字符以内" v-model="saveObj.title" clearable></el-input>
           </el-form-item>
         </el-form>
 
@@ -30,7 +30,7 @@
         <div class='mb10'>
           <el-form :model="saveObj" :rules="rules" ref="Form2">
           <el-form-item  prop="title">
-            <el-input  type="text" v-model="saveObj.title" maxlength='50' placeholder="请输入标题，长度在4-50个字符以内" clearable size="medium"></el-input>
+            <el-input  type="text" v-model="saveObj.title" maxlength='50' placeholder="请输入标题，长度在4-50个字符以内" clearable></el-input>
           </el-form-item>
           </el-form>
         </div>
