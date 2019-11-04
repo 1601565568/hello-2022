@@ -8,12 +8,12 @@
       <el-row class="template-table__bar-base">
          <!-- 左边上角操作区域 -->
           <el-col :span="7">
-            <div class="topTip">
+            <div>
               <ns-button type="primary" @click="AddShowToggle">批量设置</ns-button>
             </div>
           </el-col>
           <el-col :span="17">
-            <el-form ref="searchform" class="float-right"  :inline="true" :model="searchform" style='padding-top:3px'>
+            <el-form ref="searchform" class="float-right"  :inline="true" :model="searchform">
               <el-form-item label="门店名称：" prop="shopName">
                 <el-input v-model="searchform.shopName" placeholder="请输入门店名称" clearable></el-input>
               </el-form-item>
@@ -229,18 +229,6 @@ export default {
 <style scoped>
 .el-input.el-input--small .el-input__inner {
   text-indent: 25px !important;
-}
-.topTip {
-  line-height: 32px;
-  height: 32px;
-}
-.topTip .tipInfo {
-  padding-left: 15px;
-  color: #333;
-}
-.topTip span {
-  font-size: 13px;
-  color: #f00;
 }
 .mt10 {
   margin-top: 10px;

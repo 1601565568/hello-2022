@@ -14,17 +14,22 @@
          <!-- 左边上角操作区域 -->
           <el-col :span="7">
             <div class="topTip">
-              <ns-button type="primary" @click="AddShowToggle">批量设置</ns-button><span class="tipInfo">单位：<span v-if="searchObj.searchMap.type==1">人</span><span v-if="searchObj.searchMap.type==0">万元</span></span>
+              <ns-button type="primary" @click="AddShowToggle">批量设置</ns-button>
+              <span class="text-error">
+                  单位：
+                <span v-if="searchObj.searchMap.type==1">人</span>
+                <span v-if="searchObj.searchMap.type==0">万元</span>
+              </span>
             </div>
           </el-col>
           <el-col :span="17">
             <!-- 右上角操作区域 -->
             <div class="float-right tabSearchBtn">
-              <ns-button @click="tabSearchType" style="padding: 9px 0 9px 10px;opacity: 0.5;color: #002041;" type="text">{{searchType.tipText}}
+              <ns-button @click="tabSearchType" type="text" style="opacity: 0.5;color: #002041;" class="ml5">{{searchType.tipText}}
                 <Icon :type="searchType.advanced ? 'up' : 'down'"/>
               </ns-button>
             </div>
-            <el-form ref="searchform1" class="float-right" v-if="!searchType.advanced" :inline="true" :model="searchform" style='padding-top:3px'>
+            <el-form ref="searchform1" class="float-right" v-if="!searchType.advanced" :inline="true" :model="searchform">
               <el-form-item label="年份：" prop="year">
                 <el-date-picker
                   :clearable="false"
@@ -301,22 +306,11 @@ export default {
 }
 </script>
 <style scoped>
-.el-input.el-input--small .el-input__inner {
-  text-indent: 25rpx !important;
-}
-.topTip {
-  line-height: 32px;
-  height: 32px;
-}
-.topTip .tipInfo {
-  padding-left: 15px;
-  color: #333;
-}
-.topTip span {
-  font-size: 13px;
-  color: #f00;
-}
-.mt10 {
-  margin-top: 10px;
-}
+  @import "@theme/variables.pcss";
+  .el-input.el-input--small .el-input__inner {
+    text-indent: 25rpx !important;
+  }
+  .mt10 {
+    margin-top: var(--default-margin-larger);
+  }
 </style>

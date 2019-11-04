@@ -12,11 +12,11 @@
           <el-col :span="17">
             <!-- 右上角操作区域 -->
             <div class="float-right tabSearchBtn">
-              <ns-button @click="tabSearchType" style="padding: 9px 0 9px 10px;opacity: 0.5;color: #002041;" type="text">{{searchType.tipText}}
+              <ns-button @click="tabSearchType" type="text" style="opacity: 0.5;color: #002041;" class="ml5">{{searchType.tipText}}
                 <Icon :type="searchType.advanced ? 'up' : 'down'"/>
               </ns-button>
             </div>
-            <el-form ref="searchform" class="float-right" v-if="!searchType.advanced" :inline="true" :model="searchform" style='padding-top:3px'>
+            <el-form ref="searchform" class="float-right" v-if="!searchType.advanced" :inline="true" :model="searchform">
               <el-form-item  prop="type">
                 <el-select
                 style="width:100px"
@@ -610,18 +610,6 @@ export default {
 <style scoped>
 .el-input.el-input--small .el-input__inner {
   text-indent: 25rpx !important;
-}
-.topTip {
-  line-height: 32px;
-  height: 32px;
-}
-.topTip .tipInfo {
-  padding-left: 15px;
-  color: #333;
-}
-.topTip span {
-  font-size: 13px;
-  color: #f00;
 }
 .mt10 {
   margin-top: 10px;
