@@ -5,7 +5,8 @@ export default {
       title: '变更详情',
       detailShow: false,
       changeValue: {},
-      sum: []
+      sum: [],
+      list: []
     }
   },
   methods: {
@@ -52,6 +53,27 @@ export default {
           }
           resp.result.beforeJson = arr1
         }
+
+        // 变更详情弹框的操作前和操作后的数据 start
+        let digital = []
+        let i = 0
+        for (i = 0; i < arr1.length; i++) {
+          digital.push({
+            before: arr1[i]
+          })
+        }
+        for (i = 0; i < arr.length; i++) {
+          if (digital[i]) {
+            digital[i].after = arr[i]
+          } else {
+            digital[i].push({
+              after: arr[i]
+            })
+          }
+        }
+        this.list = digital
+        // 变更详情弹框的操作前和操作后的数据 end
+
         this.changeValue = resp.result
         this.sum = []
         if (arr.length !== 0 && arr1.length !== 0) {
