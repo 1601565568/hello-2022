@@ -151,7 +151,7 @@
 
     <!-- 敏感词详情 -->
     <template>
-      <el-dialog title="新增敏感词" :visible.sync="wordDetailDlgVisible" width="350px" height="240px">
+      <el-dialog title="新增敏感词" :visible.sync="wordDetailDlgVisible" width="350px">
         <el-form :model="wordDetailForm" ref="wordDetailForm" :rules="wordDetailRules">
           <table cellspacing="0" cellpadding="0">
             <tr>
@@ -206,17 +206,17 @@
               <td colspan="2">&nbsp;</td>
             </tr>
           </table>
-          <div class="el-footer" style="text-align: right">
-            <ns-button @click="wordDetailDlgVisible=false">取消</ns-button>
-            <ns-button type="primary" @click="saveWord()" :disabled="saveWordDisabled">确定</ns-button>
-          </div>
         </el-form>
+        <span slot="footer">
+           <ns-button @click="wordDetailDlgVisible=false">取消</ns-button>
+           <ns-button type="primary" @click="saveWord()" :disabled="saveWordDisabled">确定</ns-button>
+        </span>
       </el-dialog>
       <!-- 敏感词详情 结束 -->
 
       <!-- 二级分组详情 -->
       <template>
-        <el-dialog :title="addGroupTitle" :visible.sync="groupDetailDlgVisible" width="300px" height="220px">
+        <el-dialog :title="addGroupTitle" :visible.sync="groupDetailDlgVisible" width="300px">
           <el-form :model="groupDetailForm" ref="groupDetailForm" :rules="groupDetailRules">
             <table cellspacing="1" cellpadding="2">
               <tr>
@@ -238,15 +238,12 @@
                     不支持特殊符号，最多5个字</font>
                 </td>
               </tr>
-              <tr>
-                <td>&nbsp;</td>
-              </tr>
             </table>
-            <div class="el-footer" style="text-align: right">
+          </el-form>
+          <span slot="footer">
               <ns-button @click="groupDetailDlgVisible=false">取消</ns-button>
               <ns-button type="primary" @click="saveGroup()" :disabled="saveGroupDisabled">确定</ns-button>
-            </div>
-          </el-form>
+          </span>
         </el-dialog>
       </template>
       <!-- 二级分组详情 结束 -->

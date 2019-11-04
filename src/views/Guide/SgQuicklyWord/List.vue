@@ -8,7 +8,7 @@
           <Icon type="question-circle"/>
         </el-tooltip>
       </div>
-      <div :class="offsetHeight?'elTrees':'elTree'" ref="elTree" :style="{ 'height' : height + 'px'}">
+      <div :class="offsetHeight?'elTrees':'elTree'" ref="elTree">
         <el-tree :data="wordGroupList" default-expand-all @node-click="onClickNode" @node-drop="handleDrop" draggable :allow-drop="allowDrop"
         :allow-drag="allowDrag"
         node-key="id"
@@ -58,7 +58,13 @@
             <el-table-column prop="content" label="话术内容" width="228" :show-overflow-tooltip="true" align="left"></el-table-column>
             <el-table-column prop="name" label="分类" align="left"></el-table-column>
             <el-table-column prop="createTime" label="添加时间" align="center"></el-table-column>
-            <el-table-column align="left" v-if="showOrder" :render-header="renderHeader">
+            <el-table-column align="left" v-if="showOrder">
+              <template slot="header" slot-scope="scope">
+                排序
+                <el-tooltip content="调整排列顺序小程序同步" placement="bottom">
+                  <Icon type="question-circle"/>
+                </el-tooltip>
+              </template>
               <template slot-scope="scope">
                 <i class='sort' :class="scope.row === _data._table.data[0]?'topHid':''"  @click='exchangeSort(1,scope.row.id)'><Icon type="zhiding"/></i>
                 <i class='sort' :class="scope.row === _data._table.data[0]?'topHid':''"   @click='exchangeSort(2,scope.row.id)'><Icon type="top-arr"/></i>
