@@ -43,7 +43,7 @@
             <el-scrollbar class="scrollbara">
               <div class="dialog-selectitem" v-for='item of privateAccountSelection' :key='item.wid'>
                 <span class="dialog-selectitem__discountgroup">{{item.nick}}</span>
-                <i @click='onRemoveSelectedPrivateAccount(item)'><Icon type="shanchu2"/></i>
+                <i @click='onRemoveSelectedPrivateAccount(item)' class="text-primary font-size-middle delete"><Icon type="delete" /></i>
               </div>
             </el-scrollbar>
           </div>
@@ -111,7 +111,7 @@
               <el-scrollbar class="scrollbarb">
                 <div class="dialog-selectitem" v-for='item in friendSelection' :key='item.wid'>
                   <span class="dialog-selectitem__discountgroup">{{item.nick}}</span>
-                  <i @click='onRemoveSelectedFriend(item)'><Icon type="shanchu2"/></i>
+                  <i @click='onRemoveSelectedFriend(item)' class="text-primary font-size-middle delete"><Icon type="delete" /></i>
                 </div>
               </el-scrollbar>
             </div>

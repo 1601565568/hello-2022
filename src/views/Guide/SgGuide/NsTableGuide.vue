@@ -110,23 +110,24 @@
 <!--            </div>-->
 <!--          </template>-->
 <!--        </el-table-column>-->
-        <el-table-column prop="job" label="职务" align="left" width="60">
+        <el-table-column prop="job" label="职务" align="center" width="60">
           <template slot-scope="scope">{{scope.row.job == 1 ? "店长" : "导购"}}
           </template>
         </el-table-column>
-        <el-table-column prop="" label="导购终端" align="left" width="100" :show-overflow-tooltip="true">
+        <el-table-column prop="" label="导购终端" align="left" :show-overflow-tooltip="true">
           <template slot-scope="scope">
             {{scope.row.deviceNos || '-'}}
           </template>
           <template slot='header' scope='header'>
                     <span>
                       <span>{{header.column.label}}</span>
-                      <el-popover placement='bottom' width='220' trigger='hover'>
-                        <div slot-scope>
-                          需将员工账号与导购终端手机进行绑定，让其能够应用智慧导购系统<br>
-                          <span class='tips'>注：</span>使用终端系统的，非离职的，建议不要进行客户转移</div>
-                        <i slot='reference' class='table-header-icon'><Icon type="info-circle" theme="filled" /></i>
-                      </el-popover>
+                      <el-tooltip placement="bottom">
+                        <div slot="content">
+                          <div>需将员工账号与导购终端手机进行绑定，让其能够应用智慧导购系统</div>
+                          <div><span class='tips'>注：</span>使用终端系统的，非离职的，建议不要进行客户转移</div>
+                        </div>
+                        <Icon type="question-circle" />
+                      </el-tooltip>
                     </span>
           </template>
         </el-table-column>

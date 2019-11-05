@@ -11,7 +11,7 @@
     />
     <Duplicate :visible.sync="duplicateDialog.visible" />
     <div class="template-page__row-left">
-      <el-input ref="quickText" style="width: 190px" v-model="filterGroup" placeholder="搜索群名">
+      <el-input ref="quickText" v-model="filterGroup" placeholder="搜索群名">
         <Icon type="search" className="el-input__icon" style="padding: 5px;" slot="suffix" @click="onFilterGroup"/>
       </el-input>
       <div class="elTree" :style="{ 'height' : groupTreeHeight + 'px'}">
@@ -27,7 +27,7 @@
           :filter-node-method="onFilterGroupNode"
           @node-click="onClickGroupNode"
         >
-          <div class="subdivision-tree-node" slot-scope="{ node, data }">
+          <div slot-scope="{ node, data }">
             <el-popover
               class="item"
               trigger="hover"
@@ -59,7 +59,7 @@
                 <Icon
                   type="search"
                   className="el-input__icon"
-                  slot="suffix"
+                  slot="suffix" style="padding: 5px;"
                   @click="$quickSearchAction$('nick')"
                 />
               </el-input>
@@ -195,14 +195,9 @@
               <template slot="header" scope="header">
                 <span>
                   <span>{{header.column.label}}</span>
-                  <el-popover
-                    placement="bottom"
-                    width="220"
-                    trigger="hover"
-                    content="点击群名称，可查看此群下所有微信"
-                  >
-                    <i slot="reference" class="table-header-icon"><Icon type="info-circle" theme="filled" /></i>
-                  </el-popover>
+                  <el-tooltip content="点击群名称，可查看此群下所有微信" placement="bottom">
+                    <Icon type="question-circle"/>
+                  </el-tooltip>
                 </span>
               </template>
             </el-table-column>
@@ -269,7 +264,7 @@ export default Index
   width: 100%;
 }
 .template-table {
-  margin: 0 10px 0 440px;
+  margin: 0 10px 10px 435px;
 }
 @media screen and (min-width: 1624px) {
   .el-tree-node__content {
@@ -292,7 +287,7 @@ export default Index
     margin: 0;
   }
   .template-table {
-    margin: 0 10px 0 440px;
+    margin: 0 10px 10px 435px;
   }
 }
 

@@ -58,13 +58,13 @@
         </el-table-column> -->
         <el-table-column prop="activityName" label="活动名称" align="left" >
         </el-table-column>
-        <el-table-column prop="activityStatus" label="活动状态" align="left" >
+        <el-table-column prop="activityStatus" label="活动状态" align="center" >
           <template slot-scope="scope">
             {{scope.row.activityStatus === 1?'未开始':scope.row.activityStatus === 2?'进行中':scope.row.activityStatus ===
             3?'已结束':'-'}}
           </template>
         </el-table-column>
-        <el-table-column label="有效时间 " width="300" align="left">
+        <el-table-column label="有效时间 " width="300" align="center">
           <template slot-scope="scope">
             <span>{{scope.row.startTime}} - {{scope.row.endTime}}</span>
           </template>

@@ -11,11 +11,11 @@
           <el-col :span="17">
             <!-- 右上角操作区域 -->
             <div class="float-right tabSearchBtn">
-              <ns-button @click="tabSearchType" style="padding: 9px 0 9px 10px;opacity: 0.5;color: #002041;" type="text">{{searchType.tipText}}
+              <ns-button @click="tabSearchType" style="opacity: 0.5;color: #002041;" class="ml5" type="text">{{searchType.tipText}}
                 <Icon :type="searchType.advanced ? 'up' : 'down'"/>
               </ns-button>
             </div>
-            <el-form ref="searchform" class="float-right" v-if="!searchType.advanced" :inline="true" :model="searchform" style='padding-top:3px'>
+            <el-form ref="searchform" class="float-right" v-if="!searchType.advanced" :inline="true" :model="searchform">
               <el-form-item  prop="type">
                 <el-select
                 style="width:100px"
@@ -125,10 +125,10 @@
         {{scope.row.workId?scope.row.workId:'-'}}
       </template>
       </el-table-column>
-      <el-table-column label="姓名" prop="name" width="200">
+      <el-table-column label="姓名" prop="name">
         <template slot-scope="scope">
           <p v-if="scope.row.status == 2">
-            {{scope.row.name }}<span style="color: red">(已离职)</span>
+            {{scope.row.name }}<span class="text-error">(已离职)</span>
           </p>
 <!--          <p v-else-if="scope.row.gsState == 0 || scope.row.gsShopId == null || (scope.row.shopId && `,${scope.row.shopId},`.indexOf(`,${scope.row.gsShopId},`) < 0)">-->
           <p v-else-if="scope.row.gsShopId != null && scope.row.shopId && `,${scope.row.shopId},`.indexOf(`,${scope.row.gsShopId},`) < 0">
@@ -139,15 +139,15 @@
         <template slot='header' scope='header'>
           <span>
             <span>{{header.column.label}}</span>
-            <el-popover placement='bottom' width='150' trigger='hover' content='不显示已删除门店的导购'>
-              <i slot='reference' class='table-header-icon'><Icon type="question-circle" /></i>
-            </el-popover>
+            <el-tooltip content="不显示已删除门店的导购" placement="bottom">
+              <Icon type="question-circle"/>
+            </el-tooltip>
           </span>
         </template>
       </el-table-column>
-      <el-table-column label="门店名称" prop="shopName" width="220">
+      <el-table-column label="门店名称" prop="shopName">
       </el-table-column>
-      <el-table-column label="导购招募/还差（人）" align="center">
+      <el-table-column label="导购招募/还差（人）" align="right" width="180">
       <template slot-scope="scope">
         <span width="220">{{scope.row.recruitComplete}}</span>/<span class="text-error">
           <span v-if="scope.row.recruitQuota-scope.row.recruitComplete<=0">
@@ -159,7 +159,7 @@
           </span>
       </template>
       </el-table-column>
-      <el-table-column label="奖励（元）" prop="recruitPrice" width="220" align="right">
+      <el-table-column label="奖励（元）" prop="recruitPrice" width="180" align="right">
         <template slot-scope="scope">
           <span v-if="scope.row.recruitPrice == 0">0.00</span>
           <a href="javascript:" @click="showRecruitDialog(scope.row.guideId, scope.row.name,scope.row.gsShopId)" v-else>{{$numeral(scope.row.recruitPrice).format('0,0.00')}}</a>
@@ -177,7 +177,7 @@
           </span>
       </template>
       </el-table-column>
-      <el-table-column label="提成（元）" prop="sellPrice" width="220" align="right">
+      <el-table-column label="提成（元）" prop="sellPrice" width="180" align="right">
         <template slot-scope="scope">
           <span v-if="scope.row.sellPrice == 0">0.00</span>
           <a href="javascript:" @click="showSellDialog(scope.row.guideId, scope.row.name,scope.row.gsShopId)" v-else>{{$numeral(scope.row.sellPrice).format('0,0.00')}}</a>

@@ -27,12 +27,12 @@
                 </li>
                 <li v-if="saveObj.imageList.length< 10 - saveObj.codeType">
                   <el-upload class="avatar-uploader" :action="this.$api.core.sgUploadFile('test')" accept=".jpg,.jpeg,.png,.bmp,.gif" :show-file-list="false" list-type="picture-card" multiple  :on-remove="handleRemove" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
-                    <Icon type="plus" className="avatar-uploader-icon"/>
+                    <Icon type="plus"/>
                   </el-upload>
                 </li>
               </ul>
               <div class="clearfix"></div>
-              <div style="color:#999">上传图片不能大于500KB；图片最多上传9张（加小程序码的最多8张）</div>
+              <div class="text-primary"><Icon type="info-circle"/>上传图片不能大于500KB；图片最多上传9张（加小程序码的最多8张）</div>
             </div>
           </el-form-item>
           <el-form-item label="小程序链接：">
@@ -72,8 +72,8 @@
               <el-radio :label="2">单独增加一张小程序码图
               </el-radio>
             </el-radio-group>
-            <p style='line-height:1.5;margin-top:10px'>
-              <Icon type="info-circle" theme="filled" className="text-tips"/>
+            <p style='line-height:1.5;margin-top:10px' class="text-primary">
+              <Icon type="info-circle"/>
               <span>将在图片中加入带导购参数的小程序码，需门店里有对应信息的才会显示</span>
             </p>
           </el-form-item>
@@ -131,6 +131,7 @@ export default {
         shareUrl: '',
         imageList: [],
         codeTargetName: '',
+        marketType: null,
         codeModule: null
       },
       curMonth: 5,
@@ -191,9 +192,10 @@ export default {
         this.$set(this.saveObj, 'selectBackName', '活动名称：')
         this.$set(this.saveObj, 'codeTarget', obj.activityId)
         this.$set(this.saveObj, 'codeTargetName', obj.activityName)
-      } else if (obj.outItemId) {
+        this.$set(this.saveObj, 'marketType', obj.marketType)
+      } else if (obj.sysItemId) {
         this.$set(this.saveObj, 'selectBackName', '商品名称：')
-        this.$set(this.saveObj, 'codeTarget', obj.outItemId)
+        this.$set(this.saveObj, 'codeTarget', obj.sysItemId)
         this.$set(this.saveObj, 'codeTargetName', obj.title)
       }
     },
@@ -222,6 +224,7 @@ export default {
           subdivisionId: null,
           codeType: 1,
           codeTargetName: null,
+          marketType: null,
           codeModule: null
         }
       }
@@ -347,7 +350,9 @@ export default {
     .el-upload--picture-card {
       width: 80px;
       height: 80px;
-      line-height: 90px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
     .el-upload--picture-card {
       img {

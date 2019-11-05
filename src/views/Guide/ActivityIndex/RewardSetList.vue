@@ -8,12 +8,12 @@
       <el-row class="template-table__bar-base">
          <!-- 左边上角操作区域 -->
           <el-col :span="7">
-            <div class="topTip">
+            <div>
               <ns-button type="primary" @click="AddShowToggle">批量设置</ns-button>
             </div>
           </el-col>
           <el-col :span="17">
-            <el-form ref="searchform" class="float-right"  :inline="true" :model="searchform" style='padding-top:3px'>
+            <el-form ref="searchform" class="float-right"  :inline="true" :model="searchform">
               <el-form-item label="门店名称：" prop="shopName">
                 <el-input v-model="searchform.shopName" placeholder="请输入门店名称" clearable></el-input>
               </el-form-item>
@@ -61,8 +61,8 @@
       </el-table-column>
       <el-table-column
         label="状态"
-        width="150"
-        align="left"
+        width="50"
+        align="center"
         show-overflow-tooltip
         >
         <template slot-scope="scope">
@@ -71,7 +71,6 @@
       </el-table-column>
       <el-table-column
         label="销售提成"
-        width="300"
       >
         <template slot-scope="scope"><div v-if="scope.row.salesStatus">
           <span>线上：成单导购 {{scope.row.onlineSalesRewardOrder}}<span v-if="scope.row.onlineSalesRewardOrder === null">0</span>% + 专属导购 {{scope.row.onlineSalesRewardExclusive}}<span v-if="scope.row.onlineSalesRewardExclusive === null">0</span>%<br></span>
@@ -83,7 +82,6 @@
       </el-table-column>
       <el-table-column
         label="招募新会员奖励"
-        width="280"
       >
       <template slot-scope="scope">
         <div v-if="scope.row.memberStatus">
@@ -97,7 +95,7 @@
       <el-table-column
         label="操作"
         width="60"
-        align="right"
+        align="center"
       >
       <template slot-scope="scope">
         <div v-if="scope.row.shopStatus == 1">
@@ -231,18 +229,6 @@ export default {
 <style scoped>
 .el-input.el-input--small .el-input__inner {
   text-indent: 25px !important;
-}
-.topTip {
-  line-height: 32px;
-  height: 32px;
-}
-.topTip .tipInfo {
-  padding-left: 15px;
-  color: #333;
-}
-.topTip span {
-  font-size: 13px;
-  color: #f00;
 }
 .mt10 {
   margin-top: 10px;

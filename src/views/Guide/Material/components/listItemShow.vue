@@ -169,7 +169,6 @@ export default {
     height: 60px;
     padding: 5px;
     margin: 5px 0;
-    background-color: #e4eaec;
     border-radius: 1px;
     display: block;
     max-width: 500px;

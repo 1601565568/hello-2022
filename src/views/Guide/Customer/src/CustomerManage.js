@@ -93,6 +93,7 @@ export default {
       integralIsShow: [false, false, false, false, false], // 控制会员详情积分是否显示
       integralIsNum: [0, 0, 0, 0, 0], // 控制会员详情积分
       integralName: ['', '', '', '', ''], // 控制会员详情积分
+      integralAliasName: ['', '', '', '', ''], // 积分别名
       mapTag: [],
       textIds: [], // 会员打标签输入框id集合
       selectIds: [], // 会员打标签下拉选id集合
@@ -221,6 +222,7 @@ export default {
       this.integralIsShow = [false, false, false, false, false]
       this.integralIsNum = [0, 0, 0, 0, 0] // 控制会员详情积分
       this.integralName = ['', '', '', '', '']
+      this.integralAliasName = ['', '', '', '', '']
       // 重置tabs 分页组件size大小
       for (let i = 1; i <= this.integralLogIsShow.length; i++) {
         if (this.integralLogIsShow[i - 1]) {
@@ -376,7 +378,8 @@ export default {
               for (let i = 0; i < length; i++) {
                 _this.integralLogIsShow[i] = true
                 // 积分名称
-                this.integralName[i] = _this.items.integralAccountList[i].integralAlias
+                this.integralName[i] = _this.items.integralAccountList[i].integralName
+                this.integralAliasName[i] = _this.items.integralAccountList[i].integralAlias
                 // 积分显示
                 this.integralIsShow[i] = true
                 this.accountCode[this.integralName[i]] = _this.items.integralAccountList[i].integralAccount

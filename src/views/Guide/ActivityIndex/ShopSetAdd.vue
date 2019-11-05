@@ -8,9 +8,9 @@
   :visible.sync="dialogVisible"
   :before-close="handleClose"
   width='1200px'>
-    <div class="topTip">指标年份:<span>{{saveObj.year}}</span>年（您好，重新设置指标后，原来设置的指标都会被清除。）
-      <span v-if="saveObj.type <= 0">最多输入两位小数</span>
-      <span v-if="saveObj.type > 0">请输入正整数</span>
+    <div class="topTip">指标年份:<span class="text-error">{{saveObj.year}}</span>年（您好，重新设置指标后，原来设置的指标都会被清除。）
+      <span v-if="saveObj.type <= 0" class="text-error">最多输入两位小数</span>
+      <span v-if="saveObj.type > 0" class="text-error">请输入正整数</span>
     </div>
     <el-form label-width='0' :model='shopList[0]' novalidate='novalidate'>
     <el-table
@@ -24,10 +24,8 @@
         v-bind:key='n'
         style='width: 110px'>
         <template slot-scope="scope">
-          <el-form-item>
-            <el-input :disabled="curMonth>n" v-model="scope.row['quota' + n]" type="number"
-                      @change="inputFunc(scope.row['quota' + n], n)" placeholder="请输入"></el-input>
-          </el-form-item>
+          <el-input :disabled="curMonth>n" v-model="scope.row['quota' + n]" type="number"
+                    @change="inputFunc(scope.row['quota' + n], n)" placeholder="请输入"></el-input>
         </template>
       </el-table-column>
     </el-table>
@@ -206,8 +204,5 @@ export default {
   height: 32px;
   text-indent: 24px;
   font-size: 13px;
-}
-.topTip span {
-  color: #f00;
 }
 </style>

@@ -67,7 +67,7 @@
         >
         <el-table-column  width="30">
           <template slot-scope="scope">
-              <el-radio :label="scope.row.outItemId" v-model="outItemId" ></el-radio>
+              <el-radio :label="scope.row.sysItemId" v-model="sysItemId" ></el-radio>
           </template>
         </el-table-column>
         <!-- <el-table-column  label="活动类型" align="left" >
@@ -115,11 +115,11 @@ export default {
   data () {
     return {
       outerId: '',
-      outItemId: '',
+      sysItemId: '',
       title: '',
       goodsCode: '',
       market: {
-        outItemId: ''
+        sysItemId: ''
       },
       loading: false,
       searchObj: { searchMap: {
@@ -169,7 +169,7 @@ export default {
         //   }
         // })
         if (res.result.data && res.result.data.length > 0) {
-          that.dataList = this.unique(res.result.data, 'outItemId')
+          that.dataList = res.result.data
           that.pagination.total = Number(res.result.total)
         } else {
           that.dataList = null

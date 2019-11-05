@@ -27,14 +27,11 @@
           <div class="control">
             <ns-table-operate-button :buttons="_data._table.table_buttons"/>
             <span>
-              <el-popover
-                placement="bottom"
-                trigger="hover">
-                  <el-row class="overview-popover">
-                    只对敏感词创建时间后的聊天记录进行监控统计
-                  </el-row>
-                  <Icon slot="reference" type="info-circle" theme="filled" className="ml10 fz13" style='color:#999'/>
-                </el-popover>
+               <el-tooltip content="只对敏感词创建时间后的聊天记录进行监控统计" placement="bottom">
+                 <i class="questioncircle">
+                   <Icon type="question-circle"/>
+                 </i>
+               </el-tooltip>
             </span>
           </div>
         </template>
@@ -69,14 +66,9 @@
               <template slot="header" scope="header">
                 <span>
                   <span>导购发送次数</span>
-                  <el-popover
-                    placement="bottom"
-                    width="220"
-                    trigger="hover"
-                    content="敏感词在导购所发送的消息中出现的次数"
-                  >
-                    <i slot="reference" class="table-header-icon"><Icon type="info-circle" theme="filled" /></i>
-                  </el-popover>
+                  <el-tooltip content="敏感词在导购所发送的消息中出现的次数" placement="bottom">
+                    <Icon type="question-circle"/>
+                  </el-tooltip>
                 </span>
               </template>
             </el-table-column>
@@ -89,13 +81,9 @@
               <template slot="header" scope="header">
                 <span>
                   <span>会员发送次数</span>
-                  <el-popover
-                    placement="bottom"
-                    width="220"
-                    trigger="hover"
-                    content="敏感词在会员所发送的消息中出现的次数">
-                    <i slot="reference" class="table-header-icon"><Icon type="info-circle" theme="filled" /></i>
-                  </el-popover>
+                  <el-tooltip content="敏感词在会员所发送的消息中出现的次数" placement="bottom">
+                    <Icon type="question-circle"/>
+                  </el-tooltip>
                 </span>
               </template>
             </el-table-column>
@@ -163,12 +151,12 @@
 
     <!-- 敏感词详情 -->
     <template>
-      <el-dialog title="新增敏感词" :visible.sync="wordDetailDlgVisible" width="350px" height="240px">
+      <el-dialog title="新增敏感词" :visible.sync="wordDetailDlgVisible" width="350px">
         <el-form :model="wordDetailForm" ref="wordDetailForm" :rules="wordDetailRules">
           <table cellspacing="0" cellpadding="0">
             <tr>
               <td width="70px">
-                <font color='red'>*</font>敏感词:
+                <font class="text-danger">*</font>敏感词:
               </td>
               <td>
                 <el-form-item prop="name">
@@ -178,11 +166,16 @@
             </tr>
             <tr style="height: 10px">
               <td></td>
-              <td><font color="gray" size="1">字数限制五个字</font></td>
+              <td>
+                <font color="gray" size="1" class="text-primary">
+                  <Icon type="info-circle" />
+                  字数限制五个字
+                </font>
+              </td>
             </tr>
             <tr>
               <td>
-                <font color='red'>*</font>选择分组:
+                <font class="text-danger">*</font>选择分组:
               </td>
               <td>
                 <el-form-item prop="wordGroupId">
@@ -213,22 +206,22 @@
               <td colspan="2">&nbsp;</td>
             </tr>
           </table>
-          <div class="el-footer" style="text-align: right">
-            <ns-button @click="wordDetailDlgVisible=false">取消</ns-button>
-            <ns-button type="primary" @click="saveWord()" :disabled="saveWordDisabled">确定</ns-button>
-          </div>
         </el-form>
+        <span slot="footer">
+           <ns-button @click="wordDetailDlgVisible=false">取消</ns-button>
+           <ns-button type="primary" @click="saveWord()" :disabled="saveWordDisabled">确定</ns-button>
+        </span>
       </el-dialog>
       <!-- 敏感词详情 结束 -->
 
       <!-- 二级分组详情 -->
       <template>
-        <el-dialog :title="addGroupTitle" :visible.sync="groupDetailDlgVisible" width="300px" height="220px">
+        <el-dialog :title="addGroupTitle" :visible.sync="groupDetailDlgVisible" width="300px">
           <el-form :model="groupDetailForm" ref="groupDetailForm" :rules="groupDetailRules">
             <table cellspacing="1" cellpadding="2">
               <tr>
                 <td>
-                  <font color='red'>*</font> {{addGroupNameLabel}}:
+                  <font class="text-danger">*</font> {{addGroupNameLabel}}:
                 </td>
               </tr>
               <tr>
@@ -239,17 +232,18 @@
                 </td>
               </tr>
               <tr style="height: 10px">
-                <td><font color="gray" size="1">不支持特殊符号，最多5个字</font></td>
-              </tr>
-              <tr>
-                <td>&nbsp;</td>
+                <td>
+                  <font color="gray" size="1" class="text-primary">
+                    <Icon type="info-circle" />
+                    不支持特殊符号，最多5个字</font>
+                </td>
               </tr>
             </table>
-            <div class="el-footer" style="text-align: right">
+          </el-form>
+          <span slot="footer">
               <ns-button @click="groupDetailDlgVisible=false">取消</ns-button>
               <ns-button type="primary" @click="saveGroup()" :disabled="saveGroupDisabled">确定</ns-button>
-            </div>
-          </el-form>
+          </span>
         </el-dialog>
       </template>
       <!-- 二级分组详情 结束 -->
@@ -295,7 +289,7 @@ export default index
   }
 
   .template-table {
-    margin: 0 10px 0 440px;
+    margin: 0 10px 0 435px;
   }
 
   @media screen and (min-width: 1624px) {
@@ -339,5 +333,9 @@ export default index
   .control {
     display: flex;
     align-items: center;
+  }
+  .questioncircle {
+    position: relative;
+    left: -6px;
   }
 </style>
