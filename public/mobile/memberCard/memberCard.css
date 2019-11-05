@@ -45,6 +45,7 @@ body {
     width: 65px;
     height: 65px;
     float: left;
+    border-radius: 50%;
 }
 .card .card__message .store {
     max-width: 66%;
