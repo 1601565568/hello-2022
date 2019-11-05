@@ -66,7 +66,7 @@ export default {
           if (digital[i]) {
             digital[i].after = arr[i]
           } else {
-            digital[i].push({
+            digital.push({
               after: arr[i]
             })
           }
