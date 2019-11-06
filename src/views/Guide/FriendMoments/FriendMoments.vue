@@ -125,11 +125,14 @@
               <div class="talk-aside__list" ref="asd" v-for="(moment,index) in moments" :key="moment.id">
                 <div class="talk-item clearfix">
                   <div class="talk-item__avatar">
-                    <img :src="moment.head" class="talk-avatarimg" alt="个人号头像">
+                    <el-image
+                      :width="52" :height="52"
+                      :src="moment.head||require('./src/images/avartar.png')"
+                      mode="cover" :circle="true"></el-image>
                   </div>
                   <div class="talk-item__content">
                     <div class="talk-name">
-                      <span class="talk-name__call colorblue">{{moment.nick}}</span>
+                      <span class="talk-name__call text-primary">{{moment.nick}}</span>
                       <span class="talk-name__private">个人号：{{moment.personalNum}}（ {{moment.ownerId}} ）</span>
                     </div>
                     <div class="talk-sentence">
@@ -143,9 +146,8 @@
                     <div class="talk-matching">
                       <div class="talk-matching__figurelist" v-if="moment.images">
                         <div class="talk-li" v-for="(image,index) in moment.images" :key="index">
-                          <div :style="{backgroundImage: 'url(' + image + ')'} " class="talk-li__figure">
-                            <div class="talk-li__figure--img"></div>
-                          </div>
+                          <el-image :width="122" :height="122" :src="image" :preview-src-list="srcList" mode="cover">
+                          </el-image>
                         </div>
                       </div>
                     </div>
@@ -164,29 +166,29 @@
                     <div class="talk-detail" v-if="moment.likesNum>0 || moment.commentsNum>0">
                       <div class="talk-detail__substance">
                         <div class="talk-chatmsg" v-if="moment.likeName">
-                          <i class="colorblue"><Icon type="heart" className="talk-heart"/></i>
-                          <span class="colorblue">{{moment.likeName}}</span>
+                          <i class="text-primary talk-chatmsg__heart"><Icon type="heart" className="talk-heart"/></i>
+                          <span class="text-primary">{{moment.likeName}}</span>
                         </div>
                         <div class="talk-msg" v-if="moment.comments">
                           <div class="talk-msg__item clearfix">
                             <div class="talk-msglength" v-for="comment in moment.comments" :key="comment.id">
                               <div v-if="comment.previousOwnerNick ===''">
                                 <span
-                                  class="colorblue">{{comment.commentator?comment.commentator:comment.ownerNick}}：</span>
+                                  class="text-primary">{{comment.commentator?comment.commentator:comment.ownerNick}}：</span>
                                 <span>{{comment.content}}</span>
-                                <span class="talk-msglength__reply colorblue" v-if="comment.ownerId !== moment.ownerId"
+                                <span class="talk-msglength__reply text-primary" v-if="comment.ownerId !== moment.ownerId"
                                       @click="replyComment(moment,comment)">回复</span>
                               </div>
                               <div v-else-if="comment.previousOwnerNick !== ''">
                                 <span
-                                  class="colorblue">{{comment.commentator?comment.commentator:comment.ownerNick}}</span>
+                                  class="text-primary">{{comment.commentator?comment.commentator:comment.ownerNick}}</span>
                                 <span>回复</span>
-                                <span class="colorblue">{{comment.friendNick?comment.friendNick:comment.owner}}：</span>
+                                <span class="text-primary">{{comment.friendNick?comment.friendNick:comment.owner}}：</span>
                                 <span>{{comment.content}}</span>
-                                <span class="colorblue talk-msglength__reply" v-if="comment.ownerId !== moment.ownerId"
+                                <span class="text-primary talk-msglength__reply" v-if="comment.ownerId !== moment.ownerId"
                                       @click="replyComment(moment,comment)">回复</span>
                                 <!-- 暂无删除评论接口，以下一行代码先注释 -->
-                                <!--                               <span class="colorblue talk-msglength__reply" v-if="comment.nick==comment.ownerNick">删除</span>-->
+                                <!--                               <span class="text-primary talk-msglength__reply" v-if="comment.nick==comment.ownerNick">删除</span>-->
                               </div>
                             </div>
                           </div>
@@ -233,16 +235,16 @@
               <div class="talk-convey__name">个人号：{{msg.ownerNick}}（ {{msg.ownerId}} ）</div>
               <div class="talk-convey__content clearfix">
                 <div class="talk-headportrait">
-                  <img
-                    :src="msg.head?msg.head:msg.friendHead"
-                    alt="头像" class="talk-headportrait__img">
+                  <el-image class="talk-headportrait__img" :src="msg.head?msg.head:msg.friendHead"
+                            mode="cover" :height="52" :width="52">
+                  </el-image>
                 </div>
                 <!--                <div class="talk-redpoint"></div>-->
                 <div class="talk-personmsg">
-                  <div class="talk-personmsg__uname colorblue">{{msg.commentator?msg.commentator:msg.ownerNick}}</div>
+                  <div class="talk-personmsg__uname text-primary">{{msg.commentator?msg.commentator:msg.ownerNick}}</div>
                   <div class="talk-personmsg__about" v-if="msg.type==2">{{msg.content}}</div>
                   <div class="talk-personmsg__about talk-personmsg__ablue--like" v-else-if="msg.type==1">
-                    <i class="colorblue"><Icon type="heart" className="talk-heart"/></i>
+                    <i class="text-primary"><Icon type="heart" className="talk-heart"/></i>
                   </div>
                   <div class="talk-personmsg__time">{{msg.addTime}}</div>
                 </div>
@@ -251,9 +253,9 @@
                 </div>
                 <div class="talk-photo" v-if="msg.images ">
                   <div class="talk-photo__li">
-                    <div :style="{backgroundImage: 'url(' + msg.images[0] + ')'} " class="talk-photo__li--figure">
-                      <div class="talk-figureimg"></div>
-                    </div>
+                    <el-image class="talk-figure" :src="msg.images[0]"
+                              mode="cover" :height="102" :width="102">
+                    </el-image>
                   </div>
                 </div>
               </div>
@@ -282,8 +284,8 @@
           <div class="dialog-content__reply" v-if="otherComment">{{otherComment.ownerNick}}：</div>
           <div class="dialog-content__reply" v-else-if="otherMoment ">{{otherMoment.nick}}：</div>
         </el-form-item>
-        <el-form-item class="dialog-content__subtance dialog-content__subtance--margintop">
-          <div class="dialog-detail dialog-detail--paddingbtm">
+        <el-form-item class="dialog-content__subtance">
+          <div class="dialog-detail">
             <el-input type="textarea" :rows="8" placeholder="请输入评论内容" maxlength="800" v-model="content">
             </el-input>
             <el-popover
@@ -315,44 +317,35 @@ export default FriendMoments
   @import "@theme/variables.pcss";
 
   :root {
-    --talk-font-color-blue: #0094FC;
     --talk-border-color-gray: #F2F2F2;
-    --talk-borderbottom-color-gray: #E3E3E3;
     --talk--background-color-red: #FF1A1A;
   }
 
   @component-namespace talk {
-    @b chat {
-      @e container {
-      }
-    }
     @b form {
       width: 70%;
-      padding: 15px 20px 5px;
+      padding: var(--default-padding-xlarger) 20px var(--default-padding-small);
       background: var(--theme-color-white);
-      border-bottom: 1px solid var(--talk-border-color-gray);
+      border-bottom: 1px solid var(--theme-base-border-color-primary);
     }
     @b personal {
-      display: flex  ;
-      align-items: center  ;
-      position: relative  ;
-      padding:  10px  20px  ;
-      background:
-    var(--theme-color-white  );
-      border-bottom:  1px solid  var(--talk-border-color-gray  );
+      display: flex;
+      align-items: center;
+      position: relative;
+      padding: var(--default-padding-base) var(--default-padding-larger);
+      background: var(--theme-color-white);
+      border-bottom: 1px solid var(--theme-base-border-color-primary);
       @e notice {
-        width: 38px;
-        height: 38px;
+        width: 30px;
+        height: 30px;
         display: flex;
         align-items: center;
         justify-content: center;
-        background: var(--talk-font-color-blue);
+        background: var(--theme-color-primary);
         border-radius: 50%;
       }
       @e msg {
-        font-size: var(--default-font-size-middle);
-        color: var(--theme-font-color-primary);
-        margin-left: 15px;
+        margin-left: var(--default-margin-xlarger);
       }
       @e checkbox {
         position: absolute;
@@ -361,21 +354,20 @@ export default FriendMoments
     }
     @b aside {
       width:  70%;
-      background:  var(--theme-color-white  );
+      background:  var(--theme-color-white);
       @e list {
         width: 100%;
         background: var(--theme-color-white);
-        padding-left: 20px;
+        padding-left: var(--default-padding-larger);
       }
     }
     @b item {
-      position: relative  ;
-      padding:  15px  25px  15px  0;
-      border-bottom:  1px solid  var(--talk-border-color-gray  );
-    &:last-child {
-       border: none;
-     }
-
+      position: relative;
+      padding: var(--default-padding-larger) var(--default-padding-xlarger) var(--default-padding-larger) 0;
+      border-bottom: 1px solid var(--theme-base-border-color-primary);
+      &:last-child {
+        border: none;
+      }
       @e avatar {
         width: 52px;
         height: 52px;
@@ -389,39 +381,28 @@ export default FriendMoments
         padding-left: 72px;
       }
     }
-    @b avatarimg {
-      width: 100%;
-      height: 100%;
-      border-radius: 50%;
-    }
     @b name {
-      line-height:  0;
-      height:  26px  ;
-      padding:  20px  0;
-      @e call {
-        font-size: var(--default-font-size-base);
-      }
+      margin-top: var(--default-margin-small);
       @e private {
-        font-size: var(--default-font-size-small);
         color: var(--theme-font-color-secondary);
         float: right;
       }
     }
     @b sentence {
       font-size: var(--default-font-size-small);
-      color: var(--theme-font-color-primary);
       font-weight: bold;
       width: 95%;
+      margin-top: var(--default-margin-small);
       text-overflow: ellipsis;
       white-space: nowrap;
       overflow: hidden;
     }
     @b matching {
-      width:  475px  ;
-      margin-top:  20px  ;
+      width: 390px;
+      margin-top: var(--default-margin-larger);
       @e figurelist {
-        margin:  0;
-        padding:  0;
+        margin: 0;
+        padding: 0;
       &:after {
          content: "";
          display: block;
@@ -436,57 +417,38 @@ export default FriendMoments
       float: left  ;
       width:  122px  ;
       margin:  0 2% 2% 0;
-      @e figure {
-        position: relative  ;
-        width:  100%;
-        height:  0;
-        overflow: hidden  ;
-        margin:  0;
-        padding-bottom:  100%; /* 关键就在这里 */
-        background-position: center  ;
-        background-repeat: no-repeat  ;
-        background-size: cover  ;
-        cursor: pointer  ;
-        @m img {
-          display: block;
-          position: absolute;
-          width: 100%;
-          top: 0;
-          bottom: 0;
-        }
-      }
     }
     @b time {
-      font-size: var(--default-font-size-base);
       color: var(--theme-font-color-secondary);
-      margin-top: 5px;
+      margin-top: var(--default-margin-base);
     }
     @b interactive {
-      text-align: right
-
-    ;
+      text-align: right;
       @e like {
         font-size: var(--default-font-size-middle);
-        color: var(--theme-font-color-primary);
         cursor: pointer;
       }
       @e comment {
         font-size: var(--default-font-size-middle);
-        color: var(--theme-font-color-primary);
-        margin-left: 15px;
+        margin-left: var(--default-margin-xlarger);
         cursor: pointer;
       }
     }
     @b detail {
-      margin-top:  10px  ;
-      background:  var(--talk-border-color-gray  );
+      margin-top: var(--default-margin-small);
+      background: var(--talk-border-color-gray);
       @e substance {
         position: relative;
+        padding: var(--default-padding-larger);
       }
     }
     @b chatmsg {
-      padding: 16px;
-      border-bottom: 1px solid var(--talk-borderbottom-color-gray);
+      border-top-left-radius: var(--default-radius-mini);
+      border-top-right-radius: var(--default-radius-mini);
+      @e heart {
+        position: relative;
+        top: 1px;
+      }
     }
     @b answer {
       @e reply {
@@ -504,72 +466,64 @@ export default FriendMoments
       left: 18px;
     }
     @b msg {
-      padding:  16px  ;
-      position: relative  ;
+      position: relative;
+      border-bottom-right-radius: var(--default-radius-mini);
+      border-bottom-left-radius: var(--default-radius-mini);
       @e item {
-        padding-bottom:  8px  ;
-      &:last-child {
-         padding-bottom: 0;
-       }
+        margin-top: var(--default-margin-base);
       }
     }
     @b msglength {
-      width:  90%;
-      text-overflow : ellipsis  ;
-      white-space : nowrap  ;
-      overflow : hidden  ;
       @e reply {
         position: absolute;
         right: 15px;
         display: inline-block;
       }
+      @e wordlimit {
+        width: 90%;
+        text-overflow : ellipsis;
+        white-space : nowrap;
+        overflow : hidden;
+      }
     }
     @b bottom {
-      padding: 5px 15px;
       border-top: 1px solid var(--talk-border-color-gray);
     }
     @b main {
-      width:  30%;
-      margin-left:  10px  ;
+      width: 30%;
+      margin-left: var(--default-margin-larger);
       @e list {
         background: var(--theme-color-white);
-        padding-left: 20px;
+        padding-left: var(--default-padding-larger);
       }
       @e bottom {
-        padding: 5px 15px;
         border-top: 1px solid var(--talk-border-color-gray);
         background: var(--theme-color-white);
       }
     }
     @b convey {
-      padding:  30px  15px  15px  0;
-      border-bottom:  1px solid  var(--talk-border-color-gray  );
-    &:last-child {
-       border-bottom: none;
-     }
-
+      padding: var(--default-padding-larger) var(--default-padding-larger) var(--default-padding-larger) 0;
+      border-bottom: 1px solid var(--talk-border-color-gray);
+      &:last-child {
+        border-bottom: none;
+      }
       @e name {
-        font-size: var(--default-font-size-base);
         color: var(--theme-font-color-secondary);
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        overflow: hidden;
+        text-overflow : ellipsis;
+        white-space : nowrap;
+        overflow : hidden;
       }
       @e content {
         min-height: 102px;
         position: relative;
-        margin-top: 20px;
+        margin-top: var(--default-margin-larger);
       }
     }
     @b headportrait {
-      width:  52px  ;
-      height:  52px  ;
-      position: absolute  ;
-      left:  0;
-      top:  0;
+      position: absolute;
+      left: 0;
+      top: 0;
       @e img {
-        width: 100%;
-        height: 100%;
         border-radius: 50%;
       }
     }
@@ -583,70 +537,67 @@ export default FriendMoments
       border-radius: 50%;
     }
     @b personmsg {
-      width:  72%;
-      float: left  ;
-      padding:  5px  20px  0 77px  ;
+      width: 72%;
+      float: left;
+      padding: var(--default-padding-base) 20px 0 77px;
       @e uname {
-        font-size: var(--default-font-size-base);
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        overflow: hidden;
+        text-overflow : ellipsis;
+        white-space : nowrap;
+        overflow : hidden;
       }
       @e about {
-        font-size:  var(--default-font-size-small);
-        color:  var(--theme-font-color-primary);
-        margin-top:  10px  ;
-        text-overflow : ellipsis  ;
-        white-space : nowrap  ;
-        overflow : hidden  ;
+        margin-top: var(--default-margin-base);
+        text-overflow : ellipsis;
+        white-space : nowrap;
+        overflow : hidden;
         @m like {
           cursor: pointer;
         }
       }
       @e time {
-        font-size: var(--default-font-size-base);
         color: var(--theme-font-color-secondary);
-        margin-top: 15px;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        overflow: hidden;
+        margin-top: var(--default-margin-base);
+        text-overflow : ellipsis;
+        white-space : nowrap;
+        overflow : hidden;
       }
     }
+    @b figure {
+      width: 102px;
+      height: 102px;
+    }
     @b photo {
-      position: absolute  ;
-      right:  10px  ;
-      bottom:  0;
-      margin:  0;
-      padding:  0;
-    &:after {
-       content: "";
-       display: block;
-       clear: both;
-       height: 0;
-       overflow: hidden;
-       visibility: hidden;
-     }
-
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      margin: 0;
+      padding: 0;
+      &:after {
+        content: "";
+        display: block;
+        clear: both;
+        height: 0;
+        overflow: hidden;
+        visibility: hidden;
+      }
       @e img {
         width: 100%;
         height: 100%;
       }
       @e li {
-        float: left  ;
-        width:  102px  ;
-        margin:
-      0 2% 2% 0;
+        float: left;
+        width: 102px;
         @m figure {
-          position: relative  ;
-          width:  100%;
-          height:  0;
-          overflow: hidden  ;
-          margin:  0;
-          padding-bottom:  100%; /* 关键就在这里 */
-          background-position: center  ;
-          background-repeat: no-repeat  ;
-          background-size: cover  ;
-          cursor: pointer  ;
+          position: relative;
+          width: 100%;
+          height: 0;
+          overflow: hidden;
+          margin: 0;
+          padding-bottom: 100%; /* 关键就在这里 */
+          background-position: center;
+          background-repeat: no-repeat;
+          background-size: cover;
+          cursor: pointer;
           @m img {
             display: block;
             position: absolute;
@@ -689,34 +640,23 @@ export default FriendMoments
   .scrollbar >>> .el-scrollbar__view {
     max-height: 200px;
   }
-
-  .colorblue {
-    color: var(--talk-font-color-blue);
-  }
-
   .icon-xiaoxi {
     font-size: var(--dafault-font-size-xlarge);
     color: var(--theme-color-white);
   }
-
   .el-main {
     padding: 0 !important;
   }
-
   >>> .template-table__bar {
     box-shadow: none;
-    padding: 15px 20px;
     border-bottom: 1px solid var(--talk-border-color-gray);
   }
-
   >>> .el-pagination {
     box-shadow: none;
   }
-
   .widthlength {
     width: 92px;
   }
-
   .el-scrollbar {
     background: var(--theme-color-white);
   }
@@ -727,52 +667,40 @@ export default FriendMoments
       margin-right: 20px;
       @e reply {
         color: var(--theme-font-color-secondary);
+        line-height: 1;
         @m text {
-          margin-left: 5px;
+          margin-left: var(--default-margin-small);
         }
       }
       @e subtance {
-        margin: 20px 0;
-        @m margintop {
-          margin: 0 0 10px;
-        }
+        margin: var(--default-margin-small) 0;
       }
     }
     @b detail {
-      padding: 10px;
       border: 1px solid #DDD;
-      @m paddingbtm {
-        padding: 10px 10px 0;
-      }
     }
-  }
-  >>> .el-dialog__header {
-    padding: 10px 20px !important;
-  }
-  >>> .el-dialog__body {
-    padding: 0 20px;
   }
   .avatar-uploader {
     padding: 0 6px;
     margin-top: 20px;
   }
   .avatar-uploader >>> .el-upload {
-    border: 1px dashed #D9D9D9;
+    width: 100px;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px dashed var(--theme-base-border-color-primary);
     border-radius: 6px;
     cursor: pointer;
-    position: relative;
     overflow: hidden;
-  &:hover {
-     border-color: #409EFF;
-   }
-  .avatar-uploader-icon {
-    font-size: 28px;
-    color: #8C939D;
-    width: 62px;
-    height: 62px;
-    line-height: 62px;
-    text-align: center;
-  }
+    &:hover {
+      border-color: var(--theme-base-link-color-hover);
+    }
+    .avatar-uploader-icon {
+      font-size: 28px;
+      color: var(--theme-font-color-secondary);
+    }
   }
   .avatar {
     width: 178px;
@@ -785,18 +713,12 @@ export default FriendMoments
   .dialog-detail >>>.el-textarea.el-input--small .el-textarea__inner {
     resize: none;
   }
-  >>> .el-dialog__title {
-    font-size: var(--default-font-size-base);
-  }
   .icon-biaoqing {
     font-size: 22px;
+    position: relative;
+    top: 2px;
+    left: 5px;
     cursor: pointer;
-  }
-  .dialog-content >>> .el-dialog__header {
-    padding: 10px 20px 2px !important;
-  }
-  .dialog-content >>> .el-dialog__footer {
-    padding: 10px 20px !important;
   }
   >>> #EmojiPicker {
     width: 420px;
@@ -805,5 +727,8 @@ export default FriendMoments
   /* 发朋友圈弹窗样式结束*/
   .choicedate >>> .el-date-editor .el-range-separator {
     width: 17%;
+  }
+  .template-table__bar {
+    margin-bottom: 0;
   }
 </style>

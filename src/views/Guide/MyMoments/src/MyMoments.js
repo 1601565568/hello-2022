@@ -2,6 +2,7 @@ import ElUpload from '@nascent/nui/lib/upload'
 import ElContainer from '@nascent/nui/lib/container'
 import ElMain from '@nascent/nui/lib/main'
 import ElAside from '@nascent/nui/lib/aside'
+import ElImage from '@nascent/nui/lib/image'
 import { getErrorMsg } from '@/utils/toast'
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import moment from 'moment'
@@ -13,7 +14,8 @@ export default {
     ElContainer,
     ElMain,
     ElAside,
-    VEmojiPicker
+    VEmojiPicker,
+    ElImage
   },
   mixins: [tableMixin],
   props: {
@@ -128,6 +130,7 @@ export default {
       })
     })
     return {
+      srcList: [],  //点击图片列表的任何一张图片，然后显示该图片的大图地址
       dialogVisible: false,
       dialogVisibleShow: false,
       dialogVisibleReply: false,
@@ -523,8 +526,8 @@ export default {
        *  左侧工具栏高度&因滚动条样式margin-bottom负值17px，需要添加上17px,
        *  15px为底部10px间距和表单5px内边距
        **/
-      const PAGE_TOP_SEARCH = 60 // 简单搜索的高度
-      const BTN_BOTTOM = 49 // 底部页码占据的高度
+      const PAGE_TOP_SEARCH = 40 // 简单搜索的高度
+      const BTN_BOTTOM = 38 // 底部页码占据的高度
       let limitHeight = window.innerHeight -
         document.getElementsByClassName('nav')[0].offsetHeight -
         document.getElementsByClassName('template-table__bar-more')[0].offsetHeight - // 高级搜索
