@@ -359,15 +359,15 @@ export default FriendMoments
         width: 100%;
         background: var(--theme-color-white);
         padding-left: var(--default-padding-larger);
+        &:last-child {
+          border-bottom: none;
+        }
       }
     }
     @b item {
       position: relative;
       padding: var(--default-padding-larger) var(--default-padding-xlarger) var(--default-padding-larger) 0;
       border-bottom: 1px solid var(--theme-base-border-color-primary);
-      &:last-child {
-        border: none;
-      }
       @e avatar {
         width: 52px;
         height: 52px;
@@ -430,7 +430,7 @@ export default FriendMoments
       }
       @e comment {
         font-size: var(--default-font-size-middle);
-        margin-left: var(--default-margin-xlarger);
+        margin-left: var(--default-margin-larger);
         cursor: pointer;
       }
     }
@@ -440,6 +440,7 @@ export default FriendMoments
       @e substance {
         position: relative;
         padding: var(--default-padding-larger);
+        border-radius: var(--default-radius-mini);
       }
     }
     @b chatmsg {
@@ -612,7 +613,7 @@ export default FriendMoments
       width: 102px;
       min-height: 102px;
       position: absolute;
-      right: 10px;
+      right: 0;
       bottom: 0;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -621,7 +622,7 @@ export default FriendMoments
       -webkit-line-clamp: 5;
     }
     @b commentary {
-      font-size: var(--dafault-font-size-xlarge);
+      font-size: var(--default-font-size-large);
       position: relative;
       top: 1px;
     }

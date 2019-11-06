@@ -177,7 +177,6 @@ export default {
 }
 .form-save__unique {
   padding: var(--default-padding-small) 0 var(--default-padding-small) 70px;
-  border-top: 1px solid var(--theme-base-border-color-primary);
   background-color: var(--theme-color-white);
   border-bottom-left-radius: var(--default-radius-mini);
   border-bottom-right-radius: var(--default-radius-mini);
