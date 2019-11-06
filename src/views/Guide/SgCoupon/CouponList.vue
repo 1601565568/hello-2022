@@ -103,12 +103,15 @@
 
         <!--嵌套门店列表-->
         <el-table :data="shopList">
-          <el-table-column prop="shopName" label="门店名称" align="left" width="300"></el-table-column>
-          <el-table-column prop="address" label="所属地区" align="center" width="300">
+          <el-table-column prop="shopName" label="门店名称" align="left"></el-table-column>
+          <el-table-column label="所属地区" align="left" >
+            <template slot-scope="scope">
+              <span>{{scope.row.province}}/{{scope.row.city}}/{{scope.row.district}}</span>
+            </template>
           </el-table-column>
           <el-table-column prop="shopCouponNumber" label="配额" align="center" width="100">
-            <template slot-scope="scope">
-              <el-input type="number" @change="inputChange(scope.row)" v-model="scope.row.shopCouponNumber" width="60"></el-input>
+            <template slot-scope="scope" >
+              <el-input type="number" @change="inputChange(scope.row)" v-model="scope.row.shopCouponNumber" width="100"></el-input>
             </template>
           </el-table-column>
         </el-table>

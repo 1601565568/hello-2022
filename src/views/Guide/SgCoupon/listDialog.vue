@@ -47,7 +47,7 @@
             align="left"
           >
             <template slot-scope="scope">
-              <span>{{scope.row.province}}{{scope.row.city}}{{scope.row.address}}</span>
+              <span>{{scope.row.province}}/{{scope.row.city}}/{{scope.row.district}}</span>
             </template>
           </el-table-column>
           <el-table-column
