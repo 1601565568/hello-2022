@@ -165,7 +165,7 @@
       @before-close="closeDialog()">
       <el-form :model="addOrEditModel" ref="addOrEditForm" label-width="80px" :rules="addOrEditRules" placement="right" class='addOrEditForm'>
         <el-form-item label="分类名称：" prop="name" required >
-          <el-input type="text" placeholder="请输入分类名称" v-model="addOrEditModel.name" ></el-input>
+          <el-input type="text" placeholder="请输入分类名称" v-model="addOrEditModel.name" autofocus="autofocus"></el-input>
         </el-form-item>
         <el-input style='display:none'></el-input>
       </el-form>

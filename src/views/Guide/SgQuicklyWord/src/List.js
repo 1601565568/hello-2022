@@ -163,7 +163,7 @@ export default {
       })
     },
     saveOrUpdateQuicklyWordGroup () {
-      if (!(this.addOrEditModel.name.length > 10)) {
+      if (this.addOrEditModel.name && (this.addOrEditModel.name.length <= 10)) {
         this.$http.fetch(this.$api.guide.saveOrUpdateQuicklyWordGroup, this.addOrEditModel).then(resp => {
           if (resp.success) {
             this.addOrEditModel.id ? this.$notify.success('编辑成功') : this.$notify.success('新增成功')
