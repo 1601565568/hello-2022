@@ -222,16 +222,6 @@ export default {
       this.dialogFormVisible = false
       this.dialogVisiblePatchChange = false
       this.dialogVisibleSaveQuicklyWordGroup = false
-      this.model = {
-        id: null,
-        wordGroupId: null,
-        content: '',
-        keyWord: null,
-        name: null,
-        addName: null,
-        searchValue: null,
-        param: {}
-      }
     },
     onSaveOpen (row) { // 新增或编辑
       let arr = Object.keys(row)
