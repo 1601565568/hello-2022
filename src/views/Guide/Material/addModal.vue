@@ -127,6 +127,7 @@ export default {
       saveObj: {
         mType: 1,
         title: '',
+        shopId: '',
         codeType: 1,
         content: '',
         url: '',
