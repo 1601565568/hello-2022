@@ -114,9 +114,9 @@ export default {
   },
   data () {
     return {
-      outerId: '',
+      // outerId: '',
       sysItemId: '',
-      title: '',
+      // title: '',
       goodsCode: '',
       market: {
         sysItemId: ''
