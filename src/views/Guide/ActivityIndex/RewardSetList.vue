@@ -38,7 +38,7 @@
   </div>
    <!-- 筛选end -->
   <!-- table start -->
-  <div class="mt10">
+  <div class="mt5">
     <el-table
       ref="multipleTable"
       :data="dataList"
