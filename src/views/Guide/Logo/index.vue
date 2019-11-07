@@ -26,13 +26,14 @@
                <Icon type="exclamation-circle" theme="outlined"/>
                该logo将在用户端透出，建议图片尺寸为1:1。
             </span>
-            <el-popover placement="bottom" trigger="click" @show="disposePopover" @hide="disposePopover">
-            <img src="./src/images/exampleImg.png" alt="示例图片"/>
-            <span class="company-example__check" slot="reference">
-              查看示例
-              <Icon :type="isPopover ? 'up' : 'down'" className="company-arrow"/>
-            </span>
-          </el-popover>
+            <el-popover
+              placement="bottom" trigger="click">
+              <img src="./src/images/exampleImg.png" alt="示例图片"/>
+              <el-button slot="reference" class="company-example__check">
+                查看示例
+                <Icon :type="isPopover ? 'up' : 'down'" className="company-arrow"/>
+              </el-button>
+            </el-popover>
           </div>
         </el-form-item>
       </el-form>
@@ -46,11 +47,13 @@
 <script>
 import ElUpload from '@nascent/nui/lib/upload'
 import ElCard from '@nascent/nui/lib/card'
+import ElButton from '@nascent/nui/lib/button'
 
 export default {
   components: {
     ElUpload,
-    ElCard
+    ElCard,
+    ElButton
   },
   data () {
     return {
@@ -183,5 +186,12 @@ export default {
 }
 >>> .el-card {
   border-bottom: none;
+}
+.company-example >>> .el-button {
+  padding: 0;
+  border: none;
+}
+.company-example >>> .el-button:hover {
+  background: unset;
 }
 </style>
