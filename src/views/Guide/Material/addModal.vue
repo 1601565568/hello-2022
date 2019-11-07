@@ -271,7 +271,7 @@ export default {
         this.$notify.warning('加小程序码的素材最多8张图片')
         return
       }
-      if (this.saveObj.codeModule === '' || this.saveObj.codeModule === null) {
+      if (this.saveObj.codeModule === '' || this.saveObj.codeModule === null || this.saveObj.codeTarget === '') {
         this.saveObj.codeType = 0
       }
       this.loading = true
