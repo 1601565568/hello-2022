@@ -9,7 +9,7 @@
         <span class="custom-tree-node" slot-scope="{ node, data }"
               @mouseover="setCurrentNodeId(data.id)"
               @mouseleave="setCurrentNodeId(0)">
-          <span style="width:100px">
+          <span style="width:140px">
             {{ node.label }}
           </span>
           <span v-if="data.ext1!=null" v-show="isShowTreeNodePlus(data.id)">

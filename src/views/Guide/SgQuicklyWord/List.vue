@@ -17,7 +17,7 @@
         class='navTree'>
         <div class="navTree-item flex flex-between" slot-scope="{ node, data }" >
           <span class="dataName">{{ data.name }}</span>
-          <span v-if='data.id'>
+          <span v-if='data.id' class="controlstatus">
             <Icon type="delete" @click="deleteTheGroup(data)" className="deleteicon" />
             <Icon type="bianji-1" @click="onSaveQuicklyWordGroupOpen(data)"/>
           </span>
@@ -188,6 +188,7 @@ List.components = {
 export default List
 </script>
 <style scoped>
+  @import "@theme/variables.pcss";
 .elTree{
   overflow-y: auto;
   overflow-x: hidden
@@ -207,6 +208,7 @@ export default List
   white-space:nowrap
 }
 .elTree .navTree-item .dataName{
+  color: var(--theme-font-color-regular);
   display: inline-block;
   width: 136px;
   overflow:hidden;
@@ -314,20 +316,32 @@ export default List
 </style>
 <style lang='scss' scoped>
  @import "@theme/variables.pcss";
-#SgQuicklyWordPage .el-tree-node{
-  &.is-current{
-    background-color: var(--default-menu-active-border);
-  }
-  &:hover {
+  #SgQuicklyWordPage .el-tree-node{
+    &.is-current{
       background-color: var(--default-menu-active-border);
     }
-}
-#SgQuicklyWordPage .el-tree-node__expand-icon{
-  display: none;
-}
+    &:hover {
+        background-color: var(--default-menu-active-border);
+      }
+  }
+  #SgQuicklyWordPage .el-tree-node__expand-icon{
+    display: none;
+  }
   .deleteicon {
     font-size: var(--default-font-size-middle);
     position: relative;
     top: 1px;
+  }
+  .controlstatus {
+    display: none;
+  }
+  .navTree-item:hover {
+    .dataName {
+      color: var(--theme-color-primary);
+    }
+    .controlstatus {
+      color: var(--theme-color-primary);
+      display: block;
+    }
   }
 </style>

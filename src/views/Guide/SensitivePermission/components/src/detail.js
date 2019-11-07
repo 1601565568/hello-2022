@@ -1,9 +1,17 @@
 import $ from 'jquery'
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
+import ElTabs from '@nascent/nui/lib/tabs'
+import ElTabsPane from '@nascent/nui/lib/tab-pane'
+import ElImage from '@nascent/nui/lib/image'
 import moment from 'moment'
 
 export default {
   mixins: [tableMixin],
+  components: {
+    ElTabs,
+    ElTabsPane,
+    ElImage
+  },
   props: {
     visible: Boolean,
     detailItem: Object,
@@ -11,6 +19,7 @@ export default {
   },
   data () {
     return {
+      activeName: 'name0',
       url: this.$api.guide.sensitivePermission.detailTable,
       sVisible: false,
       showTableIndex: 0,
@@ -392,6 +401,9 @@ export default {
     this.sVisible = this.visible
   },
   methods: {
+    handleClick (tab) {
+      this.onSwitchTable(tab.index)
+    },
     onClose () {
       this.$emit('update:visible', false)
       this._data._pagination.page = 1

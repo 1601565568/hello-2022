@@ -3,40 +3,35 @@
     <el-dialog
       title="查看详情"
       :visible.sync="sVisible"
-      width="1000px"
+      width="1000px" response-limit :show-scroll-x=false
       @closed="onClose">
-      <div :style='{height}'>
       <div>
-        <el-row>
-          <el-col :span='4'>
-            <img style='height:160px;width: 160px' :src='detailItem.head' />
-          </el-col>
-          <el-col :offset='1' :span='19'>
-            <el-row style='height: 40px' align='middle' type='flex'>
-              <span>个人号ID： {{detailItem.wid}}</span>
-            </el-row>
-            <el-row style='height: 40px' align='middle' type='flex'>
-              <span>微信昵称： {{detailItem.nick}}</span>
-            </el-row>
-            <el-row style='height: 40px' align='middle' type='flex'>
-              <span>绑定终端： {{detailItem.deviceNo}}</span>
-            </el-row>
-            <el-row style='height: 40px' align='middle' type='flex'>
-              <span>绑定导购： {{detailItem.guideName}}</span>
-            </el-row>
-          </el-col>
-        </el-row>
-        <el-row>
-          <template v-for='(item,index) in tableList'>
-            <ns-button v-if='item.show'
-                       :key='item.name'
-                       @click='onSwitchTable(index)'
-                       :type="showTableIndex === index ? 'primary' : 'default'"
-                       :plain='showTableIndex === index'>{{`${item.name}（${detailItem[item.key + 'Quantity']}）`}}</ns-button>
-          </template>
-        </el-row>
-      </div>
-      <div>
+        <div class="header">
+          <el-image
+            :width="80" :height="80"
+            :src="detailItem.head||require('./src/images/avartar.png')"
+            mode="cover" :circle="true" class="header__avatar"></el-image>
+          <el-form label-width="80px" class="header__form">
+            <el-form-item label="个人号ID：">
+              {{detailItem.wid}}
+            </el-form-item>
+            <el-form-item label="微信昵称：">
+              {{detailItem.nick}}
+            </el-form-item>
+            <el-form-item label="绑定终端：">
+              {{detailItem.deviceNo}}
+            </el-form-item>
+            <el-form-item label="绑定导购：">
+              {{detailItem.guideName}}
+            </el-form-item>
+          </el-form>
+        </div>
+        <el-tabs v-model="activeName" @tab-click="handleClick">
+          <el-tab-pane :label="`${item.name}(${detailItem[item.key + 'Quantity']})`" :name="'name' + index"
+                       v-for='(item,index) in tableList'
+                       :key='item.name'>
+          </el-tab-pane>
+        </el-tabs>
         <ns-page-table>
           <template slot="table">
             <el-table ref="table" :data="_data._table.data" class="template-table__main"
@@ -59,9 +54,9 @@
                   <template slot='header' scope='header'>
                     <span>
                       <span>{{item.name}}</span>
-                      <el-popover v-if='item.header' placement='bottom' width='220' trigger='hover' :content='item.header'>
-                        <i slot='reference' class='table-header-icon'><Icon type="question-circle" /></i>
-                      </el-popover>
+                      <el-tooltip v-if='item.header' :content='item.header' placement="bottom">
+                       <Icon type="question-circle"/>
+                      </el-tooltip>
                     </span>
                   </template>
                 </el-table-column>
@@ -77,7 +72,6 @@
             </el-pagination>
           </template>
         </ns-page-table>
-      </div>
       </div>
       <span slot="footer" class="dialog-footer">
         <ns-button @click="sVisible = false">关闭</ns-button>
@@ -98,5 +92,16 @@ export default Index
     font-weight: normal;
     padding-left: var(--default-padding-base);
     cursor: pointer;
+  }
+  .header {
+    display: flex;
+    align-items: center;
+    padding: 0 20px var(--default-padding-larger);
+    .header__avatar {
+      flex-shrink: 0;
+    }
+    .header__form {
+      margin-left: var(--default-margin-larger);
+    }
   }
 </style>
