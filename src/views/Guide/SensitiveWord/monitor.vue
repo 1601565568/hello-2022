@@ -58,43 +58,29 @@
         <!-- el-form 需添加  surround-btn 类名 配置环绕按钮效果 -->
         <template slot="advancedSearch" v-if="_data._queryConfig.expand">
           <el-form ref="table_filter_form" :model="model" label-width="80px" :inline="true">
-            <el-form-item>
-              <span>
-                自定义时段：
-                <el-date-picker
-                  v-model="model.createDate"
-                  type="daterange"
-                  range-separator="至"
-                  start-placeholder="开始日期"
-                  value-format="yyyy-MM-dd"
-                  end-placeholder="结束日期" style="width:225px">
-                </el-date-picker>
-              </span>
+            <el-form-item label="自定义时段：">
+              <el-date-picker
+                v-model="model.createDate"
+                type="daterange"
+                range-separator="至"
+                start-placeholder="开始日期"
+                value-format="yyyy-MM-dd"
+                end-placeholder="结束日期" style="width:225px">
+              </el-date-picker>
             </el-form-item>
-            <el-form-item>
-              <span>
-                <el-form-item>
-                  发送人：
-                  <el-select v-model="model.memberSend" placeholder="请选择发送人" style="width: 143px" >
-                    <el-option v-for="item in memberSendData" :key="item.value" :label="item.label" :value="item.value"/>
-                  </el-select>
-                </el-form-item>
-              </span>
+            <el-form-item label="发送人：">
+              <el-select v-model="model.memberSend" placeholder="请选择发送人" style="width: 143px" >
+                <el-option v-for="item in memberSendData" :key="item.value" :label="item.label" :value="item.value"/>
+              </el-select>
             </el-form-item>
-            <el-form-item>
-              <span>
-                个人号：
-                <el-select v-model="model.ownerWid" placeholder="请选择个人号" clearable>
-                  <el-option v-for="item in ownerData" :key="item.wid" :label="item.nick" :value="item.wid"/>
-                </el-select>
-              </span>
+            <el-form-item label="个人号：">
+              <el-select v-model="model.ownerWid" placeholder="请选择个人号" clearable>
+                <el-option v-for="item in ownerData" :key="item.wid" :label="item.nick" :value="item.wid"/>
+              </el-select>
             </el-form-item>
-            <el-form-item>
-              <span>
-                敏感词：
-                <el-input ref="quickText" style="width: 143px" name="name" v-model="model.name" placeholder="搜索敏感词"
-                          @keyup.enter.native="$searchAction$()" clearable/>
-              </span>
+            <el-form-item label="敏感词：">
+              <el-input ref="quickText" style="width: 143px" name="name" v-model="model.name" placeholder="搜索敏感词"
+                        @keyup.enter.native="$searchAction$()" clearable/>
             </el-form-item>
           </el-form>
           <div class="template-table__more-btn">

@@ -152,60 +152,33 @@
     <!-- 敏感词详情 -->
     <template>
       <el-dialog title="新增敏感词" :visible.sync="wordDetailDlgVisible" width="350px">
-        <el-form :model="wordDetailForm" ref="wordDetailForm" :rules="wordDetailRules">
-          <table cellspacing="0" cellpadding="0">
-            <tr>
-              <td width="70px">
-                <font class="text-danger">*</font>敏感词:
-              </td>
-              <td>
-                <el-form-item prop="name">
-                  <el-input v-model="wordDetailForm.name" style="width:220px"/>
-                </el-form-item>
-              </td>
-            </tr>
-            <tr style="height: 10px">
-              <td></td>
-              <td>
-                <font color="gray" size="1" class="text-primary">
-                  <Icon type="info-circle" />
-                  字数限制五个字
-                </font>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <font class="text-danger">*</font>选择分组:
-              </td>
-              <td>
-                <el-form-item prop="wordGroupId">
-                  <el-select placeholder="请选择分组" v-model="wordDetailForm.wordGroupId" clearable filterable
-                             style="width:220px">
-                    <el-option
-                      v-for="item in groupOptionsInWordDlg" :key="item.value" :label="item.label"
-                      :value="item.value">
+        <el-form :model="wordDetailForm" ref="wordDetailForm" :rules="wordDetailRules" label-width="75px">
+          <el-form-item prop="name" label="敏感词：">
+            <el-input v-model="wordDetailForm.name" style="width:220px"/>
+          </el-form-item>
+          <el-form-item>
+            <span class="text-primary">
+               <Icon type="info-circle" />
+               字数限制五个字
+            </span>
+          </el-form-item>
+          <el-form-item prop="wordGroupId" label="选择分组：">
+            <el-select placeholder="请选择分组" v-model="wordDetailForm.wordGroupId" clearable filterable
+                       style="width:220px">
+              <el-option
+                v-for="item in groupOptionsInWordDlg" :key="item.value" :label="item.label"
+                :value="item.value">
                   <span style="color: #8492a6; " v-if="item.prefix != ''">
                     <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
                     <span>{{ item.prefix }} -</span>
                   </span>
-                      <span style="">{{ item.label }}</span>
-                    </el-option>
-                  </el-select>
-                </el-form-item>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                &nbsp;&nbsp;创建人:
-              </td>
-              <td>
-                {{wordDetailForm.creatorName}}
-              </td>
-            </tr>
-            <tr>
-              <td colspan="2">&nbsp;</td>
-            </tr>
-          </table>
+                <span style="">{{ item.label }}</span>
+              </el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="创建人：">
+            {{wordDetailForm.creatorName}}
+          </el-form-item>
         </el-form>
         <span slot="footer">
            <ns-button @click="wordDetailDlgVisible=false">取消</ns-button>
