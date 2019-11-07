@@ -39,12 +39,10 @@
             </el-form-item>
           </div>
 
-          <el-form-item label="姓名：" required>
+          <el-form-item label="姓名：" prop="name">
             <el-form-grid size="xxmd">
-              <el-form-item prop="name">
-                <el-input type="text" @change="names" v-model="model.sgGuide.name" placeholder="请输入姓名" :maxlength="20" autofocus=true clearable>
-                </el-input>
-              </el-form-item>
+              <el-input type="text" @change="names" v-model="model.sgGuide.name" placeholder="请输入姓名" :maxlength="20" autofocus=true clearable>
+              </el-input>
             </el-form-grid>
           </el-form-item>
           <el-form-item label="昵称：" >
@@ -73,12 +71,10 @@
               </el-form-item>
             </el-form-grid>
           </el-form-item>
-          <el-form-item label="手机号：" required>
+          <el-form-item label="手机号：" prop="mobile">
             <el-form-grid size="xxmd">
-              <el-form-item prop="mobile">
-                <el-input v-model="model.sgGuide.mobile" @change="mobile" placeholder="请输入手机号" :maxlength="11" clearable :max="11">
-                </el-input>
-              </el-form-item>
+              <el-input v-model="model.sgGuide.mobile" @change="mobile" placeholder="请输入手机号" :maxlength="11" clearable :max="11">
+              </el-input>
             </el-form-grid>
           </el-form-item>
           <el-form-item label="工号：" required>

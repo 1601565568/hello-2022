@@ -89,13 +89,13 @@ export default {
     let model = Object.assign({}, findVo, {}, searchModel)
     let rules = {
       'name': [
-        { required: true, message: '请输入姓名', trigger: 'blur,change' },
-        { min: 0, max: 20, message: '已超过可输入长度', trigger: 'blur,change' }
+        { required: true, message: '请输入姓名', trigger: ['blur', 'change'] },
+        { min: 0, max: 20, message: '已超过可输入长度', trigger: ['blur', 'change'] }
       ],
       'shop': [
         {
           required: true,
-          trigger: 'blur,change',
+          trigger: ['blur', 'change'],
           validator: (rule, value, callback) => {
             if (this.model.sgGuideShop.shop_id === null || this.model.sgGuideShop.shop_id === '') {
               callback(new Error('请选择所属门店'))
@@ -108,7 +108,7 @@ export default {
       'shops': [
         {
           required: true,
-          trigger: 'blur,change',
+          trigger: ['blur', 'change'],
           validator: (rule, value, callback) => {
             if (this.subordinateStores.length === 0) {
               callback(new Error('请选择所属门店'))
@@ -119,10 +119,10 @@ export default {
         }
       ],
       'nickname': [
-        { min: 0, max: 20, message: '已超过可输入长度', trigger: 'blur,change' }
+        { min: 0, max: 20, message: '已超过可输入长度', trigger: ['blur', 'change'] }
       ],
       'mobile': [
-        { required: true, message: '请输入手机号', trigger: 'blur,change' },
+        { required: true, message: '请输入手机号', trigger: ['blur', 'change'] },
         {
           pattern: /^(((13[0-9]{1})|(14[0-9]{1})|(15[0-3]{1})|(15[5-9]{1})|(16[6]{1})|(17[0]{1})|(17[6-8]{1})|(18[0-9]{1})|(19[8-9]{1}))+\d{8})$/,
           message: '手机号格式错误，请您重新输入！'
@@ -131,7 +131,7 @@ export default {
       'work_id': [
         {
           required: true,
-          trigger: 'blur,change',
+          trigger: ['blur', 'change'],
           validator: (rule, value, callback) => {
             if (this.model.sgGuide.work_number === '' || this.model.sgGuide.work_prefix === '') {
               callback(new Error('请输入工号'))
