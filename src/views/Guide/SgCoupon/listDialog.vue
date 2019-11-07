@@ -6,12 +6,12 @@
       title="发放门店明细"
       :close-on-click-modal=false
       :visible.sync="dialogVisible"
-      :response-limit = false
+      response-limit :show-scroll-x=false
       width="800px"
       :before-close="handleClose">
       <div class="topTip">总配额：<span class="text-error">{{topTotaObj.activityTotal}}</span>张；总领取：<span class="text-error">{{topTotaObj.couponNoUse}}</span>张；未领取：<span class="text-error">{{topTotaObj.activityTotal-topTotaObj.couponNoUse}}</span>张；总发放门店：<span class="text-error">{{topTotaObj.shopTotal}}</span>家</div>
       <div class="template-table__bar-more">
-        <el-form ref="searchform" label-width="80px"  class="surround-btn" :model="searchform"  :inline="true">
+        <el-form ref="searchform" label-width="70px"  class="surround-btn" :model="searchform"  :inline="true">
           <el-form-item label="所在区域：" style="margin-right:0;" prop="district">
             <el-form-grid width="260" prop="area">
               <ns-area  :props="searchform.key" @change="onAreaChange" v-model="searchform.area"></ns-area>
@@ -21,7 +21,7 @@
             <el-input v-model="searchform.shopName"></el-input>
           </el-form-item>
         </el-form>
-        <div class="template-table__more-btn">
+        <div class="template-table__more-btn" style="right: 10px;">
           <ns-button type="primary" @click="submitForm('searchform')">搜索</ns-button>
           <ns-button @click="resetForm('searchform')">重置</ns-button>
         </div>
@@ -83,7 +83,7 @@
         <!-- table end -->
       </div>
       <span slot="footer" class="dialog-footer">
-      <ns-button type="primary" :loading="loading" @click="handleClose">关闭</ns-button>
+      <ns-button :loading="loading" @click="handleClose">关闭</ns-button>
     </span>
     </el-dialog>
   </div>

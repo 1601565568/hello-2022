@@ -145,7 +145,10 @@
         </el-table-column>
         <el-table-column :show-overflow-tooltip="true" type="default" prop="type" align="center"
                          label="状态" :sortable="false" width="70">
-          <template slot-scope="scope">{{scope.row.couponStatus == '0' ? "禁用" : "启用"}}
+          <template slot-scope="scope">
+            <span :class="scope.row.couponStatus == 0 ? 'text-error' : 'text-success'">
+              {{scope.row.couponStatus == '0' ? "禁用" : "启用"}}
+            </span>
           </template>
         </el-table-column>
         <el-table-column :show-overflow-tooltip="true" type="default" prop="couponType" align="right"

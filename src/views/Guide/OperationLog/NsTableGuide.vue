@@ -150,13 +150,13 @@
               {{scope.row.operatorName || '-'}}
             </template>
           </el-table-column>
-          <el-table-column prop="operatorId" label="操作人ID" align="right" width="100">
+          <el-table-column prop="operatorId" label="操作人ID" align="left" width="160">
             <template slot-scope="scope">
               {{scope.row.operatorId || "-"}}
             </template>
           </el-table-column>
 
-          <el-table-column prop="targetId" label="数据库ID" align="right" width="160">
+          <el-table-column prop="targetId" label="数据库ID" align="left" width="160">
             <template slot-scope="scope">
               {{scope.row.targetId || '-'}}
             </template>

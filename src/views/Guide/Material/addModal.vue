@@ -10,7 +10,9 @@
               <el-option v-for="item in groudList" :key="item.subdivision_id" :label="item.subdivision_name" :value="item.subdivision_id">
               </el-option>
             </el-select>
-            <ns-button type='text' @click="$router.push({name:'MaterialSubdivision'})"> + 添加分组</ns-button>
+            <ns-button type='text' @click="$router.push({name:'MaterialSubdivision'})">
+              <Icon type="plus"/> 添加分组
+            </ns-button>
           </el-form-item>
           <el-form-item label="推广文案：" prop="content">
             <el-input resize="none" type="textarea" maxlength='10000' v-model="saveObj.content" placeholder="可在此输入推广文案，限制长度在10000个字符以内。"></el-input>
@@ -50,15 +52,15 @@
                   </el-option>
               </el-select>
             </template>
-            <template v-if="saveObj.codeModule==2">
-              <ns-button @click='selectGoods' type='primary' class='ml15'>选择商品</ns-button>
-            </template>
-            <template v-if="saveObj.codeModule==3">
-              <ns-button @click='selectCoupon' type='primary' class='ml15'>选择优惠券</ns-button>
-            </template>
-            <template v-if="saveObj.codeModule==4">
-              <ns-button @click='selectMarket' type='primary' class='ml15'>选择营销活动</ns-button>
-            </template>
+            <el-form-grid v-if="saveObj.codeModule==2">
+              <ns-button @click='selectGoods' type='primary'>选择商品</ns-button>
+            </el-form-grid>
+            <el-form-grid v-if="saveObj.codeModule==3">
+              <ns-button @click='selectCoupon' type='primary'>选择优惠券</ns-button>
+            </el-form-grid>
+            <el-form-grid v-if="saveObj.codeModule==4">
+              <ns-button @click='selectMarket' type='primary'>选择营销活动</ns-button>
+            </el-form-grid>
           </el-form-item>
             <el-form-item :label="saveObj.codeModule==2?'商品名称：':saveObj.codeModule==4?'活动名称：':''" prop='codeTargetName' v-if="saveObj.codeModule &&saveObj.codeModule!=1 && saveObj.codeTargetName!=''">
               <!-- saveObj.codeTargetName&& -->

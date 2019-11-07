@@ -166,7 +166,6 @@ export default {
     }
   }
   .shareBox {
-    height: 60px;
     padding: 5px;
     margin: 5px 0;
     border-radius: 1px;
@@ -175,7 +174,8 @@ export default {
     overflow: hidden;
     img {
       width: 50px;
-      height: 50px;float: left;
+      height: 50px;
+      float: left;
       margin-right: 5px;
       cursor: pointer;
     }
