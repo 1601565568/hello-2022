@@ -12,7 +12,7 @@
           <div class="subdivision-tree-node" slot-scope="{ node }">
             <span>{{node.label}}</span>
             <span v-if="node.label === '全部'">
-              <el-tooltip content="查看所有的线下门店" placement="right-start">
+              <el-tooltip content="查看所有的线下门店" placement="right">
                 <Icon type="question-circle"/>
               </el-tooltip>
             </span>
@@ -170,8 +170,10 @@
             </el-table-column>
             <el-table-column prop="shopStatus" label="状态" align="center" width="100">
               <template slot-scope="scope">
-                {{scope.row.shopStatus === 0?'删除':scope.row.shopStatus === 1?'正常':scope.row.shopStatus ===
-                -1?'暂停':'关店'}}
+                <span :class="scope.row.shopStatus > 0 ? 'text-success' : scope.row.shopStatus === -1 ? 'text-error' : ''">
+                  {{scope.row.shopStatus === 0?'删除':scope.row.shopStatus === 1?'正常':scope.row.shopStatus ===
+                  -1?'暂停':'关店'}}
+                </span>
               </template>
             </el-table-column>
             <el-table-column label="招募码" align="center" width="120">

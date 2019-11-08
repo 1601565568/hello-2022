@@ -1,8 +1,9 @@
 <template xmlns:el="http://www.w3.org/1999/html">
   <div calss="NsTable_main">
     <div class="template-page__row-left" v-loading="treeLoading">
-      <el-input v-model="filterTreeText" placeholder="搜索分组" suffix-icon="el-icon-search" style="width: 180px"/>
-      &nbsp;
+      <el-input v-model="filterTreeText" placeholder="搜索分组" style="width: 192px" clearable>
+        <Icon type="search" className="el-input__icon" style="padding: 5px;" slot="suffix"/>
+      </el-input>
       <Icon type="plus" @click="showEditGroupDlg(null, true, true)" style="cursor:pointer;"/>
       <el-tree :data="groupList" ref="groupTree" node-key="id" :expand-on-click-node="false"
                :filter-node-method="onFilterNode" @node-click="onClickNode" highlight-current>

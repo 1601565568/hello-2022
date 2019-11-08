@@ -73,7 +73,7 @@
           </el-form-item>
         </el-form>
         <div class="detail-rightside">
-          <img :src="friendDetail.head" class="detail-rightside__img" alt="微信头像">
+          <img :src="friendDetail.head||require('./src/images/avartar.png')" class="detail-rightside__img" alt="微信头像">
         </div>
       </div>
       <div slot="footer">
