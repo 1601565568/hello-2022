@@ -23,7 +23,7 @@
                       row-key="id"
                       @selection-change="$selectionChange">
               <el-table-column :show-overflow-tooltip="true" type="default" prop="title"
-                               label="头像" width='80px' :sortable="false">
+                               label="头像" width='70px' :sortable="false" align='center'>
                 <template slot-scope="scope">
                   <div class="avatar-name clearfix">
                     <div class="avatar-name__avatar"><img

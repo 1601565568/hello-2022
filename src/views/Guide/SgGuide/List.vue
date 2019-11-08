@@ -509,7 +509,7 @@
       </div>
     </el-dialog>
     <!--  更换门店弹窗开始 -->
-    <el-dialog :title="shopTitle" width="560px" height="150px" :visible.sync="shopFindListShow" @keyup.enter.native="onKeyUp" @keyup.esc.native="onKeyUp">
+    <el-dialog :title="shopTitle" width="350px" height="140px" :visible.sync="shopFindListShow" @keyup.enter.native="onKeyUp" @keyup.esc.native="onKeyUp">
       <div class="guideBox" style="overflow-x:hidden;overflow-y:auto;">
         <el-form>
           <el-form-item>
