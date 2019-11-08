@@ -40,7 +40,7 @@
                 </el-date-picker>
               </el-form-item>
               <el-form-item label="门店名称：" prop="shopName">
-                <el-input v-model="searchform.shopName" placeholder="请输入门店名称" clearable @keyup.enter.native="submitForm('searchform')"></el-input>
+                <el-input v-model="searchform.shopName" placeholder="请输入门店名称" clearable @keyup.enter.native="submitForm('searchform')" style="width: 220px;"></el-input>
               </el-form-item>
               <el-form-item>
                 <ns-button type="primary" @click="submitForm('searchform1')">搜索</ns-button>
@@ -65,7 +65,7 @@
             </el-date-picker>
           </el-form-item>
           <el-form-item label="门店名称：" prop="shopName">
-            <el-input v-model="searchform.shopName" placeholder="请输入门店名称" clearable></el-input>
+            <el-input v-model="searchform.shopName" placeholder="请输入门店名称" clearable style="width: 220px;"></el-input>
           </el-form-item><!--
           <el-form-item label="状态：" prop="shopStatus">
             <el-select v-model="searchform.shopStatus" placeholder="请选择状态" clearable >
@@ -114,6 +114,11 @@
         align="center"
         prop="shopStatusMean"
       >
+        <template slot-scope="{row}">
+          <span :class="row.shopStatus > 0 ? 'text-success' : row.shopStatus === -1 ? 'text-error' : ''">
+            {{row.shopStatusMean}}
+          </span>
+        </template>
       </el-table-column>
       <el-table-column label="1月" width='100' align="right">
         <template slot-scope="{row}">{{row.quota1 && parseFloat(row.quota1) > 0 ? row.quota1 : '-'}}</template>
@@ -184,6 +189,7 @@ export default {
     }
     return {
       activeName: '0',
+      formal: '',
       statusOptions: [
         {
           value: '1',

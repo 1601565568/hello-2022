@@ -29,19 +29,25 @@
         <div class="statistics-pic statistics-total flex flex-center">
           <div class="round"></div>
           <div class="text-white fz18" style='opacity:0.9'>任务总数</div>
-          <div class=" text-white fz32 mt24">{{infoObj.total}}</div>
+          <div class=" text-white fz32 mt24">
+            <el-countup
+              :start="0"
+              :end="infoObj.total"
+              :decimal="1.5"
+              v-if="infoObj.total">
+            </el-countup>
+          </div>
         </div>
         <div class="statistics-pic statistics-doing flex flex-center ">
           <div class="round"></div>
           <div class="text-white fz18" style='opacity:0.9'>进行中</div>
           <div class=" text-white fz32 mt24">
-            {{infoObj.unfinishedCount}}
-            <!-- <el-countup
-              class="text-white fz32 mt24"
+            <el-countup
               :start="0"
-              :end="Number(infoObj.unfinishedCount)"
-              :duration="1.5">
-            </el-countup> -->
+              :end="infoObj.unfinishedCount"
+              :duration="1.5"
+              v-if="infoObj.unfinishedCount">
+            </el-countup>
           </div>
         </div>
       </el-col>
@@ -51,7 +57,7 @@
             <div style='position:relative;height:80px'>
               <el-progress type="circle" :percentage="percentage.completed"  :width='80' :show-text='false' :stroke-width=4 color='#11b37f'></el-progress>
               <div class='percentage_abs'>
-                <p class='fz12' style='color:#909399'>完成率</p>
+                <p class='fz12 text-secondary'>完成率</p>
 
                 <p class='fz16' style='color:#33393e'>{{percentage.completed}}%</p>
               </div>
@@ -63,19 +69,19 @@
           </div>
           <div>
               <div>
-                <span class='fz12' style='color:#909399'>按时完成</span>
+                <span class='fz12 text-secondary'>按时完成</span>
                 <el-tooltip content="在规定时间内完成的任务数"
                             placement="right-start">
                   <i class="text-secondary"><Icon type="info-circle" theme="filled" /></i>
                 </el-tooltip>
               </div>
-              <div class='fz16 mt14 text-center' style='color:#11b37f'>{{infoObj.finishOnTime}}</div>
+              <div class='fz16 mt14 text-center text-success'>{{infoObj.finishOnTime}}</div>
           </div>
           <div>
               <div>
-                <span class='fz12' style='color:#909399'>延期完成</span>
+                <span class='fz12 text-secondary'>延期完成</span>
               </div>
-              <div class='fz16 mt14 text-center' style='color:#11b37f'>{{infoObj.finishDelay}}</div>
+              <div class='fz16 mt14 text-center text-success'>{{infoObj.finishDelay}}</div>
           </div>
         </div>
 
@@ -84,7 +90,7 @@
             <div style='position:relative;height:80px'>
               <el-progress type="circle" :percentage="percentage.delay"  :width='80' :show-text='false' :stroke-width=4 color='#ff5e5e'></el-progress>
               <div class='percentage_abs'>
-                <p class='fz12' style='color:#909399'>延期率</p>
+                <p class='fz12 text-secondary'>延期率</p>
 
                 <p class='fz16' style='color:#33393e'>{{percentage.delay}}%</p>
               </div>
@@ -96,19 +102,19 @@
           </div>
           <div>
               <div>
-                <span class='fz12' style='color:#909399'>延期数</span>
+                <span class='fz12 text-secondary'>延期数</span>
                 <el-tooltip content="延期数：只有没有按时完成的任务即为延期（包含延期完成和未完成）"
                             placement="right-start">
                   <i class="text-secondary"><Icon type="info-circle" theme="filled" /></i>
                 </el-tooltip>
               </div>
-              <div class='fz16 mt14 text-center' style='color:#ff5e5e'>{{infoObj.delayCount}}</div>
+              <div class='fz16 mt14 text-center text-error'>{{infoObj.delayCount}}</div>
           </div>
           <div>
               <div>
-                <span class='fz12' style='color:#909399'>延期未完成</span>
+                <span class='fz12 text-secondary'>延期未完成</span>
               </div>
-              <div class='fz16 mt14 text-center' style='color:#ff5e5e'>{{infoObj.delayUnfinished}}</div>
+              <div class='fz16 mt14 text-center text-error'>{{infoObj.delayUnfinished}}</div>
           </div>
         </div>
         <!-- <div class='statistics-pro statistics-del'></div> -->
@@ -221,6 +227,7 @@
 import echarts from 'echarts'
 import businessEcharts from '@nascent/ecrp-ecrm/src/components/NsEcharts'
 import ElProgress from '@nascent/nui/lib/progress'
+import ElCountup from '@nascent/nui/lib/countup'
 import moment from 'moment'
 import { getErrorMsg } from '@/utils/toast'
 var myColor = ['#ff402c', '#ff592c', '#ff8f2c', '#ff8f2c', '#ffb22c']
@@ -228,7 +235,8 @@ let taskProgressObj = {}
 export default {
   components: {
     businessEcharts,
-    ElProgress
+    ElProgress,
+    ElCountup
   },
   data () {
     let queryDate = moment(new Date().setTime(new Date().getTime() - 3600 * 1000 * 24 * 30)).format('YYYY-MM-DD')
