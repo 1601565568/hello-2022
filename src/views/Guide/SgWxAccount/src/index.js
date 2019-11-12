@@ -149,53 +149,53 @@ export default {
     },
     onUpdate () {},
     onRelieve () {},
-    onAutid (appid) {
-      this.presentObj.appId = appid
-      this.dialogAutid = true
-      var that = this
-      // 查询小程序可选类目
-      that.$http.fetch(that.$api.guide.sgwxaccount.getAppletCategoryList, that.presentObj).then((resp) => {
-      }).catch((resp) => {
-        that.$notify.error(getErrorMsg('保存失败', resp))
-      })
-      // 查询小程序页面配置
-      that.$http.fetch(that.$api.guide.sgwxaccount.getAppletPageList, that.presentObj).then((resp) => {
-      }).catch((resp) => {
-        that.$notify.error(getErrorMsg('保存失败', resp))
-      })
-    },
-    onPresent () { // 提交审核
-      var that = this
-      that.$http.fetch(that.$api.guide.sgwxaccount.submitTemplateToAudit, that.presentObj).then(() => {
-
-      }).catch((resp) => {
-        that.$notify.error(getErrorMsg('保存失败', resp))
-      })
-    },
-    onPublish (latestStatus) { // 发布小程序
-      var that = this
-      if (latestStatus === 3) {
-        this.$confirm('是否确认发布小程序', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          that.$http.fetch(that.$api.guide.sgwxaccount.templateToRelease, that.obj).then(() => {
-
-          }).catch((resp) => {
-            that.$notify.error(getErrorMsg('保存失败', resp))
-          })
-        })
-      } else if (latestStatus === 1 || latestStatus === 2 || latestStatus === 5) {
-        this.$confirm('小程序版本尚未审核通过', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-
-        })
-      }
-    },
+    // onAutid (appid) {
+    //   this.presentObj.appId = appid
+    //   this.dialogAutid = true
+    //   var that = this
+    //   // 查询小程序可选类目
+    //   that.$http.fetch(that.$api.guide.sgwxaccount.getAppletCategoryList, that.presentObj).then((resp) => {
+    //   }).catch((resp) => {
+    //     that.$notify.error(getErrorMsg('保存失败', resp))
+    //   })
+    //   // 查询小程序页面配置
+    //   that.$http.fetch(that.$api.guide.sgwxaccount.getAppletPageList, that.presentObj).then((resp) => {
+    //   }).catch((resp) => {
+    //     that.$notify.error(getErrorMsg('保存失败', resp))
+    //   })
+    // },
+    // onPresent () { // 提交审核
+    //   var that = this
+    //   that.$http.fetch(that.$api.guide.sgwxaccount.submitTemplateToAudit, that.presentObj).then(() => {
+    //
+    //   }).catch((resp) => {
+    //     that.$notify.error(getErrorMsg('保存失败', resp))
+    //   })
+    // },
+    // onPublish (latestStatus) { // 发布小程序
+    //   var that = this
+    //   if (latestStatus === 3) {
+    //     this.$confirm('是否确认发布小程序', '提示', {
+    //       confirmButtonText: '确定',
+    //       cancelButtonText: '取消',
+    //       type: 'warning'
+    //     }).then(() => {
+    //       that.$http.fetch(that.$api.guide.sgwxaccount.templateToRelease, that.obj).then(() => {
+    //
+    //       }).catch((resp) => {
+    //         that.$notify.error(getErrorMsg('保存失败', resp))
+    //       })
+    //     })
+    //   } else if (latestStatus === 1 || latestStatus === 2 || latestStatus === 5) {
+    //     this.$confirm('小程序版本尚未审核通过', '提示', {
+    //       confirmButtonText: '确定',
+    //       cancelButtonText: '取消',
+    //       type: 'warning'
+    //     }).then(() => {
+    //
+    //     })
+    //   }
+    // },
     onSave () {
       let that = this
       that.shopManager_radio === '1' ? that.model.type = 1 : that.model.type = 0

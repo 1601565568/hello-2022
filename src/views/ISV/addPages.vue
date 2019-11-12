@@ -171,19 +171,19 @@ export default {
       this.dialogAutid = true
       var that = this
       // 查询小程序可选类目
-      that.$http.fetch(that.$api.guide.sgwxaccount.getAppletCategoryList, that.presentObj).then((resp) => {
+      that.$http.fetch(that.$api.isv.getAppletCategoryList, that.presentObj).then((resp) => {
       }).catch((resp) => {
         that.$notify.error(getErrorMsg('保存失败', resp))
       })
       // 查询小程序页面配置
-      that.$http.fetch(that.$api.guide.sgwxaccount.getAppletPageList, that.presentObj).then((resp) => {
+      that.$http.fetch(that.$api.isv.getAppletPageList, that.presentObj).then((resp) => {
       }).catch((resp) => {
         that.$notify.error(getErrorMsg('保存失败', resp))
       })
     },
     onPresent () { // 提交审核
       var that = this
-      that.$http.fetch(that.$api.guide.sgwxaccount.submitTemplateToAudit, that.presentObj).then(() => {
+      that.$http.fetch(that.$api.isv.submitTemplateToAudit, that.presentObj).then(() => {
 
       }).catch((resp) => {
         that.$notify.error(getErrorMsg('保存失败', resp))
@@ -197,7 +197,7 @@ export default {
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          that.$http.fetch(that.$api.guide.sgwxaccount.templateToRelease, that.obj).then(() => {
+          that.$http.fetch(that.$api.isv.templateToRelease, that.obj).then(() => {
 
           }).catch((resp) => {
             that.$notify.error(getErrorMsg('保存失败', resp))

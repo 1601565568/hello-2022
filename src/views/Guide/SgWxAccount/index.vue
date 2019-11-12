@@ -96,86 +96,86 @@
     </el-dialog>
     <!-- 初始弹窗结束 -->
     <!-- 授权小程序弹窗开始 -->
-    <el-dialog size="small" class="newestDialog" :title="miniProgramText" width="80%"
-              :visible.sync="miniProgram"
-              :modal-append-to-body="false" :close-on-click-modal="true"
-              @before-close="closeDialog()">
-      <div class="dialog_mian">
-        <div class="dialog_mian_logo">
-          <img calss="shoplogo" src="../../../assets/shoplogo.png" />
-          <h4>智慧导购</h4>
-          <p>（<ns-button type="text" @click="onUpdate">更新授权</ns-button>/<ns-button type="text" @click="onRelieve">解除授权</ns-button>）</p>
-        </div>
-        <div class="dialog_mian_topText">
-          <p><span>介绍：</span>智慧导购是一款辅助线下实体店导购员应用，可以提升用户消费体验</p>
-          <p><span>认证：</span>{{appObj.verify_type === 0 ? "已认证" : "未认证"}}</p>
-          <p><span>主体信息：</span>{{appObj.principal_name}}</p>
-          <p><span>AppID：</span>{{appObj.appid}}</p>
-        </div>
-        <div class="dialog_mian_centerText">
-          <el-row>
-              <el-col :span='8'><span>线上版本：{{appObj.online_version}}</span></el-col>
-              <el-col :span='8'><span>{{appObj.online_version}}</span></el-col>
-              <el-col :span='8'>小程序尚未发布<ns-button type="text" @click="onPublish(appObj.latestStatus)">（发布小程序）</ns-button></el-col>
-          </el-row>
-          <el-row>
-              <el-col :span='8'><span>更新时间：{{appObj.update_time}}</span></el-col>
-              <el-col :span='8'><span>2018-12-03 16:53:30</span></el-col>
-          </el-row>
-          <el-row>
-              <el-col :span='8'>
-                <span>更新状态：{{appObj.latestAuditVersion > appObj.online_version  ? '':'线上版本为最新版本'}}</span>
-              </el-col>
-              <el-col :span='8'>
-                <span>{{appObj.latestAuditVersion}}版本{{appObj.latestStatus === 1 ? '已上传未审核' : appObj.latestStatus === 2 ? '审核中' : appObj.latestStatus === 3 ? '审核成功' : appObj.latestStatus === 4 ? '已发布' : appObj.latestStatus === 5 ? '已撤回' : ''}}</span>
-                ,点击<ns-button type="text" @click="onAutid(appObj.appid)">提交微信审核</ns-button>,重新发布
-              </el-col>
-          </el-row>
-        </div>
-        <div class="dialog_mian_bottomText">
-          <el-row>
-              <el-col :span='12'><span>支付设置：</span>商户编号：2958371925，商户密钥：ecehg3205t321kfsgl（编辑）</el-col>
-              <el-col :span='12'><span>未设置：</span>（新增）</el-col>
-          </el-row>
-        </div>
-      </div>
-    </el-dialog>
+<!--    <el-dialog size="small" class="newestDialog" :title="miniProgramText" width="80%"-->
+<!--              :visible.sync="miniProgram"-->
+<!--              :modal-append-to-body="false" :close-on-click-modal="true"-->
+<!--              @before-close="closeDialog()">-->
+<!--      <div class="dialog_mian">-->
+<!--        <div class="dialog_mian_logo">-->
+<!--          <img calss="shoplogo" src="../../../assets/shoplogo.png" />-->
+<!--          <h4>智慧导购</h4>-->
+<!--          <p>（<ns-button type="text" @click="onUpdate">更新授权</ns-button>/<ns-button type="text" @click="onRelieve">解除授权</ns-button>）</p>-->
+<!--        </div>-->
+<!--        <div class="dialog_mian_topText">-->
+<!--          <p><span>介绍：</span>智慧导购是一款辅助线下实体店导购员应用，可以提升用户消费体验</p>-->
+<!--          <p><span>认证：</span>{{appObj.verify_type === 0 ? "已认证" : "未认证"}}</p>-->
+<!--          <p><span>主体信息：</span>{{appObj.principal_name}}</p>-->
+<!--          <p><span>AppID：</span>{{appObj.appid}}</p>-->
+<!--        </div>-->
+<!--        <div class="dialog_mian_centerText">-->
+<!--          <el-row>-->
+<!--              <el-col :span='8'><span>线上版本：{{appObj.online_version}}</span></el-col>-->
+<!--              <el-col :span='8'><span>{{appObj.online_version}}</span></el-col>-->
+<!--              <el-col :span='8'>小程序尚未发布<ns-button type="text" @click="onPublish(appObj.latestStatus)">（发布小程序）</ns-button></el-col>-->
+<!--          </el-row>-->
+<!--          <el-row>-->
+<!--              <el-col :span='8'><span>更新时间：{{appObj.update_time}}</span></el-col>-->
+<!--              <el-col :span='8'><span>2018-12-03 16:53:30</span></el-col>-->
+<!--          </el-row>-->
+<!--          <el-row>-->
+<!--              <el-col :span='8'>-->
+<!--                <span>更新状态：{{appObj.latestAuditVersion > appObj.online_version  ? '':'线上版本为最新版本'}}</span>-->
+<!--              </el-col>-->
+<!--              <el-col :span='8'>-->
+<!--                <span>{{appObj.latestAuditVersion}}版本{{appObj.latestStatus === 1 ? '已上传未审核' : appObj.latestStatus === 2 ? '审核中' : appObj.latestStatus === 3 ? '审核成功' : appObj.latestStatus === 4 ? '已发布' : appObj.latestStatus === 5 ? '已撤回' : ''}}</span>-->
+<!--                ,点击<ns-button type="text" @click="onAutid(appObj.appid)">提交微信审核</ns-button>,重新发布-->
+<!--              </el-col>-->
+<!--          </el-row>-->
+<!--        </div>-->
+<!--        <div class="dialog_mian_bottomText">-->
+<!--          <el-row>-->
+<!--              <el-col :span='12'><span>支付设置：</span>商户编号：2958371925，商户密钥：ecehg3205t321kfsgl（编辑）</el-col>-->
+<!--              <el-col :span='12'><span>未设置：</span>（新增）</el-col>-->
+<!--          </el-row>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </el-dialog>-->
     <!-- 授权小程序弹窗结束 -->
     <!-- 提交审核弹窗开始 -->
-    <el-dialog size="small" :title="autidText"
-               :visible.sync="dialogAutid"
-               :modal-append-to-body="false"
-               @before-close="closeDialog()">
-      <el-form :model="model" ref="form" label-width="150px" :rules="rules" placement="right">
-        <el-form-item label="模版Id：" prop="templateId" required>
-          <el-input type="text" disabled ="false" placeholder="请输入微信名称" v-model="model.templateId"  maxlength="10"></el-input>
-        </el-form-item>
-        <el-form-item label="自定义标签：" prop="appid" required>
-          <el-input type="textarea" max="20" placeholder="小程序的标签，多个标签用空格分隔，标签不能多于10个，标签成都不超过20" v-model="model.appid" maxlength="32"></el-input>
-        </el-form-item>
-        <el-form-item label="可选类目：" prop="secret" required>
-           <el-select placeholder="请选择职务" v-model="model.job" clearable>
-              <el-option label="店长" :value="1"></el-option>
-              <el-option label="导购" :value="0"></el-option>
-            </el-select>
-          <!-- <el-input type="text" placeholder="请输入应用密钥" v-model="model.secret" maxlength="50"></el-input> -->
-        </el-form-item>
-        <el-form-item label="页面地址：" prop="corpid" required>
-           <el-select placeholder="请选择职务" v-model="model.job" clearable>
-              <el-option label="店长" :value="1"></el-option>
-              <el-option label="导购" :value="0"></el-option>
-            </el-select>
-          <!-- <el-input type="text" placeholder="请输入企业ID" v-model="model.corpid" maxlength="32"></el-input> -->
-        </el-form-item>
-        <el-form-item label="页面标题：" prop="corpsecret" required>
-          <el-input type="text" max="32" placeholder="请输入企业密钥" v-model="model.corpsecret" maxlength="50"></el-input>
-        </el-form-item>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <ns-button @click="dialogAutid = false">取消</ns-button>
-        <ns-button type="primary" @click="onPresent()">提交</ns-button>
-      </div>
-    </el-dialog>
+<!--    <el-dialog size="small" :title="autidText"-->
+<!--               :visible.sync="dialogAutid"-->
+<!--               :modal-append-to-body="false"-->
+<!--               @before-close="closeDialog()">-->
+<!--      <el-form :model="model" ref="form" label-width="150px" :rules="rules" placement="right">-->
+<!--        <el-form-item label="模版Id：" prop="templateId" required>-->
+<!--          <el-input type="text" disabled ="false" placeholder="请输入微信名称" v-model="model.templateId"  maxlength="10"></el-input>-->
+<!--        </el-form-item>-->
+<!--        <el-form-item label="自定义标签：" prop="appid" required>-->
+<!--          <el-input type="textarea" max="20" placeholder="小程序的标签，多个标签用空格分隔，标签不能多于10个，标签成都不超过20" v-model="model.appid" maxlength="32"></el-input>-->
+<!--        </el-form-item>-->
+<!--        <el-form-item label="可选类目：" prop="secret" required>-->
+<!--           <el-select placeholder="请选择职务" v-model="model.job" clearable>-->
+<!--              <el-option label="店长" :value="1"></el-option>-->
+<!--              <el-option label="导购" :value="0"></el-option>-->
+<!--            </el-select>-->
+<!--          &lt;!&ndash; <el-input type="text" placeholder="请输入应用密钥" v-model="model.secret" maxlength="50"></el-input> &ndash;&gt;-->
+<!--        </el-form-item>-->
+<!--        <el-form-item label="页面地址：" prop="corpid" required>-->
+<!--           <el-select placeholder="请选择职务" v-model="model.job" clearable>-->
+<!--              <el-option label="店长" :value="1"></el-option>-->
+<!--              <el-option label="导购" :value="0"></el-option>-->
+<!--            </el-select>-->
+<!--          &lt;!&ndash; <el-input type="text" placeholder="请输入企业ID" v-model="model.corpid" maxlength="32"></el-input> &ndash;&gt;-->
+<!--        </el-form-item>-->
+<!--        <el-form-item label="页面标题：" prop="corpsecret" required>-->
+<!--          <el-input type="text" max="32" placeholder="请输入企业密钥" v-model="model.corpsecret" maxlength="50"></el-input>-->
+<!--        </el-form-item>-->
+<!--      </el-form>-->
+<!--      <div slot="footer" class="dialog-footer">-->
+<!--        <ns-button @click="dialogAutid = false">取消</ns-button>-->
+<!--        <ns-button type="primary" @click="onPresent()">提交</ns-button>-->
+<!--      </div>-->
+<!--    </el-dialog>-->
     <!-- 提交审核弹窗结束 -->
     <!-- 最新弹窗微信号授权开始 -->
     <el-dialog size="small" class="authorization" :title="authorizationText" width="380px"

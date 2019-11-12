@@ -242,7 +242,7 @@ export default {
       obj.appId = particularsObj.app_id
       obj.templateId = particularsObj.template_id
       if (that.checkText === '重新提交审核') {
-        that.$http.fetch(that.$api.guide.sgwxaccount.submitTemplateToAudit, obj).then((resp) => {
+        that.$http.fetch(that.$api.isv.submitTemplateToAudit, obj).then((resp) => {
           if (resp.success) {
             that.$notify.success('提交成功')
             that.dialogAutid = false
@@ -280,7 +280,7 @@ export default {
       that.loadingTable = true
       that.newestDialog = true
       that.titleText = '小程序代码模板'
-      that.$http.fetch(that.$api.guide.sgwxaccount.getAppletCodeTemplateList, this.parameter).then((resp) => {
+      that.$http.fetch(that.$api.isv.getAppletCodeTemplateList, this.parameter).then((resp) => {
         that.modelArry = resp.result.data
         that.modelObj.latestAuditVersion = resp.result.latestAuditVersion
         that.loadingTable = false
@@ -321,7 +321,7 @@ export default {
             that.$notify.success('上传成功!')
             that.newauthorization = false
             that.parameter.searchMap.appId = that.underReviewObj.app_id
-            that.$http.fetch(that.$api.guide.sgwxaccount.getAppletCodeTemplateList, this.parameter).then((resp) => {
+            that.$http.fetch(that.$api.isv.getAppletCodeTemplateList, this.parameter).then((resp) => {
               that.modelArry = resp.result.data
               that.modelObj.latestAuditVersion = resp.result.latestAuditVersion
             }).catch((resp) => {
@@ -387,7 +387,7 @@ export default {
       that.$http.fetch(that.$api.isv.deleteTemplate, obj).then((resp) => {
         if (resp.success) {
           this.parameter.searchMap.appId = this.deleteTemplateObj.appId
-          that.$http.fetch(that.$api.guide.sgwxaccount.getAppletCodeTemplateList, this.parameter).then(
+          that.$http.fetch(that.$api.isv.getAppletCodeTemplateList, this.parameter).then(
             (resp) => { that.modelArry = resp.result.data }).catch((resp) => {
             that.$notify.error(getErrorMsg('请求失败', resp))
           })
@@ -400,7 +400,7 @@ export default {
     },
     newest () { // 同步最新
       var that = this
-      that.$http.fetch(that.$api.guide.sgwxaccount.getAppletCodeTemplateList, this.parameter).then((resp) => {
+      that.$http.fetch(that.$api.isv.getAppletCodeTemplateList, this.parameter).then((resp) => {
         if (resp.result !== null) {
           that.modelArry = resp.result.data
           that.$notify.success('更新成功')
@@ -488,7 +488,7 @@ export default {
       obj.tags = underReviewObj.appid
       obj.templateId = underReviewObj.template_id
       obj.title = underReviewObj.corpsecret
-      that.$http.fetch(that.$api.guide.sgwxaccount.submitTemplateToAudit, obj).then((resp) => {
+      that.$http.fetch(that.$api.isv.submitTemplateToAudit, obj).then((resp) => {
         if (resp.success) {
           that.$notify.success('提交成功')
           that.dialogAutid = false
@@ -506,7 +506,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        that.$http.fetch(that.$api.guide.sgwxaccount.templateToRelease, obj).then((resp) => {
+        that.$http.fetch(that.$api.isv.templateToRelease, obj).then((resp) => {
           if (resp.success) {
             that.$notify.success('发布成功')
             that.releaseShow = false
@@ -520,7 +520,7 @@ export default {
       let that = this
       that.$refs.form.validate((valid) => {
         if (valid) {
-          that.$http.fetch(that.$api.guide.sgwxaccount.save, that.model).then(() => {
+          that.$http.fetch(that.$api.isv.sgwxaccount.save, that.model).then(() => {
             that.dialogFormVisible = false
             that.newestDialog = false
             that.$notify.success('保存成功')
@@ -536,7 +536,7 @@ export default {
       apiRequestConfirm('永久删除该数据')
         .then(() => {
           let that = this
-          that.$http.fetch(that.$api.guide.sgwxaccount.delete, { id: row.id }).then(() => {
+          that.$http.fetch(that.$api.isv.sgwxaccount.delete, { id: row.id }).then(() => {
             that.dialogFormVisible = false
             that.newestDialog = false
             that.$notify.success('删除成功')
@@ -553,7 +553,7 @@ export default {
       let that = this
       let obj = {}
       obj.appId = row.appid
-      this.$http.fetch(that.$api.guide.guide.refreshAuthedAppletInfo, obj).then(resp => {
+      this.$http.fetch(that.$api.isv.refreshAuthedAppletInfo, obj).then(resp => {
         this.$notify.success(resp.msg)
       }).catch(resp => {
         this.$notify.error(getErrorMsg('刷新失败', resp))
