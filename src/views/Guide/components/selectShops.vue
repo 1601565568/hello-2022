@@ -6,57 +6,65 @@
   :close-on-press-escape='true'
   :close-on-click-modal='false'
   :visible.sync="dialogVisible"
-  width="80%" append-to-body
+  width="900px" height="500px" append-to-body
   :before-close="handleClose">
       <div class="content">
         <div class="searchAction">
           <div class="searchAction_top">
-            <el-form ref="table_filter_form" :model="model" label-width="80px" :inline="true">
-              <el-form-item label="店铺名称：">
-                <el-form-grid size="xmd">
-                  <el-input autofocus=true v-model="model.shopName" placeholder="请输入门店名称" clearable></el-input>
-                </el-form-grid>
-              </el-form-item>
-              <el-form-item label="门店类型：">
+            <el-form ref="table_filter_form" :model="model" label-width="70px" :inline="true">
+              <el-form-item>
                 <el-form-grid>
-                  <el-select placeholder="请选择门店类型" v-model="model.shopType" clearable filterable>
-                    <el-option v-for="shop in shopLeiXing" :label="shop.label" :value="shop.value"
-                              :key="shop.value"></el-option>
-                  </el-select>
+                  <el-form-item label="店铺名称：">
+                    <el-input autofocus=true v-model="model.shopName" placeholder="请输入门店名称" clearable></el-input>
+                  </el-form-item>
                 </el-form-grid>
-              </el-form-item>
-              <el-form-item label="所属地区：" style="margin-right:0;" prop="area">
-                <el-form-grid width="220" prop="area">
-                  <ns-area  :props="searchform.key" @change="onAreaChange" v-model="model.area" clearable></ns-area>
+                <el-form-grid>
+                  <el-form-item label="门店类型：">
+                    <el-select placeholder="请选择门店类型" v-model="model.shopType" clearable filterable>
+                      <el-option v-for="shop in shopLeiXing" :label="shop.label" :value="shop.value"
+                                 :key="shop.value"></el-option>
+                    </el-select>
+                  </el-form-item>
+                </el-form-grid>
+                <el-form-grid>
+                  <el-form-item label="所属地区：" prop="area">
+                    <ns-area  :props="searchform.key" @change="onAreaChange" v-model="model.area" clearable></ns-area>
+                  </el-form-item>
+                </el-form-grid>
+                <el-form-grid>
+                  <el-form-item>
+                    <ns-button type="primary" @click="searchAction(searchform)">搜索</ns-button>
+                    <ns-button @click="resetInputAction(searchform)">重置</ns-button>
+                  </el-form-item>
                 </el-form-grid>
               </el-form-item>
             </el-form>
           </div>
-          <div class="template-table__more-btn">
-            <ns-button type="primary" @click="searchAction(searchform)">搜索</ns-button>
-            <ns-button @click="resetInputAction(searchform)">重置</ns-button>
-          </div>
         </div>
         <div class="tableBox">
-          <el-table
-            ref="shopTable"
-            :data="dataList"
-            tooltip-effect="dark"
-            style="width: 100%" v-loading="tableLoading"
-            :element-loading-text="$t('prompt.loading')"
-            @selection-change="handleSelectionChange">
-            <el-table-column type="selection" align="center" :width="50"></el-table-column>
-            <el-table-column prop="shopName" label="门店名称"></el-table-column>
-          </el-table>
+          <el-scrollbar class="scrollbara">
+            <el-table
+              ref="shopTable"
+              :data="dataList"
+              tooltip-effect="dark"
+              style="width: 100%" v-loading="tableLoading"
+              :element-loading-text="$t('prompt.loading')"
+              @selection-change="handleSelectionChange" stripe>
+              <el-table-column type="selection" align="center" :width="50"></el-table-column>
+              <el-table-column prop="shopName" label="门店名称"></el-table-column>
+            </el-table>
+          </el-scrollbar>
         </div>
         <div class="selecedBox">
+          <el-scrollbar class="scrollbarb">
             <div class="tit">已选择<em>{{multipleSelection.length}}</em>门店</div>
             <ul class="list">
-                <li v-for="(item) in multipleSelection" :key="item.id">
-                    <span class="name">{{item.shopName}}</span>
-                    <span class="del" @click="toggleSelection([item])"><Icon type="delete" className="g-delete"/></span>
-                </li>
+              <li v-for="(item) in multipleSelection" :key="item.id">
+                <span class="name">{{item.shopName}}</span>
+                <span class="del text-primary" @click="toggleSelection([item])"><Icon type="delete" className="g-delete"/></span>
+              </li>
             </ul>
+          </el-scrollbar>
         </div>
       </div>
     <span slot="footer" class="dialog-footer">
@@ -223,13 +231,12 @@ export default {
 <style scoped>
 @component-namespace selectShopBox {
   .tableBox {
-    width: 400px;
+    width: 480px;
     float: left;
   }
   .selecedBox {
     float: right;
-    width: 320px;
-    padding-right: 20px;
+    width: 390px;
     .tit {
       font-size: 14px;
       height: 32px;
@@ -266,12 +273,18 @@ export default {
 }
 </style>
 <style scoped>
-.searchAction{
-  display: flex;
-  justify-content: space-between;
-  padding-right:20px
-}
-.searchAction_top{
-  margin-top:6px
-}
+  .searchAction{
+    display: flex;
+    justify-content: space-between;
+    padding-right:20px
+  }
+  .searchAction_top{
+    margin-top:6px
+  }
+  .scrollbara >>> .el-scrollbar__view {
+    max-height: 400px;
+  }
+  .scrollbarb >>> .el-scrollbar__view {
+    max-height: 300px;
+  }
 </style>

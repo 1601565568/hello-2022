@@ -106,7 +106,8 @@ export default {
       height: 60px;
       position: absolute;
       left: 0px;
-      top:100px;
+      top: 50%;
+      transform: translateY(-50%);
       background:url('./src/images/lefticon.png')
     }
     .iconRight{
@@ -115,7 +116,8 @@ export default {
       height: 60px;
       position: absolute;
       right: 0px;
-      top:100px;
+      top: 50%;
+      transform: translateY(-50%);
       background:url('./src/images/righticon.png') right center;
     }
     /* border: 1px solid #f2f2f2; */
@@ -125,11 +127,12 @@ export default {
     overflow: hidden;
     text-align: center;
     vertical-align: middle;
-    margin-bottom: 50px;
     img {
       display: inline-block;
       max-height: 350px;
       max-width: 100%;
+      margin: 0 auto;
+      vertical-align: middle;
     }
   }
 
