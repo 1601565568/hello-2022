@@ -30,7 +30,7 @@
       <!--  搜索结束  -->
       <!--  表格开始  -->
       <el-table ref="table" :data="particularsObj" stripe @selection-change="guideChange">
-        <el-table-column  width="25">
+        <el-table-column width="25">
           <template slot-scope="scope">
             <div class="customerManage">
               <el-radio :label="scope.$index" v-model="radio"  @change.native="getCurrentRow(scope.row,scope.$index)"></el-radio>
@@ -83,9 +83,9 @@
       <div class="dialog-container__msg">
         <div class="dialog-avatar">
           <el-image
-            :src="items.customerHeadImage|| defaultImage"
-            mode="mfit" class="dialog-avatar__headportrait">
-          </el-image>
+            :width="80" :height="80"
+            :src="items.customerHeadImage||require('./src/images/avartar.png')"
+            mode="cover" :circle="true" class="dialog-avatar__headportrait"></el-image>
           <div class="dialog-avatar__figure" v-if="items.sex === 1 || items.sex === 0">
             <Icon v-if="items.sex === 1" type="men" className="dialog-avatar__figure--male" />
             <!-- 女生图标-->
@@ -818,7 +818,7 @@
         </el-tabs>
       </div>
       <span slot="footer">
-        <ns-button @click="closeDetailDialog">取 消</ns-button>
+        <ns-button @click="shopKuhuShow = false">关闭</ns-button>
       </span>
     </el-dialog>
     <!-- 打标签-->
@@ -1190,5 +1190,9 @@ export default CustomerManage
   .questioncircle {
     position: relative;
     left: -4px;
+  }
+  /* 去掉更换导购列表弹框单选组多余数字 */
+  >>> .el-radio__label {
+    display: none;
   }
 </style>

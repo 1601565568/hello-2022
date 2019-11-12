@@ -5,7 +5,7 @@
             <!--<Icon type="search" className="el-input__icon" style="padding: 5px;" slot="suffix" name="name"-->
                   <!--@click="$quickSearchAction$('name')"/>-->
           </el-input>
-          <div :class="offsetHeight?'elTrees':'elTree'" ref="elTree" :style="{ 'height' : height + 'px'}">
+          <div :class="offsetHeight?'elTrees':'elTree'" ref="elTree">
             <el-tree class="filter-tree" ref="guideTree" :data="shopFindList" highlight-current
                   node-key="id" :default-expand-all="false" :expand-on-click-node="false" :default-checked-keys="[0]"
                   :filter-node-method="onFilterNode" @node-click="onClickNode">
@@ -78,7 +78,7 @@
           </el-form-grid>
         </el-form-item>
         <el-form-item label="等级：">
-          <el-form-grid size="xmd">
+          <el-form-grid style="width: 180px;">
             <el-select placeholder="请选择" v-model="model.grade" clearable filterable>
               <el-option v-for="grade in gradeInfo" :label="grade.gradeName" :value="grade.grade"
                          :key="grade.grade"></el-option>
@@ -220,7 +220,7 @@ export default NsTableGuide
     width: 100%;
   }
   .template-table {
-    margin: 0 10px 0 435px;
+    margin: 0 10px 10px 435px;
   }
   @media screen and (min-width: 1624px) {
     .el-tree-node__content{
@@ -243,7 +243,7 @@ export default NsTableGuide
       margin: 0;
     }
     .template-table {
-      margin: 0 10px 0 435px;
+      margin: 0 10px 10px 435px;
     }
   }
 
