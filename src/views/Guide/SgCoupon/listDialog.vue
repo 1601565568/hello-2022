@@ -115,7 +115,8 @@ export default {
           value: 'label',
           disabled: 'disabled'
         },
-        area: []
+        area: [],
+        shopName: ''
 
       },
       dataList: [
