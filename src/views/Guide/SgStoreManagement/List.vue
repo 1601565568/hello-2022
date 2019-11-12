@@ -45,16 +45,14 @@
             </template>
             <template slot-scope="scope">
               <div v-if="checked">
-                <ns-button  type="text">
-                  <a :href="url+0+'&shopId='+succeedObj.shopId+'&size='+0">
-                    <i class="download">
-                      <Icon type="xiazai"/>
-                    </i>
-                  </a>
-                </ns-button>
+                <a :href="url+0+'&shopId='+succeedObj.shopId+'&size='+0">
+                  <i class="download">
+                    <Icon type="xiazai"/>
+                  </i>
+                </a>
               </div>
               <div v-else>
-                <i class="download download--site text-secondary">
+                <i class="download text-secondary">
                   <Icon type="xiazai"/>
                 </i>
               </div>
@@ -74,14 +72,12 @@
             </template>
             <template slot-scope="scope">
               <div v-if="!checked">
-                <ns-button type="text">
-                  <a :href="url+1+'&shopId='+succeedObj.shopId+'&size='+0">
-                    <i class="download"><Icon type="xiazai"/></i>
-                  </a>
-                </ns-button>
+                <a :href="url+1+'&shopId='+succeedObj.shopId+'&size='+0">
+                  <i class="download"><Icon type="xiazai"/></i>
+                </a>
               </div>
               <div v-else>
-                <i class="download download--site text-secondary" >
+                <i class="download text-secondary" >
                   <Icon type="xiazai"/>
                 </i>
               </div>
@@ -177,10 +173,6 @@ export default List
   }
   .download{
     font-size: var(--dafault-font-size-xlarge);
-  }
-  .download--site {
-    position: relative;
-    top: 3px;
   }
   .photosize {
     width: 140px;
