@@ -696,6 +696,11 @@ export default {
               // borderWidth: 2,
               barBorderRadius: 15,
               color: '#ddd'
+            },
+            emphasis: {
+              color: '#00000000',
+              borderColor: '#ddd',
+              borderWidth: 1
             }
           },
           data: []
