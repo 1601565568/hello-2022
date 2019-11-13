@@ -77,9 +77,9 @@
     </el-dialog>
     <!-- 新客户详情弹窗-->
     <el-dialog
-      title="详情" response-limit :show-scroll-x=false
+      title="详情" width="900px" height="500px"
       :visible.sync="shopKuhuShow"
-      width="900px" class="dialog-container"  @keyup.enter.native="onKeyUp" @keyup.esc.native="onKeyUp" @close="closeDetailDialog">
+      class="dialog-container"  @keyup.enter.native="onKeyUp" @keyup.esc.native="onKeyUp" @close="closeDetailDialog">
       <div class="dialog-container__msg">
         <div class="dialog-avatar">
           <el-image
