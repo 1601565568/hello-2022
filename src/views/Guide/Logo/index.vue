@@ -27,7 +27,7 @@
                该logo将在用户端透出，建议图片尺寸为1:1。
             </span>
             <el-popover
-              placement="bottom" trigger="click">
+              placement="bottom" trigger="click" @show="disposePopover" @hide="disposePopover">
               <img src="./src/images/exampleImg.png" alt="示例图片"/>
               <el-button slot="reference" class="company-example__check">
                 查看示例
