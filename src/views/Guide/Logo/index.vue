@@ -27,7 +27,7 @@
                该logo将在用户端透出，建议图片尺寸为1:1。
             </span>
             <el-popover
-              placement="bottom" trigger="click" @show="disposePopover" @hide="disposePopover">
+              placement="bottom-start" trigger="click">
               <img src="./src/images/exampleImg.png" alt="示例图片"/>
               <el-button slot="reference" class="company-example__check">
                 查看示例
@@ -36,11 +36,11 @@
             </el-popover>
           </div>
         </el-form-item>
+        <el-form-item>
+          <ns-button type="primary" size="small"  @click="saveLogo">保存</ns-button>
+        </el-form-item>
       </el-form>
     </el-scrollbar>
-    <div class="form-save__unique">
-      <ns-button type="primary" size="small"  @click="saveLogo">保存</ns-button>
-    </div>
   </div>
 </template>
 
@@ -113,7 +113,7 @@ export default {
     @e header {
       display: flex;
       align-items: center;
-      padding: var(--default-padding-larger);
+      padding: var(--default-padding-base) var(--default-padding-larger);
       border-top-left-radius: var(--default-radius-mini);
       border-top-right-radius: var(--default-radius-mini);
     }
@@ -190,8 +190,9 @@ export default {
 .company-example >>> .el-button {
   padding: 0;
   border: none;
+  background: var(--theme-color-white);
 }
 .company-example >>> .el-button:hover {
-  background: unset;
+  background: var(--theme-color-white);
 }
 </style>

@@ -179,7 +179,7 @@
         align="center"
       >
       <template slot-scope="scope">
-        <span>{{scope.row.shopStatus|shopStatus}}</span>
+        <span :class="scope.row.shopStatus > 0 ? 'text-success' : scope.row.shopStatus === -1 ? 'text-error' : ''">{{scope.row.shopStatus|shopStatus}}</span>
       </template>
       </el-table-column>
       <el-table-column

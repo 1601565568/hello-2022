@@ -322,7 +322,7 @@
             <div class="dialog-transaction">
               <el-form class="dialog-transaction__form">
                 <el-form-item label="当前客户累计交易额（元）">
-                  <el-tooltip content="交易成功订单的总金额（包含退款金额）" placement="right-start">
+                  <el-tooltip content="交易成功订单的总金额（包含退款金额）" placement="right">
                     <i class="questioncircle"><Icon type="question-circle"/></i>
                   </el-tooltip>
                 </el-form-item>
@@ -333,19 +333,19 @@
                 <el-form-item class="dialog-detail">
                   <el-form-grid size="md">
                     回购周期：{{rfmInfo.buyBackAllPeriod}}
-                    <el-tooltip content="（最近一次交易成功时间-第一次交易成功时间）/（交易成功次数-1）" placement="right-start">
+                    <el-tooltip content="（最近一次交易成功时间-第一次交易成功时间）/（交易成功次数-1）" placement="right">
                       <Icon type="question-circle"/>
                     </el-tooltip>
                   </el-form-grid>
                   <el-form-grid size="md">
                     笔单价：{{rfmInfo.priceUnit}}元
-                    <el-tooltip content="交易成功总额/交易成功订单数（包含退款）" placement="right-start">
+                    <el-tooltip content="交易成功总额/交易成功订单数（包含退款）" placement="right">
                       <Icon type="question-circle"/>
                     </el-tooltip>
                   </el-form-grid>
                   <el-form-grid size="md">
                     连带率：{{rfmInfo.itemUnit}}件
-                    <el-tooltip content="交易成功订单商品数量/交易成功订单数（包含退款）" placement="right-start">
+                    <el-tooltip content="交易成功订单商品数量/交易成功订单数（包含退款）" placement="right">
                       <Icon type="question-circle"/>
                     </el-tooltip>
                   </el-form-grid>
@@ -353,7 +353,7 @@
                 <el-form-item label="最近交易：">
                   <el-form-grid size="xxlg">
                     {{rfmInfo.lastSuccessTime}}
-                    <el-tooltip content="最近一笔交易成功时间" placement="right-start">
+                    <el-tooltip content="最近一笔交易成功时间" placement="right">
                       <i class="questioncircle"><Icon type="question-circle"/></i>
                     </el-tooltip>
                   </el-form-grid>
@@ -1192,7 +1192,7 @@ export default CustomerManage
     left: -4px;
   }
   /* 去掉更换导购列表弹框单选组多余数字 */
-  >>> .el-radio__label {
+  .customerManage >>> .el-radio__label {
     display: none;
   }
 </style>

@@ -1,6 +1,10 @@
 import { NO_IMG_BIG } from '@/utils/constants'
+import ElImage from '@nascent/nui/lib/image'
 
 export default {
+  components: {
+    ElImage
+  },
   props: {
     visible: Boolean,
     memberDetail: Object

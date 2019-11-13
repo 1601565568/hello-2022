@@ -162,15 +162,15 @@
                     </span>
           </template>
         </el-table-column>
-        <el-table-column prop="addTime" label="添加好友时间" align="center" width="160" sortable="custom" >
+        <el-table-column prop="addTime" label="添加好友时间" align="center" width="140" sortable="custom" >
         </el-table-column>
 
         <el-table-column prop="status,row" :show-overflow-tooltip="true" label="操作" align="center" width="80">
           <template slot-scope="scope">
             <div>
-              <ns-button style="color:#0091FA"  @click="onRedactFun(scope.row.wid)" type="text">详情</ns-button>
-<!--              <ns-button style="color:#0091FA"  type="text" @click="sendWechatMsg(scope.row)">聊天</ns-button>-->
-<!--              <ns-button style="color:#0091FA"  type="text" >打标</ns-button>-->
+              <ns-button class="text-primary" @click="onRedactFun(scope.row.wid)" type="text">详情</ns-button>
+<!--              <ns-button class="text-primary" type="text" @click="sendWechatMsg(scope.row)">聊天</ns-button>-->
+<!--              <ns-button class="text-primary"  type="text" >打标</ns-button>-->
             </div>
           </template>
         </el-table-column>

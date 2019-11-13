@@ -570,9 +570,4 @@ export default index
       }
     }
   }
-  /* 搜索内容弹窗样式*/
-  >>> .el-button--small {
-    padding-top: 3px;
-    padding-bottom: 3px;
-  }
 </style>

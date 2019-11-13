@@ -147,7 +147,7 @@
       </el-table-column>
       <el-table-column label="门店名称" prop="shopName">
       </el-table-column>
-      <el-table-column label="导购招募/还差（人）" align="right" width="180">
+      <el-table-column label="导购招募/还差（人）" align="right" width="150">
       <template slot-scope="scope">
         <span width="220">{{scope.row.recruitComplete}}</span>/<span class="text-error">
           <span v-if="scope.row.recruitQuota-scope.row.recruitComplete<=0">
@@ -159,7 +159,7 @@
           </span>
       </template>
       </el-table-column>
-      <el-table-column label="奖励（元）" prop="recruitPrice" width="180" align="right">
+      <el-table-column label="奖励（元）" prop="recruitPrice" width="150" align="right">
         <template slot-scope="scope">
           <span v-if="scope.row.recruitPrice == 0">0.00</span>
           <a href="javascript:" @click="showRecruitDialog(scope.row.guideId, scope.row.name,scope.row.gsShopId)" v-else>{{$numeral(scope.row.recruitPrice).format('0,0.00')}}</a>
@@ -168,7 +168,7 @@
       <el-table-column
         label="销售额/还差（元）"
         align="right"
-        width="200"
+        width="150"
       >
       <template slot-scope="scope">
         <span>{{$numeral(scope.row.sellComplete).format('0,0.00')}}</span>/<span class="text-error">
@@ -177,7 +177,7 @@
           </span>
       </template>
       </el-table-column>
-      <el-table-column label="提成（元）" prop="sellPrice" width="180" align="right">
+      <el-table-column label="提成（元）" prop="sellPrice" width="150" align="right">
         <template slot-scope="scope">
           <span v-if="scope.row.sellPrice == 0">0.00</span>
           <a href="javascript:" @click="showSellDialog(scope.row.guideId, scope.row.name,scope.row.gsShopId)" v-else>{{$numeral(scope.row.sellPrice).format('0,0.00')}}</a>

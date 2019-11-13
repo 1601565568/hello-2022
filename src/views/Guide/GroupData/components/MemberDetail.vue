@@ -37,7 +37,10 @@
           </el-form-item>
         </el-form>
         <div class="detail-rightside">
-          <img :src="memberDetail.isOwner == '1' ? (memberDetail.ownerHead || NO_IMG_BIG) : (memberDetail.head || NO_IMG_BIG)" class="detail-rightside__img" alt="头像">
+          <el-image
+            :width="84" :height="84"
+            :src="memberDetail.isOwner == '1' ? (memberDetail.ownerHead || NO_IMG_BIG) : (memberDetail.head || NO_IMG_BIG)"
+            mode="cover" :circle="true" class="detail-rightside__img"></el-image>
         </div>
       </div>
       <span slot="footer">
