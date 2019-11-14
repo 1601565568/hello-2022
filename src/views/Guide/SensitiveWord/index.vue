@@ -1,10 +1,12 @@
 <template xmlns:el="http://www.w3.org/1999/html">
   <div calss="NsTable_main">
     <div class="template-page__row-left" v-loading="treeLoading">
-      <el-input v-model="filterTreeText" placeholder="搜索分组" style="width: 192px" clearable>
+      <el-input v-model="filterTreeText" placeholder="搜索分组" style="width: 188px" clearable>
         <Icon type="search" className="el-input__icon" style="padding: 5px;" slot="suffix"/>
       </el-input>
-      <Icon type="plus" @click="showEditGroupDlg(null, true, true)" style="cursor:pointer;"/>
+       <i class="plusicon">
+         <Icon type="plus" @click="showEditGroupDlg(null, true, true)"/>
+       </i>
       <el-tree :data="groupList" ref="groupTree" node-key="id" :expand-on-click-node="false"
                :filter-node-method="onFilterNode" @node-click="onClickNode" highlight-current>
         <span class="custom-tree-node" slot-scope="{ node, data }"
@@ -92,7 +94,7 @@
             <el-table-column prop="createTime" label="创建时间" align="center" width="240"/>
             <el-table-column prop="status,row" :show-overflow-tooltip="true" label="操作" align="right">
               <template slot-scope="scope">
-                <ns-button style="color:#0091FA" @click="removeWord(scope.row)" type="text">删除</ns-button>
+                <ns-button style="text-primary" @click="removeWord(scope.row)" type="text">删除</ns-button>
               </template>
             </el-table-column>
           </el-table>
@@ -314,5 +316,12 @@ export default index
   }
   .searchbtn {
     margin-left: 11px;
+  }
+  .plusicon {
+    font-size: 14px;
+    position: relative;
+    top: 2px;
+    left: 2px;
+    cursor:pointer;
   }
 </style>

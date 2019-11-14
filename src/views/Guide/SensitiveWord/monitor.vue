@@ -39,8 +39,8 @@
                   value-format="yyyy-MM-dd"
                   end-placeholder="结束日期" style="width:225px">
                 </el-date-picker>
-                <ns-button type="primary" @click="$searchAction$()">搜索</ns-button>
-                <ns-button @click="reset()">重置</ns-button>
+                <ns-button type="primary" @click="$searchAction$()" class="searchbtn">搜索</ns-button>
+                <ns-button @click="reset()" class="resetbtn">重置</ns-button>
               </span>
             </el-form-item>
             <el-form-item>
@@ -202,5 +202,11 @@ export default monitor
   }
   .redfont >>> font {
     color: var(--theme-color-error);
+  }
+  .searchbtn {
+    margin-left: 11px;
+  }
+  .resetbtn {
+    margin-left: var(--default-margin-larger);
   }
 </style>

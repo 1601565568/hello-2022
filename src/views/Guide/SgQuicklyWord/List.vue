@@ -96,7 +96,7 @@
       </ns-page-table>
     </div>
     <!-- 初始弹窗开始 -->
-    <el-dialog size="small" :title="titleText"
+    <el-dialog width="800px" :title="titleText"
                :visible.sync="dialogFormVisible"
                :modal-append-to-body="false"
                @before-close="closeDialog()">
@@ -161,10 +161,10 @@
     <el-dialog size="small" :title="titleText"
       :visible.sync="dialogVisibleSaveQuicklyWordGroup"
       :modal-append-to-body="false"
-      width='500px'
+      width='400px'
       @before-close="closeDialog()">
-      <el-form :model="addOrEditModel" ref="addOrEditForm" label-width="80px" :rules="addOrEditRules" placement="right" class='addOrEditForm'>
-        <el-form-item label="分类名称：" prop="name" required >
+      <el-form :model="addOrEditModel" ref="addOrEditForm" label-width="80px" :rules="addOrEditRules" placement="right">
+        <el-form-item label="分类名称：" prop="name" required class="el-form-validate__unHide">
           <el-input type="text" placeholder="请输入分类名称" v-model="addOrEditModel.name" autofocus="autofocus"></el-input>
         </el-form-item>
         <el-input style='display:none'></el-input>
@@ -250,7 +250,8 @@ export default List
   line-height: 30px;
 }
 .sort{
-  color:#0091FA;
+  font-size: var(--default-font-size-base);
+  color: var(--theme-color-primary);
   cursor: pointer;
 }
 .expressionBar_div{
@@ -298,12 +299,6 @@ export default List
     &:hover {
       background-color: var(--default-menu-active-border);
     }
-  }
-
-}
-@component-namespace addOrEditForm {
-  .addOrEditForm{
-    padding: 30px 0 !important
   }
 
 }

@@ -252,26 +252,26 @@
         <!-- 高级搜索 -->
         <!-- el-form 需添加  @keyup.enter.native="onSearch" 配置，实现回车搜索， onSearch 为搜索方法 -->
         <!-- el-form 需添加  surround-btn 类名 配置环绕按钮效果 -->
-        <el-form ref="table_filter_form" label-width="80px" @keyup.enter.native="onSearch" class="surround-btn" :inline="true">
+        <el-form ref="table_filter_form" label-width="40px" @keyup.enter.native="onSearch" class="surround-btn" :inline="true">
           <el-form-item label="姓名：">
             <el-form-grid size="xmd">
               <el-input  type="text" v-model="customerName">
               </el-input>
             </el-form-grid>
-          </el-form-item>
-          <el-form-item>
-            <ns-button type="primary" @click="formSearch('searchform')">搜索</ns-button>
-            <ns-button @click="formReset('searchform')">重置</ns-button>
+            <el-form-grid>
+              <ns-button type="primary" @click="formSearch('searchform')">搜索</ns-button>
+              <ns-button @click="formReset('searchform')">重置</ns-button>
+            </el-form-grid>
           </el-form-item>
         </el-form>
         <!-- 高级搜索-结束 -->
         <div style="overflow-x:hidden;overflow-y:auto;">
           <el-table :data="detailData">
-            <el-table-column prop="guideName" label="导购" align="center" width="150"></el-table-column>
-            <el-table-column prop="name" label="会员" align="center" width="150"></el-table-column>
-            <el-table-column prop="name" label="昵称" align="center" width="150"></el-table-column>
+            <el-table-column prop="guideName" label="导购"></el-table-column>
+            <el-table-column prop="name" label="会员"></el-table-column>
+            <el-table-column prop="name" label="昵称"></el-table-column>
             <el-table-column prop="createTime" label="招募时间" align="center" width="180"></el-table-column>
-            <el-table-column prop="reward" label="奖励" align="center" width="150"></el-table-column>
+            <el-table-column prop="reward" label="奖励" align="right"></el-table-column>
           </el-table>
         </div>
         <!--分页开始-->
@@ -296,23 +296,27 @@
         <!-- 高级搜索 -->
         <!-- el-form 需添加  @keyup.enter.native="onSearch" 配置，实现回车搜索， onSearch 为搜索方法 -->
         <!-- el-form 需添加  surround-btn 类名 配置环绕按钮效果 -->
-        <el-form ref="table_filter_form" label-width="80px" @keyup.enter.native="onSearch" class="surround-btn" :inline="true">
-          <el-form-item label="姓名：">
+        <el-form ref="table_filter_form" label-width="50px" @keyup.enter.native="onSearch" class="surround-btn" :inline="true">
+          <el-form-item>
             <el-form-grid size="xmd">
-              <el-input  type="text" v-model="customerName">
-              </el-input>
+              <el-form-item label="姓名：">
+                <el-input  type="text" v-model="customerName">
+                </el-input>
+              </el-form-item>
             </el-form-grid>
           </el-form-item>
-          <el-form-item label="订单号：">
-            <el-form-grid size="xmd">
+          <el-form-grid size="xmd">
+            <el-form-item label="订单号：">
               <el-input  type="text" v-model="tradeNo">
               </el-input>
-            </el-form-grid>
-          </el-form-item>
-          <el-form-item>
-            <ns-button type="primary" @click="formSearch('searchform')">搜索</ns-button>
-            <ns-button @click="formReset('searchform')">重置</ns-button>
-          </el-form-item>
+            </el-form-item>
+          </el-form-grid>
+          <el-form-grid>
+            <el-form-item>
+              <ns-button type="primary" @click="formSearch('searchform')">搜索</ns-button>
+              <ns-button @click="formReset('searchform')">重置</ns-button>
+            </el-form-item>
+          </el-form-grid>
         </el-form>
         <!-- 高级搜索-结束 -->
         <div style="overflow-x:hidden;overflow-y:auto;">
@@ -320,7 +324,7 @@
             <el-table-column prop="guideName" label="导购" align="left"></el-table-column>
             <el-table-column prop="name" label="名称" align="left"></el-table-column>
             <el-table-column prop="tradeId" label="订单编号" align="center" width="180"></el-table-column>
-            <el-table-column prop="payment" label="订单实付(含运费)" align="right" width="150"></el-table-column>
+            <el-table-column prop="payment" label="订单实付(含运费)" align="right"></el-table-column>
             <el-table-column prop="createTime" label="时间" align="center" width="150"></el-table-column>
             <el-table-column prop="reward" label="提成" align="right" width="80"></el-table-column>
           </el-table>

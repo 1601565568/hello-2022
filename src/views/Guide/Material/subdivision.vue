@@ -302,6 +302,7 @@ export default {
     visibility: hidden
   }
   .sort{
+    font-size: var(--default-font-size-base);
     color: var(--theme-color-primary);
     cursor: pointer;
   }

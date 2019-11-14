@@ -10,22 +10,26 @@
       width="800px"
       :before-close="handleClose">
       <div class="topTip">总配额：<span class="text-error">{{topTotaObj.activityTotal}}</span>张；总领取：<span class="text-error">{{topTotaObj.couponNoUse}}</span>张；未领取：<span class="text-error">{{topTotaObj.activityTotal-topTotaObj.couponNoUse}}</span>张；总发放门店：<span class="text-error">{{topTotaObj.shopTotal}}</span>家</div>
-      <div class="template-table__bar-more">
-        <el-form ref="searchform" label-width="70px"  class="surround-btn" :model="searchform"  :inline="true">
-          <el-form-item label="所在区域：" style="margin-right:0;" prop="district">
-            <el-form-grid width="260" prop="area">
-              <ns-area  :props="searchform.key" @change="onAreaChange" v-model="searchform.area"></ns-area>
-            </el-form-grid>
-          </el-form-item>
-          <el-form-item label="门店名称：" prop="shopName">
-            <el-input v-model="searchform.shopName"></el-input>
-          </el-form-item>
-        </el-form>
-        <div class="template-table__more-btn" style="right: 10px;">
-          <ns-button type="primary" @click="submitForm('searchform')">搜索</ns-button>
-          <ns-button @click="resetForm('searchform')">重置</ns-button>
-        </div>
-      </div>
+      <el-form ref="searchform" label-width="60px" :model="searchform"  :inline="true">
+        <el-form-item>
+          <el-form-grid>
+            <el-form-item label="所在区域：" prop="district">
+              <el-form-grid width="260" prop="area">
+                <ns-area  :props="searchform.key" @change="onAreaChange" v-model="searchform.area"></ns-area>
+              </el-form-grid>
+            </el-form-item>
+          </el-form-grid>
+          <el-form-grid style="margin-right: 0;">
+            <el-form-item label="门店名称：" prop="shopName">
+              <el-input v-model="searchform.shopName"></el-input>
+            </el-form-item>
+          </el-form-grid>
+          <el-form-grid>
+            <ns-button type="primary" @click="submitForm('searchform')">搜索</ns-button>
+            <ns-button @click="resetForm('searchform')">重置</ns-button>
+          </el-form-grid>
+        </el-form-item>
+      </el-form>
       <div class="comDialogBoxCon">
         <el-table
           ref="multipleTable"

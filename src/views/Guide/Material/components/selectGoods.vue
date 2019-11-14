@@ -11,7 +11,7 @@
     <div class="template-table">
       <div class="template-table-search">
         <div class="template-table__bar-more">
-          <el-form ref="searchform" label-width="80px"  class="surround-btn" :model="searchObj.searchMap"  :inline="true">
+          <el-form ref="searchform" label-width="70px"  class="surround-btn" :model="searchObj.searchMap"  :inline="true">
             <!-- <el-form-item label="活动类型：" prop="title">
               <el-select v-model="searchObj.searchMap.title" placeholder="请选择商品分类" clearable>
                 <el-option v-for="item in groudList"
@@ -45,11 +45,11 @@
             <el-form-item label="商品编号：" prop="outerId">
               <el-input v-model="searchObj.searchMap.outerId" placeholder="请输入商品编号" clearable></el-input>
             </el-form-item>
+            <el-form-item>
+              <ns-button type="primary" @click="submitForm('searchform')">搜索</ns-button>
+              <ns-button @click="resetForm('searchform')">重置</ns-button>
+            </el-form-item>
           </el-form>
-          <div class="template-table__more-btn">
-            <ns-button type="primary" @click="submitForm('searchform')">搜索</ns-button>
-            <ns-button @click="resetForm('searchform')">重置</ns-button>
-          </div>
         </div>
       </div>
     </div>

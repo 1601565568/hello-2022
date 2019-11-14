@@ -335,9 +335,11 @@ export default FriendMoments
       padding: var(--default-padding-base) var(--default-padding-larger);
       background: var(--theme-color-white);
       border-bottom: 1px solid var(--theme-base-border-color-primary);
+      border-top-left-radius: var(--default-radius-mini);
+      border-top-right-radius: var(--default-radius-mini);
       @e notice {
-        width: 30px;
-        height: 30px;
+        width: 28px;
+        height: 28px;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -359,15 +361,15 @@ export default FriendMoments
         width: 100%;
         background: var(--theme-color-white);
         padding-left: var(--default-padding-larger);
-        &:last-child {
-          border-bottom: none;
-        }
       }
     }
     @b item {
       position: relative;
       padding: var(--default-padding-larger) var(--default-padding-xlarger) var(--default-padding-larger) 0;
       border-bottom: 1px solid var(--theme-base-border-color-primary);
+      &:last-child {
+        border-bottom: none;
+      }
       @e avatar {
         width: 52px;
         height: 52px;
@@ -378,7 +380,7 @@ export default FriendMoments
       @e content {
         width: 100%;
         float: left;
-        padding-left: 72px;
+        padding-left: 62px;
       }
     }
     @b name {
@@ -540,7 +542,7 @@ export default FriendMoments
     @b personmsg {
       width: 72%;
       float: left;
-      padding: var(--default-padding-base) 20px 0 77px;
+      padding: var(--default-padding-base) 20px 0 62px;
       @e uname {
         text-overflow : ellipsis;
         white-space : nowrap;
@@ -642,7 +644,7 @@ export default FriendMoments
     max-height: 200px;
   }
   .icon-xiaoxi {
-    font-size: var(--dafault-font-size-xlarge);
+    font-size: var(--default-font-size-middle);
     color: var(--theme-color-white);
   }
   .el-main {
@@ -651,6 +653,8 @@ export default FriendMoments
   >>> .template-table__bar {
     box-shadow: none;
     border-bottom: 1px solid var(--talk-border-color-gray);
+    border-top-left-radius: var(--default-radius-mini);
+    border-top-right-radius: var(--default-radius-mini);
   }
   >>> .el-pagination {
     box-shadow: none;

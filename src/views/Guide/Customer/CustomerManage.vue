@@ -42,17 +42,17 @@
             {{scope.row.workId || '-'}}
           </template>
         </el-table-column>
-        <el-table-column prop="name" label="姓名" align="left" width="180">
+        <el-table-column prop="name" label="姓名" align="left">
           <template slot-scope="scope">
             {{scope.row.name || '-'}}
           </template >
         </el-table-column>
-        <el-table-column prop="mobile" label="联系方式" align="left" width="180">
+        <el-table-column prop="mobile" label="联系方式" align="center">
           <template slot-scope="scope">
             {{scope.row.mobile || '-'}}
           </template>
         </el-table-column>
-        <el-table-column prop="shopName" label="所属门店" align="left" width="180">
+        <el-table-column prop="shopName" label="所属门店" align="left"">
           <template slot-scope="scope">
             {{scope.row.shopName || '-'}}
           </template >
