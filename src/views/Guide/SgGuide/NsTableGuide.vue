@@ -121,7 +121,7 @@
           <template slot='header' scope='header'>
                     <span>
                       <span>{{header.column.label}}</span>
-                      <el-tooltip placement="bottom">
+                      <el-tooltip>
                         <div slot="content">
                           <div>需将员工账号与导购终端手机进行绑定，让其能够应用智慧导购系统</div>
                           <div><span class='tips'>注：</span>使用终端系统的，非离职的，建议不要进行客户转移</div>

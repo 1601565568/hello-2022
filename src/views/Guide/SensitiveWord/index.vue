@@ -28,7 +28,7 @@
           <div class="control">
             <ns-table-operate-button :buttons="_data._table.table_buttons"/>
             <span>
-               <el-tooltip content="只对敏感词创建时间后的聊天记录进行监控统计" placement="bottom">
+               <el-tooltip content="只对敏感词创建时间后的聊天记录进行监控统计">
                  <i class="questioncircle">
                    <Icon type="question-circle"/>
                  </i>
@@ -67,7 +67,7 @@
               <template slot="header" scope="header">
                 <span>
                   <span>导购发送次数</span>
-                  <el-tooltip content="敏感词在导购所发送的消息中出现的次数" placement="bottom">
+                  <el-tooltip content="敏感词在导购所发送的消息中出现的次数">
                     <Icon type="question-circle"/>
                   </el-tooltip>
                 </span>
@@ -82,7 +82,7 @@
               <template slot="header" scope="header">
                 <span>
                   <span>会员发送次数</span>
-                  <el-tooltip content="敏感词在会员所发送的消息中出现的次数" placement="bottom">
+                  <el-tooltip content="敏感词在会员所发送的消息中出现的次数">
                     <Icon type="question-circle"/>
                   </el-tooltip>
                 </span>

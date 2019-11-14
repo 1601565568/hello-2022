@@ -29,7 +29,7 @@
         >
           <div slot-scope="{ node, data }">
             <el-tooltip :content="(node.label || data.wid) + (data.chatroomname ? '('+data.quantity + ')' : ' / ' + data.quantity)"
-                        placement="bottom-start" popper-class="table-body__tooltip" >
+                        popper-class="table-body__tooltip" >
                <div class="treelength">
                  {{wordLimit((node.label || data.wid) + (data.chatroomname ? '('+data.quantity + ')' : ' / ' + data.quantity))}}
                </div>
@@ -192,7 +192,7 @@
               <template slot="header" scope="header">
                 <span>
                   <span>{{header.column.label}}</span>
-                  <el-tooltip content="点击群名称，可查看此群下所有微信" placement="bottom">
+                  <el-tooltip content="点击群名称，可查看此群下所有微信">
                     <Icon type="question-circle"/>
                   </el-tooltip>
                 </span>

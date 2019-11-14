@@ -135,19 +135,19 @@
           <el-radio-group v-model="transferRadio">
             <el-radio @change="shiftChange" label="1">
               同门店均分
-              <el-tooltip class="item" effect="light" content="平均分配给会员所属门店员工" placement="bottom">
+              <el-tooltip class="item" effect="light" content="平均分配给会员所属门店员工">
                <Icon type="question-circle" theme="filled" />
               </el-tooltip>
             </el-radio>
             <el-radio @change="shiftChange" label="2">
               转移给指定导购
-              <el-tooltip class="item" effect="light" content="会员全部转给选择的员工" placement="bottom">
+              <el-tooltip class="item" effect="light" content="会员全部转给选择的员工">
                 <Icon type="question-circle" theme="filled" />
               </el-tooltip>
             </el-radio>
             <el-radio @change="shiftChange" label="3">
               自定义转移
-              <el-tooltip class="item" effect="light" content="自定义选择会员转移给选择的员工" placement="bottom">
+              <el-tooltip class="item" effect="light" content="自定义选择会员转移给选择的员工">
                 <Icon type="question-circle" theme="filled" />
               </el-tooltip>
             </el-radio>

@@ -21,11 +21,11 @@
               </el-select>
             </el-form-grid>
           </el-form-item>
+          <el-form-item>
+            <ns-button type="primary" @click="searchAction(model)">搜索</ns-button>
+            <ns-button @click="resetInputAction">重置</ns-button>
+          </el-form-item>
         </el-form>
-        <div class="template-table__more-btn">
-          <ns-button type="primary" @click="searchAction(model)">搜索</ns-button>
-          <ns-button @click="resetInputAction">重置</ns-button>
-        </div>
       </div>
       <!--  搜索结束  -->
       <!--  表格开始  -->
@@ -121,7 +121,7 @@
                   {{integralName[1]}}
                 </div>
                 <div v-else>
-                  <el-tooltip placement="bottom">
+                  <el-tooltip>
                     <div slot="content">{{integralName[1]}}</div>
                     <span class="dialog-conceal">{{integralName[1]}}</span>
                   </el-tooltip>
@@ -145,7 +145,7 @@
                   {{integralName[4]}}
                 </div>
                 <div v-else>
-                  <el-tooltip placement="bottom">
+                  <el-tooltip>
                     <div slot="content">{{integralName[4]}}</div>
                     <span class="dialog-conceal">{{integralName[4]}}</span>
                   </el-tooltip>
@@ -173,7 +173,7 @@
                   {{integralName[0]}}
                 </div>
                 <div v-else>
-                  <el-tooltip placement="bottom">
+                  <el-tooltip>
                     <div slot="content">{{integralName[0]}}</div>
                     <span class="dialog-conceal">{{integralName[0]}}</span>
                   </el-tooltip>
@@ -197,7 +197,7 @@
                   {{integralName[2]}}
                 </div>
                 <div v-else>
-                  <el-tooltip placement="bottom">
+                  <el-tooltip>
                     <div slot="content">{{integralName[2]}}</div>
                     <span class="dialog-conceal">{{integralName[2]}}</span>
                   </el-tooltip>
@@ -224,7 +224,7 @@
                 {{items.customerRemark||'-'}}
               </span>
               <div v-else>
-                <el-tooltip :content="items.customerRemark" placement="bottom">
+                <el-tooltip :content="items.customerRemark">
                   <div slot="content">{{items.customerRemark||'ces'}}</div>
                   <span class="dialog-hidden">{{items.customerRemark}}</span>
                 </el-tooltip>
@@ -252,7 +252,7 @@
                   {{integralName[3]}}
                 </div>
                 <div v-else>
-                  <el-tooltip placement="bottom">
+                  <el-tooltip>
                     <div slot="content">{{integralName[3]}}</div>
                     <span class="dialog-conceal">{{integralName[3]}}</span>
                   </el-tooltip>
@@ -322,7 +322,7 @@
             <div class="dialog-transaction">
               <el-form class="dialog-transaction__form">
                 <el-form-item label="当前客户累计交易额（元）">
-                  <el-tooltip content="交易成功订单的总金额（包含退款金额）" placement="right">
+                  <el-tooltip content="交易成功订单的总金额（包含退款金额）">
                     <i class="questioncircle"><Icon type="question-circle"/></i>
                   </el-tooltip>
                 </el-form-item>
@@ -333,19 +333,19 @@
                 <el-form-item class="dialog-detail">
                   <el-form-grid size="md">
                     回购周期：{{rfmInfo.buyBackAllPeriod}}
-                    <el-tooltip content="（最近一次交易成功时间-第一次交易成功时间）/（交易成功次数-1）" placement="right">
+                    <el-tooltip content="（最近一次交易成功时间-第一次交易成功时间）/（交易成功次数-1）">
                       <Icon type="question-circle"/>
                     </el-tooltip>
                   </el-form-grid>
                   <el-form-grid size="md">
                     笔单价：{{rfmInfo.priceUnit}}元
-                    <el-tooltip content="交易成功总额/交易成功订单数（包含退款）" placement="right">
+                    <el-tooltip content="交易成功总额/交易成功订单数（包含退款）">
                       <Icon type="question-circle"/>
                     </el-tooltip>
                   </el-form-grid>
                   <el-form-grid size="md">
                     连带率：{{rfmInfo.itemUnit}}件
-                    <el-tooltip content="交易成功订单商品数量/交易成功订单数（包含退款）" placement="right">
+                    <el-tooltip content="交易成功订单商品数量/交易成功订单数（包含退款）">
                       <Icon type="question-circle"/>
                     </el-tooltip>
                   </el-form-grid>
@@ -353,7 +353,7 @@
                 <el-form-item label="最近交易：">
                   <el-form-grid size="xxlg">
                     {{rfmInfo.lastSuccessTime}}
-                    <el-tooltip content="最近一笔交易成功时间" placement="right">
+                    <el-tooltip content="最近一笔交易成功时间">
                       <i class="questioncircle"><Icon type="question-circle"/></i>
                     </el-tooltip>
                   </el-form-grid>

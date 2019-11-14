@@ -139,7 +139,7 @@
         <template slot='header' scope='header'>
           <span>
             <span>{{header.column.label}}</span>
-            <el-tooltip content="不显示已删除门店的导购" placement="bottom">
+            <el-tooltip content="不显示已删除门店的导购">
               <Icon type="question-circle"/>
             </el-tooltip>
           </span>

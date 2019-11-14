@@ -48,7 +48,7 @@
                 <template slot='header' scope='header'>
                     <span>
                       <span>{{header.column.label}}</span>
-                      <el-tooltip content="此微信客户是否为会员" placement="bottom">
+                      <el-tooltip content="此微信客户是否为会员">
                        <Icon type="question-circle"/>
                       </el-tooltip>
                     </span>
@@ -62,7 +62,7 @@
                 <template slot='header' scope='header'>
                     <span>
                       <span>{{header.column.label}}</span>
-                      <el-tooltip content="此微信客户是否有专属导购" placement="bottom">
+                      <el-tooltip content="此微信客户是否有专属导购">
                        <Icon type="question-circle"/>
                       </el-tooltip>
                     </span>

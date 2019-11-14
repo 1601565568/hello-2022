@@ -11,16 +11,14 @@
       value-format="yyyy-MM-dd"
       :picker-options="pickerOption">
     </el-date-picker>
-    <el-tooltip content="根据任务的开始时间筛选，结束时间默认为当前时间"
-                placement="right-start">
+    <el-tooltip content="根据任务的开始时间筛选，结束时间默认为当前时间">
       <i class="text-secondary"><Icon type="info-circle" theme="filled" /></i>
     </el-tooltip>
   </div>
   <div class="bg-white mt5 ">
     <div class="text-secondary ptb5 plr10">
       任务统计
-      <el-tooltip content="任务总数：统计所有的任务数量；进行中：统计进行中的任务数"
-                  placement="right-start">
+      <el-tooltip content="任务总数：统计所有的任务数量；进行中：统计进行中的任务数">
         <Icon type="info-circle" theme="filled" />
       </el-tooltip>
     </div>
@@ -62,16 +60,14 @@
                 <p class='fz16' style='color:#33393e'>{{percentage.completed}}%</p>
               </div>
             </div>
-            <el-tooltip content="完成率 = （按时完成 + 延期完成）/ 任务总数"
-                        placement="right-start">
+            <el-tooltip content="完成率 = （按时完成 + 延期完成）/ 任务总数">
               <i class="text-secondary leftspace"><Icon type="info-circle" theme="filled" /></i>
             </el-tooltip>
           </div>
           <div>
               <div>
                 <span class='fz12 text-secondary'>按时完成</span>
-                <el-tooltip content="在规定时间内完成的任务数"
-                            placement="right-start">
+                <el-tooltip content="在规定时间内完成的任务数">
                   <i class="text-secondary"><Icon type="info-circle" theme="filled" /></i>
                 </el-tooltip>
               </div>
@@ -95,16 +91,14 @@
                 <p class='fz16' style='color:#33393e'>{{percentage.delay}}%</p>
               </div>
             </div>
-            <el-tooltip content=" 延期率 = 延期数/ 任务总数"
-                        placement="right-start">
+            <el-tooltip content=" 延期率 = 延期数/ 任务总数">
               <i class="text-secondary leftspace"><Icon type="info-circle" theme="filled" /></i>
             </el-tooltip>
           </div>
           <div>
               <div>
                 <span class='fz12 text-secondary'>延期数</span>
-                <el-tooltip content="延期数：只有没有按时完成的任务即为延期（包含延期完成和未完成）"
-                            placement="right-start">
+                <el-tooltip content="延期数：只有没有按时完成的任务即为延期（包含延期完成和未完成）">
                   <i class="text-secondary"><Icon type="info-circle" theme="filled" /></i>
                 </el-tooltip>
               </div>
@@ -128,7 +122,7 @@
         <div class="overview-content__title flex flex-between">
           <div class='span'>任务进度
             <el-tooltip content="任务显示根据任务的开始时间进行筛选；例如：筛选时间为2019-03-01至现在，则显示任务开始时间为2019-03-01至现在的任务"
-                        placement="right-start">
+                        popper-class="table-body__tooltip" >
               <i class="text-secondary"><Icon type="info-circle" theme="filled" /></i>
             </el-tooltip>
           </div>
@@ -161,8 +155,7 @@
       <div class="overview-echart__item">
         <div class="overview-content__title overview-content__title--pink">
           <div class='span'>燃尽图
-            <el-tooltip content="统计所有任务的总数和未完成数（未完成数：进行中任务+延期未完成任务）"
-                        placement="right-start">
+            <el-tooltip content="统计所有任务的总数和未完成数（未完成数：进行中任务+延期未完成任务）">
               <i class="text-secondary"><Icon type="info-circle" theme="filled" /></i>
             </el-tooltip>
           </div>
@@ -184,8 +177,7 @@
       <div class="overview-echart__item overview-echart__item--pink">
         <div class="overview-content__title">
           <span class='span'>门店完成任务数排行榜</span>
-          <el-tooltip content="完成任务包含按时完成和延期完成"
-                      placement="right-start">
+          <el-tooltip content="完成任务包含按时完成和延期完成">
             <i class="text-secondary"><Icon type="info-circle" theme="filled" /></i>
           </el-tooltip>
         </div>
@@ -204,8 +196,7 @@
       <div class="overview-echart__item overview-echart__item--pink">
         <div class="overview-content__title">
           <span class='span'>完成任务包含按时完成和延期完成</span>
-          <el-tooltip content="完成任务包含按时完成和延期完成"
-                      placement="right-start">
+          <el-tooltip content="完成任务包含按时完成和延期完成">
             <i class="text-secondary"><Icon type="info-circle" theme="filled" /></i>
           </el-tooltip>
         </div>

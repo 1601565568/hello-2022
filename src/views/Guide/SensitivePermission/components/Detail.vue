@@ -54,7 +54,7 @@
                   <template slot='header' scope='header'>
                     <span>
                       <span>{{item.name}}</span>
-                      <el-tooltip v-if='item.header' :content='item.header' placement="bottom">
+                      <el-tooltip v-if='item.header' :content='item.header'>
                        <Icon type="question-circle"/>
                       </el-tooltip>
                     </span>

@@ -78,7 +78,7 @@
       <el-table-column  width="200"  align="center">
         <template slot="header" slot-scope="scope">
           排序
-          <el-tooltip content="调整分类的排列顺序" placement="bottom">
+          <el-tooltip content="调整分类的排列顺序">
             <Icon type="question-circle"/>
           </el-tooltip>
         </template>

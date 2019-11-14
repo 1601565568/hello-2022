@@ -12,7 +12,7 @@
           <div class="subdivision-tree-node" slot-scope="{ node }">
             <span>{{node.label}}</span>
             <span v-if="node.label === '全部'">
-              <el-tooltip content="查看所有的线下门店" placement="right">
+              <el-tooltip content="查看所有的线下门店">
                 <Icon type="question-circle"/>
               </el-tooltip>
             </span>

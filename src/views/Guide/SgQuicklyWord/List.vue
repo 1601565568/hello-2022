@@ -4,7 +4,7 @@
       <ns-button type="primary" @click="onSaveQuicklyWordGroupOpen">新增分类</ns-button>
       <div class='ptb5 bg-white pl5' >
         <span class="demonstration">分类</span>
-        <el-tooltip content="拖动调整分类排序，导购端同步" placement="bottom">
+        <el-tooltip content="拖动调整分类排序，导购端同步">
           <Icon type="question-circle"/>
         </el-tooltip>
       </div>
@@ -61,7 +61,7 @@
             <el-table-column align="left" v-if="showOrder">
               <template slot="header" slot-scope="scope">
                 排序
-                <el-tooltip content="调整排列顺序小程序同步" placement="bottom">
+                <el-tooltip content="调整排列顺序小程序同步">
                   <Icon type="question-circle"/>
                 </el-tooltip>
               </template>
