@@ -45,7 +45,7 @@
         </template>
         <template slot="searchSearch">
           <el-form :model="model" :inline="true" @submit.native.prevent class="pull-right">
-            <el-form-item v-show="_data._queryConfig.expand === false">
+            <el-form-item v-show="_data._queryConfig.expand === false" label="微信昵称：">
               <el-input
                 ref="quickText"
                 v-model="model.nick"

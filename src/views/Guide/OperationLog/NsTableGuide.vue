@@ -47,8 +47,8 @@
           </el-form-item>
 
            <el-form-item label="数据库ID：">
-            <el-form-grid>
-              <el-input style="width:180px" autofocus=true v-model="model.targetId" placeholder="请输入数据库ID" clearable></el-input>
+            <el-form-grid size="xmd">
+              <el-input autofocus=true v-model="model.targetId" placeholder="请输入数据库ID" clearable></el-input>
             </el-form-grid>
              <el-form-grid><ns-button className="text-tips" type="text" @click="showTargetDetail = true">查询ID</ns-button></el-form-grid>
              <el-form-grid>
@@ -57,7 +57,7 @@
           </el-form-item>
 
           <el-form-item label="所属门店：">
-            <el-form-grid>
+            <el-form-grid size="xmd">
               <el-select placeholder="请选择所属门店" v-model="model.shopId" clearable filterable>
                 <el-option v-for="shop in shopFindList" :label="shop.shopName" :value="shop.id"
                            :key="shop.id"></el-option>

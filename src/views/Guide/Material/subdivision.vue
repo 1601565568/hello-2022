@@ -1,20 +1,3 @@
-<style scoped>
-  .topHid{
-    visibility: hidden
-  }
-  .sort{
-    color:#0091FA;
-    cursor: pointer;
-  }
-</style>
-<style scoped>
-.has-gutter .el-table_2_column_9::after{
-  content: "》";
-  color: blue;
-
-}
-</style>
-
 <template>
 <!-- 门店工作统计  wanrengang 20180716 -->
 <div>
@@ -40,8 +23,8 @@
                 <el-input v-model="searchform.subdivision_name" placeholder="请输入分组名称" @keyup.enter.native="submitForm('searchform')" clearable></el-input>
               </el-form-item>
               <el-form-item>
-                <ns-button type="primary" @click="submitForm('searchform')">搜索</ns-button>
-                <ns-button @click="resetForm('searchform')">重置</ns-button>
+                <ns-button type="primary" @click="submitForm('searchform')" class="searchbtn">搜索</ns-button>
+                <ns-button @click="resetForm('searchform')" class="resetbtn">重置</ns-button>
               </el-form-item>
             </el-form>
         </el-col>
@@ -311,3 +294,29 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+  @import "@theme/variables.pcss";
+
+  .topHid{
+    visibility: hidden
+  }
+  .sort{
+    color: var(--theme-color-primary);
+    cursor: pointer;
+  }
+  .searchbtn {
+    margin-left: var(--default-margin-base);
+  }
+  .resetbtn {
+    margin-left: 11px;
+  }
+</style>
+<style scoped>
+  .has-gutter .el-table_2_column_9::after{
+    content: "》";
+    color: blue;
+
+  }
+</style>
+

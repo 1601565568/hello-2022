@@ -29,13 +29,13 @@
     <!-- el-inpu 需添加  @keyup.enter.native="$quickSearchAction$" 配置，实现回车搜索 -->
     <template slot="searchSearch">
       <el-form :model="quickSearchModel" :inline="true" @submit.native.prevent  class="pull-right">
-        <el-form-item v-show="_data._queryConfig.expand === false">
-          <el-input ref="quickText" style="width: 250px" v-model="model.mobile" placeholder="手机号" @keyup.enter.native="$searchAction$()" clearable>
+        <el-form-item v-show="_data._queryConfig.expand === false" label="手机号：">
+          <el-input ref="quickText" style="width: 180px" v-model="model.mobile" placeholder="请输入手机号" @keyup.enter.native="$searchAction$()" clearable>
             <!--<Icon type="search" className="el-input__icon" style="padding: 5px;" slot="suffix" moblie="moblie"-->
                   <!--@click="$searchAction$()"/>-->
           </el-input>
-          <ns-button type="primary" @click="$searchAction$()">搜索</ns-button>
-          <ns-button @click="$resetInputAction$()">重置</ns-button>
+          <ns-button type="primary" @click="$searchAction$()" class="searchbtn">搜索</ns-button>
+          <ns-button @click="$resetInputAction$()" class="resetbtn">重置</ns-button>
         </el-form-item>
 
         <el-form-item>
@@ -253,6 +253,12 @@ export default NsTableGuide
     font-weight: normal;
     padding-left: var(--default-padding-base);
     cursor: pointer;
+  }
+  .searchbtn {
+    margin-left: 11px;
+  }
+  .resetbtn {
+    margin-left: var(--default-margin-larger);
   }
 </style>
 <style scoped>

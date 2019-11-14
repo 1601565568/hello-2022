@@ -12,13 +12,13 @@
     <!-- el-inpu 需添加  @keyup.enter.native="$quickSearchAction$" 配置，实现回车搜索 -->
     <template slot="searchSearch">
       <el-form :model="quickSearchModel" :inline="true" @submit.native.prevent  class="pull-right">
-        <el-form-item v-show="_data._queryConfig.expand === false">
+        <el-form-item v-show="_data._queryConfig.expand === false" label="好友昵称/微信号：">
           <el-input ref="quickText" style="width: 250px" v-model="model.keyWord" placeholder="请输入好友昵称/微信号" @keyup.enter.native="$quickSearchAction$('keyWord')" clearable>
             <!--<Icon type="search" className="el-input__icon" style="padding: 5px;" slot="suffix" name="name"-->
                   <!--@click="$quickSearchAction$('name')"/>-->
           </el-input>
-          <ns-button type="primary" @click="$searchAction$()">搜索</ns-button>
-          <ns-button @click="$resetInputAction$()">重置</ns-button>
+          <ns-button type="primary" @click="$searchAction$()" class="searchbtn">搜索</ns-button>
+          <ns-button @click="$resetInputAction$()" class="resetbtn">重置</ns-button>
         </el-form-item>
         <el-form-item>
           <ns-button type="text" @click="$handleTabClick">
@@ -37,7 +37,7 @@
       <el-form ref="table_filter_form" :model="model" label-width="80px" :inline="true">
 
         <el-form-item label="个人号：" >
-          <el-select placeholder="个人号" v-model="model.ownerId"  class="el-block" filterable style="width: 180px">
+          <el-select placeholder="个人号" v-model="model.ownerId"  class="el-block" filterable>
             <el-option  v-for="number in personalNumberList" :label="number.nick" :value="number.wid" :key="number.wid" ></el-option>
           </el-select>
         </el-form-item>
@@ -64,19 +64,19 @@
           <el-date-picker
             v-model="model.addTime"
             type="daterange"
-            range-separator="-"
+            range-separator="至"
             start-placeholder="开始日期"
             end-placeholder="结束日期"
             value-format="yyyy-MM-dd HH-mm-ss"
             :default-time="['00:00:00','23:59:59']">
           </el-date-picker>
         </el-form-item>
-        <el-form-item label="最近交流时间：" label-width="100px">
+        <el-form-item label="最近交流时间：" label-width="105px">
           <el-form-grid>
             <el-date-picker
               v-model="model.lastTime"
               type="daterange"
-              range-separator="-"
+              range-separator="至"
               start-placeholder="开始日期"
               end-placeholder="结束日期"
               value-format="yyyy-MM-dd HH-mm-ss"
@@ -205,5 +205,11 @@ export default friend
   }
   .high{
     height : 60px
+  }
+  .searchbtn {
+    margin-left: 11px;
+  }
+  .resetbtn {
+    margin-left: var(--default-margin-larger);
   }
 </style>

@@ -36,11 +36,11 @@
         <!-- el-inpu 需添加  @keyup.enter.native="$quickSearchAction$" 配置，实现回车搜索 -->
         <template slot="searchSearch">
           <el-form :model="model" :inline="true" @submit.native.prevent  class="pull-right">
-            <el-form-item>
-              <el-input ref="quickText" style="width: 250px" v-model="model.searchValue" placeholder="请输入关键词/添加人/分类" @keyup.enter.native="$searchAction$()" clearable>
+            <el-form-item label="关键词/添加人/分类：">
+              <el-input ref="quickText" style="width: 200px" v-model="model.searchValue" placeholder="请输入关键词/添加人/分类" @keyup.enter.native="$searchAction$()" clearable>
               </el-input>
-              <ns-button type="primary" @click="$searchAction$()">搜索</ns-button>
-              <ns-button @click="$resetInputAction$()">重置</ns-button>
+              <ns-button type="primary" @click="$searchAction$()" class="searchbtn">搜索</ns-button>
+              <ns-button @click="$resetInputAction$()" class="resetbtn">重置</ns-button>
             </el-form-item>
           </el-form>
         </template>
@@ -347,4 +347,10 @@ export default List
       display: block;
     }
   }
+ .searchbtn {
+   margin-left: 11px;
+ }
+ .resetbtn {
+   margin-left: var(--default-margin-larger);
+ }
 </style>

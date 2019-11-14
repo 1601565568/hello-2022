@@ -49,8 +49,8 @@
                 <el-input v-model="searchform.shopName" placeholder="请输入门店名称" @keyup.enter.native="submitForm('searchform')" clearable></el-input>
               </el-form-item>
               <el-form-item>
-                <ns-button type="primary" @click="submitForm('searchform')">搜索</ns-button>
-                <ns-button @click="resetForm('searchform')">重置</ns-button>
+                <ns-button type="primary" @click="submitForm('searchform')" class="searchbtn">搜索</ns-button>
+                <ns-button @click="resetForm('searchform')" class="resetbtn">重置</ns-button>
               </el-form-item>
             </el-form>
         </el-col>
@@ -520,22 +520,18 @@ export default {
 }
 </script>
 <style scoped>
-.el-input.el-input--small .el-input__inner {
-  text-indent: 25rpx !important;
-}
-.topTip {
-  line-height: 32px;
-  height: 32px;
-}
-.topTip .tipInfo {
-  padding-left: 15px;
-  color: #333;
-}
-.topTip span {
-  font-size: 13px;
-  color: #f00;
-}
-.mt10 {
-  margin-top: 10px;
-}
+  @import "@theme/variables.pcss";
+
+  .el-input.el-input--small .el-input__inner {
+    text-indent: 25rpx !important;
+  }
+  .mt10 {
+    margin-top: var(--default-margin-larger);
+  }
+  .searchbtn {
+    margin-left: var(--default-margin-base);
+  }
+  .resetbtn {
+    margin-left: 9px;
+  }
 </style>

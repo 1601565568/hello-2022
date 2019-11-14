@@ -41,13 +41,13 @@
         <!-- 搜索 -->
         <template slot="searchSearch">
           <el-form :model="model" :inline="true" @submit.native.prevent class="pull-right">
-            <el-form-item>
+            <el-form-item label="敏感词：">
               <el-form-grid block class="text-info">
                 <el-input ref="quickText" style="width: 250px" name="name" v-model="model.name" placeholder="搜索敏感词"
                           @keyup.enter.native="$searchAction$()" clearable>
                 </el-input>
-                <ns-button type="primary" @click="$searchAction$()">搜索</ns-button>
-                <ns-button @click="$resetInputAction$()">重置</ns-button>
+                <ns-button type="primary" @click="$searchAction$()" class="searchbtn">搜索</ns-button>
+                <ns-button @click="$resetInputAction$()" class="ml10">重置</ns-button>
               </el-form-grid>
             </el-form-item>
           </el-form>
@@ -311,5 +311,8 @@ export default index
   .questioncircle {
     position: relative;
     left: -6px;
+  }
+  .searchbtn {
+    margin-left: 11px;
   }
 </style>

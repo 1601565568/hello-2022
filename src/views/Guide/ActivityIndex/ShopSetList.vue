@@ -29,22 +29,27 @@
                 <Icon :type="searchType.advanced ? 'up' : 'down'"/>
               </ns-button>
             </div>
-            <el-form ref="searchform1" class="float-right" v-if="!searchType.advanced" :inline="true" :model="searchform">
+            <el-form ref="searchform1" class="float-right" v-if="!searchType.advanced" :inline="true" :model="searchform"
+                     label-width="60px">
               <el-form-item label="年份：" prop="year">
-                <el-date-picker
-                  :clearable="false"
-                  :editable="false"
-                  v-model="searchform.year"
-                  type="year"
-                  placeholder="选择年">
-                </el-date-picker>
+                <el-form-grid size="md">
+                  <el-date-picker
+                    :clearable="false"
+                    :editable="false"
+                    v-model="searchform.year"
+                    type="year"
+                    placeholder="选择年">
+                  </el-date-picker>
+                </el-form-grid>
               </el-form-item>
               <el-form-item label="门店名称：" prop="shopName">
-                <el-input v-model="searchform.shopName" placeholder="请输入门店名称" clearable @keyup.enter.native="submitForm('searchform')" style="width: 220px;"></el-input>
+                <el-form-grid size="md">
+                  <el-input v-model="searchform.shopName" placeholder="请输入门店名称" clearable @keyup.enter.native="submitForm('searchform')"></el-input>
+                </el-form-grid>
               </el-form-item>
               <el-form-item>
                 <ns-button type="primary" @click="submitForm('searchform1')">搜索</ns-button>
-                <ns-button @click="resetForm('searchform1')">重置</ns-button>
+                <ns-button @click="resetForm('searchform1')" class="resetbtn">重置</ns-button>
               </el-form-item>
             </el-form>
         </el-col>
@@ -53,19 +58,23 @@
   <!-- 高级搜索start -->
   <div class="template-table-search" v-if="searchType.advanced">
       <div class="template-table__bar-more">
-        <el-form ref="searchform2" label-width="80px"  class="surround-btn" :model="searchform"  :inline="true">
+        <el-form ref="searchform2" label-width="60px"  class="surround-btn" :model="searchform"  :inline="true">
           <el-form-item label="年份：" prop="year">
-            <el-date-picker
-              v-model="searchform.year"
-              type="year"
-              :editable="false"
-              :clearable='false'
-              placeholder="选择年"
+            <el-form-grid size="md">
+              <el-date-picker
+                v-model="searchform.year"
+                type="year"
+                :editable="false"
+                :clearable='false'
+                placeholder="选择年"
               >
-            </el-date-picker>
+              </el-date-picker>
+            </el-form-grid>
           </el-form-item>
           <el-form-item label="门店名称：" prop="shopName">
-            <el-input v-model="searchform.shopName" placeholder="请输入门店名称" clearable style="width: 220px;"></el-input>
+            <el-form-grid size="md">
+              <el-input v-model="searchform.shopName" placeholder="请输入门店名称" clearable></el-input>
+            </el-form-grid>
           </el-form-item><!--
           <el-form-item label="状态：" prop="shopStatus">
             <el-select v-model="searchform.shopStatus" placeholder="请选择状态" clearable >
@@ -318,5 +327,8 @@ export default {
   }
   .mt10 {
     margin-top: var(--default-margin-larger);
+  }
+  .resetbtn {
+    margin-left: var(--default-margin-larger);
   }
 </style>
