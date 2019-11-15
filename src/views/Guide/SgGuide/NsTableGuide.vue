@@ -14,12 +14,12 @@
     <!-- el-inpu 需添加  @keyup.enter.native="$quickSearchAction$" 配置，实现回车搜索 -->
     <template slot="searchSearch">
       <el-form :model="quickSearchModel" :inline="true" @submit.native.prevent  class="pull-right">
-        <el-form-item v-show="_data._queryConfig.expand === false">
-          <el-input ref="quickText" style="width: 250px" v-model="model.name" placeholder="请输入工号/姓名/昵称/手机号" @keyup.enter.native="$quickSearchAction$('name')" clearable>
+        <el-form-item v-show="_data._queryConfig.expand === false" label="工号/姓名/昵称/手机号：">
+          <el-input ref="quickText" style="width: 180px" v-model="model.name" placeholder="请输入工号/姓名/昵称/手机号" @keyup.enter.native="$quickSearchAction$('name')" clearable>
 <!--             <Icon type="search" className="el-input__icon" style="padding: 5px;" slot="suffix" name="name" @click="$quickSearchAction$('name')"/>-->
           </el-input>
-          <ns-button type="primary" @click="$searchAction$()">搜索</ns-button>
-          <ns-button @click="$resetInputAction$()">重置</ns-button>
+          <ns-button type="primary" @click="$searchAction$()" class="searchbtn">搜索</ns-button>
+          <ns-button @click="$resetInputAction$()" class="resetbtn">重置</ns-button>
         </el-form-item>
         <el-form-item>
           <ns-button type="text" @click="$handleTabClick">
@@ -45,7 +45,7 @@
 
         <el-form-item label="所属门店：">
           <el-form-grid>
-            <el-select placeholder="请选择所属门店" v-model="model.shop" clearable filterable @clear="setShopNull">
+            <el-select placeholder="请选择所属门店" v-model="model.shop" clearable filterable @clear="setShopNull" style="width:180px">
               <el-option v-for="shop in shopFindList" :label="shop.shopName" :value="shop.id"
                          :key="shop.id"></el-option>
             </el-select>
@@ -54,7 +54,7 @@
 
         <el-form-item label="职务：">
           <el-form-grid>
-            <el-select placeholder="请选择职务" v-model="model.job" clearable @clear="setJobNull">
+            <el-select placeholder="请选择职务" v-model="model.job" clearable @clear="setJobNull" style="width:180px">
               <el-option label="店长" :value="1"></el-option>
               <el-option label="导购" :value="0"></el-option>
             </el-select>
@@ -121,7 +121,7 @@
           <template slot='header' scope='header'>
                     <span>
                       <span>{{header.column.label}}</span>
-                      <el-tooltip placement="bottom">
+                      <el-tooltip>
                         <div slot="content">
                           <div>需将员工账号与导购终端手机进行绑定，让其能够应用智慧导购系统</div>
                           <div><span class='tips'>注：</span>使用终端系统的，非离职的，建议不要进行客户转移</div>
@@ -210,5 +210,11 @@ export default guide
   }
   >>> .el-dropdown-link {
     margin-left: 5px !important;
+  }
+  .searchbtn {
+    margin-left: 11px;
+  }
+  .resetbtn {
+    margin-left: var(--default-margin-larger);
   }
 </style>

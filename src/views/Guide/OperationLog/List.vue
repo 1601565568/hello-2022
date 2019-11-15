@@ -31,7 +31,7 @@
         </el-table>
       </div>
       <div slot="footer">
-        <ns-button @click="detailShow = false">取消</ns-button>
+        <ns-button @click="detailShow = false">关闭</ns-button>
       </div>
     </el-dialog>
     <!-- 查看详情结束 -->

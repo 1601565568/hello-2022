@@ -17,7 +17,7 @@
         <el-col :span="17">
           <!-- 右上角操作区域 -->
           <div class="float-right tabSearchBtn">
-            <ns-button @click="tabSearchType" style="padding: 5px 0 5px 10px;opacity: 0.5;color: #002041;" type="text">{{searchType.tipText}}<Icon :type="searchType.advanced ? 'up' : 'down'"/></ns-button>
+            <ns-button @click="tabSearchType" style="padding-left: 10px;opacity: 0.5;color: #002041;" type="text">{{searchType.tipText}}<Icon :type="searchType.advanced ? 'up' : 'down'"/></ns-button>
           </div>
           <el-form ref="searchform" class="float-right" @submit.native.prevent v-if="!searchType.advanced" :inline="true" :model="searchform">
             <el-form-item label="素材内容：" prop="content">
@@ -25,8 +25,8 @@
             </el-form-item>
 
             <el-form-item>
-              <ns-button type="primary" @click="submitForm('searchform')">搜索</ns-button>
-              <ns-button @click="resetForm('searchform')">重置</ns-button>
+              <ns-button type="primary" @click="submitForm('searchform')" class="searchbtn">搜索</ns-button>
+              <ns-button @click="resetForm('searchform')" class="resetbtn">重置</ns-button>
             </el-form-item>
           </el-form>
         </el-col>
@@ -416,7 +416,14 @@ export default {
 }
 </script>
 <style scoped>
-.mt10{
-  border-radius: 3px 3px 0 0 !important
-}
+  @import "@theme/variables.pcss";
+  .mt10{
+    border-radius: var(--default-radius-mini) var(--default-radius-mini) 0 0 !important
+  }
+  .searchbtn {
+    margin-left: var(--default-margin-base);
+  }
+  .resetbtn {
+    margin-left: 9px;
+  }
 </style>

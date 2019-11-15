@@ -14,7 +14,7 @@
       <el-input ref="quickText" v-model="filterGroup" placeholder="搜索群名">
         <Icon type="search" className="el-input__icon" style="padding: 5px;" slot="suffix" @click="onFilterGroup"/>
       </el-input>
-      <div class="elTree" :style="{ 'height' : groupTreeHeight + 'px'}">
+      <div class="elTree">
         <el-tree
           class="filter-tree"
           ref="groupTree"
@@ -28,16 +28,12 @@
           @node-click="onClickGroupNode"
         >
           <div slot-scope="{ node, data }">
-            <el-popover
-              class="item"
-              trigger="hover"
-              :content="(node.label || data.wid) + (data.chatroomname ? '('+data.quantity + ')' : ' / ' + data.quantity)"
-              placement="top-end"
-            >
-              <span
-                slot="reference"
-              >{{wordLimit((node.label || data.wid) + (data.chatroomname ? '('+data.quantity + ')' : ' / ' + data.quantity))}}</span>
-            </el-popover>
+            <el-tooltip :content="(node.label || data.wid) + (data.chatroomname ? '('+data.quantity + ')' : ' / ' + data.quantity)"
+                        popper-class="table-body__tooltip" >
+               <div class="treelength">
+                 {{wordLimit((node.label || data.wid) + (data.chatroomname ? '('+data.quantity + ')' : ' / ' + data.quantity))}}
+               </div>
+            </el-tooltip>
           </div>
         </el-tree>
       </div>
@@ -49,7 +45,7 @@
         </template>
         <template slot="searchSearch">
           <el-form :model="model" :inline="true" @submit.native.prevent class="pull-right">
-            <el-form-item v-show="_data._queryConfig.expand === false">
+            <el-form-item v-show="_data._queryConfig.expand === false" label="微信昵称：">
               <el-input
                 ref="quickText"
                 v-model="model.nick"
@@ -125,8 +121,9 @@
               type="default"
               prop="title"
               label="头像"
-              width="80px"
+              width="70px"
               :sortable="false"
+              align='center'
             >
               <template slot-scope="scope">
                 <div class="avatar-name clearfix">
@@ -189,13 +186,13 @@
                   >{{scope.row.displayname}}</ns-button>
                 </el-row>
                 <el-row>
-                  <span>{{scope.row.chatroomnotice || '-'}}</span>
+                  <span>{{scope.row.chatroomnotice || ''}}</span>
                 </el-row>
               </template>
               <template slot="header" scope="header">
                 <span>
                   <span>{{header.column.label}}</span>
-                  <el-tooltip content="点击群名称，可查看此群下所有微信" placement="bottom">
+                  <el-tooltip content="点击群名称，可查看此群下所有微信">
                     <Icon type="question-circle"/>
                   </el-tooltip>
                 </span>
@@ -322,5 +319,11 @@ export default Index
   font-weight: normal;
   padding-left: var(--default-padding-base);
   cursor: pointer;
+}
+.treelength {
+  width: 180px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 </style>

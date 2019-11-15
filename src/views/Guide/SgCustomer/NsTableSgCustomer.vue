@@ -12,13 +12,13 @@
     <!-- el-inpu 需添加  @keyup.enter.native="$quickSearchAction$" 配置，实现回车搜索 -->
     <template slot="searchSearch">
       <el-form :model="model" :inline="true" @submit.native.prevent class="pull-right">
-        <el-form-item v-show="_data._queryConfig.expand === false">
-          <el-input ref="quickText" style="width: 250px" v-model="model.transName" placeholder="请输入转出人" @keyup.enter.native="$quickSearchAction$('transName')" clearable>
+        <el-form-item v-show="_data._queryConfig.expand === false" label="转出人：">
+          <el-input ref="quickText" style="width: 200px" v-model="model.transName" placeholder="请输入转出人" @keyup.enter.native="$quickSearchAction$('transName')" clearable>
             <!--<Icon type="search" className="el-input__icon" style="padding: 5px;" slot="suffix" name="name"-->
                   <!--@click="$quickSearchAction$('transName')"/>-->
           </el-input>
-          <ns-button type="primary" @click="$searchAction$()">搜索</ns-button>
-          <ns-button @click="$resetInputAction$()">重置</ns-button>
+          <ns-button type="primary" @click="$searchAction$()" class="searchbtn">搜索</ns-button>
+          <ns-button @click="$resetInputAction$()" class="resetbtn">重置</ns-button>
         </el-form-item>
 
         <el-form-item>
@@ -240,5 +240,13 @@ export default NsTableSgCustomer
 </script>
 
 <style scoped>
-.w80{width: 76px;text-align: right; display: inline-block;}
+  @import "@theme/variables.pcss";
+
+ .w80{width: 76px;text-align: right; display: inline-block;}
+  .searchbtn {
+    margin-left: 11px;
+  }
+  .resetbtn {
+    margin-left: var(--default-margin-larger);
+  }
 </style>

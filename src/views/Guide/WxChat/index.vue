@@ -19,8 +19,8 @@
                 :clearable="false"
                 :editable="false"
                 style="width: 225px"/>
-              <ns-button type="primary" @click="search()" :disabled="btnSearchDisabled">搜索</ns-button>
-              <ns-button @click="reset()">重置</ns-button>
+              <ns-button type="primary" @click="search()" :disabled="btnSearchDisabled" class="searchbtn">搜索</ns-button>
+              <ns-button @click="reset()" class="resetbtn">重置</ns-button>
             </el-form-item>
             <el-form-item>
               <ns-button type="text" @click="$handleTabClick">
@@ -570,9 +570,10 @@ export default index
       }
     }
   }
-  /* 搜索内容弹窗样式*/
-  >>> .el-button--small {
-    padding-top: 3px;
-    padding-bottom: 3px;
+  .searchbtn {
+    margin-left: 11px;
+  }
+  .resetbtn {
+    margin-left: var(--default-margin-larger);
   }
 </style>

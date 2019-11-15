@@ -522,20 +522,16 @@ export default {
      * 计算主要显示窗口的高度，动态设置页面内主要内容的高度
      */
     setHeight: function () {
-      /**
-       *  左侧工具栏高度&因滚动条样式margin-bottom负值17px，需要添加上17px,
-       *  15px为底部10px间距和表单5px内边距
-       **/
-      const PAGE_TOP_SEARCH = 40 // 简单搜索的高度
+      const PAGE_TOP_SEARCH = 39 // 简单搜索的高度
       const BTN_BOTTOM = 38 // 底部页码占据的高度
       let limitHeight = window.innerHeight -
         document.getElementsByClassName('nav')[0].offsetHeight -
         document.getElementsByClassName('template-table__bar-more')[0].offsetHeight - // 高级搜索
-        BTN_BOTTOM - PAGE_TOP_SEARCH + 17 - 25
+        BTN_BOTTOM - PAGE_TOP_SEARCH - 10
       let limitHeightRight = window.innerHeight -
         document.getElementsByClassName('talk-personal')[0].offsetHeight -
         document.getElementsByClassName('nav')[0].offsetHeight -
-        BTN_BOTTOM + 17 - 20
+        BTN_BOTTOM - 5
       this.$refs.fullScreen.$el.children[0].style.maxHeight = limitHeight + 'px'
       this.$refs.fullScreenright.$el.children[0].style.maxHeight = limitHeightRight + 'px'
     },

@@ -35,7 +35,7 @@
           <!-- el-form 需添加  @keyup.enter.native="onSearch" 配置，实现回车搜索， onSearch 为搜索方法 -->
           <!-- el-form 需添加  surround-btn 类名 配置环绕按钮效果 -->
           <template slot="advancedSearch" v-if="_data._queryConfig.expand">
-            <el-form ref="table_filter_form" label-width="80px" @keyup.enter.native="onSearch" class="surround-btn"
+            <el-form ref="table_filter_form" label-width="70px" @keyup.enter.native="onSearch" class="surround-btn"
                      :model="model"  :inline="true" :rules="numberRules">
               <el-form-item label="个人号：">
                 <el-form-grid size="xmd">
@@ -377,9 +377,11 @@ export default Moments
       padding: var(--default-padding-base) var(--default-padding-larger);
       background: var(--theme-color-white);
       border-bottom: 1px solid var(--theme-base-border-color-primary);
+      border-top-left-radius: var(--default-radius-mini);
+      border-top-right-radius: var(--default-radius-mini);
       @e notice {
-        width: 30px;
-        height: 30px;
+        width: 28px;
+        height: 28px;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -408,7 +410,7 @@ export default Moments
       padding: var(--default-padding-larger) var(--default-padding-xlarger) var(--default-padding-larger) 0;
       border-bottom: 1px solid var(--theme-base-border-color-primary);
       &:last-child {
-        border: none;
+        border-bottom: none;
       }
       @e avatar {
         width: 52px;
@@ -420,7 +422,7 @@ export default Moments
       @e content{
         width: 100%;
         float: left;
-        padding-left: 72px;
+        padding-left: 62px;
       }
     }
     @b name {
@@ -472,7 +474,7 @@ export default Moments
       }
       @e comment {
         font-size: var(--default-font-size-middle);
-        margin-left: var(--default-margin-xlarger);
+        margin-left: var(--default-margin-larger);
         cursor: pointer;
       }
     }
@@ -482,6 +484,7 @@ export default Moments
       @e substance {
         position: relative;
         padding: var(--default-padding-larger);
+        border-radius: var(--default-radius-mini);
       }
     }
     @b chatmsg {
@@ -581,7 +584,7 @@ export default Moments
     @b personmsg {
       width: 72%;
       float: left;
-      padding: var(--default-padding-base) 20px 0 77px;
+      padding: var(--default-padding-base) 20px 0 62px;
       @e uname {
         text-overflow : ellipsis;
         white-space : nowrap;
@@ -655,7 +658,7 @@ export default Moments
       width: 102px;
       min-height: 102px;
       position: absolute;
-      right: 10px;
+      right: 0;
       bottom: 0;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -664,7 +667,7 @@ export default Moments
       -webkit-line-clamp: 5;
     }
     @b commentary {
-      font-size: var(--dafault-font-size-xlarge);
+      font-size: var(--default-font-size-large);
       position: relative;
       top: 1px;
     }
@@ -683,7 +686,7 @@ export default Moments
     max-height: 200px;
   }
   .icon-xiaoxi {
-    font-size: var(--default-font-size-large);
+    font-size: var(--default-font-size-middle);
     color: var(--theme-color-white);
   }
   .el-main {
@@ -692,6 +695,8 @@ export default Moments
   >>> .template-table__bar {
     box-shadow: none;
     border-bottom: 1px solid var(--talk-border-color-gray);
+    border-top-left-radius: var(--default-radius-mini);
+    border-top-right-radius: var(--default-radius-mini);
   }
   >>> .el-pagination {
     box-shadow: none;

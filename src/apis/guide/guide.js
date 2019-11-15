@@ -171,11 +171,6 @@ export default {
     url: 'app/guide/whd/getWechatQrcode',
     method: 'post'
   },
-  // 刷新小程序信息(包括token信息)
-  refreshAuthedAppletInfo: {
-    url: '/guide/wechatsetting/refreshAuthedAppletInfo',
-    method: 'get'
-  },
   // 查询登录日志列表
   loginLogFindList: {
     url: '/core/findLoginList',
@@ -199,11 +194,6 @@ export default {
   // 新增员工展示全部接口
   getGuideList: {
     url: '/guide/guide/getGuideList',
-    method: 'get'
-  },
-  // 加解密工具接口
-  encryptionAndDecryption: {
-    url: '/guide/helptool/encryptionAndDecryption',
     method: 'get'
   },
   // 根据导购ids查询客户数

@@ -67,7 +67,7 @@ export default {
   mounted: function () {
     var vm = this
     vm.initShopList()
-    vm.height = window.innerHeight - 130
+    vm.height = window.innerHeight - 120
     // if (typeof vm.$init === 'function') {
     // } else {
     //   vm.loading = true

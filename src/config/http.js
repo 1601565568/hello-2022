@@ -14,7 +14,7 @@ export const API_ROOT = window.GlobalConfig ? '' : '/crmWebApi' // '/crmWebApi' 
  * API 默认请求超时时间
  * @type {number}
  */
-export const API_TIMEOUT = 10000
+export const API_TIMEOUT = 60000
 
 /**
  * API 默认headers

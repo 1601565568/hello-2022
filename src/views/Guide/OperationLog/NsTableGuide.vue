@@ -47,17 +47,17 @@
           </el-form-item>
 
            <el-form-item label="数据库ID：">
-            <el-form-grid>
-              <el-input style="width:180px" autofocus=true v-model="model.targetId" placeholder="请输入数据库ID" clearable></el-input>
+            <el-form-grid size="xmd">
+              <el-input autofocus=true v-model="model.targetId" placeholder="请输入数据库ID" clearable></el-input>
             </el-form-grid>
              <el-form-grid><ns-button className="text-tips" type="text" @click="showTargetDetail = true">查询ID</ns-button></el-form-grid>
              <el-form-grid>
-               <el-tooltip content="查询数据模块中需查询数据的数据库ID" placement="bottom"><Icon type="question-circle" /></el-tooltip>
+               <el-tooltip content="查询数据模块中需查询数据的数据库ID"><Icon type="question-circle" /></el-tooltip>
              </el-form-grid>
           </el-form-item>
 
           <el-form-item label="所属门店：">
-            <el-form-grid>
+            <el-form-grid size="xmd">
               <el-select placeholder="请选择所属门店" v-model="model.shopId" clearable filterable>
                 <el-option v-for="shop in shopFindList" :label="shop.shopName" :value="shop.id"
                            :key="shop.id"></el-option>
@@ -99,7 +99,7 @@
               </el-date-picker>
             </el-form-grid>
             <el-form-grid>
-              <el-tooltip content="仅支持查询最近36个月内的操作日志" placement="bottom"><Icon type="question-circle" /></el-tooltip>
+              <el-tooltip content="仅支持查询最近36个月内的操作日志"><Icon type="question-circle" /></el-tooltip>
             </el-form-grid>
           </el-form-item>
 
@@ -150,13 +150,13 @@
               {{scope.row.operatorName || '-'}}
             </template>
           </el-table-column>
-          <el-table-column prop="operatorId" label="操作人ID" align="right" width="100">
+          <el-table-column prop="operatorId" label="操作人ID" align="left" width="160">
             <template slot-scope="scope">
               {{scope.row.operatorId || "-"}}
             </template>
           </el-table-column>
 
-          <el-table-column prop="targetId" label="数据库ID" align="right" width="160">
+          <el-table-column prop="targetId" label="数据库ID" align="left" width="160">
             <template slot-scope="scope">
               {{scope.row.targetId || '-'}}
             </template>

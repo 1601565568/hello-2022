@@ -110,7 +110,7 @@ export default {
       } else if (this.obj.cryptKey !== null && this.obj.cryptKey.length % 8 !== 0) {
         this.$notify.error('自定义密钥长度必须为8的整数倍！')
       } else {
-        this.$http.fetch(_this.$api.guide.guide.encryptionAndDecryption, {
+        this.$http.fetch(_this.$api.isv.encryptionAndDecryption, {
           'cryptKey': _this.obj.cryptKey,
           'data': _this.obj.data,
           'type': _this.obj.type
@@ -197,7 +197,7 @@ export default {
     },
     async encryptionAndDecryption () { // 导购列表查询
       let _this = this
-      await this.$http.fetch(_this.$api.guide.guide.encryptionAndDecryption, _this.obj).then(resp => {
+      await this.$http.fetch(_this.$api.isv.encryptionAndDecryption, _this.obj).then(resp => {
         if (resp.result) {
           _this.result = resp.result
         }

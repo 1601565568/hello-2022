@@ -23,7 +23,7 @@
                       row-key="id"
                       @selection-change="$selectionChange">
               <el-table-column :show-overflow-tooltip="true" type="default" prop="title"
-                               label="头像" width='80px' :sortable="false">
+                               label="头像" width='70px' :sortable="false" align='center'>
                 <template slot-scope="scope">
                   <div class="avatar-name clearfix">
                     <div class="avatar-name__avatar"><img
@@ -48,7 +48,7 @@
                 <template slot='header' scope='header'>
                     <span>
                       <span>{{header.column.label}}</span>
-                      <el-tooltip content="此微信客户是否为会员" placement="bottom">
+                      <el-tooltip content="此微信客户是否为会员">
                        <Icon type="question-circle"/>
                       </el-tooltip>
                     </span>
@@ -62,7 +62,7 @@
                 <template slot='header' scope='header'>
                     <span>
                       <span>{{header.column.label}}</span>
-                      <el-tooltip content="此微信客户是否有专属导购" placement="bottom">
+                      <el-tooltip content="此微信客户是否有专属导购">
                        <Icon type="question-circle"/>
                       </el-tooltip>
                     </span>

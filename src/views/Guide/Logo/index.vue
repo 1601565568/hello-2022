@@ -26,31 +26,34 @@
                <Icon type="exclamation-circle" theme="outlined"/>
                该logo将在用户端透出，建议图片尺寸为1:1。
             </span>
-            <el-popover placement="bottom" trigger="click" @show="disposePopover" @hide="disposePopover">
-            <img src="./src/images/exampleImg.png" alt="示例图片"/>
-            <span class="company-example__check" slot="reference">
-              查看示例
-              <Icon :type="isPopover ? 'up' : 'down'" className="company-arrow"/>
-            </span>
-          </el-popover>
+            <el-popover
+              placement="bottom-start" trigger="click">
+              <img src="./src/images/exampleImg.png" alt="示例图片"/>
+              <el-button slot="reference" class="company-example__check">
+                查看示例
+                <Icon :type="isPopover ? 'up' : 'down'" className="company-arrow"/>
+              </el-button>
+            </el-popover>
           </div>
+        </el-form-item>
+        <el-form-item>
+          <ns-button type="primary" size="small"  @click="saveLogo">保存</ns-button>
         </el-form-item>
       </el-form>
     </el-scrollbar>
-    <div class="form-save__unique">
-      <ns-button type="primary" size="small"  @click="saveLogo">保存</ns-button>
-    </div>
   </div>
 </template>
 
 <script>
 import ElUpload from '@nascent/nui/lib/upload'
 import ElCard from '@nascent/nui/lib/card'
+import ElButton from '@nascent/nui/lib/button'
 
 export default {
   components: {
     ElUpload,
-    ElCard
+    ElCard,
+    ElButton
   },
   data () {
     return {
@@ -110,7 +113,7 @@ export default {
     @e header {
       display: flex;
       align-items: center;
-      padding: var(--default-padding-larger);
+      padding: var(--default-padding-base) var(--default-padding-larger);
       border-top-left-radius: var(--default-radius-mini);
       border-top-right-radius: var(--default-radius-mini);
     }
@@ -177,12 +180,19 @@ export default {
 }
 .form-save__unique {
   padding: var(--default-padding-small) 0 var(--default-padding-small) 70px;
-  border-top: 1px solid var(--theme-base-border-color-primary);
   background-color: var(--theme-color-white);
   border-bottom-left-radius: var(--default-radius-mini);
   border-bottom-right-radius: var(--default-radius-mini);
 }
 >>> .el-card {
   border-bottom: none;
+}
+.company-example >>> .el-button {
+  padding: 0;
+  border: none;
+  background: var(--theme-color-white);
+}
+.company-example >>> .el-button:hover {
+  background: var(--theme-color-white);
 }
 </style>

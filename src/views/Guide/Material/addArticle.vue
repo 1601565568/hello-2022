@@ -6,9 +6,9 @@
     :title="modalTit"
     :close-on-click-modal=false
     :visible.sync="dialogVisible"
-    width="1200px"
+    width="1200px" response-limit :show-scroll-x=false
     :before-close="handleClose">
-    <div class="comDialogBoxCon flex flex-between" style='align-items:flex-start'>
+    <div class="flex flex-between" style='align-items:flex-start'>
       <div class="comDialogBoxConOut" v-show='saveObj.articleType' style='flex:1'>
         <el-form :model="saveObj" :rules="rules" ref="Form1">
           <el-form-item  prop="title">
@@ -74,7 +74,7 @@
               <ns-button size="small" type="text">{{saveObj.imageList[0] ? '修改封面图' : '添加封面图'}}</ns-button>
               <span>（建议尺寸：800*800）</span>
             </el-upload></p>
-          <el-form-item  prop="subdivisionId" label="所属分组：" style='margin-top:20px'>
+          <el-form-item  prop="subdivisionId" label="所属分组：" style='margin-top:20px' label-width="70px">
             <el-select v-model="saveObj.subdivisionId" placeholder="请选择" clearable>
                     <el-option v-for="item in groudList"
                         :key="item.subdivision_id"
@@ -87,7 +87,7 @@
     </div>
     <span slot="footer" class="dialog-footer">
       <ns-button @click="handleClose">取 消</ns-button>
-      <ns-button type="primary" :loading="loading" @click="saveFun">确定</ns-button>
+      <ns-button type="primary" :loading="loading" @click="saveFun">保存</ns-button>
     </span>
   </el-dialog>
   <el-dialog :visible.sync="dialogImgVisible">
@@ -453,9 +453,6 @@ export default {
 /* 此处scoped暂时不能加，等空闲了再出解决方案 */
 
 @component-namespace addMaterialbox {
-  .comDialogBoxCon {
-    padding-bottom: 20px;
-  }
   .comUploadBox {
     width: 330px;
   }

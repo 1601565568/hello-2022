@@ -1,20 +1,3 @@
-<style scoped>
-  .topHid{
-    visibility: hidden
-  }
-  .sort{
-    color:#0091FA;
-    cursor: pointer;
-  }
-</style>
-<style scoped>
-.has-gutter .el-table_2_column_9::after{
-  content: "》";
-  color: blue;
-
-}
-</style>
-
 <template>
 <!-- 门店工作统计  wanrengang 20180716 -->
 <div>
@@ -30,7 +13,7 @@
           <el-col :span="17">
             <!-- 右上角操作区域 -->
             <div class="float-right tabSearchBtn">
-              <ns-button @click="tabSearchType" type="text">
+              <ns-button @click="tabSearchType" type="text" style="padding-left: 10px;opacity: 0.5;color: #002041;">
                 {{searchType.tipText}}
                 <Icon :type="searchType.advanced ? 'up' : 'down'"/>
               </ns-button>
@@ -40,8 +23,8 @@
                 <el-input v-model="searchform.subdivision_name" placeholder="请输入分组名称" @keyup.enter.native="submitForm('searchform')" clearable></el-input>
               </el-form-item>
               <el-form-item>
-                <ns-button type="primary" @click="submitForm('searchform')">搜索</ns-button>
-                <ns-button @click="resetForm('searchform')">重置</ns-button>
+                <ns-button type="primary" @click="submitForm('searchform')" class="searchbtn">搜索</ns-button>
+                <ns-button @click="resetForm('searchform')" class="resetbtn">重置</ns-button>
               </el-form-item>
             </el-form>
         </el-col>
@@ -95,7 +78,7 @@
       <el-table-column  width="200"  align="center">
         <template slot="header" slot-scope="scope">
           排序
-          <el-tooltip content="调整分类的排列顺序" placement="bottom">
+          <el-tooltip content="调整分类的排列顺序">
             <Icon type="question-circle"/>
           </el-tooltip>
         </template>
@@ -311,3 +294,30 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+  @import "@theme/variables.pcss";
+
+  .topHid{
+    visibility: hidden
+  }
+  .sort{
+    font-size: var(--default-font-size-base);
+    color: var(--theme-color-primary);
+    cursor: pointer;
+  }
+  .searchbtn {
+    margin-left: var(--default-margin-base);
+  }
+  .resetbtn {
+    margin-left: 11px;
+  }
+</style>
+<style scoped>
+  .has-gutter .el-table_2_column_9::after{
+    content: "》";
+    color: blue;
+
+  }
+</style>
+

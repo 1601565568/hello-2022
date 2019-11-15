@@ -21,16 +21,16 @@
               </el-select>
             </el-form-grid>
           </el-form-item>
+          <el-form-item>
+            <ns-button type="primary" @click="searchAction(model)">搜索</ns-button>
+            <ns-button @click="resetInputAction">重置</ns-button>
+          </el-form-item>
         </el-form>
-        <div class="template-table__more-btn">
-          <ns-button type="primary" @click="searchAction(model)">搜索</ns-button>
-          <ns-button @click="resetInputAction">重置</ns-button>
-        </div>
       </div>
       <!--  搜索结束  -->
       <!--  表格开始  -->
       <el-table ref="table" :data="particularsObj" stripe @selection-change="guideChange">
-        <el-table-column  width="25">
+        <el-table-column width="25">
           <template slot-scope="scope">
             <div class="customerManage">
               <el-radio :label="scope.$index" v-model="radio"  @change.native="getCurrentRow(scope.row,scope.$index)"></el-radio>
@@ -42,17 +42,17 @@
             {{scope.row.workId || '-'}}
           </template>
         </el-table-column>
-        <el-table-column prop="name" label="姓名" align="left" width="180">
+        <el-table-column prop="name" label="姓名" align="left">
           <template slot-scope="scope">
             {{scope.row.name || '-'}}
           </template >
         </el-table-column>
-        <el-table-column prop="mobile" label="联系方式" align="left" width="180">
+        <el-table-column prop="mobile" label="联系方式" align="center">
           <template slot-scope="scope">
             {{scope.row.mobile || '-'}}
           </template>
         </el-table-column>
-        <el-table-column prop="shopName" label="所属门店" align="left" width="180">
+        <el-table-column prop="shopName" label="所属门店" align="left"">
           <template slot-scope="scope">
             {{scope.row.shopName || '-'}}
           </template >
@@ -77,15 +77,15 @@
     </el-dialog>
     <!-- 新客户详情弹窗-->
     <el-dialog
-      title="详情" response-limit :show-scroll-x=false
+      title="详情" width="900px" height="500px"
       :visible.sync="shopKuhuShow"
-      width="900px" class="dialog-container"  @keyup.enter.native="onKeyUp" @keyup.esc.native="onKeyUp" @close="closeDetailDialog">
+      class="dialog-container"  @keyup.enter.native="onKeyUp" @keyup.esc.native="onKeyUp" @close="closeDetailDialog">
       <div class="dialog-container__msg">
         <div class="dialog-avatar">
           <el-image
-            :src="items.customerHeadImage|| defaultImage"
-            mode="mfit" class="dialog-avatar__headportrait">
-          </el-image>
+            :width="80" :height="80"
+            :src="items.customerHeadImage||require('./src/images/avartar.png')"
+            mode="cover" :circle="true" class="dialog-avatar__headportrait"></el-image>
           <div class="dialog-avatar__figure" v-if="items.sex === 1 || items.sex === 0">
             <Icon v-if="items.sex === 1" type="men" className="dialog-avatar__figure--male" />
             <!-- 女生图标-->
@@ -121,7 +121,7 @@
                   {{integralName[1]}}
                 </div>
                 <div v-else>
-                  <el-tooltip placement="bottom">
+                  <el-tooltip>
                     <div slot="content">{{integralName[1]}}</div>
                     <span class="dialog-conceal">{{integralName[1]}}</span>
                   </el-tooltip>
@@ -145,7 +145,7 @@
                   {{integralName[4]}}
                 </div>
                 <div v-else>
-                  <el-tooltip placement="bottom">
+                  <el-tooltip>
                     <div slot="content">{{integralName[4]}}</div>
                     <span class="dialog-conceal">{{integralName[4]}}</span>
                   </el-tooltip>
@@ -173,7 +173,7 @@
                   {{integralName[0]}}
                 </div>
                 <div v-else>
-                  <el-tooltip placement="bottom">
+                  <el-tooltip>
                     <div slot="content">{{integralName[0]}}</div>
                     <span class="dialog-conceal">{{integralName[0]}}</span>
                   </el-tooltip>
@@ -197,7 +197,7 @@
                   {{integralName[2]}}
                 </div>
                 <div v-else>
-                  <el-tooltip placement="bottom">
+                  <el-tooltip>
                     <div slot="content">{{integralName[2]}}</div>
                     <span class="dialog-conceal">{{integralName[2]}}</span>
                   </el-tooltip>
@@ -224,7 +224,7 @@
                 {{items.customerRemark||'-'}}
               </span>
               <div v-else>
-                <el-tooltip :content="items.customerRemark" placement="bottom">
+                <el-tooltip :content="items.customerRemark">
                   <div slot="content">{{items.customerRemark||'ces'}}</div>
                   <span class="dialog-hidden">{{items.customerRemark}}</span>
                 </el-tooltip>
@@ -252,7 +252,7 @@
                   {{integralName[3]}}
                 </div>
                 <div v-else>
-                  <el-tooltip placement="bottom">
+                  <el-tooltip>
                     <div slot="content">{{integralName[3]}}</div>
                     <span class="dialog-conceal">{{integralName[3]}}</span>
                   </el-tooltip>
@@ -322,7 +322,7 @@
             <div class="dialog-transaction">
               <el-form class="dialog-transaction__form">
                 <el-form-item label="当前客户累计交易额（元）">
-                  <el-tooltip content="交易成功订单的总金额（包含退款金额）" placement="right-start">
+                  <el-tooltip content="交易成功订单的总金额（包含退款金额）">
                     <i class="questioncircle"><Icon type="question-circle"/></i>
                   </el-tooltip>
                 </el-form-item>
@@ -333,19 +333,19 @@
                 <el-form-item class="dialog-detail">
                   <el-form-grid size="md">
                     回购周期：{{rfmInfo.buyBackAllPeriod}}
-                    <el-tooltip content="（最近一次交易成功时间-第一次交易成功时间）/（交易成功次数-1）" placement="right-start">
+                    <el-tooltip content="（最近一次交易成功时间-第一次交易成功时间）/（交易成功次数-1）">
                       <Icon type="question-circle"/>
                     </el-tooltip>
                   </el-form-grid>
                   <el-form-grid size="md">
                     笔单价：{{rfmInfo.priceUnit}}元
-                    <el-tooltip content="交易成功总额/交易成功订单数（包含退款）" placement="right-start">
+                    <el-tooltip content="交易成功总额/交易成功订单数（包含退款）">
                       <Icon type="question-circle"/>
                     </el-tooltip>
                   </el-form-grid>
                   <el-form-grid size="md">
                     连带率：{{rfmInfo.itemUnit}}件
-                    <el-tooltip content="交易成功订单商品数量/交易成功订单数（包含退款）" placement="right-start">
+                    <el-tooltip content="交易成功订单商品数量/交易成功订单数（包含退款）">
                       <Icon type="question-circle"/>
                     </el-tooltip>
                   </el-form-grid>
@@ -353,7 +353,7 @@
                 <el-form-item label="最近交易：">
                   <el-form-grid size="xxlg">
                     {{rfmInfo.lastSuccessTime}}
-                    <el-tooltip content="最近一笔交易成功时间" placement="right-start">
+                    <el-tooltip content="最近一笔交易成功时间">
                       <i class="questioncircle"><Icon type="question-circle"/></i>
                     </el-tooltip>
                   </el-form-grid>
@@ -818,7 +818,7 @@
         </el-tabs>
       </div>
       <span slot="footer">
-        <ns-button @click="closeDetailDialog">取 消</ns-button>
+        <ns-button @click="shopKuhuShow = false">关闭</ns-button>
       </span>
     </el-dialog>
     <!-- 打标签-->
@@ -1190,5 +1190,9 @@ export default CustomerManage
   .questioncircle {
     position: relative;
     left: -4px;
+  }
+  /* 去掉更换导购列表弹框单选组多余数字 */
+  .customerManage >>> .el-radio__label {
+    display: none;
   }
 </style>

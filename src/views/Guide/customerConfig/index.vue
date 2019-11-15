@@ -79,8 +79,8 @@
         <!-- 会员更换导购配置结束 -->
 
         <div v-if="status === 1" class="form-save__unique">
-          <ns-button @click="reload()" >取消</ns-button>
           <ns-button type="primary" @click="onSave">确定</ns-button>
+          <ns-button @click="reload()" >取消</ns-button>
         </div>
       </el-form>
     </el-scrollbar>
@@ -123,5 +123,8 @@ export default index
 }
 >>> .template-table__bar {
   margin-bottom: 0;
+}
+.form-grid {
+  border-radius: var(--default-radius-mini);
 }
 </style>

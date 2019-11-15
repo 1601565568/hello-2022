@@ -11,20 +11,26 @@
     <div class="comDialogBoxCon">
       <div class="template-table-search">
         <div class="template-table__bar-more">
-          <el-form ref="searchform" label-width="80px"  class="surround-btn"  :inline="true" :model="searchform">
-            <el-form-item label="所在区域：" style="margin-right:0;" prop="area">
-              <el-form-grid width="300" prop="area">
-                <ns-area  :props="searchform.key" @change="onAreaChange" v-model="searchform.area"></ns-area>
+          <el-form ref="searchform"  class="surround-btn"  :inline="true" :model="searchform">
+            <el-form-item>
+              <el-form-grid prop="area">
+                <el-form-item label="所在区域：" style="margin-right:0;" prop="area" label-width="70px">
+                  <ns-area  :props="searchform.key" @change="onAreaChange" v-model="searchform.area"></ns-area>
+                </el-form-item>
+              </el-form-grid>
+              <el-form-grid>
+                <el-form-item label="门店名称：" prop="shopName" label-width="70px">
+                  <el-input v-model="searchform.shopName" placeholder="请输入门店名称"></el-input>
+                </el-form-item>
+              </el-form-grid>
+              <el-form-grid>
+                <el-form-item style="margin-left: 4px;">
+                  <ns-button type="primary" @click="submitForm('searchform')">搜索</ns-button>
+                  <ns-button @click="resetForm('searchform')">重置</ns-button>
+                </el-form-item>
               </el-form-grid>
             </el-form-item>
-            <el-form-item label="门店名称：" prop="shopName">
-              <el-input v-model="searchform.shopName" placeholder="请输入门店名称"></el-input>
-            </el-form-item>
           </el-form>
-          <div class="template-table__more-btn">
-            <ns-button type="primary" @click="submitForm('searchform')">搜索</ns-button>
-            <ns-button @click="resetForm('searchform')">重置</ns-button>
-          </div>
         </div>
       </div>
     <div class="mt10">
@@ -148,7 +154,11 @@ export default {
 }
 </script>
 <style scoped>
-.text-green{
-  color:#67c23a
-}
+  .text-green{
+    color:#67c23a
+  }
+  /* 指派门店明细下的搜索和重置按钮太靠近滚动条，因此隔开间距 */
+  .comDialogBoxCon >>> .template-table__bar-more .el-form.surround-btn +.template-table__more-btn {
+    right: 15px;
+  }
 </style>

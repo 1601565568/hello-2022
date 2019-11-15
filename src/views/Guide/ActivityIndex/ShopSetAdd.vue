@@ -19,7 +19,7 @@
       tooltip-effect="dark">
       <el-table-column
         :label="n + '月'"
-        align="center"
+        align="right"
         v-for='n in 12'
         v-bind:key='n'
         style='width: 110px'>

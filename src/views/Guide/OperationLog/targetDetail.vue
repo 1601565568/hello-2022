@@ -84,11 +84,13 @@
               </el-form-grid>
             </el-form-item>
           </template>
+          <template>
+            <el-form-item>
+              <ns-button type="primary" @click="findList()">搜索</ns-button>
+              <ns-button @click="$resetInput()">重置</ns-button>
+            </el-form-item>
+          </template>
         </el-form>
-        <div class="template-table__more-btn">
-          <ns-button type="primary" @click="findList()">搜索</ns-button>
-          <ns-button @click="$resetInput()">重置</ns-button>
-        </div>
       </template>
       <!-- 表格布局-->
       <template slot="table">
@@ -231,17 +233,17 @@
         </el-table>
       </template>
       <!-- 分页 -->
-    <template slot="pagination">
-      <el-pagination v-if="_data._pagination.enable" class="template-table-pagination"
-                     :page-sizes="_data._pagination.sizeOpts"
-                     :total="_data._pagination.total"
-                     :current-page.sync="_data._pagination.page"
-                     :page-size="_data._pagination.size"
-                     layout="total, sizes, prev, pager, next, jumper"
-                     @size-change="$sizeChange$"
-                     @current-change="$pageChange$">
-      </el-pagination>
-    </template>
+      <template slot="pagination">
+        <el-pagination v-if="_data._pagination.enable" class="template-table-pagination"
+                       :page-sizes="_data._pagination.sizeOpts"
+                       :total="_data._pagination.total"
+                       :current-page.sync="_data._pagination.page"
+                       :page-size="_data._pagination.size"
+                       layout="total, sizes, prev, pager, next, jumper"
+                       @size-change="$sizeChange$"
+                       @current-change="$pageChange$">
+        </el-pagination>
+      </template>
     </ns-page-table>
 </template>
 

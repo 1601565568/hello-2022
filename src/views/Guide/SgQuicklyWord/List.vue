@@ -4,7 +4,7 @@
       <ns-button type="primary" @click="onSaveQuicklyWordGroupOpen">新增分类</ns-button>
       <div class='ptb5 bg-white pl5' >
         <span class="demonstration">分类</span>
-        <el-tooltip content="拖动调整分类排序，导购端同步" placement="bottom">
+        <el-tooltip content="拖动调整分类排序，导购端同步">
           <Icon type="question-circle"/>
         </el-tooltip>
       </div>
@@ -17,7 +17,7 @@
         class='navTree'>
         <div class="navTree-item flex flex-between" slot-scope="{ node, data }" >
           <span class="dataName">{{ data.name }}</span>
-          <span v-if='data.id'>
+          <span v-if='data.id' class="controlstatus">
             <Icon type="delete" @click="deleteTheGroup(data)" className="deleteicon" />
             <Icon type="bianji-1" @click="onSaveQuicklyWordGroupOpen(data)"/>
           </span>
@@ -36,11 +36,11 @@
         <!-- el-inpu 需添加  @keyup.enter.native="$quickSearchAction$" 配置，实现回车搜索 -->
         <template slot="searchSearch">
           <el-form :model="model" :inline="true" @submit.native.prevent  class="pull-right">
-            <el-form-item>
-              <el-input ref="quickText" style="width: 250px" v-model="model.searchValue" placeholder="请输入关键词/添加人/分类" @keyup.enter.native="$searchAction$()" clearable>
+            <el-form-item label="关键词/添加人/分类：">
+              <el-input ref="quickText" style="width: 200px" v-model="model.searchValue" placeholder="请输入关键词/添加人/分类" @keyup.enter.native="$searchAction$()" clearable>
               </el-input>
-              <ns-button type="primary" @click="$searchAction$()">搜索</ns-button>
-              <ns-button @click="$resetInputAction$()">重置</ns-button>
+              <ns-button type="primary" @click="$searchAction$()" class="searchbtn">搜索</ns-button>
+              <ns-button @click="$resetInputAction$()" class="resetbtn">重置</ns-button>
             </el-form-item>
           </el-form>
         </template>
@@ -61,7 +61,7 @@
             <el-table-column align="left" v-if="showOrder">
               <template slot="header" slot-scope="scope">
                 排序
-                <el-tooltip content="调整排列顺序小程序同步" placement="bottom">
+                <el-tooltip content="调整排列顺序小程序同步">
                   <Icon type="question-circle"/>
                 </el-tooltip>
               </template>
@@ -96,7 +96,7 @@
       </ns-page-table>
     </div>
     <!-- 初始弹窗开始 -->
-    <el-dialog size="small" :title="titleText"
+    <el-dialog width="800px" :title="titleText"
                :visible.sync="dialogFormVisible"
                :modal-append-to-body="false"
                @before-close="closeDialog()">
@@ -161,10 +161,10 @@
     <el-dialog size="small" :title="titleText"
       :visible.sync="dialogVisibleSaveQuicklyWordGroup"
       :modal-append-to-body="false"
-      width='500px'
+      width='400px'
       @before-close="closeDialog()">
-      <el-form :model="addOrEditModel" ref="addOrEditForm" label-width="80px" :rules="addOrEditRules" placement="right" class='addOrEditForm'>
-        <el-form-item label="分类名称：" prop="name" required >
+      <el-form :model="addOrEditModel" ref="addOrEditForm" label-width="80px" :rules="addOrEditRules" placement="right">
+        <el-form-item label="分类名称：" prop="name" required class="el-form-validate__unHide">
           <el-input type="text" placeholder="请输入分类名称" v-model="addOrEditModel.name" autofocus="autofocus"></el-input>
         </el-form-item>
         <el-input style='display:none'></el-input>
@@ -188,6 +188,7 @@ List.components = {
 export default List
 </script>
 <style scoped>
+  @import "@theme/variables.pcss";
 .elTree{
   overflow-y: auto;
   overflow-x: hidden
@@ -207,6 +208,7 @@ export default List
   white-space:nowrap
 }
 .elTree .navTree-item .dataName{
+  color: var(--theme-font-color-regular);
   display: inline-block;
   width: 136px;
   overflow:hidden;
@@ -222,6 +224,9 @@ export default List
 .el-tooltip__popper{
   max-width: 78% !important
 }
+  >>> .template-table__bar .template-table-buttons .el-form-grid {
+    margin-right: var(--default-margin-base);
+  }
 </style>
 <style scoped>
  @import "@theme/variables.pcss";
@@ -245,7 +250,8 @@ export default List
   line-height: 30px;
 }
 .sort{
-  color:#0091FA;
+  font-size: var(--default-font-size-base);
+  color: var(--theme-color-primary);
   cursor: pointer;
 }
 .expressionBar_div{
@@ -296,12 +302,6 @@ export default List
   }
 
 }
-@component-namespace addOrEditForm {
-  .addOrEditForm{
-    padding: 30px 0 !important
-  }
-
-}
 @component-namespace navTree {
   .navTree{
     @b item{
@@ -314,20 +314,38 @@ export default List
 </style>
 <style lang='scss' scoped>
  @import "@theme/variables.pcss";
-#SgQuicklyWordPage .el-tree-node{
-  &.is-current{
-    background-color: var(--default-menu-active-border);
-  }
-  &:hover {
+  #SgQuicklyWordPage .el-tree-node{
+    &.is-current{
       background-color: var(--default-menu-active-border);
     }
-}
-#SgQuicklyWordPage .el-tree-node__expand-icon{
-  display: none;
-}
+    &:hover {
+        background-color: var(--default-menu-active-border);
+      }
+  }
+  #SgQuicklyWordPage .el-tree-node__expand-icon{
+    display: none;
+  }
   .deleteicon {
     font-size: var(--default-font-size-middle);
     position: relative;
     top: 1px;
   }
+  .controlstatus {
+    display: none;
+  }
+  .navTree-item:hover {
+    .dataName {
+      color: var(--theme-color-primary);
+    }
+    .controlstatus {
+      color: var(--theme-color-primary);
+      display: block;
+    }
+  }
+ .searchbtn {
+   margin-left: 11px;
+ }
+ .resetbtn {
+   margin-left: var(--default-margin-larger);
+ }
 </style>

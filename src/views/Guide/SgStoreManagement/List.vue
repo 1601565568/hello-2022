@@ -7,12 +7,15 @@
     <el-dialog :title="title"  :visible.sync="memberBelongingShow" width="750px" >
       <div class="recruitingcode_title">
         <div class="recruitingcode">
-          <i class="icon-erweima">
-            <Icon type="erweima"/>
-          </i>
+          <Icon type="erweima"/>
         </div>
-        <div>
-          <div><template><el-checkbox v-model="checked"></el-checkbox></template>会员注册时是否需要关注公众号</div>
+        <div class="explanation">
+          <div>
+            <template><el-checkbox v-model="checked"></el-checkbox></template>
+            <span class="explanation__member">
+              会员注册时是否需要关注公众号
+            </span>
+          </div>
           <div>勾选此选项，则下载为微信公众号二维码；否则，下载为会员开卡小程序码。</div>
         </div>
       </div>
@@ -32,23 +35,21 @@
             <template slot='header' scope='header'>
               <span>
                 <span>{{header.column.label}}</span>
-                 <el-tooltip placement="bottom">
-                    <div slot="content">
-                      <img src="../../../assets/putongerweima.png" class="photosize">
-                    </div>
-                    <Icon type="question-circle"/>
-                  </el-tooltip>
+                  <el-popover placement="bottom" trigger="click">
+                    <div>
+                        <img src="../../../assets/putongerweima.png" class="photosize">
+                      </div>
+                    <Icon type="question-circle" slot="reference"/>
+                  </el-popover>
               </span>
             </template>
             <template slot-scope="scope">
               <div v-if="checked">
-                <ns-button  type="text">
-                  <a :href="url+0+'&shopId='+succeedObj.shopId+'&size='+0">
-                    <i class="download">
-                      <Icon type="xiazai"/>
-                    </i>
-                  </a>
-                </ns-button>
+                <a :href="url+0+'&shopId='+succeedObj.shopId+'&size='+0">
+                  <i class="download">
+                    <Icon type="xiazai"/>
+                  </i>
+                </a>
               </div>
               <div v-else>
                 <i class="download text-secondary">
@@ -61,21 +62,19 @@
             <template slot='header' scope='header'>
               <span>
                 <span>{{header.column.label}}</span>
-                 <el-tooltip placement="bottom">
-                    <div slot="content">
-                      <img src="../../../assets/xiaochengxu.png" class="photosize">
-                    </div>
-                    <Icon type="question-circle"/>
-                  </el-tooltip>
+                 <el-popover placement="bottom" trigger="click">
+                    <div>
+                         <img src="../../../assets/xiaochengxu.png" class="photosize">
+                      </div>
+                    <Icon type="question-circle" slot="reference"/>
+                  </el-popover>
               </span>
             </template>
             <template slot-scope="scope">
               <div v-if="!checked">
-                <ns-button type="text">
-                  <a :href="url+1+'&shopId='+succeedObj.shopId+'&size='+0">
-                    <i class="download"><Icon type="xiazai"/></i>
-                  </a>
-                </ns-button>
+                <a :href="url+1+'&shopId='+succeedObj.shopId+'&size='+0">
+                  <i class="download"><Icon type="xiazai"/></i>
+                </a>
               </div>
               <div v-else>
                 <i class="download text-secondary" >
@@ -87,7 +86,7 @@
         </el-table>
       </div>
       <div slot="footer">
-        <ns-button type="primary" @click="memberBelongingShow = false">确定</ns-button>
+        <ns-button @click="memberBelongingShow = false">关闭</ns-button>
       </div>
     </el-dialog>
     <!-- 下载门店招募码结束 -->
@@ -102,8 +101,10 @@
         </el-table-column>
         <el-table-column prop="shop_status" label="状态" align="center">
           <template slot-scope="scope">
-            {{scope.row.shopStatus === 0?'删除':scope.row.shopStatus === 1?'正常':scope.row.shopStatus ===
-            -1?'暂停':'关店'}}
+            <span :class="scope.row.shopStatus > 0 ? 'text-success' : scope.row.shopStatus === -1 ? 'text-error' : ''">
+              {{scope.row.shopStatus === 0?'删除':scope.row.shopStatus === 1?'正常':scope.row.shopStatus ===
+              -1?'暂停':'关店'}}
+            </span>
           </template>
         </el-table-column>
         <el-table-column prop="contact_json" label="联系方式" align="left">
@@ -160,15 +161,15 @@ export default List
     justify-content: flex-start;
   }
   .recruitingcode{
-    margin: 10px 30px 0 0;
-  }
-  .icon-erweima{
     font-size: 34px;
     font-weight: 600;
-    color: #409EFF;
-    position: relative;
-    top: -9px;
-    left: 10px;
+    color: var(--theme-color-primary);
+  }
+  .explanation {
+    margin-left: var(--default-margin-larger);
+    .explanation__member {
+      margin-left: var(--default-margin-mini);
+    }
   }
   .download{
     font-size: var(--dafault-font-size-xlarge);

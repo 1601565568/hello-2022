@@ -47,13 +47,15 @@
           <el-switch  :active-value="1" :inactive-value="0" v-model="saveObj.memberStatus"></el-switch>
         </el-form-item>
       </div>
-      <div class="addItemCon">
-        招募奖励：每招募一名新会员奖励
-        <el-form-item  prop="memberReward">
-          <el-input-number class="inputSize" :controls="false" :precision="2"
-                           v-model.number="saveObj.memberReward"></el-input-number>
-        </el-form-item><span >元</span>
-      </div>
+        <el-form-item label="招募奖励：  每招募一名新会员奖励" prop="memberReward" class="el-form-validate__unHide addItemCon">
+          <el-form-grid class="memberReward">
+            <el-input-number class="inputSize" :controls="false" :precision="2"
+                             v-model.number="saveObj.memberReward"></el-input-number>
+          </el-form-grid>
+          <el-form-grid>
+            元
+          </el-form-grid>
+        </el-form-item>
     </el-form>
     </div>
     <span slot="footer" class="dialog-footer">
@@ -183,28 +185,32 @@ export default {
 <style scoped>
   @import "@theme/variables.pcss";
 
-.comDialogBox {
-  width: 600px !important;
-}
-.addItemCon {
-  padding: 5px 0 0 10px;
-}
-.addTitBox {
-  border-bottom: 1px solid var(--theme-base-border-color-primary);
-}
-.addTitText {
-  display: inline-block;
-  border-left: 2px solid var(--theme-color-primary);
-  padding: 0 8px;
-}
-.el-form--inline .el-form-item {
-  margin-right: var(--default-margin-small) !important;
-}
-.inputSize {
-  width: 100px;
-}
-</style>
-<style scoped>
+  .comDialogBox {
+    width: 600px !important;
+  }
+  .addItemCon {
+    padding: 5px 0 0 10px;
+  }
+  .addTitBox {
+    border-bottom: 1px solid var(--theme-base-border-color-primary);
+  }
+  .addTitText {
+    display: inline-block;
+    border-left: 2px solid var(--theme-color-primary);
+    padding: 0 8px;
+  }
+  .el-form--inline .el-form-item {
+    margin-right: var(--default-margin-small) !important;
+  }
+  .inputSize {
+    width: 100px;
+  }
+  >>> .el-input-number .el-input .el-input__inner {
+    padding-right: var(--default-padding-base);
+  }
+  .memberReward {
+    margin-left: var(--default-margin-small);
+  }
   .page-rewardSetAdd .el-input__inner{
     padding-right: 10px !important;
     text-align: right;
