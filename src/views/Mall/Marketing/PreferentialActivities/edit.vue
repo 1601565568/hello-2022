@@ -274,6 +274,8 @@ export default edit
   .form-save__unique {
     padding: 5px 5px 0 320px;
     border-top: 1px solid var(--theme-base-border-color-primary);
+    border-bottom-left-radius: var(--default-radius-mini);
+    border-bottom-right-radius: var(--default-radius-mini);
   }
   .td-priceCheep{
     overflow: hidden;

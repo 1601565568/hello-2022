@@ -208,6 +208,9 @@
     <!--查询数据库ID弹窗-->
     <el-dialog  title="查询数据库ID" width="800px" height="605px" :visible.sync="showTargetDetail">
       <target-detail ref="targetDetail" :dataModule = "dataModule" @scopeRowCount="scopeRowCount"></target-detail>
+      <div slot="footer" class="dialog-footer">
+        <ns-button @click="showTargetDetail = false">关闭</ns-button>
+      </div>
     </el-dialog></div>
 </template>
 <script>
