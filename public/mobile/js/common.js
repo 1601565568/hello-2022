@@ -1,4 +1,13 @@
-var backstageURL = 'https://zhsg.ecrpcloud.com/app/guide/zm/guideRecruit'
+var backstageURL = function (){
+  var hostUrl = window.document.location.href
+  if(hostUrl.includes('sg.vecrp.com')){
+    return 'https://sgapp.vecrp.com/app/guide/zm/guideRecruit'
+  }else if(hostUrl.includes('test-sg.ecrpcloud.com')){
+    return 'https://zhsg.ecrpcloud.com/app/guide/zm/guideRecruit'
+  } else{
+    return 'https://localhost/app/guide/zm/guideRecruit'
+  }
+}
 var getRootPath = function () {
   var curPageUrl = window.document.location.href
   var rootPath = curPageUrl.split('//')[0] + curPageUrl.split('//')[1].split('/')[0] +
@@ -15,8 +24,16 @@ var getPar = function (name) {
   return null
 }
 
-var apiRoot = 'https://zhsg.ecrpcloud.com/app/'
-
+var apiRoot = function (){
+  var hostUrl = window.document.location.href
+  if(hostUrl.includes('sg.vecrp.com')){
+    return 'https://sgapp.vecrp.com/app/'
+  }else if(hostUrl.includes('test-sg.ecrpcloud.com')){
+    return 'https://zhsg.ecrpcloud.com/app/'
+  } else{
+    return 'https://localhost/app/'
+  }
+}
 var fetch = function (api, data) {
   return new Promise(function (resolve, reject) {
     $.ajax({
