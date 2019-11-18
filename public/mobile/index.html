@@ -33,7 +33,7 @@
             source:getPar('source'),
         }
         localStorage.setItem('recruitInfo', JSON.stringify(recruitEntity))
-        this.ajax(backstageURL + '/checkGuide', {
+        this.ajax(backstageURL() + '/checkGuide', {
             guideId: getPar('guideId'),
             shopId: getPar('shopId'),
             groupId: getPar('groupId'),
@@ -51,7 +51,7 @@
     }
 
     function getAuth() {
-        this.ajax(backstageURL + '/getAuthURl', {platform: '1'}).then(function (data) {
+        this.ajax(backstageURL() + '/getAuthURl', {platform: '1'}).then(function (data) {
             window.location.replace(data.result)
         })
     }
