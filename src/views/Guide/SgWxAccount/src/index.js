@@ -69,10 +69,14 @@ export default {
         'appid': [{ required: true, message: '请输入应用ID' }],
         'userCorpsecret': [{ required: true, message: '请输入外部联系人企业秘钥' }],
         'addressCorpsecret': [{ required: true, message: '请输入通讯录企业秘钥' }]
-      }
+      },
+      memberManagePlan: 0
     }
   },
   mounted: function () {
+    this.$http.fetch(this.$api.core.common.getRecruitVersion).then(data => {
+      this.memberManagePlan = data.result.memberManagePlan
+    })
     let _this = this
     _this.auth_code = this.$route.query.auth_code
     _this.timestamp = this.$route.query.timestamp
