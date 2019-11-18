@@ -151,5 +151,9 @@ export default {
   queryShopTable4Component: {
     url: '/core/common/getShopTable4Component',
     method: 'post'
+  },
+  getRecruitVersion: {
+    url: '/core/common/getRecruitVersion',
+    method: 'post'
   }
 }

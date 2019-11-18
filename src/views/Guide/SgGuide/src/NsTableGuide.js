@@ -134,7 +134,8 @@ export default {
       bindDeviceDialog: {
         visible: false,
         guide: {}
-      }
+      },
+      memberManagePlan: 0
     }
   },
 
@@ -145,6 +146,9 @@ export default {
     } else {
       this.$reload()
     }
+    this.$http.fetch(this.$api.core.common.getRecruitVersion).then(data => {
+      this.memberManagePlan = data.result.memberManagePlan
+    })
   },
   computed: {},
   methods: {
