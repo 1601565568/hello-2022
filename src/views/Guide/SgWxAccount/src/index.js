@@ -70,7 +70,7 @@ export default {
         'userCorpsecret': [{ required: true, message: '请输入外部联系人企业秘钥' }],
         'addressCorpsecret': [{ required: true, message: '请输入通讯录企业秘钥' }]
       },
-      memberManagePlan: 0
+      memberManagePlan: 1
     }
   },
   mounted: function () {

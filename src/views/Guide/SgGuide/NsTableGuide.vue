@@ -114,7 +114,7 @@
           <template slot-scope="scope">{{scope.row.job == 1 ? "店长" : "导购"}}
           </template>
         </el-table-column>
-        <el-table-column v-if='memberManagePlan === 1' prop="" label="导购终端" align="left" :show-overflow-tooltip="true" min-width="200">
+        <el-table-column v-if='memberManagePlan === 2' prop="" label="导购终端" align="left" :show-overflow-tooltip="true" min-width="200">
           <template slot-scope="scope">
             {{scope.row.deviceNos || '-'}}
           </template>

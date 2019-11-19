@@ -135,7 +135,7 @@ export default {
         visible: false,
         guide: {}
       },
-      memberManagePlan: 0
+      memberManagePlan: 1
     }
   },
 
