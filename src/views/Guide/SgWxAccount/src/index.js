@@ -75,7 +75,7 @@ export default {
   },
   mounted: function () {
     this.$http.fetch(this.$api.core.common.getRecruitVersion).then(data => {
-      this.memberManagePlan = 1 || data.result.memberManagePlan
+      this.memberManagePlan = data.result.memberManagePlan
     })
     let _this = this
     _this.auth_code = this.$route.query.auth_code
