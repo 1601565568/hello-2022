@@ -2,28 +2,34 @@
 <!-- 门店任务详情弹窗-->
 <div class="shopDetailBox">
   <el-dialog
-  :close-on-click-modal=false
-  :visible.sync="dialogVisible"
-  width="620px"
-  :before-close="handleClose">
+    :close-on-click-modal=false
+    :visible.sync="dialogVisible"
+    width="620px"
+    :before-close="handleClose">
     <span slot="title">
       <span style="font-size:16px;">任务详情</span> <span style="padding-left:10px;">(<span class="text-error">{{unfinishedTotal}}</span>人未完成，共{{pagination.total}}人)</span>
     </span>
     <div>
-      <div class="tit">
-        {{initObj.title}}
-      </div>
-      <div>
-        <span>执行日期：{{initObj.startTime}} ~ {{initObj.endTime}}</span>
-        <span style="margin-left: 20px" v-if='initObj.runType === 1'>
-          <el-date-picker class="dataBox" v-model="queryDate" :editable="false" align="right" type="date" placeholder="选择执行日期" @change='change' :clearable='false'></el-date-picker>
-          </span>
-      </div>
-      <div class="content">
-        {{initObj.content}}
-      </div>
+      <el-form label-width="70px">
+        <el-form-item label="任务名称：">
+          {{initObj.title}}
+        </el-form-item>
+        <el-form-item label="执行日期：">
+          <el-form-grid>
+            {{initObj.startTime}} ~ {{initObj.endTime}}
+          </el-form-grid>
+          <el-form-grid>
+            <span style="margin-left: 20px" v-if='initObj.runType === 1'>
+              <el-date-picker class="dataBox" v-model="queryDate" :editable="false" align="right" type="date" placeholder="选择执行日期" @change='change' :clearable='false'></el-date-picker>
+            </span>
+          </el-form-grid>
+        </el-form-item>
+        <el-form-item label="任务描述：">
+          {{initObj.content}}
+        </el-form-item>
+      </el-form>
       <div class="mt10">
-    <el-table
+       <el-table
       ref="multipleTable"
       :data="dataList"
       v-loading="loading"
@@ -35,29 +41,29 @@
       <el-table-column prop="name" label="姓名"></el-table-column>
       <el-table-column label="状态" align="center" width="80">
         <template slot-scope="{row}">
-          <span v-if="row.state === 1">执行中</span>
-          <span v-if="row.state === 2">已关闭</span>
-          <span v-if="row.state === 3">完成</span>
-          <span v-if="row.state === 4">已过期</span>
+          <span v-if="row.state === 1" class="text-primary">执行中</span>
+          <span v-if="row.state === 2" class="text-secondary">已关闭</span>
+          <span v-if="row.state === 3" class="text-success">完成</span>
+          <span v-if="row.state === 4" class="text-error">已过期</span>
         </template>
       </el-table-column>
-      <el-table-column prop="completeTime" label="完成时间"></el-table-column>
+      <el-table-column prop="completeTime" label="完成时间" align="center"></el-table-column>
       <el-table-column  label="反馈">
         <template slot-scope="{row}">
           <span>{{row.remark}}</span>
         </template>
       </el-table-column>
     </el-table>
-  </div>
-    <!-- 分页 -->
-   <el-pagination v-if="pagination.enable" class="template-table-pagination"
-      :page-sizes="pagination.sizeOpts"
-      :total="pagination.total"
-      :current-page.sync="pagination.page"
-      :page-size="pagination.size"
-      layout="total, prev, pager, next"
-      @current-change="handleCurrentChange">
-  </el-pagination>
+      </div>
+      <!-- 分页 -->
+     <el-pagination v-if="pagination.enable" class="template-table-pagination"
+        :page-sizes="pagination.sizeOpts"
+        :total="pagination.total"
+        :current-page.sync="pagination.page"
+        :page-size="pagination.size"
+        layout="total, prev, pager, next"
+        @current-change="handleCurrentChange">
+     </el-pagination>
     </div>
     <span slot="footer" class="dialog-footer">
       <ns-button @click="handleClose">关闭</ns-button>
@@ -173,7 +179,6 @@ export default {
   }
   .dataBox >>> .el-input__inner{
     width: 160px;
-    text-align:center;
   }
 }
 </style>

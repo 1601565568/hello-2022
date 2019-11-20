@@ -1,62 +1,59 @@
 <template>
   <div class="company-info">
     <el-scrollbar ref="fullScreen">
-      <el-card shadow="never">
-        <div slot="header">
-          <div class="company-info__header">
-            <div class="company-circle">
-              <Icon type="gongsi" class="company-circle__gongsi"/>
-            </div>
-            <div class="company-text">公司logo</div>
+      <div class="company-info__header">
+        <div class="company-circle">
+          <Icon type="gongsi" class="company-circle__gongsi"/>
+        </div>
+        <div class="company-text">公司logo</div>
+      </div>
+      <el-form label-width="70px">
+        <el-form-item label="选择图片：">
+          <el-form-grid class="company-upload">
+            <el-upload
+              :action="this.$api.core.sgUploadFile('test')"
+              :show-file-list="false"
+              :on-success="handleAvatarSuccess"
+              :before-upload="beforeAvatarUpload">
+              <img v-if="imageUrl" :src="imageUrl" class="company-upload__avatar">
+              <Icon type="plus" className="company-upload__tip" v-else/>
+            </el-upload>
+          </el-form-grid>
+        </el-form-item>
+        <el-form-item>
+          <div class="company-example">
+            <span class="text-primary">
+               <Icon type="exclamation-circle" theme="outlined"/>
+               该logo将在用户端透出，建议图片尺寸为1:1。
+            </span>
+            <el-popover
+              placement="bottom-start" trigger="click">
+              <img src="./src/images/exampleImg.png" alt="示例图片"/>
+              <el-button slot="reference" class="company-example__check">
+                查看示例
+                <Icon :type="isPopover ? 'up' : 'down'" className="company-arrow"/>
+              </el-button>
+            </el-popover>
           </div>
-        </div>
-        <div>
-          <el-form label-width="80px" class="company-info__content">
-            <el-form-item label="选择图片：">
-              <el-form-grid class="company-upload">
-                <el-upload
-                  :action="this.$api.core.sgUploadFile('test')"
-                  :show-file-list="false"
-                  :on-success="handleAvatarSuccess"
-                  :before-upload="beforeAvatarUpload">
-                  <img v-if="imageUrl" :src="imageUrl" class="company-upload__avatar">
-                  <Icon type="plus" className="company-upload__tip" v-else/>
-                </el-upload>
-              </el-form-grid>
-              <el-form-item>
-                <div class="company-example">
-                  <span class="company-example__size">
-                    <Icon type="exclamation-circle" theme="outlined" className="company-example__size--warning"/>
-                    该logo将在用户端透出，建议图片尺寸为1:1。
-                  </span>
-                  <el-popover placement="bottom" trigger="click" @show="disposePopover" @hide="disposePopover">
-                    <img src="./src/images/exampleImg.png" alt="示例图片" class="company-example__size--distance"/>
-                    <span class="company-example__check" slot="reference">
-                      查看示例
-                      <Icon :type="isPopover ? 'up' : 'down'" className="company-arrow" />
-                    </span>
-                  </el-popover>
-                </div>
-              </el-form-item>
-            </el-form-item>
-          </el-form>
-        </div>
-      </el-card>
+        </el-form-item>
+        <el-form-item>
+          <ns-button type="primary" size="small"  @click="saveLogo">保存</ns-button>
+        </el-form-item>
+      </el-form>
     </el-scrollbar>
-    <div class="form-save__unique">
-      <ns-button type="primary" size="small"  @click="saveLogo">保存</ns-button>
-    </div>
   </div>
 </template>
 
 <script>
 import ElUpload from '@nascent/nui/lib/upload'
 import ElCard from '@nascent/nui/lib/card'
+import ElButton from '@nascent/nui/lib/button'
 
 export default {
   components: {
     ElUpload,
-    ElCard
+    ElCard,
+    ElButton
   },
   data () {
     return {
@@ -111,9 +108,14 @@ export default {
 
 @component-namespace company {
   @b info {
+    background: var(--theme-color-white);
+    border-radius: var(--default-radius-mini);
     @e header {
       display: flex;
       align-items: center;
+      padding: var(--default-padding-base) var(--default-padding-larger);
+      border-top-left-radius: var(--default-radius-mini);
+      border-top-right-radius: var(--default-radius-mini);
     }
   }
   @b circle {
@@ -140,21 +142,9 @@ export default {
     padding-left: var(--default-padding-larger);
   }
   @b example {
-    @e size {
-      font-size: var(--default-font-size-small);
-      color: var(--theme-color-primary);
-      @m warning {
-        font-size: 15px;
-        color: var(--theme-color-primary);
-      }
-      @m distance {
-        margin: var(--default-margin-small) var(--default-margin-small) 0 ;
-      }
-    }
     @e check {
-      font-size: var(--default-font-size-small);
       color: var(--theme-font-color-secondary);
-      margin-left: var(--default-margin-larger);
+      cursor: pointer;
     }
   }
   @b upload {
@@ -163,40 +153,46 @@ export default {
       height: 100px;
       position: relative;
       border: 1px dashed var(--theme-base-border-color-primary);
-      border-radius: 3px;
+      border-radius: var(--default-radius-mini);
       &:hover {
-        border-color: var(--theme-color-primary-light);
-      }
-    }
-    @e tip {
-      font-size: 18px;
-      color: var(--theme-base-border-color-primary);
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%,-50%);
-    }
-    @e avatar {
-      width: 100px;
-      height: 100px;
-      position: relative;
-      top: -1px;
-      left: -1px;
-    }
+         border-color: var(--theme-color-primary-light);
+       }
   }
-  @b arrow {
-    font-size: var(--default-font-size-middle);
-    color: var(--theme-font-color-secondary);
+  @e tip {
+    font-size: var(--default-font-size-large);
+    color: var(--theme-base-border-color-primary);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+  }
+  @e avatar {
+    width: 100px;
+    height: 100px;
     position: relative;
-    top: 2px;
+    top: -1px;
+    left: -1px;
   }
 }
-.company-info >>> .el-card__header {
-  border-bottom: none;
+  @b arrow {
+    color: var(--theme-font-color-secondary);
+  }
 }
 .form-save__unique {
-  padding: var(--default-padding-small) 0 var(--default-padding-small) 150px;
-  border-top: 1px solid var(--theme-base-border-color-primary);
+  padding: var(--default-padding-small) 0 var(--default-padding-small) 70px;
   background-color: var(--theme-color-white);
+  border-bottom-left-radius: var(--default-radius-mini);
+  border-bottom-right-radius: var(--default-radius-mini);
+}
+>>> .el-card {
+  border-bottom: none;
+}
+.company-example >>> .el-button {
+  padding: 0;
+  border: none;
+  background: var(--theme-color-white);
+}
+.company-example >>> .el-button:hover {
+  background: var(--theme-color-white);
 }
 </style>

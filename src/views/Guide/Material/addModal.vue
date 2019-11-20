@@ -10,7 +10,9 @@
               <el-option v-for="item in groudList" :key="item.subdivision_id" :label="item.subdivision_name" :value="item.subdivision_id">
               </el-option>
             </el-select>
-            <ns-button type='text' @click="$router.push({name:'MaterialSubdivision'})"> + 添加分组</ns-button>
+            <ns-button type='text' @click="$router.push({name:'MaterialSubdivision'})">
+              <Icon type="plus"/> 添加分组
+            </ns-button>
           </el-form-item>
           <el-form-item label="推广文案：" prop="content">
             <el-input resize="none" type="textarea" maxlength='10000' v-model="saveObj.content" placeholder="可在此输入推广文案，限制长度在10000个字符以内。"></el-input>
@@ -27,12 +29,12 @@
                 </li>
                 <li v-if="saveObj.imageList.length< 10 - saveObj.codeType">
                   <el-upload class="avatar-uploader" :action="this.$api.core.sgUploadFile('test')" accept=".jpg,.jpeg,.png,.bmp,.gif" :show-file-list="false" list-type="picture-card" multiple  :on-remove="handleRemove" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
-                    <Icon type="plus" className="avatar-uploader-icon"/>
+                    <Icon type="plus"/>
                   </el-upload>
                 </li>
               </ul>
               <div class="clearfix"></div>
-              <div style="color:#999">上传图片不能大于500KB；图片最多上传9张（加小程序码的最多8张）</div>
+              <div class="text-primary"><Icon type="info-circle"/>上传图片不能大于500KB；图片最多上传9张（加小程序码的最多8张）</div>
             </div>
           </el-form-item>
           <el-form-item label="小程序链接：">
@@ -50,15 +52,15 @@
                   </el-option>
               </el-select>
             </template>
-            <template v-if="saveObj.codeModule==2">
-              <ns-button @click='selectGoods' type='primary' class='ml15'>选择商品</ns-button>
-            </template>
-            <template v-if="saveObj.codeModule==3">
-              <ns-button @click='selectCoupon' type='primary' class='ml15'>选择优惠券</ns-button>
-            </template>
-            <template v-if="saveObj.codeModule==4">
-              <ns-button @click='selectMarket' type='primary' class='ml15'>选择营销活动</ns-button>
-            </template>
+            <el-form-grid v-if="saveObj.codeModule==2">
+              <ns-button @click='selectGoods' type='primary'>选择商品</ns-button>
+            </el-form-grid>
+            <el-form-grid v-if="saveObj.codeModule==3">
+              <ns-button @click='selectCoupon' type='primary'>选择优惠券</ns-button>
+            </el-form-grid>
+            <el-form-grid v-if="saveObj.codeModule==4">
+              <ns-button @click='selectMarket' type='primary'>选择营销活动</ns-button>
+            </el-form-grid>
           </el-form-item>
             <el-form-item :label="saveObj.codeModule==2?'商品名称：':saveObj.codeModule==4?'活动名称：':''" prop='codeTargetName' v-if="saveObj.codeModule &&saveObj.codeModule!=1 && saveObj.codeTargetName!=''">
               <!-- saveObj.codeTargetName&& -->
@@ -72,8 +74,8 @@
               <el-radio :label="2">单独增加一张小程序码图
               </el-radio>
             </el-radio-group>
-            <p style='line-height:1.5;margin-top:10px'>
-              <Icon type="info-circle" theme="filled" className="text-tips"/>
+            <p style='line-height:1.5;margin-top:10px' class="text-primary">
+              <Icon type="info-circle"/>
               <span>将在图片中加入带导购参数的小程序码，需门店里有对应信息的才会显示</span>
             </p>
           </el-form-item>
@@ -125,6 +127,7 @@ export default {
       saveObj: {
         mType: 1,
         title: '',
+        shopId: '',
         codeType: 1,
         content: '',
         url: '',
@@ -268,7 +271,7 @@ export default {
         this.$notify.warning('加小程序码的素材最多8张图片')
         return
       }
-      if (this.saveObj.codeModule === '' || this.saveObj.codeModule === null) {
+      if (this.saveObj.codeModule === '' || this.saveObj.codeModule === null || this.saveObj.codeTarget === '') {
         this.saveObj.codeType = 0
       }
       this.loading = true
@@ -350,7 +353,9 @@ export default {
     .el-upload--picture-card {
       width: 80px;
       height: 80px;
-      line-height: 90px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
     .el-upload--picture-card {
       img {

@@ -10,27 +10,35 @@
         <el-form ref="table_filter_form" label-width="80px" @keyup.enter.native="searchAction"
                  class="surround-btn"
                  :model="model" :rules="rules" :inline="true">
-          <el-form-item label="时间：" class='el-block'>
-            <el-form-grid width="350">
+
+          <el-form-item label="时间：">
+            <el-form-grid>
               <ns-datetime type="datetime" width="160" v-model="model.times" format='yyyy-MM-dd' value-format='yyyyMMdd'>
               </ns-datetime>
+            </el-form-grid>
+          </el-form-item>
+
+          <el-form-item>
+            <el-form-grid style="width: 32px;">
             </el-form-grid>
             <el-form-grid>
               <ns-button @click="todayTime(0)" :type="defButton === 0 ? 'primary' : 'default'" >今日</ns-button>
             </el-form-grid>
             <el-form-grid>
-              <ns-button @click="todayTime(1)" :type="defButton === 1 ? 'primary' : 'default'">昨日</ns-button>
+             <ns-button @click="todayTime(1)" :type="defButton === 1 ? 'primary' : 'default'">昨日</ns-button>
             </el-form-grid>
             <el-form-grid>
               <ns-button @click="todayTime(7)" :type="defButton === 7 ? 'primary' : 'default'">近7天</ns-button>
             </el-form-grid>
           </el-form-item>
-          <el-form-item label="个人号：" class='el-block'>
+
+          <el-form-item label="个人号：">
             <el-select v-model="model.ownerId">
               <el-option value='' label='全部'/>
               <el-option v-for='item in privateAccountSelect' :key='item.wid' :value="item.wid" :label="item.nick"/>
             </el-select>
           </el-form-item>
+
         </el-form>
         <div class="template-table__more-btn">
           <ns-button type="primary" @click="$searchAction$">{{$t('operating.search')}}</ns-button>
@@ -132,4 +140,12 @@ export default Index
 </script>
 <style scoped>
   @import "@theme/variables.pcss";
+
+  /* 解决搜索和重置按钮那栏的上下间距不一致问题 */
+  >>> .template-table__more-btn {
+    padding: 0;
+  }
+  >>>.template-table__bar-more .el-form >.el-form-item {
+    margin: 0;
+  }
 </style>

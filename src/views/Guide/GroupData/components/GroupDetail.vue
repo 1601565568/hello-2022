@@ -3,7 +3,7 @@
     <el-dialog
       title="群详情"
       :visible.sync="sVisible"
-      @closed="onClose"
+      @closed="onClose" response-limit :show-scroll-x=false
       width='800px'>
       <div>
         <el-form label-width="80px">
@@ -23,7 +23,7 @@
                       row-key="id"
                       @selection-change="$selectionChange">
               <el-table-column :show-overflow-tooltip="true" type="default" prop="title"
-                               label="头像" width='80px' :sortable="false">
+                               label="头像" width='70px' :sortable="false" align='center'>
                 <template slot-scope="scope">
                   <div class="avatar-name clearfix">
                     <div class="avatar-name__avatar"><img
@@ -39,7 +39,7 @@
                 </template>
               </el-table-column>
               <el-table-column :show-overflow-tooltip="true" type="default" prop=""
-                               label="会员状态" :sortable="false" width='100px' align='right'>
+                               label="会员状态" :sortable="false" width='100px' align='center'>
                 <template slot-scope='scope'>
 <!--                  todo-zsf 暂时取不到会员状态-->
                   -
@@ -48,23 +48,23 @@
                 <template slot='header' scope='header'>
                     <span>
                       <span>{{header.column.label}}</span>
-                      <el-popover placement='bottom' width='220' trigger='hover' content='此微信客户是否为会员'>
-                        <i slot='reference' class='table-header-icon'><Icon type="info-circle" theme="filled" /></i>
-                      </el-popover>
+                      <el-tooltip content="此微信客户是否为会员">
+                       <Icon type="question-circle"/>
+                      </el-tooltip>
                     </span>
                 </template>
               </el-table-column>
               <el-table-column :show-overflow-tooltip="true" type="default" prop=""
-                               label="专属导购" :sortable="false" width='100px' align='right'>
+                               label="专属导购" :sortable="false" width='100px' align='left'>
                 <template slot-scope='scope'>
                   {{scope.row.guideName || '-'}}
                 </template>
                 <template slot='header' scope='header'>
                     <span>
                       <span>{{header.column.label}}</span>
-                      <el-popover placement='bottom' width='220' trigger='hover' content='此微信客户是否有专属导购'>
-                        <i slot='reference' class='table-header-icon'><Icon type="info-circle" theme="filled" /></i>
-                      </el-popover>
+                      <el-tooltip content="此微信客户是否有专属导购">
+                       <Icon type="question-circle"/>
+                      </el-tooltip>
                     </span>
                 </template>
               </el-table-column>

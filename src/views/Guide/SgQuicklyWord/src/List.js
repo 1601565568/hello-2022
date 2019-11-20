@@ -113,9 +113,6 @@ export default {
     }
   },
   methods: {
-    renderHeader (h, data) {
-      return h('div', { attrs: { class: 'cell' } }, [h('span', ['排序 ']), h('el-tooltip', { attrs: { class: 'el-icon-question bg-white', effect: 'light', content: '调整排列顺序小程序同步', placement: 'bottom' } }, [h('i', { 'class': 'el-icon-question', style: 'color:rgb(153, 153, 153)' })])])
-    },
     onkeydown (e) {
       let key = window.event.keyCode
       if (key === 13) {
@@ -166,7 +163,7 @@ export default {
       })
     },
     saveOrUpdateQuicklyWordGroup () {
-      if (!(this.addOrEditModel.name.length > 10)) {
+      if (this.addOrEditModel.name && (this.addOrEditModel.name.length <= 10)) {
         this.$http.fetch(this.$api.guide.saveOrUpdateQuicklyWordGroup, this.addOrEditModel).then(resp => {
           if (resp.success) {
             this.addOrEditModel.id ? this.$notify.success('编辑成功') : this.$notify.success('新增成功')
@@ -225,16 +222,6 @@ export default {
       this.dialogFormVisible = false
       this.dialogVisiblePatchChange = false
       this.dialogVisibleSaveQuicklyWordGroup = false
-      this.model = {
-        id: null,
-        wordGroupId: null,
-        content: '',
-        keyWord: null,
-        name: null,
-        addName: null,
-        searchValue: null,
-        param: {}
-      }
     },
     onSaveOpen (row) { // 新增或编辑
       let arr = Object.keys(row)

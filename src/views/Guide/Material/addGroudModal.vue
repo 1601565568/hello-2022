@@ -7,15 +7,12 @@
   :close-on-click-modal=false
   :visible.sync="dialogVisible"
   width="380px"
-  height="180px"
   :before-close="handleClose">
-    <div class="comDialogBoxCon" style="padding:10px 0 20px ">
-        <el-form :rules="rules" ref="searchform" :model="saveObj"  :inline="true">
-            <el-form-item  label-width="80px" label="分组名称：" prop="subdivision_name">
-               <el-input maxlength='20' style="width:250px" v-model="saveObj.subdivision_name" clearable placeholder='请输入分组名称，长度在4-20个字符以内'></el-input>
-            </el-form-item>
-        </el-form>
-    </div>
+    <el-form :rules="rules" ref="searchform" :model="saveObj"  :inline="true">
+      <el-form-item  label-width="80px" label="分组名称：" prop="subdivision_name" class="el-form-validate__unHide">
+        <el-input maxlength='20' style="width:250px" v-model="saveObj.subdivision_name" clearable placeholder='请输入分组名称，长度在4-20个字符以内'></el-input>
+      </el-form-item>
+    </el-form>
     <span slot="footer" class="dialog-footer">
       <ns-button @click="handleClose">取 消</ns-button>
       <ns-button type="primary" :loading="loading" @click="saveFun">确 定</ns-button>

@@ -4,36 +4,35 @@
     </ns-table-guide>
     <!--  查看详情弹窗开始  -->
     <el-dialog :title="title" :visible.sync="detailShow" width="1000px"  >
-    <div>
-      <div class="kehuBox-main">
-        <div class="kehuBox-main-top">
-          <p>变更人：{{changeValue.operatorName || '-'}}</p>
-          <p>操作时间：{{changeValue.createTime || '-'}}</p>
-        </div>
-        <div>
-          <div class="kehuBox-main-span">
-            <div>
-              <el-row class="kehuBox-main-span_title">
-                <el-col :span='12'><span>操作前</span></el-col>
-                <el-col :span='12'><span>操作后</span></el-col>
-              </el-row>
-            </div>
-            <div class="kehuBox-main-span_left">
-              <div class="kehuBox-main-span_top">
-                <div v-for="(item, i) in changeValue.beforeJson" :key="i">
-                  <span  :class="i===sum[i]?'warning-row':''">{{item}}</span>
-                </div>
-              </div>
-              <div class="kehuBox-main-span_bottom">
-                <div v-for="(item, i) in changeValue.afterJson" :key="i">
-                  <span :class="i===sum[i]?'warning-row':''">{{item}}</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+      <div>
+        <el-form label-width="70px">
+          <el-form-item label="变更人：">
+            {{changeValue.operatorName || '-'}}
+          </el-form-item>
+          <el-form-item label="操作时间：">
+            {{changeValue.createTime || '-'}}
+          </el-form-item>
+        </el-form>
+        <el-table
+          ref="multipleTable"
+          tooltip-effect="dark"
+          :data="list"
+          stripe>
+          <el-table-column label="操作前" align="left">
+            <template slot-scope="scope">
+              <span :class="scope.row.before !== scope.row.after ? 'warning-row' : ''" v-if="scope.row.before">{{scope.row.before}}</span>
+            </template>
+          </el-table-column>
+          <el-table-column label="操作后" align="left">
+            <template slot-scope="scope">
+              <span :class="scope.row.before !== scope.row.after ? 'warning-row' : ''" v-if="scope.row.after">{{scope.row.after}}</span>
+            </template>
+          </el-table-column>
+        </el-table>
       </div>
-    </div>
+      <div slot="footer">
+        <ns-button @click="detailShow = false">关闭</ns-button>
+      </div>
     </el-dialog>
     <!-- 查看详情结束 -->
   </div>
@@ -48,31 +47,9 @@ List.components = {
 export default List
 </script>
 <style scoped>
-  .kehuBox-main-top {
-    line-height: 35px;
-  }
-  .kehuBox-main-span_title{
-    background-color: #ccc;
-  }
-  .kehuBox-main-span_title .el-col{
-    display: flex;
-    justify-content: center;
-    line-height: 35px;
-  }
-  .kehuBox-main-span_left{
-    display: flex;
-    justify-content:space-around;
-    line-height: 35px;
-  }
-  .kehuBox-main-span_top{
-    float: left;
-  }
-  .kehuBox-main-span_bottom{
-    float: right;
-  }
   .warning-row {
     background: palevioletred;
     color: white;
-    padding:3px;
+    padding: 3px;
   }
 </style>

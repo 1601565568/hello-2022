@@ -12,13 +12,13 @@
     <!-- el-inpu 需添加  @keyup.enter.native="$quickSearchAction$" 配置，实现回车搜索 -->
     <template slot="searchSearch">
       <el-form :model="model" :inline="true" @submit.native.prevent class="pull-right">
-        <el-form-item v-show="_data._queryConfig.expand === false">
-          <el-input ref="quickText" style="width: 250px" v-model="model.couponTitle" placeholder="请输入优惠券名称或编码" @keyup.enter.native="$quickSearchAction$('couponTitle')" clearable>
+        <el-form-item v-show="_data._queryConfig.expand === false" label="优惠券名称或编码：">
+          <el-input ref="quickText" style="width: 200px" v-model="model.couponTitle" placeholder="请输入优惠券名称或编码" @keyup.enter.native="$quickSearchAction$('couponTitle')" clearable>
             <!--<Icon type="search" className="el-input__icon" style="padding: 5px;" slot="suffix" name="name"-->
                   <!--@click="$quickSearchAction$('couponTitle')"/>-->
           </el-input>
-          <ns-button type="primary" @click="$searchAction$()">搜索</ns-button>
-          <ns-button @click="$resetInputAction$()">重置</ns-button>
+          <ns-button type="primary" @click="$searchAction$()" class="searchbtn">搜索</ns-button>
+          <ns-button @click="$resetInputAction$()" class="resetbtn">重置</ns-button>
         </el-form-item>
         <el-form-item>
           <ns-button type="text" @click="$handleTabClick">
@@ -42,25 +42,21 @@
             </el-input>
           </el-form-grid>
         </el-form-item>
-        <el-form-item label="卡券类型：">
+        <el-form-item label="卡券类型：" prop="storeCouponType">
           <el-form-grid size="xmd" >
-            <el-form-item prop="storeCouponType">
-              <el-select  v-model="model.couponType" clearable filterable placeholder="请选择卡券类型">
-                <el-option label="代金券" value="1"></el-option>
-                <el-option label="折扣券" value="2"></el-option>
-                <el-option label="兑换券" value="3"></el-option>
-              </el-select>
-            </el-form-item>
+            <el-select  v-model="model.couponType" clearable filterable placeholder="请选择卡券类型">
+              <el-option label="代金券" value="1"></el-option>
+              <el-option label="折扣券" value="2"></el-option>
+              <el-option label="兑换券" value="3"></el-option>
+            </el-select>
           </el-form-grid>
         </el-form-item>
-        <el-form-item label="状态：">
+        <el-form-item label="状态：" prop="storeCouponState">
           <el-form-grid size="xmd">
-            <el-form-item prop="storeCouponState">
-              <el-select  v-model="model.couponStatus" clearable filterable placeholder="请选择状态">
-                <el-option label="启用" value="1"></el-option>
-                <el-option label="禁用" value="0"></el-option>
-              </el-select>
-            </el-form-item>
+            <el-select  v-model="model.couponStatus" clearable filterable placeholder="请选择状态">
+              <el-option label="启用" value="1"></el-option>
+              <el-option label="禁用" value="0"></el-option>
+            </el-select>
           </el-form-grid>
         </el-form-item>
         <el-form-item label="有效时间：">
@@ -127,7 +123,7 @@
             <span>优惠券编码:{{scope.row.couponCode}}</span>
           </template>
         </el-table-column>
-        <el-table-column :show-overflow-tooltip="true" type="default" align="left"
+        <el-table-column :show-overflow-tooltip="true" type="default" align="center"
                          label="有效时间" :sortable="false" >
           <template slot-scope="{row}">
             <div v-if="row.dateValidType == 0">
@@ -141,18 +137,21 @@
             </div>
           </template>
         </el-table-column>
-        <el-table-column :show-overflow-tooltip="true" type="default" prop="createTime" align="left"
+        <el-table-column :show-overflow-tooltip="true" type="default" prop="createTime" align="center"
                          label="创建时间" :sortable="false" width="180">
         </el-table-column>
         <el-table-column :show-overflow-tooltip="true" type="default" prop="couponTotal" align="left"
                          label="配额" :sortable="false" width="70">
         </el-table-column>
-        <el-table-column :show-overflow-tooltip="true" type="default" prop="type" align="left"
+        <el-table-column :show-overflow-tooltip="true" type="default" prop="type" align="center"
                          label="状态" :sortable="false" width="70">
-          <template slot-scope="scope">{{scope.row.couponStatus == '0' ? "禁用" : "启用"}}
+          <template slot-scope="scope">
+            <span :class="scope.row.couponStatus == 0 ? 'text-error' : 'text-success'">
+              {{scope.row.couponStatus == '0' ? "禁用" : "启用"}}
+            </span>
           </template>
         </el-table-column>
-        <el-table-column :show-overflow-tooltip="true" type="default" prop="couponType" align="left"
+        <el-table-column :show-overflow-tooltip="true" type="default" prop="couponType" align="right"
                          label="发放门店" :sortable="false" width="70">
           <template slot-scope="scope">
             <span v-if="scope.row.type == 0">公用</span>
@@ -198,5 +197,17 @@ export default NsTableSgCoupon
 </script>
 
 <style scoped>
-.w80{width: 76px;text-align: right; display: inline-block;}
+  @import "@theme/variables.pcss";
+
+  .w80{
+    text-align: right;
+    width: 76px;
+    display: inline-block;
+  }
+  .searchbtn {
+    margin-left: 11px;
+  }
+  .resetbtn {
+    margin-left: var(--default-margin-larger);
+  }
 </style>

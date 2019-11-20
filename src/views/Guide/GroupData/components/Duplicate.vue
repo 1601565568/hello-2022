@@ -65,7 +65,7 @@
           <el-scrollbar class="scrollbarc">
             <div class="dialog-selectitem" v-for='item of wxGroupSelection' :key='item.chatroomname'>
               <span class="dialog-selectitem__discountgroup">{{item.displayname || '-'}}</span>
-              <i @click='onRemoveSelectedWxGroup(item)'><Icon type="shanchu2"/></i>
+              <i @click='onRemoveSelectedWxGroup(item)' class="text-primary font-size-middle delete"><Icon type="delete" /></i>
             </div>
           </el-scrollbar>
         </div>

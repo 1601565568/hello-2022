@@ -53,8 +53,7 @@ export default {
         'icon': '',
         'name': '删除',
         'auth': ``,
-        'visible': ``,
-        'class': 'del-btn'
+        'visible': ``
       }
     ]
     const operateButtons = [
@@ -135,7 +134,8 @@ export default {
       bindDeviceDialog: {
         visible: false,
         guide: {}
-      }
+      },
+      memberManagePlan: 1
     }
   },
 
@@ -146,6 +146,9 @@ export default {
     } else {
       this.$reload()
     }
+    this.$http.fetch(this.$api.core.common.getRecruitVersion).then(data => {
+      this.memberManagePlan = data.result.memberManagePlan
+    })
   },
   computed: {},
   methods: {

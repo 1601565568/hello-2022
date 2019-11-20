@@ -12,11 +12,11 @@
           <el-col :span="17">
             <!-- 右上角操作区域 -->
             <div class="float-right tabSearchBtn">
-              <ns-button @click="tabSearchType" style="padding: 9px 0 9px 10px;opacity: 0.5;color: #002041;" type="text">{{searchType.tipText}}
+              <ns-button @click="tabSearchType" type="text" style="padding-left: 10px;opacity: 0.5;color: #002041;">{{searchType.tipText}}
                 <Icon :type="searchType.advanced ? 'up' : 'down'"/>
               </ns-button>
             </div>
-            <el-form ref="searchform" class="float-right" v-if="!searchType.advanced" :inline="true" :model="searchform" style='padding-top:3px'>
+            <el-form ref="searchform" class="float-right" v-if="!searchType.advanced" :inline="true" :model="searchform">
               <el-form-item  prop="type">
                 <el-select
                 style="width:100px"
@@ -53,8 +53,8 @@
                 <el-input v-model="searchform.shopName" placeholder="请输入门店名称" @keyup.enter.native="submitForm('searchform')" clearable></el-input>
               </el-form-item>
               <el-form-item>
-                <ns-button type="primary" @click="submitForm('searchform')">搜索</ns-button>
-                <ns-button @click="resetForm('searchform')">重置</ns-button>
+                <ns-button type="primary" @click="submitForm('searchform')" class="searchbtn">搜索</ns-button>
+                <ns-button @click="resetForm('searchform')" class="resetbtn">重置</ns-button>
               </el-form-item>
             </el-form>
         </el-col>
@@ -133,7 +133,7 @@
   </div>
   <!-- 筛选end -->
   <!-- table start -->
-  <div class="mt10">
+  <div class="mt5">
     <el-table
       ref="multipleTable"
       :data="dataList"
@@ -150,15 +150,14 @@
         <template slot='header' scope='header'>
           <span>
             <span>{{header.column.label}}</span>
-            <el-popover placement='bottom' width='100' trigger='hover' content='不显示已删除门店'>
-              <i slot='reference' class='table-header-icon'><Icon type="question-circle" /></i>
-            </el-popover>
+            <el-tooltip content="不显示已删除门店">
+              <Icon type="question-circle"/>
+            </el-tooltip>
           </span>
         </template>
       </el-table-column>
       <el-table-column
         label="区域"
-        width="140"
         show-overflow-tooltip
         >
         <template slot-scope="scope">
@@ -168,6 +167,7 @@
       <el-table-column
         label="类型"
         width="77"
+        align="center"
       >
       <template slot-scope="scope">
         <span>{{scope.row.shopType|shopType}}</span>
@@ -176,14 +176,14 @@
       <el-table-column
         label="状态"
         width="100"
+        align="center"
       >
       <template slot-scope="scope">
-        <span>{{scope.row.shopStatus|shopStatus}}</span>
+        <span :class="scope.row.shopStatus > 0 ? 'text-success' : scope.row.shopStatus === -1 ? 'text-error' : ''">{{scope.row.shopStatus|shopStatus}}</span>
       </template>
       </el-table-column>
       <el-table-column
         label="店长"
-        width="180"
         align="left"
         prop="guideNames"
         show-overflow-tooltip
@@ -191,7 +191,7 @@
       </el-table-column>
       <el-table-column
         label="门店招募/还差（人）"
-        align="center"
+        align="right"
         width="140"
       >
       <template slot-scope="scope">
@@ -206,7 +206,7 @@
         </span>
       </template>
       </el-table-column>
-      <el-table-column label="奖励（元）" prop="recruitPrice" width="80" align="right">
+      <el-table-column label="奖励（元）" prop="recruitPrice" width="100" align="right">
         <template slot-scope="scope">
           <span v-if="scope.row.recruitPrice == 0">0.00</span>
           <a href="javascript:" @click="showRecruitDialog(scope.row.shopId, scope.row.shopName)" v-else>{{$numeral(scope.row.recruitPrice).format('0,0.00')}}</a>
@@ -228,7 +228,7 @@
           </span>
       </template>
       </el-table-column>
-      <el-table-column label="提成（元）" prop="sellPrice" width="80" align="right">
+      <el-table-column label="提成（元）" prop="sellPrice" width="100" align="right">
         <template slot-scope="scope">
           <span v-if="scope.row.sellPrice == 0">0.00</span>
           <a href="javascript:" @click="showSellDialog(scope.row.shopId, scope.row.shopName)" v-else>{{$numeral(scope.row.sellPrice).format('0,0.00')}}</a>
@@ -252,26 +252,26 @@
         <!-- 高级搜索 -->
         <!-- el-form 需添加  @keyup.enter.native="onSearch" 配置，实现回车搜索， onSearch 为搜索方法 -->
         <!-- el-form 需添加  surround-btn 类名 配置环绕按钮效果 -->
-        <el-form ref="table_filter_form" label-width="80px" @keyup.enter.native="onSearch" class="surround-btn" :inline="true">
+        <el-form ref="table_filter_form" label-width="40px" @keyup.enter.native="onSearch" class="surround-btn" :inline="true">
           <el-form-item label="姓名：">
             <el-form-grid size="xmd">
               <el-input  type="text" v-model="customerName">
               </el-input>
             </el-form-grid>
-          </el-form-item>
-          <el-form-item>
-            <ns-button type="primary" @click="formSearch('searchform')">搜索</ns-button>
-            <ns-button @click="formReset('searchform')">重置</ns-button>
+            <el-form-grid>
+              <ns-button type="primary" @click="formSearch('searchform')">搜索</ns-button>
+              <ns-button @click="formReset('searchform')">重置</ns-button>
+            </el-form-grid>
           </el-form-item>
         </el-form>
         <!-- 高级搜索-结束 -->
         <div style="overflow-x:hidden;overflow-y:auto;">
           <el-table :data="detailData">
-            <el-table-column prop="guideName" label="导购" align="center" width="150"></el-table-column>
-            <el-table-column prop="name" label="会员" align="center" width="150"></el-table-column>
-            <el-table-column prop="name" label="昵称" align="center" width="150"></el-table-column>
+            <el-table-column prop="guideName" label="导购"></el-table-column>
+            <el-table-column prop="name" label="会员"></el-table-column>
+            <el-table-column prop="name" label="昵称"></el-table-column>
             <el-table-column prop="createTime" label="招募时间" align="center" width="180"></el-table-column>
-            <el-table-column prop="reward" label="奖励" align="center" width="150"></el-table-column>
+            <el-table-column prop="reward" label="奖励" align="right"></el-table-column>
           </el-table>
         </div>
         <!--分页开始-->
@@ -296,33 +296,37 @@
         <!-- 高级搜索 -->
         <!-- el-form 需添加  @keyup.enter.native="onSearch" 配置，实现回车搜索， onSearch 为搜索方法 -->
         <!-- el-form 需添加  surround-btn 类名 配置环绕按钮效果 -->
-        <el-form ref="table_filter_form" label-width="80px" @keyup.enter.native="onSearch" class="surround-btn" :inline="true">
-          <el-form-item label="姓名：">
+        <el-form ref="table_filter_form" label-width="50px" @keyup.enter.native="onSearch" class="surround-btn" :inline="true">
+          <el-form-item>
             <el-form-grid size="xmd">
-              <el-input  type="text" v-model="customerName">
-              </el-input>
+              <el-form-item label="姓名：">
+                <el-input  type="text" v-model="customerName">
+                </el-input>
+              </el-form-item>
             </el-form-grid>
           </el-form-item>
-          <el-form-item label="订单号：">
-            <el-form-grid size="xmd">
+          <el-form-grid size="xmd">
+            <el-form-item label="订单号：">
               <el-input  type="text" v-model="tradeNo">
               </el-input>
-            </el-form-grid>
-          </el-form-item>
-          <el-form-item>
-            <ns-button type="primary" @click="formSearch('searchform')">搜索</ns-button>
-            <ns-button @click="formReset('searchform')">重置</ns-button>
-          </el-form-item>
+            </el-form-item>
+          </el-form-grid>
+          <el-form-grid>
+            <el-form-item>
+              <ns-button type="primary" @click="formSearch('searchform')">搜索</ns-button>
+              <ns-button @click="formReset('searchform')">重置</ns-button>
+            </el-form-item>
+          </el-form-grid>
         </el-form>
         <!-- 高级搜索-结束 -->
         <div style="overflow-x:hidden;overflow-y:auto;">
           <el-table :data="detailData">
-            <el-table-column prop="guideName" label="导购" align="center" width="120"></el-table-column>
-            <el-table-column prop="name" label="名称" align="center" width="80"></el-table-column>
+            <el-table-column prop="guideName" label="导购" align="left"></el-table-column>
+            <el-table-column prop="name" label="名称" align="left"></el-table-column>
             <el-table-column prop="tradeId" label="订单编号" align="center" width="180"></el-table-column>
-            <el-table-column prop="payment" label="订单实付(含运费)" align="center" width="150"></el-table-column>
+            <el-table-column prop="payment" label="订单实付(含运费)" align="right"></el-table-column>
             <el-table-column prop="createTime" label="时间" align="center" width="150"></el-table-column>
-            <el-table-column prop="reward" label="提成" align="center" width="80"></el-table-column>
+            <el-table-column prop="reward" label="提成" align="right" width="80"></el-table-column>
           </el-table>
         </div>
         <!--分页开始-->
@@ -608,22 +612,18 @@ export default {
 }
 </script>
 <style scoped>
-.el-input.el-input--small .el-input__inner {
-  text-indent: 25rpx !important;
-}
-.topTip {
-  line-height: 32px;
-  height: 32px;
-}
-.topTip .tipInfo {
-  padding-left: 15px;
-  color: #333;
-}
-.topTip span {
-  font-size: 13px;
-  color: #f00;
-}
-.mt10 {
-  margin-top: 10px;
-}
+  @import "@theme/variables.pcss";
+
+  .el-input.el-input--small .el-input__inner {
+    text-indent: 25px !important;
+  }
+  .mt10 {
+    margin-top: var(--default-margin-larger);
+  }
+  .searchbtn {
+    margin-left: var(--default-margin-base);
+  }
+  .resetbtn {
+    margin-left: 9px;
+  }
 </style>

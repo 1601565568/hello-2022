@@ -14,12 +14,12 @@
     <!-- el-inpu 需添加  @keyup.enter.native="$quickSearchAction$" 配置，实现回车搜索 -->
     <template slot="searchSearch">
       <el-form :model="quickSearchModel" :inline="true" @submit.native.prevent  class="pull-right">
-        <el-form-item v-show="_data._queryConfig.expand === false">
-          <el-input ref="quickText" style="width: 250px" v-model="model.name" placeholder="请输入工号/姓名/昵称/手机号" @keyup.enter.native="$quickSearchAction$('name')" clearable>
+        <el-form-item v-show="_data._queryConfig.expand === false" label="工号/姓名/昵称/手机号：">
+          <el-input ref="quickText" style="width: 180px" v-model="model.name" placeholder="请输入工号/姓名/昵称/手机号" @keyup.enter.native="$quickSearchAction$('name')" clearable>
 <!--             <Icon type="search" className="el-input__icon" style="padding: 5px;" slot="suffix" name="name" @click="$quickSearchAction$('name')"/>-->
           </el-input>
-          <ns-button type="primary" @click="$searchAction$()">搜索</ns-button>
-          <ns-button @click="$resetInputAction$()">重置</ns-button>
+          <ns-button type="primary" @click="$searchAction$()" class="searchbtn">搜索</ns-button>
+          <ns-button @click="$resetInputAction$()" class="resetbtn">重置</ns-button>
         </el-form-item>
         <el-form-item>
           <ns-button type="text" @click="$handleTabClick">
@@ -45,7 +45,7 @@
 
         <el-form-item label="所属门店：">
           <el-form-grid>
-            <el-select placeholder="请选择所属门店" v-model="model.shop" clearable filterable @clear="setShopNull">
+            <el-select placeholder="请选择所属门店" v-model="model.shop" clearable filterable @clear="setShopNull" style="width:180px">
               <el-option v-for="shop in shopFindList" :label="shop.shopName" :value="shop.id"
                          :key="shop.id"></el-option>
             </el-select>
@@ -54,7 +54,7 @@
 
         <el-form-item label="职务：">
           <el-form-grid>
-            <el-select placeholder="请选择职务" v-model="model.job" clearable @clear="setJobNull">
+            <el-select placeholder="请选择职务" v-model="model.job" clearable @clear="setJobNull" style="width:180px">
               <el-option label="店长" :value="1"></el-option>
               <el-option label="导购" :value="0"></el-option>
             </el-select>
@@ -82,19 +82,19 @@
 
       <el-table ref="table" :data="_data._table.data" stripe @selection-change="handleSelectionChange">
         <el-table-column type="selection" align="center" :width="50"></el-table-column>
-        <el-table-column prop="work_id" label="工号" align="left" width="88">
+        <el-table-column prop="work_id" label="工号" align="left" min-width="88">
           <template slot-scope="scope">
             {{scope.row.work_id?scope.row.work_id:'-'}}
           </template>
         </el-table-column>
-        <el-table-column prop="name" label="姓名" align="left" width="100" :show-overflow-tooltip="true"></el-table-column>
+        <el-table-column prop="name" label="姓名" align="left" min-width="100" :show-overflow-tooltip="true"></el-table-column>
 <!--        <el-table-column prop="nickname" label="昵称" align="left" width="100" :show-overflow-tooltip="true">-->
 <!--          <template slot-scope="scope">-->
 <!--            {{scope.row.nickname?scope.row.nickname:'-'}}-->
 <!--          </template >-->
 <!--        </el-table-column>-->
-        <el-table-column prop="mobile" label="手机号码" align="left" width="100"></el-table-column>
-        <el-table-column prop="shopName,count" label="所属门店" align="left" :show-overflow-tooltip="true">
+        <el-table-column prop="mobile" label="手机号码" align="left" min-width="100"></el-table-column>
+        <el-table-column prop="shopName,count" min-width="150" label="所属门店" align="left" :show-overflow-tooltip="true">
           <template slot-scope="scope">
             <ns-button style="color:#0091FA" @click="scopeRowCount(scope.row)" v-if="scope.row.count > 1" type="text">{{scope.row.count}}家</ns-button>
             <div v-else>
@@ -110,23 +110,24 @@
 <!--            </div>-->
 <!--          </template>-->
 <!--        </el-table-column>-->
-        <el-table-column prop="job" label="职务" align="left" width="60">
+        <el-table-column prop="job" label="职务" align="center" width="60">
           <template slot-scope="scope">{{scope.row.job == 1 ? "店长" : "导购"}}
           </template>
         </el-table-column>
-        <el-table-column prop="" label="导购终端" align="left" width="100" :show-overflow-tooltip="true">
+        <el-table-column v-if='memberManagePlan === 2' prop="" label="导购终端" align="left" :show-overflow-tooltip="true" min-width="200">
           <template slot-scope="scope">
             {{scope.row.deviceNos || '-'}}
           </template>
           <template slot='header' scope='header'>
                     <span>
                       <span>{{header.column.label}}</span>
-                      <el-popover placement='bottom' width='220' trigger='hover'>
-                        <div slot-scope>
-                          需将员工账号与导购终端手机进行绑定，让其能够应用智慧导购系统<br>
-                          <span class='tips'>注：</span>使用终端系统的，非离职的，建议不要进行客户转移</div>
-                        <i slot='reference' class='table-header-icon'><Icon type="info-circle" theme="filled" /></i>
-                      </el-popover>
+                      <el-tooltip>
+                        <div slot="content">
+                          <div>需将员工账号与导购终端手机进行绑定，让其能够应用智慧导购系统</div>
+                          <div><span class='tips'>注：</span>使用终端系统的，非离职的，建议不要进行客户转移</div>
+                        </div>
+                        <Icon type="question-circle" />
+                      </el-tooltip>
                     </span>
           </template>
         </el-table-column>
@@ -209,5 +210,11 @@ export default guide
   }
   >>> .el-dropdown-link {
     margin-left: 5px !important;
+  }
+  .searchbtn {
+    margin-left: 11px;
+  }
+  .resetbtn {
+    margin-left: var(--default-margin-larger);
   }
 </style>

@@ -39,8 +39,8 @@
                   value-format="yyyy-MM-dd"
                   end-placeholder="结束日期" style="width:225px">
                 </el-date-picker>
-                <ns-button type="primary" @click="$searchAction$()">搜索</ns-button>
-                <ns-button @click="reset()">重置</ns-button>
+                <ns-button type="primary" @click="$searchAction$()" class="searchbtn">搜索</ns-button>
+                <ns-button @click="reset()" class="resetbtn">重置</ns-button>
               </span>
             </el-form-item>
             <el-form-item>
@@ -58,42 +58,29 @@
         <!-- el-form 需添加  surround-btn 类名 配置环绕按钮效果 -->
         <template slot="advancedSearch" v-if="_data._queryConfig.expand">
           <el-form ref="table_filter_form" :model="model" label-width="80px" :inline="true">
-            <el-form-item>
-              <span>
-                自定义时段&nbsp;
-                <el-date-picker
-                  v-model="model.createDate"
-                  type="daterange"
-                  range-separator="至"
-                  start-placeholder="开始日期"
-                  value-format="yyyy-MM-dd"
-                  end-placeholder="结束日期" style="width:225px">
-                </el-date-picker>
-              </span>
+            <el-form-item label="自定义时段：">
+              <el-date-picker
+                v-model="model.createDate"
+                type="daterange"
+                range-separator="至"
+                start-placeholder="开始日期"
+                value-format="yyyy-MM-dd"
+                end-placeholder="结束日期" style="width:225px">
+              </el-date-picker>
             </el-form-item>
-            <el-form-item>
-              <span>
-                <el-form-item label="发送人：">
-                  <el-select v-model="model.memberSend" placeholder="请选择发送人" style="width: 120px" >
-                    <el-option v-for="item in memberSendData" :key="item.value" :label="item.label" :value="item.value"/>
-                  </el-select>
-                </el-form-item>
-              </span>
+            <el-form-item label="发送人：">
+              <el-select v-model="model.memberSend" placeholder="请选择发送人" style="width: 143px" >
+                <el-option v-for="item in memberSendData" :key="item.value" :label="item.label" :value="item.value"/>
+              </el-select>
             </el-form-item>
-            <el-form-item>
-              <span>
-                个人号&nbsp;
-                <el-select v-model="model.ownerWid" placeholder="请选择个人号" clearable>
-                  <el-option v-for="item in ownerData" :key="item.wid" :label="item.nick" :value="item.wid"/>
-                </el-select>
-              </span>
+            <el-form-item label="个人号：">
+              <el-select v-model="model.ownerWid" placeholder="请选择个人号" clearable>
+                <el-option v-for="item in ownerData" :key="item.wid" :label="item.nick" :value="item.wid"/>
+              </el-select>
             </el-form-item>
-            <el-form-item>
-              <span>
-                敏感词&nbsp;
-                <el-input ref="quickText" style="width: 100px" name="name" v-model="model.name" placeholder="搜索敏感词"
-                          @keyup.enter.native="$searchAction$()" clearable/>
-              </span>
+            <el-form-item label="敏感词：">
+              <el-input ref="quickText" style="width: 143px" name="name" v-model="model.name" placeholder="搜索敏感词"
+                        @keyup.enter.native="$searchAction$()" clearable/>
             </el-form-item>
           </el-form>
           <div class="template-table__more-btn">
@@ -106,19 +93,19 @@
         <!-- 表格 -->
         <template slot="table">
           <el-table ref="table" :data="_data._table.data" stripe v-loading="loading" @sort-change="sortChange">
-            <el-table-column prop="ownerWid" label="个人号" align="left" width="270">
+            <el-table-column prop="ownerWid" label="个人号" align="left">
               <template slot-scope='scope'>
                 {{scope.row.ownerNick}} ({{scope.row.ownerWid}})
               </template>
             </el-table-column>
-            <el-table-column prop="friendWid" label="好友" align="left" width="270">
+            <el-table-column prop="friendWid" label="好友" align="left">
               <template slot-scope='scope'>
                 <template v-if="scope.row.chatroomName!==null">{{scope.row.chatroomName}}</template>
                 <template v-else>{{scope.row.friendNick}} ({{scope.row.friendWid}})</template>
               </template>
             </el-table-column>
             <el-table-column prop="name" label="敏感词" align="left" width="100"/>
-            <el-table-column prop="receive" label="发送人" align="left" width="150">
+            <el-table-column prop="receive" label="发送人" align="left">
               <template slot-scope='scope'>
                 <span v-if="scope.row.receive">
                   {{scope.row.friendNick}}
@@ -128,10 +115,10 @@
                 </span>
               </template>
             </el-table-column>
-            <el-table-column prop="createTime" label="时间" align="left" width="150" sortable="custom"/>
+            <el-table-column prop="createTime" label="时间" align="center" width="150" sortable="custom"/>
             <el-table-column prop="subContent" label="上下文" align="left">
               <template slot-scope='scope'>
-                <span v-html="scope.row.subContent"></span>
+                <span v-html="scope.row.subContent" class="redfont"></span>
                 <a v-if="scope.row.isSubContent === '1'" @click="openContentDlg(scope.row)">查看</a>
               </template>
             </el-table-column>
@@ -181,6 +168,7 @@ import monitor from './src/monitor.js'
 export default monitor
 </script>
 <style scoped>
+  @import "@theme/variables.pcss";
 
   .demo-table-expand {
     font-size: 0;
@@ -211,5 +199,14 @@ export default monitor
   .el-footer {
     text-align: right;
     vert-align: bottom;
+  }
+  .redfont >>> font {
+    color: var(--theme-color-error);
+  }
+  .searchbtn {
+    margin-left: 11px;
+  }
+  .resetbtn {
+    margin-left: var(--default-margin-larger);
   }
 </style>

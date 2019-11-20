@@ -1,11 +1,11 @@
 <template>
   <div calss="NsTableGuide_main">
         <div class="template-page__row-left">
-          <el-input ref="quickText" style="width: 190px" v-model="filterTreeText" placeholder="输入线下店铺名称" clearable>
+          <el-input ref="quickText" v-model="filterTreeText" placeholder="输入线下店铺名称" clearable>
             <!--<Icon type="search" className="el-input__icon" style="padding: 5px;" slot="suffix" name="name"-->
                   <!--@click="$quickSearchAction$('name')"/>-->
           </el-input>
-          <div :class="offsetHeight?'elTrees':'elTree'" ref="elTree" :style="{ 'height' : height + 'px'}">
+          <div :class="offsetHeight?'elTrees':'elTree'" ref="elTree">
             <el-tree class="filter-tree" ref="guideTree" :data="shopFindList" highlight-current
                   node-key="id" :default-expand-all="false" :expand-on-click-node="false" :default-checked-keys="[0]"
                   :filter-node-method="onFilterNode" @node-click="onClickNode">
@@ -29,13 +29,13 @@
     <!-- el-inpu 需添加  @keyup.enter.native="$quickSearchAction$" 配置，实现回车搜索 -->
     <template slot="searchSearch">
       <el-form :model="quickSearchModel" :inline="true" @submit.native.prevent  class="pull-right">
-        <el-form-item v-show="_data._queryConfig.expand === false">
-          <el-input ref="quickText" style="width: 250px" v-model="model.mobile" placeholder="手机号" @keyup.enter.native="$searchAction$()" clearable>
+        <el-form-item v-show="_data._queryConfig.expand === false" label="手机号：">
+          <el-input ref="quickText" style="width: 180px" v-model="model.mobile" placeholder="请输入手机号" @keyup.enter.native="$searchAction$()" clearable>
             <!--<Icon type="search" className="el-input__icon" style="padding: 5px;" slot="suffix" moblie="moblie"-->
                   <!--@click="$searchAction$()"/>-->
           </el-input>
-          <ns-button type="primary" @click="$searchAction$()">搜索</ns-button>
-          <ns-button @click="$resetInputAction$()">重置</ns-button>
+          <ns-button type="primary" @click="$searchAction$()" class="searchbtn">搜索</ns-button>
+          <ns-button @click="$resetInputAction$()" class="resetbtn">重置</ns-button>
         </el-form-item>
 
         <el-form-item>
@@ -78,7 +78,7 @@
           </el-form-grid>
         </el-form-item>
         <el-form-item label="等级：">
-          <el-form-grid size="xmd">
+          <el-form-grid style="width: 180px;">
             <el-select placeholder="请选择" v-model="model.grade" clearable filterable>
               <el-option v-for="grade in gradeInfo" :label="grade.gradeName" :value="grade.grade"
                          :key="grade.grade"></el-option>
@@ -120,17 +120,17 @@
 
       <el-table ref="table" :data="_data._table.data" stripe @selection-change="handleSelectionChange" v-loading="loading">
         <el-table-column type="selection" align="center" :width="50"></el-table-column>
-        <el-table-column prop="outNick" label="姓名" align="left" width="100">
+        <el-table-column prop="outNick" label="姓名" align="left">
           <template slot-scope="scope">
             {{scope.row.customerName || scope.row.outNick || '-'}}
           </template>
         </el-table-column>
-        <el-table-column prop="mobile" label="手机号" align="left" width="120">
+        <el-table-column prop="mobile" label="手机号" align="left">
           <template slot-scope="scope">
             {{scope.row.mobile?scope.row.mobile:'-'}}
           </template >
         </el-table-column>
-        <el-table-column prop="grade,memberCard" label="会员卡号" align="left" >
+        <el-table-column prop="grade,memberCard" label="会员卡号" align="center" width="120">
           <template slot-scope="scope">
               <div v-if="scope.row.memberCard !==null || scope.row.grade !== null">
                 <span>{{scope.row.memberCard === undefined ? '-':scope.row.memberCard}}</span>
@@ -150,23 +150,23 @@
             {{!scope.row.province&&!scope.row.city&&!scope.row.district?'-':scope.row.province+'/'+scope.row.city+'/'+scope.row.district}}
           </template>
         </el-table-column> -->
-        <el-table-column prop="sgExclusiveGuideName" label="专属导购" align="left" width="180">
+        <el-table-column prop="sgExclusiveGuideName" label="专属导购" align="left">
           <template slot-scope="scope">
               {{scope.row.sgExclusiveGuideName ? scope.row.sgExclusiveGuideName : "-"}}
           </template>
         </el-table-column>
 
-        <el-table-column prop="sgExclusiveShopName" label="所属线下门店" align="left" width="180">
+        <el-table-column prop="sgExclusiveShopName" label="所属线下门店" align="left">
           <template slot-scope="scope">
             {{scope.row.sgExclusiveShopName ? scope.row.sgExclusiveShopName : "-"}}
           </template>
         </el-table-column>
-        <el-table-column prop="inMemberTime" label="入库时间" align="left" width="160">
+        <el-table-column prop="inMemberTime" label="入库时间" align="center" width="160">
             <template slot-scope="scope">
               {{scope.row.inMemberTime?moment(scope.row.inMemberTime):'-'}}
             </template>
         </el-table-column>
-        <el-table-column prop="status,row" :show-overflow-tooltip="true" label="操作" align="right" width="100">
+        <el-table-column prop="status,row" :show-overflow-tooltip="true" label="操作" align="center" width="100">
           <template slot-scope="scope">
             <div>
               <ns-button style="color:#0091FA" @click="onRedactFun(scope.row,offLineShopId)" type="text">详情</ns-button>
@@ -220,7 +220,7 @@ export default NsTableGuide
     width: 100%;
   }
   .template-table {
-    margin: 0 10px 0 440px;
+    margin: 0 10px 10px 435px;
   }
   @media screen and (min-width: 1624px) {
     .el-tree-node__content{
@@ -243,7 +243,7 @@ export default NsTableGuide
       margin: 0;
     }
     .template-table {
-      margin: 0 10px 0 440px;
+      margin: 0 10px 10px 435px;
     }
   }
 
@@ -253,6 +253,12 @@ export default NsTableGuide
     font-weight: normal;
     padding-left: var(--default-padding-base);
     cursor: pointer;
+  }
+  .searchbtn {
+    margin-left: 11px;
+  }
+  .resetbtn {
+    margin-left: var(--default-margin-larger);
   }
 </style>
 <style scoped>

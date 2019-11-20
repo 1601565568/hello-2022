@@ -200,7 +200,7 @@ export default {
           _this.storeModel.endTime = _this.storeCouponList[i].endTime
           _this.storeModel.after_get_valid_days = Number(_this.storeCouponList[i].afterGetValidDays)
           _this.storeModel.valid_days = Number(_this.storeCouponList[i].validDays)
-          _this.storeModel.conditionJson = _this.storeCouponList[i].useConditionStr
+          _this.storeModel.conditionJson = _this.storeCouponList[i].useConditionJson
           break
         }
       }

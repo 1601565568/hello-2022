@@ -19,8 +19,8 @@
                 :clearable="false"
                 :editable="false"
                 style="width: 225px"/>
-              <ns-button type="primary" @click="search()" :disabled="btnSearchDisabled">搜索</ns-button>
-              <ns-button @click="reset()">重置</ns-button>
+              <ns-button type="primary" @click="search()" :disabled="btnSearchDisabled" class="searchbtn">搜索</ns-button>
+              <ns-button @click="reset()" class="resetbtn">重置</ns-button>
             </el-form-item>
             <el-form-item>
               <ns-button type="text" @click="$handleTabClick">
@@ -70,17 +70,20 @@
     </ns-page-table>
 
     <el-container class="talk-chat__container">
-      <el-aside class="talk-aside" style="width: 30%;">
+      <el-aside class="talk-aside" style="width: 25%;">
         <div class="talk-aside__group">客户 / 群</div>
         <el-scrollbar ref="fullScreen" v-loading.lock="targetLoading" :element-loading-text="$t('prompt.loading')">
           <div class="talk-aside__item">
             <template v-for="(target, index) in targetList">
               <div class="talk-item" :class="{'talk-chosen':isCurrTarget(index)}" @click="clickTarget(index)">
                 <div v-if="target.talkerType === 2" class="talk-item__avatar talk-item__avatar--bluebg">
-                  <Icon className="icon-qun" type="qun"/>
+                  <Icon className="crowd" type="qun"/>
                 </div>
                 <div v-else class="talk-item__avatar">
-                  <img :src="target.head||require('./src/images/WECHAT_DEFAULT_HEAD.png')" class="talk-img">
+                  <el-image
+                    :width="30" :height="30"
+                    :src="target.head||require('./src/images/avartar.png')"
+                    mode="cover" :circle="true"></el-image>
                 </div>
                 <div class="talk-item__username">{{target.talkerName||target.talker}}</div>
                 <div class="talk-item__time">{{getHourMinute(target.lastTime)}}</div>
@@ -92,19 +95,23 @@
       <el-main class="talk-main">
         <div v-if="currTargetIndex!=null && targetList[currTargetIndex]!=null">
           <div class="talk-main__header">
-            <span class="talk-note">聊天记录 / {{targetList[currTargetIndex].talkerName||targetList[currTargetIndex].talker}}</span>
-            <ns-button v-show="targetList[currTargetIndex].talkerType === 0 && targetList[currTargetIndex].talkerName !== null" type="text primary" @click="dialogVisible = true" class="talk-main__header--btn">
-              查看详情
-              <span class="rightarrow"> > </span>
-            </ns-button>
-            <span class="talk-person">个人号：{{targetList[currTargetIndex].ownerName}}
+            <div>
+              聊天记录 / {{targetList[currTargetIndex].talkerName||targetList[currTargetIndex].talker}}
+              <ns-button v-show="targetList[currTargetIndex].talkerType === 0 && targetList[currTargetIndex].talkerName !== null" type="text primary" @click="dialogVisible = true" class="talk-main__header--btn">
+                查看详情
+                <i class="rightarrow">
+                  <Icon type="right" className="text-primary"/>
+                </i>
+              </ns-button>
+            </div>
+            <div>个人号：{{targetList[currTargetIndex].ownerName}}
               （<font color="#0091FA">{{targetList[currTargetIndex].ownerId}}</font>)
-            </span>
+            </div>
           </div>
         </div>
         <div v-else>
           <div class="talk-main__header">
-            <span class="talk-note">聊天记录</span>
+            <div>聊天记录</div>
           </div>
         </div>
         <el-scrollbar ref="fullScreenright" v-loading.lock="chatLoading" :element-loading-text="$t('prompt.loading')">
@@ -124,7 +131,10 @@
             <template v-for="(chat) in chatList">
               <div :id="'chatLog_' + chat.id" :key="chat.id" ref="'chatLog0' + index" :class="{'talk-strip':isChatLeft(chat.receive), 'talk-right': !isChatLeft(chat.receive), 'clearfix':  chat.cancel||chat.delete}">
                 <div :class="{'talk-strip__headportrait':isChatLeft(chat.receive), 'talk-right__headportrait': !isChatLeft(chat.receive), 'clearfix':  chat.cancel||chat.delete}">
-                  <img :src="chat.senderHead||require('./src/images/WECHAT_DEFAULT_HEAD.png')" alt="用户头像" class="talk-image">
+                  <el-image
+                    :width="52" :height="52"
+                    :src="chat.senderHead||require('./src/images/avartar.png')"
+                    mode="cover" :circle="true"></el-image>
                 </div>
                 <div :class="{'talk-strip__uname':isChatLeft(chat.receive), 'talk-right__uname': !isChatLeft(chat.receive)}">
                   <div :class="{'talk-msg':isChatLeft(chat.receive), 'talk-rightmsg': !isChatLeft(chat.receive)}">
@@ -153,15 +163,15 @@
       </el-main>
     </el-container>
     <!-- 详情弹窗-->
-    <el-dialog title="查看详情" :visible.sync="dialogVisible" width="442px" class="detail-dialog">
+    <el-dialog title="查看详情" :visible.sync="dialogVisible" width="500px" class="detail-dialog">
       <div class="detail-dialog__content" v-if="currTargetIndex!=null && targetList[currTargetIndex]!=null">
         <el-form label-width="80px" class="detail-leftside">
           <el-form-item :label="targetList[currTargetIndex].talkerName" label-width="100px" class="detail-leftside__username">
             <el-form-grid>
               <!-- 男生图标-->
-              <i v-if="targetList[currTargetIndex].gender===1"><Icon className="icon-nan1" type="nan1"/></i>
+              <i v-if="targetList[currTargetIndex].gender===1"><Icon className="men" type="men"/></i>
               <!-- 女生图标-->
-              <i v-if="targetList[currTargetIndex].gender===0"><Icon className="icon-nv1" type="nv1"/></i>
+              <i v-if="targetList[currTargetIndex].gender===0"><Icon className="women" type="women"/></i>
             </el-form-grid>
           </el-form-item>
             <el-form-item label="备注：">
@@ -175,8 +185,14 @@
           </el-form-item>
         </el-form>
         <div class="detail-rightside" v-show="targetList[currTargetIndex].talkerType===0">
-          <img :src="targetList[currTargetIndex].head||require('./src/images/WECHAT_DEFAULT_HEAD.png')" class="detail-rightside__img">
+          <el-image
+            :width="82" :height="82"
+            :src="targetList[currTargetIndex].head||require('./src/images/avartar.png')"
+            mode="cover" :circle="true"></el-image>
         </div>
+      </div>
+      <div slot="footer">
+        <ns-button @click="dialogVisible = false">关闭</ns-button>
       </div>
     </el-dialog>
     <!-- 详情弹窗-->
@@ -188,6 +204,10 @@
       <div class="search-dialog__title" >
         <div class="search-avatar">
           <img :src="currentOwner.head" class="search-avatar__img" alt="用户头像">
+          <el-image
+            :width="64" :height="64"
+            :src="currentOwner.head"
+            mode="cover" :circle="true"></el-image>
         </div>
         <div class="search-username">
           {{currentOwner.nick}}（{{currentOwner.wid}}）
@@ -205,7 +225,10 @@
           <template v-for="chat in contentList">
             <div class="search-item" :key="chat.id" @click="locateKeyWord(chat.id, chat.createTime)">
               <div class="search-item__avatar">
-                <img :src="chat.senderHead" class="search-avatar__img" alt="用户头像">
+                <el-image
+                  :width="64" :height="64"
+                  :src="chat.senderHead"
+                  mode="cover" :circle="true"></el-image>
               </div>
               <div class="search-msg">
                 <div  class="search-msg__uname">{{chat.senderNick}}</div>
@@ -233,105 +256,75 @@ export default index
 <style scoped>
   @import "@theme/variables.pcss";
   :root {
-    --talk-font-color-blue: #0094FC;
-    --talk-font-color-red: #FE2D59;
+    --talk-font-color-red: #FF1A1A;
     --search-font-bg-gray: #F9F9F9;
+    --talk-bg-color-darkgray: #F2F4F6;
   }
   @component-namespace talk {
     @b chat {
       @e form {
-        padding: 15px 20px 10px 20px;
         background: var(--theme-color-white);
-        @m marginright {
-          margin-right: 4% !important;
-        }
       }
       @e container {
-        margin-top: 10px;
+        margin-top: var(--default-margin-base);
         background: var(--theme-color-white);
       }
     }
     @b aside {
-      border-right: 1px solid #EEEEEE;
+      border-right: 1px solid var(--theme-base-border-color-primary);
       @e group {
-        font-size: 16px;
-        color: #33393E;
-        line-height: 50px;
-        width: 100%;
-        height: 50px;
-        padding: 0 15px;
-        border-bottom: 1px solid #EEEEEE;
+        padding: var(--default-padding-larger);
+        border-bottom: 1px solid var(--theme-base-border-color-primary);
       }
     }
     @b item {
-      line-height: 73px;
-      height: 73px;
       position: relative;
-      padding: 0 20px;
-      border-bottom: 1px solid #EEEEEE;
+      display: flex;
+      align-items: center;
+      padding: var(--default-padding-larger);
+      border-bottom: 1px solid var(--theme-base-border-color-primary);
       cursor: pointer;
       @e avatar {
         width: 30px;
         height: 30px;
         float: left;
-        margin-top: 10px;
+        flex-shrink: 0;
         @m bluebg {
-          text-align: center;
-          line-height: 30px;
-          margin-top: 20px;
-          background: #0091FA;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background: var(--theme-color-primary);
           border-radius: 50%;
         }
       }
       @e username {
-        font-size: 16px;
-        color: #33393E;
-        width: 55%;
-        margin-left: 45px;
-        white-space:nowrap;
-        overflow:hidden;
-        text-overflow:ellipsis;
+        width: 80%;
+        margin-left: var(--default-margin-larger);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
       @e time {
-        font-size: 14px;
-        color: #909399;
+        color: var(--theme-font-color-secondary);
         position: absolute;
-        right: 20px;
-        top: 0;
+        right: 10px;
+        top: 15px;
       }
-    }
-    @b img {
-      width: 100%;
-      height: 100%;
-      border-radius: 50%;
     }
     @b main {
       @e header {
-        font-size: 16px;
-        color: #33393E;
-        line-height: 50px;
-        height: 50px;
-        padding: 0 20px;
-        border-bottom: 1px solid #EEEEEE;
+        padding: var(--default-padding-larger);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-bottom: 1px solid var(--theme-base-border-color-primary);
         @m btn {
           position: relative;
         }
       }
-      @e strip {
-
-      }
-    }
-    @b note {
-      font-size: 16px;
-      color: #33393E;
-    }
-    @b person {
-      font-size: 16px;
-      color: #33393E;
-      float: right;
     }
     @b strip {
-      padding: 20px;
+      padding: var(--default-padding-larger);
       width: 100%;
       display: flex;
       @e headportrait {
@@ -341,16 +334,15 @@ export default index
         flex-shrink: 0;
       }
       @e uname {
-        margin-left: 18px;
-        padding-right: 72px;
+        margin-left: var(--default-margin-xlarger);
+        padding-right: 69px;
       }
     }
     @b chosen {
       background: #F8F9FB;
-      border-bottom: none;
     }
     @b right {
-      padding: 20px;
+      padding: var(--default-padding-larger);
       width: 100%;
       position: relative;
       float: right;
@@ -358,36 +350,31 @@ export default index
         width: 52px;
         height: 52px;
         position: absolute;
-        top: 0;
-        right: 20px;
+        top: 10px;
+        right: 10px;
       }
       @e uname {
         float: right;
-        margin-right: 72px;
-        padding-left: 72px;
+        margin-right: 69px;
+        padding-left: 69px;
       }
     }
     @b msg {
-      padding-top: 5px;
       @e uname {
-        font-size: 14px;
-        color: #606266;
+        color: var(--theme-font-color-regular);
       }
       @e date {
-        font-size: 14px;
-        color: #909399;
-        margin-left: 10px;
+        color: var(--theme-font-color-secondary);
+        margin-left: var(--default-margin-larger);
       }
     }
     @b detail {
       display: inline-block;
       @e record {
-        font-size: 14px;
-        color: #33393E;
-        padding: 15px;
-        margin-top: 8px;
-        background: #F2F4F6;
-        border-radius: 5px;
+        padding: var(--default-padding-larger);
+        margin-top: var(--default-margin-base);
+        background: var(--talk-bg-color-darkgray);
+        border-radius: var(--default-radius-small);
         position: relative;
         @m circle {
           width: 0;
@@ -397,19 +384,18 @@ export default index
           top: 10px;
           border-width: 8px;
           border-style: solid;
-          border-color: transparent #F2F4F6 transparent transparent;
+          border-color: transparent var(--talk-bg-color-darkgray) transparent transparent;
         }
       }
       @e withdraw {
-        font-size: 12px;
-        color: #FF1A1A;
+        color: var(--talk-font-color-red);
         text-align: center;
         line-height: 26px;
         height: 26px;
         display: inline-block;
-        float: right;
-        margin-top: 15px;
-        padding: 0 10px;
+        float: left;
+        margin-top: var(--default-margin-xlarger);
+        padding: 0 var(--default-padding-larger);
         border-radius: 30px;
         background: rgba(255,44,44,.06);
         clear: both;
@@ -417,25 +403,20 @@ export default index
     }
     @b rightmsg {
       text-align: right;
-      padding-top: 5px;
       @e uname {
-        font-size: 14px;
-        color: #606266;
+        color: var(--theme-font-color-regular);
+        margin-left: var(--default-margin-larger);
       }
       @e date {
-        font-size: 14px;
-        color: #909399;
-        margin-left: 10px;
+        color: var(--theme-font-color-secondary);
       }
     }
     @b rightdetail {
       @e record {
-        font-size: 14px;
-        color: #33393E;
-        padding: 15px;
-        margin-top: 8px;
-        background: #F2F4F6;
-        border-radius: 5px;
+        padding: var(--default-padding-larger);
+        margin-top: var(--default-margin-base);
+        background: var(--talk-bg-color-darkgray);
+        border-radius: var(--default-radius-small);
         position: relative;
         float: right;
         @m circle {
@@ -446,42 +427,34 @@ export default index
           top: 10px;
           border-top: 8px solid transparent;
           border-bottom: 8px solid transparent;
-          border-left: 8px solid #F2F4F6;
+          border-left: 8px solid var(--talk-bg-color-darkgray);
           border-radius: 20px;
         }
       }
       @e withdraw {
-        font-size: 12px;
-        color: #FF1A1A;
+        color: var(--talk-font-color-red);
         text-align: center;
         line-height: 26px;
         height: 26px;
         display: inline-block;
         float: right;
-        margin-top: 15px;
-        padding: 0 10px;
+        margin-top: var(--default-margin-xlarger);
+        padding: 0 var(--default-padding-larger);
         border-radius: 30px;
         background: rgba(255,44,44,.06);
         clear: both;
       }
-    }
-    @b image {
-      width: 100%;
-      height: 100%;
-      border-radius: 50%;
-      flex-shrink: 0;
     }
   }
   @component-namespace detail {
     @b dialog {
       @e content {
         position: relative;
-        padding: 20px 0 40px;
       }
     }
     @b leftside {
       width: 65%;
-      padding-top: 10px;
+      padding-top: var(--default-padding-larger);
     }
     @b rightside {
       width: 82px;
@@ -489,41 +462,21 @@ export default index
       position: absolute;
       top: 25px;
       right: 25px;
-      @e img {
-        width: 100%;
-        height: 100%;
-        border-radius: 50%;
-      }
     }
   }
-  >>> .el-form-item__label {
-    font-size: var(--default-font-size-base);
-    color: var(--theme-font-color-secondary);
-  }
-  >>>.el-dialog__body {
-    color: var(--theme-font-color-primary);
-  }
-  .detail-leftside__username >>> .el-form-item__label {
-    font-size: var(--default-font-size-middle);
-    color: var(--theme-font-color-primary);
-    font-weight: bold;
-  }
-  .icon-qun {
+  .crowd {
     font-size: var(--default-font-size-large);
     color: var(--theme-color-white);
   }
-  .icon-geren {
-    color: var(--theme-color-white);
+  .men {
+    font-size: var(--default-font-size-large);
+    color: var(--theme-color-primary);
+    margin-left: var(--default-margin-small);
   }
-  .icon-nan1 {
-    font-size: 18px;
-    color: var(--talk-font-color-blue);
-    margin-left: 10px;
-  }
-  .icon-nv1 {
-    font-size: 18px;
-    color: var(--talk-font-color-red);
-    margin-left: 10px;
+  .women {
+    font-size: var(--default-font-size-large);
+    color: var(--talk-font-color-bigred);
+    margin-left: var(--default-margin-small);
   }
   .clearfix:after{
     content:"";
@@ -533,11 +486,8 @@ export default index
   }
   .clearfix{zoom:1;}
   .rightarrow {
-    font-size: 20px;
-    color: #0078FF;
-    position: absolute;
-    top: 3px;
-    right: -18px;
+    position: relative;
+    top: 1px;
   }
   >>> .el-main {
     padding: 0;
@@ -559,11 +509,6 @@ export default index
     @b avatar {
       width: 64px;
       height: 64px;
-      @e img {
-        width: 100%;
-        height: 100%;
-        border-radius: 50%;
-      }
     }
     @b username {
       font-size: var(--default-font-size-middle);
@@ -625,16 +570,10 @@ export default index
       }
     }
   }
-  .search-dialog >>> .el-dialog__body {
-    padding: var(--dialog-padding-base);
+  .searchbtn {
+    margin-left: 11px;
   }
-  .scrollbarseacher >>> .el-scrollbar__wrap{
-    max-height: 375px;
-    padding-right: var(--default-padding-larger);
-    margin-top: -13px;
+  .resetbtn {
+    margin-left: var(--default-margin-larger);
   }
-  .search-dialog >>> .el-scrollbar {
-    margin-top: var(--default-margin-larger);
-  }
-  /* 搜索内容弹窗样式*/
 </style>

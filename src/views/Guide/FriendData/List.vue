@@ -23,7 +23,7 @@
           <el-form-item label="地区：">
             <el-form-grid class="hidden">{{friendDetail.areaName?friendDetail.areaName:"-"}}</el-form-grid>
           </el-form-item>
-<!--          <el-form-item label="标签：" class="margintop">-->
+<!--          <el-form-item label="标签：">-->
 <!--            <el-tag>超级会员</el-tag>-->
 <!--            <el-tag>白领</el-tag>-->
 <!--            <el-tag>邓林之阴</el-tag>-->
@@ -37,44 +37,47 @@
 <!--            <el-tag>白领</el-tag>-->
 <!--            <el-tag>邓林之阴</el-tag>-->
 <!--          </el-form-item>-->
-          <el-form-item label-width="30px" class="margintop">
+          <el-form-item label-width="34px">
             <el-form-grid class="detail-leftside__chat">
               <div>
-                <div class="detail-leftside__chat--black typeSize" >朋友圈互动次数：</div>
+                <div>朋友圈互动次数：</div>
                 <div>赞我：{{friendDetail.likeNum}}；赞他：{{friendDetail.likeHimNum}}；</div>
                 <div>评我：{{friendDetail.commentsNum}}；评他：{{friendDetail.commentsHimNum}}；</div>
               </div>
               <div class="detail-lasttime">
-                <div class="detail-leftside__chat--black typeSize" >最后联系时间：</div>
+                <div>最后联系时间：</div>
                 <div>发：{{friendDetail.sendConversationTime?friendDetail.sendConversationTime:'-'}}</div>
                 <div>接：{{friendDetail.receiveConversationTime?friendDetail.receiveConversationTime:'-'}}</div>
               </div>
             </el-form-grid>
           </el-form-item>
-          <el-form-item label-width="30px" class="margintop">
+          <el-form-item label-width="34px">
             <el-form-grid class="detail-leftside__chat">
               <div>
-                <span class="detail-leftside__chat--black typeSize">入会时间：</span>
+                <span>入会时间：</span>
                 <span>{{friendDetail.addTime}}</span>
               </div>
               <div class="detail-addtime">
-                <span class="detail-leftside__chat--black typeSize">添加好友时间：</span>
+                <span>添加好友时间：</span>
                 <span>{{friendDetail.createTime}}</span>
               </div>
             </el-form-grid>
           </el-form-item>
-          <el-form-item label="专属导购：" label-width="100px">
+          <el-form-item label="专属导购：" label-width="70px">
 <!--            <el-form-grid>{{friendDetail.name}}</el-form-grid>-->
             <el-form-grid>-</el-form-grid>
           </el-form-item>
-          <el-form-item label="是否与专属导购为好友关系：" label-width="210px">
+          <el-form-item label="是否与专属导购为好友关系：" label-width="166px">
 <!--            <el-form-grid>{{friendDetail.name?'是':'否'}}</el-form-grid>-->
             <el-form-grid>-</el-form-grid>
           </el-form-item>
         </el-form>
         <div class="detail-rightside">
-          <img :src="friendDetail.head" class="detail-rightside__img" alt="微信头像">
+          <img :src="friendDetail.head||require('./src/images/avartar.png')" class="detail-rightside__img" alt="微信头像">
         </div>
+      </div>
+      <div slot="footer">
+        <ns-button @click="dialogFormVisible = false">关闭</ns-button>
       </div>
     </el-dialog>
 
@@ -96,16 +99,11 @@ export default List
     @b dialog {
       @e content {
         position: relative;
-        padding: 0 30px 30px;
       }
     }
     @b leftside {
-      padding-top: 10px;
       @e chat {
         display: flex;
-        @m black {
-          color: var(--theme-font-color-secondary);
-        }
       }
     }
     @b lasttime {
@@ -132,18 +130,5 @@ export default List
     text-overflow : ellipsis;
     white-space : nowrap;
     overflow : hidden;
-  }
-  .margintop {
-    margin-top: 20px;
-  }
-  .typeSize {
-    font-size: 14px
-  }
-  >>> .el-form-item__label {
-    font-size: var(--default-font-size-base);
-    color: var(--theme-font-color-secondary);
-  }
-  >>>.el-dialog__body {
-    color: var(--theme-font-color-primary);
   }
 </style>

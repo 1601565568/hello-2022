@@ -93,6 +93,7 @@ export default {
       integralIsShow: [false, false, false, false, false], // 控制会员详情积分是否显示
       integralIsNum: [0, 0, 0, 0, 0], // 控制会员详情积分
       integralName: ['', '', '', '', ''], // 控制会员详情积分
+      integralAliasName: ['', '', '', '', ''], // 积分别名
       mapTag: [],
       textIds: [], // 会员打标签输入框id集合
       selectIds: [], // 会员打标签下拉选id集合
@@ -105,6 +106,7 @@ export default {
       attributeValue: 0, // 标签属性值
       sysCustomerId: '', // 会员id
       shopKuhuShow: false,
+      isClear: false, // 是否清空过所有标签
       rfmInfo: {}, // rfm信息
       accountCode: {}, // 用于保存积分账号
       result: null,
@@ -213,19 +215,23 @@ export default {
     },
     // 关闭会员详情弹窗
     closeDetailDialog () {
-      this.selectedTabName = 'basic'
-      this.startTime = null
-      this.endTime = null
-      this.accountCode = {}
-      this.searchParam = {}
-      this.integralIsShow = [false, false, false, false, false]
-      this.integralIsNum = [0, 0, 0, 0, 0] // 控制会员详情积分
-      this.integralName = ['', '', '', '', '']
-      // 重置tabs 分页组件size大小
-      for (let i = 1; i <= this.integralLogIsShow.length; i++) {
-        if (this.integralLogIsShow[i - 1]) {
-          let name = 'integralPage' + i
-          this.$refs[name].internalPageSize = 15
+      if (this.shopKuhuShow) {
+        this.shopKuhuShow = false
+        this.selectedTabName = 'basic'
+        this.startTime = null
+        this.endTime = null
+        this.accountCode = {}
+        this.searchParam = {}
+        this.integralIsShow = [false, false, false, false, false]
+        this.integralIsNum = [0, 0, 0, 0, 0] // 控制会员详情积分
+        this.integralName = ['', '', '', '', '']
+        this.integralAliasName = ['', '', '', '', '']
+        // 重置tabs 分页组件size大小
+        for (let i = 1; i <= this.integralLogIsShow.length; i++) {
+          if (this.integralLogIsShow[i - 1]) {
+            let name = 'integralPage' + i
+            this.$refs[name].internalPageSize = 15
+          }
         }
       }
     },
@@ -376,7 +382,8 @@ export default {
               for (let i = 0; i < length; i++) {
                 _this.integralLogIsShow[i] = true
                 // 积分名称
-                this.integralName[i] = _this.items.integralAccountList[i].integralAlias
+                this.integralName[i] = _this.items.integralAccountList[i].integralName
+                this.integralAliasName[i] = _this.items.integralAccountList[i].integralAlias
                 // 积分显示
                 this.integralIsShow[i] = true
                 this.accountCode[this.integralName[i]] = _this.items.integralAccountList[i].integralAccount
@@ -653,7 +660,9 @@ export default {
       }
     },
     saveTag () { // 保存标签
+      let isNotData = false
       if (this.mapTag.length === 0) {
+        isNotData = true
         for (let i = 0; i < this.tagData.length; i++) {
           let tag = {}
           tag.id = this.tagData[i].id
@@ -662,13 +671,34 @@ export default {
         }
         // this.$notify.error('未选择属性')
       }
+
+      if (this.isClear && !isNotData) {
+        let ids = []
+        let newTag = []
+        for (let j = 0; j < this.mapTag.length; j++) {
+          let mapT = this.mapTag[j]
+          ids[j] = mapT.id
+        }
+        for (let i = 0; i < this.tagData.length; i++) {
+          let tag = {}
+          tag.id = this.tagData[i].id
+          if (ids.indexOf(tag.id) > -1) {
+            tag.value = this.mapTag[ids.indexOf(tag.id)].value
+            console.log(tag.value)
+          } else {
+            tag.value = ''
+          }
+          newTag.push(tag)
+        }
+        this.mapTag = newTag
+      }
       this.$http.fetch(this.$api.guide.guide.saveTag, {
         'sysCustomerId': this.sysCustomerId,
         'tagList': JSON.stringify(this.mapTag)
       }).then(resp => {
         if (resp.success && resp.result != null) {
           this.closeTag()
-          this.restTag()
+          this.isClear = false
           this.$notify.success('保存成功！')
         }
       }).catch((resp) => {
@@ -678,6 +708,8 @@ export default {
     // 清空标签
     restTag () {
       this.mapTag = []
+      this.isClear = true
+      console.log('清空：' + this.isClear)
       for (let i = 0; i < this.tagData.length; i++) {
         let tag = this.tagData[i]
         tag.value = ''
@@ -694,8 +726,10 @@ export default {
       this.attributeValue = 0
     },
     closeTag () {
-      this.showTag = false
-      this.restTag()
+      if (this.showTag) {
+        this.showTag = false
+        this.restTag()
+      }
     },
     // 更换导购
     onSave () {

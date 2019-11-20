@@ -19,7 +19,7 @@
 <body>
 <script type="text/javascript" src="./js/jquery-3.4.1.min.js"></script>
 <script type="text/javascript" src="./js/common.js"></script>
-<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.4.0.js"></script>
+<script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.4.0.js"></script>
 <script>
     $(document).ready(function () {
         var success = getPar('success');
@@ -39,7 +39,7 @@
 
     function getCustomerInfo(encryptNascentId) {
         var recruitInfo = JSON.parse(localStorage.getItem('recruitInfo'));
-        this.ajax(backstageURL + '/getCustomerInfo', {
+        this.ajax(backstageURL() + '/getCustomerInfo', {
             guideId: recruitInfo.guideId,
             shopId: recruitInfo.shopId,
             groupId: recruitInfo.groupId,
@@ -101,7 +101,7 @@
     function initWXConfig(back) {
         var recruitInfo = JSON.parse(localStorage.getItem('recruitInfo'));
         var address = location.href.split('#')[0]
-        this.ajax(backstageURL + '/getInitWXConfigParam', {url: address,shopId:recruitInfo.shopId,groupId:recruitInfo.groupId}).then(function (data) {
+        this.ajax(backstageURL() + '/getInitWXConfigParam', {url: address,shopId:recruitInfo.shopId,groupId:recruitInfo.groupId}).then(function (data) {
             wx.config(data.result.config);
             if (back) {
                 back(data.result.cardId)
@@ -115,7 +115,7 @@
     function addCard(cardId, memberCard,shopId,groupId,outerStr) {
         var newCardId = cardId
         var recruitInfo = JSON.parse(localStorage.getItem('recruitInfo'));
-        this.ajax(backstageURL + '/getAddCardExtParam', {code: memberCard,shopId:shopId,groupId:groupId,outerStr:outerStr}).then(function (data) {
+        this.ajax(backstageURL() + '/getAddCardExtParam', {code: memberCard,shopId:shopId,groupId:groupId,outerStr:outerStr}).then(function (data) {
             wx.ready(function () {
                 wx.addCard({
                     cardList: [{
@@ -158,7 +158,7 @@
         var toChangeData = JSON.parse(localStorage.getItem('showData'));
         var recruitInfo = JSON.parse(localStorage.getItem('recruitInfo'));
         // 获取会员信息
-        this.ajax(backstageURL + '/getNewCustomerInfo', {
+        this.ajax(backstageURL() + '/getNewCustomerInfo', {
             nick: toChangeData.nick,
             shopId:recruitInfo.shopId,
             groupId: recruitInfo.groupId,

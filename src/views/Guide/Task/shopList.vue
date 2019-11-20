@@ -15,7 +15,7 @@
           <el-col :span="17">
             <!-- 右上角操作区域 -->
             <div class="float-right tabSearchBtn">
-              <ns-button @click="tabSearchType" style="padding: 9px 0 9px 10px;opacity: 0.5;color: #002041;" type="text">{{searchType.tipText}}
+              <ns-button @click="tabSearchType" style="padding-left: 10px;opacity: 0.5;color: #002041;" type="text">{{searchType.tipText}}
                 <Icon :type="searchType.advanced ? 'up' : 'down'"/>
               </ns-button>
             </div>
@@ -69,7 +69,7 @@
   </div>
   <!-- 筛选end -->
   <!-- table start -->
-  <div class="mt10">
+  <div class="mt5">
     <el-table
       ref="multipleTable"
       :data="dataList"
@@ -80,17 +80,17 @@
       style="width: 100%"
       >
       <el-table-column prop="name" label="名称"></el-table-column>
-      <el-table-column prop="name" align="left" label="分配导购" width="90">
+      <el-table-column prop="name" align="right" label="分配导购" width="90">
         <template slot-scope="{row}">
           <!-- <a href="javascript:" v-if="row.guideIds === '0'" @click="shopListModalDomShowToggle(row.id,row.shopId)">全部导购</a> -->
           <a @click="shopListModalDomShowToggle(row.id,row.shopId)" href="javascript:">{{row.allNum}}人</a>
         </template>
       </el-table-column>
 
-      <el-table-column label="执行时间" align="left" width="280">
+      <el-table-column label="执行时间" align="center" width="280">
         <template slot-scope="{row}">{{row.startTime}}至{{row.endTime}}</template>
       </el-table-column>
-      <el-table-column prop="type" label="类型" align="left" width="60">
+      <el-table-column prop="type" label="类型" align="center" width="60">
         <template slot-scope="{row}">
           <span v-if="row.type === 0">营销</span>
           <span v-if="row.type === 1">回访</span>
@@ -105,7 +105,7 @@
 
       <el-table-column prop="createUserName" label="创建人" width="120"></el-table-column>
       <el-table-column prop="createShopName" label="创建门店"></el-table-column>
-      <el-table-column prop="status" label="状态" align="left" width="80">
+      <el-table-column prop="status" label="状态" align="center" width="80">
         <template slot-scope="{row}">
           <span v-if="row.state === 1" class="text-primary">执行中</span>
           <span v-if="row.state === 4" class="text-warning">已过期</span>
@@ -115,11 +115,11 @@
       <el-table-column
         label="操作"
         width="100"
-        align="right"
+        align="center"
       >
       <template slot-scope="scope" class="operation">
           <ns-button @click="AddShowToggle(scope.row)" type="text">详情</ns-button>
-          <ns-button style="color:#f00" @click="deleteToggle(scope.row)" type="text">删除</ns-button>
+          <ns-button @click="deleteToggle(scope.row)" type="text">删除</ns-button>
       </template>
       </el-table-column>
     </el-table>

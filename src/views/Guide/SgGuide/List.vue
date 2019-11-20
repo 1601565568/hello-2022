@@ -39,12 +39,10 @@
             </el-form-item>
           </div>
 
-          <el-form-item label="姓名：" required>
+          <el-form-item label="姓名：" prop="name">
             <el-form-grid size="xxmd">
-              <el-form-item prop="name">
-                <el-input type="text" @change="names" v-model="model.sgGuide.name" placeholder="请输入姓名" :maxlength="20" autofocus=true clearable>
-                </el-input>
-              </el-form-item>
+              <el-input type="text" @change="names" v-model="model.sgGuide.name" placeholder="请输入姓名" :maxlength="20" autofocus=true clearable>
+              </el-input>
             </el-form-grid>
           </el-form-item>
           <el-form-item label="昵称：" >
@@ -73,12 +71,10 @@
               </el-form-item>
             </el-form-grid>
           </el-form-item>
-          <el-form-item label="手机号：" required>
+          <el-form-item label="手机号：" prop="mobile">
             <el-form-grid size="xxmd">
-              <el-form-item prop="mobile">
-                <el-input v-model="model.sgGuide.mobile" @change="mobile" placeholder="请输入手机号" :maxlength="11" clearable :max="11">
-                </el-input>
-              </el-form-item>
+              <el-input v-model="model.sgGuide.mobile" @change="mobile" placeholder="请输入手机号" :maxlength="11" clearable :max="11">
+              </el-input>
             </el-form-grid>
           </el-form-item>
           <el-form-item label="工号：" required>
@@ -115,7 +111,7 @@
                   <img width="200px" v-if="model.sgGuide.image" :src="model.sgGuide.image" class="avatar">
                   <Icon type="plus" className="avatar-uploader-icon" v-else />
                 </el-upload>
-                <span>上传图片不能大于500KB,仅支持jpg,jpeg,png,gif格式</span>
+                <span class="text-primary"><Icon type="exclamation-circle" />上传图片不能大于500KB,仅支持jpg,jpeg,png,gif格式</span>
               </el-form-item>
             </el-form-grid>
           </el-form-item>
@@ -139,19 +135,19 @@
           <el-radio-group v-model="transferRadio">
             <el-radio @change="shiftChange" label="1">
               同门店均分
-              <el-tooltip class="item" effect="light" content="平均分配给会员所属门店员工" placement="bottom">
+              <el-tooltip class="item" effect="light" content="平均分配给会员所属门店员工">
                <Icon type="question-circle" theme="filled" />
               </el-tooltip>
             </el-radio>
             <el-radio @change="shiftChange" label="2">
               转移给指定导购
-              <el-tooltip class="item" effect="light" content="会员全部转给选择的员工" placement="bottom">
+              <el-tooltip class="item" effect="light" content="会员全部转给选择的员工">
                 <Icon type="question-circle" theme="filled" />
               </el-tooltip>
             </el-radio>
             <el-radio @change="shiftChange" label="3">
               自定义转移
-              <el-tooltip class="item" effect="light" content="自定义选择会员转移给选择的员工" placement="bottom">
+              <el-tooltip class="item" effect="light" content="自定义选择会员转移给选择的员工">
                 <Icon type="question-circle" theme="filled" />
               </el-tooltip>
             </el-radio>
@@ -317,7 +313,7 @@
       </div>
       <div slot="footer" class="dialog-footer">
           <div v-if="transferRadio === '3'" class="resignFormVisible_custom_title">
-            <div>还剩<span class="transferCount">&nbsp;&nbsp;{{transferCount}}&nbsp;&nbsp;</span>个未分配</div>
+            <div>还剩<span class="text-error">&nbsp;&nbsp;{{transferCount}}&nbsp;&nbsp;</span>个未分配</div>
             <ns-button class="Setupbulksalesguide" type="primary" @click="Setupbulksalesguide()">批量设置导购</ns-button>
             <ns-button @click="resignFormVisible = false">取消</ns-button>
           </div>
@@ -446,14 +442,14 @@
     <!-- 指定导购转移转移弹窗结束  -->
     <el-dialog title="提示" width="35%" :visible.sync="multipleStoresAreNotSupportedShow"  :before-close="bulkReplacementStores">
       <div class="bulkReplacementStores">
-        <div class="bulkReplacementStores_logo">
-          <span>X</span>
+        <div class="bulkReplacementStores_logo text-error">
+          <Icon type="close-circle" theme="filled" />
         </div>
         <div>
           <div class="user_style_text">
             员工所属门店有多门店，不允许批量{{switchStateName}}！
           </div>
-          <div class="user_style">
+          <div class="user_style text-error">
             仅支持单门店批量{{switchStateName}}！
           </div>
         </div>
@@ -464,17 +460,26 @@
     </el-dialog>
     <!-- 批量操作提示弹窗开始  -->
       <el-dialog title="提示" width="35%" :visible.sync="returnInformationShow"  :before-close="bulkReplacementStores">
-      <div class="bulkReplacementStores_box">
-        <div class="bulkReplacementStores_state">成功{{switchStateName}}<span>{{successCount}}</span>名，失败{{switchStateName}}<span>{{failCount}}</span>名。</div>
-        <div class="bulkReplacementStores_name">失败员工姓名：{{nameArr}}</div>
-        <div class="bulkReplacementStores_cause">失败原因：有会员的员工，不能批量{{switchStateName}}，需要转移后才能批量{{switchStateName}}。</div>
-        <div class="bulkReplacementStores_transfer">是否前往会员列表转移？</div>
-      </div>
-      <div slot="footer" class="dialog-footer">
-        <ns-button @click="bulkReplacementStores">取消</ns-button>
-        <ns-button type="primary" @click="toTransfer">前往转移</ns-button>
-      </div>
-    </el-dialog>
+        <el-form>
+          <el-form-item>
+            成功{{switchStateName}} <span class="text-black">{{successCount}}</span>
+            名，失败{{switchStateName}} <span class="text-black">{{failCount}}</span> 名。
+          </el-form-item>
+          <el-form-item>
+            <span class="text-error">失败员工姓名：{{nameArr}}</span>
+          </el-form-item>
+          <el-form-item>
+            <div class="bulkReplacementStores_cause">失败原因：有会员的员工，不能批量{{switchStateName}}，需要转移后才能批量{{switchStateName}}。</div>
+          </el-form-item>
+          <el-form-item>
+            <span class="text-black">是否前往会员列表转移？</span>
+          </el-form-item>
+        </el-form>
+        <div slot="footer">
+          <ns-button @click="bulkReplacementStores">取消</ns-button>
+          <ns-button type="primary" @click="toTransfer">前往转移</ns-button>
+        </div>
+      </el-dialog>
     <!-- 批量操作提示弹窗结束  -->
 
     <!--  自定义客户转移弹窗开始  -->
@@ -513,7 +518,7 @@
       </div>
     </el-dialog>
     <!--  更换门店弹窗开始 -->
-    <el-dialog :title="shopTitle" width="560px" height="150px" :visible.sync="shopFindListShow" @keyup.enter.native="onKeyUp" @keyup.esc.native="onKeyUp">
+    <el-dialog :title="shopTitle" width="350px" height="140px" :visible.sync="shopFindListShow" @keyup.enter.native="onKeyUp" @keyup.esc.native="onKeyUp">
       <div class="guideBox" style="overflow-x:hidden;overflow-y:auto;">
         <el-form>
           <el-form-item>
@@ -534,7 +539,7 @@
     <!-- 更换门店弹窗开始  -->
     <!-- 所属门店查看详情开始 -->
       <el-dialog :title="memberBelongingtitle"  :visible.sync="scopeRowCountShow" width="660px" >
-        <el-table ref="table" :data="shopFindLists" >
+        <el-table ref="table" :data="shopFindLists" stripe>
           <el-table-column prop="name" label="所属门店" align="left" width="320">
             <template slot-scope="scope">
               {{scope.row.name || '-'}}
@@ -546,7 +551,7 @@
             </template>
           </el-table-column>
         </el-table>
-        <div slot="footer" class="scopeRowCountShow_footer">
+        <div slot="footer">
           <ns-button class="scopeRowCountShow_button" @click="scopeRowCountShow = false">关闭</ns-button>
         </div>
       </el-dialog>
@@ -631,67 +636,63 @@ export default List
     height: 128px;
     display: block;
   }
-  .scopeRowCountShow_footer{
-    margin: 10px 0 10px 0;
-  }
 </style>
 <style scoped>
+  @import "@theme/variables.pcss";
+
   .resignFormVisible_title{
-    height:40px;
-    display:flex;
+    height: 40px;
+    display: flex;
     justify-content: flex-start;
     align-items: center;
-    background-color:#FFDEAD;
-    font-size:14px;
-    padding-left:10px;
-    margin-bottom:10px
+    background-color: #FFDEAD;
+    font-size: 14px;
+    padding-left: 10px;
+    margin-bottom: 10px
   }
   .resignFormVisible_way{
     line-height: 40px;
-    display:flex;
+    display: flex;
     align-items: center;
-    padding-left:10px;
-    border-bottom:1px solid #aaaaaa;
+    padding-left: 10px;
+    border-bottom: 1px solid #aaaaaa;
   }
   .resignFormVisible_otherShoppers_01{
-    display:flex;
+    display: flex;
     justify-content: space-between;
     align-items: center;
   }
   .resignFormVisible_otherShoppers_search{
-    padding:10px 0 10px 0;
+    padding: 10px 0 10px 0;
   }
   .resignFormVisible_otherShoppers_02{
     line-height: 40px;
-    display:flex;
+    display: flex;
     justify-content: flex-start;
     align-items: center;
-    font-size:14px;
-    border-bottom:1px solid #aaaaaa;
-    padding-left:10px;
+    font-size: 14px;
+    border-bottom: 1px solid #aaaaaa;
+    padding-left: 10px;
   }
   .resignFormVisible_custom_title{
-    display:flex;
+    display: flex;
     justify-content: space-between;
     align-items: center;
-    padding:0 10px 0 10px;
-    font-size:13px;
+    padding: 0 10px 0 10px;
+    font-size: 13px;
     line-height: 40px;
   }
-  .transferCount{
-    color:#FF0000;
-  }
   .resignFormVisible_custom_01{
-    display:flex;
+    display: flex;
     justify-content: space-between;
     align-items: center;
   }
   .resignFormVisible_custom_search{
-    padding-top:5px;
+    padding-top: 5px;
 
   }
   .template-table__more-btns{
-    padding-left:-3px !important;
+    padding-left: -3px !important;
   }
   .dialog-footer{
     display:flex;
@@ -699,12 +700,12 @@ export default List
     align-items: center;
   }
   .replaceTheShoppers{
-    display:flex;
+    display: flex;
     justify-content: flex-end;
     align-items: center;
-    margin:10px 10px 20px 0;
+    margin: 10px 10px 20px 0;
     position: relative;;
-    float:right;
+    float: right;
     bottom: 0
   }
   .el-scrollbar__bar.is-vertical {
@@ -716,69 +717,43 @@ export default List
     left: 2px;
   }
   .user_style_text{
-    font-size:14px;
-    font-weight:600
+    font-size: 14px;
+    font-weight: 600;
   }
   .user_style{
-    width:180px;
-    margin-bottom:20px;
-    color:#FF0000;
-    font-size:12px;
+    text-align: center;
+    display: inline-block;
     background:rgba(255,0,0,0.1);
-    padding:3px 10px;
-    margin-top:20px;
-    border-radius:5px;
+    padding: 3px 10px;
+    margin-top: 10px;
+    border-radius: var(--default-radius-mini);
   }
   .bulkReplacementStores{
-    display:flex;
-    justify-content:flex-start;
-    align-items:flex-start;
-    padding-left:20px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding-left: 20px;
   }
   .bulkReplacementStores_logo{
-    width:40px;
-    height:40px;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    border-radius:100px;
-    background-color:#FF0000;
-    margin-right:20px;
-  }
-  .bulkReplacementStores_logo span{
-    color:#fff;
-    font-weight:600;
-    font-size:20px
+    font-size: 24px;
+    position: relative;
+    top: 13px;
+    left: -15px;
   }
   .Setupbulksalesguide{
-    margin:0 20px !important;
-  }
-  .bulkReplacementStores_box div{
-    padding:8px 2px;
-    font-size:14px
-  }
-  .bulkReplacementStores_status{
-    color:#333;
-  }
-  .bulkReplacementStores_status text{
-    color:#000;
-    font-weight:600 ;
-  }
-  .bulkReplacementStores_name{
-
-    color:#ff0000;
+    margin: 0 20px !important;
   }
   .bulkReplacementStores_cause{
-    color:#999;
-    background:rgba(188,188,188,0.3);
-    border-radius:5px;
-    margin-bottom:20px
+    color: var(--theme-font-color-secondary);
+    background: rgba(188,188,188,0.3);
+    padding: 0 var(--default-padding-base);
+    border-radius: var(--default-radius-mini);
   }
-  .bulkReplacementStores_box .bulkReplacementStores_transfer{
-    font-weight:600;
+  >>> .el-radio-group {
+    vertical-align: unset;
   }
-  .bulkReplacementStores_state span{
-    padding:0 3px;
-    font-weight:600
+  .text-black {
+    color: var(--theme-font-color-primary);
+    font-weight: bold;
   }
 </style>

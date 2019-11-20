@@ -1,6 +1,7 @@
 import ElContainer from '@nascent/nui/lib/container'
 import ElMain from '@nascent/nui/lib/main'
 import ElAside from '@nascent/nui/lib/aside'
+import ElImage from '@nascent/nui/lib/image'
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import moment from 'moment'
 
@@ -8,7 +9,8 @@ export default {
   components: {
     ElContainer,
     ElMain,
-    ElAside
+    ElAside,
+    ElImage
   },
   mixins: [tableMixin],
   data () {
@@ -251,11 +253,10 @@ export default {
      * 计算主要显示窗口的高度，动态设置页面内主要内容的高度
      */
     setHeight: function () {
-      /**  15px为顶部表单上面的间距和左右内容的标题上面的间距 **/
-      const BTN_TITLE = 50 // 左右内容的标题的高度
+      const BTN_TITLE = 41 // 左右内容的标题的高度
       let limitHeight = window.innerHeight -
         document.getElementsByClassName('nav')[0].offsetHeight -
-        BTN_TITLE - document.getElementsByClassName('talk-chat__form')[0].offsetHeight - 70
+        BTN_TITLE - document.getElementsByClassName('talk-chat__form')[0].offsetHeight - 20
       if (limitHeight < 400) {
         limitHeight = 400
       }

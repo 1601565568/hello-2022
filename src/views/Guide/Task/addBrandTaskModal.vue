@@ -6,10 +6,10 @@
   :close-on-click-modal='false'
   :close-on-press-escape='true'
   :visible.sync="dialogVisible"
-  width="620px"
+  width="520px"
   :before-close="handleClose">
-    <div class="comDialogBoxCon" style="padding:0 0 20px 0;">
-      <el-form ref="form" :rules="rules" placement="right" label-width="110px"
+    <div class="comDialogBoxCon">
+      <el-form ref="form" :rules="rules" placement="right" label-width="80px"
                :model="model">
         <el-form-item label="任务名称：" prop="name">
           <el-input style="width:400px;" v-model="model.name" clearable placeholder='请输入任务名称,在4-25个长度以内'></el-input>

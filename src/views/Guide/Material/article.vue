@@ -17,7 +17,7 @@
         <el-col :span="17">
           <!-- 右上角操作区域 -->
           <div class="float-right tabSearchBtn">
-            <ns-button @click="tabSearchType" style="padding: 5px 0 5px 10px;opacity: 0.5;color: #002041;" type="text">{{searchType.tipText}}<Icon :type="searchType.advanced ? 'up' : 'down'"/></ns-button>
+            <ns-button @click="tabSearchType" style="padding-left: 10px;opacity: 0.5;color: #002041;" type="text">{{searchType.tipText}}<Icon :type="searchType.advanced ? 'up' : 'down'"/></ns-button>
           </div>
           <el-form ref="searchform" class="float-right" @submit.native.prevent v-if="!searchType.advanced" :inline="true" :model="searchform">
             <el-form-item label="素材内容：" prop="content">
@@ -25,8 +25,8 @@
             </el-form-item>
 
             <el-form-item>
-              <ns-button type="primary" @click="submitForm('searchform')">搜索</ns-button>
-              <ns-button @click="resetForm('searchform')">重置</ns-button>
+              <ns-button type="primary" @click="submitForm('searchform')" class="searchbtn">搜索</ns-button>
+              <ns-button @click="resetForm('searchform')" class="resetbtn">重置</ns-button>
             </el-form-item>
           </el-form>
         </el-col>
@@ -81,7 +81,7 @@
   </div>
   <!-- 筛选end -->
   <!-- table start -->
-  <div class="mt10">
+  <div>
     <el-table
       ref="multipleTable"
       :data="dataList"
@@ -103,7 +103,7 @@
         <listItemShow :itemObj="scope.row"></listItemShow>
       </template>
       </el-table-column>
-      <el-table-column prop="subName" label="分组" width="250" align="left">
+      <el-table-column prop="subName" label="分组" width="250" align="center">
         <template slot-scope="scope">
           <el-select @change="setGroudFun(scope.row.id,scope.row.subdivision_id)" v-model="scope.row.subdivision_id" placeholder="请选择">
             <el-option v-for="item in groudList"
@@ -117,16 +117,16 @@
       <el-table-column prop="source_name" label="发布方" align="left" width="250">
 
       </el-table-column>
-      <el-table-column prop="create_time" label="发布时间 " width="250" align="left">  </el-table-column>
-      <el-table-column prop="pv" label="浏览量" align="center" width="100"></el-table-column>
+      <el-table-column prop="create_time" label="发布时间 " width="250" align="center">  </el-table-column>
+      <el-table-column prop="pv" label="浏览量" align="right" width="100"></el-table-column>
       <el-table-column
         label="操作"
         width="80"
-        align="right"
+        align="center"
       >
       <template slot-scope="scope">
         <ns-button @click="AddShowToggle(scope.row)" type="text">编辑</ns-button>
-        <a class="text-error" style="color:#f00" href="javascript:" @click="delsTipFun(scope.row.id)">删除</a>
+        <a href="javascript:" @click="delsTipFun(scope.row.id)">删除</a>
       </template>
       </el-table-column>
     </el-table>
@@ -416,7 +416,14 @@ export default {
 }
 </script>
 <style scoped>
-.mt10{
-  border-radius: 3px 3px 0 0 !important
-}
+  @import "@theme/variables.pcss";
+  .mt10{
+    border-radius: var(--default-radius-mini) var(--default-radius-mini) 0 0 !important
+  }
+  .searchbtn {
+    margin-left: var(--default-margin-base);
+  }
+  .resetbtn {
+    margin-left: 9px;
+  }
 </style>

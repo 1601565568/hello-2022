@@ -1,19 +1,14 @@
 <template>
   <div id='SgQuicklyWordPage'>
     <div id="box_left">
-      <ns-button class="newClassification ml10" type="primary" @click="onSaveQuicklyWordGroupOpen">新增分类</ns-button>
-      <div class='ptb10 bg-white pl15' >
+      <ns-button type="primary" @click="onSaveQuicklyWordGroupOpen">新增分类</ns-button>
+      <div class='ptb5 bg-white pl5' >
         <span class="demonstration">分类</span>
-        <el-popover
-          placement="bottom"
-          trigger="hover">
-          <el-row class="overview-popover">
-            拖动调整分类排序，小程序同步
-          </el-row>
-          <Icon slot="reference" type="question-circle" theme="filled" className="ml5 fz13" style='color:#999'/>
-        </el-popover>
+        <el-tooltip content="拖动调整分类排序，导购端同步">
+          <Icon type="question-circle"/>
+        </el-tooltip>
       </div>
-      <div :class="offsetHeight?'elTrees':'elTree'" ref="elTree" :style="{ 'height' : height + 'px'}">
+      <div :class="offsetHeight?'elTrees':'elTree'" ref="elTree">
         <el-tree :data="wordGroupList" default-expand-all @node-click="onClickNode" @node-drop="handleDrop" draggable :allow-drop="allowDrop"
         :allow-drag="allowDrag"
         node-key="id"
@@ -22,9 +17,9 @@
         class='navTree'>
         <div class="navTree-item flex flex-between" slot-scope="{ node, data }" >
           <span class="dataName">{{ data.name }}</span>
-          <span v-if='data.id'>
+          <span v-if='data.id' class="controlstatus">
             <Icon type="delete" @click="deleteTheGroup(data)" className="deleteicon" />
-            <Icon type="bianji-1" @click="onSaveQuicklyWordGroupOpen(data)" className="editicon"/>
+            <Icon type="bianji-1" @click="onSaveQuicklyWordGroupOpen(data)"/>
           </span>
         </div>
         </el-tree>
@@ -41,11 +36,11 @@
         <!-- el-inpu 需添加  @keyup.enter.native="$quickSearchAction$" 配置，实现回车搜索 -->
         <template slot="searchSearch">
           <el-form :model="model" :inline="true" @submit.native.prevent  class="pull-right">
-            <el-form-item>
-              <el-input ref="quickText" style="width: 250px" v-model="model.searchValue" placeholder="请输入关键词/添加人/分类" @keyup.enter.native="$quickSearchAction$('code')" clearable>
+            <el-form-item label="关键词/添加人/分类：">
+              <el-input ref="quickText" style="width: 200px" v-model="model.searchValue" placeholder="请输入关键词/添加人/分类" @keyup.enter.native="$searchAction$()" clearable>
               </el-input>
-              <ns-button type="primary" @click="$searchAction$()">搜索</ns-button>
-              <ns-button @click="$resetInputAction$()">重置</ns-button>
+              <ns-button type="primary" @click="$searchAction$()" class="searchbtn">搜索</ns-button>
+              <ns-button @click="$resetInputAction$()" class="resetbtn">重置</ns-button>
             </el-form-item>
           </el-form>
         </template>
@@ -62,8 +57,14 @@
             <el-table-column prop="keyWord" class-name="keyword" width="130" :show-overflow-tooltip="true" label="关键词" align="left"></el-table-column>
             <el-table-column prop="content" label="话术内容" width="228" :show-overflow-tooltip="true" align="left"></el-table-column>
             <el-table-column prop="name" label="分类" align="left"></el-table-column>
-            <el-table-column prop="createTime" label="添加时间" align="left"></el-table-column>
-            <el-table-column align="left" v-if="showOrder" :render-header="renderHeader">
+            <el-table-column prop="createTime" label="添加时间" align="center"></el-table-column>
+            <el-table-column align="left" v-if="showOrder">
+              <template slot="header" slot-scope="scope">
+                排序
+                <el-tooltip content="调整排列顺序小程序同步">
+                  <Icon type="question-circle"/>
+                </el-tooltip>
+              </template>
               <template slot-scope="scope">
                 <i class='sort' :class="scope.row === _data._table.data[0]?'topHid':''"  @click='exchangeSort(1,scope.row.id)'><Icon type="zhiding"/></i>
                 <i class='sort' :class="scope.row === _data._table.data[0]?'topHid':''"   @click='exchangeSort(2,scope.row.id)'><Icon type="top-arr"/></i>
@@ -72,7 +73,7 @@
               </template>
             </el-table-column>
             <el-table-column prop="addName" label="添加人" align="left"></el-table-column>
-            <el-table-column :show-overflow-tooltip="true" label="操作" align="right">
+            <el-table-column :show-overflow-tooltip="true" label="操作" align="center" width="100px">
               <template slot-scope="scope">
               <span class="tmp-cell__buttons">
                 <ns-button type="text" @click="onSaveOpen(scope.row)">编辑</ns-button>
@@ -95,7 +96,7 @@
       </ns-page-table>
     </div>
     <!-- 初始弹窗开始 -->
-    <el-dialog size="small" :title="titleText"
+    <el-dialog width="800px" :title="titleText"
                :visible.sync="dialogFormVisible"
                :modal-append-to-body="false"
                @before-close="closeDialog()">
@@ -142,12 +143,12 @@
                width='600px'
                @before-close="closeDialog()">
       <el-form :model="model" ref="form" label-width="90px" :rules="rules" placement="right">
-        <el-form-item label="移动到分类：" prop="wordGroupIds" style="margin:25px 0">
+        <el-form-item label="移动到分类：" prop="wordGroupIds">
           <el-select  v-model="model.wordGroupId" filterable clearable placeholder="请选择配置项类型">
             <el-option v-for="wordGroup in selectwordGroupList" :label="wordGroup.name" :value="wordGroup.id" :key="wordGroup.id"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="编辑关键词：" prop="keyWord" style="margin-bottom:30px">
+        <el-form-item label="编辑关键词：" prop="keyWord">
           <el-input type="text" placeholder="如果未输入内容，则保持原有关键词不变。用“，”号隔开，最多设置五个词" v-model="model.keyWord"></el-input>
         </el-form-item>
       </el-form>
@@ -160,11 +161,11 @@
     <el-dialog size="small" :title="titleText"
       :visible.sync="dialogVisibleSaveQuicklyWordGroup"
       :modal-append-to-body="false"
-      width='500px'
+      width='400px'
       @before-close="closeDialog()">
-      <el-form :model="addOrEditModel" ref="addOrEditForm" label-width="80px" :rules="addOrEditRules" placement="right" class='addOrEditForm'>
-        <el-form-item label="分类名称：" prop="name" required >
-          <el-input type="text" placeholder="请输入分类名称" v-model="addOrEditModel.name" ></el-input>
+      <el-form :model="addOrEditModel" ref="addOrEditForm" label-width="80px" :rules="addOrEditRules" placement="right">
+        <el-form-item label="分类名称：" prop="name" required class="el-form-validate__unHide">
+          <el-input type="text" placeholder="请输入分类名称" v-model="addOrEditModel.name" autofocus="autofocus"></el-input>
         </el-form-item>
         <el-input style='display:none'></el-input>
       </el-form>
@@ -187,6 +188,7 @@ List.components = {
 export default List
 </script>
 <style scoped>
+  @import "@theme/variables.pcss";
 .elTree{
   overflow-y: auto;
   overflow-x: hidden
@@ -206,8 +208,9 @@ export default List
   white-space:nowrap
 }
 .elTree .navTree-item .dataName{
+  color: var(--theme-font-color-regular);
   display: inline-block;
-  width: 143px;
+  width: 136px;
   overflow:hidden;
   text-overflow:ellipsis;
   white-space:nowrap
@@ -221,12 +224,16 @@ export default List
 .el-tooltip__popper{
   max-width: 78% !important
 }
+  >>> .template-table__bar .template-table-buttons .el-form-grid {
+    margin-right: var(--default-margin-base);
+  }
 </style>
 <style scoped>
  @import "@theme/variables.pcss";
   #box_left{
     width: 220px;
-    margin-right: 10px;
+    margin-right: var(--default-margin-small);
+    padding: var(--default-padding-base);
     float: left;
     background-color: #ffffff;
     border-radius: 0 0 3px 3px;
@@ -243,7 +250,8 @@ export default List
   line-height: 30px;
 }
 .sort{
-  color:#0091FA;
+  font-size: var(--default-font-size-base);
+  color: var(--theme-color-primary);
   cursor: pointer;
 }
 .expressionBar_div{
@@ -255,11 +263,14 @@ export default List
 }
 .expressionBar_div i{
   font-size: 18px;
+  position: relative;
+  top: 2px;
 }
 .emotion-list_div {
   width: 350px;
-  height: 160px;
-  margin-top: 10px;
+  height: 147px;
+  padding-left: var(--default-padding-base);
+  border: 1px solid var(--theme-base-border-color-primary);
 }
 .emotion-list_div .emotion-list .li{
   list-style: none;
@@ -269,9 +280,6 @@ export default List
 .emotion-list_div .emotion-list .li img{
   width: 20px;
   height: 20px;
-}
-.newClassification{
-  margin-bottom: 10px
 }
 .subdivision-tree-node i{
   font-size: 12px;
@@ -294,19 +302,11 @@ export default List
   }
 
 }
-@component-namespace addOrEditForm {
-  .addOrEditForm{
-    padding: 30px 0 !important
-  }
-
-}
 @component-namespace navTree {
   .navTree{
     @b item{
       flex: 1;
-      height:40px;
-      line-height:40px;
-      padding:0 15px;
+      padding:0 5px;
     }
   }
 
@@ -314,25 +314,38 @@ export default List
 </style>
 <style lang='scss' scoped>
  @import "@theme/variables.pcss";
-#SgQuicklyWordPage .el-tree-node{
-  &.is-current{
-    background-color: var(--default-menu-active-border);
-  }
-  &:hover {
+  #SgQuicklyWordPage .el-tree-node{
+    &.is-current{
       background-color: var(--default-menu-active-border);
     }
-}
-#SgQuicklyWordPage .el-tree-node__expand-icon{
-  display: none;
-}
+    &:hover {
+        background-color: var(--default-menu-active-border);
+      }
+  }
+  #SgQuicklyWordPage .el-tree-node__expand-icon{
+    display: none;
+  }
   .deleteicon {
     font-size: var(--default-font-size-middle);
     position: relative;
-    top: 2px;
-  }
-  .editicon {
-    font-size: var(--default-font-size-small);
-    position: relative;
     top: 1px;
   }
+  .controlstatus {
+    display: none;
+  }
+  .navTree-item:hover {
+    .dataName {
+      color: var(--theme-color-primary);
+    }
+    .controlstatus {
+      color: var(--theme-color-primary);
+      display: block;
+    }
+  }
+ .searchbtn {
+   margin-left: 11px;
+ }
+ .resetbtn {
+   margin-left: var(--default-margin-larger);
+ }
 </style>

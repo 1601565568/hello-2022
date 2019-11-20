@@ -30,8 +30,8 @@ export default {
         corpsecret: null,
         openKey: null,
         openSecret: null,
-        pay_id: null,
-        pay_secret: null,
+        payId: null,
+        paySecret: null,
         type: null,
         from_type: null,
         userCorpsecret: null,
@@ -65,14 +65,20 @@ export default {
         table_buttons: tableButtons
       },
       rules: {
-        'name': [{ required: true, message: '请输入微信名称' }],
-        'appid': [{ required: true, message: '请输入应用ID' }],
-        'userCorpsecret': [{ required: true, message: '请输入外部联系人企业秘钥' }],
-        'addressCorpsecret': [{ required: true, message: '请输入通讯录企业秘钥' }]
-      }
+        'name': [{ required: true, message: '请输入微信名称', trigger: ['change', 'blur'] }],
+        'appid': [{ required: true, message: '请输入应用ID', trigger: ['change', 'blur'] }],
+        'userCorpsecret': [{ required: true, message: '请输入外部联系人企业秘钥', trigger: ['change', 'blur'] }],
+        'addressCorpsecret': [{ required: true, message: '请输入通讯录企业秘钥', trigger: ['change', 'blur'] }],
+        corpid: [{ required: true, message: '请输入企业ID', trigger: ['change', 'blur'] }],
+        corpsecret: [{ required: true, message: '请输入企业密钥', trigger: ['change', 'blur'] }]
+      },
+      memberManagePlan: 1
     }
   },
   mounted: function () {
+    this.$http.fetch(this.$api.core.common.getRecruitVersion).then(data => {
+      this.memberManagePlan = data.result.memberManagePlan
+    })
     let _this = this
     _this.auth_code = this.$route.query.auth_code
     _this.timestamp = this.$route.query.timestamp
@@ -137,65 +143,65 @@ export default {
       that.model.corpsecret = row.corpsecret
       that.model.openKey = row.open_key
       that.model.open_secret = row.open_secret
-      that.model.pay_id = row.pay_id
+      that.model.payId = row.payId
       that.model.type = row.type
       that.model.from_type = row.from_type
       that.model.userCorpsecret = row.userCorpsecret
       that.model.addressCorpsecret = row.addressCorpsecret
-      that.model.paySecret = row.pay_secret
+      that.model.paySecret = row.paySecret
     },
     onAuthorization () {
       this.authorization = true
     },
     onUpdate () {},
     onRelieve () {},
-    onAutid (appid) {
-      this.presentObj.appId = appid
-      this.dialogAutid = true
-      var that = this
-      // 查询小程序可选类目
-      that.$http.fetch(that.$api.guide.sgwxaccount.getAppletCategoryList, that.presentObj).then((resp) => {
-      }).catch((resp) => {
-        that.$notify.error(getErrorMsg('保存失败', resp))
-      })
-      // 查询小程序页面配置
-      that.$http.fetch(that.$api.guide.sgwxaccount.getAppletPageList, that.presentObj).then((resp) => {
-      }).catch((resp) => {
-        that.$notify.error(getErrorMsg('保存失败', resp))
-      })
-    },
-    onPresent () { // 提交审核
-      var that = this
-      that.$http.fetch(that.$api.guide.sgwxaccount.submitTemplateToAudit, that.presentObj).then(() => {
-
-      }).catch((resp) => {
-        that.$notify.error(getErrorMsg('保存失败', resp))
-      })
-    },
-    onPublish (latestStatus) { // 发布小程序
-      var that = this
-      if (latestStatus === 3) {
-        this.$confirm('是否确认发布小程序', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          that.$http.fetch(that.$api.guide.sgwxaccount.templateToRelease, that.obj).then(() => {
-
-          }).catch((resp) => {
-            that.$notify.error(getErrorMsg('保存失败', resp))
-          })
-        })
-      } else if (latestStatus === 1 || latestStatus === 2 || latestStatus === 5) {
-        this.$confirm('小程序版本尚未审核通过', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-
-        })
-      }
-    },
+    // onAutid (appid) {
+    //   this.presentObj.appId = appid
+    //   this.dialogAutid = true
+    //   var that = this
+    //   // 查询小程序可选类目
+    //   that.$http.fetch(that.$api.guide.sgwxaccount.getAppletCategoryList, that.presentObj).then((resp) => {
+    //   }).catch((resp) => {
+    //     that.$notify.error(getErrorMsg('保存失败', resp))
+    //   })
+    //   // 查询小程序页面配置
+    //   that.$http.fetch(that.$api.guide.sgwxaccount.getAppletPageList, that.presentObj).then((resp) => {
+    //   }).catch((resp) => {
+    //     that.$notify.error(getErrorMsg('保存失败', resp))
+    //   })
+    // },
+    // onPresent () { // 提交审核
+    //   var that = this
+    //   that.$http.fetch(that.$api.guide.sgwxaccount.submitTemplateToAudit, that.presentObj).then(() => {
+    //
+    //   }).catch((resp) => {
+    //     that.$notify.error(getErrorMsg('保存失败', resp))
+    //   })
+    // },
+    // onPublish (latestStatus) { // 发布小程序
+    //   var that = this
+    //   if (latestStatus === 3) {
+    //     this.$confirm('是否确认发布小程序', '提示', {
+    //       confirmButtonText: '确定',
+    //       cancelButtonText: '取消',
+    //       type: 'warning'
+    //     }).then(() => {
+    //       that.$http.fetch(that.$api.guide.sgwxaccount.templateToRelease, that.obj).then(() => {
+    //
+    //       }).catch((resp) => {
+    //         that.$notify.error(getErrorMsg('保存失败', resp))
+    //       })
+    //     })
+    //   } else if (latestStatus === 1 || latestStatus === 2 || latestStatus === 5) {
+    //     this.$confirm('小程序版本尚未审核通过', '提示', {
+    //       confirmButtonText: '确定',
+    //       cancelButtonText: '取消',
+    //       type: 'warning'
+    //     }).then(() => {
+    //
+    //     })
+    //   }
+    // },
     onSave () {
       let that = this
       that.shopManager_radio === '1' ? that.model.type = 1 : that.model.type = 0
@@ -252,6 +258,9 @@ export default {
       }).finally(() => {
         tableConfig.loadingtable = false
       })
+    },
+    onClosed () {
+      this.$refs.form.resetFields()
     }
   }
 }

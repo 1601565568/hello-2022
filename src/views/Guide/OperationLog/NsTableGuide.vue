@@ -35,7 +35,7 @@
       <!-- el-form 需添加  @keyup.enter.native="onSearch" 配置，实现回车搜索， onSearch 为搜索方法 -->
       <!-- el-form 需添加  surround-btn 类名 配置环绕按钮效果 -->
       <template slot="advancedSearch">
-        <el-form ref="table_filter_form" :model="model" label-width="80px" :inline="true">
+        <el-form ref="table_filter_form" :model="model" label-width="70px" :inline="true">
 
           <el-form-item label="数据模块：">
             <el-form-grid size="xmd">
@@ -47,17 +47,17 @@
           </el-form-item>
 
            <el-form-item label="数据库ID：">
-            <el-form-grid>
-              <el-input style="width:180px" autofocus=true v-model="model.targetId" placeholder="请输入数据库ID" clearable></el-input>
+            <el-form-grid size="xmd">
+              <el-input autofocus=true v-model="model.targetId" placeholder="请输入数据库ID" clearable></el-input>
             </el-form-grid>
              <el-form-grid><ns-button className="text-tips" type="text" @click="showTargetDetail = true">查询ID</ns-button></el-form-grid>
              <el-form-grid>
-               <el-tooltip content="查询数据模块中需查询数据的数据库ID" placement="right"><Icon type="info-circle" theme="filled" /></el-tooltip>
+               <el-tooltip content="查询数据模块中需查询数据的数据库ID"><Icon type="question-circle" /></el-tooltip>
              </el-form-grid>
           </el-form-item>
 
           <el-form-item label="所属门店：">
-            <el-form-grid>
+            <el-form-grid size="xmd">
               <el-select placeholder="请选择所属门店" v-model="model.shopId" clearable filterable>
                 <el-option v-for="shop in shopFindList" :label="shop.shopName" :value="shop.id"
                            :key="shop.id"></el-option>
@@ -66,7 +66,7 @@
           </el-form-item>
 
           <el-form-item label="操作人：">
-            <el-form-grid>
+            <el-form-grid size="xmd">
               <el-select placeholder="员工" v-model="model.terminalType" @change="terminalTypeChange" clearable filterable>
                 <el-option v-for="shop in operator" :label="shop.label" :value="shop.value" :key="shop.value"></el-option>
               </el-select>
@@ -99,7 +99,7 @@
               </el-date-picker>
             </el-form-grid>
             <el-form-grid>
-              <el-tooltip content="仅支持查询最近36个月内的操作日志" placement="right"><Icon type="info-circle" theme="filled" /></el-tooltip>
+              <el-tooltip content="仅支持查询最近36个月内的操作日志"><Icon type="question-circle" /></el-tooltip>
             </el-form-grid>
           </el-form-item>
 
@@ -129,12 +129,12 @@
         <!-- 操作（只有一项文字的80px,两项文字120px,三项文字160px） -->
 
         <el-table ref="table" :data="_data._table.data" stripe >
-          <el-table-column prop="createTime" label="日志时间" align="left" width="160">
+          <el-table-column prop="createTime" label="日志时间" align="center" width="160">
             <template slot-scope="scope">
               {{scope.row.createTime || '-'}}
             </template>
           </el-table-column>
-          <el-table-column prop="operation" label="操作类型" align="left" width="130">
+          <el-table-column prop="operation" label="操作类型" align="center" width="130">
             <template slot-scope="scope">
               {{scope.row.operation || '-'}}
             </template>
@@ -150,18 +150,18 @@
               {{scope.row.operatorName || '-'}}
             </template>
           </el-table-column>
-          <el-table-column prop="operatorId" label="操作人ID" align="left" width="100">
+          <el-table-column prop="operatorId" label="操作人ID" align="left" width="160">
             <template slot-scope="scope">
               {{scope.row.operatorId || "-"}}
             </template>
           </el-table-column>
 
-          <el-table-column prop="targetId" label="数据库ID" align="center" width="160">
+          <el-table-column prop="targetId" label="数据库ID" align="left" width="160">
             <template slot-scope="scope">
               {{scope.row.targetId || '-'}}
             </template>
           </el-table-column>
-          <el-table-column prop="status" :show-overflow-tooltip="true" label="修改内容" align="right" width="120">
+          <el-table-column prop="status" :show-overflow-tooltip="true" label="修改内容" align="center" width="80">
             <template slot-scope="scope">
               <ns-button style="color:#0091FA" v-if="scope.row.status !== 2" @click="viewDetails(scope.row)" type="text">
                 查看详情
@@ -208,6 +208,9 @@
     <!--查询数据库ID弹窗-->
     <el-dialog  title="查询数据库ID" width="800px" height="605px" :visible.sync="showTargetDetail">
       <target-detail ref="targetDetail" :dataModule = "dataModule" @scopeRowCount="scopeRowCount"></target-detail>
+      <div slot="footer" class="dialog-footer">
+        <ns-button @click="showTargetDetail = false">关闭</ns-button>
+      </div>
     </el-dialog></div>
 </template>
 <script>
@@ -218,4 +221,8 @@ export default guide
   .scope_row_count {
     color: blue;
   }
+  /* 解决搜索和重置按钮那栏的上下间距不一致问题 */
+  >>> .template-table__bar {
+     padding-top: 0;
+   }
 </style>
