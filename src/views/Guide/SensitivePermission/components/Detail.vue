@@ -27,10 +27,11 @@
           </el-form>
         </div>
         <el-tabs v-model="activeName" @tab-click="handleClick">
-          <el-tab-pane :label="`${item.name}(${detailItem[item.key + 'Quantity']})`" :name="'name' + index"
-                       v-for='(item,index) in tableList'
-                       :key='item.name'>
-          </el-tab-pane>
+          <template v-for='(item,index) in tableList'>
+            <el-tab-pane v-if='item.show' :label="`${item.name}(${detailItem[item.key + 'Quantity']})`" :name="index + ''"
+                         :key='item.name'>
+            </el-tab-pane>
+          </template>
         </el-tabs>
         <ns-page-table>
           <template slot="table">

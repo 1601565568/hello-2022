@@ -19,7 +19,7 @@ export default {
   },
   data () {
     return {
-      activeName: 'name0',
+      activeName: '0',
       url: this.$api.guide.sensitivePermission.detailTable,
       sVisible: false,
       showTableIndex: 0,
@@ -402,7 +402,7 @@ export default {
   },
   methods: {
     handleClick (tab) {
-      this.onSwitchTable(tab.index)
+      this.onSwitchTable(Number(tab.name))
     },
     onClose () {
       this.$emit('update:visible', false)
