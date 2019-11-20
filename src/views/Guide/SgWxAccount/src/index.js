@@ -30,8 +30,8 @@ export default {
         corpsecret: null,
         openKey: null,
         openSecret: null,
-        pay_id: null,
-        pay_secret: null,
+        payId: null,
+        paySecret: null,
         type: null,
         from_type: null,
         userCorpsecret: null,
@@ -65,10 +65,12 @@ export default {
         table_buttons: tableButtons
       },
       rules: {
-        'name': [{ required: true, message: '请输入微信名称' }],
-        'appid': [{ required: true, message: '请输入应用ID' }],
-        'userCorpsecret': [{ required: true, message: '请输入外部联系人企业秘钥' }],
-        'addressCorpsecret': [{ required: true, message: '请输入通讯录企业秘钥' }]
+        'name': [{ required: true, message: '请输入微信名称', trigger: ['change', 'blur'] }],
+        'appid': [{ required: true, message: '请输入应用ID', trigger: ['change', 'blur'] }],
+        'userCorpsecret': [{ required: true, message: '请输入外部联系人企业秘钥', trigger: ['change', 'blur'] }],
+        'addressCorpsecret': [{ required: true, message: '请输入通讯录企业秘钥', trigger: ['change', 'blur'] }],
+        corpid: [{ required: true, message: '请输入企业ID', trigger: ['change', 'blur'] }],
+        corpsecret: [{ required: true, message: '请输入企业密钥', trigger: ['change', 'blur'] }]
       },
       memberManagePlan: 1
     }
@@ -141,12 +143,12 @@ export default {
       that.model.corpsecret = row.corpsecret
       that.model.openKey = row.open_key
       that.model.open_secret = row.open_secret
-      that.model.pay_id = row.pay_id
+      that.model.payId = row.payId
       that.model.type = row.type
       that.model.from_type = row.from_type
       that.model.userCorpsecret = row.userCorpsecret
       that.model.addressCorpsecret = row.addressCorpsecret
-      that.model.paySecret = row.pay_secret
+      that.model.paySecret = row.paySecret
     },
     onAuthorization () {
       this.authorization = true
@@ -256,6 +258,9 @@ export default {
       }).finally(() => {
         tableConfig.loadingtable = false
       })
+    },
+    onClosed () {
+      this.$refs.form.resetFields()
     }
   }
 }

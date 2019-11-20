@@ -21,8 +21,8 @@
           </el-table-column>
           <el-table-column label="支付ID" align="center">
             <template slot-scope="{row}">
-              <span v-if="row.pay_id === null">-</span>
-              <span v-else>{{row.pay_id}}</span>
+              <span v-if="row.payId === null">-</span>
+              <span v-else>{{row.payId}}</span>
             </template>
           </el-table-column>
           <el-table-column prop="update_time" label="更新时间" width="160" align="center"></el-table-column>
@@ -56,7 +56,8 @@
     <el-dialog size="small" :title="titleText"
                :visible.sync="dialogFormVisible"
                :modal-append-to-body="false"
-               @before-close="closeDialog()">
+               @before-close="closeDialog()"
+               @closed="onClosed">
       <div  class="dialog-top">
         <el-radio v-model="shopManager_radio" label="1" @change="shopManager">店长</el-radio>
         <el-radio v-model="shoppingGuide_radio" label="1" @change="shoppingGuide">导购</el-radio>
@@ -83,10 +84,10 @@
           <el-input type="text" placeholder="请输入通讯录企业秘钥"  v-model="model.addressCorpsecret"></el-input>
         </el-form-item>
         <el-form-item label="支付ID：" prop="payId">
-          <el-input type="text" placeholder="请输入支付ID" v-model="model.pay_id" ></el-input>
+          <el-input type="text" placeholder="请输入支付ID" v-model="model.payId" ></el-input>
         </el-form-item>
         <el-form-item label="支付密钥：" prop="paySecret">
-          <el-input type="text" placeholder="请输入支付密钥" v-model="model.pay_secret" ></el-input>
+          <el-input type="text" placeholder="请输入支付密钥" v-model="model.paySecret" ></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
