@@ -130,7 +130,7 @@ export default {
       })
     })
     return {
-      srcList: [],  //点击图片列表的任何一张图片，然后显示该图片的大图地址
+      srcList: [], // 点击图片列表的任何一张图片，然后显示该图片的大图地址
       dialogVisible: false,
       dialogVisibleShow: false,
       dialogVisibleReply: false,
@@ -162,10 +162,6 @@ export default {
       content: null, // 回复内容
       wid: null, // 朋友圈id
       url: null,
-      interactionUrl: {
-        url: '/moments/list/interaction/MINE',
-        method: 'post'
-      },
       otherMoment: null,
       otherComment: null,
       interactionTotal: 0,
