@@ -925,7 +925,7 @@ export default {
         guideId: guideId,
         shopIds: shopId
       }).then(resp => {
-        a = resp.result.result.sum
+        a = resp.result.sum
       }).catch((resp) => {
         _this.$notify.error(getErrorMsg('请求失败：', resp))
       })
