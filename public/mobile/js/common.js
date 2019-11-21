@@ -5,7 +5,7 @@ var backstageURL = function (){
   }else if(hostUrl.includes('test-sg.ecrpcloud.com')){
     return 'https://zhsg.ecrpcloud.com/app/guide/zm/guideRecruit'
   } else{
-    return 'https://localhost/app/guide/zm/guideRecruit'
+    return 'http://localhost:80/app/guide/zm/guideRecruit'
   }
 }
 var getRootPath = function () {
@@ -31,7 +31,7 @@ var apiRoot = function (){
   }else if(hostUrl.includes('test-sg.ecrpcloud.com')){
     return 'https://zhsg.ecrpcloud.com/app/'
   } else{
-    return 'https://localhost/app/'
+    return 'http://localhost:80/app/'
   }
 }
 var fetch = function (api, data) {
