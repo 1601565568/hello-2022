@@ -34,8 +34,8 @@
             <!--<Icon type="search" className="el-input__icon" style="padding: 5px;" slot="suffix" moblie="moblie"-->
                   <!--@click="$searchAction$()"/>-->
           </el-input>
-          <ns-button type="primary" @click="$searchAction$()" class="searchbtn" :disabled="searchButton">搜索</ns-button>
-          <ns-button @click="$resetInputAction$()" class="resetbtn" :disabled="restButton">重置</ns-button>
+          <ns-button type="primary" @click="$searchAction$()" class="searchbtn" >搜索</ns-button>
+          <ns-button @click="$resetInputAction$()" class="resetbtn">重置</ns-button>
         </el-form-item>
 
         <el-form-item>
@@ -101,8 +101,8 @@
       </el-form>
 
       <div class="template-table__more-btn">
-        <ns-button type="primary" @click="$searchAction$()" :disabled="searchButton">搜索</ns-button>
-        <ns-button @click="$resetInputAction$()" :disabled="restButton">重置</ns-button>
+        <ns-button type="primary" @click="$searchAction$()">搜索</ns-button>
+        <ns-button @click="$resetInputAction$()">重置</ns-button>
       </div>
     </template>
     <!-- 高级搜索-结束 -->
