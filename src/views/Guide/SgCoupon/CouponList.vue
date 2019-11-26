@@ -89,10 +89,10 @@
       </el-form>
       <div v-if="activityModel.type ==1">
         <!-- 搜索开始 -->
-        <el-form>
+        <el-form @submit.native.prevent>
           <el-form-item label="门店名称：">
             <el-form-grid size="xmd">
-              <el-input type="text" v-model="shopSearch.shopName">
+              <el-input type="text" v-model="shopSearch.shopName" @keyup.enter.native="onSearchShop">
               </el-input>
             </el-form-grid>
             <ns-button type="primary" @click="onSearchShop">搜索</ns-button>
