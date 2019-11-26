@@ -47,7 +47,7 @@ export default {
       multipleSelection: [],
       select: true,
       shopFindList: [],
-      shopFindListLength: [],
+      // url: this.$api.guide.guide.customerFindCustomerList,
       dataList: [],
       allGuideArr: { id: 0, pId: null, label: '全部导购' },
       shuJushuzu: {},
@@ -66,7 +66,6 @@ export default {
   },
   mounted: function () {
     var vm = this
-    vm.initShopList()
     vm.height = window.innerHeight - 120
     // if (typeof vm.$init === 'function') {
     // } else {
@@ -80,6 +79,9 @@ export default {
     this.$refs.elTree.offsetHeight > window.screen.availHeight ? this.offsetHeight = true : this.offsetHeight = false
   },
   computed: {},
+  created: function () {
+    this.initShopList()
+  },
   methods: {
     moment (time) {
       return moment(time).format('YYYY-MM-DD HH:mm:ss')
@@ -98,8 +100,11 @@ export default {
       _this.$reload().then(rep => {
         _this.loading = _this._data._loading
       })
+      // 设置搜索及重置可用
+      this.searchButton = false
+      this.restButton = false
       _this.$http.fetch(_this.$api.guide.shop.findShopGrade,
-        {shopId: _this.offLineShopId}).then(resp => {
+        { shopId: _this.offLineShopId }).then(resp => {
         if (resp.success && resp.result !== null) {
           _this.gradeInfo = resp.result
         }
@@ -142,13 +147,18 @@ export default {
       return false
     },
     initShopList () {
-      var _this = this
-      _this.$http.fetch(_this.$api.guide.guide.customerGetGuideTree).then(resp => {
+      this.$http.fetch(this.$api.guide.guide.customerGetGuideTree).then(resp => {
         if (resp.success && resp.result !== null) {
-          _this.shopFindList = resp.result
+          this.shopFindList = resp.result
+          if (this.shopFindList.length > 0) {
+            this.$nextTick(function () {
+              this.$refs.guideTree.setCurrentKey(this.shopFindList[0].id)
+            })
+            this.onClickNode(this.shopFindList[0])
+          }
         }
       }).catch((resp) => {
-        _this.$notify.error(getErrorMsg('查询失败', resp))
+        this.$notify.error(getErrorMsg('查询失败', resp))
       })
     },
     shopDel (index) {

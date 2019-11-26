@@ -34,7 +34,7 @@
             <!--<Icon type="search" className="el-input__icon" style="padding: 5px;" slot="suffix" moblie="moblie"-->
                   <!--@click="$searchAction$()"/>-->
           </el-input>
-          <ns-button type="primary" @click="$searchAction$()" class="searchbtn">搜索</ns-button>
+          <ns-button type="primary" @click="$searchAction$()" class="searchbtn" >搜索</ns-button>
           <ns-button @click="$resetInputAction$()" class="resetbtn">重置</ns-button>
         </el-form-item>
 
@@ -90,7 +90,6 @@
             v-model="model.time"
             type="datetimerange"
             value-format="yyyy-MM-dd HH:mm:ss"
-            :picker-options="pickerOptions"
             range-separator="至"
             start-placeholder="请选择开始日期"
             end-placeholder="请选择结束日期"
