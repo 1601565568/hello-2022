@@ -31,7 +31,7 @@ var apiRoot = function (){
   }else if(hostUrl.includes('test-sg.ecrpcloud.com')){
     return 'https://zhsg.ecrpcloud.com/app/'
   } else{
-    return 'http://localhost:80/app/'
+    return 'http://localhost/app/'
   }
 }
 var fetch = function (api, data) {
