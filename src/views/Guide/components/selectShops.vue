@@ -104,6 +104,7 @@ export default {
       dialogVisible: false,
       dataList: [],
       multipleSelection: [],
+      selected: [],
       model: {
         shopName: null,
         shopType: null,
@@ -152,6 +153,7 @@ export default {
     },
     searchAction () { // 搜索功能
       this.models.searchMap = this.model
+      this.selected = this.multipleSelection
       this.loadListFun(this.models)
     },
     onAreaChange () { // 城市切换进行赋值
@@ -180,14 +182,29 @@ export default {
           this.tableLoading = false
           this.$nextTick(function () {
             let hasArr = []
-            this.hasShopArr.forEach(hasShopItem => {
-              for (let i = 0; i < this.dataList.length; i++) {
-                if (this.dataList[i].id === hasShopItem) {
-                  hasArr.push(this.dataList[i])
-                  break
+            if (this.selected.length <= 0) {
+              this.selected = this.hasShopArr
+              console.log('123', this.selected)
+              this.selected.forEach(hasShopItem => {
+                for (let i = 0; i < this.dataList.length; i++) {
+                  if (this.dataList[i].id === hasShopItem) {
+                    hasArr.push(this.dataList[i])
+                    break
+                  }
                 }
-              }
-            })
+              })
+            } else {
+              console.log('223', this.selected)
+              this.selected.forEach(hasShopItem => {
+                for (let i = 0; i < this.dataList.length; i++) {
+                  if (this.dataList[i].id === hasShopItem.id) {
+                    hasArr.push(this.dataList[i])
+                    break
+                  }
+                }
+              })
+              this.multipleSelection = this.selected
+            }
             // 回显
             this.toggleSelection(hasArr)
           })
