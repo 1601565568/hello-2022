@@ -135,6 +135,10 @@ export default {
       this.parameter.searchMap = this.model
       this.$queryList$(this.parameter)
     },
+    reset () {
+      this.showOrder = false
+      this.$resetInputAction$()
+    },
     deleteTheGroup (data) { // 树形菜单删除按钮
       this.$http.fetch(this.$api.guide.deleteQuicklyWordGroup, { id: data.id }).then(resp => {
         if (resp.success) {

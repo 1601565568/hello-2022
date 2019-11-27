@@ -40,7 +40,7 @@
               <el-input ref="quickText" style="width: 200px" v-model="model.searchValue" placeholder="请输入关键词/添加人/分类" @keyup.enter.native="$searchAction$()" clearable>
               </el-input>
               <ns-button type="primary" @click="$searchAction$()" class="searchbtn">搜索</ns-button>
-              <ns-button @click="$resetInputAction$()" class="resetbtn">重置</ns-button>
+              <ns-button @click="reset()" class="resetbtn">重置</ns-button>
             </el-form-item>
           </el-form>
         </template>
