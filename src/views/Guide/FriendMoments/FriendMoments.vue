@@ -72,7 +72,7 @@
                 </el-form-grid>
               </el-form-item>
               <el-form-item label="日期：" class="choicedate">
-                <el-form-grid size="xmd">
+                <el-form-grid size="xxmd">
                   <!--                  <el-date-picker-->
                   <!--                    type="date"-->
                   <!--                    placeholder="请选择日期" v-model="model.addTime">-->

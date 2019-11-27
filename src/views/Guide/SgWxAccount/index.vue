@@ -21,8 +21,8 @@
           </el-table-column>
           <el-table-column label="支付ID" align="center">
             <template slot-scope="{row}">
-              <span v-if="row.pay_id === null">-</span>
-              <span v-else>{{row.pay_id}}</span>
+              <span v-if="row.payId === null">-</span>
+              <span v-else>{{row.payId}}</span>
             </template>
           </el-table-column>
           <el-table-column prop="update_time" label="更新时间" width="160" align="center"></el-table-column>
@@ -56,7 +56,8 @@
     <el-dialog size="small" :title="titleText"
                :visible.sync="dialogFormVisible"
                :modal-append-to-body="false"
-               @before-close="closeDialog()">
+               @before-close="closeDialog()"
+               @closed="onClosed">
       <div  class="dialog-top">
         <el-radio v-model="shopManager_radio" label="1" @change="shopManager">店长</el-radio>
         <el-radio v-model="shoppingGuide_radio" label="1" @change="shoppingGuide">导购</el-radio>
@@ -70,23 +71,23 @@
           <el-input v-if="model.from_type === 1" type="text" :disabled='true' placeholder="请输入应用ID" v-model="model.appid" ></el-input>
           <el-input v-else type="text" placeholder="请输入应用ID" v-model="model.appid" ></el-input>
         </el-form-item>
-        <el-form-item label="企业ID：" prop="corpid" required>
+        <el-form-item v-if='memberManagePlan !== 2'  label="企业ID：" prop="corpid" required>
           <el-input type="text" placeholder="请输入企业ID" v-model="model.corpid" ></el-input>
         </el-form-item>
-        <el-form-item label="企业密钥：" prop="corpsecret" required>
+        <el-form-item v-if='memberManagePlan !== 2'  label="企业密钥：" prop="corpsecret" required>
           <el-input type="text" placeholder="请输入企业密钥" v-model="model.corpsecret"></el-input>
         </el-form-item>
-        <el-form-item label="外部联系人企业秘钥：" prop="userCorpsecret" required>
+        <el-form-item v-if='memberManagePlan !== 2'  label="外部联系人企业秘钥：" prop="userCorpsecret" required>
           <el-input type="text" placeholder="请输入外部联系人企业秘钥" v-model="model.userCorpsecret"></el-input>
         </el-form-item>
-        <el-form-item  label="通讯录企业秘钥：" prop="addressCorpsecret" required>
+        <el-form-item v-if='memberManagePlan !== 2' label="通讯录企业秘钥：" prop="addressCorpsecret" required>
           <el-input type="text" placeholder="请输入通讯录企业秘钥"  v-model="model.addressCorpsecret"></el-input>
         </el-form-item>
         <el-form-item label="支付ID：" prop="payId">
-          <el-input type="text" placeholder="请输入支付ID" v-model="model.pay_id" ></el-input>
+          <el-input type="text" placeholder="请输入支付ID" v-model="model.payId" ></el-input>
         </el-form-item>
         <el-form-item label="支付密钥：" prop="paySecret">
-          <el-input type="text" placeholder="请输入支付密钥" v-model="model.pay_secret" ></el-input>
+          <el-input type="text" placeholder="请输入支付密钥" v-model="model.paySecret" ></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">

@@ -82,19 +82,19 @@
 
       <el-table ref="table" :data="_data._table.data" stripe @selection-change="handleSelectionChange">
         <el-table-column type="selection" align="center" :width="50"></el-table-column>
-        <el-table-column prop="work_id" label="工号" align="left" width="88">
+        <el-table-column prop="work_id" label="工号" align="left" min-width="88">
           <template slot-scope="scope">
             {{scope.row.work_id?scope.row.work_id:'-'}}
           </template>
         </el-table-column>
-        <el-table-column prop="name" label="姓名" align="left" width="100" :show-overflow-tooltip="true"></el-table-column>
+        <el-table-column prop="name" label="姓名" align="left" min-width="100" :show-overflow-tooltip="true"></el-table-column>
 <!--        <el-table-column prop="nickname" label="昵称" align="left" width="100" :show-overflow-tooltip="true">-->
 <!--          <template slot-scope="scope">-->
 <!--            {{scope.row.nickname?scope.row.nickname:'-'}}-->
 <!--          </template >-->
 <!--        </el-table-column>-->
-        <el-table-column prop="mobile" label="手机号码" align="left" width="100"></el-table-column>
-        <el-table-column prop="shopName,count" label="所属门店" align="left" :show-overflow-tooltip="true">
+        <el-table-column prop="mobile" label="手机号码" align="left" min-width="100"></el-table-column>
+        <el-table-column prop="shopName,count" min-width="150" label="所属门店" align="left" :show-overflow-tooltip="true">
           <template slot-scope="scope">
             <ns-button style="color:#0091FA" @click="scopeRowCount(scope.row)" v-if="scope.row.count > 1" type="text">{{scope.row.count}}家</ns-button>
             <div v-else>
@@ -114,7 +114,7 @@
           <template slot-scope="scope">{{scope.row.job == 1 ? "店长" : "导购"}}
           </template>
         </el-table-column>
-        <el-table-column prop="" label="导购终端" align="left" :show-overflow-tooltip="true">
+        <el-table-column v-if='memberManagePlan === 2' prop="" label="导购终端" align="left" :show-overflow-tooltip="true" min-width="200">
           <template slot-scope="scope">
             {{scope.row.deviceNos || '-'}}
           </template>

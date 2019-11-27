@@ -97,7 +97,7 @@
           <div class="talk-main__header">
             <div>
               聊天记录 / {{targetList[currTargetIndex].talkerName||targetList[currTargetIndex].talker}}
-              <ns-button v-show="targetList[currTargetIndex].talkerType === 0 && targetList[currTargetIndex].talkerName !== null" type="text primary" @click="dialogVisible = true" class="talk-main__header--btn">
+              <ns-button v-show="targetList[currTargetIndex].talkerType === 0 && targetList[currTargetIndex].talkerName !== null" type="text" @click="dialogVisible = true" class="talk-main__header--btn">
                 查看详情
                 <i class="rightarrow">
                   <Icon type="right" className="text-primary"/>
@@ -122,7 +122,7 @@
                   暂无数据
                 </template>
                 <template v-if="!isChatLoadEnd">
-                  <ns-button type="text primary" @click="loadChatLog(false)" class="talk-main__header--btn">
+                  <ns-button type="primary" @click="loadChatLog(false)" class="talk-main__header--btn">
                     查看更多
                   </ns-button>
                 </template>
@@ -313,10 +313,11 @@ export default index
     }
     @b main {
       @e header {
-        padding: var(--default-padding-larger);
+        height: 41px;
         display: flex;
         align-items: center;
         justify-content: space-between;
+        padding: 0 var(--default-padding-larger);
         border-bottom: 1px solid var(--theme-base-border-color-primary);
         @m btn {
           position: relative;

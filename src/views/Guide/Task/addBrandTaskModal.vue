@@ -251,8 +251,6 @@ export default {
         .then(resp => {
           // 置空已经选择的素材
           this.selectMaterial = {}
-          // 置空已选择门店
-          this.hasShopArr = []
           this.handleClose()
           this.$notify.success(resp.msg)
           // 回调刷新列表
@@ -264,6 +262,8 @@ export default {
       this.loading = false
     },
     handleClose () {
+      // 置空已选择门店
+      this.hasShopArr = []
       this.dialogVisible = false
       this.$refs.form.resetFields()
     }
