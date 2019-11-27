@@ -62,12 +62,14 @@
             if(noData.newImage){
                 $('#guideImg').attr("src", noData.newImage)
             }
+          if(noData.groupImage){
+            $('#groupImage').attr('src',noData.groupImage);
+          }
             $('#guideName').html(noData.newSgGuideName);
             $('#guideName1').html(noData.newSgGuideName);
             $('#memberGrade').html(noData.memberGrade);
             $('#shopName').html(noData.shopName);
             $('#groupName').html(noData.groupName);
-            $('#groupImage').attr("src", noData.groupImage)
             $('#memberCard').html(noData.memberCard.replace(/(.{4})/g,'$1 '));
             $('#guideQrCode').attr('src', noData.guideQrCode)
         }
