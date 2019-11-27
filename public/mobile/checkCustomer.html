@@ -48,16 +48,11 @@
             encryptNascentId: encryptNascentId
         }).then(function (result) {
             if (result.success) {
-                localStorage.setItem('showData', JSON.stringify(result.result))
+                localStorage.setItem('showData', JSON.stringify(result.result));
                 // 根据数据状态跳转不同页面
                 if (result.result.newMember) {
-                    // 调用微信官方开卡界面
-                    // 初始化微信开卡JS-SDK
-                    initWXConfig(function (cardId) {
-                        // 跳转开卡
-                        addCard(cardId,result.result.memberCard,recruitInfo.shopId,recruitInfo.groupId,result.result.outerStr)
-                    })
-
+                  // 调用微信官方开卡界面
+                  forwardWXUrl(recruitInfo.shopId,recruitInfo.groupId,result.result.outerStr)
                 } else {
                     if(result.result.sgGuideId && result.result.sgGuideId > 0){
                         if (result.result.newSgGuideId != result.result.sgGuideId) {
@@ -96,77 +91,12 @@
     }
 
     /**
-     * 初始化微信JS-SDK参数
+     * 跳转微信开卡组件
      */
-    function initWXConfig(back) {
-        var recruitInfo = JSON.parse(localStorage.getItem('recruitInfo'));
-        var address = location.href.split('#')[0]
-        this.ajax(backstageURL() + '/getInitWXConfigParam', {url: address,shopId:recruitInfo.shopId,groupId:recruitInfo.groupId}).then(function (data) {
-            wx.config(data.result.config);
-            if (back) {
-                back(data.result.cardId)
-            }
-        })
-    }
-
-    /**
-     * 跳转会员领卡
-     */
-    function addCard(cardId, memberCard,shopId,groupId,outerStr) {
-        var newCardId = cardId
-        var recruitInfo = JSON.parse(localStorage.getItem('recruitInfo'));
-        this.ajax(backstageURL() + '/getAddCardExtParam', {code: memberCard,shopId:shopId,groupId:groupId,outerStr:outerStr}).then(function (data) {
-            wx.ready(function () {
-                wx.addCard({
-                    cardList: [{
-                        cardId: cardId,
-                        cardExt: JSON.stringify(data.result)
-                    }],
-                    success: function (res) {
-                        //成功后直接关闭页面
-                        wx.closeWindow();
-                        window.close();
-                        // var cardList = res.cardList; // 添加的卡券列表信息
-                        // var guideData = JSON.parse(localStorage.getItem('showData'));
-                        // // 跳转开卡成功页面
-                        // if(guideData.pointAdd || guideData.pointAttention){
-                        //     // 根据不同来源，开卡成功后根据来源跳转不同页面（1关注公众号，2微信加好友）
-                        //     if(recruitInfo.source == 1){
-                        //         window.location.replace("./addFriend/addFriend.html");
-                        //     }else{
-                        //         //
-                        //         window.location.replace("./successfulCardOpening/successfulCardOpening.html");
-                        //     }
-                        // }else{
-                        //     // 跳转不关注公众号，不加好友成功页面
-                        //     window.location.replace("./sameGuide/successNo.html");
-                        // }html
-                    },
-                    fail: function (res) {
-                        wx.closeWindow();
-                        window.close();
-                        // 跳转错误页
-                       // $(".fail").show();
-                       // $('.fail__text').html("领卡失败");
-                    }
-                });
-            })
-        })
-    }
-
-    function getNewCustomerInfo() {
-        var toChangeData = JSON.parse(localStorage.getItem('showData'));
-        var recruitInfo = JSON.parse(localStorage.getItem('recruitInfo'));
-        // 获取会员信息
-        this.ajax(backstageURL() + '/getNewCustomerInfo', {
-            nick: toChangeData.nick,
-            shopId:recruitInfo.shopId,
-            groupId: recruitInfo.groupId,
-        }).then(function (result) {
-            if (result.success) {
-
-            }
-        })
+    function forwardWXUrl(shopId, groupId,outerStr) {
+      this.ajax(backstageURL() + '/getForwardWXUrl', {shopId:shopId,groupId:groupId,outerStr:outerStr}).then(function (data) {
+          window.location.replace(data.result.url)
+      })
     }
 
     function ajax(url, data, params) {
