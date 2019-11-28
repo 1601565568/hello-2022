@@ -5,6 +5,8 @@
  * @returns {string} 异常信息
  */
 export const getErrorMsg = (prefix, error) => {
-  const msg = prefix || ''
-  return msg.concat('：').concat(error && error.msg ? error.msg : '网络异常')
-}
+  const msg = prefix || "";
+  return msg
+    .concat(msg.endsWith("：") || msg.endsWith(":") ? "" : "：")
+    .concat(error && error.msg ? error.msg : "网络异常");
+};
