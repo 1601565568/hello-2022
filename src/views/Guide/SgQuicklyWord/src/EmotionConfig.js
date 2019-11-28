@@ -84,11 +84,11 @@ export default [
     'Meaning': '扮鬼脸',
     'OriginalFile': '/img/expression/17.png'
   },
-  {
-    'ShortCut': '☺',
-    'Meaning': '松口气',
-    'OriginalFile': '/img/expression/18.png'
-  },
+  // {
+  //   'ShortCut': '☺',
+  //   'Meaning': '松口气',
+  //   'OriginalFile': '/img/expression/18.png'
+  // },
   {
     'ShortCut': '🙂',
     'Meaning': '笑脸',
@@ -189,11 +189,11 @@ export default [
     'Meaning': '汗流满面',
     'OriginalFile': '/img/expression/38.png'
   },
-  {
-    'ShortCut': '☹',
-    'Meaning': '皱眉',
-    'OriginalFile': '/img/expression/39.png'
-  },
+  // {
+  //   'ShortCut': '☹',
+  //   'Meaning': '皱眉',
+  //   'OriginalFile': '/img/expression/39.png'
+  // },
   {
     'ShortCut': '🙃',
     'Meaning': '倒脸',

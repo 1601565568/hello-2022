@@ -123,7 +123,9 @@ export default {
       this.InternetMemeShow = !this.InternetMemeShow
     },
     setEmotionWords (list) { // 选中的表情添加按钮
-      this.model.content = this.model.content + list
+      if (this.model.content.length <200) {
+        this.model.content = this.model.content + list
+      }
     },
     onClickNode (data) { // 树节点点击事件
       if (data.id !== null) {
