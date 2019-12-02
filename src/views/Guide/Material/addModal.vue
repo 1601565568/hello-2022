@@ -274,6 +274,9 @@ export default {
       if (this.saveObj.codeModule === '' || this.saveObj.codeModule === null || this.saveObj.codeTarget === '') {
         this.saveObj.codeType = 0
       }
+      if (this.saveObj.codeType === 0 && this.saveObj.codeTarget > 0) {
+        this.saveObj.codeType = 1
+      }
       this.loading = true
       await this.$http
         .fetch(this.$api.guide.materialEdit, this.saveObj)

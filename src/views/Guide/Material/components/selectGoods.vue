@@ -145,10 +145,12 @@ export default {
     },
     // 提交保存
     saveFun () {
-      this.handleClose()
+      this.dialogVisible = false
+      this.$refs.searchform.resetFields()
       this.$props.callBack(this.market)
     },
     handleClose () {
+      this.sysItemId = ''
       this.dialogVisible = false
       this.$refs.searchform.resetFields()
     },
