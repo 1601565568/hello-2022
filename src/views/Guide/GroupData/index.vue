@@ -15,27 +15,29 @@
         <Icon type="search" className="el-input__icon" style="padding: 5px;" slot="suffix" @click="onFilterGroup"/>
       </el-input>
       <div class="elTree">
-        <el-tree
-          class="filter-tree"
-          ref="groupTree"
-          :data="groupList"
-          highlight-current
-          node-key="id"
-          :default-expand-all="false"
-          :expand-on-click-node="false"
-          :default-checked-keys="[0]"
-          :filter-node-method="onFilterGroupNode"
+        <el-scrollbar ref='shopTreeDiv' wrapStyle="overflow-x:hidden;">
+          <el-tree
+            class="filter-tree"
+            ref="groupTree"
+            :data="groupList"
+            highlight-current
+            node-key="id"
+            :default-expand-all="false"
+            :expand-on-click-node="false"
+            :default-checked-keys="[0]"
+            :filter-node-method="onFilterGroupNode"
           @node-click="onClickGroupNode"
-        >
+          >
           <div slot-scope="{ node, data }">
             <el-tooltip :content="(node.label || data.wid) + (data.chatroomname ? '('+data.quantity + ')' : ' / ' + data.quantity)"
                         popper-class="table-body__tooltip" >
-               <div class="treelength">
-                 {{wordLimit((node.label || data.wid) + (data.chatroomname ? '('+data.quantity + ')' : ' / ' + data.quantity))}}
-               </div>
+              <div class="treelength">
+                {{wordLimit((node.label || data.wid) + (data.chatroomname ? '('+data.quantity + ')' : ' / ' + data.quantity))}}
+              </div>
             </el-tooltip>
           </div>
         </el-tree>
+        </el-scrollbar>
       </div>
     </div>
     <div class="template-page__row-right">
@@ -325,5 +327,8 @@ export default Index
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+.el-tree {
+  overflow-x: hidden;
 }
 </style>

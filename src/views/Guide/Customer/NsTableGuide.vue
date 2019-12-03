@@ -5,15 +5,15 @@
             <!--<Icon type="search" className="el-input__icon" style="padding: 5px;" slot="suffix" name="name"-->
                   <!--@click="$quickSearchAction$('name')"/>-->
           </el-input>
-          <div :class="offsetHeight?'elTrees':'elTree'" ref="elTree">
+          <el-scrollbar ref='shopTreeDiv' wrapStyle="overflow-x:hidden;">
             <el-tree class="filter-tree" ref="guideTree" :data="shopFindList" highlight-current
-                  node-key="id" :default-expand-all="false" :expand-on-click-node="false" :default-checked-keys="[0]"
-                  :filter-node-method="onFilterNode" @node-click="onClickNode">
+                     node-key="id" :default-expand-all="false" :expand-on-click-node="false" :default-checked-keys="[0]"
+                     :filter-node-method="onFilterNode" @node-click="onClickNode">
               <div class="subdivision-tree-node" slot-scope="{ node }" >
                 <span>{{node.label}}</span>
               </div>
             </el-tree>
-          </div>
+          </el-scrollbar>
         </div>
         <div  class="template-page__row-right">
         <ns-page-table @add="$emit('add')"  @shopEdit="$emit('shopEdit')" >
@@ -285,5 +285,8 @@ export default NsTableGuide
   overflow:hidden;
   text-overflow:ellipsis;
   white-space:nowrap
+}
+.el-tree {
+  overflow-x: hidden;
 }
 </style>

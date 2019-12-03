@@ -119,10 +119,10 @@
             <div style="text-align: center;margin-top:10px">
               <font size="3">
                 <template v-if="isChatLoadEnd && chatList.length === 0">
-                  暂无数据
+                  <ns-no-data size="full">{{$t('prompt.noData')}}</ns-no-data>
                 </template>
                 <template v-if="!isChatLoadEnd">
-                  <ns-button type="primary" @click="loadChatLog(false)" class="talk-main__header--btn">
+                  <ns-button type="primary" @click="loadChatLog(false)" class="talk-main__header--btn" style="margin-bottom: 10px;">
                     查看更多
                   </ns-button>
                 </template>
