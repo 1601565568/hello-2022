@@ -99,7 +99,11 @@ export default {
       _this.loading = true
       _this.$reload().then(rep => {
         _this.loading = _this._data._loading
-        data.label = data.label + '(' + _this._data._pagination.total + ')'
+        var showLabel = data.label
+        if (showLabel.indexOf('(') !== -1) {
+          showLabel = showLabel.substring(0, showLabel.indexOf('('))
+        }
+        data.label = showLabel + '(' + _this._data._pagination.total + ')'
       })
       // 设置搜索及重置可用
       this.searchButton = false
