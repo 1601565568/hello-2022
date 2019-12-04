@@ -19,8 +19,6 @@
                 :clearable="false"
                 :editable="false"
                 style="width: 225px"/>
-              <ns-button type="primary" @click="search()" :disabled="btnSearchDisabled" class="searchbtn">搜索</ns-button>
-              <ns-button @click="reset()" class="resetbtn">重置</ns-button>
             </el-form-item>
             <el-form-item>
               <ns-button type="text" @click="$handleTabClick">
