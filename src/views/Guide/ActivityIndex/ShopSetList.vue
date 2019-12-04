@@ -47,10 +47,6 @@
                   <el-input v-model="searchform.shopName" placeholder="请输入门店名称" clearable @keyup.enter.native="submitForm('searchform')"></el-input>
                 </el-form-grid>
               </el-form-item>
-              <el-form-item>
-                <ns-button type="primary" @click="submitForm('searchform1')">搜索</ns-button>
-                <ns-button @click="resetForm('searchform1')" class="resetbtn">重置</ns-button>
-              </el-form-item>
             </el-form>
         </el-col>
       </el-row>
@@ -327,8 +323,5 @@ export default {
   }
   .mt10 {
     margin-top: var(--default-margin-larger);
-  }
-  .resetbtn {
-    margin-left: var(--default-margin-larger);
   }
 </style>

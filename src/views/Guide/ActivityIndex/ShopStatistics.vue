@@ -52,10 +52,6 @@
               <el-form-item label="门店名称：" prop="shopName">
                 <el-input v-model="searchform.shopName" placeholder="请输入门店名称" @keyup.enter.native="submitForm('searchform')" clearable></el-input>
               </el-form-item>
-              <el-form-item>
-                <ns-button type="primary" @click="submitForm('searchform')" class="searchbtn">搜索</ns-button>
-                <ns-button @click="resetForm('searchform')" class="resetbtn">重置</ns-button>
-              </el-form-item>
             </el-form>
         </el-col>
       </el-row>
@@ -266,7 +262,7 @@
         </el-form>
         <!-- 高级搜索-结束 -->
         <div style="overflow-x:hidden;overflow-y:auto;">
-          <el-table :data="detailData">
+          <el-table :data="detailData" stripe>
             <el-table-column prop="guideName" label="导购"></el-table-column>
             <el-table-column prop="name" label="会员"></el-table-column>
             <el-table-column prop="name" label="昵称"></el-table-column>
@@ -619,11 +615,5 @@ export default {
   }
   .mt10 {
     margin-top: var(--default-margin-larger);
-  }
-  .searchbtn {
-    margin-left: var(--default-margin-base);
-  }
-  .resetbtn {
-    margin-left: 9px;
   }
 </style>

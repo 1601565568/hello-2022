@@ -48,8 +48,6 @@
                 <el-input ref="quickText" style="width: 250px" name="name" v-model="model.name" placeholder="搜索敏感词"
                           @keyup.enter.native="$searchAction$()" clearable>
                 </el-input>
-                <ns-button type="primary" @click="$searchAction$()" class="searchbtn">搜索</ns-button>
-                <ns-button @click="$resetInputAction$()" class="ml10">重置</ns-button>
               </el-form-grid>
             </el-form-item>
           </el-form>
@@ -313,9 +311,6 @@ export default index
   .questioncircle {
     position: relative;
     left: -6px;
-  }
-  .searchbtn {
-    margin-left: 11px;
   }
   .plusicon {
     font-size: 14px;

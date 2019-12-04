@@ -23,7 +23,7 @@
       </el-tooltip>
     </div>
     <el-row class="statistics" :gutter="5" style='height:254px'>
-      <el-col :span="11" class='flex flex-around ptb58' style='height:254px;border-right:1px solid #f2f2f2'>
+      <el-col :span="11" class='flex flex-around ptb58' style='height:254px;border-right:1px solid #dcdfe6;'>
         <div class="statistics-pic statistics-total flex flex-center">
           <div class="round"></div>
           <div class="text-white fz18" style='opacity:0.9'>任务总数</div>
@@ -1441,7 +1441,7 @@ export default {
     }
   }
   .statistics{
-    border-top: 1px solid #f2f2f2
+    border-top: 1px solid var(--theme-base-border-color-primary);
   }
   .statistics-pic{
     width: 220px;

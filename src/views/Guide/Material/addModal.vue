@@ -74,7 +74,7 @@
               <el-radio :label="2">单独增加一张小程序码图
               </el-radio>
             </el-radio-group>
-            <p style='line-height:1.5;margin-top:10px' class="text-primary">
+            <p style='line-height:1.5;' class="text-primary">
               <Icon type="info-circle"/>
               <span>将在图片中加入带导购参数的小程序码，需门店里有对应信息的才会显示</span>
             </p>

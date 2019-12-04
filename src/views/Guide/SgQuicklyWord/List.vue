@@ -39,8 +39,6 @@
             <el-form-item label="关键词/添加人/分类：">
               <el-input ref="quickText" style="width: 200px" v-model="model.searchValue" placeholder="请输入关键词/添加人/分类" @keyup.enter.native="$searchAction$()" clearable>
               </el-input>
-              <ns-button type="primary" @click="$searchAction$()" class="searchbtn">搜索</ns-button>
-              <ns-button @click="reset()" class="resetbtn">重置</ns-button>
             </el-form-item>
           </el-form>
         </template>
@@ -55,11 +53,11 @@
             :element-loading-text="$t('prompt.loading')" @sort-change="$orderChange$">
             <el-table-column type="selection" align="center" :width="50"></el-table-column>
             <el-table-column prop="keyWord" class-name="keyword" width="130" :show-overflow-tooltip="true" label="关键词" align="left"></el-table-column>
-            <el-table-column prop="content" label="话术内容" width="228" :show-overflow-tooltip="true" align="left"></el-table-column>
+            <el-table-column prop="content" label="话术内容" :show-overflow-tooltip="true" align="left"></el-table-column>
             <el-table-column prop="name" label="分类" align="left"></el-table-column>
             <el-table-column prop="createTime" label="添加时间" align="center"></el-table-column>
             <el-table-column align="left" v-if="showOrder">
-              <template slot="header" slot-scope="scope">
+              <template slot="header">
                 排序
                 <el-tooltip content="调整排列顺序小程序同步">
                   <Icon type="question-circle"/>
@@ -342,10 +340,4 @@ export default List
       display: block;
     }
   }
- .searchbtn {
-   margin-left: 11px;
- }
- .resetbtn {
-   margin-left: var(--default-margin-larger);
- }
 </style>

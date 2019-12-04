@@ -17,8 +17,6 @@
             <!--<Icon type="search" className="el-input__icon" style="padding: 5px;" slot="suffix" name="name"-->
                   <!--@click="$quickSearchAction$('transName')"/>-->
           </el-input>
-          <ns-button type="primary" @click="$searchAction$()" class="searchbtn">搜索</ns-button>
-          <ns-button @click="$resetInputAction$()" class="resetbtn">重置</ns-button>
         </el-form-item>
 
         <el-form-item>
@@ -243,10 +241,4 @@ export default NsTableSgCustomer
   @import "@theme/variables.pcss";
 
  .w80{width: 76px;text-align: right; display: inline-block;}
-  .searchbtn {
-    margin-left: 11px;
-  }
-  .resetbtn {
-    margin-left: var(--default-margin-larger);
-  }
 </style>

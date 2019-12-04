@@ -23,11 +23,6 @@
             <el-form-item label="素材内容：" prop="content">
               <el-input v-model="searchform.content" placeholder="请输入素材内容"  @keyup.enter.native="submitForm('searchform')" clearable></el-input>
             </el-form-item>
-
-            <el-form-item>
-              <ns-button type="primary" @click="submitForm('searchform')" class="searchbtn">搜索</ns-button>
-              <ns-button @click="resetForm('searchform')" class="resetbtn">重置</ns-button>
-            </el-form-item>
           </el-form>
         </el-col>
       </el-row>
@@ -419,11 +414,5 @@ export default {
   @import "@theme/variables.pcss";
   .mt10{
     border-radius: var(--default-radius-mini) var(--default-radius-mini) 0 0 !important
-  }
-  .searchbtn {
-    margin-left: var(--default-margin-base);
-  }
-  .resetbtn {
-    margin-left: 9px;
   }
 </style>
