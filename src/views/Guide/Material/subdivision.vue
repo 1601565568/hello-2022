@@ -76,7 +76,7 @@
         </template>
       </el-table-column>
       <el-table-column  width="200"  align="center">
-        <template slot="header" slot-scope="scope">
+        <template slot="header">
           排序
           <el-tooltip content="调整分类的排列顺序">
             <Icon type="question-circle"/>
@@ -320,4 +320,3 @@ export default {
 
   }
 </style>
-

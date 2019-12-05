@@ -46,13 +46,11 @@
 
 <script>
 import ElUpload from '@nascent/nui/lib/upload'
-import ElCard from '@nascent/nui/lib/card'
 import ElButton from '@nascent/nui/lib/button'
 
 export default {
   components: {
     ElUpload,
-    ElCard,
     ElButton
   },
   data () {
@@ -183,9 +181,6 @@ export default {
   background-color: var(--theme-color-white);
   border-bottom-left-radius: var(--default-radius-mini);
   border-bottom-right-radius: var(--default-radius-mini);
-}
->>> .el-card {
-  border-bottom: none;
 }
 .company-example >>> .el-button {
   padding: 0;

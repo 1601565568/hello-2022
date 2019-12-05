@@ -66,7 +66,7 @@
               <template slot-scope="scope">
                 <span @click="clickCount(scope.row,0)" style="cursor:pointer;"><font color="#409EFF">{{scope.row.guideCount}}</font></span>
               </template>
-              <template slot="header" scope="header">
+              <template slot="header">
                 <span>
                   <span>导购发送次数</span>
                   <el-tooltip content="敏感词在导购所发送的消息中出现的次数">
@@ -81,7 +81,7 @@
                   <font color="#409EFF">{{scope.row.customerCount}}</font>
                 </span>
               </template>
-              <template slot="header" scope="header">
+              <template slot="header">
                 <span>
                   <span>会员发送次数</span>
                   <el-tooltip content="敏感词在会员所发送的消息中出现的次数">
