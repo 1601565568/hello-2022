@@ -22,6 +22,10 @@
               <el-form-item label="分组名称：" prop="subdivision_name">
                 <el-input v-model="searchform.subdivision_name" placeholder="请输入分组名称" @keyup.enter.native="submitForm('searchform')" clearable></el-input>
               </el-form-item>
+              <el-form-item>
+                <ns-button type="primary" @click="submitForm('searchform')" class="searchbtn">搜索</ns-button>
+                <ns-button @click="resetForm('searchform')" class="resetbtn">重置</ns-button>
+              </el-form-item>
             </el-form>
         </el-col>
       </el-row>
@@ -301,6 +305,12 @@ export default {
     font-size: var(--default-font-size-base);
     color: var(--theme-color-primary);
     cursor: pointer;
+  }
+  .searchbtn {
+    margin-left: var(--default-margin-base);
+  }
+  .resetbtn {
+    margin-left: 11px;
   }
 </style>
 <style scoped>
