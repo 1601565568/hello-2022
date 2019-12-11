@@ -18,6 +18,8 @@
           <el-input ref="quickText" style="width: 180px" v-model="model.name" placeholder="请输入工号/姓名/昵称/手机号" @keyup.enter.native="$quickSearchAction$('name')" clearable>
 <!--             <Icon type="search" className="el-input__icon" style="padding: 5px;" slot="suffix" name="name" @click="$quickSearchAction$('name')"/>-->
           </el-input>
+          <ns-button type="primary" @click="$searchAction$()" class="searchbtn">搜索</ns-button>
+          <ns-button @click="$resetInputAction$()" class="resetbtn">重置</ns-button>
         </el-form-item>
         <el-form-item>
           <ns-button type="text" @click="$handleTabClick">
@@ -208,5 +210,11 @@ export default guide
   }
   >>> .el-dropdown-link {
     margin-left: 5px !important;
+  }
+  .searchbtn {
+    margin-left: 11px;
+  }
+  .resetbtn {
+    margin-left: var(--default-margin-larger);
   }
 </style>

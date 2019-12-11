@@ -17,6 +17,8 @@
             <!--<Icon type="search" className="el-input__icon" style="padding: 5px;" slot="suffix" name="name"-->
                   <!--@click="$quickSearchAction$('couponTitle')"/>-->
           </el-input>
+          <ns-button type="primary" @click="$searchAction$()" class="searchbtn">搜索</ns-button>
+          <ns-button @click="$resetInputAction$()" class="resetbtn">重置</ns-button>
         </el-form-item>
         <el-form-item>
           <ns-button type="text" @click="$handleTabClick">
@@ -201,5 +203,11 @@ export default NsTableSgCoupon
     text-align: right;
     width: 76px;
     display: inline-block;
+  }
+  .searchbtn {
+    margin-left: 11px;
+  }
+  .resetbtn {
+    margin-left: var(--default-margin-larger);
   }
 </style>

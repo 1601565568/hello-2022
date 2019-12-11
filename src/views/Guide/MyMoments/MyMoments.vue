@@ -409,6 +409,9 @@ export default Moments
       position: relative;
       padding: var(--default-padding-larger) var(--default-padding-xlarger) var(--default-padding-larger) 0;
       border-bottom: 1px solid var(--theme-base-border-color-primary);
+      &:last-child {
+        border-bottom: none;
+      }
       @e avatar {
         width: 52px;
         height: 52px;

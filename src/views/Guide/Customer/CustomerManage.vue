@@ -354,7 +354,7 @@
                   <el-form-grid size="xxlg">
                     {{rfmInfo.lastSuccessTime}}
                     <el-tooltip content="最近一笔交易成功时间">
-                      <i :class="rfmInfo.lastSuccessTime == '' ? 'questioncircle' : ''"><Icon type="question-circle"/></i>
+                      <i class="questioncircle"><Icon type="question-circle"/></i>
                     </el-tooltip>
                   </el-form-grid>
                   <el-form-grid size="xmd" class="dialog-checkbtn">

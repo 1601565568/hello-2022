@@ -52,7 +52,7 @@
                       {{item.formatContent ? item.formatContent(scope.row) : defaultContent(scope.row,item,tableList[showTableIndex])}}
                     </span>
                   </template>
-                  <template slot='header' scope='header'>
+                  <template slot='header'>
                     <span>
                       <span>{{item.name}}</span>
                       <el-tooltip v-if='item.header' :content='item.header'>

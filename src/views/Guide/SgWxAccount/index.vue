@@ -58,10 +58,6 @@
                :modal-append-to-body="false"
                @before-close="closeDialog()"
                @closed="onClosed">
-<!--      <div  class="dialog-top">-->
-<!--        <el-radio v-model="shopManager_radio" label="1" @change="shopManager">店长</el-radio>-->
-<!--        <el-radio v-model="shoppingGuide_radio" label="1" @change="shoppingGuide">导购</el-radio>-->
-<!--      </div>-->
       <el-form :model="model" ref="form" label-width="100px" :rules="rules" placement="right">
         <el-form-item>
           <el-radio v-model="shopManager_radio" label="1" @change="shopManager">店长</el-radio>
@@ -226,9 +222,6 @@ export default index
   display: flex;
   justify-items:inherit;
   align-items:center;
-}
-.dialog-top{
-  padding:10px 0 10px 78px;
 }
 .dialog_mian_logo .shoplogo{
   margin-right:5px;

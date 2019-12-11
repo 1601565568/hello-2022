@@ -20,24 +20,25 @@ export default {
         'name': '授权'
       }
     ]
+    const originModel = {
+      id: null,
+      name: null,
+      appid: null,
+      secret: null,
+      corpid: null,
+      corpsecret: null,
+      openKey: null,
+      openSecret: null,
+      payId: null,
+      paySecret: null,
+      type: null,
+      from_type: null,
+      userCorpsecret: null,
+      addressCorpsecret: null,
+      param: {}
+    }
     return {
-      model: {
-        id: null,
-        name: null,
-        appid: null,
-        secret: null,
-        corpid: null,
-        corpsecret: null,
-        openKey: null,
-        openSecret: null,
-        payId: null,
-        paySecret: null,
-        type: null,
-        from_type: null,
-        userCorpsecret: null,
-        addressCorpsecret: null,
-        param: {}
-      },
+      model: JSON.parse(JSON.stringify(originModel)),
       obj: {
         appId: null
       },
@@ -72,7 +73,8 @@ export default {
         corpid: [{ required: true, message: '请输入企业ID', trigger: ['change', 'blur'] }],
         corpsecret: [{ required: true, message: '请输入企业密钥', trigger: ['change', 'blur'] }]
       },
-      memberManagePlan: 1
+      memberManagePlan: 1,
+      authChange: false
     }
   },
   mounted: function () {
@@ -212,7 +214,7 @@ export default {
             that.dialogFormVisible = false
             that.newestDialog = false
             that.$notify.success('保存成功')
-            that.$reload()
+            this.authChange = true
           }).catch((resp) => {
             that.$notify.error(getErrorMsg('保存失败', resp))
           })
@@ -260,7 +262,13 @@ export default {
       })
     },
     onClosed () {
+      this.model = JSON.parse(JSON.stringify(this.originModel))
       this.$refs.form.resetFields()
+
+      if (this.authChange) {
+        this.$reload()
+        this.authChange = false
+      }
     }
   }
 }

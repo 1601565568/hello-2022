@@ -34,6 +34,8 @@
             <!--<Icon type="search" className="el-input__icon" style="padding: 5px;" slot="suffix" moblie="moblie"-->
                   <!--@click="$searchAction$()"/>-->
           </el-input>
+          <ns-button type="primary" @click="$searchAction$()" class="searchbtn" >搜索</ns-button>
+          <ns-button @click="$resetInputAction$()" class="resetbtn">重置</ns-button>
         </el-form-item>
 
         <el-form-item>
@@ -250,6 +252,12 @@ export default NsTableGuide
     font-weight: normal;
     padding-left: var(--default-padding-base);
     cursor: pointer;
+  }
+  .searchbtn {
+    margin-left: 11px;
+  }
+  .resetbtn {
+    margin-left: var(--default-margin-larger);
   }
 </style>
 <style scoped>
