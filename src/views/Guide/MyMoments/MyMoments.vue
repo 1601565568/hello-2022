@@ -164,11 +164,19 @@
                     </div>
                     <div class="talk-time">{{moment.snsTime}}</div>
                     <div class="talk-interactive">
-                      <span class="talk-interactive__like">
+                      <span class="talk-interactive__like text-primary" v-if="moment.likesNum>0">
                         <i @click="like(moment)"><Icon type="heart" className="talk-heart"/></i>
                         {{moment.likesNum}}
                       </span>
-                      <span class="talk-interactive__comment">
+                      <span class="talk-interactive__like" v-else>
+                        <i @click="like(moment)"><Icon type="heart" className="talk-heart"/></i>
+                        {{moment.likesNum}}
+                      </span>
+                      <span class="talk-interactive__comment text-primary" v-if="moment.commentsNum>0">
+                        <i @click="replyComment(moment)"><Icon type="pinglun" className="talk-commentary"/></i>
+                        {{moment.commentsNum}}
+                      </span>
+                      <span class="talk-interactive__comment" v-else>
                         <i @click="replyComment(moment)"><Icon type="pinglun" className="talk-commentary"/></i>
                         {{moment.commentsNum}}
                       </span>
