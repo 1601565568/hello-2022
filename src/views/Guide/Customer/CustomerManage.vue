@@ -835,7 +835,7 @@
             <el-row>
               <el-col :span="8">
                 <el-form-grid>
-                  <ns-button @click="restTag">清空选择</ns-button>
+                  <ns-button @click="restTag(false)">清空选择</ns-button>
                 </el-form-grid>
               </el-col>
               <!-- 4.0版本搜索功能未完成，4.1版本后再添加 20190917 -->
@@ -856,12 +856,12 @@
             <template slot-scope="scope">
               <div style="padding: 5px 0;">
                 <!--输入框-->
-                <el-input v-model="scope.row.value"
+                <el-input v-model="scope.row.selectValue"
                           placeholder="请输入内容"
                           autosize size="small"
                           v-if="scope.row.tagType === 1 || scope.row.tagType === 2 || scope.row.tagType === 3" @change="addText(scope.row)" clearable></el-input>
                 <!--下拉选-->
-                <el-select v-model="scope.row.tagArr"  placeholder="请选择" v-else-if="scope.row.tagType === 4" clearable @change="addSelect(scope.row)">
+                <el-select v-model="scope.row.selectValue"  placeholder="请选择" v-else-if="scope.row.tagType === 4" clearable @change="addSelect(scope.row)">
                   <el-option
                     v-for="item in scope.row.value.split('|')" :key="item" :label="item"
                     :value="item" >
@@ -869,20 +869,20 @@
                 </el-select>
                 <!--日期-->
                 <el-date-picker
-                  v-model="scope.row.value"
+                  v-model="scope.row.selectValue"
                   type="date"
                   value-format="yyyy-MM-dd" placeholder="请选择日期"
                    v-else-if="scope.row.tagType===5" @change="addDate(scope.row)" >
                 </el-date-picker>
                 <!--单选框-->
-                <el-radio-group v-model="scope.row.tagArr" v-else-if="scope.row.tagType === 6" >
+                <el-radio-group v-model="scope.row.selectValue" v-else-if="scope.row.tagType === 6" >
                   <el-radio v-for="item1 in scope.row.value.split('|')" :label="item1" :key="item1"
                             @change="addRadio(scope.row,item1)">{{item1}}</el-radio>
                 </el-radio-group>
                 <!-- 复选框 -->
-                <el-checkbox-group v-model="checkboxObject[scope.row.id]" v-else-if="scope.row.tagType === 7"  >
-                  <el-checkbox v-for="item in scope.row.value.split('|')" :label="item" :key="item"
-                               @change="addCheckbox(scope.row,item)">{{item}}</el-checkbox>
+                <el-checkbox-group v-model="scope.row.selectValue" v-else-if="scope.row.tagType === 7"  >
+                  <el-checkbox v-for="item2 in scope.row.value.split('|')" :label="item2" :key="item2"
+                               @change="addCheckbox(scope.row,item2)">{{item2}}</el-checkbox>
                 </el-checkbox-group>
               </div>
             </template>
@@ -890,7 +890,7 @@
         </el-table>
       </div>
       <span slot="footer" class="dialog-footer">
-        <ns-button @click="closeTag">取 消</ns-button>
+        <ns-button @click="restTag(true)">取 消</ns-button>
         <ns-button type="primary" @click="saveTag">保存</ns-button>
       </span>
     </el-dialog>
