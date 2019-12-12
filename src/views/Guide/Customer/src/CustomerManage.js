@@ -52,6 +52,7 @@ export default {
       pageChange: true, // 当前页数
       guideId: null, //  当前导购的id
       shopId: null,
+      offLineShopId: 0,
       successCount: null,
       failCount: null,
       receiveGuideId: null, //  接收的导购id
@@ -433,52 +434,58 @@ export default {
     showTagData (row, offLineShopId) {
       this.showTag = true
       this.sysCustomerId = row.sysCustomerId
+      this.offLineShopId = offLineShopId
       this.$http.fetch(this.$api.guide.guide.queryAllTag, {
         'shopId': row.sgExclusiveShopId !== 0 ? row.sgExclusiveShopId : offLineShopId,
         'sysCustomerId': row.sysCustomerId
       }).then(resp => {
         if (resp.success && resp.result != null) {
-          this.tagData = resp.result.sort()
+          this.tagData = resp.result
           for (let i = 0; i < this.tagData.length; i++) {
             let tag = this.tagData[i]
-            if (tag.value.length > 0) {
+            if (tag.value && tag.value.length > 0) {
               let tagInfo = {}
               tagInfo.id = tag.id
               tagInfo.value = tag.value
-              this.mapTag.push(tagInfo)
+              if (tag.tagType !== 7) {
+                this.mapTag.push(tagInfo)
+              }
               this.attribute += 1
               // 0表示文本框，1表示下拉选择，2表示日期 ， 3 : 单选框 4 ： 复选框
+              // 新：1：字符文本框 2：数字文本框 3：小数文本框 4:  选择框 5：日期框 6：单选框 7：复选框',
               switch (tag.tagType) {
-                case 0:
+                case 1:
+                case 2:
+                case 3:
                   this.textIds.push(tag.id)
                   this.attributeValue += 1
                   break
-                case 1:
+                case 4:
                   this.selectIds.push(tag.id)
                   this.attributeValue += 1
                   break
-                case 2:
+                case 5:
                   this.dateIds.push(tag.id)
                   this.attributeValue += 1
                   break
-                case 3:
+                case 6:
                   this.radioIds.push(tag.id)
                   this.attributeValue += 1
                   break
-                case 4:
+                case 7:
                   let valueArr = tag.value.split('|')
                   let num = valueArr.length
                   this.attributeValue += (num - 2)
                   this.checkboxIds.push(tag.id)
                   // 深入响应式原理，this.checkboxObject[idName] = valueArr 该赋值方法不可用
-                  this.$set(this.checkboxObject, tag.id, valueArr)
+                  this.$set(this.checkboxObject, tag.id, [])
                   break
                 default:
                   break
               }
             } else {
               switch (tag.tagType) {
-                case 4:
+                case 7:
                   this.$set(this.checkboxObject, tag.id, [])
                   break
                 default:
@@ -626,7 +633,7 @@ export default {
             // 如果参数中已经存在已选择的值则去除
             if (check.value.indexOf(item) > -1) {
               // 判断已选择值是否包含新值
-              check.value = check.value.replace(item + '|', '') // 去除值
+              check.value = check.value.replace(item, '') // 去除值
               this.attributeValue -= 1
               if (check.value.length === 1) { // 假如只剩下"|" 删除该值
                 this.mapTag.splice(i, 1)
@@ -694,6 +701,7 @@ export default {
       }
       this.$http.fetch(this.$api.guide.guide.saveTag, {
         'sysCustomerId': this.sysCustomerId,
+        'shopId': this.offLineShopId,
         'tagList': JSON.stringify(this.mapTag)
       }).then(resp => {
         if (resp.success && resp.result != null) {
