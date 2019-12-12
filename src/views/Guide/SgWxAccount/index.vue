@@ -13,7 +13,7 @@
                   :element-loading-text="$t('prompt.loading')" @sort-change="$orderChange$">
           <el-table-column prop="name" label="微信名称"></el-table-column>
           <el-table-column prop="appid" label="应用ID" align="center"></el-table-column>
-          <el-table-column label="企业ID" align="center">
+          <el-table-column v-if='memberManagePlan !== 2' label="企业ID" align="center">
             <template slot-scope="{row}">
               <span v-if="row.corpid === null">-</span>
               <span v-else>{{row.corpid}}</span>
@@ -56,9 +56,8 @@
     <el-dialog size="small" :title="titleText"
                :visible.sync="dialogFormVisible"
                :modal-append-to-body="false"
-               @before-close="closeDialog()"
                @closed="onClosed">
-      <el-form :model="model" ref="form" label-width="100px" :rules="rules" placement="right">
+      <el-form :model="model" ref="form" label-width="130px" :rules="rules" placement="right">
         <el-form-item>
           <el-radio v-model="shopManager_radio" label="1" @change="shopManager">店长</el-radio>
           <el-radio v-model="shoppingGuide_radio" label="1" @change="shoppingGuide">导购</el-radio>
@@ -79,6 +78,12 @@
         </el-form-item>
         <el-form-item v-if='memberManagePlan !== 2'  label="外部联系人企业秘钥：" prop="userCorpsecret" required>
           <el-input type="text" placeholder="请输入外部联系人企业秘钥" v-model="model.userCorpsecret"></el-input>
+        </el-form-item>
+        <el-form-item v-if='memberManagePlan !== 2'  label="外部联系人TOKEN：" prop="userToken" required>
+          <el-input type="text" placeholder="请输入外部联系人TOKEN" v-model="model.userToken"></el-input>
+        </el-form-item>
+        <el-form-item v-if='memberManagePlan !== 2'  label="外部联系人AESKEY：" prop="userAeskey" required>
+          <el-input type="text" placeholder="请输入外部联系人AESKEY" v-model="model.userAeskey"></el-input>
         </el-form-item>
         <el-form-item v-if='memberManagePlan !== 2' label="通讯录企业秘钥：" prop="addressCorpsecret" required>
           <el-input type="text" placeholder="请输入通讯录企业秘钥"  v-model="model.addressCorpsecret"></el-input>
