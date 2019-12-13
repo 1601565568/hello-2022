@@ -825,7 +825,7 @@
     <el-dialog
       title="自定义属性" response-limit :show-scroll-x=false
       :visible.sync="showTag"
-      width="900px" @close="closeTag">
+      width="900px" @close="restTag(true)">
       <div>
         <el-form>
           <el-form-item>

@@ -500,8 +500,6 @@ export default {
               }
             }
           }
-          console.log('数据：' + JSON.stringify(this.mapTag))
-          console.log('数据this.tagData：' + JSON.stringify(this.tagData))
         }
       }).catch((resp) => {
         this.$notify.error(getErrorMsg('查询失败', resp))
@@ -679,7 +677,6 @@ export default {
       }
     },
     saveTag () { // 保存标签
-      debugger
       for (let i = 0; i < this.mapTag.length; i++) {
         if (this.mapTag[i].value && this.mapTag[i].tagType === 7) {
           this.mapTag[i].value = this.mapTag[i].value.join('|')
@@ -700,9 +697,7 @@ export default {
       })
     },
     // 清空标签
-    restTag (close) {
-      debugger
-      console.log('清空：' + this.isClear)
+    restTag (closePopup) {
       for (let i = 0; i < this.tagData.length; i++) {
         if (this.tagData[i].tagType === 7) {
           this.$set(this.tagData[i], 'selectValue', [])
@@ -723,13 +718,12 @@ export default {
       this.checkboxIds = []
       this.attribute = 0
       this.attributeValue = 0
-      if (close) {
+      if (closePopup) {
         this.mapTag = []
         if (this.showTag) {
           this.showTag = false
         }
       }
-      console.log('mapTag:' + JSON.stringify(this.mapTag))
     },
     // 更换导购
     onSave () {
