@@ -64,35 +64,35 @@
         </el-form-item>
         <el-form-item label="微信名称：" prop="name" required>
           <el-input v-if="model.from_type === 1" type="text" :disabled='true' placeholder="请输入微信名称" v-model="model.name" ></el-input>
-          <el-input v-else type="text" placeholder="请输入微信名称" v-model="model.name" ></el-input>
+          <el-input v-else type="text" placeholder="请输入微信名称" v-model.trim="model.name" ></el-input>
         </el-form-item>
         <el-form-item label="应用ID：" prop="appid" required>
           <el-input v-if="model.from_type === 1" type="text" :disabled='true' placeholder="请输入应用ID" v-model="model.appid" ></el-input>
-          <el-input v-else type="text" placeholder="请输入应用ID" v-model="model.appid" ></el-input>
+          <el-input v-else type="text" placeholder="请输入应用ID" v-model.trim="model.appid" ></el-input>
         </el-form-item>
         <el-form-item v-if='memberManagePlan !== 2'  label="企业ID：" prop="corpid" required>
-          <el-input type="text" placeholder="请输入企业ID" v-model="model.corpid" ></el-input>
+          <el-input type="text" placeholder="请输入企业ID" v-model.trim="model.corpid" ></el-input>
         </el-form-item>
         <el-form-item v-if='memberManagePlan !== 2'  label="企业密钥：" prop="corpsecret" required>
-          <el-input type="text" placeholder="请输入企业密钥" v-model="model.corpsecret"></el-input>
+          <el-input type="text" placeholder="请输入企业密钥" v-model.trim="model.corpsecret"></el-input>
         </el-form-item>
         <el-form-item v-if='memberManagePlan !== 2'  label="外部联系人企业秘钥：" prop="userCorpsecret" required>
-          <el-input type="text" placeholder="请输入外部联系人企业秘钥" v-model="model.userCorpsecret"></el-input>
+          <el-input type="text" placeholder="请输入外部联系人企业秘钥" v-model.trim="model.userCorpsecret"></el-input>
         </el-form-item>
         <el-form-item v-if='memberManagePlan !== 2'  label="外部联系人TOKEN：" prop="userToken" required>
-          <el-input type="text" placeholder="请输入外部联系人TOKEN" v-model="model.userToken"></el-input>
+          <el-input type="text" placeholder="请输入外部联系人TOKEN" v-model.trim="model.userToken"></el-input>
         </el-form-item>
         <el-form-item v-if='memberManagePlan !== 2'  label="外部联系人AESKEY：" prop="userAeskey" required>
-          <el-input type="text" placeholder="请输入外部联系人AESKEY" v-model="model.userAeskey"></el-input>
+          <el-input type="text" placeholder="请输入外部联系人AESKEY" v-model.trim="model.userAeskey"></el-input>
         </el-form-item>
         <el-form-item v-if='memberManagePlan !== 2' label="通讯录企业秘钥：" prop="addressCorpsecret" required>
-          <el-input type="text" placeholder="请输入通讯录企业秘钥"  v-model="model.addressCorpsecret"></el-input>
+          <el-input type="text" placeholder="请输入通讯录企业秘钥"  v-model.trim="model.addressCorpsecret"></el-input>
         </el-form-item>
         <el-form-item label="支付ID：" prop="payId">
-          <el-input type="text" placeholder="请输入支付ID" v-model="model.payId" ></el-input>
+          <el-input type="text" placeholder="请输入支付ID" v-model.trim="model.payId" ></el-input>
         </el-form-item>
         <el-form-item label="支付密钥：" prop="paySecret">
-          <el-input type="text" placeholder="请输入支付密钥" v-model="model.paySecret" ></el-input>
+          <el-input type="text" placeholder="请输入支付密钥" v-model.trim="model.paySecret" ></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
