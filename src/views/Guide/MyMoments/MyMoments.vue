@@ -157,7 +157,7 @@
                     <div class="talk-matching">
                       <div class="talk-matching__figurelist" v-if="moment.images" >
                         <div class="talk-li"  v-for="image in moment.images" :key="image" >
-                          <el-image :width="122" :height="122" :src="image" :preview-src-list="srcList" mode="cover">
+                          <el-image :width="122" :height="122" :src="image" :preview-src-list="moment.images" mode="cover">
                           </el-image>
                         </div>
                       </div>
