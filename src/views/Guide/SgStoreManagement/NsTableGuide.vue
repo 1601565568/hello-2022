@@ -5,7 +5,7 @@
         <Icon type="search" className="el-input__icon" style="padding: 5px;" slot="suffix" name="name"
               @click="$quickSearchAction$('name')"/>
       </el-input>
-      <div :class="offsetHeight?'elTrees':'elTree'" ref="elTree" >
+      <el-scrollbar ref='shopTreeDiv' wrapStyle="overflow-x:hidden;">
         <el-tree class="filter-tree" ref="shopTree" :data="digitalShopList" highlight-current
                  node-key="id" :default-expand-all="false" :expand-on-click-node="false" :default-checked-keys="[0]"
                  :filter-node-method="onFilterNode" @node-click="onClickNode">
@@ -18,7 +18,7 @@
             </span>
           </div>
         </el-tree>
-      </div>
+      </el-scrollbar>
     </div>
     <div class="template-page__row-right">
       <!-- <ns-page-table @add="$emit('add')"  @allDelete="$emit('allDelete')" @onAddCustomer="$emit('onAddCustomer')" @quit="$emit('quit')" @shopEdit="$emit('shopEdit')" @ondelete="$emit('ondelete')"> -->
@@ -271,5 +271,8 @@ export default guide
   }
   .resetbtn {
     margin-left: var(--default-margin-larger);
+  }
+  .el-tree {
+    overflow-x: hidden;
   }
 </style>

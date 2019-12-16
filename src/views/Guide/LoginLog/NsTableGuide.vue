@@ -3,8 +3,8 @@
     <!-- 高级搜索 -->
     <!-- el-form 需添加  @keyup.enter.native="onSearch" 配置，实现回车搜索， onSearch 为搜索方法 -->
     <!-- el-form 需添加  surround-btn 类名 配置环绕按钮效果 -->
-    <template slot="searchSearch">
-      <el-form ref="table_filter_form" :model="model" label-width="80px" :inline="true">
+    <template slot="advancedSearch">
+      <el-form ref="table_filter_form" :model="model" label-width="80px" :inline="true" class="seachform">
         <el-form-item label="操作人：">
           <el-form-grid>
             <el-select placeholder="请选择" v-model="model.accountType" clearable filterable>
@@ -37,11 +37,11 @@
             align="right">
           </el-date-picker>
         </el-form-item>
-        <el-form-item>
-          <ns-button type="primary" @click="$searchAction$()" class="ml5">搜索</ns-button>
-          <ns-button @click="$resetInputAction$()" class="ml9">重置</ns-button>
-        </el-form-item>
       </el-form>
+      <div class="template-table__more-btn">
+        <ns-button type="primary" @click="$searchAction$()">搜索</ns-button>
+        <ns-button @click="$resetInputAction$()">重置</ns-button>
+      </div>
     </template>
     <!-- 高级搜索-结束 -->
 
@@ -129,5 +129,9 @@ export default guide
 <style scoped>
   .scope_row_count {
     color: blue;
+  }
+  .seachform {
+    text-align: right;
+    margin-right: 10px;
   }
 </style>

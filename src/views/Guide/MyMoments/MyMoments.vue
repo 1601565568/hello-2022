@@ -416,10 +416,7 @@ export default Moments
     @b item {
       position: relative;
       padding: var(--default-padding-larger) var(--default-padding-xlarger) var(--default-padding-larger) 0;
-      border-bottom: 1px solid var(--theme-base-border-color-primary);
-      &:last-child {
-        border-bottom: none;
-      }
+      border-top: 1px solid var(--theme-base-border-color-primary);
       @e avatar {
         width: 52px;
         height: 52px;
@@ -817,4 +814,7 @@ export default Moments
     text-align: center;
   }
   /* 内容显示更多样式样式结束*/
+  .talk-aside__list:first-child .talk-item {
+    border-top: none;
+  }
 </style>
