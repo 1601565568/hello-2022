@@ -859,7 +859,12 @@
                 <el-input v-model="scope.row.selectValue"
                           placeholder="请输入内容"
                           autosize size="small"
-                          v-if="scope.row.tagType === 1 || scope.row.tagType === 2 || scope.row.tagType === 3" @change="addText(scope.row)" clearable></el-input>
+                          v-if="scope.row.tagType === 1 " @change="addText(scope.row)" clearable></el-input>
+                <el-input v-model="scope.row.selectValue"
+                          placeholder="请输入内容"
+                          autosize size="small"
+                          type="number"
+                          v-if="scope.row.tagType === 2 || scope.row.tagType === 3" @change="addText(scope.row)" clearable></el-input>
                 <!--下拉选-->
                 <el-select v-model="scope.row.selectValue"  placeholder="请选择" v-else-if="scope.row.tagType === 4" clearable @change="addSelect(scope.row)">
                   <el-option
