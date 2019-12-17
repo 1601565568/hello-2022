@@ -136,6 +136,9 @@ export default {
     } else {
       this.$reload()
     }
+    let limitHeight = window.innerHeight - this.$refs.shopTreeDiv.$el.getBoundingClientRect().top
+    this.$refs.shopTreeDiv.$el.children[0].style.maxHeight = limitHeight + 'px'
+    this.$searchAction$()
   },
   components: {
     NsArea

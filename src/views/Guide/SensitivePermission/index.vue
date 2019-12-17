@@ -6,9 +6,9 @@
         <ns-table-operate-button :buttons="_data._table.operate_buttons">
         </ns-table-operate-button>
       </template>
-      <template slot="searchSearch" v-if="_data._queryConfig.expand">
+      <template slot="advancedSearch" v-if="_data._queryConfig.expand">
         <el-form ref="table_filter_form" label-width="80px" @keyup.enter.native="searchAction"
-                 class="surround-btn"
+                 class="seachform"
                  :model="model" :rules="rules" :inline="true">
 
           <el-form-item label="时间：">
@@ -38,11 +38,11 @@
               <el-option v-for='item in privateAccountSelect' :key='item.wid' :value="item.wid" :label="item.nick"/>
             </el-select>
           </el-form-item>
-          <el-form-item>
-            <ns-button type="primary" @click="$searchAction$" class="ml5">{{$t('operating.search')}}</ns-button>
-            <ns-button @click="$resetInputAction$" class="ml9">{{$t('operating.reset')}}</ns-button>
-          </el-form-item>
         </el-form>
+        <div class="template-table__more-btn">
+          <ns-button type="primary" @click="$searchAction$">{{$t('operating.search')}}</ns-button>
+          <ns-button @click="$resetInputAction$">{{$t('operating.reset')}}</ns-button>
+        </div>
       </template>
       <template slot="table">
         <el-table ref="table" :data="_data._table.data" class="template-table__main"
@@ -137,3 +137,10 @@ import Index from './src/index'
 
 export default Index
 </script>
+<style scoped>
+.seachform {
+  text-align: right;
+  margin-right: 10px;
+}
+</style>
+
