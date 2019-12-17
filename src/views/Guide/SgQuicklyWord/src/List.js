@@ -85,6 +85,12 @@ export default {
                 } else if (this.model.keyWord.length > 25) {
                   callback(new Error('关键词长度在 25 以内'))
                 }
+                let arr = '😀😁😂🤣😃😄😅😆😉😊😋😎😍😘😭😢😬🙂🤗🤔😐😶🙄😏😣😥😮😪😫😴😌😇😜😝🤤😒😓🙃🤑😲🤐😖😤🤥🤧😧😨😱😳😡😷🤓👌👍😈👻💩🙈🙉🙊🐷🐸'.split('')
+                for (var i = 0; i < arr.length; i++) {
+                  if (value.indexOf(arr[i]) !== -1) {
+                    callback(new Error('不支持表情'))
+                  }
+                }
               }
               callback()
             }
