@@ -543,6 +543,7 @@
           <el-table-column prop="name" label="所属门店" align="left" width="320">
             <template slot-scope="scope">
               {{scope.row.name || '-'}}
+              <span class="text-error">{{scope.row.shopState === 0 ? '(门店已删除)':''}}</span>
             </template>
           </el-table-column>
           <el-table-column prop="address" label="所属地区" align="left" width="320">

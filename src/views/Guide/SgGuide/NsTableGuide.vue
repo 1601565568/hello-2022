@@ -99,6 +99,7 @@
             <ns-button style="color:#0091FA" @click="scopeRowCount(scope.row)" v-if="scope.row.count > 1" type="text">{{scope.row.count}}家</ns-button>
             <div v-else>
               {{scope.row.shopName?scope.row.shopName:'-'}}
+              <span class="text-error">{{scope.row.shopState === 0 ? '(门店已删除)':''}}</span>
             </div>
           </template>
         </el-table-column>
