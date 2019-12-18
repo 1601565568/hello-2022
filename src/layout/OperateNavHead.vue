@@ -1,7 +1,7 @@
 <template>
   <header class="nav">
       <router-link class="nav-logo" :to="{ name: 'index'}">
-        <img src="../../assets/logo.png" alt="客道" />
+        <img src="@/assets/logo.png" alt="客道" />
       </router-link>
     <div class="nav-menu">
       <template v-for='(item) in $store.state.operate.menus'>

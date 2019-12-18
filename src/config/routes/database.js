@@ -1,7 +1,7 @@
 export default {
   'path': '/Database',
   'name': 'Database',
-  'component': () => import('@nascent/ecrp-ecrm/src/views/Default'),
+  'component': () => import('@nascent/ecrp-ecrm/src/layout/Default'),
   'meta': {
     'title': '工作台',
     'requiresAuth': true
@@ -11,13 +11,13 @@ export default {
       'path': '/WorkBench',
       'name': 'WorkBench',
       'title': '工作台',
-      'component': () => import('@nascent/ecrp-ecrm/src/views/ContentFullScreen'),
+      'component': () => import('@nascent/ecrp-ecrm/src/layout/ContentFullScreen'),
       'children': [
         {
           'path': '/Overview',
           'name': 'Overview',
           'title': '经营概览',
-          'component': () => import('@/views/WorkBench/Overview')
+          'component': () => import('@/pages/WorkBench/Overview')
         }]
     }]
 }

@@ -18,18 +18,18 @@ export default [
   {
     path: '/operate/articleMaterialDetail',
     name: 'articleMaterialDetail',
-    'component': () => import('@/views/ISV/articleMaterialDetail')
+    'component': () => import('@/pages/ISV/articleMaterialDetail')
   },
   {
     path: '/operate/third/personalWeChat',
     name: 'personalWeChat',
-    'component': () => import('@/views/third/personalWeChat')
+    'component': () => import('@/pages/third/personalWeChat')
   },
   {
     'path': '/operate',
     'name': 'ECRP_LOGIN',
     'title': 'ECRP登录',
-    'component': () => import('@/views/LoginEcrp/index')
+    'component': () => import('@/pages/LoginEcrp/index')
   },
   // 以下为系统默认路由，修改请请与项目负责人进行确认
   {
@@ -42,12 +42,12 @@ export default [
   {
     'path': '/errors/:msg?',
     'name': 'Errors',
-    'component': () => import('@nascent/ecrp-ecrm/src/views/Errors/Errors')
+    'component': () => import('@nascent/ecrp-ecrm/src/pages/Errors/Errors')
   },
   {
     'path': '/icons',
     'name': 'Icon',
-    'component': () => import('@nascent/ecrp-ecrm/src/views/IconList'),
+    'component': () => import('@nascent/ecrp-ecrm/src/pages/IconList'),
     'meta': {
       'title': 'IconList',
       'requiresAuth': true
