@@ -323,7 +323,7 @@ export default {
       let obj = {
         length: this._data.pagination.size,
         searchMap: {
-          shopId: null,
+          shopId: that.model.shop,
           keyword: that.model.name
         },
         start: (page - 1) * this._data.pagination.size

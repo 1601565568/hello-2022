@@ -15,7 +15,7 @@
           </el-form-item>
           <el-form-item label="所属门店：">
             <el-form-grid>
-              <el-select placeholder="请选择所属门店" v-model="model.shop" clearable filterable>
+              <el-select placeholder="请选择所属门店" v-model="model.shop" clearable filterable @clear="model.shop=null">
                 <el-option v-for="shop in shopList" :label="shop.shopName" :value="shop.id"
                           :key="shop.id"></el-option>
               </el-select>
@@ -52,7 +52,7 @@
             {{scope.row.mobile || '-'}}
           </template>
         </el-table-column>
-        <el-table-column prop="shopName" label="所属门店" align="left"">
+        <el-table-column prop="shopName" label="所属门店" align="left">
           <template slot-scope="scope">
             {{scope.row.shopName || '-'}}
           </template >
