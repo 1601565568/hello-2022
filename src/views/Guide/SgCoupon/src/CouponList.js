@@ -323,6 +323,7 @@ export default {
       var total = 0
       var couponTotal = _this.activityModel.coupon_total
       var couponId = _this.activityModel.coupon_id
+      let remainingQuantity = _this.storeModel.remainingQuantity
       // 判断是否选择优惠券
       if (couponId === 0 || couponId === null || couponId === '') {
         _this.activityModel.coupon_total = 0
@@ -345,7 +346,13 @@ export default {
       }
       // 判断是否超过总数 _this.storeModel.couponTotal ==0 代表不限量
       if (_this.storeModel.maxType > 0) {
-        if (total > _this.storeModel.couponTotal) {
+        // 该判断计算的是所有优惠券数量（包含已使用的）
+        // if (total > _this.storeModel.couponTotal) {
+        //   _this.$notify.info('门店总配额不能超过优惠券总配额')
+        //   row.shopCouponNumber = oldValue
+        //   return
+        // }
+        if (total > remainingQuantity) {
           _this.$notify.info('门店总配额不能超过优惠券总配额')
           row.shopCouponNumber = oldValue
           return
@@ -408,6 +415,8 @@ export default {
             shop.shopName = value.shopName
             _this.shopCouponList.push(shop)
           })
+          console.log(JSON.stringify(_this.shopCouponList))
+          // return
           _this.$http.fetch(_this.$api.guide.activityCoupon.saveActiviCoupon, {
             sgActivityCoupon: _this.activityModel,
             couponShopList: _this.shopCouponList
