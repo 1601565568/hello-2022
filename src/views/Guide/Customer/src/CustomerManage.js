@@ -253,6 +253,7 @@ export default {
       this.model.name = null
       this.model.shop = null
       this.pagination.page = 1
+      this.pagination.size = 15
       this.guideFindList()
     },
     async findBrandShopList (model) { // 门店列表查询
@@ -270,7 +271,7 @@ export default {
       let that = this
       let numbers = /^[1-9]+[0-9]*]*$/
       let obj = {
-        length: 15,
+        length: that._data.pagination.size,
         searchMap: {
           shopId: null,
           keyword: null
@@ -320,12 +321,12 @@ export default {
       that.pagination.page = page
       let shopList = []
       let obj = {
-        length: 15,
+        length: this._data.pagination.size,
         searchMap: {
           shopId: null,
           keyword: that.model.name
         },
-        start: (page - 1) * 15
+        start: (page - 1) * this._data.pagination.size
       }
       this.$http.fetch(that.$api.guide.guide.findShopGuide, obj)
         .then(resp => {
