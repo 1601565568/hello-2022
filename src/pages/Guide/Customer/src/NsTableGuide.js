@@ -74,6 +74,9 @@ export default {
     //     vm.loading = vm._data._loading
     //   })
     // }
+    let limitHeight = window.innerHeight - this.$refs.shopTreeDiv.$el.getBoundingClientRect().top
+    this.$refs.shopTreeDiv.$el.children[0].style.maxHeight = limitHeight + 'px'
+    this.$searchAction$()
   },
   updated () {
     this.$refs.elTree.offsetHeight > window.screen.availHeight ? this.offsetHeight = true : this.offsetHeight = false
@@ -99,7 +102,11 @@ export default {
       _this.loading = true
       _this.$reload().then(rep => {
         _this.loading = _this._data._loading
-        data.label = data.label + '(' + _this._data._pagination.total + ')'
+        var showLabel = data.label
+        if (showLabel.indexOf('(') !== -1) {
+          showLabel = showLabel.substring(0, showLabel.indexOf('('))
+        }
+        data.label = showLabel + '(' + _this._data._pagination.total + ')'
       })
       // 设置搜索及重置可用
       this.searchButton = false
