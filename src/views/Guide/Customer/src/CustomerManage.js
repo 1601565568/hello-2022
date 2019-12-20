@@ -273,12 +273,12 @@ export default {
       let obj = {
         length: that._data.pagination.size,
         searchMap: {
-          shopId: null,
-          keyword: null
+          shopId: Number.parseInt(that.model.shop),
+          keyword: that.model.name
         },
         start: 0
       }
-      if (model !== undefined) {
+      if (model !== undefined && typeof model === 'object') {
         obj.searchMap.keyword = model.name
         obj.searchMap.shopId = parseInt(model.shop)
       }
@@ -522,6 +522,8 @@ export default {
     closeDialog () {
       this.shopFindListShow = false
       this.radio = null
+      this.model.name = null
+      this.model.shop = null
       this.pagination.page = 1
       this.pagination.size = 15
     },
