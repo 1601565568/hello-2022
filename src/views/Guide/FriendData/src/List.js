@@ -1,37 +1,7 @@
-import api from '@/config/http'
-import moment from 'moment/moment'
 import { getErrorMsg } from '@/utils/toast'
 
 export default {
   data: function () {
-    let pagination = {
-      enable: true,
-      size: 15,
-      sizeOpts: [15, 25, 50, 100],
-      page: 1,
-      total: 0
-    }
-    let paginations = {
-      enable: true,
-      size: 10,
-      sizeOpts: [5, 10, 15],
-      page: 1,
-      total: 0
-    }
-    let paginationss = {
-      enable: true,
-      size: 15,
-      sizeOpts: [15, 25, 50, 100],
-      page: 1,
-      total: 0
-    }
-    let customPagination = {
-      enable: true,
-      size: 15,
-      sizeOpts: [15, 25, 50, 100],
-      page: 1,
-      total: 0
-    }
     const tableButtons = [{}]
     const operateButtons = [
       {
@@ -163,11 +133,12 @@ export default {
     initShopList () {
 
     },
-    onRedactFun (wid) { // 好友详情功能
+    onRedactFun (wid, ownerId) { // 好友详情功能
       let _this = this
       _this.dialogFormVisible = true
-      _this.$http.fetch(this.$api.guide.friendData.frindDetail,
-        { wxid: wid }).then(resp => {
+      _this.$http.fetch(this.$api.guide.friendData.frindDetail, {
+        wxid: wid,
+        ownerId: ownerId }).then(resp => {
         if (resp.success) {
           _this.friendDetail = resp.result
         }
