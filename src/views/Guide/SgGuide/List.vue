@@ -4,7 +4,7 @@
                     @shopEdit="shopEdit" @allDelete="allDelete" @dimission="dimission" @showShop="showShop"
                   @onDelsTipFun="onDelsTipFun" @onRedactFun="onRedactFun" @dimissionFun="dimissionFun" @handleSelectionChange="handleSelectionChange">
     </NsTableGuide>
-    <!-- 新增修改客户开始-->
+    <!-- 新增修改导购开始-->
     <el-dialog :title="title" :visible.sync="dialogFormVisible" width="460px"  @keyup.enter.native="onKeyUp" @keyup.esc.native="onKeyUp" >
       <div class="guideBox" style="overflow-x:hidden;overflow-y:auto;">
         <el-form :model="model.sgGuide" ref="addForm" label-width="100px" :rules="rules" >
