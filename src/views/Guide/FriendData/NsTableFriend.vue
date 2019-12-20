@@ -168,7 +168,7 @@
         <el-table-column prop="status,row" :show-overflow-tooltip="true" label="操作" align="center" width="80">
           <template slot-scope="scope">
             <div>
-              <ns-button class="text-primary" @click="onRedactFun(scope.row.wid)" type="text">详情</ns-button>
+              <ns-button class="text-primary" @click="onRedactFun(scope.row.wid,scope.row.ownerId)" type="text">详情</ns-button>
 <!--              <ns-button class="text-primary" type="text" @click="sendWechatMsg(scope.row)">聊天</ns-button>-->
 <!--              <ns-button class="text-primary"  type="text" >打标</ns-button>-->
             </div>

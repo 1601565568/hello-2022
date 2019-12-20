@@ -140,7 +140,6 @@ export default {
       })
     },
     sortChange (column, prop, order) {
-      console.log(column)
       if (column.prop == null || column.order == null) {
         this.model.filed = ''
         this.model.orderType = ''
@@ -168,8 +167,8 @@ export default {
     handleSelectionChange (val) {
       this.$emit('handleSelectionChange', val)
     },
-    onRedactFun (val) {
-      this.$emit('onRedactFun', val)
+    onRedactFun (wid, ownerId) {
+      this.$emit('onRedactFun', wid, ownerId)
     },
     sendWechatMsg (val) {
       this.$emit('sendWechatMsg', val)

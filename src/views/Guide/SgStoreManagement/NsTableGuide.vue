@@ -5,7 +5,7 @@
         <Icon type="search" className="el-input__icon" style="padding: 5px;" slot="suffix" name="name"
               @click="$quickSearchAction$('name')"/>
       </el-input>
-      <el-scrollbar ref='shopTreeDiv' wrapStyle="overflow-x:hidden;">
+      <el-scrollbar ref='shopTreeDiv' wrapStyle="overflow-x:hidden;" style="padding-bottom: 10px" >
         <el-tree class="filter-tree" ref="shopTree" :data="digitalShopList" highlight-current
                  node-key="id" :default-expand-all="false" :expand-on-click-node="false" :default-checked-keys="[0]"
                  :filter-node-method="onFilterNode" @node-click="onClickNode">
