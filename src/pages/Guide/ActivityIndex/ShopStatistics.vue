@@ -266,7 +266,7 @@
         </el-form>
         <!-- 高级搜索-结束 -->
         <div style="overflow-x:hidden;overflow-y:auto;">
-          <el-table :data="detailData">
+          <el-table :data="detailData" stripe>
             <el-table-column prop="guideName" label="导购"></el-table-column>
             <el-table-column prop="name" label="会员"></el-table-column>
             <el-table-column prop="name" label="昵称"></el-table-column>

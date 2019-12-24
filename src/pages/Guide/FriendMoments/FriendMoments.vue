@@ -366,10 +366,7 @@ export default FriendMoments
     @b item {
       position: relative;
       padding: var(--default-padding-larger) var(--default-padding-xlarger) var(--default-padding-larger) 0;
-      border-bottom: 1px solid var(--theme-base-border-color-primary);
-      &:last-child {
-        border-bottom: none;
-      }
+      border-top: 1px solid var(--theme-base-border-color-primary);
       @e avatar {
         width: 52px;
         height: 52px;
@@ -490,7 +487,7 @@ export default FriendMoments
       }
     }
     @b bottom {
-      border-top: 1px solid var(--talk-border-color-gray);
+      border-top: 1px solid var(--theme-base-border-color-primary);
     }
     @b main {
       width: 30%;
@@ -500,13 +497,13 @@ export default FriendMoments
         padding-left: var(--default-padding-larger);
       }
       @e bottom {
-        border-top: 1px solid var(--talk-border-color-gray);
+        border-top: 1px solid var(--theme-base-border-color-primary);
         background: var(--theme-color-white);
       }
     }
     @b convey {
       padding: var(--default-padding-larger) var(--default-padding-larger) var(--default-padding-larger) 0;
-      border-bottom: 1px solid var(--talk-border-color-gray);
+      border-bottom: 1px solid var(--theme-base-border-color-primary);
       &:last-child {
         border-bottom: none;
       }
@@ -652,7 +649,7 @@ export default FriendMoments
   }
   >>> .template-table__bar {
     box-shadow: none;
-    border-bottom: 1px solid var(--talk-border-color-gray);
+    border-bottom: 1px solid var(--theme-base-border-color-primary);
     border-top-left-radius: var(--default-radius-mini);
     border-top-right-radius: var(--default-radius-mini);
   }
@@ -735,5 +732,8 @@ export default FriendMoments
   }
   .template-table__bar {
     margin-bottom: 0;
+  }
+  .talk-aside__list:first-child .talk-item {
+    border-top: none;
   }
 </style>

@@ -52,6 +52,7 @@ export default {
       pageChange: true, // 当前页数
       guideId: null, //  当前导购的id
       shopId: null,
+      offLineShopId: 0,
       successCount: null,
       failCount: null,
       receiveGuideId: null, //  接收的导购id
@@ -89,7 +90,8 @@ export default {
       obj: {},
       shopFindListShow: false,
       showTag: false,
-      tagData: [],
+      tagData: [], // 所有表情值
+      selectTagData: [], // 会员选中属性值
       integralIsShow: [false, false, false, false, false], // 控制会员详情积分是否显示
       integralIsNum: [0, 0, 0, 0, 0], // 控制会员详情积分
       integralName: ['', '', '', '', ''], // 控制会员详情积分
@@ -106,7 +108,6 @@ export default {
       attributeValue: 0, // 标签属性值
       sysCustomerId: '', // 会员id
       shopKuhuShow: false,
-      isClear: false, // 是否清空过所有标签
       rfmInfo: {}, // rfm信息
       accountCode: {}, // 用于保存积分账号
       result: null,
@@ -252,6 +253,7 @@ export default {
       this.model.name = null
       this.model.shop = null
       this.pagination.page = 1
+      this.pagination.size = 15
       this.guideFindList()
     },
     async findBrandShopList (model) { // 门店列表查询
@@ -269,14 +271,14 @@ export default {
       let that = this
       let numbers = /^[1-9]+[0-9]*]*$/
       let obj = {
-        length: 15,
+        length: that._data.pagination.size,
         searchMap: {
-          shopId: null,
-          keyword: null
+          shopId: Number.parseInt(that.model.shop),
+          keyword: that.model.name
         },
         start: 0
       }
-      if (model !== undefined) {
+      if (model !== undefined && typeof model === 'object') {
         obj.searchMap.keyword = model.name
         obj.searchMap.shopId = parseInt(model.shop)
       }
@@ -319,12 +321,12 @@ export default {
       that.pagination.page = page
       let shopList = []
       let obj = {
-        length: 15,
+        length: this._data.pagination.size,
         searchMap: {
-          shopId: null,
+          shopId: that.model.shop,
           keyword: that.model.name
         },
-        start: (page - 1) * 15
+        start: (page - 1) * this._data.pagination.size
       }
       this.$http.fetch(that.$api.guide.guide.findShopGuide, obj)
         .then(resp => {
@@ -433,60 +435,72 @@ export default {
     showTagData (row, offLineShopId) {
       this.showTag = true
       this.sysCustomerId = row.sysCustomerId
+      this.offLineShopId = offLineShopId
       this.$http.fetch(this.$api.guide.guide.queryAllTag, {
         'shopId': row.sgExclusiveShopId !== 0 ? row.sgExclusiveShopId : offLineShopId,
         'sysCustomerId': row.sysCustomerId
       }).then(resp => {
         if (resp.success && resp.result != null) {
-          this.tagData = resp.result.sort()
+          this.tagData = resp.result.allPropertyInfo
+          this.selectTagData = resp.result.propertyInfo
+          this.attribute = this.selectTagData.length
           for (let i = 0; i < this.tagData.length; i++) {
             let tag = this.tagData[i]
-            if (tag.value.length > 0) {
-              let tagInfo = {}
-              tagInfo.id = tag.id
-              tagInfo.value = tag.value
-              this.mapTag.push(tagInfo)
-              this.attribute += 1
-              // 0表示文本框，1表示下拉选择，2表示日期 ， 3 : 单选框 4 ： 复选框
-              switch (tag.tagType) {
-                case 0:
-                  this.textIds.push(tag.id)
-                  this.attributeValue += 1
-                  break
-                case 1:
-                  this.selectIds.push(tag.id)
-                  this.attributeValue += 1
-                  break
-                case 2:
-                  this.dateIds.push(tag.id)
-                  this.attributeValue += 1
-                  break
-                case 3:
-                  this.radioIds.push(tag.id)
-                  this.attributeValue += 1
-                  break
-                case 4:
-                  let valueArr = tag.value.split('|')
-                  let num = valueArr.length
-                  this.attributeValue += (num - 2)
-                  this.checkboxIds.push(tag.id)
-                  // 深入响应式原理，this.checkboxObject[idName] = valueArr 该赋值方法不可用
-                  this.$set(this.checkboxObject, tag.id, valueArr)
-                  break
-                default:
-                  break
-              }
-            } else {
-              switch (tag.tagType) {
-                case 4:
-                  this.$set(this.checkboxObject, tag.id, [])
-                  break
-                default:
-                  break
+            // 处理复选框默认值
+            if (tag.tagType === 7) {
+              this.$set(this.tagData[i], 'selectValue', [])
+            }
+            // 选中的值赋值
+            for (let j = 0; j < this.selectTagData.length; j++) {
+              if (this.selectTagData[j].id === tag.id) {
+                let tagInfo = {}
+                tagInfo.id = tag.id
+                tagInfo.tagType = tag.tagType
+                // 0表示文本框，1表示下拉选择，2表示日期 ， 3 : 单选框 4 ： 复选框
+                // 新：1：字符文本框 2：数字文本框 3：小数文本框 4:  选择框 5：日期框 6：单选框 7：复选框',
+                switch (tag.tagType) {
+                  case 1:
+                  case 2:
+                  case 3:
+                    this.textIds.push(tag.id)
+                    this.attributeValue += 1
+                    tagInfo.value = this.selectTagData[j].value
+                    this.$set(this.tagData[i], 'selectValue', this.selectTagData[j].value)
+                    break
+                  case 4:
+                    this.selectIds.push(tag.id)
+                    this.attributeValue += 1
+                    tagInfo.value = this.selectTagData[j].value
+                    this.$set(this.tagData[i], 'selectValue', this.selectTagData[j].value)
+                    break
+                  case 5:
+                    this.dateIds.push(tag.id)
+                    this.attributeValue += 1
+                    tagInfo.value = this.selectTagData[j].value
+                    this.$set(this.tagData[i], 'selectValue', this.selectTagData[j].value)
+                    break
+                  case 6:
+                    this.radioIds.push(tag.id)
+                    this.attributeValue += 1
+                    tagInfo.value = this.selectTagData[j].value
+                    this.$set(this.tagData[i], 'selectValue', this.selectTagData[j].value)
+                    break
+                  case 7:
+                    if (this.selectTagData[j].value) {
+                      let valueArr = this.selectTagData[j].value.split('|')
+                      this.attributeValue += valueArr.length
+                      tagInfo.value = valueArr
+                      this.$set(this.tagData[i], 'selectValue', valueArr)
+                    }
+                    this.checkboxIds.push(tag.id)
+                    break
+                  default:
+                    break
+                }
+                this.mapTag.push(tagInfo)
               }
             }
           }
-          console.log('数据：' + JSON.stringify(this.mapTag))
         }
       }).catch((resp) => {
         this.$notify.error(getErrorMsg('查询失败', resp))
@@ -508,6 +522,8 @@ export default {
     closeDialog () {
       this.shopFindListShow = false
       this.radio = null
+      this.model.name = null
+      this.model.shop = null
       this.pagination.page = 1
       this.pagination.size = 15
     },
@@ -517,23 +533,25 @@ export default {
         for (let i = 0; i < this.mapTag.length; i++) {
           let check = this.mapTag[i]
           if (check.id === row.id) {
-            if (row.value.trim().length === 0) {
+            if (!row.selectValue || row.selectValue.trim().length === 0) {
               // 判断是否为空
               this.mapTag.splice(i, 1)
               this.textIds.splice(num, 1)
               this.attribute -= 1
               this.attributeValue -= 1
             } else {
-              check.value = row.value
+              check.value = row.selectValue
             }
           }
         }
       } else {
-        if (row.value.trim().length !== 0) {
+        if (row.selectValue && row.selectValue.trim().length !== 0) {
           this.textIds.push(row.id)
-          let check = {}
-          check.id = row.id
-          check.value = row.value
+          let check = {
+            id: row.id,
+            value: row.selectValue,
+            tagType: row.tagType
+          }
           this.mapTag.push(check)
           this.attribute += 1
           this.attributeValue += 1
@@ -547,21 +565,23 @@ export default {
         for (let i = 0; i < this.mapTag.length; i++) {
           let check = this.mapTag[i]
           if (check.id === row.id) {
-            if (check.value.indexOf(row.value) > -1) {
+            if (check.value.indexOf(row.selectValue) > -1) {
               this.mapTag.splice(i, 1)
               this.selectIds.splice(num, 1)
               this.attribute -= 1
               this.attributeValue -= 1
             } else {
-              check.value = row.value
+              check.value = row.selectValue
             }
           }
         }
       } else {
         this.selectIds.push(row.id)
-        let check = {}
-        check.id = row.id
-        check.value = row.value
+        let check = {
+          id: row.id,
+          value: row.selectValue,
+          tagType: row.tagType
+        }
         this.mapTag.push(check)
         this.attribute += 1
         this.attributeValue += 1
@@ -573,24 +593,24 @@ export default {
       if (num > -1) {
         for (let i = 0; i < this.mapTag.length; i++) {
           let check = this.mapTag[i]
-          // 如果mapTag包含该数据
-          if (check.id === row.id) {
-            // 如果时间为null则删除
-            if (!row.value) {
+          if (check.id === row.id) { // 假如选中数据已包含在数组中
+            if (row.selectValue) {
+              check.value = row.selectValue
+            } else {
               this.mapTag.splice(i, 1)
               this.dateIds.splice(num, 1)
               this.attribute -= 1
               this.attributeValue -= 1
-            } else {
-              check.value = row.value
             }
           }
         }
       } else {
         this.dateIds.push(row.id)
-        let check = {}
-        check.id = row.id
-        check.value = row.value
+        let check = {
+          id: row.id,
+          value: row.selectValue,
+          tagType: row.tagType
+        }
         this.mapTag.push(check)
         this.attribute += 1
         this.attributeValue += 1
@@ -608,9 +628,11 @@ export default {
         }
       } else {
         this.radioIds.push(row.id)
-        let check = {}
-        check.id = row.id
-        check.value = item
+        let check = {
+          id: row.id,
+          value: item,
+          tagType: row.tagType
+        }
         this.mapTag.push(check)
         this.attribute += 1
         this.attributeValue += 1
@@ -626,79 +648,51 @@ export default {
             // 如果参数中已经存在已选择的值则去除
             if (check.value.indexOf(item) > -1) {
               // 判断已选择值是否包含新值
-              check.value = check.value.replace(item + '|', '') // 去除值
+              // 去除值
+              check.value.splice(check.value.indexOf(item), 1)
               this.attributeValue -= 1
-              if (check.value.length === 1) { // 假如只剩下"|" 删除该值
+              if (check.value.length === 0) { // 没有值
                 this.mapTag.splice(i, 1)
                 this.checkboxIds.splice(num, 1)
                 this.attribute -= 1
-                this.$set(this.checkboxObject, row.id, [])
               } else {
                 this.mapTag[i].value = check.value
-                let valueArr = check.value.split('|')
-                this.$set(this.checkboxObject, row.id, valueArr)
+                this.$set(row, 'selectValue', check.value)
               }
             } else {
-              check.value += item + '|'
-              let valueArr = check.value.split('|')
-              this.$set(this.checkboxObject, row.id, valueArr)
+              check.value.push(item)
+              this.$set(row, 'selectValue', check.value)
               this.attributeValue += 1
             }
           }
         }
       } else {
         this.checkboxIds.push(row.id)
-        let check = {}
-        check.id = row.id
-        row.value = '|' + item + '|'
-        check.value = row.value
+        let check = {
+          id: row.id,
+          value: [item],
+          tagType: row.tagType
+        }
         this.mapTag.push(check)
-        let itemArr = [item]
-        this.$set(this.checkboxObject, row.id, itemArr)
+        this.$set(row, 'selectValue', [item])
         this.attribute += 1
         this.attributeValue += 1
       }
     },
     saveTag () { // 保存标签
-      let isNotData = false
-      if (this.mapTag.length === 0) {
-        isNotData = true
-        for (let i = 0; i < this.tagData.length; i++) {
-          let tag = {}
-          tag.id = this.tagData[i].id
-          tag.value = ''
-          this.mapTag.push(tag)
+      for (let i = 0; i < this.mapTag.length; i++) {
+        if (this.mapTag[i].value && this.mapTag[i].tagType === 7) {
+          this.mapTag[i].value = this.mapTag[i].value.join('|')
         }
-        // this.$notify.error('未选择属性')
-      }
-
-      if (this.isClear && !isNotData) {
-        let ids = []
-        let newTag = []
-        for (let j = 0; j < this.mapTag.length; j++) {
-          let mapT = this.mapTag[j]
-          ids[j] = mapT.id
-        }
-        for (let i = 0; i < this.tagData.length; i++) {
-          let tag = {}
-          tag.id = this.tagData[i].id
-          if (ids.indexOf(tag.id) > -1) {
-            tag.value = this.mapTag[ids.indexOf(tag.id)].value
-            console.log(tag.value)
-          } else {
-            tag.value = ''
-          }
-          newTag.push(tag)
-        }
-        this.mapTag = newTag
+        delete this.mapTag[i].tagType
       }
       this.$http.fetch(this.$api.guide.guide.saveTag, {
         'sysCustomerId': this.sysCustomerId,
+        'shopId': this.offLineShopId,
         'tagList': JSON.stringify(this.mapTag)
       }).then(resp => {
         if (resp.success && resp.result != null) {
-          this.closeTag()
-          this.isClear = false
+          this.restTag(true)
           this.$notify.success('保存成功！')
         }
       }).catch((resp) => {
@@ -706,29 +700,32 @@ export default {
       })
     },
     // 清空标签
-    restTag () {
-      this.mapTag = []
-      this.isClear = true
-      console.log('清空：' + this.isClear)
+    restTag (closePopup) {
       for (let i = 0; i < this.tagData.length; i++) {
-        let tag = this.tagData[i]
-        tag.value = ''
+        if (this.tagData[i].tagType === 7) {
+          this.$set(this.tagData[i], 'selectValue', [])
+        } else {
+          this.$set(this.tagData[i], 'selectValue', null)
+        }
+        // 清空已经选中的值
+        for (let j = 0; j < this.mapTag.length; j++) {
+          if (this.mapTag[j].id === this.tagData[i].id) {
+            this.mapTag[j].value = this.tagData[i].selectValue
+          }
+        }
       }
       this.radioIds = []
       this.textIds = []
       this.selectIds = []
       this.dateIds = []
       this.checkboxIds = []
-      for (let id in this.checkboxObject) {
-        this.$set(this.checkboxObject, id, [])
-      }
       this.attribute = 0
       this.attributeValue = 0
-    },
-    closeTag () {
-      if (this.showTag) {
-        this.showTag = false
-        this.restTag()
+      if (closePopup) {
+        this.mapTag = []
+        if (this.showTag) {
+          this.showTag = false
+        }
       }
     },
     // 更换导购

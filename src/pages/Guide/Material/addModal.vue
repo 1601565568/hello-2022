@@ -74,7 +74,7 @@
               <el-radio :label="2">单独增加一张小程序码图
               </el-radio>
             </el-radio-group>
-            <p style='line-height:1.5;margin-top:10px' class="text-primary">
+            <p style='line-height:1.5;' class="text-primary">
               <Icon type="info-circle"/>
               <span>将在图片中加入带导购参数的小程序码，需门店里有对应信息的才会显示</span>
             </p>
@@ -211,6 +211,7 @@ export default {
         this.$http.fetch(this.$api.guide.queryMaterial, { id: obj.id })
           .then(resp => {
             this.saveObj = $.extend(true, {}, resp.result)
+            this.saveObj.codeType = 1
           })
           .catch(resp => {
             that.$notify.error(getErrorMsg('查询失败', resp))
@@ -273,6 +274,9 @@ export default {
       }
       if (this.saveObj.codeModule === '' || this.saveObj.codeModule === null || this.saveObj.codeTarget === '') {
         this.saveObj.codeType = 0
+      }
+      if (this.saveObj.codeType === 0 && this.saveObj.codeTarget > 0) {
+        this.saveObj.codeType = 1
       }
       this.loading = true
       await this.$http

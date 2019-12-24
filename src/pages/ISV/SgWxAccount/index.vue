@@ -112,7 +112,7 @@
                :visible.sync="dialogFormVisible"
                :modal-append-to-body="false"
                @before-close="closeDialog()">
-      <el-form :model="model" ref="form" label-width="150px" :rules="rules" placement="right">
+      <el-form :model="model" ref="form" label-width="100px" :rules="rules" placement="right">
         <el-form-item label="小程序类型：" prop="type" required>
             <el-radio  v-model="model.type" :label="1" >店长</el-radio>
             <el-radio  v-model="model.type" :label="0" >导购</el-radio>
@@ -472,7 +472,6 @@ export default index
   color: #FF8C00;
 }
 .dialog-top{
-  border-top:1px solid #ddd;
   padding:10px 0 10px 78px;
 }
 .auditFailure{

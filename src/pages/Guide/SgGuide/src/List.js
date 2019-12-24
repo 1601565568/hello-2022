@@ -949,6 +949,9 @@ export default {
         // _this.closeDialog()
         _this.isHidden = false
         this.model.sgGuide.image = allImageUrl
+        if (resp.msg.indexOf('工号已经存在') > -1) {
+          guide.work_number = resp.result
+        }
         _this.$notify.error(getErrorMsg('保存失败：', resp))
       })
     },

@@ -157,18 +157,26 @@
                     <div class="talk-matching">
                       <div class="talk-matching__figurelist" v-if="moment.images" >
                         <div class="talk-li"  v-for="image in moment.images" :key="image" >
-                          <el-image :width="122" :height="122" :src="image" :preview-src-list="srcList" mode="cover">
+                          <el-image :width="122" :height="122" :src="image" :preview-src-list="moment.images" mode="cover">
                           </el-image>
                         </div>
                       </div>
                     </div>
                     <div class="talk-time">{{moment.snsTime}}</div>
                     <div class="talk-interactive">
-                      <span class="talk-interactive__like">
+                      <span class="talk-interactive__like text-primary" v-if="moment.likesNum>0">
                         <i @click="like(moment)"><Icon type="heart" className="talk-heart"/></i>
                         {{moment.likesNum}}
                       </span>
-                      <span class="talk-interactive__comment">
+                      <span class="talk-interactive__like" v-else>
+                        <i @click="like(moment)"><Icon type="heart" className="talk-heart"/></i>
+                        {{moment.likesNum}}
+                      </span>
+                      <span class="talk-interactive__comment text-primary" v-if="moment.commentsNum>0">
+                        <i @click="replyComment(moment)"><Icon type="pinglun" className="talk-commentary"/></i>
+                        {{moment.commentsNum}}
+                      </span>
+                      <span class="talk-interactive__comment" v-else>
                         <i @click="replyComment(moment)"><Icon type="pinglun" className="talk-commentary"/></i>
                         {{moment.commentsNum}}
                       </span>
@@ -408,10 +416,7 @@ export default Moments
     @b item {
       position: relative;
       padding: var(--default-padding-larger) var(--default-padding-xlarger) var(--default-padding-larger) 0;
-      border-bottom: 1px solid var(--theme-base-border-color-primary);
-      &:last-child {
-        border-bottom: none;
-      }
+      border-top: 1px solid var(--theme-base-border-color-primary);
       @e avatar {
         width: 52px;
         height: 52px;
@@ -532,7 +537,7 @@ export default Moments
       }
     }
     @b bottom {
-      border-top: 1px solid var(--talk-border-color-gray);
+      border-top: 1px solid var(--theme-base-border-color-primary);
     }
     @b main {
       width: 30%;
@@ -542,13 +547,13 @@ export default Moments
         padding-left: var(--default-padding-larger);
       }
       @e bottom {
-        border-top: 1px solid var(--talk-border-color-gray);
+        border-top: 1px solid var(--theme-base-border-color-primary);
         background: var(--theme-color-white);
       }
     }
     @b convey {
       padding: var(--default-padding-larger) var(--default-padding-larger) var(--default-padding-larger) 0;
-      border-bottom: 1px solid var(--talk-border-color-gray);
+      border-bottom: 1px solid var(--theme-base-border-color-primary);
       &:last-child {
         border-bottom: none;
       }
@@ -694,7 +699,7 @@ export default Moments
   }
   >>> .template-table__bar {
     box-shadow: none;
-    border-bottom: 1px solid var(--talk-border-color-gray);
+    border-bottom: 1px solid var(--theme-base-border-color-primary);
     border-top-left-radius: var(--default-radius-mini);
     border-top-right-radius: var(--default-radius-mini);
   }
@@ -809,4 +814,7 @@ export default Moments
     text-align: center;
   }
   /* 内容显示更多样式样式结束*/
+  .talk-aside__list:first-child .talk-item {
+    border-top: none;
+  }
 </style>

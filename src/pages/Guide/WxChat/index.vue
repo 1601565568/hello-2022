@@ -119,10 +119,10 @@
             <div style="text-align: center;margin-top:10px">
               <font size="3">
                 <template v-if="isChatLoadEnd && chatList.length === 0">
-                  暂无数据
+                  <ns-no-data size="full">{{$t('prompt.noData')}}</ns-no-data>
                 </template>
                 <template v-if="!isChatLoadEnd">
-                  <ns-button type="primary" @click="loadChatLog(false)" class="talk-main__header--btn">
+                  <ns-button type="primary" @click="loadChatLog(false)" class="talk-main__header--btn talk-main__header--seemore">
                     查看更多
                   </ns-button>
                 </template>
@@ -268,6 +268,7 @@ export default index
       @e container {
         margin-top: var(--default-margin-base);
         background: var(--theme-color-white);
+        border-radius: var(--default-radius-mini);
       }
     }
     @b aside {
@@ -321,6 +322,9 @@ export default index
         border-bottom: 1px solid var(--theme-base-border-color-primary);
         @m btn {
           position: relative;
+        }
+        @m seemore {
+          margin-bottom: 10px;
         }
       }
     }

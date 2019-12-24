@@ -246,6 +246,7 @@ export default {
 }
 </script>
 <style scoped>
+@import "@theme/variables.pcss";
 @component-namespace selectShopBox {
   .tableBox {
     width: 480px;
@@ -278,6 +279,7 @@ export default {
           float: left;
         }
         .del {
+          font-size: var(--default-font-size-middle);
           float: right;
           cursor: pointer;
         }

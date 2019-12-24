@@ -13,7 +13,7 @@
                   :element-loading-text="$t('prompt.loading')" @sort-change="$orderChange$">
           <el-table-column prop="name" label="微信名称"></el-table-column>
           <el-table-column prop="appid" label="应用ID" align="center"></el-table-column>
-          <el-table-column label="企业ID" align="center">
+          <el-table-column v-if='memberManagePlan !== 2' label="企业ID" align="center">
             <template slot-scope="{row}">
               <span v-if="row.corpid === null">-</span>
               <span v-else>{{row.corpid}}</span>
@@ -56,38 +56,43 @@
     <el-dialog size="small" :title="titleText"
                :visible.sync="dialogFormVisible"
                :modal-append-to-body="false"
-               @before-close="closeDialog()"
                @closed="onClosed">
-      <div  class="dialog-top">
-        <el-radio v-model="shopManager_radio" label="1" @change="shopManager">店长</el-radio>
-        <el-radio v-model="shoppingGuide_radio" label="1" @change="shoppingGuide">导购</el-radio>
-      </div>
-      <el-form :model="model" ref="form" label-width="150px" :rules="rules" placement="right">
+      <el-form :model="model" ref="form" label-width="130px" :rules="rules" placement="right">
+        <el-form-item>
+          <el-radio v-model="shopManager_radio" label="1" @change="shopManager">店长</el-radio>
+          <el-radio v-model="shoppingGuide_radio" label="1" @change="shoppingGuide">导购</el-radio>
+        </el-form-item>
         <el-form-item label="微信名称：" prop="name" required>
           <el-input v-if="model.from_type === 1" type="text" :disabled='true' placeholder="请输入微信名称" v-model="model.name" ></el-input>
-          <el-input v-else type="text" placeholder="请输入微信名称" v-model="model.name" ></el-input>
+          <el-input v-else type="text" placeholder="请输入微信名称" v-model.trim="model.name" ></el-input>
         </el-form-item>
         <el-form-item label="应用ID：" prop="appid" required>
           <el-input v-if="model.from_type === 1" type="text" :disabled='true' placeholder="请输入应用ID" v-model="model.appid" ></el-input>
-          <el-input v-else type="text" placeholder="请输入应用ID" v-model="model.appid" ></el-input>
+          <el-input v-else type="text" placeholder="请输入应用ID" v-model.trim="model.appid" ></el-input>
         </el-form-item>
         <el-form-item v-if='memberManagePlan !== 2'  label="企业ID：" prop="corpid" required>
-          <el-input type="text" placeholder="请输入企业ID" v-model="model.corpid" ></el-input>
+          <el-input type="text" placeholder="请输入企业ID" v-model.trim="model.corpid" ></el-input>
         </el-form-item>
         <el-form-item v-if='memberManagePlan !== 2'  label="企业密钥：" prop="corpsecret" required>
-          <el-input type="text" placeholder="请输入企业密钥" v-model="model.corpsecret"></el-input>
+          <el-input type="text" placeholder="请输入企业密钥" v-model.trim="model.corpsecret"></el-input>
         </el-form-item>
         <el-form-item v-if='memberManagePlan !== 2'  label="外部联系人企业秘钥：" prop="userCorpsecret" required>
-          <el-input type="text" placeholder="请输入外部联系人企业秘钥" v-model="model.userCorpsecret"></el-input>
+          <el-input type="text" placeholder="请输入外部联系人企业秘钥" v-model.trim="model.userCorpsecret"></el-input>
+        </el-form-item>
+        <el-form-item v-if='memberManagePlan !== 2'  label="外部联系人TOKEN：" prop="userToken" required>
+          <el-input type="text" placeholder="请输入外部联系人TOKEN" v-model.trim="model.userToken"></el-input>
+        </el-form-item>
+        <el-form-item v-if='memberManagePlan !== 2'  label="外部联系人AESKEY：" prop="userAeskey" required>
+          <el-input type="text" placeholder="请输入外部联系人AESKEY" v-model.trim="model.userAeskey"></el-input>
         </el-form-item>
         <el-form-item v-if='memberManagePlan !== 2' label="通讯录企业秘钥：" prop="addressCorpsecret" required>
-          <el-input type="text" placeholder="请输入通讯录企业秘钥"  v-model="model.addressCorpsecret"></el-input>
+          <el-input type="text" placeholder="请输入通讯录企业秘钥"  v-model.trim="model.addressCorpsecret"></el-input>
         </el-form-item>
         <el-form-item label="支付ID：" prop="payId">
-          <el-input type="text" placeholder="请输入支付ID" v-model="model.payId" ></el-input>
+          <el-input type="text" placeholder="请输入支付ID" v-model.trim="model.payId" ></el-input>
         </el-form-item>
         <el-form-item label="支付密钥：" prop="paySecret">
-          <el-input type="text" placeholder="请输入支付密钥" v-model="model.paySecret" ></el-input>
+          <el-input type="text" placeholder="请输入支付密钥" v-model.trim="model.paySecret" ></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -194,12 +199,12 @@
     </el-dialog>
     <!-- 最新弹窗微信号授权结束 -->
     <!-- 最新弹窗取消授权开始 -->
-    <el-dialog size="small" class="authorization" :title="authorizationText" width="40%"
+    <el-dialog width="450px" class="authorization" :title="authorizationText"
                :visible.sync="cancelAuthorizations"
                :modal-append-to-body="false"
                @before-close="closeDialog()">
       <div>
-        <p class="shouquan">若要取消授权，请登录<a href="https://mp.weixin.qq.com" target="_blank">【微信公众平台】</a>授权管理页面取消授权</p>
+        <p>若要取消授权，请登录<a href="https://mp.weixin.qq.com" target="_blank">【微信公众平台】</a>授权管理页面取消授权</p>
       </div>
       <div slot="footer" class="authorization_footer">
         <ns-button @click="cancelAuthorizations = false">取消</ns-button>
@@ -223,10 +228,6 @@ export default index
   justify-items:inherit;
   align-items:center;
 }
-.dialog-top{
-  border-top:1px solid #ddd;
-  padding:10px 0 10px 78px;
-}
 .dialog_mian_logo .shoplogo{
   margin-right:5px;
 }
@@ -242,8 +243,5 @@ export default index
 }
 .dialog_mian{
   padding:10px 20px;
-}
-.shouquan{
-  margin-bottom: 20px
 }
 </style>

@@ -20,24 +20,27 @@ export default {
         'name': '授权'
       }
     ]
+    const originModel = {
+      id: null,
+      name: null,
+      appid: null,
+      secret: null,
+      corpid: null,
+      corpsecret: null,
+      openKey: null,
+      openSecret: null,
+      payId: null,
+      paySecret: null,
+      type: null,
+      from_type: null,
+      userCorpsecret: null,
+      addressCorpsecret: null,
+      param: {},
+      userAeskey: '',
+      userToken: ''
+    }
     return {
-      model: {
-        id: null,
-        name: null,
-        appid: null,
-        secret: null,
-        corpid: null,
-        corpsecret: null,
-        openKey: null,
-        openSecret: null,
-        payId: null,
-        paySecret: null,
-        type: null,
-        from_type: null,
-        userCorpsecret: null,
-        addressCorpsecret: null,
-        param: {}
-      },
+      model: JSON.parse(JSON.stringify(originModel)),
       obj: {
         appId: null
       },
@@ -70,9 +73,12 @@ export default {
         'userCorpsecret': [{ required: true, message: '请输入外部联系人企业秘钥', trigger: ['change', 'blur'] }],
         'addressCorpsecret': [{ required: true, message: '请输入通讯录企业秘钥', trigger: ['change', 'blur'] }],
         corpid: [{ required: true, message: '请输入企业ID', trigger: ['change', 'blur'] }],
-        corpsecret: [{ required: true, message: '请输入企业密钥', trigger: ['change', 'blur'] }]
+        corpsecret: [{ required: true, message: '请输入企业密钥', trigger: ['change', 'blur'] }],
+        userToken: [{ required: true, message: '请输入外部联系人TOKEN', trigger: ['change', 'blur'] }],
+        userAeskey: [{ required: true, message: '请输入外部联系人AESKEY', trigger: ['change', 'blur'] }]
       },
-      memberManagePlan: 1
+      memberManagePlan: 1,
+      authChange: false
     }
   },
   mounted: function () {
@@ -130,7 +136,6 @@ export default {
     },
     onSaveOpen (row) { // 新增或编辑
       var that = this
-      that.dialogFormVisible = true
       that.shopManager_radio = row.type === 1 ? '1' : '0'
       that.shoppingGuide_radio = row.type === 0 ? '1' : '0'
       that.titleText = (row.id && '编辑') || '新增'
@@ -149,6 +154,15 @@ export default {
       that.model.userCorpsecret = row.userCorpsecret
       that.model.addressCorpsecret = row.addressCorpsecret
       that.model.paySecret = row.paySecret
+      that.model.userToken = row.user_token
+      that.model.userAeskey = row.user_aeskey
+
+      this.$nextTick(() => {
+        if (this.$refs.form) {
+          this.$refs.form.clearValidate()
+        }
+        that.dialogFormVisible = true
+      })
     },
     onAuthorization () {
       this.authorization = true
@@ -204,7 +218,7 @@ export default {
     // },
     onSave () {
       let that = this
-      that.shopManager_radio === '1' ? that.model.type = 1 : that.model.type = 0
+      that.shopManager_radio === '1' ? that.model.type = 1 : that.shoppingGuide_radio === '1' ? that.model.type = 0 : that.model.type = -1
       delete that.model.param
       that.$refs.form.validate((valid) => {
         if (valid) {
@@ -212,7 +226,7 @@ export default {
             that.dialogFormVisible = false
             that.newestDialog = false
             that.$notify.success('保存成功')
-            that.$reload()
+            this.authChange = true
           }).catch((resp) => {
             that.$notify.error(getErrorMsg('保存失败', resp))
           })
@@ -260,7 +274,13 @@ export default {
       })
     },
     onClosed () {
+      this.model = JSON.parse(JSON.stringify(this.originModel))
       this.$refs.form.resetFields()
+
+      if (this.authChange) {
+        this.$reload()
+        this.authChange = false
+      }
     }
   }
 }
