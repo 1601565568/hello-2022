@@ -2,7 +2,7 @@
   <ns-page-table @scopeRowCount="scopeRowCount">
       <!-- 搜索 -->
       <template slot="advancedSearch">
-        <el-form ref="table_form" @keyup.enter.native="findList()" :inline="true" :model="model" label-width="80px">
+        <el-form ref="table_form" @keyup.enter.native="findList()" :inline="true" :model="model" label-width="60px">
           <el-form-item label="数据模块：">
             <el-form-grid size="sm">
               <el-select placeholder="请选择" v-model="moduleType" @change="setUrl"  filterable>
@@ -24,6 +24,14 @@
             </el-form-item>
           </template>
           <template v-else-if="moduleType === 2">
+            <el-form-item label="所属门店：">
+              <el-form-grid size="sm">
+                <el-select placeholder="请选择所属门店" v-model="model.customer.shopId" filterable>
+                  <el-option v-for="shop in shopFindList" :label="shop.shopName" :value="shop.id"
+                             :key="shop.id"></el-option>
+                </el-select>
+              </el-form-grid>
+            </el-form-item>
             <el-form-item label="会员姓名：">
               <el-form-grid size="sm">
                 <el-input v-model="model.customer.name" clearable></el-input>
@@ -116,7 +124,7 @@
           </template>
           <template v-else-if="tableType === 2">
             <el-table-column prop="name" label="会员姓名" align="left" :key="6">
-              <template slot-scope="scope">{{scope.row.name || '-'}}</template>
+              <template slot-scope="scope">{{scope.row.customerName || '-'}}</template>
             </el-table-column>
             <el-table-column prop="mobile" label="手机号" align="center" :key="7">
               <template slot-scope="scope">{{scope.row.mobile?scope.row.mobile:'-'}}</template >
@@ -130,10 +138,10 @@
               </template>
             </el-table-column>
             <el-table-column prop="guideName" label="专属导购" align="left" :key="9">
-              <template slot-scope="scope">{{scope.row.guideName ? scope.row.guideName : "-"}}</template>
+              <template slot-scope="scope">{{scope.row.sgExclusiveGuideName ? scope.row.sgExclusiveGuideName : "-"}}</template>
             </el-table-column>
             <el-table-column prop="id" label="数据库ID" align="center" :key="10">
-              <template slot-scope="scope">{{scope.row.nickType ? '('+scope.row.nickType+')'+scope.row.nick: "-"}}</template>
+              <template slot-scope="scope">{{scope.row.platform ? '('+scope.row.platform+')'+scope.row.outNick: "-"}}</template>
             </el-table-column>
           </template>
           <template v-else-if="tableType === 4">
@@ -261,7 +269,13 @@ export default {
       default: function () {
         return []
       }
-    }
+    },
+    shopFindList: {
+      type: Array,
+      default: function () {
+        return []
+      }
+    },
   },
   data: function () {
     return {
@@ -276,6 +290,7 @@ export default {
         },
         customer: {
           name: null,
+          shopId: null,
           mobile: null
         },
         task: {
@@ -300,6 +315,7 @@ export default {
   },
   mounted: function () {
     this.moduleType = this.dataModule ? this.dataModule[0].value : null
+    this.model.customer.shopId = this.shopFindList ? this.shopFindList[0].id : null
     this.setUrl(this.moduleType)
     this.$reload()
   },
@@ -364,6 +380,7 @@ export default {
     findList: function () {
       let _this = this
       this.$searchAction$()
+      _this._data._table.data = null
       _this.tableType = this.moduleType
       _this.$refs.table.doLayout()
     },

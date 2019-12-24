@@ -13,11 +13,13 @@
       <!-- 简单搜索 -->
       <!-- el-form 需添加 @submit.native.prevent 配置 -->
       <!-- el-inpu 需添加  @keyup.enter.native="$quickSearchAction$" 配置，实现回车搜索 -->
-      <!-- <template slot="searchSearch">
-        <el-form :model="quickSearchModel" :inline="true" @submit.native.prevent  class="pull-right">
-          <el-form-item label="关键字：" v-show="_data._queryConfig.expand === false">
-            <el-input ref="quickText" style="width: 250px" v-model="model.name" placeholder="请输入工号/姓名/昵称/手机号" @keyup.enter.native="$quickSearchAction$('name')" clearable>
-            </el-input>
+      <template slot="searchSearch" >
+        <el-form :model="quickSearchModel" :inline="true" @submit.native.prevent  class="pull-right top5">
+          <el-form-item label="数据模块：" v-show="_data._queryConfig.expand === false">
+            <el-select placeholder="请选择" v-model="model.moduleType" clearable filterable>
+              <el-option v-for="shop in dataModule" :label="shop.label" :value="shop.value"
+                         :key="shop.value"></el-option>
+            </el-select>
             <ns-button type="primary" @click="$searchAction$()">搜索</ns-button>
             <ns-button @click="$resetInputAction$()">重置</ns-button>
           </el-form-item>
@@ -28,13 +30,14 @@
             </ns-button>
           </el-form-item>
         </el-form>
-      </template> -->
+      </template>
+
       <!-- 简单搜索-结束 -->
 
       <!-- 高级搜索 -->
       <!-- el-form 需添加  @keyup.enter.native="onSearch" 配置，实现回车搜索， onSearch 为搜索方法 -->
       <!-- el-form 需添加  surround-btn 类名 配置环绕按钮效果 -->
-      <template slot="advancedSearch">
+      <template slot="advancedSearch" v-if="_data._queryConfig.expand">
         <el-form ref="table_filter_form" :model="model" label-width="70px" :inline="true">
 
           <el-form-item label="数据模块：">
@@ -206,8 +209,8 @@
       </el-dialog>
     <!-- 所属门店查看详情结束 -->
     <!--查询数据库ID弹窗-->
-    <el-dialog  title="查询数据库ID" width="800px" height="605px" :visible.sync="showTargetDetail">
-      <target-detail ref="targetDetail" :dataModule = "dataModule" @scopeRowCount="scopeRowCount"></target-detail>
+    <el-dialog  title="查询数据库ID" width="950px" height="605px" :visible.sync="showTargetDetail">
+      <target-detail ref="targetDetail" :dataModule = "dataModule" :shopFindList="shopFindList" @scopeRowCount="scopeRowCount"></target-detail>
       <div slot="footer" class="dialog-footer">
         <ns-button @click="showTargetDetail = false">关闭</ns-button>
       </div>
@@ -218,8 +221,12 @@ import guide from './src/NsTableGuide'
 export default guide
 </script>
 <style scoped>
+  @import "@theme/variables.pcss";
   .scope_row_count {
     color: blue;
+  }
+  .top5 {
+   padding-top: 5px;
   }
   /* 解决搜索和重置按钮那栏的上下间距不一致问题 */
   >>> .template-table__bar {
