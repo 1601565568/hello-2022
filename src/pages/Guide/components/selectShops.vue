@@ -46,12 +46,13 @@
             <el-table
               ref="shopTable"
               :data="dataList"
+              :row-key="getRowKey"
               tooltip-effect="dark"
               style="width: 100%" v-loading="tableLoading"
               :element-loading-text="$t('prompt.loading')"
               @selection-change="handleSelectionChange" stripe>
-              <el-table-column type="selection" align="center" :width="50"></el-table-column>
-              <el-table-column prop="shopName" label="门店名称"></el-table-column>
+              <el-table-column type="selection" align="center" :width="50" :reserve-selection="true"></el-table-column>
+              <el-table-column prop="shopName"  label="门店名称"></el-table-column>
             </el-table>
           </el-scrollbar>
         </div>
@@ -206,6 +207,7 @@ export default {
               this.multipleSelection = this.selected
             }
             // 回显
+            console.log('hasArr', hasArr)
             this.toggleSelection(hasArr)
           })
           this.pagination.total = parseInt(resp.result.recordsTotal)
@@ -225,7 +227,7 @@ export default {
     toggleSelection (rows) {
       if (rows) {
         rows.forEach(row => {
-          this.$refs.shopTable.toggleRowSelection(row)
+          this.$refs.shopTable.toggleRowSelection(row, true)
         })
       } else {
         this.$refs.shopTable.clearSelection()
@@ -234,6 +236,9 @@ export default {
     // 选择
     handleSelectionChange (val) {
       this.multipleSelection = val
+    },
+    getRowKey (row) {
+      return row.id
     },
     handleClose (done) {
       done()
