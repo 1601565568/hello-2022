@@ -2,9 +2,9 @@ var backstageURL = function (){
   var returnUrl
   var hostUrl = window.location.protocol + '//' + window.location.host
   if (hostUrl.includes('localhost') || hostUrl.includes('127.0.0.1')) {
-    hostUrl += ':30004/liberty/url/appUrl'
+    hostUrl = 'http://localhost:30004/liberty/url/appUrl'
   } else {
-    hostUrl += '/crmWebApi/liberty/url/appUrl'
+    hostUrl = 'http://test-sg.ecrpcloud.com/crmWebApi/liberty/url/appUrl'
   }
   $.ajax({
     url: hostUrl,
