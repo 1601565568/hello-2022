@@ -295,7 +295,7 @@
               <div>
                 <VEmojiPicker :pack="pack" @select="selectEmoji" />
               </div>
-              <el-button slot="reference"><Icon className="icon-biaoqing" type="biaoqing"/></el-button>
+              <ns-button slot="reference"><Icon className="icon-biaoqing" type="biaoqing"/></ns-button>
             </el-popover>
           </div>
         </el-form-item>
