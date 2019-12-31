@@ -298,7 +298,7 @@ export default NsTableGuide
   overflow-x: hidden;
 }
 
-.el-pagination__jump {
+>>> .el-pagination__jump {
   margin-left: unset !important;
 }
 </style>
