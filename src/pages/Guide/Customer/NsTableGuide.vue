@@ -2,7 +2,7 @@
   <div calss="NsTableGuide_main">
         <div class="template-page__row-left">
           <el-input ref="quickText" v-model="shopTreePage.shopName" placeholder="输入线下店铺名称" clearable
-                    @keyup.enter.native="initShopList">
+                    @keyup.enter.native="initShopList(1)">
             <Icon type="search" className="el-input__icon" style="padding: 5px;" slot="suffix" name="name" @click="initShopList(1)"/>
           </el-input>
           <el-scrollbar ref='shopTreeDiv' wrapStyle="overflow-x:hidden;" style="padding-bottom: 10px" >

@@ -80,7 +80,7 @@ export default {
     //     vm.loading = vm._data._loading
     //   })
     // }
-    let limitHeight = window.innerHeight - 32 - this.$refs.shopTreeDiv.$el.getBoundingClientRect().top
+    let limitHeight = window.innerHeight - 32 - 10 - this.$refs.shopTreeDiv.$el.getBoundingClientRect().top
     this.$refs.shopTreeDiv.$el.children[0].style.height = limitHeight + 'px'
     this.$searchAction$()
   },

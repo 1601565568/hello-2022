@@ -1,9 +1,10 @@
 <template>
   <div calss="NsTableGuide_main">
     <div class="template-page__row-left">
-      <el-input ref="quickText" v-model="filterTreeText" placeholder="请输入数字门店名称" clearable>
+      <el-input ref="quickText" v-model="shopTreePage.shopName" placeholder="请输入数字门店名称" clearable
+                @keyup.enter.native="initDigitalShopList(1)">
         <Icon type="search" className="el-input__icon" style="padding: 5px;" slot="suffix" name="name"
-              @click="$quickSearchAction$('name')"/>
+              @click="initDigitalShopList(1)"/>
       </el-input>
       <el-scrollbar ref='shopTreeDiv' wrapStyle="overflow-x:hidden;" style="padding-bottom: 10px" >
         <el-tree class="filter-tree" ref="shopTree" :data="digitalShopList" highlight-current
@@ -19,6 +20,14 @@
           </div>
         </el-tree>
       </el-scrollbar>
+      <el-pagination style='text-align: center' small
+                     :total="shopTreePage.total"
+                     :page-size="shopTreePage.size"
+                     layout="prev, slot, next, jumper"
+                     :current-page.sync="shopTreePage.page"
+                     @current-change="initDigitalShopList">
+        <span>{{shopTreePage.page}}</span>
+      </el-pagination>
     </div>
     <div class="template-page__row-right">
       <!-- <ns-page-table @add="$emit('add')"  @allDelete="$emit('allDelete')" @onAddCustomer="$emit('onAddCustomer')" @quit="$emit('quit')" @shopEdit="$emit('shopEdit')" @ondelete="$emit('ondelete')"> -->
@@ -132,7 +141,7 @@
           <!-- 日期 年月日 :width="100"   年月日时分秒 :width="150" -->
           <!-- 手机号 :width="120" -->
           <!-- 操作（只有一项文字的80px,两项文字120px,三项文字160px） -->
-
+          <el-scrollbar ref="fullScreen">
           <el-table ref="table" :data="_data._table.data" stripe>
             <el-table-column prop="shopName" label="线下门店名称&ID" align="left" width="150">
               <template slot-scope="scope">
@@ -182,6 +191,7 @@
               </template>
             </el-table-column>
           </el-table>
+          </el-scrollbar>
         </template>
         <!-- 表格-结束 -->
         <!-- 分页 -->
@@ -274,5 +284,8 @@ export default guide
   }
   .el-tree {
     overflow-x: hidden;
+  }
+  >>> .el-pagination__jump {
+    margin-left: unset !important;
   }
 </style>
