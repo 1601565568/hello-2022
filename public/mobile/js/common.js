@@ -37,14 +37,16 @@ var apiRoot = function (){
   var returnUrl
   var hostUrl = window.location.protocol + '//' + window.location.host
   if (hostUrl.includes('localhost') || hostUrl.includes('127.0.0.1')) {
-    hostUrl += ':30004/liberty/url/appUrl'
+    hostUrl = 'http://localhost:30004/liberty/url/appUrl'
   } else {
     hostUrl += '/crmWebApi/liberty/url/appUrl'
   }
   $.ajax({
     url: hostUrl,
-    type: 'get',
-    method: 'get',
+    type: 'post',
+    dataType: 'JSON',
+    method: 'post',
+    async: false,
     contentType: 'application/json;charset=UTF-8',
     success: function (res) {
       returnUrl = res.result
@@ -53,7 +55,7 @@ var apiRoot = function (){
       window.location.replace('./error.html?message=获取服务器地址异常')
     }
   })
-  return returnUrl
+  return returnUrl + '/app'
 }
 var fetch = function (api, data) {
   return new Promise(function (resolve, reject) {
