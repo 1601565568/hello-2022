@@ -1,16 +1,17 @@
-var backstageURL = function (){
+function backstageURL() {
   var returnUrl
   var hostUrl = window.location.protocol + '//' + window.location.host
   if (hostUrl.includes('localhost') || hostUrl.includes('127.0.0.1')) {
     hostUrl = 'http://localhost:30004/liberty/url/appUrl'
   } else {
-    hostUrl = 'http://test-sg.ecrpcloud.com/crmWebApi/liberty/url/appUrl'
+    hostUrl += '/crmWebApi/liberty/url/appUrl'
   }
   $.ajax({
     url: hostUrl,
     type: 'post',
     dataType: 'JSON',
     method: 'post',
+    async: false,
     contentType: 'application/json;charset=UTF-8',
     success: function (res) {
       returnUrl = res.result
@@ -19,7 +20,7 @@ var backstageURL = function (){
       window.location.replace('./error.html?message=获取服务器地址异常')
     }
   })
-  return returnUrl
+  return returnUrl + '/app/guide/zm/guideRecruit'
 }
 
 // 获取参数封装
@@ -42,9 +43,8 @@ var apiRoot = function (){
   }
   $.ajax({
     url: hostUrl,
-    type: 'post',
-    dataType: 'JSON',
-    method: 'post',
+    type: 'get',
+    method: 'get',
     contentType: 'application/json;charset=UTF-8',
     success: function (res) {
       returnUrl = res.result
