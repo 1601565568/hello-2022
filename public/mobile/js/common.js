@@ -52,7 +52,7 @@ var apiRoot = function (){
       returnUrl = res.result
     },
     error: function (res) {
-      window.location.replace('./error.html?message=获取服务器地址异常')
+      window.location.replace('./invalid/invalid.html?msg=获取服务器地址异常')
     }
   })
   return returnUrl + '/app'
