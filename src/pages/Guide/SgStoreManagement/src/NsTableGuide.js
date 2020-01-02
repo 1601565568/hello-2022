@@ -2,9 +2,11 @@ import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import NsArea from '@nascent/ecrp-ecrm/src/components/NsArea'
 import { getErrorMsg } from '@/utils/toast'
 import $ from 'jquery'
+import scrollTable from '@/mixins/scrollTable'
+
 export default {
   name: 'NsTableGuide',
-  mixins: [tableMixin],
+  mixins: [tableMixin, scrollTable],
   props: {
     url: Object
   },
@@ -124,6 +126,12 @@ export default {
           value: 'label',
           disabled: 'disabled'
         }
+      },
+      shopTreePage: {
+        total: 0,
+        page: 1,
+        size: 50,
+        shopName: ''
       }
     }
   },
@@ -136,15 +144,17 @@ export default {
     } else {
       this.$reload()
     }
-    let limitHeight = window.innerHeight - this.$refs.shopTreeDiv.$el.getBoundingClientRect().top
-    this.$refs.shopTreeDiv.$el.children[0].style.maxHeight = limitHeight + 'px'
+    let limitHeight = window.innerHeight - 32 - 10 - this.$refs.shopTreeDiv.$el.getBoundingClientRect().top
+    this.$refs.shopTreeDiv.$el.children[0].style.height = limitHeight + 'px'
     this.$searchAction$()
   },
   components: {
     NsArea
   },
   updated () {
-    this.$refs.elTree.offsetHeight > window.screen.availHeight ? this.offsetHeight = true : this.offsetHeight = false
+    if (this.$refs.elTree) {
+      this.$refs.elTree.offsetHeight > window.screen.availHeight ? this.offsetHeight = true : this.offsetHeight = false
+    }
   },
   computed: {},
   methods: {
@@ -247,11 +257,19 @@ export default {
       })
     },
     // 数字门店列表
-    initDigitalShopList () {
+    initDigitalShopList (page) {
+      this.shopTreePage.page = page || 1
       var _this = this
-      _this.$http.fetch(_this.$api.guide.shop.findDigitalShopList).then(resp => {
+      _this.$http.fetch(_this.$api.guide.shop.findDigitalShopList, {
+        start: (this.shopTreePage.page - 1) * this.shopTreePage.size,
+        length: this.shopTreePage.size,
+        searchMap: {
+          shopName: this.shopTreePage.shopName
+        }
+      }).then(resp => {
         if (resp.success && resp.result !== null) {
-          _this.digitalShopList = resp.result
+          this.shopTreePage.total = Number(resp.result.recordsTotal)
+          _this.digitalShopList = resp.result.data
         }
       }).catch((resp) => {
         _this.$notify.error(getErrorMsg('查询失败', resp))
