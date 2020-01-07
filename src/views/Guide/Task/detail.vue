@@ -195,7 +195,7 @@
     <el-col :span="12">
       <div class="overview-echart__item overview-echart__item--pink">
         <div class="overview-content__title">
-          <span class='span'>完成任务包含按时完成和延期完成</span>
+          <span class='span'>导购完成任务数排行榜</span>
           <el-tooltip content="完成任务包含按时完成和延期完成">
             <i class="text-secondary"><Icon type="info-circle" theme="filled" /></i>
           </el-tooltip>
