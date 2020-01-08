@@ -203,10 +203,9 @@
       width="514px" class="search-dialog">
       <div class="search-dialog__title" >
         <div class="search-avatar">
-          <img :src="currentOwner.head" class="search-avatar__img" alt="用户头像">
           <el-image
             :width="64" :height="64"
-            :src="currentOwner.head"
+            :src="currentOwner.head||require('./src/images/avartar.png')"
             mode="cover" :circle="true"></el-image>
         </div>
         <div class="search-username">
@@ -226,8 +225,8 @@
             <div class="search-item" :key="chat.id" @click="locateKeyWord(chat.id, chat.createTime)">
               <div class="search-item__avatar">
                 <el-image
-                  :width="64" :height="64"
-                  :src="chat.senderHead"
+                  :width="48" :height="48"
+                  :src="chat.senderHead||require('./src/images/avartar.png')"
                   mode="cover" :circle="true"></el-image>
               </div>
               <div class="search-msg">
