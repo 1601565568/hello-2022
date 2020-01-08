@@ -179,6 +179,10 @@ export default {
     },
     // 按内容查询
     searchByContent () {
+      if (this.contentKeyWord === '' || this.contentKeyWord === undefined) {
+        this.$notify.error('请输入查询内容！')
+        return
+      }
       let _this = this
       // 日期格式转换
       this.model.srhDate = [moment(this.model.srhDate[0]).format('YYYY-MM-DD'), moment(this.model.srhDate[1]).format('YYYY-MM-DD')]

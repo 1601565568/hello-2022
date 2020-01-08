@@ -200,7 +200,7 @@
     <el-dialog
       title="搜索内容"
       :visible.sync="dialogVisibleSearcher"
-      width="514px" class="search-dialog">
+      width="635px" height="500px" class="search-dialog">
       <div class="search-dialog__title" >
         <div class="search-avatar">
           <el-image
@@ -212,15 +212,15 @@
           {{currentOwner.nick}}（{{currentOwner.wid}}）
         </div>
       </div>
-      <div class="search-input">
-        <el-input ref="quickText" v-model="contentKeyWord" placeholder="请输入内容">
+      <div class="search-input" style="width: 600px">
+        <el-input ref="quickText" v-model="contentKeyWord" placeholder="请输入内容" @keyup.enter.native="searchByContent">
           <i class="el-input__icon" slot="suffix" name="name" :disabled="btnSearchContentDisabled" @click="searchByContent">
-            <Icon type="search"/>
+            <Icon type="search" style="width: 30px"/>
           </i>
         </el-input>
       </div>
       <el-scrollbar class="scrollbarseacher" v-loading.lock="contentLoading">
-        <div class="search-dialog__content" v-if="contentList.length > 0">
+        <div class="search-dialog__content" v-if="contentList.length > 0" style="width: 600px">
           <template v-for="chat in contentList">
             <div class="search-item" :key="chat.id" @click="locateKeyWord(chat.id, chat.createTime)">
               <div class="search-item__avatar">
@@ -237,12 +237,15 @@
             </div>
           </template>
         </div>
-        <div class="search-dialog__content" v-else>
+        <div class="search-dialog__content" style="width: 600px" v-else>
           <div class="search-item">
             <div class="search-item__avatar" style="text-align: center;width: 100%;">无相关搜索内容</div>
           </div>
         </div>
       </el-scrollbar>
+      <div style="height: 3px;">
+        &nbsp;
+      </div>
     </el-dialog>
     <!-- 搜索内容弹窗-->
   </div>
