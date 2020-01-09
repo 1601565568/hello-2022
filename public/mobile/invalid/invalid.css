@@ -7,6 +7,10 @@ html,body {
     height: 100%;
     background: #FFF;
 }
+.noneBody {
+  display: none;
+  padding-top: 66px;
+}
 .fail {
     display: none;
     padding-top: 66px;
