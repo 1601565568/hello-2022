@@ -1,4 +1,4 @@
-function backstageURL() {
+function backstageURL () {
   var returnUrl
   var hostUrl = window.location.protocol + '//' + window.location.host
   if (hostUrl.includes('localhost') || hostUrl.includes('127.0.0.1')) {
@@ -33,7 +33,7 @@ var getPar = function (name) {
   return null
 }
 
-var apiRoot = function (){
+var apiRoot = function () {
   var returnUrl
   var hostUrl = window.location.protocol + '//' + window.location.host
   if (hostUrl.includes('localhost') || hostUrl.includes('127.0.0.1')) {
@@ -52,7 +52,7 @@ var apiRoot = function (){
       returnUrl = res.result
     },
     error: function (res) {
-      window.location.replace('./error.html?message=获取服务器地址异常')
+      window.location.replace('./invalid/invalid.html?msg=获取服务器地址异常')
     }
   })
   return returnUrl + '/app'
@@ -65,9 +65,9 @@ var fetch = function (api, data) {
       dataType: api.dataType || 'JSON',
       data: JSON.stringify(data),
       cache: false,
-      contentType: "application/json;charset=UTF-8",
+      contentType: 'application/json;charset=UTF-8',
       success: function (res) {
-        if(res && res.success){
+        if (res && res.success) {
           resolve(res)
         } else {
           reject(res)
@@ -76,8 +76,8 @@ var fetch = function (api, data) {
       error: function (res) {
         reject(res)
       }
-    });
-  });
+    })
+  })
 }
 
 var formatMobile = function (mobile) {

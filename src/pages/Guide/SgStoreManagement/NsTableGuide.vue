@@ -26,7 +26,7 @@
                      layout="prev, slot, next, jumper"
                      :current-page.sync="shopTreePage.page"
                      @current-change="initDigitalShopList">
-        <span>{{shopTreePage.page}}</span>
+        <span>{{shopTreePage.page + '/' + (Math.ceil(shopTreePage.total/ shopTreePage.size) || 1)}}</span>
       </el-pagination>
     </div>
     <div class="template-page__row-right">
