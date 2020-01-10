@@ -126,7 +126,7 @@ export default {
         if (this.status === '0') {
           temp['quota' + i] = target ? this.$numeral(target['quota' + i]).format('0.00') : '0.00'
         } else {
-          temp['quota' + i] = target ? this.$numeral(target['quota' + i]).format('0.00') : '0'
+          temp['quota' + i] = target ? this.$numeral(target['quota' + i]).format('0') : '0'
         }
       }
       this.shopList = [
