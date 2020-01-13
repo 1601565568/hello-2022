@@ -248,6 +248,7 @@ export default {
       })
     },
     searchAction (model) { // 搜索
+      this.pagination.page = 1
       this.guideFindList(model)
     },
     resetInputAction () { // 重置
@@ -331,7 +332,8 @@ export default {
         length: this._data.pagination.size,
         searchMap: {
           shopId: that.model.shop,
-          keyword: that.model.name
+          keyword: that.model.name,
+          sameSystemShopId: that.sameSystemShopId
         },
         start: (page - 1) * this._data.pagination.size
       }
