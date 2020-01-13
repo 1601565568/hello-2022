@@ -96,6 +96,7 @@ export default {
       integralIsNum: [0, 0, 0, 0, 0], // 控制会员详情积分
       integralName: ['', '', '', '', ''], // 控制会员详情积分
       integralAliasName: ['', '', '', '', ''], // 积分别名
+      sameSystemShopId: null, // 门店ID,用于更换会员导购弹窗查询同体系门店的参数
       mapTag: [],
       textIds: [], // 会员打标签输入框id集合
       selectIds: [], // 会员打标签下拉选id集合
@@ -259,7 +260,7 @@ export default {
     async findBrandShopList (model) { // 门店列表查询
       let that = this
       await this.$http
-        .fetch(that.$api.guide.shop.findBrandShopList, { isOnline: 0 })
+        .fetch(that.$api.guide.shop.findBrandShopList, { isOnline: 0, sameSystemShopId: model.sameSystemShopId })
         .then(resp => {
           that.shopList = [...resp.result]
         })
@@ -274,13 +275,19 @@ export default {
         length: that._data.pagination.size,
         searchMap: {
           shopId: Number.parseInt(that.model.shop),
-          keyword: that.model.name
+          keyword: that.model.name,
+          sameSystemShopId: that.sameSystemShopId
         },
         start: 0
       }
       if (model !== undefined && typeof model === 'object') {
         obj.searchMap.keyword = model.name
-        obj.searchMap.shopId = parseInt(model.shop)
+        if (model.shop) {
+          obj.searchMap.shopId = parseInt(model.shop)
+          obj.searchMap.sameSystemShopId = null
+        } else {
+          obj.searchMap.sameSystemShopId = model.sameSystemShopId?parseInt(model.sameSystemShopId):that.sameSystemShopId
+        }
       }
       if (numbers.test(model)) {
         obj.length = model
@@ -363,8 +370,11 @@ export default {
         if (this.multipleSelection.length > 0) {
           _this.title = '导购更换列表'
           _this.shopFindListShow = true
-          _this.guideFindList()
-          _this.findBrandShopList()
+          // _this.guideFindList()
+          let shopId = this.multipleSelection[0].sgExclusiveShopId
+          this.sameSystemShopId = shopId
+          _this.guideFindList({ sameSystemShopId: shopId })
+          _this.findBrandShopList({ sameSystemShopId: shopId })
         } else {
           _this.$notify.error('请选择要更换导购的会员')
         }

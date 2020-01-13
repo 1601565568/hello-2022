@@ -283,11 +283,12 @@ export default {
           return time.getTime() > Date.now() - 8.64e7
         }
       },
-      _queryConfig: { expand: false }
+      _queryConfig: { expand: false },
+      sameSystemShopId: null // 相同体系门店ID，用于查询相同体系门店Id接口参数
     }
   },
   mounted () {
-    this.initShopList()
+    // this.initShopList()
   },
   methods: {
     workPrefix (val) {
@@ -794,7 +795,8 @@ export default {
     },
     initShopList () {
       var _this = this
-      _this.$http.fetch(_this.$api.guide.shop.findBrandShopList, { isOnline: 0 }).then(resp => {
+      _this.$http.fetch(_this.$api.guide.shop.findBrandShopList,
+        { isOnline: 0, sameSystemShopId: this.sameSystemShopId }).then(resp => {
         if (resp.success && resp.result != null) {
           _this.shopFindList = resp.result
           _this.restShopFindList = resp.result
@@ -1137,11 +1139,13 @@ export default {
     // 离职js开始
     // 客户会转移类型选择
     shiftChange (val) {
+      this.initShopList()
       if (val === '2') {
         this.model.name = null
         this.model.shop = null
         this.model.mobile = null
         this.model.workId = null
+        this.model.sameSystemShopId = this.sameSystemShopId
         this.guideFindList()
       } else if (val === '3') {
         this.model.name = null
@@ -1256,7 +1260,8 @@ export default {
         searchMap: {
           shopId: _this.model.shop,
           keyword: _this.model.name === null ? _this.model.shop === null : _this.model.name,
-          noGuideId: _this.guideId
+          noGuideId: _this.guideId,
+          sameSystemShopId: _this.sameSystemShopId
         },
         start: _this.transferShopPage !== null ? ((this.transferShopPage - 1) * 15) : 0
       }
@@ -1307,6 +1312,7 @@ export default {
       var _this = this
       // _this.initShopList()
       _this.customFindVo.shop = row.shop_id
+      _this.sameSystemShopId = row.shop_id
       _this.employeeDetails = row
       _this.transferName = row.name
       _this.transferShopName = row.shopName
