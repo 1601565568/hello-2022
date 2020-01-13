@@ -1,7 +1,8 @@
 <template>
   <div>
     <ns-table-guide ref="table1" :url=$api.guide.guide.customerFindCustomerList @add="onRedactFun"
-      @shopEdit="shopEdit" @showTag="showTagData" @onRedactFun="onRedactFun" @handleSelectionChange="handleSelectionChange">
+      @shopEdit="shopEdit" @showTag="showTagData" @onRedactFun="onRedactFun"
+                    @handleSelectionChange="handleSelectionChange" @offLineShopId="getOffLineShopId($event)">
     </ns-table-guide>
     <!--更换导购弹窗-->
     <el-dialog :title="title" :visible.sync="shopFindListShow" width="800px" @close="closeDialog">

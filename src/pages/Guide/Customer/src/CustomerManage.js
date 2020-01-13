@@ -371,8 +371,7 @@ export default {
           _this.title = '导购更换列表'
           _this.shopFindListShow = true
           // _this.guideFindList()
-          let shopId = this.multipleSelection[0].sgExclusiveShopId
-          this.sameSystemShopId = shopId
+          let shopId = this.sameSystemShopId
           _this.guideFindList({ sameSystemShopId: shopId })
           _this.findBrandShopList({ sameSystemShopId: shopId })
         } else {
@@ -536,6 +535,9 @@ export default {
       this.model.shop = null
       this.pagination.page = 1
       this.pagination.size = 15
+    },
+    getOffLineShopId (data) {
+      this.sameSystemShopId = data
     },
     addText (row) {
       let num = this.textIds.indexOf(row.id)
