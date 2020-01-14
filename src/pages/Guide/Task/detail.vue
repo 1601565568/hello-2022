@@ -31,8 +31,8 @@
             <el-countup
               :start="0"
               :end="infoObj.total"
-              :decimal="1.5"
-              v-if="infoObj.total">
+              :duration="1.5"
+              v-if="infoObj.total >= 0">
             </el-countup>
           </div>
         </div>
@@ -44,7 +44,7 @@
               :start="0"
               :end="infoObj.unfinishedCount"
               :duration="1.5"
-              v-if="infoObj.unfinishedCount">
+              v-if="infoObj.unfinishedCount >= 0">
             </el-countup>
           </div>
         </div>
