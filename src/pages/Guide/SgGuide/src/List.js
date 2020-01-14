@@ -288,7 +288,7 @@ export default {
     }
   },
   mounted () {
-    // this.initShopList()
+    this.initShopList()
   },
   methods: {
     workPrefix (val) {
