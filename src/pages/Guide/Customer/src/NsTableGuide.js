@@ -55,7 +55,13 @@ export default {
       loading: false,
       offsetHeight: false,
       height: 0,
-      gradeInfo: [] // 等级信息下拉框
+      gradeInfo: [], // 等级信息下拉框
+      shopTreePage: {
+        total: 0,
+        page: 1,
+        size: 50,
+        shopName: ''
+      }
     }
   },
   watch: {
@@ -74,12 +80,14 @@ export default {
     //     vm.loading = vm._data._loading
     //   })
     // }
-    let limitHeight = window.innerHeight - this.$refs.shopTreeDiv.$el.getBoundingClientRect().top
-    this.$refs.shopTreeDiv.$el.children[0].style.maxHeight = limitHeight + 'px'
+    let limitHeight = window.innerHeight - 32 - 10 - this.$refs.shopTreeDiv.$el.getBoundingClientRect().top
+    this.$refs.shopTreeDiv.$el.children[0].style.height = limitHeight + 'px'
     this.$searchAction$()
   },
   updated () {
-    this.$refs.elTree.offsetHeight > window.screen.availHeight ? this.offsetHeight = true : this.offsetHeight = false
+    if (this.$refs.elTree) {
+      this.$refs.elTree.offsetHeight > window.screen.availHeight ? this.offsetHeight = true : this.offsetHeight = false
+    }
   },
   computed: {},
   created: function () {
@@ -98,6 +106,7 @@ export default {
         _this.gradeInfo = []
       }
       _this.offLineShopId = data.parentId != 0 ? data.parentId : data.id
+      _this.$emit('offLineShopId', _this.offLineShopId)
       _this.shuJushuzu = data
       _this.loading = true
       _this.$reload().then(rep => {
@@ -154,10 +163,18 @@ export default {
       // 没匹配到返回false
       return false
     },
-    initShopList () {
-      this.$http.fetch(this.$api.guide.guide.customerGetGuideTree).then(resp => {
+    initShopList (page) {
+      this.shopTreePage.page = page || 1
+      this.$http.fetch(this.$api.guide.guide.customerGetGuideTree, {
+        start: (this.shopTreePage.page - 1) * this.shopTreePage.size,
+        length: this.shopTreePage.size,
+        searchMap: {
+          shopName: this.shopTreePage.shopName
+        }
+      }).then(resp => {
         if (resp.success && resp.result !== null) {
-          this.shopFindList = resp.result
+          this.shopTreePage.total = Number(resp.result.recordsTotal)
+          this.shopFindList = resp.result.data
           if (this.shopFindList.length > 0) {
             this.$nextTick(function () {
               this.$refs.guideTree.setCurrentKey(this.shopFindList[0].id)

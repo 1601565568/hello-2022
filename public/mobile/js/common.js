@@ -1,19 +1,28 @@
-var backstageURL = function (){
-  var hostUrl = window.document.location.href
-  if(hostUrl.includes('sg.vecrp.com')){
-    return 'https://sgapp.vecrp.com/app/guide/zm/guideRecruit'
-  }else if(hostUrl.includes('test-sg.ecrpcloud.com')){
-    return 'https://zhsg.ecrpcloud.com/app/guide/zm/guideRecruit'
-  } else{
-    return 'http://localhost:80/app/guide/zm/guideRecruit'
+function backstageURL () {
+  var returnUrl
+  var hostUrl = window.location.protocol + '//' + window.location.host
+  if (hostUrl.includes('localhost') || hostUrl.includes('127.0.0.1')) {
+    hostUrl = 'http://localhost:30004/liberty/url/appUrl'
+  } else {
+    hostUrl += '/crmWebApi/liberty/url/appUrl'
   }
+  $.ajax({
+    url: hostUrl,
+    type: 'post',
+    dataType: 'JSON',
+    method: 'post',
+    async: false,
+    contentType: 'application/json;charset=UTF-8',
+    success: function (res) {
+      returnUrl = res.result
+    },
+    error: function (res) {
+      window.location.replace('./error.html?message=获取服务器地址异常')
+    }
+  })
+  return returnUrl + '/app/guide/zm/guideRecruit'
 }
-var getRootPath = function () {
-  var curPageUrl = window.document.location.href
-  var rootPath = curPageUrl.split('//')[0] + curPageUrl.split('//')[1].split('/')[0] +
-    '/' + curPageUrl.split('//')[1].split('/')[1]
-  return rootPath
-}
+
 // 获取参数封装
 var getPar = function (name) {
   var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)')
@@ -24,15 +33,29 @@ var getPar = function (name) {
   return null
 }
 
-var apiRoot = function (){
-  var hostUrl = window.document.location.href
-  if(hostUrl.includes('sg.vecrp.com')){
-    return 'https://sgapp.vecrp.com/app/'
-  }else if(hostUrl.includes('test-sg.ecrpcloud.com')){
-    return 'https://zhsg.ecrpcloud.com/app/'
-  } else{
-    return 'http://localhost/app/'
+var apiRoot = function () {
+  var returnUrl
+  var hostUrl = window.location.protocol + '//' + window.location.host
+  if (hostUrl.includes('localhost') || hostUrl.includes('127.0.0.1')) {
+    hostUrl = 'http://localhost:30004/liberty/url/appUrl'
+  } else {
+    hostUrl += '/crmWebApi/liberty/url/appUrl'
   }
+  $.ajax({
+    url: hostUrl,
+    type: 'post',
+    dataType: 'JSON',
+    method: 'post',
+    async: false,
+    contentType: 'application/json;charset=UTF-8',
+    success: function (res) {
+      returnUrl = res.result
+    },
+    error: function (res) {
+      window.location.replace('./invalid/invalid.html?msg=获取服务器地址异常')
+    }
+  })
+  return returnUrl + '/app'
 }
 var fetch = function (api, data) {
   return new Promise(function (resolve, reject) {
@@ -42,9 +65,9 @@ var fetch = function (api, data) {
       dataType: api.dataType || 'JSON',
       data: JSON.stringify(data),
       cache: false,
-      contentType: "application/json;charset=UTF-8",
+      contentType: 'application/json;charset=UTF-8',
       success: function (res) {
-        if(res && res.success){
+        if (res && res.success) {
           resolve(res)
         } else {
           reject(res)
@@ -53,8 +76,8 @@ var fetch = function (api, data) {
       error: function (res) {
         reject(res)
       }
-    });
-  });
+    })
+  })
 }
 
 var formatMobile = function (mobile) {

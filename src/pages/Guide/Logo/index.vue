@@ -29,10 +29,10 @@
             <el-popover
               placement="bottom-start" trigger="click">
               <img src="./src/images/exampleImg.png" alt="示例图片"/>
-              <el-button slot="reference" class="company-example__check">
+              <ns-button slot="reference" class="company-example__check">
                 查看示例
                 <Icon :type="isPopover ? 'up' : 'down'" className="company-arrow"/>
-              </el-button>
+              </ns-button>
             </el-popover>
           </div>
         </el-form-item>
@@ -46,12 +46,10 @@
 
 <script>
 import ElUpload from '@nascent/nui/lib/upload'
-import ElButton from '@nascent/nui/lib/button'
 
 export default {
   components: {
-    ElUpload,
-    ElButton
+    ElUpload
   },
   data () {
     return {

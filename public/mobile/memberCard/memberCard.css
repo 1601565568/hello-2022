@@ -41,11 +41,14 @@ body {
     width: 35px;
     height: 35px;
 }
-.card .card__message .defaultimg {
+.card .card__message .logo {
     width: 65px;
     height: 65px;
     float: left;
-    border-radius: 50%;
+}
+.card .card__message .logo .logo__img {
+    width: 100%;
+    height: 100%;
 }
 .card .card__message .store {
     max-width: 66%;

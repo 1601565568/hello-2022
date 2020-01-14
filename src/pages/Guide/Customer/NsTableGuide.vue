@@ -1,9 +1,9 @@
 <template>
   <div calss="NsTableGuide_main">
         <div class="template-page__row-left">
-          <el-input ref="quickText" v-model="filterTreeText" placeholder="输入线下店铺名称" clearable>
-            <!--<Icon type="search" className="el-input__icon" style="padding: 5px;" slot="suffix" name="name"-->
-                  <!--@click="$quickSearchAction$('name')"/>-->
+          <el-input ref="quickText" v-model="shopTreePage.shopName" placeholder="输入线下店铺名称" clearable
+                    @keyup.enter.native="initShopList(1)">
+            <Icon type="search" className="el-input__icon" style="padding: 5px;" slot="suffix" name="name" @click="initShopList(1)"/>
           </el-input>
           <el-scrollbar ref='shopTreeDiv' wrapStyle="overflow-x:hidden;" style="padding-bottom: 10px" >
             <el-tree class="filter-tree" ref="guideTree" :data="shopFindList" highlight-current
@@ -14,6 +14,14 @@
               </div>
             </el-tree>
           </el-scrollbar>
+          <el-pagination style='text-align: center' small
+                         :total="shopTreePage.total"
+                         :page-size="shopTreePage.size"
+                         layout="prev, slot, next, jumper"
+                         :current-page.sync="shopTreePage.page"
+                         @current-change="initShopList">
+            <span>{{shopTreePage.page + '/' + (Math.ceil(shopTreePage.total/ shopTreePage.size) || 1)}}</span>
+          </el-pagination>
         </div>
         <div  class="template-page__row-right">
         <ns-page-table @add="$emit('add')"  @shopEdit="$emit('shopEdit')" >
@@ -288,5 +296,9 @@ export default NsTableGuide
 }
 .el-tree {
   overflow-x: hidden;
+}
+
+>>> .el-pagination__jump {
+  margin-left: unset !important;
 }
 </style>

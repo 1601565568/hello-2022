@@ -21,7 +21,7 @@ export default {
   },
   findDigitalShopList: {
     url: '/digital/list',
-    method: 'get'
+    method: 'post'
   },
   findDigitalShopByShopId: {
     url: '/digital/findDigitalShopByShopId',

@@ -8,9 +8,9 @@
     <meta http-equiv="Cache-Control" content="no-siteapp"/>
     <meta name="format-detection" content="telephone=no"/>
     <link rel="stylesheet" href="./invalid/invalid.css">
-    <title></title>
+    <title>会员开卡</title>
 </head>
-<div class='fail'>
+<div class='noneBody'>
     <div class='fail__bgimg'>
         <img class='img'  src='https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/fail.png' alt="二维码失效图片" />
     </div>
@@ -44,7 +44,7 @@
                 getAuth()
             } else {
                 // 跳转错误页
-                $(".fail").show();
+                $(".noneBody").show();
                 $('.fail__text').html(result.msg);
             }
         })
