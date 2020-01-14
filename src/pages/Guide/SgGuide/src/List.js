@@ -1227,8 +1227,16 @@ export default {
     },
     // 转移给指定导购取消
     cancelTransferToReset () {
+      this.sameSystemShopId = null
+      this.initShopList()
       this.resignFormVisible = false
       this.transferShopSize = this._data.paginationss.sizeOpts[0]
+    },
+    // 自定义转移取消
+    cancelReset () {
+      this.sameSystemShopId = null
+      this.initShopList()
+      this.resignFormVisible = false
     },
     // 用于关闭弹窗后将会员总数设为null
     cancelTransferToResetByOne () {
