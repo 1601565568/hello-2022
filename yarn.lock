@@ -1500,15 +1500,15 @@
     call-me-maybe "^1.0.1"
     glob-to-regexp "^0.3.0"
 
-"@nascent/ecrp-ecrm@^4.3.3":
-  version "4.3.3"
-  resolved "http://27.154.234.170:18081/repository/npm/@nascent/ecrp-ecrm/-/ecrp-ecrm-4.3.3.tgz#056a1b4d1cd1f18d7d5c3f0db4939424862fab73"
-  integrity sha512-3/RMn4m9VjsvD3PM5NeFsJrosQEMufqhoaWTOeKlAeP7MFnmUxfb8sAWmZhAy/yrnY5iDGkulDYVWffb9JzX2A==
+"@nascent/ecrp-ecrm@^4.3.20":
+  version "4.4.1"
+  resolved "http://27.154.234.170:18081/repository/npm/@nascent/ecrp-ecrm/-/ecrp-ecrm-4.4.1.tgz#f6c090c30e9f56839d748ce6dc04cec81e89b6ee"
+  integrity sha512-gZmjTA2GdUVagyIeihAdL9lUBycmW2wT6d0kPE6Wz3WMmoLqbYQ2HLnDt1vwHrLgMB3SHjvc2HQCHaOsonsL0Q==
   dependencies:
     "@ant-design/icons" "^2.1.1"
     "@nascent/icons-vue" "^1.0.11"
     "@nascent/log" "^0.1.8"
-    "@nascent/nui" "^2.9.14"
+    "@nascent/nui" "^2.9.20"
     "@sentry/browser" "^4.5.3"
     axios "^0.18.0"
     echarts "^4.2.0-rc.2"
@@ -1547,20 +1547,6 @@
   dependencies:
     vue "^2.5.2"
     vue-router "^3.0.1"
-
-"@nascent/nui@^2.9.14":
-  version "2.9.14"
-  resolved "http://27.154.234.170:18081/repository/npm/@nascent/nui/-/nui-2.9.14.tgz#8dd2591a97a75bab3762213e6a4dc41c2cfddc78"
-  integrity sha512-TA0a7QbJqeSLN9ZpUKkwvqCOQNMYqVu8SNAJrXs8W9kO7ZQHJ8f2ELlovxbWT733n/7myQf+e7tD4ASCJSkh3A==
-  dependencies:
-    async-validator "~1.8.1"
-    babel-helper-vue-jsx-merge-props "^2.0.0"
-    countup.js "^1.7.1"
-    deepmerge "^1.2.0"
-    normalize-wheel "^1.0.1"
-    resize-observer-polyfill "^1.5.0"
-    throttle-debounce "^1.0.1"
-    vuedraggable "^2.14.1"
 
 "@nascent/nui@^2.9.20":
   version "2.9.20"
