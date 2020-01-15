@@ -118,12 +118,6 @@ export default {
         searchMap: {}
       },
       shopLeiXing: [{
-        value: 'B',
-        label: '天猫'
-      }, {
-        value: 'C',
-        label: '淘宝店'
-      }, {
         value: 'ZYD',
         label: '直营店'
       }, {
