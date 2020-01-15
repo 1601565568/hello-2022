@@ -227,7 +227,7 @@ export default {
     toggleSelection (rows) {
       if (rows) {
         rows.forEach(row => {
-          this.$refs.shopTable.toggleRowSelection(row, true)
+          this.$refs.shopTable.toggleRowSelection(row)
         })
       } else {
         this.$refs.shopTable.clearSelection()
