@@ -51,13 +51,14 @@
               </el-form-item>
 
               <el-form-item label="发布方：" prop="sourceId">
-              <el-select  v-model="searchform.sourceId" placeholder="请选择发布方" clearable filterable >
-                  <el-option v-for="item in sourceList"
-                  :key="item.id"
-                  :label="item.shopName"
-                  :value="item.id">
-                  </el-option>
-                </el-select>
+                <shop-select-load v-model="searchform.sourceId"
+                                  clearable
+                                  :insertList='[
+                                    {
+                                      id: 0,
+                                      shopName: $store.state.user.remumber.remumber_login_info.companyName
+                                    }
+                                  ]' />
               </el-form-item>
               <el-form-item label="带码状态：" prop="codeType">
               <el-select  v-model="searchform.codeType" placeholder="请选择带码状态" clearable>
@@ -168,6 +169,7 @@ import setGroudModal from './setGroudModal'
 import listItemShow from './components/listItemShow'
 import moment from 'moment'
 import { getErrorMsg } from '@/utils/toast'
+import ShopSelectLoad from '@/components/ShopSelectLoad'
 export default {
   mixins: [listPageMixin],
   data () {
@@ -428,7 +430,8 @@ export default {
   components: {
     addModal,
     listItemShow,
-    setGroudModal
+    setGroudModal,
+    ShopSelectLoad
   }
 }
 </script>

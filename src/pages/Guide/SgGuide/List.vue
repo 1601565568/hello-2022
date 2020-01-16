@@ -20,9 +20,14 @@
             <el-form-item v-if="guideValue === 1"  label="所属门店：" required>
               <el-form-grid size="xxmd">
                 <el-form-item prop="shops" >
-                  <el-select placeholder="所属门店" @change="store($event,row)" v-model="subordinateStores" multiple filterable>
-                    <el-option v-for="shops in shopFindList" :label="shops.shopName" :value="shops.id" :key="shops.id"></el-option>
-                  </el-select>
+<!--                  <el-select placeholder="所属门店" @change="store($event,row)" v-model="subordinateStores" multiple filterable>-->
+<!--                    <el-option v-for="shops in shopFindList" :label="shops.shopName" :value="shops.id" :key="shops.id"></el-option>-->
+<!--                  </el-select>-->
+                  <shop-select-load v-model="subordinateStores"
+                                    @selectShop="store($event,row)"
+                                    clearable
+                                    multiple
+                                    :insertList='insertList'/>
                 </el-form-item>
               </el-form-grid>
             </el-form-item>
@@ -31,9 +36,13 @@
             <el-form-item v-if="guideValue === 0"  label="所属门店：" required>
               <el-form-grid size="xxmd">
                 <el-form-item prop="shop">
-                  <el-select placeholder="所属门店" @change="store($event,row)" v-model="model.sgGuideShop.shop_id" filterable >
-                    <el-option v-for="shop in shopFindList" :label="shop.shopName" :value="shop.id" :key="shop.id"></el-option>
-                  </el-select>
+<!--                  <el-select placeholder="所属门店" @change="store($event,row)" v-model="model.sgGuideShop.shop_id" filterable >-->
+<!--                    <el-option v-for="shop in shopFindList" :label="shop.shopName" :value="shop.id" :key="shop.id"></el-option>-->
+<!--                  </el-select>-->
+                  <shop-select-load v-model="model.sgGuideShop.shop_id"
+                                    @selectShop="store($event,row)"
+                                    clearable
+                                    :insertList='insertList'/>
                 </el-form-item>
               </el-form-grid>
             </el-form-item>
@@ -523,9 +532,9 @@
         <el-form>
           <el-form-item>
             <el-form-grid size="lg">
-              <el-select v-model="model.sgGuideShop.shop_id" @change="changeShop" placeholder="请选择要更换的门店" filterable>
-                <el-option  v-for="item in shopFindList" :key="item.id"  :label="item.shopName"  :value="item.id"></el-option>
-              </el-select>
+              <shop-select-load v-model="model.sgGuideShop.shop_id"
+                                @change="changeShop"
+                                clearable/>
             </el-form-grid>
           </el-form-item>
         </el-form>
@@ -605,9 +614,12 @@
 import List from './src/List'
 import ElUpload from '@nascent/nui/lib/upload'
 import NsTableGuide from './NsTableGuide'
+import ShopSelectLoad from '@/components/ShopSelectLoad'
+
 List.components = {
   NsTableGuide,
-  ElUpload
+  ElUpload,
+  ShopSelectLoad
 }
 export default List
 </script>
