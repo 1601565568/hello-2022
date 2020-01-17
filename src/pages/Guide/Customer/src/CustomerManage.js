@@ -452,11 +452,19 @@ export default {
         'sysCustomerId': row.sysCustomerId
       }).then(resp => {
         if (resp.success && resp.result != null) {
+          // disabled="{{scope.row.isMark === 0?true: false}}"
+          // 已启用的会员标签数据
           this.tagData = resp.result.allPropertyInfo
+          // 客户已打标的数据
           this.selectTagData = resp.result.propertyInfo
           this.attribute = this.selectTagData.length
           for (let i = 0; i < this.tagData.length; i++) {
             let tag = this.tagData[i]
+            if (tag.isMark === 1) {
+              tag.isMark = false
+            } else {
+              tag.isMark = true
+            }
             // 处理复选框默认值
             if (tag.tagType === 7) {
               this.$set(this.tagData[i], 'selectValue', [])
@@ -554,6 +562,7 @@ export default {
               this.attribute -= 1
               this.attributeValue -= 1
             } else {
+              this.addAttribute(check)
               check.value = row.selectValue
             }
           }
@@ -579,13 +588,13 @@ export default {
         for (let i = 0; i < this.mapTag.length; i++) {
           let check = this.mapTag[i]
           if (check.id === row.id) {
-            if (check.value.indexOf(row.selectValue) > -1) {
-              this.mapTag.splice(i, 1)
-              this.selectIds.splice(num, 1)
+            this.addAttribute(check)
+            if (row.selectValue) {
+              check.value = row.selectValue
+            } else {
+              check.value = null
               this.attribute -= 1
               this.attributeValue -= 1
-            } else {
-              check.value = row.selectValue
             }
           }
         }
@@ -609,6 +618,7 @@ export default {
           let check = this.mapTag[i]
           if (check.id === row.id) { // 假如选中数据已包含在数组中
             if (row.selectValue) {
+              this.addAttribute(check)
               check.value = row.selectValue
             } else {
               this.mapTag.splice(i, 1)
@@ -637,6 +647,7 @@ export default {
         for (let i = 0; i < this.mapTag.length; i++) {
           let check = this.mapTag[i]
           if (check.id === row.id) { // 假如选中数据已包含在数组中
+            this.addAttribute(check)
             check.value = item
           }
         }
@@ -658,6 +669,7 @@ export default {
       if (num > -1) {
         for (let i = 0; i < this.mapTag.length; i++) {
           let check = this.mapTag[i]
+          // 如果选中的行id=已选的值id
           if (check.id === row.id) {
             // 如果参数中已经存在已选择的值则去除
             if (check.value.indexOf(item) > -1) {
@@ -674,6 +686,9 @@ export default {
                 this.$set(row, 'selectValue', check.value)
               }
             } else {
+              if (check.value.length === 0) {
+                this.attribute += 1
+              }
               check.value.push(item)
               this.$set(row, 'selectValue', check.value)
               this.attributeValue += 1
@@ -689,6 +704,12 @@ export default {
         }
         this.mapTag.push(check)
         this.$set(row, 'selectValue', [item])
+        this.attribute += 1
+        this.attributeValue += 1
+      }
+    },
+    addAttribute (object) {
+      if (object.value == null) {
         this.attribute += 1
         this.attributeValue += 1
       }
@@ -716,26 +737,50 @@ export default {
     // 清空标签
     restTag (closePopup) {
       for (let i = 0; i < this.tagData.length; i++) {
+        // 判断标签是不是不可更改，不可更改则跳过
+        if (this.tagData[i].isMark) {
+          continue
+        }
+
         if (this.tagData[i].tagType === 7) {
+          // 如果选中的值则减1（防止重复点击清空选择造成过度运算）
+          if (this.tagData[i].selectValue.length > 0 && !this.tagData[i].isMark) {
+            this.attribute -= 1
+          }
           this.$set(this.tagData[i], 'selectValue', [])
         } else {
+          // 如果选中的值则减1（防止重复点击清空选择造成过度运算）
+          if (this.tagData[i].selectValue != null && !this.tagData[i].isMark) {
+            this.attribute -= 1
+          }
           this.$set(this.tagData[i], 'selectValue', null)
         }
         // 清空已经选中的值
         for (let j = 0; j < this.mapTag.length; j++) {
           if (this.mapTag[j].id === this.tagData[i].id) {
+            if (this.mapTag[j].tagType === 7) {
+              this.attributeValue -= this.mapTag[j].value.length
+            } else {
+              this.attributeValue -= 1
+            }
             this.mapTag[j].value = this.tagData[i].selectValue
           }
         }
       }
-      this.radioIds = []
-      this.textIds = []
-      this.selectIds = []
-      this.dateIds = []
-      this.checkboxIds = []
-      this.attribute = 0
-      this.attributeValue = 0
+      if (this.attribute < 0) {
+        this.attribute = 0
+      }
+      if (this.attributeValue < 0) {
+        this.attributeValue = 0
+      }
       if (closePopup) {
+        this.radioIds = []
+        this.textIds = []
+        this.selectIds = []
+        this.dateIds = []
+        this.checkboxIds = []
+        this.attribute = 0
+        this.attributeValue = 0
         this.mapTag = []
         if (this.showTag) {
           this.showTag = false
