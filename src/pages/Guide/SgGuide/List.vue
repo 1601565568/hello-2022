@@ -190,8 +190,8 @@
               <ns-button @click="transferToReset()">重置</ns-button>
             </div>
           </div>
-            <el-table ref="table" :data="guideList" stripe>
-              <el-table-column  width="30">
+            <el-table ref="table" :data="guideList" stripe height="110">
+              <el-table-column  width="24">
                   <template slot-scope="scope">
                     <div class="customerManage">
                       <el-radio :label="scope.$index" v-model="radio" @change.native="getCurrentRow(scope.row,scope.$index)"></el-radio>
@@ -268,7 +268,7 @@
             </div>
           </div>
           <div>
-            <el-table ref="table" :data="tableDataCustomer" stripe @selection-change="handleSelectionChange">
+            <el-table ref="table" :data="tableDataCustomer" stripe @selection-change="handleSelectionChange" height="130">
               <el-table-column type="selection" align="center" :width="50"></el-table-column>
               <el-table-column prop="name" label="会员姓名" align="left" width="130">
                 <template slot-scope="scope">
