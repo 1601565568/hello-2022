@@ -7,7 +7,7 @@
       <ns-page-table :colButton="6">
         <!-- 按钮 -->
         <template slot="buttons">
-          <ns-table-operate-button :buttons="_data._table.operate_buttons">
+          <ns-table-operate-button :buttons="_data.table.operate_buttons">
           </ns-table-operate-button>
         </template>
         <!-- 按钮-结束 -->
@@ -19,9 +19,9 @@
           <!-- 手机号 :width="120" -->
           <!-- 操作（只有一项文字的80px,两项文字120px,三项文字160px） -->
 
-          <el-table ref="table" :data="_data._table.data" class="template-table__main"
+          <el-table ref="table" :data="_data.table.data" class="template-table__main"
                     stripe
-                    resizable v-loading.lock="_data._table.loadingtable"
+                    resizable v-loading.lock="_data.table.loadingtable"
                     :element-loading-text="$t('prompt.loading')" @sort-change="$orderChange$">
             <el-table-column prop="template_id" align="center" label="模板ID"></el-table-column>
             <el-table-column prop="push_time" align="center" label="创建时间"></el-table-column>
@@ -45,7 +45,7 @@
             <el-table-column :show-overflow-tooltip="true" label="操作" align="center"
                              width="120">
               <template slot-scope="scope">
-                <ns-table-column-operate-button :buttons="_data._table.table_buttons" :prop="scope">
+                <ns-table-column-operate-button :buttons="_data.table.table_buttons" :prop="scope">
                 </ns-table-column-operate-button>
               </template>
             </el-table-column>
@@ -172,7 +172,7 @@ export default {
       quickSearchModel: {},
       rules: Object.assign({}, {}, {}),
       url: this.$api.isv.getCodeTemplateList,
-      _table: {
+      table: {
         table_buttons: tableButtons,
         operate_buttons: operateButtons,
         quickSearchMap: {}
@@ -185,10 +185,10 @@ export default {
     // 打开弹框
     openDialog: function (appId) {
       this.appId = appId
-      if (!this._data._table.searchMap) {
-        this._data._table.searchMap = {}
+      if (!this._data.table.searchMap) {
+        this._data.table.searchMap = {}
       }
-      this._data._table.searchMap.appId = appId
+      this._data.table.searchMap.appId = appId
       this.$reload()
       this.dialogVisible = true
     },

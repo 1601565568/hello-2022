@@ -15,18 +15,14 @@
               </div>
               <div class="overview-content__item--select overview-content__item--store">
                 门店：
-<!--                <el-select v-model="searchObj.id" filterable clearable placeholder="请选择门店" @change='shopSelect(searchObj.id)'>-->
-<!--                  <el-option-->
-<!--                    v-for="(item) in shopArr"-->
-<!--                    :key="item.id"-->
-<!--                    :label="item.shopName"-->
-<!--                    :value="item.id">-->
-<!--                  </el-option>-->
-<!--                  </el-select>-->
-                <shop-select-load v-model="searchObj.id"
-                                  @change='shopSelect(searchObj.id)'
-                                  clearable
-                                  :insertList='inserList'/>
+                <el-select v-model="searchObj.id" filterable clearable placeholder="请选择门店" @change='shopSelect(searchObj.id)'>
+                  <el-option
+                    v-for="(item) in shopArr"
+                    :key="item.id"
+                    :label="item.shopName"
+                    :value="item.id">
+                  </el-option>
+                  </el-select>
               </div>
           </el-card>
         </el-col>
@@ -240,13 +236,11 @@ import index from './src/index'
 import businessEcharts from '@nascent/ecrp-ecrm/src/components/NsEcharts'
 import ElProgress from '@nascent/nui/lib/progress'
 import ElCard from '@nascent/nui/lib/card'
-import ShopSelectLoad from '@/components/ShopSelectLoad'
 export default index
 index.components = {
   businessEcharts,
   ElProgress,
-  ElCard,
-  ShopSelectLoad
+  ElCard
 }
 </script>
 

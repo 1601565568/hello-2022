@@ -40,7 +40,7 @@
               </el-table-column>
               <el-table-column :show-overflow-tooltip="true" type="default" prop=""
                                label="会员状态" :sortable="false" width='100px' align='center'>
-                <template slot-scope='scope'>
+                <template>
 <!--                  todo-zsf 暂时取不到会员状态-->
                   -
 <!--                  {{scope.row.isMember === '1' ? '是' : '否'}}-->

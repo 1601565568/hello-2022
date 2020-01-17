@@ -43,6 +43,11 @@
           </el-radio-group>
           <el-form-grid v-if="model.shopRangeType===1"  size="xxmd">
             <shopSelect :callBack="selectShopBack" :hasShopArr="hasShopArr"></shopSelect>
+            <!-- <el-form-item prop="shopIds">
+              <el-select style="width:160px;" placeholder="请选择门店" v-model="model.shopIds" multiple filterable>
+                <el-option v-for="store in shopList" :label="store.shopName" :key="store.id" :value="store.id"></el-option>
+              </el-select>
+            </el-form-item> -->
           </el-form-grid>
         </el-form-item>
         <el-form-item label="简述：" prop="remark">
@@ -141,6 +146,7 @@ export default {
     }
   },
   created: function () {
+    this.findShopList()
   },
   methods: {
     timeFun (val) {
@@ -159,6 +165,21 @@ export default {
       this.model.materialId = obj.id
       this.model.materialTitle = obj.content
       this.selectMaterial = obj
+    },
+    /**
+     * 门店查询
+     */
+    async findShopList () {
+      await this.$http
+        .fetch(this.$api.guide.shop.findBrandShopList, { isOnline: 0 })
+        .then(resp => {
+          if (resp.success === true) {
+            this.shopList = resp.result
+          }
+        })
+        .catch(() => {
+          this.$notify.error('查询失败')
+        })
     },
     showToggle (obj) {
       this.model = {

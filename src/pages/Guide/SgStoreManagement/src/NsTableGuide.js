@@ -138,6 +138,7 @@ export default {
 
   mounted: function () {
     var vm = this
+    vm.initShopList()
     vm.initDigitalShopList()
     if (typeof this.$init === 'function') {
     } else {
@@ -244,6 +245,16 @@ export default {
       that.model.district = that.model.area[2]
       that.model.city = that.model.area[1]
       that.model.province = that.model.area[0]
+    },
+    initShopList () {
+      var _this = this
+      _this.$http.fetch(_this.$api.guide.shop.findBrandShopList, { isOnline: 0 }).then(resp => {
+        if (resp.success && resp.result != null) {
+          _this.shopFindList = resp.result
+        }
+      }).catch((resp) => {
+        _this.$notify.error(getErrorMsg('查询失败', resp))
+      })
     },
     // 数字门店列表
     initDigitalShopList (page) {

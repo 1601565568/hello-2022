@@ -96,6 +96,16 @@
                           clearable></el-input>
               </el-form-grid>
             </el-form-item>
+
+            <!-- <el-form-item label="所属地区：">
+              <el-form-grid>
+                <el-select placeholder="请选择所属地区" v-model="model.affiliatingArea" clearable filterable>
+                  <el-option v-for="shop in shopFindList" :label="shop.shopName" :value="shop.id"
+                             :key="shop.id"></el-option>
+                </el-select>
+              </el-form-grid>
+            </el-form-item> -->
+
             <el-form-item label="营业状态：">
               <el-form-grid>
                 <el-select placeholder="请选择营业状态" style="width:200px" v-model="model.shopStatus" clearable filterable>

@@ -44,7 +44,7 @@
               </span>
             </template>
             <template slot-scope="scope">
-              <div v-if="checked">
+              <div v-if="checked" :fixScopeBug="scope.testId">
                 <a :href="url+0+'&shopId='+succeedObj.shopId+'&size='+0">
                   <i class="download">
                     <Icon type="xiazai"/>
@@ -71,7 +71,7 @@
               </span>
             </template>
             <template slot-scope="scope">
-              <div v-if="!checked">
+              <div v-if="!checked" :fixScopeBug="scope.testId">
                 <a :href="url+1+'&shopId='+succeedObj.shopId+'&size='+0">
                   <i class="download"><Icon type="xiazai"/></i>
                 </a>

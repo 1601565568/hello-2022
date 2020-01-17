@@ -61,9 +61,10 @@
 
           <el-form-item label="所属门店：">
             <el-form-grid size="xmd">
-              <shop-select-load v-model="model.shopId"
-                                clearable
-                                :url='$api.guide.shop.findGroupShopList'/>
+              <el-select placeholder="请选择所属门店" v-model="model.shopId" clearable filterable>
+                <el-option v-for="shop in shopFindList" :label="shop.shopName" :value="shop.id"
+                           :key="shop.id"></el-option>
+              </el-select>
             </el-form-grid>
           </el-form-item>
 
@@ -209,7 +210,7 @@
     <!-- 所属门店查看详情结束 -->
     <!--查询数据库ID弹窗-->
     <el-dialog  title="查询数据库ID" width="950px" height="605px" :visible.sync="showTargetDetail">
-      <target-detail ref="targetDetail" :dataModule = "dataModule" @scopeRowCount="scopeRowCount"></target-detail>
+      <target-detail ref="targetDetail" :dataModule = "dataModule" :shopFindList="shopFindList" @scopeRowCount="scopeRowCount"></target-detail>
       <div slot="footer" class="dialog-footer">
         <ns-button @click="showTargetDetail = false">关闭</ns-button>
       </div>

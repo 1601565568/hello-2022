@@ -96,7 +96,6 @@ export default {
       integralIsNum: [0, 0, 0, 0, 0], // 控制会员详情积分
       integralName: ['', '', '', '', ''], // 控制会员详情积分
       integralAliasName: ['', '', '', '', ''], // 积分别名
-      sameSystemShopId: null, // 门店ID,用于更换会员导购弹窗查询同体系门店的参数
       mapTag: [],
       textIds: [], // 会员打标签输入框id集合
       selectIds: [], // 会员打标签下拉选id集合
@@ -158,7 +157,7 @@ export default {
         this.searchParam.pageNo = this.integralPagination.page
         this.getIntegralList(tabName)
       } else if (tab.label.indexOf('交易') > -1) {
-        this.getCustomerRfmInfo(this.items.customerId, this.items.sgShopId == 0 ? this.items.shopId : this.items.sgShopId)
+        this.getCustomerRfmInfo(this.items.customerId, this.items.sgShopId === 0 ? this.items.shopId : this.items.sgShopId)
       }
     },
     getIntegralList (tabName) { // 查询会员积分
@@ -248,7 +247,6 @@ export default {
       })
     },
     searchAction (model) { // 搜索
-      this.pagination.page = 1
       this.guideFindList(model)
     },
     resetInputAction () { // 重置
@@ -261,7 +259,7 @@ export default {
     async findBrandShopList (model) { // 门店列表查询
       let that = this
       await this.$http
-        .fetch(that.$api.guide.shop.findBrandShopList, { isOnline: 0, sameSystemShopId: model.sameSystemShopId })
+        .fetch(that.$api.guide.shop.findBrandShopList, { isOnline: 0 })
         .then(resp => {
           that.shopList = [...resp.result]
         })
@@ -276,19 +274,13 @@ export default {
         length: that._data.pagination.size,
         searchMap: {
           shopId: Number.parseInt(that.model.shop),
-          keyword: that.model.name,
-          sameSystemShopId: that.sameSystemShopId
+          keyword: that.model.name
         },
         start: 0
       }
       if (model !== undefined && typeof model === 'object') {
         obj.searchMap.keyword = model.name
-        if (model.shop) {
-          obj.searchMap.shopId = parseInt(model.shop)
-          obj.searchMap.sameSystemShopId = null
-        } else {
-          obj.searchMap.sameSystemShopId = model.sameSystemShopId?parseInt(model.sameSystemShopId):that.sameSystemShopId
-        }
+        obj.searchMap.shopId = parseInt(model.shop)
       }
       if (numbers.test(model)) {
         obj.length = model
@@ -332,8 +324,7 @@ export default {
         length: this._data.pagination.size,
         searchMap: {
           shopId: that.model.shop,
-          keyword: that.model.name,
-          sameSystemShopId: that.sameSystemShopId
+          keyword: that.model.name
         },
         start: (page - 1) * this._data.pagination.size
       }
@@ -372,10 +363,8 @@ export default {
         if (this.multipleSelection.length > 0) {
           _this.title = '导购更换列表'
           _this.shopFindListShow = true
-          // _this.guideFindList()
-          let shopId = this.sameSystemShopId
-          _this.guideFindList({ sameSystemShopId: shopId })
-          _this.findBrandShopList({ sameSystemShopId: shopId })
+          _this.guideFindList()
+          _this.findBrandShopList()
         } else {
           _this.$notify.error('请选择要更换导购的会员')
         }
@@ -452,19 +441,11 @@ export default {
         'sysCustomerId': row.sysCustomerId
       }).then(resp => {
         if (resp.success && resp.result != null) {
-          // disabled="{{scope.row.isMark === 0?true: false}}"
-          // 已启用的会员标签数据
           this.tagData = resp.result.allPropertyInfo
-          // 客户已打标的数据
           this.selectTagData = resp.result.propertyInfo
           this.attribute = this.selectTagData.length
           for (let i = 0; i < this.tagData.length; i++) {
             let tag = this.tagData[i]
-            if (tag.isMark === 1) {
-              tag.isMark = false
-            } else {
-              tag.isMark = true
-            }
             // 处理复选框默认值
             if (tag.tagType === 7) {
               this.$set(this.tagData[i], 'selectValue', [])
@@ -546,9 +527,6 @@ export default {
       this.pagination.page = 1
       this.pagination.size = 15
     },
-    getOffLineShopId (data) {
-      this.sameSystemShopId = data
-    },
     addText (row) {
       let num = this.textIds.indexOf(row.id)
       if (num > -1) {
@@ -562,7 +540,6 @@ export default {
               this.attribute -= 1
               this.attributeValue -= 1
             } else {
-              this.addAttribute(check)
               check.value = row.selectValue
             }
           }
@@ -588,13 +565,13 @@ export default {
         for (let i = 0; i < this.mapTag.length; i++) {
           let check = this.mapTag[i]
           if (check.id === row.id) {
-            this.addAttribute(check)
-            if (row.selectValue) {
-              check.value = row.selectValue
-            } else {
-              check.value = null
+            if (check.value.indexOf(row.selectValue) > -1) {
+              this.mapTag.splice(i, 1)
+              this.selectIds.splice(num, 1)
               this.attribute -= 1
               this.attributeValue -= 1
+            } else {
+              check.value = row.selectValue
             }
           }
         }
@@ -618,7 +595,6 @@ export default {
           let check = this.mapTag[i]
           if (check.id === row.id) { // 假如选中数据已包含在数组中
             if (row.selectValue) {
-              this.addAttribute(check)
               check.value = row.selectValue
             } else {
               this.mapTag.splice(i, 1)
@@ -647,7 +623,6 @@ export default {
         for (let i = 0; i < this.mapTag.length; i++) {
           let check = this.mapTag[i]
           if (check.id === row.id) { // 假如选中数据已包含在数组中
-            this.addAttribute(check)
             check.value = item
           }
         }
@@ -669,7 +644,6 @@ export default {
       if (num > -1) {
         for (let i = 0; i < this.mapTag.length; i++) {
           let check = this.mapTag[i]
-          // 如果选中的行id=已选的值id
           if (check.id === row.id) {
             // 如果参数中已经存在已选择的值则去除
             if (check.value.indexOf(item) > -1) {
@@ -686,9 +660,6 @@ export default {
                 this.$set(row, 'selectValue', check.value)
               }
             } else {
-              if (check.value.length === 0) {
-                this.attribute += 1
-              }
               check.value.push(item)
               this.$set(row, 'selectValue', check.value)
               this.attributeValue += 1
@@ -704,12 +675,6 @@ export default {
         }
         this.mapTag.push(check)
         this.$set(row, 'selectValue', [item])
-        this.attribute += 1
-        this.attributeValue += 1
-      }
-    },
-    addAttribute (object) {
-      if (object.value == null) {
         this.attribute += 1
         this.attributeValue += 1
       }
@@ -737,50 +702,26 @@ export default {
     // 清空标签
     restTag (closePopup) {
       for (let i = 0; i < this.tagData.length; i++) {
-        // 判断标签是不是不可更改，不可更改则跳过
-        if (this.tagData[i].isMark) {
-          continue
-        }
-
         if (this.tagData[i].tagType === 7) {
-          // 如果选中的值则减1（防止重复点击清空选择造成过度运算）
-          if (this.tagData[i].selectValue.length > 0 && !this.tagData[i].isMark) {
-            this.attribute -= 1
-          }
           this.$set(this.tagData[i], 'selectValue', [])
         } else {
-          // 如果选中的值则减1（防止重复点击清空选择造成过度运算）
-          if (this.tagData[i].selectValue != null && !this.tagData[i].isMark) {
-            this.attribute -= 1
-          }
           this.$set(this.tagData[i], 'selectValue', null)
         }
         // 清空已经选中的值
         for (let j = 0; j < this.mapTag.length; j++) {
           if (this.mapTag[j].id === this.tagData[i].id) {
-            if (this.mapTag[j].tagType === 7) {
-              this.attributeValue -= this.mapTag[j].value.length
-            } else {
-              this.attributeValue -= 1
-            }
             this.mapTag[j].value = this.tagData[i].selectValue
           }
         }
       }
-      if (this.attribute < 0) {
-        this.attribute = 0
-      }
-      if (this.attributeValue < 0) {
-        this.attributeValue = 0
-      }
+      this.radioIds = []
+      this.textIds = []
+      this.selectIds = []
+      this.dateIds = []
+      this.checkboxIds = []
+      this.attribute = 0
+      this.attributeValue = 0
       if (closePopup) {
-        this.radioIds = []
-        this.textIds = []
-        this.selectIds = []
-        this.dateIds = []
-        this.checkboxIds = []
-        this.attribute = 0
-        this.attributeValue = 0
         this.mapTag = []
         if (this.showTag) {
           this.showTag = false

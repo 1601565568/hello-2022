@@ -1,13 +1,12 @@
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import { getErrorMsg } from '@/utils/toast'
-import ShopSelectLoad from '@/components/ShopSelectLoad'
 import BindDevice from '../components/BindDevice'
 import NsTableColumnOperateButtonExt from '@/components/NsTableColumnOperateButton'
 
 export default {
   name: 'NsTableGuide',
   mixins: [tableMixin],
-  components: { BindDevice, NsTableColumnOperateButtonExt, ShopSelectLoad },
+  components: { BindDevice, NsTableColumnOperateButtonExt },
   props: {
     url: Object
   },
@@ -136,14 +135,13 @@ export default {
         visible: false,
         guide: {}
       },
-      memberManagePlan: 1,
-      shopSelectUrl: this.$api.guide.shop.findBrandShopList,
-      shopSelectOptions: []
+      memberManagePlan: 1
     }
   },
 
   mounted: function () {
     var vm = this
+    vm.initShopList()
     if (typeof this.$init === 'function') {
     } else {
       this.$reload()
@@ -172,6 +170,16 @@ export default {
     },
     scopeRowCount (data) { // 查看门店详情和查看所属区域详情
       this.$emit('scopeRowCount', data)
+    },
+    initShopList () {
+      var _this = this
+      _this.$http.fetch(_this.$api.guide.shop.findBrandShopList, { isOnline: 0 }).then(resp => {
+        if (resp.success && resp.result != null) {
+          _this.shopFindList = resp.result
+        }
+      }).catch((resp) => {
+        _this.$notify.error(getErrorMsg('查询失败', resp))
+      })
     },
     shopDel (index) {
       this.guideShopList.splice(index, 1)

@@ -42,14 +42,16 @@
             <el-input style="width:180px" autofocus=true v-model="model.name" placeholder="请输入工号/姓名/昵称/手机号" clearable></el-input>
           </el-form-grid>
         </el-form-item>
+
         <el-form-item label="所属门店：">
-          <el-form-grid size="xmd">
-            <shop-select-load placeholder="请选择所属门店"
-                              v-model="model.shop"
-                              @clear="setShopNull"
-                              clearable/>
+          <el-form-grid>
+            <el-select placeholder="请选择所属门店" v-model="model.shop" clearable filterable @clear="setShopNull" style="width:180px">
+              <el-option v-for="shop in shopFindList" :label="shop.shopName" :value="shop.id"
+                         :key="shop.id"></el-option>
+            </el-select>
           </el-form-grid>
         </el-form-item>
+
         <el-form-item label="职务：">
           <el-form-grid>
             <el-select placeholder="请选择职务" v-model="model.job" clearable @clear="setJobNull" style="width:180px">
