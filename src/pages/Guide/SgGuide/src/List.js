@@ -356,6 +356,9 @@ export default {
       _this.guideValue = value
       _this.changeValue.jobsValue = value
       _this.changeObj.jobsChange = true
+      this.$nextTick(() => {
+        this.opened()
+      })
     },
     storeOwnership (value) {
     },
@@ -796,16 +799,16 @@ export default {
       })
     },
     initShopList () {
-      var _this = this
-      _this.$http.fetch(_this.$api.guide.shop.findBrandShopList,
-        { isOnline: 0, sameSystemShopId: this.sameSystemShopId }).then(resp => {
-        if (resp.success && resp.result != null) {
-          _this.shopFindList = resp.result
-          _this.restShopFindList = resp.result
-        }
-      }).catch((resp) => {
-        _this.$notify.error(getErrorMsg('查询失败', resp))
-      })
+      // var _this = this
+      // _this.$http.fetch(_this.$api.guide.shop.findBrandShopList,
+      //   { isOnline: 0, sameSystemShopId: this.sameSystemShopId }).then(resp => {
+      //   if (resp.success && resp.result != null) {
+      //     _this.shopFindList = resp.result
+      //     _this.restShopFindList = resp.result
+      //   }
+      // }).catch((resp) => {
+      //   _this.$notify.error(getErrorMsg('查询失败', resp))
+      // })
     },
     queryGuideShopList (guideId) {
       var _this = this
@@ -857,22 +860,23 @@ export default {
           this.dialogFormVisible = true
         }
         // 获取没有id的
-        if (row.shop_ids.length > 0) {
-          this.$http.fetch(this.$api.guide.shop.findShopListByShopIds, { shopIds: row.shop_ids }).then(resp => {
-            if (resp.success && resp.result != null) {
-              this.insertList = resp.result
-              this.$nextTick(() => {
-                s()
-              })
-            }
-          }).catch((resp) => {
-            this.$notify.error(getErrorMsg('查询失败', resp))
-          })
-        } else {
-          this.$nextTick(() => {
-            s()
-          })
-        }
+        // if (row.shop_ids.length > 0) {
+        //   this.$http.fetch(this.$api.guide.shop.findShopListByShopIds, { shopIds: row.shop_ids }).then(resp => {
+        //     if (resp.success && resp.result != null) {
+        //       this.insertList = resp.result
+        //       this.$nextTick(() => {
+        //         s()
+        //       })
+        //     }
+        //   }).catch((resp) => {
+        //     this.$notify.error(getErrorMsg('查询失败', resp))
+        //   })
+        // } else {
+        //   this.$nextTick(() => {
+        //
+        //   })
+        // }
+        s()
       } else {
         this.title = '新增员工'
         this.guideValue = 0
@@ -905,6 +909,15 @@ export default {
           that.$notify.error(getErrorMsg('查询失败', err.msg))
         })
       }
+    },
+    opened () {
+      let el
+      if (this.guideValue === 0) {
+        el = this.$refs.shopSelectLoadForGuide
+      } else {
+        el = this.$refs.shopSelectLoadForShop
+      }
+      el.findShopPage()
     },
     async getCustomerCount (guideId, shopId) { // 查询导购下的会员数量
       let _this = this

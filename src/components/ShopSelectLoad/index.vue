@@ -5,7 +5,6 @@
              remote
              :loading="loading"
              :remote-method='remoteMethod'
-              reserve-keyword
               :multiple='multiple'>
     <el-option
       v-for="item in options"

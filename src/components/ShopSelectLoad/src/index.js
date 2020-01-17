@@ -35,6 +35,18 @@ export default {
       default () {
         return shopApi.findShopPage
       }
+    },
+    reload: {
+      type: Object,
+      default () {
+        return shopApi.findShopPage
+      }
+    },
+    autoload: {
+      type: Boolean,
+      default () {
+        return true
+      }
     }
   },
   data () {
@@ -55,22 +67,28 @@ export default {
     }
   },
   watch: {
-    shopId (newShopId) {
+    shopId (newShopId, oldShopId) {
       this.value = newShopId
+      if (!newShopId) {
+        this.remoteMethod('')
+        // this.findShopPage(this.currentPage = 1)
+      }
     },
     value (newValue) {
       this.$emit('change', newValue)
       this.$emit('selectShop', { select: newValue, data: this.options })
     },
-    insertList (newValue) {
+    insertList () {
       this.findShopPage(this.currentPage = 1)
     }
   },
   mounted () {
     this.init()
-    this.$nextTick(() => {
-      this.findShopPage(this.currentPage)
-    })
+    if (this.autoload) {
+      this.$nextTick(() => {
+        this.findShopPage(this.currentPage)
+      })
+    }
   },
   methods: {
     init () {
@@ -78,16 +96,22 @@ export default {
     },
     getInsertShopIds () {
       let t = ''
-      if (this.insertList && this.insertList.length > 0) {
-        let l = this.insertList.length
-        let e = l - 1
-        for (let i = 0; i < l; i++) {
-          t = t.concat(this.insertList[i][this.props.value])
-          if (i < e) {
-            t = t.concat(',')
+      const join = (array) => {
+        if (array && array.length > 0) {
+          let l = array.length
+          let e = l - 1
+          for (let i = 0; i < l; i++) {
+            const v = array[i][this.props.value] || array[i]
+            t = t.concat(v)
+            if (i < e) {
+              t = t.concat(',')
+            }
           }
         }
       }
+      join(this.insertList)
+      t = t ? t.concat(',') : ''
+      typeof this.value === 'string' ? t = t.concat(this.value) : join(this.value)
       return t
     },
     resetOptions () {
@@ -132,12 +156,37 @@ export default {
       })).then(resp => {
         if (resp.success && resp.result != null) {
           this.haveMore = resp.result.length >= this.pageSize
-          if (page === 1) {
-            this.resetOptions()
+          const push = (before) => {
+            if (before) {
+              before()
+            }
+            resp.result.map(v => {
+              this.options.push(v)
+            })
           }
-          resp.result.map(v => {
-            this.options.push(v)
-          })
+          if (page === 1) {
+            if (this.value && this.value.length > 0) {
+              // 查询已选择，若不则么做，会导致已选择只展示门店id
+              this.$http.fetch(this.$api.guide.shop.findShopListByShopIds, { shopIds: typeof this.value === 'string' ? this.value : this.value.join(',') }).then(selectedResponse => {
+                push(() => {
+                  this.resetOptions()
+                  if (selectedResponse.success && selectedResponse.result != null) {
+                    selectedResponse.result.map(v => {
+                      this.options.push(v)
+                    })
+                  }
+                })
+              }).catch((resp) => {
+                this.$notify.error(getErrorMsg('查询失败', resp))
+              })
+            } else {
+              push(() => {
+                this.resetOptions()
+              })
+            }
+          } else {
+            push()
+          }
         }
       }).catch((resp) => {
         this.$notify.error(getErrorMsg('门店下拉框加载失败', resp))

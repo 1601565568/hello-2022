@@ -5,7 +5,8 @@
                   @onDelsTipFun="onDelsTipFun" @onRedactFun="onRedactFun" @dimissionFun="dimissionFun" @handleSelectionChange="handleSelectionChange">
     </NsTableGuide>
     <!-- 新增修改导购开始-->
-    <el-dialog :title="title" :visible.sync="dialogFormVisible" width="460px"  @keyup.enter.native="onKeyUp" @keyup.esc.native="onKeyUp" >
+    <el-dialog :title="title" :visible.sync="dialogFormVisible" width="460px"  @keyup.enter.native="onKeyUp" @keyup.esc.native="onKeyUp"
+    @opened='opened'>
       <div class="guideBox" style="overflow-x:hidden;overflow-y:auto;">
         <el-form :model="model.sgGuide" ref="addForm" label-width="100px" :rules="rules" >
           <el-form-item label="职务：" required>
@@ -20,14 +21,11 @@
             <el-form-item v-if="guideValue === 1"  label="所属门店：" required>
               <el-form-grid size="xxmd">
                 <el-form-item prop="shops" >
-<!--                  <el-select placeholder="所属门店" @change="store($event,row)" v-model="subordinateStores" multiple filterable>-->
-<!--                    <el-option v-for="shops in shopFindList" :label="shops.shopName" :value="shops.id" :key="shops.id"></el-option>-->
-<!--                  </el-select>-->
-                  <shop-select-load v-model="subordinateStores"
+                  <shop-select-load ref='shopSelectLoadForShop' v-model="subordinateStores"
                                     @selectShop="store($event,row)"
                                     clearable
                                     multiple
-                                    :insertList='insertList'/>
+                                    :autoload='false'/>
                 </el-form-item>
               </el-form-grid>
             </el-form-item>
@@ -36,13 +34,10 @@
             <el-form-item v-if="guideValue === 0"  label="所属门店：" required>
               <el-form-grid size="xxmd">
                 <el-form-item prop="shop">
-<!--                  <el-select placeholder="所属门店" @change="store($event,row)" v-model="model.sgGuideShop.shop_id" filterable >-->
-<!--                    <el-option v-for="shop in shopFindList" :label="shop.shopName" :value="shop.id" :key="shop.id"></el-option>-->
-<!--                  </el-select>-->
-                  <shop-select-load v-model="model.sgGuideShop.shop_id"
+                  <shop-select-load ref='shopSelectLoadForGuide' v-model="model.sgGuideShop.shop_id"
                                     @selectShop="store($event,row)"
                                     clearable
-                                    :insertList='insertList'/>
+                                    :autoload='false'/>
                 </el-form-item>
               </el-form-grid>
             </el-form-item>
@@ -177,10 +172,8 @@
                 </el-form-item>
                 <el-form-item label="所属门店：">
                   <el-form-grid>
-                    <el-select placeholder="请选择所属门店" v-model="model.shop" clearable filterable>
-                      <el-option v-for="shop in shopFindList" :label="shop.shopName" :value="shop.id"
-                                :key="shop.id"></el-option>
-                    </el-select>
+                    <shop-select-load v-model="model.shop"
+                                      clearable/>
                   </el-form-grid>
                 </el-form-item>
               </el-form>
@@ -254,10 +247,8 @@
 
                 <el-form-item label="所属门店：">
                   <el-form-grid>
-                    <el-select placeholder="请选择所属门店" v-model="customFindVo.shop" clearable filterable>
-                      <el-option v-for="shop in shopFindList" :label="shop.shopName" :value="shop.id"
-                                :key="shop.id"></el-option>
-                    </el-select>
+                    <shop-select-load v-model="customFindVo.shop"
+                                      clearable/>
                   </el-form-grid>
                 </el-form-item>
               </el-form>
