@@ -284,7 +284,8 @@ export default {
         }
       },
       _queryConfig: { expand: false },
-      sameSystemShopId: null // 相同体系门店ID，用于查询相同体系门店Id接口参数
+      sameSystemShopId: null, // 相同体系门店ID，用于查询相同体系门店Id接口参数
+      insertList: []
     }
   },
   mounted () {
@@ -381,10 +382,11 @@ export default {
       _this.changeObj.namesChange = true
     },
     reduce (val) {},
-    store (vId, row) {
+    store (data, row) {
+      let vId = data.select
       let _this = this
       let shopListArr = []
-      this.shopFindList.map((item, i) => {
+      data.data.map((item, i) => {
         if (vId.indexOf(item.id) !== -1) {
           shopListArr.push(item)
         }
@@ -820,58 +822,57 @@ export default {
     onRedactFun (row) { // 修改和新增功能
       // 初始化门店信息
       // this.initShopList()
-      if (this.shopFindList.length !== this.restShopFindList.length) {
-        this.shopFindList = this.restShopFindList
-      }
+      // if (this.shopFindList.length !== this.restShopFindList.length) {
+      //   this.shopFindList = this.restShopFindList
+      // }
       this.row = row
       if (row) {
         this.title = '编辑员工信息'
         this.guideValue = row.job
         this.subordinateStores = []
         this.subordinateStores = row.shop_ids.split(',')
-        // 获取没有id的
-        this.shopIds = []
-        this.noShopIds = []
-        for (let i = 0; i < this.shopFindList.length; i++) {
-          this.shopIds.push(this.shopFindList[i].id)
-        }
-        for (let i = 0; i < this.subordinateStores.length; i++) {
-          if (this.shopIds.indexOf(this.subordinateStores[i]) === -1) {
-            this.noShopIds.push(this.subordinateStores[i])
+        const s = () => {
+          this.nextStep = '确定'
+          this.model.sgGuide = {
+            id: row.id,
+            name: row.name,
+            nickname: row.nickname,
+            sex: row.sex,
+            mobile: row.mobile,
+            birthday: row.birthday === null ? null : new Date(row.birthday),
+            work_number: row.work_number,
+            image: row.image,
+            work_prefix: row.work_prefix
           }
+          this.model.sgGuideShop = {
+            id: row.gsId,
+            job: row.job,
+            shop_id: row.shop_id
+          }
+          this.model.sgGuideVo = {
+            newShopId: row.shop_id
+          }
+          this.model.updateAllGuidePrefix = 0
+          this.showUpdateAllGuidePrefix = false
+          this.dialogFormVisible = true
         }
-        if (this.noShopIds.length > 0) {
-          this.$http.fetch(this.$api.guide.shop.findShopListByShopIds, { shopIds: this.noShopIds.toString() }).then(resp => {
+        // 获取没有id的
+        if (row.shop_ids.length > 0) {
+          this.$http.fetch(this.$api.guide.shop.findShopListByShopIds, { shopIds: row.shop_ids }).then(resp => {
             if (resp.success && resp.result != null) {
-              this.shopFindList = this.shopFindList.concat(resp.result)
+              this.insertList = resp.result
+              this.$nextTick(() => {
+                s()
+              })
             }
           }).catch((resp) => {
             this.$notify.error(getErrorMsg('查询失败', resp))
           })
+        } else {
+          this.$nextTick(() => {
+            s()
+          })
         }
-        this.nextStep = '确定'
-        this.model.sgGuide = {
-          id: row.id,
-          name: row.name,
-          nickname: row.nickname,
-          sex: row.sex,
-          mobile: row.mobile,
-          birthday: row.birthday === null ? null : new Date(row.birthday),
-          work_number: row.work_number,
-          image: row.image,
-          work_prefix: row.work_prefix
-        }
-        this.model.sgGuideShop = {
-          id: row.gsId,
-          job: row.job,
-          shop_id: row.shop_id
-        }
-        this.model.sgGuideVo = {
-          newShopId: row.shop_id
-        }
-        this.model.updateAllGuidePrefix = 0
-        this.showUpdateAllGuidePrefix = false
-        this.dialogFormVisible = true
       } else {
         this.title = '新增员工'
         this.guideValue = 0

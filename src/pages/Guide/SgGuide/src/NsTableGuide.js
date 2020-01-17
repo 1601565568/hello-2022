@@ -1,12 +1,13 @@
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import { getErrorMsg } from '@/utils/toast'
+import ShopSelectLoad from '@/components/ShopSelectLoad'
 import BindDevice from '../components/BindDevice'
 import NsTableColumnOperateButtonExt from '@/components/NsTableColumnOperateButton'
 
 export default {
   name: 'NsTableGuide',
   mixins: [tableMixin],
-  components: { BindDevice, NsTableColumnOperateButtonExt },
+  components: { BindDevice, NsTableColumnOperateButtonExt, ShopSelectLoad },
   props: {
     url: Object
   },
@@ -135,7 +136,9 @@ export default {
         visible: false,
         guide: {}
       },
-      memberManagePlan: 1
+      memberManagePlan: 1,
+      shopSelectUrl: this.$api.guide.shop.findBrandShopList,
+      shopSelectOptions: []
     }
   },
 
@@ -253,6 +256,16 @@ export default {
     onShowBindDialog (row) {
       this.bindDeviceDialog.guide = row
       this.bindDeviceDialog.visible = true
+    },
+    loadShopSelect () {
+      var _this = this
+      _this.$http.fetch(_this.$api.guide.shop.findBrandShopList, { isOnline: 0 }).then(resp => {
+        if (resp.success && resp.result != null) {
+          _this.shopFindList = resp.result
+        }
+      }).catch((resp) => {
+        _this.$notify.error(getErrorMsg('查询失败', resp))
+      })
     }
   }
 }
