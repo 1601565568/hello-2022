@@ -1,11 +1,10 @@
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import targetDetail from '../targetDetail'
 import { getErrorMsg } from '@/utils/toast'
-import ShopSelectLoad from '@/components/ShopSelectLoad'
 export default {
   name: 'NsTableGuide',
   mixins: [tableMixin],
-  components: { targetDetail, ShopSelectLoad },
+  components: { targetDetail },
   props: {
     url: Object
   },

@@ -31,8 +31,8 @@
             <el-countup
               :start="0"
               :end="infoObj.total"
-              :duration="1.5"
-              v-if="infoObj.total >= 0">
+              :decimal="1.5"
+              v-if="infoObj.total">
             </el-countup>
           </div>
         </div>
@@ -44,7 +44,7 @@
               :start="0"
               :end="infoObj.unfinishedCount"
               :duration="1.5"
-              v-if="infoObj.unfinishedCount >= 0">
+              v-if="infoObj.unfinishedCount">
             </el-countup>
           </div>
         </div>
@@ -1246,7 +1246,7 @@ export default {
   }
 }
 </script>
-<style scoped lang='scss'>
+<style scoped>
 @import "@theme/variables.pcss";
   @component-namespace overview {
     @b content {

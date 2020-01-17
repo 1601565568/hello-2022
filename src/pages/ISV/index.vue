@@ -3,7 +3,7 @@
     <ns-page-table :colButton="6">
       <!-- 按钮 -->
       <template slot="buttons">
-        <ns-table-operate-button :buttons="_data._table.operate_buttons">
+        <ns-table-operate-button :buttons="_data.table.operate_buttons">
         </ns-table-operate-button>
       </template>
       <!-- 按钮-结束 -->
@@ -18,9 +18,9 @@
         <!-- 手机号 :width="120" -->
         <!-- 操作（只有一项文字的80px,两项文字120px,三项文字160px） -->
 
-        <el-table ref="table" :data="_data._table.data" class="template-table__main"
+        <el-table ref="table" :data="_data.table.data" class="template-table__main"
                   stripe
-                  resizable v-loading.lock="_data._table.loadingtable"
+                  resizable v-loading.lock="_data.table.loadingtable"
                   :element-loading-text="$t('prompt.loading')" @sort-change="$orderChange$">
           <el-table-column prop="app_id" label="appId"></el-table-column>
           <el-table-column prop="create_time" label="创建时间"></el-table-column>
@@ -35,7 +35,7 @@
           <el-table-column :show-overflow-tooltip="true" label="操作" align="center"
                            width="200">
             <template slot-scope="scope">
-              <ns-table-column-operate-button :buttons="_data._table.table_buttons"
+              <ns-table-column-operate-button :buttons="_data.table_buttons"
                                               :prop="scope">
               </ns-table-column-operate-button>
             </template>
@@ -107,7 +107,7 @@ export default {
       quickSearchModel: {},
       rules: Object.assign({}, {}, {}),
       url: this.$api.isv.getAppletList,
-      _table: {
+      table: {
         table_buttons: tableButtons,
         operate_buttons: operateButtons,
         quickSearchMap: {}

@@ -61,9 +61,10 @@
 
           <el-form-item label="所属门店：">
             <el-form-grid size="xmd">
-              <shop-select-load v-model="model.shopId"
-                                clearable
-                                :url='$api.guide.shop.findGroupShopList'/>
+              <el-select placeholder="请选择所属门店" v-model="model.shopId" clearable filterable>
+                <el-option v-for="shop in shopFindList" :label="shop.shopName" :value="shop.id"
+                           :key="shop.id"></el-option>
+              </el-select>
             </el-form-grid>
           </el-form-item>
 

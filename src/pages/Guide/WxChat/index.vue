@@ -74,8 +74,8 @@
         <div class="talk-aside__group">客户 / 群</div>
         <el-scrollbar ref="fullScreen" v-loading.lock="targetLoading" :element-loading-text="$t('prompt.loading')">
           <div class="talk-aside__item">
-            <template v-for="(target, index) in targetList">
-              <div class="talk-item" :class="{'talk-chosen':isCurrTarget(index)}" @click="clickTarget(index)">
+            <template v-for="(target, index) in targetList" >
+              <div :key="index" class="talk-item" :class="{'talk-chosen':isCurrTarget(index)}" @click="clickTarget(index)">
                 <div v-if="target.talkerType === 2" class="talk-item__avatar talk-item__avatar--bluebg">
                   <Icon className="crowd" type="qun"/>
                 </div>
@@ -482,7 +482,6 @@ export default index
   }
   .women {
     font-size: var(--default-font-size-large);
-    color: var(--talk-font-color-bigred);
     margin-left: var(--default-margin-small);
   }
   .clearfix:after{

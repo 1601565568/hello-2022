@@ -20,14 +20,9 @@
             <el-form-item v-if="guideValue === 1"  label="所属门店：" required>
               <el-form-grid size="xxmd">
                 <el-form-item prop="shops" >
-<!--                  <el-select placeholder="所属门店" @change="store($event,row)" v-model="subordinateStores" multiple filterable>-->
-<!--                    <el-option v-for="shops in shopFindList" :label="shops.shopName" :value="shops.id" :key="shops.id"></el-option>-->
-<!--                  </el-select>-->
-                  <shop-select-load v-model="subordinateStores"
-                                    @selectShop="store($event,row)"
-                                    clearable
-                                    multiple
-                                    :insertList='insertList'/>
+                  <el-select placeholder="所属门店" @change="store($event,row)" v-model="subordinateStores" multiple filterable>
+                    <el-option v-for="shops in shopFindList" :label="shops.shopName" :value="shops.id" :key="shops.id"></el-option>
+                  </el-select>
                 </el-form-item>
               </el-form-grid>
             </el-form-item>
@@ -36,13 +31,9 @@
             <el-form-item v-if="guideValue === 0"  label="所属门店：" required>
               <el-form-grid size="xxmd">
                 <el-form-item prop="shop">
-<!--                  <el-select placeholder="所属门店" @change="store($event,row)" v-model="model.sgGuideShop.shop_id" filterable >-->
-<!--                    <el-option v-for="shop in shopFindList" :label="shop.shopName" :value="shop.id" :key="shop.id"></el-option>-->
-<!--                  </el-select>-->
-                  <shop-select-load v-model="model.sgGuideShop.shop_id"
-                                    @selectShop="store($event,row)"
-                                    clearable
-                                    :insertList='insertList'/>
+                  <el-select placeholder="所属门店" @change="store($event,row)" v-model="model.sgGuideShop.shop_id" filterable >
+                    <el-option v-for="shop in shopFindList" :label="shop.shopName" :value="shop.id" :key="shop.id"></el-option>
+                  </el-select>
                 </el-form-item>
               </el-form-grid>
             </el-form-item>
@@ -190,8 +181,8 @@
               <ns-button @click="transferToReset()">重置</ns-button>
             </div>
           </div>
-            <el-table ref="table" :data="guideList" stripe height="110">
-              <el-table-column  width="24">
+            <el-table ref="table" :data="guideList" stripe>
+              <el-table-column  width="30">
                   <template slot-scope="scope">
                     <div class="customerManage">
                       <el-radio :label="scope.$index" v-model="radio" @change.native="getCurrentRow(scope.row,scope.$index)"></el-radio>
@@ -268,7 +259,7 @@
             </div>
           </div>
           <div>
-            <el-table ref="table" :data="tableDataCustomer" stripe @selection-change="handleSelectionChange" height="130">
+            <el-table ref="table" :data="tableDataCustomer" stripe @selection-change="handleSelectionChange">
               <el-table-column type="selection" align="center" :width="50"></el-table-column>
               <el-table-column prop="name" label="会员姓名" align="left" width="130">
                 <template slot-scope="scope">
@@ -324,7 +315,7 @@
           <div v-if="transferRadio === '3'" class="resignFormVisible_custom_title">
             <div>还剩<span class="text-error">&nbsp;&nbsp;{{transferCount}}&nbsp;&nbsp;</span>个未分配</div>
             <ns-button class="Setupbulksalesguide" type="primary" @click="Setupbulksalesguide()">批量设置导购</ns-button>
-            <ns-button @click="cancelReset">取消</ns-button>
+            <ns-button @click="resignFormVisible = false">取消</ns-button>
           </div>
           <div v-if="transferRadio === '2'">
             <ns-button type="primary" @click="onConfirmResign">确定转移</ns-button>
@@ -532,9 +523,9 @@
         <el-form>
           <el-form-item>
             <el-form-grid size="lg">
-              <shop-select-load v-model="model.sgGuideShop.shop_id"
-                                @change="changeShop"
-                                clearable/>
+              <el-select v-model="model.sgGuideShop.shop_id" @change="changeShop" placeholder="请选择要更换的门店" filterable>
+                <el-option  v-for="item in shopFindList" :key="item.id"  :label="item.shopName"  :value="item.id"></el-option>
+              </el-select>
             </el-form-grid>
           </el-form-item>
         </el-form>
@@ -614,12 +605,9 @@
 import List from './src/List'
 import ElUpload from '@nascent/nui/lib/upload'
 import NsTableGuide from './NsTableGuide'
-import ShopSelectLoad from '@/components/ShopSelectLoad'
-
 List.components = {
   NsTableGuide,
-  ElUpload,
-  ShopSelectLoad
+  ElUpload
 }
 export default List
 </script>

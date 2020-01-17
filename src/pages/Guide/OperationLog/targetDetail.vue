@@ -275,7 +275,7 @@ export default {
       default: function () {
         return []
       }
-    },
+    }
   },
   data: function () {
     return {
