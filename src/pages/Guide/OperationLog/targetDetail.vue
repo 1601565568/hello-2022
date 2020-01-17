@@ -26,10 +26,9 @@
           <template v-else-if="moduleType === 2">
             <el-form-item label="所属门店：">
               <el-form-grid size="sm">
-                <el-select placeholder="请选择所属门店" v-model="model.customer.shopId" filterable>
-                  <el-option v-for="shop in shopFindList" :label="shop.shopName" :value="shop.id"
-                             :key="shop.id"></el-option>
-                </el-select>
+                <shop-select-load v-model="model.customer.shopId"
+                                  clearable
+                                  :url='$api.guide.shop.findGroupShopList'/>
               </el-form-grid>
             </el-form-item>
             <el-form-item label="会员姓名：">
@@ -259,9 +258,10 @@
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import listItemShow from '../Material/components/listItemShow'
 import { getErrorMsg } from '@/utils/toast'
+import ShopSelectLoad from '@/components/ShopSelectLoad'
 export default {
   name: 'targetDetail',
-  components: { listItemShow },
+  components: { listItemShow, ShopSelectLoad },
   mixins: [tableMixin],
   props: {
     dataModule: {
@@ -269,13 +269,7 @@ export default {
       default: function () {
         return []
       }
-    },
-    shopFindList: {
-      type: Array,
-      default: function () {
-        return []
-      }
-    },
+    }
   },
   data: function () {
     return {
@@ -315,7 +309,6 @@ export default {
   },
   mounted: function () {
     this.moduleType = this.dataModule ? this.dataModule[0].value : null
-    this.model.customer.shopId = this.shopFindList ? this.shopFindList[0].id : null
     this.setUrl(this.moduleType)
     this.$reload()
   },

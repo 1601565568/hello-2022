@@ -13,7 +13,7 @@ export default {
   },
   findGroupShopList: {
     url: '/core/sgshop/findGroupShopList',
-    method: 'get'
+    method: 'post'
   },
   findShopListByShopIds: {
     url: '/core/sgshop/findShopListByShopIds',
@@ -29,6 +29,10 @@ export default {
   },
   findShopGrade: { // 查询店铺等级信息
     url: '/core/sgshop/findShopGrade',
+    method: 'post'
+  },
+  findShopPage: {
+    url: '/core/sgshop/findShopPage',
     method: 'post'
   }
 }

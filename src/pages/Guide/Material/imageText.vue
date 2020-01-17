@@ -51,13 +51,9 @@
               </el-form-item>
 
               <el-form-item label="发布方：" prop="sourceId">
-              <el-select  v-model="searchform.sourceId" placeholder="请选择发布方" clearable filterable >
-                  <el-option v-for="item in sourceList"
-                  :key="item.id"
-                  :label="item.shopName"
-                  :value="item.id">
-                  </el-option>
-                </el-select>
+                <shop-select-load v-model="searchform.sourceId"
+                                  clearable
+                                  :insertList='insertList' />
               </el-form-item>
               <el-form-item label="带码状态：" prop="codeType">
               <el-select  v-model="searchform.codeType" placeholder="请选择带码状态" clearable>
@@ -168,17 +164,13 @@ import setGroudModal from './setGroudModal'
 import listItemShow from './components/listItemShow'
 import moment from 'moment'
 import { getErrorMsg } from '@/utils/toast'
+import ShopSelectLoad from '@/components/ShopSelectLoad'
 export default {
   mixins: [listPageMixin],
   data () {
+    const that = this
     return {
       activeTabName: '/guide/Material/List',
-      sourceList: [
-        {
-          id: 0,
-          shopName: this.$store.state.user.remumber.remumber_login_info.companyName
-        }
-      ],
       groudList: [],
       statusOptions: [
         {
@@ -241,14 +233,19 @@ export default {
             }
           }
         ]
-      }
+      },
+      insertList: [
+        {
+          id: 0,
+          shopName: that.$store.state.user.remumber.remumber_login_info.companyName
+        }
+      ]
     }
   },
   created: function () {
     this.searchObj.searchMap.mType = 1
     this.loadListFun()
     this.loadGroudListFun()
-    this.loadBrandListFun()
   },
 
   methods: {
@@ -293,19 +290,6 @@ export default {
         .fetch(this.$api.guide.materialGroudListAll, {})
         .then(resp => {
           this.groudList = resp.result
-        })
-        .catch(resp => {
-          this.$notify.error(getErrorMsg('查询失败', resp))
-        })
-      this.loading = false
-    },
-    // 加载发布方列表
-    async loadBrandListFun (data) {
-      this.loading = true
-      await this.$http
-        .fetch(this.$api.guide.comGetBrandForShopList, { isOnline: 0 })
-        .then(resp => {
-          this.sourceList = this.sourceList.concat(resp.result)
         })
         .catch(resp => {
           this.$notify.error(getErrorMsg('查询失败', resp))
@@ -428,7 +412,8 @@ export default {
   components: {
     addModal,
     listItemShow,
-    setGroudModal
+    setGroudModal,
+    ShopSelectLoad
   }
 }
 </script>

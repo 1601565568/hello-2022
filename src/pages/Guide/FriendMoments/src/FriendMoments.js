@@ -100,7 +100,7 @@ export default {
     })
 
     return {
-      srcList: [],  //点击图片列表的任何一张图片，然后显示该图片的大图地址
+      srcList: [], // 点击图片列表的任何一张图片，然后显示该图片的大图地址
       dialogVisible: false,
       dialogVisibleReply: false,
       isHidden: false,
@@ -114,11 +114,11 @@ export default {
       // eslint-disable-next-line vue/no-reserved-keys
       interactionPagination: interactionPagination,
       momentsTotal: 0,
-      pack: packData,
+      pack: packData.data,
       _queryConfig: {
         expand: false
       },
-      moments: null, // 朋友圈列表
+      moments: [], // 朋友圈列表
       // images: [],
       likeNames: null, // 点赞的名称
       interationMsgs: null, // 互动消息
