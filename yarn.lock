@@ -1500,15 +1500,15 @@
     call-me-maybe "^1.0.1"
     glob-to-regexp "^0.3.0"
 
-"@nascent/ecrp-ecrm@^4.3.20":
-  version "4.4.1"
-  resolved "http://27.154.234.170:18081/repository/npm/@nascent/ecrp-ecrm/-/ecrp-ecrm-4.4.1.tgz#f6c090c30e9f56839d748ce6dc04cec81e89b6ee"
-  integrity sha512-gZmjTA2GdUVagyIeihAdL9lUBycmW2wT6d0kPE6Wz3WMmoLqbYQ2HLnDt1vwHrLgMB3SHjvc2HQCHaOsonsL0Q==
+"@nascent/ecrp-ecrm@^4.4.7":
+  version "4.4.7"
+  resolved "http://27.154.234.170:18081/repository/npm/@nascent/ecrp-ecrm/-/ecrp-ecrm-4.4.7.tgz#a23e0a538d7aefb9dead89bde4f1aa3f50bb7a81"
+  integrity sha512-OrxEt/LLzjasmykuLzlFOdGVeSRtg2P+sadnARUpiAqzAFmExYM8hP9ikPrIX33jagAboK5ZZ003p7UhrAHywg==
   dependencies:
     "@ant-design/icons" "^2.1.1"
     "@nascent/icons-vue" "^1.0.11"
-    "@nascent/log" "^0.1.8"
-    "@nascent/nui" "^2.9.20"
+    "@nascent/log" "0.1.8"
+    "@nascent/nui" "^2.9.26"
     "@sentry/browser" "^4.5.3"
     axios "^0.18.0"
     echarts "^4.2.0-rc.2"
@@ -1540,7 +1540,7 @@
     "@ant-design/colors" "^3.1.0"
     babel-runtime "^6.26.0"
 
-"@nascent/log@^0.1.8":
+"@nascent/log@0.1.8", "@nascent/log@^0.1.8":
   version "0.1.8"
   resolved "http://27.154.234.170:18081/repository/npm/@nascent/log/-/log-0.1.8.tgz#f22ffd95c8935e265fe48fa386c0f48176f98b0e"
   integrity sha512-2guAuPBTKjwbQEadfdet+FBi7daHiDWR+Osu+BE/7qKRkEeLFHu2CJfGgofbdzCpLbSMVp5L4QnrpGP2GkWaQg==
@@ -1552,6 +1552,20 @@
   version "2.9.20"
   resolved "http://27.154.234.170:18081/repository/npm/@nascent/nui/-/nui-2.9.20.tgz#faca75935084351db44fe19bde431d66ad4bc7f8"
   integrity sha512-MIHTT/hrCuxospCsiN5y5/g0eRQC/EkXrlWjTQvS0RXa2QB7a5AKzsnZv1L3Ow7euK1MdVrIj1sHi454ou7Q2w==
+  dependencies:
+    async-validator "~1.8.1"
+    babel-helper-vue-jsx-merge-props "^2.0.0"
+    countup.js "^1.7.1"
+    deepmerge "^1.2.0"
+    normalize-wheel "^1.0.1"
+    resize-observer-polyfill "^1.5.0"
+    throttle-debounce "^1.0.1"
+    vuedraggable "^2.14.1"
+
+"@nascent/nui@^2.9.26":
+  version "2.9.27"
+  resolved "http://27.154.234.170:18081/repository/npm/@nascent/nui/-/nui-2.9.27.tgz#0bc284c82f2ad19392b53405cf2b7065b7ad2941"
+  integrity sha512-a7dK1E0ILTgf+d5y6eixOz3thxtAdNXey0gr0b/11gSW3Nob5T76p2Q2quchPqVZTudozqq9FjyAA5fY66gljQ==
   dependencies:
     async-validator "~1.8.1"
     babel-helper-vue-jsx-merge-props "^2.0.0"
