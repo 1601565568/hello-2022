@@ -45,6 +45,7 @@ export default {
     return {
       imageRoot: api.API_ROOT + '/core/file/showImage?fileKey=',
       brandId: null,
+      dontSave: false,
       title: '导购更换列表',
       dialogFormVisible: false,
       allPageCustomer: [], // 选择的所有的客户
@@ -287,7 +288,7 @@ export default {
           obj.searchMap.shopId = parseInt(model.shop)
           obj.searchMap.sameSystemShopId = null
         } else {
-          obj.searchMap.sameSystemShopId = model.sameSystemShopId?parseInt(model.sameSystemShopId):that.sameSystemShopId
+          obj.searchMap.sameSystemShopId = model.sameSystemShopId ? parseInt(model.sameSystemShopId) : that.sameSystemShopId
         }
       }
       if (numbers.test(model)) {
@@ -550,6 +551,24 @@ export default {
       this.sameSystemShopId = data
     },
     addText (row) {
+      if (row.selectValue) {
+        if (row.tagType === 2) {
+          let pattern = /^-?[0-9]\d*$/
+          if (!pattern.test(Number.parseFloat(row.selectValue))) {
+            this.$notify.error('请输入整数')
+            row.selectValue = null
+            this.dontSave = false
+          }
+        } else if (row.tagType === 3) {
+          let pattern = /^-?([1-9]\d*\.\d*|0\.\d*[1-9]\d*|0?\.0+|0)$/
+          if (!pattern.test(Number.parseFloat(row.selectValue))) {
+            this.$notify.error('请输入小数')
+            row.selectValue = null
+            this.dontSave = false
+          }
+        }
+      }
+
       let num = this.textIds.indexOf(row.id)
       if (num > -1) {
         for (let i = 0; i < this.mapTag.length; i++) {
@@ -580,6 +599,7 @@ export default {
           this.attributeValue += 1
         }
       }
+      this.dontSave = false
     },
     // 下拉选处理
     addSelect (row) {

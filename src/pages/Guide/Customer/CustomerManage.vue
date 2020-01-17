@@ -311,7 +311,7 @@
               </el-form>
             </div>
             <div class="dialog-basic">
-              <div class="dialog-basic__title">自定义属性</div>
+              <div class="dialog-basic__title">属性标签</div>
               <el-form label-width="180px" class="dialog-basic__form" >
                 <el-form-item :label="tag.name+'：'" class="el-inline-block" v-for="tag in items.tagList" :key="tag.id">
                   <el-form-grid size="xxmd">{{tag.value}}</el-form-grid>
@@ -824,7 +824,7 @@
     </el-dialog>
     <!-- 打标签-->
     <el-dialog
-      title="自定义属性" response-limit :show-scroll-x=false
+      title="属性标签" response-limit :show-scroll-x=false
       :visible.sync="showTag"
       width="900px" @close="restTag(true)">
       <div>
@@ -867,9 +867,10 @@
                 <el-input v-model="scope.row.selectValue"
                           placeholder="请输入内容"
                           autosize size="small"
-                          type="number"
                           v-if="scope.row.tagType === 2 || scope.row.tagType === 3"
                           @change="addText(scope.row)"
+                          @focus="dontSave=true"
+                          @blur="dontSave=false"
                           clearable
                           :disabled="scope.row.isMark" />
                 <!--下拉选-->
@@ -913,7 +914,7 @@
       </div>
       <span slot="footer" class="dialog-footer">
         <ns-button @click="restTag(true)">取 消</ns-button>
-        <ns-button type="primary" @click="saveTag">保存</ns-button>
+        <ns-button type="primary" @click="saveTag" :disabled="dontSave">保存</ns-button>
       </span>
     </el-dialog>
   </div>
