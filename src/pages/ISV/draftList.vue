@@ -14,7 +14,7 @@
       <el-table-column :show-overflow-tooltip="true" label="操作" align="center"
                        width="120">
         <template slot-scope="scope">
-          <ns-table-column-operate-button :buttons="_data.table.table_buttons"
+          <ns-table-column-operate-button :buttons="_data._table.table_buttons"
                                           :prop="scope">
           </ns-table-column-operate-button>
         </template>
@@ -45,7 +45,7 @@ export default {
       dialogVisible: false,
       loadingTable: false,
       tableList: [],
-      table: {
+      _table: {
         table_buttons: tableButtons,
         operate_buttons: [],
         quickSearchMap: {}

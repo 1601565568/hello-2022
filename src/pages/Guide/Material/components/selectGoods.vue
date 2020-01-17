@@ -205,7 +205,7 @@ export default {
       var newarr = []
       var jsonarr = []
       for (var i = 0; i < arr.length; i++) {
-        // console.log(newarr.indexOf(arr[i][attribute]))
+        console.log(newarr.indexOf(arr[i][attribute]))
         if (newarr.indexOf(arr[i][attribute]) === -1) { //  -1代表没有找到
           newarr.push(arr[i][attribute]) // 如果没有找到就把这个name放到arr里面，以便下次循环时用
           jsonarr.push(arr[i])

@@ -283,7 +283,9 @@ export default {
           return time.getTime() > Date.now() - 8.64e7
         }
       },
-      _queryConfig: { expand: false }
+      _queryConfig: { expand: false },
+      sameSystemShopId: null, // 相同体系门店ID，用于查询相同体系门店Id接口参数
+      insertList: []
     }
   },
   mounted () {
@@ -293,7 +295,7 @@ export default {
     workPrefix (val) {
       this.model.sgGuide.work_prefix = val
       // eslint-disable-next-line no-console
-      // console.log('val:', val, this.model.sgGuide.work_prefix)
+      console.log('val:', val, this.model.sgGuide.work_prefix)
     },
     formatTooltip (val) {
       return val / 100
@@ -380,10 +382,11 @@ export default {
       _this.changeObj.namesChange = true
     },
     reduce (val) {},
-    store (vId, row) {
+    store (data, row) {
+      let vId = data.select
       let _this = this
       let shopListArr = []
-      this.shopFindList.map((item, i) => {
+      data.data.map((item, i) => {
         if (vId.indexOf(item.id) !== -1) {
           shopListArr.push(item)
         }
@@ -794,7 +797,8 @@ export default {
     },
     initShopList () {
       var _this = this
-      _this.$http.fetch(_this.$api.guide.shop.findBrandShopList, { isOnline: 0 }).then(resp => {
+      _this.$http.fetch(_this.$api.guide.shop.findBrandShopList,
+        { isOnline: 0, sameSystemShopId: this.sameSystemShopId }).then(resp => {
         if (resp.success && resp.result != null) {
           _this.shopFindList = resp.result
           _this.restShopFindList = resp.result
@@ -818,58 +822,57 @@ export default {
     onRedactFun (row) { // 修改和新增功能
       // 初始化门店信息
       // this.initShopList()
-      if (this.shopFindList.length !== this.restShopFindList.length) {
-        this.shopFindList = this.restShopFindList
-      }
+      // if (this.shopFindList.length !== this.restShopFindList.length) {
+      //   this.shopFindList = this.restShopFindList
+      // }
       this.row = row
       if (row) {
         this.title = '编辑员工信息'
         this.guideValue = row.job
         this.subordinateStores = []
         this.subordinateStores = row.shop_ids.split(',')
-        // 获取没有id的
-        this.shopIds = []
-        this.noShopIds = []
-        for (let i = 0; i < this.shopFindList.length; i++) {
-          this.shopIds.push(this.shopFindList[i].id)
-        }
-        for (let i = 0; i < this.subordinateStores.length; i++) {
-          if (this.shopIds.indexOf(this.subordinateStores[i]) === -1) {
-            this.noShopIds.push(this.subordinateStores[i])
+        const s = () => {
+          this.nextStep = '确定'
+          this.model.sgGuide = {
+            id: row.id,
+            name: row.name,
+            nickname: row.nickname,
+            sex: row.sex,
+            mobile: row.mobile,
+            birthday: row.birthday === null ? null : new Date(row.birthday),
+            work_number: row.work_number,
+            image: row.image,
+            work_prefix: row.work_prefix
           }
+          this.model.sgGuideShop = {
+            id: row.gsId,
+            job: row.job,
+            shop_id: row.shop_id
+          }
+          this.model.sgGuideVo = {
+            newShopId: row.shop_id
+          }
+          this.model.updateAllGuidePrefix = 0
+          this.showUpdateAllGuidePrefix = false
+          this.dialogFormVisible = true
         }
-        if (this.noShopIds.length > 0) {
-          this.$http.fetch(this.$api.guide.shop.findShopListByShopIds, { shopIds: this.noShopIds.toString() }).then(resp => {
+        // 获取没有id的
+        if (row.shop_ids.length > 0) {
+          this.$http.fetch(this.$api.guide.shop.findShopListByShopIds, { shopIds: row.shop_ids }).then(resp => {
             if (resp.success && resp.result != null) {
-              this.shopFindList = this.shopFindList.concat(resp.result)
+              this.insertList = resp.result
+              this.$nextTick(() => {
+                s()
+              })
             }
           }).catch((resp) => {
             this.$notify.error(getErrorMsg('查询失败', resp))
           })
+        } else {
+          this.$nextTick(() => {
+            s()
+          })
         }
-        this.nextStep = '确定'
-        this.model.sgGuide = {
-          id: row.id,
-          name: row.name,
-          nickname: row.nickname,
-          sex: row.sex,
-          mobile: row.mobile,
-          birthday: row.birthday === null ? null : new Date(row.birthday),
-          work_number: row.work_number,
-          image: row.image,
-          work_prefix: row.work_prefix
-        }
-        this.model.sgGuideShop = {
-          id: row.gsId,
-          job: row.job,
-          shop_id: row.shop_id
-        }
-        this.model.sgGuideVo = {
-          newShopId: row.shop_id
-        }
-        this.model.updateAllGuidePrefix = 0
-        this.showUpdateAllGuidePrefix = false
-        this.dialogFormVisible = true
       } else {
         this.title = '新增员工'
         this.guideValue = 0
@@ -889,7 +892,7 @@ export default {
             work_number: resp.result.workNumber
           }
           // eslint-disable-next-line no-console
-          // console.log('work_prefix:', this.model.sgGuide.work_prefix)
+          console.log('work_prefix:', this.model.sgGuide.work_prefix)
           this.model.sgGuideShop = {
             id: this.newAdd.gsId,
             job: this.newAdd.job,
@@ -958,7 +961,7 @@ export default {
     onSave (model) {
       let _this = this
       // eslint-disable-next-line no-console
-      // console.log('_this.$refs.addForm:', _this.model.sgGuide.work_prefix)
+      console.log('_this.$refs.addForm:', _this.model.sgGuide.work_prefix)
       _this.$refs.addForm.validate(valid => {
         if (valid) {
           let guideShop = []
@@ -1137,11 +1140,13 @@ export default {
     // 离职js开始
     // 客户会转移类型选择
     shiftChange (val) {
+      this.initShopList()
       if (val === '2') {
         this.model.name = null
         this.model.shop = null
         this.model.mobile = null
         this.model.workId = null
+        this.model.sameSystemShopId = this.sameSystemShopId
         this.guideFindList()
       } else if (val === '3') {
         this.model.name = null
@@ -1223,8 +1228,16 @@ export default {
     },
     // 转移给指定导购取消
     cancelTransferToReset () {
+      this.sameSystemShopId = null
+      this.initShopList()
       this.resignFormVisible = false
       this.transferShopSize = this._data.paginationss.sizeOpts[0]
+    },
+    // 自定义转移取消
+    cancelReset () {
+      this.sameSystemShopId = null
+      this.initShopList()
+      this.resignFormVisible = false
     },
     // 用于关闭弹窗后将会员总数设为null
     cancelTransferToResetByOne () {
@@ -1256,7 +1269,8 @@ export default {
         searchMap: {
           shopId: _this.model.shop,
           keyword: _this.model.name === null ? _this.model.shop === null : _this.model.name,
-          noGuideId: _this.guideId
+          noGuideId: _this.guideId,
+          sameSystemShopId: _this.sameSystemShopId
         },
         start: _this.transferShopPage !== null ? ((this.transferShopPage - 1) * 15) : 0
       }
@@ -1307,6 +1321,7 @@ export default {
       var _this = this
       // _this.initShopList()
       _this.customFindVo.shop = row.shop_id
+      _this.sameSystemShopId = row.shop_id
       _this.employeeDetails = row
       _this.transferName = row.name
       _this.transferShopName = row.shopName

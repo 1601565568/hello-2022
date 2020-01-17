@@ -31,8 +31,8 @@
             <el-countup
               :start="0"
               :end="infoObj.total"
-              :decimal="1.5"
-              v-if="infoObj.total">
+              :duration="1.5"
+              v-if="infoObj.total >= 0">
             </el-countup>
           </div>
         </div>
@@ -44,7 +44,7 @@
               :start="0"
               :end="infoObj.unfinishedCount"
               :duration="1.5"
-              v-if="infoObj.unfinishedCount">
+              v-if="infoObj.unfinishedCount >= 0">
             </el-countup>
           </div>
         </div>
@@ -1025,19 +1025,6 @@ export default {
       d.setDate(d.getDate() - 1)
       return d.getDate()
     },
-    async findShopList () { // 查询店铺
-      await this.$http
-        .fetch(this.$api.guide.shop.findBrandShopList)
-        .then(resp => {
-          this.shopArr = [...this.shopArr, ...resp.result]
-          for (let i = 0; i < resp.result.length; i++) {
-            this.shopMap[resp.result[i].id] = resp.result[i].shopName
-          }
-        })
-        .catch(resp => {
-          this.$notify.error(getErrorMsg('查询失败', resp))
-        })
-    },
     async getTaskCount () { // 当月业绩情况查询
       let parms = { queryDate: this.queryDate }
       await this.$http
@@ -1246,7 +1233,7 @@ export default {
   }
 }
 </script>
-<style scoped>
+<style scoped lang='scss'>
 @import "@theme/variables.pcss";
   @component-namespace overview {
     @b content {

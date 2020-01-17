@@ -89,7 +89,6 @@ export default {
   },
   mounted: function () {
     var vm = this
-    vm.initShopList()
     vm.staffFindList()
     if (typeof this.$init === 'function') {
     } else {
@@ -109,16 +108,6 @@ export default {
       })
     },
     handleClose () {
-    },
-    initShopList () {
-      var _this = this
-      _this.$http.fetch(_this.$api.guide.shop.findBrandShopList, { isOnline: 0 }).then(resp => {
-        if (resp.success && resp.result != null) {
-          _this.shopFindList = resp.result
-        }
-      }).catch((resp) => {
-        _this.$notify.error(getErrorMsg('查询失败', resp))
-      })
     }
   }
 }

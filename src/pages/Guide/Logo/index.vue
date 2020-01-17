@@ -59,7 +59,7 @@ export default {
   },
   methods: {
     'handleAvatarSuccess': function (res, file) {
-      // console.log('图片地址：' + res.result.url)
+      console.log('图片地址：' + res.result.url)
       this.imageUrl = res.result.url
     },
     beforeAvatarUpload (file) {

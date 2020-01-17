@@ -415,7 +415,7 @@ export default {
             shop.shopName = value.shopName
             _this.shopCouponList.push(shop)
           })
-          // console.log(JSON.stringify(_this.shopCouponList))
+          console.log(JSON.stringify(_this.shopCouponList))
           // return
           _this.$http.fetch(_this.$api.guide.activityCoupon.saveActiviCoupon, {
             sgActivityCoupon: _this.activityModel,

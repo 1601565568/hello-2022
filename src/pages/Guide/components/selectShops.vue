@@ -1,13 +1,13 @@
 <template>
 <!-- 选择门店 wanrengang 20180818 -->
 <div class="selectShopBox">
-<el-dialog
-  title="选择门店"
-  :close-on-press-escape='true'
-  :close-on-click-modal='false'
-  :visible.sync="dialogVisible"
-  width="900px" height="500px" append-to-body
-  :before-close="handleClose">
+  <el-dialog
+    title="选择门店"
+    :close-on-press-escape='true'
+    :close-on-click-modal='false'
+    :visible.sync="dialogVisible"
+    width="900px" :response-limit=false append-to-body
+    :before-close="handleClose">
       <div class="content">
         <div class="searchAction">
           <div class="searchAction_top">
@@ -55,6 +55,15 @@
               <el-table-column prop="shopName"  label="门店名称"></el-table-column>
             </el-table>
           </el-scrollbar>
+          <el-pagination v-if="pagination.enable" class="template-table-pagination"
+                         :page-sizes="pagination.sizeOpts"
+                         :total="pagination.total"
+                         :current-page.sync="pagination.page"
+                         :page-size="pagination.size"
+                         layout="total, sizes, prev, pager, next, jumper"
+                         @size-change="handleSizeChange"
+                         @current-change="handleCurrentChange">
+          </el-pagination>
         </div>
         <div class="selecedBox">
           <el-scrollbar class="scrollbarb">
@@ -68,11 +77,11 @@
           </el-scrollbar>
         </div>
       </div>
-    <span slot="footer" class="dialog-footer">
-    <ns-button @click="dialogVisible = false">关闭</ns-button>
-    <ns-button  type="primary" @click="okFun">确定</ns-button>
-  </span>
-</el-dialog>
+      <div slot="footer" class="dialog-footer">
+        <ns-button @click="dialogVisible = false">关闭</ns-button>
+        <ns-button  type="primary" @click="okFun">确定</ns-button>
+      </div>
+  </el-dialog>
   <ns-button  type="primary" @click="openFun">选择门店</ns-button> 已选择<span class="text-error">{{hasShopArr.length}}</span>家门店
 </div>
 </template>
@@ -118,12 +127,6 @@ export default {
         searchMap: {}
       },
       shopLeiXing: [{
-        value: 'B',
-        label: '天猫'
-      }, {
-        value: 'C',
-        label: '淘宝店'
-      }, {
         value: 'ZYD',
         label: '直营店'
       }, {
@@ -174,18 +177,21 @@ export default {
     loadListFun (data) {
       this.tableLoading = true
       let searchObj = data || this.searchObj
-      searchObj.length = 1000
+      if (searchObj.length == null) {
+        searchObj.length = 15
+      }
       searchObj.searchMap.shopStatus = 1
       this.$http
         .fetch(this.api, searchObj)
         .then(resp => {
           this.dataList = resp.result.data
+          this.pagination.total = parseInt(resp.result.recordsTotal)
           this.tableLoading = false
           this.$nextTick(function () {
             let hasArr = []
             if (this.selected.length <= 0) {
               this.selected = this.hasShopArr
-              // console.log('123', this.selected)
+              console.log('123', this.selected)
               this.selected.forEach(hasShopItem => {
                 for (let i = 0; i < this.dataList.length; i++) {
                   if (this.dataList[i].id === hasShopItem) {
@@ -195,7 +201,7 @@ export default {
                 }
               })
             } else {
-              // console.log('223', this.selected)
+              console.log('223', this.selected)
               this.selected.forEach(hasShopItem => {
                 for (let i = 0; i < this.dataList.length; i++) {
                   if (this.dataList[i].id === hasShopItem.id) {
@@ -207,7 +213,7 @@ export default {
               this.multipleSelection = this.selected
             }
             // 回显
-            // console.log('hasArr', hasArr)
+            console.log('hasArr', hasArr)
             this.toggleSelection(hasArr)
           })
           this.pagination.total = parseInt(resp.result.recordsTotal)
@@ -227,7 +233,7 @@ export default {
     toggleSelection (rows) {
       if (rows) {
         rows.forEach(row => {
-          this.$refs.shopTable.toggleRowSelection(row, true)
+          this.$refs.shopTable.toggleRowSelection(row)
         })
       } else {
         this.$refs.shopTable.clearSelection()
@@ -305,10 +311,20 @@ export default {
   .searchAction_top{
     margin-top:6px
   }
-  .scrollbara >>> .el-scrollbar__view {
-    max-height: 400px;
+  /*.scrollbara >>> .el-scrollbar__view {*/
+  /*  max-height: 400px;*/
+  /*}*/
+  /*.scrollbarb >>> .el-scrollbar__view {*/
+  /*  max-height: 300px;*/
+  /*}*/
+  >>> .el-dialog__body {
+    height: 440px;
   }
-  .scrollbarb >>> .el-scrollbar__view {
-    max-height: 300px;
+  >>> .el-scrollbar__wrap {
+    height: 380px;
+    padding-right: 10px;
+  }
+  >>> .el-icon-circle-check {
+    display: none;
   }
 </style>

@@ -114,11 +114,11 @@ export default {
       // eslint-disable-next-line vue/no-reserved-keys
       interactionPagination: interactionPagination,
       momentsTotal: 0,
-      pack: packData,
+      pack: packData.data,
       _queryConfig: {
         expand: false
       },
-      moments: null, // 朋友圈列表
+      moments: [], // 朋友圈列表
       // images: [],
       likeNames: null, // 点赞的名称
       interationMsgs: null, // 互动消息

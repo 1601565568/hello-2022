@@ -325,16 +325,26 @@ export default {
   height: 30px;
   border-radius: 50%;
 } */
- .newestDialog {
+<!-- .authorization {
+  border-bottom: 1px solid #888888;
+}
+-- > .newestDialog {
   padding: 0 10px;
 }
- .newestDialog .el-dialog__body {
+<!-- .newestDialog .el-dialog__header {
+  border-bottom: 1px solid #888;
+}
+-- > .newestDialog .el-dialog__body {
   padding: 0 !important;
 }
 .el-row {
   padding-top: 15px;
 }
- .dialog_mian {
+<!-- .el-row {
+  padding-top: 15px;
+  border-bottom: 8px solid #eee;
+}
+-- > .dialog_mian {
   padding: 10px 20px;
 }
 </style>

@@ -227,7 +227,9 @@ export default List
   >>> .template-table__bar .template-table-buttons .el-form-grid {
     margin-right: var(--default-margin-base);
   }
-
+</style>
+<style scoped>
+ @import "@theme/variables.pcss";
   #box_left{
     width: 220px;
     margin-right: var(--default-margin-small);
@@ -240,83 +242,85 @@ export default List
     overflow: hidden;
     background-color: #ffffff
   }
-  .dialog_mian_topText p sapn{
-    color:grey;
-  }
-  .dialog_mian_topText p{
-    height: 30px;
-    line-height: 30px;
-  }
-  .sort{
-    font-size: var(--default-font-size-base);
-    color: var(--theme-color-primary);
-    cursor: pointer;
-  }
-  .expressionBar_div{
-    width: 100%;
-    height: 30px;
-    background-color:#eee;
-    border-radius: 0 0 3px 3px;
-    padding-left: 5px;
-  }
-  .expressionBar_div i{
-    font-size: 18px;
-    position: relative;
-    top: 2px;
-  }
-  .emotion-list_div {
-    width: 350px;
-    height: 147px;
-    padding-left: var(--default-padding-base);
-    border: 1px solid var(--theme-base-border-color-primary);
-  }
-  .emotion-list_div .emotion-list .li{
-    list-style: none;
-    display: inline-block;
-    margin:0 2px;
-  }
-  .emotion-list_div .emotion-list .li img{
-    width: 20px;
-    height: 20px;
-  }
-  .subdivision-tree-node i{
-    font-size: 12px;
-  }
-  @component-namespace menu {
-    @b item {
-      height: 40px;line-height:40px;
-      &.is-active {
-        background-color: var(--default-menu-active-border);
+.dialog_mian_topText p sapn{
+  color:grey;
+}
+.dialog_mian_topText p{
+  height: 30px;
+  line-height: 30px;
+}
+.sort{
+  font-size: var(--default-font-size-base);
+  color: var(--theme-color-primary);
+  cursor: pointer;
+}
+.expressionBar_div{
+  width: 100%;
+  height: 30px;
+  background-color:#eee;
+  border-radius: 0 0 3px 3px;
+  padding-left: 5px;
+}
+.expressionBar_div i{
+  font-size: 18px;
+  position: relative;
+  top: 2px;
+}
+.emotion-list_div {
+  width: 350px;
+  height: 147px;
+  padding-left: var(--default-padding-base);
+  border: 1px solid var(--theme-base-border-color-primary);
+}
+.emotion-list_div .emotion-list .li{
+  list-style: none;
+  display: inline-block;
+  margin:0 2px;
+}
+.emotion-list_div .emotion-list .li img{
+  width: 20px;
+  height: 20px;
+}
+.subdivision-tree-node i{
+  font-size: 12px;
+}
+@component-namespace menu {
+  @b item {
+    height: 40px;line-height:40px;
+    &.is-active {
+      background-color: var(--default-menu-active-border);
 
-        .item-title {
-          color: var(--head-nav-bg);
-          line-height: 45px;
-        }
-      }
-
-      &:hover {
-        background-color: var(--default-menu-active-border);
+      .item-title {
+        color: var(--head-nav-bg);
+        line-height: 45px;
       }
     }
 
-  }
-  @component-namespace navTree {
-    .navTree{
-      @b item{
-        flex: 1;
-        padding:0 5px;
-      }
+    &:hover {
+      background-color: var(--default-menu-active-border);
     }
-
   }
 
+}
+@component-namespace navTree {
+  .navTree{
+    @b item{
+      flex: 1;
+      padding:0 5px;
+    }
+  }
+
+}
+</style>
+<style lang='scss' scoped>
+ @import "@theme/variables.pcss";
   #SgQuicklyWordPage .el-tree-node{
     &.is-current{
       background-color: var(--default-menu-active-border);
     }
     &:hover {
-      background-color: var(--default-menu-active-border);
-    }
+        background-color: var(--default-menu-active-border);
+      }
   }
   #SgQuicklyWordPage .el-tree-node__expand-icon{
     display: none;
@@ -338,10 +342,10 @@ export default List
       display: block;
     }
   }
-  .searchbtn {
-    margin-left: 11px;
-  }
-  .resetbtn {
-    margin-left: var(--default-margin-larger);
-  }
+ .searchbtn {
+   margin-left: 11px;
+ }
+ .resetbtn {
+   margin-left: var(--default-margin-larger);
+ }
 </style>

@@ -105,7 +105,8 @@ export default {
       if (_this.gradeInfo) {
         _this.gradeInfo = []
       }
-      _this.offLineShopId = data.parentId !== 0 ? data.parentId : data.id
+      _this.offLineShopId = data.parentId != 0 ? data.parentId : data.id
+      _this.$emit('offLineShopId', _this.offLineShopId)
       _this.shuJushuzu = data
       _this.loading = true
       _this.$reload().then(rep => {

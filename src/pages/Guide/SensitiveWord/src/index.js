@@ -279,7 +279,7 @@ export default {
           content: '敏感词在导购所发送的消息中出现的次数',
           placement: 'bottom'
         }
-      }, [h('i', { 'type': 'question-circle', 'theme': 'filled', style: 'color:rgb(153, 153, 153)' })])])
+      }, [h('i', { 'type': 'question-circle',  'theme': 'filled',style: 'color:rgb(153, 153, 153)' })])])
     },
     renderHeaderCustomerCount (h, data) {
       return h('div', {
@@ -296,7 +296,7 @@ export default {
           content: '敏感词在会员所发送的消息中出现的次数',
           placement: 'bottom'
         }
-      }, [h('i', { 'type': 'question-circle', 'theme': 'filled', style: 'color:rgb(153, 153, 153)' })])])
+      }, [h('i', { 'type': 'question-circle',  'theme': 'filled', style: 'color:rgb(153, 153, 153)' })])])
     },
     // 从树节点label获取名称
     getGroupNameFromTreeNode (nodeData) {

@@ -161,7 +161,7 @@
               align="center"
               width="80px"
             >
-              <template>-</template>
+              <template slot-scope="scope">-</template>
             </el-table-column>
             <el-table-column
               :show-overflow-tooltip="true"
@@ -171,7 +171,7 @@
               :sortable="false"
               width="80px"
             >
-              <template>-</template>
+              <template slot-scope="scope">-</template>
             </el-table-column>
             <el-table-column
               :show-overflow-tooltip="true"
