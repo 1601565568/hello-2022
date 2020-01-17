@@ -118,7 +118,7 @@ export default {
       _queryConfig: {
         expand: false
       },
-      moments: null, // 朋友圈列表
+      moments: [], // 朋友圈列表
       // images: [],
       likeNames: null, // 点赞的名称
       interationMsgs: null, // 互动消息
