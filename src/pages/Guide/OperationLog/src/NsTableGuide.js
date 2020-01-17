@@ -37,7 +37,6 @@ export default {
       title: '变更详情',
       multipleSelection: [],
       staffFindLists: [],
-      shopFindList: [],
       select: true,
       dataModule: [
         { label: '员工信息', value: 1 },
@@ -95,7 +94,6 @@ export default {
 
   mounted: function () {
     var vm = this
-    vm.initShopList()
     vm.staffFindList()
     if (typeof this.$init === 'function') {
     } else {
@@ -129,16 +127,6 @@ export default {
       _this.$http.fetch(_this.$api.guide.guide.getGuideList).then(resp => {
         if (resp.success && resp.result != null) {
           _this.staffFindLists = resp.result
-        }
-      }).catch((resp) => {
-        _this.$notify.error(getErrorMsg('查询失败', resp))
-      })
-    },
-    initShopList () {
-      var _this = this
-      _this.$http.fetch(_this.$api.guide.shop.findGroupShopList, { isOnline: 0 }).then(resp => {
-        if (resp.success && resp.result != null) {
-          _this.shopFindList = resp.result
         }
       }).catch((resp) => {
         _this.$notify.error(getErrorMsg('查询失败', resp))

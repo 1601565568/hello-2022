@@ -109,7 +109,6 @@ export default {
     }
   },
   created: function () {
-    // this.findShopList()
   },
   methods: {
     // 提交搜索
