@@ -113,12 +113,15 @@
       </el-table-column>
       <el-table-column
         label="门店名称"
+        fixed
         prop="shopName"
         show-overflow-tooltip
+        width="200"
         >
       </el-table-column>
       <el-table-column
         label="营业状态"
+        fixed
         width="70"
         align="center"
         prop="shopStatusMean"
