@@ -7,7 +7,7 @@ import { getErrorMsg } from '@/utils/toast'
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import moment from 'moment'
 import VEmojiPicker from 'v-emoji-picker'
-import packData from 'v-emoji-picker/data/emojis.json'
+import packData from 'v-emoji-picker/data/emojis.js'
 export default {
   components: {
     ElUpload,
