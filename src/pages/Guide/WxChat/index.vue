@@ -482,6 +482,7 @@ export default index
   }
   .women {
     font-size: var(--default-font-size-large);
+    color: #FF1985;
     margin-left: var(--default-margin-small);
   }
   .clearfix:after{
