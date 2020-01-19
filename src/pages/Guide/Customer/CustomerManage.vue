@@ -15,11 +15,10 @@
             </el-form-grid>
           </el-form-item>
           <el-form-item label="所属门店：">
-            <el-form-grid>
-              <el-select placeholder="请选择所属门店" v-model="model.shop" clearable filterable @clear="model.shop=null">
-                <el-option v-for="shop in shopList" :label="shop.shopName" :value="shop.id"
-                          :key="shop.id"></el-option>
-              </el-select>
+            <el-form-grid size="xmd">
+              <shop-select-load v-model="model.shop"
+                                :sameSystemShopId='sameSystemShopId'
+                                clearable/>
             </el-form-grid>
           </el-form-item>
           <el-form-item>
@@ -923,9 +922,11 @@
 import CustomerManage from './src/CustomerManage'
 import NsTableGuide from './NsTableGuide'
 import ElImage from '@nascent/nui/lib/image'
+import ShopSelectLoad from '@/components/ShopSelectLoad'
 CustomerManage.components = {
   NsTableGuide,
-  ElImage
+  ElImage,
+  ShopSelectLoad
 }
 export default CustomerManage
 </script>

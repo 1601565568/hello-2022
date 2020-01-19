@@ -1,12 +1,8 @@
 import api from '@/config/http'
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import { getErrorMsg } from '@/utils/toast'
-import ElImage from '@nascent/nui/lib/image'
 
 export default {
-  components: {
-    ElImage
-  },
   data: function () {
     let pagination = {
       enable: true,
@@ -259,17 +255,17 @@ export default {
       this.pagination.size = 15
       this.guideFindList()
     },
-    async findBrandShopList (model) { // 门店列表查询
-      let that = this
-      await this.$http
-        .fetch(that.$api.guide.shop.findBrandShopList, { isOnline: 0, sameSystemShopId: model.sameSystemShopId })
-        .then(resp => {
-          that.shopList = [...resp.result]
-        })
-        .catch(resp => {
-          this.$notify.error(getErrorMsg('查询失败', resp))
-        })
-    },
+    // async findBrandShopList (model) { // 门店列表查询
+    //   let that = this
+    //   await this.$http
+    //     .fetch(that.$api.guide.shop.findBrandShopList, { isOnline: 0, sameSystemShopId: model.sameSystemShopId })
+    //     .then(resp => {
+    //       that.shopList = [...resp.result]
+    //     })
+    //     .catch(resp => {
+    //       this.$notify.error(getErrorMsg('查询失败', resp))
+    //     })
+    // },
     async guideFindList (model) { // 导购列表查询
       let that = this
       let numbers = /^[1-9]+[0-9]*]*$/
@@ -375,7 +371,7 @@ export default {
           _this.shopFindListShow = true
           let shopId = this.sameSystemShopId
           _this.guideFindList({ sameSystemShopId: shopId })
-          _this.findBrandShopList({ sameSystemShopId: shopId })
+          // _this.findBrandShopList({ sameSystemShopId: shopId })
         } else {
           _this.$notify.error('请选择要更换导购的会员')
         }

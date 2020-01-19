@@ -47,6 +47,12 @@ export default {
       default () {
         return true
       }
+    },
+    sameSystemShopId: {
+      type: [String, Number],
+      default () {
+        return null
+      }
     }
   },
   data () {
@@ -151,7 +157,8 @@ export default {
       this.$http.fetch(this.url, Object.assign({}, limit, {
         searchMap: {
           shopName: this.shopName,
-          insertShopIds: this.getInsertShopIds()
+          insertShopIds: this.getInsertShopIds(),
+          sameSystemShopId: this.sameSystemShopId
         }
       })).then(resp => {
         if (resp.success && resp.result != null) {

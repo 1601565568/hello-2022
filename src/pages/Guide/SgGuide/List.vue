@@ -173,7 +173,8 @@
                 <el-form-item label="所属门店：">
                   <el-form-grid>
                     <shop-select-load v-model="model.shop"
-                                      clearable/>
+                                      clearable
+                                      :sameSystemShopId='sameSystemShopId'/>
                   </el-form-grid>
                 </el-form-item>
               </el-form>
@@ -248,7 +249,8 @@
                 <el-form-item label="所属门店：">
                   <el-form-grid>
                     <shop-select-load v-model="customFindVo.shop"
-                                      clearable/>
+                                      clearable
+                                      :sameSystemShopId='sameSystemShopId'/>
                   </el-form-grid>
                 </el-form-item>
               </el-form>
@@ -525,7 +527,8 @@
             <el-form-grid size="lg">
               <shop-select-load v-model="model.sgGuideShop.shop_id"
                                 @change="changeShop"
-                                clearable/>
+                                clearable
+                                :sameSystemShopId='sameSystemShopId'/>
             </el-form-grid>
           </el-form-item>
         </el-form>
