@@ -10,7 +10,7 @@ import 'normalize.css'
 import '@theme/NuiJs/index.scss'
 import '@theme/index.pcss'
 // 是否启动本地原缓存数据
-import './utils/storageControl'
+// import './utils/storageControl'
 
 LOG.init({
   imgUrl: window.g_config.imgUrl,
