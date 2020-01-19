@@ -111,7 +111,10 @@
           </el-table-column>
           <el-table-column prop="shopCouponNumber" label="配额" align="center" width="100">
             <template slot-scope="scope" >
-              <el-input type="number" @change="inputChange(scope.row)" v-model="scope.row.shopCouponNumber" width="100"></el-input>
+              <el-input type="number"
+                        @change="inputChange(scope.row)"
+                        v-model="scope.row.shopCouponNumber"
+                        width="100" @focus="forbidden=true"/>
             </template>
           </el-table-column>
         </el-table>
@@ -121,7 +124,6 @@
         <el-pagination v-if="_data.paginations.enable" class="template-table-pagination"
                        :page-sizes="_data.paginations.sizeOpts"
                        :total="_data.paginations.total"
-
                        :current-page.sync="_data.paginations.page"
                        :page-size="_data.paginations.size"
                        layout="total, sizes, prev, pager, next, jumper"
