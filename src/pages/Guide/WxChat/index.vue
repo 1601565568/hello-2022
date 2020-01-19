@@ -75,7 +75,7 @@
         <el-scrollbar ref="fullScreen" v-loading.lock="targetLoading" :element-loading-text="$t('prompt.loading')">
           <div class="talk-aside__item">
             <template v-for="(target, index) in targetList">
-              <div class="talk-item" :class="{'talk-chosen':isCurrTarget(index)}" @click="clickTarget(index)">
+              <div :key="index" class="talk-item" :class="{'talk-chosen':isCurrTarget(index)}" @click="clickTarget(index)">
                 <div v-if="target.talkerType === 2" class="talk-item__avatar talk-item__avatar--bluebg">
                   <Icon className="crowd" type="qun"/>
                 </div>

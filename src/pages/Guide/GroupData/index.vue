@@ -161,7 +161,7 @@
               align="center"
               width="80px"
             >
-              <template slot-scope="scope">-</template>
+              <template slot-scope="scope"><span :fixScopeBug="scope.testId">-</span></template>
             </el-table-column>
             <el-table-column
               :show-overflow-tooltip="true"
@@ -171,7 +171,7 @@
               :sortable="false"
               width="80px"
             >
-              <template slot-scope="scope">-</template>
+              <template slot-scope="scope"><span :fixScopeBug="scope.testId">-</span></template>
             </el-table-column>
             <el-table-column
               :show-overflow-tooltip="true"

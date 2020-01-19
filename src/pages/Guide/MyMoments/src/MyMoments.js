@@ -94,7 +94,6 @@ export default {
         }
       ]
     }
-    var quickSearchNames = quickInput.map(x => x.name)
     var quickSearchModel = {}
     var model = Object.assign({},
       {

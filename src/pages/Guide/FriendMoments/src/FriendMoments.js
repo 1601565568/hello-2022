@@ -63,7 +63,6 @@ export default {
         { type: 'number', message: '必须为数字值' }
       ]
     }
-    var quickSearchNames = quickInput.map(x => x.name)
     var quickSearchModel = {}
     var model = Object.assign({},
       {

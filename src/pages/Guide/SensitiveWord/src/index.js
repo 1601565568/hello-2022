@@ -1,7 +1,6 @@
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import moment from 'moment'
 import LocalStorage from 'store/dist/store.legacy.min.js'
-import { getErrorMsg } from '@/utils/toast'
 
 export default {
   mixins: [tableMixin],

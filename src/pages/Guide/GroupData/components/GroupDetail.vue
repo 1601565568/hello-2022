@@ -42,7 +42,7 @@
                                label="会员状态" :sortable="false" width='100px' align='center'>
                 <template slot-scope='scope'>
 <!--                  todo-zsf 暂时取不到会员状态-->
-                  -
+                  <span :fixScopeBug="scope.testId">-</span>
 <!--                  {{scope.row.isMember === '1' ? '是' : '否'}}-->
                 </template>
                 <template slot='header' scope='header'>

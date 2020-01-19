@@ -143,7 +143,6 @@ export default {
   },
 
   mounted: function () {
-    var vm = this
     if (typeof this.$init === 'function') {
     } else {
       this.$reload()

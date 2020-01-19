@@ -37,13 +37,13 @@
           <el-table-column :show-overflow-tooltip="true" type="default" prop=""
                            label="性别" :sortable="false" width='80px' align='center'>
             <template slot-scope='scope'>
-              -
+              <span :fixScopeBug="scope.testId">-</span>
             </template>
           </el-table-column>
           <el-table-column :show-overflow-tooltip="true" type="default" prop=""
                            label="地区" :sortable="false" width='80px'>
             <template slot-scope='scope'>
-              -
+              <span :fixScopeBug="scope.testId">-</span>
             </template>
           </el-table-column>
           <el-table-column :show-overflow-tooltip="true" type="default" prop="displayname"
