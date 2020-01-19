@@ -482,7 +482,6 @@ export default index
   }
   .women {
     font-size: var(--default-font-size-large);
-    color: var(--talk-font-color-bigred);
     margin-left: var(--default-margin-small);
   }
   .clearfix:after{

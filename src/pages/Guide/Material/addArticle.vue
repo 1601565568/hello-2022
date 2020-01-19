@@ -439,9 +439,6 @@ export default {
       display: -webkit-box;
       overflow: hidden;
       -webkit-line-clamp: 2;
-      /*! autoprefixer: off */
-      -webkit-box-orient: vertical;
-      /* autoprefixer: on */
       color: #333;
       line-height: 1.9;
       word-break: break-word;

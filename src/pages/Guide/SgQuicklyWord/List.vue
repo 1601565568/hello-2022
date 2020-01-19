@@ -227,9 +227,7 @@ export default List
   >>> .template-table__bar .template-table-buttons .el-form-grid {
     margin-right: var(--default-margin-base);
   }
-</style>
-<style scoped>
- @import "@theme/variables.pcss";
+
   #box_left{
     width: 220px;
     margin-right: var(--default-margin-small);
@@ -311,9 +309,7 @@ export default List
   }
 
 }
-</style>
-<style lang='scss' scoped>
- @import "@theme/variables.pcss";
+
   #SgQuicklyWordPage .el-tree-node{
     &.is-current{
       background-color: var(--default-menu-active-border);
