@@ -435,15 +435,11 @@ export default {
       } */
     }
     .tit{
-      padding-top: 3px;
-      display: -webkit-box;
-      overflow: hidden;
-      -webkit-line-clamp: 2;
-      /*! autoprefixer: off */
-      -webkit-box-orient: vertical;
-      /* autoprefixer: on */
       color: #333;
-      line-height: 1.9;
+      line-height: 22px;
+      max-height: 44px;
+      padding-top: 3px;
+      overflow: hidden;
       word-break: break-word;
     }
   }
