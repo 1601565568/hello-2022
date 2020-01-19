@@ -9,6 +9,7 @@ import ets from '@nascent/ecrp-ecrm/src/extends'
 import etsPrivate from './extends'
 import filters from '@nascent/ecrp-ecrm/src/filters'
 import filtersPrivate from './filters'
+import InfiniteLoading from 'vue-infinite-loading'
 import * as allIcons from '@ant-design/icons'
 import * as allIconsPrivate from '../.temp/icons-pro'
 import Icon from '@nascent/icons-vue'
@@ -16,9 +17,10 @@ import Icon from '@nascent/icons-vue'
 /**
  * 全局注册图标
  */
-Icon.add(...Object.keys(allIcons).map(key => allIcons[key]))
-Icon.add(...Object.keys(allIconsPrivate).map(key => allIconsPrivate[key]))
+Icon.add(...Object.keys(allIcons).map(key => (allIcons as any)[key]))
+Icon.add(...Object.keys(allIconsPrivate).map(key => (allIconsPrivate as any)[key]))
 Vue.use(Icon)
+
 /**
  * 全局注册属性或方法
  */
@@ -36,6 +38,17 @@ Vue.use(directivesPrivate)
  */
 Vue.use(Components)
 Vue.use(ComponentsPrivate)
+const confInfiniteLoading: any = {
+  slots: {
+    spinner: '加载中…',
+    noResults: '暂无数据',
+    noMore: '没有更多数据',
+    error: '网络异常',
+    errorBtnText: '网络异常'
+  }
+}
+
+Vue.use(InfiniteLoading, confInfiniteLoading)
 
 /**
  * 全局注册混合
