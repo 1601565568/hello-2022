@@ -10,7 +10,7 @@
 <script>
 import List from './src/index'
 import ElUpload from '@nascent/nui/lib/upload'
-import NsTableShopGroup from './NsTableShopGroupRobot'
+import NsTableShopGroupRobot from './NsTableShopGroupRobot'
 List.components = {
   NsTableShopGroupRobot,
   ElUpload
