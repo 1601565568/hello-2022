@@ -5,17 +5,24 @@ module.exports = {
   },
   'extends': [
     'plugin:vue/essential',
-    '@vue/standard'
+    '@vue/standard',
+    '@vue/typescript'
   ],
   rules: {
     'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'warn',
-    'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'warn',
-    'curly': [2, 'all']
+    'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'warn'
   },
   parserOptions: {
-    parser: 'babel-eslint'
+    parser: '@typescript-eslint/parser'
   },
-  'globals': {
-    'Log': true
-  }
+  overrides: [
+    {
+      files: [
+        '**/__tests__/*.{j,t}s?(x)'
+      ],
+      env: {
+        mocha: true
+      }
+    }
+  ]
 }

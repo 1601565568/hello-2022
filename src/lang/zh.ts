@@ -7,6 +7,10 @@ export default {
   operating: {
     'search': '搜索',
     'reset': '重置',
-    'cancel': '取消'
+    'edit': '编辑',
+    'delete': '删除',
+    'cancel': '取消',
+    'close': '关闭',
+    'export': '导出'
   }
 }

@@ -355,6 +355,8 @@ export default {
         if (total > remainingQuantity) {
           _this.$notify.info('门店总配额不能超过优惠券总配额')
           row.shopCouponNumber = oldValue
+          // 禁止保存延迟设置，防止点击过快
+          setTimeout(() => { this.forbidden = false }, 1000)
           return
         }
       }
@@ -364,6 +366,7 @@ export default {
       let shopObj = JSON.stringify(row)
       let newShopObject = JSON.parse(shopObj)
       _this.shopMap.set(row.id, newShopObject)
+      setTimeout(() => { this.forbidden = false }, 500)
     },
     // 分页-页数改变
     shopPageChange (page) {
@@ -394,6 +397,7 @@ export default {
      */
     onSaveActivityCoupon: function () {
       var _this = this
+      _this.forbidden = true
       _this.$refs.form.validate((valid) => {
         if (valid) {
           if (_this.activityModel.coupon_total === 0) {
@@ -425,9 +429,11 @@ export default {
               _this.addCouponDialogVisible = false
               _this.$refs.table.$reload()
               _this.$notify.success(resp.msg)
+              _this.forbidden = false
             }
           }).catch((resp) => {
             _this.$notify.error(getErrorMsg('保存失败', resp))
+            _this.forbidden = false
           })
         }
       })

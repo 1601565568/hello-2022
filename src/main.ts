@@ -31,7 +31,10 @@ if (window.g_config.sentry.report === true) {
   })
 }
 
-Vue.prototype.$ELEMENT = { size: 'small' }
+Vue.prototype.$ELEMENT = {
+  size: 'small',
+  matchOSS: (url: string) => /cn-zhangjiakou\.log\.aliyuncs\.com\/logstores/.exec(url)
+}
 Vue.config.productionTip = false
 Vue.config.devtools = process.env.NODE_ENV === 'development'
 

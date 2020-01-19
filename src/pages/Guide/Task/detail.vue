@@ -1233,7 +1233,7 @@ export default {
   }
 }
 </script>
-<style scoped lang='scss'>
+<style scoped>
 @import "@theme/variables.pcss";
   @component-namespace overview {
     @b content {
