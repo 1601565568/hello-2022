@@ -151,7 +151,7 @@ export default {
       _this.$http.fetch(this.$api.guide.friendData.sendMsg,
         { wxid: wid }).then(resp => {
         if (resp.success) {
-          console.log(resp.result)
+          // console.log(resp.result)
         }
       }).catch(resp => {
         _this.$notify.error(getErrorMsg('查询失败'), resp)

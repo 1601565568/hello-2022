@@ -289,7 +289,7 @@ export default {
     workPrefix (val) {
       this.model.sgGuide.work_prefix = val
       // eslint-disable-next-line no-console
-      console.log('val:', val, this.model.sgGuide.work_prefix)
+      // console.log('val:', val, this.model.sgGuide.work_prefix)
     },
     formatTooltip (val) {
       return val / 100
@@ -858,7 +858,7 @@ export default {
             work_number: resp.result.workNumber
           }
           // eslint-disable-next-line no-console
-          console.log('work_prefix:', this.model.sgGuide.work_prefix)
+          // console.log('work_prefix:', this.model.sgGuide.work_prefix)
           this.model.sgGuideShop = {
             id: this.newAdd.gsId,
             job: this.newAdd.job,
@@ -923,7 +923,7 @@ export default {
     onSave (model) {
       let _this = this
       // eslint-disable-next-line no-console
-      console.log('_this.$refs.addForm:', _this.model.sgGuide.work_prefix)
+      // console.log('_this.$refs.addForm:', _this.model.sgGuide.work_prefix)
       _this.$refs.addForm.validate(valid => {
         if (valid) {
           let guideShop = []

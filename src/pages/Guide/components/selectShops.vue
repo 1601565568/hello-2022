@@ -191,7 +191,7 @@ export default {
             let hasArr = []
             if (this.selected.length <= 0) {
               this.selected = this.hasShopArr
-              console.log('123', this.selected)
+              // console.log('123', this.selected)
               this.selected.forEach(hasShopItem => {
                 for (let i = 0; i < this.dataList.length; i++) {
                   if (this.dataList[i].id === hasShopItem) {
@@ -201,7 +201,7 @@ export default {
                 }
               })
             } else {
-              console.log('223', this.selected)
+              // console.log('223', this.selected)
               this.selected.forEach(hasShopItem => {
                 for (let i = 0; i < this.dataList.length; i++) {
                   if (this.dataList[i].id === hasShopItem.id) {
@@ -213,7 +213,7 @@ export default {
               this.multipleSelection = this.selected
             }
             // 回显
-            console.log('hasArr', hasArr)
+            // console.log('hasArr', hasArr)
             this.toggleSelection(hasArr)
           })
           this.pagination.total = parseInt(resp.result.recordsTotal)

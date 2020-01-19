@@ -12,6 +12,6 @@ function storageControl () {
   }
 }
 if (window && window.VUE_APP_VERSION) {
-  console.log('window.VUE_APP_VERSION', window.VUE_APP_VERSION)
+  // console.log('window.VUE_APP_VERSION', window.VUE_APP_VERSION)
   // storageControl()
 }
