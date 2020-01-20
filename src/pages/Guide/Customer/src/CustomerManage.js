@@ -554,7 +554,7 @@ export default {
             this.dontSave = false
           }
         } else if (row.tagType === 3) {
-          let pattern = /^-?([1-9]\d*\.\d*|0\.\d*[1-9]\d*|0?\.0+|0)$/
+          let pattern = /^-?([1-9]\d*\.\d*|0\.\d*[1-9]\d*|0?\.0+|0)$|^-?[0-9]\d*$/
           if (!pattern.test(Number.parseFloat(row.selectValue))) {
             this.$notify.error('请输入小数')
             row.selectValue = null
@@ -570,8 +570,9 @@ export default {
           if (check.id === row.id) {
             if (!row.selectValue || row.selectValue.trim().length === 0) {
               // 判断是否为空
-              this.mapTag.splice(i, 1)
-              this.textIds.splice(num, 1)
+              // this.mapTag.splice(i, 1)
+              // this.textIds.splice(num, 1)
+              check.value = null
               this.attribute -= 1
               this.attributeValue -= 1
             } else {
@@ -635,8 +636,9 @@ export default {
               this.addAttribute(check)
               check.value = row.selectValue
             } else {
-              this.mapTag.splice(i, 1)
-              this.dateIds.splice(num, 1)
+              // this.mapTag.splice(i, 1)
+              // this.dateIds.splice(num, 1)
+              check.value = null
               this.attribute -= 1
               this.attributeValue -= 1
             }
@@ -692,8 +694,8 @@ export default {
               check.value.splice(check.value.indexOf(item), 1)
               this.attributeValue -= 1
               if (check.value.length === 0) { // 没有值
-                this.mapTag.splice(i, 1)
-                this.checkboxIds.splice(num, 1)
+                // this.mapTag.splice(i, 1)
+                // this.checkboxIds.splice(num, 1)
                 this.attribute -= 1
               } else {
                 this.mapTag[i].value = check.value
