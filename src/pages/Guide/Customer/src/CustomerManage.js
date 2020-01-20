@@ -548,14 +548,14 @@ export default {
       if (row.selectValue) {
         if (row.tagType === 2) {
           let pattern = /^-?[0-9]\d*$/
-          if (!pattern.test(Number.parseFloat(row.selectValue))) {
+          if (Number.isNaN(Number(row.selectValue)) || !pattern.test(Number.parseFloat(row.selectValue))) {
             this.$notify.error('请输入整数')
             row.selectValue = null
             this.dontSave = false
           }
         } else if (row.tagType === 3) {
           let pattern = /^-?([1-9]\d*\.\d*|0\.\d*[1-9]\d*|0?\.0+|0)$|^-?[0-9]\d*$/
-          if (!pattern.test(Number.parseFloat(row.selectValue))) {
+          if (Number.isNaN(Number(row.selectValue)) || !pattern.test(Number.parseFloat(row.selectValue))) {
             this.$notify.error('请输入小数')
             row.selectValue = null
             this.dontSave = false
