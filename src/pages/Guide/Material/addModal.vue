@@ -76,7 +76,7 @@
             </el-radio-group>
             <p style='line-height:1.5;' class="text-primary">
               <Icon type="info-circle"/>
-              <span>将在图片中加入带导购参数的小程序码，需门店里有对应信息的才会显示</span>
+              <span>生成一张新的小程序码图片，需门店里有对应信息的才会显示</span>
             </p>
           </el-form-item>
         </el-form>
