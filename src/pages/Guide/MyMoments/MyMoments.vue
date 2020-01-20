@@ -133,7 +133,7 @@
           <!-- 左边内容滚动区域 -->
           <template slot="table" ref="mainTable">
             <el-scrollbar ref="fullScreen">
-              <div v-if="moments.length===0" style="text-align: center">暂无数据</div>
+              <ns-no-data height="100" v-if="moments.length===0" >暂无数据</ns-no-data>
               <div class="talk-aside__list" ref="asideList" v-for="(moment,index) in moments" :key="moment.id">
                 <div class="talk-item clearfix">
                   <div class="talk-item__avatar">
@@ -247,7 +247,7 @@
         </div>
         <el-scrollbar ref="fullScreenright">
           <div class="talk-main__list">
-            <div v-if="interationMsgs==null" style="text-align: center">暂无数据</div>
+            <ns-no-data height="100" v-if="interationMsgs==null" >暂无数据</ns-no-data>
             <div class="talk-convey" v-for="msg in interationMsgs" :key="msg.id">
               <div class="talk-convey__name">个人号：{{msg.nick}}（ {{msg.snsOwnerId}} ）</div>
               <div class="talk-convey__content clearfix">
