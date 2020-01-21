@@ -1606,15 +1606,15 @@
     call-me-maybe "^1.0.1"
     glob-to-regexp "^0.3.0"
 
-"@nascent/ecrp-ecrm@^0.1.5":
-  version "0.1.5"
-  resolved "http://27.154.234.170:18081/repository/npm/@nascent/ecrp-ecrm/-/ecrp-ecrm-0.1.5.tgz#a6010e3a859b164a9da47436271e3bea61ec9e48"
-  integrity sha512-SzDnBRJ3xWZUQV9PEkfdbucZVCDN10HrUvLyi0oJDujvJVSwmBiQLVHFV/DUIIcNJcHspw1q76D/u+c/mnJNzA==
+"@nascent/ecrp-ecrm@^0.1.8":
+  version "0.1.8"
+  resolved "http://27.154.234.170:18081/repository/npm/@nascent/ecrp-ecrm/-/ecrp-ecrm-0.1.8.tgz#cb30e0b2905392075ab926a4424765de90f40e8c"
+  integrity sha512-MJSo4SuKBjbJsnzVg+V1MCuw9FJH7cmMmfu36pESEtVp47HzSrZPgFdKscrql1OsSqDvnW1/2roIXenK/1DJCw==
   dependencies:
     "@ant-design/icons" "^2.1.1"
     "@nascent/icons-vue" "^1.0.11"
     "@nascent/log" "^0.1.10"
-    "@nascent/nui" "^2.9.20"
+    "@nascent/nui" "^2.9.27"
     "@sentry/browser" "^4.5.3"
     "@xkeshi/vue-qrcode" "^1.0.0"
     animate.css "^3.7.2"
@@ -1669,6 +1669,20 @@
   version "2.9.22"
   resolved "http://27.154.234.170:18081/repository/npm/@nascent/nui/-/nui-2.9.22.tgz#700d8a9655109437a5248c6497911cc4e2945113"
   integrity sha512-4phgYVvqNcWNkyXrLyi2Bhs+09wecuw2Ho7cZP0yBu5HrbR7CmeLLGbC9D+/bJnnCzDiSwfsX8IyI27UH4HZgQ==
+  dependencies:
+    async-validator "~1.8.1"
+    babel-helper-vue-jsx-merge-props "^2.0.0"
+    countup.js "^1.7.1"
+    deepmerge "^1.2.0"
+    normalize-wheel "^1.0.1"
+    resize-observer-polyfill "^1.5.0"
+    throttle-debounce "^1.0.1"
+    vuedraggable "^2.14.1"
+
+"@nascent/nui@^2.9.27":
+  version "2.9.27"
+  resolved "http://27.154.234.170:18081/repository/npm/@nascent/nui/-/nui-2.9.27.tgz#0bc284c82f2ad19392b53405cf2b7065b7ad2941"
+  integrity sha512-a7dK1E0ILTgf+d5y6eixOz3thxtAdNXey0gr0b/11gSW3Nob5T76p2Q2quchPqVZTudozqq9FjyAA5fY66gljQ==
   dependencies:
     async-validator "~1.8.1"
     babel-helper-vue-jsx-merge-props "^2.0.0"
