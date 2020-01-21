@@ -551,14 +551,14 @@ export default {
           if (Number.isNaN(Number(row.selectValue)) || !pattern.test(Number.parseFloat(row.selectValue))) {
             this.$notify.error('请输入整数')
             row.selectValue = null
-            this.dontSave = false
+            setTimeout(() => { this.dontSave = false }, 1000)
           }
         } else if (row.tagType === 3) {
           let pattern = /^-?([1-9]\d*\.\d*|0\.\d*[1-9]\d*|0?\.0+|0)$|^-?[0-9]\d*$/
           if (Number.isNaN(Number(row.selectValue)) || !pattern.test(Number.parseFloat(row.selectValue))) {
             this.$notify.error('请输入小数')
             row.selectValue = null
-            this.dontSave = false
+            setTimeout(() => { this.dontSave = false }, 1000)
           }
         }
       }
@@ -594,7 +594,13 @@ export default {
           this.attributeValue += 1
         }
       }
-      this.dontSave = false
+      setTimeout(() => { this.dontSave = false }, 1000)
+    },
+    focusChange () {
+      setTimeout(() => { this.dontSave = true }, 500)
+    },
+    blurChange () {
+      setTimeout(() => { this.dontSave = false }, 500)
     },
     // 下拉选处理
     addSelect (row) {

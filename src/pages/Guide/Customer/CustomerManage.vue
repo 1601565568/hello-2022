@@ -868,8 +868,8 @@
                           autosize size="small"
                           v-if="scope.row.tagType === 2 || scope.row.tagType === 3"
                           @change="addText(scope.row)"
-                          @focus="dontSave=true"
-                          @blur="dontSave=false"
+                          @focus="focusChange"
+                          @blur="blurChange"
                           clearable
                           :disabled="scope.row.isMark" />
                 <!--下拉选-->
