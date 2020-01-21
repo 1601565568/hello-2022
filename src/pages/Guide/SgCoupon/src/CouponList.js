@@ -368,6 +368,14 @@ export default {
       _this.shopMap.set(row.id, newShopObject)
       setTimeout(() => { this.forbidden = false }, 500)
     },
+    // 更改字段布尔值
+    ChangeForbiddenStatus () {
+      setTimeout(() => { this.forbidden = true }, 500)
+    },
+    // 延时更改字段布尔值
+    delayedChangeStatus () {
+      setTimeout(() => { this.forbidden = false }, 500)
+    },
     // 分页-页数改变
     shopPageChange (page) {
       var _this = this

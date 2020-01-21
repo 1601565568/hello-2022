@@ -114,7 +114,7 @@
               <el-input type="number"
                         @change="inputChange(scope.row)"
                         v-model="scope.row.shopCouponNumber"
-                        width="100" @focus="forbidden=true"/>
+                        width="100" @focus="ChangeForbiddenStatus" @blur="delayedChangeStatus"/>
             </template>
           </el-table-column>
         </el-table>
