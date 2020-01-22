@@ -313,7 +313,8 @@
               <div class="dialog-basic__title">属性标签</div>
               <el-form label-width="180px" class="dialog-basic__form" >
                 <el-form-item :label="tag.name+'：'" class="el-inline-block" v-for="tag in items.tagList" :key="tag.id">
-                  <el-tooltip :content="tag.value" popper-class="table-body__tooltip">
+                  <el-form-grid v-if="tag.value.length<=20" size="xxmd">{{tag.value}}</el-form-grid>
+                  <el-tooltip v-if="tag.value.length>20"  :content="tag.value" popper-class="table-body__tooltip">
                     <el-form-grid class="tagDisplay" size="xxmd">{{tag.value}}</el-form-grid>
                   </el-tooltip>
                 </el-form-item>
