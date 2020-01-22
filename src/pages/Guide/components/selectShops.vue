@@ -306,7 +306,6 @@ export default {
       return row.id
     },
     async findShopInfo (shopArr) {
-      console.log('1', shopArr)
       let obj = {}
       obj.searchMap = {
         shopIds: shopArr.join(',')
