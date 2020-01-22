@@ -313,7 +313,9 @@
               <div class="dialog-basic__title">属性标签</div>
               <el-form label-width="180px" class="dialog-basic__form" >
                 <el-form-item :label="tag.name+'：'" class="el-inline-block" v-for="tag in items.tagList" :key="tag.id">
-                  <el-form-grid size="xxmd">{{tag.value}}</el-form-grid>
+                  <el-tooltip :content="tag.value" popper-class="table-body__tooltip">
+                    <el-form-grid class="tagDisplay" size="xxmd">{{tag.value}}</el-form-grid>
+                  </el-tooltip>
                 </el-form-item>
               </el-form>
             </div>
@@ -1023,6 +1025,11 @@ export default CustomerManage
   justify-content: flex-end;
   align-items: center;
 }
+  .tagDisplay{
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
 
 </style>
 
