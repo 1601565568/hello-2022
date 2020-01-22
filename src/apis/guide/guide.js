@@ -167,6 +167,10 @@ export default {
     url: '/core/sgshop/findShopListOnCondition',
     method: 'post'
   },
+  findShopInfoByIds: { // 按门店Ids查询店铺
+    url: '/core/sgshop/findShopInfoByIds',
+    method: 'post'
+  },
   getWechatQrcode: { // 获取二维码
     url: 'app/guide/whd/getWechatQrcode',
     method: 'post'

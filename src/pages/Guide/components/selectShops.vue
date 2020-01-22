@@ -50,7 +50,8 @@
               tooltip-effect="dark"
               style="width: 100%" v-loading="tableLoading"
               :element-loading-text="$t('prompt.loading')"
-              @selection-change="handleSelectionChange" stripe>
+              @select="onSelectRow"
+              @select-all="onSelectAll" stripe>
               <el-table-column type="selection" align="center" :width="50" :reserve-selection="true"></el-table-column>
               <el-table-column prop="shopName"  label="门店名称"></el-table-column>
             </el-table>
@@ -78,7 +79,7 @@
         </div>
       </div>
       <div slot="footer" class="dialog-footer">
-        <ns-button @click="dialogVisible = false">关闭</ns-button>
+        <ns-button @click="closeFun">关闭</ns-button>
         <ns-button  type="primary" @click="okFun">确定</ns-button>
       </div>
   </el-dialog>
@@ -172,6 +173,11 @@ export default {
         arr.push(item.id)
       })
       this.$props.callBack(arr)
+      this.pagination.page = 1
+      this.dialogVisible = false
+    },
+    closeFun () {
+      this.pagination.page = 1
       this.dialogVisible = false
     },
     loadListFun (data) {
@@ -188,33 +194,15 @@ export default {
           this.pagination.total = parseInt(resp.result.recordsTotal)
           this.tableLoading = false
           this.$nextTick(function () {
-            let hasArr = []
             if (this.selected.length <= 0) {
-              this.selected = this.hasShopArr
-              // console.log('123', this.selected)
-              this.selected.forEach(hasShopItem => {
-                for (let i = 0; i < this.dataList.length; i++) {
-                  if (this.dataList[i].id === hasShopItem) {
-                    hasArr.push(this.dataList[i])
-                    break
-                  }
-                }
-              })
+              this.findShopInfo(this.hasShopArr)
             } else {
-              // console.log('223', this.selected)
+              let hasArr = []
               this.selected.forEach(hasShopItem => {
-                for (let i = 0; i < this.dataList.length; i++) {
-                  if (this.dataList[i].id === hasShopItem.id) {
-                    hasArr.push(this.dataList[i])
-                    break
-                  }
-                }
+                hasArr.push(hasShopItem.id)
               })
-              this.multipleSelection = this.selected
+              this.findShopInfo(hasArr)
             }
-            // 回显
-            // console.log('hasArr', hasArr)
-            this.toggleSelection(hasArr)
           })
           this.pagination.total = parseInt(resp.result.recordsTotal)
         })
@@ -226,6 +214,7 @@ export default {
     openFun () {
       const self = this
       let params = Object.assign({}, { searchMap: Object.assign({}, this.params) })
+      this.$set(this, 'multipleSelection', undefined === this.hasShopArr ? [] : JSON.parse(JSON.stringify(this.hasShopArr)))
       self.loadListFun(params)
       self.dialogVisible = true
     },
@@ -238,13 +227,112 @@ export default {
       } else {
         this.$refs.shopTable.clearSelection()
       }
-    },
+    }, /*
     // 选择
     handleSelectionChange (val) {
       this.multipleSelection = val
+    }, */
+    // 选中某行
+    onSelectRow (selected, row) {
+      let showSelectedList = this.multipleSelection
+      let check = false
+      for (var i = 0; i < selected.length; i++) {
+        // 判断是否选中
+        if (selected[i].id === row.id) {
+          check = true
+          break
+        }
+      }
+      if (check) {
+        // 选中添加到右边列表
+        showSelectedList.push(this.transSelectedData(row))
+        this.multipleSelection = showSelectedList
+      } else {
+        // 删除未勾选数据
+        for (var j = 0; j < showSelectedList.length; j++) {
+          if (showSelectedList[j].id === row.id) {
+            this.onDelSelected('multipleSelection', j, showSelectedList[j].id)
+            break
+          }
+        }
+      }
+    },
+    // 表格勾选所有数据
+    onSelectAll (selected) {
+      if (selected.length === 0) {
+        for (var i = 0; i < this.dataList.length; i++) {
+          this.onSelectRow(selected, this.dataList[i])
+        }
+      } else {
+        this.multipleSelection = this.uniqueArray(this.multipleSelection.concat(selected))
+      }
+    },
+    /**
+     * 选中数据转换
+     */
+    transSelectedData (data) {
+      let transData = {}
+      transData.id = data.id
+      transData.shopName = data.shopName
+      return transData
+    },
+    // 数组去重
+    uniqueArray: function (array) {
+      var r = []
+      for (var i = 0, l = array.length; i < l; i++) {
+        for (var j = i + 1; j < l; j++) {
+          if (array[i].id === array[j].id) {
+            j = ++i
+          }
+        }
+        r.push(this.transSelectedData(array[i]))
+      }
+      return r
+    },
+    // 删除已选择店铺
+    onDelSelected (dataName, index, val) {
+      this.$data[dataName].splice(index, 1)
+      // 表格是否渲染
+      if (this.$refs.shopTable) {
+        for (var i = 0; i < this.dataList.length; i++) {
+          if (val === this.dataList[i].id) {
+            this.$refs.shopTable.toggleRowSelection(this.dataList[i], false)
+            break
+          }
+        }
+      }
     },
     getRowKey (row) {
       return row.id
+    },
+    async findShopInfo (shopArr) {
+      console.log('1', shopArr)
+      let obj = {}
+      obj.searchMap = {
+        shopIds: shopArr.join(',')
+      }
+      await this.$http
+        .fetch(this.$api.guide.guide.findShopInfoByIds, obj)
+        .then(resp => {
+          let shopData = []
+          shopData = resp.result.data
+          this.selected = shopData
+          this.multipleSelection = this.selected
+          this.transData(this.selected, this.dataList)
+        })
+        .catch(resp => {
+          this.$notify.error(getErrorMsg('查询失败', resp))
+        })
+    },
+    transData (selected, rows) {
+      for (var i = 0; i < rows.length; i++) {
+        for (var j = 0; j < selected.length; j++) {
+          if (rows[i].id === selected[j].id) {
+            this.$refs.shopTable.toggleRowSelection(rows[i], true)
+            break
+          }
+        }
+      }
     },
     handleClose (done) {
       done()
