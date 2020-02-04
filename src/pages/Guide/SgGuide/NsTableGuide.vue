@@ -1,7 +1,7 @@
 <template>
   <div>
     <BindDevice :visible.sync="bindDeviceDialog.visible" :guide='bindDeviceDialog.guide' @reload='$reload'/>
-<ns-page-table @add="$emit('add')" @showShop="$emit('showShop')" @dimission="$emit('dimission')"  @allDelete="$emit('allDelete')" @shopEdit="$emit('shopEdit')" :colButton='10'>
+<ns-page-table :colButton='10'>
     <!-- 按钮 -->
     <template slot="buttons">
       <ns-table-operate-button :buttons="_data._table.operate_buttons">
@@ -78,21 +78,16 @@
       <!-- 手机号 :width="120" -->
       <!-- 操作（只有一项文字的80px,两项文字120px,三项文字160px） -->
 
-      <el-table ref="table" :data="_data._table.data" stripe @selection-change="handleSelectionChange">
+      <el-table ref="table"  :data="_data._table.data" stripe @selection-change="handleSelectionChange" >
         <el-table-column type="selection" align="center" :width="50"></el-table-column>
-        <el-table-column prop="work_id" label="工号" align="left" min-width="88">
+        <el-table-column prop="work_id" label="账号" align="left" min-width="88">
           <template slot-scope="scope">
             {{scope.row.work_id?scope.row.work_id:'-'}}
           </template>
         </el-table-column>
         <el-table-column prop="name" label="姓名" align="left" min-width="100" :show-overflow-tooltip="true"></el-table-column>
-<!--        <el-table-column prop="nickname" label="昵称" align="left" width="100" :show-overflow-tooltip="true">-->
-<!--          <template slot-scope="scope">-->
-<!--            {{scope.row.nickname?scope.row.nickname:'-'}}-->
-<!--          </template >-->
-<!--        </el-table-column>-->
         <el-table-column prop="mobile" label="手机号码" align="left" min-width="100"></el-table-column>
-        <el-table-column prop="shopName,count" min-width="150" label="所属门店" align="left" :show-overflow-tooltip="true">
+        <el-table-column prop="shopName,count" min-width="150" label="工作门店" align="left" :show-overflow-tooltip="true">
           <template slot-scope="scope">
             <ns-button style="color:#0091FA" @click="scopeRowCount(scope.row)" v-if="scope.row.count > 1" type="text">{{scope.row.count}}家</ns-button>
             <div v-else>
@@ -101,44 +96,22 @@
             </div>
           </template>
         </el-table-column>
-<!--        <el-table-column prop='count' label="所属地区" align="left" width="180">-->
-<!--          <template slot-scope="scope">-->
-<!--            <ns-button style="color:#0091FA" v-if="scope.row.count > 1" type="text" @click="scopeRowCount(scope.row)">-</ns-button>-->
-<!--            <div v-else>-->
-<!--              {{!scope.row.province&&!scope.row.city&&!scope.row.district?'-':scope.row.province+'/'+scope.row.city+'/'+scope.row.district}}-->
-<!--            </div>-->
-<!--          </template>-->
-<!--        </el-table-column>-->
-        <el-table-column prop="job" label="职务" align="center" width="60">
+        <el-table-column prop="job" label="员工类型" align="center" width="80">
           <template slot-scope="scope">{{scope.row.job == 1 ? "店长" : "导购"}}
           </template>
         </el-table-column>
-        <el-table-column v-if='memberManagePlan === 2' prop="" label="导购终端" align="left" :show-overflow-tooltip="true" min-width="200">
-          <template slot-scope="scope">
-            {{scope.row.deviceNos || '-'}}
-          </template>
-          <template slot='header' scope='header'>
-                    <span>
-                      <span>{{header.column.label}}</span>
-                      <el-tooltip>
-                        <div slot="content">
-                          <div>需将员工账号与导购终端手机进行绑定，让其能够应用智慧导购系统</div>
-                          <div><span class='tips'>注：</span>使用终端系统的，非离职的，建议不要进行客户转移</div>
-                        </div>
-                        <Icon type="question-circle" />
-                      </el-tooltip>
-                    </span>
-          </template>
+        <el-table-column prop="role_name" label="所属角色" align="left" min-width="200">
         </el-table-column>
-        <el-table-column prop="status" label="状态" align="center" width="150">
+        <el-table-column prop="status" label="员工状态" align="center" width="150">
           <template slot-scope="scope">
             <div v-if="scope.row.status === 2">
               <p>已离职</p>
             </div>
-            <div v-if="scope.row.status === 0 || scope.row.status === 1">
-              <el-switch @change="changeState(scope.row.status,scope.row.id)" v-model="scope.row.status"
-                         :active-value="1" :inactive-value="0" active-color='#13ce66' inactive-color='#888888'
-                         active-text="启用" inactive-text="禁用"> </el-switch>
+            <div v-else-if="scope.row.status === 1">
+              <p>在职</p>
+            </div>
+            <div v-else >
+              <p>暂停使用</p>
             </div>
           </template>
         </el-table-column>
@@ -150,16 +123,6 @@
             </ns-table-column-operate-button-ext>
           </template>
         </el-table-column>
-<!--        <el-table-column prop="status,row" :show-overflow-tooltip="true" label="操作" align="right" width="120">-->
-<!--          <template slot-scope="scope">-->
-<!--            <div>-->
-<!--              <ns-button style="color:#0091FA" v-if="scope.row.status !== 2" @click="onRedactFun(scope.row)" type="text">编辑</ns-button>-->
-<!--              <ns-button v-if="scope.row.status === 0 || scope.row.status === 1" style="color:#0091FA" @click="dimissionFun(scope.row)" type="text">离职</ns-button>-->
-<!--              <ns-button style="color:#f00" @click="onDelsTipFun(scope.row)" type="text">删除</ns-button>-->
-<!--            </div>-->
-<!--          </template>-->
-<!--        </el-table-column>-->
-
       </el-table>
     </template>
     <!-- 表格-结束 -->
