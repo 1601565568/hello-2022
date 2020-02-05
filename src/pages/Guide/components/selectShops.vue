@@ -66,7 +66,8 @@
                          @current-change="handleCurrentChange">
           </el-pagination>
         </div>
-        <div class="selecedBox">
+        <div class="selecedBox" v-loading="multipleSelectionLoading"
+             :element-loading-text="$t('prompt.loading')">
           <el-scrollbar class="scrollbarb">
             <div class="tit">已选择<em>{{multipleSelection.length}}</em>门店</div>
             <ul class="list">
@@ -144,7 +145,8 @@ export default {
           value: 'label',
           disabled: 'disabled'
         }
-      }
+      },
+      multipleSelectionLoading: false
     }
   },
   methods: {
@@ -172,7 +174,7 @@ export default {
       this.multipleSelection.forEach(item => {
         arr.push(item.id)
       })
-      this.$props.callBack(arr)
+      this.$emit('callBack', arr)
       this.pagination.page = 1
       this.dialogVisible = false
     },
@@ -182,6 +184,7 @@ export default {
     },
     loadListFun (data) {
       this.tableLoading = true
+      this.multipleSelectionLoading = true
       let searchObj = data || this.searchObj
       if (searchObj.length == null) {
         searchObj.length = 15
@@ -306,6 +309,10 @@ export default {
       return row.id
     },
     async findShopInfo (shopArr) {
+      if (!shopArr || shopArr.length <= 0) {
+        this.multipleSelectionLoading = false
+        return
+      }
       let obj = {}
       obj.searchMap = {
         shopIds: shopArr.join(',')
@@ -321,6 +328,9 @@ export default {
         })
         .catch(resp => {
           this.$notify.error(getErrorMsg('查询失败', resp))
+        })
+        .finally(() => {
+          this.multipleSelectionLoading = false
         })
     },
     transData (selected, rows) {
