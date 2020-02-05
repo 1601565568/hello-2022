@@ -207,7 +207,7 @@ export default {
     dimissionFun (val) {
       this.$emit('dimissionFun', val)
     },
-    // 解析后台传进来的字符串
+    // 解析从后台传进来的字符串
     strToJson (str) {
       if (str && str.length > 0) {
         return JSON.parse(str)

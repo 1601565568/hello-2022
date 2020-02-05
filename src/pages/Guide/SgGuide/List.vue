@@ -600,7 +600,7 @@
         <ns-button type="primary" @click="selectStoreButton()">确定</ns-button>
       </div>
     </el-dialog>
-    <!-- 所属门店查看详情结束 -->
+    <!-- 所属门店的查看详情结束 -->
   </div>
 </template>
 

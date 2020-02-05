@@ -1664,7 +1664,7 @@ export default {
         this.$notify.error('上传图片不得大于500KB')
         return false
       }
-      // 图片格式判断
+      // 图片格式
       if (!/\.(gif|jpg|jpeg|png|GIF|JPG|PNG|JPEG)$/.test(file.name)) {
         this.$notify.error('不支持的图片格式')
         return false
