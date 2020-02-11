@@ -25,9 +25,62 @@ export default {
           this.onRedactFun(scope.row)
         },
         'icon': '',
-        'name': '详情',
+        'name': '编辑',
         'auth': ``,
         'visible': `scope.row.status !== 2`
+      },
+      // {
+      //   'func': function (scope) {
+      //     this.onShowBindDialog(scope.row)
+      //   },
+      //   'icon': '',
+      //   'name': '绑定终端',
+      //   'auth': ``,
+      //   'visible': `scope.row.status === 1 && (scope.row.job == 1 || (scope.row.job != 1 && !scope.row.deviceNos)) `
+      // },
+      {
+        'func': function (scope) {
+          this.dimissionFun(scope.row)
+        },
+        'icon': '',
+        'name': '离职',
+        'auth': ``,
+        'visible': `scope.row.status === 0 || scope.row.status === 1`
+      },
+      {
+        'func': function (scope) {
+          this.onDelsTipFun(scope.row)
+        },
+        'icon': '',
+        'name': '删除',
+        'auth': ``,
+        'visible': ``
+      }
+    ]
+    const operateButtons = [
+      {
+        'func': function () {
+          this.$emit('add')
+        },
+        'name': '新增'
+      },
+      {
+        'func': function () {
+          this.$emit('showShop')
+        },
+        'name': '批量更换门店'
+      },
+      {
+        'func': function () {
+          this.$emit('dimission')
+        },
+        'name': '批量离职'
+      },
+      {
+        'func': function () {
+          this.$emit('allDelete')
+        },
+        'name': '批量删除'
       }
     ]
     let quickInput = [{
@@ -69,11 +122,14 @@ export default {
     return {
       model: model,
       quickSearchModel: quickSearchModel,
+      _pagination: pagination,
       _table: {
         table_buttons: tableButtons,
+        operate_buttons: operateButtons,
         quickSearchNames: quickSearchNames,
         quickSearchMap: {}
       },
+      _queryConfig: { expand: false },
       multipleSelection: [],
       select: true,
       bindDeviceDialog: {
@@ -116,9 +172,6 @@ export default {
     scopeRowCount (data) { // 查看门店详情和查看所属区域详情
       this.$emit('scopeRowCount', data)
     },
-    onRedactFun (data) { // 查看门店详情和查看所属区域详情
-      this.$emit('onRedactFun', data)
-    },
     shopDel (index) {
       this.guideShopList.splice(index, 1)
     },
@@ -145,7 +198,16 @@ export default {
     handleSelectionChange (val) {
       this.$emit('handleSelectionChange', val)
     },
-    // 解析后台传进来的字符串
+    onRedactFun (val) {
+      this.$emit('onRedactFun', val)
+    },
+    onDelsTipFun (val) {
+      this.$emit('onDelsTipFun', val)
+    },
+    dimissionFun (val) {
+      this.$emit('dimissionFun', val)
+    },
+    // 解析从后台传进来的字符串
     strToJson (str) {
       if (str && str.length > 0) {
         return JSON.parse(str)
@@ -163,6 +225,21 @@ export default {
           job: ''
         }
       }
+    },
+    changeState (state, id) {
+      let _this = this
+      _this.$http.fetch(_this.$api.guide.guide.updateGuideStatus, {
+        guideId: id,
+        status: state
+      }).then(resp => {
+        if (resp.success) {
+          _this.$notify.success('切换成功！')
+        } else {
+          _this.$notify.error(getErrorMsg('切换失败，原因', resp))
+        }
+      }).catch((resp) => {
+        _this.$notify.error(getErrorMsg('查询失败', resp))
+      })
     },
     onShowBindDialog (row) {
       this.bindDeviceDialog.guide = row

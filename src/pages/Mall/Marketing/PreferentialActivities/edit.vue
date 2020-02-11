@@ -193,7 +193,7 @@
               </div>
             </el-radio-group>
             <div class="atLeft" v-show="model.shopType === 1">
-              <select-shops ref="shops" :callBack="addShop" :hasShopArr="shopInfo" :params="shopQueryParams"
+              <select-shops ref="shops" @callBack="addShop" :hasShopArr="shopInfo" :params="shopQueryParams"
                             :api="$api.guide.marketing.findShopList"></select-shops>
               <activity-shop-table ref="shopsTable" @delete="deleteShops"></activity-shop-table>
             </div>

@@ -42,7 +42,7 @@
             <el-radio :label="1">指定门店</el-radio>
           </el-radio-group>
           <el-form-grid v-if="model.shopRangeType===1"  size="xxmd">
-            <shopSelect :callBack="selectShopBack" :hasShopArr="hasShopArr"></shopSelect>
+            <shopSelect @callBack="selectShopBack" :hasShopArr="hasShopArr"></shopSelect>
           </el-form-grid>
         </el-form-item>
         <el-form-item label="简述：" prop="remark">
