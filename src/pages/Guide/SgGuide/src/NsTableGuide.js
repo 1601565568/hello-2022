@@ -113,10 +113,13 @@ export default {
       }
     }
     let findVo = {
-      'name': null,
-      'shop': null,
+      'workId': null,
+      'mobile': null,
       'job': null,
-      'guideState': 1
+      'name': null,
+      'nickname': null,
+      'shop': null,
+      'guideState': null
     }
     let model = Object.assign({}, findVo, {}, searchModel)
     return {
@@ -184,6 +187,10 @@ export default {
     // 设置job清空时值为null而不是''
     setJobNull () {
       this.model.job = null
+    },
+    // 设置状态清空时为null
+    setGuideStateNull () {
+      this.model.guideState = null
     },
     // 设置shop清空时值为null而不是''
     setShopNull () {

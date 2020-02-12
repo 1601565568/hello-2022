@@ -14,8 +14,8 @@
       <!-- el-inpu 需添加  @keyup.enter.native="$quickSearchAction$" 配置，实现回车搜索 -->
       <template slot="searchSearch">
         <el-form :model="quickSearchModel" :inline="true" @submit.native.prevent  class="pull-right">
-          <el-form-item v-show="_data._queryConfig.expand === false" label="工号/姓名/昵称/手机号：">
-            <el-input ref="quickText" style="width: 180px" v-model="model.name" placeholder="请输入工号/姓名/昵称/手机号" @keyup.enter.native="$quickSearchAction$('name')" clearable>
+          <el-form-item v-show="_data._queryConfig.expand === false" label="员工姓名：">
+            <el-input ref="quickText" style="width: 180px" v-model="model.name" placeholder="请输入员工姓名" @keyup.enter.native="$quickSearchAction$('name')" clearable>
               <!--             <Icon type="search" className="el-input__icon" style="padding: 5px;" slot="suffix" name="name" @click="$quickSearchAction$('name')"/>-->
             </el-input>
             <ns-button type="primary" @click="$searchAction$()" class="searchbtn">搜索</ns-button>
@@ -36,25 +36,50 @@
       <!-- el-form 需添加  surround-btn 类名 配置环绕按钮效果 -->
       <template slot="advancedSearch" v-if="_data._queryConfig.expand">
         <el-form ref="table_filter_form" :model="model" label-width="80px" :inline="true">
-
-          <el-form-item label="关键字：">
+          <el-form-item label="员工账号：">
             <el-form-grid size="xmd">
-              <el-input style="width:180px" autofocus=true v-model="model.name" placeholder="请输入工号/姓名/昵称/手机号" clearable></el-input>
+              <el-input style="width:180px" autofocus=true v-model="model.workId" placeholder="请输入员工账号" clearable></el-input>
             </el-form-grid>
           </el-form-item>
-          <el-form-item label="所属门店：">
+          <el-form-item label="员工姓名：">
             <el-form-grid size="xmd">
-              <shop-select-load placeholder="请选择所属门店"
+              <el-input style="width:180px" autofocus=true v-model="model.name" placeholder="请输入员工姓名" clearable></el-input>
+            </el-form-grid>
+          </el-form-item>
+          <el-form-item label="昵称：">
+            <el-form-grid size="xmd">
+              <el-input style="width:180px" autofocus=true v-model="model.nickname" placeholder="请输入昵称" clearable></el-input>
+            </el-form-grid>
+          </el-form-item>
+          <el-form-item label="手机号码：">
+            <el-form-grid size="xmd">
+              <el-input style="width:180px" autofocus=true v-model="model.mobile" placeholder="手机号码" clearable></el-input>
+            </el-form-grid>
+          </el-form-item>
+          <el-form-item label="工作门店：">
+            <el-form-grid size="xmd">
+              <shop-select-load placeholder="请选择工作门店"
                                 v-model="model.shop"
                                 @clear="setShopNull"
                                 clearable/>
             </el-form-grid>
           </el-form-item>
-          <el-form-item label="职务：">
+          <el-form-item label="员工类型：">
             <el-form-grid>
               <el-select placeholder="请选择职务" v-model="model.job" clearable @clear="setJobNull" style="width:180px">
+                <el-option label="全部" :value=null ></el-option>
                 <el-option label="店长" :value="1"></el-option>
                 <el-option label="导购" :value="0"></el-option>
+                <el-option label="客服" :value="2"></el-option>
+              </el-select>
+            </el-form-grid>
+          </el-form-item>
+          <el-form-item label="员工状态：">
+            <el-form-grid>
+              <el-select placeholder="请选择职务" v-model="model.guideState" clearable @clear="setGuideStateNull" style="width:180px">
+                <el-option label="全部" :value=null ></el-option>
+                <el-option label="在职" :value="1"></el-option>
+                <el-option label="离职" :value="2"></el-option>
               </el-select>
             </el-form-grid>
           </el-form-item>
