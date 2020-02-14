@@ -1,7 +1,7 @@
 <template>
   <div>
     <BindDevice :visible.sync="bindDeviceDialog.visible" :guide='bindDeviceDialog.guide' @reload='$reload'/>
-    <ns-page-table @shopEdit="$emit('shopEdit')" :colButton='10'>
+    <ns-page-table @add="$emit('add')" @showShop="$emit('showShop')" @failPassAgain="$emit('failPassAgain')"  @batchEdit="$emit('batchEdit')" @shopEdit="$emit('shopEdit')" :colButton='10'>
       <!-- 按钮 -->
       <template slot="buttons">
         <ns-table-operate-button :buttons="_data._table.operate_buttons">
@@ -14,10 +14,13 @@
       <!-- el-inpu 需添加  @keyup.enter.native="$quickSearchAction$" 配置，实现回车搜索 -->
       <template slot="searchSearch">
         <el-form :model="quickSearchModel" :inline="true" @submit.native.prevent  class="pull-right">
-          <el-form-item v-show="_data._queryConfig.expand === false" label="工号/姓名/昵称/手机号：">
-            <el-input ref="quickText" style="width: 180px" v-model="model.name" placeholder="请输入工号/姓名/昵称/手机号" @keyup.enter.native="$quickSearchAction$('name')" clearable>
-              <!--             <Icon type="search" className="el-input__icon" style="padding: 5px;" slot="suffix" name="name" @click="$quickSearchAction$('name')"/>-->
-            </el-input>
+          <el-form-item label="员工：">
+            <el-form-grid size="xmd">
+              <shop-select-load placeholder="全部"
+                                v-model="model.shop"
+                                @clear="setShopNull"
+                                clearable/>
+            </el-form-grid>
             <ns-button type="primary" @click="$searchAction$()" class="searchbtn">搜索</ns-button>
             <ns-button @click="$resetInputAction$()" class="resetbtn">重置</ns-button>
           </el-form-item>
@@ -30,6 +33,46 @@
         </el-form>
       </template>
       <!-- 简单搜索-结束 -->
+
+      <!-- 高级搜索 -->
+      <!-- el-form 需添加  @keyup.enter.native="onSearch" 配置，实现回车搜索， onSearch 为搜索方法 -->
+      <!-- el-form 需添加  surround-btn 类名 配置环绕按钮效果 -->
+      <template slot="advancedSearch" v-if="_data._queryConfig.expand">
+        <el-form ref="table_filter_form" :model="model" label-width="80px" :inline="true">
+          <el-form-item label="员工：">
+            <el-form-grid size="xmd">
+              <shop-select-load placeholder="全部"
+                                v-model="model.shop"
+                                @clear="setShopNull"
+                                clearable/>
+            </el-form-grid>
+          </el-form-item>
+          <el-form-item label="微信账号：">
+            <el-form-grid size="xmd">
+              <el-input  autofocus=true v-model="model.wxAccount" placeholder="搜索微信号/微信昵称" clearable></el-input>
+            </el-form-grid>
+          </el-form-item>
+          <el-form-item label="验证信息关键字：">
+            <el-form-grid size="xmd">
+              <el-input  autofocus=true v-model="model.name" placeholder="" clearable></el-input>
+            </el-form-grid>
+          </el-form-item>
+          <el-form-item label="自动通过：">
+            <el-form-grid>
+              <el-select placeholder="全部" v-model="model.job" clearable @clear="setJobNull">
+                <el-option label="开启" :value="1"></el-option>
+                <el-option label="关闭" :value="0"></el-option>
+              </el-select>
+            </el-form-grid>
+          </el-form-item>
+        </el-form>
+
+        <div class="template-table__more-btn">
+          <ns-button type="primary" @click="$searchAction$()">搜索</ns-button>
+          <ns-button @click="$resetInputAction$()">重置</ns-button>
+        </div>
+      </template>
+      <!-- 高级搜索-结束 -->
 
       <!-- 表格 -->
       <template slot="table">

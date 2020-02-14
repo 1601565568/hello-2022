@@ -30,6 +30,18 @@ export default {
       }
     ]
     const operateButtons = [
+      {
+        'func': function () {
+          this.$emit('failPassAgain')
+        },
+        'name': '失败重新通过'
+      },
+      {
+        'func': function () {
+          this.$emit('batchEdit')
+        },
+        'name': '批量编辑'
+      }
     ]
     let quickInput = [{
       'template': '',
@@ -151,9 +163,6 @@ export default {
     },
     onDelsTipFun (val) {
       this.$emit('onDelsTipFun', val)
-    },
-    dimissionFun (val) {
-      this.$emit('dimissionFun', val)
     },
     // 解析从后台传进来的字符串
     strToJson (str) {

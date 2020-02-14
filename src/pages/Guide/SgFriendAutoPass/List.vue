@@ -1,7 +1,7 @@
 <template>
   <div>
-    <NsTableAutoPass ref="mainTable" :url=$api.guide.autoPass.findList @add="onRedactFun" @scopeRowCount="scopeRowCount"
-                  @shopEdit="shopEdit"  @dimission="dimission" @showShop="showShop" @onRedactFun="onRedactFun"  @handleSelectionChange="handleSelectionChange">
+    <NsTableAutoPass ref="mainTable" :url=$api.guide.autoPass.findList @scopeRowCount="scopeRowCount"
+                  @shopEdit="shopEdit"  @failPassAgain="failPassAgain" @batchEdit="batchEdit" @showShop="showShop" @onRedactFun="onRedactFun"  @handleSelectionChange="handleSelectionChange">
     </NsTableAutoPass>
     <!--  批量设置到后弹窗开始 -->
     <el-dialog title="更换导购" width="700px" height="410px" :visible.sync="replaceTheShoppers">

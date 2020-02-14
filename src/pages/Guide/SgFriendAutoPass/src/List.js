@@ -478,7 +478,7 @@ export default {
         }
       })
     },
-    allDelete () { // 组团删除功能
+    batchEdit () { // 组团删除功能
       let _this = this
       _this.nameArr = []
       _this.multipleSelections = []
@@ -538,83 +538,9 @@ export default {
     aaaa () {
       this.$http.fetch(this.$api.overView.exit, {})
     },
-    dimission () { // 批量离职功能
+    failPassAgain () { // 批量离职功能
       let _this = this
-      _this.switchStateName = '离职'
-      _this.nameArr = []
-      _this.accordingToJudgmentShow = false
-      var dimissionshopIdArry = []
-      var dimissionIdArry = []
-      _this.verification = false
-      _this.allDeleteName = []
-      if (_this.dimissionArry.length < 1) {
-        _this.$notify.error('请选择要操作的员工')
-      } else {
-        _this.dimissionArry.map(item => {
-          if (item.status === 2) {
-            _this.accordingToJudgmentShow = true
-            _this.allDeleteName.push(item.name)
-          }
-        })
-        if (_this.accordingToJudgmentShow) {
-          _this.$confirm(_this.allDeleteName.join('、') + ' 已是离职状态、不能再次进行离职操作!', '提示', {
-            confirmButtonText: '确定',
-            cancelButtonText: '取消',
-            type: 'warning'
-          }).then(() => {}).catch(() => {})
-        } else {
-          // 姓名去重
-          _this.dimissionArry = Array.from(new Set(_this.dimissionArry))
-          _this.dimissionArry.map(item => {
-            if (item.count > 1) {
-              _this.verification = true
-            } else {
-              _this.allDeleteName.push(item.name)
-            }
-          })
-          if (!_this.verification) {
-            _this.$confirm('请确认是否对 ' + _this.allDeleteName.join('、') + ' 进行离职操作!', '提示', {
-              confirmButtonText: '确定',
-              cancelButtonText: '取消',
-              type: 'warning'
-            }).then(() => {
-              _this.dimissionArry.map(item => {
-                dimissionIdArry.push(item.id)
-                dimissionshopIdArry.push(item.shop_id)
-              })
-              _this.$http.fetch(_this.$api.guide.guide.guideLeave, {
-                guideIds: dimissionIdArry.join(',')
-              }).then(resp => {
-                if (resp.result.failCount > 0) {
-                  _this.theNumberOfsuccessful = resp.result.successCount
-                  _this.theNumberOfFailures = resp.result.failCount
-                  resp.result.guideNames.split(',').map((item, i) => {
-                    if (_this.nameArr.indexOf(resp.result.guideNames.split(',')[i]) === -1) {
-                      _this.nameArr.push(item)
-                    } else {
-                      if (item === _this.multipleSelection[i].name) {
-                        _this.nameArr[i] = _this.multipleSelection[i].name + '(' + _this.multipleSelection[i].work_id + ')'
-                      }
-                    }
-                  })
-                  _this.nameArr = _this.nameArr.join('，')
-                  _this.returnInformationShow = true
-                  // _this.$notify.error(resp.result.msg)
-                  _this.successCount = resp.result.successCount
-                  _this.failCount = resp.result.failCount
-                } else {
-                  _this.$notify.success('批量离职成功')
-                  _this.$refs.mainTable.$reload()
-                }
-              }).catch((resp) => {
-                _this.$notify.error(getErrorMsg('批量离职失败', resp))
-              })
-            }).catch(() => {})
-          } else {
-            _this.multipleStoresAreNotSupportedShow = true
-          }
-        }
-      }
+      _this.frendAddList()
     },
     // 员工离职时自定义转移会员弹窗复位
     clearValue () {
@@ -766,7 +692,7 @@ export default {
       this.scopeRowCountShow = true
       this.memberBelongingtitle = '查看（' + data.name + '）所属门店详情'
       var _this = this
-      _this.$http.fetch(_this.$api.guide.guide.findGuideShopList, { guideId: data.id }).then(resp => {
+      _this.$http.fetch(_this.$api.guide.autoPass.findGuideShopList, { guideId: data.id }).then(resp => {
         if (resp.success && resp.result != null) {
           _this.shopFindLists = resp.result
         }
@@ -1312,7 +1238,7 @@ export default {
           transStatus: 1,
           resource: 0
         }
-        _this.guideLeave(params, false)
+        _this.frendAddList(params, false)
       }).catch(() => {})
     },
     // 取消指定转移
@@ -1336,7 +1262,7 @@ export default {
         resource: 0, // 对应后台枚举
         shopId: _this.value.shopId
       }
-      _this.guideLeave(params, false)
+      _this.frendAddList(params, false)
     },
     // 关闭自定义转移弹窗
     onCancelCustomTransfer () {
@@ -1386,13 +1312,14 @@ export default {
           isLeave: isLeave,
           shopId: _this.value.shopId
         }
-        _this.guideLeave(params, isLeave)
+        _this.frendAddList(params, isLeave)
       }
     },
     // 导购会员转移
-    guideLeave (data, isClose) {
+    frendAddList () {
       var _this = this
       _this.customFormVisible = false
+      var data = {}
       _this.$http.fetch(_this.$api.guide.guide.updateGuideCustomer, data)
         .then(resp => {
           _this.paginations = {
