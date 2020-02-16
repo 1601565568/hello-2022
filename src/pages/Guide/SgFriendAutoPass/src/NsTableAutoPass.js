@@ -73,10 +73,11 @@ export default {
       }
     }
     let findVo = {
-      'name': null,
+      'validateMsg': null,
       'shop': null,
       'job': null,
-      'guideState': 1
+      'guideState': 1,
+      'personnel': null
     }
     let model = Object.assign({}, findVo, {}, searchModel)
     return {

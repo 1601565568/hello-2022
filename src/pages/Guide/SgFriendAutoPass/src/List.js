@@ -190,6 +190,7 @@ export default {
       nickVoList: [], // 转移的客户数组
       allPageCustomer: [], // 选择的所有的客户
       thisPageCustomer: [], // 当前页面全选的客户
+      frindAddList: [],
       pageChange: true, // 当前页数
       guideId: null, // 当前导购的id
       employeeDetails: null, // 员工信息详情
@@ -538,9 +539,50 @@ export default {
     aaaa () {
       this.$http.fetch(this.$api.overView.exit, {})
     },
-    failPassAgain () { // 批量离职功能
+    failPassAgain () { // 失败重新通过
+      debugger
       let _this = this
-      _this.frendAddList()
+      _this.title = '失败重新通过'
+      _this.resignFormVisible = true
+      _this.$http.fetch(_this.$api.guide.autoPass.findList, {
+        sysCustomerId: val.sysCustomerId,
+        guideId: Number(val.guideId)
+      }).then(resp => {
+        if (resp.success && resp.result != null) {
+          _this.shopKuhuShow = true
+          _this.items = resp.result
+          if (_this.items.integralAccountList) {
+            let length = _this.items.integralAccountList.length
+            for (let i = 0; i < length; i++) {
+              _this.integralLogIsShow[i] = true
+              // 积分名称
+              this.integralName[i] = _this.items.integralAccountList[i].integralName
+              this.integralAliasName[i] = _this.items.integralAccountList[i].integralAlias
+              // 积分显示
+              this.integralIsShow[i] = true
+              this.accountCode[this.integralName[i]] = _this.items.integralAccountList[i].integralAccount
+            }
+            _this.integralAccountArr.push(_this.items.integralAccountList)
+          }
+          if (_this.items.assetJson) {
+            let assetJson = JSON.parse(_this.items.assetJson)
+            let length = _this.items.integralAccountList.length
+            for (let name in assetJson) {
+              for (let i = 0; i < length; i++) {
+                // 积分别名
+                let accountCode = _this.items.integralAccountList[i].integralAccount
+                if (accountCode.indexOf(name) > -1) {
+                  this.integralIsNum[i] = assetJson[name]
+                }
+              }
+            }
+          }
+          _this.items.province = _this.disposeArea(_this.items.province, _this.items.city)
+          _this.items.customerName = _this.disposeOutNick(_this.items.customerName, _this.items.outAlias)
+        }
+      }).catch((resp) => {
+        _this.$notify.error(getErrorMsg('查询失败', resp))
+      })
     },
     // 员工离职时自定义转移会员弹窗复位
     clearValue () {
@@ -1213,16 +1255,9 @@ export default {
       this.memberBelongingEnsure(model)
     },
     onConfirmResign () {
-      var _this = this
-      if (_this.transferRadio === '1') {
-        _this.averageTransfer()
-      } else if (_this.transferRadio === '2') {
-        _this.onSaveSpecifyTransfer()
-      } else if (_this.transferRadio === '3') {
-        _this.guideFindList()
-        _this.findCustomerList()
-        _this.onSaveCustomTransfer()
-      }
+      _this.guideFindList()
+      _this.findCustomerList()
+      _this.onSaveCustomTransfer()
     },
     // 平均转移
     averageTransfer () {
@@ -1494,7 +1529,6 @@ export default {
     closeDialog () {
       // Object.assign(this.$data.model, this.$options.data().model)
       this.$data.model = this.$options.data().model
-      this.$refs.addForm.resetFields()
       this.dialogFormVisible = false
       this.isHidden = false
       this.row = null

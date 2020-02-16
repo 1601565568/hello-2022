@@ -17,7 +17,7 @@
           <el-form-item label="员工：">
             <el-form-grid size="xmd">
               <shop-select-load placeholder="全部"
-                                v-model="model.shop"
+                                v-model="model.personnel"
                                 @clear="setShopNull"
                                 clearable/>
             </el-form-grid>
@@ -42,7 +42,7 @@
           <el-form-item label="员工：">
             <el-form-grid size="xmd">
               <shop-select-load placeholder="全部"
-                                v-model="model.shop"
+                                v-model="model.personnel"
                                 @clear="setShopNull"
                                 clearable/>
             </el-form-grid>
@@ -54,12 +54,12 @@
           </el-form-item>
           <el-form-item label="验证信息关键字：">
             <el-form-grid size="xmd">
-              <el-input  autofocus=true v-model="model.name" placeholder="" clearable></el-input>
+              <el-input  autofocus=true v-model="model.validateMsg" placeholder="" clearable></el-input>
             </el-form-grid>
           </el-form-item>
           <el-form-item label="自动通过：">
             <el-form-grid>
-              <el-select placeholder="全部" v-model="model.job" clearable @clear="setJobNull">
+              <el-select placeholder="全部" v-model="model.isOpen" clearable @clear="setJobNull">
                 <el-option label="开启" :value="1"></el-option>
                 <el-option label="关闭" :value="0"></el-option>
               </el-select>
@@ -87,9 +87,9 @@
 
         <el-table ref="table" :data="_data._table.data" stripe @selection-change="handleSelectionChange">
           <el-table-column type="selection" align="center" :width="50"></el-table-column>
-          <el-table-column prop="name" label="员工" align="left" min-width="88">
+          <el-table-column prop="personnel" label="员工" align="left" min-width="88">
             <template slot-scope="scope">
-              {{scope.row.name?scope.row.name:'-'}}
+              {{scope.row.name?scope.row.personnel:'-'}}
             </template>
           </el-table-column>
           <el-table-column prop="wxAccount" label="微信账号" align="left" min-width="100" :show-overflow-tooltip="true">
