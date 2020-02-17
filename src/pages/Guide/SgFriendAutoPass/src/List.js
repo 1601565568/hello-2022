@@ -540,7 +540,6 @@ export default {
       this.$http.fetch(this.$api.overView.exit, {})
     },
     failPassAgain () { // 失败重新通过
-      debugger
       let _this = this
       _this.title = '失败重新通过'
       _this.resignFormVisible = true
