@@ -4,7 +4,7 @@
     </NsTableGuide>
     <!-- 查看导购详情开始-->
     <el-dialog :title="title" :visible.sync="dialogFormVisible" width="504px" class="detail-dialog"
-                @keyup.enter.native="cleanGuide" @keyup.esc.native="cleanGuide">
+               @keyup.enter.native="cleanGuide" @keyup.esc.native="cleanGuide">
       <div class="detail-dialog__content">
         <el-form label-width="90px" class="detail-leftside">
           <el-form-item label="员工类型：" >
@@ -63,8 +63,8 @@
           <el-form-item label="工作门店：">
             <el-form-grid>
               <el-table ref="table" :data="shopFindLists" stripe
-                  resizable v-loading.lock="_data._table.loadingtable"
-                  :element-loading-text="$t('prompt.loading')" >
+                        resizable v-loading.lock="_data._table.loadingtable"
+                        :element-loading-text="$t('prompt.loading')" >
                 <el-table-column label="工作店铺" align="left" width="150">
                   <template slot-scope="scope">
                     {{scope.row.name || '-'}}
@@ -95,8 +95,8 @@
     <!-- 指定导购所属门店查看详情开始 -->
     <el-dialog :title="title"  :visible.sync="scopeRowCountShow" width="660px" >
       <el-table ref="table" :data="shopFindLists" stripe
-                  resizable v-loading.lock="_data._table.loadingtable"
-                  :element-loading-text="$t('prompt.loading')" >
+                resizable v-loading.lock="_data._table.loadingtable"
+                :element-loading-text="$t('prompt.loading')" >
         <el-table-column  label="工作店铺" align="left" width="320">
           <template slot-scope="scope">
             {{scope.row.name || '-'}}

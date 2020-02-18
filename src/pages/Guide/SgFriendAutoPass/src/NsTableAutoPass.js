@@ -1,13 +1,12 @@
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import { getErrorMsg } from '@/utils/toast'
 import ShopSelectLoad from '@/components/ShopSelectLoad'
-import BindDevice from '../components/BindDevice'
 import NsTableColumnOperateButtonExt from '@/components/NsTableColumnOperateButton'
 
 export default {
-  name: 'NsTableGuide',
+  name: 'NsTableAutoPass',
   mixins: [tableMixin],
-  components: { BindDevice, NsTableColumnOperateButtonExt, ShopSelectLoad },
+  components: { NsTableColumnOperateButtonExt, ShopSelectLoad },
   props: {
     url: Object
   },
@@ -25,9 +24,23 @@ export default {
           this.onRedactFun(scope.row)
         },
         'icon': '',
-        'name': '详情',
+        'name': '编辑',
         'auth': ``,
         'visible': `scope.row.status !== 2`
+      }
+    ]
+    const operateButtons = [
+      {
+        'func': function () {
+          this.$emit('failPassAgain')
+        },
+        'name': '失败重新通过'
+      },
+      {
+        'func': function () {
+          this.$emit('batchEdit')
+        },
+        'name': '批量编辑'
       }
     ]
     let quickInput = [{
@@ -60,23 +73,24 @@ export default {
       }
     }
     let findVo = {
-      'workId': null,
-      'mobile': null,
-      'job': null,
-      'name': null,
-      'nickname': null,
+      'validateMsg': null,
       'shop': null,
-      'guideState': null
+      'job': null,
+      'guideState': 1,
+      'personnel': null
     }
     let model = Object.assign({}, findVo, {}, searchModel)
     return {
       model: model,
       quickSearchModel: quickSearchModel,
+      _pagination: pagination,
       _table: {
         table_buttons: tableButtons,
+        operate_buttons: operateButtons,
         quickSearchNames: quickSearchNames,
         quickSearchMap: {}
       },
+      _queryConfig: { expand: false },
       multipleSelection: [],
       select: true,
       bindDeviceDialog: {
@@ -119,9 +133,6 @@ export default {
     scopeRowCount (data) { // 查看门店详情和查看所属区域详情
       this.$emit('scopeRowCount', data)
     },
-    onRedactFun (data) { // 查看门店详情和查看所属区域详情
-      this.$emit('onRedactFun', data)
-    },
     shopDel (index) {
       this.guideShopList.splice(index, 1)
     },
@@ -134,10 +145,6 @@ export default {
     // 设置job清空时值为null而不是''
     setJobNull () {
       this.model.job = null
-    },
-    // 设置状态清空时为null
-    setGuideStateNull () {
-      this.model.guideState = null
     },
     // 设置shop清空时值为null而不是''
     setShopNull () {
@@ -152,7 +159,13 @@ export default {
     handleSelectionChange (val) {
       this.$emit('handleSelectionChange', val)
     },
-    // 解析后台传进来的字符串
+    onRedactFun (val) {
+      this.$emit('onRedactFun', val)
+    },
+    onDelsTipFun (val) {
+      this.$emit('onDelsTipFun', val)
+    },
+    // 解析从后台传进来的字符串
     strToJson (str) {
       if (str && str.length > 0) {
         return JSON.parse(str)
@@ -171,9 +184,22 @@ export default {
         }
       }
     },
+    changeState (state, id) {
+      let _this = this
+      _this.$http.fetch(_this.$api.guide.guide.updateGuideStatus, {
+        guideId: id,
+        status: state
+      }).then(resp => {
+        if (resp.success) {
+          _this.$notify.success('切换成功！')
+        } else {
+          _this.$notify.error(getErrorMsg('切换失败，原因', resp))
+        }
+      }).catch((resp) => {
+        _this.$notify.error(getErrorMsg('查询失败', resp))
+      })
+    },
     onShowBindDialog (row) {
-      this.bindDeviceDialog.guide = row
-      this.bindDeviceDialog.visible = true
     }
   }
 }

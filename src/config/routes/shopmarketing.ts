@@ -3,7 +3,7 @@ export default {
   'name': 'SHOP_MARKETING',
   'component': () => import('@nascent/ecrp-ecrm/src/layout/Default.vue'),
   'meta': {
-    'title': '门店营销',
+    'title': '门店运营',
     'requiresAuth': true
   },
   'children': [
@@ -49,6 +49,20 @@ export default {
           'name': 'QuicklyWord',
           'title': '快捷话术',
           'component': () => import('@/pages/Guide/SgQuicklyWord/List.vue')
+        }
+      ]
+    },
+    {
+      'path': '/Guide/SgCoupon/CouponList',
+      'name': 'SHOP_MARKETING4',
+      'title': '社交运营',
+      'component': () => import('@nascent/ecrp-ecrm/src/layout/Content.vue'),
+      'children': [
+        {
+          'path': '/Guide/SgFriendAutoPass/List',
+          'name': 'AutoPass',
+          'title': '好友自动通过',
+          'component': () => import('@/pages/Guide/SgFriendAutoPass/List.vue')
         }
       ]
     }
