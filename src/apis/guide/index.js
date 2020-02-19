@@ -23,8 +23,10 @@ import wxGroup from './wxGroup'
 import guideDevice from './guideDevice'
 import group from './group'
 import autoPass from './autoPass'
+import secruitmentSet from './secruitmentSet'
 
 export default {
+  secruitmentSet,
   guide,
   shop,
   material,

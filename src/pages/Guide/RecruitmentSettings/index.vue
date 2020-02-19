@@ -1,6 +1,6 @@
 <template>
   <div class="page-main">
-      <div class="page-title">导购招募配置</div>
+    <div class="page-title">导购招募配置</div>
     <el-scrollbar ref="integralRuleHeight" outsider>
       <el-form label-width="150px" ref="form">
         <!-- 会员招募码配置开始 -->
@@ -12,7 +12,8 @@
           <div class="form-grid__content" style="margin-left: -100px">
             <el-form-item size="xxs">
               <el-form-grid>
-                <el-radio v-model="model.recruit_type" :label="0" :disabled="status===0" size="xxs">全渠道首次入会时计算招募提成 </el-radio>
+                <el-radio v-model="model.secruitment_type" :label="0" :disabled="status===0" size="xxs">全渠道首次入会时计算招募提成
+                </el-radio>
               </el-form-grid>
             </el-form-item>
             <el-form-item>
@@ -23,7 +24,9 @@
             </el-form-item>
             <el-form-item>
               <el-form-grid>
-                <el-radio v-model="model.recruit_type" :label="1" :disabled="status===0" size="xxs">按照平台首次入会时计算招募奖励 </el-radio>
+                <el-radio v-model="model.secruitment_type" :label="1" :disabled="status===0" size="xxs">
+                  按照平台首次入会时计算招募奖励
+                </el-radio>
 
               </el-form-grid>
             </el-form-item>
@@ -36,17 +39,32 @@
           </div>
         </div>
         <!-- 会员招募码配置结束 -->
-        <div v-if="status === 1" class="form-save__unique">
-          <ns-button type="primary" @click="onSave">确定</ns-button>
-          <ns-button @click="reload()" >取消</ns-button>
-        </div>
       </el-form>
     </el-scrollbar>
     <div class="page-title">门店招募配置</div>
+    <el-form>
+      <el-form-item label="选择图片：">
+        <el-form-grid class="company-upload">
+          <el-upload
+            :action="this.$api.core.sgUploadFile('test')"
+            :show-file-list="false"
+            :on-success="handleAvatarSuccess"
+            :before-upload="beforeAvatarUpload">
+            <img v-if="model.sign_up_url" :src="model.sign_up_url" class="company-upload__avatar">
+            <Icon type="plus" className="company-upload__tip" v-else/>
+          </el-upload>
+        </el-form-grid>
+      </el-form-item>
+    </el-form>
+    <div v-if="status === 1" class="form-save__unique">
+      <ns-button type="primary" @click="onSaveOrUpdate">确定</ns-button>
+    </div>
   </div>
+
 </template>
 <script>
 import index from './src/index'
+
 export default index
 </script>
 <style scoped>
@@ -56,19 +74,23 @@ export default index
     padding: var(--default-padding-larger);
     background: var(--theme-color-white);
   }
+
   .page-title {
     height: 32px;
     padding: 0 var(--default-padding-larger);
     line-height: 32px;
     background-color: var(--theme-bg-color-primary);
   }
-  .dialog_mian_topText p sapn{
-    color:grey;
+
+  .dialog_mian_topText p sapn {
+    color: grey;
   }
-  .dialog_mian_topText p{
+
+  .dialog_mian_topText p {
     line-height: 30px;
     height: 30px;
   }
+
   .form-grid__title {
     font-size: var(--default-font-size-base);
     padding: var(--default-padding-larger) 0;
@@ -77,12 +99,14 @@ export default index
     display: flex;
     align-items: center;
   }
+
   .bluepillar {
     width: 4px;
     height: 12px;
     margin-right: var(--default-margin-small);
     background-color: #0091FA;
   }
+
   .form-save__unique {
     padding: var(--default-padding-small) 0 var(--default-padding-small) 61px;
     border-top: 1px solid var(--theme-base-border-color-primary);
@@ -90,9 +114,11 @@ export default index
     border-bottom-left-radius: var(--default-radius-mini);
     border-bottom-right-radius: var(--default-radius-mini);
   }
+
   >>> .template-table__bar {
     margin-bottom: 0;
   }
+
   .form-grid {
     border-radius: var(--default-radius-mini);
   }
