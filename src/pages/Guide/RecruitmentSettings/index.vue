@@ -43,7 +43,7 @@
       </div>
     </ElScrollbar>
     <div class="form-save__unique">
-      <NsButton type="primary" @click="onSaveOrUpdate">保存</NsButton>
+      <NsButton type="primary" @click="update">修改</NsButton>
     </div>
   </div>
 </template>

@@ -5,8 +5,8 @@ export default {
     url: prefix + 'getInfo',
     method: 'GET'
   },
-  saveOrUpdateSet: {
-    url: prefix + 'saveOrUpdateSet',
+  updateSet: {
+    url: prefix + 'updateSet',
     method: 'POST'
   }
 }

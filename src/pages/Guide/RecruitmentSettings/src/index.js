@@ -1,5 +1,5 @@
 import { getErrorMsg } from '@/utils/toast'
-import scrollHeight from '@/mixins/scrollHeight'
+import scrollHeight from '@nascent/ecrp-ecrm/src/mixins/scrollHeight'
 import ElUpload from '@nascent/nui/lib/upload'
 
 export default {
@@ -51,9 +51,9 @@ export default {
     })
   },
   methods: {
-    onSaveOrUpdate () { // 修改配置功能
+    update () { // 修改配置功能
       let that = this
-      that.$http.fetch(that.$api.guide.secruitmentSet.saveOrUpdateSet, that.model).then(() => {
+      that.$http.fetch(that.$api.guide.secruitmentSet.updateSet, that.model).then(() => {
         that.$notify.success('修改成功')
       }).catch((resp) => {
         that.$notify.error(getErrorMsg('修改失败', resp))
