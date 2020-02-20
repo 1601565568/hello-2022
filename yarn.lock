@@ -1606,10 +1606,10 @@
     call-me-maybe "^1.0.1"
     glob-to-regexp "^0.3.0"
 
-"@nascent/ecrp-ecrm@^0.1.8":
-  version "0.1.8"
-  resolved "http://27.154.234.170:18081/repository/npm/@nascent/ecrp-ecrm/-/ecrp-ecrm-0.1.8.tgz#cb30e0b2905392075ab926a4424765de90f40e8c"
-  integrity sha512-MJSo4SuKBjbJsnzVg+V1MCuw9FJH7cmMmfu36pESEtVp47HzSrZPgFdKscrql1OsSqDvnW1/2roIXenK/1DJCw==
+"@nascent/ecrp-ecrm@^4.4.18":
+  version "4.4.19"
+  resolved "http://27.154.234.170:18081/repository/npm/@nascent/ecrp-ecrm/-/ecrp-ecrm-4.4.19.tgz#054bc14f598de54707853b89a78c60862f7b64a5"
+  integrity sha512-1pQdlATuCRg6C1FN3U8UT8zvZeiE4TFfuNwX9C7xAxnaId6TVwT3Rpp8HfUgBc9bcRtIKi9f0uMnBXeum8PYTA==
   dependencies:
     "@ant-design/icons" "^2.1.1"
     "@nascent/icons-vue" "^1.0.11"
