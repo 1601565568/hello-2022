@@ -1,125 +1,164 @@
 <template>
-  <div class="page-main">
-    <div class="page-title">导购招募配置</div>
-    <el-scrollbar ref="integralRuleHeight" outsider>
-      <el-form label-width="150px" ref="form">
-        <!-- 会员招募码配置开始 -->
-        <div class="form-grid">
-          <div class="form-grid__title">
-            <div class="bluepillar"></div>
-            导购招募奖励计算设置
+  <div>
+    <ElScrollbar ref="fullScreen" class="recruit-container">
+      <div class="recruit-container__card">
+        <div class="recruit-title">导购招募配置</div>
+        <div class="recruit-content">
+          <div class="recruit-content__caption">导购招募奖励计算设置</div>
+          <ElRadioGroup v-model="model.secruitment_type" class="recruit-content__radiogroup">
+            <ElForm>
+              <ElFormItem v-for="item in radioList" :key="item.id" class="option">
+                <ElRadio  :label="item.value">{{item.label}}</ElRadio>
+                <ElFormItem class="recruit-prompt">
+                  <ElFormGrid class="text-secondary recruit-prompt__space">{{item.explain}}</ElFormGrid>
+                  <ElFormGrid class="text-secondary recruit-prompt__space">{{item.example}}</ElFormGrid>
+                </ElFormItem>
+              </ElFormItem>
+            </ElForm>
+          </ElRadioGroup>
+        </div>
+      </div>
+      <div class="recruit-container__card recruit-container__card--topspace">
+        <div class="recruit-title">门店招募配置</div>
+        <div class="recruit-content recruit-content--flex">
+          <div class="recruit-example">
+            <img :src="model.sign_up_url" alt="示例图片" class="recruit-example__img"/>
+            <div class="recruit-example__btn">立即开卡</div>
           </div>
-          <div class="form-grid__content" style="margin-left: -100px">
-            <el-form-item size="xxs">
-              <el-form-grid>
-                <el-radio v-model="model.secruitment_type" :label="0" :disabled="status===0" size="xxs">全渠道首次入会时计算招募提成
-                </el-radio>
-              </el-form-grid>
-            </el-form-item>
-            <el-form-item>
-              <el-form-grid style="padding-left: 10px">
-                导购招募为全渠道新会员时，计算导购招募奖励<br/>
-                例如： 会员在天猫店铺已经入会，此时导购再次招募，不会计算导购招募奖励
-              </el-form-grid>
-            </el-form-item>
-            <el-form-item>
-              <el-form-grid>
-                <el-radio v-model="model.secruitment_type" :label="1" :disabled="status===0" size="xxs">
-                  按照平台首次入会时计算招募奖励
-                </el-radio>
-
-              </el-form-grid>
-            </el-form-item>
-            <el-form-item>
-              <el-form-grid style="padding-left: 10px">
-                导购招募为首次在微信平台注册入会成功，则计算招募奖励<br/>
-                例如： 会员已经在天猫店铺入会。但是未在微信平台开卡，此时导购再次招募，会计算导购招募奖励
-              </el-form-grid>
-            </el-form-item>
+          <div class="recruit-detail">
+            <div class="recruit-detail__heading">设置门店招募开卡页面：</div>
+            <div class="recruit-detail__explanation">会员开卡页面：</div>
+            <ElUpload
+              :action="this.$api.core.sgUploadFile('test')"
+              :show-file-list="false"
+              :on-success="handleAvatarSuccess"
+              :before-upload="beforeAvatarUpload" class="recruit-detail__upload">
+              <img v-if="model.sign_up_url" :src="model.sign_up_url" class="recruit-avatar">
+              <Icon type="plus" className="recruit-tip" v-else/>
+            </ElUpload>
+            <div class="text-secondary">建议图片尺寸：750*1334大小；</div>
+            <div class="text-secondary">场景说明：用户扫门店招募码，进入此页面。点击“立即开卡”，进入开卡录入信息页面。</div>
           </div>
         </div>
-        <!-- 会员招募码配置结束 -->
-      </el-form>
-    </el-scrollbar>
-    <div class="page-title">门店招募配置</div>
-    <el-form>
-      <el-form-item label="选择图片：">
-        <el-form-grid class="company-upload">
-          <el-upload
-            :action="this.$api.core.sgUploadFile('test')"
-            :show-file-list="false"
-            :on-success="handleAvatarSuccess"
-            :before-upload="beforeAvatarUpload">
-            <img v-if="model.sign_up_url" :src="model.sign_up_url" class="company-upload__avatar">
-            <Icon type="plus" className="company-upload__tip" v-else/>
-          </el-upload>
-        </el-form-grid>
-      </el-form-item>
-    </el-form>
-    <div v-if="status === 1" class="form-save__unique">
-      <ns-button type="primary" @click="onSaveOrUpdate">确定</ns-button>
+      </div>
+    </ElScrollbar>
+    <div class="form-save__unique">
+      <NsButton type="primary" @click="onSaveOrUpdate">保存</NsButton>
     </div>
   </div>
-
 </template>
 <script>
 import index from './src/index'
 
 export default index
 </script>
+
 <style scoped>
   @import "@theme/variables.pcss";
 
-  .page-main {
-    padding: var(--default-padding-larger);
-    background: var(--theme-color-white);
+  @component-namespace recruit {
+    @b container {
+      @e card {
+        background: var(--theme-color-white);
+        border-radius: var(--default-radius-mini);
+        @m topspace {
+          margin-top: var(--default-margin-small);
+        }
+      }
+    }
+    @b title {
+      font-size: var(--default-font-size-base);
+      font-weight: bold;
+      padding: var(--default-padding-larger) 20px;
+      border-bottom: 1px solid var(--theme-base-border-color-primary);
+    }
+    @b content {
+      padding: 20px;
+      @e caption {
+        font-size: var(--default-font-size-base);
+        font-weight: bold;
+      }
+      @e radiogroup {
+        margin-top: var(--default-margin-xlarger);
+      }
+      @m flex {
+        display: flex;
+      }
+    }
+    @b prompt {
+      @e space {
+        margin-left: 17px;
+      }
+      >>> .el-form-item__content {
+        line-height: 15px;
+      }
+    }
+    @b example {
+      width: 320px;
+      max-height: 569px;
+      position: relative;
+      flex-shrink: 0;
+      @e img {
+        width: 100%;
+        height: 100%;
+      }
+      @e btn {
+        font-size: var(--default-font-size-base);
+        color: var(--theme-color-white);
+        text-align: center;
+        padding: 13px 20px;
+        width: 294px;
+        position: absolute;
+        bottom: 25px;
+        left: 13px;
+        background: #009900;
+        border-radius: var(--default-radius-small);
+      }
+    }
+    @b detail {
+      flex: 1;
+      margin-left: 20px;
+      @e explanation {
+        font-size: var(--default-font-size-base);
+        margin-top: var(--default-margin-xlarger);
+      }
+      @e heading {
+        font-size: var(--default-font-size-base);
+        font-weight: bold;
+      }
+      @e upload {
+        height: 100px;
+        margin:  var(--default-margin-larger) 0;
+        >>> .el-upload {
+          width: 100px;
+          height: 100px;
+          position: relative;
+          border: 1px dashed var(--theme-base-border-color-primary);
+          border-radius: var(--default-radius-mini);
+          &:hover {
+             border-color: var(--theme-color-primary-light);
+           }
+        }
+      }
+    }
+    @b tip {
+      font-size: 24px;
+      color: var(--theme-base-border-color-primary);
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%,-50%);
+    }
+    @b avatar {
+      width: 100px;
+      height: 100px;
+    }
   }
-
-  .page-title {
-    height: 32px;
-    padding: 0 var(--default-padding-larger);
-    line-height: 32px;
-    background-color: var(--theme-bg-color-primary);
-  }
-
-  .dialog_mian_topText p sapn {
-    color: grey;
-  }
-
-  .dialog_mian_topText p {
-    line-height: 30px;
-    height: 30px;
-  }
-
-  .form-grid__title {
-    font-size: var(--default-font-size-base);
-    padding: var(--default-padding-larger) 0;
-    font-family: 'Arial Negreta', 'Arial Normal', 'Arial';
-    font-weight: 700;
-    display: flex;
-    align-items: center;
-  }
-
-  .bluepillar {
-    width: 4px;
-    height: 12px;
-    margin-right: var(--default-margin-small);
-    background-color: #0091FA;
-  }
-
   .form-save__unique {
-    padding: var(--default-padding-small) 0 var(--default-padding-small) 61px;
+    padding: var(--default-padding-small) 0 var(--default-padding-small) 20px;
     border-top: 1px solid var(--theme-base-border-color-primary);
     background-color: var(--theme-color-white);
     border-bottom-left-radius: var(--default-radius-mini);
     border-bottom-right-radius: var(--default-radius-mini);
-  }
-
-  >>> .template-table__bar {
-    margin-bottom: 0;
-  }
-
-  .form-grid {
-    border-radius: var(--default-radius-mini);
   }
 </style>

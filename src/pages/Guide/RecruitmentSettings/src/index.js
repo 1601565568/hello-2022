@@ -1,21 +1,42 @@
-import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import { getErrorMsg } from '@/utils/toast'
+import scrollHeight from '@/mixins/scrollHeight'
 import ElUpload from '@nascent/nui/lib/upload'
 
 export default {
   name: 'index',
-  mixins: [tableMixin],
+  mixins: [scrollHeight],
   components: {
     ElUpload
   },
   data: function () {
     return {
+      // 页面滚动条内容高度配置
+      scrollBarDeploy: {
+        ref: 'fullScreen', // 页面滚动条ref的名称
+        excludeHeight: 39 // 底部按钮的高度39
+      },
       model: {
         id: null,
         secruitment_type: 0,
-        sign_up_url: ''
+        sign_up_url: 'https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/202002/10000146/7cf9ebfa-37ae-468b-bb29-df37f75c9ea8.jpg'
       },
-      status: 1
+      // 单选组数据
+      radioList: [
+        {
+          id: 1,
+          value: 0,
+          label: '全渠道首次入会时计算招募提成',
+          explain: '导购招募为全渠道新会员时，计算导购招募奖励',
+          example: '例如：会员在天猫店铺已入会，此时导购再次招募，不会计算导购招募奖励'
+        },
+        {
+          id: 2,
+          value: 1,
+          label: '按照平台首次入会时计算招募提成',
+          explain: '导购招募为首次在微信平台注册入会成功，则计算导购招募奖励',
+          example: '导购招募为首次在微信平台注册入会成功，则计算导购招募奖励'
+        }
+      ]
     }
   },
   mounted: function () {
@@ -38,7 +59,7 @@ export default {
         that.$notify.error(getErrorMsg('修改失败', resp))
       })
     },
-    'handleAvatarSuccess': function (res, file) {
+    handleAvatarSuccess (res, file) {
       // console.log('图片地址：' + res.result.url)
       this.model.sign_up_url = res.result.url
     },
