@@ -34,7 +34,6 @@
             shopId: shopId,
             groupId: groupId,
         }).then(function (result) {
-            debugger
             if (result.success) {
                 localStorage.setItem('showData', JSON.stringify(result.result))
                 // 跳转开卡成功页面
