@@ -479,62 +479,63 @@ export default {
         }
       })
     },
-    batchEdit () { // 组团删除功能
+    batchEdit () { // 批量删除功能
       let _this = this
-      _this.nameArr = []
-      _this.multipleSelections = []
-      _this.switchStateName = '删除'
-
-      if (_this.multipleSelection.length < 1) {
-        _this.$notify.error('请选择要操作的员工')
-      } else {
-        _this.allDeleteName = []
-        _this.multipleSelection.map(item => {
-          _this.allDeleteName.push(item.name)
-        })
-        _this.$confirm('请确认是否对 ' + _this.allDeleteName.join('、') + ' 进行删除操作!', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          _this.multipleSelection.map(item => {
-            let params = {}
-            params.guideIds = item.id
-            params.shopId = item.shop_id
-            _this.multipleSelections.push(params)
-          })
-          _this.$http.fetch(_this.$api.guide.guide.deleteGuides,
-            // guideIds: _this.multipleSelections.join(',')
-            _this.multipleSelections
-          ).then(resp => {
-            if (resp.result.failCount > 0) {
-              _this.successCount = resp.result.successCount
-              _this.failCount = resp.result.failCount
-              resp.result.guideNames.split(',').map((item, i) => {
-                if (_this.nameArr.indexOf(resp.result.guideNames.split(',')[i]) === -1) {
-                  _this.nameArr.push(item)
-                } else {
-                  if (item === _this.multipleSelection[_this.nameArr.indexOf(resp.result.guideNames.split(',')[i])].name) {
-                    _this.nameArr[_this.nameArr.indexOf(resp.result.guideNames.split(',')[i])] = _this.multipleSelection[_this.nameArr.indexOf(resp.result.guideNames.split(',')[i])].name + '(' + _this.multipleSelection[_this.nameArr.indexOf(resp.result.guideNames.split(',')[i])].work_id + ')'
-                  }
-                  if (item === _this.multipleSelection[i].name) {
-                    _this.nameArr[i] = _this.multipleSelection[i].name + '(' + _this.multipleSelection[i].work_id + ')'
-                  }
-                }
-              })
-              _this.nameArr = _this.nameArr.join('，')
-              _this.returnInformationShow = true
-              _this.successCount = resp.result.successCount
-              _this.failCount = resp.result.failCount
-            } else {
-              _this.$notify.success('删除成功')
-              _this.$refs.mainTable.$reload()
-            }
-          }).catch((resp) => {
-            _this.$notify.error(getErrorMsg('查询失败', resp))
-          })
-        }).catch(() => {})
-      }
+      _this.$router.push({ path: '/Guide/SgFriendAutoPass/List/Edit/0' })
+      // _this.nameArr = []
+      // _this.multipleSelections = []
+      // _this.switchStateName = '删除'
+      //
+      // if (_this.multipleSelection.length < 1) {
+      //   _this.$notify.error('请选择要操作的员工')
+      // } else {
+      //   _this.allDeleteName = []
+      //   _this.multipleSelection.map(item => {
+      //     _this.allDeleteName.push(item.name)
+      //   })
+      //   _this.$confirm('请确认是否对 ' + _this.allDeleteName.join('、') + ' 进行删除操作!', '提示', {
+      //     confirmButtonText: '确定',
+      //     cancelButtonText: '取消',
+      //     type: 'warning'
+      //   }).then(() => {
+      //     _this.multipleSelection.map(item => {
+      //       let params = {}
+      //       params.guideIds = item.id
+      //       params.shopId = item.shop_id
+      //       _this.multipleSelections.push(params)
+      //     })
+      //     _this.$http.fetch(_this.$api.guide.guide.deleteGuides,
+      //       // guideIds: _this.multipleSelections.join(',')
+      //       _this.multipleSelections
+      //     ).then(resp => {
+      //       if (resp.result.failCount > 0) {
+      //         _this.successCount = resp.result.successCount
+      //         _this.failCount = resp.result.failCount
+      //         resp.result.guideNames.split(',').map((item, i) => {
+      //           if (_this.nameArr.indexOf(resp.result.guideNames.split(',')[i]) === -1) {
+      //             _this.nameArr.push(item)
+      //           } else {
+      //             if (item === _this.multipleSelection[_this.nameArr.indexOf(resp.result.guideNames.split(',')[i])].name) {
+      //               _this.nameArr[_this.nameArr.indexOf(resp.result.guideNames.split(',')[i])] = _this.multipleSelection[_this.nameArr.indexOf(resp.result.guideNames.split(',')[i])].name + '(' + _this.multipleSelection[_this.nameArr.indexOf(resp.result.guideNames.split(',')[i])].work_id + ')'
+      //             }
+      //             if (item === _this.multipleSelection[i].name) {
+      //               _this.nameArr[i] = _this.multipleSelection[i].name + '(' + _this.multipleSelection[i].work_id + ')'
+      //             }
+      //           }
+      //         })
+      //         _this.nameArr = _this.nameArr.join('，')
+      //         _this.returnInformationShow = true
+      //         _this.successCount = resp.result.successCount
+      //         _this.failCount = resp.result.failCount
+      //       } else {
+      //         _this.$notify.success('删除成功')
+      //         _this.$refs.mainTable.$reload()
+      //       }
+      //     }).catch((resp) => {
+      //       _this.$notify.error(getErrorMsg('查询失败', resp))
+      //     })
+      //   }).catch(() => {})
+      // }
     },
     aaaa () {
       this.$http.fetch(this.$api.overView.exit, {})
@@ -767,69 +768,37 @@ export default {
     },
     onRedactFun (row) { // 修改和新增功能
       this.row = row
-      if (row) {
-        this.title = '编辑员工信息'
-        this.guideValue = row.job
-        this.subordinateStores = []
-        this.subordinateStores = row.shop_ids.split(',')
-        const s = () => {
-          this.nextStep = '确定'
-          this.model.sgGuide = {
-            id: row.id,
-            name: row.name,
-            nickname: row.nickname,
-            sex: row.sex,
-            mobile: row.mobile,
-            birthday: row.birthday === null ? null : new Date(row.birthday),
-            work_number: row.work_number,
-            image: row.image,
-            work_prefix: row.work_prefix
-          }
-          this.model.sgGuideShop = {
-            id: row.gsId,
-            job: row.job,
-            shop_id: row.shop_id
-          }
-          this.model.sgGuideVo = {
-            newShopId: row.shop_id
-          }
-          this.model.updateAllGuidePrefix = 0
-          this.showUpdateAllGuidePrefix = false
-          this.dialogFormVisible = true
-        }
-        s()
-      } else {
-        this.title = '新增员工'
-        this.guideValue = 0
-        let that = this
-        this.subordinateStores = []
-        that.$http.fetch(this.$api.guide.guide.findGuideNewWorkNumAndPrefix, {}
-        ).then(resp => {
-          this.model.sgGuide = {
-            id: this.newAdd.id,
-            name: this.newAdd.name,
-            nickname: this.newAdd.nickname,
-            sex: this.newAdd.sex,
-            mobile: this.newAdd.mobile,
-            birthday: this.newAdd.birthday === null ? null : new Date(row.birthday),
-            image: this.newAdd.image,
-            work_prefix: resp.result.workPrefix,
-            work_number: resp.result.workNumber
-          }
-          // eslint-disable-next-line no-console
-          // console.log('work_prefix:', this.model.sgGuide.work_prefix)
-          this.model.sgGuideShop = {
-            id: this.newAdd.gsId,
-            job: this.newAdd.job,
-            shop_id: this.newAdd.shop_id
-          }
-          this.model.updateAllGuidePrefix = 0
-          this.showUpdateAllGuidePrefix = false
-          this.dialogFormVisible = true
-        }).catch((err) => {
-          that.$notify.error(getErrorMsg('查询失败', err.msg))
-        })
-      }
+      this.$router.push({ path: '/Guide/SgFriendAutoPass/List/Edit/0' })
+      // this.title = '新增员工'
+      // this.guideValue = 0
+      // let that = this
+      // this.subordinateStores = []
+      // that.$http.fetch(this.$api.guide.guide.findGuideNewWorkNumAndPrefix, {}
+      // ).then(resp => {
+      //   this.model.sgGuide = {
+      //     id: this.newAdd.id,
+      //     name: this.newAdd.name,
+      //     nickname: this.newAdd.nickname,
+      //     sex: this.newAdd.sex,
+      //     mobile: this.newAdd.mobile,
+      //     birthday: this.newAdd.birthday === null ? null : new Date(row.birthday),
+      //     image: this.newAdd.image,
+      //     work_prefix: resp.result.workPrefix,
+      //     work_number: resp.result.workNumber
+      //   }
+      //   // eslint-disable-next-line no-console
+      //   // console.log('work_prefix:', this.model.sgGuide.work_prefix)
+      //   this.model.sgGuideShop = {
+      //     id: this.newAdd.gsId,
+      //     job: this.newAdd.job,
+      //     shop_id: this.newAdd.shop_id
+      //   }
+      //   this.model.updateAllGuidePrefix = 0
+      //   this.showUpdateAllGuidePrefix = false
+      //   this.dialogFormVisible = true
+      // }).catch((err) => {
+      //   that.$notify.error(getErrorMsg('查询失败', err.msg))
+      // })
     },
     opened () {
       let el
