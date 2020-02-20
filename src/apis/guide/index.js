@@ -24,6 +24,7 @@ import guideDevice from './guideDevice'
 import group from './group'
 import autoPass from './autoPass'
 import secruitmentSet from './secruitmentSet'
+import personalQrcode from './personalQrcode'
 
 export default {
   secruitmentSet,
