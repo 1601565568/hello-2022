@@ -63,6 +63,18 @@ export default {
           'name': 'AutoPass',
           'title': '好友自动通过',
           'component': () => import('@/pages/Guide/SgFriendAutoPass/List.vue')
+        },
+        {
+          'path': '/Guide/SgPersonalQrcode/List',
+          'name': 'AutoPass',
+          'title': '聚合二维码',
+          'component': () => import('@/pages/Guide/SgPersonalQrcode/List.vue')
+        },
+        {
+          'path': '/Guide/SgPersonalQrcode/List/Edit/:id',
+          'name': 'AutoPass',
+          'title': '聚合二维码',
+          'component': () => import('@/pages/Guide/SgPersonalQrcode/Edit.vue')
         }
       ]
     }
