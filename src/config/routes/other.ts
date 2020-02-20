@@ -22,6 +22,20 @@ export default {
       ]
     },
     {
+      'path': '/Guide/RecruitSet',
+      'name': 'RecruitSet',
+      'title': '招募设置',
+      'component': () => import('@nascent/ecrp-ecrm/src/layout/Content.vue'),
+      'children': [
+        {
+          'path': '/Guide/RecruitSet/RecruitConfig',
+          'name': 'RecruitConfig',
+          'title': '招募设置',
+          'component': () => import('@/pages/Guide/RecruitmentSettings/index.vue')
+        }
+      ]
+    },
+    {
       'path': '/Guide/OperationLog/List',
       'name': 'LIST',
       'title': '系统日志',
