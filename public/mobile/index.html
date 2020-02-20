@@ -41,10 +41,10 @@
             guideWechatNo: getPar('guideWechatNo'),
             source: getPar('source'),
             platform: '1'
-        }).then(function (result) {
+        }).then(function () {
             if (result.success) {
               // 跳转授权页进行授权,获取南讯指纹
-              window.location.replace(data.result)
+              window.location.replace(result.result)
             } else {
                 // 跳转错误页
                 $(".noneBody").show();
