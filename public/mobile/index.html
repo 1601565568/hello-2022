@@ -30,6 +30,7 @@
             shopId: getPar('shopId'),
             groupId: getPar('groupId'),
             wechatNo:getPar('wechatNo'),
+            wechatNo:getPar('guideWechatNo'),
             source:getPar('source'),
         }
         localStorage.setItem('recruitInfo', JSON.stringify(recruitEntity))
@@ -37,22 +38,18 @@
             guideId: getPar('guideId'),
             shopId: getPar('shopId'),
             groupId: getPar('groupId'),
-            source: getPar('source')
+            guideWechatNo: getPar('guideWechatNo'),
+            source: getPar('source'),
+            platform: '1'
         }).then(function (result) {
             if (result.success) {
-                // 跳转授权地址
-                getAuth()
+              // 跳转授权页进行授权
+              window.location.replace(data.result)
             } else {
                 // 跳转错误页
                 $(".noneBody").show();
                 $('.fail__text').html(result.msg);
             }
-        })
-    }
-
-    function getAuth() {
-        this.ajax(backstageURL() + '/getAuthURl', {platform: '1'}).then(function (data) {
-            window.location.replace(data.result)
         })
     }
 

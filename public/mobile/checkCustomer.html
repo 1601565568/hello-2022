@@ -59,15 +59,6 @@
         })
     }
 
-    /**
-     * 跳转微信开卡组件
-     */
-    function forwardWXUrl(shopId, groupId,outerStr) {
-      this.ajax(backstageURL() + '/getForwardWXUrl', {shopId:shopId,groupId:groupId,outerStr:outerStr}).then(function (data) {
-          window.location.replace(data.result)
-      })
-    }
-
     function ajax(url, data, params) {
         data = JSON.stringify(data)
         return new Promise(function (resolve, reject) {
