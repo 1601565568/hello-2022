@@ -1,6 +1,8 @@
 import api from '@/config/http'
 import moment from 'moment/moment'
 import { getErrorMsg } from '@/utils/toast'
+import apiRequestConfirm from '@nascent/ecrp-ecrm/src/utils/apiRequestConfirm'
+import Clipboard from 'clipboard'
 
 export default {
   data: function () {
@@ -331,6 +333,16 @@ export default {
     },
     // 复制
     copy (msg) {
+      debugger
+      let clipboard = new Clipboard('.' + msg)
+      clipboard.on('success', () => {
+        this.$notify.success('复制成功')
+        clipboard.destroy()
+      })
+      clipboard.on('error', () => {
+        this.$notify.error('复制失败')
+        clipboard.destroy()
+      })
     },
     // 投放预览
     preview (row) {
@@ -747,11 +759,7 @@ export default {
     },
     onDeleteFun (row) { // 删除
       var _this = this
-      _this.$confirm('请确认是否对 ' + row.name + ' 进行删除操作!', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
+      apiRequestConfirm('删除：' + row.name).then(() => {
         let paramArr = []
         let param = {}
         param.id = row.id

@@ -16,6 +16,9 @@
                 <ns-button type='text' @click='preview'>投放预览</ns-button>
               </div>
               <span>该链接为聚合码H5，可投放公众号等</span>
+              <div v-if="personalQrcodeLink !=''&& personalQrcodeLink!=null">
+                <qr-code :value="personalQrcodeLink" :size="355" :options="{size:355}"></qr-code>
+              </div>
             </el-form-grid>
           </el-form-item>
         </el-form>
@@ -27,7 +30,7 @@
     <!--聚合二维码展示结束-->
 
     <!-- 新增/修改聚合二维码开始 -->
-    <el-dialog :title="title" :visible.sync="addOrEditFormVisible" width="460px"  @keyup.enter.native="onKeyUp" @keyup.esc.native="onKeyUp"
+    <el-dialog :title="title" :visible.sync="addOrEditFormVisible" width="200px"  @keyup.enter.native="onKeyUp" @keyup.esc.native="onKeyUp"
                @opened='opened'>
       <div class="guideBox" style="overflow-x:hidden;overflow-y:auto;">
         <el-form :model="model.personalQrcode" ref="addForm" label-width="100px" :rules="rules" >
@@ -67,11 +70,13 @@ import List from './src/List'
 import ElUpload from '@nascent/nui/lib/upload'
 import NsTableAutoPass from './NsTablePersonalQrcode'
 import ShopSelectLoad from '@/components/ShopSelectLoad'
+import QrCode from '@xkeshi/vue-qrcode'
 
 List.components = {
   NsTableAutoPass,
   ElUpload,
-  ShopSelectLoad
+  ShopSelectLoad,
+  QrCode
 }
 export default List
 </script>
