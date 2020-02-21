@@ -792,6 +792,9 @@ export default {
         }
       }
     },
+    cleanPersonQrcode () {
+      this.personalLinkFormVisible = false
+    },
     opened () {
       let el
       if (this.guideValue === 0) {

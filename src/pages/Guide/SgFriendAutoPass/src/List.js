@@ -1496,10 +1496,11 @@ export default {
     },
     closeDialog () {
       // Object.assign(this.$data.model, this.$options.data().model)
-      this.$data.model = this.$options.data().model
-      this.dialogFormVisible = false
-      this.isHidden = false
-      this.row = null
+      // this.$data.model = this.$options.data().model
+      // this.dialogFormVisible = false
+      this.resignFormVisible = false
+      // this.isHidden = false
+      // this.row = null
     },
     beforeAvatarUpload (file) {
       if (file.size / 1024 > 500) {

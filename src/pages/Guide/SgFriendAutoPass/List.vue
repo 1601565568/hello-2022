@@ -3,8 +3,7 @@
     <NsTableAutoPass ref="mainTable" :url=$api.guide.autoPass.findList @scopeRowCount="scopeRowCount"
                   @shopEdit="shopEdit"  @failPassAgain="failPassAgain" @batchEdit="batchEdit" @showShop="showShop" @onRedactFun="onRedactFun"  @handleSelectionChange="handleSelectionChange">
     </NsTableAutoPass>
-    <!--  导购离职弹窗开始  -->
-    <!--  v-if="transferCount" 用于判断导购没有会员时不弹窗  -->
+    <!--  失败重新通过弹窗开始  -->
     <el-dialog :title="title" :visible.sync="resignFormVisible" width="800px" @close="closeDialog">
       <!--  搜索开始  -->
       <div class="search">
@@ -89,10 +88,10 @@
       <!-- 分页-结束 -->
       <div slot="footer" class="dialog-footer">
         <ns-button @click="closeDialog">取消</ns-button>
-        <ns-button type="primary" @click="onSave">确定</ns-button>
+        <ns-button type="primary" @click="closeDialog">确定</ns-button>
       </div>
     </el-dialog>
-    <!--  导购离职弹窗结束  -->
+    <!--  失败重新通过弹窗结束  -->
   </div>
 </template>
 

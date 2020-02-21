@@ -24,7 +24,7 @@
         </el-form>
       </div>
       <div slot="footer" class="dialog-footer">
-        <ns-button type="primary" :disabled="isHidden">确定</ns-button>
+        <ns-button type="primary" @click="cleanPersonQrcode">确定</ns-button>
       </div>
     </el-dialog>
     <!--聚合二维码展示结束-->
