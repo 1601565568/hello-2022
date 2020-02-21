@@ -43,7 +43,6 @@ export default {
       this.$http.fetch(this.$api.guide.personalQrcode.findById, {
         id: id
       }).then(data => {
-        debugger
         this.personalQrcode.id = data.result.id
         this.personalQrcode.name = data.result.name
         this.personalQrcode.showType = data.result.showType
