@@ -1,0 +1,28 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+html,body {
+    height: 100%;
+}
+.recruitment {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    background: url("../img/expression/memberRecruitmentBg.jpg") 0 0 no-repeat;
+    background-size: 100% 100%;
+}
+.recruitment__btn {
+    font-size: 34px;
+    color: #FFF;
+    text-align: center;
+    position: absolute;
+    left: 32px;
+    right: 32px;
+    bottom: 59px;
+    display: inline-block;
+    padding: 32px 275px;
+    background: #009900;
+    border-radius: 14px;
+}
