@@ -1,0 +1,24 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+html,body {
+  height: 100%;
+}
+.lapse {
+  text-align: center;
+  width: 100%;
+  height: 100%;
+  padding-top: 158px;
+  background: #FFF;
+}
+.lapse__img {
+  width: 258px;
+}
+.lapse__msg {
+  font-size: 32px;
+  color: #999;
+  line-height: 50px;
+  margin-top: 25px;
+}
