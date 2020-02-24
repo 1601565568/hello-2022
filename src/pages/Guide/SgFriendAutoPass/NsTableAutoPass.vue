@@ -13,13 +13,10 @@
       <!-- el-form 需添加 @submit.native.prevent 配置 -->
       <!-- el-inpu 需添加  @keyup.enter.native="$quickSearchAction$" 配置，实现回车搜索 -->
       <template slot="searchSearch">
-        <el-form :model="quickSearchModel" :inline="true" @submit.native.prevent  class="pull-right">
+        <el-form :model="quickSearchModel" :inline="true" @submit.native.prevent class="pull-right">
           <el-form-item label="员工：">
             <el-form-grid size="xmd">
-              <shop-select-load placeholder="全部"
-                                v-model="model.personnel"
-                                @clear="setShopNull"
-                                clearable/>
+              <el-input  autofocus=true v-model="model.name" placeholder="" clearable></el-input>
             </el-form-grid>
             <ns-button type="primary" @click="$searchAction$()" class="searchbtn">搜索</ns-button>
             <ns-button @click="$resetInputAction$()" class="resetbtn">重置</ns-button>
@@ -41,10 +38,7 @@
         <el-form ref="table_filter_form" :model="model" label-width="80px" :inline="true">
           <el-form-item label="员工：">
             <el-form-grid size="xmd">
-              <shop-select-load placeholder="全部"
-                                v-model="model.personnel"
-                                @clear="setShopNull"
-                                clearable/>
+              <el-input  autofocus=true v-model="model.name" placeholder="" clearable></el-input>
             </el-form-grid>
           </el-form-item>
           <el-form-item label="微信账号：">
@@ -52,7 +46,7 @@
               <el-input  autofocus=true v-model="model.wxAccount" placeholder="搜索微信号/微信昵称" clearable></el-input>
             </el-form-grid>
           </el-form-item>
-          <el-form-item label="验证信息关键字：">
+          <el-form-item label="验证信息：">
             <el-form-grid size="xmd">
               <el-input  autofocus=true v-model="model.validateMsg" placeholder="" clearable></el-input>
             </el-form-grid>
@@ -89,45 +83,61 @@
           <el-table-column type="selection" align="center" :width="50"></el-table-column>
           <el-table-column prop="personnel" label="员工" align="left" min-width="88">
             <template slot-scope="scope">
-              {{scope.row.name?scope.row.personnel:'-'}}
+              {{scope.row.name?scope.row.name:'-'}}
             </template>
           </el-table-column>
           <el-table-column prop="wxAccount" label="微信账号" align="left" min-width="100" :show-overflow-tooltip="true">
             <template slot-scope="scope">
-              {{scope.row.wxNick?scope.row.wxNick:'-'}}({{scope.row.wOwnerName?scope.row.wOwnerName:'-'}})
+              {{scope.row.wxnick?scope.row.wxnick:'-'}}({{scope.row.wxaccount?scope.row.wxaccount:'-'}})
             </template>
           </el-table-column>
           <el-table-column prop="isOpen" label="自动通过" align="left" min-width="100">
             <template slot-scope="scope">
-              {{ scope.row.isOpen?scope.row.isOpen:'-' }}
+              <div v-if="scope.row.isopen === 1">
+                <p>关闭</p>
+              </div>
+              <div v-else-if="scope.row.isopen === 2">
+                <p>开启</p>
+              </div>
+              <div v-else >
+                <p>-</p>
+              </div>
             </template>
           </el-table-column>
           <el-table-column prop="interval" label="通过时间间隔" align="left" min-width="100">
             <template slot-scope="scope">
-              {{ scope.row.minInterval?scope.row.minInterval:'-' }}
+              {{ scope.row.mininterval?scope.row.mininterval:'-' }}-{{ scope.row.maxinterval?scope.row.maxinterval:'-' }}
             </template>
           </el-table-column>
           <el-table-column prop="num" label="当前排队好友数" align="left" min-width="100">
             <template slot-scope="scope">
-              {{ scope.row.minInterval?scope.row.minInterval:'-' }}
+              {{ scope.row.mininterval?scope.row.mininterval:'-' }}
             </template>
           </el-table-column>
           <el-table-column prop="joinQueue" label="加入队列" align="left" min-width="100">
             <template slot-scope="scope">
-              {{ scope.row.joinQueue?scope.row.joinQueue:'-' }}
+              <div v-if="scope.row.joinqueue === 1">
+                <p>否</p>
+              </div>
+              <div v-else-if="scope.row.joinqueue === 2">
+                <p>是</p>
+              </div>
+              <div v-else >
+                <p>-</p>
+              </div>
             </template>
           </el-table-column>
-          <el-table-column prop="validateMsg" label="验证信息关键字" align="left" min-width="100">
+          <el-table-column prop="validatemsg" label="验证信息" align="left" min-width="100">
             <template slot-scope="scope">
-              {{ scope.row.validateMsg?scope.row.validateMsg:'-' }}
+              {{ scope.row.validatemsg?scope.row.validatemsg:'-' }}
             </template>
           </el-table-column>
           <el-table-column prop="matchMode" label="匹配类型" align="left" min-width="100">
             <template slot-scope="scope">
-              <div v-if="scope.row.matchMode === 0">
+              <div v-if="scope.row.matchmode === 1">
                 <p>模糊匹配</p>
               </div>
-              <div v-if="scope.row.matchMode === 1">
+              <div v-else-if="scope.row.matchmode === 2">
                 <p>全部匹配</p>
               </div>
             </template>

@@ -6,20 +6,26 @@ export default {
   data: function () {
     let that = this
     return {
-      personalQrcode: {
+      friendAutoPass: {
         id: null,
-        guid: null,
-        creatorId: null,
-        nickname: null,
-        creatorName: null,
+        account: null,
         name: null,
-        personnels: null,
-        prersonelIds: '',
-        num: null,
-        image: '',
-        createTime: '',
-        showType: 1
+        wxaccount: null,
+        wxnick: null,
+        wxid: null,
+        isopen: 1,
+        beginTime: null,
+        endTime: '',
+        mininterval: 60,
+        maxinterval: 180,
+        isvalidate: 1,
+        validatemsg: null,
+        matchmode: 1,
+        joinqueue: 1
       },
+      isShowWxAccount: true,
+      ids: null,
+      names: null,
       title: '好友自动通过编辑',
       parameter: {
         length: 10,
@@ -37,91 +43,58 @@ export default {
     }
   },
   mounted: function () {
-    const id = this.$route.params.id
-    if (id > 0) {
-      // this.title = '编辑商品'
-      this.$http.fetch(this.$api.guide.personalQrcode.findById, {
-        id: id
-      }).then(data => {
-        this.personalQrcode.id = data.result.id
-        this.personalQrcode.name = data.result.name
-        this.personalQrcode.showType = data.result.showType
-      }).catch((error) => {
-        this.$notify.error(getErrorMsg('加载聚合二维码信息失败：', error))
-      }).finally(() => {
-        this.loading = false
-      })
-    } else {
-      // this.title = '新增商品'
-    }
-    if (typeof this.$init === 'function') {
-      this.$init(this, this.$generateParams$)
-    } else {
-      this.$reload()
-    }
+    const ids = this.$route.params.id
+    this.ids = ids
+    // 批量编辑
+    this.$http.fetch(this.$api.guide.autoPass.findByIds, {
+      id: ids
+    }).then(data => {
+      if (data.result.length <= 1) {
+        this.friendAutoPass.id = data.result[0].id
+        this.names = data.result[0].name
+        this.friendAutoPass.wxaccount = data.result[0].wxaccount
+        this.friendAutoPass.wxnick = data.result[0].wxnick
+        this.friendAutoPass.mininterval = data.result[0].mininterval
+        this.friendAutoPass.maxinterval = data.result[0].maxinterval
+        this.friendAutoPass.isvalidate = data.result[0].isvalidate
+        this.friendAutoPass.validatemsg = data.result[0].validatemsg
+        this.friendAutoPass.matchmode = data.result[0].matchmode
+        this.friendAutoPass.isopen = data.result[0].isopen
+        this.friendAutoPass.beginTime = data.result[0].beginTime
+        this.friendAutoPass.endTime = data.result[0].endTime
+        this.friendAutoPass.joinqueue = data.result[0].joinqueue
+      } else {
+        this.names = ''
+        this.isShowWxAccount = false
+        var chooseName = []
+        data.result.forEach((item) => {
+          chooseName.push(item.name)
+        })
+        this.names = chooseName.join(',')
+      }
+    }).catch((error) => {
+      this.$notify.error(getErrorMsg('加载好友自动通过信息失败：', error))
+    }).finally(() => {
+      this.loading = false
+    })
   },
   methods: {
-    // reload () {
-    //   this.status = 0
-    //   this.model = {
-    //     id: null,
-    //     recruit_type: null,
-    //     change_type: null,
-    //     change_num: null,
-    //     limit_type: null
-    //   }
-    //   this.$reload()
-    // },
-    // // 会员可自主更换专属导购修改 0：不允许自主更换导购
-    // changeType () {
-    //   if (this.model.change_type === 0) {
-    //     this.model.limit_type = 0
-    //     this.model.change_num = null
-    //   }
-    // },
-    // // 会员可自主更换专属导购的次数 0:不限制次数
-    // limitTypeChange () {
-    //   if (this.model.limit_type === 0) {
-    //     this.model.change_num = 0
-    //   }
-    // },
-    onSave () { // 小程序保存功能shopManagerreload_radio
+    onSave (model) { // 编辑保存
       let that = this
-      that.$http.fetch(that.$api.guide.personalQrcode.save, that.personalQrcode).then(() => {
+      that.$http.fetch(that.$api.guide.autoPass.update, {
+        sgFriendAutoPass: model,
+        ids: this.ids
+      }).then(() => {
         that.$notify.success('保存成功')
       }).catch((resp) => {
         that.$notify.error(getErrorMsg('保存失败', resp))
+      }).finally(() => {
+        that.$router.push({ path: '/Guide/SgFriendAutoPass/List' })
       })
+    },
+    onCancel () { // 取消
+      let that = this
+      that.$router.push({ path: '/Guide/SgFriendAutoPass/List' })
     }
-    /**
-     * 处理请求参数
-     * @param params
-     * @returns {*}
-     */
-    // $handleParams: function (params) {
-    //   this.param = params
-    //   if (params.searchMap && params.searchMap.time && params.searchMap.time.length > 0) {
-    //     params.searchMap.timeStart = params.searchMap.time[0]
-    //     params.searchMap.timeEnd = params.searchMap.time[1]
-    //   }
-    //   delete params.searchMap.time
-    //   return params
-    // },
-    // $queryList$: function (params) {
-    //   let _this = this
-    //   return this.$http.fetch(this.$api.guide.guide.getCustomerConfig, params).then((resp) => {
-    //     _this.model.recruit_type = resp.result.recruit_type
-    //     _this.model.change_type = resp.result.change_type
-    //     _this.model.change_num = resp.result.change_num
-    //     if (resp.result.change_num > 0) {
-    //       _this.model.limit_type = 1
-    //     } else {
-    //       _this.model.limit_type = 0
-    //     }
-    //   }).catch(() => {
-    //     _this.$notify.error('网络异常，获取数据失败！')
-    //   }).finally(() => {
-    //   })
-    // }
   }
 }

@@ -225,7 +225,7 @@ export default {
       tableDataCustomer: [], // 客户集合
       multipleSelection: [],
       multipleSelections: [],
-      allDeleteName: [],
+      allUpdateIds: [],
       model: model,
       changeValue: {},
       guideValue: null,
@@ -480,62 +480,20 @@ export default {
       })
     },
     batchEdit () { // 批量删除功能
+      debugger
       let _this = this
-      _this.$router.push({ path: '/Guide/SgFriendAutoPass/List/Edit/0' })
-      // _this.nameArr = []
-      // _this.multipleSelections = []
-      // _this.switchStateName = '删除'
-      //
-      // if (_this.multipleSelection.length < 1) {
-      //   _this.$notify.error('请选择要操作的员工')
-      // } else {
-      //   _this.allDeleteName = []
-      //   _this.multipleSelection.map(item => {
-      //     _this.allDeleteName.push(item.name)
-      //   })
-      //   _this.$confirm('请确认是否对 ' + _this.allDeleteName.join('、') + ' 进行删除操作!', '提示', {
-      //     confirmButtonText: '确定',
-      //     cancelButtonText: '取消',
-      //     type: 'warning'
-      //   }).then(() => {
-      //     _this.multipleSelection.map(item => {
-      //       let params = {}
-      //       params.guideIds = item.id
-      //       params.shopId = item.shop_id
-      //       _this.multipleSelections.push(params)
-      //     })
-      //     _this.$http.fetch(_this.$api.guide.guide.deleteGuides,
-      //       // guideIds: _this.multipleSelections.join(',')
-      //       _this.multipleSelections
-      //     ).then(resp => {
-      //       if (resp.result.failCount > 0) {
-      //         _this.successCount = resp.result.successCount
-      //         _this.failCount = resp.result.failCount
-      //         resp.result.guideNames.split(',').map((item, i) => {
-      //           if (_this.nameArr.indexOf(resp.result.guideNames.split(',')[i]) === -1) {
-      //             _this.nameArr.push(item)
-      //           } else {
-      //             if (item === _this.multipleSelection[_this.nameArr.indexOf(resp.result.guideNames.split(',')[i])].name) {
-      //               _this.nameArr[_this.nameArr.indexOf(resp.result.guideNames.split(',')[i])] = _this.multipleSelection[_this.nameArr.indexOf(resp.result.guideNames.split(',')[i])].name + '(' + _this.multipleSelection[_this.nameArr.indexOf(resp.result.guideNames.split(',')[i])].work_id + ')'
-      //             }
-      //             if (item === _this.multipleSelection[i].name) {
-      //               _this.nameArr[i] = _this.multipleSelection[i].name + '(' + _this.multipleSelection[i].work_id + ')'
-      //             }
-      //           }
-      //         })
-      //         _this.nameArr = _this.nameArr.join('，')
-      //         _this.returnInformationShow = true
-      //         _this.successCount = resp.result.successCount
-      //         _this.failCount = resp.result.failCount
-      //       } else {
-      //         _this.$notify.success('删除成功')
-      //         _this.$refs.mainTable.$reload()
-      //       }
-      //     }).catch((resp) => {
-      //       _this.$notify.error(getErrorMsg('查询失败', resp))
-      //     })
-      //   }).catch(() => {})
-      // }
+      _this.nameArr = []
+      _this.multipleSelections = []
+      if (_this.multipleSelection.length < 1) {
+        _this.$notify.error('请选择要操作的员工')
+        return
+      } else {
+        _this.allUpdateIds = []
+        _this.multipleSelection.map(item => {
+          _this.allUpdateIds.push(item.id)
+        })
+      }
+      _this.$router.push({ path: '/Guide/SgFriendAutoPass/List/Edit/' + _this.allUpdateIds.join(',') })
     },
     aaaa () {
       this.$http.fetch(this.$api.overView.exit, {})
@@ -595,7 +553,7 @@ export default {
       // _this.initShopList()
       _this.switchStateName = '更换门店'
       _this.verification = false
-      _this.allDeleteName = []
+      _this.allUpdateIds = []
       _this.accordingToJudgmentShow = false
       if (_this.replaceStoresArry.length < 1) {
         _this.$notify.error('请选择要操作的员工')
@@ -603,7 +561,7 @@ export default {
         _this.dimissionArry.map(item => {
           if (item.status === 2) {
             _this.accordingToJudgmentShow = true
-            _this.allDeleteName.push(item.name)
+            _this.allUpdateIds.push(item.name)
           }
         })
         if (_this.accordingToJudgmentShow) {
@@ -617,20 +575,20 @@ export default {
             if (item.count > 1) {
               _this.verification = true
             } else {
-              _this.allDeleteName.push(item.name)
+              _this.allUpdateIds.push(item.name)
             }
           })
           if (!_this.verification) {
-            _this.$confirm('请确认是否对 ' + _this.allDeleteName.join('、') + ' 进行更换门店操作!', '提示', {
+            _this.$confirm('请确认是否对 ' + _this.allUpdateIds.join('、') + ' 进行更换门店操作!', '提示', {
               confirmButtonText: '确定',
               cancelButtonText: '取消',
               type: 'warning'
             }).then(() => {
               _this.model.sgGuideShop.shop_id = null
               _this.shopFindListShow = true
-              _this.allDeleteName = []
+              _this.allUpdateIds = []
               _this.replaceStoresArry.map(item => {
-                _this.allDeleteName.push(item.name)
+                _this.allUpdateIds.push(item.name)
               })
             }).catch(() => {
             })
@@ -768,7 +726,7 @@ export default {
     },
     onRedactFun (row) { // 修改和新增功能
       this.row = row
-      this.$router.push({ path: '/Guide/SgFriendAutoPass/List/Edit/0' })
+      this.$router.push({ path: '/Guide/SgFriendAutoPass/List/Edit/' + this.row.id })
       // this.title = '新增员工'
       // this.guideValue = 0
       // let that = this
