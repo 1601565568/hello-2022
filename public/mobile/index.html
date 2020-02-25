@@ -25,15 +25,6 @@
     }
 
     function checkGuide() {
-        recruitEntity = {
-            guideId: getPar('guideId'),
-            shopId: getPar('shopId'),
-            groupId: getPar('groupId'),
-            wechatNo:getPar('wechatNo'),
-            wechatNo:getPar('guideWechatNo'),
-            source:getPar('source'),
-        }
-        localStorage.setItem('recruitInfo', JSON.stringify(recruitEntity))
         this.ajax(backstageURL() + '/checkGuide', {
             guideId: getPar('guideId'),
             shopId: getPar('shopId'),
@@ -43,8 +34,17 @@
             platform: '1'
         }).then(function (result) {
             if (result.success) {
+              recruitEntity = {
+                guideId: result.result.guideId,
+                shopId: result.result.shopId,
+                groupId: getPar('groupId'),
+                wechatNo:getPar('wechatNo'),
+                guideWechatNo:getPar('guideWechatNo'),
+                source:getPar('source'),
+              }
+              localStorage.setItem('recruitInfo', JSON.stringify(recruitEntity))
               // 跳转授权页进行授权,获取南讯指纹
-              window.location.replace(result.result)
+              window.location.replace(result.result.authUrl)
             } else {
                 // 跳转错误页
                 $(".noneBody").show();
