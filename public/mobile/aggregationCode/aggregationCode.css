@@ -1,0 +1,40 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+html,body {
+  height: 100%;
+}
+.code {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  background: url("../img/expression/bgimage.png") 0 0 no-repeat;
+  background-size: 100% auto;
+}
+.code__outer {
+  text-align: center;
+  line-height: 370px;
+  width: 49.3%;
+  height: 49.3vw;
+  position: absolute;
+  top: 64vw;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 20px;
+  background: rgba(255, 255, 255, .3);
+  box-shadow: 0 8px 12px 0 rgba(51, 51, 51, .1);
+  border-radius: 18px;
+}
+.inner {
+  height: 100%;
+  padding: 6px;
+  background: #FFF;
+  border-radius: 18px;
+  overflow: hidden;
+}
+.inner__qrcode {
+  width: 100%;
+  height: 100%;
+}

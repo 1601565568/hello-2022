@@ -146,10 +146,6 @@ export default {
     setJobNull () {
       this.model.job = null
     },
-    // 设置shop清空时值为null而不是''
-    setShopNull () {
-      this.model.shop = null
-    },
     thisGuideDisabled (guideId) {
       let retVal = this.guideShopList.some(item => {
         return item.id === guideId

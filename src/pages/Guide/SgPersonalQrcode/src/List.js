@@ -333,7 +333,6 @@ export default {
     },
     // 复制
     copy (msg) {
-      debugger
       let clipboard = new Clipboard('.' + msg)
       clipboard.on('success', () => {
         this.$notify.success('复制成功')
