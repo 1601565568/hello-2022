@@ -480,7 +480,6 @@ export default {
       })
     },
     batchEdit () { // 批量删除功能
-      debugger
       let _this = this
       _this.nameArr = []
       _this.multipleSelections = []
