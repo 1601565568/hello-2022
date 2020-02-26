@@ -81,6 +81,12 @@ export default {
           'name': 'AutoPass',
           'title': '聚合二维码',
           'component': () => import('@/pages/Guide/SgPersonalQrcode/Edit.vue')
+        },
+        {
+          'path': '/Guide/chanel/chanel',
+          'name': 'chanel',
+          'title': '渠道管理',
+          'component': () => import('@/pages/Guide/chanel/chanel.vue')
         }
       ]
     }
