@@ -5,7 +5,7 @@
     </NsTableAutoPass>
 
     <!--聚合二维码展示开始-->
-    <el-dialog :title="title" :visible.sync="personalLinkFormVisible" width="504px" class="detail-dialog">
+    <el-dialog :title="title" :visible.sync="personalLinkFormVisible" width="400px" class="detail-dialog">
       <div class="detail-dialog__content">
         <el-form label-width="90px" class="detail-leftside">
           <el-form-item label="链接：" >
@@ -17,7 +17,8 @@
               </div>
               <span>该链接为聚合码H5，可投放公众号等</span>
               <div v-if="personalQrcodeLink !=''&& personalQrcodeLink!=null">
-                <qr-code :value="personalQrcodeLink" :size="355" :options="{size:355}"></qr-code>
+                <qr-code :value="personalQrcodeLink" :size="150" :options="{size:150}"></qr-code>
+                <ns-button type='text' @click='downLode(personalQrcodeLink)'>下载</ns-button>
               </div>
             </el-form-grid>
           </el-form-item>
@@ -29,39 +30,78 @@
     </el-dialog>
     <!--聚合二维码展示结束-->
 
-    <!-- 新增/修改聚合二维码开始 -->
-    <el-dialog :title="title" :visible.sync="addOrEditFormVisible" width="200px"  @keyup.enter.native="onKeyUp" @keyup.esc.native="onKeyUp"
-               @opened='opened'>
-      <div class="guideBox" style="overflow-x:hidden;overflow-y:auto;">
-        <el-form :model="model.personalQrcode" ref="addForm" label-width="100px" :rules="rules" >
-          <el-form-item label="聚合码名称：" required>
-            <el-form-grid size="xxmd">
-              <el-input  autofocus=true v-model="model.personalQrcode.name" placeholder="" clearable></el-input>
-            </el-form-grid>
-          </el-form-item>
-          <el-form-item label="子码设置：" required>
-            <el-form-grid size="xxmd">
-              <el-input  autofocus=true v-model="model.personalQrcode.name" placeholder="" clearable></el-input>
-            </el-form-grid>
-          </el-form-item>
-          <el-form-item label="子码展示方式：" required>
-            <el-form-grid size="xxmd">
-              <el-form-item prop="sex">
-                <el-radio-group @change="sexs" v-model="model.personalQrcode.showType">
-                  <el-radio :label="1">随机展示</el-radio>
-                  <el-radio :label="2">轮流展示</el-radio>
-                </el-radio-group>
-              </el-form-item>
-            </el-form-grid>
-          </el-form-item>
-        </el-form>
+    <!-- 新投放预览开始 -->
+    <ElDialog
+      width="900px"
+      title="投放预览"
+      :visible.sync="dialogVisible"
+      response-limit :show-scroll-x=false>
+      <div class="preview-container">
+        <ElForm label-width="90px" class="preview-container__form">
+          <ElFormItem label="聚合码标题：" required>
+            <ElInput
+              type="text"
+              placeholder="请输入聚合码会在微信打开的页面标题"
+              v-model="onShowTitle"
+              maxlength="10"
+              show-word-limit
+            >
+            </ElInput>
+          </ElFormItem>
+          <ElFormItem label="背景图设置：" required class="preview-btn">
+            <ElUpload
+              action="$api.core.sgUploadFile('test')"
+              :show-file-list="false"
+              :on-success="handleAvatarSuccess"
+              :before-upload="beforeAvatarUpload">
+              <ns-button type="primary" plain>
+                <Icon type="plus"/>
+                选择图片
+              </ns-button>
+            </ElUpload>
+          </ElFormItem>
+          <ElFormItem class="preview-btn">
+            <ns-button type="primary" @click="download(bgpic)" plain>下载原图</ns-button>
+          </ElFormItem>
+          <ElFormItem>
+            <div class="text-primary">
+              <Icon type="exclamation-circle" theme="outlined"/>
+              建议上传尺寸为750px*1624px，大小不超过5M
+            </div>
+          </ElFormItem>
+          <ElFormItem>
+            <ElImage
+              :width="160"
+              :src="bgpic"
+              mode="fill"
+              class="preview-photo"></ElImage>
+          </ElFormItem>
+        </ElForm>
+        <div class="preview-container__example">
+          <div class="preview-bgimg">
+            <div class="preview-bgimg__title">聚合码标题</div>
+            <div class="preview-bgpic">
+              <ElImage :width="243" :src="bgpic"></ElImage>
+            </div>
+            <div class="preview-bgimg__qrcode">
+              <div class="preview-blank">
+                <ElImage
+                  :width="103"
+                  :height="103"
+                  :src="qrcodeimg"
+                  mode="cover" class="preview-blank__qrcodeimg"></ElImage>
+              </div>
+            </div>
+            <div class="preview-bgimg__line"></div>
+          </div>
+        </div>
       </div>
-      <div slot="footer" class="dialog-footer">
-        <ns-button @click="closeDialog">取消</ns-button>
-        <ns-button type="primary" @click="onSave(model)" :disabled="isHidden">确定</ns-button>
-      </div>
-    </el-dialog>
-    <!--  新增/修改聚合二维码结束 -->
+      <span slot="footer">
+        <ns-button @click="dialogVisible = false">取消</ns-button>
+        <ns-button type="primary" @click="onSaveShow()">确定</ns-button>
+      </span>
+    </ElDialog>
+    <!--  投放预览结束 -->
   </div>
 </template>
 
@@ -71,12 +111,14 @@ import ElUpload from '@nascent/nui/lib/upload'
 import NsTableAutoPass from './NsTablePersonalQrcode'
 import ShopSelectLoad from '@/components/ShopSelectLoad'
 import QrCode from '@xkeshi/vue-qrcode'
+import ElImage from '@nascent/nui/lib/image'
 
 List.components = {
   NsTableAutoPass,
   ElUpload,
   ShopSelectLoad,
-  QrCode
+  QrCode,
+  ElImage
 }
 export default List
 </script>
@@ -225,5 +267,97 @@ export default List
   .text-black {
     color: var(--theme-font-color-primary);
     font-weight: bold;
+  }
+  @component-namespace preview {
+    @b container {
+      display: flex;
+      @e form {
+        padding-right: 87px;
+        >>> .el-input__suffix:before {
+          border-left: 0;
+        }
+      }
+      @e example {
+        padding: 0 0 30px 87px;
+        border-left: 1px solid var(--theme-base-border-color-primary);
+      }
+    }
+    @b photo {
+      margin-top: var(--default-margin-larger);
+    }
+    @b bgpic {
+      width: 243px;
+      height: 468px;
+      margin-top: var(--default-margin-small);
+      border-bottom-left-radius: 26px;
+      border-bottom-right-radius: 26px;
+      overflow: hidden;
+    }
+    @b bgimg {
+      width: 296px;
+      height: 575px;
+      position: relative;
+      padding: 75px 30px 40px 27px;
+      background-image: url("./src/images/iphonexmockup.png");
+      background-repeat: no-repeat;
+      background-size: 100% auto;
+      @e title {
+        font-weight: bold;
+        color: var(--theme-font-color-primary);
+        text-align: center;
+        width: 10em;
+        white-space: nowrap;
+        overflow: hidden;
+        margin: -18px auto 0;
+      }
+      @e line {
+        width: 87px;
+        height: 3px;
+        position: absolute;
+        left: 50%;
+        bottom: 35px;
+        transform: translateX(-50%);
+        background: rgba(0, 0, 0, .5);
+        border-radius: 65px;;
+      }
+      @e qrcode {
+        width: 120px;
+        height: 120px;
+        position: absolute;
+        left: 50%;
+        top: 231px;
+        transform: translateX(-50%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(255, 255, 255, .3);
+        box-shadow: 0 3px 4px 0 rgba(51, 51, 51, .1);
+        border-radius: 6px;
+      }
+    }
+    @b blank {
+      width: 107px;
+      height: 107px;
+      padding: 2px;
+      background: var(--theme-color-white);
+      border-radius: 6px;
+      @e qrcodeimg {
+        border-radius: 6px;
+      }
+    }
+    @b btn {
+      >>> .el-upload {
+        width: 100%;
+      }
+      >>> .el-button {
+        color: var(--theme-color-primary);
+        width: 100%;
+        background: var(--theme-color-white);
+        border-color: var(--theme-color-primary);
+    &:hover {
+       color: var(--theme-color-primary);
+     }
+    }
+  }
   }
 </style>
