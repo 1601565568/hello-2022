@@ -6,6 +6,51 @@ export default {
   data: function () {
     let that = this
     return {
+      dialogVisible: false, // 选择好友弹窗是否展示
+      // 树数据
+      treeData: [{
+        id: 1,
+        label: '售后服务部',
+        children: [{
+          id: 123458,
+          label: '服务部1',
+          children: [{
+            id: 856,
+            label: '员工1'
+          }, {
+            id: 10,
+            label: '员工2'
+          }]
+        }]
+      }, {
+        id: 2,
+        label: '设计部',
+        children: [{
+          id: 886,
+          label: '设计部1'
+        }, {
+          id: 6,
+          label: '设计部2'
+        }]
+      }, {
+        id: 3,
+        label: '财务部',
+        children: [{
+          id: 7,
+          label: '财务部1'
+        }, {
+          id: 8,
+          label: '财务部2'
+        }]
+      }],
+      chooseTreeData: [],
+      // 树默认绑定数据
+      defaultProps: {
+        children: 'children',
+        label: 'label'
+      },
+      // 左边输入框绑定值
+      input: '',
       personalQrcode: {
         id: null,
         guid: null,
@@ -61,67 +106,25 @@ export default {
     }
   },
   methods: {
-    // reload () {
-    //   this.status = 0
-    //   this.model = {
-    //     id: null,
-    //     recruit_type: null,
-    //     change_type: null,
-    //     change_num: null,
-    //     limit_type: null
-    //   }
-    //   this.$reload()
-    // },
-    // // 会员可自主更换专属导购修改 0：不允许自主更换导购
-    // changeType () {
-    //   if (this.model.change_type === 0) {
-    //     this.model.limit_type = 0
-    //     this.model.change_num = null
-    //   }
-    // },
-    // // 会员可自主更换专属导购的次数 0:不限制次数
-    // limitTypeChange () {
-    //   if (this.model.limit_type === 0) {
-    //     this.model.change_num = 0
-    //   }
-    // },
-    onSave () { // 小程序保存功能shopManagerreload_radio
+    // 删除右边的树子节点数据
+    remove (node, data) {
+      const parent = node.parent
+      const children = parent.data.children || parent.data
+      const index = children.findIndex(d => d.id === data.id)
+      children.splice(index, 1)
+    },
+    onSave () {
       let that = this
       that.$http.fetch(that.$api.guide.personalQrcode.save, that.personalQrcode).then(() => {
         that.$notify.success('保存成功')
       }).catch((resp) => {
         that.$notify.error(getErrorMsg('保存失败', resp))
       })
+    },
+    onConfirm () { // 选择员工弹唱确认
+    },
+    handleNodeCheck (data, node, vuecomponent) {
+      console.log(data, node, vuecomponent)
     }
-    /**
-     * 处理请求参数
-     * @param params
-     * @returns {*}
-     */
-    // $handleParams: function (params) {
-    //   this.param = params
-    //   if (params.searchMap && params.searchMap.time && params.searchMap.time.length > 0) {
-    //     params.searchMap.timeStart = params.searchMap.time[0]
-    //     params.searchMap.timeEnd = params.searchMap.time[1]
-    //   }
-    //   delete params.searchMap.time
-    //   return params
-    // },
-    // $queryList$: function (params) {
-    //   let _this = this
-    //   return this.$http.fetch(this.$api.guide.guide.getCustomerConfig, params).then((resp) => {
-    //     _this.model.recruit_type = resp.result.recruit_type
-    //     _this.model.change_type = resp.result.change_type
-    //     _this.model.change_num = resp.result.change_num
-    //     if (resp.result.change_num > 0) {
-    //       _this.model.limit_type = 1
-    //     } else {
-    //       _this.model.limit_type = 0
-    //     }
-    //   }).catch(() => {
-    //     _this.$notify.error('网络异常，获取数据失败！')
-    //   }).finally(() => {
-    //   })
-    // }
   }
 }

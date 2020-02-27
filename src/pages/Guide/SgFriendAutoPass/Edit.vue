@@ -105,10 +105,12 @@
                  选择开启后，自动通过时间段外新的好友验证将自动加入队列，直到自动通过开启后再执行任务
               </span>
             </el-form-item>
+            <el-form-item>
+              <ns-button @click="onCancel()" >取消</ns-button>
+              <ns-button type="primary" @click="onSave(friendAutoPass)">确定</ns-button>
+            </el-form-item>
           </div>
         </div>
-        <ns-button @click="onCancel()" >取消</ns-button>
-        <ns-button type="primary" @click="onSave(friendAutoPass)">确定</ns-button>
       </el-form>
     </el-scrollbar>
   </div>

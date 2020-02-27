@@ -10,13 +10,10 @@
         <el-form class="el_form" ref="table_filter_form" :model="model" label-width="60px" :inline="true">
           <el-form-item label="员工：">
             <el-form-grid size="xmd">
-              <shop-select-load placeholder="全部"
-                                v-model="model.personnel"
-                                @clear="setShopNull"
-                                clearable/>
+              <el-input autofocus=true v-model="model.name" placeholder="" clearable></el-input>
             </el-form-grid>
           </el-form-item>
-          <el-form-item label="微信登录状态：">
+          <el-form-item label="在线状态：">
             <el-form-grid>
               <el-select placeholder="全部" v-model="model.isOpen" clearable @clear="setJobNull">
                 <el-option label="在线" :value="1"></el-option>
