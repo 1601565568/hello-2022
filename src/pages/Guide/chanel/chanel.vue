@@ -1,6 +1,10 @@
 
 <template>
 <div>
+  <el-tabs v-model="activeName" @tab-click="tabHandleClick">
+    <el-tab-pane label="渠道管理" name="0"></el-tab-pane>
+  <!--  <el-tab-pane label="渠道统计分析" name="1"></el-tab-pane>-->
+  </el-tabs>
    <div class="template-table">
       <!-- 简单搜索start -->
     <div class="template-table__bar">
@@ -8,8 +12,6 @@
            <!-- 左边上角操作区域 -->
           <el-col :span="7">
               <ns-button type="primary" @click="AddShowToggle({})" v-if="0 == isAnalyce">新增渠道</ns-button>
-              <ns-button type="primary" @click="toAnalyse" v-if="0 == isAnalyce">渠道分析</ns-button>
-              <ns-button type="primary" @click="toChanel" v-if="1 == isAnalyce">渠道管理</ns-button>
           </el-col>
         </el-row>
       <div class="template-table-search">
@@ -101,61 +103,62 @@
         @current-change="handleCurrentChange">
       </el-pagination>
     </span>
-    <span v-if="1== isAnalyce">
-      <el-row class="overview-content__echart mt5" :gutter="5">
-          <el-col :span="12">
-            <div class="overview-echart__item overview-echart__item--pink">
-              <div
-                   :element-loading-text="$t('prompt.loading')">
-                <!-- 暂无数据结构 -->
-               <!-- <div class="no-data" style='height:362px' v-if="!isTaskProgressData">
-                </div>-->
-                <template>
-                  <business-echarts :options="friendsRate" class="oscillogram" auto-resize style='height:362px'></business-echarts>
-                </template>
-              </div>
+  <span v-if="1== isAnalyce">
+    <el-row class="overview-content__echart mt5" :gutter="5">
+        <el-col :span="12">
+          <div class="overview-echart__item overview-echart__item--pink">
+            <div
+              :element-loading-text="$t('prompt.loading')">
+              <!-- 暂无数据结构 -->
+              <!-- <div class="no-data" style='height:362px' v-if="!isTaskProgressData">
+               </div>-->
+              <template>
+                <business-echarts :options="friendsRate" class="oscillogram" auto-resize style='height:362px'></business-echarts>
+              </template>
             </div>
-          </el-col>
-       </el-row>
+          </div>
+        </el-col>
+        <el-col :span="12">
+          <div class="overview-echart__item overview-echart__item--pink">
+            <div
+              :element-loading-text="$t('prompt.loading')">
+              <!-- 暂无数据结构 -->
+              <!-- <div class="no-data" style='height:362px' v-if="!isTaskProgressData">
+               </div>-->
+              <template>
+                <business-echarts :options="chanelAddFrieds" class="oscillogram" auto-resize style='height:362px'></business-echarts>
+              </template>
+            </div>
+          </div>
+        </el-col>
+     </el-row>
 
-      <el-row class="overview-content__echart mt5" :gutter="5">
-          <el-col :span="12">
-            <div class="overview-echart__item overview-echart__item--pink">
-              <div
-                :element-loading-text="$t('prompt.loading')">
-                <!-- 暂无数据结构 -->
-                <!-- <div class="no-data" style='height:362px' v-if="!isTaskProgressData">
-                 </div>-->
-                <template>
-                  <business-echarts :options="chanelAddFrieds" class="oscillogram" auto-resize style='height:362px'></business-echarts>
-                </template>
-              </div>
-            </div>
-          </el-col>
-       </el-row>
-      <span>
-        <el-select v-model="chanelId" placeholder="全部" clearable>
-          <el-option v-for="item in chanelList"
-                     :key="item.id"
-                     :label="item.content"
-                     :value="item.id">
-          </el-option>
-        </el-select>
-        <el-table
-          ref="multipleTable"
-          :data="chanelAlalyseData"
-          v-loading="alalyseLoading"
-          :element-loading-text="$t('prompt.loading')"
-          tooltip-effect="dark"
-          stripe
-          style="width: 100%">
-        <el-table-column prop="create_time" label="日期 " width="150" align="center"></el-table-column>
-        <el-table-column prop="welcontent" label="添加好友总数" width="150" align="center"></el-table-column>
-        <el-table-column prop="allCount" label="聚合码添加好友数" width="150" align="center"></el-table-column>
-        <el-table-column prop="durCount" label="其他添加好友数" width="150" align="center"></el-table-column>
-      </el-table>
-      </span>
+    <el-row class="overview-content__echart mt5" :gutter="5">
+       <span>
+      <el-select v-model="chanelId" placeholder="全部" clearable>
+        <el-option v-for="item in chanelList"
+                   :key="item.id"
+                   :label="item.content"
+                   :value="item.id">
+        </el-option>
+      </el-select>
+      <el-table
+        ref="multipleTable"
+        :data="chanelAlalyseData"
+        v-loading="alalyseLoading"
+        :element-loading-text="$t('prompt.loading')"
+        tooltip-effect="dark"
+        stripe
+        style="width: 100%">
+      <el-table-column prop="create_time" label="日期 " width="150" align="center"></el-table-column>
+      <el-table-column prop="welcontent" label="添加好友总数" width="150" align="center"></el-table-column>
+      <el-table-column prop="allCount" label="聚合码添加好友数" width="150" align="center"></el-table-column>
+      <el-table-column prop="durCount" label="其他添加好友数" width="150" align="center"></el-table-column>
+    </el-table>
     </span>
+     </el-row>
+
+  </span>
   <!-- 编辑弹窗 -->
   <addModal ref="addDialogDom" :callBack="loadListFun"></addModal>
 </div>
@@ -178,6 +181,7 @@ export default {
   data: function () {
     const that = this
     return {
+      activeName: '0',
       searchform: {
         channel_name: null,
         time: [],
@@ -321,6 +325,11 @@ export default {
   },
 
   methods: {
+    tabHandleClick (tab, event) {
+      this.searchObj.searchMap.type = tab.name
+      this.activeName = tab.name
+      this.loadListFun()
+    },
     toAnalyse () {
       this.isAnalyce = 1
       this.getAnalyceData()
