@@ -16,8 +16,8 @@
         <div class="template-table__bar-more">
           <span v-if="0 == isAnalyce">
             <el-form ref="searchform" label-width="80px" @submit.native.prevent class="surround-btn" style="float: right" :model="searchform"  :inline="true">
-              <el-form-item label="渠道名称：" prop="content">
-                <el-input v-model="searchform.content" placeholder="请输入渠道名称" @keyup.enter.native="submitForm('searchform')" clearable></el-input>
+              <el-form-item label="渠道名称：" prop="channel_name">
+                <el-input v-model="searchform.channel_name" placeholder="请输入渠道名称" @keyup.enter.native="submitForm('searchform')" clearable></el-input>
               </el-form-item>
               <el-form-item label="时间：" prop="time">
                 <el-date-picker
@@ -74,11 +74,11 @@
         tooltip-effect="dark"
         stripe
         style="width: 100%">
-        <el-table-column prop="content" label="渠道名称" align="left" width="190"></el-table-column>
-        <el-table-column prop="create_time" label="创建时间 " width="150" align="center"></el-table-column>
-        <el-table-column prop="welcontent" label="欢迎语" width="150" align="center"></el-table-column>
-        <el-table-column prop="allfriends" label="总添加好友数" width="150" align="center"></el-table-column>
-        <el-table-column prop="todayfriends" label="添加好友数" width="150" align="center"></el-table-column>
+        <el-table-column prop="channel_name" label="渠道名称" align="left"></el-table-column>
+        <el-table-column prop="create_time" label="创建时间 "  align="center"></el-table-column>
+        <el-table-column prop="welcontent" label="欢迎语"  align="center"></el-table-column>
+        <el-table-column prop="allCount" label="总添加好友数"  align="center"></el-table-column>
+        <el-table-column prop="durCount" label="添加好友数" align="center"></el-table-column>
         <el-table-column
           label="操作"
           width="80"
@@ -151,8 +151,8 @@
           style="width: 100%">
         <el-table-column prop="create_time" label="日期 " width="150" align="center"></el-table-column>
         <el-table-column prop="welcontent" label="添加好友总数" width="150" align="center"></el-table-column>
-        <el-table-column prop="allfriends" label="聚合码添加好友数" width="150" align="center"></el-table-column>
-        <el-table-column prop="todayfriends" label="其他添加好友数" width="150" align="center"></el-table-column>
+        <el-table-column prop="allCount" label="聚合码添加好友数" width="150" align="center"></el-table-column>
+        <el-table-column prop="durCount" label="其他添加好友数" width="150" align="center"></el-table-column>
       </el-table>
       </span>
     </span>
@@ -179,7 +179,7 @@ export default {
     const that = this
     return {
       searchform: {
-        content: null,
+        channel_name: null,
         time: [],
         welcontent: null,
         timeEnd: null,
@@ -363,7 +363,7 @@ export default {
     },
     // 提交搜索
     submitForm (formName) {
-      this.searchObj.searchMap.content = this.searchform.content
+      this.searchObj.searchMap.channel_name = this.searchform.channel_name
       this.searchObj.searchMap.welcontent = this.searchform.welcontent
       if (this.searchform.time !== '' && this.searchform.time !== null && this.searchform.time.length === 2) {
         this.searchObj.searchMap.timeStart = moment(this.searchform.time[0]).format('YYYY-MM-DD HH:mm:ss')
