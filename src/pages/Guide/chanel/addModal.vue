@@ -47,7 +47,6 @@ export default {
   },
   methods: {
     showToggle (obj) {
-      debugger
       let that = this
       if (obj.id) {
         that.modalTit = '编辑渠道'
@@ -88,7 +87,6 @@ export default {
         }, this.model)
         .then(resp => {
           if (resp.success) {
-            debugger
             this.$notify.success({ message: info + '渠道成功' })
             this.handleClose()
             // 回调刷新列表
