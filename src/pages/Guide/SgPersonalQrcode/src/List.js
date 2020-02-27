@@ -3,7 +3,9 @@ import moment from 'moment/moment'
 import { getErrorMsg } from '@/utils/toast'
 import apiRequestConfirm from '@nascent/ecrp-ecrm/src/utils/apiRequestConfirm'
 import Clipboard from 'clipboard'
-
+import bgimg from './images/bgimage.png'
+import posterPreview from './images/posterPreview.png'
+import qrcode from './images/qrcode.png'
 export default {
   data: function () {
     let pagination = {
@@ -175,6 +177,17 @@ export default {
       })
     })
     return {
+      bgpic: '',
+      postimg: posterPreview,
+      qrcodeimg: qrcode,
+      // 上传图片的地址
+      imageUrl: '',
+      // 输入框绑定值
+      input: '',
+      // 弹框是否打开判断值
+      dialogVisible: false,
+      onShowId: '',
+      onShowTitle: '',
       personalQrcodeLink: null,
       subordinateStores: [],
       showUpdateAllGuidePrefix: false,
@@ -310,6 +323,22 @@ export default {
     this.initShopList()
   },
   methods: {
+    // 上传图片地址的切换事件
+    handleAvatarSuccess (res, file) {
+      this.imageUrl = URL.createObjectURL(file.raw)
+    },
+    // 上传图片的类型和大小判断事件
+    beforeAvatarUpload (file) {
+      const isJPG = file.type === 'image/jpeg'
+      const isLt2M = file.size / 1024 / 1024 < 2
+      if (!isJPG) {
+        this.$message.error('上传头像图片只能是 JPG 格式!')
+      }
+      if (!isLt2M) {
+        this.$message.error('上传头像图片大小不能超过 20MB!')
+      }
+      return isJPG && isLt2M
+    },
     workPrefix (val) {
       this.model.sgGuide.work_prefix = val
       // eslint-disable-next-line no-console
@@ -343,8 +372,34 @@ export default {
         clipboard.destroy()
       })
     },
+    download (imgSrc) {
+      var a = document.createElement('a')
+      a.download = name || '背景图'
+      // 设置图片地址
+      a.href = this.bgpic
+      a.click()
+    },
+    onSaveShow () { // 保存投放预览
+      let _this = this
+      let onShowId = _this.onShowId
+      let onShowTitle = _this.onShowTitle
+      let bgimg = _this.bgpic
+      this.$http.fetch(_this.$api.sgGuide.personalQrcode.save, {
+        id: onShowId,
+        title: onShowTitle,
+        bgimg: bgimg
+      }).then(resp => {
+        _this.$notify.success('保存成功')
+      }).catch(resp => {
+        _this.$notify.error(getErrorMsg('保存失败', resp))
+      }).finally(() => {
+        _this.dialogVisible = false
+      })
+    },
     // 投放预览
     preview (row) {
+      let _this = this
+      _this.dialogVisible = true
     },
     transfer () {
       this.$router.push({
@@ -512,149 +567,17 @@ export default {
     },
     // 员工离职时自定义转移会员弹窗复位
     clearValue () {
-      let _this = this
-      _this.resignFormVisible = false
-      _this.transferRadio = '1'
     },
     showShop () { // 组团进行更换门店操作
-      let _this = this
-      // _this.initShopList()
-      _this.switchStateName = '更换门店'
-      _this.verification = false
-      _this.allDeleteName = []
-      _this.accordingToJudgmentShow = false
-      if (_this.replaceStoresArry.length < 1) {
-        _this.$notify.error('请选择要操作的员工')
-      } else {
-        _this.dimissionArry.map(item => {
-          if (item.status === 2) {
-            _this.accordingToJudgmentShow = true
-            _this.allDeleteName.push(item.name)
-          }
-        })
-        if (_this.accordingToJudgmentShow) {
-          _this.$confirm(' 离职的员工，不允许更换门店操作!', '提示', {
-            confirmButtonText: '确定',
-            cancelButtonText: '取消',
-            type: 'warning'
-          }).then(() => {}).catch(() => {})
-        } else {
-          _this.dimissionArry.map(item => {
-            if (item.count > 1) {
-              _this.verification = true
-            } else {
-              _this.allDeleteName.push(item.name)
-            }
-          })
-          if (!_this.verification) {
-            _this.$confirm('请确认是否对 ' + _this.allDeleteName.join('、') + ' 进行更换门店操作!', '提示', {
-              confirmButtonText: '确定',
-              cancelButtonText: '取消',
-              type: 'warning'
-            }).then(() => {
-              _this.model.sgGuideShop.shop_id = null
-              _this.shopFindListShow = true
-              _this.allDeleteName = []
-              _this.replaceStoresArry.map(item => {
-                _this.allDeleteName.push(item.name)
-              })
-            }).catch(() => {
-            })
-          } else {
-            _this.multipleStoresAreNotSupportedShow = true
-          }
-        }
-      }
     },
     async updateShopId () { // 查询导购下的会员数量
-      let _this = this
-      let dimissionIdArry = []
-      _this.nameArr = []
-      _this.replaceStoresArry.map(item => {
-        dimissionIdArry.push(item.id)
-      })
-      await _this.$http.fetch(_this.$api.guide.guide.updateShopId, {
-        guideIds: dimissionIdArry.join(','),
-        shopId: Number(this.shopIds),
-        type: _this.replacementStoresHaveMembersShow ? Number(_this.replacementStoresHaveMembersRadio) : ''
-      }).then(resp => {
-        if (resp.success) {
-          _this.shopFindListShow = false
-          _this.replacementStoresHaveMembersShow = false
-          _this.$notify.success('批量更换门店成功')
-          _this.$refs.mainTable.$reload()
-        } else {
-          _this.$notify.error(getErrorMsg('批量更换门店失败', resp))
-        }
-      }).catch((resp) => {
-        _this.$notify.error(getErrorMsg('批量更换门店失败', resp))
-      })
     },
     selectStoreButton () { //  选择门店按钮
       this.updateShopId()
     },
     replaceStores () { // 组团更换门店功能
-      let _this = this
-      let dimissionIdArry = []
-      if (_this.model.sgGuideShop.shop_id !== null) {
-        _this.replaceStoresArry.map(item => {
-          dimissionIdArry.push(item.id)
-        })
-        _this.$http.fetch(_this.$api.guide.guide.findGuideCustomerSum, {
-          guideIds: dimissionIdArry.join(',')
-        }).then(resp => {
-          if (resp.result.sum > 0) {
-            // todo 4.0版本导购有会员不能更换门店，4.1版本待中台完善后再取消注释
-            _this.$notify.error('导购名下有会员，请先转移会员')
-            // _this.replacementStoresHaveMembersShow = true
-          } else {
-            _this.updateShopId()
-          }
-        }).catch(() => {
-          _this.$notify.error('查询失败')
-        })
-      } else {
-        _this.$notify.error('请选择要更换的门店！')
-      }
     },
     onKeyUp (e) {
-      var key = window.event.keyCode
-      var _this = this
-      if (key === 13) {
-        _this.onSave()
-      }
-      if (key === 27) {
-        if (_this.changeObj.workIdChangeChange || _this.changeObj.logoChange || _this.changeObj.nicknameChange || _this.changeObj.birthdayChange || _this.changeObj.sexsChange || _this.changeObj.mobileChange || _this.changeObj.jobsChange || _this.changeObj.namesChange || _this.changeObj.storeChange) {
-          _this.$confirm('内容被修改是否要保存！', '提示', {
-            confirmButtonText: '保存',
-            cancelButtonText: '取消',
-            type: 'warning'
-          }).then(() => {
-            if (_this.changeObj.storeChange) {
-              _this.newAdd.shop_id = _this.storeValue
-            } else if (_this.changeObj.namesChange) {
-              _this.newAdd.name = _this.namesValue
-            } else if (_this.changeObj.nicknameChange) {
-              _this.newAdd.nickname = _this.nicknameValue
-            } else if (_this.changeObj.birthdayChange) {
-              _this.newAdd.birthday = _this.birthdayValue
-            } else if (_this.changeObj.sexsChange) {
-              _this.newAdd.sex = _this.sexsValue
-            } else if (_this.changeObj.mobileChange) {
-              _this.newAdd.mobile = _this.mobileValue
-            } else if (_this.changeObj.jobsChange) {
-              _this.newAdd.job = _this.jobsValue
-            } else if (_this.changeObj.workIdChangeChange) {
-              _this.newAdd.work_num = _this.workIdChangeValue
-            } else if (_this.changeObj.logoChange) {
-              _this.newAdd.image = _this.logoValue
-            }
-            _this.personalLinkFormVisible = false
-          })
-        } else {
-          _this.personalLinkFormVisible = false
-        }
-      }
     },
     scopeRowCount (data) { // 查看员工属性
       this.scopeRowCountShow = true
@@ -690,70 +613,14 @@ export default {
       var path = '/Guide/SgPersonalQrcode/List/Edit/' + this.row.id
       this.$router.push({ path: path })
     },
-    onShowFun (row) { // 修改和新增功能
-      this.row = row
-      if (row) {
-        this.title = '编辑员工信息'
-        this.guideValue = row.job
-        this.subordinateStores = []
-        this.subordinateStores = row.shop_ids.split(',')
-        const s = () => {
-          this.nextStep = '确定'
-          this.model.sgGuide = {
-            id: row.id,
-            name: row.name,
-            nickname: row.nickname,
-            sex: row.sex,
-            mobile: row.mobile,
-            birthday: row.birthday === null ? null : new Date(row.birthday),
-            work_number: row.work_number,
-            image: row.image,
-            work_prefix: row.work_prefix
-          }
-          this.model.sgGuideShop = {
-            id: row.gsId,
-            job: row.job,
-            shop_id: row.shop_id
-          }
-          this.model.sgGuideVo = {
-            newShopId: row.shop_id
-          }
-          this.model.updateAllGuidePrefix = 0
-          this.showUpdateAllGuidePrefix = false
-          this.personalLinkFormVisible = true
-        }
-        s()
+    onShowFun (row) { // 投放预览
+      let _this = this
+      _this.dialogVisible = true
+      _this.onShowId = row.id
+      if (row.bgimg === '' || row.bgimg === null) {
+        _this.bgpic = bgimg
       } else {
-        this.title = '新增员工'
-        this.guideValue = 0
-        let that = this
-        this.subordinateStores = []
-        that.$http.fetch(this.$api.guide.guide.findGuideNewWorkNumAndPrefix, {}
-        ).then(resp => {
-          this.model.sgGuide = {
-            id: this.newAdd.id,
-            name: this.newAdd.name,
-            nickname: this.newAdd.nickname,
-            sex: this.newAdd.sex,
-            mobile: this.newAdd.mobile,
-            birthday: this.newAdd.birthday === null ? null : new Date(row.birthday),
-            image: this.newAdd.image,
-            work_prefix: resp.result.workPrefix,
-            work_number: resp.result.workNumber
-          }
-          // eslint-disable-next-line no-console
-          // console.log('work_prefix:', this.model.sgGuide.work_prefix)
-          this.model.sgGuideShop = {
-            id: this.newAdd.gsId,
-            job: this.newAdd.job,
-            shop_id: this.newAdd.shop_id
-          }
-          this.model.updateAllGuidePrefix = 0
-          this.showUpdateAllGuidePrefix = false
-          this.personalLinkFormVisible = true
-        }).catch((err) => {
-          that.$notify.error(getErrorMsg('查询失败', err.msg))
-        })
+        _this.bgpic = row.bgimg
       }
     },
     onDeleteFun (row) { // 删除
@@ -781,6 +648,12 @@ export default {
       if (row) {
         this.row = row
         this.personalQrcodeLink = row.guid
+        this.onShowId = row.id
+        if (row.bgimg === '' || row.bgimg === null) {
+          this.bgpic = bgimg
+        } else {
+          this.bgpic = row.bgimg
+        }
         if (row) {
           this.title = '聚合二维码'
           const s = () => {
@@ -1480,28 +1353,12 @@ export default {
         this.$notify.error('校验工号失败' + resp.result)
       })
     },
-    // 处理上传图片
-    'handleAvatarSuccess': function (res, file) {
-      var _this = this
-      _this.model.sgGuide.image = res.result.url
-    },
     closeDialog () {
       // Object.assign(this.$data.model, this.$options.data().model)
       this.$data.model = this.$options.data().model
       this.personalLinkFormVisible = false
       this.isHidden = false
       this.row = null
-    },
-    beforeAvatarUpload (file) {
-      if (file.size / 1024 > 500) {
-        this.$notify.error('上传图片不得大于500KB')
-        return false
-      }
-      // 图片格式
-      if (!/\.(gif|jpg|jpeg|png|GIF|JPG|PNG|JPEG)$/.test(file.name)) {
-        this.$notify.error('不支持的图片格式')
-        return false
-      }
     }
   },
   watch: {

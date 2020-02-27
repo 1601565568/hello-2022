@@ -121,7 +121,7 @@
           </el-table-column>
           <el-table-column prop="num" label="聚合二维码" align="left" min-width="100">
             <template slot-scope="scope">
-                <ns-button style="color:#0091FA" @click="qrcodeLink(scope.row)" type="text">图表icon</ns-button>
+                <ns-button style="color:#0091FA" @click="qrcodeLink(scope.row)" type="text">icon</ns-button>
             </template>
           </el-table-column>
           <el-table-column :show-overflow-tooltip="true" label="操作" align="center"
