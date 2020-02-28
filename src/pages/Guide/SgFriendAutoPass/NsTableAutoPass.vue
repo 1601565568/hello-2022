@@ -14,7 +14,7 @@
       <!-- el-inpu 需添加  @keyup.enter.native="$quickSearchAction$" 配置，实现回车搜索 -->
       <template slot="searchSearch">
         <el-form :model="quickSearchModel" :inline="true" @submit.native.prevent class="pull-right">
-          <el-form-item label="员工：">
+          <el-form-item label="员工：" v-if="!_data._queryConfig.expand">
             <el-form-grid size="xmd">
               <el-input  autofocus=true v-model="model.name" placeholder="" clearable></el-input>
             </el-form-grid>
