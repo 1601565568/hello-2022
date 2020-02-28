@@ -122,9 +122,6 @@ export default {
       })
     },
     onConfirm () { // 选择员工弹唱确认
-    },
-    handleNodeCheck (data, node, vuecomponent) {
-      console.log(data, node, vuecomponent)
     }
   }
 }

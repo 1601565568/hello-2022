@@ -58,9 +58,9 @@
             show-checkbox
             node-key="id"
             :default-expanded-keys="[1, 2]"
-            :default-checked-keys="[5,8,10]"
+            :default-checked-keys="[5,8,10,123458]"
             :props="defaultProps"
-            @check-change="handleNodeCheck" class="code-space">
+            class="code-space">
             <span class="code-detail clearfix" slot-scope="{ node, data }">
               <span class="code-detail__text">{{ node.label }}</span>
               <span>{{ data.children ? '/' + data.children.length : '' }}</span>
