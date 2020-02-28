@@ -29,8 +29,9 @@
             guideId: getPar('guideId'),
             shopId: getPar('shopId'),
             groupId: getPar('groupId'),
-            guideWechatNo: getPar('guideWechatNo'),
-            source: getPar('source'),
+            guideUserId: getPar('guideUserId'), // 企微方案 传导购在企业微信的UserId
+            guideWechatNo: getPar('guideWechatNo'), // 个号方案 传导购的微信号
+            source: getPar('source'), // 公众号招募：1 企微招募：2 个号招募：3
             platform: '1'
         }).then(function (result) {
             if (result.success) {
@@ -38,6 +39,7 @@
                 guideId: result.result.guideId,
                 shopId: result.result.shopId,
                 groupId: getPar('groupId'),
+                guideUserId: getPar('guideUserId'),
                 wechatNo:getPar('wechatNo'),
                 guideWechatNo:getPar('guideWechatNo'),
                 source:getPar('source'),
