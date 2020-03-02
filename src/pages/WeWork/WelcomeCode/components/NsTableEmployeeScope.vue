@@ -3,7 +3,7 @@
  * @Author: yuye.huang
  * @Date: 2020-03-02 09:38:22
  * @LastEditors: yuye.huang
- * @LastEditTime: 2020-03-02 11:04:07
+ * @LastEditTime: 2020-03-02 11:30:39
  -->
 <template>
   <el-dialog ref="dialog" title="使用员工" :visible.sync="this.model.visible" width="660px" @open="this.$queryList$()">
@@ -78,7 +78,7 @@ export default {
     return {
       quickSearchModel: quickSearchModel,
       model: model,
-      url: this.$api.weWork.welcomeCode.findEmployeeScopeList
+      url: this.$api.weWork.welcomeCode.findWelcomeCodeEmployeeList
     }
   },
   mounted () {

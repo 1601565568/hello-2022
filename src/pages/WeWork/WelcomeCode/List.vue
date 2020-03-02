@@ -3,7 +3,7 @@
  * @Author: yuye.huang
  * @Date: 2020-02-28 17:28:29
  * @LastEditors: yuye.huang
- * @LastEditTime: 2020-03-02 11:08:51
+ * @LastEditTime: 2020-03-02 12:14:30
  -->
 <template>
   <div>
@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import NsTableWelcomeCode from './components/NsTableWelcomeCode'
+import NsTableWelcomeCode from './components/NsTableWelcomeCode.vue'
 // import NsTableEmployeeScope from './components/NsTableEmployeeScope'
 
 export default {
@@ -35,6 +35,7 @@ export default {
     // NsTableEmployeeScope
   },
   data: function () {
+    // 员工使用范围数据model
     let NsTableEmployeeScopeModel = {
       visible: false,
       welcomeCodeUuid: ''
@@ -42,11 +43,11 @@ export default {
     return {
       nsTableEmployeeScopeModel: NsTableEmployeeScopeModel,
       // 弹框：员工使用范围
-      employeeScopeVisible: false,
+      // employeeScopeVisible: false,
       // 弹框：渠道使用范围
       channelScopeVisible: false,
       // 员工使用范围表格数据
-      employeeScopeTableData: [],
+      // employeeScopeTableData: [],
       // 渠道使用范围表格数据
       channelScopeTableData: []
     }
@@ -59,14 +60,6 @@ export default {
     onShowEmployeeScope (data) {
       this.NsTableEmployeeScopeModel.welcomeCodeUuid = data.uuid
       this.NsTableEmployeeScopeModel.visible = true
-      let _this = this
-      _this.$http.fetch(_this.$api.weWork.welcomeCode.findWelcomeCodeEmployeeList, { uuid: data.uuid }).then(resp => {
-        if (resp.success && resp.result != null) {
-          _this.employeeScopeTableData = resp.result
-        }
-      }).catch((resp) => {
-        _this.$notify.error(getErrorMsg('查询失败', resp))
-      })
     },
     /**
      * @msg: 编辑智能欢迎语

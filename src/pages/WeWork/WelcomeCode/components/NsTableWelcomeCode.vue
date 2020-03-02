@@ -95,7 +95,8 @@
     </template>
   </ns-page-table>
 </template>
+
 <script>
-import component from './NsTableWelcomeCode.js'
-export default component
+import NsTableWelcomeCode from './src/NsTableWelcomeCode.js'
+export default NsTableWelcomeCode
 </script>
