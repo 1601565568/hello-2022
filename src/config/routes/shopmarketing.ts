@@ -87,6 +87,18 @@ export default {
           'name': 'chanel',
           'title': '渠道管理',
           'component': () => import('@/pages/Guide/chanel/chanel.vue')
+        },
+        {
+          'path': '/WeWork/WelcomeCode/WelcomeCodeList',
+          'name': 'WelcomeCodeList',
+          'title': '智能欢迎语(企微)',
+          'component': () => import('@/pages/WeWork/WelcomeCode/index.vue')
+        },
+        {
+          'path': '/WeWork/WelcomeCode/Edit',
+          'name': 'WelcomeCodeEdit',
+          'title': '编辑智能欢迎语(企微)',
+          'component': () => import('@/pages/WeWork/WelcomeCode/Edit.vue')
         }
       ]
     }
