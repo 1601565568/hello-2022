@@ -80,7 +80,21 @@
             </el-form-item>
             <el-form-item label="自动通过时间：" required>
               <el-form-grid>
-                <el-input  autofocus=true v-model="friendAutoPass.beginTime" placeholder="" clearable></el-input>
+                <el-time-picker
+                  v-model="friendAutoPass.beginTime"
+                  :picker-options="{
+                          selectableRange: '18:30:00 - 20:30:00'
+                        }"
+                  placeholder="任意时间点">
+                </el-time-picker>
+                <el-time-picker
+                  arrow-control
+                  v-model="friendAutoPass.endTime"
+                  :picker-options="{
+                              selectableRange: '18:30:00 - 20:30:00'
+                            }"
+                  placeholder="任意时间点">
+                </el-time-picker>
               </el-form-grid>
             </el-form-item>
             <el-form-item>
@@ -122,6 +136,7 @@ import index from './src/List'
 Edit.components = {
   index
 }
+
 export default Edit
 </script>
 <style scoped>

@@ -18,5 +18,10 @@ export default {
   save: {
     url: '/Guide/PersonalQrcode/save',
     method: 'post'
+  },
+  // 获取员工部门
+  getDepartment: {
+    url: '/Guide/PersonalQrcode/getDepartment',
+    method: 'post'
   }
 }

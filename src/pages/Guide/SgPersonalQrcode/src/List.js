@@ -647,7 +647,8 @@ export default {
       this.row = row
       if (row) {
         this.row = row
-        this.personalQrcodeLink = row.guid
+        var hostUrl = window.location.protocol + '//' + window.location.host
+        this.personalQrcodeLink = hostUrl + '/mobile/aggregationCode.html?guid=' + row.guid + '&groupId=' + row.groupid
         this.onShowId = row.id
         if (row.bgimg === '' || row.bgimg === null) {
           this.bgpic = bgimg

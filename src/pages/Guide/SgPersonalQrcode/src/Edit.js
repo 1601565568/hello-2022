@@ -6,51 +6,18 @@ export default {
   data: function () {
     let that = this
     return {
-      dialogVisible: false, // 选择好友弹窗是否展示
-      // 树数据
-      treeData: [{
-        id: 1,
-        label: '售后服务部',
-        children: [{
-          id: 123458,
-          label: '服务部1',
-          children: [{
-            id: 856,
-            label: '员工1'
-          }, {
-            id: 10,
-            label: '员工2'
-          }]
-        }]
-      }, {
-        id: 2,
-        label: '设计部',
-        children: [{
-          id: 886,
-          label: '设计部1'
-        }, {
-          id: 6,
-          label: '设计部2'
-        }]
-      }, {
-        id: 3,
-        label: '财务部',
-        children: [{
-          id: 7,
-          label: '财务部1'
-        }, {
-          id: 8,
-          label: '财务部2'
-        }]
-      }],
-      chooseTreeData: [],
-      // 树默认绑定数据
-      defaultProps: {
+      // 弹框是否打开判断值
+      dialogVisible: false,
+      // 左边输入框绑定值
+      input: '',
+      // 左边树数据
+      leftTreeData: null,
+      // 左边树默认绑定数据
+      leftDefaultProps: {
         children: 'children',
         label: 'label'
       },
-      // 左边输入框绑定值
-      input: '',
+      choosePerson: null,
       personalQrcode: {
         id: null,
         guid: null,
@@ -122,6 +89,33 @@ export default {
       })
     },
     onConfirm () { // 选择员工弹唱确认
+    },
+    choosePersonnel () { // 选择员工
+      let _this = this
+      _this.dialogVisible = true
+      _this.$http.fetch(_this.$api.guide.personalQrcode.getDepartment).then(resp => {
+        if (resp.success && resp.result != null) {
+          _this.leftTreeData = JSON.parse(resp.result)
+          _this.choosePerson = [5, 6, 7, 8]
+        } else {
+          _this.$notify.error(getErrorMsg('获取员工数据失败', resp))
+        }
+      }).catch((resp) => {
+        _this.$notify.error(getErrorMsg('获取员工数据失败', resp))
+      })
+    },
+    handleCheckChange () {
+      let _this = this
+      debugger
+      let res = this.$refs.tree.getCheckedNodes()
+      let arr = []
+      res.forEach((item) => {
+        if (item.id) {
+          arr.push(item.id)
+        }
+      })
+      _this.choosePerson = arr
+      console.log(_this.choosePerson)
     }
   }
 }
