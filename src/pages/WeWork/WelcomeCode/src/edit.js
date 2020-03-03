@@ -27,7 +27,7 @@ export default {
       visible: false,
       custom: 1, // 默认自定义
       settingId: null, // 预置配置ID
-      link: '', // 链接
+      link: 'test', // 链接
       title: '',
       innerContent: '', // 文案
       image: ''
