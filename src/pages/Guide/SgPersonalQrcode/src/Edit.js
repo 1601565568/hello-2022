@@ -106,7 +106,6 @@ export default {
     },
     handleCheckChange () {
       let _this = this
-      debugger
       let res = this.$refs.tree.getCheckedNodes()
       let arr = []
       res.forEach((item) => {
