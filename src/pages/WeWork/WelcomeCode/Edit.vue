@@ -3,7 +3,7 @@
  * @Author: yuye.huang
  * @Date: 2020-03-01 19:58:47
  * @LastEditors: yuye.huang
- * @LastEditTime: 2020-03-03 21:22:54
+ * @LastEditTime: 2020-03-04 00:27:02
  -->
 <template>
   <div>
@@ -35,6 +35,14 @@
                     <!-- autofocus="true" -->
                   </el-form-grid>
                 </div>
+              </el-form-item>
+              <el-form-item>
+                <ElFormGrid>
+                  <ns-button type="text" @click="insertPlaceHolder('{employeeNick}')"> +插入好友微信昵称 </ns-button>
+                </ElFormGrid>
+                <ElFormGrid>
+                  <ns-button type="text" @click="insertPlaceHolder('{customerNick}')"> +插入员工微信昵称 </ns-button>
+                </ElFormGrid>
               </el-form-item>
               <!-- 插入 <好友微信昵称><员工微信昵称> -->
               <ElFormItem label="选择附件：">
@@ -79,8 +87,8 @@
                 <ElFormGrid>
                   <ns-button type="text" @click="showChannel()">+选择渠道</ns-button>
                 </ElFormGrid>
-                <ElFormGrid>
-                  已选择10个渠道
+                <ElFormGrid v-if="this.model.channelId">
+                  已选择渠道
                 </ElFormGrid>
               </el-form-item>
               <el-form-item>
@@ -126,7 +134,7 @@
                 </div>
               </div>
               <!--图片开始-->
-              <div class="welcome-msg clearfix" v-if="showChoice === 1">
+              <div class="welcome-msg clearfix" v-if="model.annexType === 1">
                 <div class="welcome-msg__avatar">
                   <el-image
                     :width='98'
@@ -150,7 +158,7 @@
               </div>
               <!--图片 结束-->
               <!--网页 开始-->
-              <div class="welcome-msg clearfix" v-else-if="showChoice === 2">
+              <div class="welcome-msg clearfix" v-else-if="model.annexType === 2">
                 <div class="welcome-msg__avatar">
                   <el-image
                         :width='98'
@@ -179,7 +187,7 @@
               </div>
               <!--网页 结束-->
               <!--小程序 开始-->
-              <div class="welcome-msg clearfix" v-else-if="showChoice === 3">
+              <div class="welcome-msg clearfix" v-else-if="model.annexType === 3">
                 <div class="welcome-msg__avatar">
                   <el-image
                     :width='98'
@@ -270,7 +278,7 @@
                 class="avatar-uploader"
                 :action="$api.core.sgUploadFile('test')"
                 accept=".jpg,.jpeg,.png,.bmp,.gif"
-                :on-success="handleAvatarSuccess" :show-file-list="false" >
+                :on-success="handleLinkAvatarSuccess" :show-file-list="false" >
                 <img v-if="linkModel.image" :src="linkModel.image" class="company-upload__avatar">
                 <Icon  v-else type="plus" className="company-upload__tip"/>
               </el-upload>
@@ -278,7 +286,7 @@
           </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <ns-button @click="onCloseAnnex(2)">取消</ns-button>
+        <ns-button @click="onCloseAnnex(2),onCloseHandleModel(2)">取消</ns-button>
         <ns-button @click="onSubmitAnnex(2)" type="primary">确定</ns-button>
       </div>
     </el-dialog>
@@ -341,15 +349,15 @@
                 class="avatar-uploader"
                 :action="$api.core.sgUploadFile('test')"
                 accept=".jpg,.jpeg,.png,.bmp,.gif"
-                :on-success="handleAvatarSuccess" :show-file-list="false" >
-                <img v-if="linkModel.image" :src="linkModel.image" class="company-upload__avatar">
+                :on-success="handleAppAvatarSuccess" :show-file-list="false" >
+                <img v-if="appModel.image" :src="appModel.image" class="company-upload__avatar">
                 <Icon  v-else type="plus" className="company-upload__tip"/>
               </el-upload>
             </el-form-grid>
           </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <ns-button @click="onCloseAnnex(3)">取消</ns-button>
+        <ns-button @click="onCloseAnnex(3),onCloseHandleModel(3)">取消</ns-button>
         <ns-button @click="onSubmitAnnex(3)" type="primary">确定</ns-button>
       </div>
     </el-dialog>

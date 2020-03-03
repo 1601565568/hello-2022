@@ -27,7 +27,7 @@ export default {
       visible: false,
       custom: 1, // 默认自定义
       settingId: null, // 预置配置ID
-      link: 'test', // 链接
+      link: '', // 链接
       title: '',
       innerContent: '', // 文案
       image: ''
@@ -82,15 +82,54 @@ export default {
   },
   methods: {
     /**
+     * @msg: 插入占位符
+     * @param {String} 占位符类型
+     */
+    insertPlaceHolder (append) {
+      this.model.content = this.model.content + appender
+    },
+    /**
      * @msg: 选择附件内容
      * @param {Number} 2链接 3小程序
      */
     showAnnex (type) {
+      let that = this
       // 链接
       if (type === 2) {
         this.linkModel.visible = true
       } else if (type === 3) {
         this.appModel.visible = true
+      }
+      // 数据预处理
+      if (type === 1 && this.model.annexType === 1) {
+        that.imageModel = {
+          visible: that.imageModel.visible,
+          image: that.model.image
+        }
+      } else if (type === 2 && this.model.annexType === 2) {
+        // 网页链接配置model
+        that.linkModel = {
+          visible: that.linkModel.visible,
+          custom: that.model.custom, // 默认自定义
+          settingId: that.model.settingId, // 预置配置ID
+          link: that.model.link, // 链接
+          title: that.model.title,
+          innerContent: that.model.innerContent, // 文案
+          image: that.model.image
+        }
+      } else if (type === 3 && this.model.annexType === 3) {
+        // 小程序实体model
+        that.appModel = {
+          visible: that.appModel.visible,
+          custom: that.model.custom, // 默认自定义
+          settingId: that.model.settingId, // 预置配置ID
+          appid: that.model.appid, // 小程序appid
+          path: that.model.path, // 小程序路径
+          link: that.model.link, // 备用网页
+          title: that.model.title, // 标题
+          innerContent: that.model.innerContent, // 文案
+          image: that.model.image // 封面
+        }
       }
     },
     /**
@@ -104,17 +143,40 @@ export default {
       } else if (type === 3) {
         this.appModel.visible = false
       }
-      this.onBeforeClose(type)
     },
     /**
-     * @msg: 重置表单
+     * @msg: 切换附件类型，但是没有提交，则关闭弹框后重置数据
      * @param {Number} 2链接 3小程序
      */
-    onBeforeClose (type) {
-      // 链接
-      if (type === 2) {
+    onCloseHandleModel (type) {
+      let that = this
+      // 重置
+      if (type === 1 && this.model.annexType !== 1) {
+        this.imageModel.image = ''
+      }
+      if (type === 2 && this.model.annexType !== 2) {
         this.$refs['linkForm'].resetFields()
-      } else if (type === 3) {
+      }
+      if (type === 3 && this.model.annexType !== 3) {
+        this.$refs['appForm'].resetFields()
+      }
+    },
+    /**
+     * @msg: 确认切换附件类型且已提交，则重置旧类型的表单数据
+     * @param {Number} 2链接 3小程序
+     */
+    onSubmitHandleModel (type) {
+      let that = this
+      // 从图片切换成其他
+      if (this.model.annexType === 1 && type !== 1) {
+        this.imageModel.image = ''
+      }
+      if (this.model.annexType === 2 && type !== 2) {
+        // 从网页变成其他，置空
+        this.$refs['linkForm'].resetFields()
+      }
+      if (this.model.annexType === 3 && type !== 3) {
+        // 从小程序变成其他，置空
         this.$refs['appForm'].resetFields()
       }
     },
@@ -124,28 +186,48 @@ export default {
      */
     onSubmitAnnex (type) {
       let that = this
-
       if (type === 2) {
         that.$refs.linkForm.validate(valid => {
           if (!valid) {
             return
           }
-          // 修改附件类型
-          that.model.annexType = type
-          that.model = Object.assign({}, that.model, {}, that.linkModel)
           // 关闭
           that.onCloseAnnex(type)
+          // 数据处理
+          // 链接实体model
+          Object.assign(that.model, {
+            custom: that.linkModel.custom, // 默认自定义
+            settingId: that.linkModel.settingId, // 预置配置ID
+            link: that.linkModel.link, // 小程序appid
+            title: that.linkModel.title, // 标题
+            innerContent: that.linkModel.innerContent, // 文案
+            image: that.linkModel.image // 封面
+          })
+          that.onSubmitHandleModel(type)
+          // 最后修改附件类型
+          that.model.annexType = type
         })
       } else if (type === 3) {
         that.$refs.appForm.validate(valid => {
           if (!valid) {
             return
           }
-          // 修改附件类型
-          that.model.annexType = type
-          that.model = Object.assign({}, that.model, {}, that.appModel)
           // 关闭
           that.onCloseAnnex(type)
+          // 小程序实体model
+          Object.assign(that.model, {
+            custom: that.appModel.custom, // 默认自定义
+            settingId: that.appModel.settingId, // 预置配置ID
+            appid: that.appModel.appid, // 小程序appid
+            path: that.appModel.path, // 小程序路径
+            link: that.appModel.link, // 备用网页
+            title: that.appModel.title, // 标题
+            innerContent: that.appModel.innerContent, // 文案
+            image: that.appModel.image // 封面
+          })
+          that.onSubmitHandleModel(type)
+          // 最后修改附件类型
+          that.model.annexType = type
         })
       }
     },
@@ -161,8 +243,10 @@ export default {
      * @msg: 网页/小程序上传封面图
      * @param {type}
      */
-    handleAvatarSuccess: function (res, file) {
+    handleLinkAvatarSuccess: function (res, file) {
       this.linkModel.image = res.result.url
+    },
+    handleAppAvatarSuccess: function (res, file) {
       this.appModel.image = res.result.url
     },
     beforeAvatarUpload (file) {
@@ -178,26 +262,26 @@ export default {
       return isJPG && isLt2M
     },
     /**
-     * @msg: 关闭附件弹框
-     * @param {Number} 2链接 3小程序
-     */
-    beforeClose (type) {
-      if (type === 2) {
-        this.$refs['linkForm'].resetFields()
-      } else if (type === 3) {
-        this.$refs['appForm'].resetFields()
-      }
-    },
-    /**
-     * @msg: 选择员工
+     * @msg: 选择员工弹框
      */
     showEmployee () {
+      // 预取历史数据
+      this.employeeModel.employeeIds = this.model.employeeIds
       this.employeeModel.visible = true
+    },
+    /**
+     * @msg: 确认选择员工
+     */
+    selectEmployee () {
+      this.employeeModel.visible = true
+      // 预取历史数据
+      this.model.employeeIds = this.employeeModel.employeeIds
     },
     /**
      * @msg: 选择渠道
      */
     showChannel () {
+      // 预取历史数据
       this.channelModel.channelId = this.model.channelId
       this.channelModel.visible = true
     },
@@ -206,6 +290,7 @@ export default {
      */
     selectChannel () {
       this.channelModel.visible = false
+      // 保存选择数据
       this.model.channelId = this.channelModel.channelId
     },
     saveOrUpdate: function () {
