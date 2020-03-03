@@ -1,5 +1,12 @@
+<!--
+ * @Descripttion: 智能欢迎语列表组件
+ * @Author: yuye.huang
+ * @Date: 2020-02-29 20:52:53
+ * @LastEditors: yuye.huang
+ * @LastEditTime: 2020-03-03 14:26:15
+ -->
 <template>
-  <ns-page-table ref='mainTable' :colButton="10">
+  <ns-page-table ref='mainTable'><!-- :colButton="10" -->
 
     <!-- 按钮 -->
     <template slot="buttons">
@@ -10,21 +17,21 @@
     <!-- 简单搜索 -->
     <template slot="searchSearch">
       <el-form
-        :model="quickSearchModel"
         :line="true"
-        @submit.native.prevent
+        :model="quickSearchModel"
         class="pull-right"
       >
-        <el-form-item
-          v-show="_data._queryConfig.expand === false"
-          label="欢迎语内容："
-        >
-          <el-input ref="quickText" style="width: 180px" v-model="model.content" placeholder="请输入欢迎语内容" @keyup.enter.native="$quickSearchAction$('content')" clearable />
-          <ns-button type="primary" @click="$searchAction$()" class="searchbtn">搜索</ns-button>
-          <ns-button @click="$resetInputAction$()" class="resetbtn">重置</ns-button>
+        <el-form-item v-show="_data._queryConfig.expand === false">
+            <el-input ref="quickText"
+            v-model="model.content"
+            placeholder="请输入欢迎语内容"
+            @keyup.enter.native="$quickSearchAction$('content')" clearable />
+            <ns-button type="primary" @click="$searchAction$()" class="searchbtn">搜索</ns-button>
+            <ns-button @click="$resetInputAction$()" class="resetbtn">重置</ns-button>
         </el-form-item>
         <el-form-item>
-          <ns-button type="text" @click="$handleTabClick">
+          <ns-button type="text"
+                    @click.native.prevent="$handleTabClick">
             {{collapseText}}
             <Icon :type="_data._queryConfig.expand ? 'up' : 'down'"/>
           </ns-button>
@@ -42,37 +49,35 @@
         </el-form-item>
       </el-form>
       <div class="template-table__more-btn">
-        <ns-button type="primary" @click="$searchAction$()">搜索</ns-button>
-        <ns-button @click="$resetInputAction$()">重置</ns-button>
+        <ns-button type="primary" @click.native.prevent="$searchAction$()">{{ $t("operating.search") }}</ns-button>
+        <ns-button @click.native.prevent="$resetInputAction$()">{{ $t("operating.reset") }}</ns-button>
       </div>
     </template>
 
     <template slot="table">
-      <el-table ref="table"  :data="_data._table.data" stripe>
+      <el-table ref="table" :data="_data._table.data" stripe  v-loading.lock="_data._table.loadingtable"
+      :element-loading-text="$t('prompt.loading')">
         <el-table-column prop="content" label="欢迎语" align="left">
         </el-table-column>
-        <el-table-column prop="annex_type" label="附带" align="center">
+        <el-table-column prop="annexType" label="附带" align="center">
           <template slot-scope='scope'>
-            {{convertAnnexType(scope.row.annex_type)}}
+            {{convertAnnexType(scope.row.annexType)}}
           </template>
         </el-table-column>
-        <el-table-column prop="update_time" label="更新时间" align="center">
-        </el-table-column>
-        <el-table-column prop="scope" min-width="150" label="
+        <el-table-column prop="scope" min-width="80" label="
         使用范围" align="left" :show-overflow-tooltip="true">
             <template slot-scope="scope">
-              <ns-button style="color:#0091FA" @click="onShowEmployeeScope(scope.row)" v-if="scope.row.employeeCount > 1" type="text">{{scope.row.employeeCount}}名员工</ns-button>
+              <div v-if="scope.row.employeeCount <= 0 && scope.row.channelCount <= 0">-</div>
               <div v-else>
-                {{scope.row.employeeName ? scope.row.employeeName : '-'}}
-              </div>
-              /
-              <ns-button style="color:#0091FA" @click="onShowChannelScope(scope.row)" v-if="scope.row.channelCount > 1" type="text">{{scope.row.channelCount}}个渠道</ns-button>
-              <div v-else>
-                {{scope.row.channelName ? scope.row.channelName : '-'}}
+                <ns-button style="color:#0091FA" @click="onShowEmployeeScope(scope.row)" v-if="scope.row.employeeCount > 0" type="text">{{scope.row.employeeCount}}名员工</ns-button>
+                <span v-if="scope.row.employeeCount > 0 && scope.row.channelCount > 0">,</span>
+                <ns-button v-if="scope.row.channelCount > 0" style="color:#0091FA" @click="onShowChannelScope(scope.row)" type="text">{{scope.row.channelCount}}个渠道</ns-button>
               </div>
             </template>
           </el-table-column>
-        <el-table-column :show-overflow-tooltip="true" label="操作" align="center"
+          <el-table-column prop="updateTime" label="更新时间" align="center">
+          </el-table-column>
+          <el-table-column :show-overflow-tooltip="true" label="操作" align="center"
                            width="160px">
             <template slot-scope="scope">
               <ns-table-column-operate-button :buttons="_data._table.table_buttons" :prop="scope">

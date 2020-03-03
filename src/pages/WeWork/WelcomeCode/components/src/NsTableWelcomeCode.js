@@ -3,7 +3,7 @@
  * @Author: yuye.huang
  * @Date: 2020-03-01 16:34:26
  * @LastEditors: yuye.huang
- * @LastEditTime: 2020-03-01 21:42:40
+ * @LastEditTime: 2020-03-03 12:01:44
  */
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import annexType from '@/config/annexType.js'
@@ -54,12 +54,14 @@ export default {
       quickSearchModel: quickSearchModel,
       _table: {
         table_buttons: tableButtons,
-        operate_buttons: operateButtons
+        operate_buttons: operateButtons,
+        loadingtable: false
       }
     }
   },
   mounted () {
     if (typeof this.$init === 'function') {
+      this.$init()
     } else {
       this.$reload()
     }
@@ -80,12 +82,6 @@ export default {
     onShowChannelScope (data) {
       this.$emit('onShowChannelScope', data)
     },
-    // /**
-    //  * @msg: 新增智能欢迎语
-    //  */
-    // onAddFun () {
-    //   this.$emit('onAddFun')
-    // },
     /**
      * @msg: 删除智能欢迎语
      * @param {type} scope.row

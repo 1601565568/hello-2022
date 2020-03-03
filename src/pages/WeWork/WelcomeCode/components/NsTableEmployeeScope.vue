@@ -3,11 +3,12 @@
  * @Author: yuye.huang
  * @Date: 2020-03-02 09:38:22
  * @LastEditors: yuye.huang
- * @LastEditTime: 2020-03-02 11:30:39
+ * @LastEditTime: 2020-03-03 14:03:58
  -->
 <template>
-  <el-dialog ref="dialog" title="使用员工" :visible.sync="this.model.visible" width="660px" @open="this.$queryList$()">
-    <ns-page-table ref='table' :colButton="10">
+  <!-- <el-dialog ref="dialog" title="使用员工" width="660px"
+    :visible.sync="model.visible" @open="this.$queryList$()"> -->
+    <ns-page-table ref='table' :colButton="10"> <!-- :visible.sync="this.model.visible" -->
       <!-- 简单搜索 -->
       <template slot="searchSearch">
         <el-form
@@ -25,12 +26,22 @@
 
       <!-- 表格 -->
       <template slot="table">
-        <el-table ref="table"  :data="_data._table.data" stripe>
+        <el-table ref="table"  :data="_data._table.data" stripe
+          v-loading.lock="_data._table.loadingtable"
+          :element-loading-text="$t('prompt.loading')">
           <el-table-column prop="employeeName" label="员工姓名" align="left">
           </el-table-column>
-          <el-table-column prop="shopName" label="工作门店" align="left">
+          <el-table-column prop="shopNames" label="工作门店" align="left" :show-overflow-tooltip="true">
           </el-table-column>
-          <el-table-column prop="update_time" label="在职状态" align="center">
+          <el-table-column prop="status" label="在职状态" align="center">
+            <template slot-scope="scope">
+              <div v-if="scope.row.status === 2">
+                <p>已离职</p>
+              </div>
+              <div v-else>
+                <p>在职</p>
+              </div>
+            </template>
           </el-table-column>
         </el-table>
       </template>
@@ -48,12 +59,11 @@
         </el-pagination>
       </template>
     </ns-page-table>
-
-    <div slot="footer"
+    <!-- <div slot="footer"
          class="dialog-footer">
-      <ns-button @click.native.prevent="onCloseDialog">关闭</ns-button>
+      <ns-button @click.native.prevent="alert('ok')">关闭</ns-button>
     </div>
-  </el-dialog>
+  </el-dialog> -->
 </template>
 
 <script>
@@ -61,16 +71,18 @@ import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 
 export default {
   name: 'NsTableEmployeeScope',
-  prop: {
+  props: {
     data: {
       type: Object,
-      default: {
-        visible: false
+      default () {
+        return {
+          visible: false
+        }
       }
     }
   },
   mixins: [tableMixin],
-  data: function () {
+  data () {
     let quickSearchModel = {
       employeeName: ''
     }
@@ -82,7 +94,12 @@ export default {
     }
   },
   mounted () {
-    this.$refs.dialog.open()
+    // 加载列表数据
+    if (typeof this.$init === 'function') {
+      this.$init()
+    } else {
+      this.$reload()
+    }
   },
   methods: {
     /**
@@ -90,12 +107,6 @@ export default {
      */
     open () {
       // this.$queryList$()
-    },
-    /**
-      * @msg: 关闭弹框
-      */
-    onCloseDialog () {
-      this.model.visible = false
     }
   },
   computed: {

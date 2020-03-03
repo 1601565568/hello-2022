@@ -3,7 +3,7 @@
  * @Author: yuye.huang
  * @Date: 2020-02-28 17:30:52
  * @LastEditors: yuye.huang
- * @LastEditTime: 2020-03-01 21:43:27
+ * @LastEditTime: 2020-03-03 14:54:56
  */
 export default {
   /**
@@ -18,6 +18,20 @@ export default {
    */
   findWelcomeCodeEmployeeList: {
     url: '/wework/welcomecode/findWelcomeCodeEmployeeList',
+    method: 'post'
+  },
+  /**
+   * @msg: 查询智能欢迎语使用渠道列表
+   */
+  findWelcomeCodeChannelList: {
+    url: '/wework/welcomecode/findWelcomeCodeChannelList',
+    method: 'post'
+  },
+  /**
+   * @msg: 查询智能欢迎语详情
+   */
+  getWelcomeCode: {
+    url: '/wework/welcomecode/getWelcomeCode',
     method: 'post'
   },
   /**
