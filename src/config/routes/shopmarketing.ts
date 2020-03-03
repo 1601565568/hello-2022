@@ -87,6 +87,12 @@ export default {
           'name': 'chanel',
           'title': '渠道管理',
           'component': () => import('@/pages/Guide/chanel/chanel.vue')
+        },
+        {
+          'path': '/Guide/speech/speechList',
+          'name': 'speechList',
+          'title': '欢迎语',
+          'component': () => import('@/pages/Guide/speech/speechList.vue')
         }
       ]
     }
