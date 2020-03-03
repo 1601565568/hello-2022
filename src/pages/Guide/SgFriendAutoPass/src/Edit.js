@@ -25,6 +25,7 @@ export default {
       },
       isShowWxAccount: true,
       ids: null,
+      timeValue: [new Date(2016, 9, 10, 8, 40), new Date(2016, 9, 10, 9, 40)],
       names: null,
       title: '好友自动通过编辑',
       parameter: {
@@ -83,7 +84,8 @@ export default {
       let that = this
       that.$http.fetch(that.$api.guide.autoPass.update, {
         sgFriendAutoPass: model,
-        ids: this.ids
+        ids: this.ids,
+        timeValue: this.timeValue
       }).then(() => {
         that.$notify.success('保存成功')
       }).catch((resp) => {

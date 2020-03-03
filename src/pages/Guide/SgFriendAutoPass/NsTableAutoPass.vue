@@ -54,8 +54,8 @@
           <el-form-item label="自动通过：">
             <el-form-grid>
               <el-select placeholder="全部" v-model="model.isOpen" clearable @clear="setJobNull">
-                <el-option label="开启" :value="1"></el-option>
-                <el-option label="关闭" :value="0"></el-option>
+                <el-option label="开启" :value="2"></el-option>
+                <el-option label="关闭" :value="1"></el-option>
               </el-select>
             </el-form-grid>
           </el-form-item>
