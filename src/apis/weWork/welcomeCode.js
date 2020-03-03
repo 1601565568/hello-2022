@@ -3,7 +3,7 @@
  * @Author: yuye.huang
  * @Date: 2020-02-28 17:30:52
  * @LastEditors: yuye.huang
- * @LastEditTime: 2020-03-03 14:54:56
+ * @LastEditTime: 2020-03-03 18:39:01
  */
 export default {
   /**
@@ -25,6 +25,13 @@ export default {
    */
   findWelcomeCodeChannelList: {
     url: '/wework/welcomecode/findWelcomeCodeChannelList',
+    method: 'post'
+  },
+  /**
+   * @msg: 查询渠道列表
+   */
+  findChannelList: {
+    url: '/wework/welcomecode/findChannelList',
     method: 'post'
   },
   /**

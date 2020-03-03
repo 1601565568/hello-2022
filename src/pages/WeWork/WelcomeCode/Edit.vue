@@ -3,13 +3,13 @@
  * @Author: yuye.huang
  * @Date: 2020-03-01 19:58:47
  * @LastEditors: yuye.huang
- * @LastEditTime: 2020-03-03 14:56:58
+ * @LastEditTime: 2020-03-03 21:22:54
  -->
 <template>
   <div>
-    <div class="page-title">
-      新建智能欢迎语
-    </div>
+    <!-- <div class="page-title">
+      编辑智能欢迎语
+    </div> -->
     <el-scrollbar ref="fullScreen">
       <div class="message-container">
         <el-container class="welcome-message__content">
@@ -40,19 +40,28 @@
               <ElFormItem label="选择附件：">
                 <div class='welcome-aside__upload'>
                 <!-- <ElFormGrid>
-                  <ns-button type="text">+添加图片/网页/小程序</ns-button>
+                  <ns-button type="text">+添加
+                    图片/网页/小程序</ns-button>
                 </ElFormGrid> -->
-                  <span class="welcome-square hand">
+                  <el-upload
+                    class="avatar-uploader"
+                    :action="$api.core.sgUploadFile('image')"
+                    accept=".jpg,.jpeg,.png,.bmp,.gif"
+                    :on-success="handleAnnexAvatarSuccess" :show-file-list="false" >
+                    <Icon type="plus" className="company-upload__tip"/>
+                    <!-- <Icon type="picture" className="welcome-square__icon welcome-square__tupian" /> -->
+                  </el-upload>
+                  <span class="welcome-square hand" :class="[model.annexType === 1?'welcome-square__active':'']">
                     <Icon type="picture" className="welcome-square__icon welcome-square__tupian" />
                     图片
                   </span>
                   <span class="welcome-or">或</span>
-                  <span class="welcome-square hand">
+                  <span class="welcome-square hand" :class="[model.annexType === 2?'welcome-square__active':'']" @click="showAnnex(2)">
                     <Icon type="wangye" className="welcome-square__icon welcome-square__wangye" />
                     网页
                   </span>
                   <span class="welcome-or">或</span>
-                  <span class="welcome-square hand">
+                  <span class="welcome-square hand" :class="[model.annexType === 3?'welcome-square__active':'']" @click="showAnnex(3)">
                     <Icon type="xiaochengxu" className="welcome-square__icon welcome-square__xiaochengxu" />
                     小程序
                   </span>
@@ -60,7 +69,7 @@
               </ElFormItem>
               <ElFormItem label="使用范围：">
                 <ElFormGrid>
-                  <ns-button type="text">+选择员工</ns-button>
+                  <ns-button type="text" @click="showEmployee()">+选择员工</ns-button>
                 </ElFormGrid>
                 <ElFormGrid>
                   已选择10名员工
@@ -68,7 +77,7 @@
               </ElFormItem>
               <el-form-item>
                 <ElFormGrid>
-                  <ns-button type="text">+选择渠道</ns-button>
+                  <ns-button type="text" @click="showChannel()">+选择渠道</ns-button>
                 </ElFormGrid>
                 <ElFormGrid>
                   已选择10个渠道
@@ -76,7 +85,7 @@
               </el-form-item>
               <el-form-item>
                 <div class="form-save__unique">
-                  <ns-save></ns-save>
+                  <ns-save @click="saveOrUpdate"></ns-save>
                 </div>
               </el-form-item>
             </el-form>
@@ -216,87 +225,161 @@
         </el-container>
       </div>
     </el-scrollbar>
+    <!-- 网页 -->
+    <el-dialog ref="linkDialog" width="500px" :visible.sync="linkModel.visible" title="链接">
+      <el-form ref="linkForm"
+        label-width="100px"
+        placement="right"
+        :model="linkModel">
+          <el-form-item label="跳转链接：">
+          </el-form-item>
+          <el-form-item label="链接：" prop="custom">
+            <el-radio v-model="linkModel.custom" :label="1" size="xxs">自定义链接 </el-radio>
+            <el-radio v-model="linkModel.custom" :label="2" size="xxs">系统预置链接 </el-radio>
+          </el-form-item>
+          <el-form-item v-if="linkModel.custom === 1" label="网页地址：" prop="link" :rules='commonRules.link'>
+            <el-form-grid size="xmd">
+              <el-input v-model.trim="linkModel.link"/>
+            </el-form-grid>
+          </el-form-item>
+          <el-form-item v-if="linkModel.custom === 2" label="选择链接：" prop="link" :rules='commonRules.selectOne'>
+            <el-select v-model="linkModel.settingId"  placeholder="请选择">
+              <el-option
+                v-for="item in options"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="消息展示内容：">
+          </el-form-item>
+          <el-form-item label="标题：" prop="title" :rules='commonRules.title'>
+            <el-form-grid size="xmd">
+              <el-input v-model.trim="linkModel.title"/>
+            </el-form-grid>
+          </el-form-item>
+          <el-form-item label="文案：" prop="innerContent" :rules='commonRules.innerContent'>
+            <el-form-grid size="xmd">
+              <el-input v-model.trim="linkModel.innerContent"/>
+            </el-form-grid>
+          </el-form-item>
+          <el-form-item label="封面图：" prop="image">
+            <el-form-grid class="company-upload">
+              <el-upload
+                class="avatar-uploader"
+                :action="$api.core.sgUploadFile('test')"
+                accept=".jpg,.jpeg,.png,.bmp,.gif"
+                :on-success="handleAvatarSuccess" :show-file-list="false" >
+                <img v-if="linkModel.image" :src="linkModel.image" class="company-upload__avatar">
+                <Icon  v-else type="plus" className="company-upload__tip"/>
+              </el-upload>
+            </el-form-grid>
+          </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <ns-button @click="onCloseAnnex(2)">取消</ns-button>
+        <ns-button @click="onSubmitAnnex(2)" type="primary">确定</ns-button>
+      </div>
+    </el-dialog>
+    <!-- 小程序 -->
+     <el-dialog ref="appDialog" width="500px" :visible.sync="appModel.visible" title="链接">
+      <el-form ref="appForm"
+        label-width="100px"
+        placement="right"
+        :model="appModel">
+          <el-form-item label="跳转链接：">
+          </el-form-item>
+          <el-form-item prop="custom">
+            <el-radio v-model="appModel.custom" :label="1" size="xxs">手动录入小程序 </el-radio>
+            <el-radio v-model="appModel.custom" :label="2" size="xxs">系统预置小程序 </el-radio>
+          </el-form-item>
+          <template v-if="appModel.custom === 1">
+            <el-form-item label="小程序appid：" prop="appid" :rules='commonRules.appid'>
+              <el-form-grid size="xmd">
+                <el-input v-model.trim="appModel.appid"/>
+              </el-form-grid>
+            </el-form-item>
+            <el-form-item label="小程序路径：" prop="path" :rules='commonRules.path'>
+              <el-form-grid size="xmd">
+                <el-input v-model.trim="appModel.path"/>
+              </el-form-grid>
+            </el-form-item>
+            <el-form-item label="备用网页：" prop="link" :rules='commonRules.link'>
+              <el-form-grid size="xmd">
+                <el-input v-model.trim="appModel.link"/>
+              </el-form-grid>
+            </el-form-item>
+          </template>
+          <template>
+            <el-form-item v-if="appModel.custom === 2" label="选择链接：" prop="link" :rules='commonRules.selectOne'>
+              <el-select v-model="appModel.settingId"  placeholder="请选择">
+                <el-option
+                  v-for="item in options"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value">
+                </el-option>
+              </el-select>
+            </el-form-item>
+          </template>
+          <el-form-item label="小程序卡片展示：">
+          </el-form-item>
+          <el-form-item label="标题：" prop="title" :rules='commonRules.title'>
+            <el-form-grid size="xmd">
+              <el-input v-model.trim="appModel.title"/>
+            </el-form-grid>
+          </el-form-item>
+          <el-form-item label="文案：" prop="innerContent" :rules='commonRules.innerContent'>
+            <el-form-grid size="xmd">
+              <el-input v-model.trim="appModel.innerContent"/>
+            </el-form-grid>
+          </el-form-item>
+          <el-form-item label="封面图：" prop="image">
+            <el-form-grid class="company-upload">
+              <el-upload
+                class="avatar-uploader"
+                :action="$api.core.sgUploadFile('test')"
+                accept=".jpg,.jpeg,.png,.bmp,.gif"
+                :on-success="handleAvatarSuccess" :show-file-list="false" >
+                <img v-if="linkModel.image" :src="linkModel.image" class="company-upload__avatar">
+                <Icon  v-else type="plus" className="company-upload__tip"/>
+              </el-upload>
+            </el-form-grid>
+          </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <ns-button @click="onCloseAnnex(3)">取消</ns-button>
+        <ns-button @click="onSubmitAnnex(3)" type="primary">确定</ns-button>
+      </div>
+    </el-dialog>
+    <!-- 渠道弹框 -->
+    <el-dialog ref="channelDialog" width="320px" :visible.sync="channelModel.visible" title="选择渠道">
+        <el-form ref="channelForm"
+          label-width="100px"
+          placement="right">
+          <el-select v-model="channelModel.channelId" placeholder="请选择">
+              <el-option
+                v-for="item in channelList"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
+        </el-form>
+        <div slot="footer" class="dialog-footer">
+          <ns-button @click="channelModel.visible = false">取消</ns-button>
+          <ns-button @click="selectChannel" type="primary">确定</ns-button>
+        </div>
+    </el-dialog>
   </div>
 </template>
 
 <script>
-import commonRules from './src/commonRules.js'
-import ElMain from '@nascent/nui/lib/main'
-import ElCard from '@nascent/nui/lib/card'
-import ElContainer from '@nascent/nui/lib/container'
-import ElAside from '@nascent/nui/lib/aside'
-import ElImage from '@nascent/nui/lib/image'
-import scrollHeight from '@nascent/ecrp-ecrm/src/mixins/scrollHeight'
-
-export default {
-  name: '',
-  mixins: [scrollHeight],
-  components: {
-    ElContainer,
-    ElMain,
-    ElAside,
-    ElImage
-  },
-  data: function () {
-    return {
-      showChoice: 2,
-      commonRules: commonRules,
-      model: {
-        content: ''
-      },
-      title: '新增智能欢迎语'
-    }
-  },
-  mounted: function () {
-    this.$init({ uuid: this.$route.query.welcomeCodeUuid })
-  },
-  methods: {
-    onSave: function () {
-      let that = this
-      let param = {
-        content: that.model.content
-      }
-      that.$refs.form.validate(valid => {
-        if (!valid) {
-          return
-        }
-        that.$http
-          .fetch(that.$api.weWork.welcomeCode.saveWelcomeCode, param)
-          .then(resp => {
-            // 1、先触发表格数据更新
-            // this.$emit('change')
-            // 2、关闭弹框
-            // that.onCloseDialog()
-            // 3、提示
-            that.$notify.success('新增成功')
-            that.$router.push({ path: '/WeWork/WelcomeCode/WelcomeList' })
-          })
-          .catch(resp => {
-            that.$notify.error(resp.msg)
-          })
-          .finally(() => { })
-      })
-    },
-    /**
-     * @msg: 页面初始化时的数据加载函数
-     */
-    $init (data) {
-      // 页面初始化时，加载页面数据
-      let that = this
-      if (data.uuid) {
-        that.$http
-          .fetch(that.$api.weWork.welcomeCode.getWelcomeCode, {
-            uuid: data.uuid
-          }).then(resp => {
-            that.model = resp.result
-          }).catch(resp => {
-            that.$notify.error(resp.msg)
-          })
-      }
-    }
-  }
-}
+import Edit from './src/edit.js'
+export default Edit
 </script>
+
 <style scoped>
   @import "@theme/variables.pcss";
 
@@ -340,11 +423,16 @@ export default {
       border: 1px solid var(--theme-base-border-color-primary);
       border-radius: var(--default-radius-mini);
       &:hover {
-        color: var(--theme-color-primary);
+        color: vavr(--theme-color-primary);
         background: var(--welcome-background-color-blue);
         .welcome-square__icon {
           color: var(--theme-color-primary);
         }
+      }
+      @e active {
+        color: vavr(--theme-color-primary);
+        background: var(--welcome-background-color-blue);
+        color: var(--theme-color-primary);
       }
       @e icon {
         color: var(--theme-font-color-secondary);
