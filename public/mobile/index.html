@@ -31,8 +31,9 @@
             groupId: getPar('groupId'),
             guideUserId: getPar('guideUserId'), // 企微方案 传导购在企业微信的UserId
             guideWechatNo: getPar('guideWechatNo'), // 个号方案 传导购的微信号
-            source: getPar('source'), // 公众号招募：1 企微招募：2 个号招募：3
-            platform: '1'
+            source: getPar('scanSource'), // 0 导购招募；1 门店招募
+            scanSource: getPar('source'), // 公众号招募=1 企微招募=2 个号招募=3
+            platform: '1' // 授权方式 1：H5授权
         }).then(function (result) {
             if (result.success) {
               recruitEntity = {
@@ -42,7 +43,8 @@
                 guideUserId: getPar('guideUserId'),
                 wechatNo:getPar('wechatNo'),
                 guideWechatNo:getPar('guideWechatNo'),
-                source:getPar('source'),
+                scanSource:getPar('source'),
+                source:getPar('scanSource'),
               }
               localStorage.setItem('recruitInfo', JSON.stringify(recruitEntity))
               // 跳转授权页进行授权,获取南讯指纹
