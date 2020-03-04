@@ -53,12 +53,12 @@
                  个人号自动通过好友请求时是否需要好友验证
               </span>
             </el-form-item>
-            <el-form-item label="验证信息关键字：" required>
+            <el-form-item label="验证信息关键字：" v-if="friendAutoPass.isvalidate == 2" required>
               <el-form-grid>
                 <el-input   style="width:400px;" maxlength="50" type="textarea" autofocus=true v-model="friendAutoPass.validatemsg" placeholder="请输入验证信息关键字，关键字之间用英文逗号割开，最多输入50个关键字" clearable></el-input>
               </el-form-grid>
             </el-form-item>
-            <el-form-item label="关键字匹配方式：" required>
+            <el-form-item label="关键字匹配方式：" v-if="friendAutoPass.isvalidate == 2" required>
               <el-form-grid size="xxmd">
                 <el-form-item prop="sex">
                   <el-radio-group v-model="friendAutoPass.matchmode">
@@ -80,7 +80,14 @@
             </el-form-item>
             <el-form-item label="自动通过时间：" required>
               <el-form-grid>
-                <el-input  autofocus=true v-model="friendAutoPass.beginTime" placeholder="" clearable></el-input>
+                <el-time-picker
+                  is-range
+                  v-model="timeValue"
+                  range-separator="至"
+                  start-placeholder="开始时间"
+                  end-placeholder="结束时间"
+                  placeholder="选择时间范围">
+                </el-time-picker>
               </el-form-grid>
             </el-form-item>
             <el-form-item>
@@ -122,6 +129,7 @@ import index from './src/List'
 Edit.components = {
   index
 }
+
 export default Edit
 </script>
 <style scoped>

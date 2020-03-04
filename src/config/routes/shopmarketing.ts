@@ -100,6 +100,12 @@ export default {
           'title': '编辑智能欢迎语(企微)',
           'component': () => import('@/pages/WeWork/WelcomeCode/Edit.vue')
         }
+        {
+          'path': '/Guide/speech/speechList',
+          'name': 'speechList',
+          'title': '欢迎语',
+          'component': () => import('@/pages/Guide/speech/speechList.vue')
+        }
       ]
     }
   ]

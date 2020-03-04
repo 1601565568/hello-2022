@@ -16,7 +16,7 @@
             </el-form-item>
             <el-form-item label="子码设置：" required>
               <el-form-grid>
-                <ns-button type='text' @click="dialogVisible = true">+选择员工</ns-button>
+                <ns-button type='text' @click="choosePersonnel()">+选择员工</ns-button>
               </el-form-grid>
             </el-form-item>
             <el-form-item label="子码展示方式：" required>
@@ -45,56 +45,35 @@
       :visible.sync="dialogVisible"
       :show-scroll-x=false>
       <ElRow :gutter="10" class="code-container">
-        <ElCol :span="12">
+        <ElCol :span="12" class="code-container__item">
           <div class="code-title">可选员工</div>
           <ElInput
             placeholder="请输入员工姓名"
             suffix-icon="el-icon-search"
             v-model="input" class="code-space">
           </ElInput>
-          <div class="text-primary code-space">全部 /666</div>
-          <ElTree
-            :data="treeData"
-            show-checkbox
-            node-key="id"
-            :default-expanded-keys="[1, 2]"
-            :default-checked-keys="[5,8,10,123458]"
-            :props="defaultProps"
-            class="code-space">
+          <div class="text-primary code-space">全部</div>
+          <ElScrollbar>
+            <ElTree
+              ref="tree"
+              :data="leftTreeData"
+              show-checkbox
+              node-key="id"
+              :default-expanded-keys="[1, 2]"
+              :default-checked-keys="choosePerson"
+              :props="leftDefaultProps"
+              @check-change="handleCheckChange" class="code-space">
             <span class="code-detail clearfix" slot-scope="{ node, data }">
               <span class="code-detail__text">{{ node.label }}</span>
               <span>{{ data.children ? '/' + data.children.length : '' }}</span>
             </span>
-          </ElTree>
-        </ElCol>
-        <ElCol :span="12">
-          <div class="code-title">已选员工</div>
-          <div class="text-primary code-space">全部 /666</div>
-          <ElTree
-            :data="chooseTreeData"
-            show-checkbox
-            node-key="id"
-            :default-expanded-keys="[1, 2]"
-            :default-checked-keys="[3]"
-            :expand-on-click-node="false" class="code-space">
-            <span class="code-detail clearfix" slot-scope="{ node, data }">
-              <span class="code-detail__text">{{ node.label }}</span>
-              <span>{{ data.children ? '/' + data.children.length : '' }}</span>
-              <span>
-                <ns-button
-                  type="text"
-                  size="mini"
-                  @click="() => remove(node, data)">
-                  <Icon type="delete" className="code-delete"/>
-                </ns-button>
-              </span>
-            </span>
-          </ElTree>
+            </ElTree>
+          </ElScrollbar>
         </ElCol>
       </ElRow>
       <template slot="footer">
         <ns-button @click="dialogVisible = false">取消</ns-button>
-        <ns-button type="primary" @click="onConfirm()">确定</ns-button>
+        <ns-save />
       </template>
     </ElDialog>
     <!--选择好友弹窗结束-->

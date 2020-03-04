@@ -14,7 +14,7 @@
       <!-- el-inpu 需添加  @keyup.enter.native="$quickSearchAction$" 配置，实现回车搜索 -->
       <template slot="searchSearch">
         <el-form :model="quickSearchModel" :inline="true" @submit.native.prevent class="pull-right">
-          <el-form-item label="员工：">
+          <el-form-item label="员工：" v-if="!_data._queryConfig.expand">
             <el-form-grid size="xmd">
               <el-input  autofocus=true v-model="model.name" placeholder="" clearable></el-input>
             </el-form-grid>
@@ -54,8 +54,8 @@
           <el-form-item label="自动通过：">
             <el-form-grid>
               <el-select placeholder="全部" v-model="model.isOpen" clearable @clear="setJobNull">
-                <el-option label="开启" :value="1"></el-option>
-                <el-option label="关闭" :value="0"></el-option>
+                <el-option label="开启" :value="2"></el-option>
+                <el-option label="关闭" :value="1"></el-option>
               </el-select>
             </el-form-grid>
           </el-form-item>

@@ -13,6 +13,10 @@ html,body {
   background: url("../img/expression/bgimage.png") 0 0 no-repeat;
   background-size: 100% auto;
 }
+.noneBody {
+  display: none;
+  padding-top: 66px;
+}
 .code__outer {
   text-align: center;
   line-height: 370px;
