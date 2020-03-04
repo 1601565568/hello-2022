@@ -3,7 +3,7 @@
  * @Author: yuye.huang
  * @Date: 2020-03-01 19:58:47
  * @LastEditors: yuye.huang
- * @LastEditTime: 2020-03-04 00:27:02
+ * @LastEditTime: 2020-03-04 11:48:32
  -->
 <template>
   <div>
@@ -51,17 +51,15 @@
                   <ns-button type="text">+添加
                     图片/网页/小程序</ns-button>
                 </ElFormGrid> -->
-                  <el-upload
-                    class="avatar-uploader"
-                    :action="$api.core.sgUploadFile('image')"
-                    accept=".jpg,.jpeg,.png,.bmp,.gif"
-                    :on-success="handleAnnexAvatarSuccess" :show-file-list="false" >
-                    <Icon type="plus" className="company-upload__tip"/>
-                    <!-- <Icon type="picture" className="welcome-square__icon welcome-square__tupian" /> -->
-                  </el-upload>
                   <span class="welcome-square hand" :class="[model.annexType === 1?'welcome-square__active':'']">
-                    <Icon type="picture" className="welcome-square__icon welcome-square__tupian" />
-                    图片
+                    <el-upload
+                      class="avatar-uploader"
+                      :action="$api.core.sgUploadFile('image')"
+                      accept=".jpg,.jpeg,.png,.bmp,.gif"
+                      :on-success="handleAnnexAvatarSuccess" :show-file-list="false" >
+                      <Icon type="picture" className="welcome-square__icon welcome-square__tupian" />
+                        图片
+                    </el-upload>
                   </span>
                   <span class="welcome-or">或</span>
                   <span class="welcome-square hand" :class="[model.annexType === 2?'welcome-square__active':'']" @click="showAnnex(2)">
@@ -79,8 +77,8 @@
                 <ElFormGrid>
                   <ns-button type="text" @click="showEmployee()">+选择员工</ns-button>
                 </ElFormGrid>
-                <ElFormGrid>
-                  已选择10名员工
+                <ElFormGrid><!-- v-if="model.employeeIds.size() > 0" -->
+                  {{ employeeSelectMsg }}
                 </ElFormGrid>
               </ElFormItem>
               <el-form-item>
@@ -88,7 +86,7 @@
                   <ns-button type="text" @click="showChannel()">+选择渠道</ns-button>
                 </ElFormGrid>
                 <ElFormGrid v-if="this.model.channelId">
-                  已选择渠道
+                  {{ channelSelectMsg }}
                 </ElFormGrid>
               </el-form-item>
               <el-form-item>
@@ -243,7 +241,7 @@
           </el-form-item>
           <el-form-item label="链接：" prop="custom">
             <el-radio v-model="linkModel.custom" :label="1" size="xxs">自定义链接 </el-radio>
-            <el-radio v-model="linkModel.custom" :label="2" size="xxs">系统预置链接 </el-radio>
+            <!-- <el-radio v-model="linkModel.custom" :label="2" size="xxs">系统预置链接 </el-radio> -->
           </el-form-item>
           <el-form-item v-if="linkModel.custom === 1" label="网页地址：" prop="link" :rules='commonRules.link'>
             <el-form-grid size="xmd">
@@ -300,7 +298,7 @@
           </el-form-item>
           <el-form-item prop="custom">
             <el-radio v-model="appModel.custom" :label="1" size="xxs">手动录入小程序 </el-radio>
-            <el-radio v-model="appModel.custom" :label="2" size="xxs">系统预置小程序 </el-radio>
+            <!-- <el-radio v-model="appModel.custom" :label="2" size="xxs">系统预置小程序 </el-radio> -->
           </el-form-item>
           <template v-if="appModel.custom === 1">
             <el-form-item label="小程序appid：" prop="appid" :rules='commonRules.appid'>
@@ -380,6 +378,46 @@
           <ns-button @click="selectChannel" type="primary">确定</ns-button>
         </div>
     </el-dialog>
+    <!-- 选择好友弹框 -->
+    <ElDialog
+      width="400px"
+      title="选择员工"
+      :visible.sync="employeeModel.visible"
+      :show-scroll-x=false>
+      <ElRow :gutter="10" class="code-container">
+        <ElCol :span="12" class="code-container__item">
+          <!-- <div class="code-title">可选员工</div> -->
+          <ElInput
+            placeholder="输入员工姓名以过滤"
+            v-model="filterText" class="code-space"> <!-- suffix-icon="el-icon-search" -->
+          </ElInput>
+          <div class="text-primary code-space">
+            <span style="cursor: pointer;" @click="setAllEmployee">全部</span>
+          </div>
+          <ElScrollbar>
+            <ElTree
+              ref="tree"
+              :data="leftTreeData"
+              show-checkbox
+              node-key="id"
+              :default-checked-keys="model.employeeIds"
+              :filter-node-method="filterNode"
+              :props="leftDefaultProps"
+              class="code-space"><!-- :default-expanded-keys="[1, 2]" @check-change="handleCheckChange"-->
+            <span class="code-detail clearfix" slot-scope="{ node, data }">
+              <span class="code-detail__text">{{ node.label }}</span>
+              <span>{{ data.children ? '/' + data.children.length : '' }}</span>
+            </span>
+            </ElTree>
+          </ElScrollbar>
+        </ElCol>
+      </ElRow>
+      <template slot="footer">
+        <ns-button @click="employeeModel.visible = false">取消</ns-button>
+        <ns-save @click="selectEmployee"/>
+      </template>
+    </ElDialog>
+    <!--选择好友弹窗结束-->
   </div>
 </template>
 

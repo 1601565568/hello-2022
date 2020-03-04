@@ -44,7 +44,8 @@ export default {
       image: '' // 封面
     }
     let employeeModel = {
-      visible: false
+      visible: false,
+      employeeIds: []
     }
     let channelModel = {
       visible: false,
@@ -53,10 +54,12 @@ export default {
     let model = {
       content: '', // 欢迎语内容
       annexType: 0, // 附带内容，默认无
+      annexContent: '',
       employeeIds: [], // 使用员工ids
       channelId: null // 使用渠道id
     }
     return {
+      filterText: '',
       // 是否是更新页面
       update: false,
       commonRules: commonRules,
@@ -68,7 +71,17 @@ export default {
       employeeModel: employeeModel,
       channelModel: channelModel,
       model: model,
-      channelList: []
+      channelList: [],
+      employeeSelectMsg: '',
+      channelSelectMsg: '',
+      // 选择员工组件
+      // 左边树数据（所有数据,包含id、label、children等shu'ji）
+      leftTreeData: null,
+      // 左边树默认绑定数据
+      leftDefaultProps: {
+        children: 'children',
+        label: 'label'
+      }
     }
   },
   mounted: function () {
@@ -76,17 +89,29 @@ export default {
     // 获取渠道列表
     this.$http.fetch(this.$api.weWork.welcomeCode.findChannelList).then((resp) => {
       this.channelList = resp.result
+      this.setSelectChannelMsg()
     }).catch((resp) => {
       this.$notify.error(resp.msg)
     })
+
+    this.employeeSelectMsg = '已选择' + this.model.employeeIds.length + '名员工'
+  },
+  watch: {
+    filterText (val) {
+      this.$refs.tree.filter(val)
+    }
   },
   methods: {
+    filterNode (value, data) {
+      if (!value) return true
+      return data.label.indexOf(value) !== -1
+    },
     /**
      * @msg: 插入占位符
      * @param {String} 占位符类型
      */
     insertPlaceHolder (append) {
-      this.model.content = this.model.content + appender
+      this.model.content = this.model.content + append
     },
     /**
      * @msg: 选择附件内容
@@ -236,8 +261,8 @@ export default {
      * @param {type}
      */
     handleAnnexAvatarSuccess: function (res, file) {
-      this.model.annexType = 1
       this.imageModel.image = res.result.url
+      this.model.annexType = 1
     },
     /**
      * @msg: 网页/小程序上传封面图
@@ -246,9 +271,15 @@ export default {
     handleLinkAvatarSuccess: function (res, file) {
       this.linkModel.image = res.result.url
     },
+    /**
+     * @msg: 小程序封面图上传
+     */
     handleAppAvatarSuccess: function (res, file) {
       this.appModel.image = res.result.url
     },
+    /**
+     * @msg: 图片上传校验
+     */
     beforeAvatarUpload (file) {
       const isJPG = file.type === 'image/jpeg'
       const isLt2M = file.size / 1024 / 1024 < 2
@@ -265,17 +296,56 @@ export default {
      * @msg: 选择员工弹框
      */
     showEmployee () {
+      let _this = this
       // 预取历史数据
-      this.employeeModel.employeeIds = this.model.employeeIds
-      this.employeeModel.visible = true
+      // _this.employeeModel.employeeIds = this.model.employeeIds
+      _this.employeeModel.visible = true
+      // 查询选择的员工
+      _this.$http.fetch(_this.$api.guide.personalQrcode.getDepartment).then(resp => {
+        if (resp.success && resp.result != null) {
+          // 全部数据
+          _this.leftTreeData = JSON.parse(resp.result)
+          // _this.choosePerson = [5, 6, 7, 8]
+        } else {
+          _this.$notify.error(getErrorMsg('获取员工数据失败', resp))
+        }
+      }).catch((resp) => {
+        _this.$notify.error(getErrorMsg('获取员工数据失败', resp))
+      })
     },
     /**
      * @msg: 确认选择员工
      */
     selectEmployee () {
-      this.employeeModel.visible = true
-      // 预取历史数据
-      this.model.employeeIds = this.employeeModel.employeeIds
+      this.employeeModel.visible = false
+      this.handleCheckChange()
+    },
+    /**
+     * @msg: 赋值已选员工 | 提示语
+     */
+    handleCheckChange () {
+      let _this = this
+      let res = this.$refs.tree.getCheckedNodes()
+      let arr = []
+      res.forEach((item) => {
+        if (item.id) {
+          arr.push(item.id)
+        }
+      })
+      _this.model.employeeIds = arr
+
+      _this.employeeSelectMsg = '已选择' + _this.model.employeeIds.length + '名员工'
+    },
+    setAllEmployee () {
+      let _this = this
+      let arr = []
+      _this.leftTreeData.forEach(item => {
+        item.children.forEach(child => {
+          arr.push(child.id)
+        })
+      })
+      _this.$refs.tree.setCheckedKeys(arr)
+      _this.handleCheckChange()
     },
     /**
      * @msg: 选择渠道
@@ -292,12 +362,40 @@ export default {
       this.channelModel.visible = false
       // 保存选择数据
       this.model.channelId = this.channelModel.channelId
+      this.setSelectChannelMsg()
+    },
+    /**
+     * @msg: 设置选择渠道消息
+     */
+    setSelectChannelMsg () {
+      this.channelSelectMsg = ''
+      this.channelList.forEach(item => {
+        if (item.value === this.model.channelId) {
+          this.channelSelectMsg = '已选择渠道：' + item.label
+        }
+      })
     },
     saveOrUpdate: function () {
       let that = this
-      // let param = {
-      //   content: that.model.content
-      // }
+      let annexContent = {}
+      if (that.model.annexType === 1) {
+        annexContent.image = that.model.image
+      } else if (that.model.annexType === 2) {
+        annexContent.link = that.model.link
+        annexContent.title = that.model.title
+        annexContent.innerContent = that.model.innerContent
+        annexContent.image = that.model.image
+      } else if (that.model.annexType === 3) {
+        annexContent.appid = that.model.appid
+        annexContent.path = that.model.path
+        annexContent.link = that.model.link
+        annexContent.title = that.model.title
+        annexContent.innerContent = that.model.innerContent
+        annexContent.image = that.model.image
+      }
+      // 附带内容json
+      that.model.annexContent = JSON.stringify(annexContent)
+
       that.$refs.form.validate(valid => {
         if (!valid) {
           return
@@ -305,13 +403,8 @@ export default {
         that.$http
           .fetch(that.$api.weWork.welcomeCode.saveWelcomeCode, that.model)
           .then(resp => {
-            // 1、先触发表格数据更新
-            // this.$emit('change')
-            // 2、关闭弹框
-            // that.onCloseDialog()
-            // 3、提示
-            that.$notify.success('新增成功')
-            that.$router.push({ path: '/WeWork/WelcomeCode/WelcomeList' })
+            that.$notify.success('操作成功')
+            // that.$router.push({ path: '/WeWork/WelcomeCode/WelcomeList' })
           })
           .catch(resp => {
             that.$notify.error(resp.msg)
@@ -326,13 +419,30 @@ export default {
       // 页面初始化时，加载页面数据
       let that = this
       if (data.uuid) {
-        // 更新
-        that.update = true
         that.$http
           .fetch(that.$api.weWork.welcomeCode.getWelcomeCode, {
             uuid: data.uuid
           }).then(resp => {
             that.model = resp.result
+            if (that.model.annexType === 0) {
+              return
+            }
+            let annexContent = JSON.parse(that.model.annexContent)
+            if (that.model.annexType === 1) {
+              that.model.image = annexContent.image
+            } else if (that.model.annexType === 2) {
+              that.model.link = annexContent.link
+              that.model.title = annexContent.title
+              that.model.innerContent = annexContent.innerContent
+              that.model.image = annexContent.image
+            } else if (that.model.annexType === 3) {
+              that.model.appid = annexContent.appid
+              that.model.path = annexContent.path
+              that.model.link = annexContent.link
+              that.model.title = annexContent.title
+              that.model.innerContent = annexContent.innerContent
+              that.model.image = annexContent.image
+            }
           }).catch(resp => {
             that.$notify.error(resp.msg)
           })
