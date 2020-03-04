@@ -114,7 +114,6 @@ export default {
         }
       })
       _this.choosePerson = arr
-      console.log(_this.choosePerson)
     }
   }
 }
