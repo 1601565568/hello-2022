@@ -17,5 +17,10 @@ export default {
   update: {
     url: '/Guide/FriendAutoPass/update',
     method: 'post'
+  },
+  // 获取好友添加列表
+  findAddList: {
+    url: '/Guide/FriendAutoPass/findAddList',
+    method: 'post'
   }
 }

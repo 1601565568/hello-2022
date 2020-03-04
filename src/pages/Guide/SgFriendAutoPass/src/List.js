@@ -193,6 +193,8 @@ export default {
       frindAddList: [],
       pageChange: true, // 当前页数
       guideId: null, // 当前导购的id
+      name: null,
+      online: null,
       employeeDetails: null, // 员工信息详情
       transferShopSize: null, // 转移给指定导购页数改变大小
       transferShopPage: null, // 转移给指定导购页数跳转
@@ -501,41 +503,22 @@ export default {
       let _this = this
       _this.title = '失败重新通过'
       _this.resignFormVisible = true
-      _this.$http.fetch(_this.$api.guide.autoPass.findList, {
-        sysCustomerId: val.sysCustomerId,
-        guideId: Number(val.guideId)
+      _this.$http.fetch(_this.$api.guide.autoPass.findAddList, {
+        searchMap: {
+          'name': _this.name,
+          'online': _this.online,
+          'pageSize': _this.customShopSize !== null ? _this.paginations.size = _this.customShopSize : _this.paginations.size,
+          'pageNo': _this.customShopPage !== null ? _this.paginations.page = _this.customShopPage : _this.paginations.page
+        }
       }).then(resp => {
         if (resp.success && resp.result != null) {
-          _this.shopKuhuShow = true
-          _this.items = resp.result
-          if (_this.items.integralAccountList) {
-            let length = _this.items.integralAccountList.length
-            for (let i = 0; i < length; i++) {
-              _this.integralLogIsShow[i] = true
-              // 积分名称
-              this.integralName[i] = _this.items.integralAccountList[i].integralName
-              this.integralAliasName[i] = _this.items.integralAccountList[i].integralAlias
-              // 积分显示
-              this.integralIsShow[i] = true
-              this.accountCode[this.integralName[i]] = _this.items.integralAccountList[i].integralAccount
-            }
-            _this.integralAccountArr.push(_this.items.integralAccountList)
-          }
-          if (_this.items.assetJson) {
-            let assetJson = JSON.parse(_this.items.assetJson)
-            let length = _this.items.integralAccountList.length
-            for (let name in assetJson) {
-              for (let i = 0; i < length; i++) {
-                // 积分别名
-                let accountCode = _this.items.integralAccountList[i].integralAccount
-                if (accountCode.indexOf(name) > -1) {
-                  this.integralIsNum[i] = assetJson[name]
-                }
-              }
-            }
-          }
-          _this.items.province = _this.disposeArea(_this.items.province, _this.items.city)
-          _this.items.customerName = _this.disposeOutNick(_this.items.customerName, _this.items.outAlias)
+          _this.paginations.total = parseInt(resp.result.recordsTotal)
+          _this.frindAddList = resp.result.data
+        } else if (resp.success && resp.result == null) {
+          _this.paginations.total = 0
+          _this.frindAddList = []
+        } else {
+          _this.$notify.error(getErrorMsg('查询失败', resp))
         }
       }).catch((resp) => {
         _this.$notify.error(getErrorMsg('查询失败', resp))
@@ -1079,12 +1062,8 @@ export default {
     },
     // 转移给指定导购重置
     transferToReset () {
-      this.model.name = null
-      this.model.shop = null
-      this.radio = null
-      this._data.paginationss.page = 1
-      this.transferShopPage = 1
-      this.guideFindList()
+      this.name = null
+      this.online = null
     },
     // 转移给指定导购取消
     cancelTransferToReset () {
