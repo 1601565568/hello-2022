@@ -86,15 +86,6 @@ export default {
   },
   mounted: function () {
     this.$init({ uuid: this.$route.query.welcomeCodeUuid })
-    // 获取渠道列表
-    this.$http.fetch(this.$api.weWork.welcomeCode.findChannelList).then((resp) => {
-      this.channelList = resp.result
-      this.setSelectChannelMsg()
-    }).catch((resp) => {
-      this.$notify.error(resp.msg)
-    })
-
-    this.employeeSelectMsg = '已选择' + this.model.employeeIds.length + '名员工'
   },
   watch: {
     filterText (val) {
@@ -180,10 +171,14 @@ export default {
         this.imageModel.image = ''
       }
       if (type === 2 && this.model.annexType !== 2) {
-        this.$refs['linkForm'].resetFields()
+        this.$nextTick(() => {
+          this.$refs['linkForm'].resetFields()
+        })
       }
       if (type === 3 && this.model.annexType !== 3) {
-        this.$refs['appForm'].resetFields()
+        this.$nextTick(() => {
+          this.$refs['appForm'].resetFields()
+        })
       }
     },
     /**
@@ -198,11 +193,15 @@ export default {
       }
       if (this.model.annexType === 2 && type !== 2) {
         // 从网页变成其他，置空
-        this.$refs['linkForm'].resetFields()
+        this.$nextTick(() => {
+          that.$refs['linkForm'].resetFields()
+        })
       }
       if (this.model.annexType === 3 && type !== 3) {
         // 从小程序变成其他，置空
-        this.$refs['appForm'].resetFields()
+        this.$nextTick(() => {
+          that.$refs['appForm'].resetFields()
+        })
       }
     },
     /**
@@ -417,6 +416,7 @@ export default {
      */
     $init (data) {
       // 页面初始化时，加载页面数据
+      debugger
       let that = this
       if (data.uuid) {
         that.$http
@@ -427,6 +427,18 @@ export default {
             if (that.model.annexType === 0) {
               return
             }
+
+            // 获取渠道列表 todo 异步问题
+            this.$http.fetch(this.$api.weWork.welcomeCode.findChannelList).then((resp) => {
+              this.channelList = resp.result
+              this.setSelectChannelMsg()
+            }).catch((resp) => {
+              this.$notify.error(resp.msg)
+            })
+
+            // 设置选择员工
+            this.employeeSelectMsg = '已选择' + this.model.employeeIds.length + '名员工'
+
             let annexContent = JSON.parse(that.model.annexContent)
             if (that.model.annexType === 1) {
               that.model.image = annexContent.image
