@@ -416,7 +416,6 @@ export default {
      */
     $init (data) {
       // 页面初始化时，加载页面数据
-      debugger
       let that = this
       if (data.uuid) {
         that.$http
