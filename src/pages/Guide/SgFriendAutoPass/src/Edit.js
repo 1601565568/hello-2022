@@ -1,5 +1,6 @@
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import { getErrorMsg } from '@/utils/toast'
+import moment from 'moment'
 export default {
   name: 'index',
   mixins: [tableMixin],
@@ -82,10 +83,17 @@ export default {
   methods: {
     onSave (model) { // 编辑保存
       let that = this
+      if (that.timeValue) {
+        var time = []
+        let begin = moment(this.timeValue[0]).format('HH:mm:ss')
+        let end = moment(this.timeValue[1]).format('HH:mm:ss')
+        time.push(begin)
+        time.push(end)
+      }
       that.$http.fetch(that.$api.guide.autoPass.update, {
         sgFriendAutoPass: model,
         ids: this.ids,
-        timeValue: this.timeValue
+        timeValue: time
       }).then(() => {
         that.$notify.success('保存成功')
       }).catch((resp) => {

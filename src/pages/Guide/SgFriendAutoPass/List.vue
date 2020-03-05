@@ -10,19 +10,19 @@
         <el-form class="el_form" ref="table_filter_form" :model="model" label-width="60px" :inline="true">
           <el-form-item label="员工：">
             <el-form-grid size="xmd">
-              <el-input autofocus=true v-model="model.name" placeholder="" clearable></el-input>
+              <el-input autofocus=true v-model="name" placeholder="" clearable></el-input>
             </el-form-grid>
           </el-form-item>
           <el-form-item label="在线状态：">
             <el-form-grid>
-              <el-select placeholder="全部" v-model="model.isOpen" clearable @clear="setJobNull">
+              <el-select placeholder="全部" v-model="online" clearable>
                 <el-option label="在线" :value="1"></el-option>
                 <el-option label="离线" :value="0"></el-option>
               </el-select>
             </el-form-grid>
           </el-form-item>
           <el-form-item>
-            <ns-button type="primary" @click="transferSearch()">搜索</ns-button>
+            <ns-button type="primary" @click="failPassAgain()">搜索</ns-button>
             <ns-button @click="transferToReset()">重置</ns-button>
           </el-form-item>
         </el-form>
@@ -30,36 +30,34 @@
       <!--  搜索结束  -->
       <!--  表格开始  -->
       <el-table ref="table" :data="frindAddList" stripe>
-        <el-table-column width="25">
+        <el-table-column prop="workId" label="好友微信昵称" align="left" width="100">
           <template slot-scope="scope">
-            <div class="customerManage">
-              <el-radio :label="scope.$index" v-model="radio"  @change.native="getCurrentRow(scope.row,scope.$index)"></el-radio>
-            </div>
+            {{scope.row.nick || '-'}}
           </template>
         </el-table-column>
-        <el-table-column prop="workId" label="好友微信昵称" align="left" width="180">
+        <el-table-column prop="name" label="申请时间" align="left" width="180px">
           <template slot-scope="scope">
-            {{scope.row.workId || '-'}}
-          </template>
-        </el-table-column>
-        <el-table-column prop="name" label="申请时间" align="left">
-          <template slot-scope="scope">
-            {{scope.row.name || '-'}}
+            {{scope.row.create_time || '-'}}
           </template >
         </el-table-column>
         <el-table-column prop="mobile" label="添加员工" align="center">
           <template slot-scope="scope">
-            {{scope.row.mobile || '-'}}
+            {{scope.row.name || '-'}}
           </template>
         </el-table-column>
         <el-table-column prop="shopName" label="微信账号" align="left">
           <template slot-scope="scope">
-            {{scope.row.shopName || '-'}}
+            {{scope.row.wxaccount || '-'}}
           </template >
         </el-table-column>
         <el-table-column prop="isOnline" label="微信登录状态" align="left">
           <template slot-scope="scope">
-            {{scope.row.isOnline || '-'}}
+            <div v-if="scope.row.online === 1">
+              <p>离线</p>
+            </div>
+            <div v-if="scope.row.online === 2">
+              <p>在线</p>
+            </div>
           </template >
         </el-table-column>
         <el-table-column :show-overflow-tooltip="true" label="操作" align="center"
