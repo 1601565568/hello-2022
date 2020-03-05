@@ -6,7 +6,7 @@
       <el-row class="template-table__bar-base">
          <!-- 左边上角操作区域 -->
           <el-col :span="7">
-             <ns-button type="primary" @click="AddShowToggle({})">新增</ns-button>
+             <ns-button type="primary" @click="AddShowToggle()">新增</ns-button>
           </el-col>
           <el-col :span="17">
             <!-- 右上角操作区域 -->
@@ -37,12 +37,13 @@
           </el-form-item>
           <el-form-item label="附带：">
             <el-form-grid>
-              <el-select placeholder="全部" v-model="searchform.type" clearable @clear="setJobNull">
+              <el-select placeholder="全部" v-model="searchform.type" clearable>
                 <el-option label="全部" value=""></el-option>
                 <el-option label="图片" :value="0"></el-option>
                 <el-option label="链接" :value="1"></el-option>
                 <el-option label="小程序" :value="2"></el-option>
                 <el-option label="文字" :value="3"></el-option>
+                <el-option label="视频" :value="4"></el-option>
               </el-select>
             </el-form-grid>
           </el-form-item>
@@ -100,6 +101,9 @@
           <p v-if="scope.row.type == 3">
             文字
           </p>
+          <p v-if="scope.row.type == 4">
+            视频
+          </p>
         </template>
       </el-table-column>
 
@@ -120,7 +124,7 @@
         align="center"
       >
       <template slot-scope="scope">
-        <ns-button @click="AddShowToggle(scope.row)" type="text">编辑</ns-button>
+        <ns-button @click="AddShowToggle(scope.row.id)" type="text">编辑</ns-button>
         <a href="javascript:" @click="delsTipFun(scope.row.id)">删除</a>
       </template>
       </el-table-column>
@@ -138,7 +142,6 @@
   </el-pagination>
   <!-- table end -->
   <!-- 编辑弹窗 -->
-  <addModal ref="addDialogDom" :callBack="loadListFun"></addModal>
 </div>
 </template>
 <script>
@@ -226,11 +229,13 @@ export default {
         })
     },
     // 打开弹窗--编辑
-    AddShowToggle (obj) {
+    AddShowToggle (id) {
       // 传递保存时需要的参数
-      this.$nextTick(() => {
-        this.$refs.addDialogDom.showToggle(obj)
-      })
+      var path = '/Guide/speech/addModal/' + id
+      this.$router.replace({ path: path })
+      // this.$nextTick(() => {
+      //   this.$refs.addDialogDom.showToggle(obj)
+      // })
     },
     // 打开弹窗--编辑
     setGroudShowToggle () {
@@ -267,7 +272,6 @@ export default {
   },
   computed: {},
   components: {
-    addModal
   }
 }
 </script>
