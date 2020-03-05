@@ -16,7 +16,7 @@
               会员注册时是否需要关注公众号
             </span>
           </div>
-          <div>勾选此选项，则下载为微信公众号二维码；否则，下载为会员开卡小程序码。</div>
+          <div>勾选此选项，则下载为微信公众号二维码；否则，下载为会员开卡二维码。</div>
         </div>
       </div>
       <div>
@@ -58,7 +58,7 @@
               </div>
             </template>
           </el-table-column>
-          <el-table-column label="小程序二维码" align="center">
+          <el-table-column label="会员卡二维码" align="center">
             <template slot='header' scope='header'>
               <span>
                 <span>{{header.column.label}}</span>
