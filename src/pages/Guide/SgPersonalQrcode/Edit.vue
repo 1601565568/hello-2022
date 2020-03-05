@@ -39,38 +39,93 @@
     </el-scrollbar>
     <!---->
     <!--选择好友弹窗开始-->
-    <ElDialog
-      width="600px"
-      title="选择员工"
-      :visible.sync="dialogVisible"
-      :show-scroll-x=false>
-      <ElRow :gutter="10" class="code-container">
-        <ElCol :span="12" class="code-container__item">
-          <div class="code-title">可选员工</div>
-          <ElInput
-            placeholder="请输入员工姓名"
-            suffix-icon="el-icon-search"
-            v-model="input" class="code-space">
-          </ElInput>
-          <div class="text-primary code-space">全部</div>
-          <ElScrollbar>
-            <ElTree
-              ref="tree"
-              :data="leftTreeData"
-              show-checkbox
-              node-key="id"
-              :default-expanded-keys="[1, 2]"
-              :default-checked-keys="choosePerson"
-              :props="leftDefaultProps"
-              @check-change="handleCheckChange" class="code-space">
+    <ElDialog width="600px" title="选择员工" :visible.sync="dialogVisible" :show-scroll-x=false>
+      <div class="resignFormVisible_way">
+        客户转移方式：
+        <el-radio-group v-model="transferRadio">
+          <el-radio @change="shiftChange" label="1">
+            员工
+<!--            <el-tooltip class="item" effect="light" content="" placement="bottom">-->
+<!--              <i class="el-icon-question"></i>-->
+<!--            </el-tooltip>-->
+          </el-radio>
+          <el-radio @change="shiftChange" label="2">
+            自定义
+<!--            <el-tooltip class="item" effect="light" content="" placement="bottom">-->
+<!--              <i class="el-icon-question"></i>-->
+<!--            </el-tooltip>-->
+          </el-radio>
+        </el-radio-group>
+      </div>
+      <div v-if="transferRadio === '1'">
+        <ElRow :gutter="10" class="code-container">
+          <ElCol :span="12" class="code-container__item">
+            <div class="code-title">可选员工</div>
+            <ElInput
+              placeholder="请输入员工姓名"
+              suffix-icon="el-icon-search"
+              v-model="input" class="code-space">
+            </ElInput>
+            <div class="text-primary code-space">全部</div>
+            <ElScrollbar>
+              <ElTree
+                ref="tree"
+                :data="leftTreeData"
+                show-checkbox
+                node-key="id"
+                :default-expanded-keys="[1, 2]"
+                :default-checked-keys="choosePerson"
+                :props="leftDefaultProps"
+                @check-change="handleCheckChange" class="code-space">
             <span class="code-detail clearfix" slot-scope="{ node, data }">
               <span class="code-detail__text">{{ node.label }}</span>
               <span>{{ data.children ? '/' + data.children.length : '' }}</span>
             </span>
-            </ElTree>
-          </ElScrollbar>
-        </ElCol>
-      </ElRow>
+              </ElTree>
+            </ElScrollbar>
+          </ElCol>
+        </ElRow>
+      </div>
+      <div v-if="transferRadio === '2'">
+        <div class="giveaway-add__item--info">
+          <ns-button type="text" @click="handleAdd()">添加自定义子码</ns-button>
+        </div>
+        <template>
+          <el-table :data="tableData" style="width: 100%">
+            <el-table-column label="名称" width="180">
+              <template slot-scope="scope">
+                <el-input v-model="scope.row.name" placeholder="请输入二维码名称，字数限制15字内"></el-input>
+              </template>
+            </el-table-column>
+            <el-table-column label="子码" width="180">
+              <template slot-scope="scope">
+                <div v-if="scope.row.img === null"></div>
+                <el-popover trigger="hover" placement="top">
+                  <p>限制上传图片大小5M，格式为png、jpg。提示文字“建议图片长宽比例为1:1，格式jpg/png，大小5MB以内</p>
+                  <div slot="reference" class="name-wrapper">
+                    <ns-button size="medium">+上传子码图片</ns-button>
+                  </div>
+                </el-popover>
+              </template>
+            </el-table-column>
+            <el-table-column label="失效时间" width="180">
+              <template slot-scope="scope">
+                <el-date-picker
+                  v-model="scope.row.date"
+                  type="datetime"
+                  placeholder="选择日期时间">
+                </el-date-picker>
+              </template>
+            </el-table-column>
+            <el-table-column label="操作">
+              <template slot-scope="scope">
+                <ns-button size="mini" @click="handleEdit(scope.$index, scope.row)">编辑</ns-button>
+                <ns-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</ns-button>
+              </template>
+            </el-table-column>
+          </el-table>
+        </template>
+      </div>
       <template slot="footer">
         <ns-button @click="dialogVisible = false">取消</ns-button>
         <ns-save />
