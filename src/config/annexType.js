@@ -3,7 +3,7 @@
  * @Author: yuye.huang
  * @Date: 2020-03-01 18:02:22
  * @LastEditors: yuye.huang
- * @LastEditTime: 2020-03-01 18:14:55
+ * @LastEditTime: 2020-03-05 11:26:48
  */
 
 /**
@@ -29,8 +29,8 @@ export default {
   LINK,
   MIN_APP,
   Collection: {
-    1: '链接',
-    2: '图片',
+    1: '图片',
+    2: '链接',
     3: '小程序'
   }
 }
