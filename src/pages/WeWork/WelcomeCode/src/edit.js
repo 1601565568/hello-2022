@@ -261,6 +261,7 @@ export default {
      */
     handleAnnexAvatarSuccess: function (res, file) {
       this.imageModel.image = res.result.url
+      this.model.image = res.result.url
       this.model.annexType = 1
     },
     /**
