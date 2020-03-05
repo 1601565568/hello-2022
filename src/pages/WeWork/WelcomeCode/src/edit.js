@@ -85,7 +85,13 @@ export default {
     }
   },
   mounted: function () {
-    this.$init({ uuid: this.$route.query.welcomeCodeUuid })
+    // 获取渠道列表 todo 异步问题
+    this.$http.fetch(this.$api.weWork.welcomeCode.findChannelList).then((resp) => {
+      this.channelList = resp.result
+      this.$init({ uuid: this.$route.query.welcomeCodeUuid })
+    }).catch((resp) => {
+      this.$notify.error(resp.msg)
+    })
   },
   watch: {
     filterText (val) {
@@ -404,7 +410,7 @@ export default {
           .fetch(that.$api.weWork.welcomeCode.saveWelcomeCode, that.model)
           .then(resp => {
             that.$notify.success('操作成功')
-            // that.$router.push({ path: '/WeWork/WelcomeCode/WelcomeList' })
+            that.$router.push({ path: '/WeWork/WelcomeCode/WelcomeCodeList' })
           })
           .catch(resp => {
             that.$notify.error(resp.msg)
@@ -428,14 +434,7 @@ export default {
               return
             }
 
-            // 获取渠道列表 todo 异步问题
-            this.$http.fetch(this.$api.weWork.welcomeCode.findChannelList).then((resp) => {
-              this.channelList = resp.result
-              this.setSelectChannelMsg()
-            }).catch((resp) => {
-              this.$notify.error(resp.msg)
-            })
-
+            this.setSelectChannelMsg()
             // 设置选择员工
             this.employeeSelectMsg = '已选择' + this.model.employeeIds.length + '名员工'
 
