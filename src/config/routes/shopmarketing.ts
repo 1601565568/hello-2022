@@ -105,6 +105,12 @@ export default {
           'name': 'speechList',
           'title': '欢迎语',
           'component': () => import('@/pages/Guide/speech/speechList.vue')
+        },
+        {
+          'path': '/Guide/speech/addModal/:id',
+          'name': 'speechList',
+          'title': '欢迎语',
+          'component': () => import('@/pages/Guide/speech/addModal.vue')
         }
       ]
     }
