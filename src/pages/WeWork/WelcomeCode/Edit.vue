@@ -167,7 +167,7 @@
                         </el-image>
                       </div>
                       <div class="message-msg__text">
-                        <div class="message-news">欢迎您！这是一段自动回复消息～</div>
+                        <div class="message-news">{{ model.content }}</div>
                         <div class="message-circle"></div>
                       </div>
                     </div>
@@ -189,7 +189,7 @@
                             :width="98"
                             :height="100"
                             style="width: 175px; height: 213px"
-                            src="https://img.alicdn.com/imgextra/i4/645690921/O1CN01Q1rjbi1IfrITTcm0O_!!645690921.jpg_430x430q90.jpg"
+                            :src="model.image"
                             mode="mfit"
                           >
                           </el-image>
@@ -215,17 +215,17 @@
                       <div class="message-msg__text">
                         <div class="message-web">
                           <div class="message-web__slogan">
-                            线上课程！你想在秋招拿到线上课程！你想在秋招拿到
+                            {{ model.title }}
                           </div>
                           <div class="message-web__propagate clearfix">
                             <div class="message-leftside">
-                              有些人秋招还没有准备，有的人秋招很完美有些人秋招还没有准备，有的人秋招很完美
+                              {{ model.desc }}
                             </div>
                             <el-image
                               :width="98"
                               :height="100"
                               style="width: 58px; height: 58px"
-                              src="https://img.alicdn.com/imgextra/i4/645690921/O1CN01Q1rjbi1IfrITTcm0O_!!645690921.jpg_430x430q90.jpg"
+                              :src="model.image"
                               mode="mfit"
                               class="message-rightside"
                             >
@@ -273,7 +273,7 @@
                               :width="98"
                               :height="100"
                               style="width: 98px; height: 100px"
-                              src="https://img.alicdn.com/imgextra/i4/645690921/O1CN01Q1rjbi1IfrITTcm0O_!!645690921.jpg_430x430q90.jpg"
+                              :src="model.image"
                               mode="mfit"
                               class="message-program__logo--img"
                             >
@@ -388,7 +388,7 @@
       ref="appDialog"
       width="500px"
       :visible.sync="appModel.visible"
-      title="链接"
+      title="小程序"
     >
       <el-form
         ref="appForm"
@@ -510,6 +510,53 @@
         <ns-button @click="selectChannel" type="primary">确定</ns-button>
       </div>
     </el-dialog>
+    <!-- 选择好友弹框 -->
+    <ElDialog
+      width="400px"
+      title="选择员工"
+      :visible.sync="employeeModel.visible"
+      :show-scroll-x="false"
+    >
+      <ElRow :gutter="10" class="code-container">
+        <ElCol :span="12" class="code-container__item">
+          <!-- <div class="code-title">可选员工</div> -->
+          <ElInput
+            placeholder="输入员工姓名以过滤"
+            v-model="filterText"
+            class="code-space"
+          >
+            <!-- suffix-icon="el-icon-search" -->
+          </ElInput>
+          <div class="text-primary code-space">
+            <span style="cursor: pointer;" @click="setAllEmployee">全部</span>
+          </div>
+          <ElScrollbar>
+            <ElTree
+              ref="tree"
+              :data="leftTreeData"
+              show-checkbox
+              node-key="id"
+              :default-checked-keys="model.employeeIds"
+              :filter-node-method="filterNode"
+              :props="leftDefaultProps"
+              class="code-space"
+              ><!-- :default-expanded-keys="[1, 2]" @check-change="handleCheckChange"-->
+              <span class="code-detail clearfix" slot-scope="{ node, data }">
+                <span class="code-detail__text">{{ node.label }}</span>
+                <span>{{
+                  data.children ? "/" + data.children.length : ""
+                }}</span>
+              </span>
+            </ElTree>
+          </ElScrollbar>
+        </ElCol>
+      </ElRow>
+      <template slot="footer">
+        <ns-button @click="employeeModel.visible = false">取消</ns-button>
+        <ns-save @click="selectEmployee" />
+      </template>
+    </ElDialog>
+    <!--选择好友弹窗结束-->
   </div>
 </template>
 <script>

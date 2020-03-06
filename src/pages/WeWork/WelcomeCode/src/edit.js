@@ -57,7 +57,7 @@ export default {
       annexType: 0, // 附带内容，默认无
       annexContent: '',
       employeeIds: [], // 使用员工ids
-      channelCode: null // 使用渠道id
+      channelCode: [] // 使用渠道id
     }
     return {
       // 页面滚动条内容高度配置
@@ -380,12 +380,16 @@ export default {
      * @msg: 设置选择渠道消息
      */
     setSelectChannelMsg () {
-      this.channelSelectMsg = ''
-      this.channelList.forEach(item => {
-        if (item.value === this.model.channelCode) {
-          this.channelSelectMsg = '已选择渠道：' + item.label
+      let _this = this
+      _this.channelSelectMsg = ''
+      for (let select of _this.model.channelCode) {
+        for (let channel of _this.channelList) {
+          if (select === channel.value) {
+            _this.channelSelectMsg += channel.label + '|'
+          }
         }
-      })
+      }
+      console.info(_this.channelSelectMsg)
     },
     saveOrUpdate: function () {
       let that = this
