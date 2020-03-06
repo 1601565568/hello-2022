@@ -1,0 +1,70 @@
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<head>
+  <title>发送测试</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<script>
+  var host = "ecrp://send?params="
+  function send_text(){
+    var content = '{"type":1,"content":"文本内容","exit":true}'
+    window.location.href =host+content
+  }
+  function send_pic(){
+    var content = '{"type":2,"picUrl":"https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3173584241,3533290860&fm=26&gp=0.jpg","smallPicUrl":"https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3173584241,3533290860&fm=26&gp=0.jpg","exit":true}'
+    window.location.href =host+content
+  }
+  function send_link(){
+    var content = '{"type":5,"linkUrl":"https://www.baidu.com/","describe":"百度一下","title":"百度一下","picUrl":"https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3173584241,3533290860&fm=26&gp=0.jpg","exit":true}'
+    window.location.href =host+content
+  }
+  function send_link1(){
+    var content = '{"type":5,"linkUrl":"https://www.baidu.com/?wxid={wxId}&friend={chatId}","describe":"百度一下","title":"百度一下","picUrl":"https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3173584241,3533290860&fm=26&gp=0.jpg","exit":true}'
+  }
+</script>
+<body>
+  <div style="width:100%;height: 100%;display: flex;justify-content: center;">
+    <div style="display: flex;flex-direction: column;align-items: center;justify-content: center;">
+      <div>
+        <button class="btn" onclick="send_text()">发送文本</button>
+      </div>
+      <br>
+      <div>
+        <button class="btn" onclick="send_pic()">发送图片</button>
+      </div><br>
+      <div>
+        <button class="btn" onclick="send_link()">发送链接</button>
+      </div><br>
+      <div>
+        <button class="btn" onclick="send_link1()">发送带参链接</button>
+      </div><br>
+    </div>
+  </div>
+</body>
+<style>
+  .btn{
+    display: inline-block;
+    line-height: 1;
+    white-space: nowrap;
+    cursor: pointer;
+    color:#fff;
+    background-color: #409eff;
+    border-color: #409eff;
+    -webkit-appearance: none;
+    text-align: center;
+    box-sizing: border-box;
+    outline: none;
+    margin: 0;
+    transition: .1s;
+    font-weight: 500;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    padding: 12px 20px;
+    font-size: 14px;
+    border-radius: 4px;
+    margin-bottom: 30px;
+    width: 200px;
+  }
+</style>
+</html>
