@@ -32,7 +32,26 @@ export default {
       page: 1,
       total: 0
     }
-    const tableButtons = [{}]
+    const tableButtons = [
+      {
+        'func': function () {
+          this.$emit('newSecretaryNumber')
+        },
+        'name': '新增秘书号'
+      },
+      {
+        'func': function () {
+          this.$emit('checkOutUnsecretarialSalesLeads')
+        },
+        'name': '查看未加秘书的导购'
+      },
+      {
+        'func': function () {
+          this.$emit('downloadTheAggregatedqrCode')
+        },
+        'name': '下载聚合二维码'
+      }
+    ]
     const operateButtons = [
       {
         'func': function () {
@@ -1215,6 +1234,20 @@ export default {
       }
       _this.customFormVisible = false
       _this.receiveGuideId = null
+    },
+    fassAgain (row) {
+      let that = this
+      let id = row.id
+      let ownerid = row.ownerid
+      that.$http.fetch(that.$api.guide.autoPass.passAgain, {
+        id: id,
+        ownerid: ownerid
+      }).then(() => {
+        row.isruned = 0
+        that.$notify.success('保存成功')
+      }).catch((resp) => {
+        that.$notify.error(getErrorMsg('保存失败', resp))
+      })
     },
     // 保存自定义转移客户
     onSaveCustomTransfer () {
