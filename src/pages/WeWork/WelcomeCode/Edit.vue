@@ -265,9 +265,9 @@
               <el-input v-model.trim="linkModel.title"/>
             </el-form-grid>
           </el-form-item>
-          <el-form-item label="文案：" prop="innerContent" :rules='commonRules.innerContent'>
+          <el-form-item label="文案：" prop="desc" :rules='commonRules.desc'>
             <el-form-grid size="xmd">
-              <el-input v-model.trim="linkModel.innerContent"/>
+              <el-input v-model.trim="linkModel.desc"/>
             </el-form-grid>
           </el-form-item>
           <el-form-item label="封面图：" prop="image">
@@ -336,9 +336,9 @@
               <el-input v-model.trim="appModel.title"/>
             </el-form-grid>
           </el-form-item>
-          <el-form-item label="文案：" prop="innerContent" :rules='commonRules.innerContent'>
+          <el-form-item label="文案：" prop="desc" :rules='commonRules.desc'>
             <el-form-grid size="xmd">
-              <el-input v-model.trim="appModel.innerContent"/>
+              <el-input v-model.trim="appModel.desc"/>
             </el-form-grid>
           </el-form-item>
           <el-form-item label="封面图：" prop="image">
