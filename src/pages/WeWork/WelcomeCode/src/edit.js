@@ -29,7 +29,7 @@ export default {
       settingId: null, // 预置配置ID
       link: '', // 链接
       title: '',
-      innerContent: '', // 文案
+      desc: '', // 文案
       image: ''
     }
     // 小程序实体model
@@ -40,7 +40,7 @@ export default {
       appid: '', // 小程序appid
       path: '', // 小程序路径
       title: '', // 标题
-      innerContent: '', // 文案
+      desc: '', // 文案
       image: '' // 封面
     }
     let employeeModel = {
@@ -136,7 +136,7 @@ export default {
           settingId: that.model.settingId, // 预置配置ID
           link: that.model.link, // 链接
           title: that.model.title,
-          innerContent: that.model.innerContent, // 文案
+          desc: that.model.desc, // 文案
           image: that.model.image
         }
       } else if (type === 3 && this.model.annexType === 3) {
@@ -149,7 +149,7 @@ export default {
           path: that.model.path, // 小程序路径
           link: that.model.link, // 备用网页
           title: that.model.title, // 标题
-          innerContent: that.model.innerContent, // 文案
+          desc: that.model.desc, // 文案
           image: that.model.image // 封面
         }
       }
@@ -230,7 +230,7 @@ export default {
             settingId: that.linkModel.settingId, // 预置配置ID
             link: that.linkModel.link, // 小程序appid
             title: that.linkModel.title, // 标题
-            innerContent: that.linkModel.innerContent, // 文案
+            desc: that.linkModel.desc, // 文案
             image: that.linkModel.image // 封面
           })
           that.onSubmitHandleModel(type)
@@ -252,7 +252,7 @@ export default {
             path: that.appModel.path, // 小程序路径
             link: that.appModel.link, // 备用网页
             title: that.appModel.title, // 标题
-            innerContent: that.appModel.innerContent, // 文案
+            desc: that.appModel.desc, // 文案
             image: that.appModel.image // 封面
           })
           that.onSubmitHandleModel(type)
@@ -389,14 +389,14 @@ export default {
       } else if (that.model.annexType === 2) {
         annexContent.link = that.model.link
         annexContent.title = that.model.title
-        annexContent.innerContent = that.model.innerContent
+        annexContent.desc = that.model.desc
         annexContent.image = that.model.image
       } else if (that.model.annexType === 3) {
         annexContent.appid = that.model.appid
         annexContent.path = that.model.path
         annexContent.link = that.model.link
         annexContent.title = that.model.title
-        annexContent.innerContent = that.model.innerContent
+        annexContent.desc = that.model.desc
         annexContent.image = that.model.image
       }
       // 附带内容json
@@ -444,14 +444,14 @@ export default {
             } else if (that.model.annexType === 2) {
               that.model.link = annexContent.link
               that.model.title = annexContent.title
-              that.model.innerContent = annexContent.innerContent
+              that.model.desc = annexContent.desc
               that.model.image = annexContent.image
             } else if (that.model.annexType === 3) {
               that.model.appid = annexContent.appid
               that.model.path = annexContent.path
               that.model.link = annexContent.link
               that.model.title = annexContent.title
-              that.model.innerContent = annexContent.innerContent
+              that.model.desc = annexContent.desc
               that.model.image = annexContent.image
             }
           }).catch(resp => {
