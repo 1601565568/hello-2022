@@ -21,10 +21,12 @@
 <script type="text/javascript" src="./js/common.js"></script>
 <script>
     window.onload = function () {
+        $(".noneBody").hide();
         checkGuide()
     }
 
     function checkGuide() {
+      debugger
         this.ajax(backstageURL() + '/checkGuide', {
             guideId: getPar('guideId'),
             shopId: getPar('shopId'),
