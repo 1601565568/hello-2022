@@ -324,9 +324,13 @@ export default {
   },
   methods: {
     // 上传图片地址的切换事件
-    handleAvatarSuccess (res, file) {
-      this.imageUrl = URL.createObjectURL(file.raw)
+    'handleAvatarSuccess': function (res, file) {
+      debugger
+      this.$message.info('上传成功')
+      this.bgpic = res.result.url
+      // this.imageUrl = URL.createObjectURL(file.raw)
     },
+
     // 上传图片的类型和大小判断事件
     beforeAvatarUpload (file) {
       const isJPG = file.type === 'image/jpeg'
