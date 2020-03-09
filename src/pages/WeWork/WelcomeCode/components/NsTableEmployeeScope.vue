@@ -3,7 +3,7 @@
  * @Author: yuye.huang
  * @Date: 2020-03-02 09:38:22
  * @LastEditors: yuye.huang
- * @LastEditTime: 2020-03-03 14:03:58
+ * @LastEditTime: 2020-03-09 14:20:05
  -->
 <template>
   <!-- <el-dialog ref="dialog" title="使用员工" width="660px"
@@ -12,14 +12,14 @@
       <!-- 简单搜索 -->
       <template slot="searchSearch">
         <el-form
-          :model="quickSearchModel"
+          :model="model"
           :line="true"
           @submit.native.prevent
           class="pull-right"
         >
           <el-form-item>
-            <el-input ref="quickText" style="width: 180px" v-model="quickSearchModel.employeeName" placeholder="请输入员工姓名" @keyup.enter.native="$quickSearchAction$('employeeName')" clearable />
-            <ns-button type="primary" @click="$searchAction$()" class="searchbtn">搜索</ns-button>
+            <el-input ref="quickText" style="width: 180px" v-model="model.employeeName" placeholder="请输入员工姓名" @keyup.enter.native="$quickSearchAction$('employeeName')" clearable />
+            <ns-button type="primary" @click="$quickSearchAction$('employeeName')" class="searchbtn">搜索</ns-button>
           </el-form-item>
         </el-form>
       </template>
@@ -67,54 +67,7 @@
 </template>
 
 <script>
-import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
+import NsTableEmployeeScope from './src/NsTableEmployeeScope.js'
+export default NsTableEmployeeScope
 
-export default {
-  name: 'NsTableEmployeeScope',
-  props: {
-    data: {
-      type: Object,
-      default () {
-        return {
-          visible: false
-        }
-      }
-    }
-  },
-  mixins: [tableMixin],
-  data () {
-    let quickSearchModel = {
-      employeeName: ''
-    }
-    let model = Object.assign({}, this.childData)
-    return {
-      quickSearchModel: quickSearchModel,
-      model: model,
-      url: this.$api.weWork.welcomeCode.findWelcomeCodeEmployeeList
-    }
-  },
-  mounted () {
-    // 加载列表数据
-    if (typeof this.$init === 'function') {
-      this.$init()
-    } else {
-      this.$reload()
-    }
-  },
-  methods: {
-    /**
-     * @msg: 弹框打开加载数据
-     */
-    open () {
-      // this.$queryList$()
-    }
-  },
-  computed: {
-    childData: {
-      get: function () {
-        return this.data
-      }
-    }
-  }
-}
 </script>

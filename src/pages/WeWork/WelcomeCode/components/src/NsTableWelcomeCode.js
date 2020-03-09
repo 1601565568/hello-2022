@@ -3,7 +3,7 @@
  * @Author: yuye.huang
  * @Date: 2020-03-01 16:34:26
  * @LastEditors: yuye.huang
- * @LastEditTime: 2020-03-03 12:01:44
+ * @LastEditTime: 2020-03-06 18:33:03
  */
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import annexType from '@/config/annexType.js'
@@ -98,7 +98,9 @@ export default {
         _this.$http.fetch(_this.$api.weWork.welcomeCode.deleteWelcomeCode, param).then(resp => {
           if (resp.success) {
             _this.$notify.success('删除成功')
-            _this.$refs.mainTable.$reload()
+            _this.$nextTick(() => {
+              _this.$reload()
+            })
           }
         }).catch((resp) => {
           _this.$notify.error('删除失败')

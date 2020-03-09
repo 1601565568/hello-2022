@@ -1,16 +1,17 @@
+import ElCard from '@nascent/nui/lib/card'
+import scrollHeight from '@nascent/ecrp-ecrm/src/mixins/scrollHeight'
 import commonRules from './commonRules.js'
 import ElMain from '@nascent/nui/lib/main'
-import ElCard from '@nascent/nui/lib/card'
 import ElContainer from '@nascent/nui/lib/container'
 import ElAside from '@nascent/nui/lib/aside'
 import ElImage from '@nascent/nui/lib/image'
-import scrollHeight from '@nascent/ecrp-ecrm/src/mixins/scrollHeight'
 import ElUpload from '@nascent/nui/lib/upload'
 
 export default {
-  name: '',
+  name: 'Edit',
   mixins: [scrollHeight],
   components: {
+    ElCard,
     ElContainer,
     ElMain,
     ElAside,
@@ -49,16 +50,21 @@ export default {
     }
     let channelModel = {
       visible: false,
-      channelId: null
+      channelCodes: null
     }
     let model = {
       content: '', // 欢迎语内容
       annexType: 0, // 附带内容，默认无
       annexContent: '',
       employeeIds: [], // 使用员工ids
-      channelId: null // 使用渠道id
+      channelCodes: [] // 使用渠道id
     }
     return {
+      // 页面滚动条内容高度配置
+      scrollBarDeploy: {
+        ref: 'fullScreen', // 页面滚动条ref的名称
+        excludeHeight: 39 // 底部按钮的高度
+      },
       filterText: '',
       // 是否是更新页面
       update: false,
@@ -358,7 +364,7 @@ export default {
      */
     showChannel () {
       // 预取历史数据
-      this.channelModel.channelId = this.model.channelId
+      this.channelModel.channelCodes = this.model.channelCodes
       this.channelModel.visible = true
     },
     /**
@@ -367,19 +373,22 @@ export default {
     selectChannel () {
       this.channelModel.visible = false
       // 保存选择数据
-      this.model.channelId = this.channelModel.channelId
+      this.model.channelCodes = this.channelModel.channelCodes
       this.setSelectChannelMsg()
     },
     /**
      * @msg: 设置选择渠道消息
      */
     setSelectChannelMsg () {
-      this.channelSelectMsg = ''
-      this.channelList.forEach(item => {
-        if (item.value === this.model.channelId) {
-          this.channelSelectMsg = '已选择渠道：' + item.label
+      let _this = this
+      _this.channelSelectMsg = ''
+      for (let select of _this.model.channelCodes) {
+        for (let channel of _this.channelList) {
+          if (select === channel.value) {
+            _this.channelSelectMsg += channel.label + '|'
+          }
         }
-      })
+      }
     },
     saveOrUpdate: function () {
       let that = this

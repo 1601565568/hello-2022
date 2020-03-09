@@ -3,7 +3,7 @@
  * @Author: yuye.huang
  * @Date: 2020-02-28 17:28:29
  * @LastEditors: yuye.huang
- * @LastEditTime: 2020-03-03 14:48:29
+ * @LastEditTime: 2020-03-09 14:28:20
  -->
 <template>
   <div>
@@ -11,7 +11,8 @@
     <ns-table-welcome-code ref='table' @onRedactFun='onRedactFun'
       @onShowEmployeeScope='onShowEmployeeScope' @onShowChannelScope='onShowChannelScope' ></ns-table-welcome-code>
     <!-- 使用员工 -->
-    <el-dialog ref="employeeDialog" :visible.sync="nsTableEmployeeScopeModel.visible" @open='onOpenEmployeeDialog()'
+    <el-dialog ref="employeeDialog" :visible.sync="nsTableEmployeeScopeModel.visible"
+      @open='onOpenEmployeeDialog()' @closed='onCloseEmployeeDialog()'
         title="使用员工"
         width="660px">
       <ns-table-employee-scope ref='employeeTable' :data="nsTableEmployeeScopeModel"></ns-table-employee-scope>
@@ -87,18 +88,38 @@ export default {
   },
   methods: {
     /**
+     * todo 目前仅使用方法 onOpenEmployeeDialog 触发有效
      * @msg: 查看欢迎语员工使用范围
      * @param {scope.row}
      */
     onShowEmployeeScope (data) {
       this.nsTableEmployeeScopeModel = {
-        welcomeCodeUuid: data.uuid,
+        welcomeCodeUuid: data.welcomeCodeUuid,
         visible: true
       }
     },
+    /**
+     * @msg: 打开弹框 重新刷新列表数据
+     */
     onOpenEmployeeDialog () {
       // 重新刷新列表数据
-      this.$nextTick(() => this.$refs.employeeTable.$queryList$(this.$refs.employeeTable.$generateParams$()))
+      this.$nextTick(() => {
+        this.$refs.employeeTable.model.welcomeCodeUuid = this.nsTableEmployeeScopeModel.welcomeCodeUuid
+        this.$refs.employeeTable._data._table.searchMap.welcomeCodeUuid = this.nsTableEmployeeScopeModel.welcomeCodeUuid
+        this.$refs.employeeTable._data._table.quickSearchMap.welcomeCodeUuid = this.nsTableEmployeeScopeModel.welcomeCodeUuid
+        this.$refs.employeeTable.$reload()
+      })
+    },
+    /**
+     * @msg: 打开弹框 重新刷新列表数据
+     */
+    onCloseEmployeeDialog () {
+      // 重新刷新列表数据
+      this.$nextTick(() => {
+        this.$refs.employeeTable.model.employeeName = null
+        this.$refs.employeeTable._data._table.searchMap.employeeName = null
+        this.$refs.employeeTable._data._table.quickSearchMap.employeeName = null
+      })
     },
     /**
      * @msg: 查看欢迎语渠道使用范围
@@ -107,7 +128,7 @@ export default {
     onShowChannelScope (data) {
       this.channelScopeModel = {
         visible: true,
-        welcomeCodeUuid: data.uuid,
+        welcomeCodeUuid: data.welcomeCodeUuid,
         loadingtable: true
       }
       this.$http.fetch(this.$api.weWork.welcomeCode.findWelcomeCodeChannelList, { uuid: data.welcomeCodeUuid }).then((resp) => {
