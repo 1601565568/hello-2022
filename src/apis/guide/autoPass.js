@@ -22,5 +22,9 @@ export default {
   findAddList: {
     url: '/Guide/FriendAutoPass/findAddList',
     method: 'post'
+  },
+  passAgain: {
+    url: '/Guide/FriendAutoPass/passAgain',
+    method: 'post'
   }
 }

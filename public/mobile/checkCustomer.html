@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="./invalid/invalid.css">
     <title></title>
 </head>
-    <div class='fail'>
+    <div class='fail' style="display: none;">
         <div class='fail__bgimg'>
             <img class='img'  src='https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/fail.png' alt="二维码失效图片" />
         </div>
@@ -22,6 +22,7 @@
 <script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.4.0.js"></script>
 <script>
     $(document).ready(function () {
+        $(".fail").hide();
         var success = getPar('success');
         var msg = getPar('msg');
         var data = getPar('data');

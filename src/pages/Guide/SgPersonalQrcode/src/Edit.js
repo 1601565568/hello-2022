@@ -136,10 +136,8 @@ export default {
       })
     },
     handleEdit (index, row) {
-      console.log(index, row)
     },
     handleDelete (index, row) {
-      console.log(index, row)
       this.tableData.splice(index, 1)
     },
     // 上传图片地址的切换事件

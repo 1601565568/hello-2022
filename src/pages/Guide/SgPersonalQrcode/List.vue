@@ -50,7 +50,7 @@
           </ElFormItem>
           <ElFormItem label="背景图设置：" required class="preview-btn">
             <ElUpload
-              action="$api.core.sgUploadFile('test')"
+              :action="this.$api.core.sgUploadFile('test')"
               :show-file-list="false"
               :on-success="handleAvatarSuccess"
               :before-upload="beforeAvatarUpload">

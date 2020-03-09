@@ -47,7 +47,7 @@
         </el-table-column>
         <el-table-column prop="shopName" label="微信账号" align="left">
           <template slot-scope="scope">
-            {{scope.row.wxaccount || '-'}}
+            {{scope.row.wxnick || '-'}}({{scope.row.wxaccount || '-'}})
           </template >
         </el-table-column>
         <el-table-column prop="isOnline" label="微信登录状态" align="left">
@@ -63,9 +63,15 @@
         <el-table-column :show-overflow-tooltip="true" label="操作" align="center"
                          width="160px">
           <template slot-scope="scope">
-            <ns-table-column-operate-button-ext :buttons="_data._table.table_buttons"
-                                                :prop="scope">
-            </ns-table-column-operate-button-ext>
+            <div v-if="scope.row.isruned === 0">
+              <p>执行中</p>
+            </div>
+            <div v-if="scope.row.isruned === 1">
+              <p>已完成</p>
+            </div>
+            <div v-if="scope.row.isruned === 3">
+              <ns-button size="mini" @click="fassAgain(scope.row)">重新通过</ns-button>
+            </div>
           </template>
         </el-table-column>
       </el-table>

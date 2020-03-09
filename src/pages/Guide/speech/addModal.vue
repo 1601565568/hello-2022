@@ -283,7 +283,6 @@ export default {
           method: 'post'
         }, params)
         .then(resp => {
-          debugger
           this.dataList = resp.result.list
           this.count = resp.result.count
         })
@@ -438,7 +437,6 @@ export default {
         params.content = this.form.content
       } else if (this.addEditType === 1) {
         // 链接
-        debugger
         if (!this.form.link || !this.form.title || !this.form.offical || !this.form.img) {
           this.$notify.warning('请先完善链接信息')
           return

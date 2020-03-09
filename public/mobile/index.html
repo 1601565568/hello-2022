@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="./invalid/invalid.css">
     <title>会员开卡</title>
 </head>
-<div class='noneBody'>
+<div class='noneBody' style="display: none;" >
     <div class='fail__bgimg'>
         <img class='img'  src='https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/fail.png' alt="二维码失效图片" />
     </div>
@@ -21,10 +21,12 @@
 <script type="text/javascript" src="./js/common.js"></script>
 <script>
     window.onload = function () {
+        $(".noneBody").hide();
         checkGuide()
     }
 
     function checkGuide() {
+      debugger
         this.ajax(backstageURL() + '/checkGuide', {
             guideId: getPar('guideId'),
             shopId: getPar('shopId'),
