@@ -47,6 +47,26 @@ export default {
         'visible': `scope.row.status !== 2`
       }
     ]
+    const qywxtableButtons = [
+      {
+        'func': function (scope) {
+          this.onEditFun(scope.row)
+        },
+        'icon': '',
+        'name': '编辑',
+        'auth': ``,
+        'visible': `scope.row.status !== 2`
+      },
+      {
+        'func': function (scope) {
+          this.onDeleteFun(scope.row)
+        },
+        'icon': '',
+        'name': '删除',
+        'auth': ``,
+        'visible': `scope.row.status !== 2`
+      }
+    ]
     const operateButtons = [
       {
         'func': function () {
@@ -100,6 +120,7 @@ export default {
       _pagination: pagination,
       _table: {
         table_buttons: tableButtons,
+        qywx_table_buttons: qywxtableButtons,
         operate_buttons: operateButtons,
         quickSearchNames: quickSearchNames,
         quickSearchMap: {}

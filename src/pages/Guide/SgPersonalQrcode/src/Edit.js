@@ -7,6 +7,8 @@ export default {
   data: function () {
     let that = this
     return {
+      // 集团版本  1：个号版本  2：企微版本
+      memberManagePlan: 1,
       // 弹框是否打开判断值
       dialogVisible: false,
       // 左边输入框绑定值
@@ -27,12 +29,16 @@ export default {
         creatorName: null,
         name: null,
         personnels: null,
-        prersonelIds: '',
+        prersonelIds: null,
+        childQrcodes: null,
         type: 1,
         num: null,
         image: '',
         createTime: '',
-        showType: 1
+        showType: 1,
+        isvalidate: 1,
+        keyword: null,
+        channel: null
       },
       title: null,
       parameter: {
@@ -50,9 +56,9 @@ export default {
       },
       transferRadio: '1',
       tableData: [{
-        name: null,
-        image: null,
-        date: null
+        name: '测试',
+        img: 'https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1272590022,602097170&fm=26&gp=0.jpg',
+        date: '2020-02-02'
       }]
     }
   },
@@ -64,12 +70,14 @@ export default {
         id: id
       }).then(data => {
         if (data.result.type === 1) {
-          debugger
           let split = data.result.personnelIds.split(',')
           let guideIds = []
           for (let i = 0; i < split.length; i++) {
             this.choosePerson.push(parseInt(split[i]))
           }
+          this.personalQrcode.personnelIds = data.result.personnelIds
+        } else if (data.result.type === 2) {
+          this.personalQrcode.childQrcodes = data.result.childQrcodes
         }
         this.personalQrcode.id = data.result.id
         this.personalQrcode.name = data.result.name
@@ -80,6 +88,9 @@ export default {
         this.loading = false
       })
     } else {
+      this.$http.fetch(this.$api.core.common.getRecruitVersion).then(data => {
+        this.memberManagePlan = data.result.memberManagePlan
+      })
       this.title = '新增聚合二维码'
     }
     if (typeof this.$init === 'function') {
@@ -105,6 +116,12 @@ export default {
       if (that.personalQrcode.type === 1 && that.choosePerson.length < 1) {
         that.$notify.error('请选择子码')
         return
+      } else if (that.personalQrcode.type === 2 && that.tableData.length < 1) {
+        that.$notify.error('请选择子码')
+        return
+      }
+      if (that.personalQrcode.type === 2) {
+        that.personalQrcode.childQrcodes = JSON.stringify(that.tableData)
       }
       that.$http.fetch(that.$api.guide.sgPersonalQrcode.save, that.personalQrcode).then(() => {
         that.$notify.success('保存成功')
@@ -123,6 +140,8 @@ export default {
         _this.getDepartment()
       }
     },
+    chooseChannel () { // 选择渠道
+    },
     handleCheckChange () {
       let _this = this
       let res = this.$refs.tree.getCheckedNodes()
@@ -134,7 +153,7 @@ export default {
       })
       _this.choosePerson = arr
       if (arr.length > 1) {
-        _this.personalQrcode.personnels = arr.join(',')
+        _this.personalQrcode.personnelIds = arr.join(',')
       }
     },
     onSaveChildQrcode () {
@@ -147,7 +166,7 @@ export default {
       } else if (val === '2') {
         _this.choosePerson = []
       }
-      _this.personalQrcode.type = val
+      _this.personalQrcode.type = parseInt(val)
     },
     getDepartment () {
       let _this = this
@@ -194,6 +213,9 @@ export default {
       } else {
         this.tableData.push(a)
       }
+    },
+    cancel () {
+      this.$router.push({ path: '/Guide/SgPersonalQrcode/List' })
     }
   }
 }

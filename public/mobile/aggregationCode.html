@@ -33,14 +33,15 @@
       groupId: getPar('groupId'),
     }).then(function (result) {
       if (result.success) {
-        var html = "<div class=\"code\">"+
-          "<div class=\"code__outer\">" +
-          "      <div class=\"inner\">" +
-          "        <img src=\"./img/expression/qrcode.png\" alt=\"提示图片\" class=\"inner__qrcode\">" +
+        var html = "<div class='code'>"+
+          "<div class='code__outer'>" +
+          "      <div class='inner'>" +
+          "        <img src='"+result.result+"' alt='提示图片' class='inner__qrcode'>" +
           "      </div>" +
           "    </div>"+
           "  </div>";
-        $(".code").html(html);
+        $(".body").html(html);
+        $(".body").style.background = "https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/202003/10000146/4771e3d3-5512-4cc7-899d-3facdff810e4.jpg";
       } else {
         // 跳转错误页
         $(".noneBody").show();
