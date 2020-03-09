@@ -3,7 +3,7 @@
  * @Author: yuye.huang
  * @Date: 2020-03-01 16:34:26
  * @LastEditors: yuye.huang
- * @LastEditTime: 2020-03-06 18:25:38
+ * @LastEditTime: 2020-03-06 18:33:03
  */
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import annexType from '@/config/annexType.js'
@@ -93,7 +93,6 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        debugger
         let param = {}
         param.uuid = data.welcomeCodeUuid
         _this.$http.fetch(_this.$api.weWork.welcomeCode.deleteWelcomeCode, param).then(resp => {

@@ -3,7 +3,7 @@
  * @Author: yuye.huang
  * @Date: 2020-02-29 20:52:53
  * @LastEditors: yuye.huang
- * @LastEditTime: 2020-03-03 14:26:15
+ * @LastEditTime: 2020-03-05 11:23:06
  -->
 <template>
   <ns-page-table ref='mainTable'><!-- :colButton="10" -->
@@ -17,15 +17,16 @@
     <!-- 简单搜索 -->
     <template slot="searchSearch">
       <el-form
-        :line="true"
         :model="quickSearchModel"
-        class="pull-right"
-      >
+        :line="true"
+        class="pull-right">
         <el-form-item v-show="_data._queryConfig.expand === false">
             <el-input ref="quickText"
-            v-model="model.content"
-            placeholder="请输入欢迎语内容"
-            @keyup.enter.native="$quickSearchAction$('content')" clearable />
+              v-model="model.content"
+              placeholder="请输入欢迎语内容"
+              clearable /> <!-- @keyup.enter.native="$quickSearchAction$('content')" -->
+        </el-form-item>
+        <el-form-item>
             <ns-button type="primary" @click="$searchAction$()" class="searchbtn">搜索</ns-button>
             <ns-button @click="$resetInputAction$()" class="resetbtn">重置</ns-button>
         </el-form-item>

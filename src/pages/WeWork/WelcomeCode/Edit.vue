@@ -5,7 +5,9 @@
     </div>
     <ElScrollbar ref="fullScreen">
       <ElCard shadow="never">
-        <div slot="header">基本信息</div>
+        <div slot="header">基本信息
+          <span class="welcome-aside__set text-primary"><Icon type="exclamation-circle" />配置后，客户将在添加成员为联系人后收到该欢迎语</span>
+        </div>
         <div class="message-message">
           <!-- 最外层 -->
           <el-container class="message-message__content">
@@ -13,10 +15,10 @@
               <!-- <el-col :span="12"> -->
                 <!-- 左侧开始 -->
                 <el-aside width="60%" class="message-aside">
-                  <div class="welcome-aside__set text-primary">
+                  <!-- <div class="welcome-aside__set text-primary">
                     <Icon type="exclamation-circle" />
                     配置后，客户将在添加成员为联系人后收到该欢迎语
-                  </div>
+                  </div> -->
                   <ElForm ref="form" :model="model" label-width="100px">
                     <ElFormItem label="欢迎语：" required>
                       <ElFormGrid size="xlg" class="message-plan">
@@ -36,14 +38,16 @@
                       <ElFormGrid>
                           <ns-button
                             type="text"
-                          ><!-- @click="insertPlaceHolder('{EmployeeNick}')" -->
+                            @click="insertPlaceHolder('{EmployeeNick}')"
+                          >
                             +插入好友微信昵称
                           </ns-button>
                         </ElFormGrid>
                         <ElFormGrid>
                           <ns-button
                             type="text"
-                          ><!-- @click="insertPlaceHolder('{CustomerNick}')" -->
+                            @click="insertPlaceHolder('{CustomerNick}')"
+                          >
                             +插入员工微信昵称
                           </ns-button>
                         </ElFormGrid>
@@ -125,7 +129,7 @@
                           >+选择渠道</ns-button
                         >
                       </ElFormGrid>
-                      <ElFormGrid v-if="this.model.channelCode">
+                      <ElFormGrid v-if="this.model.channelCodes">
                         {{ channelSelectMsg }}
                       </ElFormGrid>
                     </el-form-item>
@@ -167,7 +171,7 @@
                         </el-image>
                       </div>
                       <div class="message-msg__text">
-                        <div class="message-news">{{ model.content }}</div>
+                        <div class="message-news">{{ model.content ? model.content : "欢迎您！这是一段自动回复消息～" }}</div>
                         <div class="message-circle"></div>
                       </div>
                     </div>
@@ -495,7 +499,7 @@
       title="选择渠道"
     >
       <el-form ref="channelForm" label-width="100px" placement="right">
-        <el-select multiple v-model="channelModel.channelCode" placeholder="请选择">
+        <el-select multiple v-model="channelModel.channelCodes" placeholder="请选择">
           <el-option
             v-for="item in channelList"
             :key="item.value"

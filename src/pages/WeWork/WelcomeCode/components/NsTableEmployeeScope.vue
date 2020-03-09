@@ -3,7 +3,7 @@
  * @Author: yuye.huang
  * @Date: 2020-03-02 09:38:22
  * @LastEditors: yuye.huang
- * @LastEditTime: 2020-03-03 14:03:58
+ * @LastEditTime: 2020-03-09 10:03:06
  -->
 <template>
   <!-- <el-dialog ref="dialog" title="使用员工" width="660px"
@@ -86,7 +86,7 @@ export default {
     let quickSearchModel = {
       employeeName: ''
     }
-    let model = Object.assign({}, this.childData)
+    let model = Object.assign({}, this.model, this.childData)
     return {
       quickSearchModel: quickSearchModel,
       model: model,
@@ -94,6 +94,8 @@ export default {
     }
   },
   mounted () {
+    debugger
+    this.model = Object.assign({}, this.model, this.childData)
     // 加载列表数据
     if (typeof this.$init === 'function') {
       this.$init()

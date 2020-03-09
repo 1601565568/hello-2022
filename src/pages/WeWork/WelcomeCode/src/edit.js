@@ -50,14 +50,14 @@ export default {
     }
     let channelModel = {
       visible: false,
-      channelCode: null
+      channelCodes: null
     }
     let model = {
       content: '', // 欢迎语内容
       annexType: 0, // 附带内容，默认无
       annexContent: '',
       employeeIds: [], // 使用员工ids
-      channelCode: [] // 使用渠道id
+      channelCodes: [] // 使用渠道id
     }
     return {
       // 页面滚动条内容高度配置
@@ -364,7 +364,7 @@ export default {
      */
     showChannel () {
       // 预取历史数据
-      this.channelModel.channelCode = this.model.channelCode
+      this.channelModel.channelCodes = this.model.channelCodes
       this.channelModel.visible = true
     },
     /**
@@ -373,7 +373,7 @@ export default {
     selectChannel () {
       this.channelModel.visible = false
       // 保存选择数据
-      this.model.channelCode = this.channelModel.channelCode
+      this.model.channelCodes = this.channelModel.channelCodes
       this.setSelectChannelMsg()
     },
     /**
@@ -382,14 +382,13 @@ export default {
     setSelectChannelMsg () {
       let _this = this
       _this.channelSelectMsg = ''
-      for (let select of _this.model.channelCode) {
+      for (let select of _this.model.channelCodes) {
         for (let channel of _this.channelList) {
           if (select === channel.value) {
             _this.channelSelectMsg += channel.label + '|'
           }
         }
       }
-      console.info(_this.channelSelectMsg)
     },
     saveOrUpdate: function () {
       let that = this
