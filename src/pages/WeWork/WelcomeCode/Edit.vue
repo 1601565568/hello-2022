@@ -228,7 +228,7 @@
                             <el-image
                               :width="98"
                               :height="100"
-                              style="width: 58px; height: 58px"
+                              style="width: 98px; height: 100px"
                               :src="model.image"
                               mode="mfit"
                               class="message-rightside"
@@ -721,7 +721,7 @@ export default Edit
       border-radius: 8px;
     }
     @b web {
-      width: 47%;
+      min-width: 47%;
       padding: 8px var(--default-padding-xlarger);
       margin-left: var(--default-margin-xlarger);
       background: #fff;
