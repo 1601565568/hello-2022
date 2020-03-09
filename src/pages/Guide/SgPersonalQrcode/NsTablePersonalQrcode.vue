@@ -1,7 +1,7 @@
 <template>
   <div>
     <BindDevice :visible.sync="bindDeviceDialog.visible" :guide='bindDeviceDialog.guide' @reload='$reload'/>
-    <ns-page-table @add="$emit('add')" @showShop="$emit('showShop')" @failPassAgain="$emit('failPassAgain')"  @batchEdit="$emit('batchEdit')" @shopEdit="$emit('shopEdit')" :colButton='10'>
+    <ns-page-table @add="$emit('add')" @failPassAgain="$emit('failPassAgain')"  @batchEdit="$emit('batchEdit')" :colButton='10'>
       <!-- 按钮 -->
       <template slot="buttons">
         <ns-table-operate-button :buttons="_data._table.operate_buttons">
@@ -39,9 +39,9 @@
           <el-form-item label="聚合码名称：">
             <el-input  autofocus=true v-model="model.name" placeholder="" clearable></el-input>
           </el-form-item>
-          <el-form-item label="员工：">
+          <el-form-item label="子码：">
             <el-form-grid size="xmd">
-              <el-input  autofocus=true v-model="model.personal" placeholder="搜索微信号/微信昵称" clearable></el-input>
+              <el-input  autofocus=true v-model="model.personal" placeholder="" clearable></el-input>
             </el-form-grid>
           </el-form-item>
           <el-form-item label="排序方式：">
@@ -104,7 +104,7 @@
               {{scope.row.name?scope.row.name:'-'}}
             </template>
           </el-table-column>
-          <el-table-column prop="personnels" label="员工" align="left" min-width="100" :show-overflow-tooltip="true">
+          <el-table-column prop="personnels" label="子码" align="left" min-width="100" :show-overflow-tooltip="true">
             <template slot-scope="scope">
               {{scope.row.personnels?scope.row.personnels:'-'}}
             </template>
@@ -153,8 +153,8 @@
 </template>
 
 <script>
-import autoPass from './src/NsTablePersonalQrcode'
-export default autoPass
+import personalQrcode from './src/NsTablePersonalQrcode'
+export default personalQrcode
 </script>
 <style>
   @import "@theme/variables.pcss";

@@ -24,7 +24,7 @@ import guideDevice from './guideDevice'
 import group from './group'
 import autoPass from './autoPass'
 import secruitmentSet from './secruitmentSet'
-import personalQrcode from './personalQrcode'
+import sgPersonalQrcode from './sgPersonalQrcode'
 
 export default {
   secruitmentSet,
@@ -53,7 +53,7 @@ export default {
   guideDevice,
   group,
   autoPass,
-  personalQrcode,
+  sgPersonalQrcode,
   // 所有导购模块全部整合在此
   comGetBrandForShopList: {// 获取品牌下的店铺
     url: '/core/sgshop/getBrandList',

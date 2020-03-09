@@ -1,7 +1,7 @@
 <template>
   <div>
-    <NsTableAutoPass ref="mainTable" :url=$api.guide.personalQrcode.findList @scopeRowCount="scopeRowCount"
-                  @shopEdit="shopEdit" @onAddFun="onAddFun" @showShop="showShop" @onEditFun="onEditFun" @onShowFun="onShowFun" @onDeleteFun="onDeleteFun" @qrcodeLink="qrcodeLink" @@handleSelectionChange="handleSelectionChange">
+    <NsTableAutoPass ref="mainTable" :url=$api.guide.sgPersonalQrcode.findList
+                     @onAddFun="onAddFun" @onEditFun="onEditFun" @onShowFun="onShowFun" @onDeleteFun="onDeleteFun" @qrcodeLink="qrcodeLink" @@handleSelectionChange="handleSelectionChange">
     </NsTableAutoPass>
 
     <!--聚合二维码展示开始-->

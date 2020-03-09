@@ -51,8 +51,6 @@ export default {
       {
         'func': function () {
           this.$router.push({ path: '/Guide/SgPersonalQrcode/List/Edit/0' })
-          // this.$route().push('/Guide/SgPersonalQrcode/List/Edit/0')
-          // this.$emit('onAddFun')
         },
         'name': '新增'
       }
@@ -150,25 +148,6 @@ export default {
   },
   computed: {},
   methods: {
-    async scopeRowCountAndviewDetails (succeedObj) { // 查看门店详情和查看所属区域详情
-      let that = this
-      let obj = {}
-      obj.templateId = succeedObj.template_id
-      obj.appId = succeedObj.app_id
-      that.particularsObj = {}
-      await this.$http
-        .fetch(that.$api.isv.getTemplateInfo, obj)
-        .then(resp => {
-          resp.result.audit_category = JSON.parse(resp.result.audit_category)
-          that.particularsObj = resp.result
-        })
-        .catch(resp => {
-          this.$notify.error(getErrorMsg('查询失败', resp))
-        })
-    },
-    scopeRowCount (data) { // 查看门店详情和查看所属区域详情
-      this.$emit('scopeRowCount', data)
-    },
     shopDel (index) {
       this.guideShopList.splice(index, 1)
     },

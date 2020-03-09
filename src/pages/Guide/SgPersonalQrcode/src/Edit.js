@@ -18,7 +18,7 @@ export default {
         children: 'children',
         label: 'label'
       },
-      choosePerson: null,
+      choosePerson: [],
       personalQrcode: {
         id: null,
         guid: null,
@@ -28,6 +28,7 @@ export default {
         name: null,
         personnels: null,
         prersonelIds: '',
+        type: 1,
         num: null,
         image: '',
         createTime: '',
@@ -59,9 +60,17 @@ export default {
     const id = this.$route.params.id
     if (id > 0) {
       this.title = '编辑聚合二维码'
-      this.$http.fetch(this.$api.guide.personalQrcode.findById, {
+      this.$http.fetch(this.$api.guide.sgPersonalQrcode.findById, {
         id: id
       }).then(data => {
+        if (data.result.type === 1) {
+          debugger
+          let split = data.result.personnelIds.split(',')
+          let guideIds = []
+          for (let i = 0; i < split.length; i++) {
+            this.choosePerson.push(parseInt(split[i]))
+          }
+        }
         this.personalQrcode.id = data.result.id
         this.personalQrcode.name = data.result.name
         this.personalQrcode.showType = data.result.showType
@@ -89,10 +98,20 @@ export default {
     },
     onSave () {
       let that = this
-      that.$http.fetch(that.$api.guide.personalQrcode.save, that.personalQrcode).then(() => {
+      if (that.personalQrcode.name === null) {
+        that.$notify.error('聚合码名称不能为空')
+        return
+      }
+      if (that.personalQrcode.type === 1 && that.choosePerson.length < 1) {
+        that.$notify.error('请选择子码')
+        return
+      }
+      that.$http.fetch(that.$api.guide.sgPersonalQrcode.save, that.personalQrcode).then(() => {
         that.$notify.success('保存成功')
       }).catch((resp) => {
         that.$notify.error(getErrorMsg('保存失败', resp))
+      }).finally(() => {
+        that.$router.push({ path: '/Guide/SgPersonalQrcode/List' })
       })
     },
     onConfirm () { // 选择员工弹唱确认
@@ -114,6 +133,13 @@ export default {
         }
       })
       _this.choosePerson = arr
+      if (arr.length > 1) {
+        _this.personalQrcode.personnels = arr.join(',')
+      }
+    },
+    onSaveChildQrcode () {
+      let _this = this
+      _this.dialogVisible = false
     },
     shiftChange (val) {
       let _this = this
@@ -121,13 +147,13 @@ export default {
       } else if (val === '2') {
         _this.choosePerson = []
       }
+      _this.personalQrcode.type = val
     },
     getDepartment () {
       let _this = this
-      _this.$http.fetch(_this.$api.guide.personalQrcode.getDepartment).then(resp => {
+      _this.$http.fetch(_this.$api.guide.sgPersonalQrcode.getDepartment).then(resp => {
         if (resp.success && resp.result != null) {
           _this.leftTreeData = JSON.parse(resp.result)
-          _this.choosePerson = [5, 6, 7, 8]
         } else {
           _this.$notify.error(getErrorMsg('获取员工数据失败', resp))
         }
@@ -141,18 +167,19 @@ export default {
       this.tableData.splice(index, 1)
     },
     // 上传图片地址的切换事件
-    handleAvatarSuccess (res, file) {
-      this.imageUrl = URL.createObjectURL(file.raw)
+    'handleAvatarSuccess': function (res, file) {
+      this.$message.info('上传成功')
+      this.bgpic = res.result.url
     },
     // 上传图片的类型和大小判断事件
     beforeAvatarUpload (file) {
       const isJPG = file.type === 'image/jpeg'
       const isLt2M = file.size / 1024 / 1024 < 2
       if (!isJPG) {
-        this.$notify.error('上传头像图片只能是 JPG 格式!')
+        this.$message.error('上传头像图片只能是 JPG 格式!')
       }
       if (!isLt2M) {
-        this.$notify.error('上传头像图片大小不能超过 20MB!')
+        this.$message.error('上传头像图片大小不能超过 20MB!')
       }
       return isJPG && isLt2M
     },
