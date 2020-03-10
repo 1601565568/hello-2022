@@ -3,7 +3,7 @@
  * @Author: yuye.huang
  * @Date: 2020-02-28 17:28:29
  * @LastEditors: yuye.huang
- * @LastEditTime: 2020-03-09 10:22:53
+ * @LastEditTime: 2020-03-09 14:28:20
  -->
 <template>
   <div>
@@ -11,7 +11,8 @@
     <ns-table-welcome-code ref='table' @onRedactFun='onRedactFun'
       @onShowEmployeeScope='onShowEmployeeScope' @onShowChannelScope='onShowChannelScope' ></ns-table-welcome-code>
     <!-- 使用员工 -->
-    <el-dialog ref="employeeDialog" :visible.sync="nsTableEmployeeScopeModel.visible" @open='onOpenEmployeeDialog()'
+    <el-dialog ref="employeeDialog" :visible.sync="nsTableEmployeeScopeModel.visible"
+      @open='onOpenEmployeeDialog()' @closed='onCloseEmployeeDialog()'
         title="使用员工"
         width="660px">
       <ns-table-employee-scope ref='employeeTable' :data="nsTableEmployeeScopeModel"></ns-table-employee-scope>
@@ -104,8 +105,20 @@ export default {
       // 重新刷新列表数据
       this.$nextTick(() => {
         this.$refs.employeeTable.model.welcomeCodeUuid = this.nsTableEmployeeScopeModel.welcomeCodeUuid
+        this.$refs.employeeTable._data._table.searchMap.welcomeCodeUuid = this.nsTableEmployeeScopeModel.welcomeCodeUuid
+        this.$refs.employeeTable._data._table.quickSearchMap.welcomeCodeUuid = this.nsTableEmployeeScopeModel.welcomeCodeUuid
         this.$refs.employeeTable.$reload()
-        // this.$refs.employeeTable.$queryList$(this.$refs.employeeTable.$generateParams$())
+      })
+    },
+    /**
+     * @msg: 打开弹框 重新刷新列表数据
+     */
+    onCloseEmployeeDialog () {
+      // 重新刷新列表数据
+      this.$nextTick(() => {
+        this.$refs.employeeTable.model.employeeName = null
+        this.$refs.employeeTable._data._table.searchMap.employeeName = null
+        this.$refs.employeeTable._data._table.quickSearchMap.employeeName = null
       })
     },
     /**

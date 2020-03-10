@@ -23,5 +23,10 @@ export default {
   getDepartment: {
     url: '/Guide/PersonalQrcode/getDepartment',
     method: 'post'
+  },
+  // 投放预览保存
+  saveShow: {
+    url: '/Guide/PersonalQrcode/saveShow',
+    method: 'post'
   }
 }

@@ -1,7 +1,7 @@
 <template>
   <div>
     <BindDevice :visible.sync="bindDeviceDialog.visible" :guide='bindDeviceDialog.guide' @reload='$reload'/>
-    <ns-page-table @add="$emit('add')" @showShop="$emit('showShop')" @failPassAgain="$emit('failPassAgain')"  @batchEdit="$emit('batchEdit')" @shopEdit="$emit('shopEdit')" :colButton='10'>
+    <ns-page-table @add="$emit('add')" @failPassAgain="$emit('failPassAgain')"  @batchEdit="$emit('batchEdit')" :colButton='10'>
       <!-- 按钮 -->
       <template slot="buttons">
         <ns-table-operate-button :buttons="_data._table.operate_buttons">
@@ -39,9 +39,9 @@
           <el-form-item label="聚合码名称：">
             <el-input  autofocus=true v-model="model.name" placeholder="" clearable></el-input>
           </el-form-item>
-          <el-form-item label="员工：">
+          <el-form-item label="子码：">
             <el-form-grid size="xmd">
-              <el-input  autofocus=true v-model="model.personal" placeholder="搜索微信号/微信昵称" clearable></el-input>
+              <el-input  autofocus=true v-model="model.personal" placeholder="" clearable></el-input>
             </el-form-grid>
           </el-form-item>
           <el-form-item label="排序方式：">
@@ -104,9 +104,14 @@
               {{scope.row.name?scope.row.name:'-'}}
             </template>
           </el-table-column>
-          <el-table-column prop="personnels" label="员工" align="left" min-width="100" :show-overflow-tooltip="true">
+          <el-table-column prop="personnels" label="子码" align="left" min-width="100" :show-overflow-tooltip="true">
             <template slot-scope="scope">
               {{scope.row.personnels?scope.row.personnels:'-'}}
+            </template>
+          </el-table-column>
+          <el-table-column prop="personnels" v-if="memberManagePlan == 2" label="投放渠道" align="left" min-width="100" :show-overflow-tooltip="true">
+            <template slot-scope="scope">
+              {{scope.row.channel?scope.row.channel:'-'}}
             </template>
           </el-table-column>
           <el-table-column prop="num" label="扫描次数" align="left" min-width="100">
@@ -124,10 +129,18 @@
                 <ns-button style="color:#0091FA" @click="qrcodeLink(scope.row)" type="text">icon</ns-button>
             </template>
           </el-table-column>
-          <el-table-column :show-overflow-tooltip="true" label="操作" align="center"
+          <el-table-column :show-overflow-tooltip="true" v-if="memberManagePlan == 1" label="操作" align="center"
                            width="160px">
             <template slot-scope="scope">
               <ns-table-column-operate-button-ext :buttons="_data._table.table_buttons"
+                                                  :prop="scope">
+              </ns-table-column-operate-button-ext>
+            </template>
+          </el-table-column>
+          <el-table-column :show-overflow-tooltip="true" v-if="memberManagePlan == 2" label="操作" align="center"
+                           width="160px">
+            <template slot-scope="scope">
+              <ns-table-column-operate-button-ext :buttons="_data._table.qywx_table_buttons"
                                                   :prop="scope">
               </ns-table-column-operate-button-ext>
             </template>
@@ -153,8 +166,8 @@
 </template>
 
 <script>
-import autoPass from './src/NsTablePersonalQrcode'
-export default autoPass
+import personalQrcode from './src/NsTablePersonalQrcode'
+export default personalQrcode
 </script>
 <style>
   @import "@theme/variables.pcss";

@@ -16,7 +16,27 @@
             </el-form-item>
             <el-form-item label="子码设置：" required>
               <el-form-grid>
-                <ns-button type='text' @click="choosePersonnel()">+选择员工</ns-button>
+                <ns-button type='text' @click="choosePersonnel()">+选择子码</ns-button>
+              </el-form-grid>
+            </el-form-item>
+            <el-form-item label="子码设置：" v-if="memberManagePlan == 2" required>
+              <el-form-grid>
+                <ns-button type='text' @click="chooseChannel()">+选择渠道</ns-button>
+              </el-form-grid>
+            </el-form-item>
+            <el-form-item label="好友验证：" v-if="memberManagePlan == 2" required>
+              <el-form-grid size="xxmd">
+                <el-form-item prop="sex">
+                  <el-radio-group v-model="personalQrcode.showType">
+                    <el-radio :label="1">关闭</el-radio>
+                    <el-radio :label="2">开启</el-radio>
+                  </el-radio-group>
+                </el-form-item>
+              </el-form-grid>
+            </el-form-item>
+            <el-form-item label="验证信息关键字：" v-if="memberManagePlan == 2" required>
+              <el-form-grid>
+                <el-input   style="width:400px;" maxlength="50" type="textarea" autofocus=true v-model="personalQrcode.keyword" placeholder="请输入验证信息关键字，关键字之间用英文逗号割开，最多输入50个关键字" clearable></el-input>
               </el-form-grid>
             </el-form-item>
             <el-form-item label="子码展示方式：" required>
@@ -30,7 +50,7 @@
               </el-form-grid>
             </el-form-item>
             <el-form-item>
-                <ns-button @click="reload()" >取消</ns-button>
+                <ns-button @click="cancel()" >取消</ns-button>
                 <ns-button type="primary" @click="onSave">确定</ns-button>
             </el-form-item>
           </div>
@@ -102,9 +122,17 @@
                 <div v-if="scope.row.img === null"></div>
                 <el-popover trigger="hover" placement="top">
                   <p>限制上传图片大小5M，格式为png、jpg。提示文字“建议图片长宽比例为1:1，格式jpg/png，大小5MB以内</p>
-                  <div slot="reference" class="name-wrapper">
-                    <ns-button size="medium">+上传子码图片</ns-button>
-                  </div>
+<!--                  <div slot="reference" class="name-wrapper">-->
+<!--                    <ns-button size="medium">+上传子码图片</ns-button>-->
+<!--                  </div>-->
+                  <el-upload
+                    :action="this.$api.core.sgUploadFile('test')"
+                    :show-file-list="false"
+                    :on-success="handleAvatarSuccess"
+                    :before-upload="beforeAvatarUpload">
+                    <img v-if="scope.row.img" :src="scope.row.img" class="company-upload__avatar">
+                    <Icon type="plus" className="company-upload__tip" v-else/>
+                  </el-upload>
                 </el-popover>
               </template>
             </el-table-column>
@@ -119,7 +147,6 @@
             </el-table-column>
             <el-table-column label="操作">
               <template slot-scope="scope">
-                <ns-button size="mini" @click="handleEdit(scope.$index, scope.row)">编辑</ns-button>
                 <ns-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</ns-button>
               </template>
             </el-table-column>
@@ -128,7 +155,7 @@
       </div>
       <template slot="footer">
         <ns-button @click="dialogVisible = false">取消</ns-button>
-        <ns-save />
+        <ns-button type="primary" @click="onSaveChildQrcode()">确定</ns-button>
       </template>
     </ElDialog>
     <!--选择好友弹窗结束-->
@@ -139,10 +166,12 @@
 import Edit from './src/Edit'
 import index from './src/List'
 import ElTree from '@nascent/nui/lib/tree'
+import ElUpload from '@nascent/nui/lib/upload'
 
 Edit.components = {
   index,
-  ElTree
+  ElTree,
+  ElUpload
 }
 export default Edit
 </script>

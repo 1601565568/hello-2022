@@ -47,12 +47,30 @@ export default {
         'visible': `scope.row.status !== 2`
       }
     ]
+    const qywxtableButtons = [
+      {
+        'func': function (scope) {
+          this.onEditFun(scope.row)
+        },
+        'icon': '',
+        'name': '编辑',
+        'auth': ``,
+        'visible': `scope.row.status !== 2`
+      },
+      {
+        'func': function (scope) {
+          this.onDeleteFun(scope.row)
+        },
+        'icon': '',
+        'name': '删除',
+        'auth': ``,
+        'visible': `scope.row.status !== 2`
+      }
+    ]
     const operateButtons = [
       {
         'func': function () {
           this.$router.push({ path: '/Guide/SgPersonalQrcode/List/Edit/0' })
-          // this.$route().push('/Guide/SgPersonalQrcode/List/Edit/0')
-          // this.$emit('onAddFun')
         },
         'name': '新增'
       }
@@ -102,6 +120,7 @@ export default {
       _pagination: pagination,
       _table: {
         table_buttons: tableButtons,
+        qywx_table_buttons: qywxtableButtons,
         operate_buttons: operateButtons,
         quickSearchNames: quickSearchNames,
         quickSearchMap: {}
@@ -150,25 +169,6 @@ export default {
   },
   computed: {},
   methods: {
-    async scopeRowCountAndviewDetails (succeedObj) { // 查看门店详情和查看所属区域详情
-      let that = this
-      let obj = {}
-      obj.templateId = succeedObj.template_id
-      obj.appId = succeedObj.app_id
-      that.particularsObj = {}
-      await this.$http
-        .fetch(that.$api.isv.getTemplateInfo, obj)
-        .then(resp => {
-          resp.result.audit_category = JSON.parse(resp.result.audit_category)
-          that.particularsObj = resp.result
-        })
-        .catch(resp => {
-          this.$notify.error(getErrorMsg('查询失败', resp))
-        })
-    },
-    scopeRowCount (data) { // 查看门店详情和查看所属区域详情
-      this.$emit('scopeRowCount', data)
-    },
     shopDel (index) {
       this.guideShopList.splice(index, 1)
     },

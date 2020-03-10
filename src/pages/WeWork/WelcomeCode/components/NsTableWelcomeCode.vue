@@ -3,7 +3,7 @@
  * @Author: yuye.huang
  * @Date: 2020-02-29 20:52:53
  * @LastEditors: yuye.huang
- * @LastEditTime: 2020-03-05 11:23:06
+ * @LastEditTime: 2020-03-10 11:16:22
  -->
 <template>
   <ns-page-table ref='mainTable'><!-- :colButton="10" -->
@@ -25,10 +25,8 @@
               v-model="model.content"
               placeholder="请输入欢迎语内容"
               clearable /> <!-- @keyup.enter.native="$quickSearchAction$('content')" -->
-        </el-form-item>
-        <el-form-item>
-            <ns-button type="primary" @click="$searchAction$()" class="searchbtn">搜索</ns-button>
-            <ns-button @click="$resetInputAction$()" class="resetbtn">重置</ns-button>
+              <ns-button type="primary" @click="$searchAction$()" class="searchbtn">搜索</ns-button>
+              <ns-button @click="$resetInputAction$()" class="resetbtn">重置</ns-button>
         </el-form-item>
         <el-form-item>
           <ns-button type="text"
