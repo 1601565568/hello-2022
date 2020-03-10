@@ -1,7 +1,5 @@
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
-import { getErrorMsg } from '@/utils/toast'
 import NsTableColumnOperateButtonExt from '@/components/NsTableColumnOperateButton'
-import callRecords from '../../../../../apis/riskManagement/callRecords'
 
 export default {
   name: 'callList',
@@ -11,26 +9,6 @@ export default {
     url: Object
   },
   data: function () {
-    const tableButtons = [
-      {
-        'func': function (scope) {
-          this.onRedactFun(scope.row)
-        },
-        'icon': '',
-        'name': '听录音',
-        'auth': ``,
-        'visible': `scope.row.status !== 4`
-      },
-      {
-        'func': function (scope) {
-          this.onRedactFun(scope.row)
-        },
-        'icon': '',
-        'name': '下载录音',
-        'auth': ``,
-        'visible': `scope.row.status !== 4`
-      }
-    ]
     let quickSearchModel = {}
     let searchModel = {
       deviceKey: null,
@@ -38,15 +16,16 @@ export default {
       phone: null,
       account: null,
       mobile: null,
-      startTime: null,
-      endTime: null
+      content: null,
+      sendStatus: null,
+      deviceKeyOrPhone: null,
+      time: []
     }
     let model = Object.assign({}, searchModel)
     return {
       model: model,
       quickSearchModel: quickSearchModel,
       _table: {
-        table_buttons: tableButtons,
         quickSearchMap: {}
       },
       multipleSelection: [],
@@ -55,9 +34,7 @@ export default {
         visible: false,
         guide: {}
       },
-      memberManagePlan: 1,
-      shopSelectUrl: this.$api.guide.shop.findBrandShopList,
-      shopSelectOptions: []
+      memberManagePlan: 1
     }
   },
 
@@ -66,7 +43,6 @@ export default {
     } else {
       this.$reload()
     }
-    // this.initTableData()
   },
   computed: {},
   methods: {

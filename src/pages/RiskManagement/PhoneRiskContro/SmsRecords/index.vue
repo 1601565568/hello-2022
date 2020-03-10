@@ -1,14 +1,14 @@
 <template>
   <div>
-    <callList ref="callTable" :url=$api.riskManagement.callRecords.findList></callList>
+    <SmsList ref="callTable" :url=$api.riskManagement.smsRecords.findSmsList></SmsList>
   </div>
 </template>
 
 <script>
-import callList from './CallList'
+import SmsList from './SmsList'
 import index from './src/index'
 index.components = {
-  callList
+  SmsList
 }
 export default index
 </script>

@@ -1,7 +1,6 @@
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import { getErrorMsg } from '@/utils/toast'
 import NsTableColumnOperateButtonExt from '@/components/NsTableColumnOperateButton'
-import callRecords from '../../../../../apis/riskManagement/callRecords'
 
 export default {
   name: 'callList',
@@ -39,6 +38,7 @@ export default {
       account: null,
       mobile: null,
       time: [],
+      deviceKeyOrPhone: null,
       startTime: null,
       endTime: null
     }
@@ -49,16 +49,7 @@ export default {
       _table: {
         table_buttons: tableButtons,
         quickSearchMap: {}
-      },
-      multipleSelection: [],
-      select: true,
-      bindDeviceDialog: {
-        visible: false,
-        guide: {}
-      },
-      memberManagePlan: 1,
-      shopSelectUrl: this.$api.guide.shop.findBrandShopList,
-      shopSelectOptions: []
+      }
     }
   },
 
@@ -67,26 +58,12 @@ export default {
     } else {
       this.$reload()
     }
-    // this.initTableData()
   },
   computed: {},
   methods: {
-    // initTableData () {
-    //   var _this = this
-    //   _this.$http.fetch(_this.$api.riskManagement.callRecords.findList, {
-    //     start: 0, length: _this._data._pagination.size, searchMap: this.model
-    //   }).then(resp => {
-    //     if (resp.success === true && resp.result.data != null) {
-    //       _this._data._table.data = resp.result.data
-    //       _this._data._pagination.total = parseInt(resp.result.recordsTotal)
-    //     }
-    //   }).catch((resp) => {
-    //     _this.$notify.error(getErrorMsg('查询失败', resp))
-    //   })
-    // },
-    // handleSelectionChange (val) {
-    //   this.$emit('handleSelectionChange', val)
-    // },
+    onRedactFun (row) {
+      window.open(row.content)
+    },
     onDownLoad (data) {
       let _this = this
       _this.$http.fetch(_this.$api.riskManagement.callRecords.download, {

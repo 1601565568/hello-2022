@@ -10,8 +10,8 @@
     <template slot="searchSearch">
       <el-form :model="quickSearchModel" :inline="true" @submit.native.prevent class="pull-right">
         <el-form-item v-show="_data._queryConfig.expand === false" label="设备MEID/手机号">
-          <el-input ref="quickText" style="width: 180px" v-model="model.deviceKey" placeholder="请输入设备MEID/手机号"
-                    @keyup.enter.native="$quickSearchAction$('deviceKey')" clearable>
+          <el-input ref="quickText" style="width: 180px" v-model="model.deviceKeyOrPhone" placeholder="请输入设备MEID/手机号"
+                    @keyup.enter.native="$quickSearchAction$('deviceKeyOrPhone')" clearable>
           </el-input>
           <ns-button type="primary" @click="$searchAction$()" class="searchbtn">搜索</ns-button>
           <ns-button @click="$resetInputAction$()" class="resetbtn">重置</ns-button>
@@ -55,11 +55,15 @@
         </el-form-item>
         <el-form-item label="短信内容：">
           <el-form-grid size="xmd">
-            <el-input style="width:180px" autofocus=true v-model="model.content" placeholder="短信内容" clearable></el-input>
+            <el-input style="width:180px" autofocus=true v-model="model.content" placeholder="短信内容" clearable>
+              <template slot-scope="scope">
+                <span title="scope.row.content">{{scope.row.content}}</span>
+              </template>
+            </el-input>
           </el-form-grid>
         <el-form-item label="时间：">
           <el-form-grid size="xlg">
-            <el-date-picker v-model="model.time" type="datetimerange" range-separator="至"
+            <el-date-picker value-format="yyyy-MM-dd HH:mm:ss" v-model="model.time" type="datetimerange" range-separator="至"
                             start-placeholder="开始日期" end-placeholder="结束日期">
             </el-date-picker>
           </el-form-grid>
@@ -67,10 +71,10 @@
         </el-form-item>
         <el-form-item label="发送状态：">
           <el-form-grid>
-            <el-select placeholder="请选择发送状态" v-model="model.sendStatus" clearable @clear="setGuideStateNull" style="width:180px">
+            <el-select v-model="model.sendStatus" clearable @clear="setGuideStateNull" style="width:180px">
               <el-option label="全部" :value=null ></el-option>
-              <el-option label="在职" :value="1"></el-option>
-              <el-option label="离职" :value="2"></el-option>
+              <el-option label="成功" :value="1"></el-option>
+              <el-option label="失败" :value="0"></el-option>
             </el-select>
           </el-form-grid>
         </el-form-item>
@@ -101,41 +105,17 @@
         <el-table-column prop="phone" label="手机号码" align="left" min-width="100"></el-table-column>
         <el-table-column prop="account" label="绑定账号" align="left" min-width="100"></el-table-column>
         <el-table-column prop="mobile" label="对方号码" align="left" min-width="100"></el-table-column>
-        <el-table-column prop="status" label="呼叫类型" align="center" width="150">
-          <template slot-scope="scope">
-          <!-- 1：去电 2：来电 3：未接 4：拒接-->
-            <div v-if="scope.row.status === 1">
-              <p>呼入</p>
-            </div>
-            <div v-else-if ="scope.row.status === 2">
-              <p>呼出</p>
-            </div>
-            <div v-else-if="scope.row.status === 3">
-              <p>未接</p>
-            </div>
-            <div v-else-if="scope.row.status === 4">
-              <p>拒接</p>
-            </div>
-            <div v-else>
-              <p>未知</p>
-            </div>
-          </template>
+        <el-table-column prop="content" label="短信内容" align="center" width="150">
         </el-table-column>
-        <el-table-column prop="startTime" label="开始时间" align="left" min-width="100"></el-table-column>
-        <el-table-column prop="endTime" label="结束时间" align="left" min-width="100"></el-table-column>
-        <el-table-column prop="time" label="时长" align="left" min-width="100">
+        <el-table-column prop="sendTime" label="发送时间" align="left" min-width="100"></el-table-column>
+        <el-table-column prop="sendStatus" label="发送状态" align="left" min-width="100">
           <template slot-scope="scope">
-            <div>
-              <p>{{scope.row.time}} s</p>
+            <div v-if="scope.row.sendStatus ===1">
+              <p>成功</p>
             </div>
-          </template>
-        </el-table-column>
-        <el-table-column :show-overflow-tooltip="true" label="操作" align="center"
-                         width="160px">
-          <template slot-scope="scope">
-            <ns-table-column-operate-button-ext :buttons="_data._table.table_buttons"
-                                                :prop="scope">
-            </ns-table-column-operate-button-ext>
+            <div v-else-if="scope.row.sendStatus === 0">
+              <p>失败</p>
+            </div>
           </template>
         </el-table-column>
       </el-table>
@@ -159,7 +139,7 @@
 </template>
 
 <script>
-import callList from './src/callList'
+import callList from './src/smsList'
 export default callList
 </script>
 

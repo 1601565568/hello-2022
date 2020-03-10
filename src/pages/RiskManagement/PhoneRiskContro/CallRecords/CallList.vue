@@ -10,8 +10,8 @@
     <template slot="searchSearch">
       <el-form :model="quickSearchModel" :inline="true" @submit.native.prevent class="pull-right">
         <el-form-item v-show="_data._queryConfig.expand === false" label="设备MEID/手机号">
-          <el-input ref="quickText" style="width: 180px" v-model="model.deviceKey" placeholder="请输入设备MEID/手机号"
-                    @keyup.enter.native="$quickSearchAction$('deviceKey')" clearable>
+          <el-input ref="quickText" style="width: 180px" v-model="model.deviceKeyOrPhone" placeholder="请输入设备MEID/手机号"
+                    @keyup.enter.native="$quickSearchAction$('deviceKeyOrPhone')" clearable>
           </el-input>
           <ns-button type="primary" @click="$searchAction$()" class="searchbtn">搜索</ns-button>
           <ns-button @click="$resetInputAction$()" class="resetbtn">重置</ns-button>
@@ -30,32 +30,32 @@
 
         <el-form-item label="设备MEID：">
           <el-form-grid size="xmd">
-            <el-input style="width:180px" autofocus=true v-model="model.name" placeholder="请输入设备MEID" clearable></el-input>
+            <el-input style="width:180px" autofocus=true v-model="model.deviceKey" placeholder="请输入设备MEID" clearable></el-input>
           </el-form-grid>
         </el-form-item>
         <el-form-item label="手机名称：">
           <el-form-grid size="xmd">
-            <el-input style="width:180px" autofocus=true v-model="model.name" placeholder="手机名称" clearable></el-input>
+            <el-input style="width:180px" autofocus=true v-model="model.deviceName" placeholder="手机名称" clearable></el-input>
           </el-form-grid>
         </el-form-item>
         <el-form-item label="手机号码：">
           <el-form-grid size="xmd">
-            <el-input style="width:180px" autofocus=true v-model="model.name" placeholder="手机号码" clearable></el-input>
+            <el-input style="width:180px" autofocus=true v-model="model.phone" placeholder="手机号码" clearable></el-input>
           </el-form-grid>
         </el-form-item>
         <el-form-item label="绑定账号：">
           <el-form-grid size="xmd">
-            <el-input style="width:180px" autofocus=true v-model="model.name" placeholder="绑定账号" clearable></el-input>
+            <el-input style="width:180px" autofocus=true v-model="model.account" placeholder="绑定账号" clearable></el-input>
           </el-form-grid>
         </el-form-item>
         <el-form-item label="对方账号：">
           <el-form-grid size="xmd">
-            <el-input style="width:180px" autofocus=true v-model="model.name" placeholder="对方账号" clearable></el-input>
+            <el-input style="width:180px" autofocus=true v-model="model.mobile" placeholder="对方账号" clearable></el-input>
           </el-form-grid>
         </el-form-item>
         <el-form-item label="时间：">
           <el-form-grid size="xlg">
-            <el-date-picker v-model="model.time" type="datetimerange" range-separator="至"
+            <el-date-picker value-format="yyyy-MM-dd HH:mm:ss"  v-model="model.time" type="datetimerange" range-separator="至"
                             start-placeholder="开始日期" end-placeholder="结束日期">
             </el-date-picker>
           </el-form-grid>
