@@ -3,7 +3,7 @@
  * @Author: yuye.huang
  * @Date: 2020-02-29 20:52:53
  * @LastEditors: yuye.huang
- * @LastEditTime: 2020-03-10 11:16:22
+ * @LastEditTime: 2020-03-11 10:51:15
  -->
 <template>
   <ns-page-table ref='mainTable'><!-- :colButton="10" -->
@@ -56,8 +56,14 @@
     <template slot="table">
       <el-table ref="table" :data="_data._table.data" stripe  v-loading.lock="_data._table.loadingtable"
       :element-loading-text="$t('prompt.loading')">
-        <el-table-column prop="content" label="欢迎语" align="left">
-        </el-table-column>
+        <el-table-column  width="200"  align="center" prop="content">
+        <template slot="header">
+          欢迎语
+          <el-tooltip content="配置后，客户将在添加员工为微信好友时，发送欢迎语">
+            <Icon type="question-circle"/>
+          </el-tooltip>
+        </template>
+      </el-table-column>
         <el-table-column prop="annexType" label="附带" align="center">
           <template slot-scope='scope'>
             {{convertAnnexType(scope.row.annexType)}}
