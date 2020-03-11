@@ -83,7 +83,6 @@ export default {
         id: id
       }).then(data => {
         if (data.result.type === 1) {
-          debugger
           let split = data.result.personnelIds.split(',')
           let guideIds = []
           for (let i = 0; i < split.length; i++) {
@@ -146,7 +145,6 @@ export default {
     onConfirm () { // 选择员工弹唱确认
     },
     choosePersonnel (type) { // 选择员工
-      debugger
       console.info(type)
       let _this = this
       _this.dialogVisible = true
