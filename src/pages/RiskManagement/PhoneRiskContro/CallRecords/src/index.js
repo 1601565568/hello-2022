@@ -27,7 +27,11 @@ export default {
       _this.$http.fetch(_this.$api.riskManagement.callRecords.down, {
         url: data.content
       }).then(resp => {
-        window.open(data.content)
+        if (resp.success) {
+          window.open(data.content)
+        }
+      }).catch(resp => {
+        this.$notify.error('下载失败')
       })
     }
   }
