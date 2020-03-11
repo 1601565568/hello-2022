@@ -45,6 +45,26 @@
                 </ElTable>
               </div>
             </ElFormItem>
+            <el-form-item label="子码设置：" v-if="memberManagePlan == 1" required>
+              <el-form-grid>
+                <ns-button type='text' @click="chooseChannel()">+选择渠道</ns-button>
+              </el-form-grid>
+            </el-form-item>
+            <el-form-item label="好友验证：" v-if="memberManagePlan == 1" required>
+              <el-form-grid size="xxmd">
+                <el-form-item prop="sex">
+                  <el-radio-group v-model="personalQrcode.showType">
+                    <el-radio :label="1">关闭</el-radio>
+                    <el-radio :label="2">开启</el-radio>
+                  </el-radio-group>
+                </el-form-item>
+              </el-form-grid>
+            </el-form-item>
+            <el-form-item label="验证信息关键字：" v-if="memberManagePlan == 1" required>
+              <el-form-grid>
+                <el-input   style="width:400px;" maxlength="50" type="textarea" autofocus=true v-model="personalQrcode.keyword" placeholder="请输入验证信息关键字，关键字之间用英文逗号割开，最多输入50个关键字" clearable></el-input>
+              </el-form-grid>
+            </el-form-item>
             <el-form-item label="子码展示方式：" required>
               <el-form-grid size="xxmd">
                 <el-form-item prop="sex">
@@ -55,10 +75,6 @@
                 </el-form-item>
               </el-form-grid>
             </el-form-item>
-            <!--<el-form-item>
-                <ns-button @click="reload()" >取消</ns-button>
-                <ns-button type="primary" @click="onSave">确定</ns-button>
-            </el-form-item>-->
           </div>
         </div>
       </el-form>
@@ -66,7 +82,7 @@
     <div class="message-container">
     <!---->
     <!--选择好友弹窗开始-->
-    <ElDialog width="600px" title="选择员工" :visible.sync="dialogVisible" :show-scroll-x=false>
+    <ElDialog width="600px" title="选择子码" :visible.sync="dialogVisible" :show-scroll-x=false>
       <div v-if="transferRadio === 0">
         <ElRow :gutter="10" class="code-container">
           <ElCol :span="12" class="code-container__item">
@@ -76,7 +92,6 @@
               suffix-icon="el-icon-search"
               v-model="tree.select" class="code-space">
             </ElInput>
-            <!--<div class="text-primary code-space">全部 /20</div>-->
             <ElScrollbar>
               <ElTree
                 :data="tree.selectData"
@@ -112,7 +127,6 @@
                 :expand-on-click-node="false" class="code-space">
             <span class="code-detail clearfix" slot-scope="{ node, data }">
               <span class="code-detail__text">{{ node.label }}</span>
-              <!--<span>{{ data.children ? '/' + data.children.length : '' }}</span>-->
               <span>
                 <ns-button
                   type="text"
@@ -129,7 +143,7 @@
       </div>
       <div v-if="transferRadio === 1">
         <div class="giveaway-add__item--info">
-          <ns-button type="text" @click="handleAdd()">选择自定义图片</ns-button>
+          <ns-button type="text" @click="handleAdd()">添加自定义图片</ns-button>
         </div>
         <template>
           <el-table :data="tableData" style="width: 100%">
@@ -140,21 +154,14 @@
             </el-table-column>
             <el-table-column label="子码" width="180">
               <template slot-scope="scope">
-                <div v-if="scope.row.img === null"></div>
-                <el-popover trigger="hover" placement="top">
-                  <p>限制上传图片大小5M，格式为png、jpg。提示文字“建议图片长宽比例为1:1，格式jpg/png，大小5MB以内</p>
-<!--                  <div slot="reference" class="name-wrapper">-->
-<!--                    <ns-button size="medium">+上传子码图片</ns-button>-->
-<!--                  </div>-->
                   <el-upload
-                    :action="this.$api.core.sgUploadFile('test')"
+                    :action="sgUploadFile('test')"
                     :show-file-list="false"
                     :on-success="handleAvatarSuccess"
                     :before-upload="beforeAvatarUpload">
                     <img v-if="scope.row.img" :src="scope.row.img" class="company-upload__avatar">
                     <Icon type="plus" className="company-upload__tip" v-else/>
                   </el-upload>
-                </el-popover>
               </template>
             </el-table-column>
             <el-table-column label="失效时间" width="180">

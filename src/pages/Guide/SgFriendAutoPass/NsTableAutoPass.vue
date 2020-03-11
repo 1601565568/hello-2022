@@ -111,7 +111,7 @@
           </el-table-column>
           <el-table-column prop="num" label="当前排队好友数" align="left" min-width="100">
             <template slot-scope="scope">
-              {{ scope.row.mininterval?scope.row.mininterval:'-' }}
+              {{ scope.row.waitNum?scope.row.waitNum:0 }}
             </template>
           </el-table-column>
           <el-table-column prop="joinQueue" label="加入队列" align="left" min-width="100">

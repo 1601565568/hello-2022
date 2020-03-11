@@ -109,11 +109,13 @@
               {{scope.row.personnels?scope.row.personnels:'-'}}
             </template>
           </el-table-column>
-          <el-table-column prop="personnels" v-if="memberManagePlan == 2" label="投放渠道" align="left" min-width="100" :show-overflow-tooltip="true">
-            <template slot-scope="scope">
-              {{scope.row.channel?scope.row.channel:'-'}}
-            </template>
-          </el-table-column>
+          <div v-if="memberManagePlan == 1">
+            <el-table-column prop="personnels" label="投放渠道" align="left" min-width="100" :show-overflow-tooltip="true">
+              <template slot-scope="scope">
+                {{scope.row.channel?scope.row.channel:'-'}}
+              </template>
+            </el-table-column>
+          </div>
           <el-table-column prop="num" label="扫描次数" align="left" min-width="100">
             <template slot-scope="scope">
               {{ scope.row.num?scope.row.num:'0' }}
@@ -126,23 +128,19 @@
           </el-table-column>
           <el-table-column prop="num" label="聚合二维码" align="left" min-width="100">
             <template slot-scope="scope">
-                <ns-button style="color:#0091FA" @click="qrcodeLink(scope.row)" type="text">icon</ns-button>
+                <ns-button style="color:#0091FA" @click="qrcodeLink(scope.row)" type="text"><Icon type="juheerweima" className=""/></ns-button>
             </template>
           </el-table-column>
-          <el-table-column :show-overflow-tooltip="true" v-if="memberManagePlan == 1" label="操作" align="center"
-                           width="160px">
+          <el-table-column :show-overflow-tooltip="true" label="操作" align="center" width="160px">
             <template slot-scope="scope">
-              <ns-table-column-operate-button-ext :buttons="_data._table.table_buttons"
-                                                  :prop="scope">
-              </ns-table-column-operate-button-ext>
-            </template>
-          </el-table-column>
-          <el-table-column :show-overflow-tooltip="true" v-if="memberManagePlan == 2" label="操作" align="center"
-                           width="160px">
-            <template slot-scope="scope">
-              <ns-table-column-operate-button-ext :buttons="_data._table.qywx_table_buttons"
-                                                  :prop="scope">
-              </ns-table-column-operate-button-ext>
+              <div v-if="memberManagePlan == 1">
+                <ns-table-column-operate-button-ext :buttons="_data._table.qywx_table_buttons" :prop="scope">
+                </ns-table-column-operate-button-ext>
+              </div>
+              <div v-if="memberManagePlan == 2">
+                <ns-table-column-operate-button-ext :buttons="_data._table.table_buttons" :prop="scope">
+                </ns-table-column-operate-button-ext>
+              </div>
             </template>
           </el-table-column>
         </el-table>

@@ -7,6 +7,7 @@ export default {
   data: function () {
     let that = this
     return {
+      memberManagePlan: 1,
       // 弹框是否打开判断值
       dialogVisible: false,
       // 左边输入框绑定值
@@ -51,7 +52,7 @@ export default {
         image: '',
         createTime: '',
         showType: 1,
-        personalQrcodeType: 1
+        personalQrcodeType: 0
       },
       title: null,
       parameter: {
@@ -76,6 +77,9 @@ export default {
     }
   },
   mounted: function () {
+    this.$http.fetch(this.$api.core.common.getRecruitVersion).then(data => {
+      this.memberManagePlan = data.result.memberManagePlan
+    })
     const id = this.$route.params.id
     if (id > 0) {
       this.title = '编辑聚合二维码'
@@ -108,6 +112,9 @@ export default {
     this.initEmpTree()
   },
   methods: {
+    sgUploadFile (name) {
+      return this.$api.core.sgUploadFile('test')
+    },
     // 删除右边的树子节点数据
     remove (node, data) {
       const parent = node.parent
@@ -133,6 +140,12 @@ export default {
       if (that.personalQrcode.type === 1 && that.choosePerson.length < 1) {
         that.$notify.error('请选择子码')
         return
+      } else if (that.personalQrcode.type === 2 && that.tableData.length < 1) {
+        that.$notify.error('请选择子码')
+        return
+      }
+      if (that.personalQrcode.type === 2) {
+        that.personalQrcode.childQrcodes = JSON.stringify(that.tableData)
       }
       that.$http.fetch(that.$api.guide.sgPersonalQrcode.save, that.personalQrcode).then(() => {
         that.$notify.success('保存成功')
@@ -154,6 +167,8 @@ export default {
         _this.initEmpTree()
       }
     },
+    chooseChannel () { // 选择渠道
+    },
     handleCheckChange () {
       let _this = this
       let res = this.$refs.tree.getCheckedNodes()
@@ -165,7 +180,7 @@ export default {
       })
       _this.choosePerson = arr
       if (arr.length > 1) {
-        _this.personalQrcode.personnels = arr.join(',')
+        _this.personalQrcode.personnelIds = arr.join(',')
       }
     },
     onSaveChildQrcode () {
@@ -178,7 +193,7 @@ export default {
       } else if (val === '2') {
         _this.choosePerson = []
       }
-      _this.personalQrcode.type = val
+      _this.personalQrcode.type = parseInt(val)
     },
     // 树方法
     check () {
@@ -238,6 +253,7 @@ export default {
     },
     // 上传图片地址的切换事件
     'handleAvatarSuccess': function (res, file) {
+      debugger
       this.$message.info('上传成功')
       this.bgpic = res.result.url
     },
@@ -264,6 +280,9 @@ export default {
       } else {
         this.tableData.push(a)
       }
+    },
+    cancel () {
+      this.$router.push({ path: '/Guide/SgPersonalQrcode/List' })
     }
   }
 }
