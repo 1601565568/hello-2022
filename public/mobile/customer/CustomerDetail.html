@@ -21,7 +21,7 @@
       <img class="customerImg" src="./src/images/default-user.png" alt="客户头像">
     </div>
     <div class="detail-head__info">
-      <div class="text-title font-size-large font-weight-medium customerName">陈飞宇</div>
+      <div class="text-title font-size-large font-weight-medium customerName">--</div>
       <div class="detail-head__icon">
         <img src="./src/icons/icon-boy.svg" class="customerBoy" alt="性别图标">
         <img src="./src/icons/icon-girl.svg" class="customerGirl hide" alt="性别图标">
@@ -76,31 +76,16 @@
 
   <!-- 客户财富 start  -->
   <div class="detail-subtitle">客户财富</div>
-  <div class="card detail-form font-size-base">
+  <div class="card detail-form font-size-base customerMsg">
     <div class="detail-form__item">
       <div class="detail-form__label text-secondary">优惠券</div>
-      <div class="detail-form__content text-title">76516</div>
-    </div>
-    <div class="detail-form__item">
-      <div class="detail-form__label text-secondary">积分</div>
-      <div class="detail-form__content text-title">983</div>
+      <div class="detail-form__content text-title customerUsable">0</div>
     </div>
     <div class="detail-form__item">
       <div class="detail-form__label text-secondary">优惠券</div>
       <div class="detail-form__content text-title">76516</div>
     </div>
-    <div class="detail-form__item">
-      <div class="detail-form__label text-secondary">积分</div>
-      <div class="detail-form__content text-title">983</div>
-    </div>
-    <div class="detail-form__item">
-      <div class="detail-form__label text-secondary">优惠券</div>
-      <div class="detail-form__content text-title">-</div>
-    </div>
-    <div class="detail-form__item">
-      <div class="detail-form__label text-secondary">积分</div>
-      <div class="detail-form__content text-title">983</div>
-    </div>
+
   </div>
   <!-- 客户财富 end  -->
 </div>
@@ -117,7 +102,7 @@
   function getQrcode() {
     ownerWid = getPar('ownerWid')
     wid = getPar('wid')
-    this.ajax('http://localhost:30004/wx/customer/customerDetail', {
+    this.ajax('http://test-sg.ecrpcloud.com/wx/customer/customerDetail', {
       ownerWid: ownerWid,
       wid: wid,
     }).then(function (result) {
@@ -138,6 +123,16 @@
         $(".customerGradeName").html(checkParams(result.result.gradeName))
         $(".customerWechatNo").html(checkParams(result.result.wechatNo))
         $(".customerBirthday").html(checkParams(result.result.birthday))
+        $(".customerUsable").html(result.result.usable)
+        let integralMsg = result.result.integralMsg;
+        for (var i = 0;i < integralMsg.length;i++){
+          let integral = integralMsg[i]
+          var html = '<div class="detail-form__item">' +
+            '      <div class="detail-form__label text-secondary">'+integral.integralAlias+'</div>' +
+            '      <div class="detail-form__content text-title">'+integral.availPoint+'</div>' +
+            '    </div>'
+          $(".customerMsg").append(html)
+        }
       } else {
         // 跳转错误页
         toError()
