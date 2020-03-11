@@ -6,6 +6,7 @@ import Database from './database'
 import Isv from './isv'
 import Management from './management'
 import ContentManager from './contentmanager'
+import riskManagement from './riskManagement'
 import WeWork from './wework'
 export default [
   ShopManager,
@@ -16,6 +17,7 @@ export default [
   Isv,
   Management,
   ContentManager,
+  riskManagement,
   WeWork, // 企业微信
   {
     path: '/operate/articleMaterialDetail',

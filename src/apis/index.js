@@ -5,6 +5,7 @@ import coupon from './coupon'
 import isv from './isv'
 import mall from './mall'
 import overView from './overView'
+import riskManagement from './riskManagement'
 import weWork from './weWork' // 企业微信
 export default {
   test,
@@ -13,6 +14,7 @@ export default {
   coupon,
   isv,
   mall,
+  riskManagement,
   overView,
   getMoreAccountByWeight: { // 根据权重查询个人号
     url: '/guide/sgmoreaccount/getMoreAccountByWeight',
