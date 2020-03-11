@@ -7,19 +7,35 @@ export default {
   data: function () {
     let that = this
     return {
-      // 集团版本  1：个号版本  2：企微版本
-      memberManagePlan: 1,
       // 弹框是否打开判断值
       dialogVisible: false,
       // 左边输入框绑定值
       input: '',
-      // 左边树数据
-      leftTreeData: null,
-      // 左边树默认绑定数据
-      leftDefaultProps: {
-        children: 'children',
-        label: 'label'
+      // 员工树
+      tree: {
+        // 左边树默认绑定数据
+        leftDefaultProps: {
+          children: 'children',
+          label: 'label'
+        },
+        copySelectKeys: [],
+        copySelectedData: [],
+        // 右边树数据
+        selectedData: [],
+        // 右边输入框绑定值
+        select: '',
+        selected: '',
+        selectKeys: [],
+        treeVisible: false,
+        selectData: []
       },
+      // 这里定义选择二维码类型名称
+      QrCodeTypeNames: [
+        '员工',
+        '自定义图片',
+        '公众号',
+        '小程序'
+      ],
       choosePerson: [],
       personalQrcode: {
         id: null,
@@ -29,16 +45,13 @@ export default {
         creatorName: null,
         name: null,
         personnels: null,
-        prersonelIds: null,
-        childQrcodes: null,
+        prersonelIds: '',
         type: 1,
         num: null,
         image: '',
         createTime: '',
         showType: 1,
-        isvalidate: 1,
-        keyword: null,
-        channel: null
+        personalQrcodeType: 1
       },
       title: null,
       parameter: {
@@ -56,9 +69,9 @@ export default {
       },
       transferRadio: '1',
       tableData: [{
-        name: '测试',
-        img: 'https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1272590022,602097170&fm=26&gp=0.jpg',
-        date: '2020-02-02'
+        name: null,
+        image: null,
+        date: null
       }]
     }
   },
@@ -70,14 +83,12 @@ export default {
         id: id
       }).then(data => {
         if (data.result.type === 1) {
+          debugger
           let split = data.result.personnelIds.split(',')
           let guideIds = []
           for (let i = 0; i < split.length; i++) {
             this.choosePerson.push(parseInt(split[i]))
           }
-          this.personalQrcode.personnelIds = data.result.personnelIds
-        } else if (data.result.type === 2) {
-          this.personalQrcode.childQrcodes = data.result.childQrcodes
         }
         this.personalQrcode.id = data.result.id
         this.personalQrcode.name = data.result.name
@@ -88,9 +99,6 @@ export default {
         this.loading = false
       })
     } else {
-      this.$http.fetch(this.$api.core.common.getRecruitVersion).then(data => {
-        this.memberManagePlan = data.result.memberManagePlan
-      })
       this.title = '新增聚合二维码'
     }
     if (typeof this.$init === 'function') {
@@ -98,6 +106,7 @@ export default {
     } else {
       this.$reload()
     }
+    this.initEmpTree()
   },
   methods: {
     // 删除右边的树子节点数据
@@ -106,6 +115,15 @@ export default {
       const children = parent.data.children || parent.data
       const index = children.findIndex(d => d.id === data.id)
       children.splice(index, 1)
+      const nodes = this.$refs.selectTree.getCheckedNodes()
+      const nodeIndex = nodes.findIndex(d => d.id === data.id)
+      nodes.splice(nodeIndex, 1)
+      for (let i in nodes) {
+        if (nodes[i].children) {
+          nodes.splice(i, 1)
+        }
+      }
+      this.$refs.selectTree.setCheckedNodes(nodes)
     },
     onSave () {
       let that = this
@@ -116,12 +134,6 @@ export default {
       if (that.personalQrcode.type === 1 && that.choosePerson.length < 1) {
         that.$notify.error('请选择子码')
         return
-      } else if (that.personalQrcode.type === 2 && that.tableData.length < 1) {
-        that.$notify.error('请选择子码')
-        return
-      }
-      if (that.personalQrcode.type === 2) {
-        that.personalQrcode.childQrcodes = JSON.stringify(that.tableData)
       }
       that.$http.fetch(that.$api.guide.sgPersonalQrcode.save, that.personalQrcode).then(() => {
         that.$notify.success('保存成功')
@@ -133,14 +145,16 @@ export default {
     },
     onConfirm () { // 选择员工弹唱确认
     },
-    choosePersonnel () { // 选择员工
+    choosePersonnel (type) { // 选择员工
+      debugger
+      console.info(type)
       let _this = this
       _this.dialogVisible = true
-      if (_this.transferRadio === '1') {
-        _this.getDepartment()
+      _this.transferRadio = type
+      if (type === 0) {
+        // _this.getDepartment()
+        _this.initEmpTree()
       }
-    },
-    chooseChannel () { // 选择渠道
     },
     handleCheckChange () {
       let _this = this
@@ -153,7 +167,7 @@ export default {
       })
       _this.choosePerson = arr
       if (arr.length > 1) {
-        _this.personalQrcode.personnelIds = arr.join(',')
+        _this.personalQrcode.personnels = arr.join(',')
       }
     },
     onSaveChildQrcode () {
@@ -166,13 +180,52 @@ export default {
       } else if (val === '2') {
         _this.choosePerson = []
       }
-      _this.personalQrcode.type = parseInt(val)
+      _this.personalQrcode.type = val
     },
-    getDepartment () {
+    // 树方法
+    check () {
+      this.setSelectedData()
+    },
+    setSelectedData () {
+      this.tree.selectedData = []
+      let data = this.$refs.selectTree.getCheckedNodes()
+      if (data) {
+        for (let dataParent of data) {
+          if (!dataParent.disabled) {
+            this.tree.selectedData.push(dataParent)
+          }
+        }
+      }
+      return this.tree.selectedData
+    },
+    onCloseTree () {
+      this.tree.selectedData = this.tree.copySelectedData
+      this.$refs.selectTree.setCheckedKeys(this.tree.selectedData.map(value => { return value.id }))
+      this.tree.treeVisible = false
+    },
+    onSaveTree () {
+      if (this.tree.selectedData.length > 0) {
+        this.tree.copySelectedData = this.selectedData
+        this.tree.selectKeys = []
+        this.tree.treeVisible = false
+      } else {
+        this.$notify.warning('请选择营销人群')
+      }
+    },
+    showTree () {
+      this.tree.treeVisible = true
+      this.$nextTick(function () {
+        this.tree.copySelectedData = JSON.parse(JSON.stringify(this.setSelectedData()))
+      })
+    },
+    selectFilterNode (query, item) {
+      return item.label.indexOf(query) > -1
+    },
+    initEmpTree: function () {
       let _this = this
       _this.$http.fetch(_this.$api.guide.sgPersonalQrcode.getDepartment).then(resp => {
         if (resp.success && resp.result != null) {
-          _this.leftTreeData = JSON.parse(resp.result)
+          this.tree.selectData = JSON.parse(resp.result)
         } else {
           _this.$notify.error(getErrorMsg('获取员工数据失败', resp))
         }
@@ -213,9 +266,6 @@ export default {
       } else {
         this.tableData.push(a)
       }
-    },
-    cancel () {
-      this.$router.push({ path: '/Guide/SgPersonalQrcode/List' })
     }
   }
 }
