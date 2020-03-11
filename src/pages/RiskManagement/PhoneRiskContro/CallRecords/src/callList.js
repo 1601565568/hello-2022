@@ -13,21 +13,17 @@ export default {
     const tableButtons = [
       {
         'func': function (scope) {
-          this.onRedactFun(scope.row)
+          this.$emit('onPlay', scope.row)
         },
-        'icon': '',
         'name': '听录音',
-        'auth': ``,
-        'visible': `!scope.row.content`
+        'visible': `scope.row.content !== null && scope.row.content !== ''`
       },
       {
         'func': function (scope) {
-          this.onDownLoad(scope.row)
+          this.$emit('onDownLoad', scope.row)
         },
-        'icon': '',
         'name': '下载录音',
-        'auth': ``,
-        'visible': `!scope.row.content`
+        'visible': `scope.row.content !== null && scope.row.content !== ''`
       }
     ]
     let quickSearchModel = {}
@@ -61,16 +57,5 @@ export default {
   },
   computed: {},
   methods: {
-    onRedactFun (row) {
-      window.open(row.content)
-    },
-    onDownLoad (data) {
-      let _this = this
-      _this.$http.fetch(_this.$api.riskManagement.callRecords.download, {
-        url: data.content
-      }).catch((resp) => {
-        _this.$notify.error(getErrorMsg('下载失败', resp))
-      })
-    }
   }
 }
