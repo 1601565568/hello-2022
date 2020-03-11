@@ -1,0 +1,436 @@
+/* 新版本样式 */
+/* 全局初始化 */
+* {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  margin: 0;
+  outline: none;
+}
+
+*:before, *:after {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box
+}
+
+html, body {
+  margin: 0 auto;
+  padding: 0;
+  overflow: hidden;
+  height: 100%;
+  font-family: "PingFang SC", Verdana, "Helvetica Neue", "Microsoft Yahei", "Hiragino Sans GB", "Microsoft Sans Serif", "WenQuanYi Micro Hei", "sans-serif";
+}
+
+body,
+input, textarea, select, button,
+.checkbox-pretty span, .radio-pretty span {
+  font-family: "PingFang SC", Verdana, "Helvetica Neue", "Microsoft Yahei", "Hiragino Sans GB", "Microsoft Sans Serif", "WenQuanYi Micro Hei", "sans-serif";
+}
+
+body {
+  position: relative;
+  min-height: 100%;
+  font-size: 12px;
+  line-height: 20px;
+  font-weight: 400;
+  color: #595959;
+  background: #f2f2f2;
+}
+
+
+
+textarea::-webkit-input-placeholder { /* WebKit, Blink, Edge */
+  color:  #BFBFBF;
+}
+:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+  color:  #BFBFBF;
+}
+::-moz-placeholder { /* Mozilla Firefox 19+ */
+  color:  #BFBFBF;
+}
+input:-ms-input-placeholder { /* Internet Explorer 10-11 */
+  color: #BFBFBF;
+}
+textarea::-ms-input-placeholder { /* Microsoft Edge */
+  color: #BFBFBF;
+}
+
+
+.hide {
+  display: none !important;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-title {
+  color: #262626;
+}
+.text-primary {
+  color: #595959;
+}
+.text-secondary {
+  color: #8C8C8C;
+}
+.text-disable {
+  color: #BFBFBF;
+}
+.text-border {
+  color: #D9D9D9;
+}
+.text-link {
+  color: #1876FC;
+}
+
+.color-divider {
+  color: #EEEEEE;
+}
+
+/* font-size */
+.font-size-small {
+  font-size: 14px;
+}
+.font-size-base {
+  font-size: 15px;
+}
+.font-size-large {
+  font-size: 16px;
+}
+
+/* line-height */
+.line-height-mini {
+  line-height: 21px;
+}
+.line-height-small {
+  line-height: 22px;
+}
+.line-height-base {
+  line-height: 23px;
+}
+
+.font-weight-medium {
+  font-weight: 500;
+}
+
+.bg-white {
+  background-color: #FFF;
+}
+
+/* 顶部状态栏 */
+.page-status-bar {
+  padding: 14px 15px;
+  font-size: 16px;
+  line-height: 22px;
+  position: relative;
+}
+.page-status-bar .state-bar__cancel {
+  position: absolute;
+  left: 15px;
+}
+
+/* 容器 start */
+.page-container {
+  padding: 5px 10px 15px;
+  height: calc(100vh - 50px);
+  overflow: auto;
+}
+.page-container.page-container--no-data {
+  padding: 30px 10px;
+  text-align: center;
+}
+.page-container.page-container--no-data > img {
+  width: 100%;
+  margin-bottom: 10px;
+}
+/* 容器 end */
+
+.card {
+  background-color: #FFF;
+  border-radius: 5px;
+}
+.card + .card {
+  margin-top: 10px;
+}
+
+/* 浮层 */
+.float-layout {}
+
+.float-layout .float-layout__mask {
+  position: fixed;
+  z-index: 10;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  opacity: 1;
+  background: rgba(38, 38, 38, .5);
+  transition: all ease 0s;
+}
+.float-layout.hidden .float-layout__mask {
+  z-index: -1;
+  opacity: 0;
+  transition-delay: .2s;
+}
+.float-layout .float-layout__main {
+  position: fixed;
+  z-index: 11;
+  bottom: 0;
+  width: 100%;
+  max-height: 504px;
+  background-color: #FFF;
+  overflow: hidden;
+  transition: all ease-in-out .3s;
+}
+.float-layout.hidden .float-layout__main {
+  max-height: 0;
+}
+.float-layout .float-layout__title {
+  display: flex;
+  justify-content: space-between;
+  padding: 14px 15px 12px;
+  font-size: 16px;
+  color: #262626;
+  line-height: 24px;
+}
+.float-layout .float-layout__content {
+  max-height: 454px;
+  width: 100%;
+  overflow: auto;
+}
+
+/* 浮层 输入框 start */
+.float-textarea {
+  padding: 5px 15px 20px;
+}
+.float-textarea > textarea {
+  padding: 10px;
+  height: 80px;
+  width: 100%;
+  resize: none;
+  font-size: 15px;
+  line-height: 22px;
+  background-color: #F2F2F2;
+  border: none;
+}
+/* 浮层 输入框 end */
+
+/* 浮层 复选 start */
+.float-checkbox {
+  padding: 15px 5px 5px 15px;
+  font-size: 0;
+}
+.float-checkbox .float-checkbox__item {
+  display: inline-block;
+  margin: 0 10px 10px 0;
+  padding: 6px 10px;
+  border-radius: 2px;
+  background-color: #F9F9F9;
+  font-size: 13px;
+  color: #595959;
+}
+.float-checkbox .float-checkbox__item.float-checkbox__item--selected {
+  background-color: #E6F4FF;
+  color: #1876FC;
+}
+.float-checkbox .float-checkbox__item.float-checkbox__item--disabled {
+  background-color: rgba(249,249,249,0.60);
+  color: #BFBFBF;
+}
+.float-checkbox .float-checkbox__item.float-checkbox__item--selected.float-checkbox__item--disabled {
+  background-color: rgba(230,244,255,0.60);
+  color: rgba(24,118,252,0.60);
+}
+/* 浮层 复选 end */
+/* 浮层 单选 start */
+.float-select {
+  padding-left: 16px;
+}
+.float-select .float-select__item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 15px 12px 0;
+}
+.float-select .float-select__item + .float-select__item::before {
+  content: ' ';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background-color: #E8E8E8;
+}
+
+.float-select .float-select__content {
+  flex: 1;
+  font-size: 16px;
+  color: #262626;
+  line-height: 24px;
+}
+.float-select .float-select__item.float-select__item--disabled .float-select__content {
+  color: #BFBFBF;
+}
+.float-select .float-select__icon {
+  display: none;
+  width: 22px;
+  height: 22px;
+}
+.float-select .float-select__item.float-select__item--selected .float-select__icon {
+  display: block;
+}
+
+/* 浮层 单选 end */
+
+/* 客户详情 start */
+.detail-subtitle {
+  padding: 11px 5px 3px;
+  font-size: 13px;
+  color: #8C8C8C;
+  line-height: 21px;
+}
+
+.detail-head {
+  display: flex;
+  padding: 21px 20px;
+}
+.detail-head .detail-head__avatar {
+  width: 54px;
+  height: 54px;
+  margin-right: 10px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+.detail-head .detail-head__avatar > img {
+  width: 100%;
+}
+.detail-head .detail-head__info {
+  display: flex;
+  align-items: center;
+}
+.detail-head .detail-head__icon {
+  width: 17px;
+  height: 17px;
+}
+
+.detail-form {}
+.detail-form .detail-form__item {
+  position: relative;
+  display: flex;
+  padding: 15px 14px;
+}
+.detail-form .detail-form__item + .detail-form__item::before {
+  content: ' ';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background-color: #E8E8E8;
+}
+.detail-form .detail-form__label {
+  width: 106px;
+}
+.detail-form .detail-form__content {
+  flex: 1;
+  margin-left: 21px;
+}
+.detail-form .detail-form__addon {
+  width: 20px;
+  height: 20px;
+  margin-left: 10px;
+  margin-right: 1px;
+}
+
+/* 客户详情 end */
+
+/* 客户标签 start */
+.tag {
+  display: inline-block;
+  margin: 0 10px 10px 0;
+  padding: 4px 10px;
+  background-color: #F9F9F9;
+  color: #595959;
+  font-size: 12px;
+  letter-spacing: 0;
+  line-height: 16px;
+  border-radius: 2px
+}
+.tag.tag--primary {
+  color: #FFF;
+  background-color: #1876FC;
+}
+
+.tag-list {
+  padding: 15px 10px 5px 15px;
+}
+.tag-list--nodata {
+  height: 88px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #595959;
+}
+.tag-list--nodata > img {
+  width: 16px;
+  margin-right: 5px;
+}
+
+.tag-details {}
+.tag-details .tag-details__item {
+  position: relative;
+  padding-top: 14px;
+  padding-left: 15px;
+}
+.tag-details .tag-details__item + .tag-details__item::before {
+  content: ' ';
+  position: absolute;
+  top: 0;
+  left: 15px;
+  right: 0;
+  height: 1px;
+  background-color: #E8E8E8;
+}
+.tag-details .tag-details__title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 13px;
+  padding-right: 15px;
+  font-size: 15px;
+  line-height: 23px;
+}
+.tag-details .tag-details__edit {
+  font-size: 13px;
+  line-height: 21px;
+}
+.tag-details .tag-details__tags {
+  padding-right: 5px;
+  padding-bottom: 2px;
+}
+/* 客户标签 end */
+
+
+/* 日期选择器样式覆盖 */
+.rolldate-panel header {
+  text-align: left;
+  padding: 14px 15px 12px;
+  font-size: 16px !important;
+  color: #262626;
+  line-height: 24px !important;
+  border: none !important;
+  font-weight: 500;
+}
+
+.rolldate-panel header .rolldate-confirm {
+  height: auto;
+  top: 50%;
+  color: #1876FC;
+  font-weight: 400;
+  transform: translateY(-50%);
+}
+.rolldate-panel header .rolldate-cancel {
+  display: none;
+}
