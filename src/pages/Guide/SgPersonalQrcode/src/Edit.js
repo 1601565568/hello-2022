@@ -33,9 +33,9 @@ export default {
       // 这里定义选择二维码类型名称
       QrCodeTypeNames: [
         '员工',
-        '自定义图片',
-        '公众号',
-        '小程序'
+        '自定义图片'
+        // '公众号',
+        // '小程序'
       ],
       choosePerson: [],
       personalQrcode: {
@@ -69,10 +69,13 @@ export default {
         'type': [{ required: true, message: '请选择类型' }]
       },
       transferRadio: '1',
+      currentUploadIndex: null,
       tableData: [{
+        index: 0,
         name: null,
         image: null,
-        date: null
+        date: null,
+        num: null
       }]
     }
   },
@@ -253,9 +256,11 @@ export default {
     },
     // 上传图片地址的切换事件
     'handleAvatarSuccess': function (res, file) {
-      debugger
       this.$message.info('上传成功')
-      this.bgpic = res.result.url
+      this.tableData[this.currentUploadIndex].image = res.result.url
+    },
+    setCurrentUploadRowIndex (index) {
+      this.currentUploadIndex = index
     },
     // 上传图片的类型和大小判断事件
     beforeAvatarUpload (file) {
@@ -271,11 +276,12 @@ export default {
     },
     handleAdd () {
       let a = {
+        index: this.tableData.length,
         name: null,
         image: null,
         date: null
       }
-      if (this.tableData.length > 5) {
+      if (this.tableData.length > 49) {
         this.$notify.error('添加数量最多为50个')
       } else {
         this.tableData.push(a)

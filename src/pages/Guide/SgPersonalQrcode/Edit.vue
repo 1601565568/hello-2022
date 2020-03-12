@@ -32,14 +32,24 @@
             <ElFormItem>
               <div class="message-detail" >
                 <ElTable :data="tableData" class="message-detail__table">
-                  <ElTableColumn prop="style" label="名称" align="center" width="80"/>
-                  <ElTableColumn prop="style" label="类型" align="center" width="80"/>
-                  <ElTableColumn prop="style" label="字码" align="center" width="150"/>
-                  <ElTableColumn prop="style" label="每日添加好友次数" align="center" width="120"/>
+                  <ElTableColumn prop="style" label="名称" align="center" width="80">
+                    <template slot-scope="scope">
+                      {{ scope.row.name }}
+                    </template>
+                  </ElTableColumn>
+                  <ElTableColumn prop="style" label="子码" align="center" width="150">
+                    <template slot-scope="scope">
+                      <img v-if="scope.row.image" :src="scope.row.image" width="50px" height="50px" class="company-upload__avatar">
+                    </template>
+                  </ElTableColumn>
+                  <ElTableColumn prop="style" label="每日添加好友次数" align="center" width="120">
+                    <template slot-scope="scope">
+                      <el-input v-model="scope.row.num"></el-input>
+                    </template>
+                  </ElTableColumn>
                   <ElTableColumn label="操作" align="center" :width="80">
-                    <template>
-                      <ns-button type="text" size="small"
-                                 @click="handleDelete(scope, item)">删除</ns-button>
+                    <template slot-scope="scope">
+                      <ns-button type="text" size="small" @click="handleDelete(scope, item)">删除</ns-button>
                     </template>
                   </ElTableColumn>
                 </ElTable>
@@ -117,7 +127,6 @@
               suffix-icon="el-icon-search"
               v-model="tree.selected" class="code-space">
             </ElInput>
-            <!--<div class="text-primary code-space">全部 /33</div>-->
             <ElScrollbar>
               <ElTree
                 :data="tree.selectedData"
@@ -152,19 +161,19 @@
                 <el-input v-model="scope.row.name" placeholder="请输入二维码名称，字数限制15字内"></el-input>
               </template>
             </el-table-column>
-            <el-table-column label="子码" width="180">
+            <el-table-column label="子码" width="120">
               <template slot-scope="scope">
                   <el-upload
                     :action="sgUploadFile('test')"
                     :show-file-list="false"
                     :on-success="handleAvatarSuccess"
                     :before-upload="beforeAvatarUpload">
-                    <img v-if="scope.row.img" :src="scope.row.img" class="company-upload__avatar">
-                    <Icon type="plus" className="company-upload__tip" v-else/>
+                    <img v-if="scope.row.image" :src="scope.row.image" width="50px" height="50px" class="company-upload__avatar">
+                    <Icon type="plus" @click='setCurrentUploadRowIndex(scope.row.index)' className="company-upload__tip" v-else/>
                   </el-upload>
               </template>
             </el-table-column>
-            <el-table-column label="失效时间" width="180">
+            <el-table-column label="失效时间" width="200">
               <template slot-scope="scope">
                 <el-date-picker
                   v-model="scope.row.date"
@@ -175,7 +184,7 @@
             </el-table-column>
             <el-table-column label="操作">
               <template slot-scope="scope">
-                <ns-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</ns-button>
+                <ns-button type="text" size="small" @click="handleDelete(scope.$index, scope.row)">删除</ns-button>
               </template>
             </el-table-column>
           </el-table>
@@ -195,6 +204,7 @@
   </div>
 </template>
 <script>
+
 import Edit from './src/Edit'
 import index from './src/List'
 import ElTree from '@nascent/nui/lib/tree'
