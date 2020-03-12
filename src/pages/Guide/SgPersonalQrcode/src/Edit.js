@@ -161,7 +161,6 @@ export default {
     onConfirm () { // 选择员工弹唱确认
     },
     choosePersonnel (type) { // 选择员工
-      console.info(type)
       let _this = this
       _this.dialogVisible = true
       _this.transferRadio = type
