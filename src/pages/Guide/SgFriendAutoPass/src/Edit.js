@@ -65,7 +65,6 @@ export default {
         this.friendAutoPass.beginTime = data.result[0].begin_time
         this.friendAutoPass.endTime = data.result[0].end_time
         this.friendAutoPass.joinqueue = data.result[0].joinqueue
-        console.log(this.timeValue)
         this.timeValue = []
         this.timeValue.push(new Date(`2016-01-01 ${data.result[0].begin_time}`))
         this.timeValue.push(new Date(`2016-01-02 ${data.result[0].end_time}`))
