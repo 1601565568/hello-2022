@@ -11,7 +11,7 @@ export default {
   },
   methods: {
     onPlay (row) {
-      row.content = 'http://ihd.file.alimmdn.com/chat-client/messageAudio/wechat.wav'
+      // row.content = 'http://ihd.file.alimmdn.com/chat-client/messageAudio/wechat.wav'
       if (!row.content) {
         this.$notify.error('没有通话记录')
       }
@@ -21,7 +21,7 @@ export default {
     cleanGuide () {
     },
     onDownLoad (data) {
-      data.content = 'http://ihd.file.alimmdn.com/chat-client/messageAudio/wechat.wav'
+      // data.content = 'http://ihd.file.alimmdn.com/chat-client/messageAudio/wechat.wav'
 
       let _this = this
       _this.$http.fetch(_this.$api.riskManagement.callRecords.down, {
