@@ -3,7 +3,7 @@
  * @Author: yuye.huang
  * @Date: 2020-02-28 17:28:29
  * @LastEditors: yuye.huang
- * @LastEditTime: 2020-03-09 14:28:20
+ * @LastEditTime: 2020-03-16 17:06:46
  -->
 <template>
   <div>
@@ -131,7 +131,7 @@ export default {
         welcomeCodeUuid: data.welcomeCodeUuid,
         loadingtable: true
       }
-      this.$http.fetch(this.$api.weWork.welcomeCode.findWelcomeCodeChannelList, { uuid: data.welcomeCodeUuid }).then((resp) => {
+      this.$http.fetch(this.$api.weWork.welcomeCode.findWelcomeCodeChannelList, { welcomeCodeUuid: data.welcomeCodeUuid }).then((resp) => {
         this.channelList = resp.result
         this.channelScopeModel.loadingtable = false
       }).catch((resp) => {

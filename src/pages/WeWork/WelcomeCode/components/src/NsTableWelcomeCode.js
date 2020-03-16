@@ -3,7 +3,7 @@
  * @Author: yuye.huang
  * @Date: 2020-03-01 16:34:26
  * @LastEditors: yuye.huang
- * @LastEditTime: 2020-03-06 18:33:03
+ * @LastEditTime: 2020-03-16 16:48:30
  */
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import annexType from '@/config/annexType.js'
@@ -94,7 +94,7 @@ export default {
         type: 'warning'
       }).then(() => {
         let param = {}
-        param.uuid = data.welcomeCodeUuid
+        param.welcomeCodeUuid = data.welcomeCodeUuid
         _this.$http.fetch(_this.$api.weWork.welcomeCode.deleteWelcomeCode, param).then(resp => {
           if (resp.success) {
             _this.$notify.success('删除成功')

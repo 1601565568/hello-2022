@@ -94,7 +94,7 @@ export default {
     // 获取渠道列表 todo 异步问题
     this.$http.fetch(this.$api.weWork.welcomeCode.findChannelList).then((resp) => {
       this.channelList = resp.result
-      this.$init({ uuid: this.$route.query.welcomeCodeUuid })
+      this.$init({ welcomeCodeUuid: this.$route.query.welcomeCodeUuid })
     }).catch((resp) => {
       this.$notify.error(resp.msg)
     })
@@ -382,6 +382,9 @@ export default {
     setSelectChannelMsg () {
       let _this = this
       _this.channelSelectMsg = ''
+      if (!_this.model.channelCodes) {
+        return
+      }
       for (let select of _this.model.channelCodes) {
         for (let channel of _this.channelList) {
           if (select === channel.value) {
@@ -433,20 +436,21 @@ export default {
     $init (data) {
       // 页面初始化时，加载页面数据
       let that = this
-      if (data.uuid) {
+      if (data.welcomeCodeUuid) {
         that.$http
           .fetch(that.$api.weWork.welcomeCode.getWelcomeCode, {
-            uuid: data.uuid
+            welcomeCodeUuid: data.welcomeCodeUuid
           }).then(resp => {
             that.model = resp.result
             if (that.model.annexType === 0) {
               return
             }
 
-            this.setSelectChannelMsg()
+            that.setSelectChannelMsg()
             // 设置选择员工
-            this.employeeSelectMsg = '已选择' + this.model.employeeIds.length + '名员工'
-
+            if (that.model.employeeIds) {
+              that.employeeSelectMsg = '已选择' + that.model.employeeIds.length + '名员工'
+            }
             let annexContent = JSON.parse(that.model.annexContent)
             if (that.model.annexType === 1) {
               that.model.image = annexContent.image

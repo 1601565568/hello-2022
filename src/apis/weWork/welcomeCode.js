@@ -45,7 +45,7 @@ export default {
    * @msg: 新增智能欢迎语
    */
   saveWelcomeCode: {
-    url: '/wework/welcomecode/saveWelcomeCode',
+    url: '/wework/welcomecode/saveOrUpdateWelcomeCode',
     method: 'post'
   },
   /**
