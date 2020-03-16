@@ -18,7 +18,7 @@
             <el-form-item label="聚合码类型：" required>
               <el-form-grid size="small">
                 <el-form-item prop="sex">
-                  <el-radio-group v-model="personalQrcode.personalQrcodeType">
+                  <el-radio-group v-model="personalQrcode.type">
                     <el-radio v-for="(typeName, index) in QrCodeTypeNames"  :key="typeName" :label="index" >{{typeName}} </el-radio>
                   </el-radio-group>
                 </el-form-item>
@@ -26,7 +26,7 @@
             </el-form-item>
             <el-form-item label="子码设置：" required>
               <el-form-grid>
-                <ns-button type='text' @click="choosePersonnel(personalQrcode.personalQrcodeType)">+ 选择{{QrCodeTypeNames[personalQrcode.personalQrcodeType]}}</ns-button>
+                <ns-button type='text' @click="choosePersonnel(personalQrcode.type)">+ 选择{{QrCodeTypeNames[personalQrcode.type]}}</ns-button>
               </el-form-grid>
             </el-form-item>
             <ElFormItem>
@@ -63,7 +63,7 @@
             <el-form-item label="好友验证：" v-if="memberManagePlan == 1" required>
               <el-form-grid size="xxmd">
                 <el-form-item prop="sex">
-                  <el-radio-group v-model="personalQrcode.showType">
+                  <el-radio-group v-model="personalQrcode.isvalidate">
                     <el-radio :label="1">关闭</el-radio>
                     <el-radio :label="2">开启</el-radio>
                   </el-radio-group>
@@ -75,7 +75,7 @@
                 <el-input   style="width:400px;" maxlength="50" type="textarea" autofocus=true v-model="personalQrcode.keyword" placeholder="请输入验证信息关键字，关键字之间用英文逗号割开，最多输入50个关键字" clearable></el-input>
               </el-form-grid>
             </el-form-item>
-            <el-form-item label="子码展示方式：" required>
+            <el-form-item label="子码展示方式：" v-if="memberManagePlan == 2" required>
               <el-form-grid size="xxmd">
                 <el-form-item prop="sex">
                   <el-radio-group v-model="personalQrcode.showType">
@@ -109,8 +109,8 @@
                 show-checkbox
                 :filter-node-method="selectFilterNode"
                 node-key="id"
-                default-expand-all
-                :default-checked-keys="tree.selectKeys"
+                default-expand-all="choosePerson"
+                :default-checked-keys="choosePerson"
                 @check="check"
                 :props="tree.leftDefaultProps" class="code-space">
             <span class="code-detail clearfix" slot-scope="{ node, data }">
@@ -198,7 +198,7 @@
     <!--选择好友弹窗结束-->
     </div>
     <div class="form-save__unique">
-      <NsSave />
+      <ns-button type="primary" @click="onSave()">保存</ns-button>
       <NsButton>{{$t('operating.cancel')}}</NsButton>
     </div>
   </div>

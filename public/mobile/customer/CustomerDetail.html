@@ -90,7 +90,7 @@
   <!-- 客户财富 end  -->
 </div>
 <script type="text/javascript" src="/mobile/js/jquery-3.4.1.min.js"></script>
-<script type="text/javascript" src="/mobile/js/common.js"></script>
+<script type="text/javascript" src="../js/common.js"></script>
 <script>
 
   const toError = (type = 3, message = '') => {
@@ -102,7 +102,7 @@
   function getQrcode() {
     ownerWid = getPar('ownerWid')
     wid = getPar('wid')
-    this.ajax('http://test-sg.ecrpcloud.com/wx/customer/customerDetail', {
+    this.ajax(backstageURL() + '/guideCustomer/customerDetail', {
       ownerWid: ownerWid,
       wid: wid,
     }).then(function (result) {

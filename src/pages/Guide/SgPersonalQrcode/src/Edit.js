@@ -47,12 +47,15 @@ export default {
         name: null,
         personnels: null,
         prersonelIds: '',
-        type: 1,
+        type: 0,
         num: null,
         image: '',
         createTime: '',
         showType: 1,
-        personalQrcodeType: 0
+        isvalidate: 1,
+        keyword: null,
+        channel: null,
+        channelName: null
       },
       title: null,
       parameter: {
@@ -70,6 +73,7 @@ export default {
       },
       transferRadio: '1',
       currentUploadIndex: null,
+      channalList: [], // 所有渠道
       tableData: [{
         index: 0,
         name: null,
@@ -83,6 +87,15 @@ export default {
     this.$http.fetch(this.$api.core.common.getRecruitVersion).then(data => {
       this.memberManagePlan = data.result.memberManagePlan
     })
+    if (this.memberManagePlan === 1) { // 1：企微方案
+      this.$http.fetch(this.$api.core.common.getRecruitVersion).then(data => {
+        this.memberManagePlan = data.result.memberManagePlan
+      }).catch((error) => {
+        this.$notify.error(getErrorMsg('获取渠道信息失败：', error))
+      }).finally(() => {
+        this.loading = false
+      })
+    }
     const id = this.$route.params.id
     if (id > 0) {
       this.title = '编辑聚合二维码'
@@ -140,14 +153,14 @@ export default {
         that.$notify.error('聚合码名称不能为空')
         return
       }
-      if (that.personalQrcode.type === 1 && that.choosePerson.length < 1) {
+      if (that.personalQrcode.type === 0 && that.choosePerson.length < 1) {
         that.$notify.error('请选择子码')
         return
-      } else if (that.personalQrcode.type === 2 && that.tableData.length < 1) {
+      } else if (that.personalQrcode.type === 1 && that.tableData.length < 1) {
         that.$notify.error('请选择子码')
         return
       }
-      if (that.personalQrcode.type === 2) {
+      if (that.personalQrcode.type === 1) {
         that.personalQrcode.childQrcodes = JSON.stringify(that.tableData)
       }
       that.$http.fetch(that.$api.guide.sgPersonalQrcode.save, that.personalQrcode).then(() => {
@@ -188,14 +201,6 @@ export default {
     onSaveChildQrcode () {
       let _this = this
       _this.dialogVisible = false
-    },
-    shiftChange (val) {
-      let _this = this
-      if (val === '1') {
-      } else if (val === '2') {
-        _this.choosePerson = []
-      }
-      _this.personalQrcode.type = parseInt(val)
     },
     // 树方法
     check () {
