@@ -112,7 +112,7 @@
           <div v-if="memberManagePlan == 1">
             <el-table-column prop="personnels" label="投放渠道" align="left" min-width="100" :show-overflow-tooltip="true">
               <template slot-scope="scope">
-                {{scope.row.channel?scope.row.channel:'-'}}
+                {{scope.row.channelName?scope.row.channelName:'-'}}
               </template>
             </el-table-column>
           </div>

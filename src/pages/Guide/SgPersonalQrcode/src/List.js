@@ -297,12 +297,23 @@ export default {
     preview (row) {
       let _this = this
       _this.dialogVisible = true
-      // this.$http.fetch(_this.$api.guide.sgPersonalQrcode.findById, {
-      //   id: row.id
-      // }).then(resp => {
-      // }).catch(resp => {
-      //   _this.$notify.error(getErrorMsg('获取失败', resp))
-      // })
+      _this.onShowTitle = row.title
+      if (row.bgimg === '' || row.bgimg === null) {
+        _this.bgpic = bgimg
+      } else {
+        _this.bgpic = row.bgimg
+      }
+    },
+    onShowFun (row) { // 投放预览
+      let _this = this
+      _this.dialogVisible = true
+      _this.onShowId = row.id
+      _this.onShowTitle = row.title
+      if (row.bgimg === '' || row.bgimg === null) {
+        _this.bgpic = bgimg
+      } else {
+        _this.bgpic = row.bgimg
+      }
     },
     transfer () {
       this.$router.push({
@@ -395,17 +406,6 @@ export default {
       this.row = row
       var path = '/Guide/SgPersonalQrcode/List/Edit/' + this.row.id
       this.$router.push({ path: path })
-    },
-    onShowFun (row) { // 投放预览
-      let _this = this
-      _this.dialogVisible = true
-      _this.onShowId = row.id
-      if (row.bgimg === '' || row.bgimg === null) {
-        _this.title = row.title
-        _this.bgpic = bgimg
-      } else {
-        _this.bgpic = row.bgimg
-      }
     },
     onDeleteFun (row) { // 删除
       var _this = this
