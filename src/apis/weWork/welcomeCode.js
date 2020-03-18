@@ -3,7 +3,7 @@
  * @Author: yuye.huang
  * @Date: 2020-02-28 17:30:52
  * @LastEditors: yuye.huang
- * @LastEditTime: 2020-03-03 18:39:01
+ * @LastEditTime: 2020-03-16 17:12:39
  */
 export default {
   /**
@@ -42,9 +42,9 @@ export default {
     method: 'post'
   },
   /**
-   * @msg: 新增智能欢迎语
+   * @msg: 新增/更新智能欢迎语
    */
-  saveWelcomeCode: {
+  saveOrUpdateWelcomeCode: {
     url: '/wework/welcomecode/saveOrUpdateWelcomeCode',
     method: 'post'
   },

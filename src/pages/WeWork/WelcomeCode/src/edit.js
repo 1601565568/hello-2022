@@ -19,7 +19,7 @@ export default {
     ElUpload
   },
   data: function () {
-    // 网页链接配置model
+    // 图片配置model
     let imageModel = {
       image: ''
     }
@@ -222,7 +222,10 @@ export default {
      */
     onSubmitAnnex (type) {
       let that = this
-      if (type === 2) {
+      if (type === 0) {
+        that.onSubmitHandleModel(type)
+        that.model.annexType = type
+      } else if (type === 2) {
         that.$refs.linkForm.validate(valid => {
           if (!valid) {
             return
@@ -393,6 +396,9 @@ export default {
         }
       }
     },
+    /**
+     * @msg: 保存或更新
+     */
     saveOrUpdate: function () {
       let that = this
       let annexContent = {}
@@ -419,7 +425,7 @@ export default {
           return
         }
         that.$http
-          .fetch(that.$api.weWork.welcomeCode.saveWelcomeCode, that.model)
+          .fetch(that.$api.weWork.welcomeCode.saveOrUpdateWelcomeCode, that.model)
           .then(resp => {
             that.$notify.success('操作成功')
             that.$router.push({ path: '/WeWork/WelcomeCode/WelcomeCodeList' })
@@ -428,6 +434,19 @@ export default {
             that.$notify.error(resp.msg)
           })
           .finally(() => { })
+      })
+    },
+    /**
+     * @msg: 取消新增/修改
+     */
+    back () {
+      let _this = this
+      _this.$confirm('表单修改内容将丢失,确定是否返回？', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        _this.$router.push({ path: '/WeWork/WelcomeCode/WelcomeCodeList' })
       })
     },
     /**

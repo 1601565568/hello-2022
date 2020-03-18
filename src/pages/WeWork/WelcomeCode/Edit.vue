@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="page-title">
-      编辑智能欢迎语
+      {{ model.welcomeCodeUuid?'修改':'新增' }}智能欢迎语
     </div>
     <ElScrollbar ref="fullScreen">
       <ElCard shadow="never">
@@ -19,8 +19,8 @@
                     <Icon type="exclamation-circle" />
                     配置后，客户将在添加成员为联系人后收到该欢迎语
                   </div> -->
-                  <ElForm ref="form" :model="model" label-width="100px">
-                    <ElFormItem label="欢迎语：" required>
+                  <ElForm ref="form" :model="model" label-width="100px" class="pull-right" :rules="commonRules">
+                    <ElFormItem label="欢迎语：" prop="content" :rules="commonRules.content">
                       <ElFormGrid size="xlg" class="message-plan">
                         <ElInput
                           type="textarea"
@@ -53,6 +53,24 @@
                         </ElFormGrid>
                     </ElFormItem>
                     <ElFormItem label="附件：">
+                      <ElFormGrid>
+                          <span
+                          class="message-square hand"
+                          :class="[
+                            model.annexType === 0 ? 'message-square__active' : ''
+                          ]"
+                          @click="onSubmitAnnex(0)"
+                        >
+                        <!-- <Icon
+                          type="picture"
+                          className="message-square__icon message-square__tupian"
+                        /> -->
+                            无附件
+                        </span>
+                      </ElFormGrid>
+                      <ElFormGrid>
+                        <span class="message-or">或</span>
+                      </ElFormGrid>
                       <ElFormGrid>
                           <span
                           class="message-square hand"
@@ -303,6 +321,7 @@
     </ElScrollbar>
     <div class="form-save__unique">
         <ns-save @click="saveOrUpdate"></ns-save>
+        <ns-button @click="back">返回</ns-button>
     </div>
     <!-- 网页 -->
     <el-dialog
