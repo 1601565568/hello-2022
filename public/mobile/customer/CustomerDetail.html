@@ -97,9 +97,9 @@
     window.location.href = '/mobile/coutomer/forbidden.html'
   }
   window.onload = function () {
-    getQrcode()
+    getCustomerDetail()
   }
-  function getQrcode() {
+  function getCustomerDetail() {
     ownerWid = getPar('ownerWid')
     wid = getPar('wid')
     this.ajax(backstageURL() + '/guideCustomer/customerDetail', {

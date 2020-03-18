@@ -1,8 +1,6 @@
 import api from '@/config/http'
-import moment from 'moment/moment'
 import { getErrorMsg } from '@/utils/toast'
 import apiRequestConfirm from '@nascent/ecrp-ecrm/src/utils/apiRequestConfirm'
-import Clipboard from 'clipboard'
 import bgimg from './images/bgimage.png'
 import posterPreview from './images/posterPreview.png'
 import qrcode from './images/qrcode.png'
@@ -255,15 +253,18 @@ export default {
     },
     // 复制
     copy (msg) {
-      let clipboard = new Clipboard('.' + msg)
-      clipboard.on('success', () => {
-        this.$notify.success('复制成功')
-        clipboard.destroy()
+      let url = msg
+      let oInput = document.createElement('input')
+      oInput.value = url
+      document.body.appendChild(oInput)
+      oInput.select() // 选择对象;
+      console.log(oInput.value)
+      document.execCommand('Copy') // 执行浏览器复制命令
+      this.$message({
+        message: '复制成功',
+        type: 'success'
       })
-      clipboard.on('error', () => {
-        this.$notify.error('复制失败')
-        clipboard.destroy()
-      })
+      oInput.remove()
     },
     download (imgSrc) {
       var a = document.createElement('a')
@@ -297,11 +298,11 @@ export default {
     preview (row) {
       let _this = this
       _this.dialogVisible = true
-      _this.onShowTitle = row.title
-      if (row.bgimg === '' || row.bgimg === null) {
+      _this.onShowTitle = _this.row.title
+      if (_this.row.bgimg === '' || _this.row.bgimg === null) {
         _this.bgpic = bgimg
       } else {
-        _this.bgpic = row.bgimg
+        _this.bgpic = _this.row.bgimg
       }
     },
     onShowFun (row) { // 投放预览
