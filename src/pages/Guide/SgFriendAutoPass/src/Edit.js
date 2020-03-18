@@ -1,6 +1,7 @@
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import { getErrorMsg } from '@/utils/toast'
 import moment from 'moment'
+
 export default {
   name: 'index',
   mixins: [tableMixin],
@@ -31,8 +32,7 @@ export default {
       title: '好友自动通过编辑',
       parameter: {
         length: 10,
-        searchMap: {
-        },
+        searchMap: {},
         start: 0
       },
       modelObj: {},
@@ -62,9 +62,12 @@ export default {
         this.friendAutoPass.validatemsg = data.result[0].validatemsg
         this.friendAutoPass.matchmode = data.result[0].matchmode
         this.friendAutoPass.isopen = data.result[0].isopen
-        this.friendAutoPass.beginTime = data.result[0].beginTime
-        this.friendAutoPass.endTime = data.result[0].endTime
+        this.friendAutoPass.beginTime = data.result[0].begin_time
+        this.friendAutoPass.endTime = data.result[0].end_time
         this.friendAutoPass.joinqueue = data.result[0].joinqueue
+        this.timeValue = []
+        this.timeValue.push(new Date(`2016-01-01 ${data.result[0].begin_time}`))
+        this.timeValue.push(new Date(`2016-01-02 ${data.result[0].end_time}`))
       } else {
         this.names = ''
         this.isShowWxAccount = false

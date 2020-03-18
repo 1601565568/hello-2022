@@ -24,6 +24,11 @@ export default {
     url: '/Guide/PersonalQrcode/getDepartment',
     method: 'post'
   },
+  // 获取有二维码的员工部门信息
+  getQrcodeDepartment: {
+    url: '/Guide/PersonalQrcode/getQrcodeDepartment',
+    method: 'post'
+  },
   // 投放预览保存
   saveShow: {
     url: '/Guide/PersonalQrcode/saveShow',

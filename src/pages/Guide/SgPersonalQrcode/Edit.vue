@@ -18,7 +18,7 @@
             <el-form-item label="聚合码类型：" required>
               <el-form-grid size="small">
                 <el-form-item prop="sex">
-                  <el-radio-group v-model="personalQrcode.personalQrcodeType">
+                  <el-radio-group v-model="personalQrcode.type">
                     <el-radio v-for="(typeName, index) in QrCodeTypeNames"  :key="typeName" :label="index" >{{typeName}} </el-radio>
                   </el-radio-group>
                 </el-form-item>
@@ -26,26 +26,64 @@
             </el-form-item>
             <el-form-item label="子码设置：" required>
               <el-form-grid>
-                <ns-button type='text' @click="choosePersonnel(personalQrcode.personalQrcodeType)">+ 选择{{QrCodeTypeNames[personalQrcode.personalQrcodeType]}}</ns-button>
+                <ns-button type='text' @click="choosePersonnel(personalQrcode.type)">+ 选择{{QrCodeTypeNames[personalQrcode.type]}}</ns-button>
               </el-form-grid>
             </el-form-item>
             <ElFormItem>
               <div class="message-detail" >
                 <ElTable :data="tableData" class="message-detail__table">
-                  <ElTableColumn prop="style" label="名称" align="center" width="80"/>
-                  <ElTableColumn prop="style" label="类型" align="center" width="80"/>
-                  <ElTableColumn prop="style" label="字码" align="center" width="150"/>
-                  <ElTableColumn prop="style" label="每日添加好友次数" align="center" width="120"/>
+                  <ElTableColumn prop="style" label="名称" align="center" width="80">
+                    <template slot-scope="scope">
+                      {{ scope.row.name }}
+                    </template>
+                  </ElTableColumn>
+                  <ElTableColumn prop="style" label="子码" align="center" width="150">
+                    <template slot-scope="scope">
+                      <img v-if="scope.row.image" :src="scope.row.image" width="50px" height="50px" class="company-upload__avatar">
+                    </template>
+                  </ElTableColumn>
+                  <ElTableColumn prop="style" label="每日添加好友次数" align="center" width="120">
+                    <template slot-scope="scope">
+                      <el-input v-model="scope.row.num"></el-input>
+                    </template>
+                  </ElTableColumn>
                   <ElTableColumn label="操作" align="center" :width="80">
-                    <template>
-                      <ns-button type="text" size="small"
-                                 @click="handleDelete(scope, item)">删除</ns-button>
+                    <template slot-scope="scope">
+                      <ns-button type="text" size="small" @click="handleDelete(scope, item)">删除</ns-button>
                     </template>
                   </ElTableColumn>
                 </ElTable>
               </div>
             </ElFormItem>
-            <el-form-item label="子码展示方式：" required>
+            <el-form-item label="渠道设置：" v-if="memberManagePlan == 1" required>
+              <el-form-grid>
+<!--                <ns-button type='text' @click="chooseChannel()">+选择渠道</ns-button>-->
+                <el-select v-model="personalQrcode.channelCode" filterable placeholder="请选择">
+                  <el-option
+                    v-for="item in channelList"
+                    :key="item.channel_code"
+                    :label="item.channel_name"
+                    :value="item.channel_code">
+                  </el-option>
+                </el-select>
+              </el-form-grid>
+            </el-form-item>
+            <el-form-item label="好友验证：" v-if="memberManagePlan == 1" required>
+              <el-form-grid size="xxmd">
+                <el-form-item prop="sex">
+                  <el-radio-group v-model="personalQrcode.isvalidate">
+                    <el-radio :label="1">关闭</el-radio>
+                    <el-radio :label="2">开启</el-radio>
+                  </el-radio-group>
+                </el-form-item>
+              </el-form-grid>
+            </el-form-item>
+            <el-form-item label="验证信息关键字：" v-if="memberManagePlan == 1" required>
+              <el-form-grid>
+                <el-input   style="width:400px;" maxlength="50" type="textarea" autofocus=true v-model="personalQrcode.keyword" placeholder="请输入验证信息关键字，关键字之间用英文逗号割开，最多输入50个关键字" clearable></el-input>
+              </el-form-grid>
+            </el-form-item>
+            <el-form-item label="子码展示方式：" v-if="memberManagePlan == 2" required>
               <el-form-grid size="xxmd">
                 <el-form-item prop="sex">
                   <el-radio-group v-model="personalQrcode.showType">
@@ -55,10 +93,6 @@
                 </el-form-item>
               </el-form-grid>
             </el-form-item>
-            <!--<el-form-item>
-                <ns-button @click="reload()" >取消</ns-button>
-                <ns-button type="primary" @click="onSave">确定</ns-button>
-            </el-form-item>-->
           </div>
         </div>
       </el-form>
@@ -66,7 +100,7 @@
     <div class="message-container">
     <!---->
     <!--选择好友弹窗开始-->
-    <ElDialog width="600px" title="选择员工" :visible.sync="dialogVisible" :show-scroll-x=false>
+    <ElDialog width="600px" height="500px" title="选择子码" :visible.sync="dialogVisible" :show-scroll-x=false :show-scroll-y=false>
       <div v-if="transferRadio === 0">
         <ElRow :gutter="10" class="code-container">
           <ElCol :span="12" class="code-container__item">
@@ -76,43 +110,43 @@
               suffix-icon="el-icon-search"
               v-model="tree.select" class="code-space">
             </ElInput>
-            <!--<div class="text-primary code-space">全部 /20</div>-->
-            <ElScrollbar>
-              <ElTree
-                :data="tree.selectData"
-                ref="selectTree"
-                show-checkbox
-                :filter-node-method="selectFilterNode"
-                node-key="id"
-                default-expand-all
-                :default-checked-keys="tree.selectKeys"
-                @check="check"
-                :props="tree.leftDefaultProps" class="code-space">
+            <div class="scoll_left">
+              <ElScrollbar>
+                <ElTree
+                  :data="tree.selectData"
+                  ref="selectTree"
+                  show-checkbox
+                  :filter-node-method="selectFilterNode"
+                  node-key="id"
+                  default-expand-all="choosePerson"
+                  :default-checked-keys="choosePerson"
+                  @check="check"
+                  :props="tree.leftDefaultProps" class="code-space">
             <span class="code-detail clearfix" slot-scope="{ node, data }">
               <span class="code-detail__text">{{ node.label }}</span>
               <span>{{ data.children ? '/' + data.children.length : '' }}</span>
             </span>
-              </ElTree>
-            </ElScrollbar>
+                </ElTree>
+              </ElScrollbar>
+            </div>
           </ElCol>
           <ElCol :span="12" class="code-container__item">
             <div class="code-title">已选员工</div>
-            <ElInput
-              placeholder="请输入员工姓名"
-              suffix-icon="el-icon-search"
-              v-model="tree.selected" class="code-space">
-            </ElInput>
-            <!--<div class="text-primary code-space">全部 /33</div>-->
-            <ElScrollbar>
-              <ElTree
-                :data="tree.selectedData"
-                ref="selectedTree"
-                :filter-node-method="tree.selectedFilterNode"
-                node-key="id"
-                :expand-on-click-node="false" class="code-space">
+<!--            <ElInput-->
+<!--              placeholder="请输入员工姓名"-->
+<!--              suffix-icon="el-icon-search"-->
+<!--              v-model="tree.selected" class="code-space">-->
+<!--            </ElInput>-->
+            <div class="scoll_left">
+              <ElScrollbar>
+                <ElTree
+                  :data="tree.selectedData"
+                  ref="selectedTree"
+                  :filter-node-method="tree.selectedFilterNode"
+                  node-key="id"
+                  :expand-on-click-node="false" class="code-space">
             <span class="code-detail clearfix" slot-scope="{ node, data }">
               <span class="code-detail__text">{{ node.label }}</span>
-              <!--<span>{{ data.children ? '/' + data.children.length : '' }}</span>-->
               <span>
                 <ns-button
                   type="text"
@@ -122,14 +156,16 @@
                 </ns-button>
               </span>
             </span>
-              </ElTree>
-            </ElScrollbar>
+                </ElTree>
+              </ElScrollbar>
+            </div>
+
           </ElCol>
         </ElRow>
       </div>
       <div v-if="transferRadio === 1">
         <div class="giveaway-add__item--info">
-          <ns-button type="text" @click="handleAdd()">选择自定义图片</ns-button>
+          <ns-button type="text" @click="handleAdd()">添加自定义图片</ns-button>
         </div>
         <template>
           <el-table :data="tableData" style="width: 100%">
@@ -138,26 +174,19 @@
                 <el-input v-model="scope.row.name" placeholder="请输入二维码名称，字数限制15字内"></el-input>
               </template>
             </el-table-column>
-            <el-table-column label="子码" width="180">
+            <el-table-column label="子码" width="120">
               <template slot-scope="scope">
-                <div v-if="scope.row.img === null"></div>
-                <el-popover trigger="hover" placement="top">
-                  <p>限制上传图片大小5M，格式为png、jpg。提示文字“建议图片长宽比例为1:1，格式jpg/png，大小5MB以内</p>
-<!--                  <div slot="reference" class="name-wrapper">-->
-<!--                    <ns-button size="medium">+上传子码图片</ns-button>-->
-<!--                  </div>-->
                   <el-upload
-                    :action="this.$api.core.sgUploadFile('test')"
+                    :action="sgUploadFile('test')"
                     :show-file-list="false"
                     :on-success="handleAvatarSuccess"
                     :before-upload="beforeAvatarUpload">
-                    <img v-if="scope.row.img" :src="scope.row.img" class="company-upload__avatar">
-                    <Icon type="plus" className="company-upload__tip" v-else/>
+                    <img v-if="scope.row.image" :src="scope.row.image" width="50px" height="50px" class="company-upload__avatar">
+                    <Icon type="plus" @click='setCurrentUploadRowIndex(scope.row.index)' className="company-upload__tip" v-else/>
                   </el-upload>
-                </el-popover>
               </template>
             </el-table-column>
-            <el-table-column label="失效时间" width="180">
+            <el-table-column label="失效时间" width="200">
               <template slot-scope="scope">
                 <el-date-picker
                   v-model="scope.row.date"
@@ -168,7 +197,7 @@
             </el-table-column>
             <el-table-column label="操作">
               <template slot-scope="scope">
-                <ns-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</ns-button>
+                <ns-button type="text" size="small" @click="handleDelete(scope.$index, scope.row)">删除</ns-button>
               </template>
             </el-table-column>
           </el-table>
@@ -182,12 +211,13 @@
     <!--选择好友弹窗结束-->
     </div>
     <div class="form-save__unique">
-      <NsSave />
-      <NsButton>{{$t('operating.cancel')}}</NsButton>
+      <ns-button type="primary" @click="onSave()">保存</ns-button>
+      <ns-button @click="cancel()">取消</ns-button>
     </div>
   </div>
 </template>
 <script>
+
 import Edit from './src/Edit'
 import index from './src/List'
 import ElTree from '@nascent/nui/lib/tree'
@@ -374,5 +404,12 @@ export default Edit
         overflow: hidden;
       }
     }
+  }
+  .scoll_left{
+    height: 338px;
+    overflow: auto;
+  }
+  .scoll_left::-webkit-scrollbar{
+    display:none;
   }
 </style>

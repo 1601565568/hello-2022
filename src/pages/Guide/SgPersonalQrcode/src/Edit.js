@@ -7,9 +7,13 @@ export default {
   data: function () {
     let that = this
     return {
+      memberManagePlan: 1,
       // 弹框是否打开判断值
       dialogVisible: false,
+      // 选择渠道弹窗
+      channelVisible: false,
       // 左边输入框绑定值
+      channelList: [],
       input: '',
       // 员工树
       tree: {
@@ -32,9 +36,9 @@ export default {
       // 这里定义选择二维码类型名称
       QrCodeTypeNames: [
         '员工',
-        '自定义图片',
-        '公众号',
-        '小程序'
+        '自定义图片'
+        // '公众号',
+        // '小程序'
       ],
       choosePerson: [],
       personalQrcode: {
@@ -46,12 +50,14 @@ export default {
         name: null,
         personnels: null,
         prersonelIds: '',
-        type: 1,
+        type: 0,
         num: null,
         image: '',
         createTime: '',
         showType: 1,
-        personalQrcodeType: 1
+        isvalidate: 1,
+        keyword: null,
+        channelCode: null
       },
       title: null,
       parameter: {
@@ -68,30 +74,54 @@ export default {
         'type': [{ required: true, message: '请选择类型' }]
       },
       transferRadio: '1',
+      currentUploadIndex: null,
+      channalList: [], // 所有渠道
       tableData: [{
+        index: 0,
         name: null,
         image: null,
-        date: null
+        date: null,
+        num: null
       }]
     }
   },
   mounted: function () {
+    this.tableData = []
+    this.$http.fetch(this.$api.core.common.getRecruitVersion).then(data => {
+      this.memberManagePlan = data.result.memberManagePlan
+    })
+    if (this.memberManagePlan === 1) { // 1：企微方案
+      this.$http.fetch({
+        url: '/Guide/chanel/getChannelList',
+        method: 'post'
+      }).then(data => {
+        if (data.success) {
+          this.channelList = data.result
+        }
+      }).catch((error) => {
+        this.$notify.error(getErrorMsg('获取渠道信息失败：', error))
+      }).finally(() => {
+        this.loading = false
+      })
+    }
     const id = this.$route.params.id
     if (id > 0) {
       this.title = '编辑聚合二维码'
       this.$http.fetch(this.$api.guide.sgPersonalQrcode.findById, {
         id: id
       }).then(data => {
-        if (data.result.type === 1) {
-          let split = data.result.personnelIds.split(',')
-          let guideIds = []
-          for (let i = 0; i < split.length; i++) {
-            this.choosePerson.push(parseInt(split[i]))
+        if (data.result.type === 0) {
+          let personnelIds = data.result.personnelIds.split(',')
+          let personnels = data.result.personnels.split(',')
+          for (let i = 0; i < personnelIds.length; i++) {
+            this.choosePerson.push(parseInt(personnelIds[i]))
           }
         }
-        this.personalQrcode.id = data.result.id
-        this.personalQrcode.name = data.result.name
-        this.personalQrcode.showType = data.result.showType
+        // this.personalQrcode.id = data.result.id
+        // this.personalQrcode.name = data.result.name
+        // this.personalQrcode.showType = data.result.showType
+        this.personalQrcode = data.result
+        this.tableData = JSON.parse(data.result.child_qrcodes)
       }).catch((error) => {
         this.$notify.error(getErrorMsg('加载聚合二维码信息失败：', error))
       }).finally(() => {
@@ -100,14 +130,23 @@ export default {
     } else {
       this.title = '新增聚合二维码'
     }
-    if (typeof this.$init === 'function') {
-      this.$init(this, this.$generateParams$)
-    } else {
-      this.$reload()
-    }
-    this.initEmpTree()
+    // 选择员工渲染员工树形结构数据
+    // this.$http.fetch(this.$api.guide.sgPersonalQrcode.getQrcodeDepartment).then(resp => {
+    //   if (resp.success && resp.result != null) {
+    //     this.tree.selectData = JSON.parse(resp.result)
+    //   } else {
+    //     this.$notify.error(getErrorMsg('获取员工数据失败', resp))
+    //   }
+    // }).catch((resp) => {
+    //   this.$notify.error(getErrorMsg('获取员工数据失败', resp))
+    // })
+    // this.dialogVisible = true
+    // this.dialogVisible = false
   },
   methods: {
+    sgUploadFile (name) {
+      return this.$api.core.sgUploadFile('test')
+    },
     // 删除右边的树子节点数据
     remove (node, data) {
       const parent = node.parent
@@ -130,10 +169,14 @@ export default {
         that.$notify.error('聚合码名称不能为空')
         return
       }
-      if (that.personalQrcode.type === 1 && that.choosePerson.length < 1) {
+      if (that.personalQrcode.type === 0 && that.tableData.length < 1) {
+        that.$notify.error('请选择子码')
+        return
+      } else if (that.personalQrcode.type === 1 && that.tableData.length < 1) {
         that.$notify.error('请选择子码')
         return
       }
+      that.personalQrcode.childQrcodes = JSON.stringify(that.tableData)
       that.$http.fetch(that.$api.guide.sgPersonalQrcode.save, that.personalQrcode).then(() => {
         that.$notify.success('保存成功')
       }).catch((resp) => {
@@ -142,15 +185,11 @@ export default {
         that.$router.push({ path: '/Guide/SgPersonalQrcode/List' })
       })
     },
-    onConfirm () { // 选择员工弹唱确认
-    },
     choosePersonnel (type) { // 选择员工
-      console.info(type)
       let _this = this
       _this.dialogVisible = true
       _this.transferRadio = type
       if (type === 0) {
-        // _this.getDepartment()
         _this.initEmpTree()
       }
     },
@@ -165,35 +204,44 @@ export default {
       })
       _this.choosePerson = arr
       if (arr.length > 1) {
-        _this.personalQrcode.personnels = arr.join(',')
+        _this.personalQrcode.personnelIds = arr.join(',')
       }
     },
+    // 选择员工弹窗确认
     onSaveChildQrcode () {
       let _this = this
       _this.dialogVisible = false
-    },
-    shiftChange (val) {
-      let _this = this
-      if (val === '1') {
-      } else if (val === '2') {
-        _this.choosePerson = []
+      if (_this.personalQrcode.type === 0) {
+        _this.tableData = []
+        let selectedData = _this.tree.selectedData
+        for (let data of selectedData) {
+          let chooseData = {}
+          chooseData.name = data.label
+          chooseData.image = data.qrcode
+          chooseData.num = null
+          _this.tableData.push(chooseData)
+        }
       }
-      _this.personalQrcode.type = val
     },
-    // 树方法
+    // 左边树选择
     check () {
       this.setSelectedData()
     },
     setSelectedData () {
       this.tree.selectedData = []
+      this.choosePerson = []
       let data = this.$refs.selectTree.getCheckedNodes()
       if (data) {
         for (let dataParent of data) {
           if (!dataParent.disabled) {
-            this.tree.selectedData.push(dataParent)
+            if (dataParent.id) {
+              this.tree.selectedData.push(dataParent)
+              this.choosePerson.push(dataParent.id)
+            }
           }
         }
       }
+      this.personalQrcode.personnelIds = this.choosePerson.join(',')
       return this.tree.selectedData
     },
     onCloseTree () {
@@ -221,7 +269,7 @@ export default {
     },
     initEmpTree: function () {
       let _this = this
-      _this.$http.fetch(_this.$api.guide.sgPersonalQrcode.getDepartment).then(resp => {
+      _this.$http.fetch(_this.$api.guide.sgPersonalQrcode.getQrcodeDepartment).then(resp => {
         if (resp.success && resp.result != null) {
           this.tree.selectData = JSON.parse(resp.result)
         } else {
@@ -230,6 +278,14 @@ export default {
       }).catch((resp) => {
         _this.$notify.error(getErrorMsg('获取员工数据失败', resp))
       })
+      let data = this.$refs.selectTree.getCheckedNodes()
+      if (data) {
+        for (let dataParent of data) {
+          if (!dataParent.disabled) {
+            this.tree.selectedData.push(dataParent)
+          }
+        }
+      }
     },
     handleEdit (index, row) {
     },
@@ -239,7 +295,10 @@ export default {
     // 上传图片地址的切换事件
     'handleAvatarSuccess': function (res, file) {
       this.$message.info('上传成功')
-      this.bgpic = res.result.url
+      this.tableData[this.currentUploadIndex].image = res.result.url
+    },
+    setCurrentUploadRowIndex (index) {
+      this.currentUploadIndex = index
     },
     // 上传图片的类型和大小判断事件
     beforeAvatarUpload (file) {
@@ -255,15 +314,19 @@ export default {
     },
     handleAdd () {
       let a = {
+        index: this.tableData.length,
         name: null,
         image: null,
         date: null
       }
-      if (this.tableData.length > 5) {
+      if (this.tableData.length > 49) {
         this.$notify.error('添加数量最多为50个')
       } else {
         this.tableData.push(a)
       }
+    },
+    cancel () { // 取消
+      this.$router.push({ path: '/Guide/SgPersonalQrcode/List' })
     }
   }
 }

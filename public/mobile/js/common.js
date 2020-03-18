@@ -20,7 +20,7 @@ function backstageURL () {
       window.location.replace('./error.html?message=获取服务器地址异常')
     }
   })
-  return returnUrl + '/app/guide/zm/guideRecruit'
+  return returnUrl + '/app/guide/zm'
 }
 
 // 获取参数封装
