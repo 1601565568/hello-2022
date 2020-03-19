@@ -1081,8 +1081,29 @@ export default {
     },
     // 转移给指定导购重置
     transferToReset () {
-      this.name = null
-      this.online = null
+      let _this = this
+      _this.name = null
+      _this.online = null
+      _this.$http.fetch(_this.$api.guide.autoPass.findAddList, {
+        searchMap: {
+          'name': _this.name,
+          'online': _this.online,
+          'pageSize': _this.customShopSize !== null ? _this.paginations.size = _this.customShopSize : _this.paginations.size,
+          'pageNo': _this.customShopPage !== null ? _this.paginations.page = _this.customShopPage : _this.paginations.page
+        }
+      }).then(resp => {
+        if (resp.success && resp.result != null) {
+          _this.paginations.total = parseInt(resp.result.recordsTotal)
+          _this.frindAddList = resp.result.data
+        } else if (resp.success && resp.result == null) {
+          _this.paginations.total = 0
+          _this.frindAddList = []
+        } else {
+          _this.$notify.error(getErrorMsg('查询失败', resp))
+        }
+      }).catch((resp) => {
+        _this.$notify.error(getErrorMsg('查询失败', resp))
+      })
     },
     // 转移给指定导购取消
     cancelTransferToReset () {

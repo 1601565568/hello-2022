@@ -11,8 +11,10 @@
     <title>聚合码标题</title>
 </head>
 <body>
+<div class="page_title">聚合码标题</div>
 <div class="body">
 </div>
+
 <div class='noneBody'>
   <div class='fail__bgimg'>
     <img class='img'  src='https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/fail.png' alt="二维码失效图片" />
@@ -28,7 +30,7 @@
   function getQrcode() {
     let par = getPar('guid');
     let par1 = getPar('groupId');
-    this.ajax('http://localhost:30004/Guide/PersonalQrcode/getQrcode', {
+    this.ajax(backstageURL() +'/qrcode/getQrcode', {
       guid: getPar('guid'),
       groupId: getPar('groupId'),
     }).then(function (result) {
@@ -36,12 +38,17 @@
         var html = "<div class='code'>"+
           "<div class='code__outer'>" +
           "      <div class='inner'>" +
-          "        <img src='"+result.result+"' alt='提示图片' class='inner__qrcode'>" +
+          "        <img src='"+result.result.qrcode+"' alt='提示图片' class='inner__qrcode'>" +
           "      </div>" +
           "    </div>"+
           "  </div>";
         $(".body").html(html);
-        $(".body").style.background = "https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/202003/10000146/4771e3d3-5512-4cc7-899d-3facdff810e4.jpg";
+        if (result.result.bgImg){
+          $(".code").css( "background","url("+result.result.bgImg+") no-repeat");
+        }
+        if (result.result.title){
+          $(".page_title").html(result.result.title);
+        }
       } else {
         // 跳转错误页
         $(".noneBody").show();

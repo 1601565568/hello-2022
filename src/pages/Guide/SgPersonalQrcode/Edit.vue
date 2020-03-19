@@ -18,7 +18,7 @@
             <el-form-item label="聚合码类型：" required>
               <el-form-grid size="small">
                 <el-form-item prop="sex">
-                  <el-radio-group v-model="personalQrcode.personalQrcodeType">
+                  <el-radio-group v-model="personalQrcode.type">
                     <el-radio v-for="(typeName, index) in QrCodeTypeNames"  :key="typeName" :label="index" >{{typeName}} </el-radio>
                   </el-radio-group>
                 </el-form-item>
@@ -26,7 +26,7 @@
             </el-form-item>
             <el-form-item label="子码设置：" required>
               <el-form-grid>
-                <ns-button type='text' @click="choosePersonnel(personalQrcode.personalQrcodeType)">+ 选择{{QrCodeTypeNames[personalQrcode.personalQrcodeType]}}</ns-button>
+                <ns-button type='text' @click="choosePersonnel(personalQrcode.type)">+ 选择{{QrCodeTypeNames[personalQrcode.type]}}</ns-button>
               </el-form-grid>
             </el-form-item>
             <ElFormItem>
@@ -55,15 +55,23 @@
                 </ElTable>
               </div>
             </ElFormItem>
-            <el-form-item label="子码设置：" v-if="memberManagePlan == 1" required>
+            <el-form-item label="渠道设置：" v-if="memberManagePlan == 1" required>
               <el-form-grid>
-                <ns-button type='text' @click="chooseChannel()">+选择渠道</ns-button>
+<!--                <ns-button type='text' @click="chooseChannel()">+选择渠道</ns-button>-->
+                <el-select v-model="personalQrcode.channelCode" filterable placeholder="请选择">
+                  <el-option
+                    v-for="item in channelList"
+                    :key="item.channel_code"
+                    :label="item.channel_name"
+                    :value="item.channel_code">
+                  </el-option>
+                </el-select>
               </el-form-grid>
             </el-form-item>
             <el-form-item label="好友验证：" v-if="memberManagePlan == 1" required>
               <el-form-grid size="xxmd">
                 <el-form-item prop="sex">
-                  <el-radio-group v-model="personalQrcode.showType">
+                  <el-radio-group v-model="personalQrcode.isvalidate">
                     <el-radio :label="1">关闭</el-radio>
                     <el-radio :label="2">开启</el-radio>
                   </el-radio-group>
@@ -75,7 +83,7 @@
                 <el-input   style="width:400px;" maxlength="50" type="textarea" autofocus=true v-model="personalQrcode.keyword" placeholder="请输入验证信息关键字，关键字之间用英文逗号割开，最多输入50个关键字" clearable></el-input>
               </el-form-grid>
             </el-form-item>
-            <el-form-item label="子码展示方式：" required>
+            <el-form-item label="子码展示方式：" v-if="memberManagePlan == 2" required>
               <el-form-grid size="xxmd">
                 <el-form-item prop="sex">
                   <el-radio-group v-model="personalQrcode.showType">
@@ -92,7 +100,7 @@
     <div class="message-container">
     <!---->
     <!--选择好友弹窗开始-->
-    <ElDialog width="600px" title="选择子码" :visible.sync="dialogVisible" :show-scroll-x=false>
+    <ElDialog width="600px" height="500px" title="选择子码" :visible.sync="dialogVisible" :show-scroll-x=false :show-scroll-y=false>
       <div v-if="transferRadio === 0">
         <ElRow :gutter="10" class="code-container">
           <ElCol :span="12" class="code-container__item">
@@ -102,38 +110,41 @@
               suffix-icon="el-icon-search"
               v-model="tree.select" class="code-space">
             </ElInput>
-            <ElScrollbar>
-              <ElTree
-                :data="tree.selectData"
-                ref="selectTree"
-                show-checkbox
-                :filter-node-method="selectFilterNode"
-                node-key="id"
-                default-expand-all
-                :default-checked-keys="tree.selectKeys"
-                @check="check"
-                :props="tree.leftDefaultProps" class="code-space">
+            <div class="scoll_left">
+              <ElScrollbar>
+                <ElTree
+                  :data="tree.selectData"
+                  ref="selectTree"
+                  show-checkbox
+                  :filter-node-method="selectFilterNode"
+                  node-key="id"
+                  default-expand-all="choosePerson"
+                  :default-checked-keys="choosePerson"
+                  @check="check"
+                  :props="tree.leftDefaultProps" class="code-space">
             <span class="code-detail clearfix" slot-scope="{ node, data }">
               <span class="code-detail__text">{{ node.label }}</span>
               <span>{{ data.children ? '/' + data.children.length : '' }}</span>
             </span>
-              </ElTree>
-            </ElScrollbar>
+                </ElTree>
+              </ElScrollbar>
+            </div>
           </ElCol>
           <ElCol :span="12" class="code-container__item">
             <div class="code-title">已选员工</div>
-            <ElInput
-              placeholder="请输入员工姓名"
-              suffix-icon="el-icon-search"
-              v-model="tree.selected" class="code-space">
-            </ElInput>
-            <ElScrollbar>
-              <ElTree
-                :data="tree.selectedData"
-                ref="selectedTree"
-                :filter-node-method="tree.selectedFilterNode"
-                node-key="id"
-                :expand-on-click-node="false" class="code-space">
+<!--            <ElInput-->
+<!--              placeholder="请输入员工姓名"-->
+<!--              suffix-icon="el-icon-search"-->
+<!--              v-model="tree.selected" class="code-space">-->
+<!--            </ElInput>-->
+            <div class="scoll_left">
+              <ElScrollbar>
+                <ElTree
+                  :data="tree.selectedData"
+                  ref="selectedTree"
+                  :filter-node-method="tree.selectedFilterNode"
+                  node-key="id"
+                  :expand-on-click-node="false" class="code-space">
             <span class="code-detail clearfix" slot-scope="{ node, data }">
               <span class="code-detail__text">{{ node.label }}</span>
               <span>
@@ -145,8 +156,10 @@
                 </ns-button>
               </span>
             </span>
-              </ElTree>
-            </ElScrollbar>
+                </ElTree>
+              </ElScrollbar>
+            </div>
+
           </ElCol>
         </ElRow>
       </div>
@@ -198,8 +211,8 @@
     <!--选择好友弹窗结束-->
     </div>
     <div class="form-save__unique">
-      <NsSave />
-      <NsButton>{{$t('operating.cancel')}}</NsButton>
+      <ns-button type="primary" @click="onSave()">保存</ns-button>
+      <ns-button @click="cancel()">取消</ns-button>
     </div>
   </div>
 </template>
@@ -391,5 +404,12 @@ export default Edit
         overflow: hidden;
       }
     }
+  }
+  .scoll_left{
+    height: 338px;
+    overflow: auto;
+  }
+  .scoll_left::-webkit-scrollbar{
+    display:none;
   }
 </style>

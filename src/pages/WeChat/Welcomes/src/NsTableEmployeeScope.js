@@ -22,8 +22,7 @@ export default {
   mixins: [tableMixin],
   data () {
     let model = Object.assign({
-      employeeName: '',
-      welcomeCodeUuid: this.childData.welcomeCodeUuid
+      employeeName: ''
     }, this.model, this.childData)
     return {
       _table: {
@@ -36,12 +35,6 @@ export default {
   },
   mounted () {
     this.model = Object.assign({}, this.model, this.childData)
-    // 加载列表数据
-    if (typeof this.$init === 'function') {
-      this.$init()
-    } else {
-      this.$reload()
-    }
   },
   methods: {
   },

@@ -18,13 +18,12 @@
     <template slot="searchSearch">
       <el-form
         :model="quickSearchModel"
-        :line="true"
-        class="pull-right">
+        class="pull-right" :inline="true">
         <el-form-item v-show="_data._queryConfig.expand === false">
             <el-input ref="quickText"
               v-model="model.content"
               placeholder="请输入欢迎语内容"
-              clearable /> <!-- @keyup.enter.native="$quickSearchAction$('content')" -->
+              clearable style="width: 180px"/> <!-- @keyup.enter.native="$quickSearchAction$('content')" -->
               <ns-button type="primary" @click="$searchAction$()" class="searchbtn">搜索</ns-button>
               <ns-button @click="$resetInputAction$()" class="resetbtn">重置</ns-button>
         </el-form-item>
@@ -110,3 +109,30 @@
 import NsTableWelcomeCode from './src/NsTableWelcomeCode.js'
 export default NsTableWelcomeCode
 </script>
+<style scoped>
+  @import "@theme/variables.pcss";
+
+  .scope_row_count{
+    color: blue;
+  }
+
+  .tips {
+    color: var(--theme-color-danger)
+  }
+
+  >>> .table-header-icon {
+    font-size: var(--default-font-size-base);
+    font-weight: normal;
+    padding-left: var(--default-padding-base);
+    cursor: pointer;
+  }
+  >>> .el-dropdown-link {
+    margin-left: 5px !important;
+  }
+  .searchbtn {
+    margin-left: 11px;
+  }
+  .resetbtn {
+    margin-left: var(--default-margin-larger);
+  }
+</style>

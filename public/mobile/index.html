@@ -26,8 +26,7 @@
     }
 
     function checkGuide() {
-      debugger
-        this.ajax(backstageURL() + '/checkGuide', {
+        this.ajax(backstageURL() + '/guideRecruit/checkGuide', {
             guideId: getPar('guideId'),
             shopId: getPar('shopId'),
             groupId: getPar('groupId'),

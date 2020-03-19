@@ -16,8 +16,8 @@
           <el-form-item label="在线状态：">
             <el-form-grid>
               <el-select placeholder="全部" v-model="online" clearable>
-                <el-option label="在线" :value="1"></el-option>
-                <el-option label="离线" :value="0"></el-option>
+                <el-option label="在线" :value="2"></el-option>
+                <el-option label="离线" :value="1"></el-option>
               </el-select>
             </el-form-grid>
           </el-form-item>
