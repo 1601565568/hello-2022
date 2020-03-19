@@ -34,13 +34,8 @@ export default {
     }
   },
   mounted () {
+    debugger
     this.model = Object.assign({}, this.model, this.childData)
-    // 加载列表数据
-    if (typeof this.$init === 'function') {
-      this.$init()
-    } else {
-      this.$reload()
-    }
   },
   methods: {
   },

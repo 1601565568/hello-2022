@@ -40,7 +40,7 @@ export default {
     }
   },
   mounted () {
-    this.$init({ welcomesId: this.$route.query.uuid })
+    this.initEdit({ welcomesId: this.$route.query.uuid })
     this.initEmpTree()
   },
   methods: {
@@ -112,7 +112,7 @@ export default {
       let data = this.$refs.selectTree.getCheckedNodes()
       if (data) {
         for (let dataParent of data) {
-          if (!dataParent.disabled) {
+          if (!dataParent.disabled && dataParent.id) {
             this.tree.selectedData.push(dataParent)
           }
         }
@@ -151,7 +151,7 @@ export default {
     /**
      * @msg: 页面初始化时的数据加载函数
      */
-    $init (data) {
+    async initEdit (data) {
       // 页面初始化时，加载页面数据
       let that = this
       var keyMap = {}

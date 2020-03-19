@@ -49,7 +49,7 @@
               </div>
             </ElCard>
             <!--选择好友弹窗开始-->
-            <ElDialog width="600px" title="选择子码" :visible.sync="dialogVisible" :show-scroll-x=false>
+            <ElDialog width="600px" title="选择员工" :visible.sync="dialogVisible" :show-scroll-x=false>
               <ElRow :gutter="10" class="code-container">
                   <ElCol :span="12" class="code-container__item">
                     <div class="code-title">可选员工</div>
