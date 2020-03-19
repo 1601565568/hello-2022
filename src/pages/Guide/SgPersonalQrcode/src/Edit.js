@@ -149,7 +149,6 @@ export default {
       this.$refs.selectTree.setCheckedNodes(nodes)
     },
     onSave () {
-      debugger
       let that = this
       if (that.personalQrcode.name === null) {
         that.$notify.error('聚合码名称不能为空')
@@ -257,7 +256,6 @@ export default {
       let _this = this
       var keyMap = {}
       _this.$http.fetch(_this.$api.guide.sgPersonalQrcode.getQrcodeDepartment).then(resp => {
-        debugger
         if (resp.success && resp.result != null) {
           _this.tree.selectData = JSON.parse(resp.result)
           _this.choosePerson.forEach(function (value, i) {
