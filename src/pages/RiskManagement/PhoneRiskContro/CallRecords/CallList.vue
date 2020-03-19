@@ -92,10 +92,10 @@
           <template slot-scope="scope">
           <!-- 1：去电 2：来电 3：未接 4：拒接-->
             <div v-if="scope.row.status === 1">
-              <p>呼入</p>
+              <p>呼出</p>
             </div>
             <div v-else-if ="scope.row.status === 2">
-              <p>呼出</p>
+              <p>呼入</p>
             </div>
             <div v-else-if="scope.row.status === 3">
               <p>未接</p>

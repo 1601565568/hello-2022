@@ -18,9 +18,9 @@
           </ElRadioGroup>
         </div>
       </div>
-      <div class="recruit-container__card recruit-container__card--topspace">
+     <!-- <div class="recruit-container__card recruit-container__card&#45;&#45;topspace">
         <div class="recruit-title">门店招募配置</div>
-        <div class="recruit-content recruit-content--flex">
+        <div class="recruit-content recruit-content&#45;&#45;flex">
           <div class="recruit-example">
             <img :src="model.sign_up_url" alt="示例图片" class="recruit-example__img"/>
             <div class="recruit-example__btn">立即开卡</div>
@@ -40,7 +40,7 @@
             <div class="text-secondary">场景说明：用户扫门店招募码，进入此页面。点击“立即开卡”，进入开卡录入信息页面。</div>
           </div>
         </div>
-      </div>
+      </div>-->
     </ElScrollbar>
     <div class="form-save__unique">
       <NsButton type="primary" @click="update">修改</NsButton>
