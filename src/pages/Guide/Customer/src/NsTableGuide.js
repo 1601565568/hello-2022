@@ -31,12 +31,13 @@ export default {
       'mobile': null,
       'cardId': null,
       'time': null,
-      'grade': null
+      'grade': null,
+      isAll: true
     }
-    let model = Object.assign({}, findVo, {})
+    let copyModel = Object.assign({}, findVo)
     return {
       filterTreeText: '',
-      model: model,
+      model: copyModel,
       quickSearchModel: quickSearchModel,
       _pagination: pagination,
       _table: {
@@ -111,28 +112,39 @@ export default {
       _this.loading = true
       _this.$reload().then(rep => {
         _this.loading = _this._data._loading
-        var showLabel = data.label
-        if (showLabel.indexOf('(') !== -1) {
-          showLabel = showLabel.substring(0, showLabel.indexOf('('))
+        // 不是全部 显示 total
+        if (data.id !== '0') {
+          var showLabel = data.label
+          if (showLabel.indexOf('(') !== -1) {
+            showLabel = showLabel.substring(0, showLabel.indexOf('('))
+          }
+          data.label = showLabel + '(' + _this._data._pagination.total + ')'
+          _this.model.isAll = true
+        } else {
+          _this.model.isAll = false
         }
-        data.label = showLabel + '(' + _this._data._pagination.total + ')'
       })
       // 设置搜索及重置可用
       this.searchButton = false
       this.restButton = false
-      _this.$http.fetch(_this.$api.guide.shop.findShopGrade,
-        { shopId: _this.offLineShopId }).then(resp => {
-        if (resp.success && resp.result !== null) {
-          _this.gradeInfo = resp.result
-        }
-      }).catch((resp) => {
-        _this.$notify.error(getErrorMsg('查询等级信息失败', resp))
-      })
+      // 全部情况不需要请求等级
+      if (data.id !== '0') {
+        _this.$http.fetch(_this.$api.guide.shop.findShopGrade,
+          { shopId: _this.offLineShopId }).then(resp => {
+          if (resp.success && resp.result !== null) {
+            _this.gradeInfo = resp.result
+          }
+        }).catch((resp) => {
+          _this.$notify.error(getErrorMsg('查询等级信息失败', resp))
+        })
+      }
     },
     // 树节点过滤
     onFilterNode (value, data, node) {
       // 如果什么都没填就直接返回
-      if (!value) { return true }
+      if (!value) {
+        return true
+      }
       // 如果传入的value和data中的label相同说明是匹配到了
       if (data.label.indexOf(value) !== -1) {
         return true

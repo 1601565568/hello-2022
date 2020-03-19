@@ -79,23 +79,23 @@
       <!-- 操作（只有一项文字的80px,两项文字120px,三项文字160px） -->
 
       <el-table ref="table"  :data="_data._table.data" stripe>
-        <el-table-column prop="deviceKey" label="设备MEID" align="left" min-width="88">
+        <el-table-column prop="deviceKey" label="设备MEID" align="center" min-width="88">
           <template slot-scope="scope">
             {{scope.row.deviceKey?scope.row.deviceKey:'-'}}
           </template>
         </el-table-column>
         <el-table-column prop="deviceName" label="手机名称" align="left" min-width="100" :show-overflow-tooltip="true"></el-table-column>
         <el-table-column prop="phone" label="手机号码" align="left" min-width="100"></el-table-column>
-        <el-table-column prop="account" label="绑定账号" align="left" min-width="100"></el-table-column>
+        <el-table-column prop="account" label="绑定账号" align="center" min-width="100"></el-table-column>
         <el-table-column prop="mobile" label="对方号码" align="left" min-width="100"></el-table-column>
         <el-table-column prop="status" label="呼叫类型" align="center" width="150">
           <template slot-scope="scope">
           <!-- 1：去电 2：来电 3：未接 4：拒接-->
             <div v-if="scope.row.status === 1">
-              <p>呼入</p>
+              <p>呼出</p>
             </div>
             <div v-else-if ="scope.row.status === 2">
-              <p>呼出</p>
+              <p>呼入</p>
             </div>
             <div v-else-if="scope.row.status === 3">
               <p>未接</p>
@@ -108,9 +108,9 @@
             </div>
           </template>
         </el-table-column>
-        <el-table-column prop="startTime" label="开始时间" align="left" min-width="100"></el-table-column>
-        <el-table-column prop="endTime" label="结束时间" align="left" min-width="100"></el-table-column>
-        <el-table-column prop="time" label="时长" align="left" min-width="100">
+        <el-table-column prop="startTime" label="开始时间" align="center" min-width="100"></el-table-column>
+        <el-table-column prop="endTime" label="结束时间" align="center" min-width="100"></el-table-column>
+        <el-table-column prop="time" label="时长" align="right" min-width="100">
           <template slot-scope="scope">
             <div>
               <p>{{scope.row.time}} s</p>
