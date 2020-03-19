@@ -34,7 +34,6 @@ export default {
     }
   },
   mounted () {
-    debugger
     this.model = Object.assign({}, this.model, this.childData)
   },
   methods: {
