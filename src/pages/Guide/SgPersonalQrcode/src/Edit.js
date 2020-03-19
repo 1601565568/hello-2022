@@ -117,9 +117,6 @@ export default {
             this.choosePerson.push(parseInt(personnelIds[i]))
           }
         }
-        // this.personalQrcode.id = data.result.id
-        // this.personalQrcode.name = data.result.name
-        // this.personalQrcode.showType = data.result.showType
         this.personalQrcode = data.result
         this.tableData = JSON.parse(data.result.child_qrcodes)
       }).catch((error) => {
@@ -130,18 +127,6 @@ export default {
     } else {
       this.title = '新增聚合二维码'
     }
-    // 选择员工渲染员工树形结构数据
-    // this.$http.fetch(this.$api.guide.sgPersonalQrcode.getQrcodeDepartment).then(resp => {
-    //   if (resp.success && resp.result != null) {
-    //     this.tree.selectData = JSON.parse(resp.result)
-    //   } else {
-    //     this.$notify.error(getErrorMsg('获取员工数据失败', resp))
-    //   }
-    // }).catch((resp) => {
-    //   this.$notify.error(getErrorMsg('获取员工数据失败', resp))
-    // })
-    // this.dialogVisible = true
-    // this.dialogVisible = false
   },
   methods: {
     sgUploadFile (name) {
@@ -164,6 +149,7 @@ export default {
       this.$refs.selectTree.setCheckedNodes(nodes)
     },
     onSave () {
+      debugger
       let that = this
       if (that.personalQrcode.name === null) {
         that.$notify.error('聚合码名称不能为空')
@@ -269,23 +255,35 @@ export default {
     },
     initEmpTree: function () {
       let _this = this
+      var keyMap = {}
       _this.$http.fetch(_this.$api.guide.sgPersonalQrcode.getQrcodeDepartment).then(resp => {
+        debugger
         if (resp.success && resp.result != null) {
-          this.tree.selectData = JSON.parse(resp.result)
+          _this.tree.selectData = JSON.parse(resp.result)
+          _this.choosePerson.forEach(function (value, i) {
+            keyMap[value] = 1
+          })
+          _this.tree.selectData.forEach(function (value, i) {
+            value.children.forEach(function (value, i) {
+              if (keyMap[value.id] === 1) {
+                _this.tree.selectedData.push(value)
+              }
+            })
+          })
         } else {
           _this.$notify.error(getErrorMsg('获取员工数据失败', resp))
         }
       }).catch((resp) => {
         _this.$notify.error(getErrorMsg('获取员工数据失败', resp))
       })
-      let data = this.$refs.selectTree.getCheckedNodes()
-      if (data) {
-        for (let dataParent of data) {
-          if (!dataParent.disabled) {
-            this.tree.selectedData.push(dataParent)
-          }
-        }
-      }
+      // let data = this.$refs.selectTree.getCheckedNodes()
+      // if (data) {
+      //   for (let dataParent of data) {
+      //     if (!dataParent.disabled) {
+      //       this.tree.selectedData.push(dataParent)
+      //     }
+      //   }
+      // }
     },
     handleEdit (index, row) {
     },
