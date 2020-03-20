@@ -1356,14 +1356,14 @@ export default {
     customerPageChange (page) {
       var _this = this
       _this.paginations.page = page
-      _this.findCustomerList()
+      _this.transferToReset()
     },
     // 分页-大小改变
     customerSizeChange (pageSize) {
       var _this = this
       _this.paginations.size = pageSize
       _this.paginations.page = 1
-      _this.findCustomerList()
+      _this.transferToReset()
     },
     // 利用map key的唯一性去重
     handRepeatCustomer (selected, unSelected) {
