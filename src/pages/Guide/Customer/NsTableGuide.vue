@@ -1,7 +1,7 @@
 <template>
   <div calss="NsTableGuide_main">
         <div class="template-page__row-left">
-          <el-input ref="quickText" v-model="shopTreePage.shopName" placeholder="输入线下店铺名称" clearable
+          <el-input ref="quickText" v-model="shopTreePage.shopName" placeholder="输入线下门店名称/导购姓名" clearable
                     @keyup.enter.native="initShopList(1)">
             <Icon type="search" className="el-input__icon" style="padding: 5px;" slot="suffix" name="name" @click="initShopList(1)"/>
           </el-input>
@@ -11,6 +11,11 @@
                      :filter-node-method="onFilterNode" @node-click="onClickNode">
               <div class="subdivision-tree-node" slot-scope="{ node }" >
                 <span>{{node.label}}</span>
+                <span v-if="node.label === '全部'">
+              <el-tooltip content="查看所有的客户">
+                <Icon type="question-circle"/>
+              </el-tooltip>
+            </span>
               </div>
             </el-tree>
           </el-scrollbar>
@@ -85,7 +90,7 @@
             <el-input style="width:180px" autofocus=true v-model="model.cardId" placeholder="请输入卡号" clearable></el-input>
           </el-form-grid>
         </el-form-item>
-        <el-form-item label="等级：">
+        <el-form-item v-if="model.isAll" label="等级：">
           <el-form-grid style="width: 180px;">
             <el-select placeholder="请选择" v-model="model.grade" clearable filterable>
               <el-option v-for="grade in gradeInfo" :label="grade.gradeName" :value="grade.grade"

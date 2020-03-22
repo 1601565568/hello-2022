@@ -18,7 +18,9 @@ export default {
       this.dialogFormVisible = true
       this.content = row.content
     },
-    cleanGuide () {
+    cleanGuide (e) {
+      // 没用
+      this.dialogFormVisible = false
     },
     onDownLoad (data) {
       // data.content = 'http://ihd.file.alimmdn.com/chat-client/messageAudio/wechat.wav'

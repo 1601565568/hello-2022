@@ -1,33 +1,58 @@
 <template>
   <div>
     <ElScrollbar ref="fullScreen" class="recruit-container">
-      <div class="recruit-container__card">
-        <div class="recruit-title">导购招募配置</div>
-        <div class="recruit-content">
-          <div class="recruit-content__caption">导购招募奖励计算设置</div>
-          <ElRadioGroup v-model="model.secruitment_type" class="recruit-content__radiogroup">
-            <ElForm>
-              <ElFormItem v-for="item in radioList" :key="item.id" class="option">
-                <ElRadio  :label="item.value">{{item.label}}</ElRadio>
-                <ElFormItem class="recruit-prompt">
-                  <ElFormGrid class="text-secondary recruit-prompt__space">{{item.explain}}</ElFormGrid>
-                  <ElFormGrid class="text-secondary recruit-prompt__space">{{item.example}}</ElFormGrid>
-                </ElFormItem>
-              </ElFormItem>
-            </ElForm>
-          </ElRadioGroup>
-        </div>
-      </div>
-     <!-- <div class="recruit-container__card recruit-container__card&#45;&#45;topspace">
-        <div class="recruit-title">门店招募配置</div>
-        <div class="recruit-content recruit-content&#45;&#45;flex">
+      <div class="recruit-container__card ">
+        <div class="recruit-title">导购招募海报配置</div>
+        <div class="recruit-content recruit-content--flex">
           <div class="recruit-example">
             <img :src="model.sign_up_url" alt="示例图片" class="recruit-example__img"/>
             <div class="recruit-example__btn">立即开卡</div>
           </div>
           <div class="recruit-detail">
-            <div class="recruit-detail__heading">设置门店招募开卡页面：</div>
+            <div class="recruit-detail__heading">设置导购招募海报背景图：</div>
+            <ElForm>
+              <ElFormItem label="背景图：" required  label-width="100px" >
+                <ElUpload
+                  :action="this.$api.core.sgUploadFile('test')"
+                  :show-file-list="false"
+                  :on-success="handleAvatarSuccess"
+                  :before-upload="beforeAvatarUpload" class="recruit-detail__upload">
+                  <img v-if="model.sign_up_url" :src="model.sign_up_url" class="recruit-avatar">
+                  <Icon type="plus" className="recruit-tip" v-else/>
+                </ElUpload>
+                <div class="text-secondary">建议图片尺寸：750*1334大小；</div>
+              </ElFormItem>
+            </ElForm>
+            <div class="text-secondary"><span class="login_icon" style="width:50px">!</span>场景说明：用户扫门店招募码，进入此页面。点击“立即开卡”，进入开卡录入信息页面。</div>
+          </div>
+        </div>
+      </div>
+      <div class="recruit-container__card recruit-container__card--topspace">
+        <div class="recruit-title">招募链接配置</div>
+        <div class="recruit-content recruit-content--flex" >
+          <div class="recruit-example">
+            <img :src="model.sign_up_url" alt="示例图片" class="recruit-example__img"/>
+            <div class="recruit-example__btn">立即开卡</div>
+          </div>
+          <div class="recruit-detail">
+            <div class="recruit-detail__heading">消息卡片内容：</div>
             <div class="recruit-detail__explanation">会员开卡页面：</div>
+            <ElForm>
+              <ElFormItem label="标题：" required  label-width="100px" >
+                <ElInput style="width: 180px"
+                         type="text"
+                         placeholder="请输入标题"
+                         v-model="model.title"
+                />
+              </ElFormItem>
+              <ElFormItem label="摘要：" required  label-width="100px" >
+                <ElInput style="width: 180px"
+                         type="text"
+                         placeholder="请输入摘要"
+                         v-model="model.content"
+                />
+              </ElFormItem>
+            </ElForm>
             <ElUpload
               :action="this.$api.core.sgUploadFile('test')"
               :show-file-list="false"
@@ -40,7 +65,7 @@
             <div class="text-secondary">场景说明：用户扫门店招募码，进入此页面。点击“立即开卡”，进入开卡录入信息页面。</div>
           </div>
         </div>
-      </div>-->
+      </div>
     </ElScrollbar>
     <div class="form-save__unique">
       <NsButton type="primary" @click="update">修改</NsButton>
@@ -160,5 +185,13 @@ export default index
     background-color: var(--theme-color-white);
     border-bottom-left-radius: var(--default-radius-mini);
     border-bottom-right-radius: var(--default-radius-mini);
+  }
+  .login_icon{
+    margin-right: 10px;
+    background:#0091FA;
+    border-radius: 50%;
+    color:#fff;
+    text-align: center;
+    line-height:40px;
   }
 </style>

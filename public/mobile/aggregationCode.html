@@ -11,7 +11,7 @@
     <title>聚合码标题</title>
 </head>
 <body>
-<div class="page_title">聚合码标题</div>
+<!--<div class="page_title">聚合码标题</div>-->
 <div class="body">
 </div>
 
@@ -47,7 +47,7 @@
           $(".code").css( "background","url("+result.result.bgImg+") no-repeat");
         }
         if (result.result.title){
-          $(".page_title").html(result.result.title);
+          document.title = result.result.title;
         }
       } else {
         // 跳转错误页

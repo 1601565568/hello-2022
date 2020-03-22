@@ -45,12 +45,6 @@
                     mode="fill" class="message-exhaustive__rightside" />
                 </div>
               </div>
-              <div class="message-web__bottom message-web__bottom--base">
-                <ElImage
-                  :width="8" :height="8"
-                  :src="child.image" mode="fill" />
-                <div class="message-name">{{child.title}}</div>
-              </div>
               <div class="message-circle message-circle--bgcolor"></div>
             </div>
             <!--链接 结束-->
@@ -70,10 +64,6 @@
                   :width="156" :height="125"
                   :src="child.face"
                   mode="fill" class="message-picture" />
-              </div>
-              <div class="message-web__bottom">
-                <Icon type="xiaochengxu"/>
-                <span class="message-name">小程序</span>
               </div>
               <div class="message-circle message-circle--bgcolor"></div>
             </div>
