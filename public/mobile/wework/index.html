@@ -12,15 +12,18 @@
 </head>
 <body>
 <script type="text/javascript" src="../js/jquery-3.4.1.min.js"></script>
-<script type="text/javascript" src="./js/common.js"></script>
+<script type="text/javascript" src="../js/common.js"></script>
+<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
 <script>
     window.onload = function () {
         getUserId()
     }
     function getUserId() {
-      let appId = getPar("appId");
-      let type = getPar("type");
+      let groupId = getPar("groupId");
+      let code = getPar("code");
       this.ajax(backstageURL() + '/wework/getUserId', {
+        groupId: groupId,
+        code: code
       }).then(function (result) {
           if (result.success) {
           } else {
