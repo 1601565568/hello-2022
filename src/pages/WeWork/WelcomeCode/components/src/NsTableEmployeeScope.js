@@ -3,7 +3,7 @@
  * @Author: yuye.huang
  * @Date: 2020-03-09 13:55:17
  * @LastEditors: yuye.huang
- * @LastEditTime: 2020-03-09 14:26:02
+ * @LastEditTime: 2020-03-23 18:28:57
  */
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 
@@ -21,10 +21,10 @@ export default {
   },
   mixins: [tableMixin],
   data () {
-    let model = Object.assign({
+    let model = {
       employeeName: '',
-      welcomeCodeUuid: this.childData.welcomeCodeUuid
-    }, this.model, this.childData)
+      welcomeCodeUuid: ''
+    }
     return {
       _table: {
         searchMap: {},

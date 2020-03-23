@@ -3,7 +3,7 @@
  * @Author: yuye.huang
  * @Date: 2020-02-29 20:52:53
  * @LastEditors: yuye.huang
- * @LastEditTime: 2020-03-23 17:53:17
+ * @LastEditTime: 2020-03-23 17:57:33
  -->
 <template>
   <ns-page-table ref='mainTable'><!-- :colButton="10" -->
@@ -42,7 +42,7 @@
       <el-form ref="table_filter_form" :model="model" label-width="80px" :inline="true">
         <el-form-item label="欢迎语内容：">
           <el-form-grid size="xmd">
-            <el-input style="width:180px" autofocus=true v-model="model.content" placeholder="请输入欢迎语内容"></el-input>
+            <el-input style="width:180px" autofocus=true v-model="model.content" placeholder="请输入欢迎语内容" clearable></el-input>
           </el-form-grid>
         </el-form-item>
         <el-form-item label="附件类型：">
