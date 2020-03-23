@@ -32,6 +32,12 @@ export default {
           'name': 'RecruitConfig',
           'title': '招募设置',
           'component': () => import('@/pages/Guide/RecruitmentSettings/index.vue')
+        },
+        {
+          'path': '/Guide/RecruitSet/RecruitPageConfig',
+          'name': 'RecruitPageConfig',
+          'title': '招募页面设置',
+          'component': () => import('@/pages/Guide/RecruitmentPageSettings/index.vue')
         }
       ]
     },

@@ -8,6 +8,7 @@ export default {
       uuid: null,
       // 计划名称输入框绑定值
       title: '',
+      loading: false, // 防重复提交
       // 页面滚动条配置
       scrollBarDeploy: {
         ref: 'fullScreen', // 页面滚动条ref的名称
@@ -46,6 +47,7 @@ export default {
   methods: {
     // 保存
     saveOrUpdateWelcomes () {
+      this.loading = true
       let that = this
       if (this.publishData.length > 10) {
         that.$notify.error('消息超过10条')
@@ -56,7 +58,7 @@ export default {
       let employeeIds = this.initSelectedData()
       let model = {
         title: that.title,
-        content: content,
+        content: encodeURIComponent(content),
         uuid: that.uuid,
         employeeIds: employeeIds
       }
@@ -67,6 +69,7 @@ export default {
         that.$http
           .fetch(that.$api.weChat.welcomes.saveWelcomeCode, model)
           .then(resp => {
+            this.loading = false
             that.$notify.success('操作成功')
             that.$router.push({ path: '/Guide/speech/speechList' })
           })
@@ -160,9 +163,12 @@ export default {
         ).then(resp => {
           that.uuid = resp.result.uuid
           that.title = resp.result.title
-          JSON.parse(resp.result.content).forEach(function (value, i) {
-            that.publishData.push(value)
-          })
+          if (resp.result.content) {
+            let content = decodeURIComponent(resp.result.content)
+            JSON.parse(content).forEach(function (value, i) {
+              that.publishData.push(value)
+            })
+          }
           resp.result.employeeIds.forEach(function (value, i) {
             that.tree.selectKeys.push(value)
             keyMap[value] = 1
