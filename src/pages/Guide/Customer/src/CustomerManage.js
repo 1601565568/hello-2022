@@ -380,7 +380,7 @@ export default {
         _this.$http.fetch(_this.$api.guide.guide.customerGetDetail, {
           sysCustomerId: val.sysCustomerId,
           guideId: Number(val.guideId),
-          shopId: offLineShopId
+          shopId: val.sgExclusiveShopId
         }).then(resp => {
           if (resp.success && resp.result != null) {
             _this.shopKuhuShow = true
@@ -442,7 +442,8 @@ export default {
     showTagData (row, offLineShopId) {
       this.showTag = true
       this.sysCustomerId = row.sysCustomerId
-      this.offLineShopId = offLineShopId
+      // 打标签时.线下店铺Id = 后台传过来的id,保存标签时使用这个offlineShopId
+      this.offLineShopId = row.sgExclusiveShopId
       this.$http.fetch(this.$api.guide.guide.queryAllTag, {
         'shopId': row.sgExclusiveShopId !== 0 ? row.sgExclusiveShopId : offLineShopId,
         'sysCustomerId': row.sysCustomerId
