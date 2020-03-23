@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1, maximum-scale=2.0, user-scalable=no"/>
+    <meta http-equiv="Cache-Control" content="no-siteapp"/>
+    <meta name="format-detection" content="telephone=no"/>
+    <link rel="stylesheet" href="./invalid/invalid.css">
+    <title></title>
+</head>
+<body>
+<script type="text/javascript" src="../js/jquery-3.4.1.min.js"></script>
+<script type="text/javascript" src="./js/common.js"></script>
+<script>
+    window.onload = function () {
+        getUserId()
+    }
+    function getUserId() {
+      let appId = getPar("appId");
+      let type = getPar("type");
+      this.ajax(backstageURL() + '/wework/getUserId', {
+      }).then(function (result) {
+          if (result.success) {
+          } else {
+          }
+      })
+    }
+
+    function ajax(url, data, params) {
+        data = JSON.stringify(data)
+        return new Promise(function (resolve, reject) {
+            $.ajax({
+                url: url,
+                type: params && params.type || 'post',
+                dataType: params && params.dataType || 'JSON',
+                data: data,
+                method: "post",
+                contentType: "application/json;charset=UTF-8",
+                success: function (res) {
+                    resolve(res)
+                },
+                error: function (res) {
+                    $(".fail").show();
+                    $('.fail__text').html(result.msg);
+                }
+            });
+        });
+    }
+</script>
+</body>
+</html>

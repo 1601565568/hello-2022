@@ -37,12 +37,17 @@
                       {{ scope.row.name }}
                     </template>
                   </ElTableColumn>
-                  <ElTableColumn prop="style" label="子码" align="center" width="150">
+                  <ElTableColumn prop="style" label="微信账号" v-if="memberManagePlan == 1 && personalQrcode.type == 0" align="center" width="250">
+                    <template slot-scope="scope">
+                      {{ scope.row.userName?scope.row.userName:'-' }}({{ scope.row.userId?scope.row.userId:'-' }})
+                    </template>
+                  </ElTableColumn>
+                  <ElTableColumn prop="style" label="子码" v-if="memberManagePlan == 1 && personalQrcode.type != 0" align="center" width="150">
                     <template slot-scope="scope">
                       <img v-if="scope.row.image" :src="scope.row.image" width="50px" height="50px" class="company-upload__avatar">
                     </template>
                   </ElTableColumn>
-                  <ElTableColumn prop="style" label="每日添加好友次数" align="center" width="120">
+                  <ElTableColumn prop="style" label="每日添加好友次数" v-if="memberManagePlan == 1 && personalQrcode.type != 0" align="center" width="120">
                     <template slot-scope="scope">
                       <el-input v-model="scope.row.num"></el-input>
                     </template>
@@ -78,7 +83,7 @@
                 </el-form-item>
               </el-form-grid>
             </el-form-item>
-            <el-form-item label="验证信息关键字：" v-if="memberManagePlan == 1" required>
+            <el-form-item label="验证信息关键字：" v-if="memberManagePlan == 1 && personalQrcode.isvalidate == 2" required>
               <el-form-grid>
                 <el-input   style="width:400px;" maxlength="50" type="textarea" autofocus=true v-model="personalQrcode.keyword" placeholder="请输入验证信息关键字，关键字之间用英文逗号割开，最多输入50个关键字" clearable></el-input>
               </el-form-grid>

@@ -16,27 +16,11 @@ export default {
         excludeHeight: 39 // 底部按钮的高度39
       },
       model: {
+        title: '',
+        content: '',
         id: null,
-        secruitment_type: 0,
         sign_up_url: 'https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/202002/10000146/7cf9ebfa-37ae-468b-bb29-df37f75c9ea8.jpg'
-      },
-      // 单选组数据
-      radioList: [
-        {
-          id: 1,
-          value: 0,
-          label: '全渠道首次入会时计算招募提成',
-          explain: '导购招募为全渠道新会员时，计算导购招募奖励',
-          example: '例如：会员在天猫店铺已入会，此时导购再次招募，不会计算导购招募奖励'
-        },
-        {
-          id: 2,
-          value: 1,
-          label: '按照平台首次入会时计算招募提成',
-          explain: '导购招募为首次在微信平台注册入会成功，则计算导购招募奖励',
-          example: '例如：会员在天猫店铺已入会，但是未在微信平台开卡。此时导购再次招募，会计算导购招募奖励'
-        }
-      ]
+      }
     }
   },
   mounted: function () {
@@ -44,7 +28,6 @@ export default {
     let _this = this
     this.$http.fetch(this.$api.guide.secruitmentSet.getInfo).then((resp) => {
       if (resp.success && resp.result) {
-        _this.model.secruitment_type = resp.result.secruitment_type
         _this.model.sign_up_url = resp.result.sign_up_url
         _this.model.id = resp.result.id
       }

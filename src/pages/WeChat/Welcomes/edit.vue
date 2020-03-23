@@ -114,7 +114,7 @@
           </div>
         </ElScrollbar>
         <div class="form-save__unique">
-          <NsSave @click="saveOrUpdateWelcomes"/>
+          <NsSave :loading="loading" @click="saveOrUpdateWelcomes"/>
           <NsButton @click="cancelWelcomes">{{$t('operating.cancel')}}</NsButton>
         </div>
       </el-form>
