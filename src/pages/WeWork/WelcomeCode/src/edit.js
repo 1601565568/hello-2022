@@ -453,6 +453,7 @@ export default {
      * @msg: 页面初始化时的数据加载函数
      */
     $init (data) {
+      debugger
       // 页面初始化时，加载页面数据
       let that = this
       if (data.welcomeCodeUuid) {
@@ -461,14 +462,13 @@ export default {
             welcomeCodeUuid: data.welcomeCodeUuid
           }).then(resp => {
             that.model = resp.result
-            if (that.model.annexType === 0) {
-              return
-            }
-
             that.setSelectChannelMsg()
             // 设置选择员工
             if (that.model.employeeIds) {
               that.employeeSelectMsg = '已选择' + that.model.employeeIds.length + '名员工'
+            }
+            if (that.model.annexType === 0) {
+              return
             }
             let annexContent = JSON.parse(that.model.annexContent)
             if (that.model.annexType === 1) {
