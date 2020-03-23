@@ -98,7 +98,7 @@
             </el-select>
           </el-form-grid>
         </el-form-item>
-        <el-form-item label="入库时间：" prop="time">
+        <el-form-item label="入会时间：" prop="time">
           <el-date-picker
             v-model="model.time"
             type="datetimerange"
@@ -173,7 +173,7 @@
             {{scope.row.sgExclusiveShopName ? scope.row.sgExclusiveShopName : "-"}}
           </template>
         </el-table-column>
-        <el-table-column prop="inMemberTime" label="入库时间" align="center" width="160">
+        <el-table-column prop="inMemberTime" label="入会时间" align="center" width="160">
             <template slot-scope="scope">
               {{scope.row.inMemberTime?moment(scope.row.inMemberTime):'-'}}
             </template>
