@@ -336,7 +336,7 @@
         placement="right"
         :model="linkModel"
       >
-        <el-form-item label="跳转链接："> </el-form-item>
+        <el-form-item label="跳转链接：" class="code-title"> </el-form-item>
         <el-form-item label="链接：" prop="custom">
           <el-radio v-model="linkModel.custom" :label="1" size="xxs"
             >自定义链接
@@ -369,7 +369,7 @@
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="消息展示内容："> </el-form-item>
+        <el-form-item label="消息展示内容：" class="code-title"> </el-form-item>
         <el-form-item label="标题：" prop="title" :rules="commonRules.title">
           <el-form-grid size="xmd">
             <el-input v-model.trim="linkModel.title" />
@@ -419,7 +419,7 @@
         placement="right"
         :model="appModel"
       >
-        <el-form-item label="跳转链接："> </el-form-item>
+        <el-form-item label="跳转链接：" class="code-title"> </el-form-item>
         <el-form-item prop="custom">
           <el-radio v-model="appModel.custom" :label="1" size="xxs"
             >手动录入小程序
@@ -473,7 +473,7 @@
             </el-select>
           </el-form-item>
         </template>
-        <el-form-item label="小程序卡片展示："> </el-form-item>
+        <el-form-item label="小程序卡片展示：" class="code-title"> </el-form-item>
         <el-form-item label="标题：" prop="title" :rules="commonRules.title">
           <el-form-grid size="xmd">
             <el-input v-model.trim="appModel.title" />
@@ -542,6 +542,7 @@
     >
       <ElRow :gutter="10" class="code-container">
         <ElCol :span="12" class="code-container__item">
+          <div class="code-title">可选员工</div>
           <!-- <div class="code-title">可选员工</div> -->
           <ElInput
             placeholder="输入员工姓名以过滤"
@@ -844,6 +845,44 @@ export default Edit
         &:before {
            border-left: 0;
         }
+      }
+    }
+  }
+   @component-namespace code {
+    @b title {
+      font-weight: bold;
+      line-height: 30px;
+      background: var(--theme-bg-color-base);
+      padding: 0 8px;
+      border-radius: var(--default-radius-mini);
+    }
+   }
+  @component-namespace company {
+    @b upload {
+      >>> .el-upload {
+        width: 100px;
+        height: 100px;
+        position: relative;
+        border: 1px solid var(--theme-base-border-color-primary);
+        border-radius: var(--default-radius-mini);
+        &:hover {
+           border-color: var(--theme-color-primary-light);
+         }
+      }
+      @e tip {
+        font-size: var(--default-font-size-large);
+        color: var(--theme-base-border-color-primary);
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%,-50%);
+      }
+      @e avatar {
+        width: 100px;
+        height: 100px;
+        position: relative;
+        top: -1px;
+        left: -1px;
       }
     }
   }
