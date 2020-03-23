@@ -3,7 +3,7 @@
  * @Author: yuye.huang
  * @Date: 2020-03-01 16:34:26
  * @LastEditors: yuye.huang
- * @LastEditTime: 2020-03-06 18:33:03
+ * @LastEditTime: 2020-03-17 09:40:35
  */
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import annexType from '@/config/annexType.js'
@@ -44,7 +44,12 @@ export default {
       }
     ]
     let quickSearchModel = {}
-    let searchModel = {}
+    let searchModel = {
+      'content': '',
+      'employeeName': '',
+      'channelName': '',
+      'annexType': ''
+    }
     let model = Object.assign({}, searchModel)
     return {
       // 附带内容类型
@@ -66,7 +71,8 @@ export default {
       this.$reload()
     }
   },
-  computed: {},
+  computed: {
+  },
   methods: {
     /**
      * @msg: 查看欢迎语员工使用范围
@@ -94,7 +100,7 @@ export default {
         type: 'warning'
       }).then(() => {
         let param = {}
-        param.uuid = data.welcomeCodeUuid
+        param.welcomeCodeUuid = data.welcomeCodeUuid
         _this.$http.fetch(_this.$api.weWork.welcomeCode.deleteWelcomeCode, param).then(resp => {
           if (resp.success) {
             _this.$notify.success('删除成功')
@@ -114,8 +120,12 @@ export default {
      * @param {Number} 附带内容类型值
      * @return: 附带内容类型名称
      */
-    convertAnnexType (value) {
-      return this.annexType.Collection[value]
+    convertAnnexType (k) {
+      let v = this.annexType.Collection[k]
+      if (v) {
+        return v
+      }
+      return '-'
     }
   }
 }

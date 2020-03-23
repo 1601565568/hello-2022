@@ -19,7 +19,7 @@ export default {
     ElUpload
   },
   data: function () {
-    // 网页链接配置model
+    // 图片配置model
     let imageModel = {
       image: ''
     }
@@ -94,7 +94,7 @@ export default {
     // 获取渠道列表 todo 异步问题
     this.$http.fetch(this.$api.weWork.welcomeCode.findChannelList).then((resp) => {
       this.channelList = resp.result
-      this.$init({ uuid: this.$route.query.welcomeCodeUuid })
+      this.$init({ welcomeCodeUuid: this.$route.query.welcomeCodeUuid })
     }).catch((resp) => {
       this.$notify.error(resp.msg)
     })
@@ -222,7 +222,10 @@ export default {
      */
     onSubmitAnnex (type) {
       let that = this
-      if (type === 2) {
+      if (type === 0) {
+        that.onSubmitHandleModel(type)
+        that.model.annexType = type
+      } else if (type === 2) {
         that.$refs.linkForm.validate(valid => {
           if (!valid) {
             return
@@ -382,6 +385,9 @@ export default {
     setSelectChannelMsg () {
       let _this = this
       _this.channelSelectMsg = ''
+      if (!_this.model.channelCodes) {
+        return
+      }
       for (let select of _this.model.channelCodes) {
         for (let channel of _this.channelList) {
           if (select === channel.value) {
@@ -390,6 +396,9 @@ export default {
         }
       }
     },
+    /**
+     * @msg: 保存或更新
+     */
     saveOrUpdate: function () {
       let that = this
       let annexContent = {}
@@ -416,7 +425,7 @@ export default {
           return
         }
         that.$http
-          .fetch(that.$api.weWork.welcomeCode.saveWelcomeCode, that.model)
+          .fetch(that.$api.weWork.welcomeCode.saveOrUpdateWelcomeCode, that.model)
           .then(resp => {
             that.$notify.success('操作成功')
             that.$router.push({ path: '/WeWork/WelcomeCode/WelcomeCodeList' })
@@ -428,25 +437,39 @@ export default {
       })
     },
     /**
+     * @msg: 取消新增/修改
+     */
+    back () {
+      let _this = this
+      _this.$confirm('表单修改内容将丢失,确定是否返回？', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        _this.$router.push({ path: '/WeWork/WelcomeCode/WelcomeCodeList' })
+      })
+    },
+    /**
      * @msg: 页面初始化时的数据加载函数
      */
     $init (data) {
+      debugger
       // 页面初始化时，加载页面数据
       let that = this
-      if (data.uuid) {
+      if (data.welcomeCodeUuid) {
         that.$http
           .fetch(that.$api.weWork.welcomeCode.getWelcomeCode, {
-            uuid: data.uuid
+            welcomeCodeUuid: data.welcomeCodeUuid
           }).then(resp => {
             that.model = resp.result
+            that.setSelectChannelMsg()
+            // 设置选择员工
+            if (that.model.employeeIds) {
+              that.employeeSelectMsg = '已选择' + that.model.employeeIds.length + '名员工'
+            }
             if (that.model.annexType === 0) {
               return
             }
-
-            this.setSelectChannelMsg()
-            // 设置选择员工
-            this.employeeSelectMsg = '已选择' + this.model.employeeIds.length + '名员工'
-
             let annexContent = JSON.parse(that.model.annexContent)
             if (that.model.annexType === 1) {
               that.model.image = annexContent.image

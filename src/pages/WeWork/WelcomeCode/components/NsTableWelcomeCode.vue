@@ -3,7 +3,7 @@
  * @Author: yuye.huang
  * @Date: 2020-02-29 20:52:53
  * @LastEditors: yuye.huang
- * @LastEditTime: 2020-03-11 10:51:15
+ * @LastEditTime: 2020-03-23 17:57:33
  -->
 <template>
   <ns-page-table ref='mainTable'><!-- :colButton="10" -->
@@ -43,6 +43,29 @@
         <el-form-item label="欢迎语内容：">
           <el-form-grid size="xmd">
             <el-input style="width:180px" autofocus=true v-model="model.content" placeholder="请输入欢迎语内容" clearable></el-input>
+          </el-form-grid>
+        </el-form-item>
+        <el-form-item label="附件类型：">
+          <el-form-grid size="xmd">
+            <el-select v-model="model.annexType" placeholder="请选择">
+              <el-option
+                v-for="(value, key) in annexType.Collection"
+                :key="key"
+                :label="value"
+                :value="key"
+              >
+              </el-option>
+          </el-select>
+          </el-form-grid>
+        </el-form-item>
+        <el-form-item label="员工：">
+          <el-form-grid size="xmd">
+            <el-input style="width:180px" v-model="model.employeeName" placeholder="请输入员工名称"></el-input>
+          </el-form-grid>
+        </el-form-item>
+        <el-form-item label="渠道：">
+          <el-form-grid size="xmd">
+            <el-input style="width:180px" v-model.trim="model.channelName" placeholder="请输入渠道名称"></el-input>
           </el-form-grid>
         </el-form-item>
       </el-form>
