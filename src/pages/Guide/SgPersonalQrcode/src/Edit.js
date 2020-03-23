@@ -81,7 +81,9 @@ export default {
         name: null,
         image: null,
         date: null,
-        num: null
+        num: null,
+        userName: null,
+        userId: null
       }]
     }
   },
@@ -127,6 +129,27 @@ export default {
     } else {
       this.title = '新增聚合二维码'
     }
+
+    var keyMap = {}
+    this.$http.fetch(this.$api.guide.sgPersonalQrcode.getQrcodeDepartment).then(resp => {
+      if (resp.success && resp.result != null) {
+        this.tree.selectData = JSON.parse(resp.result)
+        this.choosePerson.forEach(function (value, i) {
+          keyMap[value] = 1
+        })
+        this.tree.selectData.forEach(function (value, i) {
+          value.children.forEach(function (value, i) {
+            if (keyMap[value.id] === 1) {
+              this.tree.selectedData.push(value)
+            }
+          })
+        })
+      } else {
+        this.$notify.error(getErrorMsg('获取员工数据失败', resp))
+      }
+    }).catch((resp) => {
+      this.$notify.error(getErrorMsg('获取员工数据失败', resp))
+    })
   },
   methods: {
     sgUploadFile (name) {
@@ -138,6 +161,8 @@ export default {
       const children = parent.data.children || parent.data
       const index = children.findIndex(d => d.id === data.id)
       children.splice(index, 1)
+      const chooseIndex = this.choosePerson.findIndex(d => d.id === data.id)
+      this.choosePerson.splice(chooseIndex, 1)
       const nodes = this.$refs.selectTree.getCheckedNodes()
       const nodeIndex = nodes.findIndex(d => d.id === data.id)
       nodes.splice(nodeIndex, 1)
@@ -204,6 +229,8 @@ export default {
           chooseData.name = data.label
           chooseData.image = data.qrcode
           chooseData.num = null
+          chooseData.userName = data.userName
+          chooseData.userId = data.userId
           _this.tableData.push(chooseData)
         }
       }
@@ -258,30 +285,22 @@ export default {
       _this.$http.fetch(_this.$api.guide.sgPersonalQrcode.getQrcodeDepartment).then(resp => {
         if (resp.success && resp.result != null) {
           _this.tree.selectData = JSON.parse(resp.result)
-          _this.choosePerson.forEach(function (value, i) {
-            keyMap[value] = 1
-          })
-          _this.tree.selectData.forEach(function (value, i) {
-            value.children.forEach(function (value, i) {
-              if (keyMap[value.id] === 1) {
-                _this.tree.selectedData.push(value)
-              }
-            })
-          })
+          // _this.choosePerson.forEach(function (value, i) {
+          //   keyMap[value] = 1
+          // })
+          // _this.tree.selectData.forEach(function (value, i) {
+          //   value.children.forEach(function (value, i) {
+          //     if (keyMap[value.id] === 1) {
+          //       _this.tree.selectedData.push(value)
+          //     }
+          //   })
+          // })
         } else {
           _this.$notify.error(getErrorMsg('获取员工数据失败', resp))
         }
       }).catch((resp) => {
         _this.$notify.error(getErrorMsg('获取员工数据失败', resp))
       })
-      // let data = this.$refs.selectTree.getCheckedNodes()
-      // if (data) {
-      //   for (let dataParent of data) {
-      //     if (!dataParent.disabled) {
-      //       this.tree.selectedData.push(dataParent)
-      //     }
-      //   }
-      // }
     },
     handleEdit (index, row) {
     },
