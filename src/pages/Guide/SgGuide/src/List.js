@@ -227,7 +227,7 @@ export default {
       allDeleteName: [],
       model: model,
       changeValue: {},
-      guideValue: null,
+      guideValue: null, //  当前操作的员工目标员工类型 0导购 1店长
       transferName: null,
       transferShopName: null,
       transferCount: null,
@@ -991,10 +991,7 @@ export default {
                 shopId = _this.subordinateStores.join(',')
                 _this.findGuideShopCustomerSum(guideId, shopId, model).then((res) => {
                   if (res > 0) {
-                    // todo 4.0版本导购有会员不能更换门店，4.1版本待中台完善后再取消注释
                     _this.$notify.error('导购名下有会员，请先转移会员')
-                    // _this.memberBelongingtitle = '选择会员归属'
-                    // _this.memberBelongingShow = true
                   } else {
                     _this.subordinateStores.map((item, i) => {
                       guideShop[i] = Object.assign({ job: _this.guideValue, shop_id: item }, guideShop[i])
@@ -1008,29 +1005,28 @@ export default {
                   }
                 })
               } else {
+                // 导购修改为店长（正确的校验逻辑：若原门店包含在新工作门店列表中，则直接保存，不需要判断；否则需要判断原门店下是否有会员）
+                // 判断新门店不在原门店列表（该判断测试结果（if shopArr.indexOf(_this.changeValue.storeValue) === -1 ）-恒为“不在”) && 查询新门店下是否有会员getCustomerCount(新门店下是否有会员)改为findGuideShopCustomerSum（除新门店外，原门店是否有会员）
                 if (shopArr.indexOf(_this.changeValue.storeValue) === -1) {
                   guideId = _this.row.id
-                  shopId = _this.changeValue.storeValue
-                  _this.getCustomerCount(guideId, shopId).then((res) => {
-                    if (res > '0') {
-                      // todo 4.0版本导购有会员不能更换门店，4.1版本待中台完善后再取消注释
+                  // shopId = _this.changeValue.storeValue
+                  shopId = _this.subordinateStores.join(',')
+                  _this.findGuideShopCustomerSum(guideId, shopId, model).then((res) => {
+                    if (res > 0) {
                       _this.$notify.error('导购名下有会员，请先转移会员')
-                      // _this.memberBelongingtitle = '选择会员归属'
-                      // _this.memberBelongingShow = true
                     } else {
                       _this.subordinateStores.map((item, i) => {
                         guideShop[i] = Object.assign({ job: _this.guideValue, shop_id: item }, guideShop[i])
                       })
-                      // guideShop[0] = { job: _this.guideValue, shop_id: model.sgGuideShop.shop_id }
                       if (guide.birthday instanceof Date) {
                         guide.birthday = moment(guide.birthday).format('YYYY-MM-DD')
                       }
-                      if (_this.model.sgGuide.mobile !== '' && _this.model.sgGuideShop.shop_id !== null && _this.model.sgGuide.name !== '' && _this.model.sgGuide.work_prefix !== '') {
+                      if (_this.model.sgGuide.mobile !== '' && _this.subordinateStores.length > 0 && _this.model.sgGuide.name !== '' && _this.model.sgGuide.work_prefix !== '') {
                         _this.saveOrUpdateGuide(guide, guideShop, sgGuideVo)
                       }
                     }
                   })
-                } else {
+                } else { // 猜测是为了判断新门店是否等于原门店？若是，则直接保存
                   _this.subordinateStores.map((item, i) => {
                     guideShop[i] = Object.assign({ job: _this.guideValue, shop_id: item }, guideShop[i])
                   })
