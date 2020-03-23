@@ -66,7 +66,6 @@
     iframe.parentNode.removeChild(iframe);
   };
     $(document).ready(function () {
-        window.alert('test123123')
         var changeData = JSON.parse(localStorage.getItem('showData'));
         $("#agoShopName").html(changeData.agoShopName)
         $("#shopName").html(changeData.shopName);
@@ -92,7 +91,7 @@
             groupId: recruitInfo.groupId,
         }).then(function (result) {
             if (result.success) {
-                alert("更换导购成功")
+              window.alert("更换导购成功")
                 window.location.replace("../sameGuide/successNo.html");
             } else {
                 window.location.replace("../invalid/invalid.html?msg=更换导购失败");
