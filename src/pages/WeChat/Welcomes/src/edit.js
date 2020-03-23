@@ -163,7 +163,6 @@ export default {
         ).then(resp => {
           that.uuid = resp.result.uuid
           that.title = resp.result.title
-          debugger
           if (resp.result.content) {
             let content = decodeURIComponent(resp.result.content)
             JSON.parse(content).forEach(function (value, i) {

@@ -83,7 +83,6 @@ export default {
       this.loading = false
     },
     handleClose () {
-      debugger
       this.$refs.searchform.resetFields()
       this.dialogVisible = false
     }
