@@ -42,12 +42,12 @@
                       {{ scope.row.userName?scope.row.userName:'-' }}({{ scope.row.userId?scope.row.userId:'-' }})
                     </template>
                   </ElTableColumn>
-                  <ElTableColumn prop="style" label="子码" v-if="memberManagePlan == 1 && personalQrcode.type != 0" align="center" width="150">
+                  <ElTableColumn prop="style" label="子码" v-if="memberManagePlan == 2" align="center" width="150">
                     <template slot-scope="scope">
                       <img v-if="scope.row.image" :src="scope.row.image" width="50px" height="50px" class="company-upload__avatar">
                     </template>
                   </ElTableColumn>
-                  <ElTableColumn prop="style" label="每日添加好友次数" v-if="memberManagePlan == 1 && personalQrcode.type != 0" align="center" width="120">
+                  <ElTableColumn prop="style" label="每日添加好友次数" v-if="memberManagePlan == 2" align="center" width="120">
                     <template slot-scope="scope">
                       <el-input v-model="scope.row.num"></el-input>
                     </template>
