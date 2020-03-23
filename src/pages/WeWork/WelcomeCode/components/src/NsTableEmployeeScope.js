@@ -22,7 +22,8 @@ export default {
   mixins: [tableMixin],
   data () {
     let model = Object.assign({
-      employeeName: ''
+      employeeName: '',
+      welcomeCodeUuid: this.childData.welcomeCodeUuid
     }, this.model, this.childData)
     return {
       _table: {

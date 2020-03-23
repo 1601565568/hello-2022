@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0,minimum-scale=1.0,user-scalable=0"/>
+  <title>客户详情</title>
+  <link rel="stylesheet" type="text/css" href="./src/index.css">
+</head>
+<body>
+<!-- 顶部状态栏 start -->
+<div class="page-status-bar text-center">
+  <div class="state-bar__cancel text-secondary">取消</div>
+  <span class="text-title font-weight-medium">客户详情</span>
+</div>
+<!-- 顶部状态栏 end -->
+
+<div class="page-container">
+  <div class="detail-head card">
+    <div class="detail-head__avatar">
+      <img class="customerImg" src="./src/images/default-user.png" alt="客户头像">
+    </div>
+    <div class="detail-head__info">
+      <div class="text-title font-size-large font-weight-medium customerName">--</div>
+      <div class="detail-head__icon">
+        <img src="./src/icons/icon-boy.svg" class="customerBoy" alt="性别图标">
+        <img src="./src/icons/icon-girl.svg" class="customerGirl hide" alt="性别图标">
+      </div>
+    </div>
+  </div>
+
+  <!-- 基本信息 start  -->
+  <div class="detail-subtitle">基本信息</div>
+  <div class="card detail-form font-size-base">
+    <div class="detail-form__item">
+      <div class="detail-form__label text-secondary">姓名</div>
+      <div class="detail-form__content text-title customerName">--</div>
+    </div>
+    <div class="detail-form__item">
+      <div class="detail-form__label text-secondary">电话</div>
+      <div class="detail-form__content text-title customerPhone">--</div>
+      <div class="detail-form__addon"><img src="./src/icons/icon-telephone-fill.svg" alt="手机"></div>
+    </div>
+    <div class="detail-form__item">
+      <div class="detail-form__label text-secondary">VIP等级</div>
+      <div class="detail-form__content text-title customerGradeName">--</div>
+    </div>
+    <div class="detail-form__item">
+      <div class="detail-form__label text-secondary">微信号</div>
+      <div class="detail-form__content text-title customerWechatNo">--</div>
+    </div>
+    <div class="detail-form__item">
+      <div class="detail-form__label text-secondary">生日</div>
+      <div class="detail-form__content text-title customerBirthday">--</div>
+    </div>
+    <div class="detail-form__item">
+      <div class="detail-form__label text-secondary">淘宝用户名</div>
+      <div class="detail-form__content text-title customerTbNick">--</div>
+    </div>
+    <div class="detail-form__item">
+      <div class="detail-form__label text-secondary">京东用户名</div>
+      <div class="detail-form__content text-title customerJdNick">--</div>
+    </div>
+    <div class="detail-form__item">
+      <div class="detail-form__label text-secondary">有赞用户名</div>
+      <div class="detail-form__content text-title customerYzNick">--</div>
+    </div>
+    <div class="detail-form__item">
+      <div class="detail-form__label text-secondary">会员印象</div>
+      <div class="detail-form__content text-title">--</div>
+      <div class="detail-form__addon"><img src="./src/icons/icon-edit-fill.svg" alt="编辑"></div>
+    </div>
+
+  </div>
+  <!-- 基本信息 end  -->
+
+  <!-- 客户财富 start  -->
+  <div class="detail-subtitle">客户财富</div>
+  <div class="card detail-form font-size-base customerMsg">
+    <div class="detail-form__item">
+      <div class="detail-form__label text-secondary">优惠券</div>
+      <div class="detail-form__content text-title customerUsable">0</div>
+    </div>
+    <div class="detail-form__item">
+      <div class="detail-form__label text-secondary">优惠券</div>
+      <div class="detail-form__content text-title">76516</div>
+    </div>
+
+  </div>
+  <!-- 客户财富 end  -->
+</div>
+<script type="text/javascript" src="/mobile/js/jquery-3.4.1.min.js"></script>
+<script type="text/javascript" src="../js/common.js"></script>
+<script>
+
+  const toError = (type = 3, message = '') => {
+    window.location.href = '/mobile/coutomer/forbidden.html'
+  }
+  window.onload = function () {
+    getCustomerDetail()
+  }
+  function getCustomerDetail() {
+    ownerWid = getPar('ownerWid')
+    wid = getPar('wid')
+    this.ajax(backstageURL() + '/guideCustomer/customerDetail', {
+      ownerWid: ownerWid,
+      wid: wid,
+    }).then(function (result) {
+      if (result.success) {
+        $(".customerImg").attr("src",result.result.customerHeadImage)
+        $(".customerName").html(checkParams(result.result.customerName))
+        if (result.result.sex == -1) {
+          $(".customerBoy").hide()
+          $(".customerGirl").hide()
+        }else if (result.result.sex == 0) {
+          $(".customerBoy").hide()
+          $(".customerGirl").show()
+        }else if (result.result.sex == 1) {
+          $(".customerBoy").show()
+          $(".customerGirl").hide()
+        }
+        $(".customerPhone").html(checkParams(result.result.mobile))
+        $(".customerGradeName").html(checkParams(result.result.gradeName))
+        $(".customerWechatNo").html(checkParams(result.result.wechatNo))
+        $(".customerBirthday").html(checkParams(result.result.birthday))
+        $(".customerUsable").html(result.result.usable)
+        let integralMsg = result.result.integralMsg;
+        for (var i = 0;i < integralMsg.length;i++){
+          let integral = integralMsg[i]
+          var html = '<div class="detail-form__item">' +
+            '      <div class="detail-form__label text-secondary">'+integral.integralAlias+'</div>' +
+            '      <div class="detail-form__content text-title">'+integral.availPoint+'</div>' +
+            '    </div>'
+          $(".customerMsg").append(html)
+        }
+      } else {
+        // 跳转错误页
+        toError()
+      }
+    })
+  }
+  function ajax(url, data, params) {
+    data = JSON.stringify(data)
+    return new Promise(function (resolve, reject) {
+      $.ajax({
+        url: url,
+        type: params && params.type || 'post',
+        dataType: params && params.dataType || 'JSON',
+        data: data,
+        method: "post",
+        contentType: "application/json;charset=UTF-8",
+        success: function (res) {
+          resolve(res)
+        },
+        error: function (res) {
+          $(".fail").show();
+          $('.fail__text').html(result.msg);
+        }
+      });
+    });
+  }
+  function checkParams(params) {
+    if (params == null || params == ''){
+      return '--'
+    }else {
+      return params
+    }
+  }
+</script>
+</body>
+</html>

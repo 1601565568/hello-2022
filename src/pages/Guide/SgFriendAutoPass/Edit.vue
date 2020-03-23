@@ -9,12 +9,12 @@
             {{ title }}
           </div>
           <div class="form-grid__content">
-            <el-form-item label="员工：" required  size="xxs">
+            <el-form-item label="员工："  size="xxs">
               <el-form-grid>
                 <span>{{ names ? names:'' }}</span>
               </el-form-grid>
             </el-form-item>
-            <el-form-item v-show="isShowWxAccount === true" label="微信账号：" required  size="xxs">
+            <el-form-item v-show="isShowWxAccount === true" label="微信账号：" size="xxs">
               <el-form-grid>
                 <el-form-grid>
                   <span>{{ friendAutoPass.wxnick ? friendAutoPass.wxnick:'-' }}({{ friendAutoPass.wxaccount ? friendAutoPass.wxaccount:'-' }})</span>

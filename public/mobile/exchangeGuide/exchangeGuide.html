@@ -57,6 +57,14 @@
 <script type="text/javascript" src="../js/jquery-3.4.1.min.js"></script>
 <script type="text/javascript" src="../js/common.js"></script>
 <script>
+  window.alert = function(name){
+    var iframe = document.createElement("IFRAME");
+    iframe.style.display="none";
+    iframe.setAttribute("src", 'data:text/plain,');
+    document.documentElement.appendChild(iframe);
+    window.frames[0].window.alert(name);
+    iframe.parentNode.removeChild(iframe);
+  };
     $(document).ready(function () {
         var changeData = JSON.parse(localStorage.getItem('showData'));
         $("#agoShopName").html(changeData.agoShopName)
@@ -75,7 +83,7 @@
         var toChangeData = JSON.parse(localStorage.getItem('showData'));
         var recruitInfo = JSON.parse(localStorage.getItem('recruitInfo'));
         // 更换导购
-        this.ajax(backstageURL() + '/changeGuide', {
+        this.ajax(backstageURL() + '/guideRecruit/changeGuide', {
             newSgGuideId: toChangeData.newSgGuideId,
             oldGuideId: toChangeData.sgGuideId,
             nick: toChangeData.nick,
@@ -83,7 +91,7 @@
             groupId: recruitInfo.groupId,
         }).then(function (result) {
             if (result.success) {
-                alert("更换导购成功")
+              window.alert("更换导购成功")
                 window.location.replace("../sameGuide/successNo.html");
             } else {
                 window.location.replace("../invalid/invalid.html?msg=更换导购失败");

@@ -40,12 +40,12 @@
 
     function getCustomerInfo(encryptNascentId) {
         var recruitInfo = JSON.parse(localStorage.getItem('recruitInfo'));
-        this.ajax(backstageURL() + '/getCustomerInfo', {
+        this.ajax(backstageURL() + '/guideRecruit/getCustomerInfo', {
             guideId: recruitInfo.guideId,
             shopId: recruitInfo.shopId,
             groupId: recruitInfo.groupId,
             scanSource: recruitInfo.scanSource,
-            wechatNo: recruitInfo.wechatNo,
+            wechatNo: recruitInfo.wechatId,
             encryptNascentId: encryptNascentId
         }).then(function (result) {
             if (result.success) {

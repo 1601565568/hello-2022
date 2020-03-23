@@ -26,8 +26,7 @@
     }
 
     function checkGuide() {
-      debugger
-        this.ajax(backstageURL() + '/checkGuide', {
+        this.ajax(backstageURL() + '/guideRecruit/checkGuide', {
             guideId: getPar('guideId'),
             shopId: getPar('shopId'),
             groupId: getPar('groupId'),
@@ -43,7 +42,7 @@
                 shopId: result.result.shopId,
                 groupId: getPar('groupId'),
                 guideUserId: getPar('guideUserId'),
-                wechatNo:getPar('wechatNo'),
+                wechatId:getPar('wechatId'),
                 guideWechatNo:getPar('guideWechatNo'),
                 scanSource:getPar('source'),
                 source:getPar('scanSource'),

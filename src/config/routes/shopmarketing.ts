@@ -102,15 +102,15 @@ export default {
         },
         {
           'path': '/Guide/speech/speechList',
-          'name': 'speechList',
+          'name': 'WelcomesIndex',
           'title': '欢迎语',
-          'component': () => import('@/pages/Guide/speech/speechList.vue')
+          'component': () => import('@/pages/WeChat/Welcomes/index.vue')
         },
         {
-          'path': '/Guide/speech/addModal/:id',
-          'name': 'speechList',
-          'title': '欢迎语',
-          'component': () => import('@/pages/Guide/speech/addModal.vue')
+          'path': '/Guide/speech/edit',
+          'name': 'WelcomesEdit',
+          'title': '编辑欢迎语（个号）',
+          'component': () => import('@/pages/WeChat/Welcomes/edit.vue')
         }
       ]
     }
