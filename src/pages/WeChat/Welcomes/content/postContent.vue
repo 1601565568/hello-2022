@@ -200,14 +200,24 @@
           <ElFormItem>
             <div class="message-headling">网站地址：</div>
           </ElFormItem>
-          <ElFormItem label="网页地址：" required  label-width="100px" >
+          <ElFormItem label="链接：" required label-width="100px">
+            <el-form-grid size="xxmd">
+              <el-form-item prop="sex">
+                <el-radio-group v-model="presetLinkSwitch">
+                  <el-radio :label="2">自定义链接</el-radio>
+                  <el-radio :label="1">系统预置链接</el-radio>
+                </el-radio-group>
+              </el-form-item>
+            </el-form-grid>
+          </ElFormItem>
+          <ElFormItem label="网页地址：" v-if="presetLinkSwitch===2" required  label-width="100px" >
             <ElInput
               type="text"
               placeholder="请输入网页"
               v-model="linkModel.url"
             />
           </ElFormItem>
-          <ElFormItem label="" label-width="100px" >
+          <ElFormItem label="" v-if="presetLinkSwitch===2" label-width="100px" >
             <ElFormGrid>
               <ns-button type="text" @click="insertPlaceHolderToWeb('{groupId}')"> &lt;集团ID&gt; </ns-button>
             </ElFormGrid>
@@ -217,6 +227,17 @@
             <ElFormGrid>
               <ns-button type="text" @click="insertPlaceHolderToWeb('{wxId}')"> &lt;导购微信ID&gt; </ns-button>
             </ElFormGrid>
+          </ElFormItem>
+          <ElFormItem label="选择链接：" v-if="presetLinkSwitch===1" required  label-width="100px" >
+            <el-form-grid size="md">
+              <el-select v-model="linkModel.selectIndex" placeholder="请选择" @change='systemPresetChange' clearable>
+              <el-option v-for="item in presetLink"
+                         :key="item.id"
+                         :label="item.title"
+                         :value="item.id">
+              </el-option>
+            </el-select>
+            </el-form-grid>
           </ElFormItem>
           <ElFormItem>
             <div class="message-headling">网站展示：</div>
@@ -327,7 +348,7 @@ export default {
     ElImage,
     VEmojiPicker
   },
-  props: ['publishDataFather'],
+  props: ['publishDataFather', 'presetLinkFather'],
   data () {
     return {
       // 是否可再添加消息
@@ -352,6 +373,8 @@ export default {
         }
       ],
       index: null, // 编辑的列表位置
+      presetLink: this.presetLinkFather, // 系统预制链接
+      presetLinkSwitch: 2, // 系统预制链接开关
       // 链接弹框上传图片的路径
       imageUrl: '',
       // 视频弹框的视频地址
@@ -391,6 +414,7 @@ export default {
       },
       linkModel: {
         type: 'link',
+        selectIndex: '', // 系统预制链接索引
         sleepTime: 2000, // 休眠时间  默认1200毫秒
         url: '', // 链接地址
         image: '', // 图片的cdn地址
@@ -497,14 +521,20 @@ export default {
         this.linkModel.imageFilename = ''
         this.linkModel.title = ''
         this.linkModel.description = ''
+        this.linkModel.selectIndex = ''
         this.imageUrl = ''
+        this.presetLinkSwitch = 2
       } else {
         this.linkModel.url = object.url
         this.linkModel.image = object.image
         this.linkModel.imageFilename = object.imageFilename
         this.linkModel.title = object.title
         this.linkModel.description = object.description
+        this.linkModel.selectIndex = object.selectIndex
         this.imageUrl = object.image
+        if (object.selectIndex) {
+          this.presetLinkSwitch = 1
+        }
       }
     },
     // 添加链接 type=4
@@ -515,12 +545,32 @@ export default {
         this.publishData[this.index].imageFilename = this.matchUrl(this.imageUrl)
         this.publishData[this.index].title = this.linkModel.title
         this.publishData[this.index].description = this.linkModel.description
+        this.publishData[this.index].selectIndex = this.linkModel.selectIndex
       } else {
         this.linkModel.image = this.imageUrl
         this.linkModel.imageFilename = this.matchUrl(this.imageUrl)
         this.publishData.push(this.linkModel)
       }
       this.dialogVisibleWeb = false
+    },
+    systemPresetChange (e) { // 首页，分类，我的页面选择是添加codeTargetName
+      var _this = this
+      this.presetLinkFather.forEach(function (value, i) {
+        if (e === '') {
+          _this.linkModel.url = ''
+          return
+        }
+        if (value.id === e) {
+          _this.linkModel.url = value.url + '&guideWechatNo={wxId}&wechatId={chatId}&source=3'
+          _this.linkModel.image = value.picture
+          _this.linkModel.imageFilename = _this.matchUrl(value.picture)
+          _this.linkModel.title = value.title
+          _this.linkModel.description = value.content
+          _this.linkModel.selectIndex = e
+          _this.imageUrl = value.picture
+        }
+      })
+      this.$set(this.saveObj, 'codeTargetName', this.wechatPageUrlList[Number(e) - 1].codeTargetName)
     },
     // 打开小程序 type=5
     openApplet (object) {

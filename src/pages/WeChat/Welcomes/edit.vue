@@ -39,7 +39,7 @@
                       </ElFormGrid>
                     </ElFormItem>
                     <ElFormItem>
-                      <postContent :publishDataFather="publishData"/>
+                      <postContent :publishDataFather="publishData" :presetLinkFather="presetLink"/>
                     </ElFormItem>
                   </ElForm>
                 </div>
@@ -127,6 +127,7 @@ import ElCard from '@nascent/nui/lib/card'
 import ElTimeSelect from '@nascent/nui/lib/time-select'
 import postContent from './content/postContent.vue'
 import contentPreview from './content/contentPreview.vue'
+import { getErrorMsg } from '@/utils/toast'
 edit.components = {
   ElCard,
   ElTimeSelect,
