@@ -7,9 +7,68 @@
           content="width=device-width, initial-scale=1.0, minimum-scale=1, maximum-scale=1.0, user-scalable=no"/>
     <meta http-equiv="Cache-Control" content="no-siteapp"/>
     <meta name="format-detection" content="telephone=no"/>
-    <link rel="stylesheet" href="./aggregationCode/aggregationCode.css">
+<!--    <link rel="stylesheet" href="./aggregationCode/aggregationCode.css">-->
     <title>聚合码标题</title>
 </head>
+<style>
+  * {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+  }
+  html,body {
+    height: 100%;
+  }
+  /*.page_title{*/
+  /*  position: fixed;*/
+  /*  width: 100%;*/
+  /*  height: 100px;*/
+  /*  top: 0;*/
+  /*  left: 0;*/
+  /*  background: #fff;*/
+  /*  color: #000;*/
+  /*  text-align: center;*/
+  /*  z-index: 99;*/
+  /*  line-height: 100px;*/
+  /*  font-size: 50px;*/
+  /*}*/
+  .code {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    background: url("./img/expression/bgimage.png") 0 0 no-repeat;
+    background-size: 100% auto!important;
+  }
+  .noneBody {
+    display: none;
+    padding-top: 66px;
+  }
+  .code__outer {
+    text-align: center;
+    line-height: 370px;
+    width: 49.3%;
+    height: 49.3vw;
+    position: absolute;
+    top: 64vw;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 20px;
+    background: rgba(255, 255, 255, .3);
+    box-shadow: 0 8px 12px 0 rgba(51, 51, 51, .1);
+    border-radius: 18px;
+  }
+  .inner {
+    height: 100%;
+    padding: 6px;
+    background: #FFF;
+    border-radius: 18px;
+    overflow: hidden;
+  }
+  .inner__qrcode {
+    width: 100%;
+    height: 100%;
+  }
+</style>
 <body>
 <!--<div class="page_title">聚合码标题</div>-->
 <div class="body">
