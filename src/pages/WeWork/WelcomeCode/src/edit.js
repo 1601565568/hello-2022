@@ -453,7 +453,6 @@ export default {
      * @msg: 页面初始化时的数据加载函数
      */
     $init (data) {
-      debugger
       // 页面初始化时，加载页面数据
       let that = this
       if (data.welcomeCodeUuid) {
