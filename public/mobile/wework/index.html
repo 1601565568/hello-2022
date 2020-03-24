@@ -13,7 +13,7 @@
 </head>
 <script type="text/javascript" src="../js/jquery-3.4.1.min.js"></script>
 <script type="text/javascript" src="../js/common.js"></script>
-<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.4.0.js"></script>
 <body>
   <div style="width:100%;height: 100%;display: flex;justify-content: center;">
     <div style="display: flex;flex-direction: column;align-items: center;justify-content: center;">
@@ -40,7 +40,32 @@
       })
     }
     window.onload = function () {
-        getUserId()
+        getUserId(),
+        getConfig()
+    }
+    function getConfig() {
+      var url = window.location.href.split('#')[0];
+      let groupId = getPar("groupId");
+      let appid = getPar("appid");
+      this.ajax(backstageURL() + '/wework/getConfig', {
+        url: url,
+        groupId: groupId,
+        appId: appid
+      }).then(function (result) {
+        debugger
+        if (result.success) {
+          console.log("wx.config() ---> 接收后台返回的参数");
+          wx.config({
+            debug: true,
+            appId: result.result.appid,
+            timestamp: result.result.timestamp,
+            nonceStr: result.result.nonceStr,
+            signature: result.result.signature,
+            jsApiList: ['onMenuShareAppMessage','sendChatMessage']
+          })
+        } else {
+        }
+      })
     }
     function getUserId() {
       let groupId = getPar("groupId");
@@ -50,11 +75,11 @@
         code: code
       }).then(function (result) {
           if (result.success) {
+
           } else {
           }
       })
     }
-
     function ajax(url, data, params) {
         data = JSON.stringify(data)
         return new Promise(function (resolve, reject) {
