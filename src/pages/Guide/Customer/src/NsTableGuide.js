@@ -31,11 +31,11 @@ export default {
       'mobile': null,
       'cardId': null,
       'time': null,
-      'grade': null,
-      isAll: true
+      'grade': null
     }
     let copyModel = Object.assign({}, findVo)
     return {
+      totalNumTrige: null,
       filterTreeText: '',
       model: copyModel,
       quickSearchModel: quickSearchModel,
@@ -99,6 +99,13 @@ export default {
       return moment(time).format('YYYY-MM-DD HH:mm:ss')
     },
     onClickNode (data) {
+      for (let nodeIndex in this.$refs.guideTree.children) {
+        let node = this.$refs.guideTree.children[nodeIndex]
+        let index = node.label.lastIndexOf(this.totalNumTrige)
+        if (index > -1) {
+          node.label = node.label.substr(0, index)
+        }
+      }
       var _this = this
       if (this._data._table.data.length > 0) {
         this._data._table.data = []
@@ -112,23 +119,19 @@ export default {
       _this.loading = true
       _this.$reload().then(rep => {
         _this.loading = _this._data._loading
-        // 不是全部 显示 total
-        if (data.id !== '0') {
-          var showLabel = data.label
-          if (showLabel.indexOf('(') !== -1) {
-            showLabel = showLabel.substring(0, showLabel.indexOf('('))
-          }
-          data.label = showLabel + '(' + _this._data._pagination.total + ')'
-          _this.model.isAll = true
-        } else {
-          _this.model.isAll = false
+        // 显示 total
+        var showLabel = data.label
+        if (showLabel.indexOf('(') !== -1) {
+          showLabel = showLabel.substring(0, showLabel.indexOf('('))
         }
+        this.totalNumTrige = '(' + _this._data._pagination.total + ')'
+        data.label = showLabel + this.totalNumTrige
       })
       // 设置搜索及重置可用
       this.searchButton = false
       this.restButton = false
       // 全部情况不需要请求等级
-      if (data.id !== '0') {
+      if (data.id !== '1') {
         _this.$http.fetch(_this.$api.guide.shop.findShopGrade,
           { shopId: _this.offLineShopId }).then(resp => {
           if (resp.success && resp.result !== null) {

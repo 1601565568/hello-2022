@@ -570,7 +570,6 @@ export default {
           _this.imageUrl = value.picture
         }
       })
-      this.$set(this.saveObj, 'codeTargetName', this.wechatPageUrlList[Number(e) - 1].codeTargetName)
     },
     // 打开小程序 type=5
     openApplet (object) {
