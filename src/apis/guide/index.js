@@ -25,7 +25,8 @@ import group from './group'
 import autoPass from './autoPass'
 import secruitmentSet from './secruitmentSet'
 import sgPersonalQrcode from './sgPersonalQrcode'
-
+import recruitPageConfig from './recruitPageConfig'
+import systemPreset from './SystemPreset'
 export default {
   secruitmentSet,
   guide,
@@ -54,6 +55,8 @@ export default {
   group,
   autoPass,
   sgPersonalQrcode,
+  recruitPageConfig,
+  systemPreset,
   // 所有导购模块全部整合在此
   comGetBrandForShopList: {// 获取品牌下的店铺
     url: '/core/sgshop/getBrandList',

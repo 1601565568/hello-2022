@@ -5,25 +5,48 @@
         <div class="recruit-title">导购招募海报配置</div>
         <div class="recruit-content recruit-content--flex">
           <div class="recruit-example">
-            <img :src="model.sign_up_url" alt="示例图片" class="recruit-example__img"/>
-            <div class="recruit-example__btn">立即开卡</div>
+            <img :src="model.recruiting_posters_image" alt="示例图片" class="recruit-example__img"/>
+            <div class="background_title">特邀您成为VIP会员</div>
+            <div class="background_content">长按识别二维码  添加专属导购</div>
+            <div class="background_shop_guide">门店名称/导购名称</div>
+            <div class="background_image">
+              <ElImage
+                :width="70" :height="70"
+                :src="model.groupLogo||require('./images/groupLogo.png')"
+                mode="fill" />
+            </div>
+            <div class="background_qrCode">
+              <ElImage
+                :width="132" :height="132"
+                :src="require('./images/guide.png')"
+                mode="fill" />
+            </div>
           </div>
           <div class="recruit-detail">
             <div class="recruit-detail__heading">设置导购招募海报背景图：</div>
             <ElForm>
               <ElFormItem label="背景图：" required  label-width="100px" >
                 <ElUpload
-                  :action="this.$api.core.sgUploadFile('test')"
+                  :action="this.$api.core.sgUploadFile('recruit')"
                   :show-file-list="false"
-                  :on-success="handleAvatarSuccess"
+                  :on-success="handleBackgroundSuccess"
                   :before-upload="beforeAvatarUpload" class="recruit-detail__upload">
-                  <img v-if="model.sign_up_url" :src="model.sign_up_url" class="recruit-avatar">
+                  <img v-if="model.recruiting_posters_image" :src="model.recruiting_posters_image" class="recruit-avatar">
                   <Icon type="plus" className="recruit-tip" v-else/>
                 </ElUpload>
-                <div class="text-secondary">建议图片尺寸：750*1334大小；</div>
+                <div class="text-secondary">请上传格式为jpg图片，图片尺寸为750*1334,大小不超过10M</div>
+              </ElFormItem>
+              <ElFormItem label-width="83px">
+                <span class="text-primary">
+                  <Icon type="exclamation-circle"/>&nbsp;公司logo和招募码为固定位置，建议尺寸为70*70;
+                </span>
+              </ElFormItem>
+              <ElFormItem label-width="100px">
+                <span class="text-primary">
+                  logo获取导购后台-公司logo；门店名称和导购姓名动态获取当前导购的信息;
+                </span>
               </ElFormItem>
             </ElForm>
-            <div class="text-secondary"><span class="login_icon" style="width:50px">!</span>场景说明：用户扫门店招募码，进入此页面。点击“立即开卡”，进入开卡录入信息页面。</div>
           </div>
         </div>
       </div>
@@ -31,50 +54,66 @@
         <div class="recruit-title">招募链接配置</div>
         <div class="recruit-content recruit-content--flex" >
           <div class="recruit-example">
-            <img :src="model.sign_up_url" alt="示例图片" class="recruit-example__img"/>
-            <div class="recruit-example__btn">立即开卡</div>
+            <contentPreview :model="model"/>
           </div>
           <div class="recruit-detail">
             <div class="recruit-detail__heading">消息卡片内容：</div>
             <div class="recruit-detail__explanation">会员开卡页面：</div>
-            <ElForm>
-              <ElFormItem label="标题：" required  label-width="100px" >
+            <ElForm ref="searchform" :model="model" :rules="rules">
+              <ElFormItem label="标题：" prop="title"  label-width="100px" >
                 <ElInput style="width: 180px"
                          type="text"
-                         placeholder="请输入标题"
+                         clearable
+                         maxlength='20'
+                         placeholder="请输入标题，长度在20个字符以内"
                          v-model="model.title"
                 />
               </ElFormItem>
-              <ElFormItem label="摘要：" required  label-width="100px" >
+              <ElFormItem label="摘要：" prop="content"  label-width="100px" >
                 <ElInput style="width: 180px"
                          type="text"
-                         placeholder="请输入摘要"
+                         clearable
+                         maxlength='20'
+                         placeholder="请输入摘要，长度在20个字符以内"
                          v-model="model.content"
                 />
               </ElFormItem>
+              <ElFormItem label="封面图：" prop="picture"  label-width="100px" >
+                <ElUpload
+                  :action="this.$api.core.sgUploadFile('recruit')"
+                  :show-file-list="false"
+                  :on-success="handleSurfaceSuccess"
+                  :before-upload="beforeAvatarUpload" class="recruit-detail__upload">
+                  <img v-if="model.picture" :src="model.picture" class="recruit-avatar">
+                  <Icon type="plus" className="recruit-tip" v-else/>
+                </ElUpload>
+                <div class="text-secondary">请上传格式为jpg图片，长宽比例为5:4,大小不超过10M</div>
+              </ElFormItem>
+              <ElFormItem label-width="83px">
+                <span class="text-primary">
+                  <Icon type="exclamation-circle"/>&nbsp;场景说明：系统中招募链接，发送的消息卡片都根据设置的内容显示。如：门店招募、导购招募
+                </span>
+              </ElFormItem>
             </ElForm>
-            <ElUpload
-              :action="this.$api.core.sgUploadFile('test')"
-              :show-file-list="false"
-              :on-success="handleAvatarSuccess"
-              :before-upload="beforeAvatarUpload" class="recruit-detail__upload">
-              <img v-if="model.sign_up_url" :src="model.sign_up_url" class="recruit-avatar">
-              <Icon type="plus" className="recruit-tip" v-else/>
-            </ElUpload>
-            <div class="text-secondary">建议图片尺寸：750*1334大小；</div>
-            <div class="text-secondary">场景说明：用户扫门店招募码，进入此页面。点击“立即开卡”，进入开卡录入信息页面。</div>
           </div>
         </div>
       </div>
     </ElScrollbar>
     <div class="form-save__unique">
-      <NsButton type="primary" @click="update">修改</NsButton>
+      <NsButton type="primary" :loading="loading" @click="update">修改</NsButton>
     </div>
   </div>
 </template>
 <script>
 import index from './src/index'
-
+import contentPreview from './content/contentPreview.vue'
+import ElUpload from '@nascent/nui/lib/upload'
+import ElImage from '@nascent/nui/lib/image'
+index.components = {
+  contentPreview,
+  ElUpload,
+  ElImage
+}
 export default index
 </script>
 
@@ -186,12 +225,48 @@ export default index
     border-bottom-left-radius: var(--default-radius-mini);
     border-bottom-right-radius: var(--default-radius-mini);
   }
-  .login_icon{
-    margin-right: 10px;
-    background:#0091FA;
-    border-radius: 50%;
-    color:#fff;
+  .background_title{
+    font-size: 10px;
+    color: #fff;
     text-align: center;
-    line-height:40px;
+    width: 294px;
+    position: absolute;
+    bottom: 415px;
+    left: 13px;
+    border-radius: 5px;
   }
+  .background_content{
+     font-size: 10px;
+     color: #fff;
+     text-align: center;
+     width: 294px;
+     position: absolute;
+     bottom: 92px;
+     left: 13px;
+     border-radius: 5px;
+   }
+  .background_shop_guide{
+    font-size: 10px;
+    color: #fff;
+    text-align: center;
+    width: 294px;
+    position: absolute;
+    bottom: 78px;
+    left: 13px;
+    border-radius: 5px;
+  }
+  .background_image{
+    text-align: center;
+    width: 294px;
+    position: absolute;
+    bottom: 445px;
+    left: 13px;
+  }
+  .background_qrCode{
+     text-align: center;
+     width: 294px;
+     position: absolute;
+     bottom: 188px;
+     left: 13px;
+   }
 </style>

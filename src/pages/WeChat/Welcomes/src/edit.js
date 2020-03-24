@@ -37,12 +37,15 @@ export default {
         selectData: []
       },
       // 发布内容数据
-      publishData: []
+      publishData: [],
+      // 预置链接
+      presetLink: []
     }
   },
   mounted () {
     this.initEdit({ welcomesId: this.$route.query.uuid })
     this.initEmpTree()
+    this.getSystemPresetLink()
   },
   methods: {
     // 保存
@@ -149,6 +152,17 @@ export default {
         }
       }).catch((resp) => {
         _this.$notify.error(getErrorMsg('获取员工数据失败', resp))
+      })
+    },
+    // 获取系统预置链接
+    getSystemPresetLink: function () {
+      let _this = this
+      _this.$http.fetch(_this.$api.guide.systemPreset.getLink).then(resp => {
+        if (resp.success && resp.result != null) {
+          resp.result.forEach(function (value, i) {
+            _this.presetLink.push(value)
+          })
+        }
       })
     },
     /**
