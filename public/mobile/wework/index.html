@@ -64,11 +64,16 @@
             jsApiList: ['agentConfig','onMenuShareAppMessage','sendChatMessage']
           });
           wx.ready(function(){
-              this.ajax(backstageURL() + '/wework/getConfig', {
+            $.ajax({
+              url: backstageURL() + '/wework/getConfig',
+              method: "post",
+              data: {
                 url: url,
                 groupId: groupId,
                 appId: appid
-              }).then(function (result) {
+              },
+              success: function (data) {
+                console.log("wx.agentConfig() ---> 接收后台返回的参数");
                 wx.agentConfig({
                   debug: true,
                   corpid: result.result.appid, // 必填，企业微信的corpid，必须与当前登录的企业一致
@@ -104,8 +109,9 @@
                     alert(res.err_msg)
                   }
                 })
-              })
+              }
             })
+          })
         } else {
         }
       })
