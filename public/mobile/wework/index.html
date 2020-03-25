@@ -68,8 +68,9 @@
             data.url = url
             data.groupId = groupId
             data.appId = appid
+            data.corpid = '1000022'
             $.ajax({
-              url: backstageURL() + '/wework/getConfig',
+              url: backstageURL() + '/wework/agentConfig',
               type: 'post',
               dataType: 'JSON',
               data: JSON.stringify(data),
