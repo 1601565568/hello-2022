@@ -64,14 +64,17 @@
             jsApiList: ['agentConfig','onMenuShareAppMessage','sendChatMessage']
           });
           wx.ready(function(){
+            let data = {}
+            data.url = url
+            data.groupId = groupId
+            data.appId = appid
             $.ajax({
               url: backstageURL() + '/wework/getConfig',
+              type: 'post',
+              dataType: 'JSON',
+              data: JSON.stringify(data),
               method: "post",
-              data: {
-                url: url,
-                groupId: groupId,
-                appId: appid
-              },
+              contentType: "application/json;charset=UTF-8",
               success: function (data) {
                 console.log("wx.agentConfig() ---> 接收后台返回的参数");
                 wx.agentConfig({
@@ -95,13 +98,16 @@
                 }, function(res){
                   if(res.err_msg == "getCurExternalContact:ok"){
                     let userId  = res.userId ; //返回当前外部联系人userId
+                    let data = {}
+                    data.userId = userId
                     alert(userId);
                     $.ajax({
                       url: backstageURL() + '/wework/userId',
+                      type: 'post',
+                      dataType: 'JSON',
+                      data: JSON.stringify(data),
                       method: "post",
-                      data: {
-                        userId: userId
-                      },
+                      contentType: "application/json;charset=UTF-8",
                       success: function (data) {
                         console.log("wx.getCurExternalContact() ---> 接收后台返回的参数");
                       }
@@ -111,6 +117,10 @@
                     alert(res.err_msg)
                   }
                 })
+              },
+              error: function (res) {
+                $(".fail").show();
+                $('.fail__text').html(result.msg);
               }
             })
           })
