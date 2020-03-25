@@ -95,15 +95,17 @@
                 }, function(res){
                   if(res.err_msg == "getCurExternalContact:ok"){
                     let userId  = res.userId ; //返回当前外部联系人userId
-                    this.ajax(backstageURL() + '/wework/userId', {
-                      userId: userId,
-                    }).then(function (result) {
-                      if (result.success) {
-
-                      } else {
+                    alert(userId);
+                    $.ajax({
+                      url: backstageURL() + '/wework/userId',
+                      method: "post",
+                      data: {
+                        userId: userId
+                      },
+                      success: function (data) {
+                        console.log("wx.getCurExternalContact() ---> 接收后台返回的参数");
                       }
                     })
-                    alert(userId);
                   }else {
                     //错误处理
                     alert(res.err_msg)
