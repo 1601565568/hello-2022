@@ -66,9 +66,9 @@
           wx.ready(function(){
             let data = {}
             data.url = url
-            data.groupId = groupId
+            data.agentid = '1000022'
             data.appId = appid
-            data.corpid = '1000022'
+            data.corpid = groupId
             $.ajax({
               url: backstageURL() + '/wework/agentConfig',
               type: 'post',
@@ -87,7 +87,7 @@
                 console.log("wx.agentConfig() ---> 接收后台返回的参数");
                 wx.agentConfig({
                   debug: true,
-                  corpid: data.result.appid, // 必填，企业微信的corpid，必须与当前登录的企业一致
+                  corpid: data.result.corpid, // 必填，企业微信的corpid，必须与当前登录的企业一致
                   agentid: '1000022', // 必填，企业微信的应用id （e.g. 1000247）
                   timestamp: data.result.timestamp, // 必填，生成签名的时间戳
                   nonceStr: data.result.nonceStr, // 必填，生成签名的随机串
