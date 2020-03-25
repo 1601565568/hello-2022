@@ -65,7 +65,7 @@
           });
           wx.ready(function(){
             let data = {}
-            data.url = url
+            data.url = url.split('&')[0];
             data.agentid = '1000022'
             data.corpid = appid
             data.groupId = groupId
