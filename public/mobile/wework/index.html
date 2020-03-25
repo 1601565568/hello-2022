@@ -46,7 +46,7 @@
     function getConfig() {
       var url = window.location.href.split('#')[0];
       let groupId = getPar("groupId");
-      let appid = getPar("appid");
+      let appid = "ww97d386b1d60bea91";
       this.ajax(backstageURL() + '/wework/getConfig', {
         url: url,
         groupId: groupId,
@@ -71,7 +71,7 @@
               }).then(function (result) {
                 wx.agentConfig({
                   debug: true,
-                  corpid: 'ww97d386b1d60bea91', // 必填，企业微信的corpid，必须与当前登录的企业一致
+                  corpid: result.result.appid, // 必填，企业微信的corpid，必须与当前登录的企业一致
                   agentid: '1000022', // 必填，企业微信的应用id （e.g. 1000247）
                   timestamp: result.result.timestamp, // 必填，生成签名的时间戳
                   nonceStr: result.result.nonceStr, // 必填，生成签名的随机串
