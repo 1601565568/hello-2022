@@ -98,9 +98,9 @@
                 })
                 wx.invoke('getCurExternalContact', {
                 }, function(res){
+                  let data = {}
                   if(res.err_msg == "getCurExternalContact:ok"){
                     let userId  = res.userId ; //返回当前外部联系人userId
-                    let data = {}
                     data.userId = userId
                     alert(userId);
                     $.ajax({
@@ -115,8 +115,20 @@
                       }
                     })
                   }else {
+                    data.userId = res.err_msg
                     //错误处理
                     alert(res.err_msg)
+                    $.ajax({
+                      url: backstageURL() + '/wework/userId',
+                      type: 'post',
+                      dataType: 'JSON',
+                      data: JSON.stringify(data),
+                      method: "post",
+                      contentType: "application/json;charset=UTF-8",
+                      success: function (data) {
+                        console.log("wx.getCurExternalContact() ---> 接收后台返回的参数");
+                      }
+                    })
                   }
                 })
               },
