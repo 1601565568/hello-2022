@@ -13,7 +13,7 @@
 </head>
 <script type="text/javascript" src="../js/jquery-3.4.1.min.js"></script>
 <script type="text/javascript" src="../js/common.js"></script>
-<script type="text/javascript" src="//res.wx.qq.com/open/js/jweixin-1.6.0.js"></script>
+<script type="text/javascript" src="//res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
 <body>
   <div style="width:100%;height: 100%;display: flex;justify-content: center;">
     <div style="display: flex;flex-direction: column;align-items: center;justify-content: center;">
@@ -89,21 +89,31 @@
                   jsApiList: ['selectExternalContact','openUserProfile','thirdPartyOpenPage','sendChatMessage','getCurExternalContact','shareToExternalContact'], //必填
                   success: function(res) {
                     // 回调
+                    wx.invoke('getCurExternalContact',{
+                    },function (res) {
+                      if(res.err_msg == "getCurExternalContact:ok"){
+                        let userId  = res.userId ; //返回当前外部联系人userId
+                        alert(userId)
+                        $.ajax({
+                                  url: backstageURL() + '/wework/userId',
+                                  type: 'post',
+                                  dataType: 'JSON',
+                                  data: JSON.stringify(data),
+                                  method: "post",
+                                  contentType: "application/json;charset=UTF-8",
+                                  success: function (data) {
+                                    console.log("wx.getCurExternalContact() ---> 接收后台返回的参数");
+                                  }
+                                })
+                      }else {
+                        alert(res.err_msg)
+                      }
+                    })
                   },
                   fail: function(res) {
                     if(res.errMsg.indexOf('function not exist') > -1){
                       alert('版本过低请升级')
                     }
-                  }
-                })
-                wx.invoke('getCurExternalContact',{
-                  debug: true
-                },function (res) {
-                  if(res.err_msg == "getCurExternalContact:ok"){
-                    let userId  = res.userId ; //返回当前外部联系人userId
-                    alert(userId)
-                  }else {
-                    alert(res.err_msg)
                   }
                 })
               },
