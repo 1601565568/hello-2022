@@ -93,13 +93,15 @@
                     wx.invoke('getCurExternalContact',{
                     },function (res) {
                       if(res.err_msg == "getCurExternalContact:ok"){
+                        var param = {}
                         let userId  = res.userId ; //返回当前外部联系人userId
-                        alert(userId)
+                        param.userId = userId
+                        alert(userId+'  <123>')
                         $.ajax({
                                   url: backstageURL() + '/wework/userId',
                                   type: 'post',
                                   dataType: 'JSON',
-                                  data: JSON.stringify(data),
+                                  data: JSON.stringify(param),
                                   method: "post",
                                   contentType: "application/json;charset=UTF-8",
                                   success: function (data) {
