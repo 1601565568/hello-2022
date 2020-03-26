@@ -69,6 +69,8 @@
             data.agentid = '1000022'
             data.corpid = appid
             data.groupId = groupId
+            data.timestamp = result.result.timestamp
+            data.nonceStr = result.result.nonceStr
             $.ajax({
               url: backstageURL() + '/wework/agentConfig',
               type: 'post',
@@ -81,8 +83,8 @@
                   debug: true,
                   corpid: data.result.corpid, // 必填，企业微信的corpid，必须与当前登录的企业一致
                   agentid: '1000022', // 必填，企业微信的应用id （e.g. 1000247）
-                  timestamp: data.result.timestamp, // 必填，生成签名的时间戳
-                  nonceStr: data.result.nonceStr, // 必填，生成签名的随机串
+                  timestamp: result.result.timestamp, // 必填，生成签名的时间戳
+                  nonceStr: result.result.nonceStr, // 必填，生成签名的随机串
                   signature: data.result.signature,// 必填，签名，见附录1
                   jsApiList: ['onMenuShareAppMessage','sendChatMessage','getCurExternalContact'], //必填
                   success: function(res) {
