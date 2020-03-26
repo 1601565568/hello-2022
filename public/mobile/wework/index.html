@@ -79,6 +79,13 @@
               method: "post",
               contentType: "application/json;charset=UTF-8",
               success: function (data) {
+                wx.checkJsApi({
+                  jsApiList: ['getCurExternalContact'], // 需要检测的JS接口列表，所有JS接口列表见附录2,
+                  success: function(res) {
+                    // 以键值对的形式返回，可用的api值true，不可用为false
+                    // 如：{"checkResult":{"chooseImage":true},"errMsg":"checkJsApi:ok"}
+                  }
+                })
                 wx.agentConfig({
                   debug: true,
                   corpid: data.result.corpid, // 必填，企业微信的corpid，必须与当前登录的企业一致
@@ -88,6 +95,13 @@
                   signature: data.result.signature,// 必填，签名，见附录1
                   jsApiList: ['onMenuShareAppMessage','sendChatMessage','getCurExternalContact'], //必填
                   success: function(res) {
+                    wx.checkJsApi({
+                      jsApiList: ['getCurExternalContact'], // 需要检测的JS接口列表，所有JS接口列表见附录2,
+                      success: function(res) {
+                        // 以键值对的形式返回，可用的api值true，不可用为false
+                        // 如：{"checkResult":{"chooseImage":true},"errMsg":"checkJsApi:ok"}
+                      }
+                    })
                     // 回调
                     wx.invoke('getCurExternalContact', {
                     }, function(res){
