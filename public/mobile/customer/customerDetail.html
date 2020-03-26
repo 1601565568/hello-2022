@@ -100,11 +100,11 @@
     getCustomerDetail()
   }
   function getCustomerDetail() {
-    ownerWid = getPar('ownerWid')
-    wid = getPar('wid')
+    let wxId = getPar('wxId')
+    let chatId = getPar('chatId')
     this.ajax(backstageURL() + '/guideCustomer/customerDetail', {
-      ownerWid: ownerWid,
-      wid: wid,
+      wxId: wxId,
+      chatId: chatId,
     }).then(function (result) {
       if (result.success) {
         $(".customerImg").attr("src",result.result.customerHeadImage)

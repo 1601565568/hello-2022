@@ -527,15 +527,15 @@
   }
   function getCustomerTag() {
     var appendHtml = {}
-    ownerWid = getPar('ownerWid')
-    wid = getPar('wid')
+    let wxId = getPar('wxId')
+    let chatId = getPar('chatId')
     var customerId = null  // 客户Id
     var shopId = null      // 店铺Id
     var groupId = null     // 集团Id
     var tagcode = null       // 标签Id
     this.ajax(backstageURL() + '/guideCustomer/customerTag', {
-      ownerWid: ownerWid,
-      wid: wid,
+      wxId: wxId,
+      chatId: chatId,
     }).then(function (result) {
       if (result.success) {
         // debugger
