@@ -1,3 +1,4 @@
+import moment from 'moment'
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import { getErrorMsg } from '@/utils/toast'
 export default {
@@ -7,6 +8,10 @@ export default {
     types: Object
   },
   data: function () {
+    // 默认時間为一周
+    let endTime = new Date()
+    let startTime = new Date()
+    startTime.setDate(endTime.getDate() - 7)
     var pagination = {
       enable: true,
       size: 15,
@@ -40,10 +45,8 @@ export default {
         'visible': ``
       }
     ]
-
     var operateButtons = [
     ]
-
     var quickInput = [{
       'template': '',
       'inline': false,
@@ -59,12 +62,14 @@ export default {
     var model = Object.assign({},
       {
         // 高级搜索字段
-        transName: '',
-        receiveName: '',
-        transType: '',
-        operationType: ''
+        intoGuideName: null,
+        outGuideName: null,
+        transferType: '',
+        operationType: null
       },
-      { validTime: [] })
+      {
+        timeRange: [startTime, endTime]
+      })
     var that = this
 
     quickInput.map(item => {
@@ -85,10 +90,17 @@ export default {
     })
 
     return {
-      customerData: null,
-      showCustomerDialogVisible: false,
-      model: model,
+      // 弹框标题
       title: null,
+      // 客户详情列表数据
+      customerData: [],
+      // 查看详情弹框可见
+      showCustomerDialogVisible: false,
+      // 客户详情列表loading
+      detailLoadingTable: false,
+      // 转移记录ID
+      transferId: null,
+      model: model,
       quickSearchModel: quickSearchModel,
       rules: Object.assign({}, {}, {}),
       tableData: null,
@@ -131,69 +143,91 @@ export default {
               picker.$emit('pick', [start, end])
             }
           }
-        ]
+        ],
+        disabledDate (time) {
+          return time.getTime() > Date.now() - 8.64e6
+        }
       },
       _queryConfig: {
         expand: false
       }
     }
   },
-
+  /**
+   * @msg: 页面挂载初始化
+   */
   mounted: function () {
     var _this = this
-    _this.initTableData()
+    _this.$reload()
   },
   components: {},
   methods: {
+    /**
+     * @msg: 打开弹框
+     */
     showListDialog (id) {
       var _this = this
       _this.title = '转移会员'
       _this.showCustomerDialogVisible = true
       _this.findCustomerDetail(id)
-      // this.$emit('showListDialogMain', id)
     },
-    onSearch () {
-    },
-    initTableData () {
+    /**
+     * @msg: 查询转移记录转移会员详情
+     * @param {long} transferId 转移记录ID
+     */
+    findCustomerDetail (transferId) {
       var _this = this
-      _this.$http.fetch(_this.$api.guide.guide.findTransRecordList, {
-        length: _this._data._pagination.size
-      }).then(resp => {
-        if (resp.success === true && resp.result.data != null) {
-          _this._data._table.data = resp.result.data
-          _this._data._pagination.total = parseInt(resp.result.recordsTotal)
-        }
-      }).catch((resp) => {
-        _this.$notify.error(getErrorMsg('查询失败', resp))
-      })
-    },
-    findCustomerDetail (transRecordId) {
-      var _this = this
+      if (transferId) {
+        _this.transferId = transferId
+      }
+      _this.detailLoadingTable = true
       _this.$http.fetch(_this.$api.guide.guide.findCustomerTransRecordList, {
         searchMap: {
-          transRecordId: transRecordId
+          transferId: _this.transferId,
+          pageNo: _this.paginations.page,
+          pageSize: _this.paginations.size
         }
       }).then(resp => {
         if (resp.success === true && resp.result.data != null) {
           _this.customerData = resp.result.data
-          _this._data.paginations.total = parseInt(resp.result.total)
+          _this._data.paginations.total = parseInt(resp.result.recordsTotal)
+          _this.detailLoadingTable = false
         }
       }).catch((resp) => {
+        _this.detailLoadingTable = false
         _this.$notify.error(getErrorMsg('查询失败', resp))
       })
     },
-    // 关闭自定义转移弹窗
-    onCancleDialog () {
+    detailPageChange: function (page) {
+      // var _pagination = this._data._pagination
+      this.paginations.page = page
+      this.findCustomerDetail()
+    },
+    detailSizeChange: function (size) {
+      this.paginations.size = size
+      this.findCustomerDetail()
+    },
+    /**
+     * @msg: 关闭自定义转移弹窗
+     */
+    onCancelDialog () {
       var _this = this
-      _this.paginationss = {
+      _this.paginations = {
         enable: true,
         size: 10,
         sizeOpts: [10, 20, 50],
         page: 1,
         total: 0
       }
-      _this.customerData = null
+      _this.customerData = []
       _this.showCustomerDialogVisible = false
+    },
+    /**
+     * @msg: 時間变更
+     */
+    changeTime (e) {
+      // this.model.startTime = moment(e[0]).format('YYYY-MM-DD HH:mm:ss')
+      // this.model.endTime = moment(e[1]).format('YYYY-MM-DD HH:mm:ss')
     }
   }
 }

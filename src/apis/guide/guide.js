@@ -28,11 +28,11 @@ export default {
     method: 'post'
   },
   findTransRecordList: { // 客户转移记录列表
-    url: '/guide/guide/findTransRecordList',
+    url: '/guide/customertransferlog/findList',
     method: 'post'
   },
   findCustomerTransRecordList: { // 客户转移记录详情
-    url: '/guide/guide/findCustomerTransRecordList',
+    url: '/guide/customertransferlog/findCustomerTransferLogDetailList',
     method: 'post'
   },
   checkGuideWorkId: {

@@ -13,7 +13,7 @@ html,body {
 .link .link__store {
   display: flex;
   align-items: center;
-  margin: 14px 25px 0;
+  padding: 14px 25px 4px;
 }
 .title {
   font-size: 14px;

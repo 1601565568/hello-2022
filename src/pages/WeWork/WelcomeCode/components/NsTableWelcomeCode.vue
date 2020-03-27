@@ -3,7 +3,7 @@
  * @Author: yuye.huang
  * @Date: 2020-02-29 20:52:53
  * @LastEditors: yuye.huang
- * @LastEditTime: 2020-03-23 17:57:33
+ * @LastEditTime: 2020-03-25 13:52:50
  -->
 <template>
   <ns-page-table ref='mainTable'><!-- :colButton="10" -->
@@ -23,7 +23,7 @@
             <el-input ref="quickText"
               v-model="model.content"
               placeholder="请输入欢迎语内容"
-              clearable style="width: 180px"/> <!-- @keyup.enter.native="$quickSearchAction$('content')" -->
+              clearable style="width: 180px" @keyup.enter.native="$quickSearchAction$('content')" /> <!--  -->
               <ns-button type="primary" @click="$searchAction$()" class="searchbtn">搜索</ns-button>
               <ns-button @click="$resetInputAction$()" class="resetbtn">重置</ns-button>
         </el-form-item>
