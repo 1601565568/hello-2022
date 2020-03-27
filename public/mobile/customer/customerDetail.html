@@ -138,6 +138,19 @@
         $(".customerGradeName").html(checkParams(result.result.gradeName))
         $(".customerWechatNo").html(checkParams(result.result.wechatNo))
         $(".customerBirthday").html(checkParams(result.result.birthday))
+        let platformInfos = result.result.platformInfos;
+        for (let i = 0; i < platformInfos.length; i++) {
+          let platformInfo = platformInfos[i];
+          if (platformInfo.platform == 1){//淘宝类型
+            $(".customerTbNick").html(checkParams(platformInfo.outNick))
+          }
+          if (platformInfo.platform == 3){//京东类型
+            $(".customerJdNick").html(checkParams(platformInfo.outNick))
+          }
+          if (platformInfo.platform == 11){//有赞类型
+            $(".customerYzNick").html(checkParams(platformInfo.outNick))
+          }
+        }
         $(".customerUsable").html(result.result.usable)
         $(".customerRemark").html(checkParams(result.result.customerRemark))
         let integralMsg = result.result.integralMsg;
