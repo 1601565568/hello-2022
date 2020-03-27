@@ -3,7 +3,7 @@
  * @Author: yuye.huang
  * @Date: 2020-03-09 13:55:17
  * @LastEditors: yuye.huang
- * @LastEditTime: 2020-03-23 18:28:57
+ * @LastEditTime: 2020-03-27 11:12:17
  */
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 
@@ -36,12 +36,6 @@ export default {
   },
   mounted () {
     this.model = Object.assign({}, this.model, this.childData)
-    // 加载列表数据
-    if (typeof this.$init === 'function') {
-      this.$init()
-    } else {
-      this.$reload()
-    }
   },
   methods: {
   },
