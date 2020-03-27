@@ -45,12 +45,20 @@
           <div class="detail-form__content text-title customerGradeName">--</div>
         </div>
         <div class="detail-form__item">
+          <div class="detail-form__label text-secondary">会员卡号</div>
+          <div class="detail-form__content text-title customerMemberCard">--</div>
+        </div>
+        <div class="detail-form__item">
           <div class="detail-form__label text-secondary">微信号</div>
           <div class="detail-form__content text-title customerWechatNo">--</div>
         </div>
         <div class="detail-form__item">
           <div class="detail-form__label text-secondary">生日</div>
           <div class="detail-form__content text-title customerBirthday">--</div>
+        </div>
+        <div class="detail-form__item">
+          <div class="detail-form__label text-secondary">专属导购</div>
+          <div class="detail-form__content text-title customerGuideName">--</div>
         </div>
         <div class="detail-form__item">
           <div class="detail-form__label text-secondary">淘宝用户名</div>
@@ -76,11 +84,7 @@
       <div class="card detail-form font-size-base customerMsg">
         <div class="detail-form__item">
           <div class="detail-form__label text-secondary">优惠券</div>
-          <div class="detail-form__content text-title customerUsable">0</div>
-        </div>
-        <div class="detail-form__item">
-          <div class="detail-form__label text-secondary">优惠券</div>
-          <div class="detail-form__content text-title">76516</div>
+          <div class="detail-form__content text-title customerUsable">--</div>
         </div>
       </div>
       <!-- 客户财富 end  -->
@@ -121,6 +125,8 @@
         $(".customerImg").attr("src",result.result.customerHeadImage)
         $(".customerWechatNick").html(checkParams(result.result.wechatNick))
         $(".customerName").html(checkParams(result.result.customerName))
+        $(".customerMemberCard").html(checkParams(result.result.memberCard))
+        $(".customerGuideName").html(checkParams(result.result.guideName))
         if (result.result.sex == -1) {
           $(".customerBoy").hide()
           $(".customerGirl").hide()
