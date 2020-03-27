@@ -12,9 +12,6 @@
               <div class="subdivision-tree-node" slot-scope="{ node }" >
                 <span>{{node.label}}</span>
                 <span v-if="node.label === '全部'">
-              <el-tooltip content="查看所有的客户">
-                <Icon type="question-circle"/>
-              </el-tooltip>
             </span>
               </div>
             </el-tree>

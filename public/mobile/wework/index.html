@@ -8,16 +8,165 @@
     <meta http-equiv="Cache-Control" content="no-siteapp"/>
     <meta name="format-detection" content="telephone=no"/>
     <link rel="stylesheet" href="./invalid/invalid.css">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title></title>
 </head>
-<body>
 <script type="text/javascript" src="../js/jquery-3.4.1.min.js"></script>
 <script type="text/javascript" src="../js/common.js"></script>
-<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+<script type="text/javascript" src="//res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+<body>
+  <div style="width:100%;height: 100%;display: flex;justify-content: center;">
+    <div style="display: flex;flex-direction: column;align-items: center;justify-content: center;">
+      <div>
+        <button class="btn" onclick="sendLink()">发送招募链接</button>
+      </div>
+    </div>
+  </div>
+</body>
 <script>
-    window.onload = function () {
-        getUserId()
+    function sendLink () {
+      wx.invoke('sendChatMessage', {
+        msgtype:"text", //消息类型，必填
+        text: {
+          content:"你好", //文本内容
+        }
+      }, function(res) {
+        if (res.err_msg == 'sendChatMessage:ok') {
+          //发送成功
+          alert("发送成功")
+        }else {
+          alert("发送失败")
+        }
+      })
     }
+    window.onload = function () {
+        getUserId(),
+        getConfig()
+    }
+    function getConfig() {
+      var url = window.location.href.split('#')[0];
+      let groupId = getPar("groupId");
+      let appid = "ww97d386b1d60bea91";
+      this.ajax(backstageURL() + '/wework/getConfig', {
+        url: url,
+        groupId: groupId,
+        appId: appid
+      }).then(function (result) {
+        debugger
+        if (result.success) {
+          console.log("wx.config() ---> 接收后台返回的参数");
+          wx.config({
+            beta: true,
+            debug: true,
+            appId: result.result.appid,
+            timestamp: result.result.timestamp,
+            nonceStr: result.result.nonceStr,
+            signature: result.result.signature,
+            jsApiList: ['agentConfig','onMenuShareAppMessage','selectExternalContact','openUserProfile','thirdPartyOpenPage','sendChatMessage','getCurExternalContact','shareToExternalContact']
+          });
+          wx.ready(function(){
+            let data = {}
+            data.url = url;
+            data.agentid = '1000022'
+            data.corpid = appid
+            data.groupId = groupId
+            data.timestamp = result.result.timestamp
+            data.nonceStr = result.result.nonceStr
+            $.ajax({
+              url: backstageURL() + '/wework/agentConfig',
+              type: 'post',
+              dataType: 'JSON',
+              data: JSON.stringify(data),
+              method: "post",
+              contentType: "application/json;charset=UTF-8",
+              success: function (data) {
+                wx.agentConfig({
+                  debug: true,
+                  corpid: data.result.corpid, // 必填，企业微信的corpid，必须与当前登录的企业一致
+                  agentid: '1000022', // 必填，企业微信的应用id （e.g. 1000247）
+                  timestamp: result.result.timestamp, // 必填，生成签名的时间戳
+                  nonceStr: result.result.nonceStr, // 必填，生成签名的随机串
+                  signature: data.result.signature,// 必填，签名，见附录1
+                  jsApiList: ['selectExternalContact','openUserProfile','thirdPartyOpenPage','sendChatMessage','getCurExternalContact','shareToExternalContact'], //必填
+                  success: function(res) {
+                    // 回调
+                    wx.invoke('getCurExternalContact',{
+                    },function (res) {
+                      if(res.err_msg == "getCurExternalContact:ok"){
+                        var param = {}
+                        let userId  = res.userId ; //返回当前外部联系人userId
+                        param.userId = userId
+                        alert(userId+'  <123>')
+                        $.ajax({
+                                  url: backstageURL() + '/wework/userId',
+                                  type: 'post',
+                                  dataType: 'JSON',
+                                  data: JSON.stringify(param),
+                                  method: "post",
+                                  contentType: "application/json;charset=UTF-8",
+                                  success: function (data) {
+                                    console.log("wx.getCurExternalContact() ---> 接收后台返回的参数");
+                                  }
+                                })
+                      }else {
+                        alert(res.err_msg)
+                      }
+                    })
+                  },
+                  fail: function(res) {
+                    if(res.errMsg.indexOf('function not exist') > -1){
+                      alert('版本过低请升级')
+                    }
+                  }
+                })
+              },
+              error: function (res) {
+                $(".fail").show();
+                $('.fail__text').html(result.msg);
+              }
+            })
+          })
+        } else {
+        }
+      })
+    }
+    // function getCurExternalContact() {
+    //   wx.invoke('getCurExternalContact', {
+    //   }, function(res){
+    //     let data = {}
+    //     if(res.err_msg == "getCurExternalContact:ok"){
+    //       let userId  = res.userId ; //返回当前外部联系人userId
+    //       data.userId = userId
+    //       alert(userId);
+    //       $.ajax({
+    //         url: backstageURL() + '/wework/userId',
+    //         type: 'post',
+    //         dataType: 'JSON',
+    //         data: JSON.stringify(data),
+    //         method: "post",
+    //         contentType: "application/json;charset=UTF-8",
+    //         success: function (data) {
+    //           console.log("wx.getCurExternalContact() ---> 接收后台返回的参数");
+    //         }
+    //       })
+    //     }else {
+    //       data.userId = res.err_msg
+    //       //错误处理
+    //       alert(res.err_msg)
+    //       $.ajax({
+    //         url: backstageURL() + '/wework/userId',
+    //         type: 'post',
+    //         dataType: 'JSON',
+    //         data: JSON.stringify(data),
+    //         method: "post",
+    //         contentType: "application/json;charset=UTF-8",
+    //         success: function (data) {
+    //           console.log("wx.getCurExternalContact() ---> 接收后台返回的参数");
+    //         }
+    //       })
+    //     }
+    //   })
+    // }
     function getUserId() {
       let groupId = getPar("groupId");
       let code = getPar("code");
@@ -26,11 +175,11 @@
         code: code
       }).then(function (result) {
           if (result.success) {
+
           } else {
           }
       })
     }
-
     function ajax(url, data, params) {
         data = JSON.stringify(data)
         return new Promise(function (resolve, reject) {
@@ -52,5 +201,30 @@
         });
     }
 </script>
-</body>
+<style>
+  .btn{
+    display: inline-block;
+    line-height: 1;
+    white-space: nowrap;
+    cursor: pointer;
+    color:#fff;
+    background-color: #409eff;
+    border-color: #409eff;
+    -webkit-appearance: none;
+    text-align: center;
+    box-sizing: border-box;
+    outline: none;
+    margin: 0;
+    transition: .1s;
+    font-weight: 500;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    padding: 12px 20px;
+    font-size: 14px;
+    border-radius: 4px;
+    margin-bottom: 30px;
+    width: 200px;
+  }
+</style>
 </html>

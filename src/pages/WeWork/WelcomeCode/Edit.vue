@@ -338,10 +338,8 @@
       >
         <el-form-item label="跳转链接：" class="code-title"> </el-form-item>
         <el-form-item label="链接：" prop="custom">
-          <el-radio v-model="linkModel.custom" :label="1" size="xxs"
-            >自定义链接
-          </el-radio>
-          <!-- <el-radio v-model="linkModel.custom" :label="2" size="xxs">系统预置链接 </el-radio> -->
+          <el-radio v-model="linkModel.custom" :label="1" size="xxs">自定义链接</el-radio>
+          <el-radio v-model="linkModel.custom" :label="2" size="xxs">系统预置链接</el-radio>
         </el-form-item>
         <el-form-item
           v-if="linkModel.custom === 1"
@@ -359,12 +357,12 @@
           prop="link"
           :rules="commonRules.selectOne"
         >
-          <el-select v-model="linkModel.settingId" placeholder="请选择">
+          <el-select v-model="linkModel.settingId" @change='systemPresetChange' placeholder="请选择">
             <el-option
-              v-for="item in options"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
+              v-for="item in presetLink"
+              :key="item.id"
+              :label="item.title"
+              :value="item.id"
             >
             </el-option>
           </el-select>

@@ -469,7 +469,7 @@
         <div class="tag-details__edit text-link">编辑</div>
       </div>
       <div class="tag-details__tags">
-        <div class="tag">李笑笑</div>
+        <div class="tag"></div>
       </div>
     </div>
   </div>
@@ -485,9 +485,9 @@
 
     <div class="float-layout__content">
       <!-- 输入框 -->
-      <div class="float-textarea hide">
-        <textarea name="" placeholder="请输入客户姓名"></textarea>
-      </div>
+<!--      <div class="float-textarea hide">-->
+<!--        <textarea name="" placeholder="请输入客户姓名"></textarea>-->
+<!--      </div>-->
       <!-- 单选 -->
       <div class="float-select hide">
         <div class="float-select__item">
@@ -523,19 +523,19 @@
     window.location.href = '/mobile/coutomer/forbidden.html'
   }
   window.onload = function () {
-    // getCustomerTag()
+    getCustomerTag()
   }
   function getCustomerTag() {
     var appendHtml = {}
-    ownerWid = getPar('ownerWid')
-    wid = getPar('wid')
+    let wxId = getPar('wxId')
+    let chatId = getPar('chatId')
     var customerId = null  // 客户Id
     var shopId = null      // 店铺Id
     var groupId = null     // 集团Id
     var tagcode = null       // 标签Id
     this.ajax(backstageURL() + '/guideCustomer/customerTag', {
-      ownerWid: ownerWid,
-      wid: wid,
+      wxId: wxId,
+      chatId: chatId,
     }).then(function (result) {
       if (result.success) {
         // debugger

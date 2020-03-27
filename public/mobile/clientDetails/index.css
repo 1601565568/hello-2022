@@ -1,0 +1,252 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+html,body {
+  font-size: 12px;
+  height: 100%;
+  background: #F5F5F5;
+}
+.member {
+  padding: 0 10px;
+}
+.member .member__store {
+  display: flex;
+  align-items: center;
+  padding: 14px 25px 4px;
+}
+.heading {
+  font-size: 14px;
+  color: #666;
+  line-height: 14px;
+  width: 70px;
+  flex-shrink: 0;
+}
+.shop {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+.member .shop__offline {
+  font-size: 14px;
+  color: #666;
+  line-height: 14px;
+  display: inline-block;
+  padding: 8px 12px;
+  margin-right: 10px;
+  background: #FFF;
+  border-radius: 15px;
+}
+.member .shop__offline--selected {
+  color: #FFF;
+  background: #207BFB;
+}
+.member__module {
+  margin: 10px 0;
+  padding: 18px 15px;
+  background-color: #FFF;
+  box-shadow: 0 2px 10px 0 rgba(0, 0, 0, .05);
+  border-radius: 10px;
+}
+.member__module--special {
+  padding: 0;
+}
+.member__module--padding {
+  padding: 18px 15px 18px;
+}
+.card {
+  position: relative;
+  padding: 19px 24px 15px;
+  border-bottom: 1px solid #F2F2F2;
+}
+.img{
+  position: absolute;
+  top: 13px;
+  right: 23px;
+  display: block;
+  width: 45px;
+  height: 45px;
+  border: 3px solid #D3DCFF;
+  border-radius: 50%;
+}
+.card .card__body{
+  background: #FFF;
+}
+.name {
+  width: 83%;
+}
+.name .name__designation {
+  font-size: 16px;
+  color: #333;
+  line-height: 16px;
+  margin-right: 10px;
+  display: inline-block;
+  vertical-align: bottom;
+  max-width: 16em;
+  overflow: hidden;
+}
+.level {
+  font-weight: bold;
+  color: #FFF;
+  text-align: center;
+  line-height: 12px;
+  flex-shrink: 0;
+  display: inline-block;
+  padding: 1px 2px 1px 7px;
+  border-radius: 9px;
+  background: #F5A623;
+}
+.level__word {
+  font-size: 12px;
+  font-weight: 600;
+}
+.name__number{
+  font-size: 8px;
+  position: relative;
+  left: -5px;
+}
+.message {
+  font-size: 14px;
+  color: #999;
+  line-height: 24px;
+  display: flex;
+  align-items: center;
+}
+.message .message__substance {
+  text-align: right;
+  width: 70px;
+}
+.message .message__uname {
+  display: inline-block;
+  max-width: 6em;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.message .message__guide {
+  display: inline-block;
+  width: 14em;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.message--margintop {
+  margin-top: 10px;
+}
+.fotter {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  padding: 0 10px 18px;
+}
+.title {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.title .title__head {
+  font-size: 16px;
+  color: #333;
+}
+.title .title__arrow {
+  width: 8px;
+  height: 8px;
+  border-top: 1px solid #778894;
+  border-right: 1px solid #778894;
+  transform: rotate(45deg);
+}
+.title .title__history {
+  font-size: 14px;
+  color: #999;
+  position: absolute;
+  top: 1px;
+  right: 17px;
+}
+.tag {
+  word-spacing: -3px;
+  padding-top: 6px;
+}
+.tag .tag__item {
+  color: #999;
+  text-align: center;
+  line-height: 12px;
+  display: inline-block;
+  padding: 8px 9px;
+  margin: 10px 10px 0 0;
+  background: #F4F4F4;
+  border-radius: 4px;
+}
+.tag__item--blue {
+  color: #0091FA;
+}
+.discuss {
+  font-size: 14px;
+  color: #999;
+  margin-top: 10px;
+}
+.discuss--black {
+  color: #666;
+}
+.money {
+  font-size: 32px;
+  font-weight: bold;
+  color: #333;
+  text-align: center;
+  margin-top: 35px;
+}
+.detail {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  padding: 24px 43px 0;
+}
+.detail .detail__item {
+  line-height: 12px;
+  width: 50%;
+  display: flex;
+  align-items: center;
+  padding: 6px 0 12px;
+}
+.content {
+  color: #939393;
+  line-height: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.content .content__icon {
+  width: 11px;
+  height: 11px;
+}
+.content .content__explain {
+  text-align: left;
+  margin-left: 5px;
+}
+.msg {
+  color: #939393;
+}
+.preferential {
+  text-align: center;
+  width: 50%;
+}
+.preferential .preferential__number {
+  font-size: 22px;
+  color: #333;
+  font-weight: bold;
+  margin-top: 18px;
+}
+.preferential .preferential__text {
+  color: #999;
+  margin: 3px auto 0;
+  width: 9em;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.preferential--three {
+  text-align: center;
+  width: 33%;
+}

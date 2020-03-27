@@ -87,14 +87,17 @@ export default {
       leftDefaultProps: {
         children: 'children',
         label: 'label'
-      }
+      },
+      // 系统预置链接集合
+      presetLink: []
     }
   },
-  mounted: function () {
+  mounted () {
     // 获取渠道列表 todo 异步问题
     this.$http.fetch(this.$api.weWork.welcomeCode.findChannelList).then((resp) => {
       this.channelList = resp.result
       this.$init({ welcomeCodeUuid: this.$route.query.welcomeCodeUuid })
+      this.getSystemPresetLink()
     }).catch((resp) => {
       this.$notify.error(resp.msg)
     })
@@ -489,6 +492,33 @@ export default {
             that.$notify.error(resp.msg)
           })
       }
+    },
+    // 获取系统预置链接
+    getSystemPresetLink: function () {
+      let _this = this
+      _this.$http.fetch(_this.$api.guide.systemPreset.getLink).then(resp => {
+        if (resp.success && resp.result != null) {
+          resp.result.forEach(function (value, i) {
+            _this.presetLink.push(value)
+          })
+        }
+      })
+    },
+    systemPresetChange (e) { // 首页，分类，我的页面选择是添加codeTargetName
+      var _this = this
+      this.presetLink.forEach(function (value, i) {
+        if (e === '') {
+          _this.linkModel.link = ''
+          return
+        }
+        if (value.id === e) {
+          _this.linkModel.link = value.url + '&guideUserId={guideUserId}&userId={userId}&source=2'
+          _this.linkModel.image = value.picture
+          _this.linkModel.title = value.title
+          _this.linkModel.desc = value.content
+          _this.linkModel.settingId = e
+        }
+      })
     }
   }
 }
