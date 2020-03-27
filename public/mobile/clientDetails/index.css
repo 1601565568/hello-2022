@@ -4,8 +4,9 @@
     box-sizing: border-box;
 }
 html,body {
-    height: 100%;
-    background: #F5F5F5;
+  font-size: 12px;
+  height: 100%;
+  background: #F5F5F5;
 }
 .member {
   padding: 0 10px;
@@ -13,7 +14,7 @@ html,body {
 .member .member__store {
   display: flex;
   align-items: center;
-  margin: 14px 25px 0;
+  padding: 14px 25px 4px;
 }
 .heading {
   font-size: 14px;
@@ -76,9 +77,7 @@ html,body {
   background: #FFF;
 }
 .name {
-  width: 85%;
-  display: flex;
-  align-items: center;
+  width: 83%;
 }
 .name .name__designation {
   font-size: 16px;
@@ -86,43 +85,40 @@ html,body {
   line-height: 16px;
   margin-right: 10px;
   display: inline-block;
+  vertical-align: bottom;
   max-width: 16em;
-  white-space: nowrap;
   overflow: hidden;
 }
-.name .name__level {
+.level {
   font-weight: bold;
   color: #FFF;
   text-align: center;
   line-height: 12px;
+  flex-shrink: 0;
   display: inline-block;
   padding: 1px 2px 1px 7px;
   border-radius: 9px;
   background: #F5A623;
 }
-.name__level--v {
+.level__word {
   font-size: 12px;
   font-weight: 600;
 }
-.name__level--number{
+.name__number{
   font-size: 8px;
   position: relative;
   left: -5px;
 }
 .message {
+  font-size: 14px;
+  color: #999;
   line-height: 24px;
   display: flex;
   align-items: center;
 }
 .message .message__substance {
-  font-size: 14px;
-  color: #999;
   text-align: right;
   width: 70px;
-}
-.message .message__item {
-  font-size: 14px;
-  color: #999;
 }
 .message .message__uname {
   display: inline-block;
@@ -169,21 +165,14 @@ html,body {
   top: 1px;
   right: 17px;
 }
-.title .title__rightarrow {
-  font-size: 14px;
-  color: #999;
-  position: absolute;
-  top: 4px;
-  right: 0;
-}
 .tag {
-  font-size: 0;
+  word-spacing: -3px;
   padding-top: 6px;
 }
 .tag .tag__item {
-  font-size: 12px;
   color: #999;
   text-align: center;
+  line-height: 12px;
   display: inline-block;
   padding: 8px 9px;
   margin: 10px 10px 0 0;
@@ -223,7 +212,6 @@ html,body {
   padding: 6px 0 12px;
 }
 .content {
-  font-size: 12px;
   color: #939393;
   line-height: 12px;
   display: flex;
@@ -239,7 +227,6 @@ html,body {
   margin-left: 5px;
 }
 .msg {
-  font-size: 12px;
   color: #939393;
 }
 .preferential {
@@ -253,7 +240,6 @@ html,body {
   margin-top: 18px;
 }
 .preferential .preferential__text {
-  font-size: 12px;
   color: #999;
   margin: 3px auto 0;
   width: 9em;
