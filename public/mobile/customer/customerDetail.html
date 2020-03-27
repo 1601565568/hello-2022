@@ -36,6 +36,10 @@
           <div class="detail-form__content text-title customerName">--</div>
         </div>
         <div class="detail-form__item">
+          <div class="detail-form__label text-secondary">性别</div>
+          <div class="detail-form__content text-title customerSex">--</div>
+        </div>
+        <div class="detail-form__item">
           <div class="detail-form__label text-secondary">电话</div>
           <div class="detail-form__content text-title customerPhone">--</div>
           <div class="detail-form__addon customer-phone" hidden><img src="./src/icons/icon-telephone-fill.svg" alt="手机"></div>
@@ -130,12 +134,15 @@
         if (result.result.sex == -1) {
           $(".customerBoy").hide()
           $(".customerGirl").hide()
+          $(".customerSex").html("未知")
         }else if (result.result.sex == 0) {
           $(".customerBoy").hide()
           $(".customerGirl").show()
+          $(".customerSex").html("女")
         }else if (result.result.sex == 1) {
           $(".customerBoy").show()
           $(".customerGirl").hide()
+          $(".customerSex").html("男")
         }
         $(".customerPhone").html(checkParams(result.result.mobile))
         if (result.result.mobile != '' && result.result.mobile != null){
