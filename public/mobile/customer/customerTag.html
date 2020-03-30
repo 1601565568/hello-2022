@@ -14,53 +14,68 @@
 <!--  <span class="text-title font-weight-medium">客户标签</span>-->
 <!--</div>-->
 <!-- 顶部状态栏 end -->
-
-<div class="page-container">
-  <!-- 上方标签列表 start -->
-  <div class="card tag-list" hidden>
-  </div>
-
-  <!-- 无数据 通过hide类名控制显隐 -->
-  <div class="card tag-list--nodata" hidden>
-    <img src="./src/icons/icon-face-cry.svg" alt="哭脸">
-    暂无客户标签
-  </div>
-  <!-- 上方标签列表 start -->
-
-  <div class="card tag-details">
-  </div>
-</div>
-
-<div class="float-layout hidden">
-  <div class="float-layout__mask"></div>
-  <div class="float-layout__main">
-    <div class="float-layout__title">
-      <div class="font-weight-medium">标题</div>
-      <div class="text-link float-layout__save">保存</div>
+<div class="customer-tag">
+  <div class="page-container">
+    <!-- 上方标签列表 start -->
+    <div class="card tag-list" hidden>
     </div>
 
-    <div class="float-layout__content">
-      <!-- 输入框 -->
-<!--      <div class="float-textarea hide">-->
-<!--        <textarea name="" placeholder="请输入客户姓名"></textarea>-->
-<!--      </div>-->
-      <!-- 单选 -->
-      <div class="float-select hide">
-        <div class="float-select__item">
-          <div class="float-select__content"><input type="radio" name="aaa" value="选项二">选项二</div>
-          <img class="float-select__icon" src="./src/icons/icon-radio.svg" alt="radio">
-        </div>
-        <div class="float-select__item">
-          <div class="float-select__content"><input type="radio" name="aaa" value="选项二">选项三</div>
-          <img class="float-select__icon" src="./src/icons/icon-radio.svg" alt="radio">
-        </div>
-        <div class="float-select__item">
-          <div class="float-select__content"><input type="radio" name="aaa" value="选项二">选项四</div>
-          <img class="float-select__icon" src="./src/icons/icon-radio.svg" alt="radio">
+    <!-- 无数据 通过hide类名控制显隐 -->
+    <div class="card tag-list--nodata" hidden>
+      <img src="./src/icons/icon-face-cry.svg" alt="哭脸">
+      暂无客户标签
+    </div>
+    <!-- 上方标签列表 start -->
+
+    <div class="card tag-details">
+    </div>
+  </div>
+
+  <div class="float-layout hidden">
+    <div class="float-layout__mask"></div>
+    <div class="float-layout__main">
+      <div class="float-layout__title">
+        <div class="font-weight-medium">标题</div>
+        <div class="text-link float-layout__save">保存</div>
+      </div>
+
+      <div class="float-layout__content">
+        <!-- 输入框 -->
+  <!--      <div class="float-textarea hide">-->
+  <!--        <textarea name="" placeholder="请输入客户姓名"></textarea>-->
+  <!--      </div>-->
+        <!-- 单选 -->
+        <div class="float-select hide">
+          <div class="float-select__item">
+            <div class="float-select__content"><input type="radio" name="aaa" value="选项二">选项二</div>
+            <img class="float-select__icon" src="./src/icons/icon-radio.svg" alt="radio">
+          </div>
+          <div class="float-select__item">
+            <div class="float-select__content"><input type="radio" name="aaa" value="选项二">选项三</div>
+            <img class="float-select__icon" src="./src/icons/icon-radio.svg" alt="radio">
+          </div>
+          <div class="float-select__item">
+            <div class="float-select__content"><input type="radio" name="aaa" value="选项二">选项四</div>
+            <img class="float-select__icon" src="./src/icons/icon-radio.svg" alt="radio">
+          </div>
         </div>
       </div>
     </div>
   </div>
+</div>
+<div class="customer-error" hide>
+  <!--    <div class="page-status-bar text-center">-->
+  <!--      <div class="state-bar__cancel text-secondary">取消</div>-->
+  <!--      <span class="text-title font-weight-medium">不是会员</span>-->
+  <!--    </div>-->
+  <!-- 顶部状态栏 end -->
+
+  <!-- 不是会员 start -->
+  <div class="page-container page-container--no-data">
+    <img src="./src/images/not-vip.png" alt="not-vip">
+    <div class="text-secondary font-size-small line-height-small customer-errormsg"></div>
+  </div>
+  <!-- 不是会员 end -->
 </div>
 <script src="./src/lib/jquery-1.7.1.min.js"></script>
 <script src="./src/lib/rolldate.min.js"></script>
@@ -91,6 +106,8 @@
     var shopId = null       // 店铺Id
     var groupId = null      // 集团Id
     var tagcode = null      // 标签Id
+    var tagName = null      // 标签名称
+    var chooseTagType = null  // 选择标签类型
     this.ajax(backstageURL() + '/guideCustomer/customerTag', {
       wxId: wxId,
       chatId: chatId,
@@ -114,7 +131,7 @@
           $(".tag-list").show()
           for (var i = 0; i < propertyInfoVos.length; i++) {
             let propertyInfoVo = propertyInfoVos[i]
-            var html = '<div class="tag tag&#45;&#45;primary">' + propertyInfoVo.name + ':' + propertyInfoVo.value + '</div>'
+            var html = '<div class="tag tag&#45;&#45;primary customer_'+propertyInfoVo.tagArr+'">' + propertyInfoVo.name + ':' + propertyInfoVo.value + '</div>'
             $(".tag-list").append(html)
           }
         }
@@ -133,52 +150,186 @@
               showClass = "text-disable"
             }
             showClass = "text-link"
-
             var html
             // 判断标签类型
-            if (tagType==1 || tagType==2 || tagType==3 || tagType==5) {//字符文本框
+            if (tagType==1) {//字符文本框
               html = "<div class='tag-details__item'>" +
                     "      <div class='tag-details__title'>" +
                     "        <div class='text-title font-weight-medium'>"+propertyInfo.name+"</div>" +
-                    "        <div class='tag-details__edit "+showClass+"' attr='"+id+"'>编辑</div>" +
+                    "        <div class='tag-details__edit_"+id+" "+showClass+"' attr='"+id+"' tagAttr='"+propertyInfo.tagArr+"' tagName='"+propertyInfo.name+"' tagType='"+tagType+"'>编辑</div>" +
                     "      </div>" +
                     "    </div>"
-              // var popupHtml = "<div class='float-select float-select_"+id+"'  attr='"+id+"' tagAttr='"+propertyInfo.tagArr+"'>"+
-              //                 '<div class="float-textarea hide">'
-              //                 '<textarea name="" placeholder="请输入客户姓名"></textarea>'
-              //                 '</div>'
-              //                 '</div>'
-              //     popupHtml += "</div>"
+              //获取已选标签
+              let tagged = ''
+              for (var j = 0; j < propertyInfoVos.length; j++) {
+                let propertyInfoVo = propertyInfoVos[i]
+                if (propertyInfo.tagArr == propertyInfoVo.tagArr){
+                  tagged =  propertyInfoVo.value
+                }
+              }
+              //渲染标签编辑弹窗
+              var popupHtml = "<div class='float-select float-select_"+id+"'  attr='"+id+"'>"+
+                              '<div class="float-textarea">'+
+                              '<input type="text" name="tagValue" value="'+tagged+'" placeholder="请输入文本"/>'+
+                              '</div>'+
+                              '</div>'
+                  popupHtml += "</div>"
+              appendHtml[id] = popupHtml
+            } else if (tagType==2) {//数字文本框
+              html = "<div class='tag-details__item'>" +
+                "      <div class='tag-details__title'>" +
+                "        <div class='text-title font-weight-medium'>"+propertyInfo.name+"</div>" +
+                "        <div class='tag-details__edit_"+id+" "+showClass+"' attr='"+id+"' tagAttr='"+propertyInfo.tagArr+"' tagName='"+propertyInfo.name+"' tagType='"+tagType+"'>编辑</div>" +
+                "      </div>" +
+                "    </div>"
+              //获取已选标签
+              let tagged = ''
+              for (var j = 0; j < propertyInfoVos.length; j++) {
+                let propertyInfoVo = propertyInfoVos[i]
+                if (propertyInfo.tagArr == propertyInfoVo.tagArr){
+                  tagged =  propertyInfoVo.value
+                }
+              }
+              //渲染标签编辑弹窗
+              var popupHtml = "<div class='float-select float-select_"+id+"'  attr='"+id+"'>"+
+                '<div class="float-textarea">'+
+                '<input type="text" name="tagValue" value="'+tagged+'" oninput="value=value.replace(/[^\\d]/g,\'\')" placeholder="请输入数字"/>'+
+                '</div>'+
+                '</div>'
+              popupHtml += "</div>"
+              appendHtml[id] = popupHtml
+            } else if (tagType==3) {//小数文本框
+              html = "<div class='tag-details__item'>" +
+                "      <div class='tag-details__title'>" +
+                "        <div class='text-title font-weight-medium'>"+propertyInfo.name+"</div>" +
+                "        <div class='tag-details__edit_"+id+" "+showClass+"' attr='"+id+"' tagAttr='"+propertyInfo.tagArr+"' tagName='"+propertyInfo.name+"' tagType='"+tagType+"'>编辑</div>" +
+                "      </div>" +
+                "    </div>"
+              //获取已选标签
+              let tagged = ''
+              for (var j = 0; j < propertyInfoVos.length; j++) {
+                let propertyInfoVo = propertyInfoVos[i]
+                if (propertyInfo.tagArr == propertyInfoVo.tagArr){
+                  tagged =  propertyInfoVo.value
+                }
+              }
+              //渲染标签编辑弹窗
+              var popupHtml = "<div class='float-select float-select_"+id+"'  attr='"+id+"'>"+
+                '<div class="float-textarea">'+
+                '<input type="text" name="tagValue" value="'+tagged+'" oninput="value=value.replace(/[^0-9\\.]/g,\'\')" placeholder="请输入小数"/>'+
+                '</div>'+
+                '</div>'
+              popupHtml += "</div>"
+              appendHtml[id] = popupHtml
+            } else if (tagType==5) {//日期框
+              html = "<div class='tag-details__item'>" +
+                "      <div class='tag-details__title'>" +
+                "        <div class='text-title font-weight-medium'>"+propertyInfo.name+"</div>" +
+                "        <div class='tag-details__edit_"+id+" "+showClass+"' attr='"+id+"' tagAttr='"+propertyInfo.tagArr+"' tagName='"+propertyInfo.name+"' tagType='"+tagType+"'>编辑</div>" +
+                "      </div>" +
+                "    </div>"
+              //获取已选标签
+              let tagged = ''
+              for (var j = 0; j < propertyInfoVos.length; j++) {
+                let propertyInfoVo = propertyInfoVos[i]
+                if (propertyInfo.tagArr == propertyInfoVo.tagArr){
+                  tagged =  propertyInfoVo.value
+                }
+              }
+              //渲染标签编辑弹窗
+              var popupHtml = "<div class='float-select float-select_"+id+"'  attr='"+id+"'>"+
+                '<div class="float-textarea">'+
+                '<input type="date" name="tagValue" value="'+tagged+'" placeholder=""/>'+
+                '</div>'+
+                '</div>'
+              popupHtml += "</div>"
+              appendHtml[id] = popupHtml
             } else if (tagType == 4) {//选择框
               html = "<div class='tag-details__item'>" +
                 "      <div class='tag-details__title'>" +
                 "        <div class='text-title font-weight-medium'>"+propertyInfo.name+"</div>" +
-                "        <div class='tag-details__edit "+showClass+"''   attr='"+id+"' tagAttr='"+propertyInfo.tagArr+"'>编辑</div>" +
+                "        <div class='tag-details__edit_"+id+" "+showClass+"'   attr='"+id+"' tagAttr='"+propertyInfo.tagArr+"' tagName='"+propertyInfo.name+"' tagType='"+tagType+"'>编辑</div>" +
                 "      </div>" +
                 "    </div>"
-            } else if (tagType == 6 || tagType == 7) {//单选框
+              let value = propertyInfo.value
+              let split = value.split("|");
+              //渲染标签编辑弹窗
+              var popupHtml = "<div class='float-select float-select_"+id+"'  attr='"+id+"'>"+
+                '<div class="float-textarea">'+
+                '<select type="date" name="tagValue" placeholder="">'
+                  for (let j = 1; j < split.length - 1; j++) {
+                    //获取已选标签
+                    let bool = false
+                    for (var m = 0; m < propertyInfoVos.length; m++) {
+                      let propertyInfoVo = propertyInfoVos[i]
+                      if (propertyInfo.tagArr == propertyInfoVo.tagArr){
+                        bool= true
+                      }
+                    }
+                    if (bool){
+                      popupHtml += '<option value="'+split[j]+'" selected>'+split[j]+'</option>'
+                    }else {
+                      popupHtml += '<option value="'+split[j]+'">'+split[j]+'</option>'
+                    }
+                  }
+                  popupHtml += '</select>'+
+                                '</div>'+
+                                '</div>'
+                  popupHtml += "</div>"
+              appendHtml[id] = popupHtml
+            } else if (tagType == 6 || tagType == 7) {//单选框&&复选框
               var popupHtml = "<div class='float-select float-select_"+id+"'>"
               html = "<div class='tag-details__item'>" +
                 "      <div class='tag-details__title'>" +
                 "        <div class='text-title font-weight-medium'>"+propertyInfo.name+"</div>" +
-                "        <div class='tag-details__edit_"+id+" "+showClass+"'  attr='"+id+"' tagAttr='"+propertyInfo.tagArr+"'>编辑</div>" +
+                "        <div class='tag-details__edit_"+id+" "+showClass+"'  attr='"+id+"' tagAttr='"+propertyInfo.tagArr+"' tagName='"+propertyInfo.name+"' tagType='"+tagType+"'>编辑</div>" +
                 "      </div>" +
                 "      <div class='tag-details__tags'>"
               let value = propertyInfo.value
               let split = value.split("|");
               for (let j = 1; j < split.length - 1; j++) {
                 html += "<div class='tag'>"+split[j]+"</div>";
-                if (tagType == 6){
-                  popupHtml += "<div class='float-select__item'>" +
-                      "          <div class='float-select__content'><input type='radio' name='chooseTag' value='"+split[j]+"'>"+split[j]+"</div>" +
-                      "          <img class='float-select__icon' src='./src/icons/icon-radio.svg' alt='radio'>\n" +
-                      "        </div>"
-                } else if (tagType == 7) {
-                  popupHtml += "<div class='float-select__item'>" +
-                    "          <div class='float-select__content'><input type='checkbox' name='chooseTag' value='"+split[j]+"'>"+split[j]+"</div>" +
-                    "          <img class='float-select__icon' src='./src/icons/icon-radio.svg' alt='radio'>\n" +
-                    "        </div>"
+                popupHtml += "<div class='float-select__item'>"
+                if (tagType == 6){//单选框
+                  //获取已选标签
+                  let bool = false
+                  for (var m = 0; m < propertyInfoVos.length; m++) {
+                    let propertyInfoVo = propertyInfoVos[i]
+                    if (propertyInfo.tagArr != propertyInfoVo.tagArr){
+                      continue
+                    }
+                    if (propertyInfoVo.value == split[j]){
+                      bool= true
+                    }
+                  }
+                  if (bool){
+                    popupHtml += "<div class='float-select__content'><input type='radio' name='chooseTag' value='"+split[j]+"' checked>"+split[j]+"</div>"
+                  }else {
+                    popupHtml += "<div class='float-select__content'><input type='radio' name='chooseTag' value='"+split[j]+"'>"+split[j]+"</div>"
+                  }
+                } else if (tagType == 7) {//复选框
+                  //获取已选标签
+                  let bool = false
+                  for (var m = 0; m < propertyInfoVos.length; m++) {
+                    let propertyInfoVo = propertyInfoVos[i]
+                    if (propertyInfo.tagArr != propertyInfoVo.tagArr){
+                      continue
+                    }
+                    let propertyInfos = propertyInfoVo.value.split("|")
+                    for (let k = 0; k < propertyInfos.length; k++) {
+                      if (propertyInfos[k] == split[j]){
+                        bool= true
+                      }
+                    }
+                  }
+                  if (bool){
+                    popupHtml += "<div class='float-select__content'><input type='checkbox' name='chooseTag' value='"+split[j]+"' checked>"+split[j]+"</div>"
+                  }else {
+                    popupHtml += "<div class='float-select__content'><input type='checkbox' name='chooseTag' value='"+split[j]+"'>"+split[j]+"</div>"
+                  }
                 }
+                popupHtml +=    "<img class='float-select__icon' src='./src/icons/icon-radio.svg' alt='radio'>\n" +
+                              "</div>"
               }
               html+="      </div>" +
                     "    </div>"
@@ -191,40 +342,66 @@
               $('.float-layout').removeClass('hidden')
               let attr = this.getAttribute('attr')
               let tagAttr = this.getAttribute('tagAttr')
+              chooseTagType = this.getAttribute('tagType')
+              tagName = this.getAttribute('tagName')
               tagcode = tagAttr
               $(".float-layout__content").html(appendHtml[attr])
             })
           }
-          // 保存
+          // 保存会员标签
           $('.float-layout__save').click(function () {
-            let chooseTag = $("input[name='chooseTag']")
-            let check_val = []
-            for (k in chooseTag) {
-              if (chooseTag[k].checked)
-                check_val.push(chooseTag[k].value);
-            }
-            if (check_val.length > 0){
-              var data = {
-                groupId: groupId,
-                shopId: shopId,
-                platfrom: platfrom,
-                nick: nick,
-                tagcode: tagcode,
-                tag: check_val.join("|")
+            let tagValue
+            if (chooseTagType=="1" || chooseTagType=="2" || chooseTagType=="3" || chooseTagType=="5") {//字符文本框
+              let val = $('input[name="tagValue"]').val();
+              if (val.trim().length > 0){
+                tagValue = val
               }
-              $.ajax({
-                url: backstageURL() + '/guideCustomer/saveCustomerTag',
-                type: 'post',
-                dataType: 'JSON',
-                data: JSON.stringify(data),
-                method: "post",
-                contentType: "application/json;charset=UTF-8",
-                success: function (res) {
-                },
-                error: function (res) {
-                }
-              });
+            } else if (chooseTagType == "4") {//选择框
+              let val = $('select[name="tagValue"]').val();
+              if (val.trim().length > 0){
+                tagValue = val
+              }
+            } else if (chooseTagType == "6" || chooseTagType == "7") {//单选框或复选框
+              let chooseTag = $("input[name='chooseTag']")
+              let check_val = []
+              for (k in chooseTag) {
+                if (chooseTag[k].checked)
+                  check_val.push(chooseTag[k].value);
+              }
+              if (check_val.length > 0) {
+                tagValue = check_val.join("|")
+              }
             }
+            if (tagValue){
+            }
+            // 保存会员标签
+            var data = {
+              groupId: groupId,
+              shopId: shopId,
+              platfrom: platfrom,
+              nick: nick,
+              tagcode: tagcode,
+              tag: tagValue
+            }
+            $.ajax({
+              url: backstageURL() + '/guideCustomer/saveCustomerTag',
+              type: 'post',
+              dataType: 'JSON',
+              data: JSON.stringify(data),
+              method: "post",
+              contentType: "application/json;charset=UTF-8",
+              success: function (res) {
+                let hasClass = $('div').hasClass("customer_"+tagcode);
+                if (hasClass){
+                  $(".customer_"+tagcode).html(tagName+":"+tagValue);
+                } else {
+                  var html = '<div class="tag tag&#45;&#45;primary customer_'+tagcode+'">' + tagName + ':' + tagValue + '</div>'
+                  $(".tag-list").append(html)
+                }
+              },
+              error: function (res) {
+              }
+            });
             $('.float-layout').addClass('hidden')
             $(".float-layout__content").html('')
           })
@@ -234,7 +411,10 @@
         }
       } else {
         // 跳转错误页
-        toError()
+        // 跳转错误页
+        $(".customer-tag").hide()
+        $(".customer-errormsg").html(result.result.msg)
+        $(".customer-error").show()
       }
     })
   }
