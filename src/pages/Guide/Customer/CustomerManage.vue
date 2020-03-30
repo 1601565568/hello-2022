@@ -117,13 +117,13 @@
             <template slot="label">
               <div class="dialog-title">
                 <Icon type="integration" className="dialog-favorable__text dialog-favorable__text--integration dialog-favorable__text--space"/>
-                <div class="dialog-title__text" v-if="integralName[1].length<7">
-                  {{integralName[1]}}
+                <div class="dialog-title__text" v-if="integralAliasName[1].length<7">
+                  {{integralAliasName[1]}}
                 </div>
                 <div v-else>
                   <el-tooltip>
-                    <div slot="content">{{integralName[1]}}</div>
-                    <span class="dialog-conceal">{{integralName[1]}}</span>
+                    <div slot="content">{{integralAliasName[1]}}</div>
+                    <span class="dialog-conceal">{{integralAliasName[1]}}</span>
                   </el-tooltip>
                 </div>
                 <div class="dialog-title__colon">：</div>
@@ -169,13 +169,13 @@
             <template slot="label">
               <div class="dialog-title">
                 <Icon type="integration" className="dialog-favorable__text dialog-favorable__text--integration dialog-favorable__text--space"/>
-                <div class="dialog-title__text" v-if="integralName[0].length<7">
-                  {{integralName[0]}}
+                <div class="dialog-title__text" v-if="integralAliasName[0].length<7">
+                  {{integralAliasName[0]}}
                 </div>
                 <div v-else>
                   <el-tooltip>
-                    <div slot="content">{{integralName[0]}}</div>
-                    <span class="dialog-conceal">{{integralName[0]}}</span>
+                    <div slot="content">{{integralAliasName[0]}}</div>
+                    <span class="dialog-conceal">{{integralAliasName[0]}}</span>
                   </el-tooltip>
                 </div>
                 <div class="dialog-title__colon">：</div>
