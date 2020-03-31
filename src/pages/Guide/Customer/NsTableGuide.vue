@@ -28,8 +28,8 @@
         <div  class="template-page__row-right">
         <ns-page-table @add="$emit('add')"  @shopEdit="$emit('shopEdit')" >
     <!-- 按钮 -->
-    <template slot="buttons">
-      <ns-table-operate-button :buttons="_data._table.table_buttons">
+    <template v-if="showChangeGuide" slot="buttons">
+      <ns-table-operate-button  :buttons="_data._table.table_buttons">
       </ns-table-operate-button>
     </template>
     <!-- 按钮-结束 -->
