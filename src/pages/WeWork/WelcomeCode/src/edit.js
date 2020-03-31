@@ -124,7 +124,6 @@ export default {
      * @param {Number} 2链接 3小程序
      */
     showAnnex (type) {
-      debugger
       let that = this
       // 链接
       if (type === 2) {
