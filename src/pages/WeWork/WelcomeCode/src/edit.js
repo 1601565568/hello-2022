@@ -124,6 +124,7 @@ export default {
      * @param {Number} 2链接 3小程序
      */
     showAnnex (type) {
+      debugger
       let that = this
       // 链接
       if (type === 2) {
@@ -187,6 +188,8 @@ export default {
       }
       if (type === 2 && this.model.annexType !== 2) {
         this.$nextTick(() => {
+          that.linkModel.link = ''
+          that.linkModel.settingId = null
           this.$refs['linkForm'].resetFields()
         })
       }
@@ -209,6 +212,8 @@ export default {
       if (this.model.annexType === 2 && type !== 2) {
         // 从网页变成其他，置空
         this.$nextTick(() => {
+          that.linkModel.link = ''
+          that.linkModel.settingId = null
           that.$refs['linkForm'].resetFields()
         })
       }
@@ -280,6 +285,7 @@ export default {
     handleAnnexAvatarSuccess: function (res, file) {
       this.imageModel.image = res.result.url
       this.model.image = res.result.url
+      this.onSubmitHandleModel(1)
       this.model.annexType = 1
     },
     /**
@@ -299,14 +305,14 @@ export default {
      * @msg: 图片上传校验
      */
     beforeAvatarUpload (file) {
-      const isJPG = file.type === 'image/jpeg'
+      const isJPG = file.type === 'image/jpeg' // || file.type === 'image/png'
       const isLt2M = file.size / 1024 / 1024 < 2
 
       if (!isJPG) {
-        this.$message.error('上传头像图片只能是 JPG 格式!')
+        this.$message.error('上传图片只能是 JPG 格式!')
       }
       if (!isLt2M) {
-        this.$message.error('上传头像图片大小不能超过 20MB!')
+        this.$message.error('上传图片大小不能超过 20MB!')
       }
       return isJPG && isLt2M
     },

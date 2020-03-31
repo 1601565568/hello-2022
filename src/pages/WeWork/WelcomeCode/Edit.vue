@@ -81,7 +81,8 @@
                           <el-upload
                             class="avatar-uploader"
                             :action="$api.core.sgUploadFile('image')"
-                            accept=".jpg,.jpeg,.png,.bmp,.gif"
+                            accept="image/jpeg,image/gif,image/png"
+                            :before-upload="beforeAvatarUpload"
                             :on-success="handleAnnexAvatarSuccess"
                             :show-file-list="false"
                           >
@@ -354,7 +355,7 @@
         <el-form-item
           v-if="linkModel.custom === 2"
           label="选择链接："
-          prop="link"
+          prop="settingId"
           :rules="commonRules.selectOne"
         >
           <el-select v-model="linkModel.settingId" @change='systemPresetChange' placeholder="请选择">
@@ -383,7 +384,8 @@
             <el-upload
               class="avatar-uploader"
               :action="$api.core.sgUploadFile('test')"
-              accept=".jpg,.jpeg,.png,.bmp,.gif"
+              accept="image/jpeg,image/gif,image/png"
+              :before-upload="beforeAvatarUpload"
               :on-success="handleLinkAvatarSuccess"
               :show-file-list="false"
             >
@@ -487,7 +489,8 @@
             <el-upload
               class="avatar-uploader"
               :action="$api.core.sgUploadFile('test')"
-              accept=".jpg,.jpeg,.png,.bmp,.gif"
+              accept="image/jpeg,image/gif,image/png"
+              :before-upload="beforeAvatarUpload"
               :on-success="handleAppAvatarSuccess"
               :show-file-list="false"
             >
