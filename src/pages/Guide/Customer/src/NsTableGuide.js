@@ -56,6 +56,7 @@ export default {
       loading: false,
       offsetHeight: false,
       height: 0,
+      showChangeGuide: false,
       gradeInfo: [], // 等级信息下拉框
       shopTreePage: {
         total: 0,
@@ -132,6 +133,7 @@ export default {
       this.restButton = false
       // 全部情况不需要请求等级
       if (data.id !== '1') {
+        this.showChangeGuide = true
         _this.$http.fetch(_this.$api.guide.shop.findShopGrade,
           { shopId: _this.offLineShopId }).then(resp => {
           if (resp.success && resp.result !== null) {
@@ -140,6 +142,8 @@ export default {
         }).catch((resp) => {
           _this.$notify.error(getErrorMsg('查询等级信息失败', resp))
         })
+      } else {
+        this.showChangeGuide = false
       }
     },
     // 树节点过滤
