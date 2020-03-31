@@ -406,65 +406,6 @@
               })
             })
           }
-          // 保存会员标签
-          $('.float-layout__save').click(function () {
-            let tagValue
-            if (chooseTagType=="1") {//字符文本框
-              let val = $('textarea[name="tagValue"]').val();
-              if (val.trim().length > 0){
-                tagValue = val
-              }
-            } else if (chooseTagType=="2" || chooseTagType=="3" || chooseTagType=="5") {//字符文本框
-              let val = $('input[name="tagValue"]').val();
-              if (val.trim().length > 0){
-                tagValue = val
-              }
-            } else if (chooseTagType == "4" || chooseTagType == "6" || chooseTagType == "7") {//单选框或复选框
-              let chooseTag = $("input[name='chooseTag']")
-              let check_val = []
-              for (k in chooseTag) {
-                if (chooseTag[k].checked)
-                  check_val.push(chooseTag[k].value);
-              }
-              if (check_val.length > 0) {
-                tagValue = check_val.join("|")
-              }
-            }
-            if (tagValue){
-            }
-            // 保存会员标签
-            var data = {
-              groupId: groupId,
-              shopId: shopId,
-              platfrom: platfrom,
-              nick: nick,
-              tagcode: tagcode,
-              tag: tagValue
-            }
-            $.ajax({
-              url: backstageURL() + '/guideCustomer/saveCustomerTag',
-              type: 'post',
-              dataType: 'JSON',
-              data: JSON.stringify(data),
-              method: "post",
-              contentType: "application/json;charset=UTF-8",
-              success: function (res) {
-                let hasClass = $('div').hasClass("customer_"+tagcode);
-                if (hasClass){
-                  $(".customer_"+tagcode).html(tagName+":"+tagValue);
-                } else {
-                  var html = '<div class="tag tag&#45;&#45;primary customer_'+tagcode+'">' + tagName + ':' + tagValue + '</div>'
-                  $(".tag-list").append(html)
-                }
-                $(".tag-details").html('')
-              },
-              error: function (res) {
-              }
-            });
-            getGroupTag()
-            $('.float-layout').addClass('hidden')
-            $(".float-layout__content").html('')
-          })
           $('.float-layout__mask').click(function () {
             $('.float-layout').addClass('hidden')
           })
@@ -478,6 +419,65 @@
       }
     })
   }
+  // 保存会员标签
+  $('.float-layout__save').click(function () {
+    let tagValue
+    if (chooseTagType=="1") {//字符文本框
+      let val = $('textarea[name="tagValue"]').val();
+      if (val.trim().length > 0){
+        tagValue = val
+      }
+    } else if (chooseTagType=="2" || chooseTagType=="3" || chooseTagType=="5") {//字符文本框
+      let val = $('input[name="tagValue"]').val();
+      if (val.trim().length > 0){
+        tagValue = val
+      }
+    } else if (chooseTagType == "4" || chooseTagType == "6" || chooseTagType == "7") {//单选框或复选框
+      let chooseTag = $("input[name='chooseTag']")
+      let check_val = []
+      for (k in chooseTag) {
+        if (chooseTag[k].checked)
+          check_val.push(chooseTag[k].value);
+      }
+      if (check_val.length > 0) {
+        tagValue = check_val.join("|")
+      }
+    }
+    if (tagValue){
+    }
+    // 保存会员标签
+    var data = {
+      groupId: groupId,
+      shopId: shopId,
+      platfrom: platfrom,
+      nick: nick,
+      tagcode: tagcode,
+      tag: tagValue
+    }
+    $.ajax({
+      url: backstageURL() + '/guideCustomer/saveCustomerTag',
+      type: 'post',
+      dataType: 'JSON',
+      data: JSON.stringify(data),
+      method: "post",
+      contentType: "application/json;charset=UTF-8",
+      success: function (res) {
+        let hasClass = $('div').hasClass("customer_"+tagcode);
+        if (hasClass){
+          $(".customer_"+tagcode).html(tagName+":"+tagValue);
+        } else {
+          var html = '<div class="tag tag&#45;&#45;primary customer_'+tagcode+'">' + tagName + ':' + tagValue + '</div>'
+          $(".tag-list").append(html)
+        }
+        $(".tag-details").html('')
+      },
+      error: function (res) {
+      }
+    });
+    getGroupTag()
+    $('.float-layout').addClass('hidden')
+    $(".float-layout__content").html('')
+  })
   function ajax(url, data, params) {
     data = JSON.stringify(data)
     return new Promise(function (resolve, reject) {
