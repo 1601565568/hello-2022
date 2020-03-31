@@ -40,25 +40,6 @@
       </div>
 
       <div class="float-layout__content">
-        <!-- 输入框 -->
-  <!--      <div class="float-textarea hide">-->
-  <!--        <textarea name="" placeholder="请输入客户姓名"></textarea>-->
-  <!--      </div>-->
-        <!-- 单选 -->
-        <div class="float-select hide">
-          <div class="float-select__item">
-            <div class="float-select__content"><input type="radio" name="aaa" value="选项二">选项二</div>
-            <img class="float-select__icon" src="./src/icons/icon-radio.svg" alt="radio">
-          </div>
-          <div class="float-select__item">
-            <div class="float-select__content"><input type="radio" name="aaa" value="选项二">选项三</div>
-            <img class="float-select__icon" src="./src/icons/icon-radio.svg" alt="radio">
-          </div>
-          <div class="float-select__item">
-            <div class="float-select__content"><input type="radio" name="aaa" value="选项二">选项四</div>
-            <img class="float-select__icon" src="./src/icons/icon-radio.svg" alt="radio">
-          </div>
-        </div>
       </div>
     </div>
   </div>
@@ -90,9 +71,6 @@
   $('.float-layout__save').click(function () {
     $('.float-layout').addClass('hidden')
   })
-  const toError = (type = 3, message = '') => {
-    window.location.href = '/mobile/coutomer/forbidden.html'
-  }
   window.onload = function () {
     getCustomerTag()
   }
@@ -157,8 +135,7 @@
                     "      <div class='tag-details__title'>" +
                     "        <div class='text-title font-weight-medium'>"+propertyInfo.name+"</div>" +
                     "        <div class='tag-details__edit_"+id+" "+showClass+"' attr='"+id+"' tagAttr='"+propertyInfo.tagArr+"' tagName='"+propertyInfo.name+"' tagType='"+tagType+"'>编辑</div>" +
-                    "      </div>" +
-                    "    </div>"
+                    "      </div>"
               //获取已选标签
               let tagged = ''
               for (var j = 0; j < propertyInfoVos.length; j++) {
@@ -170,6 +147,7 @@
                           '</div>'
                 }
               }
+              html +=  "</div>"
               //渲染标签编辑弹窗
               var popupHtml = "<div class=' float-select_"+id+"'  attr='"+id+"'>"+
                               '<div class="float-textarea">'+
@@ -183,8 +161,7 @@
                 "      <div class='tag-details__title'>" +
                 "        <div class='text-title font-weight-medium'>"+propertyInfo.name+"</div>" +
                 "        <div class='tag-details__edit_"+id+" "+showClass+"' attr='"+id+"' tagAttr='"+propertyInfo.tagArr+"' tagName='"+propertyInfo.name+"' tagType='"+tagType+"'>编辑</div>" +
-                "      </div>" +
-                "    </div>"
+                "      </div>"
               //获取已选标签
               let tagged = ''
               for (var j = 0; j < propertyInfoVos.length; j++) {
@@ -196,6 +173,7 @@
                           '</div>'
                 }
               }
+              html +=  "</div>"
               //渲染标签编辑弹窗
               var popupHtml = "<div class=' float-select_"+id+"'  attr='"+id+"'>"+
                 '<div class="float-textarea">'+
@@ -209,8 +187,7 @@
                 "      <div class='tag-details__title'>" +
                 "        <div class='text-title font-weight-medium'>"+propertyInfo.name+"</div>" +
                 "        <div class='tag-details__edit_"+id+" "+showClass+"' attr='"+id+"' tagAttr='"+propertyInfo.tagArr+"' tagName='"+propertyInfo.name+"' tagType='"+tagType+"'>编辑</div>" +
-                "      </div>" +
-                "    </div>"
+                "      </div>"
               //获取已选标签
               let tagged = ''
               for (var j = 0; j < propertyInfoVos.length; j++) {
@@ -222,6 +199,7 @@
                           '</div>'
                 }
               }
+              html +=  "</div>"
               //渲染标签编辑弹窗
               var popupHtml = "<div class=' float-select_"+id+"'  attr='"+id+"'>"+
                 '<div class="float-textarea">'+
@@ -235,8 +213,7 @@
                 "      <div class='tag-details__title'>" +
                 "        <div class='text-title font-weight-medium'>"+propertyInfo.name+"</div>" +
                 "        <div class='tag-details__edit_"+id+" "+showClass+"' attr='"+id+"' tagAttr='"+propertyInfo.tagArr+"' tagName='"+propertyInfo.name+"' tagType='"+tagType+"'>编辑</div>" +
-                "      </div>" +
-                "    </div>"
+                "      </div>"
               //获取已选标签
               let tagged = ''
               for (var j = 0; j < propertyInfoVos.length; j++) {
@@ -249,6 +226,7 @@
                           '</div>'
                 }
               }
+              html +=  "</div>"
               //渲染标签编辑弹窗
               var popupHtml = "<div class=' float-select_"+id+"'  attr='"+id+"'>"+
                 '<div class="float-textarea">'+
@@ -258,44 +236,6 @@
               popupHtml += "</div>"
               appendHtml[id] = popupHtml
             } else if (tagType == 4) {//选择框
-              html = "<div class='tag-details__item'>" +
-                "      <div class='tag-details__title'>" +
-                "        <div class='text-title font-weight-medium'>"+propertyInfo.name+"</div>" +
-                "        <div class='tag-details__edit_"+id+" "+showClass+"'   attr='"+id+"' tagAttr='"+propertyInfo.tagArr+"' tagName='"+propertyInfo.name+"' tagType='"+tagType+"'>编辑</div>" +
-                "      </div>" +
-                "    </div>"
-              let value = propertyInfo.value
-              let split = value.split("|");
-              //渲染标签编辑弹窗
-              var popupHtml = "<div class=' float-select_"+id+"'  attr='"+id+"'>"+
-                '<div class="float-textarea">'+
-                '<select type="date" name="tagValue" placeholder="">'
-                  let tagValue
-                  for (let j = 1; j < split.length - 1; j++) {
-                    //获取已选标签
-                    let bool = false
-                    for (var m = 0; m < propertyInfoVos.length; m++) {
-                      let propertyInfoVo = propertyInfoVos[m]
-                      if (propertyInfo.tagArr == propertyInfoVo.tagArr){
-                        bool= true
-                        tagValue = propertyInfoVo.value
-                      }
-                    }
-                    if (bool){
-                      popupHtml += '<option value="'+split[j]+'" selected>'+split[j]+'</option>'
-                    }else {
-                      popupHtml += '<option value="'+split[j]+'">'+split[j]+'</option>'
-                    }
-                  }
-                  html += '<div class="tag-details__tags">'+
-                            '<div class="tag">'+tagValue+'</div>'+
-                          '</div>'
-                  popupHtml += '</select>'+
-                                '</div>'+
-                                '</div>'
-                  popupHtml += "</div>"
-              appendHtml[id] = popupHtml
-            } else if (tagType == 6 || tagType == 7) {//单选框&&复选框
               var popupHtml = ''
               html = "<div class='tag-details__item'>" +
                 "      <div class='tag-details__title'>" +
@@ -305,33 +245,90 @@
                 "      <div class='tag-details__tags'>"
               let value = propertyInfo.value
               let split = value.split("|");
+              popupHtml += "<div class='float-select float-select_"+id+"'>"
               for (let j = 1; j < split.length - 1; j++) {
-                if (tagType == 6){//单选框
-                  popupHtml += "<div class='float-select float-select_"+id+"'>"
-                  //获取已选标签
-                  let bool = false
-                  for (var m = 0; m < propertyInfoVos.length; m++) {
-                    let propertyInfoVo = propertyInfoVos[m]
-                    if (propertyInfo.tagArr != propertyInfoVo.tagArr){
-                      continue
-                    }
-                    if (propertyInfoVo.value == split[j]){
-                      bool= true
-                    }
+                //获取已选标签
+                let bool = false
+                for (var m = 0; m < propertyInfoVos.length; m++) {
+                  let propertyInfoVo = propertyInfoVos[m]
+                  if (propertyInfo.tagArr != propertyInfoVo.tagArr){
+                    continue
                   }
-                  if (bool){
-                    html += "<div class='tag'>"+split[j]+"</div>";
-                    popupHtml += "<div class='float-select__item float-select__item--selected'>" +
-                                    "<div class='float-select__content'><input type='radio' name='chooseTag' value='"+split[j]+"' checked>"+split[j]+"</div>"+
-                                "</div>"
-                  }else {
-                    html += "<div class='tag'>"+split[j]+"</div>";
-                    popupHtml += "<div class='float-select__item'>" +
-                                    "<div class='float-select__content'><input type='radio' name='chooseTag' value='"+split[j]+"'>"+split[j]+"</div>"+
-                                "</div>"
+                  if (propertyInfoVo.value == split[j]){
+                    bool= true
                   }
-                } else if (tagType == 7) {//复选框
-                  popupHtml += "<div class='float-checkbox float-select_"+id+"'>"
+                }
+                if (bool){
+                  html += "<div class='tag float-checkbox__item--selected'>"+split[j]+"</div>";
+                  popupHtml += "<div class='float-select__item float-select__item--selected'>" +
+                    "<div class='float-select__content'><input type='radio' class='input_radio' name='chooseTag' value='"+split[j]+"' checked>"+split[j]+"</div>"+
+                    "<img class='float-select__icon' hide src='./src/icons/icon-radio.svg' alt='radio'>"+
+                    "</div>"
+                }else {
+                  html += "<div class='tag'>"+split[j]+"</div>";
+                  popupHtml += "<div class='float-select__item'>" +
+                    "<div class='float-select__content'><input type='radio' class='input_radio' name='chooseTag' value='"+split[j]+"'>"+split[j]+"</div>"+
+                    "<img class='float-select__icon' hide src='./src/icons/icon-radio.svg' alt='radio'>"+
+                    "</div>"
+                }
+              }
+              html+="      </div>" +
+                "    </div>"
+              popupHtml += "</div>"
+              appendHtml[id] = popupHtml
+            } else if (tagType == 6) {//单选框
+              var popupHtml = ''
+              html = "<div class='tag-details__item'>" +
+                "      <div class='tag-details__title'>" +
+                "        <div class='text-title font-weight-medium'>"+propertyInfo.name+"</div>" +
+                "        <div class='tag-details__edit_"+id+" "+showClass+"'  attr='"+id+"' tagAttr='"+propertyInfo.tagArr+"' tagName='"+propertyInfo.name+"' tagType='"+tagType+"'>编辑</div>" +
+                "      </div>" +
+                "      <div class='tag-details__tags'>"
+              let value = propertyInfo.value
+              let split = value.split("|");
+              popupHtml += "<div class='float-select float-select_"+id+"'>"
+              for (let j = 1; j < split.length - 1; j++) {
+                //获取已选标签
+                let bool = false
+                for (var m = 0; m < propertyInfoVos.length; m++) {
+                  let propertyInfoVo = propertyInfoVos[m]
+                  if (propertyInfo.tagArr != propertyInfoVo.tagArr){
+                    continue
+                  }
+                  if (propertyInfoVo.value == split[j]){
+                    bool= true
+                  }
+                }
+                if (bool){
+                  html += "<div class='tag float-checkbox__item--selected'>"+split[j]+"</div>";
+                  popupHtml += "<div class='float-select__item float-select__item--selected'>" +
+                                  "<div class='float-select__content'><input type='radio' class='input_radio' name='chooseTag' value='"+split[j]+"' checked>"+split[j]+"</div>"+
+                                  "<img class='float-select__icon' hide src='./src/icons/icon-radio.svg' alt='radio'>"+
+                              "</div>"
+                }else {
+                  html += "<div class='tag'>"+split[j]+"</div>";
+                  popupHtml += "<div class='float-select__item'>" +
+                                  "<div class='float-select__content'><input type='radio' class='input_radio' name='chooseTag' value='"+split[j]+"'>"+split[j]+"</div>"+
+                                  "<img class='float-select__icon' hide src='./src/icons/icon-radio.svg' alt='radio'>"+
+                              "</div>"
+                }
+              }
+              html+="      </div>" +
+                    "    </div>"
+              popupHtml += "</div>"
+              appendHtml[id] = popupHtml
+            }else if (tagType == 7) {//复选框
+              var popupHtml = ''
+              html = "<div class='tag-details__item'>" +
+                "      <div class='tag-details__title'>" +
+                "        <div class='text-title font-weight-medium'>"+propertyInfo.name+"</div>" +
+                "        <div class='tag-details__edit_"+id+" "+showClass+" '  attr='"+id+"' tagAttr='"+propertyInfo.tagArr+"' tagName='"+propertyInfo.name+"' tagType='"+tagType+"'>编辑</div>" +
+                "      </div>" +
+                "      <div class='tag-details__tags'>"
+              let value = propertyInfo.value
+              let split = value.split("|");
+              popupHtml += "<div class='float-checkbox float-select_"+id+"'>"
+              for (let j = 1; j < split.length - 1; j++) {
                   //获取已选标签
                   let bool = false
                   for (var m = 0; m < propertyInfoVos.length; m++) {
@@ -347,17 +344,16 @@
                     }
                   }
                   if (bool){
-                    html += "<div class='tag'>"+split[j]+"</div>";
+                    html += "<div class='tag float-checkbox__item--selected'>"+split[j]+"</div>";
                     popupHtml += "<div class='float-checkbox__item float-checkbox__item--selected'>" +
-                                    "<input type='checkbox' name='chooseTag' value='"+split[j]+"' checked>"+split[j]+
+                                    "<input class='input_checkbox' type='checkbox' name='chooseTag' value='"+split[j]+"' checked>"+split[j]+
                                   "</div>"
                   }else {
                     html += "<div class='tag'>"+split[j]+"</div>";
                     popupHtml += "<div class='float-checkbox__item'>" +
-                                    "<input type='checkbox' name='chooseTag' value='"+split[j]+"'>"+split[j]+
+                                    "<input class='input_checkbox' type='checkbox' name='chooseTag' value='"+split[j]+"'>"+split[j]+
                                   "</div>"
                   }
-                }
               }
               html+="      </div>" +
                     "    </div>"
@@ -375,6 +371,18 @@
               $(".title").html(tagName)
               tagcode = tagAttr
               $(".float-layout__content").html(appendHtml[attr])
+              $('.input_radio').click(function(){
+                $('input[type = radio]').parent('div').parent('div').children('img').hide()
+                $(this).parent('div').parent('div').children('img').show()
+              })
+              $('.input_checkbox').click(function(){
+                let checked = $(this).is(':checked')
+                if (checked){
+                  $(this).parent('div').addClass("float-checkbox__item--selected")
+                }else {
+                  $(this).parent('div').removeClass("float-checkbox__item--selected")
+                }
+              })
             })
           }
           // 保存会员标签
@@ -390,12 +398,7 @@
               if (val.trim().length > 0){
                 tagValue = val
               }
-            } else if (chooseTagType == "4") {//选择框
-              let val = $('select[name="tagValue"]').val();
-              if (val.trim().length > 0){
-                tagValue = val
-              }
-            } else if (chooseTagType == "6" || chooseTagType == "7") {//单选框或复选框
+            } else if (chooseTagType == "4" || chooseTagType == "6" || chooseTagType == "7") {//单选框或复选框
               let chooseTag = $("input[name='chooseTag']")
               let check_val = []
               for (k in chooseTag) {
