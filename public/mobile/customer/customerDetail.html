@@ -8,87 +8,106 @@
   <link rel="stylesheet" type="text/css" href="./src/index.css">
 </head>
 <body>
-<!-- 顶部状态栏 start -->
-<div class="page-status-bar text-center">
-  <div class="state-bar__cancel text-secondary">取消</div>
-  <span class="text-title font-weight-medium">客户详情</span>
-</div>
-<!-- 顶部状态栏 end -->
-
-<div class="page-container">
-  <div class="detail-head card">
-    <div class="detail-head__avatar">
-      <img class="customerImg" src="./src/images/default-user.png" alt="客户头像">
-    </div>
-    <div class="detail-head__info">
-      <div class="text-title font-size-large font-weight-medium customerName">--</div>
-      <div class="detail-head__icon">
-        <img src="./src/icons/icon-boy.svg" class="customerBoy" alt="性别图标">
-        <img src="./src/icons/icon-girl.svg" class="customerGirl hide" alt="性别图标">
+  <div class="customer-detail">
+    <!-- 顶部状态栏 start -->
+<!--    <div class="page-status-bar text-center">-->
+<!--      <div class="state-bar__cancel text-secondary">取消</div>-->
+<!--      <span class="text-title font-weight-medium">客户详情</span>-->
+<!--    </div>-->
+    <!-- 顶部状态栏 end -->
+    <div class="page-container">
+      <div class="detail-head card">
+        <div class="detail-head__avatar">
+          <img class="customerImg" src="./src/images/default-user.png" alt="客户头像">
+        </div>
+        <div class="detail-head__info">
+          <div class="text-title font-size-large font-weight-medium customerWechatNick">--</div>
+          <div class="detail-head__icon">
+            <img src="./src/icons/icon-boy.svg" class="customerBoy" alt="性别图标">
+            <img src="./src/icons/icon-girl.svg" class="customerGirl hide" alt="性别图标">
+          </div>
+        </div>
       </div>
+      <!-- 基本信息 start  -->
+      <div class="detail-subtitle">基本信息</div>
+      <div class="card detail-form font-size-base">
+        <div class="detail-form__item">
+          <div class="detail-form__label text-secondary">姓名</div>
+          <div class="detail-form__content text-title customerName">--</div>
+        </div>
+        <div class="detail-form__item">
+          <div class="detail-form__label text-secondary">性别</div>
+          <div class="detail-form__content text-title customerSex">--</div>
+        </div>
+        <div class="detail-form__item">
+          <div class="detail-form__label text-secondary">电话</div>
+          <div class="detail-form__content text-title customerPhone">--</div>
+          <div class="detail-form__addon customer-phone" hidden><img src="./src/icons/icon-telephone-fill.svg" alt="手机"></div>
+        </div>
+        <div class="detail-form__item">
+          <div class="detail-form__label text-secondary">VIP等级</div>
+          <div class="detail-form__content text-title customerGradeName">--</div>
+        </div>
+        <div class="detail-form__item">
+          <div class="detail-form__label text-secondary">会员卡号</div>
+          <div class="detail-form__content text-title customerMemberCard">--</div>
+        </div>
+        <div class="detail-form__item">
+          <div class="detail-form__label text-secondary">微信号</div>
+          <div class="detail-form__content text-title customerWechatNo">--</div>
+        </div>
+        <div class="detail-form__item">
+          <div class="detail-form__label text-secondary">生日</div>
+          <div class="detail-form__content text-title customerBirthday">--</div>
+        </div>
+        <div class="detail-form__item">
+          <div class="detail-form__label text-secondary">专属导购</div>
+          <div class="detail-form__content text-title customerGuideName">--</div>
+        </div>
+        <div class="detail-form__item">
+          <div class="detail-form__label text-secondary">淘宝用户名</div>
+          <div class="detail-form__content text-title customerTbNick">--</div>
+        </div>
+        <div class="detail-form__item">
+          <div class="detail-form__label text-secondary">京东用户名</div>
+          <div class="detail-form__content text-title customerJdNick">--</div>
+        </div>
+        <div class="detail-form__item">
+          <div class="detail-form__label text-secondary">有赞用户名</div>
+          <div class="detail-form__content text-title customerYzNick">--</div>
+        </div>
+        <div class="detail-form__item">
+          <div class="detail-form__label text-secondary">会员印象</div>
+          <div class="detail-form__content text-title customerRemark">--</div>
+          <div class="detail-form__addon"><img src="./src/icons/icon-edit-fill.svg" alt="编辑"></div>
+        </div>
+      </div>
+      <!-- 基本信息 end  -->
+      <!-- 客户财富 start  -->
+      <div class="detail-subtitle">客户财富</div>
+      <div class="card detail-form font-size-base customerMsg">
+        <div class="detail-form__item">
+          <div class="detail-form__label text-secondary">优惠券</div>
+          <div class="detail-form__content text-title customerUsable">--</div>
+        </div>
+      </div>
+      <!-- 客户财富 end  -->
     </div>
   </div>
+  <div class="customer-no-vip" hide>
+<!--    <div class="page-status-bar text-center">-->
+<!--      <div class="state-bar__cancel text-secondary">取消</div>-->
+<!--      <span class="text-title font-weight-medium">不是会员</span>-->
+<!--    </div>-->
+    <!-- 顶部状态栏 end -->
 
-  <!-- 基本信息 start  -->
-  <div class="detail-subtitle">基本信息</div>
-  <div class="card detail-form font-size-base">
-    <div class="detail-form__item">
-      <div class="detail-form__label text-secondary">姓名</div>
-      <div class="detail-form__content text-title customerName">--</div>
+    <!-- 不是会员 start -->
+    <div class="page-container page-container--no-data">
+      <img src="./src/images/not-vip.png" alt="not-vip">
+      <div class="text-secondary font-size-small line-height-small customer-errormsg">此会员不是会员，无法查看客户资料~</div>
     </div>
-    <div class="detail-form__item">
-      <div class="detail-form__label text-secondary">电话</div>
-      <div class="detail-form__content text-title customerPhone">--</div>
-      <div class="detail-form__addon"><img src="./src/icons/icon-telephone-fill.svg" alt="手机"></div>
-    </div>
-    <div class="detail-form__item">
-      <div class="detail-form__label text-secondary">VIP等级</div>
-      <div class="detail-form__content text-title customerGradeName">--</div>
-    </div>
-    <div class="detail-form__item">
-      <div class="detail-form__label text-secondary">微信号</div>
-      <div class="detail-form__content text-title customerWechatNo">--</div>
-    </div>
-    <div class="detail-form__item">
-      <div class="detail-form__label text-secondary">生日</div>
-      <div class="detail-form__content text-title customerBirthday">--</div>
-    </div>
-    <div class="detail-form__item">
-      <div class="detail-form__label text-secondary">淘宝用户名</div>
-      <div class="detail-form__content text-title customerTbNick">--</div>
-    </div>
-    <div class="detail-form__item">
-      <div class="detail-form__label text-secondary">京东用户名</div>
-      <div class="detail-form__content text-title customerJdNick">--</div>
-    </div>
-    <div class="detail-form__item">
-      <div class="detail-form__label text-secondary">有赞用户名</div>
-      <div class="detail-form__content text-title customerYzNick">--</div>
-    </div>
-    <div class="detail-form__item">
-      <div class="detail-form__label text-secondary">会员印象</div>
-      <div class="detail-form__content text-title">--</div>
-      <div class="detail-form__addon"><img src="./src/icons/icon-edit-fill.svg" alt="编辑"></div>
-    </div>
-
+    <!-- 不是会员 end -->
   </div>
-  <!-- 基本信息 end  -->
-
-  <!-- 客户财富 start  -->
-  <div class="detail-subtitle">客户财富</div>
-  <div class="card detail-form font-size-base customerMsg">
-    <div class="detail-form__item">
-      <div class="detail-form__label text-secondary">优惠券</div>
-      <div class="detail-form__content text-title customerUsable">0</div>
-    </div>
-    <div class="detail-form__item">
-      <div class="detail-form__label text-secondary">优惠券</div>
-      <div class="detail-form__content text-title">76516</div>
-    </div>
-
-  </div>
-  <!-- 客户财富 end  -->
-</div>
 <script type="text/javascript" src="/mobile/js/jquery-3.4.1.min.js"></script>
 <script type="text/javascript" src="../js/common.js"></script>
 <script>
@@ -108,22 +127,45 @@
     }).then(function (result) {
       if (result.success) {
         $(".customerImg").attr("src",result.result.customerHeadImage)
+        $(".customerWechatNick").html(checkParams(result.result.wechatNick))
         $(".customerName").html(checkParams(result.result.customerName))
+        $(".customerMemberCard").html(checkParams(result.result.memberCard))
+        $(".customerGuideName").html(checkParams(result.result.guideName))
         if (result.result.sex == -1) {
           $(".customerBoy").hide()
           $(".customerGirl").hide()
+          $(".customerSex").html("未知")
         }else if (result.result.sex == 0) {
           $(".customerBoy").hide()
           $(".customerGirl").show()
+          $(".customerSex").html("女")
         }else if (result.result.sex == 1) {
           $(".customerBoy").show()
           $(".customerGirl").hide()
+          $(".customerSex").html("男")
         }
         $(".customerPhone").html(checkParams(result.result.mobile))
+        if (result.result.mobile != '' && result.result.mobile != null){
+          $(".customer-phone").show()
+        }
         $(".customerGradeName").html(checkParams(result.result.gradeName))
         $(".customerWechatNo").html(checkParams(result.result.wechatNo))
         $(".customerBirthday").html(checkParams(result.result.birthday))
+        let platformInfos = result.result.platformInfos;
+        for (let i = 0; i < platformInfos.length; i++) {
+          let platformInfo = platformInfos[i];
+          if (platformInfo.platform == 1){//淘宝类型
+            $(".customerTbNick").html(checkParams(platformInfo.outNick))
+          }
+          if (platformInfo.platform == 3){//京东类型
+            $(".customerJdNick").html(checkParams(platformInfo.outNick))
+          }
+          if (platformInfo.platform == 11){//有赞类型
+            $(".customerYzNick").html(checkParams(platformInfo.outNick))
+          }
+        }
         $(".customerUsable").html(result.result.usable)
+        $(".customerRemark").html(checkParams(result.result.customerRemark))
         let integralMsg = result.result.integralMsg;
         for (var i = 0;i < integralMsg.length;i++){
           let integral = integralMsg[i]
@@ -135,7 +177,9 @@
         }
       } else {
         // 跳转错误页
-        toError()
+        $(".customer-detail").hide()
+        $(".customer-errormsg").html(result.result.msg)
+        $(".customer-no-vip").show()
       }
     })
   }

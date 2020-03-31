@@ -5,506 +5,58 @@
   <meta name="viewport"
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0,minimum-scale=1.0,user-scalable=0"/>
   <title>客户标签</title>
-<!--  <link rel="stylesheet" type="text/css" href="./src/index.css">-->
+  <link rel="stylesheet" type="text/css" href="./src/index.css">
 </head>
-<style>
-  /* 新版本样式 */
-  /* 全局初始化 */
-  * {
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-    margin: 0;
-    outline: none;
-  }
-
-  *:before, *:after {
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box
-  }
-
-  html, body {
-    margin: 0 auto;
-    padding: 0;
-    overflow: hidden;
-    height: 100%;
-    font-family: "PingFang SC", Verdana, "Helvetica Neue", "Microsoft Yahei", "Hiragino Sans GB", "Microsoft Sans Serif", "WenQuanYi Micro Hei", "sans-serif";
-  }
-
-  body,
-  input, textarea, select, button,
-  .checkbox-pretty span, .radio-pretty span {
-    font-family: "PingFang SC", Verdana, "Helvetica Neue", "Microsoft Yahei", "Hiragino Sans GB", "Microsoft Sans Serif", "WenQuanYi Micro Hei", "sans-serif";
-  }
-
-  body {
-    position: relative;
-    min-height: 100%;
-    font-size: 12px;
-    line-height: 20px;
-    font-weight: 400;
-    color: #595959;
-    background: #f2f2f2;
-  }
-
-  textarea::-webkit-input-placeholder { /* WebKit, Blink, Edge */
-    color:  #BFBFBF;
-  }
-  :-moz-placeholder { /* Mozilla Firefox 4 to 18 */
-    color:  #BFBFBF;
-  }
-  ::-moz-placeholder { /* Mozilla Firefox 19+ */
-    color:  #BFBFBF;
-  }
-  input:-ms-input-placeholder { /* Internet Explorer 10-11 */
-    color: #BFBFBF;
-  }
-  textarea::-ms-input-placeholder { /* Microsoft Edge */
-    color: #BFBFBF;
-  }
-
-  .hide {
-    display: none !important;
-  }
-
-  .text-center {
-    text-align: center;
-  }
-
-  .text-title {
-    color: #262626;
-  }
-  .text-primary {
-    color: #595959;
-  }
-  .text-secondary {
-    color: #8C8C8C;
-  }
-  .text-disable {
-    color: #BFBFBF;
-  }
-  .text-border {
-    color: #D9D9D9;
-  }
-  .text-link {
-    color: #1876FC;
-  }
-
-  .color-divider {
-    color: #EEEEEE;
-  }
-
-  /* font-size */
-  .font-size-small {
-    font-size: 14px;
-  }
-  .font-size-base {
-    font-size: 15px;
-  }
-  .font-size-large {
-    font-size: 16px;
-  }
-
-  /* line-height */
-  .line-height-mini {
-    line-height: 21px;
-  }
-  .line-height-small {
-    line-height: 22px;
-  }
-  .line-height-base {
-    line-height: 23px;
-  }
-
-  .font-weight-medium {
-    font-weight: 500;
-  }
-
-  .bg-white {
-    background-color: #FFF;
-  }
-
-  /* 顶部状态栏 */
-  .page-status-bar {
-    padding: 14px 15px;
-    font-size: 16px;
-    line-height: 22px;
-    position: relative;
-  }
-  .page-status-bar .state-bar__cancel {
-    position: absolute;
-    left: 15px;
-  }
-
-  /* 容器 start */
-  .page-container {
-    padding: 5px 10px 15px;
-    height: calc(100vh - 50px);
-    overflow: auto;
-  }
-  .page-container.page-container--no-data {
-    padding: 30px 10px;
-    text-align: center;
-  }
-  .page-container.page-container--no-data > img {
-    width: 100%;
-    margin-bottom: 10px;
-  }
-  /* 容器 end */
-
-  .card {
-    background-color: #FFF;
-    border-radius: 5px;
-  }
-  .card + .card {
-    margin-top: 10px;
-  }
-
-  /* 浮层 */
-  .float-layout {}
-
-  .float-layout .float-layout__mask {
-    position: fixed;
-    z-index: 10;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    opacity: 1;
-    background: rgba(38, 38, 38, .5);
-    transition: all ease 0s;
-  }
-  .float-layout.hidden .float-layout__mask {
-    z-index: -1;
-    opacity: 0;
-    transition-delay: .2s;
-  }
-  .float-layout .float-layout__main {
-    position: fixed;
-    z-index: 11;
-    bottom: 0;
-    width: 100%;
-    max-height: 504px;
-    background-color: #FFF;
-    overflow: hidden;
-    transition: all ease-in-out .3s;
-  }
-  .float-layout.hidden .float-layout__main {
-    max-height: 0;
-  }
-  .float-layout .float-layout__title {
-    display: flex;
-    justify-content: space-between;
-    padding: 14px 15px 12px;
-    font-size: 16px;
-    color: #262626;
-    line-height: 24px;
-  }
-  .float-layout .float-layout__content {
-    max-height: 454px;
-    width: 100%;
-    overflow: auto;
-  }
-
-  /* 浮层 输入框 start */
-  .float-textarea {
-    padding: 5px 15px 20px;
-  }
-  .float-textarea > textarea {
-    padding: 10px;
-    height: 80px;
-    width: 100%;
-    resize: none;
-    font-size: 15px;
-    line-height: 22px;
-    background-color: #F2F2F2;
-    border: none;
-  }
-  /* 浮层 输入框 end */
-
-  /* 浮层 复选 start */
-  .float-checkbox {
-    padding: 15px 5px 5px 15px;
-    font-size: 0;
-  }
-  .float-checkbox .float-checkbox__item {
-    display: inline-block;
-    margin: 0 10px 10px 0;
-    padding: 6px 10px;
-    border-radius: 2px;
-    background-color: #F9F9F9;
-    font-size: 13px;
-    color: #595959;
-  }
-  .float-checkbox .float-checkbox__item.float-checkbox__item--selected {
-    background-color: #E6F4FF;
-    color: #1876FC;
-  }
-  .float-checkbox .float-checkbox__item.float-checkbox__item--disabled {
-    background-color: rgba(249,249,249,0.60);
-    color: #BFBFBF;
-  }
-  .float-checkbox .float-checkbox__item.float-checkbox__item--selected.float-checkbox__item--disabled {
-    background-color: rgba(230,244,255,0.60);
-    color: rgba(24,118,252,0.60);
-  }
-  /* 浮层 复选 end */
-  /* 浮层 单选 start */
-  .float-select {
-    padding-left: 16px;
-  }
-  .float-select .float-select__item {
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 14px 15px 12px 0;
-  }
-  .float-select .float-select__item + .float-select__item::before {
-    content: ' ';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 1px;
-    background-color: #E8E8E8;
-  }
-
-  .float-select .float-select__content {
-    flex: 1;
-    font-size: 16px;
-    color: #262626;
-    line-height: 24px;
-  }
-  .float-select .float-select__item.float-select__item--disabled .float-select__content {
-    color: #BFBFBF;
-  }
-  .float-select .float-select__icon {
-    display: none;
-    width: 22px;
-    height: 22px;
-  }
-  .float-select .float-select__item.float-select__item--selected .float-select__icon {
-    display: block;
-  }
-
-  /* 浮层 单选 end */
-
-  /* 客户详情 start */
-  .detail-subtitle {
-    padding: 11px 5px 3px;
-    font-size: 13px;
-    color: #8C8C8C;
-    line-height: 21px;
-  }
-
-  .detail-head {
-    display: flex;
-    padding: 21px 20px;
-  }
-  .detail-head .detail-head__avatar {
-    width: 54px;
-    height: 54px;
-    margin-right: 10px;
-    border-radius: 50%;
-    overflow: hidden;
-  }
-  .detail-head .detail-head__avatar > img {
-    width: 100%;
-  }
-  .detail-head .detail-head__info {
-    display: flex;
-    align-items: center;
-  }
-  .detail-head .detail-head__icon {
-    width: 17px;
-    height: 17px;
-  }
-
-  .detail-form {}
-  .detail-form .detail-form__item {
-    position: relative;
-    display: flex;
-    padding: 15px 14px;
-  }
-  .detail-form .detail-form__item + .detail-form__item::before {
-    content: ' ';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 1px;
-    background-color: #E8E8E8;
-  }
-  .detail-form .detail-form__label {
-    width: 106px;
-  }
-  .detail-form .detail-form__content {
-    flex: 1;
-    margin-left: 21px;
-  }
-  .detail-form .detail-form__addon {
-    width: 20px;
-    height: 20px;
-    margin-left: 10px;
-    margin-right: 1px;
-  }
-
-  /* 客户详情 end */
-
-  /* 客户标签 start */
-  .tag {
-    display: inline-block;
-    margin: 0 10px 10px 0;
-    padding: 4px 10px;
-    background-color: #F9F9F9;
-    color: #595959;
-    font-size: 12px;
-    letter-spacing: 0;
-    line-height: 16px;
-    border-radius: 2px
-  }
-  .tag.tag--primary {
-    color: #FFF;
-    background-color: #1876FC;
-  }
-
-  .tag-list {
-    padding: 15px 10px 5px 15px;
-  }
-  .tag-list--nodata {
-    height: 88px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #595959;
-  }
-  .tag-list--nodata > img {
-    width: 16px;
-    margin-right: 5px;
-  }
-
-  .tag-details {}
-  .tag-details .tag-details__item {
-    position: relative;
-    padding-top: 14px;
-    padding-left: 15px;
-  }
-  .tag-details .tag-details__item + .tag-details__item::before {
-    content: ' ';
-    position: absolute;
-    top: 0;
-    left: 15px;
-    right: 0;
-    height: 1px;
-    background-color: #E8E8E8;
-  }
-  .tag-details .tag-details__title {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 13px;
-    padding-right: 15px;
-    font-size: 15px;
-    line-height: 23px;
-  }
-  .tag-details .tag-details__edit {
-    font-size: 13px;
-    line-height: 21px;
-  }
-  .tag-details .tag-details__tags {
-    padding-right: 5px;
-    padding-bottom: 2px;
-  }
-  /* 客户标签 end */
-
-  /* 日期选择器样式覆盖 */
-  .rolldate-panel header {
-    text-align: left;
-    padding: 14px 15px 12px;
-    font-size: 16px !important;
-    color: #262626;
-    line-height: 24px !important;
-    border: none !important;
-    font-weight: 500;
-  }
-
-  .rolldate-panel header .rolldate-confirm {
-    height: auto;
-    top: 50%;
-    color: #1876FC;
-    font-weight: 400;
-    transform: translateY(-50%);
-  }
-  .rolldate-panel header .rolldate-cancel {
-    display: none;
-  }
-
-</style>
 <body>
 <!-- 顶部状态栏 start -->
-<div class="page-status-bar text-center">
-  <div class="state-bar__cancel text-secondary">取消</div>
-  <span class="text-title font-weight-medium">客户标签</span>
-</div>
+<!--<div class="page-status-bar text-center">-->
+<!--  <div class="state-bar__cancel text-secondary">取消</div>-->
+<!--  <span class="text-title font-weight-medium">客户标签</span>-->
+<!--</div>-->
 <!-- 顶部状态栏 end -->
+<div class="customer-tag">
+  <div class="page-container">
+    <!-- 上方标签列表 start -->
+    <div class="card tag-list" hidden>
+    </div>
 
-<div class="page-container">
-  <!-- 上方标签列表 start -->
-  <div class="card tag-list">
+    <!-- 无数据 通过hide类名控制显隐 -->
+    <div class="card tag-list--nodata" hidden>
+      <img src="./src/icons/icon-face-cry.svg" alt="哭脸">
+      暂无客户标签
+    </div>
+    <!-- 上方标签列表 start -->
+
+    <div class="card tag-details">
+    </div>
   </div>
 
-  <!-- 无数据 通过hide类名控制显隐 -->
-  <div class="card tag-list--nodata hide">
-    <img src="./src/icons/icon-face-cry.svg" alt="哭脸">
-    暂无客户标签
-  </div>
-  <!-- 上方标签列表 start -->
-
-  <div class="card tag-details">
-    <div class="tag-details__item">
-      <div class="tag-details__title">
-        <div class="text-title font-weight-medium">姓名</div>
-        <div class="tag-details__edit text-link">编辑</div>
+  <div class="float-layout hidden">
+    <div class="float-layout__mask"></div>
+    <div class="float-layout__main">
+      <div class="float-layout__title">
+        <div class="font-weight-medium title">标题</div>
+        <div class="text-link float-layout__save">保存</div>
       </div>
-      <div class="tag-details__tags">
-        <div class="tag"></div>
+
+      <div class="float-layout__content">
       </div>
     </div>
   </div>
 </div>
+<div class="customer-error" hide>
+  <!--    <div class="page-status-bar text-center">-->
+  <!--      <div class="state-bar__cancel text-secondary">取消</div>-->
+  <!--      <span class="text-title font-weight-medium">不是会员</span>-->
+  <!--    </div>-->
+  <!-- 顶部状态栏 end -->
 
-<div class="float-layout hidden">
-  <div class="float-layout__mask"></div>
-  <div class="float-layout__main">
-    <div class="float-layout__title">
-      <div class="font-weight-medium">标题</div>
-      <div class="text-link float-layout__save">保存</div>
-    </div>
-
-    <div class="float-layout__content">
-      <!-- 输入框 -->
-<!--      <div class="float-textarea hide">-->
-<!--        <textarea name="" placeholder="请输入客户姓名"></textarea>-->
-<!--      </div>-->
-      <!-- 单选 -->
-      <div class="float-select hide">
-        <div class="float-select__item">
-          <div class="float-select__content"><input type="radio" name="aaa" value="选项二">选项二</div>
-          <img class="float-select__icon" src="./src/icons/icon-radio.svg" alt="radio">
-        </div>
-        <div class="float-select__item">
-          <div class="float-select__content"><input type="radio" name="aaa" value="选项二">选项三</div>
-          <img class="float-select__icon" src="./src/icons/icon-radio.svg" alt="radio">
-        </div>
-        <div class="float-select__item">
-          <div class="float-select__content"><input type="radio" name="aaa" value="选项二">选项四</div>
-          <img class="float-select__icon" src="./src/icons/icon-radio.svg" alt="radio">
-        </div>
-      </div>
-    </div>
+  <!-- 不是会员 start -->
+  <div class="page-container page-container--no-data">
+    <img src="./src/images/not-vip.png" alt="not-vip">
+    <div class="text-secondary font-size-small line-height-small customer-errormsg"></div>
   </div>
+  <!-- 不是会员 end -->
 </div>
 <script src="./src/lib/jquery-1.7.1.min.js"></script>
 <script src="./src/lib/rolldate.min.js"></script>
@@ -519,9 +71,6 @@
   $('.float-layout__save').click(function () {
     $('.float-layout').addClass('hidden')
   })
-  const toError = (type = 3, message = '') => {
-    window.location.href = '/mobile/coutomer/forbidden.html'
-  }
   window.onload = function () {
     getCustomerTag()
   }
@@ -529,18 +78,26 @@
     var appendHtml = {}
     let wxId = getPar('wxId')
     let chatId = getPar('chatId')
-    var customerId = null  // 客户Id
-    var shopId = null      // 店铺Id
-    var groupId = null     // 集团Id
-    var tagcode = null       // 标签Id
+    var customerId = null   // 客户Id
+    var platfrom = null     // 平台Id
+    var nick = null         // 平台对应唯一标识
+    var shopId = null       // 店铺Id
+    var groupId = null      // 集团Id
+    var tagcode = null      // 标签Id
+    var tagName = null      // 标签名称
+    var chooseTagType = null  // 选择标签类型
     this.ajax(backstageURL() + '/guideCustomer/customerTag', {
       wxId: wxId,
       chatId: chatId,
     }).then(function (result) {
       if (result.success) {
-        // debugger
         // 客户已有标签
         let propertyInfoVos = result.result.propertyInfoVos
+        let platformInfos = result.result.platformInfos
+        if(platformInfos.length > 0){
+          platfrom = platformInfos[0].platform
+          nick = platformInfos[0].outNick
+        }
         customerId = result.result.customerId
         shopId = result.result.shopId
         groupId = result.result.groupId
@@ -552,7 +109,7 @@
           $(".tag-list").show()
           for (var i = 0; i < propertyInfoVos.length; i++) {
             let propertyInfoVo = propertyInfoVos[i]
-            var html = '<div class="tag tag&#45;&#45;primary">' + propertyInfoVo.name + ':' + propertyInfoVo.value + '</div>'
+            var html = '<div class="tag tag&#45;&#45;primary customer_'+propertyInfoVo.tagArr+'">' + propertyInfoVo.name + ':' + propertyInfoVo.value + '</div>'
             $(".tag-list").append(html)
           }
         }
@@ -571,46 +128,232 @@
               showClass = "text-disable"
             }
             showClass = "text-link"
-
             var html
             // 判断标签类型
-            if (tagType==1 || tagType==2 || tagType==3 || tagType==5) {//字符文本框
+            if (tagType==1) {//字符文本框
               html = "<div class='tag-details__item'>" +
                     "      <div class='tag-details__title'>" +
                     "        <div class='text-title font-weight-medium'>"+propertyInfo.name+"</div>" +
-                    "        <div class='tag-details__edit "+showClass+"'>编辑</div>" +
-                    "      </div>" +
-                    "    </div>"
+                    "        <div class='tag-details__edit_"+id+" "+showClass+"' attr='"+id+"' tagAttr='"+propertyInfo.tagArr+"' tagName='"+propertyInfo.name+"' tagType='"+tagType+"'>编辑</div>" +
+                    "      </div>"
+              //获取已选标签
+              let tagged = ''
+              for (var j = 0; j < propertyInfoVos.length; j++) {
+                let propertyInfoVo = propertyInfoVos[j]
+                if (propertyInfo.tagArr == propertyInfoVo.tagArr){
+                  tagged =  propertyInfoVo.value
+                  html += '<div class="tag-details__tags">'+
+                            '<div class="tag">'+tagged+'</div>'+
+                          '</div>'
+                }
+              }
+              html +=  "</div>"
+              //渲染标签编辑弹窗
+              var popupHtml = "<div class=' float-select_"+id+"'  attr='"+id+"'>"+
+                              '<div class="float-textarea">'+
+                              '<textarea class="input_user_name" type="text" name="tagValue" placeholder="请输入文本">'+tagged+'</textarea>'+
+                              '</div>'+
+                              '</div>'
+                  popupHtml += "</div>"
+              appendHtml[id] = popupHtml
+            } else if (tagType==2) {//数字文本框
+              html = "<div class='tag-details__item'>" +
+                "      <div class='tag-details__title'>" +
+                "        <div class='text-title font-weight-medium'>"+propertyInfo.name+"</div>" +
+                "        <div class='tag-details__edit_"+id+" "+showClass+"' attr='"+id+"' tagAttr='"+propertyInfo.tagArr+"' tagName='"+propertyInfo.name+"' tagType='"+tagType+"'>编辑</div>" +
+                "      </div>"
+              //获取已选标签
+              let tagged = ''
+              for (var j = 0; j < propertyInfoVos.length; j++) {
+                let propertyInfoVo = propertyInfoVos[j]
+                if (propertyInfo.tagArr == propertyInfoVo.tagArr){
+                  tagged =  propertyInfoVo.value
+                  html += '<div class="tag-details__tags">'+
+                            '<div class="tag">'+tagged+'</div>'+
+                          '</div>'
+                }
+              }
+              html +=  "</div>"
+              //渲染标签编辑弹窗
+              var popupHtml = "<div class=' float-select_"+id+"'  attr='"+id+"'>"+
+                '<div class="float-textarea">'+
+                '<input type="text" class="input_number"  name="tagValue" value="'+tagged+'" oninput="value=value.replace(/[^\\d]/g,\'\')" placeholder="请输入数字"/>'+
+                '</div>'+
+                '</div>'
+              popupHtml += "</div>"
+              appendHtml[id] = popupHtml
+            } else if (tagType==3) {//小数文本框
+              html = "<div class='tag-details__item'>" +
+                "      <div class='tag-details__title'>" +
+                "        <div class='text-title font-weight-medium'>"+propertyInfo.name+"</div>" +
+                "        <div class='tag-details__edit_"+id+" "+showClass+"' attr='"+id+"' tagAttr='"+propertyInfo.tagArr+"' tagName='"+propertyInfo.name+"' tagType='"+tagType+"'>编辑</div>" +
+                "      </div>"
+              //获取已选标签
+              let tagged = ''
+              for (var j = 0; j < propertyInfoVos.length; j++) {
+                let propertyInfoVo = propertyInfoVos[j]
+                if (propertyInfo.tagArr == propertyInfoVo.tagArr){
+                  tagged =  propertyInfoVo.value
+                  html += '<div class="tag-details__tags">'+
+                              '<div class="tag">'+tagged+'</div>'+
+                          '</div>'
+                }
+              }
+              html +=  "</div>"
+              //渲染标签编辑弹窗
+              var popupHtml = "<div class=' float-select_"+id+"'  attr='"+id+"'>"+
+                '<div class="float-textarea">'+
+                '<input type="text" class="input_number" name="tagValue" value="'+tagged+'" oninput="value=value.replace(/[^0-9\\.]/g,\'\')" placeholder="请输入小数"/>'+
+                '</div>'+
+                '</div>'
+              popupHtml += "</div>"
+              appendHtml[id] = popupHtml
+            } else if (tagType==5) {//日期框
+              html = "<div class='tag-details__item'>" +
+                "      <div class='tag-details__title'>" +
+                "        <div class='text-title font-weight-medium'>"+propertyInfo.name+"</div>" +
+                "        <div class='tag-details__edit_"+id+" "+showClass+"' attr='"+id+"' tagAttr='"+propertyInfo.tagArr+"' tagName='"+propertyInfo.name+"' tagType='"+tagType+"'>编辑</div>" +
+                "      </div>"
+              //获取已选标签
+              let tagged = ''
+              for (var j = 0; j < propertyInfoVos.length; j++) {
+                let propertyInfoVo = propertyInfoVos[j]
+                if (propertyInfo.tagArr == propertyInfoVo.tagArr){
+                  tagged =  propertyInfoVo.value
+                  tagged = tagged.substr(0,10)
+                  html += '<div class="tag-details__tags">'+
+                            '<div class="tag">'+tagged+'</div>'+
+                          '</div>'
+                }
+              }
+              html +=  "</div>"
+              //渲染标签编辑弹窗
+              var popupHtml = "<div class=' float-select_"+id+"'  attr='"+id+"'>"+
+                '<div class="float-textarea">'+
+                '<input type="date" class="input_date" name="tagValue" value="'+tagged+'" placeholder=""/>'+
+                '</div>'+
+                '</div>'
+              popupHtml += "</div>"
+              appendHtml[id] = popupHtml
             } else if (tagType == 4) {//选择框
+              var popupHtml = ''
               html = "<div class='tag-details__item'>" +
                 "      <div class='tag-details__title'>" +
                 "        <div class='text-title font-weight-medium'>"+propertyInfo.name+"</div>" +
-                "        <div class='tag-details__edit "+showClass+"''>编辑</div>" +
-                "      </div>" +
-                "    </div>"
-            } else if (tagType == 6 || tagType == 7) {//单选框
-              var popupHtml = "<div class='float-select float-select_"+id+"'>"
-              html = "<div class='tag-details__item'>" +
-                "      <div class='tag-details__title'>" +
-                "        <div class='text-title font-weight-medium'>"+propertyInfo.name+"</div>" +
-                "        <div class='tag-details__edit_"+id+" "+showClass+"'  attr='"+id+"' tagAttr='"+propertyInfo.tagArr+"'>编辑</div>" +
+                "        <div class='tag-details__edit_"+id+" "+showClass+"'  attr='"+id+"' tagAttr='"+propertyInfo.tagArr+"' tagName='"+propertyInfo.name+"' tagType='"+tagType+"'>编辑</div>" +
                 "      </div>" +
                 "      <div class='tag-details__tags'>"
               let value = propertyInfo.value
               let split = value.split("|");
+              popupHtml += "<div class='float-select float-select_"+id+"'>"
               for (let j = 1; j < split.length - 1; j++) {
-                html += "<div class='tag'>"+split[j]+"</div>";
-                if (tagType == 6){
-                  popupHtml += "<div class='float-select__item'>" +
-                      "          <div class='float-select__content'><input type='radio' name='chooseTag' value='"+split[j]+"'>"+split[j]+"</div>" +
-                      "          <img class='float-select__icon' src='./src/icons/icon-radio.svg' alt='radio'>\n" +
-                      "        </div>"
-                } else if (tagType == 7) {
-                  popupHtml += "<div class='float-select__item'>" +
-                    "          <div class='float-select__content'><input type='checkbox' name='chooseTag' value='"+split[j]+"'>"+split[j]+"</div>" +
-                    "          <img class='float-select__icon' src='./src/icons/icon-radio.svg' alt='radio'>\n" +
-                    "        </div>"
+                //获取已选标签
+                let bool = false
+                for (var m = 0; m < propertyInfoVos.length; m++) {
+                  let propertyInfoVo = propertyInfoVos[m]
+                  if (propertyInfo.tagArr != propertyInfoVo.tagArr){
+                    continue
+                  }
+                  if (propertyInfoVo.value == split[j]){
+                    bool= true
+                  }
                 }
+                if (bool){
+                  html += "<div class='tag float-checkbox__item--selected'>"+split[j]+"</div>";
+                  popupHtml += "<div class='float-select__item float-select__item--selected'>" +
+                    "<div class='float-select__content'><input type='radio' class='input_radio' name='chooseTag' value='"+split[j]+"' checked>"+split[j]+"</div>"+
+                    "<img class='float-select__icon' hide src='./src/icons/icon-radio.svg' alt='radio'>"+
+                    "</div>"
+                }else {
+                  html += "<div class='tag'>"+split[j]+"</div>";
+                  popupHtml += "<div class='float-select__item'>" +
+                    "<div class='float-select__content'><input type='radio' class='input_radio' name='chooseTag' value='"+split[j]+"'>"+split[j]+"</div>"+
+                    "<img class='float-select__icon' hide src='./src/icons/icon-radio.svg' alt='radio'>"+
+                    "</div>"
+                }
+              }
+              html+="      </div>" +
+                "    </div>"
+              popupHtml += "</div>"
+              appendHtml[id] = popupHtml
+            } else if (tagType == 6) {//单选框
+              var popupHtml = ''
+              html = "<div class='tag-details__item'>" +
+                "      <div class='tag-details__title'>" +
+                "        <div class='text-title font-weight-medium'>"+propertyInfo.name+"</div>" +
+                "        <div class='tag-details__edit_"+id+" "+showClass+"'  attr='"+id+"' tagAttr='"+propertyInfo.tagArr+"' tagName='"+propertyInfo.name+"' tagType='"+tagType+"'>编辑</div>" +
+                "      </div>" +
+                "      <div class='tag-details__tags'>"
+              let value = propertyInfo.value
+              let split = value.split("|");
+              popupHtml += "<div class='float-select float-select_"+id+"'>"
+              for (let j = 1; j < split.length - 1; j++) {
+                //获取已选标签
+                let bool = false
+                for (var m = 0; m < propertyInfoVos.length; m++) {
+                  let propertyInfoVo = propertyInfoVos[m]
+                  if (propertyInfo.tagArr != propertyInfoVo.tagArr){
+                    continue
+                  }
+                  if (propertyInfoVo.value == split[j]){
+                    bool= true
+                  }
+                }
+                if (bool){
+                  html += "<div class='tag float-checkbox__item--selected'>"+split[j]+"</div>";
+                  popupHtml += "<div class='float-select__item float-select__item--selected'>" +
+                                  "<div class='float-select__content'><input type='radio' class='input_radio' name='chooseTag' value='"+split[j]+"' checked>"+split[j]+"</div>"+
+                                  "<img class='float-select__icon' hide src='./src/icons/icon-radio.svg' alt='radio'>"+
+                              "</div>"
+                }else {
+                  html += "<div class='tag'>"+split[j]+"</div>";
+                  popupHtml += "<div class='float-select__item'>" +
+                                  "<div class='float-select__content'><input type='radio' class='input_radio' name='chooseTag' value='"+split[j]+"'>"+split[j]+"</div>"+
+                                  "<img class='float-select__icon' hide src='./src/icons/icon-radio.svg' alt='radio'>"+
+                              "</div>"
+                }
+              }
+              html+="      </div>" +
+                    "    </div>"
+              popupHtml += "</div>"
+              appendHtml[id] = popupHtml
+            }else if (tagType == 7) {//复选框
+              var popupHtml = ''
+              html = "<div class='tag-details__item'>" +
+                "      <div class='tag-details__title'>" +
+                "        <div class='text-title font-weight-medium'>"+propertyInfo.name+"</div>" +
+                "        <div class='tag-details__edit_"+id+" "+showClass+" '  attr='"+id+"' tagAttr='"+propertyInfo.tagArr+"' tagName='"+propertyInfo.name+"' tagType='"+tagType+"'>编辑</div>" +
+                "      </div>" +
+                "      <div class='tag-details__tags'>"
+              let value = propertyInfo.value
+              let split = value.split("|");
+              popupHtml += "<div class='float-checkbox float-select_"+id+"'>"
+              for (let j = 1; j < split.length - 1; j++) {
+                  //获取已选标签
+                  let bool = false
+                  for (var m = 0; m < propertyInfoVos.length; m++) {
+                    let propertyInfoVo = propertyInfoVos[m]
+                    if (propertyInfo.tagArr != propertyInfoVo.tagArr){
+                      continue
+                    }
+                    let propertyInfos = propertyInfoVo.value.split("|")
+                    for (let k = 0; k < propertyInfos.length; k++) {
+                      if (propertyInfos[k] == split[j]){
+                        bool= true
+                      }
+                    }
+                  }
+                  if (bool){
+                    html += "<div class='tag float-checkbox__item--selected'>"+split[j]+"</div>";
+                    popupHtml += "<div class='float-checkbox__item float-checkbox__item--selected'>" +
+                                    "<input class='input_checkbox' type='checkbox' name='chooseTag' value='"+split[j]+"' checked>"+split[j]+
+                                  "</div>"
+                  }else {
+                    html += "<div class='tag'>"+split[j]+"</div>";
+                    popupHtml += "<div class='float-checkbox__item'>" +
+                                    "<input class='input_checkbox' type='checkbox' name='chooseTag' value='"+split[j]+"'>"+split[j]+
+                                  "</div>"
+                  }
               }
               html+="      </div>" +
                     "    </div>"
@@ -618,44 +361,84 @@
               appendHtml[id] = popupHtml
             }
             $(".tag-details").append(html)
-            // 编辑弹窗
+            // 编辑按钮
             $('.tag-details__edit_'+id).click(function () {
               $('.float-layout').removeClass('hidden')
               let attr = this.getAttribute('attr')
               let tagAttr = this.getAttribute('tagAttr')
+              chooseTagType = this.getAttribute('tagType')
+              tagName = this.getAttribute('tagName')
+              $(".title").html(tagName)
               tagcode = tagAttr
               $(".float-layout__content").html(appendHtml[attr])
+              $('.input_radio').click(function(){
+                $('input[type = radio]').parent('div').parent('div').children('img').hide()
+                $(this).parent('div').parent('div').children('img').show()
+              })
+              $('.input_checkbox').click(function(){
+                let checked = $(this).is(':checked')
+                if (checked){
+                  $(this).parent('div').addClass("float-checkbox__item--selected")
+                }else {
+                  $(this).parent('div').removeClass("float-checkbox__item--selected")
+                }
+              })
             })
           }
-          // 保存
+          // 保存会员标签
           $('.float-layout__save').click(function () {
-            let chooseTag = $("input[name='chooseTag']")
-            let check_val = []
-            for (k in chooseTag) {
-              if (chooseTag[k].checked)
-                check_val.push(chooseTag[k].value);
-            }
-            if (check_val.length > 0){
-              var data = {
-                groupId: groupId,
-                shopId: shopId,
-                customerId: customerId,
-                tagcode: tagcode,
-                tag: check_val.join("|")
+            let tagValue
+            if (chooseTagType=="1") {//字符文本框
+              let val = $('textarea[name="tagValue"]').val();
+              if (val.trim().length > 0){
+                tagValue = val
               }
-              $.ajax({
-                url: backstageURL() + '/guideCustomer/saveCustomerTag',
-                type: 'post',
-                dataType: 'JSON',
-                data: JSON.stringify(data),
-                method: "post",
-                contentType: "application/json;charset=UTF-8",
-                success: function (res) {
-                },
-                error: function (res) {
-                }
-              });
+            } else if (chooseTagType=="2" || chooseTagType=="3" || chooseTagType=="5") {//字符文本框
+              let val = $('input[name="tagValue"]').val();
+              if (val.trim().length > 0){
+                tagValue = val
+              }
+            } else if (chooseTagType == "4" || chooseTagType == "6" || chooseTagType == "7") {//单选框或复选框
+              let chooseTag = $("input[name='chooseTag']")
+              let check_val = []
+              for (k in chooseTag) {
+                if (chooseTag[k].checked)
+                  check_val.push(chooseTag[k].value);
+              }
+              if (check_val.length > 0) {
+                tagValue = check_val.join("|")
+              }
             }
+            if (tagValue){
+            }
+            // 保存会员标签
+            var data = {
+              groupId: groupId,
+              shopId: shopId,
+              platfrom: platfrom,
+              nick: nick,
+              tagcode: tagcode,
+              tag: tagValue
+            }
+            $.ajax({
+              url: backstageURL() + '/guideCustomer/saveCustomerTag',
+              type: 'post',
+              dataType: 'JSON',
+              data: JSON.stringify(data),
+              method: "post",
+              contentType: "application/json;charset=UTF-8",
+              success: function (res) {
+                let hasClass = $('div').hasClass("customer_"+tagcode);
+                if (hasClass){
+                  $(".customer_"+tagcode).html(tagName+":"+tagValue);
+                } else {
+                  var html = '<div class="tag tag&#45;&#45;primary customer_'+tagcode+'">' + tagName + ':' + tagValue + '</div>'
+                  $(".tag-list").append(html)
+                }
+              },
+              error: function (res) {
+              }
+            });
             $('.float-layout').addClass('hidden')
             $(".float-layout__content").html('')
           })
@@ -665,7 +448,10 @@
         }
       } else {
         // 跳转错误页
-        toError()
+        // 跳转错误页
+        $(".customer-tag").hide()
+        $(".customer-errormsg").html(result.result.msg)
+        $(".customer-error").show()
       }
     })
   }
