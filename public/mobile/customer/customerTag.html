@@ -74,18 +74,19 @@
   window.onload = function () {
     getCustomerTag()
   }
+  var appendHtml = {}
+  let wxId = getPar('wxId')
+  let chatId = getPar('chatId')
+  var customerId = null   // 客户Id
+  var platfrom = null     // 平台Id
+  var nick = null         // 平台对应唯一标识
+  var shopId = null       // 店铺Id
+  var groupId = null      // 集团Id
+  var tagcode = null      // 标签Id
+  var tagName = null      // 标签名称
+  var chooseTagType = null  // 选择标签类型
+  //获取客户已打标签
   function getCustomerTag() {
-    var appendHtml = {}
-    let wxId = getPar('wxId')
-    let chatId = getPar('chatId')
-    var customerId = null   // 客户Id
-    var platfrom = null     // 平台Id
-    var nick = null         // 平台对应唯一标识
-    var shopId = null       // 店铺Id
-    var groupId = null      // 集团Id
-    var tagcode = null      // 标签Id
-    var tagName = null      // 标签名称
-    var chooseTagType = null  // 选择标签类型
     this.ajax(backstageURL() + '/guideCustomer/customerTag', {
       wxId: wxId,
       chatId: chatId,
@@ -113,6 +114,26 @@
             $(".tag-list").append(html)
           }
         }
+        getGroupTag()
+      }
+    })
+  }
+  //获取集团标签标签
+  function getGroupTag() {
+    this.ajax(backstageURL() + '/guideCustomer/customerTag', {
+      wxId: wxId,
+      chatId: chatId,
+    }).then(function (result) {
+      if (result.success) {
+        let propertyInfoVos = result.result.propertyInfoVos
+        let platformInfos = result.result.platformInfos
+        if(platformInfos.length > 0){
+          platfrom = platformInfos[0].platform
+          nick = platformInfos[0].outNick
+        }
+        customerId = result.result.customerId
+        shopId = result.result.shopId
+        groupId = result.result.groupId
         // 店铺标签列表
         let propertyInfos = result.result.propertyInfos
         if (propertyInfos.length > 1){
@@ -150,9 +171,9 @@
               html +=  "</div>"
               //渲染标签编辑弹窗
               var popupHtml = "<div class=' float-select_"+id+"'  attr='"+id+"'>"+
-                              '<div class="float-textarea">'+
-                              '<textarea class="input_user_name" type="text" name="tagValue" placeholder="请输入文本">'+tagged+'</textarea>'+
-                              '</div>'+
+                                '<div class="float-textarea">'+
+                                  '<textarea class="input_user_name" type="text" name="tagValue" placeholder="请输入文本">'+tagged+'</textarea>'+
+                                '</div>'+
                               '</div>'
                   popupHtml += "</div>"
               appendHtml[id] = popupHtml
@@ -435,10 +456,12 @@
                   var html = '<div class="tag tag&#45;&#45;primary customer_'+tagcode+'">' + tagName + ':' + tagValue + '</div>'
                   $(".tag-list").append(html)
                 }
+                $(".tag-details").html('')
               },
               error: function (res) {
               }
             });
+            getGroupTag()
             $('.float-layout').addClass('hidden')
             $(".float-layout__content").html('')
           })
