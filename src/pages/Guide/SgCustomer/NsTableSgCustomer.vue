@@ -12,13 +12,12 @@
     <!-- el-inpu 需添加  @keyup.enter.native="$quickSearchAction$" 配置，实现回车搜索 -->
     <template slot="searchSearch">
       <el-form :model="model" :inline="true" @submit.native.prevent class="pull-right">
-        <el-form-item v-show="_data._queryConfig.expand === false" label="旧导购姓名：">
-          <el-input ref="quickText" style="width: 200px" v-model="model.outGuideName" placeholder="请输入旧导购" @keyup.enter.native="$searchAction$()" clearable><!-- $quickSearchAction$('outGuideName') -->
+        <el-form-item v-show="_data._queryConfig.expand === false" label="操作人：">
+          <el-input ref="quickText" style="width: 200px" v-model="model.dealUserName" placeholder="请输入操作人姓名" @keyup.enter.native="$searchAction$()" clearable><!-- $quickSearchAction$('outGuideName') -->
           </el-input>
           <ns-button type="primary" @click="$searchAction$()" class="searchbtn" >搜索</ns-button><!-- @keyup.enter.native="$searchAction$()" -->
           <ns-button @click="$resetInputAction$()" class="resetbtn">重置</ns-button>
         </el-form-item>
-
         <el-form-item>
           <ns-button type="text" @click="$handleTabClick">
             {{collapseText}}
@@ -33,17 +32,11 @@
     <!-- el-form 需添加  @keyup.enter.native="onSearch" 配置，实现回车搜索， onSearch 为搜索方法 -->
     <!-- el-form 需添加  surround-btn 类名 配置环绕按钮效果 -->
     <template slot="advancedSearch" v-if="_data._queryConfig.expand">
-      <el-form ref="table_filter_form" label-width="80px" @keyup.enter.native="onSearch" class="surround-btn"
+      <el-form ref="table_filter_form" label-width="80px" @keyup.enter.native="$searchAction$()" class="surround-btn"
                :model="model" :rules="rules" :inline="true">
-        <el-form-item label="旧导购：">
+        <el-form-item label="操作人：">
           <el-form-grid size="xmd">
-            <el-input  type="text" v-model="model.outGuideName" placeholder="请输入旧导购姓名" clearable>
-            </el-input>
-          </el-form-grid>
-        </el-form-item>
-        <el-form-item label="新导购：">
-          <el-form-grid size="xmd">
-            <el-input  type="text" v-model="model.intoGuideName" placeholder="请输入新导购姓名" clearable>
+            <el-input  type="text" v-model="model.dealUserName" placeholder="请输入操作人姓名" clearable>
             </el-input>
           </el-form-grid>
         </el-form-item>
@@ -97,41 +90,34 @@
                 stripe
                 resizable v-loading.lock="_data._table.loadingtable"
                 :element-loading-text="$t('prompt.loading')" @sort-change="$orderChange$">
-
-        <el-table-column :show-overflow-tooltip="true" type="default" prop="outGuideName" align="left"
-                         label="旧导购" :sortable="false" width="200">
-          <template slot-scope="scope">
-            {{scope.row.outGuideName}}
-          </template>
+        <el-table-column :show-overflow-tooltip="true" type="default" prop="dealUserName" align="left"
+                         label="操作人姓名" :sortable="false" width="180">
         </el-table-column>
-        <el-table-column :show-overflow-tooltip="true" type="default" prop="outGuideName" align="left"
-                         label="新导购" :sortable="false" width="200">
-          <template slot-scope="scope">
-            {{scope.row.intoGuideName || '-'}}
-          </template>
+        <el-table-column :show-overflow-tooltip="true" type="default" prop="dealUserId" align="right"
+                         label="操作人ID" :sortable="false" width="160">
         </el-table-column>
         <el-table-column :show-overflow-tooltip="true" type="default" prop="transferNum" align="right"
-                         label="转移人数" :sortable="false" width="80">
+                         label="转移人数" :sortable="false" width="150">
           <template slot-scope="scope">
             <a href="javascript:" @click="showListDialog(scope.row.transferId)">{{scope.row.transferNum}}</a>
           </template>
         </el-table-column>
         <el-table-column :show-overflow-tooltip="true" type="default" prop="transferType" align="left"
-                         label="转移类型" :sortable="false" width="160">
+                         label="转移类型" :sortable="false" width="200">
           <template slot-scope="scope">
             <span v-if="scope.row.transferType == 0">
               后台客户列表转移
             </span>
-            <span v-if="scope.row.transferType == 1">
+            <span v-else-if="scope.row.transferType == 1">
               员工更换门店
             </span>
-            <span v-if="scope.row.transferType == 2">
+            <span v-else-if="scope.row.transferType == 2">
               员工离职
             </span>
-            <span v-if="scope.row.transferType == 3">
+            <span v-else-if="scope.row.transferType == 3">
               店长会员转移
             </span>
-            <span v-if="scope.row.transferType == 4">
+            <span v-else-if="scope.row.transferType == 4">
               商城会员自主转移
             </span>
             <span v-else>
@@ -139,11 +125,8 @@
             </span>
           </template>
         </el-table-column>
-        <el-table-column :show-overflow-tooltip="true" type="default" prop="dealUserId" align="right"
-                         label="操作人ID" :sortable="false">
-        </el-table-column>
         <el-table-column :show-overflow-tooltip="true" type="default" prop="transferTime" align="center"
-                         label="转移时间" :sortable="false" width="200">
+                         label="转移时间" :sortable="false" >
         </el-table-column>
       </el-table>
     </template>
@@ -162,8 +145,8 @@
         <div style="overflow-x:hidden;overflow-y:auto;">
           <el-table :data="customerData" v-loading.lock="detailLoadingTable"
                 :element-loading-text="$t('prompt.loading')">
-            <el-table-column prop="name" label="姓名" align="center" width="200"></el-table-column>
-            <el-table-column prop="sex" label="性别" align="center" width="150">
+            <el-table-column prop="name" label="姓名" align="center" width="100"></el-table-column>
+            <el-table-column prop="sex" label="性别" align="center" width="80">
               <template slot-scope="scope">
                 <span v-if="scope.row.sex == 0">
                   女
@@ -176,11 +159,17 @@
                 </span>
               </template>
             </el-table-column>
-            <el-table-column prop="mobile" label="手机号" align="center" width="200">
+            <el-table-column prop="mobile" label="手机号" align="center" width="120">
               <template slot-scope="scope">{{scope.row.mobile?scope.row.mobile:'-'}}</template>
             </el-table-column>
-            <el-table-column prop="memberCard" label="会员卡号" align="center" width="200">
+            <el-table-column prop="memberCard" label="会员卡号" align="center" width="150">
               <template slot-scope="scope">{{scope.row.memberCard?scope.row.memberCard:'-'}}</template>
+            </el-table-column>
+            <el-table-column prop="outGuideName" label="原导购" align="center" width="180">
+              <template slot-scope="scope">{{scope.row.outGuideName?scope.row.outGuideName:'-'}} [{{scope.row.outShopName?scope.row.outShopName:'-'}}]</template>
+            </el-table-column>
+            <el-table-column prop="intoGuideName" label="新导购" align="center" width="180">
+              <template slot-scope="scope">{{scope.row.intoGuideName?scope.row.intoGuideName:'-'}} [{{scope.row.intoShopName?scope.row.intoShopName:'-'}}]</template>
             </el-table-column>
           </el-table>
         </div>

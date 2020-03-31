@@ -3,7 +3,7 @@
  * @Author: yuye.huang
  * @Date: 2020-02-29 20:52:53
  * @LastEditors: yuye.huang
- * @LastEditTime: 2020-03-25 13:52:50
+ * @LastEditTime: 2020-03-31 16:29:01
  -->
 <template>
   <ns-page-table ref='mainTable'><!-- :colButton="10" -->
@@ -15,15 +15,18 @@
     </template>
 
     <!-- 简单搜索 -->
+    <!-- el-form 需添加 @submit.native.prevent 配置 -->
+    <!-- el-inpu 需添加  @keyup.enter.native="$quickSearchAction$" 配置，实现回车搜索 -->
     <template slot="searchSearch">
       <el-form
+        @submit.native.prevent
         :model="quickSearchModel"
         class="pull-right" :inline="true">
         <el-form-item v-show="_data._queryConfig.expand === false">
             <el-input ref="quickText"
               v-model="model.content"
               placeholder="请输入欢迎语内容"
-              clearable style="width: 180px" @keyup.enter.native="$quickSearchAction$('content')" /> <!--  -->
+              style="width: 180px" @keyup.enter.native="$quickSearchAction$('content')" clearable/> <!--  -->
               <ns-button type="primary" @click="$searchAction$()" class="searchbtn">搜索</ns-button>
               <ns-button @click="$resetInputAction$()" class="resetbtn">重置</ns-button>
         </el-form-item>
@@ -38,16 +41,18 @@
     </template>
 
     <!-- 高级搜索 -->
+    <!-- el-form 需添加  @keyup.enter.native="onSearch" 配置，实现回车搜索， onSearch 为搜索方法 -->
+    <!-- el-form 需添加  surround-btn 类名 配置环绕按钮效果 -->
     <template slot="advancedSearch" v-if="_data._queryConfig.expand">
-      <el-form ref="table_filter_form" :model="model" label-width="80px" :inline="true">
+      <el-form ref="table_filter_form" :model="model" label-width="80px" :inline="true" @keyup.enter.native="$searchAction$()">
         <el-form-item label="欢迎语内容：">
           <el-form-grid size="xmd">
-            <el-input style="width:180px" autofocus=true v-model="model.content" placeholder="请输入欢迎语内容" clearable></el-input>
+            <el-input style="width:180px" autofocus=true v-model.trim="model.content" placeholder="请输入欢迎语内容" clearable></el-input>
           </el-form-grid>
         </el-form-item>
         <el-form-item label="附件类型：">
           <el-form-grid size="xmd">
-            <el-select v-model="model.annexType" placeholder="请选择">
+            <el-select v-model.trim="model.annexType" placeholder="请选择" clearable>
               <el-option
                 v-for="(value, key) in annexType.Collection"
                 :key="key"
@@ -60,12 +65,12 @@
         </el-form-item>
         <el-form-item label="员工：">
           <el-form-grid size="xmd">
-            <el-input style="width:180px" v-model="model.employeeName" placeholder="请输入员工名称"></el-input>
+            <el-input style="width:180px" v-model.trim="model.employeeName" placeholder="请输入员工名称" clearable></el-input>
           </el-form-grid>
         </el-form-item>
         <el-form-item label="渠道：">
           <el-form-grid size="xmd">
-            <el-input style="width:180px" v-model.trim="model.channelName" placeholder="请输入渠道名称"></el-input>
+            <el-input style="width:180px" v-model.trim="model.channelName" placeholder="请输入渠道名称" clearable></el-input>
           </el-form-grid>
         </el-form-item>
       </el-form>
