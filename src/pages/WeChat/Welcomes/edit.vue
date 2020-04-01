@@ -56,7 +56,7 @@
                     <ElInput
                       placeholder="请输入员工姓名"
                       suffix-icon="el-icon-search"
-                      v-model="tree.select" class="code-space">
+                      v-model="treeSelect" class="code-space">
                     </ElInput>
                     <ElScrollbar>
                       <ElTree
@@ -65,7 +65,7 @@
                         show-checkbox
                         :filter-node-method="selectFilterNode"
                         node-key="id"
-                        :default-expand-all="true"
+                        :default-expand-all="false"
                         :default-checked-keys="tree.selectKeys"
                         :default-expanded-keys="tree.selectedData"
                         @check="check"
@@ -82,13 +82,14 @@
                     <ElInput
                       placeholder="请输入员工姓名"
                       suffix-icon="el-icon-search"
-                      v-model="tree.selected" class="code-space">
+                      v-model="treeSelected" class="code-space">
                     </ElInput>
                     <ElScrollbar>
                       <ElTree
                         :data="tree.selectedData"
                         ref="selectedTree"
                         node-key="id"
+                        :filter-node-method="selectFilterNode"
                         :expand-on-click-node="false" class="code-space">
                         <span class="code-detail clearfix" slot-scope="{ node, data }">
                           <span class="code-detail__text">{{ node.label }}</span>

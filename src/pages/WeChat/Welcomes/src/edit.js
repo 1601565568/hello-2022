@@ -18,6 +18,8 @@ export default {
       input: '',
       // 弹框是否打开判断值
       dialogVisible: false,
+      treeSelect: '',
+      treeSelected: '',
       // 员工树
       tree: {
         // 左边树默认绑定数据
@@ -52,13 +54,29 @@ export default {
     saveOrUpdateWelcomes () {
       this.loading = true
       let that = this
+      let employeeIds = this.initSelectedData()
+      if (!that.title) {
+        that.$notify.error('标题不能为空')
+        this.loading = false
+        return
+      }
+      if (!employeeIds) {
+        that.$notify.error('请选择员工')
+        this.loading = false
+        return
+      }
+      if (this.publishData.length === 0) {
+        that.$notify.error('欢迎语不能为空')
+        this.loading = false
+        return
+      }
       if (this.publishData.length > 10) {
-        that.$notify.error('消息超过10条')
+        that.$notify.error('欢迎语不能超过10条')
+        this.loading = false
         return
       }
       // 附带内容json
       let content = JSON.stringify(this.publishData)
-      let employeeIds = this.initSelectedData()
       let model = {
         title: that.title,
         content: encodeURIComponent(content),
@@ -111,7 +129,8 @@ export default {
       this.setSelectedData()
     },
     selectFilterNode (query, item) {
-      return item.label.indexOf(query) > -1
+      if (!query) return true
+      return item.label.indexOf(query) !== -1
     },
     setSelectedData () {
       this.tree.selectedData = []
@@ -201,5 +220,11 @@ export default {
     }
   },
   watch: {
+    treeSelect (val) {
+      this.$refs.selectTree.filter(val)
+    },
+    treeSelected (val) {
+      this.$refs.selectedTree.filter(val)
+    }
   }
 }
