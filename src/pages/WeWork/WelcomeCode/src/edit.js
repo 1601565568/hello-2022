@@ -92,6 +92,21 @@ export default {
       presetLink: []
     }
   },
+  computed: {
+    /**
+     * @msg: 获取字数，后续改成computed
+     * 出现一次占位符 + N字数
+     * count += [占位符字符] * (占位符代替字数 - 占位符字符串字数)
+     * @return: 返回输入字数
+     */
+    wordCount () {
+      let count = this.model.content.length
+      // 出现一次占位符 + N字数
+      count += (this.model.content.split('{EmployeeNick}').length - 1) * (10 - 14)
+      count += (this.model.content.split('{CustomerNick}').length - 1) * (10 - 14)
+      return count
+    }
+  },
   mounted () {
     // 获取渠道列表 todo 异步问题
     this.$http.fetch(this.$api.weWork.welcomeCode.findChannelList).then((resp) => {
@@ -113,7 +128,7 @@ export default {
       return data.label.indexOf(value) !== -1
     },
     /**
-     * @msg: 插入占位符
+     * @msg: 插入占位符 {EmployeeNick} {CustomerNick}
      * @param {String} 占位符类型
      */
     insertPlaceHolder (append) {
@@ -409,6 +424,10 @@ export default {
      */
     saveOrUpdate: function () {
       let that = this
+      if (that.wordCount > 100) {
+        that.$message.error('欢迎语超过最大可输入字数!')
+        return
+      }
       let annexContent = {}
       if (that.model.annexType === 1) {
         annexContent.image = that.model.image
@@ -427,7 +446,6 @@ export default {
       }
       // 附带内容json
       that.model.annexContent = JSON.stringify(annexContent)
-
       that.$refs.form.validate(valid => {
         if (!valid) {
           return
