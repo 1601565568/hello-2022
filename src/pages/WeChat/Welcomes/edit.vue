@@ -17,7 +17,7 @@
                       />
                     </ElFormGrid>
                   </ElFormItem>
-                  <ElFormItem label="选择营销人群：" required>
+                  <ElFormItem label="选择营销人群：">
                     <el-form-grid>
                       <ns-button type='text' @click="choosePersonnel">+ 选择员工</ns-button>
                     </el-form-grid>

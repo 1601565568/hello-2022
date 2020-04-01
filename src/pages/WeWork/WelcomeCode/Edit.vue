@@ -38,7 +38,7 @@
                             type="text"
                             @click="insertPlaceHolder('{EmployeeNick}')"
                           >
-                            +插入客户企微姓名
+                            +插入企业微信员工姓名
                           </ns-button>
                         </ElFormGrid>
                         <ElFormGrid>
@@ -46,7 +46,7 @@
                             type="text"
                             @click="insertPlaceHolder('{CustomerNick}')"
                           >
-                            +插入员工企微姓名
+                            +插入客户微信昵称
                           </ns-button>
                         </ElFormGrid>
                     </ElFormItem>
@@ -452,7 +452,7 @@
               <el-input v-model.trim="appModel.path" />
             </el-form-grid>
           </el-form-item>
-          <el-form-item
+          <!-- <el-form-item
             label="备用网页："
             prop="link"
             :rules="commonRules.link"
@@ -460,7 +460,7 @@
             <el-form-grid size="xmd">
               <el-input v-model.trim="appModel.link" />
             </el-form-grid>
-          </el-form-item>
+          </el-form-item> -->
         </template>
         <template>
           <el-form-item
@@ -486,11 +486,11 @@
             <el-input v-model.trim="appModel.title" />
           </el-form-grid>
         </el-form-item>
-        <el-form-item label="文案：" prop="desc" :rules="commonRules.desc">
+        <!-- <el-form-item label="文案：" prop="desc" :rules="commonRules.desc">
           <el-form-grid size="xmd">
             <el-input v-model.trim="appModel.desc" />
           </el-form-grid>
-        </el-form-item>
+        </el-form-item> -->
         <el-form-item label="封面图：" prop="image" :rules="commonRules.image">
           <el-form-grid class="company-upload">
             <el-upload

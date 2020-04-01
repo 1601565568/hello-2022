@@ -60,11 +60,6 @@ export default {
         this.loading = false
         return
       }
-      if (!employeeIds) {
-        that.$notify.error('请选择员工')
-        this.loading = false
-        return
-      }
       if (this.publishData.length === 0) {
         that.$notify.error('欢迎语不能为空')
         this.loading = false
