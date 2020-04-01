@@ -5,6 +5,7 @@ import bgimg from './images/bgimage.png'
 import posterPreview from './images/posterPreview.png'
 import qrcode from './images/qrcode.png'
 export default {
+  components: { Image },
   data: function () {
     let pagination = {
       enable: true,
@@ -437,14 +438,22 @@ export default {
     qrcodeLink (row) { // 修改和新增功能
       this.row = row
       if (row) {
-        this.row = row
-        var hostUrl = window.location.protocol + '//' + window.location.host
-        this.personalQrcodeLink = hostUrl + '/mobile/aggregationCode.html?guid=' + row.guid + '&groupId=' + row.groupid
-        this.onShowId = row.id
-        if (row.bgimg === '' || row.bgimg === null) {
-          this.bgpic = bgimg
-        } else {
-          this.bgpic = row.bgimg
+        if (this.memberManagePlan === 1) {
+          if (row.qrcode_url === '' || row.qrcode_url === null) {
+            this.personalQrcodeLink = bgimg
+          } else {
+            this.personalQrcodeLink = row.qrcode_url
+          }
+        } else if (this.memberManagePlan === 2) {
+          this.row = row
+          var hostUrl = window.location.protocol + '//' + window.location.host
+          this.personalQrcodeLink = hostUrl + '/mobile/aggregationCode.html?guid=' + row.guid + '&groupId=' + row.groupid
+          this.onShowId = row.id
+          if (row.bgimg === '' || row.bgimg === null) {
+            this.bgpic = bgimg
+          } else {
+            this.bgpic = row.bgimg
+          }
         }
         if (row) {
           this.title = '聚合二维码'
@@ -552,6 +561,13 @@ export default {
           }
         })
       }
+    },
+    downLodeQyQrcode () {
+      var a = document.createElement('a')
+      a.download = name || '背景图'
+      // 设置图片地址
+      a.href = this.personalQrcodeLink
+      a.click()
     },
     disabled (shopId) {
       let retVal = this.guideShopList.some(item => {

@@ -10,9 +10,9 @@
             {{ title }}
           </div>
           <div class="form-grid__content">
-            <el-form-item label="聚合码名称：" required  size="xxs">
+            <el-form-item label="聚合码名称：" maxlength="30" required  size="xxs">
               <el-form-grid>
-                <el-input  autofocus=true v-model="personalQrcode.name" placeholder="" clearable></el-input>
+                <el-input  autofocus=true v-model="personalQrcode.name" placeholder="长度不超过30个字" clearable></el-input>
               </el-form-grid>
             </el-form-item>
             <el-form-item label="聚合码类型：" required>
@@ -28,6 +28,9 @@
               <el-form-grid>
                 <ns-button type='text' @click="choosePersonnel(personalQrcode.type)">+ 选择{{QrCodeTypeNames[personalQrcode.type]}}</ns-button>
               </el-form-grid>
+              <ElFormGrid>
+                已选择<span class="text-primary">{{tableData.length}}</span>个员工
+              </ElFormGrid>
             </el-form-item>
             <ElFormItem>
               <div class="message-detail" >
@@ -60,7 +63,7 @@
                 </ElTable>
               </div>
             </ElFormItem>
-            <el-form-item label="渠道设置：" v-if="memberManagePlan == 1" required>
+            <el-form-item label="渠道设置：" v-if="memberManagePlan == 1">
               <el-form-grid>
 <!--                <ns-button type='text' @click="chooseChannel()">+选择渠道</ns-button>-->
                 <el-select v-model="personalQrcode.channelCode" filterable placeholder="请选择">
@@ -83,11 +86,11 @@
                 </el-form-item>
               </el-form-grid>
             </el-form-item>
-            <el-form-item label="验证信息关键字：" v-if="memberManagePlan == 1 && personalQrcode.isvalidate == 2" required>
-              <el-form-grid>
-                <el-input   style="width:400px;" maxlength="50" type="textarea" autofocus=true v-model="personalQrcode.keyword" placeholder="请输入验证信息关键字，关键字之间用英文逗号割开，最多输入50个关键字" clearable></el-input>
-              </el-form-grid>
-            </el-form-item>
+<!--            <el-form-item label="验证信息关键字：" v-if="memberManagePlan == 2 && personalQrcode.isvalidate == 2" required>-->
+<!--              <el-form-grid>-->
+<!--                <el-input   style="width:400px;" maxlength="50" type="textarea" autofocus=true v-model="personalQrcode.keyword" placeholder="请输入验证信息关键字，关键字之间用英文逗号割开，最多输入50个关键字" clearable></el-input>-->
+<!--              </el-form-grid>-->
+<!--            </el-form-item>-->
             <el-form-item label="子码展示方式：" v-if="memberManagePlan == 2" required>
               <el-form-grid size="xxmd">
                 <el-form-item prop="sex">
@@ -113,7 +116,7 @@
             <ElInput
               placeholder="请输入员工姓名"
               suffix-icon="el-icon-search"
-              v-model="tree.select" class="code-space">
+              v-model="treeSelect" @click="initEmpTree()" class="code-space">
             </ElInput>
             <div class="scoll_left">
               <ElScrollbar>
