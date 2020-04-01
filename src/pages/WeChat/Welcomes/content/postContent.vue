@@ -104,258 +104,49 @@
     </div>
 
     <!-- 文字弹框 start -->
-    <ElDialog
-      width="600px"
-      title="文字"
-      :visible.sync="dialogVisibleText"
-      :show-scroll-x=false>
-      <div>
-        <ElForm label-width="100px" >
-          <ElInput
-            type="textarea"
-            :rows="4"
-            placeholder="请输入内容"
-            v-model="textModel.content" />
-        </ElForm>
-        <ElFormItem>
-          <ElFormGrid>
-            <ElPopover trigger="hover" placement="bottom">
-              <VEmojiPicker :pack="pack" @select="selectEmoji" style="height: 200px;"/>
-              <NsButton type="text" slot="reference"><Icon type="biaoqing" className="font-size-large cursor-pointer" /></NsButton>
-            </ElPopover>
-          </ElFormGrid>
-          <ElFormGrid>
-            <ns-button class="font-size-large cursor-pointer" type="text" @click="insertPlaceHolderToText('{customerNick}')"> &lt;好友微信昵称&gt; </ns-button>
-          </ElFormGrid>
-          <ElFormGrid>
-            <ns-button class="font-size-large cursor-pointer" type="text" @click="insertPlaceHolderToText('{employeeName}')"> &lt;员工姓名&gt; </ns-button>
-          </ElFormGrid>
-        </ElFormItem>
-      </div>
-      <span slot="footer">
-        <NsButton @click="dialogVisibleText = false">{{$t('operating.cancel')}}</NsButton>
-        <NsSave @click="addText"/>
-      </span>
-    </ElDialog>
+    <textDialog @addText="addText" @close="close" :dialogVisibleText="dialogVisibleText" :textModel="textModel"/>
     <!-- 文字弹框 end -->
 
     <!-- 图片弹框 start -->
-    <ElDialog
-      width="300px"
-      height="300px"
-      :visible.sync="dialogVisibleImage"
-      :show-scroll-x=false>
-      <div class="margin-lr-small">
-        <ElForm>
-          <ElUpload
-            :action="this.$api.core.sgUploadFile('message')"
-            :show-file-list="false"
-            :on-success="handleAvatarSuccessImageEdit"
-            :before-upload="beforeAvatarUpload">
-            <img v-if="imageModel.content" :src="imageModel.content" width="250px" height="260px">
-            <Icon type="plus" className="message-upload__tip" v-else/>
-          </ElUpload>
-        </ElForm>
-      </div>
-    </ElDialog>
+    <imageDialog @handleAvatarSuccessImageEdit="handleAvatarSuccessImageEdit"  @close="close" :dialogVisibleImage="dialogVisibleImage" :imageModel="imageModel"/>
     <!-- 图片弹框 end -->
 
     <!-- 视频弹框 start -->
-    <ElDialog
-      width="400px"
-      :visible.sync="dialogVisibleVideo"
-      :show-scroll-x=false class="message-videodialog">
-      <div>
-        <!-- 视频上传 -->
-        <ElUpload name="file" class="avatar-uploader el-upload--text"
-          :action="this.$api.core.sgUploadFile('message')"
-          :show-file-list="false"
-          accept=".mp4"
-          :on-success="handleVideoSuccessVideoEdit"
-          :before-upload="beforeUploadVideo">
-          <video v-if="videoModel.content !=''"
-             :src="videoModel.content"
-             class="avatar video-avatar"
-             controls="controls">您的浏览器不支持视频播放</video>
-          <NsButton class="video-btn"
-             slot="trigger"
-             v-if="isShowUploadVideo"
-             type="primary">选取文件</NsButton>
-        </ElUpload>
-        <P v-if="isShowUploadVideo"
-           class="text">请保证视频格式正确，且不超过20M
-        </P>
-      </div>
-    </ElDialog>
+    <videoDialog @handleVideoSuccessVideoEdit="handleAvatarSuccessImageEdit"  @close="close" :dialogVisibleVideo="dialogVisibleVideo" :videoModel="videoModel"/>
     <!-- 视频弹框 end -->
 
     <!-- 链接弹框 start -->
-    <ElDialog
-      width="600px"
-      title="链接"
-      :visible.sync="dialogVisibleWeb"
-      :show-scroll-x=false>
-      <div class="margin-lr-small">
-        <ElForm>
-          <ElFormItem>
-            <div class="message-headling">网站地址：</div>
-          </ElFormItem>
-          <ElFormItem label="链接：" required label-width="100px">
-            <el-form-grid size="xxmd">
-              <el-form-item prop="sex">
-                <el-radio-group v-model="presetLinkSwitch">
-                  <el-radio :label="2">自定义链接</el-radio>
-                  <el-radio :label="1">系统预置链接</el-radio>
-                </el-radio-group>
-              </el-form-item>
-            </el-form-grid>
-          </ElFormItem>
-          <ElFormItem label="网页地址：" v-if="presetLinkSwitch===2" required  label-width="100px" >
-            <ElInput
-              type="text"
-              placeholder="请输入网页"
-              v-model="linkModel.url"
-            />
-          </ElFormItem>
-          <ElFormItem label="" v-if="presetLinkSwitch===2" label-width="100px" >
-            <ElFormGrid>
-              <ns-button type="text" @click="insertPlaceHolderToWeb('{groupId}')"> &lt;集团ID&gt; </ns-button>
-            </ElFormGrid>
-            <ElFormGrid>
-              <ns-button type="text" @click="insertPlaceHolderToWeb('{chatId}')"> &lt;好友微信ID&gt; </ns-button>
-            </ElFormGrid>
-            <ElFormGrid>
-              <ns-button type="text" @click="insertPlaceHolderToWeb('{wxId}')"> &lt;导购微信ID&gt; </ns-button>
-            </ElFormGrid>
-          </ElFormItem>
-          <ElFormItem label="选择链接：" v-if="presetLinkSwitch===1" required  label-width="100px" >
-            <el-form-grid size="md">
-              <el-select v-model="linkModel.selectIndex" placeholder="请选择" @change='systemPresetChange' clearable>
-              <el-option v-for="item in presetLink"
-                         :key="item.id"
-                         :label="item.title"
-                         :value="item.id">
-              </el-option>
-            </el-select>
-            </el-form-grid>
-          </ElFormItem>
-          <ElFormItem>
-            <div class="message-headling">网站展示：</div>
-          </ElFormItem>
-          <ElFormItem label="标题：" required label-width="100px" >
-            <ElInput
-              type="text"
-              placeholder="请输入标题"
-              v-model="linkModel.title"
-            />
-          </ElFormItem>
-          <ElFormItem label="文案：" required  label-width="100px" >
-            <ElInput
-              type="text"
-              placeholder="请输入文案"
-              v-model="linkModel.description"
-            />
-          </ElFormItem>
-          <ElFormItem label="封面图：" required  label-width="100px" >
-            <ElUpload
-              :action="this.$api.core.sgUploadFile('message')"
-              :show-file-list="false"
-              :on-success="handleAvatarSuccess"
-              :before-upload="beforeAvatarUpload" class="message-upload">
-              <img v-if="imageUrl" :src="imageUrl" class="message-upload__avatar">
-              <Icon type="plus" className="message-upload__tip" v-else/>
-            </ElUpload>
-          </ElFormItem>
-        </ElForm>
-      </div>
-      <span slot="footer">
-        <NsButton @click="dialogVisibleWeb = false">{{$t('operating.cancel')}}</NsButton>
-        <NsSave @click="addWeb"/>
-      </span>
-    </ElDialog>
+    <linkDialog @addWeb="addWeb"  @close="close" :presetLink="presetLink" :dialogVisibleWeb="dialogVisibleWeb" :linkModel="linkModel"/>
     <!-- 链接弹框 end -->
 
     <!-- 小程序弹框 start -->
-    <ElDialog
-      width="600px"
-      title="小程序"
-      :visible.sync="dialogVisibleApplet"
-      :show-scroll-x=false>
-      <div class="margin-lr-small">
-        <ElForm>
-          <ElFormItem>
-            <div class="message-headling">跳转小程序：</div>
-          </ElFormItem>
-          <ElFormItem label="小程序原始Id：" required label-width="100px" >
-            <ElInput
-              type="text"
-              placeholder="请输入小程序原始Id"
-              v-model="appletModel.woaId"
-            />
-          </ElFormItem>
-          <ElFormItem label="小程序appId：" required label-width="100px" >
-            <ElInput
-              type="text"
-              placeholder="请输入appId"
-              v-model="appletModel.weappid"
-            />
-          </ElFormItem>
-          <ElFormItem label="小程序路径：" required  label-width="100px" >
-            <ElInput
-              type="text"
-              placeholder="请输入路径"
-              v-model="appletModel.page"
-            />
-          </ElFormItem>
-          <ElFormItem>
-            <div class="message-headling">小程序卡片展示：</div>
-          </ElFormItem>
-          <ElFormItem label="标题：" required label-width="100px" >
-            <ElInput
-              type="text"
-              placeholder="请输入标题"
-              v-model="appletModel.title"
-            />
-          </ElFormItem>
-          <ElFormItem label="封面图：" required  label-width="100px" >
-            <ElUpload
-              :action="this.$api.core.sgUploadFile('message')"
-              :show-file-list="false"
-              :on-success="handleAvatarSuccess"
-              :before-upload="beforeAvatarUpload" class="message-upload">
-              <img v-if="imageUrl" :src="imageUrl" class="message-upload__avatar">
-              <Icon type="plus" className="message-upload__tip" v-else/>
-            </ElUpload>
-          </ElFormItem>
-        </ElForm>
-      </div>
-      <span slot="footer">
-        <NsButton @click="dialogVisibleApplet=false">{{$t('operating.cancel')}}</NsButton>
-        <NsSave @click="addApplet"/>
-      </span>
-    </ElDialog>
+    <appletDialog @addApplet="addApplet"  @close="close" :dialogVisibleApplet="dialogVisibleApplet" :appletModel="appletModel"/>
     <!-- 小程序弹框 end -->
   </div>
 </template>
 <script>
 import ElUpload from '@nascent/nui/lib/upload'
 import ElImage from '@nascent/nui/lib/image'
-import VEmojiPicker from 'v-emoji-picker'
-import packData from './../json/emojis.json'
+import textDialog from '../dialog/text'
+import imageDialog from '../dialog/image'
+import videoDialog from '../dialog/video'
+import linkDialog from '../dialog/link'
+import appletDialog from '../dialog/applet'
 export default {
   components: {
     ElUpload,
     ElImage,
-    VEmojiPicker
+    textDialog,
+    imageDialog,
+    videoDialog,
+    linkDialog,
+    appletDialog
   },
   props: ['publishDataFather', 'presetLinkFather'],
   data () {
     return {
       // 是否可再添加消息
       disabled: false,
-      // 表情包数据
-      pack: packData,
-      videoUploadPercent: '',
       isShowUploadVideo: false,
       // 操作
       tableButtons: [
@@ -374,7 +165,6 @@ export default {
       ],
       index: null, // 编辑的列表位置
       presetLink: this.presetLinkFather, // 系统预制链接
-      presetLinkSwitch: 2, // 系统预制链接开关
       // 链接弹框上传图片的路径
       imageUrl: '',
       // 视频弹框的视频地址
@@ -424,6 +214,7 @@ export default {
       },
       appletModel: {
         type: 'sendLittleProgram',
+        linkSwitch: 2,
         title: '', // 标题
         weappid: '', // 小程序apid
         woaId: '', // 小程序原始id
@@ -451,16 +242,34 @@ export default {
         this.openApplet(object)
       }
     },
+    // 编辑模板
+    close (type) {
+      if (type === 'text') {
+        this.dialogVisibleText = false
+      } else if (type === 'image') {
+        this.dialogVisibleImage = false
+      } else if (type === 'video') {
+        this.dialogVisibleVideo = false
+      } else if (type === 'link') {
+        this.dialogVisibleWeb = false
+      } else if (type === 'sendLittleProgram') {
+        this.dialogVisibleApplet = false
+      }
+    },
     // 删除模板
     deleteModel (object, i) {
       this.publishData.splice(i, 1)
     },
     // 添加文本 type=1
-    addText () {
+    addText (model) {
       if (this.indexExist()) {
-        this.publishData[this.index].content = this.textModel.content
+        this.publishData[this.index].content = model.content
       } else {
-        this.publishData.push(this.textModel)
+        var textModel = {}
+        textModel.type = 'text'
+        textModel.sleepTime = 1000
+        textModel.content = model.content
+        this.publishData.push(textModel)
       }
       this.dialogVisibleText = false
     },
@@ -490,6 +299,27 @@ export default {
         this.imageModel.faceFilename = object.faceFilename
       }
     },
+    // 保存图片(图片组件保存专用)
+    handleAvatarSuccessImageSave (res, file) {
+      let name = this.matchUrl(res.result.url)
+      var imageModel = {}
+      imageModel.type = 'image'
+      imageModel.sleepTime = 2000
+      imageModel.content = res.result.url
+      imageModel.contentFilename = name
+      imageModel.face = this.minImage(res.result.url)
+      imageModel.faceFilename = 'min' + name
+      this.publishData.push(imageModel)
+    },
+    // 修改图片(图片组件编辑专用)
+    handleAvatarSuccessImageEdit (url) {
+      let name = this.matchUrl(url)
+      this.publishData[this.index].content = url
+      this.publishData[this.index].contentFilename = name
+      this.publishData[this.index].face = this.minImage(url)
+      this.publishData[this.index].faceFilename = 'min' + name
+      this.dialogVisibleImage = false
+    },
     // 打开视频 type=3
     openVideo (object) {
       this.dialogVisibleVideo = true
@@ -505,6 +335,27 @@ export default {
         this.videoModel.face = object.face
         this.videoModel.faceFilename = object.faceFilename
       }
+    },
+    // 视频上传是否成功事件(视频组件保存专用)
+    handleVideoSuccessVideoSave (res, file) {
+      var videoModel = {}
+      videoModel.type = 'video'
+      videoModel.sleepTime = 2000
+      let name = this.matchUrl(res.result.url)
+      videoModel.content = res.result.url
+      videoModel.contentFilename = name
+      videoModel.face = this.maxVideo(res.result.url)
+      videoModel.faceFilename = 'min' + name
+      this.publishData.push(videoModel)
+    },
+    // 视频上传是否成功事件(视频组件编辑专用)
+    handleVideoSuccessVideoEdit (url) {
+      let name = this.matchUrl(url)
+      this.publishData[this.index].content = url
+      this.publishData[this.index].contentFilename = name
+      this.publishData[this.index].face = this.maxVideo(url)
+      this.publishData[this.index].faceFilename = 'min' + name
+      this.dialogVisibleVideo = false
     },
     // 播放视频 type=3
     playVideo (object) {
@@ -522,8 +373,7 @@ export default {
         this.linkModel.title = ''
         this.linkModel.description = ''
         this.linkModel.selectIndex = ''
-        this.imageUrl = ''
-        this.presetLinkSwitch = 2
+        this.linkModel.linkSwitch = 2
       } else {
         this.linkModel.url = object.url
         this.linkModel.image = object.image
@@ -531,45 +381,33 @@ export default {
         this.linkModel.title = object.title
         this.linkModel.description = object.description
         this.linkModel.selectIndex = object.selectIndex
-        this.imageUrl = object.image
-        if (object.selectIndex) {
-          this.presetLinkSwitch = 1
-        }
+        this.linkModel.linkSwitch = object.linkSwitch
       }
     },
     // 添加链接 type=4
-    addWeb () {
+    addWeb (model) {
       if (this.indexExist()) {
-        this.publishData[this.index].url = this.linkModel.url
-        this.publishData[this.index].image = this.imageUrl
-        this.publishData[this.index].imageFilename = this.matchUrl(this.imageUrl)
-        this.publishData[this.index].title = this.linkModel.title
-        this.publishData[this.index].description = this.linkModel.description
-        this.publishData[this.index].selectIndex = this.linkModel.selectIndex
+        this.publishData[this.index].url = model.url
+        this.publishData[this.index].image = model.image
+        this.publishData[this.index].imageFilename = this.matchUrl(model.image)
+        this.publishData[this.index].title = model.title
+        this.publishData[this.index].description = model.description
+        this.publishData[this.index].selectIndex = model.selectIndex
+        this.publishData[this.index].linkSwitch = model.linkSwitch
       } else {
-        this.linkModel.image = this.imageUrl
-        this.linkModel.imageFilename = this.matchUrl(this.imageUrl)
-        this.publishData.push(this.linkModel)
+        var linkModel = {}
+        linkModel.type = 'link'
+        linkModel.sleepTime = 2000
+        linkModel.url = model.url
+        linkModel.image = model.image
+        linkModel.imageFilename = this.matchUrl(model.image)
+        linkModel.title = model.title
+        linkModel.description = model.description
+        linkModel.selectIndex = model.selectIndex
+        linkModel.linkSwitch = model.linkSwitch
+        this.publishData.push(linkModel)
       }
       this.dialogVisibleWeb = false
-    },
-    systemPresetChange (e) { // 首页，分类，我的页面选择是添加codeTargetName
-      var _this = this
-      this.presetLinkFather.forEach(function (value, i) {
-        if (e === '') {
-          _this.linkModel.url = ''
-          return
-        }
-        if (value.id === e) {
-          _this.linkModel.url = value.url + '&guideWechatNo={wxId}&wechatId={chatId}&source=3'
-          _this.linkModel.image = value.picture
-          _this.linkModel.imageFilename = _this.matchUrl(value.picture)
-          _this.linkModel.title = value.title
-          _this.linkModel.description = value.content
-          _this.linkModel.selectIndex = e
-          _this.imageUrl = value.picture
-        }
-      })
     },
     // 打开小程序 type=5
     openApplet (object) {
@@ -596,20 +434,26 @@ export default {
       }
     },
     // 添加小程序 type=5
-    addApplet () {
+    addApplet (model) {
       if (this.indexExist()) {
-        this.publishData[this.index].weappid = this.appletModel.weappid
-        this.publishData[this.index].woaId = this.appletModel.woaId
-        this.publishData[this.index].face = this.imageUrl
-        this.publishData[this.index].faceFilename = this.matchUrl(this.imageUrl)
-        this.publishData[this.index].url = this.setAppletUrl(this.appletModel.weappid)
-        this.publishData[this.index].page = this.appletModel.page
-        this.publishData[this.index].title = this.appletModel.title
+        this.publishData[this.index].weappid = model.weappid
+        this.publishData[this.index].woaId = model.woaId
+        this.publishData[this.index].face = model.face
+        this.publishData[this.index].faceFilename = this.matchUrl(model.face)
+        this.publishData[this.index].url = this.setAppletUrl(model.weappid)
+        this.publishData[this.index].page = model.page
+        this.publishData[this.index].title = model.title
       } else {
-        this.appletModel.face = this.imageUrl
-        this.appletModel.faceFilename = this.matchUrl(this.imageUrl)
-        this.appletModel.url = this.setAppletUrl(this.appletModel.weappid)
-        this.publishData.push(this.appletModel)
+        var appletModel = {}
+        appletModel.type = 'sendLittleProgram'
+        appletModel.weappid = model.weappid
+        appletModel.woaId = model.woaId
+        appletModel.face = model.face
+        appletModel.faceFilename = this.matchUrl(model.face)
+        appletModel.url = this.setAppletUrl(model.weappid)
+        appletModel.page = model.page
+        appletModel.title = model.title
+        this.publishData.push(appletModel)
       }
       this.dialogVisibleApplet = false
     },
@@ -639,24 +483,6 @@ export default {
       }
       this.linkModel.url += append
     },
-    // 视频上传是否成功事件(视频组件保存专用)
-    handleVideoSuccessVideoSave (res, file) {
-      let name = this.matchUrl(res.result.url)
-      this.videoModel.content = res.result.url
-      this.videoModel.contentFilename = name
-      this.videoModel.face = this.maxVideo(res.result.url)
-      this.videoModel.faceFilename = 'min' + name
-      this.publishData.push(this.videoModel)
-    },
-    // 视频上传是否成功事件(视频组件编辑专用)
-    handleVideoSuccessVideoEdit (res, file) {
-      let name = this.matchUrl(res.result.url)
-      this.publishData[this.index].content = res.result.url
-      this.publishData[this.index].contentFilename = name
-      this.publishData[this.index].face = this.maxVideo(res.result.url)
-      this.publishData[this.index].faceFilename = 'min' + name
-      this.dialogVisibleVideo = false
-    },
     // 验证视频格式和视频大小
     beforeUploadVideo (file) {
       const isLt30M = file.size / 1024 / 1024 < 30
@@ -673,24 +499,6 @@ export default {
     // 上传图片是否成功事件
     handleAvatarSuccess (res, file) {
       this.imageUrl = res.result.url
-    },
-    // 上传图片是否成功事件(图片组件保存专用)
-    handleAvatarSuccessImageSave (res, file) {
-      let name = this.matchUrl(res.result.url)
-      this.imageModel.content = res.result.url
-      this.imageModel.contentFilename = name
-      this.imageModel.face = this.minImage(res.result.url)
-      this.imageModel.faceFilename = 'min' + name
-      this.publishData.push(this.imageModel)
-    },
-    // 上传图片是否成功事件(图片组件编辑专用)
-    handleAvatarSuccessImageEdit (res, file) {
-      let name = this.matchUrl(res.result.url)
-      this.publishData[this.index].content = res.result.url
-      this.publishData[this.index].contentFilename = name
-      this.publishData[this.index].face = this.minImage(res.result.url)
-      this.publishData[this.index].faceFilename = 'min' + name
-      this.dialogVisibleImage = false
     },
     // 小图
     minImage (url) {

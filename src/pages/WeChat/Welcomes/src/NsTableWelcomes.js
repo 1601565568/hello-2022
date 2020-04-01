@@ -20,11 +20,19 @@ export default {
     const tableButtons = [
       {
         'func': function (scope) {
-          this.$emit('open-dialog', 'edit', '新增智能欢迎语', scope.row.uuid)
+          this.$emit('open-dialog', 'edit', '编辑智能欢迎语', scope.row.uuid)
         },
         'icon': '',
         'name': '编辑',
         'auth': ``
+      }, {
+        'func': function (scope) {
+          this.onDeleteFun(scope.row)
+        },
+        'icon': '',
+        'name': '删除',
+        'auth': ``,
+        'visible': ``
       }
     ]
     var operateButtons = [
@@ -108,6 +116,31 @@ export default {
      */
     onShowEmployeeScope (data) {
       this.$emit('onShowEmployeeScope', data)
+    },
+    /**
+     * @msg: 删除智能欢迎语
+     * @param {type} scope.row
+     */
+    onDeleteFun (data) {
+      let _this = this
+      _this.$confirm('请确认是否进行删除操作!', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        let param = {}
+        param.welcomeCodeUuid = data.uuid
+        _this.$http.fetch(_this.$api.weWork.welcomeCode.deleteWelcomeCode, param).then(resp => {
+          if (resp.success) {
+            _this.$notify.success('删除成功')
+            _this.$nextTick(() => {
+              _this.$reload()
+            })
+          }
+        }).catch((resp) => {
+          _this.$notify.error('删除失败')
+        })
+      })
     }
   }
 }
