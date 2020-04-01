@@ -13,7 +13,7 @@
               <div style='display:flex'>
                 <el-input  autofocus=true v-model="personalQrcodeLink" placeholder="" width="300px">{{ personalQrcodeLink }}</el-input>
                 <ns-button type='text' @click='copy(personalQrcodeLink)'>复制</ns-button>
-                <ns-button type='text' @click='preview'>投放预览</ns-button>
+                <ns-button v-if="memberManagePlan == 2" type='text' @click='preview'>投放预览</ns-button>
               </div>
               <span>该链接为聚合码H5，可投放公众号等</span>
               <div v-if="personalQrcodeLink !=''&& personalQrcodeLink!=null">

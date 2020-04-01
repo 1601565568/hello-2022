@@ -141,6 +141,7 @@ export default {
     }
     let that = this
     return {
+      memberManagePlan: 1, // 企业方案1：企微2：个号
       bgpic: '',
       postimg: posterPreview,
       qrcodeimg: qrcode,
@@ -220,6 +221,9 @@ export default {
   },
   mounted () {
     this.initShopList()
+    this.$http.fetch(this.$api.core.common.getRecruitVersion).then(data => {
+      this.memberManagePlan = data.result.memberManagePlan
+    })
   },
   methods: {
     // 上传图片地址的切换事件
