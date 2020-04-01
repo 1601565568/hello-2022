@@ -38,7 +38,7 @@
                             type="text"
                             @click="insertPlaceHolder('{EmployeeNick}')"
                           >
-                            +插入客户企微姓名
+                            +插入客户微信昵称
                           </ns-button>
                         </ElFormGrid>
                         <ElFormGrid>
@@ -46,7 +46,7 @@
                             type="text"
                             @click="insertPlaceHolder('{CustomerNick}')"
                           >
-                            +插入员工企微姓名
+                            +插入企业微信员工姓名
                           </ns-button>
                         </ElFormGrid>
                     </ElFormItem>
