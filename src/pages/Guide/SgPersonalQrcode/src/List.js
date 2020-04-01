@@ -152,6 +152,8 @@ export default {
       input: '',
       // 弹框是否打开判断值
       dialogVisible: false,
+      // 聚合码类型 0：员工类型  1：自定义类型
+      type: 1,
       personalLinkFormVisible: false,
       onShowId: '',
       onShowTitle: '',
@@ -435,16 +437,17 @@ export default {
         })
       })
     },
-    qrcodeLink (row) { // 修改和新增功能
+    qrcodeLink (row) { // 聚合二维码
       this.row = row
       if (row) {
-        if (this.memberManagePlan === 1) {
+        this.type = row.type
+        if (this.memberManagePlan === 1 && row.type === 0) {
           if (row.qrcode_url === '' || row.qrcode_url === null) {
             this.personalQrcodeLink = bgimg
           } else {
             this.personalQrcodeLink = row.qrcode_url
           }
-        } else if (this.memberManagePlan === 2) {
+        } else if (this.memberManagePlan === 2 || (this.memberManagePlan === 1 && row.type === 1)) {
           this.row = row
           var hostUrl = window.location.protocol + '//' + window.location.host
           this.personalQrcodeLink = hostUrl + '/mobile/aggregationCode.html?guid=' + row.guid + '&groupId=' + row.groupid

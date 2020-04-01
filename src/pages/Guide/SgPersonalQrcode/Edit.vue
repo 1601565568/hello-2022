@@ -28,7 +28,7 @@
               <el-form-grid>
                 <ns-button type='text' @click="choosePersonnel(personalQrcode.type)">+ 选择{{QrCodeTypeNames[personalQrcode.type]}}</ns-button>
               </el-form-grid>
-              <ElFormGrid>
+              <ElFormGrid v-if="personalQrcode.type === 0">
                 已选择<span class="text-primary">{{tableData.length}}</span>个员工
               </ElFormGrid>
             </el-form-item>
@@ -176,7 +176,7 @@
           <ns-button type="text" @click="handleAdd()">添加自定义图片</ns-button>
         </div>
         <template>
-          <el-table :data="tableData" style="width: 100%">
+          <el-table :data="addTableData" style="width: 100%">
             <el-table-column label="名称" width="180">
               <template slot-scope="scope">
                 <el-input v-model="scope.row.name" maxlength="15" placeholder="请输入二维码名称，限15字"></el-input>

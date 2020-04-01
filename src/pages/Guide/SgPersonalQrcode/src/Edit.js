@@ -75,6 +75,16 @@ export default {
       transferRadio: '1',
       currentUploadIndex: null,
       channalList: [], // 所有渠道
+      addTableData: [{
+        index: 0,
+        name: null,
+        image: null,
+        guideId: null,
+        date: null,
+        num: null,
+        userName: null,
+        userId: null
+      }],
       tableData: [{
         index: 0,
         name: null,
@@ -121,6 +131,7 @@ export default {
         }
         this.personalQrcode = data.result
         this.tableData = JSON.parse(data.result.child_qrcodes)
+        this.addTableData = JSON.parse(data.result.child_qrcodes)
       }).catch((error) => {
         this.$notify.error(getErrorMsg('加载聚合二维码信息失败：', error))
       }).finally(() => {
@@ -236,6 +247,20 @@ export default {
           chooseData.userId = data.userId
           _this.tableData.push(chooseData)
         }
+      } else if (_this.personalQrcode.type === 1) {
+        _this.tableData = []
+        let addTableData = _this.addTableData
+        for (let data of addTableData) {
+          let chooseData = {}
+          chooseData.name = data.name
+          chooseData.image = data.image
+          chooseData.date = data.date
+          chooseData.num = null
+          chooseData.guideId = null
+          chooseData.userName = null
+          chooseData.userId = null
+          _this.tableData.push(data)
+        }
       }
     },
     // 左边树选择
@@ -323,7 +348,7 @@ export default {
     // 上传图片地址的切换事件
     'handleAvatarSuccess': function (res, file) {
       this.$message.info('上传成功')
-      this.tableData[this.currentUploadIndex].image = res.result.url
+      this.addTableData[this.currentUploadIndex].image = res.result.url
     },
     setCurrentUploadRowIndex (index) {
       this.currentUploadIndex = index
@@ -342,15 +367,15 @@ export default {
     },
     handleAdd () {
       let a = {
-        index: this.tableData.length,
+        index: this.addTableData.length,
         name: null,
         image: null,
         date: null
       }
-      if (this.tableData.length > 49) {
+      if (this.addTableData.length > 49) {
         this.$notify.error('添加数量最多为50个')
       } else {
-        this.tableData.push(a)
+        this.addTableData.push(a)
       }
     },
     cancel () { // 取消
