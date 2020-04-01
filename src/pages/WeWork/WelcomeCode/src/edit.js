@@ -281,9 +281,9 @@ export default {
             settingId: that.appModel.settingId, // 预置配置ID
             appid: that.appModel.appid, // 小程序appid
             path: that.appModel.path, // 小程序路径
-            link: that.appModel.link, // 备用网页
+            // link: that.appModel.link, // 备用网页
             title: that.appModel.title, // 标题
-            desc: that.appModel.desc, // 文案
+            // desc: that.appModel.desc, // 文案
             image: that.appModel.image // 封面
           })
           that.onSubmitHandleModel(type)

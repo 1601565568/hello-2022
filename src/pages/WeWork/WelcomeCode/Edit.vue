@@ -452,7 +452,7 @@
               <el-input v-model.trim="appModel.path" />
             </el-form-grid>
           </el-form-item>
-          <el-form-item
+          <!-- <el-form-item
             label="备用网页："
             prop="link"
             :rules="commonRules.link"
@@ -460,7 +460,7 @@
             <el-form-grid size="xmd">
               <el-input v-model.trim="appModel.link" />
             </el-form-grid>
-          </el-form-item>
+          </el-form-item> -->
         </template>
         <template>
           <el-form-item
@@ -486,11 +486,11 @@
             <el-input v-model.trim="appModel.title" />
           </el-form-grid>
         </el-form-item>
-        <el-form-item label="文案：" prop="desc" :rules="commonRules.desc">
+        <!-- <el-form-item label="文案：" prop="desc" :rules="commonRules.desc">
           <el-form-grid size="xmd">
             <el-input v-model.trim="appModel.desc" />
           </el-form-grid>
-        </el-form-item>
+        </el-form-item> -->
         <el-form-item label="封面图：" prop="image" :rules="commonRules.image">
           <el-form-grid class="company-upload">
             <el-upload
