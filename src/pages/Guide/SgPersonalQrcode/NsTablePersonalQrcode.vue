@@ -116,7 +116,7 @@
               </template>
             </el-table-column>
           </div>
-          <el-table-column prop="num" label="扫描次数" align="left" min-width="100">
+          <el-table-column prop="num" v-if="memberManagePlan == 2" label="扫描次数" align="left" min-width="100">
             <template slot-scope="scope">
               {{ scope.row.num?scope.row.num:'0' }}
             </template>
