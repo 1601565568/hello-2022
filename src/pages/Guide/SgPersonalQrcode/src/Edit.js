@@ -282,7 +282,9 @@ export default {
     initEmpTree: function () {
       let _this = this
       var keyMap = {}
-      _this.$http.fetch(_this.$api.guide.sgPersonalQrcode.getQrcodeDepartment).then(resp => {
+      _this.$http.fetch(_this.$api.guide.sgPersonalQrcode.getQrcodeDepartment, {
+        name: _this.tree.select
+      }).then(resp => {
         if (resp.success && resp.result != null) {
           _this.tree.selectData = JSON.parse(resp.result)
           // _this.choosePerson.forEach(function (value, i) {

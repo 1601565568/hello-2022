@@ -37,19 +37,19 @@
                       {{ scope.row.name }}
                     </template>
                   </ElTableColumn>
-                  <ElTableColumn prop="style" label="微信账号" v-if="memberManagePlan == 1 && personalQrcode.type == 0" align="center" width="250">
+                  <ElTableColumn prop="style" label="微信账号" v-if="memberManagePlan == 1 && personalQrcode.type == 0" align="center" width="150">
                     <template slot-scope="scope">
                       {{ scope.row.userName?scope.row.userName:'-' }}({{ scope.row.userId?scope.row.userId:'-' }})
                     </template>
                   </ElTableColumn>
-                  <ElTableColumn prop="style" label="子码" v-if="memberManagePlan == 2 || (memberManagePlan == 1 && personalQrcode.type != 0)" align="center" width="150">
+                  <ElTableColumn prop="style" label="子码" align="center" width="150">
                     <template slot-scope="scope">
                       <img v-if="scope.row.image" :src="scope.row.image" width="50px" height="50px" class="company-upload__avatar">
                     </template>
                   </ElTableColumn>
                   <ElTableColumn prop="style" label="每日添加好友次数" v-if="memberManagePlan == 2  || (memberManagePlan == 1 && personalQrcode.type != 0)" align="center" width="120">
                     <template slot-scope="scope">
-                      <el-input v-model="scope.row.num"></el-input>
+                      <el-input v-model="scope.row.num" type="number" onkeyup="this.value=this.value.replace(/\D|^0/g,'')" onafterpaste="this.value=this.value.replace(/\D|^0/g,'')"></el-input>
                     </template>
                   </ElTableColumn>
                   <ElTableColumn label="操作" align="center" :width="80">
@@ -176,7 +176,7 @@
           <el-table :data="tableData" style="width: 100%">
             <el-table-column label="名称" width="180">
               <template slot-scope="scope">
-                <el-input v-model="scope.row.name" placeholder="请输入二维码名称，字数限制15字内"></el-input>
+                <el-input v-model="scope.row.name" maxlength="15" placeholder="请输入二维码名称，限15字"></el-input>
               </template>
             </el-table-column>
             <el-table-column label="子码" width="120">

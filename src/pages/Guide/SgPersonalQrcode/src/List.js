@@ -236,10 +236,12 @@ export default {
       const isJPG = file.type === 'image/jpeg'
       const isLt2M = file.size / 1024 / 1024 < 2
       if (!isJPG) {
-        this.$message.error('上传头像图片只能是 JPG 格式!')
+        this.$message.error('上传二维码只能是 JPG 格式!')
+        return
       }
       if (!isLt2M) {
-        this.$message.error('上传头像图片大小不能超过 20MB!')
+        this.$message.error('上传二维码大小不能超过 20MB!')
+        return
       }
       return isJPG && isLt2M
     },
