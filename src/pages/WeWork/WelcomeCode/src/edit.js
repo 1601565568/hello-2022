@@ -83,6 +83,7 @@ export default {
       // 选择员工组件
       // 左边树数据（所有数据,包含id、label、children等shu'ji）
       leftTreeData: null,
+      rightTreeData: [],
       // 左边树默认绑定数据
       leftDefaultProps: {
         children: 'children',
@@ -123,6 +124,23 @@ export default {
     }
   },
   methods: {
+    remove (node, data) {
+      const parent = node.parent
+      const children = parent.data.children || parent.data
+      const index = children.findIndex(d => d.id === data.id)
+      children.splice(index, 1)
+      const chooseIndex = this.rightTreeData.findIndex(d => d.id === data.id)
+      this.rightTreeData.splice(chooseIndex, 1)
+      const nodes = this.$refs.tree.getCheckedNodes()
+      const nodeIndex = nodes.findIndex(d => d.id === data.id)
+      nodes.splice(nodeIndex, 1)
+      for (let i in nodes) {
+        if (nodes[i].children) {
+          nodes.splice(i, 1)
+        }
+      }
+      this.$refs.tree.setCheckedNodes(nodes)
+    },
     filterNode (value, data) {
       if (!value) return true
       return data.label.indexOf(value) !== -1
@@ -335,6 +353,7 @@ export default {
      */
     showEmployee () {
       let _this = this
+      _this.rightTreeData = []
       // 预取历史数据
       // _this.employeeModel.employeeIds = this.model.employeeIds
       _this.employeeModel.visible = true
@@ -343,7 +362,14 @@ export default {
         if (resp.success && resp.result != null) {
           // 全部数据
           _this.leftTreeData = JSON.parse(resp.result)
-          // _this.choosePerson = [5, 6, 7, 8]
+          // 初始化右侧数据
+          let res = this.$refs.tree.getCheckedNodes()
+          res.forEach((item) => {
+            if (item.id) {
+              _this.rightTreeData.push(item)
+            }
+          })
+          this.$refs.selectedTree.setCheckedNodes(_this.rightTreeData)
         } else {
           _this.$notify.error(getErrorMsg('获取员工数据失败', resp))
         }
@@ -355,13 +381,14 @@ export default {
      * @msg: 确认选择员工
      */
     selectEmployee () {
+      this.rightTreeData = []
       this.employeeModel.visible = false
-      this.handleCheckChange()
+      this.handleSubmitCheckChange()
     },
     /**
      * @msg: 赋值已选员工 | 提示语
      */
-    handleCheckChange () {
+    handleSubmitCheckChange () {
       let _this = this
       let res = this.$refs.tree.getCheckedNodes()
       let arr = []
@@ -374,6 +401,22 @@ export default {
 
       _this.employeeSelectMsg = '已选择' + _this.model.employeeIds.length + '名员工'
     },
+    /**
+     * @msg: 处理未提交前的选择变化
+     */
+    handleUnSubmitCheckChange () {
+      let _this = this
+      let res = _this.$refs.tree.getCheckedNodes()
+      let arr = []
+      res.forEach((item) => {
+        if (item.id) {
+          arr.push(item)
+        }
+      })
+      _this.rightTreeData = arr
+      this.$refs.selectedTree.setCheckedNodes(_this.rightTreeData)
+      // _this.rightTreeData = arr
+    },
     setAllEmployee () {
       let _this = this
       let arr = []
@@ -383,7 +426,7 @@ export default {
         })
       })
       _this.$refs.tree.setCheckedKeys(arr)
-      _this.handleCheckChange()
+      _this.handleUnSubmitCheckChange()
     },
     /**
      * @msg: 选择渠道

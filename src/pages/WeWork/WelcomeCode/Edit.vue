@@ -572,6 +572,7 @@
               :filter-node-method="filterNode"
               :props="leftDefaultProps"
               class="code-space"
+              @check-change="handleUnSubmitCheckChange"
               ><!-- :default-expanded-keys="[1, 2]" @check-change="handleCheckChange"-->
               <span class="code-detail clearfix" slot-scope="{ node, data }">
                 <span class="code-detail__text">{{ node.label }}</span>
@@ -582,6 +583,30 @@
             </ElTree>
           </ElScrollbar>
         </ElCol>
+        <ElCol :span="12" class="code-container__item">
+            <div class="code-title">已选员工</div>
+            <div class="scoll_left">
+              <ElScrollbar>
+                <ElTree
+                  :data="rightTreeData"
+                  ref="selectedTree"
+                  node-key="id"
+                  :expand-on-click-node="false" class="code-space"><!-- :filter-node-method="tree.selectedFilterNode" -->
+            <span class="code-detail clearfix" slot-scope="{ node, data }">
+              <span class="code-detail__text">{{ node.label }}</span>
+              <span>
+                <ns-button
+                  type="text"
+                  size="mini"
+                  @click="() => remove(node, data)">
+                  <Icon type="delete" className="code-delete"/>
+                </ns-button>
+              </span>
+            </span>
+                </ElTree>
+              </ElScrollbar>
+            </div>
+          </ElCol>
       </ElRow>
       <template slot="footer">
         <ns-button @click="employeeModel.visible = false">取消</ns-button>
