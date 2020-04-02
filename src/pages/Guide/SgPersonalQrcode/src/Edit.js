@@ -15,6 +15,7 @@ export default {
       // 左边输入框绑定值
       channelList: [],
       input: '',
+      treeSelect: '',
       // 员工树
       tree: {
         // 左边树默认绑定数据
@@ -26,8 +27,6 @@ export default {
         copySelectedData: [],
         // 右边树数据
         selectedData: [],
-        // 右边输入框绑定值
-        select: '',
         selected: '',
         selectKeys: [],
         treeVisible: false,
@@ -76,10 +75,21 @@ export default {
       transferRadio: '1',
       currentUploadIndex: null,
       channalList: [], // 所有渠道
+      addTableData: [{
+        index: 0,
+        name: null,
+        image: null,
+        guideId: null,
+        date: null,
+        num: null,
+        userName: null,
+        userId: null
+      }],
       tableData: [{
         index: 0,
         name: null,
         image: null,
+        guideId: null,
         date: null,
         num: null,
         userName: null,
@@ -121,6 +131,7 @@ export default {
         }
         this.personalQrcode = data.result
         this.tableData = JSON.parse(data.result.child_qrcodes)
+        this.addTableData = JSON.parse(data.result.child_qrcodes)
       }).catch((error) => {
         this.$notify.error(getErrorMsg('加载聚合二维码信息失败：', error))
       }).finally(() => {
@@ -131,19 +142,36 @@ export default {
     }
 
     var keyMap = {}
-    this.$http.fetch(this.$api.guide.sgPersonalQrcode.getQrcodeDepartment).then(resp => {
+    this.$http.fetch(this.$api.guide.sgPersonalQrcode.getQrcodeDepartment, {
+      name: this.tree.select
+    }).then(resp => {
       if (resp.success && resp.result != null) {
-        this.tree.selectData = JSON.parse(resp.result)
+        let json = JSON.parse(resp.result)
+        this.tree.selectData = json
         this.choosePerson.forEach(function (value, i) {
           keyMap[value] = 1
         })
-        this.tree.selectData.forEach(function (value, i) {
-          value.children.forEach(function (value, i) {
-            if (keyMap[value.id] === 1) {
-              this.tree.selectedData.push(value)
+        for (let i = 0; i < json.length; i++) {
+          let children = json[i].children
+          for (let j = 0; j < children.length; j++) {
+            let id = children[j].id
+            if (keyMap[id] === 1) {
+              this.tree.selectedData.push(children[j])
             }
-          })
-        })
+          }
+          // children.forEach(function (value, i) {
+          //   if (keyMap[value.id] === 1) {
+          //     this.tree.selectedData.push(value)
+          //   }
+          // })
+        }
+        // json.forEach(function (value, i) {
+        //   value.children.forEach(function (value, i) {
+        //     if (keyMap[value.id] === 1) {
+        //       this.tree.selectedData.push(value)
+        //     }
+        //   })
+        // })
       } else {
         this.$notify.error(getErrorMsg('获取员工数据失败', resp))
       }
@@ -229,9 +257,24 @@ export default {
           chooseData.name = data.label
           chooseData.image = data.qrcode
           chooseData.num = null
+          chooseData.guideId = data.guideId
           chooseData.userName = data.userName
           chooseData.userId = data.userId
           _this.tableData.push(chooseData)
+        }
+      } else if (_this.personalQrcode.type === 1) {
+        _this.tableData = []
+        let addTableData = _this.addTableData
+        for (let data of addTableData) {
+          let chooseData = {}
+          chooseData.name = data.name
+          chooseData.image = data.image
+          chooseData.date = data.date
+          chooseData.num = null
+          chooseData.guideId = null
+          chooseData.userName = null
+          chooseData.userId = null
+          _this.tableData.push(data)
         }
       }
     },
@@ -277,7 +320,8 @@ export default {
       })
     },
     selectFilterNode (query, item) {
-      return item.label.indexOf(query) > -1
+      if (!query) return true
+      return item.label.indexOf(query) !== -1
     },
     initEmpTree: function () {
       let _this = this
@@ -287,16 +331,6 @@ export default {
       }).then(resp => {
         if (resp.success && resp.result != null) {
           _this.tree.selectData = JSON.parse(resp.result)
-          // _this.choosePerson.forEach(function (value, i) {
-          //   keyMap[value] = 1
-          // })
-          // _this.tree.selectData.forEach(function (value, i) {
-          //   value.children.forEach(function (value, i) {
-          //     if (keyMap[value.id] === 1) {
-          //       _this.tree.selectedData.push(value)
-          //     }
-          //   })
-          // })
         } else {
           _this.$notify.error(getErrorMsg('获取员工数据失败', resp))
         }
@@ -306,13 +340,30 @@ export default {
     },
     handleEdit (index, row) {
     },
-    handleDelete (index, row) {
-      this.tableData.splice(index, 1)
+    handleDelete (mag, row) {
+      let guideId = mag.row.guideId
+      let tableData = this.tableData
+      for (let i in tableData) {
+        if (tableData[i].guideId === guideId) {
+          tableData.splice(i, 1)
+        }
+      }
+      let parent = this.tree.selectedData
+      for (let i in parent) {
+        if (parent[i].id === guideId) {
+          parent.splice(i, 1)
+        }
+      }
+      for (let i in this.choosePerson) {
+        if (this.choosePerson[i] === parseInt(guideId)) {
+          this.choosePerson.splice(i, 1)
+        }
+      }
     },
     // 上传图片地址的切换事件
     'handleAvatarSuccess': function (res, file) {
       this.$message.info('上传成功')
-      this.tableData[this.currentUploadIndex].image = res.result.url
+      this.addTableData[this.currentUploadIndex].image = res.result.url
     },
     setCurrentUploadRowIndex (index) {
       this.currentUploadIndex = index
@@ -331,19 +382,24 @@ export default {
     },
     handleAdd () {
       let a = {
-        index: this.tableData.length,
+        index: this.addTableData.length,
         name: null,
         image: null,
         date: null
       }
-      if (this.tableData.length > 49) {
+      if (this.addTableData.length > 49) {
         this.$notify.error('添加数量最多为50个')
       } else {
-        this.tableData.push(a)
+        this.addTableData.push(a)
       }
     },
     cancel () { // 取消
       this.$router.push({ path: '/Guide/SgPersonalQrcode/List' })
+    }
+  },
+  watch: {
+    treeSelect (val) {
+      this.$refs.selectTree.filter(val)
     }
   }
 }

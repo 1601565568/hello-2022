@@ -8,7 +8,7 @@
     <el-dialog :title="title" :visible.sync="personalLinkFormVisible" width="400px" class="detail-dialog">
       <div class="detail-dialog__content">
         <el-form label-width="90px" class="detail-leftside">
-          <el-form-item label="链接：" >
+          <el-form-item v-if="memberManagePlan == 2 || (memberManagePlan == 1 && type == 1)" label="链接：" >
             <el-form-grid>
               <div style='display:flex'>
                 <el-input  autofocus=true v-model="personalQrcodeLink" placeholder="" width="300px">{{ personalQrcodeLink }}</el-input>
@@ -19,6 +19,18 @@
               <div v-if="personalQrcodeLink !=''&& personalQrcodeLink!=null">
                 <qr-code :value="personalQrcodeLink" :size="150" :options="{size:150}"></qr-code>
                 <ns-button type='text' @click='downLode(personalQrcodeLink)'>下载</ns-button>
+              </div>
+            </el-form-grid>
+          </el-form-item>
+          <el-form-item v-if="memberManagePlan == 1 && type == 0">
+            <el-form-grid>
+              <div v-if="personalQrcodeLink !=''&& personalQrcodeLink!=null">
+                <img :src="personalQrcodeLink" height="150" width="150">
+<!--                <qr-code :value="personalQrcodeLink" :size="150" :options="{size:150}"></qr-code>-->
+<!--                <ns-button type='text' @click='downLodeQyQrcode()'>下载</ns-button>-->
+                <a :href="personalQrcodeLink">
+                  下载
+                </a>
               </div>
             </el-form-grid>
           </el-form-item>
