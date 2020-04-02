@@ -142,6 +142,7 @@ export default {
     }
     let that = this
     return {
+      url: api.API_ROOT + '/upload',
       memberManagePlan: 1, // 企业方案1：企微2：个号
       bgpic: '',
       postimg: posterPreview,
@@ -237,14 +238,14 @@ export default {
     // 上传图片的类型和大小判断事件
     beforeAvatarUpload (file) {
       const isJPG = file.type === 'image/jpeg'
-      const isLt2M = file.size / 1024 / 1024 < 2
+      const isLt2M = file.size / 1024 / 1024 < 5
       if (!isJPG) {
-        this.$message.error('上传二维码只能是 JPG 格式!')
-        return
+        this.$message.error('上传背景图只能是 JPG 格式!')
+        return false
       }
       if (!isLt2M) {
-        this.$message.error('上传二维码大小不能超过 20MB!')
-        return
+        this.$message.error('上传背景图大小不能超过 5MB!')
+        return false
       }
       return isJPG && isLt2M
     },
@@ -307,9 +308,7 @@ export default {
     preview (row) {
       let _this = this
       _this.dialogVisible = true
-      if (!_this.onShowTitle) {
-        _this.onShowTitle = row.title
-      }
+      _this.onShowTitle = row.title
       if (_this.row.bgimg === '' || _this.row.bgimg === null) {
         _this.bgpic = bgimg
       } else {
@@ -320,9 +319,7 @@ export default {
       let _this = this
       _this.dialogVisible = true
       _this.onShowId = row.id
-      if (!_this.onShowTitle) {
-        _this.onShowTitle = row.title
-      }
+      _this.onShowTitle = row.title
       if (row.bgimg === '' || row.bgimg === null) {
         _this.bgpic = bgimg
       } else {
@@ -570,11 +567,13 @@ export default {
       }
     },
     downLodeQyQrcode () {
+      var event = new MouseEvent('click')
       var a = document.createElement('a')
       a.download = name || '背景图'
       // 设置图片地址
       a.href = this.personalQrcodeLink
-      a.click()
+      // a.click()
+      a.dispatchEvent(event)
     },
     disabled (shopId) {
       let retVal = this.guideShopList.some(item => {
