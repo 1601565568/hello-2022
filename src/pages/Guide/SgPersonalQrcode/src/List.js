@@ -307,7 +307,9 @@ export default {
     preview (row) {
       let _this = this
       _this.dialogVisible = true
-      _this.onShowTitle = _this.row.title
+      if (!_this.onShowTitle) {
+        _this.onShowTitle = row.title
+      }
       if (_this.row.bgimg === '' || _this.row.bgimg === null) {
         _this.bgpic = bgimg
       } else {
@@ -315,10 +317,13 @@ export default {
       }
     },
     onShowFun (row) { // 投放预览
+      debugger
       let _this = this
       _this.dialogVisible = true
       _this.onShowId = row.id
-      _this.onShowTitle = row.title
+      if (!_this.onShowTitle) {
+        _this.onShowTitle = row.title
+      }
       if (row.bgimg === '' || row.bgimg === null) {
         _this.bgpic = bgimg
       } else {

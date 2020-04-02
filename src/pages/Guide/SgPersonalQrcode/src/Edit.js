@@ -68,9 +68,7 @@ export default {
       modelObj: {},
       status: 0,
       rules: {
-        'code': [{ required: true, message: '请输入配置项编码' }],
-        'value': [{ required: true, message: '请输入配置项值' }],
-        'type': [{ required: true, message: '请选择类型' }]
+        num: [{ required: true, message: '请输入每日添加次数' }]
       },
       transferRadio: '1',
       currentUploadIndex: null,
@@ -341,23 +339,27 @@ export default {
     handleEdit (index, row) {
     },
     handleDelete (mag, row) {
-      let guideId = mag.row.guideId
-      let tableData = this.tableData
-      for (let i in tableData) {
-        if (tableData[i].guideId === guideId) {
-          tableData.splice(i, 1)
+      if (this.transferRadio === 0) { // 选择员工
+        let guideId = mag.row.guideId
+        let tableData = this.tableData
+        for (let i in tableData) {
+          if (tableData[i].guideId === guideId) {
+            tableData.splice(i, 1)
+          }
         }
-      }
-      let parent = this.tree.selectedData
-      for (let i in parent) {
-        if (parent[i].id === guideId) {
-          parent.splice(i, 1)
+        let parent = this.tree.selectedData
+        for (let i in parent) {
+          if (parent[i].id === guideId) {
+            parent.splice(i, 1)
+          }
         }
-      }
-      for (let i in this.choosePerson) {
-        if (this.choosePerson[i] === parseInt(guideId)) {
-          this.choosePerson.splice(i, 1)
+        for (let i in this.choosePerson) {
+          if (this.choosePerson[i] === guideId) {
+            this.choosePerson.splice(i, 1)
+          }
         }
+      } else if (this.transferRadio === 1) { // 自定义
+        this.addTableData.splice(mag, 1)
       }
     },
     // 上传图片地址的切换事件
@@ -373,10 +375,12 @@ export default {
       const isJPG = file.type === 'image/jpeg'
       const isLt2M = file.size / 1024 / 1024 < 2
       if (!isJPG) {
-        this.$message.error('上传头像图片只能是 JPG 格式!')
+        this.$message.error('上传二维码只能是 JPG 格式!')
+        return false
       }
       if (!isLt2M) {
-        this.$message.error('上传头像图片大小不能超过 20MB!')
+        this.$message.error('上传二维码大小不能超过 2MB!')
+        return false
       }
       return isJPG && isLt2M
     },

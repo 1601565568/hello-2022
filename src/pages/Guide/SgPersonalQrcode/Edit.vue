@@ -32,7 +32,7 @@
                 已选择<span class="text-primary">{{tableData.length}}</span>个员工
               </ElFormGrid>
             </el-form-item>
-            <ElFormItem>
+            <ElFormItem :rules="rules">
               <div class="message-detail" >
                 <ElTable :data="tableData" class="message-detail__table">
                   <ElTableColumn prop="style" label="名称" align="center" width="80">
@@ -50,7 +50,13 @@
                       <img v-if="scope.row.image" :src="scope.row.image" width="50px" height="50px" class="company-upload__avatar">
                     </template>
                   </ElTableColumn>
-                  <ElTableColumn prop="style" label="每日添加好友次数" v-if="memberManagePlan == 2  || (memberManagePlan == 1 && personalQrcode.type != 0)" align="center" width="120">
+                  <ElTableColumn prop="num" v-if="memberManagePlan == 2  || (memberManagePlan == 1 && personalQrcode.type != 0)" align="center" width="150">
+                    <template slot="header">
+                      每日添加好友次数
+                      <el-tooltip content="该子码每日最多添加好友数量。如一个子码归属于多个聚合码中，子码每日最多添加人数以设置最大数为基准。子码在当前聚合码中添加好友数量达到最大时该子码在该聚合码中不再显示。">
+                        <Icon type="question-circle"/>
+                      </el-tooltip>
+                    </template>
                     <template slot-scope="scope">
                       <el-input v-model="scope.row.num" type="number" onkeyup="this.value=this.value.replace(/\D|^0/g,'')" onafterpaste="this.value=this.value.replace(/\D|^0/g,'')"></el-input>
                     </template>
@@ -76,16 +82,16 @@
                 </el-select>
               </el-form-grid>
             </el-form-item>
-            <el-form-item label="好友验证：" v-if="memberManagePlan == 1" required>
-              <el-form-grid size="xxmd">
-                <el-form-item prop="sex">
-                  <el-radio-group v-model="personalQrcode.isvalidate">
-                    <el-radio :label="1">关闭</el-radio>
-                    <el-radio :label="2">开启</el-radio>
-                  </el-radio-group>
-                </el-form-item>
-              </el-form-grid>
-            </el-form-item>
+<!--            <el-form-item label="好友验证：" v-if="memberManagePlan == 1" required>-->
+<!--              <el-form-grid size="xxmd">-->
+<!--                <el-form-item prop="sex">-->
+<!--                  <el-radio-group v-model="personalQrcode.isvalidate">-->
+<!--                    <el-radio :label="1">关闭</el-radio>-->
+<!--                    <el-radio :label="2">开启</el-radio>-->
+<!--                  </el-radio-group>-->
+<!--                </el-form-item>-->
+<!--              </el-form-grid>-->
+<!--            </el-form-item>-->
 <!--            <el-form-item label="验证信息关键字：" v-if="memberManagePlan == 2 && personalQrcode.isvalidate == 2" required>-->
 <!--              <el-form-grid>-->
 <!--                <el-input   style="width:400px;" maxlength="50" type="textarea" autofocus=true v-model="personalQrcode.keyword" placeholder="请输入验证信息关键字，关键字之间用英文逗号割开，最多输入50个关键字" clearable></el-input>-->
@@ -126,7 +132,7 @@
                   show-checkbox
                   :filter-node-method="selectFilterNode"
                   node-key="id"
-                  default-expand-all="choosePerson"
+                  :default-expand-all=false
                   :default-checked-keys="choosePerson"
                   @check="check"
                   :props="tree.leftDefaultProps" class="code-space">
@@ -194,7 +200,13 @@
                   </el-upload>
               </template>
             </el-table-column>
-            <el-table-column label="失效时间" width="200">
+            <el-table-column width="200">
+              <template slot="header">
+                失效时间
+                <el-tooltip content="子码的失效时间，失效后将不再展示，不设置默认时效为永久。">
+                  <Icon type="question-circle"/>
+                </el-tooltip>
+              </template>
               <template slot-scope="scope">
                 <el-date-picker
                   v-model="scope.row.date"
