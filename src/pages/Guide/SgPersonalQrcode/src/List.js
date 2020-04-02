@@ -306,25 +306,40 @@ export default {
     },
     // 投放预览
     preview (row) {
-      let _this = this
-      _this.dialogVisible = true
-      _this.onShowTitle = row.title
-      if (_this.row.bgimg === '' || _this.row.bgimg === null) {
-        _this.bgpic = bgimg
-      } else {
-        _this.bgpic = _this.row.bgimg
-      }
+      this.onShowId = row.id
+      this.$http.fetch(this.$api.guide.sgPersonalQrcode.findById, {
+        id: row.id
+      }).then(data => {
+        if (data.success) {
+          this.dialogVisible = true
+          this.onShowTitle = data.result.title
+          this.bgpic = data.result.bgimg
+        } else {
+          this.$notify.error(getErrorMsg('获取聚合二维码信息失败：', data.msg))
+        }
+      }).catch((error) => {
+        this.$notify.error(getErrorMsg('加载聚合二维码信息失败：', error))
+      }).finally(() => {
+        this.dialogVisible = true
+      })
     },
     onShowFun (row) { // 投放预览
-      let _this = this
-      _this.dialogVisible = true
-      _this.onShowId = row.id
-      _this.onShowTitle = row.title
-      if (row.bgimg === '' || row.bgimg === null) {
-        _this.bgpic = bgimg
-      } else {
-        _this.bgpic = row.bgimg
-      }
+      this.onShowId = row.id
+      this.$http.fetch(this.$api.guide.sgPersonalQrcode.findById, {
+        id: row.id
+      }).then(data => {
+        if (data.success) {
+          this.dialogVisible = true
+          this.onShowTitle = data.result.title
+          this.bgpic = data.result.bgimg
+        } else {
+          this.$notify.error(getErrorMsg('获取聚合二维码信息失败：', data.msg))
+        }
+      }).catch((error) => {
+        this.$notify.error(getErrorMsg('加载聚合二维码信息失败：', error))
+      }).finally(() => {
+        this.dialogVisible = true
+      })
     },
     transfer () {
       this.$router.push({
