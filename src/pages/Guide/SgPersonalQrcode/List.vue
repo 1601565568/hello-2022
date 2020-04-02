@@ -18,7 +18,9 @@
               <span>该链接为聚合码H5，可投放公众号等</span>
               <div v-if="personalQrcodeLink !=''&& personalQrcodeLink!=null">
                 <qr-code :value="personalQrcodeLink" :size="150" :options="{size:150}"></qr-code>
-                <ns-button type='text' @click='downLode(personalQrcodeLink)'>下载</ns-button>
+                <a :href="url+'/uploadUrl?fileName=聚合二维码&url='+personalQrcodeLink+'&width=430&height=430'">
+                  下载
+                </a>
               </div>
             </el-form-grid>
           </el-form-item>
@@ -28,7 +30,8 @@
                 <img :src="personalQrcodeLink" height="150" width="150">
 <!--                <qr-code :value="personalQrcodeLink" :size="150" :options="{size:150}"></qr-code>-->
 <!--                <ns-button type='text' @click='downLodeQyQrcode()'>下载</ns-button>-->
-                <a :href="personalQrcodeLink">
+<!--                <a :href="personalQrcodeLink">-->
+                <a :href="url+'/uploadImg?fileName=聚合二维码&imgUrl='+personalQrcodeLink+'&width=430&height=430'">
                   下载
                 </a>
               </div>

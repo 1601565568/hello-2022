@@ -16,7 +16,7 @@
         <el-form :model="quickSearchModel" :inline="true" @submit.native.prevent class="pull-right">
           <el-form-item label="员工：" v-if="!_data._queryConfig.expand">
             <el-form-grid size="xmd">
-              <el-input  autofocus=true v-model="model.name" placeholder="" clearable></el-input>
+              <el-input  autofocus=true v-model="model.name" placeholder="请输入员工姓名" clearable></el-input>
             </el-form-grid>
             <ns-button type="primary" @click="$searchAction$()" class="searchbtn">搜索</ns-button>
             <ns-button @click="$resetInputAction$()" class="resetbtn">重置</ns-button>
@@ -38,7 +38,7 @@
         <el-form ref="table_filter_form" :model="model" label-width="80px" :inline="true">
           <el-form-item label="员工：">
             <el-form-grid size="xmd">
-              <el-input  autofocus=true v-model="model.name" placeholder="" clearable></el-input>
+              <el-input  autofocus=true v-model="model.name" placeholder="请输入员工姓名" clearable></el-input>
             </el-form-grid>
           </el-form-item>
           <el-form-item label="微信账号：">
@@ -48,7 +48,7 @@
           </el-form-item>
           <el-form-item label="验证信息：">
             <el-form-grid size="xmd">
-              <el-input  autofocus=true v-model="model.validateMsg" placeholder="" clearable></el-input>
+              <el-input  autofocus=true v-model="model.validateMsg" placeholder="请输入验证信息" clearable></el-input>
             </el-form-grid>
           </el-form-item>
           <el-form-item label="自动通过：">
