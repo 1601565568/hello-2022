@@ -64,6 +64,7 @@
                 <ElInput style="width: 180px"
                          type="text"
                          clearable
+                         :input="model.title=model.title.replace(/\s+/g,'')"
                          maxlength='20'
                          placeholder="请输入标题，长度在20个字符以内"
                          v-model="model.title"
@@ -74,6 +75,7 @@
                          type="text"
                          clearable
                          maxlength='20'
+                         :input="model.content=model.content.replace(/\s+/g,'')"
                          placeholder="请输入摘要，长度在20个字符以内"
                          v-model="model.content"
                 />
