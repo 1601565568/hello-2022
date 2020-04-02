@@ -60,6 +60,7 @@ export default {
       channelCodes: [] // 使用渠道id
     }
     return {
+      focusState: true,
       // 页面滚动条内容高度配置
       scrollBarDeploy: {
         ref: 'fullScreen', // 页面滚动条ref的名称
@@ -151,6 +152,8 @@ export default {
      */
     insertPlaceHolder (append) {
       this.model.content = this.model.content + append
+      // this.focusState = true
+      this.$refs['input'].focus()
     },
     /**
      * @msg: 选择附件内容

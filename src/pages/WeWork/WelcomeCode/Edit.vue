@@ -23,11 +23,13 @@
                     <ElFormItem label="欢迎语：" prop="content" :rules="commonRules.content"><!-- :rules="commonRules.content" -->
                       <ElFormGrid size="xlg" class="message-plan">
                         <ElInput
+                          ref="input"
                           type="textarea"
                           :cols="28"
                           :rows="6"
                           placeholder="请输入欢迎语"
                           v-model.trim="model.content"
+                          autofocus
                         ><!-- maxlength="100" show-word-limit -->
                         </ElInput>
                       </ElFormGrid>
@@ -53,7 +55,7 @@
                     <el-form-item>
                       <el-form-grid>
                         <div class="tmp-tips text-info"><Icon type="info-circle" theme="filled" />
-                          欢迎语内容最多可含<span class="span-yellow">100</span>字,当前已输入<span v-bind:class="[wordCount <= 100 ? 'span-yellow' : 'span-red']"> {{wordCount}}</span>字，"企微姓名"占位符默认占10个字
+                          欢迎语内容最多可含<span class="span-yellow">100</span>字,当前已输入<span v-bind:class="[wordCount <= 100 ? 'span-yellow' : 'span-red']"> {{wordCount}}</span>字，占位符默认占10个字
                         </div>
                       </el-form-grid>
                     </el-form-item>
