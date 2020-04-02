@@ -317,7 +317,6 @@ export default {
       }
     },
     onShowFun (row) { // 投放预览
-      debugger
       let _this = this
       _this.dialogVisible = true
       _this.onShowId = row.id
