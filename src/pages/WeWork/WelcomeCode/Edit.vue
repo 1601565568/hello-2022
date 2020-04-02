@@ -218,7 +218,7 @@
                               :width="98"
                               :height="100"
                               style="width: 175px; height: 213px"
-                              :src="model.image"
+                              :src="imageModel.image"
                               mode="mfit"
                             >
                             </el-image>

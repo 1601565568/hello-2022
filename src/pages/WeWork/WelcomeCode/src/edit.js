@@ -315,10 +315,10 @@ export default {
      * @param {type}
      */
     handleAnnexAvatarSuccess: function (res, file) {
-      this.imageModel.image = res.result.url
-      this.model.image = res.result.url
       this.onSubmitHandleModel(1)
       this.model.annexType = 1
+      this.imageModel.image = res.result.url
+      this.model.image = res.result.url
     },
     /**
      * @msg: 网页/小程序上传封面图
