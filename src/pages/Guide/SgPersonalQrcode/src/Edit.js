@@ -146,17 +146,32 @@ export default {
       name: this.tree.select
     }).then(resp => {
       if (resp.success && resp.result != null) {
-        this.tree.selectData = JSON.parse(resp.result)
+        let json = JSON.parse(resp.result)
+        this.tree.selectData = json
         this.choosePerson.forEach(function (value, i) {
           keyMap[value] = 1
         })
-        this.tree.selectData.forEach(function (value, i) {
-          value.children.forEach(function (value, i) {
-            if (keyMap[value.id] === 1) {
-              this.tree.selectedData.push(value)
+        for (let i = 0; i < json.length; i++) {
+          let children = json[i].children
+          for (let j = 0; j < children.length; j++) {
+            let id = children[j].id
+            if (keyMap[id] === 1) {
+              this.tree.selectedData.push(children[j])
             }
-          })
-        })
+          }
+          // children.forEach(function (value, i) {
+          //   if (keyMap[value.id] === 1) {
+          //     this.tree.selectedData.push(value)
+          //   }
+          // })
+        }
+        // json.forEach(function (value, i) {
+        //   value.children.forEach(function (value, i) {
+        //     if (keyMap[value.id] === 1) {
+        //       this.tree.selectedData.push(value)
+        //     }
+        //   })
+        // })
       } else {
         this.$notify.error(getErrorMsg('获取员工数据失败', resp))
       }
@@ -340,7 +355,7 @@ export default {
         }
       }
       for (let i in this.choosePerson) {
-        if (this.choosePerson[i] === guideId) {
+        if (this.choosePerson[i] === parseInt(guideId)) {
           this.choosePerson.splice(i, 1)
         }
       }
