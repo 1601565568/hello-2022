@@ -17,7 +17,6 @@
                   placeholder="请输入聚合码名称"
                   v-model="personalQrcode.name"
                   maxlength="30"
-                  :input="personalQrcode.name=personalQrcode.name.replace(/\s+/g,'')"
                   show-word-limit
                 />
               </el-form-grid>
