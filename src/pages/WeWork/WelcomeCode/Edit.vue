@@ -23,11 +23,13 @@
                     <ElFormItem label="欢迎语：" prop="content" :rules="commonRules.content"><!-- :rules="commonRules.content" -->
                       <ElFormGrid size="xlg" class="message-plan">
                         <ElInput
+                          ref="input"
                           type="textarea"
                           :cols="28"
                           :rows="6"
                           placeholder="请输入欢迎语"
                           v-model.trim="model.content"
+                          autofocus
                         ><!-- maxlength="100" show-word-limit -->
                         </ElInput>
                       </ElFormGrid>
@@ -53,7 +55,7 @@
                     <el-form-item>
                       <el-form-grid>
                         <div class="tmp-tips text-info"><Icon type="info-circle" theme="filled" />
-                          欢迎语内容最多可含<span class="span-yellow">100</span>字,当前已输入<span v-bind:class="[wordCount <= 100 ? 'span-yellow' : 'span-red']"> {{wordCount}}</span>字，"企微姓名"占位符默认占10个字
+                          欢迎语内容最多可含<span class="span-yellow">100</span>字,当前已输入<span v-bind:class="[wordCount <= 100 ? 'span-yellow' : 'span-red']"> {{wordCount}}</span>字，占位符默认占10个字
                         </div>
                       </el-form-grid>
                     </el-form-item>
@@ -218,7 +220,7 @@
                               :width="98"
                               :height="100"
                               style="width: 175px; height: 213px"
-                              :src="model.image"
+                              :src="imageModel.image"
                               mode="mfit"
                             >
                             </el-image>
@@ -293,10 +295,10 @@
                               >
                               </el-image>
                             </div>
-                            <div class="message-applets__name">最伙店长</div>
+                            <div class="message-applets__name">小程序名</div>
                           </div>
                           <div class="message-program">
-                            <div class="message-program__name">最伙店长</div>
+                            <div class="message-program__name">{{ model.title }}</div>
                             <div class="message-program__logo">
                               <el-image
                                 :width="98"
@@ -572,6 +574,7 @@
               :filter-node-method="filterNode"
               :props="leftDefaultProps"
               class="code-space"
+              @check-change="handleUnSubmitCheckChange"
               ><!-- :default-expanded-keys="[1, 2]" @check-change="handleCheckChange"-->
               <span class="code-detail clearfix" slot-scope="{ node, data }">
                 <span class="code-detail__text">{{ node.label }}</span>
@@ -582,6 +585,30 @@
             </ElTree>
           </ElScrollbar>
         </ElCol>
+        <ElCol :span="12" class="code-container__item">
+            <div class="code-title">已选员工</div>
+            <div class="scoll_left">
+              <ElScrollbar>
+                <ElTree
+                  :data="rightTreeData"
+                  ref="selectedTree"
+                  node-key="id"
+                  :expand-on-click-node="false" class="code-space"><!-- :filter-node-method="tree.selectedFilterNode" -->
+            <span class="code-detail clearfix" slot-scope="{ node, data }">
+              <span class="code-detail__text">{{ node.label }}</span>
+              <span>
+                <ns-button
+                  type="text"
+                  size="mini"
+                  @click="() => remove(node, data)">
+                  <Icon type="delete" className="code-delete"/>
+                </ns-button>
+              </span>
+            </span>
+                </ElTree>
+              </ElScrollbar>
+            </div>
+          </ElCol>
       </ElRow>
       <template slot="footer">
         <ns-button @click="employeeModel.visible = false">取消</ns-button>

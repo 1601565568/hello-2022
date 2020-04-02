@@ -3,7 +3,7 @@
  * @Author: yuye.huang
  * @Date: 2020-02-29 20:52:53
  * @LastEditors: yuye.huang
- * @LastEditTime: 2020-03-31 18:51:18
+ * @LastEditTime: 2020-04-02 13:42:11
  -->
 <template>
   <ns-page-table ref='mainTable'><!-- :colButton="10" -->
@@ -108,7 +108,7 @@
               </div>
             </template>
           </el-table-column>
-          <el-table-column prop="updateTime" label="更新时间" align="center">
+          <el-table-column prop="updateTime" label="更新时间" align="center" sortable>
           </el-table-column>
           <el-table-column :show-overflow-tooltip="true" label="操作" align="center"
                            width="160px">

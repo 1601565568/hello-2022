@@ -83,7 +83,7 @@
         <div class="detail-rightside">
           <el-image
             :width="84" :height="84"
-            src="https://shopguide.oss-cn-hangzhou.aliyuncs.com/guide/201912/10000146/a8da5a2d-a0ea-4785-ace9-4d502d6fbc1e.png"
+            :src="sgGuide.image"
             mode="cover" :circle="true" class="detail-rightside__img"></el-image>
         </div>
       </div>
