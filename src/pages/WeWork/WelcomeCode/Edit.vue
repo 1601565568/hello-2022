@@ -293,10 +293,10 @@
                               >
                               </el-image>
                             </div>
-                            <div class="message-applets__name">最伙店长</div>
+                            <div class="message-applets__name">小程序名</div>
                           </div>
                           <div class="message-program">
-                            <div class="message-program__name">最伙店长</div>
+                            <div class="message-program__name">{{ model.title }}</div>
                             <div class="message-program__logo">
                               <el-image
                                 :width="98"
