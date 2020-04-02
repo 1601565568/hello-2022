@@ -12,7 +12,14 @@
           <div class="form-grid__content">
             <el-form-item label="聚合码名称：" maxlength="30" required  size="xxs">
               <el-form-grid>
-                <el-input  autofocus=true v-model="personalQrcode.name" placeholder="长度不超过30个字" clearable></el-input>
+                <ElInput
+                  type="text"
+                  placeholder="请输入聚合码名称"
+                  v-model="personalQrcode.name"
+                  maxlength="30"
+                  :input="personalQrcode.name=personalQrcode.name.replace(/\s+/g,'')"
+                  show-word-limit
+                />
               </el-form-grid>
             </el-form-item>
             <el-form-item label="聚合码类型：" required>

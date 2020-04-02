@@ -305,10 +305,10 @@ export default {
       })
     },
     // 投放预览
-    preview (row) {
-      this.onShowId = row.id
+    preview () {
+      let id = this.onShowId
       this.$http.fetch(this.$api.guide.sgPersonalQrcode.findById, {
-        id: row.id
+        id: id
       }).then(data => {
         if (data.success) {
           this.dialogVisible = true
@@ -324,6 +324,7 @@ export default {
       })
     },
     onShowFun (row) { // 投放预览
+      debugger
       this.onShowId = row.id
       this.$http.fetch(this.$api.guide.sgPersonalQrcode.findById, {
         id: row.id
@@ -455,6 +456,7 @@ export default {
     },
     qrcodeLink (row) { // 聚合二维码
       this.row = row
+      this.onShowId = row.id
       if (row) {
         this.type = row.type
         if (this.memberManagePlan === 1 && row.type === 0) {
