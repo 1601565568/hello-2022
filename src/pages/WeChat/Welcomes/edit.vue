@@ -2,7 +2,7 @@
   <div>
     <el-form ref="form" placement="right" label-width="100px" :model="model" :rules="rules">
         <ElScrollbar ref="fullScreen">
-          <div class="message-container">
+          <div class="message-container card-noborder">
             <ElCard shadow="never">
               <div>
                 <ElForm label-width="100px">
@@ -13,11 +13,12 @@
                         placeholder="请输入欢迎语标题"
                         v-model="title"
                         maxlength="30"
+                        :input="title=title.replace(/(^\s*)|(\s*$)/g, '')"
                         show-word-limit
                       />
                     </ElFormGrid>
                   </ElFormItem>
-                  <ElFormItem label="选择营销人群：" required>
+                  <ElFormItem label="选择营销人群：">
                     <el-form-grid>
                       <ns-button type='text' @click="choosePersonnel">+ 选择员工</ns-button>
                     </el-form-grid>
@@ -39,7 +40,7 @@
                       </ElFormGrid>
                     </ElFormItem>
                     <ElFormItem>
-                      <postContent :publishDataFather="publishData"/>
+                      <postContent :publishDataFather="publishData" :presetLinkFather="presetLink"/>
                     </ElFormItem>
                   </ElForm>
                 </div>
@@ -56,7 +57,7 @@
                     <ElInput
                       placeholder="请输入员工姓名"
                       suffix-icon="el-icon-search"
-                      v-model="tree.select" class="code-space">
+                      v-model="treeSelect" class="code-space">
                     </ElInput>
                     <ElScrollbar>
                       <ElTree
@@ -65,7 +66,7 @@
                         show-checkbox
                         :filter-node-method="selectFilterNode"
                         node-key="id"
-                        :default-expand-all="true"
+                        :default-expand-all="false"
                         :default-checked-keys="tree.selectKeys"
                         :default-expanded-keys="tree.selectedData"
                         @check="check"
@@ -82,13 +83,14 @@
                     <ElInput
                       placeholder="请输入员工姓名"
                       suffix-icon="el-icon-search"
-                      v-model="tree.selected" class="code-space">
+                      v-model="treeSelected" class="code-space">
                     </ElInput>
                     <ElScrollbar>
                       <ElTree
                         :data="tree.selectedData"
                         ref="selectedTree"
                         node-key="id"
+                        :filter-node-method="selectFilterNode"
                         :expand-on-click-node="false" class="code-space">
                         <span class="code-detail clearfix" slot-scope="{ node, data }">
                           <span class="code-detail__text">{{ node.label }}</span>
@@ -127,6 +129,7 @@ import ElCard from '@nascent/nui/lib/card'
 import ElTimeSelect from '@nascent/nui/lib/time-select'
 import postContent from './content/postContent.vue'
 import contentPreview from './content/contentPreview.vue'
+import { getErrorMsg } from '@/utils/toast'
 edit.components = {
   ElCard,
   ElTimeSelect,
@@ -178,9 +181,11 @@ export default edit
   }
   /* 底部按钮样式 end*/
 
-  /* 卡片样式 start*/
-  >>> .el-card:last-child {
-    border-bottom: none;
+  /* 去点el-card的默认边框 start */
+  .card-noborder {
+    >>>.el-card {
+      border: 0;
+    }
   }
-  /* 卡片样式 end*/
+  /* 去点el-card的默认边框 end */
 </style>

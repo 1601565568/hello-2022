@@ -60,6 +60,7 @@ export default {
       channelCodes: [] // 使用渠道id
     }
     return {
+      focusState: true,
       // 页面滚动条内容高度配置
       scrollBarDeploy: {
         ref: 'fullScreen', // 页面滚动条ref的名称
@@ -83,18 +84,37 @@ export default {
       // 选择员工组件
       // 左边树数据（所有数据,包含id、label、children等shu'ji）
       leftTreeData: null,
+      rightTreeData: [],
       // 左边树默认绑定数据
       leftDefaultProps: {
         children: 'children',
         label: 'label'
-      }
+      },
+      // 系统预置链接集合
+      presetLink: []
     }
   },
-  mounted: function () {
+  computed: {
+    /**
+     * @msg: 获取字数，后续改成computed
+     * 出现一次占位符 + N字数
+     * count += [占位符字符] * (占位符代替字数 - 占位符字符串字数)
+     * @return: 返回输入字数
+     */
+    wordCount () {
+      let count = this.model.content.length
+      // 出现一次占位符 + N字数
+      count += (this.model.content.split('{EmployeeNick}').length - 1) * (10 - 14)
+      count += (this.model.content.split('{CustomerNick}').length - 1) * (10 - 14)
+      return count
+    }
+  },
+  mounted () {
     // 获取渠道列表 todo 异步问题
     this.$http.fetch(this.$api.weWork.welcomeCode.findChannelList).then((resp) => {
       this.channelList = resp.result
       this.$init({ welcomeCodeUuid: this.$route.query.welcomeCodeUuid })
+      this.getSystemPresetLink()
     }).catch((resp) => {
       this.$notify.error(resp.msg)
     })
@@ -105,16 +125,35 @@ export default {
     }
   },
   methods: {
+    remove (node, data) {
+      const parent = node.parent
+      const children = parent.data.children || parent.data
+      const index = children.findIndex(d => d.id === data.id)
+      children.splice(index, 1)
+      const chooseIndex = this.rightTreeData.findIndex(d => d.id === data.id)
+      this.rightTreeData.splice(chooseIndex, 1)
+      const nodes = this.$refs.tree.getCheckedNodes()
+      const nodeIndex = nodes.findIndex(d => d.id === data.id)
+      nodes.splice(nodeIndex, 1)
+      for (let i in nodes) {
+        if (nodes[i].children) {
+          nodes.splice(i, 1)
+        }
+      }
+      this.$refs.tree.setCheckedNodes(nodes)
+    },
     filterNode (value, data) {
       if (!value) return true
       return data.label.indexOf(value) !== -1
     },
     /**
-     * @msg: 插入占位符
+     * @msg: 插入占位符 {EmployeeNick} {CustomerNick}
      * @param {String} 占位符类型
      */
     insertPlaceHolder (append) {
       this.model.content = this.model.content + append
+      // this.focusState = true
+      this.$refs['input'].focus()
     },
     /**
      * @msg: 选择附件内容
@@ -184,6 +223,8 @@ export default {
       }
       if (type === 2 && this.model.annexType !== 2) {
         this.$nextTick(() => {
+          that.linkModel.link = ''
+          that.linkModel.settingId = null
           this.$refs['linkForm'].resetFields()
         })
       }
@@ -206,6 +247,8 @@ export default {
       if (this.model.annexType === 2 && type !== 2) {
         // 从网页变成其他，置空
         this.$nextTick(() => {
+          that.linkModel.link = ''
+          that.linkModel.settingId = null
           that.$refs['linkForm'].resetFields()
         })
       }
@@ -259,9 +302,9 @@ export default {
             settingId: that.appModel.settingId, // 预置配置ID
             appid: that.appModel.appid, // 小程序appid
             path: that.appModel.path, // 小程序路径
-            link: that.appModel.link, // 备用网页
+            // link: that.appModel.link, // 备用网页
             title: that.appModel.title, // 标题
-            desc: that.appModel.desc, // 文案
+            // desc: that.appModel.desc, // 文案
             image: that.appModel.image // 封面
           })
           that.onSubmitHandleModel(type)
@@ -275,9 +318,10 @@ export default {
      * @param {type}
      */
     handleAnnexAvatarSuccess: function (res, file) {
+      this.onSubmitHandleModel(1)
+      this.model.annexType = 1
       this.imageModel.image = res.result.url
       this.model.image = res.result.url
-      this.model.annexType = 1
     },
     /**
      * @msg: 网页/小程序上传封面图
@@ -296,14 +340,14 @@ export default {
      * @msg: 图片上传校验
      */
     beforeAvatarUpload (file) {
-      const isJPG = file.type === 'image/jpeg'
+      const isJPG = file.type === 'image/jpeg' // || file.type === 'image/png'
       const isLt2M = file.size / 1024 / 1024 < 2
 
       if (!isJPG) {
-        this.$message.error('上传头像图片只能是 JPG 格式!')
+        this.$message.error('上传图片只能是 JPG 格式!')
       }
       if (!isLt2M) {
-        this.$message.error('上传头像图片大小不能超过 20MB!')
+        this.$message.error('上传图片大小不能超过 20MB!')
       }
       return isJPG && isLt2M
     },
@@ -312,6 +356,7 @@ export default {
      */
     showEmployee () {
       let _this = this
+      _this.rightTreeData = []
       // 预取历史数据
       // _this.employeeModel.employeeIds = this.model.employeeIds
       _this.employeeModel.visible = true
@@ -320,7 +365,14 @@ export default {
         if (resp.success && resp.result != null) {
           // 全部数据
           _this.leftTreeData = JSON.parse(resp.result)
-          // _this.choosePerson = [5, 6, 7, 8]
+          // 初始化右侧数据
+          let res = this.$refs.tree.getCheckedNodes()
+          res.forEach((item) => {
+            if (item.id) {
+              _this.rightTreeData.push(item)
+            }
+          })
+          this.$refs.selectedTree.setCheckedNodes(_this.rightTreeData)
         } else {
           _this.$notify.error(getErrorMsg('获取员工数据失败', resp))
         }
@@ -332,13 +384,14 @@ export default {
      * @msg: 确认选择员工
      */
     selectEmployee () {
+      this.rightTreeData = []
       this.employeeModel.visible = false
-      this.handleCheckChange()
+      this.handleSubmitCheckChange()
     },
     /**
      * @msg: 赋值已选员工 | 提示语
      */
-    handleCheckChange () {
+    handleSubmitCheckChange () {
       let _this = this
       let res = this.$refs.tree.getCheckedNodes()
       let arr = []
@@ -351,6 +404,22 @@ export default {
 
       _this.employeeSelectMsg = '已选择' + _this.model.employeeIds.length + '名员工'
     },
+    /**
+     * @msg: 处理未提交前的选择变化
+     */
+    handleUnSubmitCheckChange () {
+      let _this = this
+      let res = _this.$refs.tree.getCheckedNodes()
+      let arr = []
+      res.forEach((item) => {
+        if (item.id) {
+          arr.push(item)
+        }
+      })
+      _this.rightTreeData = arr
+      this.$refs.selectedTree.setCheckedNodes(_this.rightTreeData)
+      // _this.rightTreeData = arr
+    },
     setAllEmployee () {
       let _this = this
       let arr = []
@@ -360,7 +429,7 @@ export default {
         })
       })
       _this.$refs.tree.setCheckedKeys(arr)
-      _this.handleCheckChange()
+      _this.handleUnSubmitCheckChange()
     },
     /**
      * @msg: 选择渠道
@@ -401,6 +470,10 @@ export default {
      */
     saveOrUpdate: function () {
       let that = this
+      if (that.wordCount > 100) {
+        that.$message.error('欢迎语超过最大可输入字数!')
+        return
+      }
       let annexContent = {}
       if (that.model.annexType === 1) {
         annexContent.image = that.model.image
@@ -419,7 +492,6 @@ export default {
       }
       // 附带内容json
       that.model.annexContent = JSON.stringify(annexContent)
-
       that.$refs.form.validate(valid => {
         if (!valid) {
           return
@@ -489,6 +561,33 @@ export default {
             that.$notify.error(resp.msg)
           })
       }
+    },
+    // 获取系统预置链接
+    getSystemPresetLink: function () {
+      let _this = this
+      _this.$http.fetch(_this.$api.guide.systemPreset.getLink).then(resp => {
+        if (resp.success && resp.result != null) {
+          resp.result.forEach(function (value, i) {
+            _this.presetLink.push(value)
+          })
+        }
+      })
+    },
+    systemPresetChange (e) { // 首页，分类，我的页面选择是添加codeTargetName
+      var _this = this
+      this.presetLink.forEach(function (value, i) {
+        if (e === '') {
+          _this.linkModel.link = ''
+          return
+        }
+        if (value.id === e) {
+          _this.linkModel.link = value.url + '&guideUserId={guideUserId}&userId={userId}&source=2'
+          _this.linkModel.image = value.picture
+          _this.linkModel.title = value.title
+          _this.linkModel.desc = value.content
+          _this.linkModel.settingId = e
+        }
+      })
     }
   }
 }

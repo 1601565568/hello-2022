@@ -442,13 +442,14 @@ export default {
     showTagData (row, offLineShopId) {
       this.showTag = true
       this.sysCustomerId = row.sysCustomerId
-      // 打标签时.线下店铺Id = 后台传过来的id,保存标签时使用这个offlineShopId
-      this.offLineShopId = row.sgExclusiveShopId
       this.$http.fetch(this.$api.guide.guide.queryAllTag, {
         'shopId': row.sgExclusiveShopId !== 0 ? row.sgExclusiveShopId : offLineShopId,
         'sysCustomerId': row.sysCustomerId
       }).then(resp => {
         if (resp.success && resp.result != null) {
+          // 打标签时.线下店铺Id = 后台传过来的id,保存标签时使用这个offlineShopId
+          this.offLineShopId = row.sgExclusiveShopId
+
           // 已启用的会员标签数据
           this.tagData = resp.result.allPropertyInfo
           // 客户已打标的数据

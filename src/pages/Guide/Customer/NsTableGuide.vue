@@ -12,9 +12,6 @@
               <div class="subdivision-tree-node" slot-scope="{ node }" >
                 <span>{{node.label}}</span>
                 <span v-if="node.label === '全部'">
-              <el-tooltip content="查看所有的客户">
-                <Icon type="question-circle"/>
-              </el-tooltip>
             </span>
               </div>
             </el-tree>
@@ -31,8 +28,8 @@
         <div  class="template-page__row-right">
         <ns-page-table @add="$emit('add')"  @shopEdit="$emit('shopEdit')" >
     <!-- 按钮 -->
-    <template slot="buttons">
-      <ns-table-operate-button :buttons="_data._table.table_buttons">
+    <template v-if="showChangeGuide" slot="buttons">
+      <ns-table-operate-button  :buttons="_data._table.table_buttons">
       </ns-table-operate-button>
     </template>
     <!-- 按钮-结束 -->

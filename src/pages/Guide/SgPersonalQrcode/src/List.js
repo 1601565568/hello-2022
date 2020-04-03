@@ -5,6 +5,7 @@ import bgimg from './images/bgimage.png'
 import posterPreview from './images/posterPreview.png'
 import qrcode from './images/qrcode.png'
 export default {
+  components: { Image },
   data: function () {
     let pagination = {
       enable: true,
@@ -141,6 +142,8 @@ export default {
     }
     let that = this
     return {
+      url: api.API_ROOT + '/upload',
+      memberManagePlan: 1, // 企业方案1：企微2：个号
       bgpic: '',
       postimg: posterPreview,
       qrcodeimg: qrcode,
@@ -150,6 +153,8 @@ export default {
       input: '',
       // 弹框是否打开判断值
       dialogVisible: false,
+      // 聚合码类型 0：员工类型  1：自定义类型
+      type: 1,
       personalLinkFormVisible: false,
       onShowId: '',
       onShowTitle: '',
@@ -220,6 +225,9 @@ export default {
   },
   mounted () {
     this.initShopList()
+    this.$http.fetch(this.$api.core.common.getRecruitVersion).then(data => {
+      this.memberManagePlan = data.result.memberManagePlan
+    })
   },
   methods: {
     // 上传图片地址的切换事件
@@ -230,12 +238,14 @@ export default {
     // 上传图片的类型和大小判断事件
     beforeAvatarUpload (file) {
       const isJPG = file.type === 'image/jpeg'
-      const isLt2M = file.size / 1024 / 1024 < 2
+      const isLt2M = file.size / 1024 / 1024 < 5
       if (!isJPG) {
-        this.$message.error('上传头像图片只能是 JPG 格式!')
+        this.$message.error('上传背景图只能是 JPG 格式!')
+        return false
       }
       if (!isLt2M) {
-        this.$message.error('上传头像图片大小不能超过 20MB!')
+        this.$message.error('上传背景图大小不能超过 5MB!')
+        return false
       }
       return isJPG && isLt2M
     },
@@ -270,7 +280,7 @@ export default {
       var a = document.createElement('a')
       a.download = name || '背景图'
       // 设置图片地址
-      a.href = this.bgpic
+      a.href = this.url + '/uploadImg?fileName=背景图&imgUrl=' + this.bgpic + '&width=750&height=1624'
       a.click()
     },
     onSaveShow () { // 保存投放预览
@@ -295,26 +305,41 @@ export default {
       })
     },
     // 投放预览
-    preview (row) {
-      let _this = this
-      _this.dialogVisible = true
-      _this.onShowTitle = _this.row.title
-      if (_this.row.bgimg === '' || _this.row.bgimg === null) {
-        _this.bgpic = bgimg
-      } else {
-        _this.bgpic = _this.row.bgimg
-      }
+    preview () {
+      let id = this.onShowId
+      this.$http.fetch(this.$api.guide.sgPersonalQrcode.findById, {
+        id: id
+      }).then(data => {
+        if (data.success) {
+          this.dialogVisible = true
+          this.onShowTitle = data.result.title
+          this.bgpic = data.result.bgimg
+        } else {
+          this.$notify.error(getErrorMsg('获取聚合二维码信息失败：', data.msg))
+        }
+      }).catch((error) => {
+        this.$notify.error(getErrorMsg('加载聚合二维码信息失败：', error))
+      }).finally(() => {
+        this.dialogVisible = true
+      })
     },
     onShowFun (row) { // 投放预览
-      let _this = this
-      _this.dialogVisible = true
-      _this.onShowId = row.id
-      _this.onShowTitle = row.title
-      if (row.bgimg === '' || row.bgimg === null) {
-        _this.bgpic = bgimg
-      } else {
-        _this.bgpic = row.bgimg
-      }
+      this.onShowId = row.id
+      this.$http.fetch(this.$api.guide.sgPersonalQrcode.findById, {
+        id: row.id
+      }).then(data => {
+        if (data.success) {
+          this.dialogVisible = true
+          this.onShowTitle = data.result.title
+          this.bgpic = data.result.bgimg
+        } else {
+          this.$notify.error(getErrorMsg('获取聚合二维码信息失败：', data.msg))
+        }
+      }).catch((error) => {
+        this.$notify.error(getErrorMsg('加载聚合二维码信息失败：', error))
+      }).finally(() => {
+        this.dialogVisible = true
+      })
     },
     transfer () {
       this.$router.push({
@@ -428,17 +453,27 @@ export default {
         })
       })
     },
-    qrcodeLink (row) { // 修改和新增功能
+    qrcodeLink (row) { // 聚合二维码
       this.row = row
+      this.onShowId = row.id
       if (row) {
-        this.row = row
-        var hostUrl = window.location.protocol + '//' + window.location.host
-        this.personalQrcodeLink = hostUrl + '/mobile/aggregationCode.html?guid=' + row.guid + '&groupId=' + row.groupid
-        this.onShowId = row.id
-        if (row.bgimg === '' || row.bgimg === null) {
-          this.bgpic = bgimg
-        } else {
-          this.bgpic = row.bgimg
+        this.type = row.type
+        if (this.memberManagePlan === 1 && row.type === 0) {
+          if (row.qrcode_url === '' || row.qrcode_url === null) {
+            this.personalQrcodeLink = bgimg
+          } else {
+            this.personalQrcodeLink = row.qrcode_url
+          }
+        } else if (this.memberManagePlan === 2 || (this.memberManagePlan === 1 && row.type === 1)) {
+          this.row = row
+          var hostUrl = window.location.protocol + '//' + window.location.host
+          this.personalQrcodeLink = hostUrl + '/mobile/aggregationCode.html?guid=' + row.guid + '&groupId=' + row.groupid
+          this.onShowId = row.id
+          if (row.bgimg === '' || row.bgimg === null) {
+            this.bgpic = bgimg
+          } else {
+            this.bgpic = row.bgimg
+          }
         }
         if (row) {
           this.title = '聚合二维码'
@@ -546,6 +581,15 @@ export default {
           }
         })
       }
+    },
+    downLodeQyQrcode () {
+      var event = new MouseEvent('click')
+      var a = document.createElement('a')
+      a.download = name || '背景图'
+      // 设置图片地址
+      a.href = this.personalQrcodeLink
+      // a.click()
+      a.dispatchEvent(event)
     },
     disabled (shopId) {
       let retVal = this.guideShopList.some(item => {

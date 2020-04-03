@@ -12,15 +12,12 @@
     <!-- el-inpu 需添加  @keyup.enter.native="$quickSearchAction$" 配置，实现回车搜索 -->
     <template slot="searchSearch">
       <el-form :model="model" :inline="true" @submit.native.prevent class="pull-right">
-        <el-form-item v-show="_data._queryConfig.expand === false" label="转出人：">
-          <el-input ref="quickText" style="width: 200px" v-model="model.transName" placeholder="请输入转出人" @keyup.enter.native="$quickSearchAction$('transName')" clearable>
-            <!--<Icon type="search" className="el-input__icon" style="padding: 5px;" slot="suffix" name="name"-->
-                  <!--@click="$quickSearchAction$('transName')"/>-->
+        <el-form-item v-show="_data._queryConfig.expand === false" label="操作人：">
+          <el-input ref="quickText" style="width: 200px" v-model="model.dealUserName" placeholder="请输入操作人姓名" @keyup.enter.native="$searchAction$()" clearable><!-- $quickSearchAction$('outGuideName') -->
           </el-input>
-          <ns-button type="primary" @click="$searchAction$()" class="searchbtn">搜索</ns-button>
+          <ns-button type="primary" @click="$searchAction$()" class="searchbtn" >搜索</ns-button><!-- @keyup.enter.native="$searchAction$()" -->
           <ns-button @click="$resetInputAction$()" class="resetbtn">重置</ns-button>
         </el-form-item>
-
         <el-form-item>
           <ns-button type="text" @click="$handleTabClick">
             {{collapseText}}
@@ -35,52 +32,37 @@
     <!-- el-form 需添加  @keyup.enter.native="onSearch" 配置，实现回车搜索， onSearch 为搜索方法 -->
     <!-- el-form 需添加  surround-btn 类名 配置环绕按钮效果 -->
     <template slot="advancedSearch" v-if="_data._queryConfig.expand">
-      <el-form ref="table_filter_form" label-width="80px" @keyup.enter.native="onSearch" class="surround-btn"
+      <el-form ref="table_filter_form" label-width="80px" @keyup.enter.native="$searchAction$()" class="surround-btn"
                :model="model" :rules="rules" :inline="true">
-        <el-form-item label="转出人：">
+        <el-form-item label="操作人：">
           <el-form-grid size="xmd">
-            <el-input  type="text" v-model="model.transName" placeholder="请输入转出人" clearable>
+            <el-input  type="text" v-model="model.dealUserName" placeholder="请输入操作人姓名" clearable>
             </el-input>
           </el-form-grid>
         </el-form-item>
-        <el-form-item label="转入人：">
-          <el-form-grid size="xmd">
-            <el-input  type="text" v-model="model.receiveName" placeholder="请输入转入人" clearable>
-            </el-input>
-          </el-form-grid>
-        </el-form-item>
-        <el-form-item label="转移类型：" prop="transMethod">
+        <el-form-item label="转移类型：" prop="transferType">
           <el-form-grid size="xmd" >
-            <el-select  v-model="model.transType" clearable filterable placeholder="请选择转移方式">
-              <el-option label="门店均分" value="1"></el-option>
-              <el-option label="指定导购转移" value="2"></el-option>
-              <el-option label="自定义转移" value="3"></el-option>
-              <el-option label="店长转移" value="4"></el-option>
-              <el-option label="导购自离" value="5"></el-option>
-              <el-option label="会员归属转移" value="6"></el-option>
+            <el-select  v-model="model.transferType" filterable clearable placeholder="请选择转移方式">
+              <el-option label="后台客户列表转移" value="0"></el-option>
+              <el-option label="员工更换门店" value="1"></el-option>
+              <el-option label="员工离职" value="2"></el-option>
+              <el-option label="店长会员转移" value="3"></el-option>
+              <el-option label="商城会员自主转移" value="4"></el-option>
             </el-select>
           </el-form-grid>
         </el-form-item>
-        <el-form-item label="操作类型："  prop="transType">
-          <el-form-grid size="xmd">
-            <el-select  v-model="model.operationType" clearable filterable placeholder="请选择转移类型">
-              <el-option label="品牌转移" value="0"></el-option>
-              <el-option label="门店转移" value="1"></el-option>
-              <el-option label="导购自离" value="2"></el-option>
-            </el-select>
-          </el-form-grid>
-        </el-form-item>
-        <el-form-item label="转移时间：" prop="time">
+        <el-form-item label="转移时间：" prop="timeRange">
           <el-form-grid size="xlg">
             <el-date-picker
-              v-model="model.validTime"
-              value-format="yyyy-MM-dd HH-mm-ss"
+              v-model="model.timeRange"
               type="datetimerange"
               :picker-options="pickerOptions"
               range-separator="至"
               start-placeholder="请选择开始日期"
               end-placeholder="请选择结束日期"
-              align="right">
+              :default-time="['00:00:00']"
+              @change="changeTime"
+              align="right"><!-- value-format="yyyy-MM-dd HH-mm-ss" :default-time="['00:00:00', '23:59:59']" -->
             </el-date-picker>
           </el-form-grid>
         </el-form-item>
@@ -108,68 +90,43 @@
                 stripe
                 resizable v-loading.lock="_data._table.loadingtable"
                 :element-loading-text="$t('prompt.loading')" @sort-change="$orderChange$">
-
-        <el-table-column :show-overflow-tooltip="true" type="default" prop="transName" align="left"
-                         label="转出人" :sortable="false" width="300">
+        <el-table-column :show-overflow-tooltip="true" type="default" prop="dealUserName" align="left"
+                         label="操作人姓名" :sortable="false" width="180">
+        </el-table-column>
+        <el-table-column :show-overflow-tooltip="true" type="default" prop="dealUserId" align="right"
+                         label="操作人ID" :sortable="false" width="160">
+        </el-table-column>
+        <el-table-column :show-overflow-tooltip="true" type="default" prop="transferNum" align="right"
+                         label="转移人数" :sortable="false" width="150">
           <template slot-scope="scope">
-            {{scope.row.transName}} [{{scope.row.transShopName}}]
+            <a href="javascript:" @click="showListDialog(scope.row.transferId)">{{scope.row.transferNum}}</a>
           </template>
         </el-table-column>
-        <el-table-column :show-overflow-tooltip="true" type="default" prop="receiveName" align="left"
-                         label="转入人" :sortable="false">
+        <el-table-column :show-overflow-tooltip="true" type="default" prop="transferType" align="left"
+                         label="转移类型" :sortable="false" width="200">
           <template slot-scope="scope">
-            {{scope.row.receiveName || '-'}} [{{scope.row.receiveShopName}}]
-          </template>
-        </el-table-column>
-        <el-table-column :show-overflow-tooltip="true" type="default" prop="customer_num" align="left"
-                         label="转移人数" :sortable="false" width="80">
-          <template slot-scope="scope">
-            <a href="javascript:" @click="showListDialog(scope.row.id)">{{scope.row.customer_num}}</a>
-          </template>
-
-        </el-table-column>
-        <el-table-column :show-overflow-tooltip="true" type="default" prop="trans_type" align="left"
-                         label="转移类型" :sortable="false" width="110">
-          <template slot-scope="scope">
-            <span v-if="scope.row.trans_type == 1">
-              门店均分
+            <span v-if="scope.row.transferType == 0">
+              后台客户列表转移
             </span>
-            <span v-if="scope.row.trans_type == 2">
-              指定导购转移
+            <span v-else-if="scope.row.transferType == 1">
+              员工更换门店
             </span>
-            <span v-if="scope.row.trans_type == 3">
-              自定义转移
+            <span v-else-if="scope.row.transferType == 2">
+              员工离职
             </span>
-            <span v-if="scope.row.trans_type == 4">
-              店长转移
+            <span v-else-if="scope.row.transferType == 3">
+              店长会员转移
             </span>
-            <span v-if="scope.row.trans_type == 5">
-              导购自离
+            <span v-else-if="scope.row.transferType == 4">
+              商城会员自主转移
             </span>
-            <span v-if="scope.row.trans_type == 6">
-              会员归属转移
+            <span v-else>
+              未知类型
             </span>
           </template>
         </el-table-column>
-        <el-table-column :show-overflow-tooltip="true" type="default" prop="operation_type" align="left"
-                         label="操作类型" :sortable="false" width="80">
-          <template slot-scope="scope">
-            <span v-if="scope.row.operation_type == 0">
-              品牌转移
-            </span>
-            <span v-if="scope.row.operation_type == 1">
-              门店转移
-            </span>
-            <span v-if="scope.row.operation_type == 2">
-              导购自离
-            </span>
-          </template>
-        </el-table-column>
-        <el-table-column :show-overflow-tooltip="true" type="default" prop="operation" align="left"
-                         label="操作人ID" :sortable="false" width="80">
-        </el-table-column>
-        <el-table-column :show-overflow-tooltip="true" type="default" prop="createTime" align="right"
-                         label="转移时间" :sortable="false" width="180">
+        <el-table-column :show-overflow-tooltip="true" type="default" prop="transferTime" align="center"
+                         label="转移时间" :sortable="false" >
         </el-table-column>
       </el-table>
     </template>
@@ -184,11 +141,12 @@
                      @current-change="$pageChange$" >
       </el-pagination>
 
-      <el-dialog :title="title" :visible.sync="showCustomerDialogVisible" width="800px" :before-close="onCancleDialog" :vetically=true>
+      <el-dialog :title="title" :visible.sync="showCustomerDialogVisible" width="800px" :before-close="onCancelDialog" :vetically=true>
         <div style="overflow-x:hidden;overflow-y:auto;">
-          <el-table :data="customerData">
-            <el-table-column prop="name" label="姓名" align="center" width="200"></el-table-column>
-            <el-table-column prop="sex" label="性别" align="center" width="150">
+          <el-table :data="customerData" v-loading.lock="detailLoadingTable"
+                :element-loading-text="$t('prompt.loading')">
+            <el-table-column prop="name" label="姓名" align="center" width="100"></el-table-column>
+            <el-table-column prop="sex" label="性别" align="center" width="80">
               <template slot-scope="scope">
                 <span v-if="scope.row.sex == 0">
                   女
@@ -201,11 +159,17 @@
                 </span>
               </template>
             </el-table-column>
-            <el-table-column prop="mobile" label="手机号" align="center" width="200">
+            <el-table-column prop="mobile" label="手机号" align="center" width="120">
               <template slot-scope="scope">{{scope.row.mobile?scope.row.mobile:'-'}}</template>
             </el-table-column>
-            <el-table-column prop="memberCard" label="会员卡号" align="center" width="200">
+            <el-table-column prop="memberCard" label="会员卡号" align="center" width="150">
               <template slot-scope="scope">{{scope.row.memberCard?scope.row.memberCard:'-'}}</template>
+            </el-table-column>
+            <el-table-column prop="outGuideName" label="原导购" align="center" width="180">
+              <template slot-scope="scope">{{scope.row.outGuideName?scope.row.outGuideName:'-'}} [{{scope.row.outShopName?scope.row.outShopName:'-'}}]</template>
+            </el-table-column>
+            <el-table-column prop="intoGuideName" label="新导购" align="center" width="180">
+              <template slot-scope="scope">{{scope.row.intoGuideName?scope.row.intoGuideName:'-'}} [{{scope.row.intoShopName?scope.row.intoShopName:'-'}}]</template>
             </el-table-column>
           </el-table>
         </div>
@@ -216,6 +180,8 @@
                        :current-page.sync="_data.paginations.page"
                        :page-size="_data.paginations.size"
                        layout="total, sizes, prev, pager, next, jumper"
+                       @size-change="detailSizeChange"
+                      @current-change="detailPageChange"
         >
         </el-pagination>
       </el-dialog>

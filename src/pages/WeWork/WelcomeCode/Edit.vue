@@ -1,12 +1,12 @@
 <template>
-  <div>
+  <div class="card-noborder">
     <div class="page-title">
       {{ model.welcomeCodeUuid?'修改':'新增' }}智能欢迎语
     </div>
     <ElScrollbar ref="fullScreen">
       <ElCard shadow="never">
         <div slot="header">基本信息
-          <span class="welcome-aside__set text-primary"><Icon type="exclamation-circle" />配置后，客户将在添加成员为联系人后收到该欢迎语</span>
+          <!-- <span class="welcome-aside__set text-primary"><Icon type="exclamation-circle" />配置后，客户将在添加成员为联系人后收到该欢迎语</span> -->
         </div>
         <div class="message-message">
           <!-- 最外层 -->
@@ -19,18 +19,18 @@
                     <Icon type="exclamation-circle" />
                     配置后，客户将在添加成员为联系人后收到该欢迎语
                   </div> -->
-                  <ElForm ref="form" :model="model" label-width="100px" class="pull-right" :rules="commonRules">
-                    <ElFormItem label="欢迎语：" prop="content" :rules="commonRules.content">
+                  <ElForm ref="form" :model="model" label-width="100px" class="pull-right">
+                    <ElFormItem label="欢迎语：" prop="content" :rules="commonRules.content"><!-- :rules="commonRules.content" -->
                       <ElFormGrid size="xlg" class="message-plan">
                         <ElInput
+                          ref="input"
                           type="textarea"
                           :cols="28"
                           :rows="6"
                           placeholder="请输入欢迎语"
-                          v-model="model.content"
-                          maxlength="100"
-                          show-word-limit
-                        >
+                          v-model.trim="model.content"
+                          autofocus
+                        ><!-- maxlength="100" show-word-limit -->
                         </ElInput>
                       </ElFormGrid>
                     </ElFormItem>
@@ -40,7 +40,7 @@
                             type="text"
                             @click="insertPlaceHolder('{EmployeeNick}')"
                           >
-                            +插入好友微信昵称
+                            +插入企业微信员工姓名
                           </ns-button>
                         </ElFormGrid>
                         <ElFormGrid>
@@ -48,10 +48,17 @@
                             type="text"
                             @click="insertPlaceHolder('{CustomerNick}')"
                           >
-                            +插入员工微信昵称
+                            +插入客户微信昵称
                           </ns-button>
                         </ElFormGrid>
                     </ElFormItem>
+                    <el-form-item>
+                      <el-form-grid>
+                        <div class="tmp-tips text-info"><Icon type="info-circle" theme="filled" />
+                          欢迎语内容最多可含<span class="span-yellow">100</span>字,当前已输入<span v-bind:class="[wordCount <= 100 ? 'span-yellow' : 'span-red']"> {{wordCount}}</span>字，占位符默认占10个字
+                        </div>
+                      </el-form-grid>
+                    </el-form-item>
                     <ElFormItem label="附件：">
                       <ElFormGrid>
                           <span
@@ -81,7 +88,8 @@
                           <el-upload
                             class="avatar-uploader"
                             :action="$api.core.sgUploadFile('image')"
-                            accept=".jpg,.jpeg,.png,.bmp,.gif"
+                            accept="image/jpeg,image/gif,image/png"
+                            :before-upload="beforeAvatarUpload"
                             :on-success="handleAnnexAvatarSuccess"
                             :show-file-list="false"
                           >
@@ -159,152 +167,154 @@
                 <!-- 右侧预览页 -->
                 <el-main class="message-main">
                   <div class="message-main__exampleimg">
-                    <div class="message-msg clearfix">
-                      <div class="message-msg__avatar">
-                        <el-image
-                          :width="98"
-                          :height="100"
-                          style="width: 32px; height: 32px"
-                          src="https://img.alicdn.com/imgextra/i4/645690921/O1CN01Q1rjbi1IfrITTcm0O_!!645690921.jpg_430x430q90.jpg"
-                          mode="mfit"
-                        >
-                        </el-image>
-                      </div>
-                      <div class="message-msg__text">
-                        <div class="message-news">
-                          我通过了你的朋友验证，现在我们可以开始聊天了
-                        </div>
-                        <div class="message-circle"></div>
-                      </div>
-                    </div>
-                    <div class="message-msg clearfix">
-                      <div class="message-msg__avatar">
-                        <el-image
-                          :width="98"
-                          :height="100"
-                          style="width: 32px; height: 32px"
-                          src="https://img.alicdn.com/imgextra/i4/645690921/O1CN01Q1rjbi1IfrITTcm0O_!!645690921.jpg_430x430q90.jpg"
-                          mode="mfit"
-                        >
-                        </el-image>
-                      </div>
-                      <div class="message-msg__text">
-                        <div class="message-news">{{ model.content ? model.content : "欢迎您！这是一段自动回复消息～" }}</div>
-                        <div class="message-circle"></div>
-                      </div>
-                    </div>
-                    <!--图片开始-->
-                    <div class="message-msg clearfix" v-if="model.annexType === 1">
-                      <div class="message-msg__avatar">
-                        <el-image
-                          :width="98"
-                          :height="100"
-                          style="width: 32px; height: 32px"
-                          src="https://img.alicdn.com/imgextra/i4/645690921/O1CN01Q1rjbi1IfrITTcm0O_!!645690921.jpg_430x430q90.jpg"
-                          mode="mfit"
-                        >
-                        </el-image>
-                      </div>
-                      <div class="message-image">
-                        <div class="message-figurelist clearfix">
+                    <ElScrollbar>
+                      <div class="message-msg clearfix">
+                        <div class="message-msg__avatar">
                           <el-image
                             :width="98"
                             :height="100"
-                            style="width: 175px; height: 213px"
-                            :src="model.image"
+                            style="width: 32px; height: 32px"
+                            src="https://img.alicdn.com/imgextra/i4/645690921/O1CN01Q1rjbi1IfrITTcm0O_!!645690921.jpg_430x430q90.jpg"
                             mode="mfit"
                           >
                           </el-image>
                         </div>
-                      </div>
-                    </div>
-                    <!--图片 结束-->
-                    <!--网页 开始-->
-                    <div
-                      class="message-msg clearfix"
-                      v-else-if="model.annexType === 2"
-                    >
-                      <div class="message-msg__avatar">
-                        <el-image
-                          :width="98"
-                          :height="100"
-                          style="width: 32px; height: 32px"
-                          src="https://img.alicdn.com/imgextra/i4/645690921/O1CN01Q1rjbi1IfrITTcm0O_!!645690921.jpg_430x430q90.jpg"
-                          mode="mfit"
-                        >
-                        </el-image>
-                      </div>
-                      <div class="message-msg__text">
-                        <div class="message-web">
-                          <div class="message-web__slogan">
-                            {{ model.title }}
+                        <div class="message-msg__text">
+                          <div class="message-news">
+                            我通过了你的朋友验证，现在我们可以开始聊天了
                           </div>
-                          <div class="message-web__propagate clearfix">
-                            <div class="message-leftside">
-                              {{ model.desc }}
+                          <div class="message-circle"></div>
+                        </div>
+                      </div>
+                      <div class="message-msg clearfix">
+                        <div class="message-msg__avatar">
+                          <el-image
+                            :width="98"
+                            :height="100"
+                            style="width: 32px; height: 32px"
+                            src="https://img.alicdn.com/imgextra/i4/645690921/O1CN01Q1rjbi1IfrITTcm0O_!!645690921.jpg_430x430q90.jpg"
+                            mode="mfit"
+                          >
+                          </el-image>
+                        </div>
+                        <div class="message-msg__text">
+                          <div class="message-news">{{ model.content ? model.content : "欢迎您！这是一段自动回复消息～" }}</div>
+                          <div class="message-circle"></div>
+                        </div>
+                      </div>
+                      <!--图片开始-->
+                      <div class="message-msg clearfix" v-if="model.annexType === 1">
+                        <div class="message-msg__avatar">
+                          <el-image
+                            :width="98"
+                            :height="100"
+                            style="width: 32px; height: 32px"
+                            src="https://img.alicdn.com/imgextra/i4/645690921/O1CN01Q1rjbi1IfrITTcm0O_!!645690921.jpg_430x430q90.jpg"
+                            mode="mfit"
+                          >
+                          </el-image>
+                        </div>
+                        <div class="message-image">
+                          <div class="message-figurelist clearfix">
+                            <el-image
+                              :width="98"
+                              :height="100"
+                              style="width: 175px; height: 213px"
+                              :src="imageModel.image"
+                              mode="cover"
+                            >
+                            </el-image>
+                          </div>
+                        </div>
+                      </div>
+                      <!--图片 结束-->
+                      <!--网页 开始-->
+                      <div
+                        class="message-msg clearfix"
+                        v-else-if="model.annexType === 2"
+                      >
+                        <div class="message-msg__avatar">
+                          <el-image
+                            :width="98"
+                            :height="100"
+                            style="width: 32px; height: 32px"
+                            src="https://img.alicdn.com/imgextra/i4/645690921/O1CN01Q1rjbi1IfrITTcm0O_!!645690921.jpg_430x430q90.jpg"
+                            mode="mfit"
+                          >
+                          </el-image>
+                        </div>
+                        <div class="message-msg__text">
+                          <div class="message-web">
+                            <div class="message-web__slogan">
+                              {{ model.title }}
                             </div>
-                            <el-image
-                              :width="98"
-                              :height="100"
-                              style="width: 98px; height: 100px"
-                              :src="model.image"
-                              mode="mfit"
-                              class="message-rightside"
-                            >
-                            </el-image>
+                            <div class="message-web__propagate clearfix">
+                              <div class="message-leftside">
+                                {{ model.desc }}
+                              </div>
+                              <el-image
+                                :width="98"
+                                :height="100"
+                                style="width: 98px; height: 100px"
+                                :src="model.image"
+                                mode="fill"
+                                class="message-rightside"
+                              >
+                              </el-image>
+                            </div>
                           </div>
+                          <div class="message-circle"></div>
                         </div>
-                        <div class="message-circle"></div>
                       </div>
-                    </div>
-                    <!--网页 结束-->
-                    <!--小程序 开始-->
-                    <div
-                      class="message-msg clearfix"
-                      v-else-if="model.annexType === 3"
-                    >
-                      <div class="message-msg__avatar">
-                        <el-image
-                          :width="98"
-                          :height="100"
-                          style="width: 32px; height: 32px"
-                          src="https://img.alicdn.com/imgextra/i4/645690921/O1CN01Q1rjbi1IfrITTcm0O_!!645690921.jpg_430x430q90.jpg"
-                          mode="mfit"
-                        >
-                        </el-image>
-                      </div>
-                      <div class="message-msg__text message-msg__text--bgcolor">
-                        <div class="message-applets">
-                          <div class="message-applets__logo">
-                            <el-image
-                              :width="98"
-                              :height="100"
-                              style="width: 20px; height: 20px"
-                              src="https://img.alicdn.com/imgextra/i4/645690921/O1CN01Q1rjbi1IfrITTcm0O_!!645690921.jpg_430x430q90.jpg"
-                              mode="mfit"
-                              class="message-applets__logo--img"
-                            >
-                            </el-image>
+                      <!--网页 结束-->
+                      <!--小程序 开始-->
+                      <div
+                        class="message-msg clearfix"
+                        v-else-if="model.annexType === 3"
+                      >
+                        <div class="message-msg__avatar">
+                          <el-image
+                            :width="98"
+                            :height="100"
+                            style="width: 32px; height: 32px"
+                            src="https://img.alicdn.com/imgextra/i4/645690921/O1CN01Q1rjbi1IfrITTcm0O_!!645690921.jpg_430x430q90.jpg"
+                            mode="fill"
+                          >
+                          </el-image>
+                        </div>
+                        <div class="message-msg__text message-msg__text--bgcolor">
+                          <div class="message-applets">
+                            <div class="message-applets__logo">
+                              <el-image
+                                :width="98"
+                                :height="100"
+                                style="width: 20px; height: 20px"
+                                src="https://img.alicdn.com/imgextra/i4/645690921/O1CN01Q1rjbi1IfrITTcm0O_!!645690921.jpg_430x430q90.jpg"
+                                mode="mfit"
+                                class="message-applets__logo--img"
+                              >
+                              </el-image>
+                            </div>
+                            <div class="message-applets__name">小程序名</div>
                           </div>
-                          <div class="message-applets__name">最伙店长</div>
-                        </div>
-                        <div class="message-program">
-                          <div class="message-program__name">最伙店长</div>
-                          <div class="message-program__logo">
-                            <el-image
-                              :width="98"
-                              :height="100"
-                              style="width: 98px; height: 100px"
-                              :src="model.image"
-                              mode="mfit"
-                              class="message-program__logo--img"
-                            >
-                            </el-image>
+                          <div class="message-program">
+                            <div class="message-program__name">{{ model.title }}</div>
+                            <div class="message-program__logo">
+                              <el-image
+                                :width="98"
+                                :height="100"
+                                style="width: 98px; height: 100px"
+                                :src="model.image"
+                                mode="fill"
+                                class="message-program__logo--img"
+                              >
+                              </el-image>
+                            </div>
                           </div>
+                          <div class="message-circle message-circle--topleft"></div>
                         </div>
-                        <div class="message-circle message-circle--topleft"></div>
                       </div>
-                    </div>
+                    </ElScrollbar>
                     <!--小程序 结束-->
                   </div>
                   <div class="message-main__text">会员看到的界面</div>
@@ -338,10 +348,8 @@
       >
         <el-form-item label="跳转链接：" class="code-title"> </el-form-item>
         <el-form-item label="链接：" prop="custom">
-          <el-radio v-model="linkModel.custom" :label="1" size="xxs"
-            >自定义链接
-          </el-radio>
-          <!-- <el-radio v-model="linkModel.custom" :label="2" size="xxs">系统预置链接 </el-radio> -->
+          <el-radio v-model="linkModel.custom" :label="1" size="xxs">自定义链接</el-radio>
+          <el-radio v-model="linkModel.custom" :label="2" size="xxs">系统预置链接</el-radio>
         </el-form-item>
         <el-form-item
           v-if="linkModel.custom === 1"
@@ -356,15 +364,15 @@
         <el-form-item
           v-if="linkModel.custom === 2"
           label="选择链接："
-          prop="link"
+          prop="settingId"
           :rules="commonRules.selectOne"
         >
-          <el-select v-model="linkModel.settingId" placeholder="请选择">
+          <el-select v-model="linkModel.settingId" @change='systemPresetChange' placeholder="请选择">
             <el-option
-              v-for="item in options"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
+              v-for="item in presetLink"
+              :key="item.id"
+              :label="item.title"
+              :value="item.id"
             >
             </el-option>
           </el-select>
@@ -380,12 +388,13 @@
             <el-input v-model.trim="linkModel.desc" />
           </el-form-grid>
         </el-form-item>
-        <el-form-item label="封面图：" prop="image">
+        <el-form-item label="封面图：" prop="image" :rules="commonRules.image">
           <el-form-grid class="company-upload">
             <el-upload
               class="avatar-uploader"
               :action="$api.core.sgUploadFile('test')"
-              accept=".jpg,.jpeg,.png,.bmp,.gif"
+              accept="image/jpeg,image/gif,image/png"
+              :before-upload="beforeAvatarUpload"
               :on-success="handleLinkAvatarSuccess"
               :show-file-list="false"
             >
@@ -445,7 +454,7 @@
               <el-input v-model.trim="appModel.path" />
             </el-form-grid>
           </el-form-item>
-          <el-form-item
+          <!-- <el-form-item
             label="备用网页："
             prop="link"
             :rules="commonRules.link"
@@ -453,7 +462,7 @@
             <el-form-grid size="xmd">
               <el-input v-model.trim="appModel.link" />
             </el-form-grid>
-          </el-form-item>
+          </el-form-item> -->
         </template>
         <template>
           <el-form-item
@@ -479,17 +488,18 @@
             <el-input v-model.trim="appModel.title" />
           </el-form-grid>
         </el-form-item>
-        <el-form-item label="文案：" prop="desc" :rules="commonRules.desc">
+        <!-- <el-form-item label="文案：" prop="desc" :rules="commonRules.desc">
           <el-form-grid size="xmd">
             <el-input v-model.trim="appModel.desc" />
           </el-form-grid>
-        </el-form-item>
-        <el-form-item label="封面图：" prop="image">
+        </el-form-item> -->
+        <el-form-item label="封面图：" prop="image" :rules="commonRules.image">
           <el-form-grid class="company-upload">
             <el-upload
               class="avatar-uploader"
               :action="$api.core.sgUploadFile('test')"
-              accept=".jpg,.jpeg,.png,.bmp,.gif"
+              accept="image/jpeg,image/gif,image/png"
+              :before-upload="beforeAvatarUpload"
               :on-success="handleAppAvatarSuccess"
               :show-file-list="false"
             >
@@ -535,7 +545,7 @@
     </el-dialog>
     <!-- 选择好友弹框 -->
     <ElDialog
-      width="400px"
+      width="550px"
       title="选择员工"
       :visible.sync="employeeModel.visible"
       :show-scroll-x="false"
@@ -564,6 +574,7 @@
               :filter-node-method="filterNode"
               :props="leftDefaultProps"
               class="code-space"
+              @check-change="handleUnSubmitCheckChange"
               ><!-- :default-expanded-keys="[1, 2]" @check-change="handleCheckChange"-->
               <span class="code-detail clearfix" slot-scope="{ node, data }">
                 <span class="code-detail__text">{{ node.label }}</span>
@@ -574,6 +585,30 @@
             </ElTree>
           </ElScrollbar>
         </ElCol>
+        <ElCol :span="12" class="code-container__item">
+            <div class="code-title">已选员工</div>
+            <div class="scoll_left">
+              <ElScrollbar>
+                <ElTree
+                  :data="rightTreeData"
+                  ref="selectedTree"
+                  node-key="id"
+                  :expand-on-click-node="false" class="code-space"><!-- :filter-node-method="tree.selectedFilterNode" -->
+            <span class="code-detail clearfix" slot-scope="{ node, data }">
+              <span class="code-detail__text">{{ node.label }}</span>
+              <span>
+                <ns-button
+                  type="text"
+                  size="mini"
+                  @click="() => remove(node, data)">
+                  <Icon type="delete" className="code-delete"/>
+                </ns-button>
+              </span>
+            </span>
+                </ElTree>
+              </ElScrollbar>
+            </div>
+          </ElCol>
       </ElRow>
       <template slot="footer">
         <ns-button @click="employeeModel.visible = false">取消</ns-button>
@@ -618,6 +653,9 @@ export default Edit
         color: var(--theme-font-color-secondary);
         text-align: center;
         margin-top: -5px;
+      }
+      >>> .el-scrollbar__wrap {
+        height: 460px;
       }
     }
     @b msg {
@@ -739,6 +777,7 @@ export default Edit
       margin-left: var(--default-margin-xlarger);
       background: var(--theme-color-white);
       border-radius: 8px;
+      word-wrap: break-all;
     }
     @b web {
       min-width: 47%;
@@ -904,12 +943,6 @@ export default Edit
     border-bottom-right-radius: var(--default-radius-mini);
   }
   /* 底部按钮样式 end*/
-
-  /* 卡片样式 start*/
-  >>> .el-card:last-child {
-    border-bottom: none;
-  }
-  /* 卡片样式 end*/
   /* 迁移 */
   .hand {
     cursor: pointer;
@@ -927,4 +960,21 @@ export default Edit
     display: flex;
     align-items: center;
   }
+  .span-yellow{
+    color: #fbb72e;
+  }
+  .span-red{
+    color: #FF0000;
+  }
+  >>> .el-card .el-card__header {
+    font-size: var(--default-font-size-base);
+    padding: var(--default-padding-larger) 20px;
+  }
+  /* 去点el-card的默认边框 start */
+  .card-noborder {
+    >>>.el-card {
+      border: 0;
+    }
+  }
+  /* 去点el-card的默认边框 end */
 </style>

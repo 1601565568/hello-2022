@@ -31,11 +31,11 @@ export default {
       'mobile': null,
       'cardId': null,
       'time': null,
-      'grade': null,
-      isAll: true
+      'grade': null
     }
     let copyModel = Object.assign({}, findVo)
     return {
+      totalNumTrige: null,
       filterTreeText: '',
       model: copyModel,
       quickSearchModel: quickSearchModel,
@@ -56,6 +56,7 @@ export default {
       loading: false,
       offsetHeight: false,
       height: 0,
+      showChangeGuide: false,
       gradeInfo: [], // 等级信息下拉框
       shopTreePage: {
         total: 0,
@@ -111,24 +112,30 @@ export default {
       _this.shuJushuzu = data
       _this.loading = true
       _this.$reload().then(rep => {
-        _this.loading = _this._data._loading
-        // 不是全部 显示 total
-        if (data.id !== '0') {
-          var showLabel = data.label
-          if (showLabel.indexOf('(') !== -1) {
-            showLabel = showLabel.substring(0, showLabel.indexOf('('))
+        if (this.totalNumTrige) {
+          for (let nodeIndex in this.$refs.guideTree.children) {
+            let node = this.$refs.guideTree.children[nodeIndex]
+            let index = node.label.lastIndexOf(this.totalNumTrige)
+            if (index > -1) {
+              node.label = node.label.substr(0, index)
+            }
           }
-          data.label = showLabel + '(' + _this._data._pagination.total + ')'
-          _this.model.isAll = true
-        } else {
-          _this.model.isAll = false
         }
+        _this.loading = _this._data._loading
+        // 显示 total
+        var showLabel = data.label
+        if (showLabel.indexOf('(') !== -1) {
+          showLabel = showLabel.substring(0, showLabel.indexOf('('))
+        }
+        this.totalNumTrige = '(' + _this._data._pagination.total + ')'
+        data.label = showLabel + this.totalNumTrige
       })
       // 设置搜索及重置可用
       this.searchButton = false
       this.restButton = false
       // 全部情况不需要请求等级
-      if (data.id !== '0') {
+      if (data.id !== '1') {
+        this.showChangeGuide = true
         _this.$http.fetch(_this.$api.guide.shop.findShopGrade,
           { shopId: _this.offLineShopId }).then(resp => {
           if (resp.success && resp.result !== null) {
@@ -137,6 +144,8 @@ export default {
         }).catch((resp) => {
           _this.$notify.error(getErrorMsg('查询等级信息失败', resp))
         })
+      } else {
+        this.showChangeGuide = false
       }
     },
     // 树节点过滤
