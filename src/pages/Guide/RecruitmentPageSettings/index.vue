@@ -68,16 +68,18 @@
                          maxlength='20'
                          placeholder="请输入标题，长度在20个字符以内"
                          v-model="model.title"
+                         show-word-limit
                 />
               </ElFormItem>
               <ElFormItem label="摘要：" prop="content"  label-width="100px" >
-                <ElInput style="width: 180px"
-                         type="text"
+                <ElInput style="width: 250px"
+                         type="textarea"
                          clearable
                          maxlength='20'
                          :input="model.content=model.content.replace(/\s+/g,'')"
                          placeholder="请输入摘要，长度在20个字符以内"
                          v-model="model.content"
+                         show-word-limit
                 />
               </ElFormItem>
               <ElFormItem label="封面图：" prop="picture"  label-width="100px" >

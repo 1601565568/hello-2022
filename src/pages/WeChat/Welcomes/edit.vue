@@ -13,7 +13,7 @@
                         placeholder="请输入欢迎语标题"
                         v-model="title"
                         maxlength="30"
-                        :input="title=title.replace(/\s+/g,'')"
+                        :input="title=title.replace(/(^\s*)|(\s*$)/g, '')"
                         show-word-limit
                       />
                     </ElFormGrid>
