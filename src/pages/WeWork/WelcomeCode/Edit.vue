@@ -221,7 +221,7 @@
                               :height="100"
                               style="width: 175px; height: 213px"
                               :src="imageModel.image"
-                              mode="mfit"
+                              mode="cover"
                             >
                             </el-image>
                           </div>
@@ -257,7 +257,7 @@
                                 :height="100"
                                 style="width: 98px; height: 100px"
                                 :src="model.image"
-                                mode="mfit"
+                                mode="fill"
                                 class="message-rightside"
                               >
                               </el-image>
@@ -278,7 +278,7 @@
                             :height="100"
                             style="width: 32px; height: 32px"
                             src="https://img.alicdn.com/imgextra/i4/645690921/O1CN01Q1rjbi1IfrITTcm0O_!!645690921.jpg_430x430q90.jpg"
-                            mode="mfit"
+                            mode="fill"
                           >
                           </el-image>
                         </div>
@@ -305,7 +305,7 @@
                                 :height="100"
                                 style="width: 98px; height: 100px"
                                 :src="model.image"
-                                mode="mfit"
+                                mode="fill"
                                 class="message-program__logo--img"
                               >
                               </el-image>
