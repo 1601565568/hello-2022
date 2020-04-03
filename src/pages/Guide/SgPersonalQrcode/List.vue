@@ -26,12 +26,12 @@
           </el-form-item>
           <el-form-item v-if="memberManagePlan == 1 && type == 0">
             <el-form-grid>
-              <div v-if="personalQrcodeLink !=''&& personalQrcodeLink!=null">
+              <div v-if="personalQrcodeLink !=''&& personalQrcodeLink!=null" style="position: relative">
                 <img :src="personalQrcodeLink" height="150" width="150">
 <!--                <qr-code :value="personalQrcodeLink" :size="150" :options="{size:150}"></qr-code>-->
 <!--                <ns-button type='text' @click='downLodeQyQrcode()'>下载</ns-button>-->
 <!--                <a :href="personalQrcodeLink">-->
-                <a :href="url+'/uploadImg?fileName=聚合二维码&imgUrl='+personalQrcodeLink+'&width=430&height=430'">
+                <a class="uploadImg" :href="url+'/uploadImg?fileName=聚合二维码&imgUrl='+personalQrcodeLink+'&width=430&height=430'">
                   下载
                 </a>
               </div>
@@ -374,5 +374,11 @@ export default List
      }
     }
   }
+  }
+  .uploadImg{
+    position: absolute;
+    bottom: 0;
+    display: inline-block;
+    width: 30px;
   }
 </style>
