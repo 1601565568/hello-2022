@@ -2,7 +2,7 @@
   <div>
     <el-form ref="form" placement="right" label-width="100px" :model="model" :rules="rules">
         <ElScrollbar ref="fullScreen">
-          <div class="message-container">
+          <div class="message-container card-noborder">
             <ElCard shadow="never">
               <div>
                 <ElForm label-width="100px">
@@ -181,9 +181,11 @@ export default edit
   }
   /* 底部按钮样式 end*/
 
-  /* 卡片样式 start*/
-  >>> .el-card:last-child {
-    border-bottom: none;
+  /* 去点el-card的默认边框 start */
+  .card-noborder {
+    >>>.el-card {
+      border: 0;
+    }
   }
-  /* 卡片样式 end*/
+  /* 去点el-card的默认边框 end */
 </style>
