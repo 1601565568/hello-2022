@@ -545,7 +545,7 @@
     </el-dialog>
     <!-- 选择好友弹框 -->
     <ElDialog
-      width="400px"
+      width="550px"
       title="选择员工"
       :visible.sync="employeeModel.visible"
       :show-scroll-x="false"
