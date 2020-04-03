@@ -10,21 +10,22 @@
             {{ title }}
           </div>
           <div class="form-grid__content">
-            <el-form-item label="聚合码名称：" maxlength="30" required  size="xxs">
-              <el-form-grid>
-                <ElInput
+            <el-form-item label="聚合码名称：" required>
+              <el-form-grid size="xlg">
+                <el-input
                   type="text"
                   placeholder="请输入聚合码名称"
                   v-model="personalQrcode.name"
                   maxlength="30"
                   show-word-limit
+                  onkeyup="this.value=this.value.replace(/\s+/g,'')"
                 />
               </el-form-grid>
             </el-form-item>
             <el-form-item label="聚合码类型：" required>
               <el-form-grid size="small">
                 <el-form-item prop="sex">
-                  <el-radio-group v-model="personalQrcode.type">
+                  <el-radio-group v-model="personalQrcode.type" @change="checkChange()">
                     <el-radio v-for="(typeName, index) in QrCodeTypeNames"  :key="typeName" :label="index" >{{typeName}} </el-radio>
                   </el-radio-group>
                 </el-form-item>
@@ -77,7 +78,6 @@
             </ElFormItem>
             <el-form-item label="渠道设置：" v-if="memberManagePlan == 1">
               <el-form-grid>
-<!--                <ns-button type='text' @click="chooseChannel()">+选择渠道</ns-button>-->
                 <el-select v-model="personalQrcode.channelCode" filterable placeholder="请选择">
                   <el-option
                     v-for="item in channelList"
@@ -121,7 +121,7 @@
     <!---->
     <!--选择好友弹窗开始-->
     <ElDialog width="600px" height="500px" title="选择子码" :visible.sync="dialogVisible" :show-scroll-x=false :show-scroll-y=false>
-      <div v-if="transferRadio === 0">
+      <div v-if="personalQrcode.type === 0">
         <ElRow :gutter="10" class="code-container">
           <ElCol :span="12" class="code-container__item">
             <div class="code-title">可选员工</div>
@@ -139,7 +139,7 @@
                   :filter-node-method="selectFilterNode"
                   node-key="id"
                   :default-expand-all=false
-                  :default-checked-keys="choosePerson"
+                  :default-checked-keys="employeeIds"
                   @check="check"
                   :props="tree.leftDefaultProps" class="code-space">
             <span class="code-detail clearfix" slot-scope="{ node, data }">
@@ -183,7 +183,7 @@
           </ElCol>
         </ElRow>
       </div>
-      <div v-if="transferRadio === 1">
+      <div v-if="personalQrcode.type === 1">
         <div class="giveaway-add__item--info">
           <ns-button type="text" @click="handleAdd()">添加自定义图片</ns-button>
         </div>

@@ -14,6 +14,9 @@ export default {
       channelVisible: false,
       // 左边输入框绑定值
       channelList: [],
+      // 初始化聚合二维码类型状态
+      initType: 0,
+      employeeIds: [], // 使用员工ids
       input: '',
       treeSelect: '',
       // 员工树
@@ -56,7 +59,8 @@ export default {
         showType: 1,
         isvalidate: 1,
         keyword: null,
-        channelCode: null
+        channelCode: null,
+        child_qrcodes: []
       },
       title: null,
       parameter: {
@@ -122,11 +126,11 @@ export default {
       }).then(data => {
         if (data.result.type === 0) {
           let personnelIds = data.result.personnelIds.split(',')
-          let personnels = data.result.personnels.split(',')
           for (let i = 0; i < personnelIds.length; i++) {
-            this.choosePerson.push(parseInt(personnelIds[i]))
+            this.employeeIds.push(parseInt(personnelIds[i]))
           }
         }
+        this.initType = data.result.type
         this.personalQrcode = data.result
         this.tableData = JSON.parse(data.result.child_qrcodes)
         this.addTableData = JSON.parse(data.result.child_qrcodes)
@@ -139,43 +143,21 @@ export default {
       this.title = '新增聚合二维码'
     }
 
-    var keyMap = {}
-    this.$http.fetch(this.$api.guide.sgPersonalQrcode.getQrcodeDepartment, {
-      name: this.tree.select
-    }).then(resp => {
-      if (resp.success && resp.result != null) {
-        let json = JSON.parse(resp.result)
-        this.tree.selectData = json
-        this.choosePerson.forEach(function (value, i) {
-          keyMap[value] = 1
-        })
-        for (let i = 0; i < json.length; i++) {
-          let children = json[i].children
-          for (let j = 0; j < children.length; j++) {
-            let id = children[j].id
-            if (keyMap[id] === 1) {
-              this.tree.selectedData.push(children[j])
-            }
-          }
-          // children.forEach(function (value, i) {
-          //   if (keyMap[value.id] === 1) {
-          //     this.tree.selectedData.push(value)
-          //   }
-          // })
+    if (this.personalQrcode.type === 0) {
+      var keyMap = {}
+      this.$http.fetch(this.$api.guide.sgPersonalQrcode.getQrcodeDepartment, {
+        name: this.tree.select
+      }).then(resp => {
+        if (resp.success && resp.result != null) {
+          let json = JSON.parse(resp.result)
+          this.tree.selectData = json
+        } else {
+          this.$notify.error(getErrorMsg('获取员工数据失败', resp))
         }
-        // json.forEach(function (value, i) {
-        //   value.children.forEach(function (value, i) {
-        //     if (keyMap[value.id] === 1) {
-        //       this.tree.selectedData.push(value)
-        //     }
-        //   })
-        // })
-      } else {
+      }).catch((resp) => {
         this.$notify.error(getErrorMsg('获取员工数据失败', resp))
-      }
-    }).catch((resp) => {
-      this.$notify.error(getErrorMsg('获取员工数据失败', resp))
-    })
+      })
+    }
   },
   methods: {
     sgUploadFile (name) {
@@ -201,7 +183,7 @@ export default {
     },
     onSave () {
       let that = this
-      if (that.personalQrcode.name === null) {
+      if (that.personalQrcode.name === null || that.personalQrcode.name.trim() === '') {
         that.$notify.error('聚合码名称不能为空')
         return
       }
@@ -221,26 +203,42 @@ export default {
         that.$router.push({ path: '/Guide/SgPersonalQrcode/List' })
       })
     },
-    choosePersonnel (type) { // 选择员工
-      let _this = this
-      _this.dialogVisible = true
-      _this.transferRadio = type
-      if (type === 0) {
-        _this.initEmpTree()
+    // 聚合码类型改变
+    checkChange () {
+      let type = this.personalQrcode.type
+      if (type === this.initType) {
+        this.tableData = JSON.parse(this.personalQrcode.child_qrcodes)
+      } else {
+        this.tableData = []
       }
     },
-    handleCheckChange () {
+    // 选择员工/自定义按钮
+    choosePersonnel (type) { // 选择员工/自定义
       let _this = this
-      let res = this.$refs.tree.getCheckedNodes()
-      let arr = []
-      res.forEach((item) => {
-        if (item.id) {
-          arr.push(item.id)
+      _this.dialogVisible = true
+      if (type === _this.initType) {
+        _this.tableData = JSON.parse(_this.personalQrcode.child_qrcodes)
+      } else {
+        _this.tableData = []
+        _this.addTableData = []
+      }
+      if (type === 0) {
+        let selectData = _this.tree.selectData
+        _this.tree.selectedData = []
+        let keyMap = {}
+        for (let i = 0; i < _this.employeeIds.length; i++) {
+          let personnelId = _this.employeeIds[i]
+          keyMap[personnelId] = 1
         }
-      })
-      _this.choosePerson = arr
-      if (arr.length > 1) {
-        _this.personalQrcode.personnelIds = arr.join(',')
+        for (let i = 0; i < selectData.length; i++) {
+          let children = selectData[i].children
+          for (let j = 0; j < children.length; j++) {
+            let id = children[j].id
+            if (keyMap[id] === 1) {
+              _this.tree.selectedData.push(children[j])
+            }
+          }
+        }
       }
     },
     // 选择员工弹窗确认
@@ -276,6 +274,20 @@ export default {
         }
       }
     },
+    handleCheckChange () {
+      let _this = this
+      let res = this.$refs.tree.getCheckedNodes()
+      let arr = []
+      res.forEach((item) => {
+        if (item.id) {
+          arr.push(item.id)
+        }
+      })
+      _this.choosePerson = arr
+      if (arr.length > 1) {
+        _this.personalQrcode.personnelIds = arr.join(',')
+      }
+    },
     // 左边树选择
     check () {
       this.setSelectedData()
@@ -289,13 +301,13 @@ export default {
           if (!dataParent.disabled) {
             if (dataParent.id) {
               this.tree.selectedData.push(dataParent)
-              this.choosePerson.push(dataParent.id)
+              // this.choosePerson.push(dataParent.id)
             }
           }
         }
       }
-      this.personalQrcode.personnelIds = this.choosePerson.join(',')
-      return this.tree.selectedData
+      // this.personalQrcode.personnelIds = this.choosePerson.join(',')
+      // return this.tree.selectedData
     },
     onCloseTree () {
       this.tree.selectedData = this.tree.copySelectedData
@@ -329,6 +341,21 @@ export default {
       }).then(resp => {
         if (resp.success && resp.result != null) {
           _this.tree.selectData = JSON.parse(resp.result)
+          let keyMap = {}
+          let personnelIds = _this.personalQrcode.prersonelIds.split(',')
+          for (let i = 0; i < personnelIds.length; i++) {
+            let personnelId = personnelIds[i]
+            keyMap[personnelId] = 1
+          }
+          for (let i = 0; i < json.length; i++) {
+            let children = json[i].children
+            for (let j = 0; j < children.length; j++) {
+              let id = children[j].id
+              if (keyMap[id] === 1) {
+                _this.tree.selectedData.push(children[j])
+              }
+            }
+          }
         } else {
           _this.$notify.error(getErrorMsg('获取员工数据失败', resp))
         }
