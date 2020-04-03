@@ -38,7 +38,7 @@
           <ElFormItem label="小程序路径：" prop="page"  label-width="100px" >
             <ElInput
               type="text"
-              maxlength='30'
+              maxlength='255'
               minlength='1'
               clearable
               :input="model.page=model.page.replace(/(^\s*)|(\s*$)/g, '')"
@@ -104,7 +104,7 @@ export default {
       rules: {
         title: [
           { required: true, message: '请输入标题', trigger: 'blur' },
-          { min: 1, max: 20, message: '长度在2-20个字符以内', trigger: 'blur' }
+          { min: 1, max: 20, message: '长度在1-20个字符以内', trigger: 'blur' }
         ],
         weappid: [
           { required: true, message: '请输入小程序appId', trigger: 'blur' },
@@ -118,7 +118,7 @@ export default {
           { required: true, message: '请传入图片', trigger: 'blur' }
         ],
         page: [
-          { required: true, message: '请输入小程序appId', trigger: 'blur' },
+          { required: true, message: '请输入小程序路径', trigger: 'blur' },
           { min: 1, max: 255, message: '长度在1-255个字符以内', trigger: 'blur' }
         ]
       }
