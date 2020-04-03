@@ -17,6 +17,7 @@
               maxlength='30'
               minlength='5'
               clearable
+              :input="model.woaId=model.woaId.replace(/\s+/g,'')"
               placeholder="请输入小程序原始Id,长度在5-30个字符以内"
               v-model="model.woaId"
             />
@@ -27,6 +28,7 @@
               maxlength='30'
               minlength='5'
               clearable
+              :input="model.weappid=model.weappid.replace(/\s+/g,'')"
               placeholder="请输入小程序appId,长度在5-30个字符以内"
               v-model="model.weappid"
             />
@@ -37,6 +39,7 @@
               maxlength='30'
               minlength='1'
               clearable
+              :input="model.page=model.page.replace(/\s+/g,'')"
               placeholder="请输入小程序appId,长度在1-255个字符以内"
               v-model="model.page"
             />
@@ -50,6 +53,7 @@
               maxlength='20'
               minlength='1'
               clearable
+              :input="model.title=model.title.replace(/\s+/g,'')"
               placeholder="请输入标题,长度在1-20个字符以内"
               v-model="model.title"
             />

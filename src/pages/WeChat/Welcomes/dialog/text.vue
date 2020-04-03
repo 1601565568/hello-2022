@@ -14,6 +14,7 @@
               type="textarea"
               :rows="4"
               maxlength='255' style="width:580px"
+              :input="model.content=model.content.replace(/\s+/g,'')"
               clearable placeholder='请输入内容，长度在100个字符以内'
               v-model="model.content" />
           </el-form-item>

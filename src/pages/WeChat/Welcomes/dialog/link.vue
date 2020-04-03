@@ -25,8 +25,9 @@
             <ElInput
               type="text"
               clearable
+              :input="model.url=model.url.replace(/\s+/g,'')"
               placeholder="请输入网页"
-              v-model="linkModel.url"
+              v-model="model.url"
             />
           </ElFormItem>
           <ElFormItem label="" v-if="linkSwitch===2" label-width="100px" >
@@ -60,6 +61,7 @@
               maxlength='20'
               minlength='2'
               clearable
+              :input="model.title=model.title.replace(/\s+/g,'')"
               placeholder="请输入标题,长度在2-20个字符以内"
               v-model="model.title"
             />
@@ -70,6 +72,7 @@
               maxlength='50'
               minlength='2'
               clearable
+              :input="model.description=model.description.replace(/\s+/g,'')"
               placeholder="请输入文案,长度在2-50个字符以内"
               v-model="model.description"
             />
