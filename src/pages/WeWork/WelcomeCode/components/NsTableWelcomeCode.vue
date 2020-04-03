@@ -3,7 +3,7 @@
  * @Author: yuye.huang
  * @Date: 2020-02-29 20:52:53
  * @LastEditors: yuye.huang
- * @LastEditTime: 2020-03-31 16:29:01
+ * @LastEditTime: 2020-04-02 13:42:11
  -->
 <template>
   <ns-page-table ref='mainTable'><!-- :colButton="10" -->
@@ -83,7 +83,8 @@
     <template slot="table">
       <el-table ref="table" :data="_data._table.data" stripe  v-loading.lock="_data._table.loadingtable"
       :element-loading-text="$t('prompt.loading')">
-        <el-table-column  width="200"  align="center" prop="content">
+        <el-table-column  :show-overflow-tooltip="true" type="default" prop="content" align="left"
+                          :sortable="false" width="180">
         <template slot="header">
           欢迎语
           <el-tooltip content="配置后，客户将在添加员工为微信好友时，发送欢迎语">
@@ -107,7 +108,7 @@
               </div>
             </template>
           </el-table-column>
-          <el-table-column prop="updateTime" label="更新时间" align="center">
+          <el-table-column prop="updateTime" label="更新时间" align="center" sortable>
           </el-table-column>
           <el-table-column :show-overflow-tooltip="true" label="操作" align="center"
                            width="160px">

@@ -16,7 +16,7 @@
         <el-form :model="quickSearchModel" :inline="true" @submit.native.prevent  class="pull-right">
           <el-form-item label="" v-if="!_data._queryConfig.expand">
             <el-form-grid size="xmd">
-              <el-input  autofocus=true v-model="model.name" placeholder="聚合二维码名称" clearable></el-input>
+              <el-input  autofocus=true v-model="model.name" placeholder="聚合二维码名称" @keyup.enter.native="$searchAction$()" clearable></el-input>
             </el-form-grid>
             <ns-button type="primary" @click="$searchAction$()" class="searchbtn">搜索</ns-button>
             <ns-button @click="$resetInputAction$()" class="resetbtn">重置</ns-button>
@@ -116,7 +116,7 @@
               </template>
             </el-table-column>
           </div>
-          <el-table-column prop="num" label="扫描次数" align="left" min-width="100">
+          <el-table-column prop="num" v-if="memberManagePlan == 2" label="扫描次数" align="left" min-width="100">
             <template slot-scope="scope">
               {{ scope.row.num?scope.row.num:'0' }}
             </template>

@@ -29,11 +29,11 @@ export default {
       rules: {
         title: [
           { required: true, message: '请输入标题名称', trigger: 'blur' },
-          { max: 20, message: '长度在20个字符以内', trigger: 'blur' }
+          { min: 1, max: 20, message: '长度在1-20个字符以内', trigger: 'blur' }
         ],
         content: [
           { required: true, message: '请输入摘要内容', trigger: 'blur' },
-          { max: 20, message: '长度在20个字符以内', trigger: 'blur' }
+          { min: 1, max: 50, message: '长度在1-50个字符以内', trigger: 'blur' }
         ],
         picture: [
           { required: true, message: '请上传封面图', trigger: 'blur' }

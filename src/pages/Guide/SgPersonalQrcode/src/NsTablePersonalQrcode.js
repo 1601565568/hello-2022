@@ -87,22 +87,11 @@ export default {
     let quickSearchNames = quickInput.map(x => x.name)
     let quickSearchModel = {}
     let searchModel = {
-      sgGuide: {
-        brand_id: null,
-        name: null,
-        nickname: null,
-        sex: 1,
-        mobile: null,
-        birthday: null,
-        work_id: null,
-        password: null,
-        image: null
-      },
-      sgGuideShop: {
-        id: null,
-        shop_id: null,
-        job: 0
-      }
+      name: null,
+      personal: null,
+      keyword: null,
+      showType: null,
+      creatorId: null
     }
     let findVo = {
       'validateMsg': null,

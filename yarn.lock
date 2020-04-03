@@ -1606,21 +1606,21 @@
     call-me-maybe "^1.0.1"
     glob-to-regexp "^0.3.0"
 
-"@nascent/ecrp-ecrm@^4.4.18":
-  version "4.4.19"
-  resolved "http://27.154.234.170:18081/repository/npm/@nascent/ecrp-ecrm/-/ecrp-ecrm-4.4.19.tgz#054bc14f598de54707853b89a78c60862f7b64a5"
-  integrity sha512-1pQdlATuCRg6C1FN3U8UT8zvZeiE4TFfuNwX9C7xAxnaId6TVwT3Rpp8HfUgBc9bcRtIKi9f0uMnBXeum8PYTA==
+"@nascent/ecrp-ecrm@^4.4.39":
+  version "4.4.39"
+  resolved "http://27.154.234.170:18081/repository/npm/@nascent/ecrp-ecrm/-/ecrp-ecrm-4.4.39.tgz#216476834b49e657d73de6940c8142e5fb7566c6"
+  integrity sha512-G7CGh9GldCJoPEu0P46XQ9xo8Vj9vCxcUnyTzS+tlKJWHH/UAUvn+0UrEd7dmEGJg7uAll3iovm+GUlCV4rzxg==
   dependencies:
     "@ant-design/icons" "^2.1.1"
     "@nascent/icons-vue" "^1.0.11"
     "@nascent/log" "^0.1.10"
-    "@nascent/nui" "^2.9.27"
+    "@nascent/nui" "^2.9.28"
     "@sentry/browser" "^4.5.3"
     "@xkeshi/vue-qrcode" "^1.0.0"
     animate.css "^3.7.2"
     axios "^0.18.0"
     clipboard "^2.0.4"
-    core-js "^3.4.3"
+    core-js "^3.6.4"
     echarts "^4.2.0-rc.2"
     jquery "^3.3.1"
     lodash "^4.17.11"
@@ -1630,6 +1630,7 @@
     perfect-scrollbar "^1.4.0"
     register-service-worker "^1.6.2"
     store "^2.0.12"
+    v-emoji-picker "2.1.5"
     vue "^2.6.10"
     vue-awesome-swiper "^3.1.3"
     vue-class-component "^7.0.2"
@@ -1679,10 +1680,10 @@
     throttle-debounce "^1.0.1"
     vuedraggable "^2.14.1"
 
-"@nascent/nui@^2.9.27":
-  version "2.9.27"
-  resolved "http://27.154.234.170:18081/repository/npm/@nascent/nui/-/nui-2.9.27.tgz#0bc284c82f2ad19392b53405cf2b7065b7ad2941"
-  integrity sha512-a7dK1E0ILTgf+d5y6eixOz3thxtAdNXey0gr0b/11gSW3Nob5T76p2Q2quchPqVZTudozqq9FjyAA5fY66gljQ==
+"@nascent/nui@^2.9.28":
+  version "2.9.28"
+  resolved "http://27.154.234.170:18081/repository/npm/@nascent/nui/-/nui-2.9.28.tgz#54af919d5fb769161df072a9824229fdd17f5235"
+  integrity sha512-eCAOQVwF7ae61S5nsAeZp6roFxDkAAZ26N/Tu8DKZR+kfSqOtZfCfXnAN5KopoCLRojJfF+Mk26ohi1VwZcTpg==
   dependencies:
     async-validator "~1.8.1"
     babel-helper-vue-jsx-merge-props "^2.0.0"
@@ -4216,9 +4217,9 @@ core-js@^2.4.0:
   resolved "https://registry.npm.taobao.org/core-js/download/core-js-2.6.11.tgz?cache=0&sync_timestamp=1578957006406&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fcore-js%2Fdownload%2Fcore-js-2.6.11.tgz#38831469f9922bded8ee21c9dc46985e0399308c"
   integrity sha1-OIMUafmSK97Y7iHJ3EaYXgOZMIw=
 
-core-js@^3.4.3, core-js@^3.4.4:
+core-js@^3.4.3, core-js@^3.4.4, core-js@^3.6.4:
   version "3.6.4"
-  resolved "https://registry.npm.taobao.org/core-js/download/core-js-3.6.4.tgz?cache=0&sync_timestamp=1578957006406&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fcore-js%2Fdownload%2Fcore-js-3.6.4.tgz#440a83536b458114b9cb2ac1580ba377dc470647"
+  resolved "https://registry.npm.taobao.org/core-js/download/core-js-3.6.4.tgz#440a83536b458114b9cb2ac1580ba377dc470647"
   integrity sha1-RAqDU2tFgRS5yyrBWAujd9xHBkc=
 
 core-util-is@1.0.2, core-util-is@^1.0.2, core-util-is@~1.0.0:
@@ -12806,6 +12807,14 @@ uuid@^3.0.1, uuid@^3.3.2:
   resolved "https://registry.npm.taobao.org/uuid/download/uuid-3.3.3.tgz#4568f0216e78760ee1dbf3a4d2cf53e224112866"
   integrity sha1-RWjwIW54dg7h2/Ok0s9T4iQRKGY=
 
+v-emoji-picker@2.1.5:
+  version "2.1.5"
+  resolved "https://registry.npm.taobao.org/v-emoji-picker/download/v-emoji-picker-2.1.5.tgz#edac19f21adb3991be177160a8b5986055470f6b"
+  integrity sha1-7awZ8hrbOZG+F3FgqLWYYFVHD2s=
+  dependencies:
+    vue-class-component "^7.2.3"
+    vue-property-decorator "^8.4.0"
+
 v-emoji-picker@^1.1.4:
   version "1.2.7"
   resolved "https://registry.npm.taobao.org/v-emoji-picker/download/v-emoji-picker-1.2.7.tgz#0936d52702ddbaab4a8d7a4ba90b9f7f4b808ba2"
@@ -12870,6 +12879,11 @@ vue-class-component@^7.0.2, vue-class-component@^7.1.0:
   version "7.2.1"
   resolved "https://registry.npm.taobao.org/vue-class-component/download/vue-class-component-7.2.1.tgz#5aa0d6aef4c42aec801c53feb2937a322d3270f9"
   integrity sha1-WqDWrvTEKuyAHFP+spN6Mi0ycPk=
+
+vue-class-component@^7.2.3:
+  version "7.2.3"
+  resolved "https://registry.npm.taobao.org/vue-class-component/download/vue-class-component-7.2.3.tgz#a5b1abd53513a72ad51098752e2dedd499807cca"
+  integrity sha1-pbGr1TUTpyrVEJh1Li3t1JmAfMo=
 
 vue-eslint-parser@^5.0.0:
   version "5.0.0"
@@ -12945,6 +12959,13 @@ vue-property-decorator@^8.3.0:
   version "8.3.0"
   resolved "https://registry.npm.taobao.org/vue-property-decorator/download/vue-property-decorator-8.3.0.tgz#536f027dc7d626f37c8d85a2dc02f0a6cb979440"
   integrity sha1-U28CfcfWJvN8jYWi3ALwpsuXlEA=
+  dependencies:
+    vue-class-component "^7.1.0"
+
+vue-property-decorator@^8.4.0:
+  version "8.4.1"
+  resolved "https://registry.npm.taobao.org/vue-property-decorator/download/vue-property-decorator-8.4.1.tgz#fd8045b8678e1348fed57f9149279e00e404ed38"
+  integrity sha1-/YBFuGeOE0j+1X+RSSeeAOQE7Tg=
   dependencies:
     vue-class-component "^7.1.0"
 

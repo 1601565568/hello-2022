@@ -8,17 +8,32 @@
     <el-dialog :title="title" :visible.sync="personalLinkFormVisible" width="400px" class="detail-dialog">
       <div class="detail-dialog__content">
         <el-form label-width="90px" class="detail-leftside">
-          <el-form-item label="链接：" >
+          <el-form-item v-if="memberManagePlan == 2 || (memberManagePlan == 1 && type == 1)" label="链接：" >
             <el-form-grid>
               <div style='display:flex'>
                 <el-input  autofocus=true v-model="personalQrcodeLink" placeholder="" width="300px">{{ personalQrcodeLink }}</el-input>
                 <ns-button type='text' @click='copy(personalQrcodeLink)'>复制</ns-button>
-                <ns-button type='text' @click='preview'>投放预览</ns-button>
+                <ns-button v-if="memberManagePlan == 2" type='text' @click='preview'>投放预览</ns-button>
               </div>
               <span>该链接为聚合码H5，可投放公众号等</span>
               <div v-if="personalQrcodeLink !=''&& personalQrcodeLink!=null">
                 <qr-code :value="personalQrcodeLink" :size="150" :options="{size:150}"></qr-code>
-                <ns-button type='text' @click='downLode(personalQrcodeLink)'>下载</ns-button>
+                <a :href="url+'/uploadUrl?fileName=聚合二维码&url='+personalQrcodeLink+'&width=430&height=430'">
+                  下载
+                </a>
+              </div>
+            </el-form-grid>
+          </el-form-item>
+          <el-form-item v-if="memberManagePlan == 1 && type == 0">
+            <el-form-grid>
+              <div v-if="personalQrcodeLink !=''&& personalQrcodeLink!=null" style="position: relative">
+                <img :src="personalQrcodeLink" height="150" width="150">
+<!--                <qr-code :value="personalQrcodeLink" :size="150" :options="{size:150}"></qr-code>-->
+<!--                <ns-button type='text' @click='downLodeQyQrcode()'>下载</ns-button>-->
+<!--                <a :href="personalQrcodeLink">-->
+                <a class="uploadImg" :href="url+'/uploadImg?fileName=聚合二维码&imgUrl='+personalQrcodeLink+'&width=430&height=430'">
+                  下载
+                </a>
               </div>
             </el-form-grid>
           </el-form-item>
@@ -359,5 +374,11 @@ export default List
      }
     }
   }
+  }
+  .uploadImg{
+    position: absolute;
+    bottom: 0;
+    display: inline-block;
+    width: 30px;
   }
 </style>
