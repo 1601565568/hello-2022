@@ -79,8 +79,8 @@
         <el-table-column prop="channel_name" label="渠道名称" align="left"></el-table-column>
         <el-table-column prop="create_time" label="创建时间 "  align="center"></el-table-column>
         <el-table-column prop="welcontent" label="欢迎语"  align="center"></el-table-column>
-        <el-table-column prop="allCount" label="总添加好友数"  align="center"></el-table-column>
-        <el-table-column prop="durCount" label="添加好友数" align="center"></el-table-column>
+        <!--<el-table-column prop="allCount" label="总添加好友数"  align="center"></el-table-column>
+        <el-table-column prop="durCount" label="添加好友数" align="center"></el-table-column>-->
         <el-table-column
           label="操作"
           width="80"
