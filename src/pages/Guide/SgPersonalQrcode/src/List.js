@@ -324,7 +324,6 @@ export default {
       })
     },
     onShowFun (row) { // 投放预览
-      debugger
       this.onShowId = row.id
       this.$http.fetch(this.$api.guide.sgPersonalQrcode.findById, {
         id: row.id
