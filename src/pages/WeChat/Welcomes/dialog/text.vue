@@ -14,7 +14,7 @@
             <ElInput
               type="textarea"
               :rows="4"
-              maxlength='255'
+              maxlength='100'
               style="width:580px"
               @input="handleInput"
               @blur="handleBlur"
@@ -40,10 +40,10 @@
             </ElFormGrid>
             <!-- 表情包引入前端 结束-->
             <ElFormGrid>
-              <ns-button style="padding:0" class="font-size-large cursor-pointer" type="text" @click="insertPlaceHolderToText('{customerNick}')"> &lt;好友微信昵称&gt; </ns-button>
+              <ns-button style="padding:2px" class="font-size-large cursor-pointer" type="text" @click="insertPlaceHolderToText('{customerNick}')"> &lt;好友微信昵称&gt; </ns-button>
             </ElFormGrid>
             <ElFormGrid>
-              <ns-button style="padding:0" class="font-size-large cursor-pointer" type="text" @click="insertPlaceHolderToText('{employeeName}')"> &lt;员工姓名&gt; </ns-button>
+              <ns-button style="padding:2px" class="font-size-large cursor-pointer" type="text" @click="insertPlaceHolderToText('{employeeName}')"> &lt;员工姓名&gt; </ns-button>
             </ElFormGrid>
           </ElFormItem>
         </ElForm>
