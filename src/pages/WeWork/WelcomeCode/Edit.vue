@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="card-noborder">
     <div class="page-title">
       {{ model.welcomeCodeUuid?'修改':'新增' }}智能欢迎语
     </div>
@@ -221,7 +221,7 @@
                               :height="100"
                               style="width: 175px; height: 213px"
                               :src="imageModel.image"
-                              mode="mfit"
+                              mode="cover"
                             >
                             </el-image>
                           </div>
@@ -257,7 +257,7 @@
                                 :height="100"
                                 style="width: 98px; height: 100px"
                                 :src="model.image"
-                                mode="mfit"
+                                mode="fill"
                                 class="message-rightside"
                               >
                               </el-image>
@@ -278,7 +278,7 @@
                             :height="100"
                             style="width: 32px; height: 32px"
                             src="https://img.alicdn.com/imgextra/i4/645690921/O1CN01Q1rjbi1IfrITTcm0O_!!645690921.jpg_430x430q90.jpg"
-                            mode="mfit"
+                            mode="fill"
                           >
                           </el-image>
                         </div>
@@ -305,7 +305,7 @@
                                 :height="100"
                                 style="width: 98px; height: 100px"
                                 :src="model.image"
-                                mode="mfit"
+                                mode="fill"
                                 class="message-program__logo--img"
                               >
                               </el-image>
@@ -545,7 +545,7 @@
     </el-dialog>
     <!-- 选择好友弹框 -->
     <ElDialog
-      width="400px"
+      width="550px"
       title="选择员工"
       :visible.sync="employeeModel.visible"
       :show-scroll-x="false"
@@ -943,12 +943,6 @@ export default Edit
     border-bottom-right-radius: var(--default-radius-mini);
   }
   /* 底部按钮样式 end*/
-
-  /* 卡片样式 start*/
-  >>> .el-card:last-child {
-    border-bottom: none;
-  }
-  /* 卡片样式 end*/
   /* 迁移 */
   .hand {
     cursor: pointer;
@@ -972,4 +966,15 @@ export default Edit
   .span-red{
     color: #FF0000;
   }
+  >>> .el-card .el-card__header {
+    font-size: var(--default-font-size-base);
+    padding: var(--default-padding-larger) 20px;
+  }
+  /* 去点el-card的默认边框 start */
+  .card-noborder {
+    >>>.el-card {
+      border: 0;
+    }
+  }
+  /* 去点el-card的默认边框 end */
 </style>

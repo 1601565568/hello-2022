@@ -17,9 +17,10 @@
               maxlength='30'
               minlength='5'
               clearable
-              :input="model.woaId=model.woaId.replace(/\s+/g,'')"
+              :input="model.woaId=model.woaId.replace(/(^\s*)|(\s*$)/g, '')"
               placeholder="请输入小程序原始Id,长度在5-30个字符以内"
               v-model="model.woaId"
+              show-word-limit
             />
           </ElFormItem>
           <ElFormItem label="小程序appId：" prop="weappid" label-width="100px" >
@@ -28,20 +29,22 @@
               maxlength='30'
               minlength='5'
               clearable
-              :input="model.weappid=model.weappid.replace(/\s+/g,'')"
+              :input="model.weappid=model.weappid.replace(/(^\s*)|(\s*$)/g, '')"
               placeholder="请输入小程序appId,长度在5-30个字符以内"
               v-model="model.weappid"
+              show-word-limit
             />
           </ElFormItem>
           <ElFormItem label="小程序路径：" prop="page"  label-width="100px" >
             <ElInput
               type="text"
-              maxlength='30'
+              maxlength='255'
               minlength='1'
               clearable
-              :input="model.page=model.page.replace(/\s+/g,'')"
+              :input="model.page=model.page.replace(/(^\s*)|(\s*$)/g, '')"
               placeholder="请输入小程序appId,长度在1-255个字符以内"
               v-model="model.page"
+              show-word-limit
             />
           </ElFormItem>
           <ElFormItem>
@@ -53,9 +56,10 @@
               maxlength='20'
               minlength='1'
               clearable
-              :input="model.title=model.title.replace(/\s+/g,'')"
+              :input="model.title=model.title.replace(/(^\s*)|(\s*$)/g, '')"
               placeholder="请输入标题,长度在1-20个字符以内"
               v-model="model.title"
+              show-word-limit
             />
           </ElFormItem>
           <ElFormItem label="封面图：" prop="face"  label-width="100px" class="el-form-validate__box" >
@@ -100,7 +104,7 @@ export default {
       rules: {
         title: [
           { required: true, message: '请输入标题', trigger: 'blur' },
-          { min: 1, max: 20, message: '长度在2-20个字符以内', trigger: 'blur' }
+          { min: 1, max: 20, message: '长度在1-20个字符以内', trigger: 'blur' }
         ],
         weappid: [
           { required: true, message: '请输入小程序appId', trigger: 'blur' },
@@ -114,7 +118,7 @@ export default {
           { required: true, message: '请传入图片', trigger: 'blur' }
         ],
         page: [
-          { required: true, message: '请输入小程序appId', trigger: 'blur' },
+          { required: true, message: '请输入小程序路径', trigger: 'blur' },
           { min: 1, max: 255, message: '长度在1-255个字符以内', trigger: 'blur' }
         ]
       }

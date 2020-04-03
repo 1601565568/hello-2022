@@ -25,9 +25,10 @@
             <ElInput
               type="text"
               clearable
-              :input="model.url=model.url.replace(/\s+/g,'')"
+              :input="model.url=model.url.replace(/(^\s*)|(\s*$)/g, '')"
               placeholder="请输入网页"
               v-model="model.url"
+              show-word-limit
             />
           </ElFormItem>
           <ElFormItem label="" v-if="linkSwitch===2" label-width="100px" >
@@ -59,22 +60,24 @@
             <ElInput
               type="text"
               maxlength='20'
-              minlength='2'
+              minlength='1'
               clearable
-              :input="model.title=model.title.replace(/\s+/g,'')"
-              placeholder="请输入标题,长度在2-20个字符以内"
+              :input="model.title=model.title.replace(/(^\s*)|(\s*$)/g, '')"
+              placeholder="请输入标题,长度在1-20个字符以内"
               v-model="model.title"
+              show-word-limit
             />
           </ElFormItem>
           <ElFormItem label="文案：" prop="description"  label-width="100px" >
             <ElInput
               type="text"
               maxlength='50'
-              minlength='2'
+              minlength='1'
               clearable
-              :input="model.description=model.description.replace(/\s+/g,'')"
-              placeholder="请输入文案,长度在2-50个字符以内"
+              :input="model.description=model.description.replace(/(^\s*)|(\s*$)/g, '')"
+              placeholder="请输入文案,长度在1-50个字符以内"
               v-model="model.description"
+              show-word-limit
             />
           </ElFormItem>
           <ElFormItem label="封面图：" prop="image"  label-width="100px" class="el-form-validate__box">
@@ -126,11 +129,11 @@ export default {
         ],
         title: [
           { required: true, message: '请输入标题', trigger: 'blur' },
-          { min: 2, max: 20, message: '长度在2-20个字符以内', trigger: 'blur' }
+          { min: 1, max: 20, message: '长度在2-20个字符以内', trigger: 'blur' }
         ],
         description: [
           { required: true, message: '请输入文案', trigger: 'blur' },
-          { min: 2, max: 50, message: '长度在2-50个字符以内', trigger: 'blur' }
+          { min: 1, max: 50, message: '长度在2-50个字符以内', trigger: 'blur' }
         ],
         image: [
           { required: true, message: '请传入图片', trigger: 'blur' }

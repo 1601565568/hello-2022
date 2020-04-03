@@ -100,13 +100,6 @@ export default {
       return moment(time).format('YYYY-MM-DD HH:mm:ss')
     },
     onClickNode (data) {
-      for (let nodeIndex in this.$refs.guideTree.children) {
-        let node = this.$refs.guideTree.children[nodeIndex]
-        let index = node.label.lastIndexOf(this.totalNumTrige)
-        if (index > -1) {
-          node.label = node.label.substr(0, index)
-        }
-      }
       var _this = this
       if (this._data._table.data.length > 0) {
         this._data._table.data = []
@@ -119,6 +112,15 @@ export default {
       _this.shuJushuzu = data
       _this.loading = true
       _this.$reload().then(rep => {
+        if (this.totalNumTrige) {
+          for (let nodeIndex in this.$refs.guideTree.children) {
+            let node = this.$refs.guideTree.children[nodeIndex]
+            let index = node.label.lastIndexOf(this.totalNumTrige)
+            if (index > -1) {
+              node.label = node.label.substr(0, index)
+            }
+          }
+        }
         _this.loading = _this._data._loading
         // 显示 total
         var showLabel = data.label

@@ -1,7 +1,7 @@
 
 <template>
 <div class='page-task-detail'>
-  <div class='ptb5 bg-white plr10'>
+  <div class='ptb5 bg-white plr10 base-border-radius'>
     <span class="demonstration">时间 :</span>
     <el-date-picker
       v-model="queryDate"

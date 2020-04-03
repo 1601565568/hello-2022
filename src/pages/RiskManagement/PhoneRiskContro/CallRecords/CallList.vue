@@ -9,13 +9,14 @@
     <!--简单搜索-->
     <template slot="searchSearch">
       <el-form :model="quickSearchModel" :inline="true" @submit.native.prevent class="pull-right">
-        <el-form-item v-show="_data._queryConfig.expand === false" label="设备MEID/手机号">
+        <el-form-item v-show="_data._queryConfig.expand === false" label="设备MEID/手机号：">
           <el-input ref="quickText" style="width: 180px" v-model="model.deviceKeyOrPhone" placeholder="请输入设备MEID/手机号"
                     @keyup.enter.native="$quickSearchAction$('deviceKeyOrPhone')" clearable>
           </el-input>
           <ns-button type="primary" @click="$searchAction$()" class="searchbtn">搜索</ns-button>
           <ns-button @click="$resetInputAction$()" class="resetbtn">重置</ns-button>
         </el-form-item>
+
         <el-form-item>
           <ns-button type="text" @click="$handleTabClick">
             {{collapseText}}
@@ -151,5 +152,11 @@ export default callList
 </script>
 
 <style scoped>
-
+  @import "@theme/variables.pcss";
+  .searchbtn {
+    margin-left: 11px;
+  }
+  .resetbtn {
+    margin-left: var(--default-margin-larger);
+  }
 </style>
