@@ -1,5 +1,5 @@
 <template>
-  <div class="card-noborder">
+  <div class="modify-card">
     <div class="page-title">
       {{ model.welcomeCodeUuid?'修改':'新增' }}智能欢迎语
     </div>
@@ -970,11 +970,12 @@ export default Edit
     font-size: var(--default-font-size-base);
     padding: var(--default-padding-larger) 20px;
   }
-  /* 去点el-card的默认边框 start */
-  .card-noborder {
+  /* 修改el-card的默认样式 start */
+  .modify-card {
     >>>.el-card {
       border: 0;
+      border-radius: var(--default-radius-mini);
     }
   }
-  /* 去点el-card的默认边框 end */
+  /* 修改el-card的默认样式 end */
 </style>

@@ -2,7 +2,7 @@
   <div>
     <el-form ref="form" placement="right" label-width="100px" :model="model" :rules="rules">
         <ElScrollbar ref="fullScreen">
-          <div class="message-container card-noborder">
+          <div class="message-container modify-card">
             <ElCard shadow="never">
               <div>
                 <ElForm label-width="100px">
@@ -181,11 +181,12 @@ export default edit
   }
   /* 底部按钮样式 end*/
 
-  /* 去点el-card的默认边框 start */
-  .card-noborder {
+  /* 修改el-card的默认样式 start */
+  .modify-card {
     >>>.el-card {
       border: 0;
+      border-radius: var(--default-radius-mini);
     }
   }
-  /* 去点el-card的默认边框 end */
+  /* 修改el-card的默认样式 end */
 </style>
