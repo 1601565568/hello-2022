@@ -242,6 +242,7 @@ export default {
             let id = children[j].id
             if (keyMap[id] === 1) {
               _this.tree.selectedData.push(children[j])
+              _this.tree.copySelectedData.push(children[j])
             }
           }
         }
@@ -268,6 +269,7 @@ export default {
       _this.dialogVisible = false
       if (_this.personalQrcode.type === 0) {
         _this.tableData = []
+        _this.employeeIds = []
         let selectedData = _this.tree.selectedData
         for (let data of selectedData) {
           let chooseData = {}
@@ -277,6 +279,7 @@ export default {
           chooseData.guideId = data.guideId
           chooseData.userName = data.userName
           chooseData.userId = data.userId
+          _this.employeeIds.push(data.guideId)
           _this.tableData.push(chooseData)
         }
       } else if (_this.personalQrcode.type === 1) {
@@ -294,6 +297,11 @@ export default {
           _this.tableData.push(data)
         }
       }
+    },
+    employeeTreeClose () {
+      let _this = this
+      _this.dialogVisible = false
+      _this.$refs.selectTree.setCheckedNodes(_this.tree.copySelectedData)
     },
     handleCheckChange () {
       let _this = this

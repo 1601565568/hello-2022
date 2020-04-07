@@ -120,7 +120,7 @@
     <div class="message-container">
     <!---->
     <!--选择好友弹窗开始-->
-    <ElDialog width="600px" height="500px" title="选择子码" :visible.sync="dialogVisible" :show-scroll-x=false :show-scroll-y=false>
+    <ElDialog width="600px" height="500px" title="选择子码" :visible.sync="dialogVisible" :before-close="employeeTreeClose" :show-scroll-x=false>
       <div v-if="personalQrcode.type === 0">
         <ElRow :gutter="10" class="code-container">
           <ElCol :span="12" class="code-container__item">
@@ -230,7 +230,7 @@
         </template>
       </div>
       <template slot="footer">
-        <ns-button @click="dialogVisible = false">取消</ns-button>
+        <ns-button @click="employeeTreeClose">取消</ns-button>
         <ns-button type="primary" @click="onSaveChildQrcode()">确定</ns-button>
       </template>
     </ElDialog>
