@@ -194,6 +194,12 @@ export default {
         that.$notify.error('请选择子码')
         return
       }
+      let personalIds = []
+      for (let i = 0; i < that.tableData.length; i++) {
+        let guideId = that.tableData[i].guideId
+        personalIds.push(guideId)
+      }
+      that.personalQrcode.personnelIds = personalIds.join(',')
       that.personalQrcode.childQrcodes = JSON.stringify(that.tableData)
       that.$http.fetch(that.$api.guide.sgPersonalQrcode.save, that.personalQrcode).then(() => {
         that.$notify.success('保存成功')
@@ -216,12 +222,6 @@ export default {
     choosePersonnel (type) { // 选择员工/自定义
       let _this = this
       _this.dialogVisible = true
-      if (type === _this.initType) {
-        _this.tableData = JSON.parse(_this.personalQrcode.child_qrcodes)
-      } else {
-        _this.tableData = []
-        _this.addTableData = []
-      }
       if (type === 0) {
         let selectData = _this.tree.selectData
         _this.tree.selectedData = []
@@ -238,6 +238,21 @@ export default {
               _this.tree.selectedData.push(children[j])
             }
           }
+        }
+      } else if (type === 1) {
+        _this.addTableData = []
+        for (let i = 0; i < _this.tableData.length; i++) {
+          let data = {}
+          let tableDatum = _this.tableData[i]
+          data.index = i
+          data.name = tableDatum.name
+          data.image = tableDatum.image
+          data.guideId = tableDatum.guideId
+          data.date = tableDatum.date
+          data.num = tableDatum.num
+          data.userName = tableDatum.userName
+          data.userId = tableDatum.userId
+          _this.addTableData.push(data)
         }
       }
     },
@@ -366,7 +381,8 @@ export default {
     handleEdit (index, row) {
     },
     handleDelete (mag, row) {
-      if (this.transferRadio === 0) { // 选择员工
+      let type = this.personalQrcode.type
+      if (type === 0) { // 选择员工
         let guideId = mag.row.guideId
         let tableData = this.tableData
         for (let i in tableData) {
@@ -380,13 +396,13 @@ export default {
             parent.splice(i, 1)
           }
         }
-        for (let i in this.choosePerson) {
-          if (this.choosePerson[i] === guideId) {
-            this.choosePerson.splice(i, 1)
+        for (let i in this.employeeIds) {
+          if (this.employeeIds[i] === parseInt(guideId)) {
+            this.employeeIds.splice(i, 1)
           }
         }
-      } else if (this.transferRadio === 1) { // 自定义
-        this.addTableData.splice(mag, 1)
+      } else if (type === 1) { // 自定义
+        this.tableData.splice(mag, 1)
       }
     },
     // 上传图片地址的切换事件
