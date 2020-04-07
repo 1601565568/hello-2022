@@ -37,11 +37,11 @@
       <template slot="advancedSearch" v-if="_data._queryConfig.expand">
         <el-form ref="table_filter_form" :model="model" label-width="80px" :inline="true">
           <el-form-item label="聚合码名称：">
-            <el-input  autofocus=true v-model="model.name" @keyup.enter.native="$quickSearchAction$('name')" placeholder="" clearable></el-input>
+            <el-input  autofocus=true v-model="model.name" @keyup.enter.native="$quickSearchAction$('name')" placeholder="聚合二维码名称" clearable></el-input>
           </el-form-item>
           <el-form-item label="子码：">
             <el-form-grid size="xmd">
-              <el-input  autofocus=true v-model="model.personal" @keyup.enter.native="$quickSearchAction$('personal')" placeholder="" clearable></el-input>
+              <el-input  autofocus=true v-model="model.personal" @keyup.enter.native="$quickSearchAction$('personal')" placeholder="子码名称" clearable></el-input>
             </el-form-grid>
           </el-form-item>
           <el-form-item label="排序方式：">

@@ -7,6 +7,7 @@ export default {
   data: function () {
     let that = this
     return {
+      state: 0, // 状态 0：新增 1：编辑
       memberManagePlan: 1,
       // 弹框是否打开判断值
       dialogVisible: false,
@@ -139,6 +140,7 @@ export default {
       }).finally(() => {
         this.loading = false
       })
+      this.state = 1
     } else {
       this.title = '新增聚合二维码'
     }
@@ -211,11 +213,15 @@ export default {
     },
     // 聚合码类型改变
     checkChange () {
-      let type = this.personalQrcode.type
-      if (type === this.initType) {
-        this.tableData = JSON.parse(this.personalQrcode.child_qrcodes)
-      } else {
+      if (this.state === 0) {
         this.tableData = []
+      } else if (this.state === 1) {
+        let type = this.personalQrcode.type
+        if (type === this.initType) {
+          this.tableData = JSON.parse(this.personalQrcode.child_qrcodes)
+        } else {
+          this.tableData = []
+        }
       }
     },
     // 选择员工/自定义按钮
