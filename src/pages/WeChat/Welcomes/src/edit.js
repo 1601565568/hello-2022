@@ -27,14 +27,14 @@ export default {
           children: 'children',
           label: 'label'
         },
-        copySelectKeys: [],
-        copySelectedData: [],
         // 右边树数据
         selectedData: [],
+        copySelectedData: [],
         // 右边输入框绑定值
         select: '',
         selected: '',
         selectKeys: [],
+        copySelectKeys: [],
         treeVisible: false,
         selectData: []
       },
@@ -111,13 +111,21 @@ export default {
     cancelWelcomes () {
       this.$router.push({ path: '/Guide/speech/speechList' })
     },
-    // 选择员工
+    // 打开员工树
     choosePersonnel () {
       let _this = this
       _this.dialogVisible = true
       if (this.tree.selectData.length === 0) {
         _this.initEmpTree()
       }
+      // 右边树数据
+      this.tree.copySelectedData = this.tree.selectedData
+    },
+    // 关闭员工树
+    employeeTreeClose: function () {
+      this.tree.selectedData = this.tree.copySelectedData
+      this.$refs.selectTree.setCheckedNodes(this.tree.copySelectedData)
+      this.dialogVisible = false
     },
     // 树方法
     check () {
