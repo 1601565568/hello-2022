@@ -109,7 +109,7 @@
               {{ scope.row.mininterval?scope.row.mininterval:'-' }}-{{ scope.row.maxinterval?scope.row.maxinterval:'-' }}秒
             </template>
           </el-table-column>
-          <el-table-column prop="num" label="当前排队好友数" align="left" min-width="110">
+          <el-table-column prop="num" label="当前排队好友数" align="left" min-width="120">
             <template slot='header' scope='header'>
               <span>
                 <span>{{header.column.label}}</span>
