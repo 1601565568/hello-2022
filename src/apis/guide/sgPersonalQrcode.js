@@ -22,7 +22,7 @@ export default {
   // 获取员工部门
   getDepartment: {
     url: '/Guide/PersonalQrcode/getDepartment',
-    method: 'post'
+    method: 'get'
   },
   // 获取有二维码的员工部门信息
   getQrcodeDepartment: {

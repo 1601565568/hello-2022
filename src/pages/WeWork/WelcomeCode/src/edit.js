@@ -360,7 +360,7 @@ export default {
       // 预取历史数据
       _this.employeeModel.visible = true
       // 查询选择的员工
-      _this.$http.fetch(_this.$api.guide.sgPersonalQrcode.getDepartment).then(resp => {
+      _this.$http.fetch(_this.$api.guide.sgPersonalQrcode.getDepartment, { plan: 1 }).then(resp => {
         if (resp.success && resp.result != null) {
           // 全部数据
           _this.leftTreeData = JSON.parse(resp.result)
