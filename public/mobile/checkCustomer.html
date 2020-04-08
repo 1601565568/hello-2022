@@ -22,6 +22,9 @@
 <script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.4.0.js"></script>
 <script>
     $(document).ready(function () {
+        document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
+          WeixinJSBridge.call('hideOptionMenu');
+        });
         $(".fail").hide();
         var success = getPar('success');
         var msg = getPar('msg');
