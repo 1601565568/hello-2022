@@ -358,10 +358,9 @@ export default {
       let _this = this
       _this.rightTreeData = []
       // 预取历史数据
-      // _this.employeeModel.employeeIds = this.model.employeeIds
       _this.employeeModel.visible = true
       // 查询选择的员工
-      _this.$http.fetch(_this.$api.guide.sgPersonalQrcode.getDepartment).then(resp => {
+      _this.$http.fetch(_this.$api.guide.sgPersonalQrcode.getDepartment, { plan: 1 }).then(resp => {
         if (resp.success && resp.result != null) {
           // 全部数据
           _this.leftTreeData = JSON.parse(resp.result)
@@ -379,6 +378,15 @@ export default {
       }).catch((resp) => {
         _this.$notify.error(getErrorMsg('获取员工数据失败', resp))
       })
+    },
+    /**
+     * @msg: 关闭员工弹框
+     */
+    closeEmployeeDialog () {
+      let _this = this
+      _this.employeeModel.visible = false
+      _this.employeeModel.employeeIds = this.model.employeeIds
+      _this.$refs.tree.setCheckedKeys(_this.employeeModel.employeeIds)
     },
     /**
      * @msg: 确认选择员工

@@ -217,11 +217,10 @@
                         <div class="message-image">
                           <div class="message-figurelist clearfix">
                             <el-image
-                              :width="98"
-                              :height="100"
+                              :width="175"
+                              :height="213"
                               style="width: 175px; height: 213px"
                               :src="imageModel.image"
-                              mode="cover"
                             >
                             </el-image>
                           </div>
@@ -549,6 +548,7 @@
       title="选择员工"
       :visible.sync="employeeModel.visible"
       :show-scroll-x="false"
+      :before-close="closeEmployeeDialog"
     >
       <ElRow :gutter="10" class="code-container">
         <ElCol :span="12" class="code-container__item">
@@ -611,7 +611,7 @@
           </ElCol>
       </ElRow>
       <template slot="footer">
-        <ns-button @click="employeeModel.visible = false">取消</ns-button>
+        <ns-button @click="closeEmployeeDialog">取消</ns-button>
         <ns-save @click="selectEmployee" />
       </template>
     </ElDialog>
