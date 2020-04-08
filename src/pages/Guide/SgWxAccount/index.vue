@@ -189,6 +189,12 @@
                :modal-append-to-body="false"
                @before-close="closeDialog()">
       <div>
+        <el-radio-group v-model="type">
+          <el-radio :label="0" >导购 </el-radio>
+          <el-radio :label="1" >店长 </el-radio>
+        </el-radio-group>
+      </div>
+      <div>
         <p class="text-warning"><Icon type="info-circle" />  一个微信号只能授权给一个商户！</p>
         <p>点击授权跳转到微信公众平台授权页面，授权微信号</p>
       </div>

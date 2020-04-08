@@ -44,6 +44,7 @@ export default {
       obj: {
         appId: null
       },
+      type: 0, // 类型 0：导购 1：店长
       shopManager_radio: '1',
       shoppingGuide_radio: '0',
       appObj: {},
@@ -128,7 +129,7 @@ export default {
     onToAuthorize () {
       var that = this
       // var tempPage = window.open('', ' _blank')
-      that.$http.fetch(that.$api.guide.sgwxaccount.getAuthUrl).then((resp) => {
+      that.$http.fetch(that.$api.guide.sgwxaccount.getAuthUrl, { type: that.type }).then((resp) => {
         window.open(resp.result)
       }).catch((resp) => {
         that.$notify.error(getErrorMsg('保存失败', resp))
