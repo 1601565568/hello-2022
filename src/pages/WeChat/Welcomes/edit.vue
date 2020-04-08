@@ -2,7 +2,7 @@
   <div>
     <el-form ref="form" placement="right" label-width="100px" :model="model" :rules="rules">
         <ElScrollbar ref="fullScreen">
-          <div class="message-container">
+          <div class="message-container modify-card">
             <ElCard shadow="never">
               <div>
                 <ElForm label-width="100px">
@@ -13,7 +13,7 @@
                         placeholder="请输入欢迎语标题"
                         v-model="title"
                         maxlength="30"
-                        :input="title=title.replace(/\s+/g,'')"
+                        :input="title=title.replace(/(^\s*)|(\s*$)/g, '')"
                         show-word-limit
                       />
                     </ElFormGrid>
@@ -50,7 +50,9 @@
               </div>
             </ElCard>
             <!--选择好友弹窗开始-->
-            <ElDialog width="600px" title="选择员工" :visible.sync="dialogVisible" :show-scroll-x=false>
+            <ElDialog width="600px" title="选择员工" :visible.sync="dialogVisible"
+                      :before-close="employeeTreeClose"
+                      :show-scroll-x=false>
               <ElRow :gutter="10" class="code-container">
                   <ElCol :span="12" class="code-container__item">
                     <div class="code-title">可选员工</div>
@@ -108,7 +110,7 @@
                   </ElCol>
                 </ElRow>
               <template slot="footer">
-                <ns-button @click="dialogVisible = false">取消</ns-button>
+                <ns-button @click="employeeTreeClose">取消</ns-button>
                 <ns-button type="primary" @click="dialogVisible = false">确定</ns-button>
               </template>
             </ElDialog>
@@ -181,9 +183,12 @@ export default edit
   }
   /* 底部按钮样式 end*/
 
-  /* 卡片样式 start*/
-  >>> .el-card:last-child {
-    border-bottom: none;
+  /* 修改el-card的默认样式 start */
+  .modify-card {
+    >>>.el-card {
+      border: 0;
+      border-radius: var(--default-radius-mini);
+    }
   }
-  /* 卡片样式 end*/
+  /* 修改el-card的默认样式 end */
 </style>

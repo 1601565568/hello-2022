@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="modify-card">
     <div class="page-title">
       {{ model.welcomeCodeUuid?'修改':'新增' }}智能欢迎语
     </div>
@@ -943,12 +943,6 @@ export default Edit
     border-bottom-right-radius: var(--default-radius-mini);
   }
   /* 底部按钮样式 end*/
-
-  /* 卡片样式 start*/
-  >>> .el-card:last-child {
-    border-bottom: none;
-  }
-  /* 卡片样式 end*/
   /* 迁移 */
   .hand {
     cursor: pointer;
@@ -972,4 +966,16 @@ export default Edit
   .span-red{
     color: #FF0000;
   }
+  >>> .el-card .el-card__header {
+    font-size: var(--default-font-size-base);
+    padding: var(--default-padding-larger) 20px;
+  }
+  /* 修改el-card的默认样式 start */
+  .modify-card {
+    >>>.el-card {
+      border: 0;
+      border-radius: var(--default-radius-mini);
+    }
+  }
+  /* 修改el-card的默认样式 end */
 </style>

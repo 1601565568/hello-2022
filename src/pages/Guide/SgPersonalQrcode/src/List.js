@@ -280,7 +280,7 @@ export default {
       var a = document.createElement('a')
       a.download = name || '背景图'
       // 设置图片地址
-      a.href = this.bgpic
+      a.href = this.url + '/uploadImg?fileName=背景图&imgUrl=' + this.bgpic + '&width=750&height=1624'
       a.click()
     },
     onSaveShow () { // 保存投放预览

@@ -25,7 +25,7 @@
         </el-form>
       </template>
       <!-- 简单搜索-结束 -->
-      <!-- 高级搜索开始 -->
+      <!-- 开始 -->
       <template slot="advancedSearch" v-if="_data._queryConfig.expand">
       <el-form ref="table_filter_form" :model="model" label-width="80px" :inline="true">
 

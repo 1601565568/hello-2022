@@ -16,7 +16,7 @@
         <el-form :model="quickSearchModel" :inline="true" @submit.native.prevent class="pull-right">
           <el-form-item label="员工：" v-if="!_data._queryConfig.expand">
             <el-form-grid size="xmd">
-              <el-input  autofocus=true v-model="model.name" placeholder="请输入员工姓名" clearable></el-input>
+              <el-input  autofocus=true v-model="model.name" @keyup.enter.native="$quickSearchAction$('name')" placeholder="请输入员工姓名" clearable></el-input>
             </el-form-grid>
             <ns-button type="primary" @click="$searchAction$()" class="searchbtn">搜索</ns-button>
             <ns-button @click="$resetInputAction$()" class="resetbtn">重置</ns-button>
@@ -38,17 +38,17 @@
         <el-form ref="table_filter_form" :model="model" label-width="80px" :inline="true">
           <el-form-item label="员工：">
             <el-form-grid size="xmd">
-              <el-input  autofocus=true v-model="model.name" placeholder="请输入员工姓名" clearable></el-input>
+              <el-input  autofocus=true v-model="model.name" @keyup.enter.native="$quickSearchAction$('name')" placeholder="请输入员工姓名" clearable></el-input>
             </el-form-grid>
           </el-form-item>
           <el-form-item label="微信账号：">
             <el-form-grid size="xmd">
-              <el-input  autofocus=true v-model="model.wxAccount" placeholder="搜索微信号/微信昵称" clearable></el-input>
+              <el-input  autofocus=true v-model="model.wxAccount" @keyup.enter.native="$quickSearchAction$('wxAccount')" placeholder="搜索微信号/微信昵称" clearable></el-input>
             </el-form-grid>
           </el-form-item>
           <el-form-item label="验证信息：">
             <el-form-grid size="xmd">
-              <el-input  autofocus=true v-model="model.validateMsg" placeholder="请输入验证信息" clearable></el-input>
+              <el-input  autofocus=true v-model="model.validateMsg" @keyup.enter.native="$quickSearchAction$('validateMsg')" placeholder="请输入验证信息" clearable></el-input>
             </el-form-grid>
           </el-form-item>
           <el-form-item label="自动通过：">
@@ -91,13 +91,13 @@
               {{scope.row.wxnick?scope.row.wxnick:'-'}}({{scope.row.wxaccount?scope.row.wxaccount:'-'}})
             </template>
           </el-table-column>
-          <el-table-column prop="isOpen" label="自动通过" align="left" min-width="100">
+          <el-table-column prop="isOpen" label="自动通过" align="left" min-width="130">
             <template slot-scope="scope">
               <div v-if="scope.row.isopen === 1">
                 <p>关闭</p>
               </div>
               <div v-else-if="scope.row.isopen === 2">
-                <p>开启</p>
+                <p>开启</p><p>{{ scope.row.begin_time?scope.row.begin_time:'-' }}-{{ scope.row.end_time?scope.row.end_time:'-' }}</p>
               </div>
               <div v-else >
                 <p>-</p>
@@ -109,7 +109,15 @@
               {{ scope.row.mininterval?scope.row.mininterval:'-' }}-{{ scope.row.maxinterval?scope.row.maxinterval:'-' }}秒
             </template>
           </el-table-column>
-          <el-table-column prop="num" label="当前排队好友数" align="left" min-width="100">
+          <el-table-column prop="num" label="当前排队好友数" align="left" min-width="120">
+            <template slot='header' scope='header'>
+              <span>
+                <span>{{header.column.label}}</span>
+                <el-tooltip content="当前个人号等待自动通过的好友数">
+                  <Icon type="question-circle"/>
+                </el-tooltip>
+              </span>
+            </template>
             <template slot-scope="scope">
               {{ scope.row.waitNum?scope.row.waitNum:0 }}
             </template>
