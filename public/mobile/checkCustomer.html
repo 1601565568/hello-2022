@@ -53,7 +53,7 @@
         }).then(function (result) {
             if (result.success) {
                 // 跳转到会员开卡页面
-                window.location.replace(result.result.wechatCardUrl)
+                window.location.replace(result.result)
             } else {
                 // 跳转错误页
                 $(".fail").show();
