@@ -35,6 +35,9 @@
               <el-form-item label="欢迎语：" prop="welcontent">
                 <el-input v-model="searchform.welcontent" placeholder="请输入欢迎语" @keyup.enter.native="submitForm('searchform')" clearable></el-input>
               </el-form-item>
+              <el-form-item label="创建人：" prop="welcontent">
+                <el-input v-model="searchform.creatorName" placeholder="请输入名称" @keyup.enter.native="submitForm('searchform')" clearable></el-input>
+              </el-form-item>
             </el-form>
             <div class="template-table__more-btn">
               <ns-button type="primary" @click="submitForm('searchform')">搜索</ns-button>
@@ -79,6 +82,7 @@
         <el-table-column prop="channel_name" label="渠道名称" align="left"></el-table-column>
         <el-table-column prop="create_time" label="创建时间 "  align="center"></el-table-column>
         <el-table-column prop="welcontent" label="欢迎语"  align="center"></el-table-column>
+        <el-table-column prop="creator_name" label="创建人"  align="center"></el-table-column>
         <!--<el-table-column prop="allCount" label="总添加好友数"  align="center"></el-table-column>
         <el-table-column prop="durCount" label="添加好友数" align="center"></el-table-column>-->
         <el-table-column
@@ -154,6 +158,7 @@
       <el-table-column prop="welcontent" label="添加好友总数" width="150" align="center"></el-table-column>
       <el-table-column prop="allCount" label="聚合码添加好友数" width="150" align="center"></el-table-column>
       <el-table-column prop="durCount" label="其他添加好友数" width="150" align="center"></el-table-column>
+      <el-table-column prop="creator_name" label="创建人"  align="center"></el-table-column>
     </el-table>
     </span>
      </el-row>
@@ -187,7 +192,8 @@ export default {
         time: [],
         welcontent: null,
         timeEnd: null,
-        timeStart: null
+        timeStart: null,
+        creatorName: null
       },
       dataList: [],
       pickerOptions: {
@@ -374,6 +380,7 @@ export default {
     submitForm (formName) {
       this.searchObj.searchMap.channel_name = this.searchform.channel_name
       this.searchObj.searchMap.welcontent = this.searchform.welcontent
+      this.searchObj.searchMap.creatorName = this.searchform.creatorName
       if (this.searchform.time !== '' && this.searchform.time !== null && this.searchform.time.length === 2) {
         this.searchObj.searchMap.timeStart = moment(this.searchform.time[0]).format('YYYY-MM-DD HH:mm:ss')
         this.searchObj.searchMap.timeEnd = moment(this.searchform.time[1]).format('YYYY-MM-DD HH:mm:ss')
