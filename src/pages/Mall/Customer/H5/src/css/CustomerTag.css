@@ -6,11 +6,6 @@
   border: 1px solid #E8E8E8;
   border-radius: 3px;
 }
-.tag--seleted {
-  color: #1876FC;
-  background: rgba(24, 118, 252, .1);
-  border: 1px solid rgba(24, 118, 252, .45);
-}
 .tag--forbidden {
   color: rgba(24, 118, 252, .45);
   background: rgba(24, 118, 252, .1);
