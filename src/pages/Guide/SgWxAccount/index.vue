@@ -11,20 +11,51 @@
                   stripe
                   resizable v-loading.lock="_data._table.loadingtable"
                   :element-loading-text="$t('prompt.loading')" @sort-change="$orderChange$">
-          <el-table-column prop="name" label="微信名称"></el-table-column>
-          <el-table-column prop="appid" label="应用ID" align="center"></el-table-column>
-          <el-table-column v-if='memberManagePlan !== 2' label="企业ID" align="center">
+          <el-table-column label="名称" align="center">
             <template slot-scope="{row}">
-              <span v-if="row.corpid === null">-</span>
-              <span v-else>{{row.corpid}}</span>
+              {{row.name?row.name:'-'}}
             </template>
           </el-table-column>
-          <el-table-column label="支付ID" align="center">
+          <el-table-column label="类型" align="center">
             <template slot-scope="{row}">
-              <span v-if="row.payId === null">-</span>
-              <span v-else>{{row.payId}}</span>
+              <span v-if="row.type === 0">导购</span>
+              <span v-else-if="row.type === 1">店长</span>
+              <span v-else>-</span>
             </template>
           </el-table-column>
+          <el-table-column label="appId" align="center">
+            <template slot-scope="{row}">
+              {{row.appid?row.appid:'-'}}
+            </template>
+          </el-table-column>
+          <el-table-column label="头像" align="center">
+            <template slot-scope="{row}">
+              <span v-if="row.head_img === null">-</span>
+              <span v-else>
+                <img :src="row.head_img" style="width: 50px;height: 50px;object-fit: cover">
+              </span>
+            </template>
+          </el-table-column>
+          <el-table-column label="二维码" align="center">
+            <template slot-scope="{row}">
+              <span v-if="row.qrcode_url === null">-</span>
+              <span v-else>
+                <img :src="row.qrcode_url" style="width: 50px;height: 50px;object-fit: cover">
+              </span>
+            </template>
+          </el-table-column>
+<!--          <el-table-column v-if='memberManagePlan !== 2' label="企业ID" align="center">-->
+<!--            <template slot-scope="{row}">-->
+<!--              <span v-if="row.corpid === null">-</span>-->
+<!--              <span v-else>{{row.corpid}}</span>-->
+<!--            </template>-->
+<!--          </el-table-column>-->
+<!--          <el-table-column label="支付ID" align="center">-->
+<!--            <template slot-scope="{row}">-->
+<!--              <span v-if="row.payId === null">-</span>-->
+<!--              <span v-else>{{row.payId}}</span>-->
+<!--            </template>-->
+<!--          </el-table-column>-->
           <el-table-column prop="update_time" label="更新时间" width="160" align="center"></el-table-column>
           <el-table-column :show-overflow-tooltip="true" label="操作" align="center" width="120">
             <template slot-scope="scope">
