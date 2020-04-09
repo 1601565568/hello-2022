@@ -5,8 +5,8 @@
   <meta name="viewport"
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0,minimum-scale=1.0,user-scalable=0"/>
   <title>客户标签</title>
-  <link rel="stylesheet" href="./src/css/index.css">
-  <link rel="stylesheet" href="./src/css/CustomerTag.css">
+  <link rel="stylesheet" href="src/index.css">
+  <link rel="stylesheet" href="src/css/CustomerTag.css">
 </head>
 <body>
 <!-- 顶部状态栏 start -->
@@ -190,6 +190,40 @@
 </div>
 <script src="src/lib/jquery-1.7.1.min.js"></script>
 <script src="src/lib/rolldate.min.js"></script>
-<script src="src/index.js"></script>
+<script>
+  var rolldate = new Rolldate({
+    el: '#editDate',
+    format: 'YYYY-MM-DD',
+    // 年月日 时分秒
+    // format: 'YYYY-MM-DD hh-mm-ss',
+    beginYear: 2000,
+    endYear: 2100,
+    lang: {
+      year: '',
+      month: '',
+      day: '',
+      // 时分秒
+      // hour: '',
+      // min: '',
+      // sec:'',
+      confirm: '确定',
+      title: '第一次购物时间'
+    },
+    confirm: function (date) {
+      rolldate.hide()
+      return false
+    }
+  })
+
+  $('.tag-details__edit').click(function () {
+    $('.float-layout').removeClass('hidden')
+  })
+  $('.float-layout__save').click(function () {
+    $('.float-layout').addClass('hidden')
+  })
+  $('.float-layout__mask').click(function () {
+    $('.float-layout').addClass('hidden')
+  })
+</script>
 </body>
 </html>
