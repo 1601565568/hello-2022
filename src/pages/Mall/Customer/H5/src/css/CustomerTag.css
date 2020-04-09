@@ -1,0 +1,133 @@
+/* 客户标签 start */
+.tag {
+  display: inline-block;
+  margin: 0 10px 10px 0;
+  padding: 6px 10px;
+  color: #595959;
+  font-size: 12px;
+  letter-spacing: 0;
+  line-height: 18px;
+  background: #FFF;
+  border: 1px solid #E8E8E8;
+  border-radius: 2px;
+}
+.tag--seleted {
+  color: #1876FC;
+  background: rgba(24, 118, 252, .1);
+  border: 1px solid #1876FC;
+}
+.tag--forbidden {
+  color: rgba(24, 118, 252, .45);
+  background: rgba(24, 118, 252, .1);
+  border: 1px solid rgba(24, 118, 252, .45);
+}
+.tag.tag--primary {
+  color: rgba(255, 255, 255, .9);
+  line-height: 16px;
+  padding: 4px 10px;
+  background-color: #1876FC;
+}
+.tag-list {
+  font-size: 0;
+  padding: 15px 5px 5px 15px;
+}
+.tag-list--nodata {
+  height: 88px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #595959;
+}
+.tag-list--nodata > img {
+  width: 16px;
+  margin-right: 5px;
+}
+.tag-details .tag-details__item {
+  position: relative;
+  padding: 15px 15px 20px 15px;
+}
+.tag-details .tag-details__item + .tag-details__item::before {
+  content: ' ';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background-color: #E8E8E8;
+}
+.tag-details__item--smallSpace {
+  padding-bottom: 5px !important;
+}
+.tag-details .tag-details__title {
+  font-size: 14px;
+  color: #262626;
+  line-height: 23px;
+  font-weight: bold;
+  margin-bottom: 11px;
+  padding-right: 0;
+}
+.tag-details .tag-details__tags {
+  padding: 0;
+}
+/* 客户标签 end */
+.text-title {
+  font-size: 14px;
+  color: #262626;
+  line-height: 23px;
+}
+.right-arrow {
+  width: 8px;
+  height: 8px;
+  margin-left: 5px;
+  border-top: 1px solid #BFBFBF;
+  border-right: 1px solid #BFBFBF;
+  transform: rotate(45deg);
+}
+.tag-flex {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+input {
+  border: 0;
+}
+:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+  font-size: 14px;
+  color: #BFBFBF;
+}
+
+::-moz-placeholder { /* Mozilla Firefox 19+ */
+  font-size: 14px;
+  color: #BFBFBF;
+}
+
+input:-ms-input-placeholder {
+  font-size: 14px;
+  color: #BFBFBF;
+}
+input::-webkit-input-placeholder {
+  font-size: 14px;
+  color: #BFBFBF;
+}
+.state-bar__save {
+  color: #1876FC;
+  line-height: 22px;
+  position: absolute;
+  right: 15px;
+  top: 14px;
+}
+.tag-list--nodata {
+  font-size: 14px;
+  color: #8C8C8C;
+  line-height: 22px;
+}
+.float-layout .float-layout__content {
+  border-top: 1px solid #E8E8E8;
+}
+.float--textarea {
+  padding: 14px 16px 0 0;
+  height: 50px;
+}
+.put-gray {
+  color: #BFBFBF !important;
+}

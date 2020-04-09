@@ -111,7 +111,16 @@ textarea::-ms-input-placeholder { /* Microsoft Edge */
 }
 
 .font-weight-medium {
-  font-weight: 500;
+  font-size: 16px;
+  color: #262626;
+  line-height: 24px;
+  font-weight: bold;
+}
+
+.float-layout__save {
+  font-size: 16px;
+  color: #1876FC;
+  letter-spacing: 0;
 }
 
 .bg-white {
@@ -120,8 +129,8 @@ textarea::-ms-input-placeholder { /* Microsoft Edge */
 
 /* 顶部状态栏 */
 .page-status-bar {
-  padding: 14px 15px;
   font-size: 16px;
+  padding: 14px 15px;
   line-height: 22px;
   position: relative;
 }
