@@ -8,8 +8,8 @@ window.onload = function () {
       year: '',
       month: '',
       day: '',
-      confirm: '保存',
-      title: '标题'
+      confirm: '确定',
+      title: '第一次购物时间'
     },
     confirm: function (date) {
       rolldate.hide()

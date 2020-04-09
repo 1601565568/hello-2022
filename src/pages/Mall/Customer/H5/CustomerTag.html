@@ -12,7 +12,7 @@
 <!-- 顶部状态栏 start -->
 <div class="page-status-bar text-center">
   <div class="state-bar__cancel text-secondary">取消</div>
-  <span class="text-title font-weight-medium">客户标签</span>
+  <span class="font-weight-medium">客户标签</span>
   <div class="state-bar__save">保存</div>
 </div>
 <!-- 顶部状态栏 end -->
@@ -20,10 +20,10 @@
 <div class="page-container">
   <!-- 上方标签列表 start -->
   <div class="card tag-list">
-    <div class="tag tag--primary">肤质：干性，敏感</div>
-    <div class="tag tag--primary">性别：女</div>
-    <div class="tag tag--primary">肤质：干性</div>
-    <div class="tag tag--primary">希望改善的问题：容易出油，肌肤发黄</div>
+    <span class="tag tag--primary">肤质：干性，敏感</span>
+    <span class="tag tag--primary">性别：女</span>
+    <span class="tag tag--primary">肤质：干性</span>
+    <span class="tag tag--primary">希望改善的问题：容易出油，肌肤发黄</span>
   </div>
 
   <!-- 无数据 通过hide类名控制显隐 -->
@@ -35,62 +35,48 @@
 
   <div class="card tag-details">
     <div class="tag-details__item">
-      <div class="tag-details__title put-gray">
+      <div class="tag-details__title text-disable">
         用户名
       </div>
       <div class="tag-details__tags">
-        <div class="text-title put-gray">李笑笑</div>
+        <div class="text-title text-disable">李笑笑</div>
       </div>
     </div>
     <div class="tag-details__item">
       <div class="tag-details__title">
         所在公司
       </div>
-      <div class="tag-details__tags tag-flex">
+      <div class="tag-details__tags tag-flex tag-details__edit">
         <div class="text-title">某某某</div>
-        <div class="right-arrow tag-details__edit"></div>
+        <div class="right-arrow "></div>
       </div>
     </div>
     <div class="tag-details__item">
-      <div class="tag-details__title put-gray">
+      <div class="tag-details__title text-disable">
         行业
       </div>
       <div class="tag-details__tags">
-        <div class="text-title put-gray">互联网</div>
+        <div class="text-title text-disable">互联网</div>
       </div>
     </div>
     <div class="tag-details__item">
       <div class="tag-details__title">
         生日
       </div>
-      <div class="tag-details__tags tag-flex">
+      <div class="tag-details__tags tag-flex" id="editDate">
         <div class="text-title">2019-10-18</div>
-        <div class="right-arrow" id="editDate"></div>
-      </div>
-    </div>
-    <div class="tag-details__item">
-      <div class="tag-details__title">
-        皮肤（复选）
-      </div>
-      <div class="tag-details__tags">
-        <div class="tag">干燥缺水</div>
-        <div class="tag">缺水</div>
-        <div class="tag tag--seleted">容易起疙瘩</div>
-        <div class="tag">水一样的皮肤</div>
-        <div class="tag">缺水</div>
-        <div class="tag">水一样的皮肤</div>
-        <div class="tag tag--seleted">缺水</div>
+        <div class="right-arrow"></div>
       </div>
     </div>
     <div class="tag-details__item">
       <div class="tag-details__title">
         身高
       </div>
-      <div class="tag-details__tags tag-flex">
-        <div class="text-title">173</div>
+      <div class="tag-details__tags tag-flex tag-details__edit">
+        <input type="text" placeholder="请输入身高" value="173" />
         <div class="text-title tag-flex">
           cm
-          <div class="right-arrow tag-details__edit"></div>
+          <div class="right-arrow"></div>
         </div>
       </div>
     </div>
@@ -99,7 +85,7 @@
         输入框有单位
       </div>
       <div class="tag-details__tags tag-flex">
-        <div class="text-title">164</div>
+        <input type="text" placeholder="请输入" value="164" />
         <div class="text-title tag-flex">
           cm
         </div>
@@ -115,16 +101,16 @@
     </div>
     <div class="tag-details__item tag-details__item--smallSpace">
       <div class="tag-details__title">
-        <div class="text-title font-weight-medium put-gray">皮肤（复选）</div>
+        <div class="text-title font-weight-medium text-disable">皮肤（复选）</div>
       </div>
-      <div class="tag-details__tags">
-        <div class="tag put-gray">干燥缺水</div>
-        <div class="tag put-gray">缺水</div>
-        <div class="tag tag--forbidden">容易起疙瘩</div>
-        <div class="tag put-gray">水一样的皮肤</div>
-        <div class="tag put-gray">缺水</div>
-        <div class="tag put-gray">水一样的皮肤</div>
-        <div class="tag tag--forbidden">缺水</div>
+      <div class="tag-details__tags tag--cancelBlank">
+        <span class="tag text-disable">干燥缺水</span>
+        <span class="tag text-disable">缺水</span>
+        <span class="tag tag--forbidden">容易起疙瘩</span>
+        <span class="tag text-disable">水一样的皮肤</span>
+        <span class="tag text-disable">缺水</span>
+        <span class="tag text-disable">水一样的皮肤</span>
+        <span class="tag tag--forbidden">缺水</span>
       </div>
     </div>
   </div>
@@ -134,7 +120,7 @@
   <div class="float-layout__mask"></div>
   <div class="float-layout__main">
     <div class="float-layout__title">
-      <div class="font-weight-medium">标题</div>
+      <div>标题</div>
     </div>
 
     <div class="float-layout__content">
