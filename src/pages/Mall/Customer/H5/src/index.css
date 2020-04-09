@@ -426,13 +426,15 @@ textarea::-ms-input-placeholder { /* Microsoft Edge */
 .rolldate-panel header {
   text-align: left;
   padding: 14px 15px 12px;
-  font-size: 16px !important;
+  font-size: 14px !important;
   color: #262626;
   line-height: 24px !important;
   border: none !important;
-  font-weight: 500;
+  font-weight: bold;
 }
-
+.rolldate-container .rolldate-btn {
+  font-size: 14px !important;
+}
 .rolldate-panel header .rolldate-confirm {
   height: auto;
   top: 50%;
