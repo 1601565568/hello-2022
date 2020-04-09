@@ -16,6 +16,22 @@
               {{row.name?row.name:'-'}}
             </template>
           </el-table-column>
+          <el-table-column label="头像" align="center">
+            <template slot-scope="{row}">
+              <span v-if="row.head_img === null">-</span>
+              <span v-else>
+              <img :src="row.head_img" style="width: 50px;height: 50px;object-fit: cover">
+            </span>
+            </template>
+          </el-table-column>
+          <el-table-column label="二维码" align="center">
+            <template slot-scope="{row}">
+              <span v-if="row.qrcode_url === null">-</span>
+              <span v-else>
+              <img :src="row.qrcode_url" style="width: 50px;height: 50px;object-fit: cover">
+            </span>
+            </template>
+          </el-table-column>
           <el-table-column label="类型" align="center">
             <template slot-scope="{row}">
               <span v-if="row.type === 0">导购</span>
@@ -26,22 +42,6 @@
           <el-table-column label="appId" align="center">
             <template slot-scope="{row}">
               {{row.appid?row.appid:'-'}}
-            </template>
-          </el-table-column>
-          <el-table-column label="头像" align="center">
-            <template slot-scope="{row}">
-              <span v-if="row.head_img === null">-</span>
-              <span v-else>
-                <img :src="row.head_img" style="width: 50px;height: 50px;object-fit: cover">
-              </span>
-            </template>
-          </el-table-column>
-          <el-table-column label="二维码" align="center">
-            <template slot-scope="{row}">
-              <span v-if="row.qrcode_url === null">-</span>
-              <span v-else>
-                <img :src="row.qrcode_url" style="width: 50px;height: 50px;object-fit: cover">
-              </span>
             </template>
           </el-table-column>
 <!--          <el-table-column v-if='memberManagePlan !== 2' label="企业ID" align="center">-->
@@ -60,7 +60,7 @@
           <el-table-column :show-overflow-tooltip="true" label="操作" align="center" width="120">
             <template slot-scope="scope">
               <span class="tmp-cell__buttons">
-                <ns-button type="text" @click="onSaveOpen(scope.row)">编辑</ns-button>
+<!--                <ns-button type="text" @click="onSaveOpen(scope.row)">编辑</ns-button>-->
                 <ns-button v-if="scope.row.appid !== 'wxd018c65db8b66408' && scope.row.appid !== 'wx088d6dbeea9c68c3'"
                            type="text" @click="onDelete(scope.row)">取消授权</ns-button>
               </span>
