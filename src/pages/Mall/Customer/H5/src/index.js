@@ -2,12 +2,18 @@ window.onload = function () {
   var rolldate = new Rolldate({
     el: '#editDate',
     format: 'YYYY-MM-DD',
+    // 年月日 时分秒
+    // format: 'YYYY-MM-DD hh-mm-ss',
     beginYear: 2000,
     endYear: 2100,
     lang: {
       year: '',
       month: '',
       day: '',
+      // 时分秒
+      // hour: '',
+      // min: '',
+      // sec:'',
       confirm: '确定',
       title: '第一次购物时间'
     },
