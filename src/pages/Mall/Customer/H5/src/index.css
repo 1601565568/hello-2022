@@ -199,7 +199,7 @@ textarea::-ms-input-placeholder { /* Microsoft Edge */
   display: flex;
   justify-content: space-between;
   padding: 14px 15px 12px;
-  font-size: 16px;
+  font-size: 14px;
   color: #262626;
   line-height: 24px;
 }
