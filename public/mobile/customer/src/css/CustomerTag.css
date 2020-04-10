@@ -1,20 +1,27 @@
 /* 客户标签 start */
 .tag {
   line-height: 18px;
+  height: 30px;
   padding: 6px 10px;
   margin: 0 5px 10px;
   background: #FFF;
-  border: 1px solid #E8E8E8;
+  border: 0.5px solid #E8E8E8;
   border-radius: 3px;
+}
+.tag--seleted {
+  color: #1876FC;
+  background: rgba(24, 118, 252, .1);
+  border: 0.5px solid rgba(24, 118, 252, .45);
 }
 .tag--forbidden {
   color: rgba(24, 118, 252, .45);
   background: rgba(24, 118, 252, .1);
-  border: 1px solid rgba(24, 118, 252, .45);
+  border: 0.5px solid rgba(24, 118, 252, .45);
 }
 .tag.tag--primary {
   color: rgba(255, 255, 255, .9);
   line-height: 16px;
+  height: 24px;
   padding: 4px 10px;
 }
 .tag-list {
@@ -102,5 +109,5 @@ input::-webkit-input-placeholder {
   font-weight: bold;
 }
 .float-layout .float-layout__content {
-  border-top: 1px solid #E8E8E8;
+  border-top: 0.5px solid #E8E8E8;
 }
