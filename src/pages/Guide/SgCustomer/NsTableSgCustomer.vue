@@ -12,7 +12,7 @@
     <!-- el-inpu 需添加  @keyup.enter.native="$quickSearchAction$" 配置，实现回车搜索 -->
     <template slot="searchSearch">
       <el-form :model="model" :inline="true" @submit.native.prevent class="pull-right">
-        <el-form-item v-show="_data._queryConfig.expand === false" label="操作人：">
+        <el-form-item v-show="_data._queryConfig.expand === false" label="操作人：" prop="dealUserName">
           <el-input ref="quickText" style="width: 200px" v-model="model.dealUserName" placeholder="请输入操作人姓名" @keyup.enter.native="$searchAction$()" clearable><!-- $quickSearchAction$('outGuideName') -->
           </el-input>
           <ns-button type="primary" @click="$searchAction$()" class="searchbtn" >搜索</ns-button><!-- @keyup.enter.native="$searchAction$()" -->
@@ -34,7 +34,7 @@
     <template slot="advancedSearch" v-if="_data._queryConfig.expand">
       <el-form ref="table_filter_form" label-width="80px" @keyup.enter.native="$searchAction$()" class="surround-btn"
                :model="model" :rules="rules" :inline="true">
-        <el-form-item label="操作人：">
+        <el-form-item label="操作人：" prop="dealUserName">
           <el-form-grid size="xmd">
             <el-input  type="text" v-model="model.dealUserName" placeholder="请输入操作人姓名" clearable>
             </el-input>
@@ -145,7 +145,7 @@
         <div style="overflow-x:hidden;overflow-y:auto;">
           <el-table :data="customerData" v-loading.lock="detailLoadingTable"
                 :element-loading-text="$t('prompt.loading')">
-            <el-table-column prop="name" label="姓名" align="center" width="100"></el-table-column>
+            <el-table-column prop="name" label="姓名" align="left" width="100"></el-table-column>
             <el-table-column prop="sex" label="性别" align="center" width="80">
               <template slot-scope="scope">
                 <span v-if="scope.row.sex == 0">
@@ -165,10 +165,10 @@
             <el-table-column prop="memberCard" label="会员卡号" align="center" width="150">
               <template slot-scope="scope">{{scope.row.memberCard?scope.row.memberCard:'-'}}</template>
             </el-table-column>
-            <el-table-column prop="outGuideName" label="原导购" align="center" width="180">
+            <el-table-column prop="outGuideName" label="原导购" align="left" width="180">
               <template slot-scope="scope">{{scope.row.outGuideName?scope.row.outGuideName:'-'}} [{{scope.row.outShopName?scope.row.outShopName:'-'}}]</template>
             </el-table-column>
-            <el-table-column prop="intoGuideName" label="新导购" align="center" width="180">
+            <el-table-column prop="intoGuideName" label="新导购" align="left" width="180">
               <template slot-scope="scope">{{scope.row.intoGuideName?scope.row.intoGuideName:'-'}} [{{scope.row.intoShopName?scope.row.intoShopName:'-'}}]</template>
             </el-table-column>
           </el-table>
