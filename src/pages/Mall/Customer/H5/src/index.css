@@ -262,20 +262,15 @@ textarea::-ms-input-placeholder { /* Microsoft Edge */
   align-items: center;
   justify-content: space-between;
   padding: 14px 15px 12px 0;
+  border-bottom: 0.5px solid #E8E8E8;
 }
-.float-select .float-select__item + .float-select__item::before {
-  content: ' ';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 1px;
-  background-color: #E8E8E8;
+.float-select .float-select__item:last-child {
+  border-bottom: 0;
 }
 
 .float-select .float-select__content {
   flex: 1;
-  font-size: 14px;
+  font-size: 16px;
   color: #262626;
   line-height: 24px;
 }
