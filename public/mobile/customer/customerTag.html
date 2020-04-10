@@ -281,7 +281,7 @@
                 let propertyInfoVo = propertyInfoVos[j]
                 if (propertyInfo.tagArr == propertyInfoVo.tagArr){
                   tagged =  propertyInfoVo.value
-                  tagged = tagged.substr(0,10)
+                  tagged = tagged.substr(0,19)
                 }
               }
               if (tagged != ''){
@@ -376,7 +376,7 @@
               var rolldate = new Rolldate({
                 el: '#editDate_'+id,
                 // 年月日 时分秒
-                format: 'YYYY-MM-DD hh-mm-ss',
+                format: 'YYYY-MM-DD hh:mm:ss',
                 beginYear: 2000,
                 endYear: 2100,
                 lang: {
@@ -390,9 +390,10 @@
                   title: '时间'
                 },
                 confirm: function (date) {
+                  debugger
                   rolldate.hide()
                   $(".editDate_"+id).html(date)
-                  $(".input_editDate_"+id).value =  date
+                  $(".input_editDate_"+id)[0].value =  date
                   return false
                 }
               })
