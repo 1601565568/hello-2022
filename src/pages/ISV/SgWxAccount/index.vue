@@ -113,17 +113,17 @@
                :modal-append-to-body="false"
                @before-close="closeDialog()">
       <el-form :model="model" ref="form" label-width="100px" :rules="rules" placement="right">
-        <el-form-item label="小程序类型：" prop="type" required>
-            <el-radio  v-model="model.type" :label="1" >店长</el-radio>
-            <el-radio  v-model="model.type" :label="0" >导购</el-radio>
-        </el-form-item>
-        <el-form-item label="集团id：" prop="groupId" required>
-          <el-input type="text" placeholder="请输入集团id" v-model="model.groupId" ></el-input>
-        </el-form-item>
-        <el-form-item label="微信名称：" prop="name" required>
-          <el-input v-if="model.fromType === 1" type="text" :disabled='true' placeholder="请输入微信名称" v-model="model.name"></el-input>
-          <el-input v-else type="text" placeholder="请输入微信名称" v-model="model.name" ></el-input>
-        </el-form-item>
+<!--        <el-form-item label="小程序类型：" prop="type" required>-->
+<!--            <el-radio  v-model="model.type" :label="1" >店长</el-radio>-->
+<!--            <el-radio  v-model="model.type" :label="0" >导购</el-radio>-->
+<!--        </el-form-item>-->
+<!--        <el-form-item label="集团id：" prop="groupId" required>-->
+<!--          <el-input type="text" placeholder="请输入集团id" v-model="model.groupId" ></el-input>-->
+<!--        </el-form-item>-->
+<!--        <el-form-item label="微信名称：" prop="name" required>-->
+<!--          <el-input v-if="model.fromType === 1" type="text" :disabled='true' placeholder="请输入微信名称" v-model="model.name"></el-input>-->
+<!--          <el-input v-else type="text" placeholder="请输入微信名称" v-model="model.name" ></el-input>-->
+<!--        </el-form-item>-->
         <el-form-item label="应用ID：" prop="appid" required>
           <el-input v-if="model.fromType === 1" type="text" :disabled='true' placeholder="请输入应用ID" v-model="model.appid"></el-input>
           <el-input v-else type="text" placeholder="请输入应用ID" v-model="model.appid" ></el-input>
@@ -131,24 +131,24 @@
         <el-form-item v-if="model.fromType !== 1" label="应用秘钥：" prop="secret" required>
           <el-input type="text" placeholder="请输入应用秘钥" v-model="model.secret"></el-input>
         </el-form-item>
-        <el-form-item label="外部联系人企业秘钥：" prop="userCorpsecret" required>
-          <el-input type="text" placeholder="请输入外部联系人企业秘钥" v-model="model.userCorpsecret" ></el-input>
-        </el-form-item>
-        <el-form-item  label="通讯录企业秘钥：" prop="addressCorpsecret" required>
-          <el-input type="text" placeholder="请输入通讯录企业秘钥" v-model="model.addressCorpsecret" ></el-input>
-        </el-form-item>
-        <el-form-item label="企业ID：" prop="corpid">
-          <el-input type="text" placeholder="请输入企业ID" v-model="model.corpid" ></el-input>
-        </el-form-item>
-        <el-form-item label="企业密钥：" prop="corpsecret">
-          <el-input type="text" placeholder="请输入企业密钥" v-model="model.corpsecret"></el-input>
-        </el-form-item>
-        <el-form-item label="支付ID：" prop="payId">
-          <el-input type="text" placeholder="请输入支付ID" v-model="model.payId"></el-input>
-        </el-form-item>
-        <el-form-item label="支付密钥：" prop="paySecret">
-          <el-input type="text" placeholder="请输入支付密钥" v-model="model.paySecret"></el-input>
-        </el-form-item>
+<!--        <el-form-item label="外部联系人企业秘钥：" prop="userCorpsecret" required>-->
+<!--          <el-input type="text" placeholder="请输入外部联系人企业秘钥" v-model="model.userCorpsecret" ></el-input>-->
+<!--        </el-form-item>-->
+<!--        <el-form-item  label="通讯录企业秘钥：" prop="addressCorpsecret" required>-->
+<!--          <el-input type="text" placeholder="请输入通讯录企业秘钥" v-model="model.addressCorpsecret" ></el-input>-->
+<!--        </el-form-item>-->
+<!--        <el-form-item label="企业ID：" prop="corpid">-->
+<!--          <el-input type="text" placeholder="请输入企业ID" v-model="model.corpid" ></el-input>-->
+<!--        </el-form-item>-->
+<!--        <el-form-item label="企业密钥：" prop="corpsecret">-->
+<!--          <el-input type="text" placeholder="请输入企业密钥" v-model="model.corpsecret"></el-input>-->
+<!--        </el-form-item>-->
+<!--        <el-form-item label="支付ID：" prop="payId">-->
+<!--          <el-input type="text" placeholder="请输入支付ID" v-model="model.payId"></el-input>-->
+<!--        </el-form-item>-->
+<!--        <el-form-item label="支付密钥：" prop="paySecret">-->
+<!--          <el-input type="text" placeholder="请输入支付密钥" v-model="model.paySecret"></el-input>-->
+<!--        </el-form-item>-->
       </el-form>
       <div slot="footer" class="dialog-footer">
         <ns-button @click="dialogFormVisible = false">取消</ns-button>

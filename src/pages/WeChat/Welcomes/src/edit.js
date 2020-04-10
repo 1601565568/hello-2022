@@ -166,7 +166,7 @@ export default {
     // 初始化员工树
     initEmpTree: function () {
       let _this = this
-      _this.$http.fetch(_this.$api.guide.sgPersonalQrcode.getDepartment).then(resp => {
+      _this.$http.fetch(_this.$api.guide.sgPersonalQrcode.getDepartment, { plan: 2 }).then(resp => {
         if (resp.success && resp.result != null) {
           this.tree.selectData = JSON.parse(resp.result)
         } else {
