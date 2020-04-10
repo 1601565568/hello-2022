@@ -41,8 +41,8 @@
       if (result.success) {
         var html = "<div class='code'>"+
           "<div class='code__outer'>" +
-          "      <div class='inner'>" +
-          "        <img src='"+result.result.qrcode+"' alt='提示图片' class='inner__qrcode'>" +
+          "      <div class='inner' style='position: relative'>" +
+          "        <img src='"+result.result.qrcode+"' alt='提示图片' class='inner__qrcode' style='position: absolute;left: 0;top: 0'> " +
           "      </div>" +
           "    </div>"+
           "  </div>";
