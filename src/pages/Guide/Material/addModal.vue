@@ -115,7 +115,6 @@ export default {
   },
   data () {
     return {
-      // { name: '优惠券', id: 3 },, { name: '自定义页面', id: 5 }
       wechatPageTypeList: [{ name: '商城主页面', id: 1 }, { name: '商品', id: 2 }, { name: '营销活动', id: 4 }],
       wechatPageUrlList: [{ codeTargetName: '首页', codeTarget: '1' }, { codeTargetName: '分类', codeTarget: '2' }, { codeTargetName: '我的', codeTarget: '3' }],
       loading: false, // 防重复提交
@@ -197,6 +196,7 @@ export default {
         this.$set(this.saveObj, 'codeTargetName', obj.activityName)
         this.$set(this.saveObj, 'marketType', obj.marketType)
       } else if (obj.sysItemId) {
+        // huangyuye 保存商品库商品与素材的关联
         this.$set(this.saveObj, 'selectBackName', '商品名称：')
         this.$set(this.saveObj, 'codeTarget', obj.sysItemId)
         this.$set(this.saveObj, 'codeTargetName', obj.title)
@@ -272,6 +272,7 @@ export default {
         this.$notify.warning('加小程序码的素材最多8张图片')
         return
       }
+      // 选择商品 codeMudule = 2
       if (this.saveObj.codeModule === '' || this.saveObj.codeModule === null || this.saveObj.codeTarget === '') {
         this.saveObj.codeType = 0
       }
