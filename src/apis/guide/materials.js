@@ -38,5 +38,12 @@ export default {
   findMallGoodsList: { // 查询商城营销活动列表
     url: '/guide/goods/findMallGoodsList',
     method: 'post'
+  },
+  /**
+   * @msg: 查询商品库列表
+   */
+  findGoodBankList: {
+    url: '/guide/goods/findGoodBankList',
+    method: 'get'
   }
 }

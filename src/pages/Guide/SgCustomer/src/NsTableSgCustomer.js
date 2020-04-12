@@ -8,10 +8,6 @@ export default {
     types: Object
   },
   data: function () {
-    // 默认時間为一周
-    let endTime = new Date()
-    let startTime = new Date()
-    startTime.setDate(endTime.getDate() - 7)
     var pagination = {
       enable: true,
       size: 15,
@@ -59,9 +55,14 @@ export default {
     }]
     var quickSearchNames = quickInput.map(x => x.name)
     var quickSearchModel = {}
+    // 默认時間为一周
+    let endTime = new Date()
+    let startTime = new Date()
+    startTime.setDate(endTime.getDate() - 7)
     var model = Object.assign({},
       {
         // 高级搜索字段
+        dealUserName: null,
         intoGuideName: null,
         outGuideName: null,
         transferType: '',
