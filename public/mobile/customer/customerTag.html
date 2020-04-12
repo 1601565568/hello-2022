@@ -116,8 +116,8 @@
             $(".tag-list").append(html)
           }
         }
-        getGroupTag()
       }
+      getGroupTag()
     })
   }
   //获取集团标签标签
@@ -285,10 +285,10 @@
                 }
               }
               if (tagged != ''){
-                html += '<div class="text-title editDate_'+id+'">'+tagged+'</div>'+
+                html += '<div class="text-title customer_tag_date editDate_'+id+'">'+tagged+'</div>'+
                         '<input type="date" name="date" class="input_editDate_'+id+'" value="'+tagged+'" hidden>'
               }else {
-                html += '<div class="text-title editDate_'+id+'"></div>'+
+                html += '<div class="text-title customer_tag_date editDate_'+id+'"></div>'+
                         '<input type="text" name="date" class="input_editDate_'+id+'" value="" hidden>'
               }
               html += '<div class="right-arrow"></div>'+
@@ -390,7 +390,6 @@
                   title: '时间'
                 },
                 confirm: function (date) {
-                  debugger
                   rolldate.hide()
                   $(".editDate_"+id).html(date)
                   $(".input_editDate_"+id)[0].value =  date
@@ -436,19 +435,32 @@
     let tagMsgShow = []
     for (let i = 0; i < detailsItem.length; i++) {
       let tagMsg = {}
+      let tagInfo = {}
       let detailsItemElement = detailsItem[i];
       let tagAttr = detailsItemElement.getAttribute("tagAttr");
       let tagName = detailsItemElement.getAttribute("tagName");
       let tagType = detailsItemElement.getAttribute("tagType");
       let inputs = detailsItemElement.getElementsByTagName('input');
-      if (parseInt(tagType) == 1 || parseInt(tagType) == 2 || parseInt(tagType) == 3 || parseInt(tagType) == 4 || parseInt(tagType) == 5){
+      if (parseInt(tagType) == 1 || parseInt(tagType) == 2 || parseInt(tagType) == 3 || parseInt(tagType) == 4){
         if (inputs[0].value){
           tagMsg.tagValue = inputs[0].value
           tagMsg.tagCode = tagAttr
           tagInfoList.push(tagMsg)
-          tagMsg.tagName = tagName
-          tagMsg.tag_code = tagAttr
-          tagMsgShow.push(tagMsg)
+          tagInfo.tagValue = inputs[0].value
+          tagInfo.tagName = tagName
+          tagInfo.tag_code = tagAttr
+          tagMsgShow.push(tagInfo)
+        }
+      }else if (parseInt(tagType) == 5){
+        let dateHtml = detailsItemElement.getElementsByClassName('customer_tag_date');
+        if (dateHtml[0].textContent) {
+          tagMsg.tagValue = dateHtml[0].textContent
+          tagMsg.tagCode = tagAttr
+          tagInfoList.push(tagMsg)
+          tagInfo.tagValue = dateHtml[0].textContent
+          tagInfo.tagName = tagName
+          tagInfo.tag_code = tagAttr
+          tagMsgShow.push(tagInfo)
         }
       }else if (parseInt(tagType) == 6){
         for (let j = 0; j < inputs.length; j++) {
@@ -456,9 +468,10 @@
             tagMsg.tagValue = inputs[j].value
             tagMsg.tagCode = tagAttr
             tagInfoList.push(tagMsg)
-            tagMsg.tagName = tagName
-            tagMsg.tag_code = tagAttr
-            tagMsgShow.push(tagMsg)
+            tagInfo.tagValue = inputs[j].value
+            tagInfo.tagName = tagName
+            tagInfo.tag_code = tagAttr
+            tagMsgShow.push(tagInfo)
           }
         }
       }else if (parseInt(tagType) == 7){
@@ -473,9 +486,10 @@
           tagMsg.tagValue = tagValue
           tagMsg.tagCode = tagAttr
           tagInfoList.push(tagMsg)
-          tagMsg.tagName = tagName
-          tagMsg.tag_code = tagAttr
-          tagMsgShow.push(tagMsg)
+          tagInfo.tagValue = tagValue
+          tagInfo.tagName = tagName
+          tagInfo.tag_code = tagAttr
+          tagMsgShow.push(tagInfo)
         }
       }
     }
@@ -498,25 +512,28 @@
       method: "post",
       contentType: "application/json;charset=UTF-8",
       success: function (res) {
-        debugger
-        for (let i = 0; i < tagMsgShow.length; i++) {
-          let tagInfo = tagMsgShow[i]
-          let hasClass = $('div').hasClass("customer_"+tagInfo.tag_code);
-          if (hasClass){
-            $(".customer_"+tagInfo.tag_code).html(tagInfo.tagName+":"+tagInfo.tagValue);
-          } else {
-            var html = '<div class="tag tag&#45;&#45;primary customer_'+tagInfo.tag_code+'">' + tagInfo.tagName + ':' + tagInfo.tagValue + '</div>'
-            $(".tag-list").append(html)
+        if (res.success){
+          for (let i = 0; i < tagMsgShow.length; i++) {
+            let tagInfo = tagMsgShow[i]
+            let hasClass = $('div').hasClass("customer_"+tagInfo.tag_code);
+            if (hasClass){
+              $(".customer_"+tagInfo.tag_code).html(tagInfo.tagName+":"+tagInfo.tagValue);
+            } else {
+              var html = '<div class="tag tag&#45;&#45;primary customer_'+tagInfo.tag_code+'">' + tagInfo.tagName + ':' + tagInfo.tagValue + '</div>'
+              $(".tag-list").append(html)
+            }
           }
+          $(".tag-details").html('')
+        }else {
         }
-        $(".tag-details").html('')
+        getGroupTag()
+        $('.float-layout').addClass('hidden')
+        $(".float-layout__content").html('')
       },
       error: function (res) {
+        debugger
       }
     });
-    getGroupTag()
-    $('.float-layout').addClass('hidden')
-    $(".float-layout__content").html('')
   })
   function ajax(url, data, params) {
     data = JSON.stringify(data)

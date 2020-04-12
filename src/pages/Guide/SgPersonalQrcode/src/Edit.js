@@ -416,7 +416,13 @@ export default {
           }
         }
       } else if (type === 1) { // 自定义
-        this.tableData.splice(mag, 1)
+        let position
+        for (let i = 0; i < this.tableData.length; i++) {
+          if (this.tableData[i].index === mag.row.index) {
+            position = i
+          }
+        }
+        this.tableData.splice(position, 1)
       }
     },
     // 上传图片地址的切换事件
