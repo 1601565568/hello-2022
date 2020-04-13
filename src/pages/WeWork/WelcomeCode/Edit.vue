@@ -335,9 +335,10 @@
     <!-- 网页 -->
     <el-dialog
       ref="linkDialog"
-      width="500px"
+      width="600px"
       :visible.sync="linkModel.visible"
       title="链接"
+      :show-scroll-x=false
     >
       <el-form
         ref="linkForm"
@@ -346,7 +347,7 @@
         :model="linkModel"
       >
         <el-form-item label="跳转链接：" class="code-title"> </el-form-item>
-        <el-form-item label="链接：" prop="custom">
+        <el-form-item label="链接：" prop="custom" label-width="100px">
           <el-radio v-model="linkModel.custom" :label="1" size="xxs">自定义链接</el-radio>
           <el-radio v-model="linkModel.custom" :label="2" size="xxs">系统预置链接</el-radio>
         </el-form-item>
@@ -355,8 +356,10 @@
           label="网页地址："
           prop="link"
           :rules="commonRules.link"
+          clearable
+          show-word-limit
         >
-          <el-form-grid size="xmd">
+          <el-form-grid size="xxmd">
             <el-input v-model.trim="linkModel.link" />
           </el-form-grid>
         </el-form-item>
@@ -365,6 +368,7 @@
           label="选择链接："
           prop="settingId"
           :rules="commonRules.selectOne"
+
         >
           <el-select v-model="linkModel.settingId" @change='systemPresetChange' placeholder="请选择">
             <el-option
@@ -377,14 +381,26 @@
           </el-select>
         </el-form-item>
         <el-form-item label="消息展示内容：" class="code-title"> </el-form-item>
-        <el-form-item label="标题：" prop="title" :rules="commonRules.title">
-          <el-form-grid size="xmd">
-            <el-input v-model.trim="linkModel.title" />
+        <el-form-item label="标题：" prop="title" :rules="commonRules.title"  label-width="100px">
+          <el-form-grid size="xxmd">
+            <el-input
+              type="text"
+              maxlength='20'
+              minlength='1'
+              clearable
+              show-word-limit
+              v-model.trim="linkModel.title" />
           </el-form-grid>
         </el-form-item>
-        <el-form-item label="文案：" prop="desc" :rules="commonRules.desc">
-          <el-form-grid size="xmd">
-            <el-input v-model.trim="linkModel.desc" />
+        <el-form-item label="文案：" prop="desc" :rules="commonRules.desc" label-width="100px">
+          <el-form-grid size="xxmd">
+            <el-input
+              type="text"
+              maxlength='50'
+              minlength='1'
+              clearable
+              show-word-limit
+              v-model.trim="linkModel.desc" />
           </el-form-grid>
         </el-form-item>
         <el-form-item label="封面图：" prop="image" :rules="commonRules.image">
@@ -440,8 +456,15 @@
             prop="appid"
             :rules="commonRules.appid"
           >
-            <el-form-grid size="xmd">
-              <el-input v-model.trim="appModel.appid" />
+            <el-form-grid size="xxmd">
+              <el-input
+                type="text"
+                maxlength='30'
+                minlength='5'
+                clearable
+                placeholder="请输入小程序appId,长度在5-30个字符以内"
+                show-word-limit
+                v-model.trim="appModel.appid" />
             </el-form-grid>
           </el-form-item>
           <el-form-item
@@ -449,19 +472,17 @@
             prop="path"
             :rules="commonRules.path"
           >
-            <el-form-grid size="xmd">
-              <el-input v-model.trim="appModel.path" />
+            <el-form-grid size="xxmd">
+              <el-input
+                type="text"
+                maxlength='255'
+                minlength='1'
+                clearable
+                placeholder="请输入小程序路径,长度在1-255个字符以内"
+                show-word-limit
+                v-model.trim="appModel.path" />
             </el-form-grid>
           </el-form-item>
-          <!-- <el-form-item
-            label="备用网页："
-            prop="link"
-            :rules="commonRules.link"
-          >
-            <el-form-grid size="xmd">
-              <el-input v-model.trim="appModel.link" />
-            </el-form-grid>
-          </el-form-item> -->
         </template>
         <template>
           <el-form-item
@@ -470,28 +491,32 @@
             prop="link"
             :rules="commonRules.selectOne"
           >
-            <el-select v-model="appModel.settingId" placeholder="请选择">
-              <el-option
-                v-for="item in options"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              >
-              </el-option>
-            </el-select>
+            <el-form-grid size="xxmd">
+              <el-select v-model="appModel.settingId" placeholder="请选择">
+                <el-option
+                  v-for="item in options"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                >
+                </el-option>
+              </el-select>
+            </el-form-grid>
           </el-form-item>
         </template>
         <el-form-item label="小程序卡片展示：" class="code-title"> </el-form-item>
         <el-form-item label="标题：" prop="title" :rules="commonRules.title">
-          <el-form-grid size="xmd">
-            <el-input v-model.trim="appModel.title" />
+          <el-form-grid size="xxmd">
+            <el-input
+              type="text"
+              maxlength='20'
+              minlength='1'
+              clearable
+              placeholder="请输入标题,长度在1-20个字符以内"
+              show-word-limit
+              v-model.trim="appModel.title" />
           </el-form-grid>
         </el-form-item>
-        <!-- <el-form-item label="文案：" prop="desc" :rules="commonRules.desc">
-          <el-form-grid size="xmd">
-            <el-input v-model.trim="appModel.desc" />
-          </el-form-grid>
-        </el-form-item> -->
         <el-form-item label="封面图：" prop="image" :rules="commonRules.image">
           <el-form-grid class="company-upload">
             <el-upload
