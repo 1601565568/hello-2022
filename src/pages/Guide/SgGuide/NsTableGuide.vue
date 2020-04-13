@@ -124,7 +124,7 @@
             </template>
           </el-table-column>
           <el-table-column prop="job" label="员工类型" align="center" width="80">
-            <template slot-scope="scope">{{scope.row.job == 1 ? "店长" : "导购"}}
+            <template slot-scope="scope">{{scope.row.job == 1 ? "店长" : (scope.row.job == 0 ? "导购" : "客服" ) }}
             </template>
           </el-table-column>
           <el-table-column prop="role_name" label="所属角色" align="left" min-width="200">
