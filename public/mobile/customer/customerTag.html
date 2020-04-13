@@ -11,7 +11,7 @@
 <body>
 <!-- 顶部状态栏 start -->
 <div class="page-status-bar text-center">
-  <div class="state-bar__cancel text-secondary">取消</div>
+  <div class="state-bar__cancel cancel_customerTag text-secondary">取消</div>
   <span class="font-weight-medium">客户标签</span>
   <div class="state-bar__save save_customerTag">保存</div>
 </div>
@@ -73,6 +73,11 @@
   // $('.float-layout__save').click(function () {
   //   $('.float-layout').addClass('hidden')
   // })
+  $('.cancel_customerTag').click(function () {
+    var host = "ecrp://send?params="
+    var params = '{"type":-1}'
+    window.location.href = host+params
+  })
   window.onload = function () {
     getCustomerTag()
   }
@@ -172,7 +177,7 @@
               if (tagged != ''){
                 html += '<input type="text" placeholder="" value="'+tagged+'" />'
               }else {
-                html += '<input type="text" placeholder="" value="" />'
+                html += '<input type="text" placeholder="请输入'+propertyInfo.name +'" value="" />'
               }
               html +=  '<div class="text-title tag-flex">'+unit+
                         '</div>' +
@@ -193,7 +198,7 @@
               if (tagged != ''){
                 html += '<input type="text" placeholder="" oninput="value=value.replace(/[^\\d]/g,\'\')" value="'+tagged+'" />'
               }else {
-                html += '<input type="text" placeholder="" oninput="value=value.replace(/[^\\d]/g,\'\')" value="" />'
+                html += '<input type="text" placeholder="请输入'+propertyInfo.name +'" oninput="value=value.replace(/[^\\d]/g,\'\')" value="" />'
               }
               html +=  '<div class="text-title tag-flex">'+unit+
                         '</div>' +
@@ -214,7 +219,7 @@
               if (tagged != ''){
                 html += '<input type="text" placeholder="" oninput="value=value.replace(/[^0-9\\.]/g,\'\')" value="'+tagged+'" />'
               }else {
-                html += '<input type="text" placeholder="" oninput="value=value.replace(/[^0-9\\.]/g,\'\')" value="" />'
+                html += '<input type="text" placeholder="请输入'+propertyInfo.name +'" oninput="value=value.replace(/[^0-9\\.]/g,\'\')" value="" />'
               }
               html +=  '<div class="text-title tag-flex">'+unit+
                         '</div>' +
@@ -248,12 +253,12 @@
                 if (bool){
                   popupHtml += "<div class='float-select__item float-select__item--selected'>" +
                     "<div class='float-select__content'><input type='radio' class='input_radio' name='chooseTag' value='"+split[j]+"' checked>"+split[j]+"</div>"+
-                    // "<img class='float-select__icon' hide src='./src/icons/icon-radio.svg' alt='radio'>"+
+                    "<img class='float-select__icon' hide src='./src/icons/icon-radio.svg' alt='radio'>"+
                     "</div>"
                 }else {
                   popupHtml += "<div class='float-select__item'>" +
                     "<div class='float-select__content'><input type='radio' class='input_radio' name='chooseTag' value='"+split[j]+"'>"+split[j]+"</div>"+
-                    // "<img class='float-select__icon' hide src='./src/icons/icon-radio.svg' alt='radio'>"+
+                    "<img class='float-select__icon' hide src='./src/icons/icon-radio.svg' alt='radio'>"+
                     "</div>"
                 }
               }
@@ -285,11 +290,11 @@
                 }
               }
               if (tagged != ''){
-                html += '<div class="text-title customer_tag_date editDate_'+id+'">'+tagged+'</div>'+
-                        '<input type="date" name="date" class="input_editDate_'+id+'" value="'+tagged+'" hidden>'
+                html += '<div class="text-title customer_tag_date editDate_'+id+'">'+tagged+'</div>'
+                        // '<input type="date" name="date" class="input_editDate_'+id+'" value="'+tagged+'" hidden>'
               }else {
-                html += '<div class="text-title customer_tag_date editDate_'+id+'"></div>'+
-                        '<input type="text" name="date" class="input_editDate_'+id+'" value="" hidden>'
+                html += '<div class="text-title customer_tag_date editDate_'+id+'"></div>'
+                        // '<input type="text" name="date" class="input_editDate_'+id+'" value="" hidden>'
               }
               html += '<div class="right-arrow"></div>'+
                       '</div>'+
@@ -367,7 +372,7 @@
               $(".float-layout__content").html(appendHtml[attr])
               $('.input_radio').click(function(){
                 $('input[type = radio]').parent('div').parent('div').children('img').hide()
-                // $(this).parent('div').parent('div').children('img').show()
+                $(this).parent('div').parent('div').children('img').show()
                 $(".select_tag_"+id).html($(this).val())
                 $(".input_select_tag_"+id)[0].value=$(this).val()
                 $('.float-layout').addClass('hidden')
