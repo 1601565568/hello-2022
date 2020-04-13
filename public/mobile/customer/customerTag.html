@@ -11,7 +11,7 @@
 <body>
 <!-- 顶部状态栏 start -->
 <div class="page-status-bar text-center">
-  <div class="state-bar__cancel text-secondary">取消</div>
+  <div class="state-bar__cancel cancel_customerTag text-secondary">取消</div>
   <span class="font-weight-medium">客户标签</span>
   <div class="state-bar__save save_customerTag">保存</div>
 </div>
@@ -73,6 +73,11 @@
   // $('.float-layout__save').click(function () {
   //   $('.float-layout').addClass('hidden')
   // })
+  $('.cancel_customerTag').click(function () {
+    var host = "ecrp://send?params="
+    var params = '{"type":-1}'
+    window.location.href = host+params
+  })
   window.onload = function () {
     getCustomerTag()
   }
