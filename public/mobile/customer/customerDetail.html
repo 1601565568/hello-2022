@@ -4,21 +4,22 @@
   <meta charset="UTF-8">
   <meta name="viewport"
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0,minimum-scale=1.0,user-scalable=0"/>
+  <meta name="format-detection" content="telephone=yes"/>
   <title>客户详情</title>
   <link rel="stylesheet" type="text/css" href="./src/index.css">
 </head>
 <body>
   <div class="customer-detail">
     <!-- 顶部状态栏 start -->
-<!--    <div class="page-status-bar text-center">-->
-<!--      <div class="state-bar__cancel text-secondary">取消</div>-->
-<!--      <span class="text-title font-weight-medium">客户详情</span>-->
-<!--    </div>-->
+    <div class="page-status-bar text-center">
+      <div class="state-bar__cancel cancel_customerDetail text-secondary">取消</div>
+      <span class="text-title font-weight-medium">客户详情</span>
+    </div>
     <!-- 顶部状态栏 end -->
     <div class="page-container">
       <div class="detail-head card">
         <div class="detail-head__avatar">
-          <img class="customerImg" src="./src/images/default-user.png" alt="客户头像">
+          <img class="customerImg" src="./src/images/default-user.png" alt="">
         </div>
         <div class="detail-head__info">
           <div class="text-title font-size-large font-weight-medium customerWechatNick">--</div>
@@ -42,7 +43,11 @@
         <div class="detail-form__item">
           <div class="detail-form__label text-secondary">电话</div>
           <div class="detail-form__content text-title customerPhone">--</div>
-          <div class="detail-form__addon customer-phone" hidden><img src="./src/icons/icon-telephone-fill.svg" alt="手机"></div>
+          <div class="detail-form__addon customer-phone" hidden>
+            <a href="tel:400-0000-688">
+              <img src="./src/icons/icon-telephone-fill.svg" alt="手机">
+            </a>
+          </div>
         </div>
         <div class="detail-form__item">
           <div class="detail-form__label text-secondary">VIP等级</div>
@@ -112,9 +117,11 @@
 <script type="text/javascript" src="../js/common.js"></script>
 <script>
 
-  const toError = (type = 3, message = '') => {
-    window.location.href = '/mobile/coutomer/forbidden.html'
-  }
+  $('.cancel_customerDetail').click(function () {
+    var host = "ecrp://send?params="
+    var params = '{"type":-1}'
+    window.location.href = host+params
+  })
   window.onload = function () {
     getCustomerDetail()
   }
@@ -147,6 +154,7 @@
         $(".customerPhone").html(checkParams(result.result.mobile))
         if (result.result.mobile != '' && result.result.mobile != null){
           $(".customer-phone").show()
+          $(".customer-phone").find('a').href = "tel:"+result.result.mobile
         }
         $(".customerGradeName").html(checkParams(result.result.gradeName))
         $(".customerWechatNo").html(checkParams(result.result.wechatNo))
