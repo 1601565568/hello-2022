@@ -19,11 +19,11 @@
 <div class="customer-tag">
   <div class="page-container">
     <!-- 上方标签列表 start -->
-    <div class="card tag-list" hidden>
+    <div class="card tag-list hide">
     </div>
 
     <!-- 无数据 通过hide类名控制显隐 -->
-    <div class="card tag-list--nodata" hidden>
+    <div class="card tag-list--nodata hide">
       <img src="./src/icons/icon-face-cry.svg" alt="哭脸">
       暂无客户标签
     </div>
@@ -105,11 +105,11 @@
         shopId = result.result.shopId
         groupId = result.result.groupId
         if (propertyInfoVos.length < 1) {
-          $(".tag-list--nodata").show()
-          $(".tag-list").hide()
+          $(".tag-list--nodata").removeClass('hide')
+          $(".tag-list").addClass('hide')
         }else {
-          $(".tag-list--nodata").hide()
-          $(".tag-list").show()
+          $(".tag-list--nodata").addClass('hide')
+          $(".tag-list").removeClass('hide')
           for (var i = 0; i < propertyInfoVos.length; i++) {
             let propertyInfoVo = propertyInfoVos[i]
             var html = '<div class="tag tag&#45;&#45;primary customer_'+propertyInfoVo.tagArr+'">' + propertyInfoVo.name + ':' + propertyInfoVo.value + '</div>'
@@ -248,12 +248,12 @@
                 if (bool){
                   popupHtml += "<div class='float-select__item float-select__item--selected'>" +
                     "<div class='float-select__content'><input type='radio' class='input_radio' name='chooseTag' value='"+split[j]+"' checked>"+split[j]+"</div>"+
-                    "<img class='float-select__icon' hide src='./src/icons/icon-radio.svg' alt='radio'>"+
+                    // "<img class='float-select__icon' hide src='./src/icons/icon-radio.svg' alt='radio'>"+
                     "</div>"
                 }else {
                   popupHtml += "<div class='float-select__item'>" +
                     "<div class='float-select__content'><input type='radio' class='input_radio' name='chooseTag' value='"+split[j]+"'>"+split[j]+"</div>"+
-                    "<img class='float-select__icon' hide src='./src/icons/icon-radio.svg' alt='radio'>"+
+                    // "<img class='float-select__icon' hide src='./src/icons/icon-radio.svg' alt='radio'>"+
                     "</div>"
                 }
               }
@@ -367,9 +367,10 @@
               $(".float-layout__content").html(appendHtml[attr])
               $('.input_radio').click(function(){
                 $('input[type = radio]').parent('div').parent('div').children('img').hide()
-                $(this).parent('div').parent('div').children('img').show()
+                // $(this).parent('div').parent('div').children('img').show()
                 $(".select_tag_"+id).html($(this).val())
                 $(".input_select_tag_"+id)[0].value=$(this).val()
+                $('.float-layout').addClass('hidden')
               })
             })
             if (tagType == 5){
