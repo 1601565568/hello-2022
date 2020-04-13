@@ -97,6 +97,9 @@ export default {
         this.$message.error('通过时间间隔不能为空')
         return
       }
+      if (!that.friendAutoPass.mininterval >= !that.friendAutoPass.maxinterval) {
+        return this.$message.error('通过时间间隔最小间隔不能大于最大间隔')
+      }
       that.$http.fetch(that.$api.guide.autoPass.update, {
         sgFriendAutoPass: model,
         ids: this.ids,

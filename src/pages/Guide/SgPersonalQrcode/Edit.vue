@@ -65,7 +65,8 @@
                       </el-tooltip>
                     </template>
                     <template slot-scope="scope">
-                      <el-input v-model="scope.row.num" type="number" onkeyup="this.value=this.value.replace(/\D|^0/g,'')" onafterpaste="this.value=this.value.replace(/\D|^0/g,'')"></el-input>
+                      <el-input  autofocus=true v-model="scope.row.num" onkeyup="this.value=this.value.replace(/\D|^0/g,'')" onafterpaste="this.value=this.value.replace(/\D|^0/g,'')" placeholder="" clearable></el-input>
+<!--                      <el-input v-model="scope.row.num" type="number" onkeyup="this.value=this.value.replace(/\D|^0/g,'')" onafterpaste="this.value=this.value.replace(/\D|^0/g,'')"></el-input>-->
                     </template>
                   </ElTableColumn>
                   <ElTableColumn label="操作" align="center" :width="80">
@@ -223,7 +224,7 @@
             </el-table-column>
             <el-table-column label="操作">
               <template slot-scope="scope">
-                <ns-button type="text" size="small" @click="handleDelete(scope.$index, scope.row)">删除</ns-button>
+                <ns-button type="text" size="small" @click="deleteChildQrcode(scope, scope.row)">删除</ns-button>
               </template>
             </el-table-column>
           </el-table>

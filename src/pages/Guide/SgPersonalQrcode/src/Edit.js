@@ -186,20 +186,20 @@ export default {
     onSave () {
       let that = this
       if (that.personalQrcode.name === null || that.personalQrcode.name.trim() === '') {
-        that.$notify.error('聚合码名称不能为空')
-        return
+        return that.$notify.error('聚合码名称不能为空')
       }
       if (that.personalQrcode.type === 0 && that.tableData.length < 1) {
-        that.$notify.error('请选择子码')
-        return
+        return that.$notify.error('请添加子码')
       } else if (that.personalQrcode.type === 1 && that.tableData.length < 1) {
-        that.$notify.error('请选择子码')
-        return
+        return that.$notify.error('请添加子码')
       }
       let personalIds = []
       for (let i = 0; i < that.tableData.length; i++) {
         let guideId = that.tableData[i].guideId
         personalIds.push(guideId)
+        if (that.tableData[i].num === null || that.tableData[i].num === '') {
+          return that.$notify.error('每日添加次数不能为空')
+        }
       }
       that.personalQrcode.personnelIds = personalIds.join(',')
       that.personalQrcode.childQrcodes = JSON.stringify(that.tableData)
@@ -266,7 +266,6 @@ export default {
     // 选择员工弹窗确认
     onSaveChildQrcode () {
       let _this = this
-      _this.dialogVisible = false
       if (_this.personalQrcode.type === 0) {
         _this.tableData = []
         _this.employeeIds = []
@@ -287,6 +286,15 @@ export default {
         let addTableData = _this.addTableData
         for (let data of addTableData) {
           let chooseData = {}
+          if (data.name === null || data.name === '') {
+            return this.$notify.error('自定义子码名称不能为空')
+          }
+          if (data.image === null) {
+            return this.$notify.error('自定义子码不能为空')
+          }
+          if (data.date === null) {
+            return this.$notify.error('自定义子码失效时间不能为空')
+          }
           chooseData.name = data.name
           chooseData.image = data.image
           chooseData.date = data.date
@@ -294,9 +302,10 @@ export default {
           chooseData.guideId = null
           chooseData.userName = null
           chooseData.userId = null
-          _this.tableData.push(data)
+          _this.tableData.push(chooseData)
         }
       }
+      _this.dialogVisible = false
     },
     employeeTreeClose () {
       let _this = this
@@ -425,6 +434,15 @@ export default {
         this.tableData.splice(position, 1)
       }
     },
+    deleteChildQrcode (mag, row) {
+      let position
+      for (let i = 0; i < this.addTableData.length; i++) {
+        if (this.addTableData[i].index === mag.row.index) {
+          position = i
+        }
+      }
+      this.addTableData.splice(position, 1)
+    },
     // 上传图片地址的切换事件
     'handleAvatarSuccess': function (res, file) {
       this.$message.info('上传成功')
@@ -453,6 +471,18 @@ export default {
         name: null,
         image: null,
         date: null
+      }
+      for (let i = 0; i < this.addTableData.length; i++) {
+        let addTableDatum = this.addTableData[i]
+        if (addTableDatum.name === null || addTableDatum.name.trim() === '') {
+          return this.$notify.error('自定义子码名称不能为空')
+        }
+        if (addTableDatum.image === null) {
+          return this.$notify.error('自定义子码不能为空')
+        }
+        if (addTableDatum.date === null) {
+          return this.$notify.error('自定义子码失效时间不能为空')
+        }
       }
       if (this.addTableData.length > 49) {
         this.$notify.error('添加数量最多为50个')
