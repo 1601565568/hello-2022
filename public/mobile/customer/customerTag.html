@@ -121,8 +121,15 @@
             $(".tag-list").append(html)
           }
         }
+        getGroupTag()
+      }else {
+        // 跳转错误页
+        // 跳转错误页
+        $(".customer-tag").hide()
+        $(".save_customerTag").hide()
+        $(".customer-errormsg").html(result.result)
+        $(".customer-error").show()
       }
-      getGroupTag()
     })
   }
   //获取集团标签标签
@@ -175,9 +182,9 @@
                 }
               }
               if (tagged != ''){
-                html += '<input type="text" placeholder="" value="'+tagged+'" />'
+                html += '<label><input type="text" placeholder="" value="'+tagged+'" /></label>'
               }else {
-                html += '<input type="text" placeholder="请输入'+propertyInfo.name +'" value="" />'
+                html += '<label><input type="text" placeholder="请输入'+propertyInfo.name +'" value="" /></label>'
               }
               html +=  '<div class="text-title tag-flex">'+unit+
                         '</div>' +
@@ -196,9 +203,9 @@
                 }
               }
               if (tagged != ''){
-                html += '<input type="text" placeholder="" oninput="value=value.replace(/[^\\d]/g,\'\')" value="'+tagged+'" />'
+                html += '<label><input type="text" placeholder="" oninput="value=value.replace(/[^\\d]/g,\'\')" value="'+tagged+'" /></label>'
               }else {
-                html += '<input type="text" placeholder="请输入'+propertyInfo.name +'" oninput="value=value.replace(/[^\\d]/g,\'\')" value="" />'
+                html += '<label><input type="text" placeholder="请输入'+propertyInfo.name +'" oninput="value=value.replace(/[^\\d]/g,\'\')" value="" /></label>'
               }
               html +=  '<div class="text-title tag-flex">'+unit+
                         '</div>' +
@@ -217,9 +224,9 @@
                 }
               }
               if (tagged != ''){
-                html += '<input type="text" placeholder="" oninput="value=value.replace(/[^0-9\\.]/g,\'\')" value="'+tagged+'" />'
+                html += '<label><input type="text" placeholder="" oninput="value=value.replace(/[^0-9\\.]/g,\'\')" value="'+tagged+'" /></label>'
               }else {
-                html += '<input type="text" placeholder="请输入'+propertyInfo.name +'" oninput="value=value.replace(/[^0-9\\.]/g,\'\')" value="" />'
+                html += '<label><input type="text" placeholder="请输入'+propertyInfo.name +'" oninput="value=value.replace(/[^0-9\\.]/g,\'\')" value="" /></label>'
               }
               html +=  '<div class="text-title tag-flex">'+unit+
                         '</div>' +
@@ -290,11 +297,11 @@
                 }
               }
               if (tagged != ''){
-                html += '<div class="text-title customer_tag_date editDate_'+id+'">'+tagged+'</div>'+
-                        '<input type="date" name="date" class="input_editDate_'+id+'" value="'+tagged+'" hidden>'
+                html += '<div class="text-title customer_tag_date editDate_'+id+'">'+tagged+'</div>'
+                        // '<input type="date" name="date" class="input_editDate_'+id+'" value="'+tagged+'" hidden>'
               }else {
-                html += '<div class="text-title customer_tag_date editDate_'+id+'"></div>'+
-                        '<input type="text" name="date" class="input_editDate_'+id+'" value="" hidden>'
+                html += '<div class="text-title customer_tag_date editDate_'+id+'"></div>'
+                        // '<input type="text" name="date" class="input_editDate_'+id+'" value="" hidden>'
               }
               html += '<div class="right-arrow"></div>'+
                       '</div>'+
@@ -429,7 +436,8 @@
         // 跳转错误页
         // 跳转错误页
         $(".customer-tag").hide()
-        $(".customer-errormsg").html(result.result.msg)
+        $(".save_customerTag").hide()
+        $(".customer-errormsg").html(result.result)
         $(".customer-error").show()
       }
     })
@@ -530,11 +538,15 @@
             }
           }
           $(".tag-details").html('')
+          getGroupTag()
+          $('.float-layout').addClass('hidden')
+          $(".float-layout__content").html('')
         }else {
+          $(".customer-tag").hide()
+          $(".save_customerTag").hide()
+          $(".customer-errormsg").html(res.result)
+          $(".customer-error").show()
         }
-        getGroupTag()
-        $('.float-layout').addClass('hidden')
-        $(".float-layout__content").html('')
       },
       error: function (res) {
         debugger
