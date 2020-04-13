@@ -112,25 +112,23 @@ export default {
       _this.shuJushuzu = data
       _this.loading = true
       _this.$reload().then(rep => {
-        if (rep.success) {
-          if (this.totalNumTrige) {
-            for (let nodeIndex in this.$refs.guideTree.children) {
-              let node = this.$refs.guideTree.children[nodeIndex]
-              let index = node.label.lastIndexOf(this.totalNumTrige)
-              if (index > -1) {
-                node.label = node.label.substr(0, index)
-              }
+        if (this.totalNumTrige) {
+          for (let nodeIndex in this.$refs.guideTree.children) {
+            let node = this.$refs.guideTree.children[nodeIndex]
+            let index = node.label.lastIndexOf(this.totalNumTrige)
+            if (index > -1) {
+              node.label = node.label.substr(0, index)
             }
           }
-          _this.loading = _this._data._loading
-          // 显示 total
-          var showLabel = data.label
-          if (showLabel.indexOf('(') !== -1) {
-            showLabel = showLabel.substring(0, showLabel.indexOf('('))
-          }
-          this.totalNumTrige = '(' + _this._data._pagination.total + ')'
-          data.label = showLabel + this.totalNumTrige
         }
+        _this.loading = _this._data._loading
+        // 显示 total
+        var showLabel = data.label
+        if (showLabel.indexOf('(') !== -1) {
+          showLabel = showLabel.substring(0, showLabel.indexOf('('))
+        }
+        this.totalNumTrige = '(' + _this._data._pagination.total + ')'
+        data.label = showLabel + this.totalNumTrige
       })
       // 设置搜索及重置可用
       this.searchButton = false
