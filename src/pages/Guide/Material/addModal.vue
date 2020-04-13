@@ -211,7 +211,11 @@ export default {
         this.$http.fetch(this.$api.guide.queryMaterial, { id: obj.id })
           .then(resp => {
             this.saveObj = $.extend(true, {}, resp.result)
-            this.saveObj.codeType = 1
+            if (this.saveObj.codeType === 2) {
+              this.saveObj.codeType = 2
+            } else {
+              this.saveObj.codeType = 1
+            }
           })
           .catch(resp => {
             that.$notify.error(getErrorMsg('查询失败', resp))
