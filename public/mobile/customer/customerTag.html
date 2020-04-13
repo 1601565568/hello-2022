@@ -175,9 +175,9 @@
                 }
               }
               if (tagged != ''){
-                html += '<input type="text" placeholder="" value="'+tagged+'" />'
+                html += '<label><input type="text" placeholder="" value="'+tagged+'" /></label>'
               }else {
-                html += '<input type="text" placeholder="请输入'+propertyInfo.name +'" value="" />'
+                html += '<label><input type="text" placeholder="请输入'+propertyInfo.name +'" value="" /></label>'
               }
               html +=  '<div class="text-title tag-flex">'+unit+
                         '</div>' +
@@ -196,9 +196,9 @@
                 }
               }
               if (tagged != ''){
-                html += '<input type="text" placeholder="" oninput="value=value.replace(/[^\\d]/g,\'\')" value="'+tagged+'" />'
+                html += '<label><input type="text" placeholder="" oninput="value=value.replace(/[^\\d]/g,\'\')" value="'+tagged+'" /></label>'
               }else {
-                html += '<input type="text" placeholder="请输入'+propertyInfo.name +'" oninput="value=value.replace(/[^\\d]/g,\'\')" value="" />'
+                html += '<label><input type="text" placeholder="请输入'+propertyInfo.name +'" oninput="value=value.replace(/[^\\d]/g,\'\')" value="" /></label>'
               }
               html +=  '<div class="text-title tag-flex">'+unit+
                         '</div>' +
@@ -217,9 +217,9 @@
                 }
               }
               if (tagged != ''){
-                html += '<input type="text" placeholder="" oninput="value=value.replace(/[^0-9\\.]/g,\'\')" value="'+tagged+'" />'
+                html += '<label><input type="text" placeholder="" oninput="value=value.replace(/[^0-9\\.]/g,\'\')" value="'+tagged+'" /></label>'
               }else {
-                html += '<input type="text" placeholder="请输入'+propertyInfo.name +'" oninput="value=value.replace(/[^0-9\\.]/g,\'\')" value="" />'
+                html += '<label><input type="text" placeholder="请输入'+propertyInfo.name +'" oninput="value=value.replace(/[^0-9\\.]/g,\'\')" value="" /></label>'
               }
               html +=  '<div class="text-title tag-flex">'+unit+
                         '</div>' +
