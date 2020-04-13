@@ -121,8 +121,15 @@
             $(".tag-list").append(html)
           }
         }
+        getGroupTag()
+      }else {
+        // 跳转错误页
+        // 跳转错误页
+        $(".customer-tag").hide()
+        $(".save_customerTag").hide()
+        $(".customer-errormsg").html(result.result)
+        $(".customer-error").show()
       }
-      getGroupTag()
     })
   }
   //获取集团标签标签
@@ -429,7 +436,8 @@
         // 跳转错误页
         // 跳转错误页
         $(".customer-tag").hide()
-        $(".customer-errormsg").html(result.result.msg)
+        $(".save_customerTag").hide()
+        $(".customer-errormsg").html(result.result)
         $(".customer-error").show()
       }
     })
@@ -530,11 +538,15 @@
             }
           }
           $(".tag-details").html('')
+          getGroupTag()
+          $('.float-layout').addClass('hidden')
+          $(".float-layout__content").html('')
         }else {
+          $(".customer-tag").hide()
+          $(".save_customerTag").hide()
+          $(".customer-errormsg").html(res.result)
+          $(".customer-error").show()
         }
-        getGroupTag()
-        $('.float-layout').addClass('hidden')
-        $(".float-layout__content").html('')
       },
       error: function (res) {
         debugger
