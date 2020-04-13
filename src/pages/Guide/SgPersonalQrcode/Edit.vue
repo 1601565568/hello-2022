@@ -65,7 +65,8 @@
                       </el-tooltip>
                     </template>
                     <template slot-scope="scope">
-                      <el-input v-model="scope.row.num" type="number" onkeyup="this.value=this.value.replace(/\D|^0/g,'')" onafterpaste="this.value=this.value.replace(/\D|^0/g,'')"></el-input>
+                      <el-input  autofocus=true v-model="scope.row.num" onkeyup="this.value=this.value.replace(/\D|^0/g,'')" onafterpaste="this.value=this.value.replace(/\D|^0/g,'')" placeholder="" clearable></el-input>
+<!--                      <el-input v-model="scope.row.num" type="number" onkeyup="this.value=this.value.replace(/\D|^0/g,'')" onafterpaste="this.value=this.value.replace(/\D|^0/g,'')"></el-input>-->
                     </template>
                   </ElTableColumn>
                   <ElTableColumn label="操作" align="center" :width="80">
