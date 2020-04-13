@@ -3,7 +3,7 @@
  * @Author: yuye.huang
  * @Date: 2020-02-29 20:52:53
  * @LastEditors: yuye.huang
- * @LastEditTime: 2020-04-02 13:42:11
+ * @LastEditTime: 2020-04-13 14:06:50
  -->
 <template>
   <ns-page-table ref='mainTable'><!-- :colButton="10" -->
@@ -82,7 +82,7 @@
 
     <template slot="table">
       <el-table ref="table" :data="_data._table.data" stripe  v-loading.lock="_data._table.loadingtable"
-      :element-loading-text="$t('prompt.loading')">
+      :element-loading-text="$t('prompt.loading')"  @sort-change="onSortChange">
         <el-table-column  :show-overflow-tooltip="true" type="default" prop="content" align="left"
                           :sortable="false" width="180">
         <template slot="header">
@@ -108,7 +108,7 @@
               </div>
             </template>
           </el-table-column>
-          <el-table-column prop="updateTime" label="更新时间" align="center" sortable>
+          <el-table-column prop="updateTime" label="更新时间" align="center" sortable="custom" :sort-orders="['ascending', 'descending']">
           </el-table-column>
           <el-table-column :show-overflow-tooltip="true" label="操作" align="center"
                            width="160px">

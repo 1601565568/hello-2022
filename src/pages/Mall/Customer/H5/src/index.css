@@ -75,7 +75,7 @@ textarea::-ms-input-placeholder { /* Microsoft Edge */
   color: #8C8C8C;
 }
 .text-disable {
-  color: #BFBFBF !important;
+  color: #BFBFBF;
 }
 .text-border {
   color: #D9D9D9;
@@ -111,16 +111,7 @@ textarea::-ms-input-placeholder { /* Microsoft Edge */
 }
 
 .font-weight-medium {
-  font-size: 16px;
-  color: #262626;
-  line-height: 24px;
-  font-weight: bold;
-}
-
-.float-layout__save {
-  font-size: 16px;
-  color: #1876FC;
-  letter-spacing: 0;
+  font-weight: 500;
 }
 
 .bg-white {
@@ -129,8 +120,8 @@ textarea::-ms-input-placeholder { /* Microsoft Edge */
 
 /* 顶部状态栏 */
 .page-status-bar {
-  font-size: 16px;
   padding: 14px 15px;
+  font-size: 16px;
   line-height: 22px;
   position: relative;
 }
@@ -262,10 +253,15 @@ textarea::-ms-input-placeholder { /* Microsoft Edge */
   align-items: center;
   justify-content: space-between;
   padding: 14px 15px 12px 0;
-  border-bottom: 0.5px solid #E8E8E8;
 }
-.float-select .float-select__item:last-child {
-  border-bottom: 0;
+.float-select .float-select__item + .float-select__item::before {
+  content: ' ';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background-color: #E8E8E8;
 }
 
 .float-select .float-select__content {
@@ -425,11 +421,9 @@ textarea::-ms-input-placeholder { /* Microsoft Edge */
   color: #262626;
   line-height: 24px !important;
   border: none !important;
-  font-weight: bold;
+  font-weight: 500;
 }
-.rolldate-container .rolldate-btn {
-  font-size: 16px !important;
-}
+
 .rolldate-panel header .rolldate-confirm {
   height: auto;
   top: 50%;

@@ -3,7 +3,7 @@
  * @Author: yuye.huang
  * @Date: 2020-03-01 16:34:26
  * @LastEditors: yuye.huang
- * @LastEditTime: 2020-03-17 09:40:35
+ * @LastEditTime: 2020-04-13 13:51:29
  */
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import annexType from '@/config/annexType.js'
@@ -48,7 +48,9 @@ export default {
       'content': '',
       'employeeName': '',
       'channelName': '',
-      'annexType': ''
+      'annexType': '',
+      'orderKey': 'updateTime',
+      'order': 'descending'
     }
     let model = Object.assign({}, searchModel)
     return {
@@ -74,6 +76,15 @@ export default {
   computed: {
   },
   methods: {
+    /**
+     * @msg:  从后台获取数据,重新排序
+     * @param {Object} val {prop: 'date', order: 'descending'}
+     */
+    onSortChange (val) {
+      this.model.orderKey = val.prop
+      this.model.order = val.order
+      this.$searchAction$()
+    },
     /**
      * @msg: 查看欢迎语员工使用范围
      * @param {type} scope.row
