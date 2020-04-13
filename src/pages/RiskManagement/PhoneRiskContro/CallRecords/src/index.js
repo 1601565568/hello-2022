@@ -1,5 +1,4 @@
-import { getErrorMsg } from '@/utils/toast'
-
+import { API_ROOT } from '@/config/http.js'
 export default {
   name: 'index',
   data: function () {
@@ -24,17 +23,24 @@ export default {
     },
     onDownLoad (data) {
       // data.content = 'http://ihd.file.alimmdn.com/chat-client/messageAudio/wechat.wav'
-
-      let _this = this
-      _this.$http.fetch(_this.$api.riskManagement.callRecords.down, {
-        url: data.content
-      }).then(resp => {
-        if (resp.success) {
-          window.open(data.content)
-        }
-      }).catch(resp => {
-        this.$notify.error('下载失败')
-      })
+      var url = API_ROOT + '/callRecords/down'
+      var fileName = 'testAjaxDownload.3gpp'
+      var form = document.createElement('form')
+      form.setAttribute('action', url)
+      form.setAttribute('method', 'get')
+      var input = document.createElement('input')
+      input.setAttribute('type', 'hidden')
+      input.setAttribute('name', 'url')
+      input.setAttribute('value', data.content)
+      var filename = document.createElement('input')
+      filename.setAttribute('type', 'hidden')
+      filename.setAttribute('name', 'filename')
+      let endFileName = '.3gpp'
+      filename.setAttribute('value', data.phone + '-' + data.startTime + endFileName)
+      form.appendChild(input)
+      form.appendChild(filename)
+      document.body.appendChild(form)
+      form.submit()
     }
   }
 }
