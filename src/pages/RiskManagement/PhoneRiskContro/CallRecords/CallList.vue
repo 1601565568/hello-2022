@@ -27,7 +27,7 @@
     </template>
     <!--高级搜索-->
     <template slot="advancedSearch" v-if="_data._queryConfig.expand">
-      <el-form ref="table_filter_form" :model="model" label-width="80px" :inline="true">
+      <el-form ref="table_filter_form" :model="model" label-width="80px" :inline="true" @keyup.enter.native="$searchAction$()">
 
         <el-form-item label="设备MEID：">
           <el-form-grid size="xmd">
@@ -36,22 +36,22 @@
         </el-form-item>
         <el-form-item label="手机名称：">
           <el-form-grid size="xmd">
-            <el-input style="width:180px" autofocus=true v-model="model.deviceName" placeholder="手机名称" clearable></el-input>
+            <el-input style="width:180px" autofocus=true v-model="model.deviceName" placeholder="请输入手机名称" clearable></el-input>
           </el-form-grid>
         </el-form-item>
         <el-form-item label="手机号码：">
           <el-form-grid size="xmd">
-            <el-input style="width:180px" autofocus=true v-model="model.phone" placeholder="手机号码" clearable></el-input>
+            <el-input style="width:180px" autofocus=true v-model="model.phone" placeholder="请输入手机号码" clearable></el-input>
           </el-form-grid>
         </el-form-item>
         <el-form-item label="绑定账号：">
           <el-form-grid size="xmd">
-            <el-input style="width:180px" autofocus=true v-model="model.account" placeholder="绑定账号" clearable></el-input>
+            <el-input style="width:180px" autofocus=true v-model="model.account" placeholder="请输入绑定账号" clearable></el-input>
           </el-form-grid>
         </el-form-item>
-        <el-form-item label="对方账号：">
+        <el-form-item label="对方号码：">
           <el-form-grid size="xmd">
-            <el-input style="width:180px" autofocus=true v-model="model.mobile" placeholder="对方账号" clearable></el-input>
+            <el-input style="width:180px" autofocus=true v-model="model.mobile" placeholder="请输入对方号码" clearable></el-input>
           </el-form-grid>
         </el-form-item>
         <el-form-item label="时间：">
