@@ -270,11 +270,11 @@
               popupHtml += "</div>"
               appendHtml[id] = popupHtml
             } else if (tagType==5) {//日期框
-              html = '<div class="tag-details__item" tagAttr="'+propertyInfo.tagArr+'" tagType="'+tagType+'" tagName="'+propertyInfo.name+'">'+
+              html = '<div class="tag-details__item" tagAttr="'+propertyInfo.tagArr+'" tagType="'+tagType+'" tagName="'+propertyInfo.name+'"  id="editDate_'+id+'">'+
                       '<div class="tag-details__title">'+
                           propertyInfo.name+
                       '</div>'+
-                      '<div class="tag-details__tags tag-flex" id="editDate_'+id+'">'
+                      '<div class="tag-details__tags tag-flex">'
               //获取已选标签
               let tagged = ''
               for (var j = 0; j < propertyInfoVos.length; j++) {
