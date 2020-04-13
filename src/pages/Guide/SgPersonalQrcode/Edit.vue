@@ -223,7 +223,7 @@
             </el-table-column>
             <el-table-column label="操作">
               <template slot-scope="scope">
-                <ns-button type="text" size="small" @click="handleDelete(scope.$index, scope.row)">删除</ns-button>
+                <ns-button type="text" size="small" @click="deleteChildQrcode(scope, scope.row)">删除</ns-button>
               </template>
             </el-table-column>
           </el-table>
