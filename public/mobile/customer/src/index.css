@@ -129,8 +129,8 @@ textarea::-ms-input-placeholder { /* Microsoft Edge */
 
 /* 顶部状态栏 */
 .page-status-bar {
-  font-size: 16px;
   padding: 14px 15px;
+  font-size: 16px;
   line-height: 22px;
   position: relative;
 }
@@ -427,9 +427,11 @@ textarea::-ms-input-placeholder { /* Microsoft Edge */
   border: none !important;
   font-weight: bold;
 }
+
 .rolldate-container .rolldate-btn {
   font-size: 16px !important;
 }
+
 .rolldate-panel header .rolldate-confirm {
   height: auto;
   top: 50%;
