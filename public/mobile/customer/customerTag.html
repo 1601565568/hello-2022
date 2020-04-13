@@ -5,7 +5,7 @@
   <meta name="viewport"
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0,minimum-scale=1.0,user-scalable=0"/>
   <title>客户标签</title>
-  <link rel="stylesheet" type="text/css" href="./src/index.css">
+  <link rel="stylesheet" type="text/css" href="./src/css/index.css">
   <link rel="stylesheet" href="./src/css/CustomerTag.css">
 </head>
 <body>
@@ -222,7 +222,7 @@
                         '</div>'
             } else if (tagType == 4) {//选择框
               var popupHtml = ''
-              html = '<div class="tag-details__item" tagAttr="'+propertyInfo.tagArr+'" tagType="'+tagType+'" tagName="'+propertyInfo.name+'">'+
+              html = '<div class="tag-details__item tag-details__edit_'+id+'" attr="'+id+'" tagAttr="'+propertyInfo.tagArr+'" tagType="'+tagType+'" tagName="'+propertyInfo.name+'">'+
                         '<div class="tag-details__title">'+
                           propertyInfo.name+
                         '</div>'+
@@ -264,7 +264,7 @@
                 html += '<div class="text-title select_tag_'+id+'"></div>'+
                         '<input type="text" class="input_select_tag_'+id+'" value="" hidden>'
               }
-              html+=  '<div class="right-arrow tag-details__edit_'+id+' '+showClass+'" attr='+id+' tagAttr='+propertyInfo.tagArr+' tagName='+propertyInfo.name+' tagType='+tagType+'"></div>'+
+              html+=  '<div class="right-arrow '+showClass+'"></div>'+
                       '</div>'+
                       '</div>'
               popupHtml += "</div>"
