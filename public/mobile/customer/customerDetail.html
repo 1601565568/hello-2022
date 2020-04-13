@@ -2,9 +2,9 @@
 <html lang="zh">
 <head>
   <meta charset="UTF-8">
+  <meta name="format-detection" content="telephone=yes"/>
   <meta name="viewport"
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0,minimum-scale=1.0,user-scalable=0"/>
-  <meta name="format-detection" content="telephone=yes"/>
   <title>客户详情</title>
   <link rel="stylesheet" type="text/css" href="./src/index.css">
 </head>
@@ -44,7 +44,7 @@
           <div class="detail-form__label text-secondary">电话</div>
           <div class="detail-form__content text-title customerPhone">--</div>
           <div class="detail-form__addon customer-phone" hidden>
-            <a href="tel:400-0000-688">
+            <a id="customer-phone" href="">
               <img src="./src/icons/icon-telephone-fill.svg" alt="手机">
             </a>
           </div>
@@ -154,7 +154,7 @@
         $(".customerPhone").html(checkParams(result.result.mobile))
         if (result.result.mobile != '' && result.result.mobile != null){
           $(".customer-phone").show()
-          $(".customer-phone").find('a').href = "tel:"+result.result.mobile
+          $("#customer-phone").attr('href','tel:'+result.result.mobile)
         }
         $(".customerGradeName").html(checkParams(result.result.gradeName))
         $(".customerWechatNo").html(checkParams(result.result.wechatNo))
