@@ -91,13 +91,13 @@
             </el-date-picker>
           </el-form-item>
           <el-form-item label="门店名称："  prop="shopName">
-            <el-input v-model="searchform.shopName" placeholder="请输入门店名称" clearable></el-input>
+            <el-input v-model="searchform.shopName" placeholder="请输入门店名称" @keyup.enter.native="submitForm('searchform')" clearable></el-input>
           </el-form-item>
           <el-form-item label="账号："  prop="workId">
-            <el-input v-model="searchform.workId" placeholder="请输入账号" clearable></el-input>
+            <el-input v-model="searchform.workId" placeholder="请输入账号"  @keyup.enter.native="submitForm('searchform')" clearable></el-input>
           </el-form-item>
           <el-form-item label="姓名："  prop="name">
-            <el-input v-model="searchform.name" placeholder="请输入姓名" clearable></el-input>
+            <el-input v-model="searchform.name" placeholder="请输入姓名" @keyup.enter.native="submitForm('searchform')" clearable></el-input>
           </el-form-item>
         </el-form>
         <div class="template-table__more-btn">
