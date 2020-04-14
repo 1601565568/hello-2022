@@ -95,6 +95,10 @@
           <div class="detail-form__label text-secondary">优惠券</div>
           <div class="detail-form__content text-title customerUsable">--</div>
         </div>
+        <div class="detail-form__item">
+          <div class="detail-form__label text-secondary">余额</div>
+          <div class="detail-form__content text-title customerMoney">--</div>
+        </div>
       </div>
       <!-- 客户财富 end  -->
     </div>
@@ -133,7 +137,9 @@
       chatId: chatId,
     }).then(function (result) {
       if (result.success) {
-        $(".customerImg").attr("src",result.result.customerHeadImage)
+        if (result.result.customerHeadImage){
+          $(".customerImg").attr("src",result.result.customerHeadImage)
+        }
         $(".customerWechatNick").html(checkParams(result.result.wechatNick))
         $(".customerName").html(checkParams(result.result.customerName))
         $(".customerMemberCard").html(checkParams(result.result.memberCard))
@@ -158,7 +164,11 @@
         }
         $(".customerGradeName").html(checkParams(result.result.gradeName))
         $(".customerWechatNo").html(checkParams(result.result.wechatNo))
-        $(".customerBirthday").html(checkParams(result.result.birthday))
+        if (result.result.birthday){
+          $(".customerBirthday").html(result.result.birthday.substr(0,10))
+        }else {
+          $(".customerBirthday").html('--')
+        }
         let platformInfos = result.result.platformInfos;
         for (let i = 0; i < platformInfos.length; i++) {
           let platformInfo = platformInfos[i];
@@ -172,16 +182,27 @@
             $(".customerYzNick").html(checkParams(platformInfo.outNick))
           }
         }
-        $(".customerUsable").html(result.result.usable)
-        $(".customerRemark").html(checkParams(result.result.customerRemark))
+        if (result.result.usable){
+          $(".customerUsable").html(result.result.usable)
+        }else {
+          $(".customerUsable").html(0)
+        }
+        $(".customerRemark").html(checkParams(result.result.impression))
+        if (result.result.money){
+          $(".customerMoney").html(checkParams(result.result.money))
+        }else {
+          $(".customerMoney").html(0)
+        }
         let integralMsg = result.result.integralMsg;
-        for (var i = 0;i < integralMsg.length;i++){
-          let integral = integralMsg[i]
-          var html = '<div class="detail-form__item">' +
-            '      <div class="detail-form__label text-secondary">'+integral.integralAlias+'</div>' +
-            '      <div class="detail-form__content text-title">'+integral.availPoint+'</div>' +
-            '    </div>'
-          $(".customerMsg").append(html)
+        if (integralMsg){
+          for (var i = 0;i < integralMsg.length;i++){
+            let integral = integralMsg[i]
+            var html = '<div class="detail-form__item">' +
+              '      <div class="detail-form__label text-secondary">'+integral.integralAlias+'</div>' +
+              '      <div class="detail-form__content text-title">'+integral.availPoint+'</div>' +
+              '    </div>'
+            $(".customerMsg").append(html)
+          }
         }
       } else {
         // 跳转错误页
