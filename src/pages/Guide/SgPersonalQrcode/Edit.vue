@@ -77,9 +77,9 @@
                 </ElTable>
               </div>
             </ElFormItem>
-            <el-form-item label="渠道设置：" v-if="memberManagePlan == 1">
+            <el-form-item label="渠道设置：" v-if="memberManagePlan == 1 && personalQrcode.type == 0">
               <el-form-grid>
-                <el-select v-model="personalQrcode.channelCode" filterable placeholder="请选择">
+                <el-select v-model="personalQrcode.channel_code" filterable placeholder="请选择">
                   <el-option
                     v-for="item in channelList"
                     :key="item.channel_code"

@@ -60,7 +60,7 @@ export default {
         showType: 1,
         isvalidate: 1,
         keyword: null,
-        channelCode: null,
+        channel_code: null,
         child_qrcodes: []
       },
       title: null,
