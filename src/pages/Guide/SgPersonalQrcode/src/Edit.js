@@ -407,7 +407,7 @@ export default {
     },
     handleEdit (index, row) {
     },
-    handleDelete (mag, row) {
+    handleDelete (mag) {
       let type = this.personalQrcode.type
       if (type === 0) { // 选择员工
         let guideId = mag.row.guideId

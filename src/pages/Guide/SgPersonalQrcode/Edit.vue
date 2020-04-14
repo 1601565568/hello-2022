@@ -71,7 +71,7 @@
                   </ElTableColumn>
                   <ElTableColumn label="操作" align="center" :width="80">
                     <template slot-scope="scope">
-                      <ns-button type="text" size="small" @click="handleDelete(scope, item)">删除</ns-button>
+                      <ns-button type="text" size="small" @click="handleDelete(scope)">删除</ns-button>
                     </template>
                   </ElTableColumn>
                 </ElTable>
