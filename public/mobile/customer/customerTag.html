@@ -412,6 +412,7 @@
               })
             })
             if (tagType == 5){
+              $("input").blur()
               var rolldate = new Rolldate({
                 el: '#editDate_'+id,
                 // 年月日 时分秒
@@ -434,6 +435,7 @@
                 }
               })
             }else if (tagType == 8) {
+              $("input").blur()
                 var rolldate = new Rolldate({
                   el: '#editDate_'+id,
                   // 年月日 时分秒
