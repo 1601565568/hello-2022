@@ -31,12 +31,12 @@
                   clearable
                   @keyup.enter.native="submitForm('searchform')"></el-input>
               </el-form-item>
-
-<!--              <el-form-item>-->
-<!--                <ns-button type="primary" @click="submitForm('searchform')">搜索</ns-button>-->
-<!--                <ns-button @click="resetForm('searchform')">重置</ns-button>-->
-<!--              </el-form-item>-->
+              <el-form-item>
+                <ns-button type="primary" @click="submitForm('searchform')" >搜索</ns-button>
+                <ns-button @click="resetForm('searchform')">重置</ns-button>
+              </el-form-item>
             </el-form>
+
         </el-col>
       </el-row>
   <!-- 简单搜索end -->
@@ -45,7 +45,7 @@
       <div class="template-table__bar-more">
         <el-form ref="searchform" label-width="80px"  class="surround-btn" :model="searchform"  :inline="true">
           <el-form-item label="任务名称：" prop="name">
-            <el-input v-model="searchform.name"  placeholder="请输入任务名称" clearable></el-input>
+            <el-input v-model="searchform.name"  placeholder="请输入任务名称" clearable @keyup.enter.native="submitForm('searchform')"></el-input>
           </el-form-item>
           <el-form-item label="类型：" prop="type">
               <el-select  v-model="searchform.type" placeholder="请选择类型" clearable>
