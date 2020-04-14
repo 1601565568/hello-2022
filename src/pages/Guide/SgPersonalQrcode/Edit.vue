@@ -202,7 +202,7 @@
                     :show-file-list="false"
                     :on-success="handleAvatarSuccess"
                     :before-upload="beforeAvatarUpload">
-                    <img v-if="scope.row.image" :src="scope.row.image" width="50px" height="50px" class="company-upload__avatar">
+                    <img v-if="scope.row.image" :src="scope.row.image" @click='setCurrentUploadRowIndex(scope.row.index)' width="50px" height="50px" class="company-upload__avatar">
                     <Icon type="plus" @click='setCurrentUploadRowIndex(scope.row.index)' className="company-upload__tip" v-else/>
                   </el-upload>
               </template>
