@@ -68,9 +68,7 @@
                         show-checkbox
                         :filter-node-method="selectFilterNode"
                         node-key="id"
-                        :default-expand-all="false"
                         :default-checked-keys="tree.selectKeys"
-                        :default-expanded-keys="tree.selectedData"
                         @check="check"
                         :props="tree.leftDefaultProps" class="code-space">
                         <span class="code-detail clearfix" slot-scope="{ node, data }">

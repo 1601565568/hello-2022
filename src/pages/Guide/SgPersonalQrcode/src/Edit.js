@@ -295,6 +295,7 @@ export default {
           if (data.date === null) {
             return this.$notify.error('自定义子码失效时间不能为空')
           }
+          chooseData.index = data.index
           chooseData.name = data.name
           chooseData.image = data.image
           chooseData.date = data.date
