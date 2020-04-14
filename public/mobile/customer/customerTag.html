@@ -273,7 +273,7 @@
                 html += '<div class="text-title select_tag_'+id+'">'+tagged+'</div>'+
                         '<input type="text" class="input_select_tag_'+id+'" value="'+tagged+'" hidden>'
               }else {
-                html += '<div class="text-title select_tag_'+id+'"></div>'+
+                html += '<div class="text-title text-disable select_tag_'+id+'">请选择'+propertyInfo.name+'</div>'+
                         '<input type="text" class="input_select_tag_'+id+'" value="" hidden>'
               }
               html+=  '<div class="right-arrow '+showClass+'"></div>'+
@@ -300,7 +300,7 @@
                 html += '<div class="text-title customer_tag_date editDate_'+id+'">'+tagged+'</div>'
                         // '<input type="date" name="date" class="input_editDate_'+id+'" value="'+tagged+'" hidden>'
               }else {
-                html += '<div class="text-title customer_tag_date editDate_'+id+'"></div>'
+                html += '<div class="text-title text-disable customer_tag_date editDate_'+id+'">请选择'+propertyInfo.name+'</div>'
                         // '<input type="text" name="date" class="input_editDate_'+id+'" value="" hidden>'
               }
               html += '<div class="right-arrow"></div>'+
@@ -384,7 +384,7 @@
                 html += '<div class="text-title customer_tag_date editDate_'+id+'">'+tagged+'</div>'
                 // '<input type="date" name="date" class="input_editDate_'+id+'" value="'+tagged+'" hidden>'
               }else {
-                html += '<div class="text-title customer_tag_date editDate_'+id+'"></div>'
+                html += '<div class="text-title text-disable customer_tag_date editDate_'+id+'">请选择'+propertyInfo.name+'</div>'
                 // '<input type="text" name="date" class="input_editDate_'+id+'" value="" hidden>'
               }
               html += '<div class="right-arrow"></div>'+
@@ -406,11 +406,13 @@
                 $('input[type = radio]').parent('div').parent('div').children('img').hide()
                 $(this).parent('div').parent('div').children('img').show()
                 $(".select_tag_"+id).html($(this).val())
+                $(".select_tag_"+id).removeClass('text-disable')
                 $(".input_select_tag_"+id)[0].value=$(this).val()
                 $('.float-layout').addClass('hidden')
               })
             })
             if (tagType == 5){
+              $("input").blur()
               var rolldate = new Rolldate({
                 el: '#editDate_'+id,
                 // 年月日 时分秒
@@ -427,11 +429,13 @@
                 confirm: function (date) {
                   rolldate.hide()
                   $(".editDate_"+id).html(date)
-                  $(".input_editDate_"+id)[0].value =  date
+                  $(".editDate_"+id).removeClass('text-disable')
+                  // $(".input_editDate_"+id)[0].value =  date
                   return false
                 }
               })
             }else if (tagType == 8) {
+              $("input").blur()
                 var rolldate = new Rolldate({
                   el: '#editDate_'+id,
                   // 年月日 时分秒
@@ -451,7 +455,8 @@
                   confirm: function (date) {
                     rolldate.hide()
                     $(".editDate_"+id).html(date)
-                    $(".input_editDate_"+id)[0].value =  date
+                    $(".editDate_"+id).removeClass('text-disable')
+                    // $(".input_editDate_"+id)[0].value =  date
                     return false
                   }
                 })
@@ -511,9 +516,9 @@
           tagInfo.tag_code = tagAttr
           tagMsgShow.push(tagInfo)
         }
-      }else if (parseInt(tagType) == 5){
+      }else if (parseInt(tagType) == 5 || parseInt(tagType) == 8){
         let dateHtml = detailsItemElement.getElementsByClassName('customer_tag_date');
-        if (dateHtml[0].textContent) {
+        if (dateHtml[0].textContent && dateHtml[0].textContent.indexOf("请选择") == -1) {
           tagMsg.tagValue = dateHtml[0].textContent
           tagMsg.tagCode = tagAttr
           tagInfoList.push(tagMsg)
@@ -592,7 +597,7 @@
         }else {
           $(".customer-tag").hide()
           $(".save_customerTag").hide()
-          $(".customer-errormsg").html(res.result)
+          $(".customer-errormsg").html(res.msg)
           $(".customer-error").show()
         }
       },

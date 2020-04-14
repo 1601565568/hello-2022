@@ -193,11 +193,17 @@ export default {
       } else if (that.personalQrcode.type === 1 && that.tableData.length < 1) {
         return that.$notify.error('请添加子码')
       }
+      // 判断聚合二维码类型
+      let bool = false
+      if ((that.memberManagePlan === 1 && that.personalQrcode.type === 1) || that.memberManagePlan === 2) {
+        // 聚合二维码为企微自定义方案或个号方案
+        bool = true
+      }
       let personalIds = []
       for (let i = 0; i < that.tableData.length; i++) {
         let guideId = that.tableData[i].guideId
         personalIds.push(guideId)
-        if (that.tableData[i].num === null || that.tableData[i].num === '') {
+        if (bool && (that.tableData[i].num === null || that.tableData[i].num === '')) {
           return that.$notify.error('每日添加次数不能为空')
         }
       }
@@ -291,9 +297,6 @@ export default {
           }
           if (data.image === null) {
             return this.$notify.error('自定义子码不能为空')
-          }
-          if (data.date === null) {
-            return this.$notify.error('自定义子码失效时间不能为空')
           }
           chooseData.index = data.index
           chooseData.name = data.name
