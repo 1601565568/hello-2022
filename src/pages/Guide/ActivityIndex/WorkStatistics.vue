@@ -93,8 +93,8 @@
           <el-form-item label="门店名称："  prop="shopName">
             <el-input v-model="searchform.shopName" placeholder="请输入门店名称" clearable></el-input>
           </el-form-item>
-          <el-form-item label="工号："  prop="workId">
-            <el-input v-model="searchform.workId" placeholder="请输入工号" clearable></el-input>
+          <el-form-item label="账号："  prop="workId">
+            <el-input v-model="searchform.workId" placeholder="请输入账号" clearable></el-input>
           </el-form-item>
           <el-form-item label="姓名："  prop="name">
             <el-input v-model="searchform.name" placeholder="请输入姓名" clearable></el-input>
@@ -120,7 +120,7 @@
       tooltip-effect="dark"
       stripe
       style="width: 100%">
-      <el-table-column label="工号" prop="workId" width="120">
+      <el-table-column label="账号" prop="workId" width="120">
       <template slot-scope="scope">
         {{scope.row.workId?scope.row.workId:'-'}}
       </template>
