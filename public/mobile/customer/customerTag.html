@@ -516,9 +516,9 @@
           tagInfo.tag_code = tagAttr
           tagMsgShow.push(tagInfo)
         }
-      }else if (parseInt(tagType) == 5){
+      }else if (parseInt(tagType) == 5 || parseInt(tagType) == 8){
         let dateHtml = detailsItemElement.getElementsByClassName('customer_tag_date');
-        if (dateHtml[0].textContent) {
+        if (dateHtml[0].textContent && dateHtml[0].textContent.indexOf("请选择") == -1) {
           tagMsg.tagValue = dateHtml[0].textContent
           tagMsg.tagCode = tagAttr
           tagInfoList.push(tagMsg)
@@ -597,7 +597,7 @@
         }else {
           $(".customer-tag").hide()
           $(".save_customerTag").hide()
-          $(".customer-errormsg").html(res.result)
+          $(".customer-errormsg").html(res.msg)
           $(".customer-error").show()
         }
       },
