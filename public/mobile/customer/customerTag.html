@@ -296,7 +296,7 @@
                 let propertyInfoVo = propertyInfoVos[j]
                 if (propertyInfo.tagArr == propertyInfoVo.tagArr){
                   tagged =  propertyInfoVo.value
-                  tagged = tagged.substr(0,19)
+                  tagged = tagged.substr(0,10)
                 }
               }
               if (tagged != ''){
@@ -380,7 +380,7 @@
                 let propertyInfoVo = propertyInfoVos[j]
                 if (propertyInfo.tagArr == propertyInfoVo.tagArr){
                   tagged =  propertyInfoVo.value
-                  tagged = tagged.substr(0,10)
+                  tagged = tagged.substr(0,19)
                 }
               }
               if (tagged != ''){
@@ -429,7 +429,7 @@
                   title: '日期'
                 },
                 init: function() {
-                  window.scroll(0, 0);
+                  $("input").blur()
                 },
                 confirm: function (date) {
                   rolldate.hide()
@@ -458,7 +458,7 @@
                     title: '时间'
                   },
                   init: function() {
-                    window.scroll(0, 0);
+                    $("input").blur()
                   },
                   confirm: function (date) {
                     rolldate.hide()
