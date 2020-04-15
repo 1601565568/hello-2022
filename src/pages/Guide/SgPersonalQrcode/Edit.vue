@@ -71,15 +71,15 @@
                   </ElTableColumn>
                   <ElTableColumn label="操作" align="center" :width="80">
                     <template slot-scope="scope">
-                      <ns-button type="text" size="small" @click="handleDelete(scope, item)">删除</ns-button>
+                      <ns-button type="text" size="small" @click="handleDelete(scope)">删除</ns-button>
                     </template>
                   </ElTableColumn>
                 </ElTable>
               </div>
             </ElFormItem>
-            <el-form-item label="渠道设置：" v-if="memberManagePlan == 1">
+            <el-form-item label="渠道设置：" v-if="memberManagePlan == 1 && personalQrcode.type == 0">
               <el-form-grid>
-                <el-select v-model="personalQrcode.channelCode" filterable placeholder="请选择">
+                <el-select v-model="personalQrcode.channel_code" filterable placeholder="请选择">
                   <el-option
                     v-for="item in channelList"
                     :key="item.channel_code"
@@ -218,7 +218,8 @@
                 <el-date-picker
                   v-model="scope.row.date"
                   type="datetime"
-                  placeholder="选择日期时间">
+                  placeholder="选择日期时间"
+                  style="width: 185px">
                 </el-date-picker>
               </template>
             </el-table-column>

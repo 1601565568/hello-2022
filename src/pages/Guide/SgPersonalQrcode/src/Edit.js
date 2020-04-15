@@ -60,7 +60,7 @@ export default {
         showType: 1,
         isvalidate: 1,
         keyword: null,
-        channelCode: null,
+        channel_code: null,
         child_qrcodes: []
       },
       title: null,
@@ -237,6 +237,7 @@ export default {
       if (type === 0) {
         let selectData = _this.tree.selectData
         _this.tree.selectedData = []
+        _this.tree.copySelectedData = []
         let keyMap = {}
         for (let i = 0; i < _this.employeeIds.length; i++) {
           let personnelId = _this.employeeIds[i]
@@ -252,6 +253,7 @@ export default {
             }
           }
         }
+        _this.$refs.selectTree.setCheckedNodes(_this.tree.copySelectedData)
       } else if (type === 1) {
         _this.addTableData = []
         for (let i = 0; i < _this.tableData.length; i++) {
@@ -407,7 +409,7 @@ export default {
     },
     handleEdit (index, row) {
     },
-    handleDelete (mag, row) {
+    handleDelete (mag) {
       let type = this.personalQrcode.type
       if (type === 0) { // 选择员工
         let guideId = mag.row.guideId
@@ -483,9 +485,6 @@ export default {
         }
         if (addTableDatum.image === null) {
           return this.$notify.error('自定义子码不能为空')
-        }
-        if (addTableDatum.date === null) {
-          return this.$notify.error('自定义子码失效时间不能为空')
         }
       }
       if (this.addTableData.length > 49) {
