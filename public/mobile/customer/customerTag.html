@@ -141,9 +141,12 @@
       if (result.success) {
         let propertyInfoVos = result.result.propertyInfoVos
         let platformInfos = result.result.platformInfos
-        if(platformInfos.length > 0){
-          platfrom = platformInfos[0].platform
-          nick = platformInfos[0].outNick
+        for (let i = 0;i < platformInfos.length;i++) {
+          let form = platformInfos[i].platform
+          if(form == 1901){
+            platfrom = form
+            nick = platformInfos[i].outNick
+          }
         }
         customerId = result.result.customerId
         shopId = result.result.shopId

@@ -218,7 +218,8 @@
                 <el-date-picker
                   v-model="scope.row.date"
                   type="datetime"
-                  placeholder="选择日期时间">
+                  placeholder="选择日期时间"
+                  style="width: 185px">
                 </el-date-picker>
               </template>
             </el-table-column>
