@@ -501,9 +501,6 @@
                       confirm: '确定',
                       title: '日期'
                     },
-                    init: function() {
-                      $("#editDate_"+id).trigger("click")
-                    },
                     confirm: function (date) {
                       rolldate.hide()
                       $(".editDate_"+id).html(date)
@@ -512,7 +509,10 @@
                       return false
                     }
                   })
-                }, 1000);
+                  setTimeout(function (){
+                    $("#editDate_"+id).trigger("click")
+                  }, 500);
+                }, 500);
               })
             }else if (tagType == 8) {
               $('#editDate_'+id).click(function () {
@@ -534,9 +534,6 @@
                       confirm: '确定',
                       title: '时间'
                     },
-                    init: function () {
-                      $("#editDate_"+id).trigger("click")
-                    },
                     confirm: function (date) {
                       rolldate.hide()
                       $(".editDate_" + id).html(date)
@@ -545,7 +542,10 @@
                       return false
                     }
                   })
-                }, 1000);
+                  setTimeout(function (){
+                    $("#editDate_"+id).trigger("click")
+                  }, 500);
+                }, 500);
               })
             }
             if (tagType == 6){
