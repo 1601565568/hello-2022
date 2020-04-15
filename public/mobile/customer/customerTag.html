@@ -485,62 +485,68 @@
               })
             })
             if (tagType == 5){
-              var rolldate = new Rolldate({
-                el: '#editDate_'+id,
-                // 年月日 时分秒
-                format: 'YYYY-MM-DD',
-                beginYear: 2000,
-                endYear: 2100,
-                lang: {
-                  year: '',
-                  month: '',
-                  day: '',
-                  confirm: '确定',
-                  title: '日期'
-                },
-                init: function() {
-                  $("input").blur()
-                  setTimeout(function (){
-                  }, 500);
-                },
-                confirm: function (date) {
-                  rolldate.hide()
-                  $(".editDate_"+id).html(date)
-                  $(".editDate_"+id).removeClass('text-disable')
-                  // $(".input_editDate_"+id)[0].value =  date
-                  return false
-                }
+              $('#editDate_'+id).click(function () {
+                $("input").blur()
+                setTimeout(function (){
+                  var rolldate = new Rolldate({
+                    el: '#editDate_'+id,
+                    // 年月日 时分秒
+                    format: 'YYYY-MM-DD',
+                    beginYear: 2000,
+                    endYear: 2100,
+                    lang: {
+                      year: '',
+                      month: '',
+                      day: '',
+                      confirm: '确定',
+                      title: '日期'
+                    },
+                    init: function() {
+                      $("#editDate_"+id).trigger("click")
+                    },
+                    confirm: function (date) {
+                      rolldate.hide()
+                      $(".editDate_"+id).html(date)
+                      $(".editDate_"+id).removeClass('text-disable')
+                      // $(".input_editDate_"+id)[0].value =  date
+                      return false
+                    }
+                  })
+                }, 500);
               })
             }else if (tagType == 8) {
-              var rolldate = new Rolldate({
-                el: '#editDate_' + id,
-                // 年月日 时分秒
-                format: 'YYYY-MM-DD hh:mm:ss',
-                beginYear: 2000,
-                endYear: 2100,
-                lang: {
-                  year: '',
-                  month: '',
-                  day: '',
-                  hour: '',
-                  min: '',
-                  sec: '',
-                  confirm: '确定',
-                  title: '时间'
-                },
-                init: function() {
-                  $("input").blur()
-                  setTimeout(function (){
-                  }, 500);
-                },
-                confirm: function (date) {
-                  rolldate.hide()
-                  $(".editDate_" + id).html(date)
-                  $(".editDate_" + id).removeClass('text-disable')
-                  // $(".input_editDate_"+id)[0].value =  date
-                  return false
-                }
-              })
+              $('#editDate_'+id).click(function () {
+                $("input").blur()
+                setTimeout(function () {
+                  var rolldate = new Rolldate({
+                    el: '#editDate_' + id,
+                    // 年月日 时分秒
+                    format: 'YYYY-MM-DD hh:mm:ss',
+                    beginYear: 2000,
+                    endYear: 2100,
+                    lang: {
+                      year: '',
+                      month: '',
+                      day: '',
+                      hour: '',
+                      min: '',
+                      sec: '',
+                      confirm: '确定',
+                      title: '时间'
+                    },
+                    init: function () {
+                      $("#editDate_"+id).trigger("click")
+                    },
+                    confirm: function (date) {
+                      rolldate.hide()
+                      $(".editDate_" + id).html(date)
+                      $(".editDate_" + id).removeClass('text-disable')
+                      // $(".input_editDate_"+id)[0].value =  date
+                      return false
+                    }
+                  })
+                })
+              }
             }
             if (tagType == 6){
               $('.input_radio_'+id).click(function(){
