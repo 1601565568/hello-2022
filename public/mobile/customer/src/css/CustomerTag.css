@@ -144,3 +144,6 @@ input::-webkit-input-placeholder {
 .float-select .float-select__item:last-child {
   border-bottom: 0;
 }
+.input-disable {
+  background: transparent;
+}

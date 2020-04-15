@@ -87,6 +87,7 @@ export default {
         this.model.content = ''
       }
       this.model.content += append
+      this.moveToCursor()
     },
     // 添加文本 type=1
     addText () {
