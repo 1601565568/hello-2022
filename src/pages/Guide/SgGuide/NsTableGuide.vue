@@ -35,7 +35,7 @@
       <!-- el-form 需添加  @keyup.enter.native="onSearch" 配置，实现回车搜索， onSearch 为搜索方法 -->
       <!-- el-form 需添加  surround-btn 类名 配置环绕按钮效果 -->
       <template slot="advancedSearch" v-if="_data._queryConfig.expand">
-        <el-form ref="table_filter_form" :model="model" label-width="80px" :inline="true">
+        <el-form ref="table_filter_form" :model="model" label-width="80px" :inline="true" @keyup.enter.native="$searchAction$()">
           <el-form-item label="员工账号：">
             <el-form-grid size="xmd">
               <el-input style="width:180px" autofocus=true v-model="model.workId" placeholder="请输入员工账号" clearable></el-input>
@@ -103,7 +103,9 @@
         <!-- 手机号 :width="120" -->
         <!-- 操作（只有一项文字的80px,两项文字120px,三项文字160px） -->
 
-        <el-table ref="table"  :data="_data._table.data" stripe @selection-change="handleSelectionChange" >
+        <el-table ref="table"  :data="_data._table.data" stripe @selection-change="handleSelectionChange"
+          v-loading.lock="_data._table.loadingtable"
+          :element-loading-text="$t('prompt.loading')" >
           <el-table-column type="selection" align="center" :width="50"></el-table-column>
           <el-table-column prop="work_id" label="账号" align="left" min-width="88">
             <template slot-scope="scope">
@@ -122,7 +124,7 @@
             </template>
           </el-table-column>
           <el-table-column prop="job" label="员工类型" align="center" width="80">
-            <template slot-scope="scope">{{scope.row.job == 1 ? "店长" : "导购"}}
+            <template slot-scope="scope">{{scope.row.job == 1 ? "店长" : (scope.row.job == 0 ? "导购" : "客服" ) }}
             </template>
           </el-table-column>
           <el-table-column prop="role_name" label="所属角色" align="left" min-width="200">

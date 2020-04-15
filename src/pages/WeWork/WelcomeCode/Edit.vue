@@ -339,7 +339,9 @@
       :visible.sync="linkModel.visible"
       title="链接"
       :show-scroll-x=false
-    >
+      :close-on-click-modal=false
+      @close="onCloseHandleModel(2)"
+    ><!-- :before-close="onCloseHandleModel(2)" -->
       <el-form
         ref="linkForm"
         label-width="100px"
@@ -389,6 +391,7 @@
               minlength='1'
               clearable
               show-word-limit
+              placeholder="请输入标题,长度在1-20个字符以内"
               v-model.trim="linkModel.title" />
           </el-form-grid>
         </el-form-item>
@@ -400,6 +403,7 @@
               minlength='1'
               clearable
               show-word-limit
+              placeholder="请输入文案,长度在1-50个字符以内"
               v-model.trim="linkModel.desc" />
           </el-form-grid>
         </el-form-item>
@@ -436,7 +440,8 @@
       width="500px"
       :visible.sync="appModel.visible"
       title="小程序"
-    >
+      @close="onCloseHandleModel(3)"
+    ><!-- :before-close="onCloseHandleModel(3)" -->
       <el-form
         ref="appForm"
         label-width="100px"
@@ -573,8 +578,7 @@
       title="选择员工"
       :visible.sync="employeeModel.visible"
       :show-scroll-x="false"
-      :before-close="closeEmployeeDialog"
-    >
+    ><!-- :before-close="closeEmployeeDialog" -->
       <ElRow :gutter="10" class="code-container">
         <ElCol :span="12" class="code-container__item">
           <div class="code-title">可选员工</div>

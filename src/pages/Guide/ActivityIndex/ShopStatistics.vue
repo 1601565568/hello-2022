@@ -96,7 +96,7 @@
             </el-date-picker>
           </el-form-item>
           <el-form-item label="门店名称：" prop="shopName">
-            <el-input v-model="searchform.shopName" placeholder="请输入门店名称" clearable></el-input>
+            <el-input v-model="searchform.shopName" placeholder="请输入门店名称" clearable @keyup.enter.native="submitForm('searchform')"></el-input>
           </el-form-item>
           <el-form-item label="所属地区：" style="margin-right:0;" prop="area">
             <el-form-grid width="300" prop="area">

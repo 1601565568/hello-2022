@@ -16,7 +16,7 @@
           </el-form-item>
           <el-form-item label="账号：">
             <el-form-grid>
-              <span>{{sgGuide.id}}</span>
+              <span>{{sgGuide.work_id}}</span>
             </el-form-grid>
           </el-form-item>
           <el-form-item label="姓名：">
@@ -27,11 +27,6 @@
           <el-form-item label="昵称：" >
             <el-form-grid>
               <span>{{sgGuide.nickname}}</span>
-            </el-form-grid>
-          </el-form-item>
-          <el-form-item label="工号：">
-            <el-form-grid>
-              <span>{{sgGuide.work_prefix}}{{sgGuide.work_number}}</span>
             </el-form-grid>
           </el-form-item>
           <el-form-item label="手机号：" >
@@ -51,8 +46,9 @@
           </el-form-item>
           <el-form-item label="性别：">
             <el-form-grid size="xxmd">
-              <span v-if="sgGuide.job == 1"> 男 </span>
-              <span v-else> 女 </span>
+              <span v-if="sgGuide.sex == 1"> 男 </span>
+              <span v-else-if="sgGuide.sex == 0"> 女 </span>
+              <span v-else> 未知 </span>
             </el-form-grid>
           </el-form-item>
           <el-form-item label="备注：">

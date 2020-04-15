@@ -141,16 +141,19 @@
       if (result.success) {
         let propertyInfoVos = result.result.propertyInfoVos
         let platformInfos = result.result.platformInfos
-        if(platformInfos.length > 0){
-          platfrom = platformInfos[0].platform
-          nick = platformInfos[0].outNick
+        for (let i = 0;i < platformInfos.length;i++) {
+          let form = platformInfos[i].platform
+          if(form == 1901){
+            platfrom = form
+            nick = platformInfos[i].outNick
+          }
         }
         customerId = result.result.customerId
         shopId = result.result.shopId
         groupId = result.result.groupId
         // 店铺标签列表
         let propertyInfos = result.result.propertyInfos
-        if (propertyInfos.length > 1){
+        if (propertyInfos.length > 0){
           for (let i = 0; i < propertyInfos.length; i++) {
             let propertyInfo = propertyInfos[i]
             let tagType = propertyInfo.tagType
@@ -273,7 +276,7 @@
                 html += '<div class="text-title select_tag_'+id+'">'+tagged+'</div>'+
                         '<input type="text" class="input_select_tag_'+id+'" value="'+tagged+'" hidden>'
               }else {
-                html += '<div class="text-title select_tag_'+id+'"></div>'+
+                html += '<div class="text-title text-disable select_tag_'+id+'">请选择'+propertyInfo.name+'</div>'+
                         '<input type="text" class="input_select_tag_'+id+'" value="" hidden>'
               }
               html+=  '<div class="right-arrow '+showClass+'"></div>'+
@@ -300,7 +303,7 @@
                 html += '<div class="text-title customer_tag_date editDate_'+id+'">'+tagged+'</div>'
                         // '<input type="date" name="date" class="input_editDate_'+id+'" value="'+tagged+'" hidden>'
               }else {
-                html += '<div class="text-title customer_tag_date editDate_'+id+'"></div>'
+                html += '<div class="text-title text-disable customer_tag_date editDate_'+id+'">请选择'+propertyInfo.name+'</div>'
                         // '<input type="text" name="date" class="input_editDate_'+id+'" value="" hidden>'
               }
               html += '<div class="right-arrow"></div>'+
@@ -365,6 +368,31 @@
               }
               html+="      </div>" +
                 "    </div>"
+            } else if (tagType==8) {//时间框
+              html = '<div class="tag-details__item" tagAttr="'+propertyInfo.tagArr+'" tagType="'+tagType+'" tagName="'+propertyInfo.name+'"  id="editDate_'+id+'">'+
+                '<div class="tag-details__title">'+
+                propertyInfo.name+
+                '</div>'+
+                '<div class="tag-details__tags tag-flex">'
+              //获取已选标签
+              let tagged = ''
+              for (var j = 0; j < propertyInfoVos.length; j++) {
+                let propertyInfoVo = propertyInfoVos[j]
+                if (propertyInfo.tagArr == propertyInfoVo.tagArr){
+                  tagged =  propertyInfoVo.value
+                  tagged = tagged.substr(0,10)
+                }
+              }
+              if (tagged != ''){
+                html += '<div class="text-title customer_tag_date editDate_'+id+'">'+tagged+'</div>'
+                // '<input type="date" name="date" class="input_editDate_'+id+'" value="'+tagged+'" hidden>'
+              }else {
+                html += '<div class="text-title text-disable customer_tag_date editDate_'+id+'">请选择'+propertyInfo.name+'</div>'
+                // '<input type="text" name="date" class="input_editDate_'+id+'" value="" hidden>'
+              }
+              html += '<div class="right-arrow"></div>'+
+                '</div>'+
+                '</div>'
             }
             $(".tag-details").append(html)
             // 编辑按钮
@@ -381,34 +409,60 @@
                 $('input[type = radio]').parent('div').parent('div').children('img').hide()
                 $(this).parent('div').parent('div').children('img').show()
                 $(".select_tag_"+id).html($(this).val())
+                $(".select_tag_"+id).removeClass('text-disable')
                 $(".input_select_tag_"+id)[0].value=$(this).val()
                 $('.float-layout').addClass('hidden')
               })
             })
             if (tagType == 5){
+              window.scroll(0, 0);
               var rolldate = new Rolldate({
                 el: '#editDate_'+id,
                 // 年月日 时分秒
-                format: 'YYYY-MM-DD hh:mm:ss',
+                format: 'YYYY-MM-DD',
                 beginYear: 2000,
                 endYear: 2100,
                 lang: {
                   year: '',
                   month: '',
                   day: '',
-                  hour: '',
-                  min: '',
-                  sec: '',
                   confirm: '确定',
-                  title: '时间'
+                  title: '日期'
                 },
                 confirm: function (date) {
                   rolldate.hide()
                   $(".editDate_"+id).html(date)
-                  $(".input_editDate_"+id)[0].value =  date
+                  $(".editDate_"+id).removeClass('text-disable')
+                  // $(".input_editDate_"+id)[0].value =  date
                   return false
                 }
               })
+            }else if (tagType == 8) {
+              window.scroll(0, 0);
+                var rolldate = new Rolldate({
+                  el: '#editDate_'+id,
+                  // 年月日 时分秒
+                  format: 'YYYY-MM-DD hh:mm:ss',
+                  beginYear: 2000,
+                  endYear: 2100,
+                  lang: {
+                    year: '',
+                    month: '',
+                    day: '',
+                    hour: '',
+                    min: '',
+                    sec: '',
+                    confirm: '确定',
+                    title: '时间'
+                  },
+                  confirm: function (date) {
+                    rolldate.hide()
+                    $(".editDate_"+id).html(date)
+                    $(".editDate_"+id).removeClass('text-disable')
+                    // $(".input_editDate_"+id)[0].value =  date
+                    return false
+                  }
+                })
             }
             if (tagType == 6){
               $('.input_radio_'+id).click(function(){
@@ -465,9 +519,9 @@
           tagInfo.tag_code = tagAttr
           tagMsgShow.push(tagInfo)
         }
-      }else if (parseInt(tagType) == 5){
+      }else if (parseInt(tagType) == 5 || parseInt(tagType) == 8){
         let dateHtml = detailsItemElement.getElementsByClassName('customer_tag_date');
-        if (dateHtml[0].textContent) {
+        if (dateHtml[0].textContent && dateHtml[0].textContent.indexOf("请选择") == -1) {
           tagMsg.tagValue = dateHtml[0].textContent
           tagMsg.tagCode = tagAttr
           tagInfoList.push(tagMsg)
@@ -539,12 +593,14 @@
           }
           $(".tag-details").html('')
           getGroupTag()
+          $(".tag-list--nodata").addClass('hide')
+          $(".tag-list").removeClass('hide')
           $('.float-layout').addClass('hidden')
           $(".float-layout__content").html('')
         }else {
           $(".customer-tag").hide()
           $(".save_customerTag").hide()
-          $(".customer-errormsg").html(res.result)
+          $(".customer-errormsg").html(res.msg)
           $(".customer-error").show()
         }
       },

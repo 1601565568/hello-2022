@@ -11,7 +11,7 @@
         <el-form class="el_form" ref="table_filter_form" :model="model" label-width="60px" :inline="true">
           <el-form-item label="关键字：">
             <el-form-grid size="xmd">
-              <el-input style="width:180px" autofocus=true v-model="model.name" placeholder="请输入工号/姓名/手机号" clearable></el-input>
+              <el-input style="width:180px" autofocus=true v-model="model.name" placeholder="请输入账号/姓名/手机号" clearable></el-input>
             </el-form-grid>
           </el-form-item>
           <el-form-item label="所属门店：">
@@ -37,7 +37,7 @@
             </div>
           </template>
         </el-table-column>
-        <el-table-column prop="workId" label="工号" align="left" width="180">
+        <el-table-column prop="workId" label="账号" align="left" width="180">
           <template slot-scope="scope">
             {{scope.row.workId || '-'}}
           </template>

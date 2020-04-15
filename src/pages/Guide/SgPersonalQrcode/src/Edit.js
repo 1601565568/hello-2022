@@ -60,7 +60,7 @@ export default {
         showType: 1,
         isvalidate: 1,
         keyword: null,
-        channelCode: null,
+        channel_code: null,
         child_qrcodes: []
       },
       title: null,
@@ -193,11 +193,17 @@ export default {
       } else if (that.personalQrcode.type === 1 && that.tableData.length < 1) {
         return that.$notify.error('请添加子码')
       }
+      // 判断聚合二维码类型
+      let bool = false
+      if ((that.memberManagePlan === 1 && that.personalQrcode.type === 1) || that.memberManagePlan === 2) {
+        // 聚合二维码为企微自定义方案或个号方案
+        bool = true
+      }
       let personalIds = []
       for (let i = 0; i < that.tableData.length; i++) {
         let guideId = that.tableData[i].guideId
         personalIds.push(guideId)
-        if (that.tableData[i].num === null || that.tableData[i].num === '') {
+        if (bool && (that.tableData[i].num === null || that.tableData[i].num === '')) {
           return that.$notify.error('每日添加次数不能为空')
         }
       }
@@ -231,6 +237,7 @@ export default {
       if (type === 0) {
         let selectData = _this.tree.selectData
         _this.tree.selectedData = []
+        _this.tree.copySelectedData = []
         let keyMap = {}
         for (let i = 0; i < _this.employeeIds.length; i++) {
           let personnelId = _this.employeeIds[i]
@@ -246,6 +253,7 @@ export default {
             }
           }
         }
+        _this.$refs.selectTree.setCheckedNodes(_this.tree.copySelectedData)
       } else if (type === 1) {
         _this.addTableData = []
         for (let i = 0; i < _this.tableData.length; i++) {
@@ -292,9 +300,7 @@ export default {
           if (data.image === null) {
             return this.$notify.error('自定义子码不能为空')
           }
-          if (data.date === null) {
-            return this.$notify.error('自定义子码失效时间不能为空')
-          }
+          chooseData.index = data.index
           chooseData.name = data.name
           chooseData.image = data.image
           chooseData.date = data.date
@@ -403,7 +409,7 @@ export default {
     },
     handleEdit (index, row) {
     },
-    handleDelete (mag, row) {
+    handleDelete (mag) {
       let type = this.personalQrcode.type
       if (type === 0) { // 选择员工
         let guideId = mag.row.guideId
@@ -479,9 +485,6 @@ export default {
         }
         if (addTableDatum.image === null) {
           return this.$notify.error('自定义子码不能为空')
-        }
-        if (addTableDatum.date === null) {
-          return this.$notify.error('自定义子码失效时间不能为空')
         }
       }
       if (this.addTableData.length > 49) {
