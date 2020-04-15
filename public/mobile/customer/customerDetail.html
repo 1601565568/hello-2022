@@ -231,7 +231,7 @@
       } else {
         // 跳转错误页
         $(".customer-detail").hide()
-        $(".customer-errormsg").html(result.result.msg)
+        $(".customer-errormsg").html(result.result)
         $(".customer-no-vip").show()
       }
     })
@@ -251,7 +251,7 @@
         },
         error: function (res) {
           $(".customer-detail").hide()
-          $(".customer-errormsg").html(result.result.msg)
+          $(".customer-errormsg").html(res.result)
           $(".customer-no-vip").show()
         }
       });

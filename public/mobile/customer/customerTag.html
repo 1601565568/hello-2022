@@ -415,7 +415,6 @@
               })
             })
             if (tagType == 5){
-              window.scroll(0, 0);
               var rolldate = new Rolldate({
                 el: '#editDate_'+id,
                 // 年月日 时分秒
@@ -428,6 +427,9 @@
                   day: '',
                   confirm: '确定',
                   title: '日期'
+                },
+                init: function() {
+                  window.scroll(0, 0);
                 },
                 confirm: function (date) {
                   rolldate.hide()
@@ -454,6 +456,9 @@
                     sec: '',
                     confirm: '确定',
                     title: '时间'
+                  },
+                  init: function() {
+                    window.scroll(0, 0);
                   },
                   confirm: function (date) {
                     rolldate.hide()
