@@ -31,7 +31,8 @@ export default {
       'mobile': null,
       'cardId': null,
       'time': null,
-      'grade': null
+      'grade': null,
+      isNotAll: true
     }
     let copyModel = Object.assign({}, findVo)
     return {
@@ -56,7 +57,7 @@ export default {
       loading: false,
       offsetHeight: false,
       height: 0,
-      showChangeGuide: false,
+      showChangeGuide: true,
       gradeInfo: [], // 等级信息下拉框
       shopTreePage: {
         total: 0,
@@ -134,19 +135,19 @@ export default {
       this.searchButton = false
       this.restButton = false
       // 全部情况不需要请求等级
-      if (data.id !== '1') {
-        this.showChangeGuide = true
-        _this.$http.fetch(_this.$api.guide.shop.findShopGrade,
-          { shopId: _this.offLineShopId }).then(resp => {
-          if (resp.success && resp.result !== null) {
-            _this.gradeInfo = resp.result
-          }
-        }).catch((resp) => {
-          _this.$notify.error(getErrorMsg('查询等级信息失败', resp))
-        })
-      } else {
-        this.showChangeGuide = false
-      }
+      // if (data.id !== '1') {
+      // this.showChangeGuide = true
+      _this.$http.fetch(_this.$api.guide.shop.findShopGrade,
+        { shopId: _this.offLineShopId }).then(resp => {
+        if (resp.success && resp.result !== null) {
+          _this.gradeInfo = resp.result
+        }
+      }).catch((resp) => {
+        _this.$notify.error(getErrorMsg('查询等级信息失败', resp))
+      })
+      // } else {
+      // this.showChangeGuide = false
+      // }
     },
     // 树节点过滤
     onFilterNode (value, data, node) {
