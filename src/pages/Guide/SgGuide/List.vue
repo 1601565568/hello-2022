@@ -16,7 +16,7 @@
           </el-form-item>
           <el-form-item label="账号：">
             <el-form-grid>
-              <span>{{sgGuide.id}}</span>
+              <span>{{sgGuide.workId}}</span>
             </el-form-grid>
           </el-form-item>
           <el-form-item label="姓名：">
@@ -27,11 +27,6 @@
           <el-form-item label="昵称：" >
             <el-form-grid>
               <span>{{sgGuide.nickname}}</span>
-            </el-form-grid>
-          </el-form-item>
-          <el-form-item label="工号：">
-            <el-form-grid>
-              <span>{{sgGuide.work_prefix}}{{sgGuide.work_number}}</span>
             </el-form-grid>
           </el-form-item>
           <el-form-item label="手机号：" >
