@@ -58,7 +58,7 @@
         </ElTableColumn>
       </ElTable>
       <div class="message-item message-item--add">
-        <ElPopover trigger="hover">
+        <ElPopover v-if="!disabled" trigger="hover">
           <div class="message-prompt">
             <div class="message-prompt__mass" @click="openText(null)">
               <Icon type="file-text" className="font-size-xlarge cursor-pointer message-hovericolor"/>
@@ -94,8 +94,7 @@
               <div class="message-prompt__mass--topspace cursor-pointer message-hovericolor">小程序</div>
             </div>
           </div>
-          <NsButton v-if="disabled" type="text" slot="reference" disabled>+添加消息内容</NsButton>
-          <NsButton v-else type="text" slot="reference">+添加消息内容</NsButton>
+          <NsButton type="text" slot="reference">+添加消息内容</NsButton>
         </ElPopover>
         <span class="text-secondary">
           最多添加10条消息；上传视频限制大小30M，格式为MP4。
