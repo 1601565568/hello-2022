@@ -45,8 +45,8 @@ export default {
     }
   },
   mounted () {
-    this.initEdit({ welcomesId: this.$route.query.uuid })
     this.initEmpTree()
+    this.initEdit({ welcomesId: this.$route.query.uuid })
     this.getSystemPresetLink()
   },
   methods: {

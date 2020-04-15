@@ -44,6 +44,7 @@
               :input="model.page=model.page.replace(/(^\s*)|(\s*$)/g, '')"
               placeholder="请输入小程序appId,长度在1-255个字符以内"
               v-model="model.page"
+              ref="content"
               show-word-limit
             />
           </ElFormItem>
@@ -150,6 +151,12 @@ export default {
         this.model.page = ''
       }
       this.model.page += append
+      this.moveToCursor()
+    },
+    // 重新定位光标
+    moveToCursor () {
+      let oTextarea = this.$refs.content.$el.children[0]
+      oTextarea.select()
     },
     // 上传图片是否成功事件
     handleAvatarSuccess (res, file) {
