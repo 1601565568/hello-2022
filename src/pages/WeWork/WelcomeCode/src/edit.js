@@ -225,12 +225,16 @@ export default {
         this.$nextTick(() => {
           that.linkModel.link = ''
           that.linkModel.settingId = null
-          this.$refs['linkForm'].resetFields()
+          if (this.$refs['linkForm']) {
+            this.$refs['linkForm'].resetFields()
+          }
         })
       }
       if (type === 3 && this.model.annexType !== 3) {
         this.$nextTick(() => {
-          this.$refs['appForm'].resetFields()
+          if (this.$refs['appForm']) {
+            this.$refs['appForm'].resetFields()
+          }
         })
       }
     },

@@ -180,7 +180,7 @@
                           </el-image>
                         </div>
                         <div class="message-msg__text">
-                          <div class="message-news">
+                          <div class="message-news"><!-- word-break:break-all -->
                             我通过了你的朋友验证，现在我们可以开始聊天了
                           </div>
                           <div class="message-circle"></div>
@@ -227,7 +227,7 @@
                         </div>
                       </div>
                       <!--图片 结束-->
-                      <!--网页 开始-->
+                      <!--网页 开始--> <!-- todo -->
                       <div
                         class="message-msg clearfix"
                         v-else-if="model.annexType === 2"
@@ -244,22 +244,21 @@
                         </div>
                         <div class="message-msg__text">
                           <div class="message-web">
-                            <div class="message-web__slogan">
+                            <div class="message-web__slogan"><!-- word-break:break-all -->
                               {{ model.title }}
                             </div>
-                            <div class="message-web__propagate clearfix">
-                              <div class="message-leftside">
+                            <div class="message-web__propagate clearfix"><!-- display： flex -->
+                              <div class="message-leftside"> <!-- 去掉宽度，加下flex：1 -->
                                 {{ model.desc }}
                               </div>
+                              <!-- 右边图片加下flex-shrink:0, 上面的宽高去掉 -->
                               <el-image
-                                :width="98"
-                                :height="100"
-                                style="width: 98px; height: 100px"
+                                style="height: 100px"
                                 :src="model.image"
-                                mode="fill"
+                                 mode="cover"
                                 class="message-rightside"
                               >
-                              </el-image>
+                              </el-image><!-- mode="fill" contain cover none scale-down -->
                             </div>
                           </div>
                           <div class="message-circle"></div>
@@ -806,7 +805,7 @@ export default Edit
       margin-left: var(--default-margin-xlarger);
       background: var(--theme-color-white);
       border-radius: 8px;
-      word-wrap: break-all;
+      word-break: break-all;
     }
     @b web {
       min-width: 47%;
@@ -816,20 +815,24 @@ export default Edit
       border-radius: 10px;
       @e slogan {
         font-size: var(--default-font-size-base);
-        width: 100%;
+        width: 146px;
         display: inline-block;
         text-overflow: ellipsis;
         white-space: nowrap;
         overflow: hidden;
+        word-break:break-all;
       }
       @e propagate {
         margin-top: var(--default-margin-small);
+        width:146px;
+        display:flex;
       }
     }
     @b leftside {
       font-size: 10px;
       color: var(--theme-font-color-secondary);
-      width: 50%;
+      /* width: 50%; */
+      flex: 1;
       max-height: 60px;
       float: left;
       overflow: hidden;
@@ -837,11 +840,13 @@ export default Edit
       display: -webkit-box;
       -webkit-line-clamp: 3;
       -webkit-box-orient: vertical;
+      word-break:break-all;
     }
     @b rightside {
       width: 58px;
       height: 58px;
       margin-left: var(--default-margin-xlarger);
+      flex-shrink:0;
     }
     @b image {
       margin-left: var(--default-margin-xlarger);
