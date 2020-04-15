@@ -698,7 +698,7 @@
         },
         error: function (res) {
           $(".fail").show();
-          $('.fail__text').html(result.msg);
+          $('.fail__text').html(res.result);
         }
       });
     });
