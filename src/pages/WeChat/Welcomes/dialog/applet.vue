@@ -47,6 +47,17 @@
               show-word-limit
             />
           </ElFormItem>
+          <ElFormItem label="" label-width="100px" >
+            <ElFormGrid>
+              <ns-button type="text" @click="insertPlaceHolderToWeb('{groupId}')"> &lt;集团ID&gt; </ns-button>
+            </ElFormGrid>
+            <ElFormGrid>
+              <ns-button type="text" @click="insertPlaceHolderToWeb('{chatId}')"> &lt;好友微信ID&gt; </ns-button>
+            </ElFormGrid>
+            <ElFormGrid>
+              <ns-button type="text" @click="insertPlaceHolderToWeb('{wxId}')"> &lt;导购微信ID&gt; </ns-button>
+            </ElFormGrid>
+          </ElFormItem>
           <ElFormItem>
             <div class="message-headling">小程序卡片展示：</div>
           </ElFormItem>
@@ -132,6 +143,13 @@ export default {
           this.$emit('addApplet', this.model)
         }
       })
+    },
+    // 为链接插入预留字段
+    insertPlaceHolderToWeb (append) {
+      if (this.model.page === undefined) {
+        this.model.page = ''
+      }
+      this.model.page += append
     },
     // 上传图片是否成功事件
     handleAvatarSuccess (res, file) {

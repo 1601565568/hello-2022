@@ -87,7 +87,7 @@
             <el-input style="width:180px" autofocus=true v-model="model.cardId" placeholder="请输入卡号" clearable></el-input>
           </el-form-grid>
         </el-form-item>
-        <el-form-item v-if="model.isAll" label="等级：">
+        <el-form-item v-if="model.isNotAll" label="等级：">
           <el-form-grid style="width: 180px;">
             <el-select placeholder="请选择" v-model="model.grade" clearable filterable>
               <el-option v-for="grade in gradeInfo" :label="grade.gradeName" :value="grade.grade"
