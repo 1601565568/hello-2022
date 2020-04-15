@@ -16,7 +16,7 @@
           </el-form-item>
           <el-form-item label="账号：">
             <el-form-grid>
-              <span>{{sgGuide.workId}}</span>
+              <span>{{sgGuide.work_id}}</span>
             </el-form-grid>
           </el-form-item>
           <el-form-item label="姓名：">
