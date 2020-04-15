@@ -113,23 +113,8 @@ export default {
       _this.shuJushuzu = data
       _this.loading = true
       _this.$reload().then(rep => {
-        if (this.totalNumTrige) {
-          for (let nodeIndex in this.$refs.guideTree.children) {
-            let node = this.$refs.guideTree.children[nodeIndex]
-            let index = node.label.lastIndexOf(this.totalNumTrige)
-            if (index > -1) {
-              node.label = node.label.substr(0, index)
-            }
-          }
-        }
         _this.loading = _this._data._loading
-        // 显示 total
-        var showLabel = data.label
-        if (showLabel.indexOf('(') !== -1) {
-          showLabel = showLabel.substring(0, showLabel.indexOf('('))
-        }
-        this.totalNumTrige = '(' + _this._data._pagination.total + ')'
-        data.label = showLabel + this.totalNumTrige
+        this.totalForUnconditionalSearch(data)
       })
       // 设置搜索及重置可用
       this.searchButton = false
@@ -148,6 +133,32 @@ export default {
       // } else {
       // this.showChangeGuide = false
       // }
+    },
+    totalForUnconditionalSearch (data) {
+      var _this = this
+      _this.$http.fetch(_this.$api.guide.guide.findCustomerTotal,
+        { shopId: _this.offLineShopId }).then(resp => {
+        if (resp.success && resp.result !== null) {
+          if (this.totalNumTrige) {
+            for (let nodeIndex in this.$refs.guideTree.children) {
+              let node = this.$refs.guideTree.children[nodeIndex]
+              let index = node.label.lastIndexOf(this.totalNumTrige)
+              if (index > -1) {
+                node.label = node.label.substr(0, index)
+              }
+            }
+          }
+          // 显示 total
+          var showLabel = data.label
+          if (showLabel.indexOf('(') !== -1) {
+            showLabel = showLabel.substring(0, showLabel.indexOf('('))
+          }
+          this.totalNumTrige = '(' + resp.result.total + ')'
+          data.label = showLabel + this.totalNumTrige
+        }
+      }).catch((resp) => {
+        _this.$notify.error(getErrorMsg('统计门店客户总数失败', resp))
+      })
     },
     // 树节点过滤
     onFilterNode (value, data, node) {
