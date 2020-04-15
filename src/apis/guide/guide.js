@@ -83,6 +83,10 @@ export default {
     url: '/guide/customer/findCustomerList',
     method: 'post'
   },
+  findCustomerTotal: {// 导购客户管理列表门店的导购总数
+    url: '/guide/customer/findCustomerTotal',
+    method: 'get'
+  },
   updateCustomerGuide: {// 导购客户管理更换导购
     url: '/guide/customer/updateCustomerGuide',
     method: 'post'
