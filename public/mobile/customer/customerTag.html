@@ -157,25 +157,28 @@
           for (let i = 0; i < propertyInfos.length; i++) {
             let propertyInfo = propertyInfos[i]
             let tagType = propertyInfo.tagType
-            let show = propertyInfo.isShow
+            let isMark = propertyInfo.isMark
             let id = propertyInfo.id
             let unit = propertyInfo.unit
             if (!unit){
               unit = ''
             }
-            let showClass
-            if (show == 1) {
-              showClass = "text-link"
-            }else if (show == 0) {
-              showClass = "text-disable"
+            //是否允许更改标签
+            let isMarkType = true
+            if (isMark == 0) {
+              isMarkType = false
+              // showClass = "text-link"
             }
-            showClass = "text-link"
             var html
             // 判断标签类型
             if (tagType==1) {//字符文本框
-              html =  '<div class="tag-details__item" tagAttr="'+propertyInfo.tagArr+'" tagType="'+tagType+'" tagName="'+propertyInfo.name+'">'+
-                        '<div class="tag-details__title">'+propertyInfo.name +'</div>'+
-                        '<div class="tag-details__tags tag-flex tag-details__edit">'
+              html =  '<div class="tag-details__item" tagAttr="'+propertyInfo.tagArr+'" tagType="'+tagType+'" tagName="'+propertyInfo.name+'">'
+              if (isMarkType) {
+                html += '<div class="tag-details__title">'+propertyInfo.name +'</div>'
+              } else {
+                html += '<div class="tag-details__title text-disable">'+propertyInfo.name +'</div>'
+              }
+              html += '<div class="tag-details__tags tag-flex tag-details__edit">'
               //获取已选标签
               let tagged = ''
               for (var j = 0; j < propertyInfoVos.length; j++) {
@@ -185,18 +188,32 @@
                 }
               }
               if (tagged != ''){
-                html += '<label><input type="text" placeholder="" value="'+tagged+'" /></label>'
+                if (isMarkType) {
+                  html += '<label><input type="text" placeholder="" value="'+tagged+'" /></label>'+
+                          '<div class="text-title tag-flex">'+unit+ '</div>'
+                }else {
+                  html += '<label><input class="text-disable input-disable" disabled type="text" placeholder="" value="'+tagged+'" /></label>'+
+                          '<div class="text-title text-disable tag-flex">'+unit+ '</div>'
+                }
               }else {
-                html += '<label><input type="text" placeholder="请输入'+propertyInfo.name +'" value="" /></label>'
+                if (isMarkType) {
+                  html += '<label><input type="text" placeholder="请输入'+propertyInfo.name +'" value="" /></label>'+
+                          '<div class="text-title tag-flex">'+unit+ '</div>'
+                } else {
+                  html += '<label><input class="text-disable input-disable" disabled type="text" placeholder="请输入'+propertyInfo.name +'" value="" /></label>'+
+                          '<div class="text-title text-disable tag-flex">'+unit+ '</div>'
+                }
               }
-              html +=  '<div class="text-title tag-flex">'+unit+
-                        '</div>' +
-                        '</div>'+
+              html +=  '</div>'+
                         '</div>'
             } else if (tagType==2) {//数字文本框
-              html =  '<div class="tag-details__item" tagAttr="'+propertyInfo.tagArr+'" tagType="'+tagType+'" tagName="'+propertyInfo.name+'">'+
-                      '<div class="tag-details__title">'+propertyInfo.name +'</div>'+
-                      '<div class="tag-details__tags tag-flex tag-details__edit">'
+              html =  '<div class="tag-details__item" tagAttr="'+propertyInfo.tagArr+'" tagType="'+tagType+'" tagName="'+propertyInfo.name+'">'
+              if (isMarkType){
+                html += '<div class="tag-details__title">'+propertyInfo.name +'</div>'
+              }else {
+                html += '<div class="tag-details__title text-disable">'+propertyInfo.name +'</div>'
+              }
+              html += '<div class="tag-details__tags tag-flex tag-details__edit">'
               //获取已选标签
               let tagged = ''
               for (var j = 0; j < propertyInfoVos.length; j++) {
@@ -206,18 +223,32 @@
                 }
               }
               if (tagged != ''){
-                html += '<label><input type="text" placeholder="" oninput="value=value.replace(/[^\\d]/g,\'\')" value="'+tagged+'" /></label>'
+                if (isMarkType) {
+                  html += '<label><input type="text" placeholder="" oninput="value=value.replace(/[^\\d]/g,\'\')" value="'+tagged+'" /></label>'+
+                          '<div class="text-title tag-flex">'+unit+ '</div>'
+                }else {
+                  html += '<label><input type="text" class="text-disable input-disable" disabled placeholder="" oninput="value=value.replace(/[^\\d]/g,\'\')" value="'+tagged+'" /></label>'+
+                          '<div class="text-title text-disable tag-flex">'+unit+ '</div>'
+                }
               }else {
-                html += '<label><input type="text" placeholder="请输入'+propertyInfo.name +'" oninput="value=value.replace(/[^\\d]/g,\'\')" value="" /></label>'
+                if (isMarkType) {
+                  html += '<label><input type="text" placeholder="请输入'+propertyInfo.name +'" oninput="value=value.replace(/[^\\d]/g,\'\')" value="" /></label>'+
+                          '<div class="text-title tag-flex">'+unit+ '</div>'
+                }else {
+                  html += '<label><input type="text" class="text-disable input-disable" disabled placeholder="请输入'+propertyInfo.name +'" oninput="value=value.replace(/[^\\d]/g,\'\')" value="" /></label>'+
+                          '<div class="text-title text-disable tag-flex">'+unit+ '</div>'
+                }
               }
-              html +=  '<div class="text-title tag-flex">'+unit+
-                        '</div>' +
-                        '</div>'+
+              html += '</div>'+
                         '</div>'
             } else if (tagType==3) {//小数文本框
-              html =  '<div class="tag-details__item" tagAttr="'+propertyInfo.tagArr+'" tagType="'+tagType+'" tagName="'+propertyInfo.name+'">'+
-                      '<div class="tag-details__title">'+propertyInfo.name +'</div>'+
-                      '<div class="tag-details__tags tag-flex tag-details__edit">'
+              html =  '<div class="tag-details__item" tagAttr="'+propertyInfo.tagArr+'" tagType="'+tagType+'" tagName="'+propertyInfo.name+'">'
+              if (isMarkType){
+                html += '<div class="tag-details__title">'+propertyInfo.name +'</div>'
+              }else {
+                html += '<div class="tag-details__title text-disable">'+propertyInfo.name +'</div>'
+              }
+              html += '<div class="tag-details__tags tag-flex tag-details__edit">'
               //获取已选标签
               let tagged = ''
               for (var j = 0; j < propertyInfoVos.length; j++) {
@@ -227,21 +258,34 @@
                 }
               }
               if (tagged != ''){
-                html += '<label><input type="text" placeholder="" oninput="value=value.replace(/[^0-9\\.]/g,\'\')" value="'+tagged+'" /></label>'
+                if (isMarkType) {
+                  html += '<label><input type="text" placeholder="" oninput="value=value.replace(/[^0-9\\.]/g,\'\')" value="'+tagged+'" /></label>'+
+                          '<div class="text-title tag-flex">'+unit+ '</div>'
+                }else {
+                  html += '<label><input type="text" class="text-disable input-disable" disabled placeholder="" oninput="value=value.replace(/[^0-9\\.]/g,\'\')" value="'+tagged+'" /></label>'+
+                          '<div class="text-title text-disable tag-flex">'+unit+ '</div>'
+                }
               }else {
-                html += '<label><input type="text" placeholder="请输入'+propertyInfo.name +'" oninput="value=value.replace(/[^0-9\\.]/g,\'\')" value="" /></label>'
+                if (isMarkType) {
+                  html += '<label><input type="text" placeholder="请输入'+propertyInfo.name +'" oninput="value=value.replace(/[^0-9\\.]/g,\'\')" value="" /></label>'+
+                          '<div class="text-title tag-flex">'+unit+ '</div>'
+                }else {
+                  html += '<label><input type="text" class="text-disable input-disable" disabled placeholder="请输入'+propertyInfo.name +'" oninput="value=value.replace(/[^0-9\\.]/g,\'\')" value="" /></label>'+
+                          '<div class="text-title text-disable tag-flex">'+unit+ '</div>'
+                }
               }
-              html +=  '<div class="text-title tag-flex">'+unit+
-                        '</div>' +
-                        '</div>'+
+              html +=   '</div>'+
                         '</div>'
             } else if (tagType == 4) {//选择框
               var popupHtml = ''
-              html = '<div class="tag-details__item tag-details__edit_'+id+'" attr="'+id+'" tagAttr="'+propertyInfo.tagArr+'" tagType="'+tagType+'" tagName="'+propertyInfo.name+'">'+
-                        '<div class="tag-details__title">'+
-                          propertyInfo.name+
-                        '</div>'+
-                        '<div class="tag-details__tags tag-flex tag-details__edit">'
+              if (isMarkType){
+                html += '<div class="tag-details__item tag-details__edit_'+id+'" attr="'+id+'" tagAttr="'+propertyInfo.tagArr+'" tagType="'+tagType+'" tagName="'+propertyInfo.name+'">'+
+                        '<div class="tag-details__title">'+ propertyInfo.name+ '</div>'
+              }else{
+                html += '<div class="tag-details__item" attr="'+id+'" tagAttr="'+propertyInfo.tagArr+'" tagType="'+tagType+'" tagName="'+propertyInfo.name+'">'+
+                        '<div class="tag-details__title text-disable">'+ propertyInfo.name+ '</div>'
+              }
+              html +=  '<div class="tag-details__tags tag-flex tag-details__edit">'
               let value = propertyInfo.value
               let split = value.split("|");
               popupHtml += "<div class='float-select float-select_"+id+"'>"
@@ -273,48 +317,55 @@
                 }
               }
               if (tagged != ''){
-                html += '<div class="text-title select_tag_'+id+'">'+tagged+'</div>'+
-                        '<input type="text" class="input_select_tag_'+id+'" value="'+tagged+'" hidden>'
+                if (isMarkType){
+                  html += '<div class="text-title select_tag_'+id+'">'+tagged+'</div>'
+                }else {
+                  html += '<div class="text-title text-disable select_tag_'+id+'">'+tagged+'</div>'
+                }
+                html += '<input type="text" class="input_select_tag_'+id+'" value="'+tagged+'" hidden>'
               }else {
                 html += '<div class="text-title text-disable select_tag_'+id+'">请选择'+propertyInfo.name+'</div>'+
                         '<input type="text" class="input_select_tag_'+id+'" value="" hidden>'
               }
-              html+=  '<div class="right-arrow '+showClass+'"></div>'+
+              html+=  '<div class="right-arrow text-link"></div>'+
                       '</div>'+
                       '</div>'
               popupHtml += "</div>"
               appendHtml[id] = popupHtml
             } else if (tagType==5) {//日期框
-              html = '<div class="tag-details__item" tagAttr="'+propertyInfo.tagArr+'" tagType="'+tagType+'" tagName="'+propertyInfo.name+'"  id="editDate_'+id+'">'+
-                      '<div class="tag-details__title">'+
-                          propertyInfo.name+
-                      '</div>'+
-                      '<div class="tag-details__tags tag-flex">'
+              if (isMarkType){
+                html = '<div class="tag-details__item" tagAttr="'+propertyInfo.tagArr+'" tagType="'+tagType+'" tagName="'+propertyInfo.name+'"  id="editDate_'+id+'">'+
+                  '<div class="tag-details__title">'+ propertyInfo.name+ '</div>'
+              }else {
+                html = '<div class="tag-details__item" tagAttr="'+propertyInfo.tagArr+'" tagType="'+tagType+'" tagName="'+propertyInfo.name+'">'+
+                  '<div class="tag-details__title text-disable">'+ propertyInfo.name+ '</div>'
+              }
+              html += '<div class="tag-details__tags tag-flex">'
               //获取已选标签
               let tagged = ''
               for (var j = 0; j < propertyInfoVos.length; j++) {
                 let propertyInfoVo = propertyInfoVos[j]
                 if (propertyInfo.tagArr == propertyInfoVo.tagArr){
                   tagged =  propertyInfoVo.value
-                  tagged = tagged.substr(0,19)
+                  tagged = tagged.substr(0,10)
                 }
               }
               if (tagged != ''){
                 html += '<div class="text-title customer_tag_date editDate_'+id+'">'+tagged+'</div>'
-                        // '<input type="date" name="date" class="input_editDate_'+id+'" value="'+tagged+'" hidden>'
               }else {
                 html += '<div class="text-title text-disable customer_tag_date editDate_'+id+'">请选择'+propertyInfo.name+'</div>'
-                        // '<input type="text" name="date" class="input_editDate_'+id+'" value="" hidden>'
               }
               html += '<div class="right-arrow"></div>'+
                       '</div>'+
                       '</div>'
             } else if (tagType == 6) {//单选框
-              html =  '<div class="tag-details__item tag-details__item--smallSpace" tagAttr="'+propertyInfo.tagArr+'" tagType="'+tagType+'" tagName="'+propertyInfo.name+'">'+
-                        '<div class="tag-details__title">'+
-                          propertyInfo.name+
-                        '</div>'+
-                        '<div class="tag-details__tags tag--cancelBlank">'
+              html =  '<div class="tag-details__item tag-details__item--smallSpace" tagAttr="'+propertyInfo.tagArr+'" tagType="'+tagType+'" tagName="'+propertyInfo.name+'">'
+              if (isMarkType){
+                html += '<div class="tag-details__title">'+ propertyInfo.name+ '</div>'
+              }else {
+                html += '<div class="tag-details__title text-disable">'+ propertyInfo.name+ '</div>'
+              }
+              html += '<div class="tag-details__tags tag--cancelBlank">'
               let value = propertyInfo.value
               let split = value.split("|");
               for (let j = 1; j < split.length - 1; j++) {
@@ -330,19 +381,29 @@
                   }
                 }
                 if (bool){
-                  html += '<span class="tag tag--seleted input_radio_'+id+'"><input type="radio" name="chooseTag'+id+'" value="'+split[j]+'" hidden checked>'+split[j]+'</span>';
+                  if (isMarkType){
+                    html += '<span class="tag tag--seleted input_radio_'+id+'"><input type="radio" name="chooseTag'+id+'" value="'+split[j]+'" hidden checked>'+split[j]+'</span>';
+                  }else {
+                    html += '<span class="tag tag--forbidden"><input type="radio" name="chooseTag'+id+'" value="'+split[j]+'" hidden checked>'+split[j]+'</span>';
+                  }
                 }else {
-                  html += '<span class="tag input_radio_'+id+'"><input type="radio" name="chooseTag'+id+'" value="'+split[j]+'" hidden>'+split[j]+'</span>';
+                  if (isMarkType) {
+                    html += '<span class="tag input_radio_' + id + '"><input type="radio" name="chooseTag' + id + '" value="' + split[j] + '" hidden>' + split[j] + '</span>';
+                  }else {
+                    html += '<span class="tag text-disable">' + split[j] + '</span>';
+                  }
                 }
               }
               html+=  "</div>" +
                       "</div>"
             }else if (tagType == 7) {//复选框
-              html =  '<div class="tag-details__item tag-details__item--smallSpace" tagAttr="'+propertyInfo.tagArr+'" tagType="'+tagType+'" tagName="'+propertyInfo.name+'">'+
-                      '<div class="tag-details__title">'+
-                          propertyInfo.name+'（复选）'+
-                      '</div>'+
-                      '<div class="tag-details__tags tag--cancelBlank">'
+              html =  '<div class="tag-details__item tag-details__item--smallSpace" tagAttr="'+propertyInfo.tagArr+'" tagType="'+tagType+'" tagName="'+propertyInfo.name+'">'
+              if (isMarkType){
+                html += '<div class="tag-details__title">'+ propertyInfo.name+'（复选）'+ '</div>'
+              }else {
+                html += '<div class="tag-details__title text-disable">'+ propertyInfo.name+'（复选）'+ '</div>'
+              }
+              html += '<div class="tag-details__tags tag--cancelBlank">'
               let value = propertyInfo.value
               let split = value.split("|");
               for (let j = 1; j < split.length - 1; j++) {
@@ -361,34 +422,43 @@
                   }
                 }
                 if (bool){
-                  html += '<span class="tag tag--seleted input_checkbox"><input type="checkbox" value="'+split[j]+'" hidden checked>'+split[j]+'</span>'
+                  if (isMarkType){
+                    html += '<span class="tag tag--seleted input_checkbox"><input type="checkbox" value="'+split[j]+'" hidden checked>'+split[j]+'</span>'
+                  }else {
+                    html += '<span class="tag tag--forbidden"><input type="checkbox" value="'+split[j]+'" hidden checked>'+split[j]+'</span>'
+                  }
                 }else {
-                  html += '<span class="tag input_checkbox"><input type="checkbox" value="'+split[j]+'" hidden>'+split[j]+'</span>'
+                  if (isMarkType) {
+                    html += '<span class="tag input_checkbox"><input type="checkbox" value="' + split[j] + '" hidden>' + split[j] + '</span>'
+                  }else {
+                    html += '<span class="tag text-disable">' + split[j] + '</span>'
+                  }
                 }
               }
               html+="      </div>" +
                 "    </div>"
             } else if (tagType==8) {//时间框
-              html = '<div class="tag-details__item" tagAttr="'+propertyInfo.tagArr+'" tagType="'+tagType+'" tagName="'+propertyInfo.name+'"  id="editDate_'+id+'">'+
-                '<div class="tag-details__title">'+
-                propertyInfo.name+
-                '</div>'+
-                '<div class="tag-details__tags tag-flex">'
+              if (isMarkType){
+                html = '<div class="tag-details__item" tagAttr="'+propertyInfo.tagArr+'" tagType="'+tagType+'" tagName="'+propertyInfo.name+'"  id="editDate_'+id+'">'+
+                  '<div class="tag-details__title">'+ propertyInfo.name+ '</div>'
+              }else {
+                html = '<div class="tag-details__item" tagAttr="'+propertyInfo.tagArr+'" tagType="'+tagType+'" tagName="'+propertyInfo.name+'">'+
+                  '<div class="tag-details__title text-disable">'+ propertyInfo.name+ '</div>'
+              }
+              html += '<div class="tag-details__tags tag-flex">'
               //获取已选标签
               let tagged = ''
               for (var j = 0; j < propertyInfoVos.length; j++) {
                 let propertyInfoVo = propertyInfoVos[j]
                 if (propertyInfo.tagArr == propertyInfoVo.tagArr){
                   tagged =  propertyInfoVo.value
-                  tagged = tagged.substr(0,10)
+                  tagged = tagged.substr(0,19)
                 }
               }
               if (tagged != ''){
                 html += '<div class="text-title customer_tag_date editDate_'+id+'">'+tagged+'</div>'
-                // '<input type="date" name="date" class="input_editDate_'+id+'" value="'+tagged+'" hidden>'
               }else {
                 html += '<div class="text-title text-disable customer_tag_date editDate_'+id+'">请选择'+propertyInfo.name+'</div>'
-                // '<input type="text" name="date" class="input_editDate_'+id+'" value="" hidden>'
               }
               html += '<div class="right-arrow"></div>'+
                 '</div>'+
@@ -415,32 +485,36 @@
               })
             })
             if (tagType == 5){
-              window.scroll(0, 0);
-              var rolldate = new Rolldate({
-                el: '#editDate_'+id,
-                // 年月日 时分秒
-                format: 'YYYY-MM-DD',
-                beginYear: 2000,
-                endYear: 2100,
-                lang: {
-                  year: '',
-                  month: '',
-                  day: '',
-                  confirm: '确定',
-                  title: '日期'
-                },
-                confirm: function (date) {
-                  rolldate.hide()
-                  $(".editDate_"+id).html(date)
-                  $(".editDate_"+id).removeClass('text-disable')
-                  // $(".input_editDate_"+id)[0].value =  date
-                  return false
-                }
+              $('#editDate_'+id).click(function () {
+                $("input").blur()
               })
-            }else if (tagType == 8) {
-              window.scroll(0, 0);
                 var rolldate = new Rolldate({
                   el: '#editDate_'+id,
+                  // 年月日 时分秒
+                  format: 'YYYY-MM-DD',
+                  beginYear: 2000,
+                  endYear: 2100,
+                  lang: {
+                    year: '',
+                    month: '',
+                    day: '',
+                    confirm: '确定',
+                    title: '日期'
+                  },
+                  confirm: function (date) {
+                    rolldate.hide()
+                    $(".editDate_"+id).html(date)
+                    $(".editDate_"+id).removeClass('text-disable')
+                    // $(".input_editDate_"+id)[0].value =  date
+                    return false
+                  }
+                })
+            }else if (tagType == 8) {
+              $('#editDate_'+id).click(function () {
+                $("input").blur()
+              })
+                var rolldate = new Rolldate({
+                  el: '#editDate_' + id,
                   // 年月日 时分秒
                   format: 'YYYY-MM-DD hh:mm:ss',
                   beginYear: 2000,
@@ -457,8 +531,8 @@
                   },
                   confirm: function (date) {
                     rolldate.hide()
-                    $(".editDate_"+id).html(date)
-                    $(".editDate_"+id).removeClass('text-disable')
+                    $(".editDate_" + id).html(date)
+                    $(".editDate_" + id).removeClass('text-disable')
                     // $(".input_editDate_"+id)[0].value =  date
                     return false
                   }
@@ -624,7 +698,7 @@
         },
         error: function (res) {
           $(".fail").show();
-          $('.fail__text').html(result.msg);
+          $('.fail__text').html(res.result);
         }
       });
     });
