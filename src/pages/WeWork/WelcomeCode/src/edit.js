@@ -534,6 +534,12 @@ export default {
       })
     },
     /**
+     * @msg: 招募设置页面
+     */
+    goRecruitSetting () {
+      this.$router.push({ path: '/Guide/RecruitSet/RecruitPageConfig' })
+    },
+    /**
      * @msg: 页面初始化时的数据加载函数
      */
     $init (data) {
