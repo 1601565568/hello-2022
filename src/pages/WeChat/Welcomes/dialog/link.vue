@@ -164,6 +164,11 @@ export default {
     onRadio () {
       this.$refs.searchform.clearValidate()
       this.model.selectIndex = ''
+      this.model.url = ''
+      this.model.image = ''
+      this.model.imageFilename = ''
+      this.model.title = ''
+      this.model.description = ''
     },
     // 选择预置链接
     systemPresetChange (e) {
@@ -213,6 +218,7 @@ export default {
     },
     // 关闭弹框
     close () {
+      this.linkSwitch = this.model.linkSwitch
       this.$refs.searchform.clearValidate()
       this.$emit('close', 'link')
     }

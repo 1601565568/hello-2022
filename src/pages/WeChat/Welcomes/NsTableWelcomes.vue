@@ -36,7 +36,7 @@
         <el-form ref="table_filter_form" :model="model" label-width="80px" :inline="true" @keyup.enter.native="$searchAction$()">
           <el-form-item label="标题名称：">
             <el-form-grid size="xmd">
-              <el-input style="width:180px"  v-model="model.title" placeholder="请输入欢迎语标题"></el-input>
+              <el-input style="width:180px"  v-model="model.title" placeholder="请输入欢迎语标题" clearable></el-input>
             </el-form-grid>
           </el-form-item>
           <el-input style="visibility:hidden;height:0px;"></el-input>

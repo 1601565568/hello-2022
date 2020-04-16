@@ -20,7 +20,7 @@
           <el-form-item>
             <el-input ref="quickText" style="width: 180px" v-model="model.employeeName" placeholder="请输入员工姓名"
                       @keyup.enter.native="$quickSearchAction$('employeeName')" clearable />
-            <ns-button type="primary" @click="$quickSearchAction$('employeeName')" class="searchbtn">搜索</ns-button>
+            <ns-button type="primary" @click="$quickSearchAction$('employeeName')" class="searchbtn" style="margin-right: 10px;margin-left: 5px;">搜索</ns-button>
           </el-form-item>
         </el-form>
       </template>

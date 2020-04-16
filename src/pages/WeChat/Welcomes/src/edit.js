@@ -45,8 +45,7 @@ export default {
     }
   },
   mounted () {
-    this.initEmpTree()
-    this.initEdit({ welcomesId: this.$route.query.uuid })
+    this.initEmpTree(0)
     this.getSystemPresetLink()
   },
   methods: {
@@ -116,7 +115,7 @@ export default {
       let _this = this
       _this.dialogVisible = true
       if (this.tree.selectData.length === 0) {
-        _this.initEmpTree()
+        _this.initEmpTree(1)
       }
       // 右边树数据
       this.tree.copySelectedData = this.tree.selectedData
@@ -164,11 +163,14 @@ export default {
       this.$refs.selectTree.setCheckedNodes(nodes)
     },
     // 初始化员工树
-    async initEmpTree () {
+    async initEmpTree (type) {
       let _this = this
       await _this.$http.fetch(_this.$api.guide.sgPersonalQrcode.getDepartment, { plan: 2 }).then(resp => {
         if (resp.success && resp.result != null) {
-          this.tree.selectData = JSON.parse(resp.result)
+          _this.tree.selectData = JSON.parse(resp.result)
+          if (type === 0) {
+            _this.initEdit()
+          }
         } else {
           _this.$notify.error(getErrorMsg('获取员工数据失败', resp))
         }
@@ -190,12 +192,13 @@ export default {
     /**
      * @msg: 页面初始化时的数据加载函数
      */
-    async initEdit (data) {
+    async initEdit () {
       // 页面初始化时，加载页面数据
       let that = this
+      let uuid = this.$route.query.uuid
       var keyMap = {}
-      if (data.welcomesId) {
-        that.$http.fetch(that.$api.weChat.welcomes.getWelcomeCode, { uuid: data.welcomesId }
+      if (uuid) {
+        that.$http.fetch(that.$api.weChat.welcomes.getWelcomeCode, { uuid: uuid }
         ).then(resp => {
           that.uuid = resp.result.uuid
           that.title = resp.result.title

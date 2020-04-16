@@ -58,6 +58,15 @@
             <ElFormGrid>
               <ns-button type="text" @click="insertPlaceHolderToWeb('{wxId}')"> &lt;导购微信ID&gt; </ns-button>
             </ElFormGrid>
+            <ElFormGrid>
+              <ns-button type="text" @click="insertPlaceHolderToWeb('{workId}')"> &lt;员工账号&gt; </ns-button>
+            </ElFormGrid>
+            <ElFormGrid>
+              <ns-button type="text" @click="insertPlaceHolderToWeb('{guideId}')"> &lt;员工ID&gt; </ns-button>
+            </ElFormGrid>
+            <ElFormGrid>
+              <ns-button type="text" @click="insertPlaceHolderToWeb('{shopId}')"> &lt;员工工作门店&gt; </ns-button>
+            </ElFormGrid>
           </ElFormItem>
           <ElFormItem label-width="83px" v-if="model.selectIndex!=''">
                 <span class="text-primary">
