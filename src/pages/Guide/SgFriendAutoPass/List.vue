@@ -10,7 +10,7 @@
         <el-form class="el_form" ref="table_filter_form" :model="model" label-width="60px" :inline="true">
           <el-form-item label="员工：">
             <el-form-grid size="xmd">
-              <el-input autofocus=true v-model="name" placeholder="" clearable></el-input>
+              <el-input autofocus=true v-model="name" @keyup.enter.native="failPassAgain()" placeholder="" clearable></el-input>
             </el-form-grid>
           </el-form-item>
           <el-form-item label="在线状态：">
