@@ -124,7 +124,7 @@
           </template>
         </el-table-column>
         <el-table-column :show-overflow-tooltip="true" type="default" align="center"
-                         label="有效时间" :sortable="false" >
+                         label="有效时间" :sortable="false" width='150px'>
           <template slot-scope="{row}">
             <div v-if="row.dateValidType == 0">
               <span>{{row.startTime}}</span><br>
