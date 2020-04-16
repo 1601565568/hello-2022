@@ -9,7 +9,7 @@
       <div class="margin-lr-small">
         <ElForm :rules="rules" ref="searchform" :model="model">
           <ElFormItem>
-            <div class="message-headling">网站地址：</div>
+            <div class="message-headling">跳转链接：</div>
           </ElFormItem>
           <ElFormItem label="链接：" label-width="100px">
             <el-form-grid size="xxmd">
@@ -21,10 +21,22 @@
               </el-form-item>
             </el-form-grid>
           </ElFormItem>
-          <ElFormItem label="网页地址：" v-if="linkSwitch===2" prop="url"  label-width="100px" >
+          <ElFormItem label="选择链接：" v-if="linkSwitch===1" prop="selectIndex"  label-width="100px" >
+            <el-form-grid size="md">
+              <el-select v-model="model.selectIndex" clearable placeholder="请选择" @change='systemPresetChange'>
+                <el-option v-for="item in presetLink"
+                           :key="item.id"
+                           :label="item.name"
+                           :value="item.id">
+                </el-option>
+              </el-select>
+            </el-form-grid>
+          </ElFormItem>
+          <ElFormItem label="网页地址：" prop="url"  label-width="100px" >
             <ElInput
-              type="text"
+              type="textarea"
               clearable
+              :disabled="model.selectIndex!=''"
               :input="model.url=model.url.replace(/(^\s*)|(\s*$)/g, '')"
               placeholder="请输入网页"
               v-model="model.url"
@@ -34,7 +46,7 @@
           </ElFormItem>
           <ElFormItem label="" v-if="linkSwitch===2" label-width="100px" >
             <ElFormGrid>
-              <ns-button type="text" @click="insertPlaceHolderToWeb('{groupId}')"> &lt;集团ID&gt; </ns-button>
+              <ns-button type="text"  @click="insertPlaceHolderToWeb('{groupId}')"> &lt;集团ID&gt; </ns-button>
             </ElFormGrid>
             <ElFormGrid>
               <ns-button type="text" @click="insertPlaceHolderToWeb('{chatId}')"> &lt;好友微信ID&gt; </ns-button>
@@ -43,19 +55,8 @@
               <ns-button type="text" @click="insertPlaceHolderToWeb('{wxId}')"> &lt;导购微信ID&gt; </ns-button>
             </ElFormGrid>
           </ElFormItem>
-          <ElFormItem label="选择链接：" v-if="linkSwitch===1" prop="selectIndex"  label-width="100px" >
-            <el-form-grid size="md">
-              <el-select v-model="model.selectIndex" clearable placeholder="请选择" @change='systemPresetChange'>
-                <el-option v-for="item in presetLink"
-                           :key="item.id"
-                           :label="item.title"
-                           :value="item.id">
-                </el-option>
-              </el-select>
-            </el-form-grid>
-          </ElFormItem>
           <ElFormItem>
-            <div class="message-headling">网站展示：</div>
+            <div class="message-headling">消息展示内容：</div>
           </ElFormItem>
           <ElFormItem label="标题：" prop="title" label-width="100px" >
             <ElInput
@@ -63,6 +64,7 @@
               maxlength='20'
               minlength='1'
               clearable
+              :disabled="model.selectIndex!=''"
               :input="model.title=model.title.replace(/(^\s*)|(\s*$)/g, '')"
               placeholder="请输入标题,长度在1-20个字符以内"
               v-model="model.title"
@@ -71,10 +73,11 @@
           </ElFormItem>
           <ElFormItem label="文案：" prop="description"  label-width="100px" >
             <ElInput
-              type="text"
+              type="textarea"
               maxlength='50'
               minlength='1'
               clearable
+              :disabled="model.selectIndex!=''"
               :input="model.description=model.description.replace(/(^\s*)|(\s*$)/g, '')"
               placeholder="请输入文案,长度在1-50个字符以内"
               v-model="model.description"
@@ -83,6 +86,7 @@
           </ElFormItem>
           <ElFormItem label="封面图：" prop="image"  label-width="100px" class="el-form-validate__box">
             <ElUpload
+              :disabled="model.selectIndex!=''"
               :action="this.$api.core.sgUploadFile('message')"
               :show-file-list="false"
               :on-success="handleAvatarSuccess"
@@ -90,6 +94,11 @@
               <img v-if="model.image" :src="model.image" class="message-upload__avatar">
               <Icon type="plus" className="message-upload__tip" v-else/>
             </ElUpload>
+          </ElFormItem>
+          <ElFormItem label-width="83px" v-if="model.selectIndex!=''">
+                <span class="text-primary">
+                  <Icon type="exclamation-circle"/>&nbsp;招募链接消息展示内容可在系统设置-招募设置-招募页面配置进行自定义编辑
+                </span>
           </ElFormItem>
         </ElForm>
       </div>
@@ -154,6 +163,7 @@ export default {
     },
     onRadio () {
       this.$refs.searchform.clearValidate()
+      this.model.selectIndex = ''
     },
     // 选择预置链接
     systemPresetChange (e) {

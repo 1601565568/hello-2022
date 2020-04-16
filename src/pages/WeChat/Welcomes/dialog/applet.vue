@@ -59,6 +59,11 @@
               <ns-button type="text" @click="insertPlaceHolderToWeb('{wxId}')"> &lt;导购微信ID&gt; </ns-button>
             </ElFormGrid>
           </ElFormItem>
+          <ElFormItem label-width="83px" v-if="model.selectIndex!=''">
+                <span class="text-primary">
+                  <Icon type="exclamation-circle"/>&nbsp;请确认小程序配置信息输入正确！
+                </span>
+          </ElFormItem>
           <ElFormItem>
             <div class="message-headling">小程序卡片展示：</div>
           </ElFormItem>
@@ -102,6 +107,24 @@ export default {
   },
   props: ['appletModel', 'dialogVisibleApplet'],
   data () {
+    var validateWoaId = (rule, value, callback) => {
+      debugger
+      let code = value.substring(0, 3)
+      if (code === 'gh_') {
+        callback()
+      } else {
+        callback(new Error('小程序原始ID不符合规范'))
+      }
+    }
+    var validateAappId = (rule, value, callback) => {
+      debugger
+      let code = value.substring(0, 2)
+      if (code === 'wx') {
+        callback()
+      } else {
+        callback(new Error('小程序AppId不符合规范'))
+      }
+    }
     return {
       model: {
         type: 'sendLittleProgram',
@@ -120,11 +143,13 @@ export default {
         ],
         weappid: [
           { required: true, message: '请输入小程序appId', trigger: 'blur' },
-          { min: 5, max: 30, message: '长度在5-30个字符以内', trigger: 'blur' }
+          { min: 5, max: 30, message: '长度在5-30个字符以内', trigger: 'blur' },
+          { required: true, validator: validateAappId, trigger: 'blur' }
         ],
         woaId: [
           { required: true, message: '请输入小程序原始Id', trigger: 'blur' },
-          { min: 5, max: 30, message: '长度在5-30个字符以内', trigger: 'blur' }
+          { min: 5, max: 30, message: '长度在5-30个字符以内', trigger: 'blur' },
+          { required: true, validator: validateWoaId, trigger: 'blur' }
         ],
         face: [
           { required: true, message: '请传入图片', trigger: 'blur' }
