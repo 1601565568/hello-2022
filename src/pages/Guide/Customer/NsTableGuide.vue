@@ -62,7 +62,9 @@
     <!-- el-form 需添加  @keyup.enter.native="onSearch" 配置，实现回车搜索， onSearch 为搜索方法 -->
     <!-- el-form 需添加  surround-btn 类名 配置环绕按钮效果 -->
     <template slot="advancedSearch" v-if="_data._queryConfig.expand">
-      <el-form ref="table_filter_form" :model="model" label-width="80px" :inline="true">
+      <el-form ref="table_filter_form" :model="model" label-width="80px" :inline="true"
+         class="surround-btn"
+         @keyup.enter.native="$searchAction$()">
 
         <el-form-item label="姓名：">
           <el-form-grid size="xmd">
@@ -73,12 +75,6 @@
         <el-form-item label="手机号：">
           <el-form-grid size="xmd">
             <el-input style="width:180px" autofocus=true v-model="model.mobile" placeholder="请输入手机号" clearable></el-input>
-          </el-form-grid>
-        </el-form-item>
-
-        <el-form-item label="昵称：">
-          <el-form-grid size="xmd">
-            <el-input style="width:180px" autofocus=true v-model="model.nick" placeholder="请输入昵称" clearable></el-input>
           </el-form-grid>
         </el-form-item>
 

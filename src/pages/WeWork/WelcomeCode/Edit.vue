@@ -355,23 +355,10 @@
           <el-radio v-model="linkModel.custom" :label="2" size="xxs">系统预置链接</el-radio>
         </el-form-item>
         <el-form-item
-          v-if="linkModel.custom === 1"
-          label="网页地址："
-          prop="link"
-          :rules="commonRules.link"
-          clearable
-          show-word-limit
-        >
-          <el-form-grid size="xxmd">
-            <el-input v-model.trim="linkModel.link" />
-          </el-form-grid>
-        </el-form-item>
-        <el-form-item
           v-if="linkModel.custom === 2"
           label="选择链接："
           prop="settingId"
           :rules="commonRules.selectOne"
-
         >
           <el-select v-model="linkModel.settingId" @change='systemPresetChange' placeholder="请选择">
             <el-option
@@ -383,10 +370,22 @@
             </el-option>
           </el-select>
         </el-form-item>
+        <el-form-item
+          label="网页地址："
+          prop="link"
+          :rules="commonRules.link"
+          clearable
+          show-word-limit
+        >
+          <el-form-grid size="xxmd">
+            <el-input :disabled='linkModel.custom === 2' v-model.trim="linkModel.link" />
+          </el-form-grid>
+        </el-form-item>
         <el-form-item label="消息展示内容：" class="code-title"> </el-form-item>
         <el-form-item label="标题：" prop="title" :rules="commonRules.title"  label-width="100px">
           <el-form-grid size="xxmd">
             <el-input
+              :disabled='linkModel.custom === 2'
               type="text"
               maxlength='20'
               minlength='1'
@@ -399,6 +398,7 @@
         <el-form-item label="文案：" prop="desc" :rules="commonRules.desc" label-width="100px">
           <el-form-grid size="xxmd">
             <el-input
+              :disabled='linkModel.custom === 2'
               type="text"
               maxlength='50'
               minlength='1'
@@ -411,6 +411,7 @@
         <el-form-item label="封面图：" prop="image" :rules="commonRules.image">
           <el-form-grid class="company-upload">
             <el-upload
+              :disabled='linkModel.custom === 2'
               class="avatar-uploader"
               :action="$api.core.sgUploadFile('test')"
               accept="image/jpeg,image/gif,image/png"
@@ -426,6 +427,17 @@
               <Icon v-else type="plus" className="company-upload__tip" />
             </el-upload>
           </el-form-grid>
+        </el-form-item>
+        <el-form-item v-show="linkModel.custom === 1">
+          <div class="text-secondary">请上传格式为jpg的图片，大小不超过20M</div><!-- 长宽比例为5:4, -->
+        </el-form-item>
+        <el-form-item v-show="linkModel.custom === 2">
+          <el-form-grid>
+              <span class="tmp-tips text-info">
+                <Icon type="info-circle" theme="filled" />
+              </span>
+              招募链接编辑位置为系统设置-招募设置-招募页面配置，<a @click="goRecruitSetting">去修改</a>
+            </el-form-grid>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -449,13 +461,7 @@
         placement="right"
         :model="appModel"
       >
-        <el-form-item label="跳转链接：" class="code-title"> </el-form-item>
-        <el-form-item prop="custom">
-          <el-radio v-model="appModel.custom" :label="1" size="xxs"
-            >手动录入小程序
-          </el-radio>
-          <!-- <el-radio v-model="appModel.custom" :label="2" size="xxs">系统预置小程序 </el-radio> -->
-        </el-form-item>
+        <el-form-item label="跳转小程序：" class="code-title"> </el-form-item>
         <template v-if="appModel.custom === 1">
           <el-form-item
             label="小程序appid："
@@ -473,6 +479,7 @@
                 v-model.trim="appModel.appid" />
             </el-form-grid>
           </el-form-item>
+          <!-- 请确认小程序配置信息输入正确！ 小程序原始id（gh_开头）、小程序aapid（wx开头）需正确，否则错误警告，提示文案为“输入格式错误”-->
           <el-form-item
             label="小程序路径："
             prop="path"
@@ -487,6 +494,13 @@
                 placeholder="请输入小程序路径,长度在1-255个字符以内"
                 show-word-limit
                 v-model.trim="appModel.path" />
+            </el-form-grid>
+          </el-form-item>
+          <el-form-item>
+            <el-form-grid>
+              <div class="tmp-tips text-info"><Icon type="info-circle" theme="filled" />
+                请确认小程序配置信息输入正确！
+              </div>
             </el-form-grid>
           </el-form-item>
         </template>
@@ -542,6 +556,7 @@
             </el-upload>
           </el-form-grid>
         </el-form-item>
+        <!-- “招募链接编辑位置为系统设置-招募设置-招募页面配置，去修改” -->
       </el-form>
       <div slot="footer" class="dialog-footer">
         <ns-button @click="onCloseAnnex(3), onCloseHandleModel(3)"
