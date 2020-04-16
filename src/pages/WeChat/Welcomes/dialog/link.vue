@@ -230,7 +230,6 @@ export default {
     }
   },
   mounted () {
-    debugger
     this.model = this.linkModel
   }
 }
