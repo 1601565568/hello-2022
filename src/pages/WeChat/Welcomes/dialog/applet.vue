@@ -108,7 +108,6 @@ export default {
   props: ['appletModel', 'dialogVisibleApplet'],
   data () {
     var validateWoaId = (rule, value, callback) => {
-      debugger
       let code = value.substring(0, 3)
       if (code === 'gh_') {
         callback()
@@ -117,7 +116,6 @@ export default {
       }
     }
     var validateAappId = (rule, value, callback) => {
-      debugger
       let code = value.substring(0, 2)
       if (code === 'wx') {
         callback()
