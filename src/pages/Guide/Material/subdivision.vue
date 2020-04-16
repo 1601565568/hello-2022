@@ -80,8 +80,8 @@
           </el-tooltip>
         </template>
         <template slot-scope="scope">
-          <i class='sort' :class="scope.$index?'topShow':'topHid'" @click='exchangeSort(1,scope.row.subdivision_id)'><Icon type="zhiding"/></i>
-          <i class='sort' :class="scope.$index?'topShow':'topHid'" @click='exchangeSort(2,scope.row.subdivision_id)'><Icon type="top-arr"/></i>
+          <i class='sort' :class="scope.sort?'topShow':'topHid'" @click='exchangeSort(1,scope.row.subdivision_id)'><Icon type="zhiding"/></i>
+          <i class='sort' :class="scope.sort?'topShow':'topHid'" @click='exchangeSort(2,scope.row.subdivision_id)'><Icon type="top-arr"/></i>
           <i class='sort' :class="scope.$index!==dataList.length-1?'topShow':'topHid'" @click='exchangeSort(3,scope.row.subdivision_id)'><Icon type="down-arr"/></i>
           <i class='sort' :class="scope.$index!==dataList.length-1?'topShow':'topHid'" @click='exchangeSort(4,scope.row.subdivision_id)'><Icon type="zhidi"/></i>
         </template>
@@ -106,7 +106,7 @@
       >
       <template slot-scope="scope">
         <ns-button @click="AddShowToggle(scope.row)" type="text">编辑</ns-button>
-        <a href="javascript:" @click="delsTipFun(scope.row.subdivision_id)">删除</a>
+        <ns-button type="text" @click="delsTipFun(scope.row.subdivision_id)">删除</ns-button>
       </template>
       </el-table-column>
     </el-table>
