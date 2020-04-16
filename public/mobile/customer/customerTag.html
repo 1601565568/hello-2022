@@ -352,7 +352,11 @@
                 }
               }
               if (tagged != ''){
-                html += '<div class="text-title customer_tag_date editDate_'+id+'">'+tagged+'</div>'
+                if (isMarkType){
+                  html += '<div class="text-title customer_tag_date editDate_'+id+'">'+tagged+'</div>'
+                }else {
+                  html += '<div class="text-title text-disable customer_tag_date editDate_'+id+'">'+tagged+'</div>'
+                }
               }else {
                 html += '<div class="text-title text-disable customer_tag_date editDate_'+id+'">请选择'+propertyInfo.name+'</div>'
               }
@@ -458,7 +462,11 @@
                 }
               }
               if (tagged != ''){
-                html += '<div class="text-title customer_tag_date editDate_'+id+'">'+tagged+'</div>'
+                if (isMarkType) {
+                  html += '<div class="text-title customer_tag_date editDate_' + id + '">' + tagged + '</div>'
+                }else {
+                  html += '<div class="text-title text-disable customer_tag_date editDate_' + id + '">' + tagged + '</div>'
+                }
               }else {
                 html += '<div class="text-title text-disable customer_tag_date editDate_'+id+'">请选择'+propertyInfo.name+'</div>'
               }
