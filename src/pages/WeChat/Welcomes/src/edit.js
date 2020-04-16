@@ -169,7 +169,6 @@ export default {
       await _this.$http.fetch(_this.$api.guide.sgPersonalQrcode.getDepartment, { plan: 2 }).then(resp => {
         if (resp.success && resp.result != null) {
           this.tree.selectData = JSON.parse(resp.result)
-          console.log('1.初始化员工树')
         } else {
           _this.$notify.error(getErrorMsg('获取员工数据失败', resp))
         }
@@ -210,7 +209,6 @@ export default {
             that.tree.selectKeys.push(value)
             keyMap[value] = 1
           })
-          console.log('2.封装已存在员工数据')
           that.tree.selectData.forEach(function (value, i) {
             value.children.forEach(function (value, i) {
               if (keyMap[value.id] === 1) {
