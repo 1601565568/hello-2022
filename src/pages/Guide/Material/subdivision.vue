@@ -70,12 +70,9 @@
       stripe
       style="width: 100%"
       >
-      <el-table-column label="序号" width="100">
-         <template slot-scope="scope">
-          {{scope.$index+1}}
-        </template>
+      <el-table-column label="序号" width="100" prop="sort">
       </el-table-column>
-      <el-table-column  width="200"  align="center">
+      <el-table-column  width="200" align="center">
         <template slot="header">
           排序
           <el-tooltip content="调整分类的排列顺序">
