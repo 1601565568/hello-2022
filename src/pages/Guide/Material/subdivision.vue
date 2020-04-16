@@ -70,7 +70,12 @@
       stripe
       style="width: 100%"
       >
-      <el-table-column label="序号" width="100" prop="sort">
+      <!-- <el-table-column label="序号" width="100" prop="sort">
+      </el-table-column> -->
+      <el-table-column label="序号" width="100">
+         <template slot-scope="scope">
+          {{scope.$index+1}}
+        </template>
       </el-table-column>
       <el-table-column  width="200" align="center">
         <template slot="header">
@@ -80,8 +85,8 @@
           </el-tooltip>
         </template>
         <template slot-scope="scope">
-          <i class='sort' :class="scope.sort?'topShow':'topHid'" @click='exchangeSort(1,scope.row.subdivision_id)'><Icon type="zhiding"/></i>
-          <i class='sort' :class="scope.sort?'topShow':'topHid'" @click='exchangeSort(2,scope.row.subdivision_id)'><Icon type="top-arr"/></i>
+          <i class='sort' :class="scope.$index?'topShow':'topHid'" @click='exchangeSort(1,scope.row.subdivision_id)'><Icon type="zhiding"/></i>
+          <i class='sort' :class="scope.$index?'topShow':'topHid'" @click='exchangeSort(2,scope.row.subdivision_id)'><Icon type="top-arr"/></i>
           <i class='sort' :class="scope.$index!==dataList.length-1?'topShow':'topHid'" @click='exchangeSort(3,scope.row.subdivision_id)'><Icon type="down-arr"/></i>
           <i class='sort' :class="scope.$index!==dataList.length-1?'topShow':'topHid'" @click='exchangeSort(4,scope.row.subdivision_id)'><Icon type="zhidi"/></i>
         </template>
