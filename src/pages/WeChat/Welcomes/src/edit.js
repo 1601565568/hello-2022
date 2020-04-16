@@ -45,7 +45,6 @@ export default {
     }
   },
   mounted () {
-    this.initEmpTree()
     this.initEdit({ welcomesId: this.$route.query.uuid })
     this.getSystemPresetLink()
   },
@@ -193,6 +192,7 @@ export default {
     async initEdit (data) {
       // 页面初始化时，加载页面数据
       let that = this
+      await this.initEmpTree()
       var keyMap = {}
       if (data.welcomesId) {
         that.$http.fetch(that.$api.weChat.welcomes.getWelcomeCode, { uuid: data.welcomesId }
