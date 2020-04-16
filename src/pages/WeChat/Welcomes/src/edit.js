@@ -45,6 +45,7 @@ export default {
     }
   },
   mounted () {
+    this.initEmpTree()
     this.initEdit({ welcomesId: this.$route.query.uuid })
     this.getSystemPresetLink()
   },
@@ -163,19 +164,16 @@ export default {
       this.$refs.selectTree.setCheckedNodes(nodes)
     },
     // 初始化员工树
-    initEmpTree: function () {
+    async initEmpTree () {
       let _this = this
-      _this.$http.fetch(_this.$api.guide.sgPersonalQrcode.getDepartment, { plan: 2 }).then(resp => {
+      await _this.$http.fetch(_this.$api.guide.sgPersonalQrcode.getDepartment, { plan: 2 }).then(resp => {
         if (resp.success && resp.result != null) {
           this.tree.selectData = JSON.parse(resp.result)
-          return true
         } else {
           _this.$notify.error(getErrorMsg('获取员工数据失败', resp))
-          return true
         }
       }).catch((resp) => {
         _this.$notify.error(getErrorMsg('获取员工数据失败', resp))
-        return true
       })
     },
     // 获取系统预置链接
@@ -195,7 +193,6 @@ export default {
     async initEdit (data) {
       // 页面初始化时，加载页面数据
       let that = this
-      var isOK = await this.initEmpTree()
       var keyMap = {}
       if (data.welcomesId) {
         that.$http.fetch(that.$api.weChat.welcomes.getWelcomeCode, { uuid: data.welcomesId }
