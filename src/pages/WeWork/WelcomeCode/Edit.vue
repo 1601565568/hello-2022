@@ -253,9 +253,11 @@
                               </div>
                               <!-- 右边图片加下flex-shrink:0, 上面的宽高去掉 -->
                               <el-image
-                                style="height: 100px"
+                                :width="46"
+                                :height="46"
+                                style="width: 46px; height: 46px"
                                 :src="model.image"
-                                 mode="cover"
+                                mode="fill"
                                 class="message-rightside"
                               >
                               </el-image><!-- mode="fill" contain cover none scale-down -->
