@@ -7,8 +7,11 @@
     <!--更换导购弹窗-->
     <el-dialog :title="title" :visible.sync="shopFindListShow" width="800px" @close="closeDialog">
       <!--  搜索开始  -->
+      <!-- el-form 需添加  @keyup.enter.native="onSearch" 配置，实现回车搜索， onSearch 为搜索方法 -->
+      <!-- el-form 需添加  surround-btn 类名 配置环绕按钮效果 -->
       <div class="search">
-        <el-form class="el_form" ref="table_filter_form" :model="model" label-width="60px" :inline="true">
+        <el-form class="el_form" ref="table_filter_form" :model="model" label-width="60px" :inline="true"
+          @keyup.enter.native="searchAction(model)">
           <el-form-item label="关键字：">
             <el-form-grid size="xmd">
               <el-input style="width:180px" autofocus=true v-model="model.name" placeholder="请输入账号/姓名/手机号" clearable></el-input>
@@ -16,7 +19,8 @@
           </el-form-item>
           <el-form-item label="所属门店：">
             <el-form-grid size="xmd">
-              <shop-select-load v-model="model.shop"
+              <shop-select-load ref="shopSelect"
+                                v-model="model.shop"
                                 :sameSystemShopId='sameSystemShopId'
                                 clearable/>
             </el-form-grid>
@@ -29,7 +33,9 @@
       </div>
       <!--  搜索结束  -->
       <!--  表格开始  -->
-      <el-table ref="table" :data="particularsObj" stripe @selection-change="guideChange">
+      <el-table ref="table" :data="particularsObj" stripe @selection-change="guideChange"
+        v-loading.lock="_data._table.loadingtable"
+        :element-loading-text="$t('prompt.loading')">
         <el-table-column width="25">
           <template slot-scope="scope">
             <div class="customerManage">

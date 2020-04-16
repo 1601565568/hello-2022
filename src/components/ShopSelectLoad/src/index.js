@@ -2,6 +2,9 @@ import { getErrorMsg } from '@/utils/toast'
 import shopApi from '@/apis/guide/shop'
 
 export default {
+  /**
+   * @msg: 下拉框勾选的门店Id
+   */
   model: {
     prop: 'shopId',
     event: 'change'
@@ -24,6 +27,9 @@ export default {
       type: Boolean,
       default: false
     },
+    /**
+     * @msg: 下拉选项门店列表
+     */
     insertList: {
       type: Array,
       default () {
@@ -48,6 +54,9 @@ export default {
         return true
       }
     },
+    /**
+     * @msg: 当前下拉组件查询的门店ID
+     */
     sameSystemShopId: {
       type: [String, Number],
       default () {
@@ -79,6 +88,9 @@ export default {
         this.remoteMethod('')
         // this.findShopPage(this.currentPage = 1)
       }
+    },
+    sameSystemShopId (newShopId, oldShopId) {
+      this.remoteMethod('')
     },
     value (newValue) {
       this.$emit('change', newValue)
