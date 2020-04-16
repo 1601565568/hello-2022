@@ -220,3 +220,8 @@ input::-webkit-input-placeholder {
 .input-disable {
   background: transparent;
 }
+
+/* 修改弹框确定按钮位置 */
+.rolldate-panel header .rolldate-confirm {
+  height: unset !important;
+}

@@ -92,6 +92,7 @@
   var tagcode = null      // 标签Id
   var tagName = null      // 标签名称
   var chooseTagType = null  // 选择标签类型
+  var currentId = null     //当前点击id
   //获取客户已打标签
   function getCustomerTag() {
     this.ajax(backstageURL() + '/guideCustomer/customerTag', {
@@ -351,13 +352,18 @@
                 }
               }
               if (tagged != ''){
-                html += '<div class="text-title customer_tag_date editDate_'+id+'">'+tagged+'</div>'
+                if (isMarkType){
+                  html += '<div class="text-title customer_tag_date editDate_'+id+'">'+tagged+'</div>'
+                }else {
+                  html += '<div class="text-title text-disable customer_tag_date editDate_'+id+'">'+tagged+'</div>'
+                }
               }else {
                 html += '<div class="text-title text-disable customer_tag_date editDate_'+id+'">请选择'+propertyInfo.name+'</div>'
               }
               html += '<div class="right-arrow"></div>'+
                       '</div>'+
                       '</div>'
+              html += "<div id='date_"+id+"'></div>"
             } else if (tagType == 6) {//单选框
               html =  '<div class="tag-details__item tag-details__item--smallSpace" tagAttr="'+propertyInfo.tagArr+'" tagType="'+tagType+'" tagName="'+propertyInfo.name+'">'
               if (isMarkType){
@@ -456,13 +462,18 @@
                 }
               }
               if (tagged != ''){
-                html += '<div class="text-title customer_tag_date editDate_'+id+'">'+tagged+'</div>'
+                if (isMarkType) {
+                  html += '<div class="text-title customer_tag_date editDate_' + id + '">' + tagged + '</div>'
+                }else {
+                  html += '<div class="text-title text-disable customer_tag_date editDate_' + id + '">' + tagged + '</div>'
+                }
               }else {
                 html += '<div class="text-title text-disable customer_tag_date editDate_'+id+'">请选择'+propertyInfo.name+'</div>'
               }
               html += '<div class="right-arrow"></div>'+
                 '</div>'+
                 '</div>'
+              html += "<div id='date_"+id+"'></div>"
             }
             $(".tag-details").append(html)
             // 编辑按钮
@@ -488,64 +499,63 @@
               $('#editDate_'+id).click(function () {
                 $("input").blur()
                 setTimeout(function (){
-                  var rolldate = new Rolldate({
-                    el: '#editDate_'+id,
-                    // 年月日 时分秒
-                    format: 'YYYY-MM-DD',
-                    beginYear: 2000,
-                    endYear: 2100,
-                    lang: {
-                      year: '',
-                      month: '',
-                      day: '',
-                      confirm: '确定',
-                      title: '日期'
-                    },
-                    confirm: function (date) {
-                      rolldate.hide()
-                      $(".editDate_"+id).html(date)
-                      $(".editDate_"+id).removeClass('text-disable')
-                      // $(".input_editDate_"+id)[0].value =  date
-                      return false
-                    }
-                  })
-                  setTimeout(function (){
-                    $("#editDate_"+id).trigger("click")
-                  }, 500);
-                }, 500);
+                  currentId = id
+                  rolldate.show();
+                }, 50);
+              })
+              var rolldate = new Rolldate({
+                el: '#date_'+id,
+                // 年月日 时分秒
+                format: 'YYYY-MM-DD',
+                beginYear: 2000,
+                endYear: 2100,
+                trigger:'tap',
+                lang: {
+                  year: '',
+                  month: '',
+                  day: '',
+                  confirm: '确定',
+                  title: '日期'
+                },
+                confirm: function (date) {
+                  rolldate.hide()
+                  $(".editDate_"+currentId).html(date)
+                  $(".editDate_"+currentId).removeClass('text-disable')
+                  // $(".input_editDate_"+id)[0].value =  date
+                  return false
+                }
               })
             }else if (tagType == 8) {
               $('#editDate_'+id).click(function () {
                 $("input").blur()
-                setTimeout(function () {
-                  var rolldate = new Rolldate({
-                    el: '#editDate_' + id,
-                    // 年月日 时分秒
-                    format: 'YYYY-MM-DD hh:mm:ss',
-                    beginYear: 2000,
-                    endYear: 2100,
-                    lang: {
-                      year: '',
-                      month: '',
-                      day: '',
-                      hour: '',
-                      min: '',
-                      sec: '',
-                      confirm: '确定',
-                      title: '时间'
-                    },
-                    confirm: function (date) {
-                      rolldate.hide()
-                      $(".editDate_" + id).html(date)
-                      $(".editDate_" + id).removeClass('text-disable')
-                      // $(".input_editDate_"+id)[0].value =  date
-                      return false
-                    }
-                  })
-                  setTimeout(function (){
-                    $("#editDate_"+id).trigger("click")
-                  }, 500);
-                }, 500);
+                setTimeout(function (){
+                  currentId = id
+                  rolldatetime.show();
+                }, 50);
+              })
+              var rolldatetime = new Rolldate({
+                el: '#date_' + id,
+                // 年月日 时分秒
+                format: 'YYYY-MM-DD hh:mm:ss',
+                beginYear: 2000,
+                endYear: 2100,
+                lang: {
+                  year: '',
+                  month: '',
+                  day: '',
+                  hour: '',
+                  min: '',
+                  sec: '',
+                  confirm: '确定',
+                  title: '时间'
+                },
+                confirm: function (date) {
+                  rolldatetime.hide()
+                  $(".editDate_" + currentId).html(date)
+                  $(".editDate_" + currentId).removeClass('text-disable')
+                  // $(".input_editDate_"+id)[0].value =  date
+                  return false
+                }
               })
             }
             if (tagType == 6){

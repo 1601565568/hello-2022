@@ -33,10 +33,34 @@
   position: relative;
   padding: 15px;
 }
+
+/* 修改页面的边框过粗问题 start */
 .tag-details .tag-details__item + .tag-details__item::before {
-  left: 0;
-  height: 0.5px;
+  height: unset;
+  position: unset;
+  background-color: unset;
 }
+.tag-details>div::after{
+  content:'';
+  width: 100%;
+  border-bottom: 1px solid #E8E8E8;
+  transform: scaleY(0.5);
+}
+.tag-details__item::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-bottom: 1px solid #E8E8E8;
+  -webkit-transform: scale(0.5,0.5);
+  transform: scale(0.5,0.5);
+  -webkit-transform-origin: top left;
+}
+.tag-details__item:first-child::after {
+  border-bottom: 0;
+}
+/* 修改页面的边框过粗问题 end */
+
 .tag-details__item--smallSpace {
   padding: 15px 5px 5px 10px !important;
 }
@@ -135,12 +159,53 @@ input::-webkit-input-placeholder {
 .rolldate-container .rolldate-btn {
   font-size: 16px !important;
 }
+
+/* 修改弹框的边框过粗问题 start */
+.float-layout__main .float-layout__title>div::after{
+  content:'';
+  width:100%;
+  border-bottom: 1px solid #E8E8E8;
+  transform: scaleY(0.5);
+}
+.float-layout__title>div::after {
+  content: '';
+  position: absolute;
+  top: 50px;
+  left: 0;
+  border-bottom: 1px solid #E8E8E8;
+  -webkit-transform: scale(0.5,0.5);
+  transform: scale(0.5,0.5);
+  -webkit-transform-origin: top left;
+}
+.float-layout__content {
+  border-top: 0 !important;
+}
 .float-select .float-select__item + .float-select__item::before {
+  height: 0;
   background-color: unset;
 }
-.float-select .float-select__item {
-  border-bottom: 0.5px solid #E8E8E8;
+.float-select>div::after{
+  content:'';
+  width: 100%;
+  border-bottom: 1px solid #E8E8E8;
+  transform: scaleY(0.5);
 }
-.float-select .float-select__item:last-child {
+.float-select__item::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-bottom: 1px solid #E8E8E8;
+  -webkit-transform: scale(0.5,0.5);
+  transform: scale(0.5,0.5);
+  -webkit-transform-origin: top left;
+}
+.float-select__item:first-child::after {
   border-bottom: 0;
+}
+/* 修改弹框的边框过粗问题 start */
+
+/* 修改弹框确定按钮位置 */
+.rolldate-panel header .rolldate-confirm {
+  height: unset !important;
 }
