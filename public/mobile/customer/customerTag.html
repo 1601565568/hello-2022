@@ -738,24 +738,6 @@
     }
     return null
   }
-
-  var rolldate = new Rolldate({
-    el: '#editDate',
-    format: 'YYYY-MM-DD',
-    beginYear: 2000,
-    endYear: 2100,
-    lang: {
-      year: '',
-      month: '',
-      day: '',
-      confirm: '保存',
-      title: '标题'
-    },
-    confirm: function (date) {
-      rolldate.hide()
-      return false
-    }
-  })
 </script>
 </body>
 </html>
