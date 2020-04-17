@@ -171,7 +171,6 @@ export default {
       this.model.description = ''
     },
     initRadio (type) {
-      debugger
       this.linkSwitch = type
     },
     // 选择预置链接
