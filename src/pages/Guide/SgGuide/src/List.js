@@ -87,7 +87,8 @@ export default {
             image: row.image,
             job: row.job,
             shop_id: row.shop_id,
-            remark: row.remark
+            remark: row.remark,
+            work_id: row.work_id
           }
           this.dialogFormVisible = true
         }
