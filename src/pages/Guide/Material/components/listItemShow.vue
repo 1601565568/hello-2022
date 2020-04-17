@@ -19,7 +19,13 @@
     </el-dialog>
     <!--素材内容-->
     <div class="picBox" v-if="itemObj.m_type === 1">
-      <div class="tit">{{itemObj.content.length>77?itemObj.content.substr(0,77)+'…':itemObj.content.substr(0,77)}}</div>
+      <template>
+        <el-tooltip placement="top-start">
+          <div slot="content">{{ itemObj.content }}</div>
+          <div class="tit">{{itemObj.content.length>77?itemObj.content.substr(0,77)+'…':itemObj.content.substr(0,77)}}</div>
+        </el-tooltip>
+      </template>
+      <!-- <div class="tit">{{itemObj.content.length>77?itemObj.content.substr(0,77)+'…':itemObj.content.substr(0,77)}}</div> -->
       <ul class="imgList">
         <li v-for="(item,index) in itemObj.imageList.slice(0,3)" :key="index">
           <div class="figurelist clearfix">
@@ -36,10 +42,20 @@
         </li>
       </ul>
     </div>
-    <div class='line2' style='-webkit-box-orient: vertical;' v-if="itemObj.m_type === 0">{{itemObj.content.length>77?itemObj.content.substr(0,70)+'…':itemObj.content.substr(0,70)}}</div>
+    <template  v-if="itemObj.m_type === 0">
+      <el-tooltip placement="top-start">
+        <div slot="content">{{ itemObj.content }}</div>
+        <div class="tit" style='-webkit-box-orient: vertical;'>{{itemObj.content.length>77?itemObj.content.substr(0,70)+'…':itemObj.content.substr(0,70)}}</div>
+      </el-tooltip>
+    </template>
     <a :href="itemObj.url" target="_blank" class="shareBox" v-if="itemObj.m_type === 0">
       <img :src="itemObj.imageList[0]" alt="">
-      <div class="tit">{{itemObj.title.length>77?itemObj.title.substr(0,70)+'…':itemObj.title.substr(0,70)}}</div>
+      <template>
+        <el-tooltip placement="top">
+          <div slot="content">{{ itemObj.title }}</div>
+          <div class="tit">{{itemObj.title.length>77?itemObj.title.substr(0,70)+'…':itemObj.title.substr(0,70)}}</div>
+        </el-tooltip>
+      </template>
     </a>
   </div>
 </template>
