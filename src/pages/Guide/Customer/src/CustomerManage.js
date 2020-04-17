@@ -290,9 +290,11 @@ export default {
       if (numbers.test(model)) {
         obj.length = model
       }
+      that._data._table.loadingtable = true
       await this.$http
         .fetch(that.$api.guide.guide.findShopGuide, obj)
         .then(resp => {
+          that._data._table.loadingtable = false
           that.particularsObj = [...resp.result.data]
           that.pagination.total = Number(resp.result.recordsTotal)
           that.particularsObj.map((item, i) => {
@@ -302,7 +304,7 @@ export default {
           })
           that.shopList = new Set(that.shopList)
           that.shopList = Array.from(that.shopList)
-        }).catch(resp => {})
+        }).catch(resp => { that._data._table.loadingtable = false })
     },
     onKeyUp (e) {
       var key = window.event.keyCode
@@ -371,7 +373,6 @@ export default {
           _this.shopFindListShow = true
           let shopId = this.sameSystemShopId
           _this.guideFindList({ sameSystemShopId: shopId })
-          // _this.findBrandShopList({ sameSystemShopId: shopId })
         } else {
           _this.$notify.error('请选择要更换导购的会员')
         }

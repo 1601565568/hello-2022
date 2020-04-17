@@ -136,10 +136,21 @@ export default {
     },
     totalForUnconditionalSearch (data) {
       var _this = this
-      _this.$http.fetch(_this.$api.guide.guide.findCustomerTotal,
-        { shopId: _this.offLineShopId }).then(resp => {
+      let isShop = false
+      let param = {
+        shopId: _this.offLineShopId
+      }
+      // 代表门店
+      if (data.parentId === '0') {
+        isShop = true
+      } else {
+        // 专属导购
+        param.guideId = data.id
+      }
+      _this.$http.fetch(_this.$api.guide.guide.findCustomerTotal, param).then(resp => {
         if (resp.success && resp.result !== null) {
-          if (this.totalNumTrige) {
+          // 遍历门店.asd
+          if (isShop && this.totalNumTrige) {
             for (let nodeIndex in this.$refs.guideTree.children) {
               let node = this.$refs.guideTree.children[nodeIndex]
               let index = node.label.lastIndexOf(this.totalNumTrige)
@@ -150,11 +161,14 @@ export default {
           }
           // 显示 total
           var showLabel = data.label
-          if (showLabel.indexOf('(') !== -1) {
+          if (showLabel.indexOf('(') !== -1 && showLabel.indexOf(')') !== -1) {
             showLabel = showLabel.substring(0, showLabel.indexOf('('))
           }
-          this.totalNumTrige = '(' + resp.result.total + ')'
-          data.label = showLabel + this.totalNumTrige
+          let addLabel = '(' + resp.result.total + ')'
+          if (isShop) {
+            this.totalNumTrige = addLabel
+          }
+          data.label = showLabel + addLabel
         }
       }).catch((resp) => {
         _this.$notify.error(getErrorMsg('统计门店客户总数失败', resp))
