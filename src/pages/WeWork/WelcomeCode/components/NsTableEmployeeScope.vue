@@ -3,7 +3,7 @@
  * @Author: yuye.huang
  * @Date: 2020-03-02 09:38:22
  * @LastEditors: yuye.huang
- * @LastEditTime: 2020-04-15 16:41:20
+ * @LastEditTime: 2020-04-17 11:20:30
  -->
 <template>
   <!-- <el-dialog ref="dialog" title="使用员工" width="660px"
@@ -19,7 +19,7 @@
         >
           <el-form-item>
             <el-input ref="quickText" style="width: 180px; margin-right:5px" v-model="model.employeeName" placeholder="请输入员工姓名" @keyup.enter.native="$quickSearchAction$('employeeName')" clearable />
-            <ns-button type="primary" @click="$quickSearchAction$('employeeName')" class="searchbtn">搜索</ns-button>
+            <ns-button type="primary" @click="$quickSearchAction$('employeeName')" class="searchbtn" style="margin-right:5px">搜索</ns-button>
           </el-form-item>
         </el-form>
       </template>

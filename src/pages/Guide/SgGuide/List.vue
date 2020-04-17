@@ -79,7 +79,7 @@
         <div class="detail-rightside">
           <el-image
             :width="84" :height="84"
-            :src="sgGuide.image"
+            :src="sgGuide.image ? sgGuide.image : require('@/icons/fill/shangjiatouxiang.svg')"
             mode="cover" :circle="true" class="detail-rightside__img"></el-image>
         </div>
       </div>

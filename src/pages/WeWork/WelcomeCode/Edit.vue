@@ -351,8 +351,10 @@
       >
         <el-form-item label="跳转链接：" class="code-title"> </el-form-item>
         <el-form-item label="链接：" prop="custom" label-width="100px">
-          <el-radio v-model="linkModel.custom" :label="1" size="xxs">自定义链接</el-radio>
-          <el-radio v-model="linkModel.custom" :label="2" size="xxs">系统预置链接</el-radio>
+          <el-radio-group v-model="linkModel.custom" @change="linkRadioChange">
+            <el-radio :label="1" size="xxs">自定义链接</el-radio>
+            <el-radio :label="2" size="xxs">系统预置链接</el-radio>
+          </el-radio-group>
         </el-form-item>
         <el-form-item
           v-if="linkModel.custom === 2"
@@ -436,7 +438,7 @@
               <span class="tmp-tips text-info">
                 <Icon type="info-circle" theme="filled" />
               </span>
-              招募链接编辑位置为系统设置-招募设置-招募页面配置，<a @click="goRecruitSetting">去修改</a>
+              招募链接编辑位置为系统设置-招募设置-招募页面配置
             </el-form-grid>
         </el-form-item>
       </el-form>

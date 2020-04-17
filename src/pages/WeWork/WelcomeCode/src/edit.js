@@ -534,10 +534,18 @@ export default {
       })
     },
     /**
-     * @msg: 招募设置页面
+     * @msg: 切换radio重置
      */
-    goRecruitSetting () {
-      this.$router.push({ path: '/Guide/RecruitSet/RecruitPageConfig' })
+    linkRadioChange (val) {
+      this.linkModel = {
+        visible: true,
+        custom: val,
+        settingId: null, // 预置配置ID
+        link: '', // 链接
+        title: '',
+        desc: '', // 文案
+        image: ''
+      }
     },
     /**
      * @msg: 页面初始化时的数据加载函数
