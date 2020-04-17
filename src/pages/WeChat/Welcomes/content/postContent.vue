@@ -115,7 +115,7 @@
     <!-- 视频弹框 end -->
 
     <!-- 链接弹框 start -->
-    <linkDialog @addWeb="addWeb"  @close="close" :presetLink="presetLink" :dialogVisibleWeb="dialogVisibleWeb" :linkModel="linkModel"/>
+    <linkDialog ref="linkDialog" @addWeb="addWeb"  @close="close" :presetLink="presetLink" :dialogVisibleWeb="dialogVisibleWeb" :linkModel="linkModel"/>
     <!-- 链接弹框 end -->
 
     <!-- 小程序弹框 start -->
@@ -241,7 +241,7 @@ export default {
         this.openApplet(object)
       }
     },
-    // 编辑模板
+    // 关闭编辑模板
     close (type) {
       if (type === 'text') {
         this.dialogVisibleText = false
@@ -382,6 +382,7 @@ export default {
         this.linkModel.selectIndex = object.selectIndex
         this.linkModel.linkSwitch = object.linkSwitch
       }
+      this.$refs.linkDialog.initRadio(this.linkModel.linkSwitch)
     },
     // 添加链接 type=4
     addWeb (model) {

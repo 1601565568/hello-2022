@@ -170,6 +170,9 @@ export default {
       this.model.title = ''
       this.model.description = ''
     },
+    initRadio (type) {
+      this.linkSwitch = type
+    },
     // 选择预置链接
     systemPresetChange (e) {
       var _this = this
