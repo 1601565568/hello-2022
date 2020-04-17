@@ -84,11 +84,12 @@
             <Icon type="question-circle"/>
           </el-tooltip>
         </template>
+        <!-- 末位不能往下和置底，首位不能往上和置顶； 删除，新增，要重新加载MaxSort -->
         <template slot-scope="scope">
-          <i class='sort' :class="scope.$index?'topShow':'topHid'" @click='exchangeSort(1,scope.row.subdivision_id)'><Icon type="zhiding"/></i>
-          <i class='sort' :class="scope.$index?'topShow':'topHid'" @click='exchangeSort(2,scope.row.subdivision_id)'><Icon type="top-arr"/></i>
-          <i class='sort' :class="scope.$index!==dataList.length-1?'topShow':'topHid'" @click='exchangeSort(3,scope.row.subdivision_id)'><Icon type="down-arr"/></i>
-          <i class='sort' :class="scope.$index!==dataList.length-1?'topShow':'topHid'" @click='exchangeSort(4,scope.row.subdivision_id)'><Icon type="zhidi"/></i>
+          <i class='sort' :class="scope.row.sort !== 1?'topShow':'topHid'" @click='exchangeSort(1,scope.row.subdivision_id)'><Icon type="zhiding"/></i>
+          <i class='sort' :class="scope.row.sort !== 1?'topShow':'topHid'" @click='exchangeSort(2,scope.row.subdivision_id)'><Icon type="top-arr"/></i>
+          <i class='sort' :class="scope.row.sort !== maxSortNum ?'topShow':'topHid'" @click='exchangeSort(3,scope.row.subdivision_id)'><Icon type="down-arr"/></i>
+          <i class='sort' :class="scope.$index !== maxSortNum ?'topShow':'topHid'" @click='exchangeSort(4,scope.row.subdivision_id)'><Icon type="zhidi"/></i>
         </template>
       </el-table-column>
 
@@ -147,6 +148,7 @@ export default {
         subdivision_name: null,
         time: []
       },
+      maxSort: 0,
       dataList: [],
       pickerOptions: {
         shortcuts: [
@@ -184,11 +186,26 @@ export default {
   created: function () {
     this.loadListFun()
   },
-
   methods: {
+    /**
+     * @msg: 获取素材分组最大排序序号
+     * @return: maxSortNum
+     */
+    getSubdivisionMaxSortNum () {
+      this.$http
+        .fetch(this.$api.guide.materialSubdivision.getSubdivisionMaxSortNum)
+        .then(resp => {
+          this.maxSortNum = resp.result.data
+        })
+        .catch(resp => {
+          this.$notify.error(getErrorMsg('查询最大排序序号失败', resp))
+        })
+    },
     // 加载列表
     async loadListFun (data) {
       this.loading = true
+      // 获取素材分组最大排序序号
+      this.getSubdivisionMaxSortNum()
       let searchObj = data || this.searchObj
       await this.$http
         .fetch(this.$api.guide.materialGroudList, searchObj)
