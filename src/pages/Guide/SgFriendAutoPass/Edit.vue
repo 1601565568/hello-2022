@@ -23,11 +23,11 @@
             </el-form-item>
             <el-form-item label="通过时间间隔：" required>
               <el-form-grid style="width: 80px">
-                <el-input  autofocus=true v-model="friendAutoPass.mininterval" onkeyup="this.value=this.value.replace(/\D|^0/g,'')" onafterpaste="this.value=this.value.replace(/\D|^0/g,'')" placeholder="" clearable></el-input>
+                <el-input  autofocus=true type="n" v-model.number="friendAutoPass.mininterval" onkeyup="this.value=this.value.replace(/\D|^0/g,'')" onafterpaste="this.value=this.value.replace(/\D|^0/g,'')" placeholder="" clearable></el-input>
               </el-form-grid>
               --
               <el-form-grid style="width: 80px">
-                <el-input  autofocus=true v-model="friendAutoPass.maxinterval" onkeyup="this.value=this.value.replace(/\D|^0/g,'')" onafterpaste="this.value=this.value.replace(/\D|^0/g,'')" placeholder="" clearable></el-input>
+                <el-input  autofocus=true v-model.number="friendAutoPass.maxinterval" onkeyup="this.value=this.value.replace(/\D|^0/g,'')" onafterpaste="this.value=this.value.replace(/\D|^0/g,'')" placeholder="" clearable></el-input>
               </el-form-grid>
               秒
             </el-form-item>
