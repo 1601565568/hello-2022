@@ -817,7 +817,9 @@ export default {
       let obj = {
         nick: null,
         nickType: null,
-        customerFrom: null
+        customerFrom: null,
+        sgExclusiveGuideId: null, // 增加原导购ID sgExclusiveShopId 、sgExclusiveGuideId | name 也有
+        sgExclusiveShopId: null
       }
       if (_this.value !== null) {
         _this.customerIdList = []
@@ -825,7 +827,8 @@ export default {
           let nick = {}
           obj.nick = item.outNick
           obj.platform = this.changePlatform(item.platform)
-          // obj.customerFrom = Number(item.customerFrom)
+          obj.guideId = item.sgExclusiveGuideId
+          obj.sgExclusiveShopId = item.sgExclusiveShopId
           nick = Object.assign({}, obj)
           _this.customerIdList.push(nick)
         })
