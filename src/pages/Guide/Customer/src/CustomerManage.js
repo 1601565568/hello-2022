@@ -827,7 +827,7 @@ export default {
           let nick = {}
           obj.nick = item.outNick
           obj.platform = this.changePlatform(item.platform)
-          obj.guideId = item.sgExclusiveGuideId
+          obj.sgExclusiveGuideId = item.sgExclusiveGuideId
           obj.sgExclusiveShopId = item.sgExclusiveShopId
           nick = Object.assign({}, obj)
           _this.customerIdList.push(nick)
