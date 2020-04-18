@@ -80,7 +80,7 @@
         </div>
       </div>
       <div slot="footer" class="dialog-footer">
-        <ns-button @click="closeFun">关闭</ns-button>
+        <ns-button @click="closeFun">取消</ns-button>
         <ns-button  type="primary" @click="okFun">确定</ns-button>
       </div>
   </el-dialog>
@@ -223,10 +223,20 @@ export default {
     },
     // 取消选择
     toggleSelection (rows) {
+      var that = this
       if (rows) {
-        rows.forEach(row => {
-          this.$refs.shopTable.toggleRowSelection(row)
-        })
+        for (let i = 0; i < this.multipleSelection.length; i++) {
+          rows.forEach(row => {
+            if (row.id === that.multipleSelection[i].id) {
+              that.multipleSelection.splice(i, 1)
+            }
+            that.dataList.forEach(data => {
+              if (row.id === data.id) {
+                that.$refs.shopTable.toggleRowSelection(data, false)
+              }
+            })
+          })
+        }
       } else {
         this.$refs.shopTable.clearSelection()
       }
