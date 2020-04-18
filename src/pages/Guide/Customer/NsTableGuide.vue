@@ -36,7 +36,7 @@
 
     <!-- 简单搜索 -->
     <!-- el-form 需添加 @submit.native.prevent 配置 -->
-    <!-- el-inpu 需添加  @keyup.enter.native="$quickSearchAction$" 配置，实现回车搜索 -->
+    <!-- el-inpu 需添加 @keyup.enter.native="$quickSearchAction$" 配置，实现回车搜索 -->
     <template slot="searchSearch">
       <el-form :model="quickSearchModel" :inline="true" @submit.native.prevent  class="pull-right">
         <el-form-item v-show="_data._queryConfig.expand === false" label="手机号：">
@@ -123,7 +123,9 @@
       <!-- 手机号 :width="120" -->
       <!-- 操作（只有一项文字的80px,两项文字120px,三项文字160px） -->
 
-      <el-table ref="table" :data="_data._table.data" stripe @selection-change="handleSelectionChange" v-loading="loading">
+      <el-table ref="table" :data="_data._table.data" stripe @selection-change="handleSelectionChange" 
+        v-loading.lock="_data._table.loadingtable"
+        :element-loading-text="$t('prompt.loading')">
         <el-table-column type="selection" align="center" :width="50"></el-table-column>
         <el-table-column prop="outNick" label="姓名" align="left">
           <template slot-scope="scope">
