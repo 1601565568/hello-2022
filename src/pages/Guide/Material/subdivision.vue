@@ -145,7 +145,7 @@ export default {
         subdivision_name: null,
         time: []
       },
-      maxSort: 0,
+      maxSortNum: 0,
       dataList: [],
       pickerOptions: {
         shortcuts: [
@@ -192,7 +192,7 @@ export default {
       this.$http
         .fetch(this.$api.guide.materialSubdivision.getSubdivisionMaxSortNum)
         .then(resp => {
-          this.maxSortNum = parseInt(resp.result.data)
+          this.maxSortNum = parseInt(resp.result)
         })
         .catch(resp => {
           this.$notify.error(getErrorMsg('查询最大排序序号失败', resp))
