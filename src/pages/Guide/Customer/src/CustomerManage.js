@@ -537,6 +537,8 @@ export default {
       _this.findCustomerList()
     },
     closeDialog () {
+      // 清空选中目标导购对象
+      this.value = null
       this.shopFindListShow = false
       this.radio = null
       this.model.name = null
