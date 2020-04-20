@@ -34,10 +34,13 @@
       <ns-page-table @synchronousStores="$emit('synchronousStores')" @showShop="$emit('showShop')"
                      @dimission="$emit('dimission')" @allDelete="$emit('allDelete')" @shopEdit="$emit('shopEdit')">
         <!-- 按钮 -->
-        <!--<template slot="buttons">
-          <ns-table-operate-button :buttons="_data._table.table_buttons">
-          </ns-table-operate-button>
-        </template>-->
+        <template slot="buttons">
+            <div class="template-table-buttons">
+              <div class="el-form-grid">
+                <ns-button type="primary" :disabled="select" @click="downloadQrod">批量下载招募码</ns-button>
+              </div>
+            </div>
+        </template>
         <!-- 按钮-结束 -->
 
         <!-- 简单搜索 -->
@@ -132,7 +135,9 @@
           <!-- 手机号 :width="120" -->
           <!-- 操作（只有一项文字的80px,两项文字120px,三项文字160px） -->
           <el-scrollbar ref="fullScreen">
-          <el-table ref="table" :data="_data._table.data" stripe>
+          <el-table ref="table" @selection-change="handleSelectionChange" :data="_data._table.data" stripe>
+            <el-table-column type="selection" :selectable="selectable" align="center" :width="50">
+            </el-table-column>
             <el-table-column prop="shopName" label="线下门店名称&ID" align="left" width="150">
               <template slot-scope="scope">
                 {{scope.row.shopName || '-'}}

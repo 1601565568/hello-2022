@@ -147,6 +147,7 @@ export default {
       dataList: [
         {
           id: 0,
+          size: 8,
           introduce: {
             size: '小尺寸：适用于屏幕类、宣传册等',
             distance: '边长约8cm，最佳扫码距离0.5m'
@@ -154,6 +155,7 @@ export default {
         },
         {
           id: 1,
+          size: 15,
           introduce: {
             size: '中尺寸：适用于海报、展架等',
             distance: '边长约15cm，最佳扫码距离1m'
@@ -161,6 +163,7 @@ export default {
         },
         {
           id: 2,
+          size: 50,
           introduce: {
             size: '大尺寸：适用于幕布、大型广告等',
             distance: '边长约50cm，最佳扫码距离2.5m'
@@ -168,6 +171,8 @@ export default {
         }
       ],
       checked: true,
+      batchDownLoad: false,
+      batchShopIds: '',
       subordinateStores: [],
       showUpdateAllGuidePrefix: false,
       disabledWorkPrefix: true,
@@ -175,6 +180,7 @@ export default {
       title: '',
       transferWay: '1',
       url: api.API_ROOT + '/guide/ehd/getShopRecruitmentQrcode?codeType=',
+      batchUrl: api.API_ROOT + '/guide/ehd/batchDownloadShopRecruitmentQrcode?codeType=',
       // url: 'http://47.96.228.119:8089/guide/ehd/getShopRecruitmentQrcode?codeType=0&'+shopId=1001267+'&size=1',
       brandId: null,
       memberBelongingShows: false,
@@ -503,7 +509,15 @@ export default {
       let _this = this
       _this.succeedObj.shopId = row.id
       _this.memberBelongingShow = true
+      _this.batchDownLoad = false
       _this.title = '下载招募码'
+    },
+    batchElIconMenu (row) {
+      let _this = this
+      _this.batchShopIds = row
+      _this.memberBelongingShow = true
+      _this.batchDownLoad = true
+      _this.title = '批量下载招募码'
     },
     scopeRowCount (data) {
       this.scopeRowCountShow = true
