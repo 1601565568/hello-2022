@@ -23,7 +23,9 @@ export default {
         'func': function () {
           this.$emit('synchronousStores')
         },
-        'name': '同步门店'
+        'name': '批量下载招募码',
+        'code': true,
+        'auth': false
       }
     ]
     const operateButtons = [
@@ -95,6 +97,7 @@ export default {
       _queryConfig: { expand: false },
       multipleSelection: [],
       select: true,
+      selectedArr: [],
       digitalShopList: [],
       digitalShopListLength: [],
       offsetHeight: false,
@@ -172,6 +175,14 @@ export default {
         .catch(resp => {
           this.$notify.error(getErrorMsg('查询失败', resp))
         })
+    },
+    // 复选框
+    selectable (row, index) {
+      if (row.shopStatus === 1 || row.shopStatus === -1) {
+        return true
+      } else {
+        return false
+      }
     },
     onClickNode (data) {
       // 重置所有参数
@@ -279,8 +290,24 @@ export default {
       })
       return retVal
     },
+    // 选择门店
     handleSelectionChange (val) {
-      this.$emit('handleSelectionChange', val)
+      this.selectedArr = val
+      val.length > 0 ? this.select = false : this.select = true
+    },
+    // 批量下载门店二维码
+    downloadQrod () {
+      if (this.selectedArr.length < 1) {
+        this.$notify.error('请选择门店')
+        return
+      }
+      let shopId = []
+      this.selectedArr.forEach(shop => {
+        if (shop.id !== '' && shop.id != null) {
+          shopId.push(shop.id)
+        }
+      })
+      this.$emit('batchElIconMenu', shopId.join(','))
     },
     onRedactFun (val) {
       this.$emit('onRedactFun', val)

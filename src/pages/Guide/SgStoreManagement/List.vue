@@ -1,7 +1,7 @@
 <template>
   <div>
     <ns-table-guide ref="table" :url=$api.guide.guide.findShopListOnCondition @synchronousStores="onRedactFun" @scopeRowCount="scopeRowCount"
-        @elIconMenu="elIconMenu" @shopEdit="shopEdit" @allDelete="allDelete" @dimission="dimission" @showShop="showShop" @onDelsTipFun="onDelsTipFun" @onRedactFun="onRedactFun" @handleSelectionChange="handleSelectionChange">
+        @elIconMenu="elIconMenu" @batchElIconMenu="batchElIconMenu" @shopEdit="shopEdit" @allDelete="allDelete" @dimission="dimission" @showShop="showShop" @onDelsTipFun="onDelsTipFun" @onRedactFun="onRedactFun" @handleSelectionChange="handleSelectionChange">
     </ns-table-guide>
     <!-- 下载门店招募码开始 -->
     <el-dialog :title="title"  :visible.sync="memberBelongingShow" width="750px" >
@@ -17,6 +17,9 @@
             </span>
           </div>
           <div>勾选此选项，则下载为微信公众号二维码；否则，下载为会员开卡二维码。</div>
+          <span v-if="batchDownLoad" class="text-primary">
+            <Icon type="exclamation-circle"/>&nbsp;未关联VIP体系的门店，不会下载门店招募码
+          </span>
         </div>
       </div>
       <div>
@@ -45,11 +48,20 @@
             </template>
             <template slot-scope="scope">
               <div v-if="checked" :fixScopeBug="scope.testId">
-                <a :href="url+0+'&shopId='+succeedObj.shopId+'&size='+0">
-                  <i class="download">
-                    <Icon type="xiazai"/>
-                  </i>
-                </a>
+                <div v-if="!batchDownLoad">
+                  <a :href="url+0+'&shopId='+succeedObj.shopId+'&size='+ scope.row.size">
+                    <i class="download">
+                      <Icon type="xiazai"/>
+                    </i>
+                  </a>
+                </div>
+                <div v-if="batchDownLoad">
+                  <a :href="batchUrl+0+'&shopId='+succeedObj.shopId+'&size='+ scope.row.size+'&shopIds='+ batchShopIds">
+                    <i class="download">
+                      <Icon type="xiazai"/>
+                    </i>
+                  </a>
+                </div>
               </div>
               <div v-else>
                 <i class="download text-secondary">
@@ -64,7 +76,7 @@
                 <span>{{header.column.label}}</span>
                  <el-popover placement="bottom" trigger="click">
                     <div>
-                         <img src="../../../assets/xiaochengxu.png" class="photosize">
+                         <img src="../../../assets/putongerweima.png" class="photosize">
                       </div>
                     <Icon type="question-circle" slot="reference"/>
                   </el-popover>
@@ -72,9 +84,18 @@
             </template>
             <template slot-scope="scope">
               <div v-if="!checked" :fixScopeBug="scope.testId">
-                <a :href="url+1+'&shopId='+succeedObj.shopId+'&size='+0">
-                  <i class="download"><Icon type="xiazai"/></i>
-                </a>
+                <div v-if="!batchDownLoad">
+                  <a :href="url+1+'&shopId='+succeedObj.shopId+'&size='+ scope.row.size">
+                    <i class="download"><Icon type="xiazai"/></i>
+                  </a>
+                </div>
+                <div v-else>
+                  <a :href="batchUrl+0+'&shopId='+succeedObj.shopId+'&size='+ scope.row.size+'&shopIds='+ batchShopIds">
+                    <i class="download">
+                      <Icon type="xiazai"/>
+                    </i>
+                  </a>
+                </div>
               </div>
               <div v-else>
                 <i class="download text-secondary" >
