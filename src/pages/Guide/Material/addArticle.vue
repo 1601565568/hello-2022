@@ -74,7 +74,7 @@
               <ns-button size="small" type="text">{{saveObj.imageList[0] ? '修改封面图' : '添加封面图'}}</ns-button>
               <span>（建议尺寸：800*800）</span>
             </el-upload></p>
-          <el-form-item  prop="subdivisionId" label="所属分组：" style='margin-top:20px' label-width="70px">
+          <el-form-item  prop="subdivisionId" label="所属分组：" style='margin-top:20px' label-width="75px">
             <el-select v-model="saveObj.subdivisionId" placeholder="请选择" clearable>
                     <el-option v-for="item in groudList"
                         :key="item.subdivision_id"
