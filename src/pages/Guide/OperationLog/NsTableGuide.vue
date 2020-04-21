@@ -144,7 +144,9 @@
           <el-table-column prop="moduleName" label="功能板块" align="left" width="120"></el-table-column>
           <el-table-column prop="shopName" label="门店" align="left">
             <template slot-scope="scope">
-              {{scope.row.shopName || '-'}}
+              <span style="text-overflow:ellipsis; overflow: hidden; white-space: nowrap;}" :title="scope.row.shopName">
+                {{scope.row.shopName || '-'}}
+              </span>
             </template>
           </el-table-column>
           <el-table-column prop='operatorName' label="操作人" align="left" width="180">
