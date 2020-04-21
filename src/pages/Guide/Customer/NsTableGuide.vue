@@ -127,9 +127,9 @@
         v-loading.lock="_data._table.loadingtable"
         :element-loading-text="$t('prompt.loading')">
         <el-table-column type="selection" align="center" :width="50"></el-table-column>
-        <el-table-column prop="outNick" label="姓名" align="left">
+        <el-table-column prop="customerName" label="姓名" align="left">
           <template slot-scope="scope">
-            {{scope.row.customerName || scope.row.outNick || '-'}}
+            {{scope.row.customerName || '-'}}
           </template>
         </el-table-column>
         <el-table-column prop="mobile" label="手机号" align="left">
