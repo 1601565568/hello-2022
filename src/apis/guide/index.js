@@ -212,6 +212,17 @@ export default {
   changeQuicklyWordGroupSort: {
     url: '/guide/quicklyword/changeQuicklyWordGroupSort',
     method: 'post'
+  },
+  // 删除渠道
+  chanelDel: {
+    // 素材删除
+    url: '/guide/material/delete',
+    method: 'post'
+  },
+  // 渠道列表
+  chanelList: {
+    // 素材列表
+    url: '/guide/material/findMaterialList',
+    method: 'post'
   }
-
 }

@@ -215,6 +215,10 @@ export default {
           }
           // 指定门店
           if (this.model.shopRangeType === 1) {
+            if (this.hasShopArr.length === 0) {
+              this.$notify.error('请至少选择一家门店')
+              return
+            }
             this.model.targetIds = this.hasShopArr.join(',')
           } else {
             this.model.targetIds = 0

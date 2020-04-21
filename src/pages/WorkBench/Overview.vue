@@ -25,7 +25,6 @@
 <!--                  </el-select>-->
                 <shop-select-load v-model="searchObj.id"
                                   @change='shopSelect(searchObj.id)'
-                                  clearable
                                   :insertList='inserList'/>
               </div>
           </el-card>
