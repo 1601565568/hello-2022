@@ -137,7 +137,7 @@
             {{scope.row.mobile?scope.row.mobile:'-'}}
           </template >
         </el-table-column>
-        <el-table-column prop="grade,memberCard" label="会员卡号" align="center" width="120">
+        <el-table-column prop="grade,memberCard" label="会员卡号" width="120">
           <template slot-scope="scope">
               <div v-if="scope.row.memberCard !==null || scope.row.grade !== null">
                 <span>{{scope.row.memberCard === undefined ? '-':scope.row.memberCard}}</span>
@@ -217,6 +217,9 @@ export default NsTableGuide
     top: 70px;
     z-index: 2;
     overflow: hidden;
+    >>> .el-input {
+      margin-bottom: var(--default-margin-base);
+    }
   }
   .template-page__row-right {
     position: absolute;

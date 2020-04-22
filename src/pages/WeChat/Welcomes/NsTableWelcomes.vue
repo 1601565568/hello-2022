@@ -61,17 +61,17 @@
         <!-- 操作（只有一项文字的80px,两项文字120px,三项文字160px） -->
 
         <el-table ref="table"  :data="_data._table.data" stripe >
-          <el-table-column prop="title" label="标题" align="left" min-width="88">
+          <el-table-column prop="title" label="标题" align="left" min-width="30">
             <template slot-scope="scope">
               {{scope.row.title?scope.row.title:'-'}}
             </template>
           </el-table-column>
-          <el-table-column prop="updateTime" label="更新时间" align="left" min-width="88">
+          <el-table-column prop="updateTime" label="更新时间" align="center" min-width="30">
             <template slot-scope="scope">
               {{scope.row.updateTime?scope.row.updateTime:'-'}}
             </template>
           </el-table-column>
-          <el-table-column prop="count" label="员工数量" align="center" width="80">
+          <el-table-column prop="count" label="员工数量" align="center" min-width="30">
             <template slot-scope="scope">
               <div v-if="scope.row.count <= 0">-</div>
               <div v-else>
@@ -80,7 +80,7 @@
             </template>
           </el-table-column>
           <el-table-column :show-overflow-tooltip="true" label="操作" align="center"
-                           width="160px">
+                           min-width="30">
             <template slot-scope="scope">
               <ns-table-column-operate-button-ext :buttons="_data._table.table_buttons"
                                                   :prop="scope">

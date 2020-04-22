@@ -2,7 +2,7 @@
 <template>
 <div class='page-task-detail'>
   <div class='ptb5 bg-white plr10 base-border-radius'>
-    <span class="demonstration">时间 :</span>
+    <span class="demonstration">时间：</span>
     <el-date-picker
       v-model="queryDate"
       type="date"
@@ -12,10 +12,10 @@
       :picker-options="pickerOption">
     </el-date-picker>
     <el-tooltip content="根据任务的开始时间筛选，结束时间默认为当前时间">
-      <i class="text-secondary"><Icon type="info-circle" theme="filled" /></i>
+      <i class="text-secondary leftspace"><Icon type="info-circle" theme="filled" /></i>
     </el-tooltip>
   </div>
-  <div class="bg-white mt5 ">
+  <div class="bg-white mt5 base-border-radius content-overflow">
     <div class="text-secondary ptb5 plr10">
       任务统计
       <el-tooltip content="任务总数：统计所有的任务数量；进行中：统计进行中的任务数">
@@ -68,7 +68,7 @@
               <div>
                 <span class='fz12 text-secondary'>按时完成</span>
                 <el-tooltip content="在规定时间内完成的任务数">
-                  <i class="text-secondary"><Icon type="info-circle" theme="filled" /></i>
+                  <i class="text-secondary leftspace"><Icon type="info-circle" theme="filled" /></i>
                 </el-tooltip>
               </div>
               <div class='fz16 mt14 text-center text-success'>{{infoObj.finishOnTime}}</div>
@@ -99,7 +99,7 @@
               <div>
                 <span class='fz12 text-secondary'>延期数</span>
                 <el-tooltip content="延期数：只有没有按时完成的任务即为延期（包含延期完成和未完成）">
-                  <i class="text-secondary"><Icon type="info-circle" theme="filled" /></i>
+                  <i class="text-secondary leftspace"><Icon type="info-circle" theme="filled" /></i>
                 </el-tooltip>
               </div>
               <div class='fz16 mt14 text-center text-error'>{{infoObj.delayCount}}</div>
@@ -174,12 +174,13 @@
   </el-row>
   <el-row class="overview-content__echart mt5" :gutter="5">
     <el-col :span="12">
-      <div class="overview-echart__item overview-echart__item--pink">
-        <div class="overview-content__title">
-          <span class='span'>门店完成任务数排行榜</span>
-          <el-tooltip content="完成任务包含按时完成和延期完成">
-            <i class="text-secondary"><Icon type="info-circle" theme="filled" /></i>
-          </el-tooltip>
+      <div class="overview-echart__item">
+        <div class="overview-content__title overview-echart__item--pink">
+          <div class='span'>门店完成任务数排行榜
+            <el-tooltip content="完成任务包含按时完成和延期完成">
+              <i class="text-secondary"><Icon type="info-circle" theme="filled" /></i>
+            </el-tooltip>
+          </div>
         </div>
         <div v-loading.lock="loadingShopRecruit"
               :element-loading-text="$t('prompt.loading')">
@@ -193,12 +194,13 @@
       </div>
     </el-col>
     <el-col :span="12">
-      <div class="overview-echart__item overview-echart__item--pink">
-        <div class="overview-content__title">
-          <span class='span'>导购完成任务数排行榜</span>
-          <el-tooltip content="完成任务包含按时完成和延期完成">
-            <i class="text-secondary"><Icon type="info-circle" theme="filled" /></i>
-          </el-tooltip>
+      <div class="overview-echart__item">
+        <div class="overview-content__title overview-echart__item--pink">
+          <div class='span'>导购完成任务数排行榜
+            <el-tooltip content="完成任务包含按时完成和延期完成">
+              <i class="text-secondary"><Icon type="info-circle" theme="filled" /></i>
+            </el-tooltip>
+          </div>
         </div>
         <div v-loading.lock="loadingGuideRecruit"
               :element-loading-text="$t('prompt.loading')">
@@ -1472,5 +1474,8 @@ export default {
   }
   .overview-content__title > .span {
     font-size: var(--default-font-size-small);
+  }
+  .content-overflow {
+    overflow: hidden;
   }
 </style>
