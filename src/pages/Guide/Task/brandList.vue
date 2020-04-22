@@ -127,7 +127,7 @@
         <span v-if="scope.row.state !== 4" >
         <ns-button @click="AddShowToggle(scope.row)" type="text">编辑</ns-button>
         </span>
-        <a href="javascript:" @click="delsTipFun(scope.row.id)">删除</a>
+        <a href="javascript:" @click="delsTipFun(scope.row.id)" class="btn-detele">删除</a>
         </span>
       </template>
       </el-table-column>
@@ -288,4 +288,9 @@ export default {
 }
 </script>
 <style scoped>
+  @import "@theme/variables.pcss";
+
+  .btn-detele {
+    margin-left: var(--default-margin-base);
+  }
 </style>
