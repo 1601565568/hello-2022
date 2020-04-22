@@ -14,7 +14,7 @@
             <span>{{node.label}}</span>
             <span v-if="node.label === '全部'">
               <el-tooltip content="查看所有的线下门店">
-                <Icon type="question-circle"/>
+                 <Icon type="question-circle" className="question-circle"/>
               </el-tooltip>
             </span>
           </div>
@@ -235,6 +235,9 @@ export default guide
     top: 70px;
     z-index: 2;
     overflow: hidden;
+    >>> .el-input {
+      margin-bottom: var(--default-margin-base);
+    }
   }
   .template-page__row-right {
     position: absolute;
@@ -282,5 +285,8 @@ export default guide
   }
   >>> .el-pagination__jump {
     margin-left: unset !important;
+  }
+  .subdivision-tree-node>span {
+    margin-left: var(--default-margin-base);
   }
 </style>
