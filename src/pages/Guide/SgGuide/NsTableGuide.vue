@@ -38,22 +38,22 @@
         <el-form ref="table_filter_form" :model="model" label-width="80px" :inline="true" @keyup.enter.native="$searchAction$()">
           <el-form-item label="员工账号：">
             <el-form-grid size="xmd">
-              <el-input style="width:180px" autofocus=true v-model="model.workId" placeholder="请输入员工账号" clearable></el-input>
+              <el-input autofocus=true v-model="model.workId" placeholder="请输入员工账号" clearable></el-input>
             </el-form-grid>
           </el-form-item>
           <el-form-item label="员工姓名：">
             <el-form-grid size="xmd">
-              <el-input style="width:180px" autofocus=true v-model="model.name" placeholder="请输入员工姓名" clearable></el-input>
+              <el-input autofocus=true v-model="model.name" placeholder="请输入员工姓名" clearable></el-input>
             </el-form-grid>
           </el-form-item>
           <el-form-item label="昵称：">
             <el-form-grid size="xmd">
-              <el-input style="width:180px" autofocus=true v-model="model.nickname" placeholder="请输入昵称" clearable></el-input>
+              <el-input autofocus=true v-model="model.nickname" placeholder="请输入昵称" clearable></el-input>
             </el-form-grid>
           </el-form-item>
           <el-form-item label="手机号码：">
             <el-form-grid size="xmd">
-              <el-input style="width:180px" autofocus=true v-model="model.mobile" placeholder="手机号码" clearable></el-input>
+              <el-input  autofocus=true v-model="model.mobile" placeholder="手机号码" clearable></el-input>
             </el-form-grid>
           </el-form-item>
           <el-form-item label="工作门店：">
@@ -66,7 +66,7 @@
           </el-form-item>
           <el-form-item label="员工类型：">
             <el-form-grid size="xmd">
-              <el-select placeholder="请选择职务" v-model="model.job" clearable @clear="setJobNull" style="width:180px">
+              <el-select placeholder="请选择职务" v-model="model.job" clearable @clear="setJobNull">
                 <el-option label="全部" :value=null ></el-option>
                 <el-option label="店长" :value="1"></el-option>
                 <el-option label="导购" :value="0"></el-option>
@@ -76,7 +76,7 @@
           </el-form-item>
           <el-form-item label="员工状态：">
             <el-form-grid size="xmd">
-              <el-select placeholder="请选择职务" v-model="model.guideState" clearable @clear="setGuideStateNull" style="width:180px">
+              <el-select placeholder="请选择职务" v-model="model.guideState" clearable @clear="setGuideStateNull">
                 <el-option label="全部" :value=null ></el-option>
                 <el-option label="在职" :value="1"></el-option>
                 <el-option label="离职" :value="2"></el-option>
@@ -131,10 +131,10 @@
           <el-table-column prop="status" label="员工状态" align="center" width="150">
             <template slot-scope="scope">
               <div v-if="scope.row.status === 2">
-                <p>已离职</p>
+                <p class="text-error">已离职</p>
               </div>
               <div v-else-if="scope.row.status === 1">
-                <p>在职</p>
+                <p class="text-primary">在职</p>
               </div>
               <div v-else >
                 <p>暂停使用</p>

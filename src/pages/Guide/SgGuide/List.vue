@@ -84,7 +84,7 @@
         </div>
       </div>
       <div slot="footer" class="dialog-footer">
-        <ns-button type="primary" @click="cleanGuide">确定</ns-button>
+        <ns-button type="primary" @click="cleanGuide">关闭</ns-button>
       </div>
     </el-dialog>
     <!--  查看导购详情结束 -->
