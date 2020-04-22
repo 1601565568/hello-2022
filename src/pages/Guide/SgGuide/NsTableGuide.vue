@@ -65,7 +65,7 @@
             </el-form-grid>
           </el-form-item>
           <el-form-item label="员工类型：">
-            <el-form-grid>
+            <el-form-grid size="xmd">
               <el-select placeholder="请选择职务" v-model="model.job" clearable @clear="setJobNull" style="width:180px">
                 <el-option label="全部" :value=null ></el-option>
                 <el-option label="店长" :value="1"></el-option>
@@ -75,7 +75,7 @@
             </el-form-grid>
           </el-form-item>
           <el-form-item label="员工状态：">
-            <el-form-grid>
+            <el-form-grid size="xmd">
               <el-select placeholder="请选择职务" v-model="model.guideState" clearable @clear="setGuideStateNull" style="width:180px">
                 <el-option label="全部" :value=null ></el-option>
                 <el-option label="在职" :value="1"></el-option>
