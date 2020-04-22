@@ -258,6 +258,7 @@
               <el-input  type="text" v-model="customerName">
               </el-input>
             </el-form-grid>
+            <el-input style="visibility:hidden;height:0px;width:0px;"></el-input>
             <el-form-grid>
               <ns-button type="primary" @click="formSearch('searchform')">搜索</ns-button>
               <ns-button @click="formReset('searchform')">重置</ns-button>

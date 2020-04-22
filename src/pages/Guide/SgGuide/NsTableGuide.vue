@@ -106,7 +106,6 @@
         <el-table ref="table"  :data="_data._table.data" stripe @selection-change="handleSelectionChange"
           v-loading.lock="_data._table.loadingtable"
           :element-loading-text="$t('prompt.loading')" >
-          <el-table-column type="selection" align="center" :width="50"></el-table-column>
           <el-table-column prop="work_id" label="账号" align="left" min-width="88">
             <template slot-scope="scope">
               {{scope.row.work_id?scope.row.work_id:'-'}}
