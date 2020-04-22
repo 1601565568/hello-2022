@@ -69,7 +69,7 @@ export default {
     async doUpdate () {
       let that = this
       that.$http.fetch(that.$api.guide.recruitPageConfig.updateSet, that.model).then(() => {
-        this.loading = true
+        this.loading = false
         that.$notify.success('修改成功')
       }).catch((resp) => {
         that.$notify.error(getErrorMsg('修改失败', resp))
