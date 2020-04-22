@@ -91,7 +91,7 @@
               {{scope.row.wxnick?scope.row.wxnick:'-'}}({{scope.row.wxaccount?scope.row.wxaccount:'-'}})
             </template>
           </el-table-column>
-          <el-table-column prop="isOpen" label="自动通过" align="left" min-width="130">
+          <el-table-column prop="isOpen" label="自动通过" align="center" min-width="130">
             <template slot-scope="scope">
               <div v-if="scope.row.isopen === 1">
                 <p>关闭</p>
@@ -109,7 +109,7 @@
               {{ scope.row.mininterval?scope.row.mininterval:'-' }}-{{ scope.row.maxinterval?scope.row.maxinterval:'-' }}秒
             </template>
           </el-table-column>
-          <el-table-column prop="num" label="当前排队好友数" align="left" min-width="120">
+          <el-table-column prop="num" label="当前排队好友数" align="right" min-width="120">
             <template slot='header' scope='header'>
               <span>
                 <span>{{header.column.label}}</span>
@@ -122,7 +122,7 @@
               {{ scope.row.waitNum?scope.row.waitNum:0 }}
             </template>
           </el-table-column>
-          <el-table-column prop="joinQueue" label="加入队列" align="left" min-width="100">
+          <el-table-column prop="joinQueue" label="加入队列" align="center" min-width="100">
             <template slot-scope="scope">
               <div v-if="scope.row.joinqueue === 1">
                 <p>关闭</p>
