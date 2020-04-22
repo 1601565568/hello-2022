@@ -74,7 +74,7 @@
               <el-radio :label="2">单独增加一张小程序码图
               </el-radio>
             </el-radio-group>
-            <p style='line-height:1.5;' class="text-primary">
+            <p v-if="saveObj.codeType == 2" style='line-height:1.5;' class="text-primary">
               <Icon type="info-circle"/>
               <span>生成一张新的小程序码图片，需门店里有对应信息的才会显示</span>
             </p>
