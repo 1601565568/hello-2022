@@ -83,7 +83,6 @@ export default {
       this.model.picture = res.result.url
     },
     beforeAvatarUpload (file) {
-      debugger
       const isJPG = file.type === 'image/jpeg'
       const isLt2M = file.size / 1024 / 1024 < 10
 
