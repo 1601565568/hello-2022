@@ -448,6 +448,9 @@ index.components = {
       }
     }
   }
+  >>> .el-card {
+    border-radius: var(--default-radius-mini);
+  }
 </style>
 <style scoped>
 .overview-content .el-popover .el-popover__title{

@@ -168,7 +168,7 @@
             </el-form-grid>
           </el-form-item>
           <el-form-item label="手机：" class="el-inline-block">
-            <el-form-grid size="xs">{{items.mobile}}</el-form-grid>
+            <el-form-grid size="s">{{items.mobile}}</el-form-grid>
           </el-form-item>
 
           <el-form-item v-if="integralIsShow[0]" class="el-inline-block dialog-favorable">
@@ -319,9 +319,9 @@
               <div class="dialog-basic__title">属性标签</div>
               <el-form label-width="180px" class="dialog-basic__form" >
                 <el-form-item :label="tag.name+'：'" class="el-inline-block" v-for="tag in items.tagList" :key="tag.id">
-                  <el-form-grid v-if="tag.value.length<=20" size="xxmd">{{tag.value}}</el-form-grid>
-                  <el-tooltip v-if="tag.value.length>20"  :content="tag.value" popper-class="table-body__tooltip">
-                    <el-form-grid class="tagDisplay" size="xxmd">{{tag.value}}</el-form-grid>
+                  <el-form-grid v-if="tag.tag && tag.tag.length<=20" size="xxmd">{{tag.tag}}</el-form-grid>
+                  <el-tooltip v-if="tag.tag && tag.tag.length>20"  :content="tag.tag" popper-class="table-body__tooltip">
+                    <el-form-grid class="tagDisplay" size="xxmd">{{tag.tag}}</el-form-grid>
                   </el-tooltip>
                 </el-form-item>
               </el-form>
