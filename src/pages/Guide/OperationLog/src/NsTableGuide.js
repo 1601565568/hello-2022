@@ -108,7 +108,7 @@ export default {
       _this.scopeRowCountShow = true
       _this.showTargetDetail = false
       _this.memberBelongingtitle = '查看（' + row.name + '）所属门店详情'
-      _this.$http.fetch(_this.$api.guide.guide.findGuideShopList, { guideId: row.id }).then(resp => {
+      _this.$http.fetch(_this.$api.guide.guide.findGuideShopList, { guideId: row.id, shopState: 1, shopStatus: 1 }).then(resp => {
         if (resp.success && resp.result != null) {
           _this.shopFindLists = resp.result
         }
