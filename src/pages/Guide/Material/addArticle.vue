@@ -37,7 +37,7 @@
         <vue-ueditor-wrap :config="myConfig" v-model="detail" @ready="editorReady"  @beforeInit="addCustomButtom"></vue-ueditor-wrap>
       </div>
 
-      <el-form :model="saveObj" :rules="rules" ref="addForm"  style="margin-left:20px">
+      <el-form :model="saveObj" :rules="rules" ref="addForm" class="add-form">
         <!--<el-form-item  prop="article">
             <el-radio-group v-model="saveObj.articleType">
                 <el-radio :label=0>添加文章
@@ -442,6 +442,15 @@ export default {
       overflow: hidden;
       word-break: break-word;
     }
+  }
+  .add-form {
+    margin: 0 5px 0 10px;
+    >>> .el-select .el-input {
+      width: 165px;
+    }
+  }
+  >>> .el-dialog__body {
+    padding-right: 3px;
   }
 </style>
 

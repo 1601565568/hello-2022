@@ -204,7 +204,7 @@
     <el-form ref="table_filter_form" label-width="40px" @keyup.enter.native="onSearch" class="surround-btn" :inline="true">
       <el-form-item label="姓名：">
         <el-form-grid size="xmd">
-          <el-input  type="text" v-model="customerName">
+          <el-input  type="text" v-model="customerName" @keyup.enter.native="formSearch('searchform')">
           </el-input>
         </el-form-grid>
         <el-input style="visibility:hidden;height:0px;width:0px;"></el-input>
@@ -217,8 +217,7 @@
     <!-- 高级搜索-结束 -->
     <div style="overflow-x:hidden;overflow-y:auto;">
       <el-table :data="detailData">
-        <el-table-column prop="name" label="会员"></el-table-column>
-        <el-table-column prop="name" label="昵称"></el-table-column>
+        <el-table-column prop="name" label="姓名"></el-table-column>
         <el-table-column prop="createTime" label="招募时间" align="center" width="200"></el-table-column>
         <el-table-column prop="reward" label="奖励" align="right" width="180"></el-table-column>
       </el-table>
