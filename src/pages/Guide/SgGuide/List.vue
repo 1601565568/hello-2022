@@ -63,8 +63,11 @@
                         :element-loading-text="$t('prompt.loading')" >
                 <el-table-column label="工作店铺" align="left" width="150">
                   <template slot-scope="scope">
-                    {{scope.row.name || '-'}}
-                    <span class="text-error">{{scope.row.shopState === 0 ? '(门店已删除)':''}}</span>
+                    {{ scope.row.name ? scope.row.name : '-' }}
+                    <span :class="scope.row.shopStatus > 0 ? '' : 'text-error'">
+                      {{scope.row.shopStatus === 0?'(门店已删除)':scope.row.shopStatus === -1?'(门店暂停营业)':scope.row.shopStatus ===
+                      -1?'(门店已闭店)':''}}
+                    </span>
                   </template>
                 </el-table-column>
                 <el-table-column label="所属地区" width="220">
@@ -95,8 +98,11 @@
                 :element-loading-text="$t('prompt.loading')" >
         <el-table-column  label="工作店铺" align="left" width="320">
           <template slot-scope="scope">
-            {{scope.row.name || '-'}}
-            <span class="text-error">{{scope.row.shopState === 0 ? '(门店已删除)':''}}</span>
+            {{ scope.row.name ? scope.row.name : '-' }}
+            <span :class="scope.row.shopStatus > 0 ? '' : 'text-error'">
+              {{scope.row.shopStatus === 0?'(门店已删除)':scope.row.shopStatus === -1?'(门店暂停营业)':scope.row.shopStatus ===
+              -1?'(门店已闭店)':''}}
+            </span>
           </template>
         </el-table-column>
         <el-table-column label="所属地区" align="left" width="320">

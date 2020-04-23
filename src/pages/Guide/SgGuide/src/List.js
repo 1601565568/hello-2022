@@ -40,7 +40,7 @@ export default {
       _this.shopFindLists = []
       tableConfig.loadingtable = true
       _this.$http.fetch(_this.$api.guide.guide.findGuideShopList,
-        { guideId: data.id, shopState: 1, shopStatus: 1 }).then(resp => {
+        { guideId: data.id, shopState: 1 }).then(resp => {
         if (resp.success && resp.result != null) {
           _this.shopFindLists = resp.result
         }
@@ -56,7 +56,7 @@ export default {
       var _this = this
       _this.shopFindLists = []
       tableConfig.loadingtable = true
-      _this.$http.fetch(_this.$api.guide.guide.findGuideShopList, { guideId: id, shopState: 1, shopStatus: 1 }).then(resp => {
+      _this.$http.fetch(_this.$api.guide.guide.findGuideShopList, { guideId: id, shopState: 1 }).then(resp => {
         if (resp.success && resp.result != null) {
           _this.shopFindLists = resp.result
         }
