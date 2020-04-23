@@ -57,7 +57,7 @@
         <template v-if="model.type === 2">
           <el-form-item class="is-required" label="分享素材："  prop="materialTitle">
             <el-input style="width:200px;" disabled v-model="model.materialTitle"></el-input>
-            <a href="javascript:" @click="selectMaterialShowFun()">
+            <a href="javascript:" @click="selectMaterialShowFun()" class="left-space">
               <span v-if="selectMaterial.id">重新选择</span>
               <span v-else>选择素材</span></a>
           </el-form-item>
@@ -258,4 +258,9 @@ export default {
 }
 </script>
 <style scoped>
+  @import "@theme/variables.pcss";
+
+  .left-space {
+    margin-left: var(--default-margin-base);
+  }
 </style>

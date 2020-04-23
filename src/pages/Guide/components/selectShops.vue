@@ -11,7 +11,7 @@
       <div class="content">
         <div class="searchAction">
           <div class="searchAction_top">
-            <el-form ref="table_filter_form" :model="model" label-width="70px" :inline="true">
+            <el-form ref="table_filter_form" :model="model" label-width="64px" :inline="true">
               <el-form-item>
                 <el-form-grid>
                   <el-form-item label="店铺名称：">

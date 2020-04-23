@@ -103,7 +103,17 @@
         </div>
         <el-form label-width="100px">
           <el-form-item label="姓名：" class="el-inline-block">
-            <el-form-grid size="xs">{{items.customerName}}</el-form-grid>
+            <el-form-grid size="s">
+              <div class="dialog-remark" v-if="items.customerName && items.customerName.length<6">
+                {{items.customerName}}
+              </div>
+              <div v-else>
+                <el-tooltip :content="items.customerName">
+                  <div slot="content">{{items.customerName}}</div>
+                  <span class="dialog-hidden">{{items.customerName}}</span>
+                </el-tooltip>
+              </div>
+            </el-form-grid>
           </el-form-item>
 
           <el-form-item class="el-inline-block dialog-favorable">
@@ -224,9 +234,8 @@
             </el-form-grid>
           </el-form-item>
           <el-form-item label="备注：" class="el-inline-block">
-            <el-form-grid size="xs">
+            <el-form-grid size="s">
               <span v-if="items.customerRemark && items.customerRemark.length<16">
-                sd
                 {{items.customerRemark||'-'}}
               </span>
               <div v-else>
@@ -389,7 +398,7 @@
                         </el-date-picker>
                       </el-form-grid>
                       <el-form-grid>
-                        -
+                        <span class="dialog-space">-</span>
                       </el-form-grid>
                       <el-form-grid size="md">
                         <el-date-picker type="datetime" placeholder="请选择" v-model="endTime" format="yyyy-MM-dd 23:59:59"
@@ -418,7 +427,7 @@
                       <!--                    </el-select>-->
                       <!--                  </el-form-grid>-->
                       <el-form-grid>
-                        <ns-button type="primary" @click="seachIntegral(0)">搜索</ns-button>
+                        <ns-button type="primary" @click="seachIntegral(0)" class="dialog-leftspace">搜索</ns-button>
                       </el-form-grid>
                     </el-form-item>
                   </el-form>
@@ -1109,7 +1118,7 @@ export default CustomerManage
       }
     }
     @b hidden {
-      width: 80px;
+      width: 84px;
       max-height: 28px;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -1204,7 +1213,7 @@ export default CustomerManage
       }
     }
     @b remark {
-      width: 80px;
+      width: 84px;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -1217,6 +1226,12 @@ export default CustomerManage
       display: -webkit-box;
       -webkit-line-clamp: 1;
       -webkit-box-orient: vertical;
+    }
+    @b space {
+      margin: 0 var(--default-margin-small);
+    }
+    @b leftspace {
+      margin-left: var(--default-margin-small);
     }
   }
   .dialog-container >>> .el-tabs__header {

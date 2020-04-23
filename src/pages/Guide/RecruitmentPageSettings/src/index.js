@@ -59,6 +59,7 @@ export default {
   },
   methods: {
     update () {
+      this.loading = true
       this.$refs.searchform.validate(valid => {
         if (valid) {
           this.doUpdate()
@@ -67,8 +68,8 @@ export default {
     },
     async doUpdate () {
       let that = this
-      this.loading = true
       that.$http.fetch(that.$api.guide.recruitPageConfig.updateSet, that.model).then(() => {
+        this.loading = false
         that.$notify.success('修改成功')
       }).catch((resp) => {
         that.$notify.error(getErrorMsg('修改失败', resp))
