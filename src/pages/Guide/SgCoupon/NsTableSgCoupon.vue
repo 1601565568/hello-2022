@@ -109,13 +109,13 @@
                 resizable v-loading.lock="_data._table.loadingtable"
                 :element-loading-text="$t('prompt.loading')" @sort-change="$orderChange$">
 
-        <el-table-column :show-overflow-tooltip="true" type="default" prop="activityId" align="left" :width="210"
+        <el-table-column :show-overflow-tooltip="true" type="default" prop="activityId" align="center" :width="210"
                          label="面额" :sortable="false">
           <template slot-scope="scope">
             <couponItem :itemObj="scope.row"></couponItem>
           </template>
         </el-table-column>
-        <el-table-column :show-overflow-tooltip="true" type="default" prop="title" align="left" width="220"
+        <el-table-column :show-overflow-tooltip="true" type="default" prop="title" align="left"
                          label="卡券信息" :sortable="false">
           <template slot-scope="scope">
             <span>优惠券名称:{{scope.row.couponTitle}}</span><br>
@@ -124,7 +124,7 @@
           </template>
         </el-table-column>
         <el-table-column :show-overflow-tooltip="true" type="default" align="center"
-                         label="有效时间" :sortable="false" width='150px'>
+                         label="有效时间" :sortable="false">
           <template slot-scope="{row}">
             <div v-if="row.dateValidType == 0">
               <span>{{row.startTime}}</span><br>
@@ -140,8 +140,8 @@
         <el-table-column :show-overflow-tooltip="true" type="default" prop="createTime" align="center"
                          label="创建时间" :sortable="false" width="180">
         </el-table-column>
-        <el-table-column :show-overflow-tooltip="true" type="default" prop="couponTotal" align="left"
-                         label="配额" :sortable="false" width="70">
+        <el-table-column :show-overflow-tooltip="true" type="default" prop="couponTotal" align="right"
+                         label="配额" :sortable="false" width="100">
         </el-table-column>
         <el-table-column :show-overflow-tooltip="true" type="default" prop="type" align="center"
                          label="状态" :sortable="false" width="70">
