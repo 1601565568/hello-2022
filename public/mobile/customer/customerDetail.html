@@ -9,7 +9,7 @@
   <link rel="stylesheet" type="text/css" href="./src/index.css">
 </head>
 <body>
-  <div class="customer-detail">
+  <div class="customer-detail" hidden>
     <!-- 顶部状态栏 start -->
     <div class="page-status-bar text-center">
       <div class="state-bar__cancel cancel_customerDetail text-secondary">取消</div>
@@ -103,7 +103,7 @@
       <!-- 客户财富 end  -->
     </div>
   </div>
-  <div class="float-layout hidden">
+  <div class="float-layout" hidden>
     <div class="float-layout__mask"></div>
     <div class="float-layout__main">
       <div class="float-layout__title">
@@ -118,7 +118,7 @@
       </div>
     </div>
   </div>
-  <div class="customer-no-vip" hide>
+  <div class="customer-no-vip" hidden>
     <div class="page-status-bar text-center">
       <div class="state-bar__cancel cancel_customerDetail text-secondary">取消</div>
       <span class="text-title font-weight-medium">客户详情</span>
@@ -161,12 +161,13 @@
       chatId: chatId,
     }).then(function (result) {
       if (result.success) {
+        $(".customer-detail").show()
         if (result.result.customerHeadImage){
           $(".customerImg").attr("src",result.result.customerHeadImage)
         }
         $(".customerWechatNick").html(checkParams(result.result.wechatNick))
         $(".customerName").html(checkParams(result.result.customerName))
-        $(".customerMemberCard").html(checkParams(result.result.memberCard))
+        $(".customerMemberCard").html(checkParams(result.result.customerMemberCard))
         $(".customerGuideName").html(checkParams(result.result.guideName))
         if (result.result.sex == -1) {
           $(".customerBoy").hide()
