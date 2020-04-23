@@ -22,7 +22,7 @@ export default Index
 </script>
 <style scoped>
 
-  /*>>> .el-input__suffix {*/
-  /*  display: none!important;*/
-  /*}*/
+  >>> .el-input__suffix {
+    display: none!important;
+  }
 </style>
