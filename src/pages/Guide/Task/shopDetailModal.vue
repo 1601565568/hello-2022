@@ -44,7 +44,7 @@
           <span v-if="row.state === 1" class="text-primary">执行中</span>
           <span v-if="row.state === 2" class="text-secondary">已关闭</span>
           <span v-if="row.state === 3" class="text-success">完成</span>
-          <span v-if="row.state === 4" class="text-error">已过期</span>
+          <span v-if="row.state === 4" class="text-warning">已过期</span>
         </template>
       </el-table-column>
       <el-table-column prop="completeTime" label="完成时间" align="center"></el-table-column>
