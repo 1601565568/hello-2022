@@ -44,7 +44,7 @@
               </el-form-item>
               <el-form-item label="门店名称：" prop="shopName">
                 <el-form-grid size="md">
-                  <el-input v-model="searchform.shopName" placeholder="请输入门店名称" clearable @keyup.enter.native="submitForm('searchform')"></el-input>
+                  <el-input v-model="searchform.shopName" maxlength="30" placeholder="请输入门店名称" clearable @keyup.enter.native="submitForm('searchform')"></el-input>
                 </el-form-grid>
               </el-form-item>
               <el-form-item>
@@ -73,7 +73,7 @@
           </el-form-item>
           <el-form-item label="门店名称：" prop="shopName">
             <el-form-grid size="md">
-              <el-input v-model="searchform.shopName" placeholder="请输入门店名称" clearable></el-input>
+              <el-input v-model="searchform.shopName" maxlength="30" placeholder="请输入门店名称" clearable></el-input>
             </el-form-grid>
           </el-form-item><!--
           <el-form-item label="状态：" prop="shopStatus">
