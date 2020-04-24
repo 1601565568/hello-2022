@@ -1606,15 +1606,15 @@
     call-me-maybe "^1.0.1"
     glob-to-regexp "^0.3.0"
 
-"@nascent/ecrp-ecrm@^4.4.39":
-  version "4.4.39"
-  resolved "http://27.154.234.170:18081/repository/npm/@nascent/ecrp-ecrm/-/ecrp-ecrm-4.4.39.tgz#216476834b49e657d73de6940c8142e5fb7566c6"
-  integrity sha512-G7CGh9GldCJoPEu0P46XQ9xo8Vj9vCxcUnyTzS+tlKJWHH/UAUvn+0UrEd7dmEGJg7uAll3iovm+GUlCV4rzxg==
+"@nascent/ecrp-ecrm@^0.4.21":
+  version "0.4.21"
+  resolved "http://27.154.234.170:18081/repository/npm/@nascent/ecrp-ecrm/-/ecrp-ecrm-0.4.21.tgz#e17aa91d6385fe5bf0c800ced13d597f887db593"
+  integrity sha512-QBtG+NphZix4zMqA3cQGO1yS5rjg9RrjdKrlu5elJ94ie6xXX0vHvDgD7zoa+0Tmw/HlSn2BiL0XiDZvw9lAJg==
   dependencies:
     "@ant-design/icons" "^2.1.1"
     "@nascent/icons-vue" "^1.0.11"
     "@nascent/log" "^0.1.10"
-    "@nascent/nui" "^2.9.28"
+    "@nascent/nui" "^2.9.30"
     "@sentry/browser" "^4.5.3"
     "@xkeshi/vue-qrcode" "^1.0.0"
     animate.css "^3.7.2"
@@ -1622,6 +1622,7 @@
     clipboard "^2.0.4"
     core-js "^3.6.4"
     echarts "^4.2.0-rc.2"
+    element-resize-detector "^1.2.1"
     jquery "^3.3.1"
     lodash "^4.17.11"
     moment "^2.24.0"
@@ -1680,10 +1681,10 @@
     throttle-debounce "^1.0.1"
     vuedraggable "^2.14.1"
 
-"@nascent/nui@^2.9.28":
-  version "2.9.28"
-  resolved "http://27.154.234.170:18081/repository/npm/@nascent/nui/-/nui-2.9.28.tgz#54af919d5fb769161df072a9824229fdd17f5235"
-  integrity sha512-eCAOQVwF7ae61S5nsAeZp6roFxDkAAZ26N/Tu8DKZR+kfSqOtZfCfXnAN5KopoCLRojJfF+Mk26ohi1VwZcTpg==
+"@nascent/nui@^2.9.30":
+  version "2.9.30"
+  resolved "http://27.154.234.170:18081/repository/npm/@nascent/nui/-/nui-2.9.30.tgz#b313d80b605cf5e7296838ae316e5a821a269867"
+  integrity sha512-VjjTQmh2ur0DOtSmHhzibz8NUzE+YVzf6AH1c/TcajygikpV/ECHS6wVSeuQ6KMjCgA6nfWqkolaNCW465Ir2g==
   dependencies:
     async-validator "~1.8.1"
     babel-helper-vue-jsx-merge-props "^2.0.0"
@@ -3053,6 +3054,11 @@ base@^0.11.1:
     isobject "^3.0.1"
     mixin-deep "^1.2.0"
     pascalcase "^0.1.1"
+
+batch-processor@1.0.0:
+  version "1.0.0"
+  resolved "https://registry.npm.taobao.org/batch-processor/download/batch-processor-1.0.0.tgz#75c95c32b748e0850d10c2b168f6bdbe9891ace8"
+  integrity sha1-dclcMrdI4IUNEMKxaPa9vpiRrOg=
 
 batch@0.6.1:
   version "0.6.1"
@@ -5094,6 +5100,13 @@ elegant-spinner@^1.0.1:
   version "1.0.1"
   resolved "https://registry.npm.taobao.org/elegant-spinner/download/elegant-spinner-1.0.1.tgz#db043521c95d7e303fd8f345bedc3349cfb0729e"
   integrity sha1-2wQ1IcldfjA/2PNFvtwzSc+wcp4=
+
+element-resize-detector@^1.2.1:
+  version "1.2.1"
+  resolved "https://registry.npm.taobao.org/element-resize-detector/download/element-resize-detector-1.2.1.tgz?cache=0&sync_timestamp=1579090861211&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Felement-resize-detector%2Fdownload%2Felement-resize-detector-1.2.1.tgz#b0305194447a4863155e58f13323a0aef30851d1"
+  integrity sha1-sDBRlER6SGMVXljxMyOgrvMIUdE=
+  dependencies:
+    batch-processor "1.0.0"
 
 elliptic@^6.0.0:
   version "6.5.2"

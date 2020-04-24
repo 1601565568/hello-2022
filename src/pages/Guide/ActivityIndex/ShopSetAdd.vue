@@ -24,8 +24,11 @@
         v-bind:key='n'
         style='width: 110px'>
         <template slot-scope="scope">
-          <el-input :disabled="curMonth>n" v-model="scope.row['quota' + n]" type="number"
-                    @change="inputFunc(scope.row['quota' + n], n)" placeholder="请输入"></el-input>
+          <el-input :disabled="curMonth>n" v-model="scope.row['quota' + n]" type="text"
+                    maxlength="10"
+                    @input="scope.row['quota' + n]=changeInput(scope.row['quota' + n], n)"
+                    @change="scope.row['quota' + n] = inputFunc(scope.row['quota' + n], n)"
+                    placeholder="请输入"></el-input>
         </template>
       </el-table-column>
     </el-table>
@@ -60,7 +63,37 @@ export default {
   },
   created: function () {},
   methods: {
+    changeInput (value) {
+      if (parseInt(this.saveObj.type) === 1) {
+        value = value.replace(/[^\d]/g, '')
+        return Number(value)
+      }
+      if (value) {
+        if (value.indexOf('.') < 0) {
+          return value.replace(/[^\d]/g, '')
+        }
+        if (value.indexOf('.') === 0) {
+          return '0.' + value.replace(/[^\d]/g, '').slice(0, 2)
+        }
+        let values = value.split('.')
+        let size = values.length
+        if (size === 1) {
+          return values.replace(/[^\d]/g, '')
+        }
+        if (size > 1) {
+          let value1 = values[0]
+          let value2 = values[1]
+          if (!value1) {
+            value1 = 0
+          }
+          value2 = value2.slice(0, 2)
+          return value1.replace(/[^\d]/g, '') + '.' + value2.replace(/[^\d]/g, '')
+        }
+      }
+      return value
+    },
     inputFunc (value, month) {
+      value = Number(value)
       var _this = this
       var regin = /^-?\d+\.?\d{0,2}$/
       if (parseInt(_this.saveObj.type) === 0) {
@@ -69,6 +102,7 @@ export default {
         regin = /^(0|[1-9][0-9]*)$/
         _this.checkNumber(value, month, regin, '请输入整数')
       }
+      return value
     },
     checkNumber (value, month, regin, msg) {
       if (!regin.test(value)) {

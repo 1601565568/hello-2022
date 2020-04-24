@@ -65,8 +65,7 @@
                   <template slot-scope="scope">
                     {{ scope.row.name ? scope.row.name : '-' }}
                     <span :class="scope.row.shopStatus > 0 ? '' : 'text-error'">
-                      {{scope.row.shopStatus === 0?'(门店已删除)':scope.row.shopStatus === -1?'(门店暂停营业)':scope.row.shopStatus ===
-                      -1?'(门店已闭店)':''}}
+                      {{scope.row.shopStatus === -1 ?  '(门店暂停营业)':scope.row.shopStatus === -2?'(门店已闭店)':''}}
                     </span>
                   </template>
                 </el-table-column>
@@ -100,8 +99,7 @@
           <template slot-scope="scope">
             {{ scope.row.name ? scope.row.name : '-' }}
             <span :class="scope.row.shopStatus > 0 ? '' : 'text-error'">
-              {{scope.row.shopStatus === 0?'(门店已删除)':scope.row.shopStatus === -1?'(门店暂停营业)':scope.row.shopStatus ===
-              -1?'(门店已闭店)':''}}
+                {{scope.row.shopStatus === -1 ?  '(门店暂停营业)':scope.row.shopStatus === -2?'(门店已闭店)':''}}
             </span>
           </template>
         </el-table-column>
