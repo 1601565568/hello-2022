@@ -111,9 +111,12 @@
           </el-table-column>
           <el-table-column prop="shopCouponNumber" label="配额" align="center" width="100">
             <template slot-scope="scope" >
-              <el-input type="number"
+              <ElInput type="text"
                         @change="inputChange(scope.row)"
                         v-model="scope.row.shopCouponNumber"
+                        maxlength="8"
+                        show-word-limit
+                        @input="scope.row.shopCouponNumber=Number(scope.row.shopCouponNumber.replace(/[^\d]/g, ''))"
                         width="100" @focus="ChangeForbiddenStatus" @blur="delayedChangeStatus"/>
             </template>
           </el-table-column>

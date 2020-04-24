@@ -179,6 +179,9 @@ export default {
       this.dialogVisible = false
     },
     closeFun () {
+      this.$refs.shopTable.clearSelection()
+      this.multipleSelection = []
+      this.selected = []
       this.pagination.page = 1
       this.dialogVisible = false
     },
@@ -217,7 +220,7 @@ export default {
     openFun () {
       const self = this
       let params = Object.assign({}, { searchMap: Object.assign({}, this.params) })
-      this.$set(this, 'multipleSelection', undefined === this.hasShopArr ? [] : JSON.parse(JSON.stringify(this.hasShopArr)))
+      // this.$set(this, 'multipleSelection', undefined === this.hasShopArr ? [] : JSON.parse(JSON.stringify(this.hasShopArr)))
       self.loadListFun(params)
       self.dialogVisible = true
     },
@@ -361,6 +364,15 @@ export default {
     NsArea
   },
   computed: {}
+  // watch: {
+  //   multipleSelection: {
+  //     handler (nVal, oVal) {
+  //       console.log(111, nVal)
+  //       console.log(222, oVal)
+  //     },
+  //     deep: true
+  //   }
+  // }
 }
 </script>
 <style scoped>
