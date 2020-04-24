@@ -120,7 +120,7 @@
           </el-select>
         </template>
       </el-table-column>
-      <el-table-column  prop="code_type_text" label="带码状态" align="left" width="250">
+      <el-table-column  prop="code_type_text" label="带码状态" align="left" width="100">
 
       </el-table-column>
       <el-table-column prop="source_name" label="发布方" align="left" width="250">

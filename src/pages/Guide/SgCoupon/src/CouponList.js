@@ -313,6 +313,13 @@ export default {
         this.shopList.push(newShopObject)
       }
     },
+    checkNum: function (row) {
+      // 判断输入是否是正整数
+      if (!(/(^[1-9]\d*$)/.test(row.shopCouponNumber))) {
+        _this.$notify.info('请输入正整数')
+        row.shopCouponNumber = 0
+      }
+    },
     /**
      * 计算优惠券总数couponTitle
      * 输入框的值改变
@@ -324,6 +331,12 @@ export default {
       var couponTotal = _this.activityModel.coupon_total
       var couponId = _this.activityModel.coupon_id
       let remainingQuantity = _this.storeModel.remainingQuantity
+      // 判断输入是否是正整数
+      if (!(/(^[1-9]\d*$)/.test(row.shopCouponNumber))) {
+        _this.$notify.info('请输入正整数')
+        row.shopCouponNumber = 0
+        return
+      }
       // 判断是否选择优惠券
       if (couponId === 0 || couponId === null || couponId === '') {
         _this.activityModel.coupon_total = 0

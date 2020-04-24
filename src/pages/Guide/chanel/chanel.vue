@@ -366,7 +366,7 @@ export default {
           })
         })
         .catch(resp => {
-          this.$notify.error(getErrorMsg('查询失败', resp))
+          this.$notify.error(getErrorMsg('删除失败', resp))
         })
     },
     // 新增，编辑渠道
@@ -426,7 +426,7 @@ export default {
           this.loadListFun(this.searchObj)
         })
         .catch(resp => {
-          this.$notify.error(getErrorMsg('查询失败', resp))
+          this.$notify.error(getErrorMsg('删除失败', resp))
         })
     },
     // 加载列表

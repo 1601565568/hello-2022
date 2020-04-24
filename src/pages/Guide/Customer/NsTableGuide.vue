@@ -13,6 +13,8 @@
                 <span>{{node.label}}</span>
                 <span v-if="node.label === '全部'">
             </span>
+                <!-- 后端返回的是组件，不建议增加status字段 -->
+                <!-- <span class="text-error">{{node.status === 2 ? '(员工已离职)':''}}</span> -->
               </div>
             </el-tree>
           </el-scrollbar>
