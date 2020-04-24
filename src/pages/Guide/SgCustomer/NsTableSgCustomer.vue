@@ -141,7 +141,7 @@
                      @current-change="$pageChange$" >
       </el-pagination>
 
-      <el-dialog :title="title" :visible.sync="showCustomerDialogVisible" width="960px" :before-close="onCancelDialog" 
+      <el-dialog :title="title" :visible.sync="showCustomerDialogVisible" width="960px" :before-close="onCancelDialog"
       :show-scroll-x="false" append-to-body :vetically=true>
         <div style="overflow-x:hidden;overflow-y:auto;">
           <el-table :data="customerData" v-loading.lock="detailLoadingTable"
