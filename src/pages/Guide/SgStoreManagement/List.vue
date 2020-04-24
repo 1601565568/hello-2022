@@ -185,11 +185,17 @@ export default List
     font-size: 34px;
     font-weight: 600;
     color: var(--theme-color-primary);
+    position: relative;
+    top: 1px;
   }
   .explanation {
     margin-left: var(--default-margin-larger);
     .explanation__member {
       margin-left: var(--default-margin-mini);
+    }
+    >>> .el-checkbox {
+      position: relative;
+      top: 1px;
     }
   }
   .download{
