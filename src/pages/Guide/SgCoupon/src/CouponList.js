@@ -423,12 +423,14 @@ export default {
         if (valid) {
           if (_this.activityModel.coupon_total === 0) {
             _this.$notify.error('配额必须大于0')
+            _this.forbidden = false
             return
           }
           // 判断优惠券是否超额 _this.storeModel.couponTotal = 0 代表不限量
           if (_this.storeModel.maxType > 0) {
             if (_this.storeModel.couponTotal < _this.activityModel.coupon_total) {
               // _this.$notify.info('门店总配额不能超过优惠券总配额')
+              _this.forbidden = false
               return
             }
           }
