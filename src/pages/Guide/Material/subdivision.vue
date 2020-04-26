@@ -280,7 +280,6 @@ export default {
       for (let attr in this.searchform) {
         this.searchform[attr] = null
       }
-      // this.$refs[formName].resetFields()
       this.submitForm()
     },
     // 提交搜索
