@@ -363,6 +363,8 @@ export default {
     },
     // 提交搜索
     submitForm (formName) {
+      this.searchObj.start = 0
+      this.pagination.page = 0
       if (this.searchform.sourceId === '' || this.searchform.sourceId === null) {
         this.searchObj.searchMap.sourceId = null
       } else {
