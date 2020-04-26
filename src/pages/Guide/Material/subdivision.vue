@@ -284,6 +284,7 @@ export default {
     // 提交搜索
     submitForm (formName) {
       this.searchObj.start = 0
+      this.pagination.page = 0
       this.searchObj.searchMap.subdivision_name = this.searchform.subdivision_name
       if (this.searchform.time !== '' && this.searchform.time !== null && this.searchform.time.length === 2) {
         this.searchObj.searchMap.time_start = moment(
