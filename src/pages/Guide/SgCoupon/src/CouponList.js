@@ -313,6 +313,13 @@ export default {
         this.shopList.push(newShopObject)
       }
     },
+    checkNum: function (row) {
+      // 判断输入是否是正整数
+      if (!(/(^[1-9]\d*$)/.test(row.shopCouponNumber))) {
+        _this.$notify.info('请输入正整数')
+        row.shopCouponNumber = 0
+      }
+    },
     /**
      * 计算优惠券总数couponTitle
      * 输入框的值改变
@@ -324,6 +331,12 @@ export default {
       var couponTotal = _this.activityModel.coupon_total
       var couponId = _this.activityModel.coupon_id
       let remainingQuantity = _this.storeModel.remainingQuantity
+      // 判断输入是否是正整数
+      if (!(/(^[1-9]\d*$)/.test(row.shopCouponNumber))) {
+        _this.$notify.info('请输入正整数')
+        row.shopCouponNumber = 0
+        return
+      }
       // 判断是否选择优惠券
       if (couponId === 0 || couponId === null || couponId === '') {
         _this.activityModel.coupon_total = 0
@@ -410,12 +423,14 @@ export default {
         if (valid) {
           if (_this.activityModel.coupon_total === 0) {
             _this.$notify.error('配额必须大于0')
+            _this.forbidden = false
             return
           }
           // 判断优惠券是否超额 _this.storeModel.couponTotal = 0 代表不限量
           if (_this.storeModel.maxType > 0) {
             if (_this.storeModel.couponTotal < _this.activityModel.coupon_total) {
               // _this.$notify.info('门店总配额不能超过优惠券总配额')
+              _this.forbidden = false
               return
             }
           }

@@ -15,7 +15,7 @@
             </ns-button>
           </el-form-item>
           <el-form-item label="推广文案：" prop="content">
-            <el-input resize="none" type="textarea" maxlength='10000' v-model="saveObj.content" placeholder="可在此输入推广文案，限制长度在10000个字符以内。"></el-input>
+            <el-input resize="none" type="textarea" maxlength='1500' v-model="saveObj.content" placeholder="可在此输入推广文案，限制长度在1500个字符以内。"></el-input>
           </el-form-item>
 
           <el-form-item label="素材图片：" prop="imageList">
@@ -158,7 +158,7 @@ export default {
         ],
         content: [
           { required: true, message: '请输入推广文案', trigger: 'blur' },
-          { min: 0, max: 10000, message: '限制长度在10000个字符以内', trigger: 'blur' },
+          { min: 0, max: 1500, message: '限制长度在1500个字符以内', trigger: 'blur' },
           { pattern: /^(?!(\s+$))/, message: '不允许为空' }
         ]
       }
