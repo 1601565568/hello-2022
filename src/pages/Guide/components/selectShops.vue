@@ -358,6 +358,11 @@ export default {
     },
     handleClose (done) {
       done()
+      this.$refs.shopTable.clearSelection()
+      this.multipleSelection = []
+      this.selected = []
+      this.pagination.page = 1
+      this.dialogVisible = false
     }
   },
   components: {
