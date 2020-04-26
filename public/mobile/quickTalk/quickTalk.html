@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, minimum-scale=1, maximum-scale=2.0, user-scalable=no"/>
+  <meta http-equiv="Cache-Control" content="no-siteapp"/>
+  <meta name="format-detection" content="telephone=no"/>
+  <link rel="stylesheet" href="quickTalk.css">
+  <link rel="stylesheet" href="../css/iconfont.css">
+  <title>快捷话术</title>
+</head>
+<body>
+<!-- 顶部状态栏 start -->
+<div class="page-status-bar text-center">
+  <span class="state-bar__cancel">取消</span>
+  <span class="font-weight-medium">快捷话术</span>
+</div>
+<!-- 顶部状态栏 end -->
+<!-- 当搜索结果为暂无您要找的快捷话术，这边需要加个类名quick--nospace，底部的间距为0，<div class="quick quick--nospace"> -->
+<div class="quick">
+  <!-- 搜索栏 start -->
+  <div class="quick__search">
+    <div class="searchbar">
+      <i class='iconfont icon-ns-search searchbar__icon'></i>
+      <input type="text" placeholder="搜索话术内容" value="" class="searchbar__input"/>
+      <i class='iconfont icon-shanchu1 searchbar__icon'></i>
+    </div>
+  </div>
+  <!-- 搜索栏 end -->
+
+  <!-- 标签页 start -->
+  <div class="quick__tabs">
+    <div class="tabs">
+      <div class="tabs__pane tabs__pane--selected">全部</div>
+      <div class="tabs__pane">自定义</div>
+      <div class="tabs__pane">上新推荐</div>
+      <div class="tabs__pane">售后咨询</div>
+      <div class="tabs__pane">活动营销</div>
+      <div class="tabs__pane">活动营销</div>
+    </div>
+  </div>
+  <!-- 标签页 end -->
+
+  <!-- 快捷话术列表 start -->
+  <div class="quick__list">
+    <div class="item">
+      <div class="item__radio item__radio--selected"></div>
+      <div class="item__text">
+        亲爱的，最近天气炎热防暑，记得防暑哟～
+      </div>
+    </div>
+    <div class="item">
+      <div class="item__radio"></div>
+      <div class="item__text">
+        输入文本输入文本输入文本输入文本输入文输入文本输入文本输入文本输入文本输入文本输入文本输入文本输入文输入文本输入文本输入文本。
+      </div>
+    </div>
+    <div class="item">
+      <div class="item__radio"></div>
+      <div class="item__text">
+        在的呢，很高兴为您服务。
+      </div>
+    </div>
+    <div class="item">
+      <div class="item__radio"></div>
+      <div class="item__text">
+        在的呢，很高兴为您服务。
+      </div>
+    </div>
+  </div>
+  <!-- 快捷话术列表 end -->
+
+  <!-- 暂无您要找的快捷话术 start -->
+  <div class="quick__noData" style="display: none;">
+    <div class="prompt">暂无您要找的快捷话术</div>
+  </div>
+  <!-- 暂无您要找的快捷话术 end -->
+
+  <!-- 发送按钮 start -->
+  <div class="quick__btn">
+    <div class="send">发送</div>
+  </div>
+  <!-- 发送按钮 end -->
+</div>
+</body>
+</html>
