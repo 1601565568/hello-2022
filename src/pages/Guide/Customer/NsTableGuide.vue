@@ -80,12 +80,6 @@
           </el-form-grid>
         </el-form-item>
 
-        <el-form-item label="昵称：">
-          <el-form-grid size="xmd">
-            <el-input style="width:180px" autofocus=true v-model="model.nick" placeholder="请输入昵称" clearable></el-input>
-          </el-form-grid>
-        </el-form-item>
-
         <el-form-item label="卡号：">
           <el-form-grid size="xmd">
             <el-input style="width:180px" autofocus=true v-model="model.cardId" placeholder="请输入卡号" clearable></el-input>

@@ -200,7 +200,6 @@ export default {
     },
     // 加载列表
     async loadListFun (data) {
-      this.loading = true
       // 获取素材分组最大排序序号
       this.getSubdivisionMaxSortNum()
       let searchObj = data || this.searchObj
@@ -280,11 +279,12 @@ export default {
       for (let attr in this.searchform) {
         this.searchform[attr] = null
       }
-      // this.$refs[formName].resetFields()
       this.submitForm()
     },
     // 提交搜索
     submitForm (formName) {
+      this.searchObj.start = 0
+      this.pagination.page = 0
       this.searchObj.searchMap.subdivision_name = this.searchform.subdivision_name
       if (this.searchform.time !== '' && this.searchform.time !== null && this.searchform.time.length === 2) {
         this.searchObj.searchMap.time_start = moment(
