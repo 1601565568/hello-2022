@@ -52,7 +52,7 @@
                       {{ scope.row.userName?scope.row.userName:'-' }}({{ scope.row.userId?scope.row.userId:'-' }})
                     </template>
                   </ElTableColumn>
-                  <ElTableColumn prop="style" label="子码" align="center" width="70">
+                  <ElTableColumn prop="style" label="子码" align="center" width="150">
                     <template slot-scope="scope">
                       <img v-if="scope.row.image" :src="scope.row.image" width="50px" height="50px" class="company-upload__avatar">
                     </template>
@@ -69,7 +69,7 @@
 <!--                      <el-input v-model="scope.row.num" type="number" onkeyup="this.value=this.value.replace(/\D|^0/g,'')" onafterpaste="this.value=this.value.replace(/\D|^0/g,'')"></el-input>-->
                     </template>
                   </ElTableColumn>
-                  <ElTableColumn label="操作" align="center" :width="60">
+                  <ElTableColumn label="操作" align="center" :width="70">
                     <template slot-scope="scope">
                       <ns-button type="text" size="small" @click="handleDelete(scope)">删除</ns-button>
                     </template>
