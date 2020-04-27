@@ -16,7 +16,7 @@
             <ElImage v-if="child.type === 'image'"
               :width="98" :height="73"
               :src="child.content"
-              mode="fill" class="message-msg__uploader">
+              mode="mfit" class="message-msg__uploader">
             </ElImage>
             <!--图片 结束-->
 
@@ -25,7 +25,7 @@
               <ElImage
                 :height="73"
                 :width="98"
-                mode="fill"
+                mode="mfit"
                 :src="child.content + '?x-oss-process=video/snapshot,t_10000,m_fast'" />
               <div class="message-broadcast">
                 <div class="message-broadcast__circle"></div>
