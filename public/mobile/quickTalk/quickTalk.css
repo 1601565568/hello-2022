@@ -32,7 +32,7 @@ input {
   color: #262626;
   line-height: 21px;
   border: 0;
-  outline-color: #1876FC;
+  outline: none;
 }
 ::placeholder { /* Most modern browsers support this now. */
   font-size: 14px;
@@ -72,15 +72,18 @@ input {
   line-height: 22px;
   position: relative;
   top: 1px;
-  margin: 0 3px;
+  margin: 0 5px 0 3px;
 }
 .icon-ns-search {
   color: #8C8C8C;
   position: relative;
   left: -2px;
 }
+.icon-shanchu1 {
+  color: #595959;
+}
 .quick .quick__tabs {
-  padding: 12px 15px;
+  padding: 0 15px;
   top: 90px;
 }
 .tabs {
@@ -95,7 +98,7 @@ input {
   color: #595959;
   line-height: 22px;
   display: inline-block;
-  padding: 0 10px;
+  padding: 12px 10px;
 }
 .tabs .tabs__pane:first-child {
   padding-left: 0;
@@ -138,16 +141,16 @@ input {
   margin-left: 6px;
 }
 .quick__noData {
-  height: calc(100vh - 50px - 40px - 51px);
-  padding-top: 100px;
+  height: calc(100vh - 50px - 40px - 46px - 10px);
+  padding: 100px 10px 10px;
   margin: 0 10px;
   background: #FFF;
+  border-radius: 5px;
 }
 .prompt {
   font-size: 14px;
   color: #8C8C8C;
   text-align: center;
-  padding: 0 10px;
 }
 .quick .quick__btn {
   text-align: right;
@@ -166,5 +169,5 @@ input {
   display: inline-block;
   padding: 7px 20px;
   background: #1876FC;
-  border-radius: 2px;
+  border-radius: 5px;
 }
