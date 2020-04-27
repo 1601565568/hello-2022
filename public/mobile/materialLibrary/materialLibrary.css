@@ -1,0 +1,390 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+html,body {
+  height: 100%;
+  background: #F5F5F5;
+}
+
+/* 顶部状态栏 */
+.page-status-bar {
+  font-size: 16px;
+  text-align: center;
+  padding: 14px 15px;
+  line-height: 22px;
+  top: 0;
+}
+.page-status-bar .state-bar__cancel {
+  color: #8C8C8C;
+  position: fixed;
+  top: 14px;
+  left: 15px;
+}
+.font-weight-medium {
+  color: #262626;
+  font-weight: bold;
+}
+
+input {
+  font-size: 14px;
+  color: #262626;
+  line-height: 21px;
+  border: 0;
+  outline: none;
+}
+::placeholder { /* Most modern browsers support this now. */
+  font-size: 14px;
+  color: #BFBFBF;
+}
+.page-fixed {
+  width: 100%;
+  position: fixed;
+  top: 0;
+  background: #F5F5F5;
+  z-index: 10;
+}
+.material {
+  padding: 145px 0 52px;
+}
+.material--nospace {
+  padding-bottom: 0 !important;
+}
+.material .material__search {
+  top: 50px;
+  padding: 10px;
+}
+.searchbar {
+  height: 30px;
+  display: flex;
+  align-items: center;
+  padding: 4px 11px 5px;
+  background: #FFF;
+  border-radius: 4px;
+}
+.searchbar__icon {
+  width: 20px;
+  flex-shrink: 0;
+}
+.searchbar__input {
+  flex: 1;
+  line-height: 22px;
+  position: relative;
+  top: 1px;
+  margin: 0 5px 0 3px;
+}
+.icon-ns-search {
+  color: #8C8C8C;
+  position: relative;
+  left: -2px;
+}
+.icon-shanchu1 {
+  color: #595959;
+}
+.material .material__choice {
+  font-size: 14px;
+  color: #262626;
+  line-height: 21px;
+  font-weight: bold;
+  top: 100px;
+  padding: 10px 10px 15px;
+}
+.icon-ns-arrow-drowdown {
+  color: #262626;
+}
+.material .material__tabs {
+  padding: 0 15px;
+  top: 90px;
+}
+.material .material__list {
+  padding: 5px 10px 0;
+}
+.item {
+  display: flex;
+  padding: 15px;
+  margin-bottom: 10px;
+  border-bottom: 1px solid #E8E8E8;
+  background: #FFF;
+  border-radius: 5px;
+}
+.item:last-child {
+  border-bottom: 0;
+}
+.page-radio {
+  width: 20px;
+  height: 20px;
+  position: relative;
+  top: -1px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  border: 1px solid #D9D9D9;
+}
+.page-radio--selected {
+  border: 7px solid #1876FC !important;
+}
+.item .item__msg {
+  flex: 1;
+  margin-left: 5px;
+  overflow: hidden;
+}
+.title {
+  font-size: 14px;
+  color: #262626;
+  line-height: 20px;
+}
+.icon-ns-arrow-circle-down, .icon-ns-arrow-circle-up {
+  color: #8C8C8C;
+}
+.photowall {
+  font-size: 0;
+  padding-top: 7px;
+}
+.photowall .photowall__picture {
+  width: 94px;
+  height: 94px;
+  display: inline-block;
+  margin: 8px 8px 0 0;
+}
+.photowall .photowall__picture:nth-child(3n) {
+  margin-right: 0;
+}
+.img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.other {
+  font-size: 12px;
+  color: #595959;
+  display: flex;
+  align-items: center;
+  padding: 15px 0;
+}
+.other .other__time {
+  flex: 1;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+.other .other__store {
+  flex: 1;
+  margin-left: 10px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.share {
+  font-size: 14px;
+  color: #262626;
+  line-height: 20px;
+  text-align: right;
+  padding-top: 15px;
+  border-top: 1px solid  #E8E8E8;
+}
+.icon-ns-share {
+  color: #262626;
+  margin-right: 3px;
+}
+.material__noData {
+  height: calc(100vh - 50px - 40px - 46px - 10px);
+  padding: 100px 10px 10px;
+  margin: 0 10px;
+  background: #FFF;
+  border-radius: 5px;
+}
+.prompt {
+  font-size: 14px;
+  color: #8C8C8C;
+  text-align: center;
+}
+.material .material__btn {
+  text-align: right;
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  padding: 8px 15px;
+  background: rgba(255, 255, 255, .96);
+  border-top: 1px solid #E8E8E8;
+}
+.send {
+  font-size: 16px;
+  color: #FFF;
+  text-align: center;
+  display: inline-block;
+  padding: 7px 20px;
+  background: #1876FC;
+  border-radius: 5px;
+}
+
+
+/* 浮层 */
+.float-layout {}
+
+.float-layout .float-layout__mask {
+  position: fixed;
+  z-index: 10;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  opacity: 1;
+  background: rgba(38, 38, 38, .5);
+  transition: all ease 0s;
+}
+.float-layout.hidden .float-layout__mask {
+  z-index: -1;
+  opacity: 0;
+  transition-delay: .2s;
+}
+.float-layout .float-layout__main {
+  position: fixed;
+  z-index: 11;
+  bottom: 0;
+  width: 100%;
+  max-height: 504px;
+  background-color: #FFF;
+  overflow: hidden;
+  transition: all ease-in-out .3s;
+}
+.float-layout.hidden .float-layout__main {
+  max-height: 0;
+}
+.float-layout .float-layout__title {
+  display: flex;
+  justify-content: center;
+  padding: 14px 15px 12px;
+  font-size: 16px;
+  color: #262626;
+  line-height: 22px;
+}
+.float-layout .float-layout__content {
+  max-height: 454px;
+  width: 100%;
+  overflow: auto;
+}
+.float-layout__title {
+  font-weight: bold;
+}
+.float-layout .float-layout__content {
+  border-top: 0.5px solid #E8E8E8;
+}
+
+/* 修改弹框的边框过粗问题 start */
+.float-layout__main .float-layout__title>div::after{
+  content:'';
+  width:100%;
+  border-bottom: 1px solid #E8E8E8;
+  transform: scaleY(0.5);
+}
+.float-layout__title>div::after {
+  content: '';
+  position: absolute;
+  top: 50px;
+  left: 0;
+  border-bottom: 1px solid #E8E8E8;
+  -webkit-transform: scale(0.5,0.5);
+  transform: scale(0.5,0.5);
+  -webkit-transform-origin: top left;
+}
+.float-layout__content {
+  border-top: 0 !important;
+}
+.float-select .float-select__item + .float-select__item::before {
+  height: 0;
+  background-color: unset;
+}
+.float-select>div::after{
+  content:'';
+  width: 100%;
+  border-bottom: 1px solid #E8E8E8;
+  transform: scaleY(0.5);
+}
+.float-select__item::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-bottom: 1px solid #E8E8E8;
+  -webkit-transform: scale(0.5,0.5);
+  transform: scale(0.5,0.5);
+  -webkit-transform-origin: top left;
+}
+.float-select__item:first-child::after {
+  border-bottom: 0;
+}
+/* 修改弹框的边框过粗问题 start */
+/* 浮层 单选 start */
+.float-select {
+  padding-left: 16px;
+}
+.float-select .float-select__item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 13px 15px 13px 0;
+}
+.float-select .float-select__item + .float-select__item::before {
+  content: ' ';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background-color: #E8E8E8;
+}
+
+.float-select .float-select__content {
+  flex: 1;
+  font-size: 16px;
+  color: #262626;
+  line-height: 24px;
+  padding-right: 10px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.float-select .float-select__item.float-select__item--disabled .float-select__content {
+  color: #BFBFBF;
+}
+.float-select .float-select__icon {
+  display: none;
+  width: 22px;
+  height: 22px;
+}
+.float-select .float-select__item.float-select__item--selected .float-select__icon {
+  display: block;
+}
+
+/* 浮层 单选 end */
+.copy {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+}
+.copy .copy__prompt {
+  font-size: 14px;
+  color: #FFF;
+  text-align: center;
+  line-height: 22px;
+  padding: 12px 16px;
+  background: rgba(38, 38, 38, .85);
+  border-radius: 4px;
+}
+.float-layout__main--pic {
+  font-size: 0;
+  max-height: unset !important;
+  top: 0;
+  bottom: unset;
+  background-color:  unset !important;
+  transition: unset !important;
+}
+.shoppic {
+  width: 100%;
+  height: auto;
+}
+.hidden {
+  display: none;
+}
