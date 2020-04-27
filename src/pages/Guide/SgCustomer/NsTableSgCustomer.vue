@@ -141,8 +141,7 @@
                      @current-change="$pageChange$" >
       </el-pagination>
 
-      <el-dialog :title="title" :visible.sync="showCustomerDialogVisible" width="960px" :before-close="onCancelDialog"
-      :show-scroll-x="false" append-to-body :vetically=true>
+      <el-dialog :title="title" :visible.sync="showCustomerDialogVisible" width="960px" :before-close="onCancelDialog"  :show-scroll-x="false" append-to-body :vetically=true>
         <div style="overflow-x:hidden;overflow-y:auto;">
           <el-table :data="customerData" v-loading.lock="detailLoadingTable"
                 :element-loading-text="$t('prompt.loading')">
@@ -166,10 +165,10 @@
             <el-table-column prop="memberCard" label="会员卡号" align="center" width="150">
               <template slot-scope="scope">{{scope.row.memberCard?scope.row.memberCard:'-'}}</template>
             </el-table-column>
-            <el-table-column prop="outGuideName" label="原导购" align="left" min-width="200">
+            <el-table-column prop="outGuideName" label="原导购" align="left" width="180">
               <template slot-scope="scope">{{scope.row.outGuideName?scope.row.outGuideName:'-'}} [{{scope.row.outShopName?scope.row.outShopName:'-'}}]</template>
             </el-table-column>
-            <el-table-column prop="intoGuideName" label="新导购" align="left" min-width="200">
+            <el-table-column prop="intoGuideName" label="新导购" align="left" width="180">
               <template slot-scope="scope">{{scope.row.intoGuideName?scope.row.intoGuideName:'-'}} [{{scope.row.intoShopName?scope.row.intoShopName:'-'}}]</template>
             </el-table-column>
           </el-table>
