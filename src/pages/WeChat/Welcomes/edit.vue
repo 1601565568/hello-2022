@@ -52,7 +52,7 @@
             <!--选择好友弹窗开始-->
             <ElDialog width="600px" title="选择员工" :visible.sync="dialogVisible"
                       :before-close="employeeTreeClose"
-                      :show-scroll-x=false>
+                      :show-scroll-x=false  :response-limit = false class="dialog-scroll">
               <ElRow :gutter="10" class="code-container">
                   <ElCol :span="12" class="code-container__item">
                     <div class="code-title">可选员工</div>
@@ -189,4 +189,9 @@ export default edit
     }
   }
   /* 修改el-card的默认样式 end */
+  .dialog-scroll {
+    >>> .el-scrollbar__wrap {
+      height: 200px;
+    }
+  }
 </style>

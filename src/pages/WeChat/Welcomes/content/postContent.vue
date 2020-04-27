@@ -96,7 +96,7 @@
           </div>
           <NsButton type="text" slot="reference">+添加消息内容</NsButton>
         </ElPopover>
-        <span class="text-secondary">
+        <span class="text-secondary left-space">
           最多添加10条消息；上传视频限制大小30M，格式为MP4。
         </span>
       </div>
@@ -646,6 +646,9 @@ export default {
     @b item {
       display: flex;
       align-items: center;
+      >>> .el-image-viewer__close {
+        color: var(--theme-color-white);
+      }
       @m title {
         line-height: 18px;
       }
@@ -753,5 +756,8 @@ export default {
   @b spacelarger {
     margin-top: var(--default-margin-larger);
   }
+  }
+  .left-space {
+    margin-left: var(--default-margin-small);
   }
 </style>
