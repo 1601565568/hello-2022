@@ -29,8 +29,7 @@ export default {
         'name': 'MaterialSubdivision',
         'title': '素材分组',
         'component': () => import('@/pages/Guide/Material/subdivision.vue')
-      }
-      ]
+      }]
     },
     {
       'path': '/Guide/SgCoupon/CouponList',

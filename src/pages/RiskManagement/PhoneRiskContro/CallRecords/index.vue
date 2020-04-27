@@ -2,7 +2,7 @@
   <div>
     <callList ref="callTable" :url=$api.riskManagement.callRecords.findList @onPlay="onPlay" @onDownLoad="onDownLoad"></callList>
     <el-dialog :title="title" :visible.sync="dialogFormVisible" width="400px" class="detail-dialog"
-               @keyup.esc.native="cleanGuide">
+               @keyup.esc.native="cleanGuide" @close="colseAudio">
       <div style="text-align: center" class="detail-dialog__content">
         <audio :src="content" ref="callAudio" controls="controls" ></audio>
       </div>

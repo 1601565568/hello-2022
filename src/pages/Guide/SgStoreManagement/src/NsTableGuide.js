@@ -1,4 +1,5 @@
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
+import scrollHeight from '@nascent/ecrp-ecrm/src/mixins/scrollHeight'
 import NsArea from '@nascent/ecrp-ecrm/src/components/NsArea'
 import { getErrorMsg } from '@/utils/toast'
 import $ from 'jquery'
@@ -6,7 +7,7 @@ import scrollTable from '@/mixins/scrollTable'
 
 export default {
   name: 'NsTableGuide',
-  mixins: [tableMixin, scrollTable],
+  mixins: [tableMixin, scrollTable, scrollHeight],
   props: {
     url: Object
   },
@@ -84,6 +85,17 @@ export default {
     }
     let model = Object.assign({}, findVo)
     return {
+      // 滚动区域配置
+      scrollBarDeploy: [
+        {
+          ref: 'pageLeft', // 页面左边滚动条ref的名称
+          excludeHeight: 85
+        },
+        {
+          ref: 'pageRight', // 页面右边滚动条ref的名称
+          excludeHeight: 0
+        }
+      ],
       model: model,
       filterTreeText: '',
       quickSearchModel: quickSearchModel,
@@ -146,7 +158,7 @@ export default {
     } else {
       this.$reload()
     }
-    let limitHeight = window.innerHeight - 32 - 10 - this.$refs.shopTreeDiv.$el.getBoundingClientRect().top
+    let limitHeight = window.innerHeight - 40 - 10 - this.$refs.shopTreeDiv.$el.getBoundingClientRect().top
     this.$refs.shopTreeDiv.$el.children[0].style.height = limitHeight + 'px'
     this.$searchAction$()
   },
