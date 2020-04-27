@@ -93,23 +93,23 @@
       <!-- 操作（只有一项文字的80px,两项文字120px,三项文字160px） -->
 
       <el-table ref="table"  :data="_data._table.data" stripe>
-        <el-table-column prop="deviceKey" label="设备MEID" align="left" min-width="88">
+        <el-table-column prop="deviceKey" label="设备MEID" align="center" width="140">
           <template slot-scope="scope">
             {{scope.row.deviceKey?scope.row.deviceKey:'-'}}
           </template>
         </el-table-column>
-        <el-table-column prop="deviceName" label="手机名称" align="left" min-width="100" :show-overflow-tooltip="true"></el-table-column>
-        <el-table-column prop="phone" label="手机号码" align="left" min-width="100"></el-table-column>
-        <el-table-column prop="account" label="绑定账号" align="center" min-width="100"></el-table-column>
-        <el-table-column prop="mobile" label="对方号码" align="left" min-width="100"></el-table-column>
-        <el-table-column prop="content" label="短信内容" align="left" width="150">
+        <el-table-column prop="deviceName" label="手机名称" width="140" :show-overflow-tooltip="true"></el-table-column>
+        <el-table-column prop="phone" label="手机号码"  width="180"></el-table-column>
+        <el-table-column prop="account" label="绑定账号" width="140" :show-overflow-tooltip="true"></el-table-column>
+        <el-table-column prop="mobile" label="对方号码"  width="180"></el-table-column>
+        <el-table-column prop="content" label="短信内容" :show-overflow-tooltip="true">
           <template slot-scope="scope">
             <span style="text-overflow:ellipsis; overflow: hidden; white-space: nowrap;
 }" :title="scope.row.content">{{scope.row.content}}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="sendTime" label="发送时间" align="center" min-width="100"></el-table-column>
-        <el-table-column prop="sendStatus" label="发送状态" align="center" min-width="100">
+        <el-table-column prop="sendTime" label="发送时间" align="center" width="160"></el-table-column>
+        <el-table-column prop="sendStatus" label="发送状态" align="center" width="80">
           <template slot-scope="scope">
             <div v-if="scope.row.sendStatus ===1">
               <span class="text-success">成功</span>
