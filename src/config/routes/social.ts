@@ -31,13 +31,13 @@ export default {
           'path': '/Social/WeWorkGroup/GroupAssistant',
           'name': 'WeWorkGroupAssistant',
           'title': '群助手',
-          'component': () => import('@/pages/Social/WeWorkGroup/WeWorkGroupWelcomeCode/index.vue')
+          'component': () => import('@/pages/Social/WeWorkGroup/WeWorkGroupAssistant/index.vue')
         },
         {
           'path': '/Social/WeWorkGroup/GroupWelcomeCode',
           'name': 'WeWorkGroupWelcomeCode',
           'title': '群欢迎语',
-          'component': () => import('@/pages/Social/WeWorkGroup/WeWorkGroupAssistant/index.vue')
+          'component': () => import('@/pages/Social/WeWorkGroup/WeWorkGroupWelcomeCode/index.vue')
         }
       ]
     }/*,
