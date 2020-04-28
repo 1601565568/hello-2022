@@ -40,9 +40,9 @@ export default {
           'component': () => import('@/pages/Social/WeWorkGroup/WeWorkGroupWelcomeCode/index.vue')
         }
       ]
-    }/*,
+    },
     {
-      'path': '/Social/OperationData',
+      'path': '/Social/OperationConfig',
       'name': 'OperationData',
       'title': '运营数据',
       'component': () => import('@nascent/ecrp-ecrm/src/layout/Content.vue'),
@@ -51,9 +51,9 @@ export default {
           'path': '/Social/OperationData/GuideBehaviorCount',
           'name': 'GuideBehaviorCount',
           'title': '导购行为数据统计',
-          'component': () => import('@/pages/Guide/Customer/CustomerManage.vue')
+          'component': () => import('@/pages/WeWork/GuideBehaviorCount/index.vue')
         }
       ]
-    } */
+    }
   ]
 }
