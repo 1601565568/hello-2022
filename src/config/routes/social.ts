@@ -17,7 +17,7 @@ export default {
           'path': '/Social/OperationConfig',
           'name': 'OperationConfig',
           'title': '企业微信设置',
-          'component': () => import('@/pages/Guide/SgStoreManagement/List.vue')
+          'component': () => import('@/pages/Social/OperationConfig/WeWorkConfig/index.vue')
         }
       ]
     },
@@ -40,7 +40,7 @@ export default {
           'component': () => import('@/pages/Social/WeWorkGroup/WeWorkGroupAssistant/index.vue')
         }
       ]
-    },
+    }/*,
     {
       'path': '/Social/OperationData',
       'name': 'OperationData',
@@ -54,6 +54,6 @@ export default {
           'component': () => import('@/pages/Guide/Customer/CustomerManage.vue')
         }
       ]
-    }
+    } */
   ]
 }
