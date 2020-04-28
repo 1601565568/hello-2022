@@ -175,15 +175,13 @@ export default {
       this.loading = true
       let that = this
       this.$http.fetch(this.$api.guide.material.findGoodBankList).then(res => {
-        if (!res.success) {
-          that.$notify.error(getErrorMsg(res.msg))
-        } else if (res.result) {
+        if (res.success && res.result) {
           that.bankList = res.result
           that.searchObj.searchMap.bankId = that.bankList[0].value
           that.loadListFun()
         }
       }).catch((res) => {
-        that.$notify.error(getErrorMsg(res))
+        that.$notify.error(res.msg)
       }).finally(() => {
         this.loading = false
       })
