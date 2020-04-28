@@ -94,7 +94,6 @@ export default {
         {
           'name': '配置',
           'func': function (scope) {
-            console.log(scope.row.explanation[0].url)
             window.open(scope.row.explanation[0].url)
           }
         }
