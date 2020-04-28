@@ -116,7 +116,6 @@ export default {
     },
     showToggle (obj) {
       this.dialogVisible = true
-      this.loading = true
       this.findGoodBankList()
     },
     handleSelectionChange (val) {
@@ -173,17 +172,20 @@ export default {
      * @msg: 查询商品库列表
      */
     findGoodBankList () {
+      this.loading = true
       let that = this
       this.$http.fetch(this.$api.guide.material.findGoodBankList).then(res => {
-        if (res.success && res.result) {
+        if (!res.success) {
+          that.$notify.error(getErrorMsg(res.msg))
+        } else if (res.result) {
           that.bankList = res.result
           that.searchObj.searchMap.bankId = that.bankList[0].value
           that.loadListFun()
         }
-      }).catch((resp) => {
-        that.$notify.error(getErrorMsg(resp))
+      }).catch((res) => {
+        that.$notify.error(getErrorMsg(res))
       }).finally(() => {
-        // this.loading = false
+        this.loading = false
       })
     }
   }
