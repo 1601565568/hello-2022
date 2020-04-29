@@ -54,7 +54,6 @@ export default {
       ],
       // 列表数据
       tableData: [],
-      url: '',
       _pagination: pagination,
       _table: {
         quickSearchMap: {}
