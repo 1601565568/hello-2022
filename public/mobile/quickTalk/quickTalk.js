@@ -22,7 +22,7 @@
   function sendWord(){
     let id=$('.item__radio--selected').attr('id').replace(/[^0-9]/ig,'');
     let content=$('#word'+id).text();
-    let url = '{"type":1,"content":"'+content+'","exit":false}';
+    let url = '{"type":1,"content":"'+content+'","exit":true}';
     console.log("提交路径==》"+host+url);
     window.location.href =host+url
   }
