@@ -106,7 +106,12 @@
           </el-table-column>
           <el-table-column prop="interval" label="通过时间间隔" align="left" min-width="100">
             <template slot-scope="scope">
-              {{ scope.row.mininterval?scope.row.mininterval:'-' }}-{{ scope.row.maxinterval?scope.row.maxinterval:'-' }}秒
+              <div v-if="scope.row.isopen === 1">
+                -
+              </div>
+              <div v-else-if="scope.row.isopen === 2">
+                {{ scope.row.mininterval?scope.row.mininterval:'-' }}-{{ scope.row.maxinterval?scope.row.maxinterval:'-' }}秒
+              </div>
             </template>
           </el-table-column>
           <el-table-column prop="num" label="当前排队好友数" align="right" min-width="120">
@@ -124,14 +129,19 @@
           </el-table-column>
           <el-table-column prop="joinQueue" label="加入队列" align="center" min-width="100">
             <template slot-scope="scope">
-              <div v-if="scope.row.joinqueue === 1">
-                <p>关闭</p>
+              <div v-if="scope.row.isopen === 1">
+                -
               </div>
-              <div v-else-if="scope.row.joinqueue === 2">
-                <p>开启</p>
-              </div>
-              <div v-else >
-                <p>-</p>
+              <div v-else-if="scope.row.isopen === 2">
+                <div v-if="scope.row.joinqueue === 1">
+                  <p>关闭</p>
+                </div>
+                <div v-else-if="scope.row.joinqueue === 2">
+                  <p>开启</p>
+                </div>
+                <div v-else >
+                  <p>-</p>
+                </div>
               </div>
             </template>
           </el-table-column>
