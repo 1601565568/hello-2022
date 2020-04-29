@@ -52,6 +52,12 @@ export default {
           'name': 'GuideBehaviorCount',
           'title': '导购行为数据统计',
           'component': () => import('@/pages/WeWork/GuideBehaviorCount/index.vue')
+        },
+        {
+          'path': '/Social/OperationData/GuideBehaviorCount/NsTableWelcomes',
+          'name': 'SocialNsTableWelcomes',
+          'title': '好友数据',
+          'component': () => import('@/pages/WeWork/GuideBehaviorCount/list/TableFriendCnt.vue')
         }
       ]
     }

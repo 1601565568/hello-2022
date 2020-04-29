@@ -154,9 +154,6 @@ export default {
     formatInteger (val) {
       return formatInteger(val)
     },
-    onSearch () {
-      // console.log('搜索响应')
-    },
     // 初始化店铺列表
     initShopList (page) {
       this.shopTreePage.page = page || 1
@@ -226,8 +223,10 @@ export default {
       // 代表门店
       if (data.parentId === '0') {
         _this.model.shopId = data.id
+        _this.model.guideId = null
       } else {
         // 专属导购
+        _this.model.shopId = null
         _this.model.guideId = data.id
       }
       _this.echartsType = 1
@@ -306,6 +305,14 @@ export default {
         return
       }
       this.$searchAction$()
+    },
+    // 跳转到好友总数批量操作前往会员管理页面按钮
+    skipFriendCnt () {
+      const { href } = this.$router.resolve({
+        path: '/Social/OperationData/GuideBehaviorCount/NsTableWelcomes',
+        params: { id: 0 }
+      })
+      window.open(href, '_blank')
     }
   }
 }

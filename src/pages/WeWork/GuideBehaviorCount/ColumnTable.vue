@@ -148,7 +148,7 @@
               <el-table-column :show-overflow-tooltip="true" prop="friendCnt" align="right"
                                label="好友总数">
                 <template slot-scope="scope">
-                  <NsButton type="text">{{formatInteger(scope.row.friendCnt)}}</NsButton>
+                  <NsButton @click="skipFriendCnt" type="text">{{formatInteger(scope.row.friendCnt)}}</NsButton>
                 </template>
               </el-table-column>
               <el-table-column :show-overflow-tooltip="true" prop="groupChatCnt" align="right"
