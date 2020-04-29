@@ -123,12 +123,13 @@
                   type="daterange"
                   start-placeholder="开始日期"
                   end-placeholder="结束日期"
+                  value-format = "timestamp"
                   :unlink-panels = true
                   :default-time="['00:00:00', '00:00:00']">
                 </el-date-picker>
               </el-form-item>
               <el-form-item>
-                <ns-button type="primary" @click="$searchAction$">{{$t('operating.search')}}</ns-button>
+                <ns-button type="primary" @click="onClickTable">{{$t('operating.search')}}</ns-button>
                 <ns-button @click="$resetInputAction$">{{$t('operating.reset')}}</ns-button>
               </el-form-item>
             </el-form>

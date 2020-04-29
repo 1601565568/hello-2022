@@ -52,67 +52,8 @@ export default {
           excludeHeight: 0 // 简单搜索的高度39 + 间距5 + 标题41
         }
       ],
-      tableData: [{
-        name: '王小虎',
-        totalNum: 19900408,
-        groupsNum: 200,
-        newFriendNum: 416,
-        activeChatTotal: 30,
-        sendMsgTotal: 30,
-        shardNum: 8,
-        repliedNum: 17,
-        replyTime: 1,
-        deleteNum: 16,
-        pullBlackNum: 9
-      }, {
-        name: '王小二虎',
-        totalNum: 65845,
-        groupsNum: 200,
-        newFriendNum: 416,
-        activeChatTotal: 30,
-        sendMsgTotal: 30,
-        shardNum: 8,
-        repliedNum: 17,
-        replyTime: 1,
-        deleteNum: 16,
-        pullBlackNum: 9
-      }, {
-        name: '王小三虎',
-        totalNum: 45874,
-        groupsNum: 200,
-        newFriendNum: 416,
-        activeChatTotal: 30,
-        sendMsgTotal: 30,
-        shardNum: 8,
-        repliedNum: 17,
-        replyTime: 1,
-        deleteNum: 16,
-        pullBlackNum: 9
-      }, {
-        name: '王小四虎',
-        totalNum: 154648,
-        groupsNum: 200,
-        newFriendNum: 416,
-        activeChatTotal: 30,
-        sendMsgTotal: 30,
-        shardNum: 8,
-        repliedNum: 17,
-        replyTime: 1,
-        deleteNum: 16,
-        pullBlackNum: 9
-      }, {
-        name: '王大虎',
-        totalNum: 190408,
-        groupsNum: 20,
-        newFriendNum: 46,
-        activeChatTotal: 30,
-        sendMsgTotal: 30,
-        shardNum: 8,
-        repliedNum: 17,
-        replyTime: 1,
-        deleteNum: 16,
-        pullBlackNum: 9
-      }],
+      // 列表数据
+      tableData: [],
       url: '',
       _pagination: pagination,
       _table: {
@@ -182,9 +123,7 @@ export default {
         messageCnts: [],
         replyPercentages: [],
         avgReplyTimes: []
-      },
-      startTime: '2020-04-26 00:00:00',
-      endTime: '2020-04-26 00:00:00'
+      }
     }
   },
 
@@ -292,6 +231,8 @@ export default {
         // 专属导购
         _this.model.guideId = data.id
       }
+      _this.echartsType = 1
+      _this.analysisDays = 1
       _this.initEchats()
       _this.initTable()
     },
@@ -302,7 +243,7 @@ export default {
       let param = {
         shopId: that.model.shopId,
         guideId: that.model.guideId,
-        type: that.echartsType
+        type: that.analysisDays
       }
       that.$http
         .fetch(that.$api.weWork.behaviorData.getBehaviorCount, param).then(resp => {
@@ -319,7 +260,7 @@ export default {
             that.echatData.messageCnts = resp.result.messageCnts
             that.echatData.replyPercentages = resp.result.replyPercentages
             that.echatData.avgReplyTimes = resp.result.avgReplyTimes
-            that.initTotalFriendData(1)
+            that.initTotalFriendData(this.echartsType)
           }
         }).catch(resp => {
           that.$notify.error(resp.msg)
@@ -327,6 +268,7 @@ export default {
     },
     // 渲染图表数据
     initTotalFriendData (type) {
+      this.echartsType = type
       let dates = this.echatData.times
       let data = []
       if (type === 1) {
@@ -346,18 +288,24 @@ export default {
       data.forEach((rule) => {
         this.totalFriendData.series[0].data.push(rule)
       })
-      this.echartsType = type
       this.loadingTotalFriendData = false
     },
     // 图表时间点击事件
     onClickEchatsTime () {
-      this.echartsType = this.analysisDays
-      this.echatData.times = 1
+      this.echartsType = 1
       this.initEchats()
     },
-    // 初始化图表数据
+    // 初始化列表数据
     initTable () {
       this.model.date = 1
+      this.$searchAction$()
+    },
+    // 搜索列表数据
+    onClickTable () {
+      if (this.model.date === '4' && this.model.dateRange.length < 2) {
+        this.$notify.error('请正确选择范围时间')
+        return
+      }
       this.$searchAction$()
     }
   }
