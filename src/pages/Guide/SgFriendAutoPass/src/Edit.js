@@ -97,6 +97,10 @@ export default {
         this.$message.error('通过时间间隔不能为空')
         return
       }
+      if (that.friendAutoPass.mininterval >= 3600 || that.friendAutoPass.mininterval < 20 ||
+        that.friendAutoPass.maxinterval >= 3600 || that.friendAutoPass.maxinterval < 20) {
+        return this.$message.error('通过时间间隔范围20-3600')
+      }
       if (that.friendAutoPass.mininterval >= that.friendAutoPass.maxinterval) {
         return this.$message.error('通过时间间隔最小间隔不能大于最大间隔')
       }

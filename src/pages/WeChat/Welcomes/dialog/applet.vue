@@ -69,9 +69,14 @@
             </ElFormGrid>
           </ElFormItem>
           <ElFormItem label-width="83px" v-if="model.selectIndex!=''">
-                <span class="text-primary">
-                  <Icon type="exclamation-circle"/>&nbsp;请确认小程序配置信息输入正确！
-                </span>
+            <span class="text-primary">
+              <Icon type="exclamation-circle"/>&nbsp;请确认小程序配置信息输入正确！
+            </span>
+          </ElFormItem>
+          <ElFormItem label-width="83px" v-if="model.selectIndex!=''">
+            <span class="text-primary">
+              &nbsp;注:小程序路径后需要带上.html，如 pages/member/test.html?id=1
+            </span>
           </ElFormItem>
           <ElFormItem>
             <div class="message-headling">小程序卡片展示：</div>

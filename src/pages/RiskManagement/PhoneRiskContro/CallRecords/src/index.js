@@ -17,6 +17,10 @@ export default {
       this.dialogFormVisible = true
       this.content = row.content
     },
+    colseAudio () {
+      let audio = this.$refs.callAudio
+      audio.pause()
+    },
     cleanGuide (e) {
       // 没用
       this.dialogFormVisible = false
