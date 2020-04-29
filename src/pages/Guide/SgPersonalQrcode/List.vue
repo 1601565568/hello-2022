@@ -76,7 +76,9 @@
             </ElUpload>
           </ElFormItem>
           <ElFormItem class="preview-btn">
-            <ns-button type="primary" @click="download(bgpic)" plain>下载原图</ns-button>
+            <a :href="url+ '/uploadImg?fileName=背景图&imgUrl=' + this.bgpic + '&width=750&height=1624'">
+              <ns-button type="primary" plain>下载原图</ns-button>
+            </a>
           </ElFormItem>
           <ElFormItem>
             <div class="text-primary">
