@@ -1,12 +1,18 @@
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
+import scrollHeight from '@nascent/ecrp-ecrm/src/mixins/scrollHeight'
 import { getErrorMsg } from '@/utils/toast'
 
 export default {
   name: 'index',
-  mixins: [tableMixin],
+  mixins: [tableMixin, scrollHeight],
   data: function () {
     let that = this
     return {
+      // 页面滚动条内容高度配置
+      scrollBarDeploy: {
+        ref: 'fullScreen', // 页面滚动条ref的名称
+        excludeHeight: 39 // 底部按钮的高度
+      },
       state: 0, // 状态 0：新增 1：编辑
       memberManagePlan: 1,
       // 弹框是否打开判断值
