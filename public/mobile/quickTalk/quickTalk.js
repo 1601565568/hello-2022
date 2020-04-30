@@ -37,14 +37,13 @@
    function setClearSecdButtn(e) {
      let searchbarValue=$('#searchbarValue').val();
      if(e==0){
-       //console.log("onfocus=》"+e);
        //显示清空搜索框按钮
-       $('#clearSecdId').css('display','block');
+       $('#clearSecdId').show();
        return;
      }
      if(e==1&&searchbarValue==''){
-       // console.log("onfocusout=》"+e);
-       $('#clearSecdId').css('display','none');
+       $('#clearSecdId').hide();
+       $('.searchbar__input').val('');
        return;
      }
    }
@@ -55,7 +54,8 @@
    // 清除搜索框
    function clearSearth() {
      $('.searchbar__input').val('');
-     $('#groupAll').click();
+     setClearSecdButtn(1);
+     //$('#groupAll').click();
    }
    // 处理发送按钮
   function setSendButton(e){
@@ -98,7 +98,7 @@
     }
    // 头部菜单点击触发
    function clickEvent(e) {
-     // setClearSecdButtn(1);
+     setClearSecdButtn(1);
      let thisElement=$(e);
      let quicklyWord={
        wordGroupId:thisElement.attr('id'),
