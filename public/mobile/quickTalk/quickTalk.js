@@ -98,7 +98,7 @@
     }
    // 头部菜单点击触发
    function clickEvent(e) {
-     setClearSecdButtn(1);
+     // setClearSecdButtn(1);
      let thisElement=$(e);
      let quicklyWord={
        wordGroupId:thisElement.attr('id'),
