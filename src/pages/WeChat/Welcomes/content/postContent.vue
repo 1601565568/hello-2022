@@ -16,7 +16,7 @@
                 :preview-src-list="scope.row.content.split(';')"/>
             </div>
             <!-- type=3 视频 -->
-            <div v-if="scope.row.type === 'video'" @click="playVideo(scope.row)" class="message-item message-item--opposite">
+            <div v-if="scope.row.type === 'video'" @click="playVideo(scope.row)" style="cursor:pointer" class="message-item message-item--opposite">
               <ElImage
                 :height="46"
                 :width="76"
@@ -51,9 +51,37 @@
             </div>
           </template>
         </ElTableColumn>
-        <ElTableColumn label="操作" align="center" :width="80">
+        <ElTableColumn label="操作" align="center" :width="120">
           <template slot-scope="scope">
-            <NsTableColumnOperateButton :buttons="tableButtons" :prop="scope" />
+            <template v-if="scope.row.type == 'image'" style="display: inline-block;">
+              <ElUpload
+                :action="uploadPicUrl"
+                :show-file-list="false"
+                :on-success="handleAvatarSuccessImageEdit"
+                :before-upload="beforeAvatarUpload" style="display: inline-block;">
+                <ns-button type="text" size="small" style="margin-right: 5px"
+                           @click="setIndex(scope.$index)">编辑</ns-button>
+              </ElUpload>
+            </template>
+            <template v-else-if="scope.row.type == 'video'" style="display: inline-block;">
+              <ElUpload name="file"
+                        :action="uploadPicUrl"
+                        :show-file-list="false"
+                        accept=".mp4"
+                        :on-success="handleVideoSuccessVideoEdit"
+                        :before-upload="beforeUploadVideo" style="display: inline-block;">
+                <ns-button type="text" size="small" style="margin-right: 5px"
+                           @click="setIndex(scope.$index)">编辑</ns-button>
+              </ElUpload>
+            </template>
+            <template v-else>
+              <ns-button type="text" size="small"
+                         @click="editModel(scope.row, scope.$index)">编辑</ns-button>
+            </template>
+            <template>
+              <ns-button type="text" size="small"
+                         @click="deleteModel(scope.row, scope.$index)">删除</ns-button>
+            </template>
           </template>
         </ElTableColumn>
       </ElTable>
@@ -66,7 +94,7 @@
             </div>
             <div class="message-prompt__mass">
               <ElUpload
-                :action="this.$api.core.sgUploadFile('message')"
+                :action="uploadPicUrl"
                 :show-file-list="false"
                 :on-success="handleAvatarSuccessImageSave"
                 :before-upload="beforeAvatarUpload">
@@ -76,7 +104,7 @@
             </div>
             <div class="message-prompt__mass">
               <ElUpload name="file"
-                        :action="this.$api.core.sgUploadFile('message')"
+                        :action="uploadPicUrl"
                         :show-file-list="false"
                         accept=".mp4"
                         :on-success="handleVideoSuccessVideoSave"
@@ -144,6 +172,8 @@ export default {
   props: ['publishDataFather', 'presetLinkFather'],
   data () {
     return {
+      // 文件下载地址
+      uploadPicUrl: this.$api.core.sgUploadFile('message'),
       // 是否可再添加消息
       disabled: false,
       isShowUploadVideo: false,
@@ -241,6 +271,10 @@ export default {
         this.openApplet(object)
       }
     },
+    // 编辑模板
+    setIndex (index) {
+      this.index = index
+    },
     // 关闭编辑模板
     close (type) {
       if (type === 'text') {
@@ -311,7 +345,8 @@ export default {
       this.publishData.push(imageModel)
     },
     // 修改图片(图片组件编辑专用)
-    handleAvatarSuccessImageEdit (url) {
+    handleAvatarSuccessImageEdit (res, file) {
+      let url = res.result.url
       let name = this.matchUrl(url)
       this.publishData[this.index].content = url
       this.publishData[this.index].contentFilename = name
@@ -348,7 +383,8 @@ export default {
       this.publishData.push(videoModel)
     },
     // 视频上传是否成功事件(视频组件编辑专用)
-    handleVideoSuccessVideoEdit (url) {
+    handleVideoSuccessVideoEdit (res, file) {
+      let url = res.result.url
       let name = this.matchUrl(url)
       this.publishData[this.index].content = url
       this.publishData[this.index].contentFilename = name
@@ -514,13 +550,13 @@ export default {
     },
     // 上传图片的类型和大小判断事件
     beforeAvatarUpload (file) {
-      const isJPG = file.type === 'image/jpeg'
+      const isJPG = file.type === 'image/jpeg' || file.type === 'image/png'
       const isLt2M = file.size / 1024 / 1024 < 2
       if (!isJPG) {
-        this.$message.error('上传图片只能是 JPG 格式!')
+        this.$message.error('上传图片只能是 JPG|PNG 格式!')
       }
       if (!isLt2M) {
-        this.$message.error('上传图片大小不能超过 20MB!')
+        this.$message.error('上传图片大小不能超过 2MB!')
       }
       return isJPG && isLt2M
     },
