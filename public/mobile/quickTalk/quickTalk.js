@@ -8,6 +8,7 @@
   };
   window.onload = function () {
     $('.searchbar__input').change();
+    $('#cancelSecdId').css('display','none')
     $('.send').css("background","#BEBFC3");
     $(".send").css({"pointer-events": "none" });
     getQuickListMenu(sgGuideExt);
@@ -36,6 +37,8 @@
 
    // 搜索框
    function searchWord(e) {
+      //显示清空搜索框按钮
+      $('#cancelSecdId').css('display','block')
       let searchElement=$(e);
       $('#groupAll').click();
    }
@@ -44,32 +47,45 @@
      $('.searchbar__input').val('');
      $('#groupAll').click();
    }
+   // 处理发送按钮
+  function setSendButton(e){
+      // let pointerEvents=$(".send").css("pointer-events");
+      // console.log("pointerEvents=>"+pointerEvents)
+      if(e==1){
+        $('.send').css("background","#1876FC");
+        $(".send").css({"pointer-events": "auto" });
+      }else {
+        $('.send').css("background","#BEBFC3");
+        $(".send").css({"pointer-events": "none" });
+      }
+
+  }
    // 点击单选框 选中话术
   function clickWord(e) {
-      $('.send').css("background","#1876FC");
-      $(".send").css({"pointer-events": "auto" });
       let thisElement=$(e);
       // 移除所有选中的样式
       if(thisElement.hasClass('item__radio--selected')){
-         thisElement.removeClass('item__radio--selected')
+         thisElement.removeClass('item__radio--selected');
+        setSendButton(0);
       }else{
          $('.item__radio').removeClass("item__radio--selected");
          thisElement.addClass("item__radio--selected");
+        setSendButton(1);
       }
   }
   // 点击话术 选中单选框
-  function clickWordByWord (e) {
-     $('.send').css("background","#1876FC");
-     $(".send").css({"pointer-events": "auto" });
-     let thisElement=$(e);
-     let radioElement=$('#radioBy'+thisElement.attr('id'));
-     if(radioElement.hasClass('item__radio--selected')){
-       radioElement.removeClass('item__radio--selected')
-     }else{
-       $('.item__radio').removeClass("item__radio--selected");
-       radioElement.addClass("item__radio--selected");
-     }
-  }
+    function clickWordByWord (e) {
+       let thisElement=$(e);
+       let radioElement=$('#radioBy'+thisElement.attr('id'));
+       if(radioElement.hasClass('item__radio--selected')){
+         radioElement.removeClass('item__radio--selected')
+         setSendButton(0);
+       }else{
+         $('.item__radio').removeClass("item__radio--selected");
+         radioElement.addClass("item__radio--selected");
+         setSendButton(1);
+       }
+    }
    // 头部菜单点击触发
    function clickEvent(e) {
      let thisElement=$(e);
