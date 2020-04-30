@@ -31,15 +31,23 @@
     取消发送
    */
    function cancelSend() {
-     window.location.href = host+cancelParams
+     window.location.href = host+cancelParams;
      console.log("取消发送=》"+host+cancelParams)
    }
-
+   //设置清除按钮
+   function setClearSecdButtn() {
+     let searchbarValue=$('#searchbarValue').val();
+     console.log("搜索字段==》"+searchbarValue);
+     if(searchbarValue==''){
+       $('#clearSecdId').css('display','none')
+     }else{
+       console.log("==》"+searchbarValue);
+       //显示清空搜索框按钮
+       $('#clearSecdId').css('display','block')
+     }
+   }
    // 搜索框
    function searchWord(e) {
-      //显示清空搜索框按钮
-      $('#cancelSecdId').css('display','block')
-      let searchElement=$(e);
       $('#groupAll').click();
    }
    // 清除搜索框
@@ -88,6 +96,7 @@
     }
    // 头部菜单点击触发
    function clickEvent(e) {
+     setClearSecdButtn();
      let thisElement=$(e);
      let quicklyWord={
        wordGroupId:thisElement.attr('id'),
