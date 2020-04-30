@@ -1,6 +1,6 @@
 
   var host = "ecrp://send?params=";
-  var cancelParams = '{"type":-1,"exit":true}';
+  var cancelParams = '{"type":-1}';
   var sgGuideExt={
     "wxId": getPar('wxId'),
     "chatId": getPar('chatId'),
@@ -13,19 +13,18 @@
     $(".send").css({"pointer-events": "none" });
     getQuickListMenu(sgGuideExt);
   };
-  //交互协议
-
   /*
-   *发送消息
-   *var content = '{"type":1,"content":"文本内容","exit":true}'
-   *window.location.href =host+content
+   * 发送消息
+   * //交互协议
+   * var content = '{"type":1,"content":"文本内容","exit":true}'
+   * window.location.href =host+content
    */
   function sendWord(){
     let id=$('.item__radio--selected').attr('id').replace(/[^0-9]/ig,'');
     let content=$('#word'+id).text();
     let url = '{"type":1,"content":"'+content+'","exit":true}';
     console.log("提交路径==》"+host+url);
-    window.location.href =host+url
+    window.location.href =host+url;
   }
    /*
     取消发送
@@ -35,15 +34,18 @@
      console.log("取消发送=》"+host+cancelParams)
    }
    //设置清除按钮
-   function setClearSecdButtn() {
+   function setClearSecdButtn(e) {
      let searchbarValue=$('#searchbarValue').val();
-     console.log("搜索字段==》"+searchbarValue);
-     if(searchbarValue==''){
-       $('#clearSecdId').css('display','none')
-     }else{
-       console.log("==》"+searchbarValue);
+     if(e==0){
+       //console.log("onfocus=》"+e);
        //显示清空搜索框按钮
-       $('#clearSecdId').css('display','block')
+       $('#clearSecdId').css('display','block');
+       return;
+     }
+     if(e==1&&searchbarValue==''){
+       // console.log("onfocusout=》"+e);
+       $('#clearSecdId').css('display','none');
+       return;
      }
    }
    // 搜索框
@@ -96,7 +98,7 @@
     }
    // 头部菜单点击触发
    function clickEvent(e) {
-     setClearSecdButtn();
+     setClearSecdButtn(1);
      let thisElement=$(e);
      let quicklyWord={
        wordGroupId:thisElement.attr('id'),
