@@ -1,6 +1,6 @@
 
   var host = "ecrp://send?params=";
-  var cancelParams = '{"type":-1}';
+  var cancelParams = '{"type":-1,"exit":true}';
   var sgGuideExt={
     "wxId": getPar('wxId'),
     "chatId": getPar('chatId'),
