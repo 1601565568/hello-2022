@@ -55,7 +55,7 @@
    function clearSearth() {
      $('.searchbar__input').val('');
      setClearSecdButtn(1);
-     //$('#groupAll').click();
+     $('#groupAll').click();
    }
    // 处理发送按钮
   function setSendButton(e){
