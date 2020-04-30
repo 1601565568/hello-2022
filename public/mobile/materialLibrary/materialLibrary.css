@@ -30,7 +30,7 @@ html,body {
 input {
   font-size: 14px;
   color: #262626;
-  line-height: 21px;
+  line-height: 20px;
   border: 0;
   outline: none;
 }
@@ -70,8 +70,6 @@ input {
 .searchbar__input {
   flex: 1;
   line-height: 22px;
-  position: relative;
-  top: 1px;
   margin: 0 5px 0 3px;
 }
 .icon-ns-search {
@@ -85,13 +83,15 @@ input {
 .material .material__choice {
   font-size: 14px;
   color: #262626;
-  line-height: 21px;
+  line-height: 20px;
   font-weight: bold;
   top: 100px;
   padding: 10px 10px 15px;
 }
 .icon-ns-arrow-drowdown {
   color: #262626;
+  position: relative;
+  top: 1px;
 }
 .material .material__tabs {
   padding: 0 15px;
@@ -132,34 +132,67 @@ input {
   font-size: 14px;
   color: #262626;
   line-height: 20px;
+  position: relative;
+  height: initial;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  display: -webkit-box;
+ -webkit-box-orient: vertical;
 }
+.outerContainer {
+  max-height: 60px;
+  position: relative;
+  overflow: hidden;
+}
+.is_open .outerContainer {
+  max-height: unset;
+  overflow: auto;
+}
+.subCategory {
+  position: relative;
+}
+.subCategoryMore {
+  font-size: 14px;
+  line-height: 1;
+  color: #1876FC;
+  width: 100%;
+  display: none;
+  padding-top: 10px;
+  background: rgba(255, 255, 255, .96);
+}
+.subCategoryMore.subCategoryMoreRotate {
+   transform: rotate(180deg);
+ }
 .icon-ns-arrow-circle-down, .icon-ns-arrow-circle-up {
   color: #8C8C8C;
 }
 .photowall {
   font-size: 0;
-  padding-top: 7px;
+  padding-top: 15px;
 }
 .photowall .photowall__picture {
-  width: 94px;
-  height: 94px;
+  width: 30%;
+  padding-top: 30%;
+  position: relative;
   display: inline-block;
-  margin: 8px 8px 0 0;
+  margin: 0 5% 15px 0;
 }
 .photowall .photowall__picture:nth-child(3n) {
   margin-right: 0;
 }
-.img{
+.img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 .other {
   font-size: 12px;
   color: #595959;
   display: flex;
   align-items: center;
-  padding: 15px 0;
 }
 .other .other__time {
   flex: 1;
@@ -179,18 +212,19 @@ input {
   line-height: 20px;
   text-align: right;
   padding-top: 15px;
+  margin-top: 15px;
   border-top: 1px solid  #E8E8E8;
 }
 .icon-ns-share {
   color: #262626;
+  position: relative;
+  top: 1px;
   margin-right: 3px;
 }
 .material__noData {
   height: calc(100vh - 50px - 40px - 46px - 10px);
-  padding: 100px 10px 10px;
+  padding: 54px 10px 10px;
   margin: 0 10px;
-  background: #FFF;
-  border-radius: 5px;
 }
 .prompt {
   font-size: 14px;
@@ -217,13 +251,10 @@ input {
   border-radius: 5px;
 }
 
-
 /* 浮层 */
-.float-layout {}
-
 .float-layout .float-layout__mask {
   position: fixed;
-  z-index: 10;
+  z-index: 100;
   top: 0;
   bottom: 0;
   left: 0;
@@ -239,7 +270,7 @@ input {
 }
 .float-layout .float-layout__main {
   position: fixed;
-  z-index: 11;
+  z-index: 101;
   bottom: 0;
   width: 100%;
   max-height: 504px;
@@ -257,17 +288,12 @@ input {
   font-size: 16px;
   color: #262626;
   line-height: 22px;
+  font-weight: bold;
 }
 .float-layout .float-layout__content {
   max-height: 454px;
   width: 100%;
   overflow: auto;
-}
-.float-layout__title {
-  font-weight: bold;
-}
-.float-layout .float-layout__content {
-  border-top: 0.5px solid #E8E8E8;
 }
 
 /* 修改弹框的边框过粗问题 start */
@@ -290,10 +316,6 @@ input {
 .float-layout__content {
   border-top: 0 !important;
 }
-.float-select .float-select__item + .float-select__item::before {
-  height: 0;
-  background-color: unset;
-}
 .float-select>div::after{
   content:'';
   width: 100%;
@@ -314,6 +336,7 @@ input {
   border-bottom: 0;
 }
 /* 修改弹框的边框过粗问题 start */
+
 /* 浮层 单选 start */
 .float-select {
   padding-left: 16px;
@@ -331,8 +354,6 @@ input {
   top: 0;
   left: 0;
   width: 100%;
-  height: 1px;
-  background-color: #E8E8E8;
 }
 
 .float-select .float-select__content {
@@ -356,8 +377,9 @@ input {
 .float-select .float-select__item.float-select__item--selected .float-select__icon {
   display: block;
 }
-
 /* 浮层 单选 end */
+
+/* 复制成功样式 start */
 .copy {
   position: fixed;
   top: 50%;
@@ -373,18 +395,59 @@ input {
   background: rgba(38, 38, 38, .85);
   border-radius: 4px;
 }
-.float-layout__main--pic {
-  font-size: 0;
-  max-height: unset !important;
-  top: 0;
-  bottom: unset;
-  background-color:  unset !important;
-  transition: unset !important;
+/* 复制成功样式 end */
+
+/* 图片大图轮播样式  start */
+.swiper-container {
+  width: 100%;
+  height: 100%;
+  padding-top: 50px;
 }
-.shoppic {
+.swiper-slide {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  -webkit-align-items: center;
+  align-items: center;
+  overflow: auto;
+}
+.full-img {
   width: 100%;
   height: auto;
 }
+.close-icon {
+  font-size: 30px !important;
+  color: #D9D9D9;
+}
+/* 图片大图轮播样式 end  */
+
 .hidden {
   display: none;
+}
+.page-bar-return {
+  font-size: 16px;
+  text-align: center;
+  padding: 14px 15px;
+  line-height: 22px;
+  top: 0;
+  background: #FFF;
+}
+.swiper-return {
+  color: #595959;
+}
+.swiper-number {
+  color: #1876FC;
+}
+.icon-return {
+  font-size: 22px !important;
+  position: fixed;
+  top: 14px;
+  left: 15px;
 }

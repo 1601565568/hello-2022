@@ -9,6 +9,7 @@
   <meta name="format-detection" content="telephone=no"/>
   <link rel="stylesheet" href="materialLibrary.css">
   <link rel="stylesheet" href="../css/iconfont.css">
+  <link rel="stylesheet" href="../css/swiper.min.css">
   <title>素材库</title>
 </head>
 <body>
@@ -39,78 +40,11 @@
 
   <!-- 素材库列表 start -->
   <div class="material__list">
-    <div class="item">
-      <div class="page-radio page-radio--selected"></div>
-      <div class="item__msg">
-        <div class="title">
-          亲爱的，最近天气炎热防暑，记得防暑哟～
-          <i class='iconfont icon-ns-arrow-circle-down'></i>
-          <i class='iconfont icon-ns-arrow-circle-up'></i>
-        </div>
-        <div class="photowall">
-          <div class="photowall__picture">
-            <img src="https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=1712808110,1328745779&fm=26&gp=0.jpg" alt="素材库图片" class="img">
-          </div>
-          <div class="photowall__picture">
-            <img src="https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=1712808110,1328745779&fm=26&gp=0.jpg" alt="素材库图片" class="img">
-          </div>
-          <div class="photowall__picture">
-            <img src="https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=1712808110,1328745779&fm=26&gp=0.jpg" alt="素材库图片" class="img">
-          </div>
-          <div class="photowall__picture">
-            <img src="https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=1712808110,1328745779&fm=26&gp=0.jpg" alt="素材库图片" class="img">
-          </div>
-          <div class="photowall__picture">
-            <img src="https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=1712808110,1328745779&fm=26&gp=0.jpg" alt="素材库图片" class="img">
-          </div>
-          <div class="photowall__picture">
-            <img src="https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=1712808110,1328745779&fm=26&gp=0.jpg" alt="素材库图片" class="img">
-          </div>
-        </div>
-        <div class="other">
-          <div class="other__time">2019年10月11日 11:30:51</div>
-          <div class="other__store">门店/分组A也是分享到分组分组A也是分享到分组</div>
-        </div>
-        <div class="share">
-          <i class='iconfont icon-ns-share'></i>
-          分享到朋友圈
-        </div>
-      </div>
-    </div>
-    <div class="item">
-      <div class="page-radio page-radio--selected"></div>
-      <div class="item__msg">
-        <div class="title">
-          点击即可复制文案，并作出文字型弹出提示奥点击即可复制文案，并作出文字型弹出提示，点击即可复制文案，并作出文字型弹出，点击即可复制文案，并作出文字型弹出出。
-          <i class='iconfont icon-ns-arrow-circle-down'></i>
-          <i class='iconfont icon-ns-arrow-circle-up'></i>
-        </div>
-        <div class="photowall">
-          <div class="photowall__picture">
-            <img src="https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=1712808110,1328745779&fm=26&gp=0.jpg" alt="素材库图片" class="img">
-          </div>
-          <div class="photowall__picture">
-            <img src="https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=1712808110,1328745779&fm=26&gp=0.jpg" alt="素材库图片" class="img">
-          </div>
-          <div class="photowall__picture">
-            <img src="https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=1712808110,1328745779&fm=26&gp=0.jpg" alt="素材库图片" class="img">
-          </div>
-        </div>
-        <div class="other">
-          <div class="other__time">2019年10月11日 11:30:51</div>
-          <div class="other__store">门店/分组A也是分享到分组分组A也是分享到分组</div>
-        </div>
-        <div class="share">
-          <i class='iconfont icon-ns-share'></i>
-          分享到朋友圈
-        </div>
-      </div>
-    </div>
   </div>
   <!-- 素材库列表 end -->
 
   <!-- 暂无素材 start -->
-  <div class="material__noData" style="display: none;">
+  <div class="material__noData hidden"><!-- style="display: none;" -->
     <div class="prompt">暂无素材</div>
   </div>
   <!-- 暂无素材 end -->
@@ -121,63 +55,367 @@
   </div>
   <!-- 发送按钮 end -->
 </div>
-<div class="float-layout hidden" style="display: none;">
+
+<!-- 素材分组浮层 start -->
+<!-- <div class="float-layout hidden">
   <div class="float-layout__mask"></div>
   <div class="float-layout__main">
     <div class="float-layout__title">
       <div>标题</div>
     </div>
+
+    <div class="float-select">
+      <div class="float-select__item">
+        <div class="float-select__content">我是选项一</div>
+        <div class="page-radio page-radio--selected"></div>
+      </div>
+      <div class="float-select__item">
+        <div class="float-select__content">我是选项我是选项我是选项我是选项我是选项我是选项我是选项我是选项</div>
+        <div class="page-radio"></div>
+      </div>
+      <div class="float-select__item">
+        <div class="float-select__content">选项二</div>
+        <div class="page-radio"></div>
+      </div>
+      <div class="float-select__item">
+        <div class="float-select__content">选项三</div>
+        <div class="page-radio"></div>
+      </div>
+    </div>
+  </div>
+</div> -->
+
+<div class="float-layout hidden">
+  <div class="float-layout__mask"></div>
+  <div class="float-layout__main">
+    <div class="float-layout__title">
+      <div>标题</div>
+    </div>
+    <div class="float-layout__content">
       <!-- 单选 -->
       <div class="float-select">
         <div class="float-select__item">
           <div class="float-select__content">所有素材</div>
-          <div class="page-radio page-radio--selected"></div>
-        </div>
-        <div class="float-select__item">
-          <div class="float-select__content">我是选项我是选项我是选项我是选项我是选项我是选项我是选项我是选项</div>
-          <div class="page-radio"></div>
-        </div>
-        <div class="float-select__item float-select__item--disabled">
-          <div class="float-select__content">禁用</div>
-          <div class="page-radio"></div>
-        </div>
-        <div class="float-select__item">
-          <div class="float-select__content">选项二</div>
-          <div class="page-radio"></div>
-        </div>
-        <div class="float-select__item">
-          <div class="float-select__content">选项三</div>
-          <div class="page-radio"></div>
+          <div class="page-radio page-radio--selected"></div> <!-- page-radio--selected -->
         </div>
       </div>
     </div>
   </div>
+</div>
+<!-- 素材分组浮层 end -->
+
+<!-- 复制成功 start -->
 <div class="copy" style="display: none;">
   <div class="copy__prompt">复制成功</div>
 </div>
-<div class="float-layout float-layout--img hidden">
-  <div class="float-layout__mask"></div>
-  <div class="float-layout__main float-layout__main--pic">
-    <img src="https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=1712808110,1328745779&fm=26&gp=0.jpg" alt="素材库图片" class="shoppic">
-<!--    <img src="https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=4003890448,1474406845&fm=11&gp=0.jpg" alt="素材库图片" class="shoppic">-->
+<!-- 复制成功 end -->
+
+<!-- 图片大图切换 start -->
+<!-- Swiper -->
+<div class="swiper-container hidden">
+  <!-- 顶部状态栏 start -->
+  <div class="page-bar-return page-fixed">
+    <i class='iconfont icon-return swiper-return'></i>
+    <span class="swiper-number">2/9</span>
+  </div>
+  <!-- 顶部状态栏 end -->
+  <div class="swiper-wrapper">
+    <div class="swiper-slide"><img src="https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=1712808110,1328745779&fm=26&gp=0.jpg" alt="素材库图片" class="full-img"></div>
+    <div class="swiper-slide"><img src="https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=4003890448,1474406845&fm=11&gp=0.jpg" alt="" class="full-img"></div>
   </div>
 </div>
+<!-- 图片大图切换 end -->
+
 <script src="../js/jquery-3.4.1.min.js"></script>
+<script src="../js/swiper.min.js"></script>
+<script type="text/javascript" src="../js/common.js"></script>
 <script>
+  // 查询素材分组URL
+  var findSubdivisionListUrl = '/wx/material/findH5SubdivisionList';
+  // 查询素材列表URL
+  var findMaterialListUrl = '/wx/material/findH5MaterialList';
+  // 素材列表
+  var materialList = []
+  // 分组列表
+  var subdivisionList = []
+  // 搜索条件
+  var searchName = null
+  // 选中的素材Id
+  var selectedId = null
+
+  /**
+   * @msg: 页面初始化加载事件
+   * 1、查询素材分组 & 组装素材分组数据
+   * 2、查询素材列表 & 组装素材列表数据 （素材分组类型：品牌/门店）
+   */
   window.onload = function () {
-    $('.material__choice').click(function () {
-      $('.float-layout').removeClass('hidden')
+    document.addEventListener('touchmove',function(e){
+      var canScroll=false;
+      if(!canScroll){
+        e.preventDefault()
+      }
     })
-    $('.float-layout__save').click(function () {
-      $('.float-layout').addClass('hidden')
-    })
-    $('.float-layout__mask').click(function () {
-      $('.float-layout').addClass('hidden')
-    })
-    $('.photowall__picture').click(function () {
-      $('.float-layout').addClass('hidden')
+    // 页面数据初始化
+    this.init();
+  }
+  /**
+   * @msg: 页面数据初始化
+   */
+  function init() {
+    // 初始化分组
+    initSubdivisionList()
+    // 初始化素材列表
+    initMaterialList()
+  }
+  /**
+   * @msg: 初始化分组列表
+   */  
+   function initSubdivisionList() {
+    this.ajax(apiRoot() + findSubdivisionListUrl,
+      {
+        wxId: 'wxid_gilg2xu6f0p322',   // 链接直接获取
+      }).then(function (result) {
+      if (result.success) {
+        // 分组列表
+        this.subdivisionList = result.result
+        // 素材列表组装 & 展示
+        if (this.subdivisionList && subdivisionList.length > 0) {
+          let html =
+            '<div class="float-select__item">' +
+              '<div class="float-select__content">所有素材</div>' +
+              '<div class="page-radio"></div> <!-- page-radio--selected -->' +
+            '</div>';
+          this.subdivisionList.forEach(function(subdivision,index,arr){
+            html +=
+              '<div class="float-select__item">' +
+                '<div class="float-select__content" subdivisionId="' + subdivision.subdivision_id + '">' + subdivision.subdivision_name + '</div>' +
+                '<div class="page-radio"></div>' +
+              '</div>';
+          })
+          $(".float-select").html(html);
+        }
+      } else {
+        // 跳转错误页
+        // 跳转错误页
+        // $(".customer-tag").hide()
+        // $(".save_customerTag").hide()
+        // $(".customer-errormsg").html(result.result)
+        // $(".customer-error").show()
+      }
     })
   }
-</script>
-</body>
+  /**
+   * @msg: 初始化素材列表
+   */
+  function initMaterialList () {
+    this.ajax(apiRoot() + findMaterialListUrl,
+      {
+        wxId: 'wxid_gilg2xu6f0p322',   // 链接直接获取
+        searchName: searchName,
+        pageStart: '1',
+        pageSize: '500'
+      }
+      ).then(function (result) {
+      if (result.success) {
+        // 素材列表
+        this.materialList = result.result
+        // 素材列表组装 & 展示
+        if (materialList && materialList.length > 0) {
+          let html = '';
+          materialList.forEach(function(material,index,arr){
+            html += buildListItem(
+              material.id,
+              material.content,
+              material.imageList,
+              "datetime", // 时间
+              "品牌",     // 品牌 or 门店
+              material.subdivision_name,
+              index === 0
+              );
+          })
+          $(".material__list").html(html);
+          return
+        }
+      } else {
+        // 跳转错误页
+        // 跳转错误页
+        // $(".customer-tag").hide()
+        // $(".save_customerTag").hide()
+        // $(".customer-errormsg").html(result.result)
+        // $(".customer-error").show()
+      }
+      // 暂无数据
+      this.showNoData()
+    })
+  }
+  /**
+   * @msg: 构建列表选项
+   * @param content 文本内容
+   * @param imageList 图片列表
+   * @param datetime 时间
+   * @param type 类型 品牌/门店
+   * @param subdivision 分组名称
+   * @return: 返回列表项的dom文本
+   */
+  function buildListItem(materialId, content, imageList, datetime, type, subdivision, isSelected) {
+    let cls = isSelected ? 'page-radio--selected' : ''
+    let html =
+    '<div class="item">' +
+      '<div class="page-radio ' + cls + '"' + ' id="' + materialId + '"' + '></div>' +
+      '<div class="item__msg">' +
+          // 主内容
+          '<div class="outerContainer">' +
+            '<div class="subCategory">' +
+              ' <div class="title">' + content + '</div>' +
+            '</div>' +
+          '</div>' +
+          // 展开按钮
+          '<div class="subCategoryMore">' +
+            '<span class="modify">展开</span>' +
+          '</div>' +
+          // 照片List 组装
+          '<div class="photowall">' +
+             this.buildImageList(imageList) +
+          '</div>' +
+          // 创建时间加分组展示 2019年10月11日 11:30:51 | 门店/分组A也是分享到分组分组A也是分享到分组
+          '<div class="other">' +
+            '<div class="other__time">' + datetime + '</div>' +
+            '<div class="other__store">' + type + '/' + subdivision + '</div>' +
+          '</div>' +
+
+          '<div class="share">' +
+            '<i class="iconfont icon-ns-share"></i>' +
+            '分享到朋友圈' +
+          '</div>' +
+
+        '</div>' +
+      '</div>'
+    return html;
+  };
+  /**
+   * @msg: 构建图片列表选项
+   * @param Array 图片列表
+   */
+  function buildImageList(imageList) {
+    let html = '';
+    if (!imageList || imageList.length <= 0) {
+      return html;
+    }
+    imageList.forEach(function(image,index,arr){
+      html +=
+      '<div class="photowall__picture">' +
+        '<img src="' + image + '" alt="素材库图片" class="img">' +
+      '</div>';
+    })
+    return html;
+  };
+  /**
+   * @msg: 暂无数据
+   */
+  function showNoData() {
+    $('.material__noData').removeClass('hidden');
+  }
+  /**
+    * 事件绑定
+    */
+  // 素材radio选择 动态dom元素事件监听
+  $(document).on('click', '.page-radio', function(e){
+    selectedId = e.target.id;
+    $('.page-radio').each(function(i,e){
+      if (e.id === selectedId) {
+        $(e).addClass('page-radio--selected');
+      } else {
+        $(e).removeClass('page-radio--selected');
+      }
+    })
+    // 
+  });
+  // 素材分组打开浮层
+  $('.material__choice').click(function () {
+    $('.float-layout').removeClass('hidden');
+    $('body').css('overflow','hidden');
+  })
+  // 素材分组关闭浮层
+  $('.float-layout__mask').click(function () {
+    $('.float-layout').addClass('hidden')
+    $('body').css('overflow','auto');
+  })
+  // 判断素材组标题超过三行显示图标
+  $(".subCategory").each(function(){
+    var innerHeight = $(this).outerHeight(true);
+    if (innerHeight > 60) {
+      $(this).parent().siblings(".subCategoryMore").css("display","block");
+    }
+  });
+  // 素材标题收起和隐藏
+  $('.subCategoryMore').click(function () {
+    // $('.modify').text('收缩');
+    var show = $(this).parent().hasClass('is_open');
+    if (!show) {
+      $(this).children().text('收缩');
+    } else {
+      $(this).children().text('展开');
+    }
+    $(this).parent().toggleClass('is_open');
+  })
+  // 图片点击大图
+  $('.photowall__picture').click(function () {
+    $('.page-status-bar').addClass('hidden');
+    $('.material').addClass('hidden');
+    $('.swiper-container').removeClass('hidden');
+    // 图片轮播
+    var swiper = new Swiper('.swiper-container');
+  })
+  // 大图图片点击关闭
+  $('.swiper-return').click(function () {
+    $('.swiper-container').addClass('hidden');
+    $('.page-status-bar').removeClass('hidden');
+    $('.material').removeClass('hidden');
+  })
+  /**
+   * @msg: http请求封装
+   */
+  function ajax(url, data, params) {
+    data = JSON.stringify(data)
+    return new Promise(function (resolve, reject) {
+      $.ajax({
+        url: url,
+        type: params && params.type || 'post',
+        dataType: params && params.dataType || 'JSON',
+        data: data,
+        method: "post",
+        contentType: "application/json;charset=UTF-8",
+        success: function (res) {
+          resolve(res)
+        },
+        error: function (res) {
+          // $(".customer-detail").hide()
+          // $(".customer-errormsg").html(res.result)
+          // $(".customer-no-vip").show()
+        }
+      });
+    });
+  }
+  function ajax(url, data, params) {
+    data = JSON.stringify(data)
+    return new Promise(function (resolve, reject) {
+      $.ajax({
+        url: url,
+        type: params && params.type || 'post',
+        dataType: params && params.dataType || 'JSON',
+        data: data,
+        method: 'post',
+        contentType: "application/json;charset=UTF-8",
+        success: function (res) {
+          resolve(res)
+        },
+        error: function (res) {
+          $(".fail").show();
+          $('.fail__text').html(res.result);
+        }
+      });
+    });
+  }
+  </script>
+  </body>
 </html>
