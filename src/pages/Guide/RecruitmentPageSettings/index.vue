@@ -34,7 +34,7 @@
                   <img v-if="model.recruiting_posters_image" :src="model.recruiting_posters_image" class="recruit-avatar">
                   <Icon type="plus" className="recruit-tip" v-else/>
                 </ElUpload>
-                <div class="text-secondary">请上传格式为jpg图片，图片尺寸为750*1334,大小不超过10M</div>
+                <div class="text-secondary">请上传格式为jpg或png图片，图片尺寸为750*1334,大小不超过10M</div>
               </ElFormItem>
               <ElFormItem label-width="83px">
                 <span class="text-primary">
@@ -93,7 +93,7 @@
                   <img v-if="model.picture" :src="model.picture" class="recruit-avatar">
                   <Icon type="plus" className="recruit-tip" v-else/>
                 </ElUpload>
-                <div class="text-secondary">请上传格式为jpg图片，长宽比例为5:4,大小不超过10M</div>
+                <div class="text-secondary">请上传格式为jpg或png图片，长宽比例为5:4,大小不超过10M</div>
               </ElFormItem>
               <ElFormItem label-width="83px">
                 <span class="text-primary">

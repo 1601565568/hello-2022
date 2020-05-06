@@ -124,25 +124,25 @@
 <!--          <el-input v-if="model.fromType === 1" type="text" :disabled='true' placeholder="请输入微信名称" v-model="model.name"></el-input>-->
 <!--          <el-input v-else type="text" placeholder="请输入微信名称" v-model="model.name" ></el-input>-->
 <!--        </el-form-item>-->
-        <el-form-item label="应用ID：" prop="appid" required>
-          <el-input v-if="model.fromType === 1" type="text" :disabled='true' placeholder="请输入应用ID" v-model="model.appid"></el-input>
-          <el-input v-else type="text" placeholder="请输入应用ID" v-model="model.appid" ></el-input>
-        </el-form-item>
-        <el-form-item v-if="model.fromType !== 1" label="应用秘钥：" prop="secret" required>
-          <el-input type="text" placeholder="请输入应用秘钥" v-model="model.secret"></el-input>
-        </el-form-item>
+<!--        <el-form-item label="应用ID：" prop="appid" required>-->
+<!--          <el-input v-if="model.fromType === 1" type="text" :disabled='true' placeholder="请输入应用ID" v-model="model.appid"></el-input>-->
+<!--          <el-input v-else type="text" placeholder="请输入应用ID" v-model="model.appid" ></el-input>-->
+<!--        </el-form-item>-->
+<!--        <el-form-item v-if="model.fromType !== 1" label="应用秘钥：" prop="secret" required>-->
+<!--          <el-input type="text" placeholder="请输入应用秘钥" v-model="model.secret"></el-input>-->
+<!--        </el-form-item>-->
 <!--        <el-form-item label="外部联系人企业秘钥：" prop="userCorpsecret" required>-->
 <!--          <el-input type="text" placeholder="请输入外部联系人企业秘钥" v-model="model.userCorpsecret" ></el-input>-->
 <!--        </el-form-item>-->
 <!--        <el-form-item  label="通讯录企业秘钥：" prop="addressCorpsecret" required>-->
 <!--          <el-input type="text" placeholder="请输入通讯录企业秘钥" v-model="model.addressCorpsecret" ></el-input>-->
 <!--        </el-form-item>-->
-<!--        <el-form-item label="企业ID：" prop="corpid">-->
-<!--          <el-input type="text" placeholder="请输入企业ID" v-model="model.corpid" ></el-input>-->
-<!--        </el-form-item>-->
-<!--        <el-form-item label="企业密钥：" prop="corpsecret">-->
-<!--          <el-input type="text" placeholder="请输入企业密钥" v-model="model.corpsecret"></el-input>-->
-<!--        </el-form-item>-->
+        <el-form-item label="企业ID：" prop="corpid">
+          <el-input type="text" placeholder="请输入企业ID" v-model="model.corpid" ></el-input>
+        </el-form-item>
+        <el-form-item label="企业密钥：" prop="corpsecret">
+          <el-input type="text" placeholder="请输入企业密钥" v-model="model.corpsecret"></el-input>
+        </el-form-item>
 <!--        <el-form-item label="支付ID：" prop="payId">-->
 <!--          <el-input type="text" placeholder="请输入支付ID" v-model="model.payId"></el-input>-->
 <!--        </el-form-item>-->

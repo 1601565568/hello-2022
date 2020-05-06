@@ -5,37 +5,17 @@
       :visible.sync="dialogVisibleVideo"
       :before-close="close"
       :show-scroll-x=false class="message-videodialog">
-      <div>
-        <!-- 视频上传 -->
-        <ElUpload name="file" class="avatar-uploader el-upload--text"
-                  :action="this.$api.core.sgUploadFile('message')"
-                  :show-file-list="false"
-                  accept=".mp4"
-                  :on-success="handleVideoSuccessVideoEdit"
-                  :before-upload="beforeUploadVideo">
-          <video v-if="model.content !=''"
-                 :src="model.content"
-                 class="avatar video-avatar"
-                 controls="controls">您的浏览器不支持视频播放</video>
-          <NsButton class="video-btn"
-                    slot="trigger"
-                    v-if="isShowUploadVideo"
-                    type="primary">选取文件</NsButton>
-        </ElUpload>
-        <P v-if="isShowUploadVideo"
-           class="text">请保证视频格式正确，且不超过20M
-        </P>
-      </div>
+      <!-- 视频上传 -->
+      <video v-if="model.content !=''"
+             :src="model.content"
+             class="avatar video-avatar"
+             controls="controls">您的浏览器不支持视频播放</video>
     </ElDialog>
   </div>
 </template>
 <script>
-import ElUpload from '@nascent/nui/lib/upload'
 import { getErrorMsg } from '@/utils/toast'
 export default {
-  components: {
-    ElUpload
-  },
   props: ['videoModel', 'dialogVisibleVideo'],
   data () {
     return {
@@ -49,24 +29,6 @@ export default {
     }
   },
   methods: {
-    // 验证视频格式和视频大小
-    beforeUploadVideo (file) {
-      const isLt30M = file.size / 1024 / 1024 < 30
-      if (['video/mp4'].indexOf(file.type) === -1) {
-        this.$message.error('请上传正确的视频格式')
-        return false
-      }
-      if (!isLt30M) {
-        this.$message.error('上传视频大小不能超过30MB哦!')
-        return false
-      }
-      this.isShowUploadVideo = false
-    },
-    // 视频上传是否成功事件(视频组件编辑专用)
-    handleVideoSuccessVideoEdit (res, file) {
-      this.model.content = res.result.url
-      this.$emit('handleVideoSuccessVideoEdit', res.result.url)
-    },
     // 关闭弹框
     close () {
       this.$emit('close', 'video')

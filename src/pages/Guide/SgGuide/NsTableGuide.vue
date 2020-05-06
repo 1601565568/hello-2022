@@ -14,8 +14,8 @@
       <!-- el-inpu 需添加  @keyup.enter.native="$quickSearchAction$" 配置，实现回车搜索 -->
       <template slot="searchSearch">
         <el-form :model="quickSearchModel" :inline="true" @submit.native.prevent  class="pull-right">
-          <el-form-item v-show="_data._queryConfig.expand === false" label="员工姓名：">
-            <el-input ref="quickText" style="width: 180px" v-model="model.name" placeholder="请输入员工姓名" @keyup.enter.native="$quickSearchAction$('name')" clearable>
+          <el-form-item v-show="_data._queryConfig.expand === false" label="姓名：">
+            <el-input ref="quickText" style="width: 180px" v-model="model.name" placeholder="请输入姓名" @keyup.enter.native="$quickSearchAction$('name')" clearable>
               <!--             <Icon type="search" className="el-input__icon" style="padding: 5px;" slot="suffix" name="name" @click="$quickSearchAction$('name')"/>-->
             </el-input>
             <ns-button type="primary" @click="$searchAction$()" class="searchbtn">搜索</ns-button>
@@ -36,14 +36,14 @@
       <!-- el-form 需添加  surround-btn 类名 配置环绕按钮效果 -->
       <template slot="advancedSearch" v-if="_data._queryConfig.expand">
         <el-form ref="table_filter_form" :model="model" label-width="80px" :inline="true" @keyup.enter.native="$searchAction$()">
-          <el-form-item label="员工账号：">
+          <el-form-item label="账号：">
             <el-form-grid size="xmd">
-              <el-input autofocus=true v-model="model.workId" placeholder="请输入员工账号" clearable></el-input>
+              <el-input autofocus=true v-model="model.workId" placeholder="请输入账号" clearable></el-input>
             </el-form-grid>
           </el-form-item>
-          <el-form-item label="员工姓名：">
+          <el-form-item label="姓名：">
             <el-form-grid size="xmd">
-              <el-input autofocus=true v-model="model.name" placeholder="请输入员工姓名" clearable></el-input>
+              <el-input autofocus=true v-model="model.name" placeholder="请输入姓名" clearable></el-input>
             </el-form-grid>
           </el-form-item>
           <el-form-item label="昵称：">

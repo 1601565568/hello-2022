@@ -8,70 +8,97 @@
   };
   window.onload = function () {
     $('.searchbar__input').change();
+    $('#cancelSecdId').css('display','none')
     $('.send').css("background","#BEBFC3");
     $(".send").css({"pointer-events": "none" });
     getQuickListMenu(sgGuideExt);
   };
-  //交互协议
-
   /*
-   *发送消息
-   *var content = '{"type":1,"content":"文本内容","exit":true}'
-   *window.location.href =host+content
+   * 发送消息
+   * //交互协议
+   * var content = '{"type":1,"content":"文本内容","exit":true}'
+   * window.location.href =host+content
    */
   function sendWord(){
     let id=$('.item__radio--selected').attr('id').replace(/[^0-9]/ig,'');
     let content=$('#word'+id).text();
     let url = '{"type":1,"content":"'+content+'","exit":true}';
     console.log("提交路径==》"+host+url);
-    window.location.href =host+url
+    window.location.href =host+url;
   }
    /*
     取消发送
    */
    function cancelSend() {
-     window.location.href = host+cancelParams
+     window.location.href = host+cancelParams;
      console.log("取消发送=》"+host+cancelParams)
    }
-
+   //设置清除按钮
+   function setClearSecdButtn(e) {
+     let searchbarValue=$('#searchbarValue').val();
+     if(e==0){
+       //显示清空搜索框按钮
+       $('#clearSecdId').show();
+       return;
+     }
+     if(e==1&&searchbarValue==''){
+       $('#clearSecdId').hide();
+       $('.searchbar__input').val('');
+       return;
+     }
+   }
    // 搜索框
    function searchWord(e) {
-      let searchElement=$(e);
       $('#groupAll').click();
    }
    // 清除搜索框
    function clearSearth() {
      $('.searchbar__input').val('');
+     setClearSecdButtn(1);
      $('#groupAll').click();
    }
+   // 处理发送按钮
+  function setSendButton(e){
+      // let pointerEvents=$(".send").css("pointer-events");
+      // console.log("pointerEvents=>"+pointerEvents)
+      if(e==1){
+        $('.send').css("background","#1876FC");
+        $(".send").css({"pointer-events": "auto" });
+      }else {
+        $('.send').css("background","#BEBFC3");
+        $(".send").css({"pointer-events": "none" });
+      }
+
+  }
    // 点击单选框 选中话术
   function clickWord(e) {
-      $('.send').css("background","#1876FC");
-      $(".send").css({"pointer-events": "auto" });
       let thisElement=$(e);
       // 移除所有选中的样式
       if(thisElement.hasClass('item__radio--selected')){
-         thisElement.removeClass('item__radio--selected')
+         thisElement.removeClass('item__radio--selected');
+        setSendButton(0);
       }else{
          $('.item__radio').removeClass("item__radio--selected");
          thisElement.addClass("item__radio--selected");
+        setSendButton(1);
       }
   }
   // 点击话术 选中单选框
-  function clickWordByWord (e) {
-     $('.send').css("background","#1876FC");
-     $(".send").css({"pointer-events": "auto" });
-     let thisElement=$(e);
-     let radioElement=$('#radioBy'+thisElement.attr('id'));
-     if(radioElement.hasClass('item__radio--selected')){
-       radioElement.removeClass('item__radio--selected')
-     }else{
-       $('.item__radio').removeClass("item__radio--selected");
-       radioElement.addClass("item__radio--selected");
-     }
-  }
+    function clickWordByWord (e) {
+       let thisElement=$(e);
+       let radioElement=$('#radioBy'+thisElement.attr('id'));
+       if(radioElement.hasClass('item__radio--selected')){
+         radioElement.removeClass('item__radio--selected')
+         setSendButton(0);
+       }else{
+         $('.item__radio').removeClass("item__radio--selected");
+         radioElement.addClass("item__radio--selected");
+         setSendButton(1);
+       }
+    }
    // 头部菜单点击触发
    function clickEvent(e) {
+     setClearSecdButtn(1);
      let thisElement=$(e);
      let quicklyWord={
        wordGroupId:thisElement.attr('id'),
