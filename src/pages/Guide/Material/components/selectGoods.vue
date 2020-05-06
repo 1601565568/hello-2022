@@ -13,8 +13,17 @@
         <div class="template-table__bar-more">
           <el-form ref="searchform" label-width="80px" @submit.native.prevent
             class="surround-btn" :model="searchObj.searchMap" :inline="true">
+            <el-form-item label="商城：" prop="mallId">
+              <el-select v-model="searchObj.searchMap.mallId" placeholder="请选择商城" required @change="selectMall">
+                <el-option v-for="item in mallList"
+                :key="item.mall_id"
+                :label="item.mall_name"
+                :value="item.mall_id">
+                </el-option>
+              </el-select>
+            </el-form-item>
             <el-form-item label="商品库：" prop="bankId">
-              <el-select v-model="searchObj.searchMap.bankId" placeholder="请选择商品库" clearable required>
+              <el-select v-model="searchObj.searchMap.bankId" placeholder="请选择商品库" required @change="selectGoodBank">
                 <el-option v-for="item in bankList"
                 :key="item.value"
                 :label="item.label"
@@ -31,7 +40,7 @@
           </el-form>
           <div class="template-table__more-btn" style="margin-right:20px">
             <ns-button type="primary" @click="submitForm('searchform')">搜索</ns-button>
-            <ns-button @click="resetForm('searchform')">重置</ns-button>
+            <ns-button @click="$resetForm('searchform')">重置</ns-button>
           </div>
         </div>
       </div>
@@ -97,6 +106,7 @@ export default {
       loading: false,
       searchObj: {
         searchMap: {
+          mallId: null,
           bankId: null,
           title: null,
           outerId: null
@@ -107,15 +117,17 @@ export default {
       dialogImageUrl: '',
       groudList: [{ name: '多人拼团', type: 2 }, { name: '满减送', type: 3 }, { name: '秒杀', type: 4 }],
       dialogVisible: false,
-      bankList: []
+      bankList: [], // 商品库
+      mallList: [] // 商城列表
     }
   },
   methods: {
     selectCurrentChange (currentRow) {
-      this.market = currentRow || {}
+      this.market = Object.assign({ mallId: this.searchObj.searchMap.mallId, bankId: this.searchObj.searchMap.bankId }, currentRow) || {}
     },
     showToggle (obj) {
       this.dialogVisible = true
+      this.findMallList()
       this.findGoodBankList()
     },
     handleSelectionChange (val) {
@@ -134,6 +146,14 @@ export default {
     },
     async loadListFun () {
       let that = this
+      if (!that.searchObj.searchMap.mallId) {
+        that.$notify.warning('请先选择商城')
+        return
+      }
+      if (!that.searchObj.searchMap.bankId) {
+        that.$notify.warning('请先选择商品库')
+        return
+      }
       this.loading = true
       await this.$http.fetch(this.$api.guide.material.findMallGoodsList, this.searchObj).then(res => {
         if (res.result.data && res.result.data.length > 0) {
@@ -160,8 +180,11 @@ export default {
       }
       return jsonarr
     },
-    $resetForm () {
-      this.searchObj.searchMap.bankId = this.bankList[0].value
+    $resetForm (formName) {
+      this.$refs[formName].resetFields()
+      this.clearSearch()
+      this.searchObj.searchMap.mallId = this.mallList.size > 0 ? this.mallList[0].mall_id : null
+      this.selectMall(this.searchObj.searchMap.mallId)
     },
     submitForm () {
       this.market = {}
@@ -169,12 +192,50 @@ export default {
       this.loadListFun()
     },
     /**
+     * @msg: 选择商城
+     */
+    selectMall () {
+      this.findGoodBankList()
+    },
+    /**
+     * @msg: 选择商品库
+     */
+    selectGoodBank (value) {
+      this.loadListFun()
+    },
+    /**
+     * @msg: 获取商城列表
+     */
+    findMallList () {
+      let that = this
+      that.loading = true
+      this.$http.fetch(this.$api.core.common.findLoginMallList).then(res => {
+        if (res.success && res.result) {
+          that.mallList = res.result
+          if (that.mallList.length === 0) {
+            that.$notify.error('查询不到商城信息')
+            return
+          }
+          that.searchObj.searchMap.mallId = that.mallList[0].mall_id
+          that.findGoodBankList()
+        }
+      }).catch((res) => {
+        that.$notify.error(res.msg)
+      }).finally(() => {
+        this.loading = false
+      })
+    },
+    /**
      * @msg: 查询商品库列表
      */
     findGoodBankList () {
-      this.loading = true
       let that = this
-      this.$http.fetch(this.$api.guide.material.findGoodBankList).then(res => {
+      if (!that.searchObj.searchMap.mallId) {
+        that.$notify.warn('查询不到商城信息')
+        return
+      }
+      this.loading = true
+      this.$http.fetch(this.$api.guide.material.findGoodBankList, { mallId: that.searchObj.searchMap.mallId }).then(res => {
         if (res.success && res.result) {
           that.bankList = res.result
           if (that.bankList.length === 0) {

@@ -200,6 +200,7 @@ export default {
         this.$set(this.saveObj, 'selectBackName', '商品名称：')
         this.$set(this.saveObj, 'codeTarget', obj.sysItemId)
         this.$set(this.saveObj, 'codeTargetName', obj.title)
+        this.$set(this.saveObj, 'extJson', { mallId: obj.mallId, bankId: obj.bankId })
       }
     },
     showToggle (obj, groudArr) {
