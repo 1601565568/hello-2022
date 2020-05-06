@@ -106,8 +106,8 @@
   let findMaterialListUrl = '/wx/material/findH5MaterialList';
   // 发送素材
   let sendMaterialUrl = '/wx/material/sendMaterial';
-  // 素材列表
-  let materialList = []
+  // 获取图片二维码
+  let getAppletImageUrl = '/wx/material/getAppletImage';
   // 分组列表
   let subdivisionList = []
   // 搜索条件
@@ -167,7 +167,8 @@
     // wxId = getPar('wxId')
     chatId = 'yy_xm1028'
     // chatId = getPar('chatId')
-    shopId = getPar('shopId')
+    // shopId = getPar('shopId')
+    shopId = 1002247
     wxId = 'wxid_gilg2xu6f0p322'
     if (!chatId || !wxId) {
         toError(3, '参数错误：个人号微信号或好友微信号都不允许空')
@@ -239,12 +240,12 @@
       }).then(function (result) {
         if (result.success) {
           // 素材列表
-          this.materialList = result.result
+          let materialList = result.result
           // 素材列表组装 & 展示
-          if (this.materialList && this.materialList.length > 0) {
-            groupId = this.materialList[0].brandId
+          if (materialList && materialList.length > 0) {
+            groupId = materialList[0].brandId
             let html = '';
-            this.materialList.forEach(function(material,index,arr){
+            materialList.forEach(function(material,index,arr){
               html += buildListItem(
                 material.id,
                 material.content,
@@ -260,6 +261,29 @@
             } else {
               $(".material__list").html(html);
             }
+
+            // 异步生成二维码
+            materialList.forEach(function(material,index,arr){
+              if(material.codeTarget && material.m_type === 1){
+                let params = {groupId: groupId, shopId : shopId, materialId : material.id, wxId : wxId}
+                this.ajax(apiRoot() + getAppletImageUrl, params).then(res =>{
+                  if (res.success) {
+                    console.log(res.result)
+                    replaceListItem(
+                      material.id,
+                      material.content,
+                      res.result,
+                      material.create_time, // 时间
+                      "品牌",     // 品牌 or 门店
+                      material.subdivision_name ? material.subdivision_name : '-',
+                      index === 0 && pageStart === 0
+                    );
+                  } else {
+                    toError(3, res.msg ? res.msg : '')
+                  }
+                })
+              }
+            })
             return
           } else {
             if (pageStart === 0) {
@@ -272,6 +296,15 @@
           toError(3, error && error.msg ? error.msg : '')
         }
     })
+  }
+  // 替换元素
+  function replaceListItem(materialId, content, imageList, datetime, type, subdivision, isSelected) {
+    debugger
+    let oldNode = document.getElementById(materialId);
+    if (oldNode) {
+      oldNode.parentNode.replaceChild(
+        parseDom(buildListItem(materialId, content, imageList, datetime, type, subdivision, isSelected))[0], oldNode)
+    }
   }
   /**
    * @msg: 构建列表选项
@@ -293,9 +326,9 @@
     }
     let cls = isSelected ? 'page-radio--selected' : ''
     let html =
-    '<div class="item">' +
-      '<div class="material__class page-radio ' + cls + '"' 
-        + ' id="' + materialId + '"'
+    '<div class="item" id="' + materialId + '">' +
+      '<div class="material__class page-radio ' + cls + '"'
+        + ' materialId="' + materialId + '"'
         + ' content="' + content + '"'
         + ' imageList="' + imageList + '"' + '></div>' +
       '<div class="item__msg">' +
@@ -319,10 +352,10 @@
             '<div class="other__store">' + type + '/' + subdivision + '</div>' +
           '</div>' +
 
-          '<div class="share" materialId="' + materialId + '">' +
-            '<i class="iconfont icon-ns-share"></i>' +
-            '分享到朋友圈' +
-          '</div>' +
+          // '<div class="share" materialId="' + materialId + '">' +
+          //   '<i class="iconfont icon-ns-share"></i>' +
+          //   '分享到朋友圈' +
+          // '</div>' +
 
         '</div>' +
       '</div>'
@@ -394,6 +427,12 @@
     $('.swiper-wrapper').html(html);
     $('.swiper-number').html(i + '/' + imageList.length);
   }
+  function parseDom(nodelist) {
+    debugger
+    var objE = document.createElement("div")
+    objE.innerHTML = nodelist;
+    return objE.childNodes;
+  }
   /**
     * 事件绑定
     */
@@ -416,9 +455,9 @@
   })
   // 素材radio选择 动态dom元素事件监听
   $(document).on('click', '.material__class', function(e){
-    selectedId = e.target.id;
+    selectedId = $(e.target).attr("materialId");
     selectedMaterial = Object.assign({}, {
-      materialId: e.target.id,
+      materialId: $(e.target).attr("materialId"),
       content: $(e.target).attr("content"),
       imageList: $(e.target).attr("imageList")
     })
