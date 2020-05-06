@@ -128,7 +128,6 @@ export default {
     showToggle (obj) {
       this.dialogVisible = true
       this.findMallList()
-      this.findGoodBankList()
     },
     handleSelectionChange (val) {
       this.multipleSelection = val
@@ -183,7 +182,7 @@ export default {
     $resetForm (formName) {
       this.$refs[formName].resetFields()
       this.clearSearch()
-      this.searchObj.searchMap.mallId = this.mallList.size > 0 ? this.mallList[0].mall_id : null
+      this.searchObj.searchMap.mallId = this.mallList.length > 0 ? this.mallList[0].mall_id : null
       this.selectMall(this.searchObj.searchMap.mallId)
     },
     submitForm () {
@@ -231,7 +230,7 @@ export default {
     findGoodBankList () {
       let that = this
       if (!that.searchObj.searchMap.mallId) {
-        that.$notify.warn('查询不到商城信息')
+        that.$notify.warning('查询不到商城信息')
         return
       }
       this.loading = true

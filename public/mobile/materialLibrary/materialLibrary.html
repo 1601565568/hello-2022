@@ -299,7 +299,6 @@
   }
   // 替换元素
   function replaceListItem(materialId, content, imageList, datetime, type, subdivision, isSelected) {
-    debugger
     let oldNode = document.getElementById(materialId);
     if (oldNode) {
       oldNode.parentNode.replaceChild(
@@ -428,7 +427,6 @@
     $('.swiper-number').html(i + '/' + imageList.length);
   }
   function parseDom(nodelist) {
-    debugger
     var objE = document.createElement("div")
     objE.innerHTML = nodelist;
     return objE.childNodes;
@@ -462,7 +460,7 @@
       imageList: $(e.target).attr("imageList")
     })
     $('.material__class').each(function(i,e){
-      if (e.id === selectedId) {
+      if ($(e).attr("materialId") === selectedId) {
         $(e).addClass('page-radio--selected');
       } else {
         $(e).removeClass('page-radio--selected');
