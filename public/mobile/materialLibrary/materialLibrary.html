@@ -373,7 +373,7 @@
       selectedMaterial = Object.assign({}, {
         materialId: materialId,
         content: content,
-        imageList:  JSON.stringify(imageList)
+        imageList:  imageList.toString()
       })
     }
     let cls = isSelected ? 'page-radio--selected' : ''
@@ -694,7 +694,6 @@
     if (!selectedMaterial) {
       return
     };
-    let exit = false;
     if (selectedMaterial.imageList) {
       if (selectedMaterial.content) {
         let content = '{"type":1,"content":"' + selectedMaterial.content + '","exit":false}';
