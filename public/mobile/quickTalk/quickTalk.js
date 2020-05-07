@@ -23,7 +23,6 @@
     let id=$('.item__radio--selected').attr('id').replace(/[^0-9]/ig,'');
     let content=$('#word'+id).text();
     let url = '{"type":1,"content":"'+content+'","exit":true}';
-    console.log("提交路径==》"+host+url);
     window.location.href =host+url;
   }
    /*
@@ -31,7 +30,6 @@
    */
    function cancelSend() {
      window.location.href = host+cancelParams;
-     console.log("取消发送=》"+host+cancelParams)
    }
    //设置清除按钮
    function setClearSecdButtn(e) {
@@ -54,8 +52,9 @@
    // 清除搜索框
    function clearSearth() {
      $('.searchbar__input').val('');
-     setClearSecdButtn(1);
      $('#groupAll').click();
+     setClearSecdButtn(1);
+
    }
    // 处理发送按钮
   function setSendButton(e){

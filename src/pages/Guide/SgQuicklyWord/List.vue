@@ -37,7 +37,7 @@
         <template slot="searchSearch">
           <el-form :model="model" :inline="true" @submit.native.prevent  class="pull-right">
             <el-form-item label="关键词/添加人/分类：">
-              <el-input ref="quickText" style="width: 200px" v-model="model.searchValue" placeholder="请输入关键词/添加人/分类" @keyup.enter.native="$searchAction$()" clearable>
+              <el-input ref="quickText" porp="" style="width: 200px" v-model="model.searchValue" @input="searchLength" placeholder="请输入关键词/添加人/分类" @keyup.enter.native="$searchAction$()" clearable>
               </el-input>
               <ns-button type="primary" @click="$searchAction$()" class="searchbtn">搜索</ns-button>
               <ns-button @click="reset()" class="resetbtn">重置</ns-button>
@@ -107,7 +107,7 @@
           </el-select>
         </el-form-item>
         <el-form-item label="话术内容：" prop="content" required>
-            <el-input type="textarea" placeholder="输入话术内容，最多200字" v-model="model.content" maxlength="200" size="small" rows="4"></el-input>
+            <el-input type="textarea" placeholder="输入话术内容，最多200字" @input="contentCheck" v-model="model.content"  size="small" rows="4" ></el-input>
           <div class="expressionBar_div">
             <i @click="faceFace"><Icon type="biaoqing"/></i>
           </div>
@@ -125,7 +125,7 @@
           </div>
         </el-form-item>
         <el-form-item label="设置关键词：" prop="keyWord">
-          <el-input type="textarea" placeholder="用'，'号隔开，最多设置五个词" v-model="model.keyWord" size="small" rows="3"></el-input>
+          <el-input type="textarea" placeholder="用'，'号隔开，最多设置五个词" @input="keyWordCheck" v-model="model.keyWord" size="small" rows="3"></el-input>
         </el-form-item>
         <el-form-item label="添加人：" prop="addName">
           <el-input type="text" disabled="true" v-model="model.addName"></el-input>
@@ -165,7 +165,8 @@
       @before-close="closeDialog()">
       <el-form :model="addOrEditModel" ref="addOrEditForm" label-width="80px" :rules="addOrEditRules" placement="right">
         <el-form-item label="分类名称：" prop="name" required class="el-form-validate__unHide">
-          <el-input type="text" placeholder="请输入分类名称" v-model="addOrEditModel.name" autofocus="autofocus"></el-input>
+        <el-input type="text" placeholder="请输入分类名称" @input="accountInput"  v-model="addOrEditModel.name" autofocus="autofocus"></el-input>
+<!--        <el-input type="text" placeholder="请输入分类名称" @input="accountInput"  :value="addOrEditModel.name" autofocus="autofocus"></el-input>-->
         </el-form-item>
         <el-input style='display:none'></el-input>
       </el-form>
