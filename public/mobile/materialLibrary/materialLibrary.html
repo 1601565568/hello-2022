@@ -29,8 +29,7 @@
   <div class="material__search page-fixed">
     <div class="searchbar">
       <i class='iconfont icon-ns-search searchbar__icon'></i>
-      <input type="text" placeholder="输入素材推广文案/文章标题" value="" class="searchbar__input"/>
-      <!-- onchange="initMaterialList(this)" onfocusout="resetParam() && initMaterialList(this)" -->
+      <input type="text" placeholder="输入素材推广文案/文章标题" value="" class="searchbar__input" onchange="resetParam(),initMaterialList(this)" /><!--onblur="alert('blur')" -->
       <i class='iconfont icon-shanchu1 searchbar__icon'></i>
     </div>
   </div>
@@ -273,7 +272,7 @@
   /**
    * @msg: 初始化素材列表
    */
-  function initMaterialList (pageStart = 0) {
+  function initMaterialList () {
     let $searchName = $('.searchbar__input');
     let selectedSubdivisionId = getSelectedSubdivisionId();
     this.ajax(apiRoot() + findMaterialListUrl,
@@ -712,19 +711,28 @@
       }
     }
     // 退出
-    quit()
+    // quit()
   })
+  /**
+   * @msg: 发送文字
+   */
   function sendContent(content) {
     let params = '{"type":1,"content":"' + content + '","exit":false}';
     alert(host + params);
     window.location.href = host + params
   }
+  /**
+   * @msg: 发送图片
+   */
   function sendImage(image) {
     let params = '{"type":2,"picUrl":"' + image
       + '" , smallPicUrl="' + image + '?x-oss-process=image/resize,m_fill,h_100,w_100", "exit":false}';
     alert(host + params);
     window.location.href = host + params
   }
+  /**
+   * @msg: 退出
+   */
   function quit() {
     let params = '{"type":-1}'
     window.location.href = host + params
