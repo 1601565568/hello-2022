@@ -129,7 +129,7 @@
   var selectedSubdivisionName = "所有素材"
   // 选中的素材Id
   let selectedId = null
-  let selectedMaterial = {}
+  var selectedMaterial = {}
   // 当前员工的微信ID
   let wxId
   // 当前员工的公司ID
@@ -695,15 +695,22 @@
       return
     };
     let exit = false;
-    if (selectedMaterial.content) {
-      let content = '{"type":1,"content":"' + selectedMaterial.content + '","exit":false}';
-      window.location.href = host + content
-    }
     if (selectedMaterial.imageList) {
+      if (selectedMaterial.content) {
+        let content = '{"type":1,"content":"' + selectedMaterial.content + '","exit":false}';
+        window.location.href = host + content
+      }
       selectedMaterial.imageList.split(",").forEach(function(image,index,arr){
-        content = '{"type":1,"picUrl":"' + image + '" , smallPicUrl="' + image + '?x-oss-process=image/resize,m_fill,h_100,w_100"' + '"exit":false}';
+        content = '{"type":1,"picUrl":"' + image
+          + '" , smallPicUrl="' + image + '?x-oss-process=image/resize,m_fill,h_100,w_100" '
+          + ', "exit":' + index == arr.length - 1 ? "true" : "false" + '}';
         window.location.href = host + content
       });
+    } else {
+      if (selectedMaterial.content) {
+        let content = '{"type":1,"content":"' + selectedMaterial.content + '","exit":true}';
+        window.location.href = host + content
+      }
     }
     let params = '{"type":-1}'
     window.location.href = host + params
