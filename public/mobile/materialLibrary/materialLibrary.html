@@ -692,12 +692,13 @@
    */
   $('.send').click(function () {
     let url = '{"type":1,"content":"'+ '测试内容' +'","exit":false}';
-    window.location.href = host + params
+    window.location.href = host + url
+    alert(host + url)
     if (!selectedMaterial) {
       return
     };
     if (selectedMaterial.imageList && selectedMaterial.imageList !== '') {
-      if (selectedMaterial.content) {
+      if (selectedMaterial.content && selectedMaterial.content !== '') {
         content = '{"type":1,"content":"' + selectedMaterial.content + '","exit":true}';
         window.location.href = host + content
       }
