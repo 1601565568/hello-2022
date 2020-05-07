@@ -692,36 +692,34 @@
    */
   $('.send').click(function () {
     let content
-    let url = '{"type":1,"content":"'+ '测试内容' +'","exit":true}';
-    window.location.href = host + url
-    alert(host + url)
-    alert(JSON.stringify(selectedMaterial))
-    if (!selectedMaterial) {
-      return
-    };
-    if (selectedMaterial.imageList && selectedMaterial.imageList !== '') {
-      alert("发送图文")
-      if (selectedMaterial.content && selectedMaterial.content !== '') {
-        content = '{"type":1,"content":"' + selectedMaterial.content + '","exit":true}';
-        alert(host + content)
-        window.location.href = host + content
-      }
-      selectedMaterial.imageList.split(",").forEach(function(image,index,arr){
-        content = '{"type":2,"picUrl":"' + image
-          + '" , smallPicUrl="' + image + '?x-oss-process=image/resize,m_fill,h_100,w_100", "exit":true}';
-        alert(host + content)
-        window.location.href = host + content
-      });
-    } else {
-      alert("发送文字")
-      if (selectedMaterial.content) {
-        content = '{"type":1,"content":"' + selectedMaterial.content + '","exit":true}';
-        alert(host + content)
-        window.location.href = host + content
-      }
-    }
-    let params = '{"type":-1}'
-    window.location.href = host + params
+    content = '{"type":1,"content":"' + selectedMaterial.content + '","exit":true}';
+    window.location.href = host + content
+    // if (!selectedMaterial) {
+    //   return
+    // };
+    // if (selectedMaterial.imageList && selectedMaterial.imageList !== '') {
+    //   alert("发送图文")
+    //   if (selectedMaterial.content && selectedMaterial.content !== '') {
+    //     content = '{"type":1,"content":"' + selectedMaterial.content + '","exit":true}';
+    //     alert(host + content)
+    //     window.location.href = host + content
+    //   }
+    //   selectedMaterial.imageList.split(",").forEach(function(image,index,arr){
+    //     content = '{"type":2,"picUrl":"' + image
+    //       + '" , smallPicUrl="' + image + '?x-oss-process=image/resize,m_fill,h_100,w_100", "exit":true}';
+    //     alert(host + content)
+    //     window.location.href = host + content
+    //   });
+    // } else {
+    //   alert("发送文字")
+    //   if (selectedMaterial.content) {
+    //     content = '{"type":1,"content":"' + selectedMaterial.content + '","exit":true}';
+    //     alert(host + content)
+    //     window.location.href = host + content
+    //   }
+    // }
+    // let params = '{"type":-1}'
+    // window.location.href = host + params
   })
   // 分享到朋友圈
   $(document).on('click', '.share', function(e){
