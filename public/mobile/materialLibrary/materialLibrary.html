@@ -691,25 +691,32 @@
    * 图片：'{"type":2,"picUrl":"图片大图链接地址","smallPicUrl":"图片缩略图链接地址","exit":true}'
    */
   $('.send').click(function () {
-    let url = '{"type":1,"content":"'+ '测试内容' +'","exit":false}';
+    let content
+    let url = '{"type":1,"content":"'+ '测试内容' +'","exit":true}';
     window.location.href = host + url
     alert(host + url)
+    alert(JSON.stringify(selectedMaterial))
     if (!selectedMaterial) {
       return
     };
     if (selectedMaterial.imageList && selectedMaterial.imageList !== '') {
+      alert("发送图文")
       if (selectedMaterial.content && selectedMaterial.content !== '') {
         content = '{"type":1,"content":"' + selectedMaterial.content + '","exit":true}';
+        alert(host + content)
         window.location.href = host + content
       }
       selectedMaterial.imageList.split(",").forEach(function(image,index,arr){
         content = '{"type":2,"picUrl":"' + image
           + '" , smallPicUrl="' + image + '?x-oss-process=image/resize,m_fill,h_100,w_100", "exit":true}';
+        alert(host + content)
         window.location.href = host + content
       });
     } else {
+      alert("发送文字")
       if (selectedMaterial.content) {
         content = '{"type":1,"content":"' + selectedMaterial.content + '","exit":true}';
+        alert(host + content)
         window.location.href = host + content
       }
     }
