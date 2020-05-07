@@ -373,7 +373,7 @@
       selectedMaterial = Object.assign({}, {
         materialId: materialId,
         content: content,
-        imageList:  imageList.toString()
+        imageList:  imageList ? imageList.toString() : ''
       })
     }
     let cls = isSelected ? 'page-radio--selected' : ''
@@ -691,22 +691,24 @@
    * 图片：'{"type":2,"picUrl":"图片大图链接地址","smallPicUrl":"图片缩略图链接地址","exit":true}'
    */
   $('.send').click(function () {
+    let url = '{"type":1,"content":"'+ '测试内容' +'","exit":false}';
+    window.location.href = host + params
     if (!selectedMaterial) {
       return
     };
-    if (selectedMaterial.imageList) {
+    if (selectedMaterial.imageList && selectedMaterial.imageList !== '') {
       if (selectedMaterial.content) {
-        let content = '{"type":1,"content":"' + selectedMaterial.content + '","exit":false}';
+        content = '{"type":1,"content":"' + selectedMaterial.content + '","exit":true}';
         window.location.href = host + content
       }
       selectedMaterial.imageList.split(",").forEach(function(image,index,arr){
         content = '{"type":2,"picUrl":"' + image
-          + '" , smallPicUrl="' + image + '?x-oss-process=image/resize,m_fill,h_100,w_100", "exit":false}';
+          + '" , smallPicUrl="' + image + '?x-oss-process=image/resize,m_fill,h_100,w_100", "exit":true}';
         window.location.href = host + content
       });
     } else {
       if (selectedMaterial.content) {
-        let content = '{"type":1,"content":"' + selectedMaterial.content + '","exit":true}';
+        content = '{"type":1,"content":"' + selectedMaterial.content + '","exit":true}';
         window.location.href = host + content
       }
     }
