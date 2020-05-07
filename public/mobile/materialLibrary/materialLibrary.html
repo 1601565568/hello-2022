@@ -30,6 +30,7 @@
     <div class="searchbar">
       <i class='iconfont icon-ns-search searchbar__icon'></i>
       <input type="text" placeholder="输入素材推广文案/文章标题" value="" class="searchbar__input"/>
+      <!-- onchange="initMaterialList(this)" onfocusout="resetParam() && initMaterialList(this)" -->
       <i class='iconfont icon-shanchu1 searchbar__icon'></i>
     </div>
   </div>
@@ -129,14 +130,12 @@
   // 选中的素材Id
   let selectedId = null
   let selectedMaterial = {}
-  // 当前好友微信ID
-  let chatId
   // 当前员工的微信ID
   let wxId
   // 当前员工的公司ID
   let groupId
   // 分页大小
-  let pageStart = 0
+  var pageStart = 0
   let pageSize = 15
   var mySwiper
   var scrollPos, height
@@ -155,6 +154,7 @@
     //     e.preventDefault()
     //   }
     // })
+    setSendButton(0)
     // 下拉滚动事件注册
     registerEvent()
     // 页面数据初始化
@@ -217,11 +217,9 @@
   function init() {
     // 获取当前员工的微信ID
     wxId = getPar('wxId')
-    // chatId = 'yy_xm1028'
     // wxId = 'wxid_gilg2xu6f0p322'
-    chatId = getPar('chatId')
-    if (!chatId || !wxId) {
-        toError(3, '参数错误：个人号微信号或好友微信号都不允许空')
+    if (!wxId) {
+        toError(3, '参数错误：个人号微信号不允许为空')
         return
     }
     // 初始化分组
@@ -296,6 +294,7 @@
           }
           // 素材列表组装 & 展示
           if (materialList && materialList.length > 0) {
+            setSendButton(1)
             groupId = materialList[0].brandId
             let html = '';
             materialList.forEach(function(material,index,arr){
@@ -312,7 +311,7 @@
             if (pageStart > 0) {
               $(".material__list").append(html);
             } else {
-              $(".material__list").html(html); // todo
+              $(".material__list").html(html);
             }
 
             // 异步生成二维码
@@ -345,7 +344,7 @@
           }
         } else {
           // 跳转错误页
-          toError(3, error && error.msg ? error.msg : '')
+          toError(3, result && result.msg ? result.msg : '')
         }
     })
   }
@@ -447,8 +446,10 @@
    */
   function showNoData(noData = true) {
     if (noData) {
+      setSendButton(0)
       $('.material__noData').removeClass('hidden');
     } else {
+      setSendButton(1)
       $('.material__noData').addClass('hidden');
     }
   }
@@ -508,6 +509,16 @@
     document.documentElement.scrollTop = scrollPos
     document.body.scrollTop = scrollPos
   }
+   // 处理发送按钮
+  function setSendButton(e){
+    if(e === 1){
+      $('.send').css("background","#1876FC");
+      $(".send").css({"pointer-events": "auto" });
+    } else {
+      $('.send').css("background","#BEBFC3");
+      $(".send").css({"pointer-events": "none" });
+    }
+  }
   /**
     * 事件绑定
     */
@@ -527,6 +538,8 @@
       return
     }
     $('.searchbar__input').val('')
+    resetParam();
+    initMaterialList();
   })
   // 素材radio选择 动态dom元素事件监听
   $(document).on('click', '.material__class', function(e){
