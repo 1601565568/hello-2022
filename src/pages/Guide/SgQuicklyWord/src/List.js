@@ -177,7 +177,6 @@ export default {
       })
     },
     saveOrUpdateQuicklyWordGroup () {
-      // addOrEditForm
       if (this.addOrEditModel.name && (this.addOrEditModel.name.length <= 10)) {
         this.$http.fetch(this.$api.guide.saveOrUpdateQuicklyWordGroup, this.addOrEditModel).then(resp => {
           if (resp.success) {
