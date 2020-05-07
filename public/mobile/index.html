@@ -46,11 +46,11 @@
                 shopId: result.result.shopId,
                 groupId: getPar('groupId'),
                 guideUserId: getPar('guideUserId'),
-                wechatId:getPar('wechatId'),
-                userId:getPar('guideUserId'),
-                guideWechatNo:getPar('guideWechatNo'),
-                scanSource:getPar('source'),
-                source:getPar('scanSource'),
+                wechatId: getPar('wechatId'),
+                userId: getPar('guideUserId'),
+                guideWechatNo: getPar('guideWechatNo'),
+                scanSource: getPar('source'),
+                source: result.result.source
               }
               localStorage.setItem('recruitInfo', JSON.stringify(recruitEntity))
               // 跳转授权页进行授权,获取南讯指纹
