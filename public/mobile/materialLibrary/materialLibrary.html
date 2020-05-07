@@ -294,7 +294,6 @@
           }
           // 素材列表组装 & 展示
           if (materialList && materialList.length > 0) {
-            setSendButton(1)
             groupId = materialList[0].brandId
             let html = '';
             materialList.forEach(function(material,index,arr){
@@ -308,6 +307,8 @@
                 index === 0 && pageStart === 0
                 );
             })
+            // 按钮修改为可用
+            setSendButton(1)
             if (pageStart > 0) {
               $(".material__list").append(html);
             } else {
@@ -338,6 +339,7 @@
             return
           } else {
             if (pageStart === 0) {
+              setSendButton(0)
               // 暂无数据
               showNoData(true)
             }
@@ -446,10 +448,8 @@
    */
   function showNoData(noData = true) {
     if (noData) {
-      setSendButton(0)
       $('.material__noData').removeClass('hidden');
     } else {
-      setSendButton(1)
       $('.material__noData').addClass('hidden');
     }
   }
@@ -529,6 +529,8 @@
   })
   // 查询
   $('.icon-ns-search').click(function () {
+    // 发送按钮设置为不可点击
+    setSendButton(0)
     resetParam();
     initMaterialList();
   })
