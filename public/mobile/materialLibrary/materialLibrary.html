@@ -135,8 +135,6 @@
   let wxId
   // 当前员工的公司ID
   let groupId
-  // 员工工作门店ID
-  let shopId
   // 分页大小
   let pageStart = 0
   let pageSize = 15
@@ -220,16 +218,10 @@
     // 获取当前员工的微信ID
     wxId = getPar('wxId')
     // chatId = 'yy_xm1028'
-    chatId = getPar('chatId')
-    shopId = getPar('shopId')
-    shopId = 1002174
     // wxId = 'wxid_gilg2xu6f0p322'
+    chatId = getPar('chatId')
     if (!chatId || !wxId) {
         toError(3, '参数错误：个人号微信号或好友微信号都不允许空')
-        return
-    }
-    if (!shopId) {
-        toError(3, '参数错误：工作门店不允许空')
         return
     }
     // 初始化分组
@@ -326,7 +318,7 @@
             // 异步生成二维码
             materialList.forEach(function(material,index,arr){
               if(material.codeTarget && material.m_type === 1){
-                let params = {groupId: groupId, shopId : shopId, materialId : material.id, wxId : wxId}
+                let params = {groupId: groupId, materialId : material.id, wxId : wxId}
                 this.ajax(apiRoot() + getAppletImageUrl, params).then(res =>{
                   if (res.success) {
                     replaceListItem(
