@@ -701,9 +701,8 @@
         window.location.href = host + content
       }
       selectedMaterial.imageList.split(",").forEach(function(image,index,arr){
-        content = '{"type":1,"picUrl":"' + image
-          + '" , smallPicUrl="' + image + '?x-oss-process=image/resize,m_fill,h_100,w_100" '
-          + ', "exit":' + index == arr.length - 1 ? "true" : "false" + '}';
+        content = '{"type":2,"picUrl":"' + image
+          + '" , smallPicUrl="' + image + '?x-oss-process=image/resize,m_fill,h_100,w_100", "exit":false}';
         window.location.href = host + content
       });
     } else {
