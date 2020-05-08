@@ -719,7 +719,9 @@
   function sendContent(content) {
     let params = '{"type":1,"content":"' + content + '","exit":false}';
     alert(host + params);
-    window.location.href = host + params
+    setTimeout(function () {
+      window.location.href = host + params
+    }, 1000)
   }
   /**
    * @msg: 发送图片
@@ -728,7 +730,9 @@
     let params = '{"type":2,"picUrl":"' + image
       + '" , smallPicUrl="' + image + '?x-oss-process=image/resize,m_fill,h_100,w_100", "exit":false}';
     alert(host + params);
-    window.location.href = host + params
+    setTimeout(function () {
+      window.location.href = host + params
+    }, 1000)
   }
   /**
    * @msg: 退出
