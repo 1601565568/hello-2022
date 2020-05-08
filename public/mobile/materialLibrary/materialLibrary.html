@@ -698,9 +698,6 @@
     if (!selectedMaterial) {
       return
     };
-    content = '{"type":1,"content":"' + selectedMaterial.content + '","exit":false}';
-    window.open(host + content,'sendFrame','')
-
     if (selectedMaterial.imageList && selectedMaterial.imageList !== '') {
       alert("发送图文")
       if (selectedMaterial.content && selectedMaterial.content !== '') {
@@ -715,6 +712,8 @@
         sendContent(selectedMaterial.content);
       }
     }
+    content = '{"type":1,"content":"' + "测试window.open()" + '","exit":false}';
+    window.open(host + content,'sendFrame','')
     // 退出
     // quit()
   })
