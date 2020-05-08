@@ -14,8 +14,8 @@
 </head>
 <body>
 
-<!-- window.open('1.htm','sendFrame','') -->
-<iframe name="sendFrame"></iframe>
+<!-- iframe 用于调用window.open时不打开新页面 window.open('1.htm','sendFrame','') -->
+<!-- <iframe name="sendFrame"></iframe> -->
 
 <div>
   <!-- 隐藏域 用于复制粘贴功能 -->
@@ -699,7 +699,6 @@
       return
     };
     if (selectedMaterial.imageList && selectedMaterial.imageList !== '') {
-      alert("发送图文")
       if (selectedMaterial.content && selectedMaterial.content !== '') {
         sendContent(selectedMaterial.content);
       }
@@ -707,25 +706,23 @@
         sendImage(image)
       });
     } else {
-      alert("发送文字")
       if (selectedMaterial.content) {
         sendContent(selectedMaterial.content);
       }
     }
-    content = '{"type":1,"content":"' + "测试window.open()" + '","exit":false}';
-    window.open(host + content,'sendFrame','')
+    // content = '{"type":1,"content":"' + "测试window.open()" + '","exit":false}';
+    // window.open(host + content,'sendFrame','')
     // 退出
-    // quit()
+    setTimeout(function () {
+      quit()
+    }, 300)
   })
   /**
    * @msg: 发送文字
    */
   function sendContent(content) {
     let params = '{"type":1,"content":"' + content + '","exit":false}';
-    alert(host + params);
-    setTimeout(function () {
-      window.location.href = host + params
-    }, 1000)
+    window.location.href = host + params
   }
   /**
    * @msg: 发送图片
@@ -733,10 +730,9 @@
   function sendImage(image) {
     let params = '{"type":2,"picUrl":"' + image
       + '" , smallPicUrl="' + image + '?x-oss-process=image/resize,m_fill,h_100,w_100", "exit":false}';
-    alert(host + params);
     setTimeout(function () {
       window.location.href = host + params
-    }, 1000)
+    }, 300)
   }
   /**
    * @msg: 退出
