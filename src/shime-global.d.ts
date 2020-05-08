@@ -4,7 +4,7 @@ import axios from 'axios/index.d'
 declare global {
   // eslint-disable-next-line camelcase
   interface Window {
-    Log: any;
+    logger: any;
     // @ts-ignore
     axios: axios;
     // eslint-disable-next-line camelcase
