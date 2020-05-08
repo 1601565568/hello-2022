@@ -15,9 +15,9 @@
   },
   "dependencies": {
     "@ant-design/icons": "^2.1.1",
-    "@nascent/ecrp-ecrm": "^0.4.23",
+    "@nascent/ecrp-ecrm": "^0.4.31",
     "@nascent/icons-vue": "^1.0.11",
-    "@nascent/log": "^0.1.10",
+    "@nascent/log": "^0.2.1",
     "@nascent/nui": "^2.9.31",
     "@sentry/browser": "^4.5.3",
     "@xkeshi/vue-qrcode": "^1.0.0",
