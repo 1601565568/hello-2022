@@ -694,7 +694,8 @@
    * 图片：'{"type":2,"picUrl":"图片大图链接地址","smallPicUrl":"图片缩略图链接地址","exit":true}'
    */
   $('.send').click(function () {
-    let content
+    let content, delay
+    let delay = 100
     if (!selectedMaterial) {
       return
     };
@@ -703,19 +704,20 @@
         sendContent(selectedMaterial.content);
       }
       selectedMaterial.imageList.split(",").forEach(function(image,index,arr){
-        sendImage(image)
+        delay = (index + 1) * 100
+        setTimeout(function () {
+          sendImage(image)
+        }, delay)
       });
     } else {
       if (selectedMaterial.content) {
         sendContent(selectedMaterial.content);
       }
     }
-    // content = '{"type":1,"content":"' + "测试window.open()" + '","exit":false}';
-    // window.open(host + content,'sendFrame','')
-    // 退出
+    // 延迟退出
     setTimeout(function () {
       quit()
-    }, 300)
+    }, delay + 300)
   })
   /**
    * @msg: 发送文字
@@ -730,9 +732,7 @@
   function sendImage(image) {
     let params = '{"type":2,"picUrl":"' + image
       + '" , smallPicUrl="' + image + '?x-oss-process=image/resize,m_fill,h_100,w_100", "exit":false}';
-    setTimeout(function () {
-      window.location.href = host + params
-    }, 300)
+    window.location.href = host + params
   }
   /**
    * @msg: 退出
