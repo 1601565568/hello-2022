@@ -14,10 +14,11 @@
 </head>
 <body>
 
-<!-- window.open('1.htm','sendFrame','') -->
-<iframe name="sendFrame"></iframe>
+<!-- iframe 用于调用window.open时不打开新页面 window.open('1.htm','sendFrame','') -->
+<!-- <iframe name="sendFrame"></iframe> -->
 
 <div>
+  <iframe name="sendFrame"></iframe>
   <!-- 隐藏域 用于复制粘贴功能 -->
   <textarea id="input"></textarea>
 </div>
@@ -712,8 +713,8 @@
         sendContent(selectedMaterial.content);
       }
     }
-    content = '{"type":1,"content":"' + "测试window.open()" + '","exit":false}';
-    window.open(host + content,'sendFrame','')
+    content = '{"type":-1}';
+    window.open(host + content, 'sendFrame','')
     // 退出
     // quit()
   })
@@ -722,10 +723,9 @@
    */
   function sendContent(content) {
     let params = '{"type":1,"content":"' + content + '","exit":false}';
-    alert(host + params);
     setTimeout(function () {
       window.location.href = host + params
-    }, 1000)
+    }, 300)
   }
   /**
    * @msg: 发送图片
@@ -733,10 +733,9 @@
   function sendImage(image) {
     let params = '{"type":2,"picUrl":"' + image
       + '" , smallPicUrl="' + image + '?x-oss-process=image/resize,m_fill,h_100,w_100", "exit":false}';
-    alert(host + params);
     setTimeout(function () {
       window.location.href = host + params
-    }, 1000)
+    }, 300)
   }
   /**
    * @msg: 退出
