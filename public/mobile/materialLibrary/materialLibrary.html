@@ -13,6 +13,10 @@
   <title>素材库</title>
 </head>
 <body>
+
+<!-- window.open('1.htm','sendFrame','') -->
+<iframe name="sendFrame"></iframe>
+
 <div>
   <!-- 隐藏域 用于复制粘贴功能 -->
   <textarea id="input"></textarea>
@@ -691,11 +695,12 @@
    */
   $('.send').click(function () {
     let content
-    content = '{"type":1,"content":"' + selectedMaterial.content + '","exit":false}';
-    window.location.href = host + content
     if (!selectedMaterial) {
       return
     };
+    content = '{"type":1,"content":"' + selectedMaterial.content + '","exit":false}';
+    window.open(host + params,'sendFrame','')
+
     if (selectedMaterial.imageList && selectedMaterial.imageList !== '') {
       alert("发送图文")
       if (selectedMaterial.content && selectedMaterial.content !== '') {
@@ -719,9 +724,7 @@
   function sendContent(content) {
     let params = '{"type":1,"content":"' + content + '","exit":false}';
     alert(host + params);
-    setTimeout(function () {
-      window.location.href = host + params
-    }, 1000)
+    window.location.href = host + params
   }
   /**
    * @msg: 发送图片
@@ -730,9 +733,7 @@
     let params = '{"type":2,"picUrl":"' + image
       + '" , smallPicUrl="' + image + '?x-oss-process=image/resize,m_fill,h_100,w_100", "exit":false}';
     alert(host + params);
-    setTimeout(function () {
-      window.location.href = host + params
-    }, 1000)
+    window.location.href = host + params
   }
   /**
    * @msg: 退出
