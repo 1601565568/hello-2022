@@ -8,24 +8,26 @@ export default {
   data: function () {
     let that = this
     let tableButtons = [
-      {
-        'func': function () {
-          that.onSaveOpen({})
-        },
-        'name': '新增话术'
-      },
-      {
-        'func': function () {
-          that.onPatchChangeOpen({})
-        },
-        'name': '批量管理'
-      },
-      {
-        'func': function () {
-          that.onPatchDelete({})
-        },
-        'name': '批量删除'
-      }
+      // {
+      //   'func': function () {
+      //     that.onSaveOpen({})
+      //   },
+      //   'name': '新增话术'
+      // },
+      // {
+      //   'func': function () {
+      //     that.onPatchChangeOpen({})
+      //   },
+      //   'name': '批量管理',
+      //   'disabled': 'disabled'
+      // },
+      // {
+      //   'func': function () {
+      //     that.onPatchDelete({})
+      //   },
+      //   'name': '批量删除',
+      //   'disabled': 'disabled'
+      // }
     ]
     return {
       model: {
@@ -107,6 +109,7 @@ export default {
       }
     }
   },
+  color: false,
   updated () {
     this.$refs.elTree.offsetHeight > window.screen.availHeight ? this.offsetHeight = true : this.offsetHeight = false
   },
@@ -212,6 +215,19 @@ export default {
       })
     },
     handleSelectionChange (val) {
+      if (val.length === 0) {
+        this.color = false
+        this.$refs.batchDelete.$el.style.backgroundColor = '#80c8fd'
+        this.$refs.batchDelete.$el.style.borderColor = '#80c8fd'
+        this.$refs.batchChange.$el.style.backgroundColor = '#80c8fd'
+        this.$refs.batchChange.$el.style.borderColor = '#80c8fd'
+      } else {
+        this.color = true
+        this.$refs.batchDelete.$el.style.backgroundColor = '#1a9cfb'
+        this.$refs.batchDelete.$el.style.borderColor = '#1a9cfb'
+        this.$refs.batchChange.$el.style.backgroundColor = '#1a9cfb'
+        this.$refs.batchChange.$el.style.borderColor = '#1a9cfb'
+      }
       this.model.wordGroupId = null
       this.model.keyWord = null
       this.selectedArr = val
@@ -252,7 +268,7 @@ export default {
           id: null,
           wordGroupId: null,
           content: '',
-          keyWord: null,
+          keyWord: '已弃用',
           name: null,
           addName: null,
           searchValue: null,
@@ -363,7 +379,7 @@ export default {
         this.$notify.warning('您没有选择任何数据')
         return
       }
-      apiRequestConfirm('永久删除该数据')
+      apiRequestConfirm('永久删除该条数据')
         .then(() => {
           let that = this
           let obj = { quicklyWordIds: '' }
@@ -438,7 +454,6 @@ export default {
     },
     keyWordCheck (val) {
       var v = val
-      window.console.log('===', val.length)
       if (val.length > 25) {
         this.$refs['form'].validateField('keyWord')
         this.model.keyWord = v.substring(0, 25)

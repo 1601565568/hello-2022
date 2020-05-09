@@ -28,9 +28,30 @@
     <div id="box_right">
       <ns-page-table>
         <!-- 按钮 -->
-        <template slot="buttons" class="quickWordsArt">
-          <ns-table-operate-button :buttons="_data._table.table_buttons"></ns-table-operate-button>
+<!--        <template slot="buttons" class="quickWordsArt" >-->
+<!--          <ns-table-operate-button :buttons="_data._table.table_buttons"></ns-table-operate-button>-->
+<!--        </template>-->
+<!--        <template slot="buttons">-->
+<!--          <template v-for="btnItem in _data._table.table_buttons" >-->
+<!--            <ns-button v-if="btnItem.name === '新增话术'" :key="btnItem.name" class="quickButtonsAdd" :type="btnItem.type" v-on:click="btnItem.func">{{btnItem.name}}</ns-button>-->
+<!--            <ns-button v-else-if="btnItem.name === '批量删除'" id="batchDelete"  :key="btnItem.name" class="quickButtons" :disabled="btnItem.disabled" :type="btnItem.type" v-on:click="btnItem.func">{{btnItem.name}}</ns-button>-->
+<!--            <ns-button v-else-if="btnItem.name === '批量管理'" id="batchChange"  :key="btnItem.name" class="quickButtons" :disabled="btnItem.disabled" :type="btnItem.type" v-on:click="btnItem.func">{{btnItem.name}}</ns-button>-->
+<!--          </template>-->
+<!--        </template>-->
+        <template slot="buttons" slot-scope = "scope" class="quickWordsArt">
+          <ns-button type="primary" @click="onSaveOpen(scope)" class="quickWordsArt" >新增话术</ns-button>
+
+          <ns-button type="primary" v-if="color"  ref="batchChange"  @click="onPatchChangeOpen()"  style="border-color: #80c8fd; background-color: #80c8fd" >批量管理</ns-button>
+          <ns-button type="primary" disabled v-else   ref="batchChange"  style="border-color: #80c8fd; background-color: #80c8fd" >批量管理</ns-button>
+          <ns-button type="primary" v-if="color"      ref="batchDelete"  @click="onPatchDelete()"    style="border-color: #80c8fd; background-color: #80c8fd" >批量删除</ns-button>
+          <ns-button type="primary" disabled v-else   ref="batchDelete"    style="border-color: #80c8fd; background-color: #80c8fd" >批量删除</ns-button>
         </template>
+<!--        <el-col :span="7">-->
+<!--          <ns-button type="primary" v-if="color" @click="setGroudShowToggle">批量设置分组</ns-button>-->
+<!--          <ns-button type="primary" disabled v-else  >批量设置分组</ns-button>-->
+<!--          <ns-button type="primary" v-if="color" @click="deleteSubdivision">删除</ns-button>-->
+<!--          <ns-button disabled type="primary" v-else >删除</ns-button>-->
+<!--        </el-col>-->
         <!-- 简单搜索 -->
         <!-- el-form 需添加 @submit.native.prevent 配置 -->
         <!-- el-inpu 需添加  @keyup.enter.native="$quickSearchAction$" 配置，实现回车搜索 -->
@@ -53,8 +74,8 @@
                     @selection-change="handleSelectionChange"
             resizable v-loading.lock="_data._table.loadingtable"
             :element-loading-text="$t('prompt.loading')" @sort-change="$orderChange$">
-            <el-table-column type="selection" align="center" :width="50"></el-table-column>
-            <el-table-column prop="keyWord" class-name="keyword" width="130" :show-overflow-tooltip="true" label="关键词" align="left"></el-table-column>
+            <el-table-column type="selection" align="center"  :width="50"></el-table-column>
+<!--            <el-table-column prop="keyWord" class-name="keyword" width="130" :show-overflow-tooltip="true" label="关键词" align="left"></el-table-column>-->
             <el-table-column prop="content" label="话术内容" :show-overflow-tooltip="true" align="left"></el-table-column>
             <el-table-column prop="name" label="分类" align="left"></el-table-column>
             <el-table-column prop="createTime" label="添加时间" align="center"></el-table-column>
@@ -124,9 +145,9 @@
             </div>
           </div>
         </el-form-item>
-        <el-form-item label="设置关键词：" prop="keyWord">
-          <el-input type="textarea" placeholder="用'，'号隔开，最多设置五个词" @input="keyWordCheck" v-model="model.keyWord" size="small" rows="3"></el-input>
-        </el-form-item>
+<!--        <el-form-item label="设置关键词："  prop="keyWord">-->
+<!--          <el-input type="textarea" placeholder="用'，'号隔开，最多设置五个词" @input="keyWordCheck" v-model="model.keyWord" size="small" rows="3"></el-input>-->
+<!--        </el-form-item>-->
         <el-form-item label="添加人：" prop="addName">
           <el-input type="text" disabled="true" v-model="model.addName"></el-input>
         </el-form-item>
@@ -148,9 +169,9 @@
             <el-option v-for="wordGroup in selectwordGroupList" :label="wordGroup.name" :value="wordGroup.id" :key="wordGroup.id"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="编辑关键词：" prop="keyWord">
-          <el-input type="text" placeholder="如果未输入内容，则保持原有关键词不变。用“，”号隔开，最多设置五个词" v-model="model.keyWord"></el-input>
-        </el-form-item>
+<!--        <el-form-item label="编辑关键词：" prop="keyWord">-->
+<!--          <el-input type="text" placeholder="如果未输入内容，则保持原有关键词不变。用“，”号隔开，最多设置五个词" v-model="model.keyWord"></el-input>-->
+<!--        </el-form-item>-->
       </el-form>
       <div slot="footer" class="dialog-footer">
         <ns-button @click="closeDialog()">取消</ns-button>
@@ -189,7 +210,17 @@ List.components = {
 export default List
 </script>
 <style scoped>
-  @import "@theme/variables.pcss";
+@import "@theme/variables.pcss";
+.quickButtonsAdd{
+  color: #FFFFFF;
+  background-color: #1a9cfb;
+  border-color: #0091fa;
+}
+.quickButtons{
+  color: #FFFFFF;
+  background-color: #80c8fd;
+  border-color: #80c8fd;
+}
 .elTree{
   overflow-y: auto;
   overflow-x: hidden
