@@ -47,26 +47,27 @@
   </div>
   <!-- 素材分组 end -->
 
-  <!-- 素材库列表 start -->
   <!-- 下拉重新加载 -->
   <div class="material__getMore" id="getMore"><!-- style="display: none;" -->
     <div class="prompt upRefreshText"></div><!-- 居中效果 prompt -->
   </div>
+  <!-- 下拉重新加载 -->
 
+  <!-- 素材库列表 start -->
   <div class="material__list" >
   </div>
   <!-- 素材库列表 end -->
+
+  <!-- 上拉加载更多 -->
+  <div class="material__getDownMore" id="getDownMore"><!-- style="display: none;" -->
+    <div class="prompt downRefreshText"></div><!-- 居中效果 prompt -->
+  </div>
 
   <!-- 暂无素材 start -->
   <div class="material__noData hidden"><!-- style="display: none;" -->
     <div class="prompt">暂无素材</div>
   </div>
   <!-- 暂无素材 end -->
-
-  <!-- 上拉加载更多 -->
-  <div class="material__getDownMore" id="getDownMore"><!-- style="display: none;" -->
-    <div class="prompt downRefreshText"></div><!-- 居中效果 prompt -->
-  </div>
 
   <!-- 发送按钮 start -->
   <div class="material__btn">
@@ -116,6 +117,7 @@
 <script type="text/javascript" src="../js/common.js"></script>
 <script>
   var host = "ecrp://send?params="
+  var delay // 发送好友消息延迟间隔时间
   // 查询素材分组URL
   let findSubdivisionListUrl = '/wx/material/findH5SubdivisionList';
   // 查询素材列表URL
@@ -146,6 +148,7 @@
   var _upRefreshText = document.querySelector('.upRefreshText');
   var _downRefreshText = document.querySelector('.downRefreshText');
   var imageSuffix = '?x-oss-process=image/resize,m_fill,h_100,w_100'
+
   /**
    * @msg: 页面初始化加载事件
    * 1、查询素材分组 & 组装素材分组数据
@@ -227,10 +230,14 @@
   function init() {
     // 获取当前员工的微信ID
     wxId = getPar('wxId')
-    // wxId = 'wxid_gilg2xu6f0p322'
+    delay = getPar('delay')
     if (!wxId) {
         toError(3, '参数错误：个人号微信号不允许为空')
         return
+    }
+    // 好友消息发送延迟时间间隔
+    if (!delay) {
+      delay = 300
     }
     // 初始化分组
     initSubdivisionList()
@@ -295,7 +302,7 @@
         pageSize: pageSize
       }).then(function (result) {
         if (result.success) {
-          _upRefreshText.innerText = '刷新成功'
+          // _upRefreshText.innerText = '刷新成功'
           setTimeout(function(){
             _upRefreshText.innerText = ''
           }, 300)
@@ -708,25 +715,21 @@
    */
   $('.send').click(function () {
     let content
-    let delay = 100
     if (!selectedMaterial) {
       return
     };
     if (selectedMaterial.imageList && selectedMaterial.imageList !== '') {
       if (selectedMaterial.content && selectedMaterial.content !== '') {
-        sendContent(selectedMaterial.content, delay);
+        sendContent(selectedMaterial.content, 100);
       }
       selectedMaterial.imageList.split(",").forEach(function(image,index,arr){
-        delay = (index + 1) * 300
-        sendImage(image, delay, index === arr.length -1)
+        sendImage(image, (index + 1) * delay, index === arr.length -1)
       });
     } else {
       if (selectedMaterial.content) {
-        sendContent(selectedMaterial.content, delay);
+        sendContent(selectedMaterial.content, 100);
       }
     }
-    // content = '{"type":1,"content":"' + "测试window.open()" + '","exit":false}';
-    // window.open(host + content,'sendFrame','')
     // 退出
     // quit()
   })
@@ -759,7 +762,6 @@
   // 分享到朋友圈
   $(document).on('click', '.share', function(e){
     let materialId = $(e.target).attr("materialId")
-    alert("分享到朋友圈:" + materialId)
   })
   /**
    * @msg: http请求封装
