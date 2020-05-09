@@ -215,6 +215,11 @@
       let _refreshText = document.querySelector('.refreshText');
       initMaterialList(++pageStart)
     }
+    if(scrollTop == 0){
+      resetParams()
+      _upRefreshText.innerText = '刷新列表';
+      initMaterialList()
+    }
   }
   /**
    * @msg: 页面数据初始化
@@ -290,6 +295,10 @@
         pageSize: pageSize
       }).then(function (result) {
         if (result.success) {
+          _upRefreshText.innerText = '刷新成功'
+          setTimeout(function(){
+            _upRefreshText.innerText = ''
+          }, 300)
           // 素材列表
           let materialList = result.result
           if (result.result.length === pageSize) {
@@ -546,6 +555,7 @@
       return
     }
     $('.searchbar__input').val('')
+    setSendButton(0)
     resetParam();
     initMaterialList();
   })
