@@ -718,6 +718,8 @@
     if (!selectedMaterial) {
       return
     };
+    // 按钮不可点击
+    setSendButton(0)
     if (selectedMaterial.imageList && selectedMaterial.imageList !== '') {
       if (selectedMaterial.content && selectedMaterial.content !== '') {
         sendContent(selectedMaterial.content, 100);
