@@ -219,7 +219,9 @@
       initMaterialList(++pageStart)
     }
     if(scrollTop == 0){
-      resetParam()
+      pageStart = 0
+      showNoData(false)
+      // resetParam()
       _upRefreshText.innerText = '刷新列表';
       initMaterialList()
     }
@@ -724,6 +726,7 @@
    */
   $('.send').click(function () {
     let content
+    let textDelay = 300
     if (!selectedMaterial) {
       return
     };
@@ -731,14 +734,15 @@
     setSendButton(0)
     if (selectedMaterial.imageList && selectedMaterial.imageList !== '') {
       if (selectedMaterial.content && selectedMaterial.content !== '') {
-        sendContent(selectedMaterial.content, 100);
+        sendContent(selectedMaterial.content, textDelay, false);
       }
       selectedMaterial.imageList.split(",").forEach(function(image,index,arr){
-        sendImage(image, (index + 1) * delay, index === arr.length -1)
+        // 最后一张图片关闭页面
+        sendImage(image, (index + 1) * delay + textDelay, index === arr.length -1)
       });
     } else {
       if (selectedMaterial.content) {
-        sendContent(selectedMaterial.content, 100);
+        sendContent(selectedMaterial.content, textDelay, true);
       }
     }
     // 退出
@@ -747,8 +751,8 @@
   /**
    * @msg: 发送文字
    */
-  function sendContent(content, delay = 100) {
-    let params = '{"type":1,"content":"' + content + '","exit":false}';
+  function sendContent(content, delay = 100, exit = false) {
+    let params = '{"type":1,"content":"' + content + '","exit":' + exit + '}';
     setTimeout(function(){
       window.location.href = host + params
     }, delay)
