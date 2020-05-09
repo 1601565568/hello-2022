@@ -44,9 +44,9 @@
         <template slot="buttons" slot-scope = "scope" class="quickWordsArt">
           <ns-button type="primary" @click="onSaveOpen(scope)" class="quickWordsArt" >新增话术</ns-button>
 
-          <ns-button type="primary" v-if="color"  ref="batchChange"  @click="onPatchChangeOpen()"  style="border-color: #80c8fd; background-color: #80c8fd" >批量管理</ns-button>
+          <ns-button type="primary" v-if="batchDis"  ref="batchChange"  @click="onPatchChangeOpen()"  style="border-color: #80c8fd; background-color: #80c8fd" >批量管理</ns-button>
           <ns-button type="primary" disabled v-else   ref="batchChange"  style="border-color: #80c8fd; background-color: #80c8fd" >批量管理</ns-button>
-          <ns-button type="primary" v-if="color"      ref="batchDelete"  @click="onPatchDelete()"    style="border-color: #80c8fd; background-color: #80c8fd" >批量删除</ns-button>
+          <ns-button type="primary" v-if="batchDis"      ref="batchDelete"  @click="onPatchDelete()"    style="border-color: #80c8fd; background-color: #80c8fd" >批量删除</ns-button>
           <ns-button type="primary" disabled v-else   ref="batchDelete"    style="border-color: #80c8fd; background-color: #80c8fd" >批量删除</ns-button>
         </template>
 <!--        <el-col :span="7">-->

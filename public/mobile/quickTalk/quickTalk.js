@@ -112,6 +112,7 @@
    function clickEvent(e) {
      $('.quick__list').empty();
      setClearSecdButtn(1);
+     $('#searchbarValue').val('');
      let thisElement=$(e);
      quicklyWord={
        wordGroupId:thisElement.attr('id'),
@@ -185,6 +186,8 @@
          if(result.result.length==0){
            var idArr=$('.item__text');
            isScroll=false;
+           $('.downRefreshText').show().text('暂无您要找的快捷话术');
+           setTimeout(function () { $('.downRefreshText').hide()}, 500);
            if(idArr.length<=0){
              $('.quick__list').hide();
              $('.quick__noData').show();
@@ -207,9 +210,9 @@
       var oHeight = $(document).height();
       $(window).resize(function(){
         if($(document).height() < oHeight){
-          $("#footer").css("position","static");
+          $(".quick__btn").css("position","static");
         }else{
-          $("#footer").css("position","absolute");
+          $(".quick__btn").css("position","absolute");
         }
       });
     /**
@@ -226,7 +229,7 @@
         //窗口可视范围高度
         var clientHeight = window.innerHeight || Math.min(document.documentElement.clientHeight, document.body.clientHeight);
         if (clientHeight + scrollTop >= scrollHeight) {
-          console.log("scrollHeight=>",scrollHeight)
+          // console.log("scrollHeight=>",scrollHeight)
           if(isScroll){
             //e.css('display','block')
             $('.downRefreshText').show().text('加载更多');
@@ -234,10 +237,11 @@
             quicklyWord.start=quicklyWord.start+10;
             console.log("scrollHeight=>",scrollHeight)
             getQuickList(quicklyWord);
-          }else {
-            $('.downRefreshText').show().text('暂无您要找的快捷话术');
-            setTimeout(function () { $('.downRefreshText').hide()}, 500);
           }
+          //  else {
+          //   $('.downRefreshText').show().text('暂无您要找的快捷话术');
+          //   setTimeout(function () { $('.downRefreshText').hide()}, 500);
+          // }
         }
         if(scrollTop==0){
           console.log("文档内容实际高度   scrollHeight=>", document.documentElement.scrollHeight)

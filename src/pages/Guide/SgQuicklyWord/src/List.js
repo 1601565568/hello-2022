@@ -71,6 +71,7 @@ export default {
       height: 0,
       showOrder: false,
       tableList: [],
+      batchDis: false,
       wordGroupList: null,
       selectwordGroupList: null,
       _table: {
@@ -78,27 +79,27 @@ export default {
       },
       rules: {
         'wordGroupId': [{ required: true, message: '话术类别不能为空' }],
-        'keyWord': [{ required: true, message: '关键字不能为空' },
-          { max: 25, message: '长度在 25 以内', trigger: 'blur' },
-          {
-            validator: (rule, value, callback) => {
-              if (this.model.keyWord !== '' && this.model.keyWord !== null) {
-                if ((this.model.keyWord.split('，').length - 1) > 4) {
-                  callback(new Error('关键词最多设置五个词'))
-                } else if (this.model.keyWord.length > 25) {
-                  callback(new Error('关键词长度在 25 以内'))
-                }
-                let arr = '😀😁😂🤣😃😄😅😆😉😊😋😎😍😘😭😢😬🙂🤗🤔😐😶🙄😏😣😥😮😪😫😴😌😇😜😝🤤😒😓🙃🤑😲🤐😖😤🤥🤧😧😨😱😳😡😷🤓👌👍😈👻💩🙈🙉🙊🐷🐸'.split('')
-                for (var i = 0; i < arr.length; i++) {
-                  if (value.indexOf(arr[i]) !== -1) {
-                    callback(new Error('不支持表情'))
-                  }
-                }
-              }
-              callback()
-            }
-          }
-        ],
+        // 'keyWord': [{ required: true, message: '关键字不能为空' },
+        //   { max: 25, message: '长度在 25 以内', trigger: 'blur' },
+        //   {
+        //     validator: (rule, value, callback) => {
+        //       if (this.model.keyWord !== '' && this.model.keyWord !== null) {
+        //         if ((this.model.keyWord.split('，').length - 1) > 4) {
+        //           callback(new Error('关键词最多设置五个词'))
+        //         } else if (this.model.keyWord.length > 25) {
+        //           callback(new Error('关键词长度在 25 以内'))
+        //         }
+        //         let arr = '😀😁😂🤣😃😄😅😆😉😊😋😎😍😘😭😢😬🙂🤗🤔😐😶🙄😏😣😥😮😪😫😴😌😇😜😝🤤😒😓🙃🤑😲🤐😖😤🤥🤧😧😨😱😳😡😷🤓👌👍😈👻💩🙈🙉🙊🐷🐸'.split('')
+        //         for (var i = 0; i < arr.length; i++) {
+        //           if (value.indexOf(arr[i]) !== -1) {
+        //             callback(new Error('不支持表情'))
+        //           }
+        //         }
+        //       }
+        //       callback()
+        //     }
+        //   }
+        // ],
         'content': [{ required: true, message: '话术内容不能为空' },
           { max: 190, message: '长度在 200 以内', trigger: 'blur' }],
         'name': [{ required: true, message: '分类内容不能为空' }]
@@ -109,7 +110,6 @@ export default {
       }
     }
   },
-  color: false,
   updated () {
     this.$refs.elTree.offsetHeight > window.screen.availHeight ? this.offsetHeight = true : this.offsetHeight = false
   },
@@ -146,7 +146,8 @@ export default {
       }
       this.model.wordGroupId = data.id
       this.parameter.searchMap = this.model
-      this.$queryList$(this.parameter)
+      // addName: "admin" start: 0
+      // this.$queryList$(this.parameter)
     },
     reset () {
       this.showOrder = false
@@ -157,6 +158,8 @@ export default {
         if (resp.success) {
           this.findQuicklyWordGroupList()
           this.$notify.success('删除分组成功')
+          this.parameter.wordGroupId = null
+          this.$queryList$(this.parameter)
         }
       }).catch(resp => {
         this.$notify.error(getErrorMsg('删除失败', resp))
@@ -180,6 +183,7 @@ export default {
       })
     },
     saveOrUpdateQuicklyWordGroup () {
+      this.$refs['addOrEditForm'].validateField('name')
       if (this.addOrEditModel.name && (this.addOrEditModel.name.length <= 10)) {
         this.$http.fetch(this.$api.guide.saveOrUpdateQuicklyWordGroup, this.addOrEditModel).then(resp => {
           if (resp.success) {
