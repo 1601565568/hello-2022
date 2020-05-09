@@ -329,6 +329,8 @@
                 index === 0 && pageStart === 0
                 );
             })
+            // 判断素材组标题超过三行显示图标
+            subCategory();
             // 按钮修改为可用
             setSendButton(1)
             if (pageStart > 0) {
@@ -352,6 +354,8 @@
                       material.subdivision_name ? material.subdivision_name : '-',
                       index === 0 && pageStart === 0
                     );
+                  // 判断素材组标题超过三行显示图标
+                  subCategory();
                   } else {
                     toError(3, res.msg ? res.msg : '')
                   }
@@ -542,6 +546,18 @@
     }
   }
   /**
+   * @msg: 判断素材组标题超过三行显示图标
+   */
+  function subCategory () {
+    // 判断素材组标题超过三行显示图标
+    $(".subCategory").each(function(){
+      var innerHeight = $(this).outerHeight(true);
+      if (innerHeight > 60) {
+        $(this).parent().siblings(".subCategoryMore").css("display","block");
+      }
+    });
+  }
+  /**
     * 事件绑定
     */
   // 取消
@@ -630,18 +646,11 @@
     $('.float-layout').addClass('hidden')
     $('body').css('overflow','auto');
   })
-  // 判断素材组标题超过三行显示图标
-  $(".subCategory").each(function(){
-    var innerHeight = $(this).outerHeight(true);
-    if (innerHeight > 60) {
-      $(this).parent().siblings(".subCategoryMore").css("display","block");
-    }
-  });
   // 素材标题收起和隐藏
-  $('.subCategoryMore').click(function () {
+  $(document).on('click', '.subCategoryMore', function(e){
     var show = $(this).parent().hasClass('is_open');
     if (!show) {
-      $(this).children().text('收缩');
+      $(this).children().text('收起');
     } else {
       $(this).children().text('展开');
     }
