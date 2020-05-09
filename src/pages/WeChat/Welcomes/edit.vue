@@ -20,7 +20,7 @@
                   </ElFormItem>
                   <ElFormItem label="选择营销人群：">
                     <el-form-grid>
-                      <ns-button type='text' @click="choosePersonnel">+ 选择员工</ns-button>
+                      <ns-button type='text' @click="choosePersonnel"><Icon type="plus" />选择员工</ns-button>
                     </el-form-grid>
                     <ElFormGrid>
                       已选择<span class="text-primary">{{tree.selectedData.length}}</span>个员工
