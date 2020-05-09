@@ -172,7 +172,7 @@ input {
 }
 .photowall .photowall__picture {
   width: 30%;
-  padding-top: 30%;
+  height: 30%;
   position: relative;
   display: inline-block;
   margin: 0 5% 15px 0;
@@ -183,10 +183,10 @@ input {
 .img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  /* object-fit: cover;
   position: absolute;
   top: 0;
-  left: 0;
+  left: 0; */
 }
 .other {
   font-size: 12px;
