@@ -299,6 +299,7 @@
           }
           // 素材列表组装 & 展示
           if (materialList && materialList.length > 0) {
+            showNoData(false)
             groupId = materialList[0].brandId
             let html = '';
             materialList.forEach(function(material,index,arr){
@@ -697,44 +698,46 @@
    */
   $('.send').click(function () {
     let content
+    let delay = 100
     if (!selectedMaterial) {
       return
     };
     if (selectedMaterial.imageList && selectedMaterial.imageList !== '') {
       if (selectedMaterial.content && selectedMaterial.content !== '') {
-        sendContent(selectedMaterial.content);
+        sendContent(selectedMaterial.content, delay);
       }
       selectedMaterial.imageList.split(",").forEach(function(image,index,arr){
-        sendImage(image)
+        delay = (index + 1) * 300
+        sendImage(image, delay, index === arr.length -1)
       });
     } else {
       if (selectedMaterial.content) {
-        sendContent(selectedMaterial.content);
+        sendContent(selectedMaterial.content, delay);
       }
     }
-    content = '{"type":1,"content":"' + "测试window.open()" + '","exit":false}';
-    window.open(host + content,'sendFrame','')
+    // content = '{"type":1,"content":"' + "测试window.open()" + '","exit":false}';
+    // window.open(host + content,'sendFrame','')
     // 退出
     // quit()
   })
   /**
    * @msg: 发送文字
    */
-  function sendContent(content) {
+  function sendContent(content, delay = 100) {
     let params = '{"type":1,"content":"' + content + '","exit":false}';
-    // window.open(host + content, 'sendFrame','')
-    window.location.href = host + params
+    setTimeout(function(){
+      window.location.href = host + params
+    }, delay)
   }
   /**
    * @msg: 发送图片
    */
-  function sendImage(image) {
+  function sendImage(image, delay = 300, exit = false) {
     let params = '{"type":2,"picUrl":"' + image
-      + '" , smallPicUrl="' + image + imageSuffix + '","exit":false}';
-    window.location.href = host + params
-    // setTimeout(function () {
-    //   window.location.href = host + params
-    // }, 300)
+      + '" , smallPicUrl="' + image + imageSuffix + '","exit":' + exit + '}';
+    setTimeout(function () {
+      window.location.href = host + params
+    }, delay)
   }
   /**
    * @msg: 退出
