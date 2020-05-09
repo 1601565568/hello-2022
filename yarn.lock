@@ -1606,15 +1606,15 @@
     call-me-maybe "^1.0.1"
     glob-to-regexp "^0.3.0"
 
-"@nascent/ecrp-ecrm@^0.4.31":
-  version "0.4.31"
-  resolved "http://27.154.234.170:18081/repository/npm/@nascent/ecrp-ecrm/-/ecrp-ecrm-0.4.31.tgz#f244e5ea0740e3766dec2865aeceab953b6aa2d9"
-  integrity sha512-pjTlEEWjaVAqMoVWXqXRJUzE5TQNq7UvrbMHvLqW8AJqVGADIH7sNXmnPhAXHU1UCmCL8i2fTAxMWAXjTDQq/A==
+"@nascent/ecrp-ecrm@^0.4.32":
+  version "0.4.32"
+  resolved "http://27.154.234.170:18081/repository/npm/@nascent/ecrp-ecrm/-/ecrp-ecrm-0.4.32.tgz#af0b78aeecefc5ebcfd0396e78157208f26390f1"
+  integrity sha512-fnLa+5uw5idenqE5s+DvilqlSypJaq21oAXrIrmH8VgQBgHeUhZcd68AbqiwaVPPSVUS0928pnw1f+SwzMybNQ==
   dependencies:
     "@ant-design/icons" "^2.1.1"
     "@nascent/icons-vue" "^1.0.11"
     "@nascent/log" "^0.2.1"
-    "@nascent/nui" "2.9.36"
+    "@nascent/nui" "2.9.37"
     "@sentry/browser" "^4.5.3"
     "@xkeshi/vue-qrcode" "^1.0.0"
     animate.css "^3.7.2"
@@ -1667,24 +1667,10 @@
     vue "^2.5.2"
     vue-router "^3.0.1"
 
-"@nascent/nui@2.9.36":
-  version "2.9.36"
-  resolved "http://27.154.234.170:18081/repository/npm/@nascent/nui/-/nui-2.9.36.tgz#70a82422f03451a95a6d5b94a507dccc3f113e6f"
-  integrity sha512-oDxNLAV8QIpTM8kgcIPi+qFDZguipjqdDk1lAsTC3Xf6C6/mv4lcha/2MHpX5YgOAM+fzt3vPhnWQSETAaVYDg==
-  dependencies:
-    async-validator "~1.8.1"
-    babel-helper-vue-jsx-merge-props "^2.0.0"
-    countup.js "^1.7.1"
-    deepmerge "^1.2.0"
-    normalize-wheel "^1.0.1"
-    resize-observer-polyfill "^1.5.0"
-    throttle-debounce "^1.0.1"
-    vuedraggable "^2.14.1"
-
-"@nascent/nui@^2.9.31":
-  version "2.9.31"
-  resolved "http://27.154.234.170:18081/repository/npm/@nascent/nui/-/nui-2.9.31.tgz#9de1c9c66ad7532b144b83810f01ccb323c10e72"
-  integrity sha512-pbLhcNqXcRvNCxg43I/UntszjqHa0l3zBtrKMJ4kl+YEgCJ3i5vP/8TR0Sg7EawXgK2tYmsLKR3qxGlwCu5yXQ==
+"@nascent/nui@2.9.37", "@nascent/nui@^2.9.37":
+  version "2.9.37"
+  resolved "http://27.154.234.170:18081/repository/npm/@nascent/nui/-/nui-2.9.37.tgz#a528165d5e91fc36a8b17173d69f1c13b5dd05e9"
+  integrity sha512-Vl56ojruXNNnRjg5f6GFO3YAJBY9kE5ZQ79BmLj3DA8JQoOzAfs3+nCPcXIpOCYdAInUnJ5rrYehYAEosRJVjg==
   dependencies:
     async-validator "~1.8.1"
     babel-helper-vue-jsx-merge-props "^2.0.0"
