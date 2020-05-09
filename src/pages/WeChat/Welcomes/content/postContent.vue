@@ -122,7 +122,7 @@
               <div class="message-prompt__mass--topspace cursor-pointer message-hovericolor">小程序</div>
             </div>
           </div>
-          <NsButton type="text" slot="reference">+添加消息内容</NsButton>
+          <NsButton type="text" slot="reference"><Icon type="plus" />添加消息内容</NsButton>
         </ElPopover>
         <span class="text-secondary left-space">
           最多添加10条消息；上传视频限制大小30M，格式为MP4。
