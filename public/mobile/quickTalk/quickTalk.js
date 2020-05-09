@@ -9,7 +9,8 @@
   var quicklyWord;
   var isScroll=true;
     window.onload = function () {
-    $('.searchbar__input').change();
+     searchWord(1);
+    //$('.searchbar__input').onkeyup();
     $('#cancelSecdId').css('display','none')
     $('.send').css("background","#BEBFC3");
     $(".send").css({"pointer-events": "none" });
@@ -17,7 +18,12 @@
     //加载更多提示
     $('.downRefreshText').hide();
     $('.refresh').hide()
-
+    // //监听回车键
+    // $("form").submit(function(e){
+    //   //let searchbarValue=$('#searchbarValue').val();
+    //   console.log("submit事件触发")
+    //   $('#groupAll').click();
+    // });
   };
   /*
    * 发送消息
@@ -104,12 +110,13 @@
     }
    // 头部菜单点击触发
    function clickEvent(e) {
+     $('.quick__list').empty();
      setClearSecdButtn(1);
      let thisElement=$(e);
      quicklyWord={
        wordGroupId:thisElement.attr('id'),
        wxId: sgGuideExt.wxId,
-       wordContent:$('.searchbar__input').val().trim(),
+       wordContent:$('#searchbarValue').val().trim(),
        start:0
      };
      // 先切换顶部菜单 样式
@@ -117,7 +124,10 @@
      thisElement.addClass("tabs__pane--selected");
      // 清空话术列表
      $('.quick__list').empty();
-     getQuickList(quicklyWord)
+     setSendButton(0)
+     if($('.item__text').length==0){
+       getQuickList(quicklyWord)
+     }
    }
   // 获取集团id下的所有话术类别 并显示
   function getQuickListMenu(sgGuideExt) {
@@ -160,7 +170,7 @@
        contentType: 'application/json;charset=UTF-8',
        success: function (result) {
          if(result.result.length>0){
-           //console.log("此次数据长度=》"+result.result.length)
+           console.log("此次数据长度=》"+result.result.length)
            // value数组中的当前项, index当前项的索引, array原始数组
            result.result.forEach((item,index,array)=>{
              $('.quick__list').show();
@@ -173,62 +183,78 @@
            isScroll=true;
          }
          if(result.result.length==0){
-           $('.downRefreshText').show().text('没有更多数据');
-           setTimeout(function () { $('.refresh').hide()}, 1000);
+           var idArr=$('.item__text');
            isScroll=false;
+           if(idArr.length<=0){
+             $('.quick__list').hide();
+             $('.quick__noData').show();
+            }
            }
-         //else{
-         //   $('.quick__list').hide();
-         //   $('.quick__noData').show();
-         // }
        },
        error: function (result) {
          $('.quick__list').hide();
          $('.quick__noData').show();
        }
      })
-
    }
-
-
+  function fn() {
+    $('#groupAll').click();
+  }
+      /**
+       * 移动端H5页面底部菜单被手机键盘顶起来问题
+       */
+      //浏览器当前的高度
+      var oHeight = $(document).height();
+      $(window).resize(function(){
+        if($(document).height() < oHeight){
+          $("#footer").css("position","static");
+        }else{
+          $("#footer").css("position","absolute");
+        }
+      });
     /**
      * 分页部分开始
      */
     // 滑动事件
     $(window).scroll(function(){
-
         // 文档内容实际高度（包括超出视窗的溢出部分）
-        //var scrollHeight = Math.max(document.documentElement.scrollHeight, document.body.scrollHeight);
-        var scrollHeight = document.documentElement.scrollHeight;
+        var scrollHeight = Math.max(document.documentElement.scrollHeight, document.body.scrollHeight);
+        // var scrollHeight = document.documentElement.scrollHeight;
         //滚动条滚动距离
-        //var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
-        var scrollTop =document.documentElement.scrollTop ;
+        var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
+       // var scrollTop =document.documentElement.scrollTop ;
         //窗口可视范围高度
-        //var clientHeight = window.innerHeight || Math.min(document.documentElement.clientHeight, document.body.clientHeight);
-        var clientHeight = document.documentElement.clientHeight;
-        let e=$('.downRefreshText');
+        var clientHeight = window.innerHeight || Math.min(document.documentElement.clientHeight, document.body.clientHeight);
         if (clientHeight + scrollTop >= scrollHeight) {
+          console.log("scrollHeight=>",scrollHeight)
           if(isScroll){
-            e.show().text('加载更多');
-            setTimeout(function () { e.hide()}, 1000);
+            //e.css('display','block')
+            $('.downRefreshText').show().text('加载更多');
+            setTimeout(function () { $('.downRefreshText').hide() }, 500);
             quicklyWord.start=quicklyWord.start+10;
-            //document.documentElement.scrollHeight
-            //console.log("scrollHeight=>",scrollHeight)
+            console.log("scrollHeight=>",scrollHeight)
             getQuickList(quicklyWord);
+          }else {
+            $('.downRefreshText').show().text('暂无您要找的快捷话术');
+            setTimeout(function () { $('.downRefreshText').hide()}, 500);
           }
         }
         if(scrollTop==0){
+          console.log("文档内容实际高度   scrollHeight=>", document.documentElement.scrollHeight)
+          console.log("滚动条滚动距离     scrollTop=>", document.documentElement.scrollTop)
+          console.log("窗口可视范围高度   clientHeight=>", document.documentElement.clientHeight)
           quicklyWord.start=0;
           getQuickList(quicklyWord);
-          $('.refresh').show().text('刷新列表');
-          setTimeout(function () { $('.refresh').hide()}, 1000);
+          //$('.refresh').css('display','block')
+          $('.refresh').text('加载更多').show()
+          setTimeout(function () {  $('.refresh').hide()}, 500);
           }
     });
 
 // $(function () {
-//   // console.log("文档内容实际高度   scrollHeight=>", document.documentElement.scrollHeight)
-//   // console.log("滚动条滚动距离     scrollTop=>", document.documentElement.scrollTop)
-//   // console.log("窗口可视范围高度   clientHeight=>", document.documentElement.clientHeight)
+//   console.log("文档内容实际高度   scrollHeight=>", document.documentElement.scrollHeight)
+//   console.log("滚动条滚动距离     scrollTop=>", document.documentElement.scrollTop)
+//   console.log("窗口可视范围高度   clientHeight=>", document.documentElement.clientHeight)
 //   // //document.documentElement.scrollTop=100;
 //   // $('window').scrollLeft(100);
 //   // console.log("scrollTop=>", document.documentElement.scrollTop)

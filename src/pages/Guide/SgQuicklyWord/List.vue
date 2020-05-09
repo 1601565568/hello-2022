@@ -4,26 +4,29 @@
       <ns-button type="primary" @click="onSaveQuicklyWordGroupOpen">新增分类</ns-button>
       <div class='ptb5 bg-white pl5' >
         <span class="demonstration">分类</span>
-        <el-tooltip content="拖动调整分类排序，导购端同步">
+        <el-tooltip content="拖动调整分类排序，导购和客服端同步">
           <Icon type="question-circle"/>
         </el-tooltip>
       </div>
-      <div :class="offsetHeight?'elTrees':'elTree'" ref="elTree">
-        <el-tree :data="wordGroupList" default-expand-all @node-click="onClickNode" @node-drop="handleDrop" draggable :allow-drop="allowDrop"
-        :allow-drag="allowDrag"
-        node-key="id"
-        :current-node-key='null'
-        :highlight-current = 'true'
-        class='navTree'>
-        <div class="navTree-item flex flex-between" slot-scope="{ node, data }" >
-          <span class="dataName">{{ data.name }}</span>
-          <span v-if='data.id' class="controlstatus">
-            <Icon type="delete" @click="deleteTheGroup(data)" className="deleteicon" />
-            <Icon type="bianji-1" @click="onSaveQuicklyWordGroupOpen(data)"/>
-          </span>
+<!--      <el-scrollbar wrapStyle="overflow-x:hidden;" style="max-height: 300px; overflow-y: auto;    margin-bottom: 0px; margin-right: 0px;">-->
+        <div :class="offsetHeight?'elTrees':'elTree'" ref="elTree">
+          <el-tree :data="wordGroupList" default-expand-all @node-click="onClickNode" @node-drop="handleDrop" draggable :allow-drop="allowDrop"
+          :allow-drag="allowDrag"
+          node-key="id"
+          :current-node-key='null'
+          :highlight-current = 'true'
+          class='navTree'
+          >
+          <div class="navTree-item flex flex-between" slot-scope="{ node, data }" >
+            <span class="dataName">{{ data.name }}</span>
+            <span v-if='data.id' class="controlstatus">
+              <Icon type="delete" @click="deleteTheGroup(data)" className="deleteicon" />
+              <Icon type="bianji-1" @click="onSaveQuicklyWordGroupOpen(data)"/>
+            </span>
+          </div>
+          </el-tree>
         </div>
-        </el-tree>
-      </div>
+<!--      </el-scrollbar>-->
     </div>
     <div id="box_right">
       <ns-page-table>

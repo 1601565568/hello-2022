@@ -54,7 +54,7 @@ export default {
       emotionList: Emotion,
       addName: null,
       modelObj: {},
-      allClassArr: { name: '全部分类', id: null, label: '全部分类' },
+      allClassArr: { name: '全部', id: null, label: '全部' },
       newClassArr: { name: '请选择分类', id: null, label: '请选择分类' },
       InternetMemeShow: false,
       orignalGroup: null,
