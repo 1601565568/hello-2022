@@ -24,7 +24,7 @@
   <div class="quick__search page-fixed">
     <div class="searchbar">
       <i class='iconfont icon-ns-search searchbar__icon' onclick="searchWord(this)"></i>
-      <input type="text" placeholder="搜索话术内容" value="" onfocus="setClearSecdButtn(0)"  onfocusout="setClearSecdButtn(1)" onchange="searchWord(this)" id="searchbarValue" class="searchbar__input"/>
+      <input type="text" placeholder="搜索话术内容" value=""  onfocus="setClearSecdButtn(0)" onblur="setClearSecdButtn(1)"  onchange="searchWord(this)" id="searchbarValue" class="searchbar__input"/>
       <i class='iconfont icon-shanchu1 searchbar__icon' id='clearSecdId' style="display: none" onclick="clearSearth()"></i>
     </div>
   </div>
@@ -39,16 +39,24 @@
   </div>
   <!-- 标签页 end -->
 
+  <!-- 下滑刷新 start-->
+  <div class="prompt refresh" ></div>
+  <!-- 下滑刷新 end-->
   <!-- 快捷话术列表 start -->
-  <div class="quick__list">
-  </div>
+  <div class="quick__list"></div>
   <!-- 快捷话术列表 end -->
+  <!-- 上拉加载更多 start-->
+  <div class="prompt downRefreshText"></div>
+  <!-- 上拉加载更多 end-->
+
 
   <!-- 暂无您要找的快捷话术 start -->
   <div class="quick__noData" >
     <div class="prompt">暂无您要找的快捷话术</div>
   </div>
   <!-- 暂无您要找的快捷话术 end -->
+
+
 
   <!-- 发送按钮 start -->
   <div class="quick__btn">

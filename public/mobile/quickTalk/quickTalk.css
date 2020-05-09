@@ -109,7 +109,7 @@ input {
   font-weight: bold;
 }
 .quick .quick__list {
-  margin: 0 10px;
+  margin: 15px 0px 10px;
   background: #FFF;
   border-radius: 5px;
 }
@@ -171,3 +171,9 @@ input {
   background: #1876FC;
   border-radius: 5px;
 }
+/*刷新提示*/
+.refresh {
+  margin:20px 0px 0px;
+
+}
+

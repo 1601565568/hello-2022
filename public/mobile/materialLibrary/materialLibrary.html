@@ -13,7 +13,12 @@
   <title>素材库</title>
 </head>
 <body>
+
+<!-- iframe 用于调用window.open时不打开新页面 window.open('1.htm','sendFrame','') -->
+<!-- <iframe name="sendFrame"></iframe> -->
+
 <div>
+  <iframe name="sendFrame" class="hidden"></iframe>
   <!-- 隐藏域 用于复制粘贴功能 -->
   <textarea id="input"></textarea>
 </div>
@@ -29,8 +34,7 @@
   <div class="material__search page-fixed">
     <div class="searchbar">
       <i class='iconfont icon-ns-search searchbar__icon'></i>
-      <input type="text" placeholder="输入素材推广文案/文章标题" value="" class="searchbar__input"/>
-      <!-- onchange="initMaterialList(this)" onfocusout="resetParam() && initMaterialList(this)" -->
+      <input type="text" placeholder="输入素材推广文案/文章标题" value="" class="searchbar__input" onchange="resetParam(),initMaterialList(this)" /><!--onblur="alert('blur')" -->
       <i class='iconfont icon-shanchu1 searchbar__icon'></i>
     </div>
   </div>
@@ -129,7 +133,7 @@
   var selectedSubdivisionName = "所有素材"
   // 选中的素材Id
   let selectedId = null
-  let selectedMaterial = {}
+  var selectedMaterial = {}
   // 当前员工的微信ID
   let wxId
   // 当前员工的公司ID
@@ -141,6 +145,7 @@
   var scrollPos, height
   var _upRefreshText = document.querySelector('.upRefreshText');
   var _downRefreshText = document.querySelector('.downRefreshText');
+  var imageSuffix = '?x-oss-process=image/resize,m_fill,h_100,w_100'
   /**
    * @msg: 页面初始化加载事件
    * 1、查询素材分组 & 组装素材分组数据
@@ -210,6 +215,11 @@
       let _refreshText = document.querySelector('.refreshText');
       initMaterialList(++pageStart)
     }
+    if(scrollTop == 0){
+      resetParams()
+      _upRefreshText.innerText = '刷新列表';
+      initMaterialList()
+    }
   }
   /**
    * @msg: 页面数据初始化
@@ -273,7 +283,7 @@
   /**
    * @msg: 初始化素材列表
    */
-  function initMaterialList (pageStart = 0) {
+  function initMaterialList () {
     let $searchName = $('.searchbar__input');
     let selectedSubdivisionId = getSelectedSubdivisionId();
     this.ajax(apiRoot() + findMaterialListUrl,
@@ -285,16 +295,20 @@
         pageSize: pageSize
       }).then(function (result) {
         if (result.success) {
+          _upRefreshText.innerText = '刷新成功'
+          setTimeout(function(){
+            _upRefreshText.innerText = ''
+          }, 300)
           // 素材列表
           let materialList = result.result
           if (result.result.length === pageSize) {
             _downRefreshText.innerText = "上滑加载更多"
-          } else if (result.result.length > 0) {
+          } else if (result.result.length > 0 || (pageStart !== 0 && result.result.length === 0 )) {
             _downRefreshText.innerText = "没有更多了"
           }
           // 素材列表组装 & 展示
           if (materialList && materialList.length > 0) {
-            setSendButton(1)
+            showNoData(false)
             groupId = materialList[0].brandId
             let html = '';
             materialList.forEach(function(material,index,arr){
@@ -308,6 +322,8 @@
                 index === 0 && pageStart === 0
                 );
             })
+            // 按钮修改为可用
+            setSendButton(1)
             if (pageStart > 0) {
               $(".material__list").append(html);
             } else {
@@ -338,6 +354,7 @@
             return
           } else {
             if (pageStart === 0) {
+              setSendButton(0)
               // 暂无数据
               showNoData(true)
             }
@@ -371,7 +388,7 @@
       selectedMaterial = Object.assign({}, {
         materialId: materialId,
         content: content,
-        imageList:  JSON.stringify(imageList)
+        imageList:  imageList ? imageList.toString() : ''
       })
     }
     let cls = isSelected ? 'page-radio--selected' : ''
@@ -423,7 +440,7 @@
     imageList.forEach(function(image,index,arr){
       html +=
       '<div class="photowall__picture">' +
-        '<img src="' + image + '" alt="素材库图片" class="img" index="' + index + '" imageList="' + imageList + '">' +
+        '<img src="' + image + imageSuffix + '" alt="素材库图片" class="img" index="' + index + '" imageList="' + imageList + '">' +
       '</div>';
     })
     return html;
@@ -446,10 +463,8 @@
    */
   function showNoData(noData = true) {
     if (noData) {
-      setSendButton(0)
       $('.material__noData').removeClass('hidden');
     } else {
-      setSendButton(1)
       $('.material__noData').addClass('hidden');
     }
   }
@@ -529,6 +544,8 @@
   })
   // 查询
   $('.icon-ns-search').click(function () {
+    // 发送按钮设置为不可点击
+    setSendButton(0)
     resetParam();
     initMaterialList();
   })
@@ -538,6 +555,7 @@
       return
     }
     $('.searchbar__input').val('')
+    setSendButton(0)
     resetParam();
     initMaterialList();
   })
@@ -689,23 +707,55 @@
    * 图片：'{"type":2,"picUrl":"图片大图链接地址","smallPicUrl":"图片缩略图链接地址","exit":true}'
    */
   $('.send').click(function () {
+    let content
+    let delay = 100
     if (!selectedMaterial) {
       return
     };
-    let exit = false;
-    if (selectedMaterial.content) {
-      let content = '{"type":1,"content":"' + selectedMaterial.content + '","exit":false}';
-      window.location.href = host + content
-    }
-    if (selectedMaterial.imageList) {
+    if (selectedMaterial.imageList && selectedMaterial.imageList !== '') {
+      if (selectedMaterial.content && selectedMaterial.content !== '') {
+        sendContent(selectedMaterial.content, delay);
+      }
       selectedMaterial.imageList.split(",").forEach(function(image,index,arr){
-        content = '{"type":1,"picUrl":"' + image + '" , smallPicUrl="' + image + '?x-oss-process=image/resize,m_fill,h_100,w_100"' + '"exit":false}';
-        window.location.href = host + content
+        delay = (index + 1) * 300
+        sendImage(image, delay, index === arr.length -1)
       });
+    } else {
+      if (selectedMaterial.content) {
+        sendContent(selectedMaterial.content, delay);
+      }
     }
+    // content = '{"type":1,"content":"' + "测试window.open()" + '","exit":false}';
+    // window.open(host + content,'sendFrame','')
+    // 退出
+    // quit()
+  })
+  /**
+   * @msg: 发送文字
+   */
+  function sendContent(content, delay = 100) {
+    let params = '{"type":1,"content":"' + content + '","exit":false}';
+    setTimeout(function(){
+      window.location.href = host + params
+    }, delay)
+  }
+  /**
+   * @msg: 发送图片
+   */
+  function sendImage(image, delay = 300, exit = false) {
+    let params = '{"type":2,"picUrl":"' + image
+      + '" , smallPicUrl="' + image + imageSuffix + '","exit":' + exit + '}';
+    setTimeout(function () {
+      window.location.href = host + params
+    }, delay)
+  }
+  /**
+   * @msg: 退出
+   */
+  function quit() {
     let params = '{"type":-1}'
     window.location.href = host + params
-  })
+  }
   // 分享到朋友圈
   $(document).on('click', '.share', function(e){
     let materialId = $(e.target).attr("materialId")

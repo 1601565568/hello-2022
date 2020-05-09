@@ -76,7 +76,8 @@ export default {
       },
       rules: {
         'wordGroupId': [{ required: true, message: '话术类别不能为空' }],
-        'keyWord': [
+        'keyWord': [{ required: true, message: '关键字不能为空' },
+          { max: 25, message: '长度在 25 以内', trigger: 'blur' },
           {
             validator: (rule, value, callback) => {
               if (this.model.keyWord !== '' && this.model.keyWord !== null) {
@@ -96,7 +97,8 @@ export default {
             }
           }
         ],
-        'content': [{ required: true, message: '话术内容不能为空' }],
+        'content': [{ required: true, message: '话术内容不能为空' },
+          { max: 190, message: '长度在 200 以内', trigger: 'blur' }],
         'name': [{ required: true, message: '分类内容不能为空' }]
       },
       addOrEditRules: {
@@ -239,6 +241,9 @@ export default {
       let arr = Object.keys(row)
       this.dialogFormVisible = true
       this.dialogVisiblePatchChange = false
+      if (this.titleText === '新增话术') {
+        this.$refs.form.resetFields()
+      }
       this.titleText = (row.id && '编辑话术') || '新增话术'
       if (arr.length !== 0) {
         this.model = Object.assign({}, row)
@@ -268,6 +273,9 @@ export default {
           id: item.id,
           name: item.name
         }
+      }
+      if (this.titleText === '新增分类') {
+        this.$refs.addOrEditForm.resetFields()
       }
       this.titleText = (item.id && '编辑分类') || '新增分类'
       this.dialogVisibleSaveQuicklyWordGroup = true
@@ -406,6 +414,35 @@ export default {
       }).finally(() => {
         tableConfig.loadingtable = false
       })
+    },
+    accountInput (val) {
+      var v = val
+      if (val.length > 10) {
+        this.$refs['addOrEditForm'].validateField('name')
+        this.addOrEditModel.name = v.substring(0, 10)
+      }
+    },
+    searchLength (val) {
+      var v = val
+      if (val.length > 200) {
+        this.model.searchValue = v.substring(0, 200)
+      }
+    },
+    contentCheck (val) {
+      var v = val
+      // window.console.log('===', val.length)
+      if (val.length > 190) {
+        this.$refs['form'].validateField('content')
+        this.model.content = v.substring(0, 190)
+      }
+    },
+    keyWordCheck (val) {
+      var v = val
+      window.console.log('===', val.length)
+      if (val.length > 25) {
+        this.$refs['form'].validateField('keyWord')
+        this.model.keyWord = v.substring(0, 25)
+      }
     }
   }
 }
