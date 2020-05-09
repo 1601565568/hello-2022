@@ -9,7 +9,7 @@
       </div>
       <el-form label-width="70px">
         <el-form-item label="选择图片：">
-          <el-form-grid class="company-upload">
+          <el-form-grid class="company-upload" :class="imageUrl !== '' ? 'company-detele-border' : ''">
             <el-upload
               :action="this.$api.core.sgUploadFile('test')"
               :show-file-list="false"
@@ -144,6 +144,8 @@ export default {
     }
   }
   @b upload {
+    width: 100px;
+    height: 100px;
     >>> .el-upload {
       width: 100px;
       height: 100px;
@@ -163,13 +165,15 @@ export default {
     transform: translate(-50%,-50%);
   }
   @e avatar {
-    width: 100px;
-    height: 100px;
-    position: relative;
-    top: -1px;
-    left: -1px;
+    width: 100%;
+    height: 100%;
   }
 }
+  @b detele-border {
+    >>> .el-upload {
+      border: 0;
+    }
+  }
   @b arrow {
     color: var(--theme-font-color-secondary);
   }
