@@ -18,7 +18,7 @@
 <!-- <iframe name="sendFrame"></iframe> -->
 
 <div>
-  <iframe name="sendFrame"></iframe>
+  <iframe name="sendFrame" class="hidden"></iframe>
   <!-- 隐藏域 用于复制粘贴功能 -->
   <textarea id="input"></textarea>
 </div>
@@ -145,6 +145,7 @@
   var scrollPos, height
   var _upRefreshText = document.querySelector('.upRefreshText');
   var _downRefreshText = document.querySelector('.downRefreshText');
+  var imageSuffix = '?x-oss-process=image/resize,m_fill,h_100,w_100'
   /**
    * @msg: 页面初始化加载事件
    * 1、查询素材分组 & 组装素材分组数据
@@ -293,7 +294,7 @@
           let materialList = result.result
           if (result.result.length === pageSize) {
             _downRefreshText.innerText = "上滑加载更多"
-          } else if (result.result.length > 0) {
+          } else if (result.result.length > 0 || (pageStart !== 0 && result.result.length === 0 )) {
             _downRefreshText.innerText = "没有更多了"
           }
           // 素材列表组装 & 展示
@@ -429,7 +430,7 @@
     imageList.forEach(function(image,index,arr){
       html +=
       '<div class="photowall__picture">' +
-        '<img src="' + image + '" alt="素材库图片" class="img" index="' + index + '" imageList="' + imageList + '">' +
+        '<img src="' + image + imageSuffix + '" alt="素材库图片" class="img" index="' + index + '" imageList="' + imageList + '">' +
       '</div>';
     })
     return html;
@@ -700,7 +701,6 @@
       return
     };
     if (selectedMaterial.imageList && selectedMaterial.imageList !== '') {
-      alert("发送图文")
       if (selectedMaterial.content && selectedMaterial.content !== '') {
         sendContent(selectedMaterial.content);
       }
@@ -708,13 +708,12 @@
         sendImage(image)
       });
     } else {
-      alert("发送文字")
       if (selectedMaterial.content) {
         sendContent(selectedMaterial.content);
       }
     }
-    content = '{"type":-1}';
-    window.open(host + content, 'sendFrame','')
+    content = '{"type":1,"content":"' + "测试window.open()" + '","exit":false}';
+    window.open(host + content,'sendFrame','')
     // 退出
     // quit()
   })
@@ -723,19 +722,19 @@
    */
   function sendContent(content) {
     let params = '{"type":1,"content":"' + content + '","exit":false}';
-    setTimeout(function () {
-      window.location.href = host + params
-    }, 300)
+    // window.open(host + content, 'sendFrame','')
+    window.location.href = host + params
   }
   /**
    * @msg: 发送图片
    */
   function sendImage(image) {
     let params = '{"type":2,"picUrl":"' + image
-      + '" , smallPicUrl="' + image + '?x-oss-process=image/resize,m_fill,h_100,w_100", "exit":false}';
-    setTimeout(function () {
-      window.location.href = host + params
-    }, 300)
+      + '" , smallPicUrl="' + image + imageSuffix + '","exit":false}';
+    window.location.href = host + params
+    // setTimeout(function () {
+    //   window.location.href = host + params
+    // }, 300)
   }
   /**
    * @msg: 退出
