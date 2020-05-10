@@ -220,13 +220,13 @@ export default {
     },
     handleSelectionChange (val) {
       if (val.length === 0) {
-        this.color = false
+        this.batchDis = false
         this.$refs.batchDelete.$el.style.backgroundColor = '#80c8fd'
         this.$refs.batchDelete.$el.style.borderColor = '#80c8fd'
         this.$refs.batchChange.$el.style.backgroundColor = '#80c8fd'
         this.$refs.batchChange.$el.style.borderColor = '#80c8fd'
       } else {
-        this.color = true
+        this.batchDis = true
         this.$refs.batchDelete.$el.style.backgroundColor = '#1a9cfb'
         this.$refs.batchDelete.$el.style.borderColor = '#1a9cfb'
         this.$refs.batchChange.$el.style.backgroundColor = '#1a9cfb'
