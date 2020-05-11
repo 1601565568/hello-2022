@@ -1,5 +1,5 @@
 <template>
-  <div style="background-color: white">
+  <div style="background-color: white" class="base-border-radius">
     <el-scrollbar ref="fullScreen" outsider>
 
       <el-form label-width="150px" ref="form">
