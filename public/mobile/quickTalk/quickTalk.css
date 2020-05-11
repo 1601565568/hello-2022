@@ -97,7 +97,7 @@ input {
 .tabs .tabs__pane {
   font-size: 14px;
   color: #595959;
-  line-height: 22px;
+  line-height: 20px;
   display: inline-block;
   padding: 12px 10px;
 }
@@ -106,7 +106,6 @@ input {
 }
 .tabs .tabs__pane--selected {
   color: #1876FC;
-  line-height: 20px;
   font-weight: bold;
 }
 .quick .quick__list {
@@ -135,7 +134,7 @@ input {
   transform: scale(0.5,0.5);
   -webkit-transform-origin: top left;
 }
-.item:last-child {
+.item:first-child {
   border-bottom: 0;
 }
 .item .item__radio {
