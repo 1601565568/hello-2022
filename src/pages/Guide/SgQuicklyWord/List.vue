@@ -81,7 +81,7 @@
 <!--            <el-table-column prop="keyWord" class-name="keyword" width="130" :show-overflow-tooltip="true" label="关键词" align="left"></el-table-column>-->
             <el-table-column prop="content" label="话术内容" :show-overflow-tooltip="true" align="left"></el-table-column>
             <el-table-column prop="name" label="分类" align="left"></el-table-column>
-            <el-table-column prop="createTime" label="添加时间" align="center"></el-table-column>
+            <el-table-column prop="createTime" label="创建时间" align="center"></el-table-column>
             <el-table-column align="left" v-if="showOrder">
               <template slot="header">
                 排序
