@@ -111,8 +111,7 @@
    // 头部菜单点击触发
    function clickEvent(e) {
      $('.quick__list').empty();
-     setClearSecdButtn(1);
-     $('#searchbarValue').val('');
+     // $('#searchbarValue').val('');
      let thisElement=$(e);
      quicklyWord={
        wordGroupId:thisElement.attr('id'),

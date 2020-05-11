@@ -61,7 +61,7 @@
         <template slot="searchSearch">
           <el-form :model="model" :inline="true" @submit.native.prevent  class="pull-right">
             <el-form-item label="关键词/添加人/分类：">
-              <el-input ref="quickText" porp="" style="width: 200px" v-model="model.searchValue" @input="searchLength" placeholder="请输入关键词/添加人/分类" @keyup.enter.native="$searchAction$()" clearable>
+              <el-input ref="quickText" porp="" style="width: 200px" v-model="model.searchValue" @input="searchLength" placeholder="请输入添加人/分类" @keyup.enter.native="$searchAction$()" clearable>
               </el-input>
               <ns-button type="primary" @click="$searchAction$()" class="searchbtn">搜索</ns-button>
               <ns-button @click="reset()" class="resetbtn">重置</ns-button>
@@ -81,7 +81,7 @@
 <!--            <el-table-column prop="keyWord" class-name="keyword" width="130" :show-overflow-tooltip="true" label="关键词" align="left"></el-table-column>-->
             <el-table-column prop="content" label="话术内容" :show-overflow-tooltip="true" align="left"></el-table-column>
             <el-table-column prop="name" label="分类" align="left"></el-table-column>
-            <el-table-column prop="createTime" label="创建时间" align="center"></el-table-column>
+            <el-table-column prop="createTime" label="创建时间" width="180" align="left" ></el-table-column>
             <el-table-column align="left" v-if="showOrder">
               <template slot="header">
                 排序
