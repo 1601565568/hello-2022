@@ -155,5 +155,10 @@ export default {
   getRecruitVersion: {
     url: '/core/common/getRecruitVersion',
     method: 'post'
+  },
+  // 查询登录账号的商城列表
+  findLoginMallList: {
+    url: '/core/common/findLoginMallList',
+    method: 'get'
   }
 }

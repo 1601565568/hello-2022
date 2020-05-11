@@ -9,12 +9,22 @@
   <meta name="format-detection" content="telephone=no"/>
   <link rel="stylesheet" href="materialLibrary.css">
   <link rel="stylesheet" href="../css/iconfont.css">
+  <link rel="stylesheet" href="../css/swiper.min.css">
   <title>素材库</title>
 </head>
 <body>
+
+<!-- iframe 用于调用window.open时不打开新页面 window.open('1.htm','sendFrame','') -->
+<!-- <iframe name="sendFrame"></iframe> -->
+
+<div>
+  <iframe name="sendFrame" class="hidden"></iframe>
+  <!-- 隐藏域 用于复制粘贴功能 添加 disabled="disabled"属性屏蔽click及focus事件-->
+  <textarea id="input" disabled="disabled"></textarea>
+</div>
 <!-- 顶部状态栏 start -->
 <div class="page-status-bar page-fixed">
-  <span class="state-bar__cancel">取消</span>
+  <span style="cursor: pointer;" class="state-bar__cancel">取消</span>
   <span class="font-weight-medium">素材库</span>
 </div>
 <!-- 顶部状态栏 end -->
@@ -24,7 +34,7 @@
   <div class="material__search page-fixed">
     <div class="searchbar">
       <i class='iconfont icon-ns-search searchbar__icon'></i>
-      <input type="text" placeholder="素材内容" value="" class="searchbar__input"/>
+      <input type="text" placeholder="输入素材推广文案/文章标题" value="" class="searchbar__input" onchange="resetParam(),initMaterialList(this)" /><!--onblur="alert('blur')" -->
       <i class='iconfont icon-shanchu1 searchbar__icon'></i>
     </div>
   </div>
@@ -37,80 +47,24 @@
   </div>
   <!-- 素材分组 end -->
 
+  <!-- 下拉重新加载 -->
+  <div class="material__getMore" id="getMore"><!-- style="display: none;" -->
+    <div class="prompt upRefreshText"></div><!-- 居中效果 prompt -->
+  </div>
+  <!-- 下拉重新加载 -->
+
   <!-- 素材库列表 start -->
-  <div class="material__list">
-    <div class="item">
-      <div class="page-radio page-radio--selected"></div>
-      <div class="item__msg">
-        <div class="title">
-          亲爱的，最近天气炎热防暑，记得防暑哟～
-          <i class='iconfont icon-ns-arrow-circle-down'></i>
-          <i class='iconfont icon-ns-arrow-circle-up'></i>
-        </div>
-        <div class="photowall">
-          <div class="photowall__picture">
-            <img src="https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=1712808110,1328745779&fm=26&gp=0.jpg" alt="素材库图片" class="img">
-          </div>
-          <div class="photowall__picture">
-            <img src="https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=1712808110,1328745779&fm=26&gp=0.jpg" alt="素材库图片" class="img">
-          </div>
-          <div class="photowall__picture">
-            <img src="https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=1712808110,1328745779&fm=26&gp=0.jpg" alt="素材库图片" class="img">
-          </div>
-          <div class="photowall__picture">
-            <img src="https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=1712808110,1328745779&fm=26&gp=0.jpg" alt="素材库图片" class="img">
-          </div>
-          <div class="photowall__picture">
-            <img src="https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=1712808110,1328745779&fm=26&gp=0.jpg" alt="素材库图片" class="img">
-          </div>
-          <div class="photowall__picture">
-            <img src="https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=1712808110,1328745779&fm=26&gp=0.jpg" alt="素材库图片" class="img">
-          </div>
-        </div>
-        <div class="other">
-          <div class="other__time">2019年10月11日 11:30:51</div>
-          <div class="other__store">门店/分组A也是分享到分组分组A也是分享到分组</div>
-        </div>
-        <div class="share">
-          <i class='iconfont icon-ns-share'></i>
-          分享到朋友圈
-        </div>
-      </div>
-    </div>
-    <div class="item">
-      <div class="page-radio page-radio--selected"></div>
-      <div class="item__msg">
-        <div class="title">
-          点击即可复制文案，并作出文字型弹出提示奥点击即可复制文案，并作出文字型弹出提示，点击即可复制文案，并作出文字型弹出，点击即可复制文案，并作出文字型弹出出。
-          <i class='iconfont icon-ns-arrow-circle-down'></i>
-          <i class='iconfont icon-ns-arrow-circle-up'></i>
-        </div>
-        <div class="photowall">
-          <div class="photowall__picture">
-            <img src="https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=1712808110,1328745779&fm=26&gp=0.jpg" alt="素材库图片" class="img">
-          </div>
-          <div class="photowall__picture">
-            <img src="https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=1712808110,1328745779&fm=26&gp=0.jpg" alt="素材库图片" class="img">
-          </div>
-          <div class="photowall__picture">
-            <img src="https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=1712808110,1328745779&fm=26&gp=0.jpg" alt="素材库图片" class="img">
-          </div>
-        </div>
-        <div class="other">
-          <div class="other__time">2019年10月11日 11:30:51</div>
-          <div class="other__store">门店/分组A也是分享到分组分组A也是分享到分组</div>
-        </div>
-        <div class="share">
-          <i class='iconfont icon-ns-share'></i>
-          分享到朋友圈
-        </div>
-      </div>
-    </div>
+  <div class="material__list" >
   </div>
   <!-- 素材库列表 end -->
 
+  <!-- 上拉加载更多 -->
+  <div class="material__getDownMore" id="getDownMore"><!-- style="display: none;" -->
+    <div class="prompt downRefreshText"></div><!-- 居中效果 prompt -->
+  </div>
+
   <!-- 暂无素材 start -->
-  <div class="material__noData" style="display: none;">
+  <div class="material__noData hidden"><!-- style="display: none;" -->
     <div class="prompt">暂无素材</div>
   </div>
   <!-- 暂无素材 end -->
@@ -121,63 +75,759 @@
   </div>
   <!-- 发送按钮 end -->
 </div>
-<div class="float-layout hidden" style="display: none;">
+
+<div class="float-layout hidden">
   <div class="float-layout__mask"></div>
   <div class="float-layout__main">
     <div class="float-layout__title">
-      <div>标题</div>
+      <div>分组</div>
     </div>
+    <div class="float-layout__content">
       <!-- 单选 -->
       <div class="float-select">
-        <div class="float-select__item">
-          <div class="float-select__content">所有素材</div>
-          <div class="page-radio page-radio--selected"></div>
-        </div>
-        <div class="float-select__item">
-          <div class="float-select__content">我是选项我是选项我是选项我是选项我是选项我是选项我是选项我是选项</div>
-          <div class="page-radio"></div>
-        </div>
-        <div class="float-select__item float-select__item--disabled">
-          <div class="float-select__content">禁用</div>
-          <div class="page-radio"></div>
-        </div>
-        <div class="float-select__item">
-          <div class="float-select__content">选项二</div>
-          <div class="page-radio"></div>
-        </div>
-        <div class="float-select__item">
-          <div class="float-select__content">选项三</div>
-          <div class="page-radio"></div>
-        </div>
       </div>
     </div>
   </div>
-<div class="copy" style="display: none;">
+</div>
+<!-- 素材分组浮层 end -->
+
+<!-- 复制成功 start -->
+<div class="copy hidden"><!-- style="display: none;" -->
   <div class="copy__prompt">复制成功</div>
 </div>
-<div class="float-layout float-layout--img hidden">
-  <div class="float-layout__mask"></div>
-  <div class="float-layout__main float-layout__main--pic">
-    <img src="https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=1712808110,1328745779&fm=26&gp=0.jpg" alt="素材库图片" class="shoppic">
-<!--    <img src="https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=4003890448,1474406845&fm=11&gp=0.jpg" alt="素材库图片" class="shoppic">-->
+<!-- 复制成功 end -->
+
+<!-- 图片大图切换 start -->
+<!-- Swiper -->
+<div class="swiper-container hidden">
+  <!-- 顶部状态栏 start -->
+  <div class="page-bar-return page-fixed">
+    <i class='iconfont icon-return swiper-return'></i>
+    <span class="swiper-number"></span><!-- 2/9 -->
   </div>
+  <!-- 顶部状态栏 end -->
+  <div class="swiper-wrapper">
+  </div>
+  <div class="swiper-pagination"></div><!--分页器。如果放置在swiper-container外面，需要自定义样式。-->
 </div>
+<!-- 图片大图切换 end -->
+
 <script src="../js/jquery-3.4.1.min.js"></script>
+<script src="./swiper.min.js"></script>
+<script type="text/javascript" src="../js/common.js"></script>
 <script>
+  var host = "ecrp://send?params="
+  var delay // 发送好友消息延迟间隔时间
+  // 查询素材分组URL
+  let findSubdivisionListUrl = '/wx/material/findH5SubdivisionList';
+  // 查询素材列表URL
+  let findMaterialListUrl = '/wx/material/findH5MaterialList';
+  // 发送素材
+  let sendMaterialUrl = '/wx/material/sendMaterial';
+  // 获取图片二维码
+  let getAppletImageUrl = '/wx/material/getAppletImage';
+  // 分组列表
+  let subdivisionList = []
+  // 搜索条件
+  let searchName = null
+  // 选中的分组Id
+  var selectedSubdivisionId = null
+  var selectedSubdivisionName = "所有素材"
+  // 选中的素材Id
+  let selectedId = null
+  var selectedMaterial = {}
+  // 当前员工的微信ID
+  let wxId
+  // 当前员工的公司ID
+  let groupId
+  // 分页大小
+  var pageStart = 0
+  let pageSize = 15
+  var mySwiper
+  var scrollPos, height
+  var _upRefreshText = document.querySelector('.upRefreshText');
+  var _downRefreshText = document.querySelector('.downRefreshText');
+  var imageSuffix = '?x-oss-process=image/resize,m_fill,h_100,w_100'
+
+  /**
+   * @msg: 页面初始化加载事件
+   * 1、查询素材分组 & 组装素材分组数据
+   * 2、查询素材列表 & 组装素材列表数据 （素材分组类型：品牌/门店）
+   */
   window.onload = function () {
-    $('.material__choice').click(function () {
-      $('.float-layout').removeClass('hidden')
-    })
-    $('.float-layout__save').click(function () {
-      $('.float-layout').addClass('hidden')
-    })
-    $('.float-layout__mask').click(function () {
-      $('.float-layout').addClass('hidden')
-    })
-    $('.photowall__picture').click(function () {
-      $('.float-layout').addClass('hidden')
+
+    // document.addEventListener('touchmove',function(e){
+    //   var canScroll=false;
+    //   if(!canScroll){
+    //     e.preventDefault()
+    //   }
+    // })
+    setSendButton(0)
+    // 下拉滚动事件注册
+    registerEvent()
+    // 页面数据初始化
+    this.init();
+  }
+  function registerEvent () {
+    var _element = document.getElementById('getMore'),
+    _startPos = 0,
+    _transitionHeight = 0;
+
+    _element.addEventListener('touchstart', function(e) {
+        _startPos = e.touches[0].pageY;
+        _element.style.position = 'relative';
+        _element.style.transition = 'transform 0s';
+    }, false);
+
+    _element.addEventListener('touchmove', function(e) {
+        _transitionHeight = e.touches[0].pageY - _startPos;
+        if (_transitionHeight > 0 && _transitionHeight < 60) {
+          _upRefreshText.innerText = '下拉刷新';
+            _element.style.transform = 'translateY('+_transitionHeight+'px)';
+
+            if (_transitionHeight > 55) {
+              _upRefreshText.innerText = '释放更新';
+            }
+        }
+    }, false);
+
+    _element.addEventListener('touchend', function(e) {
+        _element.style.transition = 'transform 0.5s ease 1s';
+        _element.style.transform = 'translateY(0px)';
+        _upRefreshText.innerText = '更新中...';
+        // todo...
+        // 加载素材列表
+        initMaterialList()
+        setTimeout(function () {
+          _upRefreshText.innerText = ''
+        }, 500)
+      }, false);
+  }
+  /**
+   * @msg: 上拉加载更多
+   */
+  window.onscroll = function() {
+    // 文档内容实际高度（包括超出视窗的溢出部分）
+    var scrollHeight = Math.max(document.documentElement.scrollHeight, document.body.scrollHeight);
+    //滚动条滚动距离
+    var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
+    //窗口可视范围高度
+    var clientHeight = window.innerHeight || Math.min(document.documentElement.clientHeight, document.body.clientHeight);
+
+    if (clientHeight + scrollTop >= scrollHeight) {
+      let _refreshText = document.querySelector('.refreshText');
+      initMaterialList(++pageStart)
+    }
+    if(scrollTop == 0){
+      pageStart = 0
+      showNoData(false)
+      // resetParam()
+      _upRefreshText.innerText = '刷新列表';
+      initMaterialList()
+    }
+  }
+  /**
+   * @msg: 页面数据初始化
+   */
+  function init() {
+    // 获取当前员工的微信ID
+    wxId = getPar('wxId')
+    delay = getPar('delay')
+    if (!wxId) {
+        toError(3, '参数错误：个人号微信号不允许为空')
+        return
+    }
+    // 好友消息发送延迟时间间隔
+    if (!delay) {
+      delay = 300
+    }
+    // 初始化分组
+    initSubdivisionList()
+    // 初始化素材列表
+    initMaterialList()
+  }
+  /**
+   * @msg: 重置 & 清空列表数据
+   */
+  function resetParam() {
+    pageStart = 0
+    $(".material__list").html('');
+    _upRefreshText.innerText = '';
+    _downRefreshText.innerText = '';
+    showNoData(false)
+  }
+  /**
+   * @msg: 初始化分组列表
+   */
+   function initSubdivisionList() {
+    this.ajax(apiRoot() + findSubdivisionListUrl,
+      {
+        wxId: wxId,   // 链接直接获取
+      }).then(function (result) {
+        if (result.success) {
+          // 分组列表
+          this.subdivisionList = result.result
+          // 素材列表组装 & 展示
+          let html =
+              '<div class="float-select__item">' +
+                '<div class="float-select__content">所有素材</div>' +
+                '<div class="subdivision__class page-radio page-radio--selected"></div> <!-- page-radio--selected -->' +
+              '</div>';
+          if (this.subdivisionList && this.subdivisionList.length > 0) {
+            this.subdivisionList.forEach(function(subdivision,index,arr){
+              html +=
+                '<div class="float-select__item">' +
+                  '<div class="float-select__content">' + subdivision.subdivision_name + '</div>' +
+                  '<div class="subdivision__class page-radio" subdivision-name="' + subdivision.subdivision_name + '" subdivision-id="' + subdivision.subdivision_id + '"></div>' +
+                '</div>';
+            })
+          }
+          $(".float-select").html(html);
+        } else {
+          // 跳转错误页
+          toError(3, error && error.msg ? error.msg : '')
+        }
     })
   }
-</script>
-</body>
+  /**
+   * @msg: 初始化素材列表
+   */
+  function initMaterialList () {
+    let $searchName = $('.searchbar__input');
+    let selectedSubdivisionId = getSelectedSubdivisionId();
+    this.ajax(apiRoot() + findMaterialListUrl,
+      {
+        wxId: wxId,   // 链接直接获取
+        searchName: $searchName.val().trim(),
+        subdivision_id: selectedSubdivisionId,
+        pageStart: pageStart*pageSize,
+        pageSize: pageSize,
+        mType: 1 // 图片素材
+      }).then(function (result) {
+        if (result.success) {
+          // _upRefreshText.innerText = '刷新成功'
+          setTimeout(function(){
+            _upRefreshText.innerText = ''
+          }, 300)
+          // 素材列表
+          let materialList = result.result
+          if (result.result.length === pageSize) {
+            _downRefreshText.innerText = "上滑加载更多"
+          } else if (result.result.length > 0 || (pageStart !== 0 && result.result.length === 0 )) {
+            _downRefreshText.innerText = "没有更多了"
+          }
+          // 素材列表组装 & 展示
+          if (materialList && materialList.length > 0) {
+            showNoData(false)
+            groupId = materialList[0].brandId
+            let html = '';
+            materialList.forEach(function(material,index,arr){
+              html += buildListItem(
+                material.id,
+                material.content,
+                material.imageList,
+                material.create_time, // 时间
+                "品牌",     // 品牌 or 门店
+                material.subdivision_name ? material.subdivision_name : '-',
+                index === 0 && pageStart === 0
+                );
+            })
+            // 判断素材组标题超过三行显示图标
+            subCategory();
+            // 按钮修改为可用
+            setSendButton(1)
+            if (pageStart > 0) {
+              $(".material__list").append(html);
+            } else {
+              $(".material__list").html(html);
+            }
+
+            // 异步生成二维码
+            materialList.forEach(function(material,index,arr){
+              if(material.codeTarget && material.m_type === 1){
+                let params = {groupId: groupId, materialId : material.id, wxId : wxId}
+                this.ajax(apiRoot() + getAppletImageUrl, params).then(res =>{
+                  if (res.success) {
+                    replaceListItem(
+                      material.id,
+                      material.content,
+                      res.result,
+                      material.create_time, // 时间
+                      "品牌",     // 品牌 or 门店
+                      material.subdivision_name ? material.subdivision_name : '-',
+                      index === 0 && pageStart === 0
+                    );
+                  // 判断素材组标题超过三行显示图标
+                  subCategory();
+                  } else {
+                    toError(3, res.msg ? res.msg : '')
+                  }
+                })
+              }
+            })
+            return
+          } else {
+            if (pageStart === 0) {
+              setSendButton(0)
+              // 暂无数据
+              showNoData(true)
+            }
+          }
+        } else {
+          // 跳转错误页
+          toError(3, result && result.msg ? result.msg : '')
+        }
+    })
+  }
+  // 替换元素
+  function replaceListItem(materialId, content, imageList, datetime, type, subdivision, isSelected) {
+    let oldNode = document.getElementById(materialId);
+    if (oldNode) {
+      oldNode.parentNode.replaceChild(
+        parseDom(buildListItem(materialId, content, imageList, datetime, type, subdivision, isSelected))[0], oldNode)
+    }
+  }
+  /**
+   * @msg: 构建列表选项
+   * @param content 文本内容
+   * @param imageList 图片列表
+   * @param datetime 时间
+   * @param type 类型 品牌/门店
+   * @param subdivision 分组名称
+   * @return: 返回列表项的dom文本
+   */
+  function buildListItem(materialId, content, imageList, datetime, type, subdivision, isSelected) {
+    if (isSelected) {
+      selectedId = materialId;
+      selectedMaterial = Object.assign({}, {
+        materialId: materialId,
+        content: content,
+        imageList:  imageList ? imageList.toString() : ''
+      })
+    }
+    let cls = isSelected ? 'page-radio--selected' : ''
+    let html =
+    '<div class="item" id="' + materialId + '">' +
+      '<div class="material__class page-radio ' + cls + '"'
+        + ' materialId="' + materialId + '"'
+        + ' content="' + content + '"'
+        + ' imageList="' + imageList + '"' + '></div>' +
+      '<div class="item__msg">' +
+          // 主内容
+          '<div class="outerContainer">' +
+            '<div class="subCategory">' +
+              ' <div class="title">' + content + '</div>' +
+            '</div>' +
+          '</div>' +
+          // 展开按钮
+          '<div class="subCategoryMore">' +
+            '<span class="modify">展开</span>' +
+          '</div>' +
+          // 照片List 组装
+          '<div class="photowall">' +
+             this.buildImageList(imageList) +
+          '</div>' +
+          // 创建时间加分组展示 2019年10月11日 11:30:51 | 门店/分组A也是分享到分组分组A也是分享到分组
+          '<div class="other">' +
+            '<div class="other__time">' + datetime + '</div>' +
+            '<div class="other__store">' + type + '/' + subdivision + '</div>' +
+          '</div>' +
+
+          // '<div class="share" materialId="' + materialId + '">' +
+          //   '<i class="iconfont icon-ns-share"></i>' +
+          //   '分享到朋友圈' +
+          // '</div>' +
+
+        '</div>' +
+      '</div>'
+    return html;
+  };
+  /**
+   * @msg: 构建图片列表选项
+   * @param Array 图片列表
+   */
+  function buildImageList(imageList) {
+    let html = '';
+    if (!imageList || imageList.length <= 0) {
+      return html;
+    }
+    imageList.forEach(function(image,index,arr){
+      html +=
+      '<div class="photowall__picture">' +
+        '<img src="' + image + imageSuffix + '" alt="素材库图片" class="img" index="' + index + '" imageList="' + imageList + '">' +
+      '</div>';
+    })
+    return html;
+  };
+  /**
+   * @msg: 获取选中的分组ID
+   */
+  function getSelectedSubdivisionId() {
+    let selected = null
+    $('.subdivision__class').each(function(i,e){
+      if ($(e).hasClass('page-radio--selected')) {
+        selected = e.getAttribute('subdivision-id');
+        return
+      }
+    })
+    return selected
+  }
+  /**
+   * @msg: 暂无数据
+   */
+  function showNoData(noData = true) {
+    if (noData) {
+      $('.material__noData').removeClass('hidden');
+    } else {
+      $('.material__noData').addClass('hidden');
+    }
+  }
+  /**
+   * @msg: 复制成功
+   */
+   function showCopyMsg() {
+    $('.copy').removeClass('hidden');
+    setTimeout(function () {
+      $('.copy').addClass('hidden');
+    }, 1000)
+  }
+  /**
+   * @msg: 图片轮播
+   */
+  function buildSwiperImageList(imageList, i) {
+    let html = '';
+    if (!imageList || imageList.length <= 0) {
+      return html;
+    }
+    imageList.forEach(function(image,index,arr){
+      html +=
+      '<div class="swiper-slide">' +
+        '<img src="' + image + '" alt="素材库图片" class="full-img">' +
+      '</div>';
+    })
+    $('.swiper-wrapper').html(html);
+    // $('.swiper-number').html(i + '/' + imageList.length);
+  }
+  /**
+   * @msg: 根据dom节点字串生成node
+   */
+  function parseDom(nodelist) {
+    var objE = document.createElement("div")
+    objE.innerHTML = nodelist;
+    return objE.childNodes;
+  }
+  /**
+   * @msg: 记录打开大图前的页面位置
+   */
+  function keepPosition() {
+    if (typeof window.pageYOffset != 'undefined') {
+        scrollPos = window.pageYOffset;
+    } else if (typeof document.compatMode != 'undefined' &&
+        document.compatMode != 'BackCompat') {
+        scrollPos = document.documentElement.scrollTop;
+    } else if (typeof document.body != 'undefined') {
+        scrollPos = document.body.scrollTop;
+    }
+    height = document.body.scrollHeight;
+  }
+  /**
+   * @msg: 恢复打开大图前的页面位置
+   */
+  function resetPosition() {
+    document.body.scrollHeight = height
+    document.documentElement.scrollTop = scrollPos
+    document.body.scrollTop = scrollPos
+  }
+   // 处理发送按钮
+  function setSendButton(e){
+    if(e === 1){
+      $('.send').css("background","#1876FC");
+      $(".send").css({"pointer-events": "auto" });
+    } else {
+      $('.send').css("background","#BEBFC3");
+      $(".send").css({"pointer-events": "none" });
+    }
+  }
+  /**
+   * @msg: 判断素材组标题超过三行显示图标
+   */
+  function subCategory () {
+    // 判断素材组标题超过三行显示图标
+    $(".subCategory").each(function(){
+      var innerHeight = $(this).outerHeight(true);
+      if (innerHeight > 60) {
+        $(this).parent().siblings(".subCategoryMore").css("display","block");
+      }
+    });
+  }
+  /**
+    * 事件绑定
+    */
+  // 取消
+  $('.state-bar__cancel').click(function () {
+    let params = '{"type":-1}'
+    window.location.href = host + params
+  })
+  // 查询
+  $('.icon-ns-search').click(function () {
+    // 发送按钮设置为不可点击
+    setSendButton(0)
+    resetParam();
+    initMaterialList();
+  })
+  // 删除查询参数
+  $('.icon-shanchu1').click(function () {
+    if ($('.searchbar__input').val() === '') {
+      return
+    }
+    $('.searchbar__input').val('')
+    setSendButton(0)
+    resetParam();
+    initMaterialList();
+  })
+  // 素材radio选择 动态dom元素事件监听
+  $(document).on('click', '.material__class', function(e){
+    selectedId = $(e.target).attr("materialId");
+    selectedMaterial = Object.assign({}, {
+      materialId: $(e.target).attr("materialId"),
+      content: $(e.target).attr("content"),
+      imageList: $(e.target).attr("imageList")
+    })
+    $('.material__class').each(function(i,e){
+      if ($(e).attr("materialId") === selectedId) {
+        $(e).addClass('page-radio--selected');
+      } else {
+        $(e).removeClass('page-radio--selected');
+      }
+    })
+  });
+  // 分组radio选择 动态dom元素事件监听
+  $(document).on('click', '.subdivision__class', function(e){
+    let selectedSubdivisionId = getSelectedSubdivisionId()
+    let tempId = $(e.target).attr("subdivision-id");
+    if ((!selectedSubdivisionId && !tempId) || (selectedSubdivisionId === tempId)) {
+      return
+    }
+    //从非空到非空 从空到非空
+    if ((selectedSubdivisionId && tempId) || (!selectedSubdivisionId && tempId)) {
+      $('.subdivision__class').each(function(i,e){
+        if (e.getAttribute('subdivision-id') === tempId) {
+          $(e).addClass('page-radio--selected');
+          selectedSubdivisionName = e.getAttribute('subdivision-name');
+        } else {
+          $(e).removeClass('page-radio--selected');
+        }
+      })
+    }
+    // 从非空到空
+    if (selectedSubdivisionId && !tempId) {
+      selectedSubdivisionName = "所有素材";
+      $('.subdivision__class').each(function(i,e){
+        if (!e.getAttribute('subdivision-id')) {
+          $(e).addClass('page-radio--selected');
+        } else {
+          $(e).removeClass('page-radio--selected');
+        }
+      })
+    }
+    selectedSubdivisionId = tempId
+    $(".material__choice").html(selectedSubdivisionName + "<i class='iconfont icon-ns-arrow-drowdown'></i>")
+    // 关闭分组
+    $('.float-layout').addClass('hidden')
+    $('body').css('overflow','auto');
+    resetParam();
+    // 加载列表
+    initMaterialList()
+  });
+  // 素材分组打开浮层
+  $('.material__choice').click(function () {
+    $('.float-layout').removeClass('hidden');
+    $('body').css('overflow','hidden');
+  })
+  // 素材分组关闭浮层
+  $('.float-layout__mask').click(function () {
+    $('.float-layout').addClass('hidden')
+    $('body').css('overflow','auto');
+  })
+  // 素材标题收起和隐藏
+  $(document).on('click', '.subCategoryMore', function(e){
+    var show = $(this).parent().hasClass('is_open');
+    if (!show) {
+      $(this).children().text('收起');
+    } else {
+      $(this).children().text('展开');
+    }
+    $(this).parent().toggleClass('is_open');
+  })
+  /**
+   * @msg: 复制文本
+   *    <textarea id="input">这是幕后黑手</textarea>
+   */
+  $(document).on('click', '.title', function(e){
+    let content = $(e.target).html()
+    var input = document.getElementById("input");
+    input.value = content; // 修改文本框的内容
+    input.select(); // 选中文本
+    document.execCommand("copy"); // 执行浏览器复制命令
+    showCopyMsg(true)
+  })
+  /**
+   * @msg: 图片点击大图
+   */
+  $(document).on('click', '.photowall__picture', function(e){
+    keepPosition()
+    $('.page-status-bar').addClass('hidden');
+    $('.material').addClass('hidden');
+    $('.swiper-container').removeClass('hidden');
+    // 组装图片轮播
+    let imageList = e.target.getAttribute('imageList');
+    let index = e.target.getAttribute('index');
+    if (imageList) {
+      buildSwiperImageList(imageList.split(','), parseInt(index) + 1);
+    }
+    // 图片轮播
+    mySwiper = new Swiper('.swiper-container', {
+      observer:true,//修改swiper自己或子元素时，自动初始化swiper
+      observeParents:true,//修改swiper的父元素时，自动初始化swiper
+      // 轮播图的方向，也可以是 vertical 方向 | horizontal
+      direction:'vertical',
+      // 是否循环
+      loop: true,
+      // 自动播放时间
+      autoplay:true,
+      // 播放的速度
+      speed:1000,
+      // 这样，即使我们滑动之后， 定时器也不会被清除
+      autoplayDisableOnInteraction : false,
+      loopAdditionalSlides : 0,
+      // onSlideChangeEnd: function(swiper){
+      //   alert((swiper.activeIndex-1+3)%(3)); //切换结束时，告诉我现在是第几个slide
+      // },
+      // 如果需要分页器，即下面的小圆点
+      pagination : '.swiper-pagination'
+    });
+    mySwiper.on('slideChangeTransitionEnd', function(){
+      // let txt = $('.swiper-slide-active').html();
+      // mySwiper.activeIndex 从2开始 imagesLoaded也多了2?
+      // $('.swiper-number').html((mySwiper.realIndex+1) + '/' + (parseInt(mySwiper.imagesLoaded)));
+    });
+  })
+  // 大图图片点击关闭
+  $(document).on('click', '.swiper-return', function(e){
+    $('.swiper-container').addClass('hidden');
+    $('.page-status-bar').removeClass('hidden');
+    $('.material').removeClass('hidden');
+    resetPosition()
+  })
+  /**
+   * @msg: 发送素材 文本 + 图片
+   * http://www.baidu.com?wxid={wxId}&friend={chatId}
+   * 文本：'{"type":1,"content":"文本内容","exit":true}';
+   * 图片：'{"type":2,"picUrl":"图片大图链接地址","smallPicUrl":"图片缩略图链接地址","exit":true}'
+   */
+  $('.send').click(function () {
+    let content
+    let textDelay = 300
+    if (!selectedMaterial) {
+      return
+    };
+    // 按钮不可点击
+    setSendButton(0)
+    if (selectedMaterial.imageList && selectedMaterial.imageList !== '') {
+      if (selectedMaterial.content && selectedMaterial.content !== '') {
+        sendContent(selectedMaterial.content, textDelay, false);
+      }
+      selectedMaterial.imageList.split(",").forEach(function(image,index,arr){
+        // 最后一张图片关闭页面
+        sendImage(image, (index + 1) * delay + textDelay, index === arr.length -1)
+      });
+    } else {
+      if (selectedMaterial.content) {
+        sendContent(selectedMaterial.content, textDelay, true);
+      }
+    }
+    // 退出
+    // quit()
+  })
+  /**
+   * @msg: 发送文字
+   */
+  function sendContent(content, delay = 100, exit = false) {
+    let params = '{"type":1,"content":"' + content + '","exit":' + exit + '}';
+    setTimeout(function(){
+      window.location.href = host + params
+    }, delay)
+  }
+  /**
+   * @msg: 发送图片
+   */
+  function sendImage(image, delay = 300, exit = false) {
+    let params = '{"type":2,"picUrl":"' + image
+      + '" , smallPicUrl="' + image + imageSuffix + '","exit":' + exit + '}';
+    setTimeout(function () {
+      window.location.href = host + params
+    }, delay)
+  }
+  /**
+   * @msg: 退出
+   */
+  function quit() {
+    let params = '{"type":-1}'
+    window.location.href = host + params
+  }
+  // 分享到朋友圈
+  $(document).on('click', '.share', function(e){
+    let materialId = $(e.target).attr("materialId")
+  })
+  /**
+   * @msg: http请求封装
+   */
+  function ajax(url, data, params) {
+    data = JSON.stringify(data)
+    return new Promise(function (resolve, reject) {
+      $.ajax({
+        url: url,
+        type: params && params.type || 'post',
+        dataType: params && params.dataType || 'JSON',
+        data: data,
+        method: "post",
+        contentType: "application/json;charset=UTF-8",
+        success: function (res) {
+          resolve(res)
+        },
+        error: function (res) {
+          toError(3, error && error.msg ? error.msg : '')
+        }
+      });
+    });
+  }
+  /**
+   * @msg: 跳转到错误页面
+   * redirectUrl：页面刷新参数
+   */
+  const toError = (type = 3, message = '') => {
+    window.location.href = '/mobile/prompt/prompt.html?type=' + type + '&message=' + encodeURIComponent(message)
+  }
+  function ajax(url, data, params) {
+    data = JSON.stringify(data)
+    return new Promise(function (resolve, reject) {
+      $.ajax({
+        url: url,
+        type: params && params.type || 'post',
+        dataType: params && params.dataType || 'JSON',
+        data: data,
+        method: 'post',
+        contentType: "application/json;charset=UTF-8",
+        success: function (res) {
+          resolve(res)
+        },
+        error: function (res) {
+          $(".fail").show();
+          $('.fail__text').html(res.result);
+        }
+      });
+    });
+  }
+  </script>
+  </body>
 </html>

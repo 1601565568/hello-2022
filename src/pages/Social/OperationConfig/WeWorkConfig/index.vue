@@ -4,7 +4,7 @@
       <div class="configuration-title">
         外部沟通场景配置
       </div>
-      <div class="configuration-introduce">请企业微信管理员登录企业微信后台官方后台（http://work.weixin.qq.com），完成以下功能配置</div>
+      <div class="configuration-introduce">请企业微信管理员登录企业微信官方后台（http://work.weixin.qq.com），完成以下功能配置</div>
       <ElTable :data="chatData" stripe>
         <ElTableColumn prop="configuration" label="配置功能" :width="200" show-overflow-tooltip/>
         <ElTableColumn prop="operating" label="说明">
@@ -26,7 +26,7 @@
       <div class="configuration-title">
           运营场景配置
       </div>
-      <div class="configuration-introduce">请企业微信管理员登录企业微信后台官方后台（http://work.weixin.qq.com），完成以下功能配置</div>
+      <div class="configuration-introduce">请企业微信管理员登录企业微信官方后台（http://work.weixin.qq.com），完成以下功能配置</div>
       <ElTable :data="operationData" stripe>
         <ElTableColumn prop="configuration" label="配置功能" :width="200" show-overflow-tooltip/>
         <ElTableColumn prop="operating" label="说明">
@@ -54,7 +54,7 @@ export default {
       chatData: [{
         configuration: '侧边栏功能',
         explanation: [{
-          explain: '企业微信后台（我的企业-外部沟通管理），可配置在企业微信中查看外部联系人时，可查看企业应用中的客户详情',
+          explain: '企业微信后台（客户联系-配置），可配置应用页面到聊天工具栏，方便成员在与客户的聊天中查看和使用，提高服务效率',
           type: 0,
           url: 'https://work.weixin.qq.com/wework_admin/frame#customer/chatMenu'
         }, {
@@ -67,7 +67,7 @@ export default {
       }, {
         configuration: '会员画像',
         explanation: [{
-          explain: '企业后台（客户联系-配置），可配置应用页面到聊天工具栏，方便成员在与客户的聊天中查看和使用，提高服务效率',
+          explain: '企业微信后台（我的企业-外部沟通管理），可配置在企业微信中查看外部联系人时，可查看企业应用中的客户详情',
           type: 0,
           url: 'https://work.weixin.qq.com/wework_admin/frame#profile/wxcontacts/mngConfigView'
         }, {
@@ -78,14 +78,14 @@ export default {
       operationData: [{
         configuration: '配置使用范围和规则',
         explanation: [{
-          explain: '企业后台（客户联系-配置），可配置客户联系、客户群、客户朋友圈的使用范围，范围内成员的客户、客户群和发表的内容可由企业统一管理',
+          explain: '企业微信后台（客户联系-配置），可配置客户联系、客户群、客户朋友圈的使用范围，范围内成员的客户、客户群和发表的内容可由企业统一管理',
           type: 0,
           url: 'https://work.weixin.qq.com/wework_admin/frame#customer/group'
         }]
       }, {
         configuration: '分配离职成员的资源',
         explanation: [{
-          explain: '企业后台（客户联系-配置），成员离职后，可分配他的客户、客户群给其他成员',
+          explain: '企业微信后台（客户联系-配置），成员离职后，可分配他的客户、客户群给其他成员',
           type: 0,
           url: 'https://work.weixin.qq.com/wework_admin/frame#customer/pending'
         }]

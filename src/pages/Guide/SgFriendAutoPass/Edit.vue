@@ -1,5 +1,5 @@
 <template>
-  <div style="background-color: white">
+  <div style="background-color: white" class="base-border-radius">
     <el-scrollbar ref="integralRuleHeight" outsider>
       <el-form label-width="150px" ref="form">
         <!-- 会员招募码配置开始 -->

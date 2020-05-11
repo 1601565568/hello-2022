@@ -46,7 +46,8 @@ input {
   z-index: 100;
 }
 .quick {
-  padding: 136px 0 74px;
+  position: relative;
+  padding: 136px 0 52px;
 }
 .quick--nospace {
   padding-bottom: 0 !important;
@@ -96,7 +97,7 @@ input {
 .tabs .tabs__pane {
   font-size: 14px;
   color: #595959;
-  line-height: 22px;
+  line-height: 20px;
   display: inline-block;
   padding: 12px 10px;
 }
@@ -105,7 +106,6 @@ input {
 }
 .tabs .tabs__pane--selected {
   color: #1876FC;
-  line-height: 20px;
   font-weight: bold;
 }
 .quick .quick__list {
@@ -115,10 +115,26 @@ input {
 }
 .item {
   display: flex;
+  position: relative;
   padding: 15px;
-  border-bottom: 1px solid #E8E8E8;
 }
-.item:last-child {
+.quick__list>div::after{
+  content:'';
+  width: 100%;
+  border-bottom: 1px solid #E8E8E8;
+  transform: scaleY(0.5);
+}
+.item::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-bottom: 1px solid #E8E8E8;
+  -webkit-transform: scale(0.5,0.5);
+  transform: scale(0.5,0.5);
+  -webkit-transform-origin: top left;
+}
+.item:first-child {
   border-bottom: 0;
 }
 .item .item__radio {
@@ -153,14 +169,16 @@ input {
   text-align: center;
 }
 .quick .quick__btn {
-  text-align: right;
   width: 100%;
+  height: 52px;
   position: fixed;
   bottom: 0;
   left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
   padding: 8px 15px;
   background: rgba(255, 255, 255, .96);
-  border-top: 1px solid #E8E8E8;
 }
 .send {
   font-size: 16px;
@@ -171,3 +189,28 @@ input {
   background: #1876FC;
   border-radius: 5px;
 }
+.quick .quick__btn::after{
+  content:'';
+  width: 100%;
+  border-bottom: 1px solid #E8E8E8;
+  transform: scaleY(0.5);
+}
+.quick__btn::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-bottom: 1px solid #E8E8E8;
+  -webkit-transform: scale(0.5,0.5);
+  transform: scale(0.5,0.5);
+  -webkit-transform-origin: top left;
+}
+/*刷新提示*/
+.refresh {
+  margin: 20px 0 0;
+}
+.downRefreshText {
+  margin: 0;
+}
+
+

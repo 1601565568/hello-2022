@@ -4,40 +4,64 @@
       <ns-button type="primary" @click="onSaveQuicklyWordGroupOpen">新增分类</ns-button>
       <div class='ptb5 bg-white pl5' >
         <span class="demonstration">分类</span>
-        <el-tooltip content="拖动调整分类排序，导购端同步">
+        <el-tooltip content="拖动调整分类排序，导购和客服端同步">
           <Icon type="question-circle"/>
         </el-tooltip>
       </div>
-      <div :class="offsetHeight?'elTrees':'elTree'" ref="elTree">
-        <el-tree :data="wordGroupList" default-expand-all @node-click="onClickNode" @node-drop="handleDrop" draggable :allow-drop="allowDrop"
-        :allow-drag="allowDrag"
-        node-key="id"
-        :current-node-key='null'
-        :highlight-current = 'true'
-        class='navTree'>
-        <div class="navTree-item flex flex-between" slot-scope="{ node, data }" >
-          <span class="dataName">{{ data.name }}</span>
-          <span v-if='data.id' class="controlstatus">
-            <Icon type="delete" @click="deleteTheGroup(data)" className="deleteicon" />
-            <Icon type="bianji-1" @click="onSaveQuicklyWordGroupOpen(data)"/>
-          </span>
+<!--      <el-scrollbar wrapStyle="overflow-x:hidden;" style="max-height: 300px; overflow-y: auto;    margin-bottom: 0px; margin-right: 0px;">-->
+        <div :class="offsetHeight?'elTrees':'elTree'" ref="elTree">
+          <el-tree :data="wordGroupList" default-expand-all @node-click="onClickNode" @node-drop="handleDrop" draggable :allow-drop="allowDrop"
+          :allow-drag="allowDrag"
+          node-key="id"
+          :current-node-key='null'
+          :highlight-current = 'true'
+          class='navTree'
+          >
+          <div class="navTree-item flex flex-between" slot-scope="{ node, data }" >
+            <span class="dataName">{{ data.name }}</span>
+            <span v-if='data.id' class="controlstatus">
+              <Icon type="delete" @click="deleteTheGroup(data)" className="deleteicon" />
+              <Icon type="bianji-1" @click="onSaveQuicklyWordGroupOpen(data)"/>
+            </span>
+          </div>
+          </el-tree>
         </div>
-        </el-tree>
-      </div>
+<!--      </el-scrollbar>-->
     </div>
     <div id="box_right">
       <ns-page-table>
         <!-- 按钮 -->
-        <template slot="buttons" class="quickWordsArt">
-          <ns-table-operate-button :buttons="_data._table.table_buttons"></ns-table-operate-button>
+<!--        <template slot="buttons" class="quickWordsArt" >-->
+<!--          <ns-table-operate-button :buttons="_data._table.table_buttons"></ns-table-operate-button>-->
+<!--        </template>-->
+<!--        <template slot="buttons">-->
+<!--          <template v-for="btnItem in _data._table.table_buttons" >-->
+<!--            <ns-button v-if="btnItem.name === '新增话术'" :key="btnItem.name" class="quickButtonsAdd" :type="btnItem.type" v-on:click="btnItem.func">{{btnItem.name}}</ns-button>-->
+<!--            <ns-button v-else-if="btnItem.name === '批量删除'" id="batchDelete"  :key="btnItem.name" class="quickButtons" :disabled="btnItem.disabled" :type="btnItem.type" v-on:click="btnItem.func">{{btnItem.name}}</ns-button>-->
+<!--            <ns-button v-else-if="btnItem.name === '批量管理'" id="batchChange"  :key="btnItem.name" class="quickButtons" :disabled="btnItem.disabled" :type="btnItem.type" v-on:click="btnItem.func">{{btnItem.name}}</ns-button>-->
+<!--          </template>-->
+<!--        </template>-->
+        <template slot="buttons" slot-scope = "scope" class="quickWordsArt">
+          <ns-button type="primary" @click="onSaveOpen(scope)" class="quickWordsArt" >新增话术</ns-button>
+
+          <ns-button type="primary" v-if="batchDis"  ref="batchChange"  @click="onPatchChangeOpen()"  style="border-color: #80c8fd; background-color: #80c8fd" >批量管理</ns-button>
+          <ns-button type="primary" disabled v-else   ref="batchChange"  style="border-color: #80c8fd; background-color: #80c8fd" >批量管理</ns-button>
+          <ns-button type="primary" v-if="batchDis"      ref="batchDelete"  @click="onPatchDelete()"    style="border-color: #80c8fd; background-color: #80c8fd" >批量删除</ns-button>
+          <ns-button type="primary" disabled v-else   ref="batchDelete"    style="border-color: #80c8fd; background-color: #80c8fd" >批量删除</ns-button>
         </template>
+<!--        <el-col :span="7">-->
+<!--          <ns-button type="primary" v-if="color" @click="setGroudShowToggle">批量设置分组</ns-button>-->
+<!--          <ns-button type="primary" disabled v-else  >批量设置分组</ns-button>-->
+<!--          <ns-button type="primary" v-if="color" @click="deleteSubdivision">删除</ns-button>-->
+<!--          <ns-button disabled type="primary" v-else >删除</ns-button>-->
+<!--        </el-col>-->
         <!-- 简单搜索 -->
         <!-- el-form 需添加 @submit.native.prevent 配置 -->
         <!-- el-inpu 需添加  @keyup.enter.native="$quickSearchAction$" 配置，实现回车搜索 -->
         <template slot="searchSearch">
           <el-form :model="model" :inline="true" @submit.native.prevent  class="pull-right">
-            <el-form-item label="关键词/添加人/分类：">
-              <el-input ref="quickText" style="width: 200px" v-model="model.searchValue" placeholder="请输入关键词/添加人/分类" @keyup.enter.native="$searchAction$()" clearable>
+            <el-form-item label="添加人/分类：">
+              <el-input ref="quickText" porp="" style="width: 200px" v-model="model.searchValue" @input="searchLength" placeholder="请输入添加人/分类" @keyup.enter.native="$searchAction$()" clearable>
               </el-input>
               <ns-button type="primary" @click="$searchAction$()" class="searchbtn">搜索</ns-button>
               <ns-button @click="reset()" class="resetbtn">重置</ns-button>
@@ -53,11 +77,11 @@
                     @selection-change="handleSelectionChange"
             resizable v-loading.lock="_data._table.loadingtable"
             :element-loading-text="$t('prompt.loading')" @sort-change="$orderChange$">
-            <el-table-column type="selection" align="center" :width="50"></el-table-column>
-            <el-table-column prop="keyWord" class-name="keyword" width="130" :show-overflow-tooltip="true" label="关键词" align="left"></el-table-column>
+            <el-table-column type="selection" align="center"  :width="50"></el-table-column>
+<!--            <el-table-column prop="keyWord" class-name="keyword" width="130" :show-overflow-tooltip="true" label="关键词" align="left"></el-table-column>-->
             <el-table-column prop="content" label="话术内容" :show-overflow-tooltip="true" align="left"></el-table-column>
             <el-table-column prop="name" label="分类" align="left"></el-table-column>
-            <el-table-column prop="createTime" label="添加时间" align="center"></el-table-column>
+            <el-table-column prop="createTime" label="创建时间" width="180" align="left" ></el-table-column>
             <el-table-column align="left" v-if="showOrder">
               <template slot="header">
                 排序
@@ -72,7 +96,7 @@
                 <i class='sort' :class="scope.row === _data._table.data[_data._table.data.length-1]?'topHid':''"  @click='exchangeSort(4,scope.row.id)'><Icon type="zhidi"/></i>
               </template>
             </el-table-column>
-            <el-table-column prop="addName" label="添加人" align="left"></el-table-column>
+            <el-table-column prop="addName" label="创建人" align="left"></el-table-column>
             <el-table-column :show-overflow-tooltip="true" label="操作" align="center" width="100px">
               <template slot-scope="scope">
               <span class="tmp-cell__buttons">
@@ -107,7 +131,7 @@
           </el-select>
         </el-form-item>
         <el-form-item label="话术内容：" prop="content" required>
-            <el-input type="textarea" placeholder="输入话术内容，最多200字" v-model="model.content" maxlength="200" size="small" rows="4"></el-input>
+            <el-input type="textarea" placeholder="输入话术内容，最多200字" @input="contentCheck" v-model="model.content"  size="small" rows="4" ></el-input>
           <div class="expressionBar_div">
             <i @click="faceFace"><Icon type="biaoqing"/></i>
           </div>
@@ -124,9 +148,9 @@
             </div>
           </div>
         </el-form-item>
-        <el-form-item label="设置关键词：" prop="keyWord">
-          <el-input type="textarea" placeholder="用'，'号隔开，最多设置五个词" v-model="model.keyWord" size="small" rows="3"></el-input>
-        </el-form-item>
+<!--        <el-form-item label="设置关键词："  prop="keyWord">-->
+<!--          <el-input type="textarea" placeholder="用'，'号隔开，最多设置五个词" @input="keyWordCheck" v-model="model.keyWord" size="small" rows="3"></el-input>-->
+<!--        </el-form-item>-->
         <el-form-item label="添加人：" prop="addName">
           <el-input type="text" disabled="true" v-model="model.addName"></el-input>
         </el-form-item>
@@ -142,15 +166,16 @@
                :modal-append-to-body="false"
                width='600px'
                @before-close="closeDialog()">
-      <el-form :model="model" ref="form" label-width="90px" :rules="rules" placement="right">
-        <el-form-item label="移动到分类：" prop="wordGroupIds">
+      <el-form :model="model" ref="batchForm" label-width="90px" :rules="batchRules"  placement="right">
+        <el-form-item label="移动到分类：" prop="batchWordGroupId" >
+<!--          :required="model.wordGroupId ? true : false"-->
           <el-select  v-model="model.wordGroupId" filterable clearable placeholder="请选择配置项类型">
             <el-option v-for="wordGroup in selectwordGroupList" :label="wordGroup.name" :value="wordGroup.id" :key="wordGroup.id"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="编辑关键词：" prop="keyWord">
-          <el-input type="text" placeholder="如果未输入内容，则保持原有关键词不变。用“，”号隔开，最多设置五个词" v-model="model.keyWord"></el-input>
-        </el-form-item>
+<!--        <el-form-item label="编辑关键词：" prop="keyWord">-->
+<!--          <el-input type="text" placeholder="如果未输入内容，则保持原有关键词不变。用“，”号隔开，最多设置五个词" v-model="model.keyWord"></el-input>-->
+<!--        </el-form-item>-->
       </el-form>
       <div slot="footer" class="dialog-footer">
         <ns-button @click="closeDialog()">取消</ns-button>
@@ -165,7 +190,8 @@
       @before-close="closeDialog()">
       <el-form :model="addOrEditModel" ref="addOrEditForm" label-width="80px" :rules="addOrEditRules" placement="right">
         <el-form-item label="分类名称：" prop="name" required class="el-form-validate__unHide">
-          <el-input type="text" placeholder="请输入分类名称" v-model="addOrEditModel.name" autofocus="autofocus"></el-input>
+        <el-input type="text" placeholder="请输入分类名称" @input="accountInput"  v-model="addOrEditModel.name" autofocus="autofocus"></el-input>
+<!--        <el-input type="text" placeholder="请输入分类名称" @input="accountInput"  :value="addOrEditModel.name" autofocus="autofocus"></el-input>-->
         </el-form-item>
         <el-input style='display:none'></el-input>
       </el-form>
@@ -188,7 +214,17 @@ List.components = {
 export default List
 </script>
 <style scoped>
-  @import "@theme/variables.pcss";
+@import "@theme/variables.pcss";
+.quickButtonsAdd{
+  color: #FFFFFF;
+  background-color: #1a9cfb;
+  border-color: #0091fa;
+}
+.quickButtons{
+  color: #FFFFFF;
+  background-color: #80c8fd;
+  border-color: #80c8fd;
+}
 .elTree{
   overflow-y: auto;
   overflow-x: hidden
