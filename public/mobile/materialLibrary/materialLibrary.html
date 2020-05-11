@@ -392,7 +392,6 @@
     $("#touchArea").on({
         touchstart: function(e){
             timeOutEvent = setTimeout(function(){
-              alert($(e.target).attr("src"))
               longPress($(e.target).attr("src"))
             },500);
             e.preventDefault();
