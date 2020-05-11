@@ -102,11 +102,19 @@ export default {
         // ],
         'content': [{ required: true, message: '话术内容不能为空' },
           { max: 190, message: '长度在 200 以内', trigger: 'blur' }],
-        'name': [{ required: true, message: '分类内容不能为空' }]
+        'name': [{ required: true, message: '分类内容不能为空' }],
+        'wordGroupIds': [{ required: true, message: '分类内容不能为空' }]
       },
       addOrEditRules: {
         'name': [{ required: true, message: '分类内容不能为空' },
           { max: 10, message: '长度在 10 以内', trigger: 'blur' }]
+      },
+      bathAddOrEditRules: {
+        'name': [{ required: true, message: '请选择分类' },
+          { max: 10, message: '长度在 10 以内', trigger: 'blur' }]
+      },
+      batchRules: {
+        'batchWordGroupId': [{ required: true, message: '请选择分类' }]
       }
     }
   },
@@ -326,6 +334,12 @@ export default {
       })
     },
     onPatchChange () { // 快捷话术批量管理
+      // debugger
+      this.$refs.batchForm.resetFields()
+      if (this.model.wordGroupId <= 0) {
+        this.$notify.warning('请选择一条有效分组')
+        return
+      }
       let that = this
       let wordGroupId = that.model.wordGroupId
       let keyWord = that.model.keyWord
