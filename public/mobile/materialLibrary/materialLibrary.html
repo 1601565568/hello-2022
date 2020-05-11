@@ -630,7 +630,7 @@
       })
     }
     selectedSubdivisionId = tempId
-    $(".material__choice").text(selectedSubdivisionName)
+    $(".material__choice").html(selectedSubdivisionName + "<i class='iconfont icon-ns-arrow-drowdown'></i>")
     // 关闭分组
     $('.float-layout').addClass('hidden')
     $('body').css('overflow','auto');
