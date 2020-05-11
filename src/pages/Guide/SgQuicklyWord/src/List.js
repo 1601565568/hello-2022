@@ -146,8 +146,7 @@ export default {
       }
       this.model.wordGroupId = data.id
       this.parameter.searchMap = this.model
-      // addName: "admin" start: 0
-      // this.$queryList$(this.parameter)
+      this.$queryList$(this.parameter)
     },
     reset () {
       this.showOrder = false
@@ -159,7 +158,7 @@ export default {
           this.findQuicklyWordGroupList()
           this.$notify.success('删除分组成功')
           this.parameter.wordGroupId = null
-          this.$queryList$(this.parameter)
+          this.$resetInputAction$()
         }
       }).catch(resp => {
         this.$notify.error(getErrorMsg('删除失败', resp))
