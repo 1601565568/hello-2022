@@ -20,7 +20,7 @@
 <div>
   <iframe name="sendFrame" class="hidden"></iframe>
   <!-- 隐藏域 用于复制粘贴功能 添加 disabled="disabled"属性屏蔽click及focus事件-->
-  <textarea id="input" disabled="disabled"></textarea>
+  <textarea id="input"></textarea>
 </div>
 <!-- 顶部状态栏 start -->
 <div class="page-status-bar page-fixed">
@@ -663,14 +663,14 @@
    * @msg: 复制文本
    *    <textarea id="input">这是幕后黑手</textarea>
    */
-  $(document).on('click', '.title', function(e){
-    let content = $(e.target).html()
-    var input = document.getElementById("input");
-    input.value = content; // 修改文本框的内容
-    input.select(); // 选中文本
-    document.execCommand("copy"); // 执行浏览器复制命令
-    showCopyMsg(true)
-  })
+  // $(document).on('click', '.title', function(e){
+  //   let content = $(e.target).html()
+  //   var input = document.getElementById("input");
+  //   input.value = content; // 修改文本框的内容
+  //   input.select(); // 选中文本
+  //   document.execCommand("copy"); // 执行浏览器复制命令
+  //   showCopyMsg(true)
+  // })
   /**
    * @msg: 图片点击大图
    */
