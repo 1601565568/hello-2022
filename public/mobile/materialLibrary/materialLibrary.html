@@ -391,7 +391,10 @@
   function bindLongTouch() {
     $("#touchArea").on({
         touchstart: function(e){
-            timeOutEvent = setTimeout("longPress()",500);
+            timeOutEvent = setTimeout(function(){
+              alert($(e.target).attr("src"))
+              longPress($(e.target).attr("src"))
+            },500);
             e.preventDefault();
         },
         touchmove: function(){
@@ -401,16 +404,16 @@
         touchend: function(){
             clearTimeout(timeOutEvent);
             if(timeOutEvent!=0){
-                alert("你这是点击，不是长按");
+                // alert("你这是点击，不是长按");
             }
             return false;
         }
     })
   }
-  function longPress(){
+  function longPress(url){
       timeOutEvent = 0;
-      alert("长按下载图片");
-      downloadFile("https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/202005/10000111/b0f90d83-54be-44ab-8edd-b03402f28821.jpg?x-oss-process=image/resize,m_fill,h_100,w_100")
+      // alert("长按下载图片");
+      downloadFile(url)
   }
   function downloadFile(url){
     window.open(url);
