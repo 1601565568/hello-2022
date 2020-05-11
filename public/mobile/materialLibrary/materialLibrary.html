@@ -414,9 +414,9 @@
         + ' imageList="' + imageList + '"' + '></div>' +
       '<div class="item__msg">' +
           // 主内容
-          '<div class="outerContainer">' +
+          '<div class="outerConouterContainer">' +
             '<div class="subCategory">' +
-              ' <div class="title">' + content + '</div>' +
+              ' <div class="title"' + ' materialId="' + materialId + '"' + '>' + content + '</div>' +
             '</div>' +
           '</div>' +
           // 展开按钮
@@ -601,6 +601,33 @@
       }
     })
   });
+  $(document).on('click', '.title', function(e){
+    selectedId = $(e.target).attr('materialId')
+    $('.material__class').each(function(i,e){
+      if ($(e).attr("materialId") === selectedId) {
+        $(e).addClass('page-radio--selected');
+        selectedMaterial = Object.assign({}, {
+          materialId: $(e).attr("materialId"),
+          content: $(e).attr("content"),
+          imageList: $(e).attr("imageList")
+        })
+      } else {
+        $(e).removeClass('page-radio--selected');
+      }
+    })
+  })
+  /**
+   * @msg: 复制文本
+   *    <textarea id="input">这是幕后黑手</textarea>
+   */
+  //  $(document).on('click', '.title', function(e){
+  //   let content = $(e.target).html()
+  //   var input = document.getElementById("input");
+  //   input.value = content; // 修改文本框的内容
+  //   input.select(); // 选中文本
+  //   document.execCommand("copy"); // 执行浏览器复制命令
+  //   showCopyMsg(true)
+  // })
   // 分组radio选择 动态dom元素事件监听
   $(document).on('click', '.subdivision__class', function(e){
     let selectedSubdivisionId = getSelectedSubdivisionId()
@@ -659,18 +686,6 @@
     }
     $(this).parent().toggleClass('is_open');
   })
-  /**
-   * @msg: 复制文本
-   *    <textarea id="input">这是幕后黑手</textarea>
-   */
-  // $(document).on('click', '.title', function(e){
-  //   let content = $(e.target).html()
-  //   var input = document.getElementById("input");
-  //   input.value = content; // 修改文本框的内容
-  //   input.select(); // 选中文本
-  //   document.execCommand("copy"); // 执行浏览器复制命令
-  //   showCopyMsg(true)
-  // })
   /**
    * @msg: 图片点击大图
    */
