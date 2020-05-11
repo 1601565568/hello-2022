@@ -339,7 +339,7 @@ export default {
           obj.quicklyWordIds = arr.join(',')
           that.$http.fetch(that.$api.guide.patchChange, obj).then(() => {
             that.closeDialog()
-            that.$notify.success('保存成功')
+            that.$notify.success('保存' + this.selectedArr.length + '成功')
             that.$reload()
           }).catch((resp) => {
             that.$notify.error(getErrorMsg('保存失败', resp))
@@ -354,7 +354,7 @@ export default {
         obj.quicklyWordIds = arr.join(',')
         that.$http.fetch(that.$api.guide.patchChange, obj).then(() => {
           that.closeDialog()
-          that.$notify.success('保存成功')
+          that.$notify.success('修改' + this.selectedArr.length + '条数据成功')
           that.$reload()
         }).catch((resp) => {
           that.$notify.error(getErrorMsg('保存失败', resp))
@@ -362,7 +362,7 @@ export default {
       }
     },
     onDelete (row) { // 快捷话术删除
-      apiRequestConfirm('永久删除该数据')
+      apiRequestConfirm('永久删除' + this.selectedArr.length + '条数据')
         .then(() => {
           let that = this
           that.$http.fetch(that.$api.guide.deleteQuicklyWord, { quicklyWordIds: String(row.id) }).then(() => {
@@ -382,7 +382,7 @@ export default {
         this.$notify.warning('您没有选择任何数据')
         return
       }
-      apiRequestConfirm('永久删除该条数据')
+      apiRequestConfirm('永久删除' + this.selectedArr.length + '条数据')
         .then(() => {
           let that = this
           let obj = { quicklyWordIds: '' }
