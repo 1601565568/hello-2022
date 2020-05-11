@@ -96,7 +96,7 @@
                 <i class='sort' :class="scope.row === _data._table.data[_data._table.data.length-1]?'topHid':''"  @click='exchangeSort(4,scope.row.id)'><Icon type="zhidi"/></i>
               </template>
             </el-table-column>
-            <el-table-column prop="addName" label="添加人" align="left"></el-table-column>
+            <el-table-column prop="addName" label="创建人" align="left"></el-table-column>
             <el-table-column :show-overflow-tooltip="true" label="操作" align="center" width="100px">
               <template slot-scope="scope">
               <span class="tmp-cell__buttons">
