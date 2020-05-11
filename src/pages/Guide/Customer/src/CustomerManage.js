@@ -414,7 +414,7 @@ export default {
               }
             }
             _this.items.province = _this.disposeArea(_this.items.province, _this.items.city)
-            _this.items.customerName = _this.disposeOutNick(_this.items.customerName, _this.items.outAlias)
+            // _this.items.customerName = _this.disposeOutNick(_this.items.customerName, _this.items.outAlias)
           }
         }).catch((resp) => {
           _this.$notify.error(getErrorMsg('查询失败', resp))

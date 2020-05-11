@@ -166,8 +166,9 @@
                :modal-append-to-body="false"
                width='600px'
                @before-close="closeDialog()">
-      <el-form :model="model" ref="form" label-width="90px" :rules="rules" placement="right">
-        <el-form-item label="移动到分类：" prop="wordGroupIds">
+      <el-form :model="model" ref="batchform" label-width="90px" :rules="batchRules"  placement="right">
+        <el-form-item label="批量分类：" prop="value" >
+<!--          :required="model.wordGroupId ? true : false"-->
           <el-select  v-model="model.wordGroupId" filterable clearable placeholder="请选择配置项类型">
             <el-option v-for="wordGroup in selectwordGroupList" :label="wordGroup.name" :value="wordGroup.id" :key="wordGroup.id"></el-option>
           </el-select>
