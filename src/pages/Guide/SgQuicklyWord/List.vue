@@ -44,8 +44,8 @@
         <template slot="buttons" slot-scope = "scope" class="quickWordsArt">
           <ns-button type="primary" @click="onSaveOpen(scope)" class="quickWordsArt" >新增话术</ns-button>
 
-          <ns-button type="primary" v-if="batchDis"  ref="batchChange"  @click="onPatchChangeOpen()"  style="border-color: #80c8fd; background-color: #80c8fd" >批量管理</ns-button>
-          <ns-button type="primary" disabled v-else   ref="batchChange"  style="border-color: #80c8fd; background-color: #80c8fd" >批量管理</ns-button>
+          <ns-button type="primary" v-if="batchDis"  ref="batchChange"  @click="onPatchChangeOpen()"  style="border-color: #80c8fd; background-color: #80c8fd" >批量分类</ns-button>
+          <ns-button type="primary" disabled v-else   ref="batchChange"  style="border-color: #80c8fd; background-color: #80c8fd" >批量分类</ns-button>
           <ns-button type="primary" v-if="batchDis"      ref="batchDelete"  @click="onPatchDelete()"    style="border-color: #80c8fd; background-color: #80c8fd" >批量删除</ns-button>
           <ns-button type="primary" disabled v-else   ref="batchDelete"    style="border-color: #80c8fd; background-color: #80c8fd" >批量删除</ns-button>
         </template>
@@ -161,13 +161,13 @@
       </div>
     </el-dialog>
     <!-- 批量管理初始弹窗结束 -->
-    <el-dialog size="small" title="批量管理"
+    <el-dialog size="small" title="批量分类"
                :visible.sync="dialogVisiblePatchChange"
                :modal-append-to-body="false"
                width='600px'
                @before-close="closeDialog()">
       <el-form :model="model" ref="form" label-width="90px" :rules="rules"   placement="right">
-        <el-form-item label="批量分类：" prop="wordGroupId"  required>
+        <el-form-item label="选择分类：" prop="wordGroupId"  required>
 <!--          :required="model.wordGroupId ? true : false"-->
           <el-select  v-model="model.wordGroupId" filterable clearable placeholder="请选择配置项类型">
             <el-option v-for="wordGroup in selectwordGroupList" :label="wordGroup.name" :value="wordGroup.id" :key="wordGroup.id"></el-option>
