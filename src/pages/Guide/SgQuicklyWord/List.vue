@@ -60,7 +60,7 @@
         <!-- el-inpu 需添加  @keyup.enter.native="$quickSearchAction$" 配置，实现回车搜索 -->
         <template slot="searchSearch">
           <el-form :model="model" :inline="true" @submit.native.prevent  class="pull-right">
-            <el-form-item label="关键词/添加人/分类：">
+            <el-form-item label="添加人/分类：">
               <el-input ref="quickText" porp="" style="width: 200px" v-model="model.searchValue" @input="searchLength" placeholder="请输入添加人/分类" @keyup.enter.native="$searchAction$()" clearable>
               </el-input>
               <ns-button type="primary" @click="$searchAction$()" class="searchbtn">搜索</ns-button>

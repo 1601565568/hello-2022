@@ -171,14 +171,20 @@
        success: function (result) {
          if(result.result.length>0){
            console.log("此次数据长度=》"+result.result.length)
-           // value数组中的当前项, index当前项的索引, array原始数组
+           $('.quick__list').show();
+           $('.quick__noData').hide();
+           $('.quick__list').append(setQuickList(result.result));
+           // // value数组中的当前项, index当前项的索引, array原始数组
            result.result.forEach((item,index,array)=>{
-             $('.quick__list').show();
-             $('.quick__noData').hide();
+             // $('.quick__list').append("<div class='item'>" +
+             //   "<div class='item__radio' id='radioByword"+item.id+"' onclick='clickWord(this)'></div>" +
+             //   "<div class='item__text' id='word"+item.id+"' onclick='clickWordByWord(this)'>"+setQuickList(item.content)+" </div> " +
+             //   "</div>");
              $('.quick__list').append("<div class='item'>" +
                "<div class='item__radio' id='radioByword"+item.id+"' onclick='clickWord(this)'></div>" +
-               "<div class='item__text' id='word"+item.id+"' onclick='clickWordByWord(this)'>"+item.content+" </div> " +
-               "</div>").text();
+               "<div class='item__text' id='word"+item.id+"' onclick='clickWordByWord(this)'> </div> " +
+               "</div>");
+             $('#word'+item.id).text(setQuickList(item.content));
            });
            isScroll=true;
          }
@@ -189,7 +195,7 @@
            setTimeout(function () { $('.downRefreshText').hide()}, 500);
            if(idArr.length<=0){
              $('.quick__list').hide();
-             $('.quick__noData').show();
+             setTimeout(function () { $('.quick__noData').show(); }, 1000);
             }
            }
        },
@@ -199,7 +205,10 @@
        }
      })
    }
-   // 构建
+   // 构建话术列表
+    function setQuickList(param) {
+          return param;
+    }
 
   function fn() {
     $('#groupAll').click();
