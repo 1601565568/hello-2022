@@ -107,11 +107,14 @@
               <div class="dialog-remark" v-if="items.customerName && items.customerName.length<6">
                 {{items.customerName}}
               </div>
-              <div v-else>
+              <div v-else-if="items.customerName && items.customerName.length>=6">
                 <el-tooltip :content="items.customerName">
                   <div slot="content">{{items.customerName}}</div>
                   <span class="dialog-hidden">{{items.customerName}}</span>
                 </el-tooltip>
+              </div>
+              <div v-else>
+                -
               </div>
             </el-form-grid>
           </el-form-item>
