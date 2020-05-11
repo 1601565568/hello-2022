@@ -48,13 +48,13 @@
   <!-- 素材分组 end -->
 
   <!-- 下拉重新加载 -->
-  <div class="material__getMore" id="getMore"><!-- style="display: none;" -->
+  <div class="material__getMore"><!-- id="getMore" style="display: none;" -->
     <div class="prompt upRefreshText"></div><!-- 居中效果 prompt -->
   </div>
   <!-- 下拉重新加载 -->
 
   <!-- 素材库列表 start -->
-  <div class="material__list" >
+  <div class="material__list" id="getMore">
   </div>
   <!-- 素材库列表 end -->
 
@@ -223,7 +223,7 @@
       pageStart = 0
       showNoData(false)
       // resetParam()
-      _upRefreshText.innerText = '刷新列表';
+      // _upRefreshText.innerText = '刷新列表';
       initMaterialList()
     }
   }
