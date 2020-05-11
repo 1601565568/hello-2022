@@ -148,6 +148,7 @@
   var _upRefreshText = document.querySelector('.upRefreshText');
   var _downRefreshText = document.querySelector('.downRefreshText');
   var imageSuffix = '?x-oss-process=image/resize,m_fill,h_100,w_100'
+  var timeOutEvent=0;
 
   /**
    * @msg: 页面初始化加载事件
@@ -387,6 +388,33 @@
         parseDom(buildListItem(materialId, content, imageList, datetime, type, subdivision, isSelected))[0], oldNode)
     }
   }
+  function bindLongTouch() {
+    $("#touchArea").on({
+        touchstart: function(e){
+            timeOutEvent = setTimeout("longPress()",500);
+            e.preventDefault();
+        },
+        touchmove: function(){
+            clearTimeout(timeOutEvent);
+            timeOutEvent = 0;
+        },
+        touchend: function(){
+            clearTimeout(timeOutEvent);
+            if(timeOutEvent!=0){
+                alert("你这是点击，不是长按");
+            }
+            return false;
+        }
+    })
+  }
+  function longPress(){
+      timeOutEvent = 0;
+      alert("长按下载图片");
+      downloadFile("https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/202005/10000111/b0f90d83-54be-44ab-8edd-b03402f28821.jpg?x-oss-process=image/resize,m_fill,h_100,w_100")
+  }
+  function downloadFile(url){
+    window.open(url);
+  }
   /**
    * @msg: 构建列表选项
    * @param content 文本内容
@@ -502,7 +530,7 @@
     imageList.forEach(function(image,index,arr){
       html +=
       '<div class="swiper-slide">' +
-        '<img src="' + image + '" alt="素材库图片" class="full-img">' +
+        '<img id="touchArea" src="' + image + '" alt="素材库图片" class="full-img">' +
       '</div>';
     })
     $('.swiper-wrapper').html(html);
@@ -699,6 +727,7 @@
     let index = e.target.getAttribute('index');
     if (imageList) {
       buildSwiperImageList(imageList.split(','), parseInt(index) + 1);
+      bindLongTouch()
     }
     // 图片轮播
     mySwiper = new Swiper('.swiper-container', {
