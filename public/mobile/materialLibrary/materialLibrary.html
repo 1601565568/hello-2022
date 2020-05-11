@@ -170,39 +170,39 @@
     this.init();
   }
   function registerEvent () {
-    var _element = document.getElementById('getMore'),
-    _startPos = 0,
-    _transitionHeight = 0;
+    // var _element = document.getElementById('getMore'),
+    // _startPos = 0,
+    // _transitionHeight = 0;
 
-    _element.addEventListener('touchstart', function(e) {
-        _startPos = e.touches[0].pageY;
-        _element.style.position = 'relative';
-        _element.style.transition = 'transform 0s';
-    }, false);
+    // _element.addEventListener('touchstart', function(e) {
+    //     _startPos = e.touches[0].pageY;
+    //     _element.style.position = 'relative';
+    //     _element.style.transition = 'transform 0s';
+    // }, false);
 
-    _element.addEventListener('touchmove', function(e) {
-        _transitionHeight = e.touches[0].pageY - _startPos;
-        if (_transitionHeight > 0 && _transitionHeight < 60) {
-          _upRefreshText.innerText = '下拉刷新';
-            _element.style.transform = 'translateY('+_transitionHeight+'px)';
+    // _element.addEventListener('touchmove', function(e) {
+    //     _transitionHeight = e.touches[0].pageY - _startPos;
+    //     if (_transitionHeight > 0 && _transitionHeight < 60) {
+    //       _upRefreshText.innerText = '下拉刷新';
+    //         _element.style.transform = 'translateY('+_transitionHeight+'px)';
 
-            if (_transitionHeight > 55) {
-              _upRefreshText.innerText = '释放更新';
-            }
-        }
-    }, false);
+    //         if (_transitionHeight > 55) {
+    //           _upRefreshText.innerText = '释放更新';
+    //         }
+    //     }
+    // }, false);
 
-    _element.addEventListener('touchend', function(e) {
-        _element.style.transition = 'transform 0.5s ease 1s';
-        _element.style.transform = 'translateY(0px)';
-        _upRefreshText.innerText = '更新中...';
-        // todo...
-        // 加载素材列表
-        initMaterialList()
-        setTimeout(function () {
-          _upRefreshText.innerText = ''
-        }, 500)
-      }, false);
+    // _element.addEventListener('touchend', function(e) {
+    //     _element.style.transition = 'transform 0.5s ease 1s';
+    //     _element.style.transform = 'translateY(0px)';
+    //     _upRefreshText.innerText = '更新中...';
+    //     // todo...
+    //     // 加载素材列表
+    //     initMaterialList()
+    //     setTimeout(function () {
+    //       _upRefreshText.innerText = ''
+    //     }, 500)
+    //   }, false);
   }
   /**
    * @msg: 上拉加载更多
