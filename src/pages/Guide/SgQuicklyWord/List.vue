@@ -4,26 +4,29 @@
       <ns-button type="primary" @click="onSaveQuicklyWordGroupOpen">新增分类</ns-button>
       <div class='ptb5 bg-white pl5' >
         <span class="demonstration">分类</span>
-        <el-tooltip content="拖动调整分类排序，导购端同步">
+        <el-tooltip content="拖动调整分类排序，导购和客服端同步">
           <Icon type="question-circle"/>
         </el-tooltip>
       </div>
-      <div :class="offsetHeight?'elTrees':'elTree'" ref="elTree">
-        <el-tree :data="wordGroupList" default-expand-all @node-click="onClickNode" @node-drop="handleDrop" draggable :allow-drop="allowDrop"
-        :allow-drag="allowDrag"
-        node-key="id"
-        :current-node-key='null'
-        :highlight-current = 'true'
-        class='navTree'>
-        <div class="navTree-item flex flex-between" slot-scope="{ node, data }" >
-          <span class="dataName">{{ data.name }}</span>
-          <span v-if='data.id' class="controlstatus">
-            <Icon type="delete" @click="deleteTheGroup(data)" className="deleteicon" />
-            <Icon type="bianji-1" @click="onSaveQuicklyWordGroupOpen(data)"/>
-          </span>
+<!--      <el-scrollbar wrapStyle="overflow-x:hidden;" style="max-height: 300px; overflow-y: auto;    margin-bottom: 0px; margin-right: 0px;">-->
+        <div :class="offsetHeight?'elTrees':'elTree'" ref="elTree">
+          <el-tree :data="wordGroupList" default-expand-all @node-click="onClickNode" @node-drop="handleDrop" draggable :allow-drop="allowDrop"
+          :allow-drag="allowDrag"
+          node-key="id"
+          :current-node-key='null'
+          :highlight-current = 'true'
+          class='navTree'
+          >
+          <div class="navTree-item flex flex-between" slot-scope="{ node, data }" >
+            <span class="dataName">{{ data.name }}</span>
+            <span v-if='data.id' class="controlstatus">
+              <Icon type="delete" @click="deleteTheGroup(data)" className="deleteicon" />
+              <Icon type="bianji-1" @click="onSaveQuicklyWordGroupOpen(data)"/>
+            </span>
+          </div>
+          </el-tree>
         </div>
-        </el-tree>
-      </div>
+<!--      </el-scrollbar>-->
     </div>
     <div id="box_right">
       <ns-page-table>
@@ -41,9 +44,9 @@
         <template slot="buttons" slot-scope = "scope" class="quickWordsArt">
           <ns-button type="primary" @click="onSaveOpen(scope)" class="quickWordsArt" >新增话术</ns-button>
 
-          <ns-button type="primary" v-if="color"  ref="batchChange"  @click="onPatchChangeOpen()"  style="border-color: #80c8fd; background-color: #80c8fd" >批量管理</ns-button>
+          <ns-button type="primary" v-if="batchDis"  ref="batchChange"  @click="onPatchChangeOpen()"  style="border-color: #80c8fd; background-color: #80c8fd" >批量管理</ns-button>
           <ns-button type="primary" disabled v-else   ref="batchChange"  style="border-color: #80c8fd; background-color: #80c8fd" >批量管理</ns-button>
-          <ns-button type="primary" v-if="color"      ref="batchDelete"  @click="onPatchDelete()"    style="border-color: #80c8fd; background-color: #80c8fd" >批量删除</ns-button>
+          <ns-button type="primary" v-if="batchDis"      ref="batchDelete"  @click="onPatchDelete()"    style="border-color: #80c8fd; background-color: #80c8fd" >批量删除</ns-button>
           <ns-button type="primary" disabled v-else   ref="batchDelete"    style="border-color: #80c8fd; background-color: #80c8fd" >批量删除</ns-button>
         </template>
 <!--        <el-col :span="7">-->
@@ -57,8 +60,8 @@
         <!-- el-inpu 需添加  @keyup.enter.native="$quickSearchAction$" 配置，实现回车搜索 -->
         <template slot="searchSearch">
           <el-form :model="model" :inline="true" @submit.native.prevent  class="pull-right">
-            <el-form-item label="关键词/添加人/分类：">
-              <el-input ref="quickText" porp="" style="width: 200px" v-model="model.searchValue" @input="searchLength" placeholder="请输入关键词/添加人/分类" @keyup.enter.native="$searchAction$()" clearable>
+            <el-form-item label="添加人/分类：">
+              <el-input ref="quickText" porp="" style="width: 200px" v-model="model.searchValue" @input="searchLength" placeholder="请输入添加人/分类" @keyup.enter.native="$searchAction$()" clearable>
               </el-input>
               <ns-button type="primary" @click="$searchAction$()" class="searchbtn">搜索</ns-button>
               <ns-button @click="reset()" class="resetbtn">重置</ns-button>
@@ -78,7 +81,7 @@
 <!--            <el-table-column prop="keyWord" class-name="keyword" width="130" :show-overflow-tooltip="true" label="关键词" align="left"></el-table-column>-->
             <el-table-column prop="content" label="话术内容" :show-overflow-tooltip="true" align="left"></el-table-column>
             <el-table-column prop="name" label="分类" align="left"></el-table-column>
-            <el-table-column prop="createTime" label="添加时间" align="center"></el-table-column>
+            <el-table-column prop="createTime" label="创建时间" width="180" align="left" ></el-table-column>
             <el-table-column align="left" v-if="showOrder">
               <template slot="header">
                 排序
@@ -93,7 +96,7 @@
                 <i class='sort' :class="scope.row === _data._table.data[_data._table.data.length-1]?'topHid':''"  @click='exchangeSort(4,scope.row.id)'><Icon type="zhidi"/></i>
               </template>
             </el-table-column>
-            <el-table-column prop="addName" label="添加人" align="left"></el-table-column>
+            <el-table-column prop="addName" label="创建人" align="left"></el-table-column>
             <el-table-column :show-overflow-tooltip="true" label="操作" align="center" width="100px">
               <template slot-scope="scope">
               <span class="tmp-cell__buttons">

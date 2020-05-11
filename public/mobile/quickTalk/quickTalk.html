@@ -23,9 +23,11 @@
   <!-- 搜索栏 start -->
   <div class="quick__search page-fixed">
     <div class="searchbar">
-      <i class='iconfont icon-ns-search searchbar__icon' onclick="searchWord(this)"></i>
-      <input type="text" placeholder="搜索话术内容" value=""  onfocus="setClearSecdButtn(0)" onblur="setClearSecdButtn(1)"  onchange="searchWord(this)" id="searchbarValue" class="searchbar__input"/>
-      <i class='iconfont icon-shanchu1 searchbar__icon' id='clearSecdId' style="display: none" onclick="clearSearth()"></i>
+<!--      <i class='iconfont icon-ns-search searchbar__icon' onclick="searchWord(this)"></i>-->
+      <i class='iconfont icon-ns-search searchbar__icon' ></i>
+      <input type="text" placeholder="搜索话术内容" value=""   onkeyup="if(event.keyCode==13) {fn()}"  onfocus="setClearSecdButtn(0)"  onfocusout="setClearSecdButtn(1)"
+             id="searchbarValue" class="searchbar__input"  />
+      <i class='iconfont icon-shanchu1 searchbar__icon' style="margin-left: 0" id='clearSecdId' style="display: none" onclick="clearSearth()"></i>
     </div>
   </div>
   <!-- 搜索栏 end -->

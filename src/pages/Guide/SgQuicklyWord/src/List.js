@@ -54,7 +54,7 @@ export default {
       emotionList: Emotion,
       addName: null,
       modelObj: {},
-      allClassArr: { name: '全部分类', id: null, label: '全部分类' },
+      allClassArr: { name: '全部', id: null, label: '全部' },
       newClassArr: { name: '请选择分类', id: null, label: '请选择分类' },
       InternetMemeShow: false,
       orignalGroup: null,
@@ -71,6 +71,7 @@ export default {
       height: 0,
       showOrder: false,
       tableList: [],
+      batchDis: false,
       wordGroupList: null,
       selectwordGroupList: null,
       _table: {
@@ -78,27 +79,27 @@ export default {
       },
       rules: {
         'wordGroupId': [{ required: true, message: '话术类别不能为空' }],
-        'keyWord': [{ required: true, message: '关键字不能为空' },
-          { max: 25, message: '长度在 25 以内', trigger: 'blur' },
-          {
-            validator: (rule, value, callback) => {
-              if (this.model.keyWord !== '' && this.model.keyWord !== null) {
-                if ((this.model.keyWord.split('，').length - 1) > 4) {
-                  callback(new Error('关键词最多设置五个词'))
-                } else if (this.model.keyWord.length > 25) {
-                  callback(new Error('关键词长度在 25 以内'))
-                }
-                let arr = '😀😁😂🤣😃😄😅😆😉😊😋😎😍😘😭😢😬🙂🤗🤔😐😶🙄😏😣😥😮😪😫😴😌😇😜😝🤤😒😓🙃🤑😲🤐😖😤🤥🤧😧😨😱😳😡😷🤓👌👍😈👻💩🙈🙉🙊🐷🐸'.split('')
-                for (var i = 0; i < arr.length; i++) {
-                  if (value.indexOf(arr[i]) !== -1) {
-                    callback(new Error('不支持表情'))
-                  }
-                }
-              }
-              callback()
-            }
-          }
-        ],
+        // 'keyWord': [{ required: true, message: '关键字不能为空' },
+        //   { max: 25, message: '长度在 25 以内', trigger: 'blur' },
+        //   {
+        //     validator: (rule, value, callback) => {
+        //       if (this.model.keyWord !== '' && this.model.keyWord !== null) {
+        //         if ((this.model.keyWord.split('，').length - 1) > 4) {
+        //           callback(new Error('关键词最多设置五个词'))
+        //         } else if (this.model.keyWord.length > 25) {
+        //           callback(new Error('关键词长度在 25 以内'))
+        //         }
+        //         let arr = '😀😁😂🤣😃😄😅😆😉😊😋😎😍😘😭😢😬🙂🤗🤔😐😶🙄😏😣😥😮😪😫😴😌😇😜😝🤤😒😓🙃🤑😲🤐😖😤🤥🤧😧😨😱😳😡😷🤓👌👍😈👻💩🙈🙉🙊🐷🐸'.split('')
+        //         for (var i = 0; i < arr.length; i++) {
+        //           if (value.indexOf(arr[i]) !== -1) {
+        //             callback(new Error('不支持表情'))
+        //           }
+        //         }
+        //       }
+        //       callback()
+        //     }
+        //   }
+        // ],
         'content': [{ required: true, message: '话术内容不能为空' },
           { max: 190, message: '长度在 200 以内', trigger: 'blur' }],
         'name': [{ required: true, message: '分类内容不能为空' }]
@@ -109,7 +110,6 @@ export default {
       }
     }
   },
-  color: false,
   updated () {
     this.$refs.elTree.offsetHeight > window.screen.availHeight ? this.offsetHeight = true : this.offsetHeight = false
   },
@@ -157,6 +157,8 @@ export default {
         if (resp.success) {
           this.findQuicklyWordGroupList()
           this.$notify.success('删除分组成功')
+          this.parameter.wordGroupId = null
+          this.$resetInputAction$()
         }
       }).catch(resp => {
         this.$notify.error(getErrorMsg('删除失败', resp))
@@ -180,6 +182,7 @@ export default {
       })
     },
     saveOrUpdateQuicklyWordGroup () {
+      this.$refs['addOrEditForm'].validateField('name')
       if (this.addOrEditModel.name && (this.addOrEditModel.name.length <= 10)) {
         this.$http.fetch(this.$api.guide.saveOrUpdateQuicklyWordGroup, this.addOrEditModel).then(resp => {
           if (resp.success) {
@@ -216,13 +219,13 @@ export default {
     },
     handleSelectionChange (val) {
       if (val.length === 0) {
-        this.color = false
+        this.batchDis = false
         this.$refs.batchDelete.$el.style.backgroundColor = '#80c8fd'
         this.$refs.batchDelete.$el.style.borderColor = '#80c8fd'
         this.$refs.batchChange.$el.style.backgroundColor = '#80c8fd'
         this.$refs.batchChange.$el.style.borderColor = '#80c8fd'
       } else {
-        this.color = true
+        this.batchDis = true
         this.$refs.batchDelete.$el.style.backgroundColor = '#1a9cfb'
         this.$refs.batchDelete.$el.style.borderColor = '#1a9cfb'
         this.$refs.batchChange.$el.style.backgroundColor = '#1a9cfb'
@@ -336,7 +339,7 @@ export default {
           obj.quicklyWordIds = arr.join(',')
           that.$http.fetch(that.$api.guide.patchChange, obj).then(() => {
             that.closeDialog()
-            that.$notify.success('保存成功')
+            that.$notify.success('保存' + this.selectedArr.length + '成功')
             that.$reload()
           }).catch((resp) => {
             that.$notify.error(getErrorMsg('保存失败', resp))
@@ -351,7 +354,7 @@ export default {
         obj.quicklyWordIds = arr.join(',')
         that.$http.fetch(that.$api.guide.patchChange, obj).then(() => {
           that.closeDialog()
-          that.$notify.success('保存成功')
+          that.$notify.success('修改' + this.selectedArr.length + '条数据成功')
           that.$reload()
         }).catch((resp) => {
           that.$notify.error(getErrorMsg('保存失败', resp))
@@ -359,7 +362,7 @@ export default {
       }
     },
     onDelete (row) { // 快捷话术删除
-      apiRequestConfirm('永久删除该数据')
+      apiRequestConfirm('永久删除' + this.selectedArr.length + '条数据')
         .then(() => {
           let that = this
           that.$http.fetch(that.$api.guide.deleteQuicklyWord, { quicklyWordIds: String(row.id) }).then(() => {
@@ -379,7 +382,7 @@ export default {
         this.$notify.warning('您没有选择任何数据')
         return
       }
-      apiRequestConfirm('永久删除该条数据')
+      apiRequestConfirm('永久删除' + this.selectedArr.length + '条数据')
         .then(() => {
           let that = this
           let obj = { quicklyWordIds: '' }

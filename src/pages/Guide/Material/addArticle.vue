@@ -86,7 +86,7 @@
         </el-form>
     </div>
     <span slot="footer" class="dialog-footer">
-      <ns-button @click="handleClose">取 消</ns-button>
+      <ns-button @click="handleClose">取消</ns-button>
       <ns-button type="primary" :loading="loading" @click="saveFun">保存</ns-button>
     </span>
   </el-dialog>
