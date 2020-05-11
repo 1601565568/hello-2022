@@ -301,7 +301,8 @@
         searchName: $searchName.val().trim(),
         subdivision_id: selectedSubdivisionId,
         pageStart: pageStart*pageSize,
-        pageSize: pageSize
+        pageSize: pageSize,
+        mType: 1 // 图片素材
       }).then(function (result) {
         if (result.success) {
           // _upRefreshText.innerText = '刷新成功'
