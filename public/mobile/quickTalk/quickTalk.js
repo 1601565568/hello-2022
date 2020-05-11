@@ -178,7 +178,7 @@
              $('.quick__list').append("<div class='item'>" +
                "<div class='item__radio' id='radioByword"+item.id+"' onclick='clickWord(this)'></div>" +
                "<div class='item__text' id='word"+item.id+"' onclick='clickWordByWord(this)'>"+item.content+" </div> " +
-               "</div>");
+               "</div>").text();
            });
            isScroll=true;
          }
@@ -199,6 +199,8 @@
        }
      })
    }
+   // 构建
+
   function fn() {
     $('#groupAll').click();
   }
@@ -211,7 +213,7 @@
         if($(document).height() < oHeight){
           $(".quick__btn").css("position","static");
         }else{
-          $(".quick__btn").css("position","absolute");
+          $(".quick__btn").css("position","fixed");
         }
       });
     /**
