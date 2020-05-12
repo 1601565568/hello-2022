@@ -104,7 +104,7 @@ function clickWordByWord(e) {
 // 头部菜单点击触发
 function clickEvent(e) {
   isScroll = false;
-  setTimeout(function () { isScroll = true;}, 1000)
+  setTimeout(function () { isScroll = true;}, 500)
   let thisE = $(e);
   listCount = 0;
   let thisElement = $(e);
@@ -154,7 +154,7 @@ function getQuickListMenu(sgGuideExt) {
 
 // 获取分页数据
 function getQuickList(quicklyWord) {
-  // $("#"+quicklyWord.wordGroupId).off("click");//取消每次的点击
+  isScroll = false;
   if (quicklyWord.start == 0) {
     $('.quick__list').empty();
   }
@@ -181,19 +181,15 @@ function getQuickList(quicklyWord) {
         });
         $('.quick__noData').hide();
         $('.quick__list').show();
-        listCount += result.result.length;
-        console.log('listchangdu', "result=》", $('.item__text').length, listCount)
-        isScroll = true;
+        setTimeout(function () {isScroll=true},1000)
       }
       if (result.result.length == 0) {
         var idArr = $('.item__text');
-        isScroll = false;
-        $('.downRefreshText').show().text('暂无您要找的快捷话术');
-        setTimeout(function () {$('.downRefreshText').hide()}, 300);
+        setTimeout(function () {isScroll=true},1000)
         if (idArr.length <= 0) {
+          setTimeout(function () {$('.quick__noData').show();}, 500);
           $('.quick__list').hide();
           $('.downRefreshText').hide();
-          setTimeout(function () {$('.quick__noData').show();}, 600);
         }
       }
     },
@@ -232,7 +228,6 @@ $(window).resize(function () {
  *
  */
 // 滑动事件
-setTimeout(function () {
   $(window).scroll(function () {
     // 文档内容实际高度（包括超出视窗的溢出部分） 当前页面的高度
     var scrollHeight = $(document).height();
@@ -241,29 +236,25 @@ setTimeout(function () {
     // 可视页面的高度
     var clientHeight = $(this).height();
     // debugger
-    if (scrollTop >= scrollHeight - 50) {
+    if (scrollTop + clientHeight >= scrollHeight - 1) {
+      $('.downRefreshText').show().text('加载更多');
+      setTimeout(function () { $('.downRefreshText').hide()}, 500);
       if (isScroll) {
-        //e.css('display','block')
-        $('.downRefreshText').show().text('加载更多');
-        setTimeout(function () {
-          $('.downRefreshText').hide()
-        }, 500);
         quicklyWord.start = quicklyWord.start + 10;
-        console.log("加载跟多方法执行=>", 'scrollHeight', scrollHeight, 'scrollTop', scrollTop, 'clientHeight', clientHeight)
+        console.log("加载更多方法执行=>", 'scrollHeight', scrollHeight, 'scrollTop', scrollTop, 'clientHeight', clientHeight)
         getQuickList(quicklyWord);
       }
     }
-    if (scrollTop == 0 && isScroll) {
-      console.log("刷新方法执行=>", 'scrollHeight', scrollHeight, 'scrollTop', scrollTop, 'clientHeight', clientHeight)
-      quicklyWord.start = 0;
-      getQuickList(quicklyWord);
-      $('.refresh').text('加载更多').show()
-      setTimeout(function () {
-        $('.refresh').hide()
-      }, 500);
+    if (scrollTop == 0) {
+      $('.refresh').text('刷新列表').show()
+      setTimeout(function () { $('.refresh').hide()}, 300);
+      if (isScroll) {
+        console.log("刷新方法执行=>", 'scrollHeight', scrollHeight, 'scrollTop', scrollTop, 'clientHeight', clientHeight)
+        quicklyWord.start = 0;
+        getQuickList(quicklyWord);
+      }
     }
-  });
-}, 500)
+ });
 /**
  * 分页部分结束
  * $(function () {
