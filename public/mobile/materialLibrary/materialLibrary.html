@@ -756,8 +756,8 @@
     let imageList = e.target.getAttribute('imageList');
     let index = e.target.getAttribute('index');
     if (imageList) {
-      buildSwiperImageList(imageList.split(','), parseInt(index) + 1);
-      bindLongTouch()
+      // buildSwiperImageList(imageList.split(','), parseInt(index) + 1);
+      // bindLongTouch()
     }
     // 图片轮播
     mySwiper = new Swiper('.swiper-container', {
@@ -765,6 +765,11 @@
       observeParents:true,//修改swiper的父元素时，自动初始化swiper
       // 轮播图的方向，也可以是 vertical 方向 | horizontal
       direction:'vertical',
+      // // 如果需要前进后退按钮
+      // navigation: {
+      //   nextEl: '.swiper-button-next',
+      //   prevEl: '.swiper-button-prev',
+      // },
       // 是否循环
       //loop: true,
       // 自动播放时间
@@ -774,12 +779,12 @@
       // 这样，即使我们滑动之后， 定时器也不会被清除
       //autoplayDisableOnInteraction : false,
       //loopAdditionalSlides : 0,
-      initialSlide: parseInt(index)
+      // initialSlide: parseInt(index),
       // onSlideChangeEnd: function(swiper){
       //   alert((swiper.activeIndex-1+3)%(3)); //切换结束时，告诉我现在是第几个slide
       // },
       // 如果需要分页器，即下面的小圆点
-      //pagination : '.swiper-pagination'
+      pagination : '.swiper-pagination'
     });
   })
   // 大图图片点击关闭
