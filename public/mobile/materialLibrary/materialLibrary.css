@@ -104,12 +104,8 @@ input {
   display: flex;
   padding: 15px;
   margin-bottom: 10px;
-  border-bottom: 1px solid #E8E8E8;
   background: #FFF;
   border-radius: 5px;
-}
-.item:last-child {
-  border-bottom: 0;
 }
 .page-radio {
   width: 20px;
