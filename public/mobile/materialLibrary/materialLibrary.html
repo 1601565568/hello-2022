@@ -156,6 +156,8 @@
   var _upRefreshText = document.querySelector('.upRefreshText');
   var _downRefreshText = document.querySelector('.downRefreshText');
   var timeOutEvent = 0;
+  var preHtml = '';
+  var searchable = true
 
   /**
    * @msg: 页面初始化加载事件
@@ -304,6 +306,9 @@
    * @msg: 初始化素材列表
    */
   function initMaterialList () {
+    if (!searchable) {
+      return 
+    }
     let $searchName = $('.searchbar__input');
     let selectedSubdivisionId = getSelectedSubdivisionId();
     this.ajax(apiRoot() + findMaterialListUrl,
@@ -579,6 +584,13 @@
     objE.innerHTML = nodelist;
     return objE.childNodes;
   }
+  function keepHtml() {
+    // preHtml = $(".material__list").html();
+    // alert(preHtml)
+  }
+  function resetHtml() {
+    // $(".material__list").html(preHtml);
+  }
   /**
    * @msg: 记录打开大图前的页面位置
    */
@@ -753,7 +765,9 @@
    * @msg: 图片点击大图
    */
   $(document).on('click', '.photowall__picture', function(e){
+    searchable = false
     keepPosition()
+    keepHtml();
     $('.page-status-bar').addClass('hidden');
     $('.material').addClass('hidden');
     $('.swiper-container').removeClass('hidden');
@@ -800,7 +814,10 @@
     $('.swiper-container').addClass('hidden');
     $('.page-status-bar').removeClass('hidden');
     $('.material').removeClass('hidden');
+    // resetHtml()
+    debugger
     resetPosition()
+    searchable = true
   })
   /**
    * @msg: 发送素材 文本 + 图片
