@@ -133,6 +133,7 @@
   // 选中的分组Id
   var selectedSubdivisionId = null
   var selectedSubdivisionName = "所有素材"
+  var imageSuffix = '?x-oss-process=image/resize,m_fill,h_100,w_100'
   // 选中的素材Id
   let selectedId = null
   var selectedMaterial = {}
@@ -143,12 +144,13 @@
   // 分页大小
   var pageStart = 0
   let pageSize = 15
+  // 图片轮播
   var mySwiper
+  // 页面滑动
   var scrollPos, height
   var _upRefreshText = document.querySelector('.upRefreshText');
   var _downRefreshText = document.querySelector('.downRefreshText');
-  var imageSuffix = '?x-oss-process=image/resize,m_fill,h_100,w_100'
-  var timeOutEvent=0;
+  var timeOutEvent = 0;
 
   /**
    * @msg: 页面初始化加载事件
@@ -156,20 +158,23 @@
    * 2、查询素材列表 & 组装素材列表数据 （素材分组类型：品牌/门店）
    */
   window.onload = function () {
-
     // document.addEventListener('touchmove',function(e){
     //   var canScroll=false;
     //   if(!canScroll){
     //     e.preventDefault()
     //   }
     // })
+    // 发送按钮不可点击
     setSendButton(0)
     // 下拉滚动事件注册
-    registerEvent()
+    registerScrollEvent()
     // 页面数据初始化
     this.init();
   }
-  function registerEvent () {
+  /**
+   * @msg: 页面滚动事件注册
+   */
+  function registerScrollEvent () {
     // var _element = document.getElementById('getMore'),
     // _startPos = 0,
     // _transitionHeight = 0;
@@ -388,6 +393,9 @@
         parseDom(buildListItem(materialId, content, imageList, datetime, type, subdivision, isSelected))[0], oldNode)
     }
   }
+  /**
+   * @msg: 绑定长按事件
+   */
   function bindLongTouch() {
     $("#touchArea").on({
         touchstart: function(e){
@@ -409,17 +417,23 @@
         }
     })
   }
+  /**
+   * @msg: 长按下载图片 
+   */
   function longPress(url){
       timeOutEvent = 0;
-      alert(url)
-      savePicture(url)
-      // alert("长按下载图片");
-      downloadFile(url)
+      // savePicture(url)
+      // downloadFile(url)
   }
+  /**
+   * @msg: 下载图片
+   */
   function downloadFile(url){
     window.open(url);
   }
-  var triggerEvent = "touchstart";
+  /**
+   * @msg: 下载图片
+   */
   function savePicture(Url){
       var blob=new Blob([''], {type:'application/octet-stream'});
       var url = URL.createObjectURL(blob);
@@ -766,11 +780,6 @@
       // },
       // 如果需要分页器，即下面的小圆点
       //pagination : '.swiper-pagination'
-    });
-    mySwiper.on('slideChangeTransitionEnd', function(){
-      // let txt = $('.swiper-slide-active').html();
-      // mySwiper.activeIndex 从2开始 imagesLoaded也多了2?
-      // $('.swiper-number').html((mySwiper.realIndex+1) + '/' + (parseInt(mySwiper.imagesLoaded)));
     });
   })
   // 大图图片点击关闭
