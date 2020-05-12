@@ -290,7 +290,7 @@
           if (this.subdivisionList && this.subdivisionList.length > 0) {
             this.subdivisionList.forEach(function(subdivision,index,arr){
               html +=
-                '<div class="float-select__item">' +
+                '<div class="float-select__item"' + '>' +
                   '<div class="float-select__content">' + subdivision.subdivision_name + '</div>' +
                   '<div class="subdivision__class page-radio" subdivision-name="' + subdivision.subdivision_name + '" subdivision-id="' + subdivision.subdivision_id + '"></div>' +
                 '</div>';
@@ -705,6 +705,9 @@
   //   showCopyMsg(true)
   // })
   // 分组radio选择 动态dom元素事件监听
+  $(document).on('click', '.float-select__content', function(e){
+    $("#bbbb").trigger("click")
+  })
   $(document).on('click', '.subdivision__class', function(e){
     let selectedSubdivisionId = getSelectedSubdivisionId()
     let tempId = $(e.target).attr("subdivision-id");
@@ -781,6 +784,7 @@
     }
     // 图片轮播
     mySwiper = new Swiper('.swiper-container', {
+      autoHeight: true, //高度随内容变化
       observer:true,//修改swiper自己或子元素时，自动初始化swiper
       observeParents:true,//修改swiper的父元素时，自动初始化swiper
       // 轮播图的方向，也可以是 vertical 方向 | horizontal
