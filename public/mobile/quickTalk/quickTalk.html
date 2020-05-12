@@ -25,8 +25,8 @@
     <div class="searchbar">
 <!--      <i class='iconfont icon-ns-search searchbar__icon' onclick="searchWord(this)"></i>-->
       <i class='iconfont icon-ns-search searchbar__icon' ></i>
-      <input type="text" placeholder="搜索话术内容" value=""   onkeyup="if(event.keyCode==13) {fn()}"  onfocus="setClearSecdButtn(0)"  onfocusout="setClearSecdButtn(1)"
-             id="searchbarValue" class="searchbar__input"  />
+      <input type="text" placeholder="搜索话术内容" value=""   onkeyup="if(event.keyCode==13) {fn()}"  onfocus="setClearSecdButtn(0)"
+             onfocusout="setClearSecdButtn(1)" id="searchbarValue"  class="searchbar__input"  />
       <i class='iconfont icon-shanchu1 searchbar__icon' style="margin-left: 0" id='clearSecdId' style="display: none" onclick="clearSearth()"></i>
     </div>
   </div>
@@ -48,7 +48,7 @@
   <div class="quick__list"></div>
   <!-- 快捷话术列表 end -->
   <!-- 上拉加载更多 start-->
-  <div class="prompt downRefreshText"></div>
+  <div class="prompt downRefreshText" style="height: 20px"></div>
   <!-- 上拉加载更多 end-->
 
 
@@ -62,7 +62,7 @@
 
   <!-- 发送按钮 start -->
   <div class="quick__btn">
-    <div class="send" onclick="sendWord()">发送</div>
+    <div class="send" style="pointer-events:none;background:#BEBFC3" onclick="sendWord()">发送</div>
   </div>
   <!-- 发送按钮 end -->
 </div>

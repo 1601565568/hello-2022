@@ -9,60 +9,108 @@ var sgGuideExt = {
 };
 var quicklyWord;
 var isScroll = true;
-window.onload = function () {
-  window.scrollTo(document.body.scrollWidth, 500);
+/**
+ * 初始加载事件
+ *
+ */
+$(function () {
+   initInterface();
+});
+function initInterface() {
+  $('#clearSecdId').hide();
   searchWord(1);
   $('#cancelSecdId').css('display', 'none')
-  $('.send').css("background", "#BEBFC3");
-  $(".send").css({"pointer-events": "none"});
-  getQuickListMenu(sgGuideExt);
   //加载更多提示
   $('.downRefreshText').hide();
   $('.refresh').hide();
-};
-
-function sendWord() {
-  let id = $('.item__radio--selected').attr('id').replace(/[^0-9]/ig, '');
-  let content = $('#word' + id).text();
-  let url = '{"type":1,"content":"' + content + '","exit":true}';
-  console.log("提交路径==》" + host + url);
-  window.location.href = host + url;
+  //加载菜单
+  getQuickListMenu(quicklyWord);
 }
 
-/*
- 取消发送
-*/
-function cancelSend() {
-  window.location.href = host + cancelParams;
+/**
+ * 滚动事件控制
+ */
+function isFunScroll(e) {
+    if(e){
+      isScroll=true
+      setTimeout(function () {isScroll=false},1000)
+    }else {
+      isScroll=false
+      setTimeout(function () {isScroll=true},1000)
+    }
 }
 
-//设置清除按钮
+/**
+ * 回车 触发事件
+ */
+function fn() {
+  $('#groupAll').click();
+}
+
+/**
+ * 搜索清除图标 处理
+ */
+$(function () {
+  $("#searchbarValue").bind('input propertychange', function() {
+    var a = $("#searchbarValue").val();
+    // console.log("搜索框输入值-",a)
+    if (a == '') {
+      $('#clearSecdId').hide();
+    }else{
+      //显示清空搜索框按钮
+      $('#clearSecdId').show();
+    }
+  })
+})
+// 搜索框
+function searchWord(e) {
+  $('#groupAll').click();
+}
+// 清除搜索框
+function clearSearth() {
+  $('.searchbar__input').val('');
+  setClearSecdButtn(1);
+}
+/**
+ * 设置清除按钮
+ */
 function setClearSecdButtn(e) {
   let searchbarValue = $('#searchbarValue').val();
-  if (e == 0) {
-    //显示清空搜索框按钮
-    $('#clearSecdId').show();
-    return;
-  }
   if (e == 1 && searchbarValue == '') {
     $('#clearSecdId').hide();
     $('.searchbar__input').val('');
     return;
   }
 }
-// 搜索框
-function searchWord(e) {
-  $('#groupAll').click();
+/**
+ * 是否显示列表
+ */
+function isShowList(e) {
+    if(e){
+      $('.quick__list').show();
+      $('.quick__noData').hide();
+    }else {
+      $('.quick__list').hide();
+      $('.quick__noData').show();
+      }
 }
 
-// 清除搜索框
-function clearSearth() {
-  $('.searchbar__input').val('');
-  setClearSecdButtn(1);
-  $('#groupAll').click();
+/**
+ * 取消发送
+ */
+function cancelSend() {
+  window.location.href = host + cancelParams;
 }
-
-// 处理发送按钮
+function sendWord() {
+  let id = $('.item__radio--selected').attr('id').replace(/[^0-9]/ig, '');
+  let content = $('#word' + id).text();
+  let url = '{"type":1,"content":"' + content + '","exit":true}';
+  window.location.href = host + url;
+}
+/**
+ * 发送
+ * @param e
+ */
 function setSendButton(e) {
   if (e == 1) {
     $('.send').css("background", "#1876FC");
@@ -71,6 +119,15 @@ function setSendButton(e) {
     $('.send').css("background", "#BEBFC3");
     $(".send").css({"pointer-events": "none"});
   }
+}
+
+/**
+ * 当前话术元素size
+ * @param e
+ */
+function getQuickListSize() {
+   //let listSize=$('.item__radio').length;
+   return $('.item__radio').length;
 }
 
 // 点击单选框 选中话术
@@ -105,7 +162,6 @@ function clickWordByWord(e) {
 function clickEvent(e) {
   isScroll = false;
   setTimeout(function () { isScroll = true;}, 500)
-  let thisE = $(e);
   listCount = 0;
   let thisElement = $(e);
   quicklyWord = {
@@ -124,7 +180,6 @@ function clickEvent(e) {
     getQuickList(quicklyWord)
   }
 }
-
 // 获取集团id下的所有话术类别 并显示
 function getQuickListMenu(sgGuideExt) {
   $.ajax({
@@ -136,25 +191,21 @@ function getQuickListMenu(sgGuideExt) {
     contentType: 'application/json;charset=UTF-8',
     success: function (result) {
       if (result.result.length > 0) {
-        // value数组中的当前项, index当前项的索引, array原始数组
-        result.result.forEach((item, index, array) => {
-          $('.quick__list').show();
-          $('.quick__noData').hide();
+          // value数组中的当前项, index当前项的索引, array原始数组
+          result.result.forEach((item, index, array) => {
           $('.tabs').append("<div id=" + item.id + "  class='tabs__pane' onClick='clickEvent(this)'>" + item.name + "</div>");
-          // $('.tabs').append("<div id="+item.id+"  class='tabs__pane'>"+item.name+"</div>");
         })
       }
     },
     error: function (result) {
-      $('.quick__list').hide();
-      $('.quick__noData').show();
+      isShowList(false);
     }
   })
 }
-
 // 获取分页数据
 function getQuickList(quicklyWord) {
-  isScroll = false;
+  //debugger
+  isFunScroll(false);
   if (quicklyWord.start == 0) {
     $('.quick__list').empty();
   }
@@ -167,9 +218,8 @@ function getQuickList(quicklyWord) {
     cache: false,
     contentType: 'application/json;charset=UTF-8',
     success: function (result) {
-      if (result.result.length > 0) {
-        // // value数组中的当前项, index当前项的索引, array原始数组
-        console.log('请求后台数据', "数据长度=》", result.result.length)
+      let resultSize=result.result.length;
+      if(resultSize > 0){
         result.result.forEach((item, index, array) => {
           if (item !== '') {
             $('.quick__list').append("<div class='item'>" +
@@ -179,28 +229,23 @@ function getQuickList(quicklyWord) {
             $('#word' + item.id).text(item.content);
           }
         });
-        $('.quick__noData').hide();
-        $('.quick__list').show();
-        setTimeout(function () {isScroll=true},1000)
+        isShowList(true);
+        isFunScroll(false);
       }
-      if (result.result.length == 0) {
-        var idArr = $('.item__text');
-        setTimeout(function () {isScroll=true},1000)
-        if (idArr.length <= 0) {
-          setTimeout(function () {$('.quick__noData').show();}, 500);
-          $('.quick__list').hide();
-          $('.downRefreshText').hide();
+      if (resultSize <= 0 ) {
+        isScroll=false
+        if(getQuickListSize()>0){
+          isShowList(true);
+          controlLoad('暂无您要找的快捷话术');
+        }else {
+          isShowList(false);
         }
       }
     },
     error: function (result) {
-      $('.quick__list').hide();
-      $('.quick__noData').show();
+      isShowList(false);
     }
   })
-}
-function fn() {
-  $('#groupAll').click();
 }
 
 /**
@@ -227,6 +272,21 @@ $(window).resize(function () {
   // var clientHeight = document.documentElement.clientHeight;
  *
  */
+/**
+ * 加载更多 提示信息控制
+ */
+function controlLoad(text){
+  $('.downRefreshText').show().text(text);
+  setTimeout(function () { $('.downRefreshText').hide()}, 800);
+}
+
+/**
+ * 刷新列表 提示信息控制
+ */
+function controlRefres(text){
+  $('.refresh').text(text).show()
+  setTimeout(function () { $('.refresh').hide()}, 300);
+}
 // 滑动事件
   $(window).scroll(function () {
     // 文档内容实际高度（包括超出视窗的溢出部分） 当前页面的高度
@@ -236,19 +296,17 @@ $(window).resize(function () {
     // 可视页面的高度
     var clientHeight = $(this).height();
     // debugger
-    if (scrollTop + clientHeight >= scrollHeight - 1) {
-      $('.downRefreshText').show().text('加载更多');
-      setTimeout(function () { $('.downRefreshText').hide()}, 500);
+    if (scrollTop + clientHeight >= scrollHeight-1) {
       if (isScroll) {
-        quicklyWord.start = quicklyWord.start + 10;
-        console.log("加载更多方法执行=>", 'scrollHeight', scrollHeight, 'scrollTop', scrollTop, 'clientHeight', clientHeight)
-        getQuickList(quicklyWord);
+          controlLoad('加载更多') ;
+          quicklyWord.start = quicklyWord.start + 10;
+          console.log("加载更多方法执行=>", 'scrollHeight', scrollHeight, 'scrollTop', scrollTop, 'clientHeight', clientHeight)
+          getQuickList(quicklyWord);
       }
     }
     if (scrollTop == 0) {
-      $('.refresh').text('刷新列表').show()
-      setTimeout(function () { $('.refresh').hide()}, 300);
       if (isScroll) {
+        controlRefres('刷新列表');
         console.log("刷新方法执行=>", 'scrollHeight', scrollHeight, 'scrollTop', scrollTop, 'clientHeight', clientHeight)
         quicklyWord.start = 0;
         getQuickList(quicklyWord);
@@ -257,14 +315,4 @@ $(window).resize(function () {
  });
 /**
  * 分页部分结束
- * $(function () {
-  console.log("文档内容实际高度   scrollHeight=>", document.documentElement.scrollHeight)
-  console.log("滚动条滚动距离     scrollTop=>", document.documentElement.scrollTop)
-  console.log("窗口可视范围高度   clientHeight=>", document.documentElement.clientHeight)
-  // //document.documentElement.scrollTop=100;
-  // $('window').scrollLeft(100);
-  // console.log("scrollTop=>", document.documentElement.scrollTop)
-})
- *
- *
  */
