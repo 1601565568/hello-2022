@@ -397,7 +397,7 @@ input {
 .swiper-container {
   width: 100%;
   height: auto;
-  padding-top: 50px;
+  padding-top: 50px !important;
 }
 .swiper-slide {
   display: -webkit-box;
