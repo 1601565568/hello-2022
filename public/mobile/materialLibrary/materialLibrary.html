@@ -841,6 +841,9 @@
    * 图片：'{"type":2,"picUrl":"图片大图链接地址","smallPicUrl":"图片缩略图链接地址","exit":true}'
    */
   $('.send').click(function () {
+    if (loading) {
+      return
+    }
     let content
     let textDelay = 300
     if (!selectedMaterial) {
