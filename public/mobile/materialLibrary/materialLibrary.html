@@ -34,7 +34,7 @@
   <div class="material__search page-fixed">
     <div class="searchbar">
       <i class='iconfont icon-ns-search searchbar__icon'></i>
-      <input type="text" placeholder="输入素材推广文案/文章标题" value="" class="searchbar__input" onchange="resetParam(),initMaterialList(this)" /><!--onblur="alert('blur')" -->
+      <input type="text" placeholder="输入素材推广文案/文章标题" value="" class="searchbar__input" onkeyup="if(event.keyCode==13) {resetParam();initMaterialList(this)}" onchange="" /><!--onblur="alert('blur')" -->
       <i class='iconfont icon-shanchu1 searchbar__icon'></i>
     </div>
   </div>
@@ -586,7 +586,6 @@
         '<img onclick="closeSwiper()" src="' + image + '" alt="素材库图片" class="full-img">' +
       '</div>';
     })
-    debugger
     $('.swiper-wrapper').html(html);
   }
   /**
