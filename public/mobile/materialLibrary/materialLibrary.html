@@ -320,6 +320,8 @@
     let selectedSubdivisionId = getSelectedSubdivisionId();
     // 加载中
     loading = true
+    // 查询中不允许发送
+    setSendButton(0)
     this.ajax(apiRoot() + findMaterialListUrl,
       {
         wxId: wxId,   // 链接直接获取
@@ -841,14 +843,11 @@
    * 图片：'{"type":2,"picUrl":"图片大图链接地址","smallPicUrl":"图片缩略图链接地址","exit":true}'
    */
   $('.send').click(function () {
-    if (loading) {
-      return
-    }
-    let content
-    let textDelay = 300
-    if (!selectedMaterial) {
+    if (loading || !selectedMaterial) {
       return
     };
+    let content
+    let textDelay = 300
     // 按钮不可点击
     setSendButton(0)
     if (selectedMaterial.imageList && selectedMaterial.imageList !== '') {
