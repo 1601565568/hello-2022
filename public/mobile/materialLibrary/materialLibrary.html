@@ -159,6 +159,8 @@
   var timeOutEvent = 0;
   var preHtml = '';
   var searchable = true
+  var loading = false
+  var noMore = false
 
   /**
    * @msg: 页面初始化加载事件
@@ -265,6 +267,8 @@
    */
   function resetParam() {
     pageStart = 0
+    loading = false
+    noMore = false
     $(".material__list").html('');
     _upRefreshText.innerText = '';
     _downRefreshText.innerText = '';
@@ -298,6 +302,7 @@
           }
           $(".float-select").html(html);
         } else {
+          loading = false
           // 跳转错误页
           toError(3, error && error.msg ? error.msg : '')
         }
@@ -307,11 +312,13 @@
    * @msg: 初始化素材列表
    */
   function initMaterialList () {
-    if (!searchable) {
-      return 
+    if (!searchable || loading || noMore) {
+      return
     }
     let $searchName = $('.searchbar__input');
     let selectedSubdivisionId = getSelectedSubdivisionId();
+    // 加载中
+    loading = true
     this.ajax(apiRoot() + findMaterialListUrl,
       {
         wxId: wxId,   // 链接直接获取
@@ -332,6 +339,7 @@
             _downRefreshText.innerText = "上滑加载更多"
           } else if (result.result.length > 0 || (pageStart !== 0 && result.result.length === 0 )) {
             _downRefreshText.innerText = "没有更多了"
+            noMore = true
           }
           // 素材列表组装 & 展示
           if (materialList && materialList.length > 0) {
@@ -358,6 +366,7 @@
             } else {
               $(".material__list").html(html);
             }
+            loading = false
 
             // 异步生成二维码
             materialList.forEach(function(material,index,arr){
@@ -384,6 +393,7 @@
             })
             return
           } else {
+            loading = false
             if (pageStart === 0) {
               setSendButton(0)
               // 暂无数据
