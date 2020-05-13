@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1, maximum-scale=2.0, user-scalable=no" />
+    <meta http-equiv="Cache-Control"  content="no-siteapp" />
+    <meta name="format-detection" content="telephone=no" />
+    <link rel="stylesheet" href="addWeWorkFriend.css">
+    <title>添加好友页面</title>
+</head>
+<body>
+<div class="addfriend">
+    <div class="addfriend__success" id="addFriendSuccess">
+        <img src="../img/icons/duigou.png" alt="对勾">
+        开卡成功
+    </div>
+    <div class="addfriend__content">
+        <div class="content">
+            <div class="content__avatar">
+                 <!-- 动态图片 -->
+                <img id="guideImg" src="../img/expression/memberDefault.png" alt="导购头像" class="avatarimg">
+                <!-- 默认图片 -->
+                <!--<img src="../img/expression/memberDefault.png" alt="用户头像" class="defaultimg">-->
+            </div>
+            <div class="content__exclusive">专属导购</div>
+            <div id="guideName" class="content__username"></div>
+            <div class="content__msg">
+                <div class="msg">
+                    <div class="msg__circle"></div>
+                    <div class="msg__text">"你好，我是您的专属导购<span id="guideName1"></span>，有什么问题随时可以咨询哦！”</div>
+                </div>
+            </div>
+            <div class="content__division">
+                <div class="division">
+                    <div class="division__line"></div>
+                    <div class="division__circle division__circle--left"></div>
+                    <div class="division__circle division__circle--right"></div>
+                </div>
+            </div>
+            <div class="content__qrcode">
+                <img id="guideQrCode" src="../img/expression/memberQrcode2.png" alt="二维码" class="qrcodeimg">
+            </div>
+            <div class="content__become">长按识别二维码添加为好友</div>
+            <div class="content__bottom">
+                <img src="../img/expression/halfcircle.png" alt="底部半圆" class="circleimg">
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="../js/jquery-3.4.1.min.js"></script>
+<script type="text/javascript" src="../js/common.js"></script>
+<script>
+    $(document).ready(function () {
+        var guideData = JSON.parse(localStorage.getItem('guideData'));
+        if (guideData) {
+            if(guideData.image){
+                $('#guideImg').attr("src", guideData.image)
+            }
+            $('#guideName').html(guideData.name);
+            $('#guideName1').html(guideData.name);
+            $('#guideQrCode').attr('src', guideData.qrCode)
+        }
+        setTimeout($('#addFriendSuccess').fadeOut("slow"),60000);
+    })
+</script>
+</body>
+</html>

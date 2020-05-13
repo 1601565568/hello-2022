@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta content="user-scalable=no" id="viewport" name="viewport" />
+    <meta content="width=device-width, initial-scale=1.0, minimum-scale=1, maximum-scale=2.0, user-scalable=no"
+          id="divport" name="viewport" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta name="format-detection" content="telephone=no" />
+    <link rel="stylesheet" href="./customerDetails/index.css">
+    <title>错误</title>
+</head>
+<body>
+<div style='vertical-align: middle;
+    font-size: 32px;
+    text-align: center;
+    margin-top: 50%;' class='error'>
+
+</div>
+</body>
+<script type="text/javascript" src="./js/jquery-3.4.1.min.js"></script>
+<script type="text/javascript" src="./js/common.js"></script>
+<script>
+    $(function () {
+        const type = getPar('type')
+        let message = getPar('message')
+        message = message ? decodeURIComponent(message) : '未知异常'
+        $('.error').html(message)
+    })
+</script>
+</html>
