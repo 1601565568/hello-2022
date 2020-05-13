@@ -587,7 +587,52 @@
       '</div>';
     })
     $('.swiper-wrapper').html(html);
+    // setTimeout(function(){swiperCss();}, 100)
+    setTimeout(function(){newSwiperCss();}, 100)
   }
+  /**
+   * @msg: 旧版处理方式
+   */
+  function swiperCss() {
+    var clientHeight = window.innerHeight || Math.min(document.documentElement.clientHeight, document.body.clientHeight);
+    $('.swiper-slide').each(function(i,e){
+      let $img = $(e).children();
+      imageHeight = $img[0].clientHeight
+      console.info(imageHeight + "|" + clientHeight + "|" + imageHeight < clientHeight)
+      if (imageHeight < clientHeight) {
+        $img.parent().addClass('swiper-slide--center');
+      }
+    })
+  }
+  /**
+   * @msg: 巧玲提供
+   */
+  function newSwiperCss() {
+    // 判断图片是否超过一屏幕
+    $("img.full-img").each(function(){
+      debugger
+      var screenHeight= $(window).height() - 50;
+      var screenWidth= $(window).width();
+      var that = $(this);
+      //这里使用的jquery新建一个img对象进行添加attr属性,把src添加上去,然后进行载入事件
+      $("<img />").attr("src", this.src).on("load", function () {
+        //这里的width和height就是图片实际的宽高了
+        var imgw = this.width;
+        var imgh = this.height;
+        if (imgh * (screenWidth / imgw) > screenHeight) {
+          that.parent().addClass('swiper-slide--top');
+        }
+      });
+    });
+  }
+  // function activeSwiperCss() {
+  //   let $img = $("swiper-slide-active").children;
+  //   let imageHeight = $img[0].naturalHeight
+  //   console.info(imageHeight + "|" + clientHeight)
+  //   if (imageHeight < clientHeight) {
+  //     $img.addClass('swiper-slide--center');
+  //   }
+  // }
   /**
    * @msg: 根据dom节点字串生成node
    */
