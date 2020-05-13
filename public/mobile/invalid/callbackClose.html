@@ -33,7 +33,6 @@
             guideId: guideId
         }).then(function (result) {
             if (result.success) {
-              debugger
                 localStorage.setItem('guideData', JSON.stringify(result.result))
                 // 根据不同来源，开卡成功后根据来源跳转不同页面（1关注公众号，2微信加好友）
                 if(skipType == 1) {
