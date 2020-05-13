@@ -246,9 +246,10 @@
    * @msg: 页面数据初始化
    */
   function init() {
+    debugger
     // 获取当前员工的微信ID
     wxId = getPar('wxId')
-    delay = getPar('delay')
+    delay = parseInt(getPar('delay'))
     if (!wxId) {
         toError(3, '参数错误：个人号微信号不允许为空')
         return
