@@ -34,7 +34,7 @@
   <div class="material__search page-fixed">
     <div class="searchbar">
       <i class='iconfont icon-ns-search searchbar__icon'></i>
-      <input type="text" placeholder="输入素材推广文案/文章标题" value="" class="searchbar__input" onchange="resetParam(),initMaterialList(this)" /><!--onblur="alert('blur')" -->
+      <input type="text" placeholder="输入素材推广文案" value="" class="searchbar__input" onkeyup="if(event.keyCode==13) {resetParam();initMaterialList(this)}"/><!--onblur="alert('blur')" -->
       <i class='iconfont icon-shanchu1 searchbar__icon'></i>
     </div>
   </div>
@@ -246,7 +246,6 @@
    * @msg: 页面数据初始化
    */
   function init() {
-    debugger
     // 获取当前员工的微信ID
     wxId = getPar('wxId')
     delay = parseInt(getPar('delay'))
@@ -421,25 +420,25 @@
    * @msg: 绑定长按事件
    */
   function bindLongTouch() {
-    $("#touchArea").on({
-        touchstart: function(e){
-            timeOutEvent = setTimeout(function(){
-              longPress($(e.target).attr("src"))
-            },500);
-            e.preventDefault();
-        },
-        touchmove: function(){
-            clearTimeout(timeOutEvent);
-            timeOutEvent = 0;
-        },
-        touchend: function(){
-            clearTimeout(timeOutEvent);
-            if(timeOutEvent!=0){
-                // alert("你这是点击，不是长按");
-            }
-            return false;
-        }
-    })
+    // $("#touchArea").on({
+    //     touchstart: function(e){
+    //         timeOutEvent = setTimeout(function(){
+    //           longPress($(e.target).attr("src"))
+    //         },500);
+    //         e.preventDefault();
+    //     },
+    //     touchmove: function(){
+    //         clearTimeout(timeOutEvent);
+    //         timeOutEvent = 0;
+    //     },
+    //     touchend: function(){
+    //         clearTimeout(timeOutEvent);
+    //         if(timeOutEvent!=0){
+    //             // alert("你这是点击，不是长按");
+    //         }
+    //         return false;
+    //     }
+    // })
   }
   /**
    * @msg: 长按下载图片 
@@ -584,11 +583,10 @@
     imageList.forEach(function(image,index,arr){
       html +=
       '<div class="swiper-slide">' +
-        '<img id="touchArea" src="' + image + '" alt="素材库图片" class="full-img">' +
+        '<img onclick="closeSwiper()" src="' + image + '" alt="素材库图片" class="full-img">' +
       '</div>';
     })
     $('.swiper-wrapper').html(html);
-    // $('.swiper-number').html(i + '/' + imageList.length);
   }
   /**
    * @msg: 根据dom节点字串生成node
@@ -648,6 +646,16 @@
         $(this).parent().siblings(".subCategoryMore").css("display","block");
       }
     });
+  }
+  /**
+   * @msg: 关闭大图
+   */
+  function closeSwiper() {
+    $('.swiper-container').addClass('hidden');
+    $('.page-status-bar').removeClass('hidden');
+    $('.material').removeClass('hidden');
+    resetPosition()
+    searchable = true
   }
   /**
     * 事件绑定
@@ -827,14 +835,12 @@
       // }
     });
   })
+  $(document).on('click', '.swiper-slide', function(e){
+    closeSwiper()
+  })
   // 大图图片点击关闭
   $(document).on('click', '.swiper-return', function(e){
-    $('.swiper-container').addClass('hidden');
-    $('.page-status-bar').removeClass('hidden');
-    $('.material').removeClass('hidden');
-    // resetHtml()
-    resetPosition()
-    searchable = true
+    closeSwiper()
   })
   /**
    * @msg: 发送素材 文本 + 图片
