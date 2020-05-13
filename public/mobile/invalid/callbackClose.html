@@ -16,38 +16,27 @@
 <script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.4.0.js"></script>
 <script>
     $(document).ready(function () {
-        var nick = getPar('nick');
-        var groupId = getPar('groupId');
-        var shopId = getPar('shopId');
-        var scanSource = getPar('scanSource');
-        if (nick && groupId && shopId && scanSource) {
-            getNewCustomerInfo(nick,groupId,shopId,scanSource)
+        var groupId = getPar('groupId'); // 集团id
+        var guideId = getPar('guideId'); // 导购id
+        var skipType = getPar('skipType'); // 跳转类型 ： 0 会员卡（代码处理） 1企微导购二维码
+        if (groupId && guideId && skipType) {
+            getNewCustomerInfo(groupId,guideId,skipType)
         } else {
             // 参数缺失
             wx.closeWindow();
             window.close();
         }
     })
-    function getNewCustomerInfo(nick,groupId,shopId,scanSource) {
-        this.ajax(backstageURL() + '/guideRecruit/getNewCustomerInfo', {
-            nick: nick,
-            shopId: shopId,
+    function getNewCustomerInfo(groupId,guideId,skipType) {
+        this.ajax(backstageURL() + '/guideRecruit/getWeWorkGuideInfo', {
             groupId: groupId,
+            guideId: guideId
         }).then(function (result) {
             if (result.success) {
-                localStorage.setItem('showData', JSON.stringify(result.result))
-                // 跳转开卡成功页面
-                if(result.result.pointAdd || result.result.pointAttention){
-                    // 根据不同来源，开卡成功后根据来源跳转不同页面（1关注公众号，2微信加好友）
-                    if(scanSource == 1){
-                        window.location.replace("/mobile/addFriend/addFriend.html");
-                    }else{
-                        //
-                        window.location.replace("/mobile/successfulCardOpening/successfulCardOpening.html");
-                    }
-                }else{
-                    // 跳转不关注公众号，不加好友成功页面
-                    window.location.replace("/mobile/sameGuide/successNo.html");
+                localStorage.setItem('guideData', JSON.stringify(result.result))
+                // 根据不同来源，开卡成功后根据来源跳转不同页面（1关注公众号，2微信加好友）
+                if(skipType == 1) {
+                  window.location.replace("/mobile/addWeWorkFriend/addWeWorkFriend.html");
                 }
             }
         })
