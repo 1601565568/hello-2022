@@ -598,7 +598,7 @@
     $('.swiper-slide').each(function(i,e){
       let $img = $(e).children();
       imageHeight = $img[0].clientHeight
-      console.info(imageHeight + "|" + clientHeight + "|" + imageHeight < clientHeight)
+      // console.info(imageHeight + "|" + clientHeight + "|" + imageHeight < clientHeight)
       if (imageHeight < clientHeight) {
         $img.parent().addClass('swiper-slide--center');
       }
@@ -610,7 +610,6 @@
   function newSwiperCss() {
     // 判断图片是否超过一屏幕
     $("img.full-img").each(function(){
-      debugger
       var screenHeight= $(window).height() - 50;
       var screenWidth= $(window).width();
       var that = $(this);
