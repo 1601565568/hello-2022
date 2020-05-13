@@ -415,6 +415,10 @@ input {
   align-items: center;
   overflow: auto;
 }
+.swiper-slide--top {
+  display: unset;
+  align-items: unset;
+}
 .full-img {
   width: 100%;
   height: auto;
