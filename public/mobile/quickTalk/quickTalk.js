@@ -70,6 +70,7 @@ function searchWord(e) {
 function clearSearth() {
   $('.searchbar__input').val('');
   setClearSecdButtn(1);
+  $('#groupAll').click();
 }
 /**
  * 设置清除按钮
@@ -300,16 +301,16 @@ function controlRefres(text){
       if (isScroll) {
           controlLoad('加载更多') ;
           quicklyWord.start = quicklyWord.start + 10;
-          console.log("加载更多方法执行=>", 'scrollHeight', scrollHeight, 'scrollTop', scrollTop, 'clientHeight', clientHeight)
+         // console.log("加载更多方法执行=>", 'scrollHeight', scrollHeight, 'scrollTop', scrollTop, 'clientHeight', clientHeight)
           getQuickList(quicklyWord);
       }
     }
     if (scrollTop == 0) {
       if (isScroll) {
-        controlRefres('刷新列表');
-        console.log("刷新方法执行=>", 'scrollHeight', scrollHeight, 'scrollTop', scrollTop, 'clientHeight', clientHeight)
-        quicklyWord.start = 0;
-        getQuickList(quicklyWord);
+          controlRefres('刷新列表');
+         // console.log("刷新方法执行=>", 'scrollHeight', scrollHeight, 'scrollTop', scrollTop, 'clientHeight', clientHeight)
+          quicklyWord.start = 0;
+          getQuickList(quicklyWord);
       }
     }
  });
