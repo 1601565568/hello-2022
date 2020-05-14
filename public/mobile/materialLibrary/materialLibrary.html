@@ -235,6 +235,9 @@
 
     if (clientHeight + scrollTop >= scrollHeight) {
       let _refreshText = document.querySelector('.refreshText');
+      if (!searchable || loading || noMore) {
+        return
+      }
       initMaterialList(++pageStart)
     }
     // if(scrollTop == 0){
@@ -272,6 +275,7 @@
     pageStart = 0
     loading = false
     noMore = false
+    selectedId = null
     $(".material__list").html('');
     _upRefreshText.innerText = '';
     _downRefreshText.innerText = '';
@@ -318,13 +322,11 @@
     if (!searchable || loading || noMore) {
       return
     }
-    // 重新搜索后,素材选中状态清空
-    setSendButton(0)
     let $searchName = $('.searchbar__input');
     let selectedSubdivisionId = getSelectedSubdivisionId();
     // 加载中
     loading = true
-    // 查询中不允许发送
+    // 查询中不允许发送 | 重新搜索后,素材选中状态清空
     setSendButton(0)
     this.ajax(appUrl + findMaterialListUrl,
       {
@@ -350,6 +352,9 @@
           }
           // 素材列表组装 & 展示
           if (materialList && materialList.length > 0) {
+            if (pageStart > 1 && selectedId) {
+              setSendButton(1)
+            }
             showNoData(false)
             groupId = materialList[0].brandId
             let html = '';
@@ -378,23 +383,23 @@
             materialList.forEach(function(material,index,arr){
               if(material.codeTarget && material.m_type === 1){
                 let params = {groupId: groupId, materialId : material.id, wxId : wxId}
-                this.ajax(appUrl + getAppletImageUrl, params).then(res =>{
-                  if (res.success) {
-                    replaceListItem(
-                      material.id,
-                      material.content,
-                      res.result,
-                      material.create_time, // 时间
-                      "品牌",     // 品牌 or 门店
-                      material.subdivision_name ? material.subdivision_name : '-',
-                      false
-                    );
-                  // 判断素材组标题超过三行显示图标
-                  subCategory();
-                  } else {
-                    toError(3, res.msg ? res.msg : '')
-                  }
-                })
+                // this.ajax(appUrl + getAppletImageUrl, params).then(res =>{
+                //   if (res.success) {
+                //     replaceListItem(
+                //       material.id,
+                //       material.content,
+                //       res.result,
+                //       material.create_time, // 时间
+                //       "品牌",     // 品牌 or 门店
+                //       material.subdivision_name ? material.subdivision_name : '-',
+                //       false
+                //     );
+                //   // 判断素材组标题超过三行显示图标
+                //   subCategory();
+                //   } else {
+                //     toError(3, res.msg ? res.msg : '')
+                //   }
+                // })
               }
             })
             return
