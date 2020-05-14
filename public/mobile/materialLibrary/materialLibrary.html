@@ -123,6 +123,7 @@
 <script type="text/javascript" src="../js/common.js"></script>
 <script>
   var host = "ecrp://send?params="
+  var appUrl
   var delay // 发送好友消息延迟间隔时间
   // 查询素材分组URL
   let findSubdivisionListUrl = '/wx/material/findH5SubdivisionList';
@@ -174,8 +175,10 @@
     //     e.preventDefault()
     //   }
     // })
+    // 小程序api根路径
+    appUrl = apiRoot()
     // 发送按钮不可点击
-    setSendButton(0)
+    // setSendButton(0)
     // 下拉滚动事件注册
     registerScrollEvent()
     // 页面数据初始化
@@ -278,7 +281,7 @@
    * @msg: 初始化分组列表
    */
    function initSubdivisionList() {
-    this.ajax(apiRoot() + findSubdivisionListUrl,
+    this.ajax(appUrl + findSubdivisionListUrl,
       {
         wxId: wxId,   // 链接直接获取
       }).then(function (result) {
@@ -315,13 +318,15 @@
     if (!searchable || loading || noMore) {
       return
     }
+    // 重新搜索后,素材选中状态清空
+    setSendButton(0)
     let $searchName = $('.searchbar__input');
     let selectedSubdivisionId = getSelectedSubdivisionId();
     // 加载中
     loading = true
     // 查询中不允许发送
     setSendButton(0)
-    this.ajax(apiRoot() + findMaterialListUrl,
+    this.ajax(appUrl + findMaterialListUrl,
       {
         wxId: wxId,   // 链接直接获取
         searchName: $searchName.val().trim(),
@@ -356,13 +361,12 @@
                 material.create_time, // 时间
                 "品牌",     // 品牌 or 门店
                 material.subdivision_name ? material.subdivision_name : '-',
-                index === 0 && pageStart === 0
+                false // 不默认选中 index === 0 && pageStart === 0
                 );
             })
             // 判断素材组标题超过三行显示图标
             subCategory();
-            // 按钮修改为可用
-            setSendButton(1)
+            // 按钮修改为可用 setSendButton(1)
             if (pageStart > 0) {
               $(".material__list").append(html);
             } else {
@@ -374,7 +378,7 @@
             materialList.forEach(function(material,index,arr){
               if(material.codeTarget && material.m_type === 1){
                 let params = {groupId: groupId, materialId : material.id, wxId : wxId}
-                this.ajax(apiRoot() + getAppletImageUrl, params).then(res =>{
+                this.ajax(appUrl + getAppletImageUrl, params).then(res =>{
                   if (res.success) {
                     replaceListItem(
                       material.id,
@@ -383,7 +387,7 @@
                       material.create_time, // 时间
                       "品牌",     // 品牌 or 门店
                       material.subdivision_name ? material.subdivision_name : '-',
-                      index === 0 && pageStart === 0
+                      false
                     );
                   // 判断素材组标题超过三行显示图标
                   subCategory();
@@ -397,7 +401,7 @@
           } else {
             loading = false
             if (pageStart === 0) {
-              setSendButton(0)
+              // setSendButton(0)
               // 暂无数据
               showNoData(true)
             }
@@ -713,7 +717,7 @@
   // 查询
   $('.icon-ns-search').click(function () {
     // 发送按钮设置为不可点击
-    setSendButton(0)
+    // setSendButton(0)
     resetParam();
     initMaterialList();
   })
@@ -723,7 +727,7 @@
       return
     }
     $('.searchbar__input').val('')
-    setSendButton(0)
+    // setSendButton(0)
     resetParam();
     initMaterialList();
   })
@@ -738,6 +742,7 @@
     $('.material__class').each(function(i,e){
       if ($(e).attr("materialId") === selectedId) {
         $(e).addClass('page-radio--selected');
+        setSendButton(1)
       } else {
         $(e).removeClass('page-radio--selected');
       }
@@ -753,6 +758,7 @@
           content: $(e).attr("content"),
           imageList: $(e).attr("imageList")
         })
+        setSendButton(1)
       } else {
         $(e).removeClass('page-radio--selected');
       }
@@ -900,7 +906,7 @@
     let content
     let textDelay = 300
     // 按钮不可点击
-    setSendButton(0)
+    // setSendButton(0)
     if (selectedMaterial.imageList && selectedMaterial.imageList !== '') {
       if (selectedMaterial.content && selectedMaterial.content !== '') {
         sendContent(selectedMaterial.content, textDelay, false);
