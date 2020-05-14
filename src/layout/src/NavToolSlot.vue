@@ -29,7 +29,6 @@ export default {
   },
   mounted () {
     this.$http.fetch(this.$api.core.common.getRecruitVersion).then(data => {
-      debugger
       this.memberManagePlan = data.result.memberManagePlan
     })
   },
