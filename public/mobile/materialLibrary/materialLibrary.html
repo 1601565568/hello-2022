@@ -385,23 +385,23 @@
             materialList.forEach(function(material,index,arr){
               if(material.codeTarget && material.m_type === 1){
                 let params = {groupId: groupId, materialId : material.id, wxId : wxId}
-                // this.ajax(appUrl + getAppletImageUrl, params).then(res =>{
-                //   if (res.success) {
-                //     replaceListItem(
-                //       material.id,
-                //       material.content,
-                //       res.result,
-                //       material.create_time, // 时间
-                //       "品牌",     // 品牌 or 门店
-                //       material.subdivision_name ? material.subdivision_name : '-',
-                //       false
-                //     );
-                //   // 判断素材组标题超过三行显示图标
-                //   subCategory();
-                //   } else {
-                //     toError(3, res.msg ? res.msg : '')
-                //   }
-                // })
+                this.ajax(appUrl + getAppletImageUrl, params).then(res =>{
+                  if (res.success) {
+                    replaceListItem(
+                      material.id,
+                      material.content,
+                      res.result,
+                      material.create_time, // 时间
+                      "品牌",     // 品牌 or 门店
+                      material.subdivision_name ? material.subdivision_name : '-',
+                      false
+                    );
+                  // 判断素材组标题超过三行显示图标
+                  subCategory();
+                  } else {
+                    toError(3, res.msg ? res.msg : '')
+                  }
+                })
               }
             })
             return
@@ -717,18 +717,27 @@
    * @msg: 屏幕高度变化
    */
   function onScreenReSize() {
-    var oHeight = $(window).height();
-    $(window).resize(function(){
-      // 屏幕高度的变化
-      var docheight = window.innerHeight;
-      if(docheight < oHeight){
-        // 屏幕高度有变化，底部按钮不固定定位
-        $(".material__btn").css("position","static");
-      }else{
-        // 屏幕高度无变化，底部按钮固定定位
-        $(".material__btn").css("position","fixed");
-      }
-    });
+    // var oHeight = $(window).height();
+    // $(window).resize(function(){
+    //   // 屏幕高度的变化
+    //   var docheight = window.innerHeight;
+    //   if(docheight < oHeight){
+    //     // 屏幕高度有变化，底部按钮不固定定位
+    //     $(".material__btn").css("position","static");
+    //   }else{
+    //     // 屏幕高度无变化，底部按钮固定定位
+    //     $(".material__btn").css("position","fixed");
+    //   }
+    // });
+    
+    // 输入框获取焦点
+    // $('.searchbar__input').focusin(function(){
+    //   $(".material__btn").css("position","static");
+    // });
+    // // 输入框失去焦点
+    // $('.searchbar__input').focusout(function(){
+    //   $(".material__btn").css("position","fixed");
+    // });
   }
   /**
     * 事件绑定
