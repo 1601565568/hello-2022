@@ -19,7 +19,6 @@
 </div>
 <script type="text/javascript" src="../js/jquery-3.4.1.min.js"></script>
 <script type="text/javascript" src="https://shopguide.oss-cn-hangzhou.aliyuncs.com/js/common.js"></script>
-<script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.4.0.js"></script>
 <script>
     $(document).ready(function () {
         var groupId = getPar('groupId'); // 集团id
@@ -47,7 +46,6 @@
             }
         })
     }
-
     function ajax(url, data, params) {
         data = JSON.stringify(data)
         return new Promise(function (resolve, reject) {
