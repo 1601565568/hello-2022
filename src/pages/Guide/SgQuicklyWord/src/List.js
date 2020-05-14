@@ -328,7 +328,6 @@ export default {
     },
     onPatchChange () { // 快捷话术批量管理
       // debugger
-      this.$refs.form.resetFields()
       if (this.model.wordGroupId <= 0) {
         this.$notify.warning('请选择一条有效分组')
         return
@@ -369,7 +368,15 @@ export default {
       }
     },
     onDelete (row) { // 快捷话术删除
-      apiRequestConfirm('永久删除' + this.selectedArr.length + '条数据')
+      let msg
+      if (row.id !== null || row.id !== 0) {
+        msg = '永久删除该条数据'
+        window.console.log('删除方法', row.id)
+      } else {
+        msg = '永久删除' + this.selectedArr.length + '条数据'
+      }
+      window.console.log('删除信息', msg)
+      apiRequestConfirm(msg)
         .then(() => {
           let that = this
           that.$http.fetch(that.$api.guide.deleteQuicklyWord, { quicklyWordIds: String(row.id) }).then(() => {
