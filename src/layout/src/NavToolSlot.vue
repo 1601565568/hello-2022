@@ -2,7 +2,7 @@
   <div v-if="memberManagePlan == 2">
     <div class="nav-avatar" @click="customerService">
     <span class="nav-avatar__icon">
-      <Icon type="customerService" class="admin_icon"  className="nav-avatar__icon--svg" />
+      <Icon type="customer-service" class="admin_icon"  className="nav-avatar__icon--svg" />
     </span>
     </div>
     <el-dialog title="智慧客服客户端下载" :visible.sync="customerVisible" width="500px" class="detail-dialog">
