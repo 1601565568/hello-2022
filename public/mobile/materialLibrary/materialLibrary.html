@@ -34,7 +34,7 @@
   <div class="material__search page-fixed">
     <div class="searchbar">
       <i class='iconfont icon-ns-search searchbar__icon'></i>
-      <input type="text" placeholder="输入素材推广文案/文章标题" value="" class="searchbar__input" onchange="resetParam(),initMaterialList(this)" /><!--onblur="alert('blur')" -->
+      <input type="text" placeholder="输入素材推广文案" value="" class="searchbar__input" onkeyup="if(event.keyCode==13) {resetParam();initMaterialList(this)}"/><!--onblur="alert('blur')" -->
       <i class='iconfont icon-shanchu1 searchbar__icon'></i>
     </div>
   </div>
@@ -123,6 +123,7 @@
 <script type="text/javascript" src="../js/common.js"></script>
 <script>
   var host = "ecrp://send?params="
+  var appUrl
   var delay // 发送好友消息延迟间隔时间
   // 查询素材分组URL
   let findSubdivisionListUrl = '/wx/material/findH5SubdivisionList';
@@ -159,6 +160,8 @@
   var timeOutEvent = 0;
   var preHtml = '';
   var searchable = true
+  var loading = false
+  var noMore = false
 
   /**
    * @msg: 页面初始化加载事件
@@ -172,10 +175,14 @@
     //     e.preventDefault()
     //   }
     // })
+    // 小程序api根路径
+    appUrl = apiRoot()
     // 发送按钮不可点击
-    setSendButton(0)
+    // setSendButton(0)
     // 下拉滚动事件注册
     registerScrollEvent()
+    // 屏幕高度变化事件
+    onScreenReSize()
     // 页面数据初始化
     this.init();
   }
@@ -230,15 +237,18 @@
 
     if (clientHeight + scrollTop >= scrollHeight) {
       let _refreshText = document.querySelector('.refreshText');
+      if (!searchable || loading || noMore) {
+        return
+      }
       initMaterialList(++pageStart)
     }
-    if(scrollTop == 0){
-      pageStart = 0
-      showNoData(false)
+    // if(scrollTop == 0){
+    //   pageStart = 0
+    //   showNoData(false)
       // resetParam()
       // _upRefreshText.innerText = '刷新列表';
-      initMaterialList()
-    }
+      // initMaterialList()
+    // }
   }
   /**
    * @msg: 页面数据初始化
@@ -246,7 +256,7 @@
   function init() {
     // 获取当前员工的微信ID
     wxId = getPar('wxId')
-    delay = getPar('delay')
+    delay = parseInt(getPar('delay'))
     if (!wxId) {
         toError(3, '参数错误：个人号微信号不允许为空')
         return
@@ -265,6 +275,9 @@
    */
   function resetParam() {
     pageStart = 0
+    loading = false
+    noMore = false
+    selectedId = null
     $(".material__list").html('');
     _upRefreshText.innerText = '';
     _downRefreshText.innerText = '';
@@ -274,7 +287,7 @@
    * @msg: 初始化分组列表
    */
    function initSubdivisionList() {
-    this.ajax(apiRoot() + findSubdivisionListUrl,
+    this.ajax(appUrl + findSubdivisionListUrl,
       {
         wxId: wxId,   // 链接直接获取
       }).then(function (result) {
@@ -298,6 +311,7 @@
           }
           $(".float-select").html(html);
         } else {
+          loading = false
           // 跳转错误页
           toError(3, error && error.msg ? error.msg : '')
         }
@@ -307,12 +321,16 @@
    * @msg: 初始化素材列表
    */
   function initMaterialList () {
-    if (!searchable) {
-      return 
+    if (!searchable || loading || noMore) {
+      return
     }
     let $searchName = $('.searchbar__input');
     let selectedSubdivisionId = getSelectedSubdivisionId();
-    this.ajax(apiRoot() + findMaterialListUrl,
+    // 加载中
+    loading = true
+    // 查询中不允许发送 | 重新搜索后,素材选中状态清空
+    setSendButton(0)
+    this.ajax(appUrl + findMaterialListUrl,
       {
         wxId: wxId,   // 链接直接获取
         searchName: $searchName.val().trim(),
@@ -332,9 +350,13 @@
             _downRefreshText.innerText = "上滑加载更多"
           } else if (result.result.length > 0 || (pageStart !== 0 && result.result.length === 0 )) {
             _downRefreshText.innerText = "没有更多了"
+            noMore = true
           }
           // 素材列表组装 & 展示
           if (materialList && materialList.length > 0) {
+            if (pageStart > 1 && selectedId) {
+              setSendButton(1)
+            }
             showNoData(false)
             groupId = materialList[0].brandId
             let html = '';
@@ -346,46 +368,47 @@
                 material.create_time, // 时间
                 "品牌",     // 品牌 or 门店
                 material.subdivision_name ? material.subdivision_name : '-',
-                index === 0 && pageStart === 0
+                false // 不默认选中 index === 0 && pageStart === 0
                 );
             })
             // 判断素材组标题超过三行显示图标
             subCategory();
-            // 按钮修改为可用
-            setSendButton(1)
+            // 按钮修改为可用 setSendButton(1)
             if (pageStart > 0) {
               $(".material__list").append(html);
             } else {
               $(".material__list").html(html);
             }
+            loading = false
 
             // 异步生成二维码
             materialList.forEach(function(material,index,arr){
               if(material.codeTarget && material.m_type === 1){
                 let params = {groupId: groupId, materialId : material.id, wxId : wxId}
-                this.ajax(apiRoot() + getAppletImageUrl, params).then(res =>{
-                  if (res.success) {
-                    replaceListItem(
-                      material.id,
-                      material.content,
-                      res.result,
-                      material.create_time, // 时间
-                      "品牌",     // 品牌 or 门店
-                      material.subdivision_name ? material.subdivision_name : '-',
-                      index === 0 && pageStart === 0
-                    );
-                  // 判断素材组标题超过三行显示图标
-                  subCategory();
-                  } else {
-                    toError(3, res.msg ? res.msg : '')
-                  }
-                })
+                // this.ajax(appUrl + getAppletImageUrl, params).then(res =>{
+                //   if (res.success) {
+                //     replaceListItem(
+                //       material.id,
+                //       material.content,
+                //       res.result,
+                //       material.create_time, // 时间
+                //       "品牌",     // 品牌 or 门店
+                //       material.subdivision_name ? material.subdivision_name : '-',
+                //       false
+                //     );
+                //   // 判断素材组标题超过三行显示图标
+                //   subCategory();
+                //   } else {
+                //     toError(3, res.msg ? res.msg : '')
+                //   }
+                // })
               }
             })
             return
           } else {
+            loading = false
             if (pageStart === 0) {
-              setSendButton(0)
+              // setSendButton(0)
               // 暂无数据
               showNoData(true)
             }
@@ -408,25 +431,25 @@
    * @msg: 绑定长按事件
    */
   function bindLongTouch() {
-    $("#touchArea").on({
-        touchstart: function(e){
-            timeOutEvent = setTimeout(function(){
-              longPress($(e.target).attr("src"))
-            },500);
-            e.preventDefault();
-        },
-        touchmove: function(){
-            clearTimeout(timeOutEvent);
-            timeOutEvent = 0;
-        },
-        touchend: function(){
-            clearTimeout(timeOutEvent);
-            if(timeOutEvent!=0){
-                // alert("你这是点击，不是长按");
-            }
-            return false;
-        }
-    })
+    // $("#touchArea").on({
+    //     touchstart: function(e){
+    //         timeOutEvent = setTimeout(function(){
+    //           longPress($(e.target).attr("src"))
+    //         },500);
+    //         e.preventDefault();
+    //     },
+    //     touchmove: function(){
+    //         clearTimeout(timeOutEvent);
+    //         timeOutEvent = 0;
+    //     },
+    //     touchend: function(){
+    //         clearTimeout(timeOutEvent);
+    //         if(timeOutEvent!=0){
+    //             // alert("你这是点击，不是长按");
+    //         }
+    //         return false;
+    //     }
+    // })
   }
   /**
    * @msg: 长按下载图片 
@@ -571,12 +594,56 @@
     imageList.forEach(function(image,index,arr){
       html +=
       '<div class="swiper-slide">' +
-        '<img id="touchArea" src="' + image + '" alt="素材库图片" class="full-img">' +
+        '<img onclick="closeSwiper()" src="' + image + '" alt="素材库图片" class="full-img">' +
       '</div>';
     })
     $('.swiper-wrapper').html(html);
-    // $('.swiper-number').html(i + '/' + imageList.length);
+    // setTimeout(function(){swiperCss();}, 100)
+    newSwiperCss();
+    // setTimeout(function(){newSwiperCss();}, 10)
   }
+  /**
+   * @msg: 旧版处理方式
+   */
+  function swiperCss() {
+    var clientHeight = window.innerHeight || Math.min(document.documentElement.clientHeight, document.body.clientHeight);
+    $('.swiper-slide').each(function(i,e){
+      let $img = $(e).children();
+      imageHeight = $img[0].clientHeight
+      // console.info(imageHeight + "|" + clientHeight + "|" + imageHeight < clientHeight)
+      if (imageHeight < clientHeight) {
+        $img.parent().addClass('swiper-slide--center');
+      }
+    })
+  }
+  /**
+   * @msg: 巧玲提供
+   */
+  function newSwiperCss() {
+    // 判断图片是否超过一屏幕
+    $("img.full-img").each(function(){
+      var screenHeight= $(window).height() - 50;
+      var screenWidth= $(window).width();
+      var that = $(this);
+      //这里使用的jquery新建一个img对象进行添加attr属性,把src添加上去,然后进行载入事件
+      $("<img />").attr("src", this.src).on("load", function () {
+        //这里的width和height就是图片实际的宽高了
+        var imgw = this.width;
+        var imgh = this.height;
+        if (imgh * (screenWidth / imgw) > screenHeight) {
+          that.parent().addClass('swiper-slide--top');
+        }
+      });
+    });
+  }
+  // function activeSwiperCss() {
+  //   let $img = $("swiper-slide-active").children;
+  //   let imageHeight = $img[0].naturalHeight
+  //   console.info(imageHeight + "|" + clientHeight)
+  //   if (imageHeight < clientHeight) {
+  //     $img.addClass('swiper-slide--center');
+  //   }
+  // }
   /**
    * @msg: 根据dom节点字串生成node
    */
@@ -637,6 +704,33 @@
     });
   }
   /**
+   * @msg: 关闭大图
+   */
+  function closeSwiper() {
+    $('.swiper-container').addClass('hidden');
+    $('.page-status-bar').removeClass('hidden');
+    $('.material').removeClass('hidden');
+    resetPosition()
+    searchable = true
+  }
+  /**
+   * @msg: 屏幕高度变化
+   */
+  function onScreenReSize() {
+    var oHeight = $(window).height();
+    $(window).resize(function(){
+      // 屏幕高度的变化
+      var docheight = window.innerHeight;
+      if(docheight < oHeight){
+        // 屏幕高度有变化，底部按钮不固定定位
+        $(".material__btn").css("position","static");
+      }else{
+        // 屏幕高度无变化，底部按钮固定定位
+        $(".material__btn").css("position","fixed");
+      }
+    });
+  }
+  /**
     * 事件绑定
     */
   // 取消
@@ -647,7 +741,7 @@
   // 查询
   $('.icon-ns-search').click(function () {
     // 发送按钮设置为不可点击
-    setSendButton(0)
+    // setSendButton(0)
     resetParam();
     initMaterialList();
   })
@@ -657,7 +751,7 @@
       return
     }
     $('.searchbar__input').val('')
-    setSendButton(0)
+    // setSendButton(0)
     resetParam();
     initMaterialList();
   })
@@ -672,6 +766,7 @@
     $('.material__class').each(function(i,e){
       if ($(e).attr("materialId") === selectedId) {
         $(e).addClass('page-radio--selected');
+        setSendButton(1)
       } else {
         $(e).removeClass('page-radio--selected');
       }
@@ -687,6 +782,7 @@
           content: $(e).attr("content"),
           imageList: $(e).attr("imageList")
         })
+        setSendButton(1)
       } else {
         $(e).removeClass('page-radio--selected');
       }
@@ -814,14 +910,12 @@
       // }
     });
   })
+  $(document).on('click', '.swiper-slide', function(e){
+    closeSwiper()
+  })
   // 大图图片点击关闭
   $(document).on('click', '.swiper-return', function(e){
-    $('.swiper-container').addClass('hidden');
-    $('.page-status-bar').removeClass('hidden');
-    $('.material').removeClass('hidden');
-    // resetHtml()
-    resetPosition()
-    searchable = true
+    closeSwiper()
   })
   /**
    * @msg: 发送素材 文本 + 图片
@@ -830,13 +924,13 @@
    * 图片：'{"type":2,"picUrl":"图片大图链接地址","smallPicUrl":"图片缩略图链接地址","exit":true}'
    */
   $('.send').click(function () {
-    let content
-    let textDelay = 300
-    if (!selectedMaterial) {
+    if (loading || !selectedMaterial) {
       return
     };
+    let content
+    let textDelay = 300
     // 按钮不可点击
-    setSendButton(0)
+    // setSendButton(0)
     if (selectedMaterial.imageList && selectedMaterial.imageList !== '') {
       if (selectedMaterial.content && selectedMaterial.content !== '') {
         sendContent(selectedMaterial.content, textDelay, false);
