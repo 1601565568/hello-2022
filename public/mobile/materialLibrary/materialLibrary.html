@@ -181,6 +181,8 @@
     // setSendButton(0)
     // 下拉滚动事件注册
     registerScrollEvent()
+    // 屏幕高度变化事件
+    onScreenReSize()
     // 页面数据初始化
     this.init();
   }
@@ -710,6 +712,23 @@
     $('.material').removeClass('hidden');
     resetPosition()
     searchable = true
+  }
+  /**
+   * @msg: 屏幕高度变化
+   */
+  function onScreenReSize() {
+    var oHeight = $(window).height();
+    $(window).resize(function(){
+      // 屏幕高度的变化
+      var docheight = window.innerHeight;
+      if(docheight < oHeight){
+        // 屏幕高度有变化，底部按钮不固定定位
+        $(".material__btn").css("position","static");
+      }else{
+        // 屏幕高度无变化，底部按钮固定定位
+        $(".material__btn").css("position","fixed");
+      }
+    });
   }
   /**
     * 事件绑定
