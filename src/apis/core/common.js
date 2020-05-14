@@ -160,5 +160,10 @@ export default {
   findLoginMallList: {
     url: '/core/common/findLoginMallList',
     method: 'get'
+  },
+  // 查询客服精灵地址
+  findCustomerServiceUrl: {
+    url: '/core/common/findCustomerServiceUrl',
+    method: 'get'
   }
 }
