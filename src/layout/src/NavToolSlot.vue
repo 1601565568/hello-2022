@@ -1,9 +1,9 @@
 <template>
   <div v-if="memberManagePlan == 2" class="nav_warpper">
     <div class="nav-avatar" @click="customerService" title="智慧客服端下载">
-    <span class="nav-avatar__icon">
+<!--    <span class="nav-avatar__icon">-->
       <Icon type="customer-service" class="admin_icon" style="font-size: 20px;color:#fff"  className="nav-avatar__icon--svg" />
-    </span>
+<!--    </span>-->
     </div>
     <div class="line"></div>
      <el-dialog title="智慧客服客户端下载" :visible.sync="customerVisible" width="500px" class="detail-dialog" append-to-body="true">
@@ -75,12 +75,12 @@ export default {
   }
   .nav-avatar{
     cursor: pointer;
-    padding-top: 6px;
+    /*padding-top: 6px;*/
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 34px;
-    height: 34px;
+    width: 30px;
+    height: 30px;
     background: rgba(255, 255, 255, .2);
     border-radius: 50%;
     margin-right: 10px;
@@ -92,6 +92,8 @@ export default {
     background: rgba(255,255,255,.5);
   }
 .admin_icon {
+  cursor: pointer;
+  /*margin-right: 5px;*/
   font-size: 26px
 }
   .text_link{
@@ -109,6 +111,9 @@ export default {
     padding-right: 26px;
   }
   .copy_link span{
+    cursor: pointer;
+    display: inline-block;
+    margin-left: 5px;
     cursor: pointer;
   }
   .btn{
