@@ -1,20 +1,21 @@
 <template>
-  <div v-if="memberManagePlan == 2">
-    <div class="nav-avatar" @click="customerService">
+  <div v-if="memberManagePlan == 2" class="nav_warpper">
+    <div class="nav-avatar" @click="customerService" title="智慧客服端下载">
     <span class="nav-avatar__icon">
-      <Icon type="customer-service" class="admin_icon"  className="nav-avatar__icon--svg" />
+      <Icon type="customer-service" class="admin_icon" style="font-size: 20px;color:#fff"  className="nav-avatar__icon--svg" />
     </span>
     </div>
-    <el-dialog title="智慧客服客户端下载" :visible.sync="customerVisible" width="500px" class="detail-dialog">
-      <div class="text_link">{{customerServiceUrl}}</div>
-      <div class="copy_link" @click='copy(customerServiceUrl)'>
-        <Icon type="copy-paste" class="admin_icon"  className="nav-avatar__icon--svg" />
-        <span>复制链接</span>
-      </div>
-    <span slot="footer">
+    <div class="line"></div>
+     <el-dialog title="智慧客服客户端下载" :visible.sync="customerVisible" width="500px" class="detail-dialog" append-to-body="true">
+       <div class="text_link">{{customerServiceUrl}}</div>
+       <div class="copy_link" @click='copy(customerServiceUrl)'>
+         <Icon type="copy-paste" class="admin_icon" style="font-size: 13px" className="nav-avatar__icon--svg" />
+         <span>复制链接</span>
+       </div>
+       <span slot="footer">
       <ns-button class="btn"  @click="onConfirm">关闭</ns-button>
     </span>
-    </el-dialog>
+     </el-dialog>
   </div>
 </template>
 
@@ -68,8 +69,27 @@ export default {
 </script>
 
 <style scoped>
+  .nav_warpper {
+    display: flex;
+    align-items: center;
+  }
   .nav-avatar{
+    cursor: pointer;
+    padding-top: 6px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 34px;
+    height: 34px;
+    background: rgba(255, 255, 255, .2);
+    border-radius: 50%;
+    margin-right: 10px;
+  }
+  .line{
+    width: 1px;
+    height: 16px;
     margin-right: 20px;
+    background: rgba(255,255,255,.5);
   }
 .admin_icon {
   font-size: 26px
