@@ -35,5 +35,13 @@ export default {
   getUsersAndDepartmentsByShopId: {
     url: '/core/user/getUsersAndDepartmentsByShopId',
     method: 'post'
+  },
+  queryGuidePage: {
+    url: '/core/user/queryGuidePage',
+    method: 'post'
+  },
+  findByGuideIds: {
+    url: '/core/user/findByGuideIds',
+    method: 'post'
   }
 }
