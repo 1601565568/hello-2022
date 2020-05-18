@@ -9,6 +9,12 @@ export default {
         return []
       }
     },
+    guideUrl: {
+      type: Object,
+      default: function () {
+        return this.$api.core.sysUser.queryGuidePage
+      }
+    },
     dialogTitle: {
       type: String,
       default: '选择营销人群'
@@ -134,7 +140,7 @@ export default {
         param.empDepar = jointString.join(',')
       }
       // 请求获取员工数据
-      this.$http.fetch(this.$api.core.sysUser.queryGuidePage, param)
+      this.$http.fetch(this.guideUrl, param)
         .then(resp => {
           if (resp.result && resp.result.data && resp.result.data.length > 0) {
             data = JSON.parse(JSON.stringify(resp.result.data))
@@ -267,7 +273,7 @@ export default {
     getEmployeeList () {
       this.tableLoading = true
       let param = { pageNo: this.pagination4Emp.page, pageSize: this.pagination4Emp.size }
-      this.$http.fetch(this.$api.core.sysUser.queryGuidePage, param)
+      this.$http.fetch(this.guideUrl, param)
         .then(resp => {
           if (resp.result && resp.result.data && resp.result.data.length > 0) {
             vm.employeeData = vm.handleEmployeeList(JSON.parse(JSON.stringify(resp.result.data)), vm.departData.allDepartments)
