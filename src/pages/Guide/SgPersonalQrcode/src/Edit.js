@@ -13,6 +13,7 @@ export default {
         ref: 'fullScreen', // 页面滚动条ref的名称
         excludeHeight: 39 // 底部按钮的高度
       },
+      employeeSelectData: [],
       state: 0, // 状态 0：新增 1：编辑
       memberManagePlan: 1,
       // 弹框是否打开判断值
@@ -150,44 +151,10 @@ export default {
     } else {
       this.title = '新增聚合二维码'
     }
-
-    if (this.personalQrcode.type === 0) {
-      var keyMap = {}
-      this.$http.fetch(this.$api.guide.sgPersonalQrcode.getQrcodeDepartment, {
-        name: this.tree.select
-      }).then(resp => {
-        if (resp.success && resp.result != null) {
-          let json = JSON.parse(resp.result)
-          this.tree.selectData = json
-        } else {
-          this.$notify.error(getErrorMsg('获取员工数据失败', resp))
-        }
-      }).catch((resp) => {
-        this.$notify.error(getErrorMsg('获取员工数据失败', resp))
-      })
-    }
   },
   methods: {
     sgUploadFile (name) {
       return this.$api.core.sgUploadFile('test')
-    },
-    // 删除右边的树子节点数据
-    remove (node, data) {
-      const parent = node.parent
-      const children = parent.data.children || parent.data
-      const index = children.findIndex(d => d.id === data.id)
-      children.splice(index, 1)
-      const chooseIndex = this.choosePerson.findIndex(d => d.id === data.id)
-      this.choosePerson.splice(chooseIndex, 1)
-      const nodes = this.$refs.selectTree.getCheckedNodes()
-      const nodeIndex = nodes.findIndex(d => d.id === data.id)
-      nodes.splice(nodeIndex, 1)
-      for (let i in nodes) {
-        if (nodes[i].children) {
-          nodes.splice(i, 1)
-        }
-      }
-      this.$refs.selectTree.setCheckedNodes(nodes)
     },
     onSave () {
       let that = this
@@ -241,25 +208,6 @@ export default {
       let _this = this
       _this.dialogVisible = true
       if (type === 0) {
-        let selectData = _this.tree.selectData
-        _this.tree.selectedData = []
-        _this.tree.copySelectedData = []
-        let keyMap = {}
-        for (let i = 0; i < _this.employeeIds.length; i++) {
-          let personnelId = _this.employeeIds[i]
-          keyMap[personnelId] = 1
-        }
-        for (let i = 0; i < selectData.length; i++) {
-          let children = selectData[i].children
-          for (let j = 0; j < children.length; j++) {
-            let id = children[j].id
-            if (keyMap[id] === 1) {
-              _this.tree.selectedData.push(children[j])
-              _this.tree.copySelectedData.push(children[j])
-            }
-          }
-        }
-        _this.$refs.selectTree.setCheckedNodes(_this.tree.copySelectedData)
       } else if (type === 1) {
         _this.addTableData = []
         for (let i = 0; i < _this.tableData.length; i++) {
@@ -322,7 +270,6 @@ export default {
     employeeTreeClose () {
       let _this = this
       _this.dialogVisible = false
-      _this.$refs.selectTree.setCheckedNodes(_this.tree.copySelectedData)
     },
     handleCheckChange () {
       let _this = this
@@ -425,15 +372,10 @@ export default {
             tableData.splice(i, 1)
           }
         }
-        let parent = this.tree.selectedData
+        let parent = this.employeeSelectData
         for (let i in parent) {
-          if (parent[i].id === guideId) {
+          if (parent[i] === guideId) {
             parent.splice(i, 1)
-          }
-        }
-        for (let i in this.employeeIds) {
-          if (this.employeeIds[i] === parseInt(guideId)) {
-            this.employeeIds.splice(i, 1)
           }
         }
       } else if (type === 1) { // 自定义
@@ -506,6 +448,28 @@ export default {
   watch: {
     treeSelect (val) {
       this.$refs.selectTree.filter(val)
+    },
+    employeeSelectData (val) {
+      this.$http.fetch(this.$api.guide.sgPersonalQrcode.getGuideMsg, {
+        guides: val
+      }).then(resp => {
+        this.tableData = []
+        this.employeeIds = []
+        for (let data of resp.result) {
+          let chooseData = {}
+          chooseData.name = data.name
+          chooseData.image = data.qrcode
+          chooseData.num = null
+          chooseData.guideId = data.id
+          chooseData.userName = data.userName
+          chooseData.userId = data.userId
+          this.tableData.push(chooseData)
+        }
+      }).catch((error) => {
+        this.$notify.error(getErrorMsg('加载聚合二维码信息失败：', error))
+      }).finally(() => {
+        this.loading = false
+      })
     }
   }
 }

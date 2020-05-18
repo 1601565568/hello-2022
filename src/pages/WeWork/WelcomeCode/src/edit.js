@@ -6,6 +6,7 @@ import ElContainer from '@nascent/nui/lib/container'
 import ElAside from '@nascent/nui/lib/aside'
 import ElImage from '@nascent/nui/lib/image'
 import ElUpload from '@nascent/nui/lib/upload'
+import NsEmployeeOrCustGroupDialog from '@/components/NsGuideDialog'
 
 export default {
   name: 'Edit',
@@ -16,7 +17,8 @@ export default {
     ElMain,
     ElAside,
     ElImage,
-    ElUpload
+    ElUpload,
+    NsEmployeeOrCustGroupDialog
   },
   data: function () {
     // 图片配置model
@@ -79,7 +81,6 @@ export default {
       channelModel: channelModel,
       model: model,
       channelList: [],
-      employeeSelectMsg: '',
       channelSelectMsg: '',
       // 选择员工组件
       // 左边树数据（所有数据,包含id、label、children等shu'ji）
@@ -95,6 +96,12 @@ export default {
     }
   },
   computed: {
+    /**
+     * @msg: 选中员工数量
+     */
+    employeeSelectMsg () {
+      return this.model.employeeIds && this.model.employeeIds.length > 0 ? '已选择' + this.model.employeeIds.length + '名员工' : ''
+    },
     /**
      * @msg: 获取字数，后续改成computed
      * 出现一次占位符 + N字数
@@ -413,8 +420,6 @@ export default {
         }
       })
       _this.model.employeeIds = arr
-
-      _this.employeeSelectMsg = '已选择' + _this.model.employeeIds.length + '名员工'
     },
     /**
      * @msg: 处理未提交前的选择变化
@@ -560,10 +565,6 @@ export default {
           }).then(resp => {
             that.model = resp.result
             that.setSelectChannelMsg()
-            // 设置选择员工
-            if (that.model.employeeIds) {
-              that.employeeSelectMsg = '已选择' + that.model.employeeIds.length + '名员工'
-            }
             if (that.model.annexType === 0) {
               return
             }
