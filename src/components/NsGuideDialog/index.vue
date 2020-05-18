@@ -35,7 +35,7 @@
             </el-form-grid>
             <el-form-grid><div style="margin-left: 20px;">员工姓名：</div></el-form-grid>
             <el-form-grid>
-              <ElInput :maxlength="20" v-model="departData.name"/>
+              <ElInput :maxlength="20" v-model="departData.name" @keyup.enter.native="searchEmployee(1)"/>
             </el-form-grid>
             <el-form-grid><div style="margin-left: 10px;"></div></el-form-grid>
             <el-form-grid>
