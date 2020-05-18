@@ -14,6 +14,11 @@ export default {
     url: '/Guide/PersonalQrcode/findById',
     method: 'post'
   },
+  // 获取有二维码员工信息
+  queryGuideMsg: {
+    url: '/Guide/PersonalQrcode/queryGuideMsg',
+    method: 'post'
+  },
   // 聚合二维码保存
   save: {
     url: '/Guide/PersonalQrcode/save',
@@ -27,6 +32,10 @@ export default {
   // 获取有二维码的员工部门信息
   getQrcodeDepartment: {
     url: '/Guide/PersonalQrcode/getQrcodeDepartment',
+    method: 'post'
+  },
+  getGuideMsg: {
+    url: '/Guide/PersonalQrcode/getGuideMsg',
     method: 'post'
   },
   // 投放预览保存

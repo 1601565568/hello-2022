@@ -32,8 +32,11 @@
               </el-form-grid>
             </el-form-item>
             <el-form-item label="子码设置：" required>
-              <el-form-grid>
+              <el-form-grid v-if="personalQrcode.type != 0">
                 <ns-button type='text' @click="choosePersonnel(personalQrcode.type)">+ 选择{{QrCodeTypeNames[personalQrcode.type]}}</ns-button>
+              </el-form-grid>
+              <el-form-grid v-if="personalQrcode.type === 0">
+                <NsEmployeeOrCustGroupDialog btnTitle="选择员工" :guideUrl="this.$api.guide.sgPersonalQrcode.queryGuideMsg" v-model="employeeSelectData"></NsEmployeeOrCustGroupDialog>
               </el-form-grid>
               <ElFormGrid v-if="personalQrcode.type === 0">
                 已选择<span class="text-primary">{{tableData.length}}</span>个员工
@@ -123,66 +126,7 @@
     <!--选择好友弹窗开始-->
     <ElDialog width="600px" height="500px" title="选择子码" :visible.sync="dialogVisible" :before-close="employeeTreeClose" :show-scroll-x=false>
       <div v-if="personalQrcode.type === 0">
-        <ElRow :gutter="10" class="code-container">
-          <ElCol :span="12" class="code-container__item">
-            <div class="code-title">可选员工</div>
-            <ElInput
-              placeholder="请输入员工姓名"
-              suffix-icon="el-icon-search"
-              v-model="treeSelect" @click="initEmpTree()" class="code-space">
-            </ElInput>
-            <div class="scoll_left">
-              <ElScrollbar>
-                <ElTree
-                  :data="tree.selectData"
-                  ref="selectTree"
-                  show-checkbox
-                  :filter-node-method="selectFilterNode"
-                  node-key="id"
-                  :default-expand-all=false
-                  :default-checked-keys="employeeIds"
-                  @check="check"
-                  :props="tree.leftDefaultProps" class="code-space">
-            <span class="code-detail clearfix" slot-scope="{ node, data }">
-              <span class="code-detail__text">{{ node.label }}</span>
-              <span>{{ data.children ? '/' + data.children.length : '' }}</span>
-            </span>
-                </ElTree>
-              </ElScrollbar>
-            </div>
-          </ElCol>
-          <ElCol :span="12" class="code-container__item">
-            <div class="code-title">已选员工</div>
-<!--            <ElInput-->
-<!--              placeholder="请输入员工姓名"-->
-<!--              suffix-icon="el-icon-search"-->
-<!--              v-model="tree.selected" class="code-space">-->
-<!--            </ElInput>-->
-            <div class="scoll_left">
-              <ElScrollbar>
-                <ElTree
-                  :data="tree.selectedData"
-                  ref="selectedTree"
-                  :filter-node-method="tree.selectedFilterNode"
-                  node-key="id"
-                  :expand-on-click-node="false" class="code-space">
-            <span class="code-detail clearfix" slot-scope="{ node, data }">
-              <span class="code-detail__text">{{ node.label }}</span>
-              <span>
-                <ns-button
-                  type="text"
-                  size="mini"
-                  @click="() => remove(node, data)">
-                  <Icon type="delete" className="code-delete"/>
-                </ns-button>
-              </span>
-            </span>
-                </ElTree>
-              </ElScrollbar>
-            </div>
-
-          </ElCol>
-        </ElRow>
+          <NsEmployeeOrCustGroupDialog btnTitle="选择营销人群" v-model="employeeSelectData"></NsEmployeeOrCustGroupDialog>
       </div>
       <div v-if="personalQrcode.type === 1">
         <div class="giveaway-add__item--info">
@@ -250,11 +194,13 @@ import Edit from './src/Edit'
 import index from './src/List'
 import ElTree from '@nascent/nui/lib/tree'
 import ElUpload from '@nascent/nui/lib/upload'
+import NsEmployeeOrCustGroupDialog from './../../../components/NsGuideDialog'
 
 Edit.components = {
   index,
   ElTree,
-  ElUpload
+  ElUpload,
+  NsEmployeeOrCustGroupDialog
 }
 export default Edit
 </script>
