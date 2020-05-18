@@ -19,9 +19,9 @@
                     </ElFormGrid>
                   </ElFormItem>
                   <!-- 员工组件 开始-->
-                  <ElFormItem label="选择营销人群：">
+                  <ElFormItem label="选择员工：">
                     <ElFormGrid>
-                      <NsEmployeeOrCustGroupDialog btnTitle="选择营销人群" v-model="employeeSelectData"></NsEmployeeOrCustGroupDialog>
+                      <NsEmployeeOrCustGroupDialog btnTitle="选择员工" v-model="employeeSelectData"></NsEmployeeOrCustGroupDialog>
                     </ElFormGrid>
                     <ElFormGrid>
                       已选择<span class="text-primary">{{employeeSelectData? employeeSelectData.length: 0}}</span>个导购员工
