@@ -71,7 +71,7 @@
 
   <!-- 发送按钮 start -->
   <div class="material__btn">
-    <div class="send">发送</div>
+    <div class="send sendBtn">发送</div>
   </div>
   <!-- 发送按钮 end -->
 </div>
@@ -941,7 +941,7 @@
    * 文本：'{"type":1,"content":"文本内容","exit":true}';
    * 图片：'{"type":2,"picUrl":"图片大图链接地址","smallPicUrl":"图片缩略图链接地址","exit":true}'
    */
-  $('.send').click(function () {
+  $('.sendBtn').click(function () {
     if (loading || !selectedMaterial) {
       return
     };
