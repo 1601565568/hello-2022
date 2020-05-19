@@ -184,7 +184,7 @@
     // 小程序api根路径
     appUrl = apiRoot()
     // 发送按钮不可点击
-    // setSendButton(0)
+    setSendButton(0)
     // 下拉滚动事件注册
     registerScrollEvent()
     // 屏幕高度变化事件
@@ -195,7 +195,7 @@
   /**
    * @msg: 可查询判断
    */
-  function searchable () {
+  function canSearch () {
     return searchable && !loading && !noMore && !sending
   }
   /**
@@ -249,7 +249,7 @@
 
     if (clientHeight + scrollTop >= scrollHeight) {
       let _refreshText = document.querySelector('.refreshText');
-      if (searchable()) {
+      if (!canSearch()) {
         return
       }
       initMaterialList(++pageStart)
@@ -333,7 +333,7 @@
    * @msg: 初始化素材列表
    */
   function initMaterialList () {
-    if (searchable()) {
+    if (!canSearch()) {
       return
     }
     let $searchName = $('.searchbar__input');
@@ -808,6 +808,10 @@
     })
   });
   $(document).on('click', '.title', function(e){
+    // 重复点击直接返回
+    if (selectedId && selectedId === $(e.target).attr('materialId')) {
+      return;
+    }
     selectedId = $(e.target).attr('materialId')
     $('.material__class').each(function(i,e){
       if ($(e).attr("materialId") === selectedId) {
@@ -817,7 +821,10 @@
           content: $(e).attr("content"),
           imageList: $(e).attr("imageList")
         })
-        setSendButton(1)
+        // 未发送时可点击
+        if (!sending) {
+          setSendButton(1)
+        }
       } else {
         $(e).removeClass('page-radio--selected');
       }
@@ -965,7 +972,8 @@
     let content
     let textDelay = 300
     // 按钮不可点击
-    // setSendButton(0)
+    setSendButton(0)
+    sending = true
     if (selectedMaterial.imageList && selectedMaterial.imageList !== '') {
       if (selectedMaterial.content && selectedMaterial.content !== '') {
         sendContent(selectedMaterial.content, textDelay, false);
