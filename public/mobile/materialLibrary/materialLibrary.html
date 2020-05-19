@@ -121,6 +121,7 @@
 <script src="../js/jquery-3.4.1.min.js"></script>
 <script src="../js/swiper.min.js"></script>
 <script type="text/javascript" src="../js/common.js"></script>
+<script type="text/javascript" src="../js/log.js"></script>
 <script>
   var host = "ecrp://send?params="
   var appUrl
@@ -970,6 +971,7 @@
   function sendContent(content, delay = 100, exit = false) {
     let params = '{"type":1,"content":"' + content + '","exit":' + exit + '}';
     setTimeout(function(){
+      log.info("素材分享", "发送文本", params)
       window.location.href = host + params
     }, delay)
   }
@@ -982,6 +984,7 @@
       + image.indexOf(imageProcessMark) > 0 ? (image + imageResizeAction) : (image + imageSuffix)
       + '","exit":' + exit + '}';
     setTimeout(function () {
+      log.info("素材分享", "发送图片", params)
       window.location.href = host + params
     }, delay)
   }
