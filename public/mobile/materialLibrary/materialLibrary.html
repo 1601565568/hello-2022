@@ -995,9 +995,9 @@
    */
   function sendContent(content, delay = 100, exit = false) {
     let params = '{"type":1,"content":"' + content + '","exit":' + exit + '}';
-    setTimeout(function(){
-      log.info("素材分享", "发送文本", params)
-    }, delay/2)
+    // setTimeout(function(){
+    //   log.info("素材分享", "发送文本", params)
+    // }, delay/2)
     setTimeout(function(){
       window.location.href = host + params
     }, delay)
@@ -1010,9 +1010,9 @@
       + '" , smallPicUrl="'
       + image.indexOf(imageProcessMark) > 0 ? (image + imageResizeAction) : (image + imageSuffix)
       + '","exit":' + exit + '}';
-    setTimeout(function(){
-      log.info("素材分享", "发送图片", params)
-    }, delay - (presetDelay / 2));
+    // setTimeout(function(){
+    //   log.info("素材分享", "发送图片", params)
+    // }, delay - (presetDelay / 2));
     setTimeout(function () {
       window.location.href = host + params
     }, delay)
