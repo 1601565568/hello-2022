@@ -59,6 +59,7 @@ const upLog = (level, module, message, ext) => {
       $.ajax({
         url: url,
         type: 'post',
+        async: true,
         dataType: 'JSON',
         data: JSON.stringify(data),
         method: 'post',
