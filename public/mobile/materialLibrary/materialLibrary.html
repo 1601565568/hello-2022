@@ -970,7 +970,7 @@
    */
   function sendImage(image, delay = 300, exit = false) {
     let params = '{"type":2,"picUrl":"' + image
-      + '" , smallPicUrl="' + image + imageSuffix + '","exit":' + exit + '}';
+      + '" , smallPicUrl="' + image + '","exit":' + exit + '}';
     setTimeout(function () {
       window.location.href = host + params
     }, delay)
