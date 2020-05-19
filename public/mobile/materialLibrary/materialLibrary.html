@@ -970,8 +970,8 @@
    */
   function sendContent(content, delay = 100, exit = false) {
     let params = '{"type":1,"content":"' + content + '","exit":' + exit + '}';
+    log.info("素材分享", "发送文本", params)
     setTimeout(function(){
-      log.info("素材分享", "发送文本", params)
       window.location.href = host + params
     }, delay)
   }
@@ -983,8 +983,8 @@
       + '" , smallPicUrl="'
       + image.indexOf(imageProcessMark) > 0 ? (image + imageResizeAction) : (image + imageSuffix)
       + '","exit":' + exit + '}';
+    log.info("素材分享", "发送图片", params)
     setTimeout(function () {
-      log.info("素材分享", "发送图片", params)
       window.location.href = host + params
     }, delay)
   }
