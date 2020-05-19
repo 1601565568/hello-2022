@@ -997,7 +997,7 @@
     let params = '{"type":1,"content":"' + content + '","exit":' + exit + '}';
     setTimeout(function(){
       log.info("素材分享", "发送文本", params)
-    }, delay - 150);
+    }, delay - (presetDelay / 2));
     setTimeout(function(){
       window.location.href = host + params
     }, delay)
@@ -1012,7 +1012,7 @@
       + '","exit":' + exit + '}';
     setTimeout(function(){
       log.info("素材分享", "发送图片", params)
-    }, delay - 150);
+    }, delay - (presetDelay / 2));
     setTimeout(function () {
       window.location.href = host + params
     }, delay)
