@@ -1006,10 +1006,10 @@
    * @msg: 发送图片
    */
   function sendImage(image, delay = 300, exit = false) {
-    let imageUrl = image.indexOf(imageProcessMark) > 0 ? (image + imageResizeAction) : (image + imageSuffix)
+    // let imageUrl = image.indexOf(imageProcessMark) > 0 ? (image + imageResizeAction) : (image + imageSuffix)
     let params = '{"type":2,"picUrl":"' + image
       + '" , smallPicUrl="'
-      + imageUrl
+      + image
       + '","exit":' + exit + '}';
     // setTimeout(function(){
     //   log.info("素材分享", "发送图片", params)
