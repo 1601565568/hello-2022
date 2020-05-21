@@ -20,7 +20,7 @@
                   <div class="imgbox">
                     <img :src="item.image||require('../../../assets/default-guide.png')" alt="">
                     </div>
-                  <span>{{item.name}}</span><span v-if="item.sameFlag === 1">（{{item.work_id}}）</span>
+                  <span>{{item.name}}</span><span v-if="item.sameFlag === 1 && item.work_number">（{{item.work_number}}）</span>
               </li>
           </ul>
       </div>

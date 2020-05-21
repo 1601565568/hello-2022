@@ -139,10 +139,13 @@
                       </ElFormGrid>
                     </ElFormItem>
                     <ElFormItem label="使用范围：">
-                      <ElFormGrid>
+                      <!-- <ElFormGrid>
                         <ns-button type="text" @click="showEmployee()"
                           >+选择员工</ns-button
                         >
+                      </ElFormGrid> -->
+                      <ElFormGrid>
+                        <NsEmployeeOrCustGroupDialog :guideUrl="this.$api.weWork.guide.findGuideList" btnTitle="选择员工" dialogTitle="选择员工" v-model="model.employeeIds"></NsEmployeeOrCustGroupDialog>
                       </ElFormGrid>
                       <ElFormGrid
                         ><!-- v-if="model.employeeIds.size() > 0" -->
@@ -152,7 +155,7 @@
                     <el-form-item>
                       <ElFormGrid>
                         <ns-button type="text" @click="showChannel()"
-                          >+选择渠道</ns-button
+                          ><Icon type="plus"/>选择渠道</ns-button
                         >
                       </ElFormGrid>
                       <ElFormGrid v-if="this.model.channelCodes">

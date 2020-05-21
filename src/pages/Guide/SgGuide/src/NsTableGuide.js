@@ -61,6 +61,7 @@ export default {
     }
     let findVo = {
       'workId': null,
+      'workNumber': null,
       'mobile': null,
       'job': null,
       'name': null,

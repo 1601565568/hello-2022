@@ -20,24 +20,8 @@ export default {
       dialogVisible: false,
       treeSelect: '',
       treeSelected: '',
-      // 员工树
-      tree: {
-        // 左边树默认绑定数据
-        leftDefaultProps: {
-          children: 'children',
-          label: 'label'
-        },
-        // 右边树数据
-        selectedData: [],
-        copySelectedData: [],
-        // 右边输入框绑定值
-        select: '',
-        selected: '',
-        selectKeys: [],
-        copySelectKeys: [],
-        treeVisible: false,
-        selectData: []
-      },
+      // 员工组建 员工值
+      employeeSelectData: [],
       // 发布内容数据
       publishData: [],
       // 预置链接
@@ -45,7 +29,7 @@ export default {
     }
   },
   mounted () {
-    this.initEmpTree(0)
+    this.initEdit()
     this.getSystemPresetLink()
   },
   methods: {
@@ -53,7 +37,6 @@ export default {
     saveOrUpdateWelcomes () {
       this.loading = true
       let that = this
-      let employeeIds = this.initSelectedData()
       if (!that.title) {
         that.$notify.error('标题不能为空')
         this.loading = false
@@ -75,7 +58,7 @@ export default {
         title: that.title,
         content: encodeURIComponent(content),
         uuid: that.uuid,
-        employeeIds: employeeIds
+        employeeIds: that.employeeSelectData
       }
       that.$refs.form.validate(valid => {
         if (!valid) {
@@ -94,89 +77,9 @@ export default {
           .finally(() => { })
       })
     },
-    initSelectedData () {
-      let arr = []
-      if (this.tree.selectedData.length === 0) {
-        return arr
-      }
-      this.tree.selectedData.forEach((item) => {
-        if (item.id) {
-          arr.push(item.id)
-        }
-      })
-      return arr
-    },
     // 取消编辑
     cancelWelcomes () {
       this.$router.push({ path: '/Guide/speech/speechList' })
-    },
-    // 打开员工树
-    choosePersonnel () {
-      let _this = this
-      _this.dialogVisible = true
-      if (this.tree.selectData.length === 0) {
-        _this.initEmpTree(1)
-      }
-      // 右边树数据
-      this.tree.copySelectedData = this.tree.selectedData
-    },
-    // 关闭员工树
-    employeeTreeClose: function () {
-      this.tree.selectedData = this.tree.copySelectedData
-      this.$refs.selectTree.setCheckedNodes(this.tree.copySelectedData)
-      this.dialogVisible = false
-    },
-    // 树方法
-    check () {
-      this.setSelectedData()
-    },
-    selectFilterNode (query, item) {
-      if (!query) return true
-      return item.label.indexOf(query) !== -1
-    },
-    setSelectedData () {
-      this.tree.selectedData = []
-      let data = this.$refs.selectTree.getCheckedNodes()
-      if (data) {
-        for (let dataParent of data) {
-          if (!dataParent.disabled && dataParent.id) {
-            this.tree.selectedData.push(dataParent)
-          }
-        }
-      }
-      return this.tree.selectedData
-    },
-    // 删除右边的树子节点数据
-    remove (node, data) {
-      const parent = node.parent
-      const children = parent.data.children || parent.data
-      const index = children.findIndex(d => d.id === data.id)
-      children.splice(index, 1)
-      const nodes = this.$refs.selectTree.getCheckedNodes()
-      const nodeIndex = nodes.findIndex(d => d.id === data.id)
-      nodes.splice(nodeIndex, 1)
-      for (let i in nodes) {
-        if (nodes[i].children) {
-          nodes.splice(i, 1)
-        }
-      }
-      this.$refs.selectTree.setCheckedNodes(nodes)
-    },
-    // 初始化员工树
-    async initEmpTree (type) {
-      let _this = this
-      await _this.$http.fetch(_this.$api.guide.sgPersonalQrcode.getDepartment, { plan: 2 }).then(resp => {
-        if (resp.success && resp.result != null) {
-          _this.tree.selectData = JSON.parse(resp.result)
-          if (type === 0) {
-            _this.initEdit()
-          }
-        } else {
-          _this.$notify.error(getErrorMsg('获取员工数据失败', resp))
-        }
-      }).catch((resp) => {
-        _this.$notify.error(getErrorMsg('获取员工数据失败', resp))
-      })
     },
     // 获取系统预置链接
     getSystemPresetLink: function () {
@@ -209,15 +112,7 @@ export default {
             })
           }
           resp.result.employeeIds.forEach(function (value, i) {
-            that.tree.selectKeys.push(value)
-            keyMap[value] = 1
-          })
-          that.tree.selectData.forEach(function (value, i) {
-            value.children.forEach(function (value, i) {
-              if (keyMap[value.id] === 1) {
-                that.tree.selectedData.push(value)
-              }
-            })
+            that.employeeSelectData.push(value)
           })
         }).catch(resp => {
           that.$notify.error(resp.msg)

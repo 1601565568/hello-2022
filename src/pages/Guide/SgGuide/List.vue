@@ -24,6 +24,11 @@
               <span>{{sgGuide.name}}</span>
             </el-form-grid>
           </el-form-item>
+          <el-form-item label="工号：">
+            <el-form-grid>
+              <span>{{sgGuide.work_number}}</span>
+            </el-form-grid>
+          </el-form-item>
           <el-form-item label="昵称：" >
             <el-form-grid>
               <span>{{sgGuide.nickname}}</span>

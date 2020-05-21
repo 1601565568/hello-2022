@@ -18,14 +18,16 @@
                       />
                     </ElFormGrid>
                   </ElFormItem>
-                  <ElFormItem label="选择营销人群：">
-                    <el-form-grid>
-                      <ns-button type='text' @click="choosePersonnel"><Icon type="plus" />选择员工</ns-button>
-                    </el-form-grid>
+                  <!-- 员工组件 开始-->
+                  <ElFormItem label="选择员工：">
                     <ElFormGrid>
-                      已选择<span class="text-primary">{{tree.selectedData.length}}</span>个员工
+                      <NsEmployeeOrCustGroupDialog btnTitle="选择员工" v-model="employeeSelectData"></NsEmployeeOrCustGroupDialog>
+                    </ElFormGrid>
+                    <ElFormGrid>
+                      已选择<span class="text-primary">{{employeeSelectData? employeeSelectData.length: 0}}</span>个导购员工
                     </ElFormGrid>
                   </ElFormItem>
+                  <!-- 员工组件 结束-->
                 </ElForm>
               </div>
             </ElCard>
@@ -49,70 +51,6 @@
                 </div>
               </div>
             </ElCard>
-            <!--选择好友弹窗开始-->
-            <ElDialog width="600px" title="选择员工" :visible.sync="dialogVisible"
-                      :before-close="employeeTreeClose"
-                      :show-scroll-x=false  :response-limit = false class="dialog-scroll">
-              <ElRow :gutter="10" class="code-container">
-                  <ElCol :span="12" class="code-container__item">
-                    <div class="code-title">可选员工</div>
-                    <ElInput
-                      placeholder="请输入员工姓名"
-                      suffix-icon="el-icon-search"
-                      v-model="treeSelect" class="code-space">
-                    </ElInput>
-                    <ElScrollbar>
-                      <ElTree
-                        :data="tree.selectData"
-                        ref="selectTree"
-                        show-checkbox
-                        :filter-node-method="selectFilterNode"
-                        node-key="id"
-                        :default-checked-keys="tree.selectKeys"
-                        @check="check"
-                        :props="tree.leftDefaultProps" class="code-space">
-                        <span class="code-detail clearfix" slot-scope="{ node, data }">
-                          <span class="code-detail__text">{{ node.label }}</span>
-                          <span>{{ data.children ? '/' + data.children.length : '' }}</span>
-                        </span>
-                      </ElTree>
-                    </ElScrollbar>
-                  </ElCol>
-                  <ElCol :span="12" class="code-container__item">
-                    <div class="code-title">已选员工</div>
-                    <ElInput
-                      placeholder="请输入员工姓名"
-                      suffix-icon="el-icon-search"
-                      v-model="treeSelected" class="code-space">
-                    </ElInput>
-                    <ElScrollbar>
-                      <ElTree
-                        :data="tree.selectedData"
-                        ref="selectedTree"
-                        node-key="id"
-                        :filter-node-method="selectFilterNode"
-                        :expand-on-click-node="false" class="code-space">
-                        <span class="code-detail clearfix" slot-scope="{ node, data }">
-                          <span class="code-detail__text">{{ node.label }}</span>
-                          <span>
-                            <ns-button
-                              type="text"
-                              size="mini"
-                              @click="() => remove(node, data)">
-                              <Icon type="delete" className="code-delete"/>
-                            </ns-button>
-                          </span>
-                        </span>
-                      </ElTree>
-                    </ElScrollbar>
-                  </ElCol>
-                </ElRow>
-              <template slot="footer">
-                <ns-button @click="employeeTreeClose">取消</ns-button>
-                <ns-button type="primary" @click="dialogVisible = false">确定</ns-button>
-              </template>
-            </ElDialog>
-            <!--选择好友弹窗结束-->
           </div>
         </ElScrollbar>
         <div class="form-save__unique">
@@ -130,11 +68,13 @@ import ElTimeSelect from '@nascent/nui/lib/time-select'
 import postContent from './content/postContent.vue'
 import contentPreview from './content/contentPreview.vue'
 import { getErrorMsg } from '@/utils/toast'
+import NsEmployeeOrCustGroupDialog from './../../../components/NsGuideDialog'
 edit.components = {
   ElCard,
   ElTimeSelect,
   postContent,
-  contentPreview
+  contentPreview,
+  NsEmployeeOrCustGroupDialog
 }
 export default edit
 </script>

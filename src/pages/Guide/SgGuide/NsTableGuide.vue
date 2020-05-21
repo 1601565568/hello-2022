@@ -46,6 +46,11 @@
               <el-input autofocus=true v-model="model.name" placeholder="请输入姓名" clearable></el-input>
             </el-form-grid>
           </el-form-item>
+          <el-form-item label="工号：">
+            <el-form-grid size="xmd">
+              <el-input autofocus=true v-model="model.workNumber" placeholder="请输入工号" clearable></el-input>
+            </el-form-grid>
+          </el-form-item>
           <el-form-item label="昵称：">
             <el-form-grid size="xmd">
               <el-input autofocus=true v-model="model.nickname" placeholder="请输入昵称" clearable></el-input>
@@ -112,6 +117,11 @@
             </template>
           </el-table-column>
           <el-table-column prop="name" label="姓名" align="left" min-width="100" :show-overflow-tooltip="true"></el-table-column>
+          <el-table-column prop="name" label="工号" align="left" min-width="100" :show-overflow-tooltip="true">
+            <template slot-scope="scope">
+              {{scope.row.work_number ? scope.row.work_number : '-'}}
+            </template>
+          </el-table-column>
           <el-table-column prop="mobile" label="手机号码" align="left" min-width="100"></el-table-column>
           <el-table-column prop="shopName,count" min-width="150" label="工作门店" align="left" :show-overflow-tooltip="true">
             <template slot-scope="scope">

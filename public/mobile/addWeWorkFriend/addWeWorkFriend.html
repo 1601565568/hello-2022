@@ -20,8 +20,6 @@
             <div class="content__avatar">
                  <!-- 动态图片 -->
                 <img id="guideImg" src="../img/expression/memberDefault.png" alt="导购头像" class="avatarimg">
-                <!-- 默认图片 -->
-                <!--<img src="../img/expression/memberDefault.png" alt="用户头像" class="defaultimg">-->
             </div>
             <div class="content__exclusive">专属导购</div>
             <div id="guideName" class="content__username"></div>
@@ -49,6 +47,7 @@
     </div>
 </div>
 <script type="text/javascript" src="https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/commonJs/common.js"></script>
+<script type="text/javascript" src="../js/jquery-3.4.1.min.js"></script>
 <script>
     $(document).ready(function () {
         var guideData = JSON.parse(localStorage.getItem('guideData'));
