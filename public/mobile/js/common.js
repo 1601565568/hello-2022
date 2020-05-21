@@ -1,4 +1,3 @@
-$(function(){
 function backstageURL () {
   var returnUrl
   var hostUrl = window.location.protocol + '//' + window.location.host
@@ -86,4 +85,4 @@ var formatMobile = function (mobile) {
     return mobile.substr(0, 3) + ' **** ' + mobile.substr(7)
   }
 }
-} )
+

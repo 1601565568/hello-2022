@@ -61,25 +61,47 @@ export default {
           'path': '/Guide/SgFriendAutoPass/List',
           'name': 'AutoPass',
           'title': '好友自动通过',
-          'component': () => import('@/pages/Guide/SgFriendAutoPass/List.vue')
-        },
-        {
-          'path': '/Guide/SgFriendAutoPass/List/Edit/:id',
-          'name': 'AutoPass',
-          'title': '好友自动通过',
-          'component': () => import('@/pages/Guide/SgFriendAutoPass/Edit.vue')
+          'component': () => import('@nascent/ecrp-ecrm/src/layout/ContentOnly.vue'),
+          'redirect': {
+            'name': 'AutoPass'
+          },
+          'children': [
+            {
+              'path': '/Guide/SgFriendAutoPass/List',
+              'name': 'AutoPass',
+              'title': '好友自动通过',
+              'component': () => import('@/pages/Guide/SgFriendAutoPass/List.vue')
+            },
+            {
+              'path': '/Guide/SgFriendAutoPass/List/Edit/:id',
+              'name': 'AutoPass',
+              'title': '好友自动通过',
+              'component': () => import('@/pages/Guide/SgFriendAutoPass/Edit.vue')
+            }
+          ]
         },
         {
           'path': '/Guide/SgPersonalQrcode/List',
           'name': 'AutoPass',
           'title': '聚合二维码',
-          'component': () => import('@/pages/Guide/SgPersonalQrcode/List.vue')
-        },
-        {
-          'path': '/Guide/SgPersonalQrcode/List/Edit/:id',
-          'name': 'AutoPass',
-          'title': '聚合二维码',
-          'component': () => import('@/pages/Guide/SgPersonalQrcode/Edit.vue')
+          'component': () => import('@nascent/ecrp-ecrm/src/layout/ContentOnly.vue'),
+          'redirect': {
+            'name': 'SgPersonalQrcode'
+          },
+          'children': [
+            {
+              'path': '/Guide/SgPersonalQrcode/List',
+              'name': 'SgPersonalQrcode',
+              'title': '聚合二维码',
+              'component': () => import('@/pages/Guide/SgPersonalQrcode/List.vue')
+            },
+            {
+              'path': '/Guide/SgPersonalQrcode/List/Edit/:id',
+              'name': 'SgPersonalQrcode',
+              'title': '聚合二维码',
+              'component': () => import('@/pages/Guide/SgPersonalQrcode/Edit.vue')
+            }
+          ]
         },
         {
           'path': '/Guide/chanel/chanel',
@@ -91,25 +113,47 @@ export default {
           'path': '/WeWork/WelcomeCode/WelcomeCodeList',
           'name': 'WelcomeCodeList',
           'title': '智能欢迎语(企微)',
-          'component': () => import('@/pages/WeWork/WelcomeCode/List.vue')
-        },
-        {
-          'path': '/WeWork/WelcomeCode/Edit',
-          'name': 'WelcomeCodeEdit',
-          'title': '编辑智能欢迎语(企微)',
-          'component': () => import('@/pages/WeWork/WelcomeCode/Edit.vue')
+          'component': () => import('@nascent/ecrp-ecrm/src/layout/ContentOnly.vue'),
+          'redirect': {
+            'name': 'WelcomeCodeList'
+          },
+          'children': [
+            {
+              'path': '/WeWork/WelcomeCode/WelcomeCodeList',
+              'name': 'WelcomeCodeList',
+              'title': '智能欢迎语(企微)',
+              'component': () => import('@/pages/WeWork/WelcomeCode/List.vue')
+            },
+            {
+              'path': '/WeWork/WelcomeCode/Edit',
+              'name': 'WelcomeCodeEdit',
+              'title': '编辑智能欢迎语(企微)',
+              'component': () => import('@/pages/WeWork/WelcomeCode/Edit.vue')
+            }
+          ]
         },
         {
           'path': '/Guide/speech/speechList',
           'name': 'WelcomesIndex',
           'title': '欢迎语',
-          'component': () => import('@/pages/WeChat/Welcomes/index.vue')
-        },
-        {
-          'path': '/Guide/speech/edit',
-          'name': 'WelcomesEdit',
-          'title': '编辑欢迎语（个号）',
-          'component': () => import('@/pages/WeChat/Welcomes/edit.vue')
+          'component': () => import('@nascent/ecrp-ecrm/src/layout/ContentOnly.vue'),
+          'redirect': {
+            'name': 'WelcomesIndex'
+          },
+          'children': [
+            {
+              'path': '/Guide/speech/speechList',
+              'name': 'WelcomesIndex',
+              'title': '欢迎语',
+              'component': () => import('@/pages/WeChat/Welcomes/index.vue')
+            },
+            {
+              'path': '/Guide/speech/edit',
+              'name': 'WelcomesEdit',
+              'title': '编辑欢迎语（个号）',
+              'component': () => import('@/pages/WeChat/Welcomes/edit.vue')
+            }
+          ]
         }
       ]
     }
