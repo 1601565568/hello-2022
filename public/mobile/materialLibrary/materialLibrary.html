@@ -168,6 +168,7 @@
   var loading = false
   var noMore = false
   var sending = false // 发送状态
+  var dataList = []
 
   /**
    * @msg: 页面初始化加载事件
@@ -287,6 +288,7 @@
    */
   function resetParam() {
     pageStart = 0
+    dataList = []
     loading = false
     noMore = false
     selectedId = null
@@ -502,21 +504,12 @@
    * @return: 返回列表项的dom文本
    */
   function buildListItem(materialId, content, imageList, datetime, type, subdivision, isSelected) {
-    if (isSelected) {
-      selectedId = materialId;
-      selectedMaterial = Object.assign({}, {
-        materialId: materialId,
-        content: content,
-        imageList:  imageList ? imageList.toString() : ''
-      })
-    }
     let cls = isSelected ? 'page-radio--selected' : ''
     let html =
     '<div class="item" id="' + materialId + '">' +
       '<div class="material__class page-radio ' + cls + '"'
         + ' materialId="' + materialId + '"'
-        + ' content="' + content + '"'
-        + ' imageList="' + imageList + '"' + '></div>' +
+        + ' content="' + content + '"' + '></div>' +
       '<div class="item__msg">' +
           // 主内容
           '<div class="outerContainer">' +
@@ -562,8 +555,7 @@
       '<div class="photowall__picture">' +
         '<img src="'
         // 图片已经过oss处理，则添加缩放处理action，否则需要添加oss处理命令 imageProcessMark('?x-oss-process=image')
-        + imageUrl
-        + '" alt="素材库图片" class="img" index="' + index + '" imageList="' + imageList + '">' +
+        + imageUrl + '" originalImage="' + image + '" alt="素材库图片" class="img" index="' + index + '" imageList="' + imageList + '">' +
       '</div>';
     })
     return html;
@@ -580,6 +572,19 @@
       }
     })
     return selected
+  }
+  /**
+   * @msg: 根据selectedId 获取图片列表
+   */
+  function getSelectedImageList(selectedId) {
+    if (!selectedId) {
+      return null;
+    }
+    let imageList = []
+    $("#" + selectedId).find("img").each(function() {
+      imageList.push($(this).attr("originalImage"))
+    })
+    return imageList;
   }
   /**
    * @msg: 暂无数据
@@ -615,9 +620,7 @@
       '</div>';
     })
     $('.swiper-wrapper').html(html);
-    // setTimeout(function(){swiperCss();}, 100)
     newSwiperCss();
-    // setTimeout(function(){newSwiperCss();}, 10)
   }
   /**
    * @msg: 旧版处理方式
@@ -790,10 +793,12 @@
       return;
     }
     selectedId = $(e.target).attr("materialId");
+    // 选中的图片
+    let imageList = getSelectedImageList(selectedId);
     selectedMaterial = Object.assign({}, {
       materialId: $(e.target).attr("materialId"),
       content: $(e.target).attr("content"),
-      imageList: $(e.target).attr("imageList")
+      imageList: imageList
     })
     $('.material__class').each(function(i,e){
       if ($(e).attr("materialId") === selectedId) {
@@ -816,10 +821,12 @@
     $('.material__class').each(function(i,e){
       if ($(e).attr("materialId") === selectedId) {
         $(e).addClass('page-radio--selected');
+        // 选中的图片
+        let imageList = getSelectedImageList(selectedId);
         selectedMaterial = Object.assign({}, {
           materialId: $(e).attr("materialId"),
           content: $(e).attr("content"),
-          imageList: $(e).attr("imageList")
+          imageList: imageList
         })
         // 未发送时可点击
         if (!sending) {
@@ -914,10 +921,11 @@
     $('.material').addClass('hidden');
     $('.swiper-container').removeClass('hidden');
     // 组装图片轮播
-    let imageList = e.target.getAttribute('imageList');
+    let materialId = $(e.target).parents(".item").attr("id")
+    let imageList = getSelectedImageList(materialId)
     let index = e.target.getAttribute('index');
     if (imageList) {
-       buildSwiperImageList(imageList.split(','), parseInt(index) + 1);
+       buildSwiperImageList(imageList, parseInt(index) + 1);
        bindLongTouch()
     }
     // 图片轮播
@@ -978,7 +986,7 @@
       if (selectedMaterial.content && selectedMaterial.content !== '') {
         sendContent(selectedMaterial.content, textDelay, false);
       }
-      selectedMaterial.imageList.split(",").forEach(function(image,index,arr){
+      selectedMaterial.imageList.forEach(function(image,index,arr){
         // 最后一张图片关闭页面
         sendImage(image, (index + 1) * presetDelay + textDelay, index === arr.length -1)
       });
@@ -995,9 +1003,9 @@
    */
   function sendContent(content, delay = 100, exit = false) {
     let params = '{"type":1,"content":"' + content + '","exit":' + exit + '}';
-    // setTimeout(function(){
-    //   log.info("素材分享", "发送文本", params)
-    // }, delay/2)
+    setTimeout(function(){
+      log.info("素材分享", "发送文本", params)
+    }, delay/2)
     setTimeout(function(){
       window.location.href = host + params
     }, delay)
