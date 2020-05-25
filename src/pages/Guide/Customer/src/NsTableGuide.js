@@ -112,8 +112,10 @@ export default {
       _this.$emit('offLineShopId', _this.offLineShopId)
       _this.shuJushuzu = data
       _this.loading = true
+      // 页码重置,觉得不应该有这个问题.
+      _this._data._pagination.page = 1
       _this.$reload().then(rep => {
-        _this.loading = _this._data._loading
+        _this.loading = _this._data.loading
         this.totalForUnconditionalSearch(data)
       })
       // 设置搜索及重置可用
