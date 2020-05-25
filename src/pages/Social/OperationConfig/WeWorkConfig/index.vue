@@ -58,10 +58,10 @@ export default {
           type: 0,
           url: 'https://work.weixin.qq.com/wework_admin/frame#customer/chatMenu'
         }, {
-          explain: '客户详情：pages/member/profile',
+          explain: '客户详情：pages/member/memberData',
           value: 'pages/member/profile'
         }, {
-          explain: '客户标签：pages/member/profile',
+          explain: '客户标签：pages/member/memberData',
           value: 'pages/member/profile'
         }]
       }, {
@@ -71,7 +71,7 @@ export default {
           type: 0,
           url: 'https://work.weixin.qq.com/wework_admin/frame#profile/wxcontacts/mngConfigView'
         }, {
-          explain: '客户详情：pages/member/profile',
+          explain: '客户详情：pages/member/memberData',
           value: 'pages/member/profile'
         }]
       }],
