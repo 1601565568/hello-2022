@@ -884,7 +884,9 @@
     $(".material__choice").html(selectedSubdivisionName + "<i class='iconfont icon-ns-arrow-drowdown'></i>")
     // 关闭分组
     $('.float-layout').addClass('hidden')
-    $('body').css('overflow','auto');
+    $('.material__list').css('height','');
+    $('.material__list').css('overflow','auto');
+    // $('body').css('overflow','auto');
     resetParam();
     // 加载列表
     initMaterialList()
@@ -892,12 +894,14 @@
   // 素材分组打开浮层
   $('.material__choice').click(function () {
     $('.float-layout').removeClass('hidden');
-    $('body').css('overflow','hidden');
+    $('.material__list').css('height','calc(100vh - 240px)');
+    $('.material__list').css('overflow','hidden');
   })
   // 素材分组关闭浮层
   $('.float-layout__mask').click(function () {
     $('.float-layout').addClass('hidden')
-    $('body').css('overflow','auto');
+    $('.material__list').css('height','');
+    $('.material__list').css('overflow','auto');
   })
   // 素材标题收起和隐藏
   $(document).on('click', '.subCategoryMore', function(e){
