@@ -40,7 +40,7 @@
       >
       <el-table-column prop="name" label="姓名">
         <template slot-scope="{row}">
-          {{ row.name }} <span v-if="row.sameFlag === 1 &&  row.workNumber"> ({{ scope.workNumber }}) </span>
+          {{ row.name }} <span v-if="row.sameFlag === 1 &&  row.workNumber"> ({{ row.workNumber }}) </span>
         </template>
       </el-table-column>
       <el-table-column label="状态" align="center" width="80">
