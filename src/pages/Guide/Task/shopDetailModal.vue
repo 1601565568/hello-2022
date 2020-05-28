@@ -38,7 +38,11 @@
       stripe
       style="width: 100%"
       >
-      <el-table-column prop="name" label="姓名"></el-table-column>
+      <el-table-column prop="name" label="姓名">
+        <template slot-scope="{row}">
+          {{ row.name }} <span v-if="row.sameFlag === 1 &&  row.workNumber"> ({{ scope.workNumber }}) </span>
+        </template>
+      </el-table-column>
       <el-table-column label="状态" align="center" width="80">
         <template slot-scope="{row}">
           <span v-if="row.state === 1" class="text-primary">执行中</span>
