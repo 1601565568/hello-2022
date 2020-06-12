@@ -226,8 +226,8 @@
         </el-radio-group>
       </div>
       <div>
-        <p class="text-warning"><Icon type="info-circle" />  一个微信号只能授权给一个商户！</p>
-        <p>点击授权跳转到微信公众平台授权页面，授权微信号</p>
+        <p class="text-warning"><Icon type="info-circle" />  一个小程序只能授权给一个商户！</p>
+        <p>点击授权跳转到微信公众平台授权页面，授权小程序</p>
       </div>
       <div slot="footer" class="authorization_footer">
         <ns-button @click="authorization = false">取消</ns-button>

@@ -8,7 +8,7 @@
           <Icon type="question-circle"/>
         </el-tooltip>
       </div>
-<!--      <el-scrollbar wrapStyle="overflow-x:hidden;" style="max-height: 300px; overflow-y: auto;    margin-bottom: 0px; margin-right: 0px;">-->
+      <el-scrollbar  class="quickScrollbar" wrapStyle="overflow-x:hidden;" >
         <div :class="offsetHeight?'elTrees':'elTree'" ref="elTree">
           <el-tree :data="wordGroupList" default-expand-all @node-click="onClickNode" @node-drop="handleDrop" draggable :allow-drop="allowDrop"
           :allow-drag="allowDrag"
@@ -26,7 +26,7 @@
           </div>
           </el-tree>
         </div>
-<!--      </el-scrollbar>-->
+      </el-scrollbar>
     </div>
     <div id="box_right">
       <ns-page-table>
@@ -380,4 +380,23 @@ export default List
  .resetbtn {
    margin-left: var(--default-margin-larger);
  }
+
+/*  左侧滚动框呀样式*/
+  .quickScrollbar{
+    max-height: 450px;
+    overflow-y: auto;
+    margin-bottom: 0px;
+    margin-right: 0px
+}
+  .quickScrollbar::-webkit-scrollbar{
+    width: 5px;
+    -webkit-box-sizing: border-box;
+    background-color: #fff
+ }
+  .quickScrollbar::-webkit-scrollbar-button {/*滚动条两端的按钮。可以用display:none让其不显示，也可以添加背景图片，颜色改变显示效果。*/
+   width: 3px;
+}
+  .quickScrollbar::-webkit-scrollbar-thumb {/*滚动条里面可以拖动的那部分*/
+    background: rgb(200,200,200);
+}
 </style>

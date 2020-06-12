@@ -52,7 +52,7 @@ export default {
       presentObj: {},
       titleText: '',
       titleTexts: '小程序代码模版',
-      authorizationText: '微信号授权',
+      authorizationText: '小程序授权',
       miniProgramText: '小程序信息',
       autidText: '提交审核',
       url: this.$api.guide.sgwxaccount.findList,
