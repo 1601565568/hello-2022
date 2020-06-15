@@ -20,52 +20,52 @@
 </template>
 
 <script>
-  export default {
-    data () {
-      return {
-        customerVisible: false,
-        memberManagePlan: 1, // 企业方案1：企微2：个号
-        customerServiceUrl: null
-      }
-    },
-    mounted () {
-      this.$http.fetch(this.$api.core.common.getRecruitVersion).then(data => {
-        this.memberManagePlan = data.result.memberManagePlan
+export default {
+  data () {
+    return {
+      customerVisible: false,
+      memberManagePlan: 1, // 企业方案1：企微2：个号
+      customerServiceUrl: null
+    }
+  },
+  mounted () {
+    this.$http.fetch(this.$api.core.common.getRecruitVersion).then(data => {
+      this.memberManagePlan = data.result.memberManagePlan
+    })
+  },
+  methods: {
+    customerService () {
+      this.$http.fetch(this.$api.core.common.findCustomerServiceUrl).then(data => {
+        if (data.success) {
+          this.customerServiceUrl = data.result
+          this.customerVisible = true
+        } else if (data.success && !data.result) {
+          this.$message.error('未获取到智慧客服地址')
+        } else {
+          this.$message.error('获取智慧客服地址失败')
+        }
       })
     },
-    methods: {
-      customerService () {
-        this.$http.fetch(this.$api.core.common.findCustomerServiceUrl).then(data => {
-          if (data.success) {
-            this.customerServiceUrl = data.result
-            this.customerVisible = true
-          } else if (data.success && !data.result) {
-            this.$message.error('未获取到智慧客服地址')
-          } else {
-            this.$message.error('获取智慧客服地址失败')
-          }
-        })
-      },
-      onConfirm () {
-        this.customerVisible = false
-      },
-      // 复制
-      copy (msg) {
-        let url = msg
-        let oInput = document.createElement('input')
-        oInput.value = url
-        document.body.appendChild(oInput)
-        oInput.select() // 选择对象;
-        // console.log(oInput.value)
-        document.execCommand('Copy') // 执行浏览器复制命令
-        this.$message({
-          message: '复制成功',
-          type: 'success'
-        })
-        oInput.remove()
-      }
+    onConfirm () {
+      this.customerVisible = false
+    },
+    // 复制
+    copy (msg) {
+      let url = msg
+      let oInput = document.createElement('input')
+      oInput.value = url
+      document.body.appendChild(oInput)
+      oInput.select() // 选择对象;
+      // console.log(oInput.value)
+      document.execCommand('Copy') // 执行浏览器复制命令
+      this.$message({
+        message: '复制成功',
+        type: 'success'
+      })
+      oInput.remove()
     }
   }
+}
 </script>
 
 <style scoped>
