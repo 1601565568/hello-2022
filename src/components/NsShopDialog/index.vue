@@ -46,7 +46,14 @@
             <ElTable v-loading="tableLoading" ref="employeeTable" :data="listData" height="260" @select="selectChange" @select-all="selectAllChange">
               <ElTableColumn type="selection" width="55" />
               <ElTableColumn :show-overflow-tooltip="true" type="default" prop="shopName" label="店铺名称" align="left"/>
-              <ElTableColumn :show-overflow-tooltip="true" type="default" prop="shopStatus" label="店铺状态" align="left"/>
+              <ElTableColumn :show-overflow-tooltip="true" type="default" prop="shopStatus" label="店铺状态" align="left">
+                <template slot-scope="scope">
+                  {{scope.row.shopStatus === -2 ? '锁定/暂停' : ''}}
+                  {{scope.row.shopStatus === -1 ? '过期/已关店' : ''}}
+                  {{scope.row.shopStatus === -0 ? '删除' : ''}}
+                  {{scope.row.shopStatus === 1 ? '正常' : ''}}
+                </template>
+              </ElTableColumn>
             </ElTable>
             <el-pagination v-if="_data.pagination4Emp.enable" class="template-table__pagination"
                            :page-sizes="_data.pagination4Emp.sizeOpts" :total="_data.pagination4Emp.total"
