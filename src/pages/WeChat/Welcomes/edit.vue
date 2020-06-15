@@ -1,63 +1,73 @@
 <template>
   <div>
     <el-form ref="form" placement="right" label-width="100px" :model="model" :rules="rules">
-        <ElScrollbar ref="fullScreen">
-          <div class="message-container modify-card">
-            <ElCard shadow="never">
-              <div>
+      <ElScrollbar ref="fullScreen">
+        <div class="message-container modify-card">
+          <ElCard shadow="never">
+            <div>
+              <ElForm label-width="100px">
+                <ElFormItem label="欢迎语标题：" required>
+                  <ElFormGrid size="xlg">
+                    <ElInput
+                      type="text"
+                      placeholder="请输入欢迎语标题"
+                      v-model="title"
+                      maxlength="30"
+                      :input="title=title.replace(/(^\s*)|(\s*$)/g, '')"
+                      show-word-limit
+                    />
+                  </ElFormGrid>
+                </ElFormItem>
+                <!-- 店铺组件 开始-->
+                <ElFormItem label="选择店铺：">
+                  <ElFormGrid>
+                    <NsShopDialog btnTitle="选择店铺" v-model="shopSelectData"></NsShopDialog>
+                  </ElFormGrid>
+                  <ElFormGrid>
+                    已选择<span class="text-primary">{{shopSelectData? shopSelectData.length: 0}}</span>家店铺
+                  </ElFormGrid>
+                </ElFormItem>
+                <!-- 店铺组件 结束-->
+                <!-- 员工组件 开始-->
+                <ElFormItem label="选择员工：">
+                  <ElFormGrid>
+                    <NsGuideDialog btnTitle="选择员工" v-model="employeeSelectData"></NsGuideDialog>
+                  </ElFormGrid>
+                  <ElFormGrid>
+                    已选择<span class="text-primary">{{employeeSelectData? employeeSelectData.length: 0}}</span>个导购员工
+                  </ElFormGrid>
+                </ElFormItem>
+                <!-- 员工组件 结束-->
+              </ElForm>
+            </div>
+          </ElCard>
+          <ElCard shadow="never" class="message-container__card">
+            <div slot="header">欢迎语设置</div>
+            <div class="message-composition">
+              <div class="message-composition__left">
                 <ElForm label-width="100px">
-                  <ElFormItem label="欢迎语标题：" required>
-                    <ElFormGrid size="xlg">
-                      <ElInput
-                        type="text"
-                        placeholder="请输入欢迎语标题"
-                        v-model="title"
-                        maxlength="30"
-                        :input="title=title.replace(/(^\s*)|(\s*$)/g, '')"
-                        show-word-limit
-                      />
+                  <ElFormItem label="欢迎语内容：" required>
+                    <ElFormGrid class="text-secondary">
+                      一套欢迎语组最多添加10条欢迎语消息
                     </ElFormGrid>
                   </ElFormItem>
-                  <!-- 员工组件 开始-->
-                  <ElFormItem label="选择员工：">
-                    <ElFormGrid>
-                      <NsEmployeeOrCustGroupDialog btnTitle="选择员工" v-model="employeeSelectData"></NsEmployeeOrCustGroupDialog>
-                    </ElFormGrid>
-                    <ElFormGrid>
-                      已选择<span class="text-primary">{{employeeSelectData? employeeSelectData.length: 0}}</span>个导购员工
-                    </ElFormGrid>
+                  <ElFormItem>
+                    <postContent :publishDataFather="publishData" :presetLinkFather="presetLink"/>
                   </ElFormItem>
-                  <!-- 员工组件 结束-->
                 </ElForm>
               </div>
-            </ElCard>
-            <ElCard shadow="never" class="message-container__card">
-              <div slot="header">欢迎语设置</div>
-              <div class="message-composition">
-                <div class="message-composition__left">
-                  <ElForm label-width="100px">
-                    <ElFormItem label="欢迎语内容：" required>
-                      <ElFormGrid class="text-secondary">
-                        一套欢迎语组最多添加10条欢迎语消息
-                      </ElFormGrid>
-                    </ElFormItem>
-                    <ElFormItem>
-                      <postContent :publishDataFather="publishData" :presetLinkFather="presetLink"/>
-                    </ElFormItem>
-                  </ElForm>
-                </div>
-                <div class="message-composition__right">
-                  <contentPreview :publishDataFather="publishData"/>
-                </div>
+              <div class="message-composition__right">
+                <contentPreview :publishDataFather="publishData"/>
               </div>
-            </ElCard>
-          </div>
-        </ElScrollbar>
-        <div class="form-save__unique">
-          <NsSave :loading="loading" @click="saveOrUpdateWelcomes"/>
-          <NsButton @click="cancelWelcomes">{{$t('operating.cancel')}}</NsButton>
+            </div>
+          </ElCard>
         </div>
-      </el-form>
+      </ElScrollbar>
+      <div class="form-save__unique">
+        <NsSave :loading="loading" @click="saveOrUpdateWelcomes"/>
+        <NsButton @click="cancelWelcomes">{{$t('operating.cancel')}}</NsButton>
+      </div>
+    </el-form>
   </div>
 </template>
 
@@ -68,13 +78,15 @@ import ElTimeSelect from '@nascent/nui/lib/time-select'
 import postContent from './content/postContent.vue'
 import contentPreview from './content/contentPreview.vue'
 import { getErrorMsg } from '@/utils/toast'
-import NsEmployeeOrCustGroupDialog from './../../../components/NsGuideDialog'
+import NsGuideDialog from './../../../components/NsGuideDialog'
+import NsShopDialog from './../../../components/NsShopDialog'
 edit.components = {
   ElCard,
   ElTimeSelect,
   postContent,
   contentPreview,
-  NsEmployeeOrCustGroupDialog
+  NsGuideDialog,
+  NsShopDialog
 }
 export default edit
 </script>
@@ -123,15 +135,15 @@ export default edit
 
   /* 修改el-card的默认样式 start */
   .modify-card {
-    >>>.el-card {
-      border: 0;
-      border-radius: var(--default-radius-mini);
-    }
+  >>>.el-card {
+    border: 0;
+    border-radius: var(--default-radius-mini);
+  }
   }
   /* 修改el-card的默认样式 end */
   .dialog-scroll {
-    >>> .el-scrollbar__wrap {
-      height: 200px;
-    }
+  >>> .el-scrollbar__wrap {
+    height: 200px;
+  }
   }
 </style>
