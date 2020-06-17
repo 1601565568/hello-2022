@@ -110,6 +110,16 @@
             ></el-input>
           </el-form-grid>
         </el-form-item>
+        <el-form-item label="门店：">
+          <el-form-grid size="xmd">
+            <el-input
+              style="width:180px"
+              v-model.trim="model.shopName"
+              placeholder="请输入门店名称"
+              clearable
+            ></el-input>
+          </el-form-grid>
+        </el-form-item>
       </el-form>
       <div class="template-table__more-btn">
         <ns-button type="primary" @click.native.prevent="$searchAction$()">{{

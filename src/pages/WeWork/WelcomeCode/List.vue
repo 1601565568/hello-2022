@@ -3,7 +3,7 @@
  * @Author: yuye.huang
  * @Date: 2020-02-28 17:28:29
  * @LastEditors: yuye.huang
- * @LastEditTime: 2020-06-17 14:46:23
+ * @LastEditTime: 2020-06-17 16:18:14
  -->
 <template>
   <div>
@@ -78,7 +78,6 @@ export default {
      * @param {scope.row}
      */
     onShowShopScope (data) {
-      debugger
       this.nsTableShopScopeModel = {
         welcomeCodeUuid: data.welcomeCodeUuid,
         visible: true
@@ -101,7 +100,6 @@ export default {
     onOpenShopDialog () {
       // 重新刷新列表数据
       this.$nextTick(() => {
-        debugger
         this.$refs.shopTable.model.welcomeCodeUuid = this.nsTableShopScopeModel.welcomeCodeUuid
         this.$refs.shopTable._data._table.searchMap.welcomeCodeUuid = this.nsTableShopScopeModel.welcomeCodeUuid
         this.$refs.shopTable._data._table.quickSearchMap.welcomeCodeUuid = this.nsTableShopScopeModel.welcomeCodeUuid

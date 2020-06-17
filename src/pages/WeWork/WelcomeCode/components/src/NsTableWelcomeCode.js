@@ -3,7 +3,7 @@
  * @Author: yuye.huang
  * @Date: 2020-03-01 16:34:26
  * @LastEditors: yuye.huang
- * @LastEditTime: 2020-06-17 14:54:23
+ * @LastEditTime: 2020-06-17 15:51:17
  */
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import annexType from '@/config/annexType.js'
@@ -48,6 +48,7 @@ export default {
       'content': '',
       'employeeName': '',
       'channelName': '',
+      'shopName': '',
       'annexType': '',
       'orderKey': 'updateTime',
       'order': 'descending'
