@@ -64,7 +64,12 @@
           <el-table-column prop="title" label="标题" align="left" min-width="30">
             <template slot-scope="scope">
               {{scope.row.title?scope.row.title:'-'}}
-              <button v-if="scope.row.type === 9" style="color: #FFFFFF; background-color: #5F51F9; border:double #fff; border-radius:2em;" >默认模板</button>
+              <button v-if="scope.row.type === 9" style="color: #FFFFFF; background-color: #5F51F9; border:double #fff; border-radius:2em;" >
+                默认欢迎语
+              </button>
+              <el-tooltip v-if="scope.row.type === 9" content="当员工未配置欢迎语时，则使用默认欢迎语">
+                <Icon type="question-circle"/>
+              </el-tooltip>
             </template>
           </el-table-column>
           <el-table-column prop="updateTime" label="更新时间" align="center" min-width="30">
@@ -72,7 +77,13 @@
               {{scope.row.updateTime?scope.row.updateTime:'-'}}
             </template>
           </el-table-column>
-          <el-table-column prop="count" label="适用范围" align="center" min-width="30">
+          <el-table-column align="center" min-width="30">
+            <template slot="header">
+              适用范围
+              <el-tooltip content="多个欢迎语情况下的发送优先级：员工欢迎语>门店欢迎语>默认欢迎语">
+                <Icon type="question-circle"/>
+              </el-tooltip>
+            </template>
             <template slot-scope="scope">
               <div v-if="scope.row.shopCount > 0 || scope.row.count > 0">
                 <ns-button style="color:#0091FA" @click="onShowShopScope(scope.row)" v-if="scope.row.shopCount > 0" type="text">{{scope.row.shopCount}}家店铺</ns-button>
@@ -81,7 +92,18 @@
               <div v-else>-</div>
             </template>
           </el-table-column>
-          <el-table-column prop="count" label="状态" align="center" min-width="30">
+          <el-table-column label="发送时间限制" align="center" min-width="30">
+            <template slot="header">
+              适用范围
+              <el-tooltip content="欢迎语发送可能受网络影响导致发送延迟，超过该时间限制后则不再会自动发送">
+                <Icon type="question-circle"/>
+              </el-tooltip>
+            </template>
+            <template slot-scope="scope">
+              {{scope.row.failureTime?scope.row.failureTime+' 秒':'无限制'}}
+            </template>
+          </el-table-column>
+          <el-table-column label="状态" align="center" min-width="30">
             <template slot-scope="{row}">
               <el-switch style="cursor:pointer" :value="row.status" :active-value="1" :inactive-value="0" active-text="关闭" inactive-text="开启"
                          :before-change="(call, currVal)=>{onStatusChange(call,currVal,row)}"></el-switch>
