@@ -56,6 +56,21 @@
             元
           </el-form-grid>
         </el-form-item>
+        <div class="addTitBox">
+          <span class="addTitText">新加好友奖励</span>
+          <el-form-item>
+            <el-switch  :active-value="1" :inactive-value="0" v-model="saveObj.addfriendStatus"></el-switch>
+          </el-form-item>
+        </div>
+        <el-form-item label="新加好友奖励：  每添加一名新好友奖励" prop="memberReward" class="el-form-validate__unHide addItemCon">
+          <el-form-grid class="memberReward">
+            <el-input-number class="inputSize" :controls="false" :precision="2"
+                             v-model.number="saveObj.addfriendReward"></el-input-number>
+          </el-form-grid>
+          <el-form-grid>
+            元
+          </el-form-grid>
+        </el-form-item>
     </el-form>
     </div>
     <span slot="footer" class="dialog-footer">
