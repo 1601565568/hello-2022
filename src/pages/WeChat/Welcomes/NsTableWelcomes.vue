@@ -64,6 +64,7 @@
           <el-table-column prop="title" label="标题" align="left" min-width="30">
             <template slot-scope="scope">
               {{scope.row.title?scope.row.title:'-'}}
+              <button v-if="scope.row.type === 9" style="color: #FFFFFF; background-color: #5F51F9; border:double #fff; border-radius:2em;" >默认模板</button>
             </template>
           </el-table-column>
           <el-table-column prop="updateTime" label="更新时间" align="center" min-width="30">
@@ -71,12 +72,19 @@
               {{scope.row.updateTime?scope.row.updateTime:'-'}}
             </template>
           </el-table-column>
-          <el-table-column prop="count" label="员工数量" align="center" min-width="30">
+          <el-table-column prop="count" label="适用范围" align="center" min-width="30">
             <template slot-scope="scope">
-              <div v-if="scope.row.count <= 0">-</div>
-              <div v-else>
+              <div v-if="scope.row.shopCount > 0 || scope.row.count > 0">
+                <ns-button style="color:#0091FA" @click="onShowShopScope(scope.row)" v-if="scope.row.shopCount > 0" type="text">{{scope.row.shopCount}}家店铺</ns-button>
                 <ns-button style="color:#0091FA" @click="onShowEmployeeScope(scope.row)" v-if="scope.row.count > 0" type="text">{{scope.row.count}}名员工</ns-button>
               </div>
+              <div v-else>-</div>
+            </template>
+          </el-table-column>
+          <el-table-column prop="count" label="状态" align="center" min-width="30">
+            <template slot-scope="{row}">
+              <el-switch style="cursor:pointer" :value="row.status" :active-value="1" :inactive-value="0" active-text="关闭" inactive-text="开启"
+                         :before-change="(call, currVal)=>{onStatusChange(call,currVal,row)}"></el-switch>
             </template>
           </el-table-column>
           <el-table-column :show-overflow-tooltip="true" label="操作" align="center"

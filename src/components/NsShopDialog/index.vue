@@ -45,7 +45,7 @@
           <el-col :span="12">
             <ElTable v-loading="tableLoading" ref="employeeTable" :data="listData" height="260" @select="selectChange" @select-all="selectAllChange">
               <ElTableColumn type="selection" width="55" />
-              <ElTableColumn :show-overflow-tooltip="true" type="default" prop="shopName" label="店铺名称" align="left"/>
+              <ElTableColumn :show-overflow-tooltip="true" type="default" prop="shop_name" label="店铺名称" align="left"/>
               <ElTableColumn :show-overflow-tooltip="true" type="default" prop="shopStatus" label="店铺状态" align="left">
                 <template slot-scope="scope">
                   {{scope.row.shopStatus === -2 ? '锁定/暂停' : ''}}
@@ -64,7 +64,7 @@
           </el-col>
           <el-col :span="12">
             <ElTable :data="selectedData" height="260">
-              <ElTableColumn :show-overflow-tooltip="true" type="default" prop="shopName" label="已选适用门店" align="left"/>
+              <ElTableColumn :show-overflow-tooltip="true" type="default" prop="shop_name" label="已选适用门店" align="left"/>
               <ElTableColumn  prop="select" align="center" width="55" >
                 <template slot-scope="scope">
                   <ns-button

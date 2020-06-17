@@ -26,5 +26,12 @@ export default {
   getWelcomeCode: {
     url: '/wechat/wechatwelcomes/getWelcomeCode',
     method: 'post'
+  },
+  /**
+   * @msg: 修改智能欢迎语状态
+   */
+  setWelcomeCodeStatus: {
+    url: '/wechat/wechatwelcomes/setWelcomeCodeStatus',
+    method: 'post'
   }
 }

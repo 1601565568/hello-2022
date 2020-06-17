@@ -19,7 +19,7 @@
                   </ElFormGrid>
                 </ElFormItem>
                 <!-- 店铺组件 开始-->
-                <ElFormItem label="选择店铺：">
+                <ElFormItem v-if="type ===0" label="选择店铺：">
                   <ElFormGrid>
                     <NsShopDialog btnTitle="选择店铺" v-model="shopSelectData"></NsShopDialog>
                   </ElFormGrid>
@@ -29,12 +29,28 @@
                 </ElFormItem>
                 <!-- 店铺组件 结束-->
                 <!-- 员工组件 开始-->
-                <ElFormItem label="选择员工：">
+                <ElFormItem v-if="type === 0" label="选择员工：">
                   <ElFormGrid>
                     <NsGuideDialog btnTitle="选择员工" v-model="employeeSelectData"></NsGuideDialog>
                   </ElFormGrid>
                   <ElFormGrid>
                     已选择<span class="text-primary">{{employeeSelectData? employeeSelectData.length: 0}}</span>个导购员工
+                  </ElFormGrid>
+                </ElFormItem>
+                <!-- 员工组件 结束-->
+                <!-- 员工组件 开始-->
+                <ElFormItem label="发送时间限制：">
+                  <ElRadioGroup v-model="rangeType">
+                    <el-radio :label="0">开启</el-radio>
+                    <el-radio :label="1">关闭</el-radio>
+                  </ElRadioGroup>
+                  <ElFormGrid v-if="rangeType === 0" class="memberReward">
+                    <ElInputNumber class="inputSize" :controls="false" :min="1" :max="999999"
+                                     v-model.number="failureTime"></ElInputNumber>&nbsp;秒
+                    <span class="text-primary" style="margin-left: 10px;">
+                       <Icon type="exclamation-circle" theme="outlined"/>
+                       在加好友后的指定时间内，如还未触发发送欢迎语动作，则此次欢迎语将不会再自动发送。
+                    </span>
                   </ElFormGrid>
                 </ElFormItem>
                 <!-- 员工组件 结束-->
@@ -75,6 +91,7 @@
 import edit from './src/edit.js'
 import ElCard from '@nascent/nui/lib/card'
 import ElTimeSelect from '@nascent/nui/lib/time-select'
+import ElInputNumber from '@nascent/nui/lib/input-number'
 import postContent from './content/postContent.vue'
 import contentPreview from './content/contentPreview.vue'
 import { getErrorMsg } from '@/utils/toast'
@@ -84,6 +101,7 @@ edit.components = {
   ElCard,
   ElTimeSelect,
   postContent,
+  ElInputNumber,
   contentPreview,
   NsGuideDialog,
   NsShopDialog
