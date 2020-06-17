@@ -3,7 +3,7 @@
  * @Author: yuye.huang
  * @Date: 2020-03-09 13:55:17
  * @LastEditors: yuye.huang
- * @LastEditTime: 2020-03-27 11:12:17
+ * @LastEditTime: 2020-06-17 14:43:00
  */
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 
@@ -14,6 +14,7 @@ export default {
       type: Object,
       default () {
         return {
+          welcomeCodeUuid: '',
           visible: false
         }
       }
@@ -22,8 +23,7 @@ export default {
   mixins: [tableMixin],
   data () {
     let model = {
-      shopName: '',
-      welcomeCodeUuid: ''
+      shopName: ''
     }
     return {
       _table: {

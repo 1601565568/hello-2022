@@ -3,13 +3,13 @@
  * @Author: yuye.huang
  * @Date: 2020-02-28 17:28:29
  * @LastEditors: yuye.huang
- * @LastEditTime: 2020-03-23 18:29:45
+ * @LastEditTime: 2020-06-17 14:46:23
  -->
 <template>
   <div>
     <!-- 主列表 -->
     <ns-table-welcome-code ref='table' @onRedactFun='onRedactFun'
-      @onShowEmployeeScope='onShowEmployeeScope' @onShowChannelScope='onShowChannelScope' ></ns-table-welcome-code>
+      @onShowEmployeeScope='onShowEmployeeScope' @onShowChannelScope='onShowChannelScope' @onShowShopScope='onShowShopScope' ></ns-table-welcome-code>
     <!-- 使用员工 -->
     <el-dialog ref="employeeDialog" :visible.sync="nsTableEmployeeScopeModel.visible"
       @open='onOpenEmployeeDialog()' @closed='onCloseEmployeeDialog()'
@@ -20,53 +20,31 @@
         <ns-button @click="nsTableEmployeeScopeModel.visible = false">关闭</ns-button>
       </div>
     </el-dialog>
-    <!-- 使用渠道 -->
-    <el-dialog :visible.sync="channelScopeModel.visible"
-            title="使用渠道"
-            width="400px">
-      <el-table :data="channelList" stripe
-        v-loading.lock="channelScopeModel.loadingtable"
-        :element-loading-text="$t('prompt.loading')">
-        <el-table-column property="label" label="渠道名称" align="left"></el-table-column>
-      </el-table>
+    <!-- 使用门店 -->
+    <el-dialog ref="shopDialog" :visible.sync="nsTableShopScopeModel.visible"
+               @open='onOpenShopDialog()' @closed='onCloseShopDialog()'
+               title="使用门店"
+               width="660px">
+      <ns-table-shop-scope ref='shopTable' :data="nsTableShopScopeModel"></ns-table-shop-scope>
       <div slot="footer" class="dialog-footer">
-        <ns-button @click="onCloseChannelDialog">关闭</ns-button>
+        <ns-button @click="nsTableShopScopeModel.visible = false">关闭</ns-button>
       </div>
     </el-dialog>
-
-    <!-- <ChannelScope :data="channelScopeModel" :channelList="channelList"></ChannelScope> -->
-    <!-- @open="this.$queryList$()" -->
-    <!-- <el-dialog ref="dialog" title="使用员工" :visible.sync="this.nsTableEmployeeScopeModel.visible" width="660px">
-      <ns-table-employee-scope :data="nsTableEmployeeScopeModel"></ns-table-employee-scope>
-      <div slot="footer"
-          class="dialog-footer">
-        <ns-button @click.native.prevent="onCloseEmployeeDialog">关闭</ns-button>
-      </div>
-    </el-dialog> -->
-
-    <!-- 渠道使用范围 -->
-    <!-- <el-dialog title="使用范围-渠道"  :visible.sync="channelScopeVisible" width="660px" >
-      <el-table ref="table" :data="channelScopeTableData" stripe>
-      </el-table>
-      <div slot="footer">
-        <ns-button class="scopeRowCountShow_button" @click="employeeScopeVisible = false">关闭</ns-button>
-      </div>
-    </el-dialog> -->
-    <!-- 跳转至新增/编辑页面 -->
+    <!-- 使用门店 -->
   </div>
 </template>
 
 <script>
 import NsTableWelcomeCode from './components/NsTableWelcomeCode.vue'
 import NsTableEmployeeScope from './components/NsTableEmployeeScope.vue'
-// import ChannelScope from './components/ChannelScope.vue'
+import NsTableShopScope from '@/components/NsTableShopDialog/NsTableShopScope.vue'
 
 export default {
   name: 'welcomeCodeList',
   components: {
     NsTableWelcomeCode,
-    NsTableEmployeeScope
-    // ChannelScope
+    NsTableEmployeeScope,
+    NsTableShopScope
   },
   data () {
     // 员工使用范围数据model
@@ -80,13 +58,56 @@ export default {
       welcomeCodeUuid: '',
       loadingtable: false
     }
+    // 门店使用范围数据model
+    let nsTableShopScopeModel = {
+      visible: false,
+      welcomeCodeUuid: ''
+    }
     return {
       nsTableEmployeeScopeModel: nsTableEmployeeScopeModel,
       channelScopeModel: channelScopeModel,
-      channelList: []
+      nsTableShopScopeModel: nsTableShopScopeModel,
+      channelList: [],
+      shopList: []
     }
   },
   methods: {
+    /**
+     * todo 目前仅使用方法 onOpenShopDialog 触发有效
+     * @msg: 查看欢迎语门店使用范围
+     * @param {scope.row}
+     */
+    onShowShopScope (data) {
+      debugger
+      this.nsTableShopScopeModel = {
+        welcomeCodeUuid: data.welcomeCodeUuid,
+        visible: true
+      }
+    },
+    /**
+     * @msg: 关闭弹框 重新刷新门店列表数据
+     */
+    onCloseShopDialog () {
+      // 重新刷新列表数据
+      this.$nextTick(() => {
+        this.$refs.shopTable.model.shopName = null
+        this.$refs.shopTable._data._table.searchMap.shopName = null
+        this.$refs.shopTable._data._table.quickSearchMap.shopName = null
+      })
+    },
+    /**
+     * @msg: 打开弹框 重新刷新门店列表数据
+     */
+    onOpenShopDialog () {
+      // 重新刷新列表数据
+      this.$nextTick(() => {
+        debugger
+        this.$refs.shopTable.model.welcomeCodeUuid = this.nsTableShopScopeModel.welcomeCodeUuid
+        this.$refs.shopTable._data._table.searchMap.welcomeCodeUuid = this.nsTableShopScopeModel.welcomeCodeUuid
+        this.$refs.shopTable._data._table.quickSearchMap.welcomeCodeUuid = this.nsTableShopScopeModel.welcomeCodeUuid
+        this.$refs.shopTable.$reload()
+      })
+    },
     /**
      * todo 目前仅使用方法 onOpenEmployeeDialog 触发有效
      * @msg: 查看欢迎语员工使用范围
