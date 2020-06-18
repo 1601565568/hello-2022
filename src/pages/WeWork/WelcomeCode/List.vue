@@ -3,7 +3,7 @@
  * @Author: yuye.huang
  * @Date: 2020-02-28 17:28:29
  * @LastEditors: yuye.huang
- * @LastEditTime: 2020-06-17 16:18:14
+ * @LastEditTime: 2020-06-18 16:17:52
  -->
 <template>
   <div>
@@ -31,6 +31,19 @@
       </div>
     </el-dialog>
     <!-- 使用门店 -->
+        <!-- 使用渠道 -->
+    <el-dialog :visible.sync="channelScopeModel.visible"
+            title="使用渠道"
+            width="400px">
+      <el-table :data="channelList" stripe
+        v-loading.lock="channelScopeModel.loadingtable"
+        :element-loading-text="$t('prompt.loading')">
+        <el-table-column property="label" label="渠道名称" align="left"></el-table-column>
+      </el-table>
+      <div slot="footer" class="dialog-footer">
+        <ns-button @click="onCloseChannelDialog">关闭</ns-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 

@@ -3,7 +3,7 @@
  * @Author: yuye.huang
  * @Date: 2020-02-29 20:52:53
  * @LastEditors: yuye.huang
- * @LastEditTime: 2020-06-17 15:12:31
+ * @LastEditTime: 2020-06-17 17:15:23
  -->
 <template>
   <ns-page-table ref="mainTable"
@@ -145,7 +145,7 @@
           type="default"
           align="left"
           :sortable="false"
-          width="180"
+          width="200"
         >
           <template slot="header">
             欢迎语
@@ -157,10 +157,10 @@
           </template>
           <template slot-scope="scope">
             <el-tag v-if="scope.row.type === 9">
-               <el-button>默认</el-button>
-               <el-tooltip  content="当员工未配置欢迎语时，则使用默认欢迎语">
+                默认
+                <el-tooltip  content="当员工未配置欢迎语时，则使用默认欢迎语">
                   <Icon type="question-circle"></Icon>
-              </el-tooltip>
+                </el-tooltip>
             </el-tag>
             {{ scope.row.content }}
           </template>
