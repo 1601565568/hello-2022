@@ -3,10 +3,11 @@
  * @Author: yuye.huang
  * @Date: 2020-02-29 20:52:53
  * @LastEditors: yuye.huang
- * @LastEditTime: 2020-04-13 16:21:02
+ * @LastEditTime: 2020-06-17 17:15:23
  -->
 <template>
-  <ns-page-table ref='mainTable'><!-- :colButton="10" -->
+  <ns-page-table ref="mainTable"
+    ><!-- :colButton="10" -->
 
     <!-- 按钮 -->
     <template slot="buttons">
@@ -21,20 +22,30 @@
       <el-form
         @submit.native.prevent
         :model="quickSearchModel"
-        class="pull-right" :inline="true">
+        class="pull-right"
+        :inline="true"
+      >
         <el-form-item v-show="_data._queryConfig.expand === false">
-            <el-input ref="quickText"
-              v-model="model.content"
-              placeholder="请输入欢迎语内容"
-              style="width: 180px" @keyup.enter.native="$quickSearchAction$('content')" clearable/> <!--  -->
-              <ns-button type="primary" @click="$searchAction$()" class="searchbtn">搜索</ns-button>
-              <ns-button @click="$resetInputAction$()" class="resetbtn">重置</ns-button>
+          <el-input
+            ref="quickText"
+            v-model="model.content"
+            placeholder="请输入欢迎语内容"
+            style="width: 180px"
+            @keyup.enter.native="$quickSearchAction$('content')"
+            clearable
+          />
+          <!--  -->
+          <ns-button type="primary" @click="$searchAction$()" class="searchbtn"
+            >搜索</ns-button
+          >
+          <ns-button @click="$resetInputAction$()" class="resetbtn"
+            >重置</ns-button
+          >
         </el-form-item>
         <el-form-item>
-          <ns-button type="text"
-                    @click.native.prevent="$handleTabClick">
-            {{collapseText}}
-            <Icon :type="_data._queryConfig.expand ? 'up' : 'down'"/>
+          <ns-button type="text" @click.native.prevent="$handleTabClick">
+            {{ collapseText }}
+            <Icon :type="_data._queryConfig.expand ? 'up' : 'down'" />
           </ns-button>
         </el-form-item>
       </el-form>
@@ -44,15 +55,31 @@
     <!-- el-form 需添加  @keyup.enter.native="onSearch" 配置，实现回车搜索， onSearch 为搜索方法 -->
     <!-- el-form 需添加  surround-btn 类名 配置环绕按钮效果 -->
     <template slot="advancedSearch" v-if="_data._queryConfig.expand">
-      <el-form ref="table_filter_form" :model="model" label-width="80px" :inline="true" @keyup.enter.native="$searchAction$()">
+      <el-form
+        ref="table_filter_form"
+        :model="model"
+        label-width="80px"
+        :inline="true"
+        @keyup.enter.native="$searchAction$()"
+      >
         <el-form-item label="欢迎语内容：">
           <el-form-grid size="xmd">
-            <el-input style="width:180px" autofocus=true v-model.trim="model.content" placeholder="请输入欢迎语内容" clearable></el-input>
+            <el-input
+              style="width:180px"
+              autofocus="true"
+              v-model.trim="model.content"
+              placeholder="请输入欢迎语内容"
+              clearable
+            ></el-input>
           </el-form-grid>
         </el-form-item>
         <el-form-item label="附件类型：">
           <el-form-grid size="xmd">
-            <el-select v-model.trim="model.annexType" placeholder="请选择" clearable>
+            <el-select
+              v-model.trim="model.annexType"
+              placeholder="请选择"
+              clearable
+            >
               <el-option
                 v-for="(value, key) in annexType.Collection"
                 :key="key"
@@ -60,75 +87,190 @@
                 :value="key"
               >
               </el-option>
-          </el-select>
+            </el-select>
           </el-form-grid>
         </el-form-item>
         <el-form-item label="员工：">
           <el-form-grid size="xmd">
-            <el-input style="width:180px" v-model.trim="model.employeeName" placeholder="请输入员工名称" clearable></el-input>
+            <el-input
+              style="width:180px"
+              v-model.trim="model.employeeName"
+              placeholder="请输入员工名称"
+              clearable
+            ></el-input>
           </el-form-grid>
         </el-form-item>
         <el-form-item label="渠道：">
           <el-form-grid size="xmd">
-            <el-input style="width:180px" v-model.trim="model.channelName" placeholder="请输入渠道名称" clearable></el-input>
+            <el-input
+              style="width:180px"
+              v-model.trim="model.channelName"
+              placeholder="请输入渠道名称"
+              clearable
+            ></el-input>
+          </el-form-grid>
+        </el-form-item>
+        <el-form-item label="门店：">
+          <el-form-grid size="xmd">
+            <el-input
+              style="width:180px"
+              v-model.trim="model.shopName"
+              placeholder="请输入门店名称"
+              clearable
+            ></el-input>
           </el-form-grid>
         </el-form-item>
       </el-form>
       <div class="template-table__more-btn">
-        <ns-button type="primary" @click.native.prevent="$searchAction$()">{{ $t("operating.search") }}</ns-button>
-        <ns-button @click.native.prevent="$resetInputAction$()">{{ $t("operating.reset") }}</ns-button>
+        <ns-button type="primary" @click.native.prevent="$searchAction$()">{{
+          $t("operating.search")
+        }}</ns-button>
+        <ns-button @click.native.prevent="$resetInputAction$()">{{
+          $t("operating.reset")
+        }}</ns-button>
       </div>
     </template>
 
     <template slot="table">
-      <el-table ref="table" :data="_data._table.data" stripe  v-loading.lock="_data._table.loadingtable"
-      :element-loading-text="$t('prompt.loading')"  @sort-change="onSortChange">
-        <el-table-column  :show-overflow-tooltip="true" type="default" prop="content" align="left"
-                          :sortable="false" width="180">
-        <template slot="header">
-          欢迎语
-          <el-tooltip content="配置后，客户将在添加员工为微信好友时，发送欢迎语">
-            <Icon type="question-circle"/>
-          </el-tooltip>
-        </template>
-      </el-table-column>
-        <el-table-column prop="annexType" label="附带" align="center">
-          <template slot-scope='scope'>
-            {{convertAnnexType(scope.row.annexType)}}
+      <el-table
+        ref="table"
+        :data="_data._table.data"
+        stripe
+        v-loading.lock="_data._table.loadingtable"
+        :element-loading-text="$t('prompt.loading')"
+        @sort-change="onSortChange"
+      >
+        <el-table-column
+          :show-overflow-tooltip="true"
+          type="default"
+          align="left"
+          :sortable="false"
+          width="200"
+        >
+          <template slot="header">
+            欢迎语
+            <el-tooltip
+              content="配置后，客户将在添加员工为微信好友时，发送欢迎语"
+            >
+              <Icon type="question-circle" />
+            </el-tooltip>
+          </template>
+          <template slot-scope="scope">
+            <el-tag v-if="scope.row.type === 9">
+                默认
+                <el-tooltip  content="当员工未配置欢迎语时，则使用默认欢迎语">
+                  <Icon type="question-circle"></Icon>
+                </el-tooltip>
+            </el-tag>
+            {{ scope.row.content }}
           </template>
         </el-table-column>
-        <el-table-column prop="scope" min-width="80" label="
-        使用范围" align="left" :show-overflow-tooltip="true">
-            <template slot-scope="scope">
-              <div v-if="scope.row.employeeCount <= 0 && scope.row.channelCount <= 0">-</div>
-              <div v-else>
-                <ns-button style="color:#0091FA" @click="onShowEmployeeScope(scope.row)" v-if="scope.row.employeeCount > 0" type="text">{{scope.row.employeeCount}}名员工</ns-button>
-                <span v-if="scope.row.employeeCount > 0 && scope.row.channelCount > 0">,</span>
-                <ns-button v-if="scope.row.channelCount > 0" style="color:#0091FA" @click="onShowChannelScope(scope.row)" type="text">{{scope.row.channelCount}}个渠道</ns-button>
-              </div>
-            </template>
-          </el-table-column>
-          <el-table-column prop="updateTime" label="更新时间" align="center" sortable="custom">
-          </el-table-column>
-          <el-table-column :show-overflow-tooltip="true" label="操作" align="center"
-                           width="160px">
-            <template slot-scope="scope">
-              <ns-table-column-operate-button :buttons="_data._table.table_buttons" :prop="scope">
-              </ns-table-column-operate-button>
-            </template>
-          </el-table-column>
+        <el-table-column prop="annexType" label="附带" align="center">
+          <template slot-scope="scope">
+            {{ convertAnnexType(scope.row.annexType) }}
+          </template>
+        </el-table-column>
+        <el-table-column
+          prop="scope"
+          min-width="80"
+          label="
+        使用范围"
+          align="left"
+          ><!-- :show-overflow-tooltip="true" -->
+          <template slot-scope="scope">
+            <div
+              v-if="
+                scope.row.employeeCount <= 0 &&
+                  scope.row.channelCount <= 0 &&
+                  scope.row.shopCount <= 0
+              "
+            >
+              -
+            </div>
+            <div v-else>
+              <ns-button
+                v-if="scope.row.shopCount > 0"
+                style="color:#0091FA"
+                @click="onShowShopScope(scope.row)"
+                type="text"
+                >{{ scope.row.shopCount }}家门店
+                {{ scope.row.employeeCount > 0 ? "," : "" }}
+              </ns-button>
+              <ns-button
+                style="color:#0091FA"
+                @click="onShowEmployeeScope(scope.row)"
+                v-if="scope.row.employeeCount > 0"
+                type="text"
+                >{{ scope.row.employeeCount }}名员工
+                {{ scope.row.channelCount > 0 ? "," : "" }}
+              </ns-button>
+              <!-- <span v-if="scope.row.employeeCount > 0 && scope.row.channelCount > 0">,</span> -->
+              <ns-button
+                v-if="scope.row.channelCount > 0"
+                style="color:#0091FA"
+                @click="onShowChannelScope(scope.row)"
+                type="text"
+                >{{ scope.row.channelCount }}个渠道
+              </ns-button>
+            </div>
+          </template>
+        </el-table-column>
+        <el-table-column
+          prop="updateTime"
+          label="更新时间"
+          align="center"
+          sortable="custom"
+        >
+        </el-table-column>
+        <el-table-column label="状态" align="center" min-width="30">
+          <template slot-scope="{ row }">
+            <el-switch
+              style="cursor:pointer"
+              :value="row.status"
+              :active-value="1"
+              :inactive-value="0"
+              :before-change="
+                (call, currVal) => {
+                  onStatusChange(call, currVal, row);
+                }
+              "
+            ></el-switch>
+          </template>
+        </el-table-column>
+        <!-- <el-table-column prop="status" label="状态" align="center">
+          <template slot-scope="scope">
+            <el-switch :model="scope.row.status === 1"></el-switch>
+          </template>
+        </el-table-column> -->
+        <el-table-column
+          :show-overflow-tooltip="true"
+          label="操作"
+          align="center"
+          width="160px"
+        >
+          <template slot-scope="scope">
+            <ns-table-column-operate-button
+              :buttons="_data._table.table_buttons"
+              :prop="scope"
+            >
+            </ns-table-column-operate-button>
+          </template>
+        </el-table-column>
       </el-table>
     </template>
     <!-- 分页 -->
     <template slot="pagination">
-      <el-pagination v-if="_data._pagination.enable" class="template-table-pagination"
-                      :page-sizes="_data._pagination.sizeOpts"
-                      :total="_data._pagination.total"
-                      :current-page.sync="_data._pagination.page"
-                      :page-size="_data._pagination.size"
-                      layout="total, sizes, prev, pager, next, jumper"
-                      @size-change="$sizeChange$"
-                      @current-change="$pageChange$">
+      <el-pagination
+        v-if="_data._pagination.enable"
+        class="template-table-pagination"
+        :page-sizes="_data._pagination.sizeOpts"
+        :total="_data._pagination.total"
+        :current-page.sync="_data._pagination.page"
+        :page-size="_data._pagination.size"
+        layout="total, sizes, prev, pager, next, jumper"
+        @size-change="$sizeChange$"
+        @current-change="$pageChange$"
+      >
       </el-pagination>
     </template>
   </ns-page-table>
@@ -139,29 +281,29 @@ import NsTableWelcomeCode from './src/NsTableWelcomeCode.js'
 export default NsTableWelcomeCode
 </script>
 <style scoped>
-  @import "@theme/variables.pcss";
+@import "@theme/variables.pcss";
 
-  .scope_row_count{
-    color: blue;
-  }
+.scope_row_count {
+  color: blue;
+}
 
-  .tips {
-    color: var(--theme-color-danger)
-  }
+.tips {
+  color: var(--theme-color-danger);
+}
 
-  >>> .table-header-icon {
-    font-size: var(--default-font-size-base);
-    font-weight: normal;
-    padding-left: var(--default-padding-base);
-    cursor: pointer;
-  }
-  >>> .el-dropdown-link {
-    margin-left: 5px !important;
-  }
-  .searchbtn {
-    margin-left: 11px;
-  }
-  .resetbtn {
-    margin-left: var(--default-margin-larger);
-  }
+>>> .table-header-icon {
+  font-size: var(--default-font-size-base);
+  font-weight: normal;
+  padding-left: var(--default-padding-base);
+  cursor: pointer;
+}
+>>> .el-dropdown-link {
+  margin-left: 5px !important;
+}
+.searchbtn {
+  margin-left: 11px;
+}
+.resetbtn {
+  margin-left: var(--default-margin-larger);
+}
 </style>
