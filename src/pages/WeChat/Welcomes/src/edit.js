@@ -8,7 +8,10 @@ export default {
       uuid: null,
       // 计划名称输入框绑定值
       title: '',
+      failureTime: 0, // 失效时间
+      rangeType: 1,
       loading: false, // 防重复提交
+      type: 1, // 欢迎语类型 1：基础模板 9：默认模板
       // 页面滚动条配置
       scrollBarDeploy: {
         ref: 'fullScreen', // 页面滚动条ref的名称
@@ -22,6 +25,8 @@ export default {
       treeSelected: '',
       // 员工组建 员工值
       employeeSelectData: [],
+      // 店铺组件 店铺值
+      shopSelectData: [],
       // 发布内容数据
       publishData: [],
       // 预置链接
@@ -52,13 +57,18 @@ export default {
         this.loading = false
         return
       }
+      if (this.rangeType === 1) {
+        this.failureTime = 0
+      }
       // 附带内容json
       let content = JSON.stringify(this.publishData)
       let model = {
         title: that.title,
         content: encodeURIComponent(content),
         uuid: that.uuid,
-        employeeIds: that.employeeSelectData
+        employeeIds: that.employeeSelectData,
+        storeIds: that.shopSelectData,
+        failureTime: this.failureTime
       }
       that.$refs.form.validate(valid => {
         if (!valid) {
@@ -99,12 +109,14 @@ export default {
       // 页面初始化时，加载页面数据
       let that = this
       let uuid = this.$route.query.uuid
-      var keyMap = {}
       if (uuid) {
         that.$http.fetch(that.$api.weChat.welcomes.getWelcomeCode, { uuid: uuid }
         ).then(resp => {
           that.uuid = resp.result.uuid
           that.title = resp.result.title
+          that.type = resp.result.type
+          that.failureTime = resp.result.failureTime
+          that.rangeType = (this.failureTime ? 0 : 1)
           if (resp.result.content) {
             let content = decodeURIComponent(resp.result.content)
             JSON.parse(content).forEach(function (value, i) {
@@ -113,6 +125,9 @@ export default {
           }
           resp.result.employeeIds.forEach(function (value, i) {
             that.employeeSelectData.push(value)
+          })
+          resp.result.storeIds.forEach(function (value, i) {
+            that.shopSelectData.push(value)
           })
         }).catch(resp => {
           that.$notify.error(resp.msg)

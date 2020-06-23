@@ -3,8 +3,12 @@ export default {
     url: '/core/sgshop/queryShopList',
     method: 'post'
   },
-  findShopListByShopIds: {
-    url: '/core/sgshop/findShopListByShopIds',
+  getShopListByShopIds: {
+    url: '/core/sgshop/getShopByShopIds',
+    method: 'post'
+  },
+  findShopPageToWelcomeCode: {
+    url: '/core/sgshop/findShopPageToWelcomeCode',
     method: 'post'
   }
 }

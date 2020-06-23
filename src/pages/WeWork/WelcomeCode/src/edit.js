@@ -7,6 +7,9 @@ import ElAside from '@nascent/nui/lib/aside'
 import ElImage from '@nascent/nui/lib/image'
 import ElUpload from '@nascent/nui/lib/upload'
 import NsEmployeeOrCustGroupDialog from '@/components/NsGuideDialog'
+import { getErrorMsg } from '@/utils/toast'
+import NsGuideDialog from '@/components/NsGuideDialog/index'
+import NsShopDialog from '@/components/NsShopDialog/index'
 
 export default {
   name: 'Edit',
@@ -18,7 +21,9 @@ export default {
     ElAside,
     ElImage,
     ElUpload,
-    NsEmployeeOrCustGroupDialog
+    NsEmployeeOrCustGroupDialog,
+    NsGuideDialog,
+    NsShopDialog
   },
   data: function () {
     // 图片配置model
@@ -59,7 +64,9 @@ export default {
       annexType: 0, // 附带内容，默认无
       annexContent: '',
       employeeIds: [], // 使用员工ids
-      channelCodes: [] // 使用渠道id
+      channelCodes: [], // 使用渠道id
+      shopIds: [], // 门店IDs
+      status: 0 // 是否启用
     }
     return {
       focusState: true,
@@ -97,18 +104,15 @@ export default {
   },
   computed: {
     /**
-     * @msg: 选中员工数量
-     */
-    employeeSelectMsg () {
-      return this.model.employeeIds && this.model.employeeIds.length > 0 ? '已选择' + this.model.employeeIds.length + '名员工' : ''
-    },
-    /**
      * @msg: 获取字数，后续改成computed
      * 出现一次占位符 + N字数
      * count += [占位符字符] * (占位符代替字数 - 占位符字符串字数)
      * @return: 返回输入字数
      */
     wordCount () {
+      if (!this.model.content) {
+        return 0
+      }
       let count = this.model.content.length
       // 出现一次占位符 + N字数
       count += (this.model.content.split('{EmployeeNick}').length - 1) * (10 - 14)
