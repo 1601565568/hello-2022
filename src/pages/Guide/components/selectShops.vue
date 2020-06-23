@@ -394,6 +394,7 @@ export default {
       font-size: 14px;
       height: 32px;
       line-height: 32px;
+      padding: 0 var(--default-padding-small);
       border-bottom: 1px solid #f2f2f2;
       em {
         font-style: normal;
@@ -401,15 +402,17 @@ export default {
       }
     }
     .list {
-      padding: 3px 0;
+      padding: 0;
       margin: 0;
       list-style: none;
       li {
-        line-height: 26px;
+        line-height: 30px;
         color: #999;
-        height: 26px;
-        margin-bottom: 3px;
-        border-bottom: 1px dashed #f2f2f2;
+        height: 30px;
+        padding: 0 var(--default-padding-small);
+        &:nth-child(2n-1) {
+           background-color: #f8f9fb;
+         }
         .name {
           float: left;
         }
@@ -419,7 +422,7 @@ export default {
           cursor: pointer;
         }
         &:hover {
-          border-bottom: 1px dashed #41a2e8;
+           background-color: #f5fbff;
         }
       }
     }
