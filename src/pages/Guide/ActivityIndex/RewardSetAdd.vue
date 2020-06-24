@@ -193,9 +193,13 @@ export default {
   }
   .addTitBox {
     border-bottom: 1px solid var(--theme-base-border-color-primary);
+    >>> .el-form-item.el-form-item--small {
+      margin-bottom: 0 !important;
+    }
   }
   .addTitText {
     display: inline-block;
+    vertical-align: middle;
     border-left: 2px solid var(--theme-color-primary);
     padding: 0 8px;
   }
