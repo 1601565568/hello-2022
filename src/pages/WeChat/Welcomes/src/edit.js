@@ -8,8 +8,8 @@ export default {
       uuid: null,
       // 计划名称输入框绑定值
       title: '',
-      failureTime: 0, // 失效时间
-      rangeType: 1,
+      failureTime: 600, // 失效时间
+      rangeType: 0,
       loading: false, // 防重复提交
       type: 1, // 欢迎语类型 1：基础模板 9：默认模板
       // 页面滚动条配置
