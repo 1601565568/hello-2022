@@ -3,7 +3,7 @@
  * @Author: yuye.huang
  * @Date: 2020-03-02 09:38:22
  * @LastEditors: yuye.huang
- * @LastEditTime: 2020-03-09 14:20:05
+ * @LastEditTime: 2020-06-28 09:54:38
  -->
 <template>
   <ns-page-table ref='table' :colButton="10">  :visible.sync="this.model.visible"
@@ -32,8 +32,8 @@
         </el-table-column>
         <el-table-column prop="shop_status" label="门店状态" align="left">
           <template slot-scope="scope">
-            {{scope.row.shop_status === -2 ? '锁定/暂停' : ''}}
-            {{scope.row.shop_status === -1 ? '过期/已关店' : ''}}
+            {{scope.row.shop_status === -2 ? '暂停' : ''}}
+            {{scope.row.shop_status === -1 ? '关店' : ''}}
             {{scope.row.shop_status === -0 ? '删除' : ''}}
             {{scope.row.shop_status === 1 ? '正常' : ''}}
           </template>
