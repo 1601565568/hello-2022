@@ -67,7 +67,7 @@
               <ns-button v-if="scope.row.type === 9"  type="primary" size="mini" round class="btn-append">
                 默认
               </ns-button>
-              <el-tooltip v-if="scope.row.type === 9" content="当员工未配置欢迎语时，则使用默认欢迎语">
+              <el-tooltip v-if="scope.row.type === 9" content="默认欢迎语将应用于所有无欢迎语员工">
                 <Icon type="question-circle"/>
               </el-tooltip>
             </template>
@@ -105,14 +105,19 @@
           </el-table-column>
           <el-table-column label="状态" align="center" min-width="30">
             <template slot-scope="{row}">
-              <el-switch style="cursor:pointer" :value="row.status" :active-value="1" :inactive-value="0"
+              <el-switch style="cursor:pointer" v-if="row.type === 9 && String(row.account ? row.account : '') !== 'admin'" :disabled="true" :value="row.status" :active-value="1" :inactive-value="0"
+                         ></el-switch>
+              <el-switch style="cursor:pointer" v-else :value="row.status" :active-value="1" :inactive-value="0"
                          :before-change="(call, currVal)=>{onStatusChange(call,currVal,row)}"></el-switch>
             </template>
           </el-table-column>
           <el-table-column :show-overflow-tooltip="true" label="操作" align="center"
                            min-width="30">
             <template slot-scope="scope">
-              <ns-table-column-operate-button-ext :buttons="_data._table.table_buttons"
+              <ns-table-column-operate-button-ext v-if="scope.row.type === 9 && String(scope.row.account ? scope.row.account : '') !== 'admin'"
+                                                  :prop="scope">
+              </ns-table-column-operate-button-ext>
+              <ns-table-column-operate-button-ext v-else :buttons="_data._table.table_buttons"
                                                   :prop="scope">
               </ns-table-column-operate-button-ext>
             </template>
