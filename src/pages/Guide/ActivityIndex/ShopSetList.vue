@@ -15,6 +15,25 @@
           <el-col :span="7">
             <div class="topTip">
               <ns-button type="primary" @click="AddShowToggle">批量设置</ns-button>
+<!--              <ns-button type="primary" @click="ImportQuota">导入指标1111</ns-button>-->
+              <ns-button type="primary" @click="ImportQuota">导入指标</ns-button>
+<!--              <ns-button type="primary" @click="ImportTarge">下载模板</ns-button>-->
+<!--              <ns-button type="primary" @click="updateList">更新数据</ns-button>-->
+<!--              <el-upload-->
+<!--                class="upload-demo"-->
+<!--                :action= "this.$api.core.sgUploadExcel()"-->
+<!--                accept=".xls,.xlsx"-->
+<!--                :on-preview="handlePreview"-->
+<!--                :on-remove="handleRemove"-->
+<!--                :before-upload="beforeUpload"-->
+<!--                :before-remove="beforeRemove"-->
+<!--                :on-success="onSuccess"-->
+<!--                multiple-->
+<!--                :limit="3"-->
+<!--                :on-exceed="handleExceed"-->
+<!--                :show-file-list="false">-->
+<!--                <ns-button type="primary">上传</ns-button>-->
+<!--              </el-upload>-->
               <span class="text-error">
                   单位：
                 <span v-if="searchObj.searchMap.type==1">人</span>
@@ -182,12 +201,14 @@
       </el-pagination>
   <!-- table end -->
   <shopSetAdd ref="addDialogDom" :callBack="loadListFun"></shopSetAdd>
+  <importQuota ref="importQuotaDialog" :callBack="loadListFun"></importQuota>
 </div>
 </template>
 <script>
 import moment from 'moment'
 import listPageMixin from '@/mixins/listPage'
 import shopSetAdd from './ShopSetAdd'
+import importQuota from './ImportQuota'
 import { getErrorMsg } from '@/utils/toast'
 export default {
   mixins: [listPageMixin],
@@ -262,6 +283,16 @@ export default {
         this.$refs.addDialogDom.showToggle(this.saveObj, this.activeName)
       })
     },
+    // 打开弹窗
+    ImportQuota () {
+      // 重置选择的门店
+      this.saveObj.year = moment(this.searchform.year).format('YYYY')
+      this.saveObj.type = this.searchObj.searchMap.type
+      // 传递保存时需要的参数
+      this.$nextTick(() => {
+        this.$refs.importQuotaDialog.showToggle(this.saveObj)
+      })
+    },
     // 加载列表
     async loadListFun (data) {
       this.loading = true
@@ -319,7 +350,8 @@ export default {
     }
   },
   components: {
-    shopSetAdd
+    shopSetAdd,
+    importQuota
   }
 }
 </script>
