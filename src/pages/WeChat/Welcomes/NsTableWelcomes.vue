@@ -79,7 +79,7 @@
           </el-table-column>
           <el-table-column align="center" min-width="30">
             <template slot="header">
-              适用范围
+              使用范围
               <el-tooltip content="多个欢迎语情况下的发送优先级：员工欢迎语>门店欢迎语>默认欢迎语">
                 <Icon type="question-circle"/>
               </el-tooltip>

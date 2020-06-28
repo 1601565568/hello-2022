@@ -83,6 +83,7 @@ export default {
   },
 
   mounted: function () {
+    debugger
     if (typeof this.$init === 'function') {
     } else {
       this.$reload()
