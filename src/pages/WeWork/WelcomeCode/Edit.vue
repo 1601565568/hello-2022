@@ -281,7 +281,7 @@
                           :width="175"
                           :height="213"
                           style="width: 175px; height: 213px"
-                          :src="imageModel.image"
+                          :src="model.image"
                         >
                         </el-image>
                       </div>
