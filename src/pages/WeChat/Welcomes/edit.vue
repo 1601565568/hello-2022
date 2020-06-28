@@ -31,7 +31,7 @@
                 <!-- 员工组件 开始-->
                 <ElFormItem v-if="type === 0" label="选择员工：">
                   <ElFormGrid>
-                    <NsGuideDialog btnTitle="选择员工" v-model="employeeSelectData"></NsGuideDialog>
+                    <NsGuideDialog btnTitle="选择员工" dialogTitle="选择员工" v-model="employeeSelectData"></NsGuideDialog>
                   </ElFormGrid>
                   <ElFormGrid>
                     已选择<span class="text-primary">{{employeeSelectData? employeeSelectData.length: 0}}</span>个导购员工
@@ -47,6 +47,8 @@
                   <ElFormGrid v-if="rangeType === 0" class="memberReward">
                     <ElInputNumber class="inputSize" :controls="false" :min="1" :max="999999"
                                      v-model.number="failureTime"></ElInputNumber>&nbsp;秒
+                  </ElFormGrid>
+                  <ElFormGrid class="memberReward">
                     <span class="text-primary" style="margin-left: 10px;">
                        <Icon type="exclamation-circle" theme="outlined"/>
                        在加好友后的指定时间内，如还未触发发送欢迎语动作，则此次欢迎语将不会再自动发送。

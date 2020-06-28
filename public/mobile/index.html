@@ -35,21 +35,21 @@
             groupId: getPar('groupId'),
             guideUserId: getPar('guideUserId'), // 企微方案 传导购在企业微信的UserId
             userId: getPar('userId'), // 企微方案 客户的UserId
-            guideWechatNo: getPar('guideWechatNo'), // 个号方案 传导购的微信号
-            source: getPar('scanSource'), // 0 导购招募；1 门店招募
-            scanSource: getPar('source'), // 公众号招募=1 企微招募=2 个号招募=3
+            guideWechatNo: getPar('guideWechatNo'), // 个号方案 传导购的微信ID
+            source: getPar('scanSource'), // 招募类型 0 导购招募；1 门店招募
+            scanSource: getPar('source'), // 招募来源 公众号招募=1 企微招募=2 个号招募=3
             platform: '1' // 授权方式 1：H5授权
         }).then(function (result) {
             if (result.success) {
               recruitEntity = {
                 guideId: result.result.guideId,
                 shopId: result.result.shopId,
-                groupId: getPar('groupId'),
+                groupId: result.result.groupId,
                 guideUserId: getPar('guideUserId'),
                 wechatId: getPar('wechatId'),
                 userId: getPar('userId'),
                 guideWechatNo: getPar('guideWechatNo'),
-                scanSource: getPar('source'),
+                scanSource: result.result.scanSource,
                 source: result.result.source
               }
               localStorage.setItem('recruitInfo', JSON.stringify(recruitEntity))

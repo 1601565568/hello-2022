@@ -165,7 +165,7 @@ export default {
       }
       that.$http.fetch(that.$api.weChat.welcomes.setWelcomeCodeStatus, { uuid: row.uuid, status: status, plan: 2 }).then(resp => {
         if (resp.success) {
-          that.$notify.success('修改失败')
+          that.$notify.success('修改成功')
           that.$nextTick(() => {
             that.$reload()
           })

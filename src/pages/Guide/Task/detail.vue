@@ -23,7 +23,7 @@
       </el-tooltip>
     </div>
     <el-row class="statistics" :gutter="5" style='height:254px'>
-      <el-col :span="11" class='flex flex-around ptb58' style='height:254px;border-right:1px solid #dcdfe6;'>
+      <el-col :span="11" class='flex flex-evenly ptb58' style='height:254px;border-right:1px solid #dcdfe6;'>
         <div class="statistics-pic statistics-total flex flex-center">
           <div class="round"></div>
           <div class="text-white fz18" style='opacity:0.9'>任务总数</div>
@@ -1477,5 +1477,8 @@ export default {
   }
   .content-overflow {
     overflow: hidden;
+  }
+  .flex-evenly {
+    justify-content: space-evenly;
   }
 </style>
