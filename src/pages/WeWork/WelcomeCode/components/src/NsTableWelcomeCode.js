@@ -3,7 +3,7 @@
  * @Author: yuye.huang
  * @Date: 2020-03-01 16:34:26
  * @LastEditors: yuye.huang
- * @LastEditTime: 2020-06-17 15:51:17
+ * @LastEditTime: 2020-06-28 17:46:50
  */
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import annexType from '@/config/annexType.js'
@@ -55,6 +55,7 @@ export default {
     }
     let model = Object.assign({}, searchModel)
     return {
+      account: '', // 当前账号
       // 附带内容类型
       annexType: annexType,
       url: this.$api.weWork.welcomeCode.findList,
@@ -77,6 +78,20 @@ export default {
   computed: {
   },
   methods: {
+    $init () {
+      const _this = this
+      // 查询当前登陆账号
+      _this.$http.fetch(_this.$api.core.common.getLoginAccount, {}).then(resp => {
+        if (resp.success) {
+          _this.account = resp.result
+          _this.$nextTick(() => {
+            _this.$reload()
+          })
+        }
+      }).catch((resp) => {
+        _this.$notify.error('查询当前登陆账号失败')
+      })
+    },
     /**
      * @msg:  从后台获取数据,重新排序
      * @param {Object} val {prop: 'date', order: 'descending'}
