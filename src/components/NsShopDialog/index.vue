@@ -25,10 +25,10 @@
 <template>
   <div>
     <NsButton type="text" @click="onDialogOpen()"><Icon type="plus"/>{{btnTitle}}</NsButton>
-    <el-dialog :title="dialogTitle" :visible.sync="visible" :show-scroll-x="false"
+    <el-dialog :visible.sync="visible" :show-scroll-x="false"
                :close-on-click-modal = "false" appendToBody :before-close="onDialogClose" width="700px">
       <div slot="title">
-        {{btnTitle}}
+        {{dialogTitle}}
         <el-tooltip  content="按门店设置使用范围时，所选门店下所有导购都会使用该欢迎语">
           <Icon type="question-circle"></Icon>
         </el-tooltip>
@@ -54,8 +54,8 @@
               <ElTableColumn :show-overflow-tooltip="true" type="default" prop="shop_name" label="店铺名称" align="left"/>
               <ElTableColumn :show-overflow-tooltip="true" type="default" prop="shopStatus" label="店铺状态" align="left">
                 <template slot-scope="scope">
-                  {{scope.row.shopStatus === -2 ? '锁定/暂停' : ''}}
-                  {{scope.row.shopStatus === -1 ? '过期/已关店' : ''}}
+                  {{scope.row.shopStatus === -2 ? '暂停' : ''}}
+                  {{scope.row.shopStatus === -1 ? '关店' : ''}}
                   {{scope.row.shopStatus === -0 ? '删除' : ''}}
                   {{scope.row.shopStatus === 1 ? '正常' : ''}}
                 </template>

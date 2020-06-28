@@ -3,7 +3,7 @@
  * @Author: yuye.huang
  * @Date: 2020-02-29 20:52:53
  * @LastEditors: yuye.huang
- * @LastEditTime: 2020-06-28 10:07:13
+ * @LastEditTime: 2020-06-28 10:54:22
  -->
 <template>
   <ns-page-table ref="mainTable"
@@ -177,6 +177,14 @@
         使用范围"
           align="left"
           ><!-- :show-overflow-tooltip="true" -->
+          <template slot="header">
+            使用范围
+            <el-tooltip
+              content="多个欢迎语情况下发送优先级：渠道欢迎语>员工欢迎语>门店欢迎语>默认欢迎语"
+            >
+              <Icon type="question-circle" />
+            </el-tooltip>
+          </template>
           <template slot-scope="scope">
             <div
               v-if="

@@ -22,11 +22,11 @@ export default {
     },
     dialogTitle: {
       type: String,
-      default: '选择适用门店'
+      default: '选择使用门店'
     },
     btnTitle: {
       type: String,
-      default: '+选择适用门店'
+      default: '+选择使用门店'
     },
     validNull: {
       type: Boolean,
