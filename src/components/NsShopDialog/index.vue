@@ -35,11 +35,7 @@
       </div>
       <div>
         <el-form>
-          <!-- <el-form-item>
-             <el-form-grid>
-              <ElInput type="hidden"/>
-            </el-form-grid>
-          </el-form-item> -->
+          <input name="hidden" type="text" hidden/>
           <el-form-item>
             <el-form-grid><div style="margin-left: 20px;">店铺名称：</div></el-form-grid>
             <el-form-grid>
