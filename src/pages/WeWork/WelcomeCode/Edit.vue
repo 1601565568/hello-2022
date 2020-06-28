@@ -169,7 +169,7 @@
                 <ElFormItem label="使用范围：">
                   <ElFormGrid>
                     <NsShopDialog
-                      btnTitle="选择店铺"
+                      btnTitle="选择使用店铺"
                       v-model="model.shopIds"
                     ></NsShopDialog>
                   </ElFormGrid>

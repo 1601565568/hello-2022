@@ -27,6 +27,12 @@
     <NsButton type="text" @click="onDialogOpen()"><Icon type="plus"/>{{btnTitle}}</NsButton>
     <el-dialog :title="dialogTitle" :visible.sync="visible" :show-scroll-x="false"
                :close-on-click-modal = "false" appendToBody :before-close="onDialogClose" width="700px">
+      <div slot="title">
+        {{btnTitle}}
+        <el-tooltip  content="按门店设置使用范围时，所选门店下所有导购都会使用该欢迎语">
+          <Icon type="question-circle"></Icon>
+        </el-tooltip>
+      </div>
       <div>
         <el-form>
           <el-form-item>
@@ -64,7 +70,7 @@
           </el-col>
           <el-col :span="12">
             <ElTable :data="selectedData" height="260">
-              <ElTableColumn :show-overflow-tooltip="true" type="default" prop="shop_name" label="已选适用门店" align="left"/>
+              <ElTableColumn :show-overflow-tooltip="true" type="default" prop="shop_name" label="已选使用门店" align="left"/>
               <ElTableColumn  prop="select" align="center" width="55" >
                 <template slot-scope="scope">
                   <ns-button

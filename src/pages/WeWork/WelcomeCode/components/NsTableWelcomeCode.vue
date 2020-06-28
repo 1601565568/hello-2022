@@ -3,7 +3,7 @@
  * @Author: yuye.huang
  * @Date: 2020-02-29 20:52:53
  * @LastEditors: yuye.huang
- * @LastEditTime: 2020-06-17 17:15:23
+ * @LastEditTime: 2020-06-28 10:07:13
  -->
 <template>
   <ns-page-table ref="mainTable"
@@ -158,7 +158,7 @@
           <template slot-scope="scope">
             <el-tag v-if="scope.row.type === 9">
                 默认
-                <el-tooltip  content="当员工未配置欢迎语时，则使用默认欢迎语">
+                <el-tooltip  content="默认欢迎语将应用于所有无欢迎语员工">
                   <Icon type="question-circle"></Icon>
                 </el-tooltip>
             </el-tag>
