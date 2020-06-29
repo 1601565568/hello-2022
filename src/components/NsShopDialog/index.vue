@@ -140,4 +140,8 @@ export default index
       }
     }
   }
+
+  >>> .el-table th.el-table-column--selection>.cell {
+    padding: 0 14px;
+  }
 </style>

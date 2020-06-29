@@ -145,27 +145,18 @@
           type="default"
           align="left"
           :sortable="false"
-          width="200"
-          ><!-- :show-overflow-tooltip="true" -->
+          >
           <template slot="header">
             欢迎语
-            <el-tooltip
-              content="配置后，客户将在添加员工为微信好友时，发送欢迎语"
-            >
+            <el-tooltip content="员工未设置欢迎语时，将使用默认欢迎语">
               <Icon type="question-circle" />
             </el-tooltip>
           </template>
           <template slot-scope="scope">
-            <el-tag v-if="scope.row.type === 9">
+            {{scope.row.content?scope.row.ticontenttle:'-'}}
+            <ns-button v-if="scope.row.type === 9" type="primary" size="mini" round class="btn-append">
               默认
-              <el-tooltip content="默认欢迎语将应用于所有无欢迎语员工">
-                <Icon type="question-circle"></Icon>
-              </el-tooltip>
-            </el-tag>
-            {{ scope.row.content }}
-            <!-- <el-tooltip :content="scope.row.content">
-              <el-button>{{ scope.row.content }}</el-button>
-            </el-tooltip> -->
+            </ns-button>
           </template>
         </el-table-column>
         <el-table-column prop="annexType" label="附带" align="center">
@@ -176,8 +167,7 @@
         <el-table-column
           prop="scope"
           min-width="80"
-          label="
-        使用范围"
+          label="使用范围"
           align="left"
           ><!-- :show-overflow-tooltip="true" -->
           <template slot="header">
@@ -326,5 +316,16 @@ export default NsTableWelcomeCode
 }
 .resetbtn {
   margin-left: var(--default-margin-larger);
+}
+.btn-append {
+  font-size: var(--default-font-size-small);
+  transform: scale(0.84);
+  width: 48px;
+  cursor: default;
+
+  &:active, &:hover, &:focus {
+    background: var(--theme-font-color-info);
+    border: 1px solid var(--theme-font-color-info);
+  }
 }
 </style>

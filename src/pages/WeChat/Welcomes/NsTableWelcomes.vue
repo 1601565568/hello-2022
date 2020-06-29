@@ -61,15 +61,18 @@
         <!-- 操作（只有一项文字的80px,两项文字120px,三项文字160px） -->
 
         <el-table ref="table"  :data="_data._table.data" stripe >
-          <el-table-column prop="title" label="标题" align="left" min-width="30">
-            <template slot-scope="scope">
-              {{scope.row.title?scope.row.title:'-'}}
-              <ns-button v-if="scope.row.type === 9"  type="primary" size="mini" round class="btn-append">
-                默认
-              </ns-button>
-              <el-tooltip v-if="scope.row.type === 9" content="默认欢迎语将应用于所有无欢迎语员工">
+          <el-table-column :show-overflow-tooltip="true" prop="title" align="left" min-width="30">
+            <template slot="header">
+              标题
+              <el-tooltip content="员工未设置欢迎语时，将使用默认欢迎语">
                 <Icon type="question-circle"/>
               </el-tooltip>
+            </template>
+            <template slot-scope="scope">
+              {{scope.row.title?scope.row.title:'-'}}
+              <ns-button v-if="scope.row.type === 9" type="primary" size="mini" round class="btn-append">
+                默认
+              </ns-button>
             </template>
           </el-table-column>
           <el-table-column prop="updateTime" label="更新时间" align="center" min-width="30">
@@ -177,5 +180,17 @@ export default welcomes
   }
   .resetbtn {
     margin-left: var(--default-margin-larger);
+  }
+
+  .btn-append {
+    font-size: var(--default-font-size-small);
+    transform: scale(0.84);
+    width: 48px;
+    cursor: default;
+
+    &:active, &:hover, &:focus {
+      background: var(--theme-font-color-info);
+      border: 1px solid var(--theme-font-color-info);
+    }
   }
 </style>
