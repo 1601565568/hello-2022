@@ -206,4 +206,8 @@ export default List
     width: 140px;
     height: 140px;
   }
+  /* 去掉分页器的阴影 */
+  >>> .el-pagination {
+    box-shadow: none;
+  }
 </style>
