@@ -20,8 +20,8 @@
           <div class="navTree-item flex flex-between" slot-scope="{ node, data }" >
             <span class="dataName">{{ data.name }}</span>
             <span v-if='data.id' class="controlstatus">
-              <Icon type="delete" @click="deleteTheGroup(data)" className="deleteicon" />
-              <Icon type="bianji-1" @click="onSaveQuicklyWordGroupOpen(data)"/>
+              <Icon type="delete" @click="deleteTheGroup(data)" className="deleteicon margin-r-mini" />
+              <Icon type="bianji-1" @click="onSaveQuicklyWordGroupOpen(data)" />
             </span>
           </div>
           </el-tree>
