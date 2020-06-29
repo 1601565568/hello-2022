@@ -59,8 +59,8 @@
           <div class="recruit-detail">
             <div class="recruit-detail__heading">消息卡片内容：</div>
             <div class="recruit-detail__explanation">会员开卡页面：</div>
-            <ElForm ref="searchform" :model="model" :rules="rules">
-              <ElFormItem label="标题：" prop="title"  label-width="100px" >
+            <ElForm ref="searchform" :model="model" :rules="rules" label-width="96px" >
+              <ElFormItem label="标题：" prop="title">
                 <ElInput style="width: 180px"
                          type="text"
                          clearable
@@ -72,7 +72,7 @@
                          show-word-limit
                 />
               </ElFormItem>
-              <ElFormItem label="摘要：" prop="content"  label-width="100px" >
+              <ElFormItem label="摘要：" prop="content">
                 <ElInput style="width: 250px"
                          type="textarea"
                          clearable
@@ -84,7 +84,7 @@
                          show-word-limit
                 />
               </ElFormItem>
-              <ElFormItem label="封面图：" prop="picture"  label-width="100px" >
+              <ElFormItem label="封面图：" prop="picture">
                 <ElUpload
                   :action="this.$api.core.sgUploadFile('recruit')"
                   :show-file-list="false"
@@ -95,7 +95,7 @@
                 </ElUpload>
                 <div class="text-secondary">请上传格式为jpg或png图片，长宽比例为5:4,大小不超过10M</div>
               </ElFormItem>
-              <ElFormItem label-width="83px">
+              <ElFormItem>
                 <span class="text-primary">
                   <Icon type="exclamation-circle"/>&nbsp;场景说明：系统中招募链接，发送的消息卡片都根据设置的内容显示。如：门店招募、导购招募
                 </span>
