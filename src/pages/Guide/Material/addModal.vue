@@ -3,7 +3,7 @@
   <!-- 新增素材--编辑弹窗  wanrengang 20180731 -->
   <div class="addMaterialbox">
     <el-dialog :title="modalTit" :close-on-click-modal=false :visible.sync="dialogVisible" width="500px" :before-close="handleClose" class="custom-box">
-      <div class="comDialogBoxCon">
+      <div>
         <el-form :model="saveObj" :rules="rules" ref="addForm" label-width="100px" style="width:440px;">
           <el-form-item label="所属分组：" prop="subdivisionId">
             <el-select v-model="saveObj.subdivisionId" placeholder="请选择" clearable>
