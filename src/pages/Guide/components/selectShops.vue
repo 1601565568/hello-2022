@@ -69,7 +69,7 @@
         <div class="selecedBox" v-loading="multipleSelectionLoading"
              :element-loading-text="$t('prompt.loading')">
           <el-scrollbar class="scrollbarb">
-            <div class="tit">已选择<em>{{multipleSelection.length}}</em>门店</div>
+            <div class="tit">已选择<em class="mini-space">{{multipleSelection.length}}</em>家门店</div>
             <ul class="list">
               <li v-for="(item) in multipleSelection" :key="item.id">
                 <span class="name">{{item.shopName}}</span>
@@ -84,7 +84,7 @@
         <ns-button  type="primary" @click="okFun">确定</ns-button>
       </div>
   </el-dialog>
-  <ns-button  type="primary" @click="openFun">选择门店</ns-button> 已选择<span class="text-error">{{hasShopArr.length}}</span>家门店
+  <ns-button  type="primary" @click="openFun">选择门店</ns-button> 已选择<span class="text-error mini-space">{{hasShopArr.length}}</span>家门店
 </div>
 </template>
 <script>
@@ -430,6 +430,7 @@ export default {
 }
 </style>
 <style scoped>
+  @import "@theme/variables.pcss";
   .searchAction{
     display: flex;
     justify-content: space-between;
@@ -453,5 +454,8 @@ export default {
   }
   >>> .el-icon-circle-check {
     display: none;
+  }
+  .mini-space {
+    margin: 0 var(--default-margin-mini);
   }
 </style>
