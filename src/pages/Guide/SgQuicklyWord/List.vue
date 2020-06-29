@@ -133,7 +133,7 @@
         <el-form-item label="话术内容：" prop="content" required>
             <el-input type="textarea" placeholder="输入话术内容，最多200字" @input="contentCheck" v-model="model.content"  size="small" rows="4" ></el-input>
           <div class="expressionBar_div">
-            <i @click="faceFace"><Icon type="biaoqing"/></i>
+            <i @click="faceFace" class="cursor-pointer"><Icon type="biaoqing"/></i>
           </div>
         </el-form-item>
         <el-form-item v-if="InternetMemeShow" label="" prop="">
@@ -399,4 +399,9 @@ export default List
   .quickScrollbar::-webkit-scrollbar-thumb {/*滚动条里面可以拖动的那部分*/
     background: rgb(200,200,200);
 }
+/* 表情包新增手型 start */
+.cursor-pointer, >>> .emotion-list .li  {
+  cursor: pointer;
+}
+/* 表情包新增手型 end */
 </style>
