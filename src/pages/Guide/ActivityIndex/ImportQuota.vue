@@ -157,14 +157,14 @@ export default {
         })
     },
     onSuccess (response, file) {
-      if (response.success === true) {
+      if (response.success) {
+        this.uploadFail = false
         this.quotaExcelName = response.result
         this.updateDataisShow = true
         this.uploadSuccee = true
-        this.uploadFail = false
       } else {
-        this.$notify.error('文件上传失败')
         this.updateDataisShow = false
+        window.console.log('上传失败回调= ' + response.msg)
         this.uploadSuccee = false
         this.uploadFail = true
       }
@@ -197,7 +197,6 @@ export default {
         return false
       }
       this.errorMsgIsShow = false
-      this.uploadSuccee = true
     }
   }
 }
