@@ -3,7 +3,7 @@
  * @Author: yuye.huang
  * @Date: 2020-02-29 20:52:53
  * @LastEditors: yuye.huang
- * @LastEditTime: 2020-06-28 17:38:15
+ * @LastEditTime: 2020-06-29 10:51:24
  -->
 <template>
   <ns-page-table ref="mainTable"
@@ -146,7 +146,7 @@
           align="left"
           :sortable="false"
           width="200"
-        ><!-- :show-overflow-tooltip="true" -->
+          ><!-- :show-overflow-tooltip="true" -->
           <template slot="header">
             欢迎语
             <el-tooltip
@@ -157,10 +157,10 @@
           </template>
           <template slot-scope="scope">
             <el-tag v-if="scope.row.type === 9">
-                默认
-                <el-tooltip content="默认欢迎语将应用于所有无欢迎语员工">
-                  <Icon type="question-circle"></Icon>
-                </el-tooltip>
+              默认
+              <el-tooltip content="默认欢迎语将应用于所有无欢迎语员工">
+                <Icon type="question-circle"></Icon>
+              </el-tooltip>
             </el-tag>
             {{ scope.row.content }}
             <!-- <el-tooltip :content="scope.row.content">
@@ -236,11 +236,18 @@
         <el-table-column label="状态" align="center" min-width="30">
           <template slot-scope="{ row }">
             <el-switch
-                style="cursor:pointer"
-                :disabled="row.type === 9 && String(account ? account : '') !== 'admin'"
-                :value="row.status"
-                :active-value="1"
-                :inactive-value="0"
+              style="cursor:pointer"
+              :disabled="
+                row.type === 9 && String(account ? account : '') !== 'admin'
+              "
+              :value="row.status"
+              :active-value="1"
+              :inactive-value="0"
+              :before-change="
+                (call, currVal) => {
+                  onStatusChange(call, currVal, row);
+                }
+              "
             ></el-switch>
           </template>
         </el-table-column>
@@ -252,11 +259,16 @@
         >
           <template slot-scope="scope">
             <ns-table-column-operate-button
-              :buttons="(scope.row.type === 9 && String(account ? account : '') !== 'admin') ? [] : _data._table.table_buttons"
+              :buttons="
+                scope.row.type === 9 &&
+                String(account ? account : '') !== 'admin'
+                  ? []
+                  : _data._table.table_buttons
+              "
               :prop="scope"
             >
             </ns-table-column-operate-button>
-              <!-- <ns-table-column-operate-button-ext
+            <!-- <ns-table-column-operate-button-ext
                 :buttons="(scope.row.type === 9 && String(account ? account : '') !== 'admin') ? [] : _data._table.table_buttons"
                 :prop="scope">
               </ns-table-column-operate-button-ext> -->
