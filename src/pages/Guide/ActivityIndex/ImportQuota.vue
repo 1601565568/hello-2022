@@ -16,7 +16,8 @@
           <li class="step-item">
             <span class="step-item--index">1</span>
             <div class="step-item--info">
-              <ns-button type="primary" class="" @click="ImportTarge" >下载模板</ns-button>
+              <ns-button type="primary" class="" v-if="downloadIsShow" @click="ImportTarge" >下载模板</ns-button>
+              <ns-button type="primary" class="" v-else disabled >下载中</ns-button>
               <p class="step-item--info__text"><Icon type="info-circle" /> 请先下载模板，填写各门店指标</p>
               <p class="step-item--info__text" v-if="type0"><Icon type="info-circle" /> 模板单位为“万元”，请输入0-999999.99的数值</p>
               <p class="step-item--info__text" v-if="type1" ><Icon type="info-circle" /> 模板单位为“人”，请输入大于等于0的整数</p>
@@ -35,7 +36,8 @@
                 :on-success="onSuccess"
                 :on-exceed="handleExceed"
                 :show-file-list="false">
-                <ns-button type="primary">上传文件</ns-button>
+                <ns-button type="primary" v-if="loadingIsShow">上传文件</ns-button>
+                <ns-button type="primary" disabled v-else>上传中</ns-button>
               </el-upload>
               <!-- 上传提示 -->
               <span class="text-secondary padding-lr-small " v-if="hintMsgIsShow"  >上传文件限制大小5M，格式为.xls或xlsx</span>
@@ -52,6 +54,7 @@
             <span class="step-item--index">3</span>
             <ns-button type="primary"  v-if="updateDataisShow"  @click="updateList">提交导入</ns-button>
             <ns-button type="primary"  disabled v-else >提交导入</ns-button>
+<!--            <ns-button type="primary"  disabled v-if="updateding" >导入中</ns-button>-->
           </li>
         </ul>
       </div>
@@ -79,6 +82,10 @@ export default {
         year: null,
         type: null
       },
+      downloadIsShow: true,
+      updateding: false,
+      loadingIsShow: true,
+      // downloadIsShow: true,
       updateDataisShow: false,
       type0: false,
       type1: false,
@@ -101,6 +108,8 @@ export default {
   methods: {
     showToggle (data) {
       this.dialogVisible = true
+      this.loadingIsShow = true
+      this.downloadIsShow = true
       this.uploadSuccee = false
       this.uploadFail = false
       this.hintMsgIsShow = true
@@ -124,6 +133,7 @@ export default {
       // }).catch(e => {
       //   window.console.log(e)
       // })
+      this.downloadIsShow = false
       window.console.log('模板类型= ' + this.saveObj.type)
       window.console.log('模板年份= ' + this.saveObj.year)
       // 重置选择的门店
@@ -153,6 +163,7 @@ export default {
         this.$notify.warning('EXCEL文件残缺，请刷新后重新上传EXCEL')
         return false
       }
+      this.updateDataisShow = true
       this.loading = true
       this.$http
         .fetch(this.$api.guide.guide.updateList, this.quotaExcelName)
@@ -178,6 +189,8 @@ export default {
       window.console.log('模板年份= ' + response.result.url)
       if (response.success) {
         this.uploadFail = false
+        // this.uploadSuccee = true
+        this.hintMsgIsShow = false
         this.quotaExcelName = response.result
         this.updateDataisShow = true
         this.uploadSuccee = true
@@ -187,6 +200,7 @@ export default {
         this.uploadSuccee = false
         this.hintMsgIsShow = false
         this.uploadFail = true
+        this.loadingIsShow = true
       }
     },
     handleRemove (file, fileList) {
@@ -198,9 +212,8 @@ export default {
     beforeRemove (file, fileList) {
     },
     beforeUpload (file, fileList) {
-      window.console.log('文件名= ' + file.name)
+      this.loadingIsShow = false
       let fileSuffix = file.name.split('.').pop()
-      window.console.log('文件名后缀= ' + fileSuffix)
       if (fileSuffix !== 'xls' && fileSuffix !== 'xlsx') {
         window.console.log('xls')
         this.hintMsgIsShow = false
@@ -209,8 +222,6 @@ export default {
         return false
       }
       if (file.size / 1024 / 1024 > 5) {
-        window.console.log('文件大小= ' + file.size)
-        window.console.log('文件大小= ' + file.size / 1024 + 'M')
         this.hintMsgIsShow = false
         this.uploadFail = false
         this.uploadSuccee = false
