@@ -3,7 +3,7 @@
  * @Author: yuye.huang
  * @Date: 2020-02-29 20:52:53
  * @LastEditors: yuye.huang
- * @LastEditTime: 2020-06-29 10:51:24
+ * @LastEditTime: 2020-06-29 11:24:40
  -->
 <template>
   <ns-page-table ref="mainTable"
@@ -245,6 +245,9 @@
               :inactive-value="0"
               :before-change="
                 (call, currVal) => {
+                  if (row.type === 9 && String(account ? account : '') !== 'admin') {
+                    return;
+                  }
                   onStatusChange(call, currVal, row);
                 }
               "
