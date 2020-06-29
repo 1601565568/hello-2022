@@ -6,12 +6,12 @@
       <div>
         <el-form :model="saveObj" :rules="rules" ref="addForm" label-width="90px" style="width:440px;">
           <el-form-item label="所属分组：" prop="subdivisionId">
-            <el-select v-model="saveObj.subdivisionId" placeholder="请选择" clearable>
+            <el-select v-model="saveObj.subdivisionId" placeholder="请选择" clearable class="margin-r-mini">
               <el-option v-for="item in groudList" :key="item.subdivision_id" :label="item.subdivision_name" :value="item.subdivision_id">
               </el-option>
             </el-select>
             <ns-button type='text' @click="$router.push({name:'MaterialSubdivision'})">
-              <Icon type="plus"/> 添加分组
+              <Icon type="plus"/>添加分组
             </ns-button>
           </el-form-item>
           <el-form-item label="推广文案：" prop="content">
