@@ -180,6 +180,7 @@ export default List
   .recruitingcode_title{
     display: flex;
     justify-content: flex-start;
+    padding: 0 var(--default-padding-larger);
   }
   .recruitingcode{
     font-size: 34px;
