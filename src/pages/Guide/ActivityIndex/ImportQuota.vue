@@ -38,7 +38,7 @@
                 <ns-button type="primary">上传文件</ns-button>
               </el-upload>
               <!-- 上传提示 -->
-              <span class="text-danger padding-lr-small  " v-if="errorMsgIsShow" >上传文件限制大小5M，格式为.xls或xlsx</span>
+              <span class="text-secondary padding-lr-small " v-if="hintMsgIsShow"  >上传文件限制大小5M，格式为.xls或xlsx</span>
               <span class="text-danger padding-lr-small" v-if="uploadFail">上传失败，文档内容校验失败，请下载模版调整</span>
               <span class="text-secondary padding-lr-small" v-if="uploadSuccee" >上传成功</span>
               <!-- 上传文件名称-->
@@ -84,7 +84,7 @@ export default {
       type1: false,
       uploadSuccee: false,
       uploadFail: false,
-      errorMsgIsShow: false,
+      hintMsgIsShow: true,
       quotaExcelName: {
         fileKey: null,
         url: null,
@@ -103,7 +103,7 @@ export default {
       this.dialogVisible = true
       this.uploadSuccee = false
       this.uploadFail = false
-      this.errorMsgIsShow = false
+      this.hintMsgIsShow = true
       this.updateDataisShow = false
       this.saveObj.type = data.type
       this.saveObj.year = data.year
@@ -185,6 +185,7 @@ export default {
         this.updateDataisShow = false
         window.console.log('上传失败回调= ' + response.msg)
         this.uploadSuccee = false
+        this.hintMsgIsShow = false
         this.uploadFail = true
       }
     },
@@ -202,20 +203,19 @@ export default {
       window.console.log('文件名后缀= ' + fileSuffix)
       if (fileSuffix !== 'xls' && fileSuffix !== 'xlsx') {
         window.console.log('xls')
-        this.errorMsgIsShow = true
-        this.uploadFail = false
+        this.hintMsgIsShow = false
+        this.uploadFail = true
         this.uploadSuccee = false
         return false
       }
       if (file.size / 1024 / 1024 > 5) {
         window.console.log('文件大小= ' + file.size)
         window.console.log('文件大小= ' + file.size / 1024 + 'M')
-        this.errorMsgIsShow = true
+        this.hintMsgIsShow = false
         this.uploadFail = false
         this.uploadSuccee = false
         return false
       }
-      this.errorMsgIsShow = false
     }
   }
 }
