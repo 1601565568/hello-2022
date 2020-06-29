@@ -140,12 +140,7 @@
         :element-loading-text="$t('prompt.loading')"
         @sort-change="onSortChange"
       >
-        <el-table-column
-          :show-overflow-tooltip="true"
-          type="default"
-          align="left"
-          :sortable="false"
-          >
+        <el-table-column :show-overflow-tooltip="true" prop="title" align="left" min-width="120">
           <template slot="header">
             欢迎语
             <el-tooltip content="员工未设置欢迎语时，将使用默认欢迎语">
@@ -153,10 +148,12 @@
             </el-tooltip>
           </template>
           <template slot-scope="scope">
-            {{scope.row.content?scope.row.content:'-'}}
-            <ns-button v-if="scope.row.type === 9" type="primary" size="mini" round class="btn-append">
-              默认
-            </ns-button>
+            <span class="table-col--content">
+              {{scope.row.content?scope.row.content:'-'}}
+              <ns-button v-if="scope.row.type === 9" type="primary" size="mini" round class="btn-append">
+                默认
+              </ns-button>
+            </span>
           </template>
         </el-table-column>
         <el-table-column prop="annexType" label="附带" align="center">
@@ -317,7 +314,21 @@ export default NsTableWelcomeCode
 .resetbtn {
   margin-left: var(--default-margin-larger);
 }
+.table-col--content {
+  position: relative;
+  display: inline-block;
+  padding-right: 48px;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-break: break-all;
+  vertical-align: middle;
+}
 .btn-append {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  margin-top: -12px;
   font-size: var(--default-font-size-small);
   transform: scale(0.84);
   width: 48px;

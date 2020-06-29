@@ -122,8 +122,10 @@
           <el-form-item class="el-inline-block dialog-favorable">
             <template slot="label">
               <div class="dialog-title">
-                <Icon type="discount" className="dialog-favorable__text dialog-favorable__text--discount"/>
-                <div class="dialog-title__text dialog-title__text--move">会员折扣</div>
+                <div class="dialog-title__text dialog-title__text--move1">
+                  <Icon type="discount" className="dialog-favorable__text dialog-favorable__text--discount"/>
+                  <span>会员折扣</span>
+                </div>
                 <div class="dialog-title__colon dialog-title__colon--location">：</div>
               </div>
             </template>
@@ -135,9 +137,9 @@
           <el-form-item v-if="integralIsShow[1]" class="el-inline-block dialog-favorable">
             <template slot="label">
               <div class="dialog-title">
-                <Icon type="integration" className="dialog-favorable__text dialog-favorable__text--integration dialog-favorable__text--space"/>
                 <div class="dialog-title__text" v-if="integralAliasName[1].length<7">
-                  {{integralAliasName[1]}}
+                  <Icon type="integration" className="dialog-favorable__text dialog-favorable__text--integration dialog-favorable__text--space"/>
+                  <span>{{integralAliasName[1]}}</span>
                 </div>
                 <div v-else>
                   <el-tooltip>
@@ -159,9 +161,9 @@
           <el-form-item v-if="integralIsShow[4]" class="el-inline-block dialog-favorable">
             <template slot="label">
               <div class="dialog-title">
-                <Icon type="integration" className="dialog-favorable__text dialog-favorable__text--integration dialog-favorable__text--space"/>
                 <div class="dialog-title__text" v-if="integralName[4].length<7">
-                  {{integralName[4]}}
+                  <Icon type="integration" className="dialog-favorable__text dialog-favorable__text--integration dialog-favorable__text--space"/>
+                  <span>{{integralName[4]}}</span>
                 </div>
                 <div v-else>
                   <el-tooltip>
@@ -187,9 +189,9 @@
           <el-form-item v-if="integralIsShow[0]" class="el-inline-block dialog-favorable">
             <template slot="label">
               <div class="dialog-title">
-                <Icon type="integration" className="dialog-favorable__text dialog-favorable__text--integration dialog-favorable__text--space"/>
                 <div class="dialog-title__text" v-if="integralAliasName[0].length<7">
-                  {{integralAliasName[0]}}
+                  <Icon type="integration" className="dialog-favorable__text dialog-favorable__text--integration dialog-favorable__text--space"/>
+                  <span>{{integralAliasName[0]}}</span>
                 </div>
                 <div v-else>
                   <el-tooltip>
@@ -211,9 +213,9 @@
           <el-form-item v-if="integralIsShow[2]" class="el-inline-block dialog-favorable">
             <template slot="label">
               <div class="dialog-title">
-                <Icon type="integration" className="dialog-favorable__text dialog-favorable__text--integration dialog-favorable__text--space"/>
                 <div class="dialog-title__text" v-if="integralName[2].length<7">
-                  {{integralName[2]}}
+                  <Icon type="integration" className="dialog-favorable__text dialog-favorable__text--integration dialog-favorable__text--space"/>
+                  <span>{{integralName[2]}}</span>
                 </div>
                 <div v-else>
                   <el-tooltip>
@@ -491,7 +493,7 @@
                         </el-date-picker>
                       </el-form-grid>
                       <el-form-grid>
-                        -
+                        <span class="dialog-space">-</span>
                       </el-form-grid>
                       <el-form-grid size="md">
                         <el-date-picker type="datetime" placeholder="请选择" v-model="endTime" format="yyyy-MM-dd 23:59:59"
@@ -520,7 +522,7 @@
                       <!--                    </el-select>-->
                       <!--                  </el-form-grid>-->
                       <el-form-grid>
-                        <ns-button type="primary" @click="seachIntegral(1)">搜索</ns-button>
+                        <ns-button type="primary" @click="seachIntegral(1)" class="dialog-leftspace">搜索</ns-button>
                       </el-form-grid>
                     </el-form-item>
                   </el-form>
@@ -581,7 +583,7 @@
                         </el-date-picker>
                       </el-form-grid>
                       <el-form-grid>
-                        -
+                        <span class="dialog-space">-</span>
                       </el-form-grid>
                       <el-form-grid size="md">
                         <el-date-picker type="datetime" placeholder="请选择" v-model="endTime" format="yyyy-MM-dd 23:59:59"
@@ -610,7 +612,7 @@
                       <!--                    </el-select>-->
                       <!--                  </el-form-grid>-->
                       <el-form-grid>
-                        <ns-button type="primary" @click="seachIntegral(2)">搜索</ns-button>
+                        <ns-button type="primary" @click="seachIntegral(2)" class="dialog-leftspace">搜索</ns-button>
                       </el-form-grid>
                     </el-form-item>
                   </el-form>
@@ -1205,6 +1207,10 @@ export default CustomerManage
         width: 77px;
         @m move {
           margin-right: -3px;
+        }
+        .svg-icon {
+          margin-right: 4px;
+          vertical-align: -2px;
         }
       }
       @e colon {

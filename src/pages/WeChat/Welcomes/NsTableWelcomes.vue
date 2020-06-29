@@ -69,10 +69,12 @@
               </el-tooltip>
             </template>
             <template slot-scope="scope">
-              {{scope.row.title?scope.row.title:'-'}}
-              <ns-button v-if="scope.row.type === 9" type="primary" size="mini" round class="btn-append">
-                默认
-              </ns-button>
+              <span class="table-col--content">
+                {{scope.row.title ? scope.row.title : '-'}}
+                <ns-button v-if="scope.row.type === 9" type="primary" size="mini" round class="btn-append">
+                  默认
+                </ns-button>
+              </span>
             </template>
           </el-table-column>
           <el-table-column prop="updateTime" label="更新时间" align="center" min-width="30">
@@ -182,7 +184,21 @@ export default welcomes
     margin-left: var(--default-margin-larger);
   }
 
+  .table-col--content {
+    position: relative;
+    display: inline-block;
+    padding-right: 48px;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: break-all;
+    vertical-align: middle;
+  }
   .btn-append {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    margin-top: -12px;
     font-size: var(--default-font-size-small);
     transform: scale(0.84);
     width: 48px;
