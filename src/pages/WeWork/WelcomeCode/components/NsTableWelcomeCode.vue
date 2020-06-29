@@ -153,7 +153,7 @@
             </el-tooltip>
           </template>
           <template slot-scope="scope">
-            {{scope.row.content?scope.row.ticontenttle:'-'}}
+            {{scope.row.content?scope.row.content:'-'}}
             <ns-button v-if="scope.row.type === 9" type="primary" size="mini" round class="btn-append">
               默认
             </ns-button>
