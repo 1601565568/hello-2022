@@ -4,7 +4,7 @@
   <div class="addMaterialbox">
     <el-dialog :title="modalTit" :close-on-click-modal=false :visible.sync="dialogVisible" width="500px" :before-close="handleClose" class="custom-box">
       <div>
-        <el-form :model="saveObj" :rules="rules" ref="addForm" label-width="100px" style="width:440px;">
+        <el-form :model="saveObj" :rules="rules" ref="addForm" label-width="90px" style="width:440px;">
           <el-form-item label="所属分组：" prop="subdivisionId">
             <el-select v-model="saveObj.subdivisionId" placeholder="请选择" clearable>
               <el-option v-for="item in groudList" :key="item.subdivision_id" :label="item.subdivision_name" :value="item.subdivision_id">
@@ -39,7 +39,7 @@
           </el-form-item>
           <el-form-item label="小程序链接：">
             <!-- clearable -->
-            <el-select  v-model="saveObj.codeModule" placeholder="请选择" clearable @change='codeModuleChange'>
+            <el-select  v-model="saveObj.codeModule" placeholder="请选择" clearable @change='codeModuleChange' class="margin-r-mini">
               <el-option v-for="item in wechatPageTypeList" :key="item.id" :label="item.name" :value="item.id" >
               </el-option>
             </el-select>
