@@ -64,7 +64,7 @@
                 </div>
               </div>
               <div v-else>
-                <i class="download text-secondary">
+                <i class="download text-secondary  cursor-no-drop">
                   <Icon type="xiazai"/>
                 </i>
               </div>
@@ -98,7 +98,7 @@
                 </div>
               </div>
               <div v-else>
-                <i class="download text-secondary" >
+                <i class="download text-secondary cursor-no-drop" >
                   <Icon type="xiazai"/>
                 </i>
               </div>
@@ -209,5 +209,8 @@ export default List
   /* 去掉分页器的阴影 */
   >>> .el-pagination {
     box-shadow: none;
+  }
+  .cursor-no-drop {
+    cursor: no-drop;
   }
 </style>
