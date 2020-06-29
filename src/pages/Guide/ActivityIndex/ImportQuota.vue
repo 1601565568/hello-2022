@@ -62,6 +62,7 @@
 <script>
 import ElUpload from '@nascent/nui/lib/upload'
 import { API_ROOT } from '@/config/http.js'
+import Axios from 'axios'
 import api from '@/config/http'
 export default {
   props: {
@@ -100,6 +101,10 @@ export default {
   methods: {
     showToggle (data) {
       this.dialogVisible = true
+      this.uploadSuccee = false
+      this.uploadFail = false
+      this.errorMsgIsShow = false
+      this.updateDataisShow = false
       this.saveObj.type = data.type
       this.saveObj.year = data.year
       if (data.type === '1') {
@@ -111,6 +116,14 @@ export default {
       }
     }, // 下载模板
     ImportTarge () {
+      // Axios.get(API_ROOT + '/guide/importquota/downloadtemplate', { params: {
+      //   type: this.saveObj.type,
+      //   year: this.saveObj.year },
+      // responseType: 'stream' }).then(data => {
+      //   window.console.log(data)
+      // }).catch(e => {
+      //   window.console.log(e)
+      // })
       window.console.log('模板类型= ' + this.saveObj.type)
       window.console.log('模板年份= ' + this.saveObj.year)
       // 重置选择的门店
@@ -130,6 +143,10 @@ export default {
       form.appendChild(filename)
       document.body.appendChild(form)
       form.submit()
+      // form.submit((response) => {
+      //   window.console.log('下载模板回调= ' + response)
+      //   window.console.log('下载模板回调= ' + response.success)
+      // })
     }, // 确认更新
     updateList () {
       if (this.quotaExcelName.fileKey == null || this.quotaExcelName === '') {
@@ -157,6 +174,8 @@ export default {
         })
     },
     onSuccess (response, file) {
+      window.console.log('模板类型= ' + response.result.fileKey)
+      window.console.log('模板年份= ' + response.result.url)
       if (response.success) {
         this.uploadFail = false
         this.quotaExcelName = response.result

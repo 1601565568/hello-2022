@@ -84,12 +84,12 @@
 </template>
 
 <script>
-  import index from './src/index.js'
-  import NsDroptree from '@nascent/ecrp-ecrm/src/components/NsDroptree'
-  index.components = {
-    NsDroptree
-  }
-  export default index
+import index from './src/index.js'
+import NsDroptree from '@nascent/ecrp-ecrm/src/components/NsDroptree'
+index.components = {
+  NsDroptree
+}
+export default index
 </script>
 
 <style scoped>
