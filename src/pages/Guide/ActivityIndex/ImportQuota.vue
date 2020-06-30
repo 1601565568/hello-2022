@@ -134,8 +134,8 @@ export default {
       //   window.console.log(e)
       // })
       this.downloadIsShow = false
-      window.console.log('模板类型= ' + this.saveObj.type)
-      window.console.log('模板年份= ' + this.saveObj.year)
+      // window.console.log('模板类型= ' + this.saveObj.type)
+      // window.console.log('模板年份= ' + this.saveObj.year)
       // 重置选择的门店
       var url = API_ROOT + '/guide/importquota/downloadtemplate'
       var form = document.createElement('form')
@@ -168,7 +168,6 @@ export default {
       this.$http
         .fetch(this.$api.guide.guide.updateList, this.quotaExcelName)
         .then((result) => {
-          window.console.log('模板类型= ' + result.success)
           if (result.success) {
             this.loading = false
             // 回调刷新列表
@@ -185,8 +184,6 @@ export default {
         })
     },
     onSuccess (response, file) {
-      window.console.log('模板类型= ' + response.result.fileKey)
-      window.console.log('模板年份= ' + response.result.url)
       if (response.success) {
         this.uploadFail = false
         // this.uploadSuccee = true
@@ -196,7 +193,6 @@ export default {
         this.uploadSuccee = true
       } else {
         this.updateDataisShow = false
-        window.console.log('上传失败回调= ' + response.msg)
         this.uploadSuccee = false
         this.hintMsgIsShow = false
         this.uploadFail = true
