@@ -399,7 +399,7 @@
     </ElScrollbar>
     <div class="form-save__unique">
       <ns-save @click="saveOrUpdate"></ns-save>
-      <ns-button @click="back">返回</ns-button>
+      <ns-button @click="back">取消</ns-button>
     </div>
     <!-- 网页 -->
     <el-dialog
