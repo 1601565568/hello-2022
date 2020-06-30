@@ -1,10 +1,11 @@
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
+import scrollHeight from '@nascent/ecrp-ecrm/src/mixins/scrollHeight'
 import apiRequestConfirm from '@nascent/ecrp-ecrm/src/utils/apiRequestConfirm'
 import Emotion from './EmotionConfig.js' // 表情配置文件
 import { getErrorMsg } from '@/utils/toast'
 export default {
   name: 'List',
-  mixins: [tableMixin],
+  mixins: [tableMixin, scrollHeight],
   data: function () {
     let that = this
     let tableButtons = [
@@ -30,6 +31,11 @@ export default {
       // }
     ]
     return {
+      // 页面滚动条内容高度配置
+      scrollBarDeploy: {
+        ref: 'fullScreen', // 页面滚动条ref的名称
+        excludeHeight: 63 // 按钮+分类+间距的大小
+      },
       model: {
         id: null,
         wordGroupId: null,

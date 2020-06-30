@@ -8,7 +8,7 @@
           <Icon type="question-circle"/>
         </el-tooltip>
       </div>
-      <el-scrollbar  class="quickScrollbar" wrapStyle="overflow-x:hidden;" >
+      <el-scrollbar  class="quickScrollbar" wrapStyle="overflow-x:hidden;" ref="fullScreen">
         <div :class="offsetHeight?'elTrees':'elTree'" ref="elTree">
           <el-tree :data="wordGroupList" default-expand-all @node-click="onClickNode" @node-drop="handleDrop" draggable :allow-drop="allowDrop"
           :allow-drag="allowDrag"
@@ -383,7 +383,6 @@ export default List
 
 /*  左侧滚动框呀样式*/
   .quickScrollbar{
-    max-height: 450px;
     overflow-y: auto;
     margin-bottom: 0px;
     margin-right: 0px
