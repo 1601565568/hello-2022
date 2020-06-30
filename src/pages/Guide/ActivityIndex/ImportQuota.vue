@@ -158,10 +158,10 @@ export default {
       form.appendChild(filename)
       document.body.appendChild(form)
       form.submit()
-      // form.submit((response) => {
-      //   window.console.log('下载模板回调= ' + response)
-      //   window.console.log('下载模板回调= ' + response.success)
-      // })
+      setTimeout(() => {
+        window.console.log('定时时间执行')
+        this.downloadIsShow = true
+      }, 5000)
     }, // 确认更新
     updateList () {
       if (this.quotaExcelName.fileKey == null || this.quotaExcelName === '') {
