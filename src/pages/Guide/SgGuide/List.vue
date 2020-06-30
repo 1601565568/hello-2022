@@ -11,7 +11,6 @@
             <el-form-grid>
               <span v-if="sgGuide.job == 0"> 导购 </span>
               <span v-if="sgGuide.job == 1"> 店长 </span>
-              <span v-if="sgGuide.job == 2"> 客服 </span>
             </el-form-grid>
           </el-form-item>
           <el-form-item label="账号：">
