@@ -3,7 +3,7 @@
  * @Author: yuye.huang
  * @Date: 2020-02-29 20:52:53
  * @LastEditors: yuye.huang
- * @LastEditTime: 2020-06-30 15:28:19
+ * @LastEditTime: 2020-06-30 18:12:26
  -->
 <template>
   <ns-page-table ref="mainTable"
@@ -177,7 +177,7 @@
           </template>
           <template slot-scope="scope">
             <div v-if="scope.row.type === 9">
-              全部员工
+              <span style="color:#0091FA">全部员工</span>
             </div>
             <div
               v-else-if="

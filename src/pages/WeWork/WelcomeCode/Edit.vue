@@ -182,7 +182,7 @@
                     <!-- 已选择<span class="text-primary">{{shopSelectData? shopSelectData.length: 0}}</span>家店铺 -->
                   </ElFormGrid>
                 </ElFormItem>
-                <ElFormItem>
+                <ElFormItem v-if="model.type !== 9">
                   <ElFormGrid>
                     <NsGuideDialog
                       :guideUrl="this.$api.weWork.guide.findGuideList"
@@ -200,7 +200,7 @@
                     }}
                   </ElFormGrid>
                 </ElFormItem>
-                <el-form-item>
+                <el-form-item v-if="model.type !== 9">
                   <ElFormGrid>
                     <ns-button type="text" @click="showChannel()"
                       ><Icon type="plus" />选择渠道</ns-button
