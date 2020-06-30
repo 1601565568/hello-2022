@@ -54,9 +54,9 @@
                   :content="'完成度：'+getRewardInfoObj.paymentPersent+'% , 销售目标：'+ $numeral(getRewardInfoObj.sellQuota).format('0,0.00')">
                   <div slot="reference">
                     <el-progress type="circle" :width=70 :stroke-width=4 :percentage="getRewardInfoObj.paymentPersent" color="#0091FA" :show-text=false></el-progress>
+                    <p class="overview-content__item-right--progress-text">完成度</p>
                   </div>
                 </el-popover>
-                <p class="overview-content__item-right--progress-text">完成度</p>
             </div>
           </el-card>
         </el-col>
@@ -85,10 +85,9 @@
                   <div slot="reference">
                     <el-progress  type="circle" :width=70 :stroke-width=4 :percentage="getRewardInfoObj.memberCountPersent" color="#f56c6c" :show-text=false>
                     </el-progress>
+                    <p class="overview-content__item-right--progress-text">完成度</p>
                   </div>
                 </el-popover>
-
-              <p class="overview-content__item-right--progress-text">完成度</p>
             </div>
           </el-card>
         </el-col>
