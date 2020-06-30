@@ -198,6 +198,7 @@ export default {
         this.quotaExcelName = response.result
         this.updateDataisShow = true
         this.uploadSuccee = true
+        this.loadingIsShow = true
       } else {
         if (response.code === '1') {
           this.uploadFailMsgShow = true
@@ -207,6 +208,7 @@ export default {
         this.uploadSuccee = false
         this.hintMsgIsShow = false
         this.uploadFail = true
+        this.loadingIsShow = true
         this.loadingIsShow = true
       }
     },
