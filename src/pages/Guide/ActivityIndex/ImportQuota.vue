@@ -42,6 +42,7 @@
               <!-- 上传提示 -->
               <span class="text-secondary padding-lr-small " v-if="hintMsgIsShow"  >上传文件限制大小5M，格式为.xls或xlsx</span>
               <span class="text-danger padding-lr-small" v-if="uploadFail">上传失败，文档内容校验失败，请下载模版调整</span>
+              <span class="text-danger padding-lr-small" v-if="uploadFailMsgShow">{{uploadFailMsg}}</span>
               <span class="text-secondary padding-lr-small" v-if="uploadSuccee" >上传成功</span>
               <!-- 上传文件名称-->
 <!--              <span class="text-primary padding-lr-small">新加好友指标模版.xls</span>-->
@@ -82,6 +83,8 @@ export default {
         year: null,
         type: null
       },
+      uploadFailMsgShow: false,
+      uploadFailMsg: null,
       downloadIsShow: true,
       updateding: false,
       loadingIsShow: true,
@@ -107,6 +110,8 @@ export default {
   },
   methods: {
     showToggle (data) {
+      this.uploadFailMsgShow = false
+      this.uploadFailMsg = null
       this.dialogVisible = true
       this.loadingIsShow = true
       this.downloadIsShow = true
@@ -185,6 +190,8 @@ export default {
     },
     onSuccess (response, file) {
       if (response.success) {
+        this.uploadFailMsgShow = false
+        this.uploadFailMsg = null
         this.uploadFail = false
         // this.uploadSuccee = true
         this.hintMsgIsShow = false
@@ -192,6 +199,10 @@ export default {
         this.updateDataisShow = true
         this.uploadSuccee = true
       } else {
+        if (response.code === '1') {
+          this.uploadFailMsgShow = true
+          this.uploadFailMsg = response.msg
+        }
         this.updateDataisShow = false
         this.uploadSuccee = false
         this.hintMsgIsShow = false
