@@ -314,7 +314,7 @@
                   <el-form-grid size="xxmd">{{items.sex === 1?'男':items.sex === 0?'女':'未知'}}</el-form-grid>
                 </el-form-item>
                 <el-form-item label="开卡时间：" class="el-inline-block">
-                  <el-form-grid size="xxmd">{{items.bindTime||'-'}}</el-form-grid>
+                  <el-form-grid size="xxmd">{{items.activateTime||'-'}}</el-form-grid>
                 </el-form-item>
                 <el-form-item label="Email：" class="el-inline-block">
                   <el-form-grid size="xxmd">{{items.email||'-'}}</el-form-grid>
