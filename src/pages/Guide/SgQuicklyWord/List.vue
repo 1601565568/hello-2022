@@ -244,7 +244,6 @@ export default List
   white-space:nowrap
 }
 .elTree .navTree-item .dataName{
-  color: var(--theme-font-color-regular);
   display: inline-block;
   width: 136px;
   overflow:hidden;
