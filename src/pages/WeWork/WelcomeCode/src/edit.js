@@ -66,7 +66,8 @@ export default {
       employeeIds: [], // 使用员工ids
       channelCodes: [], // 使用渠道id
       shopIds: [], // 门店IDs
-      status: 0 // 是否启用
+      status: 0, // 是否启用
+      type: 0 // 是否是默认欢迎语 9为默认
     }
     return {
       focusState: true,

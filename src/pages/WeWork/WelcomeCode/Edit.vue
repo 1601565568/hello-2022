@@ -166,7 +166,7 @@
                     </span>
                   </ElFormGrid>
                 </ElFormItem>
-                <ElFormItem label="使用范围：">
+                <ElFormItem v-if="model.type !== 9" label="使用范围：">
                   <ElFormGrid>
                     <NsShopDialog
                       btnTitle="选择店铺"
