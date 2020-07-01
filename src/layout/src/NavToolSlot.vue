@@ -1,21 +1,21 @@
 <template>
   <div v-if="memberManagePlan == 2" class="nav_warpper">
     <div class="nav-avatar" @click="customerService" title="智慧客服端下载">
-<!--    <span class="nav-avatar__icon">-->
+      <!--    <span class="nav-avatar__icon">-->
       <Icon type="customer-service" class="admin_icon" style="font-size: 20px;color:#fff"  className="nav-avatar__icon--svg" />
-<!--    </span>-->
+      <!--    </span>-->
     </div>
     <div class="line"></div>
-     <el-dialog title="智慧客服客户端下载" :visible.sync="customerVisible" width="500px" class="detail-dialog" append-to-body="true">
-       <div class="text_link">{{customerServiceUrl}}</div>
-       <div class="copy_link" @click='copy(customerServiceUrl)'>
-         <Icon type="copy-paste" class="admin_icon" style="font-size: 13px" className="nav-avatar__icon--svg" />
-         <span>复制链接</span>
-       </div>
-       <span slot="footer">
+    <el-dialog title="智慧客服客户端下载" :visible.sync="customerVisible" width="500px" class="detail-dialog">
+      <div class="text_link">{{customerServiceUrl}}</div>
+      <div class="copy_link" @click='copy(customerServiceUrl)'>
+        <Icon type="copy-paste" class="admin_icon" style="font-size: 13px" className="nav-avatar__icon--svg" />
+        <span>复制链接</span>
+      </div>
+      <span slot="footer">
       <ns-button class="btn"  @click="onConfirm">关闭</ns-button>
     </span>
-     </el-dialog>
+    </el-dialog>
   </div>
 </template>
 
@@ -91,11 +91,11 @@ export default {
     margin-right: 20px;
     background: rgba(255,255,255,.5);
   }
-.admin_icon {
-  cursor: pointer;
-  /*margin-right: 5px;*/
-  font-size: 26px
-}
+  .admin_icon {
+    cursor: pointer;
+    /*margin-right: 5px;*/
+    font-size: 26px
+  }
   .text_link{
     margin-top: 20px;
     padding: 15px 15px;

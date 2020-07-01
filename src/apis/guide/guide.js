@@ -55,6 +55,14 @@ export default {
     url: '/guide/shopperf/findList',
     method: 'post'
   },
+  downloadtemplate: {// 通用下载模板
+    url: '/guide/importquota/downloadtemplate',
+    method: 'get'
+  },
+  updateList: {
+    url: '/guide/importquota/updateList',
+    method: 'post'
+  },
   guideperfList: {// 导购工作统计列表分页查询
     url: '/guide/guideperf/findList',
     method: 'post'

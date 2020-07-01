@@ -69,6 +69,12 @@ export default {
     }
   },
   /**
+   * @param {string} module 门店指标上传表格
+   */
+  sgUploadExcel: function () {
+    return `${apiConf.API_ROOT}/guide/importquota/uploadexcel`
+  },
+  /**
    * $api.sgUploadFile('test')
    * @param {string} module 上传模块名
    */
