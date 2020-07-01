@@ -61,9 +61,20 @@
         <!-- 操作（只有一项文字的80px,两项文字120px,三项文字160px） -->
 
         <el-table ref="table"  :data="_data._table.data" stripe >
-          <el-table-column prop="title" label="标题" align="left" min-width="30">
+          <el-table-column :show-overflow-tooltip="true" prop="title" align="left" min-width="30">
+            <template slot="header">
+              标题
+              <el-tooltip content="员工未设置欢迎语时，将使用默认欢迎语">
+                <Icon type="question-circle"/>
+              </el-tooltip>
+            </template>
             <template slot-scope="scope">
-              {{scope.row.title?scope.row.title:'-'}}
+              <span class="table-col--content">
+                {{scope.row.title ? scope.row.title : '-'}}
+                <ns-button v-if="scope.row.type === 9" type="primary" size="mini" round class="btn-append">
+                  默认
+                </ns-button>
+              </span>
             </template>
           </el-table-column>
           <el-table-column prop="updateTime" label="更新时间" align="center" min-width="30">
@@ -71,18 +82,47 @@
               {{scope.row.updateTime?scope.row.updateTime:'-'}}
             </template>
           </el-table-column>
-          <el-table-column prop="count" label="员工数量" align="center" min-width="30">
+          <el-table-column align="center" min-width="30">
+            <template slot="header">
+              使用范围
+              <el-tooltip content="多个欢迎语情况下的发送优先级：员工欢迎语>门店欢迎语>默认欢迎语">
+                <Icon type="question-circle"/>
+              </el-tooltip>
+            </template>
             <template slot-scope="scope">
-              <div v-if="scope.row.count <= 0">-</div>
-              <div v-else>
+              <div v-if="scope.row.shopCount > 0 || scope.row.count > 0">
+                <ns-button style="color:#0091FA" @click="onShowShopScope(scope.row)" v-if="scope.row.shopCount > 0" type="text">{{scope.row.shopCount}}家店铺</ns-button>
                 <ns-button style="color:#0091FA" @click="onShowEmployeeScope(scope.row)" v-if="scope.row.count > 0" type="text">{{scope.row.count}}名员工</ns-button>
               </div>
+              <div v-else>-</div>
+            </template>
+          </el-table-column>
+          <el-table-column label="发送时间限制" align="center" min-width="30">
+            <template slot="header">
+              发送时间限制
+              <el-tooltip content="欢迎语发送可能受网络影响导致发送延迟，超过该时间限制后则不再会自动发送">
+                <Icon type="question-circle"/>
+              </el-tooltip>
+            </template>
+            <template slot-scope="scope">
+              {{scope.row.failureTime?scope.row.failureTime+' 秒':'无限制'}}
+            </template>
+          </el-table-column>
+          <el-table-column label="状态" align="center" min-width="30">
+            <template slot-scope="{row}">
+              <el-switch style="cursor:pointer" v-if="row.type === 9 && String(row.account ? row.account : '') !== 'admin'" :disabled="true" :value="row.status" :active-value="1" :inactive-value="0"
+                         ></el-switch>
+              <el-switch style="cursor:pointer" v-else :value="row.status" :active-value="1" :inactive-value="0"
+                         :before-change="(call, currVal)=>{onStatusChange(call,currVal,row)}"></el-switch>
             </template>
           </el-table-column>
           <el-table-column :show-overflow-tooltip="true" label="操作" align="center"
                            min-width="30">
             <template slot-scope="scope">
-              <ns-table-column-operate-button-ext :buttons="_data._table.table_buttons"
+              <ns-table-column-operate-button-ext v-if="scope.row.type === 9 && String(scope.row.account ? scope.row.account : '') !== 'admin'"
+                                                  :prop="scope">
+              </ns-table-column-operate-button-ext>
+              <ns-table-column-operate-button-ext v-else :buttons="_data._table.table_buttons"
                                                   :prop="scope">
               </ns-table-column-operate-button-ext>
             </template>
@@ -142,5 +182,31 @@ export default welcomes
   }
   .resetbtn {
     margin-left: var(--default-margin-larger);
+  }
+
+  .table-col--content {
+    position: relative;
+    display: inline-block;
+    padding-right: 48px;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: break-all;
+    vertical-align: middle;
+  }
+  .btn-append {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    margin-top: -12px;
+    font-size: var(--default-font-size-small);
+    transform: scale(0.84);
+    width: 48px;
+    cursor: default;
+
+    &:active, &:hover, &:focus {
+      background: var(--theme-font-color-info);
+      border: 1px solid var(--theme-font-color-info);
+    }
   }
 </style>

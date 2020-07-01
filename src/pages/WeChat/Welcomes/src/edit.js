@@ -8,7 +8,10 @@ export default {
       uuid: null,
       // 计划名称输入框绑定值
       title: '',
+      failureTime: 600, // 失效时间
+      rangeType: 0,
       loading: false, // 防重复提交
+      type: 0, // 欢迎语类型 0：基础模板 9：默认模板
       // 页面滚动条配置
       scrollBarDeploy: {
         ref: 'fullScreen', // 页面滚动条ref的名称
@@ -54,6 +57,9 @@ export default {
         this.loading = false
         return
       }
+      if (this.rangeType === 1) {
+        this.failureTime = 0
+      }
       // 附带内容json
       let content = JSON.stringify(this.publishData)
       let model = {
@@ -61,7 +67,8 @@ export default {
         content: encodeURIComponent(content),
         uuid: that.uuid,
         employeeIds: that.employeeSelectData,
-        storeIds: that.shopSelectData
+        storeIds: that.shopSelectData,
+        failureTime: this.failureTime
       }
       that.$refs.form.validate(valid => {
         if (!valid) {
@@ -107,6 +114,9 @@ export default {
         ).then(resp => {
           that.uuid = resp.result.uuid
           that.title = resp.result.title
+          that.type = resp.result.type
+          that.failureTime = resp.result.failureTime
+          that.rangeType = (this.failureTime ? 0 : 1)
           if (resp.result.content) {
             let content = decodeURIComponent(resp.result.content)
             JSON.parse(content).forEach(function (value, i) {

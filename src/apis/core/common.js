@@ -165,5 +165,10 @@ export default {
   findCustomerServiceUrl: {
     url: '/core/common/findCustomerServiceUrl',
     method: 'get'
+  },
+  // 查询登陆账号
+  getLoginAccount: {
+    url: '/core/common/getLoginAccount',
+    method: 'get'
   }
 }

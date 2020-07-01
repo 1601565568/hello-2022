@@ -25,7 +25,13 @@
   <div>
     <NsButton type="text" @click="onDialogOpen()"><Icon type="plus"/>{{btnTitle}}</NsButton>
     <el-dialog :title="dialogTitle" :visible.sync="visible" :show-scroll-x="false"
-               :close-on-click-modal = "false" :before-close="onDialogClose" width="700px">
+               :close-on-click-modal = "false" :before-close="onDialogClose" width="700px"><!-- 按员工设置使用范围时，所选员工会优先选择使用该条欢迎语而非归属门店设置的欢迎语 -->
+      <div slot="title">
+        {{dialogTitle}}
+        <el-tooltip  content="按员工设置使用范围时，所选员工会优先选择使用该条欢迎语而非归属门店设置的欢迎语">
+          <Icon type="question-circle"></Icon>
+        </el-tooltip>
+      </div>
       <div>
         <el-form>
           <el-form-item>
@@ -128,5 +134,9 @@ export default index
         overflow: hidden;
       }
     }
+  }
+
+  >>> .el-table th.el-table-column--selection>.cell {
+    padding: 0 14px;
   }
 </style>

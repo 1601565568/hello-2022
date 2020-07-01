@@ -3,7 +3,7 @@
  * @Author: yuye.huang
  * @Date: 2020-02-28 17:30:52
  * @LastEditors: yuye.huang
- * @LastEditTime: 2020-03-16 17:12:39
+ * @LastEditTime: 2020-06-16 16:36:27
  */
 export default {
   /**
@@ -25,6 +25,13 @@ export default {
    */
   findWelcomeCodeChannelList: {
     url: '/wework/welcomecode/findWelcomeCodeChannelList',
+    method: 'post'
+  },
+  /**
+   * @msg: 查询智能欢迎语使用门店列表
+   */
+  findWelcomeCodeShopList: {
+    url: '/wework/welcomecode/findWelcomeCodeShopList',
     method: 'post'
   },
   /**

@@ -22,11 +22,11 @@ export default {
     },
     dialogTitle: {
       type: String,
-      default: '选择适用门店'
+      default: '选择使用门店'
     },
     btnTitle: {
       type: String,
-      default: '+选择适用门店'
+      default: '+选择使用门店'
     },
     validNull: {
       type: Boolean,
@@ -50,7 +50,7 @@ export default {
         name: ''
       },
       // 接口数据的key值name
-      recordId: 'shopId',
+      recordId: 'shop_id',
       // 页码
       pagination4Emp: {
         enable: true,
@@ -231,7 +231,7 @@ export default {
             if (vm.value && vm.value.length > 0) {
               param.shopIds = vm.value.join(',')
             }
-            vm.$http.fetch(this.$api.core.sysShop.findShopListByShopIds, param).then(resp => {
+            vm.$http.fetch(this.$api.core.sysShop.getShopListByShopIds, param).then(resp => {
               if (resp.result && resp.result.length > 0) {
                 vm.selectedData = JSON.parse(JSON.stringify(resp.result))
                 vm.$nextTick(function () {

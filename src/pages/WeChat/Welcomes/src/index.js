@@ -10,10 +10,15 @@ export default {
       visible: false,
       welcomeCodeUuid: ''
     }
+    let nsTableShopScopeModel = {
+      visible: false,
+      welcomeCodeUuid: ''
+    }
     return {
       dialogTitle: '', // 弹窗标题
       title: '', // 弹出页面的标题
       nsTableEmployeeScopeModel: nsTableEmployeeScopeModel,
+      nsTableShopScopeModel: nsTableShopScopeModel,
       sgGuide: {
         group_id: null, // 集团id
         id: '',
@@ -66,6 +71,40 @@ export default {
         this.$refs.employeeTable._data._table.searchMap.welcomeCodeUuid = this.nsTableEmployeeScopeModel.welcomeCodeUuid
         this.$refs.employeeTable._data._table.quickSearchMap.welcomeCodeUuid = this.nsTableEmployeeScopeModel.welcomeCodeUuid
         this.$refs.employeeTable.$reload()
+      })
+    },
+    /**
+     * todo 目前仅使用方法 onOpenShopDialog 触发有效
+     * @msg: 查看欢迎语门店使用范围
+     * @param {scope.row}
+     */
+    onShowShopScope (data) {
+      this.nsTableShopScopeModel = {
+        welcomeCodeUuid: data.uuid,
+        visible: true
+      }
+    },
+    /**
+     * @msg: 关闭弹框 重新刷新门店列表数据
+     */
+    onCloseShopDialog () {
+      // 重新刷新列表数据
+      this.$nextTick(() => {
+        this.$refs.shopTable.model.shopName = null
+        this.$refs.shopTable._data._table.searchMap.shopName = null
+        this.$refs.shopTable._data._table.quickSearchMap.shopName = null
+      })
+    },
+    /**
+     * @msg: 打开弹框 重新刷新门店列表数据
+     */
+    onOpenShopDialog () {
+      // 重新刷新列表数据
+      this.$nextTick(() => {
+        this.$refs.shopTable.model.welcomeCodeUuid = this.nsTableShopScopeModel.welcomeCodeUuid
+        this.$refs.shopTable._data._table.searchMap.welcomeCodeUuid = this.nsTableShopScopeModel.welcomeCodeUuid
+        this.$refs.shopTable._data._table.quickSearchMap.welcomeCodeUuid = this.nsTableShopScopeModel.welcomeCodeUuid
+        this.$refs.shopTable.$reload()
       })
     }
   },

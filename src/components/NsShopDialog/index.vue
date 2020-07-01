@@ -25,10 +25,17 @@
 <template>
   <div>
     <NsButton type="text" @click="onDialogOpen()"><Icon type="plus"/>{{btnTitle}}</NsButton>
-    <el-dialog :title="dialogTitle" :visible.sync="visible" :show-scroll-x="false"
+    <el-dialog :visible.sync="visible" :show-scroll-x="false"
                :close-on-click-modal = "false" appendToBody :before-close="onDialogClose" width="700px">
+      <div slot="title">
+        {{dialogTitle}}
+        <el-tooltip  content="按门店设置使用范围时，所选门店下所有导购都会使用该欢迎语">
+          <Icon type="question-circle"></Icon>
+        </el-tooltip>
+      </div>
       <div>
         <el-form>
+          <input name="hidden" type="text" hidden/>
           <el-form-item>
             <el-form-grid><div style="margin-left: 20px;">店铺名称：</div></el-form-grid>
             <el-form-grid>
@@ -45,11 +52,11 @@
           <el-col :span="12">
             <ElTable v-loading="tableLoading" ref="employeeTable" :data="listData" height="260" @select="selectChange" @select-all="selectAllChange">
               <ElTableColumn type="selection" width="55" />
-              <ElTableColumn :show-overflow-tooltip="true" type="default" prop="shopName" label="店铺名称" align="left"/>
+              <ElTableColumn :show-overflow-tooltip="true" type="default" prop="shop_name" label="店铺名称" align="left"/>
               <ElTableColumn :show-overflow-tooltip="true" type="default" prop="shopStatus" label="店铺状态" align="left">
                 <template slot-scope="scope">
-                  {{scope.row.shopStatus === -2 ? '锁定/暂停' : ''}}
-                  {{scope.row.shopStatus === -1 ? '过期/已关店' : ''}}
+                  {{scope.row.shopStatus === -2 ? '暂停' : ''}}
+                  {{scope.row.shopStatus === -1 ? '关店' : ''}}
                   {{scope.row.shopStatus === -0 ? '删除' : ''}}
                   {{scope.row.shopStatus === 1 ? '正常' : ''}}
                 </template>
@@ -64,7 +71,7 @@
           </el-col>
           <el-col :span="12">
             <ElTable :data="selectedData" height="260">
-              <ElTableColumn :show-overflow-tooltip="true" type="default" prop="shopName" label="已选适用门店" align="left"/>
+              <ElTableColumn :show-overflow-tooltip="true" type="default" prop="shop_name" label="已选使用门店" align="left"/>
               <ElTableColumn  prop="select" align="center" width="55" >
                 <template slot-scope="scope">
                   <ns-button
@@ -132,5 +139,9 @@ export default index
         overflow: hidden;
       }
     }
+  }
+
+  >>> .el-table th.el-table-column--selection>.cell {
+    padding: 0 14px;
   }
 </style>
