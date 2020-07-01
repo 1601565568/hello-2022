@@ -64,7 +64,7 @@
                 </div>
               </div>
               <div v-else>
-                <i class="download text-secondary">
+                <i class="download text-secondary  cursor-no-drop">
                   <Icon type="xiazai"/>
                 </i>
               </div>
@@ -98,7 +98,7 @@
                 </div>
               </div>
               <div v-else>
-                <i class="download text-secondary" >
+                <i class="download text-secondary cursor-no-drop" >
                   <Icon type="xiazai"/>
                 </i>
               </div>
@@ -180,6 +180,7 @@ export default List
   .recruitingcode_title{
     display: flex;
     justify-content: flex-start;
+    padding: 0 var(--default-padding-larger);
   }
   .recruitingcode{
     font-size: 34px;
@@ -204,5 +205,12 @@ export default List
   .photosize {
     width: 140px;
     height: 140px;
+  }
+  /* 去掉分页器的阴影 */
+  >>> .el-pagination {
+    box-shadow: none;
+  }
+  .cursor-no-drop {
+    cursor: no-drop;
   }
 </style>

@@ -69,7 +69,7 @@
         <div class="selecedBox" v-loading="multipleSelectionLoading"
              :element-loading-text="$t('prompt.loading')">
           <el-scrollbar class="scrollbarb">
-            <div class="tit">已选择<em>{{multipleSelection.length}}</em>门店</div>
+            <div class="tit">已选择<em class="mini-space">{{multipleSelection.length}}</em>家门店</div>
             <ul class="list">
               <li v-for="(item) in multipleSelection" :key="item.id">
                 <span class="name">{{item.shopName}}</span>
@@ -84,7 +84,7 @@
         <ns-button  type="primary" @click="okFun">确定</ns-button>
       </div>
   </el-dialog>
-  <ns-button  type="primary" @click="openFun">选择门店</ns-button> 已选择<span class="text-error">{{hasShopArr.length}}</span>家门店
+  <ns-button  type="primary" @click="openFun">选择门店</ns-button> 已选择<span class="text-error mini-space">{{hasShopArr.length}}</span>家门店
 </div>
 </template>
 <script>
@@ -394,6 +394,7 @@ export default {
       font-size: 14px;
       height: 32px;
       line-height: 32px;
+      padding: 0 var(--default-padding-small);
       border-bottom: 1px solid #f2f2f2;
       em {
         font-style: normal;
@@ -401,15 +402,17 @@ export default {
       }
     }
     .list {
-      padding: 3px 0;
+      padding: 0;
       margin: 0;
       list-style: none;
       li {
-        line-height: 26px;
+        line-height: 30px;
         color: #999;
-        height: 26px;
-        margin-bottom: 3px;
-        border-bottom: 1px dashed #f2f2f2;
+        height: 30px;
+        padding: 0 var(--default-padding-small);
+        &:nth-child(2n-1) {
+           background-color: #f8f9fb;
+         }
         .name {
           float: left;
         }
@@ -419,7 +422,7 @@ export default {
           cursor: pointer;
         }
         &:hover {
-          border-bottom: 1px dashed #41a2e8;
+           background-color: #f5fbff;
         }
       }
     }
@@ -427,6 +430,7 @@ export default {
 }
 </style>
 <style scoped>
+  @import "@theme/variables.pcss";
   .searchAction{
     display: flex;
     justify-content: space-between;
@@ -450,5 +454,8 @@ export default {
   }
   >>> .el-icon-circle-check {
     display: none;
+  }
+  .mini-space {
+    margin: 0 var(--default-margin-mini);
   }
 </style>

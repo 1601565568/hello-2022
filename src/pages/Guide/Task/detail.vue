@@ -23,7 +23,7 @@
       </el-tooltip>
     </div>
     <el-row class="statistics" :gutter="5" style='height:254px'>
-      <el-col :span="11" class='flex flex-around ptb58' style='height:254px;border-right:1px solid #dcdfe6;'>
+      <el-col :span="11" class='flex flex-evenly ptb58' style='height:254px;border-right:1px solid #dcdfe6;'>
         <div class="statistics-pic statistics-total flex flex-center">
           <div class="round"></div>
           <div class="text-white fz18" style='opacity:0.9'>任务总数</div>
@@ -118,7 +118,7 @@
   </div>
    <el-row class="overview-content__echart mt5" :gutter="5">
     <el-col :span="12">
-      <div class="overview-echart__item overview-echart__item--pink">
+      <div class="overview-echart__item overview-echart__item--pink task-progress">
         <div class="overview-content__title flex flex-between">
           <div class='span'>任务进度
             <el-tooltip content="任务显示根据任务的开始时间进行筛选；例如：筛选时间为2019-03-01至现在，则显示任务开始时间为2019-03-01至现在的任务"
@@ -1477,5 +1477,13 @@ export default {
   }
   .content-overflow {
     overflow: hidden;
+  }
+  .flex-evenly {
+    justify-content: space-evenly;
+  }
+  .task-progress {
+    >>> .el-pagination__sizes {
+      display: none;
+    }
   }
 </style>

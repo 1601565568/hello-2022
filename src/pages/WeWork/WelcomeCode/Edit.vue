@@ -923,7 +923,7 @@ export default Edit
       display: flex;
       @e left {
         width: 68%;
-        margin-right: var(--default-margin-xlarge);
+        margin-right: var(--default-margin-xlarger);
       }
       @e right {
         flex-shrink: 0;

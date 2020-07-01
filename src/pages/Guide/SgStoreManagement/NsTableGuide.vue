@@ -15,7 +15,7 @@
               <span>{{node.label}}</span>
               <span v-if="node.label === '全部'">
               <el-tooltip content="查看所有的线下门店">
-                 <Icon type="question-circle" className="question-circle"/>
+                 <i class="question-circle"><Icon type="question-circle" /></i>
               </el-tooltip>
             </span>
             </div>
@@ -290,5 +290,8 @@ export default guide
   }
   .subdivision-tree-node>span {
     margin-left: var(--default-margin-base);
+  }
+  .question-circle {
+    margin-left: -5px;
   }
 </style>

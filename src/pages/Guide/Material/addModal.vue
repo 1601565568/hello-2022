@@ -3,15 +3,15 @@
   <!-- 新增素材--编辑弹窗  wanrengang 20180731 -->
   <div class="addMaterialbox">
     <el-dialog :title="modalTit" :close-on-click-modal=false :visible.sync="dialogVisible" width="500px" :before-close="handleClose" class="custom-box">
-      <div class="comDialogBoxCon">
-        <el-form :model="saveObj" :rules="rules" ref="addForm" label-width="100px" style="width:440px;">
+      <div>
+        <el-form :model="saveObj" :rules="rules" ref="addForm" label-width="90px" style="width:440px;">
           <el-form-item label="所属分组：" prop="subdivisionId">
-            <el-select v-model="saveObj.subdivisionId" placeholder="请选择" clearable>
+            <el-select v-model="saveObj.subdivisionId" placeholder="请选择" clearable class="margin-r-mini">
               <el-option v-for="item in groudList" :key="item.subdivision_id" :label="item.subdivision_name" :value="item.subdivision_id">
               </el-option>
             </el-select>
             <ns-button type='text' @click="$router.push({name:'MaterialSubdivision'})">
-              <Icon type="plus"/> 添加分组
+              <Icon type="plus"/>添加分组
             </ns-button>
           </el-form-item>
           <el-form-item label="推广文案：" prop="content">
@@ -39,7 +39,7 @@
           </el-form-item>
           <el-form-item label="小程序链接：">
             <!-- clearable -->
-            <el-select  v-model="saveObj.codeModule" placeholder="请选择" clearable @change='codeModuleChange'>
+            <el-select  v-model="saveObj.codeModule" placeholder="请选择" clearable @change='codeModuleChange' class="margin-r-mini">
               <el-option v-for="item in wechatPageTypeList" :key="item.id" :label="item.name" :value="item.id" >
               </el-option>
             </el-select>

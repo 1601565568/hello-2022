@@ -1251,4 +1251,8 @@ export default CustomerManage
   .customerManage >>> .el-radio__label {
     display: none;
   }
+  /* 去掉分页器的阴影 */
+  >>> .el-pagination {
+    box-shadow: none;
+  }
 </style>

@@ -8,7 +8,7 @@
           <Icon type="question-circle"/>
         </el-tooltip>
       </div>
-      <el-scrollbar  class="quickScrollbar" wrapStyle="overflow-x:hidden;" >
+      <el-scrollbar  class="quickScrollbar" wrapStyle="overflow-x:hidden;" ref="fullScreen">
         <div :class="offsetHeight?'elTrees':'elTree'" ref="elTree">
           <el-tree :data="wordGroupList" default-expand-all @node-click="onClickNode" @node-drop="handleDrop" draggable :allow-drop="allowDrop"
           :allow-drag="allowDrag"
@@ -20,8 +20,8 @@
           <div class="navTree-item flex flex-between" slot-scope="{ node, data }" >
             <span class="dataName">{{ data.name }}</span>
             <span v-if='data.id' class="controlstatus">
-              <Icon type="delete" @click="deleteTheGroup(data)" className="deleteicon" />
-              <Icon type="bianji-1" @click="onSaveQuicklyWordGroupOpen(data)"/>
+              <Icon type="delete" @click="deleteTheGroup(data)" className="deleteicon margin-r-mini" />
+              <Icon type="bianji-1" @click="onSaveQuicklyWordGroupOpen(data)" />
             </span>
           </div>
           </el-tree>
@@ -133,7 +133,7 @@
         <el-form-item label="话术内容：" prop="content" required>
             <el-input type="textarea" placeholder="输入话术内容，最多200字" @input="contentCheck" v-model="model.content"  size="small" rows="4" ></el-input>
           <div class="expressionBar_div">
-            <i @click="faceFace"><Icon type="biaoqing"/></i>
+            <i @click="faceFace" class="cursor-pointer"><Icon type="biaoqing"/></i>
           </div>
         </el-form-item>
         <el-form-item v-if="InternetMemeShow" label="" prop="">
@@ -244,7 +244,6 @@ export default List
   white-space:nowrap
 }
 .elTree .navTree-item .dataName{
-  color: var(--theme-font-color-regular);
   display: inline-block;
   width: 136px;
   overflow:hidden;
@@ -383,7 +382,6 @@ export default List
 
 /*  左侧滚动框呀样式*/
   .quickScrollbar{
-    max-height: 450px;
     overflow-y: auto;
     margin-bottom: 0px;
     margin-right: 0px
@@ -399,4 +397,9 @@ export default List
   .quickScrollbar::-webkit-scrollbar-thumb {/*滚动条里面可以拖动的那部分*/
     background: rgb(200,200,200);
 }
+/* 表情包新增手型 start */
+.cursor-pointer, >>> .emotion-list .li  {
+  cursor: pointer;
+}
+/* 表情包新增手型 end */
 </style>
