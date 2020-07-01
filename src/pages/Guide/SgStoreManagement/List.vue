@@ -194,10 +194,6 @@ export default List
     .explanation__member {
       margin-left: var(--default-margin-mini);
     }
-    >>> .el-checkbox {
-      position: relative;
-      top: 1px;
-    }
   }
   .download{
     font-size: var(--dafault-font-size-xlarge);
