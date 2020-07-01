@@ -189,17 +189,17 @@ export default {
         })
     },
     onSuccess (response, file) {
+      this.loadingIsShow = true
       if (response.success) {
         this.uploadFailMsgShow = false
         this.uploadFailMsg = null
         this.uploadFail = false
-        // this.uploadSuccee = true
         this.hintMsgIsShow = false
         this.quotaExcelName = response.result
         this.updateDataisShow = true
         this.uploadSuccee = true
-        this.loadingIsShow = true
       } else {
+        window.console.log('失败回调' + response.msg)
         if (response.code === '1') {
           this.uploadFailMsgShow = true
           this.uploadFailMsg = response.msg
@@ -208,8 +208,6 @@ export default {
         this.uploadSuccee = false
         this.hintMsgIsShow = false
         this.uploadFail = true
-        this.loadingIsShow = true
-        this.loadingIsShow = true
       }
     },
     handleRemove (file, fileList) {
