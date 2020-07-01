@@ -22,6 +22,8 @@ export default {
       treeSelected: '',
       // 员工组建 员工值
       employeeSelectData: [],
+      // 店铺组件 店铺值
+      shopSelectData: [],
       // 发布内容数据
       publishData: [],
       // 预置链接
@@ -58,7 +60,8 @@ export default {
         title: that.title,
         content: encodeURIComponent(content),
         uuid: that.uuid,
-        employeeIds: that.employeeSelectData
+        employeeIds: that.employeeSelectData,
+        storeIds: that.shopSelectData
       }
       that.$refs.form.validate(valid => {
         if (!valid) {
@@ -99,7 +102,6 @@ export default {
       // 页面初始化时，加载页面数据
       let that = this
       let uuid = this.$route.query.uuid
-      var keyMap = {}
       if (uuid) {
         that.$http.fetch(that.$api.weChat.welcomes.getWelcomeCode, { uuid: uuid }
         ).then(resp => {
@@ -113,6 +115,9 @@ export default {
           }
           resp.result.employeeIds.forEach(function (value, i) {
             that.employeeSelectData.push(value)
+          })
+          resp.result.storeIds.forEach(function (value, i) {
+            that.shopSelectData.push(value)
           })
         }).catch(resp => {
           that.$notify.error(resp.msg)

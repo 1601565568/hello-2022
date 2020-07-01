@@ -95,7 +95,7 @@ export default {
       this.$http.fetch(this.url, param)
         .then(resp => {
           if (resp.result && resp.result.data && resp.result.data.length > 0) {
-            data = resp.result.data
+            data = JSON.parse(JSON.stringify(resp.result.data))
           }
           if (resp.result.recordsTotal) {
             total = parseInt(resp.result.recordsTotal)
@@ -104,9 +104,9 @@ export default {
           vm.$notify.error('请求数据信息失败')
         }).finally(() => {
           // 列表数据
-          vm.listData = data
+          vm.listData = JSON.parse(JSON.stringify(data))
           // 备份列表数据
-          vm.allListData = data
+          vm.allListData = JSON.parse(JSON.stringify(data))
           // 数据总数
           vm.pagination4Emp.total = total
           vm.$nextTick(function () {
@@ -233,7 +233,7 @@ export default {
             }
             vm.$http.fetch(this.$api.core.sysShop.findShopListByShopIds, param).then(resp => {
               if (resp.result && resp.result.length > 0) {
-                vm.selectedData = resp.result
+                vm.selectedData = JSON.parse(JSON.stringify(resp.result))
                 vm.$nextTick(function () {
                   vm.toggleRowSelection(vm.selectedData, vm.listData, vm.recordId)
                   vm.tableLoading = false
