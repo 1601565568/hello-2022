@@ -170,9 +170,9 @@
                 {{scope.row.sgExclusiveShopName ? scope.row.sgExclusiveShopName : "-"}}
               </template>
             </el-table-column>
-            <el-table-column prop="inMemberTime" label="入会时间" align="center" width="160">
+            <el-table-column prop="activateTime" label="入会时间" align="center" width="160">
                 <template slot-scope="scope">
-                  {{scope.row.inMemberTime?moment(scope.row.inMemberTime):'-'}}
+                  {{scope.row.activateTime?moment(scope.row.activateTime):'-'}}
                 </template>
             </el-table-column>
             <el-table-column prop="status,row" :show-overflow-tooltip="true" label="操作" align="center" width="100">
