@@ -59,10 +59,10 @@ export default {
           url: 'https://work.weixin.qq.com/wework_admin/frame#customer/chatMenu'
         }, {
           explain: '客户详情：pages/member/memberData',
-          value: 'pages/member/profile'
+          value: 'pages/member/memberData'
         }, {
           explain: '客户标签：pages/member/memberData',
-          value: 'pages/member/profile'
+          value: 'pages/member/memberData'
         }]
       }, {
         configuration: '会员画像',
@@ -72,7 +72,7 @@ export default {
           url: 'https://work.weixin.qq.com/wework_admin/frame#profile/wxcontacts/mngConfigView'
         }, {
           explain: '客户详情：pages/member/memberData',
-          value: 'pages/member/profile'
+          value: 'pages/member/memberData'
         }]
       }],
       operationData: [{
