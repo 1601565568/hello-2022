@@ -125,9 +125,6 @@
     <!---->
     <!--选择好友弹窗开始-->
     <ElDialog width="600px" height="500px" title="选择子码" :visible.sync="dialogVisible" :before-close="employeeTreeClose" :show-scroll-x=false>
-      <div v-if="personalQrcode.type === 0">
-          <NsEmployeeOrCustGroupDialog btnTitle="选择营销人群" v-model="employeeSelectData"></NsEmployeeOrCustGroupDialog>
-      </div>
       <div v-if="personalQrcode.type === 1">
         <div class="giveaway-add__item--info">
           <ns-button type="text" @click="handleAdd()">添加自定义图片</ns-button>
