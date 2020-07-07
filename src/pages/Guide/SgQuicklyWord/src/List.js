@@ -313,6 +313,11 @@ export default {
     },
     onSave () { // 快捷话术保存功能
       let that = this
+      window.console.log('新创建的快捷话术=>' + this.model.content.replace(/\s+|[\r\n]/g, '').length)
+      if (this.model.content.replace(/\s+|[\r\n]/g, '').length === 0) {
+        that.$notify.error('保存失败,不能输入纯空格或换行')
+        return
+      }
       this.InternetMemeShow = false
       this.$refs.form.validate(valid => {
         if (valid) {
