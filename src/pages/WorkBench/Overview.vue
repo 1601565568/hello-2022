@@ -433,12 +433,12 @@ index.components = {
           }
           &:nth-child(4) {
             .overview-content__item:before {
-              background: var(--theme-color-warning);
+              background: #B760DE;
             }
           }
            &:nth-child(5) {
             .overview-content__item:before {
-              background: #f00;
+              background: var(--theme-color-warning);
             }
           }
         }

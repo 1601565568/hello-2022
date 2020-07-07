@@ -227,7 +227,7 @@ export default {
           right: 55
         },
         series: [{
-          color: '#FF3A3A',
+          color: '#B760DE',
           data: [],
           smooth: 0.35,
           symbolSize: 8,
@@ -240,9 +240,9 @@ export default {
               x2: 0,
               y2: 1,
               colorStops: [{
-                offset: 0, color: 'rgba(255, 58, 58, 0.6)' // 0% 处的颜色
+                offset: 0, color: 'rgba(183,96,222,0.5)' // 0% 处的颜色
               }, {
-                offset: 1, color: 'rgba(255, 58, 58, 0.1)' // 100% 处的颜色
+                offset: 1, color: 'rgba(183,96,222,0.05)' // 100% 处的颜色
               }]
             }
           }
@@ -305,8 +305,8 @@ export default {
             color: new echarts.graphic.LinearGradient(
               0, 0, 1, 1,
               [
-                { offset: 0, color: '#3963FF' },
-                { offset: 1, color: '#2B67FF' }
+                { offset: 0, color: '#2C67FF' },
+                { offset: 1, color: '#2C67FF' }
               ])
           },
           type: 'bar',
@@ -370,8 +370,8 @@ export default {
             color: new echarts.graphic.LinearGradient(
               0, 0, 1, 1,
               [
-                { offset: 0, color: '#A964FF' },
-                { offset: 1, color: '#BF63FF' }
+                { offset: 0, color: '#0091FA ' },
+                { offset: 1, color: '#0091FA' }
               ])
           },
           type: 'bar',
@@ -435,8 +435,8 @@ export default {
             color: new echarts.graphic.LinearGradient(
               0, 0, 1, 1,
               [
-                { offset: 0, color: '#FF5215' },
-                { offset: 1, color: '#FF6C00' }
+                { offset: 0, color: '#FF532A' },
+                { offset: 1, color: '#FF532A' }
               ])
           },
           type: 'bar',
@@ -501,8 +501,8 @@ export default {
             color: new echarts.graphic.LinearGradient(
               0, 0, 1, 1,
               [
-                { offset: 0, color: '#FF5215' },
-                { offset: 1, color: '#FF6C00' }
+                { offset: 0, color: '#8F5BFF' },
+                { offset: 1, color: '#8F5BFF' }
               ])
           },
           type: 'bar',
@@ -632,8 +632,8 @@ export default {
             color: new echarts.graphic.LinearGradient(
               0, 0, 1, 1,
               [
-                { offset: 0, color: '#1FC47C' },
-                { offset: 1, color: '#2EC59C' }
+                { offset: 0, color: '#B760DE' },
+                { offset: 1, color: '#B760DE' }
               ])
           },
           type: 'bar',
@@ -641,7 +641,7 @@ export default {
         }
       },
       rewardOption: {
-        color: ['#FD9B00', '#F7C71F'],
+        color: ['#FD9B00', '#F7C71F', '#0091FA'],
         tooltip: {
           trigger: 'axis',
           axisPointer: { // 坐标轴指示器，坐标轴触发有效
@@ -656,7 +656,7 @@ export default {
         },
         legend: {
           bottom: 20,
-          data: ['销售提成', '招募奖励'],
+          data: ['销售提成', '招募奖励', '新增添加好友'],
           itemWidth: 20,
           itemGap: 36
         },
@@ -713,6 +713,17 @@ export default {
             },
             barWidth: 16,
             name: '招募奖励',
+            type: 'bar',
+            stack: 'stack',
+            data: []
+          },
+          {
+            itemStyle: {
+              borderWidth: 1,
+              barBorderRadius: [30, 30, 0, 0]
+            },
+            barWidth: 16,
+            name: '新增添加好友奖励',
             type: 'bar',
             stack: 'stack',
             data: []
@@ -937,6 +948,7 @@ export default {
             that.isRewardDate = true
             that.rewardOption.series[0].data = sellRewardArr
             that.rewardOption.series[1].data = recruitRewardArr
+            that.rewardOption.series[2].data = addFriendArr
           }
         })
         .catch(resp => {
