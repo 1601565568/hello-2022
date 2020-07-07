@@ -1022,7 +1022,6 @@ export default {
       } else if (+parms.type === 1) {
         this.loadingShopRecruit = true // 门店招募
       } else {
-        console.log('parms.type', parms.type)
         this.loadingAddFriend = true // 门店新加好友
       }
       let that = this

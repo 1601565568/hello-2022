@@ -127,7 +127,7 @@
         <el-col :span="5">
           <el-card class="overview-content__item" shadow="never">
               <p class="text-secondary">
-                导购销售提成+招募奖励
+                导购销售提成+招募奖励+新增好友奖励
               </p>
               <p>
                 <span class="font-size-large">￥</span>
@@ -139,7 +139,7 @@
                   :duration="1.5"
                   :decimal="2">
                 </el-countup> -->
-                <span class="text-secondary">（￥{{$numeral(getRewardInfoObj.sellReward).format('0,0.00')}}+￥{{$numeral(getRewardInfoObj.recruitReward).format('0,0.00')}}）</span>
+                <span class="text-secondary">（￥{{$numeral(getRewardInfoObj.sellReward).format('0,0.00')}}+￥{{$numeral(getRewardInfoObj.recruitReward).format('0,0.00')}}+￥{{$numeral(getRewardInfoObj.addfriendReward).format('0,0.00')}}）</span>
               </p>
           </el-card>
         </el-col>
