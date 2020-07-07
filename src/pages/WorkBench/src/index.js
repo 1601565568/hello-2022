@@ -33,17 +33,22 @@ export default {
       isSaleData: true, // 是否有数据展示
       isRecruitData: true,
       isRewardDate: true,
+      isAddFriendData: true,
       isShopSellData: true,
       isGuideSellData: true,
       isShopRecruitData: true,
       isGuideRecruitData: true,
+      isGuideAddFriendData: true,
+      isNewAddFriendData: true,
       loadingSell: false,
       loadingRecruit: false,
       loadingReward: false,
       loadingShopSell: false,
       loadingGuideSell: false,
       loadingShopRecruit: false,
+      loadingAddFriend: false,
       loadingGuideRecruit: false,
+      loadingGuideAddFriend: false,
       saleOption: {
         tooltip: {
           // formatter: '{c}',
@@ -111,6 +116,73 @@ export default {
         }]
       },
       recruitOption: {
+        tooltip: {
+          // formatter: '{c}',
+          borderColor: '#E4E7ED',
+          borderWidth: 1.4,
+          backgroundColor: '#fff',
+          textStyle: {
+            color: '#606266'
+          }
+        },
+        xAxis: {
+          type: 'category',
+          boundaryGap: false,
+          axisLine: {
+            show: false
+          },
+          axisTick: {
+            show: false
+          },
+          axisLabel: {
+            padding: [10, 0, 0, 0]
+          },
+          data: xAxisArr
+        },
+        yAxis: {
+          type: 'value',
+          splitLine: {
+            show: false
+          },
+          axisLine: {
+            show: false
+          },
+          axisTick: {
+            show: false
+          },
+          axisLabel: {
+            padding: [0, 12, 0, 0]
+          }
+        },
+        grid: {
+          top: 30,
+          left: 100,
+          right: 55
+        },
+        series: [{
+          color: '#FF3A3A',
+          data: [],
+          smooth: 0.35,
+          symbolSize: 8,
+          type: 'line',
+          areaStyle: {
+            color: {
+              type: 'linear',
+              x: 0,
+              y: 0,
+              x2: 0,
+              y2: 1,
+              colorStops: [{
+                offset: 0, color: 'rgba(255, 58, 58, 0.6)' // 0% 处的颜色
+              }, {
+                offset: 1, color: 'rgba(255, 58, 58, 0.1)' // 100% 处的颜色
+              }]
+            }
+          }
+        }]
+      },
+      // 新增好友趋势表
+      addFriendOption: {
         tooltip: {
           // formatter: '{c}',
           borderColor: '#E4E7ED',
@@ -371,7 +443,139 @@ export default {
           data: []
         }
       },
+      // 门店新增好友表
+      newAddFriendOption: {
+        tooltip: {
+          trigger: 'axis',
+          axisPointer: { // 坐标轴指示器，坐标轴触发有效
+            type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
+          },
+          borderColor: '#E4E7ED',
+          borderWidth: 1.4,
+          backgroundColor: '#fff',
+          textStyle: {
+            color: '#606266'
+          }
+        },
+        grid: {
+          top: '10',
+          left: '10',
+          right: '56',
+          height: 500,
+          containLabel: true
+        },
+        xAxis: {
+          type: 'value',
+          splitLine: {
+            show: false
+          },
+          axisLine: {
+            show: false
+          },
+          axisTick: {
+            show: false
+          },
+          axisLabel: {
+            color: '#999999'
+          }
+        },
+        yAxis: {
+          axisLine: {
+            show: false
+          },
+          axisTick: {
+            show: false
+          },
+          inverse: true,
+          axisLabel: {
+            color: '#999999',
+            padding: [0, 10, 0, 0]
+          },
+          type: 'category',
+          data: []
+        },
+        series: {
+          barWidth: 24,
+          itemStyle: {
+            barBorderRadius: [0, 30, 30, 0],
+            color: new echarts.graphic.LinearGradient(
+              0, 0, 1, 1,
+              [
+                { offset: 0, color: '#FF5215' },
+                { offset: 1, color: '#FF6C00' }
+              ])
+          },
+          type: 'bar',
+          data: []
+        }
+      },
       guideRecruitOption: {
+        tooltip: {
+          trigger: 'axis',
+          axisPointer: { // 坐标轴指示器，坐标轴触发有效
+            type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
+          },
+          borderColor: '#E4E7ED',
+          borderWidth: 1.4,
+          backgroundColor: '#fff',
+          textStyle: {
+            color: '#606266'
+          }
+        },
+        grid: {
+          top: '10',
+          left: '10',
+          right: '56',
+          height: 500,
+          containLabel: true
+        },
+        xAxis: {
+          type: 'value',
+          splitLine: {
+            show: false
+          },
+          axisLine: {
+            show: false
+          },
+          axisTick: {
+            show: false
+          },
+          axisLabel: {
+            color: '#999999'
+          }
+        },
+        yAxis: {
+          axisLine: {
+            show: false
+          },
+          axisTick: {
+            show: false
+          },
+          axisLabel: {
+            color: '#999999',
+            padding: [0, 10, 0, 0]
+          },
+          inverse: true,
+          type: 'category',
+          data: []
+        },
+        series: {
+          barWidth: 24,
+          itemStyle: {
+            barBorderRadius: [0, 30, 30, 0],
+            color: new echarts.graphic.LinearGradient(
+              0, 0, 1, 1,
+              [
+                { offset: 0, color: '#1FC47C' },
+                { offset: 1, color: '#2EC59C' }
+              ])
+          },
+          type: 'bar',
+          data: []
+        }
+      },
+      // 导购新加好友排行榜
+      guideAddFriendOption: {
         tooltip: {
           trigger: 'axis',
           axisPointer: { // 坐标轴指示器，坐标轴触发有效
@@ -533,20 +737,26 @@ export default {
         this.getRewardInfo(this.searchObj.id)
         this.findDailySell(this.searchObj.id)
         this.findDailyRecruit(this.searchObj.id)
+        this.findDailyAddFriend(this.searchObj.id)
         this.findDailyReward(this.searchObj.id)
         this.findShopRanking(0, this.searchObj.id)
         this.findShopRanking(1, this.searchObj.id)
+        this.findShopRanking(3, this.searchObj.id)
         this.findGuideRanking(0, this.searchObj.id)
         this.findGuideRanking(1, this.searchObj.id)
+        this.findGuideRanking(3, this.searchObj.id)
       } else {
         this.getRewardInfo()
         this.findDailySell()
+        this.findDailyAddFriend()
         this.findDailyRecruit()
         this.findDailyReward()
         this.findShopRanking()
         this.findShopRanking(1)
+        this.findShopRanking(3)
         this.findGuideRanking(0, null)
         this.findGuideRanking(1, null)
+        this.findGuideRanking(3, null)
       }
     },
     shopSelect (id) {
@@ -554,17 +764,21 @@ export default {
         if (id === null) {
           this.getRewardInfo()
           this.findDailySell()
+          this.findDailyAddFriend()
           this.findDailyRecruit()
           this.findDailyReward()
           this.findGuideRanking(0, null)
           this.findGuideRanking(1, null)
+          this.findGuideRanking(3, null)
         } else {
           this.getRewardInfo(id)
           this.findDailySell(id)
+          this.findDailyAddFriend(id)
           this.findDailyRecruit(id)
           this.findDailyReward(id)
           this.findGuideRanking(0, id)
           this.findGuideRanking(1, id)
+          this.findGuideRanking(3, id)
         }
       } else {
         this.$notify.error('月份不能为空')
@@ -602,9 +816,19 @@ export default {
                 resp.result.memberCountPersent = Number((resp.result.memberCount * 100 / resp.result.recruitQuota).toFixed(2))
               }
             }
+            if (!resp.result.addfriendQuota || resp.result.addfriendCount > resp.result.addfriendQuota) {
+              resp.result.addfriendCountPersent = 100
+            } else {
+              if (!resp.result.addfriendCount) {
+                resp.result.addfriendCountPersent = 0
+              } else {
+                resp.result.addfriendCountPersent = Number((resp.result.addfriendCount * 100 / resp.result.addfriendQuota).toFixed(2))
+              }
+            }
             resp.result.payment = resp.result.payment || 0
             resp.result.reward = resp.result.reward || 0
             resp.result.sellReward = resp.result.sellReward || 0
+            resp.result.addfriendReward = resp.result.addfriendReward || 0
             resp.result.recruitReward = resp.result.recruitReward || 0
             resp.result.memberTotal = resp.result.memberTotal || 0
             this.getRewardInfoObj = resp.result
@@ -664,6 +888,31 @@ export default {
           that.$notify.error(getErrorMsg('查询失败', resp))
         })
     },
+    async findDailyAddFriend (id) { // 当月招募人数按日查询
+      this.loadingRecruit = true
+      let parms = {
+        type: 3
+      }
+      let that = this
+      parms.monthDate = this.searchObj.monthDate
+      if (id) {
+        parms.shopId = id
+      }
+      await this.$http
+        .fetch(this.$api.overView.findDailyTrend, parms)
+        .then(resp => {
+          that.loadingRecruit = false
+          if (resp.result === null || resp.result.length === 0) {
+            that.isAddFriendData = false
+          } else {
+            that.isAddFriendData = true
+            that.addFriendOption.series[0].data = resp.result.map(Number)
+          }
+        })
+        .catch(resp => {
+          that.$notify.error(getErrorMsg('查询失败', resp))
+        })
+    },
     async findDailyReward (id) { // 当月收益按日查询
       this.loadingReward = true
       let sellRewardArr = []
@@ -697,21 +946,23 @@ export default {
     async findGuideRanking (type, id) { // 当月导购排行查询
       let parms = {
         type: (type || 0)
-      } // 0代表销售 1代表招募
+      } // 0代表销售 1代表招募 3//新加好友
       if (id) {
         parms.shopId = id
       }
-      if (!parms.type) {
+      if (+parms.type === 0) {
         this.loadingGuideSell = true // 门店销售
-      } else {
+      } else if (+parms.type === 1) {
         this.loadingGuideRecruit = true // 门店招募
+      } else {
+        this.loadingGuideAddFriend = true // 门店新加好友
       }
       let that = this
       parms.monthDate = this.searchObj.monthDate
       await this.$http
         .fetch(this.$api.overView.findGuideRanking, parms)
         .then(resp => {
-          if (!parms.type) { // 导购销售排行
+          if (+parms.type === 0) { // 导购销售排行
             let guideNameArr = []
             let perfAllArr = []
             that.loadingGuideSell = false
@@ -726,20 +977,35 @@ export default {
               that.guideSellOption.yAxis.data = guideNameArr
               that.guideSellOption.series.data = perfAllArr
             }
-          } else { // 导购招募
+          } else if (+parms.type === 1) { // 导购招募
             let guideNameArr = []
             let perfAllArr = []
             that.loadingGuideRecruit = false
             if (resp.result === null || resp.result.length === 0) {
-              that.isGuideRecruitData = false
+              that.isNewAddFriendData = false
             } else {
               resp.result.map(item => {
                 guideNameArr.push(item.name)
                 perfAllArr.push(item.perf_all)
               })
-              that.isGuideRecruitData = true
+              that.isNewAddFriendData = true
               that.guideRecruitOption.yAxis.data = guideNameArr
               that.guideRecruitOption.series.data = perfAllArr
+            }
+          } else { // 门店新加好友
+            let guideNameArr = []
+            let perfAllArr = []
+            that.loadingGuideAddFriend = false
+            if (resp.result === null || resp.result.length === 0) {
+              that.isGuideAddFriendData = false
+            } else {
+              resp.result.map(item => {
+                guideNameArr.push(item.name)
+                perfAllArr.push(item.perf_all)
+              })
+              that.isGuideAddFriendData = true
+              that.guideAddFriendOption.yAxis.data = guideNameArr
+              that.guideAddFriendOption.series.data = perfAllArr
             }
           }
         })
@@ -750,18 +1016,21 @@ export default {
     async findShopRanking (type) { // 当月门店排行查询
       let parms = {
         type: (type || 0)
-      } // 0代表销售 1代表招募
-      if (!parms.type) {
+      } // 0代表销售 1代表招募 3店铺新加好友
+      if (+parms.type === 0) {
         this.loadingShopSell = true // 门店销售
-      } else {
+      } else if (+parms.type === 1) {
         this.loadingShopRecruit = true // 门店招募
+      } else {
+        console.log('parms.type', parms.type)
+        this.loadingAddFriend = true // 门店新加好友
       }
       let that = this
       parms.monthDate = this.searchObj.monthDate
       await this.$http
         .fetch(this.$api.overView.findShopRanking, parms)
         .then(resp => {
-          if (!parms.type) {
+          if (+parms.type === 0) {
             let shopNameArr = []
             let paymentArr = []
             that.loadingShopSell = false
@@ -776,7 +1045,7 @@ export default {
               that.shopSellOption.yAxis.data = shopNameArr
               that.shopSellOption.series.data = paymentArr
             }
-          } else {
+          } else if (+parms.type === 1) {
             let shopNameArr = []
             let memberCountArr = []
             that.loadingShopRecruit = false
@@ -793,6 +1062,23 @@ export default {
               that.shopRecruitOption.yAxis.data = shopNameArr
               that.shopRecruitOption.series.data = memberCountArr
             }
+          } else {
+            let shopNameArr = []
+            let memberCountArr = []
+            that.loadingAddFriend = false
+            if (resp.result === null || resp.result.length === 0) {
+              that.isNewAddFriendData = false
+            } else {
+              resp.result.map(item => {
+                if (item.member_count) {
+                  memberCountArr.push(item.addfriend_count)
+                  shopNameArr.push(item.shop_name)
+                }
+              })
+              that.isNewAddFriendData = Boolean(memberCountArr.length)
+              that.shopRecruitOption.yAxis.data = shopNameArr
+              that.shopRecruitOption.series.data = memberCountArr
+            }
           }
         })
         .catch(resp => {
@@ -804,11 +1090,15 @@ export default {
     this.getRewardInfo()
     this.findDailySell()
     this.findDailyRecruit()
+    this.findDailyAddFriend()
     this.findDailyReward()
     this.findShopRanking(1)
     this.findShopRanking()
+    // 门店新增好友
+    this.findShopRanking(3)
     this.findGuideRanking(0, null)
     this.findGuideRanking(1, null)
+    this.findGuideRanking(3, null)
   },
   beforeRouteEnter (to, from, next) {
     if (isMenuAuth(to.path, store.state.user.remumber.remumber_login_info.routerAuth)) {
