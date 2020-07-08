@@ -55,7 +55,6 @@ export default {
     }
     let model = Object.assign({}, searchModel)
     return {
-      account: '', // 当前账号
       // 附带内容类型
       annexType: annexType,
       url: this.$api.weWork.welcomeCode.findList,
@@ -69,29 +68,11 @@ export default {
     }
   },
   mounted () {
-    if (typeof this.$init === 'function') {
-      this.$init()
-    } else {
-      this.$reload()
-    }
+    this.$reload()
   },
   computed: {
   },
   methods: {
-    $init () {
-      const _this = this
-      // 查询当前登陆账号
-      _this.$http.fetch(_this.$api.core.common.getLoginAccount, {}).then(resp => {
-        if (resp.success) {
-          _this.account = resp.result
-          _this.$nextTick(() => {
-            _this.$reload()
-          })
-        }
-      }).catch((resp) => {
-        _this.$notify.error('查询当前登陆账号失败')
-      })
-    },
     /**
      * @msg:  从后台获取数据,重新排序
      * @param {Object} val {prop: 'date', order: 'descending'}
@@ -141,9 +122,11 @@ export default {
             _this.$nextTick(() => {
               _this.$reload()
             })
+          } else {
+            _this.$notify.success(resp.msg)
           }
         }).catch((resp) => {
-          _this.$notify.error('删除失败')
+          _this.$notify.error(resp.msg)
         })
       })
 
@@ -185,7 +168,7 @@ export default {
           that.$notify.error(resp.msg)
         }
       }).catch((resp) => {
-        that.$notify.error('修改状态失败，请稍后再试')
+        that.$notify.error(resp.msg)
       })
     }
   }

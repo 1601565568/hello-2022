@@ -82,6 +82,7 @@ export default {
             that.$router.push({ path: '/Guide/speech/speechList' })
           })
           .catch(resp => {
+            this.loading = false
             that.$notify.error(resp.msg)
           })
           .finally(() => { })

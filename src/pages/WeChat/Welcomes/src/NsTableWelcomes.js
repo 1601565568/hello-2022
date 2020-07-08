@@ -143,9 +143,11 @@ export default {
             _this.$nextTick(() => {
               _this.$reload()
             })
+          } else {
+            _this.$notify.success(resp.msg)
           }
         }).catch((resp) => {
-          _this.$notify.error('删除失败')
+          _this.$notify.error(resp.msg)
         })
       })
     },
@@ -173,7 +175,7 @@ export default {
           that.$notify.error(resp.msg)
         }
       }).catch((resp) => {
-        that.$notify.error('修改状态失败，请稍后再试')
+        that.$notify.error(resp.msg)
       })
     }
   }
