@@ -656,7 +656,7 @@ export default {
         },
         legend: {
           bottom: 20,
-          data: ['销售提成', '招募奖励', '新增添加好友'],
+          data: ['销售提成', '招募奖励', '新增添加好友奖励'],
           itemWidth: 20,
           itemGap: 36
         },
@@ -928,6 +928,7 @@ export default {
       this.loadingReward = true
       let sellRewardArr = []
       let recruitRewardArr = []
+      let addFriendArr = []
       let parms = {}
       let that = this
       parms.monthDate = this.searchObj.monthDate
@@ -944,6 +945,7 @@ export default {
             resp.result.map(item => {
               sellRewardArr.push(item.sale)
               recruitRewardArr.push(item.recruit)
+              addFriendArr.push(item.addfriend)
             })
             that.isRewardDate = true
             that.rewardOption.series[0].data = sellRewardArr
