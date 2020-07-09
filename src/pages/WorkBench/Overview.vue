@@ -2,7 +2,7 @@
   <!--商城首页Demo-->
   <div class="overview-content">
       <el-row class="overview-content__grid" :gutter="5">
-        <el-col :span="6">
+        <el-col :span="4">
           <el-card class="overview-content__item" shadow="never">
               <div class="overview-content__item--select overview-content__item--time">
                 时间：
@@ -29,7 +29,7 @@
               </div>
           </el-card>
         </el-col>
-        <el-col :span="6">
+        <el-col :span="5">
           <el-card class="overview-content__item" shadow="never">
             <div class="overview-content__item-left">
               <p class="text-secondary">
@@ -60,7 +60,7 @@
             </div>
           </el-card>
         </el-col>
-        <el-col :span="6">
+        <el-col :span="5">
           <el-card class="overview-content__item" shadow="never">
             <div class="overview-content__item-left">
               <p class="text-secondary">
@@ -92,10 +92,42 @@
             </div>
           </el-card>
         </el-col>
-        <el-col :span="6">
+        <el-col :span="5">
+          <el-card class="overview-content__item" shadow="never">
+            <div class="overview-content__item-left">
+              <p class="text-secondary">
+                新加好友
+              </p>
+              <p >
+                <span class="font-size-large">{{getRewardInfoObj.addfriendCount}}</span>
+                <!-- <el-countup
+                  class="font-size-large"
+                  :start="0"
+                  :end="||0"
+                  :duration="1.5">
+                </el-countup> -->
+                <span class="text-secondary">(总：{{getRewardInfoObj.addfriendTatal || 0}})</span>
+              </p>
+            </div>
+            <div class="overview-content__item-right">
+               <el-popover
+                  placement="top-start"
+                  trigger="hover"
+                  :content="'完成度：'+getRewardInfoObj.addfriendCountPersent+'% , 招募目标：'+getRewardInfoObj.addfriendQuota">
+                  <div slot="reference">
+                    <el-progress  type="circle" :width=70 :stroke-width=4 :percentage="getRewardInfoObj.addfriendCountPersent" color="#f56c6c" :show-text=false>
+                    </el-progress>
+                  </div>
+                </el-popover>
+
+              <p class="overview-content__item-right--progress-text">完成度</p>
+            </div>
+          </el-card>
+        </el-col>
+        <el-col :span="5">
           <el-card class="overview-content__item" shadow="never">
               <p class="text-secondary">
-                导购销售提成+招募奖励
+                导购销售提成+招募奖励+新增好友奖励
               </p>
               <p>
                 <span class="font-size-large">￥</span>
@@ -107,7 +139,7 @@
                   :duration="1.5"
                   :decimal="2">
                 </el-countup> -->
-                <span class="text-secondary">（￥{{$numeral(getRewardInfoObj.sellReward).format('0,0.00')}}+￥{{$numeral(getRewardInfoObj.recruitReward).format('0,0.00')}}）</span>
+                <span class="text-secondary">（￥{{$numeral(getRewardInfoObj.sellReward).format('0,0.00')}}+￥{{$numeral(getRewardInfoObj.recruitReward).format('0,0.00')}}+￥{{$numeral(getRewardInfoObj.addfriendReward).format('0,0.00')}}）</span>
               </p>
           </el-card>
         </el-col>
@@ -147,7 +179,23 @@
       </el-col>
     </el-row>
     <el-row class="overview-content__echart" :gutter="5">
-      <el-col :span="24">
+      <el-col :span="12">
+        <div class="overview-echart__item">
+          <div class="overview-content__title overview-content__title--pink">
+            <span>新加好友趋势</span>
+          </div>
+          <div v-loading.lock="loadingRecruit"
+               :element-loading-text="$t('prompt.loading')">
+            <!-- 暂无数据结构 -->
+            <div class="no-data" v-if="!isAddFriendData" style='height:400px'>
+            </div>
+            <template v-if="isAddFriendData">
+              <business-echarts :options="addFriendOption" class="oscillogram" auto-resize></business-echarts>
+            </template>
+          </div>
+        </div>
+      </el-col>
+      <el-col :span="12">
         <div class="overview-echart__item overview-echart__item--big">
           <div class="overview-content__title overview-content__title--yellow">
             <span>导购提成及奖励</span>
@@ -155,7 +203,7 @@
           <div v-loading.lock="loadingReward"
                :element-loading-text="$t('prompt.loading')">
             <!-- 暂无数据结构 -->
-            <div class="no-data" v-if="!isRewardDate"></div>
+            <div class="no-data" v-if="!isRewardDate" style='height:400px'></div>
             <template v-if="isRewardDate">
               <business-echarts :options="rewardOption" class="oscillogram" auto-resize></business-echarts>
             </template>
@@ -226,6 +274,40 @@
             </div>
             <template v-if="isGuideRecruitData">
               <business-echarts :options="guideRecruitOption" class="oscillogram" auto-resize></business-echarts>
+            </template>
+          </div>
+        </div>
+      </el-col>
+    </el-row>
+    <el-row class="overview-content__echart" :gutter="5">
+      <el-col :span="12">
+        <div class="overview-echart__item overview-echart__item--larger">
+          <div class="overview-content__title">
+            <span>门店新加好友排行榜</span>
+          </div>
+          <div v-loading.lock="loadingAddFriend"
+               :element-loading-text="$t('prompt.loading')">
+            <!-- 暂无数据结构 -->
+            <div class="no-data" v-if="!isNewAddFriendData" style='height:550px'>
+            </div>
+            <template v-if="isNewAddFriendData">
+              <business-echarts :options="newAddFriendOption" class="oscillogram" auto-resize></business-echarts>
+            </template>
+          </div>
+        </div>
+      </el-col>
+      <el-col :span="12">
+        <div class="overview-echart__item overview-echart__item--larger">
+          <div class="overview-content__title">
+            <span>导购新加好友排行榜</span>
+          </div>
+          <div v-loading.lock="loadingGuideAddFriend"
+               :element-loading-text="$t('prompt.loading')">
+            <!-- 暂无数据结构 -->
+            <div class="no-data" v-if="!isGuideAddFriendData" style='height:550px'>
+            </div>
+            <template v-if="isGuideAddFriendData">
+              <business-echarts :options="guideAddFriendOption" class="oscillogram" auto-resize></business-echarts>
             </template>
           </div>
         </div>
@@ -350,6 +432,11 @@ index.components = {
             }
           }
           &:nth-child(4) {
+            .overview-content__item:before {
+              background: #B760DE;
+            }
+          }
+           &:nth-child(5) {
             .overview-content__item:before {
               background: var(--theme-color-warning);
             }
