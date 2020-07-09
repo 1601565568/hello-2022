@@ -62,7 +62,7 @@
             <el-switch  :active-value="1" :inactive-value="0" v-model="saveObj.addfriendStatus"></el-switch>
           </el-form-item>
         </div>
-        <el-form-item label="新加好友奖励：  每添加一名新好友奖励" prop="memberReward" class="el-form-validate__unHide addItemCon">
+        <el-form-item label="新加好友奖励：  每添加一名新好友奖励" prop="addfriendReward" class="el-form-validate__unHide addItemCon">
           <el-form-grid class="memberReward">
             <el-input-number class="inputSize" :controls="false" :precision="2"
                              v-model.number="saveObj.addfriendReward"></el-input-number>
@@ -118,7 +118,8 @@ export default {
           { validator: this.checkMax, trigger: ['blur', 'change'] }],
         salesRewardExclusive: [{ validator: this.checkDecimals, trigger: ['blur', 'change'] },
           { validator: this.checkMax, trigger: ['blur', 'change'] }],
-        memberReward: [{ validator: checkNumber, trigger: ['blur', 'change'] }]
+        memberReward: [{ validator: checkNumber, trigger: ['blur', 'change'] }],
+        addfriendReward: [{ validator: checkNumber, trigger: ['blur', 'change'] }]
       },
       title: '',
       curMonth: 5,

@@ -234,6 +234,29 @@
           <a href="javascript:" @click="showSellDialog(scope.row.shopId, scope.row.shopName)" v-else>{{$numeral(scope.row.sellPrice).format('0,0.00')}}</a>
         </template>
       </el-table-column>
+      <el-table-column
+        label="门店新加/还差（人）"
+        align="right"
+        width="140"
+      >
+        <template slot-scope="scope">
+          <span>{{scope.row.addfriendComplete}}</span>/
+          <span class="text-error">
+          <span v-if="scope.row.addfriendQuota-scope.row.addfriendComplete<0">
+            0
+          </span>
+          <span v-else>
+            {{scope.row.addfriendQuota-scope.row.addfriendComplete}}
+          </span>
+        </span>
+        </template>
+      </el-table-column>
+      <el-table-column label="奖励（元）" prop="recruitPrice" width="100" align="right">
+        <template slot-scope="scope">
+          <span v-if="scope.row.addfriendPrice == 0">0.00</span>
+          <a href="javascript:" @click="showRecruitDialog(scope.row.shopId, scope.row.shopName)" v-else>{{$numeral(scope.row.addfriendPrice).format('0,0.00')}}</a>
+        </template>
+      </el-table-column>
     </el-table>
   </div>
   <!-- 分页 -->
