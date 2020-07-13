@@ -601,6 +601,7 @@ export default {
     formReset () {
       this.customerName = null
       this.tradeNo = null
+      this.friendWxnick = null
       this.findDetailData(this.shopId)
     },
     findDetailData (shopId) {
