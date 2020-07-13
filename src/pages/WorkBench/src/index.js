@@ -996,13 +996,13 @@ export default {
             let perfAllArr = []
             that.loadingGuideRecruit = false
             if (resp.result === null || resp.result.length === 0) {
-              that.isNewAddFriendData = false
+              that.isGuideRecruitData = false
             } else {
               resp.result.map(item => {
                 guideNameArr.push(item.name)
                 perfAllArr.push(item.perf_all)
               })
-              that.isNewAddFriendData = true
+              that.isGuideRecruitData = true
               that.guideRecruitOption.yAxis.data = guideNameArr
               that.guideRecruitOption.series.data = perfAllArr
             }
@@ -1083,14 +1083,14 @@ export default {
               that.isNewAddFriendData = false
             } else {
               resp.result.map(item => {
-                if (item.member_count) {
+                if (item.addfriend_count) {
                   memberCountArr.push(item.addfriend_count)
                   shopNameArr.push(item.shop_name)
                 }
               })
               that.isNewAddFriendData = Boolean(memberCountArr.length)
-              that.shopRecruitOption.yAxis.data = shopNameArr
-              that.shopRecruitOption.series.data = memberCountArr
+              that.newAddFriendOption.yAxis.data = shopNameArr
+              that.newAddFriendOption.series.data = memberCountArr
             }
           }
         })
