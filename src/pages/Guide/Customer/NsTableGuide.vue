@@ -74,6 +74,12 @@
               </el-form-grid>
             </el-form-item>
 
+            <el-form-item label="昵称：">
+              <el-form-grid size="xmd">
+                <el-input style="width:180px" autofocus=true v-model="model.nick" placeholder="请输入昵称" clearable></el-input>
+              </el-form-grid>
+            </el-form-item>
+
             <el-form-item label="手机号：">
               <el-form-grid size="xmd">
                 <el-input style="width:180px" autofocus=true v-model="model.mobile" placeholder="请输入手机号" clearable></el-input>
