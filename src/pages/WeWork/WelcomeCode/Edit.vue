@@ -48,7 +48,7 @@
                       :cols="28"
                       :rows="6"
                       placeholder="请输入欢迎语"
-                      v-model.trim="model.content"
+                      v-model="model.content"
                       autofocus
                       ><!-- maxlength="100" show-word-limit -->
                     </ElInput>
@@ -250,7 +250,8 @@
                       </el-image>
                     </div>
                     <div class="message-msg__text">
-                      <div class="message-news">
+                      <div class="message-news" style="white-space: pre-wrap;">
+                        <!-- <div v-html="htmlvalue"></div> -->
                         {{
                           model.content
                             ? model.content

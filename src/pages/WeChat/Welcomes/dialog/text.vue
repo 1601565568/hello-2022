@@ -16,14 +16,13 @@
               :rows="4"
               maxlength='100'
               style="width:580px"
-              @input="handleInput"
               @blur="handleBlur"
               @change="handleChange"
               clearable
               placeholder='请输入内容，长度在100个字符以内'
               ref="content"
               v-model="model.content"
-              show-word-limit/>
+              show-word-limit/><!-- @input="handleInput" -->
           </el-form-item>
           <ElFormItem>
             <!-- 表情包引入前端 开始-->
@@ -75,7 +74,8 @@ export default {
       rules: {
         content: [
           { required: true, message: '请输入内容', trigger: 'blur' },
-          { max: 100, message: '长度在100个字符以内', trigger: 'blur' }
+          { max: 100, message: '长度在100个字符以内', trigger: 'blur' },
+          { validator: contentCheck, trigger: 'blur' }
         ]
       }
     }
@@ -104,6 +104,14 @@ export default {
     },
 
     /* ******************* 表情包引入事件 开始******************** */
+    contentCheck: (rule, value, callback) => {
+      const regexp = /\S+/
+      if (value && !regexp.test(value)) {
+        return callback(new Error('请输入欢迎语'))
+      } else {
+        callback()
+      }
+    },
     // 输入内容时，获取光标位置
     handleBlur (event) {
       this.getCurrentCursor()

@@ -7,7 +7,7 @@
           <div class="message-msg">
             <!--文字开始-->
             <div class="message-msg__text"  v-if="child.type === 'text'">
-              <div class="message-news">{{child.content}}</div>
+              <div class="message-news" style="white-space: pre-wrap;">{{child.content}}</div>
               <div class="message-circle"></div>
             </div>
             <!--文字结束-->
