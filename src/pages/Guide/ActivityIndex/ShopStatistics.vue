@@ -254,7 +254,7 @@
       <el-table-column label="奖励（元）" prop="recruitPrice" width="100" align="right">
         <template slot-scope="scope">
           <span v-if="scope.row.addfriendPrice == 0">0.00</span>
-          <a href="javascript:" @click="showRecruitDialog(scope.row.shopId, scope.row.shopName)" v-else>{{$numeral(scope.row.addfriendPrice).format('0,0.00')}}</a>
+          <a href="javascript:" @click="showAddfriendDialog(scope.row.shopId, scope.row.shopName)" v-else>{{$numeral(scope.row.addfriendPrice).format('0,0.00')}}</a>
         </template>
       </el-table-column>
     </el-table>
@@ -369,6 +369,49 @@
       </el-dialog>
       <!--提成弹窗结束-->
 
+  <!--        新加好友弹窗开始        -->
+  <el-dialog :title="title" :visible.sync="showAddfriendDialogVisible" width="800px" :before-close="onCancleAddfriendDialog" :vetically=true>
+    <!-- 高级搜索 -->
+    <!-- el-form 需添加  @keyup.enter.native="onSearch" 配置，实现回车搜索， onSearch 为搜索方法 -->
+    <!-- el-form 需添加  surround-btn 类名 配置环绕按钮效果 -->
+    <el-form ref="table_filter_form" label-width="40px" @keyup.enter.native="onSearch" class="surround-btn" :inline="true">
+      <el-form-item label="昵称：">
+        <el-form-grid size="xmd">
+          <el-input  type="text" v-model="friendWxnick" @keyup.enter.native="formSearch('searchform')">
+          </el-input>
+        </el-form-grid>
+        <el-input style="visibility:hidden;height:0px;width:0px;"></el-input>
+        <el-form-grid>
+          <ns-button type="primary" @click="formSearch('searchform')">搜索</ns-button>
+          <ns-button @click="formReset('searchform')">重置</ns-button>
+        </el-form-grid>
+      </el-form-item>
+    </el-form>
+    <!-- 高级搜索-结束 -->
+    <div style="overflow-x:hidden;overflow-y:auto;">
+      <el-table :data="detailData" stripe>
+        <el-table-column prop="guideName" label="导购"></el-table-column>
+        <el-table-column prop="friendWxnick" label="昵称"></el-table-column>
+        <el-table-column prop="createTime" label="新加好友时间" align="center" width="180"></el-table-column>
+        <el-table-column prop="reward" label="奖励" align="right"></el-table-column>
+      </el-table>
+    </div>
+    <!--分页开始-->
+    <el-pagination v-if="pagination.enable" class="template-table-pagination"
+                   :page-sizes="pagination1.sizeOpts"
+                   :total="pagination1.total"
+                   :current-page.sync="pagination1.page"
+                   :page-size="pagination1.size"
+                   layout="total, sizes, prev, pager, next, jumper"
+                   @size-change="sizeChange"
+                   @current-change="pageChange"
+    >
+    </el-pagination>
+    <div slot="footer" class="dialog-footer">
+      <ns-button @click="onCancleAddfriendDialog">关闭</ns-button>
+    </div>
+  </el-dialog>
+  <!--新加好友弹窗结束-->
 </div>
 </template>
 <script>
@@ -444,6 +487,7 @@ export default {
       showRecruitDialogVisible: false,
       showSellDialogVisible: false,
       customerName: null,
+      friendWxnick: null,
       tradeNo: null,
       shopId: null,
       type: null,
@@ -467,6 +511,14 @@ export default {
       _this.showRecruitDialogVisible = true
       _this.shopId = shopId
       _this.type = 1
+      _this.findDetailData(shopId)
+    },
+    showAddfriendDialog (shopId, shopName) {
+      var _this = this
+      _this.title = shopName + '-新加好友明细'
+      _this.showAddfriendDialogVisible = true
+      _this.shopId = shopId
+      _this.type = 2
       _this.findDetailData(shopId)
     },
     showSellDialog (shopId, shopName) {
@@ -570,6 +622,7 @@ export default {
           shopId: shopId,
           tradeNo: _this.tradeNo,
           name: _this.customerName,
+          friendWxnick: _this.friendWxnick,
           type: this.searchform.type,
           rewardType: _this.type,
           date: _this.searchObj.searchMap.date
@@ -611,6 +664,21 @@ export default {
       _this.customerName = null
       _this.shopId = null
       _this.showRecruitDialogVisible = false
+    },
+    // 关闭添加好友奖励弹窗
+    onCancleAddfriendDialog () {
+      var _this = this
+      _this.pagination1 = {
+        enable: true,
+        size: 10,
+        sizeOpts: [10, 20, 50],
+        page: 1,
+        total: 0
+      }
+      _this.detailData = null
+      _this.friendWxnick = null
+      _this.shopId = null
+      _this.showAddfriendDialogVisible = false
     },
     // 关闭提成弹窗
     onCancleSellDialog () {
