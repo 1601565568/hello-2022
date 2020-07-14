@@ -23,7 +23,7 @@
 -->
 <template>
   <div>
-    <NsButton type="text" @click="onDialogOpen()"><Icon type="plus"/>{{btnTitle}}</NsButton>
+    <NsButton :type="type" @click="onDialogOpen()"><Icon v-if="type === 'text'" type="plus"/>{{btnTitle}}</NsButton>
     <el-dialog :title="dialogTitle" :visible.sync="visible" :show-scroll-x="false"
                :close-on-click-modal = "false" :before-close="onDialogClose" width="800px"><!-- 按员工设置使用范围时，所选员工会优先选择使用该条欢迎语而非归属门店设置的欢迎语 -->
       <div slot="title">
@@ -49,9 +49,23 @@
             <el-form-grid>
               <ns-droptree ref="employeeDepartTree" :lazy="true" :load="loadNode" :multiple="false" v-model="departData.selectedDepart" clearable></ns-droptree>
             </el-form-grid>
+            <el-form-grid><div style="margin-left: 20px;">员工类型：</div></el-form-grid>
+            <el-form-grid>
+              <el-select v-model="departData.job" clearable >
+                <el-option label="全部" :value=null></el-option>
+                <el-option label="店长" :value="1"></el-option>
+                <el-option label="导购" :value="0"></el-option>
+              </el-select>
+            </el-form-grid>
+          </el-form-item>
+          <el-form-item>
             <el-form-grid><div style="margin-left: 20px;">员工姓名：</div></el-form-grid>
             <el-form-grid>
-              <ElInput :maxlength="20" v-model="departData.name" @keyup.enter.native="searchEmployee(1)"/>
+              <ElInput :maxlength="20" v-model="departData.name"/>
+            </el-form-grid>
+            <el-form-grid><div style="margin-left: 20px;">手机号：</div></el-form-grid>
+            <el-form-grid>
+              <ElInput :maxlength="20" v-model="departData.mobile"/>
             </el-form-grid>
             <el-form-grid><div style="margin-left: 10px;"></div></el-form-grid>
             <el-form-grid>
@@ -66,6 +80,7 @@
             <ElTable v-loading="tableLoading" ref="employeeTable" :data="employeeData" height="260" @select="selectChange" @select-all="selectAllChange">
               <ElTableColumn type="selection" width="55"></ElTableColumn>
               <ElTableColumn :show-overflow-tooltip="true" type="default" prop="name" label="员工姓名" align="left"/>
+              <ElTableColumn :show-overflow-tooltip="true" type="default" prop="shopNames" label="工作门店" align="left"/>
               <ElTableColumn :show-overflow-tooltip="true" type="default" prop="departName" label="所属部门" align="left"/>
             </ElTable>
             <el-pagination v-if="_data.pagination4Emp.enable" class="template-table__pagination"

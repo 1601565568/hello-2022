@@ -90,15 +90,23 @@
             </el-select>
           </el-form-grid>
         </el-form-item>
-        <el-form-item label="员工：">
-          <el-form-grid size="xmd">
-            <el-input
-              style="width:180px"
-              v-model.trim="model.employeeName"
-              placeholder="请输入员工名称"
-              clearable
-            ></el-input>
-          </el-form-grid>
+        <el-form-item label="选择店铺：">
+          <ElFormGrid>
+            <NsShopDialog :auth="false" type="primary" btnTitle="选择店铺" v-model="model.shopIds"></NsShopDialog>
+          </ElFormGrid>
+          <ElFormGrid>
+            已选择<span class="text-primary">{{model.shopIds? model.shopIds.length: 0}}</span>家店铺
+          </ElFormGrid>
+        </el-form-item>
+        <el-form-item label="选择员工：">
+          <ElFormGrid>
+            <NsGuideDialog :auth="false"
+                           :guideUrl="this.$api.weWork.guide.findGuideList"
+                           type="primary" btnTitle="选择员工" dialogTitle="选择员工" v-model="model.guideIds"></NsGuideDialog>
+          </ElFormGrid>
+          <ElFormGrid>
+            已选择<span class="text-primary">{{model.guideIds? model.guideIds.length: 0}}</span>个导购员工
+          </ElFormGrid>
         </el-form-item>
         <el-form-item label="渠道：">
           <el-form-grid size="xmd">
@@ -289,6 +297,12 @@
 
 <script>
 import NsTableWelcomeCode from './src/NsTableWelcomeCode.js'
+import NsGuideDialog from '@/components/NsGuideDialog'
+import NsShopDialog from '@/components/NsShopDialog'
+NsTableWelcomeCode.components = {
+  NsGuideDialog,
+  NsShopDialog
+}
 export default NsTableWelcomeCode
 </script>
 <style scoped>

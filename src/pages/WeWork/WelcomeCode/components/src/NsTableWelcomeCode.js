@@ -51,7 +51,11 @@ export default {
       'shopName': '',
       'annexType': '',
       'orderKey': 'updateTime',
-      'order': 'descending'
+      'order': 'descending',
+      // 员工组建 员工值
+      guideIds: [],
+      // 店铺组件 店铺值
+      shopIds: []
     }
     let model = Object.assign({}, searchModel)
     return {

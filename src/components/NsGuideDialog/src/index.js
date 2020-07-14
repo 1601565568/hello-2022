@@ -28,6 +28,10 @@ export default {
       type: String,
       default: '+选择员工'
     },
+    type: {
+      type: String,
+      default: 'text'
+    },
     validNull: {
       type: Boolean,
       default: false
@@ -61,7 +65,10 @@ export default {
         shopId: '',
         shopIds: '',
         // 门店分类
-        shopCate: {}
+        shopCate: {},
+        // 类型 0导购 1店长
+        job: null,
+        mobile: ''
       },
       // 门店分类树
       shopCateTree: [],
@@ -110,6 +117,8 @@ export default {
       vm.isCheckAll = false
       vm.$nextTick(function () {
         this.departData.name = ''
+        this.departData.mobile = ''
+        this.departData.job = null
         this.departData.selectedDepart.value = ''
         this.departData.selectedDepart.text = ''
         this.$refs.employeeDepartTree.cleanClickHandle()
@@ -197,6 +206,8 @@ export default {
      */
     resetSearch: function () {
       vm.departData.name = ''
+      vm.departData.mobile = ''
+      vm.departData.job = ''
       vm.departData.selectedDepart.value = ''
       vm.departData.selectedDepart.text = ''
       vm.model.shopCate = {} // 选择的门店分类
@@ -268,6 +279,12 @@ export default {
       param.auth = vm.auth
       if (vm.departData.name) {
         param.empName = vm.departData.name
+      }
+      if (vm.departData.job) {
+        param.job = vm.departData.job
+      }
+      if (vm.departData.mobile) {
+        param.mobile = vm.departData.mobile
       }
       if (vm.departData.selectedDepart.value && parseInt(vm.departData.selectedDepart.value) > 0) {
         let jointString = vm.jointDepartId(vm.departData.selectedDepart.value, vm.departData.allDepartments)

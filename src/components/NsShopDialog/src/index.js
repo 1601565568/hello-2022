@@ -33,6 +33,10 @@ export default {
       type: String,
       default: '+选择使用门店'
     },
+    type: {
+      type: String,
+      default: 'text'
+    },
     validNull: {
       type: Boolean,
       default: false

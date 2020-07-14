@@ -1,11 +1,9 @@
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import { getErrorMsg } from '@/utils/toast'
-import NsTableColumnOperateButtonExt from '@/components/NsTableColumnOperateButton'
 
 export default {
   name: 'NsTableGuide',
   mixins: [tableMixin],
-  components: { NsTableColumnOperateButtonExt },
   props: {
     url: Object
   },
@@ -65,7 +63,11 @@ export default {
       }
     }
     let findVo = {
-      'title': null
+      title: null,
+      // 员工组建 员工值
+      guideIds: [],
+      // 店铺组件 店铺值
+      shopIds: []
     }
     let model = Object.assign({}, findVo, {}, searchModel)
     return {

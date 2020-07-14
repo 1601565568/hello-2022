@@ -24,7 +24,7 @@
 -->
 <template>
   <div>
-    <NsButton type="text" @click="onDialogOpen()"><Icon type="plus"/>{{btnTitle}}</NsButton>
+    <NsButton :type="type" @click="onDialogOpen()"><Icon v-if="type === 'text'" type="plus"/>{{btnTitle}}</NsButton>
     <el-dialog :visible.sync="visible" :show-scroll-x="false"
                :close-on-click-modal = "false" appendToBody :before-close="onDialogClose" width="700px">
       <div slot="title">
