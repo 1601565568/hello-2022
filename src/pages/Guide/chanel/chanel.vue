@@ -10,16 +10,33 @@
     <div class="template-table__bar">
         <el-row class="template-table__bar-base">
            <!-- 左边上角操作区域 -->
-          <el-col :span="7">
+          <el-col :span="10">
               <ns-button type="primary" @click="AddShowToggle({})" v-if="0 == isAnalyce">新增渠道</ns-button>
+          </el-col>
+          <el-col :span="14">
+            <el-form label-width="80px" @submit.native.prevent class="surround-btn" :model="searchform" :inline="true">
+              <el-form-item v-show="!expanded" label="渠道名称：" prop="channel_name">
+                <el-input v-model="searchform.channel_name" placeholder="请输入渠道名称" @keyup.enter.native="submitForm()" clearable></el-input>
+              </el-form-item>
+              <el-form-item v-show="!expanded">
+                <ns-button type="primary" @click="submitForm()">搜索</ns-button>
+                <ns-button @click="resetForm()">重置</ns-button>
+              </el-form-item>
+              <el-form-item>
+                <ns-button type="text" @click="switchExpanded()">
+                  {{collapseText}}
+                  <Icon :type="expanded ? 'up' : 'down'"/>
+                </ns-button>
+              </el-form-item>
+            </el-form>
           </el-col>
         </el-row>
       <div class="template-table-search">
         <div class="template-table__bar-more">
           <span v-if="0 == isAnalyce">
-            <el-form ref="searchform" label-width="80px" @submit.native.prevent class="surround-btn" style="float: right" :model="searchform"  :inline="true">
+            <el-form v-show="expanded" label-width="80px" @submit.native.prevent class="surround-btn" style="float: right" :model="searchform" :inline="true">
               <el-form-item label="渠道名称：" prop="channel_name">
-                <el-input v-model="searchform.channel_name" placeholder="请输入渠道名称" @keyup.enter.native="submitForm('searchform')" clearable></el-input>
+                <el-input v-model="searchform.channel_name" placeholder="请输入渠道名称" @keyup.enter.native="submitForm()" clearable></el-input>
               </el-form-item>
               <el-form-item label="时间：" prop="time">
                 <el-date-picker
@@ -33,15 +50,15 @@
                 </el-date-picker>
               </el-form-item>
               <el-form-item label="欢迎语：" prop="welcontent">
-                <el-input v-model="searchform.welcontent" placeholder="请输入欢迎语" @keyup.enter.native="submitForm('searchform')" clearable></el-input>
+                <el-input v-model="searchform.welcontent" placeholder="请输入欢迎语" @keyup.enter.native="submitForm()" clearable></el-input>
               </el-form-item>
               <el-form-item label="创建人：" prop="welcontent">
-                <el-input v-model="searchform.creatorName" placeholder="请输入名称" @keyup.enter.native="submitForm('searchform')" clearable></el-input>
+                <el-input v-model="searchform.creatorName" placeholder="请输入名称" @keyup.enter.native="submitForm()" clearable></el-input>
               </el-form-item>
             </el-form>
-            <div class="template-table__more-btn">
-              <ns-button type="primary" @click="submitForm('searchform')">搜索</ns-button>
-              <ns-button @click="resetForm('searchform')">重置</ns-button>
+            <div v-show="expanded" class="template-table__more-btn">
+              <ns-button type="primary" @click="submitForm()">搜索</ns-button>
+              <ns-button @click="resetForm()">重置</ns-button>
             </div>
           </span>
           <span v-if="1 == isAnalyce">
@@ -228,6 +245,7 @@ export default {
         ]
       },
       isAnalyce: 0,
+      expanded: false,
       analysetime: [],
       chanelList: [],
       chanelId: null,
@@ -330,7 +348,16 @@ export default {
     this.loadListFun()
   },
 
+  computed: {
+    collapseText () {
+      return this.expanded ? '收起搜索' : '展开搜索'
+    }
+  },
+
   methods: {
+    switchExpanded () {
+      this.expanded = !this.expanded
+    },
     tabHandleClick (tab, event) {
       this.searchObj.searchMap.type = tab.name
       this.activeName = tab.name
@@ -377,7 +404,7 @@ export default {
       })
     },
     // 提交搜索
-    submitForm (formName) {
+    submitForm () {
       this.searchObj.searchMap.channel_name = this.searchform.channel_name
       this.searchObj.searchMap.welcontent = this.searchform.welcontent
       this.searchObj.searchMap.creatorName = this.searchform.creatorName
@@ -392,11 +419,10 @@ export default {
       this.loadListFun()
     },
     // 重置搜索
-    resetForm (formName) {
+    resetForm () {
       for (let attr in this.searchform) {
         this.searchform[attr] = null
       }
-      // this.$refs[formName].resetFields()
       this.submitForm()
     },
     // 删除
