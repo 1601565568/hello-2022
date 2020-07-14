@@ -37,6 +37,16 @@
         <el-form>
           <input name="hidden" type="text" hidden/>
           <el-form-item>
+            <el-form-grid><div style="margin-left: 20px;">工作门店：</div></el-form-grid>
+            <el-form-grid >
+              <ns-droptree ref="shopCateTree" placeholder="请选择门店分类" :lazy="true" :load="loadShopCateNode"  :multiple="false" v-model="param.shopCate" clearable></ns-droptree>
+            </el-form-grid>
+            <el-form-grid style="margin-left:10px">
+              <el-select-load v-model="param.shopId" :options="shopOptions"  filterable clearable :page-sizes="20" placeholder="选择门店">
+              </el-select-load>
+            </el-form-grid>
+          </el-form-item>
+          <el-form-item>
             <el-form-grid><div style="margin-left: 20px;">店铺名称：</div></el-form-grid>
             <el-form-grid>
               <ElInput :maxlength="20" v-model="param.name" @keyup.enter.native="searchEmployee(1)"/>
@@ -45,6 +55,7 @@
             <el-form-grid>
               <ns-button type="primary" @click="searchEmployee(1)">{{$t('operating.search')}}</ns-button>
               <ns-button @click="resetSearch">{{$t('operating.reset')}}</ns-button>
+              <ns-button @click="onSelectAllData">{{isCheckAll ? '取消全选' : '全选'}}</ns-button>
             </el-form-grid>
           </el-form-item>
         </el-form>
@@ -71,10 +82,11 @@
           </el-col>
           <el-col :span="12">
             <ElTable :data="selectedData" height="260">
-              <ElTableColumn :show-overflow-tooltip="true" type="default" prop="shop_name" label="已选使用门店" align="left"/>
+              <ElTableColumn :show-overflow-tooltip="true" type="default" prop="shop_name" :label="'已选' + selectedData.length + '家门店'" align="left"/>
               <ElTableColumn  prop="select" align="center" width="55" >
                 <template slot-scope="scope">
                   <ns-button
+                    :disabled="auth && scope.row.auth"
                     type="text"
                     size="mini"
                     @click="() => removeEmp(scope)">
@@ -97,8 +109,10 @@
 <script>
 import index from './src/index.js'
 import NsDroptree from '@nascent/ecrp-ecrm/src/components/NsDroptree'
+import ElSelectLoad from '@nascent/nui/lib/select-load'
 index.components = {
-  NsDroptree
+  NsDroptree,
+  ElSelectLoad
 }
 export default index
 </script>

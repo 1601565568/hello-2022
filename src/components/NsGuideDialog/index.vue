@@ -25,7 +25,7 @@
   <div>
     <NsButton type="text" @click="onDialogOpen()"><Icon type="plus"/>{{btnTitle}}</NsButton>
     <el-dialog :title="dialogTitle" :visible.sync="visible" :show-scroll-x="false"
-               :close-on-click-modal = "false" :before-close="onDialogClose" width="700px"><!-- 按员工设置使用范围时，所选员工会优先选择使用该条欢迎语而非归属门店设置的欢迎语 -->
+               :close-on-click-modal = "false" :before-close="onDialogClose" width="800px"><!-- 按员工设置使用范围时，所选员工会优先选择使用该条欢迎语而非归属门店设置的欢迎语 -->
       <div slot="title">
         {{dialogTitle}}
         <el-tooltip  content="按员工设置使用范围时，所选员工会优先选择使用该条欢迎语而非归属门店设置的欢迎语">
@@ -34,6 +34,16 @@
       </div>
       <div>
         <el-form>
+          <el-form-item>
+            <el-form-grid><div style="margin-left: 20px;">工作门店：</div></el-form-grid>
+            <el-form-grid >
+              <ns-droptree ref="shopCateTree" placeholder="请选择门店分类" :lazy="true" :load="loadShopCateNode"  :multiple="false" v-model="departData.shopCate" clearable></ns-droptree>
+            </el-form-grid>
+            <el-form-grid style="margin-left:10px">
+              <el-select-load v-model="departData.shopId" :options="shopOptions"  filterable clearable :page-sizes="20" placeholder="选择门店">
+              </el-select-load>
+            </el-form-grid>
+          </el-form-item>
           <el-form-item>
             <el-form-grid><div style="margin-left: 20px;">选择部门：</div></el-form-grid>
             <el-form-grid>
@@ -47,13 +57,14 @@
             <el-form-grid>
               <ns-button type="primary" @click="searchEmployee(1)">{{$t('operating.search')}}</ns-button>
               <ns-button @click="resetSearch">{{$t('operating.reset')}}</ns-button>
+              <ns-button @click="onSelectAllData">{{isCheckAll ? '取消全选' : '全选'}}</ns-button>
             </el-form-grid>
           </el-form-item>
         </el-form>
         <el-row :gutter="24">
           <el-col :span="12">
             <ElTable v-loading="tableLoading" ref="employeeTable" :data="employeeData" height="260" @select="selectChange" @select-all="selectAllChange">
-              <ElTableColumn type="selection" width="55" />
+              <ElTableColumn type="selection" width="55"></ElTableColumn>
               <ElTableColumn :show-overflow-tooltip="true" type="default" prop="name" label="员工姓名" align="left"/>
               <ElTableColumn :show-overflow-tooltip="true" type="default" prop="departName" label="所属部门" align="left"/>
             </ElTable>
@@ -66,10 +77,11 @@
           </el-col>
           <el-col :span="12">
             <ElTable :data="selectedData" height="260">
-              <ElTableColumn :show-overflow-tooltip="true" type="default" prop="name" label="已选员工" align="left"/>
+              <ElTableColumn :show-overflow-tooltip="true" type="default" prop="name" :label="'已选' + selectedData.length + '个员工'" align="left"/>
               <ElTableColumn  prop="select" align="center" width="55" >
                 <template slot-scope="scope">
                   <ns-button
+                    :disabled="auth && scope.row.auth"
                     type="text"
                     size="mini"
                     @click="() => removeEmp(scope)">
@@ -92,8 +104,10 @@
 <script>
 import index from './src/index.js'
 import NsDroptree from '@nascent/ecrp-ecrm/src/components/NsDroptree'
+import ElSelectLoad from '@nascent/nui/lib/select-load'
 index.components = {
-  NsDroptree
+  NsDroptree,
+  ElSelectLoad
 }
 export default index
 </script>

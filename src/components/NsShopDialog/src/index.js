@@ -20,6 +20,11 @@ export default {
       type: Number,
       default: 1
     },
+    // 是否添加登录账号店铺数据权限
+    auth: {
+      type: Boolean,
+      default: true
+    },
     dialogTitle: {
       type: String,
       default: '选择使用门店'
@@ -36,6 +41,7 @@ export default {
   data: function () {
     return {
       allListData: [],
+      allSearchEmployeeData: [],
       // 左边树的数据
       listData: [],
       // 右边已选择数据
@@ -43,11 +49,16 @@ export default {
       // 复制勾选的数据
       selectCopyData: [],
       visible: false,
+      isCheckAll: false,
       tableLoading: false,
       // 搜索数据封装
       param: {
         // 搜索名称
-        name: ''
+        name: '',
+        shopId: '',
+        shopIds: '',
+        // 门店分类
+        shopCate: {}
       },
       // 接口数据的key值name
       recordId: 'shop_id',
@@ -58,18 +69,44 @@ export default {
         sizeOpts: [15, 25, 50, 100],
         page: 1,
         total: 0
-      }
+      },
+      // 门店分类树
+      shopCateTree: [],
+      // 门店选择option
+      shopOptions: [],
+      allShopOptions: []
     }
   },
   computed: {},
-  watch: {},
+  watch: {
+    'param.shopCate': function (o1, o2) {
+      let shopOptions = []
+      this.param.shopId = ''
+      this.param.shopIds = ''
+      if (!o1.value || o1.value !== o2.value) {
+        if (o1.value === 0) {
+          this.shopOptions = this.allShopOptions
+          return
+        }
+        this.allShopOptions.map(item => {
+          if (!o1.value || (item.ext && item.ext.indexOf(o1.value) !== -1)) {
+            shopOptions.push(item)
+          }
+        })
+        this.shopOptions = shopOptions
+      }
+    }
+  },
   methods: {
     /**
      * 打开弹窗时的初始化事件
      */
     onDialogOpen () {
       vm.visible = true
+      vm.isCheckAll = false
       vm.$nextTick(function () {
+        this.param.name = ''
+        this.$refs.shopCateTree.cleanClickHandle()
         this.getEmployeeList()
       })
     },
@@ -78,6 +115,7 @@ export default {
      */
     resetSearch: function () {
       vm.param.name = ''
+      this.$refs.shopCateTree.cleanClickHandle()
       vm.searchEmployee(1)
     },
     /**
@@ -87,9 +125,16 @@ export default {
       let data = []
       let total = 0
       this.pagination4Emp.page = pageNo
-      let param = { start: (pageNo - 1) * this.pagination4Emp.size, length: this.pagination4Emp.size, searchMap: { plan: vm.plan } }
+      let param = { start: (pageNo - 1) * this.pagination4Emp.size, length: this.pagination4Emp.size, searchMap: { plan: vm.plan, auth: vm.auth } }
       if (vm.param.name) {
         param.searchMap.shopName = vm.param.name
+      }
+      if (this.param.shopId) {
+        param.searchMap.shopId = this.param.shopId
+      } else {
+        if (this.param.shopCate && this.param.shopCate.value) {
+          param.searchMap.cateId = '-' + this.param.shopCate.value + '-'
+        }
       }
       // 请求获取列表数据
       this.$http.fetch(this.url, param)
@@ -103,6 +148,7 @@ export default {
         }).catch(() => {
           vm.$notify.error('请求数据信息失败')
         }).finally(() => {
+          vm.allSearchEmployeeData = []
           // 列表数据
           vm.listData = JSON.parse(JSON.stringify(data))
           // 备份列表数据
@@ -115,6 +161,35 @@ export default {
             vm.tableLoading = false
           })
         })
+    },
+    /**
+     * 获取全部列表数据
+     */
+    async searchAllEmployee () {
+      if (vm.allSearchEmployeeData.length > 0) {
+        return vm.allSearchEmployeeData
+      }
+      let param = { start: 0, length: 999999, searchMap: { plan: vm.plan, auth: vm.auth } }
+      if (vm.param.name) {
+        param.searchMap.shopName = vm.param.name
+      }
+      if (this.param.shopId) {
+        param.searchMap.shopId = this.param.shopId
+      } else {
+        if (this.param.shopCate && this.param.shopCate.value) {
+          param.searchMap.cateId = '-' + this.param.shopCate.value + '-'
+        }
+      }
+      // 请求获取列表数据
+      await this.$http.fetch(this.url, param)
+        .then(resp => {
+          if (resp.result && resp.result.data && resp.result.data.length > 0) {
+            vm.allSearchEmployeeData = JSON.parse(JSON.stringify(resp.result.data))
+          }
+        }).catch(() => {
+          vm.$notify.error('请求数据信息失败')
+        })
+      return vm.allSearchEmployeeData
     },
     /**
      * 设置列表数据勾选状态
@@ -170,6 +245,46 @@ export default {
       }
     },
     /**
+     * 员工列表点击条件全部选择事件
+     */
+    onSelectAllData () {
+      this.searchAllEmployee().then(allEmployee => {
+        let selectedData2 = []
+        let authSelectedData = []
+        vm.selectedData.forEach(function (item) {
+          if (vm.auth && item.auth) {
+            selectedData2.push(item)
+          } else {
+            authSelectedData.push(item)
+          }
+        })
+        vm.selectedData = []
+        if (vm.isAllSelect(allEmployee, authSelectedData)) {
+          vm.$refs.employeeTable.clearSelection()
+        } else {
+          vm.listData.forEach(function (item) {
+            vm.$refs.employeeTable.toggleRowSelection(item, true)
+          })
+          allEmployee.forEach(function (item) {
+            selectedData2.push(item)
+          })
+        }
+        vm.selectedData = selectedData2
+        vm.isCheckAll = !vm.isCheckAll
+      })
+    },
+    /**
+     * 验证是否全选
+     */
+    isAllSelect (authEmployeeData, authSelectedData) {
+      if (authEmployeeData && authEmployeeData.length > 0 && authSelectedData.length > 0 && authEmployeeData.length === authSelectedData.length) {
+        vm.isCheckAll = true
+      } else {
+        vm.isCheckAll = false
+      }
+      return vm.isCheckAll
+    },
+    /**
      * 右侧数据删除事件
      */
     removeEmp (scope) {
@@ -210,7 +325,7 @@ export default {
      */
     getEmployeeList () {
       this.tableLoading = true
-      let param = { start: (this.pagination4Emp.page - 1) * this.pagination4Emp.size, length: this.pagination4Emp.size, searchMap: { plan: vm.plan } }
+      let param = { start: (this.pagination4Emp.page - 1) * this.pagination4Emp.size, length: this.pagination4Emp.size, searchMap: { plan: vm.plan, auth: vm.auth } }
       this.$http.fetch(this.url, param)
         .then(resp => {
           if (resp.result && resp.result.data && resp.result.data.length > 0) {
@@ -292,10 +407,54 @@ export default {
     $sizeChange$: function (size) {
       this.pagination4Emp.size = size
       return this.searchEmployee(1)
+    },
+    /**
+     * 门店分类树点击事件(懒加载)
+     * @param node
+     * @param resolve
+     * @returns {*}
+     */
+    loadShopCateNode (node, resolve) {
+      let shopCateTree = this.shopCateTree
+      if (node.level === 0) { // 第一次调用
+        return resolve([{
+          id: 0,
+          parentId: -1,
+          code: 0,
+          label: '全部'
+        }])
+      }
+      if (node.level >= 1) {
+        // 点击之后触发
+        let filter = shopCateTree.filter(data => {
+          return parseInt(data.parentId) === parseInt(node.data.id)
+        })
+        if (filter && filter.length > 0) {
+          resolve(filter)
+        } else {
+          resolve([])
+        }
+      }
+    },
+    /**
+     * 获取门店分类，所有门店选项
+     */
+    getShopCateAndShop: function () {
+      let that = this
+      that.$http.fetch(that.$api.core.sysShop.getShopTree)
+        .then((resp) => {
+          that.shopCateTree = resp.result.shopCateTree
+          that.allShopOptions = resp.result.shopOptions
+          that.shopOptions = resp.result.shopOptions
+        }).catch(() => {
+          that.$notify.error('加载下拉树、下拉框数据失败')
+        })
     }
   },
   mounted: function () {
     vm = this
+    // 分类树
+    vm.getShopCateAndShop()
   },
   created: function () {
   }
