@@ -187,7 +187,7 @@
           <div v-loading.lock="loadingRecruit"
                :element-loading-text="$t('prompt.loading')">
             <!-- 暂无数据结构 -->
-            <div class="no-data" v-if="!isAddFriendData" style='height:400px'>
+            <div class="no-data" v-if="!isAddFriendData" style='height:500px'>
             </div>
             <template v-if="isAddFriendData">
               <business-echarts :options="addFriendOption" class="oscillogram" auto-resize></business-echarts>
@@ -203,7 +203,7 @@
           <div v-loading.lock="loadingReward"
                :element-loading-text="$t('prompt.loading')">
             <!-- 暂无数据结构 -->
-            <div class="no-data" v-if="!isRewardDate" style='height:400px'></div>
+            <div class="no-data" v-if="!isRewardDate" style='height:500px'></div>
             <template v-if="isRewardDate">
               <business-echarts :options="rewardOption" class="oscillogram" auto-resize></business-echarts>
             </template>
