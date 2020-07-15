@@ -190,7 +190,7 @@
             <div class="no-data" v-if="!isAddFriendData" style='height:500px'>
             </div>
             <template v-if="isAddFriendData">
-              <business-echarts :options="addFriendOption" class="oscillogram" auto-resize></business-echarts>
+              <business-echarts :options="addFriendOption"  :style="{height:'500px'}" class="oscillogram" auto-resize></business-echarts>
             </template>
           </div>
         </div>
