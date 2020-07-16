@@ -6,7 +6,7 @@
         <div class="recruit-content recruit-content--flex">
           <div class="recruit-example">
             <img :src="model.recruiting_posters_image" style="height: 569px;width: 320px" alt="示例图片" class="recruit-example__img"/>
-            <div class="background_title">特邀您成为VIP会员</div>
+            <div class="background_title"></div>
             <div class="background_content">长按识别二维码  添加专属导购</div>
             <div class="background_shop_guide">门店名称/导购名称</div>
             <div class="background_image">
