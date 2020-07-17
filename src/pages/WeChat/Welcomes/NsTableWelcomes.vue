@@ -90,7 +90,10 @@
               </el-tooltip>
             </template>
             <template slot-scope="scope">
-              <div v-if="scope.row.shopCount > 0 || scope.row.count > 0">
+              <div v-if="scope.row.type === 9">
+                <ns-button style="color:#0091FA" @click="onShowEmployeeScope(scope.row)" type="text">全部员工</ns-button>
+              </div>
+              <div v-else-if="scope.row.shopCount > 0 || scope.row.count > 0">
                 <ns-button style="color:#0091FA" @click="onShowShopScope(scope.row)" v-if="scope.row.shopCount > 0" type="text">{{scope.row.shopCount}}家店铺</ns-button>
                 <ns-button style="color:#0091FA" @click="onShowEmployeeScope(scope.row)" v-if="scope.row.count > 0" type="text">{{scope.row.count}}名员工</ns-button>
               </div>

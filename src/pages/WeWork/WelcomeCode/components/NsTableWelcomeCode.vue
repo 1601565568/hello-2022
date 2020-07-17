@@ -228,14 +228,14 @@
             <el-switch
               style="cursor:pointer"
               :disabled="
-                row.type === 9 && String(account ? account : '') !== 'admin'
+                row.type === 9 && String(row.account ? row.account : '') !== 'admin'
               "
               :value="row.status"
               :active-value="1"
               :inactive-value="0"
               :before-change="
                 (call, currVal) => {
-                  if (row.type === 9 && String(account ? account : '') !== 'admin') {
+                  if (row.type === 9 && String(row.account ? row.account : '') !== 'admin') {
                     return;
                   }
                   onStatusChange(call, currVal, row);
@@ -254,7 +254,7 @@
             <ns-table-column-operate-button
               :buttons="
                 scope.row.type === 9 &&
-                String(account ? account : '') !== 'admin'
+                String(scope.row.account ? scope.row.account : '') !== 'admin'
                   ? []
                   : _data._table.table_buttons
               "

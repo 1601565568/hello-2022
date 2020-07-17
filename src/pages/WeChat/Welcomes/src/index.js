@@ -8,7 +8,8 @@ export default {
     // 员工使用范围数据model
     let nsTableEmployeeScopeModel = {
       visible: false,
-      welcomeCodeUuid: ''
+      welcomeCodeUuid: '',
+      type: ''
     }
     let nsTableShopScopeModel = {
       visible: false,
@@ -46,6 +47,7 @@ export default {
      */
     onShowEmployeeScope (data) {
       this.nsTableEmployeeScopeModel = {
+        type: data.type,
         welcomeCodeUuid: data.uuid,
         visible: true
       }
@@ -67,6 +69,9 @@ export default {
     onOpenEmployeeDialog () {
       // 重新刷新列表数据
       this.$nextTick(() => {
+        if (this.nsTableEmployeeScopeModel.type && this.nsTableEmployeeScopeModel.type === 9) {
+          this.nsTableEmployeeScopeModel.welcomeCodeUuid = null
+        }
         this.$refs.employeeTable.model.welcomeCodeUuid = this.nsTableEmployeeScopeModel.welcomeCodeUuid
         this.$refs.employeeTable._data._table.searchMap.welcomeCodeUuid = this.nsTableEmployeeScopeModel.welcomeCodeUuid
         this.$refs.employeeTable._data._table.quickSearchMap.welcomeCodeUuid = this.nsTableEmployeeScopeModel.welcomeCodeUuid
