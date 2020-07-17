@@ -26,7 +26,7 @@
   <div>
     <NsButton :type="type" @click="onDialogOpen()"><Icon v-if="type === 'text'" type="plus"/>{{btnTitle}}</NsButton>
     <el-dialog :visible.sync="visible" :show-scroll-x="false"
-               :close-on-click-modal = "false" appendToBody :before-close="onDialogClose" width="700px">
+               :close-on-click-modal = "false" appendToBody :before-close="onDialogClose" width="940px">
       <div slot="title">
         {{dialogTitle}}
         <el-tooltip  content="按门店设置使用范围时，所选门店下所有导购都会使用该欢迎语">
@@ -45,11 +45,9 @@
               <el-select-load v-model="param.shopId" :options="shopOptions"  filterable clearable :page-sizes="20" placeholder="选择门店">
               </el-select-load>
             </el-form-grid>
-          </el-form-item>
-          <el-form-item>
-            <el-form-grid><div style="margin-left: 20px;">店铺名称：</div></el-form-grid>
+            <el-form-grid><div style="margin-left: 10px;">店铺名称：</div></el-form-grid>
             <el-form-grid>
-              <ElInput :maxlength="20" v-model="param.name" @keyup.enter.native="searchEmployee(1)"/>
+              <ElInput style="width:100px" :maxlength="20" v-model="param.name" @keyup.enter.native="searchEmployee(1)"/>
             </el-form-grid>
             <el-form-grid><div style="margin-left: 10px;"></div></el-form-grid>
             <el-form-grid>

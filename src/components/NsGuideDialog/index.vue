@@ -25,7 +25,7 @@
   <div>
     <NsButton :type="type" @click="onDialogOpen()"><Icon v-if="type === 'text'" type="plus"/>{{btnTitle}}</NsButton>
     <el-dialog :title="dialogTitle" :visible.sync="visible" :show-scroll-x="false"
-               :close-on-click-modal = "false" :before-close="onDialogClose" width="800px"><!-- 按员工设置使用范围时，所选员工会优先选择使用该条欢迎语而非归属门店设置的欢迎语 -->
+               :close-on-click-modal = "false" :before-close="onDialogClose" width="940px"><!-- 按员工设置使用范围时，所选员工会优先选择使用该条欢迎语而非归属门店设置的欢迎语 -->
       <div slot="title">
         {{dialogTitle}}
         <el-tooltip  content="按员工设置使用范围时，所选员工会优先选择使用该条欢迎语而非归属门店设置的欢迎语">
@@ -43,15 +43,13 @@
               <el-select-load v-model="departData.shopId" :options="shopOptions"  filterable clearable :page-sizes="20" placeholder="选择门店">
               </el-select-load>
             </el-form-grid>
-          </el-form-item>
-          <el-form-item>
-            <el-form-grid><div style="margin-left: 20px;">选择部门：</div></el-form-grid>
+            <el-form-grid><div style="margin-left: 10px;">选择部门：</div></el-form-grid>
             <el-form-grid>
               <ns-droptree ref="employeeDepartTree" :lazy="true" :load="loadNode" :multiple="false" v-model="departData.selectedDepart" clearable></ns-droptree>
             </el-form-grid>
-            <el-form-grid><div style="margin-left: 20px;">员工类型：</div></el-form-grid>
+            <el-form-grid><div style="margin-left: 10px;">员工类型：</div></el-form-grid>
             <el-form-grid>
-              <el-select v-model="departData.job" clearable >
+              <el-select style="width:100px" v-model="departData.job" clearable >
                 <el-option label="全部" :value=null></el-option>
                 <el-option label="店长" :value="1"></el-option>
                 <el-option label="导购" :value="0"></el-option>
@@ -63,7 +61,7 @@
             <el-form-grid>
               <ElInput :maxlength="20" v-model="departData.name"/>
             </el-form-grid>
-            <el-form-grid><div style="margin-left: 20px;">手机号：</div></el-form-grid>
+            <el-form-grid><div style="margin-left: 10px;">手机号：</div></el-form-grid>
             <el-form-grid>
               <ElInput :maxlength="20" v-model="departData.mobile"/>
             </el-form-grid>
