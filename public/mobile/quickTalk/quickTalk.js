@@ -105,6 +105,7 @@ function sendWord () {
   let id = $('.item__radio--selected').attr('id').replace(/[^0-9]/ig, '')
   let content = $('#word' + id).text()
   let url = '{"type":1,"content":"' + content + '","exit":true}'
+  window.console.log('此次发送的参数=>' + url)
   window.location.href = host + url
 }
 /**
@@ -232,7 +233,7 @@ function getQuickList (quicklyWord) {
 
             // $('#word' + item.id).append(codeCompile(item.content)).html()
             // $('#word' + item.id).val(codeCompile(item.content))
-            // window.console.log("话术内容=>"+item.content)
+            window.console.log(' 话术内容=> ' + item.content)
             // window.console.log('话术内容 转义后=>' + codeCompile(item.content))
           }
         })

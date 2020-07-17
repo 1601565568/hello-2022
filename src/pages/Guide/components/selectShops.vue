@@ -6,7 +6,9 @@
     :close-on-press-escape='true'
     :close-on-click-modal='false'
     :visible.sync="dialogVisible"
-    width="900px" :response-limit=false append-to-body
+    width="900px"
+    :response-limit=false
+    append-to-body
     :before-close="handleClose">
       <div class="content">
         <div class="searchAction">
@@ -15,9 +17,28 @@
               <el-form-item>
                 <el-form-grid>
                   <el-form-item label="店铺名称：">
-                    <el-input autofocus=true v-model="model.shopName" placeholder="请输入门店名称" clearable></el-input>
+                    <el-select placeholder="线下门店分类" style="width: 150px"  v-model="model.shopType" clearable filterable>
+                      <el-option v-for="shop in shopLeiXing" :label="shop.label" :value="shop.value"
+                                 :key="shop.value"></el-option>
+                    </el-select>
+                    <el-input autofocus=true v-model="model.shopName" style="width: 150px" placeholder="线下门店名称搜索" clearable></el-input>
                   </el-form-item>
                 </el-form-grid>
+                <el-form-grid>
+                  <el-form-item label="外部店铺编码：" prop="area">
+<!--                    <i class="iconfont icon-shujuyingxiao2"></i>-->
+                    <ns-button  type="primary" @click="taskStoreFile">放大镜</ns-button>
+                    <em>{{storeInfo.successSize}}</em>店
+                    <ns-button type="primary" @click="searchAction(searchform)">搜索</ns-button>
+                    <ns-button @click="resetInputAction(searchform)">重置</ns-button>
+                  </el-form-item>
+                </el-form-grid>
+<!--                <el-form-grid>-->
+<!--                  <el-form-item>-->
+<!--                    <ns-button type="primary" @click="searchAction(searchform)">搜索</ns-button>-->
+<!--                    <ns-button @click="resetInputAction(searchform)">重置</ns-button>-->
+<!--                  </el-form-item>-->
+<!--                </el-form-grid>-->
                 <el-form-grid>
                   <el-form-item label="门店类型：">
                     <el-select placeholder="请选择门店类型" v-model="model.shopType" clearable filterable>
@@ -29,12 +50,6 @@
                 <el-form-grid>
                   <el-form-item label="所属地区：" prop="area">
                     <ns-area  :props="searchform.key" @change="onAreaChange" v-model="model.area" clearable></ns-area>
-                  </el-form-item>
-                </el-form-grid>
-                <el-form-grid>
-                  <el-form-item>
-                    <ns-button type="primary" @click="searchAction(searchform)">搜索</ns-button>
-                    <ns-button @click="resetInputAction(searchform)">重置</ns-button>
                   </el-form-item>
                 </el-form-grid>
               </el-form-item>
@@ -85,6 +100,8 @@
       </div>
   </el-dialog>
   <ns-button  type="primary" @click="openFun">选择门店</ns-button> 已选择<span class="text-error">{{hasShopArr.length}}</span>家门店
+  <taskStoreFile ref="taskStoreFileDialog" @callBack="taskStoreFileBack" ></taskStoreFile>
+<!--  <importQuota ref="importQuotaDialog" :callBack="loadListFun"></importQuota>-->
 </div>
 </template>
 <script>
@@ -92,6 +109,8 @@ import listPageMixin from '@/mixins/listPage'
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import NsArea from '@nascent/ecrp-ecrm/src/components/NsArea'
 import { getErrorMsg } from '@/utils/toast'
+import taskStoreFile from './taskStoreFile'
+import moment from 'moment'
 export default {
   props: {
     api: {
@@ -114,6 +133,11 @@ export default {
     return {
       tableLoading: false,
       dialogVisible: false,
+      storeInfo: {
+        successSize: 0,
+        failSize: 0,
+        ids: null
+      },
       dataList: [],
       multipleSelection: [],
       selected: [],
@@ -156,6 +180,16 @@ export default {
       this.model.shopType = null
       this.loadListFun({
         searchMap: {}
+      })
+    },
+    taskStoreFileBack (val) {
+      this.storeInfo = val
+      window.console.log('上传EXCEL回调的数据=>' + this.storeInfo)
+    },
+    taskStoreFile () {
+      this.$nextTick(() => {
+        // this.$refs.taskStoreFileDialog.resetFields()
+        this.$refs.taskStoreFileDialog.onOpendialog()
       })
     },
     searchAction () { // 搜索功能
@@ -366,6 +400,7 @@ export default {
     }
   },
   components: {
+    taskStoreFile,
     NsArea
   },
   computed: {}

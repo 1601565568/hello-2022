@@ -130,17 +130,7 @@ export default {
       }
     }, // 下载模板
     ImportTarge () {
-      // Axios.get(API_ROOT + '/guide/importquota/downloadtemplate', { params: {
-      //   type: this.saveObj.type,
-      //   year: this.saveObj.year },
-      // responseType: 'stream' }).then(data => {
-      //   window.console.log(data)
-      // }).catch(e => {
-      //   window.console.log(e)
-      // })
       this.downloadIsShow = false
-      // window.console.log('模板类型= ' + this.saveObj.type)
-      // window.console.log('模板年份= ' + this.saveObj.year)
       // 重置选择的门店
       var url = API_ROOT + '/guide/importquota/downloadtemplate'
       var form = document.createElement('form')
