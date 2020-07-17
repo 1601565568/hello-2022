@@ -39,7 +39,7 @@
                 <NsEmployeeOrCustGroupDialog btnTitle="选择员工" :guideUrl="this.$api.guide.sgPersonalQrcode.queryGuideMsg" v-model="employeeSelectData"></NsEmployeeOrCustGroupDialog>
               </el-form-grid>
               <ElFormGrid v-if="personalQrcode.type === 0">
-                已选择<span class="text-primary">{{tableData.length}}</span>个员工
+                已选择<span class="text-primary">{{employeeSelectData.length}}</span>个员工
               </ElFormGrid>
             </el-form-item>
             <ElFormItem :rules="rules">

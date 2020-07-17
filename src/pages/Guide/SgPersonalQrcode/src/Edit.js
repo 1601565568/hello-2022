@@ -136,6 +136,7 @@ export default {
           let personnelIds = data.result.personnelIds.split(',')
           for (let i = 0; i < personnelIds.length; i++) {
             this.employeeIds.push(parseInt(personnelIds[i]))
+            this.employeeSelectData.push(parseInt(personnelIds[i]))
           }
         }
         this.initType = data.result.type
