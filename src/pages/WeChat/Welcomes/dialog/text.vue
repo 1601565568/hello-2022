@@ -8,8 +8,8 @@
       :show-scroll-x=false>
       <!-- 文字弹框 start -->
       <div>
-        <ElForm :rules="rules" ref="searchform" :model="model"  :inline="true">
-          <el-form-item  label-width="0px" prop="content">
+        <ElForm ref="searchform" :model="model"  :inline="true">
+          <el-form-item  label-width="0px" prop="content" :rules="{ required: true, validator: contentCheck, trigger: 'blur' }">
             <!--  表情包引入,input添加相关事件@input @blur @change ref="content" -->
             <ElInput
               type="textarea"
@@ -73,9 +73,9 @@ export default {
       endNum: 0,
       rules: {
         content: [
-          { required: true, message: '请输入内容', trigger: 'blur' },
-          { max: 100, message: '长度在100个字符以内', trigger: 'blur' },
-          { validator: contentCheck, trigger: 'blur' }
+          // { required: true, message: '请输入内容', trigger: 'blur' },
+          { required: true, validator: contentCheck, trigger: 'blur' },
+          { max: 100, message: '长度在100个字符以内', trigger: 'blur' }
         ]
       }
     }
@@ -102,11 +102,10 @@ export default {
       this.$refs.searchform.resetFields()
       this.$emit('close', 'text')
     },
-
     /* ******************* 表情包引入事件 开始******************** */
     contentCheck: (rule, value, callback) => {
       const regexp = /\S+/
-      if (value && !regexp.test(value)) {
+      if (!value || (value && !regexp.test(value))) {
         return callback(new Error('请输入欢迎语'))
       } else {
         callback()
