@@ -234,6 +234,7 @@ export default {
           if (resp.result.recordsTotal) {
             total = parseInt(resp.result.recordsTotal)
           }
+          vm.isCheckAll = false
         }).catch(() => {
           vm.$notify.error('查询用户信息失败')
         }).finally(() => {
@@ -335,6 +336,7 @@ export default {
         const index = this.selectedData.findIndex(d => d[vm.recordId] === scope[vm.recordId])
         if (index > -1) {
           this.selectedData.splice(index, 1)
+          vm.isCheckAll = false
         } else {
           this.selectedData.push(scope)
         }
@@ -356,6 +358,7 @@ export default {
             this.selectedData.splice(index, 1)
           }
         }
+        vm.isCheckAll = false
       } else {
         for (let data of select) {
           const index = this.selectedData.findIndex(d => d[vm.recordId] === data[vm.recordId])
@@ -371,43 +374,50 @@ export default {
     onSelectAllData () {
       this.searchAllEmployee().then(allEmployee => {
         let selectedData2 = []
-        let authEmployeeData = []
+        let selectedData3 = []
+        // 已选择的有权限的员工
         let authSelectedData = []
+        let allEmployeeMap = {}
         allEmployee.forEach(function (item) {
-          authEmployeeData.push(item)
+          allEmployeeMap[item.id] = item
         })
+        // 区分该批搜索数据中的权限数据
         vm.selectedData.forEach(function (item) {
           if (vm.auth && item.auth) {
+            // 没有权限的员工
             selectedData2.push(item)
           } else {
-            authSelectedData.push(item)
+            if (allEmployeeMap[item.id]) {
+              // 有操作权限的员工
+              authSelectedData.push(item)
+            } else {
+              // 已经选择的员工中，存在条件筛选员工外的员工，叠加保留。
+              selectedData3.push(item)
+            }
           }
         })
         vm.selectedData = []
-        if (vm.isAllSelect(authEmployeeData, authSelectedData)) {
+        if (vm.isCheckAll) {
+          // 清空左边列表
           vm.$refs.employeeTable.clearSelection()
         } else {
+          // 左边列表全部勾选
           vm.employeeData.forEach(function (item) {
-            vm.$refs.employeeTable.toggleRowSelection(item, true)
+            if (allEmployeeMap[item.id]) {
+              vm.$refs.employeeTable.toggleRowSelection(item, true)
+            }
           })
-          authEmployeeData.forEach(function (item) {
+          selectedData3.forEach(function (item) {
+            selectedData2.push(item)
+          })
+          // 右边员工数据添加
+          allEmployee.forEach(function (item) {
             selectedData2.push(item)
           })
         }
         vm.selectedData = selectedData2
         vm.isCheckAll = !vm.isCheckAll
       })
-    },
-    /**
-     * 验证是否全选
-     */
-    isAllSelect (authEmployeeData, authSelectedData) {
-      if (authEmployeeData && authEmployeeData.length > 0 && authSelectedData.length > 0 && authEmployeeData.length === authSelectedData.length) {
-        vm.isCheckAll = true
-      } else {
-        vm.isCheckAll = false
-      }
-      return vm.isCheckAll
     },
     /**
      * 右侧员工删除事件
@@ -417,7 +427,7 @@ export default {
       const index = this.$refs['employeeTable'].selection.findIndex(d => d[vm.recordId] === scope.row[vm.recordId])
       if (index > -1) {
         this.$refs['employeeTable'].selection.splice(index, 1)
-        this.isCheckAll = false
+        vm.isCheckAll = false
       }
       if (this.$refs['employeeTable'].selection.length === 0) {
         this.$refs['employeeTable'].clearSelection()

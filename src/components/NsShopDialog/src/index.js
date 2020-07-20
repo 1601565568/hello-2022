@@ -149,6 +149,7 @@ export default {
           if (resp.result.recordsTotal) {
             total = parseInt(resp.result.recordsTotal)
           }
+          vm.isCheckAll = false
         }).catch(() => {
           vm.$notify.error('请求数据信息失败')
         }).finally(() => {
@@ -254,20 +255,35 @@ export default {
     onSelectAllData () {
       this.searchAllEmployee().then(allEmployee => {
         let selectedData2 = []
+        let selectedData3 = []
         let authSelectedData = []
+        let allEmployeeMap = {}
+        debugger
+        allEmployee.forEach(function (item) {
+          allEmployeeMap[item.id] = item
+        })
         vm.selectedData.forEach(function (item) {
           if (vm.auth && item.auth) {
             selectedData2.push(item)
           } else {
-            authSelectedData.push(item)
+            if (allEmployeeMap[item.id]) {
+              // 有操作权限的员工
+              authSelectedData.push(item)
+            } else {
+              // 已经选择的员工中，存在条件筛选员工外的员工，叠加保留。
+              selectedData3.push(item)
+            }
           }
         })
         vm.selectedData = []
-        if (vm.isAllSelect(allEmployee, authSelectedData)) {
+        if (vm.isCheckAll) {
           vm.$refs.employeeTable.clearSelection()
         } else {
           vm.listData.forEach(function (item) {
             vm.$refs.employeeTable.toggleRowSelection(item, true)
+          })
+          selectedData3.forEach(function (item) {
+            selectedData2.push(item)
           })
           allEmployee.forEach(function (item) {
             selectedData2.push(item)
@@ -278,17 +294,6 @@ export default {
       })
     },
     /**
-     * 验证是否全选
-     */
-    isAllSelect (authEmployeeData, authSelectedData) {
-      if (authEmployeeData && authEmployeeData.length > 0 && authSelectedData.length > 0 && authEmployeeData.length === authSelectedData.length) {
-        vm.isCheckAll = true
-      } else {
-        vm.isCheckAll = false
-      }
-      return vm.isCheckAll
-    },
-    /**
      * 右侧数据删除事件
      */
     removeEmp (scope) {
@@ -296,6 +301,7 @@ export default {
       const index = this.$refs['employeeTable'].selection.findIndex(d => d[vm.recordId] === scope.row[vm.recordId])
       if (index > -1) {
         this.$refs['employeeTable'].selection.splice(index, 1)
+        vm.isCheckAll = false
       }
       if (this.$refs['employeeTable'].selection.length === 0) {
         this.$refs['employeeTable'].clearSelection()
