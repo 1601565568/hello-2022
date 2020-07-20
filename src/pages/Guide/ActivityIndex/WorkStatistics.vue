@@ -203,15 +203,12 @@
     <!-- el-form 需添加  surround-btn 类名 配置环绕按钮效果 -->
     <el-form ref="table_filter_form" label-width="80px" @keyup.enter.native="onSearch" class="surround-btn" :inline="true">
       <el-form-item label="姓名：">
-        <el-form-grid size="xs">
-          <el-input  type="text" v-model="customerName" @keyup.enter.native="formSearch('searchform')">
-          </el-input>
-        </el-form-grid>
-        <el-input style="visibility:hidden;height:0px;width:0px;"></el-input>
-        <el-form-grid>
-          <ns-button type="primary" @click="formSearch('searchform')">搜索</ns-button>
-          <ns-button @click="formReset('searchform')">重置</ns-button>
-        </el-form-grid>
+        <el-input  type="text" v-model="customerName" @keyup.enter.native="formSearch('searchform')">
+        </el-input>
+      </el-form-item>
+      <el-form-item>
+        <ns-button type="primary" @click="formSearch('searchform')">搜索</ns-button>
+        <ns-button @click="formReset('searchform')">重置</ns-button>
       </el-form-item>
     </el-form>
     <!-- 高级搜索-结束 -->
@@ -244,26 +241,18 @@
     <!-- 高级搜索 -->
     <!-- el-form 需添加  @keyup.enter.native="onSearch" 配置，实现回车搜索， onSearch 为搜索方法 -->
     <!-- el-form 需添加  surround-btn 类名 配置环绕按钮效果 -->
-    <el-form ref="table_filter_form" label-width="80px" @keyup.enter.native="onSearch" class="surround-btn" :inline="true">
+    <el-form ref="table_filter_form" label-width="60px" @keyup.enter.native="onSearch" class="surround-btn" :inline="true">
+      <el-form-item label="姓名：">
+        <el-input  type="text" v-model="customerName">
+        </el-input>
+      </el-form-item>
+      <el-form-item label="订单号：">
+        <el-input  type="text" v-model="tradeNo">
+        </el-input>
+      </el-form-item>
       <el-form-item>
-        <el-form-grid size="xs">
-          <el-form-item label="姓名：">
-            <el-input  type="text" v-model="customerName">
-            </el-input>
-          </el-form-item>
-        </el-form-grid>
-        <el-form-grid size="xs">
-          <el-form-item label="订单号：">
-            <el-input  type="text" v-model="tradeNo">
-            </el-input>
-          </el-form-item>
-        </el-form-grid>
-        <el-form-grid>
-          <el-form-item>
-            <ns-button type="primary" @click="formSearch('searchform')">搜索</ns-button>
-            <ns-button @click="formReset('searchform')">重置</ns-button>
-          </el-form-item>
-        </el-form-grid>
+        <ns-button type="primary" @click="formSearch('searchform')">搜索</ns-button>
+        <ns-button @click="formReset('searchform')">重置</ns-button>
       </el-form-item>
     </el-form>
     <!-- 高级搜索-结束 -->
