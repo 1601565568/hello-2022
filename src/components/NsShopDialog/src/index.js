@@ -258,7 +258,6 @@ export default {
         let selectedData3 = []
         let authSelectedData = []
         let allEmployeeMap = {}
-        debugger
         allEmployee.forEach(function (item) {
           allEmployeeMap[item.id] = item
         })
