@@ -3,7 +3,7 @@
  * @Author: yuye.huang
  * @Date: 2020-03-01 21:22:07
  * @LastEditors: yuye.huang
- * @LastEditTime: 2020-04-17 11:40:20
+ * @LastEditTime: 2020-07-13 15:14:01
  */
 /**
  * @msg: appId 前缀校验
@@ -15,13 +15,26 @@ var prefixCheck = (rule, value, callback) => {
     callback()
   }
 }
+/**
+ * @msg: 校验除空格和换行符以外字符
+ */
+var contentCheck = (rule, value, callback) => {
+  const regexp = /\S+/
+  if (value && !regexp.test(value)) {
+    return callback(new Error('请输入欢迎语'))
+  } else {
+    callback()
+  }
+}
+
 export default {
   link: [{ required: true, message: '请输入网址', trigger: ['blur'] }],
   title: [{ required: true, message: '请输入标题', trigger: ['blur'] },
     { min: 1, max: 20, message: '长度在2-20个字符以内', trigger: ['blur'] }],
   innerContent: [{ required: true, message: '请输入文案', trigger: ['blur'] },
     { min: 1, max: 100, message: '已超过可输入长度', trigger: ['blur'] }],
-  content: [{ required: true, message: '请输入欢迎语', trigger: ['blur'] }],
+  content: [{ required: true, message: '请输入欢迎语', trigger: ['blur'] },
+    { validator: contentCheck, trigger: 'blur' }],
   selectOne: [{ required: true, message: '请选择一项', trigger: ['blur'] }],
   appid: [{ required: true, message: '请输入小程序appid', trigger: ['blur'] },
     { min: 5, max: 30, message: '长度在5-30个字符以内', trigger: 'blur' },

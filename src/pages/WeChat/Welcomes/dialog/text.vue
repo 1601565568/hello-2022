@@ -8,22 +8,21 @@
       :show-scroll-x=false>
       <!-- 文字弹框 start -->
       <div>
-        <ElForm :rules="rules" ref="searchform" :model="model"  :inline="true">
-          <el-form-item  label-width="0px" prop="content">
+        <ElForm ref="searchform" :model="model"  :inline="true">
+          <el-form-item  label-width="0px" prop="content" :rules="{ required: true, validator: contentCheck, trigger: 'blur' }">
             <!--  表情包引入,input添加相关事件@input @blur @change ref="content" -->
             <ElInput
               type="textarea"
               :rows="4"
               maxlength='100'
               style="width:580px"
-              @input="handleInput"
               @blur="handleBlur"
               @change="handleChange"
               clearable
               placeholder='请输入内容，长度在100个字符以内'
               ref="content"
               v-model="model.content"
-              show-word-limit/>
+              show-word-limit/><!-- @input="handleInput" -->
           </el-form-item>
           <ElFormItem>
             <!-- 表情包引入前端 开始-->
@@ -74,7 +73,8 @@ export default {
       endNum: 0,
       rules: {
         content: [
-          { required: true, message: '请输入内容', trigger: 'blur' },
+          // { required: true, message: '请输入内容', trigger: 'blur' },
+          { required: true, validator: this.contentCheck, trigger: 'blur' },
           { max: 100, message: '长度在100个字符以内', trigger: 'blur' }
         ]
       }
@@ -102,8 +102,15 @@ export default {
       this.$refs.searchform.resetFields()
       this.$emit('close', 'text')
     },
-
     /* ******************* 表情包引入事件 开始******************** */
+    contentCheck: (rule, value, callback) => {
+      const regexp = /\S+/
+      if (!value || (value && !regexp.test(value))) {
+        return callback(new Error('请输入欢迎语'))
+      } else {
+        callback()
+      }
+    },
     // 输入内容时，获取光标位置
     handleBlur (event) {
       this.getCurrentCursor()
