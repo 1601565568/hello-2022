@@ -74,7 +74,7 @@ export default {
       rules: {
         content: [
           // { required: true, message: '请输入内容', trigger: 'blur' },
-          { required: true, validator: contentCheck, trigger: 'blur' },
+          { required: true, validator: this.contentCheck, trigger: 'blur' },
           { max: 100, message: '长度在100个字符以内', trigger: 'blur' }
         ]
       }
