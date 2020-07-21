@@ -64,7 +64,7 @@ export default {
   created: function () {},
   methods: {
     changeInput (value) {
-      if (parseInt(this.saveObj.type) === 1) {
+      if (parseInt(this.saveObj.type) === 1 || parseInt(this.saveObj.type) === 2) {
         value = value.replace(/[^\d]/g, '')
         return Number(value)
       }

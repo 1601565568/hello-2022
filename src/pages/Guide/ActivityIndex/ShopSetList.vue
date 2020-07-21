@@ -7,6 +7,7 @@
     <el-tabs v-model="activeName" @tab-click="tabHandleClick">
     <el-tab-pane label="销售指标" name="0"></el-tab-pane>
     <el-tab-pane label="招募会员指标" name="1"></el-tab-pane>
+    <el-tab-pane label="新加好友指标" name="2"></el-tab-pane>
   </el-tabs>
   <!-- 简单搜索start -->
   <div class="template-table__bar">
@@ -36,6 +37,7 @@
 <!--              </el-upload>-->
               <span class="text-error">
                   单位：
+                <span v-if="searchObj.searchMap.type==2">人</span>
                 <span v-if="searchObj.searchMap.type==1">人</span>
                 <span v-if="searchObj.searchMap.type==0">万元</span>
               </span>

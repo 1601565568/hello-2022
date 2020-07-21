@@ -93,6 +93,18 @@
       </template>
       </el-table-column>
       <el-table-column
+        label="新加好友奖励"
+      >
+        <template slot-scope="scope">
+          <div v-if="scope.row.addfriendStatus">
+            <span>每添加一名新好友提成 {{$numeral(scope.row.addfriendReward).format('0,0.00')}} 元</span>
+          </div>
+          <div v-else>
+            <span>暂未设置</span>
+          </div>
+        </template>
+      </el-table-column>
+      <el-table-column
         label="操作"
         width="60"
         align="center"
