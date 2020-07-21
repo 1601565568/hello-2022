@@ -281,7 +281,7 @@ export default {
       if (vm.departData.name) {
         param.empName = vm.departData.name
       }
-      if (vm.departData.job) {
+      if (vm.departData.job !== null) {
         param.job = vm.departData.job
       }
       if (vm.departData.mobile) {
