@@ -10,5 +10,9 @@ export default {
   findShopPageToWelcomeCode: {
     url: '/core/sgshop/findShopPageToWelcomeCode',
     method: 'post'
+  },
+  getShopTree: {
+    url: '/core/sgshop/getShopTree',
+    method: 'post'
   }
 }

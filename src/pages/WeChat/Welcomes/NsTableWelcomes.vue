@@ -39,6 +39,22 @@
               <el-input style="width:180px"  v-model="model.title" placeholder="请输入欢迎语标题" clearable></el-input>
             </el-form-grid>
           </el-form-item>
+          <el-form-item label="选择店铺：">
+            <ElFormGrid>
+              <NsShopDialog :auth="false" type="primary" btnTitle="选择店铺" v-model="model.shopIds"></NsShopDialog>
+            </ElFormGrid>
+            <ElFormGrid>
+              已选择<span class="text-primary">{{model.shopIds? model.shopIds.length: 0}}</span>家店铺
+            </ElFormGrid>
+          </el-form-item>
+          <el-form-item label="选择员工：">
+            <ElFormGrid>
+              <NsGuideDialog :auth="false" type="primary" btnTitle="选择员工" dialogTitle="选择员工" v-model="model.guideIds"></NsGuideDialog>
+            </ElFormGrid>
+            <ElFormGrid>
+              已选择<span class="text-primary">{{model.guideIds? model.guideIds.length: 0}}</span>个导购员工
+            </ElFormGrid>
+          </el-form-item>
           <el-input style="visibility:hidden;height:0px;"></el-input>
         </el-form>
 
@@ -123,7 +139,8 @@
                            min-width="30">
             <template slot-scope="scope">
               <ns-table-column-operate-button-ext v-if="scope.row.type === 9 && String(scope.row.account ? scope.row.account : '') !== 'admin'"
-                                                  :prop="scope">
+                                                  :prop="scope"
+                                                  :buttons="[]">
               </ns-table-column-operate-button-ext>
               <ns-table-column-operate-button-ext v-else :buttons="_data._table.table_buttons"
                                                   :prop="scope">
@@ -152,6 +169,14 @@
 
 <script>
 import welcomes from './src/NsTableWelcomes'
+import NsGuideDialog from '@/components/NsGuideDialog'
+import NsShopDialog from '@/components/NsShopDialog'
+import NsTableColumnOperateButtonExt from '@/components/NsTableColumnOperateButton'
+welcomes.components = {
+  NsTableColumnOperateButtonExt,
+  NsGuideDialog,
+  NsShopDialog
+}
 export default welcomes
 </script>
 <style>

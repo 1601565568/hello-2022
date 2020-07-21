@@ -97,8 +97,8 @@ import ElInputNumber from '@nascent/nui/lib/input-number'
 import postContent from './content/postContent.vue'
 import contentPreview from './content/contentPreview.vue'
 import { getErrorMsg } from '@/utils/toast'
-import NsGuideDialog from './../../../components/NsGuideDialog'
-import NsShopDialog from './../../../components/NsShopDialog'
+import NsGuideDialog from '@/components/NsGuideDialog'
+import NsShopDialog from '@/components/NsShopDialog'
 edit.components = {
   ElCard,
   ElTimeSelect,

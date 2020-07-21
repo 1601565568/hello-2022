@@ -2,11 +2,11 @@ import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import { getErrorMsg } from '@/utils/toast'
 import ShopSelectLoad from '@/components/ShopSelectLoad'
 import NsTableColumnOperateButtonExt from '@/components/NsTableColumnOperateButton'
-
+import BindDevice from '@/pages/Guide/SgGuide/components/BindDevice'
 export default {
   name: 'NsTableAutoPass',
   mixins: [tableMixin],
-  components: { NsTableColumnOperateButtonExt, ShopSelectLoad },
+  components: { NsTableColumnOperateButtonExt, BindDevice },
   props: {
     url: Object
   },
