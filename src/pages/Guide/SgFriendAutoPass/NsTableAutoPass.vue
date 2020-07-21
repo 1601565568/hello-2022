@@ -36,10 +36,13 @@
       <!-- el-form 需添加  surround-btn 类名 配置环绕按钮效果 -->
       <template slot="advancedSearch" v-if="_data._queryConfig.expand">
         <el-form ref="table_filter_form" :model="model" label-width="80px" :inline="true">
-          <el-form-item label="员工：">
-            <el-form-grid size="xmd">
-              <el-input  autofocus=true v-model="model.name" @keyup.enter.native="$quickSearchAction$('name')" placeholder="请输入员工姓名" clearable></el-input>
-            </el-form-grid>
+          <el-form-item label="选择员工：">
+            <ElFormGrid>
+              <NsGuideDialog :auth="false" type="primary" btnTitle="选择员工" dialogTitle="选择员工" v-model="model.guideIds"></NsGuideDialog>
+            </ElFormGrid>
+            <ElFormGrid>
+              已选择<span class="text-primary">{{model.guideIds? model.guideIds.length: 0}}</span>个导购员工
+            </ElFormGrid>
           </el-form-item>
           <el-form-item label="微信账号：">
             <el-form-grid size="xmd">

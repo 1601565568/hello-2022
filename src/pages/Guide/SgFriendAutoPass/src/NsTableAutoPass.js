@@ -1,12 +1,13 @@
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import { getErrorMsg } from '@/utils/toast'
 import ShopSelectLoad from '@/components/ShopSelectLoad'
+import NsGuideDialog from '@/components/NsGuideDialog'
 import NsTableColumnOperateButtonExt from '@/components/NsTableColumnOperateButton'
 
 export default {
   name: 'NsTableAutoPass',
   mixins: [tableMixin],
-  components: { NsTableColumnOperateButtonExt, ShopSelectLoad },
+  components: { NsTableColumnOperateButtonExt, ShopSelectLoad, NsGuideDialog },
   props: {
     url: Object
   },
@@ -58,6 +59,7 @@ export default {
       name: null,
       wxAccount: null,
       validateMsg: null,
+      guideIds: [],
       isOpen: null
     }
     let findVo = {
