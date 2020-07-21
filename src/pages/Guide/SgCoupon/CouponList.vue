@@ -62,7 +62,7 @@
               ￥<span class="coupon-amount__large">{{storeModel.couponValue}}</span>
             </div>
             <div class="coupon-preview-amount text-error" v-if="storeModel.couponType == 2">
-              <span class="coupon-amount__large">{{storeModel.couponValue*10}}折</span>
+              <span class="coupon-amount__large">{{storeModel.couponValue}}折</span>
             </div>
             <div class="coupon-preview-title">
               <span class="coupon-title" style="overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">
