@@ -34,7 +34,7 @@
                 </li>
               </ul>
               <div class="clearfix"></div>
-              <div class="text-primary"><Icon type="info-circle"/>上传图片不能大于500KB；图片最多上传9张（加小程序码的最多8张）</div>
+              <div class="text-primary"><Icon type="info-circle"/>上传图片不能大于1MB；图片最多上传9张（加小程序码的最多8张）</div>
             </div>
           </el-form-item>
           <el-form-item label="小程序链接：">
@@ -311,8 +311,8 @@ export default {
       }
     },
     beforeAvatarUpload (file) {
-      if (file.size / 1024 > 500) {
-        this.$notify.warning('上传图片不得大于500KB')
+      if (file.size / 1024 > 1024) {
+        this.$notify.warning('上传图片不得大于1MB')
         return false
       }
       // 图片格式判断
