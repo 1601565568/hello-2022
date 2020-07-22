@@ -192,7 +192,19 @@ export default {
             _this.storeModel.couponTitle = _this.storeCouponList[i].title.substr(0, 19) + '...'
           }
           _this.storeModel.couponType = Number(_this.storeCouponList[i].storeCouponType)
-          _this.storeModel.couponValue = _this.storeCouponList[i].storeCouponValue
+          let temporaryCouponValue = _this.storeCouponList[i].storeCouponValue
+          let temporaryIndex = (temporaryCouponValue !== Math.floor(temporaryCouponValue)) ? (temporaryCouponValue.toString()).split('.')[1].length : 0
+          if (temporaryIndex > 1) {
+            _this.storeModel.couponValue = (temporaryCouponValue * 10).toFixed(1)
+          }
+          if (temporaryIndex === 1) {
+            _this.storeModel.couponValue = temporaryCouponValue * 10
+          }
+          if (temporaryIndex === 0) {
+            _this.storeModel.couponValue = temporaryCouponValue
+          }
+          // _this.storeModel.couponValue = _this.storeCouponList[i].storeCouponValue
+          // console.log('优惠券value', _this.storeModel.couponValue)
           _this.storeModel.couponTotal = Number(_this.storeCouponList[i].maxIssueAmount)
           _this.storeModel.maxType = Number(_this.storeCouponList[i].maxIssueAmount)
           _this.storeModel.dateType = Number(_this.storeCouponList[i].dateValidType)

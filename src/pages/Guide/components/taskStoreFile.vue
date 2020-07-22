@@ -96,14 +96,14 @@ export default {
     },
     okFun () {
       let temp = this.manualValue
-      if (temp.startsWith(',') || temp.endsWith(',')) {
+      if (temp.startsWith(',') || temp.endsWith(',') || temp.startsWith('，') || temp.endsWith('，')) {
         this.$notify.info('请输入正确的外部店铺编码')
         return false
       }
       this.$http.fetch(this.$api.guide.importFileAndManual, this.uploadData)
         .then(resp => {
           if (resp.success) {
-            this.$notify.info('已成功' + resp.result.successSize + ',失败' + resp.result.failSize + '(失败原因:)')
+            this.$notify.info('已成功' + resp.result.successSize + ',失败' + resp.result.failSize + '(失败原因:店铺关闭、店铺不在视角下、店铺编码错误等)')
             this.$emit('callBack', this.storeInfo)
             this.dialogVisible = false
           }
