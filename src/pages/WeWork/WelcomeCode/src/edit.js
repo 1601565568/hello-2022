@@ -492,7 +492,7 @@ export default {
      */
     saveOrUpdate: function () {
       let that = this
-      if (that.wordCount > 100) {
+      if (that.wordCount > 1000) {
         that.$message.error('欢迎语超过最大可输入字数!')
         return
       }
