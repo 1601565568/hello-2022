@@ -104,8 +104,10 @@ function cancelSend () {
 function sendWord () {
   let id = $('.item__radio--selected').attr('id').replace(/[^0-9]/ig, '')
   let content = $('#word' + id).text()
-  let url = '{"type":1,"content":"' + content + '","exit":true}'
-  window.console.log('此次发送的参数=>' + url)
+  window.console.log('未替换前文本=>' + content)
+  let text = content.replace(/\n/g, '<br>')
+  let url = '{"type":1,"content":"' + text + '","exit":true}'
+  window.console.log('替换后文本=>' + text)
   window.location.href = host + url
 }
 /**
