@@ -7,8 +7,8 @@ export default {
     url: '/core/sgshop/getShopByShopIds',
     method: 'post'
   },
-  findShopPageToWelcomeCode: {
-    url: '/core/sgshop/findShopPageToWelcomeCode',
+  findShopListByShopIds: {
+    url: '/core/sgshop/findShopListByShopIds',
     method: 'post'
   },
   getShopTree: {

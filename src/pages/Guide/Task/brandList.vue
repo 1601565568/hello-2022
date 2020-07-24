@@ -288,6 +288,7 @@ export default {
 }
 </script>
 <style scoped>
+
   @import "@theme/variables.pcss";
 
   .btn-detele {
