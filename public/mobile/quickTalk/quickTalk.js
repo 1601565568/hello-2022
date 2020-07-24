@@ -104,10 +104,10 @@ function cancelSend () {
 function sendWord () {
   let id = $('.item__radio--selected').attr('id').replace(/[^0-9]/ig, '')
   let content = $('#word' + id).text()
-  window.console.log('未替换转义换行符=>' + content)
-  let text = content.replace(/\n/g, codeCompile('<br>'))
-  let url = '{"type":1,"content":"' + text + '","exit":true}'
-  window.console.log('转义换行符=>' + text)
+  // window.console.log('未替换转义换行符=>' + content)
+  // let text = content.replace(/\n/g, codeCompile('<br>'))
+  let url = '{"type":1,"content":"' + content + '","exit":true}'
+  // window.console.log('转义换行符=>' + text)
   window.location.href = host + url
 }
 /**
