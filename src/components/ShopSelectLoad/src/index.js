@@ -155,6 +155,11 @@ export default {
         }
       }
     },
+    handleVisibleChange (visible) {
+      if (!visible) {
+        this.remoteMethod('')
+      }
+    },
     remoteMethod (condition) {
       this.shopName = condition
       this.currentPage = 1
