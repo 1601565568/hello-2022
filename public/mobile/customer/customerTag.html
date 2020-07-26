@@ -161,6 +161,10 @@
             let isMark = propertyInfo.isMark
             let id = propertyInfo.id
             let unit = propertyInfo.unit
+            let isShow = propertyInfo.isShow
+            if (isShow == 0) {
+              continue
+            }
             if (!unit){
               unit = ''
             }
