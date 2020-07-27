@@ -8,16 +8,33 @@ export default {
   },
   'children': [
     {
-      'path': '/Guide/Material/imageText',
+      'path': '/Guide/Material/Library',
       'name': 'SHOP_MARKETING2',
       'title': '内容运营',
       'component': () => import('@nascent/ecrp-ecrm/src/layout/Content.vue'),
       'children': [
         {
-          'path': '/Guide/Meterial/Library',
-          'name': 'MaterialLibrary',
+          'path': '/Guide/Material/Library',
+          'name': 'Library',
           'title': '素材库',
-          'component': () => import('@/pages/Guide/Material/Library')
+          'component': () => import('@nascent/ecrp-ecrm/src/layout/ContentOnly.vue'),
+          'redirect': {
+            'name': 'LibraryList'
+          },
+          'children': [
+            {
+              'path': '/Guide/Material/Library',
+              'name': 'LibraryList',
+              'title': '素材库列表',
+              'component': () => import('@/pages/Guide/Material/Library/Index.vue')
+            },
+            {
+              'path': '/Guide/Material/Edit',
+              'name': 'LibraryEdit',
+              'title': '编辑素材',
+              'component': () => import('@/pages/Guide/Material/Library/Edit.vue')
+            }
+          ]
         },
         {
           'path': '/Guide/Material/imageText',
