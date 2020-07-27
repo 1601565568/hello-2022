@@ -10,26 +10,34 @@ export default {
     {
       'path': '/Guide/Material/imageText',
       'name': 'SHOP_MARKETING2',
-      'title': '素材库',
+      'title': '内容运营',
       'component': () => import('@nascent/ecrp-ecrm/src/layout/Content.vue'),
-      'children': [{
-        'path': '/Guide/Material/imageText',
-        'name': 'MATERIAL',
-        'title': '图文素材',
-        'component': () => import('@/pages/Guide/Material/imageText.vue')
-      },
-      {
-        'path': '/Guide/Material/article',
-        'name': 'MaterialArticle ',
-        'title': '文章素材',
-        'component': () => import('@/pages/Guide/Material/article.vue')
-      },
-      {
-        'path': '/Guide/Material/subdivision',
-        'name': 'MaterialSubdivision',
-        'title': '素材分组',
-        'component': () => import('@/pages/Guide/Material/subdivision.vue')
-      }]
+      'children': [
+        {
+          'path': '/Guide/Meterial/Library',
+          'name': 'MaterialLibrary',
+          'title': '素材库',
+          'component': () => import('@/pages/Guide/Material/Library')
+        },
+        {
+          'path': '/Guide/Material/imageText',
+          'name': 'MATERIAL',
+          'title': '图文素材',
+          'component': () => import('@/pages/Guide/Material/imageText.vue')
+        },
+        {
+          'path': '/Guide/Material/article',
+          'name': 'MaterialArticle ',
+          'title': '文章素材',
+          'component': () => import('@/pages/Guide/Material/article.vue')
+        },
+        {
+          'path': '/Guide/Material/subdivision',
+          'name': 'MaterialSubdivision',
+          'title': '素材分组',
+          'component': () => import('@/pages/Guide/Material/subdivision.vue')
+        }
+      ]
     },
     {
       'path': '/Guide/SgCoupon/CouponList',
