@@ -121,7 +121,7 @@ export default {
       this.updateDataisShow = false
       this.saveObj.type = data.type
       this.saveObj.year = data.year
-      if (data.type === '1') {
+      if (data.type !== '0') {
         this.type0 = false
         this.type1 = true
       } else {
