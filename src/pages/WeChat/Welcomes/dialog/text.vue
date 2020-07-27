@@ -75,7 +75,7 @@ export default {
         content: [
           // { required: true, message: '请输入内容', trigger: 'blur' },
           { required: true, validator: this.contentCheck, trigger: 'blur' },
-          { max: 100, message: '长度在1000个字符以内', trigger: 'blur' }
+          { max: 1000, message: '长度在1000个字符以内', trigger: 'blur' }
         ]
       }
     }
@@ -91,9 +91,13 @@ export default {
     },
     // 添加文本 type=1
     addText () {
+      let that = this.model
       this.$refs.searchform.validate(valid => {
         if (valid) {
-          this.$emit('addText', this.model)
+          if (that.content && that.content.length > 1000) {
+            return
+          }
+          this.$emit('addText', that)
         }
       })
     },
