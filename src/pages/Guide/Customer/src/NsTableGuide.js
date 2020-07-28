@@ -246,6 +246,12 @@ export default {
               this.$refs.guideTree.setCurrentKey(this.shopFindList[0].id)
             })
             this.onClickNode(this.shopFindList[0])
+          } else {
+            this._data._table.data = []
+            this._data._pagination.total = 0
+            this.shuJushuzu.id = ''
+            this.offLineShopId = ''
+            this.$emit('offLineShopId', this.offLineShopId)
           }
         }
       }).catch((resp) => {
@@ -260,6 +266,7 @@ export default {
         if (document.getElementsByClassName('subdivision-tree-node')[index].children.length === 1) {
           let statusInfo = document.createElement('span')
           statusInfo.className = 'text-error'
+          statusInfo.style = 'display:inline;margin-left:8px'
           if (item.ext1 && item.ext1 === -1) {
             statusInfo.innerText = '(暂停)'
           }
@@ -308,7 +315,7 @@ export default {
     '$handleParams': function (params) {
       var _this = this
       if (_this.shuJushuzu.parentId === '0') {
-        params.searchMap.shopId = Number(_this.shuJushuzu.id)
+        params.searchMap.shopId = _this.shuJushuzu.id === '' ? null : Number(_this.shuJushuzu.id)
       } else {
         params.searchMap.guideId = Number(_this.shuJushuzu.id)
         params.searchMap.shopId = Number(_this.shuJushuzu.parentId)
