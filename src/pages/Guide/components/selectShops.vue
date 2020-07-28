@@ -299,6 +299,8 @@ export default {
      * 级联改造 end
      * */
     resetInputAction () { // 重置功能
+      this.param.shopId = null
+      this.param.shopCate = 0
       this.model.shopName = null
       this.model.area = []
       this.model.shopType = null
