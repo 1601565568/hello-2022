@@ -6,50 +6,43 @@
     :close-on-press-escape='true'
     :close-on-click-modal='false'
     :visible.sync="dialogVisible"
-    width="900px"
+    width="928px"
     :response-limit=false
     append-to-body
     :before-close="handleClose">
-      <div class="content">
+      <div class="content clearfix">
         <div class="searchAction">
           <div class="searchAction_top">
             <el-form ref="table_filter_form" :model="model" label-width="64px" :inline="true">
-              <el-form-item>
-                <el-form-item>
-                  <el-form-grid><div style="margin-left: 20px;">工作门店：</div></el-form-grid>
-                  <el-form-grid >
+                <el-form-item label="工作门店：">
+                  <el-form-grid>
                     <ns-droptree ref="shopCateTree" placeholder="请选择门店分类" :lazy="true" :load="loadShopCateNode"  :multiple="false" v-model="param.shopCate"  clearable></ns-droptree>
                   </el-form-grid>
-                  <el-form-grid style="margin-left:10px">
+                  <el-form-grid style="margin-left: 5px">
                     <el-select-load v-model="param.shopId" :options="shopOptions"  filterable clearable :page-sizes="20" placeholder="选择门店">
                     </el-select-load>
                   </el-form-grid>
                 </el-form-item>
-                <el-form-grid>
-                  <el-form-item label="外部店铺编码：" prop="area">
-<!--                    <i class="iconfont icon-shujuyingxiao2"></i>-->
-                    <ns-button  type="primary" @click="taskStoreFile">放大镜</ns-button>
-                    <em>{{storeInfo.successSize}}</em>店
-                    <ns-button type="primary" @click="searchAction(searchform)">搜索</ns-button>
-                    <ns-button @click="resetInputAction(searchform)">重置</ns-button>
-                    <ns-button @click="onSelectAllData">全选</ns-button>
-                  </el-form-item>
-                </el-form-grid>
-                <el-form-grid>
-                  <el-form-item label="门店类型：">
-                    <el-select placeholder="请选择门店类型" v-model="model.shopType" clearable filterable>
-                      <el-option v-for="shop in shopLeiXing" :label="shop.label" :value="shop.value"
-                                 :key="shop.value"></el-option>
-                    </el-select>
-                  </el-form-item>
-                </el-form-grid>
-                <el-form-grid>
-                  <el-form-item label="所属地区：" prop="area">
-                    <ns-area  :props="searchform.key" @change="onAreaChange" v-model="model.area" clearable></ns-area>
-                  </el-form-item>
-                </el-form-grid>
-              </el-form-item>
+                <el-form-item label="门店类型：">
+                  <el-select placeholder="请选择门店类型" v-model="model.shopType" clearable filterable>
+                    <el-option v-for="shop in shopLeiXing" :label="shop.label" :value="shop.value"
+                                :key="shop.value"></el-option>
+                  </el-select>
+                </el-form-item>
+                <el-form-item label="所属地区：" >
+                  <ns-area :props="searchform.key" @change="onAreaChange" v-model="model.area" clearable></ns-area>
+                </el-form-item>
+                <el-form-item label="外部店铺编码：" class="selectShopBox-form__extraLabel">
+                  <ns-button type="primary" @click="taskStoreFile">选择</ns-button>
+                  <span class="selectShopBox-form__extraNum">{{storeInfo.successSize}}</span>
+                  <span>家</span>
+                </el-form-item>
             </el-form>
+            <div class="selectShopBox-form__btns">
+              <ns-button type="primary" @click="searchAction(searchform)">搜索</ns-button>
+              <ns-button @click="resetInputAction(searchform)">重置</ns-button>
+              <ns-button @click="onSelectAllData">全选</ns-button>
+            </div>
           </div>
         </div>
         <div class="tableBox">
@@ -65,7 +58,6 @@
               @select-all="onSelectAll"
               @selection-change="changeFun" stripe>
               <el-table-column type="selection" align="center" :width="50" ></el-table-column>
-<!--              :reserve-selection="true"-->
               <el-table-column prop="shopName"  label="门店名称"></el-table-column>
             </el-table>
           </el-scrollbar>
@@ -613,25 +605,35 @@ export default {
       }
     }
   }
+  @b form {
+    @e extraLabel {
+      margin-left: 5px;
+      >>> .el-form-item__label {
+        width: auto !important;
+      }
+    }
+    @e extraNum {
+      padding: 0 6px;
+      color: #ff3d45;
+    }
+    @e btns {
+      position: absolute;
+      top: 0;
+      right: 0;
+    }
+  }
 }
 </style>
 <style scoped>
   .searchAction{
     display: flex;
     justify-content: space-between;
-    padding-right:20px
   }
   .searchAction_top{
-    margin-top:6px
-  }
-  /*.scrollbara >>> .el-scrollbar__view {*/
-  /*  max-height: 400px;*/
-  /*}*/
-  /*.scrollbarb >>> .el-scrollbar__view {*/
-  /*  max-height: 300px;*/
-  /*}*/
-  >>> .el-dialog__body {
-    height: 440px;
+    position: relative;
+    margin-top: 6px;
+    padding-right: 230px;
+    padding-bottom: 10px;
   }
   >>> .el-scrollbar__wrap {
     height: 380px;
