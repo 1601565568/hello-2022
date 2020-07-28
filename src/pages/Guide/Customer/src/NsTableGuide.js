@@ -107,6 +107,9 @@ export default {
     moment (time) {
       return moment(time).format('YYYY-MM-DD HH:mm:ss')
     },
+    changeShopStatus () {
+      this.initShopList()
+    },
     onClickNode (data) {
       var _this = this
       if (this._data._table.data.length > 0) {

@@ -7,7 +7,7 @@
       </el-input>
       <div style="display: flex;padding-left: 8px">
         <p style="margin-right: 5px">状态:</p>
-        <el-checkbox-group v-model="checkStatusList">
+        <el-checkbox-group @change="changeShopStatus" v-model="checkStatusList">
           <el-checkbox label =  '1' >正常</el-checkbox>
           <el-checkbox label = '-1' >暂停</el-checkbox>
           <el-checkbox label = '-2' >关店</el-checkbox>
