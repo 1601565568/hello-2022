@@ -64,6 +64,8 @@ export default {
     handleSave () {
       this.$refs.form.validate((valid) => {
         if (valid) {
+          this.$emit('refresh')
+          this.hide()
           // console.log(this.model)
         }
       })

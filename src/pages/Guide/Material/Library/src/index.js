@@ -4,11 +4,12 @@ import ElBreadcrumbItem from '@nascent/nui/lib/breadcrumb-item'
 import ShopSelectLoad from '@/components/ShopSelectLoad'
 import TableItem from '../components/TableItem'
 import NewFolder from '../components/NewFolder'
+import FolderTree from '../components/FolderTree'
 import scrollTable from '@/mixins/scrollTable'
 import { getErrorMsg } from '@/utils/toast'
 
 export default {
-  components: { ShopSelectLoad, ElBreadcrumb, ElBreadcrumbItem, TableItem, NewFolder },
+  components: { ShopSelectLoad, ElBreadcrumb, ElBreadcrumbItem, TableItem, NewFolder, FolderTree },
   mixins: [tableMixin, scrollTable],
   data: function () {
     return {
@@ -42,7 +43,9 @@ export default {
         },
         {
           'name': '移动到',
-          'func': () => {},
+          'func': () => {
+            this.$refs.folderTree.show()
+          },
           'icon': 'yidongdao',
           'visible': false
         },

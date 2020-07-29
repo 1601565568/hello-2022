@@ -219,6 +219,7 @@
       </template>
     </ns-page-table>
     <new-folder ref="newFolder"></new-folder>
+    <folder-tree ref="folderTree"></folder-tree>
   </div>
 </template>
 <script>
@@ -275,8 +276,9 @@ export default Index
             margin-left: var(--default-margin-larger);
           }
         }
-        .el-breadcrumb__item:last-child {
-          .el-breadcrumb__inner {
+        .el-breadcrumb__item {
+          line-height: 28px;
+          &:last-child .el-breadcrumb__inner {
             color: #303133;
             span:last-child {
               color: var(--theme-font-color-regular);
