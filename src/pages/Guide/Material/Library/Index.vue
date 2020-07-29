@@ -220,6 +220,7 @@
     </ns-page-table>
     <new-folder ref="newFolder"></new-folder>
     <folder-tree ref="folderTree"></folder-tree>
+    <label-make ref="labelMake"></label-make>
   </div>
 </template>
 <script>

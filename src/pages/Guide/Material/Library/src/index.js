@@ -5,11 +5,12 @@ import ShopSelectLoad from '@/components/ShopSelectLoad'
 import TableItem from '../components/TableItem'
 import NewFolder from '../components/NewFolder'
 import FolderTree from '../components/FolderTree'
+import LabelMake from '../components/LabelMake'
 import scrollTable from '@/mixins/scrollTable'
 import { getErrorMsg } from '@/utils/toast'
 
 export default {
-  components: { ShopSelectLoad, ElBreadcrumb, ElBreadcrumbItem, TableItem, NewFolder, FolderTree },
+  components: { ShopSelectLoad, ElBreadcrumb, ElBreadcrumbItem, TableItem, NewFolder, FolderTree, LabelMake },
   mixins: [tableMixin, scrollTable],
   data: function () {
     return {
@@ -37,7 +38,9 @@ export default {
         },
         {
           'name': '打标签',
-          'func': () => {},
+          'func': () => {
+            this.$refs.labelMake.show(this.selectRows, this.labelList)
+          },
           'icon': 'dabiaoqian',
           'visible': false
         },
@@ -130,7 +133,7 @@ export default {
             content: '视频内容',
             create_time: '2020-07-21 18:25:06',
             id: 897,
-            videoUrl: 'https://www.w3school.com.cn/i/movie.ogg',
+            videoUrl: 'https://v-cdn.zjol.com.cn/276985.mp4',
             m_type: 2,
             source_name: '研发二部4',
             subdivision_id: 22,

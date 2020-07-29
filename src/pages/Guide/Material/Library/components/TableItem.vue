@@ -22,11 +22,11 @@
         </ul>
       </div>
       <!-- 视频素材 -->
-      <div v-if="data.m_type === 2 && data.videoUrl" class="tableItem-content__vedioBox" @click="toPlay">
-        <video ref="videoPlayer" :src="data.videoUrl">
+      <div v-if="data.m_type === 2 && data.videoUrl" class="tableItem-content__vedioBox" @click="previewVideo">
+        <video :src="data.videoUrl">
           您的浏览器暂不支持播放该视频，请升级至最新版浏览器。
         </video>
-        <div v-if="!display" class="tableItem-video__mask">
+        <div class="tableItem-video__mask">
           <div class="tableItem-video__wrapper">
             <Icon type="begin" />
           </div>
@@ -52,15 +52,18 @@
     >
       <div class="tableItem-dialog__wrapper">
         <div class="tableItem-dialog__content">
-          <img :src="imageList ? imageList[currentIndex] : null" alt="">
+          <img v-if="type === 'img'" :src="imageList ? imageList[currentIndex] : null" alt="">
+          <video v-else ref="videoPlayer" :src="data.videoUrl" controls>
+            您的浏览器暂不支持播放该视频，请升级至最新版浏览器。
+          </video>
         </div>
-        <ul class="tableItem-dialog__list">
+        <ul v-if="type === 'img'" class="tableItem-dialog__list">
           <li v-for="(item, index) in imageList" :key="index" @click="goto(index)">
             <img :class="{'active': index === currentIndex }" :src="item">
           </li>
         </ul>
-        <div class="tableItem-dialog__left" @click="prevTo()"></div>
-        <div class="tableItem-dialog__right" @click="nextTo()"></div>
+        <div v-if="type === 'img'" class="tableItem-dialog__left" @click="prevTo()"></div>
+        <div v-if="type === 'img'" class="tableItem-dialog__right" @click="nextTo()"></div>
       </div>
     </el-dialog>
   </div>
@@ -80,7 +83,8 @@ export default {
     return {
       visible: false,
       currentIndex: 0,
-      display: false
+      type: 'img',
+      vedio: null
     }
   },
   computed: {
@@ -88,36 +92,20 @@ export default {
       return this.data.imageList || []
     }
   },
-  mounted () {
-    this.bindEvent()
-  },
-  beforeDestroy () {
-    this.removeEvent()
-  },
   methods: {
-    bindEvent () {
-      if (this.data.m_type === 2 && this.data.videoUrl) {
-        this.$refs.videoPlayer.addEventListener('ended', this.setDisplay)
-      }
-    },
-    removeEvent () {
-      if (this.data.m_type === 2 && this.data.videoUrl) {
-        this.$refs.videoPlayer.removeEventListener('ended', this.setDisplay)
-      }
-    },
-    setDisplay () {
-      this.display = false
-    },
-    toPlay () {
-      this.display ? this.$refs.videoPlayer.pause() : this.$refs.videoPlayer.play()
-      this.display = !this.display
-    },
     hidePreview () {
+      this.$refs.videoPlayer && this.$refs.videoPlayer.pause()
       this.visible = false
     },
     previewImg (index) {
+      this.type = 'img'
       this.visible = true
       this.currentIndex = index
+    },
+    previewVideo () {
+      this.type = 'video'
+      this.visible = true
+      this.videoUrl = this.data.videoUrl
     },
     goto (index) {
       this.currentIndex = index
@@ -254,6 +242,7 @@ export default {
           margin: 0 auto;
           vertical-align: middle;
         }
+        video {}
       }
       @e list {
         width: 80%;
@@ -321,6 +310,7 @@ export default {
         position: fixed;
         right: 6px;
         top: 0;
+        z-index: 10000;
       }
       .el-dialog__headerbtn {
         font-size: 26px !important;

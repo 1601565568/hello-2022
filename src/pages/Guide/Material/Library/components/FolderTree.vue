@@ -113,6 +113,7 @@ export default {
         label: 'label',
         children: 'children'
       },
+      catalogue: [],
       selected: null
     }
   },
@@ -127,11 +128,27 @@ export default {
     },
     hide () {
       this.visible = false
+      this.catalogue = []
+      this.selected = null
+      this.$refs.folderTree.setCheckedKeys([])
     },
-    onSelect (data) {
-      console.log({ ...data })
+    onSelect (data, node) {
+      if (data.disabled) {
+        return
+      }
       this.$refs.folderTree.setCheckedKeys([data.id])
       this.selected = data
+      let catalogue = [data]
+      if (data.id !== -1) {
+        while (node.parent) {
+          node = node.parent
+          catalogue.unshift(node.data)
+          if (node.data && node.data.id === -1) {
+            node.parent = null
+          }
+        }
+      }
+      this.catalogue = catalogue
     },
     renderNode (h, { node, data, store }) {
       return (
