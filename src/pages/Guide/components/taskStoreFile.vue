@@ -26,6 +26,7 @@
         <ElTabPane label="文件导入" name="second">
           <ElForm class="form-main">
             <ElUpload
+              ref= "uploadRef"
               :action= "this.$api.core.importFileShopIds()"
               :data="uploadData"
               accept=".xls,.xlsx"
@@ -88,11 +89,14 @@ export default {
   },
   methods: {
     handleClose (done) {
-      this.$confirm('确认关闭？').$http.fetch
-        .then(() => {
-          done()
-        })
-        .catch(() => {})
+      // done()
+      this.dialogVisible = false
+      this.manualValue = null
+      // this.$confirm('确认关闭？').$http.fetch
+      //   .then(() => {
+      //     done()
+      //   })
+      //   .catch(() => {})
     },
     okFun () {
       let temp = this.manualValue
@@ -124,6 +128,7 @@ export default {
     onOpendialog () {
       this.dialogVisible = true
       this.manualValue = null
+      this.$refs.uploadRef.clearFiles()
     },
     onSearch () {
       // console.log('搜索响应')
@@ -142,7 +147,13 @@ export default {
         this.$notify.info('已成功' + response.result.successSize + ',失败' + response.result.failSize + '(失败原因:)')
         // window.console.log('解析excel店铺id=>' + this.storeInfo.ids)
       } else {
-        window.console.log('失败回调' + response.msg)
+        this.$refs.uploadRef.clearFiles()
+        if (response.code === '1') {
+          this.$notify.error('导入文件失败:' + response.msg)
+        } else {
+          this.$notify.error('操作未成功!')
+          window.console.log('失败回调' + response.msg)
+        }
       }
     },
     handleRemove (file, fileList) {
@@ -156,9 +167,11 @@ export default {
     beforeUpload (file, fileList) {
       let fileSuffix = file.name.split('.').pop()
       if (fileSuffix !== 'xls' && fileSuffix !== 'xlsx') {
+        this.$notify.error('导入文件失败:失败原因 上传文件不能超过5M,支持xls/xlsx格式')
         return false
       }
       if (file.size / 1024 / 1024 > 5) {
+        this.$notify.error('导入文件失败:失败原因 上传文件不能超过5M,支持xls/xlsx格式')
         return false
       }
     }
