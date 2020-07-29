@@ -92,6 +92,7 @@ export default {
       // done()
       this.dialogVisible = false
       this.manualValue = null
+      this.$refs.uploadRef.clearFiles()
       // this.$confirm('确认关闭？').$http.fetch
       //   .then(() => {
       //     done()
@@ -99,10 +100,21 @@ export default {
       //   .catch(() => {})
     },
     okFun () {
+      let tempShopArray = []
+      let tempShopStr = []
       let temp = this.manualValue
-      if (temp.startsWith(',') || temp.endsWith(',') || temp.startsWith('，') || temp.endsWith('，')) {
-        this.$notify.info('请输入正确的外部店铺编码')
-        return false
+      console.log('外部编码', temp)
+      if (temp !== '' && temp !== null) {
+        if (temp.startsWith(',') || temp.endsWith(',') || temp.startsWith('，') || temp.endsWith('，')) {
+          this.$notify.info('请输入正确的外部店铺编码')
+          return false
+        } else {
+          tempShopArray = this.manualValue.split(',')
+          tempShopArray.forEach(shop => tempShopStr.push(shop.trim()))
+          this.uploadData.manualStoreIds = tempShopStr.join(',')
+        }
+      } else {
+        this.uploadData.manualStoreIds = ''
       }
       this.$http.fetch(this.$api.guide.importFileAndManual, this.uploadData)
         .then(resp => {
@@ -128,7 +140,9 @@ export default {
     onOpendialog () {
       this.dialogVisible = true
       this.manualValue = null
-      this.$refs.uploadRef.clearFiles()
+      this.$nextTick(function () {
+        this.$refs.uploadRef.clearFiles()
+      })
     },
     onSearch () {
       // console.log('搜索响应')
@@ -144,7 +158,7 @@ export default {
       if (response.success) {
         this.storeInfo = response.result
         this.uploadData.fileKey = response.result.fileKey
-        this.$notify.info('已成功' + response.result.successSize + ',失败' + response.result.failSize + '(失败原因:)')
+        this.$notify.info('已成功' + response.result.successSize + ',失败' + response.result.failSize + '(失败原因:店铺关闭、店铺不在视角下、店铺编码错误等)')
         // window.console.log('解析excel店铺id=>' + this.storeInfo.ids)
       } else {
         this.$refs.uploadRef.clearFiles()
