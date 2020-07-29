@@ -416,6 +416,14 @@ export default {
     },
     // 打开弹窗回显已经选择的门店
     openFun () {
+      this.param.shopId = null
+      this.param.shopCate = 0
+      this.model.shopName = null
+      this.model.area = []
+      this.model.shopType = null
+      this.storeInfo.successSize = 0
+      this.storeInfo.failSize = 0
+      this.storeInfo.fileIds = null
       const self = this
       let params = Object.assign({}, { searchMap: Object.assign({}, this.params) })
       self.loadListFun(params)

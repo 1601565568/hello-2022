@@ -216,8 +216,6 @@ export default {
     beforeUpload (file, fileList) {
       this.loadingIsShow = false
       let fileSuffix = file.name.split('.').pop()
-      console.log('上', fileSuffix)
-      console.log('上', (file.size / 1024 / 1024))
       if (fileSuffix !== 'xls' && fileSuffix !== 'xlsx') {
         this.hintMsgIsShowTextDanger = true
         this.uploadFail = true
