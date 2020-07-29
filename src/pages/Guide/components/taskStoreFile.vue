@@ -33,7 +33,7 @@
               :before-upload="beforeUpload"
               :on-success="onSuccess"
               :on-exceed="handleExceed"
-              multiple
+              :multiple = "false"
               :limit="1">
               <NsButton size="small" type="primary">点击上传</NsButton>
               <div slot="tip" class="el-upload__tip">
@@ -64,7 +64,7 @@ export default {
     return {
       activeName: 'first',
       dialogVisible: false,
-      manualValue: 'ghklht23,xm001,xm002,',
+      manualValue: null,
       uploadData: {
         manualStoreIds: null,
         fileKey: null
@@ -123,6 +123,7 @@ export default {
     },
     onOpendialog () {
       this.dialogVisible = true
+      this.manualValue = null
     },
     onSearch () {
       // console.log('搜索响应')
@@ -155,7 +156,6 @@ export default {
     beforeUpload (file, fileList) {
       let fileSuffix = file.name.split('.').pop()
       if (fileSuffix !== 'xls' && fileSuffix !== 'xlsx') {
-        window.console.log('xls')
         return false
       }
       if (file.size / 1024 / 1024 > 5) {

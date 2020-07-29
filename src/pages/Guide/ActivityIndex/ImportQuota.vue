@@ -214,10 +214,12 @@ export default {
     beforeRemove (file, fileList) {
     },
     beforeUpload (file, fileList) {
+      this.loadingIsShow = false
       let fileSuffix = file.name.split('.').pop()
       if (fileSuffix !== 'xls' && fileSuffix !== 'xlsx') {
         this.hintMsgIsShowTextDanger = true
         this.uploadFail = true
+        this.loadingIsShow = true
         this.uploadSuccee = false
         this.hintMsgIsShow = false
         return false
@@ -226,6 +228,7 @@ export default {
         this.hintMsgIsShowTextDanger = true
         this.hintMsgIsShow = false
         this.uploadFail = true
+        this.loadingIsShow = true
         this.uploadSuccee = false
         return false
       }
