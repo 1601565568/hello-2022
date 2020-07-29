@@ -1,6 +1,6 @@
 <template>
   <div>
-    <ns-page-table :colButton="14">
+    <ns-page-table :colButton="16">
       <!-- 操作按钮 -->
       <template slot="buttons">
         <div class="library-header">
@@ -8,6 +8,7 @@
             v-for="item in operate_buttons"
             :key="item.name"
             :type="item.type"
+            @click="item.func"
           >
             <Icon v-if="item.icon" :type="item.icon"/>
             <span>{{item.name}}</span>
@@ -217,6 +218,7 @@
         </el-pagination>
       </template>
     </ns-page-table>
+    <new-folder ref="newFolder"></new-folder>
   </div>
 </template>
 <script>

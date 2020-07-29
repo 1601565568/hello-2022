@@ -22,19 +22,15 @@
         </ul>
       </div>
       <!-- 视频素材 -->
-      <div v-if="data.m_type === 2" class="tableItem-content__vedioBox">
-         <!-- <video
-          ref="videoPlayer"
-          controls
-          :src=fileUrl
-          :poster=posterUrl
-          controlslist="nodownload"
-          @play="toPlays"
-          @timeupdate="updateTime"
-          @pause = "toPause"
-          :class="[porel,fullwidth,mal,fla,mat,'movie-show-video']"
-          style="width: 100%; height: 100%; object-fit: fill">
-        </video> -->
+      <div v-if="data.m_type === 2 && data.videoUrl" class="tableItem-content__vedioBox" @click="toPlay">
+        <video ref="videoPlayer" :src="data.videoUrl">
+          您的浏览器暂不支持播放该视频，请升级至最新版浏览器。
+        </video>
+        <div v-if="!display" class="tableItem-video__mask">
+          <div class="tableItem-video__wrapper">
+            <Icon type="begin" />
+          </div>
+        </div>
       </div>
       <!-- 文章素材 -->
       <div v-if="data.m_type === 0" class="tableItem-content__articleBox">
@@ -49,7 +45,7 @@
     <!-- 查看大图 -->
     <el-dialog
       :visible.sync="visible"
-      :before-close="handleClose"
+      :before-close="hidePreview"
       :close-on-click-modal=false
       customClass="custom-dialog"
       :append-to-body="appendToBody"
@@ -83,7 +79,8 @@ export default {
   data () {
     return {
       visible: false,
-      currentIndex: 0
+      currentIndex: 0,
+      display: false
     }
   },
   computed: {
@@ -91,8 +88,31 @@ export default {
       return this.data.imageList || []
     }
   },
+  mounted () {
+    this.bindEvent()
+  },
+  beforeDestroy () {
+    this.removeEvent()
+  },
   methods: {
-    handleClose () {
+    bindEvent () {
+      if (this.data.m_type === 2 && this.data.videoUrl) {
+        this.$refs.videoPlayer.addEventListener('ended', this.setDisplay)
+      }
+    },
+    removeEvent () {
+      if (this.data.m_type === 2 && this.data.videoUrl) {
+        this.$refs.videoPlayer.removeEventListener('ended', this.setDisplay)
+      }
+    },
+    setDisplay () {
+      this.display = false
+    },
+    toPlay () {
+      this.display ? this.$refs.videoPlayer.pause() : this.$refs.videoPlayer.play()
+      this.display = !this.display
+    },
+    hidePreview () {
       this.visible = false
     },
     previewImg (index) {
@@ -156,7 +176,19 @@ export default {
           }
         }
       }
-      @e vedioBox {}
+      @e vedioBox {
+        position: relative;
+        width: 107px;
+        height: 60px;
+        font-size: 0;
+        line-height: 1;
+        video {
+          width: 100%;
+          height: 100%;
+          border-radius: 3px;
+          object-fit: cover;
+        }
+      }
       @e articleBox {
         position: relative;
         padding: 5px;
@@ -173,6 +205,33 @@ export default {
           right: 7px;
           left: 60px;
           transform: translate(0, -50%);
+        }
+      }
+    }
+    @b video {
+      @e mask {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(255, 255, 255, .2);
+      }
+      @e wrapper {
+        position: relative;
+        top: 50%;
+        left: 50%;
+        margin-left: -11px;
+        margin-top: -11px;
+        width: 22px;
+        height: 22px;
+        border-radius: 22px;
+        background-color: rgba(255, 255, 255, .5);
+        > svg {
+          margin-top: 5px;
+          font-size: 12px;
+          color: #fff;
+          margin-left: 6px;
         }
       }
     }

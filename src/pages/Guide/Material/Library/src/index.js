@@ -3,11 +3,12 @@ import ElBreadcrumb from '@nascent/nui/lib/breadcrumb'
 import ElBreadcrumbItem from '@nascent/nui/lib/breadcrumb-item'
 import ShopSelectLoad from '@/components/ShopSelectLoad'
 import TableItem from '../components/TableItem'
+import NewFolder from '../components/NewFolder'
 import scrollTable from '@/mixins/scrollTable'
 import { getErrorMsg } from '@/utils/toast'
 
 export default {
-  components: { ShopSelectLoad, ElBreadcrumb, ElBreadcrumbItem, TableItem },
+  components: { ShopSelectLoad, ElBreadcrumb, ElBreadcrumbItem, TableItem, NewFolder },
   mixins: [tableMixin, scrollTable],
   data: function () {
     return {
@@ -18,12 +19,14 @@ export default {
           'type': 'primary',
           'visible': true,
           'func': () => {
-            console.log(this.data)
+            // console.log(this.selectRows)
           }
         },
         {
           'name': '新建文件夹',
-          'func': () => {},
+          'func': () => {
+            this.$refs.newFolder.show()
+          },
           'visible': true
         },
         {
@@ -45,7 +48,9 @@ export default {
         },
         {
           'name': '删除',
-          'func': () => {},
+          'func': () => {
+            this.batchRemove()
+          },
           'icon': 'shanchu',
           'visible': false
         }
@@ -122,11 +127,7 @@ export default {
             content: '视频内容',
             create_time: '2020-07-21 18:25:06',
             id: 897,
-            imageList: [
-              'https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/202007/10000146/bc7da31c-f9b1-46d8-b3ae-afcacc558a70.png',
-              'https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/202007/10000146/3dfe7609-a54b-4b0d-954e-dfb1a38f9f99.jpg'
-            ],
-            vedioUrl: '',
+            videoUrl: 'https://www.w3school.com.cn/i/movie.ogg',
             m_type: 2,
             source_name: '研发二部4',
             subdivision_id: 22,
@@ -140,11 +141,18 @@ export default {
           },
           {
             'name': '编辑',
-            'func': (scope) => {}
+            'func': (scope) => {
+              const { type, title, id } = scope.row
+              if (type === 0) {
+                this.$refs.newFolder.show({ type: 'edit', model: { folderName: title, folderId: id } })
+              }
+            }
           },
           {
             'name': '删除',
-            'func': (scope) => {}
+            'func': (scope) => {
+              this.removeItem(scope.row)
+            }
           }
         ]
       },
@@ -163,8 +171,7 @@ export default {
       labelList: [],
       typeList: [{ name: '全部', id: '' }, { name: '图文素材', id: 1 }, { name: '视频素材', id: 2 }, { name: '文章素材', id: 0 }],
       codeTypeList: [{ name: '全部', id: '' }, { name: '带码', id: 1 }, { name: '不带码', id: 2 }],
-      breadcrumb: [{ name: '素材库', id: -1 }, { name: '其他', id: 0 }],
-      selected: []
+      breadcrumb: [{ name: '素材库', id: -1 }, { name: '其他', id: 0 }]
     }
   },
   computed: {
@@ -177,7 +184,31 @@ export default {
   },
   methods: {
     searchAction () {
-      console.log('========开始搜索')
+      // console.log('========开始搜索')
+    },
+    removeItem (row) {
+      const { type } = row
+      this.$confirm(`此操作将永久删除该${type === 0 ? '文件夹' : '条数据'}，是否继续？`, '删除确认', {
+        type: 'warning',
+        cancelButtonText: '取消',
+        confirmButtonText: '确定'
+      }).then(() => {
+        // console.log('=====removeItem：', row)
+      }).catch(() => {})
+    },
+    batchRemove () {
+      let numArr = [{ num: 0, suffix: '条素材' }, { num: 0, suffix: '个文件夹' }]
+      this.selectRows.forEach(o => {
+        o.type === 0 ? numArr[1].num++ : numArr[0].num++
+      })
+      let strArr = numArr.map(o => o.num ? `${o.num}${o.suffix}` : '').filter(s => !!s)
+      this.$confirm(`已选择${strArr.join('、')}，确认要删除吗？`, '删除确认', {
+        type: 'warning',
+        cancelButtonText: '取消',
+        confirmButtonText: '确定'
+      }).then(() => {
+        // console.log('=====removeItem：', selectRows)
+      }).catch(() => {})
     },
     async getLabelList () {
       await this.$http
