@@ -22,6 +22,9 @@
               placeholder="手动输入外部店铺编码"
               v-model="manualValue" />
           </ElForm>
+          <div class="tmp-tips text-warning"><Icon type="exclamation-circle" theme="outlined" />
+            输入多个外部店铺编码用“,”隔开
+          </div>
         </ElTabPane>
         <ElTabPane label="文件导入" name="second">
           <ElForm class="form-main">
