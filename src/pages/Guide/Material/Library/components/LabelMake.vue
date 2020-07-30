@@ -3,7 +3,7 @@
     :title="title"
     :visible.sync="visible"
     :before-close="hide"
-    :close-on-click-modal=false
+    :close-on-click-modal="false"
     :append-to-body="appendToBody"
     customClass="labelmake-dialog"
   >
@@ -55,7 +55,7 @@ export default {
       model: { subdivisionId: null },
       rules: {
         subdivisionId: [
-          { required: true, message: '请选择标签' }
+          { required: true, message: '请选择标签', trigger: 'blur' }
         ]
       }
     }
@@ -74,7 +74,6 @@ export default {
     show (selectRows = [], labelList = []) {
       this.visible = true
       this.selectRows = selectRows
-      this.model = { subdivisionId: null }
       this.list = labelList
       if (!this.list.length) {
         this.loadList()
@@ -108,8 +107,7 @@ export default {
       right: 30px !important;
     }
     .el-dialog__body {
-      padding: 0 30px !important;
-      .el-input__inner {
+      .el-input {
         width: 368px;
       }
     }
@@ -119,7 +117,7 @@ export default {
   }
   >>> .labelmake-dialog__wrapper {
     margin-top: 10px;
-    padding-bottom: 40px;
+    padding: 0 20px 40px;
   }
 }
 </style>

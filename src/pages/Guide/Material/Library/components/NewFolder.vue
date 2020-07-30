@@ -3,7 +3,7 @@
     :title="title"
     :visible.sync="visible"
     :before-close="hide"
-    :close-on-click-modal=false
+    :close-on-click-modal="false"
     :append-to-body="appendToBody"
     customClass="folder-dialog"
   >
@@ -14,6 +14,7 @@
               v-model="model.folderName"
               placeholder="限制长度4-10个字符"
               style="width: 256px"
+              clearable
             ></el-input>
         </el-form-item>
       </el-form>
@@ -45,8 +46,8 @@ export default {
       },
       rules: {
         folderName: [
-          { required: true, message: '请输入文件夹名称' },
-          { min: 4, max: 10, message: '长度在 4 到 10 个字符' }
+          { required: true, message: '请输入文件夹名称', trigger: 'blur' },
+          { min: 4, max: 10, message: '长度在 4 到 10 个字符', trigger: 'blur' }
         ]
       }
     }
@@ -84,15 +85,12 @@ export default {
     top: 20px !important;
     right: 30px !important;
   }
-  .el-dialog__body {
-    padding: 0 30px !important;
-  }
   .el-dialog__footer {
     padding: 10px 30px 20px !important;
   }
 }
 >>> .folder-dialog__wrapper {
   margin-top: 10px;
-  padding-bottom: 40px;
+  padding: 0 20px 40px;
 }
 </style>

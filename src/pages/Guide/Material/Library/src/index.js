@@ -5,12 +5,13 @@ import ShopSelectLoad from '@/components/ShopSelectLoad'
 import TableItem from '../components/TableItem'
 import NewFolder from '../components/NewFolder'
 import FolderTree from '../components/FolderTree'
+import LabelManage from '../components/LabelManage'
 import LabelMake from '../components/LabelMake'
 import scrollTable from '@/mixins/scrollTable'
 import { getErrorMsg } from '@/utils/toast'
 
 export default {
-  components: { ShopSelectLoad, ElBreadcrumb, ElBreadcrumbItem, TableItem, NewFolder, FolderTree, LabelMake },
+  components: { ShopSelectLoad, ElBreadcrumb, ElBreadcrumbItem, TableItem, NewFolder, FolderTree, LabelManage, LabelMake },
   mixins: [tableMixin, scrollTable],
   data: function () {
     return {
@@ -33,7 +34,9 @@ export default {
         },
         {
           'name': '标签管理',
-          'func': () => {},
+          'func': () => {
+            this.$refs.labelManage.show()
+          },
           'visible': true
         },
         {

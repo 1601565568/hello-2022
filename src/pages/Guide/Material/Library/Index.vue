@@ -58,7 +58,7 @@
           <el-form-item label="发布时间：">
             <el-date-picker
               v-model="model.time"
-              type="daterange"
+              type="datetimerange"
               range-separator="至"
               start-placeholder="请输入开始日期"
               end-placeholder="请输入结束日期">
@@ -221,6 +221,7 @@
     <new-folder ref="newFolder"></new-folder>
     <folder-tree ref="folderTree"></folder-tree>
     <label-make ref="labelMake"></label-make>
+    <label-manage ref="labelManage"></label-manage>
   </div>
 </template>
 <script>

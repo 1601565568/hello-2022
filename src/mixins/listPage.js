@@ -20,7 +20,7 @@ export default {
         // 分页对象
         enable: true,
         size: 15,
-        sizeOpts: [15, 50, 100, 200],
+        sizeOpts: [15, 25, 50, 100],
         page: 1,
         total: 0
       }

@@ -233,7 +233,7 @@ export default {
   @b tree {
     @e wrapper {
       min-height: 270px;
-      padding-bottom: 20px;
+      padding: 0 20px 20px;
     }
     @e btn {
       float: left;
@@ -247,9 +247,6 @@ export default {
     .el-dialog__headerbtn {
       top: 20px !important;
       right: 30px !important;
-    }
-    .el-dialog__body {
-      padding: 0 30px !important;
     }
     .el-dialog__footer {
       padding: 10px 30px 20px !important;
