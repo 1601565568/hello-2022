@@ -24,7 +24,7 @@
                   </el-form-grid>
                 </el-form-item>
                 <el-form-item label="门店类型：">
-                  <el-select placeholder="请选择门店类型" v-model="model.shopType" clearable filterable>
+                  <el-select placeholder="请选择门店类型" v-model="model.shopType" clearable>
                     <el-option v-for="shop in shopLeiXing" :label="shop.label" :value="shop.value"
                                 :key="shop.value"></el-option>
                   </el-select>
@@ -305,7 +305,8 @@ export default {
     },
     taskStoreFileBack (val) {
       this.storeInfo = val
-      // window.console.log('上传EXCEL回调的数据=>' + this.storeInfo)
+      // window.console.log('上传EXCEL回调的数据=>' + val.successSize)
+      // window.console.log('上传EXCEL回调的数据=>' + this.storeInfo.successSize)
     },
     taskStoreFile () {
       this.$nextTick(() => {

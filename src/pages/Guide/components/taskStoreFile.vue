@@ -78,7 +78,7 @@ export default {
       storeInfo: {
         successSize: 0,
         failSize: 0,
-        ids: null
+        fileIds: null
       }
     }
   },
@@ -123,6 +123,7 @@ export default {
         .then(resp => {
           if (resp.success) {
             this.$notify.info('已成功' + resp.result.successSize + ',失败' + resp.result.failSize + '(失败原因:店铺关闭、店铺不在视角下、店铺编码错误等)')
+            this.storeInfo = resp.result
             this.$emit('callBack', this.storeInfo)
             this.dialogVisible = false
           }
