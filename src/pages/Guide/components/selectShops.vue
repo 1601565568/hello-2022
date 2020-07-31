@@ -16,7 +16,7 @@
             <el-form ref="table_filter_form" :model="model" label-width="64px" :inline="true">
                 <el-form-item label="工作门店：">
                   <el-form-grid>
-                    <ns-droptree ref="shopCateTree" placeholder="请选择门店分类" :lazy="true" :load="loadShopCateNode"  :multiple="false" v-model="param.shopCate"  clearable></ns-droptree>
+                    <ns-droptree ref="shopCateTree" placeholder="请选择门店分类" :lazy="false" :load="loadShopCateNode"  :multiple="false" v-model="param.shopCate"  clearable></ns-droptree>
                   </el-form-grid>
                   <el-form-grid style="margin-left: 5px">
                     <el-select-load v-model="param.shopId" :options="shopOptions"  filterable clearable :page-sizes="20" placeholder="选择门店">
