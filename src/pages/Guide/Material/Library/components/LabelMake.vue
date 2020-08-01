@@ -18,9 +18,9 @@
           >
             <el-option
               v-for="item in list"
-              :key="item.subdivision_id"
-              :label="item.subdivision_name"
-              :value="item.subdivision_id">
+              :key="item.subdivisionId"
+              :label="item.subdivisionName"
+              :value="item.subdivisionId">
             </el-option>
           </el-select>
         </el-form-item>
@@ -83,7 +83,16 @@ export default {
       this.visible = false
       this.$refs.form.resetFields()
     },
-    loadList () {},
+    loadList () {
+      this.$http
+        .fetch(this.$api.guide.materialGroudListAll, {})
+        .then(resp => {
+          this.list = resp.result
+        })
+        .catch(resp => {
+          this.$notify.error(getErrorMsg('查询失败', resp))
+        })
+    },
     handleSave () {
       this.$refs.form.validate((valid) => {
         if (valid) {

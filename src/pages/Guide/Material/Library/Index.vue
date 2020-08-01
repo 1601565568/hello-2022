@@ -13,7 +13,7 @@
             <Icon v-if="item.icon" :type="item.icon"/>
             <span>{{item.name}}</span>
           </ns-button>
-          <el-checkbox>全选当页</el-checkbox>
+          <el-checkbox :indeterminate="indeterminate" v-model="checkAll" @change="onSelectAll">全选当页</el-checkbox>
         </div>
       </template>
       <!-- 快捷搜索 -->
@@ -49,7 +49,7 @@
           :rules="rules"
           :inline="true"
         >
-          <el-form-item label="标题：">
+          <el-form-item label="标题：" label-width="40px">
             <el-input type="text" v-model="model.title" placeholder="请输入文件夹或素材标题"></el-input>
           </el-form-item>
           <el-form-item label="素材内容：">
@@ -65,13 +65,14 @@
             </el-date-picker>
           </el-form-item>
           <!-- 标签 - 动态请求数据 -->
-          <el-form-item label="标签：">
+          <el-form-item label="标签：" label-width="40px">
             <el-select
               v-model="model.subdivisionId"
               placeholder="请选择"
               filterable
               clearable
             >
+              <el-option key="-1" label="全部" :value="-1"></el-option>
               <el-option
                 v-for="item in labelList"
                 :key="item.subdivision_id"
@@ -169,7 +170,7 @@
               </el-table-column>
               <el-table-column label="内容" prop="content" :min-width="275">
                 <template slot-scope="scope">
-                  <table-item :data="scope.row"></table-item>
+                  <table-item :data="scope.row" @preview="togglePreview"></table-item>
                 </template>
               </el-table-column>
               <el-table-column label="标签" :width="200">
@@ -177,16 +178,16 @@
                   <span v-if="scope.row.type === 0">-</span>
                   <el-select
                     v-else
-                    v-model="scope.row.subdivision_id"
+                    v-model="scope.row.subdivisionId"
                     placeholder="请选择"
                     filterable
                     clearable
                   >
                     <el-option
                       v-for="item in labelList"
-                      :key="item.subdivision_id"
-                      :label="item.subdivision_name"
-                      :value="item.subdivision_id">
+                      :key="item.subdivisionId"
+                      :label="item.subdivisionName"
+                      :value="item.subdivisionId">
                     </el-option>
                   </el-select>
                 </template>
@@ -200,20 +201,33 @@
               </el-table-column>
             </el-table>
           </div>
-          <div v-else>瀑布流</div>
+          <div v-else>
+            <catalogue
+              :folders="waterfall.folders"
+              :materials="waterfall.materials"
+              :operate_buttons="waterfall.operate_buttons"
+              :labelList="labelList"
+              :selectRows="selectRows"
+              @onSelect="onSelect"
+              @onRemove="onRemove"
+              @onEnter="onEnter"
+              @preview="togglePreview"
+            ></catalogue>
+          </div>
         </el-scrollbar>
       </template>
       <template slot="pagination">
         <el-pagination
-          v-if="_data._pagination.enable"
-          class="template-table__pagination"
+          v-if="_data._pagination.enable && !isEmpty"
           :page-sizes="_data._pagination.sizeOpts"
           :total="_data._pagination.total"
           :current-page="_data._pagination.page"
           :page-size="_data._pagination.size"
-          layout="total, sizes, prev, pager, next, jumper"
           @size-change="$sizeChange$"
           @current-change="$pageChange$"
+          class="template-table__pagination"
+          layout="total, sizes, prev, pager, next, jumper"
+          :style="{'border-radius': listMode === 'list' ? '0 0 3px 3px' : '3px'}"
         >
         </el-pagination>
       </template>
@@ -222,6 +236,7 @@
     <folder-tree ref="folderTree"></folder-tree>
     <label-make ref="labelMake"></label-make>
     <label-manage ref="labelManage"></label-manage>
+    <preview ref="preview"></preview>
   </div>
 </template>
 <script>
@@ -232,13 +247,18 @@ export default Index
   @import "@theme/variables.pcss";
   @component-namespace library {
     @b header {
+      margin: 0 0 -5px -5px;
       >>> .el-button {
+        margin: 0 0 var(--default-margin-small) var(--default-margin-small);
+        height: 28px;
+        vertical-align: middle;
         svg + span {
-        margin-left: var(--default-margin-small);
+          margin-left: var(--default-margin-small);
         }
       }
       >>> .el-checkbox {
-        margin-left: var(--default-margin-small);
+        margin: 0 0 var(--default-margin-small) var(--default-margin-small);
+        vertical-align: middle;
       }
     }
     @b advance {
@@ -247,7 +267,7 @@ export default Index
         >>> .el-select {
           width: 180px;
         }
-        >>> .el-date-editor--daterange.el-input__inner {
+        >>> .el-date-editor--datetimerange.el-input__inner {
           width: 445px;
         }
       }
@@ -289,7 +309,6 @@ export default Index
         }
       }
     }
-
     @b table {
       @e file {
         margin-right: var(--default-margin-small);
@@ -301,5 +320,11 @@ export default Index
         }
       }
     }
+  }
+  >>> .template-table__pagination {
+    padding: 10px;
+  }
+  >>> .el-table--small th {
+    padding: 20px 0 10px;
   }
 </style>

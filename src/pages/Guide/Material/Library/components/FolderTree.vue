@@ -46,7 +46,6 @@ export default {
       title: '移动到',
       visible: false,
       loading: false,
-      params: {},
       list: [{
         id: -1,
         label: '素材库',
@@ -120,10 +119,8 @@ export default {
   components: { NewFolder },
   computed: {},
   methods: {
-    show (params = {}) {
+    show () {
       this.visible = true
-      // 注册选择元素
-      this.params = { ...params }
       this.loadList()
     },
     hide () {
@@ -223,7 +220,8 @@ export default {
       // this.defaultExpandKeys = ['-1']
     },
     handleSave () {
-      // console.log('保存到')
+      this.$emit('change', { selected: this.selected, catalogue: this.catalogue })
+      this.hide()
     }
   }
 }

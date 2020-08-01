@@ -46,9 +46,9 @@
           height="600"
         >
           <el-table-column label="序号" width="100" prop="sort"></el-table-column>
-          <el-table-column label="名称" prop="subdivision_name" show-overflow-tooltip></el-table-column>
+          <el-table-column label="名称" prop="subdivisionId" show-overflow-tooltip></el-table-column>
           <el-table-column label="素材数" prop="counts" width="120"></el-table-column>
-          <el-table-column  label="更新时间" prop="update_time" width="180"></el-table-column>
+          <el-table-column  label="更新时间" prop="updateTime" width="180"></el-table-column>
           <el-table-column  width="165">
             <template slot="header">
               <span style="margin-right: 6px">排序</span>
@@ -172,7 +172,7 @@ export default {
      * 调整排序
      */
     async exchangeSort (type, row) {
-      const params = { type, subdivisionId: row.subdivision_id }
+      const params = { type, subdivisionId: row.subdivisionId }
       const resp = await this.$http.fetch(this.$api.guide.materialExchangeSort, params)
       if (resp && resp.success) {
         this.loadListFun()
@@ -231,7 +231,7 @@ export default {
         cancelButtonText: '取消',
         confirmButtonText: '确定'
       }).then(async () => {
-        const params = { subdivision_id: row.subdivision_id }
+        const params = { subdivisionId: row.subdivisionId }
         const resp = await this.$http.fetch(this.$api.guide.materialGroudDel, params)
         if (resp && resp.success) {
           this.$notify({ type: 'success', message: '删除成功!' })

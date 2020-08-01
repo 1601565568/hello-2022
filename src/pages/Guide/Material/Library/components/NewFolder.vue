@@ -47,7 +47,7 @@ export default {
       rules: {
         folderName: [
           { required: true, message: '请输入文件夹名称', trigger: 'blur' },
-          { min: 4, max: 10, message: '长度在 4 到 10 个字符', trigger: 'blur' }
+          { min: 4, max: 10, message: '长度在4到10个字符', trigger: 'blur' }
         ]
       }
     }
