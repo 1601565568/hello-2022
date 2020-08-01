@@ -70,7 +70,12 @@
                   :default-time="['12:00:00']">
                 </el-date-picker>
               </el-form-item>
-
+              <el-form-item>
+                <NsGuideDialog :auth="false" type="primary" btnTitle="选择员工" dialogTitle="选择员工" v-model="searchform.guideIds"></NsGuideDialog>
+              </el-form-item>
+              <el-form-item>
+                已选择<span class="text-primary">{{searchform.guideIds? searchform.guideIds.length: 0}}</span>个导购员工
+              </el-form-item>
               <el-form-item label="排序条件：" prop="state">
                 <el-select  v-model="searchform.state" placeholder="不限" clearable>
                   <el-option v-for="item in statusOptions"
@@ -194,6 +199,7 @@
 import listPageMixin from '@/mixins/listPage'
 import apiRequestConfirm from '@nascent/ecrp-ecrm/src/utils/apiRequestConfirm'
 import { getErrorMsg } from '@/utils/toast'
+import NsGuideDialog from '@/components/NsGuideDialog'
 export default {
   mixins: [listPageMixin],
   data () {
@@ -279,7 +285,8 @@ export default {
         time: [],
         name: '',
         type: '',
-        state: ''
+        state: '',
+        guideIds: []
       },
       dataList: [
 
@@ -358,6 +365,7 @@ export default {
     }
   },
   components: {
+    NsGuideDialog
   }
 }
 </script>
