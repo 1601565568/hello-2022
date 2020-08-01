@@ -344,7 +344,6 @@ export default {
     },
     // 提交搜索
     submitForm (formName) {
-      console.log('this.searchform', this.searchform)
       this.searchObj.start = 0
       this.searchObj.searchMap.type = this.searchform.type
       this.searchObj.searchMap.state = this.searchform.state
