@@ -219,6 +219,10 @@ export default {
           that.$notify.error('加载下拉树、下拉框数据失败')
         })
     },
+    handleSizeChange (val) {
+      this.pagination.size = val
+      this.loadListFun(null)
+    },
     /**
      * 门店分类树点击事件(懒加载)
      * @param node
@@ -344,6 +348,7 @@ export default {
       /* 加载表格 */
       this.tableLoading = true
       this.multipleSelectionLoading = true
+      console.log('length', this.pagination.size)
       let param = {
         start: (this.pagination.page - 1) * this.pagination.size,
         length: this.pagination.size,
