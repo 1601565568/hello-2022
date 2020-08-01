@@ -22,10 +22,14 @@
               placeholder="手动输入外部店铺编码"
               v-model="manualValue" />
           </ElForm>
+          <div class="tmp-tips text-warning"><Icon type="exclamation-circle" theme="outlined" />
+            输入多个外部店铺编码用“,”隔开
+          </div>
         </ElTabPane>
         <ElTabPane label="文件导入" name="second">
           <ElForm class="form-main">
             <ElUpload
+              ref= "uploadRef"
               :action= "this.$api.core.importFileShopIds()"
               :data="uploadData"
               accept=".xls,.xlsx"
@@ -33,7 +37,7 @@
               :before-upload="beforeUpload"
               :on-success="onSuccess"
               :on-exceed="handleExceed"
-              multiple
+              :multiple = "false"
               :limit="1">
               <NsButton size="small" type="primary">点击上传</NsButton>
               <div slot="tip" class="el-upload__tip">
@@ -64,7 +68,7 @@ export default {
     return {
       activeName: 'first',
       dialogVisible: false,
-      manualValue: 'ghklht23,xm001,xm002,',
+      manualValue: null,
       uploadData: {
         manualStoreIds: null,
         fileKey: null
@@ -74,7 +78,7 @@ export default {
       storeInfo: {
         successSize: 0,
         failSize: 0,
-        ids: null
+        fileIds: null
       }
     }
   },
@@ -88,22 +92,37 @@ export default {
   },
   methods: {
     handleClose (done) {
-      this.$confirm('确认关闭？').$http.fetch
-        .then(() => {
-          done()
-        })
-        .catch(() => {})
+      // done()
+      this.dialogVisible = false
+      this.manualValue = null
+      this.$refs.uploadRef.clearFiles()
+      // this.$confirm('确认关闭？').$http.fetch
+      //   .then(() => {
+      //     done()
+      //   })
+      //   .catch(() => {})
     },
     okFun () {
+      let tempShopArray = []
+      let tempShopStr = []
       let temp = this.manualValue
-      if (temp.startsWith(',') || temp.endsWith(',') || temp.startsWith('，') || temp.endsWith('，')) {
-        this.$notify.info('请输入正确的外部店铺编码')
-        return false
+      if (temp !== '' && temp !== null) {
+        if (temp.startsWith(',') || temp.endsWith(',') || temp.startsWith('，') || temp.endsWith('，')) {
+          this.$notify.info('请输入正确的外部店铺编码')
+          return false
+        } else {
+          tempShopArray = this.manualValue.split(',')
+          tempShopArray.forEach(shop => tempShopStr.push(shop.trim()))
+          this.uploadData.manualStoreIds = tempShopStr.join(',')
+        }
+      } else {
+        this.uploadData.manualStoreIds = ''
       }
       this.$http.fetch(this.$api.guide.importFileAndManual, this.uploadData)
         .then(resp => {
           if (resp.success) {
             this.$notify.info('已成功' + resp.result.successSize + ',失败' + resp.result.failSize + '(失败原因:店铺关闭、店铺不在视角下、店铺编码错误等)')
+            this.storeInfo = resp.result
             this.$emit('callBack', this.storeInfo)
             this.dialogVisible = false
           }
@@ -123,6 +142,10 @@ export default {
     },
     onOpendialog () {
       this.dialogVisible = true
+      this.manualValue = null
+      this.$nextTick(function () {
+        this.$refs.uploadRef.clearFiles()
+      })
     },
     onSearch () {
       // console.log('搜索响应')
@@ -138,10 +161,16 @@ export default {
       if (response.success) {
         this.storeInfo = response.result
         this.uploadData.fileKey = response.result.fileKey
-        this.$notify.info('已成功' + response.result.successSize + ',失败' + response.result.failSize + '(失败原因:)')
+        this.$notify.info('已成功' + response.result.successSize + ',失败' + response.result.failSize + '(失败原因:店铺关闭、店铺不在视角下、店铺编码错误等)')
         // window.console.log('解析excel店铺id=>' + this.storeInfo.ids)
       } else {
-        window.console.log('失败回调' + response.msg)
+        this.$refs.uploadRef.clearFiles()
+        if (response.code === '1') {
+          this.$notify.error('导入文件失败:' + response.msg)
+        } else {
+          this.$notify.error('操作未成功!')
+          window.console.log('失败回调' + response.msg)
+        }
       }
     },
     handleRemove (file, fileList) {
@@ -155,10 +184,11 @@ export default {
     beforeUpload (file, fileList) {
       let fileSuffix = file.name.split('.').pop()
       if (fileSuffix !== 'xls' && fileSuffix !== 'xlsx') {
-        window.console.log('xls')
+        this.$notify.error('导入文件失败:失败原因 上传文件不能超过5M,支持xls/xlsx格式')
         return false
       }
       if (file.size / 1024 / 1024 > 5) {
+        this.$notify.error('导入文件失败:失败原因 上传文件不能超过5M,支持xls/xlsx格式')
         return false
       }
     }

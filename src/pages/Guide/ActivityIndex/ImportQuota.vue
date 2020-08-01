@@ -26,7 +26,7 @@
           <li class="step-item">
             <span class="step-item--index">2</span>
             <div class="step-item--info">
-              <el-upload
+              <el-upload :disabled = "!loadingIsShow"
                 :action= "this.$api.core.sgUploadExcel()"
                 accept=".xls,.xlsx"
                 :on-preview="handlePreview"
@@ -42,6 +42,7 @@
               <!-- 上传提示 -->
               <span class="text-secondary padding-lr-small " v-if="hintMsgIsShow"  >上传文件限制大小5M，格式为.xls或xlsx</span>
               <span class="text-danger padding-lr-small" v-if="uploadFail">上传失败，文档内容校验失败，请下载模版调整</span>
+              <span class="text-danger padding-lr-small " v-if="hintMsgIsShowTextDanger"  >上传文件限制大小5M，格式为.xls或xlsx</span>
               <span class="text-danger padding-lr-small" v-if="uploadFailMsgShow">{{uploadFailMsg}}</span>
               <span class="text-secondary padding-lr-small" v-if="uploadSuccee" >上传成功</span>
               <!-- 上传文件名称-->
@@ -87,6 +88,7 @@ export default {
       uploadFailMsg: null,
       downloadIsShow: true,
       updateding: false,
+      hintMsgIsShowTextDanger: false,
       loadingIsShow: true,
       // downloadIsShow: true,
       updateDataisShow: false,
@@ -119,6 +121,7 @@ export default {
       this.uploadFail = false
       this.hintMsgIsShow = true
       this.updateDataisShow = false
+      this.hintMsgIsShowTextDanger = false
       this.saveObj.type = data.type
       this.saveObj.year = data.year
       if (data.type !== '0') {
@@ -181,6 +184,7 @@ export default {
     onSuccess (response, file) {
       this.loadingIsShow = true
       if (response.success) {
+        this.hintMsgIsShowTextDanger = false
         this.uploadFailMsgShow = false
         this.uploadFailMsg = null
         this.uploadFail = false
@@ -190,6 +194,7 @@ export default {
         this.uploadSuccee = true
       } else {
         window.console.log('失败回调' + response.msg)
+        this.hintMsgIsShowTextDanger = false
         if (response.code === '1') {
           this.uploadFailMsgShow = true
           this.uploadFailMsg = response.msg
@@ -212,15 +217,18 @@ export default {
       this.loadingIsShow = false
       let fileSuffix = file.name.split('.').pop()
       if (fileSuffix !== 'xls' && fileSuffix !== 'xlsx') {
-        window.console.log('xls')
-        this.hintMsgIsShow = false
+        this.hintMsgIsShowTextDanger = true
         this.uploadFail = true
+        this.loadingIsShow = true
         this.uploadSuccee = false
+        this.hintMsgIsShow = false
         return false
       }
       if (file.size / 1024 / 1024 > 5) {
+        this.hintMsgIsShowTextDanger = true
         this.hintMsgIsShow = false
-        this.uploadFail = false
+        this.uploadFail = true
+        this.loadingIsShow = true
         this.uploadSuccee = false
         return false
       }

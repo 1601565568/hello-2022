@@ -109,16 +109,15 @@
               </p>
             </div>
             <div class="overview-content__item-right">
-               <el-popover
-                  placement="top-start"
-                  trigger="hover"
-                  :content="'完成度：'+getRewardInfoObj.addfriendCountPersent+'% , 招募目标：'+getRewardInfoObj.addfriendQuota">
-                  <div slot="reference">
-                    <el-progress  type="circle" :width=70 :stroke-width=4 :percentage="getRewardInfoObj.addfriendCountPersent" color="#f56c6c" :show-text=false>
-                    </el-progress>
-                  </div>
-                </el-popover>
-
+              <el-popover
+                placement="top-start"
+                trigger="hover"
+                :content="'完成度：'+getRewardInfoObj.addfriendCountPersent+'% , 招募目标：'+getRewardInfoObj.addfriendQuota">
+                <div slot="reference">
+                  <el-progress  type="circle" :width=70 :stroke-width=4 :percentage="getRewardInfoObj.addfriendCountPersent" color="#B760DE" :show-text=false>
+                  </el-progress>
+                </div>
+              </el-popover>
               <p class="overview-content__item-right--progress-text">完成度</p>
             </div>
           </el-card>
@@ -128,17 +127,16 @@
               <p class="text-secondary">
                 导购销售提成+招募奖励+新增好友奖励
               </p>
-              <p>
-                <span class="font-size-large">￥</span>
-                <span class="font-size-xlarge">{{$numeral(getRewardInfoObj.reward).format('0,0.00')}}</span>
-                <!-- <el-countup
-                  class="font-size-xlarge"
-                  :start="0"
-                  :end=
-                  :duration="1.5"
-                  :decimal="2">
-                </el-countup> -->
-                <span class="text-secondary">（￥{{$numeral(getRewardInfoObj.sellReward).format('0,0.00')}}+￥{{$numeral(getRewardInfoObj.recruitReward).format('0,0.00')}}+￥{{$numeral(getRewardInfoObj.addfriendReward).format('0,0.00')}}）</span>
+              <p class="overview-content__inline--block">
+                <el-popover
+                  placement="top-start"
+                  trigger="hover"
+                  :content="'￥' + $numeral(getRewardInfoObj.sellReward).format('0,0.00') + '+￥' + $numeral(getRewardInfoObj.recruitReward).format('0,0.00') + '+￥' + $numeral(getRewardInfoObj.addfriendReward).format('0,0.00')">
+                  <div slot="reference">
+                    <span class="font-size-large">￥</span>
+                    <span class="font-size-xlarge">{{$numeral(getRewardInfoObj.reward).format('0,0.00')}}</span>
+                  </div>
+                </el-popover>
               </p>
           </el-card>
         </el-col>
@@ -534,12 +532,13 @@ index.components = {
       }
     }
   }
+  .overview-content .el-popover .el-popover__title{
+    padding: 5px 0 !important;
+  }
+  .overview-content__inline--block {
+    display: inline-block;
+  }
   >>> .el-card {
     border-radius: var(--default-radius-mini);
   }
-</style>
-<style scoped>
-.overview-content .el-popover .el-popover__title{
-      padding: 5px 0 !important;
-}
 </style>

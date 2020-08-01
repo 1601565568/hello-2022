@@ -9,7 +9,7 @@
 
               <el-form-grid size="xmd">
               <el-form-item prop="coupon_id">
-                <el-select v-model="activityModel.coupon_id" :placeholder="$t('prompt.select')" @change="storeCouponChange" clearable>
+                <el-select v-model="activityModel.coupon_id" filterable :placeholder="$t('prompt.select')" @change="storeCouponChange" clearable>
                   <div :class="storeCouponListLength?'':'no_store_coupon'">
                     <el-option v-for="coupon in storeCouponList" :label="coupon.storeCouponTitle"
                             :key="coupon.id" :value="coupon.id" class="{storeCouponList.length == 0?'optionClass':''}"></el-option>
