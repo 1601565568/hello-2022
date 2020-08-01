@@ -149,72 +149,71 @@
           </div>
         </el-row>
         <!-- 列表 -->
-        <el-scrollbar ref="fullScreen">
-          <div v-if="listMode === 'list'">
-            <el-table
-              ref="multipleTable"
-              :data="_data._table.data"
-              :element-loading-text="$t('prompt.loading')"
-              v-loading.lock="_data._table.loadingtable"
-              stripe
-              resizable
-              @selection-change="onHandleSelectChange"
-            >
-              <el-table-column type="selection" align="center" :width="50"></el-table-column>
-              <el-table-column label="标题" :width="180">
-                <template slot-scope="scope">
-                  <!-- todo 进入文件夹 -->
-                  <Icon v-if="scope.row.type === 0" class="library-table__file" type="wenjianjia-new" />
-                  <span>{{scope.row.title}}</span>
-                </template>
-              </el-table-column>
-              <el-table-column label="内容" prop="content" :min-width="275">
-                <template slot-scope="scope">
-                  <table-item :data="scope.row" @preview="togglePreview"></table-item>
-                </template>
-              </el-table-column>
-              <el-table-column label="标签" :width="200">
-                <template slot-scope="scope">
-                  <span v-if="scope.row.type === 0">-</span>
-                  <el-select
-                    v-else
-                    v-model="scope.row.subdivisionId"
-                    placeholder="请选择"
-                    filterable
-                    clearable
-                  >
-                    <el-option
-                      v-for="item in labelList"
-                      :key="item.subdivisionId"
-                      :label="item.subdivisionName"
-                      :value="item.subdivisionId">
-                    </el-option>
-                  </el-select>
-                </template>
-              </el-table-column>
-              <el-table-column label="发布方" prop="source_name" :width="130"></el-table-column>
-              <el-table-column label="发布时间" prop="create_time" :width="180"></el-table-column>
-              <el-table-column label="操作" :width="144" align="center" fixed="right">
-                <template slot-scope="scope">
-                  <ns-table-column-operate-button :buttons="_data._table.operate_buttons" :prop="scope"></ns-table-column-operate-button>
-                </template>
-              </el-table-column>
-            </el-table>
-          </div>
-          <div v-else>
-            <catalogue
-              :folders="waterfall.folders"
-              :materials="waterfall.materials"
-              :operate_buttons="waterfall.operate_buttons"
-              :labelList="labelList"
-              :selectRows="selectRows"
-              @onSelect="onSelect"
-              @onRemove="onRemove"
-              @onEnter="onEnter"
-              @preview="togglePreview"
-            ></catalogue>
-          </div>
-        </el-scrollbar>
+        <div v-if="listMode === 'list'">
+          <el-table
+            ref="multipleTable"
+            :data="_data._table.data"
+            :element-loading-text="$t('prompt.loading')"
+            v-loading.lock="_data._table.loadingtable"
+            stripe
+            resizable
+            @selection-change="onHandleSelectChange"
+          >
+            <el-table-column type="selection" :width="90"></el-table-column>
+            <el-table-column label="标题" :width="210">
+              <template slot-scope="scope">
+                <!-- todo 进入文件夹 -->
+                <Icon v-if="scope.row.type === 0" class="library-table__file" type="wenjianjia-new" />
+                <span>{{scope.row.title}}</span>
+              </template>
+            </el-table-column>
+            <el-table-column label="内容" prop="content" :min-width="275">
+              <template slot-scope="scope">
+                <span v-if="scope.row.type === 0">{{scope.row.content}}</span>
+                <table-item v-else :data="scope.row" @preview="togglePreview"></table-item>
+              </template>
+            </el-table-column>
+            <el-table-column label="标签" :width="200">
+              <template slot-scope="scope">
+                <span v-if="scope.row.type === 0">-</span>
+                <el-select
+                  v-else
+                  v-model="scope.row.subdivisionId"
+                  placeholder="请选择"
+                  filterable
+                  clearable
+                >
+                  <el-option
+                    v-for="item in labelList"
+                    :key="item.subdivisionId"
+                    :label="item.subdivisionName"
+                    :value="item.subdivisionId">
+                  </el-option>
+                </el-select>
+              </template>
+            </el-table-column>
+            <el-table-column label="发布方" prop="source_name" :width="130"></el-table-column>
+            <el-table-column label="发布时间" prop="create_time" :width="180"></el-table-column>
+            <el-table-column label="操作" :width="150">
+              <template slot-scope="scope">
+                <ns-table-column-operate-button :buttons="_data._table.operate_buttons" :prop="scope"></ns-table-column-operate-button>
+              </template>
+            </el-table-column>
+          </el-table>
+        </div>
+        <div v-else>
+          <catalogue
+            :folders="waterfall.folders"
+            :materials="waterfall.materials"
+            :operate_buttons="waterfall.operate_buttons"
+            :labelList="labelList"
+            :selectRows="selectRows"
+            @onSelect="onSelect"
+            @onRemove="onRemove"
+            @onEnter="onEnter"
+            @preview="togglePreview"
+          ></catalogue>
+        </div>
       </template>
       <template slot="pagination">
         <el-pagination
@@ -311,7 +310,7 @@ export default Index
     }
     @b table {
       @e file {
-        margin-right: var(--default-margin-small);
+        margin: -4px var(--default-margin-small) -4px 0;
         font-size: 24px;
         color: var(--theme-color-primary);
         vertical-align: middle;
@@ -320,11 +319,27 @@ export default Index
         }
       }
     }
-  }
-  >>> .template-table__pagination {
-    padding: 10px;
-  }
-  >>> .el-table--small th {
-    padding: 20px 0 10px;
+    >>> .template-table__pagination {
+      padding: 10px;
+    }
+    >>> .el-table--small th {
+      padding: 20px 0 10px;
+      &.el-table-column--selection .cell {
+        padding: 0 15px;
+      }
+    }
+    >>> .el-table--small td {
+      padding: 10px 0;
+      &.el-table-column--selection .cell {
+        padding: 0 15px;
+      }
+      .el-button--text {
+        margin: -4px 0;
+        border: none;
+      }
+      .el-button--text + .el-button--text {
+        margin-left: 20px;
+      }
+    }
   }
 </style>

@@ -23,17 +23,32 @@
     <div v-if="materials.length" class="catalogue-materials">
       <div class="catalogue-header">素材</div>
       <div class="catalogue-materials__wrapper">
-        <div class="catalogue-materials__content">
-          <div class="catalogue-materials__item" :class="{'catalogue-materials__item--selected': item.selected}" v-for="item in materialList" :key="item.id">
+        <div class="catalogue-materials__group" v-for="(itemList, index) in materialList" :key="index">
+          <div class="catalogue-materials__item" :class="{'catalogue-materials__item--selected': item.selected}" v-for="item in itemList" :key="item.id">
             <div class="catalogue-materials__item--info">
               <div class="catalogue-materials__item--title catalogue-ellipsis">{{item.title}}</div>
               <div class="catalogue-materials__item--desc catalogue-ellipsis">
                 <span>发布方：{{item.source_name || '未知'}}</span>
                 <span>{{item.create_time}}</span>
               </div>
-              <div class="catalogue-materials__item--content catalogue-ellipsis2">{{item.content}}</div>
+              <div class="catalogue-materials__item--content catalogue-ellipsis2">
+                <el-tooltip placement="top-start">
+                  <div slot="content">{{item.content}}</div>
+                  <div>{{item.content}}</div>
+                </el-tooltip>
+              </div>
               <div class="catalogue-materials__item--media">
-                <div v-if="item.m_type == 2 && item.videoUrl" class="catalogue-materials__video">
+                <div v-if="item.m_type == 0" class="catalogue-materials__article">
+                  <img v-if="item.imageList[0]" alt="" :src="item.imageList[0]" @click="showPreview(0, item)"/>
+                  <el-tooltip placement="top-start">
+                    <div slot="content">{{item.cardTitle}}</div>
+                    <div class="catalogue-materials__article--title catalogue-ellipsis3">{{item.cardTitle}}</div>
+                  </el-tooltip>
+                </div>
+                <div v-else-if="item.m_type == 1" class="catalogue-materials__image">
+                  <img alt="" :src="img" v-for="(img, index) in item.imageList" :key="index" @click="showPreview(index, item)"/>
+                </div>
+                <div v-else-if="item.videoUrl" class="catalogue-materials__video">
                   <video :src="item.videoUrl">
                     您的浏览器暂不支持播放该视频，请升级至最新版浏览器。
                   </video>
@@ -42,9 +57,6 @@
                       <Icon type="begin" />
                     </div>
                   </div>
-                </div>
-                <div v-else class="catalogue-materials__images">
-                  <img alt="" :src="img" v-for="(img, index) in item.imageList" :key="index" @click="showPreview(index, item)"/>
                 </div>
               </div>
               <div class="catalogue-materials__item--action clearfix">
@@ -113,7 +125,26 @@ export default {
   },
   components: { NoData },
   data () {
-    return {}
+    return {
+      // 卡片容器宽度
+      wrapperW: 0,
+      // 卡片宽度
+      width: 296,
+      // 卡片基础高度
+      baseHeight: 220,
+      // 图片高度
+      imageHeight: 82,
+      // 图片间隔
+      imageOffset: 5,
+      // 文章高度
+      articleHeight: 78,
+      // 视频高度
+      videoHeight: 142,
+      // 间距
+      offset: 10,
+      // 分组数
+      columnNum: 0
+    }
   },
   computed: {
     isEmpty () {
@@ -126,14 +157,54 @@ export default {
       })
     },
     materialList () {
-      // 生成瀑布数组
-      return this.materials.map(o => {
-        let index = this.selectRows.findIndex(s => s.id === o.id)
-        return { ...o, selected: index > -1 }
-      })
+      if (this.columnNum) {
+        let list = new Array(this.columnNum)
+        let sortArr = new Array(this.columnNum)
+        for (let i = 0; i < this.columnNum; i++) {
+          list[i] = []
+          sortArr[i] = { i: i, h: 0 }
+        }
+        this.materials.forEach(o => {
+          let index = this.selectRows.findIndex(s => s.id === o.id)
+          let height = this.baseHeight
+          switch (o.m_type) {
+            case 0:
+              height += this.articleHeight
+              break
+            case 2:
+              height += o.videoUrl ? this.videoHeight : 0
+              break
+            default:
+              let rows = Math.ceil(o.imageList.length / 3)
+              height += rows * (this.imageHeight + this.imageOffset) - this.imageOffset
+          }
+          let temp = sortArr[0]
+          list[temp.i].push({ ...o, selected: index > -1 })
+          temp.h += height
+          sortArr.sort((a, b) => {
+            let dv = a.h - b.h
+            return dv === 0 ? a.i - b.i : dv
+          })
+          console.log(o, JSON.stringify(sortArr))
+        })
+        return list
+      }
+      return []
     }
   },
+  mounted () {
+    this.setWrapperW()
+    window.addEventListener('resize', this.setWrapperW)
+  },
+  beforeDestroy () {
+    window.removeEventListener('resize', this.setWrapperW)
+  },
   methods: {
+    // 设置卡片容器宽度
+    setWrapperW () {
+      this.wrapperW = document.querySelector('.catalogue-materials').offsetWidth
+      this.columnNum = Math.floor((this.wrapperW + this.offset) / (this.width + this.offset)) || 1
+    },
     onSelect (row) {
       this.$emit('onSelect', row)
     },
@@ -249,7 +320,14 @@ export default {
   }
   @b materials {
     @e wrapper {}
-    @e content {}
+    @e group {
+      display: inline-block;
+      vertical-align: top;
+      margin-right: 10px;
+      &:last-child {
+        margin-right: 0;
+      }
+    }
     @e item {
       position: relative;
       margin-top: 10px;
@@ -305,7 +383,7 @@ export default {
         color:#0392fb;
         line-height: 30px;
         text-align: center;
-        /* &:nth */
+        cursor: pointer;
         &:not(:last-child) {
           border-right: solid 1px #dcdfec;
         }
@@ -328,8 +406,8 @@ export default {
       }
       @m check {
         position: absolute;
-        top: 5px;
-        right: 5px;
+        top: 10px;
+        right: 10px;
         font-size: 21px;
         color: #dcdfe6;
         opacity: 0;
@@ -339,7 +417,29 @@ export default {
         }
       }
     }
-    @e images {
+    @e article {
+      position: relative;
+      padding: 5px;
+      background-color: #ebeef5;
+      img {
+        margin-right: 10px;
+        width: 68px;
+        height: 68px;
+        border-radius: 3px;
+        cursor: pointer;
+      }
+      @m title {
+        position: absolute;
+        top: 50%;
+        left: 83px;
+        right: 10px;
+        font-size: 12px;
+        line-height: 20px;
+        color: #606266;
+        transform: translate(0, -50%);
+      }
+    }
+    @e image {
       margin-bottom: -5px;
       img {
         margin: 0 5px 5px 0;
@@ -354,6 +454,7 @@ export default {
     }
     @e video {
       position: relative;
+      font-size: 0;
       line-height: 1;
       video {
         width: 256px;
@@ -397,6 +498,13 @@ export default {
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 2;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  @b ellipsis3 {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
     overflow: hidden;
     text-overflow: ellipsis;
   }

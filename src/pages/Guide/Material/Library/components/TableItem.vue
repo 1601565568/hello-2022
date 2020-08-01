@@ -3,7 +3,7 @@
     <div class="tableItem-content">
       <div class="tableItem-content__text">
         <el-tooltip placement="top-start">
-          <div slot="content">{{ data.content }}</div>
+          <div slot="content">{{data.content}}</div>
           <div class="tableItem-content__ellipsis">{{data.content}}</div>
         </el-tooltip>
       </div>
@@ -36,7 +36,7 @@
       <div v-if="data.m_type === 0" class="tableItem-content__articleBox">
         <img alt="" :src="imageList[0]" @click="showPreview(0)"/>
         <el-tooltip placement="top-start">
-          <div slot="content">{{ data.cardTitle }}</div>
+          <div slot="content">{{data.cardTitle}}</div>
           <div class="tableItem-content__ellipsis">{{data.cardTitle}}</div>
         </el-tooltip>
       </div>

@@ -9,12 +9,12 @@ import LabelManage from '../components/LabelManage'
 import LabelMake from '../components/LabelMake'
 import Catalogue from '../components/Catalogue'
 import Preview from '../components/Preview'
-import scrollTable from '@/mixins/scrollTable'
+// import scrollTable from '@/mixins/scrollTable'
 import { getErrorMsg } from '@/utils/toast'
 
 export default {
   components: { ShopSelectLoad, ElBreadcrumb, ElBreadcrumbItem, TableItem, NewFolder, FolderTree, LabelManage, LabelMake, Catalogue, Preview },
-  mixins: [tableMixin, scrollTable],
+  mixins: [tableMixin],
   data: function () {
     return {
       // 表格顶部
@@ -87,62 +87,104 @@ export default {
             imageList: ['https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/201911/10000146/9317b820-9780-4d17-8761-f9fe2bf81e82.jpg'],
             source_name: '研发二部4',
             subdivision_id: 36,
-            title: '图文素材目录'
+            title: '文件夹001'
           },
           {
             type: 1,
-            content: '秋天',
-            create_time: '2019-11-05 16:31:34',
-            id: 737,
-            imageList: ['https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/201911/10000146/9317b820-9780-4d17-8761-f9fe2bf81e82.jpg'],
+            id: 6,
+            m_type: 1,
+            title: '图文素材01',
+            content: '图文素材的内容图文素材的内容图文素材的内容图文素材的内容图文素材的内容',
+            create_time: '2020-07-21 18:25:06',
+            imageList: [
+              'https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/202007/10000146/bc7da31c-f9b1-46d8-b3ae-afcacc558a70.png',
+              'https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/202007/10000146/bc7da31c-f9b1-46d8-b3ae-afcacc558a70.png',
+              'https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/202007/10000146/bc7da31c-f9b1-46d8-b3ae-afcacc558a70.png',
+              'https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/202007/10000146/bc7da31c-f9b1-46d8-b3ae-afcacc558a70.png',
+              'https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/202007/10000146/bc7da31c-f9b1-46d8-b3ae-afcacc558a70.png',
+              'https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/202007/10000146/bc7da31c-f9b1-46d8-b3ae-afcacc558a70.png',
+              'https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/202007/10000146/3dfe7609-a54b-4b0d-954e-dfb1a38f9f99.jpg'
+            ],
+            source_name: '研发二部4',
+            subdivisionId: '44',
+            hasqrcode: 1
+          },
+          {
+            id: 1,
             m_type: 0,
+            content: '文章素材的内容文章素材的内容文章素材的内容文章素材的内容',
+            create_time: '2019-11-05 16:31:34',
+            imageList: ['https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/201911/10000146/9317b820-9780-4d17-8761-f9fe2bf81e82.jpg'],
             source_name: '研发二部4',
-            subdivision_id: 36,
-            title: '一年一度的风筝节',
-            cardTitle: '这是推广文章标题'
+            subdivisionId: '30',
+            title: '文章素材01',
+            cardTitle: '文章标题内容01'
           },
           {
-            type: 1,
-            content: '视频内容视频内容视频内容视频内容视频内容视频内容视频内容视频内容视频内容视频内容视频内容视频内容视频内容',
-            create_time: '2020-07-21 18:25:06',
-            id: 896,
-            imageList: [
-              'https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/202007/10000146/bc7da31c-f9b1-46d8-b3ae-afcacc558a70.png',
-              'https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/202007/10000146/3dfe7609-a54b-4b0d-954e-dfb1a38f9f99.jpg'
-            ],
-            m_type: 1,
-            source_name: '研发二部4',
-            subdivision_id: 22,
-            hasqrcode: 1,
-            title: '图文素材标题'
-          },
-          {
-            type: 1,
-            content: '视频内容视频内容视频内容视频内容视频内容视频内容视频内容视频内容视频内容视频内容视频内容视频内容视频内容',
-            create_time: '2020-07-21 18:25:06',
-            id: 826,
-            imageList: [
-              'https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/202007/10000146/bc7da31c-f9b1-46d8-b3ae-afcacc558a70.png',
-              'https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/202007/10000146/3dfe7609-a54b-4b0d-954e-dfb1a38f9f99.jpg',
-              'https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/202007/10000146/3dfe7609-a54b-4b0d-954e-dfb1a38f9f99.jpg',
-              'https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/202007/10000146/3dfe7609-a54b-4b0d-954e-dfb1a38f9f99.jpg'
-            ],
-            m_type: 1,
-            source_name: '研发二部4',
-            subdivision_id: 22,
-            hasqrcode: 1,
-            title: '图文素材标题'
-          },
-          {
-            type: 1,
-            content: '视频内容',
-            create_time: '2020-07-21 18:25:06',
-            id: 897,
-            videoUrl: 'https://v-cdn.zjol.com.cn/276985.mp4',
+            id: 3,
             m_type: 2,
+            content: '视频素材内容视频素材内容视频素材内容视频素材内容视频素材内容视频素材内容',
+            create_time: '2020-07-21 18:25:06',
+            imageList: [],
             source_name: '研发二部4',
-            subdivision_id: 22,
-            title: '视频素材标题'
+            videoUrl: 'https://v-cdn.zjol.com.cn/276985.mp4',
+            subdivisionId: '97',
+            hasqrcode: 1,
+            title: '视频素材02'
+          },
+          {
+            id: 2,
+            m_type: 1,
+            title: '图文素材01',
+            content: '图文素材的内容图文素材的内容图文素材的内容图文素材的内容图文素材的内容',
+            create_time: '2020-07-21 18:25:06',
+            imageList: [
+              'https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/202007/10000146/bc7da31c-f9b1-46d8-b3ae-afcacc558a70.png',
+              'https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/202007/10000146/3dfe7609-a54b-4b0d-954e-dfb1a38f9f99.jpg'
+            ],
+            source_name: '研发二部4',
+            subdivisionId: '22',
+            hasqrcode: 1
+          },
+          {
+            id: 3,
+            m_type: 2,
+            content: '视频素材内容视频素材内容视频素材内容视频素材内容视频素材内容视频素材内容',
+            create_time: '2020-07-21 18:25:06',
+            imageList: [],
+            source_name: '研发二部4',
+            videoUrl: 'https://v-cdn.zjol.com.cn/276985.mp4',
+            subdivisionId: '39',
+            hasqrcode: 1,
+            title: '视频素材02'
+          },
+          {
+            id: 5,
+            m_type: 0,
+            content: '文章素材的内容文章素材的内容文章素材的内容文章素材的内容',
+            create_time: '2019-11-05 16:31:34',
+            imageList: ['https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/201911/10000146/9317b820-9780-4d17-8761-f9fe2bf81e82.jpg'],
+            source_name: '研发二部4',
+            subdivisionId: '30',
+            title: '文章素材01',
+            cardTitle: '文章标题内容01'
+          },
+          {
+            id: 4,
+            m_type: 1,
+            title: '图文素材01',
+            content: '图文素材的内容图文素材的内容图文素材的内容图文素材的内容图文素材的内容',
+            create_time: '2020-07-21 18:25:06',
+            imageList: [
+              'https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/202007/10000146/bc7da31c-f9b1-46d8-b3ae-afcacc558a70.png',
+              'https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/202007/10000146/bc7da31c-f9b1-46d8-b3ae-afcacc558a70.png',
+              'https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/202007/10000146/bc7da31c-f9b1-46d8-b3ae-afcacc558a70.png',
+              'https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/202007/10000146/bc7da31c-f9b1-46d8-b3ae-afcacc558a70.png',
+              'https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/202007/10000146/3dfe7609-a54b-4b0d-954e-dfb1a38f9f99.jpg'
+            ],
+            source_name: '研发二部4',
+            subdivisionId: '97',
+            hasqrcode: 1
           }
         ],
         operate_buttons: [
@@ -233,59 +275,100 @@ export default {
         ],
         materials: [
           {
-            type: 1,
-            content: '秋天',
-            create_time: '2019-11-05 16:31:34',
-            id: 737,
-            imageList: ['https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/201911/10000146/9317b820-9780-4d17-8761-f9fe2bf81e82.jpg'],
+            id: 6,
+            m_type: 1,
+            title: '图文素材01',
+            content: '图文素材的内容图文素材的内容图文素材的内容图文素材的内容图文素材的内容',
+            create_time: '2020-07-21 18:25:06',
+            imageList: [
+              'https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/202007/10000146/bc7da31c-f9b1-46d8-b3ae-afcacc558a70.png',
+              'https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/202007/10000146/bc7da31c-f9b1-46d8-b3ae-afcacc558a70.png',
+              'https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/202007/10000146/bc7da31c-f9b1-46d8-b3ae-afcacc558a70.png',
+              'https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/202007/10000146/bc7da31c-f9b1-46d8-b3ae-afcacc558a70.png',
+              'https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/202007/10000146/bc7da31c-f9b1-46d8-b3ae-afcacc558a70.png',
+              'https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/202007/10000146/bc7da31c-f9b1-46d8-b3ae-afcacc558a70.png',
+              'https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/202007/10000146/3dfe7609-a54b-4b0d-954e-dfb1a38f9f99.jpg'
+            ],
+            source_name: '研发二部4',
+            subdivisionId: '44',
+            hasqrcode: 1
+          },
+          {
+            id: 1,
             m_type: 0,
+            content: '文章素材的内容文章素材的内容文章素材的内容文章素材的内容',
+            create_time: '2019-11-05 16:31:34',
+            imageList: ['https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/201911/10000146/9317b820-9780-4d17-8761-f9fe2bf81e82.jpg'],
             source_name: '研发二部4',
-            subdivision_id: 36,
-            title: '一年一度的风筝节',
-            cardTitle: '这是推广文章标题'
+            subdivisionId: '30',
+            title: '文章素材02',
+            cardTitle: '文章标题内容01'
           },
           {
-            type: 1,
-            content: '视频内容视频内容视频内容视频内容视频内容视频内容视频内容视频内容视频内容视频内容视频内容视频内容视频内容',
-            create_time: '2020-07-21 18:25:06',
-            id: 896,
-            imageList: [
-              'https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/202007/10000146/bc7da31c-f9b1-46d8-b3ae-afcacc558a70.png',
-              'https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/202007/10000146/3dfe7609-a54b-4b0d-954e-dfb1a38f9f99.jpg'
-            ],
-            m_type: 1,
-            source_name: '研发二部4',
-            subdivision_id: 22,
-            hasqrcode: 1,
-            title: '图文素材标题'
-          },
-          {
-            type: 1,
-            content: '视频内容视频内容视频内容视频内容视频内容视频内容视频内容视频内容视频内容视频内容视频内容视频内容视频内容',
-            create_time: '2020-07-21 18:25:06',
-            id: 826,
-            imageList: [
-              'https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/202007/10000146/bc7da31c-f9b1-46d8-b3ae-afcacc558a70.png',
-              'https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/202007/10000146/3dfe7609-a54b-4b0d-954e-dfb1a38f9f99.jpg',
-              'https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/202007/10000146/3dfe7609-a54b-4b0d-954e-dfb1a38f9f99.jpg',
-              'https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/202007/10000146/3dfe7609-a54b-4b0d-954e-dfb1a38f9f99.jpg'
-            ],
-            m_type: 1,
-            source_name: '研发二部4',
-            subdivision_id: 22,
-            hasqrcode: 1,
-            title: '图文素材标题'
-          },
-          {
-            type: 1,
-            content: '视频内容',
-            create_time: '2020-07-21 18:25:06',
-            id: 897,
-            videoUrl: 'https://v-cdn.zjol.com.cn/276985.mp4',
+            id: 3,
             m_type: 2,
+            content: '视频素材内容视频素材内容视频素材内容视频素材内容视频素材内容视频素材内容',
+            create_time: '2020-07-21 18:25:06',
+            imageList: [],
             source_name: '研发二部4',
-            subdivision_id: 22,
-            title: '视频素材标题'
+            videoUrl: 'https://v-cdn.zjol.com.cn/276985.mp4',
+            subdivisionId: '97',
+            hasqrcode: 1,
+            title: '视频素材03'
+          },
+          {
+            id: 2,
+            m_type: 1,
+            title: '图文素材04',
+            content: '图文素材的内容图文素材的内容图文素材的内容图文素材的内容图文素材的内容',
+            create_time: '2020-07-21 18:25:06',
+            imageList: [
+              'https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/202007/10000146/bc7da31c-f9b1-46d8-b3ae-afcacc558a70.png',
+              'https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/202007/10000146/3dfe7609-a54b-4b0d-954e-dfb1a38f9f99.jpg'
+            ],
+            source_name: '研发二部4',
+            subdivisionId: '22',
+            hasqrcode: 1
+          },
+          {
+            id: 7,
+            m_type: 2,
+            content: '视频素材内容视频素材内容视频素材内容视频素材内容视频素材内容视频素材内容',
+            create_time: '2020-07-21 18:25:06',
+            imageList: [],
+            source_name: '研发二部4',
+            videoUrl: 'https://v-cdn.zjol.com.cn/276985.mp4',
+            subdivisionId: '39',
+            hasqrcode: 1,
+            title: '视频素材05'
+          },
+          {
+            id: 5,
+            m_type: 0,
+            content: '文章素材的内容文章素材的内容文章素材的内容文章素材的内容',
+            create_time: '2019-11-05 16:31:34',
+            imageList: ['https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/201911/10000146/9317b820-9780-4d17-8761-f9fe2bf81e82.jpg'],
+            source_name: '研发二部4',
+            subdivisionId: '30',
+            title: '文章素材06',
+            cardTitle: '文章标题内容01'
+          },
+          {
+            id: 4,
+            m_type: 1,
+            title: '图文素材07',
+            content: '图文素材的内容图文素材的内容图文素材的内容图文素材的内容图文素材的内容',
+            create_time: '2020-07-21 18:25:06',
+            imageList: [
+              'https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/202007/10000146/bc7da31c-f9b1-46d8-b3ae-afcacc558a70.png',
+              'https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/202007/10000146/bc7da31c-f9b1-46d8-b3ae-afcacc558a70.png',
+              'https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/202007/10000146/bc7da31c-f9b1-46d8-b3ae-afcacc558a70.png',
+              'https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/202007/10000146/bc7da31c-f9b1-46d8-b3ae-afcacc558a70.png',
+              'https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/202007/10000146/3dfe7609-a54b-4b0d-954e-dfb1a38f9f99.jpg'
+            ],
+            source_name: '研发二部4',
+            subdivisionId: '97',
+            hasqrcode: 1
           }
         ],
         operate_buttons: [
