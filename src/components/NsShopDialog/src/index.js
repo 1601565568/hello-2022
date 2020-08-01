@@ -110,7 +110,8 @@ export default {
       vm.isCheckAll = false
       vm.$nextTick(function () {
         this.param.name = ''
-        this.$refs.shopCateTree.cleanClickHandle()
+        this.param.shopCate = {} // 选择的门店分类
+        this.param.shopId = '' // 选择的门店
         this.getEmployeeList()
       })
     },
@@ -119,7 +120,8 @@ export default {
      */
     resetSearch: function () {
       vm.param.name = ''
-      this.$refs.shopCateTree.cleanClickHandle()
+      vm.param.shopCate = {} // 选择的门店分类
+      vm.param.shopId = '' // 选择的门店
       vm.searchEmployee(1)
     },
     /**
