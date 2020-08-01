@@ -2,56 +2,61 @@
   <div class="form-main">
 <!--    <ns-button @click="onOpendialog">默认弹窗</ns-button>-->
     <el-dialog
+      append-to-body
       title="外部店铺编码"
       :visible.sync="dialogVisible"
-      width="800px"
-      height="500px"
       :close-on-press-escape='true'
       :close-on-click-modal='false'
       :response-limit=false
-      append-to-body
       :before-close="handleClose"
+      width="600"
     >
       <!-- 弹窗内容 -->
-      <ElTabs v-model="activeName">
+      <ElTabs v-model="activeName" class="taskStore-wrapper">
         <ElTabPane  loaded="true" label="手动输入" name="first">
-          <ElForm class="form-main">
+          <ElForm>
             <ElInput
               type="textarea"
-              :rows="16"
               placeholder="手动输入外部店铺编码"
-              v-model="manualValue" />
+              v-model="manualValue"
+              resize="none"
+            />
           </ElForm>
-          <div class="tmp-tips text-warning"><Icon type="exclamation-circle" theme="outlined" />
-            输入多个外部店铺编码用“,”隔开
+          <div class="taskStore-wrapper__text text-primary">
+            <Icon type="exclamation-circle" theme="outlined" />
+            <span>输入多个外部店铺编码用“,”隔开</span>
           </div>
         </ElTabPane>
         <ElTabPane label="文件导入" name="second">
-          <ElForm class="form-main">
-            <ElUpload
-              ref= "uploadRef"
-              :action= "this.$api.core.importFileShopIds()"
-              :data="uploadData"
-              accept=".xls,.xlsx"
-              :on-preview="handlePreview"
-              :before-upload="beforeUpload"
-              :on-success="onSuccess"
-              :on-exceed="handleExceed"
-              :multiple = "false"
-              :limit="1">
-              <NsButton size="small" type="primary">点击上传</NsButton>
-              <div slot="tip" class="el-upload__tip">
-                <div class="tmp-tips text-warning"><Icon type="exclamation-circle" theme="outlined" />
-                  您可使用系统提供的模板填写信息并导入，只支持选中当前视角的店铺. <NsButton type="text" @click="downloadTaskTemple" > 下载模板</NsButton>
-                </div>
-              </div>
-            </ElUpload>
+          <ElForm label-width="64px">
+            <ElFormItem label="上传文档：">
+              <ElUpload
+                ref= "uploadRef"
+                :action= "this.$api.core.importFileShopIds()"
+                :data="uploadData"
+                accept=".xls,.xlsx"
+                :on-preview="handlePreview"
+                :before-upload="beforeUpload"
+                :on-success="onSuccess"
+                :on-exceed="handleExceed"
+                :multiple = "false"
+                :limit="1">
+                <NsButton size="small" type="primary">选择文件</NsButton>
+              </ElUpload>
+            </ElFormItem>
+            <div class="taskStore-wrapper__text text-warning">
+              <Icon type="exclamation-circle" theme="outlined" />
+              <span>您可使用系统提供的模板填写信息并导入，只支持选中当前视角的店铺。 </span>
+              <NsButton type="text" @click="downloadTaskTemple">下载模板</NsButton>
+            </div>
           </ElForm>
         </ElTabPane>
       </ElTabs>
       <template slot="footer">
-         <ns-button @click="dialogVisible = false">取 消</ns-button>
-         <ns-save @click="okFun" ></ns-save>
+        <div class="taskStore-footer">
+          <ns-button @click="dialogVisible = false">取 消</ns-button>
+          <ns-button type="primary" @click="okFun">确 认</ns-button>
+        </div>
       </template>
     </el-dialog>
   </div>
@@ -215,156 +220,67 @@ export default {
 
 <style scoped>
   @import "@theme/variables.pcss";
-  /* 关联店铺的样式*/
-  .relevance-shop__title{
-    padding:var(--default-margin-base) var(--default-margin-base) var(--default-margin-larger);
-    i{
-      background: var(--theme-color-primary);
-      width: 24px;
-      height:24px;
-      border-radius: 100%;
-      color:#fff;
-      display: inline-block;
-      margin-right: 3px;
-      &:before{
-        font-size: 14px;
-        line-height: 22px;
-        position: relative;
-        left: 4px;
-        top: 0;
+  @component-namespace taskStore {
+    @b wrapper {
+      padding: 10px;
+      height: 288px;
+      >>> .el-form {
+        padding: 20px 0 8px;
+        textarea {
+          padding: 6px 10px;
+          height: 190px;
+        }
+        .taskStore-wrapper__text {
+          margin-left: 64px;
+          margin-top: 8px;
+        }
+        .el-upload-list {
+          font-size: 0;
+          line-height: 1;
+          .el-upload-list__item {
+            display: inline-block;
+            width: auto;
+            padding: 0 8px;
+            background-color: #f1f2f4;
+            > a {
+              font-size: 12px;
+              color: #0091fa;
+              i {
+                font-size: 14px;
+              }
+            }
+            line-height: 28px;
+            .el-icon-close {
+              display: inline-block;
+              top: 7px;
+              right: 8px;
+            }
+          }
+          .el-upload-list__item-status-label {
+            display: none;
+          }
+        }
       }
-    }
-  }
-  .relevance-shop__main{
-    >>> .el-form{
-      padding:var(--default-margin-base);
-    }
-    width:100%;
-    border:1px solid var(--theme-base-border-color-primary);
-    .relevance-shop__content{
-      padding:var(--default-margin-base);
-      width:100%;
-      >>> .el-checkbox{
-        width:32.7%;
-        overflow: hidden;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-        margin-right:var(--default-margin-base);
-        &+.el-checkbox{
-          margin-left:0;
+      @e text {
+        > svg,
+        > span {
+          font-size: 12px;
+        }
+        > svg + span {
+          margin-left: 4px;
+        }
+        > span + button {
+          margin-left: 10px;
+          padding: 3px 0;
+          font-weight: normal;
         }
       }
     }
-    .relevance-shop__footer{
-      border-top:1px solid var(--theme-base-border-color-primary);
-      padding:var(--default-margin-base);
-      >>> .el-checkbox{
-        line-height: var(--default-form-item-small-height);
-      }
-      >>> .el-pagination{
-        padding:0;
-        display: inline-block;
+    @b footer {
+      padding: 10px;
+      button + button {
+        margin-left: 10px;
       }
     }
-  }
-  /* 关联店铺的样式-end*/
-
-  /* 发放优惠券样式 */
-  .border-top{
-    width:100%;
-    height: 0;
-    border-top:1px solid var(--theme-base-border-color-primary);
-  }
-  .coupon{
-    position: absolute;
-    top:5px;
-    right:60px;
-    font-size:13px;
-  }
-  .coupon-preview{
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    border-radius:5px;
-    border:1px solid var(--theme-base-border-color-primary);
-    border-bottom-style:dashed;
-    padding:10px;
-  }
-  .coupon-amount__large{
-    font-size: 28px;
-  }
-  .coupon-preview-title{
-    padding-left:15px;
-  }
-  .coupon-decorate{
-    background: var(--theme-color-warning);
-    color:#fff;
-    margin-left: 10px;
-    padding: 3px 6px 2px;
-    font-size: 12px;
-  }
-  .coupon-preview-bottom{
-    font-size: 12px;
-    border-radius:5px;
-    border:1px solid var(--theme-base-border-color-primary);
-    border-top-style:dashed;
-    padding:3px 10px;
-    color:var(--theme-font-color-secondary);
-    margin-top: -1px;
-  }
-  /* 发放优惠券样式-end */
-
-  /* tab样式 */
-  .tab-center--two .tab-line-reset >>> .el-tabs__header{
-    background: #fff;
-  }
-  .tab-center--two .tab-line-reset  >>> .el-tabs__nav{
-    border:none;
-    border-radius: 0;
-    float:left;
-  }
-  .tab-center--two .tab-line-reset  >>> .el-tabs__item.is-active{
-    background: none;
-    color:var(--theme-color-primary);
-  }
-  .tab-center--two .tab-line-reset  >>> .el-tabs__item, .tab-line-reset  >>> .el-tabs__item{
-    padding:var(--tab-center-two-vertical-padding) var(--tab-center-two-horizontal-padding);
-    font-size:var(--tab-center-two-font-size);
-    color:var(--theme-font-color-regular);
-  }
-  .tab-center--two {
-    >>> .el-tabs__header{
-      background: none;
-      text-align: center;
-      border: none;
-      margin-bottom:var(--default-margin-xlarger);
-    }
-  }
-  .tab-center--two  >>> .el-tabs__nav{
-    border:1px solid var(--theme-color-primary);
-    border-radius: var(--default-radius-mini);
-    display: inline-block;
-    float:none;
-  }
-  .tab-center--two  >>> .el-tabs__item.is-active{
-    background: var(--theme-color-primary);
-    color:var(--theme-bg-color-base);
-  }
-  .tab-center--two  >>> .el-tabs__item, .tab-center--two  >>> .el-tabs__item{
-    padding:var(--tab-center-two-vertical-padding) var(--tab-center-two-horizontal-padding);
-    font-size:var(--tab-center-two-font-size);
-    color:var(--theme-color-primary);
-  }
-  .el-tabs--top >>> .el-tabs__item.is-top:last-child{
-    padding-right:var(--tab-center-two-horizontal-padding);
-  }
-  .el-tabs--top >>> .el-tabs__item.is-top:nth-child(2){
-    padding-left:var(--tab-center-two-horizontal-padding);
-  }
-  /* 页面结构标题样式 */
-  .page-title {
-    font-size: var(--default-font-size-base);
-    padding-bottom: var(--default-padding-larger);
-    font-weight: bold;
   }
 </style>

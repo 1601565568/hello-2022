@@ -14,17 +14,17 @@
         <div class="searchAction">
           <div class="searchAction_top">
             <el-form ref="table_filter_form" :model="model" label-width="64px" :inline="true">
-                <el-form-item label="工作门店：">
+                <el-form-item label="门店名称：">
                   <el-form-grid>
-                    <ns-droptree ref="shopCateTree" placeholder="请选择门店分类" :lazy="true" :load="loadShopCateNode"  :multiple="false" v-model="param.shopCate"  clearable></ns-droptree>
+                    <ns-droptree ref="shopCateTree" placeholder="线下门店分类" :lazy="true" :load="loadShopCateNode"  :multiple="false" v-model="param.shopCate"  clearable></ns-droptree>
                   </el-form-grid>
                   <el-form-grid style="margin-left: 5px">
-                    <el-select-load v-model="param.shopId" :options="shopOptions"  filterable clearable :page-sizes="20" placeholder="选择门店">
+                    <el-select-load v-model="param.shopId" :options="shopOptions"  filterable clearable :page-sizes="20" placeholder="线下门店名称搜索">
                     </el-select-load>
                   </el-form-grid>
                 </el-form-item>
                 <el-form-item label="门店类型：">
-                  <el-select placeholder="请选择门店类型" v-model="model.shopType" clearable>
+                  <el-select placeholder="请选择" v-model="model.shopType" clearable>
                     <el-option v-for="shop in shopLeiXing" :label="shop.label" :value="shop.value"
                                 :key="shop.value"></el-option>
                   </el-select>
@@ -74,7 +74,10 @@
         <div class="selecedBox" v-loading="multipleSelectionLoading"
              :element-loading-text="$t('prompt.loading')">
           <el-scrollbar class="scrollbarb">
-            <div class="tit">已选择<em>{{multipleSelection.length}}</em>门店  <span class="text-error" @click="cleanSelect()" style="float:right ">清空</span></div>
+            <div class="tit clearfix">
+              <span>已选择 <em>{{multipleSelection.length}}</em> 家门店</span>
+              <span class="text-primary" @click="cleanSelect()">清空</span>
+            </div>
             <ul class="list">
               <li v-for="(item) in multipleSelection" :key="item.id">
                 <span class="name">{{item.shopName}}</span>
@@ -137,6 +140,7 @@ export default {
         children: null,
         disabled: null,
         city: null,
+        shopType: null,
         area: []
       },
       models: {
@@ -593,6 +597,10 @@ export default {
       em {
         font-style: normal;
         color: #f00;
+      }
+      >>> .text-primary {
+        float: right;
+        cursor: pointer;
       }
     }
     .list {
