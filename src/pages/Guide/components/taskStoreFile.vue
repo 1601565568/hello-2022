@@ -104,16 +104,26 @@ export default {
     },
     okFun () {
       let tempShopArray = []
+      let isExecute = false
       let tempShopStr = []
       let temp = this.manualValue
-      console.log('外部编码', temp)
       if (temp !== '' && temp !== null) {
         if (temp.startsWith(',') || temp.endsWith(',') || temp.startsWith('，') || temp.endsWith('，')) {
           this.$notify.info('请输入正确的外部店铺编码')
           return false
         } else {
           tempShopArray = this.manualValue.split(',')
-          tempShopArray.forEach(shop => tempShopStr.push(shop.trim()))
+          tempShopArray.forEach(shop => {
+            if (shop.startsWith(',') || shop.endsWith(',') || shop.startsWith('，') || shop.endsWith('，')) {
+              this.$notify.info('请输入正确的外部店铺编码')
+              isExecute = true
+            } else {
+              tempShopStr.push(shop.trim())
+            }
+          })
+          if (isExecute) {
+            return false
+          }
           this.uploadData.manualStoreIds = tempShopStr.join(',')
         }
       } else {
