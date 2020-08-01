@@ -309,8 +309,6 @@ export default {
     },
     taskStoreFileBack (val) {
       this.storeInfo = val
-      // window.console.log('上传EXCEL回调的数据=>' + val.successSize)
-      // window.console.log('上传EXCEL回调的数据=>' + this.storeInfo.successSize)
     },
     taskStoreFile () {
       this.$nextTick(() => {
@@ -348,7 +346,6 @@ export default {
       /* 加载表格 */
       this.tableLoading = true
       this.multipleSelectionLoading = true
-      console.log('length', this.pagination.size)
       let param = {
         start: (this.pagination.page - 1) * this.pagination.size,
         length: this.pagination.size,
