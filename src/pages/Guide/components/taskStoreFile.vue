@@ -143,6 +143,8 @@ export default {
     },
     onOpendialog () {
       this.dialogVisible = true
+      this.uploadData.manualStoreIds = null
+      this.uploadData.fileKey = null
       this.manualValue = null
       this.$nextTick(function () {
         this.$refs.uploadRef.clearFiles()
