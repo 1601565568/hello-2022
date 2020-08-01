@@ -119,10 +119,9 @@ export default {
         this.departData.name = ''
         this.departData.mobile = ''
         this.departData.job = null
-        this.departData.selectedDepart.value = ''
-        this.departData.selectedDepart.text = ''
-        this.$refs.employeeDepartTree.cleanClickHandle()
-        this.$refs.shopCateTree.cleanClickHandle()
+        this.departData.selectedDepart = {}
+        this.departData.shopCate = {} // 选择的门店分类
+        this.departData.shopId = '' // 选择的门店
         this.getEmployeeList()
       })
     },
@@ -208,12 +207,9 @@ export default {
       vm.departData.name = ''
       vm.departData.mobile = ''
       vm.departData.job = ''
-      vm.departData.selectedDepart.value = ''
-      vm.departData.selectedDepart.text = ''
-      vm.model.shopCate = {} // 选择的门店分类
-      vm.model.shopId = '' // 选择的门店
-      vm.$refs.employeeDepartTree.cleanClickHandle()
-      vm.$refs.shopCateTree.cleanClickHandle()
+      vm.departData.selectedDepart = {}
+      vm.departData.shopCate = {} // 选择的门店分类
+      vm.departData.shopId = '' // 选择的门店
       vm.searchEmployee(1)
     },
     /**
