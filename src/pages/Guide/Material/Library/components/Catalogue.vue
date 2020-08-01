@@ -185,7 +185,6 @@ export default {
             let dv = a.h - b.h
             return dv === 0 ? a.i - b.i : dv
           })
-          console.log(o, JSON.stringify(sortArr))
         })
         return list
       }
