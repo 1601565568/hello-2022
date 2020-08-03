@@ -46,67 +46,7 @@ export default {
       title: '移动到',
       visible: false,
       loading: false,
-      list: [{
-        id: -1,
-        label: '素材库',
-        children: [{
-          id: 1,
-          label: '一级 1',
-          children: [{
-            id: 2,
-            label: '二级 1-1',
-            children: [{
-              id: 3,
-              label: '三级 1-1-1'
-            }, {
-              id: 4,
-              label: '三级 1-1-2',
-              isLeaf: false
-            }]
-          }]
-        }, {
-          id: 5,
-          label: '一级 2',
-          children: [{
-            id: 6,
-            label: '二级 2-1'
-          }, {
-            id: 7,
-            label: '二级 2-2'
-          }]
-        }, {
-          id: 8,
-          label: '一级 3',
-          disabled: true,
-          children: [{
-            id: 9,
-            label: '二级 3-1'
-          }, {
-            id: 10,
-            label: '二级 3-2'
-          }]
-        }, {
-          id: 11,
-          label: '一级 4',
-          children: [{
-            id: 12,
-            label: '二级 4-1'
-          }, {
-            id: 13,
-            label: '二级 4-2'
-          }]
-        }, {
-          id: 14,
-          label: '一级 5',
-          children: [{
-            id: 15,
-            label: '二级 5-1'
-          }, {
-            id: 16,
-            label: '二级 5-2'
-          }]
-        }]
-      }],
+      list: [],
       defaultExpandKeys: [-1],
       treeProps: {
         label: 'label',
@@ -159,65 +99,14 @@ export default {
       this.$refs.newFolder.show()
     },
     // 获取文件列表
-    loadList () {
-      console.log('重新加载')
-      // let result = [{
-      //   id: 1,
-      //   label: '一级 1',
-      //   children: [{
-      //     id: 4,
-      //     label: '二级 1-1',
-      //     children: [{
-      //       id: 9,
-      //       label: '三级 1-1-1'
-      //     }, {
-      //       id: 10,
-      //       label: '三级 1-1-2'
-      //     }]
-      //   }]
-      // }, {
-      //   id: 2,
-      //   label: '一级 2',
-      //   children: [{
-      //     id: 5,
-      //     label: '二级 2-1'
-      //   }, {
-      //     id: 6,
-      //     label: '二级 2-2'
-      //   }]
-      // }, {
-      //   id: 3,
-      //   label: '一级 3',
-      //   children: [{
-      //     id: 7,
-      //     label: '二级 3-1'
-      //   }, {
-      //     id: 8,
-      //     label: '二级 3-2'
-      //   }]
-      // }, {
-      //   id: 4,
-      //   label: '一级 4',
-      //   children: [{
-      //     id: 9,
-      //     label: '二级 4-1'
-      //   }, {
-      //     id: 10,
-      //     label: '二级 4-2'
-      //   }]
-      // }, {
-      //   id: 5,
-      //   label: '一级 5',
-      //   children: [{
-      //     id: 19,
-      //     label: '二级 5-1'
-      //   }, {
-      //     id: 20,
-      //     label: '二级 5-2'
-      //   }]
-      // }]
-      // this.list = [{ id: -1, label: '素材库', children: result }]
-      // this.defaultExpandKeys = ['-1']
+    async loadList () {
+      const resp = await this.$http.fetch(this.$api.guide.getDirectoryTree)
+      if (resp && resp.success) {
+        this.list = [{ id: '-1', label: '素材库', children: resp.result }]
+        this.defaultExpandKeys = ['-1']
+      } else {
+        this.$notify.error(getErrorMsg('查询失败', resp))
+      }
     },
     handleSave () {
       this.$emit('change', { selected: this.selected, catalogue: this.catalogue })
