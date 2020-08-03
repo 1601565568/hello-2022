@@ -77,7 +77,7 @@ export default {
     method: 'post'
   },
   queryMaterial: {
-    // 素材编辑
+    // 素材详情
     url: '/guide/material/queryMaterial',
     method: 'get'
   },
@@ -92,7 +92,7 @@ export default {
     method: 'post'
   },
   materialSetGroud: {
-    // 素材设置分组
+    // 素材设置标签
     url: '/guide/material/setSubdivision',
     method: 'post'
   },
