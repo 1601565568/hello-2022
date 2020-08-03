@@ -1,11 +1,11 @@
 <template>
   <div class="library-image">
     <el-form ref="form" :model="model" :rules="rules" label-width="98px">
-      <el-form-item label="素材标题：" prop="title">
+      <el-form-item label="素材标题：" prop="name">
         <el-input
           type="text"
           maxlength="20"
-          v-model="model.title"
+          v-model="model.name"
           placeholder="请输入标题，长度为4-20个字符"
           style="width: 260px"
         ></el-input>
@@ -100,9 +100,9 @@
         </el-form-grid>
       </el-form-item>
       <el-form-item
+        v-if="model.codeModule && model.codeModule != 1 && model.codeTargetName != '' "
         :label="model.codeModule == 2 ? '商品名称：' : model.codeModule == 4 ? '活动名称：' : ''"
         prop='codeTargetName'
-        v-if="model.codeModule && model.codeModule != 1 && model.codeTargetName != '' "
       >
         <el-input v-model="model.codeTargetName" :disabled="true" style="width: 240px"></el-input>
       </el-form-item>
@@ -161,20 +161,20 @@ export default {
       wechatPageUrlList: [{ codeTargetName: '首页', codeTarget: '1' }, { codeTargetName: '分类', codeTarget: '2' }, { codeTargetName: '我的', codeTarget: '3' }],
       model: {
         mType: 1,
+        isDirectory: 0,
         title: '',
         content: '',
         subdivisionId: undefined,
         codeType: 1,
         imageList: ['https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/201911/10000146/9317b820-9780-4d17-8761-f9fe2bf81e82.jpg'],
-        catalogue: [{ id: -1, label: '素材库' }],
         marketType: null,
         codeModule: null,
-        extJson: null,
+        extJson: '',
         codeTarget: '',
         codeTargetName: ''
       },
       rules: {
-        title: [
+        name: [
           { required: true, message: '请输入标题', trigger: 'blur' },
           { min: 4, max: 10, message: '长度在4到20个字符', trigger: 'blur' },
           { pattern: /^(?!(\s+$))/, message: '不允许为空' }
@@ -188,12 +188,12 @@ export default {
           { required: true, message: '请添加素材图片', trigger: 'change' }
         ]
       },
-      list: []
+      catalogue: [{ id: -1, label: '素材库' }]
     }
   },
   computed: {
     catalogueStr () {
-      return this.model.catalogue.map(o => o.label).join(' > ')
+      return this.catalogue.map(o => o.label).join(' > ')
     }
   },
   methods: {
@@ -207,12 +207,14 @@ export default {
       this.$emit('togglePreview', index, this.model.imageList, 'img')
     },
     handleFolder ({ catalogue }) {
-      this.model.catalogue = catalogue
+      this.catalogue = catalogue
     },
     removeImage (index) {
       this.model.imageList.splice(index, 1)
+      this.$refs.form.validateField('imageList')
     },
     handleAvatarSuccess: function (res, file) {
+      this.$refs.imageForm.clearValidate()
       if (this.model.imageList.length < 9) {
         this.model.imageList.push(res.result.url)
       }
@@ -269,18 +271,20 @@ export default {
     },
     doSave () {
       const params = { ...this.model }
+      // 控制图片数量
       let maxSize = params.codeType === 2 ? 8 : 9
       params.imageList.splice(maxSize - 1, 1)
-      // 选择商品 codeMudule = 2
+      // 带码状态
       if (params.codeTarget === '') {
         params.codeType = 0
       }
       if (params.codeType === 0 && params.codeTarget > 0) {
         params.codeType = 1
       }
-      params.catalogue = params.catalogue.slice(1)
+      params.parentId = this.catalogue[this.catalogue.length - 1].id
       this.loading = true
       this.$http.fetch(this.$api.guide.materialEdit, params).then(resp => {
+        this.$notify.success('图文素材保存成功')
         this.onBack()
       }).catch(resp => {
         this.$notify.error(getErrorMsg('保存失败', resp))

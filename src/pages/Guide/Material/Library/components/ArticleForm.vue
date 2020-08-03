@@ -1,11 +1,11 @@
 <template>
   <div class="library-article">
     <el-form ref="form" :model="model" :rules="rules" label-width="98px">
-      <el-form-item label="素材标题：" prop="title">
+      <el-form-item label="素材标题：" prop="name">
         <el-input
           type="text"
           maxlength="20"
-          v-model="model.title"
+          v-model="model.name"
           placeholder="请输入标题，长度为4-20个字符"
           style="width: 260px"
         ></el-input>
@@ -41,17 +41,17 @@
           style="width: 340px"
         ></el-input>
       </el-form-item>
-      <el-form-item label="卡片样式：" prop="cardContent">
+      <el-form-item label="卡片样式：" prop="cardStyle">
         <div class="library-card">
           <div class="library-card__header">
             <span class="library-card__icon"></span>
             <span class="library-card__title">小程序名称</span>
           </div>
           <el-form-grid>
-            <el-form-item prop="cardTitle">
-              <el-input type="text" v-model="model.cardTitle" placeholder="请输入文章标题，长度为4-40个字"></el-input>
+            <el-form-item prop="title">
+              <el-input type="text" v-model="model.title" placeholder="请输入文章标题，长度为4-40个字"></el-input>
             </el-form-item>
-            <el-form-item prop="imageList">
+            <el-form-item ref="imageForm" prop="imageList">
               <div class="library-image__item" v-for="(item,index) in model.imageList" :key="index">
                 <img :src="item">
                 <div class="library-image__mask">
@@ -108,6 +108,7 @@
 import FolderTree from './FolderTree'
 import VueUeditorWrap from 'vue-ueditor-wrap'
 import ElUpload from '@nascent/nui/lib/upload'
+import { getErrorMsg } from '@/utils/toast'
 
 export default {
   name: 'articleform',
@@ -117,6 +118,12 @@ export default {
       type: Array,
       default () {
         return []
+      }
+    },
+    detail: {
+      type: Object,
+      default () {
+        return {}
       }
     }
   },
@@ -132,19 +139,19 @@ export default {
       loading: false,
       model: {
         mType: 0,
+        isDirectory: 0,
+        name: '',
         title: '',
         content: '',
         textContent: '',
         subdivisionId: undefined,
-        catalogue: [{ id: -1, label: '素材库' }],
         imageList: ['https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/201911/10000146/9317b820-9780-4d17-8761-f9fe2bf81e82.jpg'],
-        cardTitle: '',
-        cardContent: {}
+        cardStyle: {}
       },
       rules: {
-        title: [
+        name: [
           { required: true, message: '请输入标题', trigger: 'blur' },
-          { min: 4, max: 10, message: '长度在4到20个字符', trigger: 'blur' },
+          { min: 4, max: 20, message: '长度在4到20个字符', trigger: 'blur' },
           { pattern: /^(?!(\s+$))/, message: '不允许为空' }
         ],
         content: [
@@ -158,24 +165,28 @@ export default {
         imageList: [
           { required: true, message: '请添加素材图片', trigger: 'change' }
         ],
-        cardTitle: [
+        title: [
           { required: true, message: '请输入文章标题', trigger: 'blur' },
-          { min: 4, max: 10, message: '长度在4到40个字符', trigger: 'blur' }
+          { min: 4, max: 40, message: '长度在4到40个字符', trigger: 'blur' }
         ],
-        cardContent: [
-          { required: true, message: '卡片样式不能为空', trigger: 'blur' }
-        ]
+        cardStyle: [{ required: true, message: '卡片样式不能为空', trigger: 'blur' }]
       },
-      list: []
+      catalogue: [{ id: -1, label: '素材库' }]
     }
   },
   computed: {
     catalogueStr () {
-      return this.model.catalogue.map(o => o.label).join(' > ')
+      return this.catalogue.map(o => o.label).join(' > ')
     }
+  },
+  watch: {
+    // detail (newObj) {
+    //   console.log(newObj)
+    // }
   },
   methods: {
     toggleFolder () {
+      // todo 传递路径 - 展开项以及选中项
       this.$refs.folderTree.show()
     },
     toggleLabel () {
@@ -185,7 +196,7 @@ export default {
       this.$emit('togglePreview', 0, this.model.imageList, 'img')
     },
     handleFolder ({ catalogue }) {
-      this.model.catalogue = catalogue
+      this.catalogue = catalogue
     },
     editorReady: function (instance) {
       // 将实例 instance 存储到 data中
@@ -197,8 +208,10 @@ export default {
     },
     removeImage (index) {
       this.model.imageList.splice(index, 1)
+      this.$refs.form.validateField('imageList')
     },
     handleAvatarSuccess: function (res, file) {
+      this.$refs.imageForm.clearValidate()
       this.model.imageList = [res.result.url]
     },
     beforeAvatarUpload (file) {
@@ -224,10 +237,11 @@ export default {
     },
     doSave () {
       this.loading = true
-      const params = { ...this.model }
-      params.catalogue = params.catalogue.slice(1)
-      delete params.cardContent
+      const params = { ...this.detail, ...this.model }
+      params.parentId = this.catalogue[this.catalogue.length - 1].id
+      delete params.cardStyle
       this.$http.fetch(this.$api.guide.materialEdit, params).then(resp => {
+        this.$notify.success('文章素材保存成功')
         this.onBack()
       }).catch(resp => {
         this.$notify.error(getErrorMsg('保存失败', resp))

@@ -1,11 +1,11 @@
 <template>
   <div class="library-video">
     <el-form ref="form" :model="model" :rules="rules" label-width="98px">
-      <el-form-item label="素材标题：" prop="title">
+      <el-form-item label="素材标题：" prop="name">
         <el-input
           type="text"
           maxlength="20"
-          v-model="model.title"
+          v-model="model.name"
           placeholder="请输入标题，长度为4-20个字符"
           style="width: 260px"
         ></el-input>
@@ -42,8 +42,8 @@
         ></el-input>
       </el-form-item>
       <el-form-item label="素材视频：" prop="videoUrl">
-        <div v-if="model.videoUrl" class="library-video__item">
-          <video :src="model.videoUrl">您的浏览器暂不支持播放该视频，请升级至最新版浏览器。</video>
+        <div v-if="model.imageList && model.imageList.length" class="library-video__item">
+          <video :src="model.imageList[0]">您的浏览器暂不支持播放该视频，请升级至最新版浏览器。</video>
           <div class="library-video__mask" @click="previewVideo">
             <div class="library-video__wrapper">
               <Icon type="begin" />
@@ -103,16 +103,16 @@ export default {
       loading: false,
       model: {
         mType: 2,
-        title: '',
+        isDirectory: 0,
+        name: '',
         content: '',
-        videoUrl: 'https://v-cdn.zjol.com.cn/276985.mp4',
-        subdivisionId: undefined,
-        catalogue: [{ id: -1, label: '素材库' }]
+        imageList: ['https://v-cdn.zjol.com.cn/276985.mp4'],
+        subdivisionId: undefined
       },
       rules: {
-        title: [
+        name: [
           { required: true, message: '请输入标题', trigger: 'blur' },
-          { min: 4, max: 10, message: '长度在4到20个字符', trigger: 'blur' },
+          { min: 4, max: 20, message: '长度在4到20个字符', trigger: 'blur' },
           { pattern: /^(?!(\s+$))/, message: '不允许为空' }
         ],
         content: [
@@ -120,16 +120,16 @@ export default {
           { min: 0, max: 1500, message: '限制长度在1500个字符以内', trigger: 'blur' },
           { pattern: /^(?!(\s+$))/, message: '不允许为空' }
         ],
-        videoUrl: [
+        imageList: [
           { required: true, message: '请添加素材视频', trigger: 'change' }
         ]
       },
-      list: []
+      catalogue: [{ id: -1, label: '素材库' }]
     }
   },
   computed: {
     catalogueStr () {
-      return this.model.catalogue.map(o => o.label).join(' > ')
+      return this.catalogue.map(o => o.label).join(' > ')
     }
   },
   methods: {
@@ -140,16 +140,16 @@ export default {
       this.$emit('toggleLabel')
     },
     previewVideo () {
-      this.$emit('togglePreview', 0, [this.model.videoUrl], 'video')
+      this.$emit('togglePreview', 0, this.model.imageList, 'video')
     },
     handleFolder ({ catalogue }) {
-      this.model.catalogue = catalogue
+      this.catalogue = catalogue
     },
     removeVideo (index) {
-      this.model.videoUrl = ''
+      this.model.imageList = []
     },
     handleVideoSuccess: function (res, file) {
-      this.model.videoUrl = res.result.url
+      this.model.imageList = [res.result.url]
     },
     beforeVideoUpload (file) {
       if (file.size / 1024 > 1024 * 10) {
@@ -175,8 +175,9 @@ export default {
     doSave () {
       this.loading = true
       const params = { ...this.model }
-      params.catalogue = params.catalogue.slice(1)
+      params.parentId = this.catalogue[this.catalogue.length - 1].id
       this.$http.fetch(this.$api.guide.materialEdit, params).then(resp => {
+        this.$notify.success('视频素材保存成功')
         this.onBack()
       }).catch(resp => {
         this.$notify.error(getErrorMsg('保存失败', resp))

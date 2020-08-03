@@ -10,6 +10,7 @@
         <Component
           ref="component"
           :is="item.type"
+          :detail="detail"
           :labelList="labelList"
           @toggleLabel="toggleLabel"
           @togglePreview="togglePreview"
