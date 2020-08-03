@@ -146,12 +146,11 @@ export default {
      * 获取素材分组最大排序序号
      */
     async getSubdivisionMaxSortNum () {
-      const resp = await this.$http.fetch(this.$api.guide.materialSubdivision.getSubdivisionMaxSortNum)
-      if (resp && resp.success) {
+      return this.$http.fetch(this.$api.guide.materialSubdivision.getSubdivisionMaxSortNum).then(resp => {
         this.maxSortNum = parseInt(resp.result)
-      } else {
+      }).catch(resp => {
         this.$notify.error(getErrorMsg('查询最大排序序号失败', resp))
-      }
+      })
     },
     /**
      * 获取素材列表数据
@@ -159,15 +158,14 @@ export default {
     async loadListFun () {
       this.loading = true
       await this.getSubdivisionMaxSortNum()
-      const resp = await this.$http.fetch(this.$api.guide.materialGroudList, this.searchObj)
-      if (resp && resp.success) {
+      await this.$http.fetch(this.$api.guide.materialGroudList, this.searchObj).then(resp => {
         this.dataList = resp.result.data.map((item, index) => {
           return { ...item, seq: (this.pagination.page - 1) * 10 + index + 1 }
         })
         this.pagination.total = parseInt(resp.result.recordsTotal)
-      } else {
+      }).catch(resp => {
         this.$notify.error(getErrorMsg('查询失败', resp))
-      }
+      })
       this.loading = false
     },
     /**
@@ -175,12 +173,11 @@ export default {
      */
     async exchangeSort (type, row) {
       const params = { type, subdivisionId: +row.subdivisionId }
-      const resp = await this.$http.fetch(this.$api.guide.materialExchangeSort, params)
-      if (resp && resp.success) {
+      this.$http.fetch(this.$api.guide.materialExchangeSort, params).then(resp => {
         this.loadListFun()
-      } else {
+      }).catch(resp => {
         this.$notify.error(getErrorMsg('调整排序失败', resp))
-      }
+      })
     },
     show () {
       this.visible = true
@@ -234,13 +231,12 @@ export default {
         confirmButtonText: '确定'
       }).then(async () => {
         const params = { subdivisionId: row.subdivisionId }
-        const resp = await this.$http.fetch(this.$api.guide.materialGroudDel, params)
-        if (resp && resp.success) {
-          this.$notify({ type: 'success', message: '删除成功!' })
+        this.$http.fetch(this.$api.guide.materialGroudDel, params).then(resp => {
+          this.$notify.success('删除成功!')
           this.loadListFun()
-        } else {
+        }).catch(resp => {
           this.$notify.error(getErrorMsg('删除失败', resp))
-        }
+        })
       }).catch(() => {})
     }
   }

@@ -14,17 +14,19 @@
         :data="list"
         :props="treeProps"
         :expand-on-click-node="false"
-        :default-expanded-keys="defaultExpandKeys"
+        :default-expanded-keys="expandKeys"
         :render-content="renderNode"
         :check-strictly="true"
         @node-click="onSelect"
+        @node-expand="onExpand"
+        @node-collapse="onCollapse"
       >
       </el-tree>
     </div>
     <div slot="footer" class="clearfix">
       <ns-button @click="onAddFolder" class="folder-tree__btn">新建文件夹</ns-button>
       <ns-button @click="hide">取 消</ns-button>
-      <ns-button type="primary" :loading="loading" @click="handleSave">确 定</ns-button>
+      <ns-button type="primary" :disabled="!selected" :loading="loading" @click="handleSave">确 定</ns-button>
     </div>
     <new-folder ref="newFolder" @refresh="loadList"></new-folder>
   </el-dialog>
@@ -47,7 +49,7 @@ export default {
       visible: false,
       loading: false,
       list: [],
-      defaultExpandKeys: [-1],
+      expandKeys: ['0'],
       treeProps: {
         label: 'label',
         children: 'children'
@@ -69,18 +71,30 @@ export default {
       this.selected = null
       this.$refs.folderTree.setCheckedKeys([])
     },
+    onExpand (data) {
+      let index = this.expandKeys.findIndex(key => data.id === key)
+      if (index < 0) {
+        this.expandKeys.push(data.id)
+      }
+    },
+    onCollapse (data) {
+      let index = this.expandKeys.findIndex(key => data.id === key)
+      if (index < 0) {
+        this.expandKeys.splice(index, 1)
+      }
+    },
     onSelect (data, node) {
       if (data.disabled) {
         return
       }
       this.$refs.folderTree.setCheckedKeys([data.id])
       this.selected = data
-      let catalogue = [data]
-      if (data.id !== -1) {
+      const catalogue = [data]
+      if (data.id !== '0') {
         while (node.parent) {
           node = node.parent
           catalogue.unshift(node.data)
-          if (node.data && node.data.id === -1) {
+          if (node.data && node.data.id === '0') {
             node.parent = null
           }
         }
@@ -96,19 +110,19 @@ export default {
       )
     },
     onAddFolder () {
-      this.$refs.newFolder.show()
+      this.$refs.newFolder.show({ parent: this.selected })
     },
     // 获取文件列表
-    async loadList () {
-      const resp = await this.$http.fetch(this.$api.guide.getDirectoryTree)
-      if (resp && resp.success) {
-        this.list = [{ id: '-1', label: '素材库', children: resp.result }]
-        this.defaultExpandKeys = ['-1']
-      } else {
+    async loadList (expandData) {
+      this.$http.fetch(this.$api.guide.getDirectoryTree).then(resp => {
+        this.list = [{ id: '0', label: '素材库', children: resp.result }]
+        expandData ? this.onExpand(expandData) : this.expandKeys = ['0']
+      }).catch(resp => {
         this.$notify.error(getErrorMsg('查询失败', resp))
-      }
+      })
     },
     handleSave () {
+      // todo 1、移动到某个文件夹； 2、选择文件目录
       this.$emit('change', { selected: this.selected, catalogue: this.catalogue })
       this.hide()
     }
@@ -121,6 +135,9 @@ export default {
     @e wrapper {
       min-height: 270px;
       padding: 0 20px 20px;
+      >>> .el-tree {
+        overflow: hidden;
+      }
     }
     @e btn {
       float: left;

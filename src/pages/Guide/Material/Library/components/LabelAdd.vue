@@ -78,14 +78,14 @@ export default {
     async doSave () {
       this.loading = true
       const params = { ...this.data, ...this.model }
-      const resp = await this.$http.fetch(this.$api.guide.materialGroudDeit, params)
-      if (resp && resp.success) {
-        this.hide()
+      this.$http.fetch(this.$api.guide.materialGroudDeit, params).then(resp => {
         this.$emit('refresh')
-      } else {
+        this.hide()
+      }).catch(resp => {
         this.$notify.error(getErrorMsg(this.title, resp))
-      }
-      this.loading = false
+      }).finally(() => {
+        this.loading = false
+      })
     }
   }
 }

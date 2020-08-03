@@ -9,9 +9,9 @@
   >
     <div class="folder-dialog__wrapper">
       <el-form ref="form" :inline="true" :rules="rules" label-width="84px" :model="model">
-        <el-form-item label='文件夹名称：' prop="folderName">
+        <el-form-item label='文件夹名称：' prop="name">
            <el-input
-              v-model="model.folderName"
+              v-model="model.name"
               placeholder="限制长度4-10个字符"
               style="width: 256px"
               clearable
@@ -26,6 +26,7 @@
   </el-dialog>
 </template>
 <script>
+import { getErrorMsg } from '@/utils/toast'
 export default {
   props: {
     appendToBody: {
@@ -40,12 +41,10 @@ export default {
       title: '新建文件夹',
       visible: false,
       loading: false,
-      model: {
-        folderId: null,
-        folderName: ''
-      },
+      model: { name: '' },
+      parent: null,
       rules: {
-        folderName: [
+        name: [
           { required: true, message: '请输入文件夹名称', trigger: 'blur' },
           { min: 4, max: 10, message: '长度在4到10个字符', trigger: 'blur' }
         ]
@@ -57,7 +56,8 @@ export default {
     show (params = {}) {
       this.visible = true
       this.title = params.type === 'edit' ? '编辑文件夹' : '新建文件夹'
-      this.model = { ...params.model }
+      this.model = { name: '', ...params.model }
+      this.parent = params.parent || { id: '0' }
     },
     hide () {
       this.visible = false
@@ -66,10 +66,24 @@ export default {
     handleSave () {
       this.$refs.form.validate((valid) => {
         if (valid) {
-          this.$emit('refresh')
-          this.hide()
-          // console.log(this.model)
+          this.doSave()
         }
+      })
+    },
+    async doSave () {
+      this.loading = true
+      this.$http.fetch(this.$api.guide.saveOrUpdateDirectory, {
+        isDirectory: 1,
+        parentId: this.parent.id,
+        ...this.model
+      }).then(resp => {
+        this.$notify.success(`${this.title}成功`)
+        this.$emit('refresh', this.parent)
+        this.hide()
+      }).catch(resp => {
+        this.$notify.error(getErrorMsg(this.title, resp))
+      }).finally(() => {
+        this.loading = false
       })
     }
   }
