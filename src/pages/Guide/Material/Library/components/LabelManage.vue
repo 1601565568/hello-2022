@@ -45,8 +45,8 @@
           style="width: 100%;"
           height="600"
         >
-          <el-table-column label="序号" width="100" prop="sort"></el-table-column>
-          <el-table-column label="名称" prop="subdivisionId" show-overflow-tooltip></el-table-column>
+          <el-table-column label="序号" width="100" prop="seq"></el-table-column>
+          <el-table-column label="名称" prop="subdivisionName" show-overflow-tooltip></el-table-column>
           <el-table-column label="素材数" prop="counts" width="120"></el-table-column>
           <el-table-column  label="更新时间" prop="updateTime" width="180"></el-table-column>
           <el-table-column  width="165">
@@ -60,14 +60,14 @@
             <template slot-scope="scope">
               <i
                 class="label-sort__icon"
-                :class="scope.row.sort === 1 ? 'label-sort__icon--hide' : ''"
+                :class="pagination.page === 1 && scope.$index === 0 ? 'label-sort__icon--hide' : ''"
                 @click='exchangeSort(1, scope.row)'
               >
                 <Icon type="zhiding"/>
               </i>
               <i
                 class="label-sort__icon"
-                :class="scope.row.sort === 1 ? 'label-sort__icon--hide' : ''"
+                :class="pagination.page === 1 && scope.$index === 0 ? 'label-sort__icon--hide' : ''"
                 @click='exchangeSort(2, scope.row)'
               >
                 <Icon type="top-arr"/>
@@ -161,7 +161,9 @@ export default {
       await this.getSubdivisionMaxSortNum()
       const resp = await this.$http.fetch(this.$api.guide.materialGroudList, this.searchObj)
       if (resp && resp.success) {
-        this.dataList = resp.result.data
+        this.dataList = resp.result.data.map((item, index) => {
+          return { ...item, seq: (this.pagination.page - 1) * 10 + index + 1 }
+        })
         this.pagination.total = parseInt(resp.result.recordsTotal)
       } else {
         this.$notify.error(getErrorMsg('查询失败', resp))
@@ -172,7 +174,7 @@ export default {
      * 调整排序
      */
     async exchangeSort (type, row) {
-      const params = { type, subdivisionId: row.subdivisionId }
+      const params = { type, subdivisionId: +row.subdivisionId }
       const resp = await this.$http.fetch(this.$api.guide.materialExchangeSort, params)
       if (resp && resp.success) {
         this.loadListFun()

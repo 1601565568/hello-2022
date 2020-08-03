@@ -10,9 +10,9 @@
   >
     <div class="labeladd-dialog__wrapper">
       <el-form ref="form" :rules="rules" :model="model" :inline="true">
-        <el-form-item label-width="72px" label="标签名称：" prop="subdivision_name">
+        <el-form-item label-width="72px" label="标签名称：" prop="name">
           <el-input
-            v-model="model.subdivision_name"
+            v-model="model.name"
             placeholder='请输入标签名称，长度在4-20个字符以内'
             style="width: 268px"
             clearable
@@ -41,10 +41,10 @@ export default {
     return {
       title: '新增素材标签',
       model: {
-        subdivision_name: ''
+        name: ''
       },
       rules: {
-        subdivision_name: [
+        name: [
           { required: true, message: '请输入标签名称', trigger: 'blur' },
           { min: 4, max: 20, message: '长度在4-20个字符以内', trigger: 'blur' }
         ]
@@ -57,10 +57,11 @@ export default {
   created: function () {},
   methods: {
     show (data) {
-      this.data = data
+      this.loading = false
       this.visible = true
       this.title = data ? '编辑素材标签' : '新增素材标签'
-      this.model.subdivision_name = data ? data.subdivision_name : ''
+      this.model.name = data ? data.subdivisionName : ''
+      this.data = data ? { id: data.subdivisionId, name: data.subdivisionName, sort: data.sort } : null
     },
     hide () {
       this.visible = false
