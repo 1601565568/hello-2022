@@ -959,7 +959,7 @@ export default {
               let nextValue = +addFriendArr[index]
               let barBorderRadius = prevValue ? [30, 30, 0, 0] : [30, 30, 30, 30]
               if (nextValue) {
-                barBorderRadius = Object.assign(itemStyle, [0, 0])
+                barBorderRadius = Object.assign(barBorderRadius, [0, 0])
               }
               return { value, itemStyle: { barBorderRadius } }
             })
