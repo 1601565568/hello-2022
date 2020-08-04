@@ -1,13 +1,15 @@
 <template>
-  <el-select v-model="value"
-             @scroll="loadMore"
-             filterable
-             remote
-             clearable
-             :loading="loading"
-             :remote-method='remoteMethod'
-              :multiple='multiple'>
-    <el-option
+  <el-select
+    v-model="value"
+    clearable
+    filterable
+    remote
+    :remote-method="remoteMethod"
+    :loading="loading"
+    @scroll="loadMore"
+    @visible-change="handleVisibleChange"
+  >
+     <el-option
       v-for="item in options"
       :key="item[props.value]"
       :label="item[props.label]"
@@ -21,7 +23,6 @@ import Index from './src/index'
 export default Index
 </script>
 <style scoped>
-
   >>> .el-input__suffix {
     display: none!important;
   }
