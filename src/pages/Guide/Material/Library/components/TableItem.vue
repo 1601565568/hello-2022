@@ -36,8 +36,8 @@
       <div v-if="data.mType === 0" class="tableItem-content__articleBox">
         <img alt="" :src="imageList[0]" @click="showPreview(0)"/>
         <el-tooltip placement="top-start">
-          <div slot="content">{{data.cardTitle}}</div>
-          <div class="tableItem-content__ellipsis">{{data.cardTitle}}</div>
+          <div slot="content">{{data.title}}</div>
+          <div class="tableItem-content__ellipsis">{{data.title}}</div>
         </el-tooltip>
       </div>
     </div>
