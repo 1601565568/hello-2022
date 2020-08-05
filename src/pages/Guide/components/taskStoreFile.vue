@@ -105,13 +105,14 @@ export default {
       let tempShopArray = []
       let isExecute = false
       let tempShopStr = []
-      let temp = this.manualValue
+      let temp = this.manualValue.replace(/[\r\n]/g, '')
+      debugger
       if (temp !== '' && temp !== null) {
         if (temp.startsWith(',') || temp.endsWith(',') || temp.startsWith('，') || temp.endsWith('，')) {
           this.$notify.info('请输入正确的外部店铺编码')
           return false
         } else {
-          tempShopArray = this.manualValue.split(',')
+          tempShopArray = temp.split(',')
           tempShopArray.forEach(shop => {
             if (shop.startsWith(',') || shop.endsWith(',') || shop.startsWith('，') || shop.endsWith('，')) {
               this.$notify.info('请输入正确的外部店铺编码')
@@ -186,16 +187,13 @@ export default {
       }
     },
     handleRemove (file, fileList) {
-      console.log('handleRemove', fileList)
     },
     handlePreview (file) {
-      console.log('handlePreview', fileList)
     },
     handleExceed (files, fileList) {
       this.$notify.error('已上传文件，不能重复上传')
     },
     beforeRemove (file, fileList) {
-      console.log('beforeRemove', fileList)
     },
     beforeUpload (file, fileList) {
       let fileSuffix = file.name.split('.').pop()
