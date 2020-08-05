@@ -28,7 +28,7 @@
       <ns-button @click="hide">取 消</ns-button>
       <ns-button type="primary" :disabled="!selected" :loading="loading" @click="handleSave">确 定</ns-button>
     </div>
-    <new-folder ref="newFolder" @refresh="loadList"></new-folder>
+    <new-folder ref="newFolder" @submit="loadList"></new-folder>
   </el-dialog>
 </template>
 <script>
@@ -49,20 +49,25 @@ export default {
       visible: false,
       loading: false,
       list: [],
-      expandKeys: ['0'],
+      expandKeys: [],
       treeProps: {
         label: 'label',
         children: 'children'
       },
       catalogue: [],
+      selectRows: [],
       selected: null
     }
   },
   components: { NewFolder },
   computed: {},
   methods: {
-    show () {
+    show (rows) {
+      if (Object.prototype.toString.call(rows) === '[object Object]') {
+        rows = [rows]
+      }
       this.visible = true
+      this.selectRows = rows || []
       this.loadList()
     },
     hide () {
@@ -79,7 +84,7 @@ export default {
     },
     onCollapse (data) {
       let index = this.expandKeys.findIndex(key => data.id === key)
-      if (index < 0) {
+      if (index > -1) {
         this.expandKeys.splice(index, 1)
       }
     },
@@ -90,11 +95,11 @@ export default {
       this.$refs.folderTree.setCheckedKeys([data.id])
       this.selected = data
       const catalogue = [data]
-      if (data.id !== '0') {
+      if (data.id !== 0) {
         while (node.parent) {
           node = node.parent
           catalogue.unshift(node.data)
-          if (node.data && node.data.id === '0') {
+          if (node.data && node.data.id === 0) {
             node.parent = null
           }
         }
@@ -114,17 +119,41 @@ export default {
     },
     // 获取文件列表
     async loadList (expandData) {
+      let queryLoading = this.$loading({ target: '.folder-tree__wrapper', fullscreen: false, text: '正在加载...' })
       this.$http.fetch(this.$api.guide.getDirectoryTree).then(resp => {
-        this.list = [{ id: '0', label: '素材库', children: resp.result }]
-        expandData ? this.onExpand(expandData) : this.expandKeys = ['0']
+        this.list = [{ id: 0, label: '素材库', children: resp.result }]
+        expandData ? this.onExpand(expandData) : this.expandKeys = [0]
       }).catch(resp => {
         this.$notify.error(getErrorMsg('查询失败', resp))
+      }).finally(() => {
+        queryLoading.close()
       })
     },
     handleSave () {
-      // todo 1、移动到某个文件夹； 2、选择文件目录
-      this.$emit('change', { selected: this.selected, catalogue: this.catalogue })
-      this.hide()
+      if (this.selectRows.length) {
+        this.moveTo()
+      } else {
+        this.$emit('submit', { selected: this.selected, catalogue: this.catalogue })
+        this.hide()
+      }
+    },
+    moveTo () {
+      this.loading = true
+      const params = { parentId: this.selected.id }
+      params.itemList = this.selectRows.map(item => ({
+        id: item.id,
+        isDirectory: item.isDirectory,
+        parentPath: item.parentPath
+      }))
+      this.$http.fetch(this.$api.guide.batchMoveMaterial, { ...params }).then(() => {
+        this.$notify.success('移动成功')
+        this.$emit('submit', { selected: this.selected, catalogue: this.catalogue })
+        this.hide()
+      }).catch(resp => {
+        this.$notify.error(getErrorMsg('移动失败', resp))
+      }).finally(() => {
+        this.loading = false
+      })
     }
   }
 }

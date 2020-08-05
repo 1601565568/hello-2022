@@ -127,7 +127,7 @@
       <ns-button @click="onBack">取消</ns-button>
       <ns-button type="primary" :loading="loading" @click="onSave">保存</ns-button>
     </div>
-    <folder-tree ref="folderTree" @change="handleFolder"></folder-tree>
+    <folder-tree ref="folderTree" @submit="handleFolder"></folder-tree>
     <SelectMarket ref="selectMarket" :callBack="selectMarketBack"></SelectMarket>
     <SelectGoods ref="selectGoods" :callBack="selectMarketBack"></SelectGoods>
   </div>
@@ -213,7 +213,7 @@ export default {
       this.model.imageList.splice(index, 1)
       this.$refs.form.validateField('imageList')
     },
-    handleAvatarSuccess: function (res, file) {
+    handleAvatarSuccess (res, file) {
       this.$refs.imageForm.clearValidate()
       if (this.model.imageList.length < 9) {
         this.model.imageList.push(res.result.url)

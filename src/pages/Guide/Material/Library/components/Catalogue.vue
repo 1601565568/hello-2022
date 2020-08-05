@@ -7,7 +7,7 @@
           <div class="catalogue-folders__item" :class="{'catalogue-folders__item--selected': item.selected}" v-for="item in folderList" :key="item.id">
             <div class="catalogue-folders__item--info" @click="onEnter(item)">
               <Icon type="wenjianjia-new" class="catalogue-folders__item--icon"/>
-              <div class="catalogue-folders__item--name">{{item.title}}</div>
+              <div class="catalogue-folders__item--name">{{item.name}}</div>
             </div>
             <div class="catalogue-folders__item--btns">
               <Icon :type="btn.icon" v-for="btn in operate_buttons" :key="btn.name" @click="btn.func(item)"/>
@@ -26,10 +26,10 @@
         <div class="catalogue-materials__group" v-for="(itemList, index) in materialList" :key="index">
           <div class="catalogue-materials__item" :class="{'catalogue-materials__item--selected': item.selected}" v-for="item in itemList" :key="item.id">
             <div class="catalogue-materials__item--info">
-              <div class="catalogue-materials__item--title catalogue-ellipsis">{{item.title}}</div>
+              <div class="catalogue-materials__item--title catalogue-ellipsis">{{item.name}}</div>
               <div class="catalogue-materials__item--desc catalogue-ellipsis">
-                <span>发布方：{{item.source_name || '未知'}}</span>
-                <span>{{item.create_time}}</span>
+                <span>发布方：{{item.sourceName || '未知'}}</span>
+                <span>{{item.createTime}}</span>
               </div>
               <div class="catalogue-materials__item--content catalogue-ellipsis2">
                 <el-tooltip placement="top-start">
@@ -38,18 +38,18 @@
                 </el-tooltip>
               </div>
               <div class="catalogue-materials__item--media">
-                <div v-if="item.m_type == 0" class="catalogue-materials__article">
-                  <img v-if="item.imageList[0]" alt="" :src="item.imageList[0]" @click="showPreview(0, item)"/>
+                <div v-if="item.mType === 0" class="catalogue-materials__article">
+                  <img alt="" :src="item.imageList[0]" @click="showPreview(0, item)"/>
                   <el-tooltip placement="top-start">
-                    <div slot="content">{{item.cardTitle}}</div>
-                    <div class="catalogue-materials__article--title catalogue-ellipsis3">{{item.cardTitle}}</div>
+                    <div slot="content">{{item.title}}</div>
+                    <div class="catalogue-materials__article--title catalogue-ellipsis3">{{item.title}}</div>
                   </el-tooltip>
                 </div>
-                <div v-else-if="item.m_type == 1" class="catalogue-materials__image">
+                <div v-else-if="item.mType === 1" class="catalogue-materials__image">
                   <img alt="" :src="img" v-for="(img, index) in item.imageList" :key="index" @click="showPreview(index, item)"/>
                 </div>
-                <div v-else-if="item.videoUrl" class="catalogue-materials__video">
-                  <video :src="item.videoUrl">
+                <div v-else class="catalogue-materials__video">
+                  <video :src="item.imageList[0]">
                     您的浏览器暂不支持播放该视频，请升级至最新版浏览器。
                   </video>
                   <div class="catalogue-materials__video--mask" @click="showPreview(0, item)">
@@ -63,18 +63,21 @@
                 <el-select
                   v-model="item.subdivisionId"
                   placeholder="请选择"
+                  :filter-method="subdivisionFilter"
+                  @visible-change="subdivisionVisible"
+                  @change="subdivisionChange(item)"
                   filterable
                   clearable
                   style="width: 150px"
                 >
                   <el-option
-                    v-for="obj in labelList"
+                    v-for="obj in subdivisionList"
                     :key="obj.subdivisionId"
                     :label="obj.subdivisionName"
                     :value="obj.subdivisionId">
                   </el-option>
                 </el-select>
-                <Icon v-if="item.m_type === 1" type="erweima"/>
+                <Icon v-if="item.codeType" type="erweima"/>
               </div>
             </div>
             <div class="catalogue-materials__item--btns">
@@ -143,7 +146,9 @@ export default {
       // 间距
       offset: 10,
       // 分组数
-      columnNum: 0
+      columnNum: 0,
+      // 筛选项
+      filterValue: ''
     }
   },
   computed: {
@@ -172,10 +177,10 @@ export default {
               height += this.articleHeight
               break
             case 2:
-              height += o.videoUrl ? this.videoHeight : 0
+              height += o.imageList && o.imageList.length ? this.videoHeight : 0
               break
             default:
-              let rows = Math.ceil(o.imageList.length / 3)
+              let rows = Math.ceil((o.imageList || []).length / 3)
               height += rows * (this.imageHeight + this.imageOffset) - this.imageOffset
           }
           let temp = sortArr[0]
@@ -189,6 +194,9 @@ export default {
         return list
       }
       return []
+    },
+    subdivisionList () {
+      return this.labelList.filter(o => o.subdivisionName.toUpperCase().indexOf(this.filterValue) > -1)
     }
   },
   mounted () {
@@ -201,8 +209,22 @@ export default {
   methods: {
     // 设置卡片容器宽度
     setWrapperW () {
-      this.wrapperW = document.querySelector('.catalogue-materials').offsetWidth
-      this.columnNum = Math.floor((this.wrapperW + this.offset) / (this.width + this.offset)) || 1
+      const wrapper = document.querySelector('.catalogue-wrapper')
+      if (wrapper) {
+        this.wrapperW = wrapper.offsetWidth
+        this.columnNum = Math.floor((this.wrapperW + this.offset) / (this.width + this.offset)) || 1
+      }
+    },
+    subdivisionFilter (val) {
+      this.filterValue = val.toUpperCase()
+    },
+    subdivisionVisible (val) {
+      if (!val) {
+        this.filterValue = ''
+      }
+    },
+    subdivisionChange (item) {
+      this.$emit('subdivisionChange', item)
     },
     onSelect (row) {
       this.$emit('onSelect', row)
@@ -214,9 +236,8 @@ export default {
       this.$emit('onEnter', row)
     },
     showPreview (current, row) {
-      let type = +row.m_type === 2 ? 'video' : 'img'
-      let list = type === 'video' ? [row.videoUrl] : row.imageList
-      this.$emit('preview', current, list, type)
+      let type = +row.mType === 2 ? 'video' : 'img'
+      this.$emit('preview', current, row.imageList, type)
     }
   }
 }
@@ -469,6 +490,7 @@ export default {
         height: 100%;
         background-color: rgba(0, 0, 0, .25);
         cursor: pointer;
+        border-radius: 3px;
       }
       @m wrapper {
         position: relative;

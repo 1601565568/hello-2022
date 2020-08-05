@@ -42,29 +42,32 @@
         ></el-input>
       </el-form-item>
       <el-form-item label="素材视频：" prop="videoUrl">
-        <div v-if="model.imageList && model.imageList.length" class="library-video__item">
-          <video :src="model.imageList[0]">您的浏览器暂不支持播放该视频，请升级至最新版浏览器。</video>
-          <div class="library-video__mask" @click="previewVideo">
-            <div class="library-video__wrapper">
-              <Icon type="begin" />
+        <div class="library-video__form">
+          <div v-if="model.imageList && model.imageList.length" class="library-video__item">
+            <video :src="model.imageList[0]">您的浏览器暂不支持播放该视频，请升级至最新版浏览器。</video>
+            <div class="library-video__mask" @click="previewVideo">
+              <div class="library-video__wrapper">
+                <Icon type="begin" />
+              </div>
             </div>
+            <span class="library-video__remove" @click="removeVideo">
+              <Icon type="delete" />
+            </span>
           </div>
-          <span class="library-video__remove" @click="removeVideo">
-            <Icon type="delete" />
-          </span>
-        </div>
-        <div v-else>
-          <el-upload
-            class="library-uploader"
-            :action="this.$api.core.sgUploadFile('video')"
-            :show-file-list="false"
-            :on-success="handleVideoSuccess"
-            :before-upload="beforeVideoUpload"
-            accept=".mp4"
-            list-type="picture-card"
-          >
-            <Icon type="plus"/>
-          </el-upload>
+          <div v-else>
+            <el-upload
+              class="library-uploader"
+              :action="this.$api.core.sgUploadFile('video')"
+              :show-file-list="false"
+              :on-success="handleVideoSuccess"
+              :on-error="handleVideoError"
+              :before-upload="beforeVideoUpload"
+              accept=".mp4"
+              list-type="picture-card"
+            >
+              <Icon type="plus"/>
+            </el-upload>
+          </div>
         </div>
         <div class="library-video__extra">
           <Icon type="tishi"/>
@@ -80,7 +83,7 @@
       <ns-button @click="onBack">取消</ns-button>
       <ns-button type="primary" :loading="loading" @click="onSave">保存</ns-button>
     </div>
-    <folder-tree ref="folderTree" @change="handleFolder"></folder-tree>
+    <folder-tree ref="folderTree" @submit="handleFolder"></folder-tree>
   </div>
 </template>
 <script>
@@ -148,8 +151,12 @@ export default {
     removeVideo (index) {
       this.model.imageList = []
     },
-    handleVideoSuccess: function (res, file) {
+    handleVideoSuccess (res, file) {
       this.model.imageList = [res.result.url]
+      this.uploader && this.uploader.close()
+    },
+    handleVideoError () {
+      this.uploader && this.uploader.close()
     },
     beforeVideoUpload (file) {
       if (file.size / 1024 > 1024 * 10) {
@@ -161,6 +168,7 @@ export default {
         this.$notify.error('仅支持mp4的视频格式')
         return false
       }
+      this.uploader = this.$loading({ target: '.library-video__form', fullscreen: false, text: '正在上传...' })
     },
     onBack () {
       this.$router.push({ path: '/Guide/Material/Library' })
@@ -233,6 +241,20 @@ export default {
       }
     }
     @b video {
+      @e form {
+        position: relative;
+        width: 240px;
+        >>> .el-loading-mask {
+          top: 1px;
+          left: 1px;
+          bottom: 1px;
+          right: 1px;
+          border-radius: 3px;
+        }
+        >>> .el-loading-spinner {
+          margin-top: -24px;
+        }
+      }
       @e item {
         position: relative;
         width: 240px;
@@ -250,7 +272,7 @@ export default {
         position: absolute;
         right: -18px;
         bottom: 0;
-        font-size: 12px;
+        font-size: 14px;
         color: #0091fa;
         line-height: 1;
         svg {
@@ -265,6 +287,7 @@ export default {
         height: 100%;
         background-color: rgba(0, 0, 0, .25);
         cursor: pointer;
+        border-radius: 3px;
       }
       @e wrapper {
         position: relative;

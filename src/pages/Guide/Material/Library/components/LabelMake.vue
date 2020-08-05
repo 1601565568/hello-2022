@@ -96,7 +96,13 @@ export default {
     handleSave () {
       this.$refs.form.validate((valid) => {
         if (valid) {
-          this.$emit('refresh')
+          const params = { subdivisionId: this.model.subdivisionId }
+          params.itemList = this.selectRows.map(item => ({
+            id: item.id,
+            isDirectory: item.isDirectory,
+            parentPath: item.parentPath
+          }))
+          this.$emit('setSubdivision', params)
           this.hide()
         }
       })

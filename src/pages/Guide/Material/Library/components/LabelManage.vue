@@ -108,7 +108,7 @@
         ></el-pagination>
       </div>
     </div>
-    <label-add ref="newLabel" @refresh="afterAdd"></label-add>
+    <label-add ref="newLabel" @submit="afterAdd"></label-add>
   </el-dialog>
 </template>
 <script>
@@ -210,13 +210,13 @@ export default {
     submitForm () {
       const { time, subdivisionName } = this.searchform
       const searchMap = {
-        subdivision_name: subdivisionName || '',
-        time_start: '',
-        time_end: ''
+        subdivisionName: subdivisionName || '',
+        timeStart: undefined,
+        timeEnd: undefined
       }
       if (time && time.length === 2) {
-        searchMap.time_start = moment(time[0]).format('YYYY-MM-DD HH:mm:ss')
-        searchMap.time_end = moment(time[0]).format('YYYY-MM-DD HH:mm:ss')
+        searchMap.timeStart = moment(time[0]).format('YYYY-MM-DD HH:mm:ss')
+        searchMap.timeEnd = moment(time[1]).format('YYYY-MM-DD HH:mm:ss')
       }
       this.searchObj.searchMap = searchMap
       this.loadListFun()
@@ -232,7 +232,7 @@ export default {
       }).then(async () => {
         const params = { subdivisionId: row.subdivisionId }
         this.$http.fetch(this.$api.guide.materialGroudDel, params).then(resp => {
-          this.$notify.success('删除成功!')
+          this.$notify.success('删除成功')
           this.loadListFun()
         }).catch(resp => {
           this.$notify.error(getErrorMsg('删除失败', resp))

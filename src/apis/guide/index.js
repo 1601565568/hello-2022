@@ -116,6 +116,11 @@ export default {
     url: '/guide/material/batchMoveMaterial',
     method: 'post'
   },
+  getParentPath: {
+    // 获取文件夹路径
+    url: 'guide/material/getParentPath',
+    method: 'get'
+  },
   /**
    * 素材标签
    */

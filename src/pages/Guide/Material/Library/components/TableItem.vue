@@ -8,7 +8,7 @@
         </el-tooltip>
       </div>
       <!-- 图文素材 -->
-      <div v-if="data.m_type === 1" class="tableItem-content__imageBox">
+      <div v-if="data.mType === 1" class="tableItem-content__imageBox">
         <ul>
           <li v-for="(item, index) in imageList.slice(0, 3)" :key="index" @click="showPreview(index)">
             <img :src="item" alt="">
@@ -16,14 +16,14 @@
           <li v-if="imageList.length > 3">
             <div>…</div>
           </li>
-          <li v-if="data.hasqrcode">
+          <li v-if="data.codeType">
             <Icon type="erweima"/>
           </li>
         </ul>
       </div>
       <!-- 视频素材 -->
-      <div v-if="data.m_type === 2 && data.videoUrl" class="tableItem-content__vedioBox">
-        <video :src="data.videoUrl">
+      <div v-if="data.mType === 2" class="tableItem-content__vedioBox">
+        <video :src="imageList[0]">
           您的浏览器暂不支持播放该视频，请升级至最新版浏览器。
         </video>
         <div class="tableItem-video__mask" @click="showPreview(0, 'video')">
@@ -33,7 +33,7 @@
         </div>
       </div>
       <!-- 文章素材 -->
-      <div v-if="data.m_type === 0" class="tableItem-content__articleBox">
+      <div v-if="data.mType === 0" class="tableItem-content__articleBox">
         <img alt="" :src="imageList[0]" @click="showPreview(0)"/>
         <el-tooltip placement="top-start">
           <div slot="content">{{data.cardTitle}}</div>
@@ -58,7 +58,7 @@ export default {
   },
   methods: {
     showPreview (current, type) {
-      this.$emit('preview', current, type === 'video' ? [this.data.videoUrl] : this.imageList, type)
+      this.$emit('preview', current, this.imageList, type)
     }
   }
 }
@@ -147,6 +147,7 @@ export default {
         height: 100%;
         background-color: rgba(0, 0, 0, .25);
         cursor: pointer;
+        border-radius: 3px;
       }
       @e wrapper {
         position: relative;

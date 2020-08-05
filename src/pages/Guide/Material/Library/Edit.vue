@@ -17,7 +17,7 @@
         />
       </el-tab-pane>
     </el-tabs>
-    <label-add ref="labelAdd" @refresh="getLabelList"></label-add>
+    <label-add ref="labelAdd" @submit="getLabelList"></label-add>
     <preview ref="preview"></preview>
   </div>
 </template>

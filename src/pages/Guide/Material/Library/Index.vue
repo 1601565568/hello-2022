@@ -13,44 +13,43 @@
             <Icon v-if="item.icon" :type="item.icon"/>
             <span>{{item.name}}</span>
           </ns-button>
-          <el-checkbox :indeterminate="indeterminate" v-model="checkAll" @change="onSelectAll">全选当页</el-checkbox>
+          <el-checkbox :disabled="isEmpty" :indeterminate="indeterminate" v-model="checkAll" @change="onSelectAll">全选当页</el-checkbox>
         </div>
       </template>
       <!-- 快捷搜索 -->
       <template slot="searchSearch">
         <el-form :model="model" :inline="true" @submit.native.prevent class="pull-right">
-          <el-form-item v-show="!_data._queryConfig.expand">
+          <el-form-item v-show="!quickObj.expanded">
             <el-input
               ref="quickText"
-              v-model="model.title"
+              v-model="model.name"
               placeholder="请输入文件夹或素材标题"
-              @keyup.enter.native="$quickSearchAction$(model.title)"
+              @keyup.enter.native="quickSearch()"
               style="width: 180px"
             >
-              <Icon type="search" slot="suffix" class="el-input__icon" name="name" @click="$quickSearchAction$(model.title)"/>
+              <Icon type="search" slot="suffix" class="el-input__icon" @click="quickSearch()"/>
             </el-input>
           </el-form-item>
           <el-form-item>
-            <ns-button type="text" @click="$handleTabClick">
-              {{collapseText}}
-              <Icon :type="_data._queryConfig.expand ? 'up' : 'down'"/>
+            <ns-button type="text" @click="handleSearchType">
+              {{quickObj.collapseText}}
+              <Icon :type="quickObj.expanded ? 'up' : 'down'"/>
             </ns-button>
           </el-form-item>
         </el-form>
       </template>
       <!-- 高级搜索 -->
-      <template slot="advancedSearch" v-if="_data._queryConfig.expand">
+      <template slot="advancedSearch" v-if="quickObj.expanded">
         <el-form
           ref="table_filter_form"
-          @keyup.enter.native="$searchAction$"
+          @keyup.enter.native="searchAction"
           label-width="80px"
           class="surround-btn library-advance__search"
           :model="model"
-          :rules="rules"
           :inline="true"
         >
           <el-form-item label="标题：" label-width="40px">
-            <el-input type="text" v-model="model.title" placeholder="请输入文件夹或素材标题"></el-input>
+            <el-input type="text" v-model="model.name" placeholder="请输入文件夹或素材标题"></el-input>
           </el-form-item>
           <el-form-item label="素材内容：">
             <el-input type="text" v-model="model.content" placeholder="请输入素材内容"></el-input>
@@ -72,12 +71,13 @@
               filterable
               clearable
             >
-              <el-option key="-1" label="全部" :value="-1"></el-option>
+              <el-option label="全部" value=""></el-option>
+              <el-option label="未打标" :value="-1"></el-option>
               <el-option
                 v-for="item in labelList"
-                :key="item.subdivision_id"
-                :label="item.subdivision_name"
-                :value="item.subdivision_id">
+                :key="item.subdivisionId"
+                :label="item.subdivisionName"
+                :value="item.subdivisionId">
               </el-option>
             </el-select>
           </el-form-item>
@@ -91,9 +91,9 @@
               :insertList='insertList'
             />
           </el-form-item>
-          <el-form-item label="素材类型：" prop="type">
+          <el-form-item label="素材类型：" prop="mType">
             <el-select
-              v-model="model.type"
+              v-model="model.mType"
               placeholder="请选择素材类型"
               clearable
             >
@@ -105,7 +105,7 @@
               </el-option>
             </el-select>
           </el-form-item>
-          <el-form-item v-if="model.type === 1" label="带码状态：" prop="codeType">
+          <el-form-item v-if="model.mType === 1" label="带码状态：" prop="codeType">
             <el-select
               v-model="model.codeType"
               placeholder="请选择带码状态"
@@ -121,8 +121,8 @@
           </el-form-item>
         </el-form>
         <div class="template-table__more-btn">
-          <ns-button type="primary" @click="$searchAction$">{{$t('operating.search')}}</ns-button>
-          <ns-button @click="$resetInputAction$">{{$t('operating.reset')}}</ns-button>
+          <ns-button type="primary" @click="searchAction">{{$t('operating.search')}}</ns-button>
+          <ns-button @click="resetAction">{{$t('operating.reset')}}</ns-button>
         </div>
       </template>
       <template slot="table">
@@ -133,7 +133,7 @@
               v-for="(item, index) in breadcrumb"
               :key="item.id"
             >
-              <span>{{item.name}}</span>
+              <span @click="onExchange(item)">{{item.name}}</span>
               <span v-if="index > 0 && index === breadcrumb.length - 1">中的搜索结果</span>
             </el-breadcrumb-item>
           </el-breadcrumb>
@@ -149,81 +149,88 @@
           </div>
         </el-row>
         <!-- 列表 -->
-        <div v-if="listMode === 'list'">
-          <el-table
-            ref="multipleTable"
-            :data="_data._table.data"
-            :element-loading-text="$t('prompt.loading')"
-            v-loading.lock="_data._table.loadingtable"
-            stripe
-            resizable
-            @selection-change="onHandleSelectChange"
-          >
-            <el-table-column type="selection" :width="90"></el-table-column>
-            <el-table-column label="标题" :width="210">
-              <template slot-scope="scope">
-                <!-- todo 进入文件夹 -->
-                <Icon v-if="scope.row.type === 0" class="library-table__file" type="wenjianjia-new" />
-                <span>{{scope.row.title}}</span>
-              </template>
-            </el-table-column>
-            <el-table-column label="内容" prop="content" :min-width="275">
-              <template slot-scope="scope">
-                <span v-if="scope.row.type === 0">{{scope.row.content}}</span>
-                <table-item v-else :data="scope.row" @preview="togglePreview"></table-item>
-              </template>
-            </el-table-column>
-            <el-table-column label="标签" :width="200">
-              <template slot-scope="scope">
-                <span v-if="scope.row.type === 0">-</span>
-                <el-select
-                  v-else
-                  v-model="scope.row.subdivisionId"
-                  placeholder="请选择"
-                  filterable
-                  clearable
-                >
-                  <el-option
-                    v-for="item in labelList"
-                    :key="item.subdivisionId"
-                    :label="item.subdivisionName"
-                    :value="item.subdivisionId">
-                  </el-option>
-                </el-select>
-              </template>
-            </el-table-column>
-            <el-table-column label="发布方" prop="source_name" :width="130"></el-table-column>
-            <el-table-column label="发布时间" prop="create_time" :width="180"></el-table-column>
-            <el-table-column label="操作" :width="150">
-              <template slot-scope="scope">
-                <ns-table-column-operate-button :buttons="_data._table.operate_buttons" :prop="scope"></ns-table-column-operate-button>
-              </template>
-            </el-table-column>
-          </el-table>
-        </div>
-        <div v-else>
-          <catalogue
-            :folders="waterfall.folders"
-            :materials="waterfall.materials"
-            :operate_buttons="waterfall.operate_buttons"
-            :labelList="labelList"
-            :selectRows="selectRows"
-            @onSelect="onSelect"
-            @onRemove="onRemove"
-            @onEnter="onEnter"
-            @preview="togglePreview"
-          ></catalogue>
-        </div>
+        <el-scrollbar ref="fullScreen" class="library-wrapper">
+          <div v-if="listMode === 'list'">
+            <el-table
+              ref="multipleTable"
+              :data="table.data"
+              :element-loading-text="$t('prompt.loading')"
+              v-loading.lock="table.loading"
+              stripe
+              resizable
+              @selection-change="onHandleSelectChange"
+            >
+              <el-table-column type="selection" :width="90"></el-table-column>
+              <el-table-column label="标题" :width="210">
+                <template slot-scope="scope">
+                  <div :class="{'library-table__folder': scope.row.isDirectory === 1}" @click="onEnter(scope.row)">
+                    <Icon v-if="scope.row.isDirectory === 1" type="wenjianjia-new" />
+                    <span>{{scope.row.name}}</span>
+                  </div>
+                </template>
+              </el-table-column>
+              <el-table-column label="内容" prop="content" :min-width="275">
+                <template slot-scope="scope">
+                  <span v-if="scope.row.isDirectory === 1">{{scope.row.description}}</span>
+                  <table-item v-else :data="scope.row" @preview="togglePreview"></table-item>
+                </template>
+              </el-table-column>
+              <el-table-column label="标签" :width="200">
+                <template slot-scope="scope">
+                  <span v-if="scope.row.isDirectory === 1">-</span>
+                  <el-select
+                    v-else
+                    v-model="scope.row.subdivisionId"
+                    placeholder="请选择"
+                    :filter-method="subdivisionFilter"
+                    @visible-change="subdivisionVisible"
+                    @change="subdivisionChange(item)"
+                    filterable
+                    clearable
+                  >
+                    <el-option
+                      v-for="item in subdivisionList"
+                      :key="item.subdivisionId"
+                      :label="item.subdivisionName"
+                      :value="item.subdivisionId">
+                    </el-option>
+                  </el-select>
+                </template>
+              </el-table-column>
+              <el-table-column label="发布方" prop="sourceName" :width="130"></el-table-column>
+              <el-table-column label="发布时间" prop="createTime" :width="180"></el-table-column>
+              <el-table-column label="操作" :width="150">
+                <template slot-scope="scope">
+                  <ns-table-column-operate-button :buttons="table.operate_buttons" :prop="scope"></ns-table-column-operate-button>
+                </template>
+              </el-table-column>
+            </el-table>
+          </div>
+          <div v-else>
+            <catalogue
+              :folders="waterfall.folders"
+              :materials="waterfall.materials"
+              :operate_buttons="waterfall.operate_buttons"
+              :labelList="labelList"
+              :selectRows="selectRows"
+              @onSelect="onSelect"
+              @onRemove="onRemove"
+              @onEnter="onEnter"
+              @preview="togglePreview"
+              @subdivisionChange="subdivisionChange"
+            ></catalogue>
+          </div>
+        </el-scrollbar>
       </template>
       <template slot="pagination">
         <el-pagination
-          v-if="_data._pagination.enable && !isEmpty"
-          :page-sizes="_data._pagination.sizeOpts"
-          :total="_data._pagination.total"
-          :current-page="_data._pagination.page"
-          :page-size="_data._pagination.size"
-          @size-change="$sizeChange$"
-          @current-change="$pageChange$"
+          v-if="enable"
+          :page-sizes="pagination.sizeOpts"
+          :total="pagination.total"
+          :current-page="pagination.page"
+          :page-size="pagination.size"
+          @size-change="handleSizeChange"
+          @current-change="handlePageChange"
           class="template-table__pagination"
           layout="total, sizes, prev, pager, next, jumper"
           :style="{'border-radius': listMode === 'list' ? '0 0 3px 3px' : '3px'}"
@@ -231,9 +238,9 @@
         </el-pagination>
       </template>
     </ns-page-table>
-    <new-folder ref="newFolder"></new-folder>
-    <folder-tree ref="folderTree"></folder-tree>
-    <label-make ref="labelMake"></label-make>
+    <new-folder ref="newFolder" @submit="loadList"></new-folder>
+    <folder-tree ref="folderTree" @submit="loadList"></folder-tree>
+    <label-make ref="labelMake" @setSubdivision="setSubdivision"></label-make>
     <label-manage ref="labelManage"></label-manage>
     <preview ref="preview"></preview>
   </div>
@@ -245,6 +252,7 @@ export default Index
 <style scoped>
   @import "@theme/variables.pcss";
   @component-namespace library {
+    @b wrapper {}
     @b header {
       margin: 0 0 -5px -5px;
       >>> .el-button {
@@ -293,6 +301,10 @@ export default Index
         flex: 1;
         .el-breadcrumb__inner {
           color: var(--theme-font-color-secondary);
+          cursor: pointer;
+          &:hover {
+            color: #0091fa;
+          }
           span + span {
             margin-left: var(--default-margin-larger);
           }
@@ -300,7 +312,11 @@ export default Index
         .el-breadcrumb__item {
           line-height: 28px;
           &:last-child .el-breadcrumb__inner {
+            cursor: default;
             color: #303133;
+            &:hover {
+              color: #303133;
+            }
             span:last-child {
               color: var(--theme-font-color-regular);
             }
@@ -309,13 +325,16 @@ export default Index
       }
     }
     @b table {
-      @e file {
-        margin: -4px var(--default-margin-small) -4px 0;
-        font-size: 24px;
-        color: var(--theme-color-primary);
-        vertical-align: middle;
-        &+span {
+      @e folder {
+        cursor: pointer;
+        svg {
+          margin: -4px var(--default-margin-small) -4px 0;
+          font-size: 24px;
+          color: var(--theme-color-primary);
           vertical-align: middle;
+          &+span {
+            vertical-align: middle;
+          }
         }
       }
     }

@@ -56,8 +56,8 @@ export default {
     show (params = {}) {
       this.visible = true
       this.title = params.type === 'edit' ? '编辑文件夹' : '新建文件夹'
-      this.model = { name: '', ...params.model }
       this.parent = params.parent || { id: '0' }
+      this.model = { name: '', ...params.model }
     },
     hide () {
       this.visible = false
@@ -78,7 +78,7 @@ export default {
         ...this.model
       }).then(resp => {
         this.$notify.success(`${this.title}成功`)
-        this.$emit('refresh', this.parent)
+        this.$emit('submit', this.parent)
         this.hide()
       }).catch(resp => {
         this.$notify.error(getErrorMsg(this.title, resp))

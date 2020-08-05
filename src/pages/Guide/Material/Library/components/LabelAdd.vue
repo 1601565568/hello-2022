@@ -80,7 +80,7 @@ export default {
       const params = { ...this.data, ...this.model }
       this.$http.fetch(this.$api.guide.materialGroudDeit, params).then(resp => {
         this.$notify.success(`${this.title}成功`)
-        this.$emit('refresh')
+        this.$emit('submit')
         this.hide()
       }).catch(resp => {
         this.$notify.error(getErrorMsg(this.title, resp))

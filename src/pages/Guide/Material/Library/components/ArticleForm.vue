@@ -62,6 +62,7 @@
               <div v-if="model.imageList.length === 0">
                 <el-upload
                   class="library-uploader"
+                  :loading="true"
                   :action="this.$api.core.sgUploadFile('image')"
                   :show-file-list="false"
                   :on-success="handleAvatarSuccess"
@@ -101,7 +102,7 @@
       <ns-button @click="onBack">取消</ns-button>
       <ns-button type="primary" :loading="loading" @click="onSave">保存</ns-button>
     </div>
-    <folder-tree ref="folderTree" @change="handleFolder"></folder-tree>
+    <folder-tree ref="folderTree" @submit="handleFolder"></folder-tree>
   </div>
 </template>
 <script>
@@ -210,7 +211,7 @@ export default {
       this.model.imageList.splice(index, 1)
       this.$refs.form.validateField('imageList')
     },
-    handleAvatarSuccess: function (res, file) {
+    handleAvatarSuccess (res, file) {
       this.$refs.imageForm.clearValidate()
       this.model.imageList = [res.result.url]
     },
