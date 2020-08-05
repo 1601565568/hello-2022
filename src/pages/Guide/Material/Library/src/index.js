@@ -101,9 +101,10 @@ export default {
           {
             'name': '编辑',
             'func': (scope) => {
-              const { type, title, m_type: mType, id } = scope.row
-              if (type === 0) {
-                this.$refs.newFolder.show({ type: 'edit', model: { folderName: title, folderId: id } })
+              const { isDirectory, mType, id, name } = scope.row
+              if (isDirectory === 1) {
+                const parent = this.breadcrumb[this.breadcrumb.length - 1]
+                this.$refs.newFolder.show({ type: 'edit', model: { name, id }, parent })
               } else {
                 this.$router.push({ path: '/Guide/Material/Edit', query: { mType, id } })
               }
@@ -142,7 +143,8 @@ export default {
             'func': (row) => {
               const { isDirectory, mType, id, name } = row
               if (isDirectory === 1) {
-                this.$refs.newFolder.show({ type: 'edit', model: { name, id } })
+                const parent = this.breadcrumb[this.breadcrumb.length - 1]
+                this.$refs.newFolder.show({ type: 'edit', model: { name, id }, parent })
               } else {
                 this.$router.push({ path: '/Guide/Material/Edit', query: { mType, id } })
               }
@@ -433,8 +435,6 @@ export default {
           this.$notify.error(getErrorMsg('文件夹打开失败', resp))
         })
       }
-      // http://localhost:8080/guide/material/getParentPath?parentId=1
-      // todo 切换目录时，判断parentPath是否一致，不一致时需要通过接口置换breadcrumb
     },
     /**
      * 切换当前目录：需要清空选中内容
@@ -503,7 +503,7 @@ export default {
     batchRemove () {
       let numArr = [{ num: 0, suffix: '条素材' }, { num: 0, suffix: '个文件夹' }]
       this.selectRows.forEach(o => {
-        o.type === 0 ? numArr[1].num++ : numArr[0].num++
+        o.isDirectory === 1 ? numArr[1].num++ : numArr[0].num++
       })
       let strArr = numArr.map(o => o.num ? `${o.num}${o.suffix}` : '').filter(s => !!s)
       this.$confirm(`已选择${strArr.join('、')}，确认要删除吗？`, '删除确认', {

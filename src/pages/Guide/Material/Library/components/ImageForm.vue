@@ -148,25 +148,26 @@ export default {
       default () {
         return []
       }
+    },
+    detail: {
+      type: Object,
+      default () {
+        return {}
+      }
     }
   },
   data: function () {
     return {
-      // scrollBarDeploy: {
-      //   ref: 'fullScreen', // 页面滚动条ref的名称
-      //   excludeHeight: 78 // 底部按钮的高度
-      // },
       loading: false,
       wechatPageTypeList: [{ name: '商城主页面', id: 1 }, { name: '商品', id: 2 }, { name: '营销活动', id: 4 }],
       wechatPageUrlList: [{ codeTargetName: '首页', codeTarget: '1' }, { codeTargetName: '分类', codeTarget: '2' }, { codeTargetName: '我的', codeTarget: '3' }],
       model: {
-        mType: 1,
         isDirectory: 0,
-        title: '',
+        name: '',
         content: '',
-        subdivisionId: undefined,
+        subdivisionId: null,
         codeType: 1,
-        imageList: ['https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/201911/10000146/9317b820-9780-4d17-8761-f9fe2bf81e82.jpg'],
+        imageList: [],
         marketType: null,
         codeModule: null,
         extJson: '',
@@ -188,17 +189,30 @@ export default {
           { required: true, message: '请添加素材图片', trigger: 'change' }
         ]
       },
-      catalogue: [{ id: -1, label: '素材库' }]
+      mType: 1,
+      catalogue: [{ id: 0, name: '素材库' }]
     }
   },
   computed: {
     catalogueStr () {
-      return this.catalogue.map(o => o.label).join(' > ')
+      return this.catalogue.map(o => o.name).join(' > ')
+    }
+  },
+  watch: {
+    detail (newObj) {
+      const parentIds = newObj.parentPath.split('/')
+      const parentNames = newObj.parentPathName.split('/')
+      const tempModel = {}
+      Object.keys(this.model).forEach(k => {
+        tempModel[k] = newObj[k]
+      })
+      this.model = tempModel
+      this.catalogue = parentIds.map((id, index) => ({ id: +id, name: parentNames[index] }))
     }
   },
   methods: {
     toggleFolder () {
-      this.$refs.folderTree.show()
+      this.$refs.folderTree.show(null, this.catalogue)
     },
     toggleLabel () {
       this.$emit('toggleLabel')
@@ -270,16 +284,13 @@ export default {
       })
     },
     doSave () {
-      const params = { ...this.model }
+      const params = { ...this.detail, ...this.model, mType: this.mType }
       // 控制图片数量
       let maxSize = params.codeType === 2 ? 8 : 9
       params.imageList.splice(maxSize - 1, 1)
       // 带码状态
       if (params.codeTarget === '') {
         params.codeType = 0
-      }
-      if (params.codeType === 0 && params.codeTarget > 0) {
-        params.codeType = 1
       }
       params.parentId = this.catalogue[this.catalogue.length - 1].id
       this.loading = true

@@ -13,10 +13,10 @@
         node-key="id"
         :data="list"
         :props="treeProps"
-        :expand-on-click-node="false"
-        :default-expanded-keys="expandKeys"
-        :render-content="renderNode"
         :check-strictly="true"
+        :expand-on-click-node="false"
+        :default-expanded-keys="expandedKeys"
+        :render-content="renderNode"
         @node-click="onSelect"
         @node-expand="onExpand"
         @node-collapse="onCollapse"
@@ -26,14 +26,14 @@
     <div slot="footer" class="clearfix">
       <ns-button @click="onAddFolder" class="folder-tree__btn">新建文件夹</ns-button>
       <ns-button @click="hide">取 消</ns-button>
-      <ns-button type="primary" :disabled="!selected" :loading="loading" @click="handleSave">确 定</ns-button>
+      <ns-button type="primary" :disabled="!checked" :loading="loading" @click="handleSave">确 定</ns-button>
     </div>
     <new-folder ref="newFolder" @submit="loadList"></new-folder>
   </el-dialog>
 </template>
 <script>
 import NewFolder from './NewFolder'
-
+import { getErrorMsg } from '@/utils/toast'
 export default {
   props: {
     appendToBody: {
@@ -49,60 +49,61 @@ export default {
       visible: false,
       loading: false,
       list: [],
-      expandKeys: [],
+      expandedKeys: [],
+      checked: null,
       treeProps: {
         label: 'label',
         children: 'children'
       },
       catalogue: [],
-      selectRows: [],
-      selected: null
+      selectRows: []
     }
   },
   components: { NewFolder },
   computed: {},
   methods: {
-    show (rows) {
-      if (Object.prototype.toString.call(rows) === '[object Object]') {
-        rows = [rows]
-      }
+    async show (rows, catalogue) {
       this.visible = true
-      this.selectRows = rows || []
-      this.loadList()
+      await this.loadList()
+      this.$nextTick(() => {
+        this.resetTree(rows, catalogue)
+      })
     },
     hide () {
       this.visible = false
-      this.catalogue = []
-      this.selected = null
-      this.$refs.folderTree.setCheckedKeys([])
+    },
+    resetTree (rows, catalogue) {
+      this.selectRows = Object.prototype.toString.call(rows) === '[object Object]' ? [rows] : (rows || [])
+      this.catalogue = catalogue || []
+      this.expandedKeys = this.catalogue.length ? catalogue.map(o => o.id) : [0]
+      this.checked = this.catalogue.length ? catalogue[catalogue.length - 1] : null
+      this.$refs.folderTree.setCheckedKeys(this.checked ? [this.checked.id] : [])
     },
     onExpand (data) {
-      let index = this.expandKeys.findIndex(key => data.id === key)
+      let index = this.expandedKeys.findIndex(key => data.id === key)
       if (index < 0) {
-        this.expandKeys.push(data.id)
+        this.expandedKeys.push(data.id)
       }
     },
     onCollapse (data) {
-      let index = this.expandKeys.findIndex(key => data.id === key)
+      let index = this.expandedKeys.findIndex(key => data.id === key)
       if (index > -1) {
-        this.expandKeys.splice(index, 1)
+        this.expandedKeys.splice(index, 1)
       }
     },
     onSelect (data, node) {
       if (data.disabled) {
         return
       }
+      this.checked = data
       this.$refs.folderTree.setCheckedKeys([data.id])
-      this.selected = data
-      const catalogue = [data]
-      if (data.id !== 0) {
-        while (node.parent) {
-          node = node.parent
-          catalogue.unshift(node.data)
-          if (node.data && node.data.id === 0) {
-            node.parent = null
-          }
-        }
+      let catalogue = []
+      while (node && node.parent) {
+        catalogue.unshift({
+          id: +node.data.id,
+          name: node.data.label
+        })
+        node = node.data && node.data.id === 0 ? null : node.parent
       }
       this.catalogue = catalogue
     },
@@ -118,11 +119,10 @@ export default {
       this.$refs.newFolder.show({ parent: this.selected })
     },
     // 获取文件列表
-    async loadList (expandData) {
+    async loadList () {
       let queryLoading = this.$loading({ target: '.folder-tree__wrapper', fullscreen: false, text: '正在加载...' })
-      this.$http.fetch(this.$api.guide.getDirectoryTree).then(resp => {
+      return this.$http.fetch(this.$api.guide.getDirectoryTree).then(resp => {
         this.list = [{ id: 0, label: '素材库', children: resp.result }]
-        expandData ? this.onExpand(expandData) : this.expandKeys = [0]
       }).catch(resp => {
         this.$notify.error(getErrorMsg('查询失败', resp))
       }).finally(() => {
@@ -133,13 +133,13 @@ export default {
       if (this.selectRows.length) {
         this.moveTo()
       } else {
-        this.$emit('submit', { selected: this.selected, catalogue: this.catalogue })
+        this.$emit('submit', { checked: this.checked, catalogue: this.catalogue })
         this.hide()
       }
     },
     moveTo () {
       this.loading = true
-      const params = { parentId: this.selected.id }
+      const params = { parentId: this.checked.id }
       params.itemList = this.selectRows.map(item => ({
         id: item.id,
         isDirectory: item.isDirectory,
@@ -147,7 +147,7 @@ export default {
       }))
       this.$http.fetch(this.$api.guide.batchMoveMaterial, { ...params }).then(() => {
         this.$notify.success('移动成功')
-        this.$emit('submit', { selected: this.selected, catalogue: this.catalogue })
+        this.$emit('submit', { checked: this.checked, catalogue: this.catalogue })
         this.hide()
       }).catch(resp => {
         this.$notify.error(getErrorMsg('移动失败', resp))

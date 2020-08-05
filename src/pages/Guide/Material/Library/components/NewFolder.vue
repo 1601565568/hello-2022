@@ -56,7 +56,7 @@ export default {
     show (params = {}) {
       this.visible = true
       this.title = params.type === 'edit' ? '编辑文件夹' : '新建文件夹'
-      this.parent = params.parent || { id: '0' }
+      this.parent = params.parent || { id: 0 }
       this.model = { name: '', ...params.model }
     },
     hide () {

@@ -36,6 +36,7 @@
   </el-dialog>
 </template>
 <script>
+import { getErrorMsg } from '@/utils/toast'
 export default {
   props: {
     appendToBody: {
@@ -64,7 +65,7 @@ export default {
     descStr () {
       let numArr = [{ num: 0, suffix: '条素材' }, { num: 0, suffix: '个文件夹（将应用于文件夹下所有素材）' }]
       this.selectRows.forEach(o => {
-        o.type === 0 ? numArr[1].num++ : numArr[0].num++
+        o.isDirectory === 1 ? numArr[1].num++ : numArr[0].num++
       })
       let strArr = numArr.map(o => o.num ? `${o.num}${o.suffix}` : '').filter(s => !!s)
       return `已选择${strArr.join('、')}`

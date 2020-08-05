@@ -99,18 +99,23 @@ export default {
       default () {
         return []
       }
+    },
+    detail: {
+      type: Object,
+      default () {
+        return {}
+      }
     }
   },
   data: function () {
     return {
       loading: false,
       model: {
-        mType: 2,
         isDirectory: 0,
         name: '',
         content: '',
-        imageList: ['https://v-cdn.zjol.com.cn/276985.mp4'],
-        subdivisionId: undefined
+        imageList: [],
+        subdivisionId: null
       },
       rules: {
         name: [
@@ -127,17 +132,30 @@ export default {
           { required: true, message: '请添加素材视频', trigger: 'change' }
         ]
       },
-      catalogue: [{ id: -1, label: '素材库' }]
+      mType: 2,
+      catalogue: [{ id: 0, name: '素材库' }]
     }
   },
   computed: {
     catalogueStr () {
-      return this.catalogue.map(o => o.label).join(' > ')
+      return this.catalogue.map(o => o.name).join(' > ')
+    }
+  },
+  watch: {
+    detail (newObj) {
+      const parentIds = newObj.parentPath.split('/')
+      const parentNames = newObj.parentPathName.split('/')
+      const tempModel = {}
+      Object.keys(this.model).forEach(k => {
+        tempModel[k] = newObj[k]
+      })
+      this.model = tempModel
+      this.catalogue = parentIds.map((id, index) => ({ id: +id, name: parentNames[index] }))
     }
   },
   methods: {
     toggleFolder () {
-      this.$refs.folderTree.show()
+      this.$refs.folderTree.show(null, this.catalogue)
     },
     toggleLabel () {
       this.$emit('toggleLabel')
@@ -182,7 +200,7 @@ export default {
     },
     doSave () {
       this.loading = true
-      const params = { ...this.model }
+      const params = { ...this.detail, ...this.model, mType: this.mType }
       params.parentId = this.catalogue[this.catalogue.length - 1].id
       this.$http.fetch(this.$api.guide.materialEdit, params).then(resp => {
         this.$notify.success('视频素材保存成功')

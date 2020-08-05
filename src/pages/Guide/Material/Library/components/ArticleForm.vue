@@ -139,14 +139,13 @@ export default {
       },
       loading: false,
       model: {
-        mType: 0,
         isDirectory: 0,
         name: '',
         title: '',
         content: '',
         textContent: '',
-        subdivisionId: undefined,
-        imageList: ['https://shopguide.oss-cn-hangzhou.aliyuncs.com/test/201911/10000146/9317b820-9780-4d17-8761-f9fe2bf81e82.jpg'],
+        subdivisionId: null,
+        imageList: [],
         cardStyle: {}
       },
       rules: {
@@ -172,23 +171,30 @@ export default {
         ],
         cardStyle: [{ required: true, message: '卡片样式不能为空', trigger: 'blur' }]
       },
-      catalogue: [{ id: -1, label: '素材库' }]
+      mType: 0,
+      catalogue: [{ id: 0, name: '素材库' }]
     }
   },
   computed: {
     catalogueStr () {
-      return this.catalogue.map(o => o.label).join(' > ')
+      return this.catalogue.map(o => o.name).join(' > ')
     }
   },
   watch: {
-    // detail (newObj) {
-    //   console.log(newObj)
-    // }
+    detail (newObj) {
+      const parentIds = newObj.parentPath.split('/')
+      const parentNames = newObj.parentPathName.split('/')
+      const tempModel = {}
+      Object.keys(this.model).forEach(k => {
+        tempModel[k] = newObj[k]
+      })
+      this.model = tempModel
+      this.catalogue = parentIds.map((id, index) => ({ id: +id, name: parentNames[index] }))
+    }
   },
   methods: {
     toggleFolder () {
-      // todo 传递路径 - 展开项以及选中项
-      this.$refs.folderTree.show()
+      this.$refs.folderTree.show(null, this.catalogue)
     },
     toggleLabel () {
       this.$emit('toggleLabel')
@@ -238,7 +244,7 @@ export default {
     },
     doSave () {
       this.loading = true
-      const params = { ...this.detail, ...this.model }
+      const params = { ...this.detail, ...this.model, mType: this.mType }
       params.parentId = this.catalogue[this.catalogue.length - 1].id
       delete params.cardStyle
       this.$http.fetch(this.$api.guide.materialEdit, params).then(resp => {
