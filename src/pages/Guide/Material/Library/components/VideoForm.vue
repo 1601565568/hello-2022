@@ -1,0 +1,344 @@
+<template>
+  <div class="library-video">
+    <el-form ref="form" :model="model" :rules="rules" label-width="98px">
+      <el-form-item label="素材标题：" prop="name">
+        <el-input
+          type="text"
+          maxlength="20"
+          v-model="model.name"
+          placeholder="请输入标题，长度为4-20个字符"
+          style="width: 260px"
+        ></el-input>
+      </el-form-item>
+      <el-form-item label="选择标签：" prop="subdivisionId">
+        <el-select
+          v-model="model.subdivisionId"
+          placeholder="请选择"
+          filterable
+          clearable
+          style="width: 260px"
+        >
+          <el-option
+            v-for="item in labelList"
+            :key="item.subdivisionId"
+            :label="item.subdivisionName"
+            :value="item.subdivisionId"
+          >
+          </el-option>
+        </el-select>
+        <span class="library-video__extra" @click="toggleLabel">
+          <i class="el-icon-circle-plus" />
+          <span>添加标签</span>
+        </span>
+      </el-form-item>
+      <el-form-item label="推广文案：" prop="content">
+        <el-input
+          resize="none"
+          type="textarea"
+          maxlength="1500"
+          v-model="model.content"
+          placeholder="可在此输入推广文案，限制长度在1500个字符以内。"
+          style="width: 340px"
+        ></el-input>
+      </el-form-item>
+      <el-form-item label="素材视频：" prop="videoUrl">
+        <div class="library-video__form">
+          <div v-if="model.imageList && model.imageList.length" class="library-video__item">
+            <video :src="model.imageList[0]">您的浏览器暂不支持播放该视频，请升级至最新版浏览器。</video>
+            <div class="library-video__mask" @click="previewVideo">
+              <div class="library-video__wrapper">
+                <Icon type="begin" />
+              </div>
+            </div>
+            <span class="library-video__remove" @click="removeVideo">
+              <Icon type="delete" />
+            </span>
+          </div>
+          <div v-else>
+            <el-upload
+              class="library-uploader"
+              :action="this.$api.core.sgUploadFile('video')"
+              :show-file-list="false"
+              :on-success="handleVideoSuccess"
+              :on-error="handleVideoError"
+              :before-upload="beforeVideoUpload"
+              accept=".mp4"
+              list-type="picture-card"
+            >
+              <Icon type="plus"/>
+            </el-upload>
+          </div>
+        </div>
+        <div class="library-video__extra">
+          <Icon type="tishi"/>
+          <span>上传视频限制大小为10MB，格式为MP4</span>
+        </div>
+      </el-form-item>
+      <el-form-item label="保存到：" >
+        <span class="library-catalogue__text">{{catalogueStr}}</span>
+        <ns-button type="primary" @click="toggleFolder">选择文件夹</ns-button>
+      </el-form-item>
+    </el-form>
+    <div class="library-footer">
+      <ns-button @click="onBack">取消</ns-button>
+      <ns-button type="primary" :loading="loading" @click="onSave">保存</ns-button>
+    </div>
+    <folder-tree ref="folderTree" @submit="handleFolder"></folder-tree>
+  </div>
+</template>
+<script>
+import FolderTree from './FolderTree'
+import ElUpload from '@nascent/nui/lib/upload'
+
+export default {
+  name: 'videoform',
+  components: { FolderTree, ElUpload },
+  props: {
+    labelList: {
+      type: Array,
+      default () {
+        return []
+      }
+    },
+    detail: {
+      type: Object,
+      default () {
+        return {}
+      }
+    }
+  },
+  data: function () {
+    return {
+      loading: false,
+      model: {
+        isDirectory: 0,
+        name: '',
+        content: '',
+        imageList: [],
+        subdivisionId: null
+      },
+      rules: {
+        name: [
+          { required: true, message: '请输入标题', trigger: 'blur' },
+          { min: 4, max: 20, message: '长度在4到20个字符', trigger: 'blur' },
+          { pattern: /^(?!(\s+$))/, message: '不允许为空' }
+        ],
+        content: [
+          { required: true, message: '请输入推广文案', trigger: 'blur' },
+          { min: 0, max: 1500, message: '限制长度在1500个字符以内', trigger: 'blur' },
+          { pattern: /^(?!(\s+$))/, message: '不允许为空' }
+        ],
+        imageList: [
+          { required: true, message: '请添加素材视频', trigger: 'change' }
+        ]
+      },
+      mType: 2,
+      catalogue: [{ id: 0, name: '素材库' }]
+    }
+  },
+  computed: {
+    catalogueStr () {
+      return this.catalogue.map(o => o.name).join(' > ')
+    }
+  },
+  watch: {
+    detail (newObj) {
+      const parentIds = newObj.parentPath.split('/')
+      const parentNames = newObj.parentPathName.split('/')
+      const tempModel = {}
+      Object.keys(this.model).forEach(k => {
+        tempModel[k] = newObj[k]
+      })
+      this.model = tempModel
+      this.catalogue = parentIds.map((id, index) => ({ id: +id, name: parentNames[index] }))
+    }
+  },
+  methods: {
+    toggleFolder () {
+      this.$refs.folderTree.show(null, this.catalogue)
+    },
+    toggleLabel () {
+      this.$emit('toggleLabel')
+    },
+    previewVideo () {
+      this.$emit('togglePreview', 0, this.model.imageList, 'video')
+    },
+    handleFolder ({ catalogue }) {
+      this.catalogue = catalogue
+    },
+    removeVideo (index) {
+      this.model.imageList = []
+    },
+    handleVideoSuccess (res, file) {
+      this.model.imageList = [res.result.url]
+      this.uploader && this.uploader.close()
+    },
+    handleVideoError () {
+      this.uploader && this.uploader.close()
+    },
+    beforeVideoUpload (file) {
+      if (file.size / 1024 > 1024 * 10) {
+        this.$notify.warning('上传视频不得大于10MB')
+        return false
+      }
+      // 图片格式判断
+      if (!/\.(mp4)$/.test(file.name)) {
+        this.$notify.error('仅支持mp4的视频格式')
+        return false
+      }
+      this.uploader = this.$loading({ target: '.library-video__form', fullscreen: false, text: '正在上传...' })
+    },
+    onBack () {
+      this.$router.push({ path: '/Guide/Material/Library' })
+    },
+    onSave () {
+      this.$refs.form.validate(valid => {
+        if (valid) {
+          this.doSave()
+        }
+      })
+    },
+    doSave () {
+      this.loading = true
+      const params = { ...this.detail, ...this.model, mType: this.mType }
+      params.parentId = this.catalogue[this.catalogue.length - 1].id
+      this.$http.fetch(this.$api.guide.materialEdit, params).then(resp => {
+        this.$notify.success('视频素材保存成功')
+        this.onBack()
+      }).catch(resp => {
+        this.$notify.error(getErrorMsg('保存失败', resp))
+      }).finally(() => {
+        this.loading = false
+      })
+    }
+  }
+}
+</script>
+<style scoped>
+  /* @import "@theme/variables.pcss"; */
+  @component-namespace library {
+    @b video {
+      @e extra {
+        font-size: 12px;
+        color: #0392fb;
+        cursor: pointer;
+        i + span {
+          margin-left: 5px;
+        }
+      }
+    }
+    @b catalogue {
+      @e text {
+        vertical-align: middle;
+        & + button {
+          margin-left: 10px;
+        }
+      }
+    }
+    @b footer {
+      padding: 20px 0 30px;
+      text-align: center;
+      button + button {
+        margin-left: 10px;
+      }
+    }
+     @b uploader {
+      >>> .el-upload--picture-card {
+        width: 240px;
+        height: 135px;
+        border: solid 1px #DCDFE6;
+        font-size: 24px;
+        color: #8c8c8c;
+        line-height: 135px;
+        border-radius: 3px;
+        background-color: #fff;
+        &:hover {
+          border-color: #0091fa;
+          color: #0091fa;
+        }
+      }
+    }
+    @b video {
+      @e form {
+        position: relative;
+        width: 240px;
+        >>> .el-loading-mask {
+          top: 1px;
+          left: 1px;
+          bottom: 1px;
+          right: 1px;
+          border-radius: 3px;
+        }
+        >>> .el-loading-spinner {
+          margin-top: -24px;
+        }
+      }
+      @e item {
+        position: relative;
+        width: 240px;
+        height: 135px;
+        border-radius: 3px;
+        background-color: #fff;
+        font-size: 0;
+        > video {
+          width: 100%;
+          height: 100%;
+          border-radius: 3px;
+        }
+      }
+      @e remove {
+        position: absolute;
+        right: -18px;
+        bottom: 0;
+        font-size: 14px;
+        color: #0091fa;
+        line-height: 1;
+        svg {
+          cursor: pointer;
+        }
+      }
+      @e mask {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, .25);
+        cursor: pointer;
+        border-radius: 3px;
+      }
+      @e wrapper {
+        position: relative;
+        top: 50%;
+        left: 50%;
+        margin-left: -15px;
+        margin-top: -15px;
+        width: 30px;
+        height: 30px;
+        border-radius: 30px;
+        background-color: rgba(255, 255, 255, .4);
+        > svg {
+          margin: 7px 0 0 8px;
+          font-size: 16px;
+          color: #fff;
+        }
+      }
+    }
+    >>> .el-form {
+      padding: 20px 0;
+    }
+    >>> .el-form-item {
+      margin-bottom: 10px;
+      .el-form-item__label {
+        font-size: 14px;
+        color: #606266;
+      }
+      .el-select + .library-video__extra {
+        margin-left: 10px;
+      }
+      .el-textarea__inner {
+        height: 90px;
+      }
+    }
+  }
+</style>

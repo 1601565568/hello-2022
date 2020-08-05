@@ -8,28 +8,53 @@ export default {
   },
   'children': [
     {
-      'path': '/Guide/Material/imageText',
+      'path': '/Guide/Material/Library',
       'name': 'SHOP_MARKETING2',
-      'title': '素材库',
+      'title': '内容运营',
       'component': () => import('@nascent/ecrp-ecrm/src/layout/Content.vue'),
-      'children': [{
-        'path': '/Guide/Material/imageText',
-        'name': 'MATERIAL',
-        'title': '图文素材',
-        'component': () => import('@/pages/Guide/Material/imageText.vue')
-      },
-      {
-        'path': '/Guide/Material/article',
-        'name': 'MaterialArticle ',
-        'title': '文章素材',
-        'component': () => import('@/pages/Guide/Material/article.vue')
-      },
-      {
-        'path': '/Guide/Material/subdivision',
-        'name': 'MaterialSubdivision',
-        'title': '素材分组',
-        'component': () => import('@/pages/Guide/Material/subdivision.vue')
-      }]
+      'children': [
+        {
+          'path': '/Guide/Material/Library',
+          'name': 'Library',
+          'title': '素材库',
+          'component': () => import('@nascent/ecrp-ecrm/src/layout/ContentOnly.vue'),
+          'redirect': {
+            'name': 'LibraryList'
+          },
+          'children': [
+            {
+              'path': '/Guide/Material/Library',
+              'name': 'LibraryList',
+              'title': '素材库列表',
+              'component': () => import('@/pages/Guide/Material/Library/Index.vue')
+            },
+            {
+              'path': '/Guide/Material/Edit',
+              'name': 'LibraryEdit',
+              'title': '编辑素材',
+              'component': () => import('@/pages/Guide/Material/Library/Edit.vue')
+            }
+          ]
+        },
+        {
+          'path': '/Guide/Material/imageText',
+          'name': 'MATERIAL',
+          'title': '图文素材',
+          'component': () => import('@/pages/Guide/Material/imageText.vue')
+        },
+        {
+          'path': '/Guide/Material/article',
+          'name': 'MaterialArticle ',
+          'title': '文章素材',
+          'component': () => import('@/pages/Guide/Material/article.vue')
+        },
+        {
+          'path': '/Guide/Material/subdivision',
+          'name': 'MaterialSubdivision',
+          'title': '素材分组',
+          'component': () => import('@/pages/Guide/Material/subdivision.vue')
+        }
+      ]
     },
     {
       'path': '/Guide/SgCoupon/CouponList',
