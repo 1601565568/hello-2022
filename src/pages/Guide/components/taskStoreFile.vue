@@ -91,7 +91,6 @@ export default {
     manualValue: {
       handler (newValue) {
         this.uploadData.manualStoreIds = newValue
-        // console.log('manualValue', newValue)
       }
     }
   },
@@ -101,11 +100,6 @@ export default {
       this.dialogVisible = false
       this.manualValue = null
       this.$refs.uploadRef.clearFiles()
-      // this.$confirm('确认关闭？').$http.fetch
-      //   .then(() => {
-      //     done()
-      //   })
-      //   .catch(() => {})
     },
     okFun () {
       let tempShopArray = []
@@ -192,12 +186,16 @@ export default {
       }
     },
     handleRemove (file, fileList) {
+      console.log('handleRemove', fileList)
     },
     handlePreview (file) {
+      console.log('handlePreview', fileList)
     },
     handleExceed (files, fileList) {
+      this.$notify.error('已上传文件，不能重复上传')
     },
     beforeRemove (file, fileList) {
+      console.log('beforeRemove', fileList)
     },
     beforeUpload (file, fileList) {
       let fileSuffix = file.name.split('.').pop()
