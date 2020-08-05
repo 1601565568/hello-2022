@@ -328,7 +328,7 @@ export default {
         })
         this.pagination.total = +resp.result.recordsTotal || 0
       }).catch(resp => {
-        console.log(resp)
+        // console.log(resp)
         this.$notify.error(getErrorMsg('查询素材列表失败', resp))
       }).finally(() => {
         this.table.loading = false
