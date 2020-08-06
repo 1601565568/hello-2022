@@ -41,7 +41,7 @@
           style="width: 340px"
         ></el-input>
       </el-form-item>
-      <el-form-item label="素材图片：" prop="imageList">
+      <el-form-item ref="imageForm" label="素材图片：" prop="imageList">
         <ul class="library-image__list clearfix">
           <li class="library-image__item" v-for="(item,index) in model.imageList" :key="index">
             <img :src="item">
@@ -149,6 +149,12 @@ export default {
         return []
       }
     },
+    breadcrumb: {
+      type: Array,
+      default () {
+        return []
+      }
+    },
     detail: {
       type: Object,
       default () {
@@ -204,7 +210,7 @@ export default {
       const parentNames = newObj.parentPathName.split('/')
       const tempModel = {}
       Object.keys(this.model).forEach(k => {
-        tempModel[k] = newObj[k]
+        tempModel[k] = newObj[k] === undefined ? this.model[k] : newObj[k]
       })
       this.model = tempModel
       this.catalogue = parentIds.map((id, index) => ({ id: +id, name: parentNames[index] }))
@@ -302,6 +308,11 @@ export default {
       }).finally(() => {
         this.loading = false
       })
+    }
+  },
+  mounted () {
+    if (this.breadcrumb.length) {
+      this.catalogue = this.breadcrumb
     }
   }
 }

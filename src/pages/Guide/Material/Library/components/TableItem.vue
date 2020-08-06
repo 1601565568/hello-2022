@@ -77,6 +77,7 @@ export default {
         text-overflow: ellipsis;
       }
       @e imageBox {
+        overflow: hidden;
         > ul {
           list-style: none;
           padding: 0;

@@ -49,10 +49,10 @@
           :inline="true"
         >
           <el-form-item label="标题：" label-width="40px">
-            <el-input type="text" v-model="model.name" placeholder="请输入文件夹或素材标题"></el-input>
+            <el-input type="text" v-model="model.name" placeholder="请输入文件夹或素材标题" clearable></el-input>
           </el-form-item>
           <el-form-item label="素材内容：">
-            <el-input type="text" v-model="model.content" placeholder="请输入素材内容"></el-input>
+            <el-input type="text" v-model="model.content" placeholder="请输入素材内容" clearable></el-input>
           </el-form-item>
           <el-form-item label="发布时间：">
             <el-date-picker
@@ -276,6 +276,9 @@ export default Index
         }
         >>> .el-date-editor--datetimerange.el-input__inner {
           width: 445px;
+          .el-range-input {
+            flex: 1;
+          }
         }
       }
     }

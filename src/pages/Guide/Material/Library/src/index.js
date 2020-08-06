@@ -22,7 +22,7 @@ export default {
           'type': 'primary',
           'visible': true,
           'func': () => {
-            this.$router.push({ path: '/Guide/Material/Edit' })
+            this.$router.push({ name: 'LibraryEdit', params: { breadcrumb: this.breadcrumb } })
           }
         },
         {
@@ -170,6 +170,8 @@ export default {
       breadcrumb: [{ name: '素材库', id: 0 }],
       filterValue: '',
       queryNum: 0,
+      // 搜索时，排除文件夹的字段
+      excludeQuery: ['content', 'subdivisionId', 'mType'],
       queryLoading: null
     }
   },
@@ -301,9 +303,18 @@ export default {
       if (this.listMode === 'list') {
         this.queryList(params)
       } else {
-        this.queryNum = 2
         this.queryLoading = this.$loading({ target: '.library-wrapper', fullscreen: false, text: '正在加载...' })
-        this.queryFolders(params)
+        this.queryNum = 2
+        // 检测是否搜索的仅是素材，如果是，清空folders
+        let index = this.excludeQuery.findIndex(key => {
+          return !!params.searchMap[key]
+        })
+        if (index > -1) {
+          this.queryNum--
+          this.waterfall.folders = []
+        } else {
+          this.queryFolders(params)
+        }
         this.queryMaterials(params)
       }
     },
@@ -313,7 +324,7 @@ export default {
     queryList (params) {
       this.table.loading = true
       this.$http.fetch(this.$api.guide.materialList, params).then(resp => {
-        this.table.data = resp.result.data.map(o => {
+        this.table.data = (resp.result.data || []).map(o => {
           let numArr = [{ num: 0, suffix: '个文件夹' }, { num: 0, suffix: '个素材' }]
           if (o.isDirectory === 1) {
             numArr[0].num = +o.childDirectoryCount
@@ -328,7 +339,6 @@ export default {
         })
         this.pagination.total = +resp.result.recordsTotal || 0
       }).catch(resp => {
-        console.log(resp)
         this.$notify.error(getErrorMsg('查询素材列表失败', resp))
       }).finally(() => {
         this.table.loading = false
@@ -339,7 +349,7 @@ export default {
      */
     queryFolders (params) {
       this.$http.fetch(this.$api.guide.findDirectoryList, { ...params.searchMap }).then(resp => {
-        this.waterfall.folders = resp.result
+        this.waterfall.folders = resp.result || []
       }).catch(resp => {
         this.$notify.error(getErrorMsg('查询文件夹列表失败', resp))
       }).finally(() => { this.checkLoading() })
@@ -352,7 +362,7 @@ export default {
         ...params,
         searchMap: { ...params.searchMap, isDirectory: 0 }
       }).then(resp => {
-        this.waterfall.materials = resp.result.data.map(o => {
+        this.waterfall.materials = (resp.result.data || []).map(o => {
           return {
             ...o,
             imageList: o.imageList || []
@@ -377,7 +387,7 @@ export default {
       // 数据格式化
       Object.keys(this.model).forEach(k => {
         if (this.model[k] !== '') {
-          params[k] = this.model[k]
+          params[k] = k === 'sourceId' ? +this.model[k] : this.model[k]
         }
       })
       if (params.time && params.time.length === 2) {

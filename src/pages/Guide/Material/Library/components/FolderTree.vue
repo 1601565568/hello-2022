@@ -11,8 +11,8 @@
       <el-tree
         ref="folderTree"
         node-key="id"
+        :indent="24"
         :data="list"
-        :props="treeProps"
         :check-strictly="true"
         :expand-on-click-node="false"
         :default-expanded-keys="expandedKeys"
@@ -51,10 +51,6 @@ export default {
       list: [],
       expandedKeys: [],
       checked: null,
-      treeProps: {
-        label: 'label',
-        children: 'children'
-      },
       catalogue: [],
       selectRows: []
     }
@@ -64,19 +60,19 @@ export default {
   methods: {
     async show (rows, catalogue) {
       this.visible = true
+      this.selectRows = Object.prototype.toString.call(rows) === '[object Object]' ? [rows] : (rows || [])
+      this.catalogue = catalogue || []
       await this.loadList()
       this.$nextTick(() => {
-        this.resetTree(rows, catalogue)
+        this.resetTree(rows, this.catalogue)
       })
     },
     hide () {
       this.visible = false
     },
     resetTree (rows, catalogue) {
-      this.selectRows = Object.prototype.toString.call(rows) === '[object Object]' ? [rows] : (rows || [])
-      this.catalogue = catalogue || []
-      this.expandedKeys = this.catalogue.length ? catalogue.map(o => o.id) : [0]
-      this.checked = this.catalogue.length ? catalogue[catalogue.length - 1] : null
+      this.expandedKeys = catalogue.length ? catalogue.map(o => o.id) : [0]
+      this.checked = catalogue.length ? catalogue[catalogue.length - 1] : null
       this.$refs.folderTree.setCheckedKeys(this.checked ? [this.checked.id] : [])
     },
     onExpand (data) {
@@ -118,12 +114,27 @@ export default {
     onAddFolder () {
       this.$refs.newFolder.show({ parent: this.selected })
     },
+    isDisabled (row) {
+      let index = this.selectRows.findIndex(o => o.id === +row.id)
+      return index > -1
+    },
+    formatList (data) {
+      return data.map(item => {
+        item.id = +item.id
+        item.disabled = this.isDisabled(item)
+        if (item.children) {
+          item.children = this.formatList(item.children)
+        }
+        return item
+      })
+    },
     // 获取文件列表
     async loadList () {
       let queryLoading = this.$loading({ target: '.folder-tree__wrapper', fullscreen: false, text: '正在加载...' })
       return this.$http.fetch(this.$api.guide.getDirectoryTree).then(resp => {
-        this.list = [{ id: 0, label: '素材库', children: resp.result }]
+        this.list = [{ id: 0, label: '素材库', children: this.formatList(resp.result) }]
       }).catch(resp => {
+        console.log(resp)
         this.$notify.error(getErrorMsg('查询失败', resp))
       }).finally(() => {
         queryLoading.close()
@@ -185,46 +196,61 @@ export default {
       padding: 10px 30px 20px !important;
     }
   }
-  >>> .is-checked > .el-tree-node__content {
-    background-color: #f5fbff !important;
-    border-color: #0392fb;
-  }
-  >>> .el-tree-node__content {
-    padding: 5px 10px;
-    border: solid 1px transparent;
-    border-radius: 4px;
-    > .el-tree-node__expand-icon {
-      padding: 0;
-      margin-left: 10px;
-      font-size: 16px;
-      color: #8c8c8c;
-      vertical-align: middle;
-      &.is-leaf {
-        color: transparent;
-        background: transparent;
-      }
-    }
-    .folder-tree__item {
-      margin-left: 5px;
-      line-height: 20px;
-      svg {
-        font-size: 20px;
-        color: #0091fa;
-      }
-      svg, span {
+  >>> .el-tree-node {
+    > .el-tree-node__content {
+      padding: 5px 10px;
+      border: solid 1px transparent;
+      border-radius: 4px;
+      .el-tree-node__expand-icon {
+        padding: 0;
+        margin-left: 10px;
+        font-size: 16px;
+        color: #bfbfbf;
+        pointer-events: none;
         vertical-align: middle;
+        &.is-leaf {
+          visibility: hidden;
+        }
       }
-      svg + span {
+      .folder-tree__item {
         margin-left: 5px;
-      }
-      &.folder-tree__disabled {
-        svg {
+        font-size: 0;
+        > svg, > span {
+          display: inline-block;
+          vertical-align: middle;
+        }
+        > span {
+          font-size: 12px;
+          color: #C0C4CC;
+          line-height: 20px;
+        }
+        > svg {
+          font-size: 20px;
+          color: #0091fa;
           opacity: 0.3;
         }
-        span {
-          color: #c0c4cc;
+        > svg + span {
+          margin-left: 5px;
         }
       }
+    }
+    &.is-focusable > .el-tree-node__content {
+      .el-tree-node__expand-icon {
+        color: #8c8c8c;
+        pointer-events: auto;
+      }
+      .folder-tree__item {
+        > svg {
+          opacity: 1;
+        }
+        > span {
+          color: #606266;
+        }
+      }
+    }
+    &.is-checked > .el-tree-node__content {
+      background-color: #f5fbff !important;
+      border-color: #0392fb;
     }
   }
 }
