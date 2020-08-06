@@ -78,6 +78,7 @@
                   </el-option>
                 </el-select>
                 <Icon v-if="item.codeType" type="erweima"/>
+                <span v-if="item.mType === 0" class="catalogue-materials__item--total">浏览量: {{item.pageView || 0}}</span>
               </div>
             </div>
             <div class="catalogue-materials__item--btns">
@@ -390,6 +391,11 @@ export default {
           font-size: 24px;
           color: #262626;
         }
+      }
+      @m total {
+        float: right;
+        font-size: 12px;
+        color: #303133;
       }
       @m btns {
         border-top: solid 1px #dcdfe6;

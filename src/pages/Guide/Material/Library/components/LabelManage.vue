@@ -160,7 +160,7 @@ export default {
       await this.getSubdivisionMaxSortNum()
       await this.$http.fetch(this.$api.guide.materialGroudList, this.searchObj).then(resp => {
         this.dataList = resp.result.data.map((item, index) => {
-          return { ...item, seq: (this.pagination.page - 1) * 10 + index + 1 }
+          return { ...item, seq: (this.pagination.page - 1) * this.pagination.size + index + 1 }
         })
         this.pagination.total = parseInt(resp.result.recordsTotal)
       }).catch(resp => {

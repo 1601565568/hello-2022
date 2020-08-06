@@ -139,12 +139,16 @@ export default {
         ]
       },
       mType: 2,
+      imageNum: 1,
       catalogue: [{ id: 0, name: '素材库' }]
     }
   },
   computed: {
     catalogueStr () {
       return this.catalogue.map(o => o.name).join(' > ')
+    },
+    imageList () {
+      return this.model.imageList.slice(0, this.imageNum)
     }
   },
   watch: {
@@ -167,16 +171,18 @@ export default {
       this.$emit('toggleLabel')
     },
     previewVideo () {
-      this.$emit('togglePreview', 0, this.model.imageList, 'video')
+      this.$emit('togglePreview', 0, this.imageList, 'video')
     },
     handleFolder ({ catalogue }) {
       this.catalogue = catalogue
     },
     removeVideo (index) {
       this.model.imageList = []
+      this.$refs.form.validateField('imageList')
     },
     handleVideoSuccess (res, file) {
       this.model.imageList = [res.result.url]
+      this.$refs.imageForm.clearValidate()
       this.uploader && this.uploader.close()
     },
     handleVideoError () {
@@ -208,6 +214,7 @@ export default {
       this.loading = true
       const params = { ...this.detail, ...this.model, mType: this.mType }
       params.parentId = this.catalogue[this.catalogue.length - 1].id
+      params.imageList = this.imageList
       this.$http.fetch(this.$api.guide.materialEdit, params).then(resp => {
         this.$notify.success('视频素材保存成功')
         this.onBack()
