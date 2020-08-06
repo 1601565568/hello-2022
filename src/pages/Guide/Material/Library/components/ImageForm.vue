@@ -185,7 +185,7 @@ export default {
       rules: {
         name: [
           { required: true, message: '请输入标题', trigger: 'blur' },
-          { min: 4, max: 10, message: '长度在4到20个字符', trigger: 'blur' }
+          { min: 4, max: 20, message: '长度在4到20个字符', trigger: 'blur' }
         ],
         content: [
           { required: true, message: '请输入推广文案', trigger: 'blur' },
