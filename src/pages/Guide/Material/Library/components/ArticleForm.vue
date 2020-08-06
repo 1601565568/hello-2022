@@ -158,7 +158,7 @@ export default {
         title: '',
         content: '',
         textContent: '',
-        subdivisionId: '',
+        subdivisionId: null,
         imageList: [],
         cardStyle: {}
       },

@@ -333,6 +333,7 @@ export default {
           numArr = numArr.filter(n => n.num > 0).map(t => `${t.num}${t.suffix}`)
           return {
             ...o,
+            subdivisionId: o.subdivisionId === -1 ? null : o.subdivisionId,
             imageList: o.imageList || [],
             description: numArr.join('，')
           }
@@ -365,6 +366,7 @@ export default {
         this.waterfall.materials = (resp.result.data || []).map(o => {
           return {
             ...o,
+            subdivisionId: o.subdivisionId === -1 ? null : o.subdivisionId,
             imageList: o.imageList || []
           }
         })
