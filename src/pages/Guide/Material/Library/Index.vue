@@ -48,7 +48,7 @@
           :model="model"
           :inline="true"
         >
-          <el-form-item label="标题：" label-width="40px">
+          <el-form-item label="标题：">
             <el-input type="text" v-model="model.name" placeholder="请输入文件夹或素材标题" clearable></el-input>
           </el-form-item>
           <el-form-item label="素材内容：">
@@ -64,7 +64,7 @@
             </el-date-picker>
           </el-form-item>
           <!-- 标签 - 动态请求数据 -->
-          <el-form-item label="标签：" label-width="40px">
+          <el-form-item label="标签：">
             <el-select
               v-model="model.subdivisionId"
               placeholder="请选择"

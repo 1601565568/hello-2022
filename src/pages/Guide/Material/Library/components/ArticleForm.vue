@@ -243,7 +243,7 @@ export default {
     beforeAvatarUpload (file) {
       // 图片格式判断
       if (!/\.(gif|jpg|jpeg|png|bmp|BMP|GIF|JPG|PNG|JPEG)$/.test(file.name)) {
-        this.$notify.error('仅支持jpg/jepg/png/bmp/gif的图片格式')
+        this.$notify.error('仅支持jpg/jpeg/png/bmp/gif的图片格式')
         return false
       }
       // 图片大小判断
