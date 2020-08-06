@@ -41,7 +41,10 @@ export default {
     getDetail (id) {
       if (id || id === 0) {
         this.$http.fetch(this.$api.guide.queryMaterial, { id }).then(resp => {
-          this.detail = resp.result
+          this.detail = resp.result || {}
+          if (this.detail.subdivisionId === -1) {
+            this.detail.subdivisionId = null
+          }
         }).catch(resp => {
           this.$notify.error(getErrorMsg('查询失败', resp))
         })

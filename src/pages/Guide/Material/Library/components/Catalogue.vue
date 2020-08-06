@@ -62,7 +62,7 @@
               <div class="catalogue-materials__item--action clearfix">
                 <el-select
                   v-model="item.subdivisionId"
-                  placeholder="请选择"
+                  placeholder="未打标"
                   :filter-method="subdivisionFilter"
                   @visible-change="subdivisionVisible"
                   @change="subdivisionChange(item)"
@@ -244,298 +244,301 @@ export default {
 }
 </script>
 <style scoped>
-@component-namespace catalogue {
-  @b wrapper {
-    margin-bottom: 10px;
-    > div:first-child {
-      .catalogue-header {
-        margin-top: 0;
+  @component-namespace catalogue {
+    @b wrapper {
+      margin-bottom: 10px;
+      > div:first-child {
+        .catalogue-header {
+          margin-top: 0;
+        }
       }
     }
-  }
-  @b header {
-    margin: 10px 0;
-    font-size: 14px;
-    color: #303133;
-    line-height: 22px;
-  }
-  @b folders {
-    @e wrapper {
-      overflow: hidden;
-      background-color: #fff;
-      border-radius: 3px;
+    @b header {
+      margin: 10px 0;
+      font-size: 14px;
+      color: #303133;
+      line-height: 22px;
     }
-    @e content {
-      margin: 0 -44px;
-      padding: 0 5px;
-    }
-    @e item {
-      position: relative;
-      display: inline-block;
-      margin: 5px 44px;
-      width: 128px;
-      height: 128px;
-      text-align: center;
-      border: solid 1px transparent;
-      border-radius: 3px;
-      vertical-align: top;
-      &:hover {
-        border-color: #dcdfe6;
-        .catalogue-folders__item--btns,
-        .catalogue-folders__item--check {
-          opacity: 1;
-        }
+    @b folders {
+      @e wrapper {
+        overflow: hidden;
+        background-color: #fff;
+        border-radius: 3px;
       }
-      @m selected {
-        border-color: #1a9cfb;
-        &:hover {
-          border-color: #1a9cfb;
-        }
-        .catalogue-folders__item--btns,
-        .catalogue-folders__item--check {
-          opacity: 1;
-        }
-        .catalogue-folders__item--check {
-          color: #0091fa;
-        }
+      @e content {
+        margin: 0 -44px;
+        padding: 0 5px;
       }
-      @m check {
-        position: absolute;
-        top: 5px;
-        right: 5px;
-        font-size: 21px;
-        color: #dcdfe6;
-        opacity: 0;
-        transition: opacity .3s;
-        svg {
-          cursor: pointer;
-        }
-      }
-      @m icon {
-        margin-top: 15px;
-        font-size: 48px;
-        color: #0392fb;
-      }
-      @m name {
-        margin-top: 5px;
-        font-size: 12px;
-        color: #606266;
-        line-height: 20px;
-      }
-      @m btns {
-        margin-top: 10px;
-        font-size: 16px;
-        color: #303133;
-        opacity: 0;
-        transition: opacity .3s;
-        svg {
-          cursor: pointer;
-        }
-        svg + svg {
-          margin-left: 15px;
-        }
-      }
-      @m info {
-        cursor: pointer;
-      }
-    }
-  }
-  @b materials {
-    @e group {
-      display: inline-block;
-      vertical-align: top;
-      margin-right: 10px;
-      &:last-child {
-        margin-right: 0;
-      }
-    }
-    @e item {
-      position: relative;
-      margin-top: 10px;
-      width: 296px;
-      background: #fff;
-      border: solid 1px transparent;
-      border-radius: 3px;
-      &:first-child {
-        margin-top: 0;
-      }
-      @m info {
-        padding: 19px 19px 0;
-      }
-      @m title {
-        font-size: 14px;
-        color: #303133;
-        font-weight: bolder;
-        line-height: 22px;
-      }
-      @m desc {
-        margin: 10px 0;
-        font-size: 12px;
-        color: #909399;
-        line-height: 20px;
-        span + span {
-          margin-left: 20px;
-        }
-      }
-      @m content {
-        margin: 5px 0;
-        height: 40px;
-        font-size: 12px;
-        color: #606266;
-        line-height: 20px;
-      }
-      @m action {
-        margin: 15px 0;
-        svg {
-          float: right;
-          font-size: 24px;
-          color: #262626;
-        }
-      }
-      @m total {
-        float: right;
-        font-size: 12px;
-        color: #303133;
-      }
-      @m btns {
-        border-top: solid 1px #dcdfe6;
-      }
-      @m btn {
+      @e item {
         position: relative;
         display: inline-block;
-        margin: 4px 0;
-        width: 33.333333%;
-        font-size: 12px;
-        color:#0392fb;
-        line-height: 30px;
+        margin: 5px 44px;
+        width: 128px;
+        height: 128px;
         text-align: center;
-        cursor: pointer;
-        &:not(:last-child) {
-          border-right: solid 1px #dcdfec;
-        }
-      }
-      &:hover {
-        border-color: #dcdfe6;
-        .catalogue-materials__item--check {
-          opacity: 1;
-        }
-      }
-      @m selected {
-        border-color: #1a9cfb;
+        border: solid 1px transparent;
+        border-radius: 3px;
+        vertical-align: top;
         &:hover {
+          border-color: #dcdfe6;
+          .catalogue-folders__item--btns,
+          .catalogue-folders__item--check {
+            opacity: 1;
+          }
+        }
+        @m selected {
           border-color: #1a9cfb;
+          &:hover {
+            border-color: #1a9cfb;
+          }
+          .catalogue-folders__item--btns,
+          .catalogue-folders__item--check {
+            opacity: 1;
+          }
+          .catalogue-folders__item--check {
+            color: #0091fa;
+          }
         }
-        .catalogue-materials__item--check {
-          opacity: 1;
-          color: #0091fa;
+        @m check {
+          position: absolute;
+          top: 5px;
+          right: 5px;
+          font-size: 21px;
+          color: #dcdfe6;
+          opacity: 0;
+          transition: opacity .3s;
+          svg {
+            cursor: pointer;
+          }
         }
-      }
-      @m check {
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        font-size: 21px;
-        color: #dcdfe6;
-        opacity: 0;
-        transition: opacity .3s;
-        svg {
+        @m icon {
+          margin-top: 15px;
+          font-size: 48px;
+          color: #0392fb;
+        }
+        @m name {
+          margin-top: 5px;
+          font-size: 12px;
+          color: #606266;
+          line-height: 20px;
+        }
+        @m btns {
+          margin-top: 10px;
+          font-size: 16px;
+          color: #303133;
+          opacity: 0;
+          transition: opacity .3s;
+          svg {
+            cursor: pointer;
+          }
+          svg + svg {
+            margin-left: 15px;
+          }
+        }
+        @m info {
           cursor: pointer;
         }
       }
     }
-    @e article {
-      position: relative;
-      padding: 5px;
-      background-color: #ebeef5;
-      img {
+    @b materials {
+      @e group {
+        display: inline-block;
+        vertical-align: top;
         margin-right: 10px;
-        width: 68px;
-        height: 68px;
-        border-radius: 3px;
-        cursor: pointer;
-        object-fit: cover;
-      }
-      @m title {
-        position: absolute;
-        top: 50%;
-        left: 83px;
-        right: 10px;
-        font-size: 12px;
-        line-height: 20px;
-        color: #606266;
-        transform: translate(0, -50%);
-      }
-    }
-    @e image {
-      margin-bottom: -5px;
-      img {
-        margin: 0 5px 5px 0;
-        width: 82px;
-        height: 82px;
-        border-radius: 3px;
-        cursor: pointer;
-        object-fit: cover;
-        &:nth-child(3n) {
+        &:last-child {
           margin-right: 0;
         }
       }
-    }
-    @e video {
-      position: relative;
-      font-size: 0;
-      line-height: 1;
-      video {
-        width: 256px;
-        height: 142px;
-        border-radius: 3px;
-        object-fit: cover;
-      }
-      @m mask {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, .25);
-        cursor: pointer;
-        border-radius: 3px;
-      }
-      @m wrapper {
+      @e item {
         position: relative;
-        top: 50%;
-        left: 50%;
-        margin-left: -26px;
-        margin-top: -26px;
-        width: 52px;
-        height: 52px;
-        border-radius: 52px;
-        background-color: rgba(255, 255, 255, .4);
-        > svg {
-          margin: 11px 0 0 14px;
-          font-size: 30px;
-          color: #fff;
+        margin-top: 10px;
+        width: 296px;
+        background: #fff;
+        border: solid 1px transparent;
+        border-radius: 3px;
+        &:first-child {
+          margin-top: 0;
+        }
+        @m info {
+          padding: 19px 19px 0;
+        }
+        @m title {
+          font-size: 14px;
+          color: #303133;
+          font-weight: bolder;
+          line-height: 22px;
+        }
+        @m desc {
+          margin: 10px 0;
+          font-size: 12px;
+          color: #909399;
+          line-height: 20px;
+          span + span {
+            margin-left: 20px;
+          }
+        }
+        @m content {
+          margin: 5px 0;
+          height: 40px;
+          font-size: 12px;
+          color: #606266;
+          line-height: 20px;
+        }
+        @m action {
+          margin: 15px 0;
+          svg {
+            float: right;
+            font-size: 24px;
+            color: #262626;
+          }
+          >>> .el-select .el-input__inner {
+            padding-right: 26px;
+          }
+        }
+        @m total {
+          float: right;
+          font-size: 12px;
+          color: #303133;
+        }
+        @m btns {
+          border-top: solid 1px #dcdfe6;
+        }
+        @m btn {
+          position: relative;
+          display: inline-block;
+          margin: 4px 0;
+          width: 33.333333%;
+          font-size: 12px;
+          color:#0392fb;
+          line-height: 30px;
+          text-align: center;
+          cursor: pointer;
+          &:not(:last-child) {
+            border-right: solid 1px #dcdfec;
+          }
+        }
+        &:hover {
+          border-color: #dcdfe6;
+          .catalogue-materials__item--check {
+            opacity: 1;
+          }
+        }
+        @m selected {
+          border-color: #1a9cfb;
+          &:hover {
+            border-color: #1a9cfb;
+          }
+          .catalogue-materials__item--check {
+            opacity: 1;
+            color: #0091fa;
+          }
+        }
+        @m check {
+          position: absolute;
+          top: 10px;
+          right: 10px;
+          font-size: 21px;
+          color: #dcdfe6;
+          opacity: 0;
+          transition: opacity .3s;
+          svg {
+            cursor: pointer;
+          }
+        }
+      }
+      @e article {
+        position: relative;
+        padding: 5px;
+        background-color: #ebeef5;
+        img {
+          margin-right: 10px;
+          width: 68px;
+          height: 68px;
+          border-radius: 3px;
+          cursor: pointer;
+          object-fit: cover;
+        }
+        @m title {
+          position: absolute;
+          top: 50%;
+          left: 83px;
+          right: 10px;
+          font-size: 12px;
+          line-height: 20px;
+          color: #606266;
+          transform: translate(0, -50%);
+        }
+      }
+      @e image {
+        margin-bottom: -5px;
+        img {
+          margin: 0 5px 5px 0;
+          width: 82px;
+          height: 82px;
+          border-radius: 3px;
+          cursor: pointer;
+          object-fit: cover;
+          &:nth-child(3n) {
+            margin-right: 0;
+          }
+        }
+      }
+      @e video {
+        position: relative;
+        font-size: 0;
+        line-height: 1;
+        video {
+          width: 256px;
+          height: 142px;
+          border-radius: 3px;
+          object-fit: cover;
+        }
+        @m mask {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background-color: rgba(0, 0, 0, .25);
+          cursor: pointer;
+          border-radius: 3px;
+        }
+        @m wrapper {
+          position: relative;
+          top: 50%;
+          left: 50%;
+          margin-left: -26px;
+          margin-top: -26px;
+          width: 52px;
+          height: 52px;
+          border-radius: 52px;
+          background-color: rgba(255, 255, 255, .4);
+          > svg {
+            margin: 11px 0 0 14px;
+            font-size: 30px;
+            color: #fff;
+          }
         }
       }
     }
+    @b ellipsis {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    @b ellipsis2 {
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    @b ellipsis3 {
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 3;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
   }
-  @b ellipsis {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-  @b ellipsis2 {
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 2;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-  @b ellipsis3 {
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 3;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-}
 </style>

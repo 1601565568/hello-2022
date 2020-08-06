@@ -244,7 +244,7 @@ export default {
         font-size: 12px;
         color: #0392fb;
         cursor: pointer;
-        i + span {
+        svg + span {
           margin-left: 5px;
         }
       }
