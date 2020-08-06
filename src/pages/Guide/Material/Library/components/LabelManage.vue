@@ -258,6 +258,14 @@ export default {
         }
         .el-date-editor--datetimerange {
           width: 356px;
+          &.el-input__inner {
+            .el-range-input {
+              flex: 1;
+            }
+            .el-icon-circle-close::before {
+              vertical-align: middle;
+            }
+          }
         }
       }
     }

@@ -90,6 +90,7 @@ export default {
               height: 60px;
               border-radius: 3px;
               cursor: pointer;
+              object-fit: cover;
             }
             >>> .svg-icon {
               margin-top: 18px;
@@ -129,6 +130,7 @@ export default {
           height: 50px;
           border-radius: 3px;
           cursor: pointer;
+          object-fit: cover;
         }
         > div {
           position: absolute;

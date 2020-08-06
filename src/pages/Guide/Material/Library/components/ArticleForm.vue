@@ -8,6 +8,8 @@
           v-model="model.name"
           placeholder="请输入标题，长度为4-20个字符"
           style="width: 260px"
+          :input="model.name=model.name.replace(/\s+/g,'')"
+          clearable
         ></el-input>
       </el-form-item>
       <el-form-item label="选择标签：" prop="subdivisionId">
@@ -49,7 +51,13 @@
           </div>
           <el-form-grid>
             <el-form-item prop="title">
-              <el-input type="text" v-model="model.title" placeholder="请输入文章标题，长度为4-40个字"></el-input>
+              <el-input
+                type="text"
+                v-model="model.title"
+                placeholder="请输入文章标题，长度为4-40个字"
+                :input="model.title=model.title.replace(/\s+/g,'')"
+                clearable
+              ></el-input>
             </el-form-item>
             <el-form-item ref="imageForm" prop="imageList">
               <div class="library-image__item" v-for="(item,index) in imageList" :key="index">
@@ -150,20 +158,18 @@ export default {
         title: '',
         content: '',
         textContent: '',
-        subdivisionId: null,
+        subdivisionId: '',
         imageList: [],
         cardStyle: {}
       },
       rules: {
         name: [
           { required: true, message: '请输入标题', trigger: 'blur' },
-          { min: 4, max: 20, message: '长度在4到20个字符', trigger: 'blur' },
-          { pattern: /^(?!(\s+$))/, message: '不允许为空' }
+          { min: 4, max: 20, message: '长度在4到20个字符', trigger: 'blur' }
         ],
         content: [
           { required: true, message: '请输入推广文案', trigger: 'blur' },
-          { min: 0, max: 1500, message: '限制长度在1500个字符以内', trigger: 'blur' },
-          { pattern: /^(?!(\s+$))/, message: '不允许为空' }
+          { min: 0, max: 1500, message: '限制长度在1500个字符以内', trigger: 'blur' }
         ],
         textContent: [
           { required: true, message: '请输入素材文章', trigger: 'blur' }
@@ -196,7 +202,10 @@ export default {
       const parentNames = newObj.parentPathName.split('/')
       const tempModel = {}
       Object.keys(this.model).forEach(k => {
-        tempModel[k] = newObj[k] === undefined ? this.model[k] : newObj[k]
+        tempModel[k] = !newObj[k] ? this.model[k] : newObj[k]
+        if (k === 'imageList') {
+          tempModel[k] = tempModel[k].filter(v => /\.(gif|jpg|jpeg|png|bmp|BMP|GIF|JPG|PNG|JPEG)$/.test(v))
+        }
       })
       this.model = tempModel
       this.catalogue = parentIds.map((id, index) => ({ id: +id, name: parentNames[index] }))
@@ -232,13 +241,14 @@ export default {
       this.model.imageList = [res.result.url]
     },
     beforeAvatarUpload (file) {
-      if (file.size / 1024 > 1024) {
-        this.$notify.warning('上传图片不得大于1MB')
-        return false
-      }
       // 图片格式判断
       if (!/\.(gif|jpg|jpeg|png|bmp|BMP|GIF|JPG|PNG|JPEG)$/.test(file.name)) {
         this.$notify.error('仅支持jpg/jepg/png/bmp/gif的图片格式')
+        return false
+      }
+      // 图片大小判断
+      if (file.size / 1024 > 1024) {
+        this.$notify.warning('上传图片不得大于1MB')
         return false
       }
     },
@@ -366,6 +376,7 @@ export default {
           width: 100%;
           height: 100%;
           border-radius: 3px;
+          object-fit: cover;
         }
       }
       @e mask {

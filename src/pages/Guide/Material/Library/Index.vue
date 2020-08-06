@@ -171,7 +171,7 @@
               </el-table-column>
               <el-table-column label="内容" prop="content" :min-width="275">
                 <template slot-scope="scope">
-                  <span v-if="scope.row.isDirectory === 1">{{scope.row.description}}</span>
+                  <span v-if="scope.row.isDirectory === 1">{{scope.row.description || '-'}}</span>
                   <table-item v-else :data="scope.row" @preview="togglePreview"></table-item>
                 </template>
               </el-table-column>
@@ -274,10 +274,15 @@ export default Index
         >>> .el-select {
           width: 180px;
         }
-        >>> .el-date-editor--datetimerange.el-input__inner {
+        >>> .el-date-editor--datetimerange {
           width: 445px;
-          .el-range-input {
-            flex: 1;
+          &.el-input__inner {
+            .el-range-input {
+              flex: 1;
+            }
+            .el-icon-circle-close::before {
+              vertical-align: middle;
+            }
           }
         }
       }
