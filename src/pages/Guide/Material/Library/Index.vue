@@ -184,7 +184,7 @@
                     placeholder="未打标"
                     :filter-method="subdivisionFilter"
                     @visible-change="subdivisionVisible"
-                    @change="subdivisionChange(item)"
+                    @change="subdivisionChange(scope.row)"
                     filterable
                     clearable
                   >
@@ -366,6 +366,9 @@ export default Index
       }
       .el-button--text + .el-button--text {
         margin-left: 20px;
+      }
+      .el-select .el-input__inner {
+        padding-right: 26px;
       }
     }
   }
