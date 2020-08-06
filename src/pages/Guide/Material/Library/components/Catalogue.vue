@@ -32,7 +32,7 @@
                 <span>{{item.createTime}}</span>
               </div>
               <div class="catalogue-materials__item--content catalogue-ellipsis2">
-                <el-tooltip placement="top-start">
+                <el-tooltip placement="top-start" popper-class="table-body__tooltip">
                   <div slot="content">{{item.content}}</div>
                   <div>{{item.content}}</div>
                 </el-tooltip>
@@ -40,7 +40,7 @@
               <div class="catalogue-materials__item--media">
                 <div v-if="item.mType === 0" class="catalogue-materials__article">
                   <img alt="" :src="item.imageList[0]" @click="showPreview(0, item)"/>
-                  <el-tooltip placement="top-start">
+                  <el-tooltip placement="top-start" popper-class="table-body__tooltip">
                     <div slot="content">{{item.title}}</div>
                     <div class="catalogue-materials__article--title catalogue-ellipsis3">{{item.title}}</div>
                   </el-tooltip>
@@ -341,7 +341,6 @@ export default {
     }
   }
   @b materials {
-    @e wrapper {}
     @e group {
       display: inline-block;
       vertical-align: top;
