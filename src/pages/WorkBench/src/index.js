@@ -717,7 +717,8 @@ export default {
           },
           {
             itemStyle: {
-              borderWidth: 1
+              borderWidth: 1,
+              barBorderRadius: [30, 30, 0, 0]
             },
             barWidth: 16,
             name: '新加好友奖励',
@@ -946,31 +947,15 @@ export default {
             })
             that.isRewardDate = true
             that.rewardOption.series[0].data = sellRewardArr.map((value, index) => {
-              let nextValue = +recruitRewardArr[index] || +addFriendArr[index]
-              return {
-                value,
-                itemStyle: {
-                  barBorderRadius: nextValue ? [0, 0, 30, 30] : [30, 30, 30, 30]
-                }
-              }
-            })
-            that.rewardOption.series[1].data = recruitRewardArr.map((value, index) => {
-              let prevValue = +sellRewardArr[index]
-              let nextValue = +addFriendArr[index]
-              let barBorderRadius = prevValue ? [30, 30, 0, 0] : [30, 30, 30, 30]
-              if (nextValue) {
-                barBorderRadius = Object.assign(barBorderRadius, [0, 0])
-              }
+              let barBorderRadius = +recruitRewardArr[index] || +addFriendArr[index] ? [0, 0, 0, 0] : [30, 30, 0, 0]
               return { value, itemStyle: { barBorderRadius } }
             })
-            that.rewardOption.series[2].data = addFriendArr.map((value, index) => {
-              let prevValue = +recruitRewardArr[index] || +sellRewardArr[index]
-              return {
-                value,
-                itemStyle: {
-                  barBorderRadius: prevValue ? [30, 30, 0, 0] : [30, 30, 30, 30]
-                }
-              }
+            that.rewardOption.series[1].data = recruitRewardArr.map((value, index) => {
+              let barBorderRadius = +addFriendArr[index] ? [0, 0, 0, 0] : [30, 30, 0, 0]
+              return { value, itemStyle: { barBorderRadius } }
+            })
+            that.rewardOption.series[2].data = addFriendArr.map(value => {
+              return { value, itemStyle: { barBorderRadius: [30, 30, 0, 0] } }
             })
           }
         })
