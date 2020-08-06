@@ -23,6 +23,11 @@ export default Index
 <style scoped>
 
   >>> .el-input__suffix {
-    display: none!important;
+    &::before {
+      border-left: none
+    }
+    .el-icon-circle-close {
+      border-right: 1px solid rgb(220, 223, 230)
+    }
   }
 </style>
