@@ -32,7 +32,7 @@
                 <span>{{item.createTime}}</span>
               </div>
               <div class="catalogue-materials__item--content catalogue-ellipsis2">
-                <el-tooltip popper-class="table-body__tooltip">
+                <el-tooltip placement="top-start" popper-class="table-body__tooltip">
                   <div slot="content">{{item.content}}</div>
                   <div>{{item.content}}</div>
                 </el-tooltip>
