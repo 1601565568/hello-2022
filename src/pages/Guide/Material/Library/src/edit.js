@@ -42,6 +42,7 @@ export default {
       if (id || id === 0) {
         this.$http.fetch(this.$api.guide.queryMaterial, { id }).then(resp => {
           this.detail = resp.result || {}
+          this.detail.textContent = this.detail.textContentStr
           if (this.detail.subdivisionId === -1) {
             this.detail.subdivisionId = null
           }
