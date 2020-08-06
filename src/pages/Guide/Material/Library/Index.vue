@@ -181,7 +181,7 @@
                   <el-select
                     v-else
                     v-model="scope.row.subdivisionId"
-                    placeholder="请选择"
+                    placeholder="未打标"
                     :filter-method="subdivisionFilter"
                     @visible-change="subdivisionVisible"
                     @change="subdivisionChange(item)"

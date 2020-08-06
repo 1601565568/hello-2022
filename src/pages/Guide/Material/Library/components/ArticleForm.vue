@@ -52,14 +52,14 @@
               <el-input type="text" v-model="model.title" placeholder="请输入文章标题，长度为4-40个字"></el-input>
             </el-form-item>
             <el-form-item ref="imageForm" prop="imageList">
-              <div class="library-image__item" v-for="(item,index) in model.imageList" :key="index">
+              <div class="library-image__item" v-for="(item,index) in imageList" :key="index">
                 <img :src="item">
                 <div class="library-image__mask">
                   <Icon type="zoom-in" @click="previewImage(index)"/>
                   <Icon type="delete" @click="removeImage(index)"/>
                 </div>
               </div>
-              <div v-if="model.imageList.length === 0">
+              <div v-if="imageList.length === 0">
                 <el-upload
                   class="library-uploader"
                   :loading="true"
@@ -178,12 +178,16 @@ export default {
         cardStyle: [{ required: true, message: '卡片样式不能为空', trigger: 'blur' }]
       },
       mType: 0,
+      imageNum: 1,
       catalogue: [{ id: 0, name: '素材库' }]
     }
   },
   computed: {
     catalogueStr () {
       return this.catalogue.map(o => o.name).join(' > ')
+    },
+    imageList () {
+      return this.model.imageList.slice(0, this.imageNum)
     }
   },
   watch: {
@@ -220,7 +224,7 @@ export default {
       })
     },
     removeImage (index) {
-      this.model.imageList.splice(index, 1)
+      this.model.imageList = []
       this.$refs.form.validateField('imageList')
     },
     handleAvatarSuccess (res, file) {
@@ -252,6 +256,7 @@ export default {
       this.loading = true
       const params = { ...this.detail, ...this.model, mType: this.mType }
       params.parentId = this.catalogue[this.catalogue.length - 1].id
+      params.imageList = this.imageList
       delete params.cardStyle
       this.$http.fetch(this.$api.guide.materialEdit, params).then(resp => {
         this.$notify.success('文章素材保存成功')
