@@ -16,6 +16,7 @@ export default {
         { label: '文章素材', name: '0', type: 'articleform' }
       ],
       detail: {},
+      breadcrumb: [],
       labelList: []
     }
   },
@@ -48,9 +49,11 @@ export default {
     }
   },
   created () {
+    let { breadcrumb } = this.$route.params
     let { mType = '1', id } = this.$route.query
     let tabObj = this.tabList.find(o => o.name === `${mType}`)
     this.tabValue = tabObj ? tabObj.name : '1'
+    this.breadcrumb = breadcrumb || []
     this.getLabelList()
     this.getDetail(id)
   }

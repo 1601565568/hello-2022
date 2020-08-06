@@ -41,7 +41,7 @@
           style="width: 340px"
         ></el-input>
       </el-form-item>
-      <el-form-item label="素材视频：" prop="videoUrl">
+      <el-form-item label="素材视频：" ref="imageForm" prop="imageList">
         <div class="library-video__form">
           <div v-if="model.imageList && model.imageList.length" class="library-video__item">
             <video :src="model.imageList[0]">您的浏览器暂不支持播放该视频，请升级至最新版浏览器。</video>
@@ -100,6 +100,12 @@ export default {
         return []
       }
     },
+    breadcrumb: {
+      type: Array,
+      default () {
+        return []
+      }
+    },
     detail: {
       type: Object,
       default () {
@@ -147,7 +153,7 @@ export default {
       const parentNames = newObj.parentPathName.split('/')
       const tempModel = {}
       Object.keys(this.model).forEach(k => {
-        tempModel[k] = newObj[k]
+        tempModel[k] = newObj[k] === undefined ? this.model[k] : newObj[k]
       })
       this.model = tempModel
       this.catalogue = parentIds.map((id, index) => ({ id: +id, name: parentNames[index] }))
@@ -210,6 +216,11 @@ export default {
       }).finally(() => {
         this.loading = false
       })
+    }
+  },
+  mounted () {
+    if (this.breadcrumb.length) {
+      this.catalogue = this.breadcrumb
     }
   }
 }

@@ -12,6 +12,7 @@
           :is="item.type"
           :detail="detail"
           :labelList="labelList"
+          :breadcrumb="breadcrumb"
           @toggleLabel="toggleLabel"
           @togglePreview="togglePreview"
         />

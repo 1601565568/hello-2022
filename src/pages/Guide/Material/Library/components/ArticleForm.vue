@@ -121,6 +121,12 @@ export default {
         return []
       }
     },
+    breadcrumb: {
+      type: Array,
+      default () {
+        return []
+      }
+    },
     detail: {
       type: Object,
       default () {
@@ -186,7 +192,7 @@ export default {
       const parentNames = newObj.parentPathName.split('/')
       const tempModel = {}
       Object.keys(this.model).forEach(k => {
-        tempModel[k] = newObj[k]
+        tempModel[k] = newObj[k] === undefined ? this.model[k] : newObj[k]
       })
       this.model = tempModel
       this.catalogue = parentIds.map((id, index) => ({ id: +id, name: parentNames[index] }))
@@ -255,6 +261,11 @@ export default {
       }).finally(() => {
         this.loading = false
       })
+    }
+  },
+  mounted () {
+    if (this.breadcrumb.length) {
+      this.catalogue = this.breadcrumb
     }
   }
 }
