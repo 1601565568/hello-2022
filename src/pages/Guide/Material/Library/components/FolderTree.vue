@@ -134,7 +134,6 @@ export default {
       return this.$http.fetch(this.$api.guide.getDirectoryTree).then(resp => {
         this.list = [{ id: 0, label: '素材库', children: this.formatList(resp.result) }]
       }).catch(resp => {
-        console.log(resp)
         this.$notify.error(getErrorMsg('查询失败', resp))
       }).finally(() => {
         queryLoading.close()
