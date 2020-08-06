@@ -43,14 +43,14 @@
       </el-form-item>
       <el-form-item ref="imageForm" label="素材图片：" prop="imageList">
         <ul class="library-image__list clearfix">
-          <li class="library-image__item" v-for="(item,index) in model.imageList" :key="index">
+          <li class="library-image__item" v-for="(item,index) in imageList" :key="index">
             <img :src="item">
             <div class="library-image__mask">
               <Icon type="zoom-in" @click="previewImage(index)"/>
               <Icon type="delete" @click="removeImage(index)"/>
             </div>
           </li>
-          <li v-if="model.imageList.length < 10 - model.codeType">
+          <li v-if="imageList.length < imageNum">
             <el-upload
               class="library-uploader"
               :action="this.$api.core.sgUploadFile('image')"
@@ -196,12 +196,16 @@ export default {
         ]
       },
       mType: 1,
+      imageNum: 9,
       catalogue: [{ id: 0, name: '素材库' }]
     }
   },
   computed: {
     catalogueStr () {
       return this.catalogue.map(o => o.name).join(' > ')
+    },
+    imageList () {
+      return this.model.imageList.slice(0, this.imageNum)
     }
   },
   watch: {
@@ -214,6 +218,9 @@ export default {
       })
       this.model = tempModel
       this.catalogue = parentIds.map((id, index) => ({ id: +id, name: parentNames[index] }))
+    },
+    'model.codeType' (newVal) {
+      this.imageNum = newVal === 2 ? 8 : 9
     }
   },
   methods: {
@@ -224,7 +231,7 @@ export default {
       this.$emit('toggleLabel')
     },
     previewImage (index) {
-      this.$emit('togglePreview', index, this.model.imageList, 'img')
+      this.$emit('togglePreview', index, this.imageList, 'img')
     },
     handleFolder ({ catalogue }) {
       this.catalogue = catalogue
@@ -235,7 +242,7 @@ export default {
     },
     handleAvatarSuccess (res, file) {
       this.$refs.imageForm.clearValidate()
-      if (this.model.imageList.length < 9) {
+      if (this.model.imageList.length < this.imageNum) {
         this.model.imageList.push(res.result.url)
       }
     },
@@ -292,8 +299,7 @@ export default {
     doSave () {
       const params = { ...this.detail, ...this.model, mType: this.mType }
       // 控制图片数量
-      let maxSize = params.codeType === 2 ? 8 : 9
-      params.imageList.splice(maxSize - 1, 1)
+      params.imageList = this.imageList
       // 带码状态
       if (params.codeTarget === '') {
         params.codeType = 0
