@@ -15,6 +15,7 @@
             v-model="model.name"
             placeholder='请输入标签名称，长度在4-20个字符以内'
             style="width: 268px"
+            :input="model.name=model.name.replace(/\s+/g,'')"
             clearable
           ></el-input>
         </el-form-item>

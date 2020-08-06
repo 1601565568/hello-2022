@@ -48,7 +48,7 @@
           :model="model"
           :inline="true"
         >
-          <el-form-item label="标题：" label-width="40px">
+          <el-form-item label="标题：">
             <el-input type="text" v-model="model.name" placeholder="请输入文件夹或素材标题" clearable></el-input>
           </el-form-item>
           <el-form-item label="素材内容：">
@@ -64,7 +64,7 @@
             </el-date-picker>
           </el-form-item>
           <!-- 标签 - 动态请求数据 -->
-          <el-form-item label="标签：" label-width="40px">
+          <el-form-item label="标签：">
             <el-select
               v-model="model.subdivisionId"
               placeholder="请选择"
@@ -171,7 +171,7 @@
               </el-table-column>
               <el-table-column label="内容" prop="content" :min-width="275">
                 <template slot-scope="scope">
-                  <span v-if="scope.row.isDirectory === 1">{{scope.row.description}}</span>
+                  <span v-if="scope.row.isDirectory === 1">{{scope.row.description || '-'}}</span>
                   <table-item v-else :data="scope.row" @preview="togglePreview"></table-item>
                 </template>
               </el-table-column>
@@ -274,10 +274,15 @@ export default Index
         >>> .el-select {
           width: 180px;
         }
-        >>> .el-date-editor--datetimerange.el-input__inner {
+        >>> .el-date-editor--datetimerange {
           width: 445px;
-          .el-range-input {
-            flex: 1;
+          &.el-input__inner {
+            .el-range-input {
+              flex: 1;
+            }
+            .el-icon-circle-close::before {
+              vertical-align: middle;
+            }
           }
         }
       }

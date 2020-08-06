@@ -14,6 +14,7 @@
               v-model="model.name"
               placeholder="限制长度4-10个字符"
               style="width: 256px"
+              :input="model.name=model.name.replace(/\s+/g,'')"
               clearable
             ></el-input>
         </el-form-item>

@@ -16,7 +16,7 @@
         </div>
         <ul v-if="type === 'img'" class="preview-dialog__list">
           <li v-for="(item, index) in list" :key="index" @click="goto(index)">
-            <img :class="{'active': index === current }" :src="item">
+            <img :class="{'active': index === current}" :src="item">
           </li>
         </ul>
         <div v-if="type === 'img'" class="preview-dialog__left" @click="prevTo()"></div>

@@ -278,6 +278,7 @@ export default {
       text-align: center;
       border: solid 1px transparent;
       border-radius: 3px;
+      vertical-align: top;
       &:hover {
         border-color: #dcdfe6;
         .catalogue-folders__item--btns,
@@ -453,6 +454,7 @@ export default {
         height: 68px;
         border-radius: 3px;
         cursor: pointer;
+        object-fit: cover;
       }
       @m title {
         position: absolute;
@@ -473,6 +475,7 @@ export default {
         height: 82px;
         border-radius: 3px;
         cursor: pointer;
+        object-fit: cover;
         &:nth-child(3n) {
           margin-right: 0;
         }
