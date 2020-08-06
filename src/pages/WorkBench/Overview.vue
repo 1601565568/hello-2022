@@ -7,11 +7,13 @@
               <div class="overview-content__item--select overview-content__item--time">
                 时间：
                 <el-date-picker
-                    @change='change'
-                    type="month"
-                    v-model="searchObj.monthDate"
-                    placeholder="选择月">
-                  </el-date-picker>
+                  @change='change'
+                  type="month"
+                  v-model="searchObj.monthDate"
+                  placeholder="选择月"
+                  :clearable="false"
+                >
+                </el-date-picker>
               </div>
               <div class="overview-content__item--select overview-content__item--store">
                 门店：
