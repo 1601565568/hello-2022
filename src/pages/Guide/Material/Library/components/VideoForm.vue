@@ -8,6 +8,8 @@
           v-model="model.name"
           placeholder="请输入标题，长度为4-20个字符"
           style="width: 260px"
+          :input="model.name=model.name.replace(/\s+/g,'')"
+          clearable
         ></el-input>
       </el-form-item>
       <el-form-item label="选择标签：" prop="subdivisionId">
@@ -126,13 +128,11 @@ export default {
       rules: {
         name: [
           { required: true, message: '请输入标题', trigger: 'blur' },
-          { min: 4, max: 20, message: '长度在4到20个字符', trigger: 'blur' },
-          { pattern: /^(?!(\s+$))/, message: '不允许为空' }
+          { min: 4, max: 20, message: '长度在4到20个字符', trigger: 'blur' }
         ],
         content: [
           { required: true, message: '请输入推广文案', trigger: 'blur' },
-          { min: 0, max: 1500, message: '限制长度在1500个字符以内', trigger: 'blur' },
-          { pattern: /^(?!(\s+$))/, message: '不允许为空' }
+          { min: 0, max: 1500, message: '限制长度在1500个字符以内', trigger: 'blur' }
         ],
         imageList: [
           { required: true, message: '请添加素材视频', trigger: 'change' }
@@ -157,7 +157,7 @@ export default {
       const parentNames = newObj.parentPathName.split('/')
       const tempModel = {}
       Object.keys(this.model).forEach(k => {
-        tempModel[k] = newObj[k] === undefined ? this.model[k] : newObj[k]
+        tempModel[k] = !newObj[k] ? this.model[k] : newObj[k]
       })
       this.model = tempModel
       this.catalogue = parentIds.map((id, index) => ({ id: +id, name: parentNames[index] }))
