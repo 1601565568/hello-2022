@@ -387,7 +387,7 @@ export default {
       // 数据格式化
       Object.keys(this.model).forEach(k => {
         if (this.model[k] !== '') {
-          params[k] = this.model[k]
+          params[k] = k === 'sourceId' ? +this.model[k] : this.model[k]
         }
       })
       if (params.time && params.time.length === 2) {
