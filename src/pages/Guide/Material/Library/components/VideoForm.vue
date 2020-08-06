@@ -158,6 +158,9 @@ export default {
       const tempModel = {}
       Object.keys(this.model).forEach(k => {
         tempModel[k] = !newObj[k] ? this.model[k] : newObj[k]
+        if (k === 'imageList') {
+          tempModel[k] = tempModel[k].filter(v => /\.(mp4)$/.test(v))
+        }
       })
       this.model = tempModel
       this.catalogue = parentIds.map((id, index) => ({ id: +id, name: parentNames[index] }))
