@@ -192,13 +192,14 @@ export default {
       this.uploader && this.uploader.close()
     },
     beforeVideoUpload (file) {
-      if (file.size / 1024 > 1024 * 10) {
-        this.$notify.warning('上传视频不得大于10MB')
-        return false
-      }
-      // 图片格式判断
+      // 视频格式判断
       if (!/\.(mp4)$/.test(file.name)) {
         this.$notify.error('仅支持mp4的视频格式')
+        return false
+      }
+      // 视频大小判断
+      if (file.size / 1024 > 1024 * 10) {
+        this.$notify.warning('上传视频不得大于10MB')
         return false
       }
       this.uploader = this.$loading({ target: '.library-video__form', fullscreen: false, text: '正在上传...' })

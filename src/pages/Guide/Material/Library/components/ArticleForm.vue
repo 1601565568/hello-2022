@@ -241,13 +241,14 @@ export default {
       this.model.imageList = [res.result.url]
     },
     beforeAvatarUpload (file) {
-      if (file.size / 1024 > 1024) {
-        this.$notify.warning('上传图片不得大于1MB')
-        return false
-      }
       // 图片格式判断
       if (!/\.(gif|jpg|jpeg|png|bmp|BMP|GIF|JPG|PNG|JPEG)$/.test(file.name)) {
         this.$notify.error('仅支持jpg/jepg/png/bmp/gif的图片格式')
+        return false
+      }
+      // 图片大小判断
+      if (file.size / 1024 > 1024) {
+        this.$notify.warning('上传图片不得大于1MB')
         return false
       }
     },
