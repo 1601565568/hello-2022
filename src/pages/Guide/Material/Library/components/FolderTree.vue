@@ -156,7 +156,7 @@ export default {
         parentPath: item.parentPath
       }))
       this.$http.fetch(this.$api.guide.batchMoveMaterial, { ...params }).then(() => {
-        this.$notify.success(`已移动到文件夹“${this.checked.name}”`)
+        this.$notify.success(`已移动到文件夹“${this.checked.label}”`)
         this.$emit('submit', { checked: this.checked, catalogue: this.catalogue })
         this.hide()
       }).catch(resp => {
