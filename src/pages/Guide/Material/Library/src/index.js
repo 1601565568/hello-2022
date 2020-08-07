@@ -306,6 +306,12 @@ export default {
       const params = this.generateParams()
       params.searchMap.parentId = this.breadcrumb[this.breadcrumb.length - 1].id
       if (this.listMode === 'list') {
+        let index = this.excludeQuery.findIndex(key => {
+          return !!params.searchMap[key]
+        })
+        if (index > -1) {
+          params.searchMap.isDirectory = 0
+        }
         this.queryList(params)
       } else {
         this.queryLoading = this.$loading({ target: '.library-wrapper', fullscreen: false, text: '正在加载...' })

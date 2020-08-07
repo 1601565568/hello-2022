@@ -43,7 +43,7 @@
           tooltip-effect="dark"
           stripe
           style="width: 100%;"
-          height="600"
+          height="682"
         >
           <el-table-column label="序号" width="100" prop="sort"></el-table-column>
           <el-table-column label="名称" prop="subdivisionName" show-overflow-tooltip></el-table-column>
@@ -273,8 +273,8 @@ export default {
   }
   @b sort {
     @e icon {
-      margin-right: 12px;
-      font-size: 14px;
+      margin-right: 10px;
+      font-size: 16px;
       color: #0091fa;
       cursor: pointer;
       @m hide {
