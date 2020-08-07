@@ -45,7 +45,7 @@
           style="width: 100%;"
           height="600"
         >
-          <el-table-column label="序号" width="100" prop="seq"></el-table-column>
+          <el-table-column label="序号" width="100" prop="sort"></el-table-column>
           <el-table-column label="名称" prop="subdivisionName" show-overflow-tooltip></el-table-column>
           <el-table-column label="素材数" prop="counts" width="120"></el-table-column>
           <el-table-column  label="更新时间" prop="updateTime" width="180"></el-table-column>
@@ -159,9 +159,7 @@ export default {
       this.loading = true
       await this.getSubdivisionMaxSortNum()
       await this.$http.fetch(this.$api.guide.materialGroudList, this.searchObj).then(resp => {
-        this.dataList = resp.result.data.map((item, index) => {
-          return { ...item, seq: (this.pagination.page - 1) * this.pagination.size + index + 1 }
-        })
+        this.dataList = resp.result.data || []
         this.pagination.total = parseInt(resp.result.recordsTotal)
       }).catch(resp => {
         this.$notify.error(getErrorMsg('查询失败', resp))
