@@ -33,10 +33,11 @@
                   class="float-left"
                   :disabled="searchform.date !== '自定义'"
                   v-model="searchform.dateRange"
-                  type="datetimerange"
+                  type="daterange"
                   start-placeholder="开始日期"
                   end-placeholder="结束日期"
-                  :default-time="['12:00:00']">
+                  :default-value="currentMonth"
+                  :picker-options="pickerOptions">
                 </el-date-picker>
               </el-form-item>
               <el-form-item>
@@ -64,10 +65,12 @@
                   class="float-left"
                   :disabled="searchform.date !== '自定义'"
                   v-model="searchform.dateRange"
-                  type="datetimerange"
+                  type="daterange"
                   start-placeholder="开始日期"
                   end-placeholder="结束日期"
-                  :default-time="['12:00:00']">
+                  :default-value="currentMonth"
+                  :picker-options="pickerOptions"
+                  >
                 </el-date-picker>
               </el-form-item>
               <el-form-item>
@@ -102,7 +105,7 @@
       >
         <el-table-column prop="guideName" label="导购" align="left">
           <template slot-scope="scope">
-            {{scope.row.name ? scope.row.name : '-'}}
+            <pop-item :detail="scope.row"></pop-item>
           </template>
         </el-table-column>
         <el-table-column prop="guideName" label="工号" align="left">
@@ -171,13 +174,16 @@ import apiRequestConfirm from '@nascent/ecrp-ecrm/src/utils/apiRequestConfirm'
 import { getErrorMsg } from '@/utils/toast'
 import NsGuideDialog from '@/components/NsGuideDialog'
 import { API_ROOT } from '@/config/http.js'
+import PopItem from './components/PopItem'
 export default {
   mixins: [listPageMixin],
   data () {
+    let nowDate = new Date()
     return {
       activeTabName: '/Guide/ActivityAnalysis/SaleView',
       selectedArr: [],
       analysisType: 3, // 销售概览
+      currentMonth: `${nowDate.getFullYear()}/${nowDate.getMonth()}`,
       sortName: 'orderAmount', // 排序名称 默认按订单总金额降序排序
       sortType: 0, // 排序类型 1:升序 0:降序
       searchform: {
@@ -188,8 +194,12 @@ export default {
         guideIds: []
       },
       dataList: [
-
-      ]
+      ],
+      pickerOptions: {
+        disabledDate (time) {
+          return time > Date.now() - 3600 * 1000 * 24
+        }
+      }
     }
   },
   created: function () {
@@ -274,7 +284,7 @@ export default {
     }
   },
   components: {
-    NsGuideDialog
+    NsGuideDialog, PopItem
   }
 }
 </script>

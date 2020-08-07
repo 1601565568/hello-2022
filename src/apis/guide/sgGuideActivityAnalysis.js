@@ -7,5 +7,9 @@ export default {
   findList: {
     url: '/guide/activityAnalysis/findList',
     method: 'post'
+  },
+  getGuideMsg: {
+    url: '/guide/activityAnalysis/getGuideMsg',
+    method: 'post'
   }
 }

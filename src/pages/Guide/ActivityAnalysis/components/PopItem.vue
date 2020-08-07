@@ -7,18 +7,18 @@
       trigger="click"
     >
       <div class="analysis-popover">
-        <div class="analysis-popover__title">吴俊涵</div>
+        <div class="analysis-popover__title">{{ name }}</div>
         <div class="analysis-popover__item">
           <span>工号</span>
-          <span>0610006871</span>
+          <span>{{ workId ? workId : '-' }}</span>
         </div>
         <div class="analysis-popover__item">
           <span>手机</span>
-          <span>18765492809</span>
+          <span>{{ phoneNum }}</span>
         </div>
         <div class="analysis-popover__item">
           <span>微信</span>
-          <span>sfsfa(26333533142)</span>
+          <span>{{ wxNick }}({{ wxAccount }})</span>
         </div>
       </div>
     </el-popover>
@@ -40,12 +40,29 @@ export default {
   },
   data () {
     return {
+      phoneNum: '-',
+      wxNick: '-',
+      wxAccount: '-',
+      name: null,
+      workId: null,
       popData: {}
     }
   },
   methods: {
     getData () {
-      console.log('这里请求接口赋值给this.popData')
+      this.name = this.detail.name
+      this.workId = this.detail.workId
+      this.$http.fetch(this.$api.guide.sgGuideActivityAnalysis.getGuideMsg, { guideId: this.detail.guideId })
+        .then(resp => {
+          if (resp.result.length > 0) {
+            let wxMsg = resp.result[0]
+            this.phoneNum = wxMsg.mobile
+            this.wxNick = wxMsg.weChatNick
+            this.wxAccount = wxMsg.weChatNum
+          }
+        }).catch(resp => {
+          this.$notify.error(getErrorMsg('查询失败', resp))
+        })
     }
   }
 }
