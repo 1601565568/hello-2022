@@ -36,7 +36,10 @@
                   type="daterange"
                   range-separator="至"
                   start-placeholder="开始日期"
-                  end-placeholder="结束日期">
+                  end-placeholder="结束日期"
+                  :default-value="currentMonth"
+                  :picker-options="pickerOptions"
+                >
                 </el-date-picker>
               </el-form-item>
               <el-form-item>
@@ -64,10 +67,13 @@
                   class="float-left"
                   :disabled="searchform.date !== '自定义'"
                   v-model="searchform.dateRange"
-                  type="datetimerange"
+                  type="daterange"
+                  range-separator="至"
                   start-placeholder="开始日期"
                   end-placeholder="结束日期"
-                  :default-time="['00:00:00']">
+                  :default-value="currentMonth"
+                  :picker-options="pickerOptions"
+                >
                 </el-date-picker>
               </el-form-item>
               <el-form-item>
@@ -95,72 +101,72 @@
         :data="dataList"
         v-loading="loading"
         :element-loading-text="$t('prompt.loading')"
-        @sort-change=changeTableSort
+        @sort-change="changeTableSort"
         tooltip-effect="dark"
         stripe
         style="width: 100%"
       >
-        <el-table-column prop="guideName" label="导购" align="left">
+        <el-table-column prop="guideName" label="导购" width="160" fixed>
           <template slot-scope="scope">
-            {{scope.row.name ? scope.row.name : '-'}}
+            <pop-item :detail="scope.row"></pop-item>
           </template>
         </el-table-column>
-        <el-table-column prop="guideName" label="工号" align="left">
+        <el-table-column prop="guideName" label="工号" width="160" fixed>
           <template slot-scope="scope">
             {{scope.row.workId ? scope.row.workId : '-'}}
           </template>
         </el-table-column>
-        <el-table-column prop="name" label="工作门店" align="left">
+        <el-table-column prop="name" label="工作门店" width="180" fixed>
           <template slot-scope="scope">
             {{scope.row.shopName ? scope.row.shopName : '-'}}
           </template>
         </el-table-column>
-        <el-table-column prop="newFriendNum" :sortable="'custom'" label="新增好友数" align="left">
+        <el-table-column prop="newFriendNum" :sortable="'custom'" label="新增好友数" width="180">
           <template slot-scope="scope">
             {{scope.row.newFriendNum ? scope.row.newFriendNum : '-'}}
           </template>
         </el-table-column>
-        <el-table-column prop="newCustomerNum" :sortable="'custom'" label="新增会员" align="left">
+        <el-table-column prop="newCustomerNum" :sortable="'custom'" label="新增会员" width="120">
           <template slot-scope="scope">
             {{scope.row.newCustomerNum ? scope.row.newCustomerNum : 0}}
           </template>
         </el-table-column>
-        <el-table-column prop="momentsNum" :sortable="'custom'" label="发朋友圈数" align="left">
+        <el-table-column prop="momentsNum" :sortable="'custom'" label="发朋友圈数" width="140">
           <template slot-scope="scope">
             {{scope.row.momentsNum ? scope.row.momentsNum : 0}}
           </template>
         </el-table-column>
-        <el-table-column prop="activePrivateChatNum" :sortable="'custom'" label="主动会话数" align="left">
+        <el-table-column prop="activePrivateChatNum" :sortable="'custom'" label="主动会话数" width="240">
           <template slot-scope="scope">
             {{scope.row.activePrivateChatNum ? scope.row.activePrivateChatNum : 0}}
           </template>
         </el-table-column>
-        <el-table-column prop="clientReplyNum" :sortable="'custom'" label="客户回复" align="left">
+        <el-table-column prop="clientReplyNum" :sortable="'custom'" label="客户回复" width="120">
           <template slot-scope="scope">
             {{scope.row.clientReplyNum ? scope.row.clientReplyNum : 0}}
           </template>
         </el-table-column>
-        <el-table-column prop="clientReplyRate" :sortable="'custom'" label="客户回复率" align="left">
+        <el-table-column prop="clientReplyRate" :sortable="'custom'" label="客户回复率" width="140">
           <template slot-scope="scope">
             {{scope.row.clientReplyRate ? scope.row.clientReplyRate : 0}}
           </template>
         </el-table-column>
-        <el-table-column prop="receivePrivateChatNum" :sortable="'custom'" label="客户发起会话数" align="left">
+        <el-table-column prop="receivePrivateChatNum" :sortable="'custom'" label="客户发起会话数" width="140">
           <template slot-scope="scope">
             {{scope.row.receivePrivateChatNum ? scope.row.receivePrivateChatNum : 0}}
           </template>
         </el-table-column>
-        <el-table-column prop="replyNum" :sortable="'custom'" label="响应数" align="left">
+        <el-table-column prop="replyNum" :sortable="'custom'" label="响应数" width="120">
           <template slot-scope="scope">
             {{scope.row.replyNum ? scope.row.replyNum : 0}}
           </template>
         </el-table-column>
-        <el-table-column prop="notReplayNum" :sortable="'custom'" label="未回复客户数" align="left">
+        <el-table-column prop="notReplayNum" :sortable="'custom'" label="未回复客户数" width="140">
           <template slot-scope="scope">
             {{scope.row.notReplayNum ? scope.row.notReplayNum : 0}}
           </template>
         </el-table-column>
-        <el-table-column prop="averageReplyTime" :sortable="'custom'" label="平均响应时间" align="left">
+        <el-table-column prop="averageReplyTime" :sortable="'custom'" label="平均响应时间" width="140">
           <template slot-scope="scope">
             {{scope.row.averageReplyTime ? scope.row.averageReplyTime : 0}}
           </template>
@@ -187,13 +193,16 @@ import apiRequestConfirm from '@nascent/ecrp-ecrm/src/utils/apiRequestConfirm'
 import { getErrorMsg } from '@/utils/toast'
 import NsGuideDialog from '@/components/NsGuideDialog'
 import { API_ROOT } from '@/config/http.js'
+import PopItem from './components/PopItem'
 
 export default {
   mixins: [listPageMixin],
   data () {
+    let nowDate = new Date()
     return {
       activeTabName: '/Guide/ActivityAnalysis/List',
       analysisType: 1, // 联系概况
+      currentMonth: `${nowDate.getFullYear()}/${nowDate.getMonth()}`,
       searchform: {
         date: '昨天',
         dateRange: '',
@@ -203,8 +212,12 @@ export default {
       },
       sortName: 'newFriendNum', // 排序名称 默认按新增好友数降序排序
       sortType: 0, // 排序类型 1:升序 0:降序
-      dataList: [
-      ]
+      dataList: [],
+      pickerOptions: {
+        disabledDate (time) {
+          return time > Date.now() - 3600 * 1000 * 24
+        }
+      }
     }
   },
   created: function () {
@@ -282,7 +295,7 @@ export default {
     }
   },
   components: {
-    NsGuideDialog
+    NsGuideDialog, PopItem
   }
 }
 </script>
