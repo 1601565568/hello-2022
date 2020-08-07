@@ -195,6 +195,9 @@ export default {
     },
     enable () {
       return this.listMode === 'list' || !this.isEmpty
+    },
+    searching () {
+      return Object.keys(this.searchObj.searchMap).length > 0
     }
   },
   watch: {

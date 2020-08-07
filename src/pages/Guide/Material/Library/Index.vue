@@ -130,11 +130,11 @@
         <el-row type="flex" class="library-breadcrumb">
           <el-breadcrumb separator-class="el-icon-arrow-right">
             <el-breadcrumb-item
-              v-for="(item, index) in breadcrumb"
+              v-for="item in breadcrumb"
               :key="item.id"
             >
               <span @click="onExchange(item)">{{item.name}}</span>
-              <span v-if="index > 0 && index === breadcrumb.length - 1">中的搜索结果</span>
+              <span v-if="searching">中的搜索结果</span>
             </el-breadcrumb-item>
           </el-breadcrumb>
           <div class="library-breadcrumb__right">
