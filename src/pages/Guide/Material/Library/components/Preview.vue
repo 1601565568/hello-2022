@@ -110,6 +110,11 @@ export default {
         margin: 0 auto;
         vertical-align: middle;
       }
+      video {
+        max-height: 600px;
+        max-width: 100%;
+        object-fit: cover;
+      }
     }
     @e list {
       width: 80%;
