@@ -162,7 +162,12 @@ export default {
       indeterminate: false,
       checkAll: false,
       listMode: 'waterfall', // list
-      insertList: [],
+      insertList: [
+        {
+          id: 0,
+          shopName: this.$store.state.user.remumber.remumber_login_info.companyName
+        }
+      ],
       labelList: [],
       selectRows: [],
       typeList: [{ name: '全部', id: '' }, { name: '图文素材', id: 1 }, { name: '视频素材', id: 2 }, { name: '文章素材', id: 0 }],
