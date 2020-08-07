@@ -242,8 +242,8 @@ export default {
       this.searchObj.date = this.searchform.date
       this.searchObj.dateRange = this.searchform.dateRange
       this.searchObj.time = this.searchform.time
-      this.searchObj.sortOrder = this.searchform.sortOrder
-      this.searchObj.sortCriteria = this.searchform.sortCriteria
+      this.searchObj.sortName = this.sortName
+      this.searchObj.sortType = this.sortType
       this.searchObj.guideIds = this.searchform.guideIds
       var url = API_ROOT + '/guide/activityAnalysis/exportData'
       var form = document.createElement('form')
@@ -251,12 +251,11 @@ export default {
       form.appendChild(this.generateHideElement('date', this.searchObj.date))
       form.appendChild(this.generateHideElement('dateRange', this.searchObj.dateRange))
       form.appendChild(this.generateHideElement('time', this.searchObj.time))
-      form.appendChild(this.generateHideElement('sortOrder', this.searchObj.sortOrder))
-      form.appendChild(this.generateHideElement('sortCriteria', this.searchObj.sortCriteria))
       form.appendChild(this.generateHideElement('guideIds', this.searchObj.guideIds))
       form.setAttribute('action', url)
       form.setAttribute('method', 'post')
       document.body.appendChild(form)
+      debugger
       form.submit()
     },
     generateHideElement (name, value) {
