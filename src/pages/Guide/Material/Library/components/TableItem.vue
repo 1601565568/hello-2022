@@ -2,7 +2,7 @@
   <div class="tableItem">
     <div class="tableItem-content">
       <div class="tableItem-content__text">
-        <el-tooltip placement="top-start" popper-class="table-body__tooltip">
+        <el-tooltip placement="top-start" :enterable="true" popper-class="table-body__tooltip">
           <div slot="content">{{data.content}}</div>
           <div class="tableItem-content__ellipsis">{{data.content}}</div>
         </el-tooltip>
@@ -35,7 +35,7 @@
       <!-- 文章素材 -->
       <div v-if="data.mType === 0" class="tableItem-content__articleBox">
         <img alt="" :src="imageList[0]" @click="showPreview(0)"/>
-        <el-tooltip placement="top-start" popper-class="table-body__tooltip">
+        <el-tooltip placement="top-start" :enterable="true" popper-class="table-body__tooltip">
           <div slot="content">{{data.title}}</div>
           <div class="tableItem-content__ellipsis">{{data.title}}</div>
         </el-tooltip>
