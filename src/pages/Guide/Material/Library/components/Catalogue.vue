@@ -27,12 +27,16 @@
           <div class="catalogue-materials__item" :class="{'catalogue-materials__item--selected': item.selected}" v-for="item in itemList" :key="item.id">
             <div class="catalogue-materials__item--info">
               <div class="catalogue-materials__item--title catalogue-ellipsis">{{item.name}}</div>
-              <div class="catalogue-materials__item--desc catalogue-ellipsis">
-                <span>发布方：{{item.sourceName || '未知'}}</span>
+              <div class="catalogue-materials__item--desc">
+                <span>发布方：</span>
+                <el-tooltip placement="top-start" :enterable="true" popper-class="table-body__tooltip">
+                  <div slot="content">{{item.sourceName || '-'}}</div>
+                  <span class="catalogue-ellipsis">{{item.sourceName || '-'}}</span>
+                </el-tooltip>
                 <span>{{item.createTime}}</span>
               </div>
               <div class="catalogue-materials__item--content catalogue-ellipsis2">
-                <el-tooltip placement="top-start" :enterable="true" popper-class="table-body__tooltip">
+                <el-tooltip :enterable="true" popper-class="table-body__tooltip">
                   <div slot="content">{{item.content}}</div>
                   <div>{{item.content}}</div>
                 </el-tooltip>
@@ -369,12 +373,18 @@ export default {
           line-height: 22px;
         }
         @m desc {
+          display: flex;
           margin: 10px 0;
           font-size: 12px;
           color: #909399;
           line-height: 20px;
-          span + span {
-            margin-left: 20px;
+          > span {
+            &:nth-child(2) {
+              flex: 1;
+            }
+            &:last-child {
+              margin-left: 15px;
+            }
           }
         }
         @m content {
