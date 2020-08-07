@@ -75,7 +75,7 @@
                   :show-file-list="false"
                   :on-success="handleAvatarSuccess"
                   :before-upload="beforeAvatarUpload"
-                  accept=".jpg,.jpeg,.png,.bmp,.gif"
+                  accept=".jpg,.jpeg,.png,.bmp"
                   list-type="picture-card"
                 >
                   <Icon type="plus"/>
@@ -204,7 +204,7 @@ export default {
       Object.keys(this.model).forEach(k => {
         tempModel[k] = !newObj[k] ? this.model[k] : newObj[k]
         if (k === 'imageList') {
-          tempModel[k] = tempModel[k].filter(v => /\.(gif|jpg|jpeg|png|bmp|BMP|GIF|JPG|PNG|JPEG)$/.test(v))
+          tempModel[k] = tempModel[k].filter(v => /\.(jpg|jpeg|png|bmp|BMP|JPG|PNG|JPEG)$/.test(v))
         }
       })
       this.model = tempModel
@@ -242,8 +242,8 @@ export default {
     },
     beforeAvatarUpload (file) {
       // 图片格式判断
-      if (!/\.(gif|jpg|jpeg|png|bmp|BMP|GIF|JPG|PNG|JPEG)$/.test(file.name)) {
-        this.$notify.error('仅支持jpg/jpeg/png/bmp/gif的图片格式')
+      if (!/\.(jpg|jpeg|png|bmp|BMP|JPG|PNG|JPEG)$/.test(file.name)) {
+        this.$notify.error('仅支持jpg/jpeg/png/bmp的图片格式')
         return false
       }
       // 图片大小判断
