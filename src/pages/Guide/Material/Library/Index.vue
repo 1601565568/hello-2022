@@ -199,7 +199,7 @@
               </el-table-column>
               <el-table-column label="发布方" prop="sourceName" :width="130"></el-table-column>
               <el-table-column label="发布时间" prop="createTime" :width="180"></el-table-column>
-              <el-table-column label="操作" :width="150">
+              <el-table-column label="操作" fixed="right" :width="150">
                 <template slot-scope="scope">
                   <ns-table-column-operate-button :buttons="table.operate_buttons" :prop="scope"></ns-table-column-operate-button>
                 </template>
