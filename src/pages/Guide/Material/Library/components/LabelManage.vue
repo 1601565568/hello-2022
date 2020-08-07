@@ -60,14 +60,14 @@
             <template slot-scope="scope">
               <i
                 class="label-sort__icon"
-                :class="pagination.page === 1 && scope.$index === 0 ? 'label-sort__icon--hide' : ''"
+                :class="scope.row.sort === 1 ? 'label-sort__icon--hide' : ''"
                 @click='exchangeSort(1, scope.row)'
               >
                 <Icon type="zhiding"/>
               </i>
               <i
                 class="label-sort__icon"
-                :class="pagination.page === 1 && scope.$index === 0 ? 'label-sort__icon--hide' : ''"
+                :class="scope.row.sort === 1 ? 'label-sort__icon--hide' : ''"
                 @click='exchangeSort(2, scope.row)'
               >
                 <Icon type="top-arr"/>
