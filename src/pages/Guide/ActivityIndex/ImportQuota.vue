@@ -26,7 +26,7 @@
           <li class="step-item">
             <span class="step-item--index">2</span>
             <div class="step-item--info">
-              <el-upload
+              <el-upload :disabled = "!loadingIsShow"
                 :action= "this.$api.core.sgUploadExcel()"
                 accept=".xls,.xlsx"
                 :on-preview="handlePreview"
@@ -42,6 +42,7 @@
               <!-- 上传提示 -->
               <span class="text-secondary padding-lr-small " v-if="hintMsgIsShow"  >上传文件限制大小5M，格式为.xls或xlsx</span>
               <span class="text-danger padding-lr-small" v-if="uploadFail">上传失败，文档内容校验失败，请下载模版调整</span>
+              <span class="text-danger padding-lr-small " v-if="hintMsgIsShowTextDanger"  >上传文件限制大小5M，格式为.xls或xlsx</span>
               <span class="text-danger padding-lr-small" v-if="uploadFailMsgShow">{{uploadFailMsg}}</span>
               <span class="text-secondary padding-lr-small" v-if="uploadSuccee" >上传成功</span>
               <!-- 上传文件名称-->
@@ -87,6 +88,7 @@ export default {
       uploadFailMsg: null,
       downloadIsShow: true,
       updateding: false,
+      hintMsgIsShowTextDanger: false,
       loadingIsShow: true,
       // downloadIsShow: true,
       updateDataisShow: false,
@@ -119,9 +121,10 @@ export default {
       this.uploadFail = false
       this.hintMsgIsShow = true
       this.updateDataisShow = false
+      this.hintMsgIsShowTextDanger = false
       this.saveObj.type = data.type
       this.saveObj.year = data.year
-      if (data.type === '1') {
+      if (data.type !== '0') {
         this.type0 = false
         this.type1 = true
       } else {
@@ -130,17 +133,7 @@ export default {
       }
     }, // 下载模板
     ImportTarge () {
-      // Axios.get(API_ROOT + '/guide/importquota/downloadtemplate', { params: {
-      //   type: this.saveObj.type,
-      //   year: this.saveObj.year },
-      // responseType: 'stream' }).then(data => {
-      //   window.console.log(data)
-      // }).catch(e => {
-      //   window.console.log(e)
-      // })
       this.downloadIsShow = false
-      // window.console.log('模板类型= ' + this.saveObj.type)
-      // window.console.log('模板年份= ' + this.saveObj.year)
       // 重置选择的门店
       var url = API_ROOT + '/guide/importquota/downloadtemplate'
       var form = document.createElement('form')
@@ -191,6 +184,7 @@ export default {
     onSuccess (response, file) {
       this.loadingIsShow = true
       if (response.success) {
+        this.hintMsgIsShowTextDanger = false
         this.uploadFailMsgShow = false
         this.uploadFailMsg = null
         this.uploadFail = false
@@ -200,6 +194,7 @@ export default {
         this.uploadSuccee = true
       } else {
         window.console.log('失败回调' + response.msg)
+        this.hintMsgIsShowTextDanger = false
         if (response.code === '1') {
           this.uploadFailMsgShow = true
           this.uploadFailMsg = response.msg
@@ -222,15 +217,18 @@ export default {
       this.loadingIsShow = false
       let fileSuffix = file.name.split('.').pop()
       if (fileSuffix !== 'xls' && fileSuffix !== 'xlsx') {
-        window.console.log('xls')
-        this.hintMsgIsShow = false
+        this.hintMsgIsShowTextDanger = true
         this.uploadFail = true
+        this.loadingIsShow = true
         this.uploadSuccee = false
+        this.hintMsgIsShow = false
         return false
       }
       if (file.size / 1024 / 1024 > 5) {
+        this.hintMsgIsShowTextDanger = true
         this.hintMsgIsShow = false
-        this.uploadFail = false
+        this.uploadFail = true
+        this.loadingIsShow = true
         this.uploadSuccee = false
         return false
       }

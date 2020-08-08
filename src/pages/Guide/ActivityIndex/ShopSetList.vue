@@ -16,25 +16,7 @@
           <el-col :span="7">
             <div class="topTip">
               <ns-button type="primary" @click="AddShowToggle">批量设置</ns-button>
-<!--              <ns-button type="primary" @click="ImportQuota">导入指标1111</ns-button>-->
               <ns-button type="primary" @click="ImportQuota">导入指标</ns-button>
-<!--              <ns-button type="primary" @click="ImportTarge">下载模板</ns-button>-->
-<!--              <ns-button type="primary" @click="updateList">更新数据</ns-button>-->
-<!--              <el-upload-->
-<!--                class="upload-demo"-->
-<!--                :action= "this.$api.core.sgUploadExcel()"-->
-<!--                accept=".xls,.xlsx"-->
-<!--                :on-preview="handlePreview"-->
-<!--                :on-remove="handleRemove"-->
-<!--                :before-upload="beforeUpload"-->
-<!--                :before-remove="beforeRemove"-->
-<!--                :on-success="onSuccess"-->
-<!--                multiple-->
-<!--                :limit="3"-->
-<!--                :on-exceed="handleExceed"-->
-<!--                :show-file-list="false">-->
-<!--                <ns-button type="primary">上传</ns-button>-->
-<!--              </el-upload>-->
               <span class="text-error">
                   单位：
                 <span v-if="searchObj.searchMap.type==2">人</span>

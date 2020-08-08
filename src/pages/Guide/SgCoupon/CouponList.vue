@@ -9,7 +9,7 @@
 
               <el-form-grid size="xmd">
               <el-form-item prop="coupon_id">
-                <el-select v-model="activityModel.coupon_id" filterable :placeholder="$t('prompt.select')"   @change="storeCouponChange" clearable>
+                <el-select v-model="activityModel.coupon_id" :placeholder="$t('prompt.select')" @change="storeCouponChange" clearable>
                   <div :class="storeCouponListLength?'':'no_store_coupon'">
                     <el-option v-for="coupon in storeCouponList" :label="coupon.storeCouponTitle"
                             :key="coupon.id" :value="coupon.id" class="{storeCouponList.length == 0?'optionClass':''}"></el-option>
@@ -63,6 +63,7 @@
             </div>
             <div class="coupon-preview-amount text-error" v-if="storeModel.couponType == 2">
               <span class="coupon-amount__large">{{storeModel.couponValue}}折</span>
+<!--              <span class="coupon-amount__large">{{storeModel.couponValue}}折</span>-->
             </div>
             <div class="coupon-preview-title">
               <span class="coupon-title" style="overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">
