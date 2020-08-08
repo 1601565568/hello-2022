@@ -86,12 +86,19 @@ export default {
     }
   }
   @b content {
-    cursor: pointer;
+    display: inline-block;
+    position: relative;
     font-size: 12px;
     line-height: 20px;
+    padding-right: 18px;
+    cursor: pointer;
     svg {
-      margin-left: 5px;
+      position: absolute;
+      top: 4px;
+      right: 0;
       color: #909399;
+      transform: scale(0.9);
+      transform-origin: 0 -1px;
     }
   }
 }
