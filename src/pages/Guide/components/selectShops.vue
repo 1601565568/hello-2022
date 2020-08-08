@@ -352,7 +352,6 @@ export default {
       /* 加载表格 */
       this.tableLoading = true
       this.multipleSelectionLoading = true
-      console.log('length', this.pagination.size)
       let param = {
         start: (this.pagination.page - 1) * this.pagination.size,
         length: this.pagination.size,
