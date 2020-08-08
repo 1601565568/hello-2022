@@ -13,8 +13,6 @@ html,body {
 }
 .prompt .prompt__img {
     width: 100%;
-    height: 100%;
-    vertical-align: top;
     margin-top: 130px;
 }
 .prompt .prompt__msg {
