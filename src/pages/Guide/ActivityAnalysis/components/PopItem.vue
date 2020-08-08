@@ -3,7 +3,6 @@
     <el-popover
       ref="popoverRef"
       placement="right"
-      width="200"
       trigger="click"
     >
       <div class="analysis-popover">
@@ -18,7 +17,7 @@
         </div>
         <div class="analysis-popover__item">
           <span>微信</span>
-          <span>{{ wxNick }}({{ wxAccount }})</span>
+          <span>{{ wxNick }}（{{ wxAccount }}）</span>
         </div>
       </div>
     </el-popover>
