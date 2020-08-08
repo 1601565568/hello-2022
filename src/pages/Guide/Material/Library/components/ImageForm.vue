@@ -310,6 +310,13 @@ export default {
       }
       params.parentId = this.catalogue[this.catalogue.length - 1].id
       this.loading = true
+      // 校验推广内容是否是纯空格 或换行
+      let tempContent = this.model.content
+      if (tempContent.replace(/\s+|[\r\n]/g, '').length === 0) {
+        this.$notify.error('推广文案内容不能为空，不允许提交确定')
+        this.loading = false
+        return
+      }
       this.$http.fetch(this.$api.guide.materialEdit, params).then(resp => {
         this.$notify.success('图文素材保存成功')
         this.onBack()
