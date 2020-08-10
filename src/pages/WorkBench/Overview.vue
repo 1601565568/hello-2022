@@ -33,7 +33,10 @@
           <el-card class="overview-content__item" shadow="never">
             <div class="overview-content__item-left">
               <p class="text-secondary">
-                销售金额
+                <span>销售金额 </span>
+                <el-tooltip content="全渠道订单中成单、提货、发货门店为所选门店的，所有交易成功的订单总额">
+                  <Icon type="question-circle"></Icon>
+                </el-tooltip>
               </p>
               <p>
                 <span class="font-size-large">￥</span>
@@ -64,7 +67,10 @@
           <el-card class="overview-content__item" shadow="never">
             <div class="overview-content__item-left">
               <p class="text-secondary">
-                招募会员
+                <span>招募会员 </span>
+                <el-tooltip content="门店招募会员总数，包括门店招募和导购端手动添加会员；括号中显示所选门店至今所有招募会员总数">
+                  <Icon type="question-circle"></Icon>
+                </el-tooltip>
               </p>
               <p >
                 <span class="font-size-large">{{getRewardInfoObj.memberCount}}</span>
@@ -95,7 +101,10 @@
           <el-card class="overview-content__item" shadow="never">
             <div class="overview-content__item-left">
               <p class="text-secondary">
-                新加好友
+                <span>新加好友 </span>
+                <el-tooltip content="门店新加好友总数，好友多次添加同一名导购微信不会重复计算；括号中显示所选门店至今所有新加好友总数">
+                  <Icon type="question-circle"></Icon>
+                </el-tooltip>
               </p>
               <p >
                 <span class="font-size-large">{{getRewardInfoObj.addfriendCount}}</span>
