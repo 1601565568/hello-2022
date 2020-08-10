@@ -252,8 +252,10 @@ export default {
         return false
       }
     },
-    onBack () {
-      this.$router.push({ path: '/Guide/Material/Library' })
+    onBack (isSave) {
+      // this.$router.push({ path: '/Guide/Material/Library' })
+      let breadcrumb = isSave ? this.catalogue : this.breadcrumb
+      this.$router.push({ name: 'LibraryList', params: { breadcrumb } })
     },
     onSave () {
       this.$refs.form.validate(valid => {
@@ -276,7 +278,7 @@ export default {
       delete params.cardStyle
       this.$http.fetch(this.$api.guide.materialEdit, params).then(resp => {
         this.$notify.success('文章素材保存成功')
-        this.onBack()
+        this.onBack(true)
       }).catch(resp => {
         this.$notify.error(getErrorMsg('保存失败', resp))
       }).finally(() => {

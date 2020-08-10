@@ -204,8 +204,10 @@ export default {
       }
       this.uploader = this.$loading({ target: '.library-video__form', fullscreen: false, text: '正在上传...' })
     },
-    onBack () {
-      this.$router.push({ path: '/Guide/Material/Library' })
+    onBack (isSave) {
+      // this.$router.push({ path: '/Guide/Material/Library' })
+      let breadcrumb = isSave ? this.catalogue : this.breadcrumb
+      this.$router.push({ name: 'LibraryList', params: { breadcrumb } })
     },
     onSave () {
       this.$refs.form.validate(valid => {
@@ -228,7 +230,7 @@ export default {
       params.imageList = this.imageList
       this.$http.fetch(this.$api.guide.materialEdit, params).then(resp => {
         this.$notify.success('视频素材保存成功')
-        this.onBack()
+        this.onBack(true)
       }).catch(resp => {
         this.$notify.error(getErrorMsg('保存失败', resp))
       }).finally(() => {

@@ -616,6 +616,10 @@ export default {
     }
   },
   created () {
+    let { breadcrumb } = this.$route.params
+    if (breadcrumb && breadcrumb.length) {
+      this.breadcrumb = breadcrumb
+    }
     this.setHeight()
     window.addEventListener('resize', this.setHeight)
   },
