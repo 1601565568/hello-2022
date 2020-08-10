@@ -111,7 +111,7 @@ export default {
         vertical-align: middle;
       }
       video {
-        max-height: 600px;
+        max-height: 667px;
         max-width: 100%;
       }
     }
