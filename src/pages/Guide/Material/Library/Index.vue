@@ -233,7 +233,6 @@
           @current-change="handlePageChange"
           class="template-table__pagination"
           layout="total, sizes, prev, pager, next, jumper"
-          :style="{'border-radius': listMode === 'list' ? '0 0 3px 3px' : '3px'}"
         >
         </el-pagination>
       </template>
@@ -292,7 +291,7 @@ export default Index
       margin: var(--default-margin-larger) 0;
       padding: var(--default-padding-larger) var(--default-padding-small);
       background-color: #fff;
-      border-radius: 4px;
+      border-radius: var(--default-radius-mini);
       align-items: center;
       overflow: hidden;
       @e right {
@@ -311,7 +310,7 @@ export default Index
           color: var(--theme-font-color-secondary);
           cursor: pointer;
           &:hover {
-            color: #0091fa;
+            color: var(--theme-color-primary);
           }
           span + span {
             margin-left: var(--default-margin-larger);
@@ -346,20 +345,13 @@ export default Index
         }
       }
     }
-    >>> .template-table__pagination {
-      padding: 10px;
-    }
     >>> .el-table--small th {
-      padding: 20px 0 10px;
       &.el-table-column--selection .cell {
-        padding: 0 15px;
+        padding: 0 14px;
       }
     }
     >>> .el-table--small td {
-      padding: 10px 0;
-      &.el-table-column--selection .cell {
-        padding: 0 15px;
-      }
+      padding: var(--default-padding-larger) 0;
       .el-button--text {
         margin: -4px 0;
         border: none;

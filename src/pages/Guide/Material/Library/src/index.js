@@ -610,7 +610,7 @@ export default {
     setHeight: function () {
       this.$nextTick(() => {
         let extraHeight = this.$refs.fullScreen.$el.getBoundingClientRect().top || 0
-        extraHeight += (this.enable ? 48 : 0) + 17 + 5
+        extraHeight += (this.enable ? 38 : 0) + 17 + 5
         this.$refs.fullScreen.$el.children[0].style.maxHeight = window.innerHeight - extraHeight + 'px'
       })
     }

@@ -337,33 +337,30 @@ export default {
 }
 </script>
 <style scoped>
-  /* @import "@theme/variables.pcss"; */
+  @import "@theme/variables.pcss";
   @component-namespace library {
     @b image {
       @e extra {
-        font-size: 12px;
+        font-size: var(--default-font-size-small);
         color: #0392fb;
         cursor: pointer;
-        line-height: 20px;
         svg {
-          font-size: 12px;
+          font-size: var(--default-font-size-small);
         }
-        i + span {
-          margin-left: 5px;
-        }
+        i + span,
         svg + span {
-          margin-left: 5px;
+          margin-left: var(--default-margin-small);
         }
       }
       @e list {
         width: 300px;
         list-style: none;
         padding: 0;
-        margin-bottom: 5px;
+        margin-bottom: var(--default-margin-small);
         > li {
           float: left;
           position: relative;
-          margin: 0 5px 5px 0;
+          margin: 0 var(--default-margin-small) var(--default-margin-small) 0;
         }
       }
       @e item {
@@ -371,7 +368,7 @@ export default {
         > img {
           width: 90px;
           height: 90px;
-          border-radius: 3px;
+          border-radius: var(--default-radius-mini);
           object-fit: cover;
           border: 1px solid #E8E8E8;
         }
@@ -389,7 +386,7 @@ export default {
         color: #fff;
         text-align: center;
         line-height: 90px;
-        border-radius: 3px;
+        border-radius: var(--default-radius-mini);
         &:hover {
           opacity: 1;
         }
@@ -397,7 +394,7 @@ export default {
           cursor: pointer;
         }
         svg + svg {
-          margin-left: 5px;
+          margin-left: var(--default-margin-small);
         }
       }
     }
@@ -410,10 +407,10 @@ export default {
         font-size: 18px;
         color: #8c8c8c;
         line-height: 88px;
-        border-radius: 3px;
+        border-radius: var(--default-radius-mini);
         &:hover {
-          border-color: #0091fa;
-          color: #0091fa;
+          border-color: var(--theme-color-primary);
+          color: var(--theme-color-primary);
         }
       }
     }
@@ -421,7 +418,7 @@ export default {
       @e text {
         vertical-align: middle;
         & + button {
-          margin-left: 10px;
+          margin-left: var(--default-margin-larger);
         }
       }
     }
@@ -429,27 +426,27 @@ export default {
       padding: 20px 0 30px;
       text-align: center;
       button + button {
-        margin-left: 10px;
+        margin-left: var(--default-margin-larger);
       }
     }
     >>> .el-form {
       padding: 20px 0;
     }
     >>> .el-form-item {
-      margin-bottom: 10px;
+      margin-bottom: var(--default-margin-larger);
       .el-form-item__label {
-        font-size: 14px;
+        font-size: var(--default-font-size-base);
         color: #606266;
       }
       .el-select + .library-image__extra {
-        margin-left: 10px;
+        margin-left: var(--default-margin-larger);
       }
       .el-textarea__inner {
         height: 90px;
       }
     }
     >>> .el-form-grid {
-      margin-left: 10px;
+      margin-left: var(--default-margin-larger);
     }
   }
 </style>
