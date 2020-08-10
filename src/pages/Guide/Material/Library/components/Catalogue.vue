@@ -98,11 +98,11 @@
         </div>
       </div>
     </div>
-    <no-data :is-show="isEmpty"></no-data>
+    <ns-no-data v-if="isEmpty">暂无数据</ns-no-data>
   </div>
 </template>
 <script>
-import NoData from './NoData'
+import NsNoData from '@nascent/ecrp-ecrm/src/components/NsNoData.vue'
 export default {
   props: {
     folders: {
@@ -131,7 +131,7 @@ export default {
     },
     operate_buttons: Array
   },
-  components: { NoData },
+  components: { NsNoData },
   data () {
     return {
       // 卡片容器宽度

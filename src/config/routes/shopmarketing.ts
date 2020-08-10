@@ -35,24 +35,6 @@ export default {
               'component': () => import('@/pages/Guide/Material/Library/Edit.vue')
             }
           ]
-        },
-        {
-          'path': '/Guide/Material/imageText',
-          'name': 'MATERIAL',
-          'title': '图文素材',
-          'component': () => import('@/pages/Guide/Material/imageText.vue')
-        },
-        {
-          'path': '/Guide/Material/article',
-          'name': 'MaterialArticle ',
-          'title': '文章素材',
-          'component': () => import('@/pages/Guide/Material/article.vue')
-        },
-        {
-          'path': '/Guide/Material/subdivision',
-          'name': 'MaterialSubdivision',
-          'title': '素材分组',
-          'component': () => import('@/pages/Guide/Material/subdivision.vue')
         }
       ]
     },
