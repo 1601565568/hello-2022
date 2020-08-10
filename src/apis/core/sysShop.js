@@ -7,12 +7,16 @@ export default {
     url: '/core/sgshop/getShopByShopIds',
     method: 'post'
   },
-  findShopListByShopIds: {
-    url: '/core/sgshop/findShopListByShopIds',
+  findShopPageToWelcomeCode: {
+    url: '/core/sgshop/findShopPageToWelcomeCode',
     method: 'post'
   },
   getShopTree: {
     url: '/core/sgshop/getShopTree',
+    method: 'post'
+  },
+  findShopListByShopIds: {
+    url: '/core/sgshop/findShopListByShopIds',
     method: 'post'
   }
 }
