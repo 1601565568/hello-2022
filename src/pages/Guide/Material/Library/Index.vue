@@ -204,7 +204,7 @@
               </el-table-column>
               <el-table-column label="发布方" prop="sourceName" :min-width="130"></el-table-column>
               <el-table-column label="发布时间" prop="createTime" :min-width="180"></el-table-column>
-              <el-table-column label="操作" fixed="right" :width="140">
+              <el-table-column label="操作" fixed="right" :width="150">
                 <template slot-scope="scope">
                   <ns-table-column-operate-button :buttons="table.operate_buttons" :prop="scope"></ns-table-column-operate-button>
                 </template>
@@ -358,13 +358,14 @@ export default Index
         }
       }
       td {
+        padding: var(--default-padding-larger) 0;
         .el-button--text {
-          padding: var(--default-padding-larger) 0;
+          padding: var(--default-padding-small) 0;
           margin: 0;
           border: none;
         }
         .el-button--text + .el-button--text {
-          margin-left: 15px;
+          margin-left: 20px;
         }
         .el-select .el-input__inner {
           padding-right: 26px;
