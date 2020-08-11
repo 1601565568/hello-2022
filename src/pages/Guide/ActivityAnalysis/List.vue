@@ -267,7 +267,6 @@ export default {
       form.setAttribute('action', url)
       form.setAttribute('method', 'post')
       document.body.appendChild(form)
-      debugger
       form.submit()
     },
     generateHideElement (name, value) {
