@@ -50,7 +50,7 @@ export default {
       loading: false,
       list: [],
       expandedKeys: [],
-      checked: null,
+      checked: { id: 0, label: '素材库' },
       catalogue: [],
       selectRows: []
     }
@@ -72,7 +72,7 @@ export default {
     },
     resetTree (rows, catalogue) {
       this.expandedKeys = catalogue.length ? catalogue.map(o => o.id) : [0]
-      this.checked = catalogue.length ? catalogue[catalogue.length - 1] : null
+      this.checked = catalogue.length ? catalogue[catalogue.length - 1] : { id: 0, label: '素材库' }
       this.$refs.folderTree.setCheckedKeys(this.checked ? [this.checked.id] : [])
     },
     onExpand (data) {
@@ -112,7 +112,7 @@ export default {
       )
     },
     onAddFolder () {
-      this.$refs.newFolder.show({ parent: this.selected })
+      this.$refs.newFolder.show({ parent: this.checked })
     },
     isDisabled (row) {
       let index = this.selectRows.findIndex(o => o.id === +row.id)
@@ -129,10 +129,13 @@ export default {
       })
     },
     // 获取文件列表
-    async loadList () {
+    async loadList (expandData) {
       let queryLoading = this.$loading({ target: '.folder-tree__wrapper', fullscreen: false, text: '正在加载...' })
       return this.$http.fetch(this.$api.guide.getDirectoryTree).then(resp => {
         this.list = [{ id: 0, label: '素材库', children: this.formatList(resp.result) }]
+        if (expandData) {
+          this.onExpand(expandData)
+        }
       }).catch(resp => {
         this.$notify.error(getErrorMsg('查询失败', resp))
       }).finally(() => {
@@ -173,7 +176,6 @@ export default {
   @b tree {
     @e wrapper {
       min-height: 270px;
-      padding: 0 20px 20px;
       >>> .el-tree {
         overflow: hidden;
       }
@@ -184,16 +186,6 @@ export default {
   }
   >>> .folder-tree {
     width: 500px;
-    .el-dialog__header {
-      padding: 20px 30px !important;
-    }
-    .el-dialog__headerbtn {
-      top: 20px !important;
-      right: 30px !important;
-    }
-    .el-dialog__footer {
-      padding: 10px 30px 20px !important;
-    }
   }
   >>> .el-tree-node {
     > .el-tree-node__content {

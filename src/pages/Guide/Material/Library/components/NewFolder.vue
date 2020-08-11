@@ -8,12 +8,11 @@
     customClass="folder-dialog"
   >
     <div class="folder-dialog__wrapper">
-      <el-form ref="form" @submit.native.prevent :inline="true" :rules="rules" label-width="84px" :model="model">
+      <el-form ref="form" @submit.native.prevent :rules="rules" label-width="84px" :model="model">
         <el-form-item label='文件夹名称：' prop="name">
            <el-input
               v-model="model.name"
               placeholder="限制长度4-10个字符"
-              style="width: 256px"
               :input="model.name=model.name.replace(/\s+/g,'')"
               @keyup.enter.native="handleSave"
               clearable
@@ -94,19 +93,9 @@ export default {
 <style scoped>
 >>> .folder-dialog {
   width: 400px;
-  .el-dialog__header {
-    padding: 20px 30px !important;
-  }
-  .el-dialog__headerbtn {
-    top: 20px !important;
-    right: 30px !important;
-  }
-  .el-dialog__footer {
-    padding: 10px 30px 20px !important;
-  }
 }
 >>> .folder-dialog__wrapper {
   margin-top: 10px;
-  padding: 0 20px 40px;
+  padding: 0 0 30px;
 }
 </style>

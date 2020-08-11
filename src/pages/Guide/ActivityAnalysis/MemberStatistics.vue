@@ -33,16 +33,18 @@
                   class="float-left"
                   :disabled="searchform.date !== '自定义'"
                   v-model="searchform.dateRange"
-                  type="datetimerange"
+                  type="daterange"
                   start-placeholder="开始日期"
                   end-placeholder="结束日期"
-                  :default-time="['12:00:00']">
+                  :default-value="currentMonth"
+                  :picker-options="pickerOptions"
+                  >
                 </el-date-picker>
               </el-form-item>
               <el-form-item>
                 <ns-button type="primary" @click="submitForm('searchform')" >搜索</ns-button>
                 <ns-button @click="resetForm('searchform')">重置</ns-button>
-                <ns-button type="primary" @click="submitForm('searchform')" >导出</ns-button>
+                <ns-button type="primary" @click="exportData" >导出</ns-button>
               </el-form-item>
             </el-form>
           </el-col>
@@ -52,33 +54,36 @@
         <div class="template-table-search" v-show="searchType.advanced">
           <div class="template-table__bar-more">
             <el-form ref="searchform" label-width="80px"  class="surround-btn" :model="searchform"  :inline="true">
-              <el-form-item label="任务名称：" prop="name">
-                <el-input v-model="searchform.name"  placeholder="请输入任务名称" clearable @keyup.enter.native="submitForm('searchform')"></el-input>
+              <el-form-item>
+                <el-radio-group v-model="searchform.date" class="float-right">
+                  <el-radio-button label="昨天">昨天</el-radio-button>
+                  <el-radio-button label="近7天">近7天</el-radio-button>
+                  <el-radio-button label="自定义">自定义</el-radio-button>
+                </el-radio-group>
               </el-form-item>
-              <el-form-item label="类型：" prop="type">
-                <el-select  v-model="searchform.type" placeholder="请选择类型" clearable>
-                  <el-option v-for="item in typeOptions"
-                             :key="item.value"
-                             :label="item.label"
-                             :value="item.value">
-                  </el-option>
-                </el-select>
+              <el-form-item label="自定义：" label-width="80px">
+                <el-date-picker
+                  class="float-left"
+                  :disabled="searchform.date !== '自定义'"
+                  v-model="searchform.dateRange"
+                  type="daterange"
+                  start-placeholder="开始日期"
+                  end-placeholder="结束日期"
+                  :default-value="currentMonth"
+                  :picker-options="pickerOptions">
+                </el-date-picker>
               </el-form-item>
-
-              <el-form-item label="状态：" prop="state">
-                <el-select  v-model="searchform.state" placeholder="请选择状态" clearable>
-                  <el-option v-for="item in statusOptions"
-                             :key="item.value"
-                             :label="item.label"
-                             :value="item.value">
-                  </el-option>
-                </el-select>
+              <el-form-item>
+                <NsGuideDialog :auth="false" type="primary" btnTitle="选择员工" dialogTitle="选择员工" v-model="searchform.guideIds"></NsGuideDialog>
               </el-form-item>
-
+              <el-form-item>
+                已选择<span class="text-primary">{{searchform.guideIds? searchform.guideIds.length: 0}}</span>个导购员工
+              </el-form-item>
             </el-form>
             <div class="template-table__more-btn">
               <ns-button type="primary" @click="submitForm('searchform')">搜索</ns-button>
               <ns-button @click="resetForm('searchform')">重置</ns-button>
+              <ns-button type="primary" @click="exportData" >导出</ns-button>
             </div>
           </div>
         </div>
@@ -93,36 +98,40 @@
         :data="dataList"
         v-loading="loading"
         :element-loading-text="$t('prompt.loading')"
+        @sort-change=changeTableSort
         tooltip-effect="dark"
         stripe
         style="width: 100%"
       >
-        <el-table-column prop="name" label="导购" align="left">
-          <div>
-            工作门店：九堡线下 门店
-          </div>
-          <div>
-            登录手机：15877788899
-          </div>
-          <div>
-            登录微信：微信昵称（微信id）
-          </div>
+        <el-table-column prop="guideName" label="导购" align="left">
+          <template slot-scope="scope">
+            <pop-item :detail="scope.row"></pop-item>
+          </template>
         </el-table-column>
-        <el-table-column prop="name" label="会员情况" align="left">
-          <div>
-            专属会员数：150
-          </div>
+        <el-table-column prop="guideName" label="工号" align="left">
+          <template slot-scope="scope">
+            {{scope.row.workId ? scope.row.workId : '-'}}
+          </template>
         </el-table-column>
-        <el-table-column label="招募情况" align="left">
-          <div>
-            招募会员总数：100
-          </div>
-          <div>
-            个号招募数：50
-          </div>
-          <div>
-            个号招募占比：50%
-          </div>
+        <el-table-column prop="name" label="工作门店" align="left">
+          <template slot-scope="scope">
+            {{scope.row.shopName ? scope.row.shopName : '-'}}
+          </template>
+        </el-table-column>
+        <el-table-column prop="recruitNum" :sortable="'custom'" label="招募会员总数" align="left">
+          <template slot-scope="scope">
+            {{scope.row.recruitNum ? scope.row.recruitNum : 0}}
+          </template>
+        </el-table-column>
+        <el-table-column prop="personalRecruitNum" :sortable="'custom'" label="个号招募数" align="left">
+          <template slot-scope="scope">
+            {{scope.row.personalRecruitNum ? scope.row.personalRecruitNum : 0}}
+          </template>
+        </el-table-column>
+        <el-table-column prop="personalRecruitRate" :sortable="'custom'" label="个号招募占比" align="left">
+          <template slot-scope="scope">
+            {{scope.row.personalRecruitRate ? scope.row.personalRecruitRate : 0}}
+          </template>
         </el-table-column>
       </el-table>
     </div>
@@ -142,63 +151,35 @@
 </template>
 <script>
 import listPageMixin from '@/mixins/listPage'
-import apiRequestConfirm from '@nascent/ecrp-ecrm/src/utils/apiRequestConfirm'
 import { getErrorMsg } from '@/utils/toast'
+import NsGuideDialog from '@/components/NsGuideDialog'
+import { API_ROOT } from '@/config/http.js'
+import PopItem from './components/PopItem'
 export default {
   mixins: [listPageMixin],
   data () {
+    let nowDate = new Date()
     return {
       activeTabName: '/Guide/ActivityAnalysis/MemberStatistics',
       // 类型
-      typeOptions: [
-        {
-          value: '0',
-          label: '不限'
-        },
-        {
-          value: '1',
-          label: '降序'
-        },
-        {
-          value: '2',
-          label: '升序'
-        }
-      ],
-      statusOptions: [
-        {
-          value: '0',
-          label: '不限'
-        },
-        {
-          value: '1',
-          label: '专属会员数'
-        },
-        {
-          value: '2',
-          label: '招募会员数'
-        },
-        {
-          value: '3',
-          label: '个号招募会员数'
-        },
-        {
-          value: '4',
-          label: '个号招募占比'
-        }
-      ],
-      selectedArr: [],
+      analysisType: 2, // 会员统计
+      currentMonth: `${nowDate.getFullYear()}/${nowDate.getMonth()}`,
+      sortName: 'recruitNum', // 排序名称 默认按招募会员数降序排序
+      sortType: 0, // 排序类型 1:升序 0:降序
       searchform: {
         date: '昨天',
         dateRange: '',
         time: [],
-        name: '',
-        type: '',
-        state: ''
+        guideIds: []
       },
       dataList: [
 
-      ]
-
+      ],
+      pickerOptions: {
+        disabledDate (time) {
+          return time > Date.now() - 3600 * 1000 * 24
+        }
+      }
     }
   },
   created: function () {
@@ -209,69 +190,73 @@ export default {
     // 加载列表
     async loadListFun (data) {
       this.loading = true
-      let searchObj = data || this.searchObj
-      await this.$http
-        .fetch(this.$api.guide.taskList, searchObj)
+      this.searchObj.analysisType = this.analysisType
+      this.searchObj.date = this.searchform.date
+      this.searchObj.dateRange = this.searchform.dateRange
+      this.searchObj.time = this.searchform.time
+      this.searchObj.sortName = this.sortName
+      this.searchObj.sortType = this.sortType
+      this.searchObj.guideIds = this.searchform.guideIds
+      await this.$http.fetch(this.$api.guide.sgGuideActivityAnalysis.findList, this.searchObj)
         .then(resp => {
           this.dataList = resp.result.data
           this.pagination.total = parseInt(resp.result.recordsTotal)
-        })
-        .catch(resp => {
+        }).catch(resp => {
           this.$notify.error(getErrorMsg('查询失败', resp))
         })
       this.loading = false
       // 总条数
     },
-    // 删除
-    delsTipFun (val) {
-      apiRequestConfirm('永久删除该数据')
-        .then(() => {
-          this.delsFun(val)
-        })
-        .catch(() => {
-          // 点击取消事件
-        })
-    },
-    async delsFun (val) {
-      let obj = {
-        taskId: val
-      }
-      await this.$http
-        .fetch(this.$api.guide.taskBrandDel, obj)
-        .then(resp => {
-          this.$notify({
-            type: 'success',
-            message: '删除成功!'
-          })
-          this.loadListFun(this.searchObj)
-        })
-        .catch(resp => {
-          this.$notify.error(getErrorMsg('查询失败', resp))
-        })
-    },
-    // 打开弹窗--编辑
-    AddShowToggle (obj) {
-      // 传递保存时需要的参数
-      this.$nextTick(() => {
-        this.$refs.addDialogDom.showToggle(obj)
-      })
-    },
     // 提交搜索
     submitForm (formName) {
-      this.searchObj.start = 0
-      this.searchObj.searchMap.type = this.searchform.type
-      this.searchObj.searchMap.state = this.searchform.state
-      this.searchObj.searchMap.name = this.searchform.name
-
       // 组装搜索对象
       this.loadListFun()
     },
-    // 选择门店
-    handleSelectionChange (val) {
-      this.selectedArr = val
+    exportData () {
+      this.searchObj.analysisType = this.analysisType
+      this.searchObj.date = this.searchform.date
+      this.searchObj.dateRange = this.searchform.dateRange
+      this.searchObj.time = this.searchform.time
+      this.searchObj.guideIds = this.searchform.guideIds
+      var url = API_ROOT + '/guide/activityAnalysis/exportData'
+      var form = document.createElement('form')
+      form.appendChild(this.generateHideElement('analysisType', this.searchObj.analysisType))
+      form.appendChild(this.generateHideElement('date', this.searchObj.date))
+      form.appendChild(this.generateHideElement('dateRange', this.searchObj.dateRange))
+      form.appendChild(this.generateHideElement('time', this.searchObj.time))
+      form.appendChild(this.generateHideElement('guideIds', this.searchObj.guideIds))
+      form.appendChild(this.generateHideElement('sortName', this.sortName))
+      form.appendChild(this.generateHideElement('sortType', this.sortType))
+      form.setAttribute('action', url)
+      form.setAttribute('method', 'post')
+      document.body.appendChild(form)
+      form.submit()
+    },
+    generateHideElement (name, value) {
+      var tempInput = document.createElement('input')
+      tempInput.type = 'hidden'
+      tempInput.name = name
+      tempInput.value = value
+      return tempInput
+    },
+    // 排序
+    changeTableSort (column) {
+      // 获取字段名称和排序类型
+      var fieldName = column.prop
+      var sortingType = column.order
+      this.sortName = fieldName
+      // 按照降序排序
+      if (sortingType === 'descending') {
+        this.sortType = 0
+      } else {
+        // 按照升序排序
+        this.sortType = 1
+      }
+      this.loadListFun()
     }
   },
   components: {
+    NsGuideDialog, PopItem
   }
 }
 </script>

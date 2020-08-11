@@ -19,7 +19,7 @@
       <!-- 快捷搜索 -->
       <template slot="searchSearch">
         <el-form :model="model" :inline="true" @submit.native.prevent class="pull-right">
-          <el-form-item v-show="!quickObj.expanded">
+          <el-form-item v-show="!quickObj.expanded" label="标题：">
             <el-input
               ref="quickText"
               v-model="model.name"
@@ -99,6 +99,7 @@
           <el-form-item label="素材类型：" prop="mType">
             <el-select
               v-model="model.mType"
+              @change="onMtypeChange"
               placeholder="请选择素材类型"
               clearable
             >

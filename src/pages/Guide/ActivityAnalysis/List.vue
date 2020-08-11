@@ -33,16 +33,19 @@
                   class="float-left"
                   :disabled="searchform.date !== '自定义'"
                   v-model="searchform.dateRange"
-                  type="datetimerange"
+                  type="daterange"
+                  range-separator="至"
                   start-placeholder="开始日期"
                   end-placeholder="结束日期"
-                  :default-time="['12:00:00']">
+                  :default-value="currentMonth"
+                  :picker-options="pickerOptions"
+                >
                 </el-date-picker>
               </el-form-item>
               <el-form-item>
                 <ns-button type="primary" @click="submitForm('searchform')" >搜索</ns-button>
                 <ns-button @click="resetForm('searchform')">重置</ns-button>
-                <ns-button type="primary" @click="submitForm('searchform')" >导出</ns-button>
+                <ns-button type="primary" @click="exportData" >导出</ns-button>
               </el-form-item>
             </el-form>
           </el-col>
@@ -64,38 +67,26 @@
                   class="float-left"
                   :disabled="searchform.date !== '自定义'"
                   v-model="searchform.dateRange"
-                  type="datetimerange"
+                  type="daterange"
+                  range-separator="至"
                   start-placeholder="开始日期"
                   end-placeholder="结束日期"
-                  :default-time="['12:00:00']">
+                  :default-value="currentMonth"
+                  :picker-options="pickerOptions"
+                >
                 </el-date-picker>
               </el-form-item>
-
-              <el-form-item label="排序条件：" prop="state">
-                <el-select  v-model="searchform.state" placeholder="不限" clearable>
-                  <el-option v-for="item in statusOptions"
-                             :key="item.value"
-                             :label="item.label"
-                             :value="item.value">
-                  </el-option>
-                </el-select>
+              <el-form-item>
+                <NsGuideDialog :auth="false" type="primary" btnTitle="选择员工" dialogTitle="选择员工" v-model="searchform.guideIds"></NsGuideDialog>
               </el-form-item>
-
-              <el-form-item label="排序方式：" prop="state">
-                <el-select  v-model="searchform.type" placeholder="不限" clearable>
-                  <el-option v-for="item in typeOptions"
-                             :key="item.value"
-                             :label="item.label"
-                             :value="item.value">
-                  </el-option>
-                </el-select>
+              <el-form-item>
+                已选择<span class="text-primary">{{searchform.guideIds? searchform.guideIds.length: 0}}</span>个导购员工
               </el-form-item>
-
             </el-form>
             <div class="template-table__more-btn">
               <ns-button type="primary" @click="submitForm('searchform')">搜索</ns-button>
               <ns-button @click="resetForm('searchform')">重置</ns-button>
-              <ns-button type="primary" @click="submitForm('searchform')" >导出</ns-button>
+              <ns-button type="primary" @click="exportData" >导出</ns-button>
             </div>
           </div>
         </div>
@@ -110,69 +101,75 @@
         :data="dataList"
         v-loading="loading"
         :element-loading-text="$t('prompt.loading')"
+        @sort-change="changeTableSort"
         tooltip-effect="dark"
         stripe
         style="width: 100%"
       >
-        <el-table-column prop="guideName" label="导购" align="left">
-          <div>
-            工作门店：九堡线下门店
-          </div>
-          <div>
-            登录手机：15811112222
-          </div>
-          <div>
-            登录微信：微信昵称（微信id）
-          </div>
+        <el-table-column prop="guideName" label="导购" width="160" fixed>
+          <template slot-scope="scope">
+            <pop-item :detail="scope.row"></pop-item>
+          </template>
         </el-table-column>
-        <el-table-column prop="name" label="获客情况" align="left">
-          <div>
-            新增好友数：100
-          </div>
-          <div>
-            新增会员数：90
-          </div>
-          <div>
-            新增群数：30
-          </div>
+        <el-table-column prop="guideName" label="工号" width="160" fixed>
+          <template slot-scope="scope">
+            {{scope.row.workId ? scope.row.workId : '-'}}
+          </template>
         </el-table-column>
-        <el-table-column label="主动会话情况" align="left">
-          <div>
-            主动会话数：100
-            私聊：90
-            群聊：10
-          </div>
-          <div>
-            客户回复：80
-          </div>
-          <div>
-            客户回复率：80%
-          </div>
+        <el-table-column prop="name" label="工作门店" width="180" fixed>
+          <template slot-scope="scope">
+            {{scope.row.shopName ? scope.row.shopName : '-'}}
+          </template>
         </el-table-column>
-        <el-table-column prop="type" label="接待情况" align="left">
-          <div>
-            接待客户数：100
-          </div>
-          <div>
-            响应数：90
-          </div>
-          <div>
-            未回复客户数:10
-          </div>
-          <div>
-            平均响应时间：3s
-          </div>
+        <el-table-column prop="newFriendNum" :sortable="'custom'" label="新增好友数" width="180">
+          <template slot-scope="scope">
+            {{scope.row.newFriendNum ? scope.row.newFriendNum : 0}}
+          </template>
         </el-table-column>
-        <el-table-column label="朋友圈情况" align="left">
-          <div>
-            发朋友圈数：50
-          </div>
-          <div>
-            被点赞数：900
-          </div>
-          <div>
-            被评论数：30
-          </div>
+        <el-table-column prop="newCustomerNum" :sortable="'custom'" label="新增会员" width="120">
+          <template slot-scope="scope">
+            {{scope.row.newCustomerNum ? scope.row.newCustomerNum : 0}}
+          </template>
+        </el-table-column>
+        <el-table-column prop="momentsNum" :sortable="'custom'" label="发朋友圈数" width="140">
+          <template slot-scope="scope">
+            {{scope.row.momentsNum ? scope.row.momentsNum : 0}}
+          </template>
+        </el-table-column>
+        <el-table-column prop="activePrivateChatNum" :sortable="'custom'" label="主动会话数" width="240">
+          <template slot-scope="scope">
+            {{scope.row.activePrivateChatNum ? scope.row.activePrivateChatNum : 0}}
+          </template>
+        </el-table-column>
+        <el-table-column prop="clientReplyNum" :sortable="'custom'" label="客户回复" width="120">
+          <template slot-scope="scope">
+            {{scope.row.clientReplyNum ? scope.row.clientReplyNum : 0}}
+          </template>
+        </el-table-column>
+        <el-table-column prop="clientReplyRate" :sortable="'custom'" label="客户回复率" width="140">
+          <template slot-scope="scope">
+            {{scope.row.clientReplyRate ? scope.row.clientReplyRate : 0}}
+          </template>
+        </el-table-column>
+        <el-table-column prop="receivePrivateChatNum" :sortable="'custom'" label="客户发起会话数" width="140">
+          <template slot-scope="scope">
+            {{scope.row.receivePrivateChatNum ? scope.row.receivePrivateChatNum : 0}}
+          </template>
+        </el-table-column>
+        <el-table-column prop="replyNum" :sortable="'custom'" label="响应数" width="120">
+          <template slot-scope="scope">
+            {{scope.row.replyNum ? scope.row.replyNum : 0}}
+          </template>
+        </el-table-column>
+        <el-table-column prop="notReplayNum" :sortable="'custom'" label="未回复客户数" width="140">
+          <template slot-scope="scope">
+            {{scope.row.notReplayNum ? scope.row.notReplayNum : 0}}
+          </template>
+        </el-table-column>
+        <el-table-column prop="averageReplyTime" :sortable="'custom'" label="平均响应时间" width="140">
+          <template slot-scope="scope">
+            {{scope.row.averageReplyTime ? scope.row.averageReplyTime : 0}}
+          </template>
         </el-table-column>
       </el-table>
     </div>
@@ -194,170 +191,109 @@
 import listPageMixin from '@/mixins/listPage'
 import apiRequestConfirm from '@nascent/ecrp-ecrm/src/utils/apiRequestConfirm'
 import { getErrorMsg } from '@/utils/toast'
+import NsGuideDialog from '@/components/NsGuideDialog'
+import { API_ROOT } from '@/config/http.js'
+import PopItem from './components/PopItem'
+
 export default {
   mixins: [listPageMixin],
   data () {
+    let nowDate = new Date()
     return {
       activeTabName: '/Guide/ActivityAnalysis/List',
-      // 类型
-      typeOptions: [
-        {
-          value: '0',
-          label: '不限'
-        },
-        {
-          value: '1',
-          label: '降序'
-        },
-        {
-          value: '2',
-          label: '升序'
-        }
-      ],
-      statusOptions: [
-        {
-          value: '0',
-          label: '不限'
-        },
-        {
-          value: '1',
-          label: '新增好友数'
-        },
-        {
-          value: '2',
-          label: '新增会员数'
-        },
-        {
-          value: '3',
-          label: '新增群数'
-        },
-        {
-          value: '4',
-          label: '主动会话数'
-        },
-        {
-          value: '5',
-          label: '客户回复'
-        },
-        {
-          value: '6',
-          label: '客户回复率'
-        },
-        {
-          value: '7',
-          label: '接待客户数'
-        },
-        {
-          value: '8',
-          label: '未回复客户数'
-        },
-        {
-          value: '9',
-          label: '响应数'
-        },
-        {
-          value: '10',
-          label: '平均首次响应时间'
-        },
-        {
-          value: '11',
-          label: '发朋友圈数'
-        },
-        {
-          value: '12',
-          label: '被点赞数'
-        },
-        {
-          value: '13',
-          label: '被评论数'
-        }
-      ],
-      selectedArr: [],
+      analysisType: 1, // 联系概况
+      currentMonth: `${nowDate.getFullYear()}/${nowDate.getMonth()}`,
       searchform: {
         date: '昨天',
         dateRange: '',
         time: [],
         name: '',
-        type: '',
-        state: ''
+        guideIds: []
       },
-      dataList: [
-
-      ]
-
+      sortName: 'newFriendNum', // 排序名称 默认按新增好友数降序排序
+      sortType: 0, // 排序类型 1:升序 0:降序
+      dataList: [],
+      pickerOptions: {
+        disabledDate (time) {
+          return time > Date.now() - 3600 * 1000 * 24
+        }
+      }
     }
   },
   created: function () {
     this.loadListFun()
   },
-
   methods: {
     // 加载列表
     async loadListFun (data) {
       this.loading = true
-      let searchObj = data || this.searchObj
-      await this.$http
-        .fetch(this.$api.guide.taskList, searchObj)
+      this.searchObj.analysisType = this.analysisType
+      this.searchObj.date = this.searchform.date
+      this.searchObj.dateRange = this.searchform.dateRange
+      this.searchObj.time = this.searchform.time
+      this.searchObj.sortName = this.sortName
+      this.searchObj.sortType = this.sortType
+      this.searchObj.guideIds = this.searchform.guideIds
+      await this.$http.fetch(this.$api.guide.sgGuideActivityAnalysis.findList, this.searchObj)
         .then(resp => {
           this.dataList = resp.result.data
           this.pagination.total = parseInt(resp.result.recordsTotal)
-        })
-        .catch(resp => {
+        }).catch(resp => {
           this.$notify.error(getErrorMsg('查询失败', resp))
         })
       this.loading = false
       // 总条数
     },
-    // 删除
-    delsTipFun (val) {
-      apiRequestConfirm('永久删除该数据')
-        .then(() => {
-          this.delsFun(val)
-        })
-        .catch(() => {
-          // 点击取消事件
-        })
-    },
-    async delsFun (val) {
-      let obj = {
-        taskId: val
-      }
-      await this.$http
-        .fetch(this.$api.guide.taskBrandDel, obj)
-        .then(resp => {
-          this.$notify({
-            type: 'success',
-            message: '删除成功!'
-          })
-          this.loadListFun(this.searchObj)
-        })
-        .catch(resp => {
-          this.$notify.error(getErrorMsg('查询失败', resp))
-        })
-    },
-    // 打开弹窗--编辑
-    AddShowToggle (obj) {
-      // 传递保存时需要的参数
-      this.$nextTick(() => {
-        this.$refs.addDialogDom.showToggle(obj)
-      })
-    },
     // 提交搜索
     submitForm (formName) {
-      this.searchObj.start = 0
-      this.searchObj.searchMap.type = this.searchform.type
-      this.searchObj.searchMap.state = this.searchform.state
-      this.searchObj.searchMap.name = this.searchform.name
-
       // 组装搜索对象
       this.loadListFun()
     },
-    // 选择门店
-    handleSelectionChange (val) {
-      this.selectedArr = val
+    exportData () {
+      this.searchObj.analysisType = this.analysisType
+      this.searchObj.date = this.searchform.date
+      this.searchObj.dateRange = this.searchform.dateRange
+      this.searchObj.time = this.searchform.time
+      this.searchObj.guideIds = this.searchform.guideIds
+      var url = API_ROOT + '/guide/activityAnalysis/exportData'
+      var form = document.createElement('form')
+      form.appendChild(this.generateHideElement('analysisType', this.searchObj.analysisType))
+      form.appendChild(this.generateHideElement('date', this.searchObj.date))
+      form.appendChild(this.generateHideElement('dateRange', this.searchObj.dateRange))
+      form.appendChild(this.generateHideElement('time', this.searchObj.time))
+      form.appendChild(this.generateHideElement('guideIds', this.searchObj.guideIds))
+      form.appendChild(this.generateHideElement('sortName', this.sortName))
+      form.appendChild(this.generateHideElement('sortType', this.sortType))
+      form.setAttribute('action', url)
+      form.setAttribute('method', 'post')
+      document.body.appendChild(form)
+      form.submit()
+    },
+    generateHideElement (name, value) {
+      var tempInput = document.createElement('input')
+      tempInput.type = 'hidden'
+      tempInput.name = name
+      tempInput.value = value
+      return tempInput
+    },
+    // 排序
+    changeTableSort (column) {
+      // 获取字段名称和排序类型
+      var fieldName = column.prop
+      var sortingType = column.order
+      this.sortName = fieldName
+      // 按照降序排序
+      if (sortingType === 'descending') {
+        this.sortType = 0
+      } else {
+        // 按照升序排序
+        this.sortType = 1
+      }
+      this.loadListFun()
     }
   },
   components: {
+    NsGuideDialog, PopItem
   }
 }
 </script>
