@@ -1,6 +1,6 @@
 <template>
   <div>
-    <ns-page-table :colButton="16">
+    <ns-page-table :colButton="14">
       <!-- 操作按钮 -->
       <template slot="buttons">
         <div class="library-header">
@@ -26,9 +26,14 @@
               placeholder="请输入文件夹或素材标题"
               @keyup.enter.native="quickSearch()"
               style="width: 180px"
+              clearable
             >
-              <Icon type="search" slot="suffix" class="el-input__icon" @click="quickSearch()"/>
+              <!-- <Icon type="search" slot="suffix" class="el-input__icon" @click="quickSearch()"/> -->
             </el-input>
+          </el-form-item>
+          <el-form-item v-if="!quickObj.expanded">
+            <ns-button type="primary" @click="quickSearch">{{$t('operating.search')}}</ns-button>
+            <ns-button @click="resetAction">{{$t('operating.reset')}}</ns-button>
           </el-form-item>
           <el-form-item>
             <ns-button type="text" @click="handleSearchType">
@@ -130,11 +135,11 @@
         <el-row type="flex" class="library-breadcrumb">
           <el-breadcrumb separator-class="el-icon-arrow-right">
             <el-breadcrumb-item
-              v-for="item in breadcrumb"
+              v-for="(item, index) in breadcrumb"
               :key="item.id"
             >
               <span @click="onExchange(item)">{{item.name}}</span>
-              <span v-if="searching">中的搜索结果</span>
+              <span v-if="index === breadcrumb.length - 1 && searching">中的搜索结果</span>
             </el-breadcrumb-item>
           </el-breadcrumb>
           <div class="library-breadcrumb__right">
@@ -199,7 +204,7 @@
               </el-table-column>
               <el-table-column label="发布方" prop="sourceName" :width="130"></el-table-column>
               <el-table-column label="发布时间" prop="createTime" :width="180"></el-table-column>
-              <el-table-column label="操作" fixed="right" :width="150">
+              <el-table-column label="操作" :width="150">
                 <template slot-scope="scope">
                   <ns-table-column-operate-button :buttons="table.operate_buttons" :prop="scope"></ns-table-column-operate-button>
                 </template>
@@ -269,6 +274,7 @@ export default Index
     }
     @b advance {
       @e search {
+        padding-right: 150px;
         >>> .el-input,
         >>> .el-select {
           width: 180px;
