@@ -3,7 +3,6 @@
     <el-popover
       ref="popoverRef"
       placement="right"
-      width="200"
       trigger="click"
     >
       <div class="analysis-popover">
@@ -18,7 +17,7 @@
         </div>
         <div class="analysis-popover__item">
           <span>微信</span>
-          <span>{{ wxNick }}({{ wxAccount }})</span>
+          <span>{{ wxNick }}（{{ wxAccount }}）</span>
         </div>
       </div>
     </el-popover>
@@ -84,12 +83,19 @@ export default {
     }
   }
   @b content {
-    cursor: pointer;
+    display: inline-block;
+    position: relative;
     font-size: 12px;
     line-height: 20px;
+    padding-right: 18px;
+    cursor: pointer;
     svg {
-      margin-left: 5px;
+      position: absolute;
+      top: 4px;
+      right: 0;
       color: #909399;
+      transform: scale(0.9);
+      transform-origin: 0 -1px;
     }
   }
 }
