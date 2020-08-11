@@ -15,7 +15,7 @@
         <div class="label-dialog__search">
           <el-form ref="searchform" label-width="60px" @submit.native.prevent :model="searchform"  :inline="true">
             <el-form-item label="标签名称：" prop="subdivisionName">
-              <el-input v-model="searchform.subdivisionName" placeholder="请输入标签名称" @keyup.enter.native="submitForm()" clearable></el-input>
+              <el-input v-model="searchform.subdivisionName" placeholder="请输入标签名称" @keyup.enter.native="$submitForm$()" clearable></el-input>
             </el-form-item>
             <el-form-item label="更新时间：" prop="time">
               <el-date-picker

@@ -204,8 +204,10 @@ export default {
       }
       this.uploader = this.$loading({ target: '.library-video__form', fullscreen: false, text: '正在上传...' })
     },
-    onBack () {
-      this.$router.push({ path: '/Guide/Material/Library' })
+    onBack (isSave) {
+      // this.$router.push({ path: '/Guide/Material/Library' })
+      let breadcrumb = isSave ? this.catalogue : this.breadcrumb
+      this.$router.push({ name: 'LibraryList', params: { breadcrumb } })
     },
     onSave () {
       this.$refs.form.validate(valid => {
@@ -228,7 +230,7 @@ export default {
       params.imageList = this.imageList
       this.$http.fetch(this.$api.guide.materialEdit, params).then(resp => {
         this.$notify.success('视频素材保存成功')
-        this.onBack()
+        this.onBack(true)
       }).catch(resp => {
         this.$notify.error(getErrorMsg('保存失败', resp))
       }).finally(() => {
@@ -244,15 +246,15 @@ export default {
 }
 </script>
 <style scoped>
-  /* @import "@theme/variables.pcss"; */
+  @import "@theme/variables.pcss";
   @component-namespace library {
     @b video {
       @e extra {
-        font-size: 12px;
+        font-size: var(--default-font-size-small);
         color: #0392fb;
         cursor: pointer;
-        svg + span {
-          margin-left: 5px;
+        i + span, svg + span {
+          margin-left: var(--default-margin-small);
         }
       }
     }
@@ -260,7 +262,7 @@ export default {
       @e text {
         vertical-align: middle;
         & + button {
-          margin-left: 10px;
+          margin-left: var(--default-margin-larger);
         }
       }
     }
@@ -268,22 +270,22 @@ export default {
       padding: 20px 0 30px;
       text-align: center;
       button + button {
-        margin-left: 10px;
+        margin-left: var(--default-margin-larger);
       }
     }
      @b uploader {
       >>> .el-upload--picture-card {
         width: 240px;
         height: 135px;
-        border: solid 1px #DCDFE6;
+        border: solid 1px var(--theme-base-border-color-primary);
         font-size: 24px;
         color: #8c8c8c;
         line-height: 135px;
-        border-radius: 3px;
+        border-radius: var(--default-radius-mini);
         background-color: #fff;
         &:hover {
-          border-color: #0091fa;
-          color: #0091fa;
+          border-color: var(--theme-color-primary);
+          color: var(--theme-color-primary);
         }
       }
     }
@@ -296,7 +298,7 @@ export default {
           left: 1px;
           bottom: 1px;
           right: 1px;
-          border-radius: 3px;
+          border-radius: var(--default-radius-mini);
         }
         >>> .el-loading-spinner {
           margin-top: -24px;
@@ -306,13 +308,13 @@ export default {
         position: relative;
         width: 240px;
         height: 135px;
-        border-radius: 3px;
+        border-radius: var(--default-radius-mini);
         background-color: #fff;
         font-size: 0;
         > video {
           width: 100%;
           height: 100%;
-          border-radius: 3px;
+          border-radius: var(--default-radius-mini);
           object-fit: cover;
         }
       }
@@ -320,8 +322,8 @@ export default {
         position: absolute;
         right: -18px;
         bottom: 0;
-        font-size: 14px;
-        color: #0091fa;
+        font-size: var(--default-font-size-base);
+        color: var(--theme-color-primary);
         line-height: 1;
         svg {
           cursor: pointer;
@@ -335,7 +337,7 @@ export default {
         height: 100%;
         background-color: rgba(0, 0, 0, .25);
         cursor: pointer;
-        border-radius: 3px;
+        border-radius: var(--default-radius-mini);
       }
       @e wrapper {
         position: relative;
@@ -358,13 +360,13 @@ export default {
       padding: 20px 0;
     }
     >>> .el-form-item {
-      margin-bottom: 10px;
+      margin-bottom: var(--default-margin-larger);
       .el-form-item__label {
-        font-size: 14px;
+        font-size: var(--default-font-size-base);
         color: #606266;
       }
       .el-select + .library-video__extra {
-        margin-left: 10px;
+        margin-left: var(--default-margin-larger);
       }
       .el-textarea__inner {
         height: 90px;

@@ -252,8 +252,10 @@ export default {
         return false
       }
     },
-    onBack () {
-      this.$router.push({ path: '/Guide/Material/Library' })
+    onBack (isSave) {
+      // this.$router.push({ path: '/Guide/Material/Library' })
+      let breadcrumb = isSave ? this.catalogue : this.breadcrumb
+      this.$router.push({ name: 'LibraryList', params: { breadcrumb } })
     },
     onSave () {
       this.$refs.form.validate(valid => {
@@ -276,7 +278,7 @@ export default {
       delete params.cardStyle
       this.$http.fetch(this.$api.guide.materialEdit, params).then(resp => {
         this.$notify.success('文章素材保存成功')
-        this.onBack()
+        this.onBack(true)
       }).catch(resp => {
         this.$notify.error(getErrorMsg('保存失败', resp))
       }).finally(() => {
@@ -292,26 +294,26 @@ export default {
 }
 </script>
 <style scoped>
-  /* @import "@theme/variables.pcss"; */
+  @import "@theme/variables.pcss";
   @component-namespace library {
     @b article {
       @e extra {
-        font-size: 12px;
+        font-size: var(--default-font-size-small);
         color: #0392fb;
         cursor: pointer;
         i + span {
-          margin-left: 5px;
+          margin-left: var(--default-margin-small);
         }
       }
     }
     @b card {
-      padding: 10px;
+      padding: var(--default-padding-larger);
       width: 225px;
       background-color: #f7f9fa;
       border-radius: 3px;
-      border: solid 1px #dcdfe6;
+      border: solid 1px var(--theme-base-border-color-primary);
       @e header {
-        padding-bottom: 10px;
+        padding-bottom: var(--default-padding-larger);
         line-height: 1;
         > span {
           display: inline-block;
@@ -325,48 +327,48 @@ export default {
         border-radius: 100%;
       }
       @e title {
-        margin-left: 5px;
-        font-size: 12px;
-        color: #909399;
-        line-height: 20px;
+        margin-left: var(--default-margin-small);
+        font-size: var(--default-font-size-small);
+        color: var(--theme-font-color-secondary);
+        line-height: var(--default-font-line-height);
       }
       @e desc {
-        margin: 5px 0;
-        font-size: 12px;
+        margin: var(--default-margin-small) 0;
+        font-size: var(--default-font-size-small);
         color: #262626;
         cursor: pointer;
         svg + span {
-          margin-left: 5px;
+          margin-left: var(--default-margin-small);
           color: #0392fb;
         }
       }
       @e name {
-        padding-top: 5px;
-        font-size: 12px;
-        color: #909399;
-        line-height: 20px;
+        padding-top: var(--default-padding-small);
+        font-size: var(--default-font-size-small);
+        color: var(--theme-font-color-secondary);
+        line-height: var(--default-font-line-height);
         border-top: solid 1px #d8d8d8;
       }
       >>> .el-form-grid {
         width: 100%;
       }
       >>> .el-form-item {
-        margin-bottom: 5px;
+        margin-bottom: var(--default-margin-small);
       }
     }
     @b uploader {
       >>> .el-upload--picture-card {
         width: 203px;
         height: 203px;
-        border: solid 1px #DCDFE6;
+        border: solid 1px var(--theme-base-border-color-primary);
         font-size: 24px;
         color: #8c8c8c;
         line-height: 203px;
-        border-radius: 3px;
+        border-radius: var(--default-radius-mini);
         background-color: #fff;
         &:hover {
-          border-color: #0091fa;
-          color: #0091fa;
+          border-color: var(--theme-color-primary);
+          color: var(--theme-color-primary);
         }
       }
     }
@@ -375,13 +377,13 @@ export default {
         position: relative;
         width: 203px;
         height: 203px;
-        border-radius: 3px;
+        border-radius: var(--default-radius-mini);
         background-color: #fff;
         font-size: 0;
         > img {
           width: 100%;
           height: 100%;
-          border-radius: 3px;
+          border-radius: var(--default-radius-mini);
           object-fit: cover;
         }
       }
@@ -398,7 +400,7 @@ export default {
         color: #fff;
         text-align: center;
         line-height: 203px;
-        border-radius: 3px;
+        border-radius: var(--default-radius-mini);
         &:hover {
           opacity: 1;
         }
@@ -406,7 +408,7 @@ export default {
           cursor: pointer;
         }
         svg + svg {
-          margin-left: 5px;
+          margin-left: var(--default-margin-small);
         }
       }
     }
@@ -414,7 +416,7 @@ export default {
       @e text {
         vertical-align: middle;
         & + button {
-          margin-left: 10px;
+          margin-left: var(--default-margin-larger);
         }
       }
     }
@@ -422,20 +424,20 @@ export default {
       padding: 20px 0 30px;
       text-align: center;
       button + button {
-        margin-left: 10px;
+        margin-left: var(--default-margin-larger);
       }
     }
     >>> .el-form {
       padding: 20px 0;
     }
     >>> .el-form-item {
-      margin-bottom: 10px;
+      margin-bottom: var(--default-margin-larger);
       .el-form-item__label {
-        font-size: 14px;
-        color: #606266;
+        font-size: var(--default-font-size-base);
+        color: var(--theme-font-color-regular);
       }
       .el-select + .library-article__extra {
-        margin-left: 10px;
+        margin-left: var(--default-margin-larger);
       }
       .el-textarea__inner {
         height: 90px;

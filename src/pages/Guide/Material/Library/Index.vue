@@ -1,6 +1,6 @@
 <template>
   <div>
-    <ns-page-table :colButton="16">
+    <ns-page-table :colButton="14">
       <!-- 操作按钮 -->
       <template slot="buttons">
         <div class="library-header">
@@ -26,9 +26,14 @@
               placeholder="请输入文件夹或素材标题"
               @keyup.enter.native="quickSearch()"
               style="width: 180px"
+              clearable
             >
-              <Icon type="search" slot="suffix" class="el-input__icon" @click="quickSearch()"/>
+              <!-- <Icon type="search" slot="suffix" class="el-input__icon" @click="quickSearch()"/> -->
             </el-input>
+          </el-form-item>
+          <el-form-item v-if="!quickObj.expanded">
+            <ns-button type="primary" @click="quickSearch">{{$t('operating.search')}}</ns-button>
+            <ns-button @click="resetAction">{{$t('operating.reset')}}</ns-button>
           </el-form-item>
           <el-form-item>
             <ns-button type="text" @click="handleSearchType">
@@ -130,11 +135,11 @@
         <el-row type="flex" class="library-breadcrumb">
           <el-breadcrumb separator-class="el-icon-arrow-right">
             <el-breadcrumb-item
-              v-for="item in breadcrumb"
+              v-for="(item, index) in breadcrumb"
               :key="item.id"
             >
               <span @click="onExchange(item)">{{item.name}}</span>
-              <span v-if="searching">中的搜索结果</span>
+              <span v-if="index === breadcrumb.length - 1 && searching">中的搜索结果</span>
             </el-breadcrumb-item>
           </el-breadcrumb>
           <div class="library-breadcrumb__right">
@@ -161,7 +166,7 @@
               @selection-change="onHandleSelectChange"
             >
               <el-table-column type="selection" :width="90"></el-table-column>
-              <el-table-column label="标题" :width="210">
+              <el-table-column label="标题" :min-width="200">
                 <template slot-scope="scope">
                   <div :class="{'library-table__folder': scope.row.isDirectory === 1}" @click="onEnter(scope.row)">
                     <Icon v-if="scope.row.isDirectory === 1" type="wenjianjia-new" />
@@ -175,7 +180,7 @@
                   <table-item v-else :data="scope.row" @preview="togglePreview"></table-item>
                 </template>
               </el-table-column>
-              <el-table-column label="标签" :width="200">
+              <el-table-column label="标签" :min-width="200">
                 <template slot-scope="scope">
                   <span v-if="scope.row.isDirectory === 1">-</span>
                   <el-select
@@ -197,8 +202,8 @@
                   </el-select>
                 </template>
               </el-table-column>
-              <el-table-column label="发布方" prop="sourceName" :width="130"></el-table-column>
-              <el-table-column label="发布时间" prop="createTime" :width="180"></el-table-column>
+              <el-table-column label="发布方" prop="sourceName" :min-width="130"></el-table-column>
+              <el-table-column label="发布时间" prop="createTime" :min-width="180"></el-table-column>
               <el-table-column label="操作" fixed="right" :width="150">
                 <template slot-scope="scope">
                   <ns-table-column-operate-button :buttons="table.operate_buttons" :prop="scope"></ns-table-column-operate-button>
@@ -233,7 +238,6 @@
           @current-change="handlePageChange"
           class="template-table__pagination"
           layout="total, sizes, prev, pager, next, jumper"
-          :style="{'border-radius': listMode === 'list' ? '0 0 3px 3px' : '3px'}"
         >
         </el-pagination>
       </template>
@@ -270,6 +274,7 @@ export default Index
     }
     @b advance {
       @e search {
+        padding-right: 150px;
         >>> .el-input,
         >>> .el-select {
           width: 180px;
@@ -292,7 +297,7 @@ export default Index
       margin: var(--default-margin-larger) 0;
       padding: var(--default-padding-larger) var(--default-padding-small);
       background-color: #fff;
-      border-radius: 4px;
+      border-radius: var(--default-radius-mini);
       align-items: center;
       overflow: hidden;
       @e right {
@@ -311,7 +316,7 @@ export default Index
           color: var(--theme-font-color-secondary);
           cursor: pointer;
           &:hover {
-            color: #0091fa;
+            color: var(--theme-color-primary);
           }
           span + span {
             margin-left: var(--default-margin-larger);
@@ -346,29 +351,30 @@ export default Index
         }
       }
     }
-    >>> .template-table__pagination {
-      padding: 10px;
-    }
-    >>> .el-table--small th {
-      padding: 20px 0 10px;
-      &.el-table-column--selection .cell {
-        padding: 0 15px;
+    >>> .el-table {
+      th {
+        &.el-table-column--selection .cell {
+          padding: 0 14px;
+        }
       }
-    }
-    >>> .el-table--small td {
-      padding: 10px 0;
-      &.el-table-column--selection .cell {
-        padding: 0 15px;
+      td {
+        padding: var(--default-padding-larger) 0;
+        .el-button--text {
+          padding: var(--default-padding-small) 0;
+          margin: 0;
+          border: none;
+        }
+        .el-button--text + .el-button--text {
+          margin-left: 20px;
+        }
+        .el-select .el-input__inner {
+          padding-right: 26px;
+        }
       }
-      .el-button--text {
-        margin: -4px 0;
-        border: none;
-      }
-      .el-button--text + .el-button--text {
-        margin-left: 20px;
-      }
-      .el-select .el-input__inner {
-        padding-right: 26px;
+      tr.hover-row {
+        td {
+          background-color: #F5FBFF;
+        }
       }
     }
   }
