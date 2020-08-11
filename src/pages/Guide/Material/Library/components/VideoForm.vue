@@ -82,7 +82,7 @@
       </el-form-item>
     </el-form>
     <div class="library-footer">
-      <ns-button @click="onBack">取消</ns-button>
+      <ns-button @click="onBack()">取消</ns-button>
       <ns-button type="primary" :loading="loading" @click="onSave">保存</ns-button>
     </div>
     <folder-tree ref="folderTree" @submit="handleFolder"></folder-tree>
@@ -205,9 +205,7 @@ export default {
       this.uploader = this.$loading({ target: '.library-video__form', fullscreen: false, text: '正在上传...' })
     },
     onBack (isSave) {
-      // this.$router.push({ path: '/Guide/Material/Library' })
-      let breadcrumb = isSave ? this.catalogue : this.breadcrumb
-      this.$router.push({ name: 'LibraryList', params: { breadcrumb } })
+      this.$emit('onBack', isSave ? this.catalogue : null)
     },
     onSave () {
       this.$refs.form.validate(valid => {
@@ -221,7 +219,7 @@ export default {
       // 校验推广内容是否是纯空格 或换行
       let tempContent = this.model.content
       if (tempContent.replace(/\s+|[\r\n]/g, '').length === 0) {
-        this.$notify.error('推广文案内容不能为空，不允许提交确定')
+        this.$notify.error('保存失败，推广文案不能输入纯空格或换行')
         this.loading = false
         return
       }
@@ -229,7 +227,7 @@ export default {
       params.parentId = this.catalogue[this.catalogue.length - 1].id
       params.imageList = this.imageList
       this.$http.fetch(this.$api.guide.materialEdit, params).then(resp => {
-        this.$notify.success('视频素材保存成功')
+        this.$notify.success('保存成功')
         this.onBack(true)
       }).catch(resp => {
         this.$notify.error(getErrorMsg('保存失败', resp))
@@ -239,9 +237,7 @@ export default {
     }
   },
   mounted () {
-    if (this.breadcrumb.length) {
-      this.catalogue = this.breadcrumb
-    }
+    this.catalogue = this.breadcrumb && this.breadcrumb.length ? this.breadcrumb : [{ id: 0, name: '素材库' }]
   }
 }
 </script>
