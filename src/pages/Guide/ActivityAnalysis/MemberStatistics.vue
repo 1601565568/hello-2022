@@ -200,7 +200,6 @@ export default {
       await this.$http.fetch(this.$api.guide.sgGuideActivityAnalysis.findList, this.searchObj)
         .then(resp => {
           this.dataList = resp.result.data
-          console.log('this.dataList', this.dataList)
           this.pagination.total = parseInt(resp.result.recordsTotal)
         }).catch(resp => {
           this.$notify.error(getErrorMsg('查询失败', resp))
@@ -219,7 +218,6 @@ export default {
       this.searchObj.dateRange = this.searchform.dateRange
       this.searchObj.time = this.searchform.time
       this.searchObj.guideIds = this.searchform.guideIds
-      console.log('this.searchObj', this.searchObj)
       var url = API_ROOT + '/guide/activityAnalysis/exportData'
       var form = document.createElement('form')
       form.appendChild(this.generateHideElement('analysisType', this.searchObj.analysisType))
