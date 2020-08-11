@@ -284,19 +284,9 @@ export default {
   }
   >>> .label-dialog {
     width: 900px;
-    .el-dialog__header {
-      padding: 20px 30px !important;
-    }
-    .el-dialog__headerbtn {
-      top: 20px !important;
-      right: 30px !important;
-    }
-    .el-dialog__footer {
-      padding: 10px 30px 20px !important;
-    }
   }
   >>> .label-dialog__wrapper {
-    padding: 0 20px 20px;
+    padding: 0 0 10px;
   }
 }
 </style>

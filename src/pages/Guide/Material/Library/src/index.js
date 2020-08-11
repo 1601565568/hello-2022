@@ -395,6 +395,11 @@ export default {
         this.queryLoading && this.queryLoading.close()
       }
     },
+    onMtypeChange (val) {
+      if (val !== 1) {
+        this.model.codeType = ''
+      }
+    },
     /**
      * 标准搜索
      */

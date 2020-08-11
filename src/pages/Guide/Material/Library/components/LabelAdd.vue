@@ -9,12 +9,11 @@
     customClass="labeladd-dialog"
   >
     <div class="labeladd-dialog__wrapper">
-      <el-form ref="form" @submit.native.prevent :rules="rules" :model="model" :inline="true">
+      <el-form ref="form" @submit.native.prevent :rules="rules" :model="model">
         <el-form-item label-width="72px" label="标签名称：" prop="name">
           <el-input
             v-model="model.name"
             placeholder='请输入标签名称，长度在4-20个字符以内'
-            style="width: 268px"
             :input="model.name=model.name.replace(/\s+/g,'')"
             @keyup.enter.native="handleSave"
             clearable
@@ -96,19 +95,9 @@ export default {
 <style scoped>
 >>> .labeladd-dialog {
   width: 400px;
-  .el-dialog__header {
-    padding: 20px 30px !important;
-  }
-  .el-dialog__headerbtn {
-    top: 20px !important;
-    right: 30px !important;
-  }
-  .el-dialog__footer {
-    padding: 10px 30px 20px !important;
-  }
 }
 >>> .labeladd-dialog__wrapper {
   margin-top: 10px;
-  padding: 0 20px 40px;
+  padding: 0 0 30px;
 }
 </style>

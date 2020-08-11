@@ -115,25 +115,15 @@ export default {
 @component-namespace labelmake {
   >>> .labelmake-dialog {
     width: 500px;
-    .el-dialog__header {
-      padding: 20px 30px !important;
-    }
-    .el-dialog__headerbtn {
-      top: 20px !important;
-      right: 30px !important;
-    }
     .el-dialog__body {
-      .el-input {
-        width: 368px;
+      .el-select--small {
+        width: 100%;
       }
-    }
-    .el-dialog__footer {
-      padding: 10px 30px 20px !important;
     }
   }
   >>> .labelmake-dialog__wrapper {
     margin-top: 10px;
-    padding: 0 20px 40px;
+    padding: 0 0px 30px;
   }
 }
 </style>
