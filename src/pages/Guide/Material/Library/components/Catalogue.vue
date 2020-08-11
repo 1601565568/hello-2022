@@ -50,10 +50,10 @@
                   </el-tooltip>
                 </div>
                 <div v-else-if="item.mType === 1" class="catalogue-materials__image">
-                  <img alt="" :src="img" v-for="(img, index) in item.imageList" :key="index" @click="showPreview(index, item)"/>
+                  <img :style="{'width': imageHeight + 'px','height': imageHeight + 'px'}" alt="" :src="img" v-for="(img, index) in item.imageList" :key="index" @click="showPreview(index, item)"/>
                 </div>
                 <div v-else class="catalogue-materials__video">
-                  <video :src="item.imageList[0]">
+                  <video :src="item.imageList[0]" :style="{'height': videoHeight + 'px'}">
                     您的浏览器暂不支持播放该视频，请升级至最新版浏览器。
                   </video>
                   <div class="catalogue-materials__video--mask" @click="showPreview(0, item)">
@@ -137,17 +137,19 @@ export default {
       // 卡片容器宽度
       wrapperW: 0,
       // 卡片宽度
-      width: 296,
+      width: 278,
       // 卡片基础高度
       baseHeight: 220,
-      // 图片高度
-      imageHeight: 82,
+      // 图片高度 - 82
+      originImageHeight: 77,
+      imageHeight: 77,
       // 图片间隔
       imageOffset: 5,
       // 文章高度
       articleHeight: 78,
-      // 视频高度
-      videoHeight: 142,
+      // 视频高度 - 142
+      originVideoHeight: 134,
+      videoHeight: 134,
       // 间距
       offset: 10,
       // 分组数
@@ -218,6 +220,9 @@ export default {
       if (wrapper) {
         this.wrapperW = wrapper.offsetWidth
         this.columnNum = Math.floor((this.wrapperW + this.offset) / (this.width + this.offset)) || 1
+        this.scale = ((this.wrapperW + this.offset) / this.columnNum - this.offset) / this.width
+        this.imageHeight = Math.floor(this.scale * this.originImageHeight)
+        this.videoHeight = Math.floor(this.scale * this.originVideoHeight)
       }
     },
     subdivisionFilter (val) {
@@ -345,10 +350,13 @@ export default {
       }
     }
     @b materials {
+      @e wrapper {
+        display: flex;
+      }
       @e group {
-        display: inline-block;
-        vertical-align: top;
         margin-right: 10px;
+        flex: 1;
+        overflow: hidden;
         &:last-child {
           margin-right: 0;
         }
@@ -356,7 +364,7 @@ export default {
       @e item {
         position: relative;
         margin-top: 10px;
-        width: 296px;
+        min-width: 278px;
         background: #fff;
         border: solid 1px transparent;
         border-radius: 3px;
@@ -364,7 +372,7 @@ export default {
           margin-top: 0;
         }
         @m info {
-          padding: 19px 19px 0;
+          padding: 18px 18px 0;
         }
         @m title {
           font-size: 14px;
@@ -409,17 +417,20 @@ export default {
           float: right;
           font-size: 12px;
           color: #303133;
+          line-height: 28px;
         }
         @m btns {
+          display: flex;
           border-top: solid 1px #dcdfe6;
         }
         @m btn {
           position: relative;
-          display: inline-block;
+          flex: 1;
+          /* display: inline-block; */
           margin: 4px 0;
-          width: 33.333333%;
+          /* width: 33.333333%; */
           font-size: 12px;
-          color:#0392fb;
+          color: #0392fb;
           line-height: 30px;
           text-align: center;
           cursor: pointer;
@@ -480,17 +491,15 @@ export default {
         }
       }
       @e image {
+        margin-right: -6px;
         margin-bottom: -5px;
         img {
           margin: 0 5px 5px 0;
-          width: 82px;
-          height: 82px;
+          width: 77px;
+          height: 77px;
           border-radius: 3px;
           cursor: pointer;
           object-fit: cover;
-          &:nth-child(3n) {
-            margin-right: 0;
-          }
         }
       }
       @e video {
@@ -498,7 +507,7 @@ export default {
         font-size: 0;
         line-height: 1;
         video {
-          width: 256px;
+          width: 100%;
           height: 142px;
           border-radius: 3px;
           object-fit: cover;
