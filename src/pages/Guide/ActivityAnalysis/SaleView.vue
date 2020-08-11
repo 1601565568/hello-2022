@@ -220,7 +220,6 @@ export default {
       await this.$http.fetch(this.$api.guide.sgGuideActivityAnalysis.findList, this.searchObj)
         .then(resp => {
           this.dataList = resp.result.data
-          console.log('this.dataList', this.dataList)
           this.pagination.total = parseInt(resp.result.recordsTotal)
         }).catch(resp => {
           this.$notify.error(getErrorMsg('查询失败', resp))
@@ -230,7 +229,6 @@ export default {
     },
     // 提交搜索
     submitForm (formName) {
-      console.log('this.searchform', this.searchform)
       this.searchObj.start = 0
       this.searchObj.searchMap.type = this.searchform.type
       this.searchObj.searchMap.state = this.searchform.state
@@ -247,7 +245,6 @@ export default {
       this.searchObj.sortOrder = this.searchform.sortOrder
       this.searchObj.sortCriteria = this.searchform.sortCriteria
       this.searchObj.guideIds = this.searchform.guideIds
-      console.log('this.searchObj', this.searchObj)
       var url = API_ROOT + '/guide/activityAnalysis/exportData'
       var form = document.createElement('form')
       form.appendChild(this.generateHideElement('analysisType', this.searchObj.analysisType))
