@@ -54,14 +54,12 @@ export default {
       this.workId = this.detail.workId
       this.$http.fetch(this.$api.guide.sgGuideActivityAnalysis.getGuideMsg, { guideId: this.detail.guideId })
         .then(resp => {
-          if (resp.result.length > 0) {
-            let wxMsg = resp.result[0]
-            this.phoneNum = wxMsg.mobile
-            this.wxNick = wxMsg.weChatNick
-            this.wxAccount = wxMsg.weChatNum
-          }
+          let wxMsg = resp.result
+          this.phoneNum = wxMsg.mobile === null ? '-' : wxMsg.mobile
+          this.wxNick = wxMsg.weChatNick === null ? '-' : wxMsg.weChatNick
+          this.wxAccount = wxMsg.weChatNum === null ? '-' : wxMsg.weChatNum
         }).catch(resp => {
-          this.$notify.error(getErrorMsg('查询失败', resp))
+          this.$notify.error('查询失败', resp)
         })
     }
   }

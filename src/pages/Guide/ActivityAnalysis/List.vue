@@ -123,7 +123,7 @@
         </el-table-column>
         <el-table-column prop="newFriendNum" :sortable="'custom'" label="新增好友数" width="180">
           <template slot-scope="scope">
-            {{scope.row.newFriendNum ? scope.row.newFriendNum : '-'}}
+            {{scope.row.newFriendNum ? scope.row.newFriendNum : 0}}
           </template>
         </el-table-column>
         <el-table-column prop="newCustomerNum" :sortable="'custom'" label="新增会员" width="120">
@@ -255,8 +255,6 @@ export default {
       this.searchObj.date = this.searchform.date
       this.searchObj.dateRange = this.searchform.dateRange
       this.searchObj.time = this.searchform.time
-      this.searchObj.sortName = this.sortName
-      this.searchObj.sortType = this.sortType
       this.searchObj.guideIds = this.searchform.guideIds
       var url = API_ROOT + '/guide/activityAnalysis/exportData'
       var form = document.createElement('form')
@@ -265,6 +263,8 @@ export default {
       form.appendChild(this.generateHideElement('dateRange', this.searchObj.dateRange))
       form.appendChild(this.generateHideElement('time', this.searchObj.time))
       form.appendChild(this.generateHideElement('guideIds', this.searchObj.guideIds))
+      form.appendChild(this.generateHideElement('sortName', this.sortName))
+      form.appendChild(this.generateHideElement('sortType', this.sortType))
       form.setAttribute('action', url)
       form.setAttribute('method', 'post')
       document.body.appendChild(form)
