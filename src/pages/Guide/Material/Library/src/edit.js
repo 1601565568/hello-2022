@@ -21,7 +21,7 @@ export default {
     }
   },
   methods: {
-    onBack (catalogue) {
+    gotoList (catalogue) {
       const { breadcrumb, listMode } = this.$route.params
       this.$router.push({ name: 'LibraryList', params: { breadcrumb: catalogue || breadcrumb, listMode } })
     },
