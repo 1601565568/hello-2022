@@ -205,7 +205,7 @@ export default {
       this.uploader = this.$loading({ target: '.library-video__form', fullscreen: false, text: '正在上传...' })
     },
     onBack (isSave) {
-      this.$emit('onBack', isSave ? this.catalogue : null)
+      this.$emit('back', isSave ? this.catalogue : null)
     },
     onSave () {
       this.$refs.form.validate(valid => {
