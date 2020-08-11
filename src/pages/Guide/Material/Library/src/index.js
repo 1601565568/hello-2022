@@ -22,7 +22,7 @@ export default {
           'type': 'primary',
           'visible': true,
           'func': () => {
-            this.$router.push({ name: 'LibraryEdit', params: { breadcrumb: this.breadcrumb } })
+            this.$router.push({ name: 'LibraryEdit', params: { breadcrumb: this.breadcrumb, listMode: this.listMode } })
           }
         },
         {
@@ -106,7 +106,11 @@ export default {
                 const parent = this.breadcrumb[this.breadcrumb.length - 1]
                 this.$refs.newFolder.show({ type: 'edit', model: { name, id }, parent })
               } else {
-                this.$router.push({ path: '/Guide/Material/Edit', query: { mType, id } })
+                this.$router.push({
+                  name: 'LibraryEdit',
+                  params: { breadcrumb: this.breadcrumb, listMode: this.listMode },
+                  query: { mType, id }
+                })
               }
             }
           },
@@ -146,7 +150,11 @@ export default {
                 const parent = this.breadcrumb[this.breadcrumb.length - 1]
                 this.$refs.newFolder.show({ type: 'edit', model: { name, id }, parent })
               } else {
-                this.$router.push({ path: '/Guide/Material/Edit', query: { mType, id } })
+                this.$router.push({
+                  name: 'LibraryEdit',
+                  params: { breadcrumb: this.breadcrumb, listMode: this.listMode },
+                  query: { mType, id }
+                })
               }
             }
           },
@@ -621,10 +629,11 @@ export default {
     }
   },
   created () {
-    let { breadcrumb } = this.$route.params
+    let { breadcrumb, listMode } = this.$route.params
     if (breadcrumb && breadcrumb.length) {
       this.breadcrumb = breadcrumb
     }
+    this.listMode = listMode || 'waterfall'
     this.setHeight()
     window.addEventListener('resize', this.setHeight)
   },

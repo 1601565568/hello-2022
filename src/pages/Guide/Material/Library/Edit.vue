@@ -15,6 +15,7 @@
           :breadcrumb="breadcrumb"
           @toggleLabel="toggleLabel"
           @togglePreview="togglePreview"
+          @onBack="onBack"
         />
       </el-tab-pane>
     </el-tabs>
