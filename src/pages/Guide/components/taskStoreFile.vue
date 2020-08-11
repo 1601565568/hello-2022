@@ -24,7 +24,7 @@
           </ElForm>
           <div class="taskStore-wrapper__text text-primary">
             <Icon type="exclamation-circle" theme="outlined" />
-            <span>输入多个外部店铺编码用“,”隔开</span>
+            <span>输入多个外部店铺编码用英文版的“,”隔开</span>
           </div>
         </ElTabPane>
         <ElTabPane label="文件导入" name="second">
