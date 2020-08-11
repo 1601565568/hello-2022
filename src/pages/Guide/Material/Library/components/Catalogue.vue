@@ -141,8 +141,8 @@ export default {
       // 卡片基础高度
       baseHeight: 220,
       // 图片高度 - 82
-      originImageHeight: 77,
-      imageHeight: 77,
+      originImageHeight: 78,
+      imageHeight: 78,
       // 图片间隔
       imageOffset: 5,
       // 文章高度
@@ -220,9 +220,9 @@ export default {
       if (wrapper) {
         this.wrapperW = wrapper.offsetWidth
         this.columnNum = Math.floor((this.wrapperW + this.offset) / (this.width + this.offset)) || 1
-        this.scale = ((this.wrapperW + this.offset) / this.columnNum - this.offset) / this.width
-        this.imageHeight = Math.floor(this.scale * this.originImageHeight)
-        this.videoHeight = Math.floor(this.scale * this.originVideoHeight)
+        this.realWidth = (this.wrapperW + this.offset) / this.columnNum - this.offset
+        this.imageHeight = Math.floor((this.realWidth - 44) / (this.width - 44) * this.originImageHeight)
+        this.videoHeight = Math.floor((this.realWidth - 34) / (this.width - 34) * this.originVideoHeight)
       }
     },
     subdivisionFilter (val) {
@@ -372,7 +372,7 @@ export default {
           margin-top: 0;
         }
         @m info {
-          padding: 18px 18px 0;
+          padding: 18px 16px 0;
         }
         @m title {
           font-size: 14px;
@@ -491,12 +491,12 @@ export default {
         }
       }
       @e image {
-        margin-right: -6px;
+        margin-right: -5px;
         margin-bottom: -5px;
         img {
           margin: 0 5px 5px 0;
-          width: 77px;
-          height: 77px;
+          width: 78px;
+          height: 78px;
           border-radius: 3px;
           cursor: pointer;
           object-fit: cover;
