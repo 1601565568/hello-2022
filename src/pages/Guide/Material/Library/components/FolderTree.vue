@@ -133,7 +133,9 @@ export default {
       let queryLoading = this.$loading({ target: '.folder-tree__wrapper', fullscreen: false, text: '正在加载...' })
       return this.$http.fetch(this.$api.guide.getDirectoryTree).then(resp => {
         this.list = [{ id: 0, label: '素材库', children: this.formatList(resp.result) }]
-        this.onExpand(expandData)
+        if (expandData) {
+          this.onExpand(expandData)
+        }
       }).catch(resp => {
         this.$notify.error(getErrorMsg('查询失败', resp))
       }).finally(() => {
