@@ -21,6 +21,10 @@ export default {
     }
   },
   methods: {
+    gotoList (catalogue) {
+      const { breadcrumb, listMode } = this.$route.params
+      this.$router.push({ name: 'LibraryList', params: { breadcrumb: catalogue || breadcrumb, listMode } })
+    },
     handleTabChange (targetName, action) {},
     toggleLabel () {
       this.$refs.labelAdd.show()
@@ -57,7 +61,7 @@ export default {
     let { mType = '1', id } = this.$route.query
     let tabObj = this.tabList.find(o => o.name === `${mType}`)
     this.tabValue = tabObj ? tabObj.name : '1'
-    this.breadcrumb = breadcrumb || []
+    this.breadcrumb = breadcrumb ? JSON.parse(JSON.stringify(breadcrumb)) : []
     this.getLabelList()
     this.getDetail(id)
   }
