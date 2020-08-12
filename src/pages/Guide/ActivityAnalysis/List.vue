@@ -234,6 +234,22 @@ export default {
       this.searchObj.sortName = this.sortName
       this.searchObj.sortType = this.sortType
       this.searchObj.guideIds = this.searchform.guideIds
+      if (this.searchObj.date === '自定义') {
+        if (this.searchObj.dateRange === null || this.searchObj.dateRange === '') {
+          this.$notify.error('查询时间范围时间不能为空')
+          this.loading = false
+          return
+        } else {
+          let startTime = this.searchObj.dateRange[0]
+          let endTime = this.searchObj.dateRange[1]
+          let dateDiff = this.getDateDiff(startTime, endTime, 'day')
+          if (dateDiff > 180) {
+            this.$notify.error('查询时间间隔不能大于180天')
+            this.loading = false
+            return
+          }
+        }
+      }
       await this.$http.fetch(this.$api.guide.sgGuideActivityAnalysis.findList, this.searchObj)
         .then(resp => {
           this.dataList = resp.result.data
@@ -244,6 +260,22 @@ export default {
         })
       this.loading = false
       // 总条数
+    },
+    getDateDiff (startTime, endTime, diffType) {
+      diffType = diffType.toLowerCase()
+      const sTime = startTime // 开始时间
+      const eTime = endTime // 结束时间
+      let divNum = 1 // 作为除数的数字
+      if (diffType === 'second') {
+        divNum = 1000
+      } else if (diffType === 'minute') {
+        divNum = 1000 * 60
+      } else if (diffType === 'hour') {
+        divNum = 1000 * 3600
+      } else {
+        divNum = 1000 * 3600 * 24
+      }
+      return parseInt((eTime.getTime() - sTime.getTime()) / parseInt(divNum))
     },
     // 提交搜索
     submitForm (formName) {
