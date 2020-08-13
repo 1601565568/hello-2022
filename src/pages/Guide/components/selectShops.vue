@@ -178,8 +178,7 @@ export default {
         // 门店分类
         shopCate: {}
       },
-      multipleSelectionArray: [],
-      searchMapCache: {}
+      multipleSelectionArray: []
     }
   },
   /**
@@ -264,19 +263,21 @@ export default {
       this.multipleSelectionLoading = true
       let param = {
         length: 99999999,
-        searchMap: this.searchMapCache
+        searchMap: {
+          shopStatus: 1,
+          shopIds: this.storeInfo.fileIds,
+          shopCate: this.param.shopCate.value,
+          shopId: this.param.shopId,
+          shopType: this.model.shopType,
+          district: this.model.area[2],
+          city: this.model.area[1],
+          province: this.model.area[0]
+        }
       }
       this.$http
         .fetch(this.api, param)
         .then(resp => {
-          const tempArr = []
-          resp.result.data.forEach(o => {
-            let index = this.multipleSelection.findIndex(m => m.id === o.id)
-            if (index < 0) {
-              tempArr.push(o)
-            }
-          })
-          this.multipleSelection = tempArr.concat(this.multipleSelection)
+          this.multipleSelection = resp.result.data
           this.dataList.forEach(data => this.$refs.shopTable.toggleRowSelection(data, true))
         })
         .catch(resp => {
@@ -362,7 +363,6 @@ export default {
           province: this.model.area[0]
         }
       }
-      this.searchMapCache = param.searchMap
       this.$http
         .fetch(this.api, param)
         .then(resp => {
