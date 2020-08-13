@@ -174,7 +174,7 @@ export default {
     showTip (result) {
       const { successSize = 0, failSize = 0 } = result
       const msg = `已成功${successSize}，失败${failSize}（失败原因：店铺关闭、店铺不在视角下、店铺编码错误等）`
-      if (+failSize) {
+      if (+failSize || !(+successSize)) {
         +successSize ? this.$notify.warning(msg) : this.$notify.error(msg)
       } else {
         this.$notify.success(msg)
