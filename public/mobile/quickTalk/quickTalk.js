@@ -234,7 +234,7 @@ function getQuickList (quicklyWord) {
             $('.quick__list').append("<div class='item'>" +
               "<div class='item__radio' id='radioByword" + item.id + "' onclick='clickWord(this)'></div>" +
               // "<div class='item__text' id='word" + item.id + "'onclick='clickWordByWord(this)'>" + codeCompile(item.content) + '</div> </div>')
-              "<div class='item__text' id='word" + item.id + "'onclick='clickWordByWord(this)'> <pre style='font-size: 14px; color:rgb(38, 38, 38);font-family: Microsoft YaHei'>" + codeCompile(item.content) + '</pre></div></div>')
+              "<div class='item__text' id='word" + item.id + "'onclick='clickWordByWord(this)'> <pre style='font-size: 14px; white-space: pre-wrap; color:rgb(38, 38, 38);font-family: Microsoft YaHei'>" + codeCompile(item.content) + '</pre></div></div>')
             // $('#word' + item.id).append(codeCompile(item.content)).html()
             // $('#word' + item.id).val(codeCompile(item.content))
             // window.console.log(' 话术内容=> ' + item.content)
