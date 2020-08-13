@@ -178,7 +178,8 @@ export default {
         // 门店分类
         shopCate: {}
       },
-      multipleSelectionArray: []
+      multipleSelectionArray: [],
+      searchMapCache: {}
     }
   },
   /**
@@ -225,7 +226,7 @@ export default {
     },
     handleSizeChange (val) {
       this.pagination.size = val
-      this.loadListFun(null)
+      this.loadListFun()
     },
     /**
      * 门店分类树点击事件(懒加载)
@@ -263,30 +264,28 @@ export default {
       this.multipleSelectionLoading = true
       let param = {
         length: 99999999,
-        searchMap: {
-          shopStatus: 1,
-          shopIds: this.storeInfo.fileIds,
-          shopCate: this.param.shopCate.value,
-          shopId: this.param.shopId,
-          shopType: this.model.shopType,
-          district: this.model.area[2],
-          city: this.model.area[1],
-          province: this.model.area[0]
-        }
+        searchMap: this.searchMapCache
       }
       this.$http
         .fetch(this.api, param)
         .then(resp => {
-          this.multipleSelection = resp.result.data
+          const tempArr = []
+          resp.result.data.forEach(o => {
+            let index = this.multipleSelection.findIndex(m => m.id === o.id)
+            if (index < 0) {
+              tempArr.push(o)
+            }
+          })
+          this.multipleSelection = tempArr.concat(this.multipleSelection)
           this.dataList.forEach(data => this.$refs.shopTable.toggleRowSelection(data, true))
-          this.multipleSelectionLoading = false
-          this.tableLoading = false
         })
         .catch(resp => {
           this.$notify.error(getErrorMsg('查询失败', resp))
         })
-      // debugger
-      // this.loadListFun(this.models)
+        .finally(() => {
+          this.multipleSelectionLoading = false
+          this.tableLoading = false
+        })
     },
     /**
      * 清空
@@ -307,14 +306,10 @@ export default {
       this.storeInfo.successSize = 0
       this.storeInfo.failSize = 0
       this.storeInfo.fileIds = null
-      this.loadListFun({
-        searchMap: {}
-      })
+      this.loadListFun()
     },
     taskStoreFileBack (val) {
       this.storeInfo = val
-      // window.console.log('上传EXCEL回调的数据=>' + val.successSize)
-      // window.console.log('上传EXCEL回调的数据=>' + this.storeInfo.successSize)
     },
     taskStoreFile () {
       this.$nextTick(() => {
@@ -323,7 +318,6 @@ export default {
     },
     searchAction () { // 搜索功能
       this.pagination.page = 1
-      this.multipleSelection = []
       this.loadListFun()
     },
     onAreaChange () { // 城市切换进行赋值
@@ -348,10 +342,12 @@ export default {
       this.pagination.page = 1
       this.dialogVisible = false
     },
-    loadListFun () {
+    loadListFun (searchObj, hasShopReq) {
       /* 加载表格 */
       this.tableLoading = true
-      this.multipleSelectionLoading = true
+      if (hasShopReq) {
+        this.multipleSelectionLoading = true
+      }
       let param = {
         start: (this.pagination.page - 1) * this.pagination.size,
         length: this.pagination.size,
@@ -366,6 +362,7 @@ export default {
           province: this.model.area[0]
         }
       }
+      this.searchMapCache = param.searchMap
       this.$http
         .fetch(this.api, param)
         .then(resp => {
@@ -382,15 +379,17 @@ export default {
           // this.selected = resp.result.data
         })
         .catch(resp => {
-          this.$notify.error(getErrorMsg('查询失败1', resp))
+          this.$notify.error(getErrorMsg('查询失败', resp))
         })
         .finally(() => {
-          // debugger
+          if (!hasShopReq) {
+            this.tableLoading = false
+            this.multipleSelectionLoading = false
+            return
+          }
           /* 渲染数据 */
           let templateParamsHasArr = this.hasShopArr
           let obj = { searchMap: { shopIds: null } }
-          // console.log('hasShopArr', this.hasShopArr.length)
-          // console.log('this.selected', this.selected.length)
           if (!templateParamsHasArr || templateParamsHasArr.length === 0) {
             this.tableLoading = false
             this.multipleSelectionLoading = false
@@ -417,7 +416,7 @@ export default {
             //   this.$notify.error(getErrorMsg('查询失败', resp))
             // })
             .finally(() => {
-              this.hasShopArr.length = 0
+              // this.hasShopArr.length = 0
               this.tableLoading = false
               this.multipleSelectionLoading = false
             })
@@ -433,10 +432,8 @@ export default {
       this.storeInfo.successSize = 0
       this.storeInfo.failSize = 0
       this.storeInfo.fileIds = null
-      const self = this
-      let params = Object.assign({}, { searchMap: Object.assign({}, this.params) })
-      self.loadListFun(params)
-      self.dialogVisible = true
+      this.loadListFun(null, true)
+      this.dialogVisible = true
     },
     // 取消选择
     toggleSelection (rows) {
@@ -489,9 +486,6 @@ export default {
     },
     // 表格勾选所有数据
     onSelectAll (selectedVaule) {
-      // console.log('表格选中的数组', selectedVaule.length)
-      // console.log('左侧表格的数组', this.dataList.length)
-      // console.log('右侧表格的数组', this.dataList.length)
       if (selectedVaule.length === 0) {
         for (let data of this.dataList) {
           const index = this.multipleSelection.findIndex(d => d['id'] === data['id'])
