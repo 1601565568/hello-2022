@@ -28,8 +28,8 @@
           >
           </el-option>
         </el-select>
-        <span class="library-image__extra" @click="toggleLabel">
-          <i class="el-icon-circle-plus" />
+        <span class="library-icon__extra" @click="toggleLabel">
+          <Icon type="plus"/>
           <span>添加标签</span>
         </span>
       </el-form-item>
@@ -67,7 +67,7 @@
             </el-upload>
           </li>
         </ul>
-        <div class="library-image__extra">
+        <div class="library-icon__extra">
           <Icon type="tishi"/>
           <span>上传图片不能大于1MB；图片最多上传9张（加小程序码的最多8张）</span>
         </div>
@@ -115,7 +115,7 @@
           <el-radio :label="2">单独增加一张小程序码图
           </el-radio>
         </el-radio-group>
-        <div v-if="model.codeType == 2" style='line-height:1.5;' class="library-image__extra">
+        <div v-if="model.codeType == 2" style='line-height:1.5;' class="library-icon__extra">
           <Icon type="info-circle"/>
           <span>生成一张新的小程序码图片，需门店里有对应信息的才会显示</span>
         </div>
@@ -336,18 +336,6 @@ export default {
   @import "@theme/variables.pcss";
   @component-namespace library {
     @b image {
-      @e extra {
-        font-size: var(--default-font-size-small);
-        color: #0392fb;
-        cursor: pointer;
-        svg {
-          font-size: var(--default-font-size-small);
-        }
-        i + span,
-        svg + span {
-          margin-left: var(--default-margin-small);
-        }
-      }
       @e list {
         width: 300px;
         list-style: none;
@@ -416,29 +404,6 @@ export default {
         & + button {
           margin-left: var(--default-margin-larger);
         }
-      }
-    }
-    @b footer {
-      padding: 20px 0 30px;
-      text-align: center;
-      button + button {
-        margin-left: var(--default-margin-larger);
-      }
-    }
-    >>> .el-form {
-      padding: 20px 0;
-    }
-    >>> .el-form-item {
-      margin-bottom: var(--default-margin-larger);
-      .el-form-item__label {
-        font-size: var(--default-font-size-base);
-        color: #606266;
-      }
-      .el-select + .library-image__extra {
-        margin-left: var(--default-margin-larger);
-      }
-      .el-textarea__inner {
-        height: 90px;
       }
     }
     >>> .el-form-grid {

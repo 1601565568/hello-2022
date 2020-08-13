@@ -28,8 +28,8 @@
           >
           </el-option>
         </el-select>
-        <span class="library-article__extra" @click="toggleLabel">
-          <i class="el-icon-circle-plus" />
+        <span class="library-icon__extra" @click="toggleLabel">
+          <Icon type="plus"/>
           <span>添加标签</span>
         </span>
       </el-form-item>
@@ -292,16 +292,6 @@ export default {
 <style scoped>
   @import "@theme/variables.pcss";
   @component-namespace library {
-    @b article {
-      @e extra {
-        font-size: var(--default-font-size-small);
-        color: #0392fb;
-        cursor: pointer;
-        i + span {
-          margin-left: var(--default-margin-small);
-        }
-      }
-    }
     @b card {
       padding: var(--default-padding-larger);
       width: 225px;
@@ -414,29 +404,6 @@ export default {
         & + button {
           margin-left: var(--default-margin-larger);
         }
-      }
-    }
-    @b footer {
-      padding: 20px 0 30px;
-      text-align: center;
-      button + button {
-        margin-left: var(--default-margin-larger);
-      }
-    }
-    >>> .el-form {
-      padding: 20px 0;
-    }
-    >>> .el-form-item {
-      margin-bottom: var(--default-margin-larger);
-      .el-form-item__label {
-        font-size: var(--default-font-size-base);
-        color: var(--theme-font-color-regular);
-      }
-      .el-select + .library-article__extra {
-        margin-left: var(--default-margin-larger);
-      }
-      .el-textarea__inner {
-        height: 90px;
       }
     }
   }

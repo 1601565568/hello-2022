@@ -31,8 +31,26 @@ export default Index
   @import "@theme/variables.pcss";
   @component-namespace library {
     @b wrapper {
-      padding: 20px 20px 0;
+      padding: 20px 0 0;
       background: #fff;
+      >>> .library-icon__extra {
+        font-size: var(--default-font-size-small);
+        color: #0392fb;
+        cursor: pointer;
+        svg + span {
+          margin-left: var(--default-margin-small);
+        }
+      }
+      >>> .library-footer {
+        padding: 5px 0 5px 121px;
+        border-top: 1px solid var(--theme-base-border-color-primary);;
+        button + button {
+          margin-left: var(--default-margin-larger);
+        }
+      }
+      >>> .el-tabs__header {
+        margin: 0 20px;
+      }
       >>> .el-tabs__nav {
         border: none;
         .el-tabs__item {
@@ -57,6 +75,24 @@ export default Index
             color: #fff;
             border-color: var(--head-nav-bg);
             background-color: var(--head-nav-bg);
+          }
+        }
+      }
+      >>> .el-tabs__content {
+        .el-form {
+          padding: 20px;
+        }
+        .el-form-item {
+          margin-bottom: var(--default-margin-larger);
+          .el-form-item__label {
+            font-size: var(--default-font-size-base);
+            color: var(--theme-font-color-regular);
+          }
+          .el-select + .library-icon__extra {
+            margin-left: var(--default-margin-larger);
+          }
+          .el-textarea__inner {
+            height: 90px;
           }
         }
       }
