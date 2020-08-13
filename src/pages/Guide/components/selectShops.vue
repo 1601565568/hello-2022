@@ -277,10 +277,18 @@ export default {
       this.$http
         .fetch(this.api, param)
         .then(resp => {
-          this.multipleSelection = resp.result.data
+          const tempArr = []
+          resp.result.data.forEach(o => {
+            let index = this.multipleSelection.findIndex(m => m.id === o.id)
+            if (index < 0) {
+              tempArr.push(o)
+            }
+          })
+          this.multipleSelection = tempArr.concat(this.multipleSelection)
           this.dataList.forEach(data => this.$refs.shopTable.toggleRowSelection(data, true))
         })
         .catch(resp => {
+          console.log(resp)
           this.$notify.error(getErrorMsg('查询失败', resp))
         })
         .finally(() => {
