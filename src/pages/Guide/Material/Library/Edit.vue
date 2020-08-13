@@ -42,7 +42,7 @@ export default Index
         }
       }
       >>> .library-footer {
-        padding: 5px 0 5px 121px;
+        padding: 5px 0 5px 120px;
         border-top: 1px solid var(--theme-base-border-color-primary);;
         button + button {
           margin-left: var(--default-margin-larger);

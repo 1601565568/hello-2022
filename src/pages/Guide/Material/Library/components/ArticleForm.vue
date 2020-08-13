@@ -1,6 +1,6 @@
 <template>
   <div class="library-article">
-    <el-form ref="form" :model="model" :rules="rules" label-width="98px">
+    <el-form ref="form" :model="model" :rules="rules" label-width="100px">
       <el-form-item label="素材标题：" prop="name">
         <el-input
           type="text"
