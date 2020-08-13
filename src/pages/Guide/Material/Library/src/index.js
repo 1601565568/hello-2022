@@ -316,22 +316,19 @@ export default {
     loadList () {
       const params = this.generateParams()
       params.searchMap.parentId = this.breadcrumb[this.breadcrumb.length - 1].id
+      // 检测是否搜索的仅是素材，如果是，清空folders
+      const excludeIndex = this.excludeQuery.findIndex(key => {
+        return !!params.searchMap[key] || params.searchMap[key] === 0
+      })
       if (this.listMode === 'list') {
-        let index = this.excludeQuery.findIndex(key => {
-          return !!params.searchMap[key]
-        })
-        if (index > -1) {
+        if (excludeIndex > -1) {
           params.searchMap.isDirectory = 0
         }
         this.queryList(params)
       } else {
         this.queryLoading = this.$loading({ target: '.library-wrapper', fullscreen: false, text: '正在加载...' })
         this.queryNum = 2
-        // 检测是否搜索的仅是素材，如果是，清空folders
-        let index = this.excludeQuery.findIndex(key => {
-          return !!params.searchMap[key]
-        })
-        if (index > -1) {
+        if (excludeIndex > -1) {
           this.queryNum--
           this.waterfall.folders = []
         } else {
