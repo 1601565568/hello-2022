@@ -133,7 +133,7 @@ export default {
       this.$http.fetch(this.$api.guide.importFileAndManual, this.uploadData)
         .then(resp => {
           if (resp.success) {
-            this.$notify.info('已成功' + resp.result.successSize + ',失败' + resp.result.failSize + '(失败原因:店铺关闭、店铺不在视角下、店铺编码错误等)')
+            this.showTip(resp.result || {})
             this.storeInfo = resp.result
             this.$emit('callBack', this.storeInfo)
             this.dialogVisible = false
@@ -171,19 +171,26 @@ export default {
       // console.log(value)
       this.dialogVisible = false
     },
+    showTip (result) {
+      const { successSize = 0, failSize = 0 } = result
+      const msg = `已成功${successSize}，失败${failSize}（失败原因：店铺关闭、店铺不在视角下、店铺编码错误等）`
+      if (+failSize) {
+        +successSize ? this.$notify.warning(msg) : this.$notify.error(msg)
+      } else {
+        this.$notify.success(msg)
+      }
+    },
     onSuccess (response, file) {
       if (response.success) {
         this.storeInfo = response.result
         this.uploadData.fileKey = response.result.fileKey
-        this.$notify.info('已成功' + response.result.successSize + ',失败' + response.result.failSize + '(失败原因:店铺关闭、店铺不在视角下、店铺编码错误等)')
-        // window.console.log('解析excel店铺id=>' + this.storeInfo.ids)
+        this.showTip(response.result || {})
       } else {
         this.$refs.uploadRef.clearFiles()
         if (response.code === '1') {
           this.$notify.error('导入文件失败:' + response.msg)
         } else {
           this.$notify.error('操作未成功!')
-          window.console.log('失败回调' + response.msg)
         }
       }
     },
