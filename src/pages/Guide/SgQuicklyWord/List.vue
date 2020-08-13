@@ -42,6 +42,33 @@
           <ns-button type="primary" :disabled="!batchDis" @click="onPatchChangeOpen()">批量分类</ns-button>
           <ns-button type="primary" :disabled="!batchDis" @click="onPatchDelete()">批量删除</ns-button>
         </template>
+        <!-- 快捷搜索 -->
+        <template slot="searchSearch">
+          <el-form :model="model" :inline="true" @submit.native.prevent class="pull-right">
+            <el-form-item v-show="!_data._queryConfig.expand" label="标题：">
+              <el-input
+                ref="quickText"
+                v-model="model.name"
+                placeholder="请输入文件夹或素材标题"
+                @keyup.enter.native="quickSearch()"
+                style="width: 180px"
+                clearable
+              >
+                <!-- <Icon type="search" slot="suffix" class="el-input__icon" @click="quickSearch()"/> -->
+              </el-input>
+            </el-form-item>
+            <el-form-item v-if="!quickObj.expanded">
+              <ns-button type="primary" @click="quickSearch">{{$t('operating.search')}}</ns-button>
+              <ns-button @click="resetAction">{{$t('operating.reset')}}</ns-button>
+            </el-form-item>
+            <el-form-item>
+              <ns-button type="text" @click="handleSearchType">
+                {{quickObj.collapseText}}
+                <Icon :type="quickObj.expanded ? 'up' : 'down'"/>
+              </ns-button>
+            </el-form-item>
+          </el-form>
+        </template>
         <!-- 简单搜索 -->
         <!-- el-form 需添加 @submit.native.prevent 配置 -->
         <!-- el-inpu 需添加  @keyup.enter.native="$quickSearchAction$" 配置，实现回车搜索 -->
