@@ -178,7 +178,8 @@ export default {
         // 门店分类
         shopCate: {}
       },
-      multipleSelectionArray: []
+      multipleSelectionArray: [],
+      searchMapCache: {}
     }
   },
   /**
@@ -263,16 +264,7 @@ export default {
       this.multipleSelectionLoading = true
       let param = {
         length: 99999999,
-        searchMap: {
-          shopStatus: 1,
-          shopIds: this.storeInfo.fileIds,
-          shopCate: this.param.shopCate.value,
-          shopId: this.param.shopId,
-          shopType: this.model.shopType,
-          district: this.model.area[2],
-          city: this.model.area[1],
-          province: this.model.area[0]
-        }
+        searchMap: this.searchMapCache
       }
       this.$http
         .fetch(this.api, param)
@@ -370,6 +362,7 @@ export default {
           province: this.model.area[0]
         }
       }
+      this.searchMapCache = param.searchMap
       this.$http
         .fetch(this.api, param)
         .then(resp => {
