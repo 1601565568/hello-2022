@@ -270,7 +270,7 @@ export default {
       this.dialogVisiblePatchChange = false
       this.addOrEditCategory.visible = false
     },
-    onSaveOpen (row) { // 新增或编辑
+    onSaveOpen (row = {}) { // 新增或编辑
       let arr = Object.keys(row)
       this.dialogFormVisible = true
       this.dialogVisiblePatchChange = false
