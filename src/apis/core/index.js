@@ -69,6 +69,13 @@ export default {
     }
   },
   /**
+   * manualShopIds
+   * @param {string}  manualShopIds 外部门店编码
+   */
+  importFileShopIds: function () {
+    return `${apiConf.API_ROOT}/guide/task/importFileShopIds`
+  },
+  /**
    * @param {string} module 门店指标上传表格
    */
   sgUploadExcel: function () {

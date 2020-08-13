@@ -5,14 +5,21 @@
                 @keyup.enter.native="initShopList(1)">
         <Icon type="search" className="el-input__icon" style="padding: 5px;" slot="suffix" name="name" @click="initShopList(1)"/>
       </el-input>
+      <div style="display: flex;padding-left: 8px" class="changeShopStatus">
+        <p style="margin-right: 5px">状态:</p>
+        <el-checkbox-group @change="changeShopStatus" v-model="checkStatusList">
+          <el-checkbox label =  '1' >正常</el-checkbox>
+          <el-checkbox label = '-1' >暂停</el-checkbox>
+          <el-checkbox label = '-2' >关店</el-checkbox>
+        </el-checkbox-group>
+      </div>
       <el-scrollbar ref='shopTreeDiv' wrapStyle="overflow-x:hidden;" style="padding-bottom: 10px" >
         <el-tree class="filter-tree" ref="guideTree" :data="shopFindList" highlight-current
                  node-key="id" :default-expand-all="false" :expand-on-click-node="false" :default-checked-keys="[0]"
                  :filter-node-method="onFilterNode" @node-click="onClickNode">
           <div class="subdivision-tree-node" slot-scope="{ node }" >
             <span>{{node.label}}</span>
-            <span v-if="node.label === '全部'">
-        </span>
+            <span v-if="node.label === '全部'"></span>
             <!-- 后端返回的是组件，不建议增加status字段 -->
             <!-- <span class="text-error">{{node.status === 2 ? '(员工已离职)':''}}</span> -->
           </div>
@@ -171,9 +178,17 @@
               </template>
             </el-table-column>
 
-            <el-table-column prop="sgExclusiveShopName" label="所属线下门店" align="left">
+            <el-table-column prop="sgExclusiveShopName" align="left">
               <template slot-scope="scope">
                 {{scope.row.sgExclusiveShopName ? scope.row.sgExclusiveShopName : "-"}}
+              </template>
+              <template slot="header">
+                <span>
+                  <span>所属线下门店 </span>
+                  <el-tooltip content="客户专属线下门店">
+                    <Icon type="question-circle"/>
+                  </el-tooltip>
+                </span>
               </template>
             </el-table-column>
             <el-table-column prop="activateTime" label="入会时间" align="center" width="160">
@@ -312,4 +327,11 @@ export default NsTableGuide
 >>> .el-pagination__jump {
   margin-left: unset !important;
 }
+  .changeShopStatus >>> .el-checkbox__input.is-checked+.el-checkbox__label {
+      color: #606266!important;
+  }
+  .text-error_span {
+    display: inline-block;
+    margin-left: 8px;
+  }
 </style>

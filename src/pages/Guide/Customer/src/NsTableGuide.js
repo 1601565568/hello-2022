@@ -16,6 +16,7 @@ export default {
       page: 1,
       total: 0
     }
+
     const tableButtons = [
       {
         'func': function () {
@@ -45,6 +46,7 @@ export default {
         table_buttons: tableButtons,
         quickSearchMap: {}
       },
+      checkStatusList: ['1', '-1'],
       _queryConfig: { expand: false },
       multipleSelection: [],
       select: true,
@@ -71,6 +73,11 @@ export default {
     // 导购树过滤
     filterTreeText (val) {
       this.$refs.guideTree.filter(val)
+    },
+    shopFindList (val) {
+      this.$nextTick(function () {
+        this.appendShopInfo(val)
+      })
     }
   },
   mounted: function () {
@@ -99,6 +106,9 @@ export default {
   methods: {
     moment (time) {
       return moment(time).format('YYYY-MM-DD HH:mm:ss')
+    },
+    changeShopStatus () {
+      this.initShopList()
     },
     onClickNode (data) {
       var _this = this
@@ -214,11 +224,18 @@ export default {
     },
     initShopList (page) {
       this.shopTreePage.page = page || 1
+      if (this.shopTreePage.shopName) {
+        if (this.checkStatusList.length === 0) {
+          this.$notify.info('请先选择店铺状态')
+          return
+        }
+      }
       this.$http.fetch(this.$api.guide.guide.customerGetGuideTree, {
         start: (this.shopTreePage.page - 1) * this.shopTreePage.size,
         length: this.shopTreePage.size,
         searchMap: {
-          shopName: this.shopTreePage.shopName
+          shopName: this.shopTreePage.shopName,
+          shopStatus: this.checkStatusList.join(',')
         }
       }).then(resp => {
         if (resp.success && resp.result !== null) {
@@ -229,6 +246,12 @@ export default {
               this.$refs.guideTree.setCurrentKey(this.shopFindList[0].id)
             })
             this.onClickNode(this.shopFindList[0])
+          } else {
+            this._data._table.data = []
+            this._data._pagination.total = 0
+            this.shuJushuzu.id = ''
+            this.offLineShopId = ''
+            this.$emit('offLineShopId', this.offLineShopId)
           }
         }
       }).catch((resp) => {
@@ -237,6 +260,22 @@ export default {
     },
     shopDel (index) {
       this.guideShopList.splice(index, 1)
+    },
+    appendShopInfo (val) {
+      val.forEach((item, index) => {
+        if (document.getElementsByClassName('subdivision-tree-node')[index].children.length === 1) {
+          let statusInfo = document.createElement('span')
+          statusInfo.className = 'text-error'
+          statusInfo.style = 'display:inline;margin-left:8px'
+          if (item.ext1 && item.ext1 === -1) {
+            statusInfo.innerText = '(暂停)'
+          }
+          if (item.ext1 && item.ext1 === -2) {
+            statusInfo.innerText = '(关店)'
+          }
+          document.getElementsByClassName('subdivision-tree-node')[index].appendChild(statusInfo)
+        }
+      })
     },
     disabled (shopId) {
       let retVal = this.guideShopList.some(item => {
@@ -276,7 +315,7 @@ export default {
     '$handleParams': function (params) {
       var _this = this
       if (_this.shuJushuzu.parentId === '0') {
-        params.searchMap.shopId = Number(_this.shuJushuzu.id)
+        params.searchMap.shopId = _this.shuJushuzu.id === '' ? null : Number(_this.shuJushuzu.id)
       } else {
         params.searchMap.guideId = Number(_this.shuJushuzu.id)
         params.searchMap.shopId = Number(_this.shuJushuzu.parentId)

@@ -152,7 +152,7 @@
 <!--          <el-input type="textarea" placeholder="用'，'号隔开，最多设置五个词" @input="keyWordCheck" v-model="model.keyWord" size="small" rows="3"></el-input>-->
 <!--        </el-form-item>-->
         <el-form-item label="添加人：" prop="addName">
-          <el-input type="text" disabled="true" v-model="model.addName"></el-input>
+          <el-input type="text" disabled v-model="model.addName"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">

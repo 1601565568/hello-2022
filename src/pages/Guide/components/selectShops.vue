@@ -6,39 +6,43 @@
     :close-on-press-escape='true'
     :close-on-click-modal='false'
     :visible.sync="dialogVisible"
-    width="900px" :response-limit=false append-to-body
+    width="928px"
+    :response-limit=false
+    append-to-body
     :before-close="handleClose">
-      <div class="content">
+      <div class="content clearfix">
         <div class="searchAction">
           <div class="searchAction_top">
             <el-form ref="table_filter_form" :model="model" label-width="64px" :inline="true">
-              <el-form-item>
-                <el-form-grid>
-                  <el-form-item label="店铺名称：">
-                    <el-input autofocus=true v-model="model.shopName" placeholder="请输入门店名称" clearable></el-input>
-                  </el-form-item>
-                </el-form-grid>
-                <el-form-grid>
-                  <el-form-item label="门店类型：">
-                    <el-select placeholder="请选择门店类型" v-model="model.shopType" clearable filterable>
-                      <el-option v-for="shop in shopLeiXing" :label="shop.label" :value="shop.value"
-                                 :key="shop.value"></el-option>
-                    </el-select>
-                  </el-form-item>
-                </el-form-grid>
-                <el-form-grid>
-                  <el-form-item label="所属地区：" prop="area">
-                    <ns-area  :props="searchform.key" @change="onAreaChange" v-model="model.area" clearable></ns-area>
-                  </el-form-item>
-                </el-form-grid>
-                <el-form-grid>
-                  <el-form-item>
-                    <ns-button type="primary" @click="searchAction(searchform)">搜索</ns-button>
-                    <ns-button @click="resetInputAction(searchform)">重置</ns-button>
-                  </el-form-item>
-                </el-form-grid>
-              </el-form-item>
+                <el-form-item label="门店名称：">
+                  <el-form-grid>
+                    <ns-droptree ref="shopCateTree" placeholder="线下门店分类" :lazy="true" :load="loadShopCateNode"  :multiple="false" v-model="param.shopCate"  clearable></ns-droptree>
+                  </el-form-grid>
+                  <el-form-grid style="margin-left: 5px">
+                    <el-select-load v-model="param.shopId" :options="shopOptions"  filterable clearable :page-sizes="20" placeholder="线下门店名称搜索">
+                    </el-select-load>
+                  </el-form-grid>
+                </el-form-item>
+                <el-form-item label="门店类型：">
+                  <el-select placeholder="请选择" v-model="model.shopType" clearable>
+                    <el-option v-for="shop in shopLeiXing" :label="shop.label" :value="shop.value"
+                                :key="shop.value"></el-option>
+                  </el-select>
+                </el-form-item>
+                <el-form-item label="所属地区：" >
+                  <ns-area :props="searchform.key" @change="onAreaChange" v-model="model.area" clearable></ns-area>
+                </el-form-item>
+                <el-form-item label="外部店铺编码：" class="selectShopBox-form__extraLabel">
+                  <ns-button type="primary" @click="taskStoreFile">选择</ns-button>
+                  <span class="selectShopBox-form__extraNum">{{storeInfo.successSize}}</span>
+                  <span>家</span>
+                </el-form-item>
             </el-form>
+            <div class="selectShopBox-form__btns">
+              <ns-button type="primary" @click="searchAction(searchform)">搜索</ns-button>
+              <ns-button @click="resetInputAction(searchform)">重置</ns-button>
+              <ns-button @click="onSelectAllData">全选</ns-button>
+            </div>
           </div>
         </div>
         <div class="tableBox">
@@ -51,8 +55,9 @@
               style="width: 100%" v-loading="tableLoading"
               :element-loading-text="$t('prompt.loading')"
               @select="onSelectRow"
-              @select-all="onSelectAll" stripe>
-              <el-table-column type="selection" align="center" :width="50" :reserve-selection="true"></el-table-column>
+              @select-all="onSelectAll"
+              @selection-change="changeFun" stripe>
+              <el-table-column type="selection" align="center" :width="50" ></el-table-column>
               <el-table-column prop="shopName"  label="门店名称"></el-table-column>
             </el-table>
           </el-scrollbar>
@@ -69,7 +74,10 @@
         <div class="selecedBox" v-loading="multipleSelectionLoading"
              :element-loading-text="$t('prompt.loading')">
           <el-scrollbar class="scrollbarb">
-            <div class="tit">已选择<em class="mini-space">{{multipleSelection.length}}</em>家门店</div>
+            <div class="tit clearfix">
+              <span>已选择 <em>{{multipleSelection.length}}</em> 家门店</span>
+              <span class="text-primary" @click="cleanSelect()">清空</span>
+            </div>
             <ul class="list">
               <li v-for="(item) in multipleSelection" :key="item.id">
                 <span class="name">{{item.shopName}}</span>
@@ -84,7 +92,9 @@
         <ns-button  type="primary" @click="okFun">确定</ns-button>
       </div>
   </el-dialog>
-  <ns-button  type="primary" @click="openFun">选择门店</ns-button> 已选择<span class="text-error mini-space">{{hasShopArr.length}}</span>家门店
+  <ns-button  type="primary" @click="openFun">选择门店</ns-button> 已选择<span class="text-error">{{hasShopArr.length}}</span>家门店
+  <taskStoreFile ref="taskStoreFileDialog" @callBack="taskStoreFileBack" ></taskStoreFile>
+<!--  <importQuota ref="importQuotaDialog" :callBack="loadListFun"></importQuota>-->
 </div>
 </template>
 <script>
@@ -92,6 +102,10 @@ import listPageMixin from '@/mixins/listPage'
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import NsArea from '@nascent/ecrp-ecrm/src/components/NsArea'
 import { getErrorMsg } from '@/utils/toast'
+import taskStoreFile from './taskStoreFile'
+import NsDroptree from '@nascent/ecrp-ecrm/src/components/NsDroptree'
+import ElSelectLoad from '@nascent/nui/lib/select-load'
+import moment from 'moment'
 export default {
   props: {
     api: {
@@ -114,15 +128,19 @@ export default {
     return {
       tableLoading: false,
       dialogVisible: false,
+      storeInfo: {
+        successSize: 0,
+        failSize: 0,
+        fileIds: null
+      },
       dataList: [],
       multipleSelection: [],
       selected: [],
       model: {
-        shopName: null,
-        shopType: null,
         children: null,
         disabled: null,
         city: null,
+        shopType: null,
         area: []
       },
       models: {
@@ -146,22 +164,161 @@ export default {
           disabled: 'disabled'
         }
       },
-      multipleSelectionLoading: false
+      multipleSelectionLoading: false,
+      // 门店分类树
+      shopCateTree: [],
+      // 门店选择option
+      shopOptions: [],
+      allShopOptions: [],
+      param: {
+        // 搜索名称
+        name: '',
+        shopId: '',
+        shopIds: '',
+        // 门店分类
+        shopCate: {}
+      },
+      multipleSelectionArray: [],
+      searchMapCache: {}
+    }
+  },
+  /**
+   * 级联改造 start
+   * 选中工作门店 分类
+   */
+  watch: {
+    'param.shopCate': function (o1, o2) {
+      let shopOptions = []
+      this.param.shopId = ''
+      this.param.shopIds = ''
+      if (!o1.value || o1.value !== o2.value) {
+        if (o1.value === 0) {
+          this.shopOptions = this.allShopOptions
+          return
+        }
+        this.allShopOptions.map(item => {
+          if (!o1.value || (item.ext && item.ext.indexOf(o1.value) !== -1)) {
+            shopOptions.push(item)
+          }
+        })
+        this.shopOptions = shopOptions
+      }
     }
   },
   methods: {
+    /**
+     * 级联改造 start
+     * 获取门店分类，所有门店选项
+     */
+    changeFun (val) {
+      this.multipleSelectionArray = val // 返回的是选中的列的数组集合
+    },
+    getShopCateAndShop: function () {
+      let that = this
+      that.$http.fetch(that.$api.core.sysShop.getShopTree)
+        .then((resp) => {
+          that.shopCateTree = resp.result.shopCateTree
+          that.allShopOptions = resp.result.shopOptions
+          that.shopOptions = resp.result.shopOptions
+        }).catch(() => {
+          that.$notify.error('加载下拉树、下拉框数据失败')
+        })
+    },
+    handleSizeChange (val) {
+      this.pagination.size = val
+      this.loadListFun()
+    },
+    /**
+     * 门店分类树点击事件(懒加载)
+     * @param node
+     * @param resolve
+     * @returns {*}
+     */
+    loadShopCateNode (node, resolve) {
+      let shopCateTree = this.shopCateTree
+      if (node.level === 0) { // 第一次调用
+        return resolve([{
+          id: 0,
+          parentId: -1,
+          code: 0,
+          label: '全部'
+        }])
+      }
+      if (node.level >= 1) {
+        // 点击之后触发
+        let filter = shopCateTree.filter(data => {
+          return parseInt(data.parentId) === parseInt(node.data.id)
+        })
+        if (filter && filter.length > 0) {
+          resolve(filter)
+        } else {
+          resolve([])
+        }
+      }
+    },
+    /**
+     * 全选
+     */
+    onSelectAllData () {
+      this.tableLoading = true
+      this.multipleSelectionLoading = true
+      let param = {
+        length: 99999999,
+        searchMap: this.searchMapCache
+      }
+      this.$http
+        .fetch(this.api, param)
+        .then(resp => {
+          const tempArr = []
+          resp.result.data.forEach(o => {
+            let index = this.multipleSelection.findIndex(m => m.id === o.id)
+            if (index < 0) {
+              tempArr.push(o)
+            }
+          })
+          this.multipleSelection = tempArr.concat(this.multipleSelection)
+          this.dataList.forEach(data => this.$refs.shopTable.toggleRowSelection(data, true))
+        })
+        .catch(resp => {
+          this.$notify.error(getErrorMsg('查询失败', resp))
+        })
+        .finally(() => {
+          this.multipleSelectionLoading = false
+          this.tableLoading = false
+        })
+    },
+    /**
+     * 清空
+     * */
+    cleanSelect () {
+      this.$refs.shopTable.clearSelection()
+      this.multipleSelection = []
+    },
+    /**
+     * 级联改造 end
+     * */
     resetInputAction () { // 重置功能
+      this.param.shopId = null
+      this.param.shopCate = 0
       this.model.shopName = null
       this.model.area = []
       this.model.shopType = null
-      this.loadListFun({
-        searchMap: {}
+      this.storeInfo.successSize = 0
+      this.storeInfo.failSize = 0
+      this.storeInfo.fileIds = null
+      this.loadListFun()
+    },
+    taskStoreFileBack (val) {
+      this.storeInfo = val
+    },
+    taskStoreFile () {
+      this.$nextTick(() => {
+        this.$refs.taskStoreFileDialog.onOpendialog()
       })
     },
     searchAction () { // 搜索功能
-      this.models.searchMap = this.model
-      this.selected = this.multipleSelection
-      this.loadListFun(this.models)
+      this.pagination.page = 1
+      this.loadListFun()
     },
     onAreaChange () { // 城市切换进行赋值
       let that = this
@@ -185,44 +342,98 @@ export default {
       this.pagination.page = 1
       this.dialogVisible = false
     },
-    loadListFun (data) {
+    loadListFun (searchObj, hasShopReq) {
+      /* 加载表格 */
       this.tableLoading = true
-      this.multipleSelectionLoading = true
-      let searchObj = data || this.searchObj
-      if (searchObj.length == null) {
-        searchObj.length = 15
+      if (hasShopReq) {
+        this.multipleSelectionLoading = true
       }
-      searchObj.searchMap.shopStatus = 1
+      let param = {
+        start: (this.pagination.page - 1) * this.pagination.size,
+        length: this.pagination.size,
+        searchMap: {
+          shopStatus: 1,
+          shopIds: this.storeInfo.fileIds,
+          shopCate: this.param.shopCate.value,
+          shopId: this.param.shopId,
+          shopType: this.model.shopType,
+          district: this.model.area[2],
+          city: this.model.area[1],
+          province: this.model.area[0]
+        }
+      }
+      this.searchMapCache = param.searchMap
       this.$http
-        .fetch(this.api, searchObj)
+        .fetch(this.api, param)
         .then(resp => {
           this.dataList = resp.result.data
           this.pagination.total = parseInt(resp.result.recordsTotal)
-          this.tableLoading = false
-          this.$nextTick(function () {
-            if (this.selected.length <= 0) {
-              this.findShopInfo(this.hasShopArr)
-            } else {
-              let hasArr = []
-              this.selected.forEach(hasShopItem => {
-                hasArr.push(hasShopItem.id)
-              })
-              this.findShopInfo(hasArr)
+          this.$nextTick(() => {
+            for (let data of this.dataList) {
+              const index = this.multipleSelection.findIndex(d => d['id'] === data['id'])
+              if (index > -1) {
+                this.$refs.shopTable.toggleRowSelection(data, true)
+              }
             }
           })
-          this.pagination.total = parseInt(resp.result.recordsTotal)
+          // this.selected = resp.result.data
         })
         .catch(resp => {
           this.$notify.error(getErrorMsg('查询失败', resp))
         })
+        .finally(() => {
+          if (!hasShopReq) {
+            this.tableLoading = false
+            this.multipleSelectionLoading = false
+            return
+          }
+          /* 渲染数据 */
+          let templateParamsHasArr = this.hasShopArr
+          let obj = { searchMap: { shopIds: null } }
+          if (!templateParamsHasArr || templateParamsHasArr.length === 0) {
+            this.tableLoading = false
+            this.multipleSelectionLoading = false
+            return
+          } else {
+            obj.searchMap = {
+              shopIds: templateParamsHasArr.join(',')
+            }
+          }
+          this.$http
+            .fetch(this.$api.guide.guide.findShopInfoByIds, obj)
+            .then(resp => {
+              this.$nextTick(function () {
+                this.multipleSelection = resp.result.data
+                for (let data of this.dataList) {
+                  const index = this.multipleSelection.findIndex(d => d['id'] === data['id'])
+                  if (index > -1) {
+                    this.$refs.shopTable.toggleRowSelection(data, true)
+                  }
+                }
+              })
+            })
+            // .catch(resp => {
+            //   this.$notify.error(getErrorMsg('查询失败', resp))
+            // })
+            .finally(() => {
+              // this.hasShopArr.length = 0
+              this.tableLoading = false
+              this.multipleSelectionLoading = false
+            })
+        })
     },
     // 打开弹窗回显已经选择的门店
     openFun () {
-      const self = this
-      let params = Object.assign({}, { searchMap: Object.assign({}, this.params) })
-      // this.$set(this, 'multipleSelection', undefined === this.hasShopArr ? [] : JSON.parse(JSON.stringify(this.hasShopArr)))
-      self.loadListFun(params)
-      self.dialogVisible = true
+      this.param.shopId = null
+      this.param.shopCate = 0
+      this.model.shopName = null
+      this.model.area = []
+      this.model.shopType = null
+      this.storeInfo.successSize = 0
+      this.storeInfo.failSize = 0
+      this.storeInfo.fileIds = null
+      this.loadListFun(null, true)
+      this.dialogVisible = true
     },
     // 取消选择
     toggleSelection (rows) {
@@ -274,13 +485,21 @@ export default {
       }
     },
     // 表格勾选所有数据
-    onSelectAll (selected) {
-      if (selected.length === 0) {
-        for (var i = 0; i < this.dataList.length; i++) {
-          this.onSelectRow(selected, this.dataList[i])
+    onSelectAll (selectedVaule) {
+      if (selectedVaule.length === 0) {
+        for (let data of this.dataList) {
+          const index = this.multipleSelection.findIndex(d => d['id'] === data['id'])
+          if (index > -1) {
+            this.multipleSelection.splice(index, 1)
+          }
         }
       } else {
-        this.multipleSelection = this.uniqueArray(this.multipleSelection.concat(selected))
+        for (let data of selectedVaule) {
+          const index = this.multipleSelection.findIndex(d => d['id'] === data['id'])
+          if (index === -1) {
+            this.multipleSelection.push(data)
+          }
+        }
       }
     },
     /**
@@ -317,34 +536,10 @@ export default {
           }
         }
       }
+      this.selected = this.dataList
     },
     getRowKey (row) {
       return row.id
-    },
-    async findShopInfo (shopArr) {
-      if (!shopArr || shopArr.length <= 0) {
-        this.multipleSelectionLoading = false
-        return
-      }
-      let obj = {}
-      obj.searchMap = {
-        shopIds: shopArr.join(',')
-      }
-      await this.$http
-        .fetch(this.$api.guide.guide.findShopInfoByIds, obj)
-        .then(resp => {
-          let shopData = []
-          shopData = resp.result.data
-          this.selected = shopData
-          this.multipleSelection = this.selected
-          this.transData(this.selected, this.dataList)
-        })
-        .catch(resp => {
-          this.$notify.error(getErrorMsg('查询失败', resp))
-        })
-        .finally(() => {
-          this.multipleSelectionLoading = false
-        })
     },
     transData (selected, rows) {
       for (var i = 0; i < rows.length; i++) {
@@ -365,19 +560,16 @@ export default {
       this.dialogVisible = false
     }
   },
+  mounted: function () {
+    this.getShopCateAndShop()
+  },
   components: {
+    ElSelectLoad,
+    taskStoreFile,
+    NsDroptree,
     NsArea
   },
   computed: {}
-  // watch: {
-  //   multipleSelection: {
-  //     handler (nVal, oVal) {
-  //       console.log(111, nVal)
-  //       console.log(222, oVal)
-  //     },
-  //     deep: true
-  //   }
-  // }
 }
 </script>
 <style scoped>
@@ -394,25 +586,26 @@ export default {
       font-size: 14px;
       height: 32px;
       line-height: 32px;
-      padding: 0 var(--default-padding-small);
       border-bottom: 1px solid #f2f2f2;
       em {
         font-style: normal;
         color: #f00;
       }
+      >>> .text-primary {
+        float: right;
+        cursor: pointer;
+      }
     }
     .list {
-      padding: 0;
+      padding: 3px 0;
       margin: 0;
       list-style: none;
       li {
-        line-height: 30px;
+        line-height: 26px;
         color: #999;
-        height: 30px;
-        padding: 0 var(--default-padding-small);
-        &:nth-child(2n-1) {
-           background-color: #f8f9fb;
-         }
+        height: 26px;
+        margin-bottom: 3px;
+        border-bottom: 1px dashed #f2f2f2;
         .name {
           float: left;
         }
@@ -422,31 +615,40 @@ export default {
           cursor: pointer;
         }
         &:hover {
-           background-color: #f5fbff;
+          border-bottom: 1px dashed #41a2e8;
         }
       }
+    }
+  }
+  @b form {
+    @e extraLabel {
+      margin-left: 5px;
+      >>> .el-form-item__label {
+        width: auto !important;
+      }
+    }
+    @e extraNum {
+      padding: 0 6px;
+      color: #ff3d45;
+    }
+    @e btns {
+      position: absolute;
+      top: 0;
+      right: 0;
     }
   }
 }
 </style>
 <style scoped>
-  @import "@theme/variables.pcss";
   .searchAction{
     display: flex;
     justify-content: space-between;
-    padding-right:20px
   }
   .searchAction_top{
-    margin-top:6px
-  }
-  /*.scrollbara >>> .el-scrollbar__view {*/
-  /*  max-height: 400px;*/
-  /*}*/
-  /*.scrollbarb >>> .el-scrollbar__view {*/
-  /*  max-height: 300px;*/
-  /*}*/
-  >>> .el-dialog__body {
-    height: 440px;
+    position: relative;
+    margin-top: 6px;
+    padding-right: 230px;
+    padding-bottom: 10px;
   }
   >>> .el-scrollbar__wrap {
     height: 380px;
@@ -454,8 +656,5 @@ export default {
   }
   >>> .el-icon-circle-check {
     display: none;
-  }
-  .mini-space {
-    margin: 0 var(--default-margin-mini);
   }
 </style>

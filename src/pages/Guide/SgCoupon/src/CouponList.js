@@ -203,7 +203,8 @@ export default {
           if (temporaryIndex === 0) {
             _this.storeModel.couponValue = temporaryCouponValue
           }
-          _this.storeModel.couponValue = _this.storeCouponList[i].storeCouponValue
+          // _this.storeModel.couponValue = _this.storeCouponList[i].storeCouponValue
+          // console.log('优惠券value', _this.storeModel.couponValue)
           _this.storeModel.couponTotal = Number(_this.storeCouponList[i].maxIssueAmount)
           _this.storeModel.maxType = Number(_this.storeCouponList[i].maxIssueAmount)
           _this.storeModel.dateType = Number(_this.storeCouponList[i].dateValidType)
