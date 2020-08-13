@@ -113,7 +113,7 @@
             {{scope.row.workId ? scope.row.workId : '-'}}
           </template>
         </el-table-column>
-        <el-table-column prop="name" label="工作门店" align="left">
+        <el-table-column prop="name" label="门店" align="left">
           <template slot-scope="scope">
             {{scope.row.shopName ? scope.row.shopName : '-'}}
           </template>
@@ -128,9 +128,9 @@
             {{scope.row.personalRecruitNum ? scope.row.personalRecruitNum : 0}}
           </template>
         </el-table-column>
-        <el-table-column prop="personalRecruitRate" :sortable="'custom'" label="个号招募占比" align="left">
+        <el-table-column prop="personalRecruitRate" :sortable="'custom'" label="个号招募比例" align="left">
           <template slot-scope="scope">
-            {{scope.row.personalRecruitRate ? scope.row.personalRecruitRate : 0}}
+            {{scope.row.personalRecruitRate ? scope.row.personalRecruitRate + '%' : 0}}
           </template>
         </el-table-column>
       </el-table>
@@ -242,6 +242,11 @@ export default {
     // 提交搜索
     submitForm (formName) {
       // 组装搜索对象
+      this.loadListFun()
+    },
+    resetForm () {
+      this.searchform.date = '昨天'
+      this.searchform.guideIds = []
       this.loadListFun()
     },
     exportData () {

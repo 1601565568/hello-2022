@@ -116,12 +116,12 @@
             {{scope.row.workId ? scope.row.workId : '-'}}
           </template>
         </el-table-column>
-        <el-table-column prop="name" label="工作门店" width="180" fixed>
+        <el-table-column prop="name" label="门店" width="180" fixed>
           <template slot-scope="scope">
             {{scope.row.shopName ? scope.row.shopName : '-'}}
           </template>
         </el-table-column>
-        <el-table-column prop="newFriendNum" :sortable="'custom'" label="新增好友数" width="180">
+        <el-table-column prop="newFriendNum" :sortable="'custom'" label="新增好友" width="180">
           <template slot-scope="scope">
             {{scope.row.newFriendNum ? scope.row.newFriendNum : 0}}
           </template>
@@ -148,7 +148,7 @@
         </el-table-column>
         <el-table-column prop="clientReplyRate" :sortable="'custom'" label="客户回复率" width="140">
           <template slot-scope="scope">
-            {{scope.row.clientReplyRate ? scope.row.clientReplyRate : 0}}
+            {{scope.row.clientReplyRate ? scope.row.clientReplyRate + '%' : 0}}
           </template>
         </el-table-column>
         <el-table-column prop="receivePrivateChatNum" :sortable="'custom'" label="客户发起会话数" width="140">
@@ -166,7 +166,7 @@
             {{scope.row.notReplayNum ? scope.row.notReplayNum : 0}}
           </template>
         </el-table-column>
-        <el-table-column prop="averageReplyTime" :sortable="'custom'" label="平均响应时间" width="140">
+        <el-table-column prop="averageReplyTime" :sortable="'custom'" label="平均首次响应时长" width="140">
           <template slot-scope="scope">
             {{scope.row.averageReplyTime ? scope.row.averageReplyTime : 0}}
           </template>
@@ -279,6 +279,11 @@ export default {
     // 提交搜索
     submitForm (formName) {
       // 组装搜索对象
+      this.loadListFun()
+    },
+    resetForm () {
+      this.searchform.date = '昨天'
+      this.searchform.guideIds = []
       this.loadListFun()
     },
     exportData () {

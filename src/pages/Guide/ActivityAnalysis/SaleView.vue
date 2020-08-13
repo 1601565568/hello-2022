@@ -113,7 +113,7 @@
             {{scope.row.workId ? scope.row.workId : '-'}}
           </template>
         </el-table-column>
-        <el-table-column prop="name" label="工作门店" align="left">
+        <el-table-column prop="name" label="门店" align="left">
           <template slot-scope="scope">
             {{scope.row.shopName ? scope.row.shopName : '-'}}
           </template>
@@ -148,9 +148,9 @@
             {{scope.row.friendBuyerNum ? scope.row.friendBuyerNum : 0}}
           </template>
         </el-table-column>
-        <el-table-column prop="friendBuyerNum" :sortable="'custom'" label="平均好友购买率" align="left">
+        <el-table-column prop="friendBuyerRate" :sortable="'custom'" label="平均好友购买率" align="left">
           <template slot-scope="scope">
-            {{scope.row.friendBuyerRate ? scope.row.friendBuyerRate : 0}}
+            {{scope.row.friendBuyerRate ? scope.row.friendBuyerRate + '%' : 0}}
           </template>
         </el-table-column>
       </el-table>
@@ -267,6 +267,11 @@ export default {
       this.searchObj.searchMap.name = this.searchform.name
 
       // 组装搜索对象
+      this.loadListFun()
+    },
+    resetForm () {
+      this.searchform.date = '昨天'
+      this.searchform.guideIds = []
       this.loadListFun()
     },
     exportData () {
