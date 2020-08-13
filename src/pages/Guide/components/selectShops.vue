@@ -288,7 +288,6 @@ export default {
           this.dataList.forEach(data => this.$refs.shopTable.toggleRowSelection(data, true))
         })
         .catch(resp => {
-          console.log(resp)
           this.$notify.error(getErrorMsg('查询失败', resp))
         })
         .finally(() => {
