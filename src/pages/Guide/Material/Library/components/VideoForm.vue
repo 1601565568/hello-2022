@@ -1,6 +1,6 @@
 <template>
   <div class="library-video">
-    <el-form ref="form" :model="model" :rules="rules" label-width="98px">
+    <el-form ref="form" :model="model" :rules="rules" label-width="100px">
       <el-form-item label="素材标题：" prop="name">
         <el-input
           type="text"
@@ -28,8 +28,8 @@
           >
           </el-option>
         </el-select>
-        <span class="library-video__extra" @click="toggleLabel">
-          <i class="el-icon-circle-plus" />
+        <span class="library-icon__extra" @click="toggleLabel">
+          <Icon type="plus"/>
           <span>添加标签</span>
         </span>
       </el-form-item>
@@ -71,7 +71,7 @@
             </el-upload>
           </div>
         </div>
-        <div class="library-video__extra">
+        <div class="library-icon__extra">
           <Icon type="tishi"/>
           <span>上传视频限制大小为10MB，格式为MP4</span>
         </div>
@@ -82,8 +82,8 @@
       </el-form-item>
     </el-form>
     <div class="library-footer">
-      <ns-button @click="onBack()">取消</ns-button>
       <ns-button type="primary" :loading="loading" @click="onSave">保存</ns-button>
+      <ns-button @click="onBack()">取消</ns-button>
     </div>
     <folder-tree ref="folderTree" @submit="handleFolder"></folder-tree>
   </div>
@@ -244,16 +244,6 @@ export default {
 <style scoped>
   @import "@theme/variables.pcss";
   @component-namespace library {
-    @b video {
-      @e extra {
-        font-size: var(--default-font-size-small);
-        color: #0392fb;
-        cursor: pointer;
-        i + span, svg + span {
-          margin-left: var(--default-margin-small);
-        }
-      }
-    }
     @b catalogue {
       @e text {
         vertical-align: middle;
@@ -262,14 +252,7 @@ export default {
         }
       }
     }
-    @b footer {
-      padding: 20px 0 30px;
-      text-align: center;
-      button + button {
-        margin-left: var(--default-margin-larger);
-      }
-    }
-     @b uploader {
+    @b uploader {
       >>> .el-upload--picture-card {
         width: 240px;
         height: 135px;
@@ -350,22 +333,6 @@ export default {
           font-size: 16px;
           color: #fff;
         }
-      }
-    }
-    >>> .el-form {
-      padding: 20px 0;
-    }
-    >>> .el-form-item {
-      margin-bottom: var(--default-margin-larger);
-      .el-form-item__label {
-        font-size: var(--default-font-size-base);
-        color: #606266;
-      }
-      .el-select + .library-video__extra {
-        margin-left: var(--default-margin-larger);
-      }
-      .el-textarea__inner {
-        height: 90px;
       }
     }
   }

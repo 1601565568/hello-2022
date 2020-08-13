@@ -1,6 +1,6 @@
 <template>
   <div class="library-article">
-    <el-form ref="form" :model="model" :rules="rules" label-width="98px">
+    <el-form ref="form" :model="model" :rules="rules" label-width="100px">
       <el-form-item label="素材标题：" prop="name">
         <el-input
           type="text"
@@ -28,8 +28,8 @@
           >
           </el-option>
         </el-select>
-        <span class="library-article__extra" @click="toggleLabel">
-          <i class="el-icon-circle-plus" />
+        <span class="library-icon__extra" @click="toggleLabel">
+          <Icon type="plus"/>
           <span>添加标签</span>
         </span>
       </el-form-item>
@@ -107,8 +107,8 @@
       </el-form-item>
     </el-form>
     <div class="library-footer">
-      <ns-button @click="onBack()">取消</ns-button>
       <ns-button type="primary" :loading="loading" @click="onSave">保存</ns-button>
+      <ns-button @click="onBack()">取消</ns-button>
     </div>
     <folder-tree ref="folderTree" @submit="handleFolder"></folder-tree>
   </div>
@@ -292,16 +292,6 @@ export default {
 <style scoped>
   @import "@theme/variables.pcss";
   @component-namespace library {
-    @b article {
-      @e extra {
-        font-size: var(--default-font-size-small);
-        color: #0392fb;
-        cursor: pointer;
-        i + span {
-          margin-left: var(--default-margin-small);
-        }
-      }
-    }
     @b card {
       padding: var(--default-padding-larger);
       width: 225px;
@@ -414,29 +404,6 @@ export default {
         & + button {
           margin-left: var(--default-margin-larger);
         }
-      }
-    }
-    @b footer {
-      padding: 20px 0 30px;
-      text-align: center;
-      button + button {
-        margin-left: var(--default-margin-larger);
-      }
-    }
-    >>> .el-form {
-      padding: 20px 0;
-    }
-    >>> .el-form-item {
-      margin-bottom: var(--default-margin-larger);
-      .el-form-item__label {
-        font-size: var(--default-font-size-base);
-        color: var(--theme-font-color-regular);
-      }
-      .el-select + .library-article__extra {
-        margin-left: var(--default-margin-larger);
-      }
-      .el-textarea__inner {
-        height: 90px;
       }
     }
   }
