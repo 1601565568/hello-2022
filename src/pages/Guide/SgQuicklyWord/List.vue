@@ -1,68 +1,47 @@
 <template>
-  <div id='SgQuicklyWordPage'>
-    <div id="box_left">
-      <ns-button type="primary" @click="onSaveQuicklyWordGroupOpen">新增分类</ns-button>
-      <div>
+  <div class="template-page__row">
+    <div class="template-page__row-left">
+      <ns-button type="primary" @click="onAddCategory">新增分类</ns-button>
+      <div class="speech-left__search">
         <el-input
-          ref="quickText"
-          placeholder="请输入文件夹或素材标题"
+          placeholder="请输入分类名称"
+          v-model="categoryModel.name"
+          @keyup.enter.native="findQuicklyWordGroupList()"
         >
-          <Icon type="search" slot="suffix" class="el-input__icon" name="name"/>
+          <Icon type="search" slot="suffix" class="el-input__icon" @click="findQuicklyWordGroupList()"/>
         </el-input>
       </div>
-      <div class='ptb5 bg-white pl5' >
-        <span class="demonstration">分类</span>
-        <el-tooltip content="拖动调整分类排序，导购和客服端同步">
-          <Icon type="question-circle" slot="suffix" class="el-input__icon" />
+      <div>
+        <span>分类</span>
+        <el-tooltip content="拖动调整同层级下分类顺序，导购和客服端同步">
+          <Icon type="question-circle" class="ml5"/>
         </el-tooltip>
       </div>
-      <el-scrollbar  class="quickScrollbar" wrapStyle="overflow-x:hidden;" ref="fullScreen">
-        <div :class="offsetHeight?'elTrees':'elTree'" ref="elTree">
-          <el-tree :data="wordGroupList" default-expand-all @node-click="onClickNode" @node-drop="handleDrop" draggable :allow-drop="allowDrop"
-          :allow-drag="allowDrag"
+      <el-scrollbar ref="fullScreen">
+        <ns-tree
+          draggable
           node-key="id"
-          :current-node-key='null'
-          :highlight-current = 'true'
-          class='navTree'
-          >
-          <div class="navTree-item flex flex-between" slot-scope="{ node, data }" >
-            <span class="dataName">{{ data.name }}</span>
-            <span v-if='data.id' class="controlstatus">
-              <Icon type="delete" @click="deleteTheGroup(data)" className="deleteicon margin-r-mini" />
-              <Icon type="bianji-1" @click="onSaveQuicklyWordGroupOpen(data)" />
-            </span>
-          </div>
-          </el-tree>
-        </div>
+          :data="wordGroupList"
+          :highlight-current="true"
+          :allow-drop="allowDrop"
+          :allow-drag="allowDrag"
+          :showIcon="true"
+          @node-click="onTreeSelect"
+          @node-drop="handleDrop"
+          @icon-add-click="onAddCategory"
+          @icon-edit-click="onEditCategory"
+          @icon-delete-click="onRemoveCategory"
+        >
+        </ns-tree>
       </el-scrollbar>
     </div>
-    <div id="box_right">
+    <div class="template-page__row-right">
       <ns-page-table>
-        <!-- 按钮 -->
-<!--        <template slot="buttons" class="quickWordsArt" >-->
-<!--          <ns-table-operate-button :buttons="_data._table.table_buttons"></ns-table-operate-button>-->
-<!--        </template>-->
-<!--        <template slot="buttons">-->
-<!--          <template v-for="btnItem in _data._table.table_buttons" >-->
-<!--            <ns-button v-if="btnItem.name === '新增话术'" :key="btnItem.name" class="quickButtonsAdd" :type="btnItem.type" v-on:click="btnItem.func">{{btnItem.name}}</ns-button>-->
-<!--            <ns-button v-else-if="btnItem.name === '批量删除'" id="batchDelete"  :key="btnItem.name" class="quickButtons" :disabled="btnItem.disabled" :type="btnItem.type" v-on:click="btnItem.func">{{btnItem.name}}</ns-button>-->
-<!--            <ns-button v-else-if="btnItem.name === '批量管理'" id="batchChange"  :key="btnItem.name" class="quickButtons" :disabled="btnItem.disabled" :type="btnItem.type" v-on:click="btnItem.func">{{btnItem.name}}</ns-button>-->
-<!--          </template>-->
-<!--        </template>-->
-        <template slot="buttons" slot-scope = "scope" class="quickWordsArt">
-          <ns-button type="primary" @click="onSaveOpen(scope)" class="quickWordsArt" >新增话术</ns-button>
-
-          <ns-button type="primary" v-if="batchDis"  ref="batchChange"  @click="onPatchChangeOpen()"  style="border-color: #80c8fd; background-color: #80c8fd" >批量分类</ns-button>
-          <ns-button type="primary" disabled v-else   ref="batchChange"  style="border-color: #80c8fd; background-color: #80c8fd" >批量分类</ns-button>
-          <ns-button type="primary" v-if="batchDis"      ref="batchDelete"  @click="onPatchDelete()"    style="border-color: #80c8fd; background-color: #80c8fd" >批量删除</ns-button>
-          <ns-button type="primary" disabled v-else   ref="batchDelete"    style="border-color: #80c8fd; background-color: #80c8fd" >批量删除</ns-button>
+        <template slot="buttons" class="quickWordsArt">
+          <ns-button type="primary" @click="onSaveOpen()" class="quickWordsArt">新增话术</ns-button>
+          <ns-button type="primary" :disabled="!batchDis" @click="onPatchChangeOpen()">批量分类</ns-button>
+          <ns-button type="primary" :disabled="!batchDis" @click="onPatchDelete()">批量删除</ns-button>
         </template>
-<!--        <el-col :span="7">-->
-<!--          <ns-button type="primary" v-if="color" @click="setGroudShowToggle">批量设置分组</ns-button>-->
-<!--          <ns-button type="primary" disabled v-else  >批量设置分组</ns-button>-->
-<!--          <ns-button type="primary" v-if="color" @click="deleteSubdivision">删除</ns-button>-->
-<!--          <ns-button disabled type="primary" v-else >删除</ns-button>-->
-<!--        </el-col>-->
         <!-- 简单搜索 -->
         <!-- el-form 需添加 @submit.native.prevent 配置 -->
         <!-- el-inpu 需添加  @keyup.enter.native="$quickSearchAction$" 配置，实现回车搜索 -->
@@ -79,21 +58,23 @@
         <!-- 简单搜索-结束 -->
         <!-- 表格 -->
         <template slot="table">
-          <el-table ref="multipleTable" :data="_data._table.data"
-                    stripe
-                    tooltip-effect="dark"
-                    @selection-change="handleSelectionChange"
-            resizable v-loading.lock="_data._table.loadingtable"
-            :element-loading-text="$t('prompt.loading')" @sort-change="$orderChange$">
+          <el-table
+            ref="multipleTable"
+            :data="_data._table.data"
+            stripe
+            resizable
+            v-loading.lock="_data._table.loadingtable"
+            :element-loading-text="$t('prompt.loading')"
+            @selection-change="handleSelectionChange"
+          >
             <el-table-column type="selection" align="center"  :width="50"></el-table-column>
-<!--            <el-table-column prop="keyWord" class-name="keyword" width="130" :show-overflow-tooltip="true" label="关键词" align="left"></el-table-column>-->
             <el-table-column prop="content" label="话术内容" :show-overflow-tooltip="true" align="left"></el-table-column>
             <el-table-column prop="name" label="分类" align="left"></el-table-column>
             <el-table-column prop="createTime" label="创建时间" width="180" align="left" ></el-table-column>
             <el-table-column align="left" v-if="showOrder">
               <template slot="header">
                 排序
-                <el-tooltip content="调整排列顺序小程序同步">
+                <el-tooltip content="调整排列顺序，小程序同步">
                   <Icon type="question-circle"/>
                 </el-tooltip>
               </template>
@@ -118,11 +99,17 @@
         <!-- 表格-结束 -->
         <!-- 分页 -->
         <template slot="pagination">
-          <el-pagination v-if="_data._pagination.enable" class="template-table__pagination"
-                         :page-sizes="_data._pagination.sizeOpts" :total="_data._pagination.total"
-                         :current-page.sync="_data._pagination.page" :page-size="_data._pagination.size"
-                         layout="total, sizes, prev, pager, next, jumper" @size-change="$sizeChange$"
-                         @current-change="$pageChange$">
+          <el-pagination
+            v-if="_data._pagination.enable"
+            class="template-table__pagination"
+            :page-sizes="_data._pagination.sizeOpts"
+            :total="_data._pagination.total"
+            :current-page.sync="_data._pagination.page"
+            :page-size="_data._pagination.size"
+            layout="total, sizes, prev, pager, next, jumper"
+            @size-change="$sizeChange$"
+            @current-change="$pageChange$"
+          >
           </el-pagination>
         </template>
       </ns-page-table>
@@ -191,21 +178,33 @@
       </div>
     </el-dialog>
     <!-- 新增分类 -->
-    <el-dialog size="small" :title="titleText"
-      :visible.sync="dialogVisibleSaveQuicklyWordGroup"
+    <el-dialog
+      size="small"
+      :title="addOrEditCategory.title"
+      :visible.sync="addOrEditCategory.visible"
       :modal-append-to-body="false"
-      width='400px'
-      @before-close="closeDialog()">
-      <el-form :model="addOrEditModel" ref="addOrEditForm" label-width="80px" :rules="addOrEditRules" placement="right">
-        <el-form-item label="分类名称：" prop="name" required class="el-form-validate__unHide">
-        <el-input type="text" placeholder="请输入分类名称" @input="accountInput"  v-model="addOrEditModel.name" autofocus="autofocus"></el-input>
-<!--        <el-input type="text" placeholder="请输入分类名称" @input="accountInput"  :value="addOrEditModel.name" autofocus="autofocus"></el-input>-->
+      width='500px'
+      @before-close="closeDialog()"
+    >
+      <el-form
+        ref="addOrEditCategory"
+        label-width="80px"
+        :model="addOrEditCategory.model"
+        :rules="addOrEditCategory.rules"
+        @submit.native.prevent
+      >
+        <el-form-item label="分类名称：" prop="name" class="el-form-validate__unHide mt10">
+          <el-input
+            type="text"
+            placeholder="请输入分类名称，长度在1-10个字符以内"
+            v-model="addOrEditCategory.model.name"
+            autofocus
+          ></el-input>
         </el-form-item>
-        <el-input style='display:none'></el-input>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <ns-button @click="closeDialog()">取消</ns-button>
-        <ns-button type="primary" @click="saveOrUpdateQuicklyWordGroup">保存</ns-button>
+        <ns-button type="primary" @loading="addOrEditCategory.loading" @click="onSaveCategory">保存</ns-button>
       </div>
     </el-dialog>
   </div>
@@ -214,11 +213,8 @@
 import List from './src/List'
 import ElMenu from '@nascent/nui/lib/menu'
 import ElMenuItem from '@nascent/nui/lib/menu-item'
-
-List.components = {
-  ElMenu,
-  ElMenuItem
-}
+import NsTree from '@nascent/ecrp-ecrm/src/components/NsTree'
+List.components = { NsTree, ElMenu, ElMenuItem }
 export default List
 </script>
 <style scoped>
@@ -233,31 +229,6 @@ export default List
   background-color: #80c8fd;
   border-color: #80c8fd;
 }
-.elTree{
-  overflow-y: auto;
-  overflow-x: hidden
-}
-.elTrees{
-  overflow-y: hidden;
-  overflow-x: hidden
-}
-.elTree::-webkit-scrollbar{
-  width: 3px;
-}
-.elTrees .navTree-item .dataName{
-  display: inline-block;
-  width: 143px;
-  overflow:hidden;
-  text-overflow:ellipsis;
-  white-space:nowrap
-}
-.elTree .navTree-item .dataName{
-  display: inline-block;
-  width: 136px;
-  overflow:hidden;
-  text-overflow:ellipsis;
-  white-space:nowrap
-}
 .topHid {
     visibility: hidden;
 }
@@ -271,18 +242,6 @@ export default List
     margin-right: var(--default-margin-base);
   }
 
-  #box_left{
-    width: 220px;
-    margin-right: var(--default-margin-small);
-    padding: var(--default-padding-base);
-    float: left;
-    background-color: #ffffff;
-    border-radius: 0 0 3px 3px;
-  }
-  #box_right{
-    overflow: hidden;
-    background-color: #ffffff
-  }
 .dialog_mian_topText p sapn{
   color:grey;
 }
@@ -353,17 +312,6 @@ export default List
 
 }
 
-  #SgQuicklyWordPage .el-tree-node{
-    &.is-current{
-      background-color: var(--default-menu-active-border);
-    }
-    &:hover {
-        background-color: var(--default-menu-active-border);
-      }
-  }
-  #SgQuicklyWordPage .el-tree-node__expand-icon{
-    display: none;
-  }
   .deleteicon {
     font-size: var(--default-font-size-middle);
     position: relative;
@@ -388,26 +336,18 @@ export default List
    margin-left: var(--default-margin-larger);
  }
 
-/*  左侧滚动框呀样式*/
-  .quickScrollbar{
-    overflow-y: auto;
-    margin-bottom: 0px;
-    margin-right: 0px
-}
-  .quickScrollbar::-webkit-scrollbar{
-    width: 5px;
-    -webkit-box-sizing: border-box;
-    background-color: #fff
- }
-  .quickScrollbar::-webkit-scrollbar-button {/*滚动条两端的按钮。可以用display:none让其不显示，也可以添加背景图片，颜色改变显示效果。*/
-   width: 3px;
-}
-  .quickScrollbar::-webkit-scrollbar-thumb {/*滚动条里面可以拖动的那部分*/
-    background: rgb(200,200,200);
-}
 /* 表情包新增手型 start */
 .cursor-pointer, >>> .emotion-list .li  {
   cursor: pointer;
 }
 /* 表情包新增手型 end */
+@component-namespace speech {
+  /* 左侧分类 start */
+  @b left {
+    @e search {
+      margin: var(--default-margin-small) 0;
+    }
+  }
+  /* 右侧列表 start */
+}
 </style>
