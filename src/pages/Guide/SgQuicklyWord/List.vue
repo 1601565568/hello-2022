@@ -2,10 +2,18 @@
   <div id='SgQuicklyWordPage'>
     <div id="box_left">
       <ns-button type="primary" @click="onSaveQuicklyWordGroupOpen">新增分类</ns-button>
+      <div>
+        <el-input
+          ref="quickText"
+          placeholder="请输入文件夹或素材标题"
+        >
+          <Icon type="search" slot="suffix" class="el-input__icon" name="name"/>
+        </el-input>
+      </div>
       <div class='ptb5 bg-white pl5' >
         <span class="demonstration">分类</span>
         <el-tooltip content="拖动调整分类排序，导购和客服端同步">
-          <Icon type="question-circle"/>
+          <Icon type="question-circle" slot="suffix" class="el-input__icon" />
         </el-tooltip>
       </div>
       <el-scrollbar  class="quickScrollbar" wrapStyle="overflow-x:hidden;" ref="fullScreen">
