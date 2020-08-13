@@ -178,9 +178,17 @@
               </template>
             </el-table-column>
 
-            <el-table-column prop="sgExclusiveShopName" label="所属线下门店" align="left">
+            <el-table-column prop="sgExclusiveShopName" align="left">
               <template slot-scope="scope">
                 {{scope.row.sgExclusiveShopName ? scope.row.sgExclusiveShopName : "-"}}
+              </template>
+              <template slot="header">
+                <span>
+                  <span>所属线下门店 </span>
+                  <el-tooltip content="客户专属线下门店">
+                    <Icon type="question-circle"/>
+                  </el-tooltip>
+                </span>
               </template>
             </el-table-column>
             <el-table-column prop="activateTime" label="入会时间" align="center" width="160">

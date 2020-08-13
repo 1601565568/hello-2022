@@ -24,7 +24,7 @@
           </ElForm>
           <div class="taskStore-wrapper__text text-primary">
             <Icon type="exclamation-circle" theme="outlined" />
-            <span>输入多个外部店铺编码用“,”隔开</span>
+            <span>输入多个外部店铺编码用英文版的“,”隔开</span>
           </div>
         </ElTabPane>
         <ElTabPane label="文件导入" name="second">
@@ -105,28 +105,30 @@ export default {
       let tempShopArray = []
       let isExecute = false
       let tempShopStr = []
-      let temp = this.manualValue.replace(/[\r\n]/g, '')
-      if (temp !== '' && temp !== null) {
-        if (temp.startsWith(',') || temp.endsWith(',') || temp.startsWith('，') || temp.endsWith('，')) {
-          this.$notify.info('请输入正确的外部店铺编码')
-          return false
-        } else {
-          tempShopArray = temp.split(',')
-          tempShopArray.forEach(shop => {
-            if (shop.startsWith(',') || shop.endsWith(',') || shop.startsWith('，') || shop.endsWith('，')) {
-              this.$notify.info('请输入正确的外部店铺编码')
-              isExecute = true
-            } else {
-              tempShopStr.push(shop.trim())
-            }
-          })
-          if (isExecute) {
+      if (this.manualValue !== '' && this.manualValue !== null) {
+        let temp = this.manualValue.replace(/[\r\n]/g, '')
+        if (temp !== '' && temp !== null) {
+          if (temp.startsWith(',') || temp.endsWith(',') || temp.startsWith('，') || temp.endsWith('，')) {
+            this.$notify.info('请输入正确的外部店铺编码')
             return false
+          } else {
+            tempShopArray = temp.split(',')
+            tempShopArray.forEach(shop => {
+              if (shop.startsWith(',') || shop.endsWith(',') || shop.startsWith('，') || shop.endsWith('，')) {
+                this.$notify.info('请输入正确的外部店铺编码')
+                isExecute = true
+              } else {
+                tempShopStr.push(shop.trim())
+              }
+            })
+            if (isExecute) {
+              return false
+            }
+            this.uploadData.manualStoreIds = tempShopStr.join(',')
           }
-          this.uploadData.manualStoreIds = tempShopStr.join(',')
+        } else {
+          this.uploadData.manualStoreIds = ''
         }
-      } else {
-        this.uploadData.manualStoreIds = ''
       }
       this.$http.fetch(this.$api.guide.importFileAndManual, this.uploadData)
         .then(resp => {
