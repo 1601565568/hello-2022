@@ -113,7 +113,7 @@
             {{scope.row.workId ? scope.row.workId : '-'}}
           </template>
         </el-table-column>
-        <el-table-column prop="name" label="工作门店" align="left">
+        <el-table-column prop="name" label="门店" align="left">
           <template slot-scope="scope">
             {{scope.row.shopName ? scope.row.shopName : '-'}}
           </template>
@@ -128,9 +128,9 @@
             {{scope.row.personalRecruitNum ? scope.row.personalRecruitNum : 0}}
           </template>
         </el-table-column>
-        <el-table-column prop="personalRecruitRate" :sortable="'custom'" label="个号招募占比" align="left">
+        <el-table-column prop="personalRecruitRate" :sortable="'custom'" label="个号招募比例" align="left">
           <template slot-scope="scope">
-            {{scope.row.personalRecruitRate ? scope.row.personalRecruitRate : 0}}
+            {{scope.row.personalRecruitRate ? scope.row.personalRecruitRate + '%' : 0}}
           </template>
         </el-table-column>
       </el-table>
@@ -216,7 +216,6 @@ export default {
       await this.$http.fetch(this.$api.guide.sgGuideActivityAnalysis.findList, this.searchObj)
         .then(resp => {
           this.dataList = resp.result.data
-          console.log('this.dataList', this.dataList)
           this.pagination.total = parseInt(resp.result.recordsTotal)
         }).catch(resp => {
           this.$notify.error(getErrorMsg('查询失败', resp))
@@ -245,13 +244,17 @@ export default {
       // 组装搜索对象
       this.loadListFun()
     },
+    resetForm () {
+      this.searchform.date = '昨天'
+      this.searchform.guideIds = []
+      this.loadListFun()
+    },
     exportData () {
       this.searchObj.analysisType = this.analysisType
       this.searchObj.date = this.searchform.date
       this.searchObj.dateRange = this.searchform.dateRange
       this.searchObj.time = this.searchform.time
       this.searchObj.guideIds = this.searchform.guideIds
-      console.log('this.searchObj', this.searchObj)
       var url = API_ROOT + '/guide/activityAnalysis/exportData'
       var form = document.createElement('form')
       form.appendChild(this.generateHideElement('analysisType', this.searchObj.analysisType))

@@ -113,7 +113,7 @@
             {{scope.row.workId ? scope.row.workId : '-'}}
           </template>
         </el-table-column>
-        <el-table-column prop="name" label="工作门店" align="left">
+        <el-table-column prop="name" label="门店" align="left">
           <template slot-scope="scope">
             {{scope.row.shopName ? scope.row.shopName : '-'}}
           </template>
@@ -148,9 +148,9 @@
             {{scope.row.friendBuyerNum ? scope.row.friendBuyerNum : 0}}
           </template>
         </el-table-column>
-        <el-table-column prop="friendBuyerNum" :sortable="'custom'" label="平均好友购买率" align="left">
+        <el-table-column prop="friendBuyerRate" :sortable="'custom'" label="平均好友购买率" align="left">
           <template slot-scope="scope">
-            {{scope.row.friendBuyerRate ? scope.row.friendBuyerRate : 0}}
+            {{scope.row.friendBuyerRate ? scope.row.friendBuyerRate + '%' : 0}}
           </template>
         </el-table-column>
       </el-table>
@@ -236,7 +236,6 @@ export default {
       await this.$http.fetch(this.$api.guide.sgGuideActivityAnalysis.findList, this.searchObj)
         .then(resp => {
           this.dataList = resp.result.data
-          console.log('this.dataList', this.dataList)
           this.pagination.total = parseInt(resp.result.recordsTotal)
         }).catch(resp => {
           this.$notify.error(getErrorMsg('查询失败', resp))
@@ -262,13 +261,17 @@ export default {
     },
     // 提交搜索
     submitForm (formName) {
-      console.log('this.searchform', this.searchform)
       this.searchObj.start = 0
       this.searchObj.searchMap.type = this.searchform.type
       this.searchObj.searchMap.state = this.searchform.state
       this.searchObj.searchMap.name = this.searchform.name
 
       // 组装搜索对象
+      this.loadListFun()
+    },
+    resetForm () {
+      this.searchform.date = '昨天'
+      this.searchform.guideIds = []
       this.loadListFun()
     },
     exportData () {
@@ -279,7 +282,6 @@ export default {
       this.searchObj.sortOrder = this.searchform.sortOrder
       this.searchObj.sortCriteria = this.searchform.sortCriteria
       this.searchObj.guideIds = this.searchform.guideIds
-      console.log('this.searchObj', this.searchObj)
       var url = API_ROOT + '/guide/activityAnalysis/exportData'
       var form = document.createElement('form')
       form.appendChild(this.generateHideElement('analysisType', this.searchObj.analysisType))
