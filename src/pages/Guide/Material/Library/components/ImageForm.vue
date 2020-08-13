@@ -126,8 +126,8 @@
       </el-form-item>
     </el-form>
     <div class="library-footer">
-      <ns-button @click="onBack()">取消</ns-button>
       <ns-button type="primary" :loading="loading" @click="onSave">保存</ns-button>
+      <ns-button @click="onBack()">取消</ns-button>
     </div>
     <folder-tree ref="folderTree" @submit="handleFolder"></folder-tree>
     <SelectMarket ref="selectMarket" :callBack="selectMarketBack"></SelectMarket>
