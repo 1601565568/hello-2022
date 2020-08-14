@@ -1,6 +1,5 @@
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import scrollHeight from '@nascent/ecrp-ecrm/src/mixins/scrollHeight'
-import apiRequestConfirm from '@nascent/ecrp-ecrm/src/utils/apiRequestConfirm'
 import Emotion from './EmotionConfig.js' // 表情配置文件
 import { getErrorMsg } from '@/utils/toast'
 import { data } from 'jquery'
@@ -15,23 +14,23 @@ export default {
         ref: 'fullScreen', // 页面滚动条ref的名称
         excludeHeight: 63 // 按钮+分类+间距的大小
       },
-      /* search model */
+      /* 话术搜索 */
       model: {
+        // 添加人id
         id: null,
-        wordGroupId: null,
-        content: '',
-        keyWord: null,
-        name: null,
-        addName: null,
-        searchValue: null,
-        param: {}
+        // 话术内容
+        content: ''
       },
-      /* 搜索分类 */
-      categoryModel: {
-        name: ''
+      /* 分类搜索 */
+      categorySearchObj: {
+        name: '',
+        searchValue: ''
       },
       // 左侧树
       wordGroupList: null,
+      expandedKeys: [],
+      // 分类id
+      wordGroupId: null,
       // 选择树
       selectwordGroupList: null,
       allCategoryObj: { id: null, label: '全部', name: '全部' },
@@ -51,15 +50,12 @@ export default {
         }
       },
       /* todo 编辑话术 model */
+      addOrEditModel: {},
       /* todo 基本配置项 */
+      batchDis: false,
       showOrder: false,
       selectedArr: [],
       obj: {},
-      parameter: {
-        length: 15,
-        searchMap: {},
-        start: 0
-      },
       emotionList: Emotion,
       addName: null,
       modelObj: {},
@@ -73,12 +69,8 @@ export default {
       dialogVisiblePatchChange: false,
       dialogVisible: false,
       loadingTable: false,
-      height: 0,
       tableList: [],
-      batchDis: false,
-      _table: {
-        table_buttons: []
-      },
+      _table: {},
       rules: {
         'wordGroupId': [{ required: true, message: '话术类别不能为空' }],
         'content': [{ required: true, message: '话术内容不能为空' },
@@ -88,15 +80,15 @@ export default {
     }
   },
   mounted: function () {
-    this.findQuicklyWordGroupList(true)
+    this.findQuicklyWordGroupList()
     this.findAddName()
-    this.height = window.innerHeight - 170
     if (typeof this.$init === 'function') {
       this.$init(this, this.$generateParams$)
     } else {
       this.$reload()
     }
   },
+  watch: {},
   methods: {
     /* 左边操作集合 - start */
     /**
@@ -132,15 +124,17 @@ export default {
           const { nodeData, model, type } = this.addOrEditCategory
           const params = {
             ...model,
-            id: type === 'edit' ? data.id : undefined,
-            parentId: type === 'add' && nodeData ? data.id : undefined
+            id: type === 'edit' ? nodeData.id : undefined,
+            parentId: type === 'add' && nodeData ? nodeData.id : undefined
           }
           this.$http.fetch(this.$api.guide.saveOrUpdateQuicklyWordGroup, params).then(resp => {
             if (resp.success) {
               this.$notify.success(`${params.id ? '编辑' : '新增'}成功`)
-              // 编辑成功 - 重新请求列表
               this.findQuicklyWordGroupList()
               this.closeDialog()
+              if (params.id) {
+                this.$queryList$(this.$generateParams$())
+              }
             }
           }).catch(resp => {
             this.$notify.error(getErrorMsg(`${params.id ? '编辑' : '新增'}失败`, resp))
@@ -149,6 +143,35 @@ export default {
           })
         }
       })
+    },
+    /**
+     * 删除分类
+     */
+    onRemoveCategory (data) {
+      this.$http.fetch(this.$api.guide.deleteQuicklyWordGroup, { id: data.id }).then(resp => {
+        if (resp.success) {
+          this.findQuicklyWordGroupList()
+          this.$notify.success('删除成功')
+          if (data.id === this.wordGroupId) {
+            this.wordGroupId = null
+            this.$queryList$(this.$generateParams$())
+          }
+        }
+      }).catch(resp => {
+        this.$notify.error(getErrorMsg('删除失败', resp))
+      })
+    },
+    onNodeExpand (nodeData) {
+      let index = this.expandedKeys.findIndex(key => nodeData.id === key)
+      if (index < 0) {
+        this.expandedKeys.push(nodeData.id)
+      }
+    },
+    onNodeCollapse (nodeData) {
+      let index = this.expandedKeys.findIndex(key => nodeData.id === key)
+      if (index > -1) {
+        this.expandedKeys.splice(index, 1)
+      }
     },
     formatWordGroupList (list, isSub = false) {
       return list.map(o => {
@@ -165,50 +188,47 @@ export default {
     },
     /**
      * 获取分类列表
-     * @param isFirst 是否第一次请求
      */
-    findQuicklyWordGroupList (isFirst) {
-      this.$http.fetch(this.$api.guide.findQuicklyWordGroupList, { ...this.categoryModel }).then(resp => {
+    findQuicklyWordGroupList () {
+      this.$http.fetch(this.$api.guide.findQuicklyWordGroupList, {}).then(resp => {
         if (resp.success) {
           this.wordGroupList = this.formatWordGroupList(resp.result.data || [])
           // 搜索内容为空时，添加全部选项
-          if (!this.categoryModel.name) {
-            this.wordGroupList.unshift(this.allCategoryObj)
-          }
-          // 进入页面初始化时，同步选择列表
-          if (isFirst) {
-            this.selectwordGroupList = this.wordGroupList.slice(1)
-          }
+          this.wordGroupList.unshift(this.allCategoryObj)
+          // 同步选择列表
+          this.selectwordGroupList = this.wordGroupList.slice(1)
+          this.$refs.categoryTree && this.$refs.categoryTree.filter(this.categorySearchObj.searchValue)
         }
       }).catch(resp => {
         this.$notify.error(getErrorMsg('系统异常', resp))
       })
     },
     /**
+     * 触发分类筛选
+     */
+    onFireFilter () {
+      this.categorySearchObj.searchValue = this.categorySearchObj.name
+      this.$refs.categoryTree.filter(this.categorySearchObj.searchValue)
+    },
+    /**
+     * 分类筛选
+     */
+    onTreeFilter (value, data) {
+      if (!value) {
+        return true
+      }
+      if (data.label) {
+        return data.label.indexOf(value) > -1
+      }
+      return false
+    },
+    /**
      * 按分类检索话术
      */
     onTreeSelect (data) {
       this.showOrder = data && data.id !== null
-      this.model.wordGroupId = data.id
-      // todo 搜索参数
-      this.parameter.searchMap = this.model
-      this.$queryList$(this.parameter)
-    },
-    /**
-     * 删除分类
-     */
-    onRemoveCategory (data) {
-      this.$http.fetch(this.$api.guide.deleteQuicklyWordGroup, { id: data.id }).then(resp => {
-        if (resp.success) {
-          this.findQuicklyWordGroupList()
-          this.$notify.success('删除成功')
-          // todo id是否一致，一致才需要重置分类搜索
-          this.parameter.wordGroupId = null
-          this.$resetInputAction$()
-        }
-      }).catch(resp => {
-        this.$notify.error(getErrorMsg('删除失败', resp))
-      })
+      this.wordGroupId = data.id
+      this.$queryList$(this.$generateParams$())
     },
     handleDrop (draggingNode, dropNode, dropType, ev) {
       this.changeQuicklyWordGroupSort(draggingNode.data.id, dropNode.data.id)
@@ -240,13 +260,9 @@ export default {
         this.model.content = this.model.content + list
       }
     },
-    reset () {
-      this.$resetInputAction$()
-    },
     findAddName () {
       this.$http.fetch(this.$api.guide.findAddName, {}).then(resp => {
         if (resp.success && resp.result) {
-          this.model.addName = resp.result
           this.addName = resp.result
         }
       }).catch(resp => {
@@ -406,28 +422,21 @@ export default {
       }).catch(() => {})
     },
     $queryList$: function (params) {
-      let that = this
-      let tableConfig = this._data._table
-      tableConfig.loadingtable = true
-      return this.$http.fetch(this.$api.guide.findQuicklyWordList, params).then((resp) => {
-        that._data._table.data = resp.result.data
-        that._data._pagination.total = parseInt(resp.result.recordsTotal)
-        if (that._data._pagination.total > 0) {
-          that._data._table.key = 1
-        } else if (that._data._pagination.total === 0) {
-          that._data._table.key = 2
+      this._data._table.loadingtable = true
+      const searchMap = { ...params.searchMap, wordGroupId: this.wordGroupId, addName: this.addName }
+      return this.$http.fetch(this.$api.guide.findQuicklyWordList, { ...params, searchMap }).then((resp) => {
+        this._data._table.data = resp.result.data
+        this._data._pagination.total = parseInt(resp.result.recordsTotal)
+        if (this._data._pagination.total > 0) {
+          this._data._table.key = 1
+        } else if (this._data._pagination.total === 0) {
+          this._data._table.key = 2
         }
       }).catch(() => {
-        that.$notify.error('网络异常，获取数据失败！')
+        this.$notify.error(err && err.msg ? err.msg : '网络异常，获取数据失败！')
       }).finally(() => {
-        tableConfig.loadingtable = false
+        this._data._table.loadingtable = false
       })
-    },
-    searchLength (val) {
-      var v = val
-      if (val.length > 200) {
-        this.model.searchValue = v.substring(0, 200)
-      }
     },
     contentCheck (val) {
       var v = val

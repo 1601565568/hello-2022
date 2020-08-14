@@ -5,10 +5,10 @@
       <div class="speech-left__search">
         <el-input
           placeholder="请输入分类名称"
-          v-model="categoryModel.name"
-          @keyup.enter.native="findQuicklyWordGroupList()"
+          v-model="categorySearchObj.name"
+          @keyup.enter.native="onFireFilter()"
         >
-          <Icon type="search" slot="suffix" class="el-input__icon" @click="findQuicklyWordGroupList()"/>
+          <Icon type="search" slot="suffix" class="el-input__icon" @click="onFireFilter()"/>
         </el-input>
       </div>
       <div>
@@ -19,6 +19,7 @@
       </div>
       <el-scrollbar ref="fullScreen">
         <ns-tree
+          ref="categoryTree"
           draggable
           node-key="id"
           :data="wordGroupList"
@@ -26,11 +27,15 @@
           :allow-drop="allowDrop"
           :allow-drag="allowDrag"
           :showIcon="true"
+          :filter-node-method="onTreeFilter"
+          :default-expanded-keys="expandedKeys"
           @node-click="onTreeSelect"
           @node-drop="handleDrop"
           @icon-add-click="onAddCategory"
           @icon-edit-click="onEditCategory"
           @icon-delete-click="onRemoveCategory"
+          @node-expand="onNodeExpand"
+          @node-collapse="onNodeCollapse"
         >
         </ns-tree>
       </el-scrollbar>
@@ -45,44 +50,50 @@
         <!-- 快捷搜索 -->
         <template slot="searchSearch">
           <el-form :model="model" :inline="true" @submit.native.prevent class="pull-right">
-            <el-form-item v-show="!_data._queryConfig.expand" label="标题：">
+            <el-form-item v-show="!_data._queryConfig.expand" label="话术内容：">
               <el-input
                 ref="quickText"
-                v-model="model.name"
-                placeholder="请输入文件夹或素材标题"
-                @keyup.enter.native="quickSearch()"
-                style="width: 180px"
+                v-model="model.content"
+                placeholder="请输入话术内容"
+                @keyup.enter.native="$quickSearchAction$('content')"
                 clearable
-              >
-                <!-- <Icon type="search" slot="suffix" class="el-input__icon" @click="quickSearch()"/> -->
-              </el-input>
+              ></el-input>
             </el-form-item>
-            <el-form-item v-if="!quickObj.expanded">
-              <ns-button type="primary" @click="quickSearch">{{$t('operating.search')}}</ns-button>
-              <ns-button @click="resetAction">{{$t('operating.reset')}}</ns-button>
+            <el-form-item v-if="!_data._queryConfig.expand">
+              <ns-button type="primary" @click="$quickSearchAction$('content')">{{$t('operating.search')}}</ns-button>
+              <ns-button @click="$resetInputAction$()">{{$t('operating.reset')}}</ns-button>
             </el-form-item>
             <el-form-item>
-              <ns-button type="text" @click="handleSearchType">
-                {{quickObj.collapseText}}
-                <Icon :type="quickObj.expanded ? 'up' : 'down'"/>
+              <ns-button type="text" @click="$handleTabClick">
+                {{collapseText}}
+                <Icon :type="_data._queryConfig.expand ? 'up' : 'down'"/>
               </ns-button>
             </el-form-item>
           </el-form>
         </template>
-        <!-- 简单搜索 -->
-        <!-- el-form 需添加 @submit.native.prevent 配置 -->
-        <!-- el-inpu 需添加  @keyup.enter.native="$quickSearchAction$" 配置，实现回车搜索 -->
-        <template slot="searchSearch">
-          <el-form :model="model" :inline="true" @submit.native.prevent  class="pull-right">
-            <el-form-item label="添加人/分类：">
-              <el-input ref="quickText" porp="" style="width: 200px" v-model="model.searchValue" @input="searchLength" placeholder="请输入添加人/分类" @keyup.enter.native="$searchAction$()" clearable>
-              </el-input>
-              <ns-button type="primary" @click="$searchAction$()" class="searchbtn">搜索</ns-button>
-              <ns-button @click="reset()" class="resetbtn">重置</ns-button>
+        <!-- 高级搜索 -->
+        <template slot="advancedSearch" v-if="_data._queryConfig.expand">
+          <el-form ref="table_filter_form" :model="model" label-width="80px" @submit.native.prevent :inline="true">
+            <el-form-item label="话术内容：">
+              <el-input
+                v-model="model.content"
+                placeholder="请输入话术内容"
+                clearable
+              ></el-input>
+            </el-form-item>
+            <el-form-item label="添加人：">
+              <el-select v-model="model.id">
+                <el-option value label="不限" />
+                <el-option value="0" label="人1" />
+                <el-option value="1" label="人2" />
+              </el-select>
             </el-form-item>
           </el-form>
+          <div class="template-table__more-btn">
+            <ns-button type="primary" @click="$searchAction$()">搜索</ns-button>
+            <ns-button @click="$resetInputAction$()">重置</ns-button>
+          </div>
         </template>
-        <!-- 简单搜索-结束 -->
         <!-- 表格 -->
         <template slot="table">
           <el-table
