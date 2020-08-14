@@ -74,6 +74,29 @@ export default {
           ]
         },
         {
+          'path': '/Guide/SgGuide/ChatAutoReply',
+          'name': 'AutoPass',
+          'title': '聊天智能回复',
+          'component': () => import('@/pages/WeChat/AutoReply/index.vue')
+          // 'redirect': {
+          //   'name': 'SgPersonalQrcode'
+          // },
+          // 'children': [
+          //   {
+          //     'path': '/Guide/SgPersonalQrcode/List',
+          //     'name': 'SgPersonalQrcode',
+          //     'title': '聚合二维码',
+          //     'component': () => import('@/pages/Guide/SgPersonalQrcode/List.vue')
+          //   },
+          //   {
+          //     'path': '/Guide/SgPersonalQrcode/List/Edit/:id',
+          //     'name': 'SgPersonalQrcode',
+          //     'title': '聚合二维码',
+          //     'component': () => import('@/pages/Guide/SgPersonalQrcode/Edit.vue')
+          //   }
+          // ]
+        },
+        {
           'path': '/Guide/chanel/chanel',
           'name': 'chanel',
           'title': '渠道管理',
