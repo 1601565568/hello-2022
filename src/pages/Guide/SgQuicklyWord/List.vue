@@ -44,8 +44,8 @@
       <ns-page-table>
         <template slot="buttons" class="quickWordsArt">
           <ns-button type="primary" @click="onSaveOpen()" class="quickWordsArt">新增话术</ns-button>
-          <ns-button type="primary" :disabled="!batchDis" @click="onPatchChangeOpen()">批量分类</ns-button>
-          <ns-button type="primary" :disabled="!batchDis" @click="onPatchDelete()">批量删除</ns-button>
+          <ns-button type="primary" :disabled="!batchDis" @click="onBatchSetOpen()">批量分类</ns-button>
+          <ns-button type="primary" :disabled="!batchDis" @click="onBatchDelete()">批量删除</ns-button>
         </template>
         <!-- 快捷搜索 -->
         <template slot="searchSearch">
@@ -82,8 +82,8 @@
               ></el-input>
             </el-form-item>
             <el-form-item label="添加人：">
-              <el-select v-model="model.id">
-                <el-option value label="不限" />
+              <el-select v-model="model.id" placeholder="请选择添加人" clearable>
+                <el-option value label="全部" />
                 <el-option value="0" label="人1" />
                 <el-option value="1" label="人2" />
               </el-select>
@@ -193,26 +193,34 @@
         <ns-button type="primary" @click="onSave">确定</ns-button>
       </div>
     </el-dialog>
-    <!-- 批量管理初始弹窗结束 -->
-    <el-dialog size="small" title="批量分类"
-               :visible.sync="dialogVisiblePatchChange"
-               :modal-append-to-body="false"
-               width='600px'
-               @before-close="closeDialog()">
-      <el-form :model="model" ref="form" label-width="90px" :rules="rules"   placement="right">
-        <el-form-item label="选择分类：" prop="wordGroupId"  required>
-<!--          :required="model.wordGroupId ? true : false"-->
-          <el-select  v-model="model.wordGroupId" filterable clearable placeholder="请选择配置项类型">
-            <el-option v-for="wordGroup in selectwordGroupList" :label="wordGroup.name" :value="wordGroup.id" :key="wordGroup.id"></el-option>
-          </el-select>
+    <!-- 批量设置分类 -->
+    <el-dialog
+      size="small"
+      title="批量分类"
+      :visible.sync="batchSetModel.visible"
+      :modal-append-to-body="false"
+      width='500px'
+      @before-close="closeDialog()"
+    >
+      <el-form
+        ref="batchSetForm"
+        label-width="80px"
+        :rules="batchSetModel.rules"
+        :model="batchSetModel.model"
+      >
+        <el-form-item required label="选择分类：" prop="wordGroup" class="el-form-validate__unHide mt10">
+          <ns-droptree
+            :data="selectwordGroupList"
+            :test="batchSetModel.model.wordGroup"
+            v-model="batchSetModel.model.wordGroup"
+            placeholder="请选择分类"
+            clearable
+          ></ns-droptree>
         </el-form-item>
-<!--        <el-form-item label="编辑关键词：" prop="keyWord">-->
-<!--          <el-input type="text" placeholder="如果未输入内容，则保持原有关键词不变。用“，”号隔开，最多设置五个词" v-model="model.keyWord"></el-input>-->
-<!--        </el-form-item>-->
       </el-form>
       <div slot="footer" class="dialog-footer">
         <ns-button @click="closeDialog()">取消</ns-button>
-        <ns-button type="primary" @click="onPatchChange">保存</ns-button>
+        <ns-button type="primary" @loading="batchSetModel.loading" @click="onBatchChange">确定</ns-button>
       </div>
     </el-dialog>
     <!-- 新增分类 -->
@@ -242,64 +250,45 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <ns-button @click="closeDialog()">取消</ns-button>
-        <ns-button type="primary" @loading="addOrEditCategory.loading" @click="onSaveCategory">保存</ns-button>
+        <ns-button type="primary" @loading="addOrEditCategory.loading" @click="onSaveCategory">确定</ns-button>
       </div>
     </el-dialog>
   </div>
 </template>
 <script>
 import List from './src/List'
-import ElMenu from '@nascent/nui/lib/menu'
-import ElMenuItem from '@nascent/nui/lib/menu-item'
 import NsTree from '@nascent/ecrp-ecrm/src/components/NsTree'
-List.components = { NsTree, ElMenu, ElMenuItem }
+import NsDroptree from '@nascent/ecrp-ecrm/src/components/NsDroptree'
+List.components = { NsTree, NsDroptree }
 export default List
 </script>
 <style scoped>
 @import "@theme/variables.pcss";
-.quickButtonsAdd{
-  color: #FFFFFF;
-  background-color: #1a9cfb;
-  border-color: #0091fa;
-}
-.quickButtons{
-  color: #FFFFFF;
-  background-color: #80c8fd;
-  border-color: #80c8fd;
-}
 .topHid {
-    visibility: hidden;
+  visibility: hidden;
 }
-.el-col-8 .template-table-buttons .el-form-grid{
+.el-col-8 .template-table-buttons .el-form-grid {
   margin-right: 8px
 }
-.el-tooltip__popper{
-  max-width: 78% !important
+.el-tooltip__popper {
+  max-width: 78% !important;
 }
-  >>> .template-table__bar .template-table-buttons .el-form-grid {
-    margin-right: var(--default-margin-base);
-  }
-
-.dialog_mian_topText p sapn{
-  color:grey;
+>>> .template-table__bar .template-table-buttons .el-form-grid {
+  margin-right: var(--default-margin-base);
 }
-.dialog_mian_topText p{
-  height: 30px;
-  line-height: 30px;
-}
-.sort{
+.sort {
   font-size: var(--default-font-size-base);
   color: var(--theme-color-primary);
   cursor: pointer;
 }
-.expressionBar_div{
+.expressionBar_div {
   width: 100%;
   height: 30px;
   background-color:#eee;
   border-radius: 0 0 3px 3px;
   padding-left: 5px;
 }
-.expressionBar_div i{
+.expressionBar_div i {
   font-size: 18px;
   position: relative;
   top: 2px;
@@ -310,72 +299,17 @@ export default List
   padding-left: var(--default-padding-base);
   border: 1px solid var(--theme-base-border-color-primary);
 }
-.emotion-list_div .emotion-list .li{
+.emotion-list_div .emotion-list .li {
   list-style: none;
   display: inline-block;
   margin:0 2px;
 }
-.emotion-list_div .emotion-list .li img{
+.emotion-list_div .emotion-list .li img {
   width: 20px;
   height: 20px;
 }
-.subdivision-tree-node i{
-  font-size: 12px;
-}
-@component-namespace menu {
-  @b item {
-    height: 40px;line-height:40px;
-    &.is-active {
-      background-color: var(--default-menu-active-border);
-
-      .item-title {
-        color: var(--head-nav-bg);
-        line-height: 45px;
-      }
-    }
-
-    &:hover {
-      background-color: var(--default-menu-active-border);
-    }
-  }
-
-}
-@component-namespace navTree {
-  .navTree{
-    @b item{
-      flex: 1;
-      padding:0 5px;
-    }
-  }
-
-}
-
-  .deleteicon {
-    font-size: var(--default-font-size-middle);
-    position: relative;
-    top: 1px;
-  }
-  .controlstatus {
-    display: none;
-  }
-  .navTree-item:hover {
-    .dataName {
-      color: var(--theme-color-primary);
-    }
-    .controlstatus {
-      color: var(--theme-color-primary);
-      display: block;
-    }
-  }
- .searchbtn {
-   margin-left: 11px;
- }
- .resetbtn {
-   margin-left: var(--default-margin-larger);
- }
-
 /* 表情包新增手型 start */
-.cursor-pointer, >>> .emotion-list .li  {
+.cursor-pointer, >>> .emotion-list .li {
   cursor: pointer;
 }
 /* 表情包新增手型 end */

@@ -2,7 +2,6 @@ import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import scrollHeight from '@nascent/ecrp-ecrm/src/mixins/scrollHeight'
 import Emotion from './EmotionConfig.js' // 表情配置文件
 import { getErrorMsg } from '@/utils/toast'
-import { data } from 'jquery'
 
 export default {
   name: 'List',
@@ -66,7 +65,6 @@ export default {
       checkText: '',
       titleText: '',
       dialogFormVisible: false,
-      dialogVisiblePatchChange: false,
       dialogVisible: false,
       loadingTable: false,
       tableList: [],
@@ -76,6 +74,24 @@ export default {
         'content': [{ required: true, message: '话术内容不能为空' },
           { max: 190, message: '长度在 200 以内', trigger: 'blur' }],
         'name': [{ required: true, message: '分类内容不能为空' }]
+      },
+      batchSetModel: {
+        visible: false,
+        model: {
+          wordGroup: {}
+        },
+        rules: {
+          'wordGroup': [{
+            validator: (rule, value, callback) => {
+              if (!value.value) {
+                callback(new Error('分类不能为空'))
+              }
+              callback()
+            },
+            trigger: 'change'
+          }]
+        },
+        loading: false
       }
     }
   },
@@ -283,13 +299,12 @@ export default {
     },
     closeDialog () {
       this.dialogFormVisible = false
-      this.dialogVisiblePatchChange = false
       this.addOrEditCategory.visible = false
+      this.batchSetModel.visible = false
     },
     onSaveOpen (row = {}) { // 新增或编辑
       let arr = Object.keys(row)
       this.dialogFormVisible = true
-      this.dialogVisiblePatchChange = false
       if (this.titleText === '新增话术') {
         this.$refs.form.resetFields()
       }
@@ -312,15 +327,6 @@ export default {
         this.model.addName = this.addName
       }
     },
-    onPatchChangeOpen () { // 批量管理
-      if (!this.selectedArr.length > 0) {
-        this.$notify.warning('请选择要操作的数据')
-        return
-      }
-      this.dialogVisiblePatchChange = true
-      this.dialogFormVisible = false
-      this.titleText = '批量管理'
-    },
     onSave () { // 快捷话术保存功能
       let that = this
       window.console.log('新创建的快捷话术=>' + this.model.content.replace(/\s+|[\r\n]/g, '').length)
@@ -341,46 +347,45 @@ export default {
         }
       })
     },
-    onPatchChange () { // 快捷话术批量管理
-      // debugger
-      if (this.model.wordGroupId <= 0) {
-        this.$notify.warning('请选择一条有效分组')
+    /**
+     * 打开批量设置分类
+     */
+    onBatchSetOpen () {
+      if (!this.selectedArr.length) {
+        this.$notify.warning('请至少选择一条数据')
         return
       }
-      let that = this
-      let wordGroupId = that.model.wordGroupId
-      let keyWord = that.model.keyWord
-      if (this.model.keyWord !== null) {
-        if ((this.model.keyWord.split('，').length - 1) < 4) {
-          let obj = { quicklyWordIds: '', wordGroupId: wordGroupId, keyWord: keyWord }
-          let arr = []
-          that.selectedArr.map(item => {
-            arr.push(item.id)
-          })
-          obj.quicklyWordIds = arr.join(',')
-          that.$http.fetch(that.$api.guide.patchChange, obj).then(() => {
-            that.closeDialog()
-            that.$notify.success('保存' + this.selectedArr.length + '成功')
-            that.$reload()
-          }).catch((resp) => {
-            that.$notify.error(getErrorMsg('保存失败', resp))
-          })
+      if (this.selectedArr.length === 1) {
+        this.batchSetModel.wordGroup = {
+          value: this.selectedArr[0].wordGroupId,
+          text: this.selectedArr[0].name
         }
       } else {
-        let obj = { quicklyWordIds: '', wordGroupId: wordGroupId, keyWord: keyWord }
-        let arr = []
-        that.selectedArr.map(item => {
-          arr.push(item.id)
-        })
-        obj.quicklyWordIds = arr.join(',')
-        that.$http.fetch(that.$api.guide.patchChange, obj).then(() => {
-          that.closeDialog()
-          that.$notify.success('修改' + this.selectedArr.length + '条数据成功')
-          that.$reload()
-        }).catch((resp) => {
-          that.$notify.error(getErrorMsg('保存失败', resp))
-        })
+        this.batchSetModel.wordGroup = {}
       }
+      console.log('=====', this.batchSetModel.wordGroup)
+      this.batchSetModel.visible = true
+    },
+    /**
+     * 批量设置分类
+     */
+    onBatchChange () {
+      this.$refs.batchSetForm.validate((valid) => {
+        if (valid) {
+          this.batchSetModel.loading = true
+          const params = { wordGroupId: this.batchSetModel.wordGroup.value }
+          params.quicklyWordIds = this.selectedArr.map(o => o.id).join(',')
+          this.$http.fetch(this.$api.guide.patchChange, params).then(() => {
+            this.closeDialog()
+            this.$notify.success('修改' + this.selectedArr.length + '条数据成功')
+            this.$reload()
+          }).catch((resp) => {
+            this.$notify.error(getErrorMsg('修改失败', resp))
+          }).finally(() => {
+            this.batchSetModel.loading = false
+          })
+        }
+      })
     },
     /**
      * 删除单条快捷话术
@@ -402,9 +407,9 @@ export default {
     /**
      * 批量删除快捷话术
      */
-    onPatchDelete () {
+    onBatchDelete () {
       if (!this.selectedArr.length) {
-        this.$notify.warning('至少选择一条数据')
+        this.$notify.warning('请至少选择一条数据')
         return
       }
       this.$confirm(`此操作将永久删除${this.selectedArr.length}条数据，是否继续？`, '删除确认', {
@@ -439,18 +444,15 @@ export default {
       })
     },
     contentCheck (val) {
-      var v = val
-      // window.console.log('===', val.length)
       if (val.length > 190) {
         this.$refs['form'].validateField('content')
-        this.model.content = v.substring(0, 190)
+        this.model.content = val.substring(0, 190)
       }
     },
     keyWordCheck (val) {
-      var v = val
       if (val.length > 25) {
         this.$refs['form'].validateField('keyWord')
-        this.model.keyWord = v.substring(0, 25)
+        this.model.keyWord = val.substring(0, 25)
       }
     }
   }
