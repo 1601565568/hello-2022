@@ -8,11 +8,17 @@ export default {
   mixins: [tableMixin, scrollHeight],
   data: function () {
     return {
-      /* todo 左侧页面滚动区域 */
-      scrollBarDeploy: {
-        ref: 'fullScreen', // 页面滚动条ref的名称
-        excludeHeight: 63 // 按钮+分类+间距的大小
-      },
+      /* 左侧页面滚动区域 */
+      scrollBarDeploy: [
+        {
+          ref: 'fullScreen',
+          excludeHeight: 96
+        },
+        {
+          ref: 'tableScreen',
+          excludeHeight: 81
+        }
+      ],
       /* 话术搜索 */
       addNameList: [],
       model: {
@@ -96,7 +102,11 @@ export default {
       this.$reload()
     }
   },
-  watch: {},
+  watch: {
+    '_data._queryConfig.expand' (newVal) {
+      this.scrollBarDeploy[1].excludeHeight = newVal ? 114 : 81
+    }
+  },
   methods: {
     /**
      * 获取快捷话术添加人列表

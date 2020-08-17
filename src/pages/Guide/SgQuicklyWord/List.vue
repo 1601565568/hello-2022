@@ -100,43 +100,45 @@
         </template>
         <!-- 表格 -->
         <template slot="table">
-          <el-table
-            ref="multipleTable"
-            :data="_data._table.data"
-            stripe
-            resizable
-            v-loading.lock="_data._table.loadingtable"
-            :element-loading-text="$t('prompt.loading')"
-            @selection-change="handleSelectionChange"
-          >
-            <el-table-column type="selection" align="center"  :width="50"></el-table-column>
-            <el-table-column prop="content" label="话术内容" :show-overflow-tooltip="true" align="left"></el-table-column>
-            <el-table-column prop="name" label="分类" align="left"></el-table-column>
-            <el-table-column prop="createTime" label="添加时间" width="180" align="left" ></el-table-column>
-            <el-table-column align="left" v-if="showOrder">
-              <template slot="header">
-                排序
-                <el-tooltip content="调整排列顺序，小程序同步">
-                  <Icon type="question-circle"/>
-                </el-tooltip>
-              </template>
-              <template slot-scope="scope">
-                <i class='sort' :class="scope.row === _data._table.data[0]?'topHid':''"  @click='exchangeSort(1,scope.row.id)'><Icon type="zhiding"/></i>
-                <i class='sort' :class="scope.row === _data._table.data[0]?'topHid':''"   @click='exchangeSort(2,scope.row.id)'><Icon type="top-arr"/></i>
-                <i class='sort' :class="scope.row === _data._table.data[_data._table.data.length-1]?'topHid':''"   @click='exchangeSort(3,scope.row.id)'><Icon type="down-arr"/></i>
-                <i class='sort' :class="scope.row === _data._table.data[_data._table.data.length-1]?'topHid':''"  @click='exchangeSort(4,scope.row.id)'><Icon type="zhidi"/></i>
-              </template>
-            </el-table-column>
-            <el-table-column prop="addName" label="添加人" align="left"></el-table-column>
-            <el-table-column :show-overflow-tooltip="true" label="操作" align="center" width="100px">
-              <template slot-scope="scope">
-              <span class="tmp-cell__buttons">
-                <ns-button type="text" @click="onSaveOpen(scope.row)">编辑</ns-button>
-                <ns-button type="text" @click="onDelete(scope.row)">删除</ns-button>
-              </span>
-              </template>
-            </el-table-column>
-          </el-table>
+          <el-scrollbar ref="tableScreen">
+            <el-table
+              ref="multipleTable"
+              :data="_data._table.data"
+              stripe
+              resizable
+              v-loading.lock="_data._table.loadingtable"
+              :element-loading-text="$t('prompt.loading')"
+              @selection-change="handleSelectionChange"
+            >
+              <el-table-column type="selection" align="center" :width="50"></el-table-column>
+              <el-table-column prop="content" label="话术内容" :show-overflow-tooltip="true"></el-table-column>
+              <el-table-column prop="parentName" label="分类"></el-table-column>
+              <el-table-column prop="createTime" label="添加时间" width="180"></el-table-column>
+              <el-table-column align="left" v-if="showOrder">
+                <template slot="header">
+                  排序
+                  <el-tooltip content="调整排列顺序，小程序同步">
+                    <Icon type="question-circle"/>
+                  </el-tooltip>
+                </template>
+                <template slot-scope="scope">
+                  <i class='sort' :class="scope.row === _data._table.data[0]?'topHid':''"  @click='exchangeSort(1,scope.row.id)'><Icon type="zhiding"/></i>
+                  <i class='sort' :class="scope.row === _data._table.data[0]?'topHid':''"   @click='exchangeSort(2,scope.row.id)'><Icon type="top-arr"/></i>
+                  <i class='sort' :class="scope.row === _data._table.data[_data._table.data.length-1]?'topHid':''"   @click='exchangeSort(3,scope.row.id)'><Icon type="down-arr"/></i>
+                  <i class='sort' :class="scope.row === _data._table.data[_data._table.data.length-1]?'topHid':''"  @click='exchangeSort(4,scope.row.id)'><Icon type="zhidi"/></i>
+                </template>
+              </el-table-column>
+              <el-table-column prop="addName" label="添加人" align="left"></el-table-column>
+              <el-table-column :show-overflow-tooltip="true" label="操作" align="center" width="100px">
+                <template slot-scope="scope">
+                <span class="tmp-cell__buttons">
+                  <ns-button type="text" @click="onSaveOpen(scope.row)">编辑</ns-button>
+                  <ns-button type="text" @click="onDelete(scope.row)">删除</ns-button>
+                </span>
+                </template>
+              </el-table-column>
+            </el-table>
+          </el-scrollbar>
         </template>
         <!-- 表格-结束 -->
         <!-- 分页 -->
