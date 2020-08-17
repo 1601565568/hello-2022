@@ -82,10 +82,14 @@
               ></el-input>
             </el-form-item>
             <el-form-item label="添加人：">
-              <el-select v-model="model.id" placeholder="请选择添加人" clearable>
+              <el-select v-model="model.name" placeholder="请选择添加人" clearable>
                 <el-option value label="全部" />
-                <el-option value="0" label="人1" />
-                <el-option value="1" label="人2" />
+                <el-option
+                  v-for="val in addNameList"
+                  :key="val"
+                  :label="val"
+                  :value="val"
+                ></el-option>
               </el-select>
             </el-form-item>
           </el-form>
@@ -108,7 +112,7 @@
             <el-table-column type="selection" align="center"  :width="50"></el-table-column>
             <el-table-column prop="content" label="话术内容" :show-overflow-tooltip="true" align="left"></el-table-column>
             <el-table-column prop="name" label="分类" align="left"></el-table-column>
-            <el-table-column prop="createTime" label="创建时间" width="180" align="left" ></el-table-column>
+            <el-table-column prop="createTime" label="添加时间" width="180" align="left" ></el-table-column>
             <el-table-column align="left" v-if="showOrder">
               <template slot="header">
                 排序
@@ -123,7 +127,7 @@
                 <i class='sort' :class="scope.row === _data._table.data[_data._table.data.length-1]?'topHid':''"  @click='exchangeSort(4,scope.row.id)'><Icon type="zhidi"/></i>
               </template>
             </el-table-column>
-            <el-table-column prop="addName" label="创建人" align="left"></el-table-column>
+            <el-table-column prop="addName" label="添加人" align="left"></el-table-column>
             <el-table-column :show-overflow-tooltip="true" label="操作" align="center" width="100px">
               <template slot-scope="scope">
               <span class="tmp-cell__buttons">
@@ -153,25 +157,31 @@
       </ns-page-table>
     </div>
     <!-- 初始弹窗开始 -->
-    <el-dialog width="800px" :title="titleText"
-               :visible.sync="dialogFormVisible"
-               :modal-append-to-body="false"
-               @before-close="closeDialog()">
-      <el-form :model="model" ref="form" label-width="90px" :rules="rules" placement="right">
-        <el-form-item label="选择分类：" prop="wordGroupId" required>
-          <el-select  v-model="model.wordGroupId" placeholder="请选择话术分类">
-            <el-option v-for="wordGroup in selectwordGroupList" :label="wordGroup.name" :value="wordGroup.id" :key="wordGroup.id"></el-option>
-          </el-select>
+    <el-dialog
+      width="800px"
+      :title="addOrEditModel.title"
+      :visible.sync="addOrEditModel.visible"
+      :modal-append-to-body="false"
+      @before-close="closeDialog()"
+    >
+      <el-form ref="addOrEditForm" label-width="80px" :model="addOrEditModel.model" :rules="addOrEditModel.rules">
+        <el-form-item label="选择分类：" prop="wordGroup" required>
+          <ns-droptree
+            :data="selectwordGroupList"
+            v-model="addOrEditModel.model.wordGroup"
+            placeholder="请选择分类"
+            clearable
+          ></ns-droptree>
         </el-form-item>
-        <el-form-item label="话术内容：" prop="content" required>
-            <el-input type="textarea" placeholder="输入话术内容，最多200字" @input="contentCheck" v-model="model.content"  size="small" rows="4" ></el-input>
+        <el-form-item label="话术内容：" prop="content">
+          <el-input type="textarea" placeholder="输入话术内容，最多200字" @input="contentCheck" v-model="addOrEditModel.model.content" size="small" rows="4" ></el-input>
           <div class="expressionBar_div">
             <i @click="faceFace" class="cursor-pointer"><Icon type="biaoqing"/></i>
           </div>
         </el-form-item>
-        <el-form-item v-if="InternetMemeShow" label="" prop="">
-          <!-- 表情弹窗 -->
-          <div v-if="InternetMemeShow" class="emotion-list_div">
+        <!-- 表情弹窗 -->
+        <el-form-item v-if="emojiShow" label="" prop="">
+          <div class="emotion-list_div">
             <div class="emotion-list">
               <div class="li" v-for="list in emotionList" :key="list.ShortCut" @click="setEmotionWords(list.ShortCut)">
                 <el-tooltip :content="list.Meaning">
@@ -181,16 +191,13 @@
             </div>
           </div>
         </el-form-item>
-<!--        <el-form-item label="设置关键词："  prop="keyWord">-->
-<!--          <el-input type="textarea" placeholder="用'，'号隔开，最多设置五个词" @input="keyWordCheck" v-model="model.keyWord" size="small" rows="3"></el-input>-->
-<!--        </el-form-item>-->
         <el-form-item label="添加人：" prop="addName">
-          <el-input type="text" disabled v-model="model.addName"></el-input>
+          <el-input type="text" disabled v-model="addOrEditModel.model.addName"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <ns-button @click="closeDialog()">取消</ns-button>
-        <ns-button type="primary" @click="onSave">确定</ns-button>
+        <ns-button type="primary" @loading="addOrEditModel.loading" @click="onSave">确定</ns-button>
       </div>
     </el-dialog>
     <!-- 批量设置分类 -->
@@ -211,7 +218,6 @@
         <el-form-item required label="选择分类：" prop="wordGroup" class="el-form-validate__unHide mt10">
           <ns-droptree
             :data="selectwordGroupList"
-            :test="batchSetModel.model.wordGroup"
             v-model="batchSetModel.model.wordGroup"
             placeholder="请选择分类"
             clearable

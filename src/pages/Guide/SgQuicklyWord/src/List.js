@@ -14,9 +14,10 @@ export default {
         excludeHeight: 63 // 按钮+分类+间距的大小
       },
       /* 话术搜索 */
+      addNameList: [],
       model: {
         // 添加人id
-        id: null,
+        name: null,
         // 话术内容
         content: ''
       },
@@ -48,48 +49,38 @@ export default {
           ]
         }
       },
-      /* todo 编辑话术 model */
-      addOrEditModel: {},
-      /* todo 基本配置项 */
+      /* 编辑话术 model */
+      addOrEditModel: {
+        title: '新增话术',
+        visible: false,
+        loading: false,
+        model: {
+          wordGroup: {},
+          content: ''
+        },
+        rules: {
+          wordGroup: [{ validator: this.checkWordGroup, trigger: 'blur' }],
+          content: [
+            { required: true, message: '话术内容不能为空', trigger: 'blur' },
+            { max: 200, message: '长度在 200 以内', trigger: 'blur' }
+          ]
+        }
+      },
+      /* 基本配置项 */
       batchDis: false,
       showOrder: false,
       selectedArr: [],
-      obj: {},
       emotionList: Emotion,
       addName: null,
-      modelObj: {},
-      InternetMemeShow: false,
-      orignalGroup: null,
-      orignalKeyWord: null,
-      index: 0,
-      checkText: '',
-      titleText: '',
-      dialogFormVisible: false,
-      dialogVisible: false,
-      loadingTable: false,
-      tableList: [],
+      emojiShow: false,
       _table: {},
-      rules: {
-        'wordGroupId': [{ required: true, message: '话术类别不能为空' }],
-        'content': [{ required: true, message: '话术内容不能为空' },
-          { max: 190, message: '长度在 200 以内', trigger: 'blur' }],
-        'name': [{ required: true, message: '分类内容不能为空' }]
-      },
       batchSetModel: {
         visible: false,
         model: {
           wordGroup: {}
         },
         rules: {
-          'wordGroup': [{
-            validator: (rule, value, callback) => {
-              if (!value.value) {
-                callback(new Error('分类不能为空'))
-              }
-              callback()
-            },
-            trigger: 'change'
-          }]
+          wordGroup: [{ validator: this.checkWordGroup, trigger: 'blur' }]
         },
         loading: false
       }
@@ -98,6 +89,7 @@ export default {
   mounted: function () {
     this.findQuicklyWordGroupList()
     this.findAddName()
+    this.getAddNameList()
     if (typeof this.$init === 'function') {
       this.$init(this, this.$generateParams$)
     } else {
@@ -106,6 +98,24 @@ export default {
   },
   watch: {},
   methods: {
+    /**
+     * 获取快捷话术添加人列表
+     */
+    getAddNameList () {
+      this.$http.fetch(this.$api.guide.getAddNameList, {}).then(resp => {
+        if (resp.success && resp.result) {
+          this.addNameList = resp.result
+        }
+      }).catch(resp => {
+        this.$notify.warning(getErrorMsg('系统异常', resp))
+      })
+    },
+    checkWordGroup (rule, value, callback) {
+      if (!value.value) {
+        callback(new Error('分类不能为空'))
+      }
+      callback()
+    },
     /* 左边操作集合 - start */
     /**
      * 新增、编辑分类弹窗
@@ -125,7 +135,7 @@ export default {
         title: type === 'edit' ? '编辑分类' : '新增分类',
         visible: true,
         model: {
-          name: type === 'edit' ? data.name : ''
+          name: type === 'edit' ? data.label : ''
         },
         nodeData: data
       }
@@ -250,7 +260,7 @@ export default {
       this.changeQuicklyWordGroupSort(draggingNode.data.id, dropNode.data.id)
     },
     allowDrop (draggingNode, dropNode, type) {
-      return type !== 'inner' && dropNode.data.id !== null
+      return type !== 'inner' && dropNode.data.id !== null && draggingNode.data.parentId === dropNode.data.parentId
     },
     allowDrag (draggingNode) {
       return draggingNode.data.id !== null
@@ -269,7 +279,7 @@ export default {
     },
     /* 标签处理 */
     faceFace () { // 表情头像按钮
-      this.InternetMemeShow = !this.InternetMemeShow
+      this.emojiShow = !this.emojiShow
     },
     setEmotionWords (list) { // 选中的表情添加按钮
       if (this.model.content.length < 200) {
@@ -298,51 +308,59 @@ export default {
       })
     },
     closeDialog () {
-      this.dialogFormVisible = false
+      this.addOrEditModel.visible = false
       this.addOrEditCategory.visible = false
       this.batchSetModel.visible = false
     },
-    onSaveOpen (row = {}) { // 新增或编辑
-      let arr = Object.keys(row)
-      this.dialogFormVisible = true
-      if (this.titleText === '新增话术') {
-        this.$refs.form.resetFields()
+    /**
+     * 快捷话术弹窗
+     */
+    onSaveOpen (row = {}) {
+      if (this.$refs.addOrEditForm) {
+        this.$refs.addOrEditForm.resetFields()
+        this.$refs.addOrEditForm.clearValidate()
       }
-      this.titleText = (row.id && '编辑话术') || '新增话术'
-      if (arr.length !== 0) {
-        this.model = Object.assign({}, row)
-      } else {
-        this.model = {
-          id: null,
-          wordGroupId: null,
-          content: '',
-          keyWord: '已弃用',
-          name: null,
-          addName: null,
-          searchValue: null,
-          param: {}
-        }
+      let isEdit = row && row.id
+      let model = {
+        id: null,
+        wordGroup: {},
+        content: '',
+        addName: this.addName,
+        keyWord: '已弃用',
+        ...row
       }
-      if (!row || !row.id) {
-        this.model.addName = this.addName
+      if (isEdit) {
+        model.wordGroup = { value: row.wordGroupId, text: row.name }
+      }
+      this.addOrEditModel = {
+        ...this.addOrEditModel,
+        model,
+        visible: true,
+        title: isEdit ? '编辑话术' : '新增话术'
       }
     },
-    onSave () { // 快捷话术保存功能
-      let that = this
-      window.console.log('新创建的快捷话术=>' + this.model.content.replace(/\s+|[\r\n]/g, '').length)
-      if (this.model.content.replace(/\s+|[\r\n]/g, '').length === 0) {
-        that.$notify.error('保存失败,不能输入纯空格或换行')
-        return
-      }
-      this.InternetMemeShow = false
-      this.$refs.form.validate(valid => {
+    /**
+     * 快捷话术保存
+     */
+    onSave () {
+      const { content, wordGroup } = this.addOrEditModel.model
+      this.emojiShow = false
+      this.$refs.addOrEditForm.validate(valid => {
         if (valid) {
-          that.$http.fetch(that.$api.guide.saveOrUpdateQuicklyWord, that.model).then(() => {
-            that.closeDialog()
-            that.$notify.success('保存成功')
-            that.$reload()
+          if (content.replace(/\s+|[\r\n]/g, '').length === 0) {
+            this.$notify.error('保存失败,不能输入纯空格或换行')
+            return
+          }
+          const params = { ...this.addOrEditModel.model }
+          params.wordGroupId = wordGroup.value
+          params.name = wordGroup.text
+          delete params.wordGroup
+          this.$http.fetch(this.$api.guide.saveOrUpdateQuicklyWord, params).then(() => {
+            this.closeDialog()
+            this.$notify.success(`${params.id ? '编辑' : '新增'}成功`)
+            this.$reload()
           }).catch((resp) => {
-            that.$notify.error(getErrorMsg('保存失败', resp))
+            this.$notify.error(getErrorMsg(`${params.id ? '编辑' : '新增'}失败`, resp))
           })
         }
       })
@@ -356,14 +374,13 @@ export default {
         return
       }
       if (this.selectedArr.length === 1) {
-        this.batchSetModel.wordGroup = {
+        this.batchSetModel.model.wordGroup = {
           value: this.selectedArr[0].wordGroupId,
           text: this.selectedArr[0].name
         }
       } else {
-        this.batchSetModel.wordGroup = {}
+        this.batchSetModel.model.wordGroup = {}
       }
-      console.log('=====', this.batchSetModel.wordGroup)
       this.batchSetModel.visible = true
     },
     /**
@@ -372,8 +389,9 @@ export default {
     onBatchChange () {
       this.$refs.batchSetForm.validate((valid) => {
         if (valid) {
+          const { wordGroup } = this.batchSetModel.model
           this.batchSetModel.loading = true
-          const params = { wordGroupId: this.batchSetModel.wordGroup.value }
+          const params = { wordGroupId: wordGroup.value }
           params.quicklyWordIds = this.selectedArr.map(o => o.id).join(',')
           this.$http.fetch(this.$api.guide.patchChange, params).then(() => {
             this.closeDialog()
@@ -396,9 +414,9 @@ export default {
         cancelButtonText: '取消',
         confirmButtonText: '确定'
       }).then(() => {
-        that.$http.fetch(that.$api.guide.deleteQuicklyWord, { quicklyWordIds: `${row.id}` }).then(() => {
+        this.$http.fetch(this.$api.guide.deleteQuicklyWord, { quicklyWordIds: `${row.id}` }).then(() => {
           this.$notify.success('删除成功')
-          that.$reload()
+          this.$reload()
         }).catch((resp) => {
           this.$notify.error(getErrorMsg('删除失败', resp))
         })
@@ -418,9 +436,9 @@ export default {
         confirmButtonText: '确定'
       }).then(() => {
         let quicklyWordIds = this.selectedArr.map(o => o.id).join(',')
-        that.$http.fetch(that.$api.guide.deleteQuicklyWord, { quicklyWordIds }).then(() => {
+        this.$http.fetch(this.$api.guide.deleteQuicklyWord, { quicklyWordIds }).then(() => {
           this.$notify.success('删除成功')
-          that.$reload()
+          this.$reload()
         }).catch((resp) => {
           this.$notify.error(getErrorMsg('删除失败', resp))
         })
@@ -428,7 +446,7 @@ export default {
     },
     $queryList$: function (params) {
       this._data._table.loadingtable = true
-      const searchMap = { ...params.searchMap, wordGroupId: this.wordGroupId, addName: this.addName }
+      const searchMap = { ...params.searchMap, wordGroupId: this.wordGroupId }
       return this.$http.fetch(this.$api.guide.findQuicklyWordList, { ...params, searchMap }).then((resp) => {
         this._data._table.data = resp.result.data
         this._data._pagination.total = parseInt(resp.result.recordsTotal)
@@ -445,14 +463,8 @@ export default {
     },
     contentCheck (val) {
       if (val.length > 190) {
-        this.$refs['form'].validateField('content')
-        this.model.content = val.substring(0, 190)
-      }
-    },
-    keyWordCheck (val) {
-      if (val.length > 25) {
-        this.$refs['form'].validateField('keyWord')
-        this.model.keyWord = val.substring(0, 25)
+        this.$refs.addOrEditForm.validateField('content')
+        this.addOrEditModel.model.content = val.substring(0, 190)
       }
     }
   }
