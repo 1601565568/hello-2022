@@ -4,14 +4,18 @@ export default {
   mixins: [scrollHeight, tableMixin],
   data: function () {
     return {
-      // 欢迎语ID
+      // 员工组建 员工值
+      employeeSelectData: [],
+      // 店铺组件 店铺值
+      shopSelectData: [],
+      replyTimeSpace: 10, // 回复时间间隔
+      sendSpaceSet: 10, // 发送间隔设置
+      matchType: 0, // 匹配方式
+      replyTime: null, // 触发时间
+      chatKeyWord: null, // 聊天关键词
+      // 智能回复ID
       uuid: null,
-      // 计划名称输入框绑定值
-      title: '',
-      failureTime: 600, // 失效时间
-      rangeType: 0,
       loading: false, // 防重复提交
-      type: 0, // 欢迎语类型 0：基础模板 9：默认模板
       // 页面滚动条配置
       scrollBarDeploy: {
         ref: 'fullScreen', // 页面滚动条ref的名称
@@ -23,10 +27,7 @@ export default {
       dialogVisible: false,
       treeSelect: '',
       treeSelected: '',
-      // 员工组建 员工值
-      employeeSelectData: [],
-      // 店铺组件 店铺值
-      shopSelectData: [],
+
       // 发布内容数据
       publishData: [],
       // 预置链接
@@ -35,17 +36,51 @@ export default {
   },
   mounted () {
     this.initEdit()
-    this.getSystemPresetLink()
+    // this.getSystemPresetLink()
   },
   methods: {
     // 保存
-    saveOrUpdateWelcomes () {
+    saveOrUpdateAutoReply () {
       this.loading = true
       let that = this
-      if (!that.title) {
-        that.$notify.error('标题不能为空')
+      if (that.employeeSelectData.length === 0 && that.shopSelectData.length === 0) {
+        that.$notify.error('选择店铺和选择员工不能同时为空')
         this.loading = false
         return
+      }
+      if (!that.replyTimeSpace) {
+        that.$notify.error('自动回复间隔不能为空')
+        this.loading = false
+        return
+      }
+      if (!that.sendSpaceSet) {
+        that.$notify.error('发送延迟设置不能为空')
+        this.loading = false
+        return
+      }
+      if (!this.replyTime) {
+        that.$notify.error('触发时间范围不能为空')
+        this.loading = false
+        return
+      }
+      if (!that.chatKeyWord) {
+        that.$notify.error('聊天关键词不能为空')
+        this.loading = false
+        return
+      }
+      let split = that.chatKeyWord.split(',')
+      if (split.length > 50) {
+        that.$notify.error('最多输入50个关键词')
+        this.loading = false
+        return
+      }
+      for (let i = 0; i < split.length; i++) {
+        let keyWord = split[i]
+        if (keyWord.length > 20) {
+          that.$notify.error('关键词：' + keyWord + '，长度超过20个字')
+          this.loading = false
+          return
+        }
       }
       if (this.publishData.length === 0) {
         that.$notify.error('欢迎语不能为空')
@@ -57,29 +92,31 @@ export default {
         this.loading = false
         return
       }
-      if (this.rangeType === 1) {
-        this.failureTime = 0
-      }
       // 附带内容json
       let content = JSON.stringify(this.publishData)
       let model = {
-        title: that.title,
-        content: encodeURIComponent(content),
-        uuid: that.uuid,
         employeeIds: that.employeeSelectData,
         storeIds: that.shopSelectData,
-        failureTime: this.failureTime
+        replyTimeSpace: that.replyTimeSpace,
+        sendSpaceSet: that.sendSpaceSet,
+        startTime: that.replyTime[0],
+        endTime: that.replyTime[1],
+        matchType: that.matchType,
+        chatKeyWord: that.chatKeyWord,
+        content: encodeURIComponent(content),
+        uuid: that.uuid
       }
+      debugger
       that.$refs.form.validate(valid => {
         if (!valid) {
           return
         }
         that.$http
-          .fetch(that.$api.weChat.welcomes.saveWelcomeCode, model)
+          .fetch(that.$api.weChat.autoReply.saveOrUpdate, model)
           .then(resp => {
             this.loading = false
             that.$notify.success('操作成功')
-            that.$router.push({ path: '/Guide/speech/speechList' })
+            that.$router.push({ path: '/Guide/SgGuide/ChatAutoReply' })
           })
           .catch(resp => {
             this.loading = false
@@ -92,17 +129,17 @@ export default {
     cancelWelcomes () {
       this.$router.push({ path: '/Guide/speech/speechList' })
     },
-    // 获取系统预置链接
-    getSystemPresetLink: function () {
-      let _this = this
-      _this.$http.fetch(_this.$api.guide.systemPreset.getLink).then(resp => {
-        if (resp.success && resp.result != null) {
-          resp.result.forEach(function (value, i) {
-            _this.presetLink.push(value)
-          })
-        }
-      })
-    },
+    // // 获取系统预置链接
+    // getSystemPresetLink: function () {
+    //   let _this = this
+    //   _this.$http.fetch(_this.$api.guide.systemPreset.getLink).then(resp => {
+    //     if (resp.success && resp.result != null) {
+    //       resp.result.forEach(function (value, i) {
+    //         _this.presetLink.push(value)
+    //       })
+    //     }
+    //   })
+    // },
     /**
      * @msg: 页面初始化时的数据加载函数
      */

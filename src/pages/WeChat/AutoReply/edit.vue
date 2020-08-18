@@ -6,83 +6,112 @@
           <ElCard shadow="never">
             <div>
               <ElForm label-width="100px">
-                <ElFormItem label="欢迎语标题：" required>
-                  <ElFormGrid size="xlg">
-                    <ElInput
-                      type="text"
-                      placeholder="请输入欢迎语标题"
-                      v-model="title"
-                      maxlength="30"
-                      :input="title=title.replace(/(^\s*)|(\s*$)/g, '')"
-                      show-word-limit
-                    />
-                  </ElFormGrid>
-                </ElFormItem>
                 <!-- 店铺组件 开始-->
-                <ElFormItem v-if="type ===0" label="选择店铺：">
-                  <ElFormGrid>
-                    <NsShopDialog btnTitle="选择店铺" v-model="shopSelectData"></NsShopDialog>
-                  </ElFormGrid>
+                <ElFormItem label="选择店铺：">
                   <ElFormGrid>
                     已选择<span class="text-primary">{{shopSelectData? shopSelectData.length: 0}}</span>家店铺
+                  </ElFormGrid>
+                  <ElFormGrid>
+                    <NsShopDialog btnTitle="选择店铺" v-model="shopSelectData"></NsShopDialog>
                   </ElFormGrid>
                 </ElFormItem>
                 <!-- 店铺组件 结束-->
                 <!-- 员工组件 开始-->
-                <ElFormItem v-if="type === 0" label="选择员工：">
+                <ElFormItem label="">
+                  <ElFormGrid>
+                    已选择<span class="text-primary">{{employeeSelectData? employeeSelectData.length: 0}}</span>个员工
+                  </ElFormGrid>
                   <ElFormGrid>
                     <NsGuideDialog btnTitle="选择员工" dialogTitle="选择员工" v-model="employeeSelectData"></NsGuideDialog>
                   </ElFormGrid>
-                  <ElFormGrid>
-                    已选择<span class="text-primary">{{employeeSelectData? employeeSelectData.length: 0}}</span>个导购员工
-                  </ElFormGrid>
                 </ElFormItem>
                 <!-- 员工组件 结束-->
-                <!-- 员工组件 开始-->
-                <ElFormItem label="发送时间限制：">
-                  <ElRadioGroup v-model="rangeType">
-                    <el-radio :label="0">开启</el-radio>
-                    <el-radio :label="1">关闭</el-radio>
+
+                <ElFormItem label="自动回复间隔：" required>
+                  <ElInputNumber class="inputSize" :controls="false" :min="1" :max="60"
+                                 v-model.number="replyTimeSpace"></ElInputNumber>&nbsp;min
+                  <span class="text-secondary left-space">
+                    在自动回复间隔内不会自动重复触发回复，最大可设置60分钟
+                  </span>
+                </ElFormItem>
+                <ElFormItem label="发送延迟设置：" required>
+                  <ElInputNumber class="inputSize" :controls="false" :min="1" :max="60"
+                                 v-model.number="sendSpaceSet"></ElInputNumber>&nbsp;min
+                  <span class="text-secondary left-space">
+                    由于网络等原因可能导致智能回复延迟，收到客户消息通过该指定时间后，将不会自动回复，最大可设置60分钟
+                  </span>
+                </ElFormItem>
+                <ElFormItem label="匹配方式：" required>
+                  <ElRadioGroup v-model="matchType">
+                    <el-radio :label="0">模糊匹配</el-radio>
+                    <el-radio :label="1">完全匹配</el-radio>
+                    <el-radio :label="2">任意匹配</el-radio>
                   </ElRadioGroup>
-                  <ElFormGrid v-if="rangeType === 0" class="memberReward">
-                    <ElInputNumber class="inputSize" :controls="false" :min="1" :max="999999"
-                                     v-model.number="failureTime"></ElInputNumber>&nbsp;秒
+                </ElFormItem>
+                <ElFormItem label="触发时间：" required>
+                  <el-time-picker
+                    is-range
+                    v-model="replyTime"
+                    value-format="HH:mm:ss"
+                    range-separator="-"
+                    start-placeholder="开始时间"
+                    end-placeholder="结束时间"
+                    placeholder="选择时间范围">
+                  </el-time-picker>
+                  <span class="text-secondary left-space">
+                    在触发时间之外不会进行智能回复
+                  </span>
+                </ElFormItem>
+                <ElFormItem label="聊天关键词：" required>
+                  <ElFormGrid size="xlg">
+                    <el-input
+                      type="textarea"
+                      :autosize="{ minRows: 2, maxRows: 8}"
+                      v-model="chatKeyWord">
+                    </el-input>
                   </ElFormGrid>
-                  <ElFormGrid class="memberReward">
-                    <span class="text-primary" style="margin-left: 10px;">
-                       <Icon type="exclamation-circle" theme="outlined"/>
-                       在加好友后的指定时间内，如还未触发发送欢迎语动作，则此次欢迎语将不会再自动发送。
+                  <div>
+                    <span class="text-secondary left-space">
+                      请输入聊天消息关键词，关键词之间用英文逗号隔开，最多输入50个关键词，单个关键词最长20个字。
                     </span>
+                  </div>
+                </ElFormItem>
+                <ElFormItem label="欢迎语内容：" required>
+                  <ElFormGrid class="text-secondary">
+                    一套欢迎语组最多添加10条欢迎语消息
                   </ElFormGrid>
+                </ElFormItem>
+                <ElFormItem>
+                  <postContent :publishDataFather="publishData" :presetLinkFather="presetLink"/>
                 </ElFormItem>
                 <!-- 员工组件 结束-->
               </ElForm>
             </div>
           </ElCard>
-          <ElCard shadow="never" class="message-container__card">
-            <div slot="header">欢迎语设置</div>
-            <div class="message-composition">
-              <div class="message-composition__left">
-                <ElForm label-width="100px">
-                  <ElFormItem label="欢迎语内容：" required>
-                    <ElFormGrid class="text-secondary">
-                      一套欢迎语组最多添加10条欢迎语消息
-                    </ElFormGrid>
-                  </ElFormItem>
-                  <ElFormItem>
-                    <postContent :publishDataFather="publishData" :presetLinkFather="presetLink"/>
-                  </ElFormItem>
-                </ElForm>
-              </div>
-              <div class="message-composition__right">
-                <contentPreview :publishDataFather="publishData"/>
-              </div>
-            </div>
-          </ElCard>
+<!--          <ElCard shadow="never" class="message-container__card">-->
+<!--            <div slot="header">欢迎语设置</div>-->
+<!--            <div class="message-composition">-->
+<!--              <div class="message-composition__left">-->
+<!--                <ElForm label-width="100px">-->
+<!--                  <ElFormItem label="欢迎语内容：" required>-->
+<!--                    <ElFormGrid class="text-secondary">-->
+<!--                      一套欢迎语组最多添加10条欢迎语消息-->
+<!--                    </ElFormGrid>-->
+<!--                  </ElFormItem>-->
+<!--                  <ElFormItem>-->
+<!--                    <postContent :publishDataFather="publishData" :presetLinkFather="presetLink"/>-->
+<!--                  </ElFormItem>-->
+<!--                </ElForm>-->
+<!--              </div>-->
+<!--              <div class="message-composition__right">-->
+<!--&lt;!&ndash;                <contentPreview :publishDataFather="publishData"/>&ndash;&gt;-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </ElCard>-->
         </div>
       </ElScrollbar>
       <div class="form-save__unique">
-        <NsSave :loading="loading" @click="saveOrUpdateWelcomes"/>
+        <NsSave :loading="loading" @click="saveOrUpdateAutoReply"/>
         <NsButton @click="cancelWelcomes">{{$t('operating.cancel')}}</NsButton>
       </div>
     </el-form>
@@ -96,7 +125,6 @@ import ElTimeSelect from '@nascent/nui/lib/time-select'
 import ElInputNumber from '@nascent/nui/lib/input-number'
 import postContent from './content/postContent.vue'
 import contentPreview from './content/contentPreview.vue'
-import { getErrorMsg } from '@/utils/toast'
 import NsGuideDialog from '@/components/NsGuideDialog'
 import NsShopDialog from '@/components/NsShopDialog'
 edit.components = {

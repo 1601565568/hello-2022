@@ -38,7 +38,7 @@ export default {
     },
     // 编辑智能欢迎语
     onRedactFun: function (data) {
-      this.$router.push({ path: '/Guide/speech/edit', query: { uuid: data } })
+      this.$router.push({ path: '/Guide/AutoReply/edit', query: { uuid: data } })
     },
     /**
      * todo 目前仅使用方法 onOpenEmployeeDialog 触发有效

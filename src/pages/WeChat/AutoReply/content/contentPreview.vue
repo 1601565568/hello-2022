@@ -121,7 +121,6 @@ export default {
       position: relative;
       margin: 0 auto;
       padding: 94px 20px 20px;
-      background-image: url("./../images/iphonexmockup.png");
       background-repeat: no-repeat;
       background-size: 100% 100%;
       @e heading {

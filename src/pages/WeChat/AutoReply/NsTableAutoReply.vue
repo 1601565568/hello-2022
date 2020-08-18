@@ -44,6 +44,17 @@
               <el-input style="width:180px"  v-model="model.title" placeholder="请输入回复内容" clearable></el-input>
             </el-form-grid>
           </el-form-item>
+          <el-form-item label="匹配方式：">
+            <el-form-grid>
+              <el-select placeholder="不限" style="width:200px" v-model="model.matchType" clearable filterable>
+                <el-option v-for="item in matchType"
+                           :key="item.value"
+                           :label="item.label"
+                           :value="item.value">
+                </el-option>
+              </el-select>
+            </el-form-grid>
+          </el-form-item>
           <el-form-item label="选择店铺：">
             <ElFormGrid>
               <NsShopDialog :auth="false" type="primary" btnTitle="选择店铺" v-model="model.shopIds"></NsShopDialog>
@@ -59,17 +70,6 @@
             <ElFormGrid>
               已选择<span class="text-primary">{{model.guideIds? model.guideIds.length: 0}}</span>个导购员工
             </ElFormGrid>
-          </el-form-item>
-          <el-form-item label="匹配方式：">
-            <el-form-grid>
-              <el-select placeholder="不限" style="width:200px" v-model="model.matchType" clearable filterable>
-                <el-option v-for="item in matchType"
-                           :key="item.value"
-                           :label="item.label"
-                           :value="item.value">
-                </el-option>
-              </el-select>
-            </el-form-grid>
           </el-form-item>
           <el-input style="visibility:hidden;height:0px;"></el-input>
         </el-form>
