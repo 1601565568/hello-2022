@@ -465,7 +465,7 @@ export default {
         } else if (this._data._pagination.total === 0) {
           this._data._table.key = 2
         }
-      }).catch(() => {
+      }).catch((err) => {
         this.$notify.error(err && err.msg ? err.msg : '网络异常，获取数据失败！')
       }).finally(() => {
         this._data._table.loadingtable = false
