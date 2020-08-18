@@ -118,39 +118,39 @@
             {{scope.row.shopName ? scope.row.shopName : '-'}}
           </template>
         </el-table-column>
-        <el-table-column prop="orderAmount" :sortable="'custom'" label="订单总金额" align="left">
+        <el-table-column prop="orderAmount" :sortable="'custom'" label="订单总金额" align="right">
           <template slot-scope="scope">
-            {{scope.row.orderAmount ? scope.row.orderAmount : 0}}
+            ￥{{scope.row.orderAmount ? scope.row.orderAmount : 0}}
           </template>
         </el-table-column>
-        <el-table-column prop="orderTimes" :sortable="'custom'" label="订单笔数" align="left">
+        <el-table-column prop="orderTimes" :sortable="'custom'" label="订单笔数" align="right">
           <template slot-scope="scope">
             {{scope.row.orderTimes ? scope.row.orderTimes : 0}}
           </template>
         </el-table-column>
-        <el-table-column prop="averagePrice" :sortable="'custom'" label="每笔单价" align="left">
+        <el-table-column prop="averagePrice" :sortable="'custom'" label="每笔单价" align="right">
           <template slot-scope="scope">
-            {{scope.row.averagePrice ? scope.row.averagePrice : 0}}
+            ￥{{scope.row.averagePrice ? scope.row.averagePrice : 0}}
           </template>
         </el-table-column>
-        <el-table-column prop="buyerNum" :sortable="'custom'" label="购买人数" align="left">
+        <el-table-column prop="buyerNum" :sortable="'custom'" label="购买人数" align="right">
           <template slot-scope="scope">
             {{scope.row.buyerNum ? scope.row.buyerNum : 0}}
           </template>
         </el-table-column>
-        <el-table-column prop="priceUnit" :sortable="'custom'" label="客单价" align="left">
+        <el-table-column prop="priceUnit" :sortable="'custom'" label="客单价" align="right">
           <template slot-scope="scope">
-            {{scope.row.priceUnit ? scope.row.priceUnit : 0}}
+            ￥{{scope.row.priceUnit ? scope.row.priceUnit : 0}}
           </template>
         </el-table-column>
-        <el-table-column prop="friendBuyerNum" :sortable="'custom'" label="购买好友数" align="left">
+        <el-table-column prop="friendBuyerNum" :sortable="'custom'" label="购买好友数" align="right">
           <template slot-scope="scope">
             {{scope.row.friendBuyerNum ? scope.row.friendBuyerNum : 0}}
           </template>
         </el-table-column>
-        <el-table-column prop="friendBuyerRate" :sortable="'custom'" label="平均好友购买率" align="left">
+        <el-table-column prop="friendBuyerRate" :sortable="'custom'" label="平均好友购买率" align="right">
           <template slot-scope="scope">
-            {{scope.row.friendBuyerRate ? scope.row.friendBuyerRate + '%' : 0}}
+            {{scope.row.friendBuyerRate ? scope.row.friendBuyerRate : 0}}%
           </template>
         </el-table-column>
       </el-table>
