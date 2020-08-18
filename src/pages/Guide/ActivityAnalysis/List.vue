@@ -11,41 +11,43 @@
       <!-- 简单搜索start -->
       <div class="template-table__bar">
         <el-row class="template-table__bar-base">
-          <el-col :span="23">
-            <!-- 右上角操作区域 -->
-            <div class="float-right tabSearchBtn">
-              <ns-button @click="tabSearchType" type="text" style="padding-left: 10px;opacity: 0.5;color: #002041;">
-                {{searchType.tipText}}
-                <Icon :type="searchType.advanced ? 'up' : 'down'"/>
-              </ns-button>
-            </div>
-            <el-form ref="searchform" class="float-right" v-if="!searchType.advanced" :inline="true" :model="searchform"
-                     @submit.native.prevent>
-              <el-form-item>
+          <el-col :span="24">
+            <el-form
+              ref="searchform"
+              :inline="true"
+              :model="searchform"
+              @submit.native.prevent
+              label-width="64px"
+            >
+              <el-form-item v-show="!searchType.advanced">
                 <el-radio-group v-model="searchform.date" class="float-right">
                   <el-radio-button label="昨天">昨天</el-radio-button>
                   <el-radio-button label="近7天">近7天</el-radio-button>
-                  <el-radio-button label="自定义">自定义</el-radio-button>
+                  <el-radio-button label="近30天">近30天</el-radio-button>
                 </el-radio-group>
               </el-form-item>
-              <el-form-item label="自定义：" label-width="80px">
+              <el-form-item v-show="!searchType.advanced" label="自定义：">
                 <el-date-picker
-                  class="float-left"
-                  :disabled="searchform.date !== '自定义'"
-                  v-model="searchform.dateRange"
                   type="daterange"
+                  v-model="searchform.dateRange"
                   range-separator="至"
                   start-placeholder="开始日期"
                   end-placeholder="结束日期"
-                  :default-value="currentMonth"
                   :picker-options="pickerOptions"
+                  :default-value="currentMonth"
                 >
                 </el-date-picker>
               </el-form-item>
-              <el-form-item>
+              <el-form-item v-if="!searchType.advanced">
                 <ns-button type="primary" @click="submitForm('searchform')" >搜索</ns-button>
                 <ns-button @click="resetForm('searchform')">重置</ns-button>
                 <ns-button type="primary" @click="exportData" >导出</ns-button>
+              </el-form-item>
+              <el-form-item>
+                <ns-button type="text" @click="tabSearchType">
+                  {{searchType.tipText}}
+                  <Icon :type="searchType.advanced ? 'up' : 'down'"/>
+                </ns-button>
               </el-form-item>
             </el-form>
           </el-col>
@@ -54,33 +56,31 @@
         <!-- 高级搜索start -->
         <div class="template-table-search" v-show="searchType.advanced">
           <div class="template-table__bar-more">
-            <el-form ref="searchform" label-width="80px"  class="surround-btn" :model="searchform"  :inline="true">
+            <el-form ref="searchform" label-width="64px" class="surround-btn" :model="searchform" :inline="true">
               <el-form-item>
                 <el-radio-group v-model="searchform.date" class="float-right">
                   <el-radio-button label="昨天">昨天</el-radio-button>
                   <el-radio-button label="近7天">近7天</el-radio-button>
-                  <el-radio-button label="自定义">自定义</el-radio-button>
+                  <el-radio-button label="近30天">近30天</el-radio-button>
                 </el-radio-group>
               </el-form-item>
-              <el-form-item label="自定义：" label-width="80px">
+              <el-form-item label="自定义：">
                 <el-date-picker
-                  class="float-left"
-                  :disabled="searchform.date !== '自定义'"
-                  v-model="searchform.dateRange"
                   type="daterange"
+                  v-model="searchform.dateRange"
                   range-separator="至"
                   start-placeholder="开始日期"
                   end-placeholder="结束日期"
-                  :default-value="currentMonth"
                   :picker-options="pickerOptions"
+                  :default-value="currentMonth"
                 >
                 </el-date-picker>
               </el-form-item>
-              <el-form-item>
+              <el-form-item label="选择员工：" label-width="80px">
                 <NsGuideDialog :auth="false" type="primary" btnTitle="选择员工" dialogTitle="选择员工" v-model="searchform.guideIds"></NsGuideDialog>
               </el-form-item>
               <el-form-item>
-                已选择<span class="text-primary">{{searchform.guideIds? searchform.guideIds.length: 0}}</span>个导购员工
+                已选择 <span class="text-primary">{{searchform.guideIds? searchform.guideIds.length: 0}}</span> 个导购员工
               </el-form-item>
             </el-form>
             <div class="template-table__more-btn">
@@ -194,6 +194,7 @@ import { getErrorMsg } from '@/utils/toast'
 import NsGuideDialog from '@/components/NsGuideDialog'
 import { API_ROOT } from '@/config/http.js'
 import PopItem from './components/PopItem'
+import moment from 'moment'
 
 export default {
   mixins: [listPageMixin],
@@ -205,8 +206,7 @@ export default {
       currentMonth: `${nowDate.getFullYear()}/${nowDate.getMonth()}`,
       searchform: {
         date: '昨天',
-        dateRange: '',
-        time: [],
+        dateRange: [],
         name: '',
         guideIds: []
       },
@@ -220,45 +220,66 @@ export default {
       }
     }
   },
+  watch: {
+    'searchform.date' (newVal) {
+      this.searchform.dateRange = this.getDateRange(newVal)
+    }
+  },
   created: function () {
+    this.searchform.date = '昨天'
+    this.searchform.dateRange = this.getDateRange()
     this.loadListFun()
   },
   methods: {
+    getDateRange (rangeType = '昨天') {
+      let endDay = moment().subtract('days', 1)
+      let startDay = null
+      switch (rangeType) {
+        case '近7天':
+          startDay = moment().subtract('days', 7)
+          break
+        case '近30天':
+          startDay = moment().subtract('days', 30)
+          break
+        default:
+          startDay = moment().subtract('days', 1)
+      }
+      return [startDay.startOf('days').toDate(), endDay.endOf('days').toDate()]
+    },
+    checkSearchObj () {
+      const { dateRange } = this.searchObj
+      if (!dateRange || dateRange.length === 0) {
+        this.$notify.error('查询时间范围时间不能为空')
+        this.loading = false
+        return false
+      }
+      let dateDiff = this.getDateDiff(dateRange[0], dateRange[1], 'day')
+      if (dateDiff > 180) {
+        this.$notify.error('查询时间间隔不能大于180天')
+        this.loading = false
+        return false
+      }
+      return true
+    },
     // 加载列表
     async loadListFun (data) {
       this.loading = true
       this.searchObj.analysisType = this.analysisType
       this.searchObj.date = this.searchform.date
       this.searchObj.dateRange = this.searchform.dateRange
-      this.searchObj.time = this.searchform.time
       this.searchObj.sortName = this.sortName
       this.searchObj.sortType = this.sortType
       this.searchObj.guideIds = this.searchform.guideIds
-      if (this.searchObj.date === '自定义') {
-        if (this.searchObj.dateRange === null || this.searchObj.dateRange === '') {
-          this.$notify.error('查询时间范围时间不能为空')
-          this.loading = false
-          return
-        } else {
-          let startTime = this.searchObj.dateRange[0]
-          let endTime = this.searchObj.dateRange[1]
-          let dateDiff = this.getDateDiff(startTime, endTime, 'day')
-          if (dateDiff > 180) {
-            this.$notify.error('查询时间间隔不能大于180天')
-            this.loading = false
-            return
-          }
-        }
-      }
-      await this.$http.fetch(this.$api.guide.sgGuideActivityAnalysis.findList, this.searchObj)
-        .then(resp => {
+      if (this.checkSearchObj()) {
+        this.$http.fetch(this.$api.guide.sgGuideActivityAnalysis.findList, this.searchObj).then(resp => {
           this.dataList = resp.result.data
           this.pagination.total = parseInt(resp.result.recordsTotal)
         }).catch(resp => {
           this.$notify.error(getErrorMsg('查询失败', resp))
+        }).finally(() => {
+          this.loading = false
         })
-      this.loading = false
-      // 总条数
+      }
     },
     getDateDiff (startTime, endTime, diffType) {
       diffType = diffType.toLowerCase()
@@ -283,6 +304,7 @@ export default {
     },
     resetForm () {
       this.searchform.date = '昨天'
+      this.searchform.dateRange = this.getDateRange()
       this.searchform.guideIds = []
       this.loadListFun()
     },
@@ -290,14 +312,12 @@ export default {
       this.searchObj.analysisType = this.analysisType
       this.searchObj.date = this.searchform.date
       this.searchObj.dateRange = this.searchform.dateRange
-      this.searchObj.time = this.searchform.time
       this.searchObj.guideIds = this.searchform.guideIds
       var url = API_ROOT + '/guide/activityAnalysis/exportData'
       var form = document.createElement('form')
       form.appendChild(this.generateHideElement('analysisType', this.searchObj.analysisType))
       form.appendChild(this.generateHideElement('date', this.searchObj.date))
       form.appendChild(this.generateHideElement('dateRange', this.searchObj.dateRange))
-      form.appendChild(this.generateHideElement('time', this.searchObj.time))
       form.appendChild(this.generateHideElement('guideIds', this.searchObj.guideIds))
       form.appendChild(this.generateHideElement('sortName', this.sortName))
       form.appendChild(this.generateHideElement('sortType', this.sortType))
