@@ -68,7 +68,7 @@ export default {
           wordGroup: [{ validator: this.checkWordGroup, trigger: 'blur' }],
           content: [
             { required: true, message: '话术内容不能为空', trigger: 'blur' },
-            { max: 200, message: '长度在 200 以内', trigger: 'blur' }
+            { max: 200, message: '长度在1-200个字符以内', trigger: 'blur' }
           ]
         }
       },
@@ -292,8 +292,8 @@ export default {
       this.emojiShow = !this.emojiShow
     },
     setEmotionWords (list) { // 选中的表情添加按钮
-      if (this.model.content.length < 200) {
-        this.model.content = this.model.content + list
+      if (this.addOrEditModel.model.content.length < 200) {
+        this.addOrEditModel.model.content = this.addOrEditModel.model.content + list
       }
     },
     findAddName () {
@@ -470,12 +470,6 @@ export default {
       }).finally(() => {
         this._data._table.loadingtable = false
       })
-    },
-    contentCheck (val) {
-      if (val.length > 190) {
-        this.$refs.addOrEditForm.validateField('content')
-        this.addOrEditModel.model.content = val.substring(0, 190)
-      }
     }
   }
 }

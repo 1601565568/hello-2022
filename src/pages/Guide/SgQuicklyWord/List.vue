@@ -176,7 +176,7 @@
           ></ns-droptree>
         </el-form-item>
         <el-form-item label="话术内容：" prop="content">
-          <el-input type="textarea" placeholder="输入话术内容，最多200字" @input="contentCheck" v-model="addOrEditModel.model.content" size="small" rows="4" ></el-input>
+          <el-input type="textarea" placeholder="输入话术内容，最多200字" v-model="addOrEditModel.model.content" size="small" rows="4" ></el-input>
           <div class="expressionBar_div">
             <i @click="faceFace" class="cursor-pointer"><Icon type="biaoqing"/></i>
           </div>
@@ -252,6 +252,7 @@
             type="text"
             placeholder="请输入分类名称，长度在1-10个字符以内"
             v-model="addOrEditCategory.model.name"
+            :input="addOrEditCategory.model.name=addOrEditCategory.model.name.replace(/\s+/g,'')"
             autofocus
           ></el-input>
         </el-form-item>
