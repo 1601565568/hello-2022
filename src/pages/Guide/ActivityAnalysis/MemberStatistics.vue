@@ -119,19 +119,19 @@
             {{scope.row.shopName ? scope.row.shopName : '-'}}
           </template>
         </el-table-column>
-        <el-table-column prop="recruitNum" :sortable="'custom'" label="招募会员总数" align="left">
+        <el-table-column prop="recruitNum" :sortable="'custom'" label="招募会员总数" align="right">
           <template slot-scope="scope">
             {{scope.row.recruitNum ? scope.row.recruitNum : 0}}
           </template>
         </el-table-column>
-        <el-table-column prop="personalRecruitNum" :sortable="'custom'" label="个号招募数" align="left">
+        <el-table-column prop="personalRecruitNum" :sortable="'custom'" label="个号招募数" align="right">
           <template slot-scope="scope">
             {{scope.row.personalRecruitNum ? scope.row.personalRecruitNum : 0}}
           </template>
         </el-table-column>
-        <el-table-column prop="personalRecruitRate" :sortable="'custom'" label="个号招募比例" align="left">
+        <el-table-column prop="personalRecruitRate" :sortable="'custom'" label="个号招募比例" align="right">
           <template slot-scope="scope">
-            {{scope.row.personalRecruitRate ? scope.row.personalRecruitRate + '%' : 0}}
+            {{scope.row.personalRecruitRate ? scope.row.personalRecruitRate : 0}}%
           </template>
         </el-table-column>
       </el-table>
