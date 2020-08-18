@@ -276,15 +276,6 @@ export default List
 .topHid {
   visibility: hidden;
 }
-.el-col-8 .template-table-buttons .el-form-grid {
-  margin-right: 8px
-}
-.el-tooltip__popper {
-  max-width: 78% !important;
-}
->>> .template-table__bar .template-table-buttons .el-form-grid {
-  margin-right: var(--default-margin-base);
-}
 .sort {
   font-size: var(--default-font-size-base);
   color: var(--theme-color-primary);
@@ -317,18 +308,15 @@ export default List
   width: 20px;
   height: 20px;
 }
-/* 表情包新增手型 start */
-.cursor-pointer, >>> .emotion-list .li {
+.cursor-pointer,
+>>> .emotion-list .li {
   cursor: pointer;
 }
-/* 表情包新增手型 end */
 @component-namespace speech {
-  /* 左侧分类 start */
   @b left {
     @e search {
       margin: var(--default-margin-small) 0;
     }
   }
-  /* 右侧列表 start */
 }
 </style>
