@@ -7,6 +7,7 @@
           placeholder="请输入分类名称"
           v-model="categorySearchObj.name"
           @keyup.enter.native="onFireFilter()"
+          clearable
         >
           <Icon type="search" slot="suffix" class="el-input__icon" @click="onFireFilter()"/>
         </el-input>
@@ -22,11 +23,12 @@
           ref="categoryTree"
           draggable
           node-key="id"
+          :showIcon="true"
+          :check-strictly="true"
           :data="wordGroupList"
           :highlight-current="true"
           :allow-drop="allowDrop"
           :allow-drag="allowDrag"
-          :showIcon="true"
           :filter-node-method="onTreeFilter"
           :default-expanded-keys="expandedKeys"
           @node-click="onTreeSelect"
@@ -83,7 +85,7 @@
             </el-form-item>
             <el-form-item label="添加人：">
               <el-select v-model="model.name" placeholder="请选择添加人" clearable>
-                <el-option value label="全部" />
+                <el-option value="" label="全部" />
                 <el-option
                   v-for="val in addNameList"
                   :key="val"

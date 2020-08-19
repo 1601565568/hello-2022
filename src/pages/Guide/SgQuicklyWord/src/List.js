@@ -23,7 +23,7 @@ export default {
       addNameList: [],
       model: {
         // 添加人id
-        name: null,
+        name: '',
         // 话术内容
         content: ''
       },
@@ -39,7 +39,7 @@ export default {
       wordGroupId: null,
       // 选择树
       selectwordGroupList: null,
-      allCategoryObj: { id: null, label: '全部', name: '全部' },
+      allCategoryObj: { id: 0, label: '全部' },
       /* 编辑分类 model */
       addOrEditCategory: {
         type: 'add',
@@ -165,7 +165,7 @@ export default {
           }
           this.$http.fetch(this.$api.guide.saveOrUpdateQuicklyWordGroup, params).then(resp => {
             if (resp.success) {
-              this.$notify.success(`${params.id ? '编辑' : '新增'}成功`)
+              this.$notify.success('保存成功')
               this.findQuicklyWordGroupList()
               this.closeDialog()
               if (params.id) {
@@ -173,7 +173,7 @@ export default {
               }
             }
           }).catch(resp => {
-            this.$notify.error(getErrorMsg(`${params.id ? '编辑' : '新增'}失败`, resp))
+            this.$notify.error(getErrorMsg('保存失败', resp))
           }).finally(() => {
             this.addOrEditCategory.loading = false
           })
@@ -233,7 +233,11 @@ export default {
           this.wordGroupList.unshift(this.allCategoryObj)
           // 同步选择列表
           this.selectwordGroupList = this.wordGroupList.slice(1)
-          this.$refs.categoryTree && this.$refs.categoryTree.filter(this.categorySearchObj.searchValue)
+          // 设置默认选中项
+          this.$nextTick(() => {
+            this.$refs.categoryTree.filter(this.categorySearchObj.searchValue)
+            this.$refs.categoryTree.setCurrentKey(this.allCategoryObj.id)
+          })
         }
       }).catch(resp => {
         this.$notify.error(getErrorMsg('系统异常', resp))
@@ -367,10 +371,10 @@ export default {
           delete params.wordGroup
           this.$http.fetch(this.$api.guide.saveOrUpdateQuicklyWord, params).then(() => {
             this.closeDialog()
-            this.$notify.success(`${params.id ? '编辑' : '新增'}成功`)
+            this.$notify.success('保存成功')
             this.$reload()
           }).catch((resp) => {
-            this.$notify.error(getErrorMsg(`${params.id ? '编辑' : '新增'}失败`, resp))
+            this.$notify.error(getErrorMsg('保存失败', resp))
           })
         }
       })
@@ -456,7 +460,10 @@ export default {
     },
     $queryList$: function (params) {
       this._data._table.loadingtable = true
-      const searchMap = { ...params.searchMap, wordGroupId: this.wordGroupId }
+      const searchMap = { ...params.searchMap, wordGroupId: this.wordGroupId || null }
+      if (!searchMap.name) {
+        searchMap.name = null
+      }
       return this.$http.fetch(this.$api.guide.findQuicklyWordList, { ...params, searchMap }).then((resp) => {
         this._data._table.data = resp.result.data
         this._data._pagination.total = parseInt(resp.result.recordsTotal)
