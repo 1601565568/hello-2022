@@ -294,8 +294,8 @@ export default List
   top: 2px;
 }
 .emotion-list_div {
-  width: 350px;
-  height: 147px;
+  /* width: 350px; */
+  height: 90px;
   padding-left: var(--default-padding-base);
   border: 1px solid var(--theme-base-border-color-primary);
 }
