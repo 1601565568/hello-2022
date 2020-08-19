@@ -28,6 +28,7 @@
               </el-form-item>
               <el-form-item v-show="!searchType.advanced" label="自定义：">
                 <el-date-picker
+                  class="float-left"
                   type="daterange"
                   v-model="searchform.dateRange"
                   range-separator="至"
@@ -66,6 +67,7 @@
               </el-form-item>
               <el-form-item label="自定义：" label-width="64px">
                 <el-date-picker
+                  class="float-left"
                   type="daterange"
                   v-model="searchform.dateRange"
                   start-placeholder="开始日期"
