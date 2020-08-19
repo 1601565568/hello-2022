@@ -306,18 +306,21 @@ export default {
       this.searchObj.sortOrder = this.searchform.sortOrder
       this.searchObj.sortCriteria = this.searchform.sortCriteria
       this.searchObj.guideIds = this.searchform.guideIds
-      var url = API_ROOT + '/guide/activityAnalysis/exportData'
-      var form = document.createElement('form')
-      form.appendChild(this.generateHideElement('analysisType', this.searchObj.analysisType))
-      form.appendChild(this.generateHideElement('date', this.searchObj.date))
-      form.appendChild(this.generateHideElement('dateRange', this.searchObj.dateRange))
-      form.appendChild(this.generateHideElement('sortName', this.sortName))
-      form.appendChild(this.generateHideElement('sortType', this.sortType))
-      form.appendChild(this.generateHideElement('guideIds', this.searchObj.guideIds))
-      form.setAttribute('action', url)
-      form.setAttribute('method', 'post')
-      document.body.appendChild(form)
-      form.submit()
+      if (this.checkSearchObj()) {
+        var url = API_ROOT + '/guide/activityAnalysis/exportData'
+        var form = document.createElement('form')
+        form.appendChild(this.generateHideElement('analysisType', this.searchObj.analysisType))
+        form.appendChild(this.generateHideElement('date', this.searchObj.date))
+        form.appendChild(this.generateHideElement('dateStart', moment(this.searchObj.dateRange[0]).format('YYYY-MM-DD')))
+        form.appendChild(this.generateHideElement('dateEnd', moment(this.searchObj.dateRange[1]).format('YYYY-MM-DD')))
+        form.appendChild(this.generateHideElement('sortName', this.sortName))
+        form.appendChild(this.generateHideElement('sortType', this.sortType))
+        form.appendChild(this.generateHideElement('guideIds', this.searchObj.guideIds))
+        form.setAttribute('action', url)
+        form.setAttribute('method', 'post')
+        document.body.appendChild(form)
+        form.submit()
+      }
     },
     generateHideElement (name, value) {
       var tempInput = document.createElement('input')
