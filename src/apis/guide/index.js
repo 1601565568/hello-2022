@@ -58,10 +58,14 @@ export default {
   recruitPageConfig,
   systemPreset,
   // 所有导购模块全部整合在此
-  comGetBrandForShopList: {// 获取品牌下的店铺
+  comGetBrandForShopList: {
+    // 获取品牌下的店铺
     url: '/core/sgshop/getBrandList',
     method: 'get'
   },
+  /**
+   * 素材相关接口
+   */
   materialList: {
     // 素材列表
     url: '/guide/material/findMaterialList',
@@ -73,7 +77,7 @@ export default {
     method: 'post'
   },
   queryMaterial: {
-    // 素材编辑
+    // 素材详情
     url: '/guide/material/queryMaterial',
     method: 'get'
   },
@@ -82,39 +86,75 @@ export default {
     url: '/guide/material/delete',
     method: 'post'
   },
-  materialSetGroud: {
-    // 素材设置分组
-    url: '/guide/material/setSubdivision',
-    method: 'post'
-  },
-  materialExchangeSort: {
-    // 素材设置分组
-    url: '/guide/material/exchangeSort',
-    method: 'post'
-  },
   materialFindListByBrandId: {
     // 素材列表--简洁版
     url: '/guide/material/findListByBrandId',
     method: 'post'
   },
+  materialSetGroud: {
+    // 素材设置标签
+    url: '/guide/material/setSubdivision',
+    method: 'post'
+  },
+  findDirectoryList: {
+    // 查询文件夹列表
+    url: '/guide/material/findDirectoryList',
+    method: 'post'
+  },
+  getDirectoryTree: {
+    // 查询文件夹树
+    url: '/guide/material/getDirectoryTree',
+    method: 'post'
+  },
+  batchDeleteMaterial: {
+    // 批量删除素材或文件夹
+    url: '/guide/material/batchDeleteMaterial',
+    method: 'post'
+  },
+  batchMoveMaterial: {
+    // 批量移动素材或文件夹
+    url: '/guide/material/batchMoveMaterial',
+    method: 'post'
+  },
+  getParentPath: {
+    // 获取文件夹路径
+    url: 'guide/material/getParentPath',
+    method: 'get'
+  },
+  /**
+   * 素材标签
+   */
+  materialExchangeSort: {
+    // 素材标签排序
+    url: '/guide/material/exchangeSort',
+    method: 'post'
+  },
   materialGroudList: {
-    // 素材分组列表
+    // 素材标签列表
     url: '/guide/material/findSubdivisionList',
     method: 'post'
   },
   materialGroudDeit: {
-    // 素材分组编辑
+    // 素材标签编辑
     url: '/guide/material/saveOrUpdateSubdivision',
     method: 'post'
   },
   materialGroudDel: {
-    // 素材分组删除
+    // 素材标签删除
     url: '/guide/material/deleteSubdivision',
     method: 'post'
   },
   materialGroudListAll: {
-    // 素材分组列表不分页
+    // 所有素材标签
     url: '/guide/material/findSubdivisionAll',
+    method: 'post'
+  },
+  /**
+   * 素材文件夹
+   */
+  saveOrUpdateDirectory: {
+    // 保存或更新文件夹
+    url: '/guide/material/saveOrUpdateDirectory',
     method: 'post'
   },
   // 任务模块开始
