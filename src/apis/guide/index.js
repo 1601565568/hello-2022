@@ -210,6 +210,11 @@ export default {
     url: '/guide/quicklyword/findQuicklyWordGroupList',
     method: 'post'
   },
+  // 快捷话术添加人列表
+  getAddNameList: {
+    url: '/guide/quicklyword/getAddNameList',
+    method: 'post'
+  },
   // 快捷话术列表查询
   findQuicklyWordList: {
     url: '/guide/quicklyword/findQuicklyWordList',
