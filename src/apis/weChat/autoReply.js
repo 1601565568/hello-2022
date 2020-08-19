@@ -12,5 +12,12 @@ export default {
   saveOrUpdate: {
     url: '/Guide/AutoReply/saveOrUpdate',
     method: 'post'
+  },
+  /**
+   *  获取智能回复列表
+   */
+  findList: {
+    url: '/Guide/AutoReply/findList',
+    method: 'post'
   }
 }
