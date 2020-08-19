@@ -3,9 +3,21 @@
   <!-- 门店工作统计  wanrengang 20180716 -->
   <div>
     <el-tabs v-model="activeTabName" @tab-click="tabHandleClick">
-      <el-tab-pane label="联系概况" name="/Guide/SgGuide/ActivityAnalysis"></el-tab-pane>
-      <el-tab-pane label="会员统计" name="/Guide/ActivityAnalysis/MemberStatistics"></el-tab-pane>
-      <el-tab-pane label="销售概览" name="/Guide/ActivityAnalysis/SaleView"></el-tab-pane>
+      <el-tab-pane name="/Guide/SgGuide/ActivityAnalysis">
+        <span slot="label">
+          <tab-pane :analysisType="1"/>
+        </span>
+      </el-tab-pane>
+      <el-tab-pane name="/Guide/ActivityAnalysis/MemberStatistics">
+        <span slot="label">
+          <tab-pane :analysisType="2"/>
+        </span>
+      </el-tab-pane>
+      <el-tab-pane name="/Guide/ActivityAnalysis/SaleView">
+        <span slot="label">
+          <tab-pane :analysisType="3"/>
+        </span>
+      </el-tab-pane>
     </el-tabs>
     <div class="template-table">
       <!-- 简单搜索start -->
@@ -36,6 +48,7 @@
                   end-placeholder="结束日期"
                   :picker-options="pickerOptions"
                   :default-value="currentMonth"
+                  @change="handleDateChange"
                 >
                 </el-date-picker>
               </el-form-item>
@@ -74,6 +87,7 @@
                   end-placeholder="结束日期"
                   :default-value="currentMonth"
                   :picker-options="pickerOptions"
+                  @change="handleDateChange"
                 >
                 </el-date-picker>
               </el-form-item>
@@ -179,6 +193,7 @@ import { getErrorMsg } from '@/utils/toast'
 import NsGuideDialog from '@/components/NsGuideDialog'
 import { API_ROOT } from '@/config/http.js'
 import PopItem from './components/PopItem'
+import TabPane from './components/TabPane'
 import moment from 'moment'
 
 export default {
@@ -208,7 +223,9 @@ export default {
   },
   watch: {
     'searchform.date' (newVal) {
-      this.searchform.dateRange = this.getDateRange(newVal)
+      if (newVal) {
+        this.searchform.dateRange = this.getDateRange(newVal)
+      }
     }
   },
   created: function () {
@@ -217,10 +234,16 @@ export default {
     this.loadListFun()
   },
   methods: {
+    handleDateChange () {
+      this.searchform.date = ''
+    },
     getDateRange (rangeType = '昨天') {
       let endDay = moment().subtract('days', 1)
       let startDay = null
       switch (rangeType) {
+        case '昨天':
+          startDay = moment().subtract('days', 1)
+          break
         case '近7天':
           startDay = moment().subtract('days', 7)
           break
@@ -228,9 +251,8 @@ export default {
           startDay = moment().subtract('days', 30)
           break
         default:
-          startDay = moment().subtract('days', 1)
       }
-      return [startDay.startOf('days').toDate(), endDay.endOf('days').toDate()]
+      return startDay ? [startDay.startOf('days').toDate(), endDay.endOf('days').toDate()] : []
     },
     checkSearchObj () {
       const { dateRange } = this.searchObj
@@ -343,14 +365,12 @@ export default {
     }
   },
   components: {
-    NsGuideDialog, PopItem
+    NsGuideDialog, PopItem, TabPane
   }
 }
 </script>
 <style scoped>
-
   @import "@theme/variables.pcss";
-
   .btn-detele {
     margin-left: var(--default-margin-base);
   }
