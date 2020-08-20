@@ -14,7 +14,7 @@
       <template slot="searchSearch">
         <el-form :model="quickSearchModel" :inline="true" @submit.native.prevent  class="pull-right">
           <el-form-item v-show="_data._queryConfig.expand === false" label="聊天关键词：">
-            <el-input ref="quickText" style="width: 180px" v-model="model.title" placeholder="请输入聊天关键词" @keyup.enter.native="$quickSearchAction$('title')" clearable>
+            <el-input ref="quickText" style="width: 180px" v-model="model.chatKeyWord" placeholder="请输入聊天关键词" @keyup.enter.native="$quickSearchAction$('title')" clearable>
             </el-input>
             <ns-button type="primary" @click="$searchAction$()" class="searchbtn">搜索</ns-button>
             <ns-button @click="$resetInputAction$()" class="resetbtn">重置</ns-button>
@@ -36,14 +36,14 @@
         <el-form ref="table_filter_form" :model="model" label-width="80px" :inline="true" @keyup.enter.native="$searchAction$()">
           <el-form-item label="聊天关键词：">
             <el-form-grid size="xmd">
-              <el-input style="width:180px"  v-model="model.title" placeholder="请输入聊天关键词" clearable></el-input>
+              <el-input style="width:180px"  v-model="model.chatKeyWord" placeholder="请输入聊天关键词" clearable></el-input>
             </el-form-grid>
           </el-form-item>
-          <el-form-item label="回复内容：">
-            <el-form-grid size="xmd">
-              <el-input style="width:180px"  v-model="model.title" placeholder="请输入回复内容" clearable></el-input>
-            </el-form-grid>
-          </el-form-item>
+<!--          <el-form-item label="回复内容：">-->
+<!--            <el-form-grid size="xmd">-->
+<!--              <el-input style="width:180px"  v-model="model.title" placeholder="请输入回复内容" clearable></el-input>-->
+<!--            </el-form-grid>-->
+<!--          </el-form-item>-->
           <el-form-item label="匹配方式：">
             <el-form-grid>
               <el-select placeholder="不限" style="width:200px" v-model="model.matchType" clearable filterable>

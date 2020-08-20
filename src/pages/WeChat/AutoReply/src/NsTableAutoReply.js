@@ -91,7 +91,8 @@ export default {
       }
     }
     let findVo = {
-      title: null,
+      chatKeyWord: null,
+      matchType: null,
       // 员工组建 员工值
       guideIds: [],
       // 店铺组件 店铺值
@@ -213,21 +214,21 @@ export default {
       this.$emit('open-dialog', 'edit', '编辑智能欢迎语')
     },
     /**
-     * @msg: 查看欢迎语员工使用范围
+     * @msg: 查看聊天智能回复员工使用范围
      * @param {type} scope.row
      */
     onShowEmployeeScope (data) {
       this.$emit('onShowEmployeeScope', data)
     },
     /**
-     * @msg: 查看欢迎语门店使用范围
+     * @msg: 查看聊天智能回复门店使用范围
      * @param {type} scope.row
      */
     onShowShopScope (data) {
       this.$emit('onShowShopScope', data)
     },
     /**
-     * @msg: 删除智能欢迎语
+     * @msg: 删除聊天智能回复
      * @param {type} scope.row
      */
     onDeleteFun (data) {

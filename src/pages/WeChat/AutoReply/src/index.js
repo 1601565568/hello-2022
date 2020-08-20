@@ -33,16 +33,16 @@ export default {
   methods: {
     // 打开弹窗
     onOpenDialog: function (type, title, data) {
-      // 新增欢迎语
+      // 新增聊天智能回复
       this.onRedactFun(data)
     },
-    // 编辑智能欢迎语
+    // 编辑聊天智能回复
     onRedactFun: function (data) {
       this.$router.push({ path: '/Guide/AutoReply/edit', query: { uuid: data } })
     },
     /**
      * todo 目前仅使用方法 onOpenEmployeeDialog 触发有效
-     * @msg: 查看欢迎语员工使用范围
+     * @msg: 查看聊天智能回复员工使用范围
      * @param {scope.row}
      */
     onShowEmployeeScope (data) {
