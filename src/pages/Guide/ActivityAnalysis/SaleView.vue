@@ -70,7 +70,7 @@
         <!-- 高级搜索start -->
         <div class="template-table-search" v-show="searchType.advanced">
           <div class="template-table__bar-more">
-            <el-form ref="searchform" label-width="80px" class="surround-btn" :model="searchform" :inline="true">
+            <el-form ref="searchform" label-width="64px" :model="searchform" :inline="true">
               <el-form-item>
                 <el-radio-group v-model="searchform.date" class="float-right">
                   <el-radio-button label="昨天">昨天</el-radio-button>
@@ -78,7 +78,7 @@
                   <el-radio-button label="近30天">近30天</el-radio-button>
                 </el-radio-group>
               </el-form-item>
-              <el-form-item label="自定义：" label-width="80px">
+              <el-form-item label="自定义：">
                 <el-date-picker
                   class="float-left"
                   type="daterange"
@@ -92,10 +92,12 @@
                 </el-date-picker>
               </el-form-item>
               <el-form-item label="选择员工：" >
-                <NsGuideDialog :auth="false" type="primary" btnTitle="选择员工" dialogTitle="选择员工" v-model="searchform.guideIds"></NsGuideDialog>
-              </el-form-item>
-              <el-form-item>
-                已选择 <span class="text-primary">{{searchform.guideIds? searchform.guideIds.length: 0}}</span> 个导购员工
+                <div class="template-search__box">
+                  <NsGuideDialog :auth="false" type="primary" btnTitle="选择员工" dialogTitle="选择员工" v-model="searchform.guideIds"></NsGuideDialog>
+                  <span>
+                    已选择 <span class="text-primary">{{searchform.guideIds? searchform.guideIds.length: 0}}</span> 个导购员工
+                  </span>
+                </div>
               </el-form-item>
             </el-form>
             <div class="template-table__more-btn">
@@ -376,5 +378,11 @@ export default {
   @import "@theme/variables.pcss";
   .btn-detele {
     margin-left: var(--default-margin-base);
+  }
+  .template-search__box {
+    display: flex;
+    > div + span {
+      margin-left: var(--default-margin-small);
+    }
   }
 </style>
