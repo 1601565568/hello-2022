@@ -91,6 +91,7 @@
 <script>
 import FolderTree from './FolderTree'
 import ElUpload from '@nascent/nui/lib/upload'
+import { getErrorMsg } from '@/utils/toast'
 
 export default {
   name: 'videoform',
