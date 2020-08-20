@@ -36,7 +36,7 @@ export default {
       wordGroupList: null,
       expandedKeys: [],
       // 分类id
-      wordGroupId: null,
+      wordGroupId: 0,
       // 选择树
       selectwordGroupList: null,
       allCategoryObj: { id: 0, label: '全部' },
@@ -236,7 +236,7 @@ export default {
           // 设置默认选中项
           this.$nextTick(() => {
             this.$refs.categoryTree.filter(this.categorySearchObj.searchValue)
-            this.$refs.categoryTree.setCurrentKey(this.allCategoryObj.id)
+            this.$refs.categoryTree.setCurrentKey(this.wordGroupId)
           })
         }
       }).catch(resp => {
@@ -285,6 +285,7 @@ export default {
     changeQuicklyWordGroupSort (startId, endId) {
       this.$http.fetch(this.$api.guide.changeQuicklyWordGroupSort, { startId: startId, endId: endId }).then(resp => {
         if (resp.success) {
+          this.findQuicklyWordGroupList()
           this.$notify.success('分类顺序设置成功')
         }
       }).catch(resp => {
