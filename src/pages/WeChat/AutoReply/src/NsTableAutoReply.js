@@ -33,6 +33,7 @@ export default {
         'visible': 'scope.row.type !== 9'
       }
     ]
+    let that = this
     var operateButtons = [
       {
         'func': function () {
@@ -45,7 +46,7 @@ export default {
       },
       {
         'func': function () {
-          this.$emit('open-dialog', 'add', '批量删除')
+          that.batchOperate(0)
         },
         'icon': '$.noop',
         'name': '批量删除',
@@ -54,7 +55,7 @@ export default {
       },
       {
         'func': function () {
-          this.$emit('open-dialog', 'add', '批量关闭')
+          that.batchOperate(1)
         },
         'icon': '$.noop',
         'name': '批量关闭',
@@ -63,7 +64,7 @@ export default {
       },
       {
         'func': function () {
-          this.$emit('open-dialog', 'add', '批量开启')
+          that.batchOperate(2)
         },
         'icon': '$.noop',
         'name': '批量开启',
@@ -106,6 +107,7 @@ export default {
         quickSearchNames: quickSearchNames,
         quickSearchMap: {}
       },
+      selectedArr: [],
       multipleSelection: [],
       select: true,
       matchType: [
@@ -149,6 +151,46 @@ export default {
     handleSelectionChange (val) {
       this.selectedArr = val
       val.length > 0 ? this.select = false : this.select = true
+    },
+    batchOperate (type) {
+      if (this.selectedArr.length < 1) {
+        this.$notify.error('请选择聊天智能回复')
+        return
+      }
+      let uuid = ''
+      this.selectedArr.forEach((v) => {
+        uuid += v.uuid + ','
+      })
+      uuid = uuid.substring(0, uuid.length - 1)
+      let msg
+      if (type === 0) {
+        msg = '批量删除'
+      } else if (type === 1) {
+        msg = '批量关闭'
+      } else if (type === 2) {
+        msg = '批量开启'
+      }
+      this.$confirm('请确认是否进行' + msg + '操作!', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        let param = {}
+        param.uuid = uuid
+        param.type = type
+        this.$http.fetch(this.$api.weChat.autoReply.delete, param).then(resp => {
+          if (resp.success) {
+            this.$notify.success(msg + '成功')
+            this.$nextTick(() => {
+              this.$reload()
+            })
+          } else {
+            this.$notify.success(resp.msg)
+          }
+        }).catch((resp) => {
+          this.$notify.error(resp.msg)
+        })
+      })
     },
     async scopeRowCountAndviewDetails (succeedObj) { // 查看门店详情和查看所属区域详情
       let that = this
@@ -197,6 +239,7 @@ export default {
       }).then(() => {
         let param = {}
         param.uuid = data.uuid
+        param.type = 0 // 删除
         _this.$http.fetch(_this.$api.weChat.autoReply.delete, param).then(resp => {
           if (resp.success) {
             _this.$notify.success('删除成功')
