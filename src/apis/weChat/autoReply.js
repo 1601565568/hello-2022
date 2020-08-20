@@ -19,5 +19,26 @@ export default {
   findList: {
     url: '/Guide/AutoReply/findList',
     method: 'post'
+  },
+  /**
+   * @msg: 修改智能欢迎语状态
+   */
+  updateStatus: {
+    url: '/Guide/AutoReply/updateStatus',
+    method: 'post'
+  },
+  /**
+   * @msg: 编辑智能欢迎语
+   */
+  edit: {
+    url: '/Guide/AutoReply/edit',
+    method: 'post'
+  },
+  /**
+   * @msg: 删除智能欢迎语
+   */
+  delete: {
+    url: '/Guide/AutoReply/delete',
+    method: 'post'
   }
 }

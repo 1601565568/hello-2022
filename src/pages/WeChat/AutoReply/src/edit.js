@@ -127,7 +127,7 @@ export default {
     },
     // 取消编辑
     cancelWelcomes () {
-      this.$router.push({ path: '/Guide/speech/speechList' })
+      this.$router.push({ path: '/Guide/SgGuide/ChatAutoReply' })
     },
     // // 获取系统预置链接
     // getSystemPresetLink: function () {
@@ -148,25 +148,34 @@ export default {
       let that = this
       let uuid = this.$route.query.uuid
       if (uuid) {
-        that.$http.fetch(that.$api.weChat.welcomes.getWelcomeCode, { uuid: uuid }
+        that.$http.fetch(that.$api.weChat.autoReply.edit, { uuid: uuid }
         ).then(resp => {
           that.uuid = resp.result.uuid
-          that.title = resp.result.title
-          that.type = resp.result.type
-          that.failureTime = resp.result.failureTime
-          that.rangeType = (this.failureTime ? 0 : 1)
+          that.replyTimeSpace = resp.result.replyTimeSpace
+          that.sendSpaceSet = resp.result.sendSpaceSet
+          that.matchType = resp.result.matchType
+          that.chatKeyWord = resp.result.chatKeyWord
+          that.replyTime = []
+          that.replyTime.push(resp.result.startTime)
+          that.replyTime.push(resp.result.endTime)
           if (resp.result.content) {
             let content = decodeURIComponent(resp.result.content)
             JSON.parse(content).forEach(function (value, i) {
               that.publishData.push(value)
             })
           }
-          resp.result.employeeIds.forEach(function (value, i) {
-            that.employeeSelectData.push(value)
-          })
-          resp.result.storeIds.forEach(function (value, i) {
-            that.shopSelectData.push(value)
-          })
+          if (resp.result.guideId) {
+            let guideIds = resp.result.guideIds.split(',')
+            guideIds.forEach(function (value, i) {
+              that.employeeSelectData.push(value)
+            })
+          }
+          if (resp.result.shopIds) {
+            let shopIds = resp.result.shopIds.split(',')
+            shopIds.forEach(function (value, i) {
+              that.shopSelectData.push(value)
+            })
+          }
         }).catch(resp => {
           that.$notify.error(resp.msg)
         })

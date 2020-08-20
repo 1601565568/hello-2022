@@ -18,7 +18,7 @@ export default {
     const tableButtons = [
       {
         'func': function (scope) {
-          this.$emit('open-dialog', 'edit', '编辑智能欢迎语', scope.row.uuid)
+          this.$emit('open-dialog', 'edit', '编辑聊天智能回复', scope.row.uuid)
         },
         'icon': '',
         'name': '编辑',
@@ -196,8 +196,8 @@ export default {
         type: 'warning'
       }).then(() => {
         let param = {}
-        param.welcomeCodeUuid = data.uuid
-        _this.$http.fetch(_this.$api.weWork.welcomeCode.deleteWelcomeCode, param).then(resp => {
+        param.uuid = data.uuid
+        _this.$http.fetch(_this.$api.weChat.autoReply.delete, param).then(resp => {
           if (resp.success) {
             _this.$notify.success('删除成功')
             _this.$nextTick(() => {
@@ -225,7 +225,7 @@ export default {
       } else if (currVal === 0) {
         status = 1
       }
-      that.$http.fetch(that.$api.weChat.welcomes.setWelcomeCodeStatus, { uuid: row.uuid, status: status, plan: 2 }).then(resp => {
+      that.$http.fetch(that.$api.weChat.autoReply.updateStatus, { uuid: row.uuid, status: status }).then(resp => {
         if (resp.success) {
           that.$notify.success('修改成功')
           that.$nextTick(() => {

@@ -100,9 +100,23 @@
               {{scope.row.chatKeyWord ? scope.row.chatKeyWord : '-'}}
             </template>
           </el-table-column>
-          <el-table-column prop="replyContent" label="回复内容" align="center" min-width="30">
+          <el-table-column prop="content" label="回复内容" align="center" min-width="30">
             <template slot-scope="scope">
-              {{scope.row.replyContent ? scope.row.replyContent : '-'}}
+              <span v-if="JSON.parse(decodeURIComponent(scope.row.content))[0].type === 'text'">
+                {{JSON.parse(decodeURIComponent(scope.row.content))[0].content}}
+              </span>
+              <span v-else-if="JSON.parse(decodeURIComponent(scope.row.content))[0].type === 'image'">
+                图片
+              </span>
+              <span v-else-if="JSON.parse(decodeURIComponent(scope.row.content))[0].type === 'link'">
+                链接
+              </span>
+              <span v-else-if="JSON.parse(decodeURIComponent(scope.row.content))[0].type === 'video'">
+                视频
+              </span>
+              <span v-else>
+                小程序
+              </span>
             </template>
           </el-table-column>
           <el-table-column align="center" min-width="30">
@@ -130,25 +144,27 @@
           </el-table-column>
           <el-table-column prop="matchType" label="匹配方式" align="center" min-width="30">
             <template slot-scope="scope">
-              {{scope.row.matchType ? scope.row.matchType : '-'}}
+              <span v-if="scope.row.matchType === 0">模糊匹配</span>
+              <span v-if="scope.row.matchType === 1">完全匹配</span>
+              <span v-if="scope.row.matchType === 2">任意匹配</span>
             </template>
           </el-table-column>
           <el-table-column label="状态" align="center" min-width="30">
             <template slot-scope="{row}">
-              <el-switch style="cursor:pointer" v-if="row.type === 9 && String(row.account ? row.account : '') !== 'admin'" :disabled="true" :value="row.status" :active-value="1" :inactive-value="0"
-                         ></el-switch>
-              <el-switch style="cursor:pointer" v-else :value="row.status" :active-value="1" :inactive-value="0"
+<!--              <el-switch style="cursor:pointer" v-if="row.type === 9 && String(row.account ? row.account : '') !== 'admin'" :disabled="true" :value="row.status" :active-value="1" :inactive-value="0"-->
+<!--                         ></el-switch>-->
+              <el-switch style="cursor:pointer" :value="row.status" :active-value="1" :inactive-value="0"
                          :before-change="(call, currVal)=>{onStatusChange(call,currVal,row)}"></el-switch>
             </template>
           </el-table-column>
           <el-table-column :show-overflow-tooltip="true" label="操作" align="center"
                            min-width="30">
             <template slot-scope="scope">
-              <ns-table-column-operate-button-ext v-if="scope.row.type === 9 && String(scope.row.account ? scope.row.account : '') !== 'admin'"
-                                                  :prop="scope"
-                                                  :buttons="[]">
-              </ns-table-column-operate-button-ext>
-              <ns-table-column-operate-button-ext v-else :buttons="_data._table.table_buttons"
+<!--              <ns-table-column-operate-button-ext v-if="scope.row.type === 9 && String(scope.row.account ? scope.row.account : '') !== 'admin'"-->
+<!--                                                  :prop="scope"-->
+<!--                                                  :buttons="[]">-->
+<!--              </ns-table-column-operate-button-ext>-->
+              <ns-table-column-operate-button-ext :buttons="_data._table.table_buttons"
                                                   :prop="scope">
               </ns-table-column-operate-button-ext>
             </template>

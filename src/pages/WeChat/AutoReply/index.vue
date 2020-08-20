@@ -1,6 +1,6 @@
 <template>
   <div>
-    <NsTableAutoReply ref="mainTable" :url=$api.weChat.welcomes.findList
+    <NsTableAutoReply ref="mainTable" :url=$api.weChat.autoReply.findList
                      @open-dialog="onOpenDialog" @onShowEmployeeScope='onShowEmployeeScope' @onShowShopScope='onShowShopScope'>
     </NsTableAutoReply>
     <!-- 使用门店 -->
