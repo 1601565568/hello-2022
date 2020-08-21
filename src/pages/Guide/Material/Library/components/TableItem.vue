@@ -78,6 +78,7 @@ export default {
         -webkit-line-clamp: 2;
         overflow: hidden;
         text-overflow: ellipsis;
+        visibility: visible;
       }
       @e imageBox {
         overflow: hidden;
