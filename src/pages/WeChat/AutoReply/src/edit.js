@@ -106,7 +106,6 @@ export default {
         content: encodeURIComponent(content),
         uuid: that.uuid
       }
-      debugger
       that.$refs.form.validate(valid => {
         if (!valid) {
           return
