@@ -31,7 +31,7 @@ import index from './src/index.js'
 import ElUpload from '@nascent/nui/lib/upload'
 import NsTableAutoReply from './NsTableAutoReply'
 import NsTableEmployeeScope from './NsTableEmployeeScope.vue'
-import NsTableShopScope from './../../../components/NsTableShopDialog/NsTableShopScope.vue'
+import NsTableShopScope from './NsTableShopScope.vue'
 import ElImage from '@nascent/nui/lib/image'
 index.components = {
   NsTableAutoReply,
