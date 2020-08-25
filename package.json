@@ -6,7 +6,7 @@
     "bootstrap": "yarn install && npm run clean:build && npm run build:icons",
     "start": "vue-cli-service serve",
     "build": "npm run clean:build && vue-cli-service build",
-    "build:icons": "node ./node_modules/@nascent/ecrp-ecrm/build/copyIconsPro.js && cross-env VUE_APP_SVG_DIR=../../../src/icons lerna bootstrap --registry=https://registry.yarnpkg.com",
+    "build:icons": "node ./node_modules/@nascent/ecrp-ecrm/build/copyIconsPro.js && cross-env VUE_APP_SVG_DIR=../../../src/icons lerna bootstrap",
     "clean:build": "rimraf dist public/temp node_modules/.cache",
     "lint": "vue-cli-service lint",
     "test:e2e": "vue-cli-service test:e2e",
@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "@ant-design/icons": "^2.1.1",
-    "@nascent/ecrp-ecrm": "^0.4.102",
+    "@nascent/ecrp-ecrm": "^0.4.114",
     "@nascent/icons-vue": "^1.0.11",
     "@nascent/log": "^0.2.1",
     "@nascent/nui": "^2.9.37",
@@ -50,7 +50,7 @@
     "vuex-class": "^0.3.2"
   },
   "devDependencies": {
-    "@nascent/icons-pro": "^1.0.6",
+    "@nascent/icons-pro": "^1.0.13",
     "@types/chai": "^4.2.5",
     "@types/lodash": "^4.14.149",
     "@types/mocha": "^5.2.4",
