@@ -60,7 +60,7 @@
         :model="model"
         label-width="80px"
         :inline="true"
-        @keyup.enter.native="$searchAction$()"
+        @submit.native.prevent
       >
         <el-form-item label="欢迎语内容：">
           <el-form-grid size="xmd">
