@@ -163,7 +163,7 @@ export default {
               that.publishData.push(value)
             })
           }
-          if (resp.result.guideId) {
+          if (resp.result.guideIds) {
             let guideIds = resp.result.guideIds.split(',')
             guideIds.forEach(function (value, i) {
               that.employeeSelectData.push(value)

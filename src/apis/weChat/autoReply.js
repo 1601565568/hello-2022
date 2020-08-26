@@ -40,5 +40,19 @@ export default {
   delete: {
     url: '/Guide/AutoReply/delete',
     method: 'post'
+  },
+  /**
+   * 获取聊天智能回复使用员工
+   */
+  findAutoReplyEmployeeList: {
+    url: '/Guide/AutoReply/findAutoReplyEmployeeList',
+    method: 'post'
+  },
+  /**
+   * 获取聊天智能回复使用店铺
+   */
+  findAutoReplyShopList: {
+    url: '/Guide/AutoReply/findAutoReplyShopList',
+    method: 'post'
   }
 }

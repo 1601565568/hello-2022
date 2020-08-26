@@ -8,12 +8,11 @@ export default {
     // 员工使用范围数据model
     let nsTableEmployeeScopeModel = {
       visible: false,
-      welcomeCodeUuid: '',
-      type: ''
+      uuid: ''
     }
     let nsTableShopScopeModel = {
       visible: false,
-      welcomeCodeUuid: ''
+      uuid: ''
     }
     return {
       dialogTitle: '', // 弹窗标题
@@ -47,8 +46,7 @@ export default {
      */
     onShowEmployeeScope (data) {
       this.nsTableEmployeeScopeModel = {
-        type: data.type,
-        welcomeCodeUuid: data.uuid,
+        uuid: data.uuid,
         visible: true
       }
     },
@@ -70,11 +68,11 @@ export default {
       // 重新刷新列表数据
       this.$nextTick(() => {
         if (this.nsTableEmployeeScopeModel.type && this.nsTableEmployeeScopeModel.type === 9) {
-          this.nsTableEmployeeScopeModel.welcomeCodeUuid = null
+          this.nsTableEmployeeScopeModel.uuid = null
         }
-        this.$refs.employeeTable.model.welcomeCodeUuid = this.nsTableEmployeeScopeModel.welcomeCodeUuid
-        this.$refs.employeeTable._data._table.searchMap.welcomeCodeUuid = this.nsTableEmployeeScopeModel.welcomeCodeUuid
-        this.$refs.employeeTable._data._table.quickSearchMap.welcomeCodeUuid = this.nsTableEmployeeScopeModel.welcomeCodeUuid
+        this.$refs.employeeTable.model.uuid = this.nsTableEmployeeScopeModel.uuid
+        this.$refs.employeeTable._data._table.searchMap.uuid = this.nsTableEmployeeScopeModel.uuid
+        this.$refs.employeeTable._data._table.quickSearchMap.uuid = this.nsTableEmployeeScopeModel.uuid
         this.$refs.employeeTable.$reload()
       })
     },
@@ -85,7 +83,7 @@ export default {
      */
     onShowShopScope (data) {
       this.nsTableShopScopeModel = {
-        welcomeCodeUuid: data.uuid,
+        uuid: data.uuid,
         visible: true
       }
     },
@@ -106,9 +104,9 @@ export default {
     onOpenShopDialog () {
       // 重新刷新列表数据
       this.$nextTick(() => {
-        this.$refs.shopTable.model.welcomeCodeUuid = this.nsTableShopScopeModel.welcomeCodeUuid
-        this.$refs.shopTable._data._table.searchMap.welcomeCodeUuid = this.nsTableShopScopeModel.welcomeCodeUuid
-        this.$refs.shopTable._data._table.quickSearchMap.welcomeCodeUuid = this.nsTableShopScopeModel.welcomeCodeUuid
+        this.$refs.shopTable.model.uuid = this.nsTableShopScopeModel.uuid
+        this.$refs.shopTable._data._table.searchMap.uuid = this.nsTableShopScopeModel.uuid
+        this.$refs.shopTable._data._table.quickSearchMap.uuid = this.nsTableShopScopeModel.uuid
         this.$refs.shopTable.$reload()
       })
     }

@@ -3,17 +3,18 @@
  * @Author: yuye.huang
  * @Date: 2020-03-09 13:55:17
  * @LastEditors: yuye.huang
- * @LastEditTime: 2020-03-09 14:26:02
+ * @LastEditTime: 2020-06-17 14:43:00
  */
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 
 export default {
-  name: 'NsTableEmployeeScope',
+  name: 'NsTableShopScope',
   props: {
     data: {
       type: Object,
       default () {
         return {
+          welcomeCodeUuid: '',
           visible: false
         }
       }
@@ -21,16 +22,16 @@ export default {
   },
   mixins: [tableMixin],
   data () {
-    let model = Object.assign({
-      employeeName: ''
-    }, this.model, this.childData)
+    let model = {
+      shopName: ''
+    }
     return {
       _table: {
         searchMap: {},
         quickSearchMap: {}
       },
       model: model,
-      url: this.$api.weChat.autoReply.findAutoReplyEmployeeList
+      url: this.$api.weChat.autoReply.findAutoReplyShopList
     }
   },
   mounted () {
