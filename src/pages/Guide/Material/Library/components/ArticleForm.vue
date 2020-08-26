@@ -6,7 +6,7 @@
           type="text"
           maxlength="20"
           v-model="model.name"
-          placeholder="请输入标题，长度为4-20个字符"
+          placeholder="请输入标题，长度在20个字符以内"
           style="width: 260px"
           :input="model.name=model.name.replace(/\s+/g,'')"
           clearable
@@ -54,14 +54,14 @@
               <el-input
                 type="text"
                 v-model="model.title"
-                placeholder="请输入文章标题，长度为4-40个字"
+                placeholder="请输入文章标题，长度在20字内"
                 :input="model.title=model.title.replace(/\s+/g,'')"
                 clearable
               ></el-input>
             </el-form-item>
             <el-form-item ref="imageForm" prop="imageList">
               <div class="library-image__item" v-for="(item,index) in imageList" :key="index">
-                <img :src="item">
+                <img :src="item + '?x-oss-process=image/resize,m_mfit,h_200,w_200'">
                 <div class="library-image__mask">
                   <Icon type="zoom-in" @click="previewImage(index)"/>
                   <Icon type="delete" @click="removeImage(index)"/>
@@ -110,7 +110,7 @@
       <ns-button type="primary" :loading="loading" @click="onSave">保存</ns-button>
       <ns-button @click="onBack()">取消</ns-button>
     </div>
-    <folder-tree ref="folderTree" @submit="handleFolder"></folder-tree>
+    <folder-tree ref="folderTree" title="选择文件夹" @submit="handleFolder"></folder-tree>
   </div>
 </template>
 <script>
@@ -164,22 +164,22 @@ export default {
       },
       rules: {
         name: [
-          { required: true, message: '请输入标题', trigger: 'blur' },
-          { min: 4, max: 20, message: '长度在4到20个字符', trigger: 'blur' }
+          { required: true, message: '请输入标题', trigger: ['blur', 'change'] },
+          { min: 0, max: 20, message: '限制长度在20个字符以内', trigger: ['blur', 'change'] }
         ],
         content: [
-          { required: true, message: '请输入推广文案', trigger: 'blur' },
-          { min: 0, max: 1500, message: '限制长度在1500个字符以内', trigger: 'blur' }
+          { required: true, message: '请输入推广文案', trigger: ['blur', 'change'] },
+          { min: 0, max: 1500, message: '限制长度在1500个字符以内', trigger: ['blur', 'change'] }
         ],
         textContent: [
-          { required: true, message: '请输入素材文章', trigger: 'blur' }
+          { required: true, message: '请输入素材文章', trigger: ['blur', 'change'] }
         ],
         imageList: [
           { required: true, message: '请添加素材图片', trigger: 'change' }
         ],
         title: [
-          { required: true, message: '请输入文章标题', trigger: 'blur' },
-          { min: 4, max: 40, message: '长度在4到40个字符', trigger: 'blur' }
+          { required: true, message: '请输入文章标题', trigger: ['blur', 'change'] },
+          { min: 0, max: 20, message: '限制长度在20个字符以内', trigger: ['blur', 'change'] }
         ],
         cardStyle: [{ required: true, message: '卡片样式不能为空', trigger: 'blur' }]
       },
