@@ -16,7 +16,7 @@
         </div>
         <ul v-if="type === 'img'" class="preview-dialog__list">
           <li v-for="(item, index) in list" :key="index" @click="goto(index)">
-            <img :class="{'active': index === current}" :src="item">
+            <img :class="{'active': index === current}" :src="item + '?x-oss-process=image/resize,m_mfit,h_200,w_200'">
           </li>
         </ul>
         <div v-if="type === 'img'" class="preview-dialog__left" @click="prevTo()"></div>
@@ -134,6 +134,7 @@ export default {
           width: 50px;
           height: 50px;
           opacity: 0.3;
+          object-fit: cover;
           &:hover {
             opacity: 1;
           }

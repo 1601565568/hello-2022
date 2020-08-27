@@ -1,12 +1,15 @@
 <template>
   <el-dialog
-    :title="title"
     :visible.sync="visible"
     :before-close="hide"
     :close-on-click-modal="false"
     :append-to-body="appendToBody"
     customClass="folder-tree"
   >
+    <div slot="title">
+      <span class="el-dialog__title">{{title}}</span>
+      <slot name="extraTitle"></slot>
+    </div>
     <div class="folder-tree__wrapper">
       <el-tree
         ref="folderTree"
@@ -24,7 +27,7 @@
       </el-tree>
     </div>
     <div slot="footer" class="clearfix">
-      <ns-button @click="onAddFolder" class="folder-tree__btn">新建文件夹</ns-button>
+      <ns-button v-if="showNewFoler" @click="onAddFolder" class="folder-tree__btn">新建文件夹</ns-button>
       <ns-button @click="hide">取 消</ns-button>
       <ns-button type="primary" :disabled="!checked" :loading="loading" @click="handleSave">确 定</ns-button>
     </div>
@@ -36,21 +39,38 @@ import NewFolder from './NewFolder'
 import { getErrorMsg } from '@/utils/toast'
 export default {
   props: {
+    // 是否显示新建文件夹
+    showNewFoler: {
+      type: Boolean,
+      default: function () {
+        return true
+      }
+    },
+    // 是否默认选中第一项
+    selectedByFirst: {
+      type: Boolean,
+      default: function () {
+        return true
+      }
+    },
     appendToBody: {
       type: Boolean,
       default: function () {
         return true
       }
+    },
+    title: {
+      type: String,
+      default: '移动到'
     }
   },
   data: function () {
     return {
-      title: '移动到',
       visible: false,
       loading: false,
       list: [],
       expandedKeys: [],
-      checked: { id: 0, label: '素材库' },
+      checked: null,
       catalogue: [],
       selectRows: []
     }
@@ -61,6 +81,10 @@ export default {
     async show (rows, catalogue) {
       this.visible = true
       this.selectRows = Object.prototype.toString.call(rows) === '[object Object]' ? [rows] : (rows || [])
+      // 不存在选中目录，且需要默认选中第一项
+      if ((!catalogue || catalogue.length === 0) && this.selectedByFirst) {
+        catalogue = [{ id: 0, label: '素材库' }]
+      }
       this.catalogue = catalogue || []
       await this.loadList()
       this.$nextTick(() => {
@@ -71,8 +95,9 @@ export default {
       this.visible = false
     },
     resetTree (rows, catalogue) {
-      this.expandedKeys = catalogue.length ? catalogue.map(o => o.id) : [0]
-      this.checked = catalogue.length ? catalogue[catalogue.length - 1] : { id: 0, label: '素材库' }
+      this.expandedData = catalogue[catalogue.length - 2] || { id: 0, label: '素材库' }
+      this.checked = catalogue.length ? catalogue[catalogue.length - 1] : null
+      this.onExpand(this.expandedData)
       this.$refs.folderTree.setCheckedKeys(this.checked ? [this.checked.id] : [])
     },
     onExpand (data) {
