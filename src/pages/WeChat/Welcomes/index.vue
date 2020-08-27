@@ -7,7 +7,7 @@
     <el-dialog ref="shopDialog" :visible.sync="nsTableShopScopeModel.visible"
                @open='onOpenShopDialog()' @closed='onCloseShopDialog()'
                title="使用门店"
-               width="660px">
+               width="720px">
       <ns-table-shop-scope ref='shopTable' :data="nsTableShopScopeModel"></ns-table-shop-scope>
       <div slot="footer" class="dialog-footer">
         <ns-button @click="nsTableShopScopeModel.visible = false">关闭</ns-button>
@@ -17,7 +17,7 @@
     <el-dialog ref="employeeDialog" :visible.sync="nsTableEmployeeScopeModel.visible"
                @open='onOpenEmployeeDialog()' @closed='onCloseEmployeeDialog()'
                title="使用员工"
-               width="660px">
+               width="720px">
       <ns-table-employee-scope ref='employeeTable' :data="nsTableEmployeeScopeModel"></ns-table-employee-scope>
       <div slot="footer" class="dialog-footer">
         <ns-button @click="nsTableEmployeeScopeModel.visible = false">关闭</ns-button>
