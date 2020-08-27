@@ -167,12 +167,12 @@
               @selection-change="onHandleSelectChange"
             >
               <el-table-column type="selection" align="center" :width="50"></el-table-column>
-              <el-table-column label="标题" :min-width="190">
+              <el-table-column label="标题" show-overflow-tooltip :min-width="190">
                 <template slot-scope="scope">
-                  <div :class="{'library-table__folder': scope.row.isDirectory === 1}" @click="onEnter(scope.row)">
-                    <Icon v-if="scope.row.isDirectory === 1" type="wenjianjia-new" />
+                  <span :class="scope.row.isDirectory === 1 ? 'library-table__folder' : 'library-table__material'" @click="onEnter(scope.row)">
+                    <Icon type="wenjianjia-new" />
                     <span>{{scope.row.name}}</span>
-                  </div>
+                  </span>
                 </template>
               </el-table-column>
               <el-table-column label="内容" prop="content" :min-width="275">
@@ -244,7 +244,7 @@
       </template>
     </ns-page-table>
     <new-folder ref="newFolder" @submit="loadList"></new-folder>
-    <folder-tree ref="folderTree" @submit="loadList"></folder-tree>
+    <folder-tree ref="folderTree" @submit="refreshList"></folder-tree>
     <label-make ref="labelMake" @setSubdivision="setSubdivision"></label-make>
     <label-manage ref="labelManage"></label-manage>
     <preview ref="preview"></preview>
@@ -349,6 +349,12 @@ export default Index
           &+span {
             vertical-align: middle;
           }
+        }
+      }
+      @e material {
+        white-space: pre-wrap;
+        svg {
+          display: none;
         }
       }
     }

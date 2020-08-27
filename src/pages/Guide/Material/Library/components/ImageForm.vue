@@ -6,7 +6,7 @@
           type="text"
           maxlength="20"
           v-model="model.name"
-          placeholder="请输入标题，长度为4-20个字符"
+          placeholder="请输入标题，长度在20个字符以内"
           style="width: 260px"
           :input="model.name=model.name.replace(/\s+/g,'')"
           clearable
@@ -46,7 +46,7 @@
       <el-form-item ref="imageForm" label="素材图片：" prop="imageList">
         <ul class="library-image__list clearfix">
           <li class="library-image__item" v-for="(item,index) in imageList" :key="index">
-            <img :src="item">
+            <img :src="item + '?x-oss-process=image/resize,m_mfit,h_200,w_200'">
             <div class="library-image__mask">
               <Icon type="zoom-in" @click="previewImage(index)"/>
               <Icon type="delete" @click="removeImage(index)"/>
@@ -129,7 +129,7 @@
       <ns-button type="primary" :loading="loading" @click="onSave">保存</ns-button>
       <ns-button @click="onBack()">取消</ns-button>
     </div>
-    <folder-tree ref="folderTree" @submit="handleFolder"></folder-tree>
+    <folder-tree ref="folderTree" title="选择文件夹" @submit="handleFolder"></folder-tree>
     <SelectMarket ref="selectMarket" :callBack="selectMarketBack"></SelectMarket>
     <SelectGoods ref="selectGoods" :callBack="selectMarketBack"></SelectGoods>
   </div>
@@ -184,12 +184,12 @@ export default {
       },
       rules: {
         name: [
-          { required: true, message: '请输入标题', trigger: 'blur' },
-          { min: 4, max: 20, message: '长度在4到20个字符', trigger: 'blur' }
+          { required: true, message: '请输入标题', trigger: ['blur', 'change'] },
+          { min: 0, max: 20, message: '限制长度在20个字符以内', trigger: ['blur', 'change'] }
         ],
         content: [
-          { required: true, message: '请输入推广文案', trigger: 'blur' },
-          { min: 0, max: 1500, message: '限制长度在1500个字符以内', trigger: 'blur' }
+          { required: true, message: '请输入推广文案', trigger: ['blur', 'change'] },
+          { min: 0, max: 1500, message: '限制长度在1500个字符以内', trigger: ['blur', 'change'] }
         ],
         imageList: [
           { required: true, message: '请添加素材图片', trigger: 'change' }

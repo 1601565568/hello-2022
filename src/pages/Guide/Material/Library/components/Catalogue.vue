@@ -43,14 +43,14 @@
               </div>
               <div class="catalogue-materials__item--media">
                 <div v-if="item.mType === 0" class="catalogue-materials__article">
-                  <img alt="" :src="item.imageList[0]" @click="showPreview(0, item)"/>
+                  <img alt="" :src="item.imageList[0] + '?x-oss-process=image/resize,m_mfit,h_200,w_200'" @click="showPreview(0, item)"/>
                   <el-tooltip placement="top-start" :enterable="true" popper-class="table-body__tooltip">
                     <div slot="content">{{item.title}}</div>
                     <div class="catalogue-materials__article--title catalogue-ellipsis3">{{item.title}}</div>
                   </el-tooltip>
                 </div>
                 <div v-else-if="item.mType === 1" class="catalogue-materials__image">
-                  <img :style="{'width': imageHeight + 'px','height': imageHeight + 'px'}" alt="" :src="img" v-for="(img, index) in item.imageList" :key="index" @click="showPreview(index, item)"/>
+                  <img :style="{'width': imageHeight + 'px','height': imageHeight + 'px'}" alt="" :src="img + '?x-oss-process=image/resize,m_mfit,h_200,w_200'" v-for="(img, index) in item.imageList" :key="index" @click="showPreview(index, item)"/>
                 </div>
                 <div v-else class="catalogue-materials__video">
                   <video :src="item.imageList[0]" :style="{'height': videoHeight + 'px'}">
@@ -282,8 +282,9 @@ export default {
         position: relative;
         display: inline-block;
         margin: 5px 44px;
+        padding-bottom: 8px;
         width: 128px;
-        height: 128px;
+        /* height: 128px; */
         text-align: center;
         border: solid 1px transparent;
         border-radius: 3px;
@@ -345,6 +346,8 @@ export default {
           }
         }
         @m info {
+          font-size: 0;
+          line-height: 1;
           cursor: pointer;
         }
       }
