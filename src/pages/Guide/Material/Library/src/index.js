@@ -451,25 +451,27 @@ export default {
      * 进入文件夹：需要清空选中内容
      */
     onEnter (row) {
-      let path = this.breadcrumb.map(o => o.id).join('/')
-      if (path === row.parentPath) {
-        this.breadcrumb.push(row)
-        this.pagination.page = 1
-        this.resetAction()
-      } else {
-        this.$http.fetch(this.$api.guide.getParentPath, {
-          parentId: row.parentId
-        }).then(resp => {
-          const { parentPath, parentPathName } = resp.result
-          const parentIds = parentPath.split('/')
-          const parentNames = parentPathName.split('/')
-          const breadcrumb = parentIds.map((id, index) => ({ id: +id, name: parentNames[index] }))
-          this.breadcrumb = breadcrumb.concat(row)
+      if (row.isDirectory === 1) {
+        let path = this.breadcrumb.map(o => o.id).join('/')
+        if (path === row.parentPath) {
+          this.breadcrumb.push(row)
           this.pagination.page = 1
           this.resetAction()
-        }).catch(resp => {
-          this.$notify.error(getErrorMsg('文件夹打开失败', resp))
-        })
+        } else {
+          this.$http.fetch(this.$api.guide.getParentPath, {
+            parentId: row.parentId
+          }).then(resp => {
+            const { parentPath, parentPathName } = resp.result
+            const parentIds = parentPath.split('/')
+            const parentNames = parentPathName.split('/')
+            const breadcrumb = parentIds.map((id, index) => ({ id: +id, name: parentNames[index] }))
+            this.breadcrumb = breadcrumb.concat(row)
+            this.pagination.page = 1
+            this.resetAction()
+          }).catch(resp => {
+            this.$notify.error(getErrorMsg('文件夹打开失败', resp))
+          })
+        }
       }
     },
     /**
@@ -560,11 +562,19 @@ export default {
         .fetch(this.$api.guide.batchDeleteMaterial, { itemList })
         .then(resp => {
           this.$notify.success('删除成功')
+          this.selectRows = []
           this.loadList()
         })
         .catch(resp => {
           this.$notify.error(getErrorMsg('删除失败', resp))
         })
+    },
+    /**
+     * 文件夹以及素材移动成功回调
+     */
+    refreshList () {
+      this.selectRows = []
+      this.loadList()
     },
     /**
      * 获取标签列表-全量

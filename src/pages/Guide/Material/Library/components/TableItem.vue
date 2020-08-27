@@ -11,7 +11,7 @@
       <div v-if="data.mType === 1" class="tableItem-content__imageBox">
         <ul>
           <li v-for="(item, index) in imageList.slice(0, 3)" :key="index" @click="showPreview(index)">
-            <img :src="item" alt="">
+            <img :src="item + '?x-oss-process=image/resize,m_mfit,h_200,w_200'" alt="">
           </li>
           <li v-if="imageList.length > 3">
             <div>…</div>
@@ -34,7 +34,7 @@
       </div>
       <!-- 文章素材 -->
       <div v-if="data.mType === 0" class="tableItem-content__articleBox">
-        <img alt="" :src="imageList[0]" @click="showPreview(0)"/>
+        <img alt="" :src="imageList[0] + '?x-oss-process=image/resize,m_mfit,h_200,w_200'" @click="showPreview(0)"/>
         <el-tooltip placement="top-start" :enterable="true" popper-class="table-body__tooltip">
           <div slot="content">{{data.title}}</div>
           <div class="tableItem-content__ellipsis">{{data.title}}</div>

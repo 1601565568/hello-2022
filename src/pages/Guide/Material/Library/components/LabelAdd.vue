@@ -13,7 +13,7 @@
         <el-form-item label-width="72px" label="标签名称：" prop="name">
           <el-input
             v-model="model.name"
-            placeholder='请输入标签名称，长度在4-20个字符以内'
+            placeholder='请输入标签名称，长度在20个字符以内'
             :input="model.name=model.name.replace(/\s+/g,'')"
             @keyup.enter.native="handleSave"
             clearable
@@ -46,8 +46,8 @@ export default {
       },
       rules: {
         name: [
-          { required: true, message: '请输入标签名称', trigger: 'blur' },
-          { min: 4, max: 20, message: '长度在4-20个字符以内', trigger: 'blur' }
+          { required: true, message: '请输入标签名称', trigger: ['blur', 'change'] },
+          { min: 0, max: 20, message: '限制长度在20个字符以内', trigger: ['blur', 'change'] }
         ]
       },
       data: null,
