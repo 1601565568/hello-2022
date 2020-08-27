@@ -331,6 +331,7 @@ export default {
           font-size: 12px;
           color: #606266;
           line-height: 20px;
+          word-break: break-word;
         }
         @m btns {
           margin-top: 10px;
