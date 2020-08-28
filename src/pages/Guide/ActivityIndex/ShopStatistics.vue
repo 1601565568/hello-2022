@@ -219,7 +219,7 @@
       >
       <template slot-scope="scope">
         <span>{{$numeral(scope.row.sellComplete).format('0,0.00')}}</span>/<span class="text-error">
-          <span v-if="scope.row.sellQuota-scope.row.sellComplete<0">
+          <span v-if="!scope.row.sellQuota || scope.row.sellQuota-scope.row.sellComplete<0">
             0
           </span>
           <span v-else>
@@ -242,7 +242,7 @@
         <template slot-scope="scope">
           <span>{{scope.row.addfriendComplete}}</span>/
           <span class="text-error">
-          <span v-if="scope.row.addfriendQuota-scope.row.addfriendComplete<0">
+          <span v-if="!scope.row.addfriendQuota || scope.row.addfriendQuota-scope.row.addfriendComplete<0">
             0
           </span>
           <span v-else>
