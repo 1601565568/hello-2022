@@ -197,7 +197,7 @@
       <template slot-scope="scope">
         <span>{{scope.row.recruitComplete}}</span>/
         <span class="text-error">
-          <span v-if="scope.row.recruitQuota-scope.row.recruitComplete<0">
+          <span v-if="!scope.row.recruitQuota || scope.row.recruitQuota-scope.row.recruitComplete<0">
             0
           </span>
           <span v-else>
