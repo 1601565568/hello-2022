@@ -54,6 +54,7 @@
               <el-input
                 type="text"
                 v-model="model.title"
+                maxlength="20"
                 placeholder="请输入文章标题，长度在20字内"
                 :input="model.title=model.title.replace(/\s+/g,'')"
                 clearable
