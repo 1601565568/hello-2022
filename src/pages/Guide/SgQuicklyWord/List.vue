@@ -43,7 +43,7 @@
       </el-scrollbar>
     </div>
     <div class="template-page__row-right">
-      <ns-page-table>
+      <ns-page-table :colButton="10">
         <template slot="buttons" class="quickWordsArt">
           <ns-button type="primary" @click="onSaveOpen()" class="quickWordsArt">新增话术</ns-button>
           <ns-button type="primary" :disabled="!batchDis" @click="onBatchSetOpen()">批量分类</ns-button>
@@ -178,7 +178,7 @@
           ></ns-droptree>
         </el-form-item>
         <el-form-item label="话术内容：" prop="content">
-          <el-input type="textarea" placeholder="输入话术内容，最多200字" v-model="addOrEditModel.model.content" size="small" rows="4" ></el-input>
+          <el-input type="textarea" maxlength="200" placeholder="输入话术内容，最多200字" v-model="addOrEditModel.model.content" size="small" rows="4" ></el-input>
           <div class="expressionBar_div">
             <i @click="faceFace" class="cursor-pointer"><Icon type="biaoqing"/></i>
           </div>
@@ -252,6 +252,7 @@
         <el-form-item label="分类名称：" prop="name" class="el-form-validate__unHide mt10">
           <el-input
             type="text"
+            maxlength="10"
             placeholder="请输入分类名称，长度在1-10个字符以内"
             v-model="addOrEditCategory.model.name"
             :input="addOrEditCategory.model.name=addOrEditCategory.model.name.replace(/\s+/g,'')"
@@ -313,6 +314,18 @@ export default List
 .cursor-pointer,
 >>> .emotion-list .li {
   cursor: pointer;
+}
+>>> .template-page__row {
+  overflow: hidden;
+}
+>>> .template-page__row-left {
+  flex-shrink: 0;
+}
+>>> .template-page__row-right {
+  overflow: auto;
+  .template-table {
+    min-width: 720px;
+  }
 }
 @component-namespace speech {
   @b left {
