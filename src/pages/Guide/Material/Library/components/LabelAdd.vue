@@ -13,6 +13,7 @@
         <el-form-item label-width="72px" label="标签名称：" prop="name">
           <el-input
             v-model="model.name"
+            maxlength="20"
             placeholder='请输入标签名称，长度在20个字符以内'
             :input="model.name=model.name.replace(/\s+/g,'')"
             @keyup.enter.native="handleSave"
