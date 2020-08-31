@@ -7,11 +7,13 @@
               <div class="overview-content__item--select overview-content__item--time">
                 时间：
                 <el-date-picker
-                    @change='change'
-                    type="month"
-                    v-model="searchObj.monthDate"
-                    placeholder="选择月">
-                  </el-date-picker>
+                  @change='change'
+                  type="month"
+                  v-model="searchObj.monthDate"
+                  placeholder="选择月"
+                  :clearable="false"
+                >
+                </el-date-picker>
               </div>
               <div class="overview-content__item--select overview-content__item--store">
                 门店：
@@ -33,7 +35,10 @@
           <el-card class="overview-content__item" shadow="never">
             <div class="overview-content__item-left">
               <p class="text-secondary">
-                销售金额
+                <span>销售金额 </span>
+                <el-tooltip content="全渠道订单中成单、提货、发货门店为所选门店的，所有交易成功的订单总额">
+                  <Icon type="question-circle"></Icon>
+                </el-tooltip>
               </p>
               <p>
                 <span class="font-size-large">￥</span>
@@ -64,7 +69,10 @@
           <el-card class="overview-content__item" shadow="never">
             <div class="overview-content__item-left">
               <p class="text-secondary">
-                招募会员
+                <span>招募会员 </span>
+                <el-tooltip content="门店招募会员总数，包括门店招募和导购端手动添加会员；括号中显示所选门店至今所有招募会员总数">
+                  <Icon type="question-circle"></Icon>
+                </el-tooltip>
               </p>
               <p >
                 <span class="font-size-large">{{getRewardInfoObj.memberCount}}</span>
@@ -95,7 +103,10 @@
           <el-card class="overview-content__item" shadow="never">
             <div class="overview-content__item-left">
               <p class="text-secondary">
-                新加好友
+                <span>新加好友 </span>
+                <el-tooltip content="门店新加好友总数，好友多次添加同一名导购微信不会重复计算；括号中显示所选门店至今所有新加好友总数">
+                  <Icon type="question-circle"></Icon>
+                </el-tooltip>
               </p>
               <p >
                 <span class="font-size-large">{{getRewardInfoObj.addfriendCount}}</span>
@@ -109,16 +120,15 @@
               </p>
             </div>
             <div class="overview-content__item-right">
-               <el-popover
-                  placement="top-start"
-                  trigger="hover"
-                  :content="'完成度：'+getRewardInfoObj.addfriendCountPersent+'% , 招募目标：'+getRewardInfoObj.addfriendQuota">
-                  <div slot="reference">
-                    <el-progress  type="circle" :width=70 :stroke-width=4 :percentage="getRewardInfoObj.addfriendCountPersent" color="#f56c6c" :show-text=false>
-                    </el-progress>
-                  </div>
-                </el-popover>
-
+              <el-popover
+                placement="top-start"
+                trigger="hover"
+                :content="'完成度：'+getRewardInfoObj.addfriendCountPersent+'% , 招募目标：'+getRewardInfoObj.addfriendQuota">
+                <div slot="reference">
+                  <el-progress  type="circle" :width=70 :stroke-width=4 :percentage="getRewardInfoObj.addfriendCountPersent" color="#B760DE" :show-text=false>
+                  </el-progress>
+                </div>
+              </el-popover>
               <p class="overview-content__item-right--progress-text">完成度</p>
             </div>
           </el-card>
@@ -128,17 +138,16 @@
               <p class="text-secondary">
                 导购销售提成+招募奖励+新增好友奖励
               </p>
-              <p>
-                <span class="font-size-large">￥</span>
-                <span class="font-size-xlarge">{{$numeral(getRewardInfoObj.reward).format('0,0.00')}}</span>
-                <!-- <el-countup
-                  class="font-size-xlarge"
-                  :start="0"
-                  :end=
-                  :duration="1.5"
-                  :decimal="2">
-                </el-countup> -->
-                <span class="text-secondary">（￥{{$numeral(getRewardInfoObj.sellReward).format('0,0.00')}}+￥{{$numeral(getRewardInfoObj.recruitReward).format('0,0.00')}}+￥{{$numeral(getRewardInfoObj.addfriendReward).format('0,0.00')}}）</span>
+              <p class="overview-content__inline--block">
+                <el-popover
+                  placement="top-start"
+                  trigger="hover"
+                  :content="'￥' + $numeral(getRewardInfoObj.sellReward).format('0,0.00') + '+￥' + $numeral(getRewardInfoObj.recruitReward).format('0,0.00') + '+￥' + $numeral(getRewardInfoObj.addfriendReward).format('0,0.00')">
+                  <div slot="reference">
+                    <span class="font-size-large">￥</span>
+                    <span class="font-size-xlarge">{{$numeral(getRewardInfoObj.reward).format('0,0.00')}}</span>
+                  </div>
+                </el-popover>
               </p>
           </el-card>
         </el-col>
@@ -534,12 +543,13 @@ index.components = {
       }
     }
   }
+  .overview-content .el-popover .el-popover__title{
+    padding: 5px 0 !important;
+  }
+  .overview-content__inline--block {
+    display: inline-block;
+  }
   >>> .el-card {
     border-radius: var(--default-radius-mini);
   }
-</style>
-<style scoped>
-.overview-content .el-popover .el-popover__title{
-      padding: 5px 0 !important;
-}
 </style>

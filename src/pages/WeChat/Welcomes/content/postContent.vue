@@ -5,7 +5,7 @@
         <ElTableColumn label="基础信息">
           <template slot-scope="scope">
             <!-- type=1 文本 -->
-            <div v-if="scope.row.type === 'text'" class="message-item message-item--title">{{scope.row.content}}</div>
+            <div v-if="scope.row.type === 'text'" class="message-item message-item--title"><span :title="scope.row.content">{{scope.row.content.substring(0,24) + '...'}}</span></div>
             <!-- type=2 图片 -->
             <div v-if="scope.row.type === 'image'" class="message-item message-item--title">
               <ElImage

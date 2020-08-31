@@ -306,7 +306,7 @@ export default {
               0, 0, 1, 1,
               [
                 { offset: 0, color: '#2C67FF' },
-                { offset: 1, color: '#2C67FF' }
+                { offset: 1, color: 'rgba(44, 103, 255, 0.7)' }
               ])
           },
           type: 'bar',
@@ -371,7 +371,7 @@ export default {
               0, 0, 1, 1,
               [
                 { offset: 0, color: '#0091FA ' },
-                { offset: 1, color: '#0091FA' }
+                { offset: 1, color: 'rgba(0, 145, 250, 0.7)' }
               ])
           },
           type: 'bar',
@@ -436,7 +436,7 @@ export default {
               0, 0, 1, 1,
               [
                 { offset: 0, color: '#FF532A' },
-                { offset: 1, color: '#FF532A' }
+                { offset: 1, color: 'rgba(255, 83, 42, 0.7)' }
               ])
           },
           type: 'bar',
@@ -502,7 +502,7 @@ export default {
               0, 0, 1, 1,
               [
                 { offset: 0, color: '#8F5BFF' },
-                { offset: 1, color: '#8F5BFF' }
+                { offset: 1, color: 'rgba(143, 91, 255, 0.7)' }
               ])
           },
           type: 'bar',
@@ -566,8 +566,8 @@ export default {
             color: new echarts.graphic.LinearGradient(
               0, 0, 1, 1,
               [
-                { offset: 0, color: '#1FC47C' },
-                { offset: 1, color: '#2EC59C' }
+                { offset: 0, color: '#FF6067' },
+                { offset: 1, color: 'rgba(255, 96, 103, 0.7)' }
               ])
           },
           type: 'bar',
@@ -633,7 +633,7 @@ export default {
               0, 0, 1, 1,
               [
                 { offset: 0, color: '#B760DE' },
-                { offset: 1, color: '#B760DE' }
+                { offset: 1, color: 'rgba(183, 96, 222, 0.7)' }
               ])
           },
           type: 'bar',
@@ -641,7 +641,7 @@ export default {
         }
       },
       rewardOption: {
-        color: ['#FD9B00', '#F7C71F', '#0091FA'],
+        color: ['#FD9B00', '#F7C71F', '#B760DE'],
         tooltip: {
           trigger: 'axis',
           axisPointer: { // 坐标轴指示器，坐标轴触发有效
@@ -656,7 +656,7 @@ export default {
         },
         legend: {
           bottom: 20,
-          data: ['销售提成', '招募奖励', '新增添加好友奖励'],
+          data: ['销售提成', '招募奖励', '新加好友奖励'],
           itemWidth: 20,
           itemGap: 36
         },
@@ -696,8 +696,7 @@ export default {
         series: [
           {
             itemStyle: {
-              borderWidth: 1,
-              barBorderRadius: [0, 0, 50, 50]
+              borderWidth: 1
             },
             name: '销售提成',
             barWidth: 16,
@@ -708,8 +707,7 @@ export default {
           },
           {
             itemStyle: {
-              borderWidth: 1,
-              barBorderRadius: [30, 30, 0, 0]
+              borderWidth: 1
             },
             barWidth: 16,
             name: '招募奖励',
@@ -723,7 +721,7 @@ export default {
               barBorderRadius: [30, 30, 0, 0]
             },
             barWidth: 16,
-            name: '新增添加好友奖励',
+            name: '新加好友奖励',
             type: 'bar',
             stack: 'stack',
             data: []
@@ -948,9 +946,17 @@ export default {
               addFriendArr.push(item.addfriend)
             })
             that.isRewardDate = true
-            that.rewardOption.series[0].data = sellRewardArr
-            that.rewardOption.series[1].data = recruitRewardArr
-            that.rewardOption.series[2].data = addFriendArr
+            that.rewardOption.series[0].data = sellRewardArr.map((value, index) => {
+              let barBorderRadius = +recruitRewardArr[index] || +addFriendArr[index] ? [0, 0, 0, 0] : [30, 30, 0, 0]
+              return { value, itemStyle: { barBorderRadius } }
+            })
+            that.rewardOption.series[1].data = recruitRewardArr.map((value, index) => {
+              let barBorderRadius = +addFriendArr[index] ? [0, 0, 0, 0] : [30, 30, 0, 0]
+              return { value, itemStyle: { barBorderRadius } }
+            })
+            that.rewardOption.series[2].data = addFriendArr.map(value => {
+              return { value, itemStyle: { barBorderRadius: [30, 30, 0, 0] } }
+            })
           }
         })
         .catch(resp => {

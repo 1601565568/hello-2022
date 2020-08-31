@@ -454,13 +454,18 @@ export default {
       this.$http.fetch(this.$api.guide.sgPersonalQrcode.getGuideMsg, {
         guides: val
       }).then(resp => {
+        let chooseTableData = this.tableData
         this.tableData = []
         this.employeeIds = []
         for (let data of resp.result) {
           let chooseData = {}
           chooseData.name = data.name
           chooseData.image = data.qrcode
-          chooseData.num = null
+          for (let i = 0; i < chooseTableData.length; i++) {
+            if (chooseTableData[i].guideId === data.id) {
+              chooseData.num = chooseTableData[i].num
+            }
+          }
           chooseData.guideId = data.id
           chooseData.userName = data.userName
           chooseData.userId = data.userId

@@ -232,8 +232,15 @@
       } else {
         // 跳转错误页
         $(".customer-detail").hide()
+        let message = ""
+        if (result.result) {
+          message = result.result
+        }
+        if (message.indexOf('未找到相关用户') >= 0 || message.indexOf('客户不存在') >= 0 || message.indexOf('无此用户') >= 0 || message.indexOf('此好友不是会员') >= 0 || message.indexOf('该会员还未绑定会员卡') >= 0 ) {
+          message = '当前聊天对象非会员，无法查看'
+        }
         if (result.result){
-          $(".customer-errormsg").html(result.result)
+          $(".customer-errormsg").html(message)
         }
         $(".customer-no-vip").show()
       }

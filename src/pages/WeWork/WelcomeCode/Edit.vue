@@ -76,10 +76,10 @@
                   <el-form-grid>
                     <div class="tmp-tips text-info">
                       <Icon type="info-circle" theme="filled" />
-                      欢迎语内容最多可含<span class="span-yellow">100</span
+                      欢迎语内容最多可含<span class="span-yellow">1000</span
                       >字,当前已输入<span
                         v-bind:class="[
-                          wordCount <= 100 ? 'span-yellow' : 'span-red'
+                          wordCount <= 1000 ? 'span-yellow' : 'span-red'
                         ]"
                       >
                         {{ wordCount }}</span

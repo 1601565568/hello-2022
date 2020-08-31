@@ -128,7 +128,14 @@
         // 跳转错误页
         $(".customer-tag").hide()
         $(".save_customerTag").hide()
-        $(".customer-errormsg").html(result.result)
+        let message = ""
+        if (result.result) {
+          message = result.result
+        }
+        if (message.indexOf('未找到相关用户') >= 0 || message.indexOf('客户不存在') >= 0 || message.indexOf('无此用户') >= 0 || message.indexOf('此好友不是会员') >= 0 || message.indexOf('该会员还未绑定会员卡') >= 0 ) {
+          message = '当前聊天对象非会员，无法查看'
+        }
+        $(".customer-errormsg").html(message)
         $(".customer-error").show()
       }
     })
@@ -161,6 +168,10 @@
             let isMark = propertyInfo.isMark
             let id = propertyInfo.id
             let unit = propertyInfo.unit
+            let isShow = propertyInfo.isShow
+            if (isShow == 0) {
+              continue
+            }
             if (!unit){
               unit = ''
             }
@@ -699,7 +710,6 @@
         }
       },
       error: function (res) {
-        debugger
       }
     });
   })
