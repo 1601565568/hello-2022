@@ -34,6 +34,24 @@ export default {
           'component': () => import('@/pages/Guide/SgGuide/List.vue')
         },
         {
+          'path': '/Guide/SgGuide/ActivityAnalysis',
+          'name': 'ActivityAnalysis',
+          'title': '导购行为分析',
+          'component': () => import('@/pages/Guide/ActivityAnalysis/List.vue')
+        },
+        {
+          'path': '/Guide/ActivityAnalysis/MemberStatistics',
+          'name': 'MemberStatistics',
+          'title': '会员统计',
+          'component': () => import('@/pages/Guide/ActivityAnalysis/MemberStatistics.vue')
+        },
+        {
+          'path': '/Guide/ActivityAnalysis/SaleView',
+          'name': 'SaleView',
+          'title': '销售概览',
+          'component': () => import('@/pages/Guide/ActivityAnalysis/SaleView.vue')
+        },
+        {
           'path': '/Guide/SgMoreAccount/List',
           'name': 'GuideList',
           'title': '配置多谋个人号',
