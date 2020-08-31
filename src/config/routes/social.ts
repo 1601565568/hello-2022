@@ -74,6 +74,46 @@ export default {
           ]
         },
         {
+          'path': '/Guide/SgGuide/ChatAutoReply',
+          'name': 'ChatAutoReply',
+          'title': '聊天智能回复',
+          'component': () => import('@nascent/ecrp-ecrm/src/layout/ContentOnly.vue'),
+          'redirect': {
+            'name': 'ChatAutoReply'
+          },
+          'children': [
+            {
+              'path': '/Guide/SgGuide/ChatAutoReply',
+              'name': 'ChatAutoReply',
+              'title': '聊天智能回复',
+              'component': () => import('@/pages/WeChat/AutoReply/index.vue')
+            },
+            {
+              'path': '/Guide/AutoReply/edit',
+              'name': 'SgPersonalQrcode',
+              'title': '聚合二维码',
+              'component': () => import('@/pages/WeChat/AutoReply/edit.vue')
+            }
+          ]
+          // 'redirect': {
+          //   'name': 'SgPersonalQrcode'
+          // },
+          // 'children': [
+          //   // {
+          //   //   'path': '/Guide/SgPersonalQrcode/List',
+          //   //   'name': 'SgPersonalQrcode',
+          //   //   'title': '聚合二维码',
+          //   //   'component': () => import('@/pages/Guide/SgPersonalQrcode/List.vue')
+          //   // },
+          //   {
+          //     'path': '/Guide/AutoReply/edit',
+          //     'name': 'sgAutoReplyEdit',
+          //     'title': '编辑',
+          //     'component': () => import('@/pages/WeChat/AutoReply/edit.vue')
+          //   }
+          // ]
+        },
+        {
           'path': '/Guide/chanel/chanel',
           'name': 'chanel',
           'title': '渠道管理',
