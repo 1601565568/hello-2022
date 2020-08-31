@@ -70,8 +70,7 @@
       <ns-button type="primary" :loading="loading" @click="saveFun">确 定</ns-button>
     </span>
   </el-dialog>
-  <selectMaterialListModal :callBack="selectMaterialBack" ref="selectDialogDom" :hasShopArr="hasShopArr"></selectMaterialListModal>
-
+  <selectMaterialListModal :callBack="selectMaterialBack" ref="selectDialogDom"></selectMaterialListModal>
 </div>
 </template>
 <script>
@@ -157,7 +156,7 @@ export default {
     // 选择素材回调
     selectMaterialBack (obj) {
       this.model.materialId = obj.id
-      this.model.materialTitle = obj.content
+      this.model.materialTitle = obj.name
       this.selectMaterial = obj
     },
     showToggle (obj) {
