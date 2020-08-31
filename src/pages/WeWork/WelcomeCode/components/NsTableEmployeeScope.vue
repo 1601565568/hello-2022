@@ -33,7 +33,7 @@
           </el-table-column>
           <el-table-column prop="shopNames" label="工作门店" align="left" :show-overflow-tooltip="true">
           </el-table-column>
-          <el-table-column prop="status" label="在职状态" align="center">
+          <el-table-column prop="status" label="在职状态" align="center" width="120">
             <template slot-scope="scope">
               <div v-if="scope.row.status === 2">
                 <p>已离职</p>
