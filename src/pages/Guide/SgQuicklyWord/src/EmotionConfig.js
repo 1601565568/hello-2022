@@ -307,17 +307,17 @@ export default [
   {
     'ShortCut': '🙊',
     'Meaning': '非礼勿闻',
-    'OriginalFile': '/img/expression/63.png'
+    'OriginalFile': '/img/expression/62.png'
   },
   {
     'ShortCut': '🐷',
     'Meaning': '猪头',
-    'OriginalFile': '/img/expression/64.png'
+    'OriginalFile': '/img/expression/63.png'
   },
   {
     'ShortCut': '🐸',
     'Meaning': '青蛙',
-    'OriginalFile': '/img/expression/62.png'
+    'OriginalFile': '/img/expression/64.png'
   }
   // {
   //   'ShortCut': '[玫瑰]',
