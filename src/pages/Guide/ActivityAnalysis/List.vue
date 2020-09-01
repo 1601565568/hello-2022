@@ -2,23 +2,6 @@
 <template>
   <!-- 门店工作统计  wanrengang 20180716 -->
   <div>
-    <el-tabs v-model="activeTabName" @tab-click="tabHandleClick">
-      <el-tab-pane name="/Guide/SgGuide/ActivityAnalysis">
-        <span slot="label">
-          <tab-pane :analysisType="1"/>
-        </span>
-      </el-tab-pane>
-      <el-tab-pane name="/Guide/ActivityAnalysis/MemberStatistics">
-        <span slot="label">
-          <tab-pane :analysisType="2"/>
-        </span>
-      </el-tab-pane>
-      <el-tab-pane name="/Guide/ActivityAnalysis/SaleView">
-        <span slot="label">
-          <tab-pane :analysisType="3"/>
-        </span>
-      </el-tab-pane>
-    </el-tabs>
     <div class="template-table">
       <!-- 简单搜索start -->
       <div class="template-table__bar">
@@ -220,8 +203,8 @@ export default {
   data () {
     let nowDate = new Date()
     return {
-      activeTabName: '/Guide/SgGuide/ActivityAnalysis',
-      analysisType: 1, // 联系概况
+      // activeTabName: '/Guide/SgGuide/ActivityAnalysis',
+      // analysisType: 1, // 联系概况
       currentMonth: `${nowDate.getFullYear()}/${nowDate.getMonth()}`,
       searchform: {
         date: '昨天',
@@ -379,7 +362,7 @@ export default {
     }
   },
   components: {
-    NsGuideDialog, PopItem, TabPane
+    NsGuideDialog, PopItem
   }
 }
 </script>
