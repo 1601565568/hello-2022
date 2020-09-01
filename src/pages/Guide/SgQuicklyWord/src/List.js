@@ -89,8 +89,13 @@ export default {
           wordGroup: [{ validator: this.checkWordGroup, trigger: 'blur' }]
         },
         loading: false
-      }
+      },
+      productConfig: {}
     }
+  },
+  created () {
+    const { remumber_login_info: userInfo } = (this.$store.state.user || {}).remumber || {}
+    this.productConfig = (userInfo || {}).productConfig || {}
   },
   mounted: function () {
     this.findQuicklyWordGroupList()

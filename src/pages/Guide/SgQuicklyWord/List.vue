@@ -116,7 +116,7 @@
               <el-table-column prop="content" label="话术内容" :show-overflow-tooltip="true"></el-table-column>
               <el-table-column prop="parentName" label="分类"></el-table-column>
               <el-table-column prop="createTime" label="添加时间" width="180"></el-table-column>
-              <el-table-column align="left" v-if="showOrder">
+              <!-- <el-table-column align="left" v-if="showOrder">
                 <template slot="header">
                   排序
                   <el-tooltip content="调整排列顺序，小程序同步">
@@ -129,7 +129,7 @@
                   <i class='sort' :class="scope.row === _data._table.data[_data._table.data.length-1]?'topHid':''"   @click='exchangeSort(3,scope.row.id)'><Icon type="down-arr"/></i>
                   <i class='sort' :class="scope.row === _data._table.data[_data._table.data.length-1]?'topHid':''"  @click='exchangeSort(4,scope.row.id)'><Icon type="zhidi"/></i>
                 </template>
-              </el-table-column>
+              </el-table-column> -->
               <el-table-column prop="addName" label="添加人" align="left"></el-table-column>
               <el-table-column :show-overflow-tooltip="true" label="操作" align="center" width="100px">
                 <template slot-scope="scope">
@@ -179,7 +179,7 @@
         </el-form-item>
         <el-form-item label="话术内容：" prop="content">
           <el-input type="textarea" maxlength="200" placeholder="输入话术内容，最多200字" v-model="addOrEditModel.model.content" size="small" rows="4" ></el-input>
-          <div class="expressionBar_div">
+          <div v-if="productConfig.wxPlan !== 1" class="expressionBar_div">
             <i @click="faceFace" class="cursor-pointer"><Icon type="biaoqing"/></i>
           </div>
         </el-form-item>
