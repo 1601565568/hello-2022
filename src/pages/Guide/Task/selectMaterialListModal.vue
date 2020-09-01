@@ -18,7 +18,7 @@
           :inline="true"
         >
           <el-form-item label="标题：">
-            <el-input type="text" v-model="model.name" placeholder="请输入文件夹或素材标题" clearable></el-input>
+            <el-input type="text" v-model="model.name" placeholder="请输入素材标题" clearable></el-input>
           </el-form-item>
           <el-form-item label="素材内容：">
             <el-input type="text" v-model="model.content" placeholder="请输入素材内容" clearable></el-input>
