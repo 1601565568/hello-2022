@@ -113,8 +113,12 @@ export default {
       select: true,
       matchType: [
         {
-          value: '0',
+          value: null,
           label: '不限'
+        },
+        {
+          value: '0',
+          label: '模糊匹配'
         },
         {
           value: '1',
@@ -122,10 +126,6 @@ export default {
         },
         {
           value: '2',
-          label: '模糊匹配'
-        },
-        {
-          value: '3',
           label: '任意匹配'
         }
       ]
