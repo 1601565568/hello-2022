@@ -2,23 +2,6 @@
 <template>
   <!-- 门店工作统计  wanrengang 20180716 -->
   <div>
-    <el-tabs v-model="activeTabName" @tab-click="tabHandleClick">
-      <el-tab-pane name="/Guide/SgGuide/ActivityAnalysis">
-        <span slot="label">
-          <tab-pane :analysisType="1"/>
-        </span>
-      </el-tab-pane>
-      <el-tab-pane name="/Guide/ActivityAnalysis/MemberStatistics">
-        <span slot="label">
-          <tab-pane :analysisType="2"/>
-        </span>
-      </el-tab-pane>
-      <el-tab-pane name="/Guide/ActivityAnalysis/SaleView">
-        <span slot="label">
-          <tab-pane :analysisType="3"/>
-        </span>
-      </el-tab-pane>
-    </el-tabs>
     <div class="template-table">
       <!-- 简单搜索start -->
       <div class="template-table__bar">
@@ -203,9 +186,7 @@ export default {
   data () {
     let nowDate = new Date()
     return {
-      activeTabName: '/Guide/ActivityAnalysis/SaleView',
       selectedArr: [],
-      analysisType: 3, // 销售概览
       currentMonth: `${nowDate.getFullYear()}/${nowDate.getMonth()}`,
       sortName: 'orderAmount', // 排序名称 默认按订单总金额降序排序
       sortType: 0, // 排序类型 1:升序 0:降序
@@ -370,7 +351,7 @@ export default {
     }
   },
   components: {
-    NsGuideDialog, PopItem, TabPane
+    NsGuideDialog, PopItem
   }
 }
 </script>
