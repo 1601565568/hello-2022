@@ -179,7 +179,7 @@
         </el-form-item>
         <el-form-item label="话术内容：" prop="content">
           <el-input type="textarea" maxlength="200" placeholder="输入话术内容，最多200字" v-model="addOrEditModel.model.content" size="small" rows="4" ></el-input>
-          <div class="expressionBar_div">
+          <div v-if="productConfig.wxPlan !== 1" class="expressionBar_div">
             <i @click="faceFace" class="cursor-pointer"><Icon type="biaoqing"/></i>
           </div>
         </el-form-item>
