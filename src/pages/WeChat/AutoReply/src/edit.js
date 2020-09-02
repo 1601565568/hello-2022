@@ -178,6 +178,10 @@ export default {
         }).catch(resp => {
           that.$notify.error(resp.msg)
         })
+      } else {
+        that.replyTime = []
+        that.replyTime.push('00:00:00')
+        that.replyTime.push('23:59:59')
       }
     }
   },
