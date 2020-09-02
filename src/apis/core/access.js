@@ -51,6 +51,7 @@ export default {
           nick: res.data.result.userName,
           menus: res.data.result.menus,
           brands: res.data.result.views,
+          productConfig: { wxPlan: res.data.result.wxPlan },
           brand: {
             id: res.data.result.currentView.viewId,
             name: res.data.result.currentView.viewName,
