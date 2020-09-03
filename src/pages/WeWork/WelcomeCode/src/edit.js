@@ -10,7 +10,7 @@ import NsEmployeeOrCustGroupDialog from '@/components/NsGuideDialog'
 import { getErrorMsg } from '@/utils/toast'
 import NsGuideDialog from '@/components/NsGuideDialog/index'
 import NsShopDialog from '@/components/NsShopDialog/index'
-
+import NsTextarea from '@/components/NsTextarea/index'
 export default {
   name: 'Edit',
   mixins: [scrollHeight],
@@ -23,7 +23,8 @@ export default {
     ElUpload,
     NsEmployeeOrCustGroupDialog,
     NsGuideDialog,
-    NsShopDialog
+    NsShopDialog,
+    NsTextarea
   },
   data: function () {
     // 图片配置model
@@ -100,7 +101,18 @@ export default {
         label: 'label'
       },
       // 系统预置链接集合
-      presetLink: []
+      presetLink: [],
+      // 可替换规则
+      replaceOptions: [
+        {
+          key: 'EmployeeNick',
+          label: '员工姓名'
+        },
+        {
+          key: 'CustomerNick',
+          label: '客户昵称'
+        }
+      ]
     }
   },
   computed: {
