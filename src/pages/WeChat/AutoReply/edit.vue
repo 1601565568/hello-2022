@@ -62,7 +62,7 @@
                     在触发时间之外不会进行智能回复
                   </span>
                 </ElFormItem>
-                <ElFormItem label="聊天关键词：" required>
+                <ElFormItem label="聊天关键词：" v-if="matchType != 2" required>
                   <ElFormGrid size="xlg">
                     <el-input
                       type="textarea"

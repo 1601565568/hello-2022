@@ -63,23 +63,25 @@ export default {
         this.loading = false
         return
       }
-      if (!that.chatKeyWord) {
-        that.$notify.error('聊天关键词不能为空')
-        this.loading = false
-        return
-      }
-      let split = that.chatKeyWord.split(',')
-      if (split.length > 50) {
-        that.$notify.error('最多输入50个关键词')
-        this.loading = false
-        return
-      }
-      for (let i = 0; i < split.length; i++) {
-        let keyWord = split[i]
-        if (keyWord.length > 20) {
-          that.$notify.error('关键词：' + keyWord + '，长度超过20个字')
+      if (that.matchType !== 2) {
+        if (!that.chatKeyWord) {
+          that.$notify.error('聊天关键词不能为空')
           this.loading = false
           return
+        }
+        let split = that.chatKeyWord.split(',')
+        if (split.length > 50) {
+          that.$notify.error('最多输入50个关键词')
+          this.loading = false
+          return
+        }
+        for (let i = 0; i < split.length; i++) {
+          let keyWord = split[i]
+          if (keyWord.length > 20) {
+            that.$notify.error('关键词：' + keyWord + '，长度超过20个字')
+            this.loading = false
+            return
+          }
         }
       }
       if (this.publishData.length === 0) {
