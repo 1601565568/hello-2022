@@ -113,16 +113,15 @@
           <el-table-column prop="shopCouponNumber" label="配额" align="center" width="100">
             <template slot-scope="scope" >
               <ElInput type="text"
-                        @change="inputChange(scope.row)"
+                        @input="inputChange(scope.row)"
                         v-model="scope.row.shopCouponNumber"
                         maxlength="8"
                         show-word-limit
-                        @input="scope.row.shopCouponNumber=Number(scope.row.shopCouponNumber.replace(/[^\d]/g, ''))"
                         width="100" @focus="ChangeForbiddenStatus" @blur="delayedChangeStatus"/>
             </template>
           </el-table-column>
         </el-table>
-        <!--嵌套门店列表-结束-->
+        <!--嵌套门店列表-结束 @input="scope.row.shopCouponNumber=Number(scope.row.shopCouponNumber.replace(/[^\d]/g, ''))"-->
 
         <!--分页开始-->
         <el-pagination v-if="_data.paginations.enable" class="template-table-pagination"
