@@ -1,13 +1,5 @@
-<!--
- * @Descripttion: 智能欢迎语-使用范围
- * @Author: yuye.huang
- * @Date: 2020-03-02 09:38:22
- * @LastEditors: yuye.huang
- * @LastEditTime: 2020-03-09 14:20:05
- -->
+
 <template>
-  <!-- <el-dialog ref="dialog" title="使用员工" width="660px"
-    :visible.sync="model.visible" @open="this.$queryList$()"> -->
     <ns-page-table ref='table' :colButton="10"> <!-- :visible.sync="this.model.visible" -->
       <!-- 简单搜索 -->
       <template slot="searchSearch">
@@ -34,7 +26,7 @@
           </el-table-column>
           <el-table-column prop="shopNames" label="工作门店" align="left" :show-overflow-tooltip="true">
           </el-table-column>
-          <el-table-column prop="status" label="在职状态" align="center" width="120">
+          <el-table-column prop="status" label="在职状态" align="center">
             <template slot-scope="scope">
               <div v-if="scope.row.status === 2">
                 <p>已离职</p>

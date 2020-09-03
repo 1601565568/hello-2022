@@ -13,6 +13,7 @@
            <el-input
               v-model="model.name"
               placeholder="请输入文件夹名称，长度在20个字符以内"
+              maxlength="20"
               :input="model.name=model.name.replace(/\s+/g,'')"
               @keyup.enter.native="handleSave"
               clearable

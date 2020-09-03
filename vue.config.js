@@ -35,7 +35,7 @@ module.exports = {
         ws: true,
         changeOrigin: true
       }
-    }
-    // before: app => { if (process.env.MOCK !== 'none') { require('./build/mock')(app) } } // 引入mock/index.js
+    },
+    before: app => { if (process.env.VUE_APP_MOCK === 'true') { require('./node_modules/@nascent/ecrp-ecrm/build/mock')(app) } } // 引入mock/index.js
   }
 }

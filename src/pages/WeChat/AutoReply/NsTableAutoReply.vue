@@ -13,8 +13,8 @@
       <!-- el-inpu 需添加  @keyup.enter.native="$quickSearchAction$" 配置，实现回车搜索 -->
       <template slot="searchSearch">
         <el-form :model="quickSearchModel" :inline="true" @submit.native.prevent  class="pull-right">
-          <el-form-item v-show="_data._queryConfig.expand === false" label="标题名称：">
-            <el-input ref="quickText" style="width: 180px" v-model="model.title" placeholder="请输入欢迎语标题" @keyup.enter.native="$quickSearchAction$('title')" clearable>
+          <el-form-item v-show="_data._queryConfig.expand === false" label="聊天关键词：">
+            <el-input ref="quickText" style="width: 180px" v-model="model.chatKeyWord" placeholder="请输入聊天关键词" @keyup.enter.native="$quickSearchAction$('title')" clearable>
             </el-input>
             <ns-button type="primary" @click="$searchAction$()" class="searchbtn">搜索</ns-button>
             <ns-button @click="$resetInputAction$()" class="resetbtn">重置</ns-button>
@@ -33,10 +33,26 @@
       <!-- el-form 需添加  @keyup.enter.native="onSearch" 配置，实现回车搜索， onSearch 为搜索方法 -->
       <!-- el-form 需添加  surround-btn 类名 配置环绕按钮效果 -->
       <template slot="advancedSearch" v-if="_data._queryConfig.expand">
-        <el-form ref="table_filter_form" :model="model" label-width="80px" :inline="true" @submit.native.prevent>
-          <el-form-item label="标题名称：">
+        <el-form ref="table_filter_form" :model="model" label-width="80px" :inline="true" @keyup.enter.native="$searchAction$()">
+          <el-form-item label="聊天关键词：">
             <el-form-grid size="xmd">
-              <el-input style="width:180px"  v-model="model.title" placeholder="请输入欢迎语标题" clearable></el-input>
+              <el-input style="width:180px"  v-model="model.chatKeyWord" placeholder="请输入聊天关键词" clearable></el-input>
+            </el-form-grid>
+          </el-form-item>
+<!--          <el-form-item label="回复内容：">-->
+<!--            <el-form-grid size="xmd">-->
+<!--              <el-input style="width:180px"  v-model="model.title" placeholder="请输入回复内容" clearable></el-input>-->
+<!--            </el-form-grid>-->
+<!--          </el-form-item>-->
+          <el-form-item label="匹配方式：">
+            <el-form-grid>
+              <el-select placeholder="不限" style="width:200px" v-model="model.matchType" clearable filterable>
+                <el-option v-for="item in matchType"
+                           :key="item.value"
+                           :label="item.label"
+                           :value="item.value">
+                </el-option>
+              </el-select>
             </el-form-grid>
           </el-form-item>
           <el-form-item label="选择店铺：">
@@ -76,32 +92,37 @@
         <!-- 手机号 :width="120" -->
         <!-- 操作（只有一项文字的80px,两项文字120px,三项文字160px） -->
 
-        <el-table ref="table"  :data="_data._table.data" stripe >
-          <el-table-column :show-overflow-tooltip="true" prop="title" align="left" min-width="30">
-            <template slot="header">
-              标题
-              <el-tooltip content="员工未设置欢迎语时，将使用默认欢迎语">
-                <Icon type="question-circle"/>
-              </el-tooltip>
-            </template>
+        <el-table ref="table"  :data="_data._table.data" @selection-change="handleSelectionChange" stripe >
+          <el-table-column type="selection" align="center" :width="50">
+          </el-table-column>
+          <el-table-column prop="chatKeyWord" label="聊天关键词" align="center" min-width="30">
             <template slot-scope="scope">
-              <span class="table-col--content">
-                {{scope.row.title ? scope.row.title : '-'}}
-                <ns-button v-if="scope.row.type === 9" type="primary" size="mini" round class="btn-append">
-                  默认
-                </ns-button>
-              </span>
+              {{scope.row.chatKeyWord ? scope.row.chatKeyWord : '-'}}
             </template>
           </el-table-column>
-          <el-table-column prop="updateTime" label="更新时间" align="center" min-width="30">
+          <el-table-column prop="content" label="回复内容" align="center" min-width="30">
             <template slot-scope="scope">
-              {{scope.row.updateTime?scope.row.updateTime:'-'}}
+              <span v-if="JSON.parse(decodeURIComponent(scope.row.content))[0].type === 'text'">
+                {{JSON.parse(decodeURIComponent(scope.row.content))[0].content}}
+              </span>
+              <span v-else-if="JSON.parse(decodeURIComponent(scope.row.content))[0].type === 'image'">
+                图片
+              </span>
+              <span v-else-if="JSON.parse(decodeURIComponent(scope.row.content))[0].type === 'link'">
+                链接
+              </span>
+              <span v-else-if="JSON.parse(decodeURIComponent(scope.row.content))[0].type === 'video'">
+                视频
+              </span>
+              <span v-else>
+                小程序
+              </span>
             </template>
           </el-table-column>
           <el-table-column align="center" min-width="30">
             <template slot="header">
               使用范围
-              <el-tooltip content="多个欢迎语情况下的发送优先级：员工欢迎语>门店欢迎语>默认欢迎语">
+              <el-tooltip content="发送优先级: 员工聊天自动回复>门店聊天自动回复">
                 <Icon type="question-circle"/>
               </el-tooltip>
             </template>
@@ -116,33 +137,34 @@
               <div v-else>-</div>
             </template>
           </el-table-column>
-          <el-table-column label="发送时间限制" align="center" min-width="30">
-            <template slot="header">
-              发送时间限制
-              <el-tooltip content="欢迎语发送可能受网络影响导致发送延迟，超过该时间限制后则不再会自动发送">
-                <Icon type="question-circle"/>
-              </el-tooltip>
-            </template>
+          <el-table-column prop="updateTime" label="更新时间" align="center" min-width="30">
             <template slot-scope="scope">
-              {{scope.row.failureTime?scope.row.failureTime+' 秒':'无限制'}}
+              {{scope.row.updateTime ? scope.row.updateTime : '-'}}
+            </template>
+          </el-table-column>
+          <el-table-column prop="matchType" label="匹配方式" align="center" min-width="30">
+            <template slot-scope="scope">
+              <span v-if="scope.row.matchType === 0">模糊匹配</span>
+              <span v-if="scope.row.matchType === 1">完全匹配</span>
+              <span v-if="scope.row.matchType === 2">任意匹配</span>
             </template>
           </el-table-column>
           <el-table-column label="状态" align="center" min-width="30">
             <template slot-scope="{row}">
-              <el-switch style="cursor:pointer" v-if="row.type === 9 && String(row.account ? row.account : '') !== 'admin'" :disabled="true" :value="row.status" :active-value="1" :inactive-value="0"
-                         ></el-switch>
-              <el-switch style="cursor:pointer" v-else :value="row.status" :active-value="1" :inactive-value="0"
+<!--              <el-switch style="cursor:pointer" v-if="row.type === 9 && String(row.account ? row.account : '') !== 'admin'" :disabled="true" :value="row.status" :active-value="1" :inactive-value="0"-->
+<!--                         ></el-switch>-->
+              <el-switch style="cursor:pointer" :value="row.status" :active-value="1" :inactive-value="0"
                          :before-change="(call, currVal)=>{onStatusChange(call,currVal,row)}"></el-switch>
             </template>
           </el-table-column>
           <el-table-column :show-overflow-tooltip="true" label="操作" align="center"
                            min-width="30">
             <template slot-scope="scope">
-              <ns-table-column-operate-button-ext v-if="scope.row.type === 9 && String(scope.row.account ? scope.row.account : '') !== 'admin'"
-                                                  :prop="scope"
-                                                  :buttons="[]">
-              </ns-table-column-operate-button-ext>
-              <ns-table-column-operate-button-ext v-else :buttons="_data._table.table_buttons"
+<!--              <ns-table-column-operate-button-ext v-if="scope.row.type === 9 && String(scope.row.account ? scope.row.account : '') !== 'admin'"-->
+<!--                                                  :prop="scope"-->
+<!--                                                  :buttons="[]">-->
+<!--              </ns-table-column-operate-button-ext>-->
+              <ns-table-column-operate-button-ext :buttons="_data._table.table_buttons"
                                                   :prop="scope">
               </ns-table-column-operate-button-ext>
             </template>
@@ -168,16 +190,16 @@
 </template>
 
 <script>
-import welcomes from './src/NsTableWelcomes'
+import autoReply from './src/NsTableAutoReply'
 import NsGuideDialog from '@/components/NsGuideDialog'
 import NsShopDialog from '@/components/NsShopDialog'
 import NsTableColumnOperateButtonExt from '@/components/NsTableColumnOperateButton'
-welcomes.components = {
+autoReply.components = {
   NsTableColumnOperateButtonExt,
   NsGuideDialog,
   NsShopDialog
 }
-export default welcomes
+export default autoReply
 </script>
 <style>
   @import "@theme/variables.pcss";

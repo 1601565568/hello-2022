@@ -24,7 +24,7 @@
           </ElForm>
           <div class="taskStore-wrapper__text text-primary">
             <Icon type="exclamation-circle" theme="outlined" />
-            <span>输入多个外部店铺编码用英文版的“,”隔开</span>
+            <span>输入多个外部店铺编码用“,”隔开</span>
           </div>
         </ElTabPane>
         <ElTabPane label="文件导入" name="second">
@@ -105,35 +105,33 @@ export default {
       let tempShopArray = []
       let isExecute = false
       let tempShopStr = []
-      if (this.manualValue !== '' && this.manualValue !== null) {
-        let temp = this.manualValue.replace(/[\r\n]/g, '')
-        if (temp !== '' && temp !== null) {
-          if (temp.startsWith(',') || temp.endsWith(',') || temp.startsWith('，') || temp.endsWith('，')) {
-            this.$notify.info('请输入正确的外部店铺编码')
-            return false
-          } else {
-            tempShopArray = temp.split(',')
-            tempShopArray.forEach(shop => {
-              if (shop.startsWith(',') || shop.endsWith(',') || shop.startsWith('，') || shop.endsWith('，')) {
-                this.$notify.info('请输入正确的外部店铺编码')
-                isExecute = true
-              } else {
-                tempShopStr.push(shop.trim())
-              }
-            })
-            if (isExecute) {
-              return false
-            }
-            this.uploadData.manualStoreIds = tempShopStr.join(',')
-          }
+      let temp = this.manualValue.replace(/[\r\n]/g, '')
+      if (temp !== '' && temp !== null) {
+        if (temp.startsWith(',') || temp.endsWith(',') || temp.startsWith('，') || temp.endsWith('，')) {
+          this.$notify.info('请输入正确的外部店铺编码')
+          return false
         } else {
-          this.uploadData.manualStoreIds = ''
+          tempShopArray = temp.split(',')
+          tempShopArray.forEach(shop => {
+            if (shop.startsWith(',') || shop.endsWith(',') || shop.startsWith('，') || shop.endsWith('，')) {
+              this.$notify.info('请输入正确的外部店铺编码')
+              isExecute = true
+            } else {
+              tempShopStr.push(shop.trim())
+            }
+          })
+          if (isExecute) {
+            return false
+          }
+          this.uploadData.manualStoreIds = tempShopStr.join(',')
         }
+      } else {
+        this.uploadData.manualStoreIds = ''
       }
       this.$http.fetch(this.$api.guide.importFileAndManual, this.uploadData)
         .then(resp => {
           if (resp.success) {
-            this.showTip(resp.result || {})
+            this.$notify.info('已成功' + resp.result.successSize + ',失败' + resp.result.failSize + '(失败原因:店铺关闭、店铺不在视角下、店铺编码错误等)')
             this.storeInfo = resp.result
             this.$emit('callBack', this.storeInfo)
             this.dialogVisible = false
@@ -171,26 +169,19 @@ export default {
       // console.log(value)
       this.dialogVisible = false
     },
-    showTip (result) {
-      const { successSize = 0, failSize = 0 } = result
-      const msg = `已成功${successSize}，失败${failSize}（失败原因：店铺关闭、店铺不在视角下、店铺编码错误等）`
-      if (+failSize || !(+successSize)) {
-        +successSize ? this.$notify.warning(msg) : this.$notify.error(msg)
-      } else {
-        this.$notify.success(msg)
-      }
-    },
     onSuccess (response, file) {
       if (response.success) {
         this.storeInfo = response.result
         this.uploadData.fileKey = response.result.fileKey
-        this.showTip(response.result || {})
+        this.$notify.info('已成功' + response.result.successSize + ',失败' + response.result.failSize + '(失败原因:店铺关闭、店铺不在视角下、店铺编码错误等)')
+        // window.console.log('解析excel店铺id=>' + this.storeInfo.ids)
       } else {
         this.$refs.uploadRef.clearFiles()
         if (response.code === '1') {
           this.$notify.error('导入文件失败:' + response.msg)
         } else {
           this.$notify.error('操作未成功!')
+          window.console.log('失败回调' + response.msg)
         }
       }
     },
