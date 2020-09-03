@@ -23,8 +23,8 @@
 -->
 <template>
   <div>
-    <div class="template-search__chooes" v-if="!isButton" :type="type" @click="onDialogOpen()"><Icon v-if="type === 'text'" type="plus"/>{{btnTitle}}</div>
-    <NsButton v-if="isButton" :type="type" @click="onDialogOpen()"><Icon v-if="type === 'text'" type="plus"/>{{btnTitle}}</NsButton>
+    <div v-if="!isButton" :type="type" @click="onDialogOpen()"><Icon v-if="type === 'text'" type="plus"/>{{isButton}}</div>
+<!--    <NsButton :type="type" @click="onDialogOpen()"><Icon v-if="type === 'text'" type="plus"/>{{btnTitle}}</NsButton>-->
     <el-dialog :title="dialogTitle" :visible.sync="visible" :show-scroll-x="false"
                :close-on-click-modal = "false" :before-close="onDialogClose" width="940px"><!-- 按员工设置使用范围时，所选员工会优先选择使用该条欢迎语而非归属门店设置的欢迎语 -->
       <div slot="title">
@@ -128,13 +128,7 @@ export default index
 
 <style scoped>
   @import "@theme/variables.pcss";
-  .template-search__chooes{
-    cursor: pointer;
-    width: 40px;
-    font-size: 12px;
-    color: #0392FB;
-    text-align: center;
-  }
+
   @component-namespace code {
     @b container {
       padding: 0 var(--default-padding-small);

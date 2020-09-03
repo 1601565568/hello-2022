@@ -246,7 +246,7 @@ export default {
           // 数据总数
           vm.pagination4Emp.total = total
           vm.$nextTick(function () {
-            // 设置员工勾选状态
+          // 设置员工勾选状态
             vm.toggleRowSelection(vm.selectedData, vm.employeeData, vm.recordId)
             vm.tableLoading = false
           })
@@ -473,7 +473,7 @@ export default {
         }).catch(() => {
           vm.$notify.error('查询用户信息失败')
         }).finally(() => {
-          // 勾选默认值
+        // 勾选默认值
           if (vm.value && vm.value.length > 0) {
             var param = {}
             param.pageNo = 1

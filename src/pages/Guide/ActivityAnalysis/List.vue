@@ -1,102 +1,10 @@
 
 <template>
   <!-- 门店工作统计  wanrengang 20180716 -->
-  <div>
-    <div class="template-table">
-      <!-- 简单搜索start -->
-      <div class="template-table__bar">
-        <el-row class="template-table__bar-base">
-          <el-col :span="24">
-            <el-form
-              ref="searchform"
-              :inline="true"
-              :model="searchform"
-              @submit.native.prevent
-              label-width="64px"
-            >
-              <el-form-item v-show="!searchType.advanced">
-                <el-radio-group v-model="searchform.date" class="float-right">
-                  <el-radio-button label="昨天">昨天</el-radio-button>
-                  <el-radio-button label="近7天">近7天</el-radio-button>
-                  <el-radio-button label="近30天">近30天</el-radio-button>
-                </el-radio-group>
-              </el-form-item>
-              <el-form-item v-show="!searchType.advanced" label="自定义：">
-                <el-date-picker
-                  class="float-left"
-                  type="daterange"
-                  v-model="searchform.dateRange"
-                  range-separator="至"
-                  start-placeholder="开始日期"
-                  end-placeholder="结束日期"
-                  :picker-options="pickerOptions"
-                  :default-value="currentMonth"
-                  @change="handleDateChange"
-                >
-                </el-date-picker>
-              </el-form-item>
-              <el-form-item v-if="!searchType.advanced">
-                <ns-button type="primary" @click="submitForm('searchform')" >搜索</ns-button>
-                <ns-button @click="resetForm('searchform')">重置</ns-button>
-                <ns-button type="primary" @click="exportData" >导出</ns-button>
-              </el-form-item>
-              <el-form-item>
-                <ns-button type="text" @click="tabSearchType">
-                  {{searchType.tipText}}
-                  <Icon :type="searchType.advanced ? 'up' : 'down'"/>
-                </ns-button>
-              </el-form-item>
-            </el-form>
-          </el-col>
-        </el-row>
-        <!-- 简单搜索end -->
-        <!-- 高级搜索start -->
-        <div class="template-table-search" v-show="searchType.advanced">
-          <div class="template-table__bar-more">
-            <el-form ref="searchform" label-width="64px" :model="searchform" :inline="true">
-              <el-form-item>
-                <el-radio-group v-model="searchform.date" class="float-right">
-                  <el-radio-button label="昨天">昨天</el-radio-button>
-                  <el-radio-button label="近7天">近7天</el-radio-button>
-                  <el-radio-button label="近30天">近30天</el-radio-button>
-                </el-radio-group>
-              </el-form-item>
-              <el-form-item label="自定义：">
-                <el-date-picker
-                  class="float-left"
-                  type="daterange"
-                  v-model="searchform.dateRange"
-                  range-separator="至"
-                  start-placeholder="开始日期"
-                  end-placeholder="结束日期"
-                  :picker-options="pickerOptions"
-                  :default-value="currentMonth"
-                  @change="handleDateChange"
-                >
-                </el-date-picker>
-              </el-form-item>
-              <el-form-item label="选择员工：">
-                <div class="template-search__box">
-                  <NsGuideDialog :auth="false" type="primary" btnTitle="选择员工" dialogTitle="选择员工" v-model="searchform.guideIds"></NsGuideDialog>
-                  <span>
-                    已选择 <span class="text-primary">{{searchform.guideIds? searchform.guideIds.length: 0}}</span> 个导购员工
-                  </span>
-                </div>
-              </el-form-item>
-            </el-form>
-            <div class="template-table__more-btn">
-              <ns-button type="primary" @click="submitForm('searchform')">搜索</ns-button>
-              <ns-button @click="resetForm('searchform')">重置</ns-button>
-              <ns-button type="primary" @click="exportData" >导出</ns-button>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- 高级搜索end -->
-    </div>
-    <!-- 筛选end -->
+  <div style="background-color: #ffffff;">
+    <ns-button type="primary" style="margin: 5px 10px">导出联系概况</ns-button>
     <!-- table start -->
-    <div class="mt5">
+    <div>
       <el-table
         ref="multipleTable"
         :data="dataList"
@@ -192,7 +100,7 @@
 import listPageMixin from '@/mixins/listPage'
 import apiRequestConfirm from '@nascent/ecrp-ecrm/src/utils/apiRequestConfirm'
 import { getErrorMsg } from '@/utils/toast'
-import NsGuideDialog from '@/components/NsGuideDialog'
+// import NsGuideDialog from '@/components/NsGuideDialog'
 import { API_ROOT } from '@/config/http.js'
 import PopItem from './components/PopItem'
 import TabPane from './components/TabPane'
@@ -200,20 +108,40 @@ import moment from 'moment'
 
 export default {
   mixins: [listPageMixin],
+  props: {
+    searchform: {
+      default: function () {
+        return {}
+      }
+    },
+    // 是否添加登录账号店铺数据权限
+    sortName: {
+      type: String,
+      default: 'newFriendNum'
+    },
+    sortType: {
+      type: Number,
+      default: 1
+    },
+    analysisType: {
+      type: String,
+      default: '1'
+    }
+  },
   data () {
     let nowDate = new Date()
     return {
       // activeTabName: '/Guide/SgGuide/ActivityAnalysis',
       // analysisType: 1, // 联系概况
       currentMonth: `${nowDate.getFullYear()}/${nowDate.getMonth()}`,
-      searchform: {
-        date: '昨天',
-        dateRange: [],
-        name: '',
-        guideIds: []
-      },
-      sortName: 'newFriendNum', // 排序名称 默认按新增好友数降序排序
-      sortType: 0, // 排序类型 1:升序 0:降序
+      // searchform: {
+      //   date: '昨天',
+      //   dateRange: [],
+      //   name: '',
+      //   guideIds: []
+      // },
+      // sortName: 'newFriendNum', // 排序名称 默认按新增好友数降序排序
+      // sortType: 0, // 排序类型 1:升序 0:降序
       dataList: [],
       pickerOptions: {
         disabledDate (time) {
@@ -362,7 +290,7 @@ export default {
     }
   },
   components: {
-    NsGuideDialog, PopItem
+    PopItem
   }
 }
 </script>
