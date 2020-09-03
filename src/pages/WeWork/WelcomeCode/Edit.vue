@@ -53,7 +53,7 @@
                       >
                     </ElInput> -->
                     <!-- maxlength="100" show-word-limit -->
-                    <ns-textarea ref="input"  :replaceOptions="replaceOptions" placeholder="请输入欢迎语" v-model="model.content"></ns-textarea>
+                    <ns-textarea ref="input" :replaceOptions="replaceOptions" placeholder="请输入欢迎语" v-model="model.content"></ns-textarea>
                   </ElFormGrid>
                 </ElFormItem>
                 <ElFormItem>
