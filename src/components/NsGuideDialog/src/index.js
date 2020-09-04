@@ -399,7 +399,8 @@ export default {
         vm.selectedData = []
         if (vm.isCheckAll) {
           // 清空左边列表
-          vm.$refs.employeeTable.clearSelection()
+          // vm.$refs.employeeTable.clearSelection()
+          return
         } else {
           // 左边列表全部勾选
           vm.employeeData.forEach(function (item) {
@@ -416,8 +417,12 @@ export default {
           })
         }
         vm.selectedData = selectedData2
-        vm.isCheckAll = !vm.isCheckAll
+        // vm.isCheckAll = !vm.isCheckAll
       })
+    },
+    clearSelection () {
+      vm.$refs.employeeTable.clearSelection()
+      this.selectedData = []
     },
     /**
      * 右侧员工删除事件

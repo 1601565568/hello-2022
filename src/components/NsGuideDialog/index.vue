@@ -70,7 +70,8 @@
             <el-form-grid>
               <ns-button type="primary" @click="searchEmployee(1)">{{$t('operating.search')}}</ns-button>
               <ns-button @click="resetSearch">{{$t('operating.reset')}}</ns-button>
-              <ns-button @click="onSelectAllData">{{isCheckAll ? '取消全选' : '全选'}}</ns-button>
+              <ns-button @click="onSelectAllData">全部选择</ns-button>
+              <ns-button @click="clearSelection">清空选择</ns-button>
             </el-form-grid>
           </el-form-item>
         </el-form>

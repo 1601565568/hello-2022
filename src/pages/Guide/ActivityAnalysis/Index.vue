@@ -3,7 +3,7 @@
     <div class="template-table">
       <!-- 简单搜索start -->
       <div class="template-table__bar">
-        <el-row class="template-table__bar-base">
+        <el-row >
           <el-col :span="24">
             <el-form
               ref="searchform"
@@ -13,7 +13,7 @@
               label-width="64px"
             >
               <el-form-item>
-                <el-radio-group v-model="searchform.date">
+                <el-radio-group v-model="searchform.date" @change="changeTime">
                   <el-radio-button label="昨天">昨天</el-radio-button>
                   <el-radio-button label="近7天">近7天</el-radio-button>
                   <el-radio-button label="近30天">近30天</el-radio-button>
@@ -32,22 +32,21 @@
                 >
                 </el-date-picker>
               </el-form-item>
-              <el-form-item style="float: right!important;">
-                <ns-button type="primary" @click="submitForm('searchform')" >搜索</ns-button>
-                <ns-button @click="resetForm('searchform')">重置</ns-button>
-              </el-form-item>
-              <el-form-item style="float: right!important;">
-                <ns-button type="text" @click="tabSearchType">
-                  {{!searchType.advanced  ? '展开搜索' : '收起搜索'}}
-                  <Icon :type="searchType.advanced ? 'up' : 'down'"/>
-                </ns-button>
+              <el-form-item label="选择员工：" >
+                <div class="template-search__box" >
+                  <NsGuideDialog :isButton="true" :validNull="true" :auth="false" type="primary" btnTitle="选择" dialogTitle="选择员工" v-model="searchform.guideIds" @input="NsGuideDialogSave()"></NsGuideDialog>
+                  <span v-if="searchform.guideIds&&searchform.guideIds.length>0">
+                    已选择 {{searchform.guideIds.length}}个
+                  </span>
+                  <span v-if="searchform.guideIds&&searchform.guideIds.length<=0">全部</span>
+                </div>
               </el-form-item>
             </el-form>
           </el-col>
         </el-row>
         <!-- 简单搜索end -->
         <!-- 高级搜索start -->
-        <div class="template-table-search" v-show="searchType.advanced">
+        <!-- <div class="template-table-search" v-show="searchType.advanced">
           <div class="template-table__bar-more">
             <el-form ref="searchform" label-width="64px" :model="searchform" :inline="true">
               <el-form-item label="选择员工：" >
@@ -60,22 +59,22 @@
               </el-form-item>
             </el-form>
           </div>
-        </div>
+        </div> -->
       </div>
       <!-- 高级搜索end -->
     </div>
     <el-tabs v-model="activeName">
-      <el-tab-pane name="first">
-        <span slot="label"><tab-pane :analysisType="1"/></span>
-        <list :searchform="searchform" :sortName="newFriendNum" :sortType="sortType" :analysisType="1"/>
+      <el-tab-pane name="1">
+        <span slot="label"><tab-pane :analysisType=1 /></span>
+        <list v-if="activeName == 1" ref="list" :searchform="searchform"  :checkSearchObj='checkSearchObj' @export="exportData" :analysisType=1 />
       </el-tab-pane>
-      <el-tab-pane name="second">
-        <span slot="label"><tab-pane :analysisType="2"/></span>
-        <menber-statistics :searchform="searchform" :sortName="recruitNum" :sortType="sortType" :analysisType="2"/>
+      <el-tab-pane name="2">
+        <span slot="label"><tab-pane :analysisType=2 /></span>
+        <menber-statistics v-if="activeName == 2" ref="menberStatistics" :searchform="searchform" @export="exportData"  :checkSearchObj='checkSearchObj' :analysisType=2 />
       </el-tab-pane>
-      <el-tab-pane name="third">
-        <span slot="label"><tab-pane :analysisType="3"/></span>
-        <sale-view :searchform="searchform" :sortName="orderAmount" :sortType="sortType" :analysisType="3"/>
+      <el-tab-pane name="3">
+        <span slot="label"><tab-pane :analysisType=3 /></span>
+        <sale-view v-if="activeName == 3" ref="saleView" :searchform="searchform" :checkSearchObj='checkSearchObj' @export="exportData"  :analysisType=3 />
       </el-tab-pane>
     </el-tabs>
   </div>
@@ -97,12 +96,8 @@ export default {
   data () {
     let nowDate = new Date()
     return {
-      activeName: 'first',
+      activeName: '1',
       currentMonth: `${nowDate.getFullYear()}/${nowDate.getMonth()}`,
-      recruitNum: 'recruitNum', // 排序名称 默认按招募会员数降序排序
-      newFriendNum: 'newFriendNum',
-      orderAmount: 'orderAmount', // 排序名称 默认按订单总金额降序排序
-      sortType: 0, // 排序类型 1:升序 0:降序
       searchform: {
         date: '昨天',
         dateRange: [],
@@ -127,11 +122,18 @@ export default {
   created: function () {
     this.searchform.date = '昨天'
     this.searchform.dateRange = this.getDateRange()
-    this.loadListFun()
+    // this.loadListFun()
   },
   methods: {
+    changeTime () {
+      this.submitForm()
+    },
+    NsGuideDialogSave () {
+      this.submitForm()
+    },
     handleDateChange () {
       this.searchform.date = ''
+      this.submitForm()
     },
     getDateRange (rangeType = '昨天') {
       let endDay = moment().subtract('days', 1)
@@ -151,7 +153,7 @@ export default {
       return startDay ? [startDay.startOf('days').toDate(), endDay.endOf('days').toDate()] : []
     },
     checkSearchObj () {
-      const { dateRange } = this.searchObj
+      const { dateRange } = this.searchform
       if (!dateRange || dateRange.length === 0) {
         this.$notify.error('查询时间范围时间不能为空')
         this.loading = false
@@ -164,26 +166,6 @@ export default {
         return false
       }
       return true
-    },
-    // 加载列表
-    async loadListFun (data) {
-      this.loading = true
-      this.searchObj.analysisType = this.analysisType
-      this.searchObj.date = this.searchform.date
-      this.searchObj.dateRange = this.searchform.dateRange
-      this.searchObj.sortName = this.sortName
-      this.searchObj.sortType = this.sortType
-      this.searchObj.guideIds = this.searchform.guideIds
-      if (this.checkSearchObj()) {
-        this.$http.fetch(this.$api.guide.sgGuideActivityAnalysis.findList, this.searchObj).then(resp => {
-          this.dataList = resp.result.data
-          this.pagination.total = parseInt(resp.result.recordsTotal)
-        }).catch(resp => {
-          this.$notify.error(getErrorMsg('查询失败', resp))
-        }).finally(() => {
-          this.loading = false
-        })
-      }
     },
     getDateDiff (startTime, endTime, diffType) {
       diffType = diffType.toLowerCase()
@@ -202,31 +184,38 @@ export default {
       return parseInt((eTime.getTime() - sTime.getTime()) / parseInt(divNum))
     },
     // 提交搜索
-    submitForm (formName) {
-      // 组装搜索对象
-      this.loadListFun()
-    },
-    resetForm () {
-      this.searchform.date = '昨天'
-      this.searchform.dateRange = this.getDateRange()
-      this.searchform.guideIds = []
-      this.loadListFun()
+    submitForm () {
+      if (+this.activeName === 1) {
+        this.$refs.list.loadListFun()
+      } else if (+this.activeName === 2) {
+        this.$refs.menberStatistics.loadListFun()
+      } else {
+        this.$refs.saleView.loadListFun()
+      }
     },
     exportData () {
-      this.searchObj.analysisType = this.analysisType
-      this.searchObj.date = this.searchform.date
-      this.searchObj.dateRange = this.searchform.dateRange
-      this.searchObj.guideIds = this.searchform.guideIds
       if (this.checkSearchObj()) {
         var url = API_ROOT + '/guide/activityAnalysis/exportData'
         var form = document.createElement('form')
-        form.appendChild(this.generateHideElement('analysisType', this.searchObj.analysisType))
-        form.appendChild(this.generateHideElement('date', this.searchObj.date))
-        form.appendChild(this.generateHideElement('dateStart', moment(this.searchObj.dateRange[0]).format('YYYY-MM-DD')))
-        form.appendChild(this.generateHideElement('dateEnd', moment(this.searchObj.dateRange[1]).format('YYYY-MM-DD')))
-        form.appendChild(this.generateHideElement('guideIds', this.searchObj.guideIds))
-        form.appendChild(this.generateHideElement('sortName', this.sortName))
-        form.appendChild(this.generateHideElement('sortType', this.sortType))
+        var sortName
+        var sortType
+        form.appendChild(this.generateHideElement('analysisType', this.activeName))
+        form.appendChild(this.generateHideElement('date', this.searchform.date))
+        form.appendChild(this.generateHideElement('dateStart', moment(this.searchform.dateRange[0]).format('YYYY-MM-DD')))
+        form.appendChild(this.generateHideElement('dateEnd', moment(this.searchform.dateRange[1]).format('YYYY-MM-DD')))
+        form.appendChild(this.generateHideElement('guideIds', this.searchform.guideIds))
+        if (+this.activeName === 1) {
+          sortName = this.$refs.list.sortName
+          sortType = this.$refs.list.sortType
+        } else if (+this.activeName === 2) {
+          sortName = this.$refs.menberStatistics.sortName
+          sortType = this.$refs.menberStatistics.sortType
+        } else {
+          sortName = this.$refs.saleView.sortName
+          sortType = this.$refs.saleView.sortType
+        }
+        form.appendChild(this.generateHideElement('sortName', sortName))
+        form.appendChild(this.generateHideElement('sortType', sortType))
         form.setAttribute('action', url)
         form.setAttribute('method', 'post')
         document.body.appendChild(form)
@@ -239,21 +228,6 @@ export default {
       tempInput.name = name
       tempInput.value = value
       return tempInput
-    },
-    // 排序
-    changeTableSort (column) {
-      // 获取字段名称和排序类型
-      var fieldName = column.prop
-      var sortingType = column.order
-      this.sortName = fieldName
-      // 按照降序排序
-      if (sortingType === 'descending') {
-        this.sortType = 0
-      } else {
-        // 按照升序排序
-        this.sortType = 1
-      }
-      this.loadListFun()
     }
   },
   components: {
@@ -275,21 +249,16 @@ export default {
     margin-bottom: 10px;
   }
   .template-search__box {
-    width: 182px;
+    /* width: 182px;
     height: 28px;
     background: #FFFFFF;
     border: 1px solid #DCDFE6;
     border-radius: 3px;
-    border-radius: 3px;;
+    border-radius: 3px;; */
     display: flex;
-    span{
-      width: 141px;
-      height: 27px;
+    span {
+      display: inline-block;
       margin-left: 10px;
-      border-right: 1px solid #DCDFE6;;
     }
-  > div + span {
-    margin-left: var(--default-margin-small);
-  }
   }
 </style>
