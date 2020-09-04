@@ -5,7 +5,7 @@
       ref="textarea"
       contenteditable="true"
       class="el-textarea__inner ns-textarea__input"
-      :style="{height: height + 'px'}"
+      :style="customStyle"
     >
       <!-- Hello world! <span class="tag" contenteditable="false">asdasd</span> -->
     </div>

@@ -42,6 +42,12 @@ export default {
       default () {
         return []
       }
+    },
+    style: {
+      type: Object,
+      default () {
+        return {}
+      }
     }
   },
   data () {
@@ -67,7 +73,11 @@ export default {
       }
     }
   },
-  computed: {},
+  computed: {
+    customStyle () {
+      return { ...this.style, height: `${this.height}px` }
+    }
+  },
   created () {
     this.setTextareaValue()
   },
