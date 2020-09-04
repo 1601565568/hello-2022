@@ -1,14 +1,12 @@
 <template>
   <div class="ns-textarea">
-    <div v-if="placeholder && !innerValue" class="ns-textarea__placeholder">{{placeholder}}</div>
     <div
       ref="textarea"
       contenteditable="true"
       class="el-textarea__inner ns-textarea__input"
       :style="customStyle"
-    >
-      <!-- Hello world! <span class="tag" contenteditable="false">asdasd</span> -->
-    </div>
+    ></div>
+    <div v-if="placeholder && !innerValue" class="ns-textarea__placeholder">{{placeholder}}</div>
     <div v-if="showWordLimit && this.maxlength" class="ns-textarea__limit">{{this.getLength()}}/{{this.maxlength}}</div>
   </div>
 </template>

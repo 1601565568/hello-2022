@@ -43,7 +43,7 @@ export default {
         return []
       }
     },
-    style: {
+    styles: {
       type: Object,
       default () {
         return {}
@@ -75,7 +75,7 @@ export default {
   },
   computed: {
     customStyle () {
-      return { ...this.style, height: `${this.height}px` }
+      return { ...this.styles, height: `${this.height}px` }
     }
   },
   created () {
@@ -136,7 +136,8 @@ export default {
       })
       // 转义符替换
       html = html.replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>')
-      return html
+      html = html.replace(/\n\n$/g, '\n')
+      return html === '\n' ? '' : html
     },
     // 输入框内容设置
     setTextareaValue () {
@@ -155,7 +156,7 @@ export default {
             tempArr[index - 1] = ''
             tempArr[index] = this.createItemEl(opt.label, 'tag')
           } else {
-            tempArr[index] = this.createItemEl(prefixTag ? '' : str)
+            tempArr[index] = prefixTag ? '' : this.createItemEl(str)
             prefixTag = false
           }
         })
