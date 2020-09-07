@@ -32,13 +32,13 @@
                 >
                 </el-date-picker>
               </el-form-item>
-              <el-form-item label="选择员工：" >
-                <div class="template-search__box" >
-                  <NsGuideDialog :isButton="true" :validNull="true" :auth="false" type="primary" btnTitle="选择" dialogTitle="选择员工" v-model="searchform.guideIds" @input="NsGuideDialogSave()"></NsGuideDialog>
-                  <span v-if="searchform.guideIds&&searchform.guideIds.length>0">
-                    已选择 {{searchform.guideIds.length}}个
+               <el-form-item label="选择员工：" >
+                <div class="template-search__box">
+                  <span  v-if="searchform.guideIds&&searchform.guideIds.length>0">
+                    已选择{{searchform.guideIds.length}}个
                   </span>
                   <span v-if="searchform.guideIds&&searchform.guideIds.length<=0">全部</span>
+                  <div style="float: right;"><NsGuideDialog :isButton="false" :validNull="true" :auth="false" type="primary" btnTitle="选择" dialogTitle="选择员工" v-model="searchform.guideIds" @input="NsGuideDialogSave()"></NsGuideDialog></div>
                 </div>
               </el-form-item>
             </el-form>
@@ -248,17 +248,22 @@ export default {
   .template-table__bar{
     margin-bottom: 10px;
   }
-  .template-search__box {
-    /* width: 182px;
+ .template-search__box {
+    width: 182px;
     height: 28px;
     background: #FFFFFF;
     border: 1px solid #DCDFE6;
     border-radius: 3px;
-    border-radius: 3px;; */
+    border-radius: 3px;;
     display: flex;
-    span {
-      display: inline-block;
+    span{
+      width: 141px;
+      height: 27px;
       margin-left: 10px;
+      border-right: 1px solid #DCDFE6;;
     }
+  > div + span {
+    margin-left: var(--default-margin-small);
+  }
   }
 </style>

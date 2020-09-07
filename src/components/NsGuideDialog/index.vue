@@ -71,7 +71,6 @@
               <ns-button type="primary" @click="searchEmployee(1)">{{$t('operating.search')}}</ns-button>
               <ns-button @click="resetSearch">{{$t('operating.reset')}}</ns-button>
               <ns-button @click="onSelectAllData">全部选择</ns-button>
-              <ns-button @click="clearSelection">清空选择</ns-button>
             </el-form-grid>
           </el-form-item>
         </el-form>
@@ -92,8 +91,12 @@
           </el-col>
           <el-col :span="12">
             <ElTable :data="selectedData" height="260">
-              <ElTableColumn :show-overflow-tooltip="true" type="default" prop="name" :label="'已选' + selectedData.length + '个员工'" align="left"/>
+              <ElTableColumn :show-overflow-tooltip="true" type="default" prop="name" :label="'已选' + selectedData.length + '个员工'" align="left">
+              </ElTableColumn>
               <ElTableColumn  prop="select" align="center" width="55" >
+                <template slot="header">
+                  <span @click="clearSelection">清空</span>
+                </template>
                 <template slot-scope="scope">
                   <ns-button
                     :disabled="auth && scope.row.auth"
