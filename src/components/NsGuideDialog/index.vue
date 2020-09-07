@@ -65,6 +65,15 @@
             <el-form-grid>
               <ElInput :maxlength="20" v-model="departData.mobile"/>
             </el-form-grid>
+            <el-form-grid><div style="margin-left: 10px;">导入员工：</div></el-form-grid>
+            <el-form-grid>
+              <div class="template-search__box">
+                <span>
+                  已导入个员工
+                </span>
+                <div style="float: right;"><NsImportDialog :isButton="false" :validNull="true" :auth="false" type="primary" dialogTitle="导入员工"></NsImportDialog></div>
+              </div>
+            </el-form-grid>
             <el-form-grid><div style="margin-left: 10px;"></div></el-form-grid>
             <el-form-grid>
               <ns-button type="primary" @click="searchEmployee(1)">{{$t('operating.search')}}</ns-button>
@@ -118,15 +127,35 @@
 import index from './src/index.js'
 import NsDroptree from '@nascent/ecrp-ecrm/src/components/NsDroptree'
 import ElSelectLoad from '@nascent/nui/lib/select-load'
+import NsImportDialog from '../NsImportDialog/index'
 index.components = {
   NsDroptree,
-  ElSelectLoad
+  ElSelectLoad,
+  NsImportDialog
 }
 export default index
 </script>
 
 <style scoped>
   @import "@theme/variables.pcss";
+  .template-search__box {
+    width: 182px;
+    height: 28px;
+    background: #FFFFFF;
+    border: 1px solid #DCDFE6;
+    border-radius: 3px;
+    border-radius: 3px;;
+    display: flex;
+  span{
+    width: 141px;
+    height: 27px;
+    margin-left: 10px;
+    border-right: 1px solid #DCDFE6;;
+  }
+  > div + span {
+    margin-left: var(--default-margin-small);
+  }
+  }
 
   @component-namespace code {
     @b container {
