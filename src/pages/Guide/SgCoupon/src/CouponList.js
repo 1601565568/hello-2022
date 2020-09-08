@@ -435,7 +435,7 @@ export default {
       _this.$refs.form.validate((valid) => {
         if (valid) {
           if (_this.activityModel.coupon_total === 0) {
-            _this.$notify.error('配额必须大于0')
+            _this.$notify.error('总配额必须大于0')
             _this.forbidden = false
             return
           }
