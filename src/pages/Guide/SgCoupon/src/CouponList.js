@@ -13,7 +13,7 @@ export default {
             callback()
           }
         },
-        trigger: 'blur,change'
+        trigger: ['blur', 'change']
       }],
       type: [{
         required: true,
@@ -24,7 +24,20 @@ export default {
             callback()
           }
         },
-        trigger: 'blur,change'
+        trigger: ['blur', 'change']
+      }],
+      coupon_total: [{
+        required: true,
+        validator: (rule, value, callback) => {
+          var regin = /^(0|[1-9][0-9]*)$/
+          var flag = regin.test(value)
+          if (!flag) {
+            callback(new Error('请输入整数'))
+          } else {
+            callback()
+          }
+        },
+        trigger: ['blur', 'change']
       }]
     }
     let paginations = {
@@ -120,13 +133,6 @@ export default {
      */
     activityCouponTotal: function () {
       var _this = this
-      var regin = /^(0|[1-9][0-9]*)$/
-      var flag = regin.test(_this.activityModel.coupon_total)
-      if (!flag) {
-        _this.activityModel.coupon_total = 0
-        _this.$notify.info('请输入整数')
-        return
-      }
       var couponId = _this.activityModel.coupon_id
       if (couponId === 0 || couponId === null || couponId === '') {
         _this.activityModel.coupon_total = 0
@@ -432,6 +438,7 @@ export default {
       var _this = this
       _this.forbidden = true
       _this.$refs.form.validate((valid) => {
+        console.log(valid, 'valid')
         if (valid) {
           if (_this.activityModel.coupon_total === 0) {
             _this.$notify.error('配额必须大于0')
@@ -470,6 +477,8 @@ export default {
             _this.$notify.error(getErrorMsg('保存失败', resp))
             _this.forbidden = false
           })
+        } else {
+          _this.forbidden = false
         }
       })
     },
