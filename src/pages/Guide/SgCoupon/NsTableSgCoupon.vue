@@ -17,8 +17,8 @@
             <!--<Icon type="search" className="el-input__icon" style="padding: 5px;" slot="suffix" name="name"-->
                   <!--@click="$quickSearchAction$('couponTitle')"/>-->
           </el-input>
-          <ns-button type="primary" @click="$searchAction$()" class="searchbtn">搜索</ns-button>
-          <ns-button @click="$resetInputAction$()" class="resetbtn">重置</ns-button>
+          <!-- <ns-button type="primary" @click="$searchAction$()" class="searchbtn">搜索</ns-button>
+          <ns-button @click="$resetInputAction$()" class="resetbtn">重置</ns-button> -->
         </el-form-item>
         <el-form-item>
           <ns-button type="text" @click="$handleTabClick">
@@ -72,7 +72,7 @@
             </el-option>
           </el-select>
           </el-form-grid>
-          <el-form-grid prop="time">
+          <el-form-grid prop="time" style="margin-left: 5px;">
           <el-date-picker
             v-model="model.validTime"
             type="datetimerange"
