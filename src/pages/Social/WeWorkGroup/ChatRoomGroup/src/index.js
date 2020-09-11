@@ -8,9 +8,6 @@ export default {
   name: 'NsTableAutoPass',
   mixins: [listPageMixin],
   components: { NsTableColumnOperateButtonExt },
-  props: {
-    url: Object
-  },
   data: function () {
     let pagination = {
       enable: true,
@@ -60,7 +57,7 @@ export default {
     const operateButtons = [
       {
         'func': function () {
-          this.$router.push({ path: '/Guide/SgPersonalQrcode/List/Edit/0' })
+          this.$router.push({ name: 'chatRoomGroupAddOrEdit' })
         },
         'name': '新建群聚合码'
       }
