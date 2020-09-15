@@ -13,9 +13,9 @@
               <el-form-grid size="xlg">
                 <el-input
                   type="text"
-                  placeholder="请输入聚合群码标题"
+                  placeholder="请输入聚合群码标题,长度20个字符以内"
                   v-model="model.remark"
-                  maxlength="30"
+                  maxlength="20"
                   show-word-limit
                   onkeyup="this.value=this.value.replace(/\s+/g,'')"
                 />
@@ -23,7 +23,7 @@
             </el-form-item>
             <el-form-item label="可加入的群聊：" required>
               <el-form-grid>
-                <NsChatRoomDialog btnTitle="选择群聊" :guideUrl="this.$api.guide.sgPersonalQrcode.queryGuideMsg" v-model="model.checkedChatRoom"></NsChatRoomDialog>
+                <NsChatRoomDialog btnTitle="选择群聊" :selectedDataParent="model.checkedChatRoom" @getChatRoomData="getChatRoomData" v-model="model.checkedChatRoom"></NsChatRoomDialog>
               </el-form-grid>
               <div class="library-icon__extra">
                 <Icon type="tishi"/>
@@ -40,7 +40,7 @@
                   </ElTableColumn>
                   <ElTableColumn prop="style" label="群主">
                     <template slot-scope="scope">
-                      {{ scope.row.owner}}({{scope.row.ownerWorkNum }})
+                      {{ scope.row.ownerName}}({{scope.row.ownerWorkNum }})
                     </template>
                   </ElTableColumn>
                   <ElTableColumn prop="style" label="成员数">
@@ -55,7 +55,7 @@
                   </ElTableColumn>
                   <ElTableColumn label="操作" align="center" :width="70">
                     <template slot-scope="scope">
-                      <ns-button type="text" size="small" @click="handleDelete(scope)">删除</ns-button>
+                      <ns-button type="text" size="small" @click="handleDelete(scope.row)">删除</ns-button>
                     </template>
                   </ElTableColumn>
                 </ElTable>
@@ -86,7 +86,7 @@
             </el-form-item>
             <el-form-item v-if="model.autoCreateRoom === 1" label="自动建群的起始序号："  required>
               <el-form-grid size="xlg">
-              <el-input-number v-model="model.roomBaseId" @change="handleChange" :min="1" :max="100" label="描述文字"></el-input-number>
+              <el-input-number class="inputSize" :controls="false"  v-model="model.roomBaseId" @change="handleChange" :min="1" :max="100" label="描述文字"></el-input-number>
               </el-form-grid>
               <div class="library-icon__extra">
                 <Icon type="tishi"/>

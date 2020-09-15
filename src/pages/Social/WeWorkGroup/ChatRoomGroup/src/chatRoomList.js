@@ -25,8 +25,7 @@ export default {
         },
         'icon': '',
         'name': '群详情',
-        'auth': ``,
-        'visible': `scope.row.status !== 2`
+        'auth': ``
       },
       {
         'func': function (scope) {
@@ -34,8 +33,7 @@ export default {
         },
         'icon': '',
         'name': '删除',
-        'auth': ``,
-        'visible': `scope.row.status !== 2`
+        'auth': ``
       }
     ]
     let quickSearchModel = {}
@@ -93,6 +91,7 @@ export default {
     },
     // 群主列表
     getOwnerInfo () {
+      this.loading = true
       this.$http
         .fetch(this.$api.guide.chatRoomConfig.chatRoomGroupAllOwner, { configId: this.configId })
         .then(resp => {
@@ -117,6 +116,19 @@ export default {
       this.searchObj.start = 0
       this.searchObj.searchMap = {}
       this.loadListFun()
+    },
+    onDeleteFun (row) {
+      this.loading = true
+      this.$http
+        .fetch(this.$api.guide.chatRoomConfig.chatRoomDelete, { chatId: row.chat_id, configId: this.configId })
+        .then(resp => {
+          this.$notify.success('该群已在聚合码中删除')
+          this.loadListFun()
+        })
+        .catch(resp => {
+          this.$notify.error(getErrorMsg('删除失败', resp))
+        })
+      this.loading = false
     }
   }
 }

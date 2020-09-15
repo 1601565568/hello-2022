@@ -3,14 +3,16 @@ import apiRequestConfirm from '@nascent/ecrp-ecrm/src/utils/apiRequestConfirm'
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import scrollHeight from '@nascent/ecrp-ecrm/src/mixins/scrollHeight'
 import NsChatRoomDialog from '@/components/NsChatRoomDialog'
+import ElInputNumber from '@nascent/nui/lib/input-number'
 
 export default {
   name: 'groupConfig',
   mixins: [tableMixin, scrollHeight],
-  components: { NsChatRoomDialog },
+  components: { NsChatRoomDialog, ElInputNumber },
   data: function () {
     let defModel = {
       autoCreateRoom: 1,
+      roomBaseId: 1,
       checkedChatRoom: []
     }
     return {
@@ -19,8 +21,8 @@ export default {
       configId: ''
     }
   },
-  created: function () {
-    this.configId = this.$route.params.configId
+  mounted () {
+    this.configId = this.$route.query.configId
     if (this.configId) {
       this.title = '编辑群聚合码'
       this.findDetail()
@@ -45,22 +47,41 @@ export default {
     // submit
     onSave () {
       this.loading = true
+      if (this.model.checkedChatRoom.length < 1) {
+        this.$notify.error('请选择至少一个群')
+        return
+      }
+      let chatIds = []
+      this.model.checkedChatRoom.forEach(item => {
+        chatIds.push(item.chatId)
+      })
+      this.model.chatIds = chatIds
+      if (this.configId) {
+        this.model.configId = this.configId
+      }
       this.$http
         .fetch(this.$api.guide.chatRoomConfig.chatRoomGroupCreate, this.model)
         .then(resp => {
           this.$notify.success('成功')
+          this.$router.push({ name: 'chatRoomGroup' })
         })
         .catch(resp => {
-          this.$notify.error(getErrorMsg('查询配置失败', resp))
+          this.$notify.error(getErrorMsg('失败:', resp))
         })
       this.loading = false
     },
     cancel () {
-      this.searchObj.start = 0
-      this.searchObj.searchMap = {}
+      this.$router.push({ name: 'chatRoomGroup' })
     },
     handleDelete (row) {
-      this.data = row
+      this.model.checkedChatRoom.splice(row.index, 1)
+    },
+    handleChange (value) {
+      console.log(value)
+    },
+    // 组件得数据
+    getChatRoomData (selectChatRoomData) {
+      this.model.checkedChatRoom = selectChatRoomData
     }
   }
 }

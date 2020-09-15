@@ -13,9 +13,9 @@
       <!-- el-inpu 需添加  @keyup.enter.native="$quickSearchAction$" 配置，实现回车搜索 -->
       <template slot="searchSearch">
         <el-form :model="quickSearchModel" :inline="true" @submit.native.prevent  class="pull-right">
-          <el-form-item label="名称:">
+          <el-form-item label="标题:">
             <el-form-grid size="xmd">
-              <el-input  autofocus=true v-model="model.remark" placeholder="名称" @keyup.enter.native="submitForm()" clearable></el-input>
+              <el-input  autofocus=true v-model="model.remark" placeholder="请输入聚合码标题" @keyup.enter.native="submitForm()" clearable></el-input>
             </el-form-grid>
           </el-form-item>
           <el-form-item>

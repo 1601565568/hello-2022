@@ -1,7 +1,7 @@
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 let vm
 export default {
-  name: 'NsEmployeeOrChatRoomDialog',
+  name: 'NsChatRoomDialog',
   mixins: [tableMixin],
   props: {
     value: {
@@ -9,10 +9,10 @@ export default {
         return []
       }
     },
-    guideUrl: {
-      type: Object,
+    selectedDataParent: {
+      type: Array,
       default: function () {
-        return this.$api.core.sysUser.queryGuidePage
+        return []
       }
     },
     // 是否添加登录账号店铺数据权限
@@ -31,22 +31,14 @@ export default {
     type: {
       type: String,
       default: 'text'
-    },
-    validNull: {
-      type: Boolean,
-      default: false
     }
   },
   data: function () {
     return {
-      allEmployeeData: [],
       // 左边树的数据
       employeeData: [],
-      allSearchEmployeeData: [],
       // 右边已选择数据
       selectedData: [],
-      // 复制勾选的数据
-      selectCopyData: [],
       visible: false,
       tableLoading: false,
       // 搜索数据封装
@@ -66,8 +58,6 @@ export default {
         shopIds: '',
         // 门店分类
         shopCate: {},
-        // 类型 0导购 1店长
-        job: null,
         ownerName: ''
       },
       // 门店分类树
@@ -75,8 +65,6 @@ export default {
       // 门店选择option
       shopOptions: [],
       allShopOptions: [],
-      // 接口员工idkey
-      recordId: 'id',
       // 页码
       pagination4Emp: {
         enable: true,
@@ -84,8 +72,7 @@ export default {
         sizeOpts: [15, 25, 50, 100],
         page: 1,
         total: 0
-      },
-      isCheckAll: false
+      }
     }
   },
   computed: {},
@@ -114,16 +101,11 @@ export default {
      */
     onDialogOpen () {
       vm.visible = true
-      vm.isCheckAll = false
-      vm.$nextTick(function () {
-        this.departData.name = ''
-        this.departData.mobile = ''
-        this.departData.job = null
-        this.departData.selectedDepart = {}
-        this.departData.shopCate = {} // 选择的门店分类
-        this.departData.shopId = '' // 选择的门店
-        this.getChatRoomList()
-      })
+      // 编辑使用.
+      if (this.selectedDataParent) {
+        this.selectedData = this.selectedDataParent
+      }
+      this.resetSearch()
     },
     /**
      * 部门树点击事件(懒加载)
@@ -204,96 +186,12 @@ export default {
      * 重置搜索条件并搜索
      */
     resetSearch: function () {
-      vm.departData.name = ''
-      vm.departData.mobile = ''
-      vm.departData.job = ''
-      vm.departData.selectedDepart = {}
-      vm.departData.shopCate = {} // 选择的门店分类
-      vm.departData.shopId = '' // 选择的门店
-      vm.searchEmployee(1)
-    },
-    /**
-     * 搜索员工
-     */
-    searchEmployee: function (pageNo) {
-      let data = []
-      let total = 0
-      this.pagination4Emp.page = pageNo
-      let param = { pageNo: pageNo, pageSize: this.pagination4Emp.size }
-      this.setParam(param)
-      // 请求获取员工数据
-      this.$http.fetch(this.guideUrl, param)
-        .then(resp => {
-          if (resp.result && resp.result.data && resp.result.data.length > 0) {
-            data = JSON.parse(JSON.stringify(resp.result.data))
-          }
-          if (resp.result.recordsTotal) {
-            total = parseInt(resp.result.recordsTotal)
-          }
-          vm.isCheckAll = false
-        }).catch(() => {
-          vm.$notify.error('查询用户信息失败')
-        }).finally(() => {
-          vm.allSearchEmployeeData = []
-          // 员工数据
-          vm.employeeData = vm.handleEmployeeList(JSON.parse(JSON.stringify(data)), vm.departData.allDepartments)
-          // 所有员工数据
-          vm.allEmployeeData = vm.handleEmployeeList(JSON.parse(JSON.stringify(data)), vm.departData.allDepartments)
-          // 数据总数
-          vm.pagination4Emp.total = total
-          vm.$nextTick(function () {
-            // 设置员工勾选状态
-            vm.toggleRowSelection(vm.selectedData, vm.employeeData, vm.recordId)
-            vm.tableLoading = false
-          })
-        })
-    },
-    /**
-     * 搜索全部员工
-     */
-    async searchAllEmployee () {
-      if (vm.allSearchEmployeeData.length > 0) {
-        return vm.allSearchEmployeeData
-      }
-      let param = { pageNo: 1, pageSize: 9999999 }
-      this.setParam(param)
-      // 请求获取员工数据
-      await this.$http.fetch(this.guideUrl, param)
-        .then(resp => {
-          if (resp.result && resp.result.data && resp.result.data.length > 0) {
-            vm.allSearchEmployeeData = JSON.parse(JSON.stringify(resp.result.data))
-          }
-        }).catch(() => {
-          vm.$notify.error('查询用户信息失败')
-        })
-      return vm.allSearchEmployeeData
-    },
-    /**
-     * 初始化搜索值
-     * @param param
-     */
-    setParam (param) {
-      param.auth = vm.auth
-      if (vm.departData.name) {
-        param.empName = vm.departData.name
-      }
-      if (vm.departData.job !== null) {
-        param.job = vm.departData.job
-      }
-      if (vm.departData.mobile) {
-        param.mobile = vm.departData.mobile
-      }
-      if (vm.departData.selectedDepart.value && parseInt(vm.departData.selectedDepart.value) > 0) {
-        let jointString = vm.jointDepartId(vm.departData.selectedDepart.value, vm.departData.allDepartments)
-        param.empDepar = jointString.join(',')
-      }
-      if (this.departData.shopId) {
-        param.shopId = this.departData.shopId
-      } else {
-        if (this.departData.shopCate && this.departData.shopCate.value) {
-          param.cateId = '-' + this.departData.shopCate.value + '-'
-        }
-      }
+      this.departData.name = ''
+      this.departData.selectedDepart = {}
+      this.departData.shopCate = {} // 选择的门店分类
+      this.departData.shopId = '' // 选择的门店
+      this.departData.ownerName = '' // 选择的门店
+      this.getChatRoomList(1)
     },
     /**
      * 拼接部门的id,所有子部门
@@ -310,161 +208,49 @@ export default {
       return _jointString
     },
     /**
-     * 设置员工勾选状态
-     */
-    toggleRowSelection (selectedData, allData, idKey) {
-      vm.$nextTick(function () {
-        for (let data of allData) {
-          let index = selectedData.filter(index => data[idKey] === index[idKey])
-          if (index.length > 0) {
-            vm.$refs['employeeTable'].toggleRowSelection(data, true)
-          } else {
-            vm.$refs['employeeTable'].toggleRowSelection(data, false)
-          }
-        }
-      })
-    },
-    /**
-     * 员工列表点击选择
+     * 群列表点击选择
      */
     selectChange (select, scope) {
-      if (this.selectedData.length > 0) {
-        const index = this.selectedData.findIndex(d => d[vm.recordId] === scope[vm.recordId])
-        if (index > -1) {
-          this.selectedData.splice(index, 1)
-          vm.isCheckAll = false
-        } else {
-          this.selectedData.push(scope)
-        }
-      } else {
-        this.selectedData = JSON.parse(JSON.stringify(this.$refs['employeeTable'].selection))
+      if (this.$refs.employeeTable.selection.length > 100) {
+        this.$notify.warning('群上限不允许超过100')
+        return
       }
-      if (this.selectedData.length === 0) {
-        this.$refs['employeeTable'].clearSelection()
-      }
+      this.selectedData = JSON.parse(JSON.stringify(this.$refs['employeeTable'].selection))
     },
     /**
-     * 员工列表点击当页全部选择事件
+     * 右侧群删除事件,
+     * ps: 必须使用自带得数据去 取消选中!!,  使用别的是不可以得.即使数据一样.
      */
-    selectAllChange (select) {
-      if (select.length === 0) {
-        for (let data of this.employeeData) {
-          const index = this.selectedData.findIndex(d => d[vm.recordId] === data[vm.recordId])
-          if (index > -1) {
-            this.selectedData.splice(index, 1)
-          }
-        }
-        vm.isCheckAll = false
-      } else {
-        for (let data of select) {
-          const index = this.selectedData.findIndex(d => d[vm.recordId] === data[vm.recordId])
-          if (index === -1) {
-            this.selectedData.push(data)
-          }
-        }
-      }
-    },
-    /**
-     * 员工列表点击条件全部选择事件
-     */
-    onSelectAllData () {
-      this.searchAllEmployee().then(allEmployee => {
-        let selectedData2 = []
-        let selectedData3 = []
-        // 已选择的有权限的员工
-        let authSelectedData = []
-        let allEmployeeMap = {}
-        allEmployee.forEach(function (item) {
-          allEmployeeMap[item.id] = item
-        })
-        // 区分该批搜索数据中的权限数据
-        vm.selectedData.forEach(function (item) {
-          if (vm.auth && item.auth) {
-            // 没有权限的员工
-            selectedData2.push(item)
-          } else {
-            if (allEmployeeMap[item.id]) {
-              // 有操作权限的员工
-              authSelectedData.push(item)
-            } else {
-              // 已经选择的员工中，存在条件筛选员工外的员工，叠加保留。
-              selectedData3.push(item)
-            }
-          }
-        })
-        vm.selectedData = []
-        if (vm.isCheckAll) {
-          // 清空左边列表
-          vm.$refs.employeeTable.clearSelection()
-        } else {
-          // 左边列表全部勾选
-          vm.employeeData.forEach(function (item) {
-            if (allEmployeeMap[item.id]) {
-              vm.$refs.employeeTable.toggleRowSelection(item, true)
-            }
-          })
-          selectedData3.forEach(function (item) {
-            selectedData2.push(item)
-          })
-          // 右边员工数据添加
-          allEmployee.forEach(function (item) {
-            selectedData2.push(item)
-          })
-        }
-        vm.selectedData = selectedData2
-        vm.isCheckAll = !vm.isCheckAll
-      })
-    },
-    /**
-     * 右侧员工删除事件
-     */
-    removeEmp (scope) {
+    removeSelect (scope) {
       this.selectedData.splice(scope.$index, 1)
-      const index = this.$refs.employeeTable.selection.findIndex(d => d[vm.recordId] === scope.row[vm.recordId])
-      if (index > -1) {
-        this.$refs.employeeTable.toggleRowSelection(scope.row, false)
-        vm.isCheckAll = false
-      }
-    },
-    /**
-     * 根据右边数据，勾选左边员工
-     */
-    resetInput () {
-      if (vm.employeeData.length > 0) {
-        vm.fileData()
-      }
-    },
-    /**
-     * 勾选处理逻辑
-     */
-    fileData () {
-      if (vm.$refs['employeeTable']) {
-        vm.$refs['employeeTable'].clearSelection()
-      }
-      vm.$nextTick(function () {
-        for (let indexDat of vm.employeeData) {
-          if (vm.selectedData.filter(d => d[vm.recordId] === indexDat[vm.recordId]).length > 0) {
-            vm.$refs['employeeTable'].toggleRowSelection(indexDat, true)
-          }
+      this.employeeData.map(item => {
+        if (item.chatId === scope.row.chatId) {
+          this.$refs.employeeTable.toggleRowSelection(item, false)
         }
       })
     },
     /**
      * 第一次打开组建，获取左侧用户列表，并联动右侧已选数据
      */
-    getChatRoomList () {
+    getChatRoomList (pageNo) {
       this.tableLoading = true
       let searchMap = {}
       searchMap.workShop = this.departData.shopId
       searchMap.departmentId = this.departData.selectedDepart.value
       searchMap.name = this.departData.name
       searchMap.ownerName = this.departData.ownerName
+      this.pagination4Emp.page = pageNo
       let param = { pageNo: this.pagination4Emp.page, pageSize: this.pagination4Emp.size, searchMap: searchMap }
       this.$http.fetch(this.$api.guide.chatRoomConfig.chatRoomCanJoinList, param)
         .then(resp => {
           if (resp.result && resp.result.data && resp.result.data.length > 0) {
             resp.result.data.forEach(item => {
               item.workShopName = item.workShopName.join(',')
+              // 如果还有其他 需要转换写这里
+              item.ownerWorkNum = item.owner_work_num
+              item.personNum = item.person_num
+              item.chatId = item.chat_id
+              item.ownerName = item.owner_name
             })
             this.employeeData = resp.result.data
           }
@@ -477,92 +263,39 @@ export default {
           vm.$notify.error('查询群信息失败')
         }).finally(() => {
           // 勾选默认值
-          // if (vm.value && vm.value.length > 0) {
-          //   var param = {}
-          //   param.pageNo = 1
-          //   param.pageSize = 1
-          //   if (vm.value && vm.value.length > 0) {
-          //     param.userIds = vm.value.join(',')
-          //   }
-          //   vm.$http.fetch(this.$api.core.sysUser.findByGuideIds, param).then(resp => {
-          //     if (resp.result && resp.result.length > 0) {
-          //       vm.selectedData = vm.handleEmployeeList(JSON.parse(JSON.stringify(resp.result)), vm.departData.allDepartments)
-          //       vm.$nextTick(function () {
-          //         vm.toggleRowSelection(vm.selectedData, vm.employeeData, vm.recordId)
-          //         vm.tableLoading = false
-          //       })
-          //     }
-          //   }).catch((ee) => {})
-          // } else {
-          //   vm.selectedData = []
-          // }
-          // vm.$nextTick(function () {
-          //   vm.resetInput()
-          // })
+          this.employeeData.forEach(item => {
+            this.selectedData.forEach(selectedItem => {
+              if (selectedItem.chatId === item.chatId) {
+                this.$refs.employeeTable.toggleRowSelection(item, true)
+              }
+            })
+          })
           vm.tableLoading = false
         })
-    },
-    /**
-     * 处理左侧员工数据，给其赋值部门名称
-     */
-    handleEmployeeList (employeeData, departData) {
-      if (employeeData && employeeData.length > 0) {
-        // 设置部门名称
-        if (departData) {
-          employeeData.map(data => {
-            let filterList = departData.filter(data2 => parseInt(data2.id) === parseInt(data.department_id))
-            if (filterList && filterList.length > 0) {
-              Object.assign(data, { departName: filterList[0].label })
-            }
-          })
-        }
-      }
-      return employeeData
     },
     /**
      * 关闭弹窗
      */
     onDialogClose () {
       vm.visible = false
-      vm.isCheckAll = false
     },
     /**
      * 点击保存按钮
      */
     onSave () {
-      if (this.validNull && this.selectedData.length < 1) {
-        this.$notify.warning('请选择员工')
+      if (this.selectedData.length < 1) {
+        this.$notify.warning('请选择群组')
         return
       }
-      this.callbackData(JSON.parse(JSON.stringify(this.selectedData)))
+      this.$emit('getChatRoomData', this.selectedData)
       vm.visible = false
-    },
-    /**
-     * 返回组建数据到父组件
-     */
-    callbackData: function (data) {
-      let transData = this.transformData(data)
-      // 直接复制给父组件的input的v-model
-      this.$emit('input', transData)
-    },
-    /**
-     * 设置返回信息
-     */
-    transformData (data) {
-      let result = []
-      if (data && data.length > 0) {
-        data.map(item => {
-          result.push(item[vm.recordId])
-        })
-      }
-      return result
     },
     /**
      * 点击页码数量时触发获取员工列表刷新事件
      */
     $sizeChange$: function (size) {
       this.pagination4Emp.size = size
-      return this.searchEmployee(1)
+      return this.getChatRoomList(1)
     }
   },
   mounted: function () {

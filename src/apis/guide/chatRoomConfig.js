@@ -20,9 +20,13 @@ export default {
     url: '/chatRoom/list',
     method: 'post'
   },
+  chatRoomDelete: {
+    url: '/chatRoom/delete',
+    method: 'get'
+  },
   chatRoomGroupGetByConfigId: {
     url: '/chatRoomGroup/getByConfigId',
-    method: 'post'
+    method: 'get'
   },
   chatRoomGroupAllOwner: {
     url: '/chatRoomGroup/getAllOwner',

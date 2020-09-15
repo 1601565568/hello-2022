@@ -23,8 +23,7 @@ export default {
         },
         'icon': '',
         'name': '群列表',
-        'auth': ``,
-        'visible': `scope.row.status !== 2`
+        'auth': ``
       },
       {
         'func': function (scope) {
@@ -32,17 +31,15 @@ export default {
         },
         'icon': '',
         'name': '下载',
-        'auth': ``,
-        'visible': `scope.row.status !== 2`
+        'auth': ``
       },
       {
         'func': function (scope) {
-          this.onEditFun(scope.row)
+          this.$router.push({ path: '/Social/WeWorkGroup/chatRoomGroup/addOrEdit', query: { configId: scope.row.configId } })
         },
         'icon': '',
         'name': '编辑',
-        'auth': ``,
-        'visible': `scope.row.status !== 2`
+        'auth': ``
       },
       {
         'func': function (scope) {
@@ -50,8 +47,7 @@ export default {
         },
         'icon': '',
         'name': '删除',
-        'auth': ``,
-        'visible': `scope.row.status !== 2`
+        'auth': ``
       }
     ]
     const operateButtons = [

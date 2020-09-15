@@ -56,14 +56,14 @@
             </el-form-grid>
             <el-form-grid><div style="margin-left: 10px;"></div></el-form-grid>
             <el-form-grid>
-              <ns-button type="primary" @click="searchEmployee(1)">{{$t('operating.search')}}</ns-button>
+              <ns-button type="primary" @click="getChatRoomList(1)">{{$t('operating.search')}}</ns-button>
               <ns-button @click="resetSearch">{{$t('operating.reset')}}</ns-button>
             </el-form-grid>
           </el-form-item>
         </el-form>
         <el-row :gutter="24">
           <el-col :span="12">
-            <ElTable v-loading="tableLoading" ref="employeeTable" :data="employeeData" height="260" @select="selectChange" @select-all="selectAllChange">
+            <ElTable v-loading="tableLoading" ref="employeeTable" :data="employeeData" height="260" @select="selectChange" @select-all="selectChange">
               <ElTableColumn type="selection" width="55"></ElTableColumn>
               <ElTableColumn :show-overflow-tooltip="true" type="default" prop="name" label="群名称" align="left"/>
               <ElTableColumn :show-overflow-tooltip="true" type="default"  label="群主" align="left">
@@ -78,7 +78,7 @@
                            :page-sizes="_data.pagination4Emp.sizeOpts" :total="_data.pagination4Emp.total"
                            :current-page="_data.pagination4Emp.page" :page-size="_data.pagination4Emp.size"
                            :layout="true? 'total, sizes, prev, pager, next':'total'" @size-change="$sizeChange$"
-                           @current-change="searchEmployee">
+                           @current-change="getChatRoomList(1)">
             </el-pagination>
           </el-col>
           <el-col :span="12">
@@ -86,10 +86,10 @@
               <ElTableColumn :show-overflow-tooltip="true" type="default" prop="name" :label="'已选' + selectedData.length + '个群'" align="left"/>
               <ElTableColumn :show-overflow-tooltip="true" type="default"  align="left">
                 <template slot-scope="scope">
-                  {{ scope.row.owner_name}}({{scope.row.owner_work_num }})
+                  {{ scope.row.ownerName}}({{scope.row.ownerWorkNum }})
                 </template>
               </ElTableColumn>
-              <ElTableColumn :show-overflow-tooltip="true" type="default" prop="person_num"  align="left"/>
+              <ElTableColumn :show-overflow-tooltip="true" type="default" prop="personNum"  align="left"/>
               <ElTableColumn :show-overflow-tooltip="true" type="default" prop="workShopName"  align="left"/>
               <ElTableColumn  prop="select" align="center" width="55" >
                 <template slot-scope="scope">
@@ -97,7 +97,7 @@
                     :disabled="auth && scope.row.auth"
                     type="text"
                     size="mini"
-                    @click="() => removeEmp(scope)">
+                    @click="() => removeSelect(scope)">
                     <Icon type="delete" className="code-delete"/>
                   </ns-button>
                 </template>
