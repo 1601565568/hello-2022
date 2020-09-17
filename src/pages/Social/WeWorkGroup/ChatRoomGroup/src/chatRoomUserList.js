@@ -63,7 +63,7 @@ export default {
     }
     this.getOwnerInfo()
     // 获取群主列表.
-    this.loadListFun()
+    this.syncUser()
   },
   methods: {
     // 图片预览
@@ -129,6 +129,7 @@ export default {
         .then(resp => {
           this.syncTime = resp.result
           this.$notify.success('同步成功')
+          this.loadListFun()
         })
         .catch(resp => {
           this.$notify.error(getErrorMsg('同步群成员失败', resp))

@@ -35,7 +35,9 @@ export default {
       await this.$http
         .fetch(this.$api.guide.chatRoomConfig.chatRoomGroupGetByConfigId, { configId: this.configId })
         .then(resp => {
-          // todo
+          resp.result.checkedChatRoom.forEach(data => {
+            data.workShopName = data.workShopName.join(',')
+          })
           this.model = resp.result
         })
         .catch(resp => {

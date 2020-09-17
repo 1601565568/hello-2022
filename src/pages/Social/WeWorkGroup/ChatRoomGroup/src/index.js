@@ -27,7 +27,7 @@ export default {
       },
       {
         'func': function (scope) {
-          this.downLoad(scope.row.url)
+          this.downLoad(scope.row.qrCode)
         },
         'icon': '',
         'name': '下载',
@@ -116,6 +116,10 @@ export default {
       await this.$http
         .fetch(this.$api.guide.chatRoomConfig.chatRoomGroupList, searchObj)
         .then(resp => {
+          resp.result.data.forEach(data => {
+            data.canJoinChatRoom = data.canJoinChatRoom.join(',')
+            data.owners = data.owners.join(',')
+          })
           this.dataList = resp.result.data
           this.pagination.total = parseInt(resp.result.recordsTotal)
         })
