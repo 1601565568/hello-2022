@@ -505,7 +505,7 @@ export default {
       _this.nameArr = []
       _this.multipleSelections = []
       if (_this.multipleSelection.length < 1) {
-        _this.$notify.error('请选择要操作的员工')
+        _this.$router.push({ path: '/Guide/SgFriendAutoPass/List/Edit/0' })
         return
       } else {
         _this.allUpdateIds = []
