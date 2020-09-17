@@ -533,7 +533,7 @@ export default {
      */
     onSave () {
       if (this.validNull && this.selectedData.length < 1) {
-        this.$notify.warning('请选择员工')
+        this.$notify.warning('请至少选择一个员工')
         return
       }
       this.callbackData(JSON.parse(JSON.stringify(this.selectedData)))
