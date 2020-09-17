@@ -53,7 +53,7 @@ export default {
       this.model.checkedChatRoom.forEach(item => {
         chatIds.push(item.chatId)
       })
-      this.model.chatIds = chatIds
+      this.model.chatIdList = chatIds
       if (this.configId) {
         this.model.configId = this.configId
       }

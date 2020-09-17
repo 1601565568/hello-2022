@@ -123,10 +123,12 @@ export default {
       this.loadListFun()
     },
     syncUser () {
+      this.$notify.info('开始同步:请稍等')
       this.$http
         .fetch(this.$api.guide.chatRoomConfig.syncUser, { chatId: this.chatId })
         .then(resp => {
           this.syncTime = resp.result
+          this.$notify.success('同步成功')
         })
         .catch(resp => {
           this.$notify.error(getErrorMsg('同步群成员失败', resp))
