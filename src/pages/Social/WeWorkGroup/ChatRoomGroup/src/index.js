@@ -1,13 +1,13 @@
-import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import { getErrorMsg } from '@/utils/toast'
 import { API_ROOT } from '@/config/http.js'
-import apiRequestConfirm from '@nascent/ecrp-ecrm/src/utils/apiRequestConfirm'
 import NsTableColumnOperateButtonExt from '@/components/NsTableColumnOperateButton'
 import listPageMixin from '@/mixins/listPage'
+import Preview from '@/components/NsPreview'
+
 export default {
   name: 'NsTableAutoPass',
   mixins: [listPageMixin],
-  components: { NsTableColumnOperateButtonExt },
+  components: { NsTableColumnOperateButtonExt, Preview },
   data: function () {
     let pagination = {
       enable: true,
@@ -19,7 +19,7 @@ export default {
     const tableButtons = [
       {
         'func': function (scope) {
-          this.$router.push({ path: '/Social/WeWorkGroup/chatRoom/' + scope.row.configId })
+          this.$router.push({ path: '/Social/WeWorkGroup/chatRoom/' + scope.row.configId, query: { remark: scope.row.remark } })
         },
         'icon': '',
         'name': '群列表',
@@ -103,6 +103,12 @@ export default {
     this.loadListFun()
   },
   methods: {
+    // 图片预览
+    togglePreview (url) {
+      if (url) {
+        this.$refs.preview.toggleShow(0, [url])
+      }
+    },
     // 加载列表
     async loadListFun (data) {
       this.loading = true

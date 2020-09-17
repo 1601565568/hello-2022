@@ -30,37 +30,32 @@
         {{dialogTitle}}
       </div>
       <div>
-        <el-form>
-          <el-form-item>
-            <el-form-grid><div style="margin-left: 20px;">工作门店：</div></el-form-grid>
-            <el-form-grid >
-              <ns-droptree ref="shopCateTree" placeholder="请选择门店分类" :lazy="true" :load="loadShopCateNode"  :multiple="false" v-model="departData.shopCate" clearable></ns-droptree>
-            </el-form-grid>
-            <el-form-grid style="margin-left:10px">
-              <el-select-load v-model="departData.shopId" :options="shopOptions"  filterable clearable :page-sizes="20" placeholder="选择门店">
-              </el-select-load>
-            </el-form-grid>
-            <el-form-grid><div style="margin-left: 10px;">群主部门：</div></el-form-grid>
-            <el-form-grid>
-              <ns-droptree ref="employeeDepartTree" :lazy="true" :load="loadNode" :multiple="false" v-model="departData.selectedDepart" clearable></ns-droptree>
-            </el-form-grid>
-          </el-form-item>
-          <el-form-item>
-            <el-form-grid><div style="margin-left: 20px;">群名称：</div></el-form-grid>
-            <el-form-grid>
+        <div class="el-form__group">
+          <el-form label-width="80px" :inline="true">
+            <el-form-item label="群名称：">
               <ElInput :maxlength="20" v-model="departData.name"/>
-            </el-form-grid>
-            <el-form-grid><div style="margin-left: 10px;">群主：</div></el-form-grid>
-            <el-form-grid>
+            </el-form-item>
+            <el-form-item label="工作门店：">
+              <el-form-grid >
+                <ns-droptree ref="shopCateTree" placeholder="请选择门店分类" :lazy="true" :load="loadShopCateNode"  :multiple="false" v-model="departData.shopCate" clearable></ns-droptree>
+              </el-form-grid>
+              <el-form-grid style="margin-left: 5px">
+                <el-select-load v-model="departData.shopId" :options="shopOptions"  filterable clearable :page-sizes="20" placeholder="选择门店">
+                </el-select-load>
+              </el-form-grid>
+            </el-form-item>
+            <el-form-item label="群主部门：">
+              <ns-droptree ref="employeeDepartTree" :lazy="true" :load="loadNode" :multiple="false" v-model="departData.selectedDepart" clearable></ns-droptree>
+            </el-form-item>
+            <el-form-item label="群主：">
               <ElInput :maxlength="20" v-model="departData.ownerName"/>
-            </el-form-grid>
-            <el-form-grid><div style="margin-left: 10px;"></div></el-form-grid>
-            <el-form-grid>
+            </el-form-item>
+            <div class="el-form__btns">
               <ns-button type="primary" @click="getChatRoomList(1)">{{$t('operating.search')}}</ns-button>
               <ns-button @click="resetSearch">{{$t('operating.reset')}}</ns-button>
-            </el-form-grid>
-          </el-form-item>
-        </el-form>
+            </div>
+          </el-form>
+        </div>
         <el-row :gutter="24">
           <el-col :span="12">
             <ElTable v-loading="tableLoading" ref="employeeTable" :data="employeeData" height="260" @select="selectChange" @select-all="selectChange">
@@ -97,7 +92,9 @@
                     :disabled="auth && scope.row.auth"
                     type="text"
                     size="mini"
-                    @click="() => removeSelect(scope)">
+                    @click="() => removeSelect(scope)"
+                    class="el-table__btn--font"
+                  >
                     <Icon type="delete" className="code-delete"/>
                   </ns-button>
                 </template>
@@ -165,5 +162,21 @@ export default index
 
   >>> .el-table th.el-table-column--selection>.cell {
     padding: 0 14px;
+  }
+
+  .el-form__group {
+    position: relative;
+    margin-top: 6px;
+    padding-right: 230px;
+    padding-bottom: 10px;
+  }
+  .el-form__btns {
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+  .el-table__btn--font {
+    padding: 0 8px;
+    line-height: 1;
   }
 </style>

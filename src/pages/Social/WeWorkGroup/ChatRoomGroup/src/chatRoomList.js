@@ -1,6 +1,4 @@
-import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import { getErrorMsg } from '@/utils/toast'
-import apiRequestConfirm from '@nascent/ecrp-ecrm/src/utils/apiRequestConfirm'
 import NsTableColumnOperateButtonExt from '@/components/NsTableColumnOperateButton'
 import listPageMixin from '@/mixins/listPage'
 export default {
@@ -21,7 +19,10 @@ export default {
     const tableButtons = [
       {
         'func': function (scope) {
-          this.$router.push({ path: '/Social/WeWorkGroup/chatRoomUser/' + scope.row.chat_id, params: { 'remark': scope.row.remark, 'syncTime': scope.row.syncTime } })
+          this.$router.push({
+            path: '/Social/WeWorkGroup/chatRoomUser/' + scope.row.chat_id,
+            query: { 'groupName': scope.row.name, 'syncTime': scope.row.sync_time }
+          })
         },
         'icon': '',
         'name': '群详情',
@@ -36,23 +37,11 @@ export default {
         'auth': ``
       }
     ]
-    let quickSearchModel = {}
-    let searchModel = {
-      remark: null
-    }
-    let findVo = {
-      'name': null,
-      'owner': null,
-      'canJoin': null
-    }
-    let model = Object.assign({}, findVo, {}, searchModel)
     return {
-      model: model,
-      quickSearchModel: quickSearchModel,
+      model: { name: null, owner: null, canJoin: null },
       _pagination: pagination,
       _table: {
-        table_buttons: tableButtons,
-        quickSearchMap: {}
+        table_buttons: tableButtons
       },
       // 群主列表
       ownerList: [],
@@ -64,7 +53,7 @@ export default {
   },
   mounted: function () {
     this.configId = this.$route.params.configId
-    this.remark = this.$route.params.remark
+    this.remark = this.$route.query.remark
     if (!this.configId) {
       this.$notify.error('请选择聚合群组')
       return
@@ -74,6 +63,9 @@ export default {
     this.loadListFun()
   },
   methods: {
+    goback () {
+      this.$router.back()
+    },
     // 加载列表
     async loadListFun () {
       this.loading = true
@@ -101,6 +93,12 @@ export default {
           this.$notify.error(getErrorMsg('查询群主列表失败', resp))
         })
       this.loading = false
+    },
+    // 快速搜索
+    quickSearch () {
+      this.searchObj.start = 0
+      this.searchObj.searchMap = { name: this.model.name }
+      this.loadListFun()
     },
     // 提交搜索
     submitForm () {

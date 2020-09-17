@@ -1,13 +1,11 @@
 import { getErrorMsg } from '@/utils/toast'
-import apiRequestConfirm from '@nascent/ecrp-ecrm/src/utils/apiRequestConfirm'
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
-import scrollHeight from '@nascent/ecrp-ecrm/src/mixins/scrollHeight'
 import NsChatRoomDialog from '@/components/NsChatRoomDialog'
 import ElInputNumber from '@nascent/nui/lib/input-number'
 
 export default {
   name: 'groupConfig',
-  mixins: [tableMixin, scrollHeight],
+  mixins: [tableMixin],
   components: { NsChatRoomDialog, ElInputNumber },
   data: function () {
     let defModel = {
@@ -37,6 +35,7 @@ export default {
       await this.$http
         .fetch(this.$api.guide.chatRoomConfig.chatRoomGroupGetByConfigId, { configId: this.configId })
         .then(resp => {
+          // todo
           this.model = resp.result
         })
         .catch(resp => {
@@ -44,7 +43,6 @@ export default {
         })
       this.loading = false
     },
-    // submit
     onSave () {
       this.loading = true
       if (this.model.checkedChatRoom.length < 1) {
@@ -75,9 +73,6 @@ export default {
     },
     handleDelete (row) {
       this.model.checkedChatRoom.splice(row.index, 1)
-    },
-    handleChange (value) {
-      console.log(value)
     },
     // 组件得数据
     getChatRoomData (selectChatRoomData) {

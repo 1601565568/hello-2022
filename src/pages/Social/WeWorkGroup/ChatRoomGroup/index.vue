@@ -12,14 +12,17 @@
       <!-- el-form 需添加 @submit.native.prevent 配置 -->
       <!-- el-inpu 需添加  @keyup.enter.native="$quickSearchAction$" 配置，实现回车搜索 -->
       <template slot="searchSearch">
-        <el-form :model="quickSearchModel" :inline="true" @submit.native.prevent  class="pull-right">
-          <el-form-item label="标题:">
-            <el-form-grid size="xmd">
-              <el-input  autofocus=true v-model="model.remark" placeholder="请输入聚合码标题" @keyup.enter.native="submitForm()" clearable></el-input>
-            </el-form-grid>
+        <el-form :model="quickSearchModel" :inline="true" @submit.native.prevent class="pull-right">
+          <el-form-item label="标题：">
+            <el-input
+              v-model="model.remark"
+              placeholder="请输入聚合码标题"
+              @keyup.enter.native="submitForm()"
+              clearable
+            ></el-input>
           </el-form-item>
           <el-form-item>
-            <ns-button type="primary" @click="submitForm()" class="searchbtn">搜索</ns-button>
+            <ns-button type="primary" @click="submitForm()">搜索</ns-button>
             <ns-button @click="resetForm()" class="resetbtn">重置</ns-button>
           </el-form-item>
         </el-form>
@@ -37,40 +40,46 @@
         <!-- 手机号 :width="120" -->
         <!-- 操作（只有一项文字的80px,两项文字120px,三项文字160px） -->
 
-        <el-table ref="table" :data="dataList">
-          <el-table-column prop="personnel" label="标题" align="left" min-width="88">
+        <el-table
+          ref="table"
+          :data="dataList"
+          :element-loading-text="$t('prompt.loading')"
+          v-loading.lock="loading"
+        >
+          <el-table-column prop="personnel" label="标题" align="left" min-width="100">
             <template slot-scope="scope">
-              {{scope.row.remark?scope.row.remark:'-'}}
+              {{scope.row.remark || '-'}}
             </template>
           </el-table-column>
-          <el-table-column prop="personnels" label="聚合群码" align="left" min-width="100" :show-overflow-tooltip="true">
+          <el-table-column prop="personnels" label="聚合群码" align="left" min-width="88" :show-overflow-tooltip="true">
             <template slot-scope="scope">
-              {{scope.row.qrCode?scope.row.qrCode:'-'}}
+              <img v-if="scope.row.qrCode" class="qrCodeImg" :src="scope.row.qrCode" alt="" @click="togglePreview(scope.row.qrCode)">
+              <span v-else>-</span>
             </template>
           </el-table-column>
-            <el-table-column prop="personnels" label="可加入群聊(未满)" align="left" min-width="100" :show-overflow-tooltip="true">
+            <el-table-column prop="personnels" label="可加入群聊(未满)" align="left" min-width="120" :show-overflow-tooltip="true">
               <template slot-scope="scope">
-                {{scope.row.canJoinChatRoom?scope.row.canJoinChatRoom:'-'}}({{scope.row.chatRoomNum}})
+                {{scope.row.canJoinChatRoom || '-'}}
               </template>
             </el-table-column>
-          <el-table-column prop="num" v-if="memberManagePlan == 2" label="已聚合群聊" align="right" min-width="100">
+          <el-table-column prop="num" v-if="memberManagePlan == 2" label="已聚合群聊" min-width="120">
             <template slot-scope="scope">
-              {{ scope.row.chatRoomNum?scope.row.chatRoomNum:'0' }}
+              {{scope.row.chatRoomNum || '0'}}
             </template>
           </el-table-column>
-          <el-table-column prop="creatorName" label="群成员数" align="center" min-width="100">
+          <el-table-column prop="creatorName" label="群成员数" min-width="80">
             <template slot-scope="scope">
-              {{ scope.row.memberNum?scope.row.memberNum:'-' }}
+              {{scope.row.memberNum || '-'}}
             </template>
           </el-table-column>
-          <el-table-column prop="creatorName" label="群主" align="center" min-width="100">
+          <el-table-column prop="creatorName" label="群主" min-width="100" :show-overflow-tooltip="true">
             <template slot-scope="scope">
-              {{ scope.row.owners?scope.row.owners:'-' }}
+              {{scope.row.owners || ''}}
             </template>
           </el-table-column>
-          <el-table-column prop="creatorName" label="创建时间" align="center" min-width="100">
+          <el-table-column prop="creatorName" label="创建时间" align="center" min-width="150">
             <template slot-scope="scope">
-              {{ scope.row.createTime?scope.row.createTime:'-' }}
+              {{scope.row.createTime || '-'}}
             </template>
           </el-table-column>
           <el-table-column :show-overflow-tooltip="true" label="操作" align="center" width="160px">
@@ -96,6 +105,7 @@
       </template>
       <!-- 分页-结束 -->
     </ns-page-table>
+    <Preview ref="preview"/>
   </div>
 </template>
 
@@ -129,10 +139,10 @@ export default index
   >>> .el-dropdown-link {
     margin-left: 5px !important;
   }
-  .searchbtn {
-    margin-left: 11px;
-  }
-  .resetbtn {
-    margin-left: var(--default-margin-larger);
+  .qrCodeImg {
+    width: 60px;
+    height: 60px;
+    border-radius: 4px;
+    cursor: pointer;
   }
 </style>
