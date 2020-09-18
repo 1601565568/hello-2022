@@ -39,5 +39,9 @@ export default {
   syncUser: {
     url: '/chatRoomUser/syncUser',
     method: 'get'
+  },
+  chatRoomGroupDelete: {
+    url: '/chatRoomGroup/deleteByConfigId',
+    method: 'get'
   }
 }

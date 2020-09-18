@@ -2,6 +2,7 @@ import { getErrorMsg } from '@/utils/toast'
 import { API_ROOT } from '@/config/http.js'
 import NsTableColumnOperateButtonExt from '@/components/NsTableColumnOperateButton'
 import listPageMixin from '@/mixins/listPage'
+import apiRequestConfirm from '@nascent/ecrp-ecrm/src/utils/apiRequestConfirm'
 import Preview from '@/components/NsPreview'
 
 export default {
@@ -149,15 +150,24 @@ export default {
       input.setAttribute('type', 'hidden')
       input.setAttribute('name', 'url')
       input.setAttribute('value', url)
-      // var filename = document.createElement('input')
-      // filename.setAttribute('type', 'hidden')
-      // filename.setAttribute('name', 'filename')
-      // let endFileName = '.3gpp'
-      // filename.setAttribute('value', data.phone + '-' + data.startTime + endFileName)
       form.appendChild(input)
-      // form.appendChild(filename)
       document.body.appendChild(form)
       form.submit()
+    },
+    onDeleteFun (row) {
+      let that = this
+      apiRequestConfirm('删除聚合码').then(function () {
+        that.$http.fetch(that.$api.guide.chatRoomConfig.chatRoomGroupDelete
+          , { configId: row.configId })
+          .then((resp) => {
+            if (resp.success) {
+              that.$notify.success(resp.msg)
+              that.loadListFun()
+            }
+          }).catch((resp) => {
+            that.$notify.error(getErrorMsg('删除失败', resp))
+          })
+      })
     }
   }
 }

@@ -187,27 +187,38 @@ export default {
         },
         {
           'path': '/Social/WeWorkGroup/chatRoomGroup',
-          'name': 'chatRoomGroup',
+          'name': 'chatRoomGroupAll',
           'title': '群聚合码',
-          'component': () => import('@/pages/Social/WeWorkGroup/ChatRoomGroup/index.vue')
-        },
-        {
-          'path': '/Social/WeWorkGroup/chatRoom/:configId',
-          'name': 'chatRoom',
-          'title': '群列表',
-          'component': () => import('@/pages/Social/WeWorkGroup/ChatRoomGroup/chatRoomList.vue')
-        },
-        {
-          'path': '/Social/WeWorkGroup/chatRoomUser/:chatId',
-          'name': 'chatRoomUser',
-          'title': '群成員列表',
-          'component': () => import('@/pages/Social/WeWorkGroup/ChatRoomGroup/chatRoomUserList.vue')
-        },
-        {
-          'path': '/Social/WeWorkGroup/chatRoomGroup/addOrEdit',
-          'name': 'chatRoomGroupAddOrEdit',
-          'title': '编辑群聚合码',
-          'component': () => import('@/pages/Social/WeWorkGroup/ChatRoomGroup/chatRoomGroup.vue')
+          'component': () => import('@nascent/ecrp-ecrm/src/layout/ContentOnly.vue'),
+          'redirect': {
+            'name': 'chatRoomGroup'
+          },
+          'children': [
+            {
+              'path': '/Social/WeWorkGroup/chatRoomGroup',
+              'name': 'chatRoomGroup',
+              'title': '群聚合码',
+              'component': () => import('@/pages/Social/WeWorkGroup/ChatRoomGroup/index.vue')
+            },
+            {
+              'path': '/Social/WeWorkGroup/chatRoom/:configId',
+              'name': 'chatRoom',
+              'title': '群列表',
+              'component': () => import('@/pages/Social/WeWorkGroup/ChatRoomGroup/chatRoomList.vue')
+            },
+            {
+              'path': '/Social/WeWorkGroup/chatRoomUser/:chatId',
+              'name': 'chatRoomUser',
+              'title': '群成員列表',
+              'component': () => import('@/pages/Social/WeWorkGroup/ChatRoomGroup/chatRoomUserList.vue')
+            },
+            {
+              'path': '/Social/WeWorkGroup/chatRoomGroup/addOrEdit',
+              'name': 'chatRoomGroupAddOrEdit',
+              'title': '编辑或新增群聚合码',
+              'component': () => import('@/pages/Social/WeWorkGroup/ChatRoomGroup/chatRoomGroup.vue')
+            }
+          ]
         }
       ]
     },

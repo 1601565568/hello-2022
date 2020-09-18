@@ -1,5 +1,6 @@
 import { getErrorMsg } from '@/utils/toast'
 import NsTableColumnOperateButtonExt from '@/components/NsTableColumnOperateButton'
+import apiRequestConfirm from '@nascent/ecrp-ecrm/src/utils/apiRequestConfirm'
 import listPageMixin from '@/mixins/listPage'
 export default {
   name: 'NsTableAutoPass',
@@ -116,17 +117,19 @@ export default {
       this.loadListFun()
     },
     onDeleteFun (row) {
-      this.loading = true
-      this.$http
-        .fetch(this.$api.guide.chatRoomConfig.chatRoomDelete, { chatId: row.chat_id, configId: this.configId })
-        .then(resp => {
-          this.$notify.success('该群已在聚合码中删除')
-          this.loadListFun()
-        })
-        .catch(resp => {
-          this.$notify.error(getErrorMsg('删除失败', resp))
-        })
-      this.loading = false
+      apiRequestConfirm('确认聚合码中删除此群?').then(function () {
+        this.loading = true
+        this.$http
+          .fetch(this.$api.guide.chatRoomConfig.chatRoomDelete, { chatId: row.chat_id, configId: this.configId })
+          .then(resp => {
+            this.$notify.success('该群已在聚合码中删除')
+            this.loadListFun()
+          })
+          .catch(resp => {
+            this.$notify.error(getErrorMsg('删除失败', resp))
+          })
+        this.loading = false
+      })
     }
   }
 }
