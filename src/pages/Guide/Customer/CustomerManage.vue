@@ -294,6 +294,9 @@
                 <el-form-item label="详细地址：" class="el-inline-block">
                   <el-form-grid size="xxmd">{{items.address||'-'}}</el-form-grid>
                 </el-form-item>
+                <el-form-item label="昵称：" class="el-inline-block">
+                  <el-form-grid size="xxmd">{{items.outAlias||'-'}}</el-form-grid>
+                </el-form-item>
               </el-form>
             </div>
             <div class="dialog-basic">

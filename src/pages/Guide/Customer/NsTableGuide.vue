@@ -147,6 +147,11 @@
                 {{scope.row.customerName || '-'}}
               </template>
             </el-table-column>
+             <el-table-column prop="outAlias" label="昵称" align="left">
+              <template slot-scope="scope">
+                {{scope.row.outAlias || '-'}}
+              </template>
+            </el-table-column>
             <el-table-column prop="mobile" label="手机号" align="left">
               <template slot-scope="scope">
                 {{scope.row.mobile?scope.row.mobile:'-'}}
