@@ -33,14 +33,14 @@
         <div class="el-form__group">
           <el-form label-width="80px" :inline="true">
             <el-form-item label="群名称：">
-              <ElInput :maxlength="20" v-model="departData.name"/>
+              <ElInput :maxlength="20" placeholder="请输入群名称" v-model="departData.name"/>
             </el-form-item>
             <el-form-item label="工作门店：">
               <el-form-grid >
                 <ns-droptree ref="shopCateTree" placeholder="请选择门店分类" :lazy="true" :load="loadShopCateNode"  :multiple="false" v-model="departData.shopCate" clearable></ns-droptree>
               </el-form-grid>
               <el-form-grid style="margin-left: 5px">
-                <el-select-load v-model="departData.shopId" :options="shopOptions"  filterable clearable :page-sizes="20" placeholder="选择门店">
+                <el-select-load v-model="departData.shopId" :options="shopOptions"  filterable clearable :page-sizes="20" placeholder="请选择门店">
                 </el-select-load>
               </el-form-grid>
             </el-form-item>
@@ -48,7 +48,7 @@
               <ns-droptree ref="employeeDepartTree" :lazy="true" :load="loadNode" :multiple="false" v-model="departData.selectedDepart" clearable></ns-droptree>
             </el-form-item>
             <el-form-item label="群主：">
-              <ElInput :maxlength="20" v-model="departData.ownerName"/>
+              <ElInput :maxlength="20"  placeholder="请输入群主姓名" v-model="departData.ownerName"/>
             </el-form-item>
             <div class="el-form__btns">
               <ns-button type="primary" @click="getChatRoomList(1)">{{$t('operating.search')}}</ns-button>
@@ -73,7 +73,7 @@
                            :page-sizes="_data.pagination4Emp.sizeOpts" :total="_data.pagination4Emp.total"
                            :current-page="_data.pagination4Emp.page" :page-size="_data.pagination4Emp.size"
                            :layout="true? 'total, sizes, prev, pager, next':'total'" @size-change="$sizeChange$"
-                           @current-change="getChatRoomList(1)">
+                           @current-change="getChatRoomList">
             </el-pagination>
           </el-col>
           <el-col :span="12">

@@ -90,7 +90,13 @@
               <img class="customerImg" :class="{'cursor': !!scope.row.avatar}" :src="scope.row.avatar || './src/images/default-user.png'" alt="" @click="togglePreview(scope.row.avatar)">
             </template>
           </el-table-column>
-          <el-table-column prop="personnels" label="昵称" min-width="100" :show-overflow-tooltip="true">
+          <el-table-column prop="personnels" min-width="100" :show-overflow-tooltip="true">
+            <template slot="header">
+              昵称
+              <el-tooltip content="对于未添加任何员工为好友的群成员，无法获取头像、昵称">
+                <Icon type="question-circle" />
+              </el-tooltip>
+            </template>
             <template slot-scope="scope">
               {{scope.row.name?scope.row.name:'-'}}
             </template>

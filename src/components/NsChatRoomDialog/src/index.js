@@ -239,8 +239,10 @@ export default {
       searchMap.departmentId = this.departData.selectedDepart.value
       searchMap.name = this.departData.name
       searchMap.ownerName = this.departData.ownerName
-      this.pagination4Emp.page = pageNo
-      let param = { pageNo: this.pagination4Emp.page, pageSize: this.pagination4Emp.size, searchMap: searchMap }
+      if (pageNo) {
+        this.pagination4Emp.page = pageNo
+      }
+      let param = { start: (this.pagination4Emp.page - 1) * this.pagination4Emp.size, length: this.pagination4Emp.size, searchMap: searchMap }
       this.$http.fetch(this.$api.guide.chatRoomConfig.chatRoomCanJoinList, param)
         .then(resp => {
           if (resp.result && resp.result.data && resp.result.data.length > 0) {

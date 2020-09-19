@@ -12,7 +12,7 @@
             <el-form-grid size="xlg">
               <el-input
                 type="text"
-                placeholder="请输入聚合群码标题,长度20个字符以内"
+                placeholder="请输入聚合群码标题"
                 v-model="model.remark"
                 maxlength="20"
                 show-word-limit

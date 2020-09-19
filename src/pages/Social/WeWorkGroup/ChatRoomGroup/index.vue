@@ -62,7 +62,13 @@
                 {{scope.row.canJoinChatRoom || '-'}}
               </template>
             </el-table-column>
-          <el-table-column prop="num" v-if="memberManagePlan == 2" label="已聚合群聊" min-width="120">
+          <el-table-column prop="num"  min-width="120">
+            <template slot="header">
+              已聚合群聊
+              <el-tooltip content="单个聚合群上限为100个,达到后不会自动新建.请注意及时删除已满群聊">
+                <Icon type="question-circle" />
+              </el-tooltip>
+            </template>
             <template slot-scope="scope">
               {{scope.row.chatRoomNum || '0'}}
             </template>
