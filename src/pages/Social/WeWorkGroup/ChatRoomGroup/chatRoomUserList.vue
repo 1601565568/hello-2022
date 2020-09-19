@@ -63,7 +63,7 @@
         <div class="template-table__more-btn">
           <ns-button type="primary" @click="submitForm">{{$t('operating.search')}}</ns-button>
           <ns-button @click="resetForm">{{$t('operating.reset')}}</ns-button>
-          <ns-button @click="syncUser()" class="resetbtn">同步</ns-button>
+          <ns-button :loading="loading" @click="syncUser()" class="resetbtn">同步</ns-button>
         </div>
       </template>
       <!-- 高级搜索-结束 -->
@@ -87,7 +87,7 @@
         >
           <el-table-column prop="personnel" label="头像" align="left" min-width="88">
             <template slot-scope="scope">
-              <img class="customerImg" :class="{'cursor': !!scope.row.avatar}" :src="scope.row.avatar || './src/images/default-user.png'" alt="" @click="togglePreview(scope.row.avatar)">
+              <img class="customerImg" :class="{'cursor': !!scope.row.avatar}" :src="scope.row.avatar || 'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/app/default-user.png'" alt="" @click="togglePreview(scope.row.avatar)">
             </template>
           </el-table-column>
           <el-table-column prop="personnels" min-width="100" :show-overflow-tooltip="true">

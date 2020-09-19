@@ -61,9 +61,9 @@ export default {
       this.$notify.error('请选择群')
       return
     }
-    this.getOwnerInfo()
     // 获取群主列表.
-    this.syncUser()
+    this.getOwnerInfo()
+    this.loadListFun()
   },
   methods: {
     // 图片预览
@@ -123,7 +123,7 @@ export default {
       this.loadListFun()
     },
     syncUser () {
-      this.$notify.info('开始同步:请稍等')
+      this.$notify.info('开始同步:请耐心稍等')
       this.$http
         .fetch(this.$api.guide.chatRoomConfig.syncUser, { chatId: this.chatId })
         .then(resp => {

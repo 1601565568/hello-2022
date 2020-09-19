@@ -1,26 +1,4 @@
-<!-- 员工选择左右联动组建：
-  zhimin.Mo 2020-05-15 15:45:00
-  使用方式：
-  1.html页面引入插件
-    <script>
-    import edit from 'index.js'
-    import NsGuideDialog from '路径/components/NsGuideDialog'
-    index.components = {
-      NsGuideDialog
-    }
-    export default index
-    </script>
-  2.页面内引入标签
-  <NsGuideDialog btnTitle="+选择营销人群" v-model="employeeSelectData"></NsGuideDialog>
-  配置参数(不配置则默认)：
-  btnTitle：(btnTitle="+选择营销人群")配置按钮文本
-  dialogTitle：(btnTitle="选择员工")配置弹框标题
-  guideUrl: (:guideUrl=$api.guide.moreAccount.findList)查询导购列表的请求地址，不设置则默认查询sg_guide表。 后台请用GuidePageVo承接查询条件，
-  validNull：(:validNull="true")true必须选择一个员工 false可以不选择员工 默认false
-  v-model：接收值设置v-model="employeeSelectData"
-  3.vue的data加入参数：
-  employeeSelectData: [] //选中的值,如:[1,2,3,4]
--->
+<!-- 群组选择左右联动组建：-->
 <template>
   <div>
     <NsButton :type="type" @click="onDialogOpen()"><Icon v-if="type === 'text'" type="plus"/>{{btnTitle}}</NsButton>
