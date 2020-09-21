@@ -22,7 +22,7 @@
           </el-form-item>
           <el-form-item label="可加入的群聊：" required>
             <el-form-grid class="el-form__grid--special">
-              <NsChatRoomDialog btnTitle="选择已有群聊" :selectedDataParent="model.checkedChatRoom" @getChatRoomData="getChatRoomData" v-model="model.checkedChatRoom"></NsChatRoomDialog>
+              <NsChatRoomDialog btnTitle="选择已有群聊" :selectedDataParent="model.checkedChatRoom" @getChatRoomData="getChatRoomData"></NsChatRoomDialog>
               <div class="form-grid__tips">
                 <Icon type="tishi"/>
                 <span>选择多个群聊时，微信用户扫码后会随机加入一个群聊</span>
@@ -39,7 +39,7 @@
                 </ElTableColumn>
                 <ElTableColumn prop="style" label="群主" :min-width="160" :show-overflow-tooltip="true">
                   <template slot-scope="scope">
-                    {{scope.row.ownerName || '-'}}
+                    {{scope.row.ownerName || '-'}}({{scope.row.ownerWorkNum || '-'}})
                   </template>
                 </ElTableColumn>
                 <ElTableColumn prop="personNum" label="成员数" :min-width="80">
@@ -54,7 +54,7 @@
                 </ElTableColumn>
                 <ElTableColumn label="操作" align="center" :width="80">
                   <template slot-scope="scope">
-                    <ns-button type="text" size="small" @click="handleDelete(scope.row)">删除</ns-button>
+                    <ns-button type="text" size="small" @click="handleDelete(scope)">删除</ns-button>
                   </template>
                 </ElTableColumn>
               </ElTable>
@@ -69,7 +69,7 @@
               </div>
             </el-form-grid>
           </el-form-item>
-          <el-form-item v-if="model.autoCreateRoom === 1" label="自动创建的群聊名称：" required>
+          <el-form-item v-if="model.autoCreateRoom === 1" label="自动创建的群聊名称：">
             <el-form-grid size="xlg">
             <el-input
               type="text"
@@ -85,7 +85,7 @@
               <span>如未设置，自动创建新群将为未命名群聊</span>
             </div>
           </el-form-item>
-          <el-form-item v-if="model.autoCreateRoom === 1" label="自动建群的起始序号："  required>
+          <el-form-item v-if="model.autoCreateRoom === 1" label="自动建群的起始序号：" >
             <el-form-grid size="xlg">
               <el-input-number class="inputSize" controls-position="right" v-model="model.roomBaseId" :min="1" :max="100"></el-input-number>
             </el-form-grid>

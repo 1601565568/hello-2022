@@ -102,8 +102,10 @@ export default {
     onDialogOpen () {
       vm.visible = true
       // 编辑使用.
-      if (this.selectedDataParent) {
-        this.selectedData = this.selectedDataParent
+      if (this.selectedDataParent.length > 0) {
+        // ps: 这样会创建一个新的临时数据. 不会引用.
+        let seledctDateReady = JSON.parse(JSON.stringify(this.selectedDataParent))
+        this.selectedData = seledctDateReady
       }
       this.resetSearch()
     },
@@ -210,12 +212,44 @@ export default {
     /**
      * 群列表点击选择
      */
-    selectChange (select, scope) {
-      if (this.$refs.employeeTable.selection.length > 100) {
+    selectChange (select, row) {
+      // console.log(select)
+      // console.log(row)
+      if (this.selectedData.length > 100) {
         this.$notify.warning('群上限不允许超过100')
         return
       }
-      this.selectedData = JSON.parse(JSON.stringify(this.$refs['employeeTable'].selection))
+      if (this.selectedData.length === 0 && row) {
+        this.selectedData.push(row)
+      } else {
+        // 单选
+        let index = this.selectedData.findIndex((value, index, array) => {
+          return value.chatId === row.chatId
+        })
+        if (index > -1) {
+          this.selectedData.splice(index, 1)
+        } else {
+          this.selectedData.push(row)
+        }
+      }
+    },
+    // 全选.
+    selectAll (select) {
+      if (select.length === 0) {
+        for (let data of this.employeeData) {
+          const index = this.selectedData.findIndex(d => d.chatId === data.chatId)
+          if (index > -1) {
+            this.selectedData.splice(index, 1)
+          }
+        }
+      } else {
+        for (let data of select) {
+          const index = this.selectedData.findIndex(d => d.chatId === data.chatId)
+          if (index === -1) {
+            this.selectedData.push(data)
+          }
+        }
+      }
     },
     /**
      * 右侧群删除事件,
@@ -245,24 +279,26 @@ export default {
       let param = { start: (this.pagination4Emp.page - 1) * this.pagination4Emp.size, length: this.pagination4Emp.size, searchMap: searchMap }
       this.$http.fetch(this.$api.guide.chatRoomConfig.chatRoomCanJoinList, param)
         .then(resp => {
-          if (resp.result && resp.result.data && resp.result.data.length > 0) {
-            resp.result.data.forEach(item => {
-              item.workShopName = item.workShopName.join(',')
-              // 如果还有其他 需要转换写这里
-              item.ownerWorkNum = item.owner_work_num
-              item.personNum = item.person_num
-              item.chatId = item.chat_id
-              item.ownerName = item.owner_name
-            })
+          if (resp.result) {
+            if (resp.result.data && resp.result.data.length > 0) {
+              resp.result.data.forEach(item => {
+                item.workShopName = item.workShopName.join(',')
+                // 如果还有其他 需要转换写这里
+                item.ownerWorkNum = item.owner_work_num
+                item.personNum = item.person_num
+                item.chatId = item.chat_id
+                item.ownerName = item.owner_name
+              })
+            }
             this.employeeData = resp.result.data
-          }
-          if (resp.result.recordsTotal) {
-            vm.pagination4Emp.total = parseInt(resp.result.recordsTotal)
-          } else {
-            vm.pagination4Emp.total = 0
+            if (resp.result.recordsTotal) {
+              this.pagination4Emp.total = parseInt(resp.result.recordsTotal)
+            } else {
+              this.pagination4Emp.total = 0
+            }
           }
         }).catch(() => {
-          vm.$notify.error('查询群信息失败')
+          this.$notify.error('查询群信息失败')
         }).finally(() => {
           // 勾选默认值
           this.employeeData.forEach(item => {
@@ -272,7 +308,7 @@ export default {
               }
             })
           })
-          vm.tableLoading = false
+          this.tableLoading = false
         })
     },
     /**
@@ -289,7 +325,8 @@ export default {
         this.$notify.warning('请选择群组')
         return
       }
-      this.$emit('getChatRoomData', this.selectedData)
+      let selectData = this.selectedData
+      this.$emit('getChatRoomData', selectData)
       vm.visible = false
     },
     /**

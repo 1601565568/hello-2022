@@ -16,7 +16,7 @@
       <template slot="searchSearch">
         <el-form :model="model" :inline="true" @submit.native.prevent class="pull-right">
           <el-form-item v-if="!searchType.advanced" label="群名称：">
-            <el-input v-model="model.name" placeholder="群名称" @keyup.enter.native="quickSearch()" clearable></el-input>
+            <el-input v-model="model.name" placeholder="请输入群名称" @keyup.enter.native="quickSearch()" clearable></el-input>
           </el-form-item>
           <el-form-item v-if="!searchType.advanced">
             <ns-button type="primary" @click="quickSearch()">{{$t('operating.search')}}</ns-button>
@@ -43,7 +43,7 @@
         >
           <el-form-item label="群名称：">
             <el-form-grid size="xmd">
-              <el-input v-model="model.name" placeholder="群名称" clearable></el-input>
+              <el-input v-model="model.name" placeholder="请输入群名称" clearable></el-input>
             </el-form-grid>
           </el-form-item>
           <el-form-item label="群主：">
@@ -57,8 +57,9 @@
           </el-form-item>
           <el-form-item label="是否可加入：" label-width="80px">
             <el-select v-model="model.canJoin" clearable>
-              <el-option label="可加入" value="1"></el-option>
-              <el-option label="不可加入" value="0"></el-option>
+              <el-option  label="全部" value=""></el-option>
+              <el-option label="是" value="1"></el-option>
+              <el-option label="否" value="0"></el-option>
             </el-select>
           </el-form-item>
         </el-form>
@@ -92,12 +93,12 @@
           </el-table-column>
           <el-table-column prop="personnels" label="群人数" min-width="80">
             <template slot-scope="scope">
-              {{ scope.row.person_num || '-' }}
+              {{ scope.row.person_num || '-' }}人
             </template>
           </el-table-column>
             <el-table-column prop="personnels" label="群主" min-width="120" :show-overflow-tooltip="true">
               <template slot-scope="scope">
-                {{scope.row.owner_name || '-'}}
+                {{scope.row.owner_name || '-'}}({{scope.row.owner_work_num || '-'}})
               </template>
             </el-table-column>
           <el-table-column prop="num" label="是否可加入" align="center" min-width="100">

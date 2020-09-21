@@ -39,7 +39,7 @@ export default {
       }
     ]
     return {
-      model: { name: null, owner: null, canJoin: null },
+      model: { name: null, owner: null, canJoin: '' },
       _pagination: pagination,
       _table: {
         table_buttons: tableButtons
@@ -117,7 +117,7 @@ export default {
       this.loadListFun()
     },
     onDeleteFun (row) {
-      apiRequestConfirm('确认聚合码中删除此群?').then(function () {
+      apiRequestConfirm('在聚合码中删除此群').then(function () {
         this.loading = true
         this.$http
           .fetch(this.$api.guide.chatRoomConfig.chatRoomDelete, { chatId: row.chat_id, configId: this.configId })

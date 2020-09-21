@@ -137,6 +137,7 @@ export default {
       this.loadListFun()
     },
     resetForm () {
+      this.model.remark = ''
       this.searchObj.start = 0
       this.searchObj.searchMap = {}
       this.loadListFun()

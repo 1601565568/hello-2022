@@ -36,7 +36,7 @@
         </div>
         <el-row :gutter="24">
           <el-col :span="12">
-            <ElTable v-loading="tableLoading" ref="employeeTable" :data="employeeData" height="260" @select="selectChange" @select-all="selectChange">
+            <ElTable v-loading="tableLoading" ref="employeeTable" :data="employeeData" height="260" @select="selectChange" @select-all="selectAll">
               <ElTableColumn type="selection" width="55"></ElTableColumn>
               <ElTableColumn :show-overflow-tooltip="true" type="default" prop="name" label="群名称" align="left"/>
               <ElTableColumn :show-overflow-tooltip="true" type="default"  label="群主" align="left">

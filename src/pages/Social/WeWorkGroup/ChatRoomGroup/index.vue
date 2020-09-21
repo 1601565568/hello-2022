@@ -65,17 +65,17 @@
           <el-table-column prop="num"  min-width="120">
             <template slot="header">
               已聚合群聊
-              <el-tooltip content="单个聚合群上限为100个,达到后不会自动新建.请注意及时删除已满群聊">
+              <el-tooltip content="单个聚合群上限为100个,达到后不会自动新建,请注意及时删除已满群聊">
                 <Icon type="question-circle" />
               </el-tooltip>
             </template>
             <template slot-scope="scope">
-              {{scope.row.chatRoomNum || '0'}}
+              {{scope.row.chatRoomNum || '0'}}个群
             </template>
           </el-table-column>
           <el-table-column prop="creatorName" label="群成员数" min-width="80">
             <template slot-scope="scope">
-              {{scope.row.memberNum || '-'}}
+              {{scope.row.memberNum || '-'}}人
             </template>
           </el-table-column>
           <el-table-column prop="creatorName" label="群主" min-width="100" :show-overflow-tooltip="true">

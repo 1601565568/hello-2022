@@ -73,12 +73,13 @@ export default {
     cancel () {
       this.$router.push({ name: 'chatRoomGroup' })
     },
-    handleDelete (row) {
-      this.model.checkedChatRoom.splice(row.index, 1)
+    handleDelete (scope) {
+      this.model.checkedChatRoom.splice(scope.$index, 1)
     },
     // 组件得数据
     getChatRoomData (selectChatRoomData) {
-      this.model.checkedChatRoom = selectChatRoomData
+      let data = selectChatRoomData
+      this.model.checkedChatRoom = data
     }
   }
 }
