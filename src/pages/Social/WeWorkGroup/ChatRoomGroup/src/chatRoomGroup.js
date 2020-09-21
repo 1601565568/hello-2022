@@ -14,6 +14,7 @@ export default {
       checkedChatRoom: []
     }
     return {
+      loading: false,
       model: defModel,
       title: '新建群聚合码',
       configId: ''
