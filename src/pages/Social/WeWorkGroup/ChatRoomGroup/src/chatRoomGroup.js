@@ -46,11 +46,11 @@ export default {
       this.loading = false
     },
     onSave () {
-      this.loading = true
       if (this.model.checkedChatRoom.length < 1) {
         this.$notify.error('请选择至少一个群')
         return
       }
+      this.loading = true
       let chatIds = []
       this.model.checkedChatRoom.forEach(item => {
         chatIds.push(item.chatId)
@@ -67,8 +67,9 @@ export default {
         })
         .catch(resp => {
           this.$notify.error(getErrorMsg('失败:', resp))
+        }).finally(() => {
+          this.loading = false
         })
-      this.loading = false
     },
     cancel () {
       this.$router.push({ name: 'chatRoomGroup' })

@@ -98,7 +98,7 @@
       </div>
     </el-form>
     <div class="form-save__unique">
-      <ns-button type="primary" @click="onSave()">保存</ns-button>
+      <ns-button :loading="loading" type="primary" @click="onSave()">保存</ns-button>
       <ns-button @click="cancel()">取消</ns-button>
     </div>
   </div>
