@@ -7,7 +7,7 @@ import FolderTree from '../components/FolderTree'
 import LabelManage from '../components/LabelManage'
 import LabelMake from '../components/LabelMake'
 import Catalogue from '../components/Catalogue'
-import Preview from '../components/Preview'
+import Preview from '@/components/NsPreview'
 import moment from 'moment'
 import { getErrorMsg } from '@/utils/toast'
 

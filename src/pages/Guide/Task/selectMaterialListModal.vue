@@ -132,7 +132,7 @@
 <script>
 import listPageMixin from '@/mixins/listPage'
 import TableItem from '../Material/Library/components/TableItem'
-import Preview from '../Material/Library/components/Preview'
+import Preview from '@/components/NsPreview'
 import FolderTree from '../Material/Library/components/FolderTree'
 import { getErrorMsg } from '@/utils/toast'
 export default {
