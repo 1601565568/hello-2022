@@ -44,12 +44,13 @@
                 <el-form-grid>
                   <ElUpload
                     ref= "uploadRef"
-                    :action= "this.$api.core.importFileShopIds()"
+                    action="#"
                     :data="uploadData"
                     accept=".xls,.xlsx"
                     :before-upload="beforeUpload"
                     :on-success="onSuccess"
                     :on-exceed="handleExceed"
+                    :http-request="UploadImage"
                     :multiple = "false"
                     :limit="1">
                     <NsButton size="small" type="primary">选择文件</NsButton>

@@ -56,6 +56,7 @@ export default {
       vm.isCheckAll = false
     },
     beforeUpload (file, fileList) {
+      // console.log('file', file)
       let fileSuffix = file.name.split('.').pop()
       if (fileSuffix !== 'xls' && fileSuffix !== 'xlsx') {
         this.$notify.error('导入文件失败:失败原因 上传文件不能超过5M,支持xls/xlsx格式')
@@ -65,6 +66,17 @@ export default {
         this.$notify.error('导入文件失败:失败原因 上传文件不能超过5M,支持xls/xlsx格式')
         return false
       }
+    },
+    UploadImage (param) {
+      let params = {
+        file: param.file
+      }
+      this.$http.fetch(this.$api.guide.guide.uploadGuideImportFile, params)
+        .then((resp) => {
+          // console.log('返回结果', resp)
+        }).catch((resp) => {
+          vm.$notify.error('失败', resp.msg)
+        })
     },
     onSuccess (response, file) {
       if (response.success) {
@@ -88,5 +100,6 @@ export default {
   },
   mounted: function () {
     vm = this
+    this.ManualInputType()
   }
 }
