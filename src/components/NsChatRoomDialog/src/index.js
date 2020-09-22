@@ -270,7 +270,7 @@ export default {
     getChatRoomList (pageNo) {
       this.tableLoading = true
       let searchMap = {}
-      searchMap.workShop = this.departData.shopId
+      searchMap.workShopId = this.departData.shopId
       searchMap.departmentId = this.departData.selectedDepart.value
       searchMap.name = this.departData.name
       searchMap.ownerName = this.departData.ownerName

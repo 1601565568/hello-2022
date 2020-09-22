@@ -49,7 +49,8 @@ export default {
       dataList: [],
       configId: null,
       // 群组名称
-      remark: ''
+      remark: '',
+      loading: false
     }
   },
   mounted: function () {
@@ -117,18 +118,20 @@ export default {
       this.loadListFun()
     },
     onDeleteFun (row) {
+      let that = this
       apiRequestConfirm('在聚合码中删除此群').then(function () {
-        this.loading = true
-        this.$http
-          .fetch(this.$api.guide.chatRoomConfig.chatRoomDelete, { chatId: row.chat_id, configId: this.configId })
+        that.loading = true
+        that.$http
+          .fetch(that.$api.guide.chatRoomConfig.chatRoomDelete, { chatId: row.chat_id, configId: that.configId })
           .then(resp => {
-            this.$notify.success('该群已在聚合码中删除')
-            this.loadListFun()
+            that.$notify.success('该群已在聚合码中删除')
+            that.loadListFun()
           })
           .catch(resp => {
-            this.$notify.error(getErrorMsg('删除失败', resp))
+            that.$notify.error(getErrorMsg('删除失败', resp))
+          }).finally(function () {
+            that.loading = false
           })
-        this.loading = false
       })
     }
   }
