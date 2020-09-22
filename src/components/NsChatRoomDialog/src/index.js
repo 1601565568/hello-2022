@@ -215,8 +215,9 @@ export default {
     selectChange (select, row) {
       // console.log(select)
       // console.log(row)
-      if (this.selectedData.length > 100) {
-        this.$notify.warning('群上限不允许超过100')
+      if (this.selectedData.length >= 100) {
+        this.$notify.error('群上限不允许超过100')
+        this.$refs.employeeTable.toggleRowSelection(row, false)
         return
       }
       if (this.selectedData.length === 0 && row) {
@@ -323,6 +324,10 @@ export default {
     onSave () {
       if (this.selectedData.length < 1) {
         this.$notify.warning('请选择群组')
+        return
+      }
+      if (this.selectedData.length > 100) {
+        this.$notify.warning('群组上限100')
         return
       }
       let selectData = this.selectedData
