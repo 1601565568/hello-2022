@@ -28,19 +28,19 @@ export default {
       ImportVisible: false,
       text: '',
       placeholder: '请输入员工姓名',
-      status: 'name',
-      statusOptions: [{ label: '员工姓名', value: 'name' }, { label: '员工手机号', value: 'phone' }, { label: '员工工号', value: 'number' }, { label: '员工登录账号', value: 'account' }]
+      status: '',
+      statusOptions: []
     }
   },
   watch: {
     status (value) {
-      if (value === 'name') {
+      if (value === 1) {
         this.placeholder = '请输入员工姓名'
-      } else if (value === 'phone') {
+      } else if (value === 2) {
         this.placeholder = '请输入员工手机号'
-      } else if (value === 'number') {
+      } else if (value === 3) {
         this.placeholder = '请输入员工工号'
-      } else if (value === 'account') {
+      } else if (value === 4) {
         this.placeholder = '请输入员工登录账号'
       }
     }
@@ -96,6 +96,15 @@ export default {
     },
     handleExceed (files, fileList) {
       this.$notify.error('已上传文件，不能重复上传')
+    },
+    ManualInputType () {
+      this.$http.fetch(this.$api.guide.guide.findManualInputTypeList)
+        .then((resp) => {
+          this.statusOptions = resp.result
+          // console.log('返回结果', resp.result)
+        }).catch((resp) => {
+          vm.$notify.error('失败', resp.msg)
+        })
     }
   },
   mounted: function () {

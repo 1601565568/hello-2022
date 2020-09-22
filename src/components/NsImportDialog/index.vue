@@ -10,12 +10,13 @@
         <el-tabs>
           <el-tab-pane label="手动输入">
             <el-form class="form">
+<!--              {{statusOptions}}-{{status}}-->
               <el-form-item label="导入员工方式：">
                 <el-select v-model="status"  placeholder="请选择">
                   <el-option  v-for="item in statusOptions"
                               :key="item.value"
-                              :label="item.label"
-                              :value="item.value" >
+                              :label="item.name"
+                              :value="item.type" >
                   </el-option>
                 </el-select>
               </el-form-item>
