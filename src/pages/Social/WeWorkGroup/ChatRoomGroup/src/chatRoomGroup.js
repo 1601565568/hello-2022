@@ -47,6 +47,10 @@ export default {
       this.loading = false
     },
     onSave () {
+      if (!this.model.remark) {
+        this.$notify.error('请填写标题')
+        return
+      }
       if (this.model.checkedChatRoom.length < 1) {
         this.$notify.error('请选择至少一个群')
         return

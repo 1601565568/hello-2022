@@ -12,7 +12,7 @@
             <el-form-grid size="xlg">
               <el-input
                 type="text"
-                placeholder="请输入聚合群码标题"
+                placeholder="请输入群聚合码标题"
                 v-model="model.remark"
                 maxlength="20"
                 show-word-limit
@@ -39,7 +39,7 @@
                 </ElTableColumn>
                 <ElTableColumn prop="style" label="群主" :min-width="160" :show-overflow-tooltip="true">
                   <template slot-scope="scope">
-                    {{scope.row.ownerName || '-'}}({{scope.row.ownerWorkNum || '-'}})
+                    {{scope.row.ownerName || '-'}}{{scope.row.ownerWorkNum ? '('+ scope.row.ownerWorkNum +')':''}}
                   </template>
                 </ElTableColumn>
                 <ElTableColumn prop="personNum" label="成员数" :min-width="80">

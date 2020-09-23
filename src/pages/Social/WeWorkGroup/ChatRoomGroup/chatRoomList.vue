@@ -98,7 +98,7 @@
           </el-table-column>
             <el-table-column prop="personnels" label="群主" min-width="120" :show-overflow-tooltip="true">
               <template slot-scope="scope">
-                {{scope.row.owner_name || '-'}}({{scope.row.owner_work_num || '-'}})
+                {{scope.row.owner_name || '-'}}{{scope.row.owner_work_num ? '('+ scope.row.owner_work_num +')':''}}
               </template>
             </el-table-column>
           <el-table-column prop="num" label="是否可加入" align="center" min-width="100">

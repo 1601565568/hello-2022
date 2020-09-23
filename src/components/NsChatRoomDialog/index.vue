@@ -41,7 +41,7 @@
               <ElTableColumn :show-overflow-tooltip="true" type="default" prop="name" label="群名称" align="left"/>
               <ElTableColumn :show-overflow-tooltip="true" type="default"  label="群主" align="left">
                 <template slot-scope="scope">
-                  {{ scope.row.owner_name}}({{scope.row.owner_work_num }})
+                  {{ scope.row.owner_name}}{{scope.row.owner_work_num ? '('+ scope.row.owner_work_num +')':''}}
                 </template>
               </ElTableColumn>
               <ElTableColumn :show-overflow-tooltip="true" type="default" prop="person_num" label="群成员" align="left"/>
@@ -59,7 +59,7 @@
               <ElTableColumn :show-overflow-tooltip="true" type="default" prop="name" :label="'已选' + selectedData.length + '个群'" align="left"/>
               <ElTableColumn :show-overflow-tooltip="true" type="default"  align="left">
                 <template slot-scope="scope">
-                  {{ scope.row.ownerName}}({{scope.row.ownerWorkNum }})
+                  {{ scope.row.ownerName}}{{scope.row.ownerWorkNum ? '('+ scope.row.ownerWorkNum +')':''}}
                 </template>
               </ElTableColumn>
               <ElTableColumn :show-overflow-tooltip="true" type="default" prop="personNum"  align="left"/>
