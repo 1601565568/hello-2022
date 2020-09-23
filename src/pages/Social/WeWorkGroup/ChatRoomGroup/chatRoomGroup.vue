@@ -39,7 +39,7 @@
                 </ElTableColumn>
                 <ElTableColumn prop="style" label="群主" :min-width="160" :show-overflow-tooltip="true">
                   <template slot-scope="scope">
-                    {{scope.row.ownerName || '-'}}({{scope.row.ownerWorkNum || '-'}})
+                    {{scope.row.ownerName || '-'}}{{scope.row.ownerWorkNum ? '('+ scope.row.ownerWorkNum +')':''}}
                   </template>
                 </ElTableColumn>
                 <ElTableColumn prop="personNum" label="成员数" :min-width="80">
@@ -75,7 +75,7 @@
               type="text"
               placeholder="未命名群聊"
               v-model="model.roomBaseName"
-              maxlength="30"
+              maxlength="10"
               show-word-limit
               onkeyup="this.value=this.value.replace(/\s+/g,'')"
             />
