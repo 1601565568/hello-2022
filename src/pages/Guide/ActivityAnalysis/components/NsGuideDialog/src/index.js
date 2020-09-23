@@ -246,7 +246,7 @@ export default {
           // 数据总数
           vm.pagination4Emp.total = total
           vm.$nextTick(function () {
-            // 设置员工勾选状态
+          // 设置员工勾选状态
             vm.toggleRowSelection(vm.selectedData, vm.employeeData, vm.recordId)
             vm.tableLoading = false
           })
@@ -399,8 +399,7 @@ export default {
         vm.selectedData = []
         if (vm.isCheckAll) {
           // 清空左边列表
-          // vm.$refs.employeeTable.clearSelection()
-          return
+          vm.$refs.employeeTable.clearSelection()
         } else {
           // 左边列表全部勾选
           vm.employeeData.forEach(function (item) {
@@ -417,12 +416,8 @@ export default {
           })
         }
         vm.selectedData = selectedData2
-        // vm.isCheckAll = !vm.isCheckAll
+        vm.isCheckAll = !vm.isCheckAll
       })
-    },
-    clearSelection () {
-      vm.$refs.employeeTable.clearSelection()
-      this.selectedData = []
     },
     /**
      * 右侧员工删除事件
@@ -478,7 +473,7 @@ export default {
         }).catch(() => {
           vm.$notify.error('查询用户信息失败')
         }).finally(() => {
-          // 勾选默认值
+        // 勾选默认值
           if (vm.value && vm.value.length > 0) {
             var param = {}
             param.pageNo = 1
@@ -533,7 +528,7 @@ export default {
      */
     onSave () {
       if (this.validNull && this.selectedData.length < 1) {
-        this.$notify.warning('请至少选择一个员工')
+        this.$notify.warning('请选择员工')
         return
       }
       this.callbackData(JSON.parse(JSON.stringify(this.selectedData)))

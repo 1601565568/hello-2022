@@ -23,8 +23,8 @@
 -->
 <template>
   <div>
-    <div class="template-search__chooes" v-if="!isButton" :type="type" @click="onDialogOpen()"><Icon v-if="type === 'text'" type="plus"/>{{btnTitle}}</div>
-    <NsButton v-if="isButton" :type="type" @click="onDialogOpen()"><Icon v-if="type === 'text'" type="plus"/>{{btnTitle}}</NsButton>
+    <div v-if="!isButton" :type="type" @click="onDialogOpen()"><Icon v-if="type === 'text'" type="plus"/>{{isButton}}</div>
+<!--    <NsButton :type="type" @click="onDialogOpen()"><Icon v-if="type === 'text'" type="plus"/>{{btnTitle}}</NsButton>-->
     <el-dialog :title="dialogTitle" :visible.sync="visible" :show-scroll-x="false"
                :close-on-click-modal = "false" :before-close="onDialogClose" width="940px"><!-- 按员工设置使用范围时，所选员工会优先选择使用该条欢迎语而非归属门店设置的欢迎语 -->
       <div slot="title">
@@ -70,7 +70,7 @@
             <el-form-grid>
               <ns-button type="primary" @click="searchEmployee(1)">{{$t('operating.search')}}</ns-button>
               <ns-button @click="resetSearch">{{$t('operating.reset')}}</ns-button>
-              <ns-button @click="onSelectAllData">全部选择</ns-button>
+              <ns-button @click="onSelectAllData">{{isCheckAll ? '取消全选' : '全选'}}</ns-button>
             </el-form-grid>
           </el-form-item>
         </el-form>
@@ -91,12 +91,8 @@
           </el-col>
           <el-col :span="12">
             <ElTable :data="selectedData" height="260">
-              <ElTableColumn :show-overflow-tooltip="true" type="default" prop="name" :label="'已选' + selectedData.length + '个员工'" align="left">
-              </ElTableColumn>
+              <ElTableColumn :show-overflow-tooltip="true" type="default" prop="name" :label="'已选' + selectedData.length + '个员工'" align="left"/>
               <ElTableColumn  prop="select" align="center" width="55" >
-                <template slot="header">
-                  <span @click="clearSelection">清空</span>
-                </template>
                 <template slot-scope="scope">
                   <ns-button
                     :disabled="auth && scope.row.auth"
@@ -132,13 +128,7 @@ export default index
 
 <style scoped>
   @import "@theme/variables.pcss";
-  .template-search__chooes{
-    cursor: pointer;
-    width: 40px;
-    font-size: 12px;
-    color: #0392FB;
-    text-align: center;
-  }
+
   @component-namespace code {
     @b container {
       padding: 0 var(--default-padding-small);

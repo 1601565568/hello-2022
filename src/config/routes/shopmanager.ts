@@ -37,7 +37,7 @@ export default {
           'path': '/Guide/SgGuide/ActivityAnalysis',
           'name': 'ActivityAnalysis',
           'title': '导购行为分析',
-          'component': () => import('@/pages/Guide/ActivityAnalysis/List.vue')
+          'component': () => import('@/pages/Guide/ActivityAnalysis/Index.vue')
         },
         {
           'path': '/Guide/ActivityAnalysis/MemberStatistics',
