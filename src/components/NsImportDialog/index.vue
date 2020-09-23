@@ -49,6 +49,7 @@
                     accept=".xls,.xlsx"
                     :before-upload="beforeUpload"
                     :http-request="UploadImage"
+                    :limit="1"
                     :multiple = "false">
                     <NsButton size="small" type="primary">选择文件</NsButton>
                   </ElUpload>

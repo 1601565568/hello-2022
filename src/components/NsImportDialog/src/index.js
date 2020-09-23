@@ -21,6 +21,7 @@ export default {
   },
   data: function () {
     return {
+      fileList: [],
       loading: false, // 防重复提交
       ImportVisible: false,
       placeholder: '请输入员工姓名',
@@ -110,6 +111,12 @@ export default {
           vm.$notify.error(resp.msg)
         })
     },
+    // 这一步，是 展示最后一次选择的文件
+    handleChange (file, fileList) {
+      if (fileList.length > 0) {
+        this.fileList = [fileList[fileList.length - 1]]
+      }
+    },
     UploadImage (file) {
       this.loading = true
       let param = new FormData()
@@ -121,12 +128,12 @@ export default {
             vm.$notify.success('上传成功')
             this.loading = false
           } else {
-            vm.$notify.error('上传失败', resp.msg)
+            vm.$notify.error(resp.msg)
             this.loading = false
           }
         }).catch((resp) => {
           this.loading = false
-          vm.$notify.error('失败', resp.msg)
+          vm.$notify.error(resp.msg)
         })
     },
     ManualInputType () {
