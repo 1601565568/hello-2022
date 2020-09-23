@@ -26,7 +26,7 @@
     <div class="template-search__chooes" v-if="!isButton" :type="type" @click="onDialogOpen()"><Icon v-if="type === 'text'" type="plus"/>{{btnTitle}}</div>
     <NsButton v-if="isButton" :type="type" @click="onDialogOpen()"><Icon v-if="type === 'text'" type="plus"/>{{btnTitle}}</NsButton>
     <el-dialog :title="dialogTitle" :visible.sync="visible" :show-scroll-x="false"
-               :close-on-click-modal = "false" :before-close="onDialogClose" width="940px"><!-- 按员工设置使用范围时，所选员工会优先选择使用该条欢迎语而非归属门店设置的欢迎语 -->
+               :close-on-click-modal = "false" :before-close="onDialogClose" width="1100"><!-- 按员工设置使用范围时，所选员工会优先选择使用该条欢迎语而非归属门店设置的欢迎语 -->
       <div slot="title">
         {{dialogTitle}}
         <el-tooltip  content="按员工设置使用范围时，所选员工会优先选择使用该条欢迎语而非归属门店设置的欢迎语">
@@ -65,6 +65,15 @@
             <el-form-grid><div style="margin-left: 10px;">手机号：</div></el-form-grid>
             <el-form-grid>
               <ElInput :maxlength="20" v-model="departData.mobile"/>
+            </el-form-grid>
+            <el-form-grid><div style="margin-left: 10px;">导入员工：</div></el-form-grid>
+            <el-form-grid>
+              <div class="template-search__box">
+                <span>
+                  已导入{{successCount}}个员工
+                </span>
+                <div style="float: right;"><NsImportDialog @acceptImport="acceptImport" :isButton="false" :validNull="true" :auth="false" type="primary" dialogTitle="导入员工"></NsImportDialog></div>
+              </div>
             </el-form-grid>
             <el-form-grid><div style="margin-left: 10px;"></div></el-form-grid>
             <el-form-grid>
@@ -123,9 +132,11 @@
 import index from './src/index.js'
 import NsDroptree from '@nascent/ecrp-ecrm/src/components/NsDroptree'
 import ElSelectLoad from '@nascent/nui/lib/select-load'
+import NsImportDialog from '../NsImportDialog/index'
 index.components = {
   NsDroptree,
-  ElSelectLoad
+  ElSelectLoad,
+  NsImportDialog
 }
 export default index
 </script>
