@@ -19,6 +19,10 @@ export default {
         'visible': `scope.row.content !== null && scope.row.content !== ''`
       },
       {
+        'name': '-',
+        'visible': `scope.row.content === null || scope.row.content === ''`
+      },
+      {
         'func': function (scope) {
           this.$emit('onDownLoad', scope.row)
         },
