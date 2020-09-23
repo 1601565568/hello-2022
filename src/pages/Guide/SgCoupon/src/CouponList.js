@@ -338,13 +338,14 @@ export default {
      * 利用map key的唯一性 每次修改map
      */
     inputChange: function (row) {
+      row.shopCouponNumber = Number(row.shopCouponNumber.replace(/[^\d]/g, ''))
       var _this = this
       var total = 0
       var couponTotal = _this.activityModel.coupon_total
       var couponId = _this.activityModel.coupon_id
       let remainingQuantity = _this.storeModel.remainingQuantity
       // 判断输入是否是正整数
-      if (!(/(^[1-9]\d*$)/.test(row.shopCouponNumber))) {
+      if (!(/(^[0-9]\d*$)/.test(row.shopCouponNumber))) {
         _this.$notify.info('请输入正整数')
         row.shopCouponNumber = 0
         return
@@ -434,7 +435,7 @@ export default {
       _this.$refs.form.validate((valid) => {
         if (valid) {
           if (_this.activityModel.coupon_total === 0) {
-            _this.$notify.error('配额必须大于0')
+            _this.$notify.error('总配额必须大于0')
             _this.forbidden = false
             return
           }
