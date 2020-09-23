@@ -49,6 +49,7 @@ export default {
       selectCopyData: [],
       visible: false,
       tableLoading: false,
+      successCount: 0, // 导入员工数量
       // 搜索数据封装
       departData: {
         // 所有部门值
@@ -212,10 +213,14 @@ export default {
       vm.departData.selectedDepart = {}
       vm.departData.shopCate = {} // 选择的门店分类
       vm.departData.shopId = '' // 选择的门店
+      vm.departData.fileKey = '' // 文件导入key
+      vm.departData.manualInputKey = '' // 手动输入key
+      this.successCount = 0 // 已导入员工数量
       vm.searchEmployee(1)
     },
     // 接收导入员工参数
     acceptImport: function (val) {
+      this.successCount = val.successCount
       if (val.manualInputKey) {
         this.departData.manualInputKey = val.manualInputKey
       }

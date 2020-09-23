@@ -69,7 +69,7 @@
             <el-form-grid>
               <div class="template-search__box">
                 <span>
-                  已导入0个员工
+                  已导入{{successCount}}个员工
                 </span>
                 <div style="float: right;"><NsImportDialog @acceptImport="acceptImport" :isButton="false" :validNull="true" :auth="false" type="primary" dialogTitle="导入员工"></NsImportDialog></div>
               </div>

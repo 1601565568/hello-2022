@@ -94,10 +94,15 @@ export default {
       this.$http.fetch(this.$api.guide.guide.importGuideQuery, params)
         .then((resp) => {
           if (resp.success) {
-            debugger
-            vm.$notify.success('查询成功')
-            this.$emit('acceptImport', resp.result)
-            // this.transmit(resp.result)
+            if (resp.result.errorCount > 0) {
+              vm.$notify.success('成功匹配员工数' + resp.result.successCount + '(存在' + resp.result.errorCount + '条无效数据可能是：员工已离职，员工不在数据权限范围内，员工信息错误等)')
+              this.$emit('acceptImport', resp.result)
+              vm.ImportVisible = false
+            } else {
+              vm.$notify.success('成功匹配员工数' + resp.result.successCount)
+              this.$emit('acceptImport', resp.result)
+              vm.ImportVisible = false
+            }
           } else {
             vm.$notify.error(resp.msg)
           }
@@ -105,9 +110,6 @@ export default {
           vm.$notify.error(resp.msg)
         })
     },
-    // transmit (val) { // 透支权重值发生变化的方法
-    //   this.$emit('acceptImport', val)
-    // },
     UploadImage (file) {
       this.loading = true
       let param = new FormData()
