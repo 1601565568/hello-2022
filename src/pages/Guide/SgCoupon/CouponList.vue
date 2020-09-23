@@ -34,7 +34,7 @@
         </el-form-item>
         <el-form-item label="配额：" required>
           <el-form-grid size="xmd">
-            <el-form-item prop="coupon_total" :rules = "{required:true, message:'配额不能为空'}">
+             <el-form-item prop="coupon_total">
               <el-input v-if="activityModel.type ==0" placeholder="请输入正整数" type="number" v-model="activityModel.coupon_total"
                         auto-complete="off" @change="activityCouponTotal()"></el-input>
               <el-input v-if="activityModel.type ==1" disabled="disabled" placeholder="请输入正整数" type="number" v-model="activityModel.coupon_total"
@@ -141,7 +141,7 @@
 
       <div slot="footer" class="dialog-footer">
         <ns-button @click="closeDialog">取消</ns-button>
-        <ns-button type="primary" @click="onSaveActivityCoupon" title="save"  :disabled = "forbidden">确定</ns-button>
+        <ns-button type="primary" @click="onSaveActivityCoupon" title="save"  :disabled = "forbidden">保存</ns-button>
       </div>
 
     </el-dialog>
