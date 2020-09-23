@@ -147,7 +147,12 @@
                 {{scope.row.customerName || '-'}}
               </template>
             </el-table-column>
-            <el-table-column prop="mobile" label="手机号" align="left">
+             <el-table-column prop="outAlias" label="昵称" align="left">
+              <template slot-scope="scope">
+                {{scope.row.outAlias || '-'}}
+              </template>
+            </el-table-column>
+            <el-table-column prop="mobile" label="手机号" align="left" width="120">
               <template slot-scope="scope">
                 {{scope.row.mobile?scope.row.mobile:'-'}}
               </template >
@@ -178,7 +183,7 @@
               </template>
             </el-table-column>
 
-            <el-table-column prop="sgExclusiveShopName" align="left">
+            <el-table-column prop="sgExclusiveShopName" align="left" width="150">
               <template slot-scope="scope">
                 {{scope.row.sgExclusiveShopName ? scope.row.sgExclusiveShopName : "-"}}
               </template>
