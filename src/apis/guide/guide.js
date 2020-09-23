@@ -236,5 +236,10 @@ export default {
   findManualInputTypeList: {
     url: '/guide/guide/findManualInputTypeList',
     method: 'get'
+  },
+  // 导入员工查询-手工输入+文件导入
+  importGuideQuery: {
+    url: '/guide/guide/importGuideQuery',
+    method: 'post'
   }
 }

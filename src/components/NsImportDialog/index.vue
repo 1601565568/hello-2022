@@ -2,17 +2,17 @@
   <div>
     <div class="btn-import" :type="type" @click="onDialogOpen()"><Icon v-if="type === 'text'" type="plus"/>{{btnTitle}}</div>
     <el-dialog :title="dialogTitle" :visible.sync="ImportVisible" :show-scroll-x="false" :append-to-body="true"
-               :close-on-click-modal = "false" :before-close="onDialogClose" width="940px">
+               :close-on-click-modal = "false" :before-close="onDialogClose" width="1033px">
       <div slot="title">
         {{dialogTitle}}
       </div>
-      <div>
+      <div v-loading="loading"
+           element-loading-text="数据导入中，请稍等…">
         <el-tabs>
           <el-tab-pane label="手动输入">
             <el-form class="form">
-<!--              {{statusOptions}}-{{status}}-->
               <el-form-item label="导入员工方式：">
-                <el-select v-model="status"  placeholder="请选择">
+                <el-select v-model="model.manualInput.type"  placeholder="请选择">
                   <el-option  v-for="item in statusOptions"
                               :key="item.value"
                               :label="item.name"
@@ -24,7 +24,7 @@
                 <textarea
                   style="width: 900px;height: 100px;border: 1px solid #DCDFE6;"
                   ref="quickText"
-                  v-model="text"
+                  v-model="model.manualInput.searchValue"
                   :placeholder="placeholder"
                   clearable
                 ></textarea>
@@ -46,19 +46,15 @@
                   <ElUpload
                     ref= "uploadRef"
                     action="#"
-                    :data="uploadData"
                     accept=".xls,.xlsx"
                     :before-upload="beforeUpload"
-                    :on-success="onSuccess"
-                    :on-exceed="handleExceed"
                     :http-request="UploadImage"
-                    :multiple = "false"
-                    :limit="1">
+                    :multiple = "false">
                     <NsButton size="small" type="primary">选择文件</NsButton>
                   </ElUpload>
                 </el-form-grid>
                 <el-form-grid>
-                  <NsButton style="margin-left: 10px;" size="small">下载模板</NsButton>
+                  <NsButton style="margin-left: 10px;" size="small"> <a :href=this.download download="">下载模板</a> </NsButton>
                 </el-form-grid>
               </el-form-item>
               <div class="tmp-tips text-info">
@@ -71,7 +67,8 @@
       </div>
       <div slot="footer" class="dialog-footer">
         <ns-button @click="onDialogClose()">{{$t('operating.cancel')}}</ns-button>
-        <ns-save></ns-save>
+        <ns-button type="primary" @click="save()">保存</ns-button>
+<!--        <ns-save @click="save()"></ns-save>-->
       </div>
     </el-dialog>
   </div>
