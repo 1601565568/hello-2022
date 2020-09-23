@@ -75,7 +75,7 @@
               type="text"
               placeholder="未命名群聊"
               v-model="model.roomBaseName"
-              maxlength="10"
+              maxlength="30"
               show-word-limit
               onkeyup="this.value=this.value.replace(/\s+/g,'')"
             />
