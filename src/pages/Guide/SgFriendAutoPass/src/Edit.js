@@ -25,6 +25,7 @@ export default {
         matchmode: 1,
         joinqueue: 1
       },
+      guideIds: [],
       isShowWxAccount: true,
       ids: null,
       timeValue: [new Date(2016, 9, 10, 8, 40), new Date(2016, 9, 10, 9, 40)],
@@ -47,6 +48,9 @@ export default {
   mounted: function () {
     const ids = this.$route.params.id
     this.ids = ids
+    if (this.ids === '0') {
+      return
+    }
     // 批量编辑
     this.$http.fetch(this.$api.guide.autoPass.findByIds, {
       id: ids
@@ -104,9 +108,13 @@ export default {
       if (that.friendAutoPass.mininterval >= that.friendAutoPass.maxinterval) {
         return this.$message.error('通过时间间隔最小间隔不能大于最大间隔')
       }
+      if (that.ids === '0' && that.guideIds.length < 1) {
+        return this.$message.error('请选择员工')
+      }
       that.$http.fetch(that.$api.guide.autoPass.update, {
         sgFriendAutoPass: model,
         ids: this.ids,
+        guides: this.guideIds,
         timeValue: time
       }).then(() => {
         that.$notify.success('保存成功')
