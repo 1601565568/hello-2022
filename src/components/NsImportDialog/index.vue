@@ -12,7 +12,7 @@
           <el-tab-pane label="手动输入">
             <el-form class="form">
               <el-form-item label="导入员工方式：">
-                <el-select v-model="model.manualInput.type"  placeholder="请选择">
+                <el-select v-model="model.manualInput.type"  placeholder="请选择" clearable>
                   <el-option  v-for="item in statusOptions"
                               :key="item.value"
                               :label="item.name"
