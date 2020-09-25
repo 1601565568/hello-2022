@@ -49,18 +49,17 @@
                     accept=".xls,.xlsx"
                     :before-upload="beforeUpload"
                     :http-request="UploadImage"
+                    :on-exceed="handleChange"
                     :limit="1"
                     :multiple = "false">
                     <NsButton size="small" type="primary">选择文件</NsButton>
                   </ElUpload>
                 </el-form-grid>
-                <el-form-grid>
-                  <NsButton style="margin-left: 10px;" size="small"> <a :href=this.download download="">下载模板</a> </NsButton>
-                </el-form-grid>
               </el-form-item>
               <div class="tmp-tips text-info">
                 <Icon type="info-circle"  />
                 您可使用系统提供的模板填写信息并导入，只支持当前账号数据权限下的员工
+                <NsButton style="margin-left: 10px;" size="small"> <a :href=this.download download="">下载模板</a> </NsButton>
               </div>
             </el-form>
           </el-tab-pane>
