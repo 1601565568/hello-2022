@@ -53,6 +53,7 @@ export default {
       selectCopyData: [],
       visible: false,
       tableLoading: false,
+      successCount: 0, // 导入员工数量
       // 搜索数据封装
       departData: {
         // 所有部门值
@@ -72,7 +73,9 @@ export default {
         shopCate: {},
         // 类型 0导购 1店长
         job: null,
-        mobile: ''
+        mobile: '',
+        fileKey: '', // 文件导入
+        manualInputKey: '' // 手动输入导入
       },
       // 门店分类树
       shopCateTree: [],
@@ -214,7 +217,20 @@ export default {
       vm.departData.selectedDepart = {}
       vm.departData.shopCate = {} // 选择的门店分类
       vm.departData.shopId = '' // 选择的门店
+      vm.departData.fileKey = '' // 文件导入key
+      vm.departData.manualInputKey = '' // 手动输入key
+      this.successCount = 0 // 已导入员工数量
       vm.searchEmployee(1)
+    },
+    // 接收导入员工参数
+    acceptImport: function (val) {
+      this.successCount = val.successCount
+      if (val.manualInputKey) {
+        this.departData.manualInputKey = val.manualInputKey
+      }
+      if (val.fileImportKey) {
+        this.departData.fileImportKey = val.fileImportKey
+      }
     },
     /**
      * 搜索员工
@@ -297,6 +313,12 @@ export default {
         if (this.departData.shopCate && this.departData.shopCate.value) {
           param.cateId = '-' + this.departData.shopCate.value + '-'
         }
+      }
+      if (vm.departData.manualInputKey) {
+        param.manualInputKey = vm.departData.manualInputKey // 手动输入导入文件
+      }
+      if (vm.departData.fileImportKey) {
+        param.fileImportKey = vm.departData.fileImportKey
       }
     },
     /**
