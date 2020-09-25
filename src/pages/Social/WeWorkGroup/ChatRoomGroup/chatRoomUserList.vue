@@ -47,8 +47,8 @@
           <el-form-item label="是否好友：">
             <el-select v-model="model.ownerBind" placeholder="全部" clearable>
               <el-option label="全部" value=""></el-option>
-              <el-option label="好友" value="1"></el-option>
-              <el-option label="非好友" value="0"></el-option>
+              <el-option label="是" value="1"></el-option>
+              <el-option label="否" value="0"></el-option>
             </el-select>
           </el-form-item>
           <el-form-item label="成员类型：" >
