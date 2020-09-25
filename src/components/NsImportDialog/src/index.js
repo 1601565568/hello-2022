@@ -59,6 +59,9 @@ export default {
       vm.ImportVisible = false
       vm.isCheckAll = false
     },
+    handleChange (file, fileList) {
+      this.$notify.error('已上传文件，不能重复上传')
+    },
     beforeUpload (file, fileList) {
       let fileSuffix = file.name.split('.').pop()
       if (fileSuffix !== 'xls' && fileSuffix !== 'xlsx') {
@@ -110,12 +113,6 @@ export default {
         }).catch((resp) => {
           vm.$notify.error(resp.msg)
         })
-    },
-    // 这一步，是 展示最后一次选择的文件
-    handleChange (file, fileList) {
-      if (fileList.length > 0) {
-        this.fileList = [fileList[fileList.length - 1]]
-      }
     },
     UploadImage (file) {
       this.loading = true
