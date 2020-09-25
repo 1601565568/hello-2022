@@ -39,7 +39,7 @@ export default {
       }
     ]
     return {
-      model: { name: null, ownerBind: null, type: null },
+      model: { name: null, ownerBind: '', type: '' },
       _pagination: pagination,
       _table: {
         table_buttons: tableButtons
