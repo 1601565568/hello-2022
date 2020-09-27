@@ -107,7 +107,10 @@ export default {
       }
     },
     save () {
-      if (this.number % 2 === 0) { // 判定条件余数为0时为偶数
+      // if (this.number % 2 === 0) { // 判定条件余数为0时为偶数
+      //   this.model.redisKey = null
+      // }
+      if (this.fileList2.length === 0) {
         this.model.redisKey = null
       }
       let params = {
