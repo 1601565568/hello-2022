@@ -74,7 +74,7 @@ export default {
         // 类型 0导购 1店长
         job: null,
         mobile: '',
-        fileKey: '', // 文件导入
+        fileImportKey: '', // 文件导入
         manualInputKey: '' // 手动输入导入
       },
       // 门店分类树
@@ -217,9 +217,10 @@ export default {
       vm.departData.selectedDepart = {}
       vm.departData.shopCate = {} // 选择的门店分类
       vm.departData.shopId = '' // 选择的门店
-      vm.departData.fileKey = '' // 文件导入key
+      vm.departData.fileImportKey = '' // 文件导入key
       vm.departData.manualInputKey = '' // 手动输入key
       this.successCount = 0 // 已导入员工数量
+      this.$refs.import.reset()
       vm.searchEmployee(1)
     },
     // 接收导入员工参数
