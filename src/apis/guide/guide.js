@@ -226,5 +226,20 @@ export default {
   updateMoreAccount: {
     url: '/guide/sgmoreaccount/updateMoreAccount',
     method: 'post'
+  },
+  // 上传员工导入文件
+  uploadGuideImportFile: {
+    url: '/guide/guide/uploadGuideImportFile',
+    method: 'post'
+  },
+  // 查询手工输入内容类型列表
+  findManualInputTypeList: {
+    url: '/guide/guide/findManualInputTypeList',
+    method: 'get'
+  },
+  // 导入员工查询-手工输入+文件导入
+  importGuideQuery: {
+    url: '/guide/guide/importGuideQuery',
+    method: 'post'
   }
 }

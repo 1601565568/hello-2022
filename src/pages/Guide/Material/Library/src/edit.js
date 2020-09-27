@@ -2,7 +2,7 @@ import imageform from '../components/ImageForm'
 import videoform from '../components/VideoForm'
 import articleform from '../components/ArticleForm'
 import LabelAdd from '../components/LabelAdd'
-import Preview from '../components/Preview'
+import Preview from '@/components/NsPreview'
 import { getErrorMsg } from '@/utils/toast'
 
 export default {

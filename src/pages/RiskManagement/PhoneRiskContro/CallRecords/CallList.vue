@@ -9,14 +9,11 @@
     <!--简单搜索-->
     <template slot="searchSearch">
       <el-form :model="quickSearchModel" :inline="true" @submit.native.prevent class="pull-right">
-        <el-form-item v-show="_data._queryConfig.expand === false" label="设备MEID/手机号：">
+        <el-form-item v-show="_data._queryConfig.expand === false">
           <el-input ref="quickText" style="width: 180px" v-model="model.deviceKeyOrPhone" placeholder="请输入设备MEID/手机号"
                     @keyup.enter.native="$quickSearchAction$('deviceKeyOrPhone')" clearable>
           </el-input>
-          <ns-button type="primary" @click="$searchAction$()" class="searchbtn">搜索</ns-button>
-          <ns-button @click="$resetInputAction$()" class="resetbtn">重置</ns-button>
         </el-form-item>
-
         <el-form-item>
           <ns-button type="text" @click="$handleTabClick">
             {{collapseText}}
@@ -28,30 +25,29 @@
     <!--高级搜索-->
     <template slot="advancedSearch" v-if="_data._queryConfig.expand">
       <el-form ref="table_filter_form" :model="model" label-width="80px" :inline="true" @keyup.enter.native="$searchAction$()">
-
         <el-form-item label="设备MEID：">
           <el-form-grid size="xmd">
-            <el-input style="width:180px" autofocus=true v-model="model.deviceKey" placeholder="请输入设备MEID" clearable></el-input>
+            <el-input autofocus=true v-model="model.deviceKey" placeholder="请输入设备MEID" clearable></el-input>
           </el-form-grid>
         </el-form-item>
         <el-form-item label="手机名称：">
           <el-form-grid size="xmd">
-            <el-input style="width:180px" autofocus=true v-model="model.deviceName" placeholder="请输入手机名称" clearable></el-input>
+            <el-input autofocus=true v-model="model.deviceName" placeholder="请输入手机名称" clearable></el-input>
           </el-form-grid>
         </el-form-item>
         <el-form-item label="手机号码：">
           <el-form-grid size="xmd">
-            <el-input style="width:180px" autofocus=true v-model="model.phone" placeholder="请输入手机号码" clearable></el-input>
+            <el-input autofocus=true v-model="model.phone" placeholder="请输入手机号码" clearable></el-input>
           </el-form-grid>
         </el-form-item>
         <el-form-item label="绑定账号：">
           <el-form-grid size="xmd">
-            <el-input style="width:180px" autofocus=true v-model="model.account" placeholder="请输入绑定账号" clearable></el-input>
+            <el-input autofocus=true v-model="model.account" placeholder="请输入绑定账号" clearable></el-input>
           </el-form-grid>
         </el-form-item>
         <el-form-item label="对方号码：">
           <el-form-grid size="xmd">
-            <el-input style="width:180px" autofocus=true v-model="model.mobile" placeholder="请输入对方号码" clearable></el-input>
+            <el-input autofocus=true v-model="model.mobile" placeholder="请输入对方号码" clearable></el-input>
           </el-form-grid>
         </el-form-item>
         <el-form-item label="时间：">
@@ -85,11 +81,29 @@
             {{scope.row.deviceKey?scope.row.deviceKey:'-'}}
           </template>
         </el-table-column>
-        <el-table-column prop="deviceName" label="手机名称" align="left" min-width="100" :show-overflow-tooltip="true"></el-table-column>
-        <el-table-column prop="phone" label="手机号码" align="left" min-width="100"></el-table-column>
-        <el-table-column prop="account" label="绑定账号" align="center" min-width="100"></el-table-column>
+        <el-table-column prop="deviceName" label="手机名称" align="left" min-width="100" :show-overflow-tooltip="true">
+          <template slot-scope="scope">
+            <div>
+              <p>{{scope.row.deviceName || '-'}}</p>
+            </div>
+          </template>
+        </el-table-column>
+        <el-table-column prop="phone" label="手机号码" align="left" min-width="100">
+          <template slot-scope="scope">
+            <div>
+              <p>{{scope.row.phone || '-'}}</p>
+            </div>
+          </template>
+        </el-table-column>
+        <el-table-column prop="account" label="绑定账号" align="left" min-width="100">
+          <template slot-scope="scope">
+            <div>
+              <p>{{scope.row.account || '-'}}</p>
+            </div>
+          </template>
+        </el-table-column>
         <el-table-column prop="mobile" label="对方号码" align="left" min-width="100"></el-table-column>
-        <el-table-column prop="status" label="呼叫类型" align="center" width="150">
+        <el-table-column prop="status" label="呼叫类型" align="center">
           <template slot-scope="scope">
           <!-- 1：去电 2：来电 3：未接 4：拒接-->
             <div v-if="scope.row.status === 1">
@@ -109,9 +123,9 @@
             </div>
           </template>
         </el-table-column>
-        <el-table-column prop="startTime" label="开始时间" align="center" min-width="100"></el-table-column>
-        <el-table-column prop="endTime" label="结束时间" align="center" min-width="100"></el-table-column>
-        <el-table-column prop="time" label="时长" align="right" min-width="100">
+        <el-table-column prop="startTime" label="开始时间" align="center" min-width="160"></el-table-column>
+        <el-table-column prop="endTime" label="结束时间" align="center" min-width="160"></el-table-column>
+        <el-table-column prop="time" label="时长" align="right" min-width="50">
           <template slot-scope="scope">
             <div>
               <p>{{scope.row.time}} s</p>

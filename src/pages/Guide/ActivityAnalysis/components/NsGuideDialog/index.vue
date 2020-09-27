@@ -23,10 +23,10 @@
 -->
 <template>
   <div>
-    <div class="template-search__chooes" v-if="!isButton" :type="type" @click="onDialogOpen()"><Icon v-if="type === 'text'" type="plus"/>{{btnTitle}}</div>
-    <NsButton v-if="isButton" :type="type" @click="onDialogOpen()"><Icon v-if="type === 'text'" type="plus"/>{{btnTitle}}</NsButton>
+    <div v-if="!isButton" :type="type" @click="onDialogOpen()"><Icon v-if="type === 'text'" type="plus"/>{{isButton}}</div>
+<!--    <NsButton :type="type" @click="onDialogOpen()"><Icon v-if="type === 'text'" type="plus"/>{{btnTitle}}</NsButton>-->
     <el-dialog :title="dialogTitle" :visible.sync="visible" :show-scroll-x="false"
-               :close-on-click-modal = "false" :before-close="onDialogClose" width="1100px"><!-- 按员工设置使用范围时，所选员工会优先选择使用该条欢迎语而非归属门店设置的欢迎语 -->
+               :close-on-click-modal = "false" :before-close="onDialogClose" width="940px"><!-- 按员工设置使用范围时，所选员工会优先选择使用该条欢迎语而非归属门店设置的欢迎语 -->
       <div slot="title">
         {{dialogTitle}}
         <el-tooltip  content="按员工设置使用范围时，所选员工会优先选择使用该条欢迎语而非归属门店设置的欢迎语">
@@ -66,20 +66,11 @@
             <el-form-grid>
               <ElInput :maxlength="20" v-model="departData.mobile"/>
             </el-form-grid>
-            <el-form-grid><div style="margin-left: 10px;">导入员工：</div></el-form-grid>
-            <el-form-grid>
-              <div class="template-search__box">
-                <span>
-                  已导入{{successCount}}个员工
-                </span>
-                <div style="float: right;"><NsImportDialog @acceptImport="acceptImport" :isButton="false" :validNull="true" :auth="false" type="primary" dialogTitle="导入员工"></NsImportDialog></div>
-              </div>
-            </el-form-grid>
             <el-form-grid><div style="margin-left: 10px;"></div></el-form-grid>
             <el-form-grid>
               <ns-button type="primary" @click="searchEmployee(1)">{{$t('operating.search')}}</ns-button>
               <ns-button @click="resetSearch">{{$t('operating.reset')}}</ns-button>
-              <ns-button @click="onSelectAllData">全部选择</ns-button>
+              <ns-button @click="onSelectAllData">{{isCheckAll ? '取消全选' : '全选'}}</ns-button>
             </el-form-grid>
           </el-form-item>
         </el-form>
@@ -100,12 +91,8 @@
           </el-col>
           <el-col :span="12">
             <ElTable :data="selectedData" height="260">
-              <ElTableColumn :show-overflow-tooltip="true" type="default" prop="name" :label="'已选' + selectedData.length + '个员工'" align="left">
-              </ElTableColumn>
+              <ElTableColumn :show-overflow-tooltip="true" type="default" prop="name" :label="'已选' + selectedData.length + '个员工'" align="left"/>
               <ElTableColumn  prop="select" align="center" width="55" >
-                <template slot="header">
-                  <span @click="clearSelection">清空</span>
-                </template>
                 <template slot-scope="scope">
                   <ns-button
                     :disabled="auth && scope.row.auth"
@@ -132,42 +119,16 @@
 import index from './src/index.js'
 import NsDroptree from '@nascent/ecrp-ecrm/src/components/NsDroptree'
 import ElSelectLoad from '@nascent/nui/lib/select-load'
-import NsImportDialog from '../NsImportDialog/index'
 index.components = {
   NsDroptree,
-  ElSelectLoad,
-  NsImportDialog
+  ElSelectLoad
 }
 export default index
 </script>
 
 <style scoped>
   @import "@theme/variables.pcss";
-  .template-search__chooes{
-    cursor: pointer;
-    width: 40px;
-    font-size: 12px;
-    color: #0392FB;
-    text-align: center;
-  }
-  .template-search__box {
-    width: 182px;
-    height: 28px;
-    background: #FFFFFF;
-    border: 1px solid #DCDFE6;
-    border-radius: 3px;
-    border-radius: 3px;;
-    display: flex;
-  span{
-    width: 141px;
-    height: 27px;
-    margin-left: 10px;
-    border-right: 1px solid #DCDFE6;;
-  }
-  > div + span {
-    margin-left: var(--default-margin-small);
-  }
-  }
+
   @component-namespace code {
     @b container {
       padding: 0 var(--default-padding-small);

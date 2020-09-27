@@ -53,7 +53,6 @@ export default {
       selectCopyData: [],
       visible: false,
       tableLoading: false,
-      successCount: 0, // 导入员工数量
       // 搜索数据封装
       departData: {
         // 所有部门值
@@ -73,9 +72,7 @@ export default {
         shopCate: {},
         // 类型 0导购 1店长
         job: null,
-        mobile: '',
-        fileKey: '', // 文件导入
-        manualInputKey: '' // 手动输入导入
+        mobile: ''
       },
       // 门店分类树
       shopCateTree: [],
@@ -217,20 +214,7 @@ export default {
       vm.departData.selectedDepart = {}
       vm.departData.shopCate = {} // 选择的门店分类
       vm.departData.shopId = '' // 选择的门店
-      vm.departData.fileKey = '' // 文件导入key
-      vm.departData.manualInputKey = '' // 手动输入key
-      this.successCount = 0 // 已导入员工数量
       vm.searchEmployee(1)
-    },
-    // 接收导入员工参数
-    acceptImport: function (val) {
-      this.successCount = val.successCount
-      if (val.manualInputKey) {
-        this.departData.manualInputKey = val.manualInputKey
-      }
-      if (val.fileImportKey) {
-        this.departData.fileImportKey = val.fileImportKey
-      }
     },
     /**
      * 搜索员工
@@ -262,7 +246,7 @@ export default {
           // 数据总数
           vm.pagination4Emp.total = total
           vm.$nextTick(function () {
-            // 设置员工勾选状态
+          // 设置员工勾选状态
             vm.toggleRowSelection(vm.selectedData, vm.employeeData, vm.recordId)
             vm.tableLoading = false
           })
@@ -313,12 +297,6 @@ export default {
         if (this.departData.shopCate && this.departData.shopCate.value) {
           param.cateId = '-' + this.departData.shopCate.value + '-'
         }
-      }
-      if (vm.departData.manualInputKey) {
-        param.manualInputKey = vm.departData.manualInputKey // 手动输入导入文件
-      }
-      if (vm.departData.fileImportKey) {
-        param.fileImportKey = vm.departData.fileImportKey
       }
     },
     /**
@@ -421,8 +399,7 @@ export default {
         vm.selectedData = []
         if (vm.isCheckAll) {
           // 清空左边列表
-          // vm.$refs.employeeTable.clearSelection()
-          return
+          vm.$refs.employeeTable.clearSelection()
         } else {
           // 左边列表全部勾选
           vm.employeeData.forEach(function (item) {
@@ -439,12 +416,8 @@ export default {
           })
         }
         vm.selectedData = selectedData2
-        // vm.isCheckAll = !vm.isCheckAll
+        vm.isCheckAll = !vm.isCheckAll
       })
-    },
-    clearSelection () {
-      vm.$refs.employeeTable.clearSelection()
-      this.selectedData = []
     },
     /**
      * 右侧员工删除事件
@@ -500,7 +473,7 @@ export default {
         }).catch(() => {
           vm.$notify.error('查询用户信息失败')
         }).finally(() => {
-          // 勾选默认值
+        // 勾选默认值
           if (vm.value && vm.value.length > 0) {
             var param = {}
             param.pageNo = 1
@@ -555,7 +528,7 @@ export default {
      */
     onSave () {
       if (this.validNull && this.selectedData.length < 1) {
-        this.$notify.warning('请至少选择一个员工')
+        this.$notify.warning('请选择员工')
         return
       }
       this.callbackData(JSON.parse(JSON.stringify(this.selectedData)))

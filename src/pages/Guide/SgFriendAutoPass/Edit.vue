@@ -9,17 +9,25 @@
             {{ title }}
           </div>
           <div class="form-grid__content">
-            <el-form-item label="员工："  size="xxs">
+            <el-form-item v-if="ids !== '0'" label="员工："  size="xxs">
               <el-form-grid>
                 <span>{{ names ? names:'' }}</span>
               </el-form-grid>
             </el-form-item>
-            <el-form-item v-show="isShowWxAccount === true" label="微信账号：" size="xxs">
+            <el-form-item v-if="ids !== '0'" v-show="isShowWxAccount === true" label="微信账号：" size="xxs">
               <el-form-grid>
                 <el-form-grid>
                   <span>{{ friendAutoPass.wxnick ? friendAutoPass.wxnick:'-' }}({{ friendAutoPass.wxaccount ? friendAutoPass.wxaccount:'-' }})</span>
                 </el-form-grid>
               </el-form-grid>
+            </el-form-item>
+            <el-form-item v-if="ids === '0'" label="员工："  size="xxs">
+              <ElFormGrid>
+                <NsGuideDialog :auth="false" type="primary" btnTitle="选择员工" dialogTitle="选择员工" v-model="guideIds"></NsGuideDialog>
+              </ElFormGrid>
+              <ElFormGrid>
+                已选择<span class="text-primary">{{model.guideIds? model.guideIds.length: 0}}</span>个导购员工
+              </ElFormGrid>
             </el-form-item>
             <el-form-item label="通过时间间隔：" required>
               <el-form-grid style="width: 80px">
@@ -125,9 +133,11 @@
 <script>
 import Edit from './src/Edit'
 import index from './src/List'
+import NsGuideDialog from '@/components/NsGuideDialog'
 
 Edit.components = {
-  index
+  index,
+  NsGuideDialog
 }
 
 export default Edit
