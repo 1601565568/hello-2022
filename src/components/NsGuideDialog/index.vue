@@ -71,7 +71,7 @@
                 <span>
                   已导入{{successCount}}个员工
                 </span>
-                <div style="float: right;"><NsImportDialog @acceptImport="acceptImport" :isButton="false" :validNull="true" :auth="false" type="primary" dialogTitle="导入员工"></NsImportDialog></div>
+                <div style="float: right;"><NsImportDialog ref="import" @acceptImport="acceptImport" :isButton="false" :validNull="true" :auth="false" type="primary" dialogTitle="导入员工"></NsImportDialog></div>
               </div>
             </el-form-grid>
             <el-form-grid><div style="margin-left: 10px;"></div></el-form-grid>

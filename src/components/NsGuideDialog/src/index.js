@@ -216,6 +216,7 @@ export default {
       vm.departData.fileKey = '' // 文件导入key
       vm.departData.manualInputKey = '' // 手动输入key
       this.successCount = 0 // 已导入员工数量
+      this.$refs.import.reset()
       vm.searchEmployee(1)
     },
     // 接收导入员工参数

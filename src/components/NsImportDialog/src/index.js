@@ -33,6 +33,10 @@ export default {
           type: 1 // 选择的type
         }
       },
+      file: '',
+      IsDelete: false,
+      fileList2: [], // 显示的文件列表
+      number: 0,
       download: 'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/downloads/ecrp-sg-web/ImportGuide/%E5%91%98%E5%B7%A5%E5%AF%BC%E5%85%A5%E6%A8%A1%E6%9D%BF.xlsx'
     }
   },
@@ -56,10 +60,17 @@ export default {
       vm.isCheckAll = false
     },
     onDialogClose () {
+      this.number++
+      this.fileList2 = this.fileList
+      if (this.number % 2 !== 0) { // 判定条件余数为0时为偶数
+        this.fileList2 = []
+        this.fileList = []
+      }
+      this.number = 0
       vm.ImportVisible = false
       vm.isCheckAll = false
     },
-    handleChange (file, fileList) {
+    handleExceed (file, fileList) {
       this.$notify.error('已上传文件，不能重复上传')
     },
     beforeUpload (file, fileList) {
@@ -73,7 +84,32 @@ export default {
         return false
       }
     },
+    handleRemove (file, fileList) {
+      this.IsDelete = true
+      this.number++
+      this.fileList2 = fileList
+    },
+    handleChange (file, fileList) {
+      this.number++
+      this.file = file
+      this.fileList = fileList
+      this.fileList2 = fileList
+      this.IsDelete = false
+    },
+    reset () {
+      this.fileList2 = []
+      this.model = {
+        redisKey: '', // 导入文件解析结果缓存key
+        manualInput: {
+          searchValue: '',
+          type: 1 // 选择的type
+        }
+      }
+    },
     save () {
+      if (this.number % 2 === 0) { // 判定条件余数为0时为偶数
+        this.model.redisKey = null
+      }
       let params = {
         redisKey: this.model.redisKey, // 导入文件解析结果缓存key
         manualInput: {
@@ -84,17 +120,13 @@ export default {
       if (this.model.redisKey === '') {
         params.redisKey = null
       }
-      if (this.model.manualInput.searchValue === '' && this.model.manualInput.type === '') {
+      if ((this.model.manualInput.searchValue === '' && this.model.manualInput.type === '') || this.model.manualInput.searchValue === '' || this.model.manualInput.type === '') {
         params = {
           redisKey: this.model.redisKey,
           manualInput: null
         }
       }
-      if ((this.model.manualInput.searchValue === '' && this.model.manualInput.type !== '') || (this.model.manualInput.searchValue !== '' && this.model.manualInput.type === '')) {
-        vm.$notify.error('请检查数据是否填写完整')
-        return
-      }
-
+      this.number = 0
       this.$http.fetch(this.$api.guide.guide.importGuideQuery, params)
         .then((resp) => {
           if (resp.success) {
