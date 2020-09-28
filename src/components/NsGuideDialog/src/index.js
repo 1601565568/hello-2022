@@ -314,9 +314,12 @@ export default {
       if (vm.departData.manualInputKey) {
         param.manualInputKey = vm.departData.manualInputKey // 手动输入导入文件
       }
-      if (vm.departData.fileImportKey) {
-        param.fileImportKey = vm.departData.fileImportKey
+      if (this.$refs.import.model.redisKey !== '' && this.$refs.import.model.redisKey !== null) {
+        param.fileImportKey = vm.departData.fileImportKey // 表格导入文件
       }
+      // if (vm.departData.fileImportKey) {
+      //   param.fileImportKey = vm.departData.fileImportKey
+      // }
     },
     /**
      * 拼接部门的id,所有子部门
