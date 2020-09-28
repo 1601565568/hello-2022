@@ -827,8 +827,10 @@ export default {
         _this.customerIdList = []
         _this.multipleSelection.map(item => {
           let nick = {}
-          obj.nick = item.outNick
-          obj.platform = this.changePlatform(item.platform)
+          obj.nick = item.nickInfoList[0].nick
+          obj.platform = this.changePlatform(item.nickInfoList[0].platform)
+          // obj.nick = item.outNick
+          // obj.platform = this.changePlatform(item.platform)
           obj.sgExclusiveGuideId = item.sgExclusiveGuideId
           obj.sgExclusiveShopId = item.sgExclusiveShopId
           nick = Object.assign({}, obj)
