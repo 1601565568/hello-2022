@@ -34,7 +34,8 @@ export default {
           { validator: validates.validateName, trigger: ['blur', 'change'] }
         ],
         guideIds: [
-          { required: true, message: '请选择参与人员', trigger: ['blur', 'change'] }
+          { required: true, message: '请选择参与人员', trigger: ['blur', 'change'] },
+          { validator: validates.validateName, message: '请选择参与人员', trigger: ['blur', 'change'] }
         ],
         time: [
           { required: true, message: '请选择有效日期', trigger: ['blur', 'change'] }

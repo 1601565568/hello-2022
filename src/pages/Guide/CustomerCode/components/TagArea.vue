@@ -77,9 +77,8 @@ export default {
     document.addEventListener('selectionchange', this.selectHandler)
     setTimeout(() => {
       document.getElementsByClassName('w-textarea_input')[0].focus()
-    }, 2000)
-
-    document.body.scrollIntoView()
+      document.body.scrollIntoView()
+    }, 1000)
   },
   beforeDestroy () {
     // 卸载事件
