@@ -39,6 +39,10 @@ export default {
     isButton: {
       type: Boolean,
       default: true
+    },
+    selfBtn: {
+      type: Boolean,
+      default: false
     }
   },
   data: function () {
@@ -572,6 +576,7 @@ export default {
       let transData = this.transformData(data)
       // 直接复制给父组件的input的v-model
       this.$emit('input', transData)
+      this.$emit('inputAllData', data)
     },
     /**
      * 设置返回信息
