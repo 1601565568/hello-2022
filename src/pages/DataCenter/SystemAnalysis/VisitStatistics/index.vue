@@ -86,11 +86,15 @@
         <div class="datawarpper top16">
             <div class="title-box">
                 <div class="survey_title">员工访问统计</div>
-                <div><ns-button>导出员工明细CSV文件</ns-button><ns-button>导出CSV文件</ns-button></div>
+                <div>
+                    <ns-button>导出员工明细CSV文件</ns-button>
+                    <ns-button>导出CSV文件</ns-button>
+                </div>
             </div>
+            <!-- @selection-change="handleSelectionChange" -->
             <div class="content-box">
                 <el-table
-                    :data="_data._table.data" stripe @selection-change="handleSelectionChange"
+                    :data="_data._table.data"
                     v-loading.lock="_data._table.loadingtable"
                     :element-loading-text="$t('prompt.loading')"
                 >
@@ -103,7 +107,7 @@
                     <el-table-column
                         prop="name"
                         label="工号"
-                         align="left"
+                        align="left"
                     >
                     </el-table-column>
                     <el-table-column
@@ -125,14 +129,17 @@
                     >
                     </el-table-column>
                 </el-table>
-                <el-pagination v-if="_data._pagination.enable" class="template-table-pagination"
-                       :page-sizes="_data._pagination.sizeOpts"
-                       :total="_data._pagination.total"
-                       :current-page.sync="_data._pagination.page"
-                       :page-size="_pagination.size"
-                       layout="total, sizes, prev, pager, next, jumper"
-                       @size-change="$sizeChange$"
-                       @current-change="$pageChange$">
+                <el-pagination
+                    v-if="_data._pagination.enable"
+                    class="template-table__pagination"
+                    :page-sizes="_data._pagination.sizeOpts"
+                    :total="_data._pagination.total"
+                    :current-page="_data._pagination.page"
+                    :page-size="_data._pagination.size"
+                    layout="total, sizes, prev, pager, next, jumper"
+                    @size-change="$sizeChange$"
+                    @current-change="$pageChange$"
+                >
                 </el-pagination>
             </div>
         </div>
@@ -143,5 +150,5 @@ import index from './src/index'
 export default index
 </script>
 <style scoped lang="scss">
-@import "./style/index.scss"
+@import "./style/index.scss";
 </style>
