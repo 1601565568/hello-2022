@@ -89,17 +89,14 @@
       stripe
       style="width: 100%"
       >
-      <el-table-column prop="name" label="名称"></el-table-column>
-      <el-table-column prop="name" label="指派门店" width="120" align="right">
+      <el-table-column prop="name" label="任务名称"></el-table-column>
+      <el-table-column prop="name" label="指派门店"  align="right" width="80">
         <template slot-scope="{row}">
           <a @click="shopListModalDomShowToggle(row.id)" href="javascript:" v-if="row.targetIds === 0">全部门店</a>
           <a @click="shopListModalDomShowToggle(row.id)" href="javascript:" v-else>{{row.allNum}}家</a>
         </template>
       </el-table-column>
-      <el-table-column label="执行时间" align="center" width="300">
-        <template slot-scope="{row}">{{row.startTime}}至{{row.endTime}}</template>
-      </el-table-column>
-      <el-table-column prop="type" label="类型" align="center" width="70">
+      <el-table-column prop="type" label="任务类型" align="center" width="80">
         <template slot-scope="{row}">
           <span v-if="row.type === 0">营销</span>
           <span v-if="row.type === 1">回访</span>
@@ -107,7 +104,10 @@
           <span v-if="row.type === 3">日常</span>
         </template>
       </el-table-column>
-       <el-table-column label="执行次数" align="center" width="80">
+      <el-table-column label="执行时间" align="center" width="300">
+        <template slot-scope="{row}">{{row.startTime}}至{{row.endTime}}</template>
+      </el-table-column>
+      <el-table-column label="执行次数" align="center" width="80">
           <template slot-scope="{row}">{{row.runType === 0?"一次性":"每日执行"}}</template>
         </el-table-column>
       <el-table-column prop="status" label="状态" align="left" width="70">
@@ -119,15 +119,16 @@
       </el-table-column>
       <el-table-column
         label="操作"
-        width="86"
+        width="200"
         align="center"
       >
       <template slot-scope="scope">
+        <ns-button @click="ViewProgress(scope.row)" type="text">查看完整进度</ns-button>
         <span v-if="scope.row.editAccess === 1" >
-        <span v-if="scope.row.state !== 4" >
-        <ns-button @click="AddShowToggle(scope.row)" type="text">编辑</ns-button>
-        </span>
-        <a href="javascript:" @click="delsTipFun(scope.row.id)" class="btn-detele">删除</a>
+          <span v-if="scope.row.state !== 4" >
+            <ns-button @click="EditShowToggle(scope.row)" type="text">编辑</ns-button>
+          </span>
+          <a href="javascript:" @click="delsTipFun(scope.row.id)" class="btn-detele">删除</a>
         </span>
       </template>
       </el-table-column>
@@ -252,12 +253,25 @@ export default {
           this.$notify.error(getErrorMsg('查询失败', resp))
         })
     },
-    // 打开弹窗--编辑
+    // 新建页面
     AddShowToggle (obj) {
       // 传递保存时需要的参数
-      this.$nextTick(() => {
-        this.$refs.addDialogDom.showToggle(obj)
-      })
+      // this.$nextTick(() => {
+      //   this.$refs.addDialogDom.showToggle(obj)
+      // })
+      this.$router.push('/Guide/Task/edit/0')
+    },
+    // 编辑页面
+    EditShowToggle (obj) {
+      // 传递保存时需要的参数
+      // this.$nextTick(() => {
+      //   this.$refs.addDialogDom.showToggle(obj)
+      // })
+      this.$router.push('/Guide/Task/edit/' + obj.id)
+    },
+    // 查看完整进度
+    ViewProgress (obj) {
+      this.$router.push('/Guide/Task/taskOverview/' + obj.id)
     },
     // 打开弹窗--查看指派门店
     shopListModalDomShowToggle (id) {
