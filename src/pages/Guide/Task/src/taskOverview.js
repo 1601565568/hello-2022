@@ -5,6 +5,7 @@ import ElDrawer from '@nascent/nui/lib/drawer'
 import drawerTable from '../drawerTable'
 import ShopSelectLoad from '@/components/ShopSelectLoad'
 import { getErrorMsg } from '@/utils/toast'
+import moment from 'moment'
 // import { init } from '@sentry/browser'
 export default {
   mixins: [tableMixin],
@@ -18,9 +19,9 @@ export default {
   data () {
     const pagination = {
       enable: true,
-      size: 15,
+      length: 15,
       sizeOpts: [15, 25, 50, 100],
-      page: 1,
+      start: 1,
       total: 0
     }
     const tableButtons = [
@@ -50,44 +51,14 @@ export default {
       url: '',
       pagination: pagination,
       table: {
+        loadingtable: true,
         table_buttons: tableButtons,
         quickSearchMap: {}
       },
       queryConfig: {
         expand: false
       },
-      form: {
-        store: '',
-        time: '',
-        executionTimes: 1,
-        taskType: 1,
-        executiveStore: 1,
-        memberGroup: '1',
-        taskBrief: ''
-      },
       tableData: [],
-      options: [
-        {
-          value: '1',
-          label: '门店1'
-        },
-        {
-          value: '2',
-          label: '门店2'
-        },
-        {
-          value: '3',
-          label: '门店3'
-        },
-        {
-          value: '4',
-          label: '门店4'
-        },
-        {
-          value: '5',
-          label: '门店5'
-        }
-      ],
       taskMsg: {
         name: '',
         type: 0,
@@ -104,6 +75,9 @@ export default {
         guideNum: 0,
         completion: 0
       },
+      searchMap: {
+        shopId: null
+      },
       drawerVisible: false,
       selectMaterial: {},
       id: null
@@ -117,15 +91,20 @@ export default {
       this.id = this.$route.params.id
       this.queryTask()
       this.queryProgressStatistics()
-      this.queryTaskShopInfo()
     },
     // 分页
     pageChange (data) {
-      this.pagination.page = data
+      this.pagination.start = data
       this.queryTaskShopInfo()
     },
     sizeChange (data) {
-      this.pagination.size = data
+      this.pagination.length = data
+      this.queryTaskShopInfo()
+    },
+    handleVisibleChange () {
+      this.queryTaskShopInfo()
+    },
+    queryTimeChange () {
       this.queryTaskShopInfo()
     },
     queryTask () {
@@ -150,12 +129,19 @@ export default {
             } else {
               this.taskMsg.shopRangeType = 1
             }
+            if (this.taskMsg.runType === 1) {
+              const start = new Date()
+              this.searchMap.queryTime = moment(start.getTime() - 3600 * 1000 * 24).format('YYYY-MM-DD')
+            }
             // 素材任务时
             if (obj.materialId) {
               this.taskMsg.materialId = obj.materialId
               this.taskMsg.materialTitle = obj.materialTitle
+              this.taskMsg.materialType = obj.materialType
+              this.taskMsg.materialMsg = JSON.parse(obj.materialMsg)
             }
           }
+          this.queryTaskShopInfo()
         })
         .catch(resp => {
           this.$notify.error(getErrorMsg('查看完整任务失败', resp))
@@ -182,12 +168,14 @@ export default {
         })
     },
     queryTaskShopInfo () {
+      this.table.loadingtable = true
       let params = {
         searchMap: {
+          ...this.searchMap,
           taskId: this.id
         },
-        size: this.pagination.size,
-        page: this.pagination.page
+        length: this.pagination.length,
+        start: this.pagination.start
       }
       this.$http
         .fetch(this.$api.guide.taskQueryTaskShopInfo, params)
@@ -196,10 +184,10 @@ export default {
             var result = resp.result
             this.pagination.total = parseInt(result.recordsTotal)
             this.tableData = result.data
+            this.table.loadingtable = false
           }
         })
         .catch(resp => {
-          console.log(resp)
           this.$notify.error(getErrorMsg('进度统计列表查询失败', resp))
         })
     }

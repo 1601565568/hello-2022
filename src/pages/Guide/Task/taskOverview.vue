@@ -39,27 +39,27 @@
             {{ taskMsg.materialTitle }}
           </p>
           <div class="taskOverview-materials__item--media">
-            <div class='catalogue-materials__image' v-if="selectMaterial.mType === 1">
-                <div v-for="(item, index) in selectMaterial.imageList" :key="index">
+            <div class='taskOverview-materials__image' v-if="taskMsg.materialType === 1">
+                <div v-for="(item, index) in taskMsg.materialMsg.imageList" :key="index">
                   <img :src='item' />
                 </div>
               </div>
-              <div class='catalogue-materials__video' v-if="selectMaterial.mType === 2">
+              <div class='taskOverview-materials__video' v-if="taskMsg.materialType === 2">
                 <video
-                  :src='selectMaterial.imageList[0]'
+                  :src='taskMsg.materialMsg.imageList[0]'
                   style='width: 60px; height: 107px'
                 >
                   您的浏览器暂不支持播放该视频，请升级至最新版浏览器。
                 </video>
-                <div class='catalogue-materials__video--mask'>
-                  <div class='catalogue-materials__video--wrapper'>
+                <div class='taskOverview-materials__video--mask'>
+                  <div class='taskOverview-materials__video--wrapper'>
                     <Icon type='begin' />
                   </div>
                 </div>
               </div>
-              <div class="catalogue-materials__article" v-if="selectMaterial.mType === 0">
-                <img :src="selectMaterial.imageList">
-                <p>{{selectMaterial.title}}</p>
+              <div class="taskOverview-materials__article" v-if="taskMsg.materialType === 0">
+                <img :src="taskMsg.materialMsg.imageList[0]">
+                <p>{{taskMsg.materialTitle}}</p>
               </div>
           </div>
         </div>
@@ -67,33 +67,29 @@
       <div class="taskOverview-detail">
         <div class="taskOverview-detail__head clearfix">
           进度统计
-          <ElForm inline class="float-right" :model="form">
+          <ElForm inline class="float-right" :model="searchMap">
             <ElFormItem label="选择门店：">
               <el-form-grid size="xmd">
                 <shop-select-load placeholder="请选择工作门店"
-                                  v-model="model.shop"
+                                  v-model="searchMap.shopId"
+                                  ref="shopSelectLoad"
+                                  @handleVisibleChange="handleVisibleChange"
                                   clearable/>
               </el-form-grid>
-              <!-- <el-select v-model="form.store" placeholder="请选择门店">
-                <el-option
-                  v-for="item in options"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value">
-                </el-option>
-              </el-select> -->
             </ElFormItem>
-            <ElFormItem label="日期：">
+            <ElFormItem label="日期：" v-if="taskMsg.runType === 1">
               <ElDatePicker
-                v-model="form.time"
+                format="yyyy-MM-dd"
+                value-format="yyyy-MM-dd"
+                v-model="searchMap.queryTime"
                 type="date"
+                @change="queryTimeChange"
                 placeholder="选择日期" />
             </ElFormItem>
             <NsButton>导出导购完成明细CSV文件</NsButton>
             <NsButton>导出CSV文件</NsButton>
           </ElForm>
         </div>
-        {{taskMsg}}
         <div class="taskOverview-detail__data">
           <ElRow :gutter="24">
             <ElCol :span="8">
@@ -136,8 +132,8 @@
             <el-table-column align="center" prop="shopType" width="80" label="类型">
               <template slot-scope="{row}">
                 <span v-if="row.shopType === 'ZYD'">直营店</span>
-                <span v-if="row.shopType === 'JMD'">加盟店</span>
-                <span v-if="row.shopType === 'LYD'">联营店</span>
+                <span v-else-if="row.shopType === 'JMD'">加盟店</span>
+                <span v-else-if="row.shopType === 'LYD'">联营店</span>
                 <span v-else>-</span>
               </template>
             </el-table-column>

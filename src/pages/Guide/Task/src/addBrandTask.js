@@ -6,7 +6,6 @@ import ElCollapseItem from '@nascent/nui/lib/collapse-item'
 import selectMaterialListModal from '../selectMaterialListModal'
 import shopSelect from '../../components/selectShops'
 import { getErrorMsg } from '@/utils/toast'
-import moment from 'moment'
 export default {
   props: {
     callBack: Function
