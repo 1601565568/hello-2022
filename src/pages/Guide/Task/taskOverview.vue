@@ -93,6 +93,7 @@
             <NsButton>导出CSV文件</NsButton>
           </ElForm>
         </div>
+        {{taskMsg}}
         <div class="taskOverview-detail__data">
           <ElRow :gutter="24">
             <ElCol :span="8">
@@ -129,7 +130,7 @@
                     resizable v-loading.lock="table.loadingtable"
                     style="width: 100%;"
                     :element-loading-text="$t('prompt.loading')" @sort-change="$orderChange$">
-            <el-table-column :show-overflow-tooltip="true" prop="name"
+            <el-table-column :show-overflow-tooltip="true" prop="shopName"
                              label="门店名称" />
             <el-table-column label="地区" prop="address" />
             <el-table-column align="center" prop="shopType" width="80" label="类型">
@@ -166,8 +167,8 @@
         <el-pagination v-if="pagination.enable" class="taskOverview-detail__footer"
                        :page-sizes="pagination.sizeOpts" :total="pagination.total"
                        :current-page="pagination.page" :page-size="pagination.size"
-                       layout="total, sizes, prev, pager, next, jumper" @size-change="$sizeChange$"
-                       @current-change="$pageChange$">
+                       layout="total, sizes, prev, pager, next, jumper" @size-change="sizeChange"
+                       @current-change="pageChange">
         </el-pagination>
       </div>
     </div>
@@ -181,203 +182,8 @@
   </div>
 </template>
 <script>
-import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
-import ElBreadcrumb from '@nascent/nui/lib/breadcrumb'
-import ElBreadcrumbItem from '@nascent/nui/lib/breadcrumb-item'
-import ElDrawer from '@nascent/nui/lib/drawer'
-import drawerTable from './drawerTable'
-import ShopSelectLoad from '@/components/ShopSelectLoad'
-import { getErrorMsg } from '@/utils/toast'
-export default {
-  mixins: [tableMixin],
-  components: {
-    ElBreadcrumb,
-    ElBreadcrumbItem,
-    ElDrawer,
-    drawerTable,
-    ShopSelectLoad
-  },
-  data () {
-    const pagination = {
-      enable: true,
-      size: 15,
-      sizeOpts: [15, 25, 50, 100],
-      page: 1,
-      total: 0
-    }
-    const tableButtons = [
-      {
-        func: function () {
-          this.drawerVisible = true
-        },
-        icon: '$.noop',
-        name: '查看详情',
-        auth: '',
-        visible: ''
-      }
-    ]
-
-    const model = Object.assign({},
-      {
-        taskType: '',
-        state: '',
-        taskName: ''
-      },
-      {})
-    return {
-      model: model,
-      rules: Object.assign({}, {}, {}),
-      url: '',
-      pagination: pagination,
-      table: {
-        table_buttons: tableButtons,
-        quickSearchMap: {}
-      },
-      queryConfig: {
-        expand: false
-      },
-      form: {
-        store: '',
-        time: '',
-        executionTimes: 1,
-        taskType: 1,
-        executiveStore: 1,
-        memberGroup: '1',
-        taskBrief: ''
-      },
-      tableData: [
-      //   {
-      //   done: '30%',
-      //   name: '0901华东区招募任务',
-      //   num: 47,
-      //   type: '直营店',
-      //   address: '浙江省-杭州市-江干区',
-      //   state: 0
-      // }
-      ],
-      options: [{
-        value: '1',
-        label: '门店1'
-      }, {
-        value: '2',
-        label: '门店2'
-      }, {
-        value: '3',
-        label: '门店3'
-      }, {
-        value: '4',
-        label: '门店4'
-      }, {
-        value: '5',
-        label: '门店5'
-      }],
-      taskMsg: {
-        name: '',
-        type: 0,
-        startTime: '',
-        endTime: '',
-        remark: '',
-        shopRangeType: 0,
-        runType: 0,
-        viewId: '',
-        viewName: '',
-        subgroupId: '',
-        subgroupName: '',
-        shopNum: 0,
-        guideNum: 0,
-        completion: 0
-      },
-      drawerVisible: false
-    }
-  },
-  methods: {
-    onSearch () {
-      // console.log('搜索响应')
-    }
-  },
-  mounted: function () {
-    var that = this
-    const id = this.$route.params.id
-    if (parseInt(id) > 0) {
-      var params = {}
-      params.taskId = parseInt(id)
-      this.$http.fetch(this.$api.guide.queryTask, params).then(resp => {
-        if (resp.success) {
-          var obj = resp.result
-          this.taskMsg = { ...obj }
-          // this.taskMsg.id = obj.id
-          // this.taskMsg.type = obj.type
-          // this.taskMsg.runType = obj.runType
-          // this.taskMsg.remark = obj.remark
-          // this.taskMsg.name = obj.name
-          // this.taskMsg.startTime = obj.startTime
-          // this.taskMsg.endTime = obj.endTime
-          // this.taskMsg.viewId = obj.viewId
-          // this.taskMsg.subgroupId = obj.subgroupId
-          // this.taskMsg.state = obj.state
-          // 指定门店
-          if (obj.targetIds === '0') {
-            this.taskMsg.shopRangeType = 0
-          } else {
-            this.taskMsg.shopRangeType = 1
-          }
-          // 素材任务时
-          if (obj.materialId) {
-            this.taskMsg.materialId = obj.materialId
-            this.taskMsg.materialTitle = obj.materialTitle
-          }
-        }
-      }).catch(resp => {
-        this.$notify.error(getErrorMsg('查看完整任务失败', resp))
-        this.$router.push('/Guide/Task/List')
-      })
-      var param = {}
-      param.taskId = parseInt(id)
-      this.$http.fetch(this.$api.guide.queryProgressStatistics, param).then(resp => {
-        if (resp.success) {
-          var result = resp.result
-          that.taskMsg.shopNum = result.shopNum
-          that.taskMsg.guideNum = result.guideNum
-          that.taskMsg.completion = result.completion
-        }
-      }).catch(resp => {
-        console.log(resp)
-        that.$notify.error(getErrorMsg('进度统计查询失败', resp))
-      })
-      param.searchMap = {}
-      param.searchMap.taskId = parseInt(id)
-      param.size = 0
-      this.$http.fetch(this.$api.guide.taskQueryTaskShopInfo, param).then(resp => {
-        if (resp.success) {
-          var result = resp.result
-          this.pagination.total = parseInt(result.recordsTotal)
-          // result.data.forEach(obj => {
-          //   var taskShopInfo = {}
-          //   taskShopInfo.name = obj.shopName
-          //   taskShopInfo.address = obj.address
-          //   taskShopInfo.done = obj.completion
-          //   taskShopInfo.num = obj.guideTotal
-          //   taskShopInfo.shopType = obj.shopType
-          //   taskShopInfo.shopStatus = obj.shopStatus
-          //   this.tableData.push(taskShopInfo)
-          // })
-          const data = result.data.map(obj => ({
-            name: obj.shopName,
-            address: obj.address,
-            done: obj.completion,
-            num: obj.guideTotal,
-            shopType: obj.shopType,
-            shopStatus: obj.shopStatus
-          }))
-          this.tableData.push(...data)
-        }
-      }).catch(resp => {
-        console.log(resp)
-        that.$notify.error(getErrorMsg('进度统计列表查询失败', resp))
-      })
-    }
-  }
-}
+import taskOverview from './src/taskOverview'
+export default taskOverview
 </script>
 
 <style scoped>
@@ -575,7 +381,7 @@ export default {
         position: relative;
         top: 1px;
       }
-      >>> .el-button--small + .el-button--small {
+      >>> .el-button--small  .el-button--small {
         margin-left: 16px;
       }
     }
