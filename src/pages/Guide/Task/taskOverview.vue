@@ -39,21 +39,28 @@
             {{ taskMsg.materialTitle }}
           </p>
           <div class="taskOverview-materials__item--media">
-            <!-- 视频、图片预览请使用SG项目中组件：NsPreview，可参照实例：https://test-sg.ecrpcloud.com/Guide/Material/Library -->
-            <!-- 展示图片结构 -->
-            <!-- <div class="taskOverview-materials__image">-->
-            <!-- <img src="https://shopguide.oss-cn-hangzhou.aliyuncs.com/image/202009/10000146/3aaf0732-4f73-4052-b808-8e34975778da.png?x-oss-process=image/resize,m_mfit,h_200,w_200" />-->
-            <!-- </div>-->
-            <div class="taskOverview-materials__video">
-              <video src="https://shopguide.oss-cn-hangzhou.aliyuncs.com/video/202008/10000146/30d72b50-dca3-479c-9b6a-bb1975efa879.mp4" style="width: 60px;height: 107px">
-                您的浏览器暂不支持播放该视频，请升级至最新版浏览器。
-              </video>
-              <div class="taskOverview-materials__video--mask">
-                <div class="taskOverview-materials__video--wrapper">
-                  <Icon type="begin" />
+            <div class='catalogue-materials__image' v-if="selectMaterial.mType === 1">
+                <div v-for="(item, index) in selectMaterial.imageList" :key="index">
+                  <img :src='item' />
                 </div>
               </div>
-            </div>
+              <div class='catalogue-materials__video' v-if="selectMaterial.mType === 2">
+                <video
+                  :src='selectMaterial.imageList[0]'
+                  style='width: 60px; height: 107px'
+                >
+                  您的浏览器暂不支持播放该视频，请升级至最新版浏览器。
+                </video>
+                <div class='catalogue-materials__video--mask'>
+                  <div class='catalogue-materials__video--wrapper'>
+                    <Icon type='begin' />
+                  </div>
+                </div>
+              </div>
+              <div class="catalogue-materials__article" v-if="selectMaterial.mType === 0">
+                <img :src="selectMaterial.imageList">
+                <p>{{selectMaterial.title}}</p>
+              </div>
           </div>
         </div>
       </div>
@@ -298,16 +305,17 @@ export default {
       this.$http.fetch(this.$api.guide.queryTask, params).then(resp => {
         if (resp.success) {
           var obj = resp.result
-          this.taskMsg.id = obj.id
-          this.taskMsg.type = obj.type
-          this.taskMsg.runType = obj.runType
-          this.taskMsg.remark = obj.remark
-          this.taskMsg.name = obj.name
-          this.taskMsg.startTime = obj.startTime
-          this.taskMsg.endTime = obj.endTime
-          this.taskMsg.viewId = obj.viewId
-          this.taskMsg.subgroupId = obj.subgroupId
-          this.taskMsg.state = obj.state
+          this.taskMsg = { ...obj }
+          // this.taskMsg.id = obj.id
+          // this.taskMsg.type = obj.type
+          // this.taskMsg.runType = obj.runType
+          // this.taskMsg.remark = obj.remark
+          // this.taskMsg.name = obj.name
+          // this.taskMsg.startTime = obj.startTime
+          // this.taskMsg.endTime = obj.endTime
+          // this.taskMsg.viewId = obj.viewId
+          // this.taskMsg.subgroupId = obj.subgroupId
+          // this.taskMsg.state = obj.state
           // 指定门店
           if (obj.targetIds === '0') {
             this.taskMsg.shopRangeType = 0
@@ -402,6 +410,8 @@ export default {
       margin-right: -6px;
       margin-bottom: -5px;
       vertical-align: middle;
+      display: flex;
+      flex-wrap: wrap;
       img {
         margin: 0 5px 5px 0;
         width: 78px;
@@ -409,6 +419,25 @@ export default {
         border-radius: 3px;
         cursor: pointer;
         object-fit: cover;
+      }
+    }
+    @e article {
+      background: #ccc;
+      display: flex;
+      align-items: center;
+      padding: 5px;
+      img {
+        width: 78px;
+        height: 78px;
+        border-radius: 3px;
+        cursor: pointer;
+        object-fit: cover;
+        margin-right: 5px
+      }
+      p {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
       }
     }
     @e content {
