@@ -81,7 +81,7 @@ export default {
       },
       options: [], // 视角集合
       subgroups: [], // 视角下分组集合
-      selectMaterial: null, // 当前选择的素材对象
+      selectMaterial: {}, // 当前选择的素材对象
       canNotEdit: false // 编辑进来禁止
     }
   },
@@ -158,16 +158,6 @@ export default {
           } else {
             that.model.targetIds = 0
           }
-          // 选择视角
-          if (!that.model.viewId) {
-            that.$notify.error('请选择视角')
-            return
-          }
-          // 选择视角
-          if (!that.model.subgroupId) {
-            that.$notify.error('请选择分组')
-            return
-          }
           that.doSave()
         }
       })
@@ -210,6 +200,7 @@ export default {
           taskId: parseInt(id)
         })
         .then(resp => {
+          debugger
           if (resp.success) {
             var obj = resp.result
             this.titleText = '编辑任务'
@@ -241,6 +232,7 @@ export default {
           }
         })
         .catch(resp => {
+          console.log('resp:', resp)
           this.$notify.error(getErrorMsg('获取任务详情失败', resp))
           this.$router.push('/Guide/Task/List')
         })
@@ -260,13 +252,6 @@ export default {
               return arr
             })
             this.options = arr
-            // for (var i = 0; i < resp.result.length; i++) {
-            //     var view = resp.result[i]
-            //     var viewJson = {}
-            //     viewJson.value = view.viewId
-            //     viewJson.label = view.viewName
-            //     this.options.push(viewJson)
-            // }
           }
         })
         .catch(resp => {
@@ -282,11 +267,13 @@ export default {
       handler (newVal) {
         this.model.materialId = newVal.id
         this.model.materialTitle = newVal.name
-        this.materialType = newVal.mType
-        this.materialMsg.imageList = newVal.imageList
+        this.model.materialType = newVal.mType
+        console.log(newVal.imageList)
+        this.model.materialMsg.imageList = newVal.imageList
         if (newVal.mType === 0) {
-          this.materialMsg.name = newVal.title
+          this.model.materialMsg.name = newVal.title
         }
+        this.model.materialMsg = JSON.stringify(this.model.materialMsg)
       },
       deep: true
     }
