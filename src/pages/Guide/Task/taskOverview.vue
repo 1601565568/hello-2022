@@ -136,11 +136,10 @@
             <el-table-column align="center" prop="shopStatus" width="120"
                              label="线下门店状态">
               <template slot-scope="scope">
-                <span class="text-danger">{{ scope }}</span>
-                <!-- <span v-if="scope.shopStatus === 0" class="text-danger">删除</span> -->
-                <!-- <span v-if="scope.row.shopStatus === -1" class="text-danger">暂停</span>
+                <span v-if="scope.row.shopStatus === 0" class="text-danger">删除</span>
+                <span v-if="scope.row.shopStatus === -1" class="text-danger">暂停</span>
                 <span v-if="scope.row.shopStatus === -2" class="text-danger">已关店</span>
-                <span v-if="scope.row.shopStatus === 1" class="text-info">正常</span> -->
+                <span v-if="scope.row.shopStatus === 1" class="text-info">正常</span>
               </template>
             </el-table-column>
             <el-table-column align="right" prop="num" width="80"
@@ -344,16 +343,25 @@ export default {
         if (resp.success) {
           var result = resp.result
           this.pagination.total = parseInt(result.recordsTotal)
-          result.data.forEach(obj => {
-            var taskShopInfo = {}
-            taskShopInfo.name = obj.shopName
-            taskShopInfo.address = obj.address
-            taskShopInfo.done = obj.completion
-            taskShopInfo.num = obj.guideTotal
-            taskShopInfo.shopType = obj.shopType
-            taskShopInfo.shopStatus = obj.shopStatus
-            this.tableData.push(taskShopInfo)
-          })
+          // result.data.forEach(obj => {
+          //   var taskShopInfo = {}
+          //   taskShopInfo.name = obj.shopName
+          //   taskShopInfo.address = obj.address
+          //   taskShopInfo.done = obj.completion
+          //   taskShopInfo.num = obj.guideTotal
+          //   taskShopInfo.shopType = obj.shopType
+          //   taskShopInfo.shopStatus = obj.shopStatus
+          //   this.tableData.push(taskShopInfo)
+          // })
+          const data = result.data.map(obj => ({
+            name: obj.shopName,
+            address: obj.address,
+            done: obj.completion,
+            num: obj.guideTotal,
+            shopType: obj.shopType,
+            shopStatus: obj.shopStatus
+          }))
+          this.tableData.push(...data)
         }
       }).catch(resp => {
         console.log(resp)
