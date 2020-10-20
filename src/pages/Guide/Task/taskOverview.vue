@@ -287,7 +287,8 @@ export default {
         guideNum: 0,
         completion: 0
       },
-      drawerVisible: false
+      drawerVisible: false,
+      selectMaterial: {}
     }
   },
   methods: {
