@@ -4,14 +4,14 @@
             <!-- 快捷搜索 -->
             <template slot="searchSearch">
                 <el-form
-                    :model="searchform"
+                    :model="model"
                     :inline="true"
                     @submit.native.prevent
                     class="pull-right"
                 >
                     <el-form-item v-if="!quickObj.expanded">
                         <el-input
-                            v-model="searchform.materialTitle"
+                            v-model="model.materialTitle"
                             placeholder="请输入素材标题"
                             @keyup.enter.native="handleSearch"
                         >
@@ -34,7 +34,7 @@
                 v-if="quickObj.expanded"
             >
                 <el-form
-                    :model="searchform"
+                    :model="model"
                     :inline="true"
                     @submit.native.prevent
                     class="pull-right"
@@ -51,19 +51,24 @@
                             align="left"
                             @change="formatTime()"
                         >
-                        <!-- v-model="searchform.startTime" -->
+                        <!-- v-model="model.startTime" -->
                         </el-date-picker>
                     </el-form-item>
                     <el-form-item label="选择员工：">
-
+                        <div style="display:flex">
+                            <NsGuideDialog :auth="false" @input="NsGuideDialog()" type="primary" btnTitle="选择员工" dialogTitle="选择员工" v-model="model.guideId">
+                            </NsGuideDialog>
+                            <span>已选择{{model.guideId? model.guideId.length: 0}}个员工</span>
+                        </div>
                     </el-form-item>
                     <el-form-item label="素材类型：">
                         <el-select
-                            v-model="searchform.value"
-                            placeholder="请选择"
+                            v-model="model.materialType"
+                            placeholder="请选择素材类型"
+                            @change="handleSearch()"
                         >
                             <el-option
-                                v-for="item in options"
+                                v-for="item in materialTypeList"
                                 :key="item.value"
                                 :label="item.label"
                                 :value="item.value"
@@ -73,41 +78,44 @@
                     </el-form-item>
                     <el-form-item label="文件夹：">
                         <el-select
-                            v-model="searchform.value"
-                            placeholder="请选择"
+                            v-model="model.folderId"
+                            placeholder="请选择文件夹"
+                            @change="handleSearch()"
                         >
                             <el-option
-                                v-for="item in options"
-                                :key="item.value"
+                                v-for="item in directoryTreeList"
+                                :key="item.id"
                                 :label="item.label"
-                                :value="item.value"
+                                :value="item.id"
                             >
                             </el-option>
                         </el-select>
                     </el-form-item>
                     <el-form-item label="标签：">
                         <el-select
-                            v-model="searchform.value"
-                            placeholder="请选择"
+                            filterable
+                            v-model="model.tagId"
+                            placeholder="请选择标签"
+                            @change="handleSearch()"
                         >
                             <el-option
-                                v-for="item in options"
-                                :key="item.value"
-                                :label="item.label"
-                                :value="item.value"
+                                v-for="item in materialGroudList"
+                                :key="item.subdivisionId"
+                                :label="item.subdivisionName"
+                                :value="item.subdivisionId"
                             >
                             </el-option>
                         </el-select>
                     </el-form-item>
                     <el-form-item label="素材标题：">
                         <el-input
-                            v-model="searchform.materialTitle"
+                            v-model="model.materialTitle"
                             placeholder="请输入素材标题"
                             @keyup.enter.native="handleSearch"
                         ></el-input>
                     </el-form-item>
                     <el-form-item>
-                      <ns-button>导出CSV文件</ns-button>
+                      <ns-button @click="exportData">导出CSV文件</ns-button>
                     </el-form-item>
                 </el-form>
             </template>
@@ -124,26 +132,29 @@
                     row-key="id"
                     @selection-change="$selectionChange"
                 >
-                    <!-- <el-table-column
-                        type="selection"
-                        align="right"
-                        :width="50"
-                    ></el-table-column> -->
                     <el-table-column
                         type="default"
-                        prop="title"
+                        prop="name"
                         label="素材标题"
                         :sortable="false"
-                    />
+                    >
+                    <template slot-scope="scope">
+                        <span>{{scope.row.name || '-'}}</span>
+                    </template>
+                    </el-table-column>
                      <el-table-column
                         type="default"
-                        prop="type"
+                        prop="m_type"
                         label="素材类型"
                         :sortable="false"
-                    />
+                    >
+                     <template slot-scope="scope">
+                        <span>{{scope.row.m_type===0?'文章素材': scope.row.m_type === 1 ? '图文素材': '视频素材'}}</span>
+                    </template>
+                     </el-table-column>
                     <el-table-column
                         type="default"
-                        prop="downLoad"
+                        prop="downloadCount"
                         label="下载次数"
                         :sortable="true"
                     >
@@ -158,7 +169,7 @@
                     </el-table-column>
                      <el-table-column
                         type="default"
-                        prop="send"
+                        prop="sendCount"
                         label="发送次数"
                         :sortable="true"
                     >
@@ -173,7 +184,7 @@
                     </el-table-column>
                     <el-table-column
                         type="default"
-                        prop="share"
+                        prop="shareCount"
                         label="转发次数"
                         :sortable="true"
                     >
@@ -193,7 +204,7 @@
                         :sortable="false"
                     >
                     <template slot-scope="scope">
-                        <ns-button type="text" @click="toggleLabel(scope.row)">查看明细</ns-button>
+                        <ns-button type="text" @click="toggle(scope.row)">查看明细</ns-button>
                     </template>
                      </el-table-column>
                 </el-table>
@@ -221,5 +232,7 @@ export default Index
 </script>
 
 <style scoped>
-
+.template-table__bar-more .el-form >.el-form-item  {
+    margin-right: 10px;
+}
 </style>

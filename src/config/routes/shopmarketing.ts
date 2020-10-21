@@ -43,7 +43,7 @@ export default {
           'component': () => import('@/pages/Guide/Material/MaterialAnalysis/index.vue')
         },
         {
-          'path': '/Guide/Material/MaterialAnalysis/details',
+          'path': '/Guide/Material/MaterialAnalysis/details/:targetId',
           'name': 'MaterialAnalysisDetails',
           'title': '素材分析详情',
           'component': () => import('@/pages/Guide/Material/MaterialAnalysis/details.vue')

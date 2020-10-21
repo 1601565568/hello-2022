@@ -29,6 +29,7 @@ import recruitPageConfig from './recruitPageConfig'
 import systemPreset from './SystemPreset'
 import sgGuideActivityAnalysis from './sgGuideActivityAnalysis'
 import chatRoomConfig from './chatRoomConfig'
+import materialAnalysis from './materialAnalysis'
 export default {
   secruitmentSet,
   guide,
@@ -61,6 +62,7 @@ export default {
   systemPreset,
   sgGuideActivityAnalysis,
   chatRoomConfig,
+  materialAnalysis,
   // 所有导购模块全部整合在此
   comGetBrandForShopList: {
     // 获取品牌下的店铺
