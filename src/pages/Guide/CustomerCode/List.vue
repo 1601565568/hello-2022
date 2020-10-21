@@ -64,11 +64,12 @@
             label="参与活动人员">
             <template slot-scope="scope">
               <div class="scope-name">
-                 <el-tooltip class="item" effect="light" :content="scope.row.guideNames" placement="top">
-                <div src='' class="scope-name_text">
-                  {{scope.row.guideNames}}
-                </div>
+                <el-tooltip class="item" effect="light" :content="scope.row.guideNames" placement="top">
+                  <div src='' class="scope-name_text">
+                    {{scope.row.guideNames}}
+                  </div>
                 </el-tooltip>
+                <span class="scope-name_tip">共{{scope.row.guideCount}}个</span>
                 <!-- <div class="scope-name_num">
                   共<span class="scope-name_num__blue">{{scope.row.emplee.length}}</span>个
                 </div> -->
@@ -142,8 +143,8 @@ export default List
 </script>
 <style lang="scss" scoped>
   @import "./styles/reset.css";
-  .scope-name {
-    display: flex
+  .scope-name_tip {
+    color: #0091FA
   }
   .scope-title {
     display: flex;

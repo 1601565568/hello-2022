@@ -34,8 +34,7 @@ export default {
           { validator: validates.validateName, trigger: ['blur', 'change'] }
         ],
         guideIds: [
-          { required: true, message: '请选择参与人员', trigger: ['blur', 'change'] },
-          { validator: validates.validateName, message: '请选择参与人员', trigger: ['blur', 'change'] }
+          { validator: validates.validateGuideIds, message: '请选择参与人员', trigger: ['blur', 'change'] }
         ],
         time: [
           { required: true, message: '请选择有效日期', trigger: ['blur', 'change'] }
@@ -59,20 +58,20 @@ export default {
       headPosition: {
         // 竖排
         0: {
-          headPortraitCoordinateX: 136,
-          headPortraitCoordinateY: 40,
-          headPortraitSize: 48,
+          headPortraitCoordinateX: 272,
+          headPortraitCoordinateY: 80,
+          headPortraitSize: 96,
           nickCoordinateX: 0,
-          nickCoordinateY: 104,
+          nickCoordinateY: 208,
           nickPosition: 0
         },
         // 横排
         1: {
-          headPortraitCoordinateX: 24,
-          headPortraitCoordinateY: 40,
-          headPortraitSize: 48,
-          nickCoordinateX: 88,
-          nickCoordinateY: 53,
+          headPortraitCoordinateX: 48,
+          headPortraitCoordinateY: 80,
+          headPortraitSize: 96,
+          nickCoordinateX: 176,
+          nickCoordinateY: 106,
           nickPosition: 1
         }
       },
@@ -123,9 +122,9 @@ export default {
           headPortrait: !!result.headPortrait,
           name: result.name,
           nickColour: '#' + result.nickColour,
-          qrcodeSize: result.qrcodeSize,
-          qrcodeX: result.qrcodeX,
-          qrcodeY: result.qrcodeY,
+          qrcodeSize: result.qrcodeSize / 2,
+          qrcodeX: result.qrcodeX / 2,
+          qrcodeY: result.qrcodeY / 2,
           time: [result.validTimeStart, result.validTimeEnd],
           validTimeType: result.validTimeType
         }
@@ -185,9 +184,9 @@ export default {
         nick: model.headPortrait * 1,
         nickColour: model.nickColour.split('#')[1],
         nickSize: 14,
-        qrcodeSize: model.qrcodeSize,
-        qrcodeX: model.qrcodeX,
-        qrcodeY: model.qrcodeY,
+        qrcodeSize: model.qrcodeSize * 2,
+        qrcodeX: model.qrcodeX * 2,
+        qrcodeY: model.qrcodeY * 2,
         validTimeEnd: model.time[0],
         validTimeStart: model.time[1],
         validTimeType: model.validTimeType
