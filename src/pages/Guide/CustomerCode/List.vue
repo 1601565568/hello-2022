@@ -3,7 +3,7 @@
     <template slot='search'>
       <el-form :inline="true" class='form-inline_top'>
         <el-form-item label="参与员工：">
-          <NsGuideDialog :selfBtn='true' :isButton="false" :validNull="true" :auth="false" type="primary" btnTitle="" dialogTitle="选择员工" v-model="model.guideIds" @input="handleChangeGuide">
+          <NsGuideDialog :selfBtn='true' :isButton="false" :auth="false" type="primary" btnTitle="" dialogTitle="选择员工" v-model="model.guideIds" @input="handleChangeGuide">
             <template slot='selfBtn'>
               <Icon type="geren"></Icon>
             </template>
@@ -65,7 +65,7 @@
             <template slot-scope="scope">
               <div class="scope-name">
                 <el-tooltip class="item" effect="light" :content="scope.row.guideNames" placement="top">
-                  <div src='' class="scope-name_text">
+                  <div :class="'scope-name_text'+ (scope.row.guideCount>10?' more':'')" >
                     {{scope.row.guideNames}}
                   </div>
                 </el-tooltip>
@@ -166,7 +166,7 @@ export default List
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 3;
-    &:after {
+    &.more:after {
       content:'...'
     }
   }
