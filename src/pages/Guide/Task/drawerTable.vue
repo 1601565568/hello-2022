@@ -15,31 +15,26 @@
       </div>
       <div class="drawer-info">
         执行导购：
-        <span class="drawer-info__content">20人（ <span class="text-danger">3</span> 人未完成）</span>
+        <span class="drawer-info__content">{{ totalNum }}人（ <span class="text-danger">{{ finishedCount }}</span> 人未完成）</span>
       </div>
       <div class="drawer-table">
         <el-table ref="table" :data="tableData"
                   resizable v-loading.lock="_data._table.loadingtable"
                   style="width: 100%;"
                   :element-loading-text="$t('prompt.loading')" @sort-change="$orderChange$">
-          <el-table-column prop="name"
-                           label="导购" />
-          <el-table-column label="工号" prop="number" />
-          <el-table-column prop="store"
-                           label="门店名称" />
-          <el-table-column align="center"
-                           label="任务状态">
+          <el-table-column prop="name" label="导购" />
+          <el-table-column prop="workId" label="工号"/>
+          <el-table-column prop="shopName" label="门店名称" />
+          <el-table-column align="center" label="任务状态">
             <template slot-scope="scope">
-              <span v-if="scope.row.state === 0" class="text-danger">未完成任务</span>
+              <span v-if="scope.row.state === 2" class="text-danger">未完成任务</span>
               <span v-if="scope.row.state === 1" class="text-info">任务进行中</span>
-              <span v-if="scope.row.state === 2" class="text-success">已完成任务</span>
-              <span v-if="scope.row.state === 3">未开始任务</span>
+              <span v-if="scope.row.state === 3" class="text-success">已完成任务</span>
+              <!-- <span v-if="scope.row.state === 3">未开始任务</span> -->
             </template>
           </el-table-column>
-          <el-table-column align="center" prop="time" width="155"
-                           label="完成时间" />
-          <el-table-column prop="content"
-                           label="反馈" >
+          <el-table-column align="center" prop="completeTime" width="155" label="完成时间" />
+          <el-table-column prop="remark" label="反馈" >
             <template slot-scope="scope">
               <div v-html="scope.row.content" class="table-content" />
             </template>
@@ -57,153 +52,8 @@
 </template>
 
 <script>
-import scrollHeight from '@nascent/ecrp-ecrm/src/mixins/scrollHeight'
-import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
-export default {
-  mixins: [tableMixin, scrollHeight],
-  components: {
-  },
-  data () {
-    const pagination = {
-      enable: true,
-      size: 15,
-      sizeOpts: [15, 25, 50, 100],
-      page: 1,
-      total: 0
-    }
-    const tableButtons = [
-      {
-        func: function () {},
-        icon: '$.noop',
-        name: '查看详情',
-        auth: '',
-        visible: ''
-      }
-    ]
-
-    const model = Object.assign({},
-      {
-        taskType: '',
-        state: '',
-        taskName: ''
-      },
-      {})
-    return {
-      // 页面滚动条内容高度配置
-      scrollBarDeploy: {
-        ref: 'fullScreen', // 页面滚动条ref的名称
-        excludeHeight: 0
-      },
-      model: model,
-      rules: Object.assign({}, {}, {}),
-      url: '',
-      // eslint-disable-next-line vue/no-reserved-keys
-      _pagination: pagination,
-      // eslint-disable-next-line vue/no-reserved-keys
-      _table: {
-        table_buttons: tableButtons,
-        quickSearchMap: {}
-      },
-      // eslint-disable-next-line vue/no-reserved-keys
-      _queryConfig: {
-        expand: false
-      },
-      form: {
-        time: ''
-      },
-      tableData: [{
-        name: '姓名',
-        store: '门店名称',
-        number: 123141241,
-        time: '2020/09/30 10:00:00',
-        content: '浙江省-杭州市-江干区',
-        state: 0
-      }, {
-        name: '姓名',
-        store: '门店名称',
-        number: 123141241,
-        time: '2020/09/30 10:00:00',
-        content: '浙江省-杭州市-江干区',
-        state: 1
-      }, {
-        name: '姓名',
-        store: '门店名称',
-        number: 123141241,
-        time: '2020/09/30 10:00:00',
-        content: '浙江省-杭州市-江干区',
-        state: 2
-      }, {
-        name: '姓名',
-        store: '门店名称',
-        number: 123141241,
-        time: '2020/09/30 10:00:00',
-        content: '<div><img src="https://img.alicdn.com/bao/uploaded/i1/1640288245/TB2uOXzx2uSBuNkHFqDXXXfhVXa_!!1640288245.png_100x100.jpg" alt=""><img src="https://img.alicdn.com/bao/uploaded/i1/1640288245/TB2uOXzx2uSBuNkHFqDXXXfhVXa_!!1640288245.png_100x100.jpg" alt="">反馈的文本内容+图片</div>',
-        state: 3
-      }, {
-        name: '姓名',
-        store: '门店名称',
-        number: 123141241,
-        time: '2020/09/30 10:00:00',
-        content: '浙江省-杭州市-江干区',
-        state: 2
-      }, {
-        name: '姓名',
-        store: '门店名称',
-        number: 123141241,
-        time: '2020/09/30 10:00:00',
-        content: '<div><img src="https://img.alicdn.com/bao/uploaded/i1/1640288245/TB2uOXzx2uSBuNkHFqDXXXfhVXa_!!1640288245.png_100x100.jpg" alt=""><img src="https://img.alicdn.com/bao/uploaded/i1/1640288245/TB2uOXzx2uSBuNkHFqDXXXfhVXa_!!1640288245.png_100x100.jpg" alt="">反馈的文本内容+图片</div>',
-        state: 3
-      }, {
-        name: '姓名',
-        store: '门店名称',
-        number: 123141241,
-        time: '2020/09/30 10:00:00',
-        content: '浙江省-杭州市-江干区',
-        state: 2
-      }, {
-        name: '姓名',
-        store: '门店名称',
-        number: 123141241,
-        time: '2020/09/30 10:00:00',
-        content: '<div><img src="https://img.alicdn.com/bao/uploaded/i1/1640288245/TB2uOXzx2uSBuNkHFqDXXXfhVXa_!!1640288245.png_100x100.jpg" alt=""><img src="https://img.alicdn.com/bao/uploaded/i1/1640288245/TB2uOXzx2uSBuNkHFqDXXXfhVXa_!!1640288245.png_100x100.jpg" alt="">反馈的文本内容+图片</div>',
-        state: 3
-      }, {
-        name: '姓名',
-        store: '门店名称',
-        number: 123141241,
-        time: '2020/09/30 10:00:00',
-        content: '浙江省-杭州市-江干区',
-        state: 2
-      }, {
-        name: '姓名',
-        store: '门店名称',
-        number: 123141241,
-        time: '2020/09/30 10:00:00',
-        content: '<div><img src="https://img.alicdn.com/bao/uploaded/i1/1640288245/TB2uOXzx2uSBuNkHFqDXXXfhVXa_!!1640288245.png_100x100.jpg" alt=""><img src="https://img.alicdn.com/bao/uploaded/i1/1640288245/TB2uOXzx2uSBuNkHFqDXXXfhVXa_!!1640288245.png_100x100.jpg" alt="">反馈的文本内容+图片</div>',
-        state: 3
-      }, {
-        name: '姓名',
-        store: '门店名称',
-        number: 123141241,
-        time: '2020/09/30 10:00:00',
-        content: '浙江省-杭州市-江干区',
-        state: 2
-      }, {
-        name: '姓名',
-        store: '门店名称',
-        number: 123141241,
-        time: '2020/09/30 10:00:00',
-        content: '<div><img src="https://img.alicdn.com/bao/uploaded/i1/1640288245/TB2uOXzx2uSBuNkHFqDXXXfhVXa_!!1640288245.png_100x100.jpg" alt=""><img src="https://img.alicdn.com/bao/uploaded/i1/1640288245/TB2uOXzx2uSBuNkHFqDXXXfhVXa_!!1640288245.png_100x100.jpg" alt="">反馈的文本内容+图片</div>',
-        state: 3
-      }]
-    }
-  },
-  methods: {
-    onSearch () {
-      // console.log('搜索响应')
-    }
-  }
-}
+import drawerVisible from './src/drawerVisible'
+export default drawerVisible
 </script>
 
 <style scoped>

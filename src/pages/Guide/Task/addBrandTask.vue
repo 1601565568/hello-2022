@@ -129,7 +129,7 @@
                       >选择素材</NsButton
                     >
                   </div>
-                  <div class='newTask-content__item catalogue-materials' v-if="selectMaterial">
+                  <div class='newTask-content__item catalogue-materials' v-if="model.materialTitle">
                     <p class='catalogue-materials__content'>
                       {{model.materialTitle}}
                       <!-- <el-input style="width:200px;" disabled v-model="model.materialTitle"></el-input> -->
@@ -137,14 +137,14 @@
                     <div class='catalogue-materials__item--media'>
                       <!-- 视频、图片预览请使用SG项目中组件：NsPreview，可参照实例：https://test-sg.ecrpcloud.com/Guide/Material/Library -->
                       <!-- 展示图片结构 -->
-                      <div class='catalogue-materials__image' v-if="selectMaterial.mType === 1">
-                        <div v-for="(item, index) in selectMaterial.imageList" :key="index">
+                      <div class='catalogue-materials__image' v-if="model.materialType === 1">
+                        <div v-for="(item, index) in model.materialMsg.imageList" :key="index">
                           <img :src='item' />
                         </div>
                       </div>
-                      <div class='catalogue-materials__video' v-if="selectMaterial.mType === 2">
+                      <div class='catalogue-materials__video' v-if="model.materialType === 2">
                         <video
-                          :src='selectMaterial.imageList[0]'
+                          :src='model.materialMsg.imageList[0]'
                           style='width: 60px; height: 107px'
                         >
                           您的浏览器暂不支持播放该视频，请升级至最新版浏览器。
@@ -155,9 +155,9 @@
                           </div>
                         </div>
                       </div>
-                      <div class="catalogue-materials__article" v-if="selectMaterial.mType === 0">
-                        <img :src="selectMaterial.imageList">
-                        <p>{{selectMaterial.title}}</p>
+                      <div class="catalogue-materials__article" v-if="model.materialType === 0">
+                        <img :src="model.materialMsg.imageList[0]">
+                        <p>{{model.materialMsg.title}}</p>
                       </div>
                     </div>
                   </div>

@@ -26,8 +26,9 @@ export default {
     }
     const tableButtons = [
       {
-        func: function () {
+        func: function (data) {
           this.drawerVisible = true
+          this.shopId = data.row.shopId
         },
         icon: '$.noop',
         name: '查看详情',
@@ -80,7 +81,8 @@ export default {
       },
       drawerVisible: false,
       selectMaterial: {},
-      id: null
+      id: null,
+      shopId: null
     }
   },
   methods: {
@@ -102,6 +104,7 @@ export default {
       this.queryTaskShopInfo()
     },
     handleVisibleChange () {
+      this.pagination.start = 0
       this.queryTaskShopInfo()
     },
     queryTimeChange () {
@@ -138,12 +141,13 @@ export default {
               this.taskMsg.materialId = obj.materialId
               this.taskMsg.materialTitle = obj.materialTitle
               this.taskMsg.materialType = obj.materialType
-              this.taskMsg.materialMsg = JSON.parse(obj.materialMsg)
+              this.taskMsg.materialMsg = obj.materialMsg ? JSON.parse(obj.materialMsg) : null
             }
           }
           this.queryTaskShopInfo()
         })
         .catch(resp => {
+          console.log('查看完整任务失败', resp)
           this.$notify.error(getErrorMsg('查看完整任务失败', resp))
           this.$router.push('/Guide/Task/List')
         })

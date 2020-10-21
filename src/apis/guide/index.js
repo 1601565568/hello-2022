@@ -178,6 +178,12 @@ export default {
     url: '/guide/task/queryTask',
     method: 'post'
   },
+  // 查询任务店铺详情列表
+  queryShopTaskDetail: {
+    // 查询品牌任务列表
+    url: '/guide/task/queryShopTaskDetail',
+    method: 'post'
+  },
   taskEdit: {
     // 品牌任务编辑
     url: '/guide/task/saveOrUpdateTask',

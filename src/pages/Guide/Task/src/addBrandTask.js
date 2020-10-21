@@ -199,7 +199,6 @@ export default {
           taskId: parseInt(id)
         })
         .then(resp => {
-          debugger
           if (resp.success) {
             var obj = resp.result
             this.titleText = '编辑任务'
@@ -223,10 +222,10 @@ export default {
             }
             // 素材任务时
             if (obj.materialId) {
-              this.selectMaterial.id = obj.materialId
-              this.selectMaterial.materialTitle = obj.materialTitle
-              this.model.materialId = obj.materialId
               this.model.materialTitle = obj.materialTitle
+              this.model.materialId = obj.materialId
+              this.model.materialType = obj.materialType
+              this.model.materialMsg = obj.materialMsg ? JSON.parse(obj.materialMsg) : {}
             }
           }
         })
