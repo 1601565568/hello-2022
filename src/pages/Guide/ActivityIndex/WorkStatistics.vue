@@ -147,7 +147,13 @@
       </el-table-column>
       <el-table-column label="门店名称" prop="shopName">
       </el-table-column>
-      <el-table-column label="导购招募/还差（人）" align="right" width="150">
+      <el-table-column  align="right" width="155">
+        <template slot="header">
+          导购招募/还差(人)
+          <el-tooltip content="导购在该门店招募会员总数，包括导购端手动添加会员">
+            <Icon type="question-circle"/>
+          </el-tooltip>
+        </template>
       <template slot-scope="scope">
         <span width="220">{{scope.row.recruitComplete}}</span>/<span class="text-error">
           <span v-if="scope.row.recruitQuota-scope.row.recruitComplete<=0">
@@ -160,6 +166,12 @@
       </template>
       </el-table-column>
       <el-table-column label="奖励（元）" prop="recruitPrice" width="150" align="right">
+        <template slot="header">
+          奖励(元)
+          <el-tooltip content="根据该门店奖励规则，导购可获得的招募提成">
+            <Icon type="question-circle"/>
+          </el-tooltip>
+        </template>
         <template slot-scope="scope">
           <span v-if="scope.row.recruitPrice == 0">0.00</span>
           <a href="javascript:" @click="showRecruitDialog(scope.row.guideId, scope.row.name,scope.row.gsShopId)" v-else>{{$numeral(scope.row.recruitPrice).format('0,0.00')}}</a>
@@ -170,6 +182,12 @@
         align="right"
         width="150"
       >
+        <template slot="header">
+          销售额/还差(元)
+          <el-tooltip content="成单导购为该导购的所有交易成功的订单总额（不限制成单门店为该门店）">
+            <Icon type="question-circle"/>
+          </el-tooltip>
+        </template>
       <template slot-scope="scope">
         <span>{{$numeral(scope.row.sellComplete).format('0,0.00')}}</span>/<span class="text-error">
           <span v-if="scope.row.sellQuota-scope.row.sellComplete<=0">-</span>
@@ -178,12 +196,24 @@
       </template>
       </el-table-column>
       <el-table-column label="提成（元）" prop="sellPrice" width="150" align="right">
+        <template slot="header">
+          提成(元)
+          <el-tooltip content="【成单门店为该门店，成单导购为该导购的成单导购提成】+【专属门店为该门店，专属导购为该导购的专属导购提成】">
+            <Icon type="question-circle"/>
+          </el-tooltip>
+        </template>
         <template slot-scope="scope">
           <span v-if="scope.row.sellPrice == 0">0.00</span>
           <a href="javascript:" @click="showSellDialog(scope.row.guideId, scope.row.name,scope.row.gsShopId)" v-else>{{$numeral(scope.row.sellPrice).format('0,0.00')}}</a>
         </template>
       </el-table-column>
       <el-table-column label="导购新加/还差（人）" align="right" width="150">
+        <template slot="header">
+          导购新加/还差(人)
+          <el-tooltip content="导购在该门店新加好友总数，好友多次添加同一名导购微信不会重复计算">
+            <Icon type="question-circle"/>
+          </el-tooltip>
+        </template>
         <template slot-scope="scope">
           <span width="220">{{scope.row.addfriendComplete}}</span>/<span class="text-error">
           <span v-if="scope.row.addfriendQuota-scope.row.addfriendComplete<=0">
@@ -196,6 +226,12 @@
         </template>
       </el-table-column>
       <el-table-column label="奖励（元）" prop="recruitPrice" width="150" align="right">
+        <template slot="header">
+          奖励(元)
+          <el-tooltip content="根据该门店奖励规则，导购可获得的新加好友提成">
+            <Icon type="question-circle"/>
+          </el-tooltip>
+        </template>
         <template slot-scope="scope">
           <span v-if="scope.row.addfriendPrice == 0">0.00</span>
           <a href="javascript:" @click="showAddfriendDialog(scope.row.guideId, scope.row.name,scope.row.gsShopId)" v-else>{{$numeral(scope.row.addfriendPrice).format('0,0.00')}}</a>
