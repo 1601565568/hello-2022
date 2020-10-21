@@ -160,7 +160,8 @@
           <div class='customer-mobile_content' :style='{backgroundImage:"url("+model.backgroundPic+")"}'>
             <div :class='"user-content "+(model.headerType === 0?"vertical":"align")' v-if='model.headPortrait'>
               <!-- <img/> -->
-              <Icon type="icon-huiyuan"  :style='{borderRadius:model.headPortraitShape===1?"4px":"50%"}' class="user-content_img"></Icon>
+              <img :style='{borderRadius:model.headPortraitShape===1?"4px":"50%"}' class="user-content_img" src='./Images/touxiang.png'/>
+              <!-- <Icon type="icon-huiyuan"  :style='{borderRadius:model.headPortraitShape===1?"4px":"50%"}' class="user-content_img"></Icon> -->
               <div class='user-content_name' :style='{color:model.nickColour}'>推广人昵称</div>
             </div>
             <div class='user-content_bg' v-if='!model.backgroundPic'>你还未上传一客一码背景图</div>
