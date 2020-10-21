@@ -495,7 +495,7 @@ export default {
         }
       }
       @e image {
-        margin-right: -6px;
+        margin-right: -5px;
         margin-bottom: -5px;
         img {
           margin: 0 5px 5px 0;
