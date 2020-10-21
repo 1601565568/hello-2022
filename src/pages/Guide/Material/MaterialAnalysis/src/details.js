@@ -83,9 +83,11 @@ export default {
     init () {
       this.$http
         .fetch(this.$api.guide.materialAnalysis.getListById, {
-          startTime: '2020-10-14 20:10:40',
-          endTime: '2020-10-21 20:10:40',
-          materialId: this.$route.params.targetId
+          searchMap: {
+            startTime: '2020-10-14 20:10:40',
+            endTime: '2020-10-21 20:10:40',
+            materialId: this.$route.params.targetId
+          }
         })
         .then(res => {
           console.log(res, 'res')
