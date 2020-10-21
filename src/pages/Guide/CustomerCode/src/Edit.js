@@ -152,7 +152,25 @@ export default {
     },
     // 上传之前钩子
     beforeUpload (file) {
-      this.fileList = [file]
+      // this.fileList = [file]
+      if (file.size / 1024 / 1024 > 1) {
+        this.$notify.error('上传图片不能超过1M')
+        return false
+      }
+      return new Promise((resolve, reject) => {
+        const _URL = window.URL || window.webkitURL
+        const img = new Image()
+        img.src = _URL.createObjectURL(file)
+        img.onload = () => {
+          let valid = img.width === 750 && img.height === 1334
+          if (valid) {
+            this.fileList = [file]
+            resolve(file)
+          } else {
+            this.$notify.error('上传图片尺寸只能是750X1334')
+          }
+        }
+      })
     },
     // 上传完成钩子
     handleUploadSuccess (res) {

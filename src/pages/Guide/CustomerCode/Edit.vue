@@ -207,6 +207,7 @@ export default Edit
   background-color: #fff;
   margin: -10px -10px 0;
   padding: 16px;
+  min-width: 1046px;
   h3 {
     font-size: 16px;
     color: #262626;
