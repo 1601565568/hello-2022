@@ -188,8 +188,8 @@ export default {
         qrcodeSize: model.qrcodeSize,
         qrcodeX: model.qrcodeX,
         qrcodeY: model.qrcodeY,
-        validTimeEnd: model.time[0],
-        validTimeStart: model.time[1],
+        validTimeStart: model.time[0],
+        validTimeEnd: model.time[1],
         validTimeType: model.validTimeType
       }
       const headPosition = this.headPosition[model.headerType]

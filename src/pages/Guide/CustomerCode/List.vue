@@ -166,6 +166,9 @@ export default List
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 3;
+    &:after {
+      content:'...'
+    }
   }
   .scope-name_tag.el-tag {
     &.el-tag--success {
