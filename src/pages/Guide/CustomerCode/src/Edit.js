@@ -221,7 +221,6 @@ export default {
         const regexp = new RegExp('{' + item.id + '}', 'g')
         string = string.replace(regexp, `<wise id="${this.getGuid()}" class="${item.id}">${item.value}</wise>`)
       })
-      console.log(string)
       return string
     },
     // 生成随机ID
