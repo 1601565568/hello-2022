@@ -22,10 +22,10 @@
                   resizable v-loading.lock="_data._table.loadingtable"
                   style="width: 100%;"
                   :element-loading-text="$t('prompt.loading')" @sort-change="$orderChange$">
-          <el-table-column prop="name" label="导购" />
-          <el-table-column prop="workId" label="工号"/>
-          <el-table-column prop="shopName" label="门店名称" />
-          <el-table-column align="center" label="任务状态">
+          <el-table-column prop="name" label="导购" width="100px"/>
+          <el-table-column prop="workId" label="工号" width="120px"/>
+          <el-table-column prop="shopName" label="门店名称" width="120px" />
+          <el-table-column align="center" label="任务状态" width="120px">
             <template slot-scope="scope">
               <span v-if="scope.row.state === 2" class="text-danger">未完成任务</span>
               <span v-if="scope.row.state === 1" class="text-info">任务进行中</span>
@@ -33,10 +33,18 @@
               <!-- <span v-if="scope.row.state === 3">未开始任务</span> -->
             </template>
           </el-table-column>
-          <el-table-column align="center" prop="completeTime" width="155" label="完成时间" />
-          <el-table-column prop="remark" label="反馈" >
+          <el-table-column align="center" prop="completeTime" label="完成时间" width="180px"/>
+          <el-table-column prop="remark" label="反馈">
             <template slot-scope="scope">
-              <div v-html="scope.row.content" class="table-content" />
+              <!-- <div v-html="scope.row.content" class="table-content" /> -->
+              <div class="remake-warpper">
+               <div>{{scope.row.remark}}</div>
+              <template v-if="scope.row && scope.row.urlJson">
+                <div v-for="(item,index) in scope.row.urlJson.split(',')" :key="index">
+                  <img :src="item" class="urkJsonimage" />
+                </div>
+              </template>
+              </div>
             </template>
           </el-table-column>
         </el-table>
@@ -132,5 +140,15 @@ export default drawerVisible
     padding: 16px;
     box-shadow: none;
   }
+}
+.urkJsonimage{
+  width: 50px;
+  height: 50px;
+  margin: 5px;
+  object-fit: cover;
+}
+.remake-warpper {
+  display: flex;
+  align-items: center;
 }
 </style>

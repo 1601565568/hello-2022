@@ -34,7 +34,7 @@
             {{ taskMsg.remark }}
           </div>
         </div>
-        <div class="taskOverview-materials__info">
+        <div class="taskOverview-materials__info" v-if="taskMsg.materialId != null">
           <p class="taskOverview-materials__info-content">
             {{ taskMsg.materialTitle }}
           </p>
@@ -170,7 +170,7 @@
     </div>
     <el-drawer
       title=""
-      size="800px"
+      size="1000px"
       :visible.sync="drawerVisible"
       direction="rtl">
       <drawerTable :id='id' :shopId='shopId'/>

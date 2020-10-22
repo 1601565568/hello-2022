@@ -62,7 +62,7 @@ export default {
         subgroupName: '',
         materialTitle: '', // 素材库标题
         materialType: '', // 素材类型 1图片 2视频 0 文章
-        materialMsg: {} // 素材库内容
+        materialMsg: null // 素材库内容
       },
       rules: {
         name: [
@@ -211,8 +211,12 @@ export default {
             this.model.activityTime.push(new Date(obj.endTime))
             this.model.viewId = obj.viewId
             this.model.subgroupId = obj.subgroupId
-            this.chooseView(obj.viewId)
-            this.chooseSubgroup(obj.subgroupId)
+            if (obj.viewId) {
+              this.chooseView(obj.viewId)
+            }
+            if (obj.subgroupId) {
+              this.chooseSubgroup(obj.subgroupId)
+            }
             // 指定门店
             if (obj.targetIds === '0') {
               this.model.shopRangeType = 0
@@ -225,7 +229,7 @@ export default {
               this.model.materialTitle = obj.materialTitle
               this.model.materialId = obj.materialId
               this.model.materialType = obj.materialType
-              this.model.materialMsg = obj.materialMsg ? JSON.parse(obj.materialMsg) : {}
+              this.model.materialMsg = obj.materialMsg ? JSON.parse(obj.materialMsg) : null
             }
           }
         })
