@@ -93,35 +93,42 @@
                     :data="_data._table.data"
                     v-loading.lock="_data._table.loadingtable"
                     :element-loading-text="$t('prompt.loading')"
+                    @sort-change="sortChange"
+                    @selection-change="$selectionChange"
                 >
                     <el-table-column
                         prop="name"
                         label="员工"
                         align="left"
+                        :sortable="false"
                     >
                     </el-table-column>
                     <el-table-column
                         prop="guideId"
                         label="工号"
                         align="left"
+                        :sortable="false"
                     >
                     </el-table-column>
                     <el-table-column
                         prop="workShopName"
                         label="门店名称"
                         align="left"
+                        :sortable="false"
                     >
                     </el-table-column>
                     <el-table-column
                         prop="countNum"
                         label="页面访问次数"
                         align="right"
+                        :sortable="true"
                     >
                     </el-table-column>
                     <el-table-column
                         prop="avgVisitTime"
                         label="平均访问时长"
                         align="right"
+                        :sortable="true"
                     >
                     </el-table-column>
                 </el-table>

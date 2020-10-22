@@ -143,6 +143,14 @@ export default {
       this.model.guideId = this.model.guideId.join(',')
       this.handleSearch()
     },
+    sortChange (data) {
+      let order = data.order
+      let prop = data.prop
+      this.model.isDesc = order === 'descending' ? 0 : order === 'ascending' ? 1 : 0
+      this.model.orderType =
+        prop === 'countNum' ? 1 : 2
+      this.handleSearch()
+    },
     handleSearch () {
       this.$search({ searchMap: { ...this.model } })
     },
