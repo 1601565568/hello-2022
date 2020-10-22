@@ -149,7 +149,7 @@
                         :sortable="false"
                     >
                      <template slot-scope="scope">
-                        <span>{{scope.row.m_type===0?'文章素材': scope.row.m_type === 1 ? '图文素材': '视频素材'}}</span>
+                        <span>{{scope.row.m_type===0?'文章素材': scope.row.m_type === 1 ? '图文素材': scope.row.m_type === 2 ? '视频素材' : '--'}}</span>
                     </template>
                      </el-table-column>
                     <el-table-column
