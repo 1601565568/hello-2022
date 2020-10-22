@@ -1,115 +1,43 @@
 <template>
     <div>
         <ns-page-table :colButton="14">
-            <!-- 快捷搜索 -->
-            <template slot="searchSearch">
-                <el-form
-                    :model="searchform"
-                    :inline="true"
-                    @submit.native.prevent
-                    class="pull-right"
-                >
-                    <el-form-item v-if="!quickObj.expanded">
-                        <el-input
-                            v-model="searchform.materialTitle"
-                            placeholder="请输入素材标题"
-                            @keyup.enter.native="handleSearch"
-                        >
-                        </el-input>
-                    </el-form-item>
-                    <el-form-item>
-                        <ns-button
-                            type="text"
-                            @click="handleSearchType"
-                        >
-                            {{quickObj.collapseText}}
-                            <Icon :type="quickObj.expanded ? 'up' : 'down'" />
-                        </ns-button>
-                    </el-form-item>
-                </el-form>
-            </template>
             <!-- 高级搜索 -->
             <template
                 slot="advancedSearch"
-                v-if="quickObj.expanded"
             >
-                <el-form
-                    :model="searchform"
-                    :inline="true"
-                    @submit.native.prevent
-                    class="pull-right"
-                >
-                    <el-form-item label="日期：">
-                        <el-date-picker
-                            v-model="time"
-                            value-format="yyyy-MM-dd HH:mm:ss"
-                            type="datetimerange"
-                            :picker-options="pickerOptions"
-                            range-separator="至"
-                            start-placeholder="开始日期"
-                            end-placeholder="结束日期"
-                            align="left"
-                            @change="formatTime()"
-                        >
-                        <!-- v-model="searchform.startTime" -->
-                        </el-date-picker>
-                    </el-form-item>
-                    <el-form-item label="选择员工：">
-
-                    </el-form-item>
-                    <el-form-item label="素材类型：">
-                        <el-select
-                            v-model="searchform.value"
-                            placeholder="请选择"
-                        >
-                            <el-option
-                                v-for="item in options"
-                                :key="item.value"
-                                :label="item.label"
-                                :value="item.value"
+                <div class="detailsWarpper">
+                    <el-form
+                        :model="model"
+                        :inline="true"
+                        @submit.native.prevent
+                        class="pull-right"
+                    >
+                        <el-form-item label="日期：">
+                            <el-date-picker
+                                v-model="time"
+                                value-format="yyyy-MM-dd HH:mm:ss"
+                                type="datetimerange"
+                                :picker-options="pickerOptions"
+                                range-separator="至"
+                                start-placeholder="开始日期"
+                                end-placeholder="结束日期"
+                                align="left"
+                                @change="formatTime()"
                             >
-                            </el-option>
-                        </el-select>
-                    </el-form-item>
-                    <el-form-item label="文件夹：">
-                        <el-select
-                            v-model="searchform.value"
-                            placeholder="请选择"
-                        >
-                            <el-option
-                                v-for="item in options"
-                                :key="item.value"
-                                :label="item.label"
-                                :value="item.value"
-                            >
-                            </el-option>
-                        </el-select>
-                    </el-form-item>
-                    <el-form-item label="标签：">
-                        <el-select
-                            v-model="searchform.value"
-                            placeholder="请选择"
-                        >
-                            <el-option
-                                v-for="item in options"
-                                :key="item.value"
-                                :label="item.label"
-                                :value="item.value"
-                            >
-                            </el-option>
-                        </el-select>
-                    </el-form-item>
-                    <el-form-item label="素材标题：">
-                        <el-input
-                            v-model="searchform.materialTitle"
-                            placeholder="请输入素材标题"
-                            @keyup.enter.native="handleSearch"
-                        ></el-input>
-                    </el-form-item>
-                    <el-form-item>
-                      <ns-button>导出CSV文件</ns-button>
-                    </el-form-item>
-                </el-form>
+                            <!-- v-model="model.startTime" -->
+                            </el-date-picker>
+                        </el-form-item>
+                        <el-form-item label="选择员工：">
+                            <div style="display:flex">
+                                <NsGuideDialog :auth="false" @input="NsGuideDialog()" type="primary" btnTitle="选择员工" dialogTitle="选择员工" v-model="model.guideId">
+                                </NsGuideDialog>
+                                <span>已选择{{model.guideId? model.guideId.split(',').length: 0}}个员工</span>
+                            </div>
+                        </el-form-item>
+                    </el-form>
+                    <ns-button @click="exportData('/materialAnalysis/listDetailExcelById')">导出员工明细CSV文件</ns-button>
+                    <ns-button @click="exportData('/materialAnalysis/listExcelById')">导出CSV文件</ns-button>
+                </div>
             </template>
             <template slot="table">
                 <el-table
@@ -124,26 +52,34 @@
                     row-key="id"
                     @selection-change="$selectionChange"
                 >
-                    <!-- <el-table-column
-                        type="selection"
-                        align="right"
-                        :width="50"
-                    ></el-table-column> -->
                     <el-table-column
                         type="default"
-                        prop="title"
-                        label="素材标题"
+                        prop="name"
+                        label="员工"
                         :sortable="false"
                     />
                      <el-table-column
                         type="default"
-                        prop="type"
-                        label="素材类型"
+                        prop="guideId"
+                        label="工号"
                         :sortable="false"
                     />
                     <el-table-column
                         type="default"
-                        prop="downLoad"
+                        prop="workShopName"
+                        label="门店名称"
+                        :sortable="false"
+                    />
+                    <el-table-column
+                        v-if="employeeIdShow === 2"
+                        type="default"
+                        prop="employeeId"
+                        label="设备MEID"
+                        :sortable="false"
+                    />
+                    <el-table-column
+                        type="default"
+                        prop="downloadCount"
                         label="下载次数"
                         :sortable="true"
                     >
@@ -158,7 +94,7 @@
                     </el-table-column>
                      <el-table-column
                         type="default"
-                        prop="send"
+                        prop="sendCount"
                         label="发送次数"
                         :sortable="true"
                     >
@@ -173,8 +109,8 @@
                     </el-table-column>
                     <el-table-column
                         type="default"
-                        prop="share"
-                        label="转发次数"
+                        prop="shareCount"
+                        label="分享次数"
                         :sortable="true"
                     >
                     <template slot='header' scope='header'>
@@ -186,16 +122,6 @@
                         </span>
                     </template>
                     </el-table-column>
-                     <el-table-column
-                        type="default"
-                        prop="title"
-                        label="操作"
-                        :sortable="false"
-                    >
-                    <template slot-scope="scope">
-                        <ns-button type="text" @click="toggleLabel(scope.row)">查看明细</ns-button>
-                    </template>
-                     </el-table-column>
                 </el-table>
             </template>
             <template slot="pagination">
@@ -221,5 +147,8 @@ export default Index
 </script>
 
 <style scoped>
-
+.detailsWarpper {
+    display: flex;
+    width: 100%;
+}
 </style>

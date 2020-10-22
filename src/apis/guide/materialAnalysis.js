@@ -10,5 +10,9 @@ export default {
   getListById: {
     url: '/materialAnalysis/getListById',
     method: 'post'
+  },
+  getMemberManagePlan: {
+    url: '/core/common/getMemberManagePlan',
+    method: 'get'
   }
 }

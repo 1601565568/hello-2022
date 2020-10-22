@@ -58,7 +58,7 @@
                         <div style="display:flex">
                             <NsGuideDialog :auth="false" @input="NsGuideDialog()" type="primary" btnTitle="选择员工" dialogTitle="选择员工" v-model="model.guideId">
                             </NsGuideDialog>
-                            <span>已选择{{model.guideId? model.guideId.length: 0}}个员工</span>
+                            <span>已选择{{model.guideId? model.guideId.split(',').length: 0}}个员工</span>
                         </div>
                     </el-form-item>
                     <el-form-item label="素材类型：">

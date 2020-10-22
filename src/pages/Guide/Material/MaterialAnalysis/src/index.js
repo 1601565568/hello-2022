@@ -15,6 +15,9 @@ export default {
         collapseText: '展开搜索'
       },
       pickerOptions: {
+        disabledDate (time) {
+          return time.getTime() > Date.now()
+        },
         shortcuts: [
           {
             text: '最近一周',
@@ -47,15 +50,15 @@ export default {
       },
       materialTypeList: [
         {
-          value: 1,
+          value: '1',
           label: '图文素材'
         },
         {
-          value: 2,
+          value: '2',
           label: '视频素材'
         },
         {
-          value: 0,
+          value: '0',
           label: '文章素材'
         }
       ],
@@ -93,8 +96,7 @@ export default {
         start.getTime() - 3600 * 1000 * 24 * 7
       ).format('YYYY-MM-DD HH:mm:ss')
       this.model.endTime = moment(end.getTime()).format('YYYY-MM-DD HH:mm:ss')
-      this.time[0] = this.model.startTime
-      this.time[1] = this.model.endTime
+      this.time = [this.model.startTime, this.model.endTime]
       this.$reload()
       this.getfindSubdivisionList()
       this.getDirectoryTree()
@@ -188,17 +190,16 @@ export default {
     },
     NsGuideDialog () {
       this.model.guideId = this.model.guideId.join(',')
-      console.log('this.model.guideId', this.model.guideId)
+      this.handleSearch()
     },
     // table表格排序
     sortChange (data) {
       let order = data.order
       let prop = data.prop
+      this.model.isDesc = order === 'descending' ? 0 : order === 'ascending' ? 1 : 0
       // 排序方式 1下载 2发送 3 转发
-      this.model.isDesc = order === 'ascending' ? 1 : 0
       this.model.orderType =
         prop === 'sendCount' ? 2 : prop === 'shareCount' ? 3 : 1
-      console.log('order', data)
       this.handleSearch()
     },
     // 操作
@@ -208,38 +209,28 @@ export default {
       })
     },
     exportData () {
-      this.$http
-        .fetch(this.$api.guide.materialAnalysis.listExcel, {
-          endTime: this.model.endTime,
-          startTime: this.model.startTime
-        })
-        .then(res => {
-          console.log(res)
-        })
-      // var url = API_ROOT + '/materialAnalysis/listExcel'
-      // var form = document.createElement('form')
-      // form.appendChild(this.generateHideElement('startTime', this.model.startTime))
-      // form.appendChild(this.generateHideElement('endTime', this.model.endTime))
-      // form.appendChild(this.generateHideElement('guideId', this.model.guideId))
-      // form.appendChild(this.generateHideElement('materialType', this.model.materialType))
-      // form.appendChild(this.generateHideElement('materialTitle', this.model.materialTitle))
-      // form.appendChild(this.generateHideElement('folderId', this.model.folderId))
-      // form.appendChild(this.generateHideElement('tagId', this.model.tagId))
-      // form.appendChild(this.generateHideElement('orderType', this.model.orderType))
-      // form.appendChild(this.generateHideElement('isDesc', this.model.isDesc))
-      // form.appendChild(this.generateHideElement('tagId', this.model.tagId))
-      // form.setAttribute('action', url)
-      // form.setAttribute('method', 'post')
-      // document.body.appendChild(form)
-      // form.submit()
-      console.log('导出')
+      var url = API_ROOT + '/materialAnalysis/listExcel'
+      var form = document.createElement('form')
+      form.appendChild(this.generateHideElement('startTime', this.model.startTime))
+      form.appendChild(this.generateHideElement('endTime', this.model.endTime))
+      form.appendChild(this.generateHideElement('guideId', this.model.guideId))
+      form.appendChild(this.generateHideElement('materialType', this.model.materialType))
+      form.appendChild(this.generateHideElement('materialTitle', this.model.materialTitle))
+      form.appendChild(this.generateHideElement('folderId', this.model.folderId))
+      form.appendChild(this.generateHideElement('tagId', this.model.tagId))
+      form.appendChild(this.generateHideElement('orderType', this.model.orderType))
+      form.appendChild(this.generateHideElement('isDesc', this.model.isDesc))
+      form.setAttribute('action', url)
+      form.setAttribute('method', 'get')
+      document.body.appendChild(form)
+      form.submit()
+    },
+    generateHideElement (name, value) {
+      var tempInput = document.createElement('input')
+      tempInput.type = 'hidden'
+      tempInput.name = name
+      tempInput.value = value
+      return tempInput
     }
-    // generateHideElement (name, value) {
-    //   var tempInput = document.createElement('input')
-    //   tempInput.type = 'hidden'
-    //   tempInput.name = name
-    //   tempInput.value = value
-    //   return tempInput
-    // }
   }
 }

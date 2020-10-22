@@ -1,15 +1,17 @@
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
+import moment from 'moment'
+import NsGuideDialog from '@/components/NsGuideDialog'
+import { API_ROOT } from '@/config/http.js'
 export default {
   mixins: [tableMixin],
+  components: { NsGuideDialog },
   data () {
     return {
-      // 快速搜索
-      quickObj: {
-        expanded: false,
-        searchKey: 'name',
-        collapseText: '展开搜索'
-      },
+      url: this.$api.guide.materialAnalysis.getListById,
       pickerOptions: {
+        disabledDate (time) {
+          return time.getTime() > Date.now()
+        },
         shortcuts: [
           {
             text: '最近一周',
@@ -40,40 +42,16 @@ export default {
           }
         ]
       },
-      options: [
-        {
-          value: '选项1',
-          label: '黄金糕'
-        },
-        {
-          value: '选项2',
-          label: '双皮奶'
-        },
-        {
-          value: '选项3',
-          label: '蚵仔煎'
-        },
-        {
-          value: '选项4',
-          label: '龙须面'
-        },
-        {
-          value: '选项5',
-          label: '北京烤鸭'
-        }
-      ],
-      searchform: {
+      model: {
         startTime: '',
         endTime: '',
+        materialId: this.$route.params.targetId,
         guideId: null,
-        materialType: null, // 素材类型
-        materialTitle: '', // 素材标题
-        folderId: null, // 文件夹
-        tagId: null, // 标签
         orderType: 1, // 排序方式 1下载 2发送 3 转发
         isDesc: 0 // 是否倒叙  0正序，1倒序
       },
-      time: ''
+      time: [],
+      employeeIdShow: 1 // 1 企微  2个号
     }
   },
   mounted () {
@@ -81,31 +59,32 @@ export default {
   },
   methods: {
     init () {
+      const end = new Date()
+      const start = new Date()
+      this.model.startTime = moment(
+        start.getTime() - 3600 * 1000 * 24 * 7
+      ).format('YYYY-MM-DD HH:mm:ss')
+      this.model.endTime = moment(end.getTime()).format('YYYY-MM-DD HH:mm:ss')
+      this.time = [this.model.startTime, this.model.endTime]
+      this.getMemberManagePlan()
+      this.$reload()
+    },
+    getMemberManagePlan () {
       this.$http
-        .fetch(this.$api.guide.materialAnalysis.getListById, {
-          searchMap: {
-            startTime: '2020-10-14 20:10:40',
-            endTime: '2020-10-21 20:10:40',
-            materialId: this.$route.params.targetId
+        .fetch(this.$api.guide.materialAnalysis.getMemberManagePlan)
+        .then(res => {
+          if (res.success) {
+            this.employeeIdShow = res.result
+          } else {
+            this.$notify.error('获取系统方案失败')
           }
         })
-        .then(res => {
-          console.log(res, 'res')
+        .catch(err => {
+          this.$notify.error('获取系统方案失败' + err)
         })
     },
-    /**
-     * 搜索模式切换
-     */
-    handleSearchType () {
-      const { expanded } = this.quickObj
-      this.quickObj = {
-        ...this.quickObj,
-        expanded: !expanded,
-        collapseText: expanded ? '展开搜索' : '收起搜索'
-      }
-    },
     handleSearch () {
-      console.log('searchform', this.searchform)
+      this.$search({ searchMap: { ...this.model } })
     },
     formatTime () {
       this.searchform = {
@@ -113,13 +92,44 @@ export default {
         startTime: this.time[0],
         endTime: this.time[1]
       }
+      console.log(this.time)
       this.handleSearch()
     },
     // table表格排序
     sortChange (data) {
       let order = data.order
-      this.searchform.isDesc = order === 'ascending' ? 0 : 1
+      let prop = data.prop
+      this.model.isDesc = order === 'descending' ? 0 : order === 'ascending' ? 1 : 0
+      // 排序方式 1下载 2发送 3 转发
+      this.model.orderType =
+        prop === 'sendCount' ? 2 : prop === 'shareCount' ? 3 : 1
       this.handleSearch()
+    },
+    NsGuideDialog () {
+      this.model.guideId = this.model.guideId.join(',')
+      this.handleSearch()
+    },
+
+    exportData (urlLink) {
+      var url = API_ROOT + urlLink
+      var form = document.createElement('form')
+      form.appendChild(this.generateHideElement('startTime', this.model.startTime))
+      form.appendChild(this.generateHideElement('endTime', this.model.endTime))
+      form.appendChild(this.generateHideElement('materialId', this.model.materialId))
+      form.appendChild(this.generateHideElement('guideId', this.model.guideId))
+      form.appendChild(this.generateHideElement('orderType', this.model.orderType))
+      form.appendChild(this.generateHideElement('isDesc', this.model.isDesc))
+      form.setAttribute('action', url)
+      form.setAttribute('method', 'get')
+      document.body.appendChild(form)
+      form.submit()
+    },
+    generateHideElement (name, value) {
+      var tempInput = document.createElement('input')
+      tempInput.type = 'hidden'
+      tempInput.name = name
+      tempInput.value = value
+      return tempInput
     }
   }
 }
