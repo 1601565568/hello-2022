@@ -50,6 +50,10 @@ export default {
       },
       materialTypeList: [
         {
+          value: '',
+          label: '全部'
+        },
+        {
           value: '1',
           label: '图文素材'
         },
@@ -76,7 +80,7 @@ export default {
       },
       time: [],
       url: this.$api.guide.materialAnalysis.getList,
-      materialGroudList: [],
+      materialGroudList: [{ subdivisionId: '', subdivisionName: '全部' }],
       materialGroudListParms: {
         length: 15,
         searchMap: { subdivisionName: '' },
@@ -133,7 +137,7 @@ export default {
         .fetch(this.$api.guide.getDirectoryTree)
         .then(res => {
           if (res.success) {
-            const arr = []
+            const arr = [{ id: '', label: '全部' }]
             this.getDirectoryTreeList(arr, res.result)
             this.directoryTreeList = arr
           } else {
@@ -196,10 +200,11 @@ export default {
     sortChange (data) {
       let order = data.order
       let prop = data.prop
-      this.model.isDesc = order === 'descending' ? 0 : order === 'ascending' ? 1 : 0
+      this.model.isDesc =
+        order === 'descending' ? '0' : order === 'ascending' ? '1' : '0'
       // 排序方式 1下载 2发送 3 转发
       this.model.orderType =
-        prop === 'sendCount' ? 2 : prop === 'shareCount' ? 3 : 1
+        prop === 'sendCount' ? '2' : prop === 'shareCount' ? '3' : '1'
       this.handleSearch()
     },
     // 操作
@@ -211,14 +216,24 @@ export default {
     exportData () {
       var url = API_ROOT + '/materialAnalysis/listExcel'
       var form = document.createElement('form')
-      form.appendChild(this.generateHideElement('startTime', this.model.startTime))
+      form.appendChild(
+        this.generateHideElement('startTime', this.model.startTime)
+      )
       form.appendChild(this.generateHideElement('endTime', this.model.endTime))
       form.appendChild(this.generateHideElement('guideId', this.model.guideId))
-      form.appendChild(this.generateHideElement('materialType', this.model.materialType))
-      form.appendChild(this.generateHideElement('materialTitle', this.model.materialTitle))
-      form.appendChild(this.generateHideElement('folderId', this.model.folderId))
+      form.appendChild(
+        this.generateHideElement('materialType', this.model.materialType)
+      )
+      form.appendChild(
+        this.generateHideElement('materialTitle', this.model.materialTitle)
+      )
+      form.appendChild(
+        this.generateHideElement('folderId', this.model.folderId)
+      )
       form.appendChild(this.generateHideElement('tagId', this.model.tagId))
-      form.appendChild(this.generateHideElement('orderType', this.model.orderType))
+      form.appendChild(
+        this.generateHideElement('orderType', this.model.orderType)
+      )
       form.appendChild(this.generateHideElement('isDesc', this.model.isDesc))
       form.setAttribute('action', url)
       form.setAttribute('method', 'get')

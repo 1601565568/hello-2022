@@ -98,10 +98,10 @@ export default {
     sortChange (data) {
       let order = data.order
       let prop = data.prop
-      this.model.isDesc = order === 'descending' ? 0 : order === 'ascending' ? 1 : 0
+      this.model.isDesc = order === 'descending' ? '0' : order === 'ascending' ? '1' : '0'
       // 排序方式 1下载 2发送 3 转发
       this.model.orderType =
-        prop === 'sendCount' ? 2 : prop === 'shareCount' ? 3 : 1
+        prop === 'sendCount' ? '2' : prop === 'shareCount' ? '3' : '1'
       this.handleSearch()
     },
     NsGuideDialog () {

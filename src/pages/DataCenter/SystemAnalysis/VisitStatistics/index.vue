@@ -66,15 +66,27 @@
             </div>
             <div class="content-box survey-box">
                 <div class="survey-box_list buleColor">
-                    <div class="survey-box_list_title">访问用户数</div>
+                    <div class="survey-box_list_title">访问用户数
+                        <el-tooltip content="员工在小程序下载素材的次数">
+                        <Icon type="question-circle"/>
+                        </el-tooltip>
+                    </div>
                     <div class="survey-box_list_number">{{overviewdata.guideNum || 0}}</div>
                 </div>
                 <div class="survey-box_list greenColor">
-                    <div class="survey-box_list_title">页面访问次数</div>
+                    <div class="survey-box_list_title">页面访问次数
+                        <el-tooltip content="员工在小程序下载素材的次数">
+                        <Icon type="question-circle"/>
+                        </el-tooltip>
+                    </div>
                     <div class="survey-box_list_number">{{overviewdata.visitNum || 0}}</div>
                 </div>
                 <div class="survey-box_list yellowColor">
-                    <div class="survey-box_list_title">平均访问时长</div>
+                    <div class="survey-box_list_title">平均访问时长
+                        <el-tooltip content="员工在小程序下载素材的次数">
+                        <Icon type="question-circle"/>
+                        </el-tooltip>
+                    </div>
                     <div class="survey-box_list_number">{{overviewdata.avgtime || '---'}}</div>
                 </div>
             </div>
