@@ -30,8 +30,9 @@
                 </el-form-item>
                 <el-form-item label="使用系统端：">
                     <el-select
-                        v-model="model.staff"
+                        v-model="model.systemFrom"
                         placeholder="请选择"
+                        @change="handleSearch()"
                     >
                         <el-option
                             v-for="item in systemFrom"
@@ -46,6 +47,7 @@
                     <el-select
                         v-model="model.pageForm"
                         placeholder="请选择"
+                        @change="handleSearch()"
                     >
                         <el-option
                             v-for="item in pageList"
@@ -65,11 +67,11 @@
             <div class="content-box survey-box">
                 <div class="survey-box_list buleColor">
                     <div class="survey-box_list_title">访问用户数</div>
-                    <div class="survey-box_list_number">{{overviewdata.visitNum || 0}}</div>
+                    <div class="survey-box_list_number">{{overviewdata.guideNum || 0}}</div>
                 </div>
                 <div class="survey-box_list greenColor">
                     <div class="survey-box_list_title">页面访问次数</div>
-                    <div class="survey-box_list_number">{{overviewdata.guideNum || 0}}</div>
+                    <div class="survey-box_list_number">{{overviewdata.visitNum || 0}}</div>
                 </div>
                 <div class="survey-box_list yellowColor">
                     <div class="survey-box_list_title">平均访问时长</div>
