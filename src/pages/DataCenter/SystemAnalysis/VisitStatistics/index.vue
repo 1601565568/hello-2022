@@ -67,7 +67,7 @@
             <div class="content-box survey-box">
                 <div class="survey-box_list buleColor">
                     <div class="survey-box_list_title">访问用户数
-                        <el-tooltip content="员工在小程序下载素材的次数">
+                        <el-tooltip content="筛选周期内，一个用户访问多次仅计算为一个用户">
                         <Icon type="question-circle"/>
                         </el-tooltip>
                     </div>
@@ -75,7 +75,7 @@
                 </div>
                 <div class="survey-box_list greenColor">
                     <div class="survey-box_list_title">页面访问次数
-                        <el-tooltip content="员工在小程序下载素材的次数">
+                        <el-tooltip content="筛选周期内，用户访问多次计算为多次访问">
                         <Icon type="question-circle"/>
                         </el-tooltip>
                     </div>
@@ -83,7 +83,7 @@
                 </div>
                 <div class="survey-box_list yellowColor">
                     <div class="survey-box_list_title">平均访问时长
-                        <el-tooltip content="员工在小程序下载素材的次数">
+                        <el-tooltip content="筛选周期内，页面访问总时长/页面访问次数，进入页面的开始时间至结束时间即为页面访问时长">
                         <Icon type="question-circle"/>
                         </el-tooltip>
                     </div>

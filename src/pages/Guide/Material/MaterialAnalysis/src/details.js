@@ -30,16 +30,16 @@ export default {
               start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
               picker.$emit('pick', [start, end])
             }
-          },
-          {
-            text: '最近三个月',
-            onClick (picker) {
-              const end = new Date()
-              const start = new Date()
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 90)
-              picker.$emit('pick', [start, end])
-            }
           }
+          // {
+          //   text: '最近三个月',
+          //   onClick (picker) {
+          //     const end = new Date()
+          //     const start = new Date()
+          //     start.setTime(start.getTime() - 3600 * 1000 * 24 * 90)
+          //     picker.$emit('pick', [start, end])
+          //   }
+          // }
         ]
       },
       model: {
@@ -47,8 +47,8 @@ export default {
         endTime: '',
         materialId: this.$route.params.targetId,
         guideId: null,
-        orderType: 1, // 排序方式 1下载 2发送 3 转发
-        isDesc: 0 // 是否倒叙  0正序，1倒序
+        orderType: '1', // 排序方式 1下载 2发送 3 转发
+        isDesc: '0' // 是否倒叙  0正序，1倒序
       },
       time: [],
       employeeIdShow: 1 // 1 企微  2个号
