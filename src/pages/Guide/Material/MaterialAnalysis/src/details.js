@@ -92,7 +92,6 @@ export default {
         startTime: this.time[0],
         endTime: this.time[1]
       }
-      console.log(this.time)
       this.handleSearch()
     },
     // table表格排序

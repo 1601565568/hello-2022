@@ -4,43 +4,37 @@
             <el-form
                 class="fixbox"
                 ref="form"
-                :model="form"
+                :model="model"
                 label-width="80px"
             >
                 <el-form-item label="日期：">
                     <el-date-picker
-                        v-model="form.data"
-                        type="daterange"
-                        align="right"
-                        unlink-panels
+                        v-model="time"
+                        value-format="yyyy-MM-dd HH:mm:ss"
+                        type="datetimerange"
+                        :picker-options="pickerOptions"
                         range-separator="至"
                         start-placeholder="开始日期"
                         end-placeholder="结束日期"
-                        :picker-options="pickerOptions"
+                        align="left"
+                        @change="formatTime()"
                     >
                     </el-date-picker>
                 </el-form-item>
                 <el-form-item label="选择员工：">
-                    <el-select
-                        v-model="form.staff"
-                        placeholder="请选择"
-                    >
-                        <el-option
-                            v-for="item in options"
-                            :key="item.value"
-                            :label="item.label"
-                            :value="item.value"
-                        >
-                        </el-option>
-                    </el-select>
+                    <div style="display:flex">
+                        <NsGuideDialog :auth="false" @input="NsGuideDialog()" type="primary" btnTitle="选择员工" dialogTitle="选择员工" v-model="model.guideId">
+                        </NsGuideDialog>
+                        <span>已选择{{model.guideId? model.guideId.split(',').length: 0}}个员工</span>
+                    </div>
                 </el-form-item>
                 <el-form-item label="使用系统端：">
                     <el-select
-                        v-model="form.staff"
+                        v-model="model.staff"
                         placeholder="请选择"
                     >
                         <el-option
-                            v-for="item in options"
+                            v-for="item in systemFrom"
                             :key="item.value"
                             :label="item.label"
                             :value="item.value"
@@ -50,11 +44,11 @@
                 </el-form-item>
                 <el-form-item label="访问页面：">
                     <el-select
-                        v-model="form.staff"
+                        v-model="model.pageForm"
                         placeholder="请选择"
                     >
                         <el-option
-                            v-for="item in options"
+                            v-for="item in pageList"
                             :key="item.value"
                             :label="item.label"
                             :value="item.value"
@@ -71,15 +65,15 @@
             <div class="content-box survey-box">
                 <div class="survey-box_list buleColor">
                     <div class="survey-box_list_title">访问用户数</div>
-                    <div class="survey-box_list_number">90</div>
+                    <div class="survey-box_list_number">{{overviewdata.visitNum || 0}}</div>
                 </div>
                 <div class="survey-box_list greenColor">
                     <div class="survey-box_list_title">页面访问次数</div>
-                    <div class="survey-box_list_number">90</div>
+                    <div class="survey-box_list_number">{{overviewdata.guideNum || 0}}</div>
                 </div>
                 <div class="survey-box_list yellowColor">
                     <div class="survey-box_list_title">平均访问时长</div>
-                    <div class="survey-box_list_number">90</div>
+                    <div class="survey-box_list_number">{{overviewdata.avgtime || '---'}}</div>
                 </div>
             </div>
         </div>
@@ -87,8 +81,8 @@
             <div class="title-box">
                 <div class="survey_title">员工访问统计</div>
                 <div>
-                    <ns-button>导出员工明细CSV文件</ns-button>
-                    <ns-button>导出CSV文件</ns-button>
+                    <ns-button @click="exportData('/staffVisitStatistics/listExcelForGuide')">导出员工明细CSV文件</ns-button>
+                    <ns-button @click="exportData('/staffVisitStatistics/listExcel')">导出CSV文件</ns-button>
                 </div>
             </div>
             <!-- @selection-change="handleSelectionChange" -->
@@ -99,31 +93,31 @@
                     :element-loading-text="$t('prompt.loading')"
                 >
                     <el-table-column
-                        prop="date"
+                        prop="name"
                         label="员工"
                         align="left"
                     >
                     </el-table-column>
                     <el-table-column
-                        prop="name"
+                        prop="guideId"
                         label="工号"
                         align="left"
                     >
                     </el-table-column>
                     <el-table-column
-                        prop="address"
+                        prop="workShopName"
                         label="门店名称"
                         align="left"
                     >
                     </el-table-column>
                     <el-table-column
-                        prop="address"
+                        prop="countNum"
                         label="页面访问次数"
                         align="right"
                     >
                     </el-table-column>
                     <el-table-column
-                        prop="address"
+                        prop="avgVisitTime"
                         label="平均访问时长"
                         align="right"
                     >
