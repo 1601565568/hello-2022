@@ -76,8 +76,8 @@ export default {
         materialTitle: '', // 素材标题
         folderId: '', // 文件夹
         tagId: '', // 标签
-        orderType: '2', // 排序方式 1下载 2发送 3 转发
-        isDesc: '1' // 是否倒叙  0正序，1倒序
+        orderType: '1', // 排序方式 1下载 2发送 3 转发
+        isDesc: '1' // 是否倒叙  2正序，1倒序
       },
       time: [],
       url: this.$api.guide.materialAnalysis.getList,
