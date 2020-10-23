@@ -28,11 +28,24 @@
                             </el-date-picker>
                         </el-form-item>
                         <el-form-item label="选择员工：">
-                            <div style="display:flex">
-                                <NsGuideDialog :auth="false" @input="NsGuideDialog()" type="primary" btnTitle="选择员工" dialogTitle="选择员工" v-model="model.guideId">
-                                </NsGuideDialog>
-                                <span>已选择{{model.guideId? model.guideId.split(',').length: 0}}个员工</span>
+                            <div class="template-search__box">
+                            <span v-if="model.guideId&&model.guideId.length>0">
+                                已选择{{model.guideId.length}}个
+                            </span>
+                            <span v-if="model.guideId.length<=0">全部</span>
+                            <div style="float: right;">
+                                <NsGuideDialog
+                                    :isButton="false"
+                                    :validNull="true"
+                                    :auth="false"
+                                    type="primary"
+                                    btnTitle="选择"
+                                    dialogTitle="选择员工"
+                                    v-model="model.guideId"
+                                    @input="NsGuideDialog()"
+                                ></NsGuideDialog>
                             </div>
+                        </div>
                         </el-form-item>
                     </el-form>
                     <ns-button @click="exportData('/materialAnalysis/listDetailExcelById')">导出员工明细CSV文件</ns-button>
@@ -60,7 +73,7 @@
                     />
                      <el-table-column
                         type="default"
-                        prop="guideId"
+                        prop="outWorkId"
                         label="工号"
                         :sortable="false"
                     />
@@ -151,4 +164,22 @@ export default Index
     display: flex;
     width: 100%;
 }
+.template-search__box {
+  width: 182px;
+  height: 28px;
+  background: #ffffff;
+  border: 1px solid #dcdfe6;
+  border-radius: 3px;
+  border-radius: 3px;
+  display: flex;
+}
+.template-search__box span{
+  width: 141px;
+  height: 27px;
+  margin-left: 10px;
+  border-right: 1px solid #dcdfe6;
+}
+.template-search__box > div + span {
+    margin-left: var(--default-margin-small);
+  }
 </style>

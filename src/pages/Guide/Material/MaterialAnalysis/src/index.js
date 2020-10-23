@@ -181,8 +181,12 @@ export default {
       }
     },
     handleSearch () {
-      this.$search({ searchMap: { ...this.model } })
-      // console.log('searchform', this.model)
+      if (this.model.guideId) {
+        let guideId = this.model.guideId.join(',')
+        this.$search({ searchMap: { ...this.model, guideId: guideId } })
+      } else {
+        this.$search({ searchMap: { ...this.model } })
+      }
     },
     formatTime () {
       this.model = {
@@ -193,7 +197,6 @@ export default {
       this.handleSearch()
     },
     NsGuideDialog () {
-      this.model.guideId = this.model.guideId.join(',')
       this.handleSearch()
     },
     // table表格排序

@@ -46,7 +46,7 @@ export default {
         startTime: '',
         endTime: '',
         materialId: this.$route.params.targetId,
-        guideId: null,
+        guideId: '',
         orderType: '1', // 排序方式 1下载 2发送 3 转发
         isDesc: '0' // 是否倒叙  0正序，1倒序
       },
@@ -84,7 +84,12 @@ export default {
         })
     },
     handleSearch () {
-      this.$search({ searchMap: { ...this.model } })
+      if (this.model.guideId) {
+        let guideId = this.model.guideId.join(',')
+        this.$search({ searchMap: { ...this.model, guideId: guideId } })
+      } else {
+        this.$search({ searchMap: { ...this.model } })
+      }
     },
     formatTime () {
       this.searchform = {
@@ -105,7 +110,6 @@ export default {
       this.handleSearch()
     },
     NsGuideDialog () {
-      this.model.guideId = this.model.guideId.join(',')
       this.handleSearch()
     },
 

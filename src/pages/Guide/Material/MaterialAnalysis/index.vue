@@ -51,14 +51,27 @@
                             align="left"
                             @change="formatTime()"
                         >
-                        <!-- v-model="model.startTime" -->
+                            <!-- v-model="model.startTime" -->
                         </el-date-picker>
                     </el-form-item>
                     <el-form-item label="选择员工：">
-                        <div style="display:flex">
-                            <NsGuideDialog :auth="false" @input="NsGuideDialog()" type="primary" btnTitle="选择员工" dialogTitle="选择员工" v-model="model.guideId">
-                            </NsGuideDialog>
-                            <span>已选择{{model.guideId? model.guideId.split(',').length: 0}}个员工</span>
+                        <div class="template-search__box">
+                            <span v-if="model.guideId&&model.guideId.length>0">
+                                已选择{{model.guideId.length}}个
+                            </span>
+                            <span v-if="model.guideId.length<=0">全部</span>
+                            <div style="float: right;">
+                                <NsGuideDialog
+                                    :isButton="false"
+                                    :validNull="true"
+                                    :auth="false"
+                                    type="primary"
+                                    btnTitle="选择"
+                                    dialogTitle="选择员工"
+                                    v-model="model.guideId"
+                                    @input="NsGuideDialog()"
+                                ></NsGuideDialog>
+                            </div>
                         </div>
                     </el-form-item>
                     <el-form-item label="素材类型：">
@@ -115,7 +128,7 @@
                         ></el-input>
                     </el-form-item>
                     <el-form-item>
-                      <ns-button @click="exportData">导出CSV文件</ns-button>
+                        <ns-button @click="exportData">导出CSV文件</ns-button>
                     </el-form-item>
                 </el-form>
             </template>
@@ -138,49 +151,61 @@
                         label="素材标题"
                         :sortable="false"
                     >
-                    <template slot-scope="scope">
-                        <span>{{scope.row.name || '-'}}</span>
-                    </template>
+                        <template slot-scope="scope">
+                            <span>{{scope.row.name || '-'}}</span>
+                        </template>
                     </el-table-column>
-                     <el-table-column
+                    <el-table-column
                         type="default"
                         prop="m_type"
                         label="素材类型"
                         :sortable="false"
                     >
-                     <template slot-scope="scope">
-                        <span>{{scope.row.m_type===0?'文章素材': scope.row.m_type === 1 ? '图文素材': scope.row.m_type === 2 ? '视频素材' : '--'}}</span>
-                    </template>
-                     </el-table-column>
+                        <template slot-scope="scope">
+                            <span>{{scope.row.m_type===0?'文章素材': scope.row.m_type === 1 ? '图文素材': scope.row.m_type === 2 ? '视频素材' : '--'}}</span>
+                        </template>
+                    </el-table-column>
                     <el-table-column
                         type="default"
                         prop="downloadCount"
                         label="下载次数"
                         :sortable="true"
                     >
-                    <template slot='header' scope='header'>
-                    <span>
-                        <span>{{header.column.label}}</span>
-                        <el-tooltip content="员工在小程序下载素材的次数">
-                        <Icon style="margin-left:3px" type="question-circle"/>
-                        </el-tooltip>
-                    </span>
-                    </template>
+                        <template
+                            slot='header'
+                            scope='header'
+                        >
+                            <span>
+                                <span>{{header.column.label}}</span>
+                                <el-tooltip content="员工在小程序下载素材的次数">
+                                    <Icon
+                                        style="margin-left:3px"
+                                        type="question-circle"
+                                    />
+                                </el-tooltip>
+                            </span>
+                        </template>
                     </el-table-column>
-                     <el-table-column
+                    <el-table-column
                         type="default"
                         prop="sendCount"
                         label="发送次数"
                         :sortable="true"
                     >
-                    <template slot='header' scope='header'>
-                    <span>
-                        <span>{{header.column.label}}</span>
-                        <el-tooltip content="员工在小程序上转发文章素材的次数">
-                         <Icon style="margin-left:3px" type="question-circle"/>
-                        </el-tooltip>
-                    </span>
-                    </template>
+                        <template
+                            slot='header'
+                            scope='header'
+                        >
+                            <span>
+                                <span>{{header.column.label}}</span>
+                                <el-tooltip content="员工在小程序上转发文章素材的次数">
+                                    <Icon
+                                        style="margin-left:3px"
+                                        type="question-circle"
+                                    />
+                                </el-tooltip>
+                            </span>
+                        </template>
                     </el-table-column>
                     <el-table-column
                         type="default"
@@ -188,25 +213,34 @@
                         label="转发次数"
                         :sortable="true"
                     >
-                    <template slot='header' scope='header'>
-                        <span>
-                            <span>{{header.column.label}}</span>
-                            <el-tooltip content="员工在导购手机菜单发送素材库的次数">
-                             <Icon style="margin-left:3px" type="question-circle"/>
-                            </el-tooltip>
-                        </span>
-                    </template>
+                        <template
+                            slot='header'
+                            scope='header'
+                        >
+                            <span>
+                                <span>{{header.column.label}}</span>
+                                <el-tooltip content="员工在导购手机菜单发送素材库的次数">
+                                    <Icon
+                                        style="margin-left:3px"
+                                        type="question-circle"
+                                    />
+                                </el-tooltip>
+                            </span>
+                        </template>
                     </el-table-column>
-                     <el-table-column
+                    <el-table-column
                         type="default"
                         prop="title"
                         label="操作"
                         :sortable="false"
                     >
-                    <template slot-scope="scope">
-                        <ns-button type="text" @click="toggle(scope.row)">查看明细</ns-button>
-                    </template>
-                     </el-table-column>
+                        <template slot-scope="scope">
+                            <ns-button
+                                type="text"
+                                @click="toggle(scope.row)"
+                            >查看明细</ns-button>
+                        </template>
+                    </el-table-column>
                 </el-table>
             </template>
             <template slot="pagination">
@@ -232,7 +266,26 @@ export default Index
 </script>
 
 <style scoped>
-.template-table__bar-more .el-form >.el-form-item  {
-    margin-right: 10px;
+@import "@theme/variables.pcss";
+.template-table__bar-more .el-form > .el-form-item {
+  margin-right: 10px;
 }
+.template-search__box {
+  width: 182px;
+  height: 28px;
+  background: #ffffff;
+  border: 1px solid #dcdfe6;
+  border-radius: 3px;
+  border-radius: 3px;
+  display: flex;
+}
+.template-search__box span{
+  width: 141px;
+  height: 27px;
+  margin-left: 10px;
+  border-right: 1px solid #dcdfe6;
+}
+.template-search__box > div + span {
+    margin-left: var(--default-margin-small);
+  }
 </style>
