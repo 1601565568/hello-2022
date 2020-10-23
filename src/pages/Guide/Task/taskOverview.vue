@@ -13,13 +13,12 @@
         <div class="taskOverview-materials__head">任务概况</div>
         <div class="taskOverview-materials__content">
           <div class="taskOverview-materials__content-head">
-            <!-- <span class="task-type business"><img src="../../../icons/outline/business.svg" alt="">商机</span>
-            <span class="task-type takumi"><img src="../../../icons/outline/takumi.svg" alt="">拓客</span> -->
-            <span class="task-type marketing" v-if="taskMsg.type === 0"><img src="../../../icons/outline/market.svg" alt="">营销</span>
-            <span class="task-type share" v-if="taskMsg.type === 2"><img src="../../../icons/outline/share.svg" alt="">分享</span>
-            <span class="task-type daily" v-if="taskMsg.type === 3"><img src="../../../icons/outline/daily.svg" alt="">日常</span>
-            <span class="task-type returnvisit" v-if="taskMsg.type === 1"><img src="../../../icons/outline/returnvisit.svg" alt="">回访</span>
-             {{ taskMsg.name }}
+            <span class="task-type business"><Icon type='business' />商机</span>
+            <span class="task-type takumi"><Icon type='takumi' />拓客</span> -->
+            <span class="task-type marketing" v-if="taskMsg.type === 0"><Icon type='market' />营销</span>
+            <span class="task-type share" v-if="taskMsg.type === 2"><Icon type='share' />分享</span>
+            <span class="task-type daily" v-if="taskMsg.type === 3"><Icon type='daily' />日常</span>
+            <span class="task-type returnvisit" v-if="taskMsg.type === 1"><Icon type='returnvisit' />回访</span>
             <el-tag class="head-tag" v-if="taskMsg.state === 1">进行中</el-tag>
             <!-- <el-tag class="head-tag" type="success">已完成</el-tag> -->
             <el-tag class="head-tag" type="info" v-if="taskMsg.state === 4">未开始</el-tag>
@@ -97,7 +96,8 @@
                 <p class="data-item__title">指派门店</p>
                 <span class="data-item__num">{{ taskMsg.shopNum }}</span>
                 <span class="data-item__icon distributionStore">
-                  <img src="../../../icons/outline/distributionStore.svg" alt="">
+                  <Icon type='distributionstore' class="distributionStoreIcon"/>
+                  <!-- <img src="../../../icons/outline/distributionStore.svg" alt=""> -->
                 </span>
               </div>
             </ElCol>
@@ -106,7 +106,8 @@
                 <p class="data-item__title">分配导购</p>
                 <span class="data-item__num">{{ taskMsg.guideNum }}</span>
                 <span class="data-item__icon distributionGuide">
-                  <img src="../../../icons/outline/distributionGuide.svg" alt="">
+                  <Icon type='distributionguide' class="distributionguideIcon"/>
+                  <!-- <img src="../../../icons/outline/distributionGuide.svg" alt=""> -->
                 </span>
               </div>
             </ElCol>
@@ -115,7 +116,8 @@
                 <p class="data-item__title">完成度 <Icon type="help" class="data-item__title-icon" /></p>
                 <span class="data-item__num">{{ taskMsg.completion }}%</span>
                 <span class="data-item__icon degreeCompletion">
-                  <img src="../../../icons/outline/degreeCompletion.svg" alt="">
+                  <Icon type='degreecompletion' class="degreecompletionIcon" />
+                  <!-- <img src="../../../icons/outline/degreeCompletion.svg" alt=""> -->
                 </span>
               </div>
             </ElCol>
@@ -468,5 +470,18 @@ export default taskOverview
 }
   >>> .el-drawer__header {
     margin-bottom: 0;
+  }
+
+  .distributionStoreIcon {
+    font-size: 26px;
+    color: rgb(71,146,249);
+  }
+  .distributionguideIcon {
+    font-size: 26px;
+    color: rgb(243,174,17);
+  }
+  .degreecompletionIcon {
+    font-size: 26px;
+    color: rgb(65,197,0);
   }
 </style>

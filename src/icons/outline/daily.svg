@@ -1,13 +1,1 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <!-- Generator: Sketch 63.1 (92452) - https://sketch.com -->
-    <title>日常</title>
-    <desc>Created with Sketch.</desc>
-    <g id="日常" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="编组">
-            <rect id="矩形" fill="#ffffff" opacity="0" x="0" y="0" width="16" height="16"></rect>
-            <path d="M4.69104568,9.94984209 L6.78355915,10.7107561 L6.78355915,13.4690693 L4.69104568,12.7557124 L4.69104568,9.94984209 Z M12.4904141,2.5309307 C13,3.87280273 13.1757812,9.51416016 12.4904141,11.9947984 C10.3687936,10.7628332 7.37269479,9.66901935 3.50211758,8.71335687 C2.69364646,8.42801412 2.31318948,7.52442876 2.59853222,6.71595765 C2.7412036,6.28794352 3.07410347,5.95504365 3.50211758,5.81237229 C7.11528919,4.58573217 10.111388,3.49191831 12.4904141,2.5309307 Z" id="形状" fill="#FFFFFF" fill-rule="nonzero"></path>
-            <g id="通知" transform="translate(2.000000, 2.500000)"></g>
-        </g>
-    </g>
-</svg>
+<?xml version="1.0" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg t="1603425484012" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="31131" xmlns:xlink="http://www.w3.org/1999/xlink" width="200" height="200"><defs><style type="text/css"></style></defs><path d="M300.224 636.8l133.952 48.64v176.64l-133.952-45.696V636.8z m499.2-474.88c32.576 85.952 43.84 446.976 0 605.76-135.808-78.848-327.552-148.864-575.296-210.048-51.712-18.24-76.096-76.096-57.792-127.808 9.088-27.392 30.4-48.704 57.792-57.856 231.232-78.464 423.04-148.48 575.232-209.984z" p-id="31132"></path></svg>
