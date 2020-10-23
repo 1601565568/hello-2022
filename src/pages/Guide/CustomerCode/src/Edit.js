@@ -125,6 +125,7 @@ export default {
           nickColour: '#' + result.nickColour,
           qrcodeSize: result.qrcodeSize,
           qrcodeX: result.qrcodeX,
+          headerType: result.nickPosition,
           qrcodeY: result.qrcodeY,
           time: [result.validTimeStart, result.validTimeEnd],
           validTimeType: result.validTimeType
