@@ -94,7 +94,7 @@
                         type="default"
                         prop="downloadCount"
                         label="下载次数"
-                        :sortable="true"
+                        sortable="custom"
                     >
                     <template slot='header' scope='header'>
                     <span>
@@ -109,7 +109,7 @@
                         type="default"
                         prop="sendCount"
                         label="发送次数"
-                        :sortable="true"
+                        sortable="custom"
                     >
                     <template slot='header' scope='header'>
                     <span>
@@ -124,7 +124,7 @@
                         type="default"
                         prop="shareCount"
                         label="分享次数"
-                        :sortable="true"
+                        sortable="custom"
                     >
                     <template slot='header' scope='header'>
                         <span>

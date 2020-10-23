@@ -143,7 +143,6 @@
                     :element-loading-text="$t('prompt.loading')"
                     @sort-change="sortChange"
                     row-key="id"
-                    @selection-change="$selectionChange"
                 >
                     <el-table-column
                         type="default"
@@ -169,7 +168,7 @@
                         type="default"
                         prop="downloadCount"
                         label="下载次数"
-                        :sortable="true"
+                        sortable="custom"
                     >
                         <template
                             slot='header'
@@ -190,7 +189,7 @@
                         type="default"
                         prop="sendCount"
                         label="发送次数"
-                        :sortable="true"
+                        sortable="custom"
                     >
                         <template
                             slot='header'
@@ -206,12 +205,13 @@
                                 </el-tooltip>
                             </span>
                         </template>
+
                     </el-table-column>
                     <el-table-column
                         type="default"
                         prop="shareCount"
                         label="转发次数"
-                        :sortable="true"
+                        sortable="custom"
                     >
                         <template
                             slot='header'
@@ -279,13 +279,13 @@ export default Index
   border-radius: 3px;
   display: flex;
 }
-.template-search__box span{
+.template-search__box span {
   width: 141px;
   height: 27px;
   margin-left: 10px;
   border-right: 1px solid #dcdfe6;
 }
 .template-search__box > div + span {
-    margin-left: var(--default-margin-small);
-  }
+  margin-left: var(--default-margin-small);
+}
 </style>

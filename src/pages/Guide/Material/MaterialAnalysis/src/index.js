@@ -75,8 +75,8 @@ export default {
         materialTitle: '', // 素材标题
         folderId: '', // 文件夹
         tagId: '', // 标签
-        orderType: '1', // 排序方式 1下载 2发送 3 转发
-        isDesc: '0' // 是否倒叙  0正序，1倒序
+        orderType: '2', // 排序方式 1下载 2发送 3 转发
+        isDesc: '1' // 是否倒叙  0正序，1倒序
       },
       time: [],
       url: this.$api.guide.materialAnalysis.getList,
@@ -203,12 +203,12 @@ export default {
     sortChange (data) {
       let order = data.order
       let prop = data.prop
+      // 排序方式 1下载 2分享 3 发送
       this.model.isDesc =
-        order === 'descending' ? '0' : order === 'ascending' ? '1' : '0'
-      // 排序方式 1下载 2发送 3 转发
+      order === 'descending' ? '1' : order === 'ascending' ? '2' : '1'
       this.model.orderType =
-        prop === 'sendCount' ? '2' : prop === 'shareCount' ? '3' : '1'
-      this.handleSearch()
+        prop === 'sendCount' ? '3' : prop === 'shareCount' ? '2' : '1'
+      this.$reload()
     },
     // 操作
     toggle (data) {
