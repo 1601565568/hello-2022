@@ -2,6 +2,7 @@ import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import moment from 'moment'
 import NsGuideDialog from '@/components/NsGuideDialog'
 import { API_ROOT } from '@/config/http.js'
+import LocalStorage from 'store/dist/store.legacy.min.js'
 export default {
   mixins: [tableMixin],
   components: { NsGuideDialog },
@@ -57,8 +58,17 @@ export default {
   mounted () {
     this.init()
   },
+  beforeRouteLeave (to, from, next) {
+    LocalStorage.remove('guideId')
+    next()
+  },
+  // beforeRouteLeave () {
+  //   console.log('12312312312312321')
+  //   LocalStorage.remove('guideId')
+  // },
   methods: {
     init () {
+      this.model.guideId = LocalStorage.get('guideId')
       const end = new Date()
       const start = new Date()
       this.model.startTime = moment(
@@ -67,7 +77,7 @@ export default {
       this.model.endTime = moment(end.getTime()).format('YYYY-MM-DD HH:mm:ss')
       this.time = [this.model.startTime, this.model.endTime]
       this.getMemberManagePlan()
-      this.$reload()
+      this.handleSearch()
     },
     getMemberManagePlan () {
       this.$http
@@ -104,7 +114,7 @@ export default {
       let order = data.order
       let prop = data.prop
       this.model.isDesc =
-      order === 'descending' ? '1' : order === 'ascending' ? '2' : '1'
+        order === 'descending' ? '1' : order === 'ascending' ? '2' : '1'
       this.model.orderType =
         prop === 'sendCount' ? '3' : prop === 'shareCount' ? '2' : '1'
       this.handleSearch()
@@ -116,11 +126,17 @@ export default {
     exportData (urlLink) {
       var url = API_ROOT + urlLink
       var form = document.createElement('form')
-      form.appendChild(this.generateHideElement('startTime', this.model.startTime))
+      form.appendChild(
+        this.generateHideElement('startTime', this.model.startTime)
+      )
       form.appendChild(this.generateHideElement('endTime', this.model.endTime))
-      form.appendChild(this.generateHideElement('materialId', this.model.materialId))
+      form.appendChild(
+        this.generateHideElement('materialId', this.model.materialId)
+      )
       form.appendChild(this.generateHideElement('guideId', this.model.guideId))
-      form.appendChild(this.generateHideElement('orderType', this.model.orderType))
+      form.appendChild(
+        this.generateHideElement('orderType', this.model.orderType)
+      )
       form.appendChild(this.generateHideElement('isDesc', this.model.isDesc))
       form.setAttribute('action', url)
       form.setAttribute('method', 'get')

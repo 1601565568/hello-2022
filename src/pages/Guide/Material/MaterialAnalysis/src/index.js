@@ -3,6 +3,7 @@ import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import NsGuideDialog from '@/components/NsGuideDialog'
 import moment from 'moment'
 import { API_ROOT } from '@/config/http.js'
+import LocalStorage from 'store/dist/store.legacy.min.js'
 export default {
   mixins: [tableMixin],
   components: { NsGuideDialog },
@@ -212,6 +213,7 @@ export default {
     },
     // 操作
     toggle (data) {
+      LocalStorage.set('guideId', this.model.guideId)
       this.$router.push({
         path: `/Guide/Material/MaterialAnalysis/details/${data.targetId}`
       })
