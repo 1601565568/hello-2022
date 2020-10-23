@@ -87,7 +87,6 @@ export default {
   },
   methods: {
     onSearch () {
-      // console.log('搜索响应')
     },
     init () {
       this.id = this.$route.params.id
@@ -147,7 +146,6 @@ export default {
           this.queryTaskShopInfo()
         })
         .catch(resp => {
-          console.log('查看完整任务失败', resp)
           this.$notify.error(getErrorMsg('查看完整任务失败', resp))
           this.$router.push('/Guide/Task/List')
         })
@@ -158,7 +156,6 @@ export default {
           taskId: parseInt(this.id)
         })
         .then(resp => {
-          console.log(resp)
           if (resp.success) {
             var result = resp.result
             this.taskMsg.shopNum = result.shopNum
@@ -167,7 +164,6 @@ export default {
           }
         })
         .catch(resp => {
-          console.log(resp)
           this.$notify.error(getErrorMsg('进度统计查询失败', resp))
         })
     },

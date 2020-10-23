@@ -136,7 +136,6 @@ export default {
       var that = this
       this.$refs.form.validate(valid => {
         if (valid) {
-          console.log(that.model)
           that.model.startTime = that.model.activityTime[0]
           that.model.endTime = that.model.activityTime[1]
           //   if (that.model.activityTime.length === 2) {
@@ -172,7 +171,6 @@ export default {
           this.handleClose()
         })
         .catch(resp => {
-          console.log('保存任务失败', resp)
           this.$notify.error(getErrorMsg('保存任务失败', resp))
         })
       this.loading = false
@@ -233,7 +231,6 @@ export default {
           }
         })
         .catch(resp => {
-          console.log('resp:', resp)
           this.$notify.error(getErrorMsg('获取任务详情失败', resp))
           this.$router.push('/Guide/Task/List')
         })

@@ -68,7 +68,6 @@ export default {
   },
   methods: {
     onSearch () {
-      // console.log('搜索响应')
     },
     init () {
       this.queryShopTaskDetail()
