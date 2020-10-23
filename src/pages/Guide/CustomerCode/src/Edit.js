@@ -167,6 +167,7 @@ export default {
             this.fileList = [file]
             resolve(file)
           } else {
+            this.fileList = [...this.fileList]
             this.$notify.error('上传图片尺寸只能是750X1334')
           }
         }
