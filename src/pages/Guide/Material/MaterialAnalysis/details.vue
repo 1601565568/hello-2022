@@ -73,7 +73,7 @@
                     <el-table-column
                         v-if="employeeIdShow === 2"
                         type="default"
-                        prop="employeeId"
+                        prop="deviceId"
                         label="设备MEID"
                         :sortable="false"
                     />
