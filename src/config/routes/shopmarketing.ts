@@ -35,6 +35,18 @@ export default {
               'component': () => import('@/pages/Guide/Material/Library/Edit.vue')
             }
           ]
+        },
+        {
+          'path': '/Guide/Material/MaterialAnalysis',
+          'name': 'MaterialAnalysis',
+          'title': '素材分析',
+          'component': () => import('@/pages/Guide/Material/MaterialAnalysis/index.vue')
+        },
+        {
+          'path': '/Guide/Material/MaterialAnalysis/details/:targetId',
+          'name': 'MaterialAnalysisDetails',
+          'title': '素材分析详情',
+          'component': () => import('@/pages/Guide/Material/MaterialAnalysis/details.vue')
         }
       ]
     },

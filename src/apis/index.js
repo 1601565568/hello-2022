@@ -8,6 +8,7 @@ import overView from './overView'
 import riskManagement from './riskManagement'
 import weWork from './weWork' // 企业微信
 import weChat from './weChat' // 个号
+import dataCenter from './dataCenter'
 export default {
   test,
   core,
@@ -21,6 +22,7 @@ export default {
     url: '/guide/sgmoreaccount/getMoreAccountByWeight',
     method: 'get'
   },
+  dataCenter,
   weWork, // 企业微信
   weChat // 个号
 }

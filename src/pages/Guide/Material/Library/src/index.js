@@ -93,6 +93,16 @@ export default {
         data: [],
         operate_buttons: [
           {
+            'name': '使用分析',
+            'func': (scope) => {
+              const { id } = scope.row
+              this.$router.push({
+                path: `/Guide/Material/MaterialAnalysis/details/${id}`
+              })
+            },
+            'visible': false
+          },
+          {
             'name': '移动到',
             'func': (scope) => {
               this.$refs.folderTree.show(scope.row)
@@ -633,6 +643,39 @@ export default {
         extraHeight += (this.enable ? 38 : 0) + 17 + 5
         this.$refs.fullScreen.$el.children[0].style.maxHeight = window.innerHeight - extraHeight + 'px'
       })
+    },
+    /**
+     * 企微个号环境判断
+     */
+    getMemberManagePlan () {
+      this.$http
+        .fetch(this.$api.guide.materialAnalysis.getMemberManagePlan)
+        .then(res => {
+          if (res.success) {
+            // 1 企微  2个号
+            let employeeIdShow = res.result
+            if (employeeIdShow === 2) {
+              // 1 企微  2个号
+              this.$set(this.table.operate_buttons[0], 'visible', true)
+              let obj = {
+                'name': '使用分析',
+                'icon': 'fenxi',
+                'func': (row) => {
+                  const { id } = row
+                  this.$router.push({
+                    path: `/Guide/Material/MaterialAnalysis/details/${id}`
+                  })
+                }
+              }
+              this.waterfall.operate_buttons.unshift(obj)
+            }
+          } else {
+            this.$notify.error('获取系统方案失败')
+          }
+        })
+        .catch(err => {
+          this.$notify.error('获取系统方案失败' + err)
+        })
     }
   },
   created () {
@@ -650,6 +693,7 @@ export default {
   mounted () {
     this.originModel = JSON.parse(JSON.stringify(this.model))
     this.getAllLabel()
+    this.getMemberManagePlan()
     this.loadList()
   }
 }

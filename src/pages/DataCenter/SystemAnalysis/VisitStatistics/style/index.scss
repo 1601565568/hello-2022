@@ -1,0 +1,88 @@
+$buleColor: linear-gradient(269deg, #4EB3FC 0%, #0091FA 100%);
+$greenColor: linear-gradient(270deg, #A0E35E 0%, #67C230 100%);
+$yellowColor: linear-gradient(270deg, #F7BD5B 0%, #F49F10 100%);
+$white: #fff;
+
+.buleColor {
+  background: $buleColor;
+}
+.greenColor {
+  background: $greenColor;
+}
+.yellowColor {
+  background: $yellowColor;
+}
+.fixbox {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.VisitStatistics {
+  background: #fff;
+  margin: -10px;
+  height: 56px;
+}
+
+.el-form-item--small.el-form-item {
+  margin: 0 !important;
+}
+
+.top21 {
+  margin-top: 21px;
+}
+.top16 {
+  margin-top: 16px;
+}
+.datawarpper {
+  padding: 0 16px;
+  border-radius: 4px;
+  background: #fff;
+}
+
+.datawarpper {
+  .title-box {
+  height: 56px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center
+  }
+  .survey_title {
+    font-size: 16px;
+    font-weight: bold;
+  }
+}
+.datawarpper .content-box {
+  padding: 16px 0;
+}
+
+.survey-box {
+  display: flex;
+  .survey-box_list {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    color: $white;
+    margin-right: 16px;
+    flex: 1;
+    min-height: 120px;
+    border-radius: 4px;
+    &:last-child {
+      margin-right: 0;
+    }
+    .survey-box_list_title {
+      font-size: 16px;
+      line-height: 24px;
+    }
+    .survey-box_list_number {
+      margin-top: 10px;
+      font-size: 24px;
+      line-height: 32px;
+      font-weight: bold;
+    }
+  }
+}
+.el-pagination {
+  box-shadow: none;
+}
