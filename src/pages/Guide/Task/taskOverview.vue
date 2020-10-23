@@ -86,8 +86,8 @@
                 @change="queryTimeChange"
                 placeholder="选择日期" />
             </ElFormItem>
-            <NsButton>导出导购完成明细CSV文件</NsButton>
-            <NsButton>导出CSV文件</NsButton>
+            <NsButton @click="exportGuideCompleteData">导出导购完成明细CSV文件</NsButton>
+            <NsButton @click="exportShopCompleteData">导出CSV文件</NsButton>
           </ElForm>
         </div>
         <div class="taskOverview-detail__data">

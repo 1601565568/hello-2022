@@ -161,9 +161,15 @@ export default {
       })
     },
     async doSave () {
+      var params = {}
+      if (this.model.materialMsg) {
+        params = { ...this.model, materialMsg: JSON.stringify(this.model.materialMsg) }
+      } else {
+        params = { ...this.model }
+      }
       this.loading = true
       await this.$http
-        .fetch(this.$api.guide.taskEdit, this.model)
+        .fetch(this.$api.guide.taskEdit, params)
         .then(resp => {
           // 置空已经选择的素材
           this.selectMaterial = {}
@@ -263,14 +269,15 @@ export default {
   watch: {
     selectMaterial: {
       handler (newVal) {
+        let materialMsg = {}
         this.model.materialId = newVal.id
         this.model.materialTitle = newVal.name
         this.model.materialType = newVal.mType
-        this.model.materialMsg.imageList = newVal.imageList
+        materialMsg.imageList = newVal.imageList
         if (newVal.mType === 0) {
-          this.model.materialMsg.name = newVal.title
+          materialMsg.name = newVal.title
         }
-        this.model.materialMsg = JSON.stringify(this.model.materialMsg)
+        this.model.materialMsg = materialMsg
       },
       deep: true
     }

@@ -157,7 +157,7 @@
                       </div>
                       <div class="catalogue-materials__article" v-if="model.materialType === 0">
                         <img :src="model.materialMsg.imageList[0]">
-                        <p>{{model.materialMsg.title}}</p>
+                        <p>{{model.materialMsg.name}}</p>
                       </div>
                     </div>
                   </div>

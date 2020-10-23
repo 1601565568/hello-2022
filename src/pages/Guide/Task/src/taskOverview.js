@@ -5,6 +5,7 @@ import ElDrawer from '@nascent/nui/lib/drawer'
 import drawerTable from '../drawerTable'
 import ShopSelectLoad from '@/components/ShopSelectLoad'
 import { getErrorMsg } from '@/utils/toast'
+import { API_ROOT } from '@/config/http.js'
 import moment from 'moment'
 // import { init } from '@sentry/browser'
 export default {
@@ -77,7 +78,8 @@ export default {
         completion: 0
       },
       searchMap: {
-        shopId: null
+        shopId: null,
+        queryTime: null
       },
       drawerVisible: false,
       selectMaterial: {},
@@ -190,6 +192,36 @@ export default {
         .catch(resp => {
           this.$notify.error(getErrorMsg('进度统计列表查询失败', resp))
         })
+    },
+    // 导出导购完成明细csv文件
+    exportGuideCompleteData () {
+      var url = API_ROOT + '/guide/task/exportGuideCompleteData'
+      var form = document.createElement('form')
+      form.appendChild(this.generateHideElement('taskId', this.id))
+      form.appendChild(this.generateHideElement('queryTime', this.searchMap.queryTime))
+      form.setAttribute('action', url)
+      form.setAttribute('method', 'post')
+      document.body.appendChild(form)
+      form.submit()
+    },
+    // 导出csv文件
+    exportShopCompleteData () {
+      var url = API_ROOT + '/guide/task/exportShopCompleteData'
+      var form = document.createElement('form')
+      form.appendChild(this.generateHideElement('taskId', this.id))
+      form.appendChild(this.generateHideElement('queryTime', this.searchMap.queryTime))
+      form.appendChild(this.generateHideElement('shopId', this.searchMap.shopId))
+      form.setAttribute('action', url)
+      form.setAttribute('method', 'post')
+      document.body.appendChild(form)
+      form.submit()
+    },
+    generateHideElement (name, value) {
+      var tempInput = document.createElement('input')
+      tempInput.type = 'hidden'
+      tempInput.name = name
+      tempInput.value = value
+      return tempInput
     }
   },
   mounted: function () {

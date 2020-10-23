@@ -1,6 +1,7 @@
 import scrollHeight from '@nascent/ecrp-ecrm/src/mixins/scrollHeight'
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import { getErrorMsg } from '@/utils/toast'
+import { API_ROOT } from '@/config/http.js'
 export default {
   props: {
     id: {
@@ -92,6 +93,24 @@ export default {
         .catch(resp => {
           this.$notify.error(getErrorMsg('查看店铺任务详情失败', resp))
         })
+    },
+    exportData () {
+      var url = API_ROOT + '/guide/task/exportGuideCompleteData'
+      var form = document.createElement('form')
+      form.appendChild(this.generateHideElement('taskId', this.id))
+      form.appendChild(this.generateHideElement('shopId', this.shopId))
+      form.appendChild(this.generateHideElement('queryTime', this.form.time))
+      form.setAttribute('action', url)
+      form.setAttribute('method', 'post')
+      document.body.appendChild(form)
+      form.submit()
+    },
+    generateHideElement (name, value) {
+      var tempInput = document.createElement('input')
+      tempInput.type = 'hidden'
+      tempInput.name = name
+      tempInput.value = value
+      return tempInput
     }
   },
   mounted: function () {
