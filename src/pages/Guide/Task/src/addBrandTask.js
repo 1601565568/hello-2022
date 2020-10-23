@@ -168,13 +168,12 @@ export default {
         .then(resp => {
           // 置空已经选择的素材
           this.selectMaterial = {}
-          this.handleClose()
           this.$notify.success(resp.msg)
-          // 回调刷新列表
-          this.$props.callBack()
+          this.handleClose()
         })
         .catch(resp => {
-          this.$notify.error(getErrorMsg('查询失败', resp))
+          console.log('保存任务失败', resp)
+          this.$notify.error(getErrorMsg('保存任务失败', resp))
         })
       this.loading = false
     },
@@ -270,7 +269,6 @@ export default {
         this.model.materialId = newVal.id
         this.model.materialTitle = newVal.name
         this.model.materialType = newVal.mType
-        console.log(newVal.imageList)
         this.model.materialMsg.imageList = newVal.imageList
         if (newVal.mType === 0) {
           this.model.materialMsg.name = newVal.title
