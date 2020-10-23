@@ -9,6 +9,7 @@ import ContentManager from './contentmanager'
 import riskManagement from './riskManagement'
 import social from './social'
 import WeWork from './wework'
+import dataCenter from './dataCenter'
 export default [
   ShopManager,
   Reward,
@@ -20,6 +21,7 @@ export default [
   ContentManager,
   riskManagement,
   social,
+  dataCenter,
   WeWork, // 企业微信
   {
     path: '/operate/articleMaterialDetail',

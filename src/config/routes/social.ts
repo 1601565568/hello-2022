@@ -164,6 +164,29 @@ export default {
               'component': () => import('@/pages/WeChat/Welcomes/edit.vue')
             }
           ]
+        },
+        {
+          'path': '/Social/SocialOperation/CustomerCode',
+          'name': 'CustomerCode',
+          'title': '欢迎语',
+          'component': () => import('@nascent/ecrp-ecrm/src/layout/ContentOnly.vue'),
+          'redirect': {
+            'name': 'CustomerCodeList'
+          },
+          'children': [
+            {
+              'path': '/Social/SocialOperation/CustomerCode/List',
+              'name': 'CustomerCodeList',
+              'title': '一客一码',
+              'component': () => import('@/pages/Guide/CustomerCode/List.vue')
+            },
+            {
+              'path': '/Social/SocialOperation/CustomerCode/Edit',
+              'name': 'CustomerCodeEdit',
+              'title': '编辑一客一码',
+              'component': () => import('@/pages/Guide/CustomerCode/Edit.vue')
+            }
+          ]
         }
       ]
     },
