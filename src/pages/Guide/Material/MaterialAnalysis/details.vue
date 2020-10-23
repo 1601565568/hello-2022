@@ -123,7 +123,7 @@
                     <el-table-column
                         type="default"
                         prop="shareCount"
-                        label="分享次数"
+                        label="转发次数"
                         sortable="custom"
                     >
                     <template slot='header' scope='header'>
