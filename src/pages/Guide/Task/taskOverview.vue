@@ -96,7 +96,7 @@
                 <p class="data-item__title">指派门店</p>
                 <span class="data-item__num">{{ taskMsg.shopNum }}</span>
                 <span class="data-item__icon distributionStore">
-                  <Icon type='distributionStore' />
+                  <Icon type='distributionstore' class="distributionStoreIcon"/>
                   <!-- <img src="../../../icons/outline/distributionStore.svg" alt=""> -->
                 </span>
               </div>
@@ -106,7 +106,7 @@
                 <p class="data-item__title">分配导购</p>
                 <span class="data-item__num">{{ taskMsg.guideNum }}</span>
                 <span class="data-item__icon distributionGuide">
-                  <Icon type='distributionGuide' />
+                  <Icon type='distributionguide' class="distributionguideIcon"/>
                   <!-- <img src="../../../icons/outline/distributionGuide.svg" alt=""> -->
                 </span>
               </div>
@@ -116,7 +116,7 @@
                 <p class="data-item__title">完成度 <Icon type="help" class="data-item__title-icon" /></p>
                 <span class="data-item__num">{{ taskMsg.completion }}%</span>
                 <span class="data-item__icon degreeCompletion">
-                  <Icon type='degreeCompletion' />
+                  <Icon type='degreecompletion' class="degreecompletionIcon" />
                   <!-- <img src="../../../icons/outline/degreeCompletion.svg" alt=""> -->
                 </span>
               </div>
@@ -470,5 +470,18 @@ export default taskOverview
 }
   >>> .el-drawer__header {
     margin-bottom: 0;
+  }
+
+  .distributionStoreIcon {
+    font-size: 26px;
+    color: rgb(71,146,249);
+  }
+  .distributionguideIcon {
+    font-size: 26px;
+    color: rgb(243,174,17);
+  }
+  .degreecompletionIcon {
+    font-size: 26px;
+    color: rgb(65,197,0);
   }
 </style>
