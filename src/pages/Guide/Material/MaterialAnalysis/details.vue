@@ -114,7 +114,7 @@
                     <template slot='header' scope='header'>
                     <span>
                         <span>{{header.column.label}}</span>
-                        <el-tooltip content="员工在小程序上转发文章素材的次数">
+                        <el-tooltip content="员工在导购手机菜单发送素材库的次数">
                          <Icon style="margin-left:3px" type="question-circle"/>
                         </el-tooltip>
                     </span>
@@ -129,7 +129,7 @@
                     <template slot='header' scope='header'>
                         <span>
                             <span>{{header.column.label}}</span>
-                            <el-tooltip content="员工在导购手机菜单发送素材库的次数">
+                            <el-tooltip content="员工在小程序上转发文章素材的次数">
                              <Icon style="margin-left:3px" type="question-circle"/>
                             </el-tooltip>
                         </span>
