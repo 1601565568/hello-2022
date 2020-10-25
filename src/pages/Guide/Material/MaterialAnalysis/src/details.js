@@ -62,13 +62,15 @@ export default {
     LocalStorage.remove('guideId')
     next()
   },
-  // beforeRouteLeave () {
-  //   console.log('12312312312312321')
-  //   LocalStorage.remove('guideId')
-  // },
+  destroyed () {
+    LocalStorage.remove('guideId')
+  },
   methods: {
     init () {
       this.model.guideId = LocalStorage.get('guideId')
+      if (!this.model.guideId) {
+        this.model.guideId = []
+      }
       const end = new Date()
       const start = new Date()
       this.model.startTime = moment(
