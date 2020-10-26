@@ -166,9 +166,9 @@ export default {
           ]
         },
         {
-          'path': '/Social/SocialOperation/CustomerCode',
-          'name': 'GuestCode',
-          'title': '欢迎语',
+          'path': '/Social/SocialOperation/CustomerCode/List',
+          'name': 'WeWorkGuestCode',
+          'title': '一客一码',
           'component': () => import('@nascent/ecrp-ecrm/src/layout/ContentOnly.vue'),
           'redirect': {
             'name': 'WeWorkGuestCode'
