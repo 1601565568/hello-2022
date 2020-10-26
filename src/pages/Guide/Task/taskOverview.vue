@@ -152,7 +152,8 @@
             <el-table-column align="right" prop="guideTotal" width="80"
                              label="分配导购" />
             <el-table-column align="center" prop="completion" width="300"
-                             label="完成度" />
+                             label="完成度" >
+            </el-table-column>
             <el-table-column align="center" label="操作"
                              width="100">
               <template slot-scope="scope">

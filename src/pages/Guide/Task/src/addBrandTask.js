@@ -156,6 +156,10 @@ export default {
           } else {
             that.model.targetIds = 0
           }
+          if (that.model.type === 2 && !that.model.materialTitle) {
+            that.$notify.error('请选择素材')
+            return
+          }
           that.doSave()
         }
       })
