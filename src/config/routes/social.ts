@@ -167,16 +167,16 @@ export default {
         },
         {
           'path': '/Social/SocialOperation/CustomerCode',
-          'name': 'CustomerCode',
+          'name': 'GuestCode',
           'title': '欢迎语',
           'component': () => import('@nascent/ecrp-ecrm/src/layout/ContentOnly.vue'),
           'redirect': {
-            'name': 'CustomerCodeList'
+            'name': 'WeWorkGuestCode'
           },
           'children': [
             {
               'path': '/Social/SocialOperation/CustomerCode/List',
-              'name': 'CustomerCodeList',
+              'name': 'WeWorkGuestCode',
               'title': '一客一码',
               'component': () => import('@/pages/Guide/CustomerCode/List.vue')
             },
