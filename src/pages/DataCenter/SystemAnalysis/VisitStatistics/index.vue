@@ -45,7 +45,7 @@
                     <el-select
                         v-model="model.systemFrom"
                         placeholder="请选择"
-                        @change="handleSearch()"
+                        @change="systemFromSearch()"
                     >
                         <el-option
                             v-for="item in systemFrom"
@@ -127,9 +127,12 @@
                         align="left"
                         :sortable="false"
                     >
+                        <template slot-scope="scope">
+                            {{scope.row.name}}<span v-if="scope.row.status&&scope.row.status == 2">(已离职)</span>
+                      </template>
                     </el-table-column>
                     <el-table-column
-                        prop="guideId"
+                        prop="outWorkId"
                         label="工号"
                         align="left"
                         :sortable="false"

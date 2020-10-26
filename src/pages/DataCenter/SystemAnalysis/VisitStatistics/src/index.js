@@ -58,7 +58,10 @@ export default {
         guideNum: null,
         visitNum: null
       },
-      pageList: [],
+      pageList: [{
+        value: '',
+        label: '不限'
+      }],
       systemFrom: [
         {
           value: '',
@@ -87,36 +90,44 @@ export default {
       ).format('YYYY-MM-DD HH:mm:ss')
       this.model.endTime = moment(end.getTime()).format('YYYY-MM-DD HH:mm:ss')
       this.time = [this.model.startTime, this.model.endTime]
-      this.getPage()
+      // this.getPage()
       this.overview()
+      this.findTrackPageBizTypeList()
       this.$reload()
     },
-    // 页面路径
-    getPage () {
-      this.$http
-        .fetch(this.$api.dataCenter.userData.getPageJSON)
-        .then(res => {
-          if (res.success) {
-            let obj = JSON.parse(res.result)
-            var arr = [{
-              value: '',
-              label: '不限'
-            }]
-            for (let key in obj) {
-              let pageObj = {
-                value: key,
-                label: obj[key]
-              }
-              arr.push(pageObj)
-            }
-            this.pageList = arr
-          } else {
-            this.$notify.error('访问页面数据获取失败')
+    systemFromSearch () {
+      this.model.pageForm = ''
+      this.pageList = [{
+        value: '',
+        label: '不限'
+      }]
+      this.findTrackPageBizTypeList()
+      this.handleSearch()
+    },
+    findTrackPageBizTypeList () {
+      var params
+      var _this = this
+      if (!this.model.systemFrom === '' || !this.model.systemFrom) {
+        params = {
+          terminalType: null
+        }
+      } else {
+        params = {
+          terminalType: parseInt(this.model.systemFrom)
+        }
+      }
+      this.$http.fetch(this.$api.dataCenter.userData.findTrackPageBizTypeList, params).then((res) => {
+        var arr = res.result.map((item) => {
+          let obj = {
+            ...item,
+            value: `'${item.value}'`
           }
+          return obj
         })
-        .catch(err => {
-          this.$notify.error('访问页面数据获取失败' + err)
-        })
+        _this.pageList = _this.pageList.concat(arr)
+      }).catch(() => {
+        this.$notify.error('获取页面路径错误')
+      })
     },
     overview () {
       let params = JSON.parse(JSON.stringify(this.model))

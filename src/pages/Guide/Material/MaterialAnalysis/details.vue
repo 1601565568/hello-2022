@@ -70,7 +70,11 @@
                         prop="name"
                         label="员工"
                         :sortable="false"
-                    />
+                    >
+                      <template slot-scope="scope">
+                            {{scope.row.name}}<span v-if="scope.row.status&&scope.row.status == 2">(已离职)</span>
+                      </template>
+                    </el-table-column>
                      <el-table-column
                         type="default"
                         prop="outWorkId"
