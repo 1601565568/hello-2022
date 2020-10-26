@@ -79,7 +79,7 @@
                 <div class='newTask-content__item'>
                   <el-select
                     v-model='model.viewId'
-                    placeholder='请选择视角'
+                    placeholder='请选择运营视角'
                     @change='chooseView'
                     :disabled='canNotEdit'
                   >

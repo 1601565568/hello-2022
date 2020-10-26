@@ -13,15 +13,16 @@
         <div class="taskOverview-materials__head">任务概况</div>
         <div class="taskOverview-materials__content">
           <div class="taskOverview-materials__content-head">
-            <span class="task-type business"><Icon type='business' />商机</span>
+            <!-- <span class="task-type business"><Icon type='business' />商机</span>
             <span class="task-type takumi"><Icon type='takumi' />拓客</span> -->
             <span class="task-type marketing" v-if="taskMsg.type === 0"><Icon type='market' />营销</span>
             <span class="task-type share" v-if="taskMsg.type === 2"><Icon type='share' />分享</span>
             <span class="task-type daily" v-if="taskMsg.type === 3"><Icon type='daily' />日常</span>
             <span class="task-type returnvisit" v-if="taskMsg.type === 1"><Icon type='returnvisit' />回访</span>
+            {{taskMsg.name}}
             <el-tag class="head-tag" v-if="taskMsg.state === 1">进行中</el-tag>
-            <!-- <el-tag class="head-tag" type="success">已完成</el-tag> -->
-            <el-tag class="head-tag" type="info" v-if="taskMsg.state === 4">未开始</el-tag>
+            <el-tag class="head-tag" v-if="taskMsg.state === 2">终止</el-tag>
+            <el-tag class="head-tag" type="info" v-if="taskMsg.state === 4">已过期</el-tag>
             <!-- <el-tag class="head-tag" type="danger">未完成</el-tag> -->
           </div>
           <div class="taskOverview-materials__content-info">
@@ -38,12 +39,12 @@
             {{ taskMsg.materialTitle }}
           </p>
           <div class="taskOverview-materials__item--media">
-            <div class='taskOverview-materials__image' v-if="taskMsg.materialType === 1">
+              <div class='taskOverview-materials__image' v-if="taskMsg.materialType === 1 && taskMsg.materialMsg">
                 <div v-for="(item, index) in taskMsg.materialMsg.imageList" :key="index">
                   <img :src='item' />
                 </div>
               </div>
-              <div class='taskOverview-materials__video' v-if="taskMsg.materialType === 2">
+              <div class='taskOverview-materials__video' v-if="taskMsg.materialType === 2  && taskMsg.materialMsg">
                 <video
                   :src='taskMsg.materialMsg.imageList[0]'
                   style='width: 60px; height: 107px'
@@ -56,7 +57,7 @@
                   </div>
                 </div>
               </div>
-              <div class="taskOverview-materials__article" v-if="taskMsg.materialType === 0">
+              <div class="taskOverview-materials__article" v-if="taskMsg.materialType === 0 && taskMsg.materialMsg">
                 <img :src="taskMsg.materialMsg.imageList[0]">
                 <p>{{taskMsg.materialTitle}}</p>
               </div>
