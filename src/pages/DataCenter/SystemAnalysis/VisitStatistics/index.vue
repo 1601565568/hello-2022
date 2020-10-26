@@ -22,10 +22,23 @@
                     </el-date-picker>
                 </el-form-item>
                 <el-form-item label="选择员工：">
-                    <div style="display:flex">
-                        <NsGuideDialog :auth="false" @input="NsGuideDialog()" type="primary" btnTitle="选择员工" dialogTitle="选择员工" v-model="model.guideId">
-                        </NsGuideDialog>
-                        <span>已选择{{model.guideId? model.guideId.split(',').length: 0}}个员工</span>
+                    <div class="template-search__box">
+                        <span v-if="model.guideId&&model.guideId.length>0">
+                            已选择{{model.guideId.length}}个
+                        </span>
+                        <span v-else>全部</span>
+                        <div style="float: right;">
+                            <NsGuideDialog
+                                :isButton="false"
+                                :validNull="true"
+                                :auth="false"
+                                type="primary"
+                                btnTitle="选择"
+                                dialogTitle="选择员工"
+                                v-model="model.guideId"
+                                @input="NsGuideDialog()"
+                            ></NsGuideDialog>
+                        </div>
                     </div>
                 </el-form-item>
                 <el-form-item label="使用系统端：">
@@ -62,13 +75,13 @@
         </div>
         <div class="datawarpper top21">
             <div class="title-box">
-                <div class="survey_title">访问概括</div>
+                <div class="survey_title">访问概况</div>
             </div>
             <div class="content-box survey-box">
                 <div class="survey-box_list buleColor">
                     <div class="survey-box_list_title">访问用户数
                         <el-tooltip content="筛选周期内，一个用户访问多次仅计算为一个用户">
-                        <Icon type="question-circle"/>
+                            <Icon type="question-circle" />
                         </el-tooltip>
                     </div>
                     <div class="survey-box_list_number">{{overviewdata.guideNum || 0}}</div>
@@ -76,7 +89,7 @@
                 <div class="survey-box_list greenColor">
                     <div class="survey-box_list_title">页面访问次数
                         <el-tooltip content="筛选周期内，用户访问多次计算为多次访问">
-                        <Icon type="question-circle"/>
+                            <Icon type="question-circle" />
                         </el-tooltip>
                     </div>
                     <div class="survey-box_list_number">{{overviewdata.visitNum || 0}}</div>
@@ -84,7 +97,7 @@
                 <div class="survey-box_list yellowColor">
                     <div class="survey-box_list_title">平均访问时长
                         <el-tooltip content="筛选周期内，页面访问总时长/页面访问次数，进入页面的开始时间至结束时间即为页面访问时长">
-                        <Icon type="question-circle"/>
+                            <Icon type="question-circle" />
                         </el-tooltip>
                     </div>
                     <div class="survey-box_list_number">{{overviewdata.avgtime || '---'}}</div>
@@ -125,6 +138,7 @@
                     <el-table-column
                         prop="workShopName"
                         label="门店名称"
+                        :show-overflow-tooltip="true"
                         align="left"
                         :sortable="false"
                     >
@@ -133,14 +147,14 @@
                         prop="countNum"
                         label="页面访问次数"
                         align="right"
-                        :sortable="true"
+                        sortable="custom"
                     >
                     </el-table-column>
                     <el-table-column
                         prop="avgVisitTime"
                         label="平均访问时长"
                         align="right"
-                        :sortable="true"
+                        sortable="custom"
                     >
                     </el-table-column>
                 </el-table>

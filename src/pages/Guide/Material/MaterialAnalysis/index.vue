@@ -89,7 +89,7 @@
                             </el-option>
                         </el-select>
                     </el-form-item>
-                    <el-form-item label="文件夹：">
+                    <!-- <el-form-item label="文件夹：">
                         <el-select
                             v-model="model.folderId"
                             placeholder="请选择文件夹"
@@ -103,7 +103,11 @@
                             >
                             </el-option>
                         </el-select>
-                    </el-form-item>
+                    </el-form-item> -->
+                    <ns-category-select v-model="model.folderId"
+                        :batch="true"
+                        :getDirectoryTreeUrl = 'getDirectoryTreeUrl'
+                    />
                     <el-form-item label="标签：">
                         <el-select
                             filterable

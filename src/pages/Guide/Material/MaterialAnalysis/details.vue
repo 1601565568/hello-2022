@@ -81,6 +81,7 @@
                         type="default"
                         prop="workShopName"
                         label="门店名称"
+                        :show-overflow-tooltip="true"
                         :sortable="false"
                     />
                     <el-table-column

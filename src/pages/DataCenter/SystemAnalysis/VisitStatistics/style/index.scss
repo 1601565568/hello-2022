@@ -86,3 +86,21 @@ $white: #fff;
 .el-pagination {
   box-shadow: none;
 }
+.template-search__box {
+  width: 182px;
+  height: 28px;
+  background: #ffffff;
+  border: 1px solid #dcdfe6;
+  border-radius: 3px;
+  border-radius: 3px;
+  display: flex;
+}
+.template-search__box span {
+  width: 141px;
+  height: 27px;
+  margin-left: 10px;
+  border-right: 1px solid #dcdfe6;
+}
+.template-search__box > div + span {
+  margin-left: var(--default-margin-small);
+}

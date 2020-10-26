@@ -24,6 +24,16 @@ export default {
         },
         shortcuts: [
           {
+            text: '昨天',
+            onClick (picker) {
+              let start = new Date(new Date(new Date().toLocaleDateString()).getTime()) // 当天0点
+              let end = new Date(new Date(new Date().toLocaleDateString()).getTime() + 24 * 60 * 60 * 1000 - 1)// 当天23:59
+              let laststart = new Date(start.getTime() - 3600 * 1000 * 24)
+              let lastend = new Date(end.getTime() - 3600 * 1000 * 24)
+              picker.$emit('pick', [laststart, lastend])
+            }
+          },
+          {
             text: '最近一周',
             onClick (picker) {
               const end = new Date()
@@ -41,15 +51,6 @@ export default {
               picker.$emit('pick', [start, end])
             }
           }
-          // {
-          //   text: '最近三个月',
-          //   onClick (picker) {
-          //     const end = new Date()
-          //     const start = new Date()
-          //     start.setTime(start.getTime() - 3600 * 1000 * 24 * 90)
-          //     picker.$emit('pick', [start, end])
-          //   }
-          // }
         ]
       },
       overviewdata: {
@@ -61,15 +62,15 @@ export default {
       systemFrom: [
         {
           value: '',
-          label: '全部'
+          label: '不限'
         },
         {
           value: '1',
-          label: '小程序'
+          label: '小程序端'
         },
         {
           value: '2',
-          label: '手机端'
+          label: '导购手机'
         }
       ]
     }
@@ -99,7 +100,7 @@ export default {
             let obj = JSON.parse(res.result)
             var arr = [{
               value: '',
-              label: '全部'
+              label: '不限'
             }]
             for (let key in obj) {
               let pageObj = {
@@ -132,15 +133,14 @@ export default {
       })
     },
     formatTime () {
-      this.searchform = {
-        ...this.searchform,
+      this.model = {
+        ...this.model,
         startTime: this.time[0],
         endTime: this.time[1]
       }
       this.handleSearch()
     },
     NsGuideDialog () {
-      this.model.guideId = this.model.guideId.join(',')
       this.handleSearch()
     },
     sortChange (data) {
@@ -152,7 +152,12 @@ export default {
       this.handleSearch()
     },
     handleSearch () {
-      this.$search({ searchMap: { ...this.model } })
+      if (this.model.guideId) {
+        let guideId = this.model.guideId.join(',')
+        this.$search({ searchMap: { ...this.model, guideId: guideId } })
+      } else {
+        this.$search({ searchMap: { ...this.model } })
+      }
     },
     exportData (urlLink) {
       var url = API_ROOT + urlLink
