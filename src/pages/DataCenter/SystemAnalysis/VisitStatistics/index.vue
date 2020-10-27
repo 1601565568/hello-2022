@@ -115,7 +115,7 @@
                 </div>
             </div>
             <!-- @selection-change="handleSelectionChange" -->
-            <div class="content-box">
+            <div class="content-box" style="padding-top:12px">
                 <el-table
                     class="template-table__main"
                     :data="_data._table.data"
