@@ -56,11 +56,6 @@ export default {
     },
     treeSelectedValue (newValue) {
       this.$emit('change', newValue)
-    },
-    goodsLibId (newValue) {
-      if (newValue) {
-        this.init()
-      }
     }
   },
   mounted () {
@@ -72,7 +67,7 @@ export default {
   },
   methods: {
     init () {
-      this.$http.fetch(this.getDirectoryTree)
+      this.$http.fetch(this.getDirectoryTreeUrl)
         .then(data => {
           this.treeData = data.result
           this.$nextTick(() => {

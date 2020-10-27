@@ -45,7 +45,9 @@
                     <el-select
                         v-model="model.systemFrom"
                         placeholder="请选择"
-                        @change="systemFromSearch()"
+                        multiple
+                        collapse-tags
+                        @change="(data) => {systemFromSearch(data)}"
                     >
                         <el-option
                             v-for="item in systemFrom"
@@ -60,7 +62,9 @@
                     <el-select
                         v-model="model.pageForm"
                         placeholder="请选择"
-                        @change="handleSearch()"
+                        multiple
+                        collapse-tags
+                        @change="(data) => {handlepageFormSearch(data)}"
                     >
                         <el-option
                             v-for="item in pageList"

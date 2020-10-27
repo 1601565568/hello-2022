@@ -11,9 +11,9 @@ export default {
       model: {
         startTime: '',
         endTime: '',
-        guideId: null,
-        pageForm: '', // 页面路径
-        systemFrom: '', // 终端
+        guideId: [],
+        pageForm: [''], // 页面路径
+        systemFrom: [''], // 终端
         orderType: '1', // 排序方式 1下载 2发送 3 转发
         isDesc: '0' // 是否倒叙  0正序，1倒序
       },
@@ -93,38 +93,50 @@ export default {
       // this.getPage()
       this.overview()
       this.findTrackPageBizTypeList()
-      this.$reload()
+      this.handleSearch()
     },
-    systemFromSearch () {
-      this.model.pageForm = ''
+    systemFromSearch (data) {
+      this.model.pageForm = ['']
       this.pageList = [{
         value: '',
         label: '不限'
       }]
+      var lable
+      if (data && data.length > 1) {
+        lable = data[data.length - 1]
+        var index = data.findIndex((item) => { return item === '' })
+        if (lable === '' || !lable) {
+          this.model.systemFrom = ['']
+        } else {
+          if (index >= 0) {
+            this.model.systemFrom.splice(index, 1)
+          }
+        }
+      }
       this.findTrackPageBizTypeList()
       this.handleSearch()
     },
-    findTrackPageBizTypeList () {
-      var params
-      var _this = this
-      if (!this.model.systemFrom === '' || !this.model.systemFrom) {
-        params = {
-          terminalType: null
-        }
-      } else {
-        params = {
-          terminalType: parseInt(this.model.systemFrom)
+    handlepageFormSearch (data) {
+      var lable
+      if (data && data.length > 1) {
+        lable = data[data.length - 1]
+        var index = data.findIndex((item) => { return item === '' })
+        if (lable === '' || !lable) {
+          this.model.pageForm = ['']
+        } else {
+          if (index >= 0) {
+            this.model.pageForm.splice(index, 1)
+          }
         }
       }
+      this.handleSearch()
+    },
+    findTrackPageBizTypeList () {
+      var params = {
+        terminalTypes: this.model.systemFrom.join(',') || null
+      }
       this.$http.fetch(this.$api.dataCenter.userData.findTrackPageBizTypeList, params).then((res) => {
-        var arr = res.result.map((item) => {
-          let obj = {
-            ...item,
-            value: `'${item.value}'`
-          }
-          return obj
-        })
-        _this.pageList = _this.pageList.concat(arr)
+        this.pageList = this.pageList.concat(res.result)
       }).catch(() => {
         this.$notify.error('获取页面路径错误')
       })
@@ -133,7 +145,13 @@ export default {
       let params = JSON.parse(JSON.stringify(this.model))
       delete params.orderType
       delete params.isDesc
-      this.$http.fetch(this.$api.dataCenter.userData.overview, params).then((res) => {
+      let param = {
+        ...params,
+        guideId: params.guideId.join(','),
+        pageForm: params.pageForm.join(','),
+        systemFrom: params.systemFrom.join(',')
+      }
+      this.$http.fetch(this.$api.dataCenter.userData.overview, param).then((res) => {
         if (res.success) {
           this.overviewdata = res.result
         } else {
@@ -157,18 +175,20 @@ export default {
     sortChange (data) {
       let order = data.order
       let prop = data.prop
-      this.model.isDesc = order === 'descending' ? '0' : order === 'ascending' ? '1' : '0'
+      this.model.isDesc = order === 'descending' ? '1' : order === 'ascending' ? '2' : '1'
       this.model.orderType =
         prop === 'countNum' ? '1' : '2'
       this.handleSearch()
     },
     handleSearch () {
-      if (this.model.guideId) {
-        let guideId = this.model.guideId.join(',')
-        this.$search({ searchMap: { ...this.model, guideId: guideId } })
-      } else {
-        this.$search({ searchMap: { ...this.model } })
+      let params = JSON.parse(JSON.stringify(this.model))
+      let param = {
+        ...params,
+        guideId: params.guideId.join(','),
+        pageForm: params.pageForm.join(','),
+        systemFrom: params.systemFrom.join(',')
       }
+      this.$search({ searchMap: { ...param } })
     },
     exportData (urlLink) {
       var url = API_ROOT + urlLink
