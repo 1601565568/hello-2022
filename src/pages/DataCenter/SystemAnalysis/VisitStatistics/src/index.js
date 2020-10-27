@@ -15,7 +15,7 @@ export default {
         pageForm: [''], // 页面路径
         systemFrom: '', // 终端
         orderType: '1', // 排序方式 1下载 2发送 3 转发
-        isDesc: '0' // 是否倒叙  0正序，1倒序
+        isDesc: '1' // 是否倒叙  2正序，1倒序
       },
       time: [],
       pickerOptions: {
