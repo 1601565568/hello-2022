@@ -42,7 +42,7 @@
                   :rules="commonRules.content"
                   ><!-- :rules="commonRules.content" -->
                   <ElFormGrid size="xlg" class="message-plan">
-                    <ElInput
+                    <!-- <ElInput
                       ref="input"
                       type="textarea"
                       :cols="28"
@@ -50,8 +50,10 @@
                       placeholder="请输入欢迎语"
                       v-model="model.content"
                       autofocus
-                      ><!-- maxlength="100" show-word-limit -->
-                    </ElInput>
+                      >
+                    </ElInput> -->
+                    <!-- maxlength="100" show-word-limit -->
+                    <ns-textarea ref="input" :replaceOptions="replaceOptions" placeholder="请输入欢迎语" v-model="model.content"></ns-textarea>
                   </ElFormGrid>
                 </ElFormItem>
                 <ElFormItem>
