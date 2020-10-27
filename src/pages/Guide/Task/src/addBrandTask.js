@@ -136,17 +136,8 @@ export default {
       var that = this
       this.$refs.form.validate(valid => {
         if (valid) {
-          debugger
           that.model.startTime = that.model.activityTime[0]
           that.model.endTime = that.model.activityTime[1]
-          //   if (that.model.activityTime.length === 2) {
-          //     that.model.startTime = moment(that.model.activityTime[0]).format(
-          //       'YYYY-MM-DD HH:mm:ss'
-          //     )
-          //     that.model.endTime = moment(that.model.activityTime[1]).format(
-          //       'YYYY-MM-DD HH:mm:ss'
-          //     )
-          //   }
           // 指定门店
           if (that.model.shopRangeType === 1) {
             if (that.hasShopArr.length === 0) {
