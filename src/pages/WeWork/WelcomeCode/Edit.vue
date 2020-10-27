@@ -452,11 +452,14 @@
           clearable
           show-word-limit
         >
-          <el-form-grid size="xxmd">
+          <el-form-grid>
             <el-input
+              ref="linkModelLink"
+              type="textarea"
               :disabled="linkModel.custom === 2"
-              v-model.trim="linkModel.link"
+              v-model="linkModel.link"
             />
+            <ns-button type="text" v-for="(item, index) in placeholderLink" :key="index" @click="insertPlaceHolderLink(item.value)">&lt;{{item.label}}&gt;</ns-button>
           </el-form-grid>
         </el-form-item>
         <el-form-item label="消息展示内容：" class="code-title"> </el-form-item>
@@ -579,6 +582,7 @@
           >
             <el-form-grid size="xxmd">
               <el-input
+                ref="appModelPath"
                 type="text"
                 maxlength="255"
                 minlength="1"
@@ -587,6 +591,7 @@
                 show-word-limit
                 v-model.trim="appModel.path"
               />
+              <ns-button type="text" v-for="(item, index) in placeholderLink" :key="index" @click="insertAppModelPath(item.value)">&lt;{{item.label}}&gt;</ns-button>
             </el-form-grid>
           </el-form-item>
           <el-form-item>
