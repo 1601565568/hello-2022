@@ -47,7 +47,10 @@ export default {
   data () {
     return {
       treeSelectedValue: '',
-      treeData: []
+      treeData: [{
+        id: '',
+        label: '无'
+      }]
     }
   },
   watch: {
@@ -69,7 +72,7 @@ export default {
     init () {
       this.$http.fetch(this.getDirectoryTreeUrl)
         .then(data => {
-          this.treeData = data.result
+          this.treeData = this.treeData.concat(data.result)
           this.$nextTick(() => {
             this.treeSelectedValue = this.categoryPath
           })

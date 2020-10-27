@@ -117,7 +117,11 @@
             <!-- @selection-change="handleSelectionChange" -->
             <div class="content-box">
                 <el-table
+                    class="template-table__main"
                     :data="_data._table.data"
+                    stripe
+                    ref="table"
+                    resizable
                     v-loading.lock="_data._table.loadingtable"
                     :element-loading-text="$t('prompt.loading')"
                     @sort-change="sortChange"
@@ -139,6 +143,9 @@
                         align="left"
                         :sortable="false"
                     >
+                     <template slot-scope="scope">
+                            {{scope.row.outWorkId || '-'}}
+                      </template>
                     </el-table-column>
                     <el-table-column
                         prop="workShopName"

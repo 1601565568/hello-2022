@@ -172,6 +172,7 @@
                         type="default"
                         prop="downloadCount"
                         label="下载次数"
+                        align = "right"
                         sortable="custom"
                     >
                         <template
@@ -193,6 +194,7 @@
                         type="default"
                         prop="sendCount"
                         label="发送次数"
+                        align = "right"
                         sortable="custom"
                     >
                         <template
@@ -215,6 +217,7 @@
                         type="default"
                         prop="shareCount"
                         label="转发次数"
+                        align = "right"
                         sortable="custom"
                     >
                         <template
@@ -236,6 +239,7 @@
                         type="default"
                         prop="title"
                         label="操作"
+                        align = "right"
                         :sortable="false"
                     >
                         <template slot-scope="scope">
