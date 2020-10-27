@@ -72,7 +72,7 @@
                         :sortable="false"
                     >
                       <template slot-scope="scope">
-                            {{scope.row.name}}<span v-if="scope.row.status&&scope.row.status == 2">(已离职)</span>
+                            {{scope.row.name}}<span v-if="scope.row.status&&scope.row.status == 2"  style="color:red">(已离职)</span>
                       </template>
                     </el-table-column>
                      <el-table-column
