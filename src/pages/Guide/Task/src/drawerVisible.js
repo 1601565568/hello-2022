@@ -82,7 +82,6 @@ export default {
       this.queryShopTaskDetail()
       this.name = this.shopName
       this.type = this.runType
-      console.log('sssss', this.type)
     },
     $currentChange$ (data) {
       this.pagination.page = data

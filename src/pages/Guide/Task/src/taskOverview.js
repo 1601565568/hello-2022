@@ -32,7 +32,6 @@ export default {
           this.shopId = data.row.shopId
           this.shopName = data.row.shopName
           this.runType = this.taskMsg.runType
-          console.log('店铺名称：', this.runType)
         },
         icon: '$.noop',
         name: '查看详情',
