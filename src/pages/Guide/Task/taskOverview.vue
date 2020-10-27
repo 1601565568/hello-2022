@@ -114,7 +114,11 @@
             </ElCol>
             <ElCol :span="8">
               <div class="taskOverview-detail__data-item">
-                <p class="data-item__title">完成度 <Icon type="help" class="data-item__title-icon" /></p>
+                <p class="data-item__title">完成度
+                  <el-tooltip content="筛选门店的平均完成度，即门店完成度相加/门店数">
+                    <Icon type="question-circle" />
+                  </el-tooltip>
+                </p>
                 <span class="data-item__num">{{ taskMsg.completion }}%</span>
                 <span class="data-item__icon degreeCompletion">
                   <Icon type='degreecompletion' class="degreecompletionIcon" />
@@ -153,6 +157,9 @@
                              label="分配导购" />
             <el-table-column align="center" prop="completion" width="300"
                              label="完成度" >
+              <template slot-scope="scope">
+                {{scope.row.completion}}%
+              </template>
             </el-table-column>
             <el-table-column align="center" label="操作"
                              width="100">
@@ -177,7 +184,7 @@
       size="1000px"
       :visible.sync="drawerVisible"
       direction="rtl">
-      <drawerTable :id='id' :shopId='shopId'/>
+      <drawerTable v-if="drawerVisible" :id='id' :shopId='shopId' :shopName='shopName' :runType='runType'/>
     </el-drawer>
   </div>
 </template>

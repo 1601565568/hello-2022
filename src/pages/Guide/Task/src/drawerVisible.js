@@ -9,6 +9,12 @@ export default {
     },
     shopId: {
       type: String
+    },
+    shopName: {
+      type: String
+    },
+    runType: {
+      type: Number
     }
   },
   mixins: [tableMixin, scrollHeight],
@@ -49,7 +55,7 @@ export default {
       rules: Object.assign({}, {}, {}),
       url: '',
       // eslint-disable-next-line vue/no-reserved-keys
-      _pagination: pagination,
+      pagination: pagination,
       // eslint-disable-next-line vue/no-reserved-keys
       _table: {
         table_buttons: tableButtons,
@@ -64,7 +70,9 @@ export default {
       },
       totalNum: 0, // 任务分配导购总数
       finishedCount: 0, // 完成数量
-      tableData: []
+      tableData: [],
+      name: null,
+      type: null
     }
   },
   methods: {
@@ -72,22 +80,34 @@ export default {
     },
     init () {
       this.queryShopTaskDetail()
+      this.name = this.shopName
+      this.type = this.runType
+      console.log('sssss', this.type)
+    },
+    $currentChange$ (data) {
+      this.pagination.page = data
+      this.queryShopTaskDetail()
+    },
+    $sizeChange$ (data) {
+      this.pagination.size = data
+      this.queryShopTaskDetail()
     },
     queryShopTaskDetail () {
-      const params = {}
-      params.taskId = this.id
-      params.shopId = this.shopId
+      const params = {
+        searchMap: {}
+      }
+      params.searchMap.taskId = this.id
+      params.searchMap.shopId = this.shopId
+      params.searchMap.pageStart = (this.pagination.page - 1) * this.pagination.size
+      params.searchMap.pageSize = this.pagination.size
       this.$http
         .fetch(this.$api.guide.queryShopTaskDetail, params)
         .then(resp => {
           if (resp.success) {
-            this.tableData = resp.result
-            this.totalNum = resp.result.length
-            resp.result.forEach(obj => {
-              if (obj.state < 3) {
-                this.finishedCount++
-              }
-            })
+            this.tableData = resp.result.data
+            this.pagination.total = parseInt(resp.result.recordsTotal)
+            this.finishedCount = parseInt(resp.result.recordsFiltered)
+            this.totalNum = parseInt(resp.result.recordsTotal)
           }
         })
         .catch(resp => {

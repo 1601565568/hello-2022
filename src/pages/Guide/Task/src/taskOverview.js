@@ -30,6 +30,9 @@ export default {
         func: function (data) {
           this.drawerVisible = true
           this.shopId = data.row.shopId
+          this.shopName = data.row.shopName
+          this.runType = this.taskMsg.runType
+          console.log('店铺名称：', this.runType)
         },
         icon: '$.noop',
         name: '查看详情',
@@ -84,7 +87,9 @@ export default {
       drawerVisible: false,
       selectMaterial: {},
       id: null,
-      shopId: null
+      shopId: null,
+      shopName: null,
+      runType: null
     }
   },
   methods: {
@@ -105,7 +110,7 @@ export default {
       this.queryTaskShopInfo()
     },
     handleVisibleChange () {
-      this.pagination.start = 0
+      this.pagination.start = 1
       this.queryTaskShopInfo()
     },
     queryTimeChange () {
@@ -177,7 +182,7 @@ export default {
           taskId: this.id
         },
         length: this.pagination.length,
-        start: this.pagination.start
+        start: (this.pagination.start - 1) * this.pagination.length
       }
       this.$http
         .fetch(this.$api.guide.taskQueryTaskShopInfo, params)
