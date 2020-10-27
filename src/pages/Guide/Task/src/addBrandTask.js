@@ -136,6 +136,7 @@ export default {
       var that = this
       this.$refs.form.validate(valid => {
         if (valid) {
+          debugger
           that.model.startTime = that.model.activityTime[0]
           that.model.endTime = that.model.activityTime[1]
           //   if (that.model.activityTime.length === 2) {
@@ -214,8 +215,8 @@ export default {
             this.model.runType = obj.runType
             this.model.remark = obj.remark
             this.model.name = obj.name
-            this.model.activityTime.push(new Date(obj.startTime))
-            this.model.activityTime.push(new Date(obj.endTime))
+            this.model.activityTime.push(obj.startTime)
+            this.model.activityTime.push(obj.endTime)
             this.model.viewId = obj.viewId
             this.model.subgroupId = obj.subgroupId
             if (obj.viewId) {
