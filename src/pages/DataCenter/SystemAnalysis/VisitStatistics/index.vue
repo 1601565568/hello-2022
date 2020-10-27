@@ -45,9 +45,7 @@
                     <el-select
                         v-model="model.systemFrom"
                         placeholder="请选择"
-                        multiple
-                        collapse-tags
-                        @change="(data) => {systemFromSearch(data)}"
+                        @change="systemFromSearch()"
                     >
                         <el-option
                             v-for="item in systemFrom"
