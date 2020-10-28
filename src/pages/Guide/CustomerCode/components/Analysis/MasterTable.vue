@@ -1,5 +1,5 @@
 <template>
-  <page-table>
+  <page-table :searchCol='24'>
     <template slot='search'>
     <el-form :inline="true" class='form-inline_top'>
       <el-form-item label="所属员工：">
@@ -44,6 +44,7 @@
         :data="_data._table.data"
         class="new-table_border"
         v-loading.lock="_data._table.loadingtable"
+        :row-style="tableRowClassName"
         @sort-change="handleSort"
         style="width: 100%">
         <el-table-column
@@ -174,7 +175,7 @@ export default {
         employeeName: item.promotionName
       }
       this.activeIndex = index
-      this.$emit('showFriend', item)
+      this.$emit('showFriend', data)
     },
     handleSort (data) {
       const order = data.order
@@ -224,6 +225,15 @@ export default {
           }
         }
       }
+    },
+    tableRowClassName ({ row, rowIndex }) {
+      if (rowIndex === this.activeIndex) {
+        return { backgroundColor: '#D9EFFE' }
+      }
+      return ''
+    },
+    clearActiveIndex () {
+      this.activeIndex = -1
     }
   },
   watch: {

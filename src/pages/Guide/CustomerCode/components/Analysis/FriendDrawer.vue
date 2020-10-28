@@ -9,7 +9,7 @@
       <span class='header-title_num'>共{{_data._pagination.total}}人</span>
     </div>
     <div class='analysis-content'>
-       <page-table>
+       <page-table  :searchCol='24'>
          <template slot='search'>
           <el-form :inline="true" class='form-inline_top'>
             <el-form-item label="">
@@ -40,12 +40,13 @@
           </template>
         </template>
         <template slot='pagination'>
-          <div class='drawer-pagination'>
-            <div class='pagecontent-left'>
-              <div class='content-item' @click='handlePrev'><i class="el-icon-arrow-left"></i>上一个员工</div>
-              <div class='content-item' @click='handleNext'>下一个员工<i class="el-icon-arrow-right"></i></div>
-            </div>
-            <el-pagination v-if="_data._pagination.enable"
+          <template v-if='!isSecondDrawer'>
+            <div class='drawer-pagination'>
+              <div class='pagecontent-left'>
+                <div class='content-item' @click='handlePrev'><i class="el-icon-arrow-left"></i>上一个员工</div>
+                <div class='content-item' @click='handleNext'>下一个员工<i class="el-icon-arrow-right"></i></div>
+              </div>
+              <el-pagination v-if="_data._pagination.enable"
                             style='width:300px'
                             class="template-table__pagination"
                             :page-sizes="_data._pagination.sizeOpts"
@@ -57,6 +58,19 @@
                             @current-change="$pageChange$">
               </el-pagination>
             </div>
+          </template>
+          <template v-else>
+            <el-pagination v-if="_data._pagination.enable"
+                          class="template-table__pagination"
+                          :page-sizes="_data._pagination.sizeOpts"
+                          :total="_data._pagination.total"
+                          :current-page="_data._pagination.page"
+                          :page-size="_data._pagination.size"
+                          layout="total, prev, pager, next, jumper"
+                          @size-change="$sizeChange$"
+                          @current-change="$pageChange$">
+            </el-pagination>
+          </template>
         </template>
        </page-table>
     </div>
@@ -130,6 +144,7 @@ export default {
     // 切换导购触发
     chooseFriend: {
       handler (newVal) {
+        console.log(newVal)
         if (newVal.guideId) {
           if (newVal.oldGuideId) {
             this.isSecondDrawer = true

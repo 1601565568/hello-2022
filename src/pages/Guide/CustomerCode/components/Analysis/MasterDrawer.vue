@@ -8,7 +8,7 @@
       <span class='header-title_num'>共{{_data._pagination.total}}人</span>
     </div>
     <div class='analysis-content'>
-       <page-table>
+       <page-table :searchCol='24'>
          <template slot='search'>
           <el-form :inline="true" class='form-inline_top'>
             <el-form-item label="活动码状态：">
@@ -21,7 +21,7 @@
                 </el-option>
               </el-select>
             </el-form-item>
-            <el-form-item label="有效时间：">
+            <el-form-item label="好友添加时间：">
               <el-date-picker
                 v-model="seachDate"
                 type="datetimerange"

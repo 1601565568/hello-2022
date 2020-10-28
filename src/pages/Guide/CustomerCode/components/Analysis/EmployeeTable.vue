@@ -1,5 +1,5 @@
 <template>
-  <page-table>
+  <page-table :searchCol='24'>
     <template slot='search'>
     <el-form :inline="true" class='form-inline_top'>
       <el-form-item label="所属员工：">
@@ -44,6 +44,7 @@
         :data="_data._table.data"
         class="new-table_border"
         v-loading.lock="_data._table.loadingtable"
+        :row-style="tableRowClassName"
         @sort-change="handleSort"
         style="width: 100%">
         <el-table-column
@@ -66,9 +67,18 @@
               <div :class="'scope-name_text'" >
                 {{scope.row.offlineShops.join(',')}}
               </div>
-              <el-tooltip class="item" effect="light" :content="scope.row.offlineShops.join(',')" placement="top" popper-class='max-popper'>
+              <el-popover
+                placement="top-start"
+                class="item"
+                :title="`线下门店（${scope.row.offlineShops.length}）`"
+                width="200"
+                trigger="hover"
+                :content="scope.row.offlineShops.join(',')">
+                <span class="scope-name_tip" slot="reference">共{{scope.row.offlineShops.length}}个</span>
+               </el-popover>
+              <!-- <el-tooltip class="item" effect="light" :content="scope.row.offlineShops.join(',')" placement="top" popper-class='max-popper'>
                 <span class="scope-name_tip">共{{scope.row.offlineShops.length}}个</span>
-              </el-tooltip>
+              </el-tooltip> -->
             </div>
           </template>
         </el-table-column>
@@ -175,6 +185,12 @@ export default {
     getOhterGuideForFriend (type) {
       this.getOhterGuide(type, this.handleShowFriend)
     },
+    tableRowClassName ({ row, rowIndex }) {
+      if (rowIndex === this.activeIndex) {
+        return { backgroundColor: '#D9EFFE' }
+      }
+      return ''
+    },
     // 查看上一个或下一个导购或好友
     getOhterGuide (type, cb) {
       const { page, size, total } = this._data._pagination
@@ -209,6 +225,9 @@ export default {
           }
         }
       }
+    },
+    clearActiveIndex () {
+      this.activeIndex = -1
     }
   },
   watch: {

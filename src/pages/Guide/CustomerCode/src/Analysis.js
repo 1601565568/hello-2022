@@ -30,14 +30,14 @@ export default {
         {
           label: '推广大师人数',
           value: 0,
-          tip: 'xxxx',
+          tip: '筛选期间内，通过此活动成为推广大师总人数（导购发送一客一码的好友即为推广大师）',
           id: 'master',
           key: 'promotionMasterNumber'
         },
         {
           label: '邀请好友总数',
           value: 0,
-          tip: 'xxx',
+          tip: '筛选期间内，通过此活动每个导购新增的好友数之和。注意：1、只有第一次添加导购企业微信才算邀请好友数；2、一个微信号添加了多个导购时，好友数为多个',
           id: 'friend',
           key: 'inviteFriendNumber'
         }
@@ -119,6 +119,8 @@ export default {
     },
     handleClose () {
       this.drawer = false
+      const ref = this.$refs.employeeTable || this.$refs.masterTable
+      ref.clearActiveIndex()
     },
     // 查看下一个推广大使
     onNextMaster () {

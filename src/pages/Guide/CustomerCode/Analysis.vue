@@ -26,7 +26,12 @@
     <el-row class='analysis-tab' :gutter="16">
       <el-col v-for='item in typeList' :span='8' :key="item.id">
         <div :class="'tab-content'+(item.id===analysisType?' avtive':'')" @click='hanldeChangeType(item.id)'>
-          <h3 class="tab-label">{{item.label}}</h3>
+          <h3 class="tab-label">
+            {{item.label}}
+            <el-tooltip :content="item.tip" v-if='item.tip'  placement="top">
+              <Icon type="question-circle" />
+            </el-tooltip>
+          </h3>
           <div class="tab-value">{{item.value}}</div>
         </div>
       </el-col>

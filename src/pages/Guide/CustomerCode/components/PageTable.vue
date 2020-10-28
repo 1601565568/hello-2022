@@ -5,11 +5,11 @@
     <div class="template-table__bar">
       <el-row class="template-table__bar-base">
       <!-- 搜索条件-->
-      <el-col :span='21' class="search-content">
+      <el-col :span='searchCol' class="search-content">
         <slot name='search' />
       </el-col>
       <!-- 按钮-->
-      <el-col :span='3' class="btn-content">
+      <el-col :span='24-searchCol' class="btn-content">
         <slot name='button' />
       </el-col>
       </el-row>
@@ -28,7 +28,12 @@
 
 <script>
 export default {
-  name: 'PageTable'
+  name: 'PageTable',
+  props: {
+    searchCol: {
+      default: 21
+    }
+  }
 }
 </script>
 <style lang="scss" scoped>
