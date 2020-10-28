@@ -59,7 +59,7 @@ export default {
         viewId: '',
         viewName: '',
         subgroupId: '',
-        subgroupName: '',
+        subgroupName: null,
         materialTitle: '', // 素材库标题
         materialType: '', // 素材类型 1图片 2视频 0 文章
         materialMsg: null // 素材库内容
@@ -100,6 +100,7 @@ export default {
       param.viewId = obj
       this.subgroups = []
       this.model.subgroupId = null
+      this.model.subgroupName = null
       this.$http
         .fetch(this.$api.guide.querySubgroup, param)
         .then(resp => {
@@ -119,6 +120,12 @@ export default {
     },
     // 选择分组
     chooseSubgroup (subgroupId) {
+      for (let index = 0; index < this.subgroups.length; index++) {
+        var obj = this.subgroups[index]
+        if (obj.id === subgroupId) {
+          this.model.subgroupName = obj.name
+        }
+      }
       this.model = Object.assign({}, this.model, { subgroupId })
     },
     // 选择素材
