@@ -89,7 +89,9 @@ export default {
         { type: 'tag', text: '插入推广大师查询链接', id: 'PROMOTION_URL', value: '推广大师查询链接' },
         { type: 'tag', text: '插入招募链接', id: 'RECRUIT_URL', value: '招募链接' },
         { type: 'tag', text: '插入活动有效时间', id: 'ACTIVITY_VALIT_TIME', value: '活动有效时间' }
-      ]
+      ],
+      // 是否是进行中的
+      isStating: false
     }
   },
   computed: {
@@ -130,6 +132,7 @@ export default {
           time: [result.validTimeStart, result.validTimeEnd],
           validTimeType: result.validTimeType
         }
+        this.isStating = result.status === 2 && this.guestCodeId
         this.fileList = [{ name: result.backgroundPic }]
       })
     },

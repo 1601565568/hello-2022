@@ -50,7 +50,7 @@
     <el-drawer
       title="我是标题"
       :modal='false'
-      size='50%'
+      size='60%'
       show-close
       :visible.sync="drawer"
       :with-header="false">

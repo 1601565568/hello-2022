@@ -30,7 +30,6 @@ export default {
 }
 .el-input__count {
   color: #C0C4CC;
-  background: #FFFFFF;
   position: absolute;
   font-size: 12px;
   bottom: 5px;

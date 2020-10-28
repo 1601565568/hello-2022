@@ -5,9 +5,9 @@
         v-for="item in tools"
         :key="item.id"
         @click="openTagDialog(item)">{{item.text}}</span>
-      <!-- <span :class="['w-textarea_tools__text',
-        count.num < 0 ? '__danger' : '']"
-        v-if="maxlength">{{count.text}}</span> -->
+        <span :class="['w-textarea_tools__text',
+          count.num < 0 ? '__danger' : '']"
+          v-if="maxlength">{{count.text}}</span>
     </div>
     <div
       class="w-textarea_input"
@@ -64,7 +64,7 @@ export default {
   computed: {
     count () { // 字符长度记数
       let num = this.maxlength - this.currentText.length
-      let text = num < 0 ? `已超出${Math.abs(num)}个字符` : `还可以输入${num}个字符`
+      let text = num < 0 ? `已超出${Math.abs(num)}个字符` : `${this.currentText.length}/${this.maxlength}`
       return { num, text }
     }
   },
@@ -273,7 +273,10 @@ $textColor: #595959;
       color: $textColor;
       cursor: default;
       transition: all 0.3s;
-
+      position: absolute;
+      bottom:0;
+      right: 12px;
+      color: #C0C4CC;
       &:hover {
         opacity: 1;
       }
