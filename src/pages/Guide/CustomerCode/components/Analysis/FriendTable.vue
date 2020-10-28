@@ -126,7 +126,7 @@ export default {
       const order = data.order
       const prop = data.prop
       const sortData = {
-        addTime: 'addTimeOrderStr',
+        addTime: 'addTimeOrder',
         descending: 'desc',
         ascending: 'asc'
       }
