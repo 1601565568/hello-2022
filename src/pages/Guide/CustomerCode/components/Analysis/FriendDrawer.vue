@@ -80,6 +80,11 @@
 <script>
 import PageTable from '../PageTable'
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
+const originModel = {
+  friendName: null,
+  guideId: null,
+  promotionMasterIds: null
+}
 export default {
   data () {
     return {
@@ -119,7 +124,7 @@ export default {
       const order = data.order
       const prop = data.prop
       const sortData = {
-        addTime: 'addTimeOrderStr',
+        addTime: 'addTimeOrder',
         descending: 'desc',
         ascending: 'asc'
       }
@@ -138,13 +143,19 @@ export default {
     },
     handleNext () {
       this.$emit('onNext')
+    },
+    resetModel () {
+      this.model = { ...JSON.parse(JSON.stringfiy(originModel)),
+        guestCodeId: this.$route.query.guestCodeId,
+        guideId: this.model.guideId,
+        promotionMasterIds: this.model.promotionMasterIds }
+      this.seachVal = ''
     }
   },
   watch: {
     // 切换导购触发
     chooseFriend: {
       handler (newVal) {
-        console.log(newVal)
         if (newVal.guideId) {
           if (newVal.oldGuideId) {
             this.isSecondDrawer = true
@@ -214,6 +225,7 @@ export default {
     border-radius: 2px;
     display: flex;
     position: relative;
+    user-select:none;
     cursor: pointer;
     &:after {
       content: ' ';

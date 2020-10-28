@@ -111,6 +111,13 @@
 <script>
 import PageTable from '../PageTable'
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
+const originModel = {
+  timeStart: null,
+  timeEnd: null,
+  guideId: null,
+  promotionMasterName: null,
+  promotionCodeStatus: null
+}
 export default {
   data () {
     return {
@@ -179,7 +186,7 @@ export default {
         descending: 'desc',
         ascending: 'asc'
       }
-      this.changeSearchfrom(Object.assign({}, { inviteFriendNumber: null, lastFriendAddTime: null }, { [sortData[prop]]: sortData[order] }))
+      this.changeSearchfrom(Object.assign({}, { friendOrder: null, lastFriendAddTimeOrder: null }, { [sortData[prop]]: sortData[order] }))
     },
     // 关闭弹框
     handleClose () {
@@ -194,6 +201,13 @@ export default {
     },
     handleNext () {
       this.$emit('onNext')
+    },
+    resetModel () {
+      this.model = { ...JSON.parse(JSON.stringify(originModel)),
+        guestCodeId: this.$route.query.guestCodeId,
+        guideId: this.model.guideId }
+      this.seachDate = []
+      this.seachVal = ''
     }
   },
   watch: {
@@ -276,6 +290,7 @@ export default {
     border-radius: 2px;
     display: flex;
     position: relative;
+    user-select:none;
     cursor: pointer;
     &:after {
       content: ' ';

@@ -154,6 +154,7 @@ export default {
   },
   components: { PageTable, NsGuideDialog },
   mixins: [tableMixin],
+  props: ['startTime', 'endTime'],
   mounted () {
     this.$searchAction$()
   },
@@ -186,7 +187,7 @@ export default {
         descending: 0,
         ascending: 1
       }
-      this.changeSearchfrom(Object.assign({}, { inviteFriendNo: null, lastAddFriendsDate: null }, { [sortData[prop]]: sortData[order] }))
+      this.changeSearchfrom(Object.assign({}, { inviteFriendNo: null, addTimeOrderNo: null }, { [sortData[prop]]: sortData[order] }))
     },
     getOhterGuideForFriend (type) {
       this.getOhterGuide(type, this.handleShowFriend)

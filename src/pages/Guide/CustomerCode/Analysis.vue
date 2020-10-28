@@ -51,14 +51,14 @@
       title="我是标题"
       :modal='false'
       size='60%'
-      show-close
+      @close='handleClose'
       :visible.sync="drawer"
       :with-header="false">
       <template v-if='showType === "master"'>
-        <master-drawer :chooseMaster='chooseMaster' @onClose='handleClose' @openFriend='showFriend' @onPrev='onPrevMaster' @onNext='onNextMaster'/>
+        <master-drawer :chooseMaster='chooseMaster' @onClose='handleClose' @openFriend='showFriend' @onPrev='onPrevMaster' @onNext='onNextMaster' ref='masterDrawer'/>
       </template>
       <template v-if='showType === "friend"'>
-        <friend-drawer :chooseFriend='chooseFriend' @onClose='handleClose' @onPrev='onPrevFriend' @onNext='onNextFriend' @showMaster='showMaster'/>
+        <friend-drawer :chooseFriend='chooseFriend' @onClose='handleClose' @onPrev='onPrevFriend' @onNext='onNextFriend' @showMaster='showMaster' ref='friendDrawer'/>
       </template>
       <!-- <friend-drawer :chooseMaster='chooseFriend'/> -->
     </el-drawer>

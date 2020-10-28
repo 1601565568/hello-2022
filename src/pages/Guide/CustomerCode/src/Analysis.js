@@ -118,6 +118,8 @@ export default {
       this.chooseFriend = item
     },
     handleClose () {
+      const refs = this.$refs.masterDrawer || this.$refs.friendDrawer
+      refs.resetModel()
       this.drawer = false
       const ref = this.$refs.employeeTable || this.$refs.masterTable
       ref.clearActiveIndex()

@@ -9,28 +9,6 @@
           </template>
         </NsGuideDialog>
       </el-form-item>
-      <!-- <el-form-item label="活动码状态：">
-        <el-select v-model="model.status" placeholder="请选择" @change='(value)=>{changeSearchfrom({status:value})}'>
-          <el-option
-            v-for="item in statusOptionList"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value">
-          </el-option>
-        </el-select>
-      </el-form-item>
-      <el-form-item label="添加好友时间：">
-        <el-date-picker
-          v-model="seachDate"
-          type="datetimerange"
-          value-format="yyyy-MM-dd HH:mm:ss"
-          range-separator="至"
-          start-placeholder="请选择开始日期"
-          end-placeholder="请选择结束日期"
-          :default-time="['00:00:00','23:59:59']"
-          align="right">
-        </el-date-picker>
-      </el-form-item> -->
       <el-form-item label="">
         <el-input v-model="seachVal" placeholder="请输入员工名称"  @keyup.enter.native="handleSearch">
           <Icon type="ns-search-copy" slot="suffix" class='search-icon' @click="handleSearch"></Icon>

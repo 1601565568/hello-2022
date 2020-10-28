@@ -116,9 +116,9 @@ export default {
     },
     handleSearch () {
       if (this.searchType === 1) {
-        this.changeSearchfrom({ friendName: this.seachVal, promotionId: null })
+        this.changeSearchfrom({ friendName: this.seachVal, promotionMasterName: null })
       } else {
-        this.changeSearchfrom({ promotionId: this.seachVal, friendName: null })
+        this.changeSearchfrom({ promotionMasterName: this.seachVal, friendName: null })
       }
     },
     // 排序
@@ -159,7 +159,7 @@ export default {
             let link = document.createElement('a')
             link.style.display = 'none'
             link.href = url
-            var fileName = '抽奖_参与明细_' + new Date().getTime() + '.xls'
+            var fileName = '邀请好友数_' + new Date().getTime() + '.CSV'
             link.setAttribute('download', fileName)
             document.body.appendChild(link)
             link.click()
