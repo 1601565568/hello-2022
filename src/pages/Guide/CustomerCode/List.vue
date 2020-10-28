@@ -64,12 +64,18 @@
             label="参与活动人员">
             <template slot-scope="scope">
               <div class="scope-name">
-                <el-tooltip class="item" effect="light" :content="scope.row.guideNames" placement="top">
-                  <div :class="'scope-name_text'+ (scope.row.guideCount>10?' more':'')" >
-                    {{scope.row.guideNames}}
-                  </div>
-                </el-tooltip>
-                <span class="scope-name_tip">共{{scope.row.guideCount}}个</span>
+                <div :class="'scope-name_text'+ (scope.row.guideCount>10?' more':'')" >
+                  {{scope.row.guideNames}}
+                </div>
+                <el-popover
+                  placement="top-start"
+                  class="item"
+                  :title="`参与活动人员（${scope.row.guideCount}）`"
+                  width="200"
+                  trigger="hover"
+                  :content="scope.row.guideNames">
+                  <span class="scope-name_tip" slot="reference">共{{scope.row.guideCount}}个</span>
+                </el-popover>
                 <!-- <div class="scope-name_num">
                   共<span class="scope-name_num__blue">{{scope.row.emplee.length}}</span>个
                 </div> -->
@@ -112,7 +118,7 @@
               <ns-button type="text" v-if='[1,2].includes(scope.row.status)' @click='handleEdit({guestCodeId:scope.row.guestCodeId})'>编辑</ns-button>
               <ns-button type="text" @click='handleEdit({copyGuestCodeId:scope.row.guestCodeId})'>复制并新建</ns-button>
               <ns-button type="text" v-if='[1,2].includes(scope.row.status)' @click='handleEnd(scope.row.guestCodeId)'>结束活动</ns-button>
-              <ns-button type="text">活动效果</ns-button>
+              <ns-button type="text" v-if='scope.row.status!==1' @click='handleAnalysis(scope.row.guestCodeId)'>活动效果</ns-button>
             </template>
           </el-table-column>
         </el-table>

@@ -29,5 +29,36 @@ export default {
   saveOrUpdate: {
     url: `${prefix}saveOrUpdate`,
     method: 'post'
+  },
+  // 查询一客一码活动分析所属员工明细列表
+  getEmployeeListByGuestCodeId: {
+    url: `${prefix}getEmployeeListByGuestCodeId`,
+    method: 'post'
+  },
+  // 查询一客一码推广大师列表文档
+  getPromotionListByGuestCodeId: {
+    url: `${prefix}getPromotionListByGuestCodeId`,
+    method: 'post'
+  },
+  // 获取好友明细列表
+  getFriendListByParam: {
+    url: `${prefix}getFriendListByParam`,
+    method: 'post'
+  },
+  // 获取导购的推广大师明细
+  getPromotionMasterInfoList: {
+    url: `${prefix}getPromotionMasterInfoList`,
+    method: 'post'
+  },
+  // 查询一客一码列表统计总数
+  getGuestStatisticsCount: {
+    url: `${prefix}getGuestStatisticsCount`,
+    method: 'post'
+  },
+  exportFriendListByExcel: { // 导出excel
+    url: `${prefix}exportFriendListByExcel`,
+    method: 'post',
+    responseType: 'blob',
+    timeout: 600000
   }
 }

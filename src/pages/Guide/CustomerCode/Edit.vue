@@ -13,7 +13,7 @@
         <el-collapse class='customer-collapse' v-model='collapseList'>
           <el-collapse-item title="活动基础信息" :name="1">
             <el-form-item label='活动名称' required prop='name'>
-              <length-input v-model='model.name' placeholder="请活动名称" :length='20'/>
+              <length-input v-model='model.name' placeholder="请活动名称" :length='20'  :disabled='isStating'/>
             </el-form-item>
             <el-form-item label='参加活动人员' required prop='guideIds'>
               <div class='flex-box form-item_toptext'>
@@ -42,8 +42,8 @@
             </el-form-item>
             <el-form-item label='有效时间' required prop='validTimeType'>
               <div class='form-item_toptext'>
-                <el-radio v-model="model.validTimeType" :label="1">固定时间</el-radio>
-                <el-radio v-model="model.validTimeType" :label="0">永久有效</el-radio>
+                <el-radio v-model="model.validTimeType" :label="1"  :disabled='isStating'>固定时间</el-radio>
+                <el-radio v-model="model.validTimeType" :label="0"  :disabled='isStating'>永久有效</el-radio>
               </div>
               <div class='form-item_time' v-if='model.validTimeType === 1'>
                 <div>时间范围</div>
@@ -65,7 +65,7 @@
               <div class='form-item_toptext'>
                 活动说明会显示在推广大师的查询页面
               </div>
-              <length-input type="textarea" v-model='model.activityDescription' placeholder="请输入说明" :length='1000'/>
+              <length-input type="textarea"  :disabled='isStating' v-model='model.activityDescription' placeholder="请输入说明" :length='1000'/>
             </el-form-item>
           </el-collapse-item>
           <el-collapse-item title='企微互动内容' :name="2">
@@ -92,7 +92,7 @@
                   </el-popover>
                 </div>
               </div>
-              <tag-area v-model='model.activityIntroduction' tag="wise" ref="testText" maxlength="100" :tools='tools'/>
+              <tag-area v-model='model.activityIntroduction' tag="wise" ref="testText" :maxlength="1000" :tools='tools'  :disabled='isStating'/>
             </el-form-item>
             <el-form-item label='活动海报' required prop='backgroundPic'>
               <div class='poster-content'>
@@ -104,6 +104,7 @@
                   :action="$api.core.sgUploadFile('test')"
                   :on-remove='handleRemove'
                   :before-upload="beforeUpload"
+                  :disabled='isStating'
                   :file-list='fileList'
                   :on-success="handleUploadSuccess">
                   <i class="el-icon-upload"></i>
@@ -114,29 +115,29 @@
                   <el-form-item label='推广人信息：' size='mini'>
                     <el-row>
                       <el-col :span='12'>
-                        <el-checkbox v-model="model.headPortrait">显示推广人头像、昵称</el-checkbox>
+                        <el-checkbox v-model="model.headPortrait"  :disabled='isStating'>显示推广人头像、昵称</el-checkbox>
                       </el-col>
                       <el-col :span='12'>
                         <el-form-item label='字体颜色：' label-width='80px'>
-                          <el-color-picker v-model='model.nickColour'></el-color-picker>
+                          <el-color-picker v-model='model.nickColour' :disabled='isStating'></el-color-picker>
                         </el-form-item>
                       </el-col>
                       <el-col :span='12'>
                         <el-form-item label='头像样式：' label-width='80px' class='scope-row_headIcon'>
-                          <el-radio v-model="model.headPortraitShape" :label="1">
+                          <el-radio v-model="model.headPortraitShape" :label="1" :disabled='isStating'>
                             <div :class='"square logo-type "+(model.headPortraitShape===1?"active":"")'></div>
                           </el-radio>
-                          <el-radio v-model="model.headPortraitShape" :label="0">
+                          <el-radio v-model="model.headPortraitShape" :label="0" :disabled='isStating'>
                             <div :class='"circle logo-type "+(model.headPortraitShape===0?"active":"")'></div>
                           </el-radio>
                         </el-form-item>
                       </el-col>
                       <el-col :span='12'>
                         <el-form-item label='样式：' label-width='50px'>
-                          <el-radio v-model="model.headerType" :label="0">
+                          <el-radio v-model="model.headerType" :label="0" :disabled='isStating'>
                             竖排
                           </el-radio>
-                          <el-radio v-model="model.headerType" :label="1">
+                          <el-radio v-model="model.headerType" :label="1" :disabled='isStating'>
                             横排
                           </el-radio>
                         </el-form-item>
@@ -146,7 +147,7 @@
                 </div>
               </div>
             </el-form-item>
-            <el-form-item label='过期设置' required prop='effectiveCycle'>
+            <el-form-item label='过期设置' required prop='effectiveCycle' :disabled='false'>
               <el-input style='width:88px;' v-model='model.effectiveCycle' onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))" type="number"/> 天内未邀请到新的好友 一客一码二维码过期
               <p>因企业微信生成联系我二维码数量限制，请合理设置过期时间</p>
             </el-form-item>
@@ -176,7 +177,7 @@
                 </el-upload>
               上传背景图
             </div>
-            <VueDragResize :isActive="true" :w="model.qrcodeSize" :h="model.qrcodeSize" :parentLimitation="true" :x='model.qrcodeX' :y='model.qrcodeY' @dragstop="onDragResize" @resizestop='onDragResize' :sticks="['tl','tr','bl','br']">
+            <VueDragResize :isActive="!isStating" :isDraggable='!isStating' :isResizable='!isStating' :w="model.qrcodeSize" :h="model.qrcodeSize" :parentLimitation="true" :aspectRatio='true' :x='model.qrcodeX' :y='model.qrcodeY' @dragstop="onDragResize" @resizestop='onDragResize' :sticks="['tl','tr','bl','br']" >
               <img src='./Images/qrcode.png' style='width:100%;height:100%'>
             </VueDragResize>
           </div>

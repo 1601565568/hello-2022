@@ -185,6 +185,12 @@ export default {
               'name': 'CustomerCodeEdit',
               'title': '编辑一客一码',
               'component': () => import('@/pages/Guide/CustomerCode/Edit.vue')
+            },
+            {
+              'path': '/Social/SocialOperation/CustomerCode/Analysis',
+              'name': 'CustomerCodeEdit',
+              'title': '一客一码报表',
+              'component': () => import('@/pages/Guide/CustomerCode/Analysis.vue')
             }
           ]
         }

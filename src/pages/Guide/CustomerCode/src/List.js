@@ -105,6 +105,13 @@ export default {
         }).catch(() => {
           vm.$notify.error('操作失败')
         })
+    },
+    // 去报表
+    handleAnalysis (guestCodeId) {
+      this.$router.push({
+        path: '/Social/SocialOperation/CustomerCode/Analysis',
+        query: { guestCodeId }
+      })
     }
   },
   watch: {
