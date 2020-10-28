@@ -2,6 +2,7 @@ import scrollHeight from '@nascent/ecrp-ecrm/src/mixins/scrollHeight'
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import { getErrorMsg } from '@/utils/toast'
 import { API_ROOT } from '@/config/http.js'
+import moment from 'moment'
 export default {
   props: {
     id: {
@@ -79,9 +80,13 @@ export default {
     onSearch () {
     },
     init () {
-      this.queryShopTaskDetail()
       this.name = this.shopName
       this.type = this.runType
+      if (this.runType === 1) {
+        const start = new Date()
+        this.form.time = moment(start.getTime() - 3600 * 1000 * 24).format('YYYY-MM-DD')
+      }
+      this.queryShopTaskDetail()
     },
     $currentChange$ (data) {
       this.pagination.page = data
@@ -91,12 +96,20 @@ export default {
       this.pagination.size = data
       this.queryShopTaskDetail()
     },
+    queryTimeChange () {
+      debugger
+      if (this.form.time) {
+        this.form.time = moment(this.form.time).format('YYYY-MM-DD')
+      }
+      this.queryShopTaskDetail()
+    },
     queryShopTaskDetail () {
       const params = {
         searchMap: {}
       }
       params.searchMap.taskId = this.id
       params.searchMap.shopId = this.shopId
+      params.searchMap.queryDate = this.form.time
       params.searchMap.pageStart = (this.pagination.page - 1) * this.pagination.size
       params.searchMap.pageSize = this.pagination.size
       this.$http

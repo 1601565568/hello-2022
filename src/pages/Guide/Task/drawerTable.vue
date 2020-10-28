@@ -8,6 +8,7 @@
             <ElDatePicker
               v-model="form.time"
               type="date"
+              @change="queryTimeChange"
               placeholder="选择日期" />
           </ElFormItem>
           <NsButton @click="exportData">导出CSV文件</NsButton>
