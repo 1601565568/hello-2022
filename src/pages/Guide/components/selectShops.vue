@@ -1,6 +1,6 @@
 <template>
 <!-- 选择门店 wanrengang 20180818 -->
-<div class="selectShopBox">
+<div class="selectShopBox" :style="{display: isInlineBlock? 'inline-block': 'block'}">
   <el-dialog
     title="选择门店"
     :close-on-press-escape='true'
@@ -92,7 +92,8 @@
         <ns-button  type="primary" @click="okFun">确定</ns-button>
       </div>
   </el-dialog>
-  <ns-button  type="primary" @click="openFun">选择门店</ns-button> 已选择<span class="text-error">{{hasShopArr.length}}</span>家门店
+  <NsButton v-if='isInlineBlock' icon='el-icon-circle-plus-outline'  @click="openFun">选择门店</NsButton>
+  <ns-button v-else  type="primary" @click="openFun">选择门店</ns-button> 已选择<span class="text-error">{{hasShopArr.length}}</span>家门店
   <taskStoreFile ref="taskStoreFileDialog" @callBack="taskStoreFileBack" ></taskStoreFile>
 <!--  <importQuota ref="importQuotaDialog" :callBack="loadListFun"></importQuota>-->
 </div>
@@ -119,6 +120,10 @@ export default {
       default () {
         return []
       }
+    },
+    isInlineBlock: {
+      type: Boolean,
+      default: false
     },
     params: {},
     callBack: Function// 选择完后的回调

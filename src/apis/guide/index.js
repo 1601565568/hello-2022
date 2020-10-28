@@ -171,9 +171,36 @@ export default {
     url: '/guide/task/findList',
     method: 'post'
   },
+  queryProgressStatistics: {
+    // 查询任务进度统计
+    url: '/guide/task/queryProgressStatistics',
+    method: 'post'
+  },
+  // 获取品牌任务详情
+  queryTask: {
+    // 查询品牌任务列表
+    url: '/guide/task/queryTask',
+    method: 'post'
+  },
+  // 查询任务店铺详情列表
+  queryShopTaskDetail: {
+    // 查询品牌任务列表
+    url: '/guide/task/queryShopTaskDetail',
+    method: 'post'
+  },
   taskEdit: {
     // 品牌任务编辑
     url: '/guide/task/saveOrUpdateTask',
+    method: 'post'
+  },
+  queryView: {
+    // 查询登录账号数据权限视角
+    url: '/guide/task/queryView',
+    method: 'post'
+  },
+  querySubgroup: {
+    // 根据视角信息获取分组列表
+    url: '/guide/task/querySubgroup',
     method: 'post'
   },
   importFileAndManual: {

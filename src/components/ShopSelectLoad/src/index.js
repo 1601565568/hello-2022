@@ -158,6 +158,7 @@ export default {
     handleVisibleChange (visible) {
       if (!visible) {
         this.remoteMethod('')
+        this.$emit('handleVisibleChange')
       }
     },
     remoteMethod (condition) {

@@ -58,6 +58,18 @@ export default {
           'component': () => import('@/pages/Guide/Task/brandList.vue')
         },
         {
+          'path': '/Guide/Task/edit/:id',
+          'name': 'GUIDE_TASK',
+          'title': '新增任务管理',
+          'component': () => import('@/pages/Guide/Task/addBrandTask.vue')
+        },
+        {
+          'path': '/Guide/Task/taskOverview/:id',
+          'name': 'GUIDE_TASK',
+          'title': '查看完整任务',
+          'component': () => import('@/pages/Guide/Task/taskOverview.vue')
+        },
+        {
           'path': '/Guide/Task/detail',
           'name': 'GUIDE_DETAIL',
           'title': '任务概况',
