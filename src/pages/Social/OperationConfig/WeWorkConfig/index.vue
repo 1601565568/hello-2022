@@ -63,6 +63,9 @@ export default {
         }, {
           explain: '客户标签：pages/member/memberData',
           value: 'pages/member/memberData'
+        }, {
+          explain: '一客一码：pages/mobile/customCode/share/index',
+          value: 'pages/mobile/customCode/share/index'
         }]
       }, {
         configuration: '会员画像',
