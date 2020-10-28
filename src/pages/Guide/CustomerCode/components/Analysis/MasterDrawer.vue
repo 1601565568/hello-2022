@@ -5,7 +5,7 @@
     </div>
     <div class='header-title'>
       <h4 class='header-title_text'>{{chooseMaster.employeeName}}的推广大师明细</h4>
-      <span class='header-title_num'>共{{_data._pagination.total}}人</span>
+      <span class='header-title_num'>共{{chooseMaster.promotionMasterNumber}}人</span>
     </div>
     <div class='analysis-content'>
        <page-table :searchCol='24'>

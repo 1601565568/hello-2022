@@ -6,7 +6,7 @@
     <div class='header-title'>
       <h4 v-if='isSecondDrawer' class='header-title_text header-title_text__grey' @click='handleBackFirst'>{{secondDrawerName}}的推广大师明细<span class='header-title_text__span'>/</span></h4>
       <h4 class='header-title_text'>{{chooseFriend.employeeName}}邀请好友的明细</h4>
-      <span class='header-title_num'>共{{_data._pagination.total}}人</span>
+      <span class='header-title_num'>共{{chooseFriend.inviteFriendNumber}}人</span>
     </div>
     <div class='analysis-content'>
        <page-table  :searchCol='24'>
@@ -153,7 +153,7 @@ export default {
       this.$emit('onNext')
     },
     resetModel () {
-      this.model = { ...JSON.parse(JSON.stringfiy(originModel)),
+      this.model = { ...JSON.parse(JSON.stringify(originModel)),
         guestCodeId: this.$route.query.guestCodeId,
         guideId: this.model.guideId,
         promotionMasterIds: this.model.promotionMasterIds }
@@ -164,6 +164,7 @@ export default {
     // 切换导购触发
     chooseFriend: {
       handler (newVal) {
+        console.log(newVal)
         if (newVal.guideId) {
           if (newVal.oldGuideId) {
             this.isSecondDrawer = true

@@ -173,7 +173,8 @@ export default {
     handleShowFriend (item, index) {
       const data = {
         ...item,
-        employeeName: item.promotionName
+        employeeName: item.promotionName,
+        inviteFriendNumber: item.inviteFriendNo
       }
       this.activeIndex = index
       this.$emit('showFriend', data)
