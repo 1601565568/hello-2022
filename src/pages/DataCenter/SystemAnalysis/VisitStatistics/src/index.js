@@ -11,11 +11,11 @@ export default {
       model: {
         startTime: '',
         endTime: '',
-        guideId: null,
-        pageForm: '', // 页面路径
+        guideId: [],
+        pageForm: [''], // 页面路径
         systemFrom: '', // 终端
         orderType: '1', // 排序方式 1下载 2发送 3 转发
-        isDesc: '0' // 是否倒叙  0正序，1倒序
+        isDesc: '1' // 是否倒叙  2正序，1倒序
       },
       time: [],
       pickerOptions: {
@@ -23,6 +23,22 @@ export default {
           return time.getTime() > Date.now()
         },
         shortcuts: [
+          {
+            text: '昨天',
+            onClick (picker) {
+              let start = new Date(
+                new Date(new Date().toLocaleDateString()).getTime()
+              ) // 当天0点
+              let end = new Date(
+                new Date(new Date().toLocaleDateString()).getTime() +
+                  24 * 60 * 60 * 1000 -
+                  1
+              ) // 当天23:59
+              let laststart = new Date(start.getTime() - 3600 * 1000 * 24)
+              let lastend = new Date(end.getTime() - 3600 * 1000 * 24)
+              picker.$emit('pick', [laststart, lastend])
+            }
+          },
           {
             text: '最近一周',
             onClick (picker) {
@@ -41,15 +57,6 @@ export default {
               picker.$emit('pick', [start, end])
             }
           }
-          // {
-          //   text: '最近三个月',
-          //   onClick (picker) {
-          //     const end = new Date()
-          //     const start = new Date()
-          //     start.setTime(start.getTime() - 3600 * 1000 * 24 * 90)
-          //     picker.$emit('pick', [start, end])
-          //   }
-          // }
         ]
       },
       overviewdata: {
@@ -57,19 +64,24 @@ export default {
         guideNum: null,
         visitNum: null
       },
-      pageList: [],
+      pageList: [
+        {
+          value: '',
+          label: '不限'
+        }
+      ],
       systemFrom: [
         {
           value: '',
-          label: '全部'
+          label: '不限'
         },
         {
           value: '1',
-          label: '小程序'
+          label: '小程序端'
         },
         {
           value: '2',
-          label: '手机端'
+          label: '导购手机'
         }
       ]
     }
@@ -86,83 +98,119 @@ export default {
       ).format('YYYY-MM-DD HH:mm:ss')
       this.model.endTime = moment(end.getTime()).format('YYYY-MM-DD HH:mm:ss')
       this.time = [this.model.startTime, this.model.endTime]
-      this.getPage()
+      // this.getPage()
       this.overview()
-      this.$reload()
+      this.findTrackPageBizTypeList()
+      this.handleSearch()
     },
-    // 页面路径
-    getPage () {
-      this.$http
-        .fetch(this.$api.dataCenter.userData.getPageJSON)
-        .then(res => {
-          if (res.success) {
-            let obj = JSON.parse(res.result)
-            var arr = [{
-              value: '',
-              label: '全部'
-            }]
-            for (let key in obj) {
-              let pageObj = {
-                value: key,
-                label: obj[key]
-              }
-              arr.push(pageObj)
-            }
-            this.pageList = arr
-          } else {
-            this.$notify.error('访问页面数据获取失败')
-          }
+    systemFromSearch () {
+      this.model.pageForm = ['']
+      this.pageList = [
+        {
+          value: '',
+          label: '不限'
+        }
+      ]
+      this.findTrackPageBizTypeList()
+      this.handleSearch()
+    },
+    handlepageFormSearch (data) {
+      var lable
+      if (data && data.length > 1) {
+        lable = data[data.length - 1]
+        var index = data.findIndex(item => {
+          return item === ''
         })
-        .catch(err => {
-          this.$notify.error('访问页面数据获取失败' + err)
+        if (lable === '' || !lable) {
+          this.model.pageForm = ['']
+        } else {
+          if (index >= 0) {
+            this.model.pageForm.splice(index, 1)
+          }
+        }
+      }
+      this.handleSearch()
+    },
+    findTrackPageBizTypeList () {
+      var params = {
+        terminalTypes: this.model.systemFrom
+      }
+      this.$http
+        .fetch(this.$api.dataCenter.userData.findTrackPageBizTypeList, params)
+        .then(res => {
+          this.pageList = this.pageList.concat(res.result)
+        })
+        .catch(() => {
+          this.$notify.error('获取页面路径错误')
         })
     },
     overview () {
       let params = JSON.parse(JSON.stringify(this.model))
       delete params.orderType
       delete params.isDesc
-      this.$http.fetch(this.$api.dataCenter.userData.overview, params).then((res) => {
-        if (res.success) {
-          this.overviewdata = res.result
-        } else {
-          this.$notify.error('访问概括数据获取失败')
-        }
-      }).catch((err) => {
-        this.$notify.error('访问概括数据获取失败' + err)
-      })
+      let param = {
+        ...params,
+        guideId: params.guideId.join(','),
+        pageForm: params.pageForm.join(',')
+      }
+      this.$http
+        .fetch(this.$api.dataCenter.userData.overview, param)
+        .then(res => {
+          if (res.success) {
+            this.overviewdata = res.result
+          } else {
+            this.$notify.error('访问概括数据获取失败')
+          }
+        })
+        .catch(err => {
+          this.$notify.error('访问概括数据获取失败' + err)
+        })
     },
     formatTime () {
-      this.searchform = {
-        ...this.searchform,
+      this.model = {
+        ...this.model,
         startTime: this.time[0],
         endTime: this.time[1]
       }
       this.handleSearch()
     },
     NsGuideDialog () {
-      this.model.guideId = this.model.guideId.join(',')
       this.handleSearch()
     },
     sortChange (data) {
       let order = data.order
       let prop = data.prop
-      this.model.isDesc = order === 'descending' ? '0' : order === 'ascending' ? '1' : '0'
-      this.model.orderType =
-        prop === 'countNum' ? '1' : '2'
+      this.model.isDesc =
+        order === 'descending' ? '1' : order === 'ascending' ? '2' : '1'
+      this.model.orderType = prop === 'countNum' ? '1' : '2'
       this.handleSearch()
     },
     handleSearch () {
-      this.$search({ searchMap: { ...this.model } })
+      let params = JSON.parse(JSON.stringify(this.model))
+      let param = {
+        ...params,
+        guideId: params.guideId.join(','),
+        pageForm: params.pageForm.join(',')
+      }
+      this.$search({ searchMap: { ...param } })
     },
     exportData (urlLink) {
       var url = API_ROOT + urlLink
       var form = document.createElement('form')
-      form.appendChild(this.generateHideElement('startTime', this.model.startTime))
+      form.appendChild(
+        this.generateHideElement('startTime', this.model.startTime)
+      )
       form.appendChild(this.generateHideElement('endTime', this.model.endTime))
-      form.appendChild(this.generateHideElement('pageForm', this.model.pageForm))
-      form.appendChild(this.generateHideElement('systemFrom', this.model.systemFrom))
+      form.appendChild(
+        this.generateHideElement('pageForm', this.model.pageForm)
+      )
+      form.appendChild(
+        this.generateHideElement('systemFrom', this.model.systemFrom)
+      )
       form.appendChild(this.generateHideElement('guideId', this.model.guideId))
-      form.appendChild(this.generateHideElement('orderType', this.model.orderType))
+      form.appendChild(
+        this.generateHideElement('orderType', this.model.orderType)
+      )
       form.appendChild(this.generateHideElement('isDesc', this.model.isDesc))
       form.setAttribute('action', url)
       form.setAttribute('method', 'get')

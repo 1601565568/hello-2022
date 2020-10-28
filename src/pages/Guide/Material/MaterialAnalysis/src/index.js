@@ -4,9 +4,10 @@ import NsGuideDialog from '@/components/NsGuideDialog'
 import moment from 'moment'
 import { API_ROOT } from '@/config/http.js'
 import LocalStorage from 'store/dist/store.legacy.min.js'
+import NsCategorySelect from '@/components/NsCategorySelect'
 export default {
   mixins: [tableMixin],
-  components: { NsGuideDialog },
+  components: { NsGuideDialog, NsCategorySelect },
   data () {
     return {
       // 快速搜索
@@ -87,7 +88,12 @@ export default {
         searchMap: { subdivisionName: '' },
         start: 0
       }, // 素材搜索
-      directoryTreeList: [] // 文件夹树列表
+      getDirectoryTreeUrl: this.$api.guide.getDirectoryTree
+    }
+  },
+  watch: {
+    'model.folderId' () {
+      this.handleSearch()
     }
   },
   mounted () {
@@ -104,7 +110,7 @@ export default {
       this.time = [this.model.startTime, this.model.endTime]
       this.$reload()
       this.getfindSubdivisionList()
-      this.getDirectoryTree()
+      // this.getDirectoryTree()
     },
     // 标签列表
     getfindSubdivisionList () {
@@ -133,43 +139,44 @@ export default {
         })
     },
     // 获取文件夹树
-    getDirectoryTree () {
-      this.$http
-        .fetch(this.$api.guide.getDirectoryTree)
-        .then(res => {
-          if (res.success) {
-            const arr = [{ id: '', label: '全部' }]
-            this.getDirectoryTreeList(arr, res.result)
-            this.directoryTreeList = arr
-          } else {
-            this.$notify.error('获取文件夹列表失败')
-          }
-        })
-        .catch(err => {
-          this.$notify.error('获取文件夹列表失败' + err)
-        })
-    },
-    getDirectoryTreeList (arr, treeList) {
-      if (treeList.length === 0) {
-        this.directoryTreeList = []
-        return
-      }
-      treeList.forEach(item => {
-        arr.push(this.formadirectoryTreeList(item))
-        if (item.children) {
-          this.getDirectoryTreeList(arr, item.children)
-        }
-      })
-    },
-    formadirectoryTreeList (item) {
-      let items = JSON.parse(JSON.stringify(item))
-      if (items.children) {
-        delete items.children
-      }
-      return {
-        ...items
-      }
-    },
+    // getDirectoryTree () {
+    //   this.$http
+    //     .fetch(this.$api.guide.getDirectoryTree)
+    //     .then(res => {
+    //       if (res.success) {
+    //         this.directoryTreelist = res.result
+    //         const arr = [{ id: '', label: '全部' }]
+    //         this.getDirectoryTreeList(arr, res.result)
+    //         this.directoryTreeList = arr
+    //       } else {
+    //         this.$notify.error('获取文件夹列表失败')
+    //       }
+    //     })
+    //     .catch(err => {
+    //       this.$notify.error('获取文件夹列表失败' + err)
+    //     })
+    // },
+    // getDirectoryTreeList (arr, treeList) {
+    //   if (treeList.length === 0) {
+    //     this.directoryTreeList = []
+    //     return
+    //   }
+    //   treeList.forEach(item => {
+    //     arr.push(this.formadirectoryTreeList(item))
+    //     if (item.children) {
+    //       this.getDirectoryTreeList(arr, item.children)
+    //     }
+    //   })
+    // },
+    // formadirectoryTreeList (item) {
+    //   let items = JSON.parse(JSON.stringify(item))
+    //   if (items.children) {
+    //     delete items.children
+    //   }
+    //   return {
+    //     ...items
+    //   }
+    // },
     /**
      * 搜索模式切换
      */

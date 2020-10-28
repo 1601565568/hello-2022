@@ -10,5 +10,9 @@ export default {
   overview: {
     url: '/staffVisitStatistics/overview',
     method: 'post'
+  },
+  findTrackPageBizTypeList: {
+    url: '/eventtrack/eventtrackconfig/findTrackPageBizTypeList',
+    method: 'get'
   }
 }

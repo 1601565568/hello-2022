@@ -70,7 +70,11 @@
                         prop="name"
                         label="员工"
                         :sortable="false"
-                    />
+                    >
+                      <template slot-scope="scope">
+                            {{scope.row.name}}<span v-if="scope.row.status&&scope.row.status == 2"  style="color:red">(已离职)</span>
+                      </template>
+                    </el-table-column>
                      <el-table-column
                         type="default"
                         prop="outWorkId"
@@ -81,6 +85,7 @@
                         type="default"
                         prop="workShopName"
                         label="门店名称"
+                        :show-overflow-tooltip="true"
                         :sortable="false"
                     />
                     <el-table-column
@@ -94,6 +99,7 @@
                         type="default"
                         prop="downloadCount"
                         label="下载次数"
+                        align = "right"
                         sortable="custom"
                     >
                     <template slot='header' scope='header'>
@@ -109,6 +115,7 @@
                         type="default"
                         prop="sendCount"
                         label="发送次数"
+                        align = "right"
                         sortable="custom"
                     >
                     <template slot='header' scope='header'>
@@ -124,6 +131,7 @@
                         type="default"
                         prop="shareCount"
                         label="转发次数"
+                        align = "right"
                         sortable="custom"
                     >
                     <template slot='header' scope='header'>
