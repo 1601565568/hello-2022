@@ -123,6 +123,7 @@ export default {
           backgroundPic: result.backgroundPic,
           effectiveCycle: result.effectiveCycle,
           headPortrait: !!result.headPortrait,
+          headPortraitShape: result.headPortraitShape,
           name: result.name,
           nickColour: '#' + result.nickColour,
           qrcodeSize: result.qrcodeSize,
