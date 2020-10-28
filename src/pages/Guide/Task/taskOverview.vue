@@ -153,7 +153,7 @@
                 <span v-if="scope.row.shopStatus === 1" class="text-info">正常</span>
               </template>
             </el-table-column>
-            <el-table-column align="right" prop="guideTotal" width="80"
+            <el-table-column align="right" prop="guideCount" width="80"
                              label="分配导购" />
             <el-table-column align="center" prop="completion" width="300"
                              label="完成度" >
@@ -184,7 +184,7 @@
       size="1000px"
       :visible.sync="drawerVisible"
       direction="rtl">
-      <drawerTable v-if="drawerVisible" :id='id' :shopId='shopId' :shopName='shopName' :runType='runType'/>
+      <drawerTable v-if="drawerVisible" :id='id' :shopId='shopId' :shopName='shopName' :runType='runType' :queryTime='searchMap.queryTime'/>
     </el-drawer>
   </div>
 </template>

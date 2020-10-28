@@ -97,7 +97,6 @@ export default {
     init () {
       this.id = this.$route.params.id
       this.queryTask()
-      this.queryProgressStatistics()
     },
     // 分页
     pageChange (data) {
@@ -113,7 +112,12 @@ export default {
       this.queryTaskShopInfo()
     },
     queryTimeChange () {
+      if (!this.searchMap.queryTime) {
+        this.$notify.error('请选择日期')
+        return
+      }
       this.queryTaskShopInfo()
+      this.queryProgressStatistics()
     },
     queryTask () {
       this.$http
@@ -139,7 +143,13 @@ export default {
             }
             if (this.taskMsg.runType === 1) {
               const start = new Date()
-              this.searchMap.queryTime = moment(start.getTime() - 3600 * 1000 * 24).format('YYYY-MM-DD')
+              if (new Date(obj.startTime) > start) {
+                this.searchMap.queryTime = moment(obj.startTime).format('YYYY-MM-DD')
+              } else if (new Date(obj.startTime) <= start && start <= new Date(obj.endTime)) {
+                this.searchMap.queryTime = moment(start.getTime() - 3600 * 1000 * 24).format('YYYY-MM-DD')
+              } else {
+                this.searchMap.queryTime = moment(obj.endTime).format('YYYY-MM-DD')
+              }
             }
             // 素材任务时
             if (obj.materialId) {
@@ -148,6 +158,7 @@ export default {
               this.taskMsg.materialType = obj.materialType
               this.taskMsg.materialMsg = obj.materialMsg ? JSON.parse(obj.materialMsg) : null
             }
+            this.queryProgressStatistics()
           }
           this.queryTaskShopInfo()
         })
@@ -157,9 +168,11 @@ export default {
         })
     },
     queryProgressStatistics () {
+      var queryTime = this.searchMap.queryTime
       this.$http
         .fetch(this.$api.guide.queryProgressStatistics, {
-          taskId: parseInt(this.id)
+          taskId: parseInt(this.id),
+          queryDate: queryTime
         })
         .then(resp => {
           if (resp.success) {
@@ -199,7 +212,7 @@ export default {
     },
     // 导出导购完成明细csv文件
     exportGuideCompleteData () {
-      var url = API_ROOT + '/guide/task/exportGuideCompleteData'
+      var url = API_ROOT + '/guide/task/guideCompleteDataExport'
       var form = document.createElement('form')
       form.appendChild(this.generateHideElement('taskId', this.id))
       form.appendChild(this.generateHideElement('queryTime', this.searchMap.queryTime))

@@ -16,6 +16,9 @@ export default {
     },
     runType: {
       type: Number
+    },
+    queryTime: {
+      type: String
     }
   },
   mixins: [tableMixin, scrollHeight],
@@ -83,8 +86,7 @@ export default {
       this.name = this.shopName
       this.type = this.runType
       if (this.runType === 1) {
-        const start = new Date()
-        this.form.time = moment(start.getTime() - 3600 * 1000 * 24).format('YYYY-MM-DD')
+        this.form.time = this.queryTime
       }
       this.queryShopTaskDetail()
     },
@@ -97,7 +99,6 @@ export default {
       this.queryShopTaskDetail()
     },
     queryTimeChange () {
-      debugger
       if (this.form.time) {
         this.form.time = moment(this.form.time).format('YYYY-MM-DD')
       }
