@@ -7,7 +7,7 @@
           <div class="catalogue-folders__item" :class="{'catalogue-folders__item--selected': item.selected}" v-for="item in folderList" :key="item.id">
             <div class="catalogue-folders__item--info" @click="onEnter(item)">
               <Icon type="wenjianjia-new" class="catalogue-folders__item--icon"/>
-              <div class="catalogue-folders__item--name">{{item.name}}</div>
+              <div class="catalogue-folders__item--name" :title="item.name">{{item.name}}</div>
             </div>
             <div class="catalogue-folders__item--btns">
               <Icon :type="btn.icon" v-for="btn in operate_buttons" :key="btn.name" @click="btn.func(item)"/>
@@ -26,7 +26,7 @@
         <div class="catalogue-materials__group" v-for="(itemList, index) in materialList" :key="index">
           <div class="catalogue-materials__item" :class="{'catalogue-materials__item--selected': item.selected}" v-for="item in itemList" :key="item.id">
             <div class="catalogue-materials__item--info">
-              <div class="catalogue-materials__item--title catalogue-ellipsis">{{item.name}}</div>
+              <div class="catalogue-materials__item--title catalogue-ellipsis" :title="item.name">{{item.name}}</div>
               <div class="catalogue-materials__item--desc">
                 <span>发布方：</span>
                 <el-tooltip placement="top-start" :enterable="true" popper-class="table-body__tooltip">
@@ -332,6 +332,11 @@ export default {
           color: #606266;
           line-height: 20px;
           word-break: break-word;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
         }
         @m btns {
           margin-top: 10px;
