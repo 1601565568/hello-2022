@@ -88,7 +88,8 @@ export default {
       id: null,
       shopId: null,
       shopName: null,
-      runType: null
+      runType: null,
+      queryTime: null
     }
   },
   methods: {

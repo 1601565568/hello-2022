@@ -27,6 +27,7 @@
                     v-model='model.name'
                     show-word-limit
                     maxlength='25'
+                    placeholder='请输入任务名称'
                   />
                 </div>
               </ElFormItem>
@@ -78,6 +79,8 @@
               <ElFormItem label='会员分组' class='special-layout'>
                 <div class='newTask-content__item'>
                   <el-select
+                    filterable
+                    :clearable='true'
                     v-model='model.viewId'
                     placeholder='请选择运营视角'
                     @change='chooseView'
@@ -92,10 +95,13 @@
                     </el-option>
                   </el-select>
                   <el-select
+                    v-if="model.viewId"
+                    filterable
                     :value='model.subgroupId'
                     placeholder='请选择会员分组'
                     @change='chooseSubgroup'
                     :disabled='canNotEdit'
+                    style="margin-bottom:0px!important;"
                   >
                     <el-option
                       v-for='item in subgroups'
@@ -105,6 +111,7 @@
                     >
                     </el-option>
                   </el-select>
+                  <div v-if="model.viewId&&model.subgroupId">会员分组名称 <NsButton @click="showSubgroupMsg" type="text">查看详情</NsButton></div>
                 </div>
                 <span class='newTask-content__item-tip'>
                   选择运营视角后，可选择零售CRM客户洞察中的会员分组
@@ -145,7 +152,7 @@
                       <div class='catalogue-materials__video' v-if="model.materialType === 2">
                         <video
                           :src='model.materialMsg.imageList[0]'
-                          style='width: 60px; height: 107px'
+                          style='width: 107px; height: 60px'
                         >
                           您的浏览器暂不支持播放该视频，请升级至最新版浏览器。
                         </video>
@@ -168,6 +175,38 @@
         </ElForm>
       </ElScrollbar>
     </div>
+    <ElDialog title="会员分组客户列表" :visible.sync="dialogVisible" width="960px">
+      <lookCardList v-if="dialogVisible" :subgroupId="model.subgroupId"></lookCardList>
+      <!-- <div class="taskList-table__content">
+        <el-table ref="table" :data="tableData"
+                  style="width: 100%;"
+                  :element-loading-text="$t('prompt.loading')">
+          <el-table-column prop="name"
+                           label="姓名" />
+          <el-table-column label="手机" align="center" width="120" prop="phone" />
+          <el-table-column prop="store"
+                           label="门店名称" />
+          <el-table-column prop="guide"
+                           label="专属导购" />
+          <el-table-column align="center" prop="level"
+                           label="等级" />
+          <el-table-column align="center" prop="date" width="160"
+                           label="入会时间" />
+          <el-table-column prop="address"
+                           label="地区" />
+        </el-table>
+      </div>
+
+      <el-pagination class="taskList-table__footer"
+                     @size-change="handleSizeChange"
+                     @current-change="handleCurrentChange"
+                     :current-page="currentPage"
+                     :page-sizes="[15, 25, 50, 100]"
+                     :page-size="100"
+                     layout="total, sizes, prev, pager, next, jumper"
+                     :total="400">
+      </el-pagination> -->
+    </ElDialog>
     <selectMaterialListModal :callBack="selectMaterialBack" ref="selectDialogDom"></selectMaterialListModal>
   </div>
 </template>
@@ -362,18 +401,22 @@ export default addBrandTask
         border-radius: 3px;
       }
       @m wrapper {
-        position: relative;
-        top: 50%;
-        left: 50%;
-        margin-left: -20px;
-        margin-top: -20px;
-        width: 40px;
-        height: 40px;
-        border-radius: 40px;
-        background-color: rgba(255, 255, 255, 0.4);
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translateX(-50%) translateY(-50%);
+          /* margin-left: -20px; */
+          /* margin-top: -20px; */
+          width: 22px;
+          height: 22px;
+          border-radius: 50%;
+          background-color: hsla(0,0%,100%,.4);
+          display: flex;
+          align-items: center;
+          justify-content: center;
         > svg {
-          margin: 5px 0 0 9px;
-          font-size: 25px;
+          margin: -1px 0 0 4px;
+          font-size: 15px;
           color: #fff;
         }
       }

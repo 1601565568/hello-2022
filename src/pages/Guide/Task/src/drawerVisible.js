@@ -144,6 +144,14 @@ export default {
       tempInput.name = name
       tempInput.value = value
       return tempInput
+    },
+    formatUrlJson (urlJson) {
+      let arr = urlJson.split(',')
+      if (arr.length <= 5) {
+        return arr
+      } else {
+        return arr.slice(0, 5)
+      }
     }
   },
   mounted: function () {

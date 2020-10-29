@@ -104,17 +104,17 @@
           <span v-if="row.type === 3">日常</span>
         </template>
       </el-table-column>
-      <el-table-column label="执行时间" align="center" width="300">
+      <el-table-column label="执行时间" align="center" width="400">
         <template slot-scope="{row}">{{row.startTime}}至{{row.endTime}}</template>
       </el-table-column>
       <el-table-column label="执行次数" align="center" width="80">
           <template slot-scope="{row}">{{row.runType === 0?"一次性":"每日执行"}}</template>
         </el-table-column>
-      <el-table-column prop="status" label="状态" align="left" width="70">
+      <el-table-column prop="status" label="状态" align="left" width="100">
         <template slot-scope="{row}">
-          <span v-if="row.state === 1" class="text-primary">执行中</span>
-          <span v-if="row.state === 4" class="text-warning">已过期</span>
-          <span v-if="row.state === 2" class="text-error">终止</span>
+          <el-tag type="success" v-if="row.state === 1">进行中</el-tag>
+          <el-tag type="warning" v-if="row.state === 4">已过期</el-tag>
+          <el-tag type="info" v-if="row.state === 2">已完成</el-tag>
         </template>
       </el-table-column>
       <el-table-column

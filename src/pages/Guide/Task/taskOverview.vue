@@ -13,16 +13,18 @@
         <div class="taskOverview-materials__head">任务概况</div>
         <div class="taskOverview-materials__content">
           <div class="taskOverview-materials__content-head">
-            <!-- <span class="task-type business"><Icon type='business' />商机</span>
-            <span class="task-type takumi"><Icon type='takumi' />拓客</span> -->
-            <span class="task-type marketing" v-if="taskMsg.type === 0"><Icon type='market' />营销</span>
-            <span class="task-type share" v-if="taskMsg.type === 2"><Icon type='share' />分享</span>
-            <span class="task-type daily" v-if="taskMsg.type === 3"><Icon type='daily' />日常</span>
-            <span class="task-type returnvisit" v-if="taskMsg.type === 1"><Icon type='returnvisit' />回访</span>
-            {{taskMsg.name}}
-            <el-tag class="head-tag" v-if="taskMsg.state === 1">进行中</el-tag>
-            <el-tag class="head-tag" v-if="taskMsg.state === 2">终止</el-tag>
-            <el-tag class="head-tag" type="info" v-if="taskMsg.state === 4">已过期</el-tag>
+            <!-- <span class="task-type business"><Icon type='business' class="task-type_icon"/>商机</span>
+            <span class="task-type takumi"><Icon type='takumi' class="task-type_icon" />拓客</span> -->
+            <div class="task-type marketing" v-if="taskMsg.type === 0">
+              <Icon type='market' class="task-type_icon" />营销
+            </div>
+            <div class="task-type share" v-if="taskMsg.type === 2"><Icon type='share-alt' class="task-type_icon" />分享</div>
+            <div class="task-type daily" v-if="taskMsg.type === 3"><Icon type='daily' class="task-type_icon" />日常</div>
+            <div class="task-type returnvisit" v-if="taskMsg.type === 1"><Icon type='returnvisit' class="task-type_icon" />回访</div>
+            <span class="task-type-name">{{taskMsg.name}}</span>
+            <el-tag type="success" v-if="taskMsg.state === 1">进行中</el-tag>
+            <el-tag type="warning" v-if="taskMsg.state === 4">已过期</el-tag>
+            <el-tag type="info" v-if="taskMsg.state === 2">已完成</el-tag>
             <!-- <el-tag class="head-tag" type="danger">未完成</el-tag> -->
           </div>
           <div class="taskOverview-materials__content-info">
@@ -66,7 +68,7 @@
       </div>
       <div class="taskOverview-detail">
         <div class="taskOverview-detail__head clearfix">
-          进度统计
+          <span class="taskOverview-detail__title">进度统计</span>
           <ElForm inline class="float-right" :model="searchMap">
             <ElFormItem label="选择门店：">
               <el-form-grid size="xmd">
@@ -267,8 +269,11 @@ export default taskOverview
     @e content-head {
       color: #303133;
       line-height: 22px;
+      display: flex;
       .task-type {
-        display: inline-block;
+        display: flex;
+        justify-content: center;
+        align-items: center;
         padding: 0 6px;
         height: 22px;
         width: 56px;
@@ -299,6 +304,13 @@ export default taskOverview
         &.returnvisit {
           background-image: linear-gradient(90deg, #F77676 0%, #EA6D6D 100%);
         }
+        .task-type_icon {
+          font-size: 16px
+        }
+      }
+      .task-type-name {
+        display: inline-block;
+        margin-right: 8px;
       }
       .head-tag {
         cursor: default;
@@ -382,7 +394,7 @@ export default taskOverview
     @e head {
       padding: 12px 0;
       >>> .el-form-item--small.el-form-item {
-        margin: 0 16px 0 0!important;
+        margin: 0 4px 0 0!important;
       }
       >>> .el-button--small {
         position: relative;
@@ -391,6 +403,13 @@ export default taskOverview
       >>> .el-button--small  .el-button--small {
         margin-left: 16px;
       }
+    }
+    @e title {
+      margin: 5px 0;
+      display: inline-block;
+      font-size: 16px;
+      color: #262626;
+      font-weight: bold;
     }
     @e data {
       padding-top: 12px;

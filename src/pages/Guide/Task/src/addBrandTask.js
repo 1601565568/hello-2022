@@ -6,6 +6,7 @@ import ElCollapseItem from '@nascent/nui/lib/collapse-item'
 import selectMaterialListModal from '../selectMaterialListModal'
 import shopSelect from '../../components/selectShops'
 import { getErrorMsg } from '@/utils/toast'
+import lookCardList from '../lookCardList'
 export default {
   props: {
     callBack: Function
@@ -17,7 +18,8 @@ export default {
     ElCollapse,
     ElCollapseItem,
     selectMaterialListModal,
-    shopSelect
+    shopSelect,
+    lookCardList
   },
   data () {
     var validateMaterial = (rule, value, callback) => {
@@ -49,6 +51,7 @@ export default {
       loading: false, // 防重复提交
       activeNames: ['1', '2'],
       hasShopArr: [], // 已选择门店
+      dialogVisible: false,
       model: {
         name: '',
         type: 0,
@@ -81,7 +84,16 @@ export default {
       options: [], // 视角集合
       subgroups: [], // 视角下分组集合
       selectMaterial: {}, // 当前选择的素材对象
-      canNotEdit: false // 编辑进来禁止
+      canNotEdit: false, // 编辑进来禁止
+      tableData: [{
+        date: '2020-09-01 00:00:00',
+        name: '姓名',
+        phone: '15300001234',
+        store: '门店名称',
+        guide: '吴隽寒',
+        level: '等级',
+        address: '地区'
+      }]
     }
   },
   methods: {
@@ -117,6 +129,27 @@ export default {
         .catch(resp => {
           this.$notify.error('查询视角分组信息失败', resp)
         })
+    },
+    showSubgroupMsg () {
+    //   var params = {}
+    //   params.searchMap.pageNo = this.
+    //   this.$http
+    //     .fetch(this.$api.guide.querySubgroupMsg, param)
+    //     .then(resp => {
+    //       if (resp.success) {
+    //         for (var i = 0; i < resp.result.length; i++) {
+    //           var subgroupmsg = resp.result[i]
+    //           var subgroupJson = {}
+    //           subgroupJson.id = subgroupmsg.id
+    //           subgroupJson.name = subgroupmsg.subdivisionName
+    //           this.subgroups.push(subgroupJson)
+    //         }
+    //       }
+    //     })
+    //     .catch(resp => {
+    //       this.$notify.error('查询视角分组信息失败', resp)
+    //     })
+      this.dialogVisible = true
     },
     // 选择分组
     chooseSubgroup (subgroupId) {
@@ -267,6 +300,12 @@ export default {
       if (+id > 0) {
         this.EditFun(id)
       }
+    },
+    handleSizeChange (val) {
+      // console.log(`每页 ${val} 条`)
+    },
+    handleCurrentChange (val) {
+      // console.log(`当前页: ${val}`)
     }
   },
   watch: {
