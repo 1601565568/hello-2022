@@ -164,7 +164,6 @@ export default {
     // 切换导购触发
     chooseFriend: {
       handler (newVal) {
-        console.log(newVal)
         if (newVal.guideId) {
           if (newVal.oldGuideId) {
             this.isSecondDrawer = true
