@@ -78,6 +78,7 @@
               <ElFormItem label='会员分组' class='special-layout'>
                 <div class='newTask-content__item'>
                   <el-select
+                    filterable
                     v-model='model.viewId'
                     placeholder='请选择运营视角'
                     @change='chooseView'
@@ -92,6 +93,7 @@
                     </el-option>
                   </el-select>
                   <el-select
+                    filterable
                     :value='model.subgroupId'
                     placeholder='请选择会员分组'
                     @change='chooseSubgroup'
