@@ -23,7 +23,7 @@
                   resizable v-loading.lock="_data._table.loadingtable"
                   style="width: 100%;"
                   :element-loading-text="$t('prompt.loading')" @sort-change="$orderChange$">
-          <el-table-column prop="name" label="导购" width="100px">
+          <el-table-column prop="name" label="导购" width="150px">
             <template slot-scope="scope">
               {{scope.row.name || '-'}}
             </template>
@@ -33,12 +33,12 @@
               {{scope.row.workId || '-'}}
             </template>
           </el-table-column>
-          <el-table-column prop="shopName" label="门店名称" width="120px" />
+          <el-table-column prop="shopName" label="门店名称" width="140px" />
           <el-table-column align="center" label="任务状态" width="120px">
             <template slot-scope="scope">
-              <span v-if="scope.row.state === 2" class="text-danger">未完成任务</span>
-              <span v-if="scope.row.state === 1" class="text-info">任务进行中</span>
-              <span v-if="scope.row.state === 3" class="text-success">已完成任务</span>
+              <el-tag type="success" v-if="scope.row.state === 1">任务进行中</el-tag>
+              <el-tag type="warning" v-if="scope.row.state === 2">已过期</el-tag>
+              <el-tag type="info" v-if="scope.row.state === 3">已完成</el-tag>
             </template>
           </el-table-column>
           <el-table-column align="center" prop="completeTime" label="完成时间" width="180px">
@@ -48,13 +48,14 @@
           </el-table-column>
           <el-table-column prop="remark" label="反馈">
             <template slot-scope="scope">
-              <div class="remake-warpper">
-               <div>{{scope.row.remark || '-'}}</div>
-              <template v-if="scope.row && scope.row.urlJson">
-                <div v-for="(item,index) in scope.row.urlJson.split(',')" :key="index">
-                  <img :src="item" class="urkJsonimage" />
+              <div>
+              <div class="remark">{{scope.row.remark || '-'}}</div>
+              <div v-if="scope.row && scope.row.urlJson" class="urkJsonimageWarpper">
+                <div class="urkJsonimage" v-for="(item,index) in formatUrlJson(scope.row.urlJson)" :key="index" >
+                  <img :src="item"/>
                 </div>
-              </template>
+                <span>共{{scope.row.urlJson.split(',').length}}张</span>
+              </div>
               </div>
             </template>
           </el-table-column>
@@ -88,10 +89,10 @@ export default drawerVisible
     >>> .el-form-item--small.el-form-item {
       margin: 0 16px 0 0!important;
     }
-    >>> .el-button--small {
+    /* >>> .el-button--small {
       position: relative;
       top: 1px;
-    }
+    } */
   }
   @b info {
     margin-top: 8px;
@@ -152,14 +153,38 @@ export default drawerVisible
     box-shadow: none;
   }
 }
+.remark {
+  overflow : hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+.urkJsonimageWarpper {
+  display: flex;
+  align-items: flex-end;
+}
 .urkJsonimage{
-  width: 50px;
-  height: 50px;
-  margin: 5px;
+  width: 32px;
+  height: 32px;
+  margin-right: 8px;
+  border-radius: 2px;
+}
+.urkJsonimage img {
+  width: 100%;
+  height: 100%;
   object-fit: cover;
+}
+.urkJsonimage:last-child {
+  margin-right: 0px!important;
 }
 .remake-warpper {
   display: flex;
   align-items: center;
+}
+.urkJsonimageWarpper span {
+  display: inline-block;
+  font-size: 14px;
+  color: #0094FC;
 }
 </style>

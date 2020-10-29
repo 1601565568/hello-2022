@@ -27,6 +27,7 @@
                     v-model='model.name'
                     show-word-limit
                     maxlength='25'
+                    placeholder='请输入任务名称'
                   />
                 </div>
               </ElFormItem>
@@ -79,6 +80,7 @@
                 <div class='newTask-content__item'>
                   <el-select
                     filterable
+                    :clearable='true'
                     v-model='model.viewId'
                     placeholder='请选择运营视角'
                     @change='chooseView'
@@ -93,6 +95,7 @@
                     </el-option>
                   </el-select>
                   <el-select
+                    v-if="model.viewId"
                     filterable
                     :value='model.subgroupId'
                     placeholder='请选择会员分组'
@@ -147,7 +150,7 @@
                       <div class='catalogue-materials__video' v-if="model.materialType === 2">
                         <video
                           :src='model.materialMsg.imageList[0]'
-                          style='width: 60px; height: 107px'
+                          style='width: 107px; height: 60px'
                         >
                           您的浏览器暂不支持播放该视频，请升级至最新版浏览器。
                         </video>
@@ -364,18 +367,22 @@ export default addBrandTask
         border-radius: 3px;
       }
       @m wrapper {
-        position: relative;
-        top: 50%;
-        left: 50%;
-        margin-left: -20px;
-        margin-top: -20px;
-        width: 40px;
-        height: 40px;
-        border-radius: 40px;
-        background-color: rgba(255, 255, 255, 0.4);
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translateX(-50%) translateY(-50%);
+          /* margin-left: -20px; */
+          /* margin-top: -20px; */
+          width: 22px;
+          height: 22px;
+          border-radius: 50%;
+          background-color: hsla(0,0%,100%,.4);
+          display: flex;
+          align-items: center;
+          justify-content: center;
         > svg {
-          margin: 5px 0 0 9px;
-          font-size: 25px;
+          margin: -1px 0 0 4px;
+          font-size: 15px;
           color: #fff;
         }
       }
