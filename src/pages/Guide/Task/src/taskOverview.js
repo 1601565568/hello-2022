@@ -143,10 +143,12 @@ export default {
               this.taskMsg.shopRangeType = 1
             }
             if (this.taskMsg.runType === 1) {
-              const start = new Date()
-              if (new Date(obj.startTime) > start) {
+              let start = new Date(new Date(new Date().toLocaleDateString()).getTime()) // 当天0点
+              // let todatEnd = new Date(new Date(new Date().toLocaleDateString()).getTime() +24 * 60 * 60 * 1000 -1) // 当天23:59
+              // const start = new Date()
+              if (new Date(obj.startTime) >= start) {
                 this.searchMap.queryTime = moment(obj.startTime).format('YYYY-MM-DD')
-              } else if (new Date(obj.startTime) <= start && start <= new Date(obj.endTime)) {
+              } else if (new Date(obj.startTime) < start && start < new Date(obj.endTime)) {
                 this.searchMap.queryTime = moment(start.getTime() - 3600 * 1000 * 24).format('YYYY-MM-DD')
               } else {
                 this.searchMap.queryTime = moment(obj.endTime).format('YYYY-MM-DD')
