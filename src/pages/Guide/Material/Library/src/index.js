@@ -461,21 +461,22 @@ export default {
      * 进入文件夹：需要清空选中内容
      */
     onEnter (row) {
-      if (row.isDirectory === 1) {
+      var formatRow = this.formatDirectoryName(row)
+      if (formatRow.isDirectory === 1) {
         let path = this.breadcrumb.map(o => o.id).join('/')
-        if (path === row.parentPath) {
-          this.breadcrumb.push(row)
+        if (path === formatRow.parentPath) {
+          this.breadcrumb.push(formatRow)
           this.pagination.page = 1
           this.resetAction()
         } else {
           this.$http.fetch(this.$api.guide.getParentPath, {
-            parentId: row.parentId
+            parentId: formatRow.parentId
           }).then(resp => {
             const { parentPath, parentPathName } = resp.result
             const parentIds = parentPath.split('/')
             const parentNames = parentPathName.split('/')
             const breadcrumb = parentIds.map((id, index) => ({ id: +id, name: parentNames[index] }))
-            this.breadcrumb = breadcrumb.concat(row)
+            this.breadcrumb = breadcrumb.concat(formatRow)
             this.pagination.page = 1
             this.resetAction()
           }).catch(resp => {
@@ -483,6 +484,14 @@ export default {
           })
         }
       }
+    },
+    // 素材库标题长度修改150字。超出20溢出隐藏
+    formatDirectoryName (row) {
+      var newRow = JSON.parse(JSON.stringify(row))
+      if (newRow.name.length > 20) {
+        newRow.name = newRow.name.slice(0, 19) + '...'
+      }
+      return newRow
     },
     /**
      * 切换当前目录：需要清空选中内容
