@@ -193,6 +193,7 @@ export default {
         pageForm: params.pageForm.join(',')
       }
       this.$search({ searchMap: { ...param } })
+      this.overview()
     },
     exportData (urlLink) {
       var url = API_ROOT + urlLink
