@@ -65,7 +65,7 @@
           <el-table-column prop="num"  min-width="120">
             <template slot="header">
               已聚合群聊
-              <el-tooltip content='由于官方接口能力限制，聚合群聊数据每两小时同步一次；单个码聚合群上限为100个，达到后不会自动新建，请注意及时删除已满群聊'>
+              <el-tooltip content='单个码聚合群上限为100个，达到后不会自动新建，请注意及时删除已满群聊'>
                 <Icon type="question-circle" />
               </el-tooltip>
             </template>
