@@ -29,6 +29,7 @@
         <el-form-item label="登录时间：" prop="time">
           <el-date-picker
             v-model="model.validTime"
+            value-format="yyyy-MM-dd HH:mm:ss"
             type="datetimerange"
             :picker-options="pickerOptions"
             range-separator="至"

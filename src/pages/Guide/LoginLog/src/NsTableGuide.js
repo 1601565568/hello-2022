@@ -2,6 +2,7 @@ import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import { getErrorMsg } from '@/utils/toast'
 import { API_ROOT } from '@/config/http.js'
 import $ from 'jquery'
+import moment from 'moment'
 export default {
   name: 'NsTableGuide',
   mixins: [tableMixin],
@@ -94,6 +95,13 @@ export default {
     vm.staffFindList()
     if (typeof this.$init === 'function') {
     } else {
+      const end = new Date()
+      const start = new Date()
+      let startTime = moment(
+        start.getTime() - 3600 * 1000 * 24 * 90
+      ).format('YYYY-MM-DD HH:mm:ss')
+      let endTime = moment(end.getTime()).format('YYYY-MM-DD HH:mm:ss')
+      this.model.validTime = [startTime, endTime]
       this.$reload()
     }
   },
@@ -117,6 +125,7 @@ export default {
       this._data._pagination.page = 1
       let _this = this
       _this.$http.fetch(_this.$api.guide.guide.loginLogFindList, _this.$generateParams$()).then(resp => {
+        // let time = this._data._table.searchMap.validTime
         const that = this
         const tableConfig = this._data._table
         tableConfig.loadingtable = true
@@ -134,7 +143,7 @@ export default {
           that.$notify.error('网络异常，获取数据失败！')
         }
       }).finally(() => {
-        tableConfig.loadingtable = false
+        this._data._table.loadingtable = false
       })
     },
     // 导出日志
@@ -142,9 +151,8 @@ export default {
       var url = API_ROOT + '/test'
       var form = document.createElement('form')
       form.appendChild(
-        this.generateHideElement('startTime', this.model.startTime)
+        this.generateHideElement('validTime', this._data._table.searchMap.validTime)
       )
-      form.appendChild(this.generateHideElement('endTime', this.model.endTime))
       form.appendChild(
         this.generateHideElement('pageForm', this.model.pageForm)
       )
