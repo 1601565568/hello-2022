@@ -102,7 +102,6 @@ export default {
       } else {
         this.$search({ searchMap: { ...this.model } })
       }
-      this.getMemberManagePlan()
     },
     formatTime () {
       this.model = {
