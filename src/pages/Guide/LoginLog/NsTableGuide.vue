@@ -39,8 +39,9 @@
         </el-form-item>
       </el-form>
       <div class="template-table__more-btn">
-        <ns-button type="primary" @click="$searchAction$()">搜索</ns-button>
+        <ns-button type="primary" @click="logList()">搜索</ns-button>
         <ns-button @click="$resetInputAction$()">重置</ns-button>
+        <ns-button @click="excel()">导出登录日志</ns-button>
       </div>
     </template>
     <!-- 高级搜索-结束 -->

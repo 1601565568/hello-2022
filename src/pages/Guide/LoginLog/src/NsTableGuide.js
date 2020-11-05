@@ -1,5 +1,7 @@
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import { getErrorMsg } from '@/utils/toast'
+import { API_ROOT } from '@/config/http.js'
+import $ from 'jquery'
 export default {
   name: 'NsTableGuide',
   mixins: [tableMixin],
@@ -108,6 +110,56 @@ export default {
       })
     },
     handleClose () {
+    },
+    logList () {
+      this._data._table.searchMap = $.extend(true, {}, this.model)
+      // 页码变更会触发reload动作
+      this._data._pagination.page = 1
+      let _this = this
+      _this.$http.fetch(_this.$api.guide.guide.loginLogFindList, _this.$generateParams$()).then(resp => {
+        const that = this
+        const tableConfig = this._data._table
+        tableConfig.loadingtable = true
+        that._data._table.data = resp.result.data
+        that._data._pagination.total = parseInt(resp.result.recordsTotal)
+        if (that._data._pagination.total > 0) {
+          that._data._table.key = 1
+        } else if (that._data._pagination.total === 0) {
+          that._data._table.key = 2
+        }
+      }).catch((err) => {
+        if (err && err.msg) {
+          that.$notify.error(err.msg)
+        } else {
+          that.$notify.error('网络异常，获取数据失败！')
+        }
+      }).finally(() => {
+        tableConfig.loadingtable = false
+      })
+    },
+    // 导出日志
+    excel () {
+      var url = API_ROOT + '/test'
+      var form = document.createElement('form')
+      form.appendChild(
+        this.generateHideElement('startTime', this.model.startTime)
+      )
+      form.appendChild(this.generateHideElement('endTime', this.model.endTime))
+      form.appendChild(
+        this.generateHideElement('pageForm', this.model.pageForm)
+      )
+      form.appendChild(
+        this.generateHideElement('systemFrom', this.model.systemFrom)
+      )
+      form.appendChild(this.generateHideElement('guideId', this.model.guideId))
+      form.appendChild(
+        this.generateHideElement('orderType', this.model.orderType)
+      )
+      form.appendChild(this.generateHideElement('isDesc', this.model.isDesc))
+      form.setAttribute('action', url)
+      form.setAttribute('method', 'get')
+      document.body.appendChild(form)
+      form.submit()
     }
   }
 }
