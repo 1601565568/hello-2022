@@ -22,11 +22,19 @@
               </div>
               <html-area>
                 <div class='employee-list'>
-                  <template v-for='(item,index) in model.guideDatas'>
-                    <div class='employee-list_item' :key='item.id'>
-                      {{item.name}}
-                      <i class="el-icon-close" @click="handleDelect(index)"></i>
-                    </div>
+                  <template v-if='model.guideDatas.length>0'>
+                    <template v-for='(item,index) in model.guideDatas'>
+                      <div class='employee-list_item' :key='item.id'>
+                        {{item.name}}
+                        <i class="el-icon-close" @click="handleDelect(index)"></i>
+                      </div>
+                    </template>
+                    <span class='employee-list_all' v-if='model.guideDatas.length>0'>
+                      <i class="el-icon-close" @click="handleDelectAll()"></i>
+                    </span>
+                  </template>
+                  <template v-else>
+                    <p class='employee-text'>请选择可以在企微侧边栏使用该活动一客一码的员工</p>
                   </template>
                 </div>
                 <template slot='suffix'>
@@ -148,7 +156,8 @@
               </div>
             </el-form-item>
             <el-form-item label='过期设置' required prop='effectiveCycle' :disabled='false'>
-              <el-input style='width:88px;' v-model='model.effectiveCycle' onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))" type="number"/> 天内未邀请到新的好友 一客一码二维码过期
+              <el-input-number style='width:88px;' v-model="model.effectiveCycle" controls-position="right" :min="1"></el-input-number>天内未邀请到新的好友 一客一码二维码过期
+              <!-- <el-input style='width:88px;' v-model='model.effectiveCycle' onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))" type="number"/>  -->
               <p>因企业微信生成联系我二维码数量限制，请合理设置过期时间</p>
             </el-form-item>
           </el-collapse-item>
@@ -197,8 +206,9 @@ import ElUpload from '@nascent/nui/lib/upload'
 import ElColorPicker from '@nascent/nui/lib/color-picker'
 import VueDragResize from 'vue-drag-resize'
 import NsGuideDialog from '@/components/NsGuideDialog'
+import ElInputNumber from '@nascent/nui/lib/input-number'
 Edit.components = {
-  LengthInput, HtmlArea, TagArea, ElUpload, ElColorPicker, VueDragResize, NsGuideDialog
+  LengthInput, HtmlArea, TagArea, ElUpload, ElColorPicker, VueDragResize, NsGuideDialog, ElInputNumber
 }
 export default Edit
 </script>
@@ -435,6 +445,11 @@ export default Edit
     }
   }
 }
+.employee-text {
+  font-size: 14px;
+  color: #BFBFBF;
+  padding-bottom: 8px;
+}
 </style>
 <style scoped>
 .poster-content {
@@ -482,5 +497,17 @@ export default Edit
       right: 0;
       bottom: 0;
   }
+}
+.employee-list_all {
+  display: inline-block;
+  height: 18px;
+  line-height: 18px;
+  color: #fff;
+  width: 18px;
+  text-align: center;
+  border-radius: 50%;
+  background: #8c8c8c;
+  margin-top: 3px;
+  cursor: pointer;
 }
 </style>

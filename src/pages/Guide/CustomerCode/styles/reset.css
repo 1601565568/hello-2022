@@ -67,6 +67,9 @@
   >>> .el-form-item--medium .el-form-item__content .el-radio{
     line-height: 21px;
   }
+  >>> .el-input-number.is-controls-right .el-input__inner {
+    padding-right: 44px;
+  }
 }
 /* 表格 */
 .new-table_border {

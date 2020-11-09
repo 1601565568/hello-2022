@@ -18,7 +18,7 @@ export default {
   // 活动人员
   validateGuideIds: (rule, value, callback) => {
     if (!value || value.length <= 0) {
-      callback(new Error(`请选择参与人员`))
+      callback(new Error(`请选择参加活动人员`))
     } else {
       callback()
     }

@@ -34,8 +34,8 @@ export default {
           { validator: validates.validateName, trigger: ['blur', 'change'] }
         ],
         guideIds: [
-          { required: true, message: '请选择参与人员', trigger: ['blur', 'change'] },
-          { validator: validates.validateGuideIds, message: '请选择参与人员', trigger: ['blur', 'change'] }
+          { required: true, message: '请选择参加活动人员', trigger: ['blur', 'change'] },
+          { validator: validates.validateGuideIds, message: '请选择参加活动人员', trigger: ['blur', 'change'] }
         ],
         time: [
           { required: true, message: '请选择有效日期', trigger: ['blur', 'change'] }
@@ -134,7 +134,7 @@ export default {
           time: [result.validTimeStart, result.validTimeEnd],
           validTimeType: result.validTimeType
         }
-        this.isStating = result.status === 2 && this.guestCodeId
+        this.isStating = !!(result.status === 2 && this.guestCodeId)
         this.fileList = [{ name: result.backgroundPic }]
       })
     },
@@ -155,6 +155,11 @@ export default {
     handleDelect (index) {
       this.model.guideDatas.splice(index, 1)
       this.model.guideIds.splice(index, 1)
+    },
+    // 删除所有员工
+    handleDelectAll () {
+      this.model.guideIds = []
+      this.model.guideDatas = []
     },
     // 上传之前钩子
     beforeUpload (file) {
