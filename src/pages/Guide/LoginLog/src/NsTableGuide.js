@@ -141,9 +141,9 @@ export default {
         }
       }).catch((err) => {
         if (err && err.msg) {
-          that.$notify.error(err.msg)
+          _this.$notify.error(err.msg)
         } else {
-          that.$notify.error('网络异常，获取数据失败！')
+          _this.$notify.error('网络异常，获取数据失败！')
         }
       }).finally(() => {
         this._data._table.loadingtable = false
