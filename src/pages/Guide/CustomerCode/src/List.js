@@ -63,7 +63,8 @@ export default {
           value: '提前结束',
           color: 'info'
         }
-      }
+      },
+      drawer: false
     }
   },
   mixins: [tableMixin],
@@ -112,6 +113,10 @@ export default {
         path: '/Social/SocialOperation/CustomerCode/Analysis',
         query: { guestCodeId }
       })
+    },
+    // 关闭弹框
+    handleClose () {
+      this.drawer = false
     }
   },
   watch: {

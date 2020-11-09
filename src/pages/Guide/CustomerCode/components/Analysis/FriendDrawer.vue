@@ -11,7 +11,7 @@
     <div class='analysis-content'>
        <page-table  :searchCol='24'>
          <template slot='search'>
-          <el-form :inline="true" class='form-inline_top'>
+          <el-form :inline="true" class='form-inline_top' @submit.native.prevent>
             <el-form-item label="">
               <el-input v-model="seachVal" placeholder="请输入好友昵称"  @keyup.enter.native="handleSearch">
                 <Icon type="ns-search-copy" slot="suffix" class='search-icon' @click="handleSearch"></Icon>

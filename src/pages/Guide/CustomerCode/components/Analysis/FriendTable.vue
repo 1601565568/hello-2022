@@ -60,6 +60,26 @@
         <el-table-column
           prop="employeeName"
           label="所属员工">
+          <template slot-scope="scope">
+            <div class="scope-title_text">
+              <div class="scope-name">
+                <div :class="'scope-name_text'+ (scope.row.offlineShops.length>10?' more':'')" >
+                  {{scope.row.employeeName}}({{scope.row.offlineShops.join(',')}})
+                </div>
+                <el-popover
+                  placement="top-start"
+                  class="item"
+                  width="200"
+                  trigger="hover"
+                  :content="scope.row.offlineShops">
+                  <span class="scope-name_tip" slot="reference">共{{scope.row.offlineShops ? scope.row.offlineShops.length:0}}个</span>
+                </el-popover>
+                <!-- <div class="scope-name_num">
+                  共<span class="scope-name_num__blue">{{scope.row.emplee.length}}</span>个
+                </div> -->
+              </div>
+            </div>
+          </template>
         </el-table-column>
         <el-table-column
           prop="addTime"
@@ -159,7 +179,7 @@ export default {
             let link = document.createElement('a')
             link.style.display = 'none'
             link.href = url
-            var fileName = '邀请好友数_' + new Date().getTime() + '.CSV'
+            var fileName = '邀请好友明细表.CSV'
             link.setAttribute('download', fileName)
             document.body.appendChild(link)
             link.click()

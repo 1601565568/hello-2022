@@ -15,7 +15,7 @@
             <el-form-item label='活动名称' required prop='name'>
               <length-input v-model='model.name' placeholder="请活动名称" :length='20'  :disabled='isStating'/>
             </el-form-item>
-            <el-form-item label='参加活动人员' required prop='guideIds'>
+            <el-form-item label='参加活动人员' prop='guideIds'>
               <div class='flex-box form-item_toptext'>
                 <span>选择的员工可以在企微侧边栏使用该一客一码活动</span>
                 <span class='form-item_toptext__length'>已选<span>{{model.guideIds.length}}</span>人</span>

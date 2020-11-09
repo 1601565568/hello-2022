@@ -35,7 +35,7 @@ export default {
         ],
         guideIds: [
           { required: true, message: '请选择参与人员', trigger: ['blur', 'change'] },
-          { validator: validates.validateName, message: '请选择参与人员', trigger: ['blur', 'change'] }
+          { validator: validates.validateGuideIds, message: '请选择参与人员', trigger: ['blur', 'change'] }
         ],
         time: [
           { required: true, message: '请选择有效日期', trigger: ['blur', 'change'] }
@@ -104,9 +104,10 @@ export default {
     const { guestCodeId, copyGuestCodeId } = query
     if (guestCodeId || copyGuestCodeId) {
       this.loadActivity(guestCodeId || copyGuestCodeId)
-      if (guestCodeId) {
-        this.getGuideListByGuestCodeId(guestCodeId)
-      }
+      this.getGuideListByGuestCodeId(guestCodeId || copyGuestCodeId)
+      // if (guestCodeId) {
+
+      // }
     }
     this.guestCodeId = guestCodeId
     this.copyGuestCodeId = copyGuestCodeId
@@ -216,6 +217,7 @@ export default {
         validTimeEnd: model.time[1],
         validTimeType: model.validTimeType
       }
+      debugger
       const headPosition = this.headPosition[model.headerType]
       return { ...newModel, ...headPosition }
     },

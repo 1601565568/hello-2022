@@ -62,6 +62,26 @@
         <el-table-column
           prop="belongEmpName"
           label="所属员工">
+          <template slot-scope="scope">
+            <div class="scope-title_text">
+              <div class="scope-name">
+                <div :class="'scope-name_text'+ (scope.row.belongEmpShops.length>10?' more':'')" >
+                  {{scope.row.belongEmpName}}({{scope.row.belongEmpShops.map(item=>item.shopName).join(',')}})
+                </div>
+                <el-popover
+                  placement="top-start"
+                  class="item"
+                  width="200"
+                  trigger="hover"
+                  :content="scope.row.belongEmpShops.map(item=>item.shopName).join(',')">
+                  <span class="scope-name_tip" slot="reference">共{{scope.row.belongEmpShops ? scope.row.belongEmpShops.length:0}}个</span>
+                </el-popover>
+                <!-- <div class="scope-name_num">
+                  共<span class="scope-name_num__blue">{{scope.row.emplee.length}}</span>个
+                </div> -->
+              </div>
+            </div>
+          </template>
         </el-table-column>
         <el-table-column
           prop="inviteFriendNo"
