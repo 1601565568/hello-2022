@@ -28,7 +28,8 @@ export default {
       validTime: null
     }
     return {
-      model: searchModel,
+      model: Object.assign({}, searchModel),
+      searchModel: Object.assign({}, searchModel),
       quickSearchModel: quickSearchModel,
       _pagination: pagination,
       _table: {
@@ -148,6 +149,18 @@ export default {
         this._data._table.loadingtable = false
       })
     },
+    // 重置.
+    reset () {
+      this.model = Object.assign({}, this.searchModel)
+      const end = new Date()
+      const start = new Date()
+      let startTime = moment(
+        start.getTime() - 3600 * 1000 * 24 * 90
+      ).format('YYYY-MM-DD HH:mm:ss')
+      let endTime = moment(end.getTime()).format('YYYY-MM-DD HH:mm:ss')
+      this.model.validTime = [startTime, endTime]
+      this.logList()
+    },
     // 导出日志
     excel () {
       let time = this.searchMap.validTime
@@ -176,16 +189,17 @@ export default {
           form.setAttribute('method', 'get')
           document.body.appendChild(form)
           form.submit()
+          _this.$notify.info('导出中请稍后')
         } else {
           _this.$notify.info('数据量过大.请改变筛选条件')
         }
-      })/* .catch((err) => {
+      }).catch((err) => {
         if (err && err.msg) {
           _this.$notify.error(err.msg)
         } else {
           _this.$notify.error('网络异常，获取数据失败！')
         }
-      }) */
+      })
     },
     generateHideElement (name, value) {
       var tempInput = document.createElement('input')
