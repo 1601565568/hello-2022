@@ -64,7 +64,10 @@ export default {
           color: 'info'
         }
       },
-      drawer: false
+      drawer: false,
+      // 侧边栏信息
+      itemDate: {},
+      activeIndex: -1
     }
   },
   mixins: [tableMixin],
@@ -116,7 +119,80 @@ export default {
     },
     // 关闭弹框
     handleClose () {
+      this.activeIndex = -1
       this.drawer = false
+    },
+    // 打开侧边弹框
+    handleShowDetail (item, index) {
+      this.activeIndex = index
+      this.loadActivity(item.guestCodeId)
+    },
+    // 请求详情信息
+    loadActivity (guestCodeId) {
+      this.$http.fetch(this.$api.guide.customerCode.getByGuestCodeId, { guestCodeId }).then(res => {
+        const { result } = res
+        this.itemDate = {
+          ...result,
+          statusColor: this.statusList[result.status].color,
+          statusText: this.statusList[result.status].value,
+          activityIntroductionHtml: this.jsonTotext(result.activityIntroduction)
+        }
+        this.drawer = true
+      })
+    },
+    jsonTotext (string) {
+      const tools = [
+        { id: 'EXTERNAL_CONTACT_NICK', value: '好友微信昵称' },
+        { id: 'USER_NICK', value: '员工微信昵称' },
+        { id: 'PROMOTION_URL', value: '推广大师查询链接' },
+        { id: 'RECRUIT_URL', value: '招募链接' },
+        { id: 'ACTIVITY_VALIT_TIME', value: '活动有效时间' }
+      ]
+      tools.map(item => {
+        const regexp = new RegExp('{' + item.id + '}', 'g')
+        string = string.replace(regexp, `<span style="background: #E8E8E8;border-radius: 12px;border-radius: 12px;padding:0 8px;margin:0 8px;font-size: 14px;color: #262626;line-height: 23px;">${item.value}</span>`).replace('\n', ' <br /> ')
+      })
+      return string
+    },
+    tableRowClassName ({ row, rowIndex }) {
+      if (rowIndex === this.activeIndex) {
+        return { backgroundColor: '#D9EFFE' }
+      }
+      return ''
+    },
+    getOhterGuide (type, cb) {
+      const { page, size, total } = this._data._pagination
+      if (type === 'prev') {
+        if (this.activeIndex === 0) {
+          if (page === 1) {
+            this.$notify.error('暂无上一个')
+          } else {
+            this._data._pagination.page = page - 1
+            this.$queryList$(this.$generateParams$()).then(() => {
+              const index = this._data._table.data.length - 1
+              cb(this._data._table.data[index], index)
+            })
+          }
+        } else {
+          const index = this.activeIndex - 1
+          cb(this._data._table.data[index], index)
+        }
+      } else if (type === 'next') {
+        if (((page - 1) * size + this.activeIndex + 1) >= total) {
+          this.$notify.error('暂无下一个')
+        } else {
+          if (this.activeIndex === size - 1) {
+            this._data._pagination.page = page + 1
+            this.$queryList$(this.$generateParams$()).then(() => {
+              const index = 0
+              cb(this._data._table.data[index], index)
+            })
+          } else {
+            const index = this.activeIndex + 1
+            cb(this._data._table.data[index], index)
+          }
+        }
+      }
     }
   },
   watch: {

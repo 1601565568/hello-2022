@@ -217,7 +217,6 @@ export default {
         validTimeEnd: model.time[1],
         validTimeType: model.validTimeType
       }
-      debugger
       const headPosition = this.headPosition[model.headerType]
       return { ...newModel, ...headPosition }
     },

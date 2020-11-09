@@ -47,12 +47,13 @@
           <el-table
             :data="_data._table.data"
             class="new-table_border"
+            :row-style="tableRowClassName"
             style="width: 100%">
             <el-table-column
               prop="name"
               label="活动名称">
               <template slot-scope="scope">
-                <div class="scope-title">
+                <div class="scope-title" @click='handleShowDetail(scope.row,scope.$index)'>
                   <img :src='scope.row.activityPlacard' class="scope-title_img">
                   <div class="scope-title_text">
                     {{scope.row.name}}
@@ -139,13 +140,12 @@
       </template>
     </page-table>
     <el-drawer
-      title="我是标题"
       :modal='false'
       size='33.3%'
       @close='handleClose'
       :visible.sync="drawer"
       :with-header="false">
-      <ItemDrawer />
+      <ItemDrawer :data='itemDate' @onClose='handleClose' @onPreview="handleAnalysis" @onDelect="handleEnd" @onEdit="handleDetail" @onNext='getOhterGuide("next",handleShowDetail)' @onPrev='getOhterGuide("prev",handleShowDetail)'/>
     </el-drawer>
   </div>
 </template>
@@ -168,6 +168,7 @@ export default List
   .scope-title {
     display: flex;
     align-items: center;
+    cursor: pointer;
   }
   .scope-title_img {
     height: 86px;
