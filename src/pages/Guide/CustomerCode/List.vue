@@ -3,14 +3,14 @@
     <page-table>
       <template slot='search'>
         <el-form :inline="true" class='form-inline_top'>
-          <el-form-item label="参与员工：" class='hh_item fk_item'>
-            <NsGuideDialog :selfBtn='true' :isButton="false" :auth="false" type="primary" btnTitle="" dialogTitle="选择员工" v-model="model.guideIds" @input="handleChangeGuide">
+          <el-form-item label="参与员工：">
+            <NsGuideDialog :selfBtn='true' :appendToBody='true' :isButton="false" :auth="false" type="primary" btnTitle="" dialogTitle="选择员工" v-model="model.guideIds" @input="handleChangeGuide">
               <template slot='selfBtn'>
                 <Icon type="geren"></Icon>
               </template>
             </NsGuideDialog>
           </el-form-item>
-          <el-form-item label="活动状态：" class='fk_item'>
+          <el-form-item label="活动状态：">
             <el-select v-model="model.status" placeholder="请选择" @change='(value)=>{changeSearchfrom({status:value})}'>
               <el-option
                 v-for="item in statusOptionList"
@@ -20,7 +20,7 @@
               </el-option>
             </el-select>
           </el-form-item>
-          <el-form-item label="有效时间：" class='fk_item'>
+          <el-form-item label="有效时间：">
             <el-date-picker
               v-model="seachDate"
               type="datetimerange"
@@ -32,7 +32,7 @@
               align="right">
             </el-date-picker>
           </el-form-item>
-          <el-form-item label="" class='fk_item'>
+          <el-form-item label="">
             <el-input v-model="seachVal" placeholder="请输入活动名称"  @keyup.enter.native="handleSearch">
               <Icon type="ns-search-copy" slot="suffix" class='search-icon' @click="handleSearch"></Icon>
             </el-input>

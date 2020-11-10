@@ -10,7 +10,7 @@
         </NsGuideDialog>
       </el-form-item>
       <el-form-item label="">
-        <el-input v-model="seachVal" placeholder="请输入员工名称"  @keyup.enter.native="handleSearch" class='diff-input'>
+        <el-input v-model="seachVal" :placeholder="`请输入${holderName}`"  @keyup.enter.native="handleSearch" class='diff-input'>
           <template slot="prepend">
             <el-select v-model='searchType' class='input-select'>
               <el-option :key="1" label="好友昵称" :value="1"></el-option>
@@ -125,6 +125,11 @@ export default {
     }
   },
   components: { PageTable, NsGuideDialog },
+  computed: {
+    holderName () {
+      return ['', '好友昵称', '推广大师'][this.searchType]
+    }
+  },
   props: ['startTime', 'endTime'],
   mixins: [tableMixin],
   mounted () {

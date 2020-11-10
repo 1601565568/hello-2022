@@ -1,7 +1,7 @@
 <template>
   <div class="master-drawer">
-    <div class='master-close' @click="handleClose">
-      <i class="el-icon-close"></i>
+    <div class='master-close'>
+      <i class="el-icon-close" @click="handleBackFirst"></i>
     </div>
     <div class='header-title'>
       <h4 v-if='isSecondDrawer' class='header-title_text header-title_text__grey' @click='handleBackFirst'>{{secondDrawerName}}的推广大师明细<span class='header-title_text__span'>/</span></h4>
@@ -185,7 +185,9 @@ export default {
 .master-close {
   font-size: 16px;
   padding: 16px 16px 32px 16px;
-  cursor: pointer;
+  .el-icon-close {
+    cursor: pointer;
+  }
 }
 .header-title {
   display: flex;

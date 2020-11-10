@@ -21,6 +21,17 @@
     overflow-y: auto;
     word-break: break-all;
   }
+  /*滚动条样式*/
+  .html-area_context::-webkit-scrollbar {
+      width: 4px;
+      /*height: 4px;*/
+  }
+  .html-area_context::-webkit-scrollbar-thumb {
+      display: none
+  }
+  .html-area_context::-webkit-scrollbar-track {
+      display: none
+  }
   .suffix {
     position: absolute;
     display: flex;

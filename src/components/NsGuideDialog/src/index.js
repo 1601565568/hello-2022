@@ -43,6 +43,11 @@ export default {
     selfBtn: {
       type: Boolean,
       default: false
+    },
+    // 是否直接绑定到body下
+    appendToBody: {
+      type: Boolean,
+      default: false
     }
   },
   data: function () {

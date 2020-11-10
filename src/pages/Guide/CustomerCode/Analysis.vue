@@ -52,6 +52,7 @@
       :modal='false'
       size='60%'
       @close='handleClose'
+      append-to-body
       :visible.sync="drawer"
       :with-header="false">
       <template v-if='showType === "master"'>

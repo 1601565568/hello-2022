@@ -144,6 +144,9 @@ export default {
       guideIds: [],
       statusList: [
         {
+          label: '全部',
+          value: null
+        }, {
           label: '过期',
           value: 0
         }, {

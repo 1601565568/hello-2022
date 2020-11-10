@@ -103,6 +103,7 @@ export default {
     handleChangeDateValue (date) {
       this.startTime = date[0] || null
       this.endTime = date[1] || null
+      this.dateValue = null
       this.getDataTotal()
     },
     // 查看推广大使

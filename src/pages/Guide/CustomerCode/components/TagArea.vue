@@ -18,7 +18,9 @@
       @blur="isLocked = false"
       @keydown.delete="handleDelete($event)"
       @input="handleInput($event.target)"
-    ></div>
+    >
+
+    </div>
   </div>
 </template>
 
@@ -55,6 +57,9 @@ export default {
       default () {
         return []
       }
+    },
+    placeholder: {
+      type: String
     },
     maxlength: { // 最大输入长度
       type: [String, Number],

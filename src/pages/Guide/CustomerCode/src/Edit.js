@@ -41,7 +41,7 @@ export default {
           { required: true, message: '请选择有效日期', trigger: ['blur', 'change'] }
         ],
         activityDescription: [
-          { required: true, message: '请输入活动说明', trigger: ['blur', 'change'] },
+          { required: true, message: '请填写活动说明', trigger: ['blur', 'change'] },
           { validator: validates.validateActivityDescription.bind(this, '活动说明'), trigger: ['blur', 'change'] }
         ],
         activityIntroduction: [
@@ -150,16 +150,19 @@ export default {
     },
     handleChangeGuide (value) {
       this.model.guideDatas = value
+      this.$refs.ruleForm.validateField('guideIds')
     },
     // 删除所选员工
     handleDelect (index) {
       this.model.guideDatas.splice(index, 1)
       this.model.guideIds.splice(index, 1)
+      this.$refs.ruleForm.validateField('guideIds')
     },
     // 删除所有员工
     handleDelectAll () {
       this.model.guideIds = []
       this.model.guideDatas = []
+      this.$refs.ruleForm.validateField('guideIds')
     },
     // 上传之前钩子
     beforeUpload (file) {

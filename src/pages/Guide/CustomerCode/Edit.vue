@@ -13,7 +13,7 @@
         <el-collapse class='customer-collapse' v-model='collapseList'>
           <el-collapse-item title="活动基础信息" :name="1">
             <el-form-item label='活动名称' required prop='name'>
-              <length-input v-model='model.name' placeholder="请活动名称" :length='20'  :disabled='isStating'/>
+              <length-input v-model='model.name' placeholder="请输入名称" :length='20'  :disabled='isStating'/>
             </el-form-item>
             <el-form-item label='参加活动人员' prop='guideIds'>
               <div class='flex-box form-item_toptext'>
@@ -39,7 +39,7 @@
                 </div>
                 <template slot='suffix'>
                   <div class='employee-suffix'>
-                    <NsGuideDialog :selfBtn='true' :isButton="false" :validNull="true" :auth="false"   btnTitle="" type='text' dialogTitle="选择员工" v-model="model.guideIds" @inputAllData="handleChangeGuide">
+                    <NsGuideDialog :selfBtn='true' :appendToBody='true' :isButton="false" :validNull="true" :auth="false"   btnTitle="" type='text' dialogTitle="选择员工" v-model="model.guideIds" @inputAllData="handleChangeGuide">
                        <template slot='selfBtn'>
                         <Icon type="geren"></Icon>
                       </template>
@@ -73,7 +73,7 @@
               <div class='form-item_toptext'>
                 活动说明会显示在推广大师的查询页面
               </div>
-              <length-input type="textarea"  :disabled='isStating' v-model='model.activityDescription' placeholder="请输入说明" :length='1000'/>
+              <length-input type="textarea"  :disabled='isStating' v-model='model.activityDescription' placeholder="请输入活动说明" :length='1000'/>
             </el-form-item>
           </el-collapse-item>
           <el-collapse-item title='企微互动内容' :name="2">
@@ -100,7 +100,7 @@
                   </el-popover>
                 </div>
               </div>
-              <tag-area v-model='model.activityIntroduction' tag="wise" ref="testText" :maxlength="1000" :tools='tools'  :disabled='isStating'/>
+              <tag-area v-model='model.activityIntroduction' tag="wise" ref="testText" :maxlength="1000" :tools='tools'  :disabled='isStating' placeholder="请输入活动介绍"/>
             </el-form-item>
             <el-form-item label='活动海报' required prop='backgroundPic'>
               <div class='poster-content'>
@@ -156,9 +156,9 @@
               </div>
             </el-form-item>
             <el-form-item label='过期设置' required prop='effectiveCycle' :disabled='false'>
-              <el-input-number style='width:88px;' v-model="model.effectiveCycle" controls-position="right" :min="1"></el-input-number>天内未邀请到新的好友 一客一码二维码过期
+              <el-input-number style='width:118px;' size="medium" v-model="model.effectiveCycle" controls-position="right" :min="1" :step='1' step-strictly controls onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))"></el-input-number>天内未邀请到新的好友 一客一码二维码过期
               <!-- <el-input style='width:88px;' v-model='model.effectiveCycle' onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))" type="number"/>  -->
-              <p>因企业微信生成联系我二维码数量限制，请合理设置过期时间</p>
+              <p class='prompt-text'><span class='yellow-point'></span>因企业微信生成联系我二维码数量限制，请合理设置过期时间</p>
             </el-form-item>
           </el-collapse-item>
         </el-collapse>
@@ -450,12 +450,24 @@ export default Edit
   color: #BFBFBF;
   padding-bottom: 8px;
 }
+.prompt-text {
+  display: flex;
+  align-items: center;
+  .yellow-point {
+    background: #F2AA18;
+    display: inline-block;
+    height: 8px;
+    width: 8px;
+    border-radius: 50%;
+    margin-right: 8px;
+  }
+}
 </style>
 <style scoped>
 .poster-content {
   .poster-set_content {
     >>> .el-col {
-      margin-bottom: 24px;
+      margin-bottom: 12px;
     }
     >>> .el-radio {
       margin-right: 4px;
@@ -510,4 +522,5 @@ export default Edit
   margin-top: 3px;
   cursor: pointer;
 }
+
 </style>

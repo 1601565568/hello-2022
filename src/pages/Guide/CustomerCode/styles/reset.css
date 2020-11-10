@@ -19,6 +19,7 @@
     margin-bottom : 8px;
     height:35px;
     box-sizing:border-box;
+    border-radius: 2px;
     >>> .el-form-item__label {
       font-size: 14px;
     }
@@ -27,6 +28,9 @@
       font-size: 14px;
       min-width: 150px;
       max-width: 300px;
+    }
+    >>> .el-range-input {
+      font-size: 14px;
     }
     >>> .el-range-editor--small .el-range-separator {
       line-height: 22px;
@@ -46,6 +50,10 @@
     font-size: 14px;
     height: 32px;
     line-height: 32px;
+  }
+  >>> .is-controls-right .el-input--medium .el-input__inner {
+    height: 36px;
+    line-height: 36px;
   }
   >>> .el-form-item--medium .el-form-item__content {
     line-height: 32px;
