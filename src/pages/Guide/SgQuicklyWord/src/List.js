@@ -1,9 +1,13 @@
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import scrollHeight from '@nascent/ecrp-ecrm/src/mixins/scrollHeight'
 import Emotion from './EmotionConfig.js' // 表情配置文件
+import NsTree from '@nascent/ecrp-ecrm/src/components/NsTree'
+import NsDroptree from '@nascent/ecrp-ecrm/src/components/NsDroptree'
+import importQuick from '../ImportQuick'
 import { getErrorMsg } from '@/utils/toast'
 
 export default {
+  components: { NsTree, NsDroptree, importQuick },
   name: 'List',
   mixins: [tableMixin, scrollHeight],
   data: function () {
@@ -113,6 +117,13 @@ export default {
     }
   },
   methods: {
+    importExcelClose (value) {
+      if (value === 'close') {
+        window.console.log('关闭', value)
+        this.$reload()
+      }
+      // window.console.log('关闭', a)
+    },
     /**
      * 获取快捷话术添加人列表
      */
@@ -155,6 +166,14 @@ export default {
         nodeData: data
       }
     },
+    // 打开弹窗
+    ImportQuick () {
+      // console.log(this.$refs.importQuickDialog)
+      this.$refs.importQuickDialog.showToggle()
+    },
+    // loadListFun(){
+    //   this.$reload()
+    // },
     /**
      * 新增、编辑分类保存
      */
