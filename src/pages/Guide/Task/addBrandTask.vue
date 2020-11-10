@@ -132,39 +132,52 @@
               <template v-if="model.type === 2">
                 <ElFormItem label='素材'>
                   <div>
-                    <NsButton icon='el-icon-circle-plus-outline' @click='selectMaterialShowFun()'
+                    <NsButton icon='el-icon-circle-plus-outline' :disabled="disabled" @click='selectMaterialShowFun()'
                       >选择素材</NsButton
                     >
                   </div>
-                  <div class='newTask-content__item catalogue-materials' v-if="model.materialTitle">
-                    <p class='catalogue-materials__content'>
-                      {{model.materialTitle}}
-                      <!-- <el-input style="width:200px;" disabled v-model="model.materialTitle"></el-input> -->
-                    </p>
-                    <div class='catalogue-materials__item--media'>
-                      <!-- 视频、图片预览请使用SG项目中组件：NsPreview，可参照实例：https://test-sg.ecrpcloud.com/Guide/Material/Library -->
-                      <!-- 展示图片结构 -->
-                      <div class='catalogue-materials__image' v-if="model.materialType === 1">
-                        <div v-for="(item, index) in model.materialMsg.imageList" :key="index">
-                          <img :src='item' />
-                        </div>
+                  <div style="position: relative" class="modal">
+<!--                    替换/删除遮罩层开始-->
+                    <div class="material-model">
+                      <div @click='selectMaterialShowFun()'>
+                        <Icon type='ns-deal' color="#ffffff" font-size="14px" />
+                        <span class="material-model-title">替换</span>
                       </div>
-                      <div class='catalogue-materials__video' v-if="model.materialType === 2">
-                        <video
-                          :src='model.materialMsg.imageList[0]'
-                          style='width: 107px; height: 60px'
-                        >
-                          您的浏览器暂不支持播放该视频，请升级至最新版浏览器。
-                        </video>
-                        <div class='catalogue-materials__video--mask'>
-                          <div class='catalogue-materials__video--wrapper'>
-                            <Icon type='begin' />
+                      <div @click='deleteMaterialShowFun()'>
+                        <Icon type='ns-delete' color="#ffffff" font-size="14px"/>
+                        <span class="material-model-title">删除</span>
+                      </div>
+                    </div>
+<!--                    替换/删除遮罩层结束-->
+                    <div class='newTask-content__item catalogue-materials model-item' v-if="model.materialTitle">
+                      <p class='catalogue-materials__content'>
+                        {{model.materialTitle}}
+                      </p>
+                      <div class='catalogue-materials__item--media'>
+                        <!-- 视频、图片预览请使用SG项目中组件：NsPreview，可参照实例：https://test-sg.ecrpcloud.com/Guide/Material/Library -->
+                        <!-- 展示图片结构 -->
+                        <div class='catalogue-materials__image' v-if="model.materialType === 1">
+                          <div v-for="(item, index) in model.materialMsg.imageList" :key="index">
+                            <img :src='item' />
                           </div>
                         </div>
-                      </div>
-                      <div class="catalogue-materials__article" v-if="model.materialType === 0">
-                        <img :src="model.materialMsg.imageList[0]">
-                        <p>{{model.materialMsg.name}}</p>
+                        <div class='catalogue-materials__video' v-if="model.materialType === 2">
+                          <video
+                            :src='model.materialMsg.imageList[0]'
+                            style='width: 107px; height: 60px'
+                          >
+                            您的浏览器暂不支持播放该视频，请升级至最新版浏览器。
+                          </video>
+                          <div class='catalogue-materials__video--mask'>
+                            <div class='catalogue-materials__video--wrapper'>
+                              <Icon type='begin' />
+                            </div>
+                          </div>
+                        </div>
+                        <div class="catalogue-materials__article" v-if="model.materialType === 0">
+                          <img :src="model.materialMsg.imageList[0]">
+                          <p>{{model.materialMsg.name}}</p>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -287,6 +300,33 @@ export default addBrandTask
   }
   .el-radio-group > .el-radio {
     margin-right: 16px;
+  }
+  .material-model{
+    opacity: 0;
+    position: absolute;
+    background: rgba(0,0,0,0.45);
+    border-radius: 2px;
+    width: 626px;
+    height: 92%;
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+    justify-content: center;
+    &:hover {
+       opacity: 1;
+     }
+    div:first-child {
+      margin-right:33.8px;
+      cursor: pointer;
+    }
+    div:nth-child(2) {
+      cursor: pointer;
+    }
+    .material-model-title{
+      font-size: 14px;
+      color: #ffffff;
+      margin-left: 9px;
+    }
   }
   .newTask-content__item {
     display: inline-block;

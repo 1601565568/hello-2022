@@ -93,7 +93,8 @@ export default {
         guide: '吴隽寒',
         level: '等级',
         address: '地区'
-      }]
+      }],
+      disabled: false
     }
   },
   methods: {
@@ -167,8 +168,17 @@ export default {
         this.$refs.selectDialogDom.showToggle(this.selectMaterial)
       })
     },
+    // 删除素材
+    deleteMaterialShowFun () {
+      this.disabled = false
+      this.selectMaterial = {}
+      this.$nextTick(() => {
+        this.$refs.selectDialogDom.cancleToggle()
+      })
+    },
     // 选择素材回调
     selectMaterialBack (obj) {
+      this.disabled = true
       this.selectMaterial = obj
     },
     // 提交保存
@@ -269,6 +279,7 @@ export default {
               this.model.materialId = obj.materialId
               this.model.materialType = obj.materialType
               this.model.materialMsg = obj.materialMsg ? JSON.parse(obj.materialMsg) : null
+              this.disabled = true
             }
           }
         })
