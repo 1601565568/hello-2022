@@ -243,6 +243,23 @@ export default Edit
     box-sizing: border-box;
     padding: 0 40px 44px 16px;
   }
+  .customer-edit,.customer-mobile {
+    max-height: calc( 100vh - 172px);
+    overflow: auto;
+    &::-webkit-scrollbar-thumb {
+        display: none
+    }
+    &::-webkit-scrollbar-track {
+        display: none
+    }
+    &::-webkit-scrollbar {
+     display: none
+      /*height: 4px;*/
+    }
+  }
+  @media screen and ( max-width: 1625px ) {
+    .customer-edit,.customer-mobile {max-height: calc( 100vh - 152px);}
+  }
   .form-item_toptext {
     line-height: 22px;
     font-size: 12px;
