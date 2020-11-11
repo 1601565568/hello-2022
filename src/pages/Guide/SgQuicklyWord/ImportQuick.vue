@@ -3,7 +3,7 @@
   <div>
 <!--    <ns-button type="primary" @click="dialogVisible = true">导入指标</ns-button>-->
     <el-dialog
-      title="导入指标"
+      title="导入话术/分类"
       :visible.sync="dialogVisible"
       width="450px"
       response-limit :show-scroll-x=false>
@@ -40,9 +40,9 @@
                 <ns-button type="primary" disabled v-else>上传中</ns-button>
               </el-upload>
               <!-- 上传提示 -->
-              <span class="step-item--info__text" >上传文件限制大小5M，格式为.xls或xlsx</span>
-              <!-- <span class="text-danger padding-lr-small" v-if="uploadFail">上传失败，文档内容校验失败，请下载模版调整</span>
-              <span class="text-danger padding-lr-small " v-if="hintMsgIsShowTextDanger"  >上传文件限制大小5M，格式为.xls或xlsx</span> -->
+              <!-- <span class="text-danger padding-lr-small" v-if="uploadMsg" >上传文件限制大小5M，格式为.xls或xlsx</span> -->
+              <!-- <span class="text-danger padding-lr-small" v-if="uploadFail">上传失败，文档内容校验失败，请下载模版调整</span> -->
+              <span class="text-secondary padding-lr-small " v-if="hintMsgIsShowTextDanger"  >  上传文件限制大小5M，格式为.xls或xlsx</span>
               <span class="text-secondary padding-lr-small" v-if="uploadSuccee" >上传成功</span>
               <!-- 上传文件名称-->
 <!--              <span class="text-primary padding-lr-small">新加好友指标模版.xls</span>-->
@@ -61,9 +61,9 @@
       </div>
     </el-dialog>
     <el-dialog
-      title="导入指标"
+      title="导入结果"
       :visible.sync="dialogVisibleImportExcel"
-      width="50%"
+      width="450px"
       >
       <div class="importantExcelStatusContent">
         <div class="iconfont">
@@ -99,6 +99,7 @@ export default {
   },
   data () {
     return {
+      hintMsgIsShowTextDanger: true,
       loadingimport: false,
       updateDataisShow: false,
       uploadSuccee: false,
@@ -128,6 +129,15 @@ export default {
       this.$emit('outerimportexcel', 'close')
     },
     showToggle (data) {
+      this.improtQuickExcelQuery.excelFileKey = null
+      this.importQuickExcelResult.quickGroupSize = null
+      this.importQuickExcelResult.quickWordSize = null
+      this.importQuickExcelResult.fileSize = null
+      this.importQuickExcelResult.fileExcelUrl = null
+      this.hintMsgIsShowTextDanger = true
+      this.uploadSuccee = false
+      this.loadingimport = false
+      this.updateDataisShow = false
       this.dialogVisible = true
       this.loadingIsShow = true
       this.downloadIsShow = true
@@ -180,13 +190,17 @@ export default {
     onSuccess (response, file) {
       this.loadingIsShow = true
       if (response.success) {
+        this.hintMsgIsShowTextDanger = false
+        this.uploadSuccee = true
         this.improtQuickExcelQuery.excelFileKey = response.result.excelFileKey
         // window.console.log(response.result)
         this.updateDataisShow = true
         this.$notify.success(response.msg)
       } else {
+        this.updateDataisShow = false
+        this.hintMsgIsShowTextDanger = true
+        this.uploadSuccee = false
         // this.dialogVisible = false
-        this.updateDataisShow = true
         this.$notify.warning('上传失败!' + response.msg)
       }
     },
