@@ -342,6 +342,18 @@
                       <Icon type="question-circle"/>
                     </el-tooltip>
                   </el-form-grid>
+                  <el-form-grid size="md">
+                    退款次数：{{rfmInfo.refundTimes}}次
+                    <el-tooltip content="交易成功订单商品数量/交易成功订单数（包含退款）">
+                      <Icon type="question-circle"/>
+                    </el-tooltip>
+                  </el-form-grid>
+                  <el-form-grid size="md">
+                    退款总额：{{rfmInfo.refundAmount}}元
+                    <el-tooltip content="交易成功订单商品数量/交易成功订单数（包含退款）">
+                      <Icon type="question-circle"/>
+                    </el-tooltip>
+                  </el-form-grid>
                 </el-form-item>
                 <el-form-item label="最近交易：">
                   <el-form-grid size="xxlg">
