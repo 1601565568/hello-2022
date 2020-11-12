@@ -54,7 +54,6 @@
                   range-separator="至"
                   start-placeholder="开始日期"
                   end-placeholder="结束日期"
-                  :picker-options="pickerOptions"
                   :default-value="currentMonth"
                   @change="handleDateChange"
                 >
@@ -142,7 +141,6 @@
                   range-separator="至"
                   start-placeholder="开始日期"
                   end-placeholder="结束日期"
-                  :picker-options="pickerOptions"
                   :default-value="currentMonth"
                   @change="handleDateChange"
                 >
@@ -627,7 +625,9 @@ export default {
         this.searchObj.searchMap.endDate = moment(this.searchform.dateRange[1]).format('YYYY-MM-DD')
       }
       this.clearSearch()
-      this.searchObj.searchMap.guideIds = this.searchform.guideId
+      if (this.searchform.guideId && this.searchform.guideId !== '') {
+        this.searchObj.searchMap.guideIds = this.searchform.guideId
+      }
       this.searchObj.searchMap.shopName = this.searchform.shopName
       this.searchObj.searchMap.name = this.searchform.name
       this.searchObj.searchMap.workId = this.searchform.workId
