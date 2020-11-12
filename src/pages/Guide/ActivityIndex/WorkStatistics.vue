@@ -523,6 +523,13 @@ export default {
       shopId: null
     }
   },
+  watch: {
+    'searchform.type': function (newVal) {
+      if (newVal === '3') {
+        this.getTime()
+      }
+    }
+  },
   created: function () {
     // 初始化默认查询本年当月
     this.searchObj.searchMap = Object.assign(this.searchObj.searchMap, {
@@ -535,6 +542,11 @@ export default {
     this.loadListFun()
   },
   methods: {
+    getTime () {
+      var date = new Date()
+      date.setDate(1)
+      this.searchform.dateRange = [moment(new Date(new Date(date))).format('YYYY-MM-DD'), moment(new Date()).format('YYYY-MM-DD')]
+    },
     handleDateChange () {
       this.searchform.date = ''
     },
