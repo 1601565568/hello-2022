@@ -64,7 +64,7 @@
               maxlength='20'
               minlength='1'
               clearable
-              :disabled="model.selectIndex!=''"
+              :disabled="edit"
               :input="model.title=model.title.replace(/(^\s*)|(\s*$)/g, '')"
               placeholder="请输入标题,长度在1-20个字符以内"
               v-model="model.title"
@@ -77,7 +77,7 @@
               maxlength='50'
               minlength='1'
               clearable
-              :disabled="model.selectIndex!=''"
+              :disabled="edit"
               :input="model.description=model.description.replace(/(^\s*)|(\s*$)/g, '')"
               placeholder="请输入文案,长度在1-50个字符以内"
               v-model="model.description"
@@ -86,7 +86,7 @@
           </ElFormItem>
           <ElFormItem label="封面图：" prop="image"  label-width="100px" class="el-form-validate__box">
             <ElUpload
-              :disabled="model.selectIndex!=''"
+              :disabled="edit"
               :action="this.$api.core.sgUploadFile('message')"
               :show-file-list="false"
               :on-success="handleAvatarSuccess"
@@ -97,7 +97,7 @@
           </ElFormItem>
           <ElFormItem label-width="83px" v-if="model.selectIndex!=''">
                 <span class="text-primary">
-                  <Icon type="exclamation-circle"/>&nbsp;消息展示内容可在系统设置-招募设置-招募页面配置进行自定义编辑
+                  <Icon type="exclamation-circle"/>&nbsp;招募消息展示内容可在系统设置-招募设置-招募页面配置进行自定义编辑
                 </span>
           </ElFormItem>
         </ElForm>
@@ -130,6 +130,7 @@ export default {
         title: '', // 链接标题
         description: '' // 链接描述
       },
+      edit: false, // 预置链接是否可编辑 false:1：可编辑  true：0：不可编辑
       rules: {
         url: [
           { required: true, message: '请输入网页', trigger: 'blur' }
@@ -179,10 +180,14 @@ export default {
       this.presetLink.forEach(function (value, i) {
         if (e === '') {
           _this.model.url = ''
+          _this.model.image = ''
+          _this.model.title = ''
+          _this.model.description = ''
+          _this.model.selectIndex = ''
           return
         }
         if (value.id === e) {
-          _this.model.url = value.url + '&guideWechatNo={wxId}&wechatId={chatId}&source=3'
+          _this.model.url = value.url
           _this.model.image = value.picture
           _this.model.title = value.title
           _this.model.description = value.content
@@ -230,6 +235,26 @@ export default {
     publishData () {
       this.model = this.linkModel
       this.linkSwitch = this.linkModel.linkSwitch
+    },
+    'model.selectIndex': function (o1) {
+      let that = this
+      if (!this.model.selectIndex) {
+        this.edit = false
+        return
+      }
+      if (o1) {
+        this.presetLink.forEach(function (value) {
+          if (value.id === o1) {
+            if (value.edit) {
+              that.edit = false
+            } else {
+              that.edit = true
+            }
+          }
+        })
+      } else {
+        this.edit = false
+      }
     }
   },
   mounted () {

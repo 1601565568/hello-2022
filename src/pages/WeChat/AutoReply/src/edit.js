@@ -36,7 +36,7 @@ export default {
   },
   mounted () {
     this.initEdit()
-    // this.getSystemPresetLink()
+    this.getSystemPresetLink()
   },
   methods: {
     // 保存
@@ -130,17 +130,17 @@ export default {
     cancelWelcomes () {
       this.$router.push({ path: '/Guide/SgGuide/ChatAutoReply' })
     },
-    // // 获取系统预置链接
-    // getSystemPresetLink: function () {
-    //   let _this = this
-    //   _this.$http.fetch(_this.$api.guide.systemPreset.getLink).then(resp => {
-    //     if (resp.success && resp.result != null) {
-    //       resp.result.forEach(function (value, i) {
-    //         _this.presetLink.push(value)
-    //       })
-    //     }
-    //   })
-    // },
+    // 获取系统预置链接
+    getSystemPresetLink: function () {
+      let _this = this
+      _this.$http.fetch(_this.$api.guide.systemPreset.getLink, { type: 2 }).then(resp => {
+        if (resp.success && resp.result != null) {
+          resp.result.forEach(function (value, i) {
+            _this.presetLink.push(value)
+          })
+        }
+      })
+    },
     /**
      * @msg: 页面初始化时的数据加载函数
      */

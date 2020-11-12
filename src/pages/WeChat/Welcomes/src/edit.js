@@ -95,7 +95,7 @@ export default {
     // 获取系统预置链接
     getSystemPresetLink: function () {
       let _this = this
-      _this.$http.fetch(_this.$api.guide.systemPreset.getLink).then(resp => {
+      _this.$http.fetch(_this.$api.guide.systemPreset.getLink, { type: 2 }).then(resp => {
         if (resp.success && resp.result != null) {
           resp.result.forEach(function (value, i) {
             _this.presetLink.push(value)
