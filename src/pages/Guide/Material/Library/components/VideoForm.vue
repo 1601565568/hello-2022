@@ -3,12 +3,11 @@
     <el-form ref="form" :model="model" :rules="rules" label-width="100px">
       <el-form-item label="素材标题：" prop="name">
         <el-input
-          type="text"
+          type="textarea"
           maxlength="150"
           v-model="model.name"
           placeholder="请输入标题，长度在150个字符以内"
           style="width: 260px"
-          show-word-limit
           :input="model.name=model.name.replace(/\s+/g,'')"
           clearable
         ></el-input>

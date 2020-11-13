@@ -71,7 +71,7 @@
           :element-loading-text="$t('prompt.loading')"
           height="500"
         >
-          <el-table-column label="标题" prop="name" :min-width="190"></el-table-column>
+          <el-table-column label="标题" prop="name" :min-width="190" :show-overflow-tooltip="true"></el-table-column>
           <el-table-column label="内容" prop="content" :min-width="275">
             <template slot-scope="scope">
               <table-item :data="scope.row" @preview="togglePreview"></table-item>
