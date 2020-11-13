@@ -1,9 +1,12 @@
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import moment from 'moment'
 import { getErrorMsg } from '@/utils/toast'
+import taskProgress from '../component/taskProgress'
+import $ from 'jquery'
 
 export default {
   name: 'NsTableGuide',
+  components: { taskProgress },
   mixins: [tableMixin],
   props: {
     url: Object
@@ -66,7 +69,15 @@ export default {
         page: 1,
         size: 50,
         shopName: ''
-      }
+      },
+      total: '0', // 页面table总数居
+      checkAll: false, // 是否全选
+      isIndeterminate: false, // 全选样式显示状态
+      isManual: true, // 是否是手动触发全选
+      removeCheckList: [], // 记录全选状态下面的取消的list
+      addcheckList: [], // 记录表格勾选的数据
+      shopCustomerTransferTaskStatus: null, // 判断门店是否有转移任务
+      shopCustomerTransferTaskStatusTime: null // 定时调用判断门店转移任务状态显示
     }
   },
   watch: {
@@ -78,6 +89,49 @@ export default {
       this.$nextTick(function () {
         this.appendShopInfo(val)
       })
+    },
+    // shopCustomerTransferTaskStatus (val) {
+    //   let _this = this
+    //   // 有返回值就继续调用接口显示进度
+    //   debugger
+    // },
+    removeCheckList (value) {
+      if (this.checkAll) {
+        if (value.length > 0 && value.length < this.total) {
+          this.isIndeterminate = true
+        } else if (value.length === 0) {
+          this.isIndeterminate = false
+          return false
+        } else if (value.length === parseInt(this.total)) {
+          // 添加删除的数组等于总条数，相当于没有全部取消
+          this.isIndeterminate = false
+          this.removeCheckList = []
+          this.checkAll = false
+        }
+      }
+      console.log('removeCheckList', value)
+    },
+    checkAll (val) {
+      console.log('全选状态切换', val)
+      console.log('添加的数组', this.addcheckList)
+      console.log('删除的数组', this.removeCheckList)
+    },
+    addcheckList (value) {
+      if (!this.checkAll) {
+        if (value.length > 0 && value.length < this.total) {
+          this.isIndeterminate = true
+        } else if (value.length === 0) {
+          this.isIndeterminate = false
+          this.checkAll = false
+          return false
+        } else if (value.length === parseInt(this.total)) {
+          // 添加勾选的数组等于总条数相当于全部选择
+          this.isIndeterminate = false
+          this.checkAll = true
+          this.addcheckList = []
+        }
+      }
+      console.log('addcheckList', value)
     }
   },
   mounted: function () {
@@ -104,12 +158,16 @@ export default {
     this.initShopList()
   },
   methods: {
+    handlereplaceShop () {
+      this.$emit('handlereplaceShop')
+    },
     moment (time) {
       return moment(time).format('YYYY-MM-DD HH:mm:ss')
     },
     changeShopStatus () {
       this.initShopList()
     },
+    // 门店树选择
     onClickNode (data) {
       var _this = this
       if (this._data._table.data.length > 0) {
@@ -142,9 +200,45 @@ export default {
       }).catch((resp) => {
         _this.$notify.error(getErrorMsg('查询等级信息失败', resp))
       })
-      // } else {
-      // this.showChangeGuide = false
-      // }
+      this.clearRemoveStatus()
+    },
+    async setAjax () {
+      let _this = this
+      this.shopCustomerTransferTaskStatusTime = null
+      this.shopCustomerTransferTaskStatus = null
+      await _this.getShopCustomerTransferTaskStatus().then(() => {
+        console.log('_this.shopCustomerTransferTaskStatus', _this.shopCustomerTransferTaskStatus)
+        _this.shopCustomerTransferTaskStatusTime = setInterval(() => {
+          if (_this.shopCustomerTransferTaskStatus && _this.shopCustomerTransferTaskStatus.status !== 3) {
+            console.log('调用开始')
+            _this.getShopCustomerTransferTaskStatus()
+          } else {
+            clearInterval(_this.shopCustomerTransferTaskStatusTime)
+          }
+        }, 10000)
+      })
+    },
+    clearRemoveStatus () {
+      // 会员转移新需求
+      this.checkAll = false // 是否全选
+      this.isIndeterminate = false // 全选样式显示状态
+      this.removeCheckList = [] // 记录全选状态下面的取消的list
+      this.addcheckList = [] // 记录表格勾选的数据
+      this.setAjax()
+    },
+    // 查询门店客户转移任务状态
+    getShopCustomerTransferTaskStatus () {
+      return new Promise((resolve, reject) => {
+        this.$http.fetch(this.$api.guide.shop.getShopCustomerTransferTaskStatus, {
+          shopId: this.offLineShopId
+        }).then((res) => {
+          this.shopCustomerTransferTaskStatus = res.result
+          resolve(true)
+        }).catch((err) => {
+          reject(err)
+          this.$notify.error('获取门店客户转移任务状态失败')
+        })
+      })
     },
     totalForUnconditionalSearch (data) {
       var _this = this
@@ -177,6 +271,7 @@ export default {
             showLabel = showLabel.substring(0, showLabel.indexOf('('))
           }
           let addLabel = '(' + resp.result.total + ')'
+          this.total = resp.result.total // 显示页面所有数据
           if (isShop) {
             this.totalNumTrige = addLabel
           }
@@ -289,9 +384,9 @@ export default {
       })
       return retVal
     },
-    handleSelectionChange (val) {
-      this.$emit('handleSelectionChange', val)
-    },
+    // handleSelectionChange (val) {
+    //   this.$emit('handleSelectionChange', val)
+    // },
     onRedactFun (val, offLineShopId) {
       this.$emit('onRedactFun', val, offLineShopId)
     },
@@ -321,6 +416,187 @@ export default {
         params.searchMap.shopId = Number(_this.shuJushuzu.parentId)
       }
       return params
+    },
+    // 全选全部所有数据
+    handleCheckAllChange (val) {
+      if (val) {
+        let list = this._data._table.data
+        list.forEach((item) => {
+          this.$refs.table && this.$refs.table.toggleRowSelection(item, true)
+        })
+        this.addcheckList = []
+      } else {
+        this.removeCheckList = []
+        this.$refs.table.clearSelection()
+      }
+      this.isIndeterminate = false
+    },
+    // table表格勾选全部
+    hanledSelecAllChange (val) {
+      let pagedataAll = val.length === 0 // 判断是全选还是全部取消
+      // 切换page 会导致调用此方法， isManual  用作判断
+      if (!this.isManual) {
+        return false
+      }
+      if (this.checkAll) {
+        if (pagedataAll) {
+          this.removeCheckList = this.removeCheckList.concat(this._data._table.data)
+          // 数组去重
+          this.removeCheckList = this.unique(this.removeCheckList)
+        } else {
+          this.removeCheckList = this.diffArr(this.removeCheckList, this._data._table.data)
+        }
+      } else {
+        if (pagedataAll) {
+          this.addcheckList = this.diffArr(this.addcheckList, this._data._table.data)
+        } else {
+          this.addcheckList = this.addcheckList.concat(this._data._table.data)
+          this.addcheckList = this.unique(this.addcheckList)
+        }
+      }
+    },
+    // 全选状态下，勾选全部选中
+    diffArr (arr1, arr2) {
+      let deffArr = arr1.filter(item =>
+        !arr2.some(ele => JSON.stringify(ele.nickInfoList[0]) === JSON.stringify(item.nickInfoList[0]))
+      )
+      return deffArr
+    },
+    // 去重
+    unique (arr) {
+      let newArr = JSON.parse(JSON.stringify(arr))
+      if (newArr.length === 0) {
+        return false
+      }
+      for (var i = 0; i < newArr.length; i++) {
+        for (var j = i + 1; j < newArr.length; j++) {
+          if (JSON.stringify(newArr[i].nickInfoList[0]) === JSON.stringify(newArr[j].nickInfoList[0])) {
+            newArr.splice(j, 1)
+            j--
+          }
+        }
+      }
+      return newArr
+    },
+    handleSelectChange (selection, row) {
+      if (this.checkAll) {
+        this.addremoveCheck(selection, row)
+        // this.isCheckList.push(row)
+      } else {
+        this.addCheck(selection, row)
+      }
+    },
+    // 全选状态下，添加取消的数组
+    addremoveCheck (selection, row) {
+      let nickInfoList = row.nickInfoList[0]
+      var nick = nickInfoList.nick
+      var platform = nickInfoList.platform
+      let selectionIndex = selection.findIndex((item) => {
+        return item.nickInfoList[0].platform === platform && item.nickInfoList[0].nick === nick
+      })
+      // selectionIndex 有值默认是勾选的，无值是取消的
+      if (selectionIndex < 0) {
+        this.removeCheckList.push(row)
+      } else {
+        this.delRemoveCheck(nick, platform)
+      }
+    },
+    // 全选状态下，取消添加的数组
+    delRemoveCheck (nick, platform) {
+      if (this.removeCheckList.length === 0) {
+        return false
+      }
+      let removeIndex = this.removeCheckList.findIndex((item) => {
+        return item.nickInfoList[0].platform === platform && item.nickInfoList[0].nick === nick
+      })
+      this.removeCheckList.splice(removeIndex, 1)
+    },
+    // 非全选状态下，勾选目标数据
+    addCheck (selection, row) {
+      let selectionIndex = selection.findIndex((item) => {
+        return JSON.stringify(item.nickInfoList[0]) === JSON.stringify(row.nickInfoList[0])
+      })
+      if (selectionIndex >= 0) {
+        this.addcheckList.push(row)
+      } else {
+        this.delAddCheck(row)
+      }
+    },
+    // 非全选状态下，取消勾线已选择
+    delAddCheck (row) {
+      if (this.addcheckList.length === 0) {
+        return false
+      }
+      let removeIndex = this.addcheckList.findIndex((item) => {
+        return JSON.stringify(item.nickInfoList[0]) === JSON.stringify(row.nickInfoList[0])
+      })
+      this.addcheckList.splice(removeIndex, 1)
+    },
+    // 勾选全部数据记录所有数据勾选状态
+    async $onSizeChange$ (size) {
+      await this.$sizeChange$(size)
+      this.tableState()
+    },
+    async $onPageChange$ (page) {
+      await this.$pageChange$(page)
+      this.tableState()
+    },
+    async searchAction () {
+      // this.$searchAction$()
+      this._data._table.searchMap = $.extend(true, {}, this.model)
+      // 页码变更会触发reload动作
+      this._data._pagination.page = 1
+      this.$formatTextToShow$()
+      await this.$reload()
+      this.$nextTick(() => {
+        this.tableState()
+      })
+    },
+    resetInputAction: function () {
+      if (typeof this.$resetInput === 'function') {
+        const model = this.$resetInput(this.model)
+        if (model) {
+          this.$set(this, 'model', model)
+        }
+      } else {
+        this.$resetInput$()
+      }
+      this.searchAction()
+    },
+    // table表格显示状态
+    tableState () {
+      let _this = this
+      if (this.checkAll) {
+        this.isManual = false
+        this.$refs.table.toggleAllSelection()
+        if (this.removeCheckList.length > 0) {
+          // toggleAllSelection 异步事件导购取消勾选后，异步执行完成后勾选
+          setTimeout(() => {
+            this.isManual = true
+            _this._data._table.data.forEach(row => {
+              _this.removeCheckList.forEach((item) => {
+                if (JSON.stringify(row.nickInfoList[0]) === JSON.stringify(item.nickInfoList[0])) {
+                  _this.$refs.table.toggleRowSelection(row, false)
+                }
+              })
+            })
+          }, 50)
+        }
+      } else {
+        this.$refs.table.clearSelection()
+        if (this.addcheckList.length === 0) {
+          return false
+        }
+        setTimeout(() => {
+          _this._data._table.data.forEach(row => {
+            _this.addcheckList.forEach((item) => {
+              if (JSON.stringify(row.nickInfoList[0]) === JSON.stringify(item.nickInfoList[0])) {
+                _this.$refs.table.toggleRowSelection(row, true)
+              }
+            })
+          })
+        }, 50)
+      }
     }
   }
 }

@@ -38,8 +38,20 @@
       <ns-page-table @add="$emit('add')"  @shopEdit="$emit('shopEdit')" >
         <!-- 按钮 -->
         <template v-if="showChangeGuide" slot="buttons">
-          <ns-table-operate-button  :buttons="_data._table.table_buttons">
-          </ns-table-operate-button>
+          <div style="display:flex">
+            <el-checkbox
+              :disabled="total === '0'"
+              :indeterminate="isIndeterminate"
+              v-model="checkAll"
+              @change="handleCheckAllChange">
+              所有数据
+            </el-checkbox>
+            <span class="total">共{{total}}条</span>
+            <ns-table-operate-button  :buttons="_data._table.table_buttons">
+            </ns-table-operate-button>
+            <!-- table_buttons写在里面事件不生效有点懵 -->
+            <ns-button type="primary" @click="handlereplaceShop">更换门店</ns-button>
+          </div>
         </template>
         <!-- 按钮-结束 -->
 
@@ -49,14 +61,13 @@
         <template slot="searchSearch">
           <el-form :model="quickSearchModel" :inline="true" @submit.native.prevent  class="pull-right">
             <el-form-item v-show="_data._queryConfig.expand === false" label="手机号：">
-              <el-input ref="quickText" style="width: 180px" v-model="model.mobile" placeholder="请输入手机号" @keyup.enter.native="$searchAction$()" clearable>
+              <el-input ref="quickText" style="width: 180px" v-model="model.mobile" placeholder="请输入手机号" @keyup.enter.native="searchAction()" clearable>
                 <!--<Icon type="search" className="el-input__icon" style="padding: 5px;" slot="suffix" moblie="moblie"-->
-                      <!--@click="$searchAction$()"/>-->
+                      <!--@click="searchAction()"/>-->
               </el-input>
-              <ns-button type="primary" @click="$searchAction$()" class="searchbtn" >搜索</ns-button>
-              <ns-button @click="$resetInputAction$()" class="resetbtn">重置</ns-button>
+              <ns-button type="primary" @click="searchAction()" class="searchbtn" >搜索</ns-button>
+              <ns-button @click="resetInputAction()" class="resetbtn">重置</ns-button>
             </el-form-item>
-
             <el-form-item>
               <ns-button type="text" @click="$handleTabClick">
                 {{collapseText}}
@@ -73,7 +84,7 @@
         <template slot="advancedSearch" v-if="_data._queryConfig.expand">
           <el-form ref="table_filter_form" :model="model" label-width="80px" :inline="true"
              class="surround-btn"
-             @keyup.enter.native="$searchAction$()">
+             @keyup.enter.native="searchAction()">
 
             <el-form-item label="姓名：">
               <el-form-grid size="xmd">
@@ -122,8 +133,8 @@
           </el-form>
 
           <div class="template-table__more-btn">
-            <ns-button type="primary" @click="$searchAction$()">搜索</ns-button>
-            <ns-button @click="$resetInputAction$()">重置</ns-button>
+            <ns-button type="primary" @click="searchAction()">搜索</ns-button>
+            <ns-button @click="resetInputAction()">重置</ns-button>
           </div>
         </template>
         <!-- 高级搜索-结束 -->
@@ -137,8 +148,11 @@
           <!-- 日期 年月日 :width="100"   年月日时分秒 :width="150" -->
           <!-- 手机号 :width="120" -->
           <!-- 操作（只有一项文字的80px,两项文字120px,三项文字160px） -->
-
-          <el-table ref="table" :data="_data._table.data" stripe @selection-change="handleSelectionChange"
+          <taskProgress :shopCustomerTransferTaskStatus="shopCustomerTransferTaskStatus" :shopId="offLineShopId" @onResetCustomerTransferTask="setAjax()"></taskProgress>
+          <!-- @selection-change="handleSelectionChange" -->
+          <el-table ref="table" :data="_data._table.data" stripe
+            @select="handleSelectChange"
+            @select-all="hanledSelecAllChange"
             v-loading.lock="_data._table.loadingtable"
             :element-loading-text="$t('prompt.loading')">
             <el-table-column type="selection" align="center" :width="50"></el-table-column>
@@ -221,8 +235,8 @@
                          :current-page.sync="_data._pagination.page"
                          :page-size="_data._pagination.size"
                          layout="total, sizes, prev, pager, next, jumper"
-                         @size-change="$sizeChange$"
-                         @current-change="$pageChange$">
+                         @size-change="$onSizeChange$"
+                         @current-change="$onPageChange$">
           </el-pagination>
         </template>
         <!-- 分页-结束 -->
@@ -339,4 +353,9 @@ export default NsTableGuide
     display: inline-block;
     margin-left: 8px;
   }
+.total {
+  line-height: 2.5;
+  display: inline-block;
+  margin: 0 8px;
+}
 </style>
