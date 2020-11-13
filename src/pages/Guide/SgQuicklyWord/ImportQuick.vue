@@ -282,11 +282,12 @@ export default {
   justify-content: center;
   flex-direction: column;
   align-items: center;
+  height: 276px;
   .iconfont {
     margin-bottom: 10px;
   }
   .xuanzhongfont {
-    font-size: 72px;
+    font-size: 64px;
     color: #0091fa;
   }
 }

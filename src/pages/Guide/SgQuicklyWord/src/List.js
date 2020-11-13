@@ -120,6 +120,7 @@ export default {
     importExcelClose (value) {
       if (value === 'close') {
         window.console.log('关闭', value)
+        this.findQuicklyWordGroupList()
         this.$reload()
       }
       // window.console.log('关闭', a)
