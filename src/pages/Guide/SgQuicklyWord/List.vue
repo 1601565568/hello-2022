@@ -46,6 +46,7 @@
       <ns-page-table :colButton="10">
         <template slot="buttons" class="quickWordsArt">
           <ns-button type="primary" @click="onSaveOpen()" class="quickWordsArt">新增话术</ns-button>
+          <ns-button type="primary" @click="ImportQuick()" >导入话术/分类</ns-button>
           <ns-button type="primary" :disabled="!batchDis" @click="onBatchSetOpen()">批量分类</ns-button>
           <ns-button type="primary" :disabled="!batchDis" @click="onBatchDelete()">批量删除</ns-button>
         </template>
@@ -265,13 +266,11 @@
         <ns-button type="primary" @loading="addOrEditCategory.loading" @click="onSaveCategory">确定</ns-button>
       </div>
     </el-dialog>
+    <importQuick ref="importQuickDialog" @outerimportexcel="importExcelClose" ></importQuick>
   </div>
 </template>
 <script>
 import List from './src/List'
-import NsTree from '@nascent/ecrp-ecrm/src/components/NsTree'
-import NsDroptree from '@nascent/ecrp-ecrm/src/components/NsDroptree'
-List.components = { NsTree, NsDroptree }
 export default List
 </script>
 <style scoped>

@@ -104,8 +104,8 @@ export default {
       }
     },
     formatTime () {
-      this.searchform = {
-        ...this.searchform,
+      this.model = {
+        ...this.model,
         startTime: this.time[0],
         endTime: this.time[1]
       }

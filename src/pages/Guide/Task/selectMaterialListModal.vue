@@ -187,6 +187,10 @@ export default {
       this.getAllLabel()
       this.searchAction()
     },
+    // 删除素材
+    cancleToggle () {
+      this.selectObj = {}
+    },
     // 重置
     resetAction () {
       this.model = { ...this.originModel }
