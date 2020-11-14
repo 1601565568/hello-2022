@@ -38,6 +38,12 @@ export default {
           'name': 'RecruitPageConfig',
           'title': '招募页面设置',
           'component': () => import('@/pages/Guide/RecruitmentPageSettings/index.vue')
+        },
+        {
+          'path': '/Guide/RecruitSet/NotMemberPageConfig',
+          'name': 'NotMemberPageConfig',
+          'title': '非会员页面设置',
+          'component': () => import('@/pages/Guide/NotMemberPageConfig/index.vue')
         }
       ]
     },

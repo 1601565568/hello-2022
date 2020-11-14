@@ -106,7 +106,7 @@
       </div>
     </ElScrollbar>
     <div class="form-save__unique">
-      <NsButton type="primary" :loading="loading" @click="update">修改</NsButton>
+      <NsButton type="primary" :loading="loading" @click="update">保存</NsButton>
     </div>
   </div>
 </template>
