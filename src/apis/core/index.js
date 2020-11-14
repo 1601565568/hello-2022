@@ -82,6 +82,12 @@ export default {
     return `${apiConf.API_ROOT}/guide/importquota/uploadexcel`
   },
   /**
+ * @param {string} module 快捷话术上传EXCEl
+ */
+  sgUploadQuickExcel: function () {
+    return `${apiConf.API_ROOT}/guide/quicklyword/uploadQuickExcel`
+  },
+  /**
    * $api.sgUploadFile('test')
    * @param {string} module 上传模块名
    */
