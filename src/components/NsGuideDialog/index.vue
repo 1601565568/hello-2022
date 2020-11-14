@@ -92,42 +92,44 @@
             </el-form-grid>
           </el-form-item>
         </el-form>
-        <el-row :gutter="24">
-          <el-col :span="12">
-            <ElTable v-loading="tableLoading" ref="employeeTable" :data="employeeData" height="260" @select="selectChange" @select-all="selectAllChange">
-              <ElTableColumn type="selection" width="55"></ElTableColumn>
-              <ElTableColumn :show-overflow-tooltip="true" type="default" prop="name" label="员工姓名" align="left"/>
-              <ElTableColumn :show-overflow-tooltip="true" type="default" prop="shopNames" label="工作门店" align="left"/>
-              <ElTableColumn :show-overflow-tooltip="true" type="default" prop="departName" label="所属部门" align="left"/>
-            </ElTable>
-            <el-pagination v-if="_data.pagination4Emp.enable" class="template-table__pagination"
-                           :page-sizes="_data.pagination4Emp.sizeOpts" :total="_data.pagination4Emp.total"
-                           :current-page="_data.pagination4Emp.page" :page-size="_data.pagination4Emp.size"
-                           :layout="true? 'total, sizes, prev, pager, next':'total'" @size-change="$sizeChange$"
-                           @current-change="searchEmployee">
-            </el-pagination>
-          </el-col>
-          <el-col :span="12">
-            <ElTable :data="selectedData" height="260">
-              <ElTableColumn :show-overflow-tooltip="true" type="default" prop="name" :label="'已选' + selectedData.length + '个员工'" align="left">
-              </ElTableColumn>
-              <ElTableColumn  prop="select" align="center" width="55" >
-                <template slot="header">
-                  <span @click="clearSelection">清空</span>
-                </template>
-                <template slot-scope="scope">
-                  <ns-button
-                    :disabled="auth && scope.row.auth"
-                    type="text"
-                    size="mini"
-                    @click="() => removeEmp(scope)">
-                    <Icon type="delete" className="code-delete"/>
-                  </ns-button>
-                </template>
-              </ElTableColumn>
-            </ElTable>
-          </el-col>
-        </el-row>
+        <div>
+          <!-- <el-row :gutter="24"> -->
+            <el-col :span="12">
+              <ElTable v-loading="tableLoading" ref="employeeTable" :data="employeeData" height="260" @select="selectChange" @select-all="selectAllChange">
+                <ElTableColumn type="selection" width="55"></ElTableColumn>
+                <ElTableColumn :show-overflow-tooltip="true" type="default" prop="name" label="员工姓名" align="left"/>
+                <ElTableColumn :show-overflow-tooltip="true" type="default" prop="shopNames" label="工作门店" align="left"/>
+                <ElTableColumn :show-overflow-tooltip="true" type="default" prop="departName" label="所属部门" align="left"/>
+              </ElTable>
+              <el-pagination v-if="_data.pagination4Emp.enable" class="template-table__pagination"
+                            :page-sizes="_data.pagination4Emp.sizeOpts" :total="_data.pagination4Emp.total"
+                            :current-page="_data.pagination4Emp.page" :page-size="_data.pagination4Emp.size"
+                            :layout="true? 'total, sizes, prev, pager, next':'total'" @size-change="$sizeChange$"
+                            @current-change="searchEmployee">
+              </el-pagination>
+            </el-col>
+            <el-col :span="12">
+              <ElTable :data="selectedData" height="260">
+                <ElTableColumn :show-overflow-tooltip="true" type="default" prop="name" :label="'已选' + selectedData.length + '个员工'" align="left">
+                </ElTableColumn>
+                <ElTableColumn  prop="select" align="center" width="55" >
+                  <template slot="header">
+                    <span @click="clearSelection">清空</span>
+                  </template>
+                  <template slot-scope="scope">
+                    <ns-button
+                      :disabled="auth && scope.row.auth"
+                      type="text"
+                      size="mini"
+                      @click="() => removeEmp(scope)">
+                      <Icon type="delete" className="code-delete"/>
+                    </ns-button>
+                  </template>
+                </ElTableColumn>
+              </ElTable>
+            </el-col>
+          <!-- </el-row> -->
+        </div>
       </div>
       <div slot="footer" class="dialog-footer">
         <ns-button @click="onDialogClose()">{{$t('operating.cancel')}}</ns-button>

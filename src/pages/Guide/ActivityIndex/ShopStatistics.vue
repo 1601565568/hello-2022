@@ -8,6 +8,7 @@
       <el-row class="template-table__bar-base">
          <!-- 左边上角操作区域 -->
           <el-col :span="7">
+            <ns-button type="primary"  class="searchbtn" @click="exportExcel">导出</ns-button>
           </el-col>
           <el-col :span="17">
             <!-- 右上角操作区域 -->
@@ -47,6 +48,19 @@
                     @change="dateTiemFun"
                     placeholder="请选择日期"
                     :clearable='false'>
+                </el-date-picker>
+                <el-date-picker
+                  v-if="searchform.type=='3'"
+                  :clearable = "false" :editable = "false"
+                  type="daterange"
+                  v-model="searchform.dateRange"
+                  range-separator="至"
+                  start-placeholder="开始日期"
+                  end-placeholder="结束日期"
+                  :picker-options="pickerOptions"
+                  :default-value="currentMonth"
+                  @change="handleDateChange"
+                >
                 </el-date-picker>
               </el-form-item>
               <el-form-item label="门店名称：" prop="shopName">
@@ -93,6 +107,19 @@
                 type="date"
                 placeholder="请选择日期"
                 :clearable='false'>
+            </el-date-picker>
+            <el-date-picker
+                  v-if="searchform.type=='3'"
+                  :clearable = "false" :editable = "false"
+                  type="daterange"
+                  v-model="searchform.dateRange"
+                  range-separator="至"
+                  start-placeholder="开始日期"
+                  end-placeholder="结束日期"
+                  :picker-options="pickerOptions"
+                  :default-value="currentMonth"
+                  @change="handleDateChange"
+                >
             </el-date-picker>
           </el-form-item>
           <el-form-item label="门店名称：" prop="shopName">
@@ -455,6 +482,8 @@ import moment from 'moment'
 import listPageMixin from '@/mixins/listPage'
 import NsArea from '@nascent/ecrp-ecrm/src/components/NsArea'
 import { getErrorMsg } from '@/utils/toast'
+import { API_ROOT } from '@/config/http.js'
+
 export default {
   mixins: [listPageMixin],
   data () {
@@ -465,6 +494,7 @@ export default {
       page: 1,
       total: 0
     }
+    let nowDate = new Date()
     return {
       test: 'testmy',
       typeOptions: [
@@ -472,6 +502,15 @@ export default {
           value: '1',
           label: '按月查询'
         }
+        // ,
+        // {
+        //   value: '2',
+        //   label: '按日查询'
+        // },
+        // {
+        //   value: '3',
+        //   label: '按时间段查询'
+        // }
       ],
       statusOptions: [
         {
@@ -513,14 +552,22 @@ export default {
         area: [],
         shopName: '',
         date: '', // 年月份,
+        dateRange: [], // 时间段
         type: '1', // 1按月、2按日
         shopStatus: '',
         shopType: ''
       },
+      pickerOptions: {
+        disabledDate (time) {
+          return time > Date.now() - 3600 * 1000 * 24
+        }
+      },
+      currentMonth: `${nowDate.getFullYear()}/${nowDate.getMonth()}`,
       // 弹窗字段
       title: null,
       detailData: null,
       showRecruitDialogVisible: false,
+      showAddfriendDialogVisible: false,
       showSellDialogVisible: false,
       customerName: null,
       friendWxnick: null,
@@ -541,6 +588,9 @@ export default {
     this.loadListFun()
   },
   methods: {
+    handleDateChange () {
+      this.searchform.date = ''
+    },
     showRecruitDialog (shopId, shopName) {
       var _this = this
       _this.title = shopName + '-招募明细'
@@ -628,6 +678,35 @@ export default {
       this.searchObj.searchMap.type = this.searchform.type
       this.searchObj.searchMap.shopStatus = this.searchform.shopStatus
       this.loadListFun()
+    },
+    exportExcel () {
+      var url = API_ROOT + '/guide/shopperf/exportExcel'
+      var form = document.createElement('form')
+      if (this.searchform.type === '2') {
+        form.appendChild(this.generateHideElement('date', moment(this.searchform.date).format('YYYY-MM-DD')))
+      } else {
+        form.appendChild(this.generateHideElement('date', moment(this.searchform.date).format('YYYY-MM')))
+      }
+      if (this.searchform.area.length > 0) {
+        form.appendChild(this.generateHideElement('province', this.searchform.area[0]))
+        form.appendChild(this.generateHideElement('city', this.searchform.area[1]))
+        form.appendChild(this.generateHideElement('district', this.searchform.area[2]))
+      }
+      form.appendChild(this.generateHideElement('shopType', this.searchform.shopType))
+      form.appendChild(this.generateHideElement('shopName', this.searchform.shopName))
+      form.appendChild(this.generateHideElement('type', this.searchform.type))
+      form.appendChild(this.generateHideElement('shopStatus', this.searchform.shopStatus))
+      form.setAttribute('action', url)
+      form.setAttribute('method', 'post')
+      document.body.appendChild(form)
+      form.submit()
+    },
+    generateHideElement (name, value) {
+      var tempInput = document.createElement('input')
+      tempInput.type = 'hidden'
+      tempInput.name = name
+      tempInput.value = value
+      return tempInput
     },
     // 明细-------------------------------------------------------------------------------------------------  //
     formSearch () {

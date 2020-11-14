@@ -7,8 +7,8 @@
   <div class="template-table__bar">
       <el-row class="template-table__bar-base">
          <!-- 左边上角操作区域 -->
-          <el-col :span="7">  </el-col>
-          <el-col :span="17">
+          <el-col :span="2"><ns-button type="primary"  class="searchbtn" @click="exportExcel">导出</ns-button></el-col>
+          <el-col :span="22">
             <!-- 右上角操作区域 -->
             <div class="float-right tabSearchBtn">
               <ns-button @click="tabSearchType" style="padding-left: 10px;opacity: 0.5;color: #002041;" type="text">{{searchType.tipText}}
@@ -18,7 +18,7 @@
             <el-form ref="searchform" class="float-right" v-if="!searchType.advanced" :inline="true" :model="searchform">
               <el-form-item  prop="type">
                 <el-select
-                style="width:100px"
+                style="width:120px"
                 v-model="searchform.type" placeholder="请选择">
                   <el-option
                   v-for="item in typeOptions"
@@ -45,8 +45,52 @@
                     placeholder="请选择日期">
                 </el-date-picker>
               </el-form-item>
-              <el-form-item label="门店名称：" prop="shopName">
+              <el-form-item  prop="dateRange">
+                <el-date-picker
+                  v-if="searchform.type=='3'"
+                  :clearable = "false" :editable = "false"
+                  type="daterange"
+                  v-model="searchform.dateRange"
+                  range-separator="至"
+                  start-placeholder="开始日期"
+                  end-placeholder="结束日期"
+                  :default-value="currentMonth"
+                  @change="handleDateChange"
+                >
+                </el-date-picker>
+              </el-form-item>
+              <!-- <el-form-item label="门店名称：" prop="shopName">
                 <el-input v-model="searchform.shopName" placeholder="请输入门店名称" @keyup.enter.native="submitForm('searchform')" clearable></el-input>
+              </el-form-item> -->
+              <el-form-item label="选择员工：">
+                <div class="template-search__box">
+                    <span v-if="searchform.guideId&&searchform.guideId.length>0">
+                        已选择{{searchform.guideId.length}}个
+                    </span>
+                    <span v-else>全部</span>
+                    <div style="float: right;">
+                        <!-- <NsGuideDialog
+                            :isButton="false"
+                            :validNull="true"
+                            :auth="false"
+                            type="primary"
+                            btnTitle="选择"
+                            dialogTitle="选择员工"
+                            v-model="searchform.guideId"
+                            @input="NsGuideDialog()"
+                        ></NsGuideDialog> -->
+                        <NsGuideDialog
+                        :isButton="false"
+                        :validNull="true"
+                        :auth="false"
+                        type="primary"
+                        btnTitle="选择"
+                        dialogTitle="选择员工"
+                        v-model="searchform.guideId"
+                        @input="NsGuideDialog()"
+                    ></NsGuideDialog>
+                    </div>
+                </div>
               </el-form-item>
               <el-form-item>
                 <ns-button type="primary" @click="submitForm('searchform')" class="searchbtn">搜索</ns-button>
@@ -89,6 +133,38 @@
                 type="date"
                 placeholder="请选择日期">
             </el-date-picker>
+            <el-date-picker
+                  v-if="searchform.type=='3'"
+                  :clearable = "false" :editable = "false"
+                  type="daterange"
+                  v-model="searchform.dateRange"
+                  range-separator="至"
+                  start-placeholder="开始日期"
+                  end-placeholder="结束日期"
+                  :default-value="currentMonth"
+                  @change="handleDateChange"
+                >
+            </el-date-picker>
+          </el-form-item>
+          <el-form-item label="选择员工：">
+            <div class="template-search__box">
+                <span v-if="searchform.guideId&&searchform.guideId.length>0">
+                    已选择{{searchform.guideId.length}}个
+                </span>
+                <span v-else>全部</span>
+                <div style="float: right;">
+                    <NsGuideDialog
+                        :isButton="false"
+                        :validNull="true"
+                        :auth="false"
+                        type="primary"
+                        btnTitle="选择"
+                        dialogTitle="选择员工"
+                        v-model="searchform.guideId"
+                        @input="NsGuideDialog()"
+                    ></NsGuideDialog>
+                </div>
+            </div>
           </el-form-item>
           <el-form-item label="门店名称："  prop="shopName">
             <el-input v-model="searchform.shopName" placeholder="请输入门店名称" @keyup.enter.native="submitForm('searchform')" clearable></el-input>
@@ -96,9 +172,9 @@
           <el-form-item label="账号："  prop="workId">
             <el-input v-model="searchform.workId" placeholder="请输入账号"  @keyup.enter.native="submitForm('searchform')" clearable></el-input>
           </el-form-item>
-          <el-form-item label="姓名："  prop="name">
+          <!-- <el-form-item label="姓名："  prop="name">
             <el-input v-model="searchform.name" placeholder="请输入姓名" @keyup.enter.native="submitForm('searchform')" clearable></el-input>
-          </el-form-item>
+          </el-form-item> -->
         </el-form>
         <div class="template-table__more-btn">
           <ns-button type="primary" @click="submitForm('searchform')">搜索</ns-button>
@@ -384,9 +460,12 @@
 import moment from 'moment'
 import listPageMixin from '@/mixins/listPage'
 import { getErrorMsg } from '@/utils/toast'
+import { API_ROOT } from '@/config/http.js'
+import NsGuideDialog from '@/components/NsGuideDialog'
 
 export default {
   mixins: [listPageMixin],
+  components: { NsGuideDialog },
   data () {
     var pagination1 = {
       enable: true,
@@ -395,9 +474,14 @@ export default {
       page: 1,
       total: 0
     }
+    let nowDate = new Date()
     return {
       selectedArr: [],
       typeOptions: [
+        {
+          value: '3',
+          label: '按时间段查询'
+        },
         {
           value: '2',
           label: '按日查询'
@@ -410,10 +494,18 @@ export default {
       searchform: {
         shopName: '',
         date: '', // 年月份,
+        dateRange: [],
+        guideId: [],
         type: '1', // 1按月、2按日
         workId: '',
         name: ''
       },
+      pickerOptions: {
+        disabledDate (time) {
+          return time > Date.now() - 3600 * 1000 * 24
+        }
+      },
+      currentMonth: `${nowDate.getFullYear()}/${nowDate.getMonth()}`,
       // 弹窗字段
       type: null,
       title: null,
@@ -429,6 +521,13 @@ export default {
       shopId: null
     }
   },
+  watch: {
+    'searchform.type': function (newVal) {
+      if (newVal === '3') {
+        this.getTime()
+      }
+    }
+  },
   created: function () {
     // 初始化默认查询本年当月
     this.searchObj.searchMap = Object.assign(this.searchObj.searchMap, {
@@ -437,9 +536,30 @@ export default {
     })
     // 获取当前年份---默认加载当前年
     this.searchform.date = moment(new Date()).format('YYYY-MM')
+    this.searchform.guideIds = []
     this.loadListFun()
   },
   methods: {
+    getTime () {
+      var date = new Date()
+      date.setDate(1)
+      this.searchform.dateRange = [moment(new Date(new Date(date))).format('YYYY-MM-DD'), moment(new Date()).format('YYYY-MM-DD')]
+    },
+    handleDateChange () {
+      this.searchform.date = ''
+    },
+    NsGuideDialog () {
+      this.handleSearch()
+    },
+    handleSearch () {
+      let params = JSON.parse(JSON.stringify(this.model))
+      let param = {
+        ...params,
+        guideId: params.guideId.join(','),
+        pageForm: params.pageForm.join(',')
+      }
+      this.$search({ searchMap: { ...param } })
+    },
     showRecruitDialog (guideId, name, shopId) {
       var _this = this
       _this.title = name + '-招募明细'
@@ -488,15 +608,88 @@ export default {
       // 组装搜索对象
       if (this.searchform.type === '2') {
         this.searchObj.searchMap.date = moment(this.searchform.date).format('YYYY-MM-DD')
-      } else {
+      } else if (this.searchform.type === '1') {
         this.searchObj.searchMap.date = moment(this.searchform.date).format('YYYY-MM')
+      } else if (this.searchform.type === '3') {
+        if (this.searchform.dateRange == null && this.searchform.dateRange.length < 1) {
+          this.$notify.error('请选择时间段')
+          return
+        }
+        let dateDiff = this.getDateDiff(this.searchform.dateRange[0], this.searchform.dateRange[1], 'day')
+        if (dateDiff > 180) {
+          this.$notify.error('查询时间间隔不能大于180天')
+          this.loading = false
+          return false
+        }
+        this.searchObj.searchMap.startDate = moment(this.searchform.dateRange[0]).format('YYYY-MM-DD')
+        this.searchObj.searchMap.endDate = moment(this.searchform.dateRange[1]).format('YYYY-MM-DD')
       }
       this.clearSearch()
+      if (this.searchform.guideId && this.searchform.guideId !== '') {
+        this.searchObj.searchMap.guideIds = this.searchform.guideId
+      }
       this.searchObj.searchMap.shopName = this.searchform.shopName
       this.searchObj.searchMap.name = this.searchform.name
       this.searchObj.searchMap.workId = this.searchform.workId
       this.searchObj.searchMap.type = this.searchform.type
       this.loadListFun()
+    },
+    getDateDiff (startTime, endTime, diffType) {
+      diffType = diffType.toLowerCase()
+      const sTime = startTime // 开始时间
+      const eTime = endTime // 结束时间
+      let divNum = 1 // 作为除数的数字
+      if (diffType === 'second') {
+        divNum = 1000
+      } else if (diffType === 'minute') {
+        divNum = 1000 * 60
+      } else if (diffType === 'hour') {
+        divNum = 1000 * 3600
+      } else {
+        divNum = 1000 * 3600 * 24
+      }
+      return parseInt((eTime.getTime() - sTime.getTime()) / parseInt(divNum))
+    },
+    // 导出
+    exportExcel () {
+      var url = API_ROOT + '/guide/guideperf/exportExcel'
+      var form = document.createElement('form')
+      if (this.searchform.type === '2') {
+        form.appendChild(this.generateHideElement('date', moment(this.searchform.date).format('YYYY-MM-DD')))
+      } else if (this.searchform.type === '1') {
+        form.appendChild(this.generateHideElement('date', moment(this.searchform.date).format('YYYY-MM')))
+      } else if (this.searchform.type === '3') {
+        if (this.searchform.dateRange == null && this.searchform.dateRange.length < 1) {
+          this.$notify.error('请选择时间段')
+          return
+        }
+        let dateDiff = this.getDateDiff(this.searchform.dateRange[0], this.searchform.dateRange[1], 'day')
+        if (dateDiff > 180) {
+          this.$notify.error('查询时间间隔不能大于180天')
+          this.loading = false
+          return false
+        }
+        form.appendChild(this.generateHideElement('startDate', moment(this.searchform.dateRange[0]).format('YYYY-MM-DD')))
+        form.appendChild(this.generateHideElement('endDate', moment(this.searchform.dateRange[1]).format('YYYY-MM-DD')))
+      }
+      if (this.searchform.guideId.length > 0) {
+        form.appendChild(this.generateHideElement('guideIds', this.searchform.guideId))
+      }
+      form.appendChild(this.generateHideElement('type', this.searchform.type))
+      form.appendChild(this.generateHideElement('shopName', this.searchform.shopName))
+      form.appendChild(this.generateHideElement('name', this.searchform.name))
+      form.appendChild(this.generateHideElement('workId', this.searchform.workId))
+      form.setAttribute('action', url)
+      form.setAttribute('method', 'post')
+      document.body.appendChild(form)
+      form.submit()
+    },
+    generateHideElement (name, value) {
+      var tempInput = document.createElement('input')
+      tempInput.type = 'hidden'
+      tempInput.name = name
+      tempInput.value = value
+      return tempInput
     },
     // 重置搜索
     resetForm (formName) {
@@ -660,5 +853,23 @@ export default {
   }
   .resetbtn {
     margin-left: 9px;
+  }
+  .template-search__box {
+  width: 182px;
+  height: 28px;
+  background: #ffffff;
+  border: 1px solid #dcdfe6;
+  border-radius: 3px;
+  border-radius: 3px;
+  display: flex;
+}
+.template-search__box span{
+  width: 141px;
+  height: 27px;
+  margin-left: 10px;
+  border-right: 1px solid #dcdfe6;
+}
+.template-search__box > div + span {
+    margin-left: var(--default-margin-small);
   }
 </style>
