@@ -192,6 +192,11 @@ export default {
     url: '/core/findLoginList',
     method: 'post'
   },
+  // 查询登录日志是否符合导出标准
+  findExcelLoginIsOk: {
+    url: '/core/findExcelLoginIsOk',
+    method: 'post'
+  },
   // 查询列表
   operationlogFindList: {
     url: '/guide/operationlog/findList',
