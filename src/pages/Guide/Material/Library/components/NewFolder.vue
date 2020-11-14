@@ -12,8 +12,9 @@
         <el-form-item label='文件夹名称：' prop="name">
            <el-input
               v-model="model.name"
-              placeholder="请输入文件夹名称，长度在20个字符以内"
-              maxlength="20"
+              placeholder="请输入文件夹名称，长度在150个字符以内"
+              maxlength="150"
+              show-word-limit
               :input="model.name=model.name.replace(/\s+/g,'')"
               @keyup.enter.native="handleSave"
               clearable
@@ -48,7 +49,7 @@ export default {
       rules: {
         name: [
           { required: true, message: '请输入文件夹名称', trigger: ['blur', 'change'] },
-          { min: 0, max: 20, message: '限制长度在20个字符以内', trigger: ['blur', 'change'] }
+          { min: 0, max: 150, message: '限制长度在150个字符以内', trigger: ['blur', 'change'] }
         ]
       }
     }
