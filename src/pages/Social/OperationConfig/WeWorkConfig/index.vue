@@ -54,15 +54,9 @@ export default {
       chatData: [{
         configuration: '侧边栏功能',
         explanation: [{
-          explain: '企业微信后台（客户联系-配置），可配置应用页面到聊天工具栏，方便成员在与客户的聊天中查看和使用，提高服务效率',
+          explain: '企业微信后台（客户联系-聊天工具-聊天工具栏管理），可配置应用页面到聊天工具栏，方便成员在与客户的聊天中查看和使用，提高服务效率',
           type: 0,
           url: 'https://work.weixin.qq.com/wework_admin/frame#customer/chatMenu'
-        }, {
-          explain: '客户详情：pages/member/memberData',
-          value: 'pages/member/memberData'
-        }, {
-          explain: '客户标签：pages/member/memberData',
-          value: 'pages/member/memberData'
         }]
       }, {
         configuration: '会员画像',
@@ -113,7 +107,21 @@ export default {
         type: 'success'
       })
       oInput.remove()
+    },
+    init () {
+      this.$http.fetch(this.$api.guide.operationConfig.getWeWorkSidebarConfig).then((res) => {
+        console.log('res', res)
+        if (res.result && res.msg) {
+          res.result.forEach((item) => {
+            this.chatData[0].explanation.push(item)
+          })
+          console.log(this.chatData)
+        }
+      })
     }
+  },
+  mounted () {
+    this.init()
   }
 }
 </script>
