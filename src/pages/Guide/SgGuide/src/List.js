@@ -1,10 +1,12 @@
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import { getErrorMsg } from '@/utils/toast'
+import LocalStorage from 'store/dist/store.legacy.min.js'
 
 export default {
   mixins: [tableMixin],
   data: function () {
     return {
+      productPlan: 1, // 产品方案配置 默认企业微信方案
       scopeRowCountShow: false, // 指定员工店铺列表弹出页打开开关
       dialogFormVisible: false, // 详情页面开关
       title: '', // 弹出页面的标题
@@ -70,6 +72,7 @@ export default {
     },
     // 打开员工详情页
     onRedactFun (row) {
+      this.productPlan = LocalStorage.get('remumber_login_info').productConfig.wxPlan
       this.row = row
       var _this = this
       if (row) {
