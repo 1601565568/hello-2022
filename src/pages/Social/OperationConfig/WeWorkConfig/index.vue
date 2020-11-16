@@ -10,7 +10,7 @@
         <ElTableColumn prop="operating" label="说明">
           <template slot-scope="scope">
             <div v-for="child in scope.row.explanation" :key="child">
-              {{child.explain}}：{{child.value}}
+              {{child.explain}}
               <Icon type="neirongguanli" className="text-primary configuration-copy" @click="copy(child.value)" v-if="child.type !== 0"/>
             </div>
           </template>
