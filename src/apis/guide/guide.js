@@ -67,6 +67,10 @@ export default {
     url: '/guide/importquota/updateList',
     method: 'post'
   },
+  importQuickExcel: {// 快捷话术 导入Excel数据接口
+    url: '/guide/quicklyword/importQuickExcel',
+    method: 'post'
+  },
   guideperfList: {// 导购工作统计列表分页查询
     url: '/guide/guideperf/findList',
     method: 'post'
@@ -194,6 +198,11 @@ export default {
   // 查询登录日志列表
   loginLogFindList: {
     url: '/core/findLoginList',
+    method: 'post'
+  },
+  // 查询登录日志是否符合导出标准
+  findExcelLoginIsOk: {
+    url: '/core/findExcelLoginIsOk',
     method: 'post'
   },
   // 查询列表

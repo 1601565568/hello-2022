@@ -230,7 +230,7 @@ export default guide
    padding-top: 5px;
   }
   /* 解决搜索和重置按钮那栏的上下间距不一致问题 */
-  >>> .template-table__bar {
+  .template-table__bar {
      padding-top: 0;
    }
 </style>

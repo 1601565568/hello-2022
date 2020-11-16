@@ -55,7 +55,7 @@
             </el-select>
           </el-form-item>
           <el-form-item label="文件夹：" >
-            <span class="mr5">{{catalogueStr}}</span>
+            <span class="mr5"><span class="catalogueStr" :title=catalogueStr>{{catalogueStr}}</span></span>
             <ns-button type="primary" @click="toggleFolder">选择文件夹</ns-button>
           </el-form-item>
         </el-form>
@@ -71,7 +71,7 @@
           :element-loading-text="$t('prompt.loading')"
           height="500"
         >
-          <el-table-column label="标题" prop="name" :min-width="190"></el-table-column>
+          <el-table-column label="标题" prop="name" :min-width="190" :show-overflow-tooltip="true"></el-table-column>
           <el-table-column label="内容" prop="content" :min-width="275">
             <template slot-scope="scope">
               <table-item :data="scope.row" @preview="togglePreview"></table-item>
@@ -187,6 +187,10 @@ export default {
       this.getAllLabel()
       this.searchAction()
     },
+    // 删除素材
+    cancleToggle () {
+      this.selectObj = {}
+    },
     // 重置
     resetAction () {
       this.model = { ...this.originModel }
@@ -264,5 +268,13 @@ export default {
     @b body {
       margin-top: var(--default-margin-small);
     }
+  }
+  .catalogueStr {
+    display: inline-block;
+    max-width: 182px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    line-height: 1;
   }
 </style>
