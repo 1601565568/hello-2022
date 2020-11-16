@@ -132,7 +132,7 @@ export default {
       return (
         <span class={`folder-tree__item ${data.disabled ? 'folder-tree__disabled' : ''}`}>
           {data.id !== -1 ? <Icon type="wenjianjia-new"/> : null}
-          <span style={`font-size: ${data.id === -1 ? 14 : 12}px`}>{node.label}</span>
+          <span title={node.label} style={`font-size: ${data.id === -1 ? 14 : 12}px`}>{node.label}</span>
         </span>
       )
     },
@@ -239,6 +239,11 @@ export default {
           font-size: 12px;
           color: #C0C4CC;
           line-height: 20px;
+          display: inline-block;
+          width: 228px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
         }
         > svg {
           font-size: 20px;
@@ -260,6 +265,11 @@ export default {
           opacity: 1;
         }
         > span {
+          display: inline-block;
+          width: 228px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
           color: #606266;
         }
       }
