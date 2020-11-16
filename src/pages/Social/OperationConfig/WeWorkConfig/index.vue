@@ -110,7 +110,6 @@ export default {
     },
     init () {
       this.$http.fetch(this.$api.guide.operationConfig.getWeWorkSidebarConfig).then((res) => {
-        console.log('res', res)
         if (res.result && res.msg) {
           res.result.forEach((item) => {
             this.chatData[0].explanation.push(item)
