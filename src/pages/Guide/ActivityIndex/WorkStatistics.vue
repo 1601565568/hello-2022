@@ -55,7 +55,6 @@
                   start-placeholder="开始日期"
                   end-placeholder="结束日期"
                   :default-value="currentMonth"
-                  @change="handleDateChange"
                 >
                 </el-date-picker>
               </el-form-item>
@@ -142,7 +141,6 @@
                   start-placeholder="开始日期"
                   end-placeholder="结束日期"
                   :default-value="currentMonth"
-                  @change="handleDateChange"
                 >
             </el-date-picker>
           </el-form-item>
@@ -544,9 +542,6 @@ export default {
       var date = new Date()
       date.setDate(1)
       this.searchform.dateRange = [moment(new Date(new Date(date))).format('YYYY-MM-DD'), moment(new Date()).format('YYYY-MM-DD')]
-    },
-    handleDateChange () {
-      this.searchform.date = ''
     },
     NsGuideDialog () {
       this.handleSearch()
