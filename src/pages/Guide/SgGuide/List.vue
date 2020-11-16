@@ -144,7 +144,7 @@ export default List
 <style scoped>
   @import "@theme/variables.pcss";
 
-  >>>.avatar-uploader .el-upload {
+   .avatar-uploader .el-upload {
     width: 128px;
     height: 128px;
     display: flex;
@@ -299,7 +299,7 @@ export default List
     padding: 0 var(--default-padding-base);
     border-radius: var(--default-radius-mini);
   }
-  >>> .el-radio-group {
+  .el-radio-group {
     vertical-align: unset;
   }
   .text-black {
