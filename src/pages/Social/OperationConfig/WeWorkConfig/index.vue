@@ -115,7 +115,6 @@ export default {
           res.result.forEach((item) => {
             this.chatData[0].explanation.push(item)
           })
-          console.log(this.chatData)
         }
       })
     }
