@@ -41,7 +41,7 @@
           </el-form-item>
            <el-form-item label="微信号：" >
             <el-form-grid>
-              <span>{{sgGuide.userId}}</span>
+              <span>{{sgGuide.wxId}}</span>
             </el-form-grid>
           </el-form-item>
           <el-form-item label="系统角色：" >

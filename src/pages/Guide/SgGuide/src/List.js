@@ -24,7 +24,9 @@ export default {
         image: '', // 头像
         job: null, // 职务 1店长；0导购
         shop_id: null, // 店铺
-        remark: '' // 备注
+        remark: '', // 备注
+        wxId: '', // 微信ID
+        userId: '' // 企微微信ID
       }
     }
   },
