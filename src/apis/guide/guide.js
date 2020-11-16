@@ -3,6 +3,10 @@ export default {
     url: '/guide/guide/findList',
     method: 'post'
   },
+  findGuideDetail: { // 导购列表查询
+    url: '/guide/guide/findGuideDetail',
+    method: 'get'
+  },
   saveOrUpdateGuide: { // 新增或者修改导购信息
     url: '/guide/guide/saveOrUpdateGuide',
     method: 'post'

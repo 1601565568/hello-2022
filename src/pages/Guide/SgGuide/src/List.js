@@ -69,28 +69,52 @@ export default {
     // 打开员工详情页
     onRedactFun (row) {
       this.row = row
+      var _this = this
       if (row) {
         this.title = '员工信息详情'
         this.subordinateStores = []
         this.subordinateStores = row.shop_ids.split(',')
+        _this.$http.fetch(_this.$api.guide.guide.findGuideDetail, { guideId: row.id }).then(resp => {
+          if (resp.success && resp.result != null) {
+            this.sgGuide = {
+              job: resp.result.job,
+              work_id: resp.result.workId,
+              image: resp.result.image,
+              name: resp.result.name,
+              work_number: resp.result.workNumber,
+              nickname: resp.result.nickName,
+              mobile: resp.result.mobile,
+              system_role: resp.result.roleName,
+              department: resp.result.department,
+              userId: resp.result.userId,
+              wxId: resp.result.wxId,
+              sex: resp.result.sex,
+              remark: resp.result.remark
+            }
+          }
+        }).catch((resp) => {
+          return resp
+        }).finally(() => {
+          tableConfig.loadingtable = false
+        })
         const s = () => {
           this.nextStep = '确定'
-          this.sgGuide = {
-            id: row.id,
-            name: row.name,
-            nickname: row.nickname,
-            department: row.department_name,
-            system_role: row.role_name,
-            sex: row.sex,
-            mobile: row.mobile,
-            work_number: row.work_number,
-            work_prefix: row.work_prefix,
-            image: row.image,
-            job: row.job,
-            shop_id: row.shop_id,
-            remark: row.remark,
-            work_id: row.work_id
-          }
+          // this.sgGuide = {
+          // id: row.id
+          // name: row.name,
+          // nickname: row.nickname,
+          // department: row.department_name,
+          // system_role: row.role_name,
+          // sex: row.sex,
+          // mobile: row.mobile,
+          // work_number: row.work_number,
+          // work_prefix: row.work_prefix,
+          // image: row.image,
+          // job: row.job,
+          // shop_id: row.shop_id,
+          // remark: row.remark,
+          // work_id: row.work_id
+          // }
           this.dialogFormVisible = true
         }
         s()
@@ -111,6 +135,7 @@ export default {
       var _this = this
       this.dialogFormVisible = false
       this._data._table.loadingtable = false
+      this.sgGuide = {}
     }
   },
   watch: {

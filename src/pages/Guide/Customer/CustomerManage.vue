@@ -344,13 +344,13 @@
                   </el-form-grid>
                   <el-form-grid size="md">
                     退款次数：{{rfmInfo.refundTimes}}次
-                    <el-tooltip content="客户退款成功的订单数，只计算全部退款的订单，部分退款的订单不计算在内">
+                    <el-tooltip content="计算主订单中子订单发生退款行为，就计算为1次（同一个主订单中含有多个子订单退款也只是计算一次）">
                       <Icon type="question-circle"/>
                     </el-tooltip>
                   </el-form-grid>
                   <el-form-grid size="md">
                     退款总额：{{rfmInfo.refundAmount}}元
-                    <el-tooltip content="客户退款成功的订单数，只计算全部退款的订单，部分退款的订单不计算在内">
+                    <el-tooltip content="退款完成的子订单总金额">
                       <Icon type="question-circle"/>
                     </el-tooltip>
                   </el-form-grid>

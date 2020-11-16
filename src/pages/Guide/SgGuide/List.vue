@@ -30,12 +30,18 @@
           </el-form-item>
           <el-form-item label="昵称：" >
             <el-form-grid>
-              <span>{{sgGuide.nickname}}</span>
+              <span v-if="sgGuide.nickname==''"> - </span>
+              <span v-else>{{sgGuide.nickname}} </span>
             </el-form-grid>
           </el-form-item>
           <el-form-item label="手机号：" >
             <el-form-grid>
               <span>{{sgGuide.mobile}}</span>
+            </el-form-grid>
+          </el-form-item>
+           <el-form-item label="微信号：" >
+            <el-form-grid>
+              <span>{{sgGuide.userId}}</span>
             </el-form-grid>
           </el-form-item>
           <el-form-item label="系统角色：" >
