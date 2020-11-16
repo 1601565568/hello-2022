@@ -959,10 +959,11 @@ export default {
       }
       // console.log(this.recordChooseList, 'recordChooseList')
       let { checkAll, removeCheckList, addcheckList } = this.$refs.table1
-      let remumberLoginInfo = LocalStorage.get('remumber_login_info')
-      let { nick } = remumberLoginInfo
+      let remumberLoginInfo = LocalStorage.get('user')
+      let { nick, nickId } = remumberLoginInfo
       let obj = {
-        operator: nick, // 操作人
+        operator_name: nick, // 操作人
+        operator: nickId,
         sgExclusiveGuideId: this.formatSgExclusiveGuideId(removeCheckList, addcheckList),
         shopId: this.sameSystemShopId, // 当前门店ID
         terminalType: 1, // 终端

@@ -15,6 +15,7 @@ export default {
     return {
       isShow: false, // 是否显示进度
       nick: '', // 当前操作用户
+      nickId: null,
       teriminalType: 1, // 终端类型
       taskProgressStaute: 0, // 显示成功状态  1成功
       isClose: 1
@@ -37,9 +38,10 @@ export default {
   },
   methods: {
     init () {
-      let remumberLoginInfo = LocalStorage.get('remumber_login_info')
-      let { nick } = remumberLoginInfo
+      let remumberLoginInfo = LocalStorage.get('user')
+      let { nick, nickId } = remumberLoginInfo
       this.nick = nick
+      this.nickId = nickId
     },
     changeShopCustomerTransferTaskStatus (val) {
       if (!val) {
@@ -48,7 +50,8 @@ export default {
       }
       if (
         val.terminalType === this.teriminalType &&
-        val.operator === this.nick
+        val.operator === this.nickId &&
+        val.operator_name === this.nick
       ) {
         this.isShow = true
       } else {
