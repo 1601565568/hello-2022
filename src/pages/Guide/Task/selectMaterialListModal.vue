@@ -55,7 +55,7 @@
             </el-select>
           </el-form-item>
           <el-form-item label="文件夹：" >
-            <span class="mr5">{{catalogueStr}}</span>
+            <span class="mr5"><span class="catalogueStr" :title=catalogueStr>{{catalogueStr}}</span></span>
             <ns-button type="primary" @click="toggleFolder">选择文件夹</ns-button>
           </el-form-item>
         </el-form>
@@ -264,5 +264,13 @@ export default {
     @b body {
       margin-top: var(--default-margin-small);
     }
+  }
+  .catalogueStr {
+    display: inline-block;
+    max-width: 182px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    line-height: 1;
   }
 </style>

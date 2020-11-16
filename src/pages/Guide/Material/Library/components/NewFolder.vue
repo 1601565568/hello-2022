@@ -11,6 +11,7 @@
       <el-form ref="form" @submit.native.prevent :rules="rules" label-width="84px" :model="model">
         <el-form-item label='文件夹名称：' prop="name">
            <el-input
+              type="textarea"
               v-model="model.name"
               placeholder="请输入文件夹名称，长度在150个字符以内"
               maxlength="150"
