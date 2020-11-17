@@ -962,7 +962,7 @@ export default {
       let remumberLoginInfo = LocalStorage.get('user')
       let { nick, nickId } = remumberLoginInfo
       let obj = {
-        operator_name: nick, // 操作人
+        operatorName: nick, // 操作人
         operator: nickId,
         sgExclusiveGuideId: this.formatSgExclusiveGuideId(removeCheckList, addcheckList),
         shopId: this.sameSystemShopId, // 当前门店ID
