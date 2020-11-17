@@ -631,8 +631,8 @@ export default {
     },
     getDateDiff (startTime, endTime, diffType) {
       diffType = diffType.toLowerCase()
-      const sTime = startTime // 开始时间
-      const eTime = endTime // 结束时间
+      const sTime = new Date(startTime) // 开始时间
+      const eTime = new Date(endTime) // 结束时间
       let divNum = 1 // 作为除数的数字
       if (diffType === 'second') {
         divNum = 1000
