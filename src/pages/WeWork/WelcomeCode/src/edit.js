@@ -96,11 +96,11 @@ export default {
         value: '{guideId}'
       },
       {
-        label: '导购工作门店',
+        label: '员工工作门店',
         value: '{shopId}'
       },
       {
-        label: '随机数',
+        label: '随机数标识',
         value: '{random}'
       },
       {
