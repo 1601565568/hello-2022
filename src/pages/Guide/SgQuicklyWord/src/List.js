@@ -118,12 +118,8 @@ export default {
   },
   methods: {
     importExcelClose (value) {
-      if (value === 'close') {
-        window.console.log('关闭', value)
-        this.findQuicklyWordGroupList()
-        this.$reload()
-      }
-      // window.console.log('关闭', a)
+      this.findQuicklyWordGroupList()
+      this.$reload()
     },
     /**
      * 获取快捷话术添加人列表

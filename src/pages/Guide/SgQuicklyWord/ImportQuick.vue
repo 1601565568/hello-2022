@@ -4,6 +4,7 @@
 <!--    <ns-button type="primary" @click="dialogVisible = true">导入指标</ns-button>-->
     <el-dialog
       title="导入话术/分类"
+      :before-close="onDialogClose"
       :visible.sync="dialogVisible"
       width="450px"
       response-limit :show-scroll-x=false>
@@ -27,6 +28,7 @@
             <span class="step-item--index">2</span>
             <div class="step-item--info">
               <el-upload :disabled = "!loadingIsShow"
+                ref="uploadExcel"
                 :action= "this.$api.core.sgUploadQuickExcel()"
                 accept=".xls,.xlsx"
                 :on-preview="handlePreview"
@@ -35,7 +37,9 @@
                 :before-remove="beforeRemove"
                 :on-success="onSuccess"
                 :on-exceed="handleExceed"
-                :show-file-list="false">
+                :file-list="fileExcelList"
+                :limit="1"
+                :show-file-list="showFileList">
                 <ns-button type="primary" v-if="loadingIsShow">上传文件</ns-button>
                 <ns-button type="primary" disabled v-else>上传中</ns-button>
               </el-upload>
@@ -43,7 +47,7 @@
               <!-- <span class="text-danger padding-lr-small" v-if="uploadMsg" >上传文件限制大小5M，格式为.xls或xlsx</span> -->
               <!-- <span class="text-danger padding-lr-small" v-if="uploadFail">上传失败，文档内容校验失败，请下载模版调整</span> -->
               <span class="text-secondary padding-lr-small " v-if="hintMsgIsShowTextDanger"  >  上传文件限制大小5M，格式为.xls或xlsx</span>
-              <span class="text-secondary padding-lr-small" v-if="uploadSuccee" >上传成功</span>
+              <!-- <span class="text-secondary padding-lr-small" v-if="uploadSuccee" >上传成功</span> -->
               <!-- 上传文件名称-->
 <!--              <span class="text-primary padding-lr-small">新加好友指标模版.xls</span>-->
               <!-- 上传失败提示-->
@@ -75,9 +79,10 @@
         </div>
       </div>
       <span slot="footer" class="dialog-footer">
-        <ns-button @click="importExcelClose()">取 消</ns-button>
+        <!-- <ns-button @click="importExcelClose()">取 消</ns-button> -->
         <!-- <ns-button type="primary" @click="dialogVisibleImportExcel = false">确 定</ns-button> -->
         <ns-button type="primary" @click="importExcelClose()">确 定</ns-button>
+        <!-- <ns-button @click="importExcelClose()">取 消</ns-button> -->
       </span>
   </el-dialog>
   </div>
@@ -99,10 +104,12 @@ export default {
   },
   data () {
     return {
+      showFileList: true, // 是否显示上传文件名
+      fileExcelList: [], // 上传文件列表
       hintMsgIsShowTextDanger: true,
       loadingimport: false,
       updateDataisShow: false,
-      uploadSuccee: false,
+      // uploadSuccee: false,
       downloadIsShow: true,
       loadingIsShow: true,
       improtQuickExcelQuery: {
@@ -124,7 +131,12 @@ export default {
     }
   },
   methods: {
+    onDialogClose () {
+      this.dialogVisible = false
+      this.$refs.uploadExcel.clearFiles()
+    },
     importExcelClose () {
+      this.$refs.uploadExcel.clearFiles()
       this.dialogVisibleImportExcel = false
       this.$emit('outerimportexcel', 'close')
     },
@@ -135,7 +147,7 @@ export default {
       this.importQuickExcelResult.fileSize = null
       this.importQuickExcelResult.fileExcelUrl = null
       this.hintMsgIsShowTextDanger = true
-      this.uploadSuccee = false
+      // this.uploadSuccee = false
       this.loadingimport = false
       this.updateDataisShow = false
       this.dialogVisible = true
@@ -175,33 +187,35 @@ export default {
             this.dialogVisible = false
             this.$notify.success('导入成功!')
             loading.close()
+            this.$refs.uploadExcel.clearFiles()
           } else {
             loading.close()
             this.$notify.warning('操作失败')
             loading.close()
+            this.$refs.uploadExcel.clearFiles()
             // this.loading = false
           }
         })
     },
     dowloadQuickFileExcel () {
-      // window.console.log(this.importQuickExcelResult.fileExcelUrl)
       window.location.replace(this.importQuickExcelResult.fileExcelUrl)
     },
     onSuccess (response, file) {
       this.loadingIsShow = true
+      this.showFileList = true
       if (response.success) {
         this.hintMsgIsShowTextDanger = false
-        this.uploadSuccee = true
         this.improtQuickExcelQuery.excelFileKey = response.result.excelFileKey
         // window.console.log(response.result)
         this.updateDataisShow = true
-        this.$notify.success(response.msg)
+        this.$notify.info(response.msg)
       } else {
+        this.$refs.uploadExcel.clearFiles()
+        // this.$refs.upload.fileList.splice(index, 1)
+        this.showFileList = false
         this.updateDataisShow = false
         this.hintMsgIsShowTextDanger = true
-        this.uploadSuccee = false
-        // this.dialogVisible = false
-        this.$notify.warning('上传失败!' + response.msg)
+        this.$notify.error('上传失败!' + response.msg)
       }
     },
     handleRemove (file, fileList) {
@@ -209,24 +223,31 @@ export default {
     handlePreview (file) {
     },
     handleExceed (files, fileList) {
+      this.$notify.error('已上传文件，不能重复上传')
     },
     beforeRemove (file, fileList) {
+      setTimeout(() => {
+        this.hintMsgIsShowTextDanger = true
+        this.showFileList = true
+      }, 1000)
     },
     beforeUpload (file, fileList) {
+      this.hintMsgIsShowTextDanger = false
       this.loadingIsShow = false
       let fileSuffix = file.name.split('.').pop()
       if (fileSuffix !== 'xls' && fileSuffix !== 'xlsx') {
         this.hintMsgIsShowTextDanger = true
         this.uploadFail = true
         this.loadingIsShow = true
-        this.uploadSuccee = false
+        // this.uploadSuccee = false
+        this.$notify.error('导入文件失败:失败原因 仅支持xls/xlsx格式')
         return false
       }
       if (file.size / 1024 / 1024 > 5) {
         this.hintMsgIsShowTextDanger = true
         this.uploadFail = true
         this.loadingIsShow = true
-        this.uploadSuccee = false
+        this.$notify.error('导入文件失败:失败原因 上传文件不能超过5M')
         return false
       }
     }
