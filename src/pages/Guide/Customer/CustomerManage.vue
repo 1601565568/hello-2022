@@ -349,7 +349,7 @@
                     </el-tooltip>
                   </el-form-grid>
                   <el-form-grid size="md">
-                    退款总额：{{rfmInfo.refundAmount}}元
+                    退款总额：{{rfmInfo.refundAmount || '0'}}元
                     <el-tooltip content="退款完成的子订单总金额">
                       <Icon type="question-circle"/>
                     </el-tooltip>
