@@ -4,6 +4,7 @@
 <!--    <ns-button type="primary" @click="dialogVisible = true">导入指标</ns-button>-->
     <el-dialog
       title="导入话术/分类"
+      :before-close="onDialogClose"
       :visible.sync="dialogVisible"
       width="450px"
       response-limit :show-scroll-x=false>
@@ -130,7 +131,12 @@ export default {
     }
   },
   methods: {
+    onDialogClose () {
+      this.dialogVisible = false
+      this.$refs.uploadExcel.clearFiles()
+    },
     importExcelClose () {
+      this.$refs.uploadExcel.clearFiles()
       this.dialogVisibleImportExcel = false
       this.$emit('outerimportexcel', 'close')
     },
@@ -181,10 +187,12 @@ export default {
             this.dialogVisible = false
             this.$notify.success('导入成功!')
             loading.close()
+            this.$refs.uploadExcel.clearFiles()
           } else {
             loading.close()
             this.$notify.warning('操作失败')
             loading.close()
+            this.$refs.uploadExcel.clearFiles()
             // this.loading = false
           }
         })
@@ -232,13 +240,14 @@ export default {
         this.uploadFail = true
         this.loadingIsShow = true
         // this.uploadSuccee = false
+        this.$notify.error('导入文件失败:失败原因 仅支持xls/xlsx格式')
         return false
       }
       if (file.size / 1024 / 1024 > 5) {
         this.hintMsgIsShowTextDanger = true
         this.uploadFail = true
         this.loadingIsShow = true
-        // this.uploadSuccee = false
+        this.$notify.error('导入文件失败:失败原因 上传文件不能超过5M')
         return false
       }
     }
