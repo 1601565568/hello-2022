@@ -78,7 +78,7 @@ export default {
     save () {
       this.$http.fetch(this.$api.guide.notMemberSet.update, { 'isShow': this.value ? 1 : 0 }).then((resp) => {
         if (resp.success) {
-          this.$message('保存成功')
+          this.$notify.success('保存成功')
         }
       }).catch(error => {
         this.$notify.error(error.msg)
