@@ -70,6 +70,44 @@ export default {
       status: 0, // 是否启用
       type: 0 // 是否是默认欢迎语 9为默认
     }
+    let placeholderLink = [
+      {
+        label: '集团ID',
+        value: '{groupId}'
+      },
+      {
+        label: '好友userid',
+        value: '{userId}'
+      },
+      {
+        label: '导购userid',
+        value: '{guideUserId}'
+      },
+      {
+        label: '导购账号',
+        value: '{guideAccount}'
+      },
+      {
+        label: '导购工号',
+        value: '{workNumber}'
+      },
+      {
+        label: '导购ID',
+        value: '{guideId}'
+      },
+      {
+        label: '员工工作门店',
+        value: '{shopId}'
+      },
+      {
+        label: '随机数标识',
+        value: '{random}'
+      },
+      {
+        label: '时间戳',
+        value: '{timestamp}'
+      }
+    ]
     return {
       focusState: true,
       // 页面滚动条内容高度配置
@@ -102,6 +140,8 @@ export default {
       },
       // 系统预置链接集合
       presetLink: [],
+      // 自定义链接/小程序支持占位符
+      placeholderLink: placeholderLink,
       // 可替换规则
       replaceOptions: [
         {
@@ -178,6 +218,18 @@ export default {
       this.model.content = this.model.content + append
       // this.focusState = true
       this.$refs['input'].focus()
+    },
+    /**
+     * @msg: 插入占位符
+     * @param {String} 占位符类型
+     */
+    insertPlaceHolderLink (append) {
+      this.$refs['linkModelLink'].focus()
+      this.linkModel.link = this.linkModel.link + append
+    },
+    insertAppModelPath (append) {
+      this.$refs['appModelPath'].focus()
+      this.appModel.path = this.appModel.path + append
     },
     /**
      * @msg: 选择附件内容

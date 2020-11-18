@@ -3,6 +3,10 @@ export default {
     url: '/guide/guide/findList',
     method: 'post'
   },
+  findGuideDetail: { // 导购列表查询
+    url: '/guide/guide/findGuideDetail',
+    method: 'get'
+  },
   saveOrUpdateGuide: { // 新增或者修改导购信息
     url: '/guide/guide/saveOrUpdateGuide',
     method: 'post'
@@ -61,6 +65,10 @@ export default {
   },
   updateList: {
     url: '/guide/importquota/updateList',
+    method: 'post'
+  },
+  importQuickExcel: {// 快捷话术 导入Excel数据接口
+    url: '/guide/quicklyword/importQuickExcel',
     method: 'post'
   },
   guideperfList: {// 导购工作统计列表分页查询
@@ -190,6 +198,11 @@ export default {
   // 查询登录日志列表
   loginLogFindList: {
     url: '/core/findLoginList',
+    method: 'post'
+  },
+  // 查询登录日志是否符合导出标准
+  findExcelLoginIsOk: {
+    url: '/core/findExcelLoginIsOk',
     method: 'post'
   },
   // 查询列表

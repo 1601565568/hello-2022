@@ -43,9 +43,10 @@
       </el-scrollbar>
     </div>
     <div class="template-page__row-right">
-      <ns-page-table :colButton="10">
+      <ns-page-table :colButton="14">
         <template slot="buttons" class="quickWordsArt">
           <ns-button type="primary" @click="onSaveOpen()" class="quickWordsArt">新增话术</ns-button>
+          <ns-button type="primary" @click="ImportQuick()" >导入话术/分类</ns-button>
           <ns-button type="primary" :disabled="!batchDis" @click="onBatchSetOpen()">批量分类</ns-button>
           <ns-button type="primary" :disabled="!batchDis" @click="onBatchDelete()">批量删除</ns-button>
         </template>
@@ -56,15 +57,16 @@
               <el-input
                 ref="quickText"
                 v-model="model.content"
+                @clear="$searchAction$()"
                 placeholder="请输入话术内容"
                 @keyup.enter.native="$quickSearchAction$('content')"
                 clearable
               ></el-input>
             </el-form-item>
-            <el-form-item v-if="!_data._queryConfig.expand">
+            <!-- <el-form-item v-if="!_data._queryConfig.expand">
               <ns-button type="primary" @click="$quickSearchAction$('content')">{{$t('operating.search')}}</ns-button>
               <ns-button @click="$resetInputAction$()">{{$t('operating.reset')}}</ns-button>
-            </el-form-item>
+            </el-form-item> -->
             <el-form-item>
               <ns-button type="text" @click="$handleTabClick">
                 {{collapseText}}
@@ -78,13 +80,15 @@
           <el-form ref="table_filter_form" :model="model" label-width="80px" @submit.native.prevent :inline="true">
             <el-form-item label="话术内容：">
               <el-input
+                @clear="$searchAction$()"
+                @keyup.enter.native="$quickSearchAction$('content')"
                 v-model="model.content"
                 placeholder="请输入话术内容"
                 clearable
               ></el-input>
             </el-form-item>
             <el-form-item label="添加人：">
-              <el-select v-model="model.name" placeholder="请选择添加人" clearable>
+              <el-select v-model="model.name" placeholder="请选择添加人" clearable @change="$searchAction$()">
                 <el-option value="" label="全部" />
                 <el-option
                   v-for="val in addNameList"
@@ -95,10 +99,10 @@
               </el-select>
             </el-form-item>
           </el-form>
-          <div class="template-table__more-btn">
+          <!-- <div class="template-table__more-btn">
             <ns-button type="primary" @click="$searchAction$()">搜索</ns-button>
             <ns-button @click="$resetInputAction$()">重置</ns-button>
-          </div>
+          </div> -->
         </template>
         <!-- 表格 -->
         <template slot="table">
@@ -265,13 +269,11 @@
         <ns-button type="primary" @loading="addOrEditCategory.loading" @click="onSaveCategory">确定</ns-button>
       </div>
     </el-dialog>
+    <importQuick ref="importQuickDialog" @outerimportexcel="importExcelClose" ></importQuick>
   </div>
 </template>
 <script>
 import List from './src/List'
-import NsTree from '@nascent/ecrp-ecrm/src/components/NsTree'
-import NsDroptree from '@nascent/ecrp-ecrm/src/components/NsDroptree'
-List.components = { NsTree, NsDroptree }
 export default List
 </script>
 <style scoped>

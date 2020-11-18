@@ -15,37 +15,53 @@
           </el-form-item>
           <el-form-item label="账号：">
             <el-form-grid>
-              <span>{{sgGuide.work_id}}</span>
+              <span>{{sgGuide.work_id || '-'}}</span>
             </el-form-grid>
           </el-form-item>
           <el-form-item label="姓名：">
             <el-form-grid>
-              <span>{{sgGuide.name}}</span>
+              <span>{{sgGuide.name || '-'}}</span>
             </el-form-grid>
           </el-form-item>
           <el-form-item label="工号：">
             <el-form-grid>
-              <span>{{sgGuide.work_number}}</span>
+              <span>{{sgGuide.work_number || '-'}}</span>
             </el-form-grid>
           </el-form-item>
           <el-form-item label="昵称：" >
             <el-form-grid>
-              <span>{{sgGuide.nickname}}</span>
+              <span >{{sgGuide.nickname || '-'}} </span>
             </el-form-grid>
           </el-form-item>
           <el-form-item label="手机号：" >
             <el-form-grid>
-              <span>{{sgGuide.mobile}}</span>
+              <span>{{sgGuide.mobile || '-'}}</span>
             </el-form-grid>
           </el-form-item>
+
+          <span v-if="productPlan == 1">
+            <el-form-item label="企微userid：" >
+              <el-form-grid>
+                <span>{{sgGuide.userId || '-'}}</span>
+              </el-form-grid>
+            </el-form-item>
+          </span>
+          <span v-else-if="productPlan == 2">
+            <el-form-item label="微信id：" >
+              <el-form-grid>
+                <span>{{sgGuide.wxId || '-'}}</span>
+              </el-form-grid>
+            </el-form-item>
+          </span>
+
           <el-form-item label="系统角色：" >
             <el-form-grid>
-              <span>{{sgGuide.system_role}}</span>
+              <span>{{sgGuide.system_role || '-'}}</span>
             </el-form-grid>
           </el-form-item>
           <el-form-item label="部门：">
             <el-form-grid>
-              <span>{{sgGuide.department}}</span>
+              <span>{{sgGuide.department || '-'}}</span>
             </el-form-grid>
           </el-form-item>
           <el-form-item label="性别：">
@@ -138,7 +154,7 @@ export default List
 <style scoped>
   @import "@theme/variables.pcss";
 
-  >>>.avatar-uploader .el-upload {
+   .avatar-uploader .el-upload {
     width: 128px;
     height: 128px;
     display: flex;
@@ -293,7 +309,7 @@ export default List
     padding: 0 var(--default-padding-base);
     border-radius: var(--default-radius-mini);
   }
-  >>> .el-radio-group {
+  .el-radio-group {
     vertical-align: unset;
   }
   .text-black {

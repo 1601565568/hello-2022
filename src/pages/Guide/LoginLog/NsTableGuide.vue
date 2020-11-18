@@ -29,6 +29,7 @@
         <el-form-item label="登录时间：" prop="time">
           <el-date-picker
             v-model="model.validTime"
+            value-format="yyyy-MM-dd HH:mm:ss"
             type="datetimerange"
             :picker-options="pickerOptions"
             range-separator="至"
@@ -39,8 +40,9 @@
         </el-form-item>
       </el-form>
       <div class="template-table__more-btn">
-        <ns-button type="primary" @click="$searchAction$()">搜索</ns-button>
-        <ns-button @click="$resetInputAction$()">重置</ns-button>
+        <ns-button type="primary" @click="logList()">搜索</ns-button>
+        <ns-button @click="reset()">重置</ns-button>
+        <ns-button @click="excel()">导出登录日志</ns-button>
       </div>
     </template>
     <!-- 高级搜索-结束 -->

@@ -459,9 +459,10 @@ export default {
      */
     removeEmp (scope) {
       this.selectedData.splice(scope.$index, 1)
-      const index = this.$refs.employeeTable.selection.findIndex(d => d[vm.recordId] === scope.row[vm.recordId])
-      if (index > -1) {
-        this.$refs.employeeTable.toggleRowSelection(scope.row, false)
+      // const index = this.$refs.employeeTable.selection.findIndex(d => d[vm.recordId] === scope.row[vm.recordId])
+      const item = this.employeeData.find(d => d[vm.recordId] === scope.row[vm.recordId])
+      if (item) {
+        this.$refs.employeeTable.toggleRowSelection(item)
         vm.isCheckAll = false
       }
     },
