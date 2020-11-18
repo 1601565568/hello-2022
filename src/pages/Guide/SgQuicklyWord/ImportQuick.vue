@@ -208,7 +208,7 @@ export default {
         this.improtQuickExcelQuery.excelFileKey = response.result.excelFileKey
         // window.console.log(response.result)
         this.updateDataisShow = true
-        this.$notify.info(response.msg)
+        this.$notify.success(response.msg)
       } else {
         this.$refs.uploadExcel.clearFiles()
         // this.$refs.upload.fileList.splice(index, 1)
