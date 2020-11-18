@@ -688,11 +688,12 @@ export default {
     },
     // 重置搜索
     resetForm (formName) {
+      this.searchObj.searchMap.guideIds = []
       for (let attr in this.searchform) {
         if (attr !== 'date') {
           if (attr === 'type') {
             if (this.searchform.type !== 1) {
-              this.searchform.type = this.typeOptions[1].value
+              this.searchform.type = this.typeOptions[2].value
             }
           } else {
             this.searchform[attr] = ''
