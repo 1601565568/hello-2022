@@ -544,7 +544,7 @@
     <!-- 小程序 -->
     <el-dialog
       ref="appDialog"
-      width="500px"
+      width="520px"
       :visible.sync="appModel.visible"
       title="小程序"
       @close="onCloseHandleModel(3)"
@@ -599,6 +599,13 @@
               <div class="tmp-tips text-info">
                 <Icon type="info-circle" theme="filled" />
                 请确认小程序配置信息输入正确！
+              </div>
+            </el-form-grid>
+          </el-form-item>
+          <el-form-item>
+            <el-form-grid>
+              <div class="tmp-tips text-info">
+                注:小程序路径后需要带上.html，如 pages/member/test.html?id=1
               </div>
             </el-form-grid>
           </el-form-item>
