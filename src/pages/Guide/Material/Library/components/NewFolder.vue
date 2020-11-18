@@ -2,6 +2,7 @@
   <el-dialog
     :title="title"
     :visible.sync="visible"
+    width="758px"
     :before-close="hide"
     :close-on-click-modal="false"
     :append-to-body="appendToBody"
@@ -16,6 +17,7 @@
               placeholder="请输入文件夹名称，长度在150个字符以内"
               maxlength="150"
               show-word-limit
+              class="folder-dialog__textarea"
               :input="model.name=model.name.replace(/\s+/g,'')"
               @keyup.enter.native="handleSave"
               clearable
@@ -71,6 +73,8 @@ export default {
       this.$refs.form.validate((valid) => {
         if (valid) {
           this.doSave()
+        } else {
+          this.$notify.error('请填写文件夹名称')
         }
       })
     },
@@ -99,6 +103,8 @@ export default {
 }
 >>> .folder-dialog__wrapper {
   margin-top: 10px;
-  padding: 0 0 30px;
+}
+.folder-dialog__textarea >>> textarea {
+  min-height: 144px!important;
 }
 </style>
