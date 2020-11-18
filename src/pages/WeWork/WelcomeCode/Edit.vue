@@ -461,7 +461,9 @@
               :disabled="linkModel.custom === 2"
               v-model="linkModel.link"
             />
-            <ns-button type="text" v-for="(item, index) in placeholderLink" :key="index" @click="insertPlaceHolderLink(item.value)">&lt;{{item.label}}&gt;</ns-button>
+            <span v-for="(item, index) in placeholderLink" :key="index">
+               <ns-button v-if="linkModel.custom === 1" type="text"  @click="insertPlaceHolderLink(item.value)">&lt;{{item.label}}&gt;</ns-button>
+            </span>
           </el-form-grid>
         </el-form-item>
         <el-form-item label="消息展示内容：" class="code-title"> </el-form-item>
