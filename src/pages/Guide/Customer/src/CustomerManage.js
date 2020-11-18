@@ -964,7 +964,6 @@ export default {
       let obj = {
         operatorName: nick, // 操作人
         operator: nickId,
-        sgExclusiveGuideId: this.formatSgExclusiveGuideId(removeCheckList, addcheckList),
         shopId: this.sameSystemShopId, // 当前门店ID
         terminalType: 1, // 终端
         taskType: 1, // 按会员转移
@@ -1024,10 +1023,14 @@ export default {
       //   _this.$notify.error('请选择要更换的导购！')
       // }
     },
+    // sgExclusiveGuideId: this.formatSgExclusiveGuideId(removeCheckList, addcheckList),
     // 格式化勾选参数数组
     formateCustomerList (arr) {
       let newArr = arr.map((item) => {
-        return item.nickInfoList[0]
+        return {
+          ...item.nickInfoList[0],
+          sgExclusiveGuideId: item.sgExclusiveGuideId
+        }
       })
       return newArr
     },
@@ -1040,17 +1043,17 @@ export default {
         }
       })
     },
-    formatSgExclusiveGuideId (removeCheckList, addcheckList) {
-      if (removeCheckList.length === 0) {
-        return addcheckList.map((item) => {
-          return item.sgExclusiveGuideId
-        })
-      } else {
-        return removeCheckList.map((item) => {
-          return item.sgExclusiveGuideId
-        })
-      }
-    },
+    // formatSgExclusiveGuideId (removeCheckList, addcheckList) {
+    //   if (removeCheckList.length === 0) {
+    //     return addcheckList.map((item) => {
+    //       return item.sgExclusiveGuideId
+    //     })
+    //   } else {
+    //     return removeCheckList.map((item) => {
+    //       return item.sgExclusiveGuideId
+    //     })
+    //   }
+    // },
     // 创建客户转移任务
     createCustomerTransferTask (params, taskType) {
       this.$http.fetch(this.$api.guide.shop.createCustomerTransferTask, params).then((res) => {
