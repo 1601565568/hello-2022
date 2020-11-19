@@ -167,6 +167,11 @@ export default {
     // 上传之前钩子
     beforeUpload (file) {
       // this.fileList = [file]
+      // 图片格式判断
+      if (!/\.(jpg|jpeg|png|JPG|PNG|JPEG)$/.test(file.name)) {
+        this.$notify.error('仅支持jpg/jpeg/png的图片格式')
+        return false
+      }
       if (file.size / 1024 / 1024 > 1) {
         this.$notify.error('上传图片不能超过1M')
         return false

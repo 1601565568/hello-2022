@@ -75,7 +75,7 @@
                     :title="`参与活动人员（${scope.row.guideCount}）`"
                     width="200"
                     trigger="hover"
-                    :content="scope.row.guideNames">
+                    :content="scope.row.guideCount>10?(scope.row.guideNames+'...'):scope.row.guideNames">
                     <span class="scope-name_tip" slot="reference">共{{scope.row.guideCount}}个</span>
                   </el-popover>
                   <!-- <div class="scope-name_num">
@@ -88,9 +88,14 @@
               prop="address"
               label="有效时间">
               <template slot-scope="scope">
-                <span>{{scope.row.validTimeStart}}</span>
-                至
-                <span>{{scope.row.validTimeEnd}}</span>
+                <template v-if="scope.row.validTimeType === 0">
+                  <span>永久有效</span>
+                </template>
+                <template v-else>
+                  <span>{{scope.row.validTimeStart}}</span>
+                  至
+                  <span>{{scope.row.validTimeEnd}}</span>
+                </template>
               </template>
             </el-table-column>
             <el-table-column
