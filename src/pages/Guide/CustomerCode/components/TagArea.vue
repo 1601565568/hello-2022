@@ -13,7 +13,6 @@
       class="w-textarea_input"
       ref="wTextareaContent"
       :id="contentId"
-      @click="inputClick($event)"
       @focus="isLocked = true"
       @blur="isLocked = false"
       @keydown.delete="handleDelete($event)"
@@ -75,13 +74,15 @@ export default {
   },
   mounted () {
     // 初始化数据
-    this.currentText && (this.$refs.wTextareaContent.innerHTML = this.currentText)
+    // this.currentText && (this.$refs.wTextareaContent.innerHTML = this.currentText)
     // 创建模版标签的style
     this.createStyle()
     // 每次光标变化的时候，保存 range
     document.addEventListener('selectionchange', this.selectHandler)
     setTimeout(() => {
-      document.getElementsByClassName('w-textarea_input')[0].focus()
+      const dom = document.getElementsByClassName('w-textarea_input')[0]
+      dom.focus()
+      this.currentText = dom.innerText
       document.body.scrollIntoView()
     }, 1000)
   },
@@ -158,23 +159,23 @@ export default {
         this.handleInput(e.target)
       }
     },
-    inputClick (e) {
-      // 监听点击事件
-      this.isLocked = true
-      const TAG_NAME = e.target.nodeName
-      if (TAG_NAME === this.tag.toUpperCase()) {
-        // 点击模版标签时，记录id
-        this.currentTagId = e.target.id
-        e.target.className = 'active'
-      } else if (this.currentTagId) {
-        // 清空active样式
-        let target = document.getElementById(this.currentTagId)
-        target.className = ''
-        this.currentTagId = null
-      } else {
-        this.currentTagId = null
-      }
-    },
+    // inputClick (e) {
+    //   // 监听点击事件
+    //   this.isLocked = true
+    //   const TAG_NAME = e.target.nodeName
+    //   if (TAG_NAME === this.tag.toUpperCase()) {
+    //     // 点击模版标签时，记录id
+    //     this.currentTagId = e.target.id
+    //     e.target.className = 'active'
+    //   } else if (this.currentTagId) {
+    //     // 清空active样式
+    //     let target = document.getElementById(this.currentTagId)
+    //     target.className = ''
+    //     this.currentTagId = null
+    //   } else {
+    //     this.currentTagId = null
+    //   }
+    // },
     getGuid () {
       // 生成随机ID
       return `r${new Date().getTime()}d${Math.ceil(Math.random() * 1000)}`

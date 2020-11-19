@@ -20,7 +20,7 @@
       <div class='content-header'>
         <h1>
           <el-tag :type="data.statusColor" class='scope-name_tag'>{{data.statusText}}</el-tag>
-          <h3>{{data.activityDescription}}</h3>
+          <h3>{{data.name}}</h3>
         </h1>
         <p>有效时间 {{data.validTimeStart}} 至 {{data.validTimeEnd}}</p>
       </div>
@@ -62,7 +62,7 @@ export default {
       this.$emit('onDelect', this.data.guestCodeId)
     },
     handleEdit () {
-      this.$emit('onEdit', this.data.guestCodeId)
+      this.$emit('onEdit', { guestCodeId: this.data.guestCodeId })
     },
     handleNext () {
       this.$emit('onNext')

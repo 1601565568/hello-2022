@@ -197,7 +197,7 @@ export default {
     },
     handleOpen (item) {
       const { guideId } = this.model
-      this.$emit('openFriend', { ...item, oldGuideId: guideId, guideId, oldName: this.chooseMaster.employeeName, employeeName: item.promotionMasterName })
+      this.$emit('openFriend', { ...item, oldGuideId: guideId, guideId, oldName: this.chooseMaster.employeeName, employeeName: item.promotionMasterName, promotionMasterNumber: this.chooseMaster.promotionMasterNumber })
     },
     handlePrev () {
       this.$emit('onPrev')

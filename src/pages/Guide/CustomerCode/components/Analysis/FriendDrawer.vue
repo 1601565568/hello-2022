@@ -34,7 +34,7 @@
                   <div class="scope-title">
                     <img :src='scope.row.friendAvatar' class="scope-title_img">
                     <div class="scope-title_text">
-                      {{scope.row.friendName}}
+                      {{scope.row.friendName|| '-'}}
                     </div>
                   </div>
                 </template>
@@ -51,8 +51,8 @@
           <template v-if='!isSecondDrawer'>
             <div class='drawer-pagination'>
               <div class='pagecontent-left'>
-                <div class='content-item' @click='handlePrev'><i class="el-icon-arrow-left"></i>上一个员工</div>
-                <div class='content-item' @click='handleNext'>下一个员工<i class="el-icon-arrow-right"></i></div>
+                <div class='content-item' @click='handlePrev'><i class="el-icon-arrow-left"></i>上一个推广大师</div>
+                <div class='content-item' @click='handleNext'>下一个推广大师<i class="el-icon-arrow-right"></i></div>
               </div>
               <el-pagination v-if="_data._pagination.enable"
                             style='width:300px'
@@ -144,7 +144,7 @@ export default {
     },
     // 回到一级drawe
     handleBackFirst () {
-      this.$emit('showMaster', { guideId: this.secondDrawerId, employeeName: this.secondDrawerName })
+      this.$emit('showMaster', { guideId: this.secondDrawerId, employeeName: this.secondDrawerName, promotionMasterNumber: this.chooseFriend.promotionMasterNumber })
     },
     handlePrev () {
       this.$emit('onPrev')
@@ -228,7 +228,7 @@ export default {
   align-items: center;
   justify-content: space-between;
   .pagecontent-left {
-    width: 223px;
+    width: 300px;
     height: 32px;
     border: 1px solid #D9D9D9;
     border-radius: 2px;

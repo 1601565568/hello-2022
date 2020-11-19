@@ -73,6 +73,7 @@ export default {
   mixins: [tableMixin],
   methods: {
     handleDetail (query = {}) {
+      console.log(query)
       this.$router.push({
         path: '/Social/SocialOperation/CustomerCode/Edit',
         query
