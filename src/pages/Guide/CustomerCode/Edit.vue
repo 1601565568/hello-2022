@@ -158,7 +158,13 @@
                 </div>
               </div>
             </el-form-item>
-            <el-form-item label='过期设置' required prop='effectiveCycle' :disabled='false' class='larger-item'>
+            <el-form-item required prop='effectiveCycle' :disabled='false' class='larger-item'>
+              <template slot='label' class='larger-item_icon'>
+                <span>过期设置</span>
+                <el-tooltip content="因企业微信生成联系我二维码数量限制，请合理设置过期时间"  placement="top">
+                  <Icon type="question-circle" class='question-circle' />
+                </el-tooltip>
+              </template>
               <el-input-number style='width:118px;' size="medium" v-model="model.effectiveCycle" controls-position="right" :min="1" :step='1' step-strictly controls onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))"></el-input-number>天内未邀请到新的好友 一客一码二维码过期
               <!-- <el-input style='width:88px;' v-model='model.effectiveCycle' onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))" type="number"/>  -->
               <p class='prompt-text'><span class='yellow-point'></span>因企业微信生成联系我二维码数量限制，请合理设置过期时间</p>
@@ -481,6 +487,11 @@ export default Edit
     border-radius: 50%;
     margin-right: 8px;
   }
+}
+.question-circle {
+  position: relative;
+  top: 1px;
+  left: 5px;
 }
 </style>
 <style scoped>

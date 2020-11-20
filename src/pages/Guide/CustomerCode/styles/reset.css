@@ -40,6 +40,10 @@
       display: none;
     }
   }
+  >>>.el-form__change .el-input__inner {
+    min-width: 0px;
+   max-width: 400px;
+  }
 }
 .normal-from {
   >>> .el-form-item__label {
