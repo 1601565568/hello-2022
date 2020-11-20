@@ -3,7 +3,7 @@
     <template slot='search'>
     <el-form :inline="true" class='form-inline_top' @submit.native.prevent>
       <el-form-item label="所属员工：">
-        <NsGuideDialog :selfBtn='true' :isButton="false" :auth="false" type="primary" btnTitle="" dialogTitle="选择员工" v-model="guideIds" @input="handleChangeGuide">
+        <NsGuideDialog :selfBtn='true' :appendToBody='true' :isButton="false" :auth="false" type="primary" btnTitle="" dialogTitle="选择员工" v-model="guideIds" @input="handleChangeGuide">
           <template slot='selfBtn'>
             <Icon type="geren"></Icon>
           </template>

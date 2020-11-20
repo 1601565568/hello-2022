@@ -15,6 +15,13 @@ export default {
       callback()
     }
   },
+  validateActivityIntroduction: (length, rule, value, callback) => {
+    if (length > 1000) {
+      callback(new Error(`活动介绍最多1000个字`))
+    } else {
+      callback()
+    }
+  },
   // 活动人员
   validateGuideIds: (rule, value, callback) => {
     if (!value || value.length <= 0) {

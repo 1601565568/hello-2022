@@ -69,6 +69,7 @@ export default {
     count () { // 字符长度记数
       let num = this.maxlength - this.currentText.length
       let text = num < 0 ? `已超出${Math.abs(num)}个字符` : `${this.currentText.length}/${this.maxlength}`
+      this.$emit('inputLength', this.currentText.length)
       return { num, text }
     }
   },

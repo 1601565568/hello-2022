@@ -134,11 +134,8 @@ export default {
         label: '全部',
         value: null
       }, {
-        label: '过期',
+        label: '已失效',
         value: 0
-      }, {
-        label: '未生成',
-        value: 1
       }, {
         label: '正常',
         value: 2
@@ -148,11 +145,7 @@ export default {
       // 状态列表
       statusTableList: {
         0: {
-          value: '过期',
-          color: 'info'
-        },
-        1: {
-          value: '未生成',
+          value: '已失效',
           color: 'info'
         },
         2: {

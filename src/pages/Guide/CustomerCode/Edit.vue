@@ -80,7 +80,10 @@
             <div class='form-item_tip'>
               通过一客一码添加进来的好友，会自动收到活动介绍和活动海报
             </div>
-            <el-form-item label='活动介绍' required prop='activityIntroduction'>
+            <el-form-item label='活动介绍' required prop='activityIntroduction' :rules="[
+              { required: true, message: '请输入活动介绍', trigger: ['blur', 'change'] },
+              { validator: validates.validateActivityIntroduction.bind(this, activityIntroductionLength), trigger: ['blur', 'change'] }
+            ]">
               <div class='flex-box form-item_toptext'>
                 <div class='form-item_exmple__content'>
                   <span>活动介绍不知道怎么写？</span>
@@ -100,7 +103,7 @@
                   </el-popover>
                 </div>
               </div>
-              <tag-area v-model='model.activityIntroduction' tag="wise" ref="testText" :maxlength="1000" :tools='tools'  :disabled='isStating' placeholder="请输入活动介绍"/>
+              <tag-area v-model='model.activityIntroduction' tag="wise" ref="testText" :maxlength="1000" :tools='tools'  :disabled='isStating' placeholder="请输入活动介绍" @inputLength="inputLength"/>
             </el-form-item>
             <el-form-item label='活动海报' required prop='backgroundPic'>
               <div class='poster-content'>

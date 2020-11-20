@@ -5,6 +5,8 @@ export default {
       collapseList: [1, 2],
       guestCodeId: null,
       copyGuestCodeId: null,
+      activityIntroductionLength: 0,
+      validates,
       model: {
         headerType: 0,
         time: [],
@@ -44,10 +46,10 @@ export default {
           { required: true, message: '请填写活动说明', trigger: ['blur', 'change'] },
           { validator: validates.validateActivityDescription.bind(this, '活动说明'), trigger: ['blur', 'change'] }
         ],
-        activityIntroduction: [
-          { required: true, message: '请输入活动介绍', trigger: ['blur', 'change'] },
-          { validator: validates.validateActivityDescription.bind(this, '活动说明'), trigger: ['blur', 'change'] }
-        ],
+        // activityIntroduction: [
+        //   { required: true, message: '请输入活动介绍', trigger: ['blur', 'change'] },
+        //   { validator: validates.validateActivityIntroduction.bind(this, this.activityIntroductionLength), trigger: ['blur', 'change'] }
+        // ],
         backgroundPic: [
           { required: true, message: '请选择图片', trigger: ['blur', 'change'] }
         ],
@@ -267,6 +269,10 @@ export default {
     },
     handleCancel () {
       this.$router.go('-1')
+    },
+    inputLength (length) {
+      this.activityIntroductionLength = length
+      this.$refs.ruleForm.validateField('activityIntroduction')
     }
   }
 }

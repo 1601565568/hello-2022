@@ -101,9 +101,15 @@ export default {
     },
     // 根据值修改请求时间
     handleChangeDateValue (date) {
-      this.startTime = date[0] || null
-      this.endTime = date[1] || null
-      this.dateValue = null
+      if (date) {
+        this.startTime = date[0] || null
+        this.endTime = date[1] || null
+        this.dateValue = null
+      } else {
+        this.startTime = null
+        this.endTime = null
+        this.dateValue = 'all'
+      }
       this.getDataTotal()
     },
     // 查看推广大使

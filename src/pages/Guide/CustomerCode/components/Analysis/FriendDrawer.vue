@@ -144,7 +144,11 @@ export default {
     },
     // 回到一级drawe
     handleBackFirst () {
-      this.$emit('showMaster', { guideId: this.secondDrawerId, employeeName: this.secondDrawerName, promotionMasterNumber: this.chooseFriend.promotionMasterNumber })
+      if (this.isSecondDrawer) {
+        this.$emit('showMaster', { guideId: this.secondDrawerId, employeeName: this.secondDrawerName, promotionMasterNumber: this.chooseFriend.promotionMasterNumber })
+      } else {
+        this.handleClose()
+      }
     },
     handlePrev () {
       this.$emit('onPrev')
