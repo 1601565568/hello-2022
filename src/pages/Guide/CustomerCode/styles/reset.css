@@ -46,6 +46,9 @@
     font-size: 14px;
     line-height: 22px;
   }
+  >>> .larger-item .el-form-item__label {
+    line-height: 32px;
+  }
   >>> .el-input--medium .el-input__inner {
     font-size: 14px;
     height: 32px;

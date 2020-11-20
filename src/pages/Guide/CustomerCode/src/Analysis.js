@@ -1,5 +1,6 @@
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import moment from 'moment'
+import backIcon from '../image/icon-fanhuishangyiji.png'
 export default {
   data () {
     return {
@@ -51,7 +52,8 @@ export default {
       endTime: null,
       chooseMaster: {}, // 选中的推广大使
       chooseFriend: {}, // 选中的邀请好友
-      showType: 'master' // 弹出框显示的内容
+      showType: 'master', // 弹出框显示的内容
+      backIcon: backIcon
     }
   },
   mixins: [tableMixin],
@@ -148,6 +150,9 @@ export default {
     onPrevFriend () {
       const ref = this.$refs.employeeTable || this.$refs.masterTable
       ref.getOhterGuideForFriend('prev')
+    },
+    handleBack () {
+      this.$router.back(-1)
     }
   },
   mounted () {

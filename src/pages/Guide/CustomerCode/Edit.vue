@@ -12,7 +12,7 @@
         <el-form label-width="100px" label-position='left' :model="model" size='medium' class='normal-from' :rules="rules" ref="ruleForm">
         <el-collapse class='customer-collapse' v-model='collapseList'>
           <el-collapse-item title="活动基础信息" :name="1">
-            <el-form-item label='活动名称' required prop='name'>
+            <el-form-item label='活动名称' required prop='name' class='larger-item'>
               <length-input v-model='model.name' placeholder="请输入名称" :length='20'  :disabled='isStating'/>
             </el-form-item>
             <el-form-item label='参加活动人员' prop='guideIds'>
@@ -158,7 +158,7 @@
                 </div>
               </div>
             </el-form-item>
-            <el-form-item label='过期设置' required prop='effectiveCycle' :disabled='false'>
+            <el-form-item label='过期设置' required prop='effectiveCycle' :disabled='false' class='larger-item'>
               <el-input-number style='width:118px;' size="medium" v-model="model.effectiveCycle" controls-position="right" :min="1" :step='1' step-strictly controls onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))"></el-input-number>天内未邀请到新的好友 一客一码二维码过期
               <!-- <el-input style='width:88px;' v-model='model.effectiveCycle' onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))" type="number"/>  -->
               <p class='prompt-text'><span class='yellow-point'></span>因企业微信生成联系我二维码数量限制，请合理设置过期时间</p>

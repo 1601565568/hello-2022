@@ -1,54 +1,64 @@
 <template>
-  <div class='itew-wrapper'>
-    <div class='item-header'>
-      <div class='master-close' @click="handleClose">
-        <i class="el-icon-close"></i>
-      </div>
-      <div class='icon-list'>
-        <div class='icon-item' @click="handlePreview">
-          <i class="ns-preview"></i>
+  <div class='item-content'>
+    <div class='item-wrapper'>
+      <div class='item-header'>
+        <div class='master-close' @click="handleClose">
+          <i class="el-icon-close"></i>
         </div>
-        <div class='icon-item' @click="handleDelect">
-          <i class="ns-close"></i>
-        </div>
-        <div class='icon-item'  @click="handleEdit">
-          <i class="ns-edit"></i>
-        </div>
-      </div>
-    </div>
-    <div class='content'>
-      <div class='content-header'>
-        <h1>
-          <el-tag :type="data.statusColor" class='scope-name_tag'>{{data.statusText}}</el-tag>
-          <h3>{{data.name}}</h3>
-        </h1>
-        <p>有效时间 {{data.validTimeStart}} 至 {{data.validTimeEnd}}</p>
-      </div>
-      <div class='content-detail'>
-        <h4>活动介绍（快捷话术）</h4>
-        <div v-html="data.activityIntroductionHtml" class='content'>
-        </div>
-        <h4>专属活动海报</h4>
-        <div class='poster'>
-          <img :src='data.activityPlacard'>
+        <div class='icon-list'>
+          <div class='icon-item' @click="handlePreview">
+            <img :src='closeIcon' />
+          </div>
+          <div class='icon-item' @click="handleDelect">
+            <img :src='nsEditIcon' />
+          </div>
+          <div class='icon-item'  @click="handleEdit">
+            <img :src='nsPreviewIcon' />
+          </div>
         </div>
       </div>
-    </div>
-    <div class='footer'>
-      <div class='pagecontent-left'>
-        <div class='content-item' @click='handlePrev'><i class="el-icon-arrow-left"></i>上一个</div>
-        <div class='content-item' @click='handleNext'>下一个<i class="el-icon-arrow-right"></i></div>
+      <div class='content'>
+        <div class='content-header'>
+          <h1>
+            <el-tag :type="data.statusColor" class='scope-name_tag'>{{data.statusText}}</el-tag>
+            <h3>{{data.name}}</h3>
+          </h1>
+          <p>有效时间 {{data.validTimeStart}} 至 {{data.validTimeEnd}}</p>
+        </div>
+        <div class='content-detail'>
+          <h4>活动介绍（快捷话术）</h4>
+          <div v-html="data.activityIntroductionHtml" class='content'>
+          </div>
+          <h4>专属活动海报</h4>
+          <div class='poster'>
+            <img :src='data.activityPlacard'>
+          </div>
+        </div>
+      </div>
+      <div class='footer'>
+        <div class='pagecontent-left'>
+          <div class='content-item' @click='handlePrev'><i class="el-icon-arrow-left"></i>上一个</div>
+          <div class='content-item' @click='handleNext'>下一个<i class="el-icon-arrow-right"></i></div>
+        </div>
       </div>
     </div>
   </div>
 </template>
 <script>
+import closeIcon from '../../image/close.png'
+import nsEditIcon from '../../image/ns-edit.png'
+import nsPreviewIcon from '../../image/ns-preview.png'
 export default {
+  data () {
+    return {
+      closeIcon,
+      nsEditIcon,
+      nsPreviewIcon
+    }
+  },
   props: {
     data: {
-      default () {
-        return {}
-      }
+      default () {}
     }
   },
   methods: {
@@ -74,8 +84,15 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-.itew-wrapper {
+.item-content {
+  height: 100vh;
+  overflow-y: auto;
+}
+.item-wrapper {
+  position: relative;
   padding: 12px 16px;
+  min-height: 100vh;
+  padding-bottom: 50px;
   .item-header {
     display: flex;
     align-items: center;
@@ -96,6 +113,13 @@ export default {
       float: left;
       margin-left: 8px;
       cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      img {
+        height: 12px;
+        width: 12px;
+      }
     }
   }
   .content-header {
@@ -130,7 +154,7 @@ export default {
       padding: 32px 0;
       text-align: center;
       img {
-        width: 118px;
+        width: 188px;
       }
     }
     .content {
@@ -156,7 +180,7 @@ export default {
     color: #262626;
   }
   .footer {
-    position: fixed;
+    position: absolute;
     right: 16px;
     bottom: 12px;
   }

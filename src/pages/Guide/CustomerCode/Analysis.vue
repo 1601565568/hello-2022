@@ -2,6 +2,7 @@
   <div class="analysis-container">
     <div class='analysis-header'>
       <h3 class='header-text'>
+        <img :src='backIcon' class='back-icon' @click='handleBack'/>
         活动效果
       </h3>
       <div class='header-tab'>
@@ -84,6 +85,12 @@ Analysis.components = {
 <style lang="scss" scoped>
   @import "./styles/reset.css";
   .analysis-container {
+    .back-icon {
+      height: 16px;
+      width: 16px;
+      cursor: pointer;
+      margin-right: 16px;
+    }
     .analysis-header {
       margin: -10px -10px 16px -10px;
       background: #fff;
@@ -93,6 +100,8 @@ Analysis.components = {
         color: #262626;
         height: 48px;
         line-height: 48px;
+        display: flex;
+        align-items: center;
       }
       .header-tab {
         display: flex;

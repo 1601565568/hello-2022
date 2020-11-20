@@ -20,6 +20,8 @@
   v-model：接收值设置v-model="employeeSelectData"
   3.vue的data加入参数：
   employeeSelectData: [] //选中的值,如:[1,2,3,4]
+  4.appendToBody
+  dialog框是否直接添加到body下解决样式污染
 -->
 <template>
   <div>
