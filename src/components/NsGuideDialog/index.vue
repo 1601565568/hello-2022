@@ -20,6 +20,8 @@
   v-model：接收值设置v-model="employeeSelectData"
   3.vue的data加入参数：
   employeeSelectData: [] //选中的值,如:[1,2,3,4]
+  4.appendToBody
+  dialog框是否直接添加到body下解决样式污染
 -->
 <template>
   <div>
@@ -35,7 +37,7 @@
       <Icon v-if="type === 'text'" type="plus"/>{{btnTitle}}
     </NsButton>
     <el-dialog :title="dialogTitle" :visible.sync="visible" :show-scroll-x="false"
-               :close-on-click-modal = "false" :before-close="onDialogClose" width="1100px"><!-- 按员工设置使用范围时，所选员工会优先选择使用该条欢迎语而非归属门店设置的欢迎语 -->
+               :close-on-click-modal = "false" :before-close="onDialogClose" width="1100px" :modal-append-to-body='appendToBody' :append-to-body='appendToBody'><!-- 按员工设置使用范围时，所选员工会优先选择使用该条欢迎语而非归属门店设置的欢迎语 -->
       <div slot="title">
         {{dialogTitle}}
         <el-tooltip  content="按员工设置使用范围时，所选员工会优先选择使用该条欢迎语而非归属门店设置的欢迎语">

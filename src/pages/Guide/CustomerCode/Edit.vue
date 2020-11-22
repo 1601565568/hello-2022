@@ -12,26 +12,34 @@
         <el-form label-width="100px" label-position='left' :model="model" size='medium' class='normal-from' :rules="rules" ref="ruleForm">
         <el-collapse class='customer-collapse' v-model='collapseList'>
           <el-collapse-item title="活动基础信息" :name="1">
-            <el-form-item label='活动名称' required prop='name'>
-              <length-input v-model='model.name' placeholder="请活动名称" :length='20'/>
+            <el-form-item label='活动名称' required prop='name' class='larger-item'>
+              <length-input v-model='model.name' placeholder="请输入名称" :length='20'  :disabled='isStating'/>
             </el-form-item>
-            <el-form-item label='参加活动人员' required prop='guideIds'>
+            <el-form-item label='参加活动人员' prop='guideIds'>
               <div class='flex-box form-item_toptext'>
                 <span>选择的员工可以在企微侧边栏使用该一客一码活动</span>
                 <span class='form-item_toptext__length'>已选<span>{{model.guideIds.length}}</span>人</span>
               </div>
               <html-area>
                 <div class='employee-list'>
-                  <template v-for='(item,index) in model.guideDatas'>
-                    <div class='employee-list_item' :key='item.id'>
-                      {{item.name}}
-                      <i class="el-icon-close" @click="handleDelect(index)"></i>
-                    </div>
+                  <template v-if='model.guideDatas.length>0'>
+                    <template v-for='(item,index) in model.guideDatas'>
+                      <div class='employee-list_item' :key='item.id'>
+                        {{item.name}}
+                        <i class="el-icon-close" @click="handleDelect(index)"></i>
+                      </div>
+                    </template>
+                    <span class='employee-list_all' v-if='model.guideDatas.length>0'>
+                      <i class="el-icon-close" @click="handleDelectAll()"></i>
+                    </span>
+                  </template>
+                  <template v-else>
+                    <p class='employee-text'>请选择可以在企微侧边栏使用该活动一客一码的员工</p>
                   </template>
                 </div>
                 <template slot='suffix'>
                   <div class='employee-suffix'>
-                    <NsGuideDialog :selfBtn='true' :isButton="false" :validNull="true" :auth="false"   btnTitle="" type='text' dialogTitle="选择员工" v-model="model.guideIds" @inputAllData="handleChangeGuide">
+                    <NsGuideDialog :selfBtn='true' :appendToBody='true' :isButton="false" :validNull="true" :auth="false"   btnTitle="" type='text' dialogTitle="选择员工" v-model="model.guideIds" @inputAllData="handleChangeGuide">
                        <template slot='selfBtn'>
                         <Icon type="geren"></Icon>
                       </template>
@@ -42,8 +50,8 @@
             </el-form-item>
             <el-form-item label='有效时间' required prop='validTimeType'>
               <div class='form-item_toptext'>
-                <el-radio v-model="model.validTimeType" :label="1">固定时间</el-radio>
-                <el-radio v-model="model.validTimeType" :label="0">永久有效</el-radio>
+                <el-radio v-model="model.validTimeType" :label="1"  :disabled='isStating'>固定时间</el-radio>
+                <el-radio v-model="model.validTimeType" :label="0"  :disabled='isStating'>永久有效</el-radio>
               </div>
               <div class='form-item_time' v-if='model.validTimeType === 1'>
                 <div>时间范围</div>
@@ -65,14 +73,17 @@
               <div class='form-item_toptext'>
                 活动说明会显示在推广大师的查询页面
               </div>
-              <length-input type="textarea" v-model='model.activityDescription' placeholder="请输入说明" :length='1000'/>
+              <length-input type="textarea"  :disabled='isStating' v-model='model.activityDescription' placeholder="请输入活动说明" :length='1000'/>
             </el-form-item>
           </el-collapse-item>
           <el-collapse-item title='企微互动内容' :name="2">
             <div class='form-item_tip'>
               通过一客一码添加进来的好友，会自动收到活动介绍和活动海报
             </div>
-            <el-form-item label='活动介绍' required prop='activityIntroduction'>
+            <el-form-item label='活动介绍' required prop='activityIntroduction' :rules="[
+              { required: true, message: '请输入活动介绍', trigger: ['blur', 'change'] },
+              { validator: validates.validateActivityIntroduction.bind(this, activityIntroductionLength), trigger: ['blur', 'change'] }
+            ]">
               <div class='flex-box form-item_toptext'>
                 <div class='form-item_exmple__content'>
                   <span>活动介绍不知道怎么写？</span>
@@ -92,7 +103,7 @@
                   </el-popover>
                 </div>
               </div>
-              <tag-area v-model='model.activityIntroduction' tag="wise" ref="testText" maxlength="100" :tools='tools'/>
+              <tag-area v-model='model.activityIntroduction' tag="wise" ref="testText" :maxlength="1000" :tools='tools'  :disabled='isStating' placeholder="请输入活动介绍" @inputLength="inputLength"/>
             </el-form-item>
             <el-form-item label='活动海报' required prop='backgroundPic'>
               <div class='poster-content'>
@@ -104,6 +115,7 @@
                   :action="$api.core.sgUploadFile('test')"
                   :on-remove='handleRemove'
                   :before-upload="beforeUpload"
+                  :disabled='isStating'
                   :file-list='fileList'
                   :on-success="handleUploadSuccess">
                   <i class="el-icon-upload"></i>
@@ -114,29 +126,29 @@
                   <el-form-item label='推广人信息：' size='mini'>
                     <el-row>
                       <el-col :span='12'>
-                        <el-checkbox v-model="model.headPortrait">显示推广人头像、昵称</el-checkbox>
+                        <el-checkbox v-model="model.headPortrait"  :disabled='isStating'>显示推广人头像、昵称</el-checkbox>
                       </el-col>
                       <el-col :span='12'>
                         <el-form-item label='字体颜色：' label-width='80px'>
-                          <el-color-picker v-model='model.nickColour'></el-color-picker>
+                          <el-color-picker v-model='model.nickColour' :disabled='isStating'></el-color-picker>
                         </el-form-item>
                       </el-col>
                       <el-col :span='12'>
                         <el-form-item label='头像样式：' label-width='80px' class='scope-row_headIcon'>
-                          <el-radio v-model="model.headPortraitShape" :label="1">
+                          <el-radio v-model="model.headPortraitShape" :label="1" :disabled='isStating'>
                             <div :class='"square logo-type "+(model.headPortraitShape===1?"active":"")'></div>
                           </el-radio>
-                          <el-radio v-model="model.headPortraitShape" :label="0">
+                          <el-radio v-model="model.headPortraitShape" :label="0" :disabled='isStating'>
                             <div :class='"circle logo-type "+(model.headPortraitShape===0?"active":"")'></div>
                           </el-radio>
                         </el-form-item>
                       </el-col>
                       <el-col :span='12'>
                         <el-form-item label='样式：' label-width='50px'>
-                          <el-radio v-model="model.headerType" :label="0">
+                          <el-radio v-model="model.headerType" :label="0" :disabled='isStating'>
                             竖排
                           </el-radio>
-                          <el-radio v-model="model.headerType" :label="1">
+                          <el-radio v-model="model.headerType" :label="1" :disabled='isStating'>
                             横排
                           </el-radio>
                         </el-form-item>
@@ -146,9 +158,16 @@
                 </div>
               </div>
             </el-form-item>
-            <el-form-item label='过期设置' required prop='effectiveCycle'>
-              <el-input style='width:88px;' v-model='model.effectiveCycle' onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))" type="number"/> 天内未邀请到新的好友 一客一码二维码过期
-              <p>因企业微信生成联系我二维码数量限制，请合理设置过期时间</p>
+            <el-form-item required prop='effectiveCycle' :disabled='false' class='larger-item'>
+              <template slot='label' class='larger-item_icon'>
+                <span>过期设置</span>
+                <el-tooltip content="因企业微信生成联系我二维码数量限制，请合理设置过期时间"  placement="top">
+                  <Icon type="question-circle" class='question-circle' />
+                </el-tooltip>
+              </template>
+              <el-input-number style='width:118px;' size="medium" v-model="model.effectiveCycle" controls-position="right" :min="1" :step='1' step-strictly controls onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))"></el-input-number>天内未邀请到新的好友 一客一码二维码过期
+              <!-- <el-input style='width:88px;' v-model='model.effectiveCycle' onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))" type="number"/>  -->
+              <p class='prompt-text'><span class='yellow-point'></span>因企业微信生成联系我二维码数量限制，请合理设置过期时间</p>
             </el-form-item>
           </el-collapse-item>
         </el-collapse>
@@ -160,7 +179,8 @@
           <div class='customer-mobile_content' :style='{backgroundImage:"url("+model.backgroundPic+")"}'>
             <div :class='"user-content "+(model.headerType === 0?"vertical":"align")' v-if='model.headPortrait'>
               <!-- <img/> -->
-              <Icon type="icon-huiyuan"  :style='{borderRadius:model.headPortraitShape===1?"4px":"50%"}' class="user-content_img"></Icon>
+              <img :style='{borderRadius:model.headPortraitShape===1?"4px":"50%"}' class="user-content_img" src='./Images/touxiang.png'/>
+              <!-- <Icon type="icon-huiyuan"  :style='{borderRadius:model.headPortraitShape===1?"4px":"50%"}' class="user-content_img"></Icon> -->
               <div class='user-content_name' :style='{color:model.nickColour}'>推广人昵称</div>
             </div>
             <div class='user-content_bg' v-if='!model.backgroundPic'>你还未上传一客一码背景图</div>
@@ -175,7 +195,7 @@
                 </el-upload>
               上传背景图
             </div>
-            <VueDragResize :isActive="true" :w="model.qrcodeSize" :h="model.qrcodeSize" :parentLimitation="true" :x='model.qrcodeX' :y='model.qrcodeY' @dragstop="onDragResize" @resizestop='onDragResize' :sticks="['tl','tr','bl','br']">
+            <VueDragResize :isActive="!isStating" :isDraggable='!isStating' :isResizable='!isStating' :w="model.qrcodeSize" :h="model.qrcodeSize" :parentLimitation="true" :aspectRatio='true' :x='model.qrcodeX' :y='model.qrcodeY' @dragstop="onDragResize" @resizestop='onDragResize' :sticks="['tl','tr','bl','br']" >
               <img src='./Images/qrcode.png' style='width:100%;height:100%'>
             </VueDragResize>
           </div>
@@ -195,8 +215,9 @@ import ElUpload from '@nascent/nui/lib/upload'
 import ElColorPicker from '@nascent/nui/lib/color-picker'
 import VueDragResize from 'vue-drag-resize'
 import NsGuideDialog from '@/components/NsGuideDialog'
+import ElInputNumber from '@nascent/nui/lib/input-number'
 Edit.components = {
-  LengthInput, HtmlArea, TagArea, ElUpload, ElColorPicker, VueDragResize, NsGuideDialog
+  LengthInput, HtmlArea, TagArea, ElUpload, ElColorPicker, VueDragResize, NsGuideDialog, ElInputNumber
 }
 export default Edit
 </script>
@@ -206,6 +227,7 @@ export default Edit
   background-color: #fff;
   margin: -10px -10px 0;
   padding: 16px;
+  min-width: 1046px;
   h3 {
     font-size: 16px;
     color: #262626;
@@ -229,6 +251,23 @@ export default Edit
   .customer-edit {
     box-sizing: border-box;
     padding: 0 40px 44px 16px;
+  }
+  .customer-edit,.customer-mobile {
+    max-height: calc( 100vh - 172px);
+    overflow: auto;
+    &::-webkit-scrollbar-thumb {
+        display: none
+    }
+    &::-webkit-scrollbar-track {
+        display: none
+    }
+    &::-webkit-scrollbar {
+     display: none
+      /*height: 4px;*/
+    }
+  }
+  @media screen and ( max-width: 1625px ) {
+    .customer-edit,.customer-mobile {max-height: calc( 100vh - 152px);}
   }
   .form-item_toptext {
     line-height: 22px;
@@ -432,12 +471,34 @@ export default Edit
     }
   }
 }
+.employee-text {
+  font-size: 14px;
+  color: #BFBFBF;
+  padding-bottom: 8px;
+}
+.prompt-text {
+  display: flex;
+  align-items: center;
+  .yellow-point {
+    background: #F2AA18;
+    display: inline-block;
+    height: 8px;
+    width: 8px;
+    border-radius: 50%;
+    margin-right: 8px;
+  }
+}
+.question-circle {
+  position: relative;
+  top: 1px;
+  left: 5px;
+}
 </style>
 <style scoped>
 .poster-content {
   .poster-set_content {
     >>> .el-col {
-      margin-bottom: 24px;
+      margin-bottom: 12px;
     }
     >>> .el-radio {
       margin-right: 4px;
@@ -480,4 +541,17 @@ export default Edit
       bottom: 0;
   }
 }
+.employee-list_all {
+  display: inline-block;
+  height: 18px;
+  line-height: 18px;
+  color: #fff;
+  width: 18px;
+  text-align: center;
+  border-radius: 50%;
+  background: #8c8c8c;
+  margin-top: 3px;
+  cursor: pointer;
+}
+
 </style>

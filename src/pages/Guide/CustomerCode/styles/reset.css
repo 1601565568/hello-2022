@@ -19,6 +19,7 @@
     margin-bottom : 8px;
     height:35px;
     box-sizing:border-box;
+    border-radius: 2px;
     >>> .el-form-item__label {
       font-size: 14px;
     }
@@ -28,6 +29,9 @@
       min-width: 150px;
       max-width: 300px;
     }
+    >>> .el-range-input {
+      font-size: 14px;
+    }
     >>> .el-range-editor--small .el-range-separator {
       line-height: 22px;
       font-size: 14px;
@@ -36,16 +40,27 @@
       display: none;
     }
   }
+  >>>.el-form__change .el-input__inner {
+    min-width: 0px;
+   max-width: 400px;
+  }
 }
 .normal-from {
   >>> .el-form-item__label {
     font-size: 14px;
     line-height: 22px;
   }
+  >>> .larger-item .el-form-item__label {
+    line-height: 32px;
+  }
   >>> .el-input--medium .el-input__inner {
     font-size: 14px;
     height: 32px;
     line-height: 32px;
+  }
+  >>> .is-controls-right .el-input--medium .el-input__inner {
+    height: 36px;
+    line-height: 36px;
   }
   >>> .el-form-item--medium .el-form-item__content {
     line-height: 32px;
@@ -66,6 +81,9 @@
 
   >>> .el-form-item--medium .el-form-item__content .el-radio{
     line-height: 21px;
+  }
+  >>> .el-input-number.is-controls-right .el-input__inner {
+    padding-right: 44px;
   }
 }
 /* 表格 */
