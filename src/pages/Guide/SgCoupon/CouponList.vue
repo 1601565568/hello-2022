@@ -147,6 +147,7 @@
     </el-dialog>
     <!-- 新增弹窗结束 -->
     <list-dialog ref="listDialogDom"></list-dialog>
+    <couponList></couponList>
   </div>
 </template>
 
@@ -154,10 +155,11 @@
 import List from './src/CouponList'
 import NsTableSgCoupon from './NsTableSgCoupon'
 import listDialog from './listDialog.vue'
-
+import couponList from './components/couponList'
 List.components = {
   NsTableSgCoupon,
-  listDialog
+  listDialog,
+  couponList
 }
 export default List
 </script>

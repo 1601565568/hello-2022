@@ -9,6 +9,10 @@ export default {
     url: '/guide/sgactivitycoupon/findStoreCouponList',
     method: 'post'
   },
+  mockCoupon: {
+    url: '/guide/sgactivitycoupon/mockCoupon',
+    method: 'post'
+  },
   // 保存导购活动
   saveActiviCoupon: {
     url: '/guide/sgactivitycoupon/saveActiviCoupon',
