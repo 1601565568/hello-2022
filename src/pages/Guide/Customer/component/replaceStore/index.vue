@@ -1,5 +1,4 @@
 <template>
-    <!-- 心情不好,乱写的 -->
     <el-dialog
         :visible.sync="dialogVisible"
         width="960px"
@@ -55,7 +54,9 @@
               <el-table-column width="150">
                 <template slot-scope="scope">
                   <div class="customerManage">
-                    <el-radio :label="scope.row.shopId" v-model="shopId" class="customerManage"></el-radio>
+                    <el-radio :label="scope.row.shopId" v-model="shopId">
+                      <span></span>
+                    </el-radio>
                   </div>
                 </template>
               </el-table-column>
@@ -126,9 +127,9 @@ export default index
     display: flex;
     justify-content: space-between;
   }
-  .customerManage {
-    color:transparent
-  }
+  // .customerManage {
+  //   color:transparent
+  // }
   /* 去掉更换导购列表弹框单选组多余数字 */
   .customerManage >>> .el-radio__label {
     display: none!important;

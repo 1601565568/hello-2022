@@ -2,6 +2,7 @@ import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import moment from 'moment'
 import { getErrorMsg } from '@/utils/toast'
 import taskProgress from '../component/taskProgress'
+import LocalStorage from 'store/dist/store.legacy.min.js'
 import $ from 'jquery'
 
 export default {
@@ -109,12 +110,6 @@ export default {
           this.checkAll = false
         }
       }
-      console.log('removeCheckList', value)
-    },
-    checkAll (val) {
-      console.log('全选状态切换', val)
-      console.log('添加的数组', this.addcheckList)
-      console.log('删除的数组', this.removeCheckList)
     },
     addcheckList (value) {
       if (!this.checkAll) {
@@ -131,7 +126,6 @@ export default {
           this.addcheckList = []
         }
       }
-      console.log('addcheckList', value)
     }
   },
   mounted: function () {
@@ -202,20 +196,20 @@ export default {
       })
       this.clearRemoveStatus()
     },
-    async setAjax () {
+    setStatus () {
       let _this = this
-      this.shopCustomerTransferTaskStatusTime = null
+      let user = LocalStorage.get('user')
+      let userId = user.nickId
       this.shopCustomerTransferTaskStatus = null
-      await _this.getShopCustomerTransferTaskStatus().then(() => {
-        console.log('_this.shopCustomerTransferTaskStatus', _this.shopCustomerTransferTaskStatus)
+      _this.getShopCustomerTransferTaskStatus(userId).then(() => {
+        clearInterval(_this.shopCustomerTransferTaskStatusTime)
         _this.shopCustomerTransferTaskStatusTime = setInterval(() => {
           if (_this.shopCustomerTransferTaskStatus && _this.shopCustomerTransferTaskStatus.status !== 3) {
-            console.log('调用开始')
-            _this.getShopCustomerTransferTaskStatus()
+            _this.getShopCustomerTransferTaskStatus(userId)
           } else {
             clearInterval(_this.shopCustomerTransferTaskStatusTime)
           }
-        }, 10000)
+        }, 1000 * 10)
       })
     },
     clearRemoveStatus () {
@@ -224,15 +218,22 @@ export default {
       this.isIndeterminate = false // 全选样式显示状态
       this.removeCheckList = [] // 记录全选状态下面的取消的list
       this.addcheckList = [] // 记录表格勾选的数据
-      this.setAjax()
+      this.setStatus()
+    },
+    updateSetAjax () {
+      this.$reload()
+      this.setStatus()
     },
     // 查询门店客户转移任务状态
-    getShopCustomerTransferTaskStatus () {
+    getShopCustomerTransferTaskStatus (userId) {
       return new Promise((resolve, reject) => {
         this.$http.fetch(this.$api.guide.shop.getShopCustomerTransferTaskStatus, {
           shopId: this.offLineShopId
         }).then((res) => {
           this.shopCustomerTransferTaskStatus = res.result
+          if (this.shopCustomerTransferTaskStatus && this.shopCustomerTransferTaskStatus.status === 3 && parseInt(userId) === parseInt(this.shopCustomerTransferTaskStatus.operator)) {
+            this.$reload()
+          }
           resolve(true)
         }).catch((err) => {
           reject(err)

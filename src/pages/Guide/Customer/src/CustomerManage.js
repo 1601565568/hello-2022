@@ -137,11 +137,6 @@ export default {
     }
   },
   mixins: [tableMixin],
-  watch: {
-    recordChooseList (newVal) {
-      console.log(newVal, 'val')
-    }
-  },
   methods: {
     // 更换门店开始
     async handlereplaceShop () {
@@ -169,7 +164,6 @@ export default {
           that.shopCateTree = resp.result.shopCateTree
           that.allShopOptions = resp.result.shopOptions
           that.shopOptions = resp.result.shopOptions
-          // console.log(that.shopOptions)
         }).catch(() => {
           that.$notify.error('加载下拉树、下拉框数据失败')
         })
@@ -405,7 +399,7 @@ export default {
       }, 50)
     },
     async handleSelectionChange () {
-      let { checkAll, removeCheckList, addcheckList, shopCustomerTransferTaskStatus } = this.$refs.table1
+      let { checkAll, removeCheckList, addcheckList, shopCustomerTransferTaskStatus, total } = this.$refs.table1
       // 判断是否有执行的任务
       if (shopCustomerTransferTaskStatus && shopCustomerTransferTaskStatus.status !== 3) {
         this.$notify.error('存在执行中的会员转移任务，请稍后再试')
@@ -414,7 +408,7 @@ export default {
       let result = await this.handleSelection(checkAll, removeCheckList, addcheckList)
       if (result) {
         this.title = '会员更换导购'
-        this.checkNumberLength = checkAll ? removeCheckList.length : addcheckList.length
+        this.checkNumberLength = this.formatCheckNumberLength(checkAll, total, removeCheckList, addcheckList)
         this.shopFindListShow = true
         this.guideFindList({ sameSystemShopId: this.sameSystemShopId })
       }
@@ -431,6 +425,18 @@ export default {
       // } else {
       // }
       // this.multipleSelection = value
+    },
+    // 更新全部数据
+    formatCheckNumberLength (checkAll, total, removeArr, addArr) {
+      let removeLen = removeArr ? removeArr.length : 0
+      let addLen = addArr ? addArr.length : 0
+      if (checkAll && addLen === 0 && removeLen === 0) {
+        return total
+      } else if (!removeLen) {
+        return addLen
+      } else {
+        return parseInt(total) - parseInt(removeLen)
+      }
     },
     handleSelection (checkAll, removeCheckList, addcheckList) {
       return new Promise((resolve, reject) => {
@@ -944,7 +950,6 @@ export default {
       }
     },
     replaceStoreonSave () {
-      // console.log(taskType)
       this.onSave(2)
     },
     /**
@@ -957,7 +962,6 @@ export default {
         this.$notify.error('请先选择更换导购门店')
         return false
       }
-      // console.log(this.recordChooseList, 'recordChooseList')
       let { checkAll, removeCheckList, addcheckList } = this.$refs.table1
       let remumberLoginInfo = LocalStorage.get('user')
       let { nick, nickId } = remumberLoginInfo
@@ -1061,7 +1065,7 @@ export default {
           this.$refs.table1.clearRemoveStatus()
           this.shopFindListShow = false
           this.$refs.table1.$reload()
-          this.$refs.table1.getShopCustomerTransferTaskStatus()
+          // this.$refs.table1.getShopCustomerTransferTaskStatus()
           if (taskType === 2) {
             this.replaceStoreShow = false
           }

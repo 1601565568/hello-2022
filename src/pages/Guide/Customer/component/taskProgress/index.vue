@@ -5,24 +5,9 @@
         <Icon type="nssucceedcricle" v-if="taskProgressStaute === 1" class="iconFont iconFontsuccess"/>
         <Icon type="nswarmcricle" v-else class="iconFont iconFontPrimary" />
         <div class="status">
-          <span v-if="shopCustomerTransferTaskStatus && parseInt(shopCustomerTransferTaskStatus.totalCount) === 0">该门店会员正在更换导购,更换进度...</span>
-          <span v-if="shopCustomerTransferTaskStatus
-            && parseInt(shopCustomerTransferTaskStatus.totalCount) !== 0
-            && parseInt(shopCustomerTransferTaskStatus.status) !== 3">
-            该门店{{shopCustomerTransferTaskStatus.totalCount}}个会员正在更换导购，更换进度：
-          </span>
-          <span v-if="shopCustomerTransferTaskStatus
-            && parseInt(shopCustomerTransferTaskStatus.totalCount) !== 0
-            && parseInt(shopCustomerTransferTaskStatus.status) === 3
-            && parseInt(shopCustomerTransferTaskStatus.totalCount) !== parseInt(shopCustomerTransferTaskStatus.successCount)">
-            该门店{{shopCustomerTransferTaskStatus.totalCount}}个会员更换导购情况，成功：{{shopCustomerTransferTaskStatus.successCount}}人；失败：{{shopCustomerTransferTaskStatus.errorCount}}人
-            <ns-button type="text" @click="onRedoCustomerTransferTask()">继续更换</ns-button>
-          </span>
-          <span v-if="shopCustomerTransferTaskStatus
-            && parseInt(shopCustomerTransferTaskStatus.totalCount) !== 0
-            && parseInt(shopCustomerTransferTaskStatus.status) === 3
-            && parseInt(shopCustomerTransferTaskStatus.totalCount) === parseInt(shopCustomerTransferTaskStatus.successCount)">
-            该门店{{shopCustomerTransferTaskStatus.totalCount}}个会员更换导购成功
+          <span>
+            {{pageContent}}
+            <ns-button v-if="showBtn" type="text" @click="onRedoCustomerTransferTask()">继续更换</ns-button>
           </span>
           <div style="width:208px" v-if="shopCustomerTransferTaskStatus
             && parseInt(shopCustomerTransferTaskStatus.status) !== 3">
