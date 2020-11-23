@@ -9,7 +9,7 @@
           </template>
         </NsGuideDialog>
       </el-form-item>
-      <el-form-item label="活动码状态：">
+      <el-form-item label="活动码状态：" class='el-form__change'>
         <el-select v-model="model.status" placeholder="请选择" @change='(value)=>{changeSearchfrom({guestCodeStatus:value})}'>
           <el-option
             v-for="item in statusList"
@@ -19,7 +19,7 @@
           </el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="添加好友时间：">
+      <el-form-item label="添加好友时间：" class='el-form__change'>
         <el-date-picker
           v-model="seachDate"
           type="datetimerange"
@@ -52,9 +52,9 @@
           label="推广大师">
           <template slot-scope="scope">
             <div class="scope-title">
-              <img :src='scope.row.promotionAvatar' class="scope-title_img">
+              <img :src='scope.row.promotionAvatar || defaultIcon' class="scope-title_img">
               <div class="scope-title_text">
-                {{scope.row.promotionName}}
+                {{scope.row.promotionName||'-'}}
               </div>
             </div>
           </template>
@@ -125,6 +125,7 @@
 import PageTable from '../PageTable'
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import NsGuideDialog from '@/components/NsGuideDialog'
+import defaultIcon from '../../Images/icon-huiyuan.png'
 export default {
   data () {
     return {
@@ -136,7 +137,8 @@ export default {
         guestCodeStatus: null,
         guestCodeId: this.$route.query.guestCodeId,
         inviteFriendNo: null,
-        lastAddFriendsDate: null
+        lastAddFriendsDate: null,
+        defaultIcon
       },
       url: this.$api.guide.customerCode.getPromotionListByGuestCodeId,
       seachVal: '',

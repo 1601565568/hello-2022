@@ -1,6 +1,6 @@
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import moment from 'moment'
-import backIcon from '../image/icon-fanhuishangyiji.png'
+import backIcon from '../Images/icon-fanhuishangyiji.png'
 export default {
   data () {
     return {

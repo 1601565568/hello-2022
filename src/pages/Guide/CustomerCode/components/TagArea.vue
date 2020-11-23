@@ -10,7 +10,7 @@
           v-if="maxlength">{{count.text}}</span>
     </div>
     <div
-      class="w-textarea_input"
+      :class="`w-textarea_input ${disabled?'disabled':''}`"
       ref="wTextareaContent"
       :id="contentId"
       @focus="isLocked = true"
@@ -63,6 +63,10 @@ export default {
     maxlength: { // 最大输入长度
       type: [String, Number],
       default: ''
+    },
+    disabled: {
+      type: Boolean,
+      default: false
     }
   },
   computed: {
@@ -246,7 +250,9 @@ $textColor: #595959;
     word-break: break-word;
     // 允许编辑，禁止富文本
     -webkit-user-modify: read-write-plaintext-only !important;
-
+    &.disabled {
+      -webkit-user-modify: read-only !important;
+    }
     &:focus {
       outline: none;
     }

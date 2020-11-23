@@ -103,7 +103,7 @@
                   </el-popover>
                 </div>
               </div>
-              <tag-area v-model='model.activityIntroduction' tag="wise" ref="testText" :maxlength="1000" :tools='tools'  :disabled='isStating' placeholder="请输入活动介绍" @inputLength="inputLength"/>
+              <tag-area v-model='model.activityIntroduction' :disabled='isStating' tag="wise" ref="testText" :maxlength="1000" :tools='tools' placeholder="请输入活动介绍" @inputLength="inputLength"/>
             </el-form-item>
             <el-form-item label='活动海报' required prop='backgroundPic'>
               <div class='poster-content'>
