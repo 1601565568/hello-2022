@@ -86,9 +86,7 @@ export default {
     document.addEventListener('selectionchange', this.selectHandler)
     setTimeout(() => {
       const dom = document.getElementsByClassName('w-textarea_input')[0]
-      dom.focus()
       this.currentText = dom.innerText
-      document.body.scrollIntoView()
     }, 1000)
   },
   beforeDestroy () {
@@ -136,9 +134,20 @@ export default {
       node.target = 'blank'
       this.insertNode(node)
     },
-    insertNode (node) { // 在内容中插入标签
+    insertNode (node) { // 判断是否第一次点击
+      if (!this.savedRange.deleteContents) {
+        const dom = document.getElementsByClassName('w-textarea_input')[0]
+        dom.focus()
+        setTimeout(() => {
+          this.addNode(node)
+        }, 100)
+      } else {
+        this.addNode(node)
+      }
+    },
+    addNode (node) { // 在内容中插入标签
       // 删掉选中的内容（如有）
-      this.savedRange.deleteContents()
+      // this.savedRange.deleteContents()
       // 插入链接
       this.savedRange.insertNode(node)
 

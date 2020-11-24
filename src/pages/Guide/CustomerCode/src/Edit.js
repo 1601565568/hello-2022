@@ -152,19 +152,19 @@ export default {
     },
     handleChangeGuide (value) {
       this.model.guideDatas = value
-      this.$refs.ruleForm.validateField('guideIds')
+      this.$refs.ruleForm && this.$refs.ruleForm.validateField('guideIds')
     },
     // 删除所选员工
     handleDelect (index) {
       this.model.guideDatas.splice(index, 1)
       this.model.guideIds.splice(index, 1)
-      this.$refs.ruleForm.validateField('guideIds')
+      this.$refs.ruleForm && this.$refs.ruleForm.validateField('guideIds')
     },
     // 删除所有员工
     handleDelectAll () {
       this.model.guideIds = []
       this.model.guideDatas = []
-      this.$refs.ruleForm.validateField('guideIds')
+      this.$refs.ruleForm && this.$refs.ruleForm.validateField('guideIds')
     },
     // 上传之前钩子
     beforeUpload (file) {
@@ -272,7 +272,7 @@ export default {
     },
     inputLength (length) {
       this.activityIntroductionLength = length
-      this.$refs.ruleForm.validateField('activityIntroduction')
+      this.$refs.ruleForm && this.$refs.ruleForm.validateField('activityIntroduction')
     }
   }
 }
