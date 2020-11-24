@@ -28,7 +28,7 @@
                 </el-option>
               </el-select>
               </el-form-item>
-              <el-form-item label="店铺名称："  style="margin-left: 10px;">
+              <el-form-item label="门店类型："  style="margin-left: 10px;">
                  <el-select v-model="departData.shopType" placeholder="请选择">
                   <el-option
                     v-for="item in options"
@@ -61,7 +61,7 @@
                 </template>
               </el-table-column>
               <el-table-column :show-overflow-tooltip="true" type="default" prop="shop_name" label="店铺名称" align="left"></el-table-column>
-              <el-table-column :show-overflow-tooltip="true" type="default" prop="shopType" label="店铺状态" align="left">
+              <el-table-column :show-overflow-tooltip="true" type="default" prop="shopType" label="门店类型" align="left">
                 <template slot-scope="scope">
                   <span v-if="scope.row.shopType  === 'ZYD'">直营店</span>
                   <span v-if="scope.row.shopType  === 'JMD'">加盟店</span>
