@@ -204,8 +204,11 @@ export default {
     }
   },
   watch: {
-    startTime (newVal) {
-      this.changeSearchfrom({ timeStart: newVal, timeEnd: this.endTime })
+    startTime: {
+      handler (newVal) {
+        this.changeSearchfrom({ timeStart: newVal, timeEnd: this.endTime })
+      },
+      immediate: true
     }
   }
 }
