@@ -36,16 +36,18 @@ export default {
   },
   computed: {
     progress: function () {
+      let shopCustomerTransferTaskStatus = this.shopCustomerTransferTaskStatus
       if (
-        this.shopCustomerTransferTaskStatus &&
-        parseInt(this.shopCustomerTransferTaskStatus.totalCount) === 0
+        !shopCustomerTransferTaskStatus ||
+        (shopCustomerTransferTaskStatus &&
+          parseInt(shopCustomerTransferTaskStatus.totalCount) === 0)
       ) {
         return 1
       } else {
         return (
-          parseInt(this.shopCustomerTransferTaskStatus.successCount) /
-          parseInt(this.shopCustomerTransferTaskStatus.totalCount)
-        )
+          parseInt(this.shopCustomerTransferTaskStatus.successCount) +
+          errorCount / parseInt(this.shopCustomerTransferTaskStatus.totalCount)
+        ).toFixed(0)
       }
     }
   },
@@ -63,10 +65,17 @@ export default {
       }
       this.formatContent(val)
       // 终端相等，用户ID相等
-      if (val.terminalType === this.teriminalType && val.operator === this.userId) {
+      if (
+        val.terminalType === this.teriminalType &&
+        val.operator === this.userId
+      ) {
         this.isShow = true
       }
-      if (parseInt(val.status) === 3 && parseInt(val.totalCount) !== 0 && parseInt(val.successCount) === parseInt(val.totalCount)) {
+      if (
+        parseInt(val.status) === 3 &&
+        parseInt(val.totalCount) !== 0 &&
+        parseInt(val.successCount) === parseInt(val.totalCount)
+      ) {
         this.taskProgressStaute = 1
       } else {
         this.taskProgressStaute = 0
@@ -82,11 +91,19 @@ export default {
       if (TaskStatus.totalCount !== 0 && status !== 3) {
         content = `该门店${TaskStatus.totalCount}个会员正在更换导购，更换进度：`
       }
-      if (TaskStatus.totalCount !== 0 && TaskStatus.status === 3 && TaskStatus.totalCount !== TaskStatus.successCount) {
+      if (
+        TaskStatus.totalCount !== 0 &&
+        TaskStatus.status === 3 &&
+        TaskStatus.totalCount !== TaskStatus.successCount
+      ) {
         content = `该门店${TaskStatus.totalCount}个会员更换导购情况，成功：${TaskStatus.successCount}人；失败：${TaskStatus.errorCount}人`
         this.showBtn = true
       }
-      if (TaskStatus.totalCount !== 0 && TaskStatus.status === 3 && TaskStatus.totalCount === TaskStatus.successCount) {
+      if (
+        TaskStatus.totalCount !== 0 &&
+        TaskStatus.status === 3 &&
+        TaskStatus.totalCount === TaskStatus.successCount
+      ) {
         content = `该门店${TaskStatus.totalCount}个会员更换导购成功`
       }
       this.pageContent = content
