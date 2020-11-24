@@ -53,9 +53,9 @@
                 label="推广大师">
                 <template slot-scope="scope">
                   <div class="scope-title">
-                    <img :src='scope.row.avatar' class="scope-title_img">
+                    <img :src='scope.row.avatar || defaultIcon' class="scope-title_img">
                     <div class="scope-title_text">
-                      {{scope.row.promotionMasterName}}
+                      {{scope.row.promotionMasterName||'-'}}
                     </div>
                   </div>
                 </template>
@@ -111,12 +111,14 @@
 <script>
 import PageTable from '../PageTable'
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
+import defaultIcon from '../../Images/icon-huiyuan.png'
 const originModel = {
   timeStart: null,
   timeEnd: null,
   guideId: null,
   promotionMasterName: null,
-  promotionCodeStatus: null
+  promotionCodeStatus: null,
+  defaultIcon
 }
 export default {
   data () {

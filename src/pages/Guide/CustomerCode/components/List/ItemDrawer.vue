@@ -7,13 +7,13 @@
         </div>
         <div class='icon-list'>
           <div class='icon-item' @click="handlePreview">
-            <img :src='closeIcon' />
+            <img :src='nsPreviewIcon' />
           </div>
           <div class='icon-item' @click="handleDelect">
-            <img :src='nsEditIcon' />
+            <img :src='closeIcon' />
           </div>
           <div class='icon-item'  @click="handleEdit">
-            <img :src='nsPreviewIcon' />
+            <img :src='nsEditIcon' />
           </div>
         </div>
       </div>
@@ -45,9 +45,9 @@
   </div>
 </template>
 <script>
-import closeIcon from '../../image/close.png'
-import nsEditIcon from '../../image/ns-edit.png'
-import nsPreviewIcon from '../../image/ns-preview.png'
+import closeIcon from '../../Images/close.png'
+import nsEditIcon from '../../Images/ns-edit.png'
+import nsPreviewIcon from '../../Images/ns-preview.png'
 export default {
   data () {
     return {

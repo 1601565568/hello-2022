@@ -10,7 +10,7 @@
               </template>
             </NsGuideDialog>
           </el-form-item>
-          <el-form-item label="活动状态：">
+          <el-form-item label="活动状态：" class='el-form__change'>
             <el-select v-model="model.status" placeholder="请选择" @change='(value)=>{changeSearchfrom({status:value})}'>
               <el-option
                 v-for="item in statusOptionList"
@@ -20,7 +20,7 @@
               </el-option>
             </el-select>
           </el-form-item>
-          <el-form-item label="有效时间：">
+          <el-form-item label="有效时间：" class='el-form__change'>
             <el-date-picker
               v-model="seachDate"
               type="datetimerange"
