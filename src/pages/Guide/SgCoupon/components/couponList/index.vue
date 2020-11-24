@@ -21,11 +21,9 @@
             </el-form-item>
           <el-form-item label="剩余数量：">
             <el-form-grid size="xmd">
-              <el-form-item prop="store_coupon_total" v-if="storeModel.maxType === 0">
-                <el-input disabled="disabled" value="不限量"></el-input>
-              </el-form-item>
-              <el-form-item prop="store_coupon_total" v-else>
-                <el-input disabled="disabled" type="number" v-model="storeModel.remainingQuantity"></el-input>
+              <el-form-item prop="store_coupon_total">
+                <div class="disabled">不限量</div>
+                <!-- <div class="disabled">{{storeModel.remainingQuantity}}</div> -->
               </el-form-item>
             </el-form-grid>
           </el-form-item>
@@ -47,7 +45,7 @@
                   <Icon type="info-circle"/>  设置优惠券的数量
               </el-form-grid>
           </el-form-item>
-          <el-form-item label="分配方式：" required v-if="false">
+          <el-form-item label="分配方式：" required>
               <el-form-grid>
                   <el-form-item prop="type">
                   <el-radio-group v-model="activityModel.type">

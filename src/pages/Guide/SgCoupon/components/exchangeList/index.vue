@@ -1,40 +1,10 @@
 <template>
     <div>
         <el-dialog
-            title="选择优惠券"
-            width="960px"
-            :visible.sync="chooseCouponDialogVisible"
+            title="查看物品"
+            width="720px"
+            :visible.sync="exchangeListDialogVisible"
         >
-            <el-form
-                ref="model"
-                :inline="true"
-                :model="model"
-                label-width="120px"
-                class="form-main"
-            >
-                <el-form-item label="卡券类型：">
-                    <el-select
-                        v-model="model.value"
-                        placeholder="请选择"
-                        @change="onChangeCardType"
-                    >
-                        <el-option
-                            v-for="item in couponList"
-                            :key="item.value"
-                            :label="item.label"
-                            :value="item.value"
-                        >
-                        </el-option>
-                    </el-select>
-                </el-form-item>
-                <el-form-item label="优惠券名称或编码：">
-                    <el-input
-                        @keyup.enter.native="onChangeInput()"
-                        v-model="model.input"
-                        placeholder="请输入优惠券名称或编码"
-                    ></el-input>
-                </el-form-item>
-            </el-form>
             <el-table
                 class="template-table__main"
                 :data="_data._table.data"
@@ -44,17 +14,6 @@
                 v-loading.lock="_data._table.loadingtable"
                 :element-loading-text="$t('prompt.loading')"
             >
-                <el-table-column width="40">
-                    <template slot-scope="scope">
-                        <div class="customerManage">
-                            <el-radio
-                                :label="scope.$index"
-                                v-model="couponRadio"
-                                @change.native="getCurrentRow(scope.row,scope.$index)"
-                            ></el-radio>
-                        </div>
-                    </template>
-                </el-table-column>
                 <el-table-column
                     prop="couponTitle"
                     label="优惠券名称"
@@ -111,16 +70,9 @@
                 >确定</ns-button>
             </div>
         </el-dialog>
-        <ExchangeList />
     </div>
 </template>
 <script>
 import index from './src/index'
 export default index
 </script>
-<style scoped>
-/* 去掉更换导购列表弹框单选组多余数字 */
-.customerManage >>> .el-radio__label {
-  display: none !important;
-}
-</style>

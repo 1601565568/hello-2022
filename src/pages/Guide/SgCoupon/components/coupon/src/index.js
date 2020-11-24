@@ -1,6 +1,10 @@
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
+import ExchangeList from '../../exchangeList'
 export default {
   mixins: [tableMixin],
+  components: {
+    ExchangeList
+  },
   data () {
     let couponList = [
       {

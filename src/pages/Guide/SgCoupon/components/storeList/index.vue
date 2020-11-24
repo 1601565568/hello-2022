@@ -6,10 +6,15 @@
             label-width="80px"
         >
             <el-input
-                disabled="disabled"
-                type="number"
+                class="search"
+                placeholder="请输入门店名称"
                 v-model="model.input"
-            ></el-input>
+            >
+                <Icon
+                    slot="suffix"
+                    type="icon-sousuo1"
+                />
+            </el-input>
         </el-form>
         <el-table
             class="template-table__main"
@@ -20,17 +25,6 @@
             v-loading.lock="_data._table.loadingtable"
             :element-loading-text="$t('prompt.loading')"
         >
-            <el-table-column width="40">
-                <template slot-scope="scope">
-                    <div class="customerManage">
-                        <el-radio
-                            :label="scope.$index"
-                            v-model="couponRadio"
-                            @change.native="getCurrentRow(scope.row,scope.$index)"
-                        ></el-radio>
-                    </div>
-                </template>
-            </el-table-column>
             <el-table-column
                 prop="couponTitle"
                 label="优惠券名称"
@@ -56,12 +50,13 @@
                 align="left"
                 :sortable="false"
             >
-            </el-table-column>
-            <el-table-column
-                prop="couponNumber"
-                label="剩余数量"
-                align="right"
-            >
+            <template slot-scope="scope" >
+              <ElInput type="text"
+                        @input="inputChange(scope.row)"
+                        v-model="scope.row.shopCouponNumber"
+                        maxlength="8"
+                        style="width:80px" @focus="ChangeForbiddenStatus" @blur="delayedChangeStatus"/>
+            </template>
             </el-table-column>
         </el-table>
         <el-pagination
@@ -82,3 +77,9 @@
 import index from './src/index'
 export default index
 </script>
+<style scoped>
+.search {
+  width: 360px;
+  margin-bottom: 16px;
+}
+</style>
