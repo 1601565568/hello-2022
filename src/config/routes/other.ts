@@ -28,22 +28,16 @@ export default {
       'component': () => import('@nascent/ecrp-ecrm/src/layout/Content.vue'),
       'children': [
         {
-          'path': '/Guide/RecruitSet/RecruitConfig',
-          'name': 'RecruitConfig',
-          'title': '招募设置',
-          'component': () => import('@/pages/Guide/RecruitmentSettings/index.vue')
-        },
-        {
           'path': '/Guide/RecruitSet/RecruitPageConfig',
           'name': 'RecruitPageConfig',
           'title': '招募页面设置',
-          'component': () => import('@/pages/Guide/RecruitmentPageSettings/index.vue')
+          'component': () => import('@/pages/Guide/Recruitment/RecruitmentSettings/index.vue')
         },
         {
           'path': '/Guide/RecruitSet/NotMemberPageConfig',
           'name': 'NotMemberPageConfig',
           'title': '非会员页面设置',
-          'component': () => import('@/pages/Guide/NotMemberPageConfig/index.vue')
+          'component': () => import('@/pages/Guide/Recruitment/RecruitmentPageSettings/index.vue')
         }
       ]
     },
