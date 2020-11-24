@@ -588,7 +588,11 @@ function loadTreeData (_this, data, url, params) {
     min-width: 215px;
     word-break: keep-all;
   }
+.el-tree__loading {
+  height: 30px;
+  line-height: 30px;
+}
 .el-tree__loading >>> .el-loading-spinner {
-  margin-top: -8px!important;
+  margin-top: -15px!important;
 }
 </style>
