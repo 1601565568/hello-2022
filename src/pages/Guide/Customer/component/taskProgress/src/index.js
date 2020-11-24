@@ -111,7 +111,7 @@ export default {
         })
         .then(res => {
           if (res.success) {
-            this.$emit('onResetCustomerTransferTask')
+            this.$emit('onResetCustomerTransferTask', 1)
           } else {
             this.$notify.error(`关闭任务失败${res.msg}`)
           }
@@ -131,7 +131,7 @@ export default {
         })
         .then(res => {
           if (res.success) {
-            this.$emit('onResetCustomerTransferTask')
+            this.$emit('onResetCustomerTransferTask', 2)
           } else {
             this.$notify.error(res.msg)
           }

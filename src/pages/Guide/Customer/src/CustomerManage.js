@@ -971,7 +971,7 @@ export default {
         shopId: this.sameSystemShopId, // 当前门店ID
         terminalType: 1, // 终端
         taskType: 1, // 按会员转移
-        checkType: checkAll ? 0 : 1, // 是否全选 0 全选
+        checkType: checkAll ? 1 : 0, // 是否全选 0选中 1取消选中
         customerList: checkAll ? this.formateCustomerList(removeCheckList) : this.formateCustomerList(addcheckList) // 客户选中列表
       }
       if (taskType === 1) {
