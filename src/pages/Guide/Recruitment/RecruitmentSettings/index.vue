@@ -1,10 +1,10 @@
 <template>
   <div class='recruitment-container'>
-    <div class='customer-header flex-box'>
+    <div class='common-header flex-box'>
       <h3>导购招募流程设置</h3>
-      <div class='customer-btn'>
-        <ns-button class='customer-btn_cancel' size='large' :loading='btnLoad' @click='handleCancel'>取消</ns-button>
-        <ns-button class='customer-btn_save' type="primary" size='large' @click='handleSave' :loading='btnLoad'>保存</ns-button>
+      <div class='common-btn'>
+        <ns-button class='common-btn_cancel' size='large' :loading='btnLoad' @click='handleCancel'>取消</ns-button>
+        <ns-button class='common-btn_save' type="primary" size='large' @click='handleSave' :loading='btnLoad'>保存</ns-button>
       </div>
     </div>
     <h1 class='recruitment-title'>
@@ -37,6 +37,6 @@ export default Index
   @import "@theme/variables.pcss";
   @import "../styles/reset.css";
   .recruitment-container {
-    min-height: calc(100vh-)
+    min-height: calc(100vh-160px)
   }
 </style>
