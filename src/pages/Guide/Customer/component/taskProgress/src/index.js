@@ -42,12 +42,15 @@ export default {
         (shopCustomerTransferTaskStatus &&
           parseInt(shopCustomerTransferTaskStatus.totalCount) === 0)
       ) {
-        return 1
+        return parseInt(1)
       } else {
-        return (
-          parseInt(shopCustomerTransferTaskStatus.successCount) +
-          parseInt(shopCustomerTransferTaskStatus.errorCount) / parseInt(this.shopCustomerTransferTaskStatus.totalCount)
-        ).toFixed(0)
+        let result = parseInt(
+          (
+            parseInt(shopCustomerTransferTaskStatus.successCount) +
+            parseInt(shopCustomerTransferTaskStatus.errorCount) / parseInt(this.shopCustomerTransferTaskStatus.totalCount)
+          ).toFixed(0)
+        )
+        return result < 1 ? 1 : result
       }
     }
   },

@@ -6,6 +6,9 @@ export default {
   components: { NsDroptree },
   mixins: [tableMixin],
   props: {
+    sameSystemShopId: {
+      type: Number | String
+    },
     title: {
       type: String,
       default: '按门店转移'
@@ -71,7 +74,8 @@ export default {
     'departData.shopCate': function (o1, o2) {
       let model = {
         auth: false,
-        plan: 1
+        plan: 1,
+        sameSystemShopId: this.sameSystemShopId
       }
       this.model = model
       let shopOptions = []
@@ -97,12 +101,17 @@ export default {
       this.departData.shopOptions = this.shopOptions
       this.departData.shopCateTree = this.shopCateTree
       this.departData.allShopOptions = this.allShopOptions
+      this.model = {
+        ...this.model,
+        sameSystemShopId: this.sameSystemShopId
+      }
       this.$reload()
     },
     searchAction () {
       let model = {
         auth: false,
-        plan: 1
+        plan: 1,
+        sameSystemShopId: this.sameSystemShopId
       }
       if (this.departData.value) {
         this.model = {
@@ -129,7 +138,8 @@ export default {
     resetInputAction () {
       let model = {
         auth: false,
-        plan: 1
+        plan: 1,
+        sameSystemShopId: this.sameSystemShopId
       }
       this.departData.shopCate = {}
       this.departData.value = ''
@@ -175,16 +185,10 @@ export default {
     close () {
       this.$emit('close')
     }
-    // getCurrentRow (shopId) {
-    //   this.shopId = shopId
-    //   console.log(shopId, 'shopId')
-    // }
   },
   created () {
-    // this.getShopCateAndShop()
   },
   mounted () {
-    // this.init()
   }
 
 }

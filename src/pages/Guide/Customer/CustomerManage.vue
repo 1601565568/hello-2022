@@ -404,27 +404,6 @@
                                         value-format="yyyy-MM-dd 23:59:59" @change="disposeEndTime">
                         </el-date-picker>
                       </el-form-grid>
-                      <!--                  <el-form-grid class="dialog-formitem__type">-->
-                      <!--                    变更类型：-->
-                      <!--                  </el-form-grid>-->
-                      <!--                  <el-form-grid size="md">-->
-                      <!--                    <el-select v-model.trim="model.type" placeholder="请选择">-->
-                      <!--                      <el-option-->
-                      <!--                        v-for="item in typeArray"-->
-                      <!--                        :key="item.key"-->
-                      <!--                        :label="item.value"-->
-                      <!--                        :value="item.key"/>-->
-                      <!--                    </el-select>-->
-                      <!--                  </el-form-grid>-->
-                      <!--                  <el-form-grid size="md">-->
-                      <!--                    <el-select v-model.trim="model.type" placeholder="请选择">-->
-                      <!--                      <el-option-->
-                      <!--                        v-for="item in typeArray"-->
-                      <!--                        :key="item.key"-->
-                      <!--                        :label="item.value"-->
-                      <!--                        :value="item.key"/>-->
-                      <!--                    </el-select>-->
-                      <!--                  </el-form-grid>-->
                       <el-form-grid>
                         <ns-button type="primary" @click="seachIntegral(0)" class="dialog-leftspace">搜索</ns-button>
                       </el-form-grid>
@@ -494,27 +473,6 @@
                                         value-format="yyyy-MM-dd 23:59:59" @change="disposeEndTime">
                         </el-date-picker>
                       </el-form-grid>
-                      <!--                  <el-form-grid class="dialog-formitem__type">-->
-                      <!--                    变更类型：-->
-                      <!--                  </el-form-grid>-->
-                      <!--                  <el-form-grid size="md">-->
-                      <!--                    <el-select v-model.trim="model.type" placeholder="请选择">-->
-                      <!--                      <el-option-->
-                      <!--                        v-for="item in typeArray"-->
-                      <!--                        :key="item.key"-->
-                      <!--                        :label="item.value"-->
-                      <!--                        :value="item.key"/>-->
-                      <!--                    </el-select>-->
-                      <!--                  </el-form-grid>-->
-                      <!--                  <el-form-grid size="md">-->
-                      <!--                    <el-select v-model.trim="model.type" placeholder="请选择">-->
-                      <!--                      <el-option-->
-                      <!--                        v-for="item in typeArray"-->
-                      <!--                        :key="item.key"-->
-                      <!--                        :label="item.value"-->
-                      <!--                        :value="item.key"/>-->
-                      <!--                    </el-select>-->
-                      <!--                  </el-form-grid>-->
                       <el-form-grid>
                         <ns-button type="primary" @click="seachIntegral(1)" class="dialog-leftspace">搜索</ns-button>
                       </el-form-grid>
@@ -584,27 +542,6 @@
                                         value-format="yyyy-MM-dd 23:59:59" @change="disposeEndTime">
                         </el-date-picker>
                       </el-form-grid>
-                      <!--                  <el-form-grid class="dialog-formitem__type">-->
-                      <!--                    变更类型：-->
-                      <!--                  </el-form-grid>-->
-                      <!--                  <el-form-grid size="md">-->
-                      <!--                    <el-select v-model.trim="model.type" placeholder="请选择">-->
-                      <!--                      <el-option-->
-                      <!--                        v-for="item in typeArray"-->
-                      <!--                        :key="item.key"-->
-                      <!--                        :label="item.value"-->
-                      <!--                        :value="item.key"/>-->
-                      <!--                    </el-select>-->
-                      <!--                  </el-form-grid>-->
-                      <!--                  <el-form-grid size="md">-->
-                      <!--                    <el-select v-model.trim="model.type" placeholder="请选择">-->
-                      <!--                      <el-option-->
-                      <!--                        v-for="item in typeArray"-->
-                      <!--                        :key="item.key"-->
-                      <!--                        :label="item.value"-->
-                      <!--                        :value="item.key"/>-->
-                      <!--                    </el-select>-->
-                      <!--                  </el-form-grid>-->
                       <el-form-grid>
                         <ns-button type="primary" @click="seachIntegral(2)" class="dialog-leftspace">搜索</ns-button>
                       </el-form-grid>
@@ -674,27 +611,6 @@
                                         value-format="yyyy-MM-dd 23:59:59" @change="disposeEndTime">
                         </el-date-picker>
                       </el-form-grid>
-                      <!--                  <el-form-grid class="dialog-formitem__type">-->
-                      <!--                    变更类型：-->
-                      <!--                  </el-form-grid>-->
-                      <!--                  <el-form-grid size="md">-->
-                      <!--                    <el-select v-model.trim="model.type" placeholder="请选择">-->
-                      <!--                      <el-option-->
-                      <!--                        v-for="item in typeArray"-->
-                      <!--                        :key="item.key"-->
-                      <!--                        :label="item.value"-->
-                      <!--                        :value="item.key"/>-->
-                      <!--                    </el-select>-->
-                      <!--                  </el-form-grid>-->
-                      <!--                  <el-form-grid size="md">-->
-                      <!--                    <el-select v-model.trim="model.type" placeholder="请选择">-->
-                      <!--                      <el-option-->
-                      <!--                        v-for="item in typeArray"-->
-                      <!--                        :key="item.key"-->
-                      <!--                        :label="item.value"-->
-                      <!--                        :value="item.key"/>-->
-                      <!--                    </el-select>-->
-                      <!--                  </el-form-grid>-->
                       <el-form-grid>
                         <ns-button type="primary" @click="seachIntegral(3)">搜索</ns-button>
                       </el-form-grid>
@@ -764,27 +680,6 @@
                                         value-format="yyyy-MM-dd 23:59:59" @change="disposeEndTime">
                         </el-date-picker>
                       </el-form-grid>
-                      <!--                  <el-form-grid class="dialog-formitem__type">-->
-                      <!--                    变更类型：-->
-                      <!--                  </el-form-grid>-->
-                      <!--                  <el-form-grid size="md">-->
-                      <!--                    <el-select v-model.trim="model.type" placeholder="请选择">-->
-                      <!--                      <el-option-->
-                      <!--                        v-for="item in typeArray"-->
-                      <!--                        :key="item.key"-->
-                      <!--                        :label="item.value"-->
-                      <!--                        :value="item.key"/>-->
-                      <!--                    </el-select>-->
-                      <!--                  </el-form-grid>-->
-                      <!--                  <el-form-grid size="md">-->
-                      <!--                    <el-select v-model.trim="model.type" placeholder="请选择">-->
-                      <!--                      <el-option-->
-                      <!--                        v-for="item in typeArray"-->
-                      <!--                        :key="item.key"-->
-                      <!--                        :label="item.value"-->
-                      <!--                        :value="item.key"/>-->
-                      <!--                    </el-select>-->
-                      <!--                  </el-form-grid>-->
                       <el-form-grid>
                         <ns-button type="primary" @click="seachIntegral(4)">搜索</ns-button>
                       </el-form-grid>
@@ -855,15 +750,6 @@
                   <ns-button @click="restTag(false)">清空选择</ns-button>
                 </el-form-grid>
               </el-col>
-              <!-- 4.0版本搜索功能未完成，4.1版本后再添加 20190917 -->
-<!--              <el-col :span="16" style="text-align: right">-->
-<!--                <el-form-grid>-->
-<!--                  <el-input  placeholder="请输入属性名称"></el-input>-->
-<!--                </el-form-grid>-->
-<!--                <el-form-grid>-->
-<!--                  <ns-button type="primary">搜索</ns-button>-->
-<!--                </el-form-grid>-->
-<!--              </el-col>-->
             </el-row>
           </el-form-item>
         </el-form>
@@ -936,6 +822,7 @@
     <replaceStore :title="title"
         ref="replaceStore"
         v-if="replaceStoreShow"
+        :sameSystemShopId="sameSystemShopId"
         :checkNumberLength="checkNumberLength"
         :shopCateTree="shopCateTree"
         :allShopOptions="allShopOptions"
