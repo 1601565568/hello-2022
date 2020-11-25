@@ -6,13 +6,13 @@
           <i class="el-icon-close"></i>
         </div>
         <div class='icon-list'>
-          <div class='icon-item' @click="handlePreview">
+          <div class='icon-item' @click="handlePreview" v-if='data.status!==1'>
             <img :src='nsPreviewIcon' />
           </div>
-          <div class='icon-item' @click="handleDelect">
+          <div class='icon-item' @click="handleDelect" v-if='[1,2].includes(data.status)'>
             <img :src='closeIcon' />
           </div>
-          <div class='icon-item'  @click="handleEdit">
+          <div class='icon-item'  @click="handleEdit" v-if='[1,2].includes(data.status)'>
             <img :src='nsEditIcon' />
           </div>
         </div>
