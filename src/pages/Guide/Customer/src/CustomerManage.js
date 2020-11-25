@@ -146,7 +146,6 @@ export default {
         return false
       }
       this.replaceStoreShow = true
-      await this.getShopCateAndShop()
       let result = await this.handleSelection(checkAll, removeCheckList, addcheckList)
       if (result) {
         this.title = '会员更换门店'
@@ -684,6 +683,7 @@ export default {
     },
     getOffLineShopId (data) {
       this.sameSystemShopId = data
+      this.getShopCateAndShop()
     },
     addText (row) {
       if (row.selectValue) {
