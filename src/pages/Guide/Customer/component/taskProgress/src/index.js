@@ -45,8 +45,8 @@ export default {
         return 1
       } else {
         return (
-          parseInt(this.shopCustomerTransferTaskStatus.successCount) +
-          errorCount / parseInt(this.shopCustomerTransferTaskStatus.totalCount)
+          parseInt(shopCustomerTransferTaskStatus.successCount) +
+          parseInt(shopCustomerTransferTaskStatus.errorCount) / parseInt(this.shopCustomerTransferTaskStatus.totalCount)
         ).toFixed(0)
       }
     }
