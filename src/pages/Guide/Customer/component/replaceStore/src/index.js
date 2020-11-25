@@ -11,7 +11,7 @@ export default {
       default: '按门店转移'
     },
     checkNumberLength: {
-      type: Number,
+      type: Number | String,
       default: 0
     },
     shopCateTree: {

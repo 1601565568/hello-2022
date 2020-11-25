@@ -140,7 +140,7 @@ export default {
   methods: {
     // 更换门店开始
     async handlereplaceShop () {
-      let { checkAll, removeCheckList, addcheckList, shopCustomerTransferTaskStatus } = this.$refs.table1
+      let { checkAll, total, removeCheckList, addcheckList, shopCustomerTransferTaskStatus } = this.$refs.table1
       if (shopCustomerTransferTaskStatus && shopCustomerTransferTaskStatus.status !== 3) {
         this.$notify.error('存在执行中的会员转移任务，请稍后再试')
         return false
@@ -150,7 +150,7 @@ export default {
       let result = await this.handleSelection(checkAll, removeCheckList, addcheckList)
       if (result) {
         this.title = '会员更换门店'
-        this.checkNumberLength = checkAll ? removeCheckList.length : addcheckList.length
+        this.checkNumberLength = this.formatCheckNumberLength(checkAll, total, removeCheckList, addcheckList)
         this.$refs.replaceStore.init()
       }
     },
