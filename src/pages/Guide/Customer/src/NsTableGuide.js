@@ -27,6 +27,12 @@ export default {
           this.$emit('add')
         },
         'name': '更换导购'
+      },
+      {
+        'func': function () {
+          this.$parent.$emit('handlereplaceShop')
+        },
+        'name': '更换门店'
       }
     ]
     let quickSearchModel = {}
@@ -220,8 +226,10 @@ export default {
       this.addcheckList = [] // 记录表格勾选的数据
       this.setStatus()
     },
-    updateSetAjax () {
-      this.$reload()
+    updateSetAjax (data) {
+      if (data === 2) {
+        this.$searchAction$()
+      }
       this.setStatus()
     },
     // 查询门店客户转移任务状态
@@ -232,7 +240,7 @@ export default {
         }).then((res) => {
           this.shopCustomerTransferTaskStatus = res.result
           if (this.shopCustomerTransferTaskStatus && this.shopCustomerTransferTaskStatus.status === 3 && parseInt(userId) === parseInt(this.shopCustomerTransferTaskStatus.operator)) {
-            this.$reload()
+            this.$searchAction$()
           }
           resolve(true)
         }).catch((err) => {
@@ -570,7 +578,7 @@ export default {
       if (this.checkAll) {
         this.isManual = false
         this.$refs.table.toggleAllSelection()
-        if (this.removeCheckList.length > 0) {
+        if (this.removeCheckList.length >= 0) {
           // toggleAllSelection 异步事件导购取消勾选后，异步执行完成后勾选
           setTimeout(() => {
             this.isManual = true

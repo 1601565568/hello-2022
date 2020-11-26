@@ -35,7 +35,7 @@
       </el-pagination>
     </div>
     <div  class="template-page__row-right">
-      <ns-page-table @add="$emit('add')"  @shopEdit="$emit('shopEdit')" >
+      <ns-page-table @add="$emit('add')"  @shopEdit="$emit('shopEdit')" :colButton="10">
         <!-- 按钮 -->
         <template v-if="showChangeGuide" slot="buttons">
           <div style="display:flex">
@@ -50,7 +50,7 @@
             <ns-table-operate-button  :buttons="_data._table.table_buttons">
             </ns-table-operate-button>
             <!-- table_buttons写在里面事件不生效有点懵 -->
-            <ns-button type="primary" @click="handlereplaceShop">更换门店</ns-button>
+            <!-- <ns-button type="primary" @click="handlereplaceShop">更换门店</ns-button> -->
           </div>
         </template>
         <!-- 按钮-结束 -->

@@ -14,8 +14,8 @@
             <el-progress :text-inside="true" :stroke-width="8" :percentage="progress" :show-text="false"></el-progress>
           </div>
           <!-- <ns-button type="text">继续更换</ns-button> -->
-          <span v-if="shopCustomerTransferTaskStatus
-            && parseInt(shopCustomerTransferTaskStatus.status) !== 3">已更换{{progress}}%</span>
+          <span v-if="!shopCustomerTransferTaskStatus
+            || (shopCustomerTransferTaskStatus&&parseInt(shopCustomerTransferTaskStatus.status) !== 3)">已更换{{progress}}%</span>
         </div>
       </div>
       <span @click="onCloseCustomerTransferTask"><Icon type="circleclose" class="iconFont" v-if="shopCustomerTransferTaskStatus && parseInt(shopCustomerTransferTaskStatus.status) === 3"/></span>

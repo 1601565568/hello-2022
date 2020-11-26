@@ -140,17 +140,16 @@ export default {
   methods: {
     // 更换门店开始
     async handlereplaceShop () {
-      let { checkAll, removeCheckList, addcheckList, shopCustomerTransferTaskStatus } = this.$refs.table1
+      let { checkAll, total, removeCheckList, addcheckList, shopCustomerTransferTaskStatus } = this.$refs.table1
       if (shopCustomerTransferTaskStatus && shopCustomerTransferTaskStatus.status !== 3) {
         this.$notify.error('存在执行中的会员转移任务，请稍后再试')
         return false
       }
       this.replaceStoreShow = true
-      await this.getShopCateAndShop()
       let result = await this.handleSelection(checkAll, removeCheckList, addcheckList)
       if (result) {
         this.title = '会员更换门店'
-        this.checkNumberLength = checkAll ? removeCheckList.length : addcheckList.length
+        this.checkNumberLength = this.formatCheckNumberLength(checkAll, total, removeCheckList, addcheckList)
         this.$refs.replaceStore.init()
       }
     },
@@ -445,7 +444,7 @@ export default {
           this.$notify.error('请选择要更换导购的会员')
           resolve(false)
         } else if (checkAll && removeCheckList.length > 500) {
-          this.$notify.error(`已勾选${removeCheckList.length}人，超出手动勾选转移人数上限（500人）`)
+          this.$notify.error(`取消选择人数已超过500人，无法进行会员转移`)
           resolve(false)
         } else if (!checkAll && addcheckList.length > 500) {
           this.$notify.error(`已勾选${addcheckList.length}人，超出手动勾选转移人数上限（500人）`)
@@ -684,6 +683,7 @@ export default {
     },
     getOffLineShopId (data) {
       this.sameSystemShopId = data
+      this.getShopCateAndShop()
     },
     addText (row) {
       if (row.selectValue) {
@@ -971,7 +971,7 @@ export default {
         shopId: this.sameSystemShopId, // 当前门店ID
         terminalType: 1, // 终端
         taskType: 1, // 按会员转移
-        checkType: checkAll ? 0 : 1, // 是否全选 0 全选
+        checkType: checkAll ? 1 : 0, // 是否全选 0选中 1取消选中
         customerList: checkAll ? this.formateCustomerList(removeCheckList) : this.formateCustomerList(addcheckList) // 客户选中列表
       }
       if (taskType === 1) {
