@@ -441,7 +441,7 @@
             <el-option
               v-for="item in presetLink"
               :key="item.id"
-              :label="item.title"
+              :label="item.name"
               :value="item.id"
             >
             </el-option>
@@ -475,7 +475,7 @@
         >
           <el-form-grid size="xxmd">
             <el-input
-              :disabled="linkModel.custom === 2"
+              :disabled="edit"
               type="text"
               maxlength="20"
               minlength="1"
@@ -494,7 +494,7 @@
         >
           <el-form-grid size="xxmd">
             <el-input
-              :disabled="linkModel.custom === 2"
+              :disabled="edit"
               type="text"
               maxlength="50"
               minlength="1"
@@ -508,7 +508,7 @@
         <el-form-item label="封面图：" prop="image" :rules="commonRules.image">
           <el-form-grid class="company-upload">
             <el-upload
-              :disabled="linkModel.custom === 2"
+              :disabled="edit"
               class="avatar-uploader"
               :action="$api.core.sgUploadFile('test')"
               accept="image/jpeg,image/gif,image/png"
