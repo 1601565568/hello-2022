@@ -444,7 +444,7 @@ export default {
           this.$notify.error('请选择要更换导购的会员')
           resolve(false)
         } else if (checkAll && removeCheckList.length > 500) {
-          this.$notify.error(`已勾选${removeCheckList.length}人，超出手动勾选转移人数上限（500人）`)
+          this.$notify.error(`取消选择人数已超过500人，无法进行会员转移`)
           resolve(false)
         } else if (!checkAll && addcheckList.length > 500) {
           this.$notify.error(`已勾选${addcheckList.length}人，超出手动勾选转移人数上限（500人）`)

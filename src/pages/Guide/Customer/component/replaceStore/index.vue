@@ -44,8 +44,8 @@
             <ns-button @click="resetInputAction()">重置</ns-button>
           </div>
         </div>
-        <div style="height:400px; overflow: hidden">
-          <el-scrollbar style="height: 417px;">
+        <div style="max-height:400px; overflow: hidden">
+          <el-scrollbar style="max-height: 417px;">
             <el-table
               ref="table"
               :data="_data._table.data"
@@ -126,6 +126,7 @@ export default index
   .flex {
     display: flex;
     justify-content: space-between;
+    padding-right: 15px;
   }
   // .customerManage {
   //   color:transparent

@@ -35,7 +35,7 @@
       </el-pagination>
     </div>
     <div  class="template-page__row-right">
-      <ns-page-table @add="$emit('add')"  @shopEdit="$emit('shopEdit')" >
+      <ns-page-table @add="$emit('add')"  @shopEdit="$emit('shopEdit')" :colButton="10">
         <!-- 按钮 -->
         <template v-if="showChangeGuide" slot="buttons">
           <div style="display:flex">

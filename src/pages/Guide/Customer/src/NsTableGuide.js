@@ -578,7 +578,7 @@ export default {
       if (this.checkAll) {
         this.isManual = false
         this.$refs.table.toggleAllSelection()
-        if (this.removeCheckList.length > 0) {
+        if (this.removeCheckList.length >= 0) {
           // toggleAllSelection 异步事件导购取消勾选后，异步执行完成后勾选
           setTimeout(() => {
             this.isManual = true
