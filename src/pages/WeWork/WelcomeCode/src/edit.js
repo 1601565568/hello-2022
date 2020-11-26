@@ -110,6 +110,7 @@ export default {
     ]
     return {
       focusState: true,
+      edit: false, // 预置链接是否可编辑 false:1：可编辑  true：0：不可编辑
       // 页面滚动条内容高度配置
       scrollBarDeploy: {
         ref: 'fullScreen', // 页面滚动条ref的名称
@@ -186,6 +187,26 @@ export default {
   watch: {
     filterText (val) {
       this.$refs.tree.filter(val)
+    },
+    'linkModel.settingId': function (o1) {
+      let that = this
+      if (this.linkModel.custom === 1) {
+        this.edit = false
+        return
+      }
+      if (o1) {
+        this.presetLink.forEach(function (value) {
+          if (value.id === o1) {
+            if (value.edit) {
+              that.edit = false
+            } else {
+              that.edit = true
+            }
+          }
+        })
+      } else {
+        this.edit = false
+      }
     }
   },
   methods: {
@@ -661,7 +682,7 @@ export default {
     // 获取系统预置链接
     getSystemPresetLink: function () {
       let _this = this
-      _this.$http.fetch(_this.$api.guide.systemPreset.getLink).then(resp => {
+      _this.$http.fetch(_this.$api.guide.systemPreset.getLink, { type: 1 }).then(resp => {
         if (resp.success && resp.result != null) {
           resp.result.forEach(function (value, i) {
             _this.presetLink.push(value)
@@ -674,10 +695,14 @@ export default {
       this.presetLink.forEach(function (value, i) {
         if (e === '') {
           _this.linkModel.link = ''
+          _this.linkModel.image = ''
+          _this.linkModel.title = ''
+          _this.linkModel.desc = ''
+          _this.linkModel.settingId = ''
           return
         }
         if (value.id === e) {
-          _this.linkModel.link = value.url + '&guideUserId={guideUserId}&userId={userId}&source=2'
+          _this.linkModel.link = value.url
           _this.linkModel.image = value.picture
           _this.linkModel.title = value.title
           _this.linkModel.desc = value.content
