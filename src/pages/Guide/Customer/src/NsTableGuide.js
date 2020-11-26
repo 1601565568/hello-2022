@@ -241,12 +241,21 @@ export default {
           this.shopCustomerTransferTaskStatus = res.result
           if (this.shopCustomerTransferTaskStatus && this.shopCustomerTransferTaskStatus.status === 3 && parseInt(userId) === parseInt(this.shopCustomerTransferTaskStatus.operator)) {
             this.$searchAction$()
+            this.getFindCustomerTotal()
           }
           resolve(true)
         }).catch((err) => {
           reject(err)
           this.$notify.error('获取门店客户转移任务状态失败')
         })
+      })
+    },
+    getFindCustomerTotal () {
+      let param = {
+        shopId: this.offLineShopId
+      }
+      this.$http.fetch(_this.$api.guide.guide.findCustomerTotal, param).then(resp => {
+        this.total = resp.result.total // 显示页面所有数据
       })
     },
     totalForUnconditionalSearch (data) {
