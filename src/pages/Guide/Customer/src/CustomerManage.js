@@ -274,9 +274,9 @@ export default {
         this.$notify.error(getErrorMsg('查询失败', resp))
       })
     },
-    async searchAction (model) { // 搜索
+    async searchAction () { // 搜索
       this.pagination.page = 1
-      await this.guideFindList(model)
+      await this.guideFindList(this.model)
       this.tableStatus()
     },
     async resetInputAction () { // 重置
@@ -288,9 +288,9 @@ export default {
       this.tableStatus()
     },
     // 所属门店change
-    handleShoperSelectChange () {
-      this.searchAction()
-    },
+    // handleShoperSelectChange () {
+    //   this.searchAction()
+    // },
     async guideFindList (model) { // 导购列表查询
       let that = this
       let numbers = /^[1-9]+[0-9]*]*$/

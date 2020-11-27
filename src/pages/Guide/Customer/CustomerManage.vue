@@ -34,7 +34,6 @@
           <el-form-item label="所属门店：">
             <el-form-grid size="xmd">
               <shop-select-load ref="shopSelect"
-                                @change="handleShoperSelectChange"
                                 v-model="model.shop"
                                 :sameSystemShopId='sameSystemShopId'
                                 clearable/>
