@@ -254,7 +254,7 @@ export default {
       let param = {
         shopId: this.offLineShopId
       }
-      this.$http.fetch(_this.$api.guide.guide.findCustomerTotal, param).then(resp => {
+      this.$http.fetch(this.$api.guide.guide.findCustomerTotal, param).then(resp => {
         this.total = resp.result.total // 显示页面所有数据
       })
     },
