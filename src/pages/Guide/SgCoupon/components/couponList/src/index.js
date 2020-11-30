@@ -94,7 +94,7 @@ export default {
         _this.$notify.error(getErrorMsg('保存失败', resp))
         _this.forbidden = false
       })
-      console.log(_this.shopCouponList, 'shopCouponList')
+      // console.log(_this.shopCouponList, 'shopCouponList')
       // this.closeDialog()
     },
     // 打开优惠券弹窗
