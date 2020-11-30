@@ -35,7 +35,8 @@ export default {
           { required: true, message: '请上传引导关注公众号页背景图', trigger: ['blur', 'change'] }
         ]
       },
-      btnLoad: false
+      btnLoad: false,
+      defaultImg: 'https://shopguide.oss-cn-hangzhou.aliyuncs.com/system/19EA3131-0D46-40C3-95FE-D9C4FD6AEA51.png'
     }
   },
   methods: {

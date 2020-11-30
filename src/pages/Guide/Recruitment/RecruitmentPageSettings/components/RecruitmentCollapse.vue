@@ -9,6 +9,10 @@
           <el-col :span='8' class='collapse-right'>
             <div class='phone-title'>{{phoneTitle}}</div>
             <Phone>
+              <div class='mobile-header' v-if='phoneBar'>
+                <img src='@/assets/phoneBar.png' class='header-img'/>
+                <span class='phone-bar'>{{phoneBar}}</span>
+              </div>
               <slot name='collapse-right'></slot>
             </Phone>
           </el-col>
@@ -33,6 +37,9 @@ export default {
     phoneTitle: {
       type: String,
       default: '效果展示'
+    },
+    phoneBar: {
+      type: String
     }
   },
   components: { Phone },
@@ -105,6 +112,20 @@ export default {
       font-size: 12px;
       color: #595959;
       line-height: 20px;
+    }
+  }
+  .mobile-header {
+    position: relative;
+    .header-img {
+      width: 100%;
+      display: block;
+    }
+    .phone-bar {
+      position: absolute;
+      text-align: center;
+      left: 0;
+      right: 0;
+      top: 45%;
     }
   }
 </style>

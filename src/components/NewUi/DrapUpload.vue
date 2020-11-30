@@ -7,13 +7,31 @@
       accept=".jpg,.jpeg,.png"
       :action="$api.core.sgUploadFile('test')"
       :on-remove='handleRemove'
+      :show-file-list='false'
       :before-upload="beforeUpload"
-      :file-list='fileList'
       :on-success="handleUploadSuccess">
       <i class="el-icon-upload"></i>
       <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
       <div class="el-upload__tip" slot="tip" v-if='tip'>{{tip}}</div>
     </el-upload>
+    <div class='el-upload-list el-upload-list--text' v-if='fileList'>
+      <div class='el-upload-list__item'>
+        <a class="el-upload-list__item-name">
+          <i class="el-icon-document"></i>
+          {{fileList}}
+        </a>
+        <label class="el-upload-list__item-status-label">
+          <el-tooltip class="item" effect="dark" content="删除" placement="top">
+            <i class="el-icon-close" @click='handleRemove'></i>
+          </el-tooltip>
+        </label>
+        <label class="el-upload-list__item-status-label reset" v-if='resetImage'>
+          <el-tooltip class="item" effect="dark" content="还原默认图" placement="top">
+            <i class="el-icon-refresh" @click='handleReset'></i>
+          </el-tooltip>
+        </label>
+      </div>
+    </div>
     <div class='poster-set_content'>
       <span class='yellow-point'></span>
       <div>
@@ -29,7 +47,7 @@ import ElUpload from '@nascent/nui/lib/upload'
 export default {
   data () {
     return {
-      fileList: []
+      fileList: ''
     }
   },
   components: { ElUpload },
@@ -68,6 +86,11 @@ export default {
     },
     value: {
       type: String
+    },
+    // 还原图片地址，没有不现实还原按钮
+    resetImage: {
+      type: String,
+      default: ''
     }
   },
   methods: {
@@ -98,9 +121,9 @@ export default {
           }
           if (valid) {
             resolve(file)
-            this.fileList = [file]
+            this.fileList = file.name
           } else {
-            this.fileList = [...this.fileList]
+            this.fileList = this.value
             const msg = `上传图片尺寸只能是${this.maxWidth && this.maxHeight ? this.maxWidth + 'x' + this.maxHeight : this.scaleTip}`
             this.$notify.error(msg)
           }
@@ -114,12 +137,16 @@ export default {
     // 删除文件钩子
     handleRemove () {
       this.$emit('input', '')
+    },
+    // 还原
+    handleReset () {
+      this.$emit('input', this.resetImage)
     }
   },
   watch: {
     value: {
       handler (newVal) {
-        this.fileList = newVal ? [{ name: newVal }] : []
+        this.fileList = newVal
       },
       immediate: true
     }
@@ -179,5 +206,18 @@ export default {
       margin-right: 0;
     }
   }
+}
+.el-upload-list__item-name {
+  margin-right: 60px;
+}
+.el-upload-list__item-status-label {
+  display: block;
+  cursor: pointer;
+  &.reset {
+    right: 36px;
+  }
+}
+.el-upload-list__item .el-icon-close {
+  display: block
 }
 </style>
