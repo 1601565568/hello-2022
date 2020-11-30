@@ -9,8 +9,8 @@ export default {
     url: '/guide/sgactivitycoupon/findStoreCouponList',
     method: 'post'
   },
-  mockCoupon: {
-    url: '/guide/sgactivitycoupon/mockCoupon',
+  getCouponListByParam: {
+    url: '/guide/sgactivitycoupon/getCouponListByParam',
     method: 'post'
   },
   // 保存导购活动
@@ -26,6 +26,11 @@ export default {
   // 活动优惠券明细
   findActivityShopCoupon: {
     url: '/guide/sgactivitycoupon/findActivityShopCoupon',
+    method: 'post'
+  },
+  // 查看兑换券 商品列表
+  getCommodityByCoupon: {
+    url: '/guide/sgactivitycoupon/getCommodityByCoupon',
     method: 'post'
   }
 }

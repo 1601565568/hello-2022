@@ -2,7 +2,7 @@
   <div class='page_add_coupon'>
     <ns-table-sg-coupon ref="table" @showListDialogMain="showListDialogFun" :url=$api.guide.guide.findList @add="addCoupon"></ns-table-sg-coupon>
     <!-- 新增弹窗 -->
-    <el-dialog ref="addCouponDialog"  :title="title" :visible.sync="addCouponDialogVisible" :width="(activityModel.coupon_id > 0) ? '800px' : '380px'">
+    <el-dialog ref="addCouponDialog"  :title="title"  :width="(activityModel.coupon_id > 0) ? '800px' : '380px'">
 
       <el-form ref="form" :rules="rules" :model="activityModel" label-width="80px" class="form-main">
         <el-form-item label="优惠券：" required>
@@ -63,7 +63,6 @@
             </div>
             <div class="coupon-preview-amount text-error" v-if="storeModel.couponType == 2">
               <span class="coupon-amount__large">{{storeModel.couponValue}}折</span>
-<!--              <span class="coupon-amount__large">{{storeModel.couponValue}}折</span>-->
             </div>
             <div class="coupon-preview-title">
               <span class="coupon-title" style="overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">
@@ -146,8 +145,8 @@
 
     </el-dialog>
     <!-- 新增弹窗结束 -->
-    <list-dialog ref="listDialogDom"></list-dialog>
-    <couponList></couponList>
+    <!-- <list-dialog ref="listDialogDom"></list-dialog> -->
+    <couponList ref="couponList"></couponList>
   </div>
 </template>
 

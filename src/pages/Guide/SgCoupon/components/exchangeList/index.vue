@@ -15,35 +15,17 @@
                 :element-loading-text="$t('prompt.loading')"
             >
                 <el-table-column
-                    prop="couponTitle"
-                    label="优惠券名称"
+                    prop="title"
+                    label="商品名称"
                     align="left"
                     :sortable="false"
                 >
                 </el-table-column>
                 <el-table-column
-                    prop="couponType"
-                    label="优惠券类型"
+                    prop="suggestPrice"
+                    label="建议零售价格"
                     align="left"
                     :sortable="false"
-                >
-                    <template slot-scope="scope">
-                        {{scope.row.couponType == 1? '代金券': scope.row.couponType == 2? '折扣券': scope.row.couponType == 3? '兑换券': '-' }}
-                    </template>
-                </el-table-column>
-                <!-- 新增字段需要自己添加 -->
-                <el-table-column
-                    prop="couponNumber"
-                    label="权益"
-                    :show-overflow-tooltip="true"
-                    align="left"
-                    :sortable="false"
-                >
-                </el-table-column>
-                <el-table-column
-                    prop="couponNumber"
-                    label="剩余数量"
-                    align="right"
                 >
                 </el-table-column>
             </el-table>
@@ -65,7 +47,7 @@
             >
                 <ns-button @click="closeDialog()">取消</ns-button>
                 <ns-button
-                    @click="confirmDialog()"
+                    @click="closeDialog()"
                     type="primary"
                 >确定</ns-button>
             </div>

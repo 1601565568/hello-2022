@@ -5,7 +5,7 @@
             :model="model"
             label-width="80px"
         >
-            <el-input
+            <!-- <el-input
                 class="search"
                 placeholder="请输入门店名称"
                 v-model="model.input"
@@ -14,7 +14,7 @@
                     slot="suffix"
                     type="icon-sousuo1"
                 />
-            </el-input>
+            </el-input> -->
         </el-form>
         <el-table
             class="template-table__main"
@@ -26,15 +26,15 @@
             :element-loading-text="$t('prompt.loading')"
         >
             <el-table-column
-                prop="couponTitle"
-                label="优惠券名称"
+                prop="address"
+                label="门店名称"
                 align="left"
                 :sortable="false"
             >
             </el-table-column>
             <el-table-column
-                prop="couponType"
-                label="优惠券类型"
+                prop="city"
+                label="所属地区"
                 align="left"
                 :sortable="false"
             >
@@ -45,7 +45,7 @@
             <!-- 新增字段需要自己添加 -->
             <el-table-column
                 prop="couponNumber"
-                label="权益"
+                label="配额"
                 :show-overflow-tooltip="true"
                 align="left"
                 :sortable="false"

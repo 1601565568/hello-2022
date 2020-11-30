@@ -6,7 +6,7 @@ export default {
     ExchangeList
   },
   data () {
-    let couponList = [
+    let couponTypeList = [
       {
         value: '',
         label: '全部'
@@ -25,10 +25,14 @@ export default {
       }
     ]
     return {
-      model: {},
-      url: this.$api.guide.activityCoupon.mockCoupon,
+      model: {
+        couponTitle: null,
+        couponCode: null,
+        couponType: null
+      },
+      url: this.$api.guide.activityCoupon.getCouponListByParam,
       chooseCouponDialogVisible: false,
-      couponList: couponList,
+      couponTypeList: couponTypeList,
       couponRadio: null,
       couponMessage: null // 优惠券信息
     }
@@ -36,6 +40,9 @@ export default {
   methods: {
     init () {
       this.chooseCouponDialogVisible = true
+      this.model.couponTitle = null
+      this.model.couponType = null
+      this.model.couponCode = null
     },
     closeDialog () {
       this.chooseCouponDialogVisible = !this.chooseCouponDialogVisible
@@ -66,9 +73,12 @@ export default {
       this.couponMessage = row
     },
     onChangeInput () {
-      console.log('123123123')
-      // 改变事件调用
-      // this.$searchAction$()
+      this.$searchAction$()
+    },
+    getCommodityByCoupon (row) {
+      this.$refs.exchange.init(row)
+      // window.console.log(row)
+      // window.console.log(row.giftJson)
     }
   },
   mounted () {

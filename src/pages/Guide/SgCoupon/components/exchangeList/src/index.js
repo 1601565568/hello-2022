@@ -2,6 +2,9 @@ import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 export default {
   mixins: [tableMixin],
   props: {
+    giftJson: {
+      type: String
+    },
     form: {
       type: Object,
       default: () => {
@@ -11,19 +14,31 @@ export default {
   },
   data () {
     return {
-      exchangeListDialogVisible: true,
-      model: {},
-      url: this.$api.guide.activityCoupon.mockCoupon
+      exchangeListDialogVisible: false,
+      model: {
+        giftJson: null
+      },
+      url: this.$api.guide.activityCoupon.getCommodityByCoupon
     }
   },
+  // created() {
+  //   console.log(this.$api.guide.activityCoupon.getCouponListByParam)
+  // },
   mounted () {
     this.$reload()
   },
   methods: {
-    init () {
+    init (data) {
       // 调用查看商品的init()方法
-      this.model = this.form
+      window.console.log('gift: ', data)
+      // this.model = this.form
+      this.model.giftJson = data.giftJson
+      this.exchangeListDialogVisible = true
       this.$searchAction$()
+    },
+    closeDialog () {
+      this.model.giftJson = null
+      this.exchangeListDialogVisible = false
     }
   }
 }

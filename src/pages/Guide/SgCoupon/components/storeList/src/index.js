@@ -4,12 +4,24 @@ export default {
   data () {
     return {
       model: {
-        input: '12312313'
+        // length: _data._pagination.sizeOpts,
+        // start: _data.paginations.sizeOpts * (_data.paginations.page - 1),
+        storeCouponCode: null,
+        isOnline: 0
       },
-      url: this.$api.guide.activityCoupon.mockCoupon
+      url: this.$api.guide.activityCoupon.findCouponShop
     }
   },
-  mounted () {
-    this.$reload()
+  props: {
+    couponCode: {
+      type: String
+    }
+  },
+  methods: {
+    init () {
+      this.model.storeCouponCode = this.couponCode
+      this.$searchAction$()
+    }
+    // this.$reload()
   }
 }

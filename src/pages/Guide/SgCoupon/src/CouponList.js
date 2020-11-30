@@ -122,11 +122,12 @@ export default {
      * 打开弹框
      */
     addCoupon: function () {
-      var _this = this
-      _this.resetForm()
-      _this.addCouponDialogVisible = true
-      _this.findStoreCouponList()
-      _this.title = '新增优惠券发放'
+      // var _this = this
+      this.$refs.couponList.init()
+      // _this.resetForm()
+      // _this.addCouponDialogVisible = true
+      // _this.findStoreCouponList()
+      // _this.title = '新增优惠券发放'
     },
     /**
      * 检验配额整数 以及总数量

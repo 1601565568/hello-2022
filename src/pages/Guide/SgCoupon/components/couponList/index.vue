@@ -10,8 +10,8 @@
             <el-form-item label="优惠券：" prop="coupon_id">
               <el-form-grid size="xmd">
                   <div class="choose-coupon" @click="onOpenCoupon()">
-                      <p v-if="activityModel.coupon_id">请选择优惠券</p>
-                      <p v-else class="text">123123123</p>
+                      <p v-if="activityModel.coupon_id == 0">请选择优惠券</p>
+                      <p v-else class="text">{{storeModel.couponTitle}}</p>
                       <Icon type="couponicon" />
                   </div>
               </el-form-grid>
@@ -19,11 +19,13 @@
                   <Icon type="info-circle"/> 选择中台已新增的优惠券至导购系统
               </el-form-grid>
             </el-form-item>
-          <el-form-item label="剩余数量：">
+          <el-form-item label="剩余数量：" v-if="activityModel.coupon_id !== 0">
             <el-form-grid size="xmd">
-              <el-form-item prop="store_coupon_total">
-                <div class="disabled">不限量</div>
-                <!-- <div class="disabled">{{storeModel.remainingQuantity}}</div> -->
+              <el-form-item prop="couponTotal" v-if="storeModel.maxType == 0">
+                <el-input disabled="disabled" value="不限量"></el-input>
+              </el-form-item>
+              <el-form-item prop="couponTotal" v-if="storeModel.maxType > 0">
+                <el-input disabled="disabled" type="number" v-model="storeModel.remainingQuantity"></el-input>
               </el-form-item>
             </el-form-grid>
           </el-form-item>
@@ -35,6 +37,7 @@
                     placeholder="请输入正整数"
                     type="number"
                     v-model="activityModel.coupon_total"
+                    @change="activityCouponTotal()"
                     auto-complete="off">
                   </el-input>
                   <!-- <el-input v-if="activityModel.type ==1" disabled="disabled" placeholder="请输入正整数" type="number" v-model="activityModel.coupon_total"
@@ -45,7 +48,7 @@
                   <Icon type="info-circle"/>  设置优惠券的数量
               </el-form-grid>
           </el-form-item>
-          <el-form-item label="分配方式：" required>
+          <el-form-item label="分配方式：" v-if="activityModel.coupon_id !== 0" required>
               <el-form-grid>
                   <el-form-item prop="type">
                   <el-radio-group v-model="activityModel.type">
@@ -56,36 +59,42 @@
               </el-form-grid>
               <el-form-grid block class="text-info"><Icon type="info-circle" theme="filled" />公用：所有门店共享配额；自由分配：默认均分，可再行调整</el-form-grid>
           </el-form-item>
-          <el-form-item>
-            <StoreList></StoreList>
+          <el-form-item v-if ="distributionMode  == 1">
+            <StoreList ref= "storeList" :coupon-code ="activityModel.coupon_code"></StoreList>
           </el-form-item>
           <div class="coupon">
               <div class="coupon-preview">优惠券预览区</div>
               <div class="coupon-box">
-                  <img :src="bgcoupon" v-if="true"/>
-                  <div class="couponCard" v-if="false">
-                    <img src="./img/cash_coupon.png"/>
-                    <!-- <img src="./img/discount_coupon.png"/>
-                    <img src="./img/exchange_coupon.png"/> -->
+                  <img :src="bgcoupon" v-if="activityModel.coupon_id == 0"/>
+                  <div class="couponCard" v-else>
+                    <img v-if="storeModel.couponType == 1" src="./img/cash_coupon.png"/>
+                    <img v-if="storeModel.couponType == 2" src="./img/discount_coupon.png"/>
+                    <img v-if="storeModel.couponType == 3" src="./img/exchange_coupon.png"/>
                     <div class="couponCard-top">
                       <div class="couponCard-top__left">
                         <!-- 现金券 -->
-                        <div class="money">￥<span>0.1</span></div>
+                        <div class="money" v-if="storeModel.couponType == 1">￥<span>0.1</span></div>
                         <!-- 兑换券 -->
-                        <!-- <div class="couponType3"><span>礼</span></div> -->
+                        <div class="couponType3" v-if="storeModel.couponType == 3"><span>礼</span></div>
                         <!-- 折扣券 -->
-                        <!-- <div class="couponType2">
-                          <span class="couponType2_number">3</span>
-                          <span class="couponType2_number2">.4</span>
-                          <span class="couponType2_text">折</span>
-                        </div> -->
+                        <template v-if="storeModel.couponType == 2">
+                          <!-- <span class="couponType2_number" >3</span>
+                          <span class="couponType2_number2">.4</span> -->
+                          <span class="couponType2_number2" >{{storeModel.couponValue}}折</span>
+                        </template>
                       </div>
                       <div class="couponCard-top__right">
-                        <p class="couponCard-top__right__time">圣诞活动现金券现金券</p>
-                        <p>2020/10/19 00:00:00 - 2020/10/28 23:59:59</p>
-                        <p>创建人：admin</p>
-                        <p>使用说明：至多显示一行多余…悬停TIPS显示全部</p>
-                        <p>备注：这是备注内容</p>
+                        <p class="couponCard-top__right__time">{{storeModel.couponTitle}}</p>
+                        <p class="text-secondary" v-if="storeModel.dateType == 0">
+                          {{storeModel.startTime}} ~~ {{storeModel.endTime}}
+                        </p>
+                        <p class="text-secondary" v-if="storeModel.dateType == 1">
+                          领取{{storeModel.after_get_valid_days}}天后生效，有效期{{storeModel.valid_days}}天
+                        </p>
+                        <p>创建人：admin(等待中台接口)</p>
+                        <!-- <p>使用说明：至多显示一行多余…悬停TIPS显示全部</p> -->
+                        <p>使用说明:{{storeModel.useRemark}}</p>
+                        <p>备注：{{storeModel.remark}}</p>
                       </div>
                     </div>
                     <div class="couponCard-bottom">

@@ -14,12 +14,12 @@
             >
                 <el-form-item label="卡券类型：">
                     <el-select
-                        v-model="model.value"
+                        v-model="model.couponType"
                         placeholder="请选择"
                         @change="onChangeCardType"
                     >
                         <el-option
-                            v-for="item in couponList"
+                            v-for="item in couponTypeList"
                             :key="item.value"
                             :label="item.label"
                             :value="item.value"
@@ -27,11 +27,18 @@
                         </el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="优惠券名称或编码：">
+                <el-form-item label="优惠券名称：">
                     <el-input
                         @keyup.enter.native="onChangeInput()"
-                        v-model="model.input"
-                        placeholder="请输入优惠券名称或编码"
+                        v-model="model.couponTitle"
+                        placeholder="请输入优惠券名称"
+                    ></el-input>
+                </el-form-item>
+                <el-form-item label="优惠券编码：">
+                    <el-input
+                        @keyup.enter.native="onChangeInput()"
+                        v-model="model.couponCode"
+                        placeholder="请输入优惠券编码"
                     ></el-input>
                 </el-form-item>
             </el-form>
@@ -56,20 +63,20 @@
                     </template>
                 </el-table-column>
                 <el-table-column
-                    prop="couponTitle"
+                    prop="storeCouponTitle"
                     label="优惠券名称"
                     align="left"
                     :sortable="false"
                 >
                 </el-table-column>
                 <el-table-column
-                    prop="couponType"
+                    prop="storeCouponType"
                     label="优惠券类型"
                     align="left"
                     :sortable="false"
                 >
                     <template slot-scope="scope">
-                        {{scope.row.couponType == 1? '代金券': scope.row.couponType == 2? '折扣券': scope.row.couponType == 3? '兑换券': '-' }}
+                        {{scope.row.storeCouponType == 1? '代金券': scope.row.storeCouponType == 2? '折扣券': scope.row.storeCouponType == 3? '兑换券': '-' }}
                     </template>
                 </el-table-column>
                 <!-- 新增字段需要自己添加 -->
@@ -80,12 +87,23 @@
                     align="left"
                     :sortable="false"
                 >
+                <template slot-scope="scope">
+                    <!-- 代金券 -->
+                    <span v-if="scope.row.storeCouponType == 3" @click="getCommodityByCoupon(scope.row)">兑换商品</span>
+                    <!-- 折扣券 -->
+                    <span v-if="scope.row.storeCouponType == 2">{{scope.row.storeCouponValue}}折</span>
+                    <!-- 兑换券 -->
+                    <span v-if="scope.row.storeCouponType == 1">{{scope.row.storeCouponValue}}</span>
+                </template>
                 </el-table-column>
                 <el-table-column
-                    prop="couponNumber"
                     label="剩余数量"
                     align="right"
                 >
+                <template slot-scope="scope">
+                    <span v-if="scope.row.maxIssueAmount == 0">{{scope.row.hadIssueAmount}}</span>
+                    <span v-else>{{scope.row.maxIssueAmount - scope.row.hadIssueAmount - scope.row.couponFreezeAmount}}</span>
+                </template>
                 </el-table-column>
             </el-table>
             <el-pagination
@@ -111,7 +129,7 @@
                 >确定</ns-button>
             </div>
         </el-dialog>
-        <ExchangeList />
+        <ExchangeList ref ="exchange" ></ExchangeList>
     </div>
 </template>
 <script>

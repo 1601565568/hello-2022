@@ -1,5 +1,6 @@
 import Coupon from '../../coupon'
 import StoreList from '../../storeList'
+import moment from 'moment'
 export default {
   components: {
     Coupon,
@@ -9,7 +10,7 @@ export default {
     let bgCoupon = 'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-APP-WEB/img/no-coupon.png'
     let activityModel = {
       type: 0,
-      coupon_id: null,
+      coupon_id: 0,
       coupon_code: null,
       coupon_total: 0
     }
@@ -26,11 +27,14 @@ export default {
       valid_days: null, // 有效天数
       maxType: null, // 类型
       conditionJson: null, // 使用条件 json,
-      remainingQuantity: null // 优惠券剩余数量
+      remainingQuantity: null, // 优惠券剩余数量
+      remark: null, // 备注
+      useRemark: null // 使用备注
     }
     return {
+      distributionMode: 0, // 分配方式 默认为零
       forbidden: false, // 默认保存
-      addCouponDialogVisible: true,
+      addCouponDialogVisible: false,
       activityModel: activityModel,
       storeModel: storeModel,
       storeCouponList: null, // 店铺优惠券列表
@@ -39,6 +43,10 @@ export default {
     }
   },
   methods: {
+    init () {
+      this.addCouponDialogVisible = true
+      this.activityModel.coupon_id = 0
+    },
     // 关闭新增弹窗
     closeDialog () {
       this.addCouponDialogVisible = !this.addCouponDialogVisible
@@ -48,15 +56,111 @@ export default {
     },
     // 打开优惠券弹窗
     onOpenCoupon () {
+      // this.$reload()
+      this.distributionMode = 0
       this.$refs.Coupon.init()
     },
     // 获取优惠券信息
     getCouponMessage (data) {
-      console.log(data)
+      var _this = this
+      _this.activityModel.coupon_id = data.id
+      _this.activityModel.coupon_code = data.storeCouponCode
+      _this.storeModel.couponCode = data.storeCouponCode
+      _this.storeModel.remainingQuantity = Number(data.maxIssueAmount) - Number(data.couponFreezeAmount) - Number(data.hadIssueAmount)
+      // window.console.log('sdfsdfs', _this.storeModel.couponCode)
+      // _this.findOnlineShopList(_this.storeModel.couponCode)
+      _this.storeModel.couponTitle = data.storeCouponTitle
+      if (_this.storeModel.couponTitle !== null && _this.storeModel.couponTitle.length > 20) {
+        _this.storeModel.couponTitle = data.title.substr(0, 19) + '...'
+      }
+      _this.storeModel.couponType = Number(data.storeCouponType)
+      let temporaryCouponValue = data.storeCouponValue
+      let temporaryIndex = (temporaryCouponValue !== Math.floor(temporaryCouponValue)) ? (temporaryCouponValue.toString()).split('.')[1].length : 0
+      if (temporaryIndex > 1) {
+        _this.storeModel.couponValue = (temporaryCouponValue * 10).toFixed(1)
+      }
+      if (temporaryIndex === 1) {
+        _this.storeModel.couponValue = temporaryCouponValue * 10
+      }
+      if (temporaryIndex === 0) {
+        _this.storeModel.couponValue = temporaryCouponValue
+      }
+      // console.log('优惠券value', _this.storeModel.couponValue)
+      _this.storeModel.couponTotal = Number(data.maxIssueAmount)
+      _this.storeModel.maxType = Number(data.maxIssueAmount)
+      _this.storeModel.dateType = Number(data.dateValidType)
+      // _this.storeModel.startTime = data.startTime
+      // _this.storeModel.endTime = data.endTime
+      _this.storeModel.startTime = moment(Number(data.startTime)).format('YYYY-MM-DD HH:mm:ss')
+      _this.storeModel.endTime = moment(Number(data.startTime)).format('YYYY-MM-DD HH:mm:ss')
+      _this.storeModel.after_get_valid_days = Number(data.afterGetValidDays)
+      _this.storeModel.valid_days = Number(data.validDays)
+      _this.storeModel.conditionJson = data.useConditionJson
+      _this.storeModel.remark = data.remark
+      _this.storeModel.useRemark = data.useRemark
+      window.console.log('coupon', _this.storeModel)
+      window.console.log('opneCoupon', data)
     },
     // 修改分配方式
-    onChangeDistributionMode (data) {
-      console.log(data)
+    onChangeDistributionMode (type) {
+      this.distributionMode = type
+      // _this.shopList = []
+      if (type === 1) {
+        this.$nextTick(() => {
+          this.$refs.storeList.init()
+        })
+      }
+    },
+    /**
+     * 检验配额整数 以及总数量
+     */
+    activityCouponTotal () {
+      var _this = this
+      var couponId = _this.activityModel.coupon_id
+      if (couponId === 0 || couponId === null || couponId === '') {
+        _this.activityModel.coupon_total = 0
+        _this.$notify.info('请先选择优惠券')
+        return
+      }
+      // _this.storeModel.couponTotal = 0 代表不限额，不做数量校验
+      if (_this.storeModel.maxType > 0) {
+        if (_this.storeModel.remainingQuantity < _this.activityModel.coupon_total) {
+          _this.activityModel.coupon_total = 0
+          _this.$notify.info('配额不能大于优惠券总数')
+        }
+      }
+    },
+    findShopList (status) {
+      // var _this = this
+      // _this.$http.fetch(_this.$api.guide.activityCoupon.findCouponShop, {
+      //   'length': _this.paginations.size,
+      //   'start': _this.paginations.size * (_this.paginations.page - 1),
+      //   searchMap: {
+      //     'storeCouponCode': _this.storeModel.couponCode,
+      //     'isOnline': 0,
+      //     'shop_name': _this.shopSearch.shopName
+      //   }
+      // }).then(resp => {
+      //   if (resp.success && resp.result.data != null) {
+      //     // 第一次点击radio的时候计算均值
+      //     if (status) {
+      //       _this.calcQuota(resp.result.data)
+      //     } else {
+      //       _this.shopList = []
+      //       // _this.shopList = Object.assign({}, resp.result.data)
+      //       for (let a = 0; a < resp.result.data.length; a++) {
+      //         // 通过key将value取出 转换为深拷贝
+      //         let shopObject = this.shopMap.get(resp.result.data[a].id)
+      //         let shopObj = JSON.stringify(shopObject)
+      //         let newShopObject = JSON.parse(shopObj)
+      //         _this.shopList.push(newShopObject)
+      //       }
+      //     }
+      //     this._data.paginations.total = Number(resp.result.recordsTotal)
+      //   }
+      // }).catch((resp) => {
+      //   _this.$notify.error(getErrorMsg('查询店铺列表失败', resp))
+      // })
     }
   }
 }
