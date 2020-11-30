@@ -31,13 +31,21 @@
                   <el-input
                     style="width: 360px"
                     placeholder="请输入正整数"
+                    v-if="activityModel.type ==0"
                     type="number"
                     v-model="activityModel.coupon_total"
                     @change="activityCouponTotal()"
                     auto-complete="off">
                   </el-input>
-                  <!-- <el-input v-if="activityModel.type ==1" disabled="disabled" placeholder="请输入正整数" type="number" v-model="activityModel.coupon_total"
-                              auto-complete="off" @change="activityCouponTotal()"></el-input> -->
+                  <el-input
+                    style="width: 360px"
+                    placeholder="请输入正整数"
+                    v-if="activityModel.type ==1" disabled="disabled"
+                    type="number"
+                    v-model="activityModel.coupon_total"
+                    @change="activityCouponTotal()"
+                    auto-complete="off">
+                  </el-input>
                   </el-form-item>
               </el-form-grid>
               <el-form-grid block class="text-primary">
@@ -80,7 +88,7 @@
                         <!-- 折扣券 -->
                         <template v-if="storeModel.couponType == 2">
                           <span class="couponType2_number" >{{splitCouponNumber(storeModel.couponValue,0)}}</span>
-                          <span class="couponType2_number2" v-if= isShowCouponNumber>{{splitCouponNumber(storeModel.couponValue,1)}}</span>
+                          <span class="couponType2_number2" v-if = isShowCouponNumber>{{splitCouponNumber(storeModel.couponValue,1)}}</span>
                           <!-- <span class="couponType2_number2" >{{storeModel.couponValue}}折</span> -->
                         </template>
                       </div>
@@ -92,7 +100,7 @@
                         <p class="text-secondary" v-if="storeModel.dateType == 1">
                           领取{{storeModel.after_get_valid_days}}天后生效，有效期{{storeModel.valid_days}}天
                         </p>
-                        <p>创建人：admin(等待中台接口)</p>
+                        <p>创建人：{{storeModel.loginAccount}}</p>
                         <!-- <p>使用说明：至多显示一行多余…悬停TIPS显示全部</p> -->
                         <p :title="storeModel.useRemark">使用说明:{{storeModel.useRemark || '-'}}</p>
                         <p :title="storeModel.remark">备注：{{storeModel.remark || '-'}}</p>
@@ -108,7 +116,7 @@
       </div>
       <div slot="footer" class="dialog-footer">
         <ns-button @click="closeDialog">取消</ns-button>
-        <ns-button type="primary" @click="onSaveActivityCoupon" title="save">保存</ns-button>
+        <ns-button type="primary" @click="onSaveActivityCoupon" :disabled = "forbidden" title="save">保存</ns-button>
       </div>
     </el-dialog>
     <Coupon ref="Coupon" @onChangeCoupon="getCouponMessage"></Coupon>

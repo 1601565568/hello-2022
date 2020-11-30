@@ -14,7 +14,7 @@ export default {
       model: {
         storeCouponCode: null,
         isOnline: 0,
-        shop_name: ''
+        shop_name: null
       },
       shopAllList: [], // 所有店铺列表
       shopList: [],
@@ -128,6 +128,7 @@ export default {
       var total = 0
       var couponTotal = _this.activityModel.coupon_total
       var couponId = _this.activityModel.coupon_id
+      window.console.log('storeList-storeModel', _this.storeModel)
       let remainingQuantity = _this.storeModel.remainingQuantity
       // 判断输入是否是正整数
       if (!/(^[0-9]\d*$)/.test(row.shopCouponNumber)) {
@@ -159,13 +160,8 @@ export default {
         total = parseInt(couponTotal) + parseInt(row.shopCouponNumber)
       }
       // 判断是否超过总数 _this.storeModel.couponTotal ==0 代表不限量
+      window.console.log('storeList', _this.storeModel.maxType, remainingQuantity)
       if (_this.storeModel.maxType > 0) {
-        // 该判断计算的是所有优惠券数量（包含已使用的）
-        // if (total > _this.storeModel.couponTotal) {
-        //   _this.$notify.info('门店总配额不能超过优惠券总配额')
-        //   row.shopCouponNumber = oldValue
-        //   return
-        // }
         if (total > remainingQuantity) {
           _this.$notify.info('门店总配额不能超过优惠券总配额')
           row.shopCouponNumber = oldValue
@@ -179,7 +175,11 @@ export default {
       let newShopObject = JSON.parse(shopObj)
       this.$emit('changeShopMap', row.id, newShopObject)
       // _this.shopMap.set(row.id, newShopObject)
+    },
+    onChangeStoreInput () {
+      this.shopPageChange()
     }
+
     // this.$reload()
   }
 }

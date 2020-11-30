@@ -39,6 +39,7 @@ export default {
   },
   methods: {
     init () {
+      // window.console.log('_data._table.data', this._data._table.data)
       this.chooseCouponDialogVisible = true
       this.model.couponTitle = null
       this.model.couponType = null
@@ -72,6 +73,19 @@ export default {
     },
     getCommodityByCoupon (row) {
       this.$refs.exchange.init(row)
+    },
+    getCouponValue (data) {
+      let temporaryCouponValue = data
+      let temporaryIndex = (temporaryCouponValue !== Math.floor(temporaryCouponValue)) ? (temporaryCouponValue.toString()).split('.')[1].length : 0
+      if (temporaryIndex > 1) {
+        return (temporaryCouponValue * 10).toFixed(1)
+      }
+      if (temporaryIndex === 1) {
+        return temporaryCouponValue * 10
+      }
+      if (temporaryIndex === 0) {
+        return temporaryCouponValue
+      }
     }
   },
   mounted () {

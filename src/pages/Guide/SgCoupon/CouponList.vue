@@ -24,7 +24,7 @@
         </el-form-item>
         <el-form-item label="剩余数量：" v-if="activityModel.coupon_id > 0">
           <el-form-grid size="xmd">
-            <el-form-item prop="store_coupon_total" v-if="storeModel.maxType === 0">
+            <el-form-item prop="store_coupon_total" v-if="storeModel.maxType == 0">
               <el-input disabled="disabled" value="不限量"></el-input>
             </el-form-item>
             <el-form-item prop="store_coupon_total" v-if="storeModel.maxType > 0">

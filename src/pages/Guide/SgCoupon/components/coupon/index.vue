@@ -91,9 +91,9 @@
                     <!-- 代金券 -->
                     <ns-button type="text" v-if="scope.row.storeCouponType == 3" @click="getCommodityByCoupon(scope.row)">兑换商品</ns-button>
                     <!-- 折扣券 -->
-                    <span v-if="scope.row.storeCouponType == 2">{{scope.row.storeCouponValue}}折</span>
+                    <span v-if="scope.row.storeCouponType == 2">{{getCouponValue(scope.row.storeCouponValue)}}折</span>
                     <!-- 兑换券 -->
-                    <span v-if="scope.row.storeCouponType == 1">{{scope.row.storeCouponValue}}</span>
+                    <span v-if="scope.row.storeCouponType == 1">{{scope.row.storeCouponValue}}元</span>
                 </template>
                 </el-table-column>
                 <el-table-column
@@ -101,7 +101,7 @@
                     align="right"
                 >
                 <template slot-scope="scope">
-                    <span v-if="scope.row.maxIssueAmount == 0">{{scope.row.hadIssueAmount}}</span>
+                    <span v-if="scope.row.maxIssueAmount == 0">不限量</span>
                     <span v-else>{{scope.row.maxIssueAmount - scope.row.hadIssueAmount - scope.row.couponFreezeAmount}}</span>
                 </template>
                 </el-table-column>

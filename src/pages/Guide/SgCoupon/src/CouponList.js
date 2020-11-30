@@ -130,6 +130,7 @@ export default {
     },
     closeDialogCouponList () {
       let _this = this
+      _this.$refs.table.$reload()
       setTimeout(() => {
         _this.couponListShow = false
       }, 500)

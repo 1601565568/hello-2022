@@ -25,11 +25,12 @@ export default {
       endTime: null, // 领取N天后生效
       after_get_valid_days: null, // 领取N天后生效
       valid_days: null, // 有效天数
-      maxType: null, // 类型
+      maxType: 0, // 类型
       conditionJson: null, // 使用条件 json,
       remainingQuantity: null, // 优惠券剩余数量
       remark: null, // 备注
-      useRemark: null // 使用备注
+      useRemark: null, // 使用备注
+      loginAccount: null // 添加人账号名
     }
     return {
       distributionMode: 0, // 分配方式 默认为零
@@ -78,6 +79,21 @@ export default {
         shop.shopName = value.shopName
         _this.shopCouponList.push(shop)
       })
+      _this.$http.fetch(_this.$api.guide.activityCoupon.saveActiviCoupon, {
+        sgActivityCoupon: _this.activityModel,
+        couponShopList: _this.shopCouponList
+      }).then(resp => {
+        if (resp.success) {
+          _this.addCouponDialogVisible = false
+          // _this.$refs.table.$reload()
+          _this.$notify.success(resp.msg)
+          _this.forbidden = false
+          this.closeDialog()
+        }
+      }).catch((resp) => {
+        _this.$notify.error(getErrorMsg('保存失败', resp))
+        _this.forbidden = false
+      })
       console.log(_this.shopCouponList, 'shopCouponList')
       // this.closeDialog()
     },
@@ -115,15 +131,16 @@ export default {
       _this.storeModel.couponTotal = Number(data.maxIssueAmount)
       _this.storeModel.maxType = Number(data.maxIssueAmount)
       _this.storeModel.dateType = Number(data.dateValidType)
-      // _this.storeModel.startTime = data.startTime
-      // _this.storeModel.endTime = data.endTime
-      _this.storeModel.startTime = moment(Number(data.startTime)).format('YYYY-MM-DD HH:mm:ss')
-      _this.storeModel.endTime = moment(Number(data.startTime)).format('YYYY-MM-DD HH:mm:ss')
+      _this.storeModel.startTime = data.startTime
+      _this.storeModel.endTime = data.endTime
+      // _this.storeModel.startTime = moment(Number(data.startTime)).format('YYYY-MM-DD HH:mm:ss')
+      // _this.storeModel.endTime = moment(Number(data.endTime)).format('YYYY-MM-DD HH:mm:ss')
       _this.storeModel.after_get_valid_days = Number(data.afterGetValidDays)
       _this.storeModel.valid_days = Number(data.validDays)
       _this.storeModel.conditionJson = data.useConditionJson
       _this.storeModel.remark = data.remark
       _this.storeModel.useRemark = data.useRemark
+      _this.storeModel.loginAccount = data.loginAccount
     },
     /**
      * 查询所有的店铺店铺列表
@@ -199,11 +216,12 @@ export default {
       }
     },
     changeShopMap (id, shop) {
+      // this.activityModel.coupon_total = this.activityModel.coupon_total + shop.shopCouponNumber
       this.shopMap.set(id, shop)
     },
     //  type = 0 返回个位数  type= 1 返回小数
     splitCouponNumber (data, type) {
-      window.console.log('折扣券', data)
+      // window.console.log('折扣券', data)
       // debugger
       var indexOf = data.indexOf('.')
       if (type === 0) {
@@ -219,38 +237,6 @@ export default {
         // window.console.log('折扣券小数位', data.substr(indexOf, data.length))
         return data.substr(indexOf, data.length)
       }
-    },
-    findShopList (status) {
-      // var _this = this
-      // _this.$http.fetch(_this.$api.guide.activityCoupon.findCouponShop, {
-      //   'length': _this.paginations.size,
-      //   'start': _this.paginations.size * (_this.paginations.page - 1),
-      //   searchMap: {
-      //     'storeCouponCode': _this.storeModel.couponCode,
-      //     'isOnline': 0,
-      //     'shop_name': _this.shopSearch.shopName
-      //   }
-      // }).then(resp => {
-      //   if (resp.success && resp.result.data != null) {
-      //     // 第一次点击radio的时候计算均值
-      //     if (status) {
-      //       _this.calcQuota(resp.result.data)
-      //     } else {
-      //       _this.shopList = []
-      //       // _this.shopList = Object.assign({}, resp.result.data)
-      //       for (let a = 0; a < resp.result.data.length; a++) {
-      //         // 通过key将value取出 转换为深拷贝
-      //         let shopObject = this.shopMap.get(resp.result.data[a].id)
-      //         let shopObj = JSON.stringify(shopObject)
-      //         let newShopObject = JSON.parse(shopObj)
-      //         _this.shopList.push(newShopObject)
-      //       }
-      //     }
-      //     this._data.paginations.total = Number(resp.result.recordsTotal)
-      //   }
-      // }).catch((resp) => {
-      //   _this.$notify.error(getErrorMsg('查询店铺列表失败', resp))
-      // })
     }
   }
 }

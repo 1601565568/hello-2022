@@ -2,11 +2,13 @@
     <div>
         <el-form
             ref="form"
+            @submit.native.prevent
             :model="model"
             label-width="80px"
         >
             <el-input
                 class="search"
+                @keyup.enter.native="onChangeStoreInput()"
                 placeholder="请输入门店名称"
                 v-model="model.shop_name"
             >
@@ -26,7 +28,7 @@
             :element-loading-text="$t('prompt.loading')"
         >
             <el-table-column
-                prop="address"
+                prop="shopName"
                 label="门店名称"
                 align="left"
                 :sortable="false"
