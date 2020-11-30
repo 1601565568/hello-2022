@@ -14,7 +14,7 @@
         <!-- 导购招募海报配置 start -->
         <recruitment-collapse title='导购招募海报配置'>
           <template slot='collapse-left'>
-            <el-form-item label='活动海报' required prop='recruitingPostersImage'>
+            <el-form-item label='背景图' required prop='recruitingPostersImage'>
               <drap-upload tip='（请上传格式为jpg或png图片，图片尺寸为750*1334,大小不超过10M）' v-model='model.recruitingPostersImage' :maxWidth='750' :maxHeight='1334'>
                 <template slot='footer'>
                   <p class='prompt-text'>公司logo和招募码为固定位置，建议尺寸为70*70</p>
@@ -54,10 +54,10 @@
         </recruitment-collapse>
         <!-- 招募链接配置 end -->
         <!-- 引导关注公众号页设置 start -->
-        <recruitment-collapse title='引导关注公众号页设置'>
+        <recruitment-collapse title='引导关注公众号页设置' v-if='model.mpFollowState === 1'>
           <template slot='collapse-left'>
-            <el-form-item label='活动海报' required prop='mpFollowBackground'>
-              <drap-upload tip='（请上传格式为jpg或png图片，图片尺寸为750*1334,大小不超过10M）' :maxWidth='750' :maxHeight='1334' v-model='model.mpFollowBackground'>
+            <el-form-item label='背景图' required prop='mpFollowBackground'>
+              <drap-upload tip='（请上传格式为jpg或png图片，图片尺寸为750*1334,大小不超过1M）' :maxWidth='750' :maxHeight='1334' v-model='model.mpFollowBackground' :maxSize='1'>
                 <template slot='footer'>
                   <p class='prompt-text'>场景说明：招募流程开启关注公众号，消费者注册会员后，将进入此页面关注公众号</p>
                 </template>

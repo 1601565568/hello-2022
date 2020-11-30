@@ -1,6 +1,6 @@
 <template>
   <div class='recruiting-collapse'>
-    <el-collapse class='common-collapse' v-model='collapseList'>
+    <el-collapse :class='`common-collapse ${isOpen?"noOver":""}`' v-model='collapseList' @change='handleChange'>
       <el-collapse-item :title="title" :name="1">
         <el-row>
           <el-col :span='16' class='collapse-left'>
@@ -22,7 +22,8 @@ import Phone from './Phone'
 export default {
   data () {
     return {
-      collapseList: [1]
+      collapseList: [1],
+      isOpen: true
     }
   },
   props: {
@@ -34,7 +35,19 @@ export default {
       default: '效果展示'
     }
   },
-  components: { Phone }
+  components: { Phone },
+  methods: {
+    handleChange (value) {
+      const result = !!value.length
+      if (result) {
+        setTimeout(() => {
+          this.isOpen = !!value.length
+        }, 500)
+      } else {
+        this.isOpen = result
+      }
+    }
+  }
 }
 </script>
 

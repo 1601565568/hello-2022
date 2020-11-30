@@ -15,7 +15,7 @@ export default {
       noHaveImg: 'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-WM-APP-WEB/img/recruitingHave.png',
       haveImg: 'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-WM-APP-WEB/img/recruitingNo.png',
       previewVisin: false,
-      mpFollowState: false,
+      mpFollowState: true,
       btnLoad: false
       // result: {} // 保存初始接口数据不做处理
     }

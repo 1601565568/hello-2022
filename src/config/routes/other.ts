@@ -28,6 +28,12 @@ export default {
       'component': () => import('@nascent/ecrp-ecrm/src/layout/Content.vue'),
       'children': [
         {
+          'path': '/Guide/RecruitSet/RecruitConfigGift',
+          'name': 'RecruitConfigGift',
+          'title': '招募奖励设置',
+          'component': () => import('@/pages/Guide/RecruitmentSettings/index.vue')
+        },
+        {
           'path': '/Guide/RecruitSet/RecruitConfig',
           'name': 'RecruitConfig',
           'title': '招募设置',

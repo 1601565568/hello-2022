@@ -29,13 +29,12 @@ export default {
           { required: true, message: '请上传封面图', trigger: ['blur', 'change'] }
         ],
         recruitingPostersImage: [
-          { required: true, message: '请上传活动海报', trigger: ['blur', 'change'] }
+          { required: true, message: '请上传导购招募海报背景图', trigger: ['blur', 'change'] }
         ],
         mpFollowBackground: [
-          { required: true, message: '请上传活动海报', trigger: ['blur', 'change'] }
+          { required: true, message: '请上传引导关注公众号页背景图', trigger: ['blur', 'change'] }
         ]
       },
-      fileList: [],
       btnLoad: false
     }
   },

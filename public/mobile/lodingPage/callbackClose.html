@@ -53,7 +53,7 @@
             groupId: groupId,
         }).then(function (result) {
             if (result.success) {
-                localStorage.setItem('', JSON.stringify(result.result))
+                localStorage.setItem('recruitData', JSON.stringify(result.result))
                 window.location.replace("/mobile/recruitPage/index.html");
             }
         })

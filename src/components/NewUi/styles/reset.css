@@ -136,7 +136,9 @@
   }
   >>> .el-collapse-item__wrap {
     padding-left: 26px;
-    overflow: visible;
+  }
+  &.noOver >>> .el-collapse-item__wrap {
+    overflow: visible !important;
   }
 }
 /*popover*/
