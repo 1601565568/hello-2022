@@ -40,6 +40,8 @@ export default {
       storeCouponList: null, // 店铺优惠券列表
       storeCouponListLength: 0,
       bgcoupon: bgCoupon,
+      shopMap: null, // 店铺map
+      shopAllList: [],
       isShowCouponNumber: true // 折扣券 展示
     }
   },
@@ -51,9 +53,10 @@ export default {
     // 关闭新增弹窗
     closeDialog () {
       this.addCouponDialogVisible = !this.addCouponDialogVisible
+      this.$emit('closeDialog')
     },
     onSaveActivityCoupon () {
-      _this = this
+      let _this = this
       if (_this.activityModel.coupon_total === 0) {
         _this.$notify.error('总配额必须大于0')
         // _this.forbidden = false
@@ -75,8 +78,8 @@ export default {
         shop.shopName = value.shopName
         _this.shopCouponList.push(shop)
       })
-
-      this.closeDialog()
+      console.log(_this.shopCouponList, 'shopCouponList')
+      // this.closeDialog()
     },
     // 打开优惠券弹窗
     onOpenCoupon () {
@@ -89,10 +92,9 @@ export default {
       var _this = this
       _this.activityModel.coupon_id = data.id
       _this.activityModel.coupon_code = data.storeCouponCode
+      _this.findOnlineShopList(_this.activityModel.coupon_code)
       _this.storeModel.couponCode = data.storeCouponCode
       _this.storeModel.remainingQuantity = Number(data.maxIssueAmount) - Number(data.couponFreezeAmount) - Number(data.hadIssueAmount)
-      // window.console.log('sdfsdfs', _this.storeModel.couponCode)
-      // _this.findOnlineShopList(_this.storeModel.couponCode)
       _this.storeModel.couponTitle = data.storeCouponTitle
       if (_this.storeModel.couponTitle !== null && _this.storeModel.couponTitle.length > 20) {
         _this.storeModel.couponTitle = data.title.substr(0, 19) + '...'
@@ -122,16 +124,58 @@ export default {
       _this.storeModel.conditionJson = data.useConditionJson
       _this.storeModel.remark = data.remark
       _this.storeModel.useRemark = data.useRemark
-      window.console.log('coupon', _this.storeModel)
-      window.console.log('opneCoupon', data)
+    },
+    /**
+     * 查询所有的店铺店铺列表
+     */
+    findOnlineShopList: function (couponCode) {
+      var _this = this
+      _this.$http.fetch(_this.$api.guide.activityCoupon.findCouponShop, {
+        'length': 100000,
+        'start': 0,
+        searchMap: {
+          'storeCouponCode': couponCode,
+          'isOnline': 0
+        }
+      }).then(resp => {
+        if (resp.success && resp.result != null) {
+          if (resp.result.ext != null) {
+            let isContains = resp.result.ext.isContain
+            if (!isContains) {
+              this.$confirm('此优惠券也可以在其他门店购买，是否继续？', '提示', {
+                confirmButtonText: '是',
+                type: 'warning',
+                cancelButtonText: '否'
+              }).then(() => {
+                // 将所有店铺存入map中
+                _this.shopMap = new Map()
+                _this.shopAllList = resp.result.data
+                for (let i = 0; i < _this.shopAllList.length; i++) {
+                  _this.shopMap.set(_this.shopAllList[i].id, _this.shopAllList.slice(i, i + 1))
+                }
+              }).catch(() => {
+                this.activityModel.coupon_id = ''
+              })
+            }
+          } else {
+            // 将所有店铺存入map中
+            _this.shopMap = new Map()
+            _this.shopAllList = resp.result.data
+            for (let i = 0; i < _this.shopAllList.length; i++) {
+              _this.shopMap.set(_this.shopAllList[i].id, _this.shopAllList.slice(i, i + 1))
+            }
+          }
+        }
+      }).catch((resp) => {
+        _this.$notify.error(`查询店铺列表失败${resp}`)
+      })
     },
     // 修改分配方式
     onChangeDistributionMode (type) {
       this.distributionMode = type
-      // _this.shopList = []
       if (type === 1) {
         this.$nextTick(() => {
-          this.$refs.storeList.init()
+          this.$refs.storeList.init(true)
         })
       }
     },
@@ -153,6 +197,9 @@ export default {
           _this.$notify.info('配额不能大于优惠券总数')
         }
       }
+    },
+    changeShopMap (id, shop) {
+      this.shopMap.set(id, shop)
     },
     //  type = 0 返回个位数  type= 1 返回小数
     splitCouponNumber (data, type) {

@@ -62,11 +62,6 @@ export default {
       this.$emit('onChangeCoupon', this.couponMessage)
       this.closeDialog()
     },
-    onChangeCardType () {
-      console.log('123123123')
-      // 改变事件调用
-      // this.$searchAction$()
-    },
     // 单选按钮
     getCurrentRow (row, index) {
       this.couponRadio = index
@@ -77,8 +72,6 @@ export default {
     },
     getCommodityByCoupon (row) {
       this.$refs.exchange.init(row)
-      // window.console.log(row)
-      // window.console.log(row.giftJson)
     }
   },
   mounted () {

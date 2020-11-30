@@ -16,7 +16,7 @@
                     <el-select
                         v-model="model.couponType"
                         placeholder="请选择"
-                        @change="onChangeCardType"
+                        @change="$searchAction$()"
                     >
                         <el-option
                             v-for="item in couponTypeList"
@@ -89,7 +89,7 @@
                 >
                 <template slot-scope="scope">
                     <!-- 代金券 -->
-                    <span v-if="scope.row.storeCouponType == 3" @click="getCommodityByCoupon(scope.row)">兑换商品</span>
+                    <ns-button type="text" v-if="scope.row.storeCouponType == 3" @click="getCommodityByCoupon(scope.row)">兑换商品</ns-button>
                     <!-- 折扣券 -->
                     <span v-if="scope.row.storeCouponType == 2">{{scope.row.storeCouponValue}}折</span>
                     <!-- 兑换券 -->

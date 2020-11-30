@@ -32,15 +32,18 @@
     background: #F5F5F5;
     color: #BFBFBF;
     text-align: right;
+    margin-bottom: 20px;
   }
 }
-
+.text-primary {
+  margin-bottom: 16px;
+}
 .coupon {
   position: absolute;
   right: 56px;
   top: 0;
   width: 400px;
-  min-height: 170px;
+  min-height: 150px;
 
   &::before {
     position: absolute;
@@ -77,8 +80,8 @@
         position: absolute;
         width: 40px;
         height: 40px;
-        right: 0;
-        top: -1px;
+        right: 1px;
+        top: 1px;
       }
       // box-shadow: 0 2px 8px 0 rgba(0,0,0,0.08);
 

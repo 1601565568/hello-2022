@@ -93,7 +93,8 @@ export default {
       shopModel: shopModel, // 店铺表model
       storeModel: storeModel, // store model
       addCouponDialogVisible: false, // 新增弹窗是否显示控制
-      storeCouponListLength: 0
+      storeCouponListLength: 0,
+      couponListShow: false
     }
   },
   methods: {
@@ -122,12 +123,16 @@ export default {
      * 打开弹框
      */
     addCoupon: function () {
-      // var _this = this
-      this.$refs.couponList.init()
-      // _this.resetForm()
-      // _this.addCouponDialogVisible = true
-      // _this.findStoreCouponList()
-      // _this.title = '新增优惠券发放'
+      this.couponListShow = true
+      this.$nextTick(() => {
+        this.$refs.couponList.init()
+      })
+    },
+    closeDialogCouponList () {
+      let _this = this
+      setTimeout(() => {
+        _this.couponListShow = false
+      }, 500)
     },
     /**
      * 检验配额整数 以及总数量

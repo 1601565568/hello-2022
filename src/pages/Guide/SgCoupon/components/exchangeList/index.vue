@@ -1,7 +1,7 @@
 <template>
     <div>
         <el-dialog
-            title="查看物品"
+            title="查看商品"
             width="720px"
             :visible.sync="exchangeListDialogVisible"
         >

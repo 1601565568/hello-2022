@@ -5,20 +5,20 @@
             :model="model"
             label-width="80px"
         >
-            <!-- <el-input
+            <el-input
                 class="search"
                 placeholder="请输入门店名称"
-                v-model="model.input"
+                v-model="model.shop_name"
             >
                 <Icon
                     slot="suffix"
                     type="icon-sousuo1"
                 />
-            </el-input> -->
+            </el-input>
         </el-form>
         <el-table
             class="template-table__main"
-            :data="_data._table.data"
+            :data="shopList"
             stripe
             ref="table"
             resizable
@@ -32,16 +32,11 @@
                 :sortable="false"
             >
             </el-table-column>
-            <el-table-column
-                prop="city"
-                label="所属地区"
-                align="left"
-                :sortable="false"
-            >
-                <template slot-scope="scope">
-                    {{scope.row.couponType == 1? '代金券': scope.row.couponType == 2? '折扣券': scope.row.couponType == 3? '兑换券': '-' }}
-                </template>
-            </el-table-column>
+            <el-table-column label="所属地区" align="left" >
+            <template slot-scope="scope">
+              <span>{{scope.row.province}}/{{scope.row.city}}/{{scope.row.district}}</span>
+            </template>
+          </el-table-column>>
             <!-- 新增字段需要自己添加 -->
             <el-table-column
                 prop="couponNumber"
@@ -55,22 +50,23 @@
                         @input="inputChange(scope.row)"
                         v-model="scope.row.shopCouponNumber"
                         maxlength="8"
-                        style="width:80px" @focus="ChangeForbiddenStatus" @blur="delayedChangeStatus"/>
+                        show-word-limit
+                        style="width:80px"/>
             </template>
             </el-table-column>
         </el-table>
-        <el-pagination
-            v-if="_data._pagination.enable"
-            class="template-table__pagination"
-            :page-sizes="_data._pagination.sizeOpts"
-            :total="_data._pagination.total"
-            :current-page="_data._pagination.page"
-            :page-size="_data._pagination.size"
-            layout="total, sizes, prev, pager, next, jumper"
-            @size-change="$sizeChange$"
-            @current-change="$pageChange$"
-        >
+        <!--分页开始-->
+        <el-pagination v-if="_data.paginations.enable" class="template-table-pagination"
+                       :page-sizes="_data.paginations.sizeOpts"
+                       :total="_data.paginations.total"
+                       :current-page.sync="_data.paginations.page"
+                       :page-size="_data.paginations.size"
+                       layout="total, sizes, prev, pager, next, jumper"
+                       @size-change="shopSizeChange"
+                       @current-change="shopPageChange"
+                       >
         </el-pagination>
+        <!--分页结束-->
     </div>
 </template>
 <script>

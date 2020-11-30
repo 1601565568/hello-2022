@@ -20,14 +20,10 @@
               </el-form-grid>
             </el-form-item>
           <el-form-item label="剩余数量：" v-if="activityModel.coupon_id !== 0">
-            <el-form-grid size="xmd">
-              <el-form-item prop="couponTotal" v-if="storeModel.maxType == 0">
-                <el-input disabled="disabled" value="不限量"></el-input>
-              </el-form-item>
-              <el-form-item prop="couponTotal" v-if="storeModel.maxType > 0">
-                <el-input disabled="disabled" type="number" v-model="storeModel.remainingQuantity"></el-input>
-              </el-form-item>
-            </el-form-grid>
+            <el-form-item prop="store_coupon_total">
+                <div class="disabled" v-if="storeModel.maxType == 0">不限量</div>
+                <div class="disabled" v-if="storeModel.maxType > 0">{{storeModel.remainingQuantity}}</div>
+            </el-form-item>
           </el-form-item>
           <el-form-item label="配额：" required>
               <el-form-grid size="xmd">
@@ -52,15 +48,20 @@
               <el-form-grid>
                   <el-form-item prop="type">
                   <el-radio-group v-model="activityModel.type">
-                      <el-radio :label="0" @change="onChangeDistributionMode" >公用</el-radio>
-                      <el-radio :label="1" @change="onChangeDistributionMode" >自由分配</el-radio>
+                      <el-radio :label="0" @change="onChangeDistributionMode(0)" >公用</el-radio>
+                      <el-radio :label="1" @change="onChangeDistributionMode(1)" >自由分配</el-radio>
                   </el-radio-group>
                   </el-form-item>
               </el-form-grid>
               <el-form-grid block class="text-info"><Icon type="info-circle" theme="filled" />公用：所有门店共享配额；自由分配：默认均分，可再行调整</el-form-grid>
           </el-form-item>
           <el-form-item v-if ="distributionMode  == 1">
-            <StoreList ref= "storeList" :coupon-code ="activityModel.coupon_code"></StoreList>
+            <StoreList ref= "storeList"
+            :activityModel="activityModel"
+            :storeModel="storeModel"
+            :shopMap="shopMap" :shopListAll="shopAllList"
+            @changeShopMap="changeShopMap"
+            ></StoreList>
           </el-form-item>
           <div class="coupon">
               <div class="coupon-preview">优惠券预览区</div>
@@ -93,8 +94,8 @@
                         </p>
                         <p>创建人：admin(等待中台接口)</p>
                         <!-- <p>使用说明：至多显示一行多余…悬停TIPS显示全部</p> -->
-                        <p>使用说明:{{storeModel.useRemark}}</p>
-                        <p>备注：{{storeModel.remark}}</p>
+                        <p :title="storeModel.useRemark">使用说明:{{storeModel.useRemark || '-'}}</p>
+                        <p :title="storeModel.remark">备注：{{storeModel.remark || '-'}}</p>
                       </div>
                     </div>
                     <div class="couponCard-bottom">
@@ -107,7 +108,7 @@
       </div>
       <div slot="footer" class="dialog-footer">
         <ns-button @click="closeDialog">取消</ns-button>
-        <ns-button type="primary" @click="onSaveActivityCoupon" title="save"  :disabled = "forbidden">保存</ns-button>
+        <ns-button type="primary" @click="onSaveActivityCoupon" title="save">保存</ns-button>
       </div>
     </el-dialog>
     <Coupon ref="Coupon" @onChangeCoupon="getCouponMessage"></Coupon>

@@ -25,13 +25,10 @@ export default {
   //   console.log(this.$api.guide.activityCoupon.getCouponListByParam)
   // },
   mounted () {
-    this.$reload()
+    // this.$reload()
   },
   methods: {
     init (data) {
-      // 调用查看商品的init()方法
-      window.console.log('gift: ', data)
-      // this.model = this.form
       this.model.giftJson = data.giftJson
       this.exchangeListDialogVisible = true
       this.$searchAction$()

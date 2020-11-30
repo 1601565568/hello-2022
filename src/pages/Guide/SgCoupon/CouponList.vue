@@ -146,7 +146,7 @@
     </el-dialog>
     <!-- 新增弹窗结束 -->
     <!-- <list-dialog ref="listDialogDom"></list-dialog> -->
-    <couponList ref="couponList"></couponList>
+    <couponList ref="couponList" @closeDialog="closeDialogCouponList" v-if="couponListShow"></couponList>
   </div>
 </template>
 
