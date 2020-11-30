@@ -1,3 +1,13 @@
+.common-header {
+  background-color: #fff;
+  margin: -10px -10px 0;
+  padding: 16px;
+  h3 {
+    font-size: 16px;
+    color: #262626;
+    font-weight: bold;
+  }
+}
 .flex-box {
   display: flex;
   justify-content: space-between;
@@ -42,7 +52,7 @@
   }
   >>>.el-form__change .el-input__inner {
     min-width: 0px;
-   max-width: 400px;
+    max-width: 400px;
   }
 }
 .normal-from {
@@ -106,7 +116,7 @@
   }
 }
 /* 折叠 */
-.customer-collapse {
+.common-collapse {
   >>> .el-collapse-item__header {
     background-color: #fff;
     font-size: 16px;
@@ -126,6 +136,7 @@
   }
   >>> .el-collapse-item__wrap {
     padding-left: 26px;
+    overflow: visible;
   }
 }
 /*popover*/
@@ -145,6 +156,29 @@
     width: 100%;
     .el-upload-dragger {
       width: 100%
+    }
+  }
+}
+.poster-content {
+  padding: 16px;
+  padding-bottom: 0;
+  background-color: #F5F5F5;
+  .poster-set_content {
+    padding-top: 16px;
+    position: relative;
+    &::before {
+      border-top:1px solid #E8E8E8;
+      position: absolute;
+      left: -16px;
+      right: -16px;
+      top: 0;
+      content: ' ';
+    }
+    >>> .el-col {
+      margin-bottom: 24px;
+    }
+    >>> .el-radio {
+      margin-right: 0;
     }
   }
 }
