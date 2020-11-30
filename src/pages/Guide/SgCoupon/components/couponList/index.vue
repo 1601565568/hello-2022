@@ -78,9 +78,9 @@
                         <div class="couponType3" v-if="storeModel.couponType == 3"><span>礼</span></div>
                         <!-- 折扣券 -->
                         <template v-if="storeModel.couponType == 2">
-                          <!-- <span class="couponType2_number" >3</span>
-                          <span class="couponType2_number2">.4</span> -->
-                          <span class="couponType2_number2" >{{storeModel.couponValue}}折</span>
+                          <span class="couponType2_number" >{{splitCouponNumber(storeModel.couponValue,0)}}</span>
+                          <span class="couponType2_number2" v-if= isShowCouponNumber>{{splitCouponNumber(storeModel.couponValue,1)}}</span>
+                          <!-- <span class="couponType2_number2" >{{storeModel.couponValue}}折</span> -->
                         </template>
                       </div>
                       <div class="couponCard-top__right">

@@ -39,7 +39,8 @@ export default {
       storeModel: storeModel,
       storeCouponList: null, // 店铺优惠券列表
       storeCouponListLength: 0,
-      bgcoupon: bgCoupon
+      bgcoupon: bgCoupon,
+      isShowCouponNumber: true // 折扣券 展示
     }
   },
   methods: {
@@ -52,6 +53,29 @@ export default {
       this.addCouponDialogVisible = !this.addCouponDialogVisible
     },
     onSaveActivityCoupon () {
+      _this = this
+      if (_this.activityModel.coupon_total === 0) {
+        _this.$notify.error('总配额必须大于0')
+        // _this.forbidden = false
+        return
+      }
+      // 判断优惠券是否超额 _this.storeModel.couponTotal = 0 代表不限量
+      if (_this.storeModel.maxType > 0) {
+        if (_this.storeModel.couponTotal < _this.activityModel.coupon_total) {
+          // _this.$notify.info('门店总配额不能超过优惠券总配额')
+          _this.forbidden = false
+          return
+        }
+      }
+      _this.shopCouponList = []
+      _this.shopMap.forEach(function (value, key, map) {
+        var shop = {}
+        shop.shopId = value.id
+        shop.shopCouponTotal = parseInt(value.shopCouponNumber)
+        shop.shopName = value.shopName
+        _this.shopCouponList.push(shop)
+      })
+
       this.closeDialog()
     },
     // 打开优惠券弹窗
@@ -128,6 +152,25 @@ export default {
           _this.activityModel.coupon_total = 0
           _this.$notify.info('配额不能大于优惠券总数')
         }
+      }
+    },
+    //  type = 0 返回个位数  type= 1 返回小数
+    splitCouponNumber (data, type) {
+      window.console.log('折扣券', data)
+      // debugger
+      var indexOf = data.indexOf('.')
+      if (type === 0) {
+        if (indexOf === 0) {
+          this.isShowCouponNumber = false
+          return data
+        } else {
+          this.isShowCouponNumber = true
+          // window.console.log('折扣券个位数', data.substr(0, indexOf))
+          return data.substr(0, indexOf)
+        }
+      } else {
+        // window.console.log('折扣券小数位', data.substr(indexOf, data.length))
+        return data.substr(indexOf, data.length)
       }
     },
     findShopList (status) {
