@@ -7,7 +7,7 @@
           <p class="container-left__prompt">您还未配置自建应用无法使用此功能，</p>
           <div class="container-left__info">【可扫描下方二维码，联系企微专家】进行配置。</div>
           <div class="container-left__code">
-            <img :src="code" class="container-left__code-img">
+            <img src="https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-WEB/image/kefucode.png" class="container-left__code-img">
             <p class="container-left__code-info">添加南讯企微专家</p>
           </div>
         </div>
@@ -19,13 +19,11 @@
 </template>
 <script>
 import BeforeStartImg from './images/smartGreeting.png'
-import code from './images/code.png'
 
 export default {
   data () {
     return {
-      BeforeStartImg,
-      code
+      BeforeStartImg
     }
   }
 }
