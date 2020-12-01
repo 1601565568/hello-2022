@@ -56,11 +56,12 @@ export default {
       }
     },
     formatLoadData (result) {
-      const { id, title, content, recruitingPostersImage, picture, mpFollowQrcodeSize, mpFollowQrcodeX, mpFollowQrcodeY, mpFollowState, mpFollowBackground } = result
+      const { id, companyLogo, title, content, recruitingPostersImage, picture, mpFollowQrcodeSize, mpFollowQrcodeX, mpFollowQrcodeY, mpFollowState, mpFollowBackground } = result
       return {
         id: id,
         title: title,
         content: content,
+        companyLogo: companyLogo,
         // 小程序招募背景图
         recruitingPostersImage: recruitingPostersImage,
         // 封面图
