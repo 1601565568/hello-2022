@@ -5,7 +5,8 @@ var app = {
     mpFollowBackground: null, // 会员招募>跳转关注公众号>结果页>背景图片
     mpFollowQrcodeSize: null, // 会员招募>跳转关注公众号>结果页>二维码大小
     mpFollowQrcodeX: null, // 会员招募>跳转关注公众号>结果页>二维码X坐标
-    mpFollowQrcodeY: null // 会员招募>跳转关注公众号>结果页>二维码Y坐标
+    mpFollowQrcodeY: null, // 会员招募>跳转关注公众号>结果页>二维码Y坐标
+    qrCode: null
   }, // 原始数据
   init: function () {
     var originData = localStorage.getItem('recruitData')
@@ -29,7 +30,7 @@ var app = {
     var template = `
         <div class='img-container'>
           <img src='${data.mpFollowBackground}' class='background-image'/>
-          <img src='${data.mpFollowBackground}' class='qrcode-image' style='width:${data.mpFollowQrcodeSize}px;height:${data.mpFollowQrcodeSize}px;left:${data.mpFollowQrcodeX}px;top:${data.mpFollowQrcodeY}px' />
+          <img src='${data.qrCode}' class='qrcode-image' style='width:${data.mpFollowQrcodeSize}px;height:${data.mpFollowQrcodeSize}px;left:${data.mpFollowQrcodeX}px;top:${data.mpFollowQrcodeY}px' />
         </div>
     `
     this.render(template)
