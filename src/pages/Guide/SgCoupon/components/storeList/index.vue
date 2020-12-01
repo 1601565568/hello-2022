@@ -13,8 +13,12 @@
                 v-model="model.shop_name"
             >
                 <Icon
+                    type="search"
+                    className="el-input__icon"
+                    style="padding: 5px;"
                     slot="suffix"
-                    type="icon-sousuo1"
+                    name="name"
+                    @click="onChangeStoreInput()"
                 />
             </el-input>
         </el-form>
@@ -78,6 +82,6 @@ export default index
 <style scoped>
 .search {
   width: 360px;
-  margin-bottom: 16px;
+  /* margin-bottom: 16px; */
 }
 </style>

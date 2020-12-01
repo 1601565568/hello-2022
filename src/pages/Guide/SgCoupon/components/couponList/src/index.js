@@ -141,6 +141,12 @@ export default {
       _this.storeModel.remark = data.remark
       _this.storeModel.useRemark = data.useRemark
       _this.storeModel.loginAccount = data.loginAccount
+      this.reset()
+    },
+    reset () {
+      this.activityModel.coupon_total = 0
+      this.activityModel.type = 0
+      this.distributionMode = 0
     },
     /**
      * 查询所有的店铺店铺列表
@@ -221,21 +227,21 @@ export default {
     },
     //  type = 0 返回个位数  type= 1 返回小数
     splitCouponNumber (data, type) {
+      const newData = (typeof data) === 'string' ? data : data.toString()
       // window.console.log('折扣券', data)
-      // debugger
-      var indexOf = data.indexOf('.')
+      var indexOf = newData.indexOf('.')
       if (type === 0) {
         if (indexOf === 0) {
           this.isShowCouponNumber = false
-          return data
+          return newData
         } else {
           this.isShowCouponNumber = true
           // window.console.log('折扣券个位数', data.substr(0, indexOf))
-          return data.substr(0, indexOf)
+          return newData.substr(0, indexOf)
         }
       } else {
         // window.console.log('折扣券小数位', data.substr(indexOf, data.length))
-        return data.substr(indexOf, data.length)
+        return newData.substr(indexOf, data.length)
       }
     }
   }
