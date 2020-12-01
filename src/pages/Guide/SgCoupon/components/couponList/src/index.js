@@ -72,13 +72,15 @@ export default {
         }
       }
       _this.shopCouponList = []
-      _this.shopMap.forEach(function (value, key, map) {
-        var shop = {}
-        shop.shopId = value.id
-        shop.shopCouponTotal = parseInt(value.shopCouponNumber)
-        shop.shopName = value.shopName
-        _this.shopCouponList.push(shop)
-      })
+      if (_this.activityModel.type === 1) {
+        _this.shopMap.forEach(function (value, key, map) {
+          var shop = {}
+          shop.shopId = value.id
+          shop.shopCouponTotal = parseInt(value.shopCouponNumber)
+          shop.shopName = value.shopName
+          _this.shopCouponList.push(shop)
+        })
+      }
       _this.$http.fetch(_this.$api.guide.activityCoupon.saveActiviCoupon, {
         sgActivityCoupon: _this.activityModel,
         couponShopList: _this.shopCouponList
