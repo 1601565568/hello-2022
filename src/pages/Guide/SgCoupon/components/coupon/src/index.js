@@ -7,20 +7,20 @@ export default {
   },
   data () {
     let couponTypeList = [
+      // {
+      //   value: 0,
+      //   label: '全部'
+      // },
       {
-        value: '',
-        label: '全部'
-      },
-      {
-        value: '1',
+        value: 1,
         label: '现金券'
       },
       {
-        value: '2',
+        value: 2,
         label: '折扣券'
       },
       {
-        value: '3',
+        value: 3,
         label: '兑换券'
       }
     ]
@@ -41,10 +41,15 @@ export default {
     init () {
       // window.console.log('_data._table.data', this._data._table.data)
       this.chooseCouponDialogVisible = true
+      // this.$nextTick(() => {
+      //   this.model.couponType= '0'
+      // })
       this.couponRadio = null
       this.model.couponTitle = null
       this.model.couponType = null
       this.model.couponCode = null
+      // this.model.pageNO = this._data._pagination.page
+      // window.console.log('pageNO', this._data._pagination.page)
       this.$searchAction$()
     },
     closeDialog () {

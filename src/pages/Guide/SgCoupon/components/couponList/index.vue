@@ -82,7 +82,7 @@
                     <div class="couponCard-top">
                       <div class="couponCard-top__left">
                         <!-- 现金券 -->
-                        <div class="money" v-if="storeModel.couponType == 1">￥<span>0.1</span></div>
+                        <div class="money" v-if="storeModel.couponType == 1">￥<span>{{storeModel.couponValue}}</span></div>
                         <!-- 兑换券 -->
                         <div class="couponType3" v-if="storeModel.couponType == 3"><span>礼</span></div>
                         <!-- 折扣券 -->

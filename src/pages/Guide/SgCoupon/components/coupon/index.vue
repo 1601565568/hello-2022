@@ -15,7 +15,7 @@
                 <el-form-item label="卡券类型：">
                     <el-select
                         v-model="model.couponType"
-                        placeholder="请选择"
+                        placeholder="全部"
                         @change="$searchAction$()"
                     >
                         <el-option
