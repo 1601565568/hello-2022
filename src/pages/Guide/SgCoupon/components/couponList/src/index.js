@@ -241,7 +241,7 @@ export default {
         }
       } else {
         // window.console.log('折扣券小数位', data.substr(indexOf, data.length))
-        return newData.substr(indexOf, data.length)
+        return newData.substr(indexOf, newData.length)
       }
     }
   }

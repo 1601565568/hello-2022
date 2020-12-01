@@ -41,9 +41,11 @@ export default {
     init () {
       // window.console.log('_data._table.data', this._data._table.data)
       this.chooseCouponDialogVisible = true
+      this.couponRadio = null
       this.model.couponTitle = null
       this.model.couponType = null
       this.model.couponCode = null
+      this.$searchAction$()
     },
     closeDialog () {
       this.chooseCouponDialogVisible = !this.chooseCouponDialogVisible

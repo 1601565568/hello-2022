@@ -128,7 +128,7 @@ export default {
       var total = 0
       var couponTotal = _this.activityModel.coupon_total
       var couponId = _this.activityModel.coupon_id
-      window.console.log('storeList-storeModel', _this.storeModel)
+      // window.console.log('storeList-storeModel', _this.storeModel)
       let remainingQuantity = _this.storeModel.remainingQuantity
       // 判断输入是否是正整数
       if (!/(^[0-9]\d*$)/.test(row.shopCouponNumber)) {
@@ -160,7 +160,7 @@ export default {
         total = parseInt(couponTotal) + parseInt(row.shopCouponNumber)
       }
       // 判断是否超过总数 _this.storeModel.couponTotal ==0 代表不限量
-      window.console.log('storeList', _this.storeModel.maxType, remainingQuantity)
+      // window.console.log('storeList', _this.storeModel.maxType, remainingQuantity)
       if (_this.storeModel.maxType > 0) {
         if (total > remainingQuantity) {
           _this.$notify.info('门店总配额不能超过优惠券总配额')
