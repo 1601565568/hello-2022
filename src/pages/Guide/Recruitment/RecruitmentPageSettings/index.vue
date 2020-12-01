@@ -25,6 +25,21 @@
           </template>
           <template slot='collapse-right'>
             <img :src='model.recruitingPostersImage' class='recruiting-posters__image'/>
+            <div class="background_title"></div>
+            <div class="background_content">长按识别二维码  添加专属导购</div>
+            <div class="background_shop_guide">门店名称/导购名称</div>
+            <div class="background_image">
+              <ElImage
+                :width="70" :height="70"
+                :src="model.companyLogo||require('@/assets/groupLogo.png')"
+                mode="fill" />
+            </div>
+            <div class="background_qrCode">
+              <ElImage
+                :width="132" :height="132"
+                :src="require('@/assets/guide.png')"
+                mode="fill" />
+            </div>
           </template>
         </recruitment-collapse>
          <!-- 导购招募海报配置 end -->
@@ -85,9 +100,10 @@ import RecruitmentCollapse from './components/RecruitmentCollapse'
 import LengthInput from '@/components/NewUi/LengthInput'
 import PageEdit from '@/components/NewUi/PageEdit'
 import DrapUpload from '@/components/NewUi/DrapUpload'
+import ElImage from '@nascent/nui/lib/image'
 import ContentPreview from './components/ContentPreview'
 Index.components = {
-  ElUpload, VueDragResize, RecruitmentCollapse, LengthInput, PageEdit, DrapUpload, ContentPreview
+  ElUpload, VueDragResize, RecruitmentCollapse, LengthInput, PageEdit, DrapUpload, ContentPreview, ElImage
 }
 export default Index
 </script>
@@ -139,4 +155,48 @@ export default Index
     right: 0;
     width: 100%
   }
+  .background_title{
+    font-size: 10px;
+    color: #fff;
+    text-align: center;
+    width: 294px;
+    position: absolute;
+    bottom: 415px;
+    left: 13px;
+    border-radius: 5px;
+  }
+  .background_content{
+     font-size: 10px;
+     color: #fff;
+     text-align: center;
+     width: 294px;
+     position: absolute;
+     bottom: 92px;
+     left: 13px;
+     border-radius: 5px;
+   }
+  .background_shop_guide{
+    font-size: 10px;
+    color: #fff;
+    text-align: center;
+    width: 294px;
+    position: absolute;
+    bottom: 78px;
+    left: 13px;
+    border-radius: 5px;
+  }
+  .background_image{
+    text-align: center;
+    width: 294px;
+    position: absolute;
+    bottom: 445px;
+    left: 13px;
+  }
+  .background_qrCode{
+     text-align: center;
+     width: 294px;
+     position: absolute;
+     bottom: 188px;
+     left: 13px;
+   }
 </style>
