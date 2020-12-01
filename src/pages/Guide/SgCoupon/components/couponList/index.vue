@@ -22,7 +22,7 @@
           <el-form-item label="剩余数量：" v-if="activityModel.coupon_id !== 0">
             <el-form-item prop="store_coupon_total">
                 <div class="disabled" v-if="storeModel.maxType == 0">不限量</div>
-                <div class="disabled" v-if="storeModel.maxType > 0">{{storeModel.remainingQuantity}}</div>
+                <div class="disabled" v-else>{{storeModel.remainingQuantity}}</div>
             </el-form-item>
           </el-form-item>
           <el-form-item label="配额：" required>
