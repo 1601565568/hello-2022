@@ -10,6 +10,7 @@ import riskManagement from './riskManagement'
 import social from './social'
 import WeWork from './wework'
 import dataCenter from './dataCenter'
+import greeting from './greeting'
 export default [
   ShopManager,
   Reward,
@@ -23,6 +24,7 @@ export default [
   social,
   dataCenter,
   WeWork, // 企业微信
+  greeting,
   {
     path: '/operate/articleMaterialDetail',
     name: 'articleMaterialDetail',
@@ -38,6 +40,12 @@ export default [
     'name': 'ECRP_LOGIN',
     'title': 'ECRP登录',
     'component': () => import('@/pages/LoginEcrp/index.vue')
+  },
+  {
+    'path': '/greeting',
+    'name': 'Greeting',
+    'title': 'ECRP登录',
+    'component': () => import('@/pages/Greeting/index.vue')
   },
   // 以下为系统默认路由，修改请请与项目负责人进行确认
   {

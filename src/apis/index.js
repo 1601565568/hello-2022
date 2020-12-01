@@ -24,5 +24,9 @@ export default {
   },
   dataCenter,
   weWork, // 企业微信
-  weChat // 个号
+  weChat, // 个号
+  getChangeChannel: {
+    url: '/group/queryGroupMsg',
+    method: 'get'
+  }
 }
