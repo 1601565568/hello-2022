@@ -65,7 +65,31 @@ export default {
           cloudUrl: res.data.result.cloudUrl,
           copyrightInfo: res.data.result.copyrightInfo
         }
-
+        res.data.result.menus.push(...[{
+          code: 'CustomerService',
+          commonState: 0,
+          deluxeState: 0,
+          icon: 'zhaomupeizhi',
+          id: '6666',
+          name: '客服管理',
+          parentId: '3031',
+          platinumState: 0,
+          sort: 0,
+          type: 'MENU',
+          url: '/Guide/Service'
+        }, {
+          code: 'ThirdLink',
+          commonState: 0,
+          deluxeState: 0,
+          icon: 'zhaomupeizhi',
+          id: '7777',
+          name: '第三方关联链接',
+          parentId: '6666',
+          platinumState: 0,
+          sort: 0,
+          type: 'MENU',
+          url: '/Guide/Service/ThirdLink'
+        }])
         if (res.data.result.menus.length > 0) {
           res.data.result.menus = treeFn(null, res.data.result.menus.map((v) => {
             return {
