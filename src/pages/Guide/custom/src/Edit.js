@@ -5,11 +5,11 @@ export default {
   },
   methods: {
     onSave () {
-      console.log('保存')
+      // console.log('保存')
       this.$refs.PageContentMiddle.toImage()
     },
     onCancel () {
-      console.log('取消')
+      // console.log('取消')
     }
   }
 }

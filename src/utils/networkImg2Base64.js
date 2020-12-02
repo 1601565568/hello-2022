@@ -16,14 +16,14 @@ export const networkImg2Base64 = imgUrl => {
         let base64 = canvas.toDataURL('image/png')
         resolve(base64)
       } catch (error) {
-        console.log(error, 'error')
+        // console.log(error, 'error')
         promise.reject(new Error(`浏览器不支持canvas转base64${error}`))
       }
     }
-    image.onerror = function (err) {
-      console.log(err, '1111111111')
-      //   promise.reject(new Error(`图片加载失败${err}`))
-    }
+    // image.onerror = function (err) {
+    //   //   console.log(err, '1111111111')
+    //   //   promise.reject(new Error(`图片加载失败${err}`))
+    // }
   })
 }
 
