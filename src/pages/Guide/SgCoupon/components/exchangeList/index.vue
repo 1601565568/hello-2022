@@ -27,6 +27,9 @@
                     align="left"
                     :sortable="false"
                 >
+                <template slot-scope="scope">
+                            ￥{{scope.row.suggestPrice}}
+                </template>
                 </el-table-column>
             </el-table>
             <el-pagination
