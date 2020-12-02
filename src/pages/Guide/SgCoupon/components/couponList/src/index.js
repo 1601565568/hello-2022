@@ -120,14 +120,18 @@ export default {
       _this.storeModel.couponType = Number(data.storeCouponType)
       let temporaryCouponValue = data.storeCouponValue
       let temporaryIndex = (temporaryCouponValue !== Math.floor(temporaryCouponValue)) ? (temporaryCouponValue.toString()).split('.')[1].length : 0
-      if (temporaryIndex > 1) {
-        _this.storeModel.couponValue = (temporaryCouponValue * 10).toFixed(1)
-      }
-      if (temporaryIndex === 1) {
-        _this.storeModel.couponValue = temporaryCouponValue * 10
-      }
-      if (temporaryIndex === 0) {
-        _this.storeModel.couponValue = temporaryCouponValue
+      if (_this.storeModel.couponType === 2) {
+        if (temporaryIndex > 1) {
+          _this.storeModel.couponValue = (temporaryCouponValue * 10).toFixed(1)
+        }
+        if (temporaryIndex === 1) {
+          _this.storeModel.couponValue = temporaryCouponValue * 10
+        }
+        if (temporaryIndex === 0) {
+          _this.storeModel.couponValue = temporaryCouponValue
+        }
+      } else {
+        _this.storeModel.couponValue = data.storeCouponValue
       }
       // console.log('优惠券value', _this.storeModel.couponValue)
       _this.storeModel.couponTotal = Number(data.maxIssueAmount)
