@@ -28,9 +28,7 @@ export default {
   },
   methods: {
     imgToBase64 () {
-      networkImg2Base64(this.navigationUrl).then(res => {
-        console.log(res)
-      })
+      networkImg2Base64(this.navigationUrl)
     },
     toImage () {
       this.imgToBase64()
