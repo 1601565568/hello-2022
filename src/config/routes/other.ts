@@ -48,6 +48,26 @@ export default {
       ]
     },
     {
+      'path': '/Guide/custom',
+      'name': 'custom',
+      'title': '自定义装修',
+      'component': () => import('@nascent/ecrp-ecrm/src/layout/Content.vue'),
+      'children': [
+        {
+          'path': '/Guide/custom/Decoration',
+          'name': 'customDecoration',
+          'title': '小程序页面',
+          'component': () => import('@/pages/Guide/custom/index.vue')
+        },
+        {
+          'path': '/Guide/custom/DecorationEdit',
+          'name': 'RecruitPageConfig',
+          'title': '编辑小程序页面',
+          'component': () => import('@/pages/Guide/custom/Edit.vue')
+        }
+      ]
+    },
+    {
       'path': '/Guide/OperationLog/List',
       'name': 'LIST',
       'title': '系统日志',
