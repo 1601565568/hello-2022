@@ -7,8 +7,10 @@ export default function () {
       if (res.success) {
         resolve(res.result)
       } else {
-
+        resolve(2)
       }
+    }).catch(() => {
+      resolve(2)
     })
   })
 }

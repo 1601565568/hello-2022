@@ -45,8 +45,10 @@ router.beforeEach(async (to:any, from, next) => {
     const result = await queryGroupMsg()
     if (result === 1) {
       next('/Greeting')
+    } else if (result === 2) {
+      next('/errors')
     } else {
-      next('/Greeting')
+      next()
     }
   } else {
     next()

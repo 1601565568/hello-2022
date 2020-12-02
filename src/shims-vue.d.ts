@@ -12,3 +12,4 @@ declare module '@nascent/nui';
 declare module '@nascent/log';
 declare module '@nascent/icons-vue';
 declare module '@nascent/ecrp-ecrm';
+declare module '@/apis';
