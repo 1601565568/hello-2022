@@ -104,12 +104,12 @@
                         </p>
                         <p>创建人：{{storeModel.loginAccount}}</p>
                         <!-- <p>使用说明：至多显示一行多余…悬停TIPS显示全部</p> -->
-                        <p :title="storeModel.useRemark">使用说明:{{storeModel.useRemark || '-'}}</p>
+                        <p :title="storeModel.useRemark ">使用说明:{{storeModel.useRemark || '-'}}</p>
                         <p :title="storeModel.remark">备注：{{storeModel.remark || '-'}}</p>
                       </div>
                     </div>
                     <div class="couponCard-bottom">
-                      无门槛
+                      {{storeModel.conditionJson}}
                     </div>
                   </div>
               </div>
