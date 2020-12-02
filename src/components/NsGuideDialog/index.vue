@@ -158,7 +158,7 @@ export default index
   @import "@theme/variables.pcss";
   .template-search__chooes{
     cursor: pointer;
-    width: 40px;
+    min-width: 40px;/* width改成min-width 有问题找文秀或梦芹 */
     font-size: 12px;
     color: #0392FB;
     text-align: center;
@@ -183,7 +183,7 @@ export default index
   }
   .template-search__chooes{
     cursor: pointer;
-    width: 40px;
+    min-width: 40px;/* width改成min-width 有问题找文秀或梦芹 */
     font-size: 12px;
     color: #0392FB;
     text-align: center;

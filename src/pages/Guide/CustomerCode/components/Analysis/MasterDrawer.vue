@@ -72,6 +72,11 @@
                 prop="lastFriendAddTime"
                 sortable="custom"
                 label="最近添加好友时间">
+                <template slot-scope="scope">
+                  <div class="scope-title_text">
+                    {{scope.row.lastFriendAddTime|| '-'}}
+                  </div>
+                </template>
               </el-table-column>
               <el-table-column
                 prop="promotionCodeStatus"

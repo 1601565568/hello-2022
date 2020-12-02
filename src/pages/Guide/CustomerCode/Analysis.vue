@@ -29,8 +29,11 @@
         <div :class="'tab-content'+(item.id===analysisType?' avtive':'')" @click='hanldeChangeType(item.id)'>
           <h3 class="tab-label">
             {{item.label}}
-            <el-tooltip :content="item.tip" v-if='item.tip'  placement="top">
+            <el-tooltip v-if='item.tip'  placement="top" popper-class='popperClass'>
               <Icon type="question-circle" />
+              <template slot='content'>
+                <p class='popperClass'>{{item.tip}}</p>
+              </template>
             </el-tooltip>
           </h3>
           <div class="tab-value">{{item.value}}</div>
@@ -152,6 +155,9 @@ Analysis.components = {
         }
       }
     }
+  }
+  .popperClass {
+    max-width: 200px;
   }
 </style>
 <style scoped>
