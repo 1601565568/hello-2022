@@ -7,10 +7,10 @@ export default {
   },
   data () {
     let couponTypeList = [
-      // {
-      //   value: 0,
-      //   label: '全部'
-      // },
+      {
+        value: 0,
+        label: '全部'
+      },
       {
         value: 1,
         label: '现金券'
@@ -28,7 +28,7 @@ export default {
       model: {
         couponTitle: null,
         couponCode: null,
-        couponType: null
+        couponType: 0
       },
       url: this.$api.guide.activityCoupon.getCouponListByParam,
       chooseCouponDialogVisible: false,
@@ -46,7 +46,7 @@ export default {
       // })
       this.couponRadio = null
       this.model.couponTitle = null
-      this.model.couponType = null
+      // this.model.couponType = null
       this.model.couponCode = null
       // this.model.pageNO = this._data._pagination.page
       // window.console.log('pageNO', this._data._pagination.page)
