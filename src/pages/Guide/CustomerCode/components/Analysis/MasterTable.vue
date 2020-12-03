@@ -5,7 +5,10 @@
       <el-form-item label="所属员工：">
         <NsGuideDialog :selfBtn='true' :appendToBody='true' :isButton="false" :auth="false" type="primary" btnTitle="" dialogTitle="选择员工" v-model="guideIds" @input="handleChangeGuide">
           <template slot='selfBtn'>
-            <Icon type="geren"></Icon>
+            <div class='self-btn'>
+              {{(guideIds&&guideIds.length)?`已选择${guideIds.length}个员工`:'全部'}}
+              <Icon type="geren" class='guideIds-icon'></Icon>
+            </div>
           </template>
         </NsGuideDialog>
       </el-form-item>
@@ -32,7 +35,7 @@
         </el-date-picker>
       </el-form-item>
       <el-form-item label="">
-        <el-input v-model="seachVal" placeholder="请输入员工名称"  @keyup.enter.native="handleSearch">
+        <el-input v-model="seachVal" placeholder="请输入推广大师昵称"  @keyup.enter.native="handleSearch">
           <Icon type="ns-search-copy" slot="suffix" class='search-icon' @click="handleSearch"></Icon>
         </el-input>
       </el-form-item>
@@ -95,6 +98,11 @@
           prop="lastAddFriendsDate"
           sortable="custom"
           label="最近添加好友时间">
+          <template slot-scope="scope">
+            <div class="scope-title_text">
+              {{scope.row.lastAddFriendsDate|| '-'}}
+            </div>
+          </template>
         </el-table-column>
         <el-table-column
           prop="promotionMasterNumber"
@@ -319,5 +327,16 @@ export default {
   .search-icon {
     font-size: 22px;
     margin-top: 2px;
+  }
+  .self-btn {
+    width: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 14px;
+    color: #606266;
+    .guideIds-icon {
+      color:#C0C4CC;
+    }
   }
 </style>

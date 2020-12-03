@@ -43,6 +43,11 @@
                 prop="addTime"
                 sortable="custom"
                 label="最近添加好友时间">
+                <template slot-scope="scope">
+                  <div class="scope-title_text">
+                    {{scope.row.addTime|| '-'}}
+                  </div>
+                </template>
               </el-table-column>
             </el-table>
           </template>
@@ -213,6 +218,9 @@ export default {
 .header-title_text__grey {
   color: #8C8C8C;
   cursor: pointer;
+  &:hover {
+    color: #40AEFC;
+  }
 }
 .scope-title {
   display: flex;
