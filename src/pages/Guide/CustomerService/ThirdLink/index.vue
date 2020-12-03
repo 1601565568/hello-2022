@@ -17,12 +17,12 @@
                 <template slot='footer'>
                   <div class='flex-box hot-ware'>
                     <span class='set-ware' @click='handleSetHot'>设置图片热区</span>
-                    <span class='ware-num' v-if='hotList.length'>已设置{{hotList.length}}个热区</span>
+                    <span class='ware-num' v-if='model.hotZoneData.length'>已设置{{model.hotZoneData.length}}个热区</span>
                   </div>
                 </template>
               </drap-upload>
             </el-form-item>
-            <el-form-item label='提示文案' required prop='text' :rules="[
+            <el-form-item label='提示文案' required prop='text' class='larger-item' :rules="[
               { required: true, message: '请填写提示文案', trigger: ['blur', 'change'] },
               { validator: validatesText.bind(this, textLength), trigger: ['blur', 'change'] }
             ]">

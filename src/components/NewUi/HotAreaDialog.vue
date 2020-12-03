@@ -1,6 +1,8 @@
 <template>
   <el-dialog title="设置热区"
              width="1000px"
+              :modal-append-to-body='true' :append-to-body='true'
+             @close='handleCancel'
              :visible="hotVisible">
     <el-row class="hot-area">
       <el-col :span="16" class="hot-area-left hot-area-container">
@@ -52,15 +54,7 @@ import HotZone from './HotZone'
 export default {
   data () {
     const checkUrl = (rule, value, callback) => {
-      const sRegex = new RegExp('^((https|http|ftp|rtsp|mms)?://)' + '?(([0-9a-z_!~*\'().&=+$%-]+: )?[0-9a-z_!~*\'().&=+$%-]+@)?' + // ftp的user@
-        '(([0-9]{1,3}.){3}[0-9]{1,3}' + // IP形式的URL- 199.194.52.184
-        '|' + // 允许IP和DOMAIN（域名）
-        '([0-9a-z_!~*\'()-]+.)*' + // 域名- www.
-        '([0-9a-z][0-9a-z-]{0,61})?[0-9a-z].' + // 二级域名
-        '[a-z]{2,6})' + // first level domain- .com or .museum
-        '(:[0-9]{1,4})?' + // 端口- :80
-        '((/?)|' + // a slash isn't required if there is no file name
-        '(/[0-9a-z_!~*\'().;?:@&=+$,%#-]+)+/?)$')
+      const sRegex = /http[s]{0,1}:\/\/([\w.]+\/?)\S*/
       if (!sRegex.test(value)) {
         callback(new Error(`请输入正确的${this.defaultName}`))
       } else {
@@ -141,6 +135,9 @@ export default {
 <style scoped>
 .hot-area >>> .el-scrollbar__wrap{
   overflow-x: hidden;
+}
+.hot-area >>> .el-form-item {
+  margin-bottom: 0
 }
 .hot-area .hot-area-container {
   border: 1px solid #E3E2E5;
