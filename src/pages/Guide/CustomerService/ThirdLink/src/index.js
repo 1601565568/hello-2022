@@ -18,7 +18,7 @@ export default {
       if (this.model.background) {
         this.hotVisible = true
       } else {
-        this.$notify.error(`请上传背景图~`)
+        this.$notify.error(`请先上传背景图`)
       }
     },
     handleCancel () {
