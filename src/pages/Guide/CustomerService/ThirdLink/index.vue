@@ -1,18 +1,18 @@
 <template>
-  <el-form label-width='100px' label-position='left' ref='searchform' class='normal-from common-container' :model='model' :rules="rules"  size='medium'>
+  <el-form label-width='100px' label-position='left' ref='form' class='normal-from common-container' :model='model' :rules="rules"  size='medium'>
     <page-edit>
       <template slot='header'>
         <div class='common-header flex-box'>
           <h3>第三方关联链接配置</h3>
           <div class='common-btn'>
-            <ns-button class='customer-btn_save' type="primary" size='large' @click='update' :loading='btnLoad'>保存</ns-button>
+            <ns-button class='customer-btn_save' type="primary" size='large' @click='onSave' :loading='btnLoad'>保存</ns-button>
           </div>
         </div>
       </template>
       <template slot='content'>
-        <recruitment-collapse title='关联成功页面' phoneBar='关联淘宝帐号'>
+        <recruitment-collapse title='关联成功页面' :phoneBar='`关联${platform.name}帐号`'>
           <template slot='collapse-left'>
-            <el-form-item label='背景图' required prop='title'  class='larger-item'>
+            <el-form-item label='背景图' required prop='background'  class='larger-item'>
               <drap-upload tip='（请上传格式为jpg或png图片，图片尺寸为750*1334,大小不超过10M）' v-model='model.background' :maxWidth='750' :maxHeight='1334' :showPont='false'>
                 <template slot='footer'>
                   <div class='flex-box hot-ware'>
@@ -22,11 +22,14 @@
                 </template>
               </drap-upload>
             </el-form-item>
-            <el-form-item label='提示文案' required prop='content'>
+            <el-form-item label='提示文案' required prop='text' :rules="[
+              { required: true, message: '请填写提示文案', trigger: ['blur', 'change'] },
+              { validator: validatesText.bind(this, textLength), trigger: ['blur', 'change'] }
+            ]">
               <div class='form-item_exmple__content'>
-                <span>客户淘宝昵称较长时提示文案可能出现换行，请注意拖动时页面排版问题</span>
+                <span>客户{{platform.name}}昵称较长时提示文案可能出现换行，请注意拖动时页面排版问题</span>
               </div>
-              <tag-area v-model='model.activityIntroduction' tag="wise" ref="testText" :maxlength="20" :tools='tools' placeholder="请输入活动介绍"/>
+              <tag-area v-model='model.text' tag="wise" ref="testText" :maxlength="50" :tools='tools' placeholder="请输入活动介绍" @inputLength='inputLength'/>
             </el-form-item>
             <el-form-item label='字体颜色' required prop='fontColor'>
               <el-color-picker v-model="model.fontColor"></el-color-picker>
@@ -34,7 +37,9 @@
           </template>
           <template slot='collapse-right'>
             <div class='chat-content' :style='{"background-image":`url(${model.background})`}'>
-              <img >
+              <VueDragResize axis="y" :isResizable='false' :w="model.textW" :h='model.textH' :parentLimitation="true"  :x='model.textX' :y='model.textY' @dragstop="onDragResize">
+                <div class='drag-text' :style="{color:model.fontColor}">{{htmlText}}</div>
+              </VueDragResize>
             </div>
           </template>
         </recruitment-collapse>
@@ -96,5 +101,9 @@ export default Index
   position: relative;
   background-size: cover;
   background-repeat: no-repeat
+}
+.drag-text {
+  word-break: break-all;
+  text-align: center;
 }
 </style>
