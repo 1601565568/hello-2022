@@ -123,7 +123,7 @@
         align="center"
       >
       <template slot-scope="scope">
-        <ns-button @click="ViewProgress(scope.row)" type="text">查看完整进度</ns-button>
+        <ns-button @click="ViewProgress(scope.row)" type="text">查看任务进度</ns-button>
         <span v-if="scope.row.editAccess === 1" >
           <span v-if="scope.row.state !== 4" >
             <ns-button @click="EditShowToggle(scope.row)" type="text">编辑</ns-button>
