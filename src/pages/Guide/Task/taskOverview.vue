@@ -5,7 +5,7 @@
       <ElBreadcrumb separator="/">
         <ElBreadcrumbItem>业绩指标</ElBreadcrumbItem>
         <ElBreadcrumbItem>任务管理</ElBreadcrumbItem>
-        <ElBreadcrumbItem>任务进度统计</ElBreadcrumbItem>
+        <ElBreadcrumbItem>查看任务进度</ElBreadcrumbItem>
       </ElBreadcrumb>
     </div>
     <div class="taskOverview-content">

@@ -42,5 +42,10 @@ export default {
   saveShow: {
     url: '/Guide/PersonalQrcode/saveShow',
     method: 'post'
+  },
+  // 获取创建聚合二维码创建者集合
+  queryCreatorList: {
+    url: '/Guide/PersonalQrcode/queryCreatorList',
+    method: 'post'
   }
 }
