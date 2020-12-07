@@ -1,7 +1,7 @@
 import api from '@/config/http'
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import { getErrorMsg } from '@/utils/toast'
-
+import LocalStorage from 'store/dist/store.legacy.min.js'
 export default {
   data: function () {
     let pagination = {
@@ -116,13 +116,7 @@ export default {
       value1: '',
       value2: '',
       remark: '备注备注备',
-      options: [{
-        value: '选项1',
-        label: '黄金糕'
-      }, {
-        value: '选项2',
-        label: '双皮奶'
-      }],
+      options: [],
       value3: '',
       startDateTime: null,
       endDateTime: null,
@@ -133,15 +127,51 @@ export default {
       searchParam: {}, // 积分查询条件
       integralAccountArr: [],
       currentIndex: '',
-      integralLogIsShow: [false, false, false, false, false]
+      integralLogIsShow: [false, false, false, false, false],
+      recordChooseList: [], // 记录勾选导购转移的数组
+      checkNumberLength: 0, // 记录列表勾选会员人数
+      replaceStoreShow: false,
+      shopCateTree: [],
+      allShopOptions: [],
+      shopOptions: []
     }
   },
   mixins: [tableMixin],
   methods: {
-    getCurrentRow (row, index) { // 单选按钮
-      this.radio = index
-      this.value = row
+    // 更换门店开始
+    async handlereplaceShop () {
+      let { checkAll, total, removeCheckList, addcheckList, shopCustomerTransferTaskStatus } = this.$refs.table1
+      if (shopCustomerTransferTaskStatus && shopCustomerTransferTaskStatus.status !== 3) {
+        this.$notify.error('存在执行中的会员转移任务，请稍后再试')
+        return false
+      }
+      this.replaceStoreShow = true
+      let result = await this.handleSelection(checkAll, removeCheckList, addcheckList)
+      if (result) {
+        this.title = '会员更换门店'
+        this.checkNumberLength = this.formatCheckNumberLength(checkAll, total, removeCheckList, addcheckList)
+        this.$refs.replaceStore.init()
+      }
     },
+    /**
+     * 获取门店分类，所有门店选项
+     */
+    getShopCateAndShop: function () {
+      let that = this
+      that.$http.fetch(that.$api.core.sysShop.getShopTree, { sameSystemShopId: this.sameSystemShopId })
+        .then((resp) => {
+          that.shopCateTree = resp.result.shopCateTree
+          that.allShopOptions = resp.result.shopOptions
+          that.shopOptions = resp.result.shopOptions
+        }).catch(() => {
+          that.$notify.error('加载下拉树、下拉框数据失败')
+        })
+    },
+    // 更换门店结束
+    // getCurrentRow (row, index) { // 单选按钮
+    //   this.radio = index
+    //   this.value = row
+    // },
     handleClick (tab, event) {
       // 假如切换到积分tab
       if (tab.label.indexOf('基础信息') === -1 && tab.label.indexOf('交易信息') === -1) {
@@ -244,27 +274,22 @@ export default {
         this.$notify.error(getErrorMsg('查询失败', resp))
       })
     },
-    searchAction (model) { // 搜索
+    async searchAction () { // 搜索
       this.pagination.page = 1
-      this.guideFindList(model)
+      await this.guideFindList(this.model)
+      this.tableStatus()
     },
-    resetInputAction () { // 重置
+    async resetInputAction () { // 重置
       this.model.name = null
       this.model.shop = null
       this.pagination.page = 1
       this.pagination.size = 15
-      this.guideFindList()
+      await this.guideFindList()
+      this.tableStatus()
     },
-    // async findBrandShopList (model) { // 门店列表查询
-    //   let that = this
-    //   await this.$http
-    //     .fetch(that.$api.guide.shop.findBrandShopList, { isOnline: 0, sameSystemShopId: model.sameSystemShopId })
-    //     .then(resp => {
-    //       that.shopList = [...resp.result]
-    //     })
-    //     .catch(resp => {
-    //       this.$notify.error(getErrorMsg('查询失败', resp))
-    //     })
+    // 所属门店change
+    // handleShoperSelectChange () {
+    //   this.searchAction()
     // },
     async guideFindList (model) { // 导购列表查询
       let that = this
@@ -297,31 +322,31 @@ export default {
           that._data._table.loadingtable = false
           that.particularsObj = [...resp.result.data]
           that.pagination.total = Number(resp.result.recordsTotal)
-          that.particularsObj.map((item, i) => {
-            if (item[i].id === item[i + 1].id) {
-              item.splice(item[i], item[i + 1])
-            }
-          })
-          that.shopList = new Set(that.shopList)
-          that.shopList = Array.from(that.shopList)
+          // that.particularsObj.map((item, i) => {
+          //   if (item[i].id === item[i + 1].id) {
+          //     item.splice(item[i], item[i + 1])
+          //   }
+          // })
+          // that.shopList = new Set(that.shopList)
+          // that.shopList = Array.from(that.shopList)
         }).catch(resp => { that._data._table.loadingtable = false })
     },
-    onKeyUp (e) {
-      var key = window.event.keyCode
-      var _this = this
-      if (key === 13) {
-        _this.onSave()
-      } else if (key === 27) {
-        _this.$confirm('内容被修改是否要保存！', '提示', {
-          confirmButtonText: '保存',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-        })
-      } else {
-        _this.shopFindListShow = false
-      }
-    },
+    // onKeyUp (e) {
+    //   var key = window.event.keyCode
+    //   var _this = this
+    //   if (key === 13) {
+    //     _this.onSave()
+    //   } else if (key === 27) {
+    //     _this.$confirm('内容被修改是否要保存！', '提示', {
+    //       confirmButtonText: '保存',
+    //       cancelButtonText: '取消',
+    //       type: 'warning'
+    //     }).then(() => {
+    //     })
+    //   } else {
+    //     _this.shopFindListShow = false
+    //   }
+    // },
     // 分页-页数改变
     shopPageChange (page) {
       let that = this
@@ -340,96 +365,205 @@ export default {
         .then(resp => {
           that.particularsObj = [...resp.result.data]
           that.pagination.total = Number(resp.result.recordsTotal)
-          that.particularsObj.map((item, i) => {
-            if (item[i].id === item[i + 1].id) {
-              item.splice(item[i], item[i + 1])
-            }
-          })
-          that.shopList = new Set(shopList)
-          that.shopList = Array.from(that.shopList)
-        })
-        .catch(resp => {
+          // that.particularsObj.map((item, i) => {
+          //   if (item[i].id === item[i + 1].id) {
+          //     item.splice(item[i], item[i + 1])
+          //   }
+          // })
+          // that.shopList = new Set(shopList)
+          // that.shopList = Array.from(that.shopList)
+          this.tableStatus()
         })
     },
     // 分页-大小改变
-    shopSizeChange (pageSize) {
+    async shopSizeChange (pageSize) {
       var _this = this
       _this.pagination.size = pageSize
       _this.pagination.page = 1
-      _this.guideFindList(pageSize)
+      await _this.guideFindList(pageSize)
+      this.tableStatus()
     },
-    handleSelectionChange (value) {
-      this.multipleSelection = value
+    // 表格显示状态
+    tableStatus () {
+      if (this.recordChooseList.length === 0) return false
+      let _this = this
+      setTimeout(() => {
+        this.particularsObj.forEach(row => {
+          this.recordChooseList.forEach((item) => {
+            if ((row.id === item.id) && (row.shopId === item.shopId)) {
+              _this.$refs.table.toggleRowSelection(row, true)
+            }
+          })
+        })
+      }, 50)
     },
-    guideChange (value) {
-      this.multipleSelection = value
+    async handleSelectionChange () {
+      let { checkAll, removeCheckList, addcheckList, shopCustomerTransferTaskStatus, total } = this.$refs.table1
+      // 判断是否有执行的任务
+      if (shopCustomerTransferTaskStatus && shopCustomerTransferTaskStatus.status !== 3) {
+        this.$notify.error('存在执行中的会员转移任务，请稍后再试')
+        return false
+      }
+      let result = await this.handleSelection(checkAll, removeCheckList, addcheckList)
+      if (result) {
+        this.title = '会员更换导购'
+        this.checkNumberLength = this.formatCheckNumberLength(checkAll, total, removeCheckList, addcheckList)
+        this.shopFindListShow = true
+        this.guideFindList({ sameSystemShopId: this.sameSystemShopId })
+      }
+      // let { checkAll, removeCheckList, addcheckList } = this.$refs.table1
+      // if (!checkAll && removeCheckList.length === 0 && addcheckList.length === 0) {
+      //   this.$notify.error('请选择要更换导购的会员')
+      //   return false
+      // } else if (checkAll && removeCheckList.length > 500) {
+      //   this.$notify.error(`已勾选${removeCheckList.length}人，超出手动勾选转移人数上限（500人）`)
+      //   return false
+      // } else if (!checkAll && addcheckList.length > 500) {
+      //   this.$notify.error(`已勾选${addcheckList.length}人，超出手动勾选转移人数上限（500人）`)
+      //   return false
+      // } else {
+      // }
+      // this.multipleSelection = value
+    },
+    // 更新全部数据
+    formatCheckNumberLength (checkAll, total, removeArr, addArr) {
+      let removeLen = removeArr ? removeArr.length : 0
+      let addLen = addArr ? addArr.length : 0
+      if (checkAll && addLen === 0 && removeLen === 0) {
+        return total
+      } else if (!removeLen) {
+        return addLen
+      } else {
+        return parseInt(total) - parseInt(removeLen)
+      }
+    },
+    handleSelection (checkAll, removeCheckList, addcheckList) {
+      return new Promise((resolve, reject) => {
+        // let { checkAll, removeCheckList, addcheckList } = this.$refs.table1
+        if (!checkAll && removeCheckList.length === 0 && addcheckList.length === 0) {
+          this.$notify.error('请选择要更换导购的会员')
+          resolve(false)
+        } else if (checkAll && removeCheckList.length > 500) {
+          this.$notify.error(`取消选择人数已超过500人，无法进行会员转移`)
+          resolve(false)
+        } else if (!checkAll && addcheckList.length > 500) {
+          this.$notify.error(`已勾选${addcheckList.length}人，超出手动勾选转移人数上限（500人）`)
+          resolve(false)
+        } else {
+          resolve(true)
+        }
+      })
+    },
+    handleSelectChange (selection, row) {
+      this.addCheck(selection, row)
+    },
+    // 添加数组
+    addCheck (selection, row) {
+      let selectionIndex = selection.findIndex((item) => {
+        return (row.id === item.id) && (row.shopId === item.shopId)
+      })
+      if (selectionIndex >= 0) {
+        this.recordChooseList.push(row)
+      } else {
+        this.delAddCheck(row)
+      }
+    },
+    // 取消勾选
+    delAddCheck (row) {
+      if (this.recordChooseList.length === 0) {
+        return false
+      }
+      let removeIndex = this.recordChooseList.findIndex((item) => {
+        return (row.id === item.id) && (row.shopId === item.shopId)
+      })
+      this.recordChooseList.splice(removeIndex, 1)
+    },
+    hanledSelecAllChange (value) {
+      let pagedataAll = value.length === 0 // 判断是全选还是全部取消
+      if (pagedataAll) {
+        this.recordChooseList = this.diffArr(this.recordChooseList, this.particularsObj)
+      } else {
+        this.recordChooseList = this.recordChooseList.concat(this.particularsObj)
+        this.recordChooseList = this.unique(this.recordChooseList)
+      }
+    },
+    // 全选状态下，勾选全部选中
+    diffArr (arr1, arr2) {
+      let deffArr = arr1.filter(item =>
+        !arr2.some(ele => (ele.id === item.id && ele.shopId === item.shopId))
+      )
+      return deffArr
+    },
+    // 去重
+    unique (arr) {
+      let newArr = JSON.parse(JSON.stringify(arr))
+      if (newArr.length === 0) {
+        return false
+      }
+      for (var i = 0; i < newArr.length; i++) {
+        for (var j = i + 1; j < newArr.length; j++) {
+          if ((newArr[i].id === newArr[j].id) && (newArr[i].shopId === newArr[j].shopId)) {
+            newArr.splice(j, 1)
+            j--
+          }
+        }
+      }
+      return newArr
     },
     // 会员详情展示
     onRedactFun (val, offLineShopId) {
       let _this = this
-      if (val === undefined) {
-        if (this.multipleSelection.length > 0) {
-          _this.title = '导购更换列表'
-          _this.shopFindListShow = true
-          let shopId = this.sameSystemShopId
-          _this.guideFindList({ sameSystemShopId: shopId })
-        } else {
-          _this.$notify.error('请选择要更换导购的会员')
-        }
-      } else {
-        _this.title = '会员详情'
-        _this.$http.fetch(_this.$api.guide.guide.customerGetDetail, {
-          sysCustomerId: val.sysCustomerId,
-          guideId: Number(val.guideId),
-          shopId: val.sgExclusiveShopId
-        }).then(resp => {
-          if (resp.success && resp.result != null) {
-            _this.shopKuhuShow = true
-            _this.items = resp.result
-
-            if (_this.items.integralAccountList) {
-              let length = _this.items.integralAccountList.length
-              for (let i = 0; i < length; i++) {
-                _this.integralLogIsShow[i] = true
-                // 积分名称
-                this.integralName[i] = _this.items.integralAccountList[i].integralName
-                this.integralAliasName[i] = _this.items.integralAccountList[i].integralAlias
-                // 积分显示
-                this.integralIsShow[i] = true
-                this.accountCode[this.integralName[i]] = _this.items.integralAccountList[i].integralAccount
-              }
-              _this.integralAccountArr.push(_this.items.integralAccountList)
+      _this.title = '会员详情'
+      _this.$http.fetch(_this.$api.guide.guide.customerGetDetail, {
+        sysCustomerId: val.sysCustomerId,
+        guideId: Number(val.guideId),
+        shopId: val.sgExclusiveShopId
+      }).then(resp => {
+        if (resp.success && resp.result != null) {
+          _this.shopKuhuShow = true
+          _this.items = resp.result
+          if (_this.items.integralAccountList) {
+            let length = _this.items.integralAccountList.length
+            for (let i = 0; i < length; i++) {
+              _this.integralLogIsShow[i] = true
+              // 积分名称
+              this.integralName[i] = _this.items.integralAccountList[i].integralName
+              this.integralAliasName[i] = _this.items.integralAccountList[i].integralAlias
+              // 积分显示
+              this.integralIsShow[i] = true
+              this.accountCode[this.integralName[i]] = _this.items.integralAccountList[i].integralAccount
             }
-            if (_this.items.assetJson) {
-              let assetJson = JSON.parse(_this.items.assetJson)
-              let length = _this.items.integralAccountList.length
-              for (let name in assetJson) {
-                for (let i = 0; i < length; i++) {
-                  // 积分别名
-                  let accountCode = _this.items.integralAccountList[i].integralAccount
-                  if (accountCode.indexOf(name) > -1) {
-                    this.integralIsNum[i] = assetJson[name]
-                  }
+            _this.integralAccountArr.push(_this.items.integralAccountList)
+          }
+          if (_this.items.assetJson) {
+            let assetJson = JSON.parse(_this.items.assetJson)
+            let length = _this.items.integralAccountList.length
+            for (let name in assetJson) {
+              for (let i = 0; i < length; i++) {
+                // 积分别名
+                let accountCode = _this.items.integralAccountList[i].integralAccount
+                if (accountCode.indexOf(name) > -1) {
+                  this.integralIsNum[i] = assetJson[name]
                 }
               }
             }
-            _this.items.province = _this.disposeArea(_this.items.province, _this.items.city)
-            // _this.items.customerName = _this.disposeOutNick(_this.items.customerName, _this.items.outAlias)
           }
-        }).catch((resp) => {
-          _this.$notify.error(getErrorMsg('查询失败', resp))
-        })
-        // 积分暂时无法查询，先注释 20190911
-        // _this.$http.fetch(_this.$api.guide.guide.customerQueryValidPoint, {
-        //   nick: val.nick,
-        //   nickType: val.nickType,
-        //   customerFrom: val.customerFrom
-        // }).then(resp => {
-        //   _this.result = resp.result
-        // }).catch((resp) => {
-        //   _this.$notify.error(getErrorMsg('查询失败', resp))
-        // })
-      }
+          _this.items.province = _this.disposeArea(_this.items.province, _this.items.city)
+          // _this.items.customerName = _this.disposeOutNick(_this.items.customerName, _this.items.outAlias)
+        }
+      }).catch((resp) => {
+        _this.$notify.error(getErrorMsg('查询失败', resp))
+      })
+      // 积分暂时无法查询，先注释 20190911
+      // _this.$http.fetch(_this.$api.guide.guide.customerQueryValidPoint, {
+      //   nick: val.nick,
+      //   nickType: val.nickType,
+      //   customerFrom: val.customerFrom
+      // }).then(resp => {
+      //   _this.result = resp.result
+      // }).catch((resp) => {
+      //   _this.$notify.error(getErrorMsg('查询失败', resp))
+      // })
     },
     shopEdit (row) {
       var _this = this
@@ -545,9 +679,11 @@ export default {
       this.model.shop = null
       this.pagination.page = 1
       this.pagination.size = 15
+      this.recordChooseList = []
     },
     getOffLineShopId (data) {
       this.sameSystemShopId = data
+      this.getShopCateAndShop()
     },
     addText (row) {
       if (row.selectValue) {
@@ -813,43 +949,132 @@ export default {
         }
       }
     },
-    // 更换导购
-    onSave () {
-      let _this = this
+    replaceStoreonSave () {
+      this.onSave(2)
+    },
+    /**
+     * @param {*} taskType
+     * taskType 1更换导购 2更换门店
+     */
+    onSave (taskType) {
+      var params
+      if (taskType === 1 && this.recordChooseList.length === 0) {
+        this.$notify.error('请先选择更换导购门店')
+        return false
+      }
+      let { checkAll, removeCheckList, addcheckList } = this.$refs.table1
+      let remumberLoginInfo = LocalStorage.get('user')
+      let { nick, nickId } = remumberLoginInfo
       let obj = {
-        nick: null,
-        nickType: null,
-        customerFrom: null,
-        sgExclusiveGuideId: null, // 增加原导购ID sgExclusiveShopId 、sgExclusiveGuideId | name 也有
-        sgExclusiveShopId: null
+        operatorName: nick, // 操作人
+        operator: nickId,
+        shopId: this.sameSystemShopId, // 当前门店ID
+        terminalType: 1, // 终端
+        taskType: 1, // 按会员转移
+        checkType: checkAll ? 1 : 0, // 是否全选 0选中 1取消选中
+        customerList: checkAll ? this.formateCustomerList(removeCheckList) : this.formateCustomerList(addcheckList) // 客户选中列表
       }
-      if (_this.value !== null) {
-        _this.customerIdList = []
-        _this.multipleSelection.map(item => {
-          let nick = {}
-          obj.nick = item.nickInfoList[0].nick
-          obj.platform = this.changePlatform(item.nickInfoList[0].platform)
-          // obj.nick = item.outNick
-          // obj.platform = this.changePlatform(item.platform)
-          obj.sgExclusiveGuideId = item.sgExclusiveGuideId
-          obj.sgExclusiveShopId = item.sgExclusiveShopId
-          nick = Object.assign({}, obj)
-          _this.customerIdList.push(nick)
-        })
-        this.$http.fetch(this.$api.guide.guide.updateCustomerGuide, {
-          nickListJson: _this.customerIdList,
-          newGuideId: Number(_this.value.id),
-          shopId: Number(_this.value.shopId)
-        }).then(resp => {
-          _this.$notify.success('保存成功')
-          _this.$refs.table1.$reload()
-          _this.closeDialog()
-        }).catch((resp) => {
-          _this.$notify.error(getErrorMsg('保存失败', resp))
-        })
-      } else {
-        _this.$notify.error('请选择要更换的导购！')
+      if (taskType === 1) {
+        params = {
+          ...obj,
+          receiveShopGuideList: this.formatOutGuideIdList(this.recordChooseList)
+        }
       }
+      if (taskType === 2) {
+        params = {
+          ...obj,
+          receiveShopGuideList: [{
+            receiveShopId: this.$refs.replaceStore.shopId,
+            receiveGuideId: 0
+          }]
+        }
+      }
+      this.createCustomerTransferTask(params, taskType)
+      // this.createCustomerTransferTask(params)
+      // let _this = this
+      // let obj = {
+      //   nick: null,
+      //   nickType: null,
+      //   customerFrom: null,
+      //   sgExclusiveGuideId: null, // 增加原导购ID sgExclusiveShopId 、sgExclusiveGuideId | name 也有
+      //   sgExclusiveShopId: null
+      // }
+      // if (_this.value !== null) {
+      //   _this.customerIdList = []
+      //   _this.multipleSelection.map(item => {
+      //     let nick = {}
+      //     obj.nick = item.nickInfoList[0].nick
+      //     obj.platform = this.changePlatform(item.nickInfoList[0].platform)
+      //     // obj.nick = item.outNick
+      //     // obj.platform = this.changePlatform(item.platform)
+      //     obj.sgExclusiveGuideId = item.sgExclusiveGuideId
+      //     obj.sgExclusiveShopId = item.sgExclusiveShopId
+      //     nick = Object.assign({}, obj)
+      //     _this.customerIdList.push(nick)
+      //   })
+      //   this.$http.fetch(this.$api.guide.guide.updateCustomerGuide, {
+      //     nickListJson: _this.customerIdList,
+      //     newGuideId: Number(_this.value.id),
+      //     shopId: Number(_this.value.shopId)
+      //   }).then(resp => {
+      //     _this.$notify.success('保存成功')
+      //     _this.$refs.table1.$reload()
+      //     _this.closeDialog()
+      //   }).catch((resp) => {
+      //     _this.$notify.error(getErrorMsg('保存失败', resp))
+      //   })
+      // } else {
+      //   _this.$notify.error('请选择要更换的导购！')
+      // }
+    },
+    // sgExclusiveGuideId: this.formatSgExclusiveGuideId(removeCheckList, addcheckList),
+    // 格式化勾选参数数组
+    formateCustomerList (arr) {
+      let newArr = arr.map((item) => {
+        return {
+          ...item.nickInfoList[0],
+          sgExclusiveGuideId: item.sgExclusiveGuideId
+        }
+      })
+      return newArr
+    },
+    // 格式化导购ID
+    formatOutGuideIdList (arr) {
+      return arr.map((item) => {
+        return {
+          receiveShopId: item.shopId,
+          receiveGuideId: item.id
+        }
+      })
+    },
+    // formatSgExclusiveGuideId (removeCheckList, addcheckList) {
+    //   if (removeCheckList.length === 0) {
+    //     return addcheckList.map((item) => {
+    //       return item.sgExclusiveGuideId
+    //     })
+    //   } else {
+    //     return removeCheckList.map((item) => {
+    //       return item.sgExclusiveGuideId
+    //     })
+    //   }
+    // },
+    // 创建客户转移任务
+    createCustomerTransferTask (params, taskType) {
+      this.$http.fetch(this.$api.guide.shop.createCustomerTransferTask, params).then((res) => {
+        if (res.success) {
+          this.$refs.table1.clearRemoveStatus()
+          this.shopFindListShow = false
+          this.$refs.table1.$reload()
+          // this.$refs.table1.getShopCustomerTransferTaskStatus()
+          if (taskType === 2) {
+            this.replaceStoreShow = false
+          }
+        } else {
+          this.$notify.error('会员转移失败', res.result)
+        }
+      }).catch((err) => {
+        this.$notify.error(`会员转移失败${err.msg}`)
+      })
     },
     // 将platform转化成中台需要的参数
     changePlatform (platform) {

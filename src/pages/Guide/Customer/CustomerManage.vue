@@ -1,20 +1,34 @@
 <template>
   <div>
-    <ns-table-guide ref="table1" :url=$api.guide.guide.customerFindCustomerList @add="onRedactFun"
+    <ns-table-guide ref="table1" :url=$api.guide.guide.customerFindCustomerList @add="handleSelectionChange"
                     @shopEdit="shopEdit" @showTag="showTagData" @onRedactFun="onRedactFun"
-                    @handleSelectionChange="handleSelectionChange" @offLineShopId="getOffLineShopId($event)">
+                    @handlereplaceShop="handlereplaceShop"
+                    @offLineShopId="getOffLineShopId($event)">
     </ns-table-guide>
     <!--更换导购弹窗-->
-    <el-dialog :title="title" :visible.sync="shopFindListShow" width="800px" @close="closeDialog">
+    <el-dialog :visible.sync="shopFindListShow" width="800px" @close="closeDialog">
+      <div slot="title" class="checkNumberTitle">
+        <span class="dialogtitle">{{title}}</span>
+        <span class="number">已选会员{{checkNumberLength}}人</span>
+      </div>
+      <div class="replace-rule">
+        更换规则：1、分配给多个导购时，将按照选择导购的先后顺序均分。2、分配逻辑为随机分配，与转移前会员专属导购身份无关。
+      </div>
       <!--  搜索开始  -->
       <!-- el-form 需添加  @keyup.enter.native="onSearch" 配置，实现回车搜索， onSearch 为搜索方法 -->
       <!-- el-form 需添加  surround-btn 类名 配置环绕按钮效果 -->
       <div class="search">
-        <el-form class="el_form" ref="table_filter_form" :model="model" label-width="60px" :inline="true"
-          @keyup.enter.native="searchAction(model)">
+        <el-form class="el_form" ref="table_filter_form" :model="model" label-width="60px" :inline="true">
           <el-form-item label="关键字：">
             <el-form-grid size="xmd">
-              <el-input style="width:180px" autofocus=true v-model="model.name" placeholder="请输入账号/姓名/手机号" clearable></el-input>
+              <el-input style="width:180px"
+                        @keyup.enter.native="searchAction"
+                        @clear="searchAction"
+                        autofocus=true
+                        v-model="model.name"
+                        placeholder="请输入账号/姓名/手机号"
+                        clearable>
+              </el-input>
             </el-form-grid>
           </el-form-item>
           <el-form-item label="所属门店：">
@@ -25,24 +39,30 @@
                                 clearable/>
             </el-form-grid>
           </el-form-item>
-          <el-form-item>
+          <!-- <el-form-item>
             <ns-button type="primary" @click="searchAction(model)">搜索</ns-button>
             <ns-button @click="resetInputAction">重置</ns-button>
-          </el-form-item>
+          </el-form-item> -->
         </el-form>
       </div>
       <!--  搜索结束  -->
       <!--  表格开始  -->
-      <el-table ref="table" :data="particularsObj" stripe @selection-change="guideChange"
+      <el-table ref="table" :data="particularsObj" stripe
+        @select-all="hanledSelecAllChange"
+        @select="handleSelectChange"
         v-loading.lock="_data._table.loadingtable"
         :element-loading-text="$t('prompt.loading')">
-        <el-table-column width="25">
+        <el-table-column
+          type="selection"
+          width="55">
+        </el-table-column>
+        <!-- <el-table-column width="25">
           <template slot-scope="scope">
             <div class="customerManage">
               <el-radio :label="scope.$index" v-model="radio"  @change.native="getCurrentRow(scope.row,scope.$index)"></el-radio>
             </div>
           </template>
-        </el-table-column>
+        </el-table-column> -->
         <el-table-column prop="workId" label="账号" align="left" width="180">
           <template slot-scope="scope">
             {{scope.row.workId || '-'}}
@@ -77,15 +97,17 @@
       </el-pagination>
       <!-- 分页-结束 -->
       <div slot="footer" class="dialog-footer">
+        <span class="recordChooseList">已选导购{{recordChooseList.length}}人</span>
         <ns-button @click="closeDialog">取消</ns-button>
-        <ns-button type="primary" @click="onSave">确定</ns-button>
+        <ns-button type="primary" @click="onSave(1)">确定</ns-button>
       </div>
     </el-dialog>
     <!-- 新客户详情弹窗-->
     <el-dialog
       title="详情" width="900px" height="500px"
       :visible.sync="shopKuhuShow"
-      class="dialog-container"  @keyup.enter.native="onKeyUp" @keyup.esc.native="onKeyUp" @close="closeDetailDialog">
+      class="dialog-container"  @close="closeDetailDialog">
+       <!-- @keyup.enter.native="onKeyUp" @keyup.esc.native="onKeyUp" -->
       <div class="dialog-container__msg">
         <div class="dialog-avatar">
           <el-image
@@ -392,27 +414,6 @@
                                         value-format="yyyy-MM-dd 23:59:59" @change="disposeEndTime">
                         </el-date-picker>
                       </el-form-grid>
-                      <!--                  <el-form-grid class="dialog-formitem__type">-->
-                      <!--                    变更类型：-->
-                      <!--                  </el-form-grid>-->
-                      <!--                  <el-form-grid size="md">-->
-                      <!--                    <el-select v-model.trim="model.type" placeholder="请选择">-->
-                      <!--                      <el-option-->
-                      <!--                        v-for="item in typeArray"-->
-                      <!--                        :key="item.key"-->
-                      <!--                        :label="item.value"-->
-                      <!--                        :value="item.key"/>-->
-                      <!--                    </el-select>-->
-                      <!--                  </el-form-grid>-->
-                      <!--                  <el-form-grid size="md">-->
-                      <!--                    <el-select v-model.trim="model.type" placeholder="请选择">-->
-                      <!--                      <el-option-->
-                      <!--                        v-for="item in typeArray"-->
-                      <!--                        :key="item.key"-->
-                      <!--                        :label="item.value"-->
-                      <!--                        :value="item.key"/>-->
-                      <!--                    </el-select>-->
-                      <!--                  </el-form-grid>-->
                       <el-form-grid>
                         <ns-button type="primary" @click="seachIntegral(0)" class="dialog-leftspace">搜索</ns-button>
                       </el-form-grid>
@@ -482,27 +483,6 @@
                                         value-format="yyyy-MM-dd 23:59:59" @change="disposeEndTime">
                         </el-date-picker>
                       </el-form-grid>
-                      <!--                  <el-form-grid class="dialog-formitem__type">-->
-                      <!--                    变更类型：-->
-                      <!--                  </el-form-grid>-->
-                      <!--                  <el-form-grid size="md">-->
-                      <!--                    <el-select v-model.trim="model.type" placeholder="请选择">-->
-                      <!--                      <el-option-->
-                      <!--                        v-for="item in typeArray"-->
-                      <!--                        :key="item.key"-->
-                      <!--                        :label="item.value"-->
-                      <!--                        :value="item.key"/>-->
-                      <!--                    </el-select>-->
-                      <!--                  </el-form-grid>-->
-                      <!--                  <el-form-grid size="md">-->
-                      <!--                    <el-select v-model.trim="model.type" placeholder="请选择">-->
-                      <!--                      <el-option-->
-                      <!--                        v-for="item in typeArray"-->
-                      <!--                        :key="item.key"-->
-                      <!--                        :label="item.value"-->
-                      <!--                        :value="item.key"/>-->
-                      <!--                    </el-select>-->
-                      <!--                  </el-form-grid>-->
                       <el-form-grid>
                         <ns-button type="primary" @click="seachIntegral(1)" class="dialog-leftspace">搜索</ns-button>
                       </el-form-grid>
@@ -572,27 +552,6 @@
                                         value-format="yyyy-MM-dd 23:59:59" @change="disposeEndTime">
                         </el-date-picker>
                       </el-form-grid>
-                      <!--                  <el-form-grid class="dialog-formitem__type">-->
-                      <!--                    变更类型：-->
-                      <!--                  </el-form-grid>-->
-                      <!--                  <el-form-grid size="md">-->
-                      <!--                    <el-select v-model.trim="model.type" placeholder="请选择">-->
-                      <!--                      <el-option-->
-                      <!--                        v-for="item in typeArray"-->
-                      <!--                        :key="item.key"-->
-                      <!--                        :label="item.value"-->
-                      <!--                        :value="item.key"/>-->
-                      <!--                    </el-select>-->
-                      <!--                  </el-form-grid>-->
-                      <!--                  <el-form-grid size="md">-->
-                      <!--                    <el-select v-model.trim="model.type" placeholder="请选择">-->
-                      <!--                      <el-option-->
-                      <!--                        v-for="item in typeArray"-->
-                      <!--                        :key="item.key"-->
-                      <!--                        :label="item.value"-->
-                      <!--                        :value="item.key"/>-->
-                      <!--                    </el-select>-->
-                      <!--                  </el-form-grid>-->
                       <el-form-grid>
                         <ns-button type="primary" @click="seachIntegral(2)" class="dialog-leftspace">搜索</ns-button>
                       </el-form-grid>
@@ -662,27 +621,6 @@
                                         value-format="yyyy-MM-dd 23:59:59" @change="disposeEndTime">
                         </el-date-picker>
                       </el-form-grid>
-                      <!--                  <el-form-grid class="dialog-formitem__type">-->
-                      <!--                    变更类型：-->
-                      <!--                  </el-form-grid>-->
-                      <!--                  <el-form-grid size="md">-->
-                      <!--                    <el-select v-model.trim="model.type" placeholder="请选择">-->
-                      <!--                      <el-option-->
-                      <!--                        v-for="item in typeArray"-->
-                      <!--                        :key="item.key"-->
-                      <!--                        :label="item.value"-->
-                      <!--                        :value="item.key"/>-->
-                      <!--                    </el-select>-->
-                      <!--                  </el-form-grid>-->
-                      <!--                  <el-form-grid size="md">-->
-                      <!--                    <el-select v-model.trim="model.type" placeholder="请选择">-->
-                      <!--                      <el-option-->
-                      <!--                        v-for="item in typeArray"-->
-                      <!--                        :key="item.key"-->
-                      <!--                        :label="item.value"-->
-                      <!--                        :value="item.key"/>-->
-                      <!--                    </el-select>-->
-                      <!--                  </el-form-grid>-->
                       <el-form-grid>
                         <ns-button type="primary" @click="seachIntegral(3)">搜索</ns-button>
                       </el-form-grid>
@@ -752,27 +690,6 @@
                                         value-format="yyyy-MM-dd 23:59:59" @change="disposeEndTime">
                         </el-date-picker>
                       </el-form-grid>
-                      <!--                  <el-form-grid class="dialog-formitem__type">-->
-                      <!--                    变更类型：-->
-                      <!--                  </el-form-grid>-->
-                      <!--                  <el-form-grid size="md">-->
-                      <!--                    <el-select v-model.trim="model.type" placeholder="请选择">-->
-                      <!--                      <el-option-->
-                      <!--                        v-for="item in typeArray"-->
-                      <!--                        :key="item.key"-->
-                      <!--                        :label="item.value"-->
-                      <!--                        :value="item.key"/>-->
-                      <!--                    </el-select>-->
-                      <!--                  </el-form-grid>-->
-                      <!--                  <el-form-grid size="md">-->
-                      <!--                    <el-select v-model.trim="model.type" placeholder="请选择">-->
-                      <!--                      <el-option-->
-                      <!--                        v-for="item in typeArray"-->
-                      <!--                        :key="item.key"-->
-                      <!--                        :label="item.value"-->
-                      <!--                        :value="item.key"/>-->
-                      <!--                    </el-select>-->
-                      <!--                  </el-form-grid>-->
                       <el-form-grid>
                         <ns-button type="primary" @click="seachIntegral(4)">搜索</ns-button>
                       </el-form-grid>
@@ -843,15 +760,6 @@
                   <ns-button @click="restTag(false)">清空选择</ns-button>
                 </el-form-grid>
               </el-col>
-              <!-- 4.0版本搜索功能未完成，4.1版本后再添加 20190917 -->
-<!--              <el-col :span="16" style="text-align: right">-->
-<!--                <el-form-grid>-->
-<!--                  <el-input  placeholder="请输入属性名称"></el-input>-->
-<!--                </el-form-grid>-->
-<!--                <el-form-grid>-->
-<!--                  <ns-button type="primary">搜索</ns-button>-->
-<!--                </el-form-grid>-->
-<!--              </el-col>-->
             </el-row>
           </el-form-item>
         </el-form>
@@ -921,6 +829,17 @@
         <ns-button type="primary" @click="saveTag" :disabled="dontSave">保存</ns-button>
       </span>
     </el-dialog>
+    <replaceStore :title="title"
+        ref="replaceStore"
+        v-if="replaceStoreShow"
+        :sameSystemShopId="sameSystemShopId"
+        :checkNumberLength="checkNumberLength"
+        :shopCateTree="shopCateTree"
+        :allShopOptions="allShopOptions"
+        :shopOptions="shopOptions"
+        @onSave="replaceStoreonSave()"
+        @close="replaceStoreShow = false"
+        ></replaceStore>
   </div>
 </template>
 <script>
@@ -928,10 +847,12 @@ import CustomerManage from './src/CustomerManage'
 import NsTableGuide from './NsTableGuide'
 import ElImage from '@nascent/nui/lib/image'
 import ShopSelectLoad from '@/components/ShopSelectLoad'
+import replaceStore from './component/replaceStore'
 CustomerManage.components = {
   NsTableGuide,
   ElImage,
-  ShopSelectLoad
+  ShopSelectLoad,
+  replaceStore
 }
 export default CustomerManage
 </script>
@@ -1027,6 +948,12 @@ export default CustomerManage
   display:flex;
   justify-content: flex-end;
   align-items: center;
+}
+.recordChooseList {
+  display: inline-block;
+  margin-right: 24px;
+  font-size: 14px;
+  color: #262626;
 }
   .tagDisplay{
     overflow: hidden;
@@ -1238,5 +1165,29 @@ export default CustomerManage
   /* 去掉分页器的阴影 */
   >>> .el-pagination {
     box-shadow: none;
+  }
+  .checkNumberTitle {
+    height: 30px;
+    display: flex;
+    align-items: center;
+    .dialogtitle {
+      font-size: 16px;
+      color: #303133;
+      display: inline-block;
+      margin-right: 16px;
+      font-weight: bold;
+    }
+    .number {
+      font-size: 14px;
+      color: #595959;
+    }
+  }
+  .replace-rule {
+    padding: 0 16px;
+    margin-bottom: 16px;
+    background: #F2F9FE;
+    border-radius: 2px;
+    height: 40px;
+    line-height: 40px;
   }
 </style>

@@ -88,7 +88,7 @@ export default {
         searchMap: { subdivisionName: '' },
         start: 0
       }, // 素材搜索
-      getDirectoryTreeUrl: this.$api.guide.getDirectoryTree
+      getTreeUrl: this.$api.guide.getDirectoryTree
     }
   },
   watch: {

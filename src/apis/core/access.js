@@ -1,4 +1,5 @@
 import transData from '@nascent/ecrp-ecrm/src/utils/transData'
+import LocalStorage from 'store/dist/store.legacy.min.js'
 const treeFn = (err, rows) => {
   if (err) { throw err }
   // get all data
@@ -40,6 +41,12 @@ export default {
     url: '/getSession',
     method: 'post',
     callback: function (res, resolve, reject) {
+      //  由于remumber_login_info在node包里生成，只能重新记录一下
+      let user = {
+        nick: JSON.parse(JSON.stringify(res.data.result.userName)),
+        nickId: JSON.parse(JSON.stringify(res.data.result.userId))
+      }
+      LocalStorage.set('user', user)
       if (res.data.success) {
         res.data.result = {
           integralActivityUrl: res.data.result.integralActivityUrl,
@@ -65,7 +72,6 @@ export default {
           cloudUrl: res.data.result.cloudUrl,
           copyrightInfo: res.data.result.copyrightInfo
         }
-
         if (res.data.result.menus.length > 0) {
           res.data.result.menus = treeFn(null, res.data.result.menus.map((v) => {
             return {
