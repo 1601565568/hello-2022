@@ -16,6 +16,7 @@
               <drap-upload tip='（请上传格式为jpg或png图片，图片尺寸为750*1206,大小不超过10M）' v-model='model.background' :maxWidth='750' :maxHeight='1206' :showPont='false'>
                 <template slot='footer'>
                   <div class='flex-box hot-ware'>
+                    <Icon type="ns-edit" class='set-ware icon' @click='handleSetHot'/>
                     <span class='set-ware' @click='handleSetHot'>设置图片热区</span>
                     <span class='ware-num' v-if='model.hotZoneData.length'>已设置{{model.hotZoneData.length}}个热区</span>
                   </div>
@@ -86,6 +87,9 @@ export default Index
     line-height: 22px;
     cursor: pointer;
     user-select: none;
+    &.icon {
+      margin-right: 8px;
+    }
   }
   .ware-num {
     font-size: 12px;

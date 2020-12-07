@@ -56,7 +56,7 @@ export default {
     const checkUrl = (rule, value, callback) => {
       const sRegex = /http[s]{0,1}:\/\/([\w.]+\/?)\S*/
       if (!sRegex.test(value)) {
-        callback(new Error(`请输入正确的${this.defaultName}`))
+        callback(new Error(`请输入正确的跳转${this.defaultName}`))
       } else {
         callback()
       }
