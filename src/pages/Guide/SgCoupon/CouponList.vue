@@ -2,7 +2,7 @@
   <div class='page_add_coupon'>
     <ns-table-sg-coupon ref="table" @showListDialogMain="showListDialogFun" :url=$api.guide.guide.findList @add="addCoupon"></ns-table-sg-coupon>
     <!-- 新增弹窗 -->
-    <el-dialog ref="addCouponDialog"  :title="title" :visible.sync="addCouponDialogVisible" :width="(activityModel.coupon_id > 0) ? '800px' : '380px'">
+    <el-dialog ref="addCouponDialog"  :title="title"  :width="(activityModel.coupon_id > 0) ? '800px' : '380px'">
 
       <el-form ref="form" :rules="rules" :model="activityModel" label-width="80px" class="form-main">
         <el-form-item label="优惠券：" required>
@@ -24,7 +24,7 @@
         </el-form-item>
         <el-form-item label="剩余数量：" v-if="activityModel.coupon_id > 0">
           <el-form-grid size="xmd">
-            <el-form-item prop="store_coupon_total" v-if="storeModel.maxType === 0">
+            <el-form-item prop="store_coupon_total" v-if="storeModel.maxType == 0">
               <el-input disabled="disabled" value="不限量"></el-input>
             </el-form-item>
             <el-form-item prop="store_coupon_total" v-if="storeModel.maxType > 0">
@@ -63,7 +63,6 @@
             </div>
             <div class="coupon-preview-amount text-error" v-if="storeModel.couponType == 2">
               <span class="coupon-amount__large">{{storeModel.couponValue}}折</span>
-<!--              <span class="coupon-amount__large">{{storeModel.couponValue}}折</span>-->
             </div>
             <div class="coupon-preview-title">
               <span class="coupon-title" style="overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">
@@ -147,6 +146,7 @@
     </el-dialog>
     <!-- 新增弹窗结束 -->
     <list-dialog ref="listDialogDom"></list-dialog>
+    <couponList ref="couponList" @closeDialog="closeDialogCouponList" v-if="couponListShow"></couponList>
   </div>
 </template>
 
@@ -154,10 +154,11 @@
 import List from './src/CouponList'
 import NsTableSgCoupon from './NsTableSgCoupon'
 import listDialog from './listDialog.vue'
-
+import couponList from './components/couponList'
 List.components = {
   NsTableSgCoupon,
-  listDialog
+  listDialog,
+  couponList
 }
 export default List
 </script>
