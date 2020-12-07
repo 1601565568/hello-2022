@@ -19,9 +19,21 @@
     </div>
     <div slot="content">
       <el-row class="custom-content">
-        <el-col :span='4'><ScrollView className='edit-content'><PageContentLeft /></ScrollView></el-col>
-        <el-col :span="11"><ScrollView className='edit-content'><PageContentMiddle  ref="PageContentMiddle" /></ScrollView></el-col>
-        <el-col :span='6'><ScrollView className='edit-content'><PageContentRight /></ScrollView></el-col>
+        <el-col :span="4"
+          ><ScrollView className="edit-content"
+            ><PageContentLeft @onChange="onChangeMenu"/></ScrollView
+        ></el-col>
+        <el-col :span="11"
+          ><ScrollView className="edit-content"
+            ><PageContentMiddle
+              :menuListTitle="menuListTitle"
+              :menuType="menuType"
+              ref="PageContentMiddle"/></ScrollView
+        ></el-col>
+        <el-col :span="9"
+          ><ScrollView className="edit-content">
+            <PageContentRight /> </ScrollView
+        ></el-col>
       </el-row>
     </div>
   </PageEdit>

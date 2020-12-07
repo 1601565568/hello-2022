@@ -1,49 +1,43 @@
 <template>
   <div class="PageContentMiddle">
-    <div class="iphone" ref="iphone">
-      <div class="iphone-status">
-        <!-- <img
-          class="image"
-          src="https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-WEB/image/iphonexcx_status.png"
-        /> -->
-        <img class="image" src="../image/iphonexcx_status.png" crossorigin="anonymous" />
+    <div class="iphone" ref="iphone" id="iphone">
+      <div :class="pageTopBg">
+        <div class="iphone-status">
+          <img class="image" src="../image/iphonexcx_status.png" />
+        </div>
+        <div class="navigation">
+          {{ menuListTitle }}
+          <!-- <img :src="pageTopShare" /> -->
+        </div>
       </div>
-      <div class="navigation">
-        <img class="image" :src="navigationUrl" />
-        <span>{{title}}</span>
+      <div class="iphone-content" refs="iphoneContent">
+        <!-- <DHander />
+        <DAchievement />
+        <DMenu /> -->
+        <Achievement />
+        <!-- <GuideAchievement /> -->
+      </div>
+      <div class="iphone-tabber">
+        <img :src="pageTabBarImage" />
       </div>
     </div>
   </div>
 </template>
 <script>
-import html2canvas from 'html2canvas'
-import { networkImg2Base64 } from '@/utils/networkImg2Base64'
-export default {
-  data () {
-    return {
-      title: '工作台',
-      navigationUrl:
-        'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-WEB/image/iphonexcx_navigation.png'
-    }
-  },
-  methods: {
-    imgToBase64 () {
-      networkImg2Base64(this.navigationUrl).then(res => {
-        console.log(res)
-      })
-    },
-    toImage () {
-      this.imgToBase64()
-      // html2canvas(this.$refs.iphone, {
-      //   useCORS: true,
-      //   logging: true
-      // }).then(canvas => {
-      //   let dataURL = canvas.toDataURL('image/png')
-      //   console.log(dataURL)
-      // })
-    }
-  }
+import PageContentMiddle from './src/PageContentMiddle.js'
+import DHander from './pageComponents/DHander'
+import DAchievement from './pageComponents/DAchievement'
+import DMenu from './pageComponents/DMenu'
+import Achievement from './guide/achievement'
+// import DataTime from './guide/achievement/dataTime'
+// import GuideAchievement from './guide/achievement/guideAchievement'
+PageContentMiddle.components = {
+  DHander,
+  DAchievement,
+  DMenu,
+  Achievement
 }
+export default PageContentMiddle
 </script>
 
 <style scoped lang="scss">
@@ -54,6 +48,12 @@ export default {
   .PageContentMiddle {
     min-height: calc(100vh - 152px);
   }
+}
+.daogou {
+  background: #0091fa;
+}
+.dianzhang {
+  background: #ff532a;
 }
 .PageContentMiddle {
   display: flex;
@@ -71,13 +71,53 @@ export default {
     .image {
       width: 375px;
     }
+    .iphone-status {
+      height: 20px;
+    }
     .navigation {
       position: relative;
-      span {
+      height: 44px;
+      text-align: center;
+      line-height: 44px;
+      color: #fff;
+      font-size: 17px;
+      img {
         position: absolute;
         top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
+        right: 16px;
+        // transform: translate(0%, -50%);
+        width: 79px;
+        height: 29px;
+      }
+    }
+    .iphone-content {
+      height: 559px;
+      overflow: auto;
+      &::-webkit-scrollbar {
+        display: none;
+        /*滚动条整体样式*/
+        width: 4px; /*高宽分别对应横竖滚动条的尺寸*/
+        height: 1px;
+      }
+      &::-webkit-scrollbar-thumb {
+        /*滚动条里面小方块*/
+        border-radius: 100px;
+        // background: rgba(0, 0, 0, 0.45);
+        background: rgba(38, 38, 38, 0);
+      }
+      &::-webkit-scrollbar-track {
+        /*滚动条里面轨道*/
+        display: none;
+        // border-radius: 100px;
+      }
+      &:hover::-webkit-scrollbar-thumb {
+        background: rgba(38, 38, 38, 0.45);
+      }
+    }
+    .iphone-tabber {
+      img {
+        width: 100%;
+        height: 44px;
       }
     }
   }
