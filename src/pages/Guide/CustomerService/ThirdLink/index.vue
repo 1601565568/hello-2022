@@ -10,10 +10,10 @@
         </div>
       </template>
       <template slot='content'>
-        <recruitment-collapse title='关联成功页面' :phoneBar='`关联${platform.name}帐号`'>
+        <recruitment-collapse title='关联成功页面' :phoneBar='`关联${platform.name}帐号`' :disabled='true'>
           <template slot='collapse-left'>
             <el-form-item label='背景图' required prop='background'  class='larger-item'>
-              <drap-upload tip='（请上传格式为jpg或png图片，图片尺寸为750*1334,大小不超过10M）' v-model='model.background' :maxWidth='750' :maxHeight='1334' :showPont='false'>
+              <drap-upload tip='（请上传格式为jpg或png图片，图片尺寸为750*1206,大小不超过10M）' v-model='model.background' :maxWidth='750' :maxHeight='1206' :showPont='false'>
                 <template slot='footer'>
                   <div class='flex-box hot-ware'>
                     <span class='set-ware' @click='handleSetHot'>设置图片热区</span>

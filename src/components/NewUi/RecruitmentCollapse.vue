@@ -1,7 +1,7 @@
 <template>
   <div class='recruiting-collapse'>
     <el-collapse :class='`common-collapse ${isOpen?"noOver":""}`' v-model='collapseList' @change='handleChange'>
-      <el-collapse-item :title="title" :name="1">
+      <el-collapse-item :title="title" :name="1" :disabled='disabled'>
         <el-row>
           <el-col :span='16' class='collapse-left'>
             <slot name='collapse-left'></slot>
@@ -40,6 +40,11 @@ export default {
     },
     phoneBar: {
       type: String
+    },
+    // 是否禁用下拉
+    disabled: {
+      type: Boolean,
+      default: false
     }
   },
   components: { Phone },

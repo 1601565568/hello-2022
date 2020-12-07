@@ -159,13 +159,12 @@ export default {
         const regexp = new RegExp('{' + item.id + '}', 'g')
         string = string.replace(regexp, `<wise id="${this.getGuid()}" class="${item.id}">${item.value}</wise>`)
       })
-      console.log(string)
       return string
     },
     // 替换标签成文本
     htmlToText (html) {
       const newHtml = html
-      return newHtml.replace(/<wise.*?\bclass=".*?">/g, '').replace(/<\/wise>/g, '')
+      return newHtml.replace(/<wise.*?\bclass=".*?">/g, '').replace(/<\/wise>/g, '').substring(0, 50)
     }
   }
 }

@@ -140,6 +140,12 @@
   &.noOver >>> .el-collapse-item__wrap {
     overflow: visible !important;
   }
+  .is-disabled >>> .el-collapse-item__header{
+    padding-left: 0;
+    .el-collapse-item__arrow {
+      display: none;
+    }
+  }
 }
 /*popover*/
 .form-item_popover {
