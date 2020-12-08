@@ -13,7 +13,7 @@ export default {
     return {
       rules: {
         background: [
-          { required: true, message: '请选择背景图', trigger: ['blur', 'change'] }
+          { required: true, message: '请上传背景图', trigger: ['blur', 'change'] }
         ],
         text: [
           { required: true, message: '请填写提示文案', trigger: ['blur', 'change'] }
@@ -123,7 +123,7 @@ export default {
       if (this.model.background) {
         this.hotVisible = true
       } else {
-        this.$notify.error(`请先上传背景图`)
+        this.$notify.error(`请上传背景图～`)
       }
     },
     handleCancel () {
