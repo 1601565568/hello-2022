@@ -14,8 +14,9 @@
         <!-- <DHander />
         <DAchievement />
         <DMenu /> -->
-        <Achievement />
+        <!-- <Achievement /> -->
         <!-- <GuideAchievement /> -->
+        <My />
       </div>
       <div class="iphone-tabber">
         <img :src="pageTabBarImage" />
@@ -29,13 +30,15 @@ import DHander from './pageComponents/DHander'
 import DAchievement from './pageComponents/DAchievement'
 import DMenu from './pageComponents/DMenu'
 import Achievement from './guide/achievement'
+import My from './guide/my'
 // import DataTime from './guide/achievement/dataTime'
 // import GuideAchievement from './guide/achievement/guideAchievement'
 PageContentMiddle.components = {
   DHander,
   DAchievement,
   DMenu,
-  Achievement
+  Achievement,
+  My
 }
 export default PageContentMiddle
 </script>
