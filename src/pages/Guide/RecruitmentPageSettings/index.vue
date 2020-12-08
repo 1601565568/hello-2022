@@ -29,7 +29,7 @@
                 <ElUpload
                   :action="this.$api.core.sgUploadFile('recruit')"
                   :show-file-list="false"
-                  :on-success="handleBackgroundSuccess"
+                  :on-success="handleBackgroundSuccess()"
                   :before-upload="beforeAvatarUpload" class="recruit-detail__upload">
                   <img v-if="model.recruiting_posters_image" :src="model.recruiting_posters_image" class="recruit-avatar">
                   <Icon type="plus" className="recruit-tip" v-else/>

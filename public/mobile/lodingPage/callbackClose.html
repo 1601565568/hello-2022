@@ -22,9 +22,14 @@
     $(document).ready(function () {
         var groupId = getPar('groupId'); // 集团id
         var guideId = getPar('guideId'); // 导购id
-        var skipType = getPar('skipType'); // 跳转类型 ： 0 会员卡（代码处理） 1企微导购二维码
+        var skipType = getPar('skipType'); // 跳转类型 ：1添加企微好友，2关注公众号
         if (groupId && guideId && skipType) {
+          // 根据不同来源，开卡成功后根据来源跳转不同页面（1添加企微好友，2关注公众号）
+          if(skipType == 1) {
             getNewCustomerInfo(groupId,guideId,skipType)
+          } else if (skipType == 2) {
+            getRecruitingConfigPage(groupId)
+          }
         } else {
             // 参数缺失
             wx.closeWindow();
@@ -38,12 +43,31 @@
         }).then(function (result) {
             if (result.success) {
                 localStorage.setItem('guideData', JSON.stringify(result.result))
-                // 根据不同来源，开卡成功后根据来源跳转不同页面（1关注公众号，2微信加好友）
-                if(skipType == 1) {
-                  window.location.replace("/mobile/addWeWorkFriend/addWeWorkFriend.html");
-                }
+                window.location.replace("/mobile/addWeWorkFriend/addWeWorkFriend.html");
             }
         })
+    }
+    // 获取开卡信息
+    function getRecruitingConfigPage(groupId,) {
+        this.ajax(backstageURL() + '/guideRecruit/getRecruitingConfigPage', {
+            groupId: groupId,
+        }).then(function (result) {
+            if (result.success) {
+                localStorage.setItem('recruitData', JSON.stringify(result.result))
+                window.location.replace("/mobile/recruitPage/index.html");
+            }
+        })
+        // const result = {
+        //   result : {
+        //     qrCode: "https://hb3-ecrmmall.oss-cn-zhangjiakou.aliyuncs.com/GUIDE_QRCODE/WECHAT/appletCard.png",
+        //     mpFollowBackground: "https://shopguide.oss-cn-hangzhou.aliyuncs.com/system/19EA3131-0D46-40C3-95FE-D9C4FD6AEA51.png",
+        //     mpFollowQrcodeSize: 137,
+        //     mpFollowQrcodeX: 91,
+        //     mpFollowQrcodeY: 308,
+        //   }
+        // } 
+        // localStorage.setItem('recruitData', JSON.stringify(result.result))
+        // window.location.replace("/mobile/recruitPage/index.html");
     }
     function ajax(url, data, params) {
         data = JSON.stringify(data)
