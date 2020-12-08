@@ -74,9 +74,9 @@
                         <template slot-scope="scope">
                             <div class="customerManage">
                                 <el-radio
-                                    :label="scope.$index"
+                                    :label="scope.row.id"
                                     v-model="couponRadio"
-                                    @change.native="getCurrentRow(scope.row,scope.$index)"
+                                    @change.native="getCurrentRow(scope.row)"
                                 ></el-radio>
                             </div>
                         </template>
@@ -132,12 +132,11 @@
                     <el-table-column
                         label="创建人"
                         align="right"
-                        prop="loginAccount"
                     >
-                        <!-- <template slot-scope="scope">
-                            <span v-if="scope.row.maxIssueAmount == 0">不限量</span>
-                            <span v-else>{{scope.row.maxIssueAmount - scope.row.hadIssueAmount - scope.row.couponFreezeAmount}}</span>
-                        </template> -->
+                    <template slot-scope="scope">
+                        <span>{{scope.row.loginAccount || '-'}}</span>
+                    </template>
+
                     </el-table-column>
                 </el-table>
                 <el-pagination

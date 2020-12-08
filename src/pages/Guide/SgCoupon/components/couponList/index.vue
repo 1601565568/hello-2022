@@ -102,7 +102,7 @@
                         <p class="text-secondary" v-if="storeModel.dateType == 1">
                           领取{{storeModel.after_get_valid_days}}天后生效，有效期{{storeModel.valid_days}}天
                         </p>
-                        <p>创建人：{{storeModel.loginAccount}}</p>
+                        <p>创建人：{{storeModel.loginAccount || '-'}}</p>
                         <!-- <p>使用说明：至多显示一行多余…悬停TIPS显示全部</p> -->
                         <p :title="storeModel.useRemark ">使用说明:{{storeModel.useRemark || '-'}}</p>
                         <p :title="storeModel.remark">备注：{{storeModel.remark || '-'}}</p>

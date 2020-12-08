@@ -39,17 +39,10 @@ export default {
   },
   methods: {
     init () {
-      // window.console.log('_data._table.data', this._data._table.data)
       this.chooseCouponDialogVisible = true
-      // this.$nextTick(() => {
-      //   this.model.couponType= '0'
-      // })
-      this.couponRadio = null
+      // this.couponRadio = null
       this.model.couponTitle = null
-      // this.model.couponType = null
       this.model.couponCode = null
-      // this.model.pageNO = this._data._pagination.page
-      // window.console.log('pageNO', this._data._pagination.page)
       this.$searchAction$()
     },
     closeDialog () {
@@ -71,8 +64,8 @@ export default {
       this.closeDialog()
     },
     // 单选按钮
-    getCurrentRow (row, index) {
-      this.couponRadio = index
+    getCurrentRow (row) {
+      this.couponRadio = row.id
       this.couponMessage = row
     },
     onChangeInput () {
