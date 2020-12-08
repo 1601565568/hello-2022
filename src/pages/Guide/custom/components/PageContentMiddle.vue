@@ -7,16 +7,12 @@
         </div>
         <div class="navigation">
           {{ menuListTitle }}
-          <!-- <img :src="pageTopShare" /> -->
+          <img src="../image/share.png" />
         </div>
       </div>
       <div class="iphone-content" refs="iphoneContent">
-        <!-- <DHander />
-        <DAchievement />
-        <DMenu /> -->
-        <!-- <Achievement /> -->
-        <!-- <GuideAchievement /> -->
-        <My />
+        <component :is="PageName"></component>
+        <!-- <Work /> -->
       </div>
       <div class="iphone-tabber">
         <img :src="pageTabBarImage" />
@@ -26,19 +22,17 @@
 </template>
 <script>
 import PageContentMiddle from './src/PageContentMiddle.js'
-import DHander from './pageComponents/DHander'
-import DAchievement from './pageComponents/DAchievement'
-import DMenu from './pageComponents/DMenu'
+import Work from './guide/work'
 import Achievement from './guide/achievement'
 import My from './guide/my'
-// import DataTime from './guide/achievement/dataTime'
-// import GuideAchievement from './guide/achievement/guideAchievement'
+import SAchievement from './shoper/sAchievement'
+import ManageMember from './shoper/manageMember'
 PageContentMiddle.components = {
-  DHander,
-  DAchievement,
-  DMenu,
+  Work,
   Achievement,
-  My
+  My,
+  SAchievement,
+  ManageMember
 }
 export default PageContentMiddle
 </script>
@@ -88,9 +82,9 @@ export default PageContentMiddle
         position: absolute;
         top: 50%;
         right: 16px;
-        // transform: translate(0%, -50%);
-        width: 79px;
-        height: 29px;
+        transform: translate(0%, -50%);
+        width: 81px;
+        height: 31px;
       }
     }
     .iphone-content {
@@ -120,7 +114,7 @@ export default PageContentMiddle
     .iphone-tabber {
       img {
         width: 100%;
-        height: 44px;
+        height: 50px;
       }
     }
   }

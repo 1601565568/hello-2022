@@ -2,12 +2,12 @@
   <!-- 导购工作台头部 -->
   <div class="D-head">
     <img class="D-head-useImage"
-      src="../../image/defultheadPic.png"
+      src="../../../image/defultheadPic.png"
     />
     <div class="D-head-text">
-      <div class="D-head-text__user">用户名</div>
+      <div class="D-head-text__user">导购姓名</div>
       <div class="D-head-text__user__number">
-         <img class="D-head-Jobnumber" src="../../image/Jobnumber.png">工号<span class="number">0001</span>
+         <img class="D-head-Jobnumber" src="../../../image/Jobnumber.png">工号<span class="number">0001</span>
       </div>
     </div>
   </div>

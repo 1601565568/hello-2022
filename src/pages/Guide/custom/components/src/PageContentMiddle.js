@@ -13,11 +13,7 @@ export default {
   },
   data () {
     return {
-      pageTopShare:
-        'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-WEB/image/xcx_share.png',
-      navigationUrl:
-        'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-WEB/image/iphonexcx_navigation.png',
-      value: '12312312313'
+      PageName: 'Work'
     }
   },
   computed: {
@@ -49,7 +45,34 @@ export default {
       return url
     }
   },
+  watch: {
+    menuListTitle (newVal) {
+      this.onChangePage(newVal)
+    }
+  },
   methods: {
+    onChangePage (newVal) {
+      if (this.menuType === 1) {
+        switch (newVal) {
+          case '工作台':
+            this.PageName = 'Work'
+            break
+          case '业绩':
+            this.PageName = 'Achievement'
+            break
+          case '我的':
+            this.PageName = 'My'
+        }
+      } else {
+        switch (newVal) {
+          case '业绩':
+            this.PageName = 'SAchievement'
+            break
+          case '管理':
+            this.PageName = 'ManageMember'
+        }
+      }
+    },
     imgToBase64 () {
       networkImg2Base64(this.pageTopShare).then(res => {
         // this.value = res

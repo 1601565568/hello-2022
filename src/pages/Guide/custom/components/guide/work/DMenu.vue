@@ -55,37 +55,37 @@ export default {
       var url
       switch (name) {
         case '会员招募':
-          url = require(`../../image/Memberrecruitment.png`)
+          url = require(`../../../image/Memberrecruitment.png`)
           break
         case '添加会员':
-          url = require(`../../image/huiyuanzhaomu.png`)
+          url = require(`../../../image/huiyuanzhaomu.png`)
           break
         case '商品推荐':
-          url = require(`../../image/Productpromotion.png`)
+          url = require(`../../../image/Productpromotion.png`)
           break
         case '优惠券':
-          url = require(`../../image/coupon.png`)
+          url = require(`../../../image/coupon.png`)
           break
         case '工作任务':
-          url = require(`../../image/Task.png`)
+          url = require(`../../../image/Task.png`)
           break
         case '客户关怀':
-          url = require(`../../image/Customercare.png`)
+          url = require(`../../../image/Customercare.png`)
           break
         case '素材库':
-          url = require(`../../image/Materiallibrary.png`)
+          url = require(`../../../image/Materiallibrary.png`)
           break
         case '卡券核销':
-          url = require(`../../image/verification.png`)
+          url = require(`../../../image/verification.png`)
           break
         case '营销活动':
-          url = require(`../../image/Marketingactivities.png`)
+          url = require(`../../../image/Marketingactivities.png`)
           break
         case '订单管理':
-          url = require(`../../image/Ordermanagement.png`)
+          url = require(`../../../image/Ordermanagement.png`)
           break
         case '一客一码':
-          url = require(`../../image/custormCode.png`)
+          url = require(`../../../image/custormCode.png`)
       }
       return url
     }
