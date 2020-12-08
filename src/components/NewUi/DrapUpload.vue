@@ -33,7 +33,7 @@
       </div>
     </div>
     <div class='poster-set_content'>
-      <span class='yellow-point'></span>
+      <span class='yellow-point' v-if='showPont'></span>
       <div>
         <slot name='footer'></slot>
         <!-- <p class='prompt-text'>公司logo和招募码为固定位置，建议尺寸为70*70</p>
@@ -91,6 +91,10 @@ export default {
     resetImage: {
       type: String,
       default: ''
+    },
+    showPont: {
+      type: Boolean,
+      default: true
     }
   },
   methods: {

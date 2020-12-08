@@ -115,6 +115,20 @@ export default {
           'component': () => import('@/pages/Guide/Logo/index.vue')
         }
       ]
+    },
+    {
+      'path': '/Guide/Service',
+      'name': 'CustomerService',
+      'title': '客服管理',
+      'component': () => import('@nascent/ecrp-ecrm/src/layout/Content.vue'),
+      'children': [
+        {
+          'path': '/Guide/Service/ThirdLink',
+          'name': 'ThirdLink',
+          'title': '第三方关联链接',
+          'component': () => import('@/pages/Guide/CustomerService/ThirdLink/index.vue')
+        }
+      ]
     }
   ]
 }

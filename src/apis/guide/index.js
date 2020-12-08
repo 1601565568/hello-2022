@@ -33,6 +33,7 @@ import chatRoomConfig from './chatRoomConfig'
 import customerCode from './customerCode'
 import materialAnalysis from './materialAnalysis'
 import operationConfig from './operationConfig'
+import customerService from './customerService'
 export default {
   secruitmentSet,
   guide,
@@ -69,6 +70,7 @@ export default {
   materialAnalysis,
   notMemberSet,
   operationConfig,
+  customerService,
   // 所有导购模块全部整合在此
   comGetBrandForShopList: {
     // 获取品牌下的店铺
