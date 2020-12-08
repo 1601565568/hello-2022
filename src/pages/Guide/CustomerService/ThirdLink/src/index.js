@@ -3,7 +3,7 @@ const defaultData = {
   text: '',
   hotZoneData: [],
   textW: 188,
-  textH: 100,
+  textH: 70,
   textX: 67,
   textY: 349,
   fontColor: '#262626'
@@ -35,8 +35,8 @@ export default {
       },
       textLength: 0,
       validatesText: (length, rule, value, callback) => {
-        if (length > 50) {
-          callback(new Error(`提示文案最多50个字`))
+        if (length > 30) {
+          callback(new Error(`提示文案最多30个字`))
         } else {
           callback()
         }
@@ -48,7 +48,7 @@ export default {
   },
   computed: {
     tools () {
-      return [{ type: 'tag', text: `成功关联的${this.platform.name}账号`, id: 'PT_NAME', value: `${this.platform.name}账号` }]
+      return [{ type: 'tag', text: `成功关联的${this.platform.name}账号`, id: 'PT_NAME', value: `${this.platform.name}账号`, icon: 'link' }]
     },
     htmlText () {
       return this.htmlToText(this.model.text)
@@ -164,7 +164,7 @@ export default {
     // 替换标签成文本
     htmlToText (html) {
       const newHtml = html
-      return newHtml.replace(/<wise.*?\bclass=".*?">/g, '').replace(/<\/wise>/g, '').substring(0, 50)
+      return newHtml.replace(/<wise.*?\bclass=".*?">/g, '').replace(/<\/wise>/g, '').substring(0, 30)
     }
   }
 }

@@ -30,7 +30,7 @@
               <div class='form-item_exmple__content'>
                 <span>客户{{platform.name}}昵称较长时提示文案可能出现换行，请注意拖动时页面排版问题</span>
               </div>
-              <tag-area v-model='model.text' tag="wise" ref="testText" :maxlength="50" :tools='tools' placeholder="请输入活动介绍" @inputLength='inputLength'/>
+              <tag-area v-model='model.text' tag="wise" ref="testText" :maxlength="30" :tools='tools' placeholder="请输入活动介绍" @inputLength='inputLength'/>
             </el-form-item>
             <el-form-item label='字体颜色' required prop='fontColor'>
               <el-color-picker v-model="model.fontColor"></el-color-picker>

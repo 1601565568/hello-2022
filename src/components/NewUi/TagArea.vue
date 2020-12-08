@@ -4,10 +4,10 @@
       <span class="w-textarea_tools__item"
         v-for="item in tools"
         :key="item.id"
-        @click="openTagDialog(item)">{{item.text}}</span>
-        <span :class="['w-textarea_tools__text',
-          count.num < 0 ? '__danger' : '']"
-          v-if="maxlength">{{count.text}}</span>
+        @click="openTagDialog(item)"><Icon v-if='item.icon' class='w-textarea_tools__icon' :type="item.icon"/>{{item.text}}</span>
+      <span :class="['w-textarea_tools__text',
+        count.num < 0 ? '__danger' : '']"
+        v-if="maxlength">{{count.text}}</span>
     </div>
     <div
       :class="`w-textarea_input ${disabled?'disabled':''}`"
@@ -272,9 +272,9 @@ $textColor: #595959;
     background-color: $bgColor;
     color: $textColor;
     font-size: 12px;
-
+    overflow: hidden;
     &__item {
-      display: inline-block;
+      float: left;
       line-height: 1;
       padding: 2px 8px;
       margin-right: 8px;
@@ -285,8 +285,15 @@ $textColor: #595959;
       line-height: 20px;
       background: #fff;
       transition: all 0.3s;
+      display: flex;
+      align-items: center;
     }
-
+    &__icon {
+      font-size:16px;
+      color: #8C8C8C;
+      border-radius: 50%;
+      margin-right:4px;
+    }
     &__text {
       display: inline-block;
       line-height: 40px;
