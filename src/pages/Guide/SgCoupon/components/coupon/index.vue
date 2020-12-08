@@ -74,9 +74,9 @@
                         <template slot-scope="scope">
                             <div class="customerManage">
                                 <el-radio
-                                    :label="scope.$index"
+                                    :label="scope.row.id"
                                     v-model="couponRadio"
-                                    @change.native="getCurrentRow(scope.row,scope.$index)"
+                                    @change.native="getCurrentRow(scope.row)"
                                 ></el-radio>
                             </div>
                         </template>
