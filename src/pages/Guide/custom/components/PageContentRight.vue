@@ -10,31 +10,23 @@
             </div>
           </div>
         </template>
-        <div @click="onShowEdit()">
+        <div @click="onShowEdit()" class="editWarpper">
+          <!-- <CheckBox /> -->
+          <Upload />
         </div>
       </el-collapse-item>
     </el-collapse>
   </div>
 </template>
 <script>
-export default {
-  data () {
-    return {
-      activeNames: [],
-      value1: true
-    }
-  },
-  methods: {
-    // 解决switch 开关触发 collapse
-    onclick (event) {
-      event.stopPropagation()
-    },
-    // 点击获取编辑模块
-    onShowEdit () {
-      return false
-    }
-  }
+import PageContentRight from './src/PageContentRight.js'
+import CheckBox from './PageContentRightComponents/checkBox'
+import Upload from './PageContentRightComponents/Upload'
+PageContentRight.components = {
+  CheckBox,
+  Upload
 }
+export default PageContentRight
 </script>
 
 <style scoped lang="scss">
@@ -44,9 +36,8 @@ export default {
   display: flex;
   justify-content: space-between;
   position: relative;
-  // .switch {
-  //   position: absolute;
-  //   right: 0;
-  // }
+}
+.editWarpper {
+  padding: 16px 32px;
 }
 </style>

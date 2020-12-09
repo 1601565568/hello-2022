@@ -21,7 +21,7 @@
       <el-row class="custom-content">
         <el-col :span="4"
           ><ScrollView className="edit-content"
-            ><PageContentLeft @onChange="onChangeMenu"/></ScrollView
+            ><PageContentLeft @onChange="onChangeMenu" :menuArr="menuArr"/></ScrollView
         ></el-col>
         <el-col :span="11"
           ><ScrollView className="edit-content"

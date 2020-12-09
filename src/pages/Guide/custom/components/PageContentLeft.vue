@@ -1,22 +1,28 @@
 <template>
   <div class="PageContentMiddle">
     <el-collapse class="common-collapse" v-model="activeNames">
-      <el-collapse-item v-for="item in menu" :key="item.id" :name="item.id">
+      <el-collapse-item v-for="item in menuArr" :key="item.projectType" :name="item.projectType">
         <template slot="title">
-          {{ item.menuTitle }}
+          {{ item.projectTypeName }}
         </template>
         <p
           class="collapse-content"
           :class="
-            defaultActive === `${item.id}-${itemChildren.id}`
+            defaultActive === `${item.projectType}-${itemChildren.moduleType}`
               ? 'lightHeight'
               : ''
           "
-          v-for="itemChildren in item.meunList"
-          @click="onClick(item.id, itemChildren.id, itemChildren.menuListTitle)"
-          :key="itemChildren.id"
+          v-for="itemChildren in item.menuList"
+          @click="
+            onClick(
+              item.projectType,
+              itemChildren.moduleType,
+              itemChildren.moduleName
+            )
+          "
+          :key="itemChildren.moduleType"
         >
-          {{ itemChildren.menuListTitle }}
+          {{ itemChildren.moduleName }}
         </p>
       </el-collapse-item>
     </el-collapse>
@@ -24,48 +30,16 @@
 </template>
 <script>
 export default {
-  data () {
-    let menuBar = [
-      {
-        menuTitle: '导购小程序',
-        id: 1,
-        meunList: [
-          {
-            menuListTitle: '工作台',
-            show: true,
-            id: 1
-          },
-          {
-            menuListTitle: '业绩',
-            show: false,
-            id: 2
-          },
-          {
-            menuListTitle: '我的',
-            show: false,
-            id: 3
-          }
-        ]
-      },
-      {
-        menuTitle: '店长小程序',
-        id: 2,
-        meunList: [
-          {
-            menuListTitle: '业绩',
-            show: false,
-            id: 1
-          },
-          {
-            menuListTitle: '管理',
-            show: false,
-            id: 2
-          }
-        ]
+  props: {
+    menuArr: {
+      type: Array,
+      default: () => {
+        return []
       }
-    ]
+    }
+  },
+  data () {
     return {
-      menu: menuBar,
       activeNames: [1, 2],
       defaultActive: '1-1'
     }
