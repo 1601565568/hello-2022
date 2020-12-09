@@ -212,7 +212,11 @@ export default {
     value (val) {
       // 非锁定状态下，实时更新innerHTML
       if (!this.isLocked) {
-        this.$refs.wTextareaContent.innerHTML = val
+        if (this.disabled) {
+          this.$refs.wTextareaContent.innerHTML = val.replace(/\n/g, '<br />')
+        } else {
+          this.$refs.wTextareaContent.innerHTML = val
+        }
       }
     }
   }
@@ -261,6 +265,11 @@ $textColor: #595959;
     -webkit-user-modify: read-write-plaintext-only !important;
     &.disabled {
       -webkit-user-modify: read-only !important;
+    }
+     // 允许编辑，禁止富文本
+    -moz-user-modify: read-write-plaintext-only !important;
+    &.disabled {
+      -moz-user-modify: read-only !important;
     }
     &:focus {
       outline: none;

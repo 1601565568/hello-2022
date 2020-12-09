@@ -204,7 +204,8 @@ export default {
       const data = {
         ...item,
         employeeName: item.promotionName,
-        inviteFriendNumber: item.inviteFriendNo
+        inviteFriendNumber: item.inviteFriendNo,
+        nextName: '推广大师'
       }
       this.activeIndex = index
       this.$emit('showFriend', data)
@@ -229,7 +230,7 @@ export default {
       if (type === 'prev') {
         if (this.activeIndex === 0) {
           if (page === 1) {
-            this.$notify.error('暂无上一个员工')
+            this.$notify.error('暂无上一个推广大师')
           } else {
             this._data._pagination.page = page - 1
             this.$queryList$(this.$generateParams$()).then(() => {
@@ -243,7 +244,7 @@ export default {
         }
       } else if (type === 'next') {
         if (((page - 1) * size + this.activeIndex + 1) >= total) {
-          this.$notify.error('暂无下一个员工')
+          this.$notify.error('暂无下一个推广大师')
         } else {
           if (this.activeIndex === size - 1) {
             this._data._pagination.page = page + 1

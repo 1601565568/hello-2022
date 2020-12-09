@@ -151,3 +151,6 @@
     }
   }
 }
+>>>.el-popover.dwaer-popper {
+  min-width: 0 !important;
+}

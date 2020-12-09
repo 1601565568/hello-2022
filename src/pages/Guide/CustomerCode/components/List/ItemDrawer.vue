@@ -7,13 +7,31 @@
         </div>
         <div class='icon-list'>
           <div class='icon-item' @click="handlePreview" v-if='data.status!==1'>
-            <img :src='nsPreviewIcon' />
+            <el-popover
+              popper-class="dwaer-popper"
+              placement="top-start"
+              trigger="hover"
+              title='活动效果'>
+              <img :src='nsPreviewIcon'  slot="reference"/>
+            </el-popover>
           </div>
           <div class='icon-item' @click="handleDelect" v-if='[1,2].includes(data.status)'>
-            <img :src='closeIcon' />
+            <el-popover
+              popper-class="dwaer-popper"
+              placement="top-start"
+              trigger="hover"
+              title='结束活动'>
+              <img :src='closeIcon' slot="reference" />
+            </el-popover>
           </div>
           <div class='icon-item'  @click="handleEdit" v-if='[1,2].includes(data.status)'>
-            <img :src='nsEditIcon' />
+            <el-popover
+              popper-class="dwaer-popper"
+              placement="top-start"
+              title='编辑'
+              trigger="hover">
+              <img :src='nsEditIcon' slot="reference" />
+            </el-popover>
           </div>
         </div>
       </div>
@@ -212,5 +230,13 @@ export default {
       justify-content: center;
     }
   }
+}
+.dwaer-popper {
+  min-width: 0 !important;
+}
+</style>
+<style lang="css">
+.dwaer-popper {
+  min-width: 0 !important;
 }
 </style>
