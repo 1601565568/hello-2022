@@ -43,8 +43,8 @@
           </template>
         </recruitment-collapse>
          <!-- 导购招募海报配置 end -->
-        <!-- 招募链接配置 start -->
-        <recruitment-collapse title='招募链接配置' phoneBar='内容预览'>
+        <!-- 招募链接卡片配置 start -->
+        <recruitment-collapse title='招募链接卡片配置' phoneBar='内容预览'>
           <template slot='collapse-left'>
             <el-form-item label='标题' required prop='title'  class='larger-item'>
               <length-input v-model='model.title' :length='20' placeholder="请输入标题，长度在1-20个字符以内"/>
@@ -67,7 +67,7 @@
             </div>
           </template>
         </recruitment-collapse>
-        <!-- 招募链接配置 end -->
+        <!-- 招募链接卡片配置 end -->
         <!-- 引导关注公众号页设置 start -->
         <recruitment-collapse title='引导关注公众号页设置' v-if='model.mpFollowState === 1' phoneBar='关注我们'>
           <template slot='collapse-left'>
