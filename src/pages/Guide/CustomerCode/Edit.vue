@@ -116,7 +116,6 @@
                   :on-remove='handleRemove'
                   :before-upload="beforeUpload"
                   :disabled='isStating'
-                  :headers='{"content-type":"text/html;charset=utf-8"}'
                   :file-list='fileList'
                   :on-success="handleUploadSuccess">
                   <i class="el-icon-upload"></i>
