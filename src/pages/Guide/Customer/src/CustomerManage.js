@@ -288,9 +288,9 @@ export default {
       this.tableStatus()
     },
     // 所属门店change
-    // handleShoperSelectChange () {
-    //   this.searchAction()
-    // },
+    handleShoperSelectChange () {
+      this.searchAction()
+    },
     async guideFindList (model) { // 导购列表查询
       let that = this
       let numbers = /^[1-9]+[0-9]*]*$/
