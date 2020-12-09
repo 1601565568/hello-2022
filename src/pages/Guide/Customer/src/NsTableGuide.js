@@ -157,6 +157,9 @@ export default {
   created: function () {
     this.initShopList()
   },
+  beforeDestroy () {
+    clearInterval(this.shopCustomerTransferTaskStatusTime)
+  },
   methods: {
     handlereplaceShop () {
       this.$emit('handlereplaceShop')
@@ -207,6 +210,10 @@ export default {
       let user = LocalStorage.get('user')
       let userId = user.nickId
       this.shopCustomerTransferTaskStatus = null
+      if (!this.offLineShopId) {
+        clearInterval(this.shopCustomerTransferTaskStatusTime)
+        return false
+      }
       _this.getShopCustomerTransferTaskStatus(userId).then(() => {
         clearInterval(_this.shopCustomerTransferTaskStatusTime)
         _this.shopCustomerTransferTaskStatusTime = setInterval(() => {
@@ -364,6 +371,7 @@ export default {
             this._data._pagination.total = 0
             this.shuJushuzu.id = ''
             this.offLineShopId = ''
+            this.setStatus()
             this.$emit('offLineShopId', this.offLineShopId)
           }
         }

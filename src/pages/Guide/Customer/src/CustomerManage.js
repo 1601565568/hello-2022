@@ -158,6 +158,7 @@ export default {
      */
     getShopCateAndShop: function () {
       let that = this
+      if (!this.sameSystemShopId) { return false }
       that.$http.fetch(that.$api.core.sysShop.getShopTree, { sameSystemShopId: this.sameSystemShopId })
         .then((resp) => {
           that.shopCateTree = resp.result.shopCateTree
