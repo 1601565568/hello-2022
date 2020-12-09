@@ -58,15 +58,15 @@ export default {
     },
     onSaveActivityCoupon () {
       let _this = this
-      if (_this.activityModel.coupon_total === 0 || _this.activityModel.coupon_total < 0) {
-        _this.$notify.error('总配额必须大于0')
-        // _this.forbidden = false
-        return
-      }
-      if (_this.storeModel.maxType <= 0) {
+      // if (_this.activityModel.coupon_total === 0 || _this.activityModel.coupon_total < 0) {
+      //   _this.$notify.error('总配额必须大于0')
+      //   // _this.forbidden = false
+      //   return
+      // }
+      if (_this.storeModel.maxType < 0) {
         if (_this.storeModel.remainingQuantity < _this.activityModel.coupon_total) {
           _this.activityModel.coupon_total = 0
-          _this.$notify.info('配额不能大于优惠券剩余数量')
+          _this.$notify.error('配额不能大于优惠券剩余数量')
         }
         return
       }
@@ -227,14 +227,14 @@ export default {
         _this.$notify.info('请先选择优惠券')
         return
       }
-      if (_this.storeModel.maxType <= 0) {
-        if (_this.storeModel.remainingQuantity < _this.activityModel.coupon_total) {
-          _this.activityModel.coupon_total = 0
-          _this.$notify.info('配额不能大于优惠券剩余数量')
-        }
-        return
-      }
-      // _this.storeModel.couponTotal = 0 代表不限额，不做数量校验
+      // if (_this.storeModel.maxType <= 0) {
+      //   if (_this.storeModel.remainingQuantity < _this.activityModel.coupon_total) {
+      //     _this.activityModel.coupon_total = 0
+      //     _this.$notify.info('配额不能大于优惠券剩余数量')
+      //   }
+      //   return
+      // }
+      // _this.storeModel.maxType = 0 代表不限额，不做数量校验
       if (_this.storeModel.maxType > 0) {
         if (_this.storeModel.remainingQuantity < _this.activityModel.coupon_total) {
           _this.activityModel.coupon_total = 0

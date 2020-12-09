@@ -13,7 +13,7 @@ export default {
       },
       {
         value: 1,
-        label: '现金券'
+        label: '代金券'
       },
       {
         value: 2,
