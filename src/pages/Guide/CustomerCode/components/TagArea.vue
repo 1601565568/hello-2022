@@ -5,20 +5,21 @@
         v-for="item in tools"
         :key="item.id"
         @click="openTagDialog(item)">{{item.text}}</span>
-      <!-- <span :class="['w-textarea_tools__text',
-        count.num < 0 ? '__danger' : '']"
-        v-if="maxlength">{{count.text}}</span> -->
+        <span :class="['w-textarea_tools__text',
+          count.num < 0 ? '__danger' : '']"
+          v-if="maxlength">{{count.text}}</span>
     </div>
     <div
-      class="w-textarea_input"
+      :class="`w-textarea_input ${disabled?'disabled':''}`"
       ref="wTextareaContent"
       :id="contentId"
-      @click="inputClick($event)"
       @focus="isLocked = true"
       @blur="isLocked = false"
       @keydown.delete="handleDelete($event)"
       @input="handleInput($event.target)"
-    ></div>
+    >
+
+    </div>
   </div>
 </template>
 
@@ -56,28 +57,36 @@ export default {
         return []
       }
     },
+    placeholder: {
+      type: String
+    },
     maxlength: { // 最大输入长度
       type: [String, Number],
       default: ''
+    },
+    disabled: {
+      type: Boolean,
+      default: false
     }
   },
   computed: {
     count () { // 字符长度记数
       let num = this.maxlength - this.currentText.length
-      let text = num < 0 ? `已超出${Math.abs(num)}个字符` : `还可以输入${num}个字符`
+      let text = num < 0 ? `已超出${Math.abs(num)}个字符` : `${this.currentText.length}/${this.maxlength}`
+      this.$emit('inputLength', this.currentText.length)
       return { num, text }
     }
   },
   mounted () {
     // 初始化数据
-    this.currentText && (this.$refs.wTextareaContent.innerHTML = this.currentText)
+    // this.currentText && (this.$refs.wTextareaContent.innerHTML = this.currentText)
     // 创建模版标签的style
     this.createStyle()
     // 每次光标变化的时候，保存 range
     document.addEventListener('selectionchange', this.selectHandler)
     setTimeout(() => {
-      document.getElementsByClassName('w-textarea_input')[0].focus()
-      document.body.scrollIntoView()
+      const dom = document.getElementsByClassName('w-textarea_input')[0]
+      this.currentText = dom.innerText
     }, 1000)
   },
   beforeDestroy () {
@@ -125,9 +134,20 @@ export default {
       node.target = 'blank'
       this.insertNode(node)
     },
-    insertNode (node) { // 在内容中插入标签
+    insertNode (node) { // 判断是否第一次点击
+      if (!this.savedRange.deleteContents) {
+        const dom = document.getElementsByClassName('w-textarea_input')[0]
+        dom.focus()
+        setTimeout(() => {
+          this.addNode(node)
+        }, 100)
+      } else {
+        this.addNode(node)
+      }
+    },
+    addNode (node) { // 在内容中插入标签
       // 删掉选中的内容（如有）
-      this.savedRange.deleteContents()
+      // this.savedRange.deleteContents()
       // 插入链接
       this.savedRange.insertNode(node)
 
@@ -153,23 +173,23 @@ export default {
         this.handleInput(e.target)
       }
     },
-    inputClick (e) {
-      // 监听点击事件
-      this.isLocked = true
-      const TAG_NAME = e.target.nodeName
-      if (TAG_NAME === this.tag.toUpperCase()) {
-        // 点击模版标签时，记录id
-        this.currentTagId = e.target.id
-        e.target.className = 'active'
-      } else if (this.currentTagId) {
-        // 清空active样式
-        let target = document.getElementById(this.currentTagId)
-        target.className = ''
-        this.currentTagId = null
-      } else {
-        this.currentTagId = null
-      }
-    },
+    // inputClick (e) {
+    //   // 监听点击事件
+    //   this.isLocked = true
+    //   const TAG_NAME = e.target.nodeName
+    //   if (TAG_NAME === this.tag.toUpperCase()) {
+    //     // 点击模版标签时，记录id
+    //     this.currentTagId = e.target.id
+    //     e.target.className = 'active'
+    //   } else if (this.currentTagId) {
+    //     // 清空active样式
+    //     let target = document.getElementById(this.currentTagId)
+    //     target.className = ''
+    //     this.currentTagId = null
+    //   } else {
+    //     this.currentTagId = null
+    //   }
+    // },
     getGuid () {
       // 生成随机ID
       return `r${new Date().getTime()}d${Math.ceil(Math.random() * 1000)}`
@@ -192,7 +212,11 @@ export default {
     value (val) {
       // 非锁定状态下，实时更新innerHTML
       if (!this.isLocked) {
-        this.$refs.wTextareaContent.innerHTML = val
+        if (this.disabled) {
+          this.$refs.wTextareaContent.innerHTML = val.replace(/\n/g, '<br />')
+        } else {
+          this.$refs.wTextareaContent.innerHTML = val
+        }
       }
     }
   }
@@ -239,7 +263,14 @@ $textColor: #595959;
     word-break: break-word;
     // 允许编辑，禁止富文本
     -webkit-user-modify: read-write-plaintext-only !important;
-
+    &.disabled {
+      -webkit-user-modify: read-only !important;
+    }
+     // 允许编辑，禁止富文本
+    -moz-user-modify: read-write-plaintext-only !important;
+    &.disabled {
+      -moz-user-modify: read-only !important;
+    }
     &:focus {
       outline: none;
     }
@@ -273,7 +304,10 @@ $textColor: #595959;
       color: $textColor;
       cursor: default;
       transition: all 0.3s;
-
+      position: absolute;
+      bottom:0;
+      right: 12px;
+      color: #C0C4CC;
       &:hover {
         opacity: 1;
       }

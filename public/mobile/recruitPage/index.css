@@ -1,0 +1,21 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+html,body {
+  min-height: 100%;
+}
+body {
+  background-image: linear-gradient(231deg, #4AADFA 0%, #5D7CFC 100%);
+  padding-bottom: 40px;
+}
+.container,.img-container,.background-image {
+  width: 100%;
+}
+.img-container {
+  position: relative;
+}
+.qrcode-image {
+  position: absolute;
+}

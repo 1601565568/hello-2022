@@ -20,6 +20,8 @@
   v-model：接收值设置v-model="employeeSelectData"
   3.vue的data加入参数：
   employeeSelectData: [] //选中的值,如:[1,2,3,4]
+  4.appendToBody
+  dialog框是否直接添加到body下解决样式污染
 -->
 <template>
   <div>
@@ -35,7 +37,7 @@
       <Icon v-if="type === 'text'" type="plus"/>{{btnTitle}}
     </NsButton>
     <el-dialog :title="dialogTitle" :visible.sync="visible" :show-scroll-x="false"
-               :close-on-click-modal = "false" :before-close="onDialogClose" width="1100px"><!-- 按员工设置使用范围时，所选员工会优先选择使用该条欢迎语而非归属门店设置的欢迎语 -->
+               :close-on-click-modal = "false" :before-close="onDialogClose" width="1100px" :modal-append-to-body='appendToBody' :append-to-body='appendToBody'><!-- 按员工设置使用范围时，所选员工会优先选择使用该条欢迎语而非归属门店设置的欢迎语 -->
       <div slot="title">
         {{dialogTitle}}
         <el-tooltip  content="按员工设置使用范围时，所选员工会优先选择使用该条欢迎语而非归属门店设置的欢迎语">
@@ -47,7 +49,7 @@
           <el-form-item>
             <el-form-grid><div style="margin-left: 20px;">工作门店：</div></el-form-grid>
             <el-form-grid >
-              <ns-droptree ref="shopCateTree" placeholder="请选择门店分类" :lazy="true" :load="loadShopCateNode"  :multiple="false" v-model="departData.shopCate" clearable></ns-droptree>
+              <ns-droptree ref="shopCateTree" :loading="loading" placeholder="请选择门店分类" :lazy="true" :load="loadShopCateNode"  :multiple="false" v-model="departData.shopCate" clearable></ns-droptree>
             </el-form-grid>
             <el-form-grid style="margin-left:10px">
               <el-select-load v-model="departData.shopId" :options="shopOptions"  filterable clearable :page-sizes="20" placeholder="选择门店">
@@ -141,7 +143,7 @@
 
 <script>
 import index from './src/index.js'
-import NsDroptree from '@nascent/ecrp-ecrm/src/components/NsDroptree'
+import NsDroptree from '../NsDroptree'
 import ElSelectLoad from '@nascent/nui/lib/select-load'
 import NsImportDialog from '../NsImportDialog/index'
 index.components = {
@@ -156,7 +158,7 @@ export default index
   @import "@theme/variables.pcss";
   .template-search__chooes{
     cursor: pointer;
-    width: 40px;
+    min-width: 40px;/* width改成min-width 有问题找文秀或梦芹 */
     font-size: 12px;
     color: #0392FB;
     text-align: center;
@@ -181,7 +183,7 @@ export default index
   }
   .template-search__chooes{
     cursor: pointer;
-    width: 40px;
+    min-width: 40px;/* width改成min-width 有问题找文秀或梦芹 */
     font-size: 12px;
     color: #0392FB;
     text-align: center;

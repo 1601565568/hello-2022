@@ -1,0 +1,133 @@
+<template>
+  <div>
+    <el-dialog
+     title="新增优惠券发放"
+     width="960px"
+     :visible.sync="addCouponDialogVisible"
+    >
+    <div class="addCouponDialogVisible">
+        <el-form ref="form" :model="activityModel" label-width="80px" class="form-main">
+            <el-form-item label="优惠券：" prop="coupon_id">
+              <el-form-grid size="xmd">
+                  <div class="choose-coupon" @click="onOpenCoupon()">
+                      <p v-if="activityModel.coupon_id == 0">请选择优惠券</p>
+                      <p v-else class="text">{{storeModel.couponTitle}}</p>
+                      <Icon type="couponicon" />
+                  </div>
+              </el-form-grid>
+              <el-form-grid block class="text-primary">
+                  <Icon type="info-circle"/> 选择中台已新增的优惠券至导购系统
+              </el-form-grid>
+            </el-form-item>
+          <el-form-item label="剩余数量：" v-if="activityModel.coupon_id !== 0">
+            <el-form-item prop="store_coupon_total">
+                <div class="disabled" v-if="storeModel.maxType == 0">不限量</div>
+                <div class="disabled" v-else>{{storeModel.remainingQuantity}}</div>
+            </el-form-item>
+          </el-form-item>
+          <el-form-item label="配额：" required>
+              <el-form-grid size="xmd">
+                  <el-form-item prop="coupon_total">
+                  <el-input
+                    style="width: 360px"
+                    placeholder="请输入正整数"
+                    v-if="activityModel.type ==0"
+                    type="number"
+                    v-model="activityModel.coupon_total"
+                    @change="activityCouponTotal()"
+                    auto-complete="off">
+                  </el-input>
+                  <el-input
+                    style="width: 360px"
+                    placeholder="请输入正整数"
+                    v-if="activityModel.type ==1" disabled="disabled"
+                    type="number"
+                    v-model="activityModel.coupon_total"
+                    @change="activityCouponTotal()"
+                    auto-complete="off">
+                  </el-input>
+                  </el-form-item>
+              </el-form-grid>
+              <el-form-grid block class="text-primary">
+                  <Icon type="info-circle"/>  设置优惠券的数量
+              </el-form-grid>
+          </el-form-item>
+          <el-form-item label="分配方式：" v-if="activityModel.coupon_id !== 0" required>
+              <el-form-grid>
+                  <el-form-item prop="type">
+                  <el-radio-group v-model="activityModel.type">
+                      <el-radio :label="0" @change="onChangeDistributionMode(0)" >公用</el-radio>
+                      <el-radio :label="1" @change="onChangeDistributionMode(1)" >自由分配</el-radio>
+                  </el-radio-group>
+                  </el-form-item>
+              </el-form-grid>
+              <el-form-grid block class="text-info"><Icon type="info-circle" theme="filled" />公用：所有门店共享配额；自由分配：默认均分，可再行调整</el-form-grid>
+          </el-form-item>
+          <el-form-item v-if ="distributionMode  == 1">
+            <StoreList ref= "storeList"
+            :activityModel="activityModel"
+            :storeModel="storeModel"
+            :shopMap="shopMap" :shopListAll="shopAllList"
+            @changeShopMap="changeShopMap"
+            ></StoreList>
+          </el-form-item>
+          <div class="coupon">
+              <div class="coupon-preview">优惠券预览区</div>
+              <div class="coupon-box">
+                  <img :src="bgcoupon" v-if="activityModel.coupon_id == 0"/>
+                  <div class="couponCard" v-else>
+                    <img v-if="storeModel.couponType == 1" src="./img/cash_coupon.png"/>
+                    <img v-if="storeModel.couponType == 2" src="./img/discount_coupon.png"/>
+                    <img v-if="storeModel.couponType == 3" src="./img/exchange_coupon.png"/>
+                    <div class="couponCard-top">
+                      <div class="couponCard-top__left">
+                        <!-- 现金券 -->
+                        <div class="money" v-if="storeModel.couponType == 1">￥<span>{{storeModel.couponValue}}</span></div>
+                        <!-- 兑换券 -->
+                        <div class="couponType3" v-if="storeModel.couponType == 3"><span>礼</span></div>
+                        <!-- 折扣券 -->
+                        <template v-if="storeModel.couponType == 2">
+                          <div class="couponType2">
+                          <span class="couponType2_number" >{{splitCouponNumber(storeModel.couponValue,0)}}</span>
+                          <span class="couponType2_number2" v-if = isShowCouponNumber>{{splitCouponNumber(storeModel.couponValue,1)}}</span>
+                          <span class="couponType2_text" >折</span>
+                          </div>
+                        </template>
+                      </div>
+                      <div class="couponCard-top__right">
+                        <p class="couponCard-top__right__time">{{storeModel.couponTitle}}</p>
+                        <p class="text-secondary" v-if="storeModel.dateType == 0">
+                          {{storeModel.startTime}} ~~ {{storeModel.endTime}}
+                        </p>
+                        <p class="text-secondary" v-if="storeModel.dateType == 1">
+                          领取{{storeModel.after_get_valid_days}}天后生效，有效期{{storeModel.valid_days}}天
+                        </p>
+                        <p>创建人：{{storeModel.loginAccount || '-'}}</p>
+                        <!-- <p>使用说明：至多显示一行多余…悬停TIPS显示全部</p> -->
+                        <p :title="storeModel.useRemark ">使用说明:{{storeModel.useRemark || '-'}}</p>
+                        <p :title="storeModel.remark">备注：{{storeModel.remark || '-'}}</p>
+                      </div>
+                    </div>
+                    <div class="couponCard-bottom">
+                      {{storeModel.conditionJson}}
+                    </div>
+                  </div>
+              </div>
+          </div>
+        </el-form>
+      </div>
+      <div slot="footer" class="dialog-footer">
+        <ns-button @click="closeDialog">取消</ns-button>
+        <ns-button type="primary" @click="onSaveActivityCoupon" :disabled = "forbidden" title="save">保存</ns-button>
+      </div>
+    </el-dialog>
+    <Coupon ref="Coupon" @onChangeCoupon="getCouponMessage"></Coupon>
+  </div>
+</template>
+<script>
+import index from './src/index'
+export default index
+</script>
+<style scoped lang="scss">
+@import "./src/index.scss";
+</style>

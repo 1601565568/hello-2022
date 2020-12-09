@@ -91,7 +91,7 @@ export default {
       personal: null,
       keyword: null,
       showType: null,
-      creatorId: null
+      creatorName: null
     }
     let findVo = {
       'validateMsg': null,
@@ -117,6 +117,7 @@ export default {
       _queryConfig: { expand: false },
       multipleSelection: [],
       select: true,
+      creatorList: [],
       bindDeviceDialog: {
         visible: false,
         guide: {}
@@ -154,6 +155,10 @@ export default {
     }
     this.$http.fetch(this.$api.core.common.getRecruitVersion).then(data => {
       this.memberManagePlan = data.result.memberManagePlan
+    })
+    // 获取聚合二维码创建者集合
+    this.$http.fetch(this.$api.guide.sgPersonalQrcode.queryCreatorList).then(data => {
+      this.creatorList = data.result
     })
   },
   computed: {},

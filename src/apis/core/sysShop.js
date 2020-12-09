@@ -13,7 +13,7 @@ export default {
   },
   getShopTree: {
     url: '/core/sgshop/getShopTree',
-    method: 'post'
+    method: 'get'
   },
   findShopListByShopIds: {
     url: '/core/sgshop/findShopListByShopIds',

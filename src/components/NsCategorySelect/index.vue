@@ -39,7 +39,7 @@ export default {
         }
       }
     },
-    getDirectoryTreeUrl: Object,
+    getTreeUrl: Object,
     rules: Array,
     prop: String,
     disabled: Boolean
@@ -70,7 +70,7 @@ export default {
   },
   methods: {
     init () {
-      this.$http.fetch(this.getDirectoryTreeUrl)
+      this.$http.fetch(this.getTreeUrl)
         .then(data => {
           this.treeData = this.treeData.concat(data.result)
           this.$nextTick(() => {

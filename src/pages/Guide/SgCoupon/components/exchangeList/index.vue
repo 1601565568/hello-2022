@@ -1,0 +1,63 @@
+<template>
+    <div>
+        <el-dialog
+            title="查看商品"
+            width="720px"
+            :visible.sync="exchangeListDialogVisible"
+        >
+            <el-table
+                class="template-table__main"
+                :data="_data._table.data"
+                stripe
+                ref="table"
+                resizable
+                v-loading.lock="_data._table.loadingtable"
+                :element-loading-text="$t('prompt.loading')"
+            >
+                <el-table-column
+                    prop="title"
+                    label="商品名称"
+                    align="left"
+                    :sortable="false"
+                >
+                </el-table-column>
+                <el-table-column
+                    prop="suggestPrice"
+                    label="建议零售价格"
+                    align="left"
+                    :sortable="false"
+                >
+                <template slot-scope="scope">
+                            ￥{{scope.row.suggestPrice}}
+                </template>
+                </el-table-column>
+            </el-table>
+            <el-pagination
+                v-if="_data._pagination.enable"
+                class="template-table__pagination"
+                :page-sizes="_data._pagination.sizeOpts"
+                :total="_data._pagination.total"
+                :current-page="_data._pagination.page"
+                :page-size="_data._pagination.size"
+                layout="total, sizes, prev, pager, next, jumper"
+                @size-change="$sizeChange$"
+                @current-change="$pageChange$"
+            >
+            </el-pagination>
+            <div
+                slot="footer"
+                class="dialog-footer"
+            >
+                <ns-button @click="closeDialog()">取消</ns-button>
+                <ns-button
+                    @click="closeDialog()"
+                    type="primary"
+                >确定</ns-button>
+            </div>
+        </el-dialog>
+    </div>
+</template>
+<script>
+import index from './src/index'
+export default index
+</script>

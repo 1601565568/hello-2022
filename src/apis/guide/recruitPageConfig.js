@@ -8,5 +8,9 @@ export default {
   updateSet: {
     url: prefix + 'updateSet',
     method: 'POST'
+  },
+  mpFollowStateChange: {
+    url: prefix + 'mpFollowStateChange',
+    method: 'GET'
   }
 }

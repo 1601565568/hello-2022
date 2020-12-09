@@ -43,6 +43,11 @@ export default {
     selfBtn: {
       type: Boolean,
       default: false
+    },
+    // 是否直接绑定到body下
+    appendToBody: {
+      type: Boolean,
+      default: false
     }
   },
   data: function () {
@@ -96,7 +101,8 @@ export default {
         page: 1,
         total: 0
       },
-      isCheckAll: false
+      isCheckAll: false,
+      loading: true
     }
   },
   computed: {},
@@ -204,6 +210,7 @@ export default {
       let that = this
       that.$http.fetch(that.$api.core.sysShop.getShopTree)
         .then((resp) => {
+          that.loading = false
           that.shopCateTree = resp.result.shopCateTree
           that.allShopOptions = resp.result.shopOptions
           that.shopOptions = resp.result.shopOptions

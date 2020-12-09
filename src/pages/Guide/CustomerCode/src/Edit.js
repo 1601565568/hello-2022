@@ -5,6 +5,8 @@ export default {
       collapseList: [1, 2],
       guestCodeId: null,
       copyGuestCodeId: null,
+      activityIntroductionLength: 0,
+      validates,
       model: {
         headerType: 0,
         time: [],
@@ -34,20 +36,20 @@ export default {
           { validator: validates.validateName, trigger: ['blur', 'change'] }
         ],
         guideIds: [
-          { required: true, message: '请选择参与人员', trigger: ['blur', 'change'] },
-          { validator: validates.validateName, message: '请选择参与人员', trigger: ['blur', 'change'] }
+          { required: true, message: '请选择参加活动人员', trigger: ['blur', 'change'] },
+          { validator: validates.validateGuideIds, message: '请选择参加活动人员', trigger: ['blur', 'change'] }
         ],
         time: [
           { required: true, message: '请选择有效日期', trigger: ['blur', 'change'] }
         ],
         activityDescription: [
-          { required: true, message: '请输入活动说明', trigger: ['blur', 'change'] },
+          { required: true, message: '请填写活动说明', trigger: ['blur', 'change'] },
           { validator: validates.validateActivityDescription.bind(this, '活动说明'), trigger: ['blur', 'change'] }
         ],
-        activityIntroduction: [
-          { required: true, message: '请输入活动介绍', trigger: ['blur', 'change'] },
-          { validator: validates.validateActivityDescription.bind(this, '活动说明'), trigger: ['blur', 'change'] }
-        ],
+        // activityIntroduction: [
+        //   { required: true, message: '请输入活动介绍', trigger: ['blur', 'change'] },
+        //   { validator: validates.validateActivityIntroduction.bind(this, this.activityIntroductionLength), trigger: ['blur', 'change'] }
+        // ],
         backgroundPic: [
           { required: true, message: '请选择图片', trigger: ['blur', 'change'] }
         ],
@@ -89,7 +91,9 @@ export default {
         { type: 'tag', text: '插入推广大师查询链接', id: 'PROMOTION_URL', value: '推广大师查询链接' },
         { type: 'tag', text: '插入招募链接', id: 'RECRUIT_URL', value: '招募链接' },
         { type: 'tag', text: '插入活动有效时间', id: 'ACTIVITY_VALIT_TIME', value: '活动有效时间' }
-      ]
+      ],
+      // 是否是进行中的
+      isStating: false
     }
   },
   computed: {
@@ -102,9 +106,10 @@ export default {
     const { guestCodeId, copyGuestCodeId } = query
     if (guestCodeId || copyGuestCodeId) {
       this.loadActivity(guestCodeId || copyGuestCodeId)
-      if (guestCodeId) {
-        this.getGuideListByGuestCodeId(guestCodeId)
-      }
+      this.getGuideListByGuestCodeId(guestCodeId || copyGuestCodeId)
+      // if (guestCodeId) {
+
+      // }
     }
     this.guestCodeId = guestCodeId
     this.copyGuestCodeId = copyGuestCodeId
@@ -125,10 +130,13 @@ export default {
           nickColour: '#' + result.nickColour,
           qrcodeSize: result.qrcodeSize,
           qrcodeX: result.qrcodeX,
+          headerType: result.nickPosition,
+          headPortraitShape: result.headPortraitShape,
           qrcodeY: result.qrcodeY,
           time: [result.validTimeStart, result.validTimeEnd],
           validTimeType: result.validTimeType
         }
+        this.isStating = !!(result.status === 2 && this.guestCodeId)
         this.fileList = [{ name: result.backgroundPic }]
       })
     },
@@ -144,15 +152,47 @@ export default {
     },
     handleChangeGuide (value) {
       this.model.guideDatas = value
+      this.$refs.ruleForm && this.$refs.ruleForm.validateField('guideIds')
     },
     // 删除所选员工
     handleDelect (index) {
       this.model.guideDatas.splice(index, 1)
       this.model.guideIds.splice(index, 1)
+      this.$refs.ruleForm && this.$refs.ruleForm.validateField('guideIds')
+    },
+    // 删除所有员工
+    handleDelectAll () {
+      this.model.guideIds = []
+      this.model.guideDatas = []
+      this.$refs.ruleForm && this.$refs.ruleForm.validateField('guideIds')
     },
     // 上传之前钩子
     beforeUpload (file) {
-      this.fileList = [file]
+      // this.fileList = [file]
+      // 图片格式判断
+      if (!/\.(jpg|jpeg|png|JPG|PNG|JPEG)$/.test(file.name)) {
+        this.$notify.error('仅支持jpg/jpeg/png的图片格式')
+        return false
+      }
+      if (file.size / 1024 / 1024 > 1) {
+        this.$notify.error('上传图片不能超过1M')
+        return false
+      }
+      return new Promise((resolve, reject) => {
+        const _URL = window.URL || window.webkitURL
+        const img = new Image()
+        img.src = _URL.createObjectURL(file)
+        img.onload = () => {
+          let valid = img.width === 750 && img.height === 1334
+          if (valid) {
+            this.fileList = [file]
+            resolve(file)
+          } else {
+            this.fileList = [...this.fileList]
+            this.$notify.error('上传图片尺寸只能是750X1334')
+          }
+        }
+      })
     },
     // 上传完成钩子
     handleUploadSuccess (res) {
@@ -188,8 +228,8 @@ export default {
         qrcodeSize: model.qrcodeSize,
         qrcodeX: model.qrcodeX,
         qrcodeY: model.qrcodeY,
-        validTimeEnd: model.time[0],
-        validTimeStart: model.time[1],
+        validTimeStart: model.time[0],
+        validTimeEnd: model.time[1],
         validTimeType: model.validTimeType
       }
       const headPosition = this.headPosition[model.headerType]
@@ -229,6 +269,10 @@ export default {
     },
     handleCancel () {
       this.$router.go('-1')
+    },
+    inputLength (length) {
+      this.activityIntroductionLength = length
+      this.$refs.ruleForm && this.$refs.ruleForm.validateField('activityIntroduction')
     }
   }
 }

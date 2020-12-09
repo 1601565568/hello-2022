@@ -34,5 +34,24 @@ export default {
   findShopPage: {
     url: '/core/sgshop/findShopPage',
     method: 'post'
+  },
+  // 查询门店客户转移
+  getShopCustomerTransferTaskStatus: {
+    url: '/guide/customer/getShopCustomerTransferTaskStatus',
+    method: 'get'
+  },
+  // 创建客户转移任务
+  createCustomerTransferTask: {
+    url: '/guide/customer/createCustomerTransferTask',
+    method: 'post'
+  },
+  // 关闭客户转移任务
+  closeCustomerTransferTask: {
+    url: '/guide/customer/closeCustomerTransferTask',
+    method: 'post'
+  },
+  redoCustomerTransferTask: {
+    url: '/guide/customer/redoCustomerTransferTask',
+    method: 'post'
   }
 }
