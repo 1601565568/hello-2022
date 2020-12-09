@@ -274,8 +274,11 @@ export default {
       const date = newVal || [null, null]
       this.changeSearchfrom({ addFriendTimeStart: date[0], addFriendTimeEnd: date[1] })
     },
-    startTime (newVal) {
-      this.changeSearchfrom({ timeStart: newVal, timeEnd: this.endTime })
+    startTime: {
+      handler (newVal) {
+        this.changeSearchfrom({ timeStart: newVal, timeEnd: this.endTime })
+      },
+      immediate: true
     }
   }
 }
