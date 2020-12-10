@@ -118,7 +118,7 @@
 <script>
 import PageTable from '../PageTable'
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
-import defaultIcon from '../../Images/icon-huiyuan.png'
+import defaultIcon from '@/assets/defultheadPic.png'
 const originModel = {
   timeStart: null,
   timeEnd: null,
@@ -161,7 +161,8 @@ export default {
           value: '正常',
           color: 'success'
         }
-      }
+      },
+      defaultIcon
     }
   },
   components: { PageTable },
