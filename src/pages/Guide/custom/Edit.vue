@@ -35,8 +35,11 @@
         ></el-col>
         <el-col :span="9"
           ><ScrollView className="edit-content">
-            <PageContentRight :editData="pageModuleType" @change="onSetChange"/> </ScrollView
-          >
+            <PageContentRight
+              :editData="pageModuleType"
+              @change="onSetChange"
+            />
+          </ScrollView>
         </el-col>
       </el-row>
     </div>
@@ -49,12 +52,14 @@ import PageEdit from '@/components/NewUi/PageEdit'
 import PageContentLeft from './components/PageContentLeft'
 import PageContentMiddle from './components/PageContentMiddle'
 import PageContentRight from './components/PageContentRight'
+import addMenu from './components/pageComponents/addMenu'
 Edit.components = {
   ScrollView,
   PageContentLeft,
   PageContentMiddle,
   PageContentRight,
-  PageEdit
+  PageEdit,
+  addMenu
 }
 export default Edit
 </script>

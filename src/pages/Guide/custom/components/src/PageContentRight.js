@@ -47,7 +47,7 @@ export default {
           setComponent = 'CheckBox'
           break
         case 2:
-          setComponent = 'CheckBox'
+          setComponent = 'menuSet'
           break
         case 3:
           setComponent = 'Upload'
