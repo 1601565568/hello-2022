@@ -33,7 +33,7 @@
                   label="好友昵称">
                   <template slot-scope="scope">
                     <div class="scope-title">
-                      <img :src='scope.row.friendAvatar' class="scope-title_img">
+                      <img :src='scope.row.friendAvatar||defaultIcon' class="scope-title_img">
                       <div class="scope-title_text">
                         {{scope.row.friendName|| '-'}}
                       </div>
@@ -95,6 +95,7 @@
 <script>
 import PageTable from '../PageTable'
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
+import defaultIcon from '@/assets/defultheadPic.png'
 const originModel = {
   friendName: null,
   guideId: null,
@@ -114,7 +115,8 @@ export default {
       seachVal: '',
       isSecondDrawer: false, // 是否是二级drawer
       secondDrawerName: null, // 一级drawer名称
-      secondDrawerId: null // 一级drawerguideId
+      secondDrawerId: null, // 一级drawerguideId
+      defaultIcon
     }
   },
   components: { PageTable },
