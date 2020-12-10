@@ -1,19 +1,39 @@
 <template>
   <div>
-    <DHander />
+    <template v-for="(item ,index) in editData">
+    <component :key="index" :is="item.settingCode" :editData="item.itemList"></component>
+    </template>
+    <!-- {{editData}} -->
+    <!-- <DHander />
     <DAchievement />
-    <DMenu />
+    <DMenu /> -->
   </div>
 </template>
 <script>
-import DHander from './DHander'
-import DAchievement from './DAchievement'
-import DMenu from './DMenu'
+import personalInformation from './DHander'
+import performance from './DAchievement'
+import workMenu from './DMenu'
+import banner from '../../pageComponents/banner'
 export default {
+  props: {
+    editData: {
+      type: Array
+    }
+  },
+  // watch: {
+  //   editData: {
+  //     handler (newValue) {
+  //       console.log(newValue, '12312312312312313123')
+  //     },
+  //     deep: true,
+  //     immediate: true
+  //   }
+  // },
   components: {
-    DHander,
-    DAchievement,
-    DMenu
+    personalInformation,
+    performance,
+    workMenu,
+    banner
   }
 }
 </script>

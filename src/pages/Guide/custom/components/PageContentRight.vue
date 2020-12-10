@@ -1,20 +1,23 @@
 <template>
   <div class="PageContentRight">
     <el-collapse class="common-collapse" v-model="activeNames">
-      <el-collapse-item>
-        <template slot="title">
-          <div class="common-title" @click="onShowEdit()">
-            <span>头部资料</span>
-            <div class="switch" @click="onclick">
-              <el-switch v-model="value1" active-color="#0091FA"> </el-switch>
+      <template v-for="(item, index) in pageModuleType">
+        <el-collapse-item :key="index">
+          <template slot="title">
+            <div class="common-title" @click="onShowEdit()">
+              <span>{{item.settingName}}{{item.status}}</span>
+              <div class="switch" @click="onclick">
+                <el-switch v-model="item.status" active-color="#0091FA"> </el-switch>
+              </div>
             </div>
+          </template>
+          <div @click="onShowEdit()" class="editWarpper">
+            <component :is="formatSettingType(item.settingType)" :childrenEditData="item.itemList" @change="(data)=>{onChangeItem(data,index)}"></component>
+            <!-- <CheckBox /> -->
+            <!-- <Upload /> -->
           </div>
-        </template>
-        <div @click="onShowEdit()" class="editWarpper">
-          <!-- <CheckBox /> -->
-          <Upload />
-        </div>
-      </el-collapse-item>
+        </el-collapse-item>
+      </template>
     </el-collapse>
   </div>
 </template>

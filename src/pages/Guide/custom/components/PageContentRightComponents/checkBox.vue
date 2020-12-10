@@ -7,45 +7,98 @@
       @change="handleCheckAllChange"
       >全选</el-checkbox
     >
-    <!-- <div class="pageRightEdit"> -->
-    <el-checkbox-group
-      v-model="checkedCities"
-      @change="handleCheckedCitiesChange"
-    >
-      <el-checkbox
-        text-color="#f00"
-        fill="#f00"
-        v-for="city in cities"
-        :label="city"
-        class="checkbox"
-        :key="city"
-        >{{ city }}</el-checkbox
-      >
-    </el-checkbox-group>
-    <!-- </div> -->
+    <template v-for="(item, index) in data">
+      <div class="checkboxWarpper" :key="index">
+        <el-checkbox
+          class="checkbox"
+          @change="onChangeCheckbox(item, index)"
+          :value="formatCheckbox(item.status)"
+          >{{ item.itemName }}</el-checkbox
+        >
+        <span v-if="item.tips" :title="item.tips" class="question-circle"
+          ><Icon type="question-circle"
+        /></span>
+        <span
+          class="editIcon"
+          v-if="
+            item.itemName === '总收益' || item.itemName === '本月收益和今日收益'
+          "
+          ><Icon type="edit"
+        /></span>
+      </div>
+    </template>
   </div>
 </template>
 <script>
-const cityOptions = ['上海', '北京', '广州', '深圳']
 export default {
+  props: {
+    childrenEditData: {
+      type: Array
+    }
+  },
   data () {
     return {
+      data: JSON.parse(JSON.stringify(this.childrenEditData)),
       checkAll: false,
-      checkedCities: ['上海', '北京'],
-      cities: cityOptions,
-      isIndeterminate: true
+      isIndeterminate: false
+    }
+  },
+  watch: {
+    childrenEditData: {
+      handler (newValue, oldValue) {
+        if (JSON.stringify(newValue) !== JSON.stringify(oldValue)) {
+          this.data = JSON.parse(JSON.stringify(newValue))
+        }
+      },
+      deep: true,
+      immediate: true
+    },
+    data: {
+      handler (val) {
+        this.$emit('change', val)
+        this.formatCheckAllStatus(val)
+      },
+      deep: true,
+      immediate: true
     }
   },
   methods: {
-    handleCheckAllChange (val) {
-      this.checkedCities = val ? cityOptions : []
-      this.isIndeterminate = false
+    formatCheckbox (status) {
+      return status === 1
     },
-    handleCheckedCitiesChange (value) {
-      let checkedCount = value.length
-      this.checkAll = checkedCount === this.cities.length
-      this.isIndeterminate =
-        checkedCount > 0 && checkedCount < this.cities.length
+    onChangeCheckbox (item, index) {
+      let setItem = JSON.parse(JSON.stringify(item))
+      setItem.status = setItem.status === 1 ? 0 : 1
+      this.$set(this.data, index, setItem)
+    },
+    formatCheckAllStatus (val) {
+      let length = val.length
+      let i = 0
+      val.forEach(item => {
+        if (item.status === 1) {
+          i = i + 1
+        }
+      })
+      if (i === length) {
+        this.checkAll = true
+        this.isIndeterminate = false
+      } else if (i > 0 && i < length) {
+        this.checkAll = false
+        this.isIndeterminate = true
+      } else {
+        this.checkAll = false
+        this.isIndeterminate = false
+      }
+    },
+    handleCheckAllChange (val) {
+      let arr = []
+      arr = this.data.map(item => {
+        return {
+          ...item,
+          status: val ? 1 : 0
+        }
+      })
+      this.data = arr
     }
   }
 }
@@ -76,5 +129,21 @@ export default {
   display: block;
   padding-top: 9px;
   height: 40px;
+  margin-left: 0px;
+}
+.checkboxWarpper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.checkboxWarpper .editIcon {
+  position: absolute;
+  top: 50%;
+  right: 0px;
+  transform: translate(0%, -50%);
+}
+.question-circle {
+  color: #8c8c8c;
+  margin-left: 10px;
 }
 </style>

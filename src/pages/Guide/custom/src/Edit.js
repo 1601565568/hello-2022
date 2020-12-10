@@ -3,7 +3,13 @@ export default {
     return {
       menuListTitle: '工作台', // 菜单栏标题
       menuType: 1, // 小程序类型 1导购 2店长
-      menuArr: []
+      menuArr: [],
+      pageModuleType: []
+    }
+  },
+  watch: {
+    pageModuleType (newVal) {
+      console.log(newVal, 'pageModuleType')
     }
   },
   mounted () {
@@ -77,16 +83,35 @@ export default {
           templateCode: 'DEFAULT_TEMPLATE_CODE'
         })
         .then(res => {
-          console.log(res, 'res')
+          if (res.success && res.result) {
+            this.pageModuleType = this.forMatPageModuleType(res.result)
+          }
         })
         .catch(err => {
           this.$notify.error(err.msg)
         })
     },
+    forMatPageModuleType (arr) {
+      return arr.map(item => {
+        return {
+          itemList: JSON.parse(item.itemList),
+          moduleType: item.moduleType,
+          settingCode: item.settingCode,
+          settingName: item.settingName,
+          settingType: item.settingType,
+          sort: item.sort,
+          sortable: item.sortable,
+          status: item.status
+        }
+      })
+    },
     // 左侧菜单栏变化
     onChangeMenu (menuId, menuListTitle) {
       this.menuType = menuId
       this.menuListTitle = menuListTitle
+    },
+    onSetChange (data) {
+      this.pageModuleType = data
     },
     onSave () {
       // console.log('保存')

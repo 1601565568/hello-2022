@@ -11,7 +11,7 @@
         </div>
       </div>
       <div class="iphone-content" refs="iphoneContent">
-        <component :is="PageName"></component>
+        <component :is="PageName" :editData="editData"></component>
         <!-- <Work /> -->
       </div>
       <div class="iphone-tabber">

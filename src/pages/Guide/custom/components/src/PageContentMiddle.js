@@ -9,6 +9,9 @@ export default {
     menuType: {
       type: Number,
       default: 1
+    },
+    editData: {
+      type: Array
     }
   },
   data () {

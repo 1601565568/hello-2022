@@ -21,19 +21,23 @@
       <el-row class="custom-content">
         <el-col :span="4"
           ><ScrollView className="edit-content"
-            ><PageContentLeft @onChange="onChangeMenu" :menuArr="menuArr"/></ScrollView
+            ><PageContentLeft
+              @onChange="onChangeMenu"
+              :menuArr="menuArr"/></ScrollView
         ></el-col>
         <el-col :span="11"
           ><ScrollView className="edit-content"
             ><PageContentMiddle
               :menuListTitle="menuListTitle"
               :menuType="menuType"
+              :editData="pageModuleType"
               ref="PageContentMiddle"/></ScrollView
         ></el-col>
         <el-col :span="9"
           ><ScrollView className="edit-content">
-            <PageContentRight /> </ScrollView
-        ></el-col>
+            <PageContentRight :editData="pageModuleType" @change="onSetChange"/> </ScrollView
+          >
+        </el-col>
       </el-row>
     </div>
   </PageEdit>

@@ -1,41 +1,48 @@
 <template>
   <!-- 导购工作台业绩 -->
-  <div class="D-achievement__warpper">
+  <div class="D-achievement__warpper" v-if="show">
     <div class="D-achievement__title">业绩展示</div>
     <div class="D-achievement__list">
-      <div class="D-achievement__row">
+      <div class="D-achievement__row" v-if="editData[0] && editData[0].status === 1">
         <div class="D-achievement__row__title">今日收益（元）</div>
         <div class="D-achievement__row__warpper">
           <span class="D-achievement__row__number">0</span>
         </div>
       </div>
-      <div class="D-achievement__row">
+      <div class="D-achievement__row" v-if="editData[0] && editData[0].status === 1">
         <div class="D-achievement__row__title">本月收益（元）</div>
         <div class="D-achievement__row__warpper">
           <span class="D-achievement__row__number">0</span>
         </div>
       </div>
-      <div class="D-achievement__row">
+      <div class="D-achievement__row" v-if="editData[1] && editData[1].status === 1">
         <div class="D-achievement__row__title">今日销售（元）</div>
         <div class="D-achievement__row__warpper">
           <span class="D-achievement__row__number">0</span>
         </div>
       </div>
-      <div class="D-achievement__row">
+      <div class="D-achievement__row" v-if="editData[2] && editData[2].status === 1">
         <div class="D-achievement__row__title">今日招募（人）</div>
         <div class="D-achievement__row__warpper">
           <span class="D-achievement__row__number">0</span><span>/ -</span>
         </div>
       </div>
-      <div class="D-achievement__row">
+      <div class="D-achievement__row" v-if="editData[3] && editData[3].status === 1">
         <div class="D-achievement__row__title">今日收益（元）</div>
         <div class="D-achievement__row__warpper">
           <span class="D-achievement__row__number">0</span><span>/ -</span>
         </div>
       </div>
     </div>
+    <!-- {{editData}} -->
   </div>
 </template>
+<script>
+import componentData from '../../mixins/componentData.js'
+export default {
+  mixins: [componentData]
+}
+</script>
 <style scoped lang="scss">
 .D-achievement__warpper {
   background: #fff;
