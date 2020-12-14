@@ -83,6 +83,7 @@ export default {
       isManual: true, // 是否是手动触发全选
       removeCheckList: [], // 记录全选状态下面的取消的list
       addcheckList: [], // 记录表格勾选的数据
+      outGuideId: null,
       shopCustomerTransferTaskStatus: null, // 判断门店是否有转移任务
       shopCustomerTransferTaskStatusTime: null // 定时调用判断门店转移任务状态显示
     }
@@ -180,6 +181,7 @@ export default {
         _this.gradeInfo = []
       }
       _this.offLineShopId = data.parentId !== '0' ? data.parentId : data.id
+      this.outGuideId = data.parentId !== '0' ? data.id : null
       _this.$emit('offLineShopId', _this.offLineShopId)
       _this.shuJushuzu = data
       _this.loading = true
