@@ -1,10 +1,13 @@
 export default {
   data () {
     return {
-      menuListTitle: '工作台', // 菜单栏标题
-      menuType: 1, // 小程序类型 1导购 2店长
       menuArr: [],
-      pageModuleType: []
+      pageModuleType: [],
+      menuObj: {
+        active: '1-1',
+        menuListTitle: '工作台', // 菜单栏标题
+        menuId: 1 // 小程序类型 1导购 2店长
+      }
     }
   },
   watch: {
@@ -21,6 +24,12 @@ export default {
         .fetch(this.$api.guide.custom.findMiniProgramPageModuleList)
         .then(res => {
           if (res.success) {
+            this.menuObj = {
+              ...this.menuObj,
+              moduleName: res.result[0].moduleName,
+              moduleType: res.result[0].moduleType,
+              templateCode: res.result[0].templateCode
+            }
             this.findMiniProgramPageModuleSettingList()
             this.menuArr = this.forMatMenuArr(res.result)
           } else {
@@ -44,16 +53,19 @@ export default {
       const menuList2 = []
       for (let i = 0; i < newArr.length; i++) {
         const item = newArr[i]
-        // debugger
         if (item.projectType === 1) {
           menuList1.push({
             moduleName: item.moduleName,
-            moduleType: item.moduleType
+            moduleType: item.moduleType,
+            projectType: item.projectType,
+            templateCode: item.templateCode
           })
         } else {
           menuList2.push({
             moduleName: item.moduleName,
-            moduleType: item.moduleType
+            moduleType: item.moduleType,
+            projectType: item.projectType,
+            templateCode: item.templateCode
           })
         }
       }
@@ -69,32 +81,33 @@ export default {
           menuList: menuList2
         }
       ]
-      console.log(menuBar)
       return menuBar
     },
     findMiniProgramPageModuleSettingList () {
-      let param = {
-        moduleType: 1,
-        templateCode: 'DEFAULT_TEMPLATE_CODE'
+      let params = {
+        moduleType: this.menuObj.moduleType,
+        templateCode: this.menuObj.templateCode
       }
       this.$http
-        .fetch(this.$api.guide.custom.findMiniProgramPageModuleSettingList, {
-          moduleType: 1,
-          templateCode: 'DEFAULT_TEMPLATE_CODE'
-        })
+        .fetch(
+          this.$api.guide.custom.findMiniProgramPageModuleSettingList,
+          params
+        )
         .then(res => {
           if (res.success && res.result) {
             this.pageModuleType = this.forMatPageModuleType(res.result)
+            console.log(this.pageModuleType)
           }
         })
         .catch(err => {
-          this.$notify.error(err.msg)
+          this.$notify.error(`配置查询失败${err.msg}`)
         })
     },
     forMatPageModuleType (arr) {
-      return arr.map(item => {
+      return arr.map((item, index) => {
+        console.log(index, item.itemList ? JSON.parse(item.itemList) : null)
         return {
-          itemList: JSON.parse(item.itemList),
+          itemList: item.itemList ? JSON.parse(item.itemList) : null,
           moduleType: item.moduleType,
           settingCode: item.settingCode,
           settingName: item.settingName,
@@ -106,9 +119,9 @@ export default {
       })
     },
     // 左侧菜单栏变化
-    onChangeMenu (menuId, menuListTitle) {
-      this.menuType = menuId
-      this.menuListTitle = menuListTitle
+    onChangeMenu (data) {
+      this.menuObj = data
+      this.findMiniProgramPageModuleSettingList()
     },
     onSetChange (data) {
       this.pageModuleType = data

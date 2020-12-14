@@ -59,6 +59,13 @@ export default PageContentMiddle
   background: #fbfbfb;
   border-left: 1px solid #e8e8e8;
   border-right: 1px solid #e8e8e8;
+  img {
+    image-rendering: -moz-crisp-edges;
+    image-rendering: -o-crisp-edges;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+    -ms-interpolation-mode: nearest-neighbor;
+  }
   .iphone {
     margin: 40px 0;
     width: 375px;

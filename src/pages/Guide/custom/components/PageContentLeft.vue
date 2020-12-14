@@ -1,7 +1,11 @@
 <template>
   <div class="PageContentMiddle">
     <el-collapse class="common-collapse" v-model="activeNames">
-      <el-collapse-item v-for="item in menuArr" :key="item.projectType" :name="item.projectType">
+      <el-collapse-item
+        v-for="item in menuArr"
+        :key="item.projectType"
+        :name="item.projectType"
+      >
         <template slot="title">
           {{ item.projectTypeName }}
         </template>
@@ -17,7 +21,8 @@
             onClick(
               item.projectType,
               itemChildren.moduleType,
-              itemChildren.moduleName
+              itemChildren.moduleName,
+              itemChildren.templateCode
             )
           "
           :key="itemChildren.moduleType"
@@ -36,20 +41,27 @@ export default {
       default: () => {
         return []
       }
+    },
+    defaultActive: {
+      type: String
     }
   },
   data () {
     return {
-      activeNames: [1, 2],
-      defaultActive: '1-1'
+      activeNames: [1, 2]
     }
   },
   methods: {
-    onClick (menuId, menuChildrenId, menuListTitle) {
+    onClick (menuId, menuChildrenId, menuListTitle, templateCode) {
       let active = `${menuId}-${menuChildrenId}`
       if (active !== this.defaultActive) {
-        this.defaultActive = active
-        this.$emit('onChange', menuId, menuListTitle)
+        this.$emit('onChange', {
+          menuId,
+          menuListTitle,
+          active,
+          moduleType: menuChildrenId,
+          templateCode
+        })
       } else {
         return false
       }

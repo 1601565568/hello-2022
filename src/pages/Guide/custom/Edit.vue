@@ -22,14 +22,15 @@
         <el-col :span="4"
           ><ScrollView className="edit-content"
             ><PageContentLeft
+              :defaultActive="menuObj.active"
               @onChange="onChangeMenu"
               :menuArr="menuArr"/></ScrollView
         ></el-col>
         <el-col :span="11"
           ><ScrollView className="edit-content"
             ><PageContentMiddle
-              :menuListTitle="menuListTitle"
-              :menuType="menuType"
+              :menuListTitle="menuObj.menuListTitle"
+              :menuType="menuObj.menuId"
               :editData="pageModuleType"
               ref="PageContentMiddle"/></ScrollView
         ></el-col>

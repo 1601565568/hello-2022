@@ -1,85 +1,213 @@
 <template>
-  <el-form>
-    <div class="upload">
-      <div class="upload-title">上传图片</div>
-      <el-radio-group v-model="radio">
-        <el-radio :label="1">单行大图</el-radio>
-        <el-radio :label="2">轮播图片</el-radio>
-      </el-radio-group>
-      <div class="custom-upload">
-        <el-upload
-          class="upload-demo"
-          drag
-          action="https://jsonplaceholder.typicode.com/posts/"
-          multiple
-        >
-          <div class="el-upload__text">
-            <i class="el-icon-plus"></i><span>新增轮播图</span>
-          </div>
-        </el-upload>
-        <div class="prompt-text">
-          <p><span class="yellow-point"></span></p>
-          <span class="prompt-text__text"
-            >建议：宽度750像素，高度不限，小于100kb，jpg、png、jpeg格式</span
+  <div class="custom_banner">
+    <el-form>
+      <div class="upload">
+        <div class="upload-title">上传图片</div>
+        <el-radio-group v-model="data.type">
+          <el-radio :label="1">单行大图</el-radio>
+          <el-radio :label="2">轮播图片</el-radio>
+        </el-radio-group>
+        <div class="custom-upload">
+          <el-upload
+            class="upload-demo"
+            drag
+            :disabled="data.image && data.image.length == 9"
+            :action="$api.core.sgUploadFile('test')"
+            accept=".jpg,.jpeg,.png"
+            multiple
+            :limit="9"
+            :show-file-list="false"
+            :on-success="handleAvatarSuccess"
+            :before-upload="beforeAvatarUpload"
           >
-        </div>
-      </div>
-      <template>
-        <div class="upload-table">
-          <div>图片</div>
-          <div class="upload-table__line">排序</div>
-          <div class="upload-table__line">操作</div>
-        </div>
-        <div class="upload-table__list">
-          <div class="upload-table__list__pic">
-            <img
-              class="pic"
-              src="https://dss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=2974706256,1511610652&fm=111&gp=0.jpg"
-            />
-          </div>
-          <div class="upload-table__list__icon">
-            <i class="el-icon-download list__icon-top"></i
-            ><i class="el-icon-top"></i><i class="el-icon-bottom"></i
-            ><i class="el-icon-download"></i>
-          </div>
-          <div>
-            <ns-button type="text">更换图片</ns-button
-            ><ns-button type="text">删除</ns-button>
-          </div>
-        </div>
-        <h3>样式设计</h3>
-        <el-form-item label="透明度" style="margin-right: 10px;">
-          <div class="sliderinput">
-            <slider-input v-model="aaa" :max="100" :step="1"
-              >个单位</slider-input
-            >
-          </div>
-        </el-form-item>
-        <el-form-item label="播放间隔" style="margin-right: 10px;">
-          <div class="sliderinput">
-            <slider-input v-model="aa" :max="10" :step="1">秒</slider-input>
-          </div>
+            <div class="el-upload__text">
+              <i class="el-icon-plus"></i><span>新增轮播图</span>
+            </div>
+          </el-upload>
           <div class="prompt-text">
             <p><span class="yellow-point"></span></p>
             <span class="prompt-text__text"
-              >支持（1-10）之间整数，0默认为不播放</span
+              >建议：宽度750像素，高度不限，小于100kb，jpg、png、jpeg格式</span
             >
           </div>
-        </el-form-item>
-      </template>
-    </div>
-  </el-form>
+        </div>
+        <template v-if="data.image.length > 0">
+          <div class="upload-table">
+            <div>图片</div>
+            <div class="upload-table__line">排序</div>
+            <div class="upload-table__line">操作</div>
+          </div>
+          <div
+            class="upload-table__list"
+            v-for="(item, index) in data.image"
+            :key="index"
+          >
+            <div class="upload-table__list__pic">
+              <img class="pic" :src="item" />
+            </div>
+            <div class="upload-table__list__icon">
+              <span
+                ><i
+                  class="el-icon-download list__icon-top"
+                  v-if="index !== 0"
+                  @click="handlemoveTopping(item, index)"
+                ></i
+              ></span>
+              <span
+                ><i
+                  class="el-icon-top"
+                  @click="handlemoveUp(item, index)"
+                  v-if="index !== 0 && index > 0"
+                ></i
+              ></span>
+              <span
+                ><i
+                  class="el-icon-bottom"
+                  @click="handlemoveDown(item, index)"
+                  v-if="index !== data.image.length - 1"
+                ></i
+              ></span>
+              <span
+                ><i
+                  class="el-icon-download"
+                  v-if="index !== data.image.length - 1"
+                  @click="handlemoveBottom(item, index)"
+                ></i
+              ></span>
+              <span v-if="data.image.length === 1">-</span>
+            </div>
+            <div>
+              <el-upload
+                :action="$api.core.sgUploadFile('test')"
+                multiple
+                :limit="1"
+                :show-file-list="false"
+                :on-success="
+                  (res, file) => {
+                    handleChangePicture(res, file, index)
+                  }
+                "
+                :before-upload="beforeAvatarUpload"
+              >
+                <ns-button type="text">更换图片</ns-button>
+              </el-upload>
+              <ns-button type="text" @click="handleDelPic(index)"
+                >删除</ns-button
+              >
+            </div>
+          </div>
+          <h3>样式设计</h3>
+          <el-form-item label="透明度" style="margin-right: 10px;">
+            <div class="sliderinput">
+              <slider-input v-model="data.transparency" :max="100" :step="1"
+                >个单位</slider-input
+              >
+            </div>
+          </el-form-item>
+          <el-form-item label="播放间隔" style="margin-right: 10px;">
+            <div class="sliderinput">
+              <slider-input v-model="data.interval" :max="10" :step="1"
+                >秒</slider-input
+              >
+            </div>
+            <div class="prompt-text">
+              <p><span class="yellow-point"></span></p>
+              <span class="prompt-text__text"
+                >支持（1-10）之间整数，0默认为不播放</span
+              >
+            </div>
+          </el-form-item>
+        </template>
+      </div>
+    </el-form>
+  </div>
 </template>
 <script>
 import SliderInput from '@/components/NewUi/SliderInput'
 import ElUpload from '@nascent/nui/lib/upload'
 export default {
   components: { ElUpload, SliderInput },
+  props: {
+    childrenEditData: {
+      type: Object
+    }
+  },
   data () {
     return {
-      radio: 1,
-      aa: 0,
-      aaa: 0
+      data: JSON.parse(JSON.stringify(this.childrenEditData))
+    }
+  },
+  watch: {
+    childrenEditData: {
+      handler (newValue, oldValue) {
+        if (JSON.stringify(newValue) !== JSON.stringify(oldValue)) {
+          this.data = JSON.parse(JSON.stringify(newValue))
+        }
+      },
+      deep: true,
+      immediate: true
+    },
+    data: {
+      handler (val) {
+        this.$emit('change', val)
+      },
+      deep: true,
+      immediate: true
+    }
+  },
+  methods: {
+    handlemoveTopping (item, index) {
+      let items = this.data.image[0]
+      this.$set(this.data.image, index, items)
+      this.$set(this.data.image, 0, item)
+    },
+    handlemoveUp (item, index) {
+      let items = item
+      this.$set(this.data.image, index, this.data.image[index - 1])
+      this.$set(this.data.image, index - 1, item)
+    },
+    handlemoveDown (item, index) {
+      let items = item
+      this.$set(this.data.image, index, this.data.image[index + 1])
+      this.$set(this.data.image, index + 1, item)
+    },
+    handlemoveBottom (item, index) {
+      let len = this.data.image.length - 1
+      let items = this.data.image[len]
+      this.$set(this.data.image, index, items)
+      this.$set(this.data.image, len, item)
+    },
+    // 限制上传个数
+    handleExceed (files, fileList) {
+      this.$notify.error(
+        `最大上限9张图片，本次选择了 ${
+          files.length
+        } 个，共选择了 ${files.length + fileList.length} 个`
+      )
+    },
+    // 处理上传图片
+    handleAvatarSuccess: function (res, file) {
+      if (this.data.image.length < 9) {
+        this.data.image.push(res.result.url)
+      }
+    },
+    beforeAvatarUpload (file) {
+      if (file.size / 1024 > 1024) {
+        this.$notify.warning('上传图片不得大于1MB')
+        return false
+      }
+      // 图片格式判断
+      if (!/\.(gif|jpg|jpeg|png|bmp|BMP|GIF|JPG|PNG|JPEG)$/.test(file.name)) {
+        this.$notify.error('仅支持jpg/jepg/png的图片格式')
+        return false
+      }
+    },
+    // 图片替换
+    handleChangePicture (res, file, index) {
+      this.$set(this.data.image, index, res.result.url)
+    },
+    handleDelPic (index) {
+      this.data.image.splice(index, 1)
     }
   }
 }
@@ -98,6 +226,22 @@ export default {
 .custom-upload .el-upload-dragger span {
   display: inline-block;
   margin-left: 8px;
+}
+.custom_banner .el-checkbox__input.is-checked .el-checkbox__inner {
+  background-color: #0091fa;
+  border-color: #0091fa;
+}
+.custom_banner .el-checkbox__input.is-indeterminate .el-checkbox__inner {
+  background-color: #0091fa;
+  border-color: #0091fa;
+}
+.custom_banner .el-checkbox__input.is-checked + .el-checkbox__label {
+  color: #262626;
+}
+.custom_banner .el-radio__label,
+.el-checkbox__label {
+  font-size: 14px !important;
+  color: #262626 !important;
 }
 </style>
 <style lang="scss" scoped>
@@ -154,7 +298,7 @@ export default {
   display: flex;
   height: 80px;
   border-bottom: 1px solid #e8e8e8;
-  div {
+  > div {
     flex: 1;
     display: flex;
     align-items: center;
@@ -170,6 +314,11 @@ export default {
     color: #0091fa;
     .list__icon-top {
       transform: rotate(180deg);
+    }
+    span {
+      display: inline-block;
+      width: 16px;
+      height: 16px;
     }
     i {
       display: inline-block;

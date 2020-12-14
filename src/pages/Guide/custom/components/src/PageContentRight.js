@@ -56,6 +56,9 @@ export default {
     },
     onChangeItem (data, index) {
       this.pageModuleType[index].itemList = data
+    },
+    onChange (data) {
+      console.log(data)
     }
   }
 }

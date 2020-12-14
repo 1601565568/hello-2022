@@ -1,55 +1,25 @@
 <template>
-  <div class="D-Menu__warpper">
+  <div class="D-Menu__warpper" v-if="show">
     <div class="D-Menu__warpper__title">功能菜单</div>
     <div class="D-Menu__list">
-      <div class="D-Menu__list__row" v-for="(item, index) in list" :key="index">
-        <img class="D-Menu__list__row__icon" :src="formatImage(item.name)" />
-        <div>{{ item.name }}</div>
-      </div>
+      <template v-for="(item, index) in editData">
+        <div class="D-Menu__list__row" :key="index" v-if="item.status === 1">
+          <img
+            v-if="item.isDefaultMenu === 1"
+            class="D-Menu__list__row__icon"
+            :src="formatImage(item.itemName)"
+          />
+          <img v-else class="D-Menu__list__row__icon" :src="item.info.icon" />
+          <div>{{ item.itemName }}</div>
+        </div>
+      </template>
     </div>
   </div>
 </template>
 <script>
+import componentData from '../../mixins/componentData.js'
 export default {
-  data () {
-    return {
-      list: [
-        {
-          name: '会员招募'
-        },
-        {
-          name: '添加会员'
-        },
-        {
-          name: '商品推荐'
-        },
-        {
-          name: '优惠券'
-        },
-        {
-          name: '工作任务'
-        },
-        {
-          name: '客户关怀'
-        },
-        {
-          name: '素材库'
-        },
-        {
-          name: '卡券核销'
-        },
-        {
-          name: '营销活动'
-        },
-        {
-          name: '订单管理'
-        },
-        {
-          name: '一客一码'
-        }
-      ]
-    }
-  },
+  mixins: [componentData],
   methods: {
     formatImage (name) {
       var url
@@ -60,7 +30,7 @@ export default {
         case '添加会员':
           url = require(`../../../image/huiyuanzhaomu.png`)
           break
-        case '商品推荐':
+        case '商品推介':
           url = require(`../../../image/Productpromotion.png`)
           break
         case '优惠券':

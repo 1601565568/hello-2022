@@ -7,7 +7,9 @@
       @change="handleCheckAllChange"
       >全选</el-checkbox
     >
-    <div class="addMenu"><i class="el-icon-plus"></i><span>新增菜单</span></div>
+    <div class="addMenu" @click="onAddMenu">
+      <i class="el-icon-plus"></i><span>新增菜单</span>
+    </div>
     <template v-for="(item, index) in data">
       <div class="checkboxWarpper" :key="index">
         <img class="draw" src="../../image/draw.png" />
@@ -17,26 +19,13 @@
           :value="formatCheckbox(item.status)"
           >{{ item.itemName }}</el-checkbox
         >
-        <span
-          class="editIcon"
-          v-if="
-            item.itemName === '总收益' || item.itemName === '本月收益和今日收益'
-          "
+        <span class="editIcon" v-if="item.editable === 1"
           ><Icon type="edit"
         /></span>
       </div>
     </template>
-    <el-dialog
-      title="新增菜单"
-      :visible.sync="addMenuShow"
-      width="758px"
-    >
-      <AddMenu />
-      <!-- <compileMenu
-        :editDisabled="editDisabled"
-        :editMenu="editMenu"
-        ref="compileMenu"
-      ></compileMenu> -->
+    <el-dialog title="新增菜单" :visible.sync="addMenuShow" width="758px">
+      <AddMenu ref="AddMenu" :addMenuData="addMenuData" />
       <div slot="footer" class="dialog-footer">
         <ns-button @click="cancel()">取 消</ns-button>
         <ns-button type="primary" @click="addMenuShowConfirm()"
@@ -48,6 +37,7 @@
 </template>
 <script>
 import AddMenu from '../pageComponents/addMenu'
+import { uuid } from '@/utils/uuid.js'
 export default {
   components: { AddMenu },
   props: {
@@ -60,7 +50,8 @@ export default {
       data: JSON.parse(JSON.stringify(this.childrenEditData)),
       checkAll: false,
       isIndeterminate: false,
-      addMenuShow: true
+      addMenuShow: false,
+      addMenuData: {}
     }
   },
   watch: {
@@ -119,6 +110,38 @@ export default {
         }
       })
       this.data = arr
+    },
+    onAddMenu () {
+      this.addMenuShow = true
+      let obj = {
+        appid: null,
+        icon: '',
+        name: '',
+        pageUrl: '',
+        type: 1
+      }
+      this.addMenuData = obj
+    },
+    addMenuShowConfirm () {
+      let _this = this
+      let save = this.$refs.AddMenu.onSave()
+      save.then(res => {
+        let obj = {
+          editable: 1,
+          info: res,
+          isDefaultMenu: 0,
+          itemCode: uuid(32),
+          itemName: res.name,
+          sort: 1,
+          sortable: 1,
+          status: 1
+        }
+        this.data.push(obj)
+        this.addMenuShow = false
+      })
+    },
+    cancel () {
+      this.addMenuShow = false
     }
   }
 }
@@ -183,5 +206,12 @@ export default {
   &:hover {
     border: 1px dashed #0091fa;
   }
+}
+img {
+  image-rendering: -moz-crisp-edges;
+  image-rendering: -o-crisp-edges;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+  -ms-interpolation-mode: nearest-neighbor;
 }
 </style>

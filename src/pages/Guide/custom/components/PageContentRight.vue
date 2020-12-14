@@ -5,9 +5,9 @@
     </div>
     <el-collapse class="common-collapse" v-model="activeNames">
       <template v-for="(item, index) in pageModuleType">
-        <el-collapse-item :key="index">
+        <el-collapse-item :key="index" :disabled="!item.itemList">
           <template slot="title">
-            <div class="common-title" @click="onShowEdit()">
+            <div class="common-title" @click="onShowEdit()" :class="{'common-title__disabled': !item.itemList} ">
               <span>{{ item.settingName }}{{ item.status }}</span>
               <div class="switch" @click="onclick">
                 <el-switch v-model="item.status" active-color="#0091FA">
@@ -15,9 +15,10 @@
               </div>
             </div>
           </template>
-          <div @click="onShowEdit()" class="editWarpper">
+          <div @click="onShowEdit()" class="editWarpper" v-if="item.itemList">
             <component
               :is="formatSettingType(item.settingType)"
+              v-if="item.itemList"
               :childrenEditData="item.itemList"
               @change="
                 data => {
@@ -31,6 +32,7 @@
         </el-collapse-item>
       </template>
     </el-collapse>
+    {{ pageModuleType }}
   </div>
 </template>
 <script>
@@ -45,6 +47,14 @@ PageContentRight.components = {
 }
 export default PageContentRight
 </script>
+<style>
+.common-collapse /deep/ .el-collapse-item.is-disabled .el-collapse-item__header {
+  cursor: pointer;
+}
+.common-title__disabled + i {
+  display: none;
+}
+</style>
 
 <style scoped lang="scss">
 @import './style/PageContentRight.css';
