@@ -967,6 +967,7 @@ export default {
       let remumberLoginInfo = LocalStorage.get('user')
       let { nick, nickId } = remumberLoginInfo
       let obj = {
+        outGuideIdList: this.$refs.table1.outGuideId ? [this.$refs.table1.outGuideId] : null,
         operatorName: nick, // 操作人
         operator: nickId,
         shopId: this.sameSystemShopId, // 当前门店ID
