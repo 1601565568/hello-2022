@@ -30,7 +30,9 @@ export default {
       remainingQuantity: null, // 优惠券剩余数量
       remark: null, // 备注
       useRemark: null, // 使用备注
-      loginAccount: null // 添加人账号名
+      loginAccount: null, // 添加人账号名
+      channelConfigType: null, // 渠道配置类型（0：不限，1：配置）
+      limitAmount: null // 渠道配置数量
     }
     return {
       distributionMode: 0, // 分配方式 默认为零
@@ -114,12 +116,19 @@ export default {
     },
     // 获取优惠券信息
     getCouponMessage (data) {
+      console.log('优惠券', data)
       var _this = this
       _this.activityModel.coupon_id = data.id
       _this.activityModel.coupon_code = data.storeCouponCode
       _this.findOnlineShopList(_this.activityModel.coupon_code)
       _this.storeModel.couponCode = data.storeCouponCode
-      _this.storeModel.remainingQuantity = Number(data.maxIssueAmount) - Number(data.couponFreezeAmount) - Number(data.hadIssueAmount)
+      // 渠道配置类型（0：不限，1：配置）
+      console.log('优惠券value配置类型', _this.storeModel.channelConfigType)
+      if (data.channelConfigType === 0) {
+        _this.storeModel.remainingQuantity = Number(data.maxIssueAmount) - Number(data.couponFreezeAmount) - Number(data.hadIssueAmount)
+      } else {
+        _this.storeModel.remainingQuantity = Number(data.limitAmount) - Number(data.couponFreezeAmount) - Number(data.hadIssueAmount)
+      }
       _this.storeModel.couponTitle = data.storeCouponTitle
       if (_this.storeModel.couponTitle !== null && _this.storeModel.couponTitle.length > 20) {
         _this.storeModel.couponTitle = data.title.substr(0, 19) + '...'
@@ -154,6 +163,8 @@ export default {
       _this.storeModel.remark = data.remark
       _this.storeModel.useRemark = data.useRemark
       _this.storeModel.loginAccount = data.loginAccount
+      _this.storeModel.channelConfigType = data.channelConfigType
+      _this.storeModel.limitAmount = data.limitAmount
       this.reset()
     },
     reset () {
