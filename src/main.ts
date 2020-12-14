@@ -5,6 +5,8 @@ import router from '@nascent/ecrp-ecrm/src/router'
 import store from './store'
 import { i18n } from '@nascent/ecrp-ecrm/src/i18n'
 import LOG from '@nascent/log'
+import interceptRouter from '@/constants/interceptRouter'
+import queryGroupMsg from '@/utils/queryGroupMsg'
 import './register'
 import 'normalize.css'
 import '@theme/NuiJs/index.scss'
@@ -37,6 +39,21 @@ Vue.prototype.$ELEMENT = {
 }
 Vue.config.productionTip = false
 Vue.config.devtools = process.env.NODE_ENV === 'development'
+
+router.beforeEach(async (to:any, from, next) => {
+  if (interceptRouter.includes(to.name)) {
+    const result = await queryGroupMsg()
+    if (result === 1) {
+      next('/Greeting')
+    } else if (result === 2) {
+      next('/errors')
+    } else {
+      next()
+    }
+  } else {
+    next()
+  }
+})
 
 new Vue({
   router,
