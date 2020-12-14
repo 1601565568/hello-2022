@@ -1,16 +1,16 @@
 <template>
   <div>
     <template v-for="(item, index) in editData">
-      <component
+      <Component
         :key="index"
         :is="item.settingCode"
         :editData="item.itemList"
-      ></component>
+      ></Component>
     </template>
   </div>
 </template>
 <script>
-import datetime from './dataTime'
+import Datetime from './dataTime'
 import performance from './guideAchievement'
 import shopDataStatistics from './storeData'
 import guideRanking from './storeGuideTop'
@@ -25,7 +25,7 @@ export default {
     }
   },
   components: {
-    datetime,
+    Datetime,
     performance,
     shopDataStatistics,
     guideRanking,

@@ -1,12 +1,13 @@
 <template>
   <div>
     <template v-for="(item, index) in editData">
-      <component
+      <Component
         :is="item.settingCode"
         :key="index"
         :editData="item.itemList"
-      ></component>
+      ></Component>
     </template>
+    {{editData}}
     <!-- {{editData}} -->
     <!-- <DHander />
     <DAchievement />
@@ -27,7 +28,7 @@ export default {
   components: {
     personalInformation: () => import('./personalInformation'),
     performance: () => import('./performance'),
-    workMenu: () => import('./DMenu'),
+    workMenu: () => import('./workMenu'),
     banner
   }
 }

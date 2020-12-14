@@ -7,7 +7,7 @@
 </template>
 <script>
 export default {
-  name: 'datetime'
+  name: 'Datetime'
 }
 </script>
 

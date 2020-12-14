@@ -85,6 +85,7 @@ export default {
       return menuBar
     },
     findMiniProgramPageModuleSettingList () {
+      this.pageModuleType = []
       let params = {
         moduleType: this.menuObj.moduleType,
         templateCode: this.menuObj.templateCode
