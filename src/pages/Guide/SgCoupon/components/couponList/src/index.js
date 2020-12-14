@@ -116,14 +116,12 @@ export default {
     },
     // 获取优惠券信息
     getCouponMessage (data) {
-      console.log('优惠券', data)
       var _this = this
       _this.activityModel.coupon_id = data.id
       _this.activityModel.coupon_code = data.storeCouponCode
       _this.findOnlineShopList(_this.activityModel.coupon_code)
       _this.storeModel.couponCode = data.storeCouponCode
       // 渠道配置类型（0：不限，1：配置）
-      console.log('优惠券value配置类型', _this.storeModel.channelConfigType)
       if (data.channelConfigType === 0) {
         _this.storeModel.remainingQuantity = Number(data.maxIssueAmount) - Number(data.couponFreezeAmount) - Number(data.hadIssueAmount)
       } else {
