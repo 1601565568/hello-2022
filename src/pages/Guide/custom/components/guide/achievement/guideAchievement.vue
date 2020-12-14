@@ -4,20 +4,20 @@
       <img class="dataIcon" src="../../../image/dataIcon.png" />
       <span>导购业绩</span>
     </div>
-    <div class="total-revenue profit">
+    <div class="total-revenue profit" v-if="editData[0] && editData[0].status === 1">
       <div class="text">总收益(元)</div>
       <div class="number">0</div>
     </div>
     <div class="guideAchievement-profit">
-      <div class="profit">
+      <div class="profit" v-if="editData[1] && editData[1].status === 1">
         <div class="text">销售提成（元）</div>
         <div class="number">0</div>
       </div>
-      <div class="profit">
+      <div class="profit" v-if="editData[2] && editData[2].status === 1">
         <div class="text">招募会员（元）</div>
         <div class="number">0</div>
       </div>
-      <div class="profit">
+      <div class="profit" v-if="editData[3] && editData[3].status === 1">
         <div class="text">新加好友（元）</div>
         <div class="number">0</div>
       </div>
@@ -43,6 +43,14 @@
     </div>
   </div>
 </template>
+<script>
+import componentData from '../../mixins/componentData.js'
+export default {
+  mixins: [componentData],
+  computed: {
+  }
+}
+</script>
 <style scoped lang="scss">
 .guideAchievement {
   margin-bottom: 8px;

@@ -20,15 +20,6 @@ export default {
       type: Array
     }
   },
-  // watch: {
-  //   editData: {
-  //     handler (newValue) {
-  //       console.log(newValue, '12312312312312313123')
-  //     },
-  //     deep: true,
-  //     immediate: true
-  //   }
-  // },
   components: {
     personalInformation,
     performance,
