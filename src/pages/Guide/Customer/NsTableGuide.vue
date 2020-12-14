@@ -40,13 +40,13 @@
         <template v-if="showChangeGuide" slot="buttons">
           <div style="display:flex">
             <el-checkbox
-              :disabled="total === '0'"
+              :disabled="_data._pagination.total === '0'"
               :indeterminate="isIndeterminate"
               v-model="checkAll"
               @change="handleCheckAllChange">
               所有数据
             </el-checkbox>
-            <span class="total">共{{total}}条</span>
+            <span class="total">共{{_data._pagination.total}}条</span>
             <ns-table-operate-button  :buttons="_data._table.table_buttons">
             </ns-table-operate-button>
             <!-- table_buttons写在里面事件不生效有点懵 -->

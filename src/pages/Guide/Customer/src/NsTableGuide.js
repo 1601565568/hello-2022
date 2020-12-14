@@ -250,7 +250,7 @@ export default {
           this.shopCustomerTransferTaskStatus = res.result
           if (this.shopCustomerTransferTaskStatus && this.shopCustomerTransferTaskStatus.status === 3 && parseInt(userId) === parseInt(this.shopCustomerTransferTaskStatus.operator)) {
             this.$searchAction$()
-            this.getFindCustomerTotal()
+            // this.getFindCustomerTotal()
           }
           resolve(true)
         }).catch((err) => {
