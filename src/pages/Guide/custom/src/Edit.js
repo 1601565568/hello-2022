@@ -1,6 +1,7 @@
 export default {
   data () {
     return {
+      defaultActive: '1-1',
       menuArr: [],
       pageModuleType: [],
       menuObj: {
@@ -119,9 +120,10 @@ export default {
       })
     },
     // 左侧菜单栏变化
-    onChangeMenu (data) {
+    async onChangeMenu (data) {
       this.menuObj = data
-      this.findMiniProgramPageModuleSettingList()
+      await this.findMiniProgramPageModuleSettingList()
+      this.defaultActive = data.active
     },
     onSetChange (data) {
       this.pageModuleType = data

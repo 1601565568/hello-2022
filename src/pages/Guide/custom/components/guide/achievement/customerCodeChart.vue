@@ -17,6 +17,7 @@
 <script>
 import CardTitle from './cardTitle'
 export default {
+  name: 'guestCodeTrending',
   components: { CardTitle }
 }
 </script>
@@ -41,7 +42,7 @@ export default {
         height: 2px;
         left: 0;
         bottom: 0;
-        background: #0091FA;
+        background: #0091fa;
       }
     }
     &:last-child {

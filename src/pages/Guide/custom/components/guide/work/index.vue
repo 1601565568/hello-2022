@@ -1,7 +1,11 @@
 <template>
   <div>
-    <template v-for="(item ,index) in editData">
-    <component :key="index" :is="item.settingCode" :editData="item.itemList"></component>
+    <template v-for="(item, index) in editData">
+      <component
+        :is="item.settingCode"
+        :key="index"
+        :editData="item.itemList"
+      ></component>
     </template>
     <!-- {{editData}} -->
     <!-- <DHander />
@@ -10,9 +14,9 @@
   </div>
 </template>
 <script>
-import personalInformation from './DHander'
-import performance from './DAchievement'
-import workMenu from './DMenu'
+// import personalInformation from './DHander'
+// import performance from './DAchievement'
+// import workMenu from './DMenu'
 import banner from '../../pageComponents/banner'
 export default {
   props: {
@@ -21,9 +25,9 @@ export default {
     }
   },
   components: {
-    personalInformation,
-    performance,
-    workMenu,
+    personalInformation: () => import('./personalInformation'),
+    performance: () => import('./performance'),
+    workMenu: () => import('./DMenu'),
     banner
   }
 }

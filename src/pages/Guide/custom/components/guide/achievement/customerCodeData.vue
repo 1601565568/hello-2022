@@ -29,6 +29,7 @@
 <script>
 import CardTitle from './cardTitle'
 export default {
+  name: 'guestCodeEffect',
   components: { CardTitle }
 }
 </script>
@@ -48,7 +49,7 @@ export default {
         position: absolute;
         content: '';
         left: 0px;
-        top:10px;
+        top: 10px;
         // top: 50%;
         // transform: translate(0%, -50%);
         width: 1px;

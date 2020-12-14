@@ -40,6 +40,7 @@
 <script>
 import componentData from '../../mixins/componentData.js'
 export default {
+  name: 'performance',
   mixins: [componentData]
 }
 </script>

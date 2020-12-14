@@ -36,6 +36,7 @@
 <script>
 import componentData from '../../mixins/componentData.js'
 export default {
+  name: 'personalInformation',
   mixins: [componentData]
 }
 </script>

@@ -22,7 +22,7 @@
         <el-col :span="4"
           ><ScrollView className="edit-content"
             ><PageContentLeft
-              :defaultActive="menuObj.active"
+              :defaultActive="defaultActive"
               @onChange="onChangeMenu"
               :menuArr="menuArr"/></ScrollView
         ></el-col>

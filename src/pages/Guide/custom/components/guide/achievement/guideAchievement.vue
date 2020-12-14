@@ -4,7 +4,10 @@
       <img class="dataIcon" src="../../../image/dataIcon.png" />
       <span>导购业绩</span>
     </div>
-    <div class="total-revenue profit" v-if="editData[0] && editData[0].status === 1">
+    <div
+      class="total-revenue profit"
+      v-if="editData[0] && editData[0].status === 1"
+    >
       <div class="text">总收益(元)</div>
       <div class="number">0</div>
     </div>
@@ -46,9 +49,8 @@
 <script>
 import componentData from '../../mixins/componentData.js'
 export default {
-  mixins: [componentData],
-  computed: {
-  }
+  name: 'performance',
+  mixins: [componentData]
 }
 </script>
 <style scoped lang="scss">

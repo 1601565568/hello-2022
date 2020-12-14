@@ -28,6 +28,7 @@
 <script>
 import CardTitle from './cardTitle'
 export default {
+  name: 'guideRanking',
   components: { CardTitle },
   data () {
     return {}

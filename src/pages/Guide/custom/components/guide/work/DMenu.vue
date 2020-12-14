@@ -19,6 +19,7 @@
 <script>
 import componentData from '../../mixins/componentData.js'
 export default {
+  name: 'workMenu',
   mixins: [componentData],
   methods: {
     formatImage (name) {
