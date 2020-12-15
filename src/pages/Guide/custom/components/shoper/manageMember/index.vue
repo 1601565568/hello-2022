@@ -1,19 +1,30 @@
 <template>
   <div>
-    <PageTop />
-    <ManagementTool/>
-    <StoreGuide />
+    <template v-for="(item, index) in editData">
+      <Component
+        :is="item.settingCode"
+        :key="index"
+        :editData="item.itemList"
+      ></Component>
+    </template>
   </div>
 </template>
 <script>
-import PageTop from './pageTop'
-import ManagementTool from './managementTool'
-import StoreGuide from './storeGuide'
+import filterCondition from './filterCondition'
+import managementTools from './managementTools'
+import shopGuide from './shopGuide'
+import banner from '../../pageComponents/banner'
 export default {
+  props: {
+    editData: {
+      type: Array
+    }
+  },
   components: {
-    PageTop,
-    ManagementTool,
-    StoreGuide
+    filterCondition,
+    managementTools,
+    shopGuide,
+    banner
   }
 }
 </script>

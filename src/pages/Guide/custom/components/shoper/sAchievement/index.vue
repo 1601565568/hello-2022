@@ -1,22 +1,32 @@
 <template>
   <div>
-    <PageTop />
-    <GuideAchievement />
-    <ExtensionTop />
-    <StoreGuideTop />
+    <template v-for="(item, index) in editData">
+      <Component
+        :is="item.settingCode"
+        :key="index"
+        :editData="item.itemList"
+      ></Component>
+    </template>
   </div>
 </template>
 <script>
-import PageTop from './pageTop'
-import GuideAchievement from './guideAchievement'
-import StoreGuideTop from './storeGuideTop'
-import ExtensionTop from './extensionTop'
+import filterCondition from './filterCondition'
+import monthShopPerformance from './monthShopPerformance'
+import monthShopRanking from './monthShopRanking'
+import monthShopGuideRanking from './monthShopGuideRanking'
+import banner from '../../pageComponents/banner'
 export default {
+  props: {
+    editData: {
+      type: Array
+    }
+  },
   components: {
-    PageTop,
-    GuideAchievement,
-    StoreGuideTop,
-    ExtensionTop
+    filterCondition,
+    banner,
+    monthShopPerformance,
+    monthShopRanking,
+    monthShopGuideRanking
   }
 }
 </script>

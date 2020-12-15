@@ -10,8 +10,8 @@
             <div class="common-title" @click="onShowEdit()" :class="{'common-title__disabled': !item.itemList} ">
               <span>{{ item.settingName }}{{ item.status }}</span>
               <div class="switch" @click="onclick">
-                <el-switch v-model="item.status" active-color="#0091FA">
-                </el-switch>
+                <!-- <el-switch v-model="item.status" active-color="#0091FA">
+                </el-switch> -->
               </div>
             </div>
           </template>

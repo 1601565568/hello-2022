@@ -10,13 +10,13 @@
   </div>
 </template>
 <script>
-import Datetime from './dataTime'
-import performance from './guideAchievement'
-import shopDataStatistics from './storeData'
-import guideRanking from './storeGuideTop'
-import guestCodeEffect from './customerCodeData'
-import guestCodeTrending from './customerCodeChart'
-import promotionMasterRanking from './extensionTop'
+import datetime from './dataTime'
+import performance from './performance'
+import shopDataStatistics from './shopDataStatistics'
+import guideRanking from './guideRanking'
+import guestCodeEffect from './guestCodeEffect'
+import guestCodeTrending from './guestCodeTrending'
+import promotionMasterRanking from './promotionMasterRanking'
 import banner from '../../pageComponents/banner'
 export default {
   props: {
@@ -25,7 +25,7 @@ export default {
     }
   },
   components: {
-    Datetime,
+    datetime,
     performance,
     shopDataStatistics,
     guideRanking,

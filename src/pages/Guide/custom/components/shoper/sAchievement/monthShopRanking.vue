@@ -3,9 +3,13 @@
     <img slot="image" class="dataIcon" src="../../../image/guideIcon.png" />
     <div slot="content" class="storeGuideTop">
       <div class="tabs">
-        <div class="tabs-list">销售榜</div>
-        <div class="tabs-list">招募榜</div>
-        <div class="tabs-list">加好友榜</div>
+        <template v-for="(item, index) in editData">
+          <div class="tabs-list" v-if="item.status === 1" :key="index">
+            {{ item.itemName }}
+          </div>
+          <!-- <div class="tabs-list">招募榜</div>
+          <div class="tabs-list">加好友榜</div> -->
+        </template>
       </div>
       <div class="list" v-for="(item, index) in 5" :key="index">
         <div class="topIndex">
@@ -18,7 +22,15 @@
           <img class="list-user__pic" src="../../../image/defultheadPic.png" />
           <div>
             <div class="list-user__name">导购姓名</div>
-            <div class="list-user__num">销售数：0</div>
+            <div class="list-user__num">
+              {{
+                editData[1] && editData[0].status === 1
+                  ? '销售数'
+                  : editData[1] && editData[1].status === 1
+                  ? '招募数'
+                  : '新加好友数'
+              }}：0
+            </div>
           </div>
         </div>
       </div>
@@ -27,8 +39,10 @@
 </template>
 <script>
 import CardTitle from './cardTitle'
+import componentData from '../../mixins/componentData.js'
 export default {
   components: { CardTitle },
+  mixins: [componentData],
   data () {
     return {}
   }
@@ -48,7 +62,7 @@ export default {
       font-size: 15px;
       color: #595959;
       &:nth-of-type(1) {
-        color: #FF532A;
+        color: #ff532a;
         position: relative;
         &::before {
           position: absolute;
@@ -56,7 +70,7 @@ export default {
           bottom: 0px;
           left: 50%;
           transform: translate(-50%, 0%);
-          background: #FF532A;
+          background: #ff532a;
           width: 40px;
           height: 2px;
         }

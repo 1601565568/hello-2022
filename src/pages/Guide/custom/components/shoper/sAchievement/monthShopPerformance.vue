@@ -1,72 +1,74 @@
 <template>
-  <CardTitle title="门店业绩">
+  <CardTitle title="门店业绩" v-if="show">
     <img slot="image" class="dataIcon" src="../../../image/s-dataIcon.png" />
     <div slot="content" class="guideAchievement">
-      <div class="total-revenue profit">
+      <div
+        class="total-revenue profit"
+        v-if="editData[0] && editData[0].status === 1"
+      >
         <div class="text">总收益(元)</div>
         <div class="number">0</div>
       </div>
       <div class="guideAchievement-profit">
-        <div class="profit">
+        <div class="profit" v-if="editData[1] && editData[1].status === 1">
           <div class="text">销售提成（元）</div>
           <div class="number">0</div>
         </div>
-        <div class="profit">
+        <div class="profit" v-if="editData[2] && editData[2].status === 1">
           <div class="text">招募会员（元）</div>
           <div class="number">0</div>
         </div>
-        <div class="profit">
+        <div class="profit" v-if="editData[3] && editData[3].status === 1">
           <div class="text">新加好友（元）</div>
           <div class="number">0</div>
         </div>
       </div>
       <div class="srollView">
-        <div class="srollView-list__warpper">
-          <div class="srollView-list">
-            <div class="srollView-list__title">完成销售（完成： - ）</div>
-            <div class="srollView-list__number"><span>0</span>/0</div>
-            <div class="srollView-list__progress"></div>
-            <div class="srollView-list__line"></div>
-            <div class="srollView-list__store">
-              <div>
-                <img
-                  class="allStaff"
-                  src="../../../image/allStaff.png"
-                />全店员工统计
+        <div
+          class="srollView-list__warpper"
+          v-if="srollViewList.length > 1"
+          :style="{ width: srollViewWidth + 'px' }"
+        >
+          <template v-for="(item, index) in srollViewList">
+            <div class="srollView-list" :key="index">
+              <div class="srollView-list__title">
+                {{ item.itemName }}（完成： - ）
               </div>
-              <img src="../../../image/arrowRightIcon.png" />
-            </div>
-          </div>
-          <div class="srollView-list">
-            <div class="srollView-list__title">招募新客户（完成： - ）</div>
-            <div class="srollView-list__number"><span>0</span>/0</div>
-            <div class="srollView-list__progress"></div>
-            <div class="srollView-list__line"></div>
-            <div class="srollView-list__store">
-              <div>
-                <img
-                  class="allStaff"
-                  src="../../../image/allStaff.png"
-                />全店员工统计
+              <div class="srollView-list__number"><span>0</span>/0</div>
+              <div class="srollView-list__progress"></div>
+              <div class="srollView-list__line"></div>
+              <div class="srollView-list__store">
+                <div>
+                  <img
+                    class="allStaff"
+                    src="../../../image/allStaff.png"
+                  />全店员工统计
+                </div>
+                <img src="../../../image/arrowRightIcon.png" />
               </div>
-              <img src="../../../image/arrowRightIcon.png" />
             </div>
-          </div>
-          <div class="srollView-list">
-            <div class="srollView-list__title">新加好友（完成： - ）</div>
-            <div class="srollView-list__number"><span>0</span>/0</div>
-            <div class="srollView-list__progress"></div>
-            <div class="srollView-list__line"></div>
-            <div class="srollView-list__store">
-              <div>
-                <img
-                  class="allStaff"
-                  src="../../../image/allStaff.png"
-                />全店员工统计
+          </template>
+        </div>
+        <div v-else class="list__warpper">
+          <template v-for="(item, index) in srollViewList">
+            <div class="srollView-list" :key="index">
+              <div class="srollView-list__title">
+                {{ item.itemName }}（完成： - ）
               </div>
-              <img src="../../../image/arrowRightIcon.png" />
+              <div class="srollView-list__number"><span>0</span>/0</div>
+              <div class="srollView-list__progress"></div>
+              <div class="srollView-list__line"></div>
+              <div class="srollView-list__store">
+                <div>
+                  <img
+                    class="allStaff"
+                    src="../../../image/allStaff.png"
+                  />全店员工统计
+                </div>
+                <img src="../../../image/arrowRightIcon.png" />
+              </div>
             </div>
-          </div>
+          </template>
         </div>
       </div>
     </div>
@@ -75,7 +77,71 @@
 <script>
 import CardTitle from './cardTitle'
 export default {
-  components: { CardTitle }
+  name: 'monthShopPerformance',
+  components: { CardTitle },
+  props: {
+    editData: {
+      type: Array
+    }
+  },
+  data () {
+    return {
+      show: true,
+      srollViewList: []
+    }
+  },
+  computed: {
+    srollViewWidth: function () {
+      if (this.srollViewList.length === 0) {
+        return 0
+      } else {
+        return (
+          this.srollViewList.length * 230 +
+          24 +
+          8 * this.srollViewList.length -
+          1
+        )
+      }
+    }
+  },
+  watch: {
+    editData: {
+      handler (newVal) {
+        let length = newVal.length
+        let i = 0
+        newVal.forEach(item => {
+          if (item.status === 1) {
+            i = i + 1
+          }
+        })
+        this.show = i <= length && i > 0
+        this.getScollList()
+      },
+      deep: true,
+      immediate: true
+    }
+  },
+  methods: {
+    getScollList () {
+      let arr = [
+        'sales-amount',
+        'member-recruit-count',
+        'add-friend-reward-count'
+      ]
+      let newArr = []
+      for (let i = 0; i < this.editData.length; i++) {
+        for (let j = 0; j < arr.length; j++) {
+          if (
+            arr[j] === this.editData[i].itemCode &&
+            this.editData[i].status === 1
+          ) {
+            newArr.push(this.editData[i])
+          }
+        }
+      }
+      this.srollViewList = newArr
+    }
+  }
 }
 </script>
 
@@ -167,9 +233,14 @@ export default {
     }
   }
   .srollView-list__warpper {
-    width: 706px;
+    width: 730px;
     display: flex;
     padding: 0 16px;
+  }
+  .list__warpper {
+    width: 100%;
+    display: flex;
+    padding: 0 12px;
   }
   .srollView-list {
     padding: 12px 16px;
@@ -192,7 +263,7 @@ export default {
       margin-bottom: 13px;
       span {
         font-size: 20px;
-        color:#3BB200;
+        color: #3bb200;
       }
     }
     .srollView-list__progress {

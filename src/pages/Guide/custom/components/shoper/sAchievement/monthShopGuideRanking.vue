@@ -3,9 +3,13 @@
     <img slot="image" class="dataIcon" src="../../../image/groupIcon.png" />
     <div slot="content" class="storeGuideTop">
       <div class="tabs">
-        <div class="tabs-list">销售榜</div>
-        <div class="tabs-list">招募榜</div>
-        <div class="tabs-list">加好友榜</div>
+        <template v-for="(item, index) in editData">
+          <div class="tabs-list" v-if="item.status === 1" :key="index">
+            {{ item.itemName }}
+          </div>
+          <!-- <div class="tabs-list">招募榜</div>
+          <div class="tabs-list">加好友榜</div> -->
+        </template>
       </div>
       <div class="list" v-for="(item, index) in 5" :key="index">
         <div class="topIndex">
@@ -24,8 +28,10 @@
 </template>
 <script>
 import CardTitle from './cardTitle'
+import componentData from '../../mixins/componentData.js'
 export default {
   components: { CardTitle },
+  mixins: [componentData],
   data () {
     return {}
   }

@@ -26,31 +26,97 @@
       </div>
     </div>
     <div class="srollView">
-      <div class="srollView-list__warpper">
-        <div class="srollView-list">
-          <div class="srollView-list__title">完成销售（完成： - ）</div>
-          <div class="srollView-list__number"><span>0</span>/0</div>
-          <div class="srollView-list__progress"></div>
-        </div>
-        <div class="srollView-list">
-          <div class="srollView-list__title">招募新客户（完成： - ）</div>
-          <div class="srollView-list__number"><span>0</span>/0</div>
-          <div class="srollView-list__progress"></div>
-        </div>
-        <div class="srollView-list">
-          <div class="srollView-list__title">新加好友（完成： - ）</div>
-          <div class="srollView-list__number"><span>0</span>/0</div>
-          <div class="srollView-list__progress"></div>
-        </div>
+      <div
+        v-if="srollViewList.length > 1"
+        class="srollView-list__warpper"
+        :style="{ width: srollViewWidth + 'px' }"
+      >
+        <template v-for="(item, index) in srollViewList">
+          <div class="srollView-list" :key="index">
+            <div class="srollView-list__title">
+              {{ item.itemName }}（完成： - ）
+            </div>
+            <div class="srollView-list__number"><span>0</span>/0</div>
+            <div class="srollView-list__progress"></div>
+          </div>
+        </template>
+      </div>
+      <div v-else class="list__warpper">
+        <template v-for="(item, index) in srollViewList">
+          <div class="srollView-list" :key="index">
+            <div class="srollView-list__title">
+              {{ item.itemName }}（完成： - ）
+            </div>
+            <div class="srollView-list__number"><span>0</span>/0</div>
+            <div class="srollView-list__progress"></div>
+          </div>
+        </template>
       </div>
     </div>
   </div>
 </template>
 <script>
-import componentData from '../../mixins/componentData.js'
 export default {
   name: 'performance',
-  mixins: [componentData]
+  props: {
+    editData: {
+      type: Array
+    }
+  },
+  data () {
+    return {
+      show: true,
+      srollViewList: []
+    }
+  },
+  computed: {
+    srollViewWidth: function () {
+      if (this.srollViewList.length === 0) {
+        return 0
+      } else {
+        return (
+          this.srollViewList.length * 230 +
+          24 +
+          8 * this.srollViewList.length -
+          1
+        )
+      }
+    }
+  },
+  watch: {
+    editData: {
+      handler (newVal) {
+        let length = newVal.length
+        let i = 0
+        newVal.forEach(item => {
+          if (item.status === 1) {
+            i = i + 1
+          }
+        })
+        this.show = i <= length && i > 0
+        this.getScollList()
+      },
+      deep: true,
+      immediate: true
+    }
+  },
+  methods: {
+    getScollList () {
+      let arr = ['sales-total', 'member-recruit-count', 'add-friend-count']
+      let newArr = []
+      for (let i = 0; i < this.editData.length; i++) {
+        for (let j = 0; j < arr.length; j++) {
+          if (
+            arr[j] === this.editData[i].itemCode &&
+            this.editData[i].status === 1
+          ) {
+            newArr.push(this.editData[i])
+          }
+        }
+      }
+      this.srollViewList = newArr
+    }
+  }
 }
 </script>
 <style scoped lang="scss">
@@ -127,9 +193,14 @@ export default {
     }
   }
   .srollView-list__warpper {
-    width: 706px;
+    width: 730px;
     display: flex;
-    padding: 0 16px;
+    padding: 0 12px;
+  }
+  .list__warpper {
+    width: 100%;
+    display: flex;
+    padding: 0 12px;
   }
   .srollView-list {
     padding: 12px 16px;

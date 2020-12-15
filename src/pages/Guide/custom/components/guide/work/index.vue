@@ -7,11 +7,6 @@
         :editData="item.itemList"
       ></Component>
     </template>
-    {{editData}}
-    <!-- {{editData}} -->
-    <!-- <DHander />
-    <DAchievement />
-    <DMenu /> -->
   </div>
 </template>
 <script>

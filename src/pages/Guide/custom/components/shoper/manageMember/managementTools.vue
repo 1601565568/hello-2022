@@ -1,41 +1,28 @@
 <template>
-  <div class="managementToolwarpper">
+  <div class="managementToolwarpper"  v-if="show">
     <div class="managementTool-title">管理工具</div>
     <div class="toolList">
-      <div class="toolList-item" v-for="(item, index) in list" :key="index">
-        <img class="toolList-item__icon" :src="formatImage(item.name)" />
-        <p>{{ item.name }}</p>
-      </div>
+      <template v-for="(item, index) in editData">
+        <div class="toolList-item" :key="index" v-if="item.status === 1">
+          <img
+            v-if="item.isDefaultMenu === 1"
+            class="toolList-item__icon"
+            :src="formatImage(item.itemName)"
+          />
+          <img v-else class="toolList-item__icon" :src="item.info.icon" />
+          <p>{{ item.itemName }}</p>
+        </div>
+      </template>
     </div>
   </div>
 </template>
 <script>
+import componentData from '../../mixins/componentData.js'
 export default {
+  name: 'managementTools',
+  mixins: [componentData],
   data () {
     return {
-      list: [
-        {
-          name: '新增员工'
-        },
-        {
-          name: '设置提成'
-        },
-        {
-          name: '素材库'
-        },
-        {
-          name: '指标管理'
-        },
-        {
-          name: '卡券管理'
-        },
-        {
-          name: '订单管理'
-        },
-        {
-          name: '切换账号'
-        }
-      ]
     }
   },
   methods: {

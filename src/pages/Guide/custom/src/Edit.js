@@ -106,8 +106,7 @@ export default {
         })
     },
     forMatPageModuleType (arr) {
-      return arr.map((item, index) => {
-        console.log(index, item.itemList ? JSON.parse(item.itemList) : null)
+      return arr.map((item) => {
         return {
           itemList: item.itemList ? JSON.parse(item.itemList) : null,
           moduleType: item.moduleType,
@@ -116,7 +115,7 @@ export default {
           settingType: item.settingType,
           sort: item.sort,
           sortable: item.sortable,
-          status: item.status
+          status: item.status === 1 ? 1 : 0
         }
       })
     },

@@ -1,13 +1,24 @@
 <template>
   <div>
-    <User />
-    <SetList />
+    <template v-for="(item, index) in editData">
+      <Component
+        :key="index"
+        :is="item.settingCode"
+        :editData="item.itemList"
+      ></Component>
+    </template>
   </div>
 </template>
 <script>
-import User from './user'
-import SetList from './setList'
+import personalInformation from './personalInformation'
+import managementTools from './managementTools'
+import banner from '../../pageComponents/banner'
 export default {
-  components: { User, SetList }
+  components: { personalInformation, managementTools, banner },
+  props: {
+    editData: {
+      type: Array
+    }
+  }
 }
 </script>
