@@ -32,7 +32,9 @@ export default {
       useRemark: null, // 使用备注
       loginAccount: null, // 添加人账号名
       channelConfigType: null, // 渠道配置类型（0：不限，1：配置）
-      limitAmount: null // 渠道配置数量
+      limitAmount: null, // 渠道配置数量
+      channelFreezeAmount: null, // 渠道已冻结总量
+      channelHadIssueAmount: null // 渠道已发放总量
     }
     return {
       distributionMode: 0, // 分配方式 默认为零
@@ -163,6 +165,8 @@ export default {
       _this.storeModel.loginAccount = data.loginAccount
       _this.storeModel.channelConfigType = data.channelConfigType
       _this.storeModel.limitAmount = data.limitAmount
+      _this.storeModel.channelFreezeAmount = data.channelFreezeAmount
+      _this.storeModel.channelHadIssueAmount = data.channelHadIssueAmount
       this.reset()
     },
     reset () {
