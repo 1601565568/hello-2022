@@ -1,24 +1,32 @@
 <template>
   <div>
-    <template v-for="(item, index) in editData">
+    <borderHighLight
+      v-for="(item, index) in editData"
+      :key="index"
+      :settingCode="settingCode"
+      :code="item.settingCode"
+    >
       <Component
-        v-if="item.status === 1"
-        :key="index"
         :is="item.settingCode"
         :editData="item.itemList"
+        v-if="item.status === 1"
       ></Component>
-    </template>
+    </borderHighLight>
   </div>
 </template>
 <script>
 import personalInformation from './personalInformation'
 import managementTools from './managementTools'
 import banner from '../../pageComponents/banner'
+import borderHighLight from '../../pageComponents/borderHighLight'
 export default {
-  components: { personalInformation, managementTools, banner },
+  components: { personalInformation, managementTools, banner, borderHighLight },
   props: {
     editData: {
       type: Array
+    },
+    settingCode: {
+      type: String
     }
   }
 }

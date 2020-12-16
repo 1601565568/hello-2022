@@ -1,5 +1,5 @@
 <template>
-  <div :class="{ borderHighLight: settingCode === code }">
+  <div :class="{ borderHighLight: isShow }">
     <i class="line bl"></i>
     <i class="line br"></i>
     <i class="line bt"></i>
@@ -20,6 +20,36 @@ export default {
     code: {
       type: String
     }
+  },
+  computed: {
+    isShow: function () {
+      return this.settingCode === this.code
+    }
+  },
+  watch: {
+    isShow: {
+      handler (newVal) {
+        if (newVal) {
+          let _this = this
+          this.$nextTick(() => {
+            _this.elementInView()
+          })
+        }
+      }
+    }
+  },
+  methods: {
+    elementInView () {
+      let el = document.getElementsByClassName('borderHighLight')[0]
+      let parentNode = el.parentNode
+      let elOffsettop = document.getElementsByClassName('borderHighLight')[0]
+        .offsetTop
+      let offsetTop = parentNode.offsetTop
+      // 子元素正文高度
+      let elScrollHeight = el.scrollHeight
+      let iphoneContentel = parentNode.parentNode
+      iphoneContentel.scrollTop = elOffsettop - offsetTop - 559 + elScrollHeight
+    }
   }
 }
 </script>
@@ -29,6 +59,7 @@ export default {
   position: relative;
   i {
     position: absolute;
+    z-index: 9;
     display: inline-block;
   }
   .line {

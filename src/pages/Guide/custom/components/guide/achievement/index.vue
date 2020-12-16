@@ -1,13 +1,17 @@
 <template>
   <div>
-    <template v-for="(item, index) in editData">
+    <borderHighLight
+      v-for="(item, index) in editData"
+      :key="index"
+      :settingCode="settingCode"
+      :code="item.settingCode"
+    >
       <Component
-        v-if="item.status === 1"
-        :key="index"
         :is="item.settingCode"
         :editData="item.itemList"
+        v-if="item.status === 1"
       ></Component>
-    </template>
+    </borderHighLight>
   </div>
 </template>
 <script>
@@ -19,10 +23,14 @@ import guestCodeEffect from './guestCodeEffect'
 import guestCodeTrending from './guestCodeTrending'
 import promotionMasterRanking from './promotionMasterRanking'
 import banner from '../../pageComponents/banner'
+import borderHighLight from '../../pageComponents/borderHighLight'
 export default {
   props: {
     editData: {
       type: Array
+    },
+    settingCode: {
+      type: String
     }
   },
   components: {
@@ -33,7 +41,8 @@ export default {
     guestCodeEffect,
     guestCodeTrending,
     promotionMasterRanking,
-    banner
+    banner,
+    borderHighLight
   }
 }
 </script>

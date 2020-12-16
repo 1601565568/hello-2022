@@ -1,6 +1,11 @@
 <template>
   <div>
-    <borderHighLight v-for="(item, index) in editData" :key="index" :settingCode="settingCode" :code="item.settingCode">
+    <borderHighLight
+      v-for="(item, index) in editData"
+      :key="index"
+      :settingCode="settingCode"
+      :code="item.settingCode"
+    >
       <Component
         :is="item.settingCode"
         :editData="item.itemList"

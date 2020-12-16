@@ -107,8 +107,8 @@ export default {
             )
           }
         })
-        .catch(err => {
-          this.$notify.error(`配置查询失败${err.msg}`)
+        .catch(() => {
+          this.$notify.error(`配置查询失败`)
         })
     },
     forMatPageModuleType (arr) {
