@@ -125,6 +125,7 @@ export default {
   color: #262626;
   background: #fff;
   .guideAchievement-title {
+    font-weight: bold;
     padding: 0 16px;
     display: flex;
     align-items: center;

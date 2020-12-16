@@ -36,8 +36,14 @@ export default {
       event.stopPropagation()
     },
     // 点击获取编辑模块
-    onShowEdit () {
-      return false
+    onShowEdit (settingCode) {
+      this.$emit('onShowEdit', settingCode)
+    },
+    formatStatus (status) {
+      return status === 1
+    },
+    handlerChange (data, item) {
+      item.status = data ? 1 : 0
     },
     // 判断需要显示的组件
     formatSettingType (settingType) {

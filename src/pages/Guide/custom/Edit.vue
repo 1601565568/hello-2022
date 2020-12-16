@@ -32,17 +32,29 @@
               :menuListTitle="menuObj.menuListTitle"
               :menuType="menuObj.menuId"
               :editData="pageModuleType"
+              :settingCode="settingCode"
               ref="PageContentMiddle"/></ScrollView
         ></el-col>
         <el-col :span="9"
           ><ScrollView className="edit-content">
             <PageContentRight
+              @onShowEdit="onShowEdit"
               :editData="pageModuleType"
               @change="onSetChange"
             />
           </ScrollView>
         </el-col>
       </el-row>
+      <el-dialog :visible.sync="tipsShow" width="30%">
+        <div class="tipsShowTitle" slot="title">提示信息</div>
+        <div class="tipsShowContent">
+          <span class="ns-warm-cricle">!</span>是否保存当前修改?
+        </div>
+        <span slot="footer" class="dialog-footer">
+          <ns-button @click="onTipsShowCancel">取 消</ns-button>
+          <ns-button type="primary" @click="onConfirm">确 定</ns-button>
+        </span>
+      </el-dialog>
     </div>
   </PageEdit>
 </template>
@@ -53,14 +65,12 @@ import PageEdit from '@/components/NewUi/PageEdit'
 import PageContentLeft from './components/PageContentLeft'
 import PageContentMiddle from './components/PageContentMiddle'
 import PageContentRight from './components/PageContentRight'
-import addMenu from './components/pageComponents/addMenu'
 Edit.components = {
   ScrollView,
   PageContentLeft,
   PageContentMiddle,
   PageContentRight,
-  PageEdit,
-  addMenu
+  PageEdit
 }
 export default Edit
 </script>
@@ -77,5 +87,27 @@ export default Edit
   .edit-content {
     max-height: calc(100vh - 152px);
   }
+}
+.tipsShowTitle {
+  padding-top: 5px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #303133;
+}
+.tipsShowContent {
+  padding: 16px 0;
+  color: #595959;
+  font-size: 14px;
+}
+.ns-warm-cricle {
+  display: inline-block;
+  text-align: center;
+  line-height: 14px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #ffaa00;
+  color: #fff;
+  margin-right: 10px;
 }
 </style>

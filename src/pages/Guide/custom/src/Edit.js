@@ -4,11 +4,14 @@ export default {
       defaultActive: '1-1',
       menuArr: [],
       pageModuleType: [],
+      recordIsEdit: [], // 记录源数据是否被编辑
       menuObj: {
         active: '1-1',
         menuListTitle: '工作台', // 菜单栏标题
         menuId: 1 // 小程序类型 1导购 2店长
-      }
+      },
+      tipsShow: false,
+      settingCode: '' // 点击设置的区域
     }
   },
   watch: {
@@ -86,6 +89,7 @@ export default {
     },
     findMiniProgramPageModuleSettingList () {
       this.pageModuleType = []
+      this.recordIsEdit = []
       let params = {
         moduleType: this.menuObj.moduleType,
         templateCode: this.menuObj.templateCode
@@ -98,7 +102,9 @@ export default {
         .then(res => {
           if (res.success && res.result) {
             this.pageModuleType = this.forMatPageModuleType(res.result)
-            console.log(this.pageModuleType)
+            this.recordIsEdit = JSON.stringify(
+              this.forMatPageModuleType(res.result)
+            )
           }
         })
         .catch(err => {
@@ -106,7 +112,7 @@ export default {
         })
     },
     forMatPageModuleType (arr) {
-      return arr.map((item) => {
+      return arr.map(item => {
         return {
           itemList: item.itemList ? JSON.parse(item.itemList) : null,
           moduleType: item.moduleType,
@@ -121,19 +127,38 @@ export default {
     },
     // 左侧菜单栏变化
     async onChangeMenu (data) {
+      if (JSON.stringify(this.pageModuleType) !== this.recordIsEdit) {
+        return
+      }
       this.menuObj = data
       await this.findMiniProgramPageModuleSettingList()
       this.defaultActive = data.active
+    },
+    onTipsShow () {
+      this.tipsShow = !this.tipsShow
+    },
+    // 切换菜单取消保存
+    onTipsShowCancel () {
+      this.onTipsShow()
+    },
+    // 切换菜单确认保存
+    onConfirm () {
+      this.onTipsShow()
     },
     onSetChange (data) {
       this.pageModuleType = data
     },
     onSave () {
-      // console.log('保存')
-      this.$refs.PageContentMiddle.toImage()
+      console.log('保存')
+      // this.$refs.PageContentMiddle.toImage()
     },
     onCancel () {
       // console.log('取消')
+    },
+    // 右侧设置子组件传值
+    onShowEdit (data) {
+      this.settingCode = data
+      console.log(data, '12313131231')
     }
   }
 }

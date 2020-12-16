@@ -7,15 +7,15 @@
       <template v-for="(item, index) in pageModuleType">
         <el-collapse-item :key="index" :disabled="!item.itemList">
           <template slot="title">
-            <div class="common-title" @click="onShowEdit()" :class="{'common-title__disabled': !item.itemList} ">
+            <div class="common-title" @click="onShowEdit(item.settingCode)" :class="{'common-title__disabled': !item.itemList} ">
               <span>{{ item.settingName }}{{ item.status }}</span>
               <div class="switch" @click="onclick">
-                <!-- <el-switch v-model="item.status" active-color="#0091FA">
-                </el-switch> -->
+                <el-switch :value="formatStatus(item.status)" active-color="#0091FA" @change="(data)=> {handlerChange(data, item)}">
+                </el-switch>
               </div>
             </div>
           </template>
-          <div @click="onShowEdit()" class="editWarpper" v-if="item.itemList">
+          <div @click="onShowEdit(item.settingCode)" class="editWarpper" v-if="item.itemList">
             <component
               :is="formatSettingType(item.settingType)"
               v-if="item.itemList"

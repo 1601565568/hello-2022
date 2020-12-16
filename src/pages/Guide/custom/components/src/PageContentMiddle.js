@@ -12,6 +12,9 @@ export default {
     },
     editData: {
       type: Array
+    },
+    settingCode: {
+      type: String
     }
   },
   data () {

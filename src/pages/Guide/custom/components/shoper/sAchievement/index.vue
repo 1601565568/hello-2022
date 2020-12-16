@@ -2,6 +2,7 @@
   <div>
     <template v-for="(item, index) in editData">
       <Component
+        v-if="item.status === 1"
         :is="item.settingCode"
         :key="index"
         :editData="item.itemList"

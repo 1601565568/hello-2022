@@ -2,6 +2,7 @@
   <div>
     <template v-for="(item, index) in editData">
       <Component
+        v-if="item.status === 1"
         :key="index"
         :is="item.settingCode"
         :editData="item.itemList"
@@ -36,3 +37,12 @@ export default {
   }
 }
 </script>
+<style scoped>
+img {
+  image-rendering: -moz-crisp-edges;
+  image-rendering: -o-crisp-edges;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+  -ms-interpolation-mode: nearest-neighbor;
+}
+</style>
