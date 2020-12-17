@@ -1,7 +1,7 @@
 <template>
-  <div class="D-Menu__warpper" v-if="show">
+  <div class="D-Menu__warpper">
     <div class="D-Menu__warpper__title">功能菜单</div>
-    <div class="D-Menu__list">
+    <div class="D-Menu__list" v-if="show">
       <template v-for="(item, index) in editData">
         <div class="D-Menu__list__row" :key="index" v-if="item.status === 1">
           <img

@@ -1,8 +1,8 @@
 <template>
   <!-- 导购工作台业绩 -->
-  <div class="D-achievement__warpper" v-if="show">
+  <div class="D-achievement__warpper">
     <div class="D-achievement__title">业绩展示</div>
-    <div class="D-achievement__list">
+    <div class="D-achievement__list" v-if="show">
       <div class="D-achievement__row" v-if="editData[0] && editData[0].status === 1">
         <div class="D-achievement__row__title">今日收益（元）</div>
         <div class="D-achievement__row__warpper">

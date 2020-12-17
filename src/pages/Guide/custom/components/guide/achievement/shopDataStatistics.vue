@@ -1,7 +1,7 @@
 <template>
-  <CardTitle title="店铺数据统计" v-if="show">
+  <CardTitle title="店铺数据统计">
     <img slot="image" class="dataIcon" src="../../../image/dataIcon.png" />
-    <div slot="content" class="storeData">
+    <div slot="content" class="storeData"  v-if="show">
       <div class="storeData">
         <template v-for="(item, index) in editData">
           <div v-if="item.status === 1" class="storeData-list" :key="index">

@@ -1,7 +1,7 @@
 <template>
-  <CardTitle title="门店业绩" v-if="show">
+  <CardTitle title="门店业绩">
     <img slot="image" class="dataIcon" src="../../../image/s-dataIcon.png" />
-    <div slot="content" class="guideAchievement">
+    <div slot="content" class="guideAchievement"  v-if="show">
       <div
         class="total-revenue profit"
         v-if="editData[0] && editData[0].status === 1"

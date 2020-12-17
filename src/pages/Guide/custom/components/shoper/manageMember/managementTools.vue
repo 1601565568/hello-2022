@@ -1,7 +1,7 @@
 <template>
-  <div class="managementToolwarpper"  v-if="show">
+  <div class="managementToolwarpper">
     <div class="managementTool-title">管理工具</div>
-    <div class="toolList">
+    <div class="toolList" v-if="show">
       <template v-for="(item, index) in editData">
         <div class="toolList-item" :key="index" v-if="item.status === 1">
           <img
@@ -13,6 +13,7 @@
           <p>{{ item.itemName }}</p>
         </div>
       </template>
+      <div style="hetght:8px"></div>
     </div>
   </div>
 </template>
@@ -58,7 +59,7 @@ export default {
 
 <style lang="scss" scoped>
 .managementToolwarpper {
-  padding-bottom: 8px;
+  // padding-bottom: 8px;
   margin-bottom: 8px;
   background: #fff;
   .managementTool-title {

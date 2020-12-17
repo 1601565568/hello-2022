@@ -1,18 +1,35 @@
 <template>
-  <PageEdit
+  <PageEdit v-loading="loading"
     ><div slot="header">
       <div class="common-header flex-box">
-        <h3>编辑</h3>
+        <h3>{{isEdit? '编辑': '预览'}}</h3>
         <div class="common-btn">
-          <ns-button class="customer-btn_cancel" @click="onCancel"
+          <ns-button
+            class="customer-btn_save"
+            type="primary"
+            size="large"
+            v-if="!isEdit"
+            @click="onEdit"
+            >编辑</ns-button
+          >
+          <ns-button class="customer-btn_cancel" v-if="isEdit" @click="onCancel"
             >取消</ns-button
           >
           <ns-button
             class="customer-btn_save"
             type="primary"
             size="large"
+            v-if="isEdit"
             @click="onSave"
             >保存</ns-button
+          >
+          <ns-button
+            class="customer-btn_save"
+            type="primary"
+            size="large"
+            v-if="isEdit"
+            @click="onSaveAndEsc"
+            >保存并退出</ns-button
           >
         </div>
       </div>
@@ -26,7 +43,7 @@
               @onChange="onChangeMenu"
               :menuArr="menuArr"/></ScrollView
         ></el-col>
-        <el-col :span="11"
+        <el-col :span="isEdit? 11:20"
           ><ScrollView className="edit-content"
             ><PageContentMiddle
               :menuListTitle="menuObj.menuListTitle"
@@ -35,7 +52,7 @@
               :settingCode="settingCode"
               ref="PageContentMiddle"/></ScrollView
         ></el-col>
-        <el-col :span="9"
+        <el-col v-if="isEdit" :span="9"
           ><ScrollView className="edit-content">
             <PageContentRight
               @onPageRewardSetting="onPageRewardSetting"
@@ -54,6 +71,16 @@
         <span slot="footer" class="dialog-footer">
           <ns-button @click="onTipsShowCancel">取 消</ns-button>
           <ns-button type="primary" @click="onConfirm">确 定</ns-button>
+        </span>
+      </el-dialog>
+      <el-dialog :visible.sync="escShow" width="30%">
+        <div class="tipsShowTitle" slot="title">提示信息</div>
+        <div class="tipsShowContent">
+          <span class="ns-warm-cricle">!</span>取消后将不会保存当前配置，确定取消吗？?
+        </div>
+        <span slot="footer" class="dialog-footer">
+          <ns-button @click="onEscCancel">取 消</ns-button>
+          <ns-button type="primary" @click="onEscConfirm">确 定</ns-button>
         </span>
       </el-dialog>
       <PageRewardSetting ref="PageRewardSetting" @onConfirm="onSettingConfirm" :rewardSettingList="rewardSettingList"/>

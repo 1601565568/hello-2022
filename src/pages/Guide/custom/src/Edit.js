@@ -1,6 +1,8 @@
 export default {
   data () {
     return {
+      loading: false,
+      isEdit: false, // 是否是编辑页面
       defaultActive: '1-1',
       menuArr: [],
       pageModuleType: [],
@@ -10,14 +12,12 @@ export default {
         menuListTitle: '工作台', // 菜单栏标题
         menuId: 1 // 小程序类型 1导购 2店长
       },
-      tipsShow: false,
+      recordMenu: {}, // 暂时保存左侧菜单栏变化
+      tipsShow: false, // 左侧弹窗切换
+      escShow: false, // 顶部取消按钮弹窗
       settingCode: '', // 点击设置的区域
-      rewardSettingList: [] // 业绩数据来源设置
-    }
-  },
-  watch: {
-    pageModuleType (newVal) {
-      console.log(newVal, 'pageModuleType')
+      rewardSettingList: [], // 业绩数据来源设置
+      templateCode: ''
     }
   },
   mounted () {
@@ -32,9 +32,10 @@ export default {
             this.menuObj = {
               ...this.menuObj,
               moduleName: res.result[0].moduleName,
-              moduleType: res.result[0].moduleType,
-              templateCode: res.result[0].templateCode
+              moduleType: res.result[0].moduleType
             }
+            // 默认摸板保存后会重新生成templateCode
+            this.templateCode = res.result[0].templateCode
             this.findMiniProgramPageModuleSettingList()
             this.menuArr = this.forMatMenuArr(res.result)
           } else {
@@ -42,7 +43,7 @@ export default {
           }
         })
         .catch(err => {
-          this.$notify.error(`菜单查询失败，${err}`)
+          this.$notify.error(`菜单查询失败，${err.msg}`)
         })
     },
     forMatMenuArr (arr) {
@@ -62,15 +63,13 @@ export default {
           menuList1.push({
             moduleName: item.moduleName,
             moduleType: item.moduleType,
-            projectType: item.projectType,
-            templateCode: item.templateCode
+            projectType: item.projectType
           })
         } else {
           menuList2.push({
             moduleName: item.moduleName,
             moduleType: item.moduleType,
-            projectType: item.projectType,
-            templateCode: item.templateCode
+            projectType: item.projectType
           })
         }
       }
@@ -89,11 +88,12 @@ export default {
       return menuBar
     },
     findMiniProgramPageModuleSettingList () {
+      this.loading = true
       this.pageModuleType = []
       this.recordIsEdit = []
       let params = {
         moduleType: this.menuObj.moduleType,
-        templateCode: this.menuObj.templateCode
+        templateCode: this.templateCode
       }
       this.$http
         .fetch(
@@ -106,12 +106,13 @@ export default {
             this.recordIsEdit = JSON.stringify(
               this.forMatPageModuleType(res.result)
             )
+            this.loading = false
           }
         })
         .catch(() => {
           this.$notify.error(`配置查询失败`)
         })
-      this.getRewardSettingList(this.menuObj.templateCode)
+      this.getRewardSettingList(this.templateCode)
     },
     forMatPageModuleType (arr) {
       return arr.map(item => {
@@ -156,7 +157,7 @@ export default {
     },
     // 左侧菜单栏变化
     async onChangeMenu (data) {
-      this.menuObj = data
+      this.recordMenu = data
       if (JSON.stringify(this.pageModuleType) !== this.recordIsEdit) {
         this.onTipsShow()
         return
@@ -164,6 +165,7 @@ export default {
       this.handlerSwitch()
     },
     async handlerSwitch () {
+      this.menuObj = this.recordMenu
       await this.findMiniProgramPageModuleSettingList()
       this.defaultActive = this.menuObj.active
     },
@@ -174,39 +176,53 @@ export default {
     // 切换菜单取消保存
     onTipsShowCancel () {
       this.onTipsShow()
+      this.handlerSwitch()
     },
     // 切换菜单确认保存
-    onConfirm () {
+    async onConfirm () {
       this.onTipsShow()
+      await this.onSave()
+      this.handlerSwitch()
     },
     onSetChange (data) {
       this.pageModuleType = data
     },
     /* 保存数据开始 */
     onSave () {
-      console.log('保存')
-      let query = {
-        moduleType: this.menuObj.moduleType, // 模块类型
-        templateCode: this.menuObj.templateCode, // 模板ID
-        projectType: this.menuObj.menuId, // 项目类型 1导购 2店长
-        pageModuleSettingList: this.forMatPageModuleSettingList(
-          this.pageModuleType
-        ),
-        pageRewardSettingList: this.rewardSettingList
-      }
-      this.$http
-        .fetch(this.$api.guide.custom.saveOrUpdateMiniProgramPageSetting, query)
-        .then(res => {
-          if (res.success) {
-            this.$notify.success('页面配置保存成功')
-          } else {
-            this.$notify.success('页面配置保存成功')
-          }
-        })
-        .catch(err => {
-          this.$notify.error(err.msg)
-        })
-      console.log(query, 'queryqueryqueryqueryqueryqueryqueryquery')
+      return new Promise((resolve, reject) => {
+        this.loading = true
+        let query = {
+          moduleType: this.menuObj.moduleType, // 模块类型
+          templateCode: this.templateCode, // 模板ID
+          projectType: this.menuObj.menuId, // 项目类型 1导购 2店长
+          pageModuleSettingList: this.forMatPageModuleSettingList(
+            this.pageModuleType
+          ),
+          pageRewardSettingList: this.rewardSettingList
+        }
+        this.$http
+          .fetch(
+            this.$api.guide.custom.saveOrUpdateMiniProgramPageSetting,
+            query
+          )
+          .then(res => {
+            if (res.success) {
+              this.$notify.success('页面配置保存成功')
+              // 保存成功记录最新的数据
+              this.recordIsEdit = JSON.stringify(this.pageModuleType)
+              this.loading = false
+              this.templateCode = res.result
+              resolve()
+            } else {
+              this.$notify.success('页面配置保存成功')
+            }
+          })
+          .catch(err => {
+            this.loading = false
+            this.$notify.error(err.msg)
+            reject(new Error(err))
+          })
+      })
       // this.$refs.PageContentMiddle.toImage()
     },
     forMatPageModuleSettingList (pageModuleType) {
@@ -220,9 +236,6 @@ export default {
       })
     },
     forMatItemList (itemList) {
-      if (!itemList && itemList === '') {
-        return itemList
-      }
       if (Object.prototype.toString.call(itemList) === '[object Array]') {
         return itemList.map((item, index) => {
           return {
@@ -230,14 +243,44 @@ export default {
             sort: index + 1
           }
         })
-      }
-      if (Object.prototype.toString.call(itemList) === '[object Object]') {
+      } else if (
+        Object.prototype.toString.call(itemList) === '[object Object]'
+      ) {
         return itemList
       }
     },
     /* 保存数据结束 */
     onCancel () {
       // console.log('取消')
+      if (JSON.stringify(this.pageModuleType) !== this.recordIsEdit) {
+        this.onEscShows()
+        return
+      }
+      this.isEdit = false
+      this.settingCode = ''
+    },
+    onEscShows () {
+      this.escShow = !this.escShow
+    },
+    onEscCancel () {
+      this.isEdit = true
+      this.onEscShows()
+    },
+    onEscConfirm () {
+      this.isEdit = false
+      this.onEscShows()
+      this.findMiniProgramPageModuleSettingList()
+      this.settingCode = ''
+    },
+    // 保存并退出
+    onSaveAndEsc () {
+      this.onSave().then(res => {
+        this.isEdit = false
+        this.settingCode = ''
+      })
+    },
+    onEdit () {
+      this.isEdit = true
     },
     // 右侧设置子组件传值
     onShowEdit (data) {

@@ -4,53 +4,55 @@
       <img class="dataIcon" src="../../../image/dataIcon.png" />
       <span>导购业绩</span>
     </div>
-    <div
-      class="total-revenue profit"
-      v-if="editData[0] && editData[0].status === 1"
-    >
-      <div class="text">总收益(元)</div>
-      <div class="number">0</div>
-    </div>
-    <div class="guideAchievement-profit">
-      <div class="profit" v-if="editData[1] && editData[1].status === 1">
-        <div class="text">销售提成（元）</div>
-        <div class="number">0</div>
-      </div>
-      <div class="profit" v-if="editData[2] && editData[2].status === 1">
-        <div class="text">招募会员（元）</div>
-        <div class="number">0</div>
-      </div>
-      <div class="profit" v-if="editData[3] && editData[3].status === 1">
-        <div class="text">新加好友（元）</div>
-        <div class="number">0</div>
-      </div>
-    </div>
-    <div class="srollView">
+    <div class="guideAchievement-content" v-if="show">
       <div
-        v-if="srollViewList.length > 1"
-        class="srollView-list__warpper"
-        :style="{ width: srollViewWidth + 'px' }"
+        class="total-revenue profit"
+        v-if="editData[0] && editData[0].status === 1"
       >
-        <template v-for="(item, index) in srollViewList">
-          <div class="srollView-list" :key="index">
-            <div class="srollView-list__title">
-              {{ item.itemName }}（完成： - ）
-            </div>
-            <div class="srollView-list__number"><span>0</span>/0</div>
-            <div class="srollView-list__progress"></div>
-          </div>
-        </template>
+        <div class="text">总收益(元)</div>
+        <div class="number">0</div>
       </div>
-      <div v-else class="list__warpper">
-        <template v-for="(item, index) in srollViewList">
-          <div class="srollView-list" :key="index">
-            <div class="srollView-list__title">
-              {{ item.itemName }}（完成： - ）
+      <div class="guideAchievement-profit">
+        <div class="profit" v-if="editData[1] && editData[1].status === 1">
+          <div class="text">销售提成（元）</div>
+          <div class="number">0</div>
+        </div>
+        <div class="profit" v-if="editData[2] && editData[2].status === 1">
+          <div class="text">招募会员（元）</div>
+          <div class="number">0</div>
+        </div>
+        <div class="profit" v-if="editData[3] && editData[3].status === 1">
+          <div class="text">新加好友（元）</div>
+          <div class="number">0</div>
+        </div>
+      </div>
+      <div class="srollView" v-if="show">
+        <div
+          v-if="srollViewList.length > 1"
+          class="srollView-list__warpper"
+          :style="{ width: srollViewWidth + 'px' }"
+        >
+          <template v-for="(item, index) in srollViewList">
+            <div class="srollView-list" :key="index">
+              <div class="srollView-list__title">
+                {{ item.itemName }}（完成： - ）
+              </div>
+              <div class="srollView-list__number"><span>0</span>/0</div>
+              <div class="srollView-list__progress"></div>
             </div>
-            <div class="srollView-list__number"><span>0</span>/0</div>
-            <div class="srollView-list__progress"></div>
-          </div>
-        </template>
+          </template>
+        </div>
+        <div v-else class="list__warpper">
+          <template v-for="(item, index) in srollViewList">
+            <div class="srollView-list" :key="index">
+              <div class="srollView-list__title">
+                {{ item.itemName }}（完成： - ）
+              </div>
+              <div class="srollView-list__number"><span>0</span>/0</div>
+              <div class="srollView-list__progress"></div>
+            </div>
+          </template>
+        </div>
       </div>
     </div>
   </div>
@@ -132,7 +134,6 @@ export default {
     height: 55px;
     font-size: 17px;
     border-bottom: 1px solid #e8e8e8;
-    margin-bottom: 8px;
     .dataIcon {
       width: 20px;
       height: 20px;
@@ -141,6 +142,9 @@ export default {
     span {
       font-size: 17px;
     }
+  }
+  .guideAchievement-content {
+    margin-top: 8px;
   }
   .profit {
     height: 67px;

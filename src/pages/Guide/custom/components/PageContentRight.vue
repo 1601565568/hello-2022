@@ -8,8 +8,8 @@
         <el-collapse-item :key="index" :disabled="!item.itemList">
           <template slot="title">
             <div class="common-title" @click="onShowEdit(item.settingCode)" :class="{'common-title__disabled': !item.itemList} ">
-              <span>{{ item.settingName }}{{ item.status }}</span>
-              <div class="switch" @click="onclick">
+              <span>{{ item.settingName }}</span>
+              <div class="switch" @click="onclick(item.settingCode)">
                 <el-switch :value="formatStatus(item.status)" active-color="#0091FA" @change="(data)=> {handlerChange(data, item)}">
                 </el-switch>
               </div>
@@ -33,7 +33,6 @@
         </el-collapse-item>
       </template>
     </el-collapse>
-    {{ pageModuleType }}
   </div>
 </template>
 <script>

@@ -21,8 +21,7 @@
             onClick(
               item.projectType,
               itemChildren.moduleType,
-              itemChildren.moduleName,
-              itemChildren.templateCode
+              itemChildren.moduleName
             )
           "
           :key="itemChildren.moduleType"
@@ -52,15 +51,14 @@ export default {
     }
   },
   methods: {
-    onClick (menuId, menuChildrenId, menuListTitle, templateCode) {
+    onClick (menuId, menuChildrenId, menuListTitle) {
       let active = `${menuId}-${menuChildrenId}`
       if (active !== this.defaultActive) {
         this.$emit('onChange', {
           menuId,
           menuListTitle,
           active,
-          moduleType: menuChildrenId,
-          templateCode
+          moduleType: menuChildrenId
         })
       } else {
         return false

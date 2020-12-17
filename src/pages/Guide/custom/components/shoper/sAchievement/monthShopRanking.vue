@@ -1,7 +1,7 @@
 <template>
   <CardTitle title="门店导购榜单TOP5">
     <img slot="image" class="dataIcon" src="../../../image/guideIcon.png" />
-    <div slot="content" class="storeGuideTop">
+    <div slot="content" class="storeGuideTop" v-if="show">
       <div class="tabs">
         <template v-for="(item, index) in editData">
           <div class="tabs-list" v-if="item.status === 1" :key="index">
