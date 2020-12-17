@@ -150,7 +150,6 @@ export default {
     addMenuData: {
       handler (newValue) {
         this.model = JSON.parse(JSON.stringify(newValue))
-        console.log(this.model)
       },
       deep: true,
       immediate: true

@@ -92,13 +92,11 @@ export default {
             scrollX: 0
           }).then(canvas => {
             let dataURL = canvas.toDataURL('image/png')
-            console.log(dataURL)
           })
         })
       })
     },
     toImage () {
-      console.log(this.$refs.iphone)
       // console.log(this.$ref.)
       // this.imgToBase64()
       // html2canvas(this.$refs.iphone, {
@@ -142,7 +140,6 @@ export default {
           context.msImageSmoothingEnabled = false
           context.imageSmoothingEnabled = false
           const imgUrl = canvas.toDataURL('image/png')
-          console.log(imgUrl)
         })
       })
     }

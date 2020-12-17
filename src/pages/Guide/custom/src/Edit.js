@@ -251,7 +251,6 @@ export default {
     },
     /* 保存数据结束 */
     onCancel () {
-      // console.log('取消')
       if (JSON.stringify(this.pageModuleType) !== this.recordIsEdit) {
         this.onEscShows()
         return
