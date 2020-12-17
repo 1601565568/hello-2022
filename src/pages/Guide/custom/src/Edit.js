@@ -11,7 +11,8 @@ export default {
         menuId: 1 // 小程序类型 1导购 2店长
       },
       tipsShow: false,
-      settingCode: '' // 点击设置的区域
+      settingCode: '', // 点击设置的区域
+      rewardSettingList: [] // 业绩数据来源设置
     }
   },
   watch: {
@@ -110,6 +111,7 @@ export default {
         .catch(() => {
           this.$notify.error(`配置查询失败`)
         })
+      this.getRewardSettingList(this.menuObj.templateCode)
     },
     forMatPageModuleType (arr) {
       return arr.map(item => {
@@ -125,15 +127,47 @@ export default {
         }
       })
     },
+    getRewardSettingList (templateCode) {
+      this.$http
+        .fetch(this.$api.guide.custom.findMiniProgramPageRewardSettingList, {
+          templateCode: templateCode
+        })
+        .then(res => {
+          if (res.success) {
+            this.rewardSettingList = this.formalist(res.result)
+          }
+        })
+        .catch(err => {
+          this.$notify.error(err.msg)
+        })
+    },
+    formalist (arr) {
+      if (Object.prototype.toString.call(arr) === '[object Array]') {
+        return arr.map(item => {
+          return {
+            rewardType: item.rewardType,
+            status: item.status
+          }
+        })
+      } else {
+        this.$notify.error('业绩数据获取失败')
+        return []
+      }
+    },
     // 左侧菜单栏变化
     async onChangeMenu (data) {
+      this.menuObj = data
       if (JSON.stringify(this.pageModuleType) !== this.recordIsEdit) {
+        this.onTipsShow()
         return
       }
-      this.menuObj = data
-      await this.findMiniProgramPageModuleSettingList()
-      this.defaultActive = data.active
+      this.handlerSwitch()
     },
+    async handlerSwitch () {
+      await this.findMiniProgramPageModuleSettingList()
+      this.defaultActive = this.menuObj.active
+    },
+    // 修改设置左侧切换显示是否保存
     onTipsShow () {
       this.tipsShow = !this.tipsShow
     },
@@ -148,17 +182,74 @@ export default {
     onSetChange (data) {
       this.pageModuleType = data
     },
+    /* 保存数据开始 */
     onSave () {
       console.log('保存')
+      let query = {
+        moduleType: this.menuObj.moduleType, // 模块类型
+        templateCode: this.menuObj.templateCode, // 模板ID
+        projectType: this.menuObj.menuId, // 项目类型 1导购 2店长
+        pageModuleSettingList: this.forMatPageModuleSettingList(
+          this.pageModuleType
+        ),
+        pageRewardSettingList: this.rewardSettingList
+      }
+      this.$http
+        .fetch(this.$api.guide.custom.saveOrUpdateMiniProgramPageSetting, query)
+        .then(res => {
+          if (res.success) {
+            this.$notify.success('页面配置保存成功')
+          } else {
+            this.$notify.success('页面配置保存成功')
+          }
+        })
+        .catch(err => {
+          this.$notify.error(err.msg)
+        })
+      console.log(query, 'queryqueryqueryqueryqueryqueryqueryquery')
       // this.$refs.PageContentMiddle.toImage()
     },
+    forMatPageModuleSettingList (pageModuleType) {
+      let arr = JSON.parse(JSON.stringify(pageModuleType))
+      return arr.map((item, index) => {
+        return {
+          ...item,
+          sort: index + 1,
+          itemList: JSON.stringify(this.forMatItemList(item.itemList))
+        }
+      })
+    },
+    forMatItemList (itemList) {
+      if (!itemList && itemList === '') {
+        return itemList
+      }
+      if (Object.prototype.toString.call(itemList) === '[object Array]') {
+        return itemList.map((item, index) => {
+          return {
+            ...item,
+            sort: index + 1
+          }
+        })
+      }
+      if (Object.prototype.toString.call(itemList) === '[object Object]') {
+        return itemList
+      }
+    },
+    /* 保存数据结束 */
     onCancel () {
       // console.log('取消')
     },
     // 右侧设置子组件传值
     onShowEdit (data) {
       this.settingCode = data
-      console.log(data, '12313131231')
+    },
+    // 调用金额来源设置
+    onPageRewardSetting () {
+      this.$refs.PageRewardSetting.init()
+    },
+    // 保存金额来源确认
+    onSettingConfirm (data) {
+      this.rewardSettingList = data
     }
   }
 }

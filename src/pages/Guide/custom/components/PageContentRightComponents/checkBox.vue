@@ -20,6 +20,7 @@
         /></span>
         <span
           class="editIcon"
+          @click="onPageRewardSetting"
           v-if="
             item.itemName === '总收益' || item.itemName === '本月收益和今日收益'
           "
@@ -99,6 +100,9 @@ export default {
         }
       })
       this.data = arr
+    },
+    onPageRewardSetting () {
+      this.$emit('onPageRewardSetting')
     }
   }
 }

@@ -23,7 +23,6 @@ export default {
     },
     pageModuleType: {
       handler (val) {
-        console.log(val, 'change')
         this.$emit('change', val)
       },
       deep: true,
@@ -63,8 +62,8 @@ export default {
     onChangeItem (data, index) {
       this.pageModuleType[index].itemList = data
     },
-    onChange (data) {
-      console.log(data)
+    onPageRewardSetting () {
+      this.$emit('onPageRewardSetting')
     }
   }
 }

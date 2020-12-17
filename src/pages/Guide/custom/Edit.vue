@@ -38,6 +38,7 @@
         <el-col :span="9"
           ><ScrollView className="edit-content">
             <PageContentRight
+              @onPageRewardSetting="onPageRewardSetting"
               @onShowEdit="onShowEdit"
               :editData="pageModuleType"
               @change="onSetChange"
@@ -55,6 +56,7 @@
           <ns-button type="primary" @click="onConfirm">确 定</ns-button>
         </span>
       </el-dialog>
+      <PageRewardSetting ref="PageRewardSetting" @onConfirm="onSettingConfirm" :rewardSettingList="rewardSettingList"/>
     </div>
   </PageEdit>
 </template>
@@ -65,12 +67,14 @@ import PageEdit from '@/components/NewUi/PageEdit'
 import PageContentLeft from './components/PageContentLeft'
 import PageContentMiddle from './components/PageContentMiddle'
 import PageContentRight from './components/PageContentRight'
+import PageRewardSetting from './components/pageComponents/pageRewardSetting'
 Edit.components = {
   ScrollView,
   PageContentLeft,
   PageContentMiddle,
   PageContentRight,
-  PageEdit
+  PageEdit,
+  PageRewardSetting
 }
 export default Edit
 </script>

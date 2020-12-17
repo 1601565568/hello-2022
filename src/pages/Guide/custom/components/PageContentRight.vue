@@ -20,6 +20,7 @@
               :is="formatSettingType(item.settingType)"
               v-if="item.itemList"
               :childrenEditData="item.itemList"
+              @onPageRewardSetting="onPageRewardSetting"
               @change="
                 data => {
                   onChangeItem(data, index)
@@ -60,6 +61,7 @@ export default PageContentRight
 @import './style/PageContentRight.css';
 .common-title {
   width: 100%;
+  padding-left: 80px;
   display: flex;
   justify-content: space-between;
   position: relative;
