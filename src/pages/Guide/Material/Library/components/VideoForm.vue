@@ -194,7 +194,7 @@ export default {
     },
     beforeVideoUpload (file) {
       // 视频格式判断
-      if (!/\.(mp4)$/.test(file.name)) {
+      if (!/\.(mp4)$/.test(file.name) && !/\.(MP4)$/.test(file.name)) {
         this.$notify.error('仅支持mp4的视频格式')
         return false
       }
