@@ -41,6 +41,7 @@
 import CardTitle from './cardTitle'
 import componentData from '../../mixins/componentData.js'
 export default {
+  name: 'monthShopRanking',
   components: { CardTitle },
   mixins: [componentData],
   data () {

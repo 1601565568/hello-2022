@@ -5,6 +5,7 @@
         <span class="w-textarea_tools__item"
         v-for="item in tools"
         :key="item.id"
+        :title="item.title"
         @click="openTagDialog(item)"><Icon v-if='item.icon' class='w-textarea_tools__icon' :type="item.icon"/>
         <img v-if='item.img' class='w-textarea_tools__img' :src="item.img" />
         {{item.icon}}{{item.text}}</span>

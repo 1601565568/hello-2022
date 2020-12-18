@@ -37,6 +37,7 @@ export default {
             // 默认摸板保存后会重新生成templateCode
             this.templateCode = res.result[0].templateCode
             this.findMiniProgramPageModuleSettingList()
+            this.getRewardSettingList(this.templateCode)
             this.menuArr = this.forMatMenuArr(res.result)
           } else {
             this.$notify.error('查询菜单列表接口失败')
@@ -88,31 +89,34 @@ export default {
       return menuBar
     },
     findMiniProgramPageModuleSettingList () {
-      this.loading = true
-      this.pageModuleType = []
-      this.recordIsEdit = []
-      let params = {
-        moduleType: this.menuObj.moduleType,
-        templateCode: this.templateCode
-      }
-      this.$http
-        .fetch(
-          this.$api.guide.custom.findMiniProgramPageModuleSettingList,
-          params
-        )
-        .then(res => {
-          if (res.success && res.result) {
-            this.pageModuleType = this.forMatPageModuleType(res.result)
-            this.recordIsEdit = JSON.stringify(
-              this.forMatPageModuleType(res.result)
-            )
-            this.loading = false
-          }
-        })
-        .catch(() => {
-          this.$notify.error(`配置查询失败`)
-        })
-      this.getRewardSettingList(this.templateCode)
+      return new Promise((resolve, reject) => {
+        this.loading = true
+        this.pageModuleType = []
+        this.recordIsEdit = []
+        let params = {
+          moduleType: this.menuObj.moduleType,
+          templateCode: this.templateCode
+        }
+        this.$http
+          .fetch(
+            this.$api.guide.custom.findMiniProgramPageModuleSettingList,
+            params
+          )
+          .then(res => {
+            if (res.success && res.result) {
+              this.pageModuleType = this.forMatPageModuleType(res.result)
+              this.recordIsEdit = JSON.stringify(
+                this.forMatPageModuleType(res.result)
+              )
+              this.loading = false
+              resolve()
+            }
+          })
+          .catch(() => {
+            this.$notify.error(`配置查询失败`)
+            reject(new Error('配置查询失败'))
+          })
+      })
     },
     forMatPageModuleType (arr) {
       return arr.map(item => {
@@ -164,10 +168,11 @@ export default {
       }
       this.handlerSwitch()
     },
-    async handlerSwitch () {
+    handlerSwitch () {
       this.menuObj = this.recordMenu
-      await this.findMiniProgramPageModuleSettingList()
-      this.defaultActive = this.menuObj.active
+      this.findMiniProgramPageModuleSettingList().then(() => {
+        this.defaultActive = this.menuObj.active
+      })
     },
     // 修改设置左侧切换显示是否保存
     onTipsShow () {

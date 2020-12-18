@@ -34,6 +34,7 @@ export default {
     onclick (settingCode) {
       let event = window.event
       event.stopPropagation()
+      console.log('onclick', settingCode)
       this.onShowEdit(settingCode)
     },
     // 点击获取编辑模块

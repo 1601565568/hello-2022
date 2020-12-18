@@ -1,13 +1,25 @@
 <template>
   <div class="dataTimeWarpper">
     <img src="../../../image/timeScreenIcon.png" />
-    <span>2020/06</span>
+    <span>{{time}}</span>
     <span class="triangle-down"></span>
   </div>
 </template>
 <script>
 export default {
-  name: 'Datetime'
+  name: 'Datetime',
+  data () {
+    return { time: '' }
+  },
+  methods: {
+    getDate () {
+      let nowDate = new Date()
+      this.time = `${nowDate.getFullYear()}/${nowDate.getMonth() + 1}`
+    }
+  },
+  created () {
+    this.getDate()
+  }
 }
 </script>
 

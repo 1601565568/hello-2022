@@ -30,6 +30,7 @@
 import CardTitle from './cardTitle'
 import componentData from '../../mixins/componentData.js'
 export default {
+  name: 'monthShopGuideRanking',
   components: { CardTitle },
   mixins: [componentData],
   data () {

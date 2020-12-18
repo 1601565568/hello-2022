@@ -19,16 +19,45 @@
           :value="formatCheckbox(item.status)"
           >{{ item.itemName }}</el-checkbox
         >
-        <span class="editIcon" v-if="item.editable === 1"
+        <span
+          class="editIcon"
+          @click="onEditMenu(item.info, index)"
+          v-if="item.editable === 1"
           ><Icon type="edit"
         /></span>
+        <span
+          class="editIcon code-delete"
+          @click="onEditDelMenu(index)"
+          v-if="item.editable === 1"
+        >
+          <Icon type="delete" />
+        </span>
       </div>
     </template>
-    <el-dialog title="新增菜单" :visible.sync="addMenuShow" width="758px">
-      <AddMenu ref="AddMenu" :addMenuData="addMenuData" />
+    <el-dialog title="新增菜单" :visible.sync="addMenuShowModal" width="758px">
+      <AddMenu
+        v-if="addMenuShow"
+        :tools="tools"
+        ref="AddMenu"
+        :addMenuData="addMenuData"
+      />
       <div slot="footer" class="dialog-footer">
         <ns-button @click="cancel()">取 消</ns-button>
         <ns-button type="primary" @click="addMenuShowConfirm()"
+          >确 定</ns-button
+        >
+      </div>
+    </el-dialog>
+    <el-dialog title="编辑菜单" :visible.sync="editMenuShowModal" width="758px">
+      <AddMenu
+        v-if="editMenuShow"
+        ref="editMenu"
+        :tools="tools"
+        :addMenuData="addMenuData"
+      />
+      <div slot="footer" class="dialog-footer">
+        <ns-button @click="cancel()">取 消</ns-button>
+        <ns-button type="primary" @click="oneditMenuShowConfirm()"
           >确 定</ns-button
         >
       </div>
@@ -47,10 +76,53 @@ export default {
   },
   data () {
     return {
+      tools: [
+        {
+          tooltip: '导购账号',
+          img:
+            'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-WEB/icon/icon-daogou.png',
+          type: 'tag',
+          title: `GUIDE_ACCOUNT_NUMBER=\${GUIDE_ACCOUNT_NUMBER}`,
+          text: '导购账号',
+          id: 'GUIDE_ACCOUNT_NUMBER',
+          value: '导购账号'
+        },
+        {
+          img:
+            'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-WEB/icon/guideNumer.png',
+          type: 'tag',
+          title: `GUIDE_JOB_NUMBER=\${GUIDE_JOB_NUMBER}`,
+          text: '导购工号',
+          id: 'GUIDE_JOB_NUMBER',
+          value: '导购工号'
+        },
+        {
+          img:
+            'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-WEB/icon/guideID.png',
+          type: 'tag',
+          text: '导购ID',
+          title: `GUIDE_ID=\${GUIDE_ID}`,
+          id: 'GUIDE_ID',
+          value: '导购ID'
+        },
+        {
+          img:
+            'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-WEB/icon/distributionStore.png',
+          type: 'tag',
+          text: '导购工作门店',
+          title: `GUIDE_WORK_SHOP=\${GUIDE_WORK_SHOP}`,
+          id: 'GUIDE_WORK_SHOP',
+          value: '导购工作门店'
+        }
+      ],
       data: JSON.parse(JSON.stringify(this.childrenEditData)),
       checkAll: false,
       isIndeterminate: false,
       addMenuShow: false,
+      editMenuShow: false,
+      addMenuShowModal: false, // 新增菜单
+      editMenuShowModal: false, // 编辑菜单
+      index: 0, // 编辑状态下记录点击的下标
       addMenuData: {}
     }
   },
@@ -112,7 +184,7 @@ export default {
       this.data = arr
     },
     onAddMenu () {
-      this.addMenuShow = true
+      let _this = this
       let obj = {
         appid: null,
         icon: '',
@@ -121,6 +193,10 @@ export default {
         type: 1
       }
       this.addMenuData = obj
+      this.addMenuShow = true
+      this.$nextTick(() => {
+        _this.addMenuShowModal = true
+      })
     },
     addMenuShowConfirm () {
       let _this = this
@@ -137,11 +213,43 @@ export default {
           status: 1
         }
         this.data.push(obj)
-        this.addMenuShow = false
+        this.cancel()
+        // this.addMenuShowModal = false
+        // this.addMenuShow = false
       })
     },
     cancel () {
-      this.addMenuShow = false
+      let _this = this
+      this.editMenuShowModal = false
+      this.addMenuShowModal = false
+      setTimeout(() => {
+        _this.addMenuShow = false
+        _this.editMenuShow = false
+      }, 1000)
+    },
+    onEditMenu (info, index) {
+      this.index = index
+      let _this = this
+      this.editMenuShow = true
+      this.addMenuData = JSON.parse(JSON.stringify(info))
+      this.$nextTick(() => {
+        _this.editMenuShowModal = true
+      })
+    },
+    oneditMenuShowConfirm () {
+      let _this = this
+      let save = this.$refs.editMenu.onSave()
+      save.then(res => {
+        let obj = {
+          ...this.data[this.index],
+          info: res
+        }
+        this.$set(this.data, this.index, obj)
+        this.cancel()
+      })
+    },
+    onEditDelMenu (index) {
+      this.data.splice(index, 1)
     }
   }
 }
@@ -185,10 +293,15 @@ export default {
   }
 }
 .checkboxWarpper .editIcon {
+  display: inline-block;
   position: absolute;
   top: 50%;
-  right: 0px;
+  right: 30px;
+  color: #606266;
   transform: translate(0%, -50%);
+}
+.checkboxWarpper .code-delete {
+  right: 0px;
 }
 .addMenu {
   display: flex;

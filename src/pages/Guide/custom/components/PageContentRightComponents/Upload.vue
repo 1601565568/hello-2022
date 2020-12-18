@@ -7,7 +7,7 @@
           <el-radio :label="1">单行大图</el-radio>
           <el-radio :label="2">轮播图片</el-radio>
         </el-radio-group>
-        <div class="custom-upload">
+        <div class="custom-upload" @click="onUpload">
           <el-upload
             class="upload-demo"
             drag
@@ -15,7 +15,6 @@
             :action="$api.core.sgUploadFile('test')"
             accept=".jpg,.jpeg,.png"
             multiple
-            :limit="9"
             :show-file-list="false"
             :on-success="handleAvatarSuccess"
             :before-upload="beforeAvatarUpload"
@@ -177,14 +176,6 @@ export default {
       this.$set(this.data.image, index, items)
       this.$set(this.data.image, len, item)
     },
-    // 限制上传个数
-    handleExceed (files, fileList) {
-      this.$notify.error(
-        `最大上限9张图片，本次选择了 ${
-          files.length
-        } 个，共选择了 ${files.length + fileList.length} 个`
-      )
-    },
     // 处理上传图片
     handleAvatarSuccess: function (res, file) {
       if (this.data.image.length < 9) {
@@ -192,13 +183,13 @@ export default {
       }
     },
     beforeAvatarUpload (file) {
-      if (file.size / 1024 > 1024) {
-        this.$notify.warning('上传图片不得大于1MB')
-        return false
-      }
       // 图片格式判断
       if (!/\.(gif|jpg|jpeg|png|bmp|BMP|GIF|JPG|PNG|JPEG)$/.test(file.name)) {
         this.$notify.error('仅支持jpg/jepg/png的图片格式')
+        return false
+      }
+      if (file.size / 1024 > 1024) {
+        this.$notify.warning('上传图片不得大于1MB')
         return false
       }
     },
@@ -208,6 +199,11 @@ export default {
     },
     handleDelPic (index) {
       this.data.image.splice(index, 1)
+    },
+    onUpload () {
+      if (this.data && this.data.image.length >= 9) {
+        this.$notify.error('图片上传数量达到上限')
+      }
     }
   }
 }

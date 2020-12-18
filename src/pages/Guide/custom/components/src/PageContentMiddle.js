@@ -6,6 +6,10 @@ export default {
       type: String,
       default: '工作台'
     },
+    moduleType: {
+      type: Number,
+      default: 1
+    },
     menuType: {
       type: Number,
       default: 1
@@ -29,22 +33,22 @@ export default {
     pageTabBarImage () {
       var url
       if (this.menuType === 1) {
-        switch (this.menuListTitle) {
-          case '工作台':
+        switch (this.moduleType) {
+          case 1:
             url = require(`../../image/tabBar-work.png`)
             break
-          case '业绩':
+          case 2:
             url = require(`../../image/tabBar-yeji.png`)
             break
-          case '我的':
+          case 3:
             url = require(`../../image/tabBar-my.png`)
         }
       } else {
-        switch (this.menuListTitle) {
-          case '业绩':
+        switch (this.moduleType) {
+          case 4:
             url = require(`../../image/tabBar-shoperyeji.png`)
             break
-          case '管理':
+          case 5:
             url = require(`../../image/tabBar-shoper-guanli.png`)
         }
       }
@@ -52,7 +56,7 @@ export default {
     }
   },
   watch: {
-    menuListTitle (newVal) {
+    moduleType (newVal) {
       this.onChangePage(newVal)
     }
   },
@@ -60,21 +64,21 @@ export default {
     onChangePage (newVal) {
       if (this.menuType === 1) {
         switch (newVal) {
-          case '工作台':
+          case 1:
             this.PageName = 'Work'
             break
-          case '业绩':
+          case 2:
             this.PageName = 'Achievement'
             break
-          case '我的':
+          case 3:
             this.PageName = 'My'
         }
       } else {
         switch (newVal) {
-          case '业绩':
+          case 4:
             this.PageName = 'SAchievement'
             break
-          case '管理':
+          case 5:
             this.PageName = 'ManageMember'
         }
       }

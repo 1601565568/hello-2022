@@ -17,7 +17,7 @@ export default {
 <style lang="scss" scoped>
 .edit-content {
   margin-top: 16px;
-  max-height: calc(100vh - 172px);
+  max-height: calc(100vh - 183px);
   // overflow: auto;
   // &::-webkit-scrollbar-thumb {
   //   display: none;
@@ -32,7 +32,7 @@ export default {
 }
 @media screen and (max-width: 1625px) {
   .edit-content {
-    max-height: calc(100vh - 152px);
+    max-height: calc(100vh - 163px);
   }
 }
 </style>

@@ -36,6 +36,7 @@
     <el-form-item label="小程序appID：" prop="appId" v-if="model.type === 0">
       <el-input placeholder="请输入appID" v-model="model.appId"></el-input>
     </el-form-item>
+    {{ model.pageUrl }}
     <el-form-item
       label="小程序路径："
       prop="pageUrl"
@@ -43,7 +44,7 @@
       :rules="[
         {
           required: true,
-          message: '请输入活动介绍',
+          message: '请输入小程序路径',
           trigger: ['blur', 'change']
         },
         {
@@ -93,45 +94,13 @@ export default {
   props: {
     addMenuData: {
       type: Object
+    },
+    tools: {
+      type: Array
     }
   },
   data () {
     return {
-      tools: [
-        {
-          tooltip: '导购账号',
-          img:
-            'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-WEB/icon/icon-daogou.png',
-          type: 'tag',
-          text: '导购账号',
-          id: 'GUIDE_ACCOUNT_NUMBER',
-          value: '导购账号'
-        },
-        {
-          img:
-            'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-WEB/icon/guideNumer.png',
-          type: 'tag',
-          text: '导购工号',
-          id: 'GUIDE_JOB_NUMBER',
-          value: '导购工号'
-        },
-        {
-          img:
-            'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-WEB/icon/guideID.png',
-          type: 'tag',
-          text: '导购ID',
-          id: 'GUIDE_ID',
-          value: '导购ID'
-        },
-        {
-          img:
-            'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-WEB/icon/distributionStore.png',
-          type: 'tag',
-          text: '导购工作门店',
-          id: 'GUIDE_WORK_SHOP',
-          value: '导购工作门店'
-        }
-      ],
       model: {},
       validates,
       pageUrlLength: 0,
@@ -141,21 +110,32 @@ export default {
           { min: 0, max: 5, message: '长度在 0 到 4 个字符', trigger: 'blur' }
         ],
         icon: [{ required: true, message: '请上传图片' }],
-        appId: [{ required: true, message: '请上传选中图片' }],
-        pageUrl: [{ required: true, message: '请上传选中图片' }]
+        appId: [{ required: true, message: '请上传选中图片' }]
       }
     }
   },
-  watch: {
-    addMenuData: {
-      handler (newValue) {
-        this.model = JSON.parse(JSON.stringify(newValue))
-      },
-      deep: true,
-      immediate: true
-    }
+  // watch: {
+  //   addMenuData: {
+  //     handler (newValue) {
+  //       this.model = JSON.parse(JSON.stringify({
+  //         ...newValue,
+
+  //       }))
+  //     }
+  //   }
+  // },
+  mounted () {
+    this.init()
   },
   methods: {
+    init () {
+      this.model = {
+        ...this.addMenuData,
+        pageUrl: this.addMenuData.pageUrl
+          ? this.stringTohtml(this.addMenuData.pageUrl)
+          : ''
+      }
+    },
     handleAvatarSuccess (res, file, item, check) {
       if (res.success) {
         this.model.icon = res.result.url
@@ -165,27 +145,15 @@ export default {
       }
     },
     async beforeAvatarUpload (file) {
-      const success = await this.imgSize(file)
-      return success
-    },
-    imgSize (file) {
-      let _this = this
-      // const isLt2M = (file.size / 1024 / 1024 / 1024) * 10 < 50
-
-      return new Promise((resolve, reject) => {
-        let url = window.URL || window.webkitURL
-        let img = new Image()
-        img.onload = function () {
-          // let valid = img.width / img.height === 1
-          // if (!isLt2M) {
-          //   _this.$notify.error('上传图片大小小0K')
-          //   return
-          // }
-          // let success = isLt2M
-          resolve(true)
-        }
-        img.src = url.createObjectURL(file)
-      })
+      // 图片格式判断
+      if (!/\.(gif|jpg|jpeg|png|bmp|BMP|GIF|JPG|PNG|JPEG)$/.test(file.name)) {
+        this.$notify.error('仅支持jpg/jepg/png的图片格式')
+        return false
+      }
+      if (file.size / 1024 > 1024) {
+        this.$notify.warning('上传图片不得大于1MB')
+        return false
+      }
     },
     // 替换标签成模板
     htmlToString (html) {
@@ -200,14 +168,15 @@ export default {
     },
     // 替换模板成标签
     stringTohtml (string) {
+      let html = string
       this.tools.map(item => {
-        const regexp = new RegExp(`${item.id}=\${${item.id}}`, 'g')
-        string = string.replace(
+        const regexp = new RegExp(item.id + '=\\${' + item.id + '}', 'g')
+        html = html.replace(
           regexp,
           `<wise id="${this.getGuid()}" class="${item.id}">${item.value}</wise>`
         )
       })
-      return string
+      return html
     },
     // 生成随机ID
     getGuid () {

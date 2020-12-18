@@ -11,7 +11,11 @@
         </div>
       </div>
       <div class="iphone-content" refs="iphoneContent">
-        <Component :settingCode="settingCode" :is="PageName" :editData="editData"></Component>
+        <Component
+          :settingCode="settingCode"
+          :is="PageName"
+          :editData="editData"
+        ></Component>
         <!-- <Work /> -->
       </div>
       <div class="iphone-tabber">

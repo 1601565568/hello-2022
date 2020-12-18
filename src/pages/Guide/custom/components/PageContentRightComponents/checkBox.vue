@@ -1,12 +1,14 @@
 <template>
   <div class="pageRightEdit">
-    <el-checkbox
-      class="checkbox checkboxAll"
-      :indeterminate="isIndeterminate"
-      v-model="checkAll"
-      @change="handleCheckAllChange"
-      >全选</el-checkbox
-    >
+    <div class="checkboxWarpper">
+      <el-checkbox
+        class="checkbox checkboxAll"
+        :indeterminate="isIndeterminate"
+        v-model="checkAll"
+        @change="handleCheckAllChange"
+        >全选</el-checkbox
+      >
+    </div>
     <template v-for="(item, index) in data">
       <div class="checkboxWarpper" :key="index">
         <el-checkbox

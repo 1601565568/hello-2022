@@ -48,6 +48,7 @@
             ><PageContentMiddle
               :menuListTitle="menuObj.menuListTitle"
               :menuType="menuObj.menuId"
+              :moduleType="menuObj.moduleType"
               :editData="pageModuleType"
               :settingCode="settingCode"
               ref="PageContentMiddle"/></ScrollView

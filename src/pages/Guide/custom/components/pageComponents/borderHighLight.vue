@@ -35,7 +35,8 @@ export default {
             _this.elementInView()
           })
         }
-      }
+      },
+      immediate: true
     }
   },
   methods: {
