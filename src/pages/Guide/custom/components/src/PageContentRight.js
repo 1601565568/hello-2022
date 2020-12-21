@@ -68,7 +68,6 @@ export default {
       return setComponent
     },
     onChangeItem (data, index) {
-      debugger
       this.pageModuleType[index].itemList = data
     },
     onPageRewardSetting () {
