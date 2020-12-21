@@ -10,30 +10,34 @@
     <div class="addMenu" @click="onAddMenu">
       <i class="el-icon-plus"></i><span>新增菜单</span>
     </div>
-    <template v-for="(item, index) in data">
-      <div class="checkboxWarpper" :key="index">
-        <img class="draw" src="../../image/draw.png" />
-        <el-checkbox
-          class="checkbox"
-          @change="onChangeCheckbox(item, index)"
-          :value="formatCheckbox(item.status)"
-          >{{ item.itemName }}</el-checkbox
-        >
-        <span
-          class="editIcon"
-          @click="onEditMenu(item.info, index)"
-          v-if="item.editable === 1"
-          ><Icon type="edit"
-        /></span>
-        <span
-          class="editIcon code-delete"
-          @click="onEditDelMenu(index)"
-          v-if="item.editable === 1"
-        >
-          <Icon type="delete" />
-        </span>
-      </div>
-    </template>
+    <draggable v-model="data" animation="300">
+      <transition-group>
+        <template v-for="(item, index) in data">
+          <div class="checkboxWarpper" :key="index">
+            <img class="draw" src="../../image/draw.png" />
+            <el-checkbox
+              class="checkbox"
+              @change="onChangeCheckbox(item, index)"
+              :value="formatCheckbox(item.status)"
+              >{{ item.itemName }}</el-checkbox
+            >
+            <span
+              class="editIcon"
+              @click="onEditMenu(item.info, index)"
+              v-if="item.editable === 1"
+              ><Icon type="edit"
+            /></span>
+            <span
+              class="editIcon code-delete"
+              @click="onEditDelMenu(index)"
+              v-if="item.editable === 1"
+            >
+              <Icon type="delete" />
+            </span>
+          </div>
+        </template>
+      </transition-group>
+    </draggable>
     <el-dialog title="新增菜单" :visible.sync="addMenuShowModal" width="758px">
       <AddMenu
         v-if="addMenuShow"
@@ -67,8 +71,9 @@
 <script>
 import AddMenu from '../pageComponents/addMenu'
 import { uuid } from '@/utils/uuid.js'
+import draggable from 'vuedraggable'
 export default {
-  components: { AddMenu },
+  components: { AddMenu, draggable },
   props: {
     childrenEditData: {
       type: Array
@@ -297,8 +302,16 @@ export default {
   position: absolute;
   top: 50%;
   right: 30px;
-  color: #606266;
+  color: #8c8c8c;
   transform: translate(0%, -50%);
+}
+.checkboxWarpper .editIcon:hover {
+  color: #262626;
+}
+.checkboxWarpper:hover {
+  cursor: pointer;
+  background: #fbfbfb;
+  border-radius: 2px;
 }
 .checkboxWarpper .code-delete {
   right: 0px;
@@ -327,4 +340,8 @@ img {
   image-rendering: crisp-edges;
   -ms-interpolation-mode: nearest-neighbor;
 }
+// .chosen {
+//   background-color: #f2f9fe !important;
+//   color: #262626;
+// }
 </style>

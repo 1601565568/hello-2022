@@ -17,7 +17,8 @@ export default {
       escShow: false, // 顶部取消按钮弹窗
       settingCode: '', // 点击设置的区域
       rewardSettingList: [], // 业绩数据来源设置
-      templateCode: ''
+      templateCode: '',
+      activeSetName: [] // 右侧设置栏默认展开获取数据
     }
   },
   mounted () {
@@ -105,6 +106,7 @@ export default {
           .then(res => {
             if (res.success && res.result) {
               this.pageModuleType = this.forMatPageModuleType(res.result)
+              this.activeSetName = this.forMatActiveName(this.pageModuleType)
               this.recordIsEdit = JSON.stringify(
                 this.forMatPageModuleType(res.result)
               )
@@ -145,6 +147,12 @@ export default {
         .catch(err => {
           this.$notify.error(err.msg)
         })
+    },
+    // 获取右侧列表列表展示默认数据
+    forMatActiveName (pageModuleType) {
+      return pageModuleType.map(item => {
+        return item.sort
+      })
     },
     formalist (arr) {
       if (Object.prototype.toString.call(arr) === '[object Array]') {

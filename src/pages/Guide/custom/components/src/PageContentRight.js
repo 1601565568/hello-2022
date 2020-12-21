@@ -2,6 +2,9 @@ export default {
   props: {
     editData: {
       type: Array
+    },
+    activeSetName: {
+      type: Array
     }
   },
   data () {
@@ -27,6 +30,9 @@ export default {
       },
       deep: true,
       immediate: true
+    },
+    activeSetName (newVal) {
+      this.activeNames = newVal
     }
   },
   methods: {
@@ -34,7 +40,6 @@ export default {
     onclick (settingCode) {
       let event = window.event
       event.stopPropagation()
-      console.log('onclick', settingCode)
       this.onShowEdit(settingCode)
     },
     // 点击获取编辑模块
@@ -63,10 +68,17 @@ export default {
       return setComponent
     },
     onChangeItem (data, index) {
+      debugger
       this.pageModuleType[index].itemList = data
     },
     onPageRewardSetting () {
       this.$emit('onPageRewardSetting')
+    },
+    onMove (e) {
+      // console.log(e)
+      // debugger
+      if (e.relatedContext.element.sortable === 0) return false
+      return true
     }
   }
 }

@@ -27,7 +27,7 @@
         >
       </div>
     </el-form-item>
-    <el-form-item label="跳转页面：">
+    <el-form-item label="跳转页面：" class="jumpToPage">
       <el-radio v-model="model.type" :label="0">第三方小程序</el-radio>
       <el-radio v-model="model.type" :label="1"
         >当前小程序</el-radio
@@ -36,7 +36,6 @@
     <el-form-item label="小程序appID：" prop="appId" v-if="model.type === 0">
       <el-input placeholder="请输入appID" v-model="model.appId"></el-input>
     </el-form-item>
-    {{ model.pageUrl }}
     <el-form-item
       label="小程序路径："
       prop="pageUrl"
@@ -60,7 +59,6 @@
         v-model="model.pageUrl"
         tag="wise"
         ref="testText"
-        :maxlength="1000"
         :tools="tools"
         placeholder="请输入路径"
         @inputLength="inputLength"
@@ -207,16 +205,12 @@ export default {
   }
 }
 </script>
-<style></style>
 
 <style scoped lang="scss">
 .avatar-uploader {
   cursor: pointer;
   position: relative;
   overflow: hidden;
-}
-.avatar-uploader .el-upload:hover {
-  border-color: #409eff;
 }
 .avatar-uploader-icon {
   font-size: 28px;
@@ -227,6 +221,9 @@ export default {
   text-align: center;
   border: 1px dashed #d9d9d9;
   border-radius: 4px;
+}
+.avatar-uploader-icon:hover {
+  border-color: #409eff!important;
 }
 .avatar {
   width: 50px;
@@ -264,5 +261,11 @@ export default {
   font-size: 12px;
   color: #0068b3;
   cursor: default;
+}
+</style>
+<style>
+.jumpToPage .el-checkbox__label {
+  font-size: 14px !important;
+  color: #303133 !important;
 }
 </style>

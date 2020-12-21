@@ -45,31 +45,24 @@
               <img class="pic" :src="item" />
             </div>
             <div class="upload-table__list__icon">
-              <span
+              <span v-if="index !== 0"
                 ><i
                   class="el-icon-download list__icon-top"
-                  v-if="index !== 0"
                   @click="handlemoveTopping(item, index)"
                 ></i
               ></span>
-              <span
-                ><i
-                  class="el-icon-top"
-                  @click="handlemoveUp(item, index)"
-                  v-if="index !== 0 && index > 0"
-                ></i
+              <span v-if="index !== 0 && index > 0"
+                ><i class="el-icon-top" @click="handlemoveUp(item, index)"></i
               ></span>
-              <span
+              <span v-if="index !== data.image.length - 1"
                 ><i
                   class="el-icon-bottom"
                   @click="handlemoveDown(item, index)"
-                  v-if="index !== data.image.length - 1"
                 ></i
               ></span>
-              <span
+              <span v-if="index !== data.image.length - 1"
                 ><i
                   class="el-icon-download"
-                  v-if="index !== data.image.length - 1"
                   @click="handlemoveBottom(item, index)"
                 ></i
               ></span>
@@ -103,7 +96,11 @@
               >
             </div>
           </el-form-item>
-          <el-form-item label="播放间隔" style="margin-right: 10px;">
+          <el-form-item
+            v-if="data.type === 2"
+            label="播放间隔"
+            style="margin-right: 10px;"
+          >
             <div class="sliderinput">
               <slider-input v-model="data.interval" :max="10" :step="1"
                 >秒</slider-input
@@ -297,6 +294,7 @@ export default {
   > div {
     flex: 1;
     display: flex;
+    justify-content: flex-start;
     align-items: center;
     padding-left: 9px;
   }

@@ -56,6 +56,7 @@
         <el-col v-if="isEdit" :span="9"
           ><ScrollView className="edit-content">
             <PageContentRight
+              :activeSetName="activeSetName"
               @onPageRewardSetting="onPageRewardSetting"
               @onShowEdit="onShowEdit"
               :editData="pageModuleType"
@@ -108,16 +109,19 @@ export default Edit
 </script>
 <style lang="scss" scoped>
 @import '@components/NewUi/styles/reset.css';
+// .scroll-view {
+//   display: none;
+// }
 .custom-content {
   background: #fff;
   border-radius: 4px;
 }
 .edit-content {
-  max-height: calc(100vh - 172px);
+  max-height: calc(100vh - 183px);
 }
 @media screen and (max-width: 1625px) {
   .edit-content {
-    max-height: calc(100vh - 152px);
+    max-height: calc(100vh - 163px);
   }
 }
 .tipsShowTitle {

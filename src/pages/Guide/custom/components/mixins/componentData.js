@@ -6,7 +6,8 @@ export default {
   },
   data () {
     return {
-      show: true
+      show: true,
+      showIndex: 0 // 判断有几个项是打开的
     }
   },
   watch: {
@@ -19,6 +20,7 @@ export default {
             i = i + 1
           }
         })
+        this.showIndex = i
         this.show = i <= length && i > 0
       },
       deep: true,

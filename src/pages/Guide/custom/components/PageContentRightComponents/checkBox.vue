@@ -122,11 +122,11 @@ export default {
   color: #262626;
 }
 .pageRightEdit .el-radio__label,
-.el-checkbox__label {
-  font-size: 14px !important;
-  color: #262626 !important;
+.pageRightEdit .el-checkbox__label {
+  font-size: 14px;
+  color: #262626;
 }
-.checkboxAll {
+.pageRightEdit .checkboxAll {
   font-weight: bold;
 }
 </style>
@@ -141,6 +141,14 @@ export default {
   position: relative;
   display: flex;
   align-items: center;
+}
+.checkboxWarpper:hover {
+  cursor: pointer;
+  background: #fbfbfb;
+  border-radius: 2px;
+}
+.checkboxWarpper .editIcon:hover {
+  color: #262626;
 }
 .checkboxWarpper .editIcon {
   position: absolute;

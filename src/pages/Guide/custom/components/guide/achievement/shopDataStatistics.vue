@@ -53,6 +53,7 @@ export default {
 
 <style scoped lang="scss">
 .storeData {
+  width: 100%;
   margin-top: 12px;
   padding-bottom: 4px;
   display: flex;
