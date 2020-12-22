@@ -5,7 +5,7 @@
         <div class="upload-title">上传图片</div>
         <el-radio-group v-model="data.type">
           <el-radio :label="1">单行大图</el-radio>
-          <el-radio :label="2">轮播图片{{ data.image.length }}</el-radio>
+          <el-radio :label="2">轮播图片</el-radio>
         </el-radio-group>
         <div class="custom-upload" v-if="data.image && data.image.length < 9">
           <el-upload

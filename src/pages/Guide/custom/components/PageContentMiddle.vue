@@ -43,11 +43,11 @@ export default PageContentMiddle
 
 <style scoped lang="scss">
 .PageContentMiddle {
-  min-height: calc(100vh - 172px);
+  min-height: calc(100vh - 183px);
 }
 @media screen and (max-width: 1625px) {
   .PageContentMiddle {
-    min-height: calc(100vh - 152px);
+    min-height: calc(100vh - 163px);
   }
 }
 .daogou {
