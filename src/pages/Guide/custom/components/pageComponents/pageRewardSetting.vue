@@ -2,14 +2,18 @@
   <el-dialog :visible.sync="pageRewardSettingShow" width="30%">
     <div class="tipsShowTitle" slot="title">总收益</div>
     <div class="tipsShowContent">
-      <el-checkbox
-        v-for="(item, index) in list"
-        :label="item.status"
-        :key="index"
-        :value="formatLabel(item.status)"
-        @change="handleCheckChange(item, index)"
-        >{{ formatName(item.rewardType) }}</el-checkbox
-      >
+      <el-form label-width="100px">
+        <el-form-item label="设置收益来源：" required>
+          <el-checkbox
+            v-for="(item, index) in list"
+            :label="item.status"
+            :key="index"
+            :value="formatLabel(item.status)"
+            @change="handleCheckChange(item, index)"
+            >{{ formatName(item.rewardType) }}</el-checkbox
+          >
+        </el-form-item>
+      </el-form>
     </div>
     <span slot="footer" class="dialog-footer">
       <ns-button @click="onCancel">取 消</ns-button>
@@ -60,8 +64,18 @@ export default {
       this.$set(this.list, index, changItem)
     },
     onConfirm () {
-      this.$emit('onConfirm', this.list)
-      this.onCancel()
+      let index = 0
+      this.list.forEach(item => {
+        if (item.status === 1) {
+          index = index + 1
+        }
+      })
+      if (index > 0) {
+        this.$emit('onConfirm', this.list)
+        this.onCancel()
+      } else {
+        this.$notify.error('最少设置一项数据来源')
+      }
     },
     onCancel () {
       this.pageRewardSettingShow = false

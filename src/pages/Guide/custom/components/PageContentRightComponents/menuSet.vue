@@ -38,34 +38,36 @@
         </template>
       </transition-group>
     </draggable>
-    <el-dialog title="新增菜单" :visible.sync="addMenuShowModal" width="758px">
-      <AddMenu
-        v-if="addMenuShow"
-        :tools="tools"
-        ref="AddMenu"
-        :addMenuData="addMenuData"
-      />
-      <div slot="footer" class="dialog-footer">
-        <ns-button @click="cancel()">取 消</ns-button>
-        <ns-button type="primary" @click="addMenuShowConfirm()"
-          >确 定</ns-button
-        >
-      </div>
-    </el-dialog>
-    <el-dialog title="编辑菜单" :visible.sync="editMenuShowModal" width="758px">
-      <AddMenu
-        v-if="editMenuShow"
-        ref="editMenu"
-        :tools="tools"
-        :addMenuData="addMenuData"
-      />
-      <div slot="footer" class="dialog-footer">
-        <ns-button @click="cancel()">取 消</ns-button>
-        <ns-button type="primary" @click="oneditMenuShowConfirm()"
-          >确 定</ns-button
-        >
-      </div>
-    </el-dialog>
+    <template v-if="addMenuShow">
+      <el-dialog
+        title="新增菜单"
+        :visible.sync="addMenuShowModal"
+        width="758px"
+      >
+        <AddMenu :tools="tools" ref="AddMenu" :addMenuData="addMenuData" />
+        <div slot="footer" class="dialog-footer">
+          <ns-button @click="cancel()">取 消</ns-button>
+          <ns-button type="primary" @click="addMenuShowConfirm()"
+            >确 定</ns-button
+          >
+        </div>
+      </el-dialog>
+    </template>
+    <template v-if="editMenuShow">
+      <el-dialog
+        title="编辑菜单"
+        :visible.sync="editMenuShowModal"
+        width="758px"
+      >
+        <AddMenu ref="editMenu" :tools="tools" :addMenuData="addMenuData" />
+        <div slot="footer" class="dialog-footer">
+          <ns-button @click="cancel()">取 消</ns-button>
+          <ns-button type="primary" @click="oneditMenuShowConfirm()"
+            >确 定</ns-button
+          >
+        </div>
+      </el-dialog>
+    </template>
     <el-dialog :visible.sync="delMeunShow" width="30%">
       <div class="tipsShowTitle" slot="title">提示信息</div>
       <div class="tipsShowContent">
@@ -240,10 +242,10 @@ export default {
       this.editMenuShowModal = false
       this.addMenuShowModal = false
       this.delMeunShow = false
-      setTimeout(() => {
-        _this.addMenuShow = false
-        _this.editMenuShow = false
-      }, 1000)
+      // setTimeout(() => {
+      _this.addMenuShow = false
+      _this.editMenuShow = false
+      // }, 100)
     },
     onEditMenu (info, index) {
       this.index = index
@@ -273,6 +275,7 @@ export default {
     // 删除菜单确认按钮
     onConfirmDelMenu () {
       this.data.splice(this.delIndex, 1)
+      this.cancel()
     }
   }
 }
