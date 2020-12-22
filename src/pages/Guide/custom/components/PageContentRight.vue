@@ -3,10 +3,14 @@
     <div class="form-item_tip">
       小程序页面将根据下面排序顺序显示
     </div>
-    <el-collapse class="common-collapse" v-model="activeNames">
+    <el-collapse
+      class="common-collapse PageContentRight-common-collapse"
+      v-model="activeNames"
+    >
       <draggable
         v-model="pageModuleType"
         filter=".common-title__disabled__draggable"
+        handle=".draggableIcon"
         animation="300"
         :move="onMove"
       >
@@ -26,11 +30,22 @@
                   @click="onShowEdit(item.settingCode)"
                   :class="{ 'common-title__disabled': !item.itemList }"
                 >
+                  <img
+                    class="draggableIcon draggablecursor"
+                    v-if="item.sortable === 1"
+                    :src="draggableIcon"
+                  />
+                  <img
+                    class="draggableIcon nodraggablecursor"
+                    v-else
+                    :src="noDraggableIcon"
+                  />
                   <span>{{ item.settingName }}</span>
                   <div class="switch" @click="onclick(item.settingCode)">
                     <el-switch
                       :value="formatStatus(item.status)"
                       active-color="#0091FA"
+                      inactive-color="#8C8C8C"
                       @change="
                         data => {
                           handlerChange(data, item)
@@ -46,6 +61,9 @@
                 class="editWarpper"
                 v-if="item.itemList"
               >
+                <div class="noEdit" v-if="item.status === 0">
+                  开启后可编辑内容
+                </div>
                 <component
                   :is="formatSettingType(item.settingType)"
                   v-if="item.itemList"
@@ -91,6 +109,9 @@ export default PageContentRight
 .common-title__disabled + i {
   display: none;
 }
+.PageContentRight-common-collapse /deep/ .el-collapse-item__content {
+  padding-bottom: 0px !important;
+}
 </style>
 
 <style scoped lang="scss">
@@ -112,5 +133,47 @@ export default PageContentRight
   font-size: 14px;
   color: #595959;
   line-height: 22px;
+}
+.draggableIcon {
+  width: 16px;
+  height: 16px;
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translate(0, -50%);
+  image-rendering: -moz-crisp-edges;
+  image-rendering: -o-crisp-edges;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+  -ms-interpolation-mode: nearest-neighbor;
+}
+.draggablecursor:hover {
+  cursor: move;
+}
+.nodraggablecursor {
+  cursor: no-drop;
+}
+.editWarpper {
+  position: relative;
+  .noEdit {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: #fff;
+    left: 0;
+    top: 0;
+    z-index: 1002;
+    opacity: 0;
+    transition: opacity 0.5s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    user-select: none;
+    font-size: 14px;
+    color: #595959;
+  }
+  &:hover .noEdit {
+    opacity: 0.85;
+  }
 }
 </style>

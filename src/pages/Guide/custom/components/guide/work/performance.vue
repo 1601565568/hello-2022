@@ -28,7 +28,7 @@
         </div>
       </div>
       <div class="D-achievement__row" v-if="editData[3] && editData[3].status === 1">
-        <div class="D-achievement__row__title">今日收益（元）</div>
+        <div class="D-achievement__row__title">今日新加（元）</div>
         <div class="D-achievement__row__warpper">
           <span class="D-achievement__row__number">0</span><span>/ -</span>
         </div>

@@ -69,6 +69,8 @@ export default {
       margin-right: 8px;
     }
     .D-head-text__user__number {
+      display: flex;
+      align-items: center;
       font-size: 13px;
       .D-head-Jobnumber {
         width: 14px;

@@ -44,7 +44,9 @@ export default {
     font-size: 13px;
     span {
       display: inline-block;
-      margin-left: 4px;
+      &:last-child {
+        margin-left: 4px;
+      }
     }
   }
 }

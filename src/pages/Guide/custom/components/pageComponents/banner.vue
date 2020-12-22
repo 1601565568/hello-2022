@@ -1,11 +1,7 @@
 <template>
   <div class="xcx-banner">
     <template v-if="editData.type === 1 && editData.image.length === 0">
-      <img
-        class="image"
-        :style="{ opacity: opacity }"
-        src="../../image/pic.png"
-      />
+      <img class="image nopic" :style="{ opacity: opacity }" :src="src" />
     </template>
     <template v-if="editData.type === 1 && editData.image.length > 0">
       <!-- <img class :src="item" :key="index" /> -->
@@ -22,18 +18,10 @@
       <!-- 图片未选择时显示 -->
       <swiper :options="swiperOption" v-if="editData.image.length === 0">
         <swiper-slide>
-          <img
-            :style="{ opacity: opacity }"
-            class="image"
-            src="../../image/pic.png"
-          />
+          <img :style="{ opacity: opacity }" class="image nopic" :src="src" />
         </swiper-slide>
         <swiper-slide>
-          <img
-            :style="{ opacity: opacity }"
-            class="image"
-            src="../../image/pic.png"
-          />
+          <img :style="{ opacity: opacity }" class="image nopic" :src="src" />
         </swiper-slide>
         <div class="swiper-pagination" slot="pagination"></div>
       </swiper>
@@ -68,6 +56,8 @@ export default {
   },
   data () {
     return {
+      src:
+        'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-APP-WEB/img/noPictures.png',
       swiperOption: {
         slidesPerView: 'auto',
         autoplay: {
@@ -98,5 +88,8 @@ export default {
   margin-bottom: 8px;
   width: 100%;
   height: 150px;
+}
+.nopic {
+  margin-bottom: 0px;
 }
 </style>

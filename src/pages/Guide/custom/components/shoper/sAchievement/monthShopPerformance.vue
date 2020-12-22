@@ -1,7 +1,7 @@
 <template>
   <CardTitle title="门店业绩">
     <img slot="image" class="dataIcon" src="../../../image/s-dataIcon.png" />
-    <div slot="content" class="guideAchievement"  v-if="show">
+    <div slot="content" class="guideAchievement" v-if="show">
       <div
         class="total-revenue profit"
         v-if="editData[0] && editData[0].status === 1"
@@ -23,7 +23,7 @@
           <div class="number">0</div>
         </div>
       </div>
-      <div class="srollView">
+      <div class="srollView" v-if="srollViewList && srollViewList.length > 0">
         <div
           class="srollView-list__warpper"
           v-if="srollViewList.length > 1"
@@ -98,8 +98,7 @@ export default {
         return (
           this.srollViewList.length * 230 +
           24 +
-          8 * this.srollViewList.length -
-          1
+          8 * (this.srollViewList.length - 1)
         )
       }
     }
@@ -235,7 +234,7 @@ export default {
   .srollView-list__warpper {
     width: 730px;
     display: flex;
-    padding: 0 16px;
+    padding: 0 12px;
   }
   .list__warpper {
     width: 100%;
@@ -243,7 +242,7 @@ export default {
     padding: 0 12px;
   }
   .srollView-list {
-    padding: 12px 16px;
+    padding: 12px;
     margin-right: 8px;
     flex: 1;
     height: 142px;
@@ -281,19 +280,19 @@ export default {
       &::after {
         content: '';
         position: absolute;
-        width: 16px;
+        width: 12px;
         height: 1px;
         top: 0;
-        right: -16px;
+        right: -12px;
         background: #e8e8e8;
       }
       &::before {
         content: '';
         position: absolute;
-        width: 16px;
+        width: 12px;
         height: 1px;
         top: 0;
-        left: -16px;
+        left: -12px;
         background: #e8e8e8;
       }
     }

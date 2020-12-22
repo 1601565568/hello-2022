@@ -10,7 +10,7 @@
     <div class="addMenu" @click="onAddMenu">
       <i class="el-icon-plus"></i><span>新增菜单</span>
     </div>
-    <draggable v-model="data" animation="300">
+    <draggable v-model="data" animation="300" handle=".draw">
       <transition-group>
         <template v-for="(item, index) in data">
           <div class="checkboxWarpper" :key="index">
@@ -66,6 +66,16 @@
         >
       </div>
     </el-dialog>
+    <el-dialog :visible.sync="delMeunShow" width="30%">
+      <div class="tipsShowTitle" slot="title">提示信息</div>
+      <div class="tipsShowContent">
+        <span class="ns-warm-cricle">!</span>确认是否删除菜单?
+      </div>
+      <span slot="footer" class="dialog-footer">
+        <ns-button @click="cancel()">取 消</ns-button>
+        <ns-button type="primary" @click="onConfirmDelMenu">确 定</ns-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 <script>
@@ -87,18 +97,18 @@ export default {
           img:
             'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-WEB/icon/icon-daogou.png',
           type: 'tag',
-          title: `GUIDE_ACCOUNT_NUMBER=\${GUIDE_ACCOUNT_NUMBER}`,
+          title: `workId=\${workId}`,
           text: '导购账号',
-          id: 'GUIDE_ACCOUNT_NUMBER',
+          id: 'workId',
           value: '导购账号'
         },
         {
           img:
             'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-WEB/icon/guideNumer.png',
           type: 'tag',
-          title: `GUIDE_JOB_NUMBER=\${GUIDE_JOB_NUMBER}`,
+          title: `workNumber=\${workNumber}`,
           text: '导购工号',
-          id: 'GUIDE_JOB_NUMBER',
+          id: 'workNumber',
           value: '导购工号'
         },
         {
@@ -106,8 +116,8 @@ export default {
             'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-WEB/icon/guideID.png',
           type: 'tag',
           text: '导购ID',
-          title: `GUIDE_ID=\${GUIDE_ID}`,
-          id: 'GUIDE_ID',
+          title: `guideId=\${guideId}`,
+          id: 'guideId',
           value: '导购ID'
         },
         {
@@ -115,8 +125,8 @@ export default {
             'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-WEB/icon/distributionStore.png',
           type: 'tag',
           text: '导购工作门店',
-          title: `GUIDE_WORK_SHOP=\${GUIDE_WORK_SHOP}`,
-          id: 'GUIDE_WORK_SHOP',
+          title: `shopId=\${shopId}`,
+          id: 'shopId',
           value: '导购工作门店'
         }
       ],
@@ -125,9 +135,11 @@ export default {
       isIndeterminate: false,
       addMenuShow: false,
       editMenuShow: false,
+      delMeunShow: false, // 删除菜单
       addMenuShowModal: false, // 新增菜单
       editMenuShowModal: false, // 编辑菜单
       index: 0, // 编辑状态下记录点击的下标
+      delIndex: null, // 删除记录点击下标
       addMenuData: {}
     }
   },
@@ -227,6 +239,7 @@ export default {
       let _this = this
       this.editMenuShowModal = false
       this.addMenuShowModal = false
+      this.delMeunShow = false
       setTimeout(() => {
         _this.addMenuShow = false
         _this.editMenuShow = false
@@ -254,7 +267,12 @@ export default {
       })
     },
     onEditDelMenu (index) {
-      this.data.splice(index, 1)
+      this.delIndex = index
+      this.delMeunShow = true
+    },
+    // 删除菜单确认按钮
+    onConfirmDelMenu () {
+      this.data.splice(this.delIndex, 1)
     }
   }
 }
@@ -295,6 +313,9 @@ export default {
     width: 16px;
     height: 16px;
     margin-right: 24px;
+    &:hover {
+      cursor: move;
+    }
   }
 }
 .checkboxWarpper .editIcon {
@@ -331,6 +352,10 @@ export default {
   }
   &:hover {
     border: 1px dashed #0091fa;
+    color: #0091fa;
+  }
+  &:hover .el-icon-plus {
+    color: #0091fa;
   }
 }
 img {
@@ -340,8 +365,26 @@ img {
   image-rendering: crisp-edges;
   -ms-interpolation-mode: nearest-neighbor;
 }
-// .chosen {
-//   background-color: #f2f9fe !important;
-//   color: #262626;
-// }
+.tipsShowTitle {
+  padding-top: 5px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #303133;
+}
+.tipsShowContent {
+  padding: 16px 5px;
+  color: #595959;
+  font-size: 14px;
+}
+.ns-warm-cricle {
+  display: inline-block;
+  text-align: center;
+  line-height: 14px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #ffaa00;
+  color: #fff;
+  margin-right: 10px;
+}
 </style>

@@ -1,35 +1,31 @@
 <template>
   <div class="PageContentMiddle">
-    <el-collapse class="common-collapse" v-model="activeNames">
-      <el-collapse-item
-        v-for="item in menuArr"
-        :key="item.projectType"
-        :name="item.projectType"
+    <div
+      class="PageContentMiddle-menu__title"
+      v-for="item in menuArr"
+      :key="item.projectType"
+    >
+      <h3>{{ item.projectTypeName }}</h3>
+      <div
+        class="PageContentMiddle-menu"
+        :class="
+          defaultActive === `${item.projectType}-${itemChildren.moduleType}`
+            ? 'lightHeight'
+            : ''
+        "
+        v-for="itemChildren in item.menuList"
+        :key="itemChildren.moduleType"
+        @click="
+          onClick(
+            item.projectType,
+            itemChildren.moduleType,
+            itemChildren.moduleName
+          )
+        "
       >
-        <template slot="title">
-          {{ item.projectTypeName }}
-        </template>
-        <p
-          class="collapse-content"
-          :class="
-            defaultActive === `${item.projectType}-${itemChildren.moduleType}`
-              ? 'lightHeight'
-              : ''
-          "
-          v-for="itemChildren in item.menuList"
-          @click="
-            onClick(
-              item.projectType,
-              itemChildren.moduleType,
-              itemChildren.moduleName
-            )
-          "
-          :key="itemChildren.moduleType"
-        >
-          {{ itemChildren.moduleName }}
-        </p>
-      </el-collapse-item>
-    </el-collapse>
+        {{ itemChildren.moduleName }}
+      </div>
+    </div>
   </div>
 </template>
 <script>
@@ -69,11 +65,26 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import './style/PageContentLeft.css';
 .PageContentMiddle {
   padding: 0 6px;
 }
-.collapse-content {
+.lightHeight {
+  background: #f5f5f5;
+  border-radius: 2px;
+  color: #262626;
+}
+.PageContentMiddle-menu__title {
+  width: 100%;
+  h3 {
+    padding: 0 10px;
+    line-height: 48px;
+    height: 48px;
+    font-size: 14px;
+    color: #303133;
+    font-weight: bold;
+  }
+}
+.PageContentMiddle-menu {
   cursor: default;
   padding: 0 10px;
   height: 40px;
@@ -83,10 +94,5 @@ export default {
   &:hover {
     background: #f5f5f5;
   }
-}
-.lightHeight {
-  background: #f5f5f5;
-  border-radius: 2px;
-  color: #262626;
 }
 </style>

@@ -48,7 +48,7 @@ export default {
         case '订单管理':
           url = require(`../../../image/dingdanguanli.png`)
           break
-        case '切换账号':
+        case '切换账户':
           url = require(`../../../image/qiehuanzhanghu.png`)
       }
       return url
@@ -88,6 +88,7 @@ export default {
     .toolList-item__icon {
       width: 36px;
       height: 36px;
+      border-radius: 6px;
       margin-bottom: 8px;
     }
   }

@@ -23,7 +23,7 @@
       <div class="prompt-text">
         <p><span class="yellow-point"></span></p>
         <span class="prompt-text__text"
-          >建议：建议：尺寸36*36px，小于100kb，jpg、png、jpeg格式</span
+          >建议：尺寸36*36px，小于100kb，jpg、png、jpeg格式</span
         >
       </div>
     </el-form-item>
@@ -76,7 +76,7 @@
               <p>2、添加多个占位符时，多个占位符之间需使用“&”进行连接</p>
               <p>如：/pages/workbench/recruit?导购账号&导购姓名</p>
             </div>
-            <span class="form-item_exmple" slot="reference">查看示例</span>
+            <span class="form-item_exmple" slot="reference">查看示例说明</span>
           </el-popover></span
         ></tag-area
       >
@@ -223,7 +223,7 @@ export default {
   border-radius: 4px;
 }
 .avatar-uploader-icon:hover {
-  border-color: #409eff!important;
+  border-color: #409eff !important;
 }
 .avatar {
   width: 50px;

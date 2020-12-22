@@ -131,7 +131,7 @@ export default Edit
   color: #303133;
 }
 .tipsShowContent {
-  padding: 16px 0;
+  padding: 16px 5px;
   color: #595959;
   font-size: 14px;
 }

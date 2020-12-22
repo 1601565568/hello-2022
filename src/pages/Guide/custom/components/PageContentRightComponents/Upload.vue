@@ -5,13 +5,12 @@
         <div class="upload-title">上传图片</div>
         <el-radio-group v-model="data.type">
           <el-radio :label="1">单行大图</el-radio>
-          <el-radio :label="2">轮播图片</el-radio>
+          <el-radio :label="2">轮播图片{{ data.image.length }}</el-radio>
         </el-radio-group>
-        <div class="custom-upload" @click="onUpload">
+        <div class="custom-upload" v-if="data.image && data.image.length < 9">
           <el-upload
             class="upload-demo"
             drag
-            :disabled="data.image && data.image.length == 9"
             :action="$api.core.sgUploadFile('test')"
             accept=".jpg,.jpeg,.png"
             multiple
@@ -29,6 +28,9 @@
               >建议：宽度750像素，高度不限，小于100kb，jpg、png、jpeg格式</span
             >
           </div>
+        </div>
+        <div class="addMenu" v-else>
+          <i class="el-icon-plus"></i><span>新增轮播图</span>
         </div>
         <template v-if="data.image.length > 0">
           <div class="upload-table">
@@ -83,7 +85,10 @@
               >
                 <ns-button type="text">更换图片</ns-button>
               </el-upload>
-              <ns-button type="text" @click="handleDelPic(index)"
+              <ns-button
+                class="del-pic-list"
+                type="text"
+                @click="handleDelPic(index)"
                 >删除</ns-button
               >
             </div>
@@ -330,5 +335,23 @@ h3 {
 }
 .sliderinput {
   padding-left: 70px;
+}
+.del-pic-list {
+  margin-left: 10px;
+}
+.addMenu {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  border-radius: 6px;
+  color: #bfbfbf;
+  cursor:no-drop;
+  border: 1px dashed #d9d9d9;
+  background: #f5f5f5;
+  span {
+    display: inline-block;
+    margin-left: 10px;
+  }
 }
 </style>

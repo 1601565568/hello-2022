@@ -61,7 +61,8 @@ export default {
     }
     .storeGuide-table__title__name {
       width: 28%;
-      text-align: right;
+      padding-left: 4%;
+      text-align: left;
     }
     .storeGuide-table__title__achieve {
       width: 30%;
@@ -80,7 +81,8 @@ export default {
       border-bottom: 1px solid transparent;
     }
     .storeGuide-table__title__name {
-      text-align: center;
+      text-align: left;
+       padding-left: 4%;
     }
     .storeGuide-table__title__achieve {
       padding-left: 8px;

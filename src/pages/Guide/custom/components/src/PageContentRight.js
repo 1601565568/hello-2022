@@ -11,7 +11,9 @@ export default {
     return {
       pageModuleType: JSON.parse(JSON.stringify(this.editData)),
       activeNames: [],
-      value1: true
+      value1: true,
+      draggableIcon: 'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-WEB/icon/draggable.png',
+      noDraggableIcon: 'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-WEB/icon/noDraggable.png'
     }
   },
   watch: {
@@ -31,8 +33,12 @@ export default {
       deep: true,
       immediate: true
     },
-    activeSetName (newVal) {
-      this.activeNames = newVal
+    activeSetName: {
+      handler (val) {
+        this.activeNames = val
+      },
+      deep: true,
+      immediate: true
     }
   },
   methods: {

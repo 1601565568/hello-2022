@@ -79,8 +79,8 @@ export default {
         return (
           this.srollViewList.length * 230 +
           24 +
-          8 * this.srollViewList.length -
-          1
+          8 * (this.srollViewList.length -
+          1)
         )
       }
     }
@@ -208,7 +208,7 @@ export default {
     padding: 0 12px;
   }
   .srollView-list {
-    padding: 12px 16px;
+    padding: 12px;
     margin-right: 8px;
     flex: 1;
     height: 97px;

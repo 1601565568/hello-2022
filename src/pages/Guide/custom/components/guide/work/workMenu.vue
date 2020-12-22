@@ -77,6 +77,7 @@ export default {
     font-weight: bold;
   }
   .D-Menu__list {
+    padding-bottom: 10px;
     display: flex;
     flex-wrap: wrap;
     .D-Menu__list__row {
@@ -89,6 +90,7 @@ export default {
       .D-Menu__list__row__icon {
         width: 36px;
         height: 36px;
+        border-radius: 6px;
         margin-bottom: 8px;
       }
       .D-Menu__list__row__text {
