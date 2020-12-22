@@ -127,7 +127,7 @@ export default {
       if (data.channelConfigType === 0) {
         _this.storeModel.remainingQuantity = Number(data.maxIssueAmount) - Number(data.couponFreezeAmount) - Number(data.hadIssueAmount)
       } else {
-        _this.storeModel.remainingQuantity = Number(data.limitAmount) - Number(data.couponFreezeAmount) - Number(data.hadIssueAmount)
+        _this.storeModel.remainingQuantity = Number(data.limitAmount) - Number(data.channelFreezeAmount)
       }
       _this.storeModel.couponTitle = data.storeCouponTitle
       if (_this.storeModel.couponTitle !== null && _this.storeModel.couponTitle.length > 20) {
