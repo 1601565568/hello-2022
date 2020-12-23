@@ -1,13 +1,13 @@
 <template>
   <div class="pageRightEdit">
     <div class="checkboxWarpper">
-    <el-checkbox
-      class="checkbox checkboxAll"
-      :indeterminate="isIndeterminate"
-      v-model="checkAll"
-      @change="handleCheckAllChange"
-      >全选</el-checkbox
-    >
+      <el-checkbox
+        class="checkbox checkboxAll"
+        :indeterminate="isIndeterminate"
+        v-model="checkAll"
+        @change="handleCheckAllChange"
+        >全选</el-checkbox
+      >
     </div>
     <div class="addMenu" @click="onAddMenu">
       <i class="el-icon-plus"></i><span>新增菜单</span>
@@ -23,19 +23,35 @@
               :value="formatCheckbox(item.status)"
               >{{ item.itemName }}</el-checkbox
             >
-            <span
-              class="editIcon"
-              @click="onEditMenu(item.info, index)"
+            <el-tooltip
               v-if="item.editable === 1"
-              ><Icon type="edit"
-            /></span>
-            <span
+              effect="dark"
+              content="编辑"
+              placement="top"
+              class="editIcon"
+            >
+              <span @click="onEditMenu(item.info, index)"
+                ><Icon type="edit"/></span
+            ></el-tooltip>
+            <el-tooltip
+              v-if="item.editable === 1"
+              effect="dark"
+              content="删除"
+              placement="top"
+              class="editIcon code-delete"
+            >
+              <span @click="onEditDelMenu(index)"
+                ><Icon type="delete"
+              /></span>
+              ></el-tooltip
+            >
+            <!-- <span
               class="editIcon code-delete"
               @click="onEditDelMenu(index)"
               v-if="item.editable === 1"
             >
               <Icon type="delete" />
-            </span>
+            </span> -->
           </div>
         </template>
       </transition-group>
@@ -70,7 +86,12 @@
         </div>
       </el-dialog>
     </template>
-     <DelTips :tipsShow='delMeunShow' @onCancel="cancel" @onConfirm="onConfirmDelMenu"><slot>确认是否删除菜单?</slot></DelTips>
+    <DelTips
+      :tipsShow="delMeunShow"
+      @onCancel="cancel"
+      @onConfirm="onConfirmDelMenu"
+      ><slot>确认是否删除菜单?</slot></DelTips
+    >
     <!-- <el-dialog :visible.sync="delMeunShow" width="30%">
       <div class="tipsShowTitle" slot="title">提示信息</div>
       <div class="tipsShowContent">
@@ -314,7 +335,7 @@ export default {
   margin-left: 0px;
 }
 .checkboxWarpper {
-    padding: 0 16px;
+  padding: 0 16px;
   position: relative;
   display: flex;
   align-items: center;

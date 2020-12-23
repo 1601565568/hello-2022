@@ -28,16 +28,20 @@
           <Icon type="question-circle" />
           <!-- </span> -->
         </el-tooltip>
-        <span
-          class="editIcon"
-          @click="onPageRewardSetting"
+        <el-tooltip
           v-if="
             item.itemName === '总收益' ||
               item.itemName === '本月收益和今日收益' ||
               item.itemName === '我的收益'
           "
-          ><Icon type="edit"
-        /></span>
+          effect="dark"
+          content="编辑"
+          placement="top"
+        >
+          <span class="editIcon" @click="onPageRewardSetting"
+            ><Icon type="edit"
+          /></span>
+        </el-tooltip>
       </div>
     </template>
   </div>
