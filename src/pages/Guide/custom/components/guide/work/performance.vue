@@ -13,7 +13,7 @@
             class="question-circle"
             effect="dark"
             :content="editData[0].tips"
-            placement="bottom"
+            placement="top"
             ><Icon type="question-circle"
           /></el-tooltip>
         </div>
@@ -31,7 +31,7 @@
             class="question-circle"
             effect="dark"
             :content="editData[0].tips"
-            placement="bottom"
+            placement="top"
             ><Icon type="question-circle"
           /></el-tooltip>
         </div>
@@ -49,7 +49,7 @@
             class="question-circle"
             effect="dark"
             :content="editData[1].tips"
-            placement="bottom"
+            placement="top"
             ><Icon type="question-circle"
           /></el-tooltip>
         </div>
@@ -67,7 +67,7 @@
             class="question-circle"
             effect="dark"
             :content="editData[2].tips"
-            placement="bottom"
+            placement="top"
             ><Icon type="question-circle"
           /></el-tooltip>
         </div>
@@ -85,7 +85,7 @@
             class="question-circle"
             effect="dark"
             :content="editData[3].tips"
-            placement="bottom"
+            placement="top"
             ><Icon type="question-circle"
           /></el-tooltip>
         </div>

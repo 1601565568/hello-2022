@@ -68,11 +68,6 @@ export default {
 .PageContentMiddle {
   padding: 0 6px;
 }
-.lightHeight {
-  background: #f5f5f5;
-  border-radius: 2px;
-  color: #262626;
-}
 .PageContentMiddle-menu__title {
   width: 100%;
   h3 {
@@ -88,11 +83,18 @@ export default {
   cursor: default;
   padding: 0 10px;
   height: 40px;
+  border-radius: 2px;
   line-height: 40px;
   font-size: 14px;
-  color: #595959;
+  color: #8C8C8C;
   &:hover {
     background: #f5f5f5;
+    color: #262626;
   }
+}
+.lightHeight {
+  background: #f5f5f5;
+  border-radius: 2px;
+  color: #262626;
 }
 </style>

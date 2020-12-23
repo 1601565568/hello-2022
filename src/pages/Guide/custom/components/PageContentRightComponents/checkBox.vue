@@ -22,7 +22,7 @@
           class="question-circle"
           effect="dark"
           :content="item.tips"
-          placement="bottom"
+          placement="top"
         >
           <!-- <span v-if="item.tips" :title="item.tips" class="question-circle"> -->
           <Icon type="question-circle" />
@@ -148,6 +148,7 @@ export default {
   margin-left: 0px;
 }
 .checkboxWarpper {
+  padding: 0 16px;
   position: relative;
   display: flex;
   align-items: center;
@@ -157,14 +158,15 @@ export default {
   background: #fbfbfb;
   border-radius: 2px;
 }
-.checkboxWarpper .editIcon:hover {
-  color: #262626;
-}
 .checkboxWarpper .editIcon {
   position: absolute;
   top: 50%;
-  right: 0px;
+  right: 16px;
+  color: #8c8c8c;
   transform: translate(0%, -50%);
+}
+.checkboxWarpper .editIcon:hover {
+  color: #262626;
 }
 .question-circle {
   color: #8c8c8c;

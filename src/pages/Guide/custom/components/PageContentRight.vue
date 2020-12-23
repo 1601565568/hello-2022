@@ -30,16 +30,12 @@
                   @click="onShowEdit(item.settingCode)"
                   :class="{ 'common-title__disabled': !item.itemList }"
                 >
-                  <img
-                    class="draggableIcon draggablecursor"
-                    v-if="item.sortable === 1"
-                    :src="draggableIcon"
-                  />
-                  <img
-                    class="draggableIcon nodraggablecursor"
-                    v-else
-                    :src="noDraggableIcon"
-                  />
+                  <div class="draggableIcon draggablecursor" v-if="item.sortable === 1">
+                    <img :src="draggableIcon" />
+                  </div>
+                  <div class="draggableIcon nodraggablecursor" v-else>
+                    <img :src="noDraggableIcon" />
+                  </div>
                   <span>{{ item.settingName }}</span>
                   <div class="switch" @click="onclick(item.settingCode)">
                     <el-switch
@@ -124,7 +120,7 @@ export default PageContentRight
   position: relative;
 }
 .editWarpper {
-  padding: 16px 32px;
+  padding: 16px;
 }
 .form-item_tip {
   background: #f2f9fe;
@@ -135,17 +131,24 @@ export default PageContentRight
   line-height: 22px;
 }
 .draggableIcon {
-  width: 16px;
-  height: 16px;
   position: absolute;
-  left: 16px;
+  width: 50px;
+  left: 4px;
+  display: flex;
+  align-items: center;
   top: 50%;
+  height: 100%;
+  padding-left: 12px;
   transform: translate(0, -50%);
-  image-rendering: -moz-crisp-edges;
-  image-rendering: -o-crisp-edges;
-  image-rendering: -webkit-optimize-contrast;
-  image-rendering: crisp-edges;
-  -ms-interpolation-mode: nearest-neighbor;
+  img {
+    width: 16px;
+    height: 16px;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: -o-crisp-edges;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+    -ms-interpolation-mode: nearest-neighbor;
+  }
 }
 .draggablecursor:hover {
   cursor: move;

@@ -305,6 +305,9 @@ export default {
     // 保存金额来源确认
     onSettingConfirm (data) {
       this.rewardSettingList = data
+    },
+    onClearSettingCode () {
+      this.settingCode = ''
     }
   }
 }

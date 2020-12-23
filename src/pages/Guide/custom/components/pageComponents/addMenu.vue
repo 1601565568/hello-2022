@@ -260,7 +260,7 @@ export default {
 .form-item_exmple {
   font-size: 12px;
   color: #0068b3;
-  cursor: default;
+  cursor: pointer;
 }
 </style>
 <style>

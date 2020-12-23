@@ -195,7 +195,7 @@ export default {
       border-radius: 100px;
       background: rgba(38, 38, 38, 0.45);
     }
-    scrollbar-color: #262626 #f7f7f9; /* 滑块颜色  滚动条背景颜色 */
+    // scrollbar-color: #262626 #f7f7f9; /* 滑块颜色  滚动条背景颜色 */
   }
   .srollView-list__warpper {
     width: 730px;

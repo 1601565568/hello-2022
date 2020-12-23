@@ -92,6 +92,11 @@ export default {
         height: 36px;
         border-radius: 6px;
         margin-bottom: 8px;
+        image-rendering: -moz-crisp-edges;
+        image-rendering: -o-crisp-edges;
+        image-rendering: -webkit-optimize-contrast;
+        image-rendering: crisp-edges;
+        -ms-interpolation-mode: nearest-neighbor;
       }
       .D-Menu__list__row__text {
         font-size: 13px;

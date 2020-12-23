@@ -7,7 +7,7 @@
           effect="dark"
           :key="item.id"
           :content="item.title"
-          placement="bottom"
+          placement="top"
         >
           <span class="w-textarea_tools__item" @click="openTagDialog(item)"
             ><Icon

@@ -1,5 +1,6 @@
 <template>
   <div class="pageRightEdit">
+    <div class="checkboxWarpper">
     <el-checkbox
       class="checkbox checkboxAll"
       :indeterminate="isIndeterminate"
@@ -7,6 +8,7 @@
       @change="handleCheckAllChange"
       >全选</el-checkbox
     >
+    </div>
     <div class="addMenu" @click="onAddMenu">
       <i class="el-icon-plus"></i><span>新增菜单</span>
     </div>
@@ -68,7 +70,8 @@
         </div>
       </el-dialog>
     </template>
-    <el-dialog :visible.sync="delMeunShow" width="30%">
+     <DelTips :tipsShow='delMeunShow' @onCancel="cancel" @onConfirm="onConfirmDelMenu"><slot>确认是否删除菜单?</slot></DelTips>
+    <!-- <el-dialog :visible.sync="delMeunShow" width="30%">
       <div class="tipsShowTitle" slot="title">提示信息</div>
       <div class="tipsShowContent">
         <span class="ns-warm-cricle">!</span>确认是否删除菜单?
@@ -77,15 +80,16 @@
         <ns-button @click="cancel()">取 消</ns-button>
         <ns-button type="primary" @click="onConfirmDelMenu">确 定</ns-button>
       </span>
-    </el-dialog>
+    </el-dialog> -->
   </div>
 </template>
 <script>
 import AddMenu from '../pageComponents/addMenu'
 import { uuid } from '@/utils/uuid.js'
 import draggable from 'vuedraggable'
+import DelTips from '../pageComponents/delTips'
 export default {
-  components: { AddMenu, draggable },
+  components: { AddMenu, draggable, DelTips },
   props: {
     childrenEditData: {
       type: Array
@@ -310,6 +314,7 @@ export default {
   margin-left: 0px;
 }
 .checkboxWarpper {
+    padding: 0 16px;
   position: relative;
   display: flex;
   align-items: center;
@@ -326,7 +331,7 @@ export default {
   display: inline-block;
   position: absolute;
   top: 50%;
-  right: 30px;
+  right: 46px;
   color: #8c8c8c;
   transform: translate(0%, -50%);
 }
@@ -339,9 +344,10 @@ export default {
   border-radius: 2px;
 }
 .checkboxWarpper .code-delete {
-  right: 0px;
+  right: 16px;
 }
 .addMenu {
+  margin: 0 16px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -369,26 +375,26 @@ img {
   image-rendering: crisp-edges;
   -ms-interpolation-mode: nearest-neighbor;
 }
-.tipsShowTitle {
-  padding-top: 5px;
-  font-size: 16px;
-  font-weight: bold;
-  color: #303133;
-}
-.tipsShowContent {
-  padding: 16px 5px;
-  color: #595959;
-  font-size: 14px;
-}
-.ns-warm-cricle {
-  display: inline-block;
-  text-align: center;
-  line-height: 14px;
-  width: 14px;
-  height: 14px;
-  border-radius: 50%;
-  background: #ffaa00;
-  color: #fff;
-  margin-right: 10px;
-}
+// .tipsShowTitle {
+//   padding-top: 5px;
+//   font-size: 16px;
+//   font-weight: bold;
+//   color: #303133;
+// }
+// .tipsShowContent {
+//   padding: 16px 5px;
+//   color: #595959;
+//   font-size: 14px;
+// }
+// .ns-warm-cricle {
+//   display: inline-block;
+//   text-align: center;
+//   line-height: 14px;
+//   width: 14px;
+//   height: 14px;
+//   border-radius: 50%;
+//   background: #ffaa00;
+//   color: #fff;
+//   margin-right: 10px;
+// }
 </style>

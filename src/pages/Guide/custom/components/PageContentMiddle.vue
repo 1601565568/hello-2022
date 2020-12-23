@@ -1,5 +1,5 @@
 <template>
-  <div class="PageContentMiddle">
+  <div class="PageContentMiddle" @click="$emit('onClearSettingCode')">
     <div class="iphone" ref="iphone" id="iphone">
       <div :class="pageTopBg">
         <div class="iphone-status">

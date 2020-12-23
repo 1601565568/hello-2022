@@ -121,13 +121,25 @@
         </template>
       </div>
     </el-form>
+    <DelTips :tipsShow='delPicShow' @onCancel="delPicShow = false" @onConfirm="onConfirmDelPic"><slot>确认是否删除图片?</slot></DelTips>
+    <!-- <el-dialog :visible.sync="delPicShow" width="30%">
+      <div class="tipsShowTitle" slot="title">提示信息</div>
+      <div class="tipsShowContent">
+        <span class="ns-warm-cricle">!</span>确认是否删除图片?
+      </div>
+      <span slot="footer" class="dialog-footer">
+        <ns-button @click="delPicShow = false">取 消</ns-button>
+        <ns-button type="primary" @click="onConfirmDelPic">确 定</ns-button>
+      </span>
+    </el-dialog> -->
   </div>
 </template>
 <script>
 import SliderInput from '@/components/NewUi/SliderInput'
 import ElUpload from '@nascent/nui/lib/upload'
+import DelTips from '../pageComponents/delTips'
 export default {
-  components: { ElUpload, SliderInput },
+  components: { ElUpload, SliderInput, DelTips },
   props: {
     childrenEditData: {
       type: Object
@@ -135,7 +147,9 @@ export default {
   },
   data () {
     return {
-      data: JSON.parse(JSON.stringify(this.childrenEditData))
+      data: JSON.parse(JSON.stringify(this.childrenEditData)),
+      delPicShow: false,
+      delIndex: 0
     }
   },
   watch: {
@@ -200,12 +214,17 @@ export default {
       this.$set(this.data.image, index, res.result.url)
     },
     handleDelPic (index) {
-      this.data.image.splice(index, 1)
+      this.delIndex = index
+      this.delPicShow = true
     },
     onUpload () {
       if (this.data && this.data.image.length >= 9) {
         this.$notify.error('图片上传数量达到上限')
       }
+    },
+    onConfirmDelPic () {
+      this.data.image.splice(this.delIndex, 1)
+      this.delPicShow = false
     }
   }
 }
@@ -318,6 +337,7 @@ export default {
       display: inline-block;
       width: 16px;
       height: 16px;
+      cursor: pointer;
     }
     i {
       display: inline-block;
@@ -346,12 +366,15 @@ h3 {
   height: 40px;
   border-radius: 6px;
   color: #bfbfbf;
-  cursor:no-drop;
+  cursor: no-drop;
   border: 1px dashed #d9d9d9;
   background: #f5f5f5;
   span {
     display: inline-block;
     margin-left: 10px;
   }
+}
+.upload-demo:hover .el-upload__text {
+  color: #0091fa;
 }
 </style>

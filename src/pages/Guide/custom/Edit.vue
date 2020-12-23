@@ -43,9 +43,10 @@
               @onChange="onChangeMenu"
               :menuArr="menuArr"/></ScrollView
         ></el-col>
-        <el-col :span="isEdit? 11:20"
+        <el-col  :span="isEdit? 11:20"
           ><ScrollView className="edit-content"
             ><PageContentMiddle
+              @onClearSettingCode="onClearSettingCode"
               :menuListTitle="menuObj.menuListTitle"
               :menuType="menuObj.menuId"
               :moduleType="menuObj.moduleType"
