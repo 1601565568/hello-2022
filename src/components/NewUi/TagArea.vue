@@ -2,31 +2,45 @@
   <div class="w-textarea" ref="wTextarea">
     <div class="w-textarea_tools" v-if="tools.length > 0 || maxlength">
       <div class="w-textarea_tools_left">
-        <span class="w-textarea_tools__item"
-        v-for="item in tools"
-        :key="item.id"
-        :title="item.title"
-        @click="openTagDialog(item)"><Icon v-if='item.icon' class='w-textarea_tools__icon' :type="item.icon"/>
-        <img v-if='item.img' class='w-textarea_tools__img' :src="item.img" />
-        {{item.icon}}{{item.text}}</span>
-        <span :class="['w-textarea_tools__text',
-          count.num < 0 ? '__danger' : '']"
-          v-if="maxlength">
-          {{count.text}}
+        <el-tooltip
+          v-for="item in tools"
+          effect="dark"
+          :key="item.id"
+          :content="item.title"
+          placement="bottom"
+        >
+          <span class="w-textarea_tools__item" @click="openTagDialog(item)"
+            ><Icon
+              v-if="item.icon"
+              class="w-textarea_tools__icon"
+              :type="item.icon"
+            />
+            <img
+              v-if="item.img"
+              class="w-textarea_tools__img"
+              :src="item.img"
+            />
+            {{ item.icon }}{{ item.text }}</span
+          ></el-tooltip
+        >
+        <span
+          :class="['w-textarea_tools__text', count.num < 0 ? '__danger' : '']"
+          v-if="maxlength"
+        >
+          {{ count.text }}
         </span>
       </div>
       <div><slot name="w-textarea_tools_right"></slot></div>
     </div>
     <div
-      :class="`w-textarea_input ${disabled?'disabled':''}`"
+      :class="`w-textarea_input ${disabled ? 'disabled' : ''}`"
       ref="wTextareaContent"
       :id="contentId"
       @focus="isLocked = true"
       @blur="isLocked = false"
       @keydown.delete="handleDelete($event)"
       @input="handleInput($event.target)"
-    >
-    </div>
+    ></div>
   </div>
 </template>
 
@@ -52,13 +66,15 @@ export default {
       type: String,
       default: ''
     },
-    tag: { // 自定义模版标签的标签名
+    tag: {
+      // 自定义模版标签的标签名
       type: String,
       // 默认使用wise作为标签名，并添加了默认样式
       // 当使用其他标签名的时候，需要另写标签样式
       default: 'wise'
     },
-    tools: { // 自定义扩展功能：超链接'link'，模版标签'tag'
+    tools: {
+      // 自定义扩展功能：超链接'link'，模版标签'tag'
       type: Array,
       default () {
         return []
@@ -67,7 +83,8 @@ export default {
     placeholder: {
       type: String
     },
-    maxlength: { // 最大输入长度
+    maxlength: {
+      // 最大输入长度
       type: [String, Number],
       default: ''
     },
@@ -77,9 +94,13 @@ export default {
     }
   },
   computed: {
-    count () { // 字符长度记数
+    count () {
+      // 字符长度记数
       let num = this.maxlength - this.currentText.length
-      let text = num < 0 ? `已超出${Math.abs(num)}个字符` : `${this.currentText.length}/${this.maxlength}`
+      let text =
+        num < 0
+          ? `已超出${Math.abs(num)}个字符`
+          : `${this.currentText.length}/${this.maxlength}`
       this.$emit('inputLength', this.currentText.length)
       return { num, text }
     }
@@ -141,7 +162,8 @@ export default {
       node.target = 'blank'
       this.insertNode(node)
     },
-    insertNode (node) { // 判断是否第一次点击
+    insertNode (node) {
+      // 判断是否第一次点击
       if (!this.savedRange.deleteContents) {
         const dom = document.getElementsByClassName('w-textarea_input')[0]
         dom.focus()
@@ -152,7 +174,8 @@ export default {
         this.addNode(node)
       }
     },
-    addNode (node) { // 在内容中插入标签
+    addNode (node) {
+      // 在内容中插入标签
       // 删掉选中的内容（如有）
       // this.savedRange.deleteContents()
       // 插入链接
@@ -209,7 +232,7 @@ export default {
       if (
         range &&
         range.commonAncestorContainer.ownerDocument.activeElement.id ===
-        this.contentId
+          this.contentId
       ) {
         this.savedRange = range
       }
@@ -244,7 +267,7 @@ export default {
 </style>
 
 <style lang="scss" scoped>
-$borderColor: #D9D9D9;
+$borderColor: #d9d9d9;
 $bgColor: #f5f5f5;
 $textColor: #595959;
 
@@ -296,7 +319,7 @@ $textColor: #595959;
       color: $textColor;
       cursor: pointer;
       border-radius: 18px;
-      border:none;
+      border: none;
       line-height: 20px;
       background: #fff;
       transition: all 0.3s;
@@ -304,19 +327,19 @@ $textColor: #595959;
       align-items: center;
     }
     &__icon {
-      font-size:16px;
-      color: #8C8C8C;
+      font-size: 16px;
+      color: #8c8c8c;
       border-radius: 50%;
-      margin-right:4px;
+      margin-right: 4px;
     }
     &__img {
       width: 16px;
       height: 16px;
-      image-rendering:-moz-crisp-edges;
-      image-rendering:-o-crisp-edges;
-      image-rendering:-webkit-optimize-contrast;
+      image-rendering: -moz-crisp-edges;
+      image-rendering: -o-crisp-edges;
+      image-rendering: -webkit-optimize-contrast;
       image-rendering: crisp-edges;
-      -ms-interpolation-mode:nearest-neighbor;
+      -ms-interpolation-mode: nearest-neighbor;
     }
     &__text {
       display: inline-block;
@@ -327,9 +350,9 @@ $textColor: #595959;
       cursor: default;
       transition: all 0.3s;
       position: absolute;
-      bottom:0;
+      bottom: 0;
       right: 12px;
-      color: #C0C4CC;
+      color: #c0c4cc;
       &:hover {
         opacity: 1;
       }

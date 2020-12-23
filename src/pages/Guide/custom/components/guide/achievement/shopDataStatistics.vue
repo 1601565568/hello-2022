@@ -10,7 +10,7 @@
             </div>
             <div class="storeData-list__number">
               0
-              <img src="../../../image/ns-arrow-left.png" />
+              <!-- <img src="../../../image/ns-arrow-left.png" /> -->
             </div>
           </div>
         </template>

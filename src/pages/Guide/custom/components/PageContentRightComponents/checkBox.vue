@@ -17,14 +17,24 @@
           :value="formatCheckbox(item.status)"
           >{{ item.itemName }}</el-checkbox
         >
-        <span v-if="item.tips" :title="item.tips" class="question-circle"
-          ><Icon type="question-circle"
-        /></span>
+        <el-tooltip
+          v-if="item.tips"
+          class="question-circle"
+          effect="dark"
+          :content="item.tips"
+          placement="bottom"
+        >
+          <!-- <span v-if="item.tips" :title="item.tips" class="question-circle"> -->
+          <Icon type="question-circle" />
+          <!-- </span> -->
+        </el-tooltip>
         <span
           class="editIcon"
           @click="onPageRewardSetting"
           v-if="
-            item.itemName === '总收益' || item.itemName === '本月收益和今日收益' || item.itemName === '我的收益'
+            item.itemName === '总收益' ||
+              item.itemName === '本月收益和今日收益' ||
+              item.itemName === '我的收益'
           "
           ><Icon type="edit"
         /></span>

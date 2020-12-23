@@ -3,32 +3,92 @@
   <div class="D-achievement__warpper">
     <div class="D-achievement__title">业绩展示</div>
     <div class="D-achievement__list" v-if="show">
-      <div class="D-achievement__row" v-if="editData[0] && editData[0].status === 1">
-        <div class="D-achievement__row__title">今日收益（元）</div>
+      <div
+        class="D-achievement__row"
+        v-if="editData[0] && editData[0].status === 1"
+      >
+        <div class="D-achievement__row__title">
+          今日收益（元）
+          <el-tooltip
+            class="question-circle"
+            effect="dark"
+            :content="editData[0].tips"
+            placement="bottom"
+            ><Icon type="question-circle"
+          /></el-tooltip>
+        </div>
         <div class="D-achievement__row__warpper">
           <span class="D-achievement__row__number">0</span>
         </div>
       </div>
-      <div class="D-achievement__row" v-if="editData[0] && editData[0].status === 1">
-        <div class="D-achievement__row__title">本月收益（元）</div>
+      <div
+        class="D-achievement__row"
+        v-if="editData[0] && editData[0].status === 1"
+      >
+        <div class="D-achievement__row__title">
+          本月收益（元）
+          <el-tooltip
+            class="question-circle"
+            effect="dark"
+            :content="editData[0].tips"
+            placement="bottom"
+            ><Icon type="question-circle"
+          /></el-tooltip>
+        </div>
         <div class="D-achievement__row__warpper">
           <span class="D-achievement__row__number">0</span>
         </div>
       </div>
-      <div class="D-achievement__row" v-if="editData[1] && editData[1].status === 1">
-        <div class="D-achievement__row__title">今日销售（元）</div>
+      <div
+        class="D-achievement__row"
+        v-if="editData[1] && editData[1].status === 1"
+      >
+        <div class="D-achievement__row__title">
+          今日销售（元）
+          <el-tooltip
+            class="question-circle"
+            effect="dark"
+            :content="editData[1].tips"
+            placement="bottom"
+            ><Icon type="question-circle"
+          /></el-tooltip>
+        </div>
         <div class="D-achievement__row__warpper">
           <span class="D-achievement__row__number">0</span>
         </div>
       </div>
-      <div class="D-achievement__row" v-if="editData[2] && editData[2].status === 1">
-        <div class="D-achievement__row__title">今日招募（人）</div>
+      <div
+        class="D-achievement__row"
+        v-if="editData[2] && editData[2].status === 1"
+      >
+        <div class="D-achievement__row__title">
+          今日招募（人）
+          <el-tooltip
+            class="question-circle"
+            effect="dark"
+            :content="editData[2].tips"
+            placement="bottom"
+            ><Icon type="question-circle"
+          /></el-tooltip>
+        </div>
         <div class="D-achievement__row__warpper">
           <span class="D-achievement__row__number">0</span><span>/ -</span>
         </div>
       </div>
-      <div class="D-achievement__row" v-if="editData[3] && editData[3].status === 1">
-        <div class="D-achievement__row__title">今日新加（元）</div>
+      <div
+        class="D-achievement__row"
+        v-if="editData[3] && editData[3].status === 1"
+      >
+        <div class="D-achievement__row__title">
+          今日新加（元）
+          <el-tooltip
+            class="question-circle"
+            effect="dark"
+            :content="editData[3].tips"
+            placement="bottom"
+            ><Icon type="question-circle"
+          /></el-tooltip>
+        </div>
         <div class="D-achievement__row__warpper">
           <span class="D-achievement__row__number">0</span><span>/ -</span>
         </div>
@@ -85,6 +145,11 @@ export default {
         font-size: 12px;
         line-height: 20px;
         color: #262626;
+        display: flex;
+        align-items: center;
+        .question-circle {
+          color: #8c8c8c;
+        }
       }
       .D-achievement__row__warpper {
         display: flex;
