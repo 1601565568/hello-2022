@@ -4,7 +4,7 @@
       <el-input
         maxlength="4"
         placeholder="请输入菜单名称"
-        v-model="model.name"
+        v-model.trim="model.name"
       ></el-input>
     </el-form-item>
     <el-form-item label="菜单图标：" prop="icon">
@@ -34,7 +34,7 @@
       ></el-form-item
     >
     <el-form-item label="小程序appID：" prop="appId" v-if="model.type === 0">
-      <el-input placeholder="请输入appID" v-model="model.appId"></el-input>
+      <el-input placeholder="请输入appID" v-model.trim="model.appId"></el-input>
     </el-form-item>
     <el-form-item
       label="小程序路径："
@@ -56,7 +56,7 @@
       ]"
     >
       <tag-area
-        v-model="model.pageUrl"
+        v-model.trim="model.pageUrl"
         tag="wise"
         ref="testText"
         :tools="tools"
@@ -107,8 +107,8 @@ export default {
           { required: true, message: '请输入菜单名称', trigger: 'blur' },
           { min: 0, max: 5, message: '长度在 0 到 4 个字符', trigger: 'blur' }
         ],
-        icon: [{ required: true, message: '请上传图片' }],
-        appId: [{ required: true, message: '请上传选中图片' }]
+        icon: [{ required: true, message: '请上传选中图片' }],
+        appId: [{ required: true, message: '请输入小程序appid' }]
       }
     }
   },

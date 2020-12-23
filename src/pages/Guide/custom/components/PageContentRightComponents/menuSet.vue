@@ -262,7 +262,8 @@ export default {
       save.then(res => {
         let obj = {
           ...this.data[this.index],
-          info: res
+          info: res,
+          itemName: res.name
         }
         this.$set(this.data, this.index, obj)
         this.cancel()

@@ -15,6 +15,7 @@ export default {
 <style lang="scss" scoped>
 .scroll-view {
   overflow: auto;
+  scrollbar-width: none;
   &::-webkit-scrollbar-thumb {
     display: none;
   }

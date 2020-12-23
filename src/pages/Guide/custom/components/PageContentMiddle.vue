@@ -101,26 +101,27 @@ export default PageContentMiddle
     .iphone-content {
       height: 559px;
       overflow: auto;
-      &::-webkit-scrollbar {
-        display: none;
-        /*滚动条整体样式*/
-        width: 4px; /*高宽分别对应横竖滚动条的尺寸*/
-        height: 1px;
-      }
-      &::-webkit-scrollbar-thumb {
-        /*滚动条里面小方块*/
-        border-radius: 100px;
-        // background: rgba(0, 0, 0, 0.45);
-        background: rgba(38, 38, 38, 0);
-      }
-      &::-webkit-scrollbar-track {
-        /*滚动条里面轨道*/
-        display: none;
-        // border-radius: 100px;
-      }
-      &:hover::-webkit-scrollbar-thumb {
-        background: rgba(38, 38, 38, 0.45);
-      }
+      scrollbar-width: none;
+      // &::-webkit-scrollbar {
+      //   display: none;
+      //   /*滚动条整体样式*/
+      //   width: 4px; /*高宽分别对应横竖滚动条的尺寸*/
+      //   height: 1px;
+      // }
+      // &::-webkit-scrollbar-thumb {
+      //   /*滚动条里面小方块*/
+      //   border-radius: 100px;
+      //   // background: rgba(0, 0, 0, 0.45);
+      //   background: rgba(38, 38, 38, 0);
+      // }
+      // &::-webkit-scrollbar-track {
+      //   /*滚动条里面轨道*/
+      //   display: none;
+      //   // border-radius: 100px;
+      // }
+      // &:hover::-webkit-scrollbar-thumb {
+      //   background: rgba(38, 38, 38, 0.45);
+      // }
     }
     .iphone-tabber {
       img {
