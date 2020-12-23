@@ -12,8 +12,10 @@ export default {
       pageModuleType: JSON.parse(JSON.stringify(this.editData)),
       activeNames: [],
       value1: true,
-      draggableIcon: 'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-WEB/icon/draggable.png',
-      noDraggableIcon: 'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-WEB/icon/noDraggable.png'
+      draggableIcon:
+        'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-WEB/icon/draggable.png',
+      noDraggableIcon:
+        'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-WEB/icon/noDraggable.png'
     }
   },
   watch: {
@@ -39,6 +41,13 @@ export default {
       },
       deep: true,
       immediate: true
+    }
+  },
+  mounted () {
+    // 兼容处理解决在火狐浏览器拖拽生成新的页面问题
+    document.body.ondrop = function (event) {
+      event.preventDefault()
+      event.stopPropagation()
     }
   },
   methods: {
