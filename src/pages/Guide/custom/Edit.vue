@@ -2,7 +2,7 @@
   <PageEdit v-loading="loading"
     ><div slot="header">
       <div class="common-header flex-box">
-        <h3>{{isEdit? '编辑': '预览'}}</h3>
+        <h3>{{ isEdit ? '编辑' : '预览' }}</h3>
         <div class="common-btn">
           <ns-button
             class="customer-btn_save"
@@ -36,14 +36,14 @@
     </div>
     <div slot="content">
       <el-row class="custom-content">
-        <el-col :span="4"
+        <el-col class="PageContentLeft"
           ><ScrollView className="edit-content"
             ><PageContentLeft
               :defaultActive="defaultActive"
               @onChange="onChangeMenu"
               :menuArr="menuArr"/></ScrollView
         ></el-col>
-        <el-col  :span="isEdit? 11:20"
+        <el-col class="PageContentMiddle"
           ><ScrollView className="edit-content"
             ><PageContentMiddle
               @onClearSettingCode="onClearSettingCode"
@@ -54,7 +54,7 @@
               :settingCode="settingCode"
               ref="PageContentMiddle"/></ScrollView
         ></el-col>
-        <el-col v-if="isEdit" :span="9"
+        <el-col v-if="isEdit"  class="PageContentRightwarpper"
           ><ScrollView className="edit-content">
             <PageContentRight
               :activeSetName="activeSetName"
@@ -79,14 +79,19 @@
       <el-dialog :visible.sync="escShow" width="30%">
         <div class="tipsShowTitle" slot="title">提示信息</div>
         <div class="tipsShowContent">
-          <span class="ns-warm-cricle">!</span>取消后将不会保存当前配置，确定取消吗？?
+          <span class="ns-warm-cricle">!</span
+          >取消后将不会保存当前配置，确定取消吗？?
         </div>
         <span slot="footer" class="dialog-footer">
           <ns-button @click="onEscCancel">取 消</ns-button>
           <ns-button type="primary" @click="onEscConfirm">确 定</ns-button>
         </span>
       </el-dialog>
-      <PageRewardSetting ref="PageRewardSetting" @onConfirm="onSettingConfirm" :rewardSettingList="rewardSettingList"/>
+      <PageRewardSetting
+        ref="PageRewardSetting"
+        @onConfirm="onSettingConfirm"
+        :rewardSettingList="rewardSettingList"
+      />
     </div>
   </PageEdit>
 </template>
@@ -114,8 +119,18 @@ export default Edit
 //   display: none;
 // }
 .custom-content {
+  display: flex;
   background: #fff;
   border-radius: 4px;
+  .PageContentLeft {
+    width: 16%;
+  }
+  .PageContentMiddle {
+    flex: 1;
+  }
+  .PageContentRightwarpper {
+    width: 40%;
+  }
 }
 .edit-content {
   max-height: calc(100vh - 183px);
