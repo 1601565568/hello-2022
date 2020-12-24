@@ -3,6 +3,9 @@
     <el-form-item label="菜单名称：" prop="name">
       <el-input
         maxlength="4"
+        minlength="1"
+        clearable
+        show-word-limit
         placeholder="请输入菜单名称"
         v-model.trim="model.name"
       ></el-input>
