@@ -62,11 +62,13 @@ export default {
     },
     onSaveActivityCoupon () {
       let _this = this
-      // if (_this.activityModel.coupon_total === 0 || _this.activityModel.coupon_total < 0) {
-      //   _this.$notify.error('总配额必须大于0')
-      //   // _this.forbidden = false
-      //   return
-      // }
+      if (_this.storeModel.maxType > 0) {
+        if (_this.activityModel.coupon_total === 0 || _this.activityModel.coupon_total < 0) {
+          _this.$notify.error('总配额必须大于0')
+          // _this.forbidden = false
+          return
+        }
+      }
       if (_this.storeModel.maxType < 0) {
         if (_this.storeModel.remainingQuantity < _this.activityModel.coupon_total) {
           _this.activityModel.coupon_total = 0
