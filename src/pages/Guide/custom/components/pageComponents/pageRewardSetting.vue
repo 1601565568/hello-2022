@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :visible.sync="pageRewardSettingShow" width="30%">
+  <el-dialog :visible.sync="pageRewardSettingShow" width="35%">
     <div class="tipsShowTitle" slot="title">总收益</div>
     <div class="tipsShowContent">
       <el-form label-width="100px">
