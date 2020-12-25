@@ -33,6 +33,9 @@
     >>> .el-collapse-item__wrap {
       padding-left: 0px;
     }
+    >>> .el-collapse-item__content {
+      padding-bottom: 0px !important;
+    }
     &.noOver >>> .el-collapse-item__wrap {
       overflow: visible !important;
     }

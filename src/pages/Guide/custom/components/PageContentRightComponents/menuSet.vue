@@ -124,7 +124,7 @@ export default {
           img:
             'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-WEB/icon/icon-daogou.png',
           type: 'tag',
-          title: `workId=\${workId}`,
+          title: `{workId}`,
           text: '导购账号',
           id: 'workId',
           value: '导购账号'
@@ -133,7 +133,7 @@ export default {
           img:
             'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-WEB/icon/guideNumer.png',
           type: 'tag',
-          title: `workNumber=\${workNumber}`,
+          title: `{workNumber}`,
           text: '导购工号',
           id: 'workNumber',
           value: '导购工号'
@@ -143,7 +143,7 @@ export default {
             'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-WEB/icon/guideID.png',
           type: 'tag',
           text: '导购ID',
-          title: `guideId=\${guideId}`,
+          title: `{guideId}`,
           id: 'guideId',
           value: '导购ID'
         },
@@ -152,7 +152,7 @@ export default {
             'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-WEB/icon/distributionStore.png',
           type: 'tag',
           text: '导购工作门店',
-          title: `shopId=\${shopId}`,
+          title: `{shopId}`,
           id: 'shopId',
           value: '导购工作门店'
         }

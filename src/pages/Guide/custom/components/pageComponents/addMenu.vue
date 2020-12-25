@@ -67,17 +67,17 @@
         @inputLength="inputLength"
         ><span slot="w-textarea_tools_right">
           <el-popover
-            placement="bottom-start"
+            placement="top"
             popper-class="form-item_popover"
             width="480"
             trigger="click"
           >
             <div class="popover-content">
               <h4>使用说明</h4>
-              <p>1、小程序路径需添加占位符时，需在路径后添加“?”</p>
-              <p>如：/pages/workbench/recruit?导购账号</p>
-              <p>2、添加多个占位符时，多个占位符之间需使用“&”进行连接</p>
-              <p>如：/pages/workbench/recruit?导购账号&导购姓名</p>
+              <p>1、小程序路径需添加传参时，需在路径后添加“?”</p>
+              <p>如：/pages/workbench/recruit?`导购账号参数名`=导购账号</p>
+              <p>2、添加多个占位符时，多个传参之间需使用“&”进行连接</p>
+              <p>如：/pages/workbench/recruit?`导购账号参数名`=导购账号&`导购姓名参数名`=导购姓名</p>
             </div>
             <span class="form-item_exmple" slot="reference">查看示例说明</span>
           </el-popover></span
@@ -163,7 +163,8 @@ export default {
         .replace(/">.*?<\/wise>/g, '}')
       this.tools.map(item => {
         const regexp = new RegExp('{' + item.id + '}', 'g')
-        newHtml = newHtml.replace(regexp, `${item.id}=\${${item.id}}`)
+        // newHtml = newHtml.replace(regexp, `${item.id}=\${${item.id}}`)
+        newHtml = newHtml.replace(regexp, `{${item.id}}`)
       })
       return newHtml
     },
@@ -171,7 +172,8 @@ export default {
     stringTohtml (string) {
       let html = string
       this.tools.map(item => {
-        const regexp = new RegExp(item.id + '=\\${' + item.id + '}', 'g')
+        // const regexp = new RegExp(item.id + '=\\${' + item.id + '}', 'g')
+        const regexp = new RegExp('{' + item.id + '}', 'g')
         html = html.replace(
           regexp,
           `<wise id="${this.getGuid()}" class="${item.id}">${item.value}</wise>`
