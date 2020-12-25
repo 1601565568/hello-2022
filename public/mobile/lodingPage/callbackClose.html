@@ -23,12 +23,13 @@
         var groupId = getPar('groupId'); // 集团id
         var guideId = getPar('guideId'); // 导购id
         var skipType = getPar('skipType'); // 跳转类型 ：1添加企微好友，2关注公众号
+        var value = getPar('value');
         if (groupId && guideId && skipType) {
           // 根据不同来源，开卡成功后根据来源跳转不同页面（1添加企微好友，2关注公众号）
           if(skipType == 1) {
             getNewCustomerInfo(groupId,guideId,skipType)
           } else if (skipType == 2) {
-            getRecruitingConfigPage(groupId)
+            getRecruitingConfigPage(groupId, value)
           }
         } else {
             // 参数缺失
@@ -48,9 +49,10 @@
         })
     }
     // 获取开卡信息
-    function getRecruitingConfigPage(groupId,) {
+    function getRecruitingConfigPage(groupId, appId) {
         this.ajax(backstageURL() + '/guideRecruit/getRecruitingConfigPage', {
             groupId: groupId,
+            appId: appId
         }).then(function (result) {
             if (result.success) {
                 localStorage.setItem('recruitData', JSON.stringify(result.result))
