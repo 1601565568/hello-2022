@@ -5,5 +5,9 @@
  */
 export default ($route) => {
   // 部分路由无视角选择
+  const path = $route.path
+  if (path === '/Marketing/EnterpriseMessage') {
+    return true
+  }
   return false
 }

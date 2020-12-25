@@ -22,6 +22,37 @@ export default {
       ]
     },
     {
+      'path': '/Social/WeComMarketing',
+      'name': 'WeComMarketing',
+      'title': '群发营销',
+      'component': () => import('@nascent/ecrp-ecrm/src/layout/Content.vue'),
+      'children': [
+        {
+          'path': '/Marketing/EnterpriseMessage',
+          'name': 'EnterpriseMessage',
+          'title': '企业好友营销',
+          'component': () => import('@nascent/ecrp-ecrm/src/layout/ContentOnly.vue'),
+          'redirect': {
+            'name': 'AutoPass'
+          },
+          'children': [
+            {
+              'path': '/Marketing/EnterpriseMessage',
+              'name': 'EnterpriseMessage',
+              'title': '企业好友营销',
+              'component': () => import('@/pages/WeWork/CRMTectonicMigration/EnterpriseMessage/index.vue')
+            },
+            {
+              'path': '/Marketing/EnterpriseMessagePush',
+              'name': 'EnterpriseMessagePush',
+              'title': '企业好友营销新增',
+              'component': () => import('@/pages/WeWork/CRMTectonicMigration/EnterpriseMessagePush/index.vue')
+            }
+          ]
+        }
+      ]
+    },
+    {
       'path': '/Social/SocialOperation',
       'name': 'SocialOperation',
       'title': '社交运营',
