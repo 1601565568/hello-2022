@@ -74,7 +74,7 @@ export default {
         this.$emit('onConfirm', this.list)
         this.onCancel()
       } else {
-        this.$notify.error('最少设置一项数据来源')
+        this.$notify.error('最少设置一项收益来源')
       }
     },
     onCancel () {

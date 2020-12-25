@@ -31,12 +31,12 @@
       </div>
     </el-form-item>
     <el-form-item label="跳转页面：" class="jumpToPage">
-      <el-radio v-model="model.type" :label="0">第三方小程序</el-radio>
-      <el-radio v-model="model.type" :label="1"
+      <el-radio v-model="model.type" :label="1">第三方小程序</el-radio>
+      <el-radio v-model="model.type" :label="2"
         >当前小程序</el-radio
       ></el-form-item
     >
-    <el-form-item label="小程序appID：" prop="appId" v-if="model.type === 0">
+    <el-form-item label="小程序appID：" prop="appId" v-if="model.type === 1">
       <el-input placeholder="请输入appID" v-model.trim="model.appId"></el-input>
     </el-form-item>
     <el-form-item
