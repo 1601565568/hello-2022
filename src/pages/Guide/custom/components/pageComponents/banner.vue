@@ -14,7 +14,7 @@
         fit="contain"
       ></el-image>
     </template>
-    <template v-if="editData.type === 2">
+    <template v-if="editData.type === 2 && show">
       <!-- 图片未选择时显示 -->
       <swiper :options="swiperOption" v-if="editData.image.length === 0">
         <swiper-slide>
@@ -68,7 +68,9 @@ export default {
         pagination: {
           el: '.swiper-pagination'
         }
-      }
+      },
+      show: true,
+      time: null
     }
   },
   //   ElCarousel, ElCarouselItem
@@ -79,6 +81,20 @@ export default {
     },
     interval: function () {
       return this.editData.interval * 1000
+    }
+  },
+  watch: {
+    interval: {
+      handler (newVal, oldVal) {
+        let _this = this
+        if (oldVal === 0 && newVal !== 0) {
+          clearTimeout(_this.time)
+          this.show = false
+          _this.time = setTimeout(() => {
+            _this.show = true
+          }, 50)
+        }
+      }
     }
   }
 }
