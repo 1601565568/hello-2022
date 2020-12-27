@@ -87,6 +87,15 @@
           </template>
         </el-table-column>
         <el-table-column
+          prop="employeeNumber"
+          label="工号">
+          <template slot-scope="scope">
+            <div class="scope-title_text">
+              {{scope.row.employeeNumber|| '-'}}
+            </div>
+          </template>
+        </el-table-column>
+        <el-table-column
           prop="inviteFriendNo"
           sortable="custom"
           label="邀请好友数">
