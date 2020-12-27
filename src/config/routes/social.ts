@@ -167,7 +167,7 @@ export default {
         },
         {
           'path': '/Social/SocialOperation/CustomerCode/List',
-          'name': 'WeWorkGuestCode',
+          'name': 'CustomerCode',
           'title': '一客一码',
           'component': () => import('@nascent/ecrp-ecrm/src/layout/ContentOnly.vue'),
           'redirect': {
@@ -176,7 +176,7 @@ export default {
           'children': [
             {
               'path': '/Social/SocialOperation/CustomerCode/List',
-              'name': 'WeWorkGuestCode',
+              'name': 'CustomerCodeList',
               'title': '一客一码',
               'component': () => import('@/pages/Guide/CustomerCode/List.vue')
             },
@@ -188,7 +188,7 @@ export default {
             },
             {
               'path': '/Social/SocialOperation/CustomerCode/Analysis',
-              'name': 'CustomerCodeEdit',
+              'name': 'CustomerCodeAnalysis',
               'title': '一客一码报表',
               'component': () => import('@/pages/Guide/CustomerCode/Analysis.vue')
             }

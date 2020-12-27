@@ -46,8 +46,10 @@ export default {
       } else {
         let result = parseInt(
           (
-            parseInt(shopCustomerTransferTaskStatus.successCount) +
-            parseInt(shopCustomerTransferTaskStatus.errorCount) / parseInt(this.shopCustomerTransferTaskStatus.totalCount)
+            ((parseInt(shopCustomerTransferTaskStatus.successCount) +
+              parseInt(shopCustomerTransferTaskStatus.errorCount)) *
+              100) /
+            parseInt(this.shopCustomerTransferTaskStatus.totalCount)
           ).toFixed(0)
         )
         return result < 1 ? 1 : result

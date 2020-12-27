@@ -133,7 +133,7 @@
 import PageTable from '../PageTable'
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import NsGuideDialog from '@/components/NsGuideDialog'
-import defaultIcon from '../../Images/icon-huiyuan.png'
+import defaultIcon from '@/assets/defultheadPic.png'
 export default {
   data () {
     return {
@@ -145,8 +145,7 @@ export default {
         guestCodeStatus: null,
         guestCodeId: this.$route.query.guestCodeId,
         inviteFriendNo: null,
-        lastAddFriendsDate: null,
-        defaultIcon
+        lastAddFriendsDate: null
       },
       url: this.$api.guide.customerCode.getPromotionListByGuestCodeId,
       seachVal: '',
@@ -179,7 +178,8 @@ export default {
           color: 'success'
         }
       },
-      activeIndex: -1
+      activeIndex: -1,
+      defaultIcon
     }
   },
   components: { PageTable, NsGuideDialog },
