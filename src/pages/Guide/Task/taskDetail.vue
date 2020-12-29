@@ -84,7 +84,7 @@
         </div>
         <div class='total-tip'>
           <span class='label'>执行导购：</span>
-          <span class='value'>20人（ <span class='value-key'>3</span> 人未完成）</span>
+          <span class='value'>{{pagination.total}}人（ <span class='value-key'>{{unfinishedTotal}}</span> 人未完成）</span>
           <span></span>
         </div>
         <div class="taskOverview-detail__table">

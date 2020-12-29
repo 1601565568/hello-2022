@@ -76,7 +76,8 @@ export default {
         subgroupName: '',
         shopNum: 0,
         guideNum: 0,
-        completion: 0
+        completion: 0,
+        unfinishedTotal: 0
       },
       searchMap: {
         runType: null,
@@ -188,7 +189,7 @@ export default {
             const result = resp.result
             this.pagination.total = parseInt(result.recordsTotal)
             this.tableData = result.data
-
+            this.unfinishedTotal = result.ext.unfinishedTotal
             this.table.loadingtable = false
           }
         })
@@ -203,6 +204,7 @@ export default {
       form.appendChild(this.generateHideElement('taskId', this.searchMap.taskId))
       form.appendChild(this.generateHideElement('queryTime', this.searchMap.queryTime))
       form.appendChild(this.generateHideElement('shopId', this.searchMap.shopId))
+      form.appendChild(this.generateHideElement('shopName', this.createShopName))
       form.setAttribute('action', url)
       form.setAttribute('method', 'post')
       document.body.appendChild(form)
