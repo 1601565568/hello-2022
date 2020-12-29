@@ -65,7 +65,8 @@ export default {
         subgroupName: null,
         materialTitle: '', // 素材库标题
         materialType: '', // 素材类型 1图片 2视频 0 文章
-        materialMsg: null // 素材库内容
+        materialMsg: null, // 素材库内容
+        taskSendTime: '' // 提醒时间
       },
       rules: {
         name: [
@@ -79,7 +80,8 @@ export default {
         shopRangeType: [{ required: true, message: '请选择门店' }],
         remark: [{ required: true, message: '请输入简述' }],
         runType: [{ required: true, message: '请选择执行次数' }],
-        materialTitle: [{ validator: validateMaterial, trigger: 'blur' }]
+        materialTitle: [{ validator: validateMaterial, trigger: 'blur' }],
+        taskSendTime: [{ required: true, message: '请选择提醒时间' }]
       },
       options: [], // 视角集合
       subgroups: [], // 视角下分组集合
@@ -260,6 +262,7 @@ export default {
             this.model.activityTime.push(obj.endTime)
             this.model.viewId = obj.viewId
             this.model.subgroupId = obj.subgroupId
+            this.model.taskSendTime = obj.taskSendTime
             if (obj.viewId) {
               this.chooseView(obj.viewId)
             }

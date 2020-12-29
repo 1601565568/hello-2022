@@ -47,6 +47,17 @@
                   />
                 </div>
               </ElFormItem>
+              <ElFormItem label='提醒时间' prop='taskSendTime' required>
+                <div class='newTask-content__item'>
+                <el-time-picker
+                  value-format='HH:mm:ss'
+                  v-model="model.taskSendTime"
+                  placeholder="选择提醒时间">
+                </el-time-picker>
+                </div>
+                <div class='newTask-content__item-tip'
+                  >店长将在提醒时间收到任务通知</div>
+              </ElFormItem>
               <ElFormItem label='执行次数' prop='runType' required>
                 <ElRadioGroup v-model='model.runType'>
                   <ElRadio :label='0'>单次执行</ElRadio>

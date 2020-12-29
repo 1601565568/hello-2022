@@ -241,8 +241,14 @@ export default {
     // 打开弹窗--编辑
     AddShowToggle (obj) {
       // 传递保存时需要的参数
-      this.$nextTick(() => {
-        this.$refs.detailDialogDom.showToggle(obj)
+      // this.$nextTick(() => {
+      //   this.$refs.detailDialogDom.showToggle(obj)
+      // })
+      const { createShopName, runType, id, shopId } = obj
+      this.$router.push({
+        path: '/Guide/Task/taskDetail',
+        query: { createShopName, runType, id, shopId }
+
       })
     },
     // 删除功能

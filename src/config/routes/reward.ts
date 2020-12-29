@@ -26,6 +26,12 @@ export default {
           'component': () => import('@/pages/Guide/Task/shopList.vue')
         },
         {
+          'path': '/Guide/Task/taskDetail',
+          'name': 'SHOP_TASK_DETAIL',
+          'title': '门店任务',
+          'component': () => import('@/pages/Guide/Task/taskDetail.vue')
+        },
+        {
           'path': '/Guide/ActivityIndex/RewardSetList',
           'name': 'ACTIVITY_INDEX_REWARD_SETLIST',
           'title': '提成奖励设置',
