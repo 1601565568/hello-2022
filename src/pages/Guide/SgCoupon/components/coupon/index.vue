@@ -124,10 +124,10 @@
                         align="right"
                     >
                         <template slot-scope="scope">
-                            <span v-if="scope.row.maxIssueAmount == 0">不限量</span>
                             <span v-if="scope.row.maxIssueAmount < 0">{{scope.row.maxIssueAmount}}</span>
-                            <span v-if="scope.row.channelConfigType == 1 && scope.row.maxIssueAmount >0">{{scope.row.limitAmount  - scope.row.channelFreezeAmount}}</span>
-                            <span v-if="scope.row.channelConfigType == 0 && scope.row.maxIssueAmount >0">{{scope.row.maxIssueAmount - scope.row.hadIssueAmount - scope.row.couponFreezeAmount}}</span>
+                            <span v-if="scope.row.channelConfigType == 1 && scope.row.maxIssueAmount >= 0">{{scope.row.limitAmount  - scope.row.channelFreezeAmount}}</span>
+                            <span v-if="scope.row.channelConfigType == 0 && scope.row.maxIssueAmount > 0"> {{scope.row.maxIssueAmount - scope.row.hadIssueAmount - scope.row.couponFreezeAmount}}</span>
+                            <span v-if="scope.row.channelConfigType == 0 && scope.row.maxIssueAmount == 0">不限量</span>
                         </template>
                     </el-table-column>
 
