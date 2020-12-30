@@ -200,8 +200,8 @@ export default {
     },
     beforeAvatarUpload (file) {
       // 图片格式判断
-      if (!/\.(gif|jpg|jpeg|png|bmp|BMP|GIF|JPG|PNG|JPEG)$/.test(file.name)) {
-        this.$notify.error('仅支持jpg/jepg/png的图片格式')
+      if (!/\.(jpg|jpeg|png|JPG|PNG|JPEG)$/.test(file.name)) {
+        this.$notify.error('仅支持jpg/jpeg/png的图片格式')
         return false
       }
       if (file.size / 1024 > 1024) {
