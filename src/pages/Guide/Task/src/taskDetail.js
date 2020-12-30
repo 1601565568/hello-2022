@@ -151,10 +151,10 @@ export default {
               let start = new Date(new Date(new Date().toLocaleDateString()).getTime()) // 当天0点
               // let todatEnd = new Date(new Date(new Date().toLocaleDateString()).getTime() +24 * 60 * 60 * 1000 -1) // 当天23:59
               // const start = new Date()
-              if (new Date(obj.startTime) >= start) {
+              if (new Date(obj.startTime) > start) {
                 this.searchMap.queryTime = moment(obj.startTime).format('YYYY-MM-DD')
-              } else if (new Date(obj.startTime) < start && start < new Date(obj.endTime)) {
-                this.searchMap.queryTime = moment(start.getTime() - 3600 * 1000 * 24).format('YYYY-MM-DD')
+              } else if (new Date(obj.startTime) <= start && start <= new Date(obj.endTime)) {
+                this.searchMap.queryTime = moment(start.getTime()).format('YYYY-MM-DD')
               } else {
                 this.searchMap.queryTime = moment(obj.endTime).format('YYYY-MM-DD')
               }
@@ -217,18 +217,19 @@ export default {
       tempInput.value = value
       return tempInput
     },
-    compareState (date) {
-      const startTime = new Date(this.taskMsg.startTime).getTime()
-      const endTime = new Date(this.taskMsg.endTime).getTime()
+    compareState (task) {
+      const date = task.completeTime
+      const startTime = new Date(task.startTime).getTime()
+      const endTime = new Date(task.endTime).getTime()
       const nowDate = new Date().getTime()
       if (nowDate < startTime) {
         return '未开始'
       }
       if (nowDate >= startTime && nowDate <= endTime) {
         if (date) {
-          return '执行中'
+          return '已完成'
         }
-        return '已完成'
+        return '执行中'
       }
       if (nowDate >= endTime) {
         if (date) {

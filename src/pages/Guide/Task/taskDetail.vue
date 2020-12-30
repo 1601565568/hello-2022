@@ -76,7 +76,7 @@
                 value-format="yyyy-MM-dd"
                 v-model="searchMap.queryTime"
                 type="date"
-                @change="queryTimeChange"
+                @input="queryTimeChange"
                 placeholder="选择日期" />
             </ElFormItem>
             <NsButton @click="exportShopCompleteData">导出CSV文件</NsButton>
@@ -107,16 +107,16 @@
             <el-table-column align="center" prop="shopStatus"
                              label="任务状态">
               <template slot-scope="scope">
-                <el-tag type="success" v-if="compareState(scope.row.endTime) === '执行中'">执行中</el-tag>
-                <el-tag type="warning" v-if="compareState(scope.row.endTime) === '未开始'">未开始</el-tag>
-                <el-tag type="info" v-if="compareState(scope.row.endTime) === '已完成'">已完成</el-tag>
-                <el-tag type="danger" v-if="compareState(scope.row.endTime) === '未完成'">未完成</el-tag>
+                <el-tag type="success" v-if="compareState(scope.row) === '执行中'">执行中</el-tag>
+                <el-tag type="warning" v-if="compareState(scope.row) === '未开始'">未开始</el-tag>
+                <el-tag type="info" v-if="compareState(scope.row) === '已完成'">已完成</el-tag>
+                <el-tag type="danger" v-if="compareState(scope.row) === '未完成'">未完成</el-tag>
               </template>
             </el-table-column>
             <el-table-column align="center" prop="endTime"
                              label="完成时间">
               <template slot-scope="scope">
-                {{scope.row.endTime || '-'}}
+                {{scope.row.completeTime || '-'}}
               </template>
             </el-table-column>
             <el-table-column align="center" prop="completion"
