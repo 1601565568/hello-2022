@@ -63,7 +63,25 @@
               </el-form-grid>
               <el-form-grid block class="text-info"><Icon type="info-circle" theme="filled" />公用：所有门店共享配额；自由分配：默认均分，可再行调整</el-form-grid>
           </el-form-item>
-          <el-form-item v-if ="distributionMode  == 1">
+          <el-form-item label="分配门店：" v-if="activityModel.coupon_id !== 0" required>
+            <el-form-grid>
+              <div class='flex-box'>
+                <div class='employee-list'>
+                  <template v-if='shopList.length>0'>
+
+                  </template>
+                  <template v-else>
+                    <p class='employee-text'>请选择门店</p>
+                  </template>
+                  <div></div>
+                </div>
+                <div class='employee-suffix'>
+                  <NsShopDialog btnTitle="选择店铺" v-model="shopList" @input='handleChangeShop'></NsShopDialog>
+                </div>
+              </div>
+            </el-form-grid>
+          </el-form-item>
+          <el-form-item>
             <StoreList ref= "storeList"
             :activityModel="activityModel"
             :storeModel="storeModel"
@@ -130,4 +148,13 @@ export default index
 </script>
 <style scoped lang="scss">
 @import "./src/index.scss";
+.flex-box {
+  display: flex;
+  border: 1px solid #D9D9D9;
+  border-radius: 2px;
+  position: relative;
+  width: 360px;
+  padding: 0 9px;
+  justify-content: space-between;
+}
 </style>

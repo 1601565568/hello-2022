@@ -36,9 +36,9 @@ export default {
     }
   },
   methods: {
-    init (status) {
+    init (status, shopIds) {
       this.shopAllList = JSON.parse(JSON.stringify(this.shopListAll))
-      this.findShopList(status)
+      this.findShopList(status, shopIds)
     },
     // 分页-大小改变
     shopSizeChange (pageSize) {
@@ -56,7 +56,7 @@ export default {
       _this.paginations.page = page
       _this.findShopList()
     },
-    findShopList (status) {
+    findShopList (status, shopIds) {
       this.model.storeCouponCode = this.activityModel.coupon_code
       var _this = this
       this.$http
@@ -64,7 +64,8 @@ export default {
           length: _this.paginations.size,
           start: _this.paginations.size * (_this.paginations.page - 1),
           searchMap: {
-            ...this.model
+            ...this.model,
+            shopIds
           }
         })
         .then(resp => {
@@ -84,9 +85,6 @@ export default {
             }
             this._data.paginations.total = Number(resp.result.recordsTotal)
           }
-        })
-        .catch(resp => {
-          _this.$notify.error(getErrorMsg('查询店铺列表失败', resp))
         })
     },
     /**

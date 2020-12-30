@@ -1,10 +1,14 @@
 import Coupon from '../../coupon'
 import StoreList from '../../storeList'
+import HtmlArea from '@/components/NewUi/HtmlArea'
+import NsShopDialog from '@/components/NsShopDialog'
 import moment from 'moment'
 export default {
   components: {
     Coupon,
-    StoreList
+    StoreList,
+    HtmlArea,
+    NsShopDialog
   },
   data () {
     let bgCoupon = 'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-APP-WEB/img/no-coupon.png'
@@ -43,7 +47,8 @@ export default {
       bgcoupon: bgCoupon,
       shopMap: null, // 店铺map
       shopAllList: [],
-      isShowCouponNumber: true // 折扣券 展示
+      isShowCouponNumber: true, // 折扣券 展示
+      shopList: [] // 选择的门店
     }
   },
   methods: {
@@ -117,7 +122,7 @@ export default {
       var _this = this
       _this.activityModel.coupon_id = data.id
       _this.activityModel.coupon_code = data.storeCouponCode
-      _this.findOnlineShopList(_this.activityModel.coupon_code)
+      // _this.findOnlineShopList(_this.activityModel.coupon_code)
       _this.storeModel.couponCode = data.storeCouponCode
       _this.storeModel.remainingQuantity = Number(data.maxIssueAmount) - Number(data.couponFreezeAmount) - Number(data.hadIssueAmount)
       _this.storeModel.couponTitle = data.storeCouponTitle
@@ -264,6 +269,9 @@ export default {
         // window.console.log('折扣券小数位', data.substr(indexOf, data.length))
         return newData.substr(indexOf, newData.length)
       }
+    },
+    handleChangeShop (list) {
+      this.$refs.storeList.init(true, list.join(','))
     }
   }
 }
