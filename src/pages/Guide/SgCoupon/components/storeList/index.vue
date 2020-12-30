@@ -24,7 +24,7 @@
         </el-form>
         <el-table
             class="template-table__main"
-            :data="shopList"
+            :data="pageData"
             stripe
             ref="table"
             resizable
@@ -53,8 +53,9 @@
             >
             <template slot-scope="scope" >
               <ElInput type="text"
-                        @input="inputChange(scope.row)"
-                        v-model="scope.row.shopCouponNumber"
+                        @input="(e)=>{inputChange(e,scope.row)}"
+                        :value="scope.row.shopCouponNumber"
+                        :disabled='activityModel.type===0'
                         maxlength="8"
                         show-word-limit
                         style="width:80px"/>

@@ -33,19 +33,9 @@
                   <el-input
                     style="width: 360px"
                     placeholder="请输入正整数"
-                    v-if="activityModel.type ==0"
                     type="number"
                     v-model="activityModel.coupon_total"
-                    @change="activityCouponTotal()"
-                    auto-complete="off">
-                  </el-input>
-                  <el-input
-                    style="width: 360px"
-                    placeholder="请输入正整数"
-                    v-if="activityModel.type ==1" disabled="disabled"
-                    type="number"
-                    v-model="activityModel.coupon_total"
-                    @change="activityCouponTotal()"
+                    @input="activityCouponTotal"
                     auto-complete="off">
                   </el-input>
                   </el-form-item>
@@ -70,7 +60,7 @@
               <div class='flex-box'>
                 <div class='employee-list'>
                   <template v-if='shopList.length>0'>
-
+                    <p class='employee-text'>共{{shopList.length}}家门店</p>
                   </template>
                   <template v-else>
                     <p class='employee-text'>请选择门店</p>

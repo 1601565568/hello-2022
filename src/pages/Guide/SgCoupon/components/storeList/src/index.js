@@ -21,6 +21,13 @@ export default {
       paginations: paginations
     }
   },
+  computed: {
+    pageData () {
+      const data = this.model.shop_name ? this.shopList.filter(item => item.shopName.indexOf(this.model.shop_name) > -1) : this.shopList
+      const { size, page } = this.paginations
+      return data.slice((page - 1) * size, page * size)
+    }
+  },
   props: {
     shopListAll: {
       type: Array
@@ -36,56 +43,41 @@ export default {
     }
   },
   methods: {
-    init (status, shopIds) {
+    init (status, resp) {
       this.shopAllList = JSON.parse(JSON.stringify(this.shopListAll))
-      this.findShopList(status, shopIds)
+      this.findShopList(status, resp)
     },
     // 分页-大小改变
     shopSizeChange (pageSize) {
       var _this = this
       _this.paginations.size = pageSize
       _this.paginations.page = 1
-      _this.findShopList()
     },
     // 分页-页数改变
     shopPageChange (page) {
       var _this = this
-      if (this.shopList.length > 0) {
-        this.shopList = []
-      }
       _this.paginations.page = page
-      _this.findShopList()
     },
-    findShopList (status, shopIds) {
+    findShopList (status, resp) {
       this.model.storeCouponCode = this.activityModel.coupon_code
       var _this = this
-      this.$http
-        .fetch(this.$api.guide.activityCoupon.findCouponShop, {
-          length: _this.paginations.size,
-          start: _this.paginations.size * (_this.paginations.page - 1),
-          searchMap: {
-            ...this.model,
-            shopIds
+      if (resp.success && resp.result.data != null) {
+        if (status) {
+          this.calcQuota(resp.result.data)
+        } else {
+          _this.shopList = []
+          // _this.shopList = Object.assign({}, resp.result.data)
+          for (let a = 0; a < resp.result.data.length; a++) {
+            // 通过key将value取出 转换为深拷贝
+            let shopObject = this.shopMap.get(resp.result.data[a].id)
+            let shopObj = JSON.stringify(shopObject)
+            let newShopObject = JSON.parse(shopObj)
+            _this.shopList.push(newShopObject)
           }
-        })
-        .then(resp => {
-          if (resp.success && resp.result.data != null) {
-            if (status) {
-              this.calcQuota(resp.result.data)
-            } else {
-              _this.shopList = []
-              // _this.shopList = Object.assign({}, resp.result.data)
-              for (let a = 0; a < resp.result.data.length; a++) {
-                // 通过key将value取出 转换为深拷贝
-                let shopObject = this.shopMap.get(resp.result.data[a].id)
-                let shopObj = JSON.stringify(shopObject)
-                let newShopObject = JSON.parse(shopObj)
-                _this.shopList.push(newShopObject)
-              }
-            }
-            this._data.paginations.total = Number(resp.result.recordsTotal)
-          }
-        })
+          this.resetShopCouponNumber(this.activityModel.coupon_total)
+        }
+        this._data.paginations.total = Number(resp.result.recordsTotal)
+      }
     },
     /**
      * 计算每个店铺的配额
@@ -120,8 +112,8 @@ export default {
      * 输入框的值改变
      * 利用map key的唯一性 每次修改map
      */
-    inputChange: function (row) {
-      row.shopCouponNumber = Number(row.shopCouponNumber.replace(/[^\d]/g, ''))
+    inputChange: function (value, row) {
+      row.shopCouponNumber = Number(value)
       var _this = this
       var total = 0
       var couponTotal = _this.activityModel.coupon_total
@@ -176,8 +168,26 @@ export default {
     },
     onChangeStoreInput () {
       this.shopPageChange()
+    },
+    resetShopCouponNumber (num) {
+      this.shopList = this.shopList.map(item => {
+        const newItem = {
+          ...item,
+          shopCouponNumber: num
+        }
+        this.$emit('changeShopMap', item.id, newItem)
+        return newItem
+      })
     }
-
     // this.$reload()
+  },
+  watch: {
+    'activityModel.type' (newVal) {
+      if (newVal === 0) {
+        this.resetShopCouponNumber(this.activityModel.coupon_total)
+      } else {
+        this.resetShopCouponNumber(0)
+      }
+    }
   }
 }
