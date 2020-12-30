@@ -21,7 +21,9 @@
             </el-form-item>
           <el-form-item label="剩余数量：" v-if="activityModel.coupon_id !== 0">
             <el-form-item prop="store_coupon_total">
-                <div class="disabled" v-if="storeModel.maxType == 0">不限量</div>
+                <div class="disabled" v-if="storeModel.maxType == 0 && storeModel.channelConfigType == 0">不限量</div>
+                <!-- 渠道配置类型（0：不限，1：配置） -->
+                <!-- <div class="disabled" v-if="storeModel.channelConfigType == 0">{{storeModel.remainingQuantity}}</div> -->
                 <div class="disabled" v-else>{{storeModel.remainingQuantity}}</div>
             </el-form-item>
           </el-form-item>
