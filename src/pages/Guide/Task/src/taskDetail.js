@@ -76,9 +76,9 @@ export default {
         subgroupName: '',
         shopNum: 0,
         guideNum: 0,
-        completion: 0,
-        unfinishedTotal: 0
+        completion: 0
       },
+      unfinishedTotal: 0,
       searchMap: {
         runType: null,
         taskId: null
@@ -216,6 +216,26 @@ export default {
       tempInput.name = name
       tempInput.value = value
       return tempInput
+    },
+    compareState (date) {
+      const startTime = new Date(this.taskMsg.startTime).getTime()
+      const endTime = new Date(this.taskMsg.endTime).getTime()
+      const nowDate = new Date().getTime()
+      if (nowDate < startTime) {
+        return '未开始'
+      }
+      if (nowDate >= startTime && nowDate <= endTime) {
+        if (date) {
+          return '执行中'
+        }
+        return '已完成'
+      }
+      if (nowDate >= endTime) {
+        if (date) {
+          return '已完成'
+        }
+        return '未完成'
+      }
     }
   },
   mounted: function () {

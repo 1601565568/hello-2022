@@ -107,14 +107,18 @@
             <el-table-column align="center" prop="shopStatus"
                              label="任务状态">
               <template slot-scope="scope">
-                <el-tag type="success" v-if="scope.row.state === 1">进行中</el-tag>
-                <el-tag type="warning" v-if="scope.row.state === 5">未开始</el-tag>
-                <el-tag type="info" v-if="scope.row.state === 3">已完成</el-tag>
-                <el-tag type="danger" v-if="scope.row.state === 6">未完成</el-tag>
+                <el-tag type="success" v-if="compareState(scope.row.endTime) === '执行中'">执行中</el-tag>
+                <el-tag type="warning" v-if="compareState(scope.row.endTime) === '未开始'">未开始</el-tag>
+                <el-tag type="info" v-if="compareState(scope.row.endTime) === '已完成'">已完成</el-tag>
+                <el-tag type="danger" v-if="compareState(scope.row.endTime) === '未完成'">未完成</el-tag>
               </template>
             </el-table-column>
             <el-table-column align="center" prop="endTime"
-                             label="完成时间" />
+                             label="完成时间">
+              <template slot-scope="scope">
+                {{scope.row.endTime || '-'}}
+              </template>
+            </el-table-column>
             <el-table-column align="center" prop="completion"
                              label="反馈" >
               <template slot-scope="scope">
@@ -483,9 +487,9 @@ export default taskDetail
     }
     .value {
       color: #262626;
-      .value-key {
-        color: #000002;
-      }
+    }
+    .value-key {
+      color: #da4625;
     }
   }
 </style>
