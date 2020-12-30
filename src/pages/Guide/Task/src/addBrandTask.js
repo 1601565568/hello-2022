@@ -87,6 +87,7 @@ export default {
       subgroups: [], // 视角下分组集合
       selectMaterial: {}, // 当前选择的素材对象
       canNotEdit: false, // 编辑进来禁止
+      allNotEdit: false, // 全部禁止
       tableData: [{
         date: '2020-09-01 00:00:00',
         name: '姓名',
@@ -244,7 +245,6 @@ export default {
     },
     // 编辑
     EditFun (id) {
-      this.canNotEdit = true
       this.$http
         .fetch(this.$api.guide.queryTask, {
           taskId: parseInt(id)
@@ -283,6 +283,13 @@ export default {
               this.model.materialType = obj.materialType
               this.model.materialMsg = obj.materialMsg ? JSON.parse(obj.materialMsg) : null
               this.disabled = true
+            }
+            if (obj.state === 1) {
+              this.canNotEdit = true
+            }
+            if (obj.state === 3 || obj.state === 6) {
+              this.canNotEdit = true
+              this.allNotEdit = true
             }
           }
         })

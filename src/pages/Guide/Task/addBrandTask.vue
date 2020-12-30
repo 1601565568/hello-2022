@@ -18,7 +18,7 @@
     <!--  表单内容  -->
     <div class='newTask-content'>
       <ElScrollbar ref='fullScreen'>
-        <ElForm ref="form" label-width='136px' :rules='rules' :model='model'>
+        <ElForm ref="form" label-width='136px' :rules='rules' :model='model' :disabled='allNotEdit'>
           <ElCollapse v-model='activeNames'>
             <ElCollapseItem title='基础信息' name='1'>
               <ElFormItem label='任务名称' prop='name'>
@@ -27,6 +27,7 @@
                     v-model='model.name'
                     show-word-limit
                     maxlength='25'
+                    :disabled='canNotEdit'
                     placeholder='请输入任务名称'
                   />
                 </div>
@@ -51,6 +52,7 @@
                 <div class='newTask-content__item'>
                 <el-time-picker
                   value-format='HH:mm:ss'
+                  :disabled='canNotEdit'
                   v-model="model.taskSendTime"
                   placeholder="选择提醒时间">
                 </el-time-picker>
@@ -59,7 +61,8 @@
                   >店长将在提醒时间收到任务通知</div>
               </ElFormItem>
               <ElFormItem label='执行次数' prop='runType' required>
-                <ElRadioGroup v-model='model.runType'>
+                <ElRadioGroup v-model='model.runType'
+                  :disabled='canNotEdit'>
                   <ElRadio :label='0'>单次执行</ElRadio>
                   <ElRadio :label='1'>每日执行</ElRadio>
                 </ElRadioGroup>
@@ -70,7 +73,8 @@
             </ElCollapseItem>
             <ElCollapseItem title='任务内容' name='2'>
               <ElFormItem label='任务类型'>
-                <ElRadioGroup v-model='model.type'>
+                <ElRadioGroup v-model='model.type'
+                  :disabled='canNotEdit'>
                   <ElRadio :label='0'>营销任务</ElRadio>
                   <ElRadio :label='1'>回访任务</ElRadio>
                   <ElRadio :label='3'>日常任务</ElRadio>
@@ -143,7 +147,8 @@
               <template v-if="model.type === 2">
                 <ElFormItem label='素材'>
                   <div>
-                    <NsButton icon='el-icon-circle-plus-outline' :disabled="disabled" @click='selectMaterialShowFun()'
+                    <NsButton icon='el-icon-circle-plus-outline'
+                      :disabled='canNotEdit' @click='selectMaterialShowFun()'
                       >选择素材</NsButton
                     >
                   </div>
