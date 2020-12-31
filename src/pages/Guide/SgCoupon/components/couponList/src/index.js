@@ -67,6 +67,10 @@ export default {
     },
     async onSaveActivityCoupon () {
       let _this = this
+      if (!this.shopList || !this.shopList.length) {
+        _this.$notify.error('分配门店是必填字段')
+        return
+      }
       if (_this.storeModel.maxType >= 0) {
         if (_this.activityModel.coupon_total === 0 || _this.activityModel.coupon_total < 0) {
           _this.$notify.error('总配额必须大于0')
