@@ -81,6 +81,8 @@ export default {
           }
           if (this.activityModel.type === 0) {
             this.resetShopCouponNumber(this.activityModel.coupon_total)
+          } else {
+            this.resetShopCouponNumber(0)
           }
         }
         this._data.paginations.total = Number(resp.result.recordsTotal)
@@ -123,10 +125,10 @@ export default {
       row.shopCouponNumber = Number(value)
       var _this = this
       var total = 0
-      var couponTotal = _this.activityModel.coupon_total
+      // var couponTotal = _this.activityModel.coupon_total
       var couponId = _this.activityModel.coupon_id
       // window.console.log('storeList-storeModel', _this.storeModel)
-      let remainingQuantity = _this.storeModel.remainingQuantity
+      /// let remainingQuantity = _this.storeModel.remainingQuantity
       // 判断输入是否是正整数
       if (!/(^[0-9]\d*$)/.test(row.shopCouponNumber)) {
         _this.$notify.info('请输入正整数')
@@ -143,34 +145,36 @@ export default {
       if (row.shopCouponNumber === null || row.shopCouponNumber === '') {
         row.shopCouponNumber = 0
       }
-      // 判断是否在分配中新增店铺
-      if (_this.shopMap.get(row.id)) {
-        // 当前店铺改变前的优惠券数量
-        var oldValue = _this.shopMap.get(row.id).shopCouponNumber
-        // 优惠券总数 = 改变前的总数 - 改变前当前行的数量 + 改变后的当前行的数量
-        total =
-          parseInt(couponTotal) -
-          parseInt(oldValue) +
-          parseInt(row.shopCouponNumber)
-      } else {
-        // 改变前的优惠券总数 + 新增店铺的分配优惠券的总数
-        total = parseInt(couponTotal) + parseInt(row.shopCouponNumber)
-      }
-      // 判断是否超过总数 _this.storeModel.couponTotal ==0 代表不限量
-      // window.console.log('storeList', _this.storeModel.maxType, remainingQuantity)
-      if (_this.storeModel.maxType > 0) {
-        if (total > remainingQuantity) {
-          _this.$notify.info('门店总配额不能超过优惠券总配额')
-          row.shopCouponNumber = oldValue
-          return
-        }
-      }
+      // // 判断是否在分配中新增店铺
+      // if (_this.shopMap.get(row.id)) {
+      //   // 当前店铺改变前的优惠券数量
+      //   var oldValue = _this.shopMap.get(row.id).shopCouponNumber
+      //   // 优惠券总数 = 改变前的总数 - 改变前当前行的数量 + 改变后的当前行的数量
+      //   total =
+      //     parseInt(couponTotal) -
+      //     parseInt(oldValue) +
+      //     parseInt(row.shopCouponNumber)
+      // } else {
+      //   // 改变前的优惠券总数 + 新增店铺的分配优惠券的总数
+      //   // total = parseInt(couponTotal) + parseInt(row.shopCouponNumber)
+      // }
+      // // 判断是否超过总数 _this.storeModel.couponTotal ==0 代表不限量
+      // // window.console.log('storeList', _this.storeModel.maxType, remainingQuantity)
+      // if (_this.storeModel.maxType > 0) {
+      //   if (total > remainingQuantity) {
+      //     _this.$notify.info('门店总配额不能超过优惠券总配额')
+      //     row.shopCouponNumber = oldValue
+      //     return
+      //   }
+      // }
       // 给总数赋值
-      _this.activityModel.coupon_total = total
+      // _this.activityModel.coupon_total = total
       // 将当前行转换为深拷贝 set进 map
       let shopObj = JSON.stringify(row)
       let newShopObject = JSON.parse(shopObj)
       this.$emit('changeShopMap', row.id, newShopObject)
+      const index = this.shopList.findIndex(item => item.id === row.id)
+      this.$set(this.shopList, index, newShopObject)
       // _this.shopMap.set(row.id, newShopObject)
     },
     onChangeStoreInput () {
@@ -204,12 +208,19 @@ export default {
       })
     },
     handleDevide () {
-      if (!this.isDevide) {
-        this.sharing()
-      } else {
-        this.resetShopCouponNumber(0)
-      }
-      this.isDevide = !this.isDevide
+      this.$msgbox({
+        message: this.isDevide ? '确定取消均分的配额吗？' : '确定均分配额吗?',
+        showCancelButton: true,
+        confirmButtonText: '确定',
+        cancelButtonText: '取消'
+      }).then(action => {
+        if (!this.isDevide) {
+          this.sharing()
+        } else {
+          this.resetShopCouponNumber(0)
+        }
+        this.isDevide = !this.isDevide
+      })
     }
     // this.$reload()
   },

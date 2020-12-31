@@ -65,9 +65,9 @@ export default {
       this.addCouponDialogVisible = !this.addCouponDialogVisible
       this.$emit('closeDialog')
     },
-    onSaveActivityCoupon () {
+    async onSaveActivityCoupon () {
       let _this = this
-      if (_this.storeModel.maxType > 0) {
+      if (_this.storeModel.maxType >= 0) {
         if (_this.activityModel.coupon_total === 0 || _this.activityModel.coupon_total < 0) {
           _this.$notify.error('总配额必须大于0')
           // _this.forbidden = false
@@ -84,20 +84,34 @@ export default {
       // 判断优惠券是否超额 _this.storeModel.couponTotal = 0 代表不限量
       if (_this.storeModel.maxType > 0) {
         if (_this.storeModel.couponTotal < _this.activityModel.coupon_total) {
-          // _this.$notify.info('门店总配额不能超过优惠券总配额')
+          _this.$notify.info('门店总配额不能超过优惠券总配额')
           _this.forbidden = false
           return
         }
       }
       _this.shopCouponList = []
-      console.log(_this.shopMap)
+      let total = 0
       _this.shopMap.forEach(function (value, key, map) {
+        total += parseInt(value.shopCouponNumber)
         var shop = {}
         shop.shopId = value.id
         shop.shopCouponTotal = parseInt(value.shopCouponNumber)
         shop.shopName = value.shopName
         _this.shopCouponList.push(shop)
       })
+      if (this.activityModel.type === 1) {
+        if (total > _this.activityModel.coupon_total) {
+          _this.$notify.info('门店配额总和合大于优惠券设置的配额')
+          return
+        }
+        if (total < _this.activityModel.coupon_total) {
+          const result = await this.changeTotal(total)
+          if (!result) {
+            return
+          }
+          _this.activityModel.coupon_total = result
+        }
+      }
       _this.$http.fetch(_this.$api.guide.activityCoupon.saveActiviCoupon, {
         sgActivityCoupon: _this.activityModel,
         couponShopList: _this.shopCouponList
@@ -113,8 +127,20 @@ export default {
         _this.$notify.error(getErrorMsg('保存失败', resp))
         _this.forbidden = false
       })
-      // console.log(_this.shopCouponList, 'shopCouponList')
-      // this.closeDialog()
+    },
+    changeTotal (total) {
+      return new Promise(resolve => {
+        this.$msgbox({
+          message: '门店配额总和小于优惠券设置的配额，是否更新优惠券设置的配额',
+          showCancelButton: true,
+          confirmButtonText: '确定',
+          cancelButtonText: '取消'
+        }).then(action => {
+          resolve(total)
+        }).catch(() => {
+          resolve(false)
+        })
+      })
     },
     // 打开优惠券弹窗
     onOpenCoupon () {
@@ -233,11 +259,11 @@ export default {
     // 修改分配方式
     onChangeDistributionMode (type) {
       this.distributionMode = type
-      if (type === 1) {
-        this.$nextTick(() => {
-          this.$refs.storeList.init(true)
-        })
-      }
+      // if (type === 1) {
+      //   this.$nextTick(() => {
+      //     this.$refs.storeList.init(true)
+      //   })
+      // }
     },
     /**
      * 检验配额整数 以及总数量
@@ -267,7 +293,7 @@ export default {
       }
       const { type } = _this.activityModel
       const couponTotal = _this.activityModel.coupon_total
-      if (type === 0) {
+      if (type === 0 && this.$refs.storeList) {
         this.$refs.storeList.resetShopCouponNumber(couponTotal)
       }
     },
