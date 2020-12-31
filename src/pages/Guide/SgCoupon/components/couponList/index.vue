@@ -63,17 +63,21 @@
                     <p class='employee-text'>共{{shopList.length}}家门店</p>
                   </template>
                   <template v-else>
-                    <p class='employee-text'>请选择门店</p>
+                    <p class='empty-text'>请选择门店</p>
                   </template>
                   <div></div>
                 </div>
                 <div class='employee-suffix'>
-                  <NsShopDialog btnTitle="选择店铺" v-model="shopList" @input='handleChangeShop'></NsShopDialog>
+                  <NsShopDialog type='icon' v-model="shopList" @input='handleChangeShop'>
+                    <template slot='btnIcon'>
+                      <Icon type="ns-store"/>
+                    </template>
+                  </NsShopDialog>
                 </div>
               </div>
             </el-form-grid>
           </el-form-item>
-          <el-form-item>
+          <el-form-item v-if='shopList && shopList.length'>
             <StoreList ref= "storeList"
             :activityModel="activityModel"
             :storeModel="storeModel"
@@ -140,12 +144,16 @@ export default index
 </script>
 <style scoped lang="scss">
 @import "./src/index.scss";
+.empty-text {
+  color: #BFBFBF;
+}
 .flex-box {
   display: flex;
-  border: 1px solid #D9D9D9;
+  border: 1px solid #DCDFE6;
   border-radius: 2px;
   position: relative;
   width: 360px;
+  line-height: 26px;
   padding: 0 9px;
   justify-content: space-between;
 }

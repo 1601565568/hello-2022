@@ -18,14 +18,19 @@ export default {
       },
       shopAllList: [], // 所有店铺列表
       shopList: [],
-      paginations: paginations
+      paginations: paginations,
+      isDevide: false // 是否已经评分
     }
   },
   computed: {
     pageData () {
       const data = this.model.shop_name ? this.shopList.filter(item => item.shopName.indexOf(this.model.shop_name) > -1) : this.shopList
       const { size, page } = this.paginations
+      this.paginations.total = data.length
       return data.slice((page - 1) * size, page * size)
+    },
+    devideText () {
+      return this.isDevide ? '取消均分' : '均分'
     }
   },
   props: {
@@ -178,6 +183,31 @@ export default {
         this.$emit('changeShopMap', item.id, newItem)
         return newItem
       })
+    },
+    // 均分
+    sharing () {
+      const couponTotal = Number(this.activityModel.coupon_total)
+      const length = this.shopList.length
+      const per = Math.floor(couponTotal / length)
+      const remainder = couponTotal % length
+      const isNoRemainder = couponTotal % length === 0
+      this.shopList = this.shopList.map((item, index) => {
+        const shopCouponNumber = isNoRemainder ? per : (index + 1 > remainder) ? per : per + 1
+        const newItem = {
+          ...item,
+          shopCouponNumber
+        }
+        this.$emit('changeShopMap', item.id, newItem)
+        return newItem
+      })
+    },
+    handleDevide () {
+      if (!this.isDevide) {
+        this.sharing()
+      } else {
+        this.resetShopCouponNumber(0)
+      }
+      this.isDevide = !this.isDevide
     }
     // this.$reload()
   },

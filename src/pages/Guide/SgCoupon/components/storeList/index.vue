@@ -1,13 +1,17 @@
 <template>
-    <div>
+    <div class='form'>
         <el-form
+            class='form-content'
             ref="form"
+            :inline="true"
             @submit.native.prevent
             :model="model"
             label-width="80px"
         >
+          <el-form-item>
             <el-input
                 class="search"
+                style='width:263px;'
                 @keyup.enter.native="onChangeStoreInput()"
                 placeholder="请输入门店名称"
                 v-model="model.shop_name"
@@ -21,6 +25,10 @@
                     @click="onChangeStoreInput()"
                 />
             </el-input>
+          </el-form-item>
+          <el-form-item v-if='activityModel.type===1'>
+            <ns-button @click="handleDevide" class='sharing'>{{devideText}}</ns-button>
+          </el-form-item>
         </el-form>
         <el-table
             class="template-table__main"
@@ -84,5 +92,24 @@ export default index
 .search {
   width: 360px;
   /* margin-bottom: 16px; */
+}
+.form {
+  position: relative;
+}
+.form-content {
+  position: absolute;
+  right: 0;
+  top: -35px;
+}
+.form-content >>> .el-form-item--small.el-form-item {
+  margin-bottom:0 !important;
+  margin-left: 16px;
+}
+.form-content .sharing {
+  width: 72px;
+  text-align: center;
+  padding-left: 0;
+  padding-right: 0;
+  font-weight: normal;
 }
 </style>
