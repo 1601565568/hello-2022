@@ -79,7 +79,9 @@ export default {
             let newShopObject = JSON.parse(shopObj)
             _this.shopList.push(newShopObject)
           }
-          this.resetShopCouponNumber(this.activityModel.coupon_total)
+          if (this.activityModel.type === 0) {
+            this.resetShopCouponNumber(this.activityModel.coupon_total)
+          }
         }
         this._data.paginations.total = Number(resp.result.recordsTotal)
       }
@@ -218,6 +220,7 @@ export default {
       } else {
         this.resetShopCouponNumber(0)
       }
+      this.isDevide = false
     }
   }
 }

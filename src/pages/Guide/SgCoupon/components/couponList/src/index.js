@@ -179,6 +179,7 @@ export default {
       this.activityModel.coupon_total = 0
       this.activityModel.type = 0
       this.distributionMode = 0
+      this.shopList = []
     },
     /**
      * 查询所有的店铺店铺列表
