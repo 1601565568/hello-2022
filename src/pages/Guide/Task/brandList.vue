@@ -112,10 +112,10 @@
         </el-table-column>
       <el-table-column prop="status" label="状态" align="left" width="100">
         <template slot-scope="{row}">
-          <el-tag type="success" v-if="row.state === 1">进行中</el-tag>
-          <el-tag type="info" v-if="row.state === 2">已完成</el-tag>
-          <el-tag type="warning" v-if="row.state === 4">已过期</el-tag>
-          <el-tag type="success" v-if="row.state === 5">未开始</el-tag>
+          <el-tag type="success" v-if="row.state === 1">执行中</el-tag>
+          <el-tag type="info" v-if="row.state === 3">已完成</el-tag>
+          <el-tag type="warning" v-if="row.state === 5">未开始</el-tag>
+          <el-tag type="danger" v-if="row.state === 6">未完成</el-tag>
         </template>
       </el-table-column>
       <el-table-column
