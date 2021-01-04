@@ -202,7 +202,9 @@ export default {
       var url = API_ROOT + '/guide/task/shopCompleteDataExport'
       var form = document.createElement('form')
       form.appendChild(this.generateHideElement('taskId', this.searchMap.taskId))
-      form.appendChild(this.generateHideElement('queryTime', this.searchMap.queryTime))
+      if (this.taskMsg.runType === 1) {
+        form.appendChild(this.generateHideElement('queryTime', this.searchMap.queryTime))
+      }
       form.appendChild(this.generateHideElement('shopId', this.searchMap.shopId))
       form.appendChild(this.generateHideElement('shopName', this.createShopName))
       form.setAttribute('action', url)

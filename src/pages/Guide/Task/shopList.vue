@@ -107,9 +107,10 @@
       <el-table-column prop="createShopName" label="创建门店"></el-table-column>
       <el-table-column prop="status" label="状态" align="center" width="80">
         <template slot-scope="{row}">
-          <span v-if="row.state === 1" class="text-primary">执行中</span>
-          <span v-if="row.state === 4" class="text-warning">已过期</span>
-          <span v-if="row.state === 2" class="text-error">终止</span>
+          <el-tag type="success" v-if="row.state === 1">执行中</el-tag>
+          <el-tag type="info" v-if="row.state === 3">已完成</el-tag>
+          <el-tag type="warning" v-if="row.state === 5">未开始</el-tag>
+          <el-tag type="danger" v-if="row.state === 6">未完成</el-tag>
         </template>
       </el-table-column>
       <el-table-column

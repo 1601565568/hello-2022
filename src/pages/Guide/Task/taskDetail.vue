@@ -22,9 +22,10 @@
             <div class="task-type daily" v-if="taskMsg.type === 3"><Icon type='daily' class="task-type_icon" />日常</div>
             <div class="task-type returnvisit" v-if="taskMsg.type === 1"><Icon type='returnvisit' class="task-type_icon" />回访</div>
             <span class="task-type-name">{{taskMsg.name}}</span>
-            <el-tag type="success" v-if="taskMsg.state === 1">进行中</el-tag>
-            <el-tag type="warning" v-if="taskMsg.state === 4">已过期</el-tag>
-            <el-tag type="info" v-if="taskMsg.state === 2">已完成</el-tag>
+            <el-tag type="success" v-if="taskMsg.state === 1">执行中</el-tag>
+            <el-tag type="info" v-if="taskMsg.state === 3">已完成</el-tag>
+            <el-tag type="warning" v-if="taskMsg.state === 5">未开始</el-tag>
+            <el-tag type="danger" v-if="taskMsg.state === 6">未完成</el-tag>
             <!-- <el-tag class="head-tag" type="danger">未完成</el-tag> -->
           </div>
           <div class="taskOverview-materials__content-info">
@@ -70,7 +71,7 @@
         <div class="taskOverview-detail__head clearfix">
           <span class="taskOverview-detail__title">进度统计</span>
           <ElForm inline class="float-right" :model="searchMap">
-            <ElFormItem label="日期：">
+            <ElFormItem v-if="taskMsg.runType === 1" label="日期：">
               <ElDatePicker
                 format="yyyy-MM-dd"
                 value-format="yyyy-MM-dd"
