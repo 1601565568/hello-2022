@@ -1,6 +1,7 @@
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import NsDatetime from '@nascent/ecrp-ecrm/src/components/NsDatetime'
 import apiRequestConfirm from '@nascent/ecrp-ecrm/src/utils/apiRequestConfirm'
+import { MARKETING_TYPE } from './common'
 
 let vm
 export default {
@@ -23,7 +24,7 @@ export default {
       {
         func: function (obj) {
           vm.$router.push({
-            path: '/Marketing/EnterpriseMessagePush',
+            path: '/Marketing/EnterpriseGroupMessagePush',
             query: {
               taskId: obj.row.id
             }
@@ -77,7 +78,7 @@ export default {
       {
         func: function (obj) {
           vm.$router.push({
-            path: '/Marketing/EnterpriseMessagePush',
+            path: '/Marketing/EnterpriseGroupMessagePush',
             query: {
               taskId: obj.row.id,
               openType: 'view'
@@ -92,7 +93,7 @@ export default {
       {
         func: function (obj) {
           vm.$router.push({
-            path: '/Marketing/EnterpriseMessagePush',
+            path: '/Marketing/EnterpriseGroupMessagePush',
             query: {
               openType: 'copy',
               taskId: obj.row.id
@@ -107,7 +108,7 @@ export default {
       {
         func: function (obj) {
           vm.$router.push({
-            path: '/Marketing/EffectAnalysisEnterprise',
+            path: '/Marketing/EffectAnalysisEnterpriseGroup',
             query: {
               id: obj.row.id
             }
@@ -163,7 +164,7 @@ export default {
     const operateButtons = [
       {
         func: function () {
-          vm.$router.push({ path: '/Marketing/EnterpriseMessagePush' })
+          vm.$router.push({ path: '/Marketing/EnterpriseGroupMessagePush' })
         },
         icon: '$.noop',
         name: '新增',
@@ -210,6 +211,7 @@ export default {
         enumerable: true
       })
     })
+
     return {
       model: model,
       quickSearchModel: quickSearchModel,
@@ -228,7 +230,8 @@ export default {
       },
       _queryConfig: {
         expand: false
-      }
+      },
+      MARKETING_TYPE: MARKETING_TYPE
     }
   },
 
@@ -255,7 +258,7 @@ export default {
       }
       delete param.searchMap.execTime
       delete param.searchMap.createTime
-      param.searchMap.type = 4
+      param.searchMap.type = MARKETING_TYPE.ENT_GROUP
       return param
     },
     onHandleSelectChange: function (val) {

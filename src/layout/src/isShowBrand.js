@@ -6,7 +6,7 @@
 export default ($route) => {
   // 部分路由无视角选择
   const path = $route.path
-  if (path === '/Marketing/EnterpriseMessage') {
+  if (path === '/Marketing/EnterpriseMessage' || path === '/Marketing/EnterpriseGroupMessage') {
     return true
   }
   return false

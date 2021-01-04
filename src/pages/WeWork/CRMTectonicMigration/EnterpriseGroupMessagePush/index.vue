@@ -1,18 +1,17 @@
 <template>
   <div v-if="!isError">
     <div class="page-title">
-      {{$route.query.taskId ? ($route.query.openType === 'view'?'查看': $route.query.openType === 'copy' ? '复制' :'编辑'):'新建'}}微信好友营销
+      新建微信群营销
     </div>
     <ElScrollbar ref="fullScreen">
-      <ElForm label-width="100px" ref="formName" :model="model" :rules="rules">
       <div class="message-container">
         <ElCard shadow="never">
           <div slot="header">基本信息</div>
           <div>
+            <ElForm label-width="100px" ref="formName" :model="model" :rules="rules" :disabled="isUpdate">
               <ElFormItem label="活动名称：" prop="name">
                 <ElFormGrid size="xlg">
                   <ElInput
-                    :disabled="isUpdate"
                     type="text"
                     placeholder="请输入活动名称"
                     v-model="model.name"
@@ -23,16 +22,16 @@
               </ElFormItem>
               <ElFormItem label="选择营销人群：" required>
                 <ElFormGrid>
-                  <!--<NsButton type="text" @click="openMarking()">+选择营销人群</NsButton>-->
-                  <NsEmployeeOrCustGroupDialog :disabled="isUpdate" :queryType="2" btnTitle="选择营销人群" v-model="employeeSelectData"></NsEmployeeOrCustGroupDialog>
+                  <!--<NsButton type="text" @click="onOpenGroupSelect()"><Icon type="plus"/>选择营销人群</NsButton>-->
+                  <NsChatrommSelectDialog :disabled="false" :queryType="2" :isqywx="true" onlyOne="chatroom" dialogTitle="选择群主" btnTitle="选择群主" v-model="employeeSelectData2"></NsChatrommSelectDialog>
                 </ElFormGrid>
                 <ElFormGrid>
-                  已选择<span class="text-primary">{{employeeSelectData.data? employeeSelectData.data.length: 0}}</span>{{employeeSelectData.type == 'employee'? '个员工全部好友': '个客户分群'}}
+                  已选择<span class="text-primary">{{employeeSelectData2.data? employeeSelectData2.data.length: 0}}</span>个群主
                 </ElFormGrid>
               </ElFormItem>
               <ElFormItem label="发送方式：" required>
                 <ElFormGrid>
-                  <ElRadioGroup :disabled="isUpdate" v-model="model.executeMode" @change="changeExec">
+                  <ElRadioGroup v-model="model.executeMode" @change="changeExec">
                     <ElRadio :label="1">立即发送</ElRadio>
                     <ElRadio :label="2">定时发送</ElRadio>
                   </ElRadioGroup>
@@ -42,7 +41,6 @@
               <ElFormItem label="执行时间：" v-if="model.executeMode== 2" prop="executeTime">
                 <ElFormGrid size="xmd">
                   <el-date-picker
-                    :disabled="isUpdate"
                     v-model="model.executeTime"
                     type="datetime"
                     placeholder="选择日期时间">
@@ -51,27 +49,28 @@
                 <ElFormGrid size="xmd">
                 </ElFormGrid>
               </ElFormItem>
+            </ElForm>
           </div>
         </ElCard>
         <ElCard shadow="never" class="message-container__card">
           <div slot="header">发布设置</div>
           <div class="message-composition">
             <div class="message-composition__left">
+              <ElForm label-width="0px" ref="formPush" :model="model" :rules="rules" :disabled="isUpdate">
                 <ElFormItem prop="textarea">
                   <ElFormGrid>
                     <el-input
-                      :disabled="isUpdate"
                       type="textarea"
                       :rows="6"
                       placeholder="请输入内容"
                       @blur="setView"
-                      v-model="model.textarea" maxlength="400" style="width: 600px;">
+                      v-model="model.textarea" maxlength="1000" style="width: 700px;">
                     </el-input>
                   </ElFormGrid>
                 </ElFormItem>
                 <ElFormItem>
                   <ElFormGrid>
-                    <ElPopover trigger="hover" v-if="!isUpdate && !show">
+                    <ElPopover trigger="hover" v-if="!show">
                       <div class="message-prompt">
                       <div class="message-prompt__mass" @click="setType()">
                         <ElUpload ref="upload"
@@ -101,7 +100,7 @@
                           <div class="message-prompt__mass&#45;&#45;topspace cursor-pointer message-hovericolor">小程序</div>
                         </div>-->
                       </div>
-                      <NsButton :disabled="isUpdate" type="text" slot="reference">+添加图片/图文/小程序</NsButton>
+                      <NsButton type="text" slot="reference">+添加图片/图文/小程序</NsButton>
                      </ElPopover>
                     <div v-if="show">
                       <ElUpload ref="upload"
@@ -110,16 +109,17 @@
                                 :on-success="uploadSuccess"
                                 :before-upload="beforeAvatarUpload"
                                 accept=".gif,.jpg,.jpeg,.png,.GIF,.JPG,.PNG" v-if="model.type === 1" style="display: inline-block;">
-                        <NsButton :disabled="isUpdate" type="text">图片</NsButton>
+                        <NsButton type="text">图片</NsButton>
                       </ElUpload>
-                      <NsButton :disabled="isUpdate" type="text" @click="openPic" v-if="model.type === 2" style="display: inline-block;">图文</NsButton>
-                      <NsButton :disabled="isUpdate" type="text" @click="openMiniPro" v-if="model.type === 3" style="display: inline-block;">小程序</NsButton>
-                      <NsButton :disabled="isUpdate" type="text">
+                      <NsButton type="text" @click="openPic" v-if="model.type === 2" style="display: inline-block;">图文</NsButton>
+                      <NsButton type="text" @click="openMiniPro" v-if="model.type === 3" style="display: inline-block;">小程序</NsButton>
+                      <NsButton type="text">
                         <Icon type="close-circle"  theme="outlined"  @click="clear"/>
                       </NsButton>
                     </div>
                   </ElFormGrid>
                 </ElFormItem>
+              </ElForm>
             </div>
             <div class="message-composition__right">
               <contentPreview  ref="preview"/>
@@ -127,85 +127,52 @@
           </div>
         </ElCard>
       </div>
-      </ElForm>
     </ElScrollbar>
     <div class="form-save__unique">
       <NsSave  @click="save" :disabled="isUpdate" :loading="loading"/>
       <NsButton @click="cancel">{{$t('operating.cancel')}}</NsButton>
     </div>
-    <el-dialog title="选择营销人群" :visible.sync="visible" :show-scroll-x="false"
-               :close-on-click-modal = "false" :before-close="onMarkingClose" width="700px" height="400px">
-      <el-form>
-        <el-form-item>
-          <el-tabs v-model="model.customerType" @tab-click="change">
-            <el-tab-pane label="客户分群" name="1"></el-tab-pane>
-            <el-tab-pane label="员工全部好友" name="2"></el-tab-pane>
-          </el-tabs>
-        </el-form-item>
-        <el-form-item>
-          <ElRow :gutter="10" class="code-container">
-            <ElCol :span="12" class="code-container__item">
-              <div class="code-title">可选{{model.customerType == '1'? '分组': '好友'}}</div>
-              <ElInput
-                :placeholder="model.customerType == '1'? '请输入分组人群': '请输入好友员工'"
-                suffix-icon="el-icon-search"
-                v-model="select" class="code-space">
-              </ElInput>
-              <!--<div class="text-primary code-space">全部 /20</div>-->
-              <ElScrollbar>
-                <ElTree
-                  :data="selectData"
-                  ref="selectTree"
-                  show-checkbox
-                  :filter-node-method="selectFilterNode"
-                  node-key="id"
-                  default-expand-all
-                  :default-checked-keys="selectKeys"
-                  @check="check"
-                  :props="leftDefaultProps" class="code-space">
-            <span class="code-detail clearfix" slot-scope="{ node, data }">
-              <span class="code-detail__text">{{ node.label }}</span>
-              <span>{{ data.children ? '/' + data.children.length : '' }}</span>
-            </span>
-                </ElTree>
-              </ElScrollbar>
-            </ElCol>
-            <ElCol :span="12" class="code-container__item">
-              <div class="code-title">已选{{model.customerType == '1'? '个分组': '个好友'}}</div>
-              <ElInput
-                :placeholder="model.customerType == '1'? '请输入分组人群': '请输入好友员工'"
-                suffix-icon="el-icon-search"
-                v-model="selected" class="code-space">
-              </ElInput>
-              <!--<div class="text-primary code-space">全部 /33</div>-->
-              <ElScrollbar>
-                <ElTree
-                  :data="selectedData"
-                  ref="selectedTree"
-                  :filter-node-method="selectedFilterNode"
-                  node-key="id"
-                  :expand-on-click-node="false" class="code-space">
-            <span class="code-detail clearfix" slot-scope="{ node, data }">
-              <span class="code-detail__text">{{ node.label }}</span>
-              <!--<span>{{ data.children ? '/' + data.children.length : '' }}</span>-->
-              <span>
+
+    <el-dialog title="选择微信群" :show-scroll-x="false" :visible.sync="visible"
+               :close-on-click-modal = "false" :before-close="onCloseSelectRoom" width="700px" height="400px">
+      <div>
+        <el-form>
+          <el-form-item>
+            <el-form-grid><div style="margin-left: 10px;">选择门店：</div></el-form-grid>
+            <el-form-grid>
+              <el-select-load v-model="roomsData.searchShopId" :options="roomsData.offEmployees" filterable @change="changeShop"
+                              clearable @clear="clear" :page-sizes="20" placeholder="请选择">
+              </el-select-load>
+            </el-form-grid>
+          </el-form-item>
+        </el-form>
+        <el-row :gutter="24">
+          <el-col :span="12">
+            <ElTable ref="selectEmp" :data="roomsData.matchRooms" height="260" @select="selectChange" @select-all="selectAllChange" v-loading="roomsData.loading">
+              <ElTableColumn type="selection" width="55"/>
+              <ElTableColumn :show-overflow-tooltip="true" type="default" prop="empNick" label="群主昵称" align="left" width="120" >
+              </ElTableColumn>
+              <ElTableColumn :show-overflow-tooltip="true" type="default" prop="empName" label="员工姓名" align="left" />
+            </ElTable>
+          </el-col>
+          <el-col :span="12"><ElTable :data="roomsData.selectedData" height="260" v-loading="">
+            <ElTableColumn :show-overflow-tooltip="true" type="default" prop="empName" label="已选群主" align="left" />
+            <ElTableColumn  prop="select" align="center" width="55" >
+              <template slot-scope="scope">
                 <ns-button
                   type="text"
                   size="mini"
-                  @click="() => remove(node, data)">
+                  @click="() => removeRoom(scope)">
                   <Icon type="delete" className="code-delete"/>
                 </ns-button>
-              </span>
-            </span>
-                </ElTree>
-              </ElScrollbar>
-            </ElCol>
-          </ElRow>
-        </el-form-item>
-      </el-form>
+              </template>
+            </ElTableColumn>
+          </ElTable></el-col>
+        </el-row>
+      </div>
       <div slot="footer" class="dialog-footer">
-        <ns-button @click="onMarkingClose()">{{$t('operating.cancel')}}</ns-button>
-        <ns-save @click="onMarkingSave()"></ns-save>
+        <ns-button @click="onCloseSelectRoom()">{{$t('operating.cancel')}}</ns-button>
+        <ns-save @click="onSaveSelectRoom()"></ns-save>
       </div>
     </el-dialog>
     <!-- 图文 start -->
@@ -236,7 +203,7 @@
             />
             </ElFormGrid>
           </ElFormItem>
-          <ElFormItem label="封面图：" required  label-width="100px" prop="pic" >
+          <ElFormItem label="封面图：" required  label-width="100px" prop="pic">
             <ElFormGrid>
             <ElUpload
               :action="this.$api.core.sgUploadFile('activityPic')"
@@ -299,7 +266,7 @@
               <a href="https://jingyan.baidu.com/article/f3ad7d0f4c39aa09c3345bf1.html" target="_blank">如何获取路径</a>
             </el-form-grid>
           </ElFormItem>
-          <ElFormItem label="封面图：" required  label-width="100px" prop="pic" class="el-form-validate__unHide">
+          <ElFormItem label="封面图：" required  label-width="100px" prop="pic">
             <ElFormGrid>
               <ElUpload
                 :action="this.$api.core.sgUploadFile('activityPic')"
@@ -329,18 +296,20 @@ import ElCard from '@nascent/nui/lib/card'
 import scrollHeight from '@nascent/ecrp-ecrm/src/mixins/scrollHeight'
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import ElUpload from '@nascent/nui/lib/upload'
+import ElSelectLoad from '@nascent/nui/lib/select-load'
 import contentPreview from './contentPreview.vue'
-import $ from 'jquery'
+import NsChatrommSelectDialog from '@/components/NsChatrommSelectDialog'
+
 import moment from 'moment'
-import NsEmployeeOrCustGroupDialog from '@/components/NsEmployeeOrCustGroupDialog'
 let vm
 export default {
   mixins: [scrollHeight, tableMixin],
   components: {
     ElCard,
     contentPreview,
-    NsEmployeeOrCustGroupDialog,
-    ElUpload
+    ElUpload,
+    ElSelectLoad,
+    NsChatrommSelectDialog
   },
   data () {
     return {
@@ -351,13 +320,18 @@ export default {
         id: '',
         name: '',
         marketingType: '',
-        customerType: '1',
+        // 群主
+        customerType: '4',
         executeMode: 1,
         executeTime: '',
         textarea: '',
         type: ''
       },
       copyType: '',
+      employeeSelectData2: {
+        data: [],
+        type: 'chatroom'
+      },
       rules: {
         name: [
           { required: true, message: '请输入活动名称', trigger: 'blur' },
@@ -367,7 +341,7 @@ export default {
           { required: true, message: '请选择执行时间', trigger: 'blur' }
         ],
         textarea: [
-          { min: 0, max: 4000, message: '长度在 1 到 4000 个字符', trigger: 'blur' },
+          { min: 0, max: 1000, message: '长度在 1 到 1000 个字符', trigger: 'blur' },
           {
             validator: (rule, value, callback) => {
               if (!value) {
@@ -438,10 +412,6 @@ export default {
       picVisible: false,
       miniProVisible: false,
       show: false,
-      employeeSelectData: {
-        data: [],
-        type: 'employee'
-      },
       pic: {
         title: '',
         desc: '',
@@ -464,43 +434,33 @@ export default {
       code: '',
       treeDefaultSetting: { id: 'id', pId: 'pId', children: 'children', extData: { showCheckbox: false, showIcon: false, showAddIcon: false, showEditIcon: false, showDeleteIcon: false } },
       visible: false,
-      dataList: [{ key: 2, label: '全部平台' }, {
-        key: 1,
-        label: '天猫'
-      }],
-      transTitle: ['可选分群', '已选分群'],
-      // 左边树数据
-      selectData: [],
-      selectEmpData: [],
-      selectSubData: [],
-      // 左边树默认绑定数据
-      leftDefaultProps: {
-        children: 'children',
-        label: 'label'
-      },
-      copySelectKeys: [],
-      copySelectedData: [],
-      copyCustomerType: '',
-      // 右边树数据
-      selectedData: [],
-      // 右边输入框绑定值
-      select: '',
-      selected: '',
-      selectKeys: [],
       // 页面滚动条配置
       scrollBarDeploy: {
         ref: 'fullScreen', // 页面滚动条ref的名称
         excludeHeight: 69 // 底部按钮的高度39 + 30顶部设置小程序积分体系的高度
-      }
+      },
+      // 选择群弹框数据
+      roomsData: {
+        allRooms: [],
+        matchRooms: [],
+        searchShopId: '',
+        selectedData: [],
+        offEmployees: [],
+        loading: false
+      },
+      // 保存的选择群信息
+      roomSelectedData: []
     }
   },
   created: function () {
     vm = this
-    vm.init()
   },
   mounted () {
-    this.initSubTree()
-    this.initEmpTree()
+    this.queryGroupRooms4ent(null)
+    this.$nextTick(function () {
+      vm.init()
+      vm.getViewShopOffList()
+    })
   },
   watch: {
     selected (val) {
@@ -511,6 +471,268 @@ export default {
     }
   },
   methods: {
+    getViewShopOffList () {
+      const that = this
+      this.$http.fetch(this.$api.marketing.weworkMarketing.getViewShopOffList)
+        .then(resp => {
+          if (resp && resp.result) {
+            that.roomsData.offEmployees = JSON.parse(JSON.stringify(resp.result))
+          }
+        }).catch(() => {
+          that.$notify.error('导购员工列表加载失败！')
+        })
+    },
+    // 查询群主
+    queryGroupRooms4ent (shopId) {
+      const that = this
+      this.roomsData.loading = true
+      this.$http.fetch(this.$api.marketing.weworkMarketing.queryGroupEntRoomsLeaderList, { shopId: shopId })
+        .then(resp => {
+          if (resp && resp.result) {
+            that.roomsData.matchRooms = JSON.parse(JSON.stringify(resp.result))
+            if (!shopId) {
+              that.roomsData.allRooms = JSON.parse(JSON.stringify(resp.result))
+            } else {
+              that.$nextTick(function () {
+                that.fileData()
+              })
+            }
+          }
+          that.roomsData.loading = false
+        }).catch(() => {
+          that.$notify.error('微信群加载失败！')
+          that.roomsData.loading = false
+        })
+    },
+    save () {
+      let isOk = false
+      this.$refs.formName.validate((valid) => {
+        if (!valid) {
+          isOk = true
+          return false
+        }
+      })
+      if (isOk) {
+        return
+      }
+      this.$refs.formPush.validate((valid) => {
+        if (!valid) {
+          return false
+        } else {
+          return vm.saveOrUpdate()
+        }
+      })
+    },
+    // 保存活动信息
+    saveOrUpdate () {
+      if (!this.employeeSelectData2.data || this.employeeSelectData2.data.length === 0) {
+        this.$notify.warning('请选择人群')
+        return false
+      }
+      this.loading = true
+      const target = JSON.parse(JSON.stringify(this.model))
+      if (target.executeMode === 2) {
+        target.executeTime = moment(target.executeTime).format('YYYY-MM-DD HH:mm:ss')
+      }
+      const data = {}
+      if (vm.model.textarea) {
+        data.text = vm.model.textarea
+      }
+      if (vm.model.type) {
+        if (vm.model.type === 1) {
+          data.image = {}
+          data.image.image = vm.picUrl
+        } if (vm.model.type === 2) {
+          data.picText = vm.pic
+        } if (vm.model.type === 3) {
+          data.miniPro = vm.miniPro
+        }
+      }
+      target.content = data
+      // target.userGroupIds = (!this.roomSelectedData || this.roomSelectedData.length === 0) ? '' : this.roomSelectedData.map(value => { return parseInt(value.empId) }).join(',')
+      target.userGroupIds = (!this.employeeSelectData2.data || this.employeeSelectData2.data.length === 0) ? '' : this.employeeSelectData2.data.map(value => { return value.empId.trim() }).join(',')
+      this.$http.fetch(this.$api.marketing.weworkMarketing.saveOrUpdateEnterprise4Room, target)
+        .then(() => {
+          this.$notify.success('保存成功')
+          vm.cancel()
+        }).catch((error) => {
+          vm.$notify.error('保存失败' || error.msg)
+        }).finally(() => {
+          this.loading = false
+          return true
+        })
+    },
+    /**
+     * 初始化页面
+     */
+    init () {
+      if (this.$route.query.taskId) {
+        this.$http.fetch(this.$api.marketing.weworkMarketing.getEnterpriseActivity, { taskId: this.$route.query.taskId })
+          .then(resp => {
+            const data = resp.result
+            vm.isUpdate = !data.isUpdate
+            vm.model.id = data.id
+            vm.model.name = data.name
+            vm.model.executeMode = data.executeMode
+            if (vm.model.executeMode === 2) {
+              vm.model.executeTime = data.executeTime
+            }
+            if (vm.$route.query.openType === 'copy') {
+              vm.model.id = ''
+              vm.isUpdate = false
+            }
+            if (data.content) {
+              if (data.content.text) {
+                vm.model.textarea = data.content.text
+              }
+              if (data.content.image && Object.keys(data.content.image).length > 0) {
+                vm.picUrl = data.content.image.image
+                vm.model.type = 1
+                vm.show = true
+              }
+              if (data.content.picText && Object.keys(data.content.picText).length > 0) {
+                vm.pic = data.content.picText
+                vm.model.type = 2
+                vm.show = true
+              }
+              if (data.content.miniPro && Object.keys(data.content.miniPro).length > 0) {
+                vm.miniPro = data.content.miniPro
+                vm.model.type = 3
+                vm.show = true
+              }
+            }
+            const employeeSelectData2 = {
+              data: [],
+              type: 'chatroom'
+            }
+            vm.employeeSelectData2 = employeeSelectData2
+            const userList = []
+            for (const item of data.userGroupIds.split(',')) {
+              let userItem = {}
+              userItem = {
+                empId: item
+              }
+              userList.push(userItem)
+            }
+            vm.employeeSelectData2.data = userList
+            vm.setView()
+            // const roomList = []
+            // for (const item of data.userGroupIds.split(',')) {
+            //   roomList.push({ empId: item })
+            // }
+            // vm.roomSelectedData = roomList
+          }).catch((resp) => {
+            this.isError = true
+            vm.$notify.error('数据查询失败！' || resp.msg)
+          }).finally(() => {
+            // do something
+          })
+      }
+    },
+    selectChange (select, scope) {
+      if (this.roomsData.selectedData.length > 0) {
+        const index = this.roomsData.selectedData.findIndex(d => d.empId === scope.empId)
+        if (index > -1) {
+          this.roomsData.selectedData.splice(index, 1)
+        } else {
+          this.roomsData.selectedData.push(scope)
+        }
+      } else {
+        this.roomsData.selectedData = JSON.parse(JSON.stringify(this.$refs.selectEmp.selection))
+      }
+      if (this.roomsData.selectedData.length === 0) {
+        this.$refs.selectEmp.clearSelection()
+      }
+    },
+    selectAllChange (select) {
+      if (select.length === 0) {
+        for (const data of this.roomsData.matchRooms) {
+          const index = this.roomsData.selectedData.findIndex(d => d.empId === data.empId)
+          if (index > -1) {
+            this.roomsData.selectedData.splice(index, 1)
+          }
+        }
+      } else {
+        for (const data of select) {
+          const index = this.roomsData.selectedData.findIndex(d => d.empId === data.empId)
+          if (index === -1) {
+            this.roomsData.selectedData.push(data)
+          }
+        }
+      }
+    },
+    removeRoom (scope) {
+      this.roomsData.selectedData.splice(scope.$index, 1)
+      const index = this.$refs.selectEmp.selection.findIndex(d => d.empId === scope.row.empId)
+      if (index > -1) {
+        this.$refs.selectEmp.selection.splice(index, 1)
+      }
+      if (this.$refs.selectEmp.selection.length === 0) {
+        this.$refs.selectEmp.clearSelection()
+      }
+    },
+    onSaveSelectRoom () {
+      if (this.roomsData.selectedData.length > 0) {
+        this.roomSelectedData = JSON.parse(JSON.stringify(vm.roomsData.selectedData))
+        this.visible = false
+      } else {
+        this.$notify.warning('请至少选择一个群')
+      }
+    },
+    onCloseSelectRoom () {
+      vm.visible = false
+    },
+    // 打开选择群弹框
+    onOpenGroupSelect () {
+      vm.visible = true
+      vm.roomsData.selectedData = JSON.parse(JSON.stringify(vm.roomSelectedData))
+      vm.$nextTick(function () {
+        vm.fileData()
+        vm.fillData()
+      })
+    },
+    // 设置选中状态
+    fileData () {
+      if (this.$refs.selectEmp) {
+        this.$refs.selectEmp.clearSelection()
+      }
+      this.$nextTick(function () {
+        for (const indexDat of vm.roomsData.matchRooms) {
+          if (vm.roomsData.selectedData.filter(d => d.empId === indexDat.empId).length > 0) {
+            this.$refs.selectEmp.toggleRowSelection(indexDat)
+          }
+        }
+      })
+    },
+    // 完善分组信息，编辑或查看时只带了id，需完善数据
+    fillData () {
+      if (vm.roomsData.allRooms.length > 0 && vm.roomsData.selectedData && vm.roomsData.selectedData.length > 0 && !vm.roomsData.selectedData[0].empName) {
+        const roomList = []
+        for (const item of vm.roomsData.selectedData) {
+          const matchArr = vm.roomsData.allRooms.filter(data => {
+            return data.empId === item.empId
+          })
+          if (matchArr.length > 0) {
+            roomList.push(JSON.parse(JSON.stringify(matchArr[0])))
+          }
+        }
+        vm.roomsData.selectedData = roomList
+      }
+    },
+    changeShop (value) {
+      if (value) {
+        vm.queryGroupRooms4ent(value)
+      } else {
+        vm.roomsData.matchRooms = JSON.parse(JSON.stringify(vm.roomsData.allRooms))
+        vm.$nextTick(function () {
+          vm.fileData()
+        })
+      }
+    },
+    cancel () {
+      vm.$router.push({ path: '/Marketing/EnterpriseGroupMessage' })
+    },
+    // end
     setView () {
       const data = []
       if (vm.model.textarea) {
@@ -611,9 +833,9 @@ export default {
     savePic () {
       vm.$refs.picForm.validate((valid) => {
         if (valid) {
-          this.copyPic = JSON.parse(JSON.stringify(this.pic))
           vm.model.type = 2
           vm.show = true
+          this.copyPic = JSON.parse(JSON.stringify(this.pic))
           vm.setView()
           vm.picVisible = false
         } else {
@@ -624,9 +846,9 @@ export default {
     saveMiniPro () {
       vm.$refs.miniProForm.validate((valid) => {
         if (valid) {
-          this.copyMiniPro = JSON.parse(JSON.stringify(this.miniPro))
           vm.model.type = 3
           vm.show = true
+          this.copyMiniPro = JSON.parse(JSON.stringify(this.miniPro))
           vm.setView()
           vm.miniProVisible = false
         } else {
@@ -636,312 +858,6 @@ export default {
     },
     changeExec () {
       this.model.executeTime = ''
-    },
-    init () {
-      const that = this
-      if (this.$route.query.taskId) {
-        this.$http.fetch(this.$api.marketing.weworkMarketing.getEnterpriseActivity, { taskId: this.$route.query.taskId })
-          .then(resp => {
-            const data = resp.result
-            vm.isUpdate = that.$route.query.openType === 'view'
-            vm.model.id = that.$route.query.openType === 'copy' ? '' : data.id
-            vm.model.name = data.name
-            vm.model.executeMode = data.executeMode
-            if (vm.model.executeMode === 2) {
-              vm.model.executeTime = data.executeTime
-            }
-            vm.model.customerType = data.customerType + ''
-            vm.copyCustomerType = vm.model.customerType
-            if (data.content) {
-              if (data.content.text) {
-                vm.model.textarea = data.content.text
-              }
-              if (data.content.image && Object.keys(data.content.image).length > 0) {
-                vm.picUrl = data.content.image.image
-                vm.model.type = 1
-                vm.show = true
-              }
-              if (data.content.picText && Object.keys(data.content.picText).length > 0) {
-                vm.pic = data.content.picText
-                vm.model.type = 2
-                vm.show = true
-              }
-              if (data.content.miniPro && Object.keys(data.content.miniPro).length > 0) {
-                vm.miniPro = data.content.miniPro
-                vm.model.type = 3
-                vm.show = true
-              }
-            }
-            vm.setView()
-            const employeeSelectData = {
-              data: [],
-              type: 'employee'
-            }
-            vm.employeeSelectData = employeeSelectData
-            const userList = []
-            for (const item of data.userGroupIds.split(',')) {
-              let userItem = {}
-              if (data.customerType === 2) {
-                userItem = {
-                  employeeId: item
-                }
-              } else {
-                userItem = {
-                  id: item
-                }
-              }
-              userList.push(userItem)
-            }
-            vm.employeeSelectData.data = userList
-            if (data.customerType === 2) {
-              vm.employeeSelectData.type = 'employee'
-            } else {
-              vm.employeeSelectData.type = 'group'
-            }
-          }).catch((resp) => {
-            this.isError = true
-            vm.$notify.error('数据查询失败！' || resp.msg)
-          }).finally(() => {})
-      }
-    },
-    change (tab) {
-      if (tab.name === '1') {
-        vm.selectData = vm.selectSubData
-      } else {
-        vm.selectData = vm.selectEmpData
-      }
-      vm.model.customerType = tab.name
-      this.$refs.selectTree.getCheckedNodes().splice(0, this.$refs.selectTree.getCheckedNodes().length)
-      this.selectedData = []
-      this.selectKeys = []
-    },
-    initSubTree: function () {
-      const that = this
-      // 分群类别加载
-      this.$http.fetch(this.$api.marketing.weworkMarketing.getSubdivisionList)
-        .then(resp => {
-          // id 为-1 只是用来点击显示全部的分群，不用于做添加修改等操作
-          const serverData = [{ id: 0, pId: null, label: '全部', isRoot: true }]
-          $.each(resp.result, function (index, element) {
-            serverData.push({
-              id: element.id,
-              pId: element.parent_id,
-              label: element.subdivision_name,
-              isRoot: false,
-              disabled: element.is_category === 1
-            })
-          })
-          this.selectSubData = this.transformToTreeFormat(serverData, this.treeDefaultSetting)
-          vm.selectData = vm.selectSubData
-        }).catch(() => {
-          that.$notify.error('客户分群加载失败！')
-        })
-    },
-    initEmpTree: function () {
-      const that = this
-      // 分群类别加载
-      this.$http.fetch(this.$api.marketing.weworkMarketing.queryDeptAndEmpl, { isEnterprise: true })
-        .then(resp => {
-          // id 为-1 只是用来点击显示全部的分群，不用于做添加修改等操作
-          const serverData = [{ id: 0, pId: null, label: '全部', isRoot: true }]
-          $.each(resp.result, function (index, element) {
-            serverData.push({
-              id: element.id,
-              pId: element.parentId,
-              label: element.name,
-              isRoot: false,
-              disabled: element.type === 1
-            })
-          })
-          this.selectEmpData = this.transformToTreeFormat(serverData, this.treeDefaultSetting)
-        }).catch(() => {
-          that.$notify.error('员工加载失败！')
-        })
-    },
-    //  树方法
-    _nodeChildren: function (setting, node, newChildren) { // 私有方法，children 键处理
-      if (!node) {
-        return null
-      }
-      const key = setting.children
-      if (typeof newChildren !== 'undefined') {
-        node[key] = newChildren
-      }
-      return node[key]
-    },
-    transformToTreeFormat: function (sNodes, setting) { // 将数据转换为树的children 结构，并且加上自己的配置数据，用来扩展el-tree功能
-      if (setting !== undefined && typeof (setting) === 'object') {
-        this.treeDefaultSetting = $.extend(this.treeDefaultSetting, setting)
-      }
-      let i, l
-      const key = this.treeDefaultSetting.id
-      const parentKey = this.treeDefaultSetting.pId
-      if (!key || key === '' || !sNodes) { return [] }
-      if ($.isArray(sNodes)) {
-        const r = []
-        const tmpMap = {}
-        for (i = 0, l = sNodes.length; i < l; i++) {
-          const tempExtData = $.extend({}, this.treeDefaultSetting.extData)
-          sNodes[i].extData = tempExtData
-          tmpMap[sNodes[i][key]] = sNodes[i]
-        }
-        for (i = 0, l = sNodes.length; i < l; i++) {
-          const p = tmpMap[sNodes[i][parentKey]]
-          if (p && sNodes[i][key] !== sNodes[i][parentKey]) {
-            let children = this._nodeChildren(this.treeDefaultSetting, p)
-            if (!children) {
-              children = this._nodeChildren(this.treeDefaultSetting, p, [])
-            }
-            children.push(sNodes[i])
-          } else {
-            r.push(sNodes[i])
-          }
-        }
-        return r
-      } else {
-        const tempExtData = $.extend({}, this.treeDefaultSetting.extData)
-        sNodes.extData = tempExtData
-        return [sNodes]
-      }
-    },
-    save () {
-      this.$refs.formName.validate((valid) => {
-        if (!valid) {
-          return false
-        } else {
-          return vm.saveOrUpdate()
-        }
-      })
-    },
-    saveOrUpdate () {
-      if (!this.employeeSelectData.data || this.employeeSelectData.data.length === 0) {
-        this.$notify.warning('请选择人群')
-        return false
-      }
-      this.loading = true
-      const target = JSON.parse(JSON.stringify(this.model))
-      if (target.executeMode === 2) {
-        target.executeTime = moment(target.executeTime).format('YYYY-MM-DD HH:mm:ss')
-      }
-      const data = {}
-      if (vm.model.textarea) {
-        data.text = vm.model.textarea
-      }
-      if (vm.model.type) {
-        if (vm.model.type === 1) {
-          if (vm.picUrl) {
-            data.image = {}
-            data.image.image = vm.picUrl
-          }
-        } if (vm.model.type === 2) {
-          data.picText = vm.pic
-        } if (vm.model.type === 3) {
-          data.miniPro = vm.miniPro
-        }
-      }
-      target.content = data
-      if (this.employeeSelectData.type === 'employee') {
-        target.customerType = 2
-        target.userGroupIds = (!this.employeeSelectData.data || this.employeeSelectData.data.length === 0) ? '' : this.employeeSelectData.data.map(value => { return parseInt(value.employeeId) }).join(',')
-      } else {
-        target.customerType = 1
-        target.userGroupIds = (!this.employeeSelectData.data || this.employeeSelectData.data.length === 0) ? '' : this.employeeSelectData.data.map(value => { return parseInt(value.id) }).join(',')
-      }
-      debugger
-      debugger
-      this.$http.fetch(this.$api.marketing.weworkMarketing.saveOrUpdateEnterprise, target)
-        .then(() => {
-          this.$notify.success('保存成功')
-          vm.cancel()
-        }).catch((error) => {
-          vm.$notify.error('保存失败' || error.msg)
-        }).finally(() => {
-          this.loading = false
-          return true
-        })
-    },
-    cancel () {
-      vm.$router.push({ path: '/Marketing/EnterpriseMessage' })
-    },
-    selectedFilterNode (query, item) {
-      return item.label.indexOf(query) > -1
-    },
-    selectFilterNode (query, item) {
-      return item.label.indexOf(query) > -1
-    },
-    check () {
-      vm.setSelectedData()
-    },
-    setSelectedData () {
-      this.selectedData = []
-      const data = this.$refs.selectTree.getCheckedNodes()
-      if (data) {
-        for (const dataParent of data) {
-          if (!dataParent.disabled) {
-            this.selectedData.push(dataParent)
-          }
-        }
-      }
-      return this.selectedData
-    },
-    openMarking () {
-      vm.visible = true
-      this.$nextTick(function () {
-        this.copySelectedData = JSON.parse(JSON.stringify(vm.setSelectedData()))
-      })
-      vm.copyCustomerType = this.model.customerType
-    },
-    onMarkingClose () {
-      this.$nextTick(() => {
-        this.selectedData = this.copySelectedData
-        this.model.customerType = vm.copyCustomerType
-        if (this.selectedData.length > 0) {
-          this.$refs.selectTree.setCheckedKeys([])
-          const data = this.selectedData.map(value => { return value.id })
-          this.$refs.selectTree.setCheckedKeys(data)
-          this.selectKeys = data
-        } else {
-          this.$refs.selectTree.setCheckedKeys([])
-        }
-      })
-      vm.visible = false
-    },
-    onMarkingSave () {
-      if (this.selectedData.length > 0) {
-        if (vm.model.marketingType === 1) {
-          this.copySelectedData = this.selectedData
-          this.copyCustomerType = vm.model.customerType
-          const data = this.selectedData.map(value => {
-            return value.id
-          })
-          this.selectKeys = data
-        } else {
-          this.copySelectedData = JSON.parse(JSON.stringify(vm.selectedData))
-        }
-        vm.visible = false
-      } else {
-        this.$notify.warning('请选择人群')
-      }
-    },
-    // 删除右边的树子节点数据
-    remove (node, data) {
-      const parent = node.parent
-      const children = parent.data.children || parent.data
-      const index = children.findIndex(d => d.id === data.id)
-      children.splice(index, 1)
-      const nodes = this.$refs.selectTree.getCheckedNodes()
-      const nodeIndex = nodes.findIndex(d => d.id === data.id)
-      nodes.splice(nodeIndex, 1)
-      for (const i in nodes) {
-        if (nodes[i].children) {
-          nodes.splice(i, 1)
-        }
-      }
-      if (nodes.length > 0) {
-        this.$refs.selectTree.setCheckedNodes(nodes)
-      } else {
-        this.$refs.selectTree.setCheckedKeys([])
-      }
     }
   }
 }
