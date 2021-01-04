@@ -46,8 +46,9 @@ export default {
         nick: JSON.parse(JSON.stringify(res.data.result.userName)),
         nickId: JSON.parse(JSON.stringify(res.data.result.userId))
       }
-      LocalStorage.set('user', user)
+      // LocalStorage.set('user', user)
       if (res.data.success) {
+        const productConfig = res.data.result.productConfig || {}
         res.data.result = {
           integralActivityUrl: res.data.result.integralActivityUrl,
           openDmWechat: res.data.result.openDmWechat,
@@ -58,7 +59,8 @@ export default {
           nick: res.data.result.userName,
           menus: res.data.result.menus,
           brands: res.data.result.views,
-          productConfig: { wxPlan: res.data.result.wxPlan },
+          // 拓展字段
+          productConfig: { ...productConfig, wxPlan: res.data.result.wxPlan, user },
           brand: {
             id: res.data.result.currentView.viewId,
             name: res.data.result.currentView.viewName,

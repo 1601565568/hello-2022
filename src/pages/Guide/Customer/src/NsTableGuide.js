@@ -209,7 +209,7 @@ export default {
     },
     setStatus () {
       let _this = this
-      let user = LocalStorage.get('user')
+      let user = this.$store.state.user.remumber.remumber_login_info.productConfig.user
       let userId = user.nickId
       this.shopCustomerTransferTaskStatus = null
       if (!this.offLineShopId) {
