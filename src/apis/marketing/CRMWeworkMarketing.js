@@ -90,5 +90,13 @@ export default {
   auditActivity: {
     url: '/wework/marketing/auditActivity',
     method: 'post'
+  },
+  queryWxPersonalFriendsAnalysisData: {
+    url: '/wework/marketing/queryWxPersonalFriendsAnalysisData',
+    method: 'post'
+  },
+  verifyProductToCRM: {
+    url: '/wework/marketing/verifyProductToCRM',
+    method: 'get'
   }
 }

@@ -729,8 +729,6 @@ export default {
       })
     },
     selectChange (select, scope) {
-      debugger
-      debugger
       if (this.selectedData.length > 0) {
         const index = this.selectedData.findIndex(d => d[vm.recordId] === scope[vm.recordId])
         if (index > -1) {

@@ -24,7 +24,7 @@
               <ElFormItem label="选择营销人群：" required>
                 <ElFormGrid>
                   <!--<NsButton type="text" @click="openMarking()">+选择营销人群</NsButton>-->
-                  <NsEmployeeOrCustGroupDialog :disabled="isUpdate" :queryType="2" btnTitle="选择营销人群" v-model="employeeSelectData"></NsEmployeeOrCustGroupDialog>
+                  <NsEmployeeOrCustGroupDialog :onlyOne="onlyOne" :disabled="isUpdate" :queryType="2" btnTitle="选择营销人群" v-model="employeeSelectData"></NsEmployeeOrCustGroupDialog>
                 </ElFormGrid>
                 <ElFormGrid>
                   已选择<span class="text-primary">{{employeeSelectData.data? employeeSelectData.data.length: 0}}</span>{{employeeSelectData.type == 'employee'? '个员工全部好友': '个客户分群'}}
@@ -347,6 +347,7 @@ export default {
       isError: false,
       isUpdate: false,
       loading: false,
+      onlyOne: '',
       model: {
         id: '',
         name: '',
@@ -501,6 +502,7 @@ export default {
   mounted () {
     this.initSubTree()
     this.initEmpTree()
+    this.verifyProductToCRM()
   },
   watch: {
     selected (val) {
@@ -758,6 +760,21 @@ export default {
           that.$notify.error('员工加载失败！')
         })
     },
+    verifyProductToCRM: function () {
+      const that = this
+      // 分群类别加载
+      this.$http.fetch(this.$api.marketing.weworkMarketing.verifyProductToCRM)
+        .then(resp => {
+          // id 为-1 只是用来点击显示全部的分群，不用于做添加修改等操作
+          const serverData = [{ id: 0, pId: null, label: '全部', isRoot: true }]
+          if (resp.result) {
+            that.onlyOne = ''
+          }
+        }).catch(() => {
+          that.$notify.error('验证产品方案失败！')
+        })
+      that.onlyOne = 'employee'
+    },
     //  树方法
     _nodeChildren: function (setting, node, newChildren) { // 私有方法，children 键处理
       if (!node) {
@@ -847,8 +864,6 @@ export default {
         target.customerType = 1
         target.userGroupIds = (!this.employeeSelectData.data || this.employeeSelectData.data.length === 0) ? '' : this.employeeSelectData.data.map(value => { return parseInt(value.id) }).join(',')
       }
-      debugger
-      debugger
       this.$http.fetch(this.$api.marketing.weworkMarketing.saveOrUpdateEnterprise, target)
         .then(() => {
           this.$notify.success('保存成功')
