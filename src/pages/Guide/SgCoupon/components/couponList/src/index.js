@@ -289,6 +289,10 @@ export default {
       //   return
       // }
       // _this.storeModel.maxType = 0 代表不限额，不做数量校验
+      if (!/^[0-9]*$/.test(_this.activityModel.coupon_total)) {
+        _this.activityModel.coupon_total = 0
+        _this.$notify.info('请输入正整数')
+      }
       if (_this.storeModel.maxType > 0) {
         if (_this.storeModel.remainingQuantity < _this.activityModel.coupon_total) {
           _this.activityModel.coupon_total = 0
