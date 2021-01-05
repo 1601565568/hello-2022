@@ -4,6 +4,7 @@
      title="新增优惠券发放"
      width="960px"
      :visible.sync="addCouponDialogVisible"
+     @closed='closeDialog'
     >
     <div class="addCouponDialogVisible">
         <el-form ref="form" :model="activityModel" label-width="80px" class="form-main">

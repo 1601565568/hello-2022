@@ -62,7 +62,7 @@ export default {
     },
     // 关闭新增弹窗
     closeDialog () {
-      this.addCouponDialogVisible = !this.addCouponDialogVisible
+      this.addCouponDialogVisible = false
       this.$emit('closeDialog')
     },
     async onSaveActivityCoupon () {

@@ -12,7 +12,6 @@
             <el-input
                 class="search"
                 style='width:263px;'
-                @keyup.enter.native="onChangeStoreInput()"
                 placeholder="请输入门店名称"
                 v-model="model.shop_name"
             >
@@ -22,7 +21,6 @@
                     style="padding: 5px;"
                     slot="suffix"
                     name="name"
-                    @click="onChangeStoreInput()"
                 />
             </el-input>
           </el-form-item>
