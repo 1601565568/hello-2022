@@ -30,7 +30,7 @@ export default {
         {
           'path': '/Marketing/EnterpriseMessage',
           'name': 'EnterpriseMessage',
-          'title': '企业好友营销',
+          'title': '企微好友营销',
           'component': () => import('@nascent/ecrp-ecrm/src/layout/ContentOnly.vue'),
           'redirect': {
             'name': 'EnterpriseMessage'
@@ -39,19 +39,19 @@ export default {
             {
               'path': '/Marketing/EnterpriseMessage',
               'name': 'EnterpriseMessage',
-              'title': '企业好友营销',
+              'title': '企微好友营销',
               'component': () => import('@/pages/WeWork/CRMTectonicMigration/EnterpriseMessage/index.vue')
             },
             {
               'path': '/Marketing/EnterpriseMessagePush',
               'name': 'EnterpriseMessagePush',
-              'title': '企业好友营销新增',
+              'title': '企微好友营销新增',
               'component': () => import('@/pages/WeWork/CRMTectonicMigration/EnterpriseMessagePush/index.vue')
             },
             {
               'path': '/Marketing/EffectAnalysisEnterprise',
               'name': 'EffectAnalysisEnterprise',
-              'title': '企业好友营销分析',
+              'title': '企微好友营销分析',
               'component': () => import('@/pages/WeWork/CRMTectonicMigration/EffectAnalysis/EffectAnalysisEnterprise/index.vue')
             }
           ]
@@ -59,7 +59,7 @@ export default {
         {
           'path': '/Marketing/EnterpriseGroupMessage',
           'name': 'EnterpriseGroupMessage',
-          'title': '企业群营销',
+          'title': '企微群营销',
           'component': () => import('@nascent/ecrp-ecrm/src/layout/ContentOnly.vue'),
           'redirect': {
             'name': 'EnterpriseGroupMessage'
@@ -68,22 +68,28 @@ export default {
             {
               'path': '/Marketing/EnterpriseGroupMessage',
               'name': 'EnterpriseGroupMessage',
-              'title': '企业群营销',
+              'title': '企微群营销',
               'component': () => import('@/pages/WeWork/CRMTectonicMigration/EnterpriseGroupMessage/index.vue')
             },
             {
               'path': '/Marketing/EnterpriseGroupMessagePush',
               'name': 'EnterpriseGroupMessagePush',
-              'title': '企业好友营销新增',
+              'title': '企微好友营销新增',
               'component': () => import('@/pages/WeWork/CRMTectonicMigration/EnterpriseGroupMessagePush/index.vue')
             },
             {
               'path': '/Marketing/EffectAnalysisEnterpriseGroup',
               'name': 'EffectAnalysisEnterpriseGroup',
-              'title': '企业好友营销分析',
+              'title': '企微好友营销分析',
               'component': () => import('@/pages/WeWork/CRMTectonicMigration/EffectAnalysis/EffectAnalysisEnterpriseGroup/index.vue')
             }
           ]
+        },
+        {
+          'path': '/Marketing/EnterpriseFriendCircle',
+          'name': 'EnterpriseFriendCircle',
+          'title': '朋友圈营销',
+          'component': () => import('@/pages/WeWork/CRMTectonicMigration/EnterpriseFriendCircle/index.vue')
         },
         {
           'path': '/Marketing/ActivityAuditList',
