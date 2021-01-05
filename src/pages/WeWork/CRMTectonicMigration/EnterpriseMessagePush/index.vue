@@ -685,7 +685,7 @@ export default {
               let userItem = {}
               if (data.customerType === 2) {
                 userItem = {
-                  employeeId: item
+                  employeeID: item
                 }
               } else {
                 userItem = {
@@ -859,7 +859,7 @@ export default {
       target.content = data
       if (this.employeeSelectData.type === 'employee') {
         target.customerType = 2
-        target.userGroupIds = (!this.employeeSelectData.data || this.employeeSelectData.data.length === 0) ? '' : this.employeeSelectData.data.map(value => { return parseInt(value.employeeId) }).join(',')
+        target.userGroupIds = (!this.employeeSelectData.data || this.employeeSelectData.data.length === 0) ? '' : this.employeeSelectData.data.map(value => { return parseInt(value.employeeID) }).join(',')
       } else {
         target.customerType = 1
         target.userGroupIds = (!this.employeeSelectData.data || this.employeeSelectData.data.length === 0) ? '' : this.employeeSelectData.data.map(value => { return parseInt(value.id) }).join(',')

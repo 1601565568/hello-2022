@@ -232,7 +232,7 @@ export default {
       type: Object,
       default: function () {
         return {
-          employeeId: 'employeeID'
+          employeeID: 'employeeID'
         }
       }
     },
