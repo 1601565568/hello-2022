@@ -111,3 +111,18 @@ export default index
   font-weight: normal;
 }
 </style>
+<style>
+.custom-dialog {
+  .el-message-box__title {
+    font-size: 16px;
+    font-weight: 700;
+    color: rgb(48, 49, 51);
+  }
+  .el-message-box__status {
+    font-size: 16px !important;
+  }
+  .el-message-box__status + .el-message-box__message {
+    padding-left: 24px;
+  }
+}
+</style>

@@ -54,7 +54,9 @@
                   </el-radio-group>
                   </el-form-item>
               </el-form-grid>
-              <el-form-grid block class="text-info"><Icon type="info-circle" theme="filled" />公用：分配门店共享配额；自由分配：手动设置分配门店的配额</el-form-grid>
+              <el-form-grid block class="text-primary">
+                  <Icon type="info-circle"/>  公用：分配门店共享配额；自由分配：手动设置分配门店的配额
+              </el-form-grid>
           </el-form-item>
           <el-form-item label="分配门店：" v-if="activityModel.coupon_id !== 0" required>
             <el-form-grid>

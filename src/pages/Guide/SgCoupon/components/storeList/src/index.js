@@ -208,11 +208,11 @@ export default {
       })
     },
     handleDevide () {
-      this.$msgbox({
-        message: this.isDevide ? '确定取消均分的配额吗？' : '确定均分配额吗?',
-        showCancelButton: true,
+      this.$confirm((this.isDevide ? '确定取消均分的配额吗？' : '确定均分配额吗?'), '提示信息', {
         confirmButtonText: '确定',
-        cancelButtonText: '取消'
+        cancelButtonText: '取消',
+        type: 'warning',
+        customClass: 'custom-dialog'
       }).then(action => {
         if (!this.isDevide) {
           this.sharing()
