@@ -288,7 +288,7 @@ export default {
             that.isChart = false
           }
         }).catch(() => {
-          that.$notify.error('获取微信好友数据失败')
+          that.$notify.error('获取企微好友数据失败')
         }).finally(() => {
           that.loadingtable = false
         })
@@ -302,7 +302,7 @@ export default {
       const form = document.createElement('form')
       const start = _this.model.time[0] ? moment(_this.model.time[0]).format('YYYY-MM-DD') : ''
       const end = _this.model.time[1] ? moment(_this.model.time[1]).format('YYYY-MM-DD') : ''
-      const name = start + '-' + end + '微信好友数据分析报表'
+      const name = start + '-' + end + '企微好友数据分析报表'
       form.appendChild(
         _this.generateHideElement('json', JSON.stringify(_this.tableData))
       )
