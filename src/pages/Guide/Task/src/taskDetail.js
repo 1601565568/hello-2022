@@ -1,5 +1,6 @@
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import ElBreadcrumb from '@nascent/nui/lib/breadcrumb'
+import NsPreview from '@/components/NsPreview'
 import ElBreadcrumbItem from '@nascent/nui/lib/breadcrumb-item'
 import ElDrawer from '@nascent/nui/lib/drawer'
 import drawerTable from '../drawerTable'
@@ -14,7 +15,8 @@ export default {
     ElBreadcrumbItem,
     ElDrawer,
     drawerTable,
-    ShopSelectLoad
+    ShopSelectLoad,
+    NsPreview
   },
   data () {
     const pagination = {
@@ -239,6 +241,18 @@ export default {
         }
         return '未完成'
       }
+    },
+    formatUrlJson (urlJson) {
+      let arr = urlJson.split(',')
+      if (arr.length <= 5) {
+        return arr
+      } else {
+        return arr.slice(0, 5)
+      }
+    },
+    onShowPic (urlJson) {
+      let arr = urlJson.split(',')
+      this.$refs.NsPreview.toggleShow(0, arr)
     }
   },
   mounted: function () {

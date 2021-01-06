@@ -129,7 +129,7 @@
                   <div class="urkJsonimage" v-for="(item,index) in formatUrlJson(scope.row.urlJson)" :key="index" >
                     <img :src="item"/>
                   </div>
-                  <span>共{{scope.row.urlJson.split(',').length}}张</span>
+                  <span  title="点击查看全部" @click="onShowPic(scope.row.urlJson)">共{{scope.row.urlJson.split(',').length}}张</span>
                 </div>
                 </div>
               </template>
@@ -151,6 +151,7 @@
       direction="rtl">
       <drawerTable v-if="drawerVisible" :id='id' :shopId='shopId' :shopName='shopName' :runType='runType' :queryTime='searchMap.queryTime'/>
     </el-drawer>
+    <NsPreview ref="NsPreview"></NsPreview>
   </div>
 </template>
 <script>

@@ -1,5 +1,6 @@
 import scrollHeight from '@nascent/ecrp-ecrm/src/mixins/scrollHeight'
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
+import NsPreview from '@/components/NsPreview'
 import { getErrorMsg } from '@/utils/toast'
 import { API_ROOT } from '@/config/http.js'
 import moment from 'moment'
@@ -23,6 +24,7 @@ export default {
   },
   mixins: [tableMixin, scrollHeight],
   components: {
+    NsPreview
   },
   data () {
     const pagination = {
@@ -152,6 +154,10 @@ export default {
       } else {
         return arr.slice(0, 5)
       }
+    },
+    onShowPic (urlJson) {
+      let arr = urlJson.split(',')
+      this.$refs.NsPreview.toggleShow(0, arr)
     }
   },
   mounted: function () {
