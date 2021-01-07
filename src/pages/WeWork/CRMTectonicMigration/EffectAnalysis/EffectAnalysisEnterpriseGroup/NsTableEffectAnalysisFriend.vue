@@ -75,8 +75,8 @@
                          :sortable="false">
         </el-table-column>
 
-        <el-table-column :show-overflow-tooltip="true" type="default" prop="sendStatus"
-                         label="审核状态" dbcolumn="sendStatus" column="sendStatus" align="center"
+        <el-table-column :show-overflow-tooltip="true" type="default" prop="auditStatus"
+                         label="审核状态" dbcolumn="auditStatus" column="auditStatus" align="center"
                          :sortable="false" :width="100">
           <template slot="header">
             <span>审核状态</span>

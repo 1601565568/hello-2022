@@ -78,8 +78,8 @@
                          :sortable="false">
         </el-table-column>
 
-        <el-table-column :show-overflow-tooltip="true" type="default" prop="employee_wechat_nick"
-                         label="好友所属员工" dbcolumn="employee_wechat_nick" column="employee_wechat_nick" align="center"
+        <el-table-column :show-overflow-tooltip="true" type="default" prop="employeeWechatNick"
+                         label="好友所属员工" dbcolumn="employeeWechatNick" column="employeeWechatNick" align="center"
                          :sortable="false" :width="200">
           <template slot-scope="scope">
             {{scope.row.empName ? scope.row.empName: '-'}}
@@ -96,8 +96,8 @@
         </el-table-column>
 -->
 
-        <el-table-column :show-overflow-tooltip="true" type="default" prop="send_status"
-                         label="审核状态" dbcolumn="send_status" column="send_status" align="center"
+        <el-table-column :show-overflow-tooltip="true" type="default" prop="auditStatus"
+                         label="审核状态" dbcolumn="auditStatus" column="auditStatus" align="center"
                          :sortable="false" :width="100">
           <template slot="header">
             <span>审核状态</span>
@@ -107,19 +107,19 @@
             </el-tooltip>
           </template>
           <template slot-scope="scope">
-            <template v-if="scope.row.audit_status === 0">未审核</template>
-            <template v-else-if="scope.row.audit_status === 1">审核成功</template>
+            <template v-if="scope.row.auditStatus === 0">未审核</template>
+            <template v-else-if="scope.row.auditStatus === 1">审核成功</template>
             <template v-else>审核不通过</template>
           </template>
         </el-table-column>
 
-        <el-table-column :show-overflow-tooltip="true" type="default" prop="send_status"
-                         label="发送状态" dbcolumn="send_status" column="send_status" align="center"
+        <el-table-column :show-overflow-tooltip="true" type="default" prop="sendStatus"
+                         label="发送状态" dbcolumn="sendStatus" column="sendStatus" align="center"
                          :sortable="false" :width="100">
           <template slot-scope="scope">
-            <template v-if="scope.row.send_status === 0">待发送</template>
-            <template v-else-if="scope.row.send_status === 1">发送成功</template>
-            <template v-else-if="scope.row.send_status === 2">发送失败</template>
+            <template v-if="scope.row.sendStatus === 0">待发送</template>
+            <template v-else-if="scope.row.sendStatus === 1">发送成功</template>
+            <template v-else-if="scope.row.sendStatus === 2">发送失败</template>
             <template v-else>待发送</template>
           </template>
         </el-table-column>
