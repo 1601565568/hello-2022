@@ -42,7 +42,7 @@ export default {
             vm.$http.fetch(vm.$api.marketing.weworkMarketing.updateStatus
               , { id: obj.row.id, state: 2 })
               .then((resp) => {
-                vm.$notify.success(resp.msg)
+                vm.$notify.success('提交成功')
                 vm.$reload()
               })
           }).catch((resp) => {
@@ -62,7 +62,7 @@ export default {
             vm.$http.fetch(vm.$api.marketing.weworkMarketing.updateStatus
               , { id: obj.row.id, state: 1 })
               .then((resp) => {
-                vm.$notify.success(resp.msg)
+                vm.$notify.success('撤回成功')
                 vm.$reload()
               })
           }).catch((resp) => {
@@ -126,7 +126,7 @@ export default {
             vm.$http.fetch(vm.$api.marketing.weworkMarketing.updateStatus
               , { id: obj.row.id, state: 6 })
               .then((resp) => {
-                vm.$notify.success(resp.msg)
+                vm.$notify.success('终止成功')
                 vm.$reload()
               })
           }).catch((resp) => {
