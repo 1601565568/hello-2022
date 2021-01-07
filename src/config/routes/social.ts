@@ -273,7 +273,7 @@ export default {
           'path': '/Social/OperationData/CircleOfFriends',
           'name': 'CircleOfFriends',
           'title': '朋友圈统计',
-          'component': () => import('@/pages/WeWork/CircleOfFriends/index.vue')
+          'component': () => import('@/pages/WeWork/CircleofFriends/index.vue')
         }
       ]
     }
