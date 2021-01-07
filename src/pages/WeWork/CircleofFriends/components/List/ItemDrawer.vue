@@ -52,7 +52,7 @@
           </div>
           <div class="comment">
             <div class="givePic">
-              <div class="comment-icon"></div>
+              <div class="comment-icon"><Icon type="dianzan" class="comment-icon__dianzan"/></div>
               <div class="givePic-list">
                 <img
                   src="https://dss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1575118738,3084263396&fm=111&gp=0.jpg"
@@ -102,7 +102,7 @@
               </div>
             </div>
             <div class="comment-list__warpper">
-              <div class="comment-list__icon"></div>
+              <div class="comment-list__icon"><Icon type="friendpinglun" class="comment-icon__dianzan" /></div>
               <div class="comment-list__text">
                 <div class="comment-list__text__user">
                   <img
@@ -272,7 +272,7 @@ export default {
         margin-bottom: 8px;
         .comment-icon {
           width: 16px;
-          background: #f00;
+          // background: #f00;
         }
         .givePic-list {
           flex: 1;
