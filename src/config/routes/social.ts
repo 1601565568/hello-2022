@@ -268,20 +268,12 @@ export default {
           'name': 'SocialNsTableWelcomes',
           'title': '好友数据',
           'component': () => import('@/pages/WeWork/GuideBehaviorCount/list/TableFriendCnt.vue')
-        }
-      ]
-    },
-    {
-      'path': '/Social/OperationConfig',
-      'name': 'OperationData',
-      'title': '运营数据',
-      'component': () => import('@nascent/ecrp-ecrm/src/layout/Content.vue'),
-      'children': [
+        },
         {
-          'path': '/Social/OperationData/CircleofFriends',
-          'name': 'CircleofFriends',
+          'path': '/Social/OperationData/CircleOfFriends',
+          'name': 'CircleOfFriends',
           'title': '朋友圈统计',
-          'component': () => import('@/pages/WeWork/CircleofFriends/index.vue')
+          'component': () => import('@/pages/WeWork/CircleOfFriends/index.vue')
         }
       ]
     }

@@ -68,7 +68,7 @@ export default {
           color: 'info'
         }
       },
-      drawer: false,
+      drawer: true,
       // 侧边栏信息
       itemDate: {},
       activeIndex: -1
