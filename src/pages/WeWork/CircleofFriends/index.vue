@@ -8,7 +8,7 @@
           </div>
           <el-form :inline="true" class="form-inline_top ">
             <el-form-item label="类型：">
-              <el-select v-model="model.status" placeholder="全部">
+              <el-select v-model="model.type">
                 <el-option
                   v-for="item in statusOptionList"
                   :key="item.value"
@@ -18,26 +18,44 @@
                 </el-option>
               </el-select>
             </el-form-item>
-            <el-form-item v-model="model.datas" placeholder="近一月">
-              <el-date-picker placeholder="近一月" width="143px">
+            <el-form-item class="el-form__change" placeholder="近一月">
+              <el-date-picker
+                v-model="searchDate"
+                type="datetimerange"
+                value-format="yyyy-MM-dd HH:mm:ss"
+                range-separator="至"
+                start-placeholder="请选择开始日期"
+                end-placeholder="请选择结束日期"
+                :default-time="['00:00:00', '23:59:59']"
+                align="right"
+              >
               </el-date-picker>
             </el-form-item>
-            <el-form-item label="员工：">
-              <el-select v-model="model.staffs" placeholder="全部">
-                <el-option
-                  v-for="item in staff"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                >
-                </el-option>
-              </el-select>
+            <el-form-item label="选择员工：">
+              <div class="template-search__box">
+                <span v-if="model.guideIdList && model.guideIdList.length > 0">
+                  已选择{{ model.guideIdList.length }}个
+                </span>
+                <span v-else>全部</span>
+                <div class="NsGuideDialog">
+                  <NsGuideDialog
+                    :isButton="false"
+                    :validNull="true"
+                    :auth="false"
+                    type="primary"
+                    btnTitle="选择"
+                    dialogTitle="选择员工"
+                    v-model="model.guideIdList"
+                    @input="NsGuideDialog()"
+                  ></NsGuideDialog>
+                </div>
+              </div>
             </el-form-item>
-            <el-form-item label="" class='el-form__change'>
+            <el-form-item label="" class="el-form__change">
               <el-input
-                v-model="seachVal"
-                style='width:200px'
-                placeholder="请输入活动名称"
+                v-model="model.content"
+                style="width:200px"
+                placeholder="请输入内容"
                 @keyup.enter.native="handleSearch"
               >
                 <Icon
@@ -54,20 +72,51 @@
       <template slot="table">
         <template>
           <el-table
-            :data="_data._table.data"
+            :data="table.data"
             class="new-table_border"
             :row-style="tableRowClassName"
             style="width: 100%"
           >
             <el-table-column prop="name" width="294px" label="内容">
               <template slot-scope="scope">
-                <div
-                  class="scope-title"
-                  @click="handleShowDetail(scope.row, scope.$index)"
-                >
-                  <img src="./jieni.jpg" class="scope-title_img" />
+                <!-- 图片和视频类型 -->
+                <div class="scope-title" v-if="false">
+                  <!-- 图片显示 -->
+                  <div class="friendPic" v-if="false">
+                    <img
+                      src="https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=3510986481,3852924315&fm=11&gp=0.jpg"
+                      class="scope-title_img"
+                    />
+                    <span>1</span>
+                  </div>
+                  <!-- 视频类型 -->
+                  <div class="table-video" v-if="false">
+                    <video
+                      src="https://shopguide.oss-cn-hangzhou.aliyuncs.com/guide/202008/10000146/992dd352-bddd-4c1d-ba9e-fb1721c00b95.mp4"
+                    >
+                      您的浏览器暂不支持播放该视频，请升级至最新版浏览器。
+                    </video>
+                    <div class="tableItem-video__mask">
+                      <div class="tableItem-video__wrapper">
+                        <Icon type="begin" />
+                      </div>
+                    </div>
+                  </div>
                   <div class="scope-title_text">
-                    {{ scope.row.name }}
+                    <span>{{ scope.row.name }}</span>
+                  </div>
+                </div>
+                <div class="friendShare">
+                  <div class="scope-title_text">
+                    <span>{{ scope.row.name }}</span>
+                  </div>
+                  <div class="share-type">
+                    <img
+                      src="https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=3510986481,3852924315&fm=11&gp=0.jpg"
+                    />
+                    <p class="share-text">
+                      <span>dasdasdasdasdadasdadasdasd</span>
+                    </p>
                   </div>
                 </div>
               </template>
@@ -116,12 +165,12 @@
       </template>
       <template slot="pagination">
         <el-pagination
-          v-if="_data._pagination.enable"
+          v-if="pagination.enable"
           class="template-table__pagination"
-          :page-sizes="_data._pagination.sizeOpts"
-          :total="_data._pagination.total"
-          :current-page="_data._pagination.page"
-          :page-size="_data._pagination.size"
+          :page-sizes="pagination.sizeOpts"
+          :total="pagination.total"
+          :current-page="pagination.page"
+          :page-size="pagination.size"
           layout="total, sizes, prev, pager, next, jumper"
           @size-change="$sizeChange$"
           @current-change="$pageChange$"
@@ -136,9 +185,9 @@
       :visible.sync="drawer"
       :with-header="false"
     >
-      <ItemDrawer/>
+      <ItemDrawer />
     </el-drawer>
-            <!-- :data="itemDate"
+    <!-- :data="itemDate"
            @onClose="handleClose"
         @onPreview="handleAnalysis"
         @onDelect="handleEnd"
@@ -152,7 +201,7 @@ import List from './src/List'
 import NsGuideDialog from '@/components/NsGuideDialog'
 import PageTable from '@/components/NewUi/PageTable'
 import ElDrawer from '@nascent/nui/lib/drawer'
-import ItemDrawer from './components/List/ItemDrawer'
+import ItemDrawer from './components/ItemDrawer'
 List.components = {
   PageTable,
   NsGuideDialog,
@@ -179,63 +228,127 @@ export default List
   justify-content: space-between;
   width: 100%;
 }
-@import './styles/reset.css';
-.scope-name_tip {
-  color: #0091fa;
+.template-search__box {
+  width: 182px;
+  height: 28px;
+  background: #ffffff;
+  border: 1px solid #dcdfe6;
+  border-radius: 3px;
+  border-radius: 3px;
+  display: flex;
+}
+.template-search__box span {
+  width: 130px;
+  height: 27px;
+  margin-left: 10px;
+  border-right: 1px solid #dcdfe6;
+}
+.template-search__box > div + span {
+  margin-left: var(--default-margin-small);
+}
+.NsGuideDialog {
+  float: right;
 }
 .scope-title {
   display: flex;
-  align-items: center;
-  cursor: pointer;
-}
-.scope-title_img {
-  height: 48px;
-  width: 48px;
-  margin-right: 8px;
-  border-radius: 4px;
-}
-.search-icon {
-  font-size: 22px;
-  margin-top: 2px;
-}
-.scope-name_text {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: normal;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 3;
-  &.more:after {
-    content: '...';
+  .friendPic {
+    position: relative;
+    width: 48px;
+    height: 48px;
+    border-radius: 4px;
+    overflow: hidden;
+    .scope-title_img {
+      width: 100%;
+      height: 100%;
+    }
+    span {
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      color: #ffffff;
+      text-align: center;
+      line-height: 16px;
+      border-radius: 4px 0px 4px 0px;
+      background: rgba(0, 0, 0, 0.45);
+    }
+  }
+  .table-video {
+    position: relative;
+    width: 86px;
+    height: 48px;
+    border-radius: 3px;
+    > video {
+      width: 100%;
+      height: 100%;
+      border-radius: 3px;
+      -o-object-fit: cover;
+      object-fit: cover;
+    }
+    .tableItem-video__mask {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.25);
+      cursor: pointer;
+      border-radius: 3px;
+    }
+    .tableItem-video__wrapper {
+      position: relative;
+      top: 50%;
+      left: 50%;
+      margin-left: -11px;
+      margin-top: -11px;
+      width: 22px;
+      height: 22px;
+      border-radius: 22px;
+      background-color: rgba(255, 255, 255, 0.4);
+      > svg {
+        margin: 5px 0 0 6px;
+        font-size: 12px;
+        color: #fff;
+      }
+    }
+  }
+  .scope-title_text {
+    flex: 1;
+    margin-left: 8px;
+    display: flex;
+    align-items: center;
+    span {
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
+      overflow: hidden;
+    }
   }
 }
-.scope-name_tag.el-tag {
-  &.el-tag--success {
-    background: #f7fff0;
-    border: 1px solid #53bf1d;
-    color: #262626;
-  }
-  &.el-tag--info {
+.friendShare {
+  .share-type {
+    height: 56px;
+    padding: 4px 8px;
     background: #f5f5f5;
-    border: 1px solid #d9d9d9;
-    color: #262626;
-  }
-  &.el-tag--warning {
-    background: #fffbe6;
-    border: 1px solid #ffae0d;
-    color: #262626;
-  }
-}
-.self-btn {
-  width: 150px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  font-size: 14px;
-  color: #606266;
-  .guideIds-icon {
-    color: #c0c4cc;
+    display: flex;
+    align-items: center;
+    > img {
+      border-radius: 3px;
+      width: 48px;
+      height: 48px;
+    }
+    .share-text {
+      flex: 1;
+      margin-left: 4px;
+      span {
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        overflow: hidden;
+      }
+    }
   }
 }
 </style>
-<style lang="scss" scoped></style>
