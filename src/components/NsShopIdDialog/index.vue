@@ -42,7 +42,7 @@
                                         <ns-button size="small"  type="primary">选择文件</ns-button>
                                         <div slot="tip" class="el-upload__tip" style="width: 500px">
                                             <div class="tmp-tips text-warning"><Icon type="exclamation-circle" theme="outlined" />
-                                                您可使用系统提供的模板填写信息并导入.<a class="text-primary" href="/static/fileTemplates/shopCode.xlsx">下载模板</a>
+                                                您可使用系统提供的模板填写信息并导入.<a class="text-primary" :href=this.download download="">下载模板</a>
                                             </div>
                                         </div>
                                     </el-upload>
@@ -100,7 +100,8 @@ export default {
       fileList: [],
       importSendModel: '',
       goodsOuterId: '',
-      goodsOuterIdNew: []
+      goodsOuterIdNew: [],
+      download: 'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/downloads/ecrp-sg-web/ImportShop/%E5%BA%97%E9%93%BA%E7%BC%96%E7%A0%81%E5%AF%BC%E5%85%A5%E6%A8%A1%E6%9D%BF.xlsx'
     }
   },
   components: {
