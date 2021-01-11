@@ -110,14 +110,10 @@ export default {
         list: []
       },
       rules: {
-        onlineSalesRewardOrder: [{ validator: this.checkDecimals, trigger: ['blur', 'change'] },
-          { validator: this.checkMax, trigger: ['blur', 'change'] }],
-        onlineSalesRewardExclusive: [{ validator: this.checkDecimals, trigger: ['blur', 'change'] },
-          { validator: this.checkMax, trigger: ['blur', 'change'] }],
-        salesRewardOrder: [{ validator: this.checkDecimals, trigger: ['blur', 'change'] },
-          { validator: this.checkMax, trigger: ['blur', 'change'] }],
-        salesRewardExclusive: [{ validator: this.checkDecimals, trigger: ['blur', 'change'] },
-          { validator: this.checkMax, trigger: ['blur', 'change'] }],
+        onlineSalesRewardOrder: [{ validator: this.checkDecimals, trigger: ['blur', 'change'] }],
+        onlineSalesRewardExclusive: [{ validator: this.checkDecimals, trigger: ['blur', 'change'] }],
+        salesRewardOrder: [{ validator: this.checkDecimals, trigger: ['blur', 'change'] }],
+        salesRewardExclusive: [{ validator: this.checkDecimals, trigger: ['blur', 'change'] }],
         memberReward: [{ validator: checkNumber, trigger: ['blur', 'change'] }],
         addfriendReward: [{ validator: checkNumber, trigger: ['blur', 'change'] }]
       },
@@ -140,6 +136,9 @@ export default {
         this.title = '批量设置提成奖励'
       }
       this.dialogVisible = true
+      this.$nextTick(() => {
+        this.$refs.form.clearValidate()
+      })
     },
     handleSelectionChange (val) {
       this.multipleSelection = val
@@ -173,23 +172,25 @@ export default {
     handleClose () {
       this.dialogVisible = false
     },
-    checkMax (rule, value, callback) {
-      let error
-      if (value) {
-        if (Number(value) > 100) {
-          error = '不允许超过100%'
-        }
-      }
-      callback(error)
-    },
+    // checkMax (rule, value, callback) {
+    //   let error
+    //   if (value) {
+    //     if (Number(value) > 100) {
+    //       error = '不允许超过100%'
+    //     }
+    //   }
+    //   callback(error)
+    // },
     // 校验数值
     checkDecimals (rule, value, callback) {
       if (!value) {
-        callback()
+        callback(new Error('请输入数字'))
       } else {
         let arr = /^([-+]?\d*)(\.\d{1,2})?$/
         if (!arr.test(value)) {
           callback(new Error('最多输入2位小数'))
+        } else if (Number(value) > 100) {
+          callback(new Error('不允许超过100%'))
         } else {
           callback()
         }
