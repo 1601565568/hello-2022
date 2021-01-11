@@ -24,7 +24,12 @@
 -->
 <template>
   <div>
-    <NsButton :type="type" @click="onDialogOpen()"><Icon v-if="type === 'text'" type="plus"/>{{btnTitle}}</NsButton>
+    <template v-if="type === 'icon'">
+      <div  @click="onDialogOpen()" style="cursor: pointer"><slot name='btnIcon'></slot></div>
+    </template>
+    <template v-else>
+      <NsButton :type="type" @click="onDialogOpen()"><Icon v-if="type === 'text'" type="plus"/>{{btnTitle}}</NsButton>
+    </template>
     <el-dialog :visible.sync="visible" :show-scroll-x="false"
                :close-on-click-modal = "false" appendToBody :before-close="onDialogClose" width="940px">
       <div slot="title">

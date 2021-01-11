@@ -1,10 +1,14 @@
 import Coupon from '../../coupon'
 import StoreList from '../../storeList'
+import HtmlArea from '@/components/NewUi/HtmlArea'
+import NsShopDialog from '@/components/NsShopDialog'
 import moment from 'moment'
 export default {
   components: {
     Coupon,
-    StoreList
+    StoreList,
+    HtmlArea,
+    NsShopDialog
   },
   data () {
     let bgCoupon = 'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-APP-WEB/img/no-coupon.png'
@@ -47,7 +51,8 @@ export default {
       bgcoupon: bgCoupon,
       shopMap: null, // 店铺map
       shopAllList: [],
-      isShowCouponNumber: true // 折扣券 展示
+      isShowCouponNumber: true, // 折扣券 展示
+      shopList: [] // 选择的门店
     }
   },
   methods: {
@@ -57,12 +62,16 @@ export default {
     },
     // 关闭新增弹窗
     closeDialog () {
-      this.addCouponDialogVisible = !this.addCouponDialogVisible
+      this.addCouponDialogVisible = false
       this.$emit('closeDialog')
     },
-    onSaveActivityCoupon () {
+    async onSaveActivityCoupon () {
       let _this = this
-      if (_this.storeModel.maxType > 0) {
+      if (!this.shopList || !this.shopList.length) {
+        _this.$notify.error('分配门店是必填字段')
+        return
+      }
+      if (_this.storeModel.maxType >= 0) {
         if (_this.activityModel.coupon_total === 0 || _this.activityModel.coupon_total < 0) {
           _this.$notify.error('总配额必须大于0')
           // _this.forbidden = false
@@ -79,20 +88,33 @@ export default {
       // 判断优惠券是否超额 _this.storeModel.couponTotal = 0 代表不限量
       if (_this.storeModel.maxType > 0) {
         if (_this.storeModel.couponTotal < _this.activityModel.coupon_total) {
-          // _this.$notify.info('门店总配额不能超过优惠券总配额')
+          _this.$notify.info('门店总配额不能超过优惠券总配额')
           _this.forbidden = false
           return
         }
       }
       _this.shopCouponList = []
-      if (_this.activityModel.type === 1) {
-        _this.shopMap.forEach(function (value, key, map) {
-          var shop = {}
-          shop.shopId = value.id
-          shop.shopCouponTotal = parseInt(value.shopCouponNumber)
-          shop.shopName = value.shopName
-          _this.shopCouponList.push(shop)
-        })
+      let total = 0
+      _this.shopMap.forEach(function (value, key, map) {
+        total += parseInt(value.shopCouponNumber)
+        var shop = {}
+        shop.shopId = value.id
+        shop.shopCouponTotal = parseInt(value.shopCouponNumber)
+        shop.shopName = value.shopName
+        _this.shopCouponList.push(shop)
+      })
+      if (this.activityModel.type === 1) {
+        if (total > _this.activityModel.coupon_total) {
+          _this.$notify.info('门店配额总和合大于优惠券设置的配额')
+          return
+        }
+        if (total < _this.activityModel.coupon_total) {
+          const result = await this.changeTotal(total)
+          if (!result) {
+            return
+          }
+          _this.activityModel.coupon_total = result
+        }
       }
       _this.$http.fetch(_this.$api.guide.activityCoupon.saveActiviCoupon, {
         sgActivityCoupon: _this.activityModel,
@@ -109,8 +131,20 @@ export default {
         _this.$notify.error(getErrorMsg('保存失败', resp))
         _this.forbidden = false
       })
-      // console.log(_this.shopCouponList, 'shopCouponList')
-      // this.closeDialog()
+    },
+    changeTotal (total) {
+      return new Promise(resolve => {
+        this.$msgbox({
+          message: '门店配额总和小于优惠券设置的配额，是否更新优惠券设置的配额',
+          showCancelButton: true,
+          confirmButtonText: '确定',
+          cancelButtonText: '取消'
+        }).then(action => {
+          resolve(total)
+        }).catch(() => {
+          resolve(false)
+        })
+      })
     },
     // 打开优惠券弹窗
     onOpenCoupon () {
@@ -123,7 +157,7 @@ export default {
       var _this = this
       _this.activityModel.coupon_id = data.id
       _this.activityModel.coupon_code = data.storeCouponCode
-      _this.findOnlineShopList(_this.activityModel.coupon_code)
+      // _this.findOnlineShopList(_this.activityModel.coupon_code)
       _this.storeModel.couponCode = data.storeCouponCode
       // 渠道配置类型（0：不限，1：配置）
       if (data.channelConfigType === 0) {
@@ -175,60 +209,65 @@ export default {
       this.activityModel.coupon_total = 0
       this.activityModel.type = 0
       this.distributionMode = 0
+      this.shopList = []
     },
     /**
      * 查询所有的店铺店铺列表
      */
-    findOnlineShopList: function (couponCode) {
+    findOnlineShopList: function (couponCode, shopIds) {
       var _this = this
-      _this.$http.fetch(_this.$api.guide.activityCoupon.findCouponShop, {
-        'length': 100000,
-        'start': 0,
-        searchMap: {
-          'storeCouponCode': couponCode,
-          'isOnline': 0
-        }
-      }).then(resp => {
-        if (resp.success && resp.result != null) {
-          if (resp.result.ext != null) {
-            let isContains = resp.result.ext.isContain
-            if (!isContains) {
-              this.$confirm('此优惠券也可以在其他门店购买，是否继续？', '提示', {
-                confirmButtonText: '是',
-                type: 'warning',
-                cancelButtonText: '否'
-              }).then(() => {
+      return new Promise(resolve => {
+        _this.$http.fetch(_this.$api.guide.activityCoupon.findCouponShop, {
+          'length': 100000,
+          'start': 0,
+          searchMap: {
+            'storeCouponCode': couponCode,
+            'isOnline': 0,
+            shopIds
+          }
+        }).then(resp => {
+          if (resp.success && resp.result != null) {
+            if (resp.result.ext != null) {
+              let isContains = resp.result.ext.isContain
+              if (!isContains) {
+                this.$confirm('此优惠券也可以在其他门店购买，是否继续？', '提示', {
+                  confirmButtonText: '是',
+                  type: 'warning',
+                  cancelButtonText: '否'
+                }).then(() => {
                 // 将所有店铺存入map中
-                _this.shopMap = new Map()
-                _this.shopAllList = resp.result.data
-                for (let i = 0; i < _this.shopAllList.length; i++) {
-                  _this.shopMap.set(_this.shopAllList[i].id, _this.shopAllList.slice(i, i + 1))
-                }
-              }).catch(() => {
-                this.activityModel.coupon_id = ''
-              })
-            }
-          } else {
+                  _this.shopMap = new Map()
+                  _this.shopAllList = resp.result.data
+                  for (let i = 0; i < _this.shopAllList.length; i++) {
+                    _this.shopMap.set(_this.shopAllList[i].id, _this.shopAllList[i])
+                  }
+                }).catch(() => {
+                  this.activityModel.coupon_id = ''
+                })
+              }
+            } else {
             // 将所有店铺存入map中
-            _this.shopMap = new Map()
-            _this.shopAllList = resp.result.data
-            for (let i = 0; i < _this.shopAllList.length; i++) {
-              _this.shopMap.set(_this.shopAllList[i].id, _this.shopAllList.slice(i, i + 1))
+              _this.shopMap = new Map()
+              _this.shopAllList = resp.result.data
+              for (let i = 0; i < _this.shopAllList.length; i++) {
+                _this.shopMap.set(_this.shopAllList[i].id, _this.shopAllList[i])
+              }
             }
           }
-        }
-      }).catch((resp) => {
-        _this.$notify.error(`查询店铺列表失败${resp}`)
+          resolve(resp)
+        }).catch((resp) => {
+          _this.$notify.error(`查询店铺列表失败${resp}`)
+        })
       })
     },
     // 修改分配方式
     onChangeDistributionMode (type) {
       this.distributionMode = type
-      if (type === 1) {
-        this.$nextTick(() => {
-          this.$refs.storeList.init(true)
-        })
-      }
+      // if (type === 1) {
+      //   this.$nextTick(() => {
+      //     this.$refs.storeList.init(true)
+      //   })
+      // }
     },
     /**
      * 检验配额整数 以及总数量
@@ -250,11 +289,20 @@ export default {
       //   return
       // }
       // _this.storeModel.maxType = 0 代表不限额，不做数量校验
+      if (!/^[0-9]*$/.test(_this.activityModel.coupon_total)) {
+        _this.activityModel.coupon_total = 0
+        _this.$notify.info('请输入正整数')
+      }
       if (_this.storeModel.maxType > 0) {
         if (_this.storeModel.remainingQuantity < _this.activityModel.coupon_total) {
           _this.activityModel.coupon_total = 0
           _this.$notify.info('配额不能大于优惠券剩余数量')
         }
+      }
+      const { type } = _this.activityModel
+      const couponTotal = _this.activityModel.coupon_total
+      if (type === 0 && this.$refs.storeList) {
+        this.$refs.storeList.resetShopCouponNumber(couponTotal)
       }
     },
     changeShopMap (id, shop) {
@@ -279,6 +327,10 @@ export default {
         // window.console.log('折扣券小数位', data.substr(indexOf, data.length))
         return newData.substr(indexOf, newData.length)
       }
+    },
+    async handleChangeShop (list) {
+      const res = await this.findOnlineShopList(this.activityModel.coupon_code, list.join(','))
+      this.$refs.storeList.init(false, res)
     }
   }
 }
