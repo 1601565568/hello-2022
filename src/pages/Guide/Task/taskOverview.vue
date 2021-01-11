@@ -86,6 +86,7 @@
                 value-format="yyyy-MM-dd"
                 v-model="searchMap.queryTime"
                 type="date"
+                :picker-options="pickerOptions"
                 @change="queryTimeChange"
                 placeholder="选择日期" />
             </ElFormItem>

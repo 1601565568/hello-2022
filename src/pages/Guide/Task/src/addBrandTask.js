@@ -33,6 +33,17 @@ export default {
         callback()
       }
     }
+    const validateDate = (rule, value, callback) => {
+      if (value && value.length && value[1]) {
+        if (new Date(value[1]).getTime() < new Date().getTime()) {
+          callback(new Error('结束时间必须大于当前时间'))
+        } else {
+          callback()
+        }
+      } else {
+        callback(new Error('请选择执行时间'))
+      }
+    }
     return {
       pickerOptions0: {
         // disabledDate (time) {
@@ -74,7 +85,8 @@ export default {
           { min: 4, max: 25, message: '长度在4-25以内', trigger: 'blur' }
         ],
         activityTime: [
-          { required: true, message: '请选择执行时间', trigger: 'blur' }
+          { required: true, message: '请选择执行时间', trigger: 'blur' },
+          { validator: validateDate, trigger: ['blur', 'change'] }
         ],
         type: [{ required: true, message: '请选择类型' }],
         shopRangeType: [{ required: true, message: '请选择门店' }],

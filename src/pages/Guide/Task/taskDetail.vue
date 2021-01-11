@@ -76,6 +76,7 @@
                 format="yyyy-MM-dd"
                 value-format="yyyy-MM-dd"
                 v-model="searchMap.queryTime"
+                :picker-options="pickerOptions"
                 type="date"
                 @input="queryTimeChange"
                 placeholder="选择日期" />

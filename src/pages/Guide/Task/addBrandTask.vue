@@ -32,7 +32,7 @@
                   />
                 </div>
               </ElFormItem>
-              <ElFormItem label='执行时间' required>
+              <ElFormItem label='执行时间' required prop='activityTime'>
                 <div class='newTask-content__item'>
                   <ElDatePicker
                     format="yyyy-MM-dd HH:mm:ss"
