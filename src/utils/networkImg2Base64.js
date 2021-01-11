@@ -45,7 +45,6 @@ export const getBase64Image = imgUrl => {
       let base64 = canvas.toDataURL('image/png')
       return base64
     } catch (error) {
-      console.log(error)
     }
   }
 }
