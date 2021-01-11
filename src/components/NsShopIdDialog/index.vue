@@ -42,7 +42,7 @@
                                         <ns-button size="small"  type="primary">选择文件</ns-button>
                                         <div slot="tip" class="el-upload__tip" style="width: 500px">
                                             <div class="tmp-tips text-warning"><Icon type="exclamation-circle" theme="outlined" />
-                                                您可使用系统提供的模板填写信息并导入.<a class="text-primary" href="/static/fileTemplates/店铺编码导入模板.xlsx">下载模板</a>
+                                                您可使用系统提供的模板填写信息并导入.<a class="text-primary" href="/static/fileTemplates/shopCode.xlsx">下载模板</a>
                                             </div>
                                         </div>
                                     </el-upload>
