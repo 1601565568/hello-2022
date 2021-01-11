@@ -1,109 +1,116 @@
 <template>
   <div class="master-drawer">
-    <div class='master-close'>
-      <i class="el-icon-close" @click="handleClose"></i>
-    </div>
-    <div class='header-title'>
-      <h4 class='header-title_text'>{{chooseMaster.employeeName}}的推广大师明细</h4>
-      <span class='header-title_num'>共{{chooseMaster.promotionMasterNumber}}人</span>
-    </div>
-    <div class='analysis-content'>
-       <page-table :searchCol='24'>
-         <template slot='search'>
-          <el-form :inline="true" class='form-inline_top'>
-            <el-form-item label="活动码状态：" class='el-form__change'>
-              <el-select v-model="model.promotionCodeStatus" placeholder="请选择" @change='(value)=>{changeSearchfrom({promotionCodeStatus:value})}'>
-                <el-option
-                  v-for="item in promotionCodeStatusList"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value">
-                </el-option>
-              </el-select>
-            </el-form-item>
-            <el-form-item label="好友添加时间：" class='el-form__change'>
-              <el-date-picker
-                v-model="seachDate"
-                type="datetimerange"
-                value-format="yyyy-MM-dd HH:mm:ss"
-                range-separator="至"
-                start-placeholder="请选择开始日期"
-                end-placeholder="请选择结束日期"
-                :default-time="['00:00:00','23:59:59']"
-                align="right">
-              </el-date-picker>
-            </el-form-item>
-            <el-form-item label="">
-              <el-input v-model="seachVal" placeholder="请输入推广大师昵称"  @keyup.enter.native="handleSearch">
-                <Icon type="ns-search-copy" slot="suffix" class='search-icon' @click="handleSearch"></Icon>
-              </el-input>
-            </el-form-item>
-          </el-form>
-        </template>
-        <template slot='table'>
-          <template>
-            <el-table
-              :data="_data._table.data"
-              class="new-table_border"
-              v-loading.lock="_data._table.loadingtable"
-              @sort-change="handleSort"
-              style="width: 100%">
-              <el-table-column
-                prop="name"
-                label="推广大师">
-                <template slot-scope="scope">
-                  <div class="scope-title">
-                    <img :src='scope.row.avatar || defaultIcon' class="scope-title_img">
-                    <div class="scope-title_text">
-                      {{scope.row.promotionMasterName||'-'}}
-                    </div>
-                  </div>
-                </template>
-              </el-table-column>
-              <el-table-column
-                prop="inviteFriendNumber"
-                sortable="custom"
-                label="邀请好友数">
-                <template slot-scope="scope">
-                  <ns-button type='text' @click='handleOpen(scope.row)'>{{scope.row.inviteFriendNumber}}</ns-button>
-                </template>
-              </el-table-column>
-              <el-table-column
-                prop="lastFriendAddTime"
-                sortable="custom"
-                label="最近添加好友时间">
-              </el-table-column>
-              <el-table-column
-                prop="promotionCodeStatus"
-                align='center'
-                label="活动码状态">
-                <template slot-scope="scope">
-                  <el-tag :type="statusTableList[scope.row.promotionCodeStatus].color" class='scope-name_tag'>{{statusTableList[scope.row.promotionCodeStatus].value}}</el-tag>
-                </template>
-              </el-table-column>
-            </el-table>
+    <div class='drawer-content'>
+      <div class='master-close'>
+        <i class="el-icon-close" @click="handleClose"></i>
+      </div>
+      <div class='header-title'>
+        <h4 class='header-title_text'>{{chooseMaster.employeeName}}的推广大师明细</h4>
+        <span class='header-title_num'>共{{chooseMaster.promotionMasterNumber}}人</span>
+      </div>
+      <div class='analysis-content'>
+        <page-table :searchCol='24'>
+          <template slot='search'>
+            <el-form :inline="true" class='form-inline_top'>
+              <el-form-item label="活动码状态：" class='el-form__change'>
+                <el-select v-model="model.promotionCodeStatus" placeholder="请选择" @change='(value)=>{changeSearchfrom({promotionCodeStatus:value})}'>
+                  <el-option
+                    v-for="item in promotionCodeStatusList"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value">
+                  </el-option>
+                </el-select>
+              </el-form-item>
+              <el-form-item label="好友添加时间：" class='el-form__change'>
+                <el-date-picker
+                  v-model="seachDate"
+                  type="datetimerange"
+                  value-format="yyyy-MM-dd HH:mm:ss"
+                  range-separator="至"
+                  start-placeholder="请选择开始日期"
+                  end-placeholder="请选择结束日期"
+                  :default-time="['00:00:00','23:59:59']"
+                  align="right">
+                </el-date-picker>
+              </el-form-item>
+              <el-form-item label="">
+                <el-input v-model="seachVal" placeholder="请输入推广大师昵称"  @keyup.enter.native="handleSearch">
+                  <Icon type="ns-search-copy" slot="suffix" class='search-icon' @click="handleSearch"></Icon>
+                </el-input>
+              </el-form-item>
+            </el-form>
           </template>
-        </template>
-        <template slot='pagination'>
-          <div class='drawer-pagination'>
-            <div class='pagecontent-left'>
-              <div class='content-item' @click='handlePrev'><i class="el-icon-arrow-left"></i>上一个员工</div>
-              <div class='content-item' @click='handleNext'>下一个员工<i class="el-icon-arrow-right"></i></div>
-            </div>
-            <el-pagination v-if="_data._pagination.enable"
-                            style='width:300px'
-                            class="template-table__pagination"
-                            :page-sizes="_data._pagination.sizeOpts"
-                            :total="_data._pagination.total"
-                            :current-page="_data._pagination.page"
-                            :page-size="_data._pagination.size"
-                            layout="total, prev, pager, next, jumper"
-                            @size-change="$sizeChange$"
-                            @current-change="$pageChange$">
-              </el-pagination>
-            </div>
-        </template>
-       </page-table>
+          <template slot='table'>
+            <template>
+              <el-table
+                :data="_data._table.data"
+                class="new-table_border"
+                v-loading.lock="_data._table.loadingtable"
+                @sort-change="handleSort"
+                style="width: 100%">
+                <el-table-column
+                  prop="name"
+                  label="推广大师">
+                  <template slot-scope="scope">
+                    <div class="scope-title">
+                      <img :src='scope.row.avatar || defaultIcon' class="scope-title_img">
+                      <div class="scope-title_text">
+                        {{scope.row.promotionMasterName||'-'}}
+                      </div>
+                    </div>
+                  </template>
+                </el-table-column>
+                <el-table-column
+                  prop="inviteFriendNumber"
+                  sortable="custom"
+                  label="邀请好友数">
+                  <template slot-scope="scope">
+                    <ns-button type='text' @click='handleOpen(scope.row)'>{{scope.row.inviteFriendNumber}}</ns-button>
+                  </template>
+                </el-table-column>
+                <el-table-column
+                  prop="lastFriendAddTime"
+                  sortable="custom"
+                  label="最近添加好友时间">
+                  <template slot-scope="scope">
+                    <div class="scope-title_text">
+                      {{scope.row.lastFriendAddTime|| '-'}}
+                    </div>
+                  </template>
+                </el-table-column>
+                <el-table-column
+                  prop="promotionCodeStatus"
+                  align='center'
+                  label="活动码状态">
+                  <template slot-scope="scope">
+                    <el-tag :type="statusTableList[scope.row.promotionCodeStatus].color" class='scope-name_tag'>{{statusTableList[scope.row.promotionCodeStatus].value}}</el-tag>
+                  </template>
+                </el-table-column>
+              </el-table>
+            </template>
+          </template>
+          <template slot='pagination'>
+            <div class='drawer-pagination'>
+              <div class='pagecontent-left'>
+                <div class='content-item' @click='handlePrev'><i class="el-icon-arrow-left"></i>上一个员工</div>
+                <div class='content-item' @click='handleNext'>下一个员工<i class="el-icon-arrow-right"></i></div>
+              </div>
+              <el-pagination v-if="_data._pagination.enable"
+                              style='width:300px'
+                              class="template-table__pagination"
+                              :page-sizes="_data._pagination.sizeOpts"
+                              :total="_data._pagination.total"
+                              :current-page="_data._pagination.page"
+                              :page-size="_data._pagination.size"
+                              layout="total, prev, pager, next, jumper"
+                              @size-change="$sizeChange$"
+                              @current-change="$pageChange$">
+                </el-pagination>
+              </div>
+          </template>
+        </page-table>
+      </div>
     </div>
   </div>
 </template>
@@ -111,7 +118,7 @@
 <script>
 import PageTable from '../PageTable'
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
-import defaultIcon from '../../Images/icon-huiyuan.png'
+import defaultIcon from '@/assets/defultheadPic.png'
 const originModel = {
   timeStart: null,
   timeEnd: null,
@@ -150,11 +157,16 @@ export default {
           value: '已失效',
           color: 'info'
         },
+        1: {
+          value: '未生成',
+          color: 'info'
+        },
         2: {
           value: '正常',
           color: 'success'
         }
-      }
+      },
+      defaultIcon
     }
   },
   components: { PageTable },
@@ -227,6 +239,16 @@ export default {
 </script>
 <style lang="scss" scoped>
 @import "../../styles/reset.css";
+.master-drawer {
+  height: 100vh;
+  overflow-y: auto;
+}
+.drawer-content {
+   position: relative;
+  padding: 12px 16px;
+  min-height: 100vh;
+  padding-bottom: 50px;
+}
 .master-close {
   font-size: 16px;
   padding: 16px 16px 32px 16px;

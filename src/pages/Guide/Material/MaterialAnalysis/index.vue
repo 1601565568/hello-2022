@@ -106,7 +106,7 @@
                     </el-form-item> -->
                     <ns-category-select v-model="model.folderId"
                         :batch="true"
-                        :getDirectoryTreeUrl = 'getDirectoryTreeUrl'
+                        :getTreeUrl = 'getTreeUrl'
                     />
                     <el-form-item label="标签：">
                         <el-select

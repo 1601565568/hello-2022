@@ -5,7 +5,10 @@
       <el-form-item label="所属员工：">
         <NsGuideDialog :selfBtn='true' :appendToBody='true' :isButton="false" :auth="false" type="primary" btnTitle="" dialogTitle="选择员工" v-model="guideIds" @input="handleChangeGuide">
           <template slot='selfBtn'>
-            <Icon type="geren"></Icon>
+            <div class='self-btn'>
+              {{(guideIds&&guideIds.length)?`已选择${guideIds.length}个员工`:'全部'}}
+              <Icon type="geren" class='guideIds-icon'></Icon>
+            </div>
           </template>
         </NsGuideDialog>
       </el-form-item>
@@ -38,9 +41,9 @@
           label="好友昵称">
           <template slot-scope="scope">
             <div class="scope-title">
-              <img :src='scope.row.friendAvatar' class="scope-title_img">
+              <img :src='scope.row.friendAvatar || defaultIcon' class="scope-title_img">
               <div class="scope-title_text">
-                {{scope.row.friendName}}
+                {{scope.row.friendName||'-'}}
               </div>
             </div>
           </template>
@@ -50,9 +53,9 @@
           label="推广大师">
           <template slot-scope="scope">
             <div class="scope-title">
-              <img :src='scope.row.promotionAvatar' class="scope-title_img">
+              <img :src='scope.row.promotionAvatar || defaultIcon' class="scope-title_img">
               <div class="scope-title_text">
-                {{scope.row.promotionName}}
+                {{scope.row.promotionName||'-'}}
               </div>
             </div>
           </template>
@@ -82,9 +85,23 @@
           </template>
         </el-table-column>
         <el-table-column
+          prop="employeeNumber"
+          label="工号">
+          <template slot-scope="scope">
+            <div class="scope-title_text">
+              {{scope.row.employeeNumber|| '-'}}
+            </div>
+          </template>
+        </el-table-column>
+        <el-table-column
           prop="addTime"
           sortable="custom"
           label="添加时间">
+          <template slot-scope="scope">
+            <div class="scope-title_text">
+              {{scope.row.addTime|| '-'}}
+            </div>
+          </template>
         </el-table-column>
       </el-table>
     </template>
@@ -108,6 +125,7 @@ import PageTable from '../PageTable'
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import NsGuideDialog from '@/components/NsGuideDialog'
 import { API_ROOT } from '@/config/http.js'
+import defaultIcon from '@/assets/defultheadPic.png'
 export default {
   data () {
     return {
@@ -121,7 +139,8 @@ export default {
       url: this.$api.guide.customerCode.getFriendListByParam,
       seachVal: '',
       guideIds: [],
-      searchType: 1
+      searchType: 1,
+      defaultIcon
     }
   },
   components: { PageTable, NsGuideDialog },
@@ -204,8 +223,11 @@ export default {
     }
   },
   watch: {
-    startTime (newVal) {
-      this.changeSearchfrom({ timeStart: newVal, timeEnd: this.endTime })
+    startTime: {
+      handler (newVal) {
+        this.changeSearchfrom({ timeStart: newVal, timeEnd: this.endTime })
+      },
+      immediate: true
     }
   }
 }
@@ -243,6 +265,17 @@ export default {
   .search-icon {
     font-size: 22px;
     margin-top: 2px;
+  }
+  .self-btn {
+    width: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 14px;
+    color: #606266;
+    .guideIds-icon {
+      color:#C0C4CC;
+    }
   }
 </style>
 <style scoped>

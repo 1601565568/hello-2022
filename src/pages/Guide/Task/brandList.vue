@@ -113,8 +113,9 @@
       <el-table-column prop="status" label="状态" align="left" width="100">
         <template slot-scope="{row}">
           <el-tag type="success" v-if="row.state === 1">进行中</el-tag>
-          <el-tag type="warning" v-if="row.state === 4">已过期</el-tag>
           <el-tag type="info" v-if="row.state === 2">已完成</el-tag>
+          <el-tag type="warning" v-if="row.state === 4">已过期</el-tag>
+          <el-tag type="success" v-if="row.state === 5">未开始</el-tag>
         </template>
       </el-table-column>
       <el-table-column
@@ -123,12 +124,14 @@
         align="center"
       >
       <template slot-scope="scope">
-        <ns-button @click="ViewProgress(scope.row)" type="text">查看完整进度</ns-button>
+        <ns-button @click="ViewProgress(scope.row)" type="text">查看任务进度</ns-button>
         <span v-if="scope.row.editAccess === 1" >
           <span v-if="scope.row.state !== 4" >
             <ns-button @click="EditShowToggle(scope.row)" type="text">编辑</ns-button>
           </span>
-          <a href="javascript:" @click="delsTipFun(scope.row.id)" class="btn-detele">删除</a>
+          <span v-if="scope.row.state === 5" >
+            <a href="javascript:" @click="delsTipFun(scope.row.id)" class="btn-detele">删除</a>
+          </span>
         </span>
       </template>
       </el-table-column>

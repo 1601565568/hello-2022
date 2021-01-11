@@ -5,7 +5,10 @@
       <el-form-item label="所属员工：">
         <NsGuideDialog :selfBtn='true' :appendToBody='true' :isButton="false" :auth="false" type="primary" btnTitle="" dialogTitle="选择员工" v-model="guideIds" @input="handleChangeGuide">
           <template slot='selfBtn'>
-            <Icon type="geren"></Icon>
+            <div class='self-btn'>
+              {{(guideIds&&guideIds.length)?`已选择${guideIds.length}个员工`:'全部'}}
+              <Icon type="geren" class='guideIds-icon'></Icon>
+            </div>
           </template>
         </NsGuideDialog>
       </el-form-item>
@@ -32,7 +35,7 @@
         </el-date-picker>
       </el-form-item>
       <el-form-item label="">
-        <el-input v-model="seachVal" placeholder="请输入员工名称"  @keyup.enter.native="handleSearch">
+        <el-input v-model="seachVal" placeholder="请输入推广大师昵称"  @keyup.enter.native="handleSearch">
           <Icon type="ns-search-copy" slot="suffix" class='search-icon' @click="handleSearch"></Icon>
         </el-input>
       </el-form-item>
@@ -84,6 +87,15 @@
           </template>
         </el-table-column>
         <el-table-column
+          prop="employeeNumber"
+          label="工号">
+          <template slot-scope="scope">
+            <div class="scope-title_text">
+              {{scope.row.employeeNumber|| '-'}}
+            </div>
+          </template>
+        </el-table-column>
+        <el-table-column
           prop="inviteFriendNo"
           sortable="custom"
           label="邀请好友数">
@@ -95,6 +107,11 @@
           prop="lastAddFriendsDate"
           sortable="custom"
           label="最近添加好友时间">
+          <template slot-scope="scope">
+            <div class="scope-title_text">
+              {{scope.row.lastAddFriendsDate|| '-'}}
+            </div>
+          </template>
         </el-table-column>
         <el-table-column
           prop="promotionMasterNumber"
@@ -125,7 +142,7 @@
 import PageTable from '../PageTable'
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import NsGuideDialog from '@/components/NsGuideDialog'
-import defaultIcon from '../../Images/icon-huiyuan.png'
+import defaultIcon from '@/assets/defultheadPic.png'
 export default {
   data () {
     return {
@@ -137,8 +154,7 @@ export default {
         guestCodeStatus: null,
         guestCodeId: this.$route.query.guestCodeId,
         inviteFriendNo: null,
-        lastAddFriendsDate: null,
-        defaultIcon
+        lastAddFriendsDate: null
       },
       url: this.$api.guide.customerCode.getPromotionListByGuestCodeId,
       seachVal: '',
@@ -171,7 +187,8 @@ export default {
           color: 'success'
         }
       },
-      activeIndex: -1
+      activeIndex: -1,
+      defaultIcon
     }
   },
   components: { PageTable, NsGuideDialog },
@@ -196,7 +213,8 @@ export default {
       const data = {
         ...item,
         employeeName: item.promotionName,
-        inviteFriendNumber: item.inviteFriendNo
+        inviteFriendNumber: item.inviteFriendNo,
+        nextName: '推广大师'
       }
       this.activeIndex = index
       this.$emit('showFriend', data)
@@ -221,7 +239,7 @@ export default {
       if (type === 'prev') {
         if (this.activeIndex === 0) {
           if (page === 1) {
-            this.$notify.error('暂无上一个员工')
+            this.$notify.error('暂无上一个推广大师')
           } else {
             this._data._pagination.page = page - 1
             this.$queryList$(this.$generateParams$()).then(() => {
@@ -235,7 +253,7 @@ export default {
         }
       } else if (type === 'next') {
         if (((page - 1) * size + this.activeIndex + 1) >= total) {
-          this.$notify.error('暂无下一个员工')
+          this.$notify.error('暂无下一个推广大师')
         } else {
           if (this.activeIndex === size - 1) {
             this._data._pagination.page = page + 1
@@ -265,8 +283,11 @@ export default {
       const date = newVal || [null, null]
       this.changeSearchfrom({ addFriendTimeStart: date[0], addFriendTimeEnd: date[1] })
     },
-    startTime (newVal) {
-      this.changeSearchfrom({ timeStart: newVal, timeEnd: this.endTime })
+    startTime: {
+      handler (newVal) {
+        this.changeSearchfrom({ timeStart: newVal, timeEnd: this.endTime })
+      },
+      immediate: true
     }
   }
 }
@@ -316,5 +337,16 @@ export default {
   .search-icon {
     font-size: 22px;
     margin-top: 2px;
+  }
+  .self-btn {
+    width: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 14px;
+    color: #606266;
+    .guideIds-icon {
+      color:#C0C4CC;
+    }
   }
 </style>

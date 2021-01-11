@@ -66,15 +66,13 @@ export default {
       type: String,
       default: ''
     },
-    tag: {
-      // 自定义模版标签的标签名
+    tag: { // 自定义模版标签的标签名
       type: String,
       // 默认使用wise作为标签名，并添加了默认样式
       // 当使用其他标签名的时候，需要另写标签样式
       default: 'wise'
     },
-    tools: {
-      // 自定义扩展功能：超链接'link'，模版标签'tag'
+    tools: { // 自定义扩展功能：超链接'link'，模版标签'tag'
       type: Array,
       default () {
         return []
@@ -83,8 +81,7 @@ export default {
     placeholder: {
       type: String
     },
-    maxlength: {
-      // 最大输入长度
+    maxlength: { // 最大输入长度
       type: [String, Number],
       default: ''
     },
@@ -94,13 +91,9 @@ export default {
     }
   },
   computed: {
-    count () {
-      // 字符长度记数
+    count () { // 字符长度记数
       let num = this.maxlength - this.currentText.length
-      let text =
-        num < 0
-          ? `已超出${Math.abs(num)}个字符`
-          : `${this.currentText.length}/${this.maxlength}`
+      let text = num < 0 ? `已超出${Math.abs(num)}个字符` : `${this.currentText.length}/${this.maxlength}`
       this.$emit('inputLength', this.currentText.length)
       return { num, text }
     }
@@ -162,8 +155,7 @@ export default {
       node.target = 'blank'
       this.insertNode(node)
     },
-    insertNode (node) {
-      // 判断是否第一次点击
+    insertNode (node) { // 判断是否第一次点击
       if (!this.savedRange.deleteContents) {
         const dom = document.getElementsByClassName('w-textarea_input')[0]
         dom.focus()
@@ -174,8 +166,7 @@ export default {
         this.addNode(node)
       }
     },
-    addNode (node) {
-      // 在内容中插入标签
+    addNode (node) { // 在内容中插入标签
       // 删掉选中的内容（如有）
       // this.savedRange.deleteContents()
       // 插入链接
@@ -232,7 +223,7 @@ export default {
       if (
         range &&
         range.commonAncestorContainer.ownerDocument.activeElement.id ===
-          this.contentId
+        this.contentId
       ) {
         this.savedRange = range
       }
@@ -267,7 +258,7 @@ export default {
 </style>
 
 <style lang="scss" scoped>
-$borderColor: #d9d9d9;
+$borderColor: #D9D9D9;
 $bgColor: #f5f5f5;
 $textColor: #595959;
 
@@ -319,7 +310,7 @@ $textColor: #595959;
       color: $textColor;
       cursor: pointer;
       border-radius: 18px;
-      border: none;
+      border:none;
       line-height: 20px;
       background: #fff;
       transition: all 0.3s;
@@ -350,9 +341,9 @@ $textColor: #595959;
       cursor: default;
       transition: all 0.3s;
       position: absolute;
-      bottom: 0;
+      bottom:0;
       right: 12px;
-      color: #c0c4cc;
+      color: #C0C4CC;
       &:hover {
         opacity: 1;
       }

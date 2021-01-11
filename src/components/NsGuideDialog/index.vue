@@ -49,7 +49,7 @@
           <el-form-item>
             <el-form-grid><div style="margin-left: 20px;">工作门店：</div></el-form-grid>
             <el-form-grid >
-              <ns-droptree ref="shopCateTree" placeholder="请选择门店分类" :lazy="true" :load="loadShopCateNode"  :multiple="false" v-model="departData.shopCate" clearable></ns-droptree>
+              <ns-droptree ref="shopCateTree" :loading="loading" placeholder="请选择门店分类" :lazy="true" :load="loadShopCateNode"  :multiple="false" v-model="departData.shopCate" clearable></ns-droptree>
             </el-form-grid>
             <el-form-grid style="margin-left:10px">
               <el-select-load v-model="departData.shopId" :options="shopOptions"  filterable clearable :page-sizes="20" placeholder="选择门店">
@@ -143,7 +143,7 @@
 
 <script>
 import index from './src/index.js'
-import NsDroptree from '@nascent/ecrp-ecrm/src/components/NsDroptree'
+import NsDroptree from '../NsDroptree'
 import ElSelectLoad from '@nascent/nui/lib/select-load'
 import NsImportDialog from '../NsImportDialog/index'
 index.components = {
@@ -158,7 +158,7 @@ export default index
   @import "@theme/variables.pcss";
   .template-search__chooes{
     cursor: pointer;
-    width: 40px;
+    min-width: 40px;/* width改成min-width 有问题找文秀或梦芹 */
     font-size: 12px;
     color: #0392FB;
     text-align: center;
@@ -183,7 +183,7 @@ export default index
   }
   .template-search__chooes{
     cursor: pointer;
-    width: 40px;
+    min-width: 40px;/* width改成min-width 有问题找文秀或梦芹 */
     font-size: 12px;
     color: #0392FB;
     text-align: center;

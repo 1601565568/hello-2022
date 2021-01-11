@@ -5,7 +5,10 @@
       <el-form-item label="所属员工：">
         <NsGuideDialog :selfBtn='true' :appendToBody='true' :isButton="false" :auth="false" type="primary" btnTitle="" dialogTitle="选择员工" v-model="guideIds" @input="handleChangeGuide">
           <template slot='selfBtn'>
-            <Icon type="geren"></Icon>
+            <div class='self-btn'>
+              {{(guideIds&&guideIds.length)?`已选择${guideIds.length}个员工`:'全部'}}
+              <Icon type="geren" class='guideIds-icon'></Icon>
+            </div>
           </template>
         </NsGuideDialog>
       </el-form-item>
@@ -28,14 +31,29 @@
         <el-table-column
           prop="employeeName"
           label="员工姓名">
+          <template slot-scope="scope">
+            <div class="scope-title_text">
+              {{scope.row.employeeName|| '-'}}
+            </div>
+          </template>
         </el-table-column>
         <el-table-column
           prop="employeeNumber"
           label="工号">
+          <template slot-scope="scope">
+            <div class="scope-title_text">
+              {{scope.row.employeeNumber|| '-'}}
+            </div>
+          </template>
         </el-table-column>
         <el-table-column
           prop="employeeMobile"
           label="手机号">
+          <template slot-scope="scope">
+            <div class="scope-title_text">
+              {{scope.row.employeeMobile|| '-'}}
+            </div>
+          </template>
         </el-table-column>
         <el-table-column
           prop="loginAccount"
@@ -209,8 +227,11 @@ export default {
     }
   },
   watch: {
-    startTime (newVal) {
-      this.changeSearchfrom({ timeStart: newVal, timeEnd: this.endTime })
+    startTime: {
+      handler (newVal) {
+        this.changeSearchfrom({ timeStart: newVal, timeEnd: this.endTime })
+      },
+      immediate: true
     }
   }
 }
@@ -234,5 +255,16 @@ export default {
   }
   .max-popper {
     max-width: 450px;
+  }
+  .self-btn {
+    width: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 14px;
+    color: #606266;
+    .guideIds-icon {
+      color:#C0C4CC;
+    }
   }
 </style>

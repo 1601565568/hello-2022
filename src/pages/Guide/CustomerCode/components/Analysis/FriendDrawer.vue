@@ -1,61 +1,80 @@
 <template>
   <div class="master-drawer">
-    <div class='master-close'>
-      <i class="el-icon-close" @click="handleBackFirst"></i>
-    </div>
-    <div class='header-title'>
-      <h4 v-if='isSecondDrawer' class='header-title_text header-title_text__grey' @click='handleBackFirst'>{{secondDrawerName}}的推广大师明细<span class='header-title_text__span'>/</span></h4>
-      <h4 class='header-title_text'>{{chooseFriend.employeeName}}邀请好友的明细</h4>
-      <span class='header-title_num'>共{{chooseFriend.inviteFriendNumber}}人</span>
-    </div>
-    <div class='analysis-content'>
-       <page-table  :searchCol='24'>
-         <template slot='search'>
-          <el-form :inline="true" class='form-inline_top' @submit.native.prevent>
-            <el-form-item label="">
-              <el-input v-model="seachVal" placeholder="请输入好友昵称"  @keyup.enter.native="handleSearch">
-                <Icon type="ns-search-copy" slot="suffix" class='search-icon' @click="handleSearch"></Icon>
-              </el-input>
-            </el-form-item>
-          </el-form>
-        </template>
-        <template slot='table'>
-          <template>
-            <el-table
-              :data="_data._table.data"
-              class="new-table_border"
-              v-loading.lock="_data._table.loadingtable"
-              @sort-change="handleSort"
-              style="width: 100%">
-              <el-table-column
-                prop="friendName"
-                label="好友昵称">
-                <template slot-scope="scope">
-                  <div class="scope-title">
-                    <img :src='scope.row.friendAvatar' class="scope-title_img">
-                    <div class="scope-title_text">
-                      {{scope.row.friendName|| '-'}}
-                    </div>
-                  </div>
-                </template>
-              </el-table-column>
-              <el-table-column
-                prop="addTime"
-                sortable="custom"
-                label="最近添加好友时间">
-              </el-table-column>
-            </el-table>
+    <div class='drawer-content'>
+      <div class='master-close'>
+        <i class="el-icon-close" @click="handleBackFirst"></i>
+      </div>
+      <div class='header-title'>
+        <h4 v-if='isSecondDrawer' class='header-title_text header-title_text__grey' @click='handleBackFirst'>{{secondDrawerName}}的推广大师明细<span class='header-title_text__span'>/</span></h4>
+        <h4 class='header-title_text'>{{chooseFriend.employeeName}}邀请好友的明细</h4>
+        <span class='header-title_num'>共{{chooseFriend.inviteFriendNumber}}人</span>
+      </div>
+      <div class='analysis-content'>
+        <page-table  :searchCol='24'>
+          <template slot='search'>
+            <el-form :inline="true" class='form-inline_top' @submit.native.prevent>
+              <el-form-item label="">
+                <el-input v-model="seachVal" placeholder="请输入好友昵称"  @keyup.enter.native="handleSearch">
+                  <Icon type="ns-search-copy" slot="suffix" class='search-icon' @click="handleSearch"></Icon>
+                </el-input>
+              </el-form-item>
+            </el-form>
           </template>
-        </template>
-        <template slot='pagination'>
-          <template v-if='!isSecondDrawer'>
-            <div class='drawer-pagination'>
-              <div class='pagecontent-left'>
-                <div class='content-item' @click='handlePrev'><i class="el-icon-arrow-left"></i>上一个推广大师</div>
-                <div class='content-item' @click='handleNext'>下一个推广大师<i class="el-icon-arrow-right"></i></div>
+          <template slot='table'>
+            <template>
+              <el-table
+                :data="_data._table.data"
+                class="new-table_border"
+                v-loading.lock="_data._table.loadingtable"
+                @sort-change="handleSort"
+                style="width: 100%">
+                <el-table-column
+                  prop="friendName"
+                  label="好友昵称">
+                  <template slot-scope="scope">
+                    <div class="scope-title">
+                      <img :src='scope.row.friendAvatar||defaultIcon' class="scope-title_img">
+                      <div class="scope-title_text">
+                        {{scope.row.friendName|| '-'}}
+                      </div>
+                    </div>
+                  </template>
+                </el-table-column>
+                <el-table-column
+                  prop="addTime"
+                  sortable="custom"
+                  label="最近添加好友时间">
+                  <template slot-scope="scope">
+                    <div class="scope-title_text">
+                      {{scope.row.addTime|| '-'}}
+                    </div>
+                  </template>
+                </el-table-column>
+              </el-table>
+            </template>
+          </template>
+          <template slot='pagination'>
+            <template v-if='!isSecondDrawer'>
+              <div class='drawer-pagination'>
+                <div class='pagecontent-left'>
+                  <div class='content-item' @click='handlePrev'><i class="el-icon-arrow-left"></i>上一个{{nextName}}</div>
+                  <div class='content-item' @click='handleNext'>下一个{{nextName}}<i class="el-icon-arrow-right"></i></div>
+                </div>
+                <el-pagination v-if="_data._pagination.enable"
+                              style='width:300px'
+                              class="template-table__pagination"
+                              :page-sizes="_data._pagination.sizeOpts"
+                              :total="_data._pagination.total"
+                              :current-page="_data._pagination.page"
+                              :page-size="_data._pagination.size"
+                              layout="total, prev, pager, next, jumper"
+                              @size-change="$sizeChange$"
+                              @current-change="$pageChange$">
+                </el-pagination>
               </div>
+            </template>
+            <template v-else>
               <el-pagination v-if="_data._pagination.enable"
-                            style='width:300px'
                             class="template-table__pagination"
                             :page-sizes="_data._pagination.sizeOpts"
                             :total="_data._pagination.total"
@@ -65,22 +84,10 @@
                             @size-change="$sizeChange$"
                             @current-change="$pageChange$">
               </el-pagination>
-            </div>
+            </template>
           </template>
-          <template v-else>
-            <el-pagination v-if="_data._pagination.enable"
-                          class="template-table__pagination"
-                          :page-sizes="_data._pagination.sizeOpts"
-                          :total="_data._pagination.total"
-                          :current-page="_data._pagination.page"
-                          :page-size="_data._pagination.size"
-                          layout="total, prev, pager, next, jumper"
-                          @size-change="$sizeChange$"
-                          @current-change="$pageChange$">
-            </el-pagination>
-          </template>
-        </template>
-       </page-table>
+        </page-table>
+      </div>
     </div>
   </div>
 </template>
@@ -88,6 +95,7 @@
 <script>
 import PageTable from '../PageTable'
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
+import defaultIcon from '@/assets/defultheadPic.png'
 const originModel = {
   friendName: null,
   guideId: null,
@@ -107,11 +115,17 @@ export default {
       seachVal: '',
       isSecondDrawer: false, // 是否是二级drawer
       secondDrawerName: null, // 一级drawer名称
-      secondDrawerId: null // 一级drawerguideId
+      secondDrawerId: null, // 一级drawerguideId
+      defaultIcon
     }
   },
   components: { PageTable },
   mixins: [tableMixin],
+  computed: {
+    nextName () {
+      return this.chooseFriend && this.chooseFriend.nextName ? this.chooseFriend.nextName : '员工'
+    }
+  },
   props: {
     chooseFriend: {
       default () {
@@ -186,6 +200,16 @@ export default {
 </script>
 <style lang="scss" scoped>
 @import "../../styles/reset.css";
+.master-drawer {
+  height: 100vh;
+  overflow-y: auto;
+}
+.drawer-content {
+   position: relative;
+  padding: 12px 16px;
+  min-height: 100vh;
+  padding-bottom: 50px;
+}
 .master-close {
   font-size: 16px;
   padding: 16px 16px 32px 16px;
@@ -213,6 +237,9 @@ export default {
 .header-title_text__grey {
   color: #8C8C8C;
   cursor: pointer;
+  &:hover {
+    color: #40AEFC;
+  }
 }
 .scope-title {
   display: flex;

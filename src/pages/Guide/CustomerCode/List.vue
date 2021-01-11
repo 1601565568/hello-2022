@@ -6,7 +6,10 @@
           <el-form-item label="参与员工：">
             <NsGuideDialog :selfBtn='true' :appendToBody='true' :isButton="false" :auth="false" type="primary" btnTitle="" dialogTitle="选择员工" v-model="model.guideIds" @input="handleChangeGuide">
               <template slot='selfBtn'>
-                <Icon type="geren"></Icon>
+                <div class='self-btn'>
+                  {{(model.guideIds&&model.guideIds.length)?`已选择${model.guideIds.length}个员工`:'全部'}}
+                  <Icon type="geren" class='guideIds-icon'></Icon>
+                </div>
               </template>
             </NsGuideDialog>
           </el-form-item>
@@ -210,6 +213,17 @@ export default List
       background: #FFFBE6;
       border: 1px solid #FFAE0D;
       color: #262626;
+    }
+  }
+  .self-btn {
+    width: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 14px;
+    color: #606266;
+    .guideIds-icon {
+      color:#C0C4CC;
     }
   }
 </style>

@@ -205,6 +205,7 @@ export default {
       this.findCustomerDetail()
     },
     detailSizeChange: function (size) {
+      this.paginations.page = 1
       this.paginations.size = size
       this.findCustomerDetail()
     },

@@ -6,14 +6,32 @@
           <i class="el-icon-close"></i>
         </div>
         <div class='icon-list'>
-          <div class='icon-item' @click="handlePreview">
-            <img :src='nsPreviewIcon' />
+          <div class='icon-item' @click="handlePreview" v-if='data.status!==1'>
+            <el-popover
+              popper-class="dwaer-popper"
+              placement="top-start"
+              trigger="hover"
+              title='活动效果'>
+              <img :src='nsPreviewIcon'  slot="reference"/>
+            </el-popover>
           </div>
-          <div class='icon-item' @click="handleDelect">
-            <img :src='closeIcon' />
+          <div class='icon-item' @click="handleDelect" v-if='[1,2].includes(data.status)'>
+            <el-popover
+              popper-class="dwaer-popper"
+              placement="top-start"
+              trigger="hover"
+              title='结束活动'>
+              <img :src='closeIcon' slot="reference" />
+            </el-popover>
           </div>
-          <div class='icon-item'  @click="handleEdit">
-            <img :src='nsEditIcon' />
+          <div class='icon-item'  @click="handleEdit" v-if='[1,2].includes(data.status)'>
+            <el-popover
+              popper-class="dwaer-popper"
+              placement="top-start"
+              title='编辑'
+              trigger="hover">
+              <img :src='nsEditIcon' slot="reference" />
+            </el-popover>
           </div>
         </div>
       </div>
@@ -212,5 +230,13 @@ export default {
       justify-content: center;
     }
   }
+}
+.dwaer-popper {
+  min-width: 0 !important;
+}
+</style>
+<style lang="css">
+.dwaer-popper {
+  min-width: 0 !important;
 }
 </style>

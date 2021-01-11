@@ -28,16 +28,22 @@ export default {
       'component': () => import('@nascent/ecrp-ecrm/src/layout/Content.vue'),
       'children': [
         {
+          'path': '/Guide/RecruitSet/RecruitConfigGift',
+          'name': 'RecruitConfigGift',
+          'title': '招募奖励设置',
+          'component': () => import('@/pages/Guide/RecruitmentSettings/index.vue')
+        },
+        {
           'path': '/Guide/RecruitSet/RecruitConfig',
           'name': 'RecruitConfig',
           'title': '招募设置',
-          'component': () => import('@/pages/Guide/RecruitmentSettings/index.vue')
+          'component': () => import('@/pages/Guide/Recruitment/RecruitmentSettings/index.vue')
         },
         {
           'path': '/Guide/RecruitSet/RecruitPageConfig',
           'name': 'RecruitPageConfig',
           'title': '招募页面设置',
-          'component': () => import('@/pages/Guide/RecruitmentPageSettings/index.vue')
+          'component': () => import('@/pages/Guide/Recruitment/RecruitmentPageSettings/index.vue')
         },
         {
           'path': '/Guide/RecruitSet/NotMemberPageConfig',
@@ -127,6 +133,20 @@ export default {
           'name': 'companyInformation',
           'title': '公司logo',
           'component': () => import('@/pages/Guide/Logo/index.vue')
+        }
+      ]
+    },
+    {
+      'path': '/Guide/Service',
+      'name': 'CustomerService',
+      'title': '客服管理',
+      'component': () => import('@nascent/ecrp-ecrm/src/layout/Content.vue'),
+      'children': [
+        {
+          'path': '/Guide/Service/ThirdLink',
+          'name': 'ThirdLink',
+          'title': '第三方关联链接',
+          'component': () => import('@/pages/Guide/CustomerService/ThirdLink/index.vue')
         }
       ]
     }

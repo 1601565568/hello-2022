@@ -42,7 +42,10 @@
   }
   >>>.el-form__change .el-input__inner {
     min-width: 0px;
-   max-width: 400px;
+   max-width: 450px;
+  }
+  >>>.el-form__change.el-date-editor--datetimerange.el-input, .el-date-editor--datetimerange.el-input__inner {
+    width: 450px;
   }
 }
 .normal-from {
@@ -147,4 +150,7 @@
       width: 100%
     }
   }
+}
+>>>.el-popover.dwaer-popper {
+  min-width: 0 !important;
 }
