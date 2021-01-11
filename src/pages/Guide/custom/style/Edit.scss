@@ -1,0 +1,21 @@
+.customEdit-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 48px;
+    background-color: #fff;
+    margin: -10px -10px 0;
+    padding: 16px;
+    min-width: 1046px;
+    .customEdit-btn {
+      button {
+        margin-left: 16px;
+      }
+    }
+  }
+  .customEdit-content {
+    margin-top: 16px;
+    border-radius: 4px;
+    background-color: #fff;
+  }
+  
