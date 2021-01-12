@@ -205,6 +205,7 @@
       </ElScrollbar>
     </div>
     <ElDialog title="会员分组客户列表" :visible.sync="dialogVisible" width="960px">
+      <div class='table-top_tip'>任务下发前会实时获取最新的客户名单，任务下发后客户名单将不再变化</div>
       <lookCardList v-if="dialogVisible" :subgroupId="model.subgroupId"></lookCardList>
       <!-- <div class="taskList-table__content">
         <el-table ref="table" :data="tableData"
@@ -478,5 +479,13 @@ export default addBrandTask
       }
     }
   }
+}
+.table-top_tip {
+  background: #F2F9FE;
+  height: 40px;
+  padding: 0 16px;
+  line-height: 40px;
+  font-size: 12px;
+  margin-bottom: 16px;
 }
 </style>
