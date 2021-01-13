@@ -107,10 +107,10 @@
       <el-table-column prop="createShopName" label="创建门店"></el-table-column>
       <el-table-column prop="status" label="状态" align="center" width="80">
         <template slot-scope="{row}">
-          <el-tag type="success" v-if="row.state === 1">执行中</el-tag>
-          <el-tag type="info" v-if="row.state === 3">已完成</el-tag>
-          <el-tag type="warning" v-if="row.state === 5">未开始</el-tag>
-          <el-tag type="danger" v-if="row.state === 6">未完成</el-tag>
+          <el-tag type="success" v-if="row.state === 1" class='scope-name_tag'>执行中</el-tag>
+          <el-tag type="info" v-if="row.state === 3" class='scope-name_tag'>已完成</el-tag>
+          <el-tag type="warning" v-if="row.state === 5" class='scope-name_tag'>未开始</el-tag>
+          <el-tag type="danger" v-if="row.state === 6" class='scope-name_tag'>未完成</el-tag>
         </template>
       </el-table-column>
       <el-table-column
@@ -312,4 +312,21 @@ export default {
     padding-right:0;
   }
 }
+.scope-name_tag.el-tag {
+    &.el-tag--success {
+      background: #F7FFF0;
+      border: 1px solid #53BF1D;
+      color: #262626;
+    }
+    &.el-tag--info {
+      background: #F5F5F5;
+      border: 1px solid #D9D9D9;
+      color: #262626;
+    }
+    &.el-tag--warning {
+      background: #FFFBE6;
+      border: 1px solid #FFAE0D;
+      color: #262626;
+    }
+  }
 </style>

@@ -76,6 +76,7 @@
                 format="yyyy-MM-dd"
                 value-format="yyyy-MM-dd"
                 v-model="searchMap.queryTime"
+                :picker-options="pickerOptions"
                 type="date"
                 @input="queryTimeChange"
                 placeholder="选择日期" />
@@ -494,4 +495,39 @@ export default taskDetail
       color: #da4625;
     }
   }
+  .remark {
+  overflow : hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+.urkJsonimageWarpper {
+  display: flex;
+  align-items: flex-end;
+}
+.urkJsonimage{
+  width: 32px;
+  height: 32px;
+  margin-right: 8px;
+  border-radius: 2px;
+}
+.urkJsonimage img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.urkJsonimage:last-child {
+  margin-right: 0px!important;
+}
+.remake-warpper {
+  display: flex;
+  align-items: center;
+}
+.urkJsonimageWarpper span {
+  cursor: pointer;
+  display: inline-block;
+  font-size: 14px;
+  color: #0094FC;
+}
 </style>

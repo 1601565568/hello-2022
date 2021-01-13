@@ -95,6 +95,20 @@ export default {
       createShopName: null
     }
   },
+  computed: {
+    pickerOptions () {
+      const { startTime, endTime } = this.taskMsg
+      return {
+        disabledDate (time) {
+          if (!startTime || !endTime) {
+            return true
+          } else {
+            return new Date(startTime).getTime() > time.getTime() || new Date(endTime).getTime() < time.getTime()
+          }
+        }
+      }
+    }
+  },
   methods: {
     onSearch () {
     },
