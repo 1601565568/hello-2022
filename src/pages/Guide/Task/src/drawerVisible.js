@@ -132,6 +132,7 @@ export default {
     exportData () {
       var url = API_ROOT + '/guide/task/exportGuideCompleteData'
       var form = document.createElement('form')
+      form.appendChild(this.generateHideElement('type', 1))
       form.appendChild(this.generateHideElement('taskId', this.id))
       form.appendChild(this.generateHideElement('shopId', this.shopId))
       form.appendChild(this.generateHideElement('queryTime', this.form.time))
