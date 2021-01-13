@@ -82,6 +82,13 @@ export default {
         parseInt(val.successCount) === parseInt(val.totalCount)
       ) {
         this.taskProgressStaute = 1
+      } else if (
+        parseInt(val.status) === 3 &&
+        parseInt(val.totalCount) === 0 &&
+        parseInt(val.successCount) === 0 &&
+        parseInt(val.totalCount) === 0
+      ) {
+        this.taskProgressStaute = 1
       } else {
         this.taskProgressStaute = 0
       }
@@ -108,6 +115,15 @@ export default {
         TaskStatus.totalCount !== 0 &&
         TaskStatus.status === 3 &&
         TaskStatus.totalCount === TaskStatus.successCount
+      ) {
+        content = `该门店${TaskStatus.totalCount}个会员更换导购成功`
+      }
+      /* 特殊情况处理 */
+      if (
+        TaskStatus.status === 3 &&
+        parseInt(TaskStatus.totalCount) === 0 &&
+        parseInt(TaskStatus.successCount) === 0 &&
+        parseInt(TaskStatus.totalCount) === 0
       ) {
         content = `该门店${TaskStatus.totalCount}个会员更换导购成功`
       }

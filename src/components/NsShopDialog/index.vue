@@ -24,7 +24,12 @@
 -->
 <template>
   <div>
-    <NsButton :type="type" @click="onDialogOpen()"><Icon v-if="type === 'text'" type="plus"/>{{btnTitle}}</NsButton>
+    <template v-if="type === 'icon'">
+      <div  @click="onDialogOpen()" style="cursor: pointer"><slot name='btnIcon'></slot></div>
+    </template>
+    <template v-else>
+      <NsButton :type="type" @click="onDialogOpen()"><Icon v-if="type === 'text'" type="plus"/>{{btnTitle}}</NsButton>
+    </template>
     <el-dialog :visible.sync="visible" :show-scroll-x="false"
                :close-on-click-modal = "false" appendToBody :before-close="onDialogClose" width="940px">
       <div slot="title">
@@ -53,7 +58,7 @@
             <el-form-grid>
               <ns-button type="primary" @click="searchEmployee(1)">{{$t('operating.search')}}</ns-button>
               <ns-button @click="resetSearch">{{$t('operating.reset')}}</ns-button>
-              <ns-button @click="onSelectAllData">{{isCheckAll ? '取消全选' : '全选'}}</ns-button>
+              <ns-button @click="handleSelectAll">{{isCheckAll ? '取消全选' : '全选'}}</ns-button>
             </el-form-grid>
           </el-form-item>
         </el-form>
@@ -82,6 +87,14 @@
             <ElTable :data="selectedData" height="260">
               <ElTableColumn :show-overflow-tooltip="true" type="default" prop="shop_name" :label="'已选' + selectedData.length + '家门店'" align="left"/>
               <ElTableColumn  prop="select" align="center" width="55" >
+                <template slot='header' v-if='isFix'>
+                  <ns-button
+                    type="text"
+                    size="mini"
+                    @click="() => removeAll()">
+                    清空
+                  </ns-button>
+                </template>
                 <template slot-scope="scope">
                   <ns-button
                     :disabled="auth && scope.row.auth"

@@ -212,9 +212,9 @@
 </template>
 <script>
 import Edit from './src/Edit'
-import LengthInput from './components/LengthInput'
-import HtmlArea from './components/HtmlArea'
-import TagArea from './components/TagArea'
+import LengthInput from '@/components/NewUi/LengthInput'
+import HtmlArea from '@/components/NewUi/HtmlArea'
+import TagArea from '@/components/NewUi/TagArea'
 import ElUpload from '@nascent/nui/lib/upload'
 import ElColorPicker from '@nascent/nui/lib/color-picker'
 import VueDragResize from 'vue-drag-resize'
