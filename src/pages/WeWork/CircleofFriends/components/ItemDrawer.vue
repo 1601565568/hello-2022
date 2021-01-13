@@ -148,7 +148,6 @@
         </div>
       </div>
     </div>
-    ---
     <Preview ref="preview" />
   </div>
 </template>
