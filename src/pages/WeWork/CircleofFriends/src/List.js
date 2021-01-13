@@ -5,8 +5,8 @@ export default {
     return {
       pagination: {
         enable: true,
-        size: 5,
-        sizeOpts: [5, 10, 50, 100],
+        size: 15,
+        sizeOpts: [15, 25, 50, 100],
         page: 1,
         total: 0
       },

@@ -530,8 +530,5 @@ export default {
 .comment-icon__dianzan {
   font-size: 16px;
   color: #0091fa;
-  // width: 20px;
-  // height: 20px;
-  // image-rendering: -webkit-optimize-contrast;
 }
 </style>
