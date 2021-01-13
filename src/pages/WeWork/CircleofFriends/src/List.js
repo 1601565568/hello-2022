@@ -5,15 +5,13 @@ export default {
     return {
       pagination: {
         enable: true,
-        size: 15,
-        sizeOpts: [15, 25, 50, 100],
+        size: 5,
+        sizeOpts: [5, 10, 50, 100],
         page: 1,
         total: 0
       },
       // 筛选数据
       model: {
-        start: 0,
-        length: 15,
         content: '', // 内容
         startTime: '',
         endTime: '',
@@ -37,18 +35,14 @@ export default {
           value: 1
         }
       ],
-      drawer: true,
+      drawer: false,
       // 侧边栏信息
       itemDate: {},
       activeIndex: -1,
-      table: {
-        data: [{
-          name: '123123',
-          guideNames: '1',
-          address: '12312312',
-          status: '12312'
-        }]
-      }
+      getList: [],
+      momentId: '',
+      drawerDate: {},
+      loading: false // 防重复提交
     }
   },
   // mixins: [tableMixin],
@@ -58,24 +52,37 @@ export default {
       const start = new Date()
       start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
       const startTime = moment(start).format('YYYY-MM-DD HH:mm:ss')
-      const endTime = moment(start).format('YYYY-MM-DD HH:mm:ss')
+      const endTime = moment(end).format('YYYY-MM-DD HH:mm:ss')
       this.searchDate = [startTime, endTime]
     },
     searchDateChange (obj = {}) {
       this.model = Object.assign(this.model, obj)
     },
     handleSearch () {
-      console.log('搜索')
-      // this.changeSearchfrom({ name: this.seachVal })
+      this.showUserInfo()
     },
     NsGuideDialog () {
-      console.log('NsGuideDialog')
+      this.showUserInfo()
     },
     $sizeChange$ (data) {
-      console.log(data, '$sizeChange$')
+      this.pagination.size = data
+      // console.log(this.pagination.size, '$sizeChange$')
+      // this.activeIndex = -1
+      this.showUserInfo()
     },
     $pageChange$ (data) {
-      console.log(data, '$pageChange$')
+      this.pagination.page = data
+      // console.log(data, '$pageChange$')
+      // this.activeIndex = -1
+      this.showUserInfo()
+    },
+    // 员工选择
+    fnEdit () {
+      this.showUserInfo()
+    },
+    // 时间选择
+    selectTime () {
+      this.showUserInfo()
     },
     // 关闭弹框
     handleClose () {
@@ -87,41 +94,82 @@ export default {
         return { backgroundColor: '#D9EFFE' }
       }
       return ''
+    },
+    showUserInfo () {
+      this.loading = true
+      const start = (this.pagination.page - 1) * this.pagination.size
+      const length = this.pagination.size
+      const params = {
+        ...this.model,
+        start,
+        length
+      }
+      this.$http.fetch(this.$api.guide.momentList.getList, params).then(res => {
+        this.getList = this.formarGetList(res.result.data)
+        this.pagination.total = Number(res.result.recordsTotal)
+        this.loading = false
+      }).catch((err) => {
+        this.loading = false
+        this.$notify.error(err.msg)
+      })
+    },
+    formarGetList (arr) {
+      return arr.map((item) => {
+        return {
+          ...item,
+          imageMediaId: item.imageMediaId ? item.imageMediaId.split(',') : []
+        }
+      })
+    },
+    // 查看点开弹窗
+    async handleEdit (row, index) {
+      // console.log(row, 'xxxxxxxxxxxxxxxxxx', index)
+      this.drawerDate = row
+      this.momentId = row.momentId
+      this.drawer = true
+      this.activeIndex = index
+      await this.getInteractive()
+    },
+    getInteractive () {
+      this.$http
+        .fetch(this.$api.guide.momentList.getInteractive, {
+          momentId: this.momentId
+        })
+        .then(res => {
+          this.drawerDate = {
+            ...this.drawerDate,
+            commentList: res.result.commentList ? res.result.commentList : [],
+            likeList: res.result.likeList ? res.result.likeList : []
+          }
+        })
+    },
+    onPrevUp () {
+      if (this.activeIndex === 0) {
+        this.$notify.error('已经是第一个')
+      } else {
+        this.activeIndex = this.activeIndex - 1
+        // console.log(this.activeIndex)
+        // this.getList.index = this.getList.index - 1
+        this.drawerDate = this.getList[this.activeIndex]
+        this.momentId = this.getList[this.activeIndex].momentId
+        // this.momentId = this.getList[this.activeIndex]
+        this.getInteractive()
+      }
+    },
+    onPrevDown () {
+      if (this.activeIndex === this.getList.length - 1) {
+        this.$notify.error('已经是最后一个')
+        // this.drawerDate = this.getList[this.activeIndex]
+        // this.momentId = this.getList[this.activeIndex].momentId
+        // this.getInteractive()
+      } else {
+        this.activeIndex = this.activeIndex + 1
+        // console.log(this.activeIndex)
+        this.drawerDate = this.getList[this.activeIndex]
+        this.momentId = this.getList[this.activeIndex].momentId
+        this.getInteractive()
+      }
     }
-    // getOhterGuide (type, cb) {
-    //   const { page, size, total } = this._data._pagination
-    //   if (type === 'prev') {
-    //     if (this.activeIndex === 0) {
-    //       if (page === 1) {
-    //         this.$notify.error('暂无上一个')
-    //       } else {
-    //         this._data._pagination.page = page - 1
-    //         this.$queryList$(this.$generateParams$()).then(() => {
-    //           const index = this._data._table.data.length - 1
-    //           cb(this._data._table.data[index], index)
-    //         })
-    //       }
-    //     } else {
-    //       const index = this.activeIndex - 1
-    //       cb(this._data._table.data[index], index)
-    //     }
-    //   } else if (type === 'next') {
-    //     if (((page - 1) * size + this.activeIndex + 1) >= total) {
-    //       this.$notify.error('暂无下一个')
-    //     } else {
-    //       if (this.activeIndex === size - 1) {
-    //         this._data._pagination.page = page + 1
-    //         this.$queryList$(this.$generateParams$()).then(() => {
-    //           const index = 0
-    //           cb(this._data._table.data[index], index)
-    //         })
-    //       } else {
-    //         const index = this.activeIndex + 1
-    //         cb(this._data._table.data[index], index)
-    //       }
-    //     }
-    //   }
-    // }
   },
   watch: {
     searchDate (newVal) {
@@ -129,8 +177,13 @@ export default {
       this.searchDateChange({ startTime: date[0], endTime: date[1] })
     }
   },
-  mounted () {
+  created () {
     this.setTime()
+  },
+  mounted () {
     // this.$searchAction$()
+    this.$nextTick(() => {
+      this.showUserInfo()
+    })
   }
 }

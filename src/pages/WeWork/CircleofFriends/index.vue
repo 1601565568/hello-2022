@@ -1,5 +1,6 @@
 <template>
-  <div>
+  <div v-loading="loading"
+      element-loading-text="数据导入中，请稍等…">>
     <page-table :searchCol="24">
       <template slot="search">
         <div class="searchWarpper">
@@ -8,7 +9,7 @@
           </div>
           <el-form :inline="true" class="form-inline_top ">
             <el-form-item label="类型：">
-              <el-select v-model="model.type">
+              <el-select v-model="model.type" @change="fnEdit">
                 <el-option
                   v-for="item in statusOptionList"
                   :key="item.value"
@@ -28,6 +29,7 @@
                 end-placeholder="请选择结束日期"
                 :default-time="['00:00:00', '23:59:59']"
                 align="right"
+                @change="selectTime"
               >
               </el-date-picker>
             </el-form-item>
@@ -72,27 +74,28 @@
       <template slot="table">
         <template>
           <el-table
-            :data="table.data"
+            :data="getList"
             class="new-table_border"
             :row-style="tableRowClassName"
             style="width: 100%"
           >
-            <el-table-column prop="name" width="294px" label="内容">
+            <el-table-column prop="textContent" width="294px" label="内容">
               <template slot-scope="scope">
+
                 <!-- 图片和视频类型 -->
-                <div class="scope-title" v-if="false">
+                <div class="scope-title" v-if="scope.row.imageMediaId || scope.row.videoMediaId">
                   <!-- 图片显示 -->
-                  <div class="friendPic" v-if="false">
+                  <div class="friendPic" v-if="scope.row.imageMediaId.length > 0 && scope.row.linkTitle == null ">
                     <img
-                      src="https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=3510986481,3852924315&fm=11&gp=0.jpg"
+                      :src="scope.row.imageMediaId[0] "
                       class="scope-title_img"
                     />
-                    <span>1</span>
+                    <span v-if="scope.row.imageMediaId.length > 1">{{scope.row.imageMediaId.length}}</span>
                   </div>
                   <!-- 视频类型 -->
-                  <div class="table-video" v-if="false">
+                  <div class="table-video" v-if="scope.row.videoMediaId">
                     <video
-                      src="https://shopguide.oss-cn-hangzhou.aliyuncs.com/guide/202008/10000146/992dd352-bddd-4c1d-ba9e-fb1721c00b95.mp4"
+                      :poster="scope.row.videoThumbMediaId" :src="scope.row.videoMediaId"
                     >
                       您的浏览器暂不支持播放该视频，请升级至最新版浏览器。
                     </video>
@@ -103,59 +106,46 @@
                     </div>
                   </div>
                   <div class="scope-title_text">
-                    <span>{{ scope.row.name }}</span>
+                    <span>{{ scope.row.textContent }}</span>
                   </div>
                 </div>
-                <div class="friendShare">
-                  <div class="scope-title_text">
-                    <span>{{ scope.row.name }}</span>
-                  </div>
+                <div class="friendShare" v-if="scope.row.linkTitle">
                   <div class="share-type">
+                    <a
+                      class="Abox"
+                      :href="scope.row.linkUrl"
+                      target="_blank"
+                    >
+                    <!-- 图片显示 -->
+                  <div class="friendPic" v-if="scope.row.imageMediaId">
                     <img
-                      src="https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=3510986481,3852924315&fm=11&gp=0.jpg"
+                      :src="scope.row.imageMediaId[0]"
+                      class="scope-title_img"
                     />
+                  </div>
                     <p class="share-text">
-                      <span>dasdasdasdasdadasdadasdasd</span>
-                    </p>
+                     {{scope.row.linkTitle}}
+                     </p>
+                     </a>
                   </div>
                 </div>
               </template>
             </el-table-column>
-            <el-table-column prop="guideNames" label="类型">
+            <el-table-column prop="createType" label="类型">
               <template slot-scope="scope">
-                <div class="scope-name">
-                  <div
-                    :class="
-                      'scope-name_text' +
-                        (scope.row.guideCount > 10 ? ' more' : '')
-                    "
-                  >
-                    全部类型
-                  </div>
-                  <!-- <div class="scope-name_num">
-                    共<span class="scope-name_num__blue">{{scope.row.emplee.length}}</span>个
-                  </div> -->
-                </div>
+                {{statusOptionList[scope.row.createType + 1].label}}
               </template>
             </el-table-column>
-            <el-table-column prop="address" label="员工">
-              <template>
-                <template>
-                  <span>刘婷婷听</span>
-                </template>
-              </template>
+            <el-table-column prop="guideName" label="员工">
             </el-table-column>
-            <el-table-column prop="status" label="门店">
-              <template>
-                XXX店、XXX店2、XXXX店3
-              </template>
+            <el-table-column prop="shopName" label="门店" show-overflow-tooltip>
             </el-table-column>
             <el-table-column prop="createTime" label="时间"> </el-table-column>
             <el-table-column prop="address" label="操作">
               <template slot-scope="scope">
                 <ns-button
                   type="text"
-                  @click="handleEdit({ guestCodeId: scope.row.guestCodeId })"
+                  @click="handleEdit(scope.row, scope.$index)"
                   >查看</ns-button
                 >
               </template>
@@ -185,7 +175,7 @@
       :visible.sync="drawer"
       :with-header="false"
     >
-      <ItemDrawer />
+      <ItemDrawer :momentIdSend="momentId" :drawerDate="drawerDate" @onPrev="onPrevUp" @onNext="onPrevDown" @onClose="handleClose"/>
     </el-drawer>
     <!-- :data="itemDate"
            @onClose="handleClose"
@@ -202,6 +192,7 @@ import NsGuideDialog from '@/components/NsGuideDialog'
 import PageTable from '@/components/NewUi/PageTable'
 import ElDrawer from '@nascent/nui/lib/drawer'
 import ItemDrawer from './components/ItemDrawer'
+
 List.components = {
   PageTable,
   NsGuideDialog,
@@ -219,7 +210,7 @@ export default List
   color: #262626;
   line-height: 24px;
   font-weight: 700;
-  width: 403px;
+  width: 200px;
   height: 24px;
   margin-top: 8px;
 }
@@ -248,6 +239,11 @@ export default List
 }
 .NsGuideDialog {
   float: right;
+}
+.search-icon {
+    width: 16px;
+    color: #959595;
+    margin: 7px;
 }
 .scope-title {
   display: flex;
@@ -334,10 +330,21 @@ export default List
     background: #f5f5f5;
     display: flex;
     align-items: center;
-    > img {
-      border-radius: 3px;
-      width: 48px;
-      height: 48px;
+    // > img {
+    //   border-radius: 3px;
+    //   width: 48px;
+    //   height: 48px;
+    // }
+    .Abox {
+     display: flex;
+     align-items: center;
+     .friendPic {
+        width: 48px;
+        height: 48px;
+        img {
+          width: 100%;
+        }
+     }
     }
     .share-text {
       flex: 1;
@@ -350,5 +357,8 @@ export default List
       }
     }
   }
+}
+.template-table__bar-base .el-form .el-form-item {
+    margin-bottom: 5px;
 }
 </style>

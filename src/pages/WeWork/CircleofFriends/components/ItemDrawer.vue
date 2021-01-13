@@ -1,5 +1,6 @@
 <template>
-  <div class="item-content">
+  <div class="item-content" v-loading="loading"
+      element-loading-text="数据导入中，请稍等…">>
     <div class="item-wrapper">
       <div class="item-header">
         <div class="master-close" @click="handleClose">
@@ -17,39 +18,42 @@
           <div class="user-friend">
             <div class="user-pic">
               <img
-                src="https://dss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1575118738,3084263396&fm=111&gp=0.jpg"
+                :src="drawerDate.guidePic || defaultPic"
               />
             </div>
             <div class="user-content">
-              <div class="user-name">哈哈哈啊</div>
+              <div class="user-name">{{drawerDate.guideName}}</div>
               <div class="user-store">
-                所属门店：西湖区线下门店1、XXX门店、XXXXX门店
+                {{drawerDate.shopName}}
               </div>
               <div class="user-text">
-                今天在西湖区的线下门店试穿了一件格子花纹的棉毛混纺西装，他颜色是灰白色。产品价格：¥899.00
+            {{drawerDate.textContent}}
               </div>
-              <div class="user-sharePic">
+              <div class="user-sharePic" v-if="drawerDate.imageMediaId && drawerDate.linkTitle == null">
                 <img
-                  v-for="(item, index) in img"
-                  :key="index"
-                  :src="item"
-                  @click="togglePreview(0, img, 'img')"
+                  v-for="(picitem, picindex) in drawerDate.imageMediaId"
+                  :key="picindex"
+                  :src="picitem || defaultPic"
+                  @click="togglePreview(0, drawerDate.imageMediaId, 'img')"
                 />
               </div>
+              <!-- 视频   -->
               <div
+              v-if="drawerDate.videoMediaId"
                 class="user-video"
                 @click="
                   togglePreview(
                     0,
                     [
-                      'https://shopguide.oss-cn-hangzhou.aliyuncs.com/guide/202008/10000146/992dd352-bddd-4c1d-ba9e-fb1721c00b95.mp4'
+                      `${drawerDate.videoMediaId}`
                     ],
                     'video'
                   )
                 "
               >
                 <video
-                  src="https://shopguide.oss-cn-hangzhou.aliyuncs.com/guide/202008/10000146/992dd352-bddd-4c1d-ba9e-fb1721c00b95.mp4"
+                   :src="drawerDate.videoMediaId"
+                   :poster="drawerDate.videoThumbMediaId"
                 >
                   您的浏览器暂不支持播放该视频，请升级至最新版浏览器。
                 </video>
@@ -59,26 +63,35 @@
                   </div>
                 </div>
               </div>
-              <div class="user-card">
-                <img
-                  src="https://dss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1575118738,3084263396&fm=111&gp=0.jpg"
-                />
+              <div class="user-card" v-if="drawerDate.linkTitle">
+                <a
+                    class="Abox"
+                    :href="drawerDate.linkUrl"
+                    target="_blank"
+                >
+                 <div class="friendPic" v-if="drawerDate.imageMediaId">
+                    <img
+                      :src="drawerDate.imageMediaId[0]"
+                      class="scope-title_img"
+                    />
+                  </div>
                 <p>
-                  超实用的衣物护理小知识，从此每天穿新衣超实用的衣物护理小知识，超实用的衣物护理小知识。
+                  {{drawerDate.linkTitle}}
                 </p>
+                </a>
               </div>
               <div class="user-time">
-                <span>2020/07/18 12:00</span>
-                <el-popover placement="bottom-start" trigger="click">
+                <span>{{drawerDate.createTime}}</span>
+                <el-popover placement="bottom-start" trigger="click" @show="showPopver" v-if="drawerDate.visibleType == 0">
                   <div class="canSee">
                     <h3>可见客户</h3>
                     <div class="canSee-userList">
                       <div
                         class="userimageList"
-                        v-for="(item, index) in userList"
+                        v-for="(item, index) in visibleList"
                         :key="index"
                       >
-                        <img :src="item.img" />
+                        <img :src="item.pic || defaultPic" />
                         <p>{{ item.name }}</p>
                       </div>
                     </div>
@@ -97,69 +110,28 @@
           <div class="comment">
             <div class="givePic">
               <div class="comment-icon">
-                <Icon type="dianzan" class="comment-icon__dianzan" />
+                <Icon type="dianzan" class="comment-icon__dianzan" v-if="drawerDate.likeList" />
                 <!-- <img :src="dianzanIcon" class="comment-icon__dianzan" /> -->
               </div>
               <div class="givePic-list">
                 <img
-                  src="https://dss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1575118738,3084263396&fm=111&gp=0.jpg"
-                />
-                <img
-                  src="https://dss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1575118738,3084263396&fm=111&gp=0.jpg"
-                />
-                <img
-                  src="https://dss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1575118738,3084263396&fm=111&gp=0.jpg"
-                />
-                <img
-                  src="https://dss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1575118738,3084263396&fm=111&gp=0.jpg"
-                />
-                <img
-                  src="https://dss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1575118738,3084263396&fm=111&gp=0.jpg"
-                />
-                <img
-                  src="https://dss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1575118738,3084263396&fm=111&gp=0.jpg"
-                />
-                <img
-                  src="https://dss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1575118738,3084263396&fm=111&gp=0.jpg"
-                />
-                <img
-                  src="https://dss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1575118738,3084263396&fm=111&gp=0.jpg"
-                />
-                <img
-                  src="https://dss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1575118738,3084263396&fm=111&gp=0.jpg"
-                />
-                <img
-                  src="https://dss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1575118738,3084263396&fm=111&gp=0.jpg"
-                />
-                <img
-                  src="https://dss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1575118738,3084263396&fm=111&gp=0.jpg"
-                />
-                <img
-                  src="https://dss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1575118738,3084263396&fm=111&gp=0.jpg"
-                />
-                <img
-                  src="https://dss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1575118738,3084263396&fm=111&gp=0.jpg"
-                />
-                <img
-                  src="https://dss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1575118738,3084263396&fm=111&gp=0.jpg"
-                />
-                <img
-                  src="https://dss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1575118738,3084263396&fm=111&gp=0.jpg"
+                v-for="(likeItem, likeIndex) in drawerDate.likeList" :key="likeIndex"
+                :src="likeItem.pic || defaultPic"
                 />
               </div>
             </div>
-            <div class="comment-list__warpper">
+            <div class="comment-list__warpper"  v-for="(commentItem,commentindex) in drawerDate.commentList"  :key="commentindex">
               <div class="comment-list__icon">
-                <Icon type="friendpinglun" class="comment-icon__dianzan" />
+                <Icon type="friendpinglun" class="comment-icon__dianzan" v-if="commentindex === 0" />
                 <!-- <img :src="pinglunIcon" class="comment-icon__dianzan" /> -->
               </div>
               <div class="comment-list__text">
                 <div class="comment-list__text__user">
                   <img
-                    src="https://dss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1575118738,3084263396&fm=111&gp=0.jpg"
-                  /><span>刘炳林</span>
+                    :src="commentItem.pic || defaultPic "
+                  /><span>{{commentItem.name}}</span>
                 </div>
-                <div class="comment-list__text__time">2020/07/18 12:00</div>
+                <div class="comment-list__text__time">{{commentItem.sendTime}}</div>
               </div>
             </div>
           </div>
@@ -186,77 +158,25 @@ export default {
   data () {
     return {
       visible: false,
-      img: [
-        'https://dss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1575118738,3084263396&fm=111&gp=0.jpg',
-        'https://dss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1575118738,3084263396&fm=111&gp=0.jpg',
-        'https://dss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1575118738,3084263396&fm=111&gp=0.jpg'
-      ],
-      userList: [
-        {
-          img:
-            'https://dss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1575118738,3084263396&fm=111&gp=0.jpg',
-          name: '123123'
-        },
-        {
-          img:
-            'https://dss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1575118738,3084263396&fm=111&gp=0.jpg',
-          name: '123123'
-        },
-        {
-          img:
-            'https://dss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1575118738,3084263396&fm=111&gp=0.jpg',
-          name: '123123'
-        },
-        {
-          img:
-            'https://dss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1575118738,3084263396&fm=111&gp=0.jpg',
-          name: '123123'
-        },
-        {
-          img:
-            'https://dss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1575118738,3084263396&fm=111&gp=0.jpg',
-          name: '123123'
-        },
-        {
-          img:
-            'https://dss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1575118738,3084263396&fm=111&gp=0.jpg',
-          name: '123123'
-        },
-        {
-          img:
-            'https://dss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1575118738,3084263396&fm=111&gp=0.jpg',
-          name: '123123'
-        },
-        {
-          img:
-            'https://dss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1575118738,3084263396&fm=111&gp=0.jpg',
-          name: '123123'
-        },
-        {
-          img:
-            'https://dss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1575118738,3084263396&fm=111&gp=0.jpg',
-          name: '123123'
-        }
-      ]
+      visibleList: [],
+      defaultPic: 'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/app/default-user.png',
+      loading: false // 防重复提交
     }
   },
   props: {
-    data: {
-      default () {}
+    // 点击查看可用客户
+    momentIdSend: {
+      type: String,
+      default: ''
+    },
+    // 弹窗数据
+    drawerDate: {
+      type: Object
     }
   },
   methods: {
     handleClose () {
       this.$emit('onClose')
-    },
-    handlePreview () {
-      // this.$emit('onPreview', this.data.guestCodeId)
-    },
-    handleDelect () {
-      // this.$emit('onDelect', this.data.guestCodeId)
-    },
-    handleEdit () {
-      // this.$emit('onEdit', { guestCodeId: this.data.guestCodeId })
     },
     handleNext () {
       this.$emit('onNext')
@@ -269,6 +189,18 @@ export default {
      */
     togglePreview (current, list, type) {
       this.$refs.preview.toggleShow(current, list, type)
+    },
+    // 可见客户弹窗
+    showPopver () {
+      this.loading = true
+      const momentId = this.momentIdSend
+      this.$http.fetch(this.$api.guide.momentList.getVisibleUser, { momentId }).then(res => {
+        this.visibleList = res.result
+        this.loading = false
+      }).catch((err) => {
+        this.loading = false
+        this.$notify.error(err, '操作失败')
+      })
     }
   }
 }
@@ -419,6 +351,18 @@ export default {
           font-size: 12px;
           color: #606266;
           margin-bottom: 12px;
+       .Abox {
+          display: flex;
+          align-items: center;
+      .friendPic {
+          width: 64px;
+          height: 64px;
+          margin-right: 8px;
+      img {
+          width: 100%;
+        }
+     }
+    }
           img {
             width: 64px;
             height: 64px;
@@ -444,6 +388,8 @@ export default {
           padding-top: 26px;
           width: 16px;
           // background: #f00;
+          color: #0091FA;
+          margin-top: 13px;
         }
         .givePic-list {
           flex: 1;
@@ -463,6 +409,8 @@ export default {
         display: flex;
         .comment-list__icon {
           width: 16px;
+          color: #0091FA;
+          margin-top: 13px;
         }
         .comment-list__text {
           display: flex;
@@ -472,6 +420,7 @@ export default {
           flex: 1;
           padding: 8px;
           border-radius: 2px;
+          flex-wrap: nowrap;
           &:hover {
             background: #f5f5f5;
           }
@@ -574,7 +523,7 @@ export default {
   cursor: pointer;
   display: inline-block;
   margin-left: 16px;
-  background: #f00;
+  // background: #f00;
   width: 20px;
   height: 20px;
 }
