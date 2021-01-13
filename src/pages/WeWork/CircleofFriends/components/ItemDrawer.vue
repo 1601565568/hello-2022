@@ -27,7 +27,7 @@
                 {{drawerDate.shopName}}
               </div>
               <div class="user-text">
-            {{drawerDate.textContent}}
+              {{drawerDate.textContent}}
               </div>
               <div class="user-sharePic" v-if="drawerDate.imageMediaId && drawerDate.linkTitle == null">
                 <img
@@ -107,10 +107,10 @@
               </div>
             </div>
           </div>
-          <div class="comment">
-            <div class="givePic">
+          <div class="comment"  v-if="drawerDate.likeList.length > 0 || drawerDate.commentList.length > 0">
+            <div class="givePic" v-if="drawerDate.likeList.length > 0">
               <div class="comment-icon">
-                <Icon type="dianzan" class="comment-icon__dianzan" v-if="drawerDate.likeList" />
+                <Icon type="dianzan" class="comment-icon__dianzan" />
                 <!-- <img :src="dianzanIcon" class="comment-icon__dianzan" /> -->
               </div>
               <div class="givePic-list">
@@ -287,6 +287,23 @@ export default {
         }
         .user-text {
           margin-bottom: 8px;
+          text-overflow: -o-ellipsis-lastline;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          line-clamp: 2;
+          -webkit-box-orient: vertical;
+        }
+        .user-text:hover{
+          margin-bottom: 8px;
+          // text-overflow: -o-ellipsis-lastline;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          display: -webkit-box;
+          -webkit-line-clamp: 999;
+          line-clamp: 999;
+          -webkit-box-orient: vertical;
         }
         .user-sharePic {
           margin-bottom: 8px;
@@ -385,7 +402,7 @@ export default {
         display: flex;
         margin-bottom: 8px;
         .comment-icon {
-          padding-top: 26px;
+          // padding-top: 26px;
           width: 16px;
           // background: #f00;
           color: #0091FA;
@@ -523,7 +540,7 @@ export default {
   cursor: pointer;
   display: inline-block;
   margin-left: 16px;
-  // background: #f00;
+  color: #8c8c8c;
   width: 20px;
   height: 20px;
 }

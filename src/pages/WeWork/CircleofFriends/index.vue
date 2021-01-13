@@ -1,6 +1,6 @@
 <template>
   <div v-loading="loading"
-      element-loading-text="数据导入中，请稍等…">>
+      element-loading-text="数据导入中，请稍等…">
     <page-table :searchCol="24">
       <template slot="search">
         <div class="searchWarpper">
@@ -61,11 +61,11 @@
                 @keyup.enter.native="handleSearch"
               >
                 <Icon
-                  type="ns-search-copy"
+                  type="ns-search"
                   slot="suffix"
                   class="search-icon"
                   @click="handleSearch"
-                ></Icon>
+                />
               </el-input>
             </el-form-item>
           </el-form>
@@ -240,11 +240,6 @@ export default List
 .NsGuideDialog {
   float: right;
 }
-.search-icon {
-    width: 16px;
-    color: #959595;
-    margin: 7px;
-}
 .scope-title {
   display: flex;
   .friendPic {
@@ -360,5 +355,10 @@ export default List
 }
 .template-table__bar-base .el-form .el-form-item {
     margin-bottom: 5px;
+}
+.search-icon {
+    width: 16px;
+    color: #959595;
+    margin: 7px;
 }
 </style>
