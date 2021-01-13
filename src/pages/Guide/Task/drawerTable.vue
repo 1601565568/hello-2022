@@ -54,7 +54,7 @@
                 <div class="urkJsonimage" v-for="(item,index) in formatUrlJson(scope.row.urlJson)" :key="index" >
                   <img :src="item"/>
                 </div>
-                <span>共{{scope.row.urlJson.split(',').length}}张</span>
+                <span title="点击查看全部" @click="onShowPic(scope.row.urlJson)">共{{scope.row.urlJson.split(',').length}}张</span>
               </div>
               </div>
             </template>
@@ -68,6 +68,7 @@
                      @current-change="$currentChange$">
       </el-pagination>
     </ElScrollbar>
+    <NsPreview ref="NsPreview"></NsPreview>
   </div>
 </template>
 
@@ -183,6 +184,7 @@ export default drawerVisible
   align-items: center;
 }
 .urkJsonimageWarpper span {
+  cursor: pointer;
   display: inline-block;
   font-size: 14px;
   color: #0094FC;

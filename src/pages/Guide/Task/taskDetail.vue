@@ -5,7 +5,7 @@
       <ElBreadcrumb separator="/">
         <ElBreadcrumbItem>业绩指标</ElBreadcrumbItem>
         <ElBreadcrumbItem>任务管理</ElBreadcrumbItem>
-        <ElBreadcrumbItem>查看任务进度</ElBreadcrumbItem>
+        <ElBreadcrumbItem>任务详情</ElBreadcrumbItem>
       </ElBreadcrumb>
     </div>
     <div class="taskOverview-content">
@@ -71,106 +71,68 @@
         <div class="taskOverview-detail__head clearfix">
           <span class="taskOverview-detail__title">进度统计</span>
           <ElForm inline class="float-right" :model="searchMap">
-            <ElFormItem label="选择门店：">
-              <el-form-grid size="xmd">
-                <shop-select-load placeholder="请选择工作门店"
-                                  v-model="searchMap.shopId"
-                                  ref="shopSelectLoad"
-                                  @handleVisibleChange="handleVisibleChange"
-                                  clearable/>
-              </el-form-grid>
-            </ElFormItem>
-            <ElFormItem label="日期：" v-if="taskMsg.runType === 1">
+            <ElFormItem v-if="taskMsg.runType === 1" label="日期：">
               <ElDatePicker
                 format="yyyy-MM-dd"
                 value-format="yyyy-MM-dd"
                 v-model="searchMap.queryTime"
-                type="date"
                 :picker-options="pickerOptions"
-                @change="queryTimeChange"
+                type="date"
+                @input="queryTimeChange"
                 placeholder="选择日期" />
             </ElFormItem>
-            <NsButton @click="exportGuideCompleteData">导出导购完成明细CSV文件</NsButton>
             <NsButton @click="exportShopCompleteData">导出CSV文件</NsButton>
           </ElForm>
         </div>
-        <div class="taskOverview-detail__data">
-          <ElRow :gutter="24">
-            <ElCol :span="8">
-              <div class="taskOverview-detail__data-item">
-                <p class="data-item__title">指派门店</p>
-                <span class="data-item__num">{{ taskMsg.shopNum }}</span>
-                <span class="data-item__icon distributionStore">
-                  <Icon type='distributionstore' class="distributionStoreIcon"/>
-                  <!-- <img src="../../../icons/outline/distributionStore.svg" alt=""> -->
-                </span>
-              </div>
-            </ElCol>
-            <ElCol :span="8">
-              <div class="taskOverview-detail__data-item">
-                <p class="data-item__title">分配导购</p>
-                <span class="data-item__num">{{ taskMsg.guideNum }}</span>
-                <span class="data-item__icon distributionGuide">
-                  <Icon type='distributionguide' class="distributionguideIcon"/>
-                  <!-- <img src="../../../icons/outline/distributionGuide.svg" alt=""> -->
-                </span>
-              </div>
-            </ElCol>
-            <ElCol :span="8">
-              <div class="taskOverview-detail__data-item">
-                <p class="data-item__title">完成度
-                  <el-tooltip content="筛选门店的平均完成度，即门店完成度相加/门店数">
-                    <Icon type="question-circle" />
-                  </el-tooltip>
-                </p>
-                <span class="data-item__num">{{ taskMsg.completion }}%</span>
-                <span class="data-item__icon degreeCompletion">
-                  <Icon type='degreecompletion' class="degreecompletionIcon" />
-                  <!-- <img src="../../../icons/outline/degreeCompletion.svg" alt=""> -->
-                </span>
-              </div>
-            </ElCol>
-          </ElRow>
+        <div class='total-tip'>
+          <span class='label'>执行导购：</span>
+          <span class='value'>{{pagination.total}}人（ <span class='value-key'>{{unfinishedTotal}}</span> 人未完成）</span>
+          <span></span>
         </div>
         <div class="taskOverview-detail__table">
           <el-table ref="table" :data="tableData"
                     resizable v-loading.lock="table.loadingtable"
                     style="width: 100%;"
                     :element-loading-text="$t('prompt.loading')" @sort-change="$orderChange$">
-            <el-table-column :show-overflow-tooltip="true" prop="shopName"
-                             label="门店名称" />
-            <el-table-column label="地区" prop="address" />
-            <el-table-column align="center" prop="shopType" width="80" label="类型">
-              <template slot-scope="{row}">
-                <span v-if="row.shopType === 'ZYD'">直营店</span>
-                <span v-else-if="row.shopType === 'JMD'">加盟店</span>
-                <span v-else-if="row.shopType === 'LYD'">联营店</span>
-                <span v-else>-</span>
+            <el-table-column :show-overflow-tooltip="true" prop="name"
+                             label="导购" />
+            <el-table-column label="工号" prop="workNumber">
+              <template slot-scope="scope">
+                {{scope.row.workNumber || '-'}}
               </template>
             </el-table-column>
-            <el-table-column align="center" prop="shopStatus" width="120"
-                             label="线下门店状态">
-              <template slot-scope="scope">
-                <span v-if="scope.row.shopStatus === 0" class="text-danger">删除</span>
-                <span v-if="scope.row.shopStatus === -1" class="text-danger">暂停</span>
-                <span v-if="scope.row.shopStatus === -2" class="text-danger">已关店</span>
-                <span v-if="scope.row.shopStatus === 1" class="text-info">正常</span>
+            <el-table-column align="center" prop="shopType" label="门店名称">
+              <template>
+                <span>{{createShopName || '-'}}</span>
               </template>
             </el-table-column>
-            <el-table-column align="right" prop="guideCount" width="80"
-                             label="分配导购" />
-            <el-table-column align="center" prop="completion" width="300"
-                             label="完成度" >
+            <el-table-column align="center" prop="shopStatus"
+                             label="任务状态">
               <template slot-scope="scope">
-                {{scope.row.completion}}%
+                <el-tag type="success" v-if="compareState(scope.row) === '执行中'">执行中</el-tag>
+                <el-tag type="warning" v-if="compareState(scope.row) === '未开始'">未开始</el-tag>
+                <el-tag type="info" v-if="compareState(scope.row) === '已完成'">已完成</el-tag>
+                <el-tag type="danger" v-if="compareState(scope.row) === '未完成'">未完成</el-tag>
               </template>
             </el-table-column>
-            <el-table-column align="center" label="操作"
-                             width="100">
+            <el-table-column align="center" prop="endTime"
+                             label="完成时间">
               <template slot-scope="scope">
-                <ns-table-column-operate-button :buttons="table.table_buttons"
-                                                :prop="scope">
-                </ns-table-column-operate-button>
+                {{scope.row.completeTime || '-'}}
+              </template>
+            </el-table-column>
+            <el-table-column align="center" prop="completion"
+                             label="反馈" >
+              <template slot-scope="scope">
+                <div>
+                <div class="remark">{{scope.row.remark || '-'}}</div>
+                <div v-if="scope.row && scope.row.urlJson" class="urkJsonimageWarpper">
+                  <div class="urkJsonimage" v-for="(item,index) in formatUrlJson(scope.row.urlJson)" :key="index" >
+                    <img :src="item"/>
+                  </div>
+                  <span  title="点击查看全部" @click="onShowPic(scope.row.urlJson)">共{{scope.row.urlJson.split(',').length}}张</span>
+                </div>
+                </div>
               </template>
             </el-table-column>
           </el-table>
@@ -190,11 +152,12 @@
       direction="rtl">
       <drawerTable v-if="drawerVisible" :id='id' :shopId='shopId' :shopName='shopName' :runType='runType' :queryTime='searchMap.queryTime'/>
     </el-drawer>
+    <NsPreview ref="NsPreview"></NsPreview>
   </div>
 </template>
 <script>
-import taskOverview from './src/taskOverview'
-export default taskOverview
+import taskDetail from './src/taskDetail'
+export default taskDetail
 </script>
 
 <style scoped>
@@ -514,4 +477,57 @@ export default taskOverview
     font-size: 26px;
     color: rgb(65,197,0);
   }
+  .total-tip {
+    background: #F2F9FE;
+    height: 40px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding-left: 16px;
+    font-size: 14px;
+    .label {
+      color: #303133;
+    }
+    .value {
+      color: #262626;
+    }
+    .value-key {
+      color: #da4625;
+    }
+  }
+  .remark {
+  overflow : hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+.urkJsonimageWarpper {
+  display: flex;
+  align-items: flex-end;
+}
+.urkJsonimage{
+  width: 32px;
+  height: 32px;
+  margin-right: 8px;
+  border-radius: 2px;
+}
+.urkJsonimage img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.urkJsonimage:last-child {
+  margin-right: 0px!important;
+}
+.remake-warpper {
+  display: flex;
+  align-items: center;
+}
+.urkJsonimageWarpper span {
+  cursor: pointer;
+  display: inline-block;
+  font-size: 14px;
+  color: #0094FC;
+}
 </style>

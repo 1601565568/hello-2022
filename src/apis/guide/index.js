@@ -190,6 +190,12 @@ export default {
     url: '/guide/task/queryTask',
     method: 'post'
   },
+  // 获取任务详情
+  queryShopTask: {
+    // 查询品牌任务列表
+    url: '/guide/task/queryShopTask',
+    method: 'post'
+  },
   // 查询任务店铺详情列表
   queryShopTaskDetail: {
     // 查询品牌任务列表

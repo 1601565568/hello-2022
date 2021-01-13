@@ -1,5 +1,6 @@
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import ElBreadcrumb from '@nascent/nui/lib/breadcrumb'
+import NsPreview from '@/components/NsPreview'
 import ElBreadcrumbItem from '@nascent/nui/lib/breadcrumb-item'
 import ElDrawer from '@nascent/nui/lib/drawer'
 import drawerTable from '../drawerTable'
@@ -7,7 +8,6 @@ import ShopSelectLoad from '@/components/ShopSelectLoad'
 import { getErrorMsg } from '@/utils/toast'
 import { API_ROOT } from '@/config/http.js'
 import moment from 'moment'
-// import { init } from '@sentry/browser'
 export default {
   mixins: [tableMixin],
   components: {
@@ -15,7 +15,8 @@ export default {
     ElBreadcrumbItem,
     ElDrawer,
     drawerTable,
-    ShopSelectLoad
+    ShopSelectLoad,
+    NsPreview
   },
   data () {
     const pagination = {
@@ -79,9 +80,10 @@ export default {
         guideNum: 0,
         completion: 0
       },
+      unfinishedTotal: 0,
       searchMap: {
-        shopId: null,
-        queryTime: null
+        runType: null,
+        taskId: null
       },
       drawerVisible: false,
       selectMaterial: {},
@@ -89,7 +91,8 @@ export default {
       shopId: null,
       shopName: null,
       runType: null,
-      queryTime: null
+      queryTime: null,
+      createShopName: null
     }
   },
   computed: {
@@ -110,7 +113,15 @@ export default {
     onSearch () {
     },
     init () {
-      this.id = this.$route.params.id
+      // this.id = this.$route.params.id
+      // this.queryTask()
+      const { createShopName, runType, id, shopId } = this.$route.query
+      this.searchMap = {
+        runType,
+        taskId: id,
+        shopId
+      }
+      this.createShopName = createShopName
       this.queryTask()
     },
     // 分页
@@ -132,50 +143,46 @@ export default {
         return
       }
       this.queryTaskShopInfo()
-      this.queryProgressStatistics()
     },
     queryTask () {
       this.$http
-        .fetch(this.$api.guide.queryTask, { taskId: parseInt(this.id) })
+        .fetch(this.$api.guide.queryTask, { taskId: this.searchMap.taskId, shopId: this.searchMap.shopId })
         .then(resp => {
           if (resp.success) {
-            var obj = resp.result
-            this.taskMsg.id = obj.id
-            this.taskMsg.type = obj.type
-            this.taskMsg.runType = obj.runType
-            this.taskMsg.remark = obj.remark
-            this.taskMsg.name = obj.name
-            this.taskMsg.startTime = obj.startTime
-            this.taskMsg.endTime = obj.endTime
-            this.taskMsg.viewId = obj.viewId
-            this.taskMsg.subgroupId = obj.subgroupId
-            this.taskMsg.state = obj.state
-            // 指定门店
-            if (obj.targetIds === '0') {
-              this.taskMsg.shopRangeType = 0
-            } else {
-              this.taskMsg.shopRangeType = 1
+            const obj = resp.result
+            const taskMsg = {
+              id: obj.id,
+              type: obj.type,
+              runType: obj.runType,
+              remark: obj.remark,
+              name: obj.name,
+              startTime: obj.startTime,
+              endTime: obj.endTime,
+              viewId: obj.viewId,
+              subgroupId: obj.subgroupId,
+              state: obj.state,
+              shopRangeType: obj.targetIds === '0' ? 0 : 1 // 指定门店
             }
-            if (this.taskMsg.runType === 1) {
+            if (obj.runType === 1) {
               let start = new Date(new Date(new Date().toLocaleDateString()).getTime()) // 当天0点
               // let todatEnd = new Date(new Date(new Date().toLocaleDateString()).getTime() +24 * 60 * 60 * 1000 -1) // 当天23:59
               // const start = new Date()
-              if (new Date(obj.startTime) >= start) {
+              if (new Date(obj.startTime) > start) {
                 this.searchMap.queryTime = moment(obj.startTime).format('YYYY-MM-DD')
-              } else if (new Date(obj.startTime) < start && start < new Date(obj.endTime)) {
-                this.searchMap.queryTime = moment(start.getTime() - 3600 * 1000 * 24).format('YYYY-MM-DD')
+              } else if (new Date(obj.startTime) <= start && start <= new Date(obj.endTime)) {
+                this.searchMap.queryTime = moment(start.getTime()).format('YYYY-MM-DD')
               } else {
                 this.searchMap.queryTime = moment(obj.endTime).format('YYYY-MM-DD')
               }
             }
             // 素材任务时
             if (obj.materialId) {
-              this.taskMsg.materialId = obj.materialId
-              this.taskMsg.materialTitle = obj.materialTitle
-              this.taskMsg.materialType = obj.materialType
-              this.taskMsg.materialMsg = obj.materialMsg ? JSON.parse(obj.materialMsg) : null
+              taskMsg.materialId = obj.materialId
+              taskMsg.materialTitle = obj.materialTitle
+              taskMsg.materialType = obj.materialType
+              taskMsg.materialMsg = obj.materialMsg ? JSON.parse(obj.materialMsg) : null
             }
-            this.queryProgressStatistics()
+            this.taskMsg = taskMsg
           }
           this.queryTaskShopInfo()
         })
@@ -184,42 +191,21 @@ export default {
           this.$router.push('/Guide/Task/List')
         })
     },
-    queryProgressStatistics () {
-      var queryTime = this.searchMap.queryTime
-      this.$http
-        .fetch(this.$api.guide.queryProgressStatistics, {
-          taskId: parseInt(this.id),
-          queryDate: queryTime
-        })
-        .then(resp => {
-          if (resp.success) {
-            var result = resp.result
-            this.taskMsg.shopNum = result.shopNum
-            this.taskMsg.guideNum = result.guideNum
-            this.taskMsg.completion = result.completion
-          }
-        })
-        .catch(resp => {
-          this.$notify.error(getErrorMsg('进度统计查询失败', resp))
-        })
-    },
     queryTaskShopInfo () {
       this.table.loadingtable = true
       let params = {
-        searchMap: {
-          ...this.searchMap,
-          taskId: this.id
-        },
+        searchMap: this.searchMap,
         length: this.pagination.length,
         start: (this.pagination.start - 1) * this.pagination.length
       }
       this.$http
-        .fetch(this.$api.guide.taskQueryTaskShopInfo, params)
+        .fetch(this.$api.guide.queryShopTaskExecution, params)
         .then(resp => {
           if (resp.success) {
-            var result = resp.result
+            const result = resp.result
             this.pagination.total = parseInt(result.recordsTotal)
             this.tableData = result.data
+            this.unfinishedTotal = result.ext.unfinishedTotal
             this.table.loadingtable = false
           }
         })
@@ -227,24 +213,16 @@ export default {
           this.$notify.error(getErrorMsg('进度统计列表查询失败', resp))
         })
     },
-    // 导出导购完成明细csv文件
-    exportGuideCompleteData () {
-      var url = API_ROOT + '/guide/task/guideCompleteDataExport'
-      var form = document.createElement('form')
-      form.appendChild(this.generateHideElement('taskId', this.id))
-      form.appendChild(this.generateHideElement('queryTime', this.searchMap.queryTime))
-      form.setAttribute('action', url)
-      form.setAttribute('method', 'post')
-      document.body.appendChild(form)
-      form.submit()
-    },
     // 导出csv文件
     exportShopCompleteData () {
-      var url = API_ROOT + '/guide/task/exportShopCompleteData'
+      var url = API_ROOT + '/guide/task/shopCompleteDataExport'
       var form = document.createElement('form')
-      form.appendChild(this.generateHideElement('taskId', this.id))
-      form.appendChild(this.generateHideElement('queryTime', this.searchMap.queryTime))
+      form.appendChild(this.generateHideElement('taskId', this.searchMap.taskId))
+      if (this.taskMsg.runType === 1) {
+        form.appendChild(this.generateHideElement('queryTime', this.searchMap.queryTime))
+      }
       form.appendChild(this.generateHideElement('shopId', this.searchMap.shopId))
+      form.appendChild(this.generateHideElement('shopName', this.createShopName))
       form.setAttribute('action', url)
       form.setAttribute('method', 'post')
       document.body.appendChild(form)
@@ -256,6 +234,39 @@ export default {
       tempInput.name = name
       tempInput.value = value
       return tempInput
+    },
+    compareState (task) {
+      const date = task.completeTime
+      const startTime = new Date(task.startTime).getTime()
+      const endTime = new Date(task.endTime).getTime()
+      const nowDate = new Date().getTime()
+      if (nowDate < startTime) {
+        return '未开始'
+      }
+      if (nowDate >= startTime && nowDate <= endTime) {
+        if (date) {
+          return '已完成'
+        }
+        return '执行中'
+      }
+      if (nowDate >= endTime) {
+        if (date) {
+          return '已完成'
+        }
+        return '未完成'
+      }
+    },
+    formatUrlJson (urlJson) {
+      let arr = urlJson.split(',')
+      if (arr.length <= 5) {
+        return arr
+      } else {
+        return arr.slice(0, 5)
+      }
+    },
+    onShowPic (urlJson) {
+      let arr = urlJson.split(',')
+      this.$refs.NsPreview.toggleShow(0, arr)
     }
   },
   mounted: function () {

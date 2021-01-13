@@ -185,7 +185,7 @@ export default {
       this.model = { ...this.originModel }
       this.catalogue = []
       this.getAllLabel()
-      this.searchAction()
+      this.searchAction(false)
     },
     // 删除素材
     cancleToggle () {
@@ -198,7 +198,7 @@ export default {
       this.searchAction()
     },
     // 搜索
-    searchAction () {
+    searchAction (isChangePage = true) {
       let params = {}
       Object.keys(this.model).forEach(k => {
         if (this.model[k] !== '' && this.model[k] !== null) {
@@ -206,7 +206,9 @@ export default {
         }
       })
       this.searchObj.searchMap = params
-      this.pagination.page = 1
+      if (isChangePage) {
+        this.pagination.page = 1
+      }
       this.loadListFun()
     },
     // 选择素材
