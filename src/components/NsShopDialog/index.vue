@@ -58,7 +58,7 @@
             <el-form-grid>
               <ns-button type="primary" @click="searchEmployee(1)">{{$t('operating.search')}}</ns-button>
               <ns-button @click="resetSearch">{{$t('operating.reset')}}</ns-button>
-              <ns-button @click="onSelectAllData">{{isCheckAll ? '取消全选' : '全选'}}</ns-button>
+              <ns-button @click="handleSelectAll">{{isCheckAll ? '取消全选' : '全选'}}</ns-button>
             </el-form-grid>
           </el-form-item>
         </el-form>
@@ -87,6 +87,14 @@
             <ElTable :data="selectedData" height="260">
               <ElTableColumn :show-overflow-tooltip="true" type="default" prop="shop_name" :label="'已选' + selectedData.length + '家门店'" align="left"/>
               <ElTableColumn  prop="select" align="center" width="55" >
+                <template slot='header' v-if='isFix'>
+                  <ns-button
+                    type="text"
+                    size="mini"
+                    @click="() => removeAll()">
+                    清空
+                  </ns-button>
+                </template>
                 <template slot-scope="scope">
                   <ns-button
                     :disabled="auth && scope.row.auth"

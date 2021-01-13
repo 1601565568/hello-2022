@@ -71,7 +71,7 @@
                   <div></div>
                 </div>
                 <div class='employee-suffix'>
-                  <NsShopDialog type='icon' v-model="shopList" @input='handleChangeShop'>
+                  <NsShopDialog type='icon' v-model="shopList" @input='handleChangeShop' isFix>
                     <template slot='btnIcon'>
                       <Icon type="ns-store"/>
                     </template>

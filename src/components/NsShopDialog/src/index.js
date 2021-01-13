@@ -40,6 +40,11 @@ export default {
     validNull: {
       type: Boolean,
       default: false
+    },
+    // 是否修复全选bug 暂时只在优惠券使用
+    isFix: {
+      type: Boolean,
+      default: false
     }
   },
   data: function () {
@@ -78,7 +83,8 @@ export default {
       shopCateTree: [],
       // 门店选择option
       shopOptions: [],
-      allShopOptions: []
+      allShopOptions: [],
+      t: null // 全选防止重复点击
     }
   },
   computed: {},
@@ -251,6 +257,13 @@ export default {
         }
       }
     },
+    // 全选先触发防抖
+    handleSelectAll () {
+      clearTimeout(this.t)
+      this.t = setTimeout(() => {
+        this.onSelectAllData()
+      }, 500)
+    },
     /**
      * 员工列表点击条件全部选择事件
      */
@@ -283,16 +296,27 @@ export default {
           vm.listData.forEach(function (item) {
             vm.$refs.employeeTable.toggleRowSelection(item, true)
           })
-          selectedData3.forEach(function (item) {
-            selectedData2.push(item)
-          })
+          if (!this.isFix) {
+            selectedData3.forEach(function (item) {
+              selectedData2.push(item)
+            })
+          }
           allEmployee.forEach(function (item) {
             selectedData2.push(item)
           })
         }
         vm.selectedData = selectedData2
-        vm.isCheckAll = !vm.isCheckAll
+        if (this.isFix) {
+          vm.isCheckAll = false
+        } else {
+          vm.isCheckAll = !vm.isCheckAll
+        }
       })
+    },
+    // 删除所有人员
+    removeAll () {
+      vm.$refs.employeeTable.clearSelection()
+      vm.selectedData = []
     },
     /**
      * 右侧数据删除事件
