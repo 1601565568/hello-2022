@@ -119,6 +119,11 @@ export default {
 
       span {
         color: #999;
+         overflow: hidden;
+         width:100%;
+        display: inline-block;
+        text-overflow: ellipsis;
+        white-space: nowrap;
       }
     }
     list-style: none;
