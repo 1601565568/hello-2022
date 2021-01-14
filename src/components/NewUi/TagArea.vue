@@ -6,7 +6,7 @@
           v-for="item in tools"
           effect="dark"
           :key="item.id"
-          :content="item.title"
+          :content="item.title || item.text"
           placement="top"
         >
           <span class="w-textarea_tools__item" @click="openTagDialog(item)"
