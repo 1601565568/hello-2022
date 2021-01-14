@@ -103,7 +103,7 @@
         <template slot-scope="{row}">{{row.runType?"每日执行":"一次性"}}</template>
       </el-table-column>
 
-      <el-table-column prop="createUserName" label="创建人" width="120"></el-table-column>
+      <el-table-column prop="createUserName" label="创建人" width="120" show-overflow-tooltip></el-table-column>
       <el-table-column prop="createShopName" label="创建门店"></el-table-column>
       <el-table-column prop="status" label="状态" align="center" width="80">
         <template slot-scope="{row}">
