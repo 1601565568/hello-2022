@@ -177,8 +177,16 @@ export default {
           label: '执行中'
         },
         {
-          value: '4',
-          label: '已过期'
+          value: '3',
+          label: '已完成'
+        },
+        {
+          value: '5',
+          label: '未开始'
+        },
+        {
+          value: '6',
+          label: '未完成'
         }
       ],
       selectedArr: [],
