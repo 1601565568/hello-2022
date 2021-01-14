@@ -61,7 +61,7 @@
                 @keyup.enter.native="handleSearch"
               >
                 <Icon
-                  type="ns-search"
+                  type="ns-search-copy"
                   slot="suffix"
                   class="search-icon"
                   @click="handleSearch"
@@ -357,8 +357,8 @@ export default List
     margin-bottom: 5px;
 }
 .search-icon {
-    width: 16px;
+    font-size: 22px;
     color: #959595;
-    margin: 7px;
+    margin: 3px;
 }
 </style>

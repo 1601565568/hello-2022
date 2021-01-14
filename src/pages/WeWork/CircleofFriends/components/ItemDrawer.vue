@@ -287,23 +287,6 @@ export default {
         }
         .user-text {
           margin-bottom: 8px;
-          text-overflow: -o-ellipsis-lastline;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          display: -webkit-box;
-          -webkit-line-clamp: 2;
-          line-clamp: 2;
-          -webkit-box-orient: vertical;
-        }
-        .user-text:hover{
-          margin-bottom: 8px;
-          // text-overflow: -o-ellipsis-lastline;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          display: -webkit-box;
-          -webkit-line-clamp: 999;
-          line-clamp: 999;
-          -webkit-box-orient: vertical;
         }
         .user-sharePic {
           margin-bottom: 8px;
@@ -377,6 +360,7 @@ export default {
           margin-right: 8px;
       img {
           width: 100%;
+          height: 100%;
         }
      }
     }
