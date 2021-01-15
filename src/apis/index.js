@@ -9,6 +9,7 @@ import riskManagement from './riskManagement'
 import weWork from './weWork' // 企业微信
 import weChat from './weChat' // 个号
 import dataCenter from './dataCenter'
+import marketing from './marketing'
 export default {
   test,
   core,
@@ -23,6 +24,7 @@ export default {
     method: 'get'
   },
   dataCenter,
+  marketing,
   weWork, // 企业微信
   weChat, // 个号
   getChangeChannel: {
