@@ -42,12 +42,17 @@ export default {
     method: 'post',
     callback: function (res, resolve, reject) {
       //  由于remumber_login_info在node包里生成，只能重新记录一下
-      let user = {
-        nick: JSON.parse(JSON.stringify(res.data.result.userName)),
-        nickId: JSON.parse(JSON.stringify(res.data.result.userId))
-      }
+      // let user = {
+      //   nick: res.data.result.userName? JSON.parse(JSON.stringify(res.data.result.userName)) : '',
+      //   nickId: res.data.result.userId? JSON.parse(JSON.stringify(res.data.result.userId))
+      // }
       // LocalStorage.set('user', user)
       if (res.data.success) {
+        const jsonResult = JSON.parse(JSON.stringify(res.data.result))
+        let user = {
+          nick: jsonResult.userName || '',
+          nickId: jsonResult.userId || ''
+        }
         const productConfig = res.data.result.productConfig || {}
         res.data.result = {
           integralActivityUrl: res.data.result.integralActivityUrl,
