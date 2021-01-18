@@ -135,7 +135,7 @@
       </div>
       <div slot="footer" class="dialog-footer">
         <ns-button @click="closeDialog">取消</ns-button>
-        <ns-button type="primary" @click="onSaveActivityCoupon" :disabled = "forbidden" title="save">保存</ns-button>
+        <ns-button type="primary" @click="onSaveActivityCoupon" :loading='forbidden' :disabled="forbidden" title="save">保存</ns-button>
       </div>
     </el-dialog>
     <Coupon ref="Coupon" @onChangeCoupon="getCouponMessage"></Coupon>
