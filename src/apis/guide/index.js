@@ -34,6 +34,7 @@ import customerCode from './customerCode'
 import materialAnalysis from './materialAnalysis'
 import operationConfig from './operationConfig'
 import customerService from './customerService'
+import custom from './custom'
 export default {
   secruitmentSet,
   guide,
@@ -71,6 +72,7 @@ export default {
   notMemberSet,
   operationConfig,
   customerService,
+  custom,
   // 所有导购模块全部整合在此
   comGetBrandForShopList: {
     // 获取品牌下的店铺
@@ -186,6 +188,12 @@ export default {
   queryTask: {
     // 查询品牌任务列表
     url: '/guide/task/queryTask',
+    method: 'post'
+  },
+  // 获取任务详情
+  queryShopTask: {
+    // 查询品牌任务列表
+    url: '/guide/task/queryShopTask',
     method: 'post'
   },
   // 查询任务店铺详情列表
