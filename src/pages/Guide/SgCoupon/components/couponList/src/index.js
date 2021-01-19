@@ -68,14 +68,17 @@ export default {
       this.$emit('closeDialog')
     },
     async onSaveActivityCoupon () {
+      this.forbidden = true
       let _this = this
       if (!this.shopList || !this.shopList.length) {
+        this.forbidden = false
         _this.$notify.error('分配门店是必填字段')
         return
       }
       if (_this.storeModel.maxType >= 0) {
         if (_this.activityModel.coupon_total === 0 || _this.activityModel.coupon_total < 0) {
           _this.$notify.error('总配额必须大于0')
+          this.forbidden = false
           // _this.forbidden = false
           return
         }
@@ -85,6 +88,7 @@ export default {
           _this.activityModel.coupon_total = 0
           _this.$notify.error('配额不能大于优惠券剩余数量')
         }
+        this.forbidden = false
         return
       }
       // 判断优惠券是否超额 _this.storeModel.couponTotal = 0 代表不限量

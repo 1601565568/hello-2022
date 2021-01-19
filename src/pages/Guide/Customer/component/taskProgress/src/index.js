@@ -1,6 +1,5 @@
 import ElProgress from '@nascent/nui/lib/progress'
 import LocalStorage from 'store/dist/store.legacy.min.js'
-
 export default {
   props: {
     shopCustomerTransferTaskStatus: null,
@@ -58,7 +57,7 @@ export default {
   },
   methods: {
     init () {
-      let user = LocalStorage.get('user')
+      let user = this.$store.state.user.remumber.remumber_login_info.productConfig.user
       let { nick, nickId } = user
       this.user = nick
       this.userId = nickId

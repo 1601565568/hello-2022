@@ -157,6 +157,10 @@ export default {
           value: '已失效',
           color: 'info'
         },
+        1: {
+          value: '未生成',
+          color: 'info'
+        },
         2: {
           value: '正常',
           color: 'success'

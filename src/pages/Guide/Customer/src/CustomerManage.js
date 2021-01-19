@@ -964,7 +964,7 @@ export default {
         return false
       }
       let { checkAll, removeCheckList, addcheckList } = this.$refs.table1
-      let remumberLoginInfo = LocalStorage.get('user')
+      let remumberLoginInfo = this.$store.state.user.remumber.remumber_login_info.productConfig.user
       let { nick, nickId } = remumberLoginInfo
       let obj = {
         outGuideIdList: this.$refs.table1.outGuideId ? [this.$refs.table1.outGuideId] : null,

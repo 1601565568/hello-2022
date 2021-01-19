@@ -112,10 +112,10 @@
         </el-table-column>
       <el-table-column prop="status" label="状态" align="left" width="100">
         <template slot-scope="{row}">
-          <el-tag type="success" v-if="row.state === 1">进行中</el-tag>
-          <el-tag type="info" v-if="row.state === 2">已完成</el-tag>
-          <el-tag type="warning" v-if="row.state === 4">已过期</el-tag>
-          <el-tag type="success" v-if="row.state === 5">未开始</el-tag>
+          <el-tag type="success" v-if="row.state === 1" class='scope-name_tag'>执行中</el-tag>
+          <el-tag type="info" v-if="row.state === 3" class='scope-name_tag'>已完成</el-tag>
+          <el-tag type="warning" v-if="row.state === 5" class='scope-name_tag'>未开始</el-tag>
+          <el-tag type="danger" v-if="row.state === 6" class='scope-name_tag'>未完成</el-tag>
         </template>
       </el-table-column>
       <el-table-column
@@ -126,7 +126,7 @@
       <template slot-scope="scope">
         <ns-button @click="ViewProgress(scope.row)" type="text">查看任务进度</ns-button>
         <span v-if="scope.row.editAccess === 1" >
-          <span v-if="scope.row.state !== 4" >
+          <span v-if="scope.row.state === 5 || scope.row.state === 1" >
             <ns-button @click="EditShowToggle(scope.row)" type="text">编辑</ns-button>
           </span>
           <span v-if="scope.row.state === 5" >
@@ -186,13 +186,20 @@ export default {
 
       statusOptions: [
         {
-
           value: '1',
           label: '执行中'
         },
         {
-          value: '4',
-          label: '已过期'
+          value: '3',
+          label: '已完成'
+        },
+        {
+          value: '5',
+          label: '未开始'
+        },
+        {
+          value: '6',
+          label: '未完成'
         }
       ],
       selectedArr: [],
@@ -310,5 +317,22 @@ export default {
 
   .btn-detele {
     margin-left: var(--default-margin-base);
+  }
+  .scope-name_tag.el-tag {
+    &.el-tag--success {
+      background: #F7FFF0;
+      border: 1px solid #53BF1D;
+      color: #262626;
+    }
+    &.el-tag--info {
+      background: #F5F5F5;
+      border: 1px solid #D9D9D9;
+      color: #262626;
+    }
+    &.el-tag--warning {
+      background: #FFFBE6;
+      border: 1px solid #FFAE0D;
+      color: #262626;
+    }
   }
 </style>
