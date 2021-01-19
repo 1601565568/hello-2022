@@ -2,13 +2,15 @@ import Coupon from '../../coupon'
 import StoreList from '../../storeList'
 import HtmlArea from '@/components/NewUi/HtmlArea'
 import NsShopDialog from '@/components/NsShopDialog'
+import shopSelect from '../../../../components/selectShops'
 import moment from 'moment'
 export default {
   components: {
     Coupon,
     StoreList,
     HtmlArea,
-    NsShopDialog
+    NsShopDialog,
+    shopSelect
   },
   data () {
     let bgCoupon = 'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-APP-WEB/img/no-coupon.png'
@@ -333,6 +335,7 @@ export default {
       }
     },
     async handleChangeShop (list) {
+      this.shopList = list
       const res = await this.findOnlineShopList(this.activityModel.coupon_code, list.join(','))
       this.$refs.storeList.init(false, res)
     }
