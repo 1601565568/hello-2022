@@ -41,7 +41,10 @@ export default {
       activeIndex: -1,
       getList: [],
       momentId: '',
-      drawerDate: {},
+      drawerDate: {
+        likeList: [],
+        commentList: []
+      },
       loading: false // 防重复提交
     }
   },
@@ -123,12 +126,11 @@ export default {
     },
     // 查看点开弹窗
     async handleEdit (row, index) {
-      // console.log(row, 'xxxxxxxxxxxxxxxxxx', index)
-      this.drawerDate = row
       this.momentId = row.momentId
-      this.drawer = true
       this.activeIndex = index
       await this.getInteractive()
+      // this.drawerDate = row
+      this.drawer = true
     },
     getInteractive () {
       this.$http
@@ -137,7 +139,7 @@ export default {
         })
         .then(res => {
           this.drawerDate = {
-            ...this.drawerDate,
+            ...this.getList[this.activeIndex],
             commentList: res.result.commentList ? res.result.commentList : [],
             likeList: res.result.likeList ? res.result.likeList : []
           }
@@ -148,24 +150,15 @@ export default {
         this.$notify.error('已经是第一个')
       } else {
         this.activeIndex = this.activeIndex - 1
-        // console.log(this.activeIndex)
-        // this.getList.index = this.getList.index - 1
-        this.drawerDate = this.getList[this.activeIndex]
         this.momentId = this.getList[this.activeIndex].momentId
-        // this.momentId = this.getList[this.activeIndex]
         this.getInteractive()
       }
     },
     onPrevDown () {
       if (this.activeIndex === this.getList.length - 1) {
         this.$notify.error('已经是最后一个')
-        // this.drawerDate = this.getList[this.activeIndex]
-        // this.momentId = this.getList[this.activeIndex].momentId
-        // this.getInteractive()
       } else {
         this.activeIndex = this.activeIndex + 1
-        // console.log(this.activeIndex)
-        this.drawerDate = this.getList[this.activeIndex]
         this.momentId = this.getList[this.activeIndex].momentId
         this.getInteractive()
       }

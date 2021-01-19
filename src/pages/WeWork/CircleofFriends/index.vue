@@ -1,6 +1,6 @@
 <template>
   <div v-loading="loading"
-      element-loading-text="数据导入中，请稍等…">>
+      element-loading-text="数据导入中，请稍等…">
     <page-table :searchCol="24">
       <template slot="search">
         <div class="searchWarpper">
@@ -34,24 +34,14 @@
               </el-date-picker>
             </el-form-item>
             <el-form-item label="选择员工：">
-              <div class="template-search__box">
-                <span v-if="model.guideIdList && model.guideIdList.length > 0">
-                  已选择{{ model.guideIdList.length }}个
-                </span>
-                <span v-else>全部</span>
-                <div class="NsGuideDialog">
-                  <NsGuideDialog
-                    :isButton="false"
-                    :validNull="true"
-                    :auth="false"
-                    type="primary"
-                    btnTitle="选择"
-                    dialogTitle="选择员工"
-                    v-model="model.guideIdList"
-                    @input="NsGuideDialog()"
-                  ></NsGuideDialog>
-                </div>
-              </div>
+              <NsGuideDialog :selfBtn='true' :appendToBody='true' :isButton="false" :auth="false" type="primary" btnTitle="" dialogTitle="选择员工" v-model="model.guideIdList" @input="NsGuideDialog">
+                <template slot='selfBtn'>
+                  <div class='self-btn'>
+                    {{(model.guideIdList&&model.guideIdList.length)?`已选择${model.guideIdList.length}个员工`:'全部'}}
+                    <Icon type="geren" class='guideIds-icon'></Icon>
+                  </div>
+                </template>
+              </NsGuideDialog>
             </el-form-item>
             <el-form-item label="" class="el-form__change">
               <el-input
@@ -65,7 +55,7 @@
                   slot="suffix"
                   class="search-icon"
                   @click="handleSearch"
-                ></Icon>
+                />
               </el-input>
             </el-form-item>
           </el-form>
@@ -79,7 +69,7 @@
             :row-style="tableRowClassName"
             style="width: 100%"
           >
-            <el-table-column prop="textContent" width="294px" label="内容">
+            <el-table-column prop="textContent" label="内容">
               <template slot-scope="scope">
 
                 <!-- 图片和视频类型 -->
@@ -141,7 +131,7 @@
             <el-table-column prop="shopName" label="门店" show-overflow-tooltip>
             </el-table-column>
             <el-table-column prop="createTime" label="时间"> </el-table-column>
-            <el-table-column prop="address" label="操作">
+            <el-table-column prop="address" label="操作"  width="80px">
               <template slot-scope="scope">
                 <ns-button
                   type="text"
@@ -175,7 +165,7 @@
       :visible.sync="drawer"
       :with-header="false"
     >
-      <ItemDrawer :momentIdSend="momentId" :drawerDate="drawerDate" @onPrev="onPrevUp" @onNext="onPrevDown" @onClose="handleClose"/>
+      <ItemDrawer :momentIdSend="momentId" :drawerDate="drawerDate" @onPrev="onPrevUp" @onNext="onPrevDown" @onClose="handleClose" :waiting="loading"/>
     </el-drawer>
     <!-- :data="itemDate"
            @onClose="handleClose"
@@ -202,6 +192,7 @@ List.components = {
 export default List
 </script>
 <style lang="scss" scoped>
+@import "@components/NewUi/styles/reset.css";
 .template-table {
   padding: 12px 16px 16px 16px;
 }
@@ -240,11 +231,6 @@ export default List
 .NsGuideDialog {
   float: right;
 }
-.search-icon {
-    width: 16px;
-    color: #959595;
-    margin: 7px;
-}
 .scope-title {
   display: flex;
   .friendPic {
@@ -253,6 +239,7 @@ export default List
     height: 48px;
     border-radius: 4px;
     overflow: hidden;
+    margin-right: 8px;
     .scope-title_img {
       width: 100%;
       height: 100%;
@@ -276,6 +263,7 @@ export default List
     width: 86px;
     height: 48px;
     border-radius: 3px;
+    margin-right: 8px;
     > video {
       width: 100%;
       height: 100%;
@@ -290,7 +278,7 @@ export default List
       width: 100%;
       height: 100%;
       background-color: rgba(0, 0, 0, 0.25);
-      cursor: pointer;
+      // cursor: pointer;
       border-radius: 3px;
     }
     .tableItem-video__wrapper {
@@ -312,7 +300,7 @@ export default List
   }
   .scope-title_text {
     flex: 1;
-    margin-left: 8px;
+    // margin-left: 8px;
     display: flex;
     align-items: center;
     span {
@@ -338,6 +326,8 @@ export default List
     .Abox {
      display: flex;
      align-items: center;
+     pointer-events: none;
+     color: #262626;
      .friendPic {
         width: 48px;
         height: 48px;
@@ -359,6 +349,25 @@ export default List
   }
 }
 .template-table__bar-base .el-form .el-form-item {
-    margin-bottom: 5px;
+    margin: 0 !important;
+    margin-bottom: 5px !important;
+    margin-left: 16px !important;
 }
+.search-icon {
+    font-size: 24px;
+    color: #959595;
+    margin-top: 1px;
+}
+.self-btn {
+    font-size: 14px;
+    width: 130px;
+    color: #606266;
+    display: flex;
+    /* align-content: center; */
+    align-items: center;
+    justify-content: space-between;
+    .guideIds-icon {
+      color: #c0c4cc;
+    }
+  }
 </style>

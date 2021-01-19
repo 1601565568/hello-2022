@@ -1,6 +1,6 @@
 <template>
-  <div class="item-content" v-loading="loading"
-      element-loading-text="数据导入中，请稍等…">>
+  <div class="item-content" v-loading="waiting"
+      element-loading-text="数据导入中，请稍等…">
     <div class="item-wrapper">
       <div class="item-header">
         <div class="master-close" @click="handleClose">
@@ -27,7 +27,7 @@
                 {{drawerDate.shopName}}
               </div>
               <div class="user-text">
-            {{drawerDate.textContent}}
+              {{drawerDate.textContent}}
               </div>
               <div class="user-sharePic" v-if="drawerDate.imageMediaId && drawerDate.linkTitle == null">
                 <img
@@ -100,17 +100,17 @@
                     ><span class="previewIcon">
                       <Icon
                         type="kejiankehu"
-                        class="comment-icon__dianzan"
+                        class="comment-icon__dianzan1"
                       /> </span
                   ></span>
                 </el-popover>
               </div>
             </div>
           </div>
-          <div class="comment">
-            <div class="givePic">
+          <div class="comment"  v-if="drawerDate.likeList.length > 0 || drawerDate.commentList.length > 0">
+            <div class="givePic" v-if="drawerDate.likeList.length > 0">
               <div class="comment-icon">
-                <Icon type="dianzan" class="comment-icon__dianzan" v-if="drawerDate.likeList" />
+                <Icon type="dianzan" class="comment-icon__dianzan" />
                 <!-- <img :src="dianzanIcon" class="comment-icon__dianzan" /> -->
               </div>
               <div class="givePic-list">
@@ -148,7 +148,6 @@
         </div>
       </div>
     </div>
-    ---
     <Preview ref="preview" />
   </div>
 </template>
@@ -160,8 +159,7 @@ export default {
     return {
       visible: false,
       visibleList: [],
-      defaultPic: 'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/app/default-user.png',
-      loading: false // 防重复提交
+      defaultPic: 'https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-WEB/image/defalutPhoto.png'
     }
   },
   props: {
@@ -173,6 +171,10 @@ export default {
     // 弹窗数据
     drawerDate: {
       type: Object
+    },
+    waiting: {
+      type: Boolean,
+      default: false
     }
   },
   methods: {
@@ -193,13 +195,13 @@ export default {
     },
     // 可见客户弹窗
     showPopver () {
-      this.loading = true
+      this.waiting = true
       const momentId = this.momentIdSend
       this.$http.fetch(this.$api.guide.momentList.getVisibleUser, { momentId }).then(res => {
         this.visibleList = res.result
-        this.loading = false
+        this.waiting = false
       }).catch((err) => {
-        this.loading = false
+        this.waiting = false
         this.$notify.error(err, '操作失败')
       })
     }
@@ -285,6 +287,22 @@ export default {
         .user-store {
           color: #8c8c8c;
           margin-bottom: 12px;
+          text-overflow: -o-ellipsis-lastline;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          display: -webkit-box;
+          -webkit-line-clamp: 1;
+          line-clamp: 1;
+          -webkit-box-orient: vertical;
+          &:hover {
+            // text-overflow: -o-ellipsis-lastline;
+            // overflow: hidden;
+            // text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 999;
+            line-clamp: 999;
+            -webkit-box-orient: vertical;
+          }
         }
         .user-text {
           margin-bottom: 8px;
@@ -361,6 +379,7 @@ export default {
           margin-right: 8px;
       img {
           width: 100%;
+          height: 100%;
         }
      }
     }
@@ -386,7 +405,7 @@ export default {
         display: flex;
         margin-bottom: 8px;
         .comment-icon {
-          padding-top: 26px;
+          // padding-top: 26px;
           width: 16px;
           // background: #f00;
           color: #0091FA;
@@ -524,12 +543,21 @@ export default {
   cursor: pointer;
   display: inline-block;
   margin-left: 16px;
-  // background: #f00;
   width: 20px;
   height: 20px;
 }
 .comment-icon__dianzan {
   font-size: 16px;
   color: #0091fa;
+}.comment-icon__dianzan1 {
+  font-size: 16px;
+  color: #8c8c8c;
+}
+.comment-icon__dianzan1 {
+  font-size: 16px;
+  color: #8c8c8c;
+  &:hover {
+    color: #262626;
+  }
 }
 </style>
