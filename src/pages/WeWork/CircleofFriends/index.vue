@@ -5,7 +5,7 @@
       <template slot="search">
         <div class="searchWarpper">
           <div class="titleText">
-            朋友圈统计
+            朋友圈看板
           </div>
           <el-form :inline="true" class="form-inline_top ">
             <el-form-item label="类型：">
