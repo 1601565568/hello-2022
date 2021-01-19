@@ -71,11 +71,16 @@
                   <div></div>
                 </div>
                 <div class='employee-suffix'>
-                  <NsShopDialog type='icon' v-model="shopList" @input='handleChangeShop' isFix>
+                  <shopSelect @callBack="handleChangeShop" :hasShopArr="shopList" isDIYBtn>
+                     <template slot='btnIcon'>
+                      <Icon type="ns-store"/>
+                    </template>
+                  </shopSelect>
+                  <!-- <NsShopDialog type='icon' v-model="shopList" @input='handleChangeShop' isFix>
                     <template slot='btnIcon'>
                       <Icon type="ns-store"/>
                     </template>
-                  </NsShopDialog>
+                  </NsShopDialog> -->
                 </div>
               </div>
             </el-form-grid>
@@ -157,6 +162,7 @@ export default index
   position: relative;
   width: 360px;
   line-height: 26px;
+  height: 28px;
   padding: 0 9px;
   justify-content: space-between;
 }

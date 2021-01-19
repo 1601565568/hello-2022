@@ -1,5 +1,5 @@
 <template>
-  <div class="form-main">
+  <div>
 <!--    <ns-button @click="onOpendialog">默认弹窗</ns-button>-->
     <el-dialog
       append-to-body
