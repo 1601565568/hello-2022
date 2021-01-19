@@ -1,35 +1,15 @@
 <template>
   <div>
-    <page-table>
+    <page-table title='二维码海报'>
       <template slot='search'>
         <el-form :inline="true" class='form-inline_top'>
-          <el-form-item label="状态：" class='el-form__change'>
-            <el-select v-model="model.status" placeholder="请选择" @change='(value)=>{changeSearchfrom({status:value})}'>
-              <el-option
-                v-for="item in statusOptionList"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value">
-              </el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item label="二维码类型：" class='el-form__change'>
-            <el-select v-model="model.status" placeholder="请选择" @change='(value)=>{changeSearchfrom({status:value})}'>
-              <el-option
-                v-for="item in statusOptionList"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value">
-              </el-option>
-            </el-select>
-          </el-form-item>
           <el-form-item label="">
-            <el-input v-model="seachVal" placeholder="海报名称"  @keyup.enter.native="handleSearch">
+            <el-input v-model="model.loginAccount" placeholder="请输入创建人"  @keyup.enter.native="handleSearch">
               <Icon type="ns-search-copy" slot="suffix" class='search-icon' @click="handleSearch"></Icon>
             </el-input>
           </el-form-item>
           <el-form-item label="">
-            <el-input v-model="seachVal" placeholder="创建人"  @keyup.enter.native="handleSearch">
+            <el-input v-model="model.title" placeholder="请输入海报名称"  @keyup.enter.native="handleSearch">
               <Icon type="ns-search-copy" slot="suffix" class='search-icon' @click="handleSearch"></Icon>
             </el-input>
           </el-form-item>
@@ -43,98 +23,38 @@
           <el-table
             :data="_data._table.data"
             class="new-table_border"
-            :row-style="tableRowClassName"
+            @sort-change="sortChange"
             style="width: 100%">
             <el-table-column
-              prop="name"
+              prop="title"
               label="海报名称">
-              <template slot-scope="scope">
-                <div class="scope-title" @click='handleShowDetail(scope.row,scope.$index)'>
-                  <img :src='scope.row.activityPlacard' class="scope-title_img">
-                  <div class="scope-title_text">
-                    {{scope.row.name}}
-                  </div>
-                </div>
-              </template>
             </el-table-column>
             <el-table-column
               prop="guideNames"
+              width='100px'
               label="二维码海报">
               <template slot-scope="scope">
-                <div class="scope-name">
-                  <div :class="'scope-name_text'+ (scope.row.guideCount>10?' more':'')" >
-                    {{scope.row.guideNames}}
-                  </div>
-                  <el-popover
-                    placement="top-start"
-                    class="item"
-                    :title="`参与活动人员（${scope.row.guideCount}）`"
-                    width="200"
-                    trigger="hover"
-                    :content="scope.row.guideCount>10?(scope.row.guideNames+'...'):scope.row.guideNames">
-                    <span class="scope-name_tip" slot="reference">共{{scope.row.guideCount}}个</span>
-                  </el-popover>
-                  <!-- <div class="scope-name_num">
-                    共<span class="scope-name_num__blue">{{scope.row.emplee.length}}</span>个
-                  </div> -->
+                <div class="scope-name scope-name_num box-padding">
+                  <Icon type="ns-file-picture" className="message-upload__tip" @click='handlePreview(scope.row)'/>
                 </div>
               </template>
             </el-table-column>
             <el-table-column
-              prop="address"
+              prop="createTime"
+              sortable="custom"
               label="创建时间">
-              <template slot-scope="scope">
-                <template v-if="scope.row.validTimeType === 0">
-                  <span>永久有效</span>
-                </template>
-                <template v-else>
-                  <span>{{scope.row.validTimeStart}}</span>
-                  至
-                  <span>{{scope.row.validTimeEnd}}</span>
-                </template>
-              </template>
-            </el-table-column>
-            <el-table-column
-              prop="address"
-              label="二维码类型">
-            </el-table-column>
-            <el-table-column
-              prop="address"
-              label="有效期截止日期">
-              <template slot-scope="scope">
-                <template v-if="scope.row.validTimeType === 0">
-                  <span>永久有效</span>
-                </template>
-                <template v-else>
-                  <span>{{scope.row.validTimeStart}}</span>
-                  至
-                  <span>{{scope.row.validTimeEnd}}</span>
-                </template>
-              </template>
-            </el-table-column>
-            <el-table-column
-              prop="status"
-              width='90px'
-              align='center'
-              label="状态">
-              <template slot-scope="scope">
-                <el-tag :type="statusList[scope.row.status].color" class='scope-name_tag'>{{statusList[scope.row.status].value}}</el-tag>
-              </template>
             </el-table-column>
             <el-table-column
               prop="loginAccount"
-              width='100px'
               label="创建人">
             </el-table-column>
             <el-table-column
               prop="address"
-              width='250px'
+              width='125px'
               label="操作">
               <template slot-scope="scope">
-                <ns-button type="text" v-if='[1,2].includes(scope.row.status)' @click='handleEdit({guestCodeId:scope.row.guestCodeId})'>编辑</ns-button>
-                <ns-button type="text" @click='handleEdit({copyGuestCodeId:scope.row.guestCodeId})'>复制并新建</ns-button>
-                <ns-button type="text" v-if='[1,2].includes(scope.row.status)' @click='handleEnd(scope.row.guestCodeId)'>结束活动</ns-button>
-                <ns-button type="text" v-if='scope.row.status!==1' @click='handleAnalysis(scope.row.guestCodeId)'>活动效果</ns-button>
+                <ns-button type="text" @click='handleEdit({id:scope.row.id})'>编辑</ns-button>
+                <ns-button type="text" @click='handleEnd(scope.row.id)'>删除</ns-button>
               </template>
             </el-table-column>
           </el-table>
@@ -153,6 +73,28 @@
           </el-pagination>
       </template>
     </page-table>
+    <el-dialog title="海报" :visible.sync="dialogVisible" width='500px'>
+      <el-form class='normal-from' label-width="60px" label-position='left'>
+        <el-form-item class='larger-item'>
+          <template slot='label'>
+            <span>链接</span>
+            <el-tooltip content="因企业微信生成联系我二维码数量限制，请合理设置过期时间"  placement="top">
+              <Icon type="question-circle" class='question-circle' />
+            </el-tooltip>
+          </template>
+          <div class='flex-box'>
+            <el-input :value='dialogData.placard' readonly/>
+            <ns-button type='text' class='copy'>复制</ns-button>
+          </div>
+        </el-form-item>
+        <el-form-item label='海报图'>
+          <div class='flex-box bottom'>
+            <img class='copy-img' :src='dialogData.placard'/>
+            <ns-button class='copy' icon='el-icon-download'>下载</ns-button>
+          </div>
+        </el-form-item>
+      </el-form>
+    </el-dialog>
   </div>
 </template>
 <script>
@@ -222,6 +164,31 @@ export default List
     .guideIds-icon {
       color:#C0C4CC;
     }
+  }
+  .box-padding {
+    color:#0091FA;
+    padding: 0 20px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  .flex-box {
+    display: flex;
+    align-items: center;
+    .copy {
+      margin-left: 17px;
+      font-size: 14px;
+    }
+    &.bottom {
+      align-items: flex-end;
+      justify-content: flex-start;
+    }
+    .copy-img {
+      width: 122px;
+      height: 216px;
+    }
+  }
+  .question-circle {
+    margin-left: 5px;
   }
 </style>
 <style lang="scss" scoped>

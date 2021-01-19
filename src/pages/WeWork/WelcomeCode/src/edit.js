@@ -294,6 +294,8 @@ export default {
           desc: that.model.desc, // 文案
           image: that.model.image // 封面
         }
+      } else if (type === 4 && this.model.annexType === 4) {
+        alert(1)
       }
     },
     /**

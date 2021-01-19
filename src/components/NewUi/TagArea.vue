@@ -307,6 +307,7 @@ $textColor: #595959;
       line-height: 1;
       padding: 2px 8px;
       margin-right: 8px;
+      margin-bottom: 5px;
       color: $textColor;
       cursor: pointer;
       border-radius: 18px;

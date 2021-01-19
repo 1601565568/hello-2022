@@ -167,6 +167,24 @@
                       小程序
                     </span>
                   </ElFormGrid>
+                  <ElFormGrid>
+                    <span class="message-or">或</span>
+                  </ElFormGrid>
+                  <ElFormGrid>
+                    <span
+                      class="message-square hand"
+                      :class="[
+                        model.annexType === 4 ? 'message-square__active' : ''
+                      ]"
+                      @click="showAnnex(4)"
+                    >
+                      <Icon
+                        type="xiaochengxu"
+                        className="message-square__icon message-square__xiaochengxu"
+                      />
+                      二维码海报
+                    </span>
+                  </ElFormGrid>
                 </ElFormItem>
                 <ElFormItem v-if="model.type !== 9" label="使用范围：">
                   <ElFormGrid>
