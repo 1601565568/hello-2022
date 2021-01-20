@@ -112,11 +112,13 @@ export default {
       if (this.activityModel.type === 1) {
         if (total > _this.activityModel.coupon_total) {
           _this.$notify.info('门店配额总和合大于优惠券设置的配额')
+          this.forbidden = false
           return
         }
         if (total < _this.activityModel.coupon_total) {
           const result = await this.changeTotal(total)
           if (!result) {
+            this.forbidden = false
             return
           }
           _this.activityModel.coupon_total = result
