@@ -1,14 +1,17 @@
 <template>
-    <div>
+    <div class='form'>
         <el-form
+            class='form-content'
             ref="form"
+            :inline="true"
             @submit.native.prevent
             :model="model"
             label-width="80px"
         >
+          <el-form-item>
             <el-input
                 class="search"
-                @keyup.enter.native="onChangeStoreInput()"
+                style='width:263px;'
                 placeholder="请输入门店名称"
                 v-model="model.shop_name"
             >
@@ -18,13 +21,16 @@
                     style="padding: 5px;"
                     slot="suffix"
                     name="name"
-                    @click="onChangeStoreInput()"
                 />
             </el-input>
+          </el-form-item>
+          <el-form-item v-if='activityModel.type===1'>
+            <ns-button @click="handleDevide" class='sharing'>{{devideText}}</ns-button>
+          </el-form-item>
         </el-form>
         <el-table
             class="template-table__main"
-            :data="shopList"
+            :data="pageData"
             stripe
             ref="table"
             resizable
@@ -53,8 +59,9 @@
             >
             <template slot-scope="scope" >
               <ElInput type="text"
-                        @input="inputChange(scope.row)"
-                        v-model="scope.row.shopCouponNumber"
+                        @input="(e)=>{inputChange(e,scope.row)}"
+                        :value="scope.row.shopCouponNumber"
+                        :disabled='activityModel.type===0'
                         maxlength="8"
                         show-word-limit
                         style="width:80px"/>
@@ -83,5 +90,39 @@ export default index
 .search {
   width: 360px;
   /* margin-bottom: 16px; */
+}
+.form {
+  position: relative;
+}
+.form-content {
+  position: absolute;
+  right: 0;
+  top: -35px;
+}
+.form-content >>> .el-form-item--small.el-form-item {
+  margin-bottom:0 !important;
+  margin-left: 16px;
+}
+.form-content .sharing {
+  width: 72px;
+  text-align: center;
+  padding-left: 0;
+  padding-right: 0;
+  font-weight: normal;
+}
+</style>
+<style>
+.custom-dialog {
+  .el-message-box__title {
+    font-size: 16px;
+    font-weight: 700;
+    color: rgb(48, 49, 51);
+  }
+  .el-message-box__status {
+    font-size: 16px !important;
+  }
+  .el-message-box__status + .el-message-box__message {
+    padding-left: 24px;
+  }
 }
 </style>

@@ -90,12 +90,15 @@ export default {
   methods: {
     onSave (model) { // 编辑保存
       let that = this
+      var time = []
       if (that.timeValue) {
-        var time = []
         let begin = moment(this.timeValue[0]).format('HH:mm:ss')
         let end = moment(this.timeValue[1]).format('HH:mm:ss')
         time.push(begin)
         time.push(end)
+      } else {
+        time.push('00:00:00')
+        time.push('23:59:59')
       }
       if (!that.friendAutoPass.mininterval || !that.friendAutoPass.maxinterval) {
         this.$message.error('通过时间间隔不能为空')

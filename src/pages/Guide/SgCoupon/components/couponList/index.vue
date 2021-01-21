@@ -4,6 +4,7 @@
      title="新增优惠券发放"
      width="960px"
      :visible.sync="addCouponDialogVisible"
+     @closed='closeDialog'
     >
     <div class="addCouponDialogVisible">
         <el-form ref="form" :model="activityModel" label-width="80px" class="form-main">
@@ -33,19 +34,9 @@
                   <el-input
                     style="width: 360px"
                     placeholder="请输入正整数"
-                    v-if="activityModel.type ==0"
                     type="number"
                     v-model="activityModel.coupon_total"
-                    @change="activityCouponTotal()"
-                    auto-complete="off">
-                  </el-input>
-                  <el-input
-                    style="width: 360px"
-                    placeholder="请输入正整数"
-                    v-if="activityModel.type ==1" disabled="disabled"
-                    type="number"
-                    v-model="activityModel.coupon_total"
-                    @change="activityCouponTotal()"
+                    @input="activityCouponTotal"
                     auto-complete="off">
                   </el-input>
                   </el-form-item>
@@ -63,9 +54,38 @@
                   </el-radio-group>
                   </el-form-item>
               </el-form-grid>
-              <el-form-grid block class="text-info"><Icon type="info-circle" theme="filled" />公用：所有门店共享配额；自由分配：默认均分，可再行调整</el-form-grid>
+              <el-form-grid block class="text-primary">
+                  <Icon type="info-circle"/>  公用：分配门店共享配额；自由分配：手动设置分配门店的配额
+              </el-form-grid>
           </el-form-item>
-          <el-form-item v-if ="distributionMode  == 1">
+          <el-form-item label="分配门店：" v-if="activityModel.coupon_id !== 0" required>
+            <el-form-grid>
+              <div class='flex-box'>
+                <div class='employee-list'>
+                  <template v-if='shopList.length>0'>
+                    <p class='employee-text'>共{{shopList.length}}家门店</p>
+                  </template>
+                  <template v-else>
+                    <p class='empty-text'>请选择门店</p>
+                  </template>
+                  <div></div>
+                </div>
+                <div class='employee-suffix'>
+                  <shopSelect @callBack="handleChangeShop" :hasShopArr="shopList" isDIYBtn>
+                     <template slot='btnIcon'>
+                      <Icon type="ns-store"/>
+                    </template>
+                  </shopSelect>
+                  <!-- <NsShopDialog type='icon' v-model="shopList" @input='handleChangeShop' isFix>
+                    <template slot='btnIcon'>
+                      <Icon type="ns-store"/>
+                    </template>
+                  </NsShopDialog> -->
+                </div>
+              </div>
+            </el-form-grid>
+          </el-form-item>
+          <el-form-item v-if='shopList && shopList.length'>
             <StoreList ref= "storeList"
             :activityModel="activityModel"
             :storeModel="storeModel"
@@ -120,7 +140,7 @@
       </div>
       <div slot="footer" class="dialog-footer">
         <ns-button @click="closeDialog">取消</ns-button>
-        <ns-button type="primary" @click="onSaveActivityCoupon" :disabled = "forbidden" title="save">保存</ns-button>
+        <ns-button type="primary" @click="onSaveActivityCoupon" :loading='forbidden' :disabled="forbidden" title="save">保存</ns-button>
       </div>
     </el-dialog>
     <Coupon ref="Coupon" @onChangeCoupon="getCouponMessage"></Coupon>
@@ -132,4 +152,18 @@ export default index
 </script>
 <style scoped lang="scss">
 @import "./src/index.scss";
+.empty-text {
+  color: #BFBFBF;
+}
+.flex-box {
+  display: flex;
+  border: 1px solid #DCDFE6;
+  border-radius: 2px;
+  position: relative;
+  width: 360px;
+  line-height: 26px;
+  height: 28px;
+  padding: 0 9px;
+  justify-content: space-between;
+}
 </style>

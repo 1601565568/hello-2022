@@ -1,25 +1,46 @@
 <template>
   <div class="w-textarea" ref="wTextarea">
     <div class="w-textarea_tools" v-if="tools.length > 0 || maxlength">
-      <span class="w-textarea_tools__item"
-        v-for="item in tools"
-        :key="item.id"
-        @click="openTagDialog(item)"><Icon v-if='item.icon' class='w-textarea_tools__icon' :type="item.icon"/>{{item.text}}</span>
-      <span :class="['w-textarea_tools__text',
-        count.num < 0 ? '__danger' : '']"
-        v-if="maxlength">{{count.text}}</span>
+      <div class="w-textarea_tools_left">
+        <el-tooltip
+          v-for="item in tools"
+          effect="dark"
+          :key="item.id"
+          :content="item.title"
+          placement="top"
+        >
+          <span class="w-textarea_tools__item" @click="openTagDialog(item)"
+            ><Icon
+              v-if="item.icon"
+              class="w-textarea_tools__icon"
+              :type="item.icon"
+            />
+            <img
+              v-if="item.img"
+              class="w-textarea_tools__img"
+              :src="item.img"
+            />
+            {{ item.icon }}{{ item.text }}</span
+          ></el-tooltip
+        >
+        <span
+          :class="['w-textarea_tools__text', count.num < 0 ? '__danger' : '']"
+          v-if="maxlength"
+        >
+          {{ count.text }}
+        </span>
+      </div>
+      <div><slot name="w-textarea_tools_right"></slot></div>
     </div>
     <div
-      :class="`w-textarea_input ${disabled?'disabled':''}`"
+      :class="`w-textarea_input ${disabled ? 'disabled' : ''}`"
       ref="wTextareaContent"
       :id="contentId"
       @focus="isLocked = true"
       @blur="isLocked = false"
       @keydown.delete="handleDelete($event)"
       @input="handleInput($event.target)"
-    >
-
-    </div>
+    ></div>
   </div>
 </template>
 
@@ -269,10 +290,18 @@ $textColor: #595959;
 
   &_tools {
     padding: 8px;
+    display: flex;
+    justify-content: space-between;
     background-color: $bgColor;
     color: $textColor;
     font-size: 12px;
     overflow: hidden;
+    &_left {
+      flex: 1;
+    }
+    &_right {
+      width: 30%;
+    }
     &__item {
       float: left;
       line-height: 1;
@@ -289,10 +318,19 @@ $textColor: #595959;
       align-items: center;
     }
     &__icon {
-      font-size:16px;
-      color: #8C8C8C;
+      font-size: 16px;
+      color: #8c8c8c;
       border-radius: 50%;
-      margin-right:4px;
+      margin-right: 4px;
+    }
+    &__img {
+      width: 16px;
+      height: 16px;
+      image-rendering: -moz-crisp-edges;
+      image-rendering: -o-crisp-edges;
+      image-rendering: -webkit-optimize-contrast;
+      image-rendering: crisp-edges;
+      -ms-interpolation-mode: nearest-neighbor;
     }
     &__text {
       display: inline-block;

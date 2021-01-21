@@ -92,8 +92,13 @@
         <ns-button  type="primary" @click="okFun">确定</ns-button>
       </div>
   </el-dialog>
-  <NsButton v-if='isInlineBlock' icon='el-icon-circle-plus-outline'  @click="openFun">选择门店</NsButton>
-  <ns-button v-else  type="primary" @click="openFun">选择门店</ns-button> 已选择<span class="text-error">{{hasShopArr.length}}</span>家门店
+  <template v-if='isDIYBtn'>
+    <div  @click="openFun" style="cursor: pointer"><slot name='btnIcon'></slot></div>
+  </template>
+  <template v-else>
+    <NsButton v-if='isInlineBlock' icon='el-icon-circle-plus-outline'  @click="openFun">选择门店</NsButton>
+    <ns-button v-else  type="primary" @click="openFun">选择门店</ns-button> 已选择<span class="text-error">{{hasShopArr.length}}</span>家门店
+  </template>
   <taskStoreFile ref="taskStoreFileDialog" @callBack="taskStoreFileBack" ></taskStoreFile>
 <!--  <importQuota ref="importQuotaDialog" :callBack="loadListFun"></importQuota>-->
 </div>
@@ -122,6 +127,11 @@ export default {
       }
     },
     isInlineBlock: {
+      type: Boolean,
+      default: false
+    },
+    // 选择按钮样式是否自定义
+    isDIYBtn: {
       type: Boolean,
       default: false
     },
