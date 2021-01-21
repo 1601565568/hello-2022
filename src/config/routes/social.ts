@@ -380,6 +380,12 @@ export default {
               component: () => import('@/pages/WeWork/CRMTectonicMigration/AnalysisData/EnterpriseWechatFriendData/index.vue')
             }
           ]
+        },
+        {
+          'path': '/Social/OperationData/CircleOfFriends',
+          'name': 'CircleOfFriends',
+          'title': '朋友圈统计',
+          'component': () => import('@/pages/WeWork/CircleofFriends/index.vue')
         }
       ]
     }

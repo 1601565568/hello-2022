@@ -41,6 +41,7 @@
     }
     >>> .el-range-input {
       font-size: 14px;
+      width: 45%;
     }
     >>> .el-range-editor--small .el-range-separator {
       line-height: 22px;
@@ -188,4 +189,8 @@
       margin-right: 0;
     }
   }
+}
+.el-tooltip_popper {
+  width: 200px;
+  background-color: blue;
 }
