@@ -214,12 +214,29 @@ export default {
               'name': 'QrcodePosterEdit',
               'title': '编辑二维码海报',
               'component': () => import('@/pages/Guide/QrcodePoster/Edit.vue')
+            }
+          ]
+        },
+        {
+          'path': '/Social/SocialOperation/QrcodePosterGH/List',
+          'name': 'qrcodePoster',
+          'title': '二维码海报（个号）',
+          'component': () => import('@nascent/ecrp-ecrm/src/layout/ContentOnly.vue'),
+          'redirect': {
+            'name': 'QrcodePoster'
+          },
+          'children': [
+            {
+              'path': '/Social/SocialOperation/QrcodePosterGH/List',
+              'name': 'QrcodePosterList',
+              'title': '二维码海报（个号）',
+              'component': () => import('@/pages/Guide/QrcodePoster/List.vue')
             },
             {
-              'path': '/Social/SocialOperation/QrcodePoster/Analysis',
-              'name': 'QrcodePosterAnalysis',
-              'title': '二维码海报报表',
-              'component': () => import('@/pages/Guide/QrcodePoster/Analysis.vue')
+              'path': '/Social/SocialOperation/QrcodePosterGH/Edit',
+              'name': 'QrcodePosterEdit',
+              'title': '编辑二维码海报（个号）',
+              'component': () => import('@/pages/Guide/QrcodePoster/Edit.vue')
             }
           ]
         }

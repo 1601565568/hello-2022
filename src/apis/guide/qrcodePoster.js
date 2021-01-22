@@ -15,5 +15,9 @@ export default {
   getWeChatOfficialAccounts: {
     url: `${piexl}getWeChatOfficialAccounts`,
     method: 'get'
+  },
+  saveOrUpdate: {
+    url: `${piexl}saveOrUpdate`,
+    method: 'post'
   }
 }

@@ -18,7 +18,9 @@ export default {
         title: ''
       },
       dialogVisible: false,
-      dialogData: {}
+      dialogData: {},
+      downloadSrc: '', // 要下载的图片
+      path: '' // 路由判断区分个号和企微
     }
   },
   mixins: [tableMixin],
@@ -30,7 +32,7 @@ export default {
     },
     handleDetail (query = {}) {
       this.$router.push({
-        path: '/Social/SocialOperation/QrcodePoster/Edit',
+        path: `${this.path}/Edit`,
         query
       })
     },
@@ -72,21 +74,23 @@ export default {
           vm.$notify.error('操作失败')
         })
     },
-    // 去报表
-    handleAnalysis (guestCodeId) {
-      this.$router.push({
-        path: '/Social/SocialOperation/QrcodePoster/Analysis',
-        query: { guestCodeId }
+    // 下载
+    handleDownload (imgSrc) {
+      this.downloadSrc = imgSrc
+      this.$nextTick(() => {
+        this.downloadImg()
       })
-    }
-  },
-  watch: {
-    seachDate (newVal) {
-      const date = newVal || [null, null]
-      this.changeSearchfrom({ startTime: date[0], endTime: date[1] })
+    },
+    downloadImg () {
+      window.frames['IframeReportImg'].document.execCommand('SaveAs')
     }
   },
   mounted () {
+    // 根据旅游判断个号还是导购
+    const path = this.$route.path
+    const arr = path.split('/')
+    arr.splice(arr.length - 1, 1)
+    this.path = arr.join('/')
     this.$searchAction$()
   }
 }

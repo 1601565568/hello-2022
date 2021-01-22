@@ -90,11 +90,14 @@
         <el-form-item label='海报图'>
           <div class='flex-box bottom'>
             <img class='copy-img' :src='dialogData.placard'/>
-            <ns-button class='copy' icon='el-icon-download'>下载</ns-button>
+            <ns-button class='copy' icon='el-icon-download' @click='handleDownload(dialogData.placard)'>
+              下载
+            </ns-button>
           </div>
         </el-form-item>
       </el-form>
     </el-dialog>
+    <iframe style="display:none;" ref="IframeReportImg" name="IframeReportImg" width="0" height="0" :src="downloadSrc"></iframe>
   </div>
 </template>
 <script>

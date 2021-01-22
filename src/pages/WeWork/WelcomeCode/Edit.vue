@@ -802,6 +802,23 @@
       </template>
     </ElDialog>
     <!--选择好友弹窗结束-->
+    <!-- 二维码start -->
+    <el-dialog
+      ref="linkDialog"
+      width="1000px"
+      :visible.sync="qrcodeModel.visible"
+      title="二维码海报"
+      :show-scroll-x="false"
+      :close-on-click-modal="false"
+      @close="onCloseHandleModel(2)"
+    >
+      <Qrcode v-if='qrcodeModel.visible' :qrcodeModel='qrcodeModel' ref='qrcode'/>
+       <div slot="footer" class="dialog-footer">
+        <ns-button @click="channelModel.visible = false">取消</ns-button>
+        <ns-button @click="handleSureQrcode" type="primary">确定</ns-button>
+      </div>
+    </el-dialog>
+    <!-- 二维码end -->
   </div>
 </template>
 <script>

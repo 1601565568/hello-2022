@@ -11,6 +11,7 @@ import { getErrorMsg } from '@/utils/toast'
 import NsGuideDialog from '@/components/NsGuideDialog/index'
 import NsShopDialog from '@/components/NsShopDialog/index'
 import NsTextarea from '@/components/NsTextarea/index'
+import Qrcode from '../components/Qrcode'
 export default {
   name: 'Edit',
   mixins: [scrollHeight],
@@ -24,7 +25,8 @@ export default {
     NsEmployeeOrCustGroupDialog,
     NsGuideDialog,
     NsShopDialog,
-    NsTextarea
+    NsTextarea,
+    Qrcode
   },
   data: function () {
     // 图片配置model
@@ -153,7 +155,10 @@ export default {
           key: 'CustomerNick',
           label: '客户昵称'
         }
-      ]
+      ],
+      qrcodeModel: {
+        visible: false
+      } // 二维码海报
     }
   },
   computed: {
@@ -252,6 +257,9 @@ export default {
       this.$refs['appModelPath'].focus()
       this.appModel.path = this.appModel.path + append
     },
+    async handleSureQrcode () {
+      await this.$refs.qrcode.onSave()
+    },
     /**
      * @msg: 选择附件内容
      * @param {Number} 2链接 3小程序
@@ -263,6 +271,8 @@ export default {
         this.linkModel.visible = true
       } else if (type === 3) {
         this.appModel.visible = true
+      } else if (type === 4) {
+        this.qrcodeModel.visible = true
       }
       // 数据预处理
       if (type === 1 && this.model.annexType === 1) {
@@ -295,7 +305,9 @@ export default {
           image: that.model.image // 封面
         }
       } else if (type === 4 && this.model.annexType === 4) {
-        alert(1)
+        this.qrcodeModel = {
+
+        }
       }
     },
     /**

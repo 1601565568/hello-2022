@@ -108,41 +108,40 @@ export default {
             textX: result.qrcodeX,
             textY: result.qrcodeY
           }
-          console.log(this.model)
         }
       }).catch(err => {
         this.$notify.error(err.msg)
       })
     },
     formatModel (model) {
-      const obj = model ? JSON.parse(model) : { ...defaultData }
-      const data = typeof obj === 'object' ? obj : { ...defaultData }
+      const data = model
       return {
+        appId: data.appId,
         background: data.background,
         text: this.stringTohtml(data.text),
-        textW: data.textW,
-        textH: data.textH,
-        textX: data.textX,
-        textY: data.textY
+        qrcodeSize: data.textW,
+        qrcodeX: data.textX,
+        qrcodeY: data.textY,
+        title: data.title,
+        type: data.type,
+        appletPage: data.appletPage,
+        configId: data.configId,
+        sceneStr: this.stringTohtml(data.text)
       }
     },
     onSave () {
       this.$refs['form'].validate((valid) => {
         if (valid) {
-          this.updateResultPageConfig()
+          this.saveOrUpdate()
         }
       })
     },
     onCancel () {
       this.$router.go(-1)
     },
-    updateResultPageConfig () {
-      const parmas = {
-        bindResultPageJson: JSON.stringify({ ...this.model,
-          text: this.htmlToString(this.model.text)
-        })
-      }
-      this.$http.fetch(this.$api.guide.customerService.updateResultPageConfig, parmas).then(res => {
+    saveOrUpdate () {
+      const parmas = this.formatModel(this.model)
+      this.$http.fetch(this.$api.guide.qrcodePoster.saveOrUpdate, parmas).then(res => {
         if (res.success) {
           this.$notify.success('保存成功')
           this.onCancel()
