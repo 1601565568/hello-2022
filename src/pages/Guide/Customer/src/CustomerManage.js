@@ -960,7 +960,7 @@ export default {
     onSave (taskType) {
       var params
       if (taskType === 1 && this.recordChooseList.length === 0) {
-        this.$notify.error('请先选择更换导购门店')
+        this.$notify.error('请先选择更换导购')
         return false
       }
       let { checkAll, removeCheckList, addcheckList } = this.$refs.table1
