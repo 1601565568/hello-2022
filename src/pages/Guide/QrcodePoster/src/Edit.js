@@ -1,14 +1,14 @@
 const defaultData = {
   configId: null,
-  title: '',
-  background: '',
-  type: 1,
-  appId: '',
-  textW: 172,
-  appletPage: '',
-  textX: 73,
-  textY: 349,
-  sceneStr: ''
+  title: '', // 海报名称
+  background: '', // 海报背景图
+  type: 1, // 二维码类型
+  appId: '', // 公众号
+  textW: 172, // 二维码尺寸
+  appletPage: '', //
+  textX: 73, // 二维码x轴
+  textY: 349, // 二维码y轴
+  sceneStr: '' // 占位符
 }
 export default {
   data () {
@@ -60,9 +60,9 @@ export default {
         { type: 'tag', text: '导购userid', id: 'USER_ID', value: '导购userid' },
         { type: 'tag', text: '导购微信ID', id: 'WECHAT_ID', value: '导购微信ID' },
         { type: 'tag', text: '员工工作门店', id: 'SHOP_ID', value: '员工工作门店' },
-        { type: 'tag', text: '员工工作门店（外部)', id: 'OUTER_SHOP_ID', value: '员工工作门店（外部)' },
-        { type: 'tag', text: '员工ID', id: 'GUIDE_ID', value: '员工ID' }
-        // { type: 'tag', text: '员工ID（外部)', id: 'EMPLOYEE_ID', value: '员工ID（外部)' }
+        // { type: 'tag', text: '员工工作门店（外部)', id: 'OUTER_SHOP_ID', value: '员工工作门店（外部)' },
+        { type: 'tag', text: '员工ID', id: 'GUIDE_ID', value: '员工ID' },
+        { type: 'tag', text: '员工ID（外部)', id: 'EMPLOYEE_ID', value: '员工ID（外部)' }
       ]
       if (this.isQY) {
         tools.push({ type: 'tag', text: '导购账号', id: 'ACCOUNT', value: '导购账号' })
@@ -75,7 +75,7 @@ export default {
       return this.htmlToText(this.model.sceneStr)
     },
     editType () {
-      return this.$route.query.guestCodeId ? '编辑' : '新建'
+      return this.$route.query.id ? '编辑' : '新建'
     }
   },
   methods: {
@@ -103,6 +103,7 @@ export default {
         this.$notify.error(err.msg)
       })
     },
+    // 请求页面数据
     getResultPageConfig (configId) {
       this.$http.fetch(this.$api.guide.qrcodePoster.getByConfigId, { configId }).then(res => {
         if (res.success) {
@@ -119,6 +120,7 @@ export default {
         this.$notify.error(err.msg)
       })
     },
+    // 提交保存前格式化数据
     formatModel (model) {
       const data = model
       return {
@@ -134,6 +136,7 @@ export default {
         sceneStr: this.htmlToString(data.sceneStr)
       }
     },
+    // 保存校验
     onSave () {
       this.$refs['form'].validate((valid) => {
         if (valid) {
@@ -144,6 +147,7 @@ export default {
     onCancel () {
       this.$router.go(-1)
     },
+    // 保存请求接口
     saveOrUpdate () {
       this.btnLoad = true
       const parmas = this.formatModel(this.model)

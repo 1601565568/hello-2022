@@ -54,6 +54,9 @@
               </VueDragResize>
             </div>
           </template>
+          <template slot='collapse-right__bottom'>
+            <p class='collapse-right__bottom'>1. 二维码支持调整大小及移动位置</p>
+          </template>
         </recruitment-collapse>
       </template>
     </page-edit>
@@ -122,6 +125,11 @@ export default Edit
 }
 .drag-text {
   word-break: break-all;
+  text-align: center;
+}
+.collapse-right__bottom {
+  font-size: 12px;
+  color: #595959;
   text-align: center;
 }
 </style>
