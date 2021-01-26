@@ -46,7 +46,6 @@ export default {
       })
     },
     handleSearch () {
-      this._pagination.page = 1
       this.$searchAction$()
     },
     handleChange (id) {

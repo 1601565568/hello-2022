@@ -1,5 +1,5 @@
 <template>
-  <el-dialog title="海报" :visible="dialogVisible" width='500px' @close='handleClose'>
+  <el-dialog title="海报" :visible="dialogVisible" width='500px' @close='handleClose' append-to-body>
     <el-form class='normal-from' label-width="60px" label-position='left'>
       <el-form-item class='larger-item'>
         <template slot='label'>
