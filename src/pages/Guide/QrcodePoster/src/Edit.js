@@ -57,17 +57,16 @@ export default {
     tools () {
       const tools = [
         { type: 'tag', text: '集团ID', id: 'GROUP_ID', value: '集团ID' },
-        { type: 'tag', text: '导购userid', id: 'USER_ID', value: '导购userid' },
-        { type: 'tag', text: '导购微信ID', id: 'WECHAT_ID', value: '导购微信ID' },
         { type: 'tag', text: '员工工作门店', id: 'SHOP_ID', value: '员工工作门店' },
         // { type: 'tag', text: '员工工作门店（外部)', id: 'OUTER_SHOP_ID', value: '员工工作门店（外部)' },
         { type: 'tag', text: '员工ID', id: 'GUIDE_ID', value: '员工ID' },
-        { type: 'tag', text: '员工ID（外部)', id: 'EMPLOYEE_ID', value: '员工ID（外部)' }
+        { type: 'tag', text: '员工ID（外部)', id: 'EMPLOYEE_ID', value: '员工ID（外部)' },
+        { type: 'tag', text: '导购账号', id: 'ACCOUNT', value: '导购账号' }
       ]
       if (this.isQY) {
-        tools.push({ type: 'tag', text: '导购账号', id: 'ACCOUNT', value: '导购账号' })
+        tools.push({ type: 'tag', text: '导购userid', id: 'USER_ID', value: '导购userid' })
       } else {
-        tools.push({ type: 'tag', text: '导购微信账号', id: 'ACCOUNT', value: '导购微信账号' })
+        tools.push({ type: 'tag', text: '导购微信ID', id: 'WECHAT_ID', value: '导购微信ID' })
       }
       return tools
     },
