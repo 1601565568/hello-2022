@@ -1,9 +1,9 @@
 const defaultData = {
+  configId: null,
   title: '',
   background: '',
   type: 1,
   appId: '',
-  text: '',
   textW: 172,
   appletPage: '',
   textX: 73,
@@ -28,9 +28,6 @@ export default {
         background: [
           { required: true, message: '请上传背景图', trigger: ['blur', 'change'] }
         ],
-        text: [
-          { required: true, message: '请填写提示文案', trigger: ['blur', 'change'] }
-        ],
         appId: [
           { required: true, message: '请选择公众号', trigger: ['blur', 'change'] }
         ]
@@ -47,27 +44,35 @@ export default {
         } else {
           callback()
         }
-      }
+      },
+      isQY: true // 是否是企微
     }
   },
   mounted () {
+    // 根据旅游判断个号还是导购
+    this.isQY = this.$route.path.indexOf('QrcodePosterGH') === -1
     this.init()
   },
   computed: {
     tools () {
-      return [
+      const tools = [
         { type: 'tag', text: '集团ID', id: 'GROUP_ID', value: '集团ID' },
-        { type: 'tag', text: '导购帐号', id: 'USER_ID', value: '导购帐号' },
-        { type: 'tag', text: '插入推广大师查询链接', id: 'WECHAT_ID', value: '导购微信id' },
-        { type: 'tag', text: '插入招募链接', id: 'ACCOUNT', value: '导购账号' },
-        { type: 'tag', text: '插入活动有效时间', id: 'SHOP_ID', value: '员工工作门店' },
-        { type: 'tag', text: '插入推广大师查询链接', id: 'OUTER_SHOP_ID', value: '员工工作门店（外部)' },
-        { type: 'tag', text: '插入招募链接', id: 'GUIDE_ID', value: '员工ID' },
-        { type: 'tag', text: '插入活动有效时间', id: 'EMPLOYEE_ID', value: '员工ID（外部）' }
+        { type: 'tag', text: '导购userid', id: 'USER_ID', value: '导购userid' },
+        { type: 'tag', text: '导购微信ID', id: 'WECHAT_ID', value: '导购微信ID' },
+        { type: 'tag', text: '员工工作门店', id: 'SHOP_ID', value: '员工工作门店' },
+        { type: 'tag', text: '员工工作门店（外部)', id: 'OUTER_SHOP_ID', value: '员工工作门店（外部)' },
+        { type: 'tag', text: '员工ID', id: 'GUIDE_ID', value: '员工ID' }
+        // { type: 'tag', text: '员工ID（外部)', id: 'EMPLOYEE_ID', value: '员工ID（外部)' }
       ]
+      if (this.isQY) {
+        tools.push({ type: 'tag', text: '导购账号', id: 'ACCOUNT', value: '导购账号' })
+      } else {
+        tools.push({ type: 'tag', text: '导购微信账号', id: 'ACCOUNT', value: '导购微信账号' })
+      }
+      return tools
     },
     htmlText () {
-      return this.htmlToText(this.model.text)
+      return this.htmlToText(this.model.sceneStr)
     },
     editType () {
       return this.$route.query.guestCodeId ? '编辑' : '新建'
@@ -106,7 +111,8 @@ export default {
             ...result,
             textW: result.qrcodeSize,
             textX: result.qrcodeX,
-            textY: result.qrcodeY
+            textY: result.qrcodeY,
+            sceneStr: this.stringTohtml(result.sceneStr)
           }
         }
       }).catch(err => {
@@ -116,17 +122,16 @@ export default {
     formatModel (model) {
       const data = model
       return {
+        configId: data.id,
         appId: data.appId,
         background: data.background,
-        text: this.stringTohtml(data.text),
         qrcodeSize: data.textW,
         qrcodeX: data.textX,
         qrcodeY: data.textY,
         title: data.title,
         type: data.type,
         appletPage: data.appletPage,
-        configId: data.configId,
-        sceneStr: this.stringTohtml(data.text)
+        sceneStr: this.htmlToString(data.sceneStr)
       }
     },
     onSave () {
@@ -140,6 +145,7 @@ export default {
       this.$router.go(-1)
     },
     saveOrUpdate () {
+      this.btnLoad = true
       const parmas = this.formatModel(this.model)
       this.$http.fetch(this.$api.guide.qrcodePoster.saveOrUpdate, parmas).then(res => {
         if (res.success) {
@@ -148,7 +154,9 @@ export default {
         } else {
           this.$notify.error(res.msg)
         }
+        this.btnLoad = false
       }).catch(err => {
+        this.btnLoad = false
         this.$notify.error(err.msg)
       })
     },

@@ -157,7 +157,9 @@ export default {
         }
       ],
       qrcodeModel: {
-        visible: false
+        visible: false,
+        configId: null,
+        placard: ''
       } // 二维码海报
     }
   },
@@ -257,8 +259,13 @@ export default {
       this.$refs['appModelPath'].focus()
       this.appModel.path = this.appModel.path + append
     },
-    async handleSureQrcode () {
-      await this.$refs.qrcode.onSave()
+    handleSureQrcode () {
+      const result = this.$refs.qrcode.onSave()
+      if (result) {
+        this.qrcodeModel.configId = result.id
+        this.qrcodeModel.placard = result.placard
+        this.onSubmitAnnex(4)
+      }
     },
     /**
      * @msg: 选择附件内容
@@ -305,8 +312,11 @@ export default {
           image: that.model.image // 封面
         }
       } else if (type === 4 && this.model.annexType === 4) {
-        this.qrcodeModel = {
-
+        // 海报实体model
+        that.qrcodeModel = {
+          visible: that.qrcodeModel.visible,
+          configId: that.model.configId, // 默认自定义
+          placard: that.model.placard
         }
       }
     },
@@ -320,6 +330,8 @@ export default {
         this.linkModel.visible = false
       } else if (type === 3) {
         this.appModel.visible = false
+      } else if (type === 4) {
+        this.qrcodeModel.visible = false
       }
     },
     /**
@@ -426,6 +438,14 @@ export default {
           // 最后修改附件类型
           that.model.annexType = type
         })
+      } else if (type === 4) {
+        this.model.configId = that.qrcodeModel.configId
+        this.model.placard = that.qrcodeModel.placard
+        // 关闭
+        that.onCloseAnnex(type)
+        that.onSubmitHandleModel(type)
+        // 最后修改附件类型
+        that.model.annexType = type
       }
     },
     /**
@@ -610,6 +630,9 @@ export default {
         annexContent.title = that.model.title
         annexContent.desc = that.model.desc
         annexContent.image = that.model.image
+      } else if (that.model.annexType === 4) {
+        annexContent.configId = that.model.configId
+        annexContent.placard = that.model.placard
       }
       // 附带内容json
       that.model.annexContent = JSON.stringify(annexContent)
@@ -687,6 +710,9 @@ export default {
               that.model.title = annexContent.title
               that.model.desc = annexContent.desc
               that.model.image = annexContent.image
+            } else if (that.model.annexType === 4) {
+              that.model.configId = annexContent.configId
+              that.model.placard = annexContent.placard
             }
           }).catch(resp => {
             that.$notify.error(resp.msg)

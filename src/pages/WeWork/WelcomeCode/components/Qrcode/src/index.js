@@ -1,9 +1,10 @@
 
 import NsDroptree from '@nascent/ecrp-ecrm/src/components/NsDroptree'
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
+import PreviewPoster from '@/pages/Guide/components/PreviewPoster'
 
 export default {
-  components: { NsDroptree },
+  components: { NsDroptree, PreviewPoster },
   mixins: [tableMixin],
   props: {
     qrcodeModel: {
@@ -30,24 +31,41 @@ export default {
         configId: null
       },
       departData: {},
-      configId: '' // 记录勾选的状态
+      configObj: {}, // 记录勾选item
+      configId: {}, // 勾选id
+      dialogVisible: false,
+      dialogData: {}
     }
   },
   methods: {
     init () {
-      this.model.configId = this.qrcodeModel.configId
-      this.$reload()
+      this.model.configId = this.qrcodeModel.configId + ''
+      this.configId = this.qrcodeModel.configId + ''
+      this.$queryList$(this.$generateParams$()).then(() => {
+        this.configObj = this._data._table.data.find(item => item.id === this.model.configId) || {}
+      })
     },
     handleSearch () {
       this._pagination.page = 1
       this.$searchAction$()
     },
+    handleChange (id) {
+      this.configObj = this._data._table.data.find(item => item.id === this.configId) || {}
+    },
     onSave () {
-      if (!this.shopId) {
-        this.$notify.error('请先选择门店')
+      if (!this.configObj.id) {
+        this.$notify.error('请先选择海报')
         return false
       }
-      this.$emit('onSave')
+      return this.configObj
+    },
+    handleClose () {
+      this.dialogVisible = false
+    },
+    // 预览
+    handlePreview (data) {
+      this.dialogData = data
+      this.dialogVisible = true
     }
   },
   mounted () {

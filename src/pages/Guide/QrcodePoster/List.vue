@@ -73,31 +73,7 @@
           </el-pagination>
       </template>
     </page-table>
-    <el-dialog title="海报" :visible.sync="dialogVisible" width='500px'>
-      <el-form class='normal-from' label-width="60px" label-position='left'>
-        <el-form-item class='larger-item'>
-          <template slot='label'>
-            <span>链接</span>
-            <el-tooltip content="因企业微信生成联系我二维码数量限制，请合理设置过期时间"  placement="top">
-              <Icon type="question-circle" class='question-circle' />
-            </el-tooltip>
-          </template>
-          <div class='flex-box'>
-            <el-input :value='dialogData.placard' readonly/>
-            <ns-button type='text' class='copy'>复制</ns-button>
-          </div>
-        </el-form-item>
-        <el-form-item label='海报图'>
-          <div class='flex-box bottom'>
-            <img class='copy-img' :src='dialogData.placard'/>
-            <ns-button class='copy' icon='el-icon-download' @click='handleDownload(dialogData.placard)'>
-              下载
-            </ns-button>
-          </div>
-        </el-form-item>
-      </el-form>
-    </el-dialog>
-    <iframe style="display:none;" ref="IframeReportImg" name="IframeReportImg" width="0" height="0" :src="downloadSrc"></iframe>
+    <PreviewPoster :dialogVisible='dialogVisible' :url='dialogData.placard' @onClose='handleClose' appendToBody/>
   </div>
 </template>
 <script>
@@ -105,8 +81,9 @@ import List from './src/List'
 import NsGuideDialog from '@/components/NsGuideDialog'
 import PageTable from '@/components/NewUi/PageTable'
 import ElDrawer from '@nascent/nui/lib/drawer'
+import PreviewPoster from '../components/PreviewPoster'
 List.components = {
-  PageTable, NsGuideDialog, ElDrawer
+  PageTable, NsGuideDialog, ElDrawer, PreviewPoster
 }
 export default List
 </script>

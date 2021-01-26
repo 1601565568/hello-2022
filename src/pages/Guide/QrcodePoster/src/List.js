@@ -1,7 +1,9 @@
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
+import api from '@/config/http'
 export default {
   data () {
     return {
+      downUrl: api.API_ROOT + '/chatRoomGroup/downLoad',
       pagination4Emp: {
         enable: true,
         size: 15,
@@ -75,11 +77,25 @@ export default {
         })
     },
     // 下载
-    handleDownload (imgSrc) {
-      this.downloadSrc = imgSrc
-      this.$nextTick(() => {
-        this.downloadImg()
-      })
+    handleDownload (url) {
+      let requestUrl = this.downUrl
+      var form = document.createElement('form')
+      form.setAttribute('action', requestUrl)
+      form.setAttribute('method', 'get')
+      var input = document.createElement('input')
+      input.setAttribute('type', 'hidden')
+      input.setAttribute('name', 'url')
+      input.setAttribute('value', url)
+      form.appendChild(input)
+      document.body.appendChild(form)
+      form.submit()
+    },
+    // 复制
+    handleCopy (msg) {
+      copy(msg)
+    },
+    handleClose () {
+      this.dialogVisible = false
     },
     downloadImg () {
       window.frames['IframeReportImg'].document.execCommand('SaveAs')
