@@ -200,12 +200,12 @@ export default {
           'title': '二维码海报',
           'component': () => import('@nascent/ecrp-ecrm/src/layout/ContentOnly.vue'),
           'redirect': {
-            'name': 'QrcodePoster'
+            'name': 'WeChatQrCodePlacard'
           },
           'children': [
             {
               'path': '/Social/SocialOperation/QrcodePoster/List',
-              'name': 'QrcodePosterList',
+              'name': 'WeChatQrCodePlacard',
               'title': '二维码海报',
               'component': () => import('@/pages/Guide/QrcodePoster/List.vue')
             },
@@ -223,12 +223,12 @@ export default {
           'title': '二维码海报（个号）',
           'component': () => import('@nascent/ecrp-ecrm/src/layout/ContentOnly.vue'),
           'redirect': {
-            'name': 'QrcodePoster'
+            'name': 'WeWorkQrCodePlacard'
           },
           'children': [
             {
               'path': '/Social/SocialOperation/QrcodePosterGH/List',
-              'name': 'QrcodePosterList',
+              'name': 'WeWorkQrCodePlacard',
               'title': '二维码海报（个号）',
               'component': () => import('@/pages/Guide/QrcodePoster/List.vue')
             },
