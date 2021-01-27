@@ -16,7 +16,8 @@
         </div>
         <ul v-if="type === 'img'" class="preview-dialog__list">
           <li v-for="(item, index) in list" :key="index" @click="goto(index)">
-            <img :class="{'active': index === current}" :src="item + '?x-oss-process=image/resize,m_mfit,h_200,w_200'">
+<!--            <img :class="{'active': index === current}" :src="item + '?x-oss-process=image/resize,m_mfit,h_200,w_200'">-->
+            <img :class="{'active': index === current}" :src="item">
           </li>
         </ul>
         <div v-if="type === 'img'" class="preview-dialog__left" @click="prevTo()"></div>
@@ -68,10 +69,13 @@ export default {
 }
 </script>
 <style scoped>
->>> .v-modal {
-  opacity: 0.96;
-}
 @component-namespace preview {
+  /*>>> .v-modal {*/
+  /*  opacity: 0.96;*/
+  /*}*/
+  >>> .el-dialog__wrapper {
+    background-color: rgba(0, 0, 0, .86);
+  }
   >>> .preview-dialog {
     width: 100% !important;
     background: none !important;
@@ -105,7 +109,7 @@ export default {
       vertical-align: middle;
       img {
         display: inline-block;
-        max-height: 350px;
+        max-height: 500px;
         max-width: 100%;
         margin: 0 auto;
         vertical-align: middle;
