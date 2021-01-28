@@ -10,7 +10,7 @@
         </template>
         <div class='flex-box'>
           <el-input :value='url' readonly/>
-          <ns-button type='text' class='copy' @click='handleCopy(url)'>复制</ns-button>
+          <ns-button type='text' class='copy' v-copy='url'>复制</ns-button>
         </div>
       </el-form-item>
       <el-form-item label='海报图'>
@@ -40,7 +40,6 @@
 </template>
 <script>
 import ElImage from '@nascent/nui/lib/image'
-import copy from '@/utils/copy'
 import Preview from '@/components/NsPreview'
 import api from '@/config/http'
 export default {
@@ -65,10 +64,6 @@ export default {
       form.appendChild(input)
       document.body.appendChild(form)
       form.submit()
-    },
-    // 复制
-    handleCopy (msg) {
-      copy(msg)
     },
     handleClose () {
       this.$emit('onClose')
