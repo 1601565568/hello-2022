@@ -79,6 +79,19 @@ export default {
           cloudUrl: res.data.result.cloudUrl,
           copyrightInfo: res.data.result.copyrightInfo
         }
+        const a = {
+          code: 'WeWorkGuestCode',
+          commonState: 0,
+          deluxeState: 0,
+          id: '3166',
+          name: '二维码海报',
+          parentId: '3015',
+          platinumState: 0,
+          sort: 0,
+          type: 'MENU',
+          url: '/Social/LBS/Group/Index'
+        }
+        res.data.result.menus.push(a)
         if (res.data.result.menus.length > 0) {
           res.data.result.menus = treeFn(null, res.data.result.menus.map((v) => {
             return {

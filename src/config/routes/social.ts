@@ -382,6 +382,39 @@ export default {
           ]
         }
       ]
+    },
+    {
+      path: '/Social/LBS/Group',
+      name: 'Group',
+      title: 'LBS群聚合码',
+      meta: { requiresAuth: true },
+      component: () => import('@nascent/ecrp-ecrm/src/layout/Content.vue'),
+      redirect: {
+        path: '/Social/LBS/Group/Index'
+      },
+      children: [
+        {
+          path: '/Social/LBS/Group/Index',
+          name: 'GroupIndex',
+          meta: { requiresAuth: true },
+          title: 'LBS群聚合码',
+          'component': () => import('@/pages/Guide/LBS/Group/Index.vue')
+        },
+        {
+          path: '/Social/LBS/Group/Edit',
+          name: 'GroupEdit',
+          meta: { requiresAuth: true },
+          title: 'LBS群聚合码',
+          'component': () => import('@/pages/Guide/LBS/Group/Edit.vue')
+        },
+        {
+          path: '/Social/LBS/Group/Analysis',
+          name: 'GroupAnalysis',
+          meta: { requiresAuth: true },
+          title: 'LBS群聚合码',
+          'component': () => import('@/pages/Guide/LBS/Group/Analysis.vue')
+        }
+      ]
     }
   ]
 }
