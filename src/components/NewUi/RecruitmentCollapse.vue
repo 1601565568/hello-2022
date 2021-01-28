@@ -15,6 +15,7 @@
               </div>
               <slot name='collapse-right'></slot>
             </Phone>
+            <slot name='collapse-right__bottom'></slot>
           </el-col>
         </el-row>
       </el-collapse-item>

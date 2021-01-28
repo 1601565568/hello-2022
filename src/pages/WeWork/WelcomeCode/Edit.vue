@@ -167,6 +167,24 @@
                       小程序
                     </span>
                   </ElFormGrid>
+                  <ElFormGrid>
+                    <span class="message-or">或</span>
+                  </ElFormGrid>
+                  <ElFormGrid>
+                    <span
+                      class="message-square hand"
+                      :class="[
+                        model.annexType === 4 ? 'message-square__active' : ''
+                      ]"
+                      @click="showAnnex(4)"
+                    >
+                      <Icon
+                        type="xiaochengxu"
+                        className="message-square__icon message-square__xiaochengxu"
+                      />
+                      二维码海报
+                    </span>
+                  </ElFormGrid>
                 </ElFormItem>
                 <ElFormItem v-if="model.type !== 9" label="使用范围：">
                   <ElFormGrid>
@@ -385,8 +403,36 @@
                       <div class="message-circle message-circle--topleft"></div>
                     </div>
                   </div>
+                  <!--小程序 结束-->
+                  <!--二维码海报 开始-->
+                  <div
+                    class="message-msg clearfix"
+                    v-if="model.annexType === 4"
+                  >
+                    <div class="message-msg__avatar">
+                      <el-image
+                        :width="98"
+                        :height="100"
+                        style="width: 32px; height: 32px"
+                        src="https://img.alicdn.com/imgextra/i4/645690921/O1CN01Q1rjbi1IfrITTcm0O_!!645690921.jpg_430x430q90.jpg"
+                        mode="mfit"
+                      >
+                      </el-image>
+                    </div>
+                    <div class="message-image">
+                      <div class="message-figurelist clearfix">
+                        <el-image
+                          :width="175"
+                          :height="213"
+                          style="width: 175px; height: 213px"
+                          :src="model.placard"
+                        >
+                        </el-image>
+                      </div>
+                    </div>
+                  </div>
+                  <!--维码海报 结束-->
                 </ElScrollbar>
-                <!--小程序 结束-->
               </div>
               <div class="message-main__text">会员看到的界面</div>
             </el-main>
@@ -784,6 +830,23 @@
       </template>
     </ElDialog>
     <!--选择好友弹窗结束-->
+    <!-- 二维码start -->
+    <el-dialog
+      ref="linkDialog"
+      width="1000px"
+      :visible.sync="qrcodeModel.visible"
+      title="选择二维码海报"
+      :show-scroll-x="false"
+      :close-on-click-modal="false"
+      @close="onCloseHandleModel(2)"
+    >
+      <Qrcode v-if='qrcodeModel.visible' :qrcodeModel='qrcodeModel' ref='qrcode'/>
+      <div slot="footer" class="dialog-footer">
+        <ns-button @click="onCloseAnnex(4)">取消</ns-button>
+        <ns-button @click="handleSureQrcode" type="primary">确定</ns-button>
+      </div>
+    </el-dialog>
+    <!-- 二维码end -->
   </div>
 </template>
 <script>
