@@ -133,7 +133,8 @@ export default {
       replaceStoreShow: false,
       shopCateTree: [],
       allShopOptions: [],
-      shopOptions: []
+      shopOptions: [],
+      activeTab: {} // 切换tab之后保存数据，以防止第二次重新打开不请求表格数据
     }
   },
   mixins: [tableMixin],
@@ -174,6 +175,7 @@ export default {
     //   this.value = row
     // },
     handleClick (tab, event) {
+      this.activeTab = tab
       // 假如切换到积分tab
       if (tab.label.indexOf('基础信息') === -1 && tab.label.indexOf('交易信息') === -1) {
         this.restParams()
@@ -522,6 +524,9 @@ export default {
       }).then(resp => {
         if (resp.success && resp.result != null) {
           _this.shopKuhuShow = true
+          if (this.activeTab && this.activeTab.label) {
+            this.handleClick(this.activeTab)
+          }
           _this.items = resp.result
           if (_this.items.integralAccountList) {
             let length = _this.items.integralAccountList.length

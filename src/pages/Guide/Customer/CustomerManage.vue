@@ -1046,6 +1046,7 @@ export default CustomerManage
       }
     }
     @b hidden {
+      display: block;
       width: 125px;
       max-height: 28px;
       overflow: hidden;
@@ -1096,6 +1097,8 @@ export default CustomerManage
     @b form {
       @e wrapper {
         font-size: 12px;
+        position: relative;
+        left:25px;
         >>> .el-form-grid--xs {
           width: 125px;
         }
@@ -1148,7 +1151,7 @@ export default CustomerManage
     }
     @b conceal {
       display: inline-block;
-      width: calc(100% - 12px);
+      width: calc(100% - 50px);
       overflow: hidden;
       text-overflow: ellipsis;
       word-break: break-all;
