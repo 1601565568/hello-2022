@@ -355,7 +355,11 @@
         <div style="overflow-x:hidden;overflow-y:auto;">
           <el-table :data="detailData" stripe>
             <el-table-column prop="guideName" label="导购"></el-table-column>
-            <el-table-column prop="name" label="姓名"></el-table-column>
+            <el-table-column prop="name" label="姓名">
+              <template slot-scope="scope">
+                {{scope.row.name || '-'}}
+              </template>
+            </el-table-column>
             <el-table-column prop="createTime" label="招募时间" align="center" width="180"></el-table-column>
             <el-table-column prop="reward" label="奖励" align="right"></el-table-column>
           </el-table>
@@ -408,7 +412,7 @@
         <div style="overflow-x:hidden;overflow-y:auto;">
           <el-table :data="detailData">
             <el-table-column prop="guideName" label="导购" align="left"></el-table-column>
-            <el-table-column prop="name" label="名称" align="left"></el-table-column>
+            <el-table-column prop="name" label="姓名" align="left"></el-table-column>
             <el-table-column prop="tradeId" label="订单编号" align="center" width="180"></el-table-column>
             <el-table-column prop="payment" label="订单实付(含运费)" align="right"></el-table-column>
             <el-table-column prop="createTime" label="时间" align="center" width="150"></el-table-column>
