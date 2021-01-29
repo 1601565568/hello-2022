@@ -84,7 +84,7 @@ export default {
           commonState: 0,
           deluxeState: 0,
           id: '3166',
-          name: '二维码海报',
+          name: '老色逼',
           parentId: '3015',
           platinumState: 0,
           sort: 0,
