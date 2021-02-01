@@ -9,17 +9,13 @@ export default {
         page: 1,
         total: 0
       },
-      url: this.$api.guide.customerCode.findList,
+      url: this.$api.guide.lbs.findGroupList,
       // 筛选数据
       model: {
-        guideIds: [],
+        shopIds: [],
         name: '',
-        startTime: '',
-        endTime: '',
         status: -1
       },
-      // 筛选日期
-      seachDate: [],
       // 筛选名称
       seachVal: '',
       // 活动状态列表
@@ -64,59 +60,73 @@ export default {
           color: 'info'
         }
       },
+      // 查看参与门店弹框
       drawer: false,
+      // 弹框信息
+      dialogVisible: false,
       // 侧边栏信息
-      itemDate: {},
+      itemDate: {
+        data: [],
+        page: {
+          enable: true,
+          size: 15,
+          sizeOpts: [15, 25, 50, 100],
+          page: 1,
+          total: 0
+        }
+      },
+      // 弹框信息
+      dialogData: {
+        placard: '', // 海报地址
+        qrcode: '', // 二维码地址
+        lbsId: '', // 选择活动id
+        type: '' // 弹框类型 预览海报 poster 预览二维码qrcode
+      },
       activeIndex: -1
+      // data: [{
+      //   activityPlacard: 'https://shopguide.oss-cn-hangzhou.aliyuncs.com/GUIDE_GUEST_CODE/10000146/1611905489511/ceff2192-b277-4376-914a-0ff1c0c54570.png', // 海报
+      //   createTime: '2021-01-29 15:31:30', // 创建时间
+      //   loginAccount: 'lhl', // 创建人
+      //   name: '2222', // 活动名称
+      //   status: 2, // 状态  0 ：已结束 1：未开始 2：进行中 3: 提前结束
+      //   validTimeEnd: '2021-02-22 23:59:59', // 开始时间
+      //   validTimeStart: '2021-01-30 00:00:00', // 结束时间
+      //   validTimeType: 1, // 0: 永久 1: 非永久
+      //   shopNumber: 12, // 门店数量
+      //   qrcode: 'https://shopguide.oss-cn-hangzhou.aliyuncs.com/GUIDE_GUEST_CODE/10000146/1611905489511/ceff2192-b277-4376-914a-0ff1c0c54570.png', // 二维码
+      //   lbsId: '123111' // 唯一标示
+      // }, {
+      //   activityPlacard: 'https://shopguide.oss-cn-hangzhou.aliyuncs.com/GUIDE_GUEST_CODE/10000146/1611905489511/ceff2192-b277-4376-914a-0ff1c0c54570.png', // 海报
+      //   createTime: '2021-01-29 15:31:30', // 创建时间
+      //   loginAccount: 'lhl', // 创建人
+      //   name: '2222', // 活动名称
+      //   status: 2, // 状态  0 ：已结束 1：未开始 2：进行中 3: 提前结束
+      //   validTimeEnd: '2021-02-22 23:59:59', // 开始时间
+      //   validTimeStart: '2021-01-30 00:00:00', // 结束时间
+      //   validTimeType: 1, // 0: 永久 1: 非永久
+      //   shopNumber: 12, // 门店数量
+      //   qrcode: 'https://shopguide.oss-cn-hangzhou.aliyuncs.com/GUIDE_GUEST_CODE/10000146/1611905489511/ceff2192-b277-4376-914a-0ff1c0c54570.png', // 二维码
+      //   lbsId: '3333' // 唯一标示
+      // }]
     }
   },
   mixins: [tableMixin],
   methods: {
-    handleDetail (query = {}) {
-      this.$router.push({
-        path: '/Social/SocialOperation/CustomerCode/Edit',
-        query
-      })
-    },
+    // 搜索
+    // 修改搜索项
     changeSearchfrom (obj = {}) {
       this.model = Object.assign(this.model, obj)
       this.$searchAction$()
     },
-    handleChangeGuide (value) {
-      this.changeSearchfrom({ guideIds: value })
+    // 选择门店
+    handleChangeShop (value) {
+      this.changeSearchfrom({ shopIds: value })
     },
     handleSearch () {
       this.changeSearchfrom({ name: this.seachVal })
     },
-    // 编辑
-    handleEdit (obj) {
-      this.handleDetail(obj)
-    },
-    handleEnd (guestCodeId) {
-      this.$confirm('确定要结束活动吗？结束后将无法再开启', {
-        confirmButtonText: '确定',
-        type: 'warning',
-        cancelButtonText: '取消'
-      }).then(() => {
-        this.endActivity(guestCodeId)
-      })
-    },
-    // 结束活动
-    endActivity (guestCodeId) {
-      this.$http.fetch(this.$api.guide.customerCode.closeGuestCodeActivity, { guestCodeId })
-        .then(() => {
-          this.$searchAction$()
-        }).catch(() => {
-          vm.$notify.error('操作失败')
-        })
-    },
-    // 去报表
-    handleAnalysis (guestCodeId) {
-      this.$router.push({
-        path: '/Social/SocialOperation/CustomerCode/Analysis',
-        query: { guestCodeId }
-      })
-    },
+
+    // 查看门店操作
     // 关闭弹框
     handleClose () {
       this.activeIndex = -1
@@ -125,42 +135,18 @@ export default {
     // 打开侧边弹框
     handleShowDetail (item, index) {
       this.activeIndex = index
-      this.loadActivity(item.guestCodeId)
+      this.dialogData.lbsId = item.id
+      this.drawer = true
     },
-    // 请求详情信息
-    loadActivity (guestCodeId) {
-      this.$http.fetch(this.$api.guide.customerCode.getByGuestCodeId, { guestCodeId }).then(res => {
-        const { result } = res
-        this.itemDate = {
-          ...result,
-          statusColor: this.statusList[result.status].color,
-          statusText: this.statusList[result.status].value,
-          activityIntroductionHtml: this.jsonTotext(result.activityIntroduction)
-        }
-        this.drawer = true
-      })
-    },
-    jsonTotext (string) {
-      const tools = [
-        { id: 'EXTERNAL_CONTACT_NICK', value: '好友微信昵称' },
-        { id: 'USER_NICK', value: '员工微信昵称' },
-        { id: 'PROMOTION_URL', value: '推广大师查询链接' },
-        { id: 'RECRUIT_URL', value: '招募链接' },
-        { id: 'ACTIVITY_VALIT_TIME', value: '活动有效时间' }
-      ]
-      tools.map(item => {
-        const regexp = new RegExp('{' + item.id + '}', 'g')
-        string = string.replace(regexp, `<span style="background: #E8E8E8;border-radius: 12px;border-radius: 12px;padding:0 8px;margin:0 8px;font-size: 14px;color: #262626;line-height: 23px;">${item.value}</span>`).replace('\n', ' <br /> ')
-      })
-      return string
-    },
+    // 查看门店当前选择的活动
     tableRowClassName ({ row, rowIndex }) {
       if (rowIndex === this.activeIndex) {
         return { backgroundColor: '#D9EFFE' }
       }
       return ''
     },
-    getOhterGuide (type, cb) {
+    // 查看门店选择上一个或下一个活动
+    getOhter (type, cb) {
       const { page, size, total } = this._data._pagination
       if (type === 'prev') {
         if (this.activeIndex === 0) {
@@ -193,13 +179,59 @@ export default {
           }
         }
       }
+    },
+
+    // 数据操作栏
+    // 查看海报
+    handlePreviewPoster (item) {
+      this.dialogData.placard = item.activityPlacard
+      this.dialogData.type = 'poster'
+      this.dialogVisible = true
+    },
+    // 查看二维码
+    handlePreviewQrcode (item) {
+      this.dialogData.placard = item.activityPlacard
+      this.dialogData.type = 'qrcode'
+      this.dialogVisible = true
+    },
+    // 编辑
+    handleEdit (obj) {
+      this.handleDetail(obj)
+    },
+    // 结束活动
+    handleEnd (lbsId) {
+      this.$confirm('确定要结束活动吗？\n\r结束后将无法再开启，此活动码将失效，消费者无法扫码入群。', '提示信息', {
+        confirmButtonText: '确定',
+        type: 'warning',
+        cancelButtonText: '取消'
+      }).then(() => {
+        this.endActivity(lbsId)
+      })
+    },
+    // 结束活动api
+    endActivity (lbsId) {
+      this.$http.fetch(this.$api.guide.customerCode.closeGuestCodeActivity, { lbsId })
+        .then(() => {
+          this.$searchAction$()
+        }).catch(() => {
+          vm.$notify.error('操作失败')
+        })
+    },
+    // 去报表
+    handleAnalysis (lbsId) {
+      this.$router.push({
+        path: '/Social/LBS/Group/Analysis',
+        query: { lbsId }
+      })
+    },
+    // 跳转详情
+    handleDetail (query = {}) {
+      this.$router.push({
+        path: '/Social/LBS/Group/Edit',
+        query
+      })
     }
-  },
-  watch: {
-    seachDate (newVal) {
-      const date = newVal || [null, null]
-      this.changeSearchfrom({ startTime: date[0], endTime: date[1] })
-    }
+    //
   },
   mounted () {
     this.$searchAction$()

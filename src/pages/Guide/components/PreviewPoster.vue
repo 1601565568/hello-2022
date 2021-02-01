@@ -1,37 +1,61 @@
 <template>
-  <el-dialog title="海报" :visible="dialogVisible" width='500px' @close='handleClose' append-to-body>
-    <el-form class='normal-from' label-width="60px" label-position='left'>
-      <el-form-item class='larger-item'>
-        <template slot='label'>
-          <span>链接</span>
-          <el-tooltip content="因企业微信生成联系我二维码数量限制，请合理设置过期时间"  placement="top">
-            <Icon type="question-circle" class='question-circle' />
-          </el-tooltip>
-        </template>
-        <div class='flex-box'>
-          <el-input :value='url' readonly/>
-          <ns-button type='text' class='copy' v-copy='url'>复制</ns-button>
-        </div>
-      </el-form-item>
-      <el-form-item label='海报图'>
-        <div class='flex-box bottom'>
-          <!-- <div  class='preview-img'>
-            <div class='hover' @click='handlePreview(url)'>
-              预览
-            </div>
-            <img :src='url'/>
-          </div> -->
-          <el-image
-            class='preview-img'
-            :src="url"
-            :preview-src-list="[url]">
-          </el-image>
-          <ns-button class='copy' icon='el-icon-download' @click="handleDownload(url)">
-            下载
-          </ns-button>
-        </div>
-      </el-form-item>
-    </el-form>
+  <el-dialog :title="title" :visible="dialogVisible" width='500px' @close='handleClose' append-to-body>
+    <template v-if='type==="poster"'>
+      <el-form class='normal-from' label-width="60px" label-position='left'>
+        <el-form-item class='larger-item'>
+          <template slot='label'>
+            <span>链接</span>
+            <el-tooltip content="因企业微信生成联系我二维码数量限制，请合理设置过期时间"  placement="top">
+              <Icon type="question-circle" class='question-circle' />
+            </el-tooltip>
+          </template>
+          <div class='flex-box'>
+            <el-input :value='url' readonly/>
+            <ns-button type='text' class='copy' v-copy='url'>复制</ns-button>
+          </div>
+        </el-form-item>
+        <el-form-item label='海报图'>
+          <div class='flex-box bottom'>
+            <!-- <div  class='preview-img'>
+              <div class='hover' @click='handlePreview(url)'>
+                预览
+              </div>
+              <img :src='url'/>
+            </div> -->
+            <el-image
+              class='preview-img'
+              :src="url"
+              :preview-src-list="[url]">
+            </el-image>
+            <ns-button class='copy' icon='el-icon-download' @click="handleDownload(url)">
+              下载
+            </ns-button>
+          </div>
+        </el-form-item>
+      </el-form>
+    </template>
+    <template v-else-if='type==="qrcode"'>
+      <el-form class='normal-from' label-width="60px" label-position='left'>
+        <el-form-item label='  '>
+          <div class='flex-box bottom'>
+            <!-- <div  class='preview-img'>
+              <div class='hover' @click='handlePreview(url)'>
+                预览
+              </div>
+              <img :src='url'/>
+            </div> -->
+            <el-image
+              class='preview-img qrcode'
+              :src="url"
+              :preview-src-list="[url]">
+            </el-image>
+            <ns-button class='copy' icon='el-icon-download' @click="handleDownload(url)">
+              下载
+            </ns-button>
+          </div>
+        </el-form-item>
+      </el-form>
+    </template>
     <preview ref="preview"></preview>
     <div slot="footer" class="dialog-footer">
       <ns-button @click="handleClose" type="primary">确定</ns-button>
@@ -49,7 +73,16 @@ export default {
     }
   },
   components: { Preview, ElImage },
-  props: ['url', 'dialogVisible'],
+  props: {
+    url: {},
+    dialogVisible: {},
+    type: {
+      default: 'poster'
+    },
+    title: {
+      default: '海报'
+    }
+  },
   methods: {
     // 下载
     handleDownload (url) {
@@ -97,6 +130,10 @@ export default {
       width: 122px;
       height: 216px;
       position: relative;
+      &.qrcode {
+        width: 221px;
+        height: 221px;
+      }
       img {
         height: 100%;
         width: 100%;

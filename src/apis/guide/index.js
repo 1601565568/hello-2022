@@ -36,6 +36,7 @@ import operationConfig from './operationConfig'
 import customerService from './customerService'
 import custom from './custom'
 import qrcodePoster from './qrcodePoster'
+import lbs from './lbs'
 export default {
   secruitmentSet,
   guide,
@@ -75,6 +76,7 @@ export default {
   customerService,
   custom,
   qrcodePoster,
+  lbs,
   // 所有导购模块全部整合在此
   comGetBrandForShopList: {
     // 获取品牌下的店铺

@@ -1,3 +1,4 @@
+import Message from '@nascent/nui/lib/message.js'
 export default {
   bind (el, { value }) {
     el.$value = value

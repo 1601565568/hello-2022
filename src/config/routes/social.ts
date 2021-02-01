@@ -461,6 +461,39 @@ export default {
           'component': () => import('@/pages/Guide/LBS/Group/Analysis.vue')
         }
       ]
+    },
+    {
+      path: '/Social/LBS/Friends',
+      name: 'Friends',
+      title: 'LBS好友聚合码',
+      meta: { requiresAuth: true },
+      component: () => import('@nascent/ecrp-ecrm/src/layout/Content.vue'),
+      redirect: {
+        path: '/Social/LBS/Friends/Index'
+      },
+      children: [
+        {
+          path: '/Social/LBS/Friends/Index',
+          name: 'FriendsIndex',
+          meta: { requiresAuth: true },
+          title: 'LBS好友聚合码',
+          'component': () => import('@/pages/Guide/LBS/Friends/Index.vue')
+        },
+        {
+          path: '/Social/LBS/Friends/Edit',
+          name: 'FriendsEdit',
+          meta: { requiresAuth: true },
+          title: 'LBS好友聚合码',
+          'component': () => import('@/pages/Guide/LBS/Friends/Edit.vue')
+        },
+        {
+          path: '/Social/LBS/Friends/Analysis',
+          name: 'FriendsAnalysis',
+          meta: { requiresAuth: true },
+          title: 'LBS好友聚合码',
+          'component': () => import('@/pages/Guide/LBS/Friends/Analysis.vue')
+        }
+      ]
     }
   ]
 }
