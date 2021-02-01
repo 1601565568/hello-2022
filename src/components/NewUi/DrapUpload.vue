@@ -3,16 +3,18 @@
     <el-upload
       class="upload-demo"
       ref='upload'
-      drag
+      :drag='drag'
       accept=".jpg,.jpeg,.png"
       :action="$api.core.sgUploadFile('test')"
       :on-remove='handleRemove'
       :show-file-list='false'
       :before-upload="beforeUpload"
       :on-success="handleUploadSuccess">
-      <i class="el-icon-upload"></i>
-      <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
-      <div class="el-upload__tip" slot="tip" v-if='tip'>{{tip}}</div>
+      <template v-if='drag'>
+        <i class="el-icon-upload"></i>
+        <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
+        <div class="el-upload__tip" slot="tip" v-if='tip'>{{tip}}</div>
+      </template>
     </el-upload>
     <div class='el-upload-list el-upload-list--text' v-if='fileList'>
       <div class='el-upload-list__item'>
@@ -95,6 +97,10 @@ export default {
     showPont: {
       type: Boolean,
       default: true
+    },
+    // 是否拖拽
+    drag: {
+      default: true
     }
   },
   methods: {
@@ -128,7 +134,7 @@ export default {
             this.fileList = file.name
           } else {
             this.fileList = this.value
-            const msg = `上传图片尺寸只能是${this.maxWidth && this.maxHeight ? this.maxWidth + 'x' + this.maxHeight : this.scaleTip}`
+            const msg = `上传图片尺寸只能是${this.maxWidth && this.maxHeight ? this.maxWidth + 'x' + this.maxHeight : this.maxWidth ? '宽' + this.maxWidth : this.scaleTip}`
             this.$notify.error(msg)
           }
         }

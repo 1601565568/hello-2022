@@ -228,10 +228,10 @@ export default {
         })
     },
     // 去报表
-    handleAnalysis (lbsId) {
+    handleAnalysis (id) {
       this.$router.push({
         path: '/Social/LBS/Group/Analysis',
-        query: { lbsId }
+        query: { id }
       })
     },
     // 跳转详情
