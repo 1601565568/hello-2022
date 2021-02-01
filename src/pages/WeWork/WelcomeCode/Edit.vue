@@ -684,7 +684,7 @@
     <!-- 渠道弹框 -->
     <el-dialog
       ref="channelDialog"
-      width="320px"
+      width="640px"
       :visible.sync="channelModel.visible"
       title="选择渠道"
     >
@@ -692,6 +692,8 @@
         <el-select
           multiple
           v-model="channelModel.channelCodes"
+          style='width:600px'
+          filterable
           placeholder="请选择"
         >
           <el-option

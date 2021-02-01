@@ -820,6 +820,19 @@
                   <el-checkbox v-for="item2 in scope.row.value.split('|')" :label="item2" :key="item2"
                                @change="addCheckbox(scope.row,item2)">{{item2}}</el-checkbox>
                 </el-checkbox-group>
+                <!--中台新增日期时间控件，前端之后实现-->
+                <!--日期时间-->
+                <!-- <el-date-picker
+                  v-model="scope.row.selectValue"
+                  type='datetime'
+                  value-format="yyyy-MM-dd HH:mm:ss"
+                  placeholder="请选择日期"
+                  v-else-if="scope.row.tagType===8"
+                  :default-time="['00:00:00','23:59:59']"
+                  @change="addDate(scope.row)"
+                  :disabled="scope.row.isMark"
+                  align="right">
+                </el-date-picker> -->
               </div>
             </template>
           </el-table-column>
@@ -1033,6 +1046,7 @@ export default CustomerManage
       }
     }
     @b hidden {
+      display: block;
       width: 125px;
       max-height: 28px;
       overflow: hidden;
@@ -1083,6 +1097,8 @@ export default CustomerManage
     @b form {
       @e wrapper {
         font-size: 12px;
+        position: relative;
+        left:25px;
         >>> .el-form-grid--xs {
           width: 125px;
         }
@@ -1135,7 +1151,7 @@ export default CustomerManage
     }
     @b conceal {
       display: inline-block;
-      width: calc(100% - 12px);
+      width: calc(100% - 50px);
       overflow: hidden;
       text-overflow: ellipsis;
       word-break: break-all;

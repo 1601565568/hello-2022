@@ -386,7 +386,7 @@
     <!-- 高级搜索-结束 -->
     <div style="overflow-x:hidden;overflow-y:auto;">
       <el-table :data="detailData">
-        <el-table-column prop="name" label="名称"></el-table-column>
+        <el-table-column prop="name" label="姓名"></el-table-column>
         <el-table-column prop="tradeId" label="订单编号" align="center"></el-table-column>
         <el-table-column prop="payment" label="订单实付(含运费)" align="right" width="150"></el-table-column>
         <el-table-column prop="createTime" label="时间" align="center" width="200"></el-table-column>

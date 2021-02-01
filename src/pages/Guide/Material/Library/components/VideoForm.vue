@@ -64,7 +64,7 @@
               :on-success="handleVideoSuccess"
               :on-error="handleVideoError"
               :before-upload="beforeVideoUpload"
-              accept=".mp4"
+              accept=".mp4,.MP4"
               list-type="picture-card"
             >
               <Icon type="plus"/>

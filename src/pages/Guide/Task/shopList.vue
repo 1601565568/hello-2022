@@ -120,7 +120,7 @@
       >
       <template slot-scope="scope" class="operation">
           <ns-button @click="AddShowToggle(scope.row)" type="text">详情</ns-button>
-          <ns-button @click="deleteToggle(scope.row)" type="text">删除</ns-button>
+          <ns-button v-if="scope.row.state === 5" @click="deleteToggle(scope.row)" type="text">删除</ns-button>
       </template>
       </el-table-column>
     </el-table>
