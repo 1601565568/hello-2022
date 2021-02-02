@@ -288,6 +288,52 @@ export default {
               'component': () => import('@/pages/Guide/CustomerCode/Analysis.vue')
             }
           ]
+        },
+        {
+          'path': '/Social/SocialOperation/QrcodePoster/List',
+          'name': 'qrcodePoster',
+          'title': '二维码海报',
+          'component': () => import('@nascent/ecrp-ecrm/src/layout/ContentOnly.vue'),
+          'redirect': {
+            'name': 'WeChatQrCodePlacard'
+          },
+          'children': [
+            {
+              'path': '/Social/SocialOperation/QrcodePoster/List',
+              'name': 'WeChatQrCodePlacard',
+              'title': '二维码海报',
+              'component': () => import('@/pages/Guide/QrcodePoster/List.vue')
+            },
+            {
+              'path': '/Social/SocialOperation/QrcodePoster/Edit',
+              'name': 'QrcodePosterEdit',
+              'title': '编辑二维码海报',
+              'component': () => import('@/pages/Guide/QrcodePoster/Edit.vue')
+            }
+          ]
+        },
+        {
+          'path': '/Social/SocialOperation/QrcodePosterGH/List',
+          'name': 'qrcodePoster',
+          'title': '二维码海报（个号）',
+          'component': () => import('@nascent/ecrp-ecrm/src/layout/ContentOnly.vue'),
+          'redirect': {
+            'name': 'WeWorkQrCodePlacard'
+          },
+          'children': [
+            {
+              'path': '/Social/SocialOperation/QrcodePosterGH/List',
+              'name': 'WeWorkQrCodePlacard',
+              'title': '二维码海报（个号）',
+              'component': () => import('@/pages/Guide/QrcodePoster/List.vue')
+            },
+            {
+              'path': '/Social/SocialOperation/QrcodePosterGH/Edit',
+              'name': 'QrcodePosterEdit',
+              'title': '编辑二维码海报（个号）',
+              'component': () => import('@/pages/Guide/QrcodePoster/Edit.vue')
+            }
+          ]
         }
       ]
     },
@@ -380,6 +426,12 @@ export default {
               component: () => import('@/pages/WeWork/CRMTectonicMigration/AnalysisData/EnterpriseWechatFriendData/index.vue')
             }
           ]
+        },
+        {
+          'path': '/Social/OperationData/CircleOfFriends',
+          'name': 'CircleOfFriends',
+          'title': '朋友圈统计',
+          'component': () => import('@/pages/WeWork/CircleofFriends/index.vue')
         }
       ]
     }

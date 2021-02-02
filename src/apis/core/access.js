@@ -51,7 +51,8 @@ export default {
         const jsonResult = JSON.parse(JSON.stringify(res.data.result))
         let user = {
           nick: jsonResult.userName || '',
-          nickId: jsonResult.userId || ''
+          nickId: jsonResult.userId || '',
+          groupId: jsonResult.groupId || 0
         }
         const productConfig = res.data.result.productConfig || {}
         res.data.result = {

@@ -105,7 +105,7 @@ export default {
       let tempShopArray = []
       let isExecute = false
       let tempShopStr = []
-      let temp = this.manualValue.replace(/[\r\n]/g, '')
+      let temp = this.manualValue ? this.manualValue.replace(/[\r\n]/g, '') : ''
       if (temp !== '' && temp !== null) {
         if (temp.startsWith(',') || temp.endsWith(',') || temp.startsWith('，') || temp.endsWith('，')) {
           this.$notify.info('请输入正确的外部店铺编码')

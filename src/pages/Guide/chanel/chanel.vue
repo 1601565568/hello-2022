@@ -108,7 +108,7 @@
           align="center">
         <template slot-scope="scope">
           <ns-button @click="AddShowToggle(scope.row)" type="text">编辑</ns-button>
-          <a href="javascript:" @click="delsTipFun(scope.row.id)">删除</a>
+          <ns-button type="text" @click="delsTipFun(scope.row.id)">删除</ns-button>
         </template>
         </el-table-column>
       </el-table>

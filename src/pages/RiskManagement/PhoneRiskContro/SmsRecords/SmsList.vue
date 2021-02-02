@@ -119,8 +119,7 @@
         </el-table-column>
         <el-table-column prop="content" label="短信内容" :show-overflow-tooltip="true">
           <template slot-scope="scope">
-            <span style="text-overflow:ellipsis; overflow: hidden; white-space: nowrap;
-}" :title="scope.row.content">{{scope.row.content}}</span>
+            <span>{{scope.row.content}}</span>
           </template>
         </el-table-column>
         <el-table-column prop="sendTime" label="发送时间" align="center" width="160">

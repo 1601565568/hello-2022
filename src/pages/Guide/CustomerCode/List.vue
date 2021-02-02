@@ -160,7 +160,7 @@
 <script>
 import List from './src/List'
 import NsGuideDialog from '@/components/NsGuideDialog'
-import PageTable from './components/PageTable'
+import PageTable from '@/components/NewUi/PageTable'
 import ElDrawer from '@nascent/nui/lib/drawer'
 import ItemDrawer from './components/List/ItemDrawer'
 List.components = {

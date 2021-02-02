@@ -126,11 +126,13 @@
               <template slot-scope="scope">
                 <div>
                 <div class="remark">{{scope.row.remark || '-'}}</div>
-                <div v-if="scope.row && scope.row.urlJson" class="urkJsonimageWarpper">
-                  <div class="urkJsonimage" v-for="(item,index) in formatUrlJson(scope.row.urlJson)" :key="index" >
-                    <img :src="item"/>
+                <div class="urkJsonimageContent">
+                  <div v-if="scope.row && scope.row.urlJson" class="urkJsonimageWarpper">
+                    <div class="urkJsonimage" v-for="(item,index) in formatUrlJson(scope.row.urlJson)" :key="index" >
+                      <img :src="item"/>
+                    </div>
                   </div>
-                  <span  title="点击查看全部" @click="onShowPic(scope.row.urlJson)">共{{scope.row.urlJson.split(',').length}}张</span>
+                  <span class='urkJsonimageSpan' title="点击查看全部" @click="onShowPic(scope.row.urlJson)">共{{scope.row.urlJson.split(',').length}}张</span>
                 </div>
                 </div>
               </template>
@@ -502,9 +504,21 @@ export default taskDetail
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
 }
-.urkJsonimageWarpper {
+.urkJsonimageContent {
   display: flex;
   align-items: flex-end;
+  flex-wrap: wrap;
+}
+.urkJsonimageWarpper {
+  display: flex;
+  flex-wrap: wrap;
+}
+.urkJsonimageSpan {
+  display: block;
+  cursor: pointer;
+  display: inline-block;
+  font-size: 14px;
+  color: #0094FC;
 }
 .urkJsonimage{
   width: 32px;
@@ -523,11 +537,5 @@ export default taskDetail
 .remake-warpper {
   display: flex;
   align-items: center;
-}
-.urkJsonimageWarpper span {
-  cursor: pointer;
-  display: inline-block;
-  font-size: 14px;
-  color: #0094FC;
 }
 </style>

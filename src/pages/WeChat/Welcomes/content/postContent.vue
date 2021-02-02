@@ -30,6 +30,14 @@
             <div v-if="scope.row.type === 'link'" class="message-item message-item--title">{{scope.row.title}} </div>
             <!-- type=5 小程序 -->
             <div v-if="scope.row.type === 'sendLittleProgram'" class="message-item message-item--title">{{scope.row.title}}</div>
+            <!-- type=6 二维码海报 -->
+            <div v-if="scope.row.type === 'placard'" class="message-item message-item--title">
+               <ElImage
+                :height="46"
+                :width="76"
+                mode="mfit"
+                :src="scope.row.placard"/>
+            </div>
           </template>
         </ElTableColumn>
         <ElTableColumn label="内容类型" align="center" width="80">
@@ -39,6 +47,7 @@
             <template v-if="scope.row.type === 'video'">视频</template>
             <template v-if="scope.row.type === 'link'">链接</template>
             <template v-if="scope.row.type === 'sendLittleProgram'">小程序</template>
+            <template v-if="scope.row.type === 'placard'">二维码海报</template>
           </template>
         </ElTableColumn>
         <ElTableColumn label="发送顺序" align="center" width="100" >
@@ -121,6 +130,10 @@
               <Icon type="wechat" className="font-size-xlarge cursor-pointer message-hovericolor"/>
               <div class="message-prompt__mass--topspace cursor-pointer message-hovericolor">小程序</div>
             </div>
+            <div class="message-prompt__mass" @click="openPoster(null)">
+              <Icon type="poster" className="font-size-xlarge cursor-pointer message-hovericolor"/>
+              <div class="message-prompt__mass--topspace cursor-pointer message-hovericolor">二维码海报</div>
+            </div>
           </div>
           <NsButton type="text" slot="reference"><Icon type="plus" />添加消息内容</NsButton>
         </ElPopover>
@@ -149,6 +162,24 @@
     <!-- 小程序弹框 start -->
     <appletDialog @addApplet="addApplet"  @close="close" :dialogVisibleApplet="dialogVisibleApplet" :appletModel="appletModel"/>
     <!-- 小程序弹框 end -->
+
+    <!-- 二维码弹框 start -->
+    <el-dialog
+      ref="linkDialog"
+      width="1000px"
+      :visible.sync="dialogVisiblePoster"
+      title="选择二维码海报"
+      :show-scroll-x="false"
+      :close-on-click-modal="false"
+      @close="close('placard')"
+    >
+      <Qrcode v-if='dialogVisiblePoster' :qrcodeModel='qrcodeModel' ref='qrcode'/>
+      <div slot="footer" class="dialog-footer">
+        <ns-button @click="close('placard')">取消</ns-button>
+        <ns-button @click="handleSureQrcode" type="primary">确定</ns-button>
+      </div>
+    </el-dialog>
+    <!-- 二维码弹框 end -->
   </div>
 </template>
 <script>
@@ -159,6 +190,7 @@ import imageDialog from '../dialog/image'
 import videoDialog from '../dialog/video'
 import linkDialog from '../dialog/link'
 import appletDialog from '../dialog/applet'
+import Qrcode from '../../../WeWork/WelcomeCode/components/Qrcode'
 export default {
   components: {
     ElUpload,
@@ -167,7 +199,8 @@ export default {
     imageDialog,
     videoDialog,
     linkDialog,
-    appletDialog
+    appletDialog,
+    Qrcode
   },
   props: ['publishDataFather', 'presetLinkFather'],
   data () {
@@ -210,6 +243,8 @@ export default {
       dialogVisibleWeb: false,
       // 小程序弹框是否打开判断值
       dialogVisibleApplet: false,
+      // 二维码海报弹框
+      dialogVisiblePoster: false,
       textModel: {
         type: 'text',
         sleepTime: 1000, // 休眠时间  默认1200毫秒
@@ -251,6 +286,14 @@ export default {
         faceFilename: '', // 图片封面名称
         url: '', // 备用网页
         page: '' // 小程序路径
+      },
+      qrcodeModel: {
+        configId: null, // 海报id
+        createTime: '', // 创建时间
+        loginAccount: '', // 创建人
+        placard: '', // 海报地址
+        title: '', // 海报名称
+        type: 'placard'
       }
     }
   },
@@ -269,6 +312,8 @@ export default {
         this.openWeb(object)
       } else if (object.type === 'sendLittleProgram') {
         this.openApplet(object)
+      } else if (object.type === 'placard') {
+        this.openPoster(object)
       }
     },
     // 编辑模板
@@ -287,6 +332,8 @@ export default {
         this.dialogVisibleWeb = false
       } else if (type === 'sendLittleProgram') {
         this.dialogVisibleApplet = false
+      } else if (type === 'placard') {
+        this.dialogVisiblePoster = false
       }
     },
     // 删除模板
@@ -602,6 +649,52 @@ export default {
       var a = this.publishData[index]
       this.publishData.splice(index, 1)
       this.publishData.push(a)
+    },
+    // 二维码海报
+    openPoster (item) {
+      if (item) {
+        this.qrcodeModel = { ...item }
+      } else {
+        this.qrcodeModel = {
+          configId: null, // 海报id
+          createTime: '', // 创建时间
+          loginAccount: '', // 创建人
+          placard: '', // 海报地址
+          title: '', // 海报名称
+          type: 'placard'
+        }
+      }
+      this.dialogVisiblePoster = true
+    },
+    // 添加二维码
+    handleSureQrcode () {
+      const model = this.$refs.qrcode.onSave()
+      if (!model) {
+        return
+      }
+      if (this.indexExist()) {
+        const item = {
+          ...this.publishData[this.index],
+          configId: model.id, // 海报id
+          createTime: model.createTime, // 创建时间
+          loginAccount: model.loginAccount, // 创建人
+          placard: model.placard, // 海报地址
+          title: model.title, // 海报名称
+          type: 'placard'
+        }
+        this.$set(this.publishData, this.index, item)
+      } else {
+        const posterModel = {
+          configId: model.id, // 海报id
+          createTime: model.createTime, // 创建时间
+          loginAccount: model.loginAccount, // 创建人
+          placard: model.placard, // 海报地址
+          title: model.title, // 海报名称
+          type: 'placard'
+        }
+        this.publishData.push(posterModel)
+      }
+      this.dialogVisiblePoster = false
     }
   },
   watch: {
