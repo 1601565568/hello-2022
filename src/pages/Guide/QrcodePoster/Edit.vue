@@ -66,9 +66,11 @@
           </template>
           <template slot='collapse-right'>
             <div class='chat-content' :style='{backgroundImage:"url("+model.background+")"}'>
-              <VueDragResize :w="model.textW" :h='model.textW' :parentLimitation="true"  :x='model.textX' :y='model.textY' @dragstop="onDragResize" :aspectRatio='true' @resizestop='onDragResize' :sticks="['tl','tr','bl','br']">
-                <img src='@/assets/qrcode.png' style='width:100%;height:100%'>
-              </VueDragResize>
+              <template v-if='isLoading'>
+                <VueDragResize :w="model.textW" :h='model.textW' :parentLimitation="true"  :x='model.textX' :y='model.textY' @dragstop="onDragResize" :aspectRatio='true' @resizestop='onDragResize' :sticks="['tl','tr','bl','br']">
+                  <img src='@/assets/qrcode.png' style='width:100%;height:100%'>
+                </VueDragResize>
+              </template>
             </div>
           </template>
           <template slot='collapse-right__bottom'>

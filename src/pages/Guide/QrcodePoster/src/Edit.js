@@ -45,7 +45,8 @@ export default {
           callback()
         }
       },
-      isQY: true // 是否是企微
+      isQY: true, // 是否是企微
+      isLoading: false
     }
   },
   mounted () {
@@ -83,6 +84,8 @@ export default {
       const { id } = this.$route.query
       if (id) {
         this.getResultPageConfig(id)
+      } else {
+        this.isLoading = true
       }
     },
     // 请求公众号列表
@@ -114,6 +117,9 @@ export default {
             textY: result.qrcodeY,
             sceneStr: this.stringTohtml(result.sceneStr)
           }
+          this.$nextTick(() => {
+            this.isLoading = true
+          })
         }
       }).catch(err => {
         this.$notify.error(err.msg)
