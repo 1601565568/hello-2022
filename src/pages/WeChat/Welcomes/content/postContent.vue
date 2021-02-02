@@ -130,8 +130,8 @@
               <Icon type="wechat" className="font-size-xlarge cursor-pointer message-hovericolor"/>
               <div class="message-prompt__mass--topspace cursor-pointer message-hovericolor">小程序</div>
             </div>
-            <div class="message-prompt__mass" @click="openPoster">
-              <Icon type="wechat" className="font-size-xlarge cursor-pointer message-hovericolor"/>
+            <div class="message-prompt__mass" @click="openPoster(null)">
+              <Icon type="poster" className="font-size-xlarge cursor-pointer message-hovericolor"/>
               <div class="message-prompt__mass--topspace cursor-pointer message-hovericolor">二维码海报</div>
             </div>
           </div>
@@ -171,11 +171,11 @@
       title="选择二维码海报"
       :show-scroll-x="false"
       :close-on-click-modal="false"
-      @close="close"
+      @close="close('placard')"
     >
       <Qrcode v-if='dialogVisiblePoster' :qrcodeModel='qrcodeModel' ref='qrcode'/>
       <div slot="footer" class="dialog-footer">
-        <ns-button @click="close">取消</ns-button>
+        <ns-button @click="close('placard')">取消</ns-button>
         <ns-button @click="handleSureQrcode" type="primary">确定</ns-button>
       </div>
     </el-dialog>
@@ -312,6 +312,8 @@ export default {
         this.openWeb(object)
       } else if (object.type === 'sendLittleProgram') {
         this.openApplet(object)
+      } else if (object.type === 'placard') {
+        this.openPoster(object)
       }
     },
     // 编辑模板
@@ -649,12 +651,27 @@ export default {
       this.publishData.push(a)
     },
     // 二维码海报
-    openPoster () {
+    openPoster (item) {
+      if (item) {
+        this.qrcodeModel = { ...item }
+      } else {
+        this.qrcodeModel = {
+          configId: null, // 海报id
+          createTime: '', // 创建时间
+          loginAccount: '', // 创建人
+          placard: '', // 海报地址
+          title: '', // 海报名称
+          type: 'placard'
+        }
+      }
       this.dialogVisiblePoster = true
     },
     // 添加二维码
     handleSureQrcode () {
       const model = this.$refs.qrcode.onSave()
+      if (!model) {
+        return
+      }
       if (this.indexExist()) {
         const item = {
           ...this.publishData[this.index],
@@ -665,7 +682,7 @@ export default {
           title: model.title, // 海报名称
           type: 'placard'
         }
-        this.publishData[this.index] = item
+        this.$set(this.publishData, this.index, item)
       } else {
         const posterModel = {
           configId: model.id, // 海报id
