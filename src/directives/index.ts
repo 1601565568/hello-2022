@@ -7,7 +7,7 @@ export interface VueNotificationsPlugin {
 }
 const Index: VueNotificationsPlugin = {
   install (vue, options) {
-    vue.directive('autofocus', copy)
+    vue.directive('copy', copy)
   }
 }
 
