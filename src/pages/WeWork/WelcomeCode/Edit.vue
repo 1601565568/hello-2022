@@ -179,7 +179,7 @@
                       @click="showAnnex(4)"
                     >
                       <Icon
-                        type="xiaochengxu"
+                        type="poster"
                         className="message-square__icon message-square__xiaochengxu"
                       />
                       二维码海报
