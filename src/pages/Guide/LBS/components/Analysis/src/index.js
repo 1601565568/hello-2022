@@ -20,6 +20,7 @@ export default {
   methods: {
     handleChangeType (activeType) {
       this.activeType = activeType
+      console.log(this.activeType)
     }
   }
 }
