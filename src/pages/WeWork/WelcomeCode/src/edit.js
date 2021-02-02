@@ -11,6 +11,7 @@ import { getErrorMsg } from '@/utils/toast'
 import NsGuideDialog from '@/components/NsGuideDialog/index'
 import NsShopDialog from '@/components/NsShopDialog/index'
 import NsTextarea from '@/components/NsTextarea/index'
+import Qrcode from '../components/Qrcode'
 export default {
   name: 'Edit',
   mixins: [scrollHeight],
@@ -24,7 +25,8 @@ export default {
     NsEmployeeOrCustGroupDialog,
     NsGuideDialog,
     NsShopDialog,
-    NsTextarea
+    NsTextarea,
+    Qrcode
   },
   data: function () {
     // 图片配置model
@@ -153,7 +155,12 @@ export default {
           key: 'CustomerNick',
           label: '客户昵称'
         }
-      ]
+      ],
+      qrcodeModel: {
+        visible: false,
+        configId: null,
+        placard: ''
+      } // 二维码海报
     }
   },
   computed: {
@@ -252,6 +259,14 @@ export default {
       this.$refs['appModelPath'].focus()
       this.appModel.path = this.appModel.path + append
     },
+    handleSureQrcode () {
+      const result = this.$refs.qrcode.onSave()
+      if (result) {
+        this.qrcodeModel.configId = result.id
+        this.qrcodeModel.placard = result.placard
+        this.onSubmitAnnex(4)
+      }
+    },
     /**
      * @msg: 选择附件内容
      * @param {Number} 2链接 3小程序
@@ -263,6 +278,8 @@ export default {
         this.linkModel.visible = true
       } else if (type === 3) {
         this.appModel.visible = true
+      } else if (type === 4) {
+        this.qrcodeModel.visible = true
       }
       // 数据预处理
       if (type === 1 && this.model.annexType === 1) {
@@ -294,6 +311,13 @@ export default {
           desc: that.model.desc, // 文案
           image: that.model.image // 封面
         }
+      } else if (type === 4 && this.model.annexType === 4) {
+        // 海报实体model
+        that.qrcodeModel = {
+          visible: that.qrcodeModel.visible,
+          configId: that.model.configId, // 默认自定义
+          placard: that.model.placard
+        }
       }
     },
     /**
@@ -306,6 +330,8 @@ export default {
         this.linkModel.visible = false
       } else if (type === 3) {
         this.appModel.visible = false
+      } else if (type === 4) {
+        this.qrcodeModel.visible = false
       }
     },
     /**
@@ -412,6 +438,14 @@ export default {
           // 最后修改附件类型
           that.model.annexType = type
         })
+      } else if (type === 4) {
+        this.model.configId = that.qrcodeModel.configId
+        this.model.placard = that.qrcodeModel.placard
+        // 关闭
+        that.onCloseAnnex(type)
+        that.onSubmitHandleModel(type)
+        // 最后修改附件类型
+        that.model.annexType = type
       }
     },
     /**
@@ -596,6 +630,9 @@ export default {
         annexContent.title = that.model.title
         annexContent.desc = that.model.desc
         annexContent.image = that.model.image
+      } else if (that.model.annexType === 4) {
+        annexContent.configId = that.model.configId
+        annexContent.placard = that.model.placard
       }
       // 附带内容json
       that.model.annexContent = JSON.stringify(annexContent)
@@ -673,6 +710,9 @@ export default {
               that.model.title = annexContent.title
               that.model.desc = annexContent.desc
               that.model.image = annexContent.image
+            } else if (that.model.annexType === 4) {
+              that.model.configId = annexContent.configId
+              that.model.placard = annexContent.placard
             }
           }).catch(resp => {
             that.$notify.error(resp.msg)
