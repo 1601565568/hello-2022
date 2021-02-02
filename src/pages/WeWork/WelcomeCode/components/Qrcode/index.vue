@@ -23,7 +23,7 @@
         </el-form-item>
       </el-form>
     </div>
-    <div style="max-height:400px; overflow: hidden">
+    <div>
       <el-scrollbar>
         <el-table
           ref="table"

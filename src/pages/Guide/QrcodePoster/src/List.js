@@ -71,9 +71,10 @@ export default {
     endActivity (configId) {
       this.$http.fetch(this.$api.guide.qrcodePoster.deleteByConfigId, { configId })
         .then(() => {
+          this.$notify.success('删除成功')
           this.$searchAction$()
         }).catch(() => {
-          vm.$notify.error('操作失败')
+          this.$notify.error('操作失败')
         })
     },
     // 下载

@@ -35,12 +35,29 @@
                     </el-option>
                   </el-select>
                 </el-form-item>
-                <el-form-item label='添加占位符' required prop='background'  class='larger-item' :rules="[
-                  { required: true, message: '请填写提示文案', trigger: ['blur', 'change'] },
+                <el-form-item label='添加占位符' prop='background'  class='larger-item' :rules="[
                   { validator: validatesText.bind(this, textLength), trigger: ['blur', 'change'] }
                 ]">
                   <div class='form-item_exmple__content'>
                     <span>官方限制，最多支持64位长度参数，若超出则二维码不带参数处理</span>
+                     <!-- <el-popover
+                      placement="bottom-start"
+                      popper-class='form-item_popover'
+                      title="活动介绍示例"
+                      width="480"
+                      trigger="click">
+                      <span class='form-item_exmple' slot="reference">查看示例</span>
+                      <template>
+                        <div>
+                          你好， (好友微信昵称) , 我是（导购微信昵称）恭喜你成功参与本次福利活动，分享下方海报，邀请好友扫码助力，添加（员工微信昵称）为好友：邀请5位好友为你助力并添加好友，即可领取奖品！奖品限量100份，先到先得哦！<br/>
+                          活动有效期：2020-03-03~2020-03-13 <br/>
+                          点击以下链接可查询助力进展哦！（推广大师查询链接）<br/>
+                          注册会员也可享受会员专属礼哦 <br/>
+                          点击立即入会：（招募链接）<br/>
+                          快去分享你的专属海报 ↓↓
+                        </div>
+                      </template>
+                    </el-popover> -->
                   </div>
                   <tag-area v-model='model.sceneStr' tag="wise" ref="testText" :maxlength="64" :tools='tools' placeholder="请输入活动介绍" @inputLength='inputLength'/>
                 </el-form-item>
@@ -56,6 +73,7 @@
           </template>
           <template slot='collapse-right__bottom'>
             <p class='collapse-right__bottom'>1. 二维码支持调整大小及移动位置</p>
+            <p class='collapse-right__bottom'>2. 发送的二维码有效期为30天</p>
           </template>
         </recruitment-collapse>
       </template>
@@ -131,5 +149,13 @@ export default Edit
   font-size: 12px;
   color: #595959;
   text-align: center;
+}
+.form-item_exmple__content {
+  display: flex;
+  justify-content: space-between;
+  .form-item_exmple {
+    color: #0068B3;
+    cursor: pointer;
+  }
 }
 </style>
