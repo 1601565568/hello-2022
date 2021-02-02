@@ -1,0 +1,191 @@
+<template>
+  <div class="analysis-container">
+    <div class='analysis-header'>
+      <h3 class='header-text'>
+        <Icon type="icon-fanhuishangyiji" class='back-icon' @click='handleBack'></Icon>
+        活动效果
+      </h3>
+    </div>
+    <page-table>
+      <template slot='search'>
+        <el-form :inline="true" class='form-inline_top'>
+          <el-form-item label="选择门店：">
+            <NsShopDialog :selfBtn='true' :appendToBody='true' :isButton="false" :auth="false" type="icon" btnTitle="" dialogTitle="选择门店" v-model="model.shopIds" @input="handleChangeGuide">
+              <template slot='btnIcon'>
+                <div class='self-btn'>
+                  {{(model.shopIds&&model.shopIds.length)?`已选择${model.shopIds.length}个门店`:'全部'}}
+                  <Icon type="shop" class='guideIds-icon'></Icon>
+                </div>
+              </template>
+            </NsShopDialog>
+          </el-form-item>
+          <el-form-item label="日期：" class='el-form__change'>
+            <el-date-picker
+              v-model="seachDate"
+              type="datetimerange"
+              value-format="yyyy-MM-dd HH:mm:ss"
+              range-separator="至"
+              start-placeholder="请选择开始日期"
+              end-placeholder="请选择结束日期"
+              :default-time="['00:00:00','23:59:59']"
+              align="right">
+            </el-date-picker>
+          </el-form-item>
+          <el-form-item label="群码设置状态：" class='el-form__change'>
+            <el-select v-model="model.status" placeholder="请选择" @change='(value)=>{changeSearchfrom({status:value})}'>
+              <el-option
+                v-for="item in statusOptionList"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
+          </el-form-item>
+        </el-form>
+      </template>
+      <template slot='button'>
+        <ns-button  size='large' @click="handleDetail({})">导出CSV文件</ns-button>
+      </template>
+      <template slot='table'>
+        <el-row class='tab-ul' :gutter="24">
+          <el-col :span='12' :class="activeType === 'shop' && 'active'">
+            <div class='tab-li'  @click='handleChangeType("shop")'>
+              <div class='tab-li_left'>
+                <p class='tab-li_name'>参与门店</p>
+                <h3 class='tab-li_value'>90</h3>
+              </div>
+              <div class='tab-li_right'>
+                <Icon type="ns-shoper" class='tab-li_icon'></Icon>
+              </div>
+            </div>
+          </el-col>
+          <el-col :span='12' :class="{active:activeType === 'employee'}">
+            <div class='tab-li'  @click='handleChangeType("employee")'>
+              <div class='tab-li_left'>
+                <p class='tab-li_name'>新增群成员</p>
+                <h3 class='tab-li_value'>90</h3>
+              </div>
+              <div class='tab-li_right employee'>
+                <Icon type="ns-group" class='tab-li_icon'></Icon>
+              </div>
+            </div>
+          </el-col>
+        </el-row>
+        <div v-show="activeType === 'shop'">
+          <ShopTable />
+        </div>
+        <div v-show="activeType === 'employee'">
+          <EmployeeTable/>
+        </div>
+      </template>
+    </page-table>
+  </div>
+</template>
+<script>
+import Analysis from './src/index'
+import PageTable from '@/components/NewUi/PageTable'
+import NsShopDialog from '@/components/NsShopDialog'
+import ShopTable from './components/ShopTable'
+import EmployeeTable from './components/EmployeeTable'
+
+export default Analysis
+Analysis.components = {
+  PageTable, NsShopDialog, ShopTable, EmployeeTable
+}
+</script>
+<style lang="scss" scoped>
+  @import "@components/NewUi/styles/reset.css";
+  .analysis-container {
+    .back-icon {
+      height: 16px;
+      width: 16px;
+      cursor: pointer;
+      margin-right: 16px;
+    }
+    .analysis-header {
+      margin: -10px -10px 16px -10px;
+      background: #fff;
+      padding: 0 16px;
+      .header-text {
+        font-size: 16px;
+        color: #262626;
+        height: 48px;
+        line-height: 48px;
+        display: flex;
+        align-items: center;
+      }
+      .header-tab_right {
+        margin-bottom: 13px;
+        padding-left:  24px;
+        border-left:1px solid #E8E8E8;
+      }
+    }
+  }
+  .self-btn {
+    width: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 14px;
+    color: #606266;
+    .guideIds-icon {
+      color:#8C8C8C;
+    }
+  }
+  .tab-ul {
+    .tab-li {
+      height: 96px;
+      padding: 0 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border: 1px solid #D9D9D9;
+      border-radius: 4px;
+      background: #FFFFFF;
+      cursor: pointer;
+      .tab-li_name {
+        font-size: 14px;
+        color: #8C8C8C;
+        line-height: 22px;
+        margin-bottom: 8px;
+      }
+      .tab-li_value {
+        font-size: 24px;
+        color: #262626;
+        line-height: 32px;
+      }
+      .tab-li_right {
+        height: 48px;
+        width: 48px;
+        border-radius: 24px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: #F2F9FE;
+        .tab-li_icon {
+          font-size: 24px;
+          color: #0091FA;
+        }
+        &.employee {
+          background: #FFF6E6;
+          .tab-li_icon {
+            color: rgb(244,177,64)
+          }
+        }
+      }
+    }
+    .active .tab-li{
+      background: #F2F9FE;
+      border: 1px solid #0094FC;
+      .tab-li_name {
+        color: #0091FA;
+      }
+      .tab-li_value {
+        color: #0091FA;
+      }
+      .tab-li_right {
+        background: #FFFFFF;
+      }
+    }
+  }
+</style>

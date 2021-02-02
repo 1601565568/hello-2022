@@ -9,7 +9,7 @@
               <template slot='btnIcon'>
                 <div class='self-btn'>
                   {{(model.shopIds&&model.shopIds.length)?`已选择${model.shopIds.length}个门店`:'全部'}}
-                  <Icon type="geren" class='guideIds-icon'></Icon>
+                  <Icon type="shop" class='guideIds-icon'></Icon>
                 </div>
               </template>
             </NsShopDialog>
@@ -227,7 +227,7 @@ export default Index
     font-size: 14px;
     color: #606266;
     .guideIds-icon {
-      color:#C0C4CC;
+      color:#8C8C8C;
     }
   }
   .message-upload__tip {
