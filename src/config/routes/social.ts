@@ -409,29 +409,6 @@ export default {
           'name': 'SocialNsTableWelcomes',
           'title': '好友数据',
           'component': () => import('@/pages/WeWork/GuideBehaviorCount/list/TableFriendCnt.vue')
-        },
-        {
-          path: '/AnalysisData/AnalysisEntWechatData',
-          name: 'AnalysisEntWechatData',
-          title: '企微数据分析',
-          component: () => import('@nascent/ecrp-ecrm/src/layout/ContentTab.vue'),
-          redirect: {
-            name: 'EnterpriseWechatFriendData'
-          },
-          children: [
-            {
-              path: '/AnalysisWechatData/EnterpriseWechatFriendData',
-              name: 'EnterpriseWechatFriendData',
-              title: '企微好友数据分析',
-              component: () => import('@/pages/WeWork/CRMTectonicMigration/AnalysisData/EnterpriseWechatFriendData/index.vue')
-            }
-          ]
-        },
-        {
-          'path': '/Social/OperationData/CircleOfFriends',
-          'name': 'CircleOfFriends',
-          'title': '朋友圈统计',
-          'component': () => import('@/pages/WeWork/CircleofFriends/index.vue')
         }
       ]
     }

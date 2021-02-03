@@ -74,27 +74,6 @@ export default {
       ]
     },
     {
-      'path': '/Guide/OperationLog/List',
-      'name': 'LIST',
-      'title': '系统日志',
-      'component': () => import('@nascent/ecrp-ecrm/src/layout/Content.vue'),
-      'children': [
-        {
-          'path': '/Guide/OperationLog/List',
-          'name': 'SG_WX_ACCOUNT',
-          'title': '操作日志',
-          'component': () => import('@/pages/Guide/OperationLog/List.vue')
-        },
-        {
-          'path': '/Guide/LoginLog/List',
-          'name': 'SG_LOGIN_LOG',
-          'title': '登录日志',
-          'component': () => import('@/pages/Guide/LoginLog/List.vue')
-        }
-      ]
-
-    },
-    {
       'path': '/Guide/SensitivePermission/index',
       'name': 'OTHER_CONFIG',
       'title': '其他设置',
