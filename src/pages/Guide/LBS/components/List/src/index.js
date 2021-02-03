@@ -9,7 +9,6 @@ export default {
         page: 1,
         total: 0
       },
-      url: this.$api.guide.lbs.findGroupList,
       // 筛选数据
       model: {
         shopIds: [],
@@ -118,6 +117,22 @@ export default {
   computed: {
     title () {
       return this.type === 'Friends' ? 'LBS好友拉新活动' : 'LBS群拉新活动'
+    },
+    // 详情页面路径
+    detailPath () {
+      return this.type === 'Group' ? '/Social/LBS/Group/Edit' : '/Social/LBS/Friends/Edit'
+    },
+    // 报表页面路径
+    analysisPath () {
+      return this.type === 'Group' ? '/Social/LBS/Group/Analysis' : '/Social/LBS/Friends/Analysis'
+    },
+    // 列表数据接口路由
+    url () {
+      return this.type === 'Group' ? this.$api.guide.lbs.findGroupList : this.$api.guide.lbs.findFriendsList
+    },
+    // 删除数据接口路由
+    deleteApi () {
+      return this.type === 'Group' ? this.$api.guide.lbs.deleteGroupById : this.$api.guide.lbs.deleteFriendsById
     }
   },
   mixins: [tableMixin],
@@ -220,7 +235,7 @@ export default {
     },
     // 结束活动api
     endActivity (lbsId) {
-      this.$http.fetch(this.$api.guide.customerCode.closeGuestCodeActivity, { lbsId })
+      this.$http.fetch(deleteApi, { lbsId })
         .then(() => {
           this.$searchAction$()
         }).catch(() => {
@@ -230,14 +245,14 @@ export default {
     // 去报表
     handleAnalysis (id) {
       this.$router.push({
-        path: '/Social/LBS/Group/Analysis',
+        path: this.analysisPath,
         query: { id }
       })
     },
     // 跳转详情
     handleDetail (query = {}) {
       this.$router.push({
-        path: '/Social/LBS/Group/Edit',
+        path: this.detailPath,
         query
       })
     }

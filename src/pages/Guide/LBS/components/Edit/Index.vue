@@ -5,17 +5,17 @@
         <div class='common-header flex-box'>
           <h3>{{title}}</h3>
           <div class='common-btn'>
-            <!-- <ns-button class='customer-btn_cancel' size='large' :loading='btnLoad' @click='handleCancel'>取消</ns-button> -->
+            <ns-button class='customer-btn_cancel' size='large' :loading='btnLoad' @click='handleCancel'>取消</ns-button>
             <ns-button class='customer-btn_save' type="primary" size='large' @click='update' :loading='btnLoad'>保存</ns-button>
           </div>
         </div>
       </template>
       <template slot='content'>
         <!-- 基础信息 start -->
-        <recruitment-collapse title='基本信息'>
+        <recruitment-collapse title='基本信息' phoneTitle=''>
           <template slot='collapse-left'>
             <el-form-item label='活动名称' required prop='name' class='larger-item'>
-              <length-input v-model='model.name' placeholder="请输入活动名称，长度20个字符以内" :length='20'  :disabled='isStating'/>
+              <length-input v-model='model.name' placeholder="请输入活动名称，长度20个字符以内" :length='20'/>
             </el-form-item>
             <el-form-item label='参与门店' prop='shopList'>
               <div class='flex-box form-item_toptext'>
@@ -32,21 +32,21 @@
                 </div>
                 <template slot='suffix'>
                   <div class='employee-suffix'>
-                    <NsShopDialog :selfBtn='true' :appendToBody='true' :isButton="false" :validNull="true" :auth="false"   btnTitle="" type='icon' dialogTitle="选择门店" v-model="model.shopList" @inputAllData="handleChangeGuide">
+                    <NsShopDialog :selfBtn='true' :appendToBody='true' :isButton="false" :validNull="true" :auth="false"   btnTitle="" type='icon' dialogTitle="选择门店" v-model="model.shopList" @input="handleChangeShopList">
                        <template slot='btnIcon'>
-                        <Icon type="geren"></Icon>
+                        <Icon type="shop" class='shop-icon'></Icon>
                       </template>
                     </NsShopDialog>
                   </div>
                 </template>
               </html-area>
             </el-form-item>
-            <el-form-item label='有效时间' required prop='validTimeType'>
+            <el-form-item label='有效时间' required prop='timeType'>
               <div class='form-item_toptext'>
-                <el-radio v-model="model.validTimeType" :label="1">固定时间</el-radio>
-                <el-radio v-model="model.validTimeType" :label="0">永久有效</el-radio>
+                <el-radio v-model="model.timeType" :label="1">固定时间</el-radio>
+                <el-radio v-model="model.timeType" :label="2">永久有效</el-radio>
               </div>
-              <div class='form-item_time' v-if='model.validTimeType === 1'>
+              <div class='form-item_time' v-if='model.timeType === 1'>
                 <div>时间范围</div>
                 <el-form-item label-width="8px" label=' '  prop='time' hide-required-asterisk>
                   <el-date-picker
@@ -68,81 +68,212 @@
             </el-form-item>
           </template>
           <template slot='collapse-right'>
-            <div>
+            <div class='preview-img' :style='{backgroundImage: `url(${model.activityPoster})`}'>
               <div class='user-content_bg' v-if='!model.activityPoster'>你还未上传活动海报</div>
               <div class="upload-content_lbs" v-if='!model.activityPoster'>
                 <drap-upload v-model='model.activityPoster' :maxWidth='750' :showPont='false' :drag='false'>
                 </drap-upload>
                 上传海报图
               </div>
-            </div>
-          </template>
-        </recruitment-collapse>
-         <!-- 基础信息 end -->
-        <!-- 引导页设置 start -->
-        <recruitment-collapse title='招募链接卡片配置' phoneBar='加入门店群'>
-          <template slot='collapse-left'>
-            <el-form-item label='海报' required prop='welcomePoster'>
-              <drap-upload tip='（建议：宽度750像素，高度不限，小于1M，jpg、png、jpeg格式）' v-model='model.welcomePoster' :maxWidth='750'>
-                <template slot='footer'>
-                  <p class='prompt-text'>场景说明：招募流程开启关注公众号，消费者注册会员后，将进入此页面关注公众号</p>
-                </template>
-              </drap-upload>
-            </el-form-item>
-          </template>
-          <template slot='collapse-right'>
-            <div class='search-bar'>
-              <Icon type="ns-search-copy" slot="suffix" class='search-icon' @click="handleSearch"></Icon>
-              <span class='search-bar_text'>搜索您最近的门店</span>
-            </div>
-            <div v-if='!model.welcomePoster'>
-              <div class='user-content_bg' >你还未上传活动海报</div>
-              <div class="upload-content_lbs">
-                <drap-upload v-model='model.welcomePoster' :maxWidth='750' :showPont='false' :drag='false'>
-                </drap-upload>
-                上传海报图
-              </div>
-            </div>
-          </template>
-        </recruitment-collapse>
-        <!-- 引导页设置 end -->
-        <!-- 群聚合码设置 start -->
-        <recruitment-collapse title='引导关注公众号页设置' phoneBar='加入门店群'>
-          <template slot='collapse-left'>
-            <el-form-item label='背景图' required prop='mpFollowBackground'>
-              <drap-upload tip='（请上传格式为jpg或png图片，图片尺寸为750*1206,大小不超过1M）' :maxWidth='750' :maxHeight='1206' v-model='model.mpFollowBackground' :maxSize='1' :resetImage='defaultImg'>
-                <template slot='footer'>
-                  <p class='prompt-text'>场景说明：招募流程开启关注公众号，消费者注册会员后，将进入此页面关注公众号</p>
-                </template>
-              </drap-upload>
-            </el-form-item>
-          </template>
-          <template slot='collapse-right'>
-            <div class='mobile_content' :style='{backgroundImage:"url("+model.mpFollowBackground+")"}' v-if='model.mpFollowQrcodeSize || model.mpFollowQrcodeSize===0'>
-              <VueDragResize :w="model.mpFollowQrcodeSize" :h="model.mpFollowQrcodeSize" :parentLimitation="true" :aspectRatio='true' :x='model.mpFollowQrcodeX' :y='model.mpFollowQrcodeY' @dragstop="onDragResize" @resizestop='onDragResize' :sticks="['tl','tr','bl','br']" >
+              <VueDragResize :w="model.activityPositionWidth" :h="model.activityPositionWidth" :parentLimitation="true" :aspectRatio='true' :x='model.activityPositionX' :y='model.activityPositionY' @dragstop="onDragPosterResize" @resizestop='onDragPosterResize' :sticks="['tl','tr','bl','br']" >
                 <img src='@/assets/qrcode.png' style='width:100%;height:100%'>
               </VueDragResize>
             </div>
           </template>
         </recruitment-collapse>
-        <!-- 群聚合码设置 end -->
+         <!-- 基础信息 end -->
+        <!-- 消费者进群页面设置 start -->
+        <SimpleCollapse  title='消费者进群页面设置'>
+          <PhoneBox class='first-phone' title='01 引导页设置' phoneBar='加入门店群' phoneTitle='' showBottom>
+            <template slot='collapse-left'>
+              <el-form-item label='海报' required prop='welcomePoster'>
+                <drap-upload tip='（建议：宽度750像素，高度不限，小于1M，jpg、png、jpeg格式）' v-model='model.welcomePoster' :maxWidth='750'>
+                  <template slot='footer'>
+                    <p class='prompt-text'>默认海报固定显示，建议为权益说明，引导客户入群</p>
+                  </template>
+                </drap-upload>
+              </el-form-item>
+            </template>
+            <template slot='collapse-right'>
+              <div class='search-bar'>
+                <Icon type="ns-search-copy" slot="suffix" class='search-icon'></Icon>
+                <span class='search-bar_text'>搜索您最近的门店</span>
+              </div>
+              <div class='preview-img short-img' :style='{backgroundImage: `url(${model.welcomePoster})`}'>
+                <div v-if='!model.welcomePoster'>
+                  <div class='user-content_bg' >你还未上传活动海报</div>
+                  <div class="upload-content_lbs">
+                    <drap-upload v-model='model.welcomePoster' :maxWidth='750' :showPont='false' :drag='false'>
+                    </drap-upload>
+                    上传海报图
+                  </div>
+                </div>
+              </div>
+            </template>
+          </PhoneBox>
+          <PhoneBox title='02 群聚合码设置' phoneBar='加入门店群' phoneTitle=''>
+            <template slot='collapse-left'>
+              <!-- 群聚合码设置 start -->
+              <template v-if='type === "Group"'>
+                <div class='form-item_tip'>
+                  消费者进入此活动页面后，根据定位位置自动推荐最近门店的群聚合码，客户可扫码入群<br />
+                  群满后会根据以下规则自动创建新群（企业需向企业微信申请接口白名单）
+                </div>
+                <div class='step-content'>
+                  <div class='step-name'>Step1：</div>
+                  <div class='step-value'>引导店长创建门店群</div>
+                  <div class='step-tip'>
+                    <el-tooltip  placement="top" popper-class='popperClass'>
+                      <Icon type="question-circle" />
+                      <template slot='content'>
+                        <p class='popperClass'>xxxxxxxxxx</p>
+                      </template>
+                    </el-tooltip>
+                  </div>
+                </div>
+                <el-form-item label='群名称规则' required prop='roomRule'>
+                  <div class='form-item_toptext'>
+                  将同步店长端显示，提示店长群名称格式规范
+                  </div>
+                  <length-input type="textarea"  v-model='model.roomRule' placeholder="请输入群名称提示，长度50个字符以内" :length='50'/>
+                </el-form-item>
+                <div class='step-content'>
+                  <div class='step-name'>Step2：</div>
+                  <div class='step-value'>根据门店群自动创建群聚合码</div>
+                  <div class='step-tip'>
+                    <el-tooltip  placement="top" popper-class='popperClass'>
+                      <Icon type="question-circle" />
+                      <template slot='content'>
+                        <p class='popperClass'>xxxxxxxxxx</p>
+                      </template>
+                    </el-tooltip>
+                  </div>
+                </div>
+                <el-form-item label='自动建群名称' prop='roomBaseName' :rules="[
+                  { validator: validateActivityIntroduction.bind(this, roomBaseNameLength), trigger: ['blur', 'change'] }
+                ]">
+                  <div class='form-item_toptext'>
+                    将以原群主身份自动创建新群，如未设置，自动新建的群名称为初始群名称
+                  </div>
+                  <tag-area v-model='model.roomBaseName' tag="wise" ref="testText" :maxlength="40" :tools='tools' placeholder="请输入自动建群名称，长度40个字符以内" @inputLength="inputLength"/>
+                </el-form-item>
+                <el-form-item label='自动建群序号' prop='roomBaseId'>
+                  <el-input-number style='width:118px;' size="medium" v-model="model.roomBaseId" controls-position="right" :min="1" :step='1' step-strictly controls onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))"></el-input-number>
+                  <!-- <el-input style='width:88px;' v-model='model.effectiveCycle' onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))" type="number"/>  -->
+                  <p class='prompt-text'><span class='yellow-point'></span>因企业微信生成联系我二维码数量限制，请合理设置过期时间</p>
+                </el-form-item>
+                <el-form-item label='自动移除群' prop='roomUserNum' class='larger-item'>
+                  <template slot='label' class='larger-item_icon'>
+                    <span>自动移除群</span>
+                    <el-tooltip content="因企业微信生成联系我二维码数量限制，请合理设置过期时间"  placement="top">
+                      <Icon type="question-circle" class='question-circle' />
+                    </el-tooltip>
+                  </template>
+                  当群聚合超的群过100个群时，自动移除 &nbsp;
+                  <el-input-number style='width:118px;margin-top:-6px;' size="medium" v-model="model.roomUserNum" controls-position="right" :min="1" :step='1' step-strictly controls onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))"></el-input-number>
+                  &nbsp;人以上群聊
+                </el-form-item>
+                <div class='step-content'>
+                  <div class='step-name'>Step3：</div>
+                  <div class='step-value'>群二维码海报配置</div>
+                  <div class='step-tip'>
+                    <el-tooltip  placement="top" popper-class='popperClass'>
+                      <Icon type="question-circle" />
+                      <template slot='content'>
+                        <p class='popperClass'>xxxxxxxxxx</p>
+                      </template>
+                    </el-tooltip>
+                  </div>
+                </div>
+              </template>
+              <!-- 群聚合码设置 end -->
+              <!-- 好友聚合码设置 start -->
+              <template v-if='type === "Friends"'>
+                <div class='form-item_tip'>
+                  消费者进入此活动页面后，根据定位位置自动推荐最近门店的企微聚合码，客户可扫码添加企业员工为好友
+                </div>
+                <div class='step-content'>
+                  <div class='step-name'>Step1：</div>
+                  <div class='step-value'>聚合二维码海报配置</div>
+                  <div class='step-tip'>
+                    <el-tooltip  placement="top" popper-class='popperClass'>
+                      <Icon type="question-circle" />
+                      <template slot='content'>
+                        <p class='popperClass'>xxxxxxxxxx</p>
+                      </template>
+                    </el-tooltip>
+                  </div>
+                </div>
+                <el-form-item label='聚合码设置' required prop='qrcodeType'>
+                  <el-radio-group v-model="model.qrcodeType">
+                    <el-radio :label="1">门店全部员工</el-radio>
+                    <el-radio :label="2">仅店长</el-radio>
+                  </el-radio-group>
+                </el-form-item>
+                <div class='step-content'>
+                  <div class='step-name'>Step2：</div>
+                  <div class='step-value'>群二维码海报配置</div>
+                  <div class='step-tip'>
+                    <el-tooltip  placement="top" popper-class='popperClass'>
+                      <Icon type="question-circle" />
+                      <template slot='content'>
+                        <p class='popperClass'>xxxxxxxxxx</p>
+                      </template>
+                    </el-tooltip>
+                  </div>
+                </div>
+              </template>
+              <!-- 好友聚合码设置 end -->
+              <el-form-item label='海报背景' required prop='welcomePoster'>
+                <drap-upload v-model='model.qrcodePoster' :maxWidth='750'>
+                  <template slot='footer'>
+                    <p class='prompt-text'>场景说明：招募流程开启关注公众号，消费者注册会员后，将进入此页面关注公众号</p>
+                  </template>
+                </drap-upload>
+              </el-form-item>
+            </template>
+            <template slot='collapse-right'>
+              <div class='search-bar'>
+                <Icon type="ns-search-copy" slot="suffix" class='search-icon'></Icon>
+                <span class='search-bar_text'>搜索您最近的门店</span>
+              </div>
+              <div class='preview-img short-img' :style='{backgroundImage: `url(${model.qrcodePoster})`}'>
+                <div v-if='!model.qrcodePoster'>
+                  <div class='user-content_bg' >你还未上传活动海报</div>
+                  <div class="upload-content_lbs">
+                    <drap-upload v-model='model.qrcodePoster' :maxWidth='750' :showPont='false' :drag='false'>
+                    </drap-upload>
+                    上传海报图
+                  </div>
+                </div>
+                <VueDragResize :w="model.positionWidth" :h="model.positionWidth" :parentLimitation="true" :aspectRatio='true' :x='model.positionX' :y='model.positionY' @dragstop="onDragQrResize" @resizestop='onDragQrResize' :sticks="['tl','tr','bl','br']" >
+                  <img src='@/assets/qrcode.png' style='width:100%;height:100%'>
+                </VueDragResize>
+              </div>
+            </template>
+          </PhoneBox>
+        </SimpleCollapse>
+        <!-- 消费者进群页面设置 end -->
       </template>
     </page-edit>
   </el-form>
 </template>
 <script>
 import Index from './src/index'
-import ElUpload from '@nascent/nui/lib/upload'
 import VueDragResize from 'vue-drag-resize'
 import HtmlArea from '@/components/NewUi/HtmlArea'
+import TagArea from '@/components/NewUi/TagArea'
 import RecruitmentCollapse from '@/components/NewUi/RecruitmentCollapse'
+import SimpleCollapse from '@/components/NewUi/SimpleCollapse'
 import LengthInput from '@/components/NewUi/LengthInput'
 import PageEdit from '@/components/NewUi/PageEdit'
 import DrapUpload from '@/components/NewUi/DrapUpload'
 import ElImage from '@nascent/nui/lib/image'
 import NsShopDialog from '@/components/NsShopDialog'
+import PhoneBox from '@/components/NewUi/PhoneBox'
+import ElInputNumber from '@nascent/nui/lib/input-number'
 Index.components = {
-  ElUpload, VueDragResize, RecruitmentCollapse, LengthInput, PageEdit, DrapUpload, ElImage, NsShopDialog, HtmlArea
+  VueDragResize, RecruitmentCollapse, LengthInput, PageEdit, DrapUpload, ElImage, NsShopDialog, HtmlArea, SimpleCollapse, PhoneBox, TagArea, ElInputNumber
 }
 export default Index
 </script>
@@ -317,6 +448,59 @@ export default Index
     .search-bar_text {
        color: rgb(141,141,141);
        margin-left: 10px;
+    }
+  }
+  .first-phone {
+    margin-bottom: 24px;
+  }
+  .step-content {
+    font-size: 14px;
+    color: #262626;
+    line-height: 22px;
+    display: flex;
+    align-items: center;
+    font-weight: bold;
+    margin-bottom: 25px;
+    .step-name {
+      margin-right: 27px;
+    }
+    .step-value {
+      margin-right: 5px;
+    }
+  }
+  .prompt-text {
+    display: flex;
+    align-items: center;
+    .yellow-point {
+      background: #F2AA18;
+      display: inline-block;
+      height: 8px;
+      width: 8px;
+      border-radius: 50%;
+      margin-right: 8px;
+    }
+  }
+  .shop-icon {
+    margin-right: 10px;
+    font-size: 16px;
+    color:#D9D9D9;
+  }
+  .preview-img {
+    width: 100%;
+    height: 567px;
+    background-position:0 0;
+    background-size: 100% auto;
+    background-repeat: no-repeat;
+    background-origin: 50% 50%;
+    position: relative;
+    &.short-img {
+      height:476px;
+      .user-content_bg {
+        top: 120px;
+      }
+      .upload-content_lbs {
+        top: 168px;
+      }
     }
   }
 </style>
