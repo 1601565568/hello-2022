@@ -22,38 +22,6 @@ export default {
       ]
     },
     {
-      'path': '/Guide/RecruitSet',
-      'name': 'RecruitSet',
-      'title': '招募设置',
-      'component': () => import('@nascent/ecrp-ecrm/src/layout/Content.vue'),
-      'children': [
-        {
-          'path': '/Guide/RecruitSet/RecruitConfigGift',
-          'name': 'RecruitConfigGift',
-          'title': '招募奖励设置',
-          'component': () => import('@/pages/Guide/RecruitmentSettings/index.vue')
-        },
-        {
-          'path': '/Guide/RecruitSet/RecruitConfig',
-          'name': 'RecruitConfig',
-          'title': '招募设置',
-          'component': () => import('@/pages/Guide/Recruitment/RecruitmentSettings/index.vue')
-        },
-        {
-          'path': '/Guide/RecruitSet/RecruitPageConfig',
-          'name': 'RecruitPageConfig',
-          'title': '招募页面设置',
-          'component': () => import('@/pages/Guide/Recruitment/RecruitmentPageSettings/index.vue')
-        },
-        {
-          'path': '/Guide/RecruitSet/NotMemberPageConfig',
-          'name': 'NotMemberPageConfig',
-          'title': '非会员页面设置',
-          'component': () => import('@/pages/Guide/NotMemberPageConfig/index.vue')
-        }
-      ]
-    },
-    {
       'path': '/Guide/custom',
       'name': 'custom',
       'title': '自定义装修',
@@ -83,20 +51,6 @@ export default {
           'path': '/Guide/SensitivePermission/index',
           'name': 'SENSITIVE_PERMISSION',
           'title': '敏感权限监控',
-          'component': () => import('@/pages/Guide/SensitivePermission/index.vue')
-        }
-      ]
-    },
-    {
-      'path': '/Guide/CustomerContact',
-      'name': 'CustomerContact',
-      'title': '客户联系',
-      'component': () => import('@nascent/ecrp-ecrm/src/layout/Content.vue'),
-      'children': [
-        {
-          'path': '/Guide/CustomerContact/WelcomeWord',
-          'name': 'WelcomeWord',
-          'title': '欢迎语管理',
           'component': () => import('@/pages/Guide/SensitivePermission/index.vue')
         }
       ]

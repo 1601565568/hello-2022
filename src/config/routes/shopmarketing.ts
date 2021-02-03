@@ -3,14 +3,14 @@ export default {
   'name': 'SHOP_MARKETING',
   'component': () => import('@nascent/ecrp-ecrm/src/layout/Default.vue'),
   'meta': {
-    'title': '门店运营',
+    'title': '内容管理',
     'requiresAuth': true
   },
   'children': [
     {
       'path': '/Guide/Material/Library',
       'name': 'SHOP_MARKETING2',
-      'title': '内容运营',
+      'title': '素材中心',
       'component': () => import('@nascent/ecrp-ecrm/src/layout/Content.vue'),
       'children': [
         {
@@ -67,6 +67,12 @@ export default {
           'name': 'QuicklyWord',
           'title': '快捷话术',
           'component': () => import('@/pages/Guide/SgQuicklyWord/List.vue')
+        },
+        {
+          'path': '/Guide/chanel/chanel',
+          'name': 'chanel',
+          'title': '渠道管理',
+          'component': () => import('@/pages/Guide/chanel/chanel.vue')
         }
       ]
     }
