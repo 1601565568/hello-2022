@@ -82,6 +82,20 @@ export default {
           'component': () => import('@/pages/Guide/CustomerService/ThirdLink/index.vue')
         }
       ]
+    },
+    {
+      'path': '/Social/OperationConfig',
+      'name': 'OperationConfig',
+      'title': '运营设置',
+      'component': () => import('@nascent/ecrp-ecrm/src/layout/Content.vue'),
+      'children': [
+        {
+          'path': '/Social/OperationConfig',
+          'name': 'OperationConfig',
+          'title': '企业微信设置',
+          'component': () => import('@/pages/Social/OperationConfig/WeWorkConfig/index.vue')
+        }
+      ]
     }
   ]
 }

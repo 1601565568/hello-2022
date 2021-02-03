@@ -81,23 +81,6 @@ export default {
               'component': () => import('@/pages/WeChat/AutoReply/edit.vue')
             }
           ]
-          // 'redirect': {
-          //   'name': 'SgPersonalQrcode'
-          // },
-          // 'children': [
-          //   // {
-          //   //   'path': '/Guide/SgPersonalQrcode/List',
-          //   //   'name': 'SgPersonalQrcode',
-          //   //   'title': '聚合二维码',
-          //   //   'component': () => import('@/pages/Guide/SgPersonalQrcode/List.vue')
-          //   // },
-          //   {
-          //     'path': '/Guide/AutoReply/edit',
-          //     'name': 'sgAutoReplyEdit',
-          //     'title': '编辑',
-          //     'component': () => import('@/pages/WeChat/AutoReply/edit.vue')
-          //   }
-          // ]
         },
         {
           'path': '/WeWork/WelcomeCode/WelcomeCodeList',
@@ -219,20 +202,6 @@ export default {
               'component': () => import('@/pages/Guide/QrcodePoster/Edit.vue')
             }
           ]
-        }
-      ]
-    },
-    {
-      'path': '/Social/OperationConfig',
-      'name': 'OperationConfig',
-      'title': '运营设置',
-      'component': () => import('@nascent/ecrp-ecrm/src/layout/Content.vue'),
-      'children': [
-        {
-          'path': '/Social/OperationConfig',
-          'name': 'OperationConfig',
-          'title': '企业微信设置',
-          'component': () => import('@/pages/Social/OperationConfig/WeWorkConfig/index.vue')
         }
       ]
     },
