@@ -80,7 +80,7 @@ export default {
       'path': '/Social/SocialOperation/QrcodePoster/List',
       'name': 'qrcodePoster',
       'title': '二维码海报',
-      'component': () => import('@nascent/ecrp-ecrm/src/layout/ContentOnly.vue'),
+      'component': () => import('@nascent/ecrp-ecrm/src/layout/Content.vue'),
       'redirect': {
         'name': 'WeChatQrCodePlacard'
       },
@@ -103,7 +103,7 @@ export default {
       'path': '/Social/SocialOperation/QrcodePosterGH/List',
       'name': 'qrcodePoster',
       'title': '二维码海报（个号）',
-      'component': () => import('@nascent/ecrp-ecrm/src/layout/ContentOnly.vue'),
+      'component': () => import('@nascent/ecrp-ecrm/src/layout/Content.vue'),
       'redirect': {
         'name': 'WeWorkQrCodePlacard'
       },
