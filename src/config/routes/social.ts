@@ -343,6 +343,12 @@ export default {
               'component': () => import('@/pages/Social/WeWorkGroup/ChatRoomGroup/chatRoomGroup.vue')
             }
           ]
+        },
+        {
+          'path': '/Social/ChatRecord',
+          'name': 'ChatRecord',
+          'title': '聊天记录',
+          'component': () => import('@/pages/Social/ChatRecord/index.vue')
         }
       ]
     },
