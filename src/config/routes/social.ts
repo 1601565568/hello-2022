@@ -345,7 +345,7 @@ export default {
           ]
         },
         {
-          'path': '/Social/ChatRecord',
+          'path': '/Social/WeWorkGroup/ChatRecord',
           'name': 'ChatRecord',
           'title': '聊天记录',
           'component': () => import('@/pages/Social/ChatRecord/index.vue')
@@ -392,6 +392,12 @@ export default {
           'name': 'CircleOfFriends',
           'title': '朋友圈统计',
           'component': () => import('@/pages/WeWork/CircleofFriends/index.vue')
+        },
+        {
+          'path': '/Social/OperationConfig/topicAnalysis',
+          'name': 'topicAnalysis',
+          'title': '话题分析 ',
+          'component': () => import('@/pages/WeWork/topicAnalysis/index.vue')
         }
       ]
     }

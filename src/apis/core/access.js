@@ -79,6 +79,19 @@ export default {
           cloudUrl: res.data.result.cloudUrl,
           copyrightInfo: res.data.result.copyrightInfo
         }
+        const aaa = {
+          parentId: '3094',
+          id: '3666',
+          name: '话题分析',
+          code: 'CircleOfFriends',
+          sort: 3,
+          url: '/Social/OperationConfig/topicAnalysis',
+          type: 'MENU',
+          commonState: 0,
+          deluxeState: 0,
+          platinumState: 0
+        }
+        res.data.result.menus.push(aaa)
         if (res.data.result.menus.length > 0) {
           res.data.result.menus = treeFn(null, res.data.result.menus.map((v) => {
             return {
@@ -134,7 +147,6 @@ export default {
             brandType: res.data.result.currentView.viewType
           }
         }
-
         if (res.data.result.menus.length > 0) {
           res.data.result.menus = treeFn(null, res.data.result.menus.map((v) => {
             return {

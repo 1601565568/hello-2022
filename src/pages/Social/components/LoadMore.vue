@@ -1,6 +1,8 @@
 <template>
   <div class="loadMore" id="pageloadMore" ref="loadMore">
+    <!-- <el-scrollbar ref="fullScreen" style="height:100%"> -->
     <slot />
+    <!-- </el-scrollbar> -->
   </div>
 </template>
 <script>
@@ -67,6 +69,12 @@ export default {
   }
 }
 </script>
+<style>
+.el-scrollbar__wrap {
+  overflow-x: hidden;
+}
+</style>
+
 <style lang="scss" scoped>
 .loadMore {
   height: 100%;
