@@ -170,5 +170,9 @@ export default {
   getLoginAccount: {
     url: '/core/common/getLoginAccount',
     method: 'get'
+  },
+  getDecryptData: {
+    url: '/core/common/getDecryptData',
+    method: 'get'
   }
 }

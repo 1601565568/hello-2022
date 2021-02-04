@@ -127,13 +127,8 @@
         <el-form label-width="110px" class="dialog-form__wrapper">
           <el-form-item label="姓名：" class="el-inline-block">
             <el-form-grid size="xs">
-              <div class="dialog-remark" v-if="items.customerName && items.customerName.length<6">
-                {{items.customerName}}
-              </div>
-              <div v-else-if="items.customerName && items.customerName.length>=6">
-                <el-tooltip :content="items.customerName">
-                  <span class="dialog-hidden">{{items.customerName}}</span>
-                </el-tooltip>
+              <div class="dialog-remark" v-if="items.customerName">
+                <ns-sg-sensitive-button type="simple" :defaultText="true" :encData="items.customerName"></ns-sg-sensitive-button>
               </div>
               <div v-else>
                 -
@@ -193,7 +188,11 @@
             </el-form-grid>
           </el-form-item>
           <el-form-item label="手机：" class="el-inline-block">
-            <el-form-grid size="xs"><div class="dialog-remark">{{items.mobile}}</div></el-form-grid>
+            <el-form-grid size="xs">
+              <div class="dialog-remark">
+                <ns-sg-sensitive-button type="phone" :defaultText="true" :encData="items.mobile"></ns-sg-sensitive-button>
+              </div>
+            </el-form-grid>
           </el-form-item>
           <el-form-item v-if="integralIsShow[0]" class="el-inline-block dialog-favorable">
             <template slot="label">
@@ -309,13 +308,17 @@
                   <el-form-grid size="xxmd">{{items.activateTime||'-'}}</el-form-grid>
                 </el-form-item>
                 <el-form-item label="Email：" class="el-inline-block">
-                  <el-form-grid size="xxmd">{{items.email||'-'}}</el-form-grid>
+                  <el-form-grid size="xxmd">
+                    <ns-sg-sensitive-button type="simple" :defaultText="true" :encData="items.email"></ns-sg-sensitive-button>
+                  </el-form-grid>
                 </el-form-item>
                 <el-form-item label="所在地区：" class="el-inline-block">
                   <el-form-grid size="xxmd">{{items.province}}</el-form-grid>
                 </el-form-item>
                 <el-form-item label="详细地址：" class="el-inline-block">
-                  <el-form-grid size="xxmd">{{items.address||'-'}}</el-form-grid>
+                  <el-form-grid size="xxmd">
+                    <ns-sg-sensitive-button type="simple" :defaultText="true" :encData="items.address"></ns-sg-sensitive-button>
+                  </el-form-grid>
                 </el-form-item>
                 <el-form-item label="昵称：" class="el-inline-block">
                   <el-form-grid size="xxmd">{{items.outAlias||'-'}}</el-form-grid>
