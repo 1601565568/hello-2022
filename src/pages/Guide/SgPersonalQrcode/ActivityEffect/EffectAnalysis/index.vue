@@ -138,7 +138,7 @@ export default {
     background: #fff;
     border-radius: 4px;
     .data-statistics-content {
-      margin-top: 16px;
+      margin: 16px 8px 0;
       display: flex;
       justify-content: space-evenly;
     }

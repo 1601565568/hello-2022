@@ -3,7 +3,7 @@
     <div class="title">
       <span>{{ title }}</span>
       <el-tooltip class="help" :content="tip">
-        <i class="el-icon-question"></i>
+        <Icon type="ns-help"/>
       </el-tooltip>
     </div>
     <div class="count">
@@ -31,7 +31,9 @@ export default {
 
 <style lang="scss" scoped>
 .data-card {
-  width: 381px;
+  flex-grow: 1;
+  min-width: 135px;
+  margin: 0 8px;
   height: 120px;
   text-align: center;
   color: #FFFFFF;
