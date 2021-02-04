@@ -158,7 +158,7 @@
             <el-table-column type="selection" align="center" :width="50"></el-table-column>
             <el-table-column prop="customerName" label="姓名" align="left">
               <template slot-scope="scope">
-                {{scope.row.customerName || '-'}}
+                <ns-sg-sensitive-button type="simple" :defaultText="true" :encData="scope.row.customerName"></ns-sg-sensitive-button>
               </template>
             </el-table-column>
              <el-table-column prop="outAlias" label="昵称" align="left">
@@ -168,7 +168,7 @@
             </el-table-column>
             <el-table-column prop="mobile" label="手机号" align="left" width="120">
               <template slot-scope="scope">
-                {{scope.row.mobile?scope.row.mobile:'-'}}
+                <ns-sg-sensitive-button type="phone" :defaultText="true" :encData="scope.row.mobile"></ns-sg-sensitive-button>
               </template >
             </el-table-column>
             <el-table-column prop="grade,memberCard" label="会员卡号" width="120">
