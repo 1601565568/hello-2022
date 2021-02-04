@@ -78,7 +78,8 @@ export default {
           dataAuth: res.data.result.dataAuth,
           routerAuth: res.data.result.menus,
           cloudUrl: res.data.result.cloudUrl,
-          copyrightInfo: res.data.result.copyrightInfo
+          copyrightInfo: res.data.result.copyrightInfo,
+          uiLockBtnEnable: res.data.result.uiLockBtnEnable
         }
         if (res.data.result.menus.length > 0) {
           res.data.result.menus = treeFn(null, res.data.result.menus.map((v) => {

@@ -146,7 +146,9 @@
           <el-table :data="customerData" v-loading.lock="detailLoadingTable"
                 :element-loading-text="$t('prompt.loading')">
             <el-table-column prop="name" label="姓名" align="left" width="100">
-              <template slot-scope="scope">{{scope.row.name||'-'}}</template>
+              <template slot-scope="scope">
+                <ns-sg-sensitive-button type="simple" :defaultText="true" :encData="scope.row.name"></ns-sg-sensitive-button>
+              </template>
             </el-table-column>
             <el-table-column prop="sex" label="性别" align="center" width="80">
               <template slot-scope="scope">
@@ -162,7 +164,9 @@
               </template>
             </el-table-column>
             <el-table-column prop="mobile" label="手机号" align="center" width="120">
-              <template slot-scope="scope">{{scope.row.mobile?scope.row.mobile:'-'}}</template>
+              <template slot-scope="scope">
+                <ns-sg-sensitive-button type="simple" :defaultText="true" :encData="scope.row.mobile"></ns-sg-sensitive-button>
+              </template>
             </el-table-column>
             <el-table-column prop="memberCard" label="会员卡号" align="center" width="150">
               <template slot-scope="scope">{{scope.row.memberCard?scope.row.memberCard:'-'}}</template>
