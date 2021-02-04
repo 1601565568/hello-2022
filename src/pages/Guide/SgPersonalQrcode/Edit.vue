@@ -1,8 +1,9 @@
 <template>
-  <div style="background-color: white" class="base-border-radius">
+  <div style="background-color: white" class="base-border-radius border-line">
     <el-scrollbar ref="fullScreen" outsider>
-
-      <el-form label-width="150px" ref="form">
+    <el-row class="qrcode-content">
+    <el-col :span="16" class="qrcode-content_edit">
+      <el-form label-width="100px" label-position="left" ref="form">
         <!-- 会员招募码配置开始 -->
         <div class="form-grid">
           <div class="form-grid__title">
@@ -10,7 +11,7 @@
             {{ title }}
           </div>
           <div class="form-grid__content">
-            <el-form-item label="聚合码名称：" required>
+            <el-form-item label="聚合码名称" required>
               <el-form-grid size="xlg">
                 <el-input
                   type="text"
@@ -22,7 +23,7 @@
                 />
               </el-form-grid>
             </el-form-item>
-            <el-form-item label="聚合码类型：" required>
+            <el-form-item label="聚合码类型" required>
               <el-form-grid size="small">
                 <el-form-item prop="sex">
                   <el-radio-group v-model="personalQrcode.type" @change="checkChange()">
@@ -31,7 +32,7 @@
                 </el-form-item>
               </el-form-grid>
             </el-form-item>
-            <el-form-item label="子码设置：" required>
+            <el-form-item label="使用员工" required>
               <el-form-grid v-if="personalQrcode.type != 0">
                 <ns-button type='text' @click="choosePersonnel(personalQrcode.type)">+ 选择{{QrCodeTypeNames[personalQrcode.type]}}</ns-button>
               </el-form-grid>
@@ -66,7 +67,7 @@
                     </template>
                     <template slot-scope="scope">
                       <el-input  autofocus=true v-model="scope.row.num" onkeyup="this.value=this.value.replace(/\D|^0/g,'')" onafterpaste="this.value=this.value.replace(/\D|^0/g,'')" placeholder="" clearable></el-input>
-<!--                      <el-input v-model="scope.row.num" type="number" onkeyup="this.value=this.value.replace(/\D|^0/g,'')" onafterpaste="this.value=this.value.replace(/\D|^0/g,'')"></el-input>-->
+
                     </template>
                   </ElTableColumn>
 
@@ -120,9 +121,36 @@
                 </el-form-item>
               </el-form-grid>
             </el-form-item>
+            <el-form-item label="打标签：">
+              <el-form-grid>
+                <ns-button type='text' @click="switchTagDialog(true)">+ 选择标签</ns-button>
+              </el-form-grid>
+              <el-form-grid>
+                已选择<span class="text-primary">999</span>个标签
+              </el-form-grid>
+            </el-form-item>
+            <el-form-item label="海报">
+              <div class="poster-content">
+                <el-upload
+                  size="xlg"
+                  drag
+                  action="https://jsonplaceholder.typicode.com/posts/"
+                  multiple>
+                    <i class="el-icon-upload" style="color:#0094FC;"></i>
+                    <!-- <Icon type="ns-cloud-uploading" /> -->
+                    <div class="el-upload__text">点击或拖拽上传海报图</div>
+                    <div class="el-upload__tip" slot="tip">（请上传格式为jpg或png的图片，图片尺寸为750*1334，大小不超过10M）</div>
+                </el-upload>
+              </div>
+            </el-form-item>
           </div>
         </div>
       </el-form>
+    </el-col>
+      <el-col :span="8" class="qrcode-content_show">
+        <PosterPreviewPanel/>
+      </el-col>
+    </el-row>
     </el-scrollbar>
     <div class="message-container">
     <!---->
@@ -181,6 +209,10 @@
       </template>
     </ElDialog>
     <!--选择好友弹窗结束-->
+
+    <!-- 打标签弹窗开始 -->
+    <AddTagsDialog :visible="addTagDialogVisible" @hide="switchTagDialog(false)"/>
+    <!-- 打标签弹窗结束 -->
     </div>
     <div class="form-save__unique">
       <ns-button type="primary" @click="onSave()">保存</ns-button>
@@ -195,12 +227,16 @@ import index from './src/List'
 import ElTree from '@nascent/nui/lib/tree'
 import ElUpload from '@nascent/nui/lib/upload'
 import NsEmployeeOrCustGroupDialog from './../../../components/NsGuideDialog'
+import AddTagsDialog from './components/AddTagsDialog/index.vue'
+import PosterPreviewPanel from './components/PosterPreviewPanel'
 
 Edit.components = {
   index,
   ElTree,
   ElUpload,
-  NsEmployeeOrCustGroupDialog
+  NsEmployeeOrCustGroupDialog,
+  AddTagsDialog,
+  PosterPreviewPanel
 }
 export default Edit
 </script>
@@ -330,6 +366,9 @@ export default Edit
     display: flex;
     align-items: center;
   }
+  /* .form-grid__content {
+    margin-left: 150px;
+  } */
   .bluepillar {
     width: 4px;
     height: 12px;
@@ -385,5 +424,40 @@ export default Edit
   }
   .scoll_left::-webkit-scrollbar{
     display:none;
+  }
+
+  .el-scrollbar::before {
+    content: '';
+    border-right: 1px solid #E8E8E8;
+    position: absolute;
+    left: 66.666%;
+    height: 100%;
+    top:0;
+    bottom: 0;
+  }
+
+  .poster-content {
+    width: 580px;
+    padding: 16px;
+    padding-bottom: 0;
+    background-color: #F5F5F5;
+    >>> .el-upload--text {
+      height: 112px;
+      width: 100%;
+      .el-upload-dragger {
+        width: 100%;
+        height: 112px;
+        .el-icon-upload {
+          width: 30px;
+          height: 23px;
+          margin: 21px 0 13px;
+          font-size: 30px;
+          line-height: 23px;
+        }
+        .el-upload__text {
+          color: #8C8C8C;
+        }
+      }
+    }
   }
 </style>

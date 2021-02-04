@@ -1,0 +1,17 @@
+.adder-tool-bar {
+  >>> .el-input {
+    width: 240px;
+    height: 32px;
+    font-size: 14px;
+    input {
+      height: 32px;
+      font-size: 14px;
+    }
+
+    .el-input__suffix {
+      &::before {
+        display: none;
+      } 
+    }
+  }
+}

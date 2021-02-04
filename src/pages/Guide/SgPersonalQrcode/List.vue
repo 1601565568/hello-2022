@@ -1,8 +1,25 @@
 <template>
   <div>
-    <NsTableAutoPass ref="mainTable" :url=$api.guide.sgPersonalQrcode.findList
-                     @onAddFun="onAddFun" @onEditFun="onEditFun" @onShowFun="onShowFun" @onDeleteFun="onDeleteFun" @qrcodeLink="qrcodeLink" @@handleSelectionChange="handleSelectionChange">
-    </NsTableAutoPass>
+    <NsTableAutoPass
+      ref="mainTable"
+      :url=$api.guide.sgPersonalQrcode.findList
+      @onAddFun="onAddFun"
+      @onEditFun="onEditFun"
+      @onShowFun="onShowFun"
+      @onShowEffectAnalysisFun="onShowEffectAnalysisFun"
+      @onDeleteFun="onDeleteFun"
+      @qrcodeLink="qrcodeLink"
+      @@handleSelectionChange="handleSelectionChange"
+      @posterLink="posterLink"
+    />
+
+    <!-- 聚合二维码Dialog展示开始 UI修改 目前仅显示聚合码类型是员工 -->
+    <QrCodeDialog ref="QrCodeDialog" :memberManagePlan="memberManagePlan"/>
+    <!-- 聚合二维码展示结束 -->
+
+    <!-- 海报Dialog展示开始 -->
+    <PosterDialog ref="PosterDialog" />
+    <!-- 海报Dialog展示结束 -->
 
     <!--聚合二维码展示开始-->
     <el-dialog :title="title" :visible.sync="personalLinkFormVisible" width="400px" class="detail-dialog">
@@ -129,13 +146,17 @@ import NsTableAutoPass from './NsTablePersonalQrcode'
 import ShopSelectLoad from '@/components/ShopSelectLoad'
 import QrCode from '@xkeshi/vue-qrcode'
 import ElImage from '@nascent/nui/lib/image'
+import QrCodeDialog from './components/QrCodeDialog/index.vue'
+import PosterDialog from './components/PosterDialog.vue'
 
 List.components = {
   NsTableAutoPass,
   ElUpload,
   ShopSelectLoad,
   QrCode,
-  ElImage
+  ElImage,
+  QrCodeDialog,
+  PosterDialog
 }
 export default List
 </script>
@@ -377,10 +398,23 @@ export default List
     }
   }
   }
+
+  .qrcode-content {
+    display: flex;
+  }
+
+  .qrcode-operate {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
+
   .uploadImg{
-    position: absolute;
-    bottom: 0;
     display: inline-block;
-    width: 30px;
+    height: 28px;
+    width: 48px;
+    white-space: nowrap;
+    color: #0091FA;
+    cursor: pointer;
   }
 </style>

@@ -104,7 +104,8 @@ export default {
         num: null,
         userName: null,
         userId: null
-      }]
+      }],
+      addTagDialogVisible: false // 是否显示打标签dialog
     }
   },
   mounted: function () {
@@ -444,6 +445,9 @@ export default {
     },
     cancel () { // 取消
       this.$router.push({ path: '/Guide/SgPersonalQrcode/List' })
+    },
+    switchTagDialog (state) { // 选择标签
+      this.addTagDialogVisible = state
     }
   },
   watch: {

@@ -165,6 +165,12 @@ export default {
               'name': 'SgPersonalQrcode',
               'title': '聚合二维码',
               'component': () => import('@/pages/Guide/SgPersonalQrcode/Edit.vue')
+            },
+            {
+              'path': '/Guide/SgPersonalQrcode/List/ActivityEffect/:id',
+              'name': 'SgPersonalQrcode',
+              'title': '聚合二维码',
+              'component': () => import('@/pages/Guide/SgPersonalQrcode/ActivityEffect/index.vue')
             }
           ]
         },

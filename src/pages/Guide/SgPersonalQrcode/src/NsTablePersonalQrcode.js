@@ -50,6 +50,15 @@ export default {
     const qywxtableButtons = [
       {
         'func': function (scope) {
+          this.onShowEffectAnalysisFun(scope.row)
+        },
+        'icon': '',
+        'name': '效果分析',
+        'auth': ``,
+        'visible': `scope.row.status !== 2`
+      },
+      {
+        'func': function (scope) {
           this.onEditFun(scope.row)
         },
         'icon': '',
@@ -160,6 +169,8 @@ export default {
     this.$http.fetch(this.$api.guide.sgPersonalQrcode.queryCreatorList).then(data => {
       this.creatorList = data.result
     })
+
+    window.console.log('这是什么', this._data._table)
   },
   computed: {},
   methods: {
@@ -193,12 +204,19 @@ export default {
     onShowFun (val) {
       this.$emit('onShowFun', val)
     },
+    // 活动效果
+    onShowEffectAnalysisFun (val) {
+      this.$emit('onShowEffectAnalysisFun', val)
+    },
     // 删除
     onDeleteFun (val) {
       this.$emit('onDeleteFun', val)
     },
     qrcodeLink (data) {
       this.$emit('qrcodeLink', data)
+    },
+    posterLink (data) {
+      this.$emit('posterLink', data)
     },
     onDelsTipFun (val) {
       this.$emit('onDelsTipFun', val)

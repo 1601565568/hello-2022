@@ -453,17 +453,24 @@ export default {
         })
       })
     },
+    // 活动效果
+    onShowEffectAnalysisFun (row) {
+      this.$router.push(`/Guide/SgPersonalQrcode/List/ActivityEffect/${row.id}`)
+    },
     qrcodeLink (row) { // 聚合二维码
       this.row = row
       this.onShowId = row.id
       if (row) {
         this.type = row.type
         if (this.memberManagePlan === 1 && row.type === 0) {
-          if (row.qrcode_url === '' || row.qrcode_url === null) {
-            this.personalQrcodeLink = bgimg
-          } else {
-            this.personalQrcodeLink = row.qrcode_url
-          }
+          // 修改此情况下聚合二维码的显示
+          this.$refs.QrCodeDialog.getQrCode(row)
+          return
+          // if (row.qrcode_url === '' || row.qrcode_url === null) {
+          //   this.personalQrcodeLink = bgimg
+          // } else {
+          //   this.personalQrcodeLink = row.qrcode_url
+          // }
         } else if (this.memberManagePlan === 2 || (this.memberManagePlan === 1 && row.type === 1)) {
           this.row = row
           var hostUrl = window.location.protocol + '//' + window.location.host
@@ -484,6 +491,9 @@ export default {
           s()
         }
       }
+    },
+    posterLink (dataRow) {
+      this.$refs.PosterDialog.getQrCode(dataRow)
     },
     cleanPersonQrcode () {
       this.personalLinkFormVisible = false
