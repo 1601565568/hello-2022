@@ -80,7 +80,7 @@
         <div class="tipsShowTitle" slot="title">提示信息</div>
         <div class="tipsShowContent">
           <span class="ns-warm-cricle">!</span
-          >取消后将不会保存当前配置，确定取消吗？?
+          >取消后将不会保存当前配置，确定取消吗？
         </div>
         <span slot="footer" class="dialog-footer">
           <ns-button @click="onEscCancel">取 消</ns-button>
