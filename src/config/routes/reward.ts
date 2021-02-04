@@ -26,21 +26,10 @@ export default {
           'component': () => import('@/pages/Guide/ActivityIndex/ShopStatistics.vue')
         },
         {
-          path: '/AnalysisData/AnalysisEntWechatData',
-          name: 'AnalysisEntWechatData',
-          title: '企微数据分析',
-          component: () => import('@nascent/ecrp-ecrm/src/layout/Content.vue'),
-          redirect: {
-            name: 'EnterpriseWechatFriendData'
-          },
-          children: [
-            {
-              path: '/AnalysisWechatData/EnterpriseWechatFriendData',
-              name: 'EnterpriseWechatFriendData',
-              title: '企微好友数据分析',
-              component: () => import('@/pages/WeWork/CRMTectonicMigration/AnalysisData/EnterpriseWechatFriendData/index.vue')
-            }
-          ]
+          path: '/AnalysisWechatData/EnterpriseWechatFriendData',
+          name: 'EnterpriseWechatFriendData',
+          title: '企微好友数据分析',
+          component: () => import('@/pages/WeWork/CRMTectonicMigration/AnalysisData/EnterpriseWechatFriendData/index.vue')
         },
         {
           'path': '/Social/OperationData/CircleOfFriends',
