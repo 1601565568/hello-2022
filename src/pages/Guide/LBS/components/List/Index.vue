@@ -59,7 +59,7 @@
               width='90px'
               label="参与门店">
               <template slot-scope="scope">
-                <span class="scope-name_tip" slot="reference" @click='handleShowDetail(scope.row,scope.$index)'>{{scope.row.shopNumber}}</span>家门店
+                <span class="scope-name_tip" slot="reference" @click='handleShowDetail(scope.row,scope.$index)'>{{scope.row.shopNum}}</span>家门店
               </template>
             </el-table-column>
             <el-table-column
@@ -67,25 +67,25 @@
               width='90px'
               label="状态">
               <template slot-scope="scope">
-                <el-tag :type="statusList[scope.row.status].color" class='scope-name_tag'>{{statusList[scope.row.status].value}}</el-tag>
+                <el-tag :type="statusList[scope.row.state].color" class='scope-name_tag'>{{statusList[scope.row.state].value}}</el-tag>
               </template>
             </el-table-column>
             <el-table-column
               prop="address"
               label="有效时间">
               <template slot-scope="scope">
-                <template v-if="scope.row.validTimeType === 0">
+                <template v-if="scope.row.timeType === 0">
                   <span>永久有效</span>
                 </template>
                 <template v-else>
-                  <span>{{scope.row.validTimeStart}}</span>
+                  <span>{{scope.row.createTime}}</span>
                   至
-                  <span>{{scope.row.validTimeEnd}}</span>
+                  <span>{{scope.row.endTime}}</span>
                 </template>
               </template>
             </el-table-column>
             <el-table-column
-              prop="loginAccount"
+              prop="createName"
               width='90px'
               label="创建人">
             </el-table-column>
@@ -94,7 +94,6 @@
               label="创建时间">
             </el-table-column>
             <el-table-column
-              prop="guideNames"
               width='100px'
               align='center'
               label="二维码">
@@ -105,7 +104,6 @@
               </template>
             </el-table-column>
             <el-table-column
-              prop="guideNames"
               align='center'
               width='100px'
               label="海报">
@@ -120,8 +118,10 @@
               width='250px'
               label="操作">
               <template slot-scope="scope">
-                <ns-button type="text" v-if='[1,2].includes(scope.row.status)' @click='handleEdit({id:scope.row.lbsId})'>编辑</ns-button>
-                <ns-button type="text" v-if='[1,2].includes(scope.row.status)' @click='handleEnd(scope.row.lbsId)'>结束活动</ns-button>
+                <!-- <ns-button type="text" v-if='[1,2].includes(scope.row.status)' @click='handleEdit({id:scope.row.lbsId})'>编辑</ns-button>
+                <ns-button type="text" v-if='[1,2].includes(scope.row.status)' @click='handleEnd(scope.row.lbsId)'>结束活动</ns-button> -->
+                <ns-button type="text" @click='handleEdit({id:scope.row.lbsId})'>编辑</ns-button>
+                <ns-button type="text" @click='handleEnd(scope.row.lbsId)'>结束活动</ns-button>
                 <ns-button type="text" v-copy='scope.row.activityPlacard'>复制链接</ns-button>
                 <ns-button type="text" v-if='scope.row.status!==1' @click='handleAnalysis(scope.row.lbsId)'>效果分析</ns-button>
               </template>

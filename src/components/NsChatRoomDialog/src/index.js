@@ -31,6 +31,10 @@ export default {
     type: {
       type: String,
       default: 'text'
+    },
+    showIcon: {
+      type: Boolean,
+      default: true
     }
   },
   data: function () {

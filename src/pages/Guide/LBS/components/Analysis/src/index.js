@@ -13,14 +13,32 @@ export default {
       model: {
         shopIds: []
       },
-      activeType: 'shop' // 选中的数据 shop: 门店  employee：成员
+      activeType: 'shop', // 选中的数据 shop: 门店  employee：成员
+      // 时间筛选
+      dateList: [
+        {
+          label: '昨天',
+          value: '1day'
+        }, {
+          label: '近7天',
+          value: '7day'
+        }, {
+          label: '近30天',
+          value: '30day'
+        }
+      ],
+      // 时间选择的值
+      dateValue: 'all'
     }
   },
   mixins: [tableMixin],
   methods: {
+    // 返回上一页
+    handleBack () {
+      this.$router.go(-1)
+    },
     handleChangeType (activeType) {
       this.activeType = activeType
-      console.log(this.activeType)
     }
   }
 }

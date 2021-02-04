@@ -5,6 +5,24 @@
         <Icon type="icon-fanhuishangyiji" class='back-icon' @click='handleBack'></Icon>
         活动效果
       </h3>
+      <div class='header-tab'>
+        <el-tabs v-model="dateValue" @tab-click="handleChangeDateType">
+          <el-tab-pane v-for="item in dateList" :label="item.label" :name="item.value" :key="item.value"></el-tab-pane>
+        </el-tabs>
+        <div class="header-tab_right">
+          <el-date-picker
+            v-model="dateValueList"
+            type="datetimerange"
+            value-format="yyyy-MM-dd HH:mm:ss"
+            range-separator="至"
+            start-placeholder="请选择开始日期"
+            end-placeholder="请选择结束日期"
+            :default-time="['00:00:00','23:59:59']"
+            @change='handleChangeDateValue'
+            align="right">
+          </el-date-picker>
+        </div>
+      </div>
     </div>
     <page-table>
       <template slot='search'>
@@ -19,18 +37,6 @@
               </template>
             </NsShopDialog>
           </el-form-item>
-          <el-form-item label="日期：" class='el-form__change'>
-            <el-date-picker
-              v-model="seachDate"
-              type="datetimerange"
-              value-format="yyyy-MM-dd HH:mm:ss"
-              range-separator="至"
-              start-placeholder="请选择开始日期"
-              end-placeholder="请选择结束日期"
-              :default-time="['00:00:00','23:59:59']"
-              align="right">
-            </el-date-picker>
-          </el-form-item>
           <el-form-item label="群码设置状态：" class='el-form__change'>
             <el-select v-model="model.status" placeholder="请选择" @change='(value)=>{changeSearchfrom({status:value})}'>
               <el-option
@@ -44,7 +50,7 @@
         </el-form>
       </template>
       <template slot='button'>
-        <ns-button  size='large' @click="handleDetail({})">导出CSV文件</ns-button>
+        <ns-button  size='large'>导出CSV文件</ns-button>
       </template>
       <template slot='table'>
         <el-row class='tab-ul' :gutter="24">
@@ -105,12 +111,18 @@ Analysis.components = {
     .analysis-header {
       margin: -10px -10px 16px -10px;
       background: #fff;
+      display: flex;
+      justify-content: space-between;
       padding: 0 16px;
       .header-text {
         font-size: 16px;
         color: #262626;
         height: 48px;
         line-height: 48px;
+        display: flex;
+        align-items: center;
+      }
+      .header-tab {
         display: flex;
         align-items: center;
       }
@@ -188,4 +200,26 @@ Analysis.components = {
       }
     }
   }
+</style>
+<style scoped>
+.header-tab {
+  >>> .el-tabs__item {
+    box-sizing: content-box;
+    display: inline-block;
+    padding: 8px 0;
+    height: 32px;
+    line-height: 32px;
+    width: 82px;
+    text-align: center;
+    font-size: 14px;
+    color: #262626;
+    font-weight: normal;
+    &.is-active {
+      color:#0094FC;
+    }
+  }
+  >>> .el-tabs__header {
+    border-bottom: none;
+  }
+}
 </style>
