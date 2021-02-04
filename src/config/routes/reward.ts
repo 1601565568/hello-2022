@@ -29,7 +29,7 @@ export default {
           path: '/AnalysisData/AnalysisEntWechatData',
           name: 'AnalysisEntWechatData',
           title: '企微数据分析',
-          component: () => import('@nascent/ecrp-ecrm/src/layout/ContentTab.vue'),
+          component: () => import('@nascent/ecrp-ecrm/src/layout/Content.vue'),
           redirect: {
             name: 'EnterpriseWechatFriendData'
           },
