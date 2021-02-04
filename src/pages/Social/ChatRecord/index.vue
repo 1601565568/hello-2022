@@ -4,9 +4,9 @@
       <div class="page-header fl_between">
         <div class="tabs">
           <el-tabs v-model="activeName">
-            <el-tab-pane label="客户" name="客户"></el-tab-pane>
-            <el-tab-pane label="群" name="群"></el-tab-pane>
-            <el-tab-pane label="导购" name="导购"></el-tab-pane>
+            <el-tab-pane label="客户" name="1"></el-tab-pane>
+            <el-tab-pane label="群" name="2"></el-tab-pane>
+            <el-tab-pane label="导购" name="3"></el-tab-pane>
           </el-tabs>
         </div>
         <div>
@@ -18,9 +18,18 @@
     <div class="template-content">
       <div class="template-content__l">
         <div class="template-content__list">
-          <div class="content_header">{{ activeName }}列表</div>
+          <div class="content_header">
+            <span>{{ activeName }}列表</span>
+            <div>
+              <img :src="packup" />
+            </div>
+          </div>
           <div class="content_search">
-            <el-input :placeholder="placeholder" v-model="input1"></el-input>
+            <el-input
+              :placeholder="placeholder"
+              v-model="input1"
+              clearable
+            ></el-input>
           </div>
           <div class="loadMoreWarpper">
             <LoadMore @scroll="changeScroll" :scrollDistance="50">
@@ -47,7 +56,11 @@
         <div class="customer_list">
           <div class="content_header">{{ activeName }}列表</div>
           <div class="content_search">
-            <el-input :placeholder="placeholder" v-model="input1"></el-input>
+            <el-input
+              :placeholder="placeholder"
+              v-model="input1"
+              clearable
+            ></el-input>
           </div>
           <div class="loadMoreWarpper">
             <LoadMore @scroll="changeScroll" :scrollDistance="50">
@@ -111,6 +124,16 @@ export default Index
     // width: 30%;
     .template-content__list {
       // width: 60%;
+      position: relative;
+      &::after {
+        content: '';
+        position: absolute;
+        right: 0px;
+        top: 0px;
+        width: 1px;
+        height: 100%;
+        background: #e8e8e8;
+      }
       min-width: 200px;
       .user_list {
         // margin-top: 16px;
@@ -123,7 +146,7 @@ export default Index
           align-items: center;
           height: 64px;
           padding: 0px 16px;
-          border-radius: 2px;
+          // border-radius: 2px;
           user-select: none;
           &:hover {
             background: #d9effe;
@@ -150,16 +173,41 @@ export default Index
         }
       }
       .user_list_select {
+        position: relative;
         background: #d9effe;
+        z-index: 2;
+        &::after {
+          position: absolute;
+          right: 0px;
+          top: 50%;
+          transform: translate(0%, -50%);
+          content: '';
+          border-top: 7px solid transparent;
+          border-right: 7px solid #fff;
+          border-bottom: 7px solid transparent;
+          border-left: 7px solid transparent;
+        }
       }
     }
     .content_header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
       font-weight: bold;
       padding: 0px 16px;
       height: 56px;
       line-height: 56px;
       font-size: 16px;
       color: #262626;
+      img {
+        width: 16px;
+        height: 16px;
+        image-rendering: -moz-crisp-edges;
+        image-rendering: -o-crisp-edges;
+        image-rendering: -webkit-optimize-contrast;
+        image-rendering: crisp-edges;
+        -ms-interpolation-mode: nearest-neighbor;
+      }
     }
     .content_search {
       margin-top: 4px;
@@ -171,20 +219,20 @@ export default Index
       padding-bottom: 16px;
       overflow: hidden;
       height: calc(100vh - 283px);
-      &::before {
-        content: '';
-        position: absolute;
-        width: 100%;
-        height: 16px;
-        left: 0px;
-        bottom: 0px;
-        background: #fff;
-        z-index: 2;
-      }
+      // &::before {
+      //   content: '';
+      //   position: absolute;
+      //   width: 100%;
+      //   height: 16px;
+      //   left: 0px;
+      //   bottom: 0px;
+      //   background: #fff;
+      //   z-index: 2;
+      // }
     }
     .customer_list {
       width: 173px;
-      border-left: 1px solid #e8e8e8;
+      // border-left: 1px solid #e8e8e8;
     }
     .customer_list__warpper {
       padding: 0 16px;
@@ -235,7 +283,7 @@ export default Index
         bottom: 0px;
         background: #f5f5f5;
         border-bottom: 1px solid #e8e8e8;
-        z-index: 3;
+        z-index: 1;
       }
     }
   }

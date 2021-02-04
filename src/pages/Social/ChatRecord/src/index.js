@@ -1,12 +1,15 @@
-import Page from '../../components/page'
 import LoadMore from '../../components/LoadMore'
 import ChatRecordList from '../../components/chatRecordList'
+import packup from '../image/ns-arrow-packup.png'
+import unfold from '../image/ns-arrow-unfold.png'
 export default {
-  components: { Page, LoadMore, ChatRecordList },
+  components: { LoadMore, ChatRecordList },
   data () {
     return {
+      packup,
+      unfold,
       value1: '',
-      activeName: '客户',
+      activeName: '1',
       count: 40,
       input1: '',
       select: 1

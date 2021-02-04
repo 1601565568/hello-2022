@@ -349,6 +349,12 @@ export default {
           'name': 'ChatRecord',
           'title': '聊天记录',
           'component': () => import('@/pages/Social/ChatRecord/index.vue')
+        },
+        {
+          'path': '/Social/WeWorkGroup/sensitiveWords',
+          'name': 'sensitiveWords',
+          'title': '敏感词监控',
+          'component': () => import('@/pages/WeWork/SensitiveWords/index.vue')
         }
       ]
     },

@@ -4,75 +4,79 @@
     id="chatRecordListWarpper"
     ref="chatRecordListWarpper"
   >
-    <div class="chatRecordList" v-for="(item, index) in list" :key="index">
-      <!-- 聊天左边 -->
-      <div :class="item.user === 1 ? 'chatRecord_l' : 'chatRecord_R'">
-        <img
-          v-if="item.user === 1"
-          class="user_pic"
-          src="https://dss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=4131746241,2477555401&fm=111&gp=0.jpg"
-        />
-        <div class="chatRecord_content">
-          <div class="chatRecord_name_time">刘启竞 2020/07/18 12:00</div>
-          <div class="chatRecord_text" v-if="item.type === 1">
-            导购你好，我是张三。
-          </div>
-          <div class="chatRecord_img" v-if="item.type === 2">
+    <el-scrollbar ref="fullScreen" style="height:100%">
+      <div class="chatRecordList-content">
+        <div class="chatRecordList" v-for="(item, index) in list" :key="index">
+          <!-- 聊天左边 -->
+          <div :class="item.user === 1 ? 'chatRecord_l' : 'chatRecord_R'">
             <img
-              src="https://dss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3363295869,2467511306&fm=26&gp=0.jpg"
+              v-if="item.user === 1"
+              class="user_pic"
+              src="https://dss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=4131746241,2477555401&fm=111&gp=0.jpg"
             />
-          </div>
-          <div class="chatRecord_video" v-if="item.type === 3">
-            <img
-              src="https://dss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3363295869,2467511306&fm=26&gp=0.jpg"
-            />
-            <div class="icon"></div>
-          </div>
-          <img
-            class="chatRecord_redenvelopes"
-            v-if="item.type === 4"
-            src="https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-WEB/image/red%20envelopes1.png"
-          />
-          <img
-            class="chatRecord_redenvelopes"
-            v-if="item.type === 5"
-            src="https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-WEB/image/red%20envelopes2.png"
-          />
-          <div class="chatRecord_share" v-if="item.type === 6">
-            <div class="chatRecord_share__title">
-              唇膏测评、涂啥口红都好看的秘诀？选好唇膏，唇纹是以…
-            </div>
-            <div class="chatRecord_share__content">
-              <div class="chatRecord_share__Text">
-                轻松get完美唇部状态轻松get完美唇部状态轻松get完美唇部状get完美唇部ge完美唇部完…
+            <div class="chatRecord_content">
+              <div class="chatRecord_name_time">刘启竞 2020/07/18 12:00</div>
+              <div class="chatRecord_text" v-if="item.type === 1">
+                导购你好，我是张三。
+              </div>
+              <div class="chatRecord_img" v-if="item.type === 2">
+                <img
+                  src="https://dss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3363295869,2467511306&fm=26&gp=0.jpg"
+                />
+              </div>
+              <div class="chatRecord_video" v-if="item.type === 3">
+                <img
+                  src="https://dss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3363295869,2467511306&fm=26&gp=0.jpg"
+                />
+                <div class="icon"></div>
               </div>
               <img
-                class="chatRecord_share__img"
-                src="https://dss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=4131746241,2477555401&fm=111&gp=0.jpg"
+                class="chatRecord_redenvelopes"
+                v-if="item.type === 4"
+                src="https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-WEB/image/red%20envelopes1.png"
               />
-            </div>
-            <div class="chatRecord_share__user">
               <img
-                class="chatRecord_share__user__img"
-                src="https://dss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=4131746241,2477555401&fm=111&gp=0.jpg"
+                class="chatRecord_redenvelopes"
+                v-if="item.type === 5"
+                src="https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-WEB/image/red%20envelopes2.png"
               />
-              <span class="chatRecord_share__user__name">小猪姐姐zz</span>
+              <div class="chatRecord_share" v-if="item.type === 6">
+                <div class="chatRecord_share__title">
+                  唇膏测评、涂啥口红都好看的秘诀？选好唇膏，唇纹是以…
+                </div>
+                <div class="chatRecord_share__content">
+                  <div class="chatRecord_share__Text">
+                    轻松get完美唇部状态轻松get完美唇部状态轻松get完美唇部状get完美唇部ge完美唇部完…
+                  </div>
+                  <img
+                    class="chatRecord_share__img"
+                    src="https://dss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=4131746241,2477555401&fm=111&gp=0.jpg"
+                  />
+                </div>
+                <div class="chatRecord_share__user">
+                  <img
+                    class="chatRecord_share__user__img"
+                    src="https://dss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=4131746241,2477555401&fm=111&gp=0.jpg"
+                  />
+                  <span class="chatRecord_share__user__name">小猪姐姐zz</span>
+                </div>
+              </div>
+              <div class="chatRecord_map" v-if="item.type === 7">
+                <div class="chatRecord_map_text">
+                  浙江省杭州市江干区九堡街道九和路东方电子商务园7…
+                </div>
+              </div>
             </div>
-          </div>
-          <div class="chatRecord_map" v-if="item.type === 7">
-            <div class="chatRecord_map_text">
-              浙江省杭州市江干区九堡街道九和路东方电子商务园7…
-            </div>
+            <img
+              v-if="item.user === 2"
+              class="user_pic"
+              src="https://dss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=4131746241,2477555401&fm=111&gp=0.jpg"
+            />
           </div>
         </div>
-        <img
-          v-if="item.user === 2"
-          class="user_pic"
-          src="https://dss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=4131746241,2477555401&fm=111&gp=0.jpg"
-        />
+        <NsNoData v-if="false">暂无数据</NsNoData>
       </div>
-    </div>
-    <NsNoData v-if="false">暂无数据</NsNoData>
+    </el-scrollbar>
   </div>
 </template>
 <script>
@@ -127,13 +131,14 @@ export default {
   },
   mounted () {
     this.scrollToBottom()
-    document
-      .getElementById('chatRecordListWarpper')
-      .addEventListener(
-        'scroll',
-        this.throttle(this.scrollMoreData, 500, 1000),
-        false
-      )
+    this.handleScroll()
+    // document
+    //   .getElementById('chatRecordListWarpper')
+    //   .addEventListener(
+    //     'scroll',
+    //     this.throttle(this.scrollMoreData, 500, 1000),
+    //     false
+    //   )
   },
   methods: {
     /**
@@ -141,10 +146,24 @@ export default {
      */
     scrollToBottom () {
       this.$nextTick(() => {
-        let container = this.$refs.chatRecordListWarpper
-        const clientHeight = this.$refs.chatRecordListWarpper.clientHeight
-        const scrollHeight = this.$refs.chatRecordListWarpper.scrollHeight
+        let container = this.$refs.fullScreen.wrap
+        const clientHeight = this.$refs.fullScreen.wrap.clientHeight
+        const scrollHeight = this.$refs.fullScreen.wrap.scrollHeight
         container.scrollTop = clientHeight + scrollHeight
+      })
+    },
+    handleScroll () {
+      this.$nextTick(() => {
+        let _self = this
+        let scrollbarEl = this.$refs.fullScreen.wrap
+        // const clientHeight = this.$refs.fullScreen.wrap.clientHeight
+        // const scrollHeight = this.$refs.fullScreen.wrap.scrollHeight
+        scrollbarEl.onscroll = function () {
+          // console.log('scrollbarEl.scrollTop', scrollbarEl.scrollTop)
+          if (scrollbarEl.scrollTop <= 50) {
+            console.log('到顶部啦，11111')
+          }
+        }
       })
     },
     throttle (func, wait, mustRun) {
@@ -166,9 +185,9 @@ export default {
       }
     },
     scrollMoreData () {
-      const scrollTop = this.$refs.chatRecordListWarpper.scrollTop
-      const clientHeight = this.$refs.chatRecordListWarpper.clientHeight
-      const scrollHeight = this.$refs.chatRecordListWarpper.scrollHeight
+      const scrollTop = this.$refs.fullScreen.wrap.scrollTop
+      const clientHeight = this.$refs.fullScreen.wrap.clientHeight
+      const scrollHeight = this.$refs.fullScreen.wrap.scrollHeight
       console.log(scrollTop, 'scrollTop')
       console.log(clientHeight, 'clientHeight')
       console.log(scrollHeight, 'scrollHeight')
@@ -185,13 +204,15 @@ export default {
 <style lang="scss" scoped>
 .chatRecordListWarpper {
   position: relative;
-  padding: 32px 40px 0px 40px;
   height: 100%;
   overflow-y: auto;
   scrollbar-width: none;
   &::-webkit-scrollbar {
     display: none;
   }
+}
+.chatRecordList-content {
+  padding: 32px 40px 0px 40px;
 }
 .chatRecordList {
   margin-bottom: 32px;

@@ -28,14 +28,7 @@ export default {
         false
       )
   },
-  destroyed () {
-    document
-      .getElementById('pageloadMore')
-      .removeEventListener(
-        'scroll',
-        this.throttle(this.scrollMoreData, 500, 1000),
-        false
-      )
+  beforeDestroy () {
   },
   methods: {
     throttle (func, wait, mustRun) {
