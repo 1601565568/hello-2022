@@ -344,7 +344,7 @@
       <el-table :data="detailData">
         <el-table-column prop="name" label="姓名">
           <template slot-scope="scope">
-            <ns-sg-sensitive-button type="simple" :defaultText="true" :encData="scope.row.name"></ns-sg-sensitive-button>
+            <ns-sg-sensitive-button type="simple" :defaultText="true" :encryptData="scope.row.encName" :sensitiveData="scope.row.name"></ns-sg-sensitive-button>
           </template>
         </el-table-column>
         <el-table-column prop="createTime" label="招募时间" align="center" width="200"></el-table-column>
@@ -392,7 +392,7 @@
       <el-table :data="detailData">
         <el-table-column prop="name" label="姓名">
           <template slot-scope="scope">
-            <ns-sg-sensitive-button type="simple" :defaultText="true" :encData="scope.row.name"></ns-sg-sensitive-button>
+            <ns-sg-sensitive-button type="simple" :defaultText="true" :encryptData="scope.row.encName" :sensitiveData="scope.row.name"></ns-sg-sensitive-button>
           </template>
         </el-table-column>
         <el-table-column prop="tradeId" label="订单编号" align="center"></el-table-column>
@@ -441,7 +441,7 @@
       <el-table :data="detailData">
         <el-table-column prop="friendWxnick" label="昵称">
           <template slot-scope="scope">
-            <ns-sg-sensitive-button type="simple" :defaultText="true" :encData="scope.row.friendWxnick"></ns-sg-sensitive-button>
+            <ns-sg-sensitive-button type="simple" :defaultText="true" :encryptData="scope.row.encFriendWxnick" :sensitiveData="scope.row.friendWxnick"></ns-sg-sensitive-button>
           </template>
         </el-table-column>
         <el-table-column prop="createTime" label="新加好友时间" align="center" width="200"></el-table-column>
