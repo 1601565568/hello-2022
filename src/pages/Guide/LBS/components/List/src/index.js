@@ -219,10 +219,6 @@ export default {
       this.dialogData.type = 'qrcode'
       this.dialogVisible = true
     },
-    // 编辑
-    handleEdit (obj) {
-      this.handleDetail(obj)
-    },
     // 结束活动
     handleEnd (lbsId) {
       this.$confirm('确定要结束活动吗？\n\r结束后将无法再开启，此活动码将失效，消费者无法扫码入群。', '提示信息', {
@@ -243,10 +239,10 @@ export default {
         })
     },
     // 去报表
-    handleAnalysis (id) {
+    handleAnalysis (guid, name) {
       this.$router.push({
         path: this.analysisPath,
-        query: { id }
+        query: { guid, name }
       })
     },
     // 跳转详情

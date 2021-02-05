@@ -179,12 +179,11 @@ export default {
       })
     },
     doUpdate () {
-      this.btnLoad = true
       this.$http.fetch(this.saveApi, this.formatLoadData(this.model, 'updata')).then(() => {
         this.btnLoad = false
         this.$notify.success('修改成功')
       }).catch((resp) => {
-        this.btnLoad = true
+        this.btnLoad = false
         this.$notify.error(getErrorMsg('修改失败', resp))
       })
     },

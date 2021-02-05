@@ -6,6 +6,7 @@
           :data="data"
           class="new-table_border"
           :row-style="tableRowClassName"
+          @sort-change="handleSort"
           style="width: 100%">
           <el-table-column
             prop="shopName"
@@ -24,6 +25,7 @@
           </el-table-column>
           <el-table-column
             prop="employeeNum"
+            sortable="custom"
             label="新增群成员数">
           </el-table-column>
           <el-table-column
@@ -32,7 +34,7 @@
             label="操作">
             <template slot-scope="scope">
               <div class='btn-context'>
-                <ns-button type="text" class='detail-btn'>查看详情</ns-button>
+                <ns-button type="text" class='detail-btn' @click='handleDetail(scope.row,scope.$index)'>查看详情</ns-button>
                 <NsChatRoomDialog btnTitle="添加群聊" @getChatRoomData="(list)=>{getChatRoomData(list,scope.row)}" :showIcon='false'></NsChatRoomDialog>
               </div>
             </template>
@@ -40,31 +42,124 @@
         </el-table>
       </template>
     </page-table>
+    <el-drawer
+      :modal='false'
+      size='50%'
+      @close='handleClose'
+      :visible.sync="drawer"
+      :with-header="false">
+      <div class='master-close'>
+        <i class="el-icon-close" @click="handleClose"></i>
+      </div>
+      <GroupList v-if='drawer' :id='shopId' @onNext='getOhter("next",handleDetail)' @onPrev='getOhter("prev",handleDetail)' />
+    </el-drawer>
   </div>
 </template>
 <script>
 import PageTable from '@/components/NewUi/PageTable'
+import ElDrawer from '@nascent/nui/lib/drawer'
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import NsChatRoomDialog from '@/components/NsChatRoomDialog/index'
+import GroupList from './GroupList'
 export default {
   data () {
     return {
-      url: this.$api.guide.lbs.findGroupList,
+      url: this.$api.guide.lbs.getGroupShop,
       data: [{
         shopName: '参与门店',
         groupNum: 12,
         employeeNum: 11,
         id: 1
-      }]
+      }],
+      drawer: false,
+      shopId: null,
+      activeIndex: -1
     }
   },
   components: {
-    PageTable, NsChatRoomDialog
+    PageTable, NsChatRoomDialog, ElDrawer, GroupList
+  },
+  props: {
+    model: {
+      default () {
+        return {}
+      }
+    }
   },
   mixins: [tableMixin],
   methods: {
     getChatRoomData (list, item) {
-      console.log(list, item)
+      const parmas = {
+        guid: this.$route.query.guid,
+        shopId: item.shopId,
+        groupList: list
+      }
+      this.$http.fetch(this.$api.guide.lbs.addGroup, parmas).then(res => {
+        if (res.success) {
+          this.$notify.success('添加成功')
+          this.$searchAction$()
+        }
+      }).catch(res => {
+        this.$notify.error(res.msg)
+      })
+    },
+    // 查看详情
+    handleDetail (row, index) {
+      this.activeIndex = index
+      this.shopId = row.id
+      this.drawer = true
+    },
+    // 查看门店选择上一个或下一个详情
+    getOhter (type, cb) {
+      const { page, size, total } = this._data._pagination
+      if (type === 'prev') {
+        if (this.activeIndex === 0) {
+          if (page === 1) {
+            this.$notify.error('暂无上一个')
+          } else {
+            this._data._pagination.page = page - 1
+            this.$queryList$(this.$generateParams$()).then(() => {
+              const index = this._data._table.data.length - 1
+              cb(this._data._table.data[index], index)
+            })
+          }
+        } else {
+          const index = this.activeIndex - 1
+          cb(this._data._table.data[index], index)
+        }
+      } else if (type === 'next') {
+        if (((page - 1) * size + this.activeIndex + 1) >= total) {
+          this.$notify.error('暂无下一个')
+        } else {
+          if (this.activeIndex === size - 1) {
+            this._data._pagination.page = page + 1
+            this.$queryList$(this.$generateParams$()).then(() => {
+              const index = 0
+              cb(this._data._table.data[index], index)
+            })
+          } else {
+            const index = this.activeIndex + 1
+            cb(this._data._table.data[index], index)
+          }
+        }
+      }
+    },
+    // 关闭详情弹框
+    handleClose () {
+      this.drawer = false
+    },
+    handleSort (val) {
+      const { order, prop } = val
+      this.$emit('onSort', { order: order === 'ascending' ? 1 : 0, sortName: prop })
+    }
+  },
+  watch: {
+    model: {
+      handler () {
+        this.$searchAction$()
+      },
+      immediate: true,
+      deep: true
     }
   }
 }

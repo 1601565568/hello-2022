@@ -11,7 +11,7 @@
         </el-tabs>
         <div class="header-tab_right">
           <el-date-picker
-            v-model="dateValueList"
+            v-model="time"
             type="datetimerange"
             value-format="yyyy-MM-dd HH:mm:ss"
             range-separator="至"
@@ -28,7 +28,7 @@
       <template slot='search'>
         <el-form :inline="true" class='form-inline_top'>
           <el-form-item label="选择门店：">
-            <NsShopDialog :selfBtn='true' :appendToBody='true' :isButton="false" :auth="false" type="icon" btnTitle="" dialogTitle="选择门店" v-model="model.shopIds" @input="handleChangeGuide">
+            <NsShopDialog :selfBtn='true' :appendToBody='true' :isButton="false" :auth="false" type="icon" btnTitle="" dialogTitle="选择门店" v-model="model.shopIds" @input="getDataTotal">
               <template slot='btnIcon'>
                 <div class='self-btn'>
                   {{(model.shopIds&&model.shopIds.length)?`已选择${model.shopIds.length}个门店`:'全部'}}
@@ -38,7 +38,7 @@
             </NsShopDialog>
           </el-form-item>
           <el-form-item label="群码设置状态：" class='el-form__change'>
-            <el-select v-model="model.status" placeholder="请选择" @change='(value)=>{changeSearchfrom({status:value})}'>
+            <el-select v-model="model.status" placeholder="请选择" @change='getDataTotal'>
               <el-option
                 v-for="item in statusOptionList"
                 :key="item.value"
@@ -58,7 +58,7 @@
             <div class='tab-li'  @click='handleChangeType("shop")'>
               <div class='tab-li_left'>
                 <p class='tab-li_name'>参与门店</p>
-                <h3 class='tab-li_value'>90</h3>
+                <h3 class='tab-li_value'>{{countData.shop}}</h3>
               </div>
               <div class='tab-li_right'>
                 <Icon type="ns-shoper" class='tab-li_icon'></Icon>
@@ -69,7 +69,7 @@
             <div class='tab-li'  @click='handleChangeType("employee")'>
               <div class='tab-li_left'>
                 <p class='tab-li_name'>新增群成员</p>
-                <h3 class='tab-li_value'>90</h3>
+                <h3 class='tab-li_value'>{{countData.employee}}</h3>
               </div>
               <div class='tab-li_right employee'>
                 <Icon type="ns-group" class='tab-li_icon'></Icon>
@@ -77,11 +77,11 @@
             </div>
           </el-col>
         </el-row>
-        <div v-show="activeType === 'shop'">
-          <ShopTable />
+        <div v-if="activeType === 'shop'">
+          <ShopTable :model='model' @onSort='onSort'/>
         </div>
-        <div v-show="activeType === 'employee'">
-          <EmployeeTable/>
+        <div v-if="activeType === 'employee'">
+          <EmployeeTable :model='model'/>
         </div>
       </template>
     </page-table>
@@ -127,7 +127,7 @@ Analysis.components = {
         align-items: center;
       }
       .header-tab_right {
-        margin-bottom: 13px;
+        height: 32px;
         padding-left:  24px;
         border-left:1px solid #E8E8E8;
       }
