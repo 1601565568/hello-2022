@@ -30,7 +30,14 @@ export default {
   name: 'NsSgSensitiveButton',
   props: {
     //
-    encData: {
+    sensitiveData: {
+      type: String,
+      default () {
+        return ''
+      }
+    },
+    //
+    encryptData: {
       type: String,
       default () {
         return ''
@@ -69,9 +76,7 @@ export default {
       // 展示数据
       exhibitionData: '',
       // 当前组件唯一标识
-      uniqueKey: '',
-      encryptData: '',
-      sensitiveData: ''
+      uniqueKey: ''
     }
   },
   watch: {
@@ -79,23 +84,6 @@ export default {
       if (this.visibleData && value !== this.uniqueKey) {
         this.restoreData()
       }
-    },
-    encData: {
-      handler (newVal) {
-        if (newVal) {
-          const dataArr = newVal.split('||')
-          if (newVal) {
-            const dataArr = newVal.split('|enc|')
-            if (dataArr[0]) {
-              this.sensitiveData = dataArr[0]
-            }
-            if (dataArr[1]) {
-              this.encryptData = dataArr[1]
-            }
-          }
-        }
-      },
-      immediate: true
     },
     encryptData (value) {
       if (value === null || value === '') {
