@@ -17,14 +17,14 @@
             class="new-table_border"
             style="width: 100%">
             <el-table-column
-              prop="title"
+              prop="shopName"
               label="门店名称">
             </el-table-column>
              <el-table-column
               prop="status"
               label="状态">
               <template slot-scope="scope">
-                <el-tag :type="statusList[scope.row.status].color" class='scope-name_tag'>{{statusList[scope.row.status].value}}</el-tag>
+                <el-tag :type="statusList[scope.row.status+''].color" class='scope-name_tag'>{{statusList[scope.row.status+''].value}}</el-tag>
               </template>
             </el-table-column>
           </el-table>
@@ -66,34 +66,34 @@ export default {
         page: 1,
         total: 0
       },
-      url: this.$api.guide.lbs.findShopList,
+      url: this.$api.guide.lbs.getGroupShop,
       // 筛选数据
       model: {
-        title: '',
-        lbsId: ''
+        shopName: '',
+        guid: ''
       },
       // 状态列表
       statusList: {
-        0: {
-          value: '已结束',
+        '0': {
+          value: '删除',
           color: 'info'
         },
-        1: {
-          value: '未开始',
+        '-1': {
+          value: '暂停',
           color: 'warning'
         },
-        2: {
-          value: '进行中',
+        '1': {
+          value: '正常营业',
           color: 'success'
         },
-        3: {
-          value: '提前结束',
+        '-2': {
+          value: '已关店',
           color: 'info'
         }
       }
     }
   },
-  props: ['id'],
+  props: ['guid'],
   components: {
     PageTable
   },
@@ -117,9 +117,9 @@ export default {
     }
   },
   watch: {
-    id: {
+    guid: {
       handler (newVal, oldVal) {
-        this.model.lbsId = newVal
+        this.model.guid = newVal
         this.$searchAction$()
       },
       immediate: true

@@ -1,21 +1,13 @@
-import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import moment from 'moment'
 export default {
   data () {
     return {
-      pagination4Emp: {
-        enable: true,
-        size: 15,
-        sizeOpts: [15, 25, 50, 100],
-        page: 1,
-        total: 0
-      },
-      url: this.$api.guide.lbs.findGroupList,
       model: {
-        shopIds: [],
+        shopIdList: [],
         status: -1,
         startTime: '',
-        endTime: ''
+        endTime: '',
+        guid: this.$route.query.guid
       },
       time: [], // 时间筛选
       activeType: 'shop', // 选中的数据 shop: 门店  employee：成员
@@ -75,20 +67,22 @@ export default {
       return this.type === 'Group' ? this.$api.guide.lbs.getGroupStatisticsCount : this.$api.guide.lbs.getFirendsStatisticsCount
     }
   },
-  mixins: [tableMixin],
   methods: {
     // 获取列表统计
     getDataTotal () {
+      const model = this.model
       const parmas = {
-        guid: this.$route.query.guid,
-        ...this.model
+        guid: model.guid,
+        shopIdList: model.shopIdList,
+        startTime: model.startTime,
+        endTime: model.endTime
       }
       this.$http.fetch(this.countApi, parmas).then(res => {
-        const { shop = 0,
-          employee = 0 } = res.result
+        const { shopNum = 0,
+          adduserNum = 0 } = res.result
         this.countData = {
-          shop,
-          employee
+          shop: shopNum,
+          employee: adduserNum
         }
       }).catch(res => {
         this.$notify.error(res.msg)
@@ -142,5 +136,8 @@ export default {
     handleChangeType (activeType) {
       this.activeType = activeType
     }
+  },
+  mounted () {
+    this.getDataTotal()
   }
 }

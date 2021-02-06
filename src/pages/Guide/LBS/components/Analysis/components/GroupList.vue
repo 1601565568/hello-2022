@@ -27,6 +27,7 @@
           </el-table-column>
           <el-table-column
             prop="groupNumer"
+            sortable="custom"
             label="群成员数">
           </el-table-column>
           <el-table-column
@@ -77,7 +78,7 @@ export default {
         page: 1,
         total: 0
       },
-      url: this.$api.guide.lbs.getGroupByshop,
+      url: this.$api.guide.lbs.activityShopDetail,
       // 筛选数据
       model: {
         sortName: '', // 排序字段名称
@@ -104,7 +105,7 @@ export default {
       }
     }
   },
-  props: ['id'],
+  props: ['shopId', 'guid'],
   components: {
     PageTable, NsChatRoomDialog
   },
@@ -144,12 +145,22 @@ export default {
     },
     handleNext () {
       this.$emit('onNext')
+    },
+    handleSort (val) {
+      const { order, prop } = val
+      this.model = {
+        ...this.mode,
+        sortName: prop,
+        orderType: order === 'ascending' ? 1 : 0
+      }
+      this.$searchAction$()
     }
   },
   watch: {
-    id: {
+    shopId: {
       handler (newVal, oldVal) {
-        this.model.lbsId = newVal
+        this.model.shopId = newVal
+        this.model.guid = this.guid
         this.$searchAction$()
       },
       immediate: true

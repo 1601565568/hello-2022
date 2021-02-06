@@ -10,14 +10,19 @@ export default {
     url: `${friendsPrefix}findLbsList`,
     method: 'post'
   },
+  // 群查询门店
+  getGroupShop: {
+    url: `${groupPrefix}getGroupShop`,
+    method: 'post'
+  },
   // 群删除活动
   deleteGroupById: {
-    url: `${groupPrefix}deleteGroupById`,
+    url: `${groupPrefix}endActivity`,
     method: 'post'
   },
   // 好友删除活动
   deleteFriendsById: {
-    url: `${friendsPrefix}deleteFriendsById`,
+    url: `${friendsPrefix}endActivity`,
     method: 'post'
   },
   // 群请求详情
@@ -42,12 +47,12 @@ export default {
   },
   // 查询群二维码总数
   getGroupStatisticsCount: {
-    url: `${groupPrefix}getGroupStatisticsCount`,
+    url: `${groupPrefix}activityShopAndAdduserNum`,
     method: 'post'
   },
   // 查询好友二维码总数
   getFirendsStatisticsCount: {
-    url: `${friendsPrefix}getFirendsStatisticsCount`,
+    url: `${friendsPrefix}activityShopAndAdduserNum`,
     method: 'post'
   },
   // 添加群聊
@@ -61,33 +66,33 @@ export default {
     method: 'post'
   },
   // 群参与门店
-  getGroupShop: {
-    url: `${groupPrefix}getGroupShop`,
+  getGroupByshop: {
+    url: `${groupPrefix}activityAnalysisShopList`,
     method: 'post'
   },
   // 好友参与门店
-  getFriendsShop: {
-    url: `${friendsPrefix}getFriendsShop`,
+  getFriendsByshop: {
+    url: `${friendsPrefix}activityAnalysisShopList`,
+    method: 'post'
+  },
+  // 群门店下群列表
+  activityShopDetail: {
+    url: `${groupPrefix}activityShopDetail`,
+    method: 'post'
+  },
+  // 好友门店下好友列表
+  activityShopDetailByFriends: {
+    url: `${friendsPrefix}activityShopDetail`,
     method: 'post'
   },
   // 群新增好友列表
   getGroupFriends: {
-    url: `${groupPrefix}getGroupFriends`,
+    url: `${groupPrefix}activityAdduserList`,
     method: 'post'
   },
   // 好友新增好友列表
   getFriendsFriends: {
-    url: `${friendsPrefix}getFriendsFriends`,
-    method: 'post'
-  },
-  // 群门店下群列表
-  getGroupByshop: {
-    url: `${groupPrefix}getGroupByshop`,
-    method: 'post'
-  },
-  // 好友门店下好友列表
-  getFriendsByshop: {
-    url: `${friendsPrefix}getFriendsByshop`,
+    url: `${friendsPrefix}activityAdduserList`,
     method: 'post'
   }
 }

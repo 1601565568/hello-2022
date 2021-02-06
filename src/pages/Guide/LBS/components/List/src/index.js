@@ -78,7 +78,7 @@ export default {
       dialogData: {
         placard: '', // 海报地址
         qrcode: '', // 二维码地址
-        lbsId: '', // 选择活动id
+        guid: '', // 选择活动id
         type: '' // 弹框类型 预览海报 poster 预览二维码qrcode
       },
       activeIndex: -1
@@ -160,7 +160,7 @@ export default {
     // 打开侧边弹框
     handleShowDetail (item, index) {
       this.activeIndex = index
-      this.dialogData.lbsId = item.id
+      this.dialogData.guid = item.guid
       this.drawer = true
     },
     // 查看门店当前选择的活动
@@ -220,18 +220,18 @@ export default {
       this.dialogVisible = true
     },
     // 结束活动
-    handleEnd (lbsId) {
+    handleEnd (guid, createId) {
       this.$confirm('确定要结束活动吗？\n\r结束后将无法再开启，此活动码将失效，消费者无法扫码入群。', '提示信息', {
         confirmButtonText: '确定',
         type: 'warning',
         cancelButtonText: '取消'
       }).then(() => {
-        this.endActivity(lbsId)
+        this.endActivity(guid, createId)
       })
     },
     // 结束活动api
-    endActivity (lbsId) {
-      this.$http.fetch(deleteApi, { lbsId })
+    endActivity (guid, createId) {
+      this.$http.fetch(deleteApi, { guid, createId })
         .then(() => {
           this.$searchAction$()
         }).catch(() => {

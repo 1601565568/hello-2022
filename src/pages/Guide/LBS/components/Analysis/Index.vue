@@ -28,10 +28,10 @@
       <template slot='search'>
         <el-form :inline="true" class='form-inline_top'>
           <el-form-item label="选择门店：">
-            <NsShopDialog :selfBtn='true' :appendToBody='true' :isButton="false" :auth="false" type="icon" btnTitle="" dialogTitle="选择门店" v-model="model.shopIds" @input="getDataTotal">
+            <NsShopDialog :selfBtn='true' :appendToBody='true' :isButton="false" :auth="false" type="icon" btnTitle="" dialogTitle="选择门店" v-model="model.shopIdList" @input="getDataTotal">
               <template slot='btnIcon'>
                 <div class='self-btn'>
-                  {{(model.shopIds&&model.shopIds.length)?`已选择${model.shopIds.length}个门店`:'全部'}}
+                  {{(model.shopIdList&&model.shopIdList.length)?`已选择${model.shopIdList.length}个门店`:'全部'}}
                   <Icon type="shop" class='guideIds-icon'></Icon>
                 </div>
               </template>
@@ -81,7 +81,7 @@
           <ShopTable :model='model' @onSort='onSort'/>
         </div>
         <div v-if="activeType === 'employee'">
-          <EmployeeTable :model='model'/>
+          <EmployeeTable :model='model'  @onSort='onSort'/>
         </div>
       </template>
     </page-table>

@@ -3,9 +3,8 @@
     <page-table class='no-padding'>
       <template slot='table'>
         <el-table
-          :data="data"
+          :data="_data._table.data"
           class="new-table_border"
-          :row-style="tableRowClassName"
           @sort-change="handleSort"
           style="width: 100%">
           <el-table-column
@@ -13,18 +12,18 @@
             label="参与门店">
           </el-table-column>
           <el-table-column
-            prop="groupNum"
+            prop="chatroomNum"
             label="群聚合码">
             <template slot-scope="scope">
               <div class="scope-title">
                 <div class="scope-title_text">
-                  已聚合{{scope.row.groupNum}}个群
+                  已聚合{{scope.row.chatroomNum}}个群
                 </div>
               </div>
             </template>
           </el-table-column>
           <el-table-column
-            prop="employeeNum"
+            prop="adduserNum"
             sortable="custom"
             label="新增群成员数">
           </el-table-column>
@@ -51,7 +50,7 @@
       <div class='master-close'>
         <i class="el-icon-close" @click="handleClose"></i>
       </div>
-      <GroupList v-if='drawer' :id='shopId' @onNext='getOhter("next",handleDetail)' @onPrev='getOhter("prev",handleDetail)' />
+      <GroupList v-if='drawer' :shopId='shopId' :guid='model.guid' @onNext='getOhter("next",handleDetail)' @onPrev='getOhter("prev",handleDetail)' />
     </el-drawer>
   </div>
 </template>
@@ -64,23 +63,18 @@ import GroupList from './GroupList'
 export default {
   data () {
     return {
-      url: this.$api.guide.lbs.getGroupShop,
-      data: [{
-        shopName: '参与门店',
-        groupNum: 12,
-        employeeNum: 11,
-        id: 1
-      }],
+      url: this.$api.guide.lbs.getGroupByshop,
       drawer: false,
       shopId: null,
-      activeIndex: -1
+      activeIndex: -1,
+      model: {}
     }
   },
   components: {
     PageTable, NsChatRoomDialog, ElDrawer, GroupList
   },
   props: {
-    model: {
+    propsModel: {
       default () {
         return {}
       }
@@ -150,12 +144,13 @@ export default {
     },
     handleSort (val) {
       const { order, prop } = val
-      this.$emit('onSort', { order: order === 'ascending' ? 1 : 0, sortName: prop })
+      this.$emit('onSort', { orderType: order === 'ascending' ? 1 : 0, sortName: prop })
     }
   },
   watch: {
-    model: {
-      handler () {
+    propsModel: {
+      handler (newVal) {
+        this.model = { ...newVal }
         this.$searchAction$()
       },
       immediate: true,

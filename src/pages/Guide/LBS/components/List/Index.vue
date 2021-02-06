@@ -121,7 +121,7 @@
                 <!-- <ns-button type="text" v-if='[1,2].includes(scope.row.status)' @click='handleEdit({id:scope.row.lbsId})'>编辑</ns-button>
                 <ns-button type="text" v-if='[1,2].includes(scope.row.status)' @click='handleEnd(scope.row.lbsId)'>结束活动</ns-button> -->
                 <ns-button type="text" @click='handleDetail({guid:scope.row.guid})'>编辑</ns-button>
-                <ns-button type="text" @click='handleEnd(scope.row.lbsId)'>结束活动</ns-button>
+                <ns-button type="text" @click='handleEnd(scope.row.guid,scope.row.createId)'>结束活动</ns-button>
                 <ns-button type="text" v-copy='scope.row.activityPlacard'>复制链接</ns-button>
                 <ns-button type="text" v-if='scope.row.status!==1' @click='handleAnalysis(scope.row.guid,scope.row.name)'>效果分析</ns-button>
               </template>
@@ -154,7 +154,7 @@
       <div class='master-close'>
         <i class="el-icon-close" @click="handleClose"></i>
       </div>
-      <ShopList v-if='drawer' :id='dialogData.acticityId' @onNext='getOhter("next",handleShowDetail)' @onPrev='getOhter("prev",handleShowDetail)' />
+      <ShopList v-if='drawer' :guid='dialogData.guid' @onNext='getOhter("next",handleShowDetail)' @onPrev='getOhter("prev",handleShowDetail)' />
     </el-drawer>
     <PreviewPoster :type='dialogData.type' :title='dialogData.type==="qrcode"?"二维码":"海报"' :dialogVisible='dialogVisible' :url='dialogData.placard' @onClose='dialogVisible = false' appendToBody/>
   </div>
