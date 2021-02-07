@@ -8,8 +8,10 @@
 import welcomeCode from './welcomeCode.js'
 import behaviorData from './behaviorData.js'
 import guide from './guide.js'
+import weWorkCustomer from './weWorkCustomer.js'
 export default {
   welcomeCode,
   behaviorData,
-  guide
+  guide,
+  weWorkCustomer
 }
