@@ -19,7 +19,13 @@
     <div class="template-content">
       <div class="template-content__l">
         <div class="template-content__list">
-          <div class="content_header">话题列表</div>
+          <div class="content_header">
+            话题列表
+            <div @click="handlerUnfoldAndStow" v-if="activeName !== '2'">
+              <img v-if="unfoldAndStow" :src="packup" />
+              <img v-if="!unfoldAndStow" :src="unfold" />
+            </div>
+          </div>
           <div class="loadMoreWarpper">
             <LoadMore @scroll="changeScroll" :scrollDistance="50">
               <ul class="user_list">
@@ -41,7 +47,10 @@
             </LoadMore>
           </div>
         </div>
-        <div class="customer_list">
+        <div
+          class="customer_list"
+          :class="!unfoldAndStow ? 'customer_list__width' : ''"
+        >
           <div class="content_header">存货咨询</div>
           <div class="loadMoreWarpper">
             <LoadMore @scroll="changeScroll" :scrollDistance="50">
@@ -108,6 +117,42 @@
     >
       <ItemDrawer />
     </el-drawer>
+    <el-dialog title="添加话题" :visible.sync="visible" width="35%">
+      <div style="height: 250px;padding-right:10px">
+        <el-form
+          :model="ruleForm"
+          :rules="rules"
+          ref="ruleForm"
+          label-width="100px"
+          class="demo-ruleForm"
+        >
+          <el-form-item label="话题分析：" prop="aaa">
+            <el-input type="text" v-model="ruleForm.aaa"></el-input>
+          </el-form-item>
+          <el-form-item label="关键词：">
+            <el-input
+              type="textarea"
+              v-model="ruleForm.desc"
+              :rows="6"
+            ></el-input>
+          </el-form-item>
+          <el-form-item>
+            <span class="text-primary">
+              <i>
+                <Icon type="exclamation-circle" />
+              </i>
+              <span
+                >多敏感词用“，”隔开，且每个敏感词不得超过10个字符，如敏感词1，敏感词2</span
+              >
+            </span>
+          </el-form-item>
+        </el-form>
+      </div>
+      <span slot="footer" class="dialog-footer">
+        <ns-button @click="visible = false">取 消</ns-button>
+        <ns-button type="primary" @click="visible = false">确 定</ns-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 <script>
@@ -192,12 +237,24 @@ export default Index
       }
     }
     .content_header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
       font-weight: bold;
       padding: 0px 16px;
       height: 60px;
       line-height: 60px;
       font-size: 16px;
       color: #262626;
+      img {
+        width: 16px;
+        height: 16px;
+        image-rendering: -moz-crisp-edges;
+        image-rendering: -o-crisp-edges;
+        image-rendering: -webkit-optimize-contrast;
+        image-rendering: crisp-edges;
+        -ms-interpolation-mode: nearest-neighbor;
+      }
     }
     .content_search {
       margin-top: 4px;
@@ -223,6 +280,9 @@ export default Index
     .customer_list {
       width: 193px;
       border-left: 1px solid #e8e8e8;
+    }
+    .customer_list__width {
+      width: 0px;
     }
     .customer_list__warpper {
       padding: 0 16px;

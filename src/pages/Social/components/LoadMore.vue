@@ -11,10 +11,23 @@ export default {
     scrollDistance: {
       type: Number,
       default: 0
+    },
+    isScoll: {
+      type: Boolean,
+      default: true
     }
   },
   data () {
-    return {}
+    return {
+      scoll: true
+    }
+  },
+  watch: {
+    isScoll: {
+      handler (newVal) {
+        this.scoll = newVal
+      }
+    }
   },
   mounted () {
     // document
@@ -28,8 +41,7 @@ export default {
         false
       )
   },
-  beforeDestroy () {
-  },
+  beforeDestroy () {},
   methods: {
     throttle (func, wait, mustRun) {
       var timeout
@@ -55,8 +67,10 @@ export default {
       const scrollHeight = this.$refs.loadMore.scrollHeight
       const scroll = scrollHeight - this.scrollDistance
       if (scrollTop + clientHeight >= scroll) {
-        console.log('滚动')
-        this.$emit('scroll')
+        if (this.scoll) {
+          this.scoll = false
+          this.$emit('scroll')
+        }
       }
     }
   }

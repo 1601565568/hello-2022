@@ -3,14 +3,21 @@
     <div class="template-page">
       <div class="page-header fl_between">
         <div class="tabs">
-          <el-tabs v-model="activeName">
+          <el-tabs v-model="activeName" @tab-click="handleClick">
             <el-tab-pane label="客户" name="1"></el-tab-pane>
             <el-tab-pane label="群" name="2"></el-tab-pane>
             <el-tab-pane label="导购" name="3"></el-tab-pane>
           </el-tabs>
         </div>
         <div>
-          <el-date-picker v-model="value1" type="date" placeholder="选择日期">
+          <el-date-picker
+            value-format="yyyy-MM-dd"
+            format="yyyy-MM-dd"
+            v-model="time"
+            type="date"
+            @change="handlerChangeTime"
+            placeholder="选择日期"
+          >
           </el-date-picker>
         </div>
       </div>
@@ -19,58 +26,77 @@
       <div class="template-content__l">
         <div class="template-content__list">
           <div class="content_header">
-            <span>{{ activeName }}列表</span>
-            <div>
-              <img :src="packup" />
+            <span>{{ formatActiveName(activeName, 1) }}列表</span>
+            <div @click="handlerUnfoldAndStow" v-if="activeName !== '2'">
+              <img v-if="unfoldAndStow" :src="packup" />
+              <img v-if="!unfoldAndStow" :src="unfold" />
             </div>
           </div>
           <div class="content_search">
             <el-input
-              :placeholder="placeholder"
-              v-model="input1"
+              @keyup.enter.native="onSenderSearch"
+              :placeholder="senderListPlaceholder"
+              v-model="senderParams.name"
+              @clear="onSenderSearch"
               clearable
             ></el-input>
           </div>
-          <div class="loadMoreWarpper">
-            <LoadMore @scroll="changeScroll" :scrollDistance="50">
+          <div class="loadMoreWarpper" v-loading="senderListLoading">
+            <LoadMore
+              @scroll="handlerScroll"
+              :isScoll="senderIsScroll"
+              :scrollDistance="30"
+            >
               <ul class="user_list">
                 <li
-                  v-for="(i, index) in count"
+                  v-for="(item, index) in senderList"
                   :key="index"
-                  @click="selectUser(i)"
-                  :class="i === select ? 'user_list_select' : ''"
+                  @click="handleClickChangeSender(item, index)"
+                  :class="index === senderIndex ? 'user_list_select' : ''"
                 >
                   <img
                     class="user_pic"
-                    src="https://dss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=4131746241,2477555401&fm=111&gp=0.jpg"
+                    v-if="activeName !== '2'"
+                    :src="item.avatar"
                   />
                   <div class="user">
-                    <div class="user_name">张亮{{ i }}</div>
-                    <div class="user_shop">西湖线下门店</div>
+                    <div class="user_name">{{ item.name }}</div>
+                    <div class="user_shop">{{ item.shopName }}</div>
                   </div>
                 </li>
               </ul>
             </LoadMore>
           </div>
         </div>
-        <div class="customer_list">
-          <div class="content_header">{{ activeName }}列表</div>
+        <div
+          class="customer_list"
+          v-if="activeName !== '2'"
+          :class="!unfoldAndStow ? 'customer_list__width' : ''"
+        >
+          <div class="content_header">
+            {{ formatActiveName(activeName, 2) }}列表
+          </div>
           <div class="content_search">
             <el-input
-              :placeholder="placeholder"
-              v-model="input1"
+              :placeholder="toListPlaceholder"
+              @keyup.enter.native="onToListSearch"
+              v-model="talkToGuideListParams.name"
+              @clear="onToListSearch"
               clearable
             ></el-input>
           </div>
-          <div class="loadMoreWarpper">
+          <div class="loadMoreWarpper" v-loading="toListLoading">
             <LoadMore @scroll="changeScroll" :scrollDistance="50">
               <div class="customer_list__warpper">
                 <div
                   class="customer_list__item"
-                  v-for="(i, index) in count"
+                  :class="
+                    index === toListIndex ? 'customer_list__item_select' : ''
+                  "
+                  v-for="(item, index) in toList"
                   :key="index"
                 >
-                  {{ i }}
+                  {{ item.name }}
                 </div>
               </div>
             </LoadMore>
@@ -79,8 +105,13 @@
       </div>
       <div class="template-content__r">
         <div class="content_header">聊天记录</div>
-        <div class="chat_record">
-          <ChatRecordList />
+        <div class="chat_record" v-loading="weWorkChatDataLoading">
+          <template v-if="isSetWeWorkChatData">
+            <ChatRecordList
+              @handleScrollTop="handleScrollTop"
+              :dataList="weWorkChatData"
+            />
+          </template>
         </div>
       </div>
     </div>
@@ -132,9 +163,10 @@ export default Index
         top: 0px;
         width: 1px;
         height: 100%;
+        z-index: 1001;
         background: #e8e8e8;
       }
-      min-width: 200px;
+      width: 200px;
       .user_list {
         // margin-top: 16px;
         overflow: auto;
@@ -146,8 +178,9 @@ export default Index
           align-items: center;
           height: 64px;
           padding: 0px 16px;
+          width: 100%;
           // border-radius: 2px;
-          user-select: none;
+          // user-select: none;
           &:hover {
             background: #d9effe;
           }
@@ -158,16 +191,20 @@ export default Index
             margin-right: 16px;
           }
           .user {
-            flex: 1;
+            width: calc(100% - 64px);
+            // flex: 1;
             font-size: 14px;
+            div {
+              width: 100%;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              white-space: nowrap;
+            }
             .user_name {
               color: #262626;
             }
             .user_shop {
               color: #8c8c8c;
-              overflow: hidden;
-              text-overflow: ellipsis;
-              white-space: nowrap;
             }
           }
         }
@@ -234,6 +271,9 @@ export default Index
       width: 173px;
       // border-left: 1px solid #e8e8e8;
     }
+    .customer_list__width {
+      width: 0px;
+    }
     .customer_list__warpper {
       padding: 0 16px;
       .customer_list__item {
@@ -249,6 +289,9 @@ export default Index
         &:hover {
           background: #f5f5f5;
         }
+      }
+      .customer_list__item_select {
+        background: #f5f5f5;
       }
     }
   }

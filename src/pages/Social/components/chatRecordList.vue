@@ -4,43 +4,57 @@
     id="chatRecordListWarpper"
     ref="chatRecordListWarpper"
   >
-    <el-scrollbar ref="fullScreen" style="height:100%">
-      <div class="chatRecordList-content">
-        <div class="chatRecordList" v-for="(item, index) in list" :key="index">
-          <!-- 聊天左边 -->
-          <div :class="item.user === 1 ? 'chatRecord_l' : 'chatRecord_R'">
+    <!-- <el-scrollbar ref="fullScreen" style="height:100%"> -->
+    <div class="chatRecordList-content">
+      <div
+        class="chatRecordList"
+        v-for="(item, index) in dataList"
+        :key="index"
+      >
+        <!-- 聊天左边 -->
+        <div :class="item.left ? 'chatRecord_l' : 'chatRecord_R'">
+          <!-- 用户头像位置左边 -->
+          <img v-if="item.left" class="user_pic" :src="item.avatar" />
+          <div class="chatRecord_content">
+            <div class="chatRecord_name_time">
+              {{ item.sender }} {{ item.msgtime }}
+            </div>
+            <div class="chatRecord_text" v-if="item.msgtype === 'text'">
+              {{ item.content }}
+            </div>
+            <div class="chatRecord_img" v-if="item.msgtype === 'image'">
+              <img :src="item.content" />
+            </div>
+            <div class="chatRecord_img" v-if="item.msgtype === 'emotion'">
+              <img :src="item.content" />
+            </div>
+            <div class="chatRecord_video" v-if="item.msgtype === 'video'">
+              <video :src="item.content" />
+              <div class="icon"></div>
+            </div>
+            <div v-if="item.msgtype === 'voice'">
+              <audio
+                src="https://shopguide.oss-cn-hangzhou.aliyuncs.com/chatdata/20210206/ww9e54b9a67fdab9ec/voice/17972312999583483861_1612582456-3251d4f023f8b227915a5096144d1f9a"
+                ref="callAudio"
+                controls="controls"
+              ></audio>
+              <!-- <audio controls>
+                <source :src="item.content" />
+                <source src="horse.mp3" />
+                您的浏览器不支持 audio 元素。
+              </audio> -->
+            </div>
             <img
-              v-if="item.user === 1"
-              class="user_pic"
-              src="https://dss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=4131746241,2477555401&fm=111&gp=0.jpg"
+              class="chatRecord_redenvelopes"
+              v-if="item.msgtype === 'redpacket'"
+              src="https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-WEB/image/red%20envelopes1.png"
             />
-            <div class="chatRecord_content">
-              <div class="chatRecord_name_time">刘启竞 2020/07/18 12:00</div>
-              <div class="chatRecord_text" v-if="item.type === 1">
-                导购你好，我是张三。
-              </div>
-              <div class="chatRecord_img" v-if="item.type === 2">
-                <img
-                  src="https://dss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3363295869,2467511306&fm=26&gp=0.jpg"
-                />
-              </div>
-              <div class="chatRecord_video" v-if="item.type === 3">
-                <img
-                  src="https://dss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3363295869,2467511306&fm=26&gp=0.jpg"
-                />
-                <div class="icon"></div>
-              </div>
-              <img
-                class="chatRecord_redenvelopes"
-                v-if="item.type === 4"
-                src="https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-WEB/image/red%20envelopes1.png"
-              />
-              <img
+            <!-- <img
                 class="chatRecord_redenvelopes"
                 v-if="item.type === 5"
                 src="https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-WEB/image/red%20envelopes2.png"
-              />
-              <div class="chatRecord_share" v-if="item.type === 6">
+              /> -->
+            <!-- <div class="chatRecord_share" v-if="item.type === 6">
                 <div class="chatRecord_share__title">
                   唇膏测评、涂啥口红都好看的秘诀？选好唇膏，唇纹是以…
                 </div>
@@ -60,85 +74,72 @@
                   />
                   <span class="chatRecord_share__user__name">小猪姐姐zz</span>
                 </div>
-              </div>
-              <div class="chatRecord_map" v-if="item.type === 7">
-                <div class="chatRecord_map_text">
-                  浙江省杭州市江干区九堡街道九和路东方电子商务园7…
-                </div>
+              </div> -->
+            <div class="chatRecord_map" v-if="item.msgtype === 'location'">
+              <div class="chatRecord_map_text">
+                {{ item.content }}
               </div>
             </div>
-            <img
-              v-if="item.user === 2"
-              class="user_pic"
-              src="https://dss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=4131746241,2477555401&fm=111&gp=0.jpg"
-            />
           </div>
+          <!-- 用户头像位置右边 -->
+          <img v-if="!item.left" class="user_pic" :src="item.avatar" />
         </div>
-        <NsNoData v-if="false">暂无数据</NsNoData>
       </div>
-    </el-scrollbar>
+    </div>
+    <NsNoData v-if="dataList.length === 0">暂无数据</NsNoData>
+    <div @click="openRecording(aaa)">123123123123123</div>
+    <!-- </el-scrollbar> -->
   </div>
 </template>
 <script>
 import NsNoData from '@nascent/ecrp-ecrm/src/components/NsNoData.vue'
+import BenzAMRRecorder from 'benz-amr-recorder'
 export default {
   components: { NsNoData },
+  props: {
+    dataList: {
+      type: Array,
+      default: function () {
+        return []
+      }
+    }
+  },
   data () {
     return {
-      list: [
-        {
-          user: 1,
-          type: 1
-        },
-        {
-          user: 1,
-          type: 2
-        },
-        {
-          user: 1,
-          type: 3
-        },
-        {
-          user: 1,
-          type: 4
-        },
-        {
-          user: 1,
-          type: 7
-        },
-        {
-          user: 2,
-          type: 1
-        },
-        {
-          user: 2,
-          type: 1
-        },
-        {
-          user: 2,
-          type: 1
-        },
-        {
-          user: 2,
-          type: 1
-        },
-        {
-          user: 2,
-          type: 1
+      isScroll: true, // 是否可以滚动加载更多
+      scrollHeight: 0,
+      playRec: null, // 播放对象
+      voiceActive: null,
+      aaa:
+        'https://hb3-ecrmmall.oss-cn-zhangjiakou.aliyuncs.com/ECRP-WM-WEB/774181482007435001_1612518786-d02386bda87881c43eb06134bc9a123c.amr'
+    }
+  },
+  watch: {
+    'dataList.length': {
+      handler (newVal, oldVal) {
+        if (newVal !== oldVal && newVal > oldVal) {
+          this.isScroll = true
+          document
+            .getElementById('chatRecordListWarpper')
+            .scrollTo(0, this.scrollHeight - 30)
+          // this.$refs.chatRecordListWarpper.scrollTop = this.aaa
+        } else {
+          this.isScroll = false
         }
-      ]
+      }
     }
   },
   mounted () {
     this.scrollToBottom()
-    this.handleScroll()
-    // document
-    //   .getElementById('chatRecordListWarpper')
-    //   .addEventListener(
-    //     'scroll',
-    //     this.throttle(this.scrollMoreData, 500, 1000),
-    //     false
-    //   )
+    // this.handleScroll()
+    const container = document.getElementById('chatRecordListWarpper')
+    this.scrollHeight = container.scrollHeight
+    console.log(this.scrollHeight)
+    container.addEventListener(
+      'scroll',
+      this.throttle(this.scrollMoreData, 10, 30),
+      false
+    )
   },
   methods: {
     /**
@@ -146,26 +147,27 @@ export default {
      */
     scrollToBottom () {
       this.$nextTick(() => {
-        let container = this.$refs.fullScreen.wrap
-        const clientHeight = this.$refs.fullScreen.wrap.clientHeight
-        const scrollHeight = this.$refs.fullScreen.wrap.scrollHeight
+        let container = this.$refs.chatRecordListWarpper
+        const clientHeight = this.$refs.chatRecordListWarpper.clientHeight
+        const scrollHeight = this.$refs.chatRecordListWarpper.scrollHeight
         container.scrollTop = clientHeight + scrollHeight
       })
     },
-    handleScroll () {
-      this.$nextTick(() => {
-        let _self = this
-        let scrollbarEl = this.$refs.fullScreen.wrap
-        // const clientHeight = this.$refs.fullScreen.wrap.clientHeight
-        // const scrollHeight = this.$refs.fullScreen.wrap.scrollHeight
-        scrollbarEl.onscroll = function () {
-          // console.log('scrollbarEl.scrollTop', scrollbarEl.scrollTop)
-          if (scrollbarEl.scrollTop <= 50) {
-            console.log('到顶部啦，11111')
-          }
-        }
-      })
-    },
+    // handleScroll () {
+    //   let _this = this
+    //   this.$nextTick(() => {
+    //     let _self = this
+    //     let scrollbarEl = this.$refs.fullScreen.wrap
+    //     scrollbarEl.onscroll = function () {
+    //       if (scrollbarEl.scrollTop <= 10) {
+    //         if (_this.isScroll) {
+    //           _this.isScroll = false
+    //           _this.$emit('handleScrollTop')
+    //         }
+    //       }
+    //     }
+    //   })
+    // }
     throttle (func, wait, mustRun) {
       var timeout
       var startTime = new Date()
@@ -185,16 +187,54 @@ export default {
       }
     },
     scrollMoreData () {
-      const scrollTop = this.$refs.fullScreen.wrap.scrollTop
-      const clientHeight = this.$refs.fullScreen.wrap.clientHeight
-      const scrollHeight = this.$refs.fullScreen.wrap.scrollHeight
-      console.log(scrollTop, 'scrollTop')
-      console.log(clientHeight, 'clientHeight')
-      console.log(scrollHeight, 'scrollHeight')
+      const scrollTop = this.$refs.chatRecordListWarpper.scrollTop
+      // const clientHeight = this.$refs.chatRecordListWarpper.clientHeight
+      // const scrollHeight = this.$refs.chatRecordListWarpper.scrollHeight
+      if (scrollTop <= 10) {
+        if (this.isScroll) {
+          this.isScroll = false
+          this.$emit('handleScrollTop')
+        }
+      }
+      // console.log(this.aaa)
+      // console.log(scrollTop, 'scrollTop')
+      // console.log(clientHeight, 'clientHeight')
+      // console.log(scrollHeight, 'scrollHeight')
       //   const scroll = scrollHeight - this.scrollDistance
-      if (scrollTop + clientHeight >= scrollHeight) {
-        console.log('滚动111111111')
-        this.$emit('scroll')
+      // if (scrollTop + clientHeight >= scrollHeight) {
+      //   if (this.isScroll) {
+      //     this.isScroll = false
+      //     this.$emit('handleScrollTop')
+      //   }
+      // }
+    },
+    // 播放语音
+    openRecording (_url, index = 0) {
+      // let url = _url.split('.com')[1]
+      // console.log(url, 'urlurl')
+      let vm = this
+      if (vm.playRec !== null) {
+        vm.stopPlayVoice()
+      }
+      vm.playRec = new BenzAMRRecorder()
+      // ⚠️注意跨域问题
+      vm.playRec
+        .initWithUrl(_url)
+        .then(function () {
+          vm.voiceActive = index
+          vm.playRec.play()
+          vm.playRec.onEnded(function () {
+            vm.voiceActive = null
+          })
+        })
+        .catch(e => {
+          vm.$message.error('播放录音失败')
+        })
+    },
+    // 停止播放
+    stopPlayVoice () {
+      if (this.playRec.isPlaying()) {
+        this.playRec.stop()
       }
     }
   }
@@ -233,6 +273,8 @@ export default {
     margin-bottom: 4px;
   }
   .chatRecord_text {
+    display: inline-block;
+    word-wrap: break-word;
     max-width: 300px;
     padding: 16px;
     color: #262626;
@@ -265,7 +307,7 @@ export default {
       z-index: 2;
       background: rgba($color: #000000, $alpha: 0.25);
     }
-    img {
+    video {
       position: relative;
       border-radius: 2px;
       object-fit: cover;
@@ -361,6 +403,9 @@ export default {
       padding: 0 8px;
       width: 100%;
       height: 32px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
       font-size: 14px;
       color: #ffffff;
       line-height: 32px;

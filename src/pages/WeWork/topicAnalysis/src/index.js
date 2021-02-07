@@ -2,10 +2,23 @@ import LoadMore from '@/pages/Social/components/LoadMore'
 import ChatRecordList from '@/pages/Social/components/chatRecordList'
 import ElDrawer from '@nascent/nui/lib/drawer'
 import ItemDrawer from '../../components/ItemDrawer'
+import packup from '../image/ns-arrow-packup.png'
+import unfold from '../image/ns-arrow-unfold.png'
 export default {
   components: { LoadMore, ChatRecordList, ElDrawer, ItemDrawer },
   data () {
     return {
+      packup,
+      unfold,
+      unfoldAndStow: true, // 展开收起
+      ruleForm: {
+        desc: '',
+        aaa: ''
+      },
+      visible: true,
+      rules: {
+        aaa: [{ required: true, message: '请输入敏感词', trigger: 'blur' }]
+      },
       // 分页配置
       pagination: {
         size: 15,
@@ -70,6 +83,12 @@ export default {
     window.removeEventListener('resize', this.setHeight)
   },
   methods: {
+    /**
+     * 二级列表展开收起
+     */
+    handlerUnfoldAndStow () {
+      this.unfoldAndStow = !this.unfoldAndStow
+    },
     /**
      * 聊天客户列表加载更多
      */

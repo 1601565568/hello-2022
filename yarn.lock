@@ -3340,6 +3340,18 @@ before-after-hook@^2.0.0:
   resolved "https://registry.npm.taobao.org/before-after-hook/download/before-after-hook-2.1.0.tgz#b6c03487f44e24200dd30ca5e6a1979c5d2fb635"
   integrity sha1-tsA0h/ROJCAN0wyl5qGXnF0vtjU=
 
+benz-amr-recorder@^1.1.3:
+  version "1.1.3"
+  resolved "https://registry.npm.taobao.org/benz-amr-recorder/download/benz-amr-recorder-1.1.3.tgz#d897e395d31c200ec52f8e1641e0a45d6c371979"
+  integrity sha1-2JfjldMcIA7FL44WQeCkXWw3GXk=
+  dependencies:
+    benz-recorderjs "^1.0.5"
+
+benz-recorderjs@^1.0.5:
+  version "1.0.5"
+  resolved "https://registry.npm.taobao.org/benz-recorderjs/download/benz-recorderjs-1.0.5.tgz#5cb2683413d3d5fcda8c44773ffaca161186619f"
+  integrity sha1-XLJoNBPT1fzajER3P/rKFhGGYZ8=
+
 bfj@^6.1.1:
   version "6.1.2"
   resolved "https://registry.npm.taobao.org/bfj/download/bfj-6.1.2.tgz#325c861a822bcb358a41c78a33b8e6e2086dde7f"
