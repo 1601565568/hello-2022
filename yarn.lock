@@ -13595,6 +13595,11 @@ vue-infinite-loading@^2.4.4, vue-infinite-loading@^2.4.5:
   resolved "https://registry.npm.taobao.org/vue-infinite-loading/download/vue-infinite-loading-2.4.5.tgz#cc20fd40af7f20188006443c99b60470cf1de1b3"
   integrity sha1-zCD9QK9/IBiABkQ8mbYEcM8d4bM=
 
+vue-infinite-scroll@^2.0.2:
+  version "2.0.2"
+  resolved "https://registry.npm.taobao.org/vue-infinite-scroll/download/vue-infinite-scroll-2.0.2.tgz#ca37a91fe92ee0ad3b74acf8682c00917144b711"
+  integrity sha1-yjepH+ku4K07dKz4aCwAkXFEtxE=
+
 vue-loader@^14.1.1:
   version "14.2.4"
   resolved "https://registry.npm.taobao.org/vue-loader/download/vue-loader-14.2.4.tgz#d0a0e8236155fa7f9602cde65b0d38259e051ee2"

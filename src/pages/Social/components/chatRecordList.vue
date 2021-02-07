@@ -32,12 +32,21 @@
               <video :src="item.content" />
               <div class="icon"></div>
             </div>
-            <div v-if="item.msgtype === 'voice'">
-              <audio
+            <div
+              class="chatRecord_voice"
+              v-if="item.msgtype === 'voice'"
+              @click="openRecording(item.content, item.seq)"
+            >
+              <img
+                v-if="voiceActive !== item.seq"
+                src="../ChatRecord/image/voice.png"
+              />
+              <img v-else src="../ChatRecord/image/voice.gif" />
+              <!-- <audio
                 src="https://shopguide.oss-cn-hangzhou.aliyuncs.com/chatdata/20210206/ww9e54b9a67fdab9ec/voice/17972312999583483861_1612582456-3251d4f023f8b227915a5096144d1f9a"
                 ref="callAudio"
                 controls="controls"
-              ></audio>
+              ></audio> -->
               <!-- <audio controls>
                 <source :src="item.content" />
                 <source src="horse.mp3" />
@@ -54,27 +63,23 @@
                 v-if="item.type === 5"
                 src="https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-WEB/image/red%20envelopes2.png"
               /> -->
-            <!-- <div class="chatRecord_share" v-if="item.type === 6">
-                <div class="chatRecord_share__title">
-                  唇膏测评、涂啥口红都好看的秘诀？选好唇膏，唇纹是以…
+            <div class="chatRecord_share" v-if="item.msgtype === 'link'">
+              <div class="chatRecord_share__title">
+                {{ item.title }}
+              </div>
+              <div class="chatRecord_share__content">
+                <div class="chatRecord_share__Text">
+                  {{ item.description }}
                 </div>
-                <div class="chatRecord_share__content">
-                  <div class="chatRecord_share__Text">
-                    轻松get完美唇部状态轻松get完美唇部状态轻松get完美唇部状get完美唇部ge完美唇部完…
-                  </div>
-                  <img
-                    class="chatRecord_share__img"
-                    src="https://dss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=4131746241,2477555401&fm=111&gp=0.jpg"
-                  />
-                </div>
-                <div class="chatRecord_share__user">
-                  <img
-                    class="chatRecord_share__user__img"
-                    src="https://dss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=4131746241,2477555401&fm=111&gp=0.jpg"
-                  />
-                  <span class="chatRecord_share__user__name">小猪姐姐zz</span>
-                </div>
-              </div> -->
+                <img class="chatRecord_share__img" :src="item.image_url" />
+              </div>
+              <div class="chatRecord_share__user">
+                <img class="chatRecord_share__user__img" :src="item.avatar" />
+                <span class="chatRecord_share__user__name">{{
+                  item.sender
+                }}</span>
+              </div>
+            </div>
             <div class="chatRecord_map" v-if="item.msgtype === 'location'">
               <div class="chatRecord_map_text">
                 {{ item.content }}
@@ -87,7 +92,7 @@
       </div>
     </div>
     <NsNoData v-if="dataList.length === 0">暂无数据</NsNoData>
-    <div @click="openRecording(aaa)">123123123123123</div>
+    <!-- <div @click="openRecording(aaa)">123123123123123</div> -->
     <!-- </el-scrollbar> -->
   </div>
 </template>
@@ -209,7 +214,7 @@ export default {
       // }
     },
     // 播放语音
-    openRecording (_url, index = 0) {
+    openRecording (_url, seq) {
       // let url = _url.split('.com')[1]
       // console.log(url, 'urlurl')
       let vm = this
@@ -221,14 +226,14 @@ export default {
       vm.playRec
         .initWithUrl(_url)
         .then(function () {
-          vm.voiceActive = index
+          vm.voiceActive = seq
           vm.playRec.play()
           vm.playRec.onEnded(function () {
             vm.voiceActive = null
           })
         })
         .catch(e => {
-          vm.$message.error('播放录音失败')
+          vm.$notify.error('播放录音失败')
         })
     },
     // 停止播放
@@ -327,6 +332,24 @@ export default {
       background: url('https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-WEB/image/videoPlay.png')
         no-repeat;
       background-size: 100%;
+    }
+  }
+  .chatRecord_voice {
+    width: 168px;
+    padding: 0 16px;
+    display: flex;
+    align-items: center;
+    height: 54px;
+    background: #fff;
+    border-radius: 4px;
+    img {
+      width: 16px;
+      height: 16px;
+      image-rendering: -moz-crisp-edges;
+      image-rendering: -o-crisp-edges;
+      image-rendering: -webkit-optimize-contrast;
+      image-rendering: crisp-edges;
+      -ms-interpolation-mode: nearest-neighbor;
     }
   }
   .chatRecord_share {

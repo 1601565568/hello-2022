@@ -7,8 +7,10 @@
         </div>
       </div>
       <div class="title">聊天记录</div>
-      <div class="warpper"><ChatRecordList /></div>
-      <div class="footer">
+      <div class="warpper">
+        <ChatRecordList @handleScrollTop="handleScrollTop" />
+      </div>
+      <!-- <div class="footer">
         <div class="pagecontent-left">
           <div class="content-item" @click="handlePrev">
             <i class="el-icon-arrow-left"></i>上一个
@@ -17,7 +19,7 @@
             下一个<i class="el-icon-arrow-right"></i>
           </div>
         </div>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
@@ -37,20 +39,8 @@ export default {
     handleClose () {
       this.$emit('onClose')
     },
-    handlePreview () {
-      this.$emit('onPreview', this.data.guestCodeId)
-    },
-    handleDelect () {
-      this.$emit('onDelect', this.data.guestCodeId)
-    },
-    handleEdit () {
-      this.$emit('onEdit', { guestCodeId: this.data.guestCodeId })
-    },
-    handleNext () {
-      this.$emit('onNext')
-    },
-    handlePrev () {
-      this.$emit('onPrev')
+    handleScrollTop () {
+      this.$emit('handleScrollTop')
     }
   }
 }
@@ -120,7 +110,7 @@ export default {
 .warpper {
   width: 100%;
   height: calc(100vh - 150px);
-  background: #F5F5F5;
+  background: #f5f5f5;
 }
 .dwaer-popper {
   min-width: 0 !important;

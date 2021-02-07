@@ -4,18 +4,25 @@ import ElDrawer from '@nascent/nui/lib/drawer'
 import ItemDrawer from '../../components/ItemDrawer'
 import packup from '../image/ns-arrow-packup.png'
 import unfold from '../image/ns-arrow-unfold.png'
+import nsAddBorder from '../image/ns-add-border.png'
+import infiniteScroll from 'vue-infinite-scroll'
 export default {
+  directives: { infiniteScroll },
   components: { LoadMore, ChatRecordList, ElDrawer, ItemDrawer },
   data () {
     return {
       packup,
       unfold,
+      nsAddBorder,
       unfoldAndStow: true, // 展开收起
+      busy: false,
       ruleForm: {
         desc: '',
         aaa: ''
       },
-      visible: true,
+      visible: false,
+      show: false,
+      delShow: false,
       rules: {
         aaa: [{ required: true, message: '请输入敏感词', trigger: 'blur' }]
       },
@@ -62,6 +69,9 @@ export default {
   computed: {
     placeholder () {
       return `请输入${this.activeName}`
+    },
+    ml () {
+      return this.unfoldAndStow ? 'template-page__right_content' : ''
     }
   },
   created () {
@@ -83,6 +93,10 @@ export default {
     window.removeEventListener('resize', this.setHeight)
   },
   methods: {
+    loadMore () {
+      this.count = this.count + 20
+      console.log('123123123123123')
+    },
     /**
      * 二级列表展开收起
      */
@@ -112,14 +126,25 @@ export default {
       console.log(page)
     },
     setHeight: function () {
-      this.$nextTick(() => {
-        let extraHeight =
-          this.$refs.fullScreen.$el.getBoundingClientRect().top || 0
-        console.log(extraHeight, 'extraHeight')
-        // extraHeight += (this.enable ? 38 : 0) + 17 + 5
-        this.$refs.fullScreen.$el.children[0].style.maxHeight =
-          window.innerHeight - extraHeight - 38 + 'px'
-      })
+      // this.$nextTick(() => {
+      let extraHeight =
+        this.$refs.fullScreen.$el.getBoundingClientRect().top || 0
+      this.$refs.fullScreen.$el.children[0].style.maxHeight =
+        window.innerHeight - extraHeight - 38 + 'px'
+      let limitHeight =
+        window.innerHeight -
+        16 -
+        20 -
+        this.$refs.loadMoreWrapper.getBoundingClientRect().top
+      this.$refs.loadMoreWrapper.style.height = limitHeight + 'px'
+      let loadMoreWrapperChildren =
+        window.innerHeight -
+        16 -
+        20 -
+        this.$refs.loadMoreWrapperChildren.getBoundingClientRect().top
+      this.$refs.loadMoreWrapperChildren.style.height =
+        loadMoreWrapperChildren + 'px'
+      // })
     }
   }
 }

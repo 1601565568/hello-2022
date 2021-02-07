@@ -2,8 +2,10 @@ import LoadMore from '../../components/LoadMore'
 import ChatRecordList from '../../components/chatRecordList'
 import packup from '../image/ns-arrow-packup.png'
 import unfold from '../image/ns-arrow-unfold.png'
+import infiniteScroll from 'vue-infinite-scroll'
 import { formatWeWorkChatData, formatSenderList, formatToList } from './format'
 export default {
+  directives: { infiniteScroll },
   components: { LoadMore, ChatRecordList },
   data () {
     return {
@@ -24,7 +26,7 @@ export default {
       // isRequestWeWorkChatData: false, // 滚动加载更多判断是否请求结束
       senderList: [], // 发起人列表
       senderIndex: null, // 点击标识
-      senderIsScroll: true, // 发起人是否加载更多
+      senderIsScroll: false, // 发起人是否禁用加载更多
       senderParams: { name: '', start: 0, length: 15 },
       senderListLoading: false, // 发起聊天loading
       toList: [], // 聊天对象列表
@@ -44,6 +46,11 @@ export default {
     }
   },
   computed: {
+    ml () {
+      return this.unfoldAndStow && this.activeName !== '2'
+        ? 'template-page__right_content'
+        : ''
+    },
     senderListPlaceholder () {
       return `请输入${
         this.activeName === '1'
@@ -66,20 +73,58 @@ export default {
   created () {
     this.init()
     // this.requestGuideList()
+    window.addEventListener('resize', this.setHeight)
+  },
+  mounted () {
+    this.setHeight()
+  },
+  beforeDestroy () {
+    window.removeEventListener('resize', this.setHeight)
   },
   methods: {
     async init () {
+      this.getDate()
+      this.handlerLoading()
       this.requestExternalUserList()
       // this.requestGuideList()
       // this.getDate()
       // this.getWeWorkChatDataToDb()
     },
     /**
+     * loading 加载
+     */
+    handlerLoading () {
+      this.toListLoading = true
+      this.weWorkChatDataLoading = true
+      this.toList = []
+      this.toListIndex = null
+      this.weWorkChatData = []
+    },
+    /**
+     * 获取当前列表
+     */
+    getDate () {
+      const nowDate = new Date()
+      this.time = `${nowDate.getFullYear()}-${nowDate.getMonth() +
+        1}-${nowDate.getDate()}`
+      this.WeWorkChatParam.chatDateTime = this.time
+      this.talkToGuideListParams.time = this.time + ' 00:00:00'
+      // this.WeWorkChatParam.chatDateTime = this.time
+    },
+    /**
      * 日期时间修改
      */
     handlerChangeTime (data) {
-      this.WeWorkChatParam.chatDateTime = data
-      this.getWeWorkChatDataToDb()
+      if (data) {
+        this.WeWorkChatParam.chatDateTime = data
+        this.talkToGuideListParams.time = data
+      } else {
+        const nowDate = new Date()
+        this.time = `${nowDate.getFullYear()}-${nowDate.getMonth() +
+          1}-${nowDate.getDate()}`
+      }
+      console.log(this.time, 'this.timethis.timethis.timethis.time')
+      // this.getWeWorkChatDataToDb()
       // this.getWeWorkChatDataToDb()
     },
     /**
@@ -87,6 +132,7 @@ export default {
      */
     handleClick (tab) {
       this.resetSenderParams()
+      this.handlerLoading()
       if (tab.name === '1') {
         this.requestExternalUserList()
       } else if (tab.name === '2') {
@@ -125,6 +171,7 @@ export default {
      */
     handlerUnfoldAndStow () {
       this.unfoldAndStow = !this.unfoldAndStow
+      this.setHeight()
     },
     /**
      * senderList 搜索
@@ -184,8 +231,8 @@ export default {
      */
     requestSenderList (url) {
       this.senderListLoading = true
-      this.toListLoading = true
-      this.weWorkChatDataLoading = true
+      // this.toListLoading = true
+      // this.weWorkChatDataLoading = true
       this.$http
         .fetch(url, this.senderParams)
         .then(res => {
@@ -202,9 +249,11 @@ export default {
               } else {
                 this.toList = []
                 this.toListIndex = null
+
+                this.getTalkToGuideList()
               }
             }
-            this.senderIsScroll = true
+            this.senderIsScroll = false
             this.senderListLoading = false
           }
         })
@@ -225,8 +274,16 @@ export default {
         .then(res => {
           this.toList = this.toList.concat(formatToList(res.result))
           this.toListLoading = false
+          console.log(
+            this.toListIndex,
+            'this.toListIndexthis.toListIndexthis.toListIndex'
+          )
           if (this.toListIndex === null) {
             this.toListIndex = 0
+            console.log(
+              this.toListIndex,
+              'this.toListIndexthis.toListIndexthis.toListIndex'
+            )
           }
           this.getWeWorkChatDataToDb()
         })
@@ -238,18 +295,18 @@ export default {
      * senderList 滚动加载更多
      */
     handlerScroll () {
-      if (this.senderIsScroll) {
-        this.senderIsScroll = false
-        this.senderParams.start =
-          this.senderParams.start + this.senderParams.length
-        if (parseInt(this.activeName) === 1) {
-          this.requestExternalUserList()
-        } else if (parseInt(this.activeName) === 2) {
-          this.requestChatRoomList()
-        } else {
-          this.requestGuideList()
-        }
+      // if (this.senderIsScroll) {
+      this.senderIsScroll = true
+      this.senderParams.start =
+        this.senderParams.start + this.senderParams.length
+      if (parseInt(this.activeName) === 1) {
+        this.requestExternalUserList()
+      } else if (parseInt(this.activeName) === 2) {
+        this.requestChatRoomList()
+      } else {
+        this.requestGuideList()
       }
+      // }
     },
     /**
      * senderList 切换
@@ -266,17 +323,9 @@ export default {
         start: 0,
         length: 15
       }
+      this.weWorkChatDataLoading = true
       // this.talkToGuideListParams.sender = 'HongKai'
       this.getTalkToGuideList()
-    },
-    /**
-     * 获取当前列表
-     */
-    getDate () {
-      this.time = new Date()
-      // this.time = `${nowDate.getFullYear()}-${nowDate.getMonth() +
-      //   1}-${nowDate.getDate()}`
-      // this.WeWorkChatParam.chatDateTime = this.time
     },
     async getWeWorkChatDataToDb () {
       this.weWorkChatDataLoading = true
@@ -348,6 +397,31 @@ export default {
     },
     selectUser (i) {
       this.select = i
+    },
+    /**
+     * 监听页面变化设置高度
+     */
+    setHeight: function () {
+      let limitHeight =
+        window.innerHeight -
+        16 -
+        20 -
+        this.$refs.loadMoreWrapper.getBoundingClientRect().top
+      this.$refs.loadMoreWrapper.style.height = limitHeight + 'px'
+      let loadMoreWrapperChildren =
+        window.innerHeight -
+        16 -
+        20 -
+        this.$refs.loadMoreWrapperChildren.getBoundingClientRect().top
+      this.$refs.loadMoreWrapperChildren.style.height =
+        loadMoreWrapperChildren + 'px'
+      let ChatRecordBox =
+        window.innerHeight -
+        2 -
+        20 -
+        this.$refs.ChatRecordBox.getBoundingClientRect().top
+      this.$refs.ChatRecordBox.style.height = ChatRecordBox + 'px'
+      // })
     }
   }
 }

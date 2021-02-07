@@ -2,10 +2,14 @@ import LoadMore from '@/pages/Social/components/LoadMore'
 import ChatRecordList from '@/pages/Social/components/chatRecordList'
 import ElDrawer from '@nascent/nui/lib/drawer'
 import ItemDrawer from '../../components/ItemDrawer'
+import nsAddBorder from '../../topicAnalysis/image/ns-add-border.png'
+import infiniteScroll from 'vue-infinite-scroll'
 export default {
+  directives: { infiniteScroll },
   components: { LoadMore, ChatRecordList, ElDrawer, ItemDrawer },
   data () {
     return {
+      nsAddBorder,
       // 分页配置
       pagination: {
         size: 15,
@@ -19,7 +23,9 @@ export default {
       rules: {
         desc: [{ required: true, message: '请输入敏感词', trigger: 'blur' }]
       },
-      visible: true,
+      busy: false,
+      visible: false,
+      delShow: false,
       value1: '',
       activeName: '客户',
       count: 40,
@@ -56,6 +62,9 @@ export default {
   computed: {
     placeholder () {
       return `请输入${this.activeName}`
+    },
+    ml () {
+      return this.unfoldAndStow ? 'template-page__right_content' : ''
     }
   },
   created () {
@@ -77,6 +86,10 @@ export default {
     window.removeEventListener('resize', this.setHeight)
   },
   methods: {
+    loadMore () {
+      this.count = this.count + 20
+      console.log('123123123123123')
+    },
     /**
      * 聊天客户列表加载更多
      */
@@ -103,10 +116,14 @@ export default {
       this.$nextTick(() => {
         let extraHeight =
           this.$refs.fullScreen.$el.getBoundingClientRect().top || 0
-        console.log(extraHeight, 'extraHeight')
-        // extraHeight += (this.enable ? 38 : 0) + 17 + 5
         this.$refs.fullScreen.$el.children[0].style.maxHeight =
           window.innerHeight - extraHeight - 38 + 'px'
+        let limitHeight =
+          window.innerHeight -
+          16 -
+          20 -
+          this.$refs.loadMoreWrapper.getBoundingClientRect().top
+        this.$refs.loadMoreWrapper.style.height = limitHeight + 'px'
       })
     }
   }
