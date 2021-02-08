@@ -57,7 +57,7 @@ export default {
   },
   // 添加群聊
   addGroup: {
-    url: `${groupPrefix}addGroup`,
+    url: `${groupPrefix}addChatroom`,
     method: 'post'
   },
   // 删除群聊

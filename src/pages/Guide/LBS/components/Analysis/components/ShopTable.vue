@@ -34,13 +34,29 @@
             <template slot-scope="scope">
               <div class='btn-context'>
                 <ns-button type="text" class='detail-btn' @click='handleDetail(scope.row,scope.$index)'>查看详情</ns-button>
-                <NsChatRoomDialog btnTitle="添加群聊" @getChatRoomData="(list)=>{getChatRoomData(list,scope.row)}" :showIcon='false'></NsChatRoomDialog>
+                <ns-button type="text" class='detail-btn' @click='handleAddGroup(scope.row)'>添加群聊</ns-button>
+                <!-- <NsChatRoomDialog btnTitle="添加群聊" @getChatRoomData="(list)=>{getChatRoomData(list,scope.row)}" :showIcon='false' :isLoaded='false'></NsChatRoomDialog> -->
               </div>
             </template>
           </el-table-column>
         </el-table>
       </template>
+      <!-- 页面 start -->
+      <template slot='pagination'>
+        <el-pagination v-if="_data._pagination.enable"
+                        class="template-table__pagination"
+                        :page-sizes="_data._pagination.sizeOpts"
+                        :total="_data._pagination.total"
+                        :current-page="_data._pagination.page"
+                        :page-size="_data._pagination.size"
+                        layout="total, sizes, prev, pager, next, jumper"
+                        @size-change="$sizeChange$"
+                        @current-change="$pageChange$">
+          </el-pagination>
+      </template>
+      <!-- 页面 end -->
     </page-table>
+    <NsChatRoomDialog ref='nsChatRoomDialog' btnTitle=" " :selectedDataParent='[]' @getChatRoomData="getChatRoomData" :showIcon='false' :isLoaded='false'></NsChatRoomDialog>
     <el-drawer
       :modal='false'
       size='50%'
@@ -67,7 +83,8 @@ export default {
       drawer: false,
       shopId: null,
       activeIndex: -1,
-      model: {}
+      model: {},
+      activeRow: {}
     }
   },
   components: {
@@ -82,11 +99,14 @@ export default {
   },
   mixins: [tableMixin],
   methods: {
-    getChatRoomData (list, item) {
+    getChatRoomData (list) {
+      this.$refs.nsChatRoomDialog.emptyData()
+      const { shopId } = this.activeRow
+      const { guid } = this.propsModel
       const parmas = {
-        guid: this.$route.query.guid,
-        shopId: item.shopId,
-        groupList: list
+        guid,
+        shopId,
+        chatIdList: list.map(item => item.chatId)
       }
       this.$http.fetch(this.$api.guide.lbs.addGroup, parmas).then(res => {
         if (res.success) {
@@ -102,6 +122,11 @@ export default {
       this.activeIndex = index
       this.shopId = row.id
       this.drawer = true
+    },
+    // 添加群聊
+    handleAddGroup (row) {
+      this.activeRow = row
+      this.$refs.nsChatRoomDialog.onDialogOpen()
     },
     // 查看门店选择上一个或下一个详情
     getOhter (type, cb) {
@@ -156,6 +181,9 @@ export default {
       immediate: true,
       deep: true
     }
+  },
+  mounted () {
+    this.$refs.nsChatRoomDialog.init()
   }
 }
 </script>
