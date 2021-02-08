@@ -12,7 +12,7 @@ export default {
   },
   // 群查询门店
   getGroupShop: {
-    url: `${groupPrefix}getGroupShop`,
+    url: `${groupPrefix}activityShop`,
     method: 'post'
   },
   // 群删除活动
@@ -37,12 +37,12 @@ export default {
   },
   // 保存群详情
   saveGroupDetail: {
-    url: `${groupPrefix}getGroupDetail`,
+    url: `${groupPrefix}saveOrUpdate`,
     method: 'post'
   },
   // 保存好友详情
   saveFriendsDetail: {
-    url: `${friendsPrefix}saveFriendsDetail`,
+    url: `${friendsPrefix}saveOrUpdate`,
     method: 'post'
   },
   // 查询群二维码总数

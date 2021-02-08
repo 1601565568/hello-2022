@@ -75,7 +75,7 @@
                 </drap-upload>
                 上传海报图
               </div>
-              <VueDragResize :w="model.activityPositionWidth" :h="model.activityPositionWidth" :parentLimitation="true" :aspectRatio='true' :x='model.activityPositionX' :y='model.activityPositionY' @dragstop="onDragPosterResize" @resizestop='onDragPosterResize' :sticks="['tl','tr','bl','br']" >
+              <VueDragResize :w="model.activityQrcodeWidth" :h="model.activityQrcodeWidth" :parentLimitation="true" :aspectRatio='true' :x='model.activityPositionX' :y='model.activityPositionY' @dragstop="onDragPosterResize" @resizestop='onDragPosterResize' :sticks="['tl','tr','bl','br']" >
                 <img src='@/assets/qrcode.png' style='width:100%;height:100%'>
               </VueDragResize>
             </div>
@@ -246,7 +246,7 @@
                     上传海报图
                   </div>
                 </div>
-                <VueDragResize :w="model.positionWidth" :h="model.positionWidth" :parentLimitation="true" :aspectRatio='true' :x='model.positionX' :y='model.positionY' @dragstop="onDragQrResize" @resizestop='onDragQrResize' :sticks="['tl','tr','bl','br']" >
+                <VueDragResize :w="model.qrcodeWidth" :h="model.qrcodeWidth" :parentLimitation="true" :aspectRatio='true' :x='model.positionX' :y='model.positionY' @dragstop="onDragQrResize" @resizestop='onDragQrResize' :sticks="['tl','tr','bl','br']" >
                   <img src='@/assets/qrcode.png' style='width:100%;height:100%'>
                 </VueDragResize>
               </div>

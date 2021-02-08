@@ -18,7 +18,7 @@ export default {
         activityPoster: '', // 活动海报
         activityPositionX: 73, // 活动海报二维码定位x
         activityPositionY: 349, // 活动海报二维码定位y
-        activityPositionWidth: 172, // 活动海报二维码定位宽度
+        activityQrcodeWidth: 172, // 活动海报二维码定位宽度
         welcomePoster: '', // 引导页海报
         qrcodePoster: '', // 二维码海报背景
         positionX: 73, // 二维码海报背景二维码x
@@ -117,7 +117,7 @@ export default {
         activityPoster: result.activityPoster, // 活动海报
         activityPositionX: result.activityPositionX, // 活动海报二维码定位x
         activityPositionY: result.activityPositionY, // 活动海报二维码定位y
-        activityPositionWidth: result.activityPositionWidth, // 活动海报二维码定位宽度
+        activityQrcodeWidth: result.activityQrcodeWidth, // 活动海报二维码定位宽度
         welcomePoster: result.welcomePoster, // 引导页海报
         qrcodePoster: result.qrcodePoster, // 二维码海报背景
         positionX: result.positionX, // 二维码海报背景二维码x
@@ -157,7 +157,7 @@ export default {
     // 修改海报二维码位置
     onDragPosterResize (params) {
       this.model = { ...this.model,
-        activityPositionWidth: params.width,
+        activityQrcodeWidth: params.width,
         activityPositionX: params.left,
         activityPositionY: params.top
       }
@@ -182,6 +182,7 @@ export default {
       this.$http.fetch(this.saveApi, this.formatLoadData(this.model, 'updata')).then(() => {
         this.btnLoad = false
         this.$notify.success('修改成功')
+        this.$router.go(-1)
       }).catch((resp) => {
         this.btnLoad = false
         this.$notify.error(getErrorMsg('修改失败', resp))
