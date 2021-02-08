@@ -19,5 +19,19 @@ export default {
   queryBeDeleteCustomerList: {
     url: '/weWork/lossCustomer/queryBeDeleteCustomerList',
     method: 'post'
+  },
+  /**
+   * @msg: 查询重复好友
+   */
+  getRepeatCustomerList: {
+    url: '/wework/repeat/getRepeatCustomerList',
+    method: 'post'
+  },
+  /**
+   * @msg: 查询重复导购
+   */
+  getRepeatGuideList: {
+    url: '/wework/repeat/getRepeatGuideList',
+    method: 'get'
   }
 }
