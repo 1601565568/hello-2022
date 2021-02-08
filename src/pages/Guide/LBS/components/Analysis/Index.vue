@@ -78,10 +78,10 @@
           </el-col>
         </el-row>
         <div v-if="activeType === 'shop'">
-          <ShopTable :model='model' @onSort='onSort'/>
+          <ShopTable :propsModel='model' @onSort='onSort'/>
         </div>
         <div v-if="activeType === 'employee'">
-          <EmployeeTable :model='model'  @onSort='onSort'/>
+          <EmployeeTable :propsModel='model'  @onSort='onSort'/>
         </div>
       </template>
     </page-table>

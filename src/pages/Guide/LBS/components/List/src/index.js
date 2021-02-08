@@ -231,7 +231,7 @@ export default {
     },
     // 结束活动api
     endActivity (guid, createId) {
-      this.$http.fetch(deleteApi, { guid, createId })
+      this.$http.fetch(this.deleteApi, { guid, createId })
         .then(() => {
           this.$searchAction$()
         }).catch(() => {
