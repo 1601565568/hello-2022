@@ -46,6 +46,7 @@
           v-infinite-scroll="handlerScroll"
           :infinite-scroll-disabled="senderIsScroll"
           :infinite-scroll-distance="30"
+          :infinite-scroll-immediate="false"
           ref="loadMoreWrapper"
         >
           <ul class="user_list">
@@ -87,7 +88,15 @@
             clearable
           ></el-input>
         </div>
-        <div class="loadMoreWrapper" ref="loadMoreWrapperChildren"  v-loading="toListLoading">
+        <div
+          class="loadMoreWrapper"
+          ref="loadMoreWrapperChildren"
+          v-infinite-scroll="handlerListScroll"
+          :infinite-scroll-disabled="senderIsScroll"
+          :infinite-scroll-distance="30"
+          :infinite-scroll-immediate="false"
+          v-loading="toListLoading"
+        >
           <div class="customer_list__warpper">
             <div class="customer_list__warpper">
               <div
@@ -95,6 +104,7 @@
                 :class="
                   index === toListIndex ? 'customer_list__item_select' : ''
                 "
+                @click="handleClickChangeToList(item, index)"
                 v-for="(item, index) in toList"
                 :key="index"
               >
@@ -102,6 +112,9 @@
               </div>
             </div>
           </div>
+          <NsNoData v-if="!toListLoading && toList.length === 0"
+            >暂无数据</NsNoData
+          >
         </div>
         <div class="content_bottom"></div>
       </div>
@@ -115,6 +128,7 @@
           >
             <template v-if="isSetWeWorkChatData">
               <ChatRecordList
+                @getMore="getMore"
                 @handleScrollTop="handleScrollTop"
                 :dataList="weWorkChatData"
               />

@@ -95,7 +95,7 @@ export default {
   methods: {
     loadMore () {
       this.count = this.count + 20
-      console.log('123123123123123')
+      // console.log('123123123123123')
     },
     /**
      * 二级列表展开收起
@@ -117,13 +117,15 @@ export default {
      * 每页条数发生变化
      */
     handleSizeChange (size) {
-      console.log(size)
+      return false
+      // console.log(size)
     },
     /**
      * 页码发生变化
      */
     handlePageChange (page) {
-      console.log(page)
+      return false
+      // console.log(page)
     },
     setHeight: function () {
       // this.$nextTick(() => {

@@ -17,7 +17,7 @@
           <img v-if="item.left" class="user_pic" :src="item.avatar" />
           <div class="chatRecord_content">
             <div class="chatRecord_name_time">
-              {{ item.sender }} {{ item.msgtime }}
+              {{ item.name }} {{ item.msgtime }}
             </div>
             <div class="chatRecord_text" v-if="item.msgtype === 'text'">
               {{ item.content }}
@@ -91,6 +91,9 @@
         </div>
       </div>
     </div>
+    <div class="more" v-if="dataList.length !== 0">
+      <span @click="getMore">查看更多</span>
+    </div>
     <NsNoData v-if="dataList.length === 0">暂无数据</NsNoData>
     <!-- <div @click="openRecording(aaa)">123123123123123</div> -->
     <!-- </el-scrollbar> -->
@@ -114,9 +117,7 @@ export default {
       isScroll: true, // 是否可以滚动加载更多
       scrollHeight: 0,
       playRec: null, // 播放对象
-      voiceActive: null,
-      aaa:
-        'https://hb3-ecrmmall.oss-cn-zhangjiakou.aliyuncs.com/ECRP-WM-WEB/774181482007435001_1612518786-d02386bda87881c43eb06134bc9a123c.amr'
+      voiceActive: null
     }
   },
   watch: {
@@ -124,10 +125,17 @@ export default {
       handler (newVal, oldVal) {
         if (newVal !== oldVal && newVal > oldVal) {
           this.isScroll = true
-          document
-            .getElementById('chatRecordListWarpper')
-            .scrollTo(0, this.scrollHeight - 30)
-          // this.$refs.chatRecordListWarpper.scrollTop = this.aaa
+          this.$nextTick(() => {
+            document
+              .getElementById('chatRecordListWarpper')
+              .scrollTo(
+                0,
+                this.$refs.chatRecordListWarpper.scrollHeight -
+                  this.scrollHeight -
+                  50
+              )
+            this.scrollHeight = this.$refs.chatRecordListWarpper.scrollHeight
+          })
         } else {
           this.isScroll = false
         }
@@ -139,7 +147,6 @@ export default {
     // this.handleScroll()
     const container = document.getElementById('chatRecordListWarpper')
     this.scrollHeight = container.scrollHeight
-    console.log(this.scrollHeight)
     container.addEventListener(
       'scroll',
       this.throttle(this.scrollMoreData, 10, 30),
@@ -155,24 +162,9 @@ export default {
         let container = this.$refs.chatRecordListWarpper
         const clientHeight = this.$refs.chatRecordListWarpper.clientHeight
         const scrollHeight = this.$refs.chatRecordListWarpper.scrollHeight
-        container.scrollTop = clientHeight + scrollHeight
+        container.scrollTop = clientHeight + scrollHeight + 32
       })
     },
-    // handleScroll () {
-    //   let _this = this
-    //   this.$nextTick(() => {
-    //     let _self = this
-    //     let scrollbarEl = this.$refs.fullScreen.wrap
-    //     scrollbarEl.onscroll = function () {
-    //       if (scrollbarEl.scrollTop <= 10) {
-    //         if (_this.isScroll) {
-    //           _this.isScroll = false
-    //           _this.$emit('handleScrollTop')
-    //         }
-    //       }
-    //     }
-    //   })
-    // }
     throttle (func, wait, mustRun) {
       var timeout
       var startTime = new Date()
@@ -193,25 +185,16 @@ export default {
     },
     scrollMoreData () {
       const scrollTop = this.$refs.chatRecordListWarpper.scrollTop
-      // const clientHeight = this.$refs.chatRecordListWarpper.clientHeight
-      // const scrollHeight = this.$refs.chatRecordListWarpper.scrollHeight
+      // console.log(this.isScroll, 'this.isScroll')
       if (scrollTop <= 10) {
         if (this.isScroll) {
           this.isScroll = false
           this.$emit('handleScrollTop')
         }
       }
-      // console.log(this.aaa)
-      // console.log(scrollTop, 'scrollTop')
-      // console.log(clientHeight, 'clientHeight')
-      // console.log(scrollHeight, 'scrollHeight')
-      //   const scroll = scrollHeight - this.scrollDistance
-      // if (scrollTop + clientHeight >= scrollHeight) {
-      //   if (this.isScroll) {
-      //     this.isScroll = false
-      //     this.$emit('handleScrollTop')
-      //   }
-      // }
+    },
+    getMore () {
+      this.$emit('getMore')
     },
     // 播放语音
     openRecording (_url, seq) {
@@ -354,7 +337,7 @@ export default {
   }
   .chatRecord_share {
     width: 280px;
-    height: 147px;
+    max-height: 147px;
     padding: 0 12px;
     padding-top: 8px;
     color: #262626;
@@ -419,6 +402,9 @@ export default {
     position: relative;
     width: 360px;
     height: 200px;
+    background: url('https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-WEB/image/map.png')
+      no-repeat;
+    background-size: 100%;
     .chatRecord_map_text {
       position: absolute;
       left: 0;
@@ -455,6 +441,17 @@ export default {
     border-radius: 4px;
     object-fit: cover;
     margin-left: 16px;
+  }
+}
+.more {
+  text-align: center;
+  font-size: 14px;
+  color: #595959;
+  text-align: center;
+  line-height: 22px;
+  padding-bottom: 32px;
+  span {
+    cursor: pointer;
   }
 }
 </style>

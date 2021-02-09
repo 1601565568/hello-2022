@@ -1,8 +1,6 @@
-import { result, rest } from 'lodash'
-
 import moment from 'moment'
 export const formatWeWorkChatData = result => {
-  let list = result || []
+  let list = result.reverse() || []
   return list.map(item => {
     let obj = {
       avatar: item.avatar, // 用户头像
@@ -12,7 +10,8 @@ export const formatWeWorkChatData = result => {
       seq: item.seq, // 聊天的序列号
       seqId: parseInt(item.seq),
       sender: item.sender, // 用户名
-      left: item.left // true:放在聊天窗口左侧 false:放在右侧
+      left: item.left, // true:放在聊天窗口左侧 false:放在右侧
+      name: item.name
     }
     if (item.msgtype === 'link') {
       obj = {
@@ -45,7 +44,8 @@ export const formatSenderList = result => {
       avatar: item.avatar,
       name: item.name,
       shopName: item.shopName,
-      userId: item.userId
+      userId: item.userId,
+      chatId: item.chatId ? item.chatId : ''
     }
   })
 }
