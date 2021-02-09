@@ -212,7 +212,24 @@ export default {
           'path': '/Guide/chanel/chanel',
           'name': 'chanel',
           'title': '渠道管理',
-          'component': () => import('@/pages/Guide/chanel/chanel.vue')
+          'component': () => import('@nascent/ecrp-ecrm/src/layout/ContentOnly.vue'),
+          'redirect': {
+            'name': 'chanel'
+          },
+          'children': [
+            {
+              'path': '/Guide/chanel/chanel',
+              'name': 'chanel',
+              'title': '渠道管理',
+              'component': () => import('@/pages/Guide/chanel/chanel.vue')
+            },
+            {
+              'path': '/Guide/chanel/ChannelDetail/:id',
+              'name': 'ChannelDetail',
+              'title': '渠道明细',
+              'component': () => import('@/pages/Guide/chanel/ChannelAnalysis/ChannelDetail.vue')
+            }
+          ]
         },
         {
           'path': '/WeWork/WelcomeCode/WelcomeCodeList',
