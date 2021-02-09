@@ -1,3 +1,5 @@
+import { method } from 'lodash'
+
 export default {
   // 聚合二维码列表查询
   findList: {
@@ -46,6 +48,31 @@ export default {
   // 获取创建聚合二维码创建者集合
   queryCreatorList: {
     url: '/Guide/PersonalQrcode/queryCreatorList',
+    method: 'post'
+  },
+  // 聚合二维码上传头像
+  uplaodWatermarkImage: {
+    url: '/Guide/PersonalQrcode/uplaodWatermarkImage',
+    method: 'post'
+  },
+  // 聚合二维码效果分析员工明细
+  getQrCodeEffectList: {
+    url: '/Guide/PersonalQrcode/getQrCodeEffectList',
+    method: 'post'
+  },
+  // 聚合二维码好友明细
+  getQrCodeInviteFriendDetailList: {
+    url: '/Guide/PersonalQrcode/getQrCodeInviteFriendDetailList',
+    method: 'post'
+  },
+  // 聚合二维码获取统计信息总数
+  getQrcodeStatisticsCount: {
+    url: '/Guide/PersonalQrcode/getQrcodeStatisticsCount',
+    method: 'post'
+  },
+  // 聚合二维码下载统计信息EXCEL
+  exportEffectByExcel: {
+    url: '/Guide/PersonalQrcode/exportEffectByExcel',
     method: 'post'
   }
 }

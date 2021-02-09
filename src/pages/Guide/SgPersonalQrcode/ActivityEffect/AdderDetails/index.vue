@@ -3,15 +3,19 @@
     <div class="adder-tool-bar">
       <div class="adder-owners">
         <span class="owners-label">所属员工：</span>
-        <div class="owners-select">
-          <span>已选择555哈哈啊哈个</span>
-          <Icon type="geren" class="select-icon"/>
-        </div>
+        <NsGuideDialog :selfBtn='true' :appendToBody='true' :isButton="false" :auth="false" type="primary" btnTitle="" dialogTitle="选择员工" v-model="model.guideIds" @input="searchform">
+          <template slot='selfBtn'>
+            <div class="owners-select">
+              <span>{{(model.guideIds && model.guideIds.length)?`已选择${model.guideIds.length}个员工`:'全部'}}</span>
+              <Icon type="geren" class="select-icon"/>
+            </div>
+          </template>
+        </NsGuideDialog>
       </div>
-      <el-input v-model="seachVal" placeholder="请输入员工姓名" >
-        <Icon type="ns-search-copy" slot="suffix" class='search-icon el-input__icon'></Icon>
+      <el-input v-model="model.employeeName" placeholder="请输入员工姓名" @keyup.enter.native="searchform">
+        <Icon type="ns-search-copy" slot="suffix" class='search-icon el-input__icon' @click="searchform"></Icon>
       </el-input>
-      <ns-button size="medium" class="export-cvs-btn">导出CSV文件</ns-button>
+      <ns-button size="medium" class="export-cvs-btn" @click="exportFile">导出CSV文件</ns-button>
     </div>
     <div class="adder-detail-table">
       <el-table
@@ -20,99 +24,116 @@
         class="table-form_reset"
         row-class-name="employee-table_row"
         header-cell-class-name="employee-talbe-header-cell"
-        :data="tableData"
+        :data="_data._table.data"
       >
         <el-table-column
-          prop="avatar"
+          prop="friendAvatar"
           label="头像">
           <template slot-scope="scope">
-            <img class="scope-avatar" :src="scope.row.avatar" alt="">
+            <img class="scope-avatar" :src="scope.row.friendAvatar" alt="">
           </template>
         </el-table-column>
         <el-table-column
-          prop="nickname"
+          prop="friendName"
           label="昵称">
         </el-table-column>
         <el-table-column
-          prop="name"
+          prop="employeeName"
           label="员工">
         </el-table-column>
         <el-table-column
-          prop="id"
+          prop="employeeNumber"
           label="工号">
         </el-table-column>
         <el-table-column
-          prop="time"
+          prop="createTime"
           label="添加时间"
           sortable>
         </el-table-column>
       </el-table>
     </div>
     <el-pagination
+      v-if="_data._pagination.enable"
       class="template-table__pagination"
-      :page-sizes="[15, 25, 50, 100]"
-      :total="100"
-      :current-page="1"
-      :page-size="20"
+      :page-sizes="_data._pagination.sizeOpts"
+      :total="_data._pagination.total"
+      :current-page="_data._pagination.page"
+      :page-size="_data._pagination.size"
       :background="true"
       layout="total, sizes, prev, pager, next, jumper"
       @size-change="$sizeChange$"
       @current-change="$pageChange$">
     </el-pagination>
-
-      <NsGuideDialog :selfBtn='true' :appendToBody='true' :isButton="false" :auth="false" type="primary" btnTitle="" dialogTitle="选择员工" v-model="model.guideIds" @input="handleChangeGuide">
-          <template slot='selfBtn'>
-            <div class='self-btn'>
-              全部
-              <Icon type="geren" class='guideIds-icon'></Icon>
-            </div>
-          </template>
-      </NsGuideDialog>
   </div>
 </template>
 
 <script>
+import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import NsGuideDialog from '@/components/NsGuideDialog'
 
 /**
  * 添加明细
  */
 export default {
+  components: {
+    NsGuideDialog
+  },
+  mixins: [tableMixin],
   data () {
     return {
+      url: this.$api.guide.sgPersonalQrcode.getQrCodeInviteFriendDetailList,
       seachVal: '',
       // 筛选数据
       model: {
+        guid: this.$route.params.guid,
         guideIds: [],
-        name: '',
-        startTime: '',
-        endTime: '',
-        status: -1
-      },
-      tableData: [
-        {
-          id: '9527',
-          avatar: 'https://dss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=2661062384,3387585137&fm=26&gp=0.jpg',
-          name: '18877665578',
-          nickname: '红磊',
-          time: '2021/02/04'
-        },
-        {
-          id: '9528',
-          avatar: 'https://dss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=4216711975,3280417109&fm=26&gp=0.jpg',
-          name: '18877665578',
-          nickname: '宇业',
-          time: '2021/02/04'
-        }
-      ]
+        employeeName: '',
+        createTimeOrderStr: 'asc'
+      }
     }
   },
+  mounted () {
+    this.searchform()
+    // window.console.log('添加明细列表', this._data)
+  },
   methods: {
-    handleClick (tab, event) {
-      window.console.log(tab, event)
+    searchform () {
+      this.$searchAction$()
     },
-    handleChangeGuide () {
-      window.console.log('handleChangeGuide')
+    checkTableDataExists () {
+      if (!this._data || !this._data._table || !this._data._table.data || this._data._table.data.length < 1) {
+        this.$notify.error('当前没有匹配的数据项')
+        return true
+      }
+      return false
+    },
+    exportFile () {
+      if (this.checkTableDataExists()) {
+        return false
+      }
+
+      let param = this.$generateParams$()
+      param.searchMap.type = 2
+      this.$notify.info('导出中，请稍后片刻')
+      this.$http.fetch(this.$api.guide.sgPersonalQrcode.exportEffectByExcel, param)
+        .then((resp) => {
+          window.console.log('这个是什么1', resp)
+          this.$notify.success('下载完成')
+        }).catch((resp) => {
+          window.console.log('这个是什么2', resp)
+          if (!resp.size === 0) {
+            this.$notify.error('导出报错，请联系管理员')
+          } else {
+            let url = window.URL.createObjectURL(new Blob([resp]))
+            let link = document.createElement('a')
+            link.style.display = 'none'
+            link.href = url
+            const fileName = '添加明细.CSV'
+            link.setAttribute('download', fileName)
+            document.body.appendChild(link)
+            link.click()
+          }
+        })
     }
   }
 }
@@ -139,7 +160,7 @@ export default {
 
     .adder-owners {
       position: relative;
-      width: 168px;
+      width: 200px;
       height: 32px;
       font-size: 14px;
       box-sizing: border-box;
@@ -160,8 +181,8 @@ export default {
           display: inline-block;
           width: 60px;
           white-space: nowrap;
-          overflow: hidden;
-          text-overflow: ellipsis;
+          color:#262626;
+          font-size: 14px;
         }
         .select-icon {
           display: inline-block;

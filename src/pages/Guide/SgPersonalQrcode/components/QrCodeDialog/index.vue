@@ -1,6 +1,12 @@
 <template>
   <el-dialog title="二维码" width="492px" :visible.sync="visible">
-    <DefaultQrCode :baseUrl="baseUrl" :qrcodeUrl="qrcodeUrl" v-if="qrcodeType === 'default'" />
+    <DefaultQrCode
+      :baseUrl="baseUrl"
+      :uploadUrl="uploadUrl"
+      :qrcodeUrl="qrcodeUrl"
+      :guid="guid"
+      v-if="qrcodeType === 'default'"
+    />
     <span slot="footer" class="dialog-footer">
       <ns-button size="mideum" type="primary" @click="visible = false">确 定</ns-button>
     </span>
@@ -23,15 +29,16 @@ export default {
   data () {
     return {
       baseUrl: `${api.API_ROOT}/upload`,
+      uploadUrl: `${api.API_ROOT}${this.$api.guide.sgPersonalQrcode.uplaodWatermarkImage.url}`,
       visible: false,
       qrcodeType: 'default', // default custom
       qrcodeUrl: '',
-      bgimg: ''
+      guid: ''
     }
   },
   methods: {
     getQrCode (dataRow) {
-      window.console.log('这一行是什么', dataRow)
+      window.console.log('这一行是什么', dataRow, this.$api.core.sgUploadFile('video'), this.$api.guide.sgPersonalQrcode.uplaodWatermarkImage)
       if (this.memberManagePlan === 1 && dataRow.type === 0) {
         if (!dataRow.qrcode_url) {
           this.qrcodeUrl = defaultBgImg
@@ -39,18 +46,8 @@ export default {
           this.qrcodeUrl = dataRow.qrcode_url
         }
 
+        this.guid = dataRow.guid
         this.qrcodeType = 'default'
-      } else if (this.memberManagePlan === 2 || (this.memberManagePlan === 1 && row.type === 1)) {
-        const baseUrl = window.location.origin
-        this.qrcodeUrl = `${window.location.origin}/mobile/aggregationCode.html?guid=${dataRow.guid}&groupId=${dataRow.groupid}`
-
-        if (!dataRow.bgimg) {
-          this.bgimg = defaultBgImg
-        } else {
-          this.bgpic = dataRow.bgimg
-        }
-
-        this.qrcodeType = 'custom'
       }
 
       this.visible = true

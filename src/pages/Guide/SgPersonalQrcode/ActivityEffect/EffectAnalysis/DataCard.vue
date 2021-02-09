@@ -7,24 +7,27 @@
       </el-tooltip>
     </div>
     <div class="count">
-      <el-countup
+      <!-- <el-countup
+        v-if="typeof count === 'number'"
         :start="0"
         :end="count"
         :duration="1.5"
       />
+      <span v-else>{{count}}</span> -->
+      <span>{{count}}</span>
     </div>
   </div>
 </template>
 
 <script>
-import ElCountup from '@nascent/nui/lib/countup'
+// import ElCountup from '@nascent/nui/lib/countup'
 /**
  * 数据卡片
  */
 export default {
-  components: {
-    ElCountup
-  },
+  // components: {
+  //   ElCountup
+  // },
   props: [ 'title', 'tip', 'count', 'color' ]
 }
 </script>

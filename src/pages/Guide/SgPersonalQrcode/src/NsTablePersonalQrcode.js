@@ -170,7 +170,7 @@ export default {
       this.creatorList = data.result
     })
 
-    window.console.log('这是什么', this._data._table)
+    window.console.log('聚合二维码列表', this._data)
   },
   computed: {},
   methods: {

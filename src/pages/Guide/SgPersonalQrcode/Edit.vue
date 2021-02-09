@@ -134,8 +134,16 @@
                 <el-upload
                   size="xlg"
                   drag
-                  action="https://jsonplaceholder.typicode.com/posts/"
-                  multiple>
+                  :action=" $api.core.sgUploadFile('test')"
+                  accept=".jpg,.png"
+                  :limit="1"
+                  :multiple="false"
+                  :on-success="uploadPosterSuccess"
+                  :on-error="uploadPosterError"
+                  :on-remove="uploadPosterRemove"
+                  :before-upload="uploadPosterBefore"
+                >
+                  <!-- :disabled="changeAvatarLoading" -->
                     <i class="el-icon-upload" style="color:#0094FC;"></i>
                     <!-- <Icon type="ns-cloud-uploading" /> -->
                     <div class="el-upload__text">点击或拖拽上传海报图</div>
@@ -147,9 +155,11 @@
         </div>
       </el-form>
     </el-col>
+      <!-- 效果展示开始 -->
       <el-col :span="8" class="qrcode-content_show">
-        <PosterPreviewPanel/>
+        <PosterPreviewPanel :posterImage="posterImage"/>
       </el-col>
+      <!-- 效果展示结束 -->
     </el-row>
     </el-scrollbar>
     <div class="message-container">

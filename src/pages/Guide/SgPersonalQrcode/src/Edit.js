@@ -105,7 +105,9 @@ export default {
         userName: null,
         userId: null
       }],
-      addTagDialogVisible: false // 是否显示打标签dialog
+      addTagDialogVisible: false, // 是否显示打标签dialog
+      posterImage: '', // 海报背景图
+      uploadPosterList: [] // 上传的海报列表
     }
   },
   mounted: function () {
@@ -448,6 +450,38 @@ export default {
     },
     switchTagDialog (state) { // 选择标签
       this.addTagDialogVisible = state
+    },
+    uploadPosterSuccess (uploadRes) { // 上传海报成功回调
+      window.console.log('上传海报结果', uploadRes, this.uploadPosterList)
+      const { success, result } = uploadRes
+
+      if (success) {
+        // 展示背景图
+        this.posterImage = result.url
+        // this.$message.success('上传成功')
+      } else {
+        this.$message.error('上传失败')
+      }
+
+      this.changeAvatarLoading = false
+    },
+    uploadPosterError () { // 上传海报失败回调
+      this.$message.error('上传海报失败')
+    },
+    uploadPosterBefore (file) { // 上传海报前回调
+      const isPngOrJpg = file.type === 'image/jpg' || file.type === 'image/png' || file.type === 'image/jpeg'
+      const isLt10M = file.size / 1024 / 1024 < 10
+      window.console.log(file.type, file.size / 1024 / 1024)
+      if (!isPngOrJpg || !isLt10M) {
+        this.$message.error('请上传jpg或png图片，大小不超过10M')
+        return false
+      }
+
+      return true
+    },
+    uploadPosterRemove (file, fileList) {
+      window.console.log('哈哈哈', file, fileList)
+      this.posterImage = ''
     }
   },
   watch: {

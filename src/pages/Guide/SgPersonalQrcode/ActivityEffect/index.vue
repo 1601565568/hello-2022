@@ -1,27 +1,30 @@
 <template>
   <div class="activity-effect-container">
-    <el-form :inline="true" class="effect-analysis-tool-bar">
+    <el-form v-show="activeTabPanelName === 'first'" :inline="true" class="top-tool-bar effect-analysis-tool-bar">
       <el-radio-group class="alalysis-radio" v-model="analysisDateField">
-        <el-radio label="1" border>全部</el-radio>
-        <el-radio label="2" border>近7天</el-radio>
-        <el-radio label="3" border>近30天</el-radio>
+        <el-radio :label="1" border>全部</el-radio>
+        <el-radio :label="2" border>近7天</el-radio>
+        <el-radio :label="3" border>近30天</el-radio>
       </el-radio-group>
       <span class="line"></span>
-      <el-form-item label="日期筛选">
-          <el-date-picker
-            class="date-filter"
-            v-model="seachDate"
-            type="date"
-            placeholder="请选择"
-            align="right">
-          </el-date-picker>
-      </el-form-item>
+      <el-date-picker
+        v-model="analysisSearchDate"
+        type="datetimerange"
+        value-format="yyyy-MM-dd HH:mm:ss"
+        :default-time="['00:00:00','23:59:59']"
+        range-separator="至"
+        start-placeholder="开始日期"
+        end-placeholder="结束日期"
+        :clearable="false"
+      ></el-date-picker>
     </el-form>
-    <el-tabs v-model="activeName" @tab-click="handleClick">
+    <el-tabs v-model="activeTabPanelName">
       <el-tab-pane label="效果分析" name="first">
-        <EffectAnalysis/>
+        <EffectAnalysis
+          :searchDate="analysisSearchDate"
+        />
       </el-tab-pane>
-      <el-tab-pane label="添加明细" name="second">
+      <el-tab-pane label="添加明细" name="second" :lazy="true">
         <AdderDetails/>
       </el-tab-pane>
     </el-tabs>
@@ -29,6 +32,7 @@
 </template>
 
 <script>
+import moment from 'moment'
 import EffectAnalysis from './EffectAnalysis/index.vue'
 import AdderDetails from './AdderDetails/index.vue'
 
@@ -40,16 +44,37 @@ export default {
     EffectAnalysis,
     AdderDetails
   },
+  watch: {
+    analysisDateField (newVal) {
+      const todayStartTime = new Date(new Date().toLocaleDateString())
+      const todayEndTeime = new Date(todayStartTime.getTime() + 24 * 3600 * 1000 - 1)
+      const endTimeStr = moment(todayEndTeime).format('YYYY-MM-DD HH:mm:ss')
+
+      if (newVal === 1) { // 全部
+        this.analysisSearchDate = []
+      }
+
+      if (newVal === 2) { // 近7天
+        const during7Days = new Date(new Date(new Date().toLocaleDateString()).getTime() - 6 * 24 * 3600 * 1000)
+        this.analysisSearchDate = [ this.formatTime(during7Days), endTimeStr ]
+      }
+
+      if (newVal === 3) { // 近30天
+        const during30Days = new Date(new Date(new Date().toLocaleDateString()).getTime() - 30 * 24 * 3600 * 1000)
+        this.analysisSearchDate = [ this.formatTime(during30Days), endTimeStr ]
+      }
+    }
+  },
   data () {
     return {
-      analysisDateField: '',
-      activeName: 'first',
-      seachDate: ''
+      activeTabPanelName: 'first',
+      analysisDateField: 1,
+      analysisSearchDate: []
     }
   },
   methods: {
-    handleClick (tab, event) {
-      console.log(tab, event)
+    formatTime (date) {
+      return moment(date).format('YYYY-MM-DD HH:mm:ss')
     }
   }
 }
@@ -65,7 +90,6 @@ export default {
     z-index: 10;
     top: 0;
     right: 0;
-    width: 644px;
     height: 48px;
     display: flex;
     align-items: center;
@@ -79,11 +103,6 @@ export default {
       display: inline-block;
       height: 20px;
       border: 1px solid #E8E8E8;
-    }
-
-    .date-filter {
-      display: flex;
-      margin-left: 24px;
     }
   }
 

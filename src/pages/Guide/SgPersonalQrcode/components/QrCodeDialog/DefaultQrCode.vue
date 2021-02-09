@@ -1,16 +1,20 @@
 <template>
   <el-form>
     <div class="qrcode-content">
-      <img :src="qrcodeUrl" alt="">
+      <img :src="successUrl || qrcodeUrl" alt="">
       <div class="qrcode-operate">
         <el-upload
-          action="test"
+          :action="uploadUrl"
+          :data="{ guid: guid }"
           :show-file-list="false"
+          accept=".jpg,.png"
           :on-success="changeQrcodeAvatarSuccess"
+          :on-error="changeQrcodeAvatarError"
           :before-upload="changeQrcodeAvatarBefore"
           size="medium"
+          :disabled="changeAvatarLoading"
         >
-          <ns-button size="medium" class="qrcode-button">更换头像</ns-button>
+          <ns-button size="medium" class="qrcode-button" :loading="changeAvatarLoading">更换头像</ns-button>
         </el-upload>
         <ns-button size="medium" class="qrcode-button" @click="downloadQrCode"><Icon type="xiazai"/>下载</ns-button>
       </div>
@@ -33,21 +37,45 @@ export default {
   components: {
     ElUpload
   },
-  props: [ 'visible', 'baseUrl', 'qrcodeUrl' ],
+  props: [ 'visible', 'baseUrl', 'qrcodeUrl', 'guid', 'uploadUrl' ],
   data () {
-    return {}
+    return {
+      changeAvatarLoading: false,
+      successUrl: ''
+    }
   },
   computed: {
     downloadUrl () {
-      return `${this.baseUrl}/uploadImg?fileName=聚合二维码&imgUrl=${this.qrcodeUrl}&width=430&height=430`
+      return `${this.baseUrl}/uploadImg?fileName=聚合二维码&imgUrl=${this.successUrl || this.qrcodeUrl}&width=430&height=430`
     }
   },
   methods: {
-    changeQrcodeAvatarSuccess () {
-      console.log('上传成功')
+    changeQrcodeAvatarSuccess (uploadRes, file) {
+      const { success, msg, result } = uploadRes
+
+      if (success) {
+        this.successUrl = result
+        this.$message.success(msg || '上传成功')
+      } else {
+        this.$message.error('上传失败')
+      }
+
+      this.changeAvatarLoading = false
     },
-    changeQrcodeAvatarBefore () {
-      console.log('上传前')
+    changeQrcodeAvatarError (errRes) {
+      this.$message.error('上传失败')
+    },
+    changeQrcodeAvatarBefore (file) {
+      this.changeAvatarLoading = true
+
+      const isPngOrJpg = file.type === 'image/jpg' || file.type === 'image/png' || file.type === 'image/jpeg'
+      const isLt100K = file.size / 1024 < 100
+      if (!isPngOrJpg || !isLt100K) {
+        this.$message.error('请上传jpg或png图片，大小不超过100kb')
+        return false
+      }
+
+      return true
     },
     downloadQrCode () {
       const imageDom = document.createElement('a')
