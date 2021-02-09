@@ -8,8 +8,10 @@
 import welcomeCode from './welcomeCode.js'
 import behaviorData from './behaviorData.js'
 import guide from './guide.js'
+import externalContact from './externalContact.js'
 export default {
   welcomeCode,
   behaviorData,
-  guide
+  guide,
+  externalContact
 }

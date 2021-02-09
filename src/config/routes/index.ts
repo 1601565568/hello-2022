@@ -11,6 +11,7 @@ import social from './social'
 import WeWork from './wework'
 import dataCenter from './dataCenter'
 import greeting from './greeting'
+import CustomerCenter from './customercenter'
 export default [
   ShopManager,
   Reward,
@@ -25,6 +26,7 @@ export default [
   dataCenter,
   WeWork, // 企业微信
   greeting,
+  CustomerCenter,
   {
     path: '/operate/articleMaterialDetail',
     name: 'articleMaterialDetail',
