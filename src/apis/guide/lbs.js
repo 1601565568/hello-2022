@@ -27,12 +27,12 @@ export default {
   },
   // 群请求详情
   getGroupDetail: {
-    url: `${groupPrefix}getGroupDetail`,
+    url: `${groupPrefix}edit`,
     method: 'post'
   },
   // 好友请求详情
   getFriendsDetail: {
-    url: `${friendsPrefix}getFriendsDetail`,
+    url: `${friendsPrefix}edit`,
     method: 'post'
   },
   // 保存群详情

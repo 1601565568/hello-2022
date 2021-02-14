@@ -37,15 +37,15 @@
     <template v-else-if='type==="qrcode"'>
       <el-form class='normal-from' label-width="60px" label-position='left'>
         <el-form-item label='  '>
-          <div class='flex-box bottom'>
+          <div class='flex-box bottom qrcode'>
             <!-- <div  class='preview-img'>
               <div class='hover' @click='handlePreview(url)'>
                 预览
               </div>
               <img :src='url'/>
             </div> -->
-            <qr-code :value="url" :size="150" :options="{size:150}"></qr-code>
-            <ns-button class='copy' icon='el-icon-download' @click="handleDownload(url)">
+            <qr-code :value="url" :size="220" :options="{size:220}"></qr-code>
+            <ns-button class='copy' icon='el-icon-download' @click="handleDownloadQrcode(url)">
               下载
             </ns-button>
           </div>
@@ -66,7 +66,8 @@ import api from '@/config/http'
 export default {
   data () {
     return {
-      downUrl: api.API_ROOT + '/chatRoomGroup/downLoad'
+      downUrl: api.API_ROOT + '/chatRoomGroup/downLoad',
+      qrcodeUrl: api.API_ROOT + '/upload'
     }
   },
   components: { Preview, ElImage, QrCode },
@@ -83,7 +84,7 @@ export default {
   methods: {
     // 下载
     handleDownload (url) {
-      let requestUrl = this.downUrl
+      let requestUrl = this.qrcodeUrl
       var form = document.createElement('form')
       form.setAttribute('action', requestUrl)
       form.setAttribute('method', 'get')
@@ -94,6 +95,9 @@ export default {
       form.appendChild(input)
       document.body.appendChild(form)
       form.submit()
+    },
+    handleDownloadQrcode (url) {
+      window.open(this.qrcodeUrl + '/uploadUrl?fileName=LBS二维码&url=' + url + '&width=430&height=430')
     },
     handleClose () {
       this.$emit('onClose')
@@ -115,6 +119,9 @@ export default {
   .flex-box {
     display: flex;
     align-items: center;
+    &.qrcode {
+      padding-top: 48px
+    }
     .copy {
       margin-left: 17px;
       font-size: 14px;

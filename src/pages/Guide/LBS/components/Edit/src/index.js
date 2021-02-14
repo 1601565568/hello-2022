@@ -96,7 +96,7 @@ export default {
       }
     },
     async loadData () {
-      const result = await this.$http.fetch(this.loadApi)
+      const result = await this.$http.fetch(this.loadApi, { guid: this.$route.query.guid })
       if (result.success) {
         return result.result
       } else {
@@ -210,6 +210,8 @@ export default {
     }
   },
   mounted () {
-    this.init()
+    if (this.$route.query && this.$route.query.guid) {
+      this.init()
+    }
   }
 }
