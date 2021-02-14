@@ -1,4 +1,3 @@
-import LoadMore from '@/pages/Social/components/LoadMore'
 import ChatRecordList from '@/pages/Social/components/chatRecordList'
 import ElDrawer from '@nascent/nui/lib/drawer'
 import ItemDrawer from '../../components/ItemDrawer'
@@ -8,7 +7,7 @@ import nsAddBorder from '../image/ns-add-border.png'
 import infiniteScroll from 'vue-infinite-scroll'
 export default {
   directives: { infiniteScroll },
-  components: { LoadMore, ChatRecordList, ElDrawer, ItemDrawer },
+  components: { ChatRecordList, ElDrawer, ItemDrawer },
   data () {
     return {
       packup,

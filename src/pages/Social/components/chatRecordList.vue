@@ -22,13 +22,21 @@
             <div class="chatRecord_text" v-if="item.msgtype === 'text'">
               {{ item.content }}
             </div>
-            <div class="chatRecord_img" v-if="item.msgtype === 'image'">
+            <div
+              class="chatRecord_img"
+              v-if="item.msgtype === 'image'"
+              @click="onSee(item.content, 1)"
+            >
               <img :src="item.content" />
             </div>
             <div class="chatRecord_img" v-if="item.msgtype === 'emotion'">
               <img :src="item.content" />
             </div>
-            <div class="chatRecord_video" v-if="item.msgtype === 'video'">
+            <div
+              class="chatRecord_video"
+              v-if="item.msgtype === 'video'"
+              @click="onSee(item.content, 2)"
+            >
               <video :src="item.content" />
               <div class="icon"></div>
             </div>
@@ -95,8 +103,28 @@
       <span @click="getMore">查看更多</span>
     </div>
     <NsNoData v-if="dataList.length === 0">暂无数据</NsNoData>
-    <!-- <div @click="openRecording(aaa)">123123123123123</div> -->
-    <!-- </el-scrollbar> -->
+    <el-dialog title="查看" :visible.sync="dialogVisible" width="30%">
+      <template v-if="type === 1">
+        <img :src="url" />
+      </template>
+      <template v-if="type === 2">
+        <video
+          :src="url"
+          autoplay="autoplay"
+          loop="loop"
+          muted="muted"
+          controls="controls"
+          controlsList="nodownload"
+          height="100%"
+          width="100%"
+        />
+      </template>
+      <span slot="footer" class="dialog-footer">
+        <ns-button type="primary" @click="dialogVisible = false"
+          >确 定</ns-button
+        >
+      </span>
+    </el-dialog>
   </div>
 </template>
 <script>
@@ -117,7 +145,10 @@ export default {
       isScroll: true, // 是否可以滚动加载更多
       scrollHeight: 0,
       playRec: null, // 播放对象
-      voiceActive: null
+      voiceActive: null,
+      dialogVisible: false,
+      url: '',
+      type: 1
     }
   },
   watch: {
@@ -218,6 +249,12 @@ export default {
         .catch(e => {
           vm.$notify.error('播放录音失败')
         })
+    },
+    // 放大查看
+    onSee (content, type) {
+      this.url = content
+      this.type = type
+      this.dialogVisible = true
     },
     // 停止播放
     stopPlayVoice () {

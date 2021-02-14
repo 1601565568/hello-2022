@@ -6,12 +6,22 @@
           敏感词监控
         </div>
         <div class="page-header__search">
-          <el-date-picker v-model="value1" type="date" placeholder="选择日期">
+          <el-date-picker
+            value-format="yyyy-MM-dd"
+            format="yyyy-MM-dd"
+            @change="handlerChangeTime"
+            v-model="time"
+            type="date"
+            placeholder="选择日期"
+          >
           </el-date-picker>
           <el-input
+            @keyup.enter.native="onSearch"
+            @clear="onSearch"
+            clearable
             style="width:240px;margin-left:16px;"
-            :placeholder="placeholder"
-            v-model="input1"
+            placeholder="请输入敏感词"
+            v-model="model.name"
           ></el-input>
         </div>
       </div>
@@ -20,29 +30,36 @@
       <div class="template-page__left">
         <div class="content_header">
           敏感词列表
-          <img class="add" :src="nsAddBorder" />
+          <img
+            class="add"
+            :src="nsAddBorder"
+            @click="onShowAddSensitiveWords"
+          />
         </div>
         <div
+          v-loading="listLoading"
           class="loadMoreWrapper"
-          v-infinite-scroll="loadMore"
-          :infinite-scroll-disabled="busy"
+          v-infinite-scroll="handlerScroll"
+          :infinite-scroll-disabled="listIsScroll"
           :infinite-scroll-distance="5"
           ref="loadMoreWrapper"
         >
           <ul class="user_list">
             <li
-              v-for="(i, index) in count"
-              :key="index"
-              @click="selectUser(i)"
-              :class="i === select ? 'user_list_select' : ''"
+              v-for="item in list"
+              :key="item.id"
+              @click="selectUser(item.id)"
+              :class="item.id === select ? 'user_list_select' : ''"
             >
               <div class="topic-text">
-                {{ i }}这是一个话题系列哈哈哈哈啊哈哈哈哈哈哈哈啊
+                {{ item.word }}
               </div>
               <div class="topic-Number">
-                10
+                {{ item.count }}
               </div>
-              <span class="del"> <Icon type="delete"/></span>
+              <span class="del" @click="listDeleteItem(item.id)">
+                <Icon type="delete"
+              /></span>
             </li>
           </ul>
         </div>
@@ -50,9 +67,12 @@
       </div>
       <div class="template-page__right">
         <div class="template-page__right__content">
-          <div class="content_header">敏感词命中明细</div>
+          <div class="list-content_header">
+            <h1>敏感词命中明细</h1>
+            <p>统计近3个月数据明细</p>
+          </div>
           <div class="chat_record">
-            <el-scrollbar ref="fullScreen" class="nmsl-padding">
+            <el-scrollbar ref="fullScreen" class="el-scrollbar__wrap__padding">
               <el-table
                 ref="multipleTable"
                 :data="table.tableData"
@@ -61,11 +81,24 @@
                 stripe
                 resizable
               >
-                <el-table-column prop="date" label="日期"> </el-table-column>
-                <el-table-column prop="name" label="姓名"> </el-table-column>
-                <el-table-column prop="address" label="地址"> </el-table-column>
+                <el-table-column label="头像">
+                  <template slot-scope="scope">
+                    <img :src="scope.row.avatar" class="scope-title_img" />
+                  </template>
+                </el-table-column>
+                <el-table-column prop="name" label="昵称"> </el-table-column>
+                <el-table-column
+                  prop="content"
+                  label="内容"
+                  :show-overflow-tooltip="true"
+                >
+                </el-table-column>
                 <el-table-column label="操作" fixed="right" :width="150">
-                  <ns-button type="text" @click="drawer = true">查看</ns-button>
+                  <template slot-scope="scope">
+                    <ns-button type="text" @click="getContext(scope.row)"
+                      >查看</ns-button
+                    >
+                  </template>
                   <!-- <template slot-scope="scope">
                   <ns-table-column-operate-button
                     :buttons="table.operate_buttons"
@@ -96,42 +129,16 @@
       :visible.sync="drawer"
       :with-header="false"
     >
-      <ItemDrawer />
+      <ItemDrawer
+        :dataList="weWorkChatData"
+        @getMore="getMore"
+        :drawer="drawer"
+        @handleClose="handleClose"
+        @handleScrollTop="handleScrollTop"
+      />
     </el-drawer>
-    <el-dialog title="添加敏感词" :visible.sync="visible" width="35%">
-      <div style="height: 250px;padding-right:10px">
-        <el-form
-          :model="ruleForm"
-          :rules="rules"
-          ref="ruleForm"
-          label-width="100px"
-          class="demo-ruleForm"
-        >
-          <el-form-item label="敏感词：" prop="desc">
-            <el-input
-              type="textarea"
-              v-model="ruleForm.desc"
-              :rows="10"
-            ></el-input>
-          </el-form-item>
-          <el-form-item>
-            <span class="text-primary">
-              <i>
-                <Icon type="exclamation-circle" />
-              </i>
-              <span
-                >多敏感词用“，”隔开，且每个敏感词不得超过10个字符，如敏感词1，敏感词2</span
-              >
-            </span>
-          </el-form-item>
-        </el-form>
-      </div>
-      <span slot="footer" class="dialog-footer">
-        <ns-button @click="visible = false">取 消</ns-button>
-        <ns-button type="primary" @click="visible = false">确 定</ns-button>
-      </span>
-    </el-dialog>
-    <el-dialog :visible.sync="delShow" width="30%">
+    <AddSensitiveWords ref="AddSensitiveWords" @add="add" />
+    <!-- <el-dialog :visible.sync="delShow" width="30%">
       <div class="tipsShowTitle" slot="title">提示信息</div>
       <div class="tipsShowContent">
         <span class="ns-warm-cricle">!</span>确定要删除话题“话题名称”吗？
@@ -140,13 +147,21 @@
         <ns-button @click="delShow = false">取 消</ns-button>
         <ns-button type="primary" @click="delShow = false">确 定</ns-button>
       </span>
-    </el-dialog>
+    </el-dialog> -->
   </div>
 </template>
 <script>
 import Index from './src/index'
 export default Index
 </script>
+<style>
+/* .el-scrollbar__wrap__padding /deep/ .el-scrollbar__wrap {
+  padding-bottom: 17px !important;
+} */
+/* .el-scrollbar__wrap {
+  margin-bottom: 0px !important;
+} */
+</style>
 <style lang="scss" scoped>
 .fl_between {
   display: flex;
@@ -195,6 +210,26 @@ export default Index
     margin-left: 8px;
   }
 }
+.list-content_header {
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  padding: 0px 16px;
+  height: 76px;
+  background: #ffffff;
+  color: #262626;
+  font-weight: bold;
+  h1 {
+    margin: 0;
+    font-size: 16px;
+    line-height: 24px;
+  }
+  p {
+    font-size: 12px;
+    color: #8c8c8c;
+    // line-height: 20px;
+  }
+}
 .loadMoreWrapper {
   overflow: auto;
   scrollbar-width: none;
@@ -223,7 +258,7 @@ export default Index
     font-size: 14px;
     color: #262626;
     .topic-text {
-      max-width: 100px;
+      width: 110px;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
@@ -378,5 +413,10 @@ export default Index
   background: #ffaa00;
   color: #fff;
   margin-right: 10px;
+}
+.scope-title_img {
+  width: 32px;
+  height: 32px;
+  border-radius: 4px;
 }
 </style>
