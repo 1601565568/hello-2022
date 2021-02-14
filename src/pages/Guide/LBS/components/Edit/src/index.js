@@ -23,7 +23,7 @@ export default {
         qrcodePoster: '', // 二维码海报背景
         positionX: 73, // 二维码海报背景二维码x
         positionY: 289, // 二维码海报背景二维码y
-        positionWidth: 172, // 二维码海报背景二维码宽度
+        qrcodeWidth: 172, // 二维码海报背景二维码宽度
         roomRule: '',
         roomBaseName: '',
         roomBaseId: 1,
@@ -122,7 +122,7 @@ export default {
         qrcodePoster: result.qrcodePoster, // 二维码海报背景
         positionX: result.positionX, // 二维码海报背景二维码x
         positionY: result.positionY, // 二维码海报背景二维码y
-        positionWidth: result.positionWidth // 二维码海报背景二维码宽度
+        qrcodeWidth: result.qrcodeWidth // 二维码海报背景二维码宽度
       }
       if (type === 'load') {
         baseData.time = [result.startTime, result.endTime]
@@ -165,7 +165,7 @@ export default {
     // 修改海报背景二维码位置
     onDragQrResize () {
       this.model = { ...this.model,
-        positionWidth: params.width,
+        qrcodeWidth: params.width,
         positionX: params.left,
         positionY: params.top
       }
