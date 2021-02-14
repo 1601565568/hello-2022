@@ -11,6 +11,7 @@ export default {
     return {
       model: {
         id: null,
+        guid: null,
         name: '', // 活动名称
         shopList: [], // 选择门店
         time: [], // 时间
@@ -109,8 +110,8 @@ export default {
      * @param {*} type load 加载 update 提交
      */
     formatLoadData (result, type = 'load') {
+      const { id, guid } = this.$route.query
       const baseData = {
-        id: result.id,
         name: result.name, // 活动名称
         shopList: result.shopList, // 选择门店
         timeType: result.timeType, // 是否永久
@@ -122,7 +123,9 @@ export default {
         qrcodePoster: result.qrcodePoster, // 二维码海报背景
         positionX: result.positionX, // 二维码海报背景二维码x
         positionY: result.positionY, // 二维码海报背景二维码y
-        qrcodeWidth: result.qrcodeWidth // 二维码海报背景二维码宽度
+        qrcodeWidth: result.qrcodeWidth, // 二维码海报背景二维码宽度
+        id: id || null,
+        guid: guid || null
       }
       if (type === 'load') {
         baseData.time = [result.startTime, result.endTime]

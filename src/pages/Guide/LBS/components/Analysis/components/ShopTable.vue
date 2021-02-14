@@ -29,7 +29,7 @@
           </el-table-column>
           <el-table-column
             prop="address"
-            width='250px'
+            width='150px'
             label="操作">
             <template slot-scope="scope">
               <div class='btn-context'>

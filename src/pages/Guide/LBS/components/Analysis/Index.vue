@@ -3,7 +3,7 @@
     <div class='analysis-header'>
       <h3 class='header-text'>
         <Icon type="icon-fanhuishangyiji" class='back-icon' @click='handleBack'></Icon>
-        活动效果
+        {{activityName}}活动效果
       </h3>
       <div class='header-tab'>
         <el-tabs v-model="dateValue" @tab-click="handleChangeDateType">
@@ -38,7 +38,7 @@
             </NsShopDialog>
           </el-form-item>
           <el-form-item label="群码设置状态：" class='el-form__change'>
-            <el-select v-model="model.status" placeholder="请选择" @change='getDataTotal'>
+            <el-select v-model="model.state" placeholder="请选择" @change='getDataTotal'>
               <el-option
                 v-for="item in statusOptionList"
                 :key="item.value"

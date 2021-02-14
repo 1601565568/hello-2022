@@ -4,12 +4,12 @@ export default {
     return {
       model: {
         shopIdList: [],
-        status: -1,
-        startTime: '',
-        endTime: '',
+        state: null,
+        startTime: this.changeDate(1)[0],
+        endTime: this.changeDate(1)[1],
         guid: this.$route.query.guid
       },
-      time: [], // 时间筛选
+      time: this.changeDate(1), // 时间筛选
       activeType: 'shop', // 选中的数据 shop: 门店  employee：成员
       // 时间筛选
       dateList: [
@@ -28,7 +28,7 @@ export default {
       statusOptionList: [
         {
           label: '全部',
-          value: -1
+          value: null
         },
         {
           label: '已结束',
@@ -53,7 +53,7 @@ export default {
         employee: 0
       },
       // 时间选择的值
-      dateValue: ''
+      dateValue: '1day'
     }
   },
   props: {
@@ -65,6 +65,9 @@ export default {
     // 总数接口
     countApi () {
       return this.type === 'Group' ? this.$api.guide.lbs.getGroupStatisticsCount : this.$api.guide.lbs.getFirendsStatisticsCount
+    },
+    activityName () {
+      return this.$route.query ? this.$route.query.name : ''
     }
   },
   methods: {
@@ -95,11 +98,11 @@ export default {
     // 修改时间
     changeDate (day) {
       const timestamp = day * 86400000
-      const nowTime = new Date().getTime()
+      const nowTime = new Date(new Date().toLocaleDateString()).getTime()
       const oldTime = nowTime - timestamp
       const startTime = moment(oldTime).format('YYYY-MM-DD HH:mm:ss')
       const endTime = moment(nowTime).format('YYYY-MM-DD HH:mm:ss')
-      this.changeModelDate(startTime, endTime)
+      return [startTime, endTime]
     },
     // 根据类型修改请求时间
     handleChangeDateType (tab) {
@@ -107,7 +110,8 @@ export default {
         this.startTime = null
         this.endTime = null
       } else {
-        this.changeDate(parseInt(tab.name))
+        const data = this.changeDate(parseInt(tab.name))
+        this.changeModelDate(data[0], data[1])
       }
     },
     // 根据值修改请求时间
