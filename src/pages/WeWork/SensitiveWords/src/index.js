@@ -1,4 +1,3 @@
-import LoadMore from '@/pages/Social/components/LoadMore'
 import ChatRecordList from '@/pages/Social/components/chatRecordList'
 import ElDrawer from '@nascent/nui/lib/drawer'
 import ItemDrawer from '../../components/ItemDrawer'
@@ -10,7 +9,6 @@ import { formatList, formatWeWorkChatData } from './format'
 export default {
   directives: { infiniteScroll },
   components: {
-    LoadMore,
     ChatRecordList,
     ElDrawer,
     ItemDrawer,

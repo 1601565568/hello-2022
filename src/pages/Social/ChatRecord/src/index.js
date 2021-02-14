@@ -1,4 +1,3 @@
-import LoadMore from '../../components/LoadMore'
 import ChatRecordList from '../../components/chatRecordList'
 import packup from '../image/ns-arrow-packup.png'
 import unfold from '../image/ns-arrow-unfold.png'
@@ -8,7 +7,7 @@ import NsNoData from '@nascent/ecrp-ecrm/src/components/NsNoData.vue'
 import { formatWeWorkChatData, formatSenderList, formatToList } from './format'
 export default {
   directives: { infiniteScroll },
-  components: { LoadMore, ChatRecordList, NsNoData },
+  components: { ChatRecordList, NsNoData },
   data () {
     return {
       packup,

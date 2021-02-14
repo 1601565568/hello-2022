@@ -155,9 +155,9 @@ import Index from './src/index'
 export default Index
 </script>
 <style>
-.el-scrollbar__wrap__padding /deep/ .el-scrollbar__wrap {
+/* .el-scrollbar__wrap__padding /deep/ .el-scrollbar__wrap {
   padding-bottom: 17px !important;
-}
+} */
 /* .el-scrollbar__wrap {
   margin-bottom: 0px !important;
 } */
