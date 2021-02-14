@@ -13,7 +13,7 @@ export default {
       model: {
         shopIds: [],
         name: '',
-        status: -1
+        state: null
       },
       // 筛选名称
       seachVal: '',
@@ -21,18 +21,18 @@ export default {
       statusOptionList: [
         {
           label: '全部',
-          value: -1
-        },
-        {
-          label: '已结束',
-          value: 0
+          value: null
         },
         {
           label: '未开始',
-          value: 1
+          value: 0
         },
         {
           label: '进行中',
+          value: 1
+        },
+        {
+          label: '已结束',
           value: 2
         },
         {
@@ -42,15 +42,15 @@ export default {
       ],
       // 状态列表
       statusList: {
-        0: {
+        2: {
           value: '已结束',
           color: 'info'
         },
-        1: {
+        0: {
           value: '未开始',
           color: 'warning'
         },
-        2: {
+        1: {
           value: '进行中',
           color: 'success'
         },
@@ -59,6 +59,7 @@ export default {
           color: 'info'
         }
       },
+      showEditState: [0, 1], // 展示编辑和结束活动的状态 进行中 或 未开始
       // 查看参与门店弹框
       drawer: false,
       // 弹框信息
@@ -82,31 +83,6 @@ export default {
         type: '' // 弹框类型 预览海报 poster 预览二维码qrcode
       },
       activeIndex: -1
-      // data: [{
-      //   activityPlacard: 'https://shopguide.oss-cn-hangzhou.aliyuncs.com/GUIDE_GUEST_CODE/10000146/1611905489511/ceff2192-b277-4376-914a-0ff1c0c54570.png', // 海报
-      //   createTime: '2021-01-29 15:31:30', // 创建时间
-      //   loginAccount: 'lhl', // 创建人
-      //   name: '2222', // 活动名称
-      //   status: 2, // 状态  0 ：已结束 1：未开始 2：进行中 3: 提前结束
-      //   validTimeEnd: '2021-02-22 23:59:59', // 开始时间
-      //   validTimeStart: '2021-01-30 00:00:00', // 结束时间
-      //   validTimeType: 1, // 0: 永久 1: 非永久
-      //   shopNumber: 12, // 门店数量
-      //   qrcode: 'https://shopguide.oss-cn-hangzhou.aliyuncs.com/GUIDE_GUEST_CODE/10000146/1611905489511/ceff2192-b277-4376-914a-0ff1c0c54570.png', // 二维码
-      //   lbsId: '123111' // 唯一标示
-      // }, {
-      //   activityPlacard: 'https://shopguide.oss-cn-hangzhou.aliyuncs.com/GUIDE_GUEST_CODE/10000146/1611905489511/ceff2192-b277-4376-914a-0ff1c0c54570.png', // 海报
-      //   createTime: '2021-01-29 15:31:30', // 创建时间
-      //   loginAccount: 'lhl', // 创建人
-      //   name: '2222', // 活动名称
-      //   status: 2, // 状态  0 ：已结束 1：未开始 2：进行中 3: 提前结束
-      //   validTimeEnd: '2021-02-22 23:59:59', // 开始时间
-      //   validTimeStart: '2021-01-30 00:00:00', // 结束时间
-      //   validTimeType: 1, // 0: 永久 1: 非永久
-      //   shopNumber: 12, // 门店数量
-      //   qrcode: 'https://shopguide.oss-cn-hangzhou.aliyuncs.com/GUIDE_GUEST_CODE/10000146/1611905489511/ceff2192-b277-4376-914a-0ff1c0c54570.png', // 二维码
-      //   lbsId: '3333' // 唯一标示
-      // }]
     }
   },
   props: {
@@ -207,9 +183,16 @@ export default {
     },
 
     // 数据操作栏
+    // 是否展示编辑和结束按钮
+    isShowEdit (item) {
+      if (item.isCompile) {
+        return this.showEditState.includes(item.state)
+      }
+      return false
+    },
     // 查看海报
     handlePreviewPoster (item) {
-      this.dialogData.placard = item.activityPlacard
+      this.dialogData.placard = item.activityPosterUrl
       this.dialogData.type = 'poster'
       this.dialogVisible = true
     },

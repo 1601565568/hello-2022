@@ -15,7 +15,7 @@
             </NsShopDialog>
           </el-form-item>
           <el-form-item label="活动状态：" class='el-form__change'>
-            <el-select v-model="model.status" placeholder="请选择" @change='(value)=>{changeSearchfrom({status:value})}'>
+            <el-select v-model="model.state" placeholder="请选择" @change='(value)=>{changeSearchfrom({state:value})}'>
               <el-option
                 v-for="item in statusOptionList"
                 :key="item.value"
@@ -120,8 +120,8 @@
               <template slot-scope="scope">
                 <!-- <ns-button type="text" v-if='[1,2].includes(scope.row.status)' @click='handleEdit({id:scope.row.lbsId})'>编辑</ns-button>
                 <ns-button type="text" v-if='[1,2].includes(scope.row.status)' @click='handleEnd(scope.row.lbsId)'>结束活动</ns-button> -->
-                <ns-button type="text" @click='handleDetail({guid:scope.row.guid})'>编辑</ns-button>
-                <ns-button type="text" @click='handleEnd(scope.row.guid,scope.row.createId)'>结束活动</ns-button>
+                <ns-button type="text" @click='handleDetail({guid:scope.row.guid})' v-if='isShowEdit(scope.row)'>编辑</ns-button>
+                <ns-button type="text" @click='handleEnd(scope.row.guid,scope.row.createId)' v-if='isShowEdit(scope.row)'>结束活动</ns-button>
                 <ns-button type="text" v-copy='scope.row.activityPlacard'>复制链接</ns-button>
                 <ns-button type="text" v-if='scope.row.status!==1' @click='handleAnalysis(scope.row.guid,scope.row.name)'>效果分析</ns-button>
               </template>

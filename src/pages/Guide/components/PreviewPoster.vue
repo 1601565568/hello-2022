@@ -44,11 +44,7 @@
               </div>
               <img :src='url'/>
             </div> -->
-            <el-image
-              class='preview-img qrcode'
-              :src="url"
-              :preview-src-list="[url]">
-            </el-image>
+            <qr-code :value="url" :size="150" :options="{size:150}"></qr-code>
             <ns-button class='copy' icon='el-icon-download' @click="handleDownload(url)">
               下载
             </ns-button>
@@ -65,6 +61,7 @@
 <script>
 import ElImage from '@nascent/nui/lib/image'
 import Preview from '@/components/NsPreview'
+import QrCode from '@xkeshi/vue-qrcode'
 import api from '@/config/http'
 export default {
   data () {
@@ -72,7 +69,7 @@ export default {
       downUrl: api.API_ROOT + '/chatRoomGroup/downLoad'
     }
   },
-  components: { Preview, ElImage },
+  components: { Preview, ElImage, QrCode },
   props: {
     url: {},
     dialogVisible: {},
