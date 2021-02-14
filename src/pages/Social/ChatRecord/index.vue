@@ -67,6 +67,9 @@
               </div>
             </li>
           </ul>
+          <NsNoData v-if="!senderListLoading && toList.length === 0"
+            >暂无数据</NsNoData
+          >
         </div>
         <div class="content_bottom"></div>
       </div>
@@ -112,7 +115,7 @@
               </div>
             </div>
           </div>
-          <NsNoData v-if="!toListLoading && toList.length === 0"
+          <NsNoData v-if="!toListLoading && senderList.length === 0"
             >暂无数据</NsNoData
           >
         </div>

@@ -8,8 +8,10 @@
 import welcomeCode from './welcomeCode.js'
 import behaviorData from './behaviorData.js'
 import guide from './guide.js'
+import sensitiveWords from './sensitiveWords'
 export default {
   welcomeCode,
   behaviorData,
-  guide
+  guide,
+  sensitiveWords
 }

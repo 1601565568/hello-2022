@@ -267,8 +267,12 @@ export default {
             this.toListIndex = null
             if (this.senderIndex === null) {
               this.senderIndex = 0
-              this.talkToGuideListParams.id = this.senderList[0].userId
-              this.WeWorkChatParam.sender = this.senderList[0].userId
+              this.talkToGuideListParams.id = this.senderList[0]
+                ? this.senderList[0].userId
+                : ''
+              this.WeWorkChatParam.sender = this.senderList[0]
+                ? this.senderList[0].userId
+                : ''
             }
             // 群聊天单独处理
             if (this.activeName !== '2') {
@@ -289,7 +293,7 @@ export default {
           }
         })
         .catch(err => {
-          this.$notify.error(err.msg)
+          this.$notify.error(err.msg || '数据拉取失败')
           this.senderListLoading = false
         })
     },

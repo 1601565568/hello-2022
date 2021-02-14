@@ -8,18 +8,13 @@
       </div>
       <div class="title">聊天记录</div>
       <div class="warpper">
-        <ChatRecordList @handleScrollTop="handleScrollTop" />
+        <ChatRecordList
+          v-if="drawer"
+          :dataList="dataList"
+          @getMore="getMore"
+          @handleScrollTop="handleScrollTop"
+        />
       </div>
-      <!-- <div class="footer">
-        <div class="pagecontent-left">
-          <div class="content-item" @click="handlePrev">
-            <i class="el-icon-arrow-left"></i>上一个
-          </div>
-          <div class="content-item" @click="handleNext">
-            下一个<i class="el-icon-arrow-right"></i>
-          </div>
-        </div>
-      </div> -->
     </div>
   </div>
 </template>
@@ -31,16 +26,22 @@ export default {
     return {}
   },
   props: {
-    data: {
+    dataList: {
       default () {}
+    },
+    drawer: {
+      type: Boolean
     }
   },
   methods: {
-    handleClose () {
-      this.$emit('onClose')
+    getMore () {
+      this.$emit('getMore')
     },
     handleScrollTop () {
       this.$emit('handleScrollTop')
+    },
+    handleClose () {
+      this.$emit('handleClose')
     }
   }
 }
@@ -54,7 +55,7 @@ export default {
   position: relative;
   padding: 12px 0px;
   min-height: 100vh;
-  padding-bottom: 50px;
+  padding-bottom: 20px;
   .item-header {
     display: flex;
     align-items: center;
@@ -109,7 +110,7 @@ export default {
 }
 .warpper {
   width: 100%;
-  height: calc(100vh - 150px);
+  height: calc(100vh - 120px);
   background: #f5f5f5;
 }
 .dwaer-popper {
