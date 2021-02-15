@@ -23,7 +23,6 @@ const forMatKeyWordsVoList = result => {
 
 export const formatWeWorkChatData = result => {
   let list = result || []
-  console.log(list, '123123')
   return list.map(item => {
     let obj = {
       avatar: item.avatar, // 用户头像
