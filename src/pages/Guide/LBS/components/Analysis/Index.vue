@@ -50,7 +50,7 @@
         </el-form>
       </template>
       <template slot='button'>
-        <ns-button  size='large'>导出CSV文件</ns-button>
+        <ns-button  size='large' @click='handleExport'>导出CSV文件</ns-button>
       </template>
       <template slot='table'>
         <el-row class='tab-ul' :gutter="24">
@@ -78,10 +78,20 @@
           </el-col>
         </el-row>
         <div v-if="activeType === 'shop'">
-          <ShopTable :propsModel='model' @onSort='onSort'/>
+          <template v-if='type === "Group"'>
+            <ShopTable :propsModel='model' @onSort='onSort'/>
+          </template>
+          <template>
+            <ShopFriendsTable :propsModel='model' @onSort='onSort'/>
+          </template>
         </div>
         <div v-if="activeType === 'employee'">
-          <EmployeeTable :propsModel='model'  @onSort='onSort'/>
+          <template v-if='type === "Group"'>
+            <EmployeeTable :propsModel='model'  @onSort='onSort'/>
+          </template>
+          <template>
+            <EmployeeFriendsTable :propsModel='model'  @onSort='onSort'/>
+          </template>
         </div>
       </template>
     </page-table>
@@ -93,10 +103,12 @@ import PageTable from '@/components/NewUi/PageTable'
 import NsShopDialog from '@/components/NsShopDialog'
 import ShopTable from './components/ShopTable'
 import EmployeeTable from './components/EmployeeTable'
+import ShopFriendsTable from './components/ShopFriendsTable'
+import EmployeeFriendsTable from './components/EmployeeFriendsTable'
 
 export default Analysis
 Analysis.components = {
-  PageTable, NsShopDialog, ShopTable, EmployeeTable
+  PageTable, NsShopDialog, ShopTable, EmployeeTable, ShopFriendsTable, EmployeeFriendsTable
 }
 </script>
 <style lang="scss" scoped>

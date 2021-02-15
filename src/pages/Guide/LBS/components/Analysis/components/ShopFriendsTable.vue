@@ -14,11 +14,11 @@
           </el-table-column>
           <el-table-column
             prop="chatroomNum"
-            label="群聚合码">
+            label="企微聚合码">
             <template slot-scope="scope">
               <div class="scope-title">
                 <div class="scope-title_text">
-                  已聚合{{scope.row.chatroomNum}}个群
+                  已聚合{{scope.row.chatroomNum}}人
                 </div>
               </div>
             </template>
@@ -26,7 +26,7 @@
           <el-table-column
             prop="adduserNum"
             sortable="custom"
-            label="新增群成员数">
+            label="新加好友数">
           </el-table-column>
           <el-table-column
             prop="address"
@@ -35,8 +35,6 @@
             <template slot-scope="scope">
               <div class='btn-context'>
                 <ns-button type="text" class='detail-btn' @click='handleDetail(scope.row,scope.$index)'>查看详情</ns-button>
-                <ns-button type="text" class='detail-btn' @click='handleAddGroup(scope.row)'>添加群聊</ns-button>
-                <!-- <NsChatRoomDialog btnTitle="添加群聊" @getChatRoomData="(list)=>{getChatRoomData(list,scope.row)}" :showIcon='false' :isLoaded='false'></NsChatRoomDialog> -->
               </div>
             </template>
           </el-table-column>
@@ -57,7 +55,6 @@
       </template>
       <!-- 页面 end -->
     </page-table>
-    <NsChatRoomDialog ref='nsChatRoomDialog' btnTitle=" " :selectedDataParent='[]' @getChatRoomData="getChatRoomData" :showIcon='false' :isLoaded='false'></NsChatRoomDialog>
     <el-drawer
       :modal='false'
       size='50%'
@@ -75,7 +72,6 @@
 import PageTable from '@/components/NewUi/PageTable'
 import ElDrawer from '@nascent/nui/lib/drawer'
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
-import NsChatRoomDialog from '@/components/NsChatRoomDialog/index'
 import GroupList from './GroupList'
 export default {
   data () {
@@ -90,7 +86,7 @@ export default {
     }
   },
   components: {
-    PageTable, NsChatRoomDialog, ElDrawer, GroupList
+    PageTable, ElDrawer, GroupList
   },
   props: {
     propsModel: {
@@ -125,11 +121,6 @@ export default {
       this.shopId = row.id
       this.shopName = row.shopName
       this.drawer = true
-    },
-    // 添加群聊
-    handleAddGroup (row) {
-      this.activeRow = row
-      this.$refs.nsChatRoomDialog.onDialogOpen()
     },
     // 查看门店选择上一个或下一个详情
     getOhter (type, cb) {

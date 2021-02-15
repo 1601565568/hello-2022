@@ -2,7 +2,7 @@
   <Analysis type='Group'/>
 </template>
 <script>
-import Index from './src/edit'
+import Index from './src/analysis'
 import Analysis from '../components/Analysis/Index'
 Index.components = {
   Analysis

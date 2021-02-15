@@ -96,11 +96,11 @@ export default {
     },
     // 详情页面路径
     detailPath () {
-      return this.type === 'Group' ? '/Social/LBS/Group/Edit' : '/Social/LBS/Friends/Edit'
+      return this.type === 'Group' ? '/Guide/LBS/Group/Edit' : '/Guide/LBS/Friends/Edit'
     },
     // 报表页面路径
     analysisPath () {
-      return this.type === 'Group' ? '/Social/LBS/Group/Analysis' : '/Social/LBS/Friends/Analysis'
+      return this.type === 'Group' ? '/Guide/LBS/Group/Analysis' : '/Guide/LBS/Friends/Analysis'
     },
     // 列表数据接口路由
     url () {

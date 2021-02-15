@@ -430,31 +430,31 @@ export default {
       ]
     },
     {
-      path: '/Social/LBS/Group',
+      path: '/Guide/LBS/Group',
       name: 'Group',
       title: 'LBS群聚合码',
       meta: { requiresAuth: true },
       component: () => import('@nascent/ecrp-ecrm/src/layout/Content.vue'),
       redirect: {
-        path: '/Social/LBS/Group/Index'
+        path: '/Guide/LBS/Group/Index'
       },
       children: [
         {
-          path: '/Social/LBS/Group/Index',
+          path: '/Guide/LBS/Group/Index',
           name: 'GroupIndex',
           meta: { requiresAuth: true },
           title: 'LBS群聚合码',
           'component': () => import('@/pages/Guide/LBS/Group/Index.vue')
         },
         {
-          path: '/Social/LBS/Group/Edit',
+          path: '/Guide/LBS/Group/Edit',
           name: 'GroupEdit',
           meta: { requiresAuth: true },
           title: 'LBS群聚合码',
           'component': () => import('@/pages/Guide/LBS/Group/Edit.vue')
         },
         {
-          path: '/Social/LBS/Group/Analysis',
+          path: '/Guide/LBS/Group/Analysis',
           name: 'GroupAnalysis',
           meta: { requiresAuth: true },
           title: 'LBS群聚合码',
@@ -463,31 +463,31 @@ export default {
       ]
     },
     {
-      path: '/Social/LBS/Friends',
+      path: '/Guide/LBS/Friends',
       name: 'Friends',
       title: 'LBS好友聚合码',
       meta: { requiresAuth: true },
       component: () => import('@nascent/ecrp-ecrm/src/layout/Content.vue'),
       redirect: {
-        path: '/Social/LBS/Friends/Index'
+        path: '/Guide/LBS/Friends/Index'
       },
       children: [
         {
-          path: '/Social/LBS/Friends/Index',
+          path: '/Guide/LBS/Friends/Index',
           name: 'FriendsIndex',
           meta: { requiresAuth: true },
           title: 'LBS好友聚合码',
           'component': () => import('@/pages/Guide/LBS/Friends/Index.vue')
         },
         {
-          path: '/Social/LBS/Friends/Edit',
+          path: '/Guide/LBS/Friends/Edit',
           name: 'FriendsEdit',
           meta: { requiresAuth: true },
           title: 'LBS好友聚合码',
           'component': () => import('@/pages/Guide/LBS/Friends/Edit.vue')
         },
         {
-          path: '/Social/LBS/Friends/Analysis',
+          path: '/Guide/LBS/Friends/Analysis',
           name: 'FriendsAnalysis',
           meta: { requiresAuth: true },
           title: 'LBS好友聚合码',

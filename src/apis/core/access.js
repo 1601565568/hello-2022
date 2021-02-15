@@ -89,7 +89,7 @@ export default {
           platinumState: 0,
           sort: 0,
           type: 'MENU',
-          url: '/Social/LBS/Group/Index'
+          url: '/Guide/LBS/Group/Index'
         }
         const b = {
           code: 'WeWorkGuestCode',
@@ -101,7 +101,7 @@ export default {
           platinumState: 0,
           sort: 0,
           type: 'MENU',
-          url: '/Social/LBS/Friends/Index'
+          url: '/Guide/LBS/Friends/Index'
         }
         res.data.result.menus.push(...[a, b])
         if (res.data.result.menus.length > 0) {

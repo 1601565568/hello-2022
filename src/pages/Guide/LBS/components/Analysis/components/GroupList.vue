@@ -10,7 +10,7 @@
       </template>
       <template slot='table'>
         <div class='form-item_tip'>
-          门店店长已进行群聚合码设置，群满后会自动创建新群，群名前缀“XXXXXXXX”
+          门店店长已进行群聚合码设置，群满后会自动创建新群，群名前缀“{{shopName}}”
         </div>
         <el-table
           :data="_data._table.data"
@@ -18,15 +18,15 @@
           @sort-change="handleSort"
           style="width: 100%">
           <el-table-column
-            prop="title"
+            prop="chatroomNum"
             label="群名称">
           </el-table-column>
           <el-table-column
-            prop="=group"
+            prop="guideName"
             label="群主">
           </el-table-column>
           <el-table-column
-            prop="groupNumer"
+            prop="userNum"
             sortable="custom"
             label="群成员数">
           </el-table-column>
@@ -105,7 +105,12 @@ export default {
       }
     }
   },
-  props: ['shopId', 'guid'],
+  computed: {
+    deleteApi () {
+      return this.$api.guide.lbs.deleteGroup
+    }
+  },
+  props: ['shopId', 'guid', 'shopName'],
   components: {
     PageTable, NsChatRoomDialog
   },
@@ -128,16 +133,16 @@ export default {
         type: 'warning',
         cancelButtonText: '取消'
       }).then(() => {
-        this.delect(row.id)
+        this.delect(row.configId, row.chatId)
       })
     },
     // 删除群聊
-    delect (id) {
-      this.$http.fetch(deleteApi, { id })
+    delect (configId, chatId) {
+      this.$http.fetch(this.deleteApi, { configId, chatId, guid: this.model.guid })
         .then(() => {
           this.$searchAction$()
         }).catch(() => {
-          vm.$notify.error('操作失败')
+          this.$notify.error('操作失败')
         })
     },
     handlePrev () {
@@ -149,7 +154,7 @@ export default {
     handleSort (val) {
       const { order, prop } = val
       this.model = {
-        ...this.mode,
+        ...this.model,
         sortName: prop,
         orderType: order === 'ascending' ? 1 : 0
       }

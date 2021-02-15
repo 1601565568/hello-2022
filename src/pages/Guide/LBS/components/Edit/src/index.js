@@ -61,7 +61,9 @@ export default {
       tools: [
         { type: 'tag', text: '门店名称', id: 'LBS_SHOP_NAME', value: '门店名称' }
       ],
-      validateActivityIntroduction
+      validateActivityIntroduction,
+      loadOver: false, // 保存是否加载完成
+      isStating: false // 是否正在进行中
     }
   },
   props: {
@@ -94,11 +96,15 @@ export default {
       const result = await this.loadData()
       if (result) {
         this.model = this.formatLoadData(result)
+        this.$nextTick(() => {
+          this.loadOver = true
+        })
       }
     },
     async loadData () {
       const result = await this.$http.fetch(this.loadApi, { guid: this.$route.query.guid })
       if (result.success) {
+        this.isStating = result.result.state !== 2
         return result.result
       } else {
         return false
@@ -166,7 +172,7 @@ export default {
       }
     },
     // 修改海报背景二维码位置
-    onDragQrResize () {
+    onDragQrResize (params) {
       this.model = { ...this.model,
         qrcodeWidth: params.width,
         positionX: params.left,
@@ -174,7 +180,7 @@ export default {
       }
     },
     update () {
-      this.loading = true
+      this.btnLoad = true
       this.$refs.searchform.validate(valid => {
         if (valid) {
           this.doUpdate()
@@ -184,11 +190,11 @@ export default {
     doUpdate () {
       this.$http.fetch(this.saveApi, this.formatLoadData(this.model, 'updata')).then(() => {
         this.btnLoad = false
-        this.$notify.success('修改成功')
+        this.$notify.success('保存成功')
         this.$router.go(-1)
       }).catch((resp) => {
         this.btnLoad = false
-        this.$notify.error(getErrorMsg('修改失败', resp))
+        this.$notify.error(getErrorMsg('保存失败', resp))
       })
     },
     // 替换标签成模板
@@ -215,6 +221,8 @@ export default {
   mounted () {
     if (this.$route.query && this.$route.query.guid) {
       this.init()
+    } else {
+      this.loadOver = true
     }
   }
 }

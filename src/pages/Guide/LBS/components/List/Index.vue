@@ -74,7 +74,7 @@
               prop="address"
               label="有效时间">
               <template slot-scope="scope">
-                <template v-if="scope.row.timeType === 0">
+                <template v-if="scope.row.timeType === 2">
                   <span>永久有效</span>
                 </template>
                 <template v-else>

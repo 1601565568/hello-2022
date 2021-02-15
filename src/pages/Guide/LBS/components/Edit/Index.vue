@@ -49,7 +49,7 @@
               <div class='form-item_time' v-if='model.timeType === 1'>
                 <div>时间范围</div>
                 <el-form-item label-width="8px" label=' '  prop='time' hide-required-asterisk>
-                  <el-date-picker
+                  <!-- <el-date-picker
                     v-model="model.time"
                     type="datetimerange"
                     value-format="yyyy-MM-dd HH:mm:ss"
@@ -58,12 +58,23 @@
                     end-placeholder="请选择结束日期"
                     :default-time="['00:00:00','23:59:59']"
                     align="right">
-                  </el-date-picker>
+                  </el-date-picker> -->
+                  <ns-datetime type="datetime" :clearable="false"
+                                 :sameDay="true"
+                                 v-model="model.time"
+                                 start-placeholder="请选择开始日期"
+                                 range-separator="至"
+                                 end-placeholder="请选择结束日期"
+                                 value-format="yyyy-MM-dd HH:mm:ss"
+                                 :default-time="['00:00:00','23:59:59']"
+                                 :startDisabled="isStating"
+                                 :class="{}">
+                    </ns-datetime>
                 </el-form-item>
               </div>
             </el-form-item>
             <el-form-item label='活动海报' required prop='activityPoster'>
-              <drap-upload tip='（建议：宽度750像素，高度不限，小于1M，jpg、png、jpeg格式）' v-model='model.activityPoster' :maxWidth='750' :showPont='false'>
+              <drap-upload tip='（建议：750*1334像素，小于1M，jpg、png、jpeg格式）' v-model='model.activityPoster' :maxWidth='750' :maxHeight='1334' :showPont='false'>
               </drap-upload>
             </el-form-item>
           </template>
@@ -75,7 +86,7 @@
                 </drap-upload>
                 上传海报图
               </div>
-              <VueDragResize :w="model.activityQrcodeWidth" :h="model.activityQrcodeWidth" :parentLimitation="true" :aspectRatio='true' :x='model.activityPositionX' :y='model.activityPositionY' @dragstop="onDragPosterResize" @resizestop='onDragPosterResize' :sticks="['tl','tr','bl','br']" >
+              <VueDragResize v-if='loadOver' :w="model.activityQrcodeWidth" :h="model.activityQrcodeWidth" :parentLimitation="true" :aspectRatio='true' :x='model.activityPositionX' :y='model.activityPositionY' @dragstop="onDragPosterResize" @resizestop='onDragPosterResize' :sticks="['tl','tr','bl','br']" >
                 <img src='@/assets/qrcode.png' style='width:100%;height:100%'>
               </VueDragResize>
             </div>
@@ -135,7 +146,7 @@
                   <div class='form-item_toptext'>
                   将同步店长端显示，提示店长群名称格式规范
                   </div>
-                  <length-input type="textarea"  v-model='model.roomRule' placeholder="请输入群名称提示，长度50个字符以内" :length='50'/>
+                  <length-input :disabled='isStating' type="textarea"  v-model='model.roomRule' placeholder="请输入群名称提示，长度50个字符以内" :length='50'/>
                 </el-form-item>
                 <div class='step-content'>
                   <div class='step-name'>Step2：</div>
@@ -158,7 +169,7 @@
                   <tag-area v-model='model.roomBaseName' tag="wise" ref="testText" :maxlength="40" :tools='tools' placeholder="请输入自动建群名称，长度40个字符以内" @inputLength="inputLength"/>
                 </el-form-item>
                 <el-form-item label='自动建群序号' prop='roomBaseId'>
-                  <el-input-number style='width:118px;' size="medium" v-model="model.roomBaseId" controls-position="right" :min="1" :step='1' step-strictly controls onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))"></el-input-number>
+                  <el-input-number :disabled='isStating' style='width:118px;' size="medium" v-model="model.roomBaseId" controls-position="right" :min="1" :step='1' step-strictly controls onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))"></el-input-number>
                   <!-- <el-input style='width:88px;' v-model='model.effectiveCycle' onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))" type="number"/>  -->
                   <p class='prompt-text'><span class='yellow-point'></span>因企业微信生成联系我二维码数量限制，请合理设置过期时间</p>
                 </el-form-item>
@@ -170,7 +181,7 @@
                     </el-tooltip>
                   </template>
                   当群聚合超的群过100个群时，自动移除 &nbsp;
-                  <el-input-number style='width:118px;margin-top:-6px;' size="medium" v-model="model.roomUserNum" controls-position="right" :min="1" :step='1' step-strictly controls onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))"></el-input-number>
+                  <el-input-number :disabled='isStating' style='width:118px;margin-top:-6px;' size="medium" v-model="model.roomUserNum" controls-position="right" :min="1" :step='1' step-strictly controls onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))"></el-input-number>
                   &nbsp;人以上群聊
                 </el-form-item>
                 <div class='step-content'>
@@ -204,7 +215,7 @@
                     </el-tooltip>
                   </div>
                 </div>
-                <el-form-item label='聚合码设置' required prop='qrcodeType'>
+                <el-form-item label='聚合码设置' required prop='qrcodeType'  class='larger-item'>
                   <el-radio-group v-model="model.qrcodeType">
                     <el-radio :label="1">门店全部员工</el-radio>
                     <el-radio :label="2">仅店长</el-radio>
@@ -246,7 +257,7 @@
                     上传海报图
                   </div>
                 </div>
-                <VueDragResize :w="model.qrcodeWidth" :h="model.qrcodeWidth" :parentLimitation="true" :aspectRatio='true' :x='model.positionX' :y='model.positionY' @dragstop="onDragQrResize" @resizestop='onDragQrResize' :sticks="['tl','tr','bl','br']" >
+                <VueDragResize v-if='loadOver' :w="model.qrcodeWidth" :h="model.qrcodeWidth" :parentLimitation="true" :aspectRatio='true' :x='model.positionX' :y='model.positionY' @dragstop="onDragQrResize" @resizestop='onDragQrResize' :sticks="['tl','tr','bl','br']" >
                   <img src='@/assets/qrcode.png' style='width:100%;height:100%'>
                 </VueDragResize>
               </div>
@@ -272,8 +283,9 @@ import ElImage from '@nascent/nui/lib/image'
 import NsShopDialog from '@/components/NsShopDialog'
 import PhoneBox from '@/components/NewUi/PhoneBox'
 import ElInputNumber from '@nascent/nui/lib/input-number'
+import NsDatetime from '@nascent/ecrp-ecrm/src/components/NsDatetime'
 Index.components = {
-  VueDragResize, RecruitmentCollapse, LengthInput, PageEdit, DrapUpload, ElImage, NsShopDialog, HtmlArea, SimpleCollapse, PhoneBox, TagArea, ElInputNumber
+  VueDragResize, RecruitmentCollapse, LengthInput, PageEdit, DrapUpload, ElImage, NsShopDialog, HtmlArea, SimpleCollapse, PhoneBox, TagArea, ElInputNumber, NsDatetime
 }
 export default Index
 </script>
@@ -522,5 +534,8 @@ export default Index
 }
 .upload-content_lbs >>> .poster-set_content {
   display: none
+}
+.form-item_time >>> .el-form-grid--xmd {
+  width: 220px;
 }
 </style>

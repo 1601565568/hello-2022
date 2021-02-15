@@ -66,6 +66,12 @@ export default {
     countApi () {
       return this.type === 'Group' ? this.$api.guide.lbs.getGroupStatisticsCount : this.$api.guide.lbs.getFirendsStatisticsCount
     },
+    exportApi () {
+      if (this.type === 'Group') {
+        return this.activeType === 'shop' ? this.$api.guide.lbs.exportGroupShop : this.$api.guide.lbs.exportGroupMember
+      }
+      return this.activeType === 'shop' ? this.$api.guide.lbs.exportFirendsShop : this.$api.guide.lbs.exportFirendsMember
+    },
     activityName () {
       return this.$route.query ? this.$route.query.name : ''
     }
@@ -139,6 +145,21 @@ export default {
     },
     handleChangeType (activeType) {
       this.activeType = activeType
+    },
+    // 导出
+    handleExport () {
+      var url = this.exportApi
+      var form = document.createElement('form')
+      form.appendChild(this.generateHideElement('taskId', this.searchMap.taskId))
+      if (this.taskMsg.runType === 1) {
+        form.appendChild(this.generateHideElement('queryTime', this.searchMap.queryTime))
+      }
+      form.appendChild(this.generateHideElement('shopId', this.searchMap.shopId))
+      form.appendChild(this.generateHideElement('shopName', this.createShopName))
+      form.setAttribute('action', url)
+      form.setAttribute('method', 'post')
+      document.body.appendChild(form)
+      form.submit()
     }
   },
   mounted () {

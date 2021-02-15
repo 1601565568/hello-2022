@@ -62,7 +62,7 @@ export default {
   },
   // 删除群聊
   deleteGroup: {
-    url: `${groupPrefix}deleteGroup`,
+    url: `${groupPrefix}deleteChatroom`,
     method: 'post'
   },
   // 群参与门店
@@ -92,6 +92,27 @@ export default {
   },
   // 好友新增好友列表
   getFriendsFriends: {
+    url: `${friendsPrefix}activityAdduserList`,
+    method: 'post'
+  },
+  // 导出
+  // 群门店
+  exportGroupShop: {
+    url: `${friendsPrefix}activityAdduserList`,
+    method: 'post'
+  },
+  // 群成员
+  exportGroupMember: {
+    url: `${friendsPrefix}activityAdduserList`,
+    method: 'post'
+  },
+  // 好友门店
+  exportFirendsShop: {
+    url: `${friendsPrefix}activityAdduserList`,
+    method: 'post'
+  },
+  // 好友成员
+  exportFirendsMember: {
     url: `${friendsPrefix}activityAdduserList`,
     method: 'post'
   }
