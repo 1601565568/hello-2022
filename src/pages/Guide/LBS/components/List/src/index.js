@@ -77,6 +77,7 @@ export default {
       },
       // 弹框信息
       dialogData: {
+        link: '', // 链接地址
         placard: '', // 海报地址
         qrcode: '', // 二维码地址
         guid: '', // 选择活动id
@@ -193,12 +194,13 @@ export default {
     // 查看海报
     handlePreviewPoster (item) {
       this.dialogData.placard = item.activityPosterUrl
+      this.dialogData.link = item.activityQrcode
       this.dialogData.type = 'poster'
       this.dialogVisible = true
     },
     // 查看二维码
     handlePreviewQrcode (item) {
-      this.dialogData.placard = item.activityPlacard
+      this.dialogData.placard = item.activityQrcode
       this.dialogData.type = 'qrcode'
       this.dialogVisible = true
     },

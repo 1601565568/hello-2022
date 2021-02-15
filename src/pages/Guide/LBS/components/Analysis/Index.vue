@@ -81,7 +81,7 @@
           <template v-if='type === "Group"'>
             <ShopTable :propsModel='model' @onSort='onSort'/>
           </template>
-          <template>
+          <template v-else>
             <ShopFriendsTable :propsModel='model' @onSort='onSort'/>
           </template>
         </div>
@@ -89,7 +89,7 @@
           <template v-if='type === "Group"'>
             <EmployeeTable :propsModel='model'  @onSort='onSort'/>
           </template>
-          <template>
+          <template v-else>
             <EmployeeFriendsTable :propsModel='model'  @onSort='onSort'/>
           </template>
         </div>

@@ -207,4 +207,11 @@ export default {
       margin-right: 10px;
     }
   }
+  .master-close {
+    font-size: 16px;
+    padding: 16px 16px 4px 16px;
+    .el-icon-close {
+      cursor: pointer;
+    }
+  }
 </style>

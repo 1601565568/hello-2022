@@ -82,7 +82,7 @@
             <div class='preview-img' :style='{backgroundImage: `url(${model.activityPoster})`}'>
               <div class='user-content_bg' v-if='!model.activityPoster'>你还未上传活动海报</div>
               <div class="upload-content_lbs" v-if='!model.activityPoster'>
-                <drap-upload v-model='model.activityPoster' :maxWidth='750' :showPont='false' :drag='false'>
+                <drap-upload v-model='model.activityPoster' :maxWidth='750' :maxHeight='1334' :showPont='false' :drag='false'>
                 </drap-upload>
                 上传海报图
               </div>
@@ -236,7 +236,7 @@
               </template>
               <!-- 好友聚合码设置 end -->
               <el-form-item label='海报背景' required prop='welcomePoster'>
-                <drap-upload v-model='model.qrcodePoster' :maxWidth='750'>
+                <drap-upload v-model='model.qrcodePoster' tip='（建议：750*1334像素，小于1M，jpg、png、jpeg格式）' :maxWidth='750' :maxHeight='1334'>
                   <template slot='footer'>
                     <p class='prompt-text'>场景说明：招募流程开启关注公众号，消费者注册会员后，将进入此页面关注公众号</p>
                   </template>
@@ -252,7 +252,7 @@
                 <div v-if='!model.qrcodePoster'>
                   <div class='user-content_bg' >你还未上传活动海报</div>
                   <div class="upload-content_lbs">
-                    <drap-upload v-model='model.qrcodePoster' :maxWidth='750' :showPont='false' :drag='false'>
+                    <drap-upload v-model='model.qrcodePoster' :maxWidth='750'  :maxHeight='1334' :showPont='false' :drag='false'>
                     </drap-upload>
                     上传海报图
                   </div>
@@ -530,7 +530,11 @@ export default Index
   bottom: 0;
 }
 .upload-content_lbs >>> .poster-content{
+  opacity: 0;
   padding: 0;
+}
+.upload-content_lbs >>> .el-upload-list {
+  display: none;
 }
 .upload-content_lbs >>> .poster-set_content {
   display: none

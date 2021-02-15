@@ -10,8 +10,8 @@
             </el-tooltip>
           </template>
           <div class='flex-box'>
-            <el-input :value='url' readonly/>
-            <ns-button type='text' class='copy' v-copy='url'>复制</ns-button>
+            <el-input :value='link || url' readonly/>
+            <ns-button type='text' class='copy' v-copy='link || url'>复制</ns-button>
           </div>
         </el-form-item>
         <el-form-item label='海报图'>
@@ -72,7 +72,8 @@ export default {
   },
   components: { Preview, ElImage, QrCode },
   props: {
-    url: {},
+    url: {}, // 海报链接
+    link: {}, // 复制链接
     dialogVisible: {},
     type: {
       default: 'poster'
@@ -84,7 +85,7 @@ export default {
   methods: {
     // 下载
     handleDownload (url) {
-      let requestUrl = this.qrcodeUrl
+      let requestUrl = this.downUrl
       var form = document.createElement('form')
       form.setAttribute('action', requestUrl)
       form.setAttribute('method', 'get')

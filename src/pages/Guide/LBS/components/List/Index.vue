@@ -122,7 +122,7 @@
                 <ns-button type="text" v-if='[1,2].includes(scope.row.status)' @click='handleEnd(scope.row.lbsId)'>结束活动</ns-button> -->
                 <ns-button type="text" @click='handleDetail({guid:scope.row.guid,id:scope.row.id})' v-if='isShowEdit(scope.row)'>编辑</ns-button>
                 <ns-button type="text" @click='handleEnd(scope.row.guid,scope.row.createId)' v-if='isShowEdit(scope.row)'>结束活动</ns-button>
-                <ns-button type="text" v-copy='scope.row.activityPlacard'>复制链接</ns-button>
+                <ns-button type="text" v-copy='scope.row.activityQrcode'>复制链接</ns-button>
                 <ns-button type="text" v-if='scope.row.status!==1' @click='handleAnalysis(scope.row.guid,scope.row.name)'>效果分析</ns-button>
               </template>
             </el-table-column>
@@ -156,7 +156,7 @@
       </div>
       <ShopList v-if='drawer' :guid='dialogData.guid' @onNext='getOhter("next",handleShowDetail)' @onPrev='getOhter("prev",handleShowDetail)' />
     </el-drawer>
-    <PreviewPoster :type='dialogData.type' :title='dialogData.type==="qrcode"?"二维码":"海报"' :dialogVisible='dialogVisible' :url='dialogData.placard' @onClose='dialogVisible = false' appendToBody/>
+    <PreviewPoster :type='dialogData.type' :title='dialogData.type==="qrcode"?"二维码":"海报"' :dialogVisible='dialogVisible' :url='dialogData.placard' :link='dialogData.link' @onClose='dialogVisible = false' appendToBody/>
   </div>
 </template>
 <script>
@@ -237,7 +237,7 @@ export default Index
   }
   .master-close {
     font-size: 16px;
-    padding: 16px 16px 32px 16px;
+    padding: 16px 16px 4px 16px;
     .el-icon-close {
       cursor: pointer;
     }

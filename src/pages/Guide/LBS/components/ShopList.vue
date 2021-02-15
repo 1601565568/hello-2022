@@ -1,9 +1,9 @@
 <template>
   <div>
-    <page-table title='参与门店'>
+    <page-table :searchCol='24' title='参与门店'>
       <template slot='search'>
         <el-form :inline="true" class='form-inline_top' @submit.native.prevent>
-          <el-form-item label="">
+          <el-form-item label="" class='no-margin'>
             <el-input v-model="model.shopName" placeholder="请输入门店名称"  @keyup.enter.native="handleSearch" >
               <Icon type="ns-search-copy" slot="suffix" class='search-icon' @click="handleSearch"></Icon>
             </el-input>
