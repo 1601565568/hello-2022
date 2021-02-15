@@ -147,6 +147,7 @@ export default {
       playRec: null, // 播放对象
       voiceActive: null,
       dialogVisible: false,
+      isGetMore: false, // 判断是否是点击查看更多用来设置滚动条位置
       url: '',
       type: 1
     }
@@ -156,6 +157,10 @@ export default {
       handler (newVal, oldVal) {
         if (newVal !== oldVal && newVal > oldVal) {
           this.isScroll = true
+          if (this.isGetMore) {
+            this.isGetMore = false
+            return
+          }
           this.$nextTick(() => {
             document
               .getElementById('chatRecordListWarpper')
@@ -225,6 +230,7 @@ export default {
       }
     },
     getMore () {
+      this.isGetMore = true
       this.$emit('getMore')
     },
     // 播放语音
@@ -271,10 +277,10 @@ export default {
   position: relative;
   height: 100%;
   overflow-y: auto;
-  scrollbar-width: none;
-  &::-webkit-scrollbar {
-    display: none;
-  }
+  /*scrollbar-width: none;*/
+  /*&::-webkit-scrollbar {*/
+  /*  display: none;*/
+  /*}*/
 }
 .chatRecordList-content {
   padding: 32px 40px 0px 40px;

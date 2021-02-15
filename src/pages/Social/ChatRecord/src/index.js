@@ -30,12 +30,16 @@ export default {
       senderIsScroll: true, // 发起人是否禁用加载更多
       senderParams: { name: '', start: 0, length: 15 },
       senderListLoading: false, // 发起聊天loading
+      getMoreloading: false, // 加载更多提示文案
+      noMore: true, // senderList 加载判断是否还有更多数据
       senderTime: null, // 发起人列表点击防抖处理
       toList: [], // 聊天对象列表
       toListLoading: false, // 聊天对象loading
       toListIndex: null, // 聊天对象标识
       toListTime: null, // 聊天对象防抖处理
       toListIsScroll: true, // 聊天是否禁用加载更多
+      getToListNoMore: true, // toList 加载判断是否还有更多数据
+      getToListloading: false, // toList加载更多提示文案
       tabClickTime: null, // tab切换防抖
       time: '', // 搜索时间
       activeName: '1', // tabs切换表示
@@ -147,13 +151,18 @@ export default {
      */
     handleClick (tab) {
       let _this = this
+      // 点击相同的禁止请求接口
+      if (this.activeName === tab) {
+        return
+      }
+      this.activeName = tab
       this.resetSenderParams()
       this.handlerLoading()
       clearTimeout(this.tabClickTime)
       this.tabClickTime = setTimeout(() => {
-        if (tab.name === '1') {
+        if (tab === '1') {
           _this.requestExternalUserList()
-        } else if (tab.name === '2') {
+        } else if (tab === '2') {
           _this.requestChatRoomList()
         } else {
           _this.requestGuideList()
@@ -262,7 +271,6 @@ export default {
             this.senderList = this.senderList.concat(
               formatSenderList(res.result)
             )
-            this.toList = []
             this.toListIndex = null
             if (this.senderIndex === null) {
               this.senderIndex = 0
@@ -273,22 +281,29 @@ export default {
                 ? this.senderList[0].userId
                 : ''
             }
-            // 群聊天单独处理
-            if (this.activeName !== '2') {
-              this.getTalkToGuideList()
-            } else {
-              this.WeWorkChatParam = {
-                chatDateTime: this.WeWorkChatParam.chatDateTime,
-                sender: '',
-                tolist: '',
-                seq: 0,
-                type: 1,
-                roomid: this.senderList[0] ? this.senderList[0].chatId : ''
+            // 判断是否还要加载请求更多的数据
+            const arr = res.result || []
+            this.noMore = arr.length < this.senderParams.length
+            // getMoreloading 加载更多文案提示判断是否是发起人列表滚动, 接口统一请求导致错误
+            if (!this.getMoreloading) {
+              // 群聊天单独处理
+              if (this.activeName !== '2') {
+                this.getTalkToGuideList()
+              } else {
+                this.WeWorkChatParam = {
+                  chatDateTime: this.WeWorkChatParam.chatDateTime,
+                  sender: '',
+                  tolist: '',
+                  seq: 0,
+                  type: 1,
+                  roomid: this.senderList[0] ? this.senderList[0].chatId : ''
+                }
+                this.getWeWorkChatDataToDb()
               }
-              this.getWeWorkChatDataToDb()
             }
             this.senderIsScroll = false
             this.senderListLoading = false
+            this.getMoreloading = false
           }
         })
         .catch(err => {
@@ -316,13 +331,19 @@ export default {
               : ''
           }
           this.toListIsScroll = false
-          if (this.toList.length === 0) {
-            this.weWorkChatDataLoading = false
-            this.weWorkChatData = []
-            this.isSetWeWorkChatData = true
-          } else {
-            this.getWeWorkChatDataToDb()
+          if (!this.getToListloading) {
+            if (this.toList.length === 0) {
+              this.weWorkChatDataLoading = false
+              this.weWorkChatData = []
+              this.isSetWeWorkChatData = true
+            } else {
+              this.getWeWorkChatDataToDb()
+            }
           }
+          // 判断是否还要加载请求更多的数据
+          const arr = res.result || []
+          this.getToListNoMore = arr.length < this.talkToGuideListParams.length
+          this.getToListloading = false
         })
         .catch(err => {
           this.$notify.error(err.msg)
@@ -332,11 +353,13 @@ export default {
      * senderList 滚动加载更多
      */
     handlerScroll () {
-      if (!this.senderIsScroll) {
+      if (!this.senderIsScroll && !this.noMore) {
         this.senderIsScroll = true
+        this.getMoreloading = true
         this.senderParams.start =
           this.senderParams.start + this.senderParams.length
         if (parseInt(this.activeName) === 1) {
+          // this.senderListLoading = true
           this.requestExternalUserList()
         } else if (parseInt(this.activeName) === 2) {
           this.requestChatRoomList()
@@ -351,6 +374,7 @@ export default {
     handlerListScroll () {
       if (!this.toListIsScroll) {
         this.toListIsScroll = true
+        this.getToListloading = true
         this.talkToGuideListParams = {
           ...this.talkToGuideListParams,
           start:
@@ -433,7 +457,8 @@ export default {
     async getWeWorkChatDataToDb () {
       this.weWorkChatDataLoading = true
       this.isSetWeWorkChatData = false
-      this.weWorkChatData = await this.requestWeWorkChatDataToDb()
+      let data = await this.requestWeWorkChatDataToDb()
+      this.weWorkChatData = data.reverse()
       this.isSetWeWorkChatData = true
     },
     /**
@@ -484,6 +509,8 @@ export default {
       if (arr.length === 0) {
         this.$notify.error('暂无最新的记录，请稍后再试')
       }
+      arr.reverse()
+      console.log(this.weWorkChatData)
       this.weWorkChatData.push(...arr)
     },
     /**
