@@ -3,8 +3,7 @@
   <ns-page-table>
     <!-- 按钮 -->
     <template slot="buttons">
-      <ns-table-operate-button :buttons="_data._table.operate_buttons">
-      </ns-table-operate-button>
+      <ns-button type="primary" @click="batchMarking">批量打标</ns-button>
     </template>
     <!-- 按钮-结束 -->
 
@@ -100,6 +99,8 @@
                 stripe
                 resizable v-loading.lock="_data._table.loadingtable" @selection-change="onHandleSelectChange"
                 :element-loading-text="$t('prompt.loading')" @sort-change="$orderChange$">
+        <el-table-column type="selection" align="center" :width="50">
+        </el-table-column>
         <el-table-column type="default" prop="head_img"
                          label="头像" dbcolumn="head_img" column="head_img" align="left" :sortable="false" width="100">
           <template slot-scope="scope">
@@ -204,6 +205,24 @@
     <!-- 分页-结束 -->
 
   </ns-page-table>
+    <el-dialog
+      title="批量打标"
+      :visible.sync="showBatchMarkingVisible"
+      response-limit :show-scroll-x=false
+    >
+      <div v-for="item in tagGroupList" v-bind:key="item" class="dialog-tag">
+        <h3 class="dialog-tag__title padding-base">{{item.tagName}}</h3>
+        <el-checkbox-group v-model="checkedTagList" class="padding-base">
+            <span v-for="item1 in tagList" v-bind:key="item1">
+              <el-checkbox v-if="item1.parentTagId === item.tagId" :key="item1.tagId" :value="item1.tagId" :label="item1.tagId">{{item1.tagName}}</el-checkbox>
+            </span>
+        </el-checkbox-group>
+      </div>
+      <span slot="footer">
+        <ns-button @click="BatchMarkingClose">取消</ns-button>
+        <ns-button type="primary" @click="saveBatchMarking">保存</ns-button>
+      </span>
+    </el-dialog>
   <NSUserDetails ref="NSUserDetails" :userDetails="userDetails"/>
   </div>
 </template>
@@ -241,5 +260,8 @@ export default NsTableEnterpriseWeChat
 }
 .template-search__box > div + span {
   margin-left: var(--default-margin-small);
+}
+.dialog-tag__title {
+  background-color: #f3f4f4;
 }
 </style>

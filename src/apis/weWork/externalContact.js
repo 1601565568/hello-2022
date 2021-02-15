@@ -12,5 +12,19 @@ export default {
   queryExternalContactTable: {
     url: '/wework/externalContact/queryExternalContactTable',
     method: 'post'
+  },
+  /**
+   * @msg: 查询企业标签列表
+   */
+  queryCorpTagList: {
+    url: '/wework/externalContact/queryCorpTagList',
+    method: 'post'
+  },
+  /**
+   * @msg: 保存批量打标
+   */
+  saveBatchMarking: {
+    url: '/wework/externalContact/saveBatchMarking',
+    method: 'post'
   }
 }
