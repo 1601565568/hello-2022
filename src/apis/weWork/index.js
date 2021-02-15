@@ -9,9 +9,11 @@ import welcomeCode from './welcomeCode.js'
 import behaviorData from './behaviorData.js'
 import guide from './guide.js'
 import sensitiveWords from './sensitiveWords'
+import topicAnalysis from './topicAnalysis'
 export default {
   welcomeCode,
   behaviorData,
   guide,
-  sensitiveWords
+  sensitiveWords,
+  topicAnalysis
 }
