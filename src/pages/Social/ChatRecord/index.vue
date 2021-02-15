@@ -3,7 +3,7 @@
     <div class="template-page">
       <div class="page-header fl_between">
         <div class="tabs">
-          <el-tabs v-model="activeName" @tab-click="handleClick">
+          <el-tabs :value="activeName" @input="handleClick">
             <el-tab-pane label="客户" name="1"></el-tab-pane>
             <el-tab-pane label="群" name="2"></el-tab-pane>
             <el-tab-pane label="导购" name="3"></el-tab-pane>
@@ -45,7 +45,7 @@
           v-loading="senderListLoading"
           v-infinite-scroll="handlerScroll"
           :infinite-scroll-disabled="senderIsScroll"
-          :infinite-scroll-distance="30"
+          :infinite-scroll-distance="5"
           :infinite-scroll-immediate="false"
           ref="loadMoreWrapper"
         >
@@ -67,7 +67,9 @@
               </div>
             </li>
           </ul>
-          <NsNoData v-if="!senderListLoading && toList.length === 0"
+          <p class="getMoreloading" v-if="getMoreloading && !senderListLoading">加载中...</p>
+          <p class="getMoreloading" v-if="noMore && !senderListLoading && senderList.length !== 0">没有更多了</p>
+          <NsNoData v-if="!senderListLoading && senderList.length === 0"
             >暂无数据</NsNoData
           >
         </div>
@@ -115,7 +117,9 @@
               </div>
             </div>
           </div>
-          <NsNoData v-if="!toListLoading && senderList.length === 0"
+          <p class="getMoreloading" v-if="getToListloading && !toListLoading">加载中...</p>
+          <p class="getMoreloading" v-if="getToListNoMore && !toListLoading && toList.length !== 0">没有更多了</p>
+          <NsNoData v-if="!toListLoading && toList.length === 0"
             >暂无数据</NsNoData
           >
         </div>
@@ -205,11 +209,16 @@ export default Index
   padding: 0px 16px;
 }
 .loadMoreWrapper {
+  position: relative;
   overflow: auto;
   scrollbar-width: none;
   &::-webkit-scrollbar {
     display: none;
   }
+}
+.getMoreloading {
+  padding: 0 16px;
+  text-align: center;
 }
 .content_bottom {
   width: 100%;

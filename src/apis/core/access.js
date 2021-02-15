@@ -81,32 +81,6 @@ export default {
           copyrightInfo: res.data.result.copyrightInfo,
           uiLockBtnEnable: res.data.result.uiLockBtnEnable
         }
-        // const aaa = {
-        //   parentId: '3094',
-        //   id: '3666',
-        //   name: '话题分析',
-        //   code: 'CircleOfFriends',
-        //   sort: 3,
-        //   url: '/Social/OperationConfig/topicAnalysis',
-        //   type: 'MENU',
-        //   commonState: 0,
-        //   deluxeState: 0,
-        //   platinumState: 0
-        // }
-        // const bbb = {
-        //   parentId: '3094',
-        //   id: '3665',
-        //   name: '敏感词',
-        //   code: 'SensitiveWords',
-        //   sort: 3,
-        //   url: '/Social/WeWorkGroup/sensitiveWords',
-        //   type: 'MENU',
-        //   commonState: 0,
-        //   deluxeState: 0,
-        //   platinumState: 0
-        // }
-        // res.data.result.menus.push(aaa)
-        // res.data.result.menus.push(bbb)
         if (res.data.result.menus.length > 0) {
           res.data.result.menus = treeFn(null, res.data.result.menus.map((v) => {
             return {

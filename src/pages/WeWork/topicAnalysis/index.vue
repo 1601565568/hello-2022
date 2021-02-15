@@ -6,12 +6,21 @@
           话题分析
         </div>
         <div class="page-header__search">
-          <el-date-picker v-model="value1" type="date" placeholder="选择日期">
+          <el-date-picker
+            :picker-options="pickerOptions"
+            v-model="time"
+            type="date"
+            placeholder="选择日期"
+            @change="handlerChangeTime"
+          >
           </el-date-picker>
           <el-input
+            @keyup.enter.native="onSearch"
+            @clear="onSearch"
+            clearable
             style="width:240px;margin-left:16px;"
-            :placeholder="placeholder"
-            v-model="input1"
+            placeholder="请输入话题"
+            v-model="listParams.name"
           ></el-input>
         </div>
       </div>
@@ -21,36 +30,37 @@
         <div class="content_header">
           <div>
             话题列表
-            <img class="add" :src="nsAddBorder" />
+            <img class="add" :src="nsAddBorder" @click="addKeyWordTopic" />
           </div>
-          <div @click="handlerUnfoldAndStow" v-if="activeName !== '2'">
+          <div @click="handlerUnfoldAndStow">
             <img v-if="unfoldAndStow" :src="packup" />
             <img v-if="!unfoldAndStow" :src="unfold" />
           </div>
         </div>
         <div
+          v-loading="listLoading"
           class="loadMoreWrapper"
-          v-infinite-scroll="loadMore"
-          :infinite-scroll-disabled="busy"
+          v-infinite-scroll="handlerScroll"
+          :infinite-scroll-disabled="listIsScroll"
           :infinite-scroll-distance="5"
           ref="loadMoreWrapper"
         >
-          <ul class="user_list">
-            <li
-              v-for="(i, index) in count"
-              :key="index"
-              @click="selectUser(i)"
-              :class="i === select ? 'user_list_select' : ''"
+          <!-- <div class="loadMoreWrapper" ref="loadMoreWrapperChildren"> -->
+          <div class="customer_list__warpper">
+            <div
+              class="customer_list__item"
+              v-for="i in list"
+              :key="i.topicId"
+              @click="onChangeList(i)"
+              :class="i.topicId === select ? 'user_list_select' : ''"
             >
-              <div class="topic-text">
-                {{ i }}这是一个话题系列哈哈哈哈啊哈哈哈哈哈哈哈啊
-              </div>
-              <div class="topic-Number">
-                10
-              </div>
-              <span class="del"> <Icon type="delete"/></span>
-            </li>
-          </ul>
+              <div class="topic-text">{{ i.topicName }}</div>
+              <span class="del" @click.stop="del(1, i.topicName, i.topicId)">
+                <Icon type="delete"
+              /></span>
+            </div>
+          </div>
+          <!-- </div> -->
         </div>
         <div class="content_bottom"></div>
       </div>
@@ -59,22 +69,36 @@
         :class="!unfoldAndStow ? 'customer_list__width' : ''"
       >
         <div class="content_header">
-          存货咨询
-          <img class="add" :src="nsAddBorder" />
+          关键词
+          <img class="add" :src="nsAddBorder" @click="addKeyWordDialog" />
         </div>
-        <div class="loadMoreWrapper" ref="loadMoreWrapperChildren">
-          <div class="customer_list__warpper">
-            <div
-              class="customer_list__item"
-              v-for="(i, index) in count"
+        <div
+          class="loadMoreWrapper"
+          ref="loadMoreWrapperChildren"
+          v-loading="listLoading"
+        >
+          <ul class="user_list">
+            <li
+              v-for="(item, index) in keyWordsVoList"
               :key="index"
+              :class="
+                item.keyWordId === selectKeyWordId
+                  ? 'user_list_select__keyWord'
+                  : ''
+              "
+              @click="selectKeyWord(item)"
             >
               <div class="topic-text">
-                {{ i }}这是一个话题系列哈哈哈哈啊哈哈哈哈哈哈哈啊
+                {{ item.word }}
               </div>
-              <span class="del"> <Icon type="delete"/></span>
-            </div>
-          </div>
+              <div class="topic-Number">
+                {{ item.count }}
+              </div>
+              <span class="del" @click.stop="del(2, item.word, item.keyWordId)">
+                <Icon type="delete"
+              /></span>
+            </li>
+          </ul>
         </div>
         <div class="content_bottom"></div>
       </div>
@@ -82,7 +106,7 @@
         <div class="template-page__right__content" :class="ml">
           <div class="content_header">关键词命中明细</div>
           <div class="chat_record">
-            <el-scrollbar ref="fullScreen" class="nmsl-padding">
+            <el-scrollbar ref="fullScreen">
               <el-table
                 ref="multipleTable"
                 :data="table.tableData"
@@ -91,11 +115,24 @@
                 stripe
                 resizable
               >
-                <el-table-column prop="date" label="日期"> </el-table-column>
-                <el-table-column prop="name" label="姓名"> </el-table-column>
-                <el-table-column prop="address" label="地址"> </el-table-column>
+                <el-table-column label="头像">
+                  <template slot-scope="scope">
+                    <img :src="scope.row.avatar" class="scope-title_img" />
+                  </template>
+                </el-table-column>
+                <el-table-column prop="name" label="昵称"> </el-table-column>
+                <el-table-column
+                  prop="content"
+                  label="内容"
+                  :show-overflow-tooltip="true"
+                >
+                </el-table-column>
                 <el-table-column label="操作" fixed="right" :width="150">
-                  <ns-button type="text" @click="drawer = true">查看</ns-button>
+                  <template slot-scope="scope">
+                    <ns-button type="text" @click="getContext(scope.row)"
+                      >查看</ns-button
+                    >
+                  </template>
                   <!-- <template slot-scope="scope">
                   <ns-table-column-operate-button
                     :buttons="table.operate_buttons"
@@ -126,87 +163,20 @@
       :visible.sync="drawer"
       :with-header="false"
     >
-      <ItemDrawer />
+      <ItemDrawer
+        :dataList="weWorkChatData"
+        @getMore="getMore"
+        :drawer="drawer"
+        @handleClose="handleClose"
+        @handleScrollTop="handleScrollTop"
+      />
     </el-drawer>
-    <el-dialog title="添加话题" :visible.sync="visible" width="35%">
-      <div style="height: 250px;padding-right:10px">
-        <el-form
-          :model="ruleForm"
-          :rules="rules"
-          ref="ruleForm"
-          label-width="100px"
-          class="demo-ruleForm"
-        >
-          <el-form-item label="话题分析：" prop="aaa">
-            <el-input type="text" v-model="ruleForm.aaa"></el-input>
-          </el-form-item>
-          <el-form-item label="关键词：">
-            <el-input
-              type="textarea"
-              v-model="ruleForm.desc"
-              :rows="6"
-            ></el-input>
-          </el-form-item>
-          <el-form-item>
-            <span class="text-primary">
-              <i>
-                <Icon type="exclamation-circle" />
-              </i>
-              <span
-                >多敏感词用“，”隔开，且每个敏感词不得超过10个字符，如敏感词1，敏感词2</span
-              >
-            </span>
-          </el-form-item>
-        </el-form>
-      </div>
-      <span slot="footer" class="dialog-footer">
-        <ns-button @click="visible = false">取 消</ns-button>
-        <ns-button type="primary" @click="visible = false">确 定</ns-button>
-      </span>
-    </el-dialog>
-    <el-dialog title="添加关键词" :visible.sync="show" width="35%">
-      <div style="height: 200px;padding-right:10px">
-        <el-form
-          :model="ruleForm"
-          :rules="rules"
-          ref="ruleForm"
-          label-width="100px"
-          class="demo-ruleForm"
-        >
-          <el-form-item label="关键词：">
-            <el-input
-              type="textarea"
-              v-model="ruleForm.desc"
-              :rows="6"
-            ></el-input>
-          </el-form-item>
-          <el-form-item>
-            <span class="text-primary">
-              <i>
-                <Icon type="exclamation-circle" />
-              </i>
-              <span
-                >多敏感词用“，”隔开，且每个敏感词不得超过10个字符，如敏感词1，敏感词2</span
-              >
-            </span>
-          </el-form-item>
-        </el-form>
-      </div>
-      <span slot="footer" class="dialog-footer">
-        <ns-button @click="show = false">取 消</ns-button>
-        <ns-button type="primary" @click="show = false">确 定</ns-button>
-      </span>
-    </el-dialog>
-    <el-dialog :visible.sync="delShow" width="30%">
-      <div class="tipsShowTitle" slot="title">提示信息</div>
-      <div class="tipsShowContent">
-        <span class="ns-warm-cricle">!</span>确定要删除话题“话题名称”吗？
-      </div>
-      <span slot="footer" class="dialog-footer">
-        <ns-button @click="delShow = false">取 消</ns-button>
-        <ns-button type="primary" @click="delShow = false">确 定</ns-button>
-      </span>
-    </el-dialog>
+    <!-- 添加话题 -->
+    <AddKeyWordTopic ref="addKeyWordTopic" @add="add" />
+    <!-- 添加关键词 -->
+    <AddKeyWord ref="addKeyWord" @add="addKeyWord" />
+    <!-- 删除确认弹窗 -->
+    <Message ref="message" :text="text" @confirm="messageConfirm()" />
   </div>
 </template>
 <script>
@@ -289,7 +259,7 @@ export default Index
     font-size: 14px;
     color: #262626;
     .topic-text {
-      max-width: 100px;
+      width: 100px;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
@@ -305,7 +275,7 @@ export default Index
       transform: translate(-50%, -50%);
     }
     &:hover {
-      background: #d9effe;
+      background: #f5f5f5;
       .del {
         display: block;
       }
@@ -313,21 +283,38 @@ export default Index
   }
 }
 .user_list_select {
+  position: relative;
   background: #d9effe;
+  z-index: 2;
+  &::after {
+    position: absolute;
+    right: 0px;
+    top: 50%;
+    transform: translate(0%, -50%);
+    content: '';
+    border-top: 7px solid transparent;
+    border-right: 7px solid #fff;
+    border-bottom: 7px solid transparent;
+    border-left: 7px solid transparent;
+  }
+}
+.user_list_select__keyWord {
+  background: #f5f5f5;
 }
 .template-page__left__children {
   position: absolute;
-  left: 220px;
+  left: 173px;
   top: 0px;
   z-index: 2;
   overflow: hidden;
-  width: 173px;
+  width: 220px;
   background: #ffffff;
   border-left: 1px solid #e8e8e8;
 }
 .customer_list__warpper {
-  padding: 0 16px;
+  // padding: 0 16px;
   .customer_list__item {
+    padding: 0 16px;
     position: relative;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -352,7 +339,8 @@ export default Index
       transform: translate(-50%, -50%);
     }
     &:hover {
-      background: #f5f5f5;
+      background: #d9effe;
+
       .del {
         display: block;
       }
@@ -360,7 +348,7 @@ export default Index
   }
 }
 .template-page__right__content {
-  margin-left: 236px;
+  margin-left: 192px;
 }
 .template-page__right_content {
   margin-left: 408px;
@@ -371,7 +359,7 @@ export default Index
   width: 100%;
 }
 .template-page__left {
-  width: 220px;
+  width: 173px;
   position: absolute;
   // left: 210px;
   // top: 70px;
@@ -398,7 +386,7 @@ export default Index
   //     width: 210px;
   // }
   .template-page__left {
-    width: 220px;
+    width: 173px;
     position: absolute;
     // left: 210px;
     // top: 90px;
@@ -416,33 +404,38 @@ export default Index
   .template-page__left__children {
     position: absolute;
     top: 0;
-    left: 220px;
+    left: 173px;
   }
 }
 .customer_list__width {
   width: 0px;
   border-left: 0px solid #e8e8e8;
 }
-.tipsShowTitle {
-  padding-top: 5px;
-  font-size: 16px;
-  font-weight: bold;
-  color: #303133;
-}
-.tipsShowContent {
-  padding: 16px 5px;
-  color: #595959;
-  font-size: 14px;
-}
-.ns-warm-cricle {
-  display: inline-block;
-  text-align: center;
-  line-height: 14px;
-  width: 14px;
-  height: 14px;
-  border-radius: 50%;
-  background: #ffaa00;
-  color: #fff;
-  margin-right: 10px;
+// .tipsShowTitle {
+//   padding-top: 5px;
+//   font-size: 16px;
+//   font-weight: bold;
+//   color: #303133;
+// }
+// .tipsShowContent {
+//   padding: 16px 5px;
+//   color: #595959;
+//   font-size: 14px;
+// }
+// .ns-warm-cricle {
+//   display: inline-block;
+//   text-align: center;
+//   line-height: 14px;
+//   width: 14px;
+//   height: 14px;
+//   border-radius: 50%;
+//   background: #ffaa00;
+//   color: #fff;
+//   margin-right: 10px;
+// }
+.scope-title_img {
+  width: 32px;
+  height: 32px;
+  border-radius: 4px;
 }
 </style>

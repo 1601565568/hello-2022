@@ -58,7 +58,11 @@ export default {
       weWorkChatData: []
     }
   },
-  computed: {},
+  computed: {
+    ml () {
+      return this.unfoldAndStow ? 'template-page__right_content' : ''
+    }
+  },
   created () {
     window.addEventListener('resize', this.setHeight)
     this.init()
