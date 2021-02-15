@@ -510,7 +510,6 @@ export default {
         this.$notify.error('暂无最新的记录，请稍后再试')
       }
       arr.reverse()
-      console.log(this.weWorkChatData)
       this.weWorkChatData.push(...arr)
     },
     /**
