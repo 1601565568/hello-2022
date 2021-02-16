@@ -290,15 +290,19 @@ export default {
               if (this.activeName !== '2') {
                 this.getTalkToGuideList()
               } else {
-                this.WeWorkChatParam = {
-                  chatDateTime: this.WeWorkChatParam.chatDateTime,
-                  sender: '',
-                  tolist: '',
-                  seq: 0,
-                  type: 1,
-                  roomid: this.senderList[0] ? this.senderList[0].chatId : ''
+                if (arr.length !== 0) {
+                  this.WeWorkChatParam = {
+                    chatDateTime: this.WeWorkChatParam.chatDateTime,
+                    sender: '',
+                    tolist: '',
+                    seq: 0,
+                    type: 1,
+                    roomid: this.senderList[0] ? this.senderList[0].chatId : ''
+                  }
+                  this.getWeWorkChatDataToDb()
                 }
-                this.getWeWorkChatDataToDb()
+                this.weWorkChatDataLoading = false
+                this.isSetWeWorkChatData = true
               }
             }
             this.senderIsScroll = false
