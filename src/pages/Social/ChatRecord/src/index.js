@@ -54,15 +54,15 @@ export default {
   },
   computed: {
     ml () {
-      return this.unfoldAndStow && this.activeName !== '2'
+      return this.unfoldAndStow && parseInt(this.activeName) !== 2
         ? 'template-page__right_content'
         : ''
     },
     senderListPlaceholder () {
       return `请输入${
-        this.activeName === '1'
+        parseInt(this.activeName) === 1
           ? '客户'
-          : this.activeName === '2'
+          : parseInt(this.activeName) === 2
             ? '群'
             : '导购'
       }`
@@ -155,6 +155,11 @@ export default {
       if (this.activeName === tab) {
         return
       }
+      // 数据拉取成功后在切换列表
+      // if (this.senderListLoading) {
+      //   this.$notify.error('正在拉取数据，请稍后再试')
+      //   return
+      // }
       this.activeName = tab
       this.resetSenderParams()
       this.handlerLoading()
@@ -168,6 +173,13 @@ export default {
           _this.requestGuideList()
         }
       }, 500)
+    },
+    beforeLeave () {
+      if (this.senderListLoading || this.senderListLoading || this.weWorkChatDataLoading) {
+        this.$notify.error('正在拉取数据，请稍后再试')
+        return false
+      }
+      // console.log(activeName, 'oldActiveName', oldActiveName)
     },
     /**
      * senderList 重置请求参数
