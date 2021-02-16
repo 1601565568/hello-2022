@@ -76,6 +76,16 @@ export default {
 
     return {
       model: model,
+      // 批量打标弹窗
+      showBatchMarkingVisible: false,
+      // 标签组列表
+      tagGroupList: [],
+      // 标签列表
+      tagList: [],
+      // 选中的打标客户列表
+      checkedCustomerList: [],
+      // 选中的标签列表
+      checkedTagList: [],
       quickSearchModel: quickSearchModel,
       rules: Object.assign({}, {}, {}),
       state: {},
@@ -113,6 +123,87 @@ export default {
   },
   watch: {},
   methods: {
+    // 批量打标点击事件
+    batchMarking: function () {
+      if (this.checkedCustomerList && this.checkedCustomerList.length > 0) {
+        this.queryTagList()
+        this.showBatchMarkingVisible = true
+      } else {
+        this.$notify.warning('请先选择要打标的客户')
+      }
+    },
+    // 查询企业标签列表
+    queryTagList: function () {
+      let that = this
+      that.$http.fetch(that.$api.weWork.externalContact.queryCorpTagList)
+        .then((resp) => {
+          let corpTagList = resp.result
+          if (corpTagList) {
+            // 标签组列表
+            let tagGroupList = []
+            // 标签列表
+            let tagList = []
+            for (let corpTag of corpTagList) {
+              if (corpTag.is_tag_group === 1) {
+                tagGroupList.push({
+                  tagId: corpTag.tag_id,
+                  tagName: corpTag.tag_name
+                })
+              } else {
+                tagList.push({
+                  tagId: corpTag.tag_id,
+                  tagName: corpTag.tag_name,
+                  parentTagId: corpTag.parent_tag_id
+                })
+              }
+            }
+            that.tagGroupList = tagGroupList
+            that.tagList = tagList
+          }
+        }).catch((resp) => {
+          that.$notify.error(getErrorMsg('获取企业标签失败,请稍后重试', resp))
+        }).finally(() => {})
+    },
+    // 批量打标保存
+    saveBatchMarking: function () {
+      let that = this
+      if (that.checkedTagList && that.checkedTagList.length > 0) {
+        let checkedTagMap = {}
+        for (let checkTagId of that.checkedTagList) {
+          let obj = that.tagList.find((item) => {
+            return item.tagId === checkTagId
+          })
+          checkedTagMap[obj.tagId] = obj.tagName
+        }
+        that.$http.fetch(that.$api.weWork.externalContact.saveBatchMarking, { checkedCustomerList: that.checkedCustomerList, checkedTagMap: checkedTagMap }).then((resp) => {
+          this.showBatchMarkingVisible = false
+          this.checkedTagList = []
+          this.$notify.success('批量打标成功')
+          this.$searchAction$()
+        }).catch((resp) => {
+          this.$notify.error(getErrorMsg('批量打标失败', resp))
+        })
+      } else {
+        this.$notify.warning('请先选择标签')
+      }
+    },
+    // 批量打标关闭
+    BatchMarkingClose: function () {
+      this.showBatchMarkingVisible = false
+      this.checkedTagList = []
+    },
+    // 多选框选中事件
+    onHandleSelectChange: function (val) {
+      let checkedCustomerList = []
+      val.forEach(function (item) {
+        checkedCustomerList.push({
+          externalUserId: item.externalUserId,
+          userId: item.userId,
+          groupTags: item.group_tags
+        })
+      })
+      this.checkedCustomerList = checkedCustomerList
+    },
     $resetInputAction$: function () {
       if (typeof this.$resetInput === 'function') {
         const model = this.$resetInput(this.model)
