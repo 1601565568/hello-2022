@@ -122,7 +122,7 @@ export default {
     // 查看详情
     handleDetail (row, index) {
       this.activeIndex = index
-      this.shopId = row.id
+      this.shopId = +row.shopId
       this.shopName = row.shopName
       this.drawer = true
     },
