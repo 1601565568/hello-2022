@@ -18,7 +18,7 @@
             <template slot-scope="scope">
               <div class="scope-title">
                 <div class="scope-title_text">
-                  已聚合{{scope.row.chatroomNum}}人
+                  已聚合{{scope.row.qrCodeEmployees}}人
                 </div>
               </div>
             </template>
@@ -64,7 +64,7 @@
       <div class='master-close'>
         <i class="el-icon-close" @click="handleClose"></i>
       </div>
-      <GroupList v-if='drawer' :shopName='shopName' :shopId='shopId' :guid='model.guid' @onNext='getOhter("next",handleDetail)' @onPrev='getOhter("prev",handleDetail)' />
+      <FriendsList v-if='drawer' :shopName='shopName' :shopId='shopId' :guid='model.guid' @onNext='getOhter("next",handleDetail)' @onPrev='getOhter("prev",handleDetail)' />
     </el-drawer>
   </div>
 </template>
@@ -72,11 +72,11 @@
 import PageTable from '@/components/NewUi/PageTable'
 import ElDrawer from '@nascent/nui/lib/drawer'
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
-import GroupList from './GroupList'
+import FriendsList from './FriendsList'
 export default {
   data () {
     return {
-      url: this.$api.guide.lbs.getGroupByshop,
+      url: this.$api.guide.lbs.getFriendsByshop,
       drawer: false,
       shopId: null,
       shopName: null,
@@ -86,7 +86,7 @@ export default {
     }
   },
   components: {
-    PageTable, ElDrawer, GroupList
+    PageTable, ElDrawer, FriendsList
   },
   props: {
     propsModel: {

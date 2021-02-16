@@ -135,9 +135,9 @@
                   <div class='step-value'>引导店长创建门店群</div>
                   <div class='step-tip'>
                     <el-tooltip  placement="top" popper-class='popperClass'>
-                      <Icon type="question-circle" />
+                      <Icon type="question-circle" class='question-circle_detail'/>
                       <template slot='content'>
-                        <p class='popperClass'>xxxxxxxxxx</p>
+                        <p class='popperClass'>店长收到创建群通知</p>
                       </template>
                     </el-tooltip>
                   </div>
@@ -153,9 +153,9 @@
                   <div class='step-value'>根据门店群自动创建群聚合码</div>
                   <div class='step-tip'>
                     <el-tooltip  placement="top" popper-class='popperClass'>
-                      <Icon type="question-circle" />
+                      <Icon type="question-circle" class='question-circle_detail'/>
                       <template slot='content'>
-                        <p class='popperClass'>xxxxxxxxxx</p>
+                        <p class='popperClass'>自动创建的群聚合码不会显示在群聚合码列表</p>
                       </template>
                     </el-tooltip>
                   </div>
@@ -171,12 +171,12 @@
                 <el-form-item label='自动建群序号' prop='roomBaseId'>
                   <el-input-number :disabled='isStating' style='width:118px;' size="medium" v-model="model.roomBaseId" controls-position="right" :min="1" :step='1' step-strictly controls onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))"></el-input-number>
                   <!-- <el-input style='width:88px;' v-model='model.effectiveCycle' onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))" type="number"/>  -->
-                  <p class='prompt-text'><span class='yellow-point'></span>因企业微信生成联系我二维码数量限制，请合理设置过期时间</p>
+                  <p class='prompt-text'><span class='yellow-point'></span>自动创建的群聊按照序号开始依次生成，如“广州客户群1”，请输入1-100的正整数</p>
                 </el-form-item>
                 <el-form-item label='自动移除群' prop='roomUserNum' class='larger-item'>
                   <template slot='label' class='larger-item_icon'>
                     <span>自动移除群</span>
-                    <el-tooltip content="因企业微信生成联系我二维码数量限制，请合理设置过期时间"  placement="top">
+                    <el-tooltip content="企微接口限制，单个群码聚合超过100个群时，无法自动创建新群请输入180-200的正整数，群聚合码达到100个群时，聚合码中会移除超过该人数的群聊（不会解散群"  placement="top">
                       <Icon type="question-circle" class='question-circle' />
                     </el-tooltip>
                   </template>
@@ -189,9 +189,9 @@
                   <div class='step-value'>群二维码海报配置</div>
                   <div class='step-tip'>
                     <el-tooltip  placement="top" popper-class='popperClass'>
-                      <Icon type="question-circle" />
+                      <Icon type="question-circle"  class='question-circle_detail'/>
                       <template slot='content'>
-                        <p class='popperClass'>xxxxxxxxxx</p>
+                        <p class='popperClass'>消费者选择定位后，展示此海报和对应的群聚合码</p>
                       </template>
                     </el-tooltip>
                   </div>
@@ -208,9 +208,9 @@
                   <div class='step-value'>聚合二维码海报配置</div>
                   <div class='step-tip'>
                     <el-tooltip  placement="top" popper-class='popperClass'>
-                      <Icon type="question-circle" />
+                      <Icon type="question-circle"  class='question-circle_detail'/>
                       <template slot='content'>
-                        <p class='popperClass'>xxxxxxxxxx</p>
+                        <p class='popperClass'>设置门店的企微聚合码</p>
                       </template>
                     </el-tooltip>
                   </div>
@@ -226,9 +226,9 @@
                   <div class='step-value'>群二维码海报配置</div>
                   <div class='step-tip'>
                     <el-tooltip  placement="top" popper-class='popperClass'>
-                      <Icon type="question-circle" />
+                      <Icon type="question-circle"  class='question-circle_detail'/>
                       <template slot='content'>
-                        <p class='popperClass'>xxxxxxxxxx</p>
+                        <p class='popperClass'>消费者选择定位后，展示此海报和对应的企微聚合码</p>
                       </template>
                     </el-tooltip>
                   </div>
@@ -514,6 +514,15 @@ export default Index
         top: 168px;
       }
     }
+  }
+  .question-circle {
+    position: relative;
+    top: 1px;
+    color:#8C8C8C;
+    left: 5px;
+  }
+  .question-circle_detail {
+    color:#8C8C8C;
   }
 </style>
 <style scoped>

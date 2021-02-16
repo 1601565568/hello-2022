@@ -68,12 +68,15 @@ export default {
     },
     exportApi () {
       if (this.type === 'Group') {
-        return this.activeType === 'shop' ? this.$api.guide.lbs.exportGroupShop : this.$api.guide.lbs.exportGroupMember
+        return this.activeType === 'shop' ? this.$api.guide.lbs.exportActivityShopData : this.$api.guide.lbs.exportActivityAddUserData
       }
-      return this.activeType === 'shop' ? this.$api.guide.lbs.exportFirendsShop : this.$api.guide.lbs.exportFirendsMember
+      return this.activeType === 'shop' ? this.$api.guide.lbs.shopListDataExport : this.$api.guide.lbs.exportFirendsMember
     },
     activityName () {
       return this.$route.query ? this.$route.query.name : ''
+    },
+    employeeName () {
+      return this.type === 'Group' ? '新增群成员' : '新加好友'
     }
   },
   methods: {
@@ -146,16 +149,20 @@ export default {
     handleChangeType (activeType) {
       this.activeType = activeType
     },
+    generateHideElement (name, value) {
+      var tempInput = document.createElement('input')
+      tempInput.type = 'hidden'
+      tempInput.name = name
+      tempInput.value = value
+      return tempInput
+    },
     // 导出
     handleExport () {
-      var url = this.exportApi
-      var form = document.createElement('form')
-      form.appendChild(this.generateHideElement('taskId', this.searchMap.taskId))
-      if (this.taskMsg.runType === 1) {
-        form.appendChild(this.generateHideElement('queryTime', this.searchMap.queryTime))
-      }
-      form.appendChild(this.generateHideElement('shopId', this.searchMap.shopId))
-      form.appendChild(this.generateHideElement('shopName', this.createShopName))
+      const url = this.exportApi
+      const form = document.createElement('form')
+      Object.keys(this.model).map(item => {
+        form.appendChild(this.generateHideElement(item, this.model[item]))
+      })
       form.setAttribute('action', url)
       form.setAttribute('method', 'post')
       document.body.appendChild(form)

@@ -1,3 +1,4 @@
+import { API_ROOT } from '@/config/http.js'
 const groupPrefix = 'lbs/chatroom/'
 const friendsPrefix = 'lbs/friend/'
 export default {
@@ -115,5 +116,9 @@ export default {
   exportFirendsMember: {
     url: `${friendsPrefix}activityAdduserList`,
     method: 'post'
-  }
+  },
+  // 导出
+  exportActivityShopData: `${API_ROOT}${groupPrefix}shopListDataExport`, // 群门店
+  exportActivityAddUserData: `${API_ROOT}${groupPrefix}exportActivityAddUserData`, // 群成员
+  shopListDataExport: `${API_ROOT}${friendsPrefix}shopListDataExport` // 好友门店
 }

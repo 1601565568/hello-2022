@@ -3,7 +3,7 @@
     <div class='analysis-header'>
       <h3 class='header-text'>
         <Icon type="icon-fanhuishangyiji" class='back-icon' @click='handleBack'></Icon>
-        {{activityName}}活动效果
+        {{activityName}}的活动效果
       </h3>
       <div class='header-tab'>
         <el-tabs v-model="dateValue" @tab-click="handleChangeDateType">
@@ -37,7 +37,7 @@
               </template>
             </NsShopDialog>
           </el-form-item>
-          <el-form-item label="群码设置状态：" class='el-form__change'>
+          <el-form-item v-if='type === "Group"' label="群码设置状态：" class='el-form__change'>
             <el-select v-model="model.state" placeholder="请选择" @change='getDataTotal'>
               <el-option
                 v-for="item in statusOptionList"
@@ -68,7 +68,7 @@
           <el-col :span='12' :class="{active:activeType === 'employee'}">
             <div class='tab-li'  @click='handleChangeType("employee")'>
               <div class='tab-li_left'>
-                <p class='tab-li_name'>新增群成员</p>
+                <p class='tab-li_name'>{{employeeName}}</p>
                 <h3 class='tab-li_value'>{{countData.employee}}</h3>
               </div>
               <div class='tab-li_right employee'>
