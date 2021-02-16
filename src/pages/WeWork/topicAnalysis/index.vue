@@ -7,9 +7,11 @@
         </div>
         <div class="page-header__search">
           <el-date-picker
+            value-format="yyyy-MM-dd"
+            format="yyyy-MM-dd"
             :picker-options="pickerOptions"
-            v-model="time"
             type="date"
+            v-model="time"
             placeholder="选择日期"
             @change="handlerChangeTime"
           >

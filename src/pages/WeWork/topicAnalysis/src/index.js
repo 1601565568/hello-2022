@@ -129,13 +129,13 @@ export default {
     handlerChangeTime (data) {
       if (data) {
         // const currentTime = that.time
-        const now = new Date()
-        const threeMonths = 60 * 60 * 1000 * 24 * 90
-        if (now.getTime() > new Date(data).getTime() + threeMonths) {
-          this.$notify.error('只能选择三个月之内的时间')
-          return
-          // return time.getTime() > data.getTime() + threeMonths
-        }
+        // const now = new Date()
+        // const threeMonths = 60 * 60 * 1000 * 24 * 90
+        // if (now.getTime() > new Date(data).getTime() + threeMonths) {
+        //   this.$notify.error('只能选择三个月之内的时间')
+        //   return
+        //   // return time.getTime() > data.getTime() + threeMonths
+        // }
         this.tableParams.time = data
         this.listParams.time = data
         this.getContentList()
@@ -381,8 +381,8 @@ export default {
         tolist: row.tolist,
         roomid: row.roomid ? row.roomid : '',
         type: 1,
-        before: 5,
-        after: 3
+        before: 10,
+        after: 2
       }
       this.$http
         .fetch(this.$api.weWork.sensitiveWords.context, this.WeWorkChatParam)
@@ -400,7 +400,7 @@ export default {
     async getMore () {
       const data = this.WeWorkChatParam
       this.WeWorkChatParam = {
-        chatDateTime: data.time,
+        chatDateTime: data.chatDateTime,
         sender: data.sender,
         tolist: data.tolist,
         roomid: data.roomid ? data.roomid : '',
@@ -419,7 +419,7 @@ export default {
     async handleScrollTop () {
       const data = this.WeWorkChatParam
       this.WeWorkChatParam = {
-        chatDateTime: data.time,
+        chatDateTime: data.chatDateTime,
         sender: data.sender,
         tolist: data.tolist,
         roomid: data.roomid ? data.roomid : '',

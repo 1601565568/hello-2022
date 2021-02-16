@@ -473,8 +473,7 @@ export default {
     async getWeWorkChatDataToDb () {
       this.weWorkChatDataLoading = true
       this.isSetWeWorkChatData = false
-      let data = await this.requestWeWorkChatDataToDb()
-      this.weWorkChatData = data.reverse()
+      this.weWorkChatData = await this.requestWeWorkChatDataToDb()
       this.isSetWeWorkChatData = true
     },
     /**
@@ -510,6 +509,9 @@ export default {
         type: 1
       }
       let arr = await this.requestWeWorkChatDataToDb()
+      if (arr.length === 0) {
+        this.$notify.error('今日已到最早的记录')
+      }
       this.weWorkChatData.unshift(...arr)
     },
     /**

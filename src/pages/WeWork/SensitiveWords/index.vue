@@ -9,6 +9,7 @@
           <el-date-picker
             value-format="yyyy-MM-dd"
             format="yyyy-MM-dd"
+            :picker-options="pickerOptions"
             @change="handlerChangeTime"
             v-model="time"
             type="date"
@@ -69,7 +70,7 @@
         <div class="template-page__right__content">
           <div class="list-content_header">
             <h1>敏感词命中明细</h1>
-            <p>统计近3个月数据明细</p>
+<!--            <p>统计近3个月数据明细</p>-->
           </div>
           <div class="chat_record">
             <el-scrollbar ref="fullScreen" class="el-scrollbar__wrap__padding">

@@ -17,6 +17,11 @@ export default {
   data () {
     return {
       nsAddBorder,
+      pickerOptions: {
+        disabledDate (time) {
+          return time.getTime() > Date.now() // 禁止选择以后的时间
+        }
+      },
       // 分页配置
       pagination: {
         size: 15,
@@ -249,8 +254,8 @@ export default {
         tolist: row.tolist,
         roomid: row.roomid ? row.roomid : '',
         type: 1,
-        before: 5,
-        after: 3
+        before: 10,
+        after: 2
       }
       this.$http
         .fetch(this.$api.weWork.sensitiveWords.context, this.WeWorkChatParam)
@@ -268,7 +273,7 @@ export default {
     async getMore () {
       const data = this.WeWorkChatParam
       this.WeWorkChatParam = {
-        chatDateTime: data.time,
+        chatDateTime: data.chatDateTime,
         sender: data.sender,
         tolist: data.tolist,
         roomid: data.roomid ? data.roomid : '',
@@ -287,7 +292,7 @@ export default {
     async handleScrollTop () {
       const data = this.WeWorkChatParam
       this.WeWorkChatParam = {
-        chatDateTime: data.time,
+        chatDateTime: data.chatDateTime,
         sender: data.sender,
         tolist: data.tolist,
         roomid: data.roomid ? data.roomid : '',
