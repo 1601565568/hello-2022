@@ -67,7 +67,7 @@
       <div class='master-close'>
         <i class="el-icon-close" @click="handleClose"></i>
       </div>
-      <GroupList v-if='drawer' :shopName='shopName' :shopId='shopId' :guid='model.guid' @onNext='getOhter("next",handleDetail)' @onPrev='getOhter("prev",handleDetail)' />
+      <GroupList v-if='drawer' :shopName='shopName' :configId='configId' :shopId='shopId' :guid='model.guid' @onNext='getOhter("next",handleDetail)' @onPrev='getOhter("prev",handleDetail)' />
     </el-drawer>
   </div>
 </template>
@@ -83,6 +83,7 @@ export default {
       url: this.$api.guide.lbs.getGroupByshop,
       drawer: false,
       shopId: null,
+      configId: null,
       shopName: null,
       activeIndex: -1,
       model: {},
@@ -123,6 +124,7 @@ export default {
     handleDetail (row, index) {
       this.activeIndex = index
       this.shopId = +row.shopId
+      this.configId = row.configId
       this.shopName = row.shopName
       this.drawer = true
     },
@@ -172,7 +174,7 @@ export default {
     },
     handleSort (val) {
       const { order, prop } = val
-      this.$emit('onSort', { orderType: order === 'ascending' ? 1 : 0, sortName: prop })
+      this.$emit('onSort', { sortType: order === 'ascending' ? 1 : 0, sortName: prop })
     },
     tableRowClassName ({ row, rowIndex }) {
       if (rowIndex === this.activeIndex) {

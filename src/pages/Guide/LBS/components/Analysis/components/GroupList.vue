@@ -110,7 +110,7 @@ export default {
       return this.$api.guide.lbs.deleteGroup
     }
   },
-  props: ['shopId', 'guid', 'shopName'],
+  props: ['shopId', 'guid', 'shopName', 'configId'],
   components: {
     PageTable, NsChatRoomDialog
   },
@@ -156,7 +156,7 @@ export default {
       this.model = {
         ...this.model,
         sortName: prop,
-        orderType: order === 'ascending' ? 1 : 0
+        sortType: order === 'ascending' ? 1 : 0
       }
       this.$searchAction$()
     }
@@ -166,6 +166,7 @@ export default {
       handler (newVal, oldVal) {
         this.model.shopId = newVal
         this.model.guid = this.guid
+        this.model.configId = this.configId
         this.$searchAction$()
       },
       immediate: true

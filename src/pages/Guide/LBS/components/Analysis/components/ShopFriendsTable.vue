@@ -163,7 +163,7 @@ export default {
     },
     handleSort (val) {
       const { order, prop } = val
-      this.$emit('onSort', { orderType: order === 'ascending' ? 1 : 0, sortName: prop })
+      this.$emit('onSort', { sortType: order === 'ascending' ? 1 : 0, sortName: prop })
     },
     tableRowClassName ({ row, rowIndex }) {
       if (rowIndex === this.activeIndex) {
