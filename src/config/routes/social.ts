@@ -119,9 +119,60 @@ export default {
     {
       'path': '/Social/WeComCustomerOperation',
       'name': 'WeComCustomerOperation',
-      'title': '企微客户管理',
+      'title': '企微管理',
       'component': () => import('@nascent/ecrp-ecrm/src/layout/Content.vue'),
       'children': [
+        {
+          'path': '/Social/WeComCustomerOperation/ExternalContactList',
+          'name': 'WeComExternalContactList',
+          'title': '企微好友',
+          'component': () => import('@nascent/ecrp-ecrm/src/layout/ContentOnly.vue'),
+          'redirect': {
+            'name': 'WeComExternalContactList'
+          },
+          'children': [
+            {
+              'path': '/Social/WeComCustomerOperation/ExternalContactList',
+              'name': 'WeComExternalContactList',
+              'title': '企微好友',
+              'component': () => import('@/pages/WeWork/WeWorkExternalContactList/index.vue')
+            }
+          ]
+        },
+        {
+          'path': '/Social/WeComCustomerOperation/RoomList',
+          'name': 'WeComRoomList',
+          'title': '企微群',
+          'component': () => import('@nascent/ecrp-ecrm/src/layout/ContentOnly.vue'),
+          'redirect': {
+            'name': 'WeComRepeatCustomer'
+          },
+          'children': [
+            {
+              'path': '/Social/WeComCustomerOperation/RoomList',
+              'name': 'WeComRoomList',
+              'title': '企微群',
+              'component': () => import('@/pages/WeWork/WeWorkRoomList/index.vue')
+            }
+          ]
+        },
+        {
+          'path': '/Social/WeComCustomerOperation/FriendsAnalysis',
+          'name': 'WeComFriendsAnalysis',
+          'title': '好友分析',
+          'component': () => import('@nascent/ecrp-ecrm/src/layout/ContentOnly.vue'),
+          'redirect': {
+            'name': 'WeComRepeatCustomer'
+          },
+          'children': [
+            {
+              'path': '/Social/WeComCustomerOperation/FriendsAnalysis',
+              'name': 'WeComFriendsAnalysis',
+              'title': '好友分析',
+              'component': () => import('@/pages/WeWork/FriendsAnalysis/friendsAnalysis.vue')
+            }
+          ]
+        },
         {
           'path': '/Social/WeComCustomerOperation/RepeatCustomer',
           'name': 'WeComRepeatCustomer',
