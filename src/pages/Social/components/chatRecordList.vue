@@ -63,7 +63,7 @@
             </div>
             <img
               class="chatRecord_redenvelopes"
-              v-if="item.msgtype === 'redpacket'"
+              v-if="item.msgtype === 'redpacket' || item.msgtype === 'external_redpacket'"
               src="https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-WEB/image/red%20envelopes1.png"
             />
             <!-- <img

@@ -36,6 +36,7 @@ export default {
       listParams: {
         // 话题列表请求参数
         start: 0,
+        time: '',
         length: 15,
         name: ''
       },
@@ -120,6 +121,7 @@ export default {
       const nowDate = new Date()
       this.time = moment(nowDate).format('YYYY-MM-DD')
       this.tableParams.time = this.time
+      this.listParams.time = this.time
     },
     /**
      * 日期时间修改
@@ -127,14 +129,15 @@ export default {
     handlerChangeTime (data) {
       if (data) {
         // const currentTime = that.time
-        const now = new Date()
-        const threeMonths = 60 * 60 * 1000 * 24 * 90
-        if (now.getTime() > new Date(data).getTime() + threeMonths) {
-          this.$notify.error('只能选择三个月之内的时间')
-          return
-          // return time.getTime() > data.getTime() + threeMonths
-        }
+        // const now = new Date()
+        // const threeMonths = 60 * 60 * 1000 * 24 * 90
+        // if (now.getTime() > new Date(data).getTime() + threeMonths) {
+        //   this.$notify.error('只能选择三个月之内的时间')
+        //   return
+        //   // return time.getTime() > data.getTime() + threeMonths
+        // }
         this.tableParams.time = data
+        this.listParams.time = data
         this.getContentList()
       } else {
         const nowDate = new Date()
@@ -177,6 +180,8 @@ export default {
             if (this.selectKeyWordId !== null) {
               this.tableParams.id = this.selectKeyWordId
               this.getContentList()
+            } else {
+              this.table.loading = false
             }
           }
           if (res.result.length < this.listParams.length) {
@@ -376,8 +381,8 @@ export default {
         tolist: row.tolist,
         roomid: row.roomid ? row.roomid : '',
         type: 1,
-        before: 5,
-        after: 3
+        before: 10,
+        after: 2
       }
       this.$http
         .fetch(this.$api.weWork.sensitiveWords.context, this.WeWorkChatParam)
@@ -393,9 +398,9 @@ export default {
      * 聊天记录加载最新的数据
      */
     async getMore () {
-      const data = this.weWorkChatData
+      const data = this.WeWorkChatParam
       this.WeWorkChatParam = {
-        chatDateTime: data.time,
+        chatDateTime: data.chatDateTime,
         sender: data.sender,
         tolist: data.tolist,
         roomid: data.roomid ? data.roomid : '',
@@ -412,9 +417,9 @@ export default {
      * 聊天记录顶部加载更多历史数据
      */
     async handleScrollTop () {
-      const data = this.weWorkChatData
+      const data = this.WeWorkChatParam
       this.WeWorkChatParam = {
-        chatDateTime: data.time,
+        chatDateTime: data.chatDateTime,
         sender: data.sender,
         tolist: data.tolist,
         roomid: data.roomid ? data.roomid : '',
