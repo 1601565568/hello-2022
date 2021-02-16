@@ -98,7 +98,7 @@ export default {
       form.submit()
     },
     handleDownloadQrcode (url) {
-      window.open(this.qrcodeUrl + '/uploadUrl?fileName=LBS二维码&url=' + url + '&width=430&height=430')
+      location.href = this.qrcodeUrl + '/uploadUrl?fileName=LBS二维码&url=' + encodeURIComponent(url) + '&width=430&height=430'
     },
     handleClose () {
       this.$emit('onClose')

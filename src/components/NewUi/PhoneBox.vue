@@ -89,12 +89,11 @@ export default {
     padding-right: 40px;
   }
   .collapse-right {
-    position: relative;
     &::before {
       position: absolute;
       content: ' ';
       border-left: 1px solid #E8E8E8;
-      left:0;
+      left:66.7%;
       top: -56px;
       bottom: 0;
     }
@@ -102,7 +101,7 @@ export default {
       position: absolute;
       content: ' ';
       border-left: 1px solid #E8E8E8;
-      left:0;
+      left:66.7%;
       top: 0px;
       bottom: 0;
     }

@@ -8,6 +8,19 @@ export default {
         callback()
       }
     }
+    const checkTime = (rule, value, callback) => {
+      let endTime = this.model.time[1]
+      let now = new Date()
+      if (!this.model.time[0]) {
+        callback(new Error('请选择开始时间'))
+      } else if (!this.model.time[1]) {
+        callback(new Error('请选择结束时间'))
+      } else if (new Date(endTime) <= now) {
+        callback(new Error('结束时间不能早于当前时间'))
+      } else {
+        callback()
+      }
+    }
     return {
       model: {
         id: null,
@@ -40,7 +53,8 @@ export default {
           { required: true, message: '请选择参加门店', trigger: ['blur', 'change'] }
         ],
         time: [
-          { required: true, message: '请选择有效日期', trigger: ['blur', 'change'] }
+          { required: true, message: '请选择有效日期', trigger: ['blur', 'change'] },
+          { validator: checkTime, trigger: ['blur', 'change'] }
         ],
         activityPoster: [
           { required: true, message: '请选择活动海报', trigger: ['blur', 'change'] }

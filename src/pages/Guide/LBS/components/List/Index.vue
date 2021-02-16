@@ -118,8 +118,6 @@
               width='250px'
               label="操作">
               <template slot-scope="scope">
-                <!-- <ns-button type="text" v-if='[1,2].includes(scope.row.status)' @click='handleEdit({id:scope.row.lbsId})'>编辑</ns-button>
-                <ns-button type="text" v-if='[1,2].includes(scope.row.status)' @click='handleEnd(scope.row.lbsId)'>结束活动</ns-button> -->
                 <ns-button type="text" @click='handleDetail({guid:scope.row.guid,id:scope.row.id})' v-if='isShowEdit(scope.row)'>编辑</ns-button>
                 <ns-button type="text" @click='handleEnd(scope.row.guid,scope.row.createId)' v-if='isShowEdit(scope.row)'>结束活动</ns-button>
                 <ns-button type="text" v-copy='scope.row.activityQrcode'>复制链接</ns-button>
