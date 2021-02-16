@@ -118,7 +118,7 @@ export default {
     method: 'post'
   },
   // 导出
-  exportActivityShopData: `${API_ROOT}${groupPrefix}shopListDataExport`, // 群门店
+  exportActivityShopData: `${API_ROOT}${groupPrefix}exportActivityShopData`, // 群门店
   exportActivityAddUserData: `${API_ROOT}${groupPrefix}exportActivityAddUserData`, // 群成员
   shopListDataExport: `${API_ROOT}${friendsPrefix}shopListDataExport` // 好友门店
 }
