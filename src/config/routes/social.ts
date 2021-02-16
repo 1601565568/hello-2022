@@ -117,6 +117,105 @@ export default {
       ]
     },
     {
+      'path': '/Social/WeComCustomerOperation',
+      'name': 'WeComCustomerOperation',
+      'title': '企微管理',
+      'component': () => import('@nascent/ecrp-ecrm/src/layout/Content.vue'),
+      'children': [
+        {
+          'path': '/Social/WeComCustomerOperation/ExternalContactList',
+          'name': 'WeComExternalContactList',
+          'title': '企微好友',
+          'component': () => import('@nascent/ecrp-ecrm/src/layout/ContentOnly.vue'),
+          'redirect': {
+            'name': 'WeComExternalContactList'
+          },
+          'children': [
+            {
+              'path': '/Social/WeComCustomerOperation/ExternalContactList',
+              'name': 'WeComExternalContactList',
+              'title': '企微好友',
+              'component': () => import('@/pages/WeWork/WeWorkExternalContactList/index.vue')
+            }
+          ]
+        },
+        {
+          'path': '/Social/WeComCustomerOperation/RoomList',
+          'name': 'WeComRoomList',
+          'title': '企微群',
+          'component': () => import('@nascent/ecrp-ecrm/src/layout/ContentOnly.vue'),
+          'redirect': {
+            'name': 'WeComRepeatCustomer'
+          },
+          'children': [
+            {
+              'path': '/Social/WeComCustomerOperation/RoomList',
+              'name': 'WeComRoomList',
+              'title': '企微群',
+              'component': () => import('@/pages/WeWork/WeWorkRoomList/index.vue')
+            }
+          ]
+        },
+        {
+          'path': '/Social/WeComCustomerOperation/FriendsAnalysis',
+          'name': 'WeComFriendsAnalysis',
+          'title': '好友分析',
+          'component': () => import('@nascent/ecrp-ecrm/src/layout/ContentOnly.vue'),
+          'redirect': {
+            'name': 'WeComRepeatCustomer'
+          },
+          'children': [
+            {
+              'path': '/Social/WeComCustomerOperation/FriendsAnalysis',
+              'name': 'WeComFriendsAnalysis',
+              'title': '好友分析',
+              'component': () => import('@/pages/WeWork/FriendsAnalysis/friendsAnalysis.vue')
+            }
+          ]
+        },
+        {
+          'path': '/Social/WeComCustomerOperation/RepeatCustomer',
+          'name': 'WeComRepeatCustomer',
+          'title': '重复客户',
+          'component': () => import('@nascent/ecrp-ecrm/src/layout/ContentOnly.vue'),
+          'redirect': {
+            'name': 'WeComRepeatCustomer'
+          },
+          'children': [
+            {
+              'path': '/Social/WeComCustomerOperation/RepeatCustomer',
+              'name': 'WeComRepeatCustomer',
+              'title': '重复客户',
+              'component': () => import('@/pages/WeWork/RepeatCustomer/List.vue')
+            }
+          ]
+        },
+        {
+          'path': '/Social/WeComCustomerOperation/LossCustomers',
+          'name': 'WeComLossCustomers',
+          'title': '流失客户',
+          'component': () => import('@nascent/ecrp-ecrm/src/layout/ContentTab.vue'),
+          'redirect': {
+            'name': 'WeComDeleteCustomers'
+          },
+          children: [
+            {
+              path: '/Social/WeComCustomerOperation/DeleteCustomers',
+              name: 'WeComDeleteCustomers',
+              title: '企微好友数据分析',
+              component: () => import('@/pages/WeWork/LossCustomers/deleteCustomers.vue')
+            },
+            {
+              path: '/Social/WeComCustomerOperation/BeDeleteCustomers',
+              name: 'WeComBeDeleteCustomers',
+              title: '企微好友数据分析',
+              component: () => import('@/pages/WeWork/LossCustomers/beDeletedCustomers.vue')
+            }
+          ]
+        }
+      ]
+    },
+    {
       'path': '/Social/SocialOperation',
       'name': 'SocialOperation',
       'title': '社交运营',
@@ -286,52 +385,6 @@ export default {
               'name': 'CustomerCodeAnalysis',
               'title': '一客一码报表',
               'component': () => import('@/pages/Guide/CustomerCode/Analysis.vue')
-            }
-          ]
-        },
-        {
-          'path': '/Social/SocialOperation/QrcodePoster/List',
-          'name': 'qrcodePoster',
-          'title': '二维码海报',
-          'component': () => import('@nascent/ecrp-ecrm/src/layout/ContentOnly.vue'),
-          'redirect': {
-            'name': 'WeChatQrCodePlacard'
-          },
-          'children': [
-            {
-              'path': '/Social/SocialOperation/QrcodePoster/List',
-              'name': 'WeChatQrCodePlacard',
-              'title': '二维码海报',
-              'component': () => import('@/pages/Guide/QrcodePoster/List.vue')
-            },
-            {
-              'path': '/Social/SocialOperation/QrcodePoster/Edit',
-              'name': 'QrcodePosterEdit',
-              'title': '编辑二维码海报',
-              'component': () => import('@/pages/Guide/QrcodePoster/Edit.vue')
-            }
-          ]
-        },
-        {
-          'path': '/Social/SocialOperation/QrcodePosterGH/List',
-          'name': 'qrcodePoster',
-          'title': '二维码海报（个号）',
-          'component': () => import('@nascent/ecrp-ecrm/src/layout/ContentOnly.vue'),
-          'redirect': {
-            'name': 'WeWorkQrCodePlacard'
-          },
-          'children': [
-            {
-              'path': '/Social/SocialOperation/QrcodePosterGH/List',
-              'name': 'WeWorkQrCodePlacard',
-              'title': '二维码海报（个号）',
-              'component': () => import('@/pages/Guide/QrcodePoster/List.vue')
-            },
-            {
-              'path': '/Social/SocialOperation/QrcodePosterGH/Edit',
-              'name': 'QrcodePosterEdit',
-              'title': '编辑二维码海报（个号）',
-              'component': () => import('@/pages/Guide/QrcodePoster/Edit.vue')
             }
           ]
         }

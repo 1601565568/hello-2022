@@ -9,9 +9,11 @@ import welcomeCode from './welcomeCode.js'
 import behaviorData from './behaviorData.js'
 import guide from './guide.js'
 import externalContact from './externalContact.js'
+import weWorkRooms from './weWorkRooms.js'
 export default {
   welcomeCode,
   behaviorData,
   guide,
-  externalContact
+  externalContact,
+  weWorkRooms
 }
