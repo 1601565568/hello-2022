@@ -38,6 +38,7 @@ export default {
       this.$emit('getMore')
     },
     handleScrollTop () {
+      console.log('1231231')
       this.$emit('handleScrollTop')
     },
     handleClose () {

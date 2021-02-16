@@ -266,7 +266,7 @@ export default {
      * 聊天记录加载最新的数据
      */
     async getMore () {
-      const data = this.weWorkChatData
+      const data = this.WeWorkChatParam
       this.WeWorkChatParam = {
         chatDateTime: data.time,
         sender: data.sender,
@@ -285,7 +285,7 @@ export default {
      * 聊天记录顶部加载更多历史数据
      */
     async handleScrollTop () {
-      const data = this.weWorkChatData
+      const data = this.WeWorkChatParam
       this.WeWorkChatParam = {
         chatDateTime: data.time,
         sender: data.sender,

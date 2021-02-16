@@ -3,7 +3,7 @@
     <div class="template-page">
       <div class="page-header fl_between">
         <div class="tabs">
-          <el-tabs :value="activeName" @input="handleClick">
+          <el-tabs :value="activeName" @input="handleClick" :before-leave="beforeLeave">
             <el-tab-pane label="客户" name="1"></el-tab-pane>
             <el-tab-pane label="群" name="2"></el-tab-pane>
             <el-tab-pane label="导购" name="3"></el-tab-pane>
