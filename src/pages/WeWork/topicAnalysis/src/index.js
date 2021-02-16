@@ -36,6 +36,7 @@ export default {
       listParams: {
         // 话题列表请求参数
         start: 0,
+        time: '',
         length: 15,
         name: ''
       },
@@ -120,6 +121,7 @@ export default {
       const nowDate = new Date()
       this.time = moment(nowDate).format('YYYY-MM-DD')
       this.tableParams.time = this.time
+      this.listParams.time = this.time
     },
     /**
      * 日期时间修改
@@ -135,6 +137,7 @@ export default {
           // return time.getTime() > data.getTime() + threeMonths
         }
         this.tableParams.time = data
+        this.listParams.time = data
         this.getContentList()
       } else {
         const nowDate = new Date()
