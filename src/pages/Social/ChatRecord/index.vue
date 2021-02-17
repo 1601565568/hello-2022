@@ -14,6 +14,7 @@
             value-format="yyyy-MM-dd"
             format="yyyy-MM-dd"
             v-model="time"
+            :clearable="false"
             type="date"
             @change="handlerChangeTime"
             placeholder="选择日期"

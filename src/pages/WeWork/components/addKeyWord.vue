@@ -1,5 +1,5 @@
 <template>
-  <el-dialog title="添加敏感词" :visible.sync="visible" width="35%">
+  <el-dialog title="添加关键词" :visible.sync="visible" width="35%">
     <!-- <div style="height: 250px;padding-right:10px"> -->
     <el-form
       :model="Form"
@@ -37,7 +37,7 @@ export default {
         keyWords: ''
       },
       rules: {
-        keyWords: [{ required: true, message: '请输入敏感词', trigger: 'blur' }]
+        keyWords: [{ required: true, message: '请输入关键词', trigger: 'blur' }]
       },
       visible: false
     }

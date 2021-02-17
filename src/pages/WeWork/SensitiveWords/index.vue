@@ -9,6 +9,7 @@
           <el-date-picker
             value-format="yyyy-MM-dd"
             format="yyyy-MM-dd"
+            :clearable="false"
             :picker-options="pickerOptions"
             @change="handlerChangeTime"
             v-model="time"

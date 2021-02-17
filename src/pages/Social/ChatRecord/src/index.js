@@ -340,6 +340,7 @@ export default {
         .then(res => {
           this.toList = this.toList.concat(formatToList(res.result))
           this.toListLoading = false
+          this.senderIsScroll = false
           if (this.toListIndex === null) {
             this.toListIndex = 0
             this.WeWorkChatParam.tolist = this.toList[0]
@@ -391,6 +392,7 @@ export default {
       if (!this.toListIsScroll) {
         this.toListIsScroll = true
         this.getToListloading = true
+        this.senderIsScroll = true
         this.talkToGuideListParams = {
           ...this.talkToGuideListParams,
           start:
