@@ -153,6 +153,12 @@ export default {
               'name': 'WeComRoomList',
               'title': '企微群',
               'component': () => import('@/pages/WeWork/WeWorkRoomList/index.vue')
+            },
+            {
+              'path': '/Social/WeComCustomerOperation/RoomList',
+              'name': 'WeComRoomMemberList',
+              'title': '企微群成员列表',
+              'component': () => import('@/pages/WeWork/WeWorkRoomList/NsTableEnterpriseWeChatMember.vue')
             }
           ]
         },

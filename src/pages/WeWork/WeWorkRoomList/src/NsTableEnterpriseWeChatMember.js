@@ -18,7 +18,7 @@ export default {
       {
         func: function () {
           this.$router.push({
-            name: 'WEWORK_ROOM_LIST'
+            name: 'WeComRoomList'
           })
         },
         icon: '$.noop',

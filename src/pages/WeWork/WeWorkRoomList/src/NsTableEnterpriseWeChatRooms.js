@@ -23,7 +23,7 @@ export default {
         func: function (scope) {
           console.log(scope)
           this.$router.push({
-            name: 'WEWORK_ROOM_MEMBER_LIST',
+            name: 'WeComRoomMemberList',
             params: {
               chatId: scope.row.chatId,
               personalWxid: this.personalWxid
