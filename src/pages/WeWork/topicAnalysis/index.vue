@@ -11,6 +11,7 @@
             format="yyyy-MM-dd"
             :picker-options="pickerOptions"
             type="date"
+            :clearable="false"
             v-model="time"
             placeholder="选择日期"
             @change="handlerChangeTime"
@@ -77,7 +78,7 @@
         <div
           class="loadMoreWrapper"
           ref="loadMoreWrapperChildren"
-          v-loading="listLoading"
+          v-loading="keyWordsVoListLoding"
         >
           <ul class="user_list">
             <li
@@ -101,6 +102,9 @@
               /></span>
             </li>
           </ul>
+          <NsNoData v-if="!keyWordsVoListLoding && keyWordsVoList.length === 0"
+          >暂无数据</NsNoData
+          >
         </div>
         <div class="content_bottom"></div>
       </div>
