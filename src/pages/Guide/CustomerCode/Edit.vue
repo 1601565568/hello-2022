@@ -174,6 +174,9 @@
               <p class='prompt-text'><span class='yellow-point'></span>因企业微信生成联系我二维码数量限制，请合理设置过期时间</p>
             </el-form-item>
           </el-collapse-item>
+          <el-collapse-item title='奖励机制' :name="3">
+            <SetPrize />
+          </el-collapse-item>
         </el-collapse>
         </el-form>
       </el-col>
@@ -222,8 +225,9 @@ import ElColorPicker from '@nascent/nui/lib/color-picker'
 import VueDragResize from 'vue-drag-resize'
 import NsGuideDialog from '@/components/NsGuideDialog'
 import ElInputNumber from '@nascent/nui/lib/input-number'
+import SetPrize from './components/SetPrize'
 Edit.components = {
-  LengthInput, HtmlArea, TagArea, ElUpload, ElColorPicker, VueDragResize, NsGuideDialog, ElInputNumber
+  LengthInput, HtmlArea, TagArea, ElUpload, ElColorPicker, VueDragResize, NsGuideDialog, ElInputNumber, SetPrize
 }
 export default Edit
 </script>

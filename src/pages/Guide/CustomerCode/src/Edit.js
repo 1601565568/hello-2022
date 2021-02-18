@@ -2,7 +2,7 @@ import validates from './validates'
 export default {
   data () {
     return {
-      collapseList: [1, 2],
+      collapseList: [1, 2, 3],
       guestCodeId: null,
       copyGuestCodeId: null,
       activityIntroductionLength: 0,
