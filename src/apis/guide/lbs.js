@@ -97,28 +97,8 @@ export default {
     method: 'post'
   },
   // 导出
-  // 群门店
-  exportGroupShop: {
-    url: `${friendsPrefix}activityAdduserList`,
-    method: 'post'
-  },
-  // 群成员
-  exportGroupMember: {
-    url: `${friendsPrefix}activityAdduserList`,
-    method: 'post'
-  },
-  // 好友门店
-  exportFirendsShop: {
-    url: `${friendsPrefix}activityAdduserList`,
-    method: 'post'
-  },
-  // 好友成员
-  exportFirendsMember: {
-    url: `${friendsPrefix}activityAdduserList`,
-    method: 'post'
-  },
-  // 导出
   exportActivityShopData: `${API_ROOT}/${groupPrefix}exportActivityShopData`, // 群门店
   exportActivityAddUserData: `${API_ROOT}/${groupPrefix}exportActivityAddUserData`, // 群成员
-  shopListDataExport: `${API_ROOT}/${friendsPrefix}shopListDataExport` // 好友门店
+  shopListDataExport: `${API_ROOT}/${friendsPrefix}shopListDataExport`, // 好友门店
+  addUserDataExport: `${API_ROOT}/${friendsPrefix}addUserDataExport` // 好友新增好友
 }

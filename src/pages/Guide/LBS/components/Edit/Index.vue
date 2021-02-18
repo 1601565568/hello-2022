@@ -166,7 +166,7 @@
                   <div class='form-item_toptext'>
                     将以原群主身份自动创建新群，如未设置，自动新建的群名称为初始群名称
                   </div>
-                  <tag-area v-model='model.roomBaseName' tag="wise" ref="testText" :maxlength="40" :tools='tools' placeholder="请输入自动建群名称，长度40个字符以内" @inputLength="inputLength"/>
+                  <tag-area v-model='model.roomBaseName' tag="wise" ref="testText" :maxlength="50" :tools='tools' placeholder="请输入自动建群名称，长度40个字符以内" @inputLength="inputLength"/>
                 </el-form-item>
                 <el-form-item label='自动建群序号' prop='roomBaseId'>
                   <el-input-number :disabled='isStating' style='width:118px;' size="medium" v-model="model.roomBaseId" controls-position="right" :min="1" :step='1' step-strictly controls onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))"></el-input-number>

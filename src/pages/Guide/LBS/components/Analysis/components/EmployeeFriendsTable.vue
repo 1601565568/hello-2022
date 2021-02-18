@@ -24,7 +24,7 @@
           label="所属门店">
         </el-table-column>
         <el-table-column
-          prop="guideName"
+          prop="userName"
           label="员工">
         </el-table-column>
         <el-table-column
@@ -32,7 +32,7 @@
           label="工号">
         </el-table-column>
         <el-table-column
-          prop="joinTime"
+          prop="created"
           sortable="custom"
           label="添加时间">
         </el-table-column>
@@ -60,7 +60,7 @@ import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 export default {
   data () {
     return {
-      url: this.$api.guide.lbs.getGroupFriends,
+      url: this.$api.guide.lbs.getFriendsFriends,
       statusList: {
         1: {
           value: ' 由成员邀请入群（直接邀请入群）',
@@ -115,5 +115,9 @@ export default {
   .avatar-img {
     height: 32px;
     width: 32px;
+    img{
+      width: 100%;
+      height: 100%;
+    }
   }
 </style>

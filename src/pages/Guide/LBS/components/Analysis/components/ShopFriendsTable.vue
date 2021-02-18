@@ -97,24 +97,6 @@ export default {
   },
   mixins: [tableMixin],
   methods: {
-    getChatRoomData (list) {
-      this.$refs.nsChatRoomDialog.emptyData()
-      const { shopId } = this.activeRow
-      const { guid } = this.propsModel
-      const parmas = {
-        guid,
-        shopId,
-        chatIdList: list.map(item => item.chatId)
-      }
-      this.$http.fetch(this.$api.guide.lbs.addGroup, parmas).then(res => {
-        if (res.success) {
-          this.$notify.success('添加成功')
-          this.$searchAction$()
-        }
-      }).catch(res => {
-        this.$notify.error(res.msg)
-      })
-    },
     // 查看详情
     handleDetail (row, index) {
       this.activeIndex = index
@@ -160,6 +142,7 @@ export default {
     // 关闭详情弹框
     handleClose () {
       this.drawer = false
+      this.activeIndex = -1
     },
     handleSort (val) {
       const { order, prop } = val
@@ -181,9 +164,6 @@ export default {
       immediate: true,
       deep: true
     }
-  },
-  mounted () {
-    this.$refs.nsChatRoomDialog.init()
   }
 }
 </script>

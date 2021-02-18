@@ -4,7 +4,7 @@
       <template slot='search'>
         <el-form :inline="true" class='form-inline_top'>
           <el-form-item label="">
-            <NsChatRoomDialog btnTitle="添加群聊" @getChatRoomData="(list)=>{getChatRoomData(list,scope.row)}" :showIcon='false'></NsChatRoomDialog>
+            <NsChatRoomDialog btnTitle="添加群聊" @getChatRoomData="getChatRoomData" :showIcon='false'></NsChatRoomDialog>
           </el-form-item>
         </el-form>
       </template>
@@ -18,7 +18,7 @@
           @sort-change="handleSort"
           style="width: 100%">
           <el-table-column
-            prop="chatroomNum"
+            prop="chatroomName"
             label="群名称">
           </el-table-column>
           <el-table-column
@@ -26,7 +26,7 @@
             label="群主">
           </el-table-column>
           <el-table-column
-            prop="userNum"
+            prop="addUserNum"
             sortable="custom"
             label="群成员数">
           </el-table-column>
@@ -159,6 +159,24 @@ export default {
         sortType: order === 'ascending' ? 1 : 0
       }
       this.$searchAction$()
+    },
+    getChatRoomData (list) {
+      this.$refs.nsChatRoomDialog.emptyData()
+      const { shopId } = this.activeRow
+      const { guid } = this.propsModel
+      const parmas = {
+        guid,
+        shopId,
+        chatIdList: list.map(item => item.chatId)
+      }
+      this.$http.fetch(this.$api.guide.lbs.addGroup, parmas).then(res => {
+        if (res.success) {
+          this.$notify.success('添加成功')
+          this.$searchAction$()
+        }
+      }).catch(res => {
+        this.$notify.error(res.msg)
+      })
     }
   },
   watch: {

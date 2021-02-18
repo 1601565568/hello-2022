@@ -31,15 +31,15 @@ export default {
           value: null
         },
         {
-          label: '已结束',
+          label: '未开始',
           value: 0
         },
         {
-          label: '未开始',
+          label: '进行中',
           value: 1
         },
         {
-          label: '进行中',
+          label: '已结束',
           value: 2
         },
         {
@@ -70,7 +70,7 @@ export default {
       if (this.type === 'Group') {
         return this.activeType === 'shop' ? this.$api.guide.lbs.exportActivityShopData : this.$api.guide.lbs.exportActivityAddUserData
       }
-      return this.activeType === 'shop' ? this.$api.guide.lbs.shopListDataExport : this.$api.guide.lbs.exportFirendsMember
+      return this.activeType === 'shop' ? this.$api.guide.lbs.shopListDataExport : this.$api.guide.lbs.addUserDataExport
     },
     activityName () {
       return this.$route.query ? this.$route.query.name : ''
@@ -87,7 +87,8 @@ export default {
         guid: model.guid,
         shopIdList: model.shopIdList,
         startTime: model.startTime,
-        endTime: model.endTime
+        endTime: model.endTime,
+        state: model.state
       }
       this.$http.fetch(this.countApi, parmas).then(res => {
         const { shopNum = 0,

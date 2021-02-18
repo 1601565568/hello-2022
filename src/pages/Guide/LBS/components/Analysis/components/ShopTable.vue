@@ -170,6 +170,7 @@ export default {
     },
     // 关闭详情弹框
     handleClose () {
+      this.activeIndex = -1
       this.drawer = false
     },
     handleSort (val) {
