@@ -10,14 +10,14 @@ export default {
    * @msg: 查询删除客户列表
    */
   queryDeleteCustomerList: {
-    url: '/weWork/lossCustomer/queryDeleteCustomerList',
+    url: '/wework/lossCustomer/queryDeleteCustomerList',
     method: 'post'
   },
   /**
    * @msg: 查询删除客户列表
    */
   queryBeDeleteCustomerList: {
-    url: '/weWork/lossCustomer/queryBeDeleteCustomerList',
+    url: '/wework/lossCustomer/queryBeDeleteCustomerList',
     method: 'post'
   },
   /**
@@ -38,28 +38,28 @@ export default {
    * @msg: 获取客户分析顶部数据
    */
   queryAnalysisOverview: {
-    url: '/weWork/friendsAnalysis/queryAnalysisOverview',
+    url: '/wework/friendsAnalysis/queryAnalysisOverview',
     method: 'post'
   },
   /**
    * @msg: 获取分析列表-日期
    */
   queryAnalysisListByDate: {
-    url: '/weWork/friendsAnalysis/queryAnalysisListByDate',
+    url: '/wework/friendsAnalysis/queryAnalysisListByDate',
     method: 'post'
   },
   /**
    * @msg: 获取分析列表-日期
    */
   queryAnalysisListByDateReturnList: {
-    url: '/weWork/friendsAnalysis/queryAnalysisListByDateReturnList',
+    url: '/wework/friendsAnalysis/queryAnalysisListByDateReturnList',
     method: 'post'
   },
   /**
    * @msg: 获取分析列表-成员
    */
   queryAnalysisListByUser: {
-    url: '/weWork/friendsAnalysis/queryAnalysisListByUser',
+    url: '/wework/friendsAnalysis/queryAnalysisListByUser',
     method: 'post'
   }
 }
