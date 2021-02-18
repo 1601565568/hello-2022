@@ -33,7 +33,7 @@ export default {
         name: '',
         time: '',
         start: 0,
-        length: 30
+        length: 15
       },
       time: '',
       list: [], // 敏感词列表

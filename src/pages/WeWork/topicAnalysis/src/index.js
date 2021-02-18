@@ -295,7 +295,7 @@ export default {
         this.text = `确定要删除话题“${content}”吗？`
         this.topicId = Id
       } else {
-        this.text = `确定要删除关键字“${content}”吗？`
+        this.text = `确定要删除关键词“${content}”吗？`
         this.keyWordId = Id
       }
       this.$refs.message.show()
