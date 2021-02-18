@@ -416,7 +416,6 @@ export default {
       this.weWorkChatDataLoading = true
       this.toListLoading = true
       this.isSetWeWorkChatData = false
-      clearTimeout(this.senderTime)
       // 客户导购处理
       if (this.activeName !== '2') {
         this.talkToGuideListParams = {
@@ -430,11 +429,10 @@ export default {
           ...this.WeWorkChatParam,
           sender: item.userId,
           seq: 0,
+          type: 1,
           roomid: ''
         }
-        this.senderTime = setTimeout(() => {
-          _this.getTalkToGuideList()
-        }, 500)
+        this.getTalkToGuideList()
       } else {
         // 群单独处理
         this.WeWorkChatParam = {
@@ -445,9 +443,7 @@ export default {
           type: 1,
           roomid: item.chatId
         }
-        this.senderTime = setTimeout(() => {
-          this.getWeWorkChatDataToDb()
-        }, 500)
+        this.getWeWorkChatDataToDb()
       }
     },
     /**

@@ -63,7 +63,7 @@ export default {
             this.$refs.ruleForm.resetFields()
             this.visible = false
           } else {
-            this.$notify.error('添加敏感词格式错误')
+            this.$notify.error('添加敏感词长度不能超过10个字符')
           }
         } else {
           this.$notify.error('请填写敏感词！')
