@@ -146,7 +146,7 @@ export default {
       }
       if (_this.items.assetJson) {
         let assetJson = JSON.parse(_this.items.assetJson)
-        let length = _this.items.integralAccountList.length
+        let length = _this.items.integralAccountList ? _this.items.integralAccountList.length : 0
         for (let name in assetJson) {
           for (let i = 0; i < length; i++) {
             // 积分别名

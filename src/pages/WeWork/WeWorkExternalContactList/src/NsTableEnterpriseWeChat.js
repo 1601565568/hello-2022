@@ -299,8 +299,11 @@ export default {
           'shopId': val.shopId
         }).then(resp => {
           if (resp.success && resp.result != null) {
-            _this.NSUserDetails = resp.result
-            _this.$refs.NSUserDetails.showDetailDialog()
+            _this.userDetails = resp.result
+            // console.log(_this.userDetails)
+            this.$nextTick(() => {
+              _this.$refs.NSUserDetails.showDetailDialog()
+            })
           }
         }).catch((resp) => {
           _this.$notify.error(getErrorMsg('查询失败', resp))
