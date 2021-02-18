@@ -38,7 +38,7 @@
             </NsShopDialog>
           </el-form-item>
           <el-form-item v-if='type === "Group"' label="群码设置状态：" class='el-form__change'>
-            <el-select v-model="model.state" placeholder="请选择" @change='getDataTotal'>
+            <el-select v-model="model.setState" placeholder="请选择" @change='getDataTotal'>
               <el-option
                 v-for="item in statusOptionList"
                 :key="item.value"

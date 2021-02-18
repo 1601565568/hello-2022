@@ -4,7 +4,7 @@ export default {
     return {
       model: {
         shopIdList: [],
-        state: null,
+        setState: null,
         startTime: this.changeDate(1)[0],
         endTime: this.changeDate(1)[1],
         guid: this.$route.query.guid
@@ -31,20 +31,12 @@ export default {
           value: null
         },
         {
-          label: '未开始',
-          value: 0
-        },
-        {
-          label: '进行中',
+          label: '已设置',
           value: 1
         },
         {
-          label: '已结束',
-          value: 2
-        },
-        {
-          label: '提前结束',
-          value: 3
+          label: '未设置',
+          value: 0
         }
       ],
       // 总数数据
@@ -88,7 +80,7 @@ export default {
         shopIdList: model.shopIdList,
         startTime: model.startTime,
         endTime: model.endTime,
-        state: model.state
+        setState: model.setState
       }
       this.$http.fetch(this.countApi, parmas).then(res => {
         const { shopNum = 0,
