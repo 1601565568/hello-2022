@@ -63,7 +63,10 @@
             </div>
             <img
               class="chatRecord_redenvelopes"
-              v-if="item.msgtype === 'redpacket' || item.msgtype === 'external_redpacket'"
+              v-if="
+                item.msgtype === 'redpacket' ||
+                  item.msgtype === 'external_redpacket'
+              "
               src="https://hb3-shopguide.oss-cn-zhangjiakou.aliyuncs.com/ECRP-SG-WEB/image/red%20envelopes1.png"
             />
             <!-- <img
@@ -103,22 +106,24 @@
       <span @click="getMore">查看更多</span>
     </div>
     <NsNoData v-if="dataList.length === 0">暂无数据</NsNoData>
-    <el-dialog title="查看" :visible.sync="dialogVisible" width="30%">
-      <template v-if="type === 1">
-        <img :src="url" />
-      </template>
-      <template v-if="type === 2">
-        <video
-          :src="url"
-          autoplay="autoplay"
-          loop="loop"
-          muted="muted"
-          controls="controls"
-          controlsList="nodownload"
-          height="100%"
-          width="100%"
-        />
-      </template>
+    <el-dialog title="查看" :visible.sync="dialogVisible" :modal-append-to-body="false">
+      <div>
+        <template v-if="type === 1">
+          <img :src="url" />
+        </template>
+        <template v-if="type === 2">
+          <video
+            :src="url"
+            autoplay="autoplay"
+            loop="loop"
+            muted="muted"
+            controls="controls"
+            controlsList="nodownload"
+            height="100%"
+            width="100%"
+          />
+        </template>
+      </div>
       <span slot="footer" class="dialog-footer">
         <ns-button type="primary" @click="dialogVisible = false"
           >确 定</ns-button
