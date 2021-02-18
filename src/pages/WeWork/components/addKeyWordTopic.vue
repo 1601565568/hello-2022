@@ -4,7 +4,7 @@
     <el-form
       :model="Form"
       :rules="rules"
-      ref="ruleForm"
+      ref="topicRuleForm"
       label-width="80px"
       class="demo-ruleForm"
     >
@@ -16,7 +16,7 @@
           show-word-limit
         ></el-input>
       </el-form-item>
-      <el-form-item label="关键词：">
+      <el-form-item label="关键词：" prop="keyWords">
         <el-input type="textarea" v-model="Form.keyWords" :rows="10"></el-input>
       </el-form-item>
       <el-form-item>
@@ -58,11 +58,11 @@ export default {
       this.visible = true
     },
     onCancel () {
-      this.$refs.ruleForm.resetFields()
+      this.$refs.topicRuleForm.resetFields()
       this.visible = false
     },
     confirm () {
-      this.$refs.ruleForm.validate(valid => {
+      this.$refs.topicRuleForm.validate(valid => {
         if (valid) {
           const addWords = JSON.parse(JSON.stringify(this.Form.keyWords))
           if (addWords) {
@@ -76,11 +76,10 @@ export default {
             }
           }
           this.$emit('add', JSON.parse(JSON.stringify(this.Form)))
-          this.$refs.ruleForm.resetFields()
+          this.$refs.topicRuleForm.resetFields()
           this.visible = false
         }
       })
-      //   this.$refs[ruleForm].resetFields()
     }
   }
 }
