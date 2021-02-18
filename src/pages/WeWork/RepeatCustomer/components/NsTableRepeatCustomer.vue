@@ -55,7 +55,6 @@
         label-width="60px"
         :inline="true"
         @submit.native.prevent
-        align="right"
       >
         <el-form-item label="昵称：">
           <el-form-grid>
@@ -74,7 +73,7 @@
                            type="primary" btnTitle="选择员工" dialogTitle="选择员工" v-model="model.userIds"></NsGuideDialog>
           </ElFormGrid>
           <ElFormGrid>
-            已选择<span class="text-primary">{{model.guideIds? model.guideIds.length: 0}}</span>个导购员工
+            已选择<span class="text-primary">{{model.userIds? model.userIds.length: 0}}</span>个导购员工
           </ElFormGrid>
         </el-form-item>
         <el-form-item label="首次添加时间：" label-width="100px">
