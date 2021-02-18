@@ -21,7 +21,6 @@ export default {
     const tableButtons = [
       {
         func: function (scope) {
-          console.log(scope)
           this.$router.push({
             name: 'WeComRoomMemberList',
             params: {
