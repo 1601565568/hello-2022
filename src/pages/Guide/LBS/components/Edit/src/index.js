@@ -64,7 +64,7 @@ export default {
         ],
         roomRule: [
           { required: true, message: '请输入群名称规则', trigger: ['blur', 'change'] },
-          { min: 1, max: 50, message: '长度在1-50个字符以内', trigger: ['blur', 'change'] }
+          { min: 1, max: 50, message: '长度在1-50个字符', trigger: ['blur', 'change'] }
         ],
         qrcodePoster: [
           { required: true, message: '请上传海报背景', trigger: ['blur', 'change'] }
@@ -118,7 +118,7 @@ export default {
     async loadData () {
       const result = await this.$http.fetch(this.loadApi, { guid: this.$route.query.guid })
       if (result.success) {
-        this.isStating = result.result.state !== 2
+        this.isStating = result.result.state === 2
         return result.result
       } else {
         return false
@@ -198,6 +198,8 @@ export default {
       this.$refs.searchform.validate(valid => {
         if (valid) {
           this.doUpdate()
+        } else {
+          this.btnLoad = false
         }
       })
     },

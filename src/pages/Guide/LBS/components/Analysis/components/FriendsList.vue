@@ -70,7 +70,7 @@ export default {
         page: 1,
         total: 0
       },
-      url: this.$api.guide.lbs.activityShopDetail,
+      url: this.$api.guide.lbs.activityShopDetailByFriends,
       // 筛选数据
       model: {
         sortName: '', // 排序字段名称

@@ -80,7 +80,8 @@ export default {
     },
     title: {
       default: '海报'
-    }
+    },
+    activityName: {}
   },
   methods: {
     // 下载
@@ -93,12 +94,13 @@ export default {
       input.setAttribute('type', 'hidden')
       input.setAttribute('name', 'url')
       input.setAttribute('value', url)
+      input.setAttribute('fileName', 'xx')
       form.appendChild(input)
       document.body.appendChild(form)
       form.submit()
     },
     handleDownloadQrcode (url) {
-      location.href = this.qrcodeUrl + '/uploadUrl?fileName=LBS二维码&url=' + encodeURIComponent(url) + '&width=430&height=430'
+      location.href = this.qrcodeUrl + `/uploadUrl?fileName=${this.activityName || ''}二维码&url=${encodeURIComponent(url)}&width=430&height=430`
     },
     handleClose () {
       this.$emit('onClose')

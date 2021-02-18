@@ -154,7 +154,7 @@
       </div>
       <ShopList v-if='drawer' :guid='dialogData.guid' @onNext='getOhter("next",handleShowDetail)' @onPrev='getOhter("prev",handleShowDetail)' />
     </el-drawer>
-    <PreviewPoster :type='dialogData.type' :title='dialogData.type==="qrcode"?"二维码":"海报"' :dialogVisible='dialogVisible' :url='dialogData.placard' :link='dialogData.link' @onClose='dialogVisible = false' appendToBody/>
+    <PreviewPoster :activityName='dialogData.activityName' :type='dialogData.type' :title='dialogData.type==="qrcode"?"二维码":"海报"' :dialogVisible='dialogVisible' :url='dialogData.placard' :link='dialogData.link' @onClose='dialogVisible = false' appendToBody/>
   </div>
 </template>
 <script>

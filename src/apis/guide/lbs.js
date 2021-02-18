@@ -83,7 +83,7 @@ export default {
   },
   // 好友门店下好友列表
   activityShopDetailByFriends: {
-    url: `${friendsPrefix}activityShopDetail`,
+    url: `${friendsPrefix}friendActivityAnalysisDetailsList`,
     method: 'post'
   },
   // 群新增好友列表
