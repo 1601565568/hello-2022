@@ -161,18 +161,16 @@ export default {
       //   return
       // }
       this.activeName = tab
+      this.noMore = true
       this.resetSenderParams()
       this.handlerLoading()
-      clearTimeout(this.tabClickTime)
-      this.tabClickTime = setTimeout(() => {
-        if (tab === '1') {
-          _this.requestExternalUserList()
-        } else if (tab === '2') {
-          _this.requestChatRoomList()
-        } else {
-          _this.requestGuideList()
-        }
-      }, 500)
+      if (tab === '1') {
+        _this.requestExternalUserList()
+      } else if (tab === '2') {
+        _this.requestChatRoomList()
+      } else {
+        _this.requestGuideList()
+      }
     },
     beforeLeave () {
       if (this.senderListLoading || this.senderListLoading || this.weWorkChatDataLoading) {

@@ -63,7 +63,7 @@ export default {
             this.$refs.ruleForm.resetFields()
             this.visible = false
           } else {
-            this.$notify.error('添加关键词格式错误')
+            this.$notify.error('每个关键词不得超过10个字符')
           }
         } else {
           this.$notify.error('请填写关键词！')

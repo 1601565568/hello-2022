@@ -71,7 +71,7 @@ export default {
               return item.length <= 10 && item.length > 0
             })
             if (!checkee) {
-              this.$notify.error('添加关键词格式错误')
+              this.$notify.error('每个关键词不得超过10个字符')
               return false
             }
           }
