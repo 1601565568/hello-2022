@@ -239,7 +239,6 @@ export default {
           params.searchMap.endAddTime = params.searchMap.addTime[1]
         }
         if (this.employees && this.employees.length > 0) {
-          console.log(this.employees)
           params.searchMap.employeeIds = this.employees
           // this.employees.map(item => {
           //   params.searchMap.employeeIds.push(...item)
