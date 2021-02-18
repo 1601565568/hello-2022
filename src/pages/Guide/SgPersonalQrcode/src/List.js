@@ -455,7 +455,7 @@ export default {
     },
     // 活动效果
     onShowEffectAnalysisFun (row) {
-      this.$router.push(`/Guide/SgPersonalQrcode/List/ActivityEffect/${row.guid}`)
+      this.$router.push(`/Guide/SgPersonalQrcode/List/ActivityEffect/${row.guid}/${row.name}`)
     },
     qrcodeLink (row) { // 聚合二维码
       this.row = row
@@ -493,7 +493,7 @@ export default {
       }
     },
     posterLink (dataRow) {
-      this.$refs.PosterDialog.getQrCode(dataRow)
+      this.$refs.PosterDialog.getPosterUrl(dataRow)
     },
     cleanPersonQrcode () {
       this.personalLinkFormVisible = false

@@ -53,9 +53,9 @@ export default {
           this.onShowEffectAnalysisFun(scope.row)
         },
         'icon': '',
-        'name': '效果分析',
+        'name': '活动效果',
         'auth': ``,
-        'visible': `scope.row.status !== 2`
+        'visible': `scope.row.type === 0`
       },
       {
         'func': function (scope) {
@@ -142,6 +142,10 @@ export default {
         {
           value: '2',
           label: '扫描次数'
+        },
+        {
+          value: '3',
+          label: '引流好友数'
         }
       ],
       sortTypeOptions: [
@@ -169,11 +173,22 @@ export default {
     this.$http.fetch(this.$api.guide.sgPersonalQrcode.queryCreatorList).then(data => {
       this.creatorList = data.result
     })
-
-    window.console.log('聚合二维码列表', this._data)
   },
   computed: {},
   methods: {
+    // 邀请好友数排序
+    orderByInviteFriendNum (data) {
+      this.model.type = '3'
+      if (data.order === 'ascending') {
+        this.model.sortType = '2'
+      } else if (data.order === 'descending') {
+        this.model.sortType = '1'
+      } else {
+        this.model.type = '1'
+        this.model.sortType = '1'
+      }
+      this.$searchAction$()
+    },
     shopDel (index) {
       this.guideShopList.splice(index, 1)
     },

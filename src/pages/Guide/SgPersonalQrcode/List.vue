@@ -18,7 +18,7 @@
     <!-- 聚合二维码展示结束 -->
 
     <!-- 海报Dialog展示开始 -->
-    <PosterDialog ref="PosterDialog" />
+    <PosterDialog ref="PosterDialog"/>
     <!-- 海报Dialog展示结束 -->
 
     <!--聚合二维码展示开始-->

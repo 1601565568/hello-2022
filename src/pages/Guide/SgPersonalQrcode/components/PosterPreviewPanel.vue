@@ -2,18 +2,15 @@
   <div class="poster-preview-container">
     <h3>效果展示</h3>
     <div class="mobile-panel">
-      <div class="poster-content" :style='{backgroundImage:"url("+posterImage+")"}'>
-        <!-- <div class="poster-qrcode">
-          <img src="./images/qrcode.png" alt="">
-        </div> -->
-         <!-- :isActive="!isStating"
-          :isDraggable='!isStating'
-          :isResizable='!isStating' -->
+      <div class="poster-content" :style='{backgroundImage:"url("+posterBackgroundUrl+")"}'>
+         <!-- :isActive="isStating"
+          :isDraggable='isStating'
+          :isResizable='isStating' -->
         <VueDragResize
-          :w="width"
-          :h="height"
-          :x="x"
-          :y="y"
+          :w="qrcodeSize || size"
+          :h="qrcodeSize || size"
+          :x="qrcodeX || x"
+          :y="qrcodeY || y"
           :parentLimitation="true"
           :aspectRatio="true"
           @dragstop="onDragResize"
@@ -34,18 +31,29 @@ export default {
   components: {
     VueDragResize
   },
-  props: [ 'posterImage' ],
+  props: [ 'posterBackgroundUrl', 'qrcodeSize', 'qrcodeX', 'qrcodeY' ],
+  computed: {
+    isStating () {
+      if (this.posterBackgroundUrl) {
+        return true
+      }
+      return false
+    }
+  },
   data () {
     return {
-      width: 172,
-      height: 172,
+      size: 172,
       x: 67,
       y: 349
     }
   },
   methods: {
-    onDragResize () {
-      window.console.log('onDragResize')
+    onDragResize (info) {
+      this.$emit('posterQrcode', {
+        size: info.width,
+        x: info.left,
+        y: info.top
+      })
     }
   }
 }
@@ -65,6 +73,7 @@ export default {
     width: 350px;
     height: 660px;
     background: url('./images/iphone7.png') no-repeat;
+    background-size: cover;
     margin: 49px auto 65px;
     overflow: hidden;
     .poster-content {

@@ -73,6 +73,13 @@ export default {
   // 聚合二维码下载统计信息EXCEL
   exportEffectByExcel: {
     url: '/Guide/PersonalQrcode/exportEffectByExcel',
-    method: 'post'
+    method: 'post',
+    responseType: 'blob',
+    timeout: 600000
+  },
+  // 查询企业微信标签列表
+  findWeWorkTagList: {
+    url: 'wework/weworktag/findWeWorkTagList',
+    method: 'get'
   }
 }

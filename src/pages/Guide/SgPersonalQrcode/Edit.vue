@@ -121,15 +121,21 @@
                 </el-form-item>
               </el-form-grid>
             </el-form-item>
-            <el-form-item label="打标签：">
+            <el-form-item label="打标签：" v-if="memberManagePlan == 1 && personalQrcode.type == 0">
               <el-form-grid>
                 <ns-button type='text' @click="switchTagDialog(true)">+ 选择标签</ns-button>
               </el-form-grid>
-              <el-form-grid>
-                已选择<span class="text-primary">999</span>个标签
+              <el-form-grid v-if="personalQrcode.tagList">
+                已选择<span class="text-primary">{{personalQrcode.tagList.split(',').length}}</span>个标签
+              </el-form-grid>
+              <el-form-grid v-else-if="personalQrcode.tag_list">
+                已选择<span class="text-primary">{{personalQrcode.tag_list.split(',').length}}</span>个标签
+              </el-form-grid>
+              <el-form-grid v-else>
+                未选择标签
               </el-form-grid>
             </el-form-item>
-            <el-form-item label="海报">
+            <el-form-item label="海报" v-if="memberManagePlan == 1 && personalQrcode.type == 0">
               <div class="poster-content">
                 <el-upload
                   size="xlg"
@@ -157,7 +163,13 @@
     </el-col>
       <!-- 效果展示开始 -->
       <el-col :span="8" class="qrcode-content_show">
-        <PosterPreviewPanel :posterImage="posterImage"/>
+        <PosterPreviewPanel
+          :posterBackgroundUrl="personalQrcode.posterBackgroundUrl || personalQrcode.poster_background_url"
+          :qrcodeX="personalQrcode.qrcodeX || personalQrcode.qrcode_x"
+          :qrcodeY="personalQrcode.qrcodeY || personalQrcode.qrcode_y"
+          :qrcodeSize="personalQrcode.qrcodeSize || personalQrcode.qrcode_size"
+          @posterQrcode="getPosterQrcodeInfo"
+        />
       </el-col>
       <!-- 效果展示结束 -->
     </el-row>
@@ -221,7 +233,12 @@
     <!--选择好友弹窗结束-->
 
     <!-- 打标签弹窗开始 -->
-    <AddTagsDialog :visible="addTagDialogVisible" @hide="switchTagDialog(false)"/>
+    <AddTagsDialog
+      :visible="addTagDialogVisible"
+      :selectedTags="personalQrcode.tagList || personalQrcode.tag_list"
+      @hide="switchTagDialog(false)"
+      @confirm="selectedTags"
+    />
     <!-- 打标签弹窗结束 -->
     </div>
     <div class="form-save__unique">

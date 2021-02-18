@@ -68,7 +68,12 @@ export default {
         isvalidate: 1,
         keyword: null,
         channel_code: null,
-        child_qrcodes: []
+        child_qrcodes: [],
+        posterBackgroundUrl: '',
+        qrcodeSize: 172,
+        qrcodeX: 67,
+        qrcodeY: 349,
+        tagList: ''
       },
       title: null,
       parameter: {
@@ -105,9 +110,7 @@ export default {
         userName: null,
         userId: null
       }],
-      addTagDialogVisible: false, // 是否显示打标签dialog
-      posterImage: '', // 海报背景图
-      uploadPosterList: [] // 上传的海报列表
+      addTagDialogVisible: false // 是否显示打标签dialog
     }
   },
   mounted: function () {
@@ -135,6 +138,7 @@ export default {
       this.$http.fetch(this.$api.guide.sgPersonalQrcode.findById, {
         id: id
       }).then(data => {
+        window.console.log('编辑聚合二维码', data)
         if (data.result.type === 0) {
           let personnelIds = data.result.personnelIds.split(',')
           for (let i = 0; i < personnelIds.length; i++) {
@@ -157,6 +161,18 @@ export default {
     }
   },
   methods: {
+    getPosterQrcodeInfo (info) { // 海报信息
+      this.personalQrcode.qrcodeSize = info.size
+      this.personalQrcode.qrcodeX = info.x
+      this.personalQrcode.qrcodeY = info.y
+
+      if (this.personalQrcode.poster_background_url) {
+        this.personalQrcode.posterBackgroundUrl = this.personalQrcode.poster_background_url
+      }
+    },
+    selectedTags (tagList) { // 打标签已选标签
+      this.personalQrcode = { ...this.personalQrcode, tagList }
+    },
     sgUploadFile (name) {
       return this.$api.core.sgUploadFile('test')
     },
@@ -452,13 +468,11 @@ export default {
       this.addTagDialogVisible = state
     },
     uploadPosterSuccess (uploadRes) { // 上传海报成功回调
-      window.console.log('上传海报结果', uploadRes, this.uploadPosterList)
       const { success, result } = uploadRes
 
       if (success) {
         // 展示背景图
-        this.posterImage = result.url
-        // this.$message.success('上传成功')
+        this.personalQrcode = { ...this.personalQrcode, posterBackgroundUrl: result.url }
       } else {
         this.$message.error('上传失败')
       }
@@ -471,7 +485,7 @@ export default {
     uploadPosterBefore (file) { // 上传海报前回调
       const isPngOrJpg = file.type === 'image/jpg' || file.type === 'image/png' || file.type === 'image/jpeg'
       const isLt10M = file.size / 1024 / 1024 < 10
-      window.console.log(file.type, file.size / 1024 / 1024)
+
       if (!isPngOrJpg || !isLt10M) {
         this.$message.error('请上传jpg或png图片，大小不超过10M')
         return false
@@ -480,8 +494,7 @@ export default {
       return true
     },
     uploadPosterRemove (file, fileList) {
-      window.console.log('哈哈哈', file, fileList)
-      this.posterImage = ''
+      this.personalQrcode.posterBackgroundUrl = ''
     }
   },
   watch: {

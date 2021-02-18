@@ -1,7 +1,7 @@
 <template>
-  <el-dialog title="选择标签" width="758px" :visible="visible" @close="$emit('hide')">
+  <el-dialog title="选择标签" width="758px" :visible="visible" @close="cancel">
     <el-form class="add-tags" label-width="100px" label-position="left">
-      <el-form-item label="运营视角" required>
+      <!-- <el-form-item label="运营视角" required>
         <el-select v-model="selectedValue" filterable placeholder="请选择">
           <el-option
             v-for="item in operateViewList"
@@ -10,40 +10,39 @@
             :value="item.id"
           ></el-option>
         </el-select>
-      </el-form-item>
+      </el-form-item> -->
       <el-form-item label="选择标签">
         <el-form-grid class="checkboxs-tags">
-          <el-form-item label="消费行为" label-width="60px">
+          <el-form-item
+            label-width="60px"
+            v-for="tagGroupItem in tagList"
+            :key="tagGroupItem.tagGroupId"
+            :label="tagGroupItem.tagGroupName"
+          >
+            <el-checkbox-group v-model="checkList">
+              <el-checkbox
+                v-for="tagValueItem in tagGroupItem.tagValueList"
+                :key="tagValueItem.tagId"
+                :label="tagValueItem.tagId"
+              >
+                {{tagValueItem.tagName}}
+              </el-checkbox>
+            </el-checkbox-group>
+          </el-form-item>
+          <!-- <el-form-item label="消费行为" label-width="60px">
             <el-checkbox-group v-model="checkList">
               <el-checkbox label="复选框 A"></el-checkbox>
               <el-checkbox label="复选框 B"></el-checkbox>
               <el-checkbox label="复选框 C"></el-checkbox>
-              <el-checkbox label="复选框 C"></el-checkbox>
-              <el-checkbox label="复选框 C"></el-checkbox>
-              <el-checkbox label="复选框 C"></el-checkbox>
-              <el-checkbox label="复选框 C"></el-checkbox>
-              <el-checkbox label="复选框 C"></el-checkbox>
             </el-checkbox-group>
-          </el-form-item>
-          <el-form-item label="消费行为" label-width="60px">
-            <el-checkbox-group v-model="checkList">
-              <el-checkbox label="复选框 A"></el-checkbox>
-              <el-checkbox label="复选框 B"></el-checkbox>
-              <el-checkbox label="复选框 C"></el-checkbox>
-              <el-checkbox label="复选框 C"></el-checkbox>
-              <el-checkbox label="复选框 C"></el-checkbox>
-              <el-checkbox label="复选框 C"></el-checkbox>
-              <el-checkbox label="复选框 C"></el-checkbox>
-              <el-checkbox label="复选框 C"></el-checkbox>
-            </el-checkbox-group>
-          </el-form-item>
+          </el-form-item> -->
         </el-form-grid>
       </el-form-item>
     </el-form>
     <!-- footer -->
     <span slot="footer" class="dialog-footer">
-      <ns-button @click="$emit('hide')">取 消</ns-button>
-      <ns-button type="primary" @click="chooseTags">确 定</ns-button>
+      <ns-button @click="cancel">取 消</ns-button>
+      <ns-button type="primary" @click="confirm">确 定</ns-button>
     </span>
   </el-dialog>
 </template>
@@ -54,26 +53,49 @@
  */
 export default {
   name: 'AddTags',
-  props: [ 'visible' ],
+  props: [ 'visible', 'selectedTags' ],
   data () {
     return {
-      selectedValue: '',
-      operateViewList: [
-        {
-          id: 1,
-          name: '吃饭'
-        },
-        {
-          id: 2,
-          name: '睡觉'
+      checkList: [],
+      tagList: []
+    }
+  },
+  watch: {
+    visible (val) {
+      if (val) {
+        if (this.selectedTags && typeof this.selectedTags === 'string') {
+          this.checkList = this.selectedTags.split(',')
         }
-      ],
-      checkList: []
+      }
+    }
+  },
+  async created () {
+    await this.getWeWorkTagList()
+
+    if (this.selectedTags && typeof this.selectedTags === 'string') {
+      this.checkList = this.selectedTags.split(',')
     }
   },
   methods: {
-    chooseTags () {
-      window.console.log('打标签')
+    async getWeWorkTagList () {
+      try {
+        const res = await this.$http.fetch(this.$api.guide.sgPersonalQrcode.findWeWorkTagList)
+        if (res.success) {
+          this.tagList = res.result
+        } else {
+          this.$notify.error('获取企微标签失败')
+        }
+      } catch (error) {
+        this.$notify.error('获取企微标签失败')
+      }
+    },
+    confirm () {
+      this.$emit('confirm', this.checkList.join(','))
+      this.$emit('hide')
+    },
+    cancel () {
+      this.checkList = []
+      this.$emit('hide')
     }
   }
 }

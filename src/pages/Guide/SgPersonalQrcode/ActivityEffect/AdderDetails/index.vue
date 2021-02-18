@@ -25,6 +25,7 @@
         row-class-name="employee-table_row"
         header-cell-class-name="employee-talbe-header-cell"
         :data="_data._table.data"
+        @sort-change="sortChange"
       >
         <el-table-column
           prop="friendAvatar"
@@ -48,7 +49,7 @@
         <el-table-column
           prop="createTime"
           label="添加时间"
-          sortable>
+          sortable="custom">
         </el-table-column>
       </el-table>
     </div>
@@ -100,6 +101,16 @@ export default {
     searchform () {
       this.$searchAction$()
     },
+    sortChange (data) {
+      if (data.order === 'ascending') {
+        this.model.createTimeOrderStr = 'asc'
+      } else if (data.order === 'descending') {
+        this.model.createTimeOrderStr = 'desc'
+      } else {
+        this.model.createTimeOrderStr = 'asc'
+      }
+      this.searchform()
+    },
     checkTableDataExists () {
       if (!this._data || !this._data._table || !this._data._table.data || this._data._table.data.length < 1) {
         this.$notify.error('当前没有匹配的数据项')
@@ -117,10 +128,8 @@ export default {
       this.$notify.info('导出中，请稍后片刻')
       this.$http.fetch(this.$api.guide.sgPersonalQrcode.exportEffectByExcel, param)
         .then((resp) => {
-          window.console.log('这个是什么1', resp)
           this.$notify.success('下载完成')
         }).catch((resp) => {
-          window.console.log('这个是什么2', resp)
           if (!resp.size === 0) {
             this.$notify.error('导出报错，请联系管理员')
           } else {
@@ -128,7 +137,7 @@ export default {
             let link = document.createElement('a')
             link.style.display = 'none'
             link.href = url
-            const fileName = '添加明细.CSV'
+            const fileName = `${this.$route.params.name || ''}-好友添加明细.CSV`
             link.setAttribute('download', fileName)
             document.body.appendChild(link)
             link.click()

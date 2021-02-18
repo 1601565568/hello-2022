@@ -5,9 +5,24 @@
         <h3>数据统计</h3>
       </div>
       <div class="data-statistics-content">
-        <DataCard title="参与员工总数" tip="提示啊" :count="dataStatistics.employeeSum" color="linear-gradient(269deg, #4EB3FC 0%, #0091FA 100%)"/>
-        <DataCard title="当前好友总数" tip="提示啊" :count="dataStatistics.inviteFriendSum" color="linear-gradient(270deg, #A0E35E 0%, #67C230 100%)"/>
-        <DataCard title="新增好友总数" tip="提示啊" :count="dataStatistics.inviteFriendSumByDate" color="linear-gradient(270deg, #F7BD5B 0%, #F49F10 100%)"/>
+        <DataCard
+          title="参与员工总数"
+          tip="此聚合码的所有员工"
+          :count="dataStatistics.employeeSum"
+          color="linear-gradient(269deg, #4EB3FC 0%, #0091FA 100%)"
+        />
+        <DataCard
+          title="当前好友总数"
+          tip="通过扫此聚合码添加好友总数"
+          :count="dataStatistics.inviteFriendSum"
+          color="linear-gradient(270deg, #A0E35E 0%, #67C230 100%)"
+        />
+        <DataCard
+          title="新增好友总数"
+          tip="筛选期间内，通过扫此聚合码添加好友总数"
+          :count="dataStatistics.inviteFriendSumByDate"
+          color="linear-gradient(270deg, #F7BD5B 0%, #F49F10 100%)"
+        />
       </div>
     </div>
     <div class="employee-details">
@@ -39,6 +54,7 @@
           row-class-name="employee-table_row"
           header-cell-class-name="employee-talbe-header-cell"
           :data="_data._table.data"
+          @sort-change="sortChange"
         >
           <el-table-column
             prop="employeeName"
@@ -74,7 +90,7 @@
           <el-table-column
             prop="inviteFriendCount"
             label="添加好友数"
-            sortable>
+            sortable="custom">
             <template slot-scope="scope">
               <span class="scope-name_tip">{{scope.row.inviteFriendCount}}</span>
             </template>
@@ -161,13 +177,23 @@ export default {
         startTime: this.model.startTime,
         endTime: this.model.endTime
       })
-      window.console.log('哈哈哈啊哈', res)
+      // window.console.log('获取数据统计结果', res)
       if (res.success) {
         this.dataStatistics = res.result
         this.test = res.result.inviteFriendSumByDate
       } else {
         this.$notify.error('获取数据统计失败')
       }
+    },
+    sortChange (data) {
+      if (data.order === 'ascending') {
+        this.model.friendOrder = 'asc'
+      } else if (data.order === 'descending') {
+        this.model.friendOrder = 'desc'
+      } else {
+        this.model.friendOrder = 'asc'
+      }
+      this.searchform()
     },
     checkTableDataExists () {
       if (!this._data || !this._data._table || !this._data._table.data || this._data._table.data.length < 1) {
@@ -186,10 +212,8 @@ export default {
       this.$notify.info('导出中，请稍后片刻')
       this.$http.fetch(this.$api.guide.sgPersonalQrcode.exportEffectByExcel, param)
         .then((resp) => {
-          window.console.log('这个是什么1', resp)
           this.$notify.success('下载完成')
         }).catch((resp) => {
-          window.console.log('这个是什么2', resp)
           if (!resp.size === 0) {
             this.$notify.error('导出报错，请联系管理员')
           } else {
@@ -197,7 +221,7 @@ export default {
             let link = document.createElement('a')
             link.style.display = 'none'
             link.href = url
-            const fileName = '员工明细.CSV'
+            const fileName = `${this.$route.params.name || ''}-添加导购统计.CSV`
             link.setAttribute('download', fileName)
             document.body.appendChild(link)
             link.click()

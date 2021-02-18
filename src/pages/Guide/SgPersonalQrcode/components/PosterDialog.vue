@@ -4,17 +4,21 @@
       <div class="poster-content-item">
         <span>
         链接
-        <!-- <el-tooltip class="item" content="我是疑问" placement="top">
+        <el-tooltip class="item" content="因企业微信生成联系我二维码数量限制，请合理设置过期时间" placement="top">
           <Icon type="question-circle"></Icon>
-        </el-tooltip> -->
+        </el-tooltip>
         </span>
-        <el-input class="link-input" autofocus=true placeholder="" v-model="linkUrl"></el-input>
-        <ns-button type='text' size="medium"  class="copy-button" data-clipboard-text="你好" @click="copyLink(linkUrl)">复制</ns-button>
+        <span class="noposter-tip" v-if="!linkUrl">请至编辑页上传海报</span>
+        <div v-else>
+          <el-input class="link-input" autofocus=true placeholder="" :value="linkUrl" readonly></el-input>
+          <ns-button type='text' size="medium"  class="copy-button" data-clipboard-text="你好" @click="copyLink(linkUrl)">复制</ns-button>
+        </div>
       </div>
       <div class="poster-content-item">
         <span class="poster-title">海报图</span>
-        <img src="https://wework.qpic.cn/wwpic/953817_-QCMxs-HSaGIDz__1612251504/0" alt="">
-        <ns-button class="download-button"  size="medium"><Icon type="xiazai"/>下载</ns-button>
+        <span class="noposter-tip" v-show="!linkUrl">请至编辑页上传海报</span>
+        <img v-show="linkUrl" :src="linkUrl" alt="">
+        <ns-button v-show="linkUrl" class="download-button"  size="medium" @click="downloadPoster"><Icon type="xiazai"/>下载</ns-button>
       </div>
     </div>
     <span slot="footer" class="dialog-footer">
@@ -38,10 +42,23 @@ export default {
       linkUrl: ''
     }
   },
+  computed: {
+    downloadUrl () {
+      return `${api.API_ROOT}/upload/uploadImg?fileName=海报&imgUrl=${this.linkUrl}&width=750&height=1344`
+    }
+  },
+  watch: {
+    visible (val) {
+      if (val === false && this.linkUrl) {
+        this.linkUrl = ''
+      }
+    }
+  },
   methods: {
-    getQrCode (dataRow) {
-      // window.console.log('海报数据', dataRow)
+    getPosterUrl (dataRow) {
+      window.console.log('海报数据', dataRow)
       this.visible = true
+      this.linkUrl = dataRow.posterBackgroundQrcodeUrl
     },
     copyLink (msg) {
       let oInput = document.createElement('input')
@@ -55,6 +72,12 @@ export default {
         type: 'success'
       })
       oInput.remove()
+    },
+    downloadPoster () {
+      window.console.log(api.API_ROOT)
+      const imageDom = document.createElement('a')
+      imageDom.href = this.downloadUrl
+      imageDom.click()
     }
   }
 }
@@ -68,7 +91,7 @@ export default {
     margin-top: 24px;
     span {
       display: inline-block;
-      width: 42px;
+      width: 47px;
       margin-left: 6px;
       margin-right: 18px;
       font-size: 14px;
@@ -78,6 +101,11 @@ export default {
     span.poster-title {
       padding-top: 5px;
       align-self: flex-start;
+    }
+
+    span.noposter-tip {
+      width: 200px;
+      color: #8C8C8C;
     }
 
     .link-input {
