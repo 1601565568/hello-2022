@@ -35,7 +35,7 @@
             话题列表
             <img class="add" :src="nsAddBorder" @click="addKeyWordTopic" />
           </div>
-          <div @click="handlerUnfoldAndStow">
+          <div @click="handlerUnfoldAndStow" style="cursor: pointer;">
             <img v-if="unfoldAndStow" :src="packup" />
             <img v-if="!unfoldAndStow" :src="unfold" />
           </div>
@@ -235,6 +235,7 @@ export default Index
     width: 18px;
     height: 18px;
     margin-left: 8px;
+      cursor: pointer;
   }
 }
 .loadMoreWrapper {
@@ -250,16 +251,18 @@ export default Index
 }
 .user_list {
   // margin-top: 16px;
+
   overflow: auto;
   scrollbar-width: none;
   list-style: none;
   padding: 0px;
+    padding: 0 16px;
   li {
     position: relative;
     display: flex;
     align-items: center;
     height: 48px;
-    padding: 0px 16px;
+    padding: 0px 8px;
     border-radius: 2px;
     user-select: none;
     font-size: 14px;
@@ -276,13 +279,14 @@ export default Index
     .del {
       display: none;
       position: absolute;
-      right: 16px;
+      right: 8px;
       top: 50%;
       transform: translate(-50%, -50%);
     }
     &:hover {
       background: #f5f5f5;
       .del {
+        cursor: pointer;
         display: block;
       }
     }
@@ -340,7 +344,7 @@ export default Index
     .del {
       display: none;
       position: absolute;
-      right: 16px;
+      right: 10px;
       top: 50%;
       transform: translate(-50%, -50%);
     }
@@ -348,6 +352,7 @@ export default Index
       background: #d9effe;
 
       .del {
+        cursor: pointer;
         display: block;
       }
     }

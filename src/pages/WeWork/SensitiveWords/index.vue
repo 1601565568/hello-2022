@@ -271,13 +271,14 @@ export default Index
     .del {
       display: none;
       position: absolute;
-      right: 16px;
+      right: 12px;
       top: 50%;
       transform: translate(-50%, -50%);
     }
     &:hover {
       background: #d9effe;
       .del {
+        cursor: pointer;
         display: block;
       }
     }
