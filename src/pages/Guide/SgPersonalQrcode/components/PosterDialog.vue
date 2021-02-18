@@ -56,7 +56,6 @@ export default {
   },
   methods: {
     getPosterUrl (dataRow) {
-      window.console.log('海报数据', dataRow)
       this.visible = true
       this.linkUrl = dataRow.posterBackgroundQrcodeUrl
     },

@@ -7,7 +7,7 @@
           :action="uploadUrl"
           :data="{ guid: guid }"
           :show-file-list="false"
-          accept=".jpg,.png"
+          accept=".jpg,.png,.jpeg"
           :on-success="changeQrcodeAvatarSuccess"
           :on-error="changeQrcodeAvatarError"
           :before-upload="changeQrcodeAvatarBefore"
@@ -56,6 +56,8 @@ export default {
       if (success) {
         this.successUrl = result
         this.$message.success(msg || '上传成功')
+
+        this.$emit('uploadSuccess')
       } else {
         this.$message.error('上传失败')
       }

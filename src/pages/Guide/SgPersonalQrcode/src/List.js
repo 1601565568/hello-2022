@@ -230,6 +230,10 @@ export default {
     })
   },
   methods: {
+    test666 () {
+      window.console.log('hahahahahaah')
+      this.$refs.mainTable.searchAction()
+    },
     // 上传图片地址的切换事件
     'handleAvatarSuccess': function (res, file) {
       this.$message.info('上传成功')

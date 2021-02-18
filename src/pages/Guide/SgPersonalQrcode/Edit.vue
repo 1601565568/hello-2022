@@ -164,10 +164,10 @@
       <!-- 效果展示开始 -->
       <el-col :span="8" class="qrcode-content_show">
         <PosterPreviewPanel
-          :posterBackgroundUrl="personalQrcode.posterBackgroundUrl || personalQrcode.poster_background_url"
-          :qrcodeX="personalQrcode.qrcodeX || personalQrcode.qrcode_x"
-          :qrcodeY="personalQrcode.qrcodeY || personalQrcode.qrcode_y"
-          :qrcodeSize="personalQrcode.qrcodeSize || personalQrcode.qrcode_size"
+          :posterBackgroundUrl="personalQrcode.posterBackgroundUrl"
+          :qrcodeX="personalQrcode.qrcodeX"
+          :qrcodeY="personalQrcode.qrcodeY"
+          :qrcodeSize="personalQrcode.qrcodeSize"
           @posterQrcode="getPosterQrcodeInfo"
         />
       </el-col>

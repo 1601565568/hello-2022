@@ -176,6 +176,9 @@ export default {
   },
   computed: {},
   methods: {
+    searchAction () {
+      this.$queryList$(this.$generateParams$())
+    },
     // 邀请好友数排序
     orderByInviteFriendNum (data) {
       this.model.type = '3'

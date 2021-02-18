@@ -147,7 +147,14 @@ export default {
           }
         }
         this.initType = data.result.type
-        this.personalQrcode = data.result
+        this.personalQrcode = {
+          ...data.result,
+          posterBackgroundUrl: data.result.poster_background_url || '',
+          qrcodeSize: data.result.qrcode_size || 172,
+          qrcodeX: data.result.qrcode_x || 67,
+          qrcodeY: data.result.qrcode_y || 349
+        }
+
         this.tableData = JSON.parse(data.result.child_qrcodes)
         this.addTableData = JSON.parse(data.result.child_qrcodes)
       }).catch((error) => {
@@ -165,10 +172,6 @@ export default {
       this.personalQrcode.qrcodeSize = info.size
       this.personalQrcode.qrcodeX = info.x
       this.personalQrcode.qrcodeY = info.y
-
-      if (this.personalQrcode.poster_background_url) {
-        this.personalQrcode.posterBackgroundUrl = this.personalQrcode.poster_background_url
-      }
     },
     selectedTags (tagList) { // 打标签已选标签
       this.personalQrcode = { ...this.personalQrcode, tagList }
@@ -494,7 +497,7 @@ export default {
       return true
     },
     uploadPosterRemove (file, fileList) {
-      this.personalQrcode.posterBackgroundUrl = ''
+      this.personalQrcode.posterBackgroundUrl = this.personalQrcode.poster_background_url || ''
     }
   },
   watch: {

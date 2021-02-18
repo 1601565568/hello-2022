@@ -6,6 +6,7 @@
       :qrcodeUrl="qrcodeUrl"
       :guid="guid"
       v-if="qrcodeType === 'default'"
+      @uploadSuccess="$emit('uploadAvatarSuccess')"
     />
     <span slot="footer" class="dialog-footer">
       <ns-button size="mideum" type="primary" @click="visible = false">确 定</ns-button>
@@ -38,7 +39,6 @@ export default {
   },
   methods: {
     getQrCode (dataRow) {
-      window.console.log('这一行是什么', dataRow, this.$api.core.sgUploadFile('video'), this.$api.guide.sgPersonalQrcode.uplaodWatermarkImage)
       if (this.memberManagePlan === 1 && dataRow.type === 0) {
         if (!dataRow.qrcode_url) {
           this.qrcodeUrl = defaultBgImg
