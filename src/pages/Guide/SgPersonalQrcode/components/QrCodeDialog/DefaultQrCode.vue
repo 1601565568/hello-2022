@@ -64,6 +64,7 @@ export default {
     },
     changeQrcodeAvatarError (errRes) {
       this.$message.error('上传失败')
+      this.changeAvatarLoading = false
     },
     changeQrcodeAvatarBefore (file) {
       this.changeAvatarLoading = true
@@ -72,6 +73,7 @@ export default {
       const isLt100K = file.size / 1024 < 100
       if (!isPngOrJpg || !isLt100K) {
         this.$message.error('请上传jpg或png图片，大小不超过100kb')
+        this.changeAvatarLoading = false
         return false
       }
 
