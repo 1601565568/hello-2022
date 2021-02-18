@@ -87,13 +87,7 @@ export default {
           'path': '/Guide/Customer/CustomerManage',
           'name': 'CustomerList',
           'title': '客户列表',
-          'component': () => import('@/pages/WeWork/RepeatCustomer/List.vue')
-        },
-        {
-          'path': '/Guide/Customer/CustomerManage',
-          'name': 'CustomerList',
-          'title': '重复好友',
-          'component': () => import('@/pages/WeWork/RepeatCustomer/List.vue')
+          'component': () => import('@/pages/Guide/Customer/CustomerManage.vue')
         },
         {
           'path': '/Guide/Customer/FriendManage',
