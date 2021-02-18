@@ -17,14 +17,14 @@
             <el-form-item label='活动名称' required prop='name' class='larger-item'>
               <length-input v-model='model.name' placeholder="请输入活动名称，长度20个字符以内" :length='20'/>
             </el-form-item>
-            <el-form-item label='参与门店' prop='shopList'>
+            <el-form-item label='参与门店' prop='shopIdList'>
               <div class='flex-box form-item_toptext'>
                 <span>会根据客户位置信息，自动推荐最近门店群聚合码</span>
               </div>
               <html-area>
                 <div class='employee-list'>
-                  <div v-if='model.shopList.length>0' class='employee-text active'>
-                   已选{{model.shopList.length}}个门店
+                  <div v-if='model.shopIdList.length>0' class='employee-text active'>
+                   已选{{model.shopIdList.length}}个门店
                   </div>
                   <template v-else>
                     <p class='employee-text'>请选择参与活动的门店</p>
@@ -32,7 +32,7 @@
                 </div>
                 <template slot='suffix'>
                   <div class='employee-suffix'>
-                    <NsShopDialog :selfBtn='true' :appendToBody='true' :isButton="false" :validNull="true" :auth="false"   btnTitle="" type='icon' dialogTitle="选择门店" v-model="model.shopList" @input="handleChangeShopList">
+                    <NsShopDialog :selfBtn='true' :appendToBody='true' :isButton="false" :validNull="true" :auth="false"   btnTitle="" type='icon' dialogTitle="选择门店" v-model="model.shopIdList" @input="handleChangeShopList">
                        <template slot='btnIcon'>
                         <Icon type="shop" class='shop-icon'></Icon>
                       </template>

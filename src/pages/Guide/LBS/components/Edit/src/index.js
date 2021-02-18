@@ -26,7 +26,7 @@ export default {
         id: null,
         guid: null,
         name: '', // 活动名称
-        shopList: [], // 选择门店
+        shopIdList: [], // 选择门店
         time: [], // 时间
         timeType: 1, // 是否永久
         activityPoster: '', // 活动海报
@@ -49,7 +49,7 @@ export default {
           { required: true, message: '请输入活动名称', trigger: ['blur', 'change'] },
           { min: 1, max: 20, message: '长度在1-20个字符', trigger: ['blur', 'change'] }
         ],
-        shopList: [
+        shopIdList: [
           { required: true, message: '请选择参加门店', trigger: ['blur', 'change'] }
         ],
         time: [
@@ -133,7 +133,7 @@ export default {
       const { id, guid } = this.$route.query
       const baseData = {
         name: result.name, // 活动名称
-        shopList: result.shopList, // 选择门店
+        shopIdList: result.shopIdList, // 选择门店
         timeType: result.timeType, // 是否永久
         activityPoster: result.activityPoster, // 活动海报
         activityPositionX: result.activityPositionX, // 活动海报二维码定位x
@@ -174,8 +174,8 @@ export default {
       this.$router.go(-1)
     },
     handleChangeShopList (value) {
-      this.model.shopList = value
-      this.$refs.ruleForm && this.$refs.ruleForm.validateField('shopList')
+      this.model.shopIdList = value
+      this.$refs.ruleForm && this.$refs.ruleForm.validateField('shopIdList')
     },
     // 修改海报二维码位置
     onDragPosterResize (params) {

@@ -11,7 +11,7 @@ export default {
       },
       // 筛选数据
       model: {
-        shopIds: [],
+        shopIdList: [],
         name: '',
         state: null
       },
@@ -122,7 +122,7 @@ export default {
     },
     // 选择门店
     handleChangeShop (value) {
-      this.changeSearchfrom({ shopIds: value })
+      this.changeSearchfrom({ shopIdList: value })
     },
     handleSearch () {
       this.changeSearchfrom({ name: this.seachVal })
