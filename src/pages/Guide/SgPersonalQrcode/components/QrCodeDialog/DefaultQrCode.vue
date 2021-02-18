@@ -38,6 +38,13 @@ export default {
     ElUpload
   },
   props: [ 'visible', 'baseUrl', 'qrcodeUrl', 'guid', 'uploadUrl' ],
+  watch: {
+    visible (newVal, oldVal) {
+      if (newVal !== oldVal) {
+        this.successUrl = ''
+      }
+    }
+  },
   data () {
     return {
       changeAvatarLoading: false,
