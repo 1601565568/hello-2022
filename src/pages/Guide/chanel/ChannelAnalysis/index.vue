@@ -42,14 +42,15 @@
           class="table-form_reset"
           row-class-name="employee-table_row"
           header-cell-class-name="employee-talbe-header-cell"
-          :data="tableData"
+          :data="_data._table.data"
+          @sort-change="$orderChange$"
         >
-          <el-table-column prop="name" label="渠道名称"></el-table-column>
-          <el-table-column prop="totalAddCount" label="总添加人数" sortable></el-table-column>
-          <el-table-column prop="addCount" label="添加人数" sortable></el-table-column>
-          <el-table-column prop="delCount" label="删除人数" width="316" sortable>
+          <el-table-column prop="channelName" label="渠道名称"></el-table-column>
+          <el-table-column prop="addTotalCount" label="总添加人数" sortable="addTotalCount"></el-table-column>
+          <el-table-column prop="addCount" label="添加人数" sortable="addCount"></el-table-column>
+          <el-table-column prop="deleteCount" label="删除人数" sortable="deleteCount">
           </el-table-column>
-          <el-table-column prop="deletedCount" label="被删除人数" sortable>
+          <el-table-column prop="beDeletedCount" label="被删除人数" sortable="beDeletedCount">
           </el-table-column>
           <el-table-column prop="count" label="操作">
             <template>
@@ -59,11 +60,12 @@
         </el-table>
       </div>
       <el-pagination
+        v-if="_data._pagination.enable"
         class="template-table__pagination"
-        :page-sizes="[15, 25, 50, 100]"
-        :total="100"
-        :current-page="1"
-        :page-size="20"
+        :page-sizes="_data._pagination.sizeOpts"
+        :total="_data._pagination.total"
+        :current-page="_data._pagination.page"
+        :page-size="_data._pagination.size"
         :background="true"
         layout="total, sizes, prev, pager, next, jumper"
         @size-change="$sizeChange$"
@@ -109,10 +111,21 @@ export default {
           delCount: 25,
           deletedCount: 21
         }
-      ]
+      ],
+      url: this.$api.guide.channel.findChannelAnalysisList,
+      model: {
+        searchValue: ''
+      }
     }
   },
+  mounted () {
+    this.searchform()
+    window.console.log('渠道统计列表', this._data)
+  },
   methods: {
+    searchform () {
+      this.$searchAction$()
+    },
     test () {
       this.$router.push('/Guide/chanel/ChannelDetail/0')
     },

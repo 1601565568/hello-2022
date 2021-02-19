@@ -1,7 +1,7 @@
 <template>
   <div class="channel-detail">
     <div class="channel-nav">
-      <!-- <Icon class="back" type="icon-fanhuishangyiji"/> -->
+      <!-- <Icon class="back" type="icon-fanhuishangyiji"  @click="$router.go(-1)"/> -->
       <Icon class="back" type="return" @click="$router.go(-1)" />
       <h3>渠道明细</h3>
     </div>
