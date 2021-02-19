@@ -55,7 +55,7 @@ export default {
     // 重置
     resetForm () {
       this.model.customerNick = ''
-      this.model.employee = ''
+      this.model.guideIds = []
       this.model.deleteTime = []
       this.loadListFun()
     }
