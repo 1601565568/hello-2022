@@ -25,7 +25,7 @@ export const formatWeWorkChatData = result => {
     if (item.msgtype === 'text') {
       let re = /(http[s]?:\/\/([\w-]+.)+([:\d+])?(\/[\w-./?%&=]*)?)/gi
       let url = ''
-      let content = text.replace(re, function (a) {
+      let content = item.content.replace(re, function (a) {
         url = a
         return ''
       })
