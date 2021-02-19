@@ -20,7 +20,7 @@
               {{ item.name }} {{ item.msgtime }}
             </div>
             <div class="chatRecord_text" v-if="item.msgtype === 'text'">
-              {{ item.content }}
+              {{item.content}} <a class="link" :href="item.content_url" target=_blank>{{item.content_url}}</a>
             </div>
             <div
               class="chatRecord_img"
@@ -85,10 +85,10 @@
                 <img class="chatRecord_share__img" :src="item.image_url" />
               </div>
               <div class="chatRecord_share__user">
-                <img class="chatRecord_share__user__img" :src="item.avatar" />
-                <span class="chatRecord_share__user__name">{{
-                  item.sender
-                }}</span>
+<!--                <img class="chatRecord_share__user__img" :src="item.avatar" />-->
+<!--                <span class="chatRecord_share__user__name">{{-->
+<!--                  item.name-->
+<!--                }}</span>-->
               </div>
             </div>
             <div class="chatRecord_map" v-if="item.msgtype === 'location'">
@@ -282,10 +282,10 @@ export default {
   position: relative;
   height: 100%;
   overflow-y: auto;
-  /*scrollbar-width: none;*/
-  /*&::-webkit-scrollbar {*/
-  /*  display: none;*/
-  /*}*/
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 .chatRecordList-content {
   padding: 32px 40px 0px 40px;
@@ -469,6 +469,12 @@ export default {
       background: rgba(0, 0, 0, 0.65);
     }
   }
+  .link {
+    color:#0091fa;
+  }
+  .link:hover {
+    text-decoration:underline;
+  }
 }
 .chatRecord_R {
   display: flex;
@@ -489,6 +495,12 @@ export default {
     border-radius: 4px;
     object-fit: cover;
     margin-left: 16px;
+  }
+  .link {
+    color:#fff;
+  }
+  .link:hover {
+    text-decoration:underline;
   }
 }
 .more {
