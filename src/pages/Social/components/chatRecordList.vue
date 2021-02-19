@@ -85,10 +85,10 @@
                 <img class="chatRecord_share__img" :src="item.image_url" />
               </div>
               <div class="chatRecord_share__user">
-                <img class="chatRecord_share__user__img" :src="item.avatar" />
-                <span class="chatRecord_share__user__name">{{
-                  item.sender
-                }}</span>
+<!--                <img class="chatRecord_share__user__img" :src="item.avatar" />-->
+<!--                <span class="chatRecord_share__user__name">{{-->
+<!--                  item.name-->
+<!--                }}</span>-->
               </div>
             </div>
             <div class="chatRecord_map" v-if="item.msgtype === 'location'">
