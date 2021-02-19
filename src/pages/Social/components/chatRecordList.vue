@@ -20,7 +20,7 @@
               {{ item.name }} {{ item.msgtime }}
             </div>
             <div class="chatRecord_text" v-if="item.msgtype === 'text'">
-              {{ item.content }}
+              {{item.content}} <a :href="item.content_url" target=_blank>{{item.content_url}}</a>
             </div>
             <div
               class="chatRecord_img"
