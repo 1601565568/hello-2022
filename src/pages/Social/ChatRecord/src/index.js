@@ -126,7 +126,10 @@ export default {
         this.WeWorkChatParam.chatDateTime = data
         this.talkToGuideListParams.time = data
         this.resetSenderParams()
-        // this.handlerLoading()
+        this.toListLoading = true
+        this.weWorkChatDataLoading = true
+        // 是否有聊天数据
+        this.isSetWeWorkChatData = false
         if (this.activeName === '2') {
           // 群聊天特殊处理
           this.getWeWorkChatDataToDb()
@@ -159,6 +162,8 @@ export default {
       if (tab === '1') {
         _this.requestExternalUserList()
       } else if (tab === '2') {
+        // 不需要二层加载
+        this.toListLoading = false
         _this.requestChatRoomList()
       } else {
         _this.requestGuideList()
@@ -175,6 +180,14 @@ export default {
      * senderList 重置请求参数
      */
     resetSenderParams () {
+      this.resetToListParms()
+      // 请求参数
+      this.senderParams = { name: '', start: 0, length: 15 }
+    },
+    /**
+     * toListParams
+     */
+    resetToListParms () {
       // 数据
       this.senderList = []
       this.toList = []
@@ -183,8 +196,6 @@ export default {
       this.senderIndex = null
       // 第二个列表选中对象
       this.toListIndex = null
-      // 请求参数
-      this.senderParams = { name: '', start: 0, length: 15 }
       // 请求参数
       this.talkToGuideListParams = {
         id: '', // 查询iD
@@ -220,7 +231,7 @@ export default {
      * senderList 搜索
      */
     onSenderSearch () {
-      // this.resetSenderParams()
+      this.resetToListParms()
       this.handlerLoading()
       this.senderParams = { ...this.senderParams, start: 0, length: 15 }
       if (parseInt(this.activeName) === 1) {
@@ -230,7 +241,6 @@ export default {
       } else {
         this.requestGuideList()
       }
-      // this.resetSenderParams()
     },
     /**
      * toList 搜索
@@ -353,17 +363,28 @@ export default {
           // 判断是否还要加载请求更多的数据
           const arr = res.result || []
           this.getToListNoMore = arr.length < this.talkToGuideListParams.length
-          this.toListLoading = false
-          this.getToListloading = false
-          this.senderIsScroll = false
-          this.toListIsScroll = false
+          this.lodingFalseFirst()
+          this.scorllFalse()
         })
         .catch(err => {
           this.$notify.error(err.msg)
-          this.toListLoading = false
-          this.getToListloading = false
+          this.lodingFalseFirst()
           this.weWorkChatDataLoading = false
         })
+    },
+    /**
+     * 一二级列表 加载中
+     */
+    lodingFalseFirst () {
+      this.toListLoading = false
+      this.getToListloading = false
+    },
+    /**
+     * 前两列的滚动
+     */
+    scorllFalse () {
+      this.senderIsScroll = false
+      this.toListIsScroll = false
     },
     /**
      * senderList 滚动加载更多
@@ -427,13 +448,7 @@ export default {
           length: 15,
           id: item.userId
         }
-        this.WeWorkChatParam = {
-          ...this.WeWorkChatParam,
-          sender: item.userId,
-          seq: 0,
-          type: 1,
-          roomid: ''
-        }
+        this.setWeWorkChatUser(item)
         this.getTalkToGuideList()
       } else {
         // 群单独处理
@@ -448,13 +463,18 @@ export default {
         this.getWeWorkChatDataToDb()
       }
     },
-    /**
-     * tolist 切换
-     * @param {Object} // item list每一项
-     * @param {Number} // index list下标
-     */
-    handleClickChangeToList (item, index) {
-      const _this = this
+    // set user
+    setWeWorkChatUser (item) {
+      this.WeWorkChatParam = {
+        ...this.WeWorkChatParam,
+        sender: item.userId,
+        seq: 0,
+        type: 1,
+        roomid: ''
+      }
+    },
+    // set toList
+    setWeWorkChatToList (item) {
       this.WeWorkChatParam = {
         ...this.WeWorkChatParam,
         tolist: item.userId,
@@ -462,13 +482,18 @@ export default {
         type: 1,
         roomid: ''
       }
+    },
+    /**
+     * tolist 切换
+     * @param {Object} // item list每一项
+     * @param {Number} // index list下标
+     */
+    handleClickChangeToList (item, index) {
+      this.setWeWorkChatToList(item)
       this.toListIndex = index
       this.isSetWeWorkChatData = false
       this.weWorkChatDataLoading = true
-      clearTimeout(this.toListTime)
-      this.toListTime = setTimeout(() => {
-        _this.getWeWorkChatDataToDb()
-      }, 500)
+      this.getWeWorkChatDataToDb()
     },
     async getWeWorkChatDataToDb () {
       this.weWorkChatDataLoading = true
