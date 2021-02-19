@@ -10,6 +10,7 @@ import AddKeyWordTopic from '../../components/addKeyWordTopic'
 import AddKeyWord from '../../components/addKeyWord'
 import Message from '../../components/message'
 import { formatList, formatWeWorkChatData } from './format'
+import NsNoData from '@nascent/ecrp-ecrm/src/components/NsNoData.vue'
 export default {
   directives: { infiniteScroll },
   components: {
@@ -18,7 +19,8 @@ export default {
     ItemDrawer,
     AddKeyWordTopic,
     AddKeyWord,
-    Message
+    Message,
+    NsNoData
   },
   data () {
     let _that = this
@@ -69,6 +71,12 @@ export default {
         start: 0,
         length: 15
       },
+      keyWordVoListReq: {
+        name: '',
+        time: '',
+        start: 0,
+        length: 20
+      },
       WeWorkChatParam: {
         chatDateTime: '', // 聊天日期时间
         sender: '', // 聊天发起人
@@ -100,6 +108,7 @@ export default {
      */
     async init () {
       this.listLoading = true
+      this.keyWordsVoListLoding = true
       this.table.loading = true
       this.getDate()
       this.getKeyWordTopicList()
@@ -109,8 +118,9 @@ export default {
      */
     onSearch () {
       this.list = []
-      this.select = null
       this.keyWordsVoList = []
+      this.table.tableData = []
+      this.select = null
       this.selectKeyWordId = null
       this.getKeyWordTopicList()
     },
@@ -128,17 +138,10 @@ export default {
      */
     handlerChangeTime (data) {
       if (data) {
-        // const currentTime = that.time
-        // const now = new Date()
-        // const threeMonths = 60 * 60 * 1000 * 24 * 90
-        // if (now.getTime() > new Date(data).getTime() + threeMonths) {
-        //   this.$notify.error('只能选择三个月之内的时间')
-        //   return
-        //   // return time.getTime() > data.getTime() + threeMonths
-        // }
         this.tableParams.time = data
         this.listParams.time = data
-        this.getContentList()
+        // 更新关键词列表数量
+        this.onChangeList()
       } else {
         const nowDate = new Date()
         this.time = moment(nowDate).format('YYYY-MM-DD')
@@ -159,6 +162,12 @@ export default {
      */
     getKeyWordTopicList () {
       this.listLoading = true
+      // 清空数据
+      this.keyWordsVoList = []
+      this.table.tableData = []
+      this.select = null
+      this.selectKeyWordId = null
+      // 请求 话题列表
       this.$http
         .fetch(
           this.$api.weWork.topicAnalysis.getKeyWordTopicList,
@@ -166,23 +175,11 @@ export default {
         )
         .then(res => {
           this.list = this.list.concat(formatList(res.result))
-          if (this.select === null) {
-            this.select =
-              this.list[0] && this.list[0].topicId ? this.list[0].topicId : null
-            this.keyWordsVoList =
-              this.list[0] && this.list[0].keyWordsVoList
-                ? this.list[0].keyWordsVoList
-                : []
-            this.selectKeyWordId =
-              this.keyWordsVoList[0] && this.keyWordsVoList[0].keyWordId
-                ? this.keyWordsVoList[0].keyWordId
-                : null
-            if (this.selectKeyWordId !== null) {
-              this.tableParams.id = this.selectKeyWordId
-              this.getContentList()
-            } else {
-              this.table.loading = false
-            }
+          if (this.select === null && this.list.length > 0) {
+            // 默认选中第一个
+            let def =
+              this.list[0] && this.list[0].topicId ? this.list[0] : null
+            this.onChangeList(def)
           }
           if (res.result.length < this.listParams.length) {
             this.getListMore = false
@@ -196,31 +193,42 @@ export default {
         })
     },
     /**
-     * 话题列表切换
+     * 话题列表切换 || 关键词列表
      * @param {Object} // i 列表某一项
      */
     onChangeList (i) {
-      const _this = this
-      this.select = i.topicId
-      this.keyWordsVoList = i.keyWordsVoList
-      this.selectKeyWordId =
-        this.keyWordsVoList[0] && this.keyWordsVoList[0].keyWordId
-          ? this.keyWordsVoList[0].keyWordId
-          : null
-      this.tableParams.start = 0
-      this.tableParams.id = this.selectKeyWordId
-      this.table = {
-        loading: true,
-        tableData: []
+      // 话题列表
+      this.keyWordsVoListLoding = true
+      this.table.loading = true
+      if (i) {
+        this.select = i.topicId
+        // 查询详情列表和数量
+        this.keyWordVoListReq.name = i.topicName
       }
-      if (this.selectKeyWordId === null) {
-        this.table.loading = false
-        return
-      }
-      clearTimeout(this.getContentListTime)
-      this.getContentListTime = setTimeout(() => {
-        _this.getContentList()
-      }, 500)
+      this.keyWordVoListReq.time = this.time
+      this.$http
+        .fetch(
+          this.$api.weWork.topicAnalysis.getKeyWordTopicList,
+          this.keyWordVoListReq
+        ).then(res => {
+          let response = res.result
+          this.keyWordsVoList = response.length > 0 ? response[0].keyWordsVoList : []
+          let defItem =
+          this.keyWordsVoList[0] && this.keyWordsVoList[0].keyWordId
+            ? this.keyWordsVoList[0]
+            : null
+          // 没有关键字列表
+          this.keyWordsVoListLoding = false
+          if (defItem === null) {
+            this.table.loading = false
+            return
+          }
+          this.selectKeyWord(defItem)
+        }).catch(error => {
+          this.keyWordsVoListLoding = false
+          this.table.loading = false
+          this.$notify.error(error.msg)
+        })
     },
     /**
      * 新增话题弹窗
@@ -244,10 +252,7 @@ export default {
         .then(res => {
           if (res.success) {
             this.$notify.success(res.msg)
-            this.list = []
-            this.keyWordsVoList = []
-            this.select = null
-            this.getKeyWordTopicList()
+            this.onSearch()
           }
         })
         .catch(err => {
@@ -268,10 +273,10 @@ export default {
         .then(res => {
           if (res.success) {
             this.$notify.success(res.msg)
-            this.list = []
             this.keyWordsVoList = []
-            this.select = null
-            this.getKeyWordTopicList()
+            this.table.tableData = []
+            this.selectKeyWordId = null
+            this.onChangeList()
           }
         })
         .catch(err => {
@@ -290,7 +295,7 @@ export default {
         this.text = `确定要删除话题“${content}”吗？`
         this.topicId = Id
       } else {
-        this.text = `确定要删除关键字“${content}”吗？`
+        this.text = `确定要删除关键词“${content}”吗？`
         this.keyWordId = Id
       }
       this.$refs.message.show()
@@ -469,7 +474,16 @@ export default {
      * @param {Object} // item 关键字列表每一项
      */
     selectKeyWord (item) {
-      this.selectKeyWordId = item.keyWordId
+      if (item) {
+        this.selectKeyWordId = item.keyWordId
+      }
+      this.tableParams.start = 0
+      this.tableParams.id = this.selectKeyWordId
+      this.table = {
+        loading: true,
+        tableData: []
+      }
+      this.getContentList()
     },
     /**
      * 每页条数发生变化

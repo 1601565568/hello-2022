@@ -33,7 +33,7 @@ export default {
         name: '',
         time: '',
         start: 0,
-        length: 30
+        length: 15
       },
       time: '',
       list: [], // 敏感词列表
@@ -284,7 +284,7 @@ export default {
       if (arr.length === 0) {
         this.$notify.error('暂无最新的记录，请稍后再试')
       }
-      this.weWorkChatData.push(...arr)
+      this.weWorkChatData.push(...arr.reverse())
     },
     /**
      * 聊天记录顶部加载更多历史数据

@@ -3,7 +3,11 @@
     <div class="template-page">
       <div class="page-header fl_between">
         <div class="tabs">
-          <el-tabs :value="activeName" @input="handleClick" :before-leave="beforeLeave">
+          <el-tabs
+            :value="activeName"
+            @input="handleClick"
+            :before-leave="beforeLeave"
+          >
             <el-tab-pane label="客户" name="1"></el-tab-pane>
             <el-tab-pane label="群" name="2"></el-tab-pane>
             <el-tab-pane label="导购" name="3"></el-tab-pane>
@@ -14,6 +18,7 @@
             value-format="yyyy-MM-dd"
             format="yyyy-MM-dd"
             v-model="time"
+            :clearable="false"
             type="date"
             @change="handlerChangeTime"
             placeholder="选择日期"
@@ -61,14 +66,24 @@
                 v-if="activeName !== '2'"
                 :src="item.avatar"
               />
+              <div class="qun_pic" v-if="activeName === '2'">
+                <img src="./image/qun.png" />
+              </div>
               <div class="user">
                 <div class="user_name">{{ item.name }}</div>
                 <div class="user_shop">{{ item.shopName }}</div>
               </div>
             </li>
           </ul>
-          <p class="getMoreloading" v-if="getMoreloading && !senderListLoading">加载中...</p>
-          <p class="getMoreloading" v-if="noMore && !senderListLoading && senderList.length !== 0">没有更多了</p>
+          <p class="getMoreloading" v-if="getMoreloading && !senderListLoading">
+            加载中...
+          </p>
+          <p
+            class="getMoreloading"
+            v-if="noMore && !senderListLoading && senderList.length !== 0"
+          >
+            没有更多了
+          </p>
           <NsNoData v-if="!senderListLoading && senderList.length === 0"
             >暂无数据</NsNoData
           >
@@ -103,7 +118,7 @@
           v-loading="toListLoading"
         >
           <div class="customer_list__warpper">
-            <div class="customer_list__warpper">
+            <div>
               <div
                 class="customer_list__item"
                 :class="
@@ -117,16 +132,23 @@
               </div>
             </div>
           </div>
-          <p class="getMoreloading" v-if="getToListloading && !toListLoading">加载中...</p>
-          <p class="getMoreloading" v-if="getToListNoMore && !toListLoading && toList.length !== 0">没有更多了</p>
+          <p class="getMoreloading" v-if="getToListloading && !toListLoading">
+            加载中...
+          </p>
+          <p
+            class="getMoreloading"
+            v-if="getToListNoMore && !toListLoading && toList.length !== 0"
+          >
+            没有更多了
+          </p>
           <NsNoData v-if="!toListLoading && toList.length === 0"
             >暂无数据</NsNoData
           >
         </div>
         <div class="content_bottom"></div>
       </div>
-      <div class="template-page__right">
-        <div class="template-page__right__content" :class="ml">
+      <div class="template-page__right" :class="ml">
+        <div class="template-page__right__content">
           <div class="content_right_content__header">聊天记录</div>
           <div
             class="loadMoreWrapper"
@@ -217,7 +239,9 @@ export default Index
   }
 }
 .getMoreloading {
-  padding: 0 16px;
+  height: 64px;
+  line-height: 64px;
+  // padding: 0 16px;
   text-align: center;
 }
 .content_bottom {
@@ -247,6 +271,20 @@ export default Index
       border-radius: 4px;
       margin-right: 16px;
     }
+    .qun_pic {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 48px;
+      height: 48px;
+      border-radius: 4px;
+      margin-right: 16px;
+      background: #d9d9d9;
+      img {
+        width: 30px;
+        height: 30px;
+      }
+    }
     .user {
       width: calc(100% - 64px);
       // flex: 1;
@@ -269,7 +307,7 @@ export default Index
 .user_list_select {
   position: relative;
   background: #d9effe;
-  z-index: 2;
+  // z-index: 2;
   &::after {
     position: absolute;
     right: 0px;
@@ -286,7 +324,7 @@ export default Index
   position: absolute;
   left: 220px;
   top: 0px;
-  z-index: 2;
+  // z-index: 2;
   overflow: hidden;
   width: 173px;
   background: #ffffff;
@@ -327,12 +365,9 @@ export default Index
   }
 }
 .template-page__right__content {
-  margin-left: 236px;
+  // margin-left: 236px;
   background: #f5f5f5;
   border: 1px solid #e8e8e8;
-}
-.template-page__right_content {
-  margin-left: 408px;
 }
 .content_right_content__header {
   background: #fff;
@@ -354,7 +389,7 @@ export default Index
   position: absolute;
   // left: 210px;
   // top: 70px;
-  z-index: 2;
+  // z-index: 2;
   background: #ffffff;
   overflow: hidden;
   // >>> .el-input {
@@ -365,9 +400,12 @@ export default Index
   position: absolute;
   // top: 70px;
   left: 0;
-  z-index: 1;
-  margin: 0;
-  width: 100%;
+  left: 236px;
+  width: calc(100% - 236px);
+}
+.template-page__right_content {
+  left: 408px;
+  width: calc(100% - 408px);
 }
 // .template-table {
 //     margin: 0 10px 10px 435px;
@@ -379,19 +417,14 @@ export default Index
   .template-page__left {
     width: 220px;
     position: absolute;
-    // left: 210px;
-    // top: 90px;
-    z-index: 2;
     overflow: hidden;
   }
-  .template-page__right {
-    position: absolute;
-    // top: 90px;
-    left: 0;
-    z-index: 1;
-    width: 100%;
-    margin: 0;
-  }
+  // .template-page__right {
+  //   position: absolute;
+  //   left: 408px;
+  //   width: calc(100% - 408px);
+  //   margin: 0;
+  // }
   .template-page__left__children {
     position: absolute;
     top: 0;

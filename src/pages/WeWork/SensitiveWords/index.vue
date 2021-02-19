@@ -9,6 +9,7 @@
           <el-date-picker
             value-format="yyyy-MM-dd"
             format="yyyy-MM-dd"
+            :clearable="false"
             :picker-options="pickerOptions"
             @change="handlerChangeTime"
             v-model="time"
@@ -270,13 +271,14 @@ export default Index
     .del {
       display: none;
       position: absolute;
-      right: 16px;
+      right: 12px;
       top: 50%;
       transform: translate(-50%, -50%);
     }
     &:hover {
       background: #d9effe;
       .del {
+        cursor: pointer;
         display: block;
       }
     }
