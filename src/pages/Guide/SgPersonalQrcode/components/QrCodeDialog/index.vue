@@ -40,12 +40,10 @@ export default {
   },
   methods: {
     getQrCode (dataRow) {
-      window.console.log(dataRow)
       if (this.memberManagePlan === 1 && dataRow.type === 0) {
         if (!dataRow.qrcode_url) {
           this.qrcodeUrl = defaultBgImg
         } else {
-          window.console.log('嗯嗯嗯嗯嗯', dataRow)
           this.qrcodeUrl = dataRow.qrcode_url
         }
 

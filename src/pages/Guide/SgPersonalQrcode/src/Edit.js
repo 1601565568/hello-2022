@@ -138,7 +138,6 @@ export default {
       this.$http.fetch(this.$api.guide.sgPersonalQrcode.findById, {
         id: id
       }).then(data => {
-        window.console.log('编辑聚合二维码', data)
         if (data.result.type === 0) {
           let personnelIds = data.result.personnelIds.split(',')
           for (let i = 0; i < personnelIds.length; i++) {
@@ -494,7 +493,25 @@ export default {
         return false
       }
 
-      return true
+      return new Promise((resolve, reject) => {
+        const _URL = window.URL || window.webkitURL
+        const img = new Image()
+        img.src = _URL.createObjectURL(file)
+        img.onload = () => {
+          const { width, height } = img
+          let valid = true
+          if (width !== 750 || height !== 1334) {
+            valid = false
+          }
+          if (valid) {
+            return resolve(file)
+          } else {
+            const msg = `上传图片尺寸只能是750x1334`
+            this.$notify.error(msg)
+            return reject(msg)
+          }
+        }
+      })
     },
     uploadPosterRemove (file, fileList) {
       this.personalQrcode.posterBackgroundUrl = this.personalQrcode.poster_background_url || ''

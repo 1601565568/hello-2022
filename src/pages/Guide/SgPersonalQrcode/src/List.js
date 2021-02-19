@@ -230,8 +230,7 @@ export default {
     })
   },
   methods: {
-    test666 () {
-      window.console.log('hahahahahaah')
+    refreshTable () {
       this.$refs.mainTable.searchAction()
     },
     // 上传图片地址的切换事件

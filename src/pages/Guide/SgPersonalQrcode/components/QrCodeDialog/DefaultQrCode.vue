@@ -48,7 +48,9 @@ export default {
   data () {
     return {
       changeAvatarLoading: false,
-      successUrl: ''
+      successUrl: '',
+      maxWidth: 750,
+      maxHeight: 1334
     }
   },
   computed: {
@@ -86,7 +88,25 @@ export default {
         return false
       }
 
-      return true
+      return new Promise((resolve, reject) => {
+        const _URL = window.URL || window.webkitURL
+        const img = new Image()
+        img.src = _URL.createObjectURL(file)
+        img.onload = () => {
+          const { width, height } = img
+          let valid = true
+          if ((width / height) !== 1) {
+            valid = false
+          }
+          if (valid) {
+            return resolve(file)
+          } else {
+            this.$message.error('上传图片尺寸比例只能是1:1')
+            this.changeAvatarLoading = false
+            return reject(msg)
+          }
+        }
+      })
     },
     downloadQrCode () {
       const imageDom = document.createElement('a')

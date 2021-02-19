@@ -14,7 +14,7 @@
     />
 
     <!-- 聚合二维码Dialog展示开始 UI修改 目前仅显示聚合码类型是员工 -->
-    <QrCodeDialog ref="QrCodeDialog" :memberManagePlan="memberManagePlan"  @uploadAvatarSuccess="test666"/>
+    <QrCodeDialog ref="QrCodeDialog" :memberManagePlan="memberManagePlan"  @uploadAvatarSuccess="refreshTable"/>
     <!-- 聚合二维码展示结束 -->
 
     <!-- 海报Dialog展示开始 -->

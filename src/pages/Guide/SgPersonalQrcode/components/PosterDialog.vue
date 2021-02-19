@@ -73,7 +73,6 @@ export default {
       oInput.remove()
     },
     downloadPoster () {
-      window.console.log(api.API_ROOT)
       const imageDom = document.createElement('a')
       imageDom.href = this.downloadUrl
       imageDom.click()

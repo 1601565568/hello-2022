@@ -172,9 +172,6 @@ export default {
     }
   },
   methods: {
-    test () {
-      window.console.log(123)
-    },
     showAddTags () {
       this.addTagDialogVisible = true
     },
@@ -182,7 +179,6 @@ export default {
       this.addTagDialogVisible = false
     },
     showEmployeeDialog () {
-      window.console.log(123)
       this.employeeDialogVisible = true
     }
   }
