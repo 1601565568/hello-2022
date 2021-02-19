@@ -2,7 +2,7 @@
 <template>
   <div>
     <NsButton :type="type" @click="onDialogOpen()"><Icon v-if="type === 'text' && showIcon" type="plus"/>{{btnTitle}}</NsButton>
-    <el-dialog :title="dialogTitle" :visible.sync="visible" :show-scroll-x="false"
+    <el-dialog :title="dialogTitle" :visible.sync="visible" :show-scroll-x="false" appendToBody
                :close-on-click-modal = "false" :before-close="onDialogClose" width="940px"><!-- 按员工设置使用范围时，所选员工会优先选择使用该条欢迎语而非归属门店设置的欢迎语 -->
       <div slot="title">
         {{dialogTitle}}
