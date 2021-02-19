@@ -22,7 +22,7 @@
 
   >>> .el-date-editor {
     height: 32px;
-    max-width: 256px;
+    max-width: 365px;
     .el-range-separator {
       padding-top: 2px;
       color: #8C8C8C;

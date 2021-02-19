@@ -29,10 +29,10 @@
     <content-panel title="渠道统计" class="channel-statistics">
       <template v-slot:toolbar>
         <div class="channel-statisitcs-toobar">
-          <el-input placeholder="请输入渠道名称" v-model="filterText">
-            <Icon type="ns-search-copy" slot="suffix" style="font-size: 24px; margin-top: 2px"></Icon>
+          <el-input placeholder="请输入渠道名称" v-model="model.channelName" @keyup.enter.native="searchform">
+            <Icon type="ns-search-copy" slot="suffix" style="font-size: 24px; margin-top: 2px" @click="searchform"></Icon>
           </el-input>
-          <ns-button class="ns-button">导出CSV文件</ns-button>
+          <ns-button class="ns-button" @click="exportFile">导出CSV文件</ns-button>
         </div>
       </template>
       <div class="new-table channel-table">
@@ -89,32 +89,31 @@ export default {
     CustomIndicatorDialog,
     ChannelFriendRateDialog
   },
-  mixins: [tableMixin],
+  mixins: [ tableMixin ],
+  props: [ 'searchDate' ],
+  watch: {
+    async searchDate (times) {
+      if (times !== null) {
+        this.model.startTime = times[0]
+        this.model.endTime = times[1]
+      } else {
+        this.model.startTime = ''
+        this.model.endTime = ''
+      }
+
+      this.searchform()
+    }
+  },
   data () {
     return {
       chartHeight: 200,
       customIndicatorDialogVisible: false, // 自定义指标dialog
       channelFriendRateDialogVisible: false, // 渠道好友占比
-      filterText: '',
-      tableData: [
-        {
-          name: '渠道名字',
-          totalAddCount: 100,
-          addCount: 88,
-          delCount: 55,
-          deletedCount: 23
-        },
-        {
-          name: '渠道名字',
-          totalAddCount: 99,
-          addCount: 89,
-          delCount: 25,
-          deletedCount: 21
-        }
-      ],
       url: this.$api.guide.channel.findChannelAnalysisList,
       model: {
-        searchValue: ''
+        channelName: '',
+        startTime: '',
+        endTime: ''
       }
     }
   },
@@ -135,6 +134,39 @@ export default {
     showChannelFriendRateDialog () {
       this.chartHeight = document.documentElement.clientHeight || document.body.clientHeight
       this.channelFriendRateDialogVisible = true
+    },
+    checkTableDataExists () {
+      if (!this._data || !this._data._table || !this._data._table.data || this._data._table.data.length < 1) {
+        this.$notify.error('当前没有匹配的数据项')
+        return true
+      }
+      return false
+    },
+    exportFile () {
+      if (this.checkTableDataExists()) {
+        return false
+      }
+
+      let param = this.$generateParams$()
+      // param.searchMap.type = 2
+      this.$notify.info('导出中，请稍后片刻')
+      this.$http.fetch(this.$api.guide.channel.exportFileTest, param)
+        .then((resp) => {
+          this.$notify.success('下载完成')
+        }).catch((resp) => {
+          if (!resp.size === 0) {
+            this.$notify.error('导出报错，请联系管理员')
+          } else {
+            let url = window.URL.createObjectURL(new Blob([resp]))
+            let link = document.createElement('a')
+            link.style.display = 'none'
+            link.href = url
+            const fileName = `${this.$route.params.name || ''}-好友添加明细.CSV`
+            link.setAttribute('download', fileName)
+            document.body.appendChild(link)
+            link.click()
+          }
+        })
     }
   }
 }
@@ -158,7 +190,7 @@ export default {
   }
 
   .channel-statistics {
-    height: 387px;
+    height: 100%;
     .channel-table {
       margin: 0 auto;
       width: calc(100% - 32px);

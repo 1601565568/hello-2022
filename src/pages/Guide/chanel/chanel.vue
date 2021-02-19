@@ -4,19 +4,21 @@
   <!-- 渠道分析顶部搜索栏 -->
   <el-form :inline="true" class="top-tool-bar">
     <el-radio-group class="alalysis-radio" v-model="analysisDateField">
-      <el-radio label="1" border>全部</el-radio>
-      <el-radio label="2" border>近7天</el-radio>
-      <el-radio label="3" border>近30天</el-radio>
+      <el-radio :label="1" border>全部</el-radio>
+      <el-radio :label="2" border>近7天</el-radio>
+      <el-radio :label="3" border>近30天</el-radio>
     </el-radio-group>
     <span class="line"></span>
     <el-date-picker
-      class="date-filter"
-      v-model="searchDate"
-      type="daterange"
+      v-model="analysisSearchDate"
+      type="datetimerange"
+      value-format="yyyy-MM-dd HH:mm:ss"
+      :default-time="['00:00:00','23:59:59']"
       range-separator="至"
       start-placeholder="开始日期"
-      end-placeholder="结束日期">
-    </el-date-picker>
+      end-placeholder="结束日期"
+      :clearable="false"
+    ></el-date-picker>
   </el-form>
   <el-tabs v-model="activeName" @tab-click="tabHandleClick">
     <el-tab-pane label="渠道管理" name="0">
@@ -143,7 +145,7 @@
     <addModal ref="addDialogDom" :callBack="loadListFun"></addModal>
   </el-tab-pane>
   <el-tab-pane label="渠道分析" name="1" :lazy="true">
-    <ChannelAnalysis/>
+    <ChannelAnalysis :searchDate="analysisSearchDate"/>
   </el-tab-pane>
   </el-tabs>
 </div>
@@ -164,6 +166,28 @@ export default {
   components: {
     addModal,
     ChannelAnalysis
+  },
+  watch: {
+    analysisDateField (newVal) {
+      const todayStartTime = new Date(new Date().toLocaleDateString())
+      const todayEndTeime = new Date(todayStartTime.getTime() + 24 * 3600 * 1000 - 1)
+      const endTimeStr = moment(todayEndTeime).format('YYYY-MM-DD HH:mm:ss')
+
+      if (newVal === 1) { // 全部
+        this.analysisSearchDate = []
+      }
+
+      if (newVal === 2) { // 近7天
+        const during7Days = new Date(new Date(new Date().toLocaleDateString()).getTime() - 6 * 24 * 3600 * 1000)
+        this.analysisSearchDate = [ this.formatTime(during7Days), endTimeStr ]
+      }
+
+      if (newVal === 3) { // 近30天
+        const during30Days = new Date(new Date(new Date().toLocaleDateString()).getTime() - 30 * 24 * 3600 * 1000)
+        this.analysisSearchDate = [ this.formatTime(during30Days), endTimeStr ]
+      }
+      window.console.log(this.analysisSearchDate)
+    }
   },
   data: function () {
     return {
@@ -211,8 +235,9 @@ export default {
       isAnalyce: 0,
       expanded: false,
       analysetime: [],
-      analysisDateField: '',
-      searchDate: ''
+      searchDate: '',
+      analysisDateField: 1,
+      analysisSearchDate: []
     }
   },
   mounted: function () {
@@ -224,8 +249,10 @@ export default {
       return this.expanded ? '收起搜索' : '展开搜索'
     }
   },
-
   methods: {
+    formatTime (date) {
+      return moment(date).format('YYYY-MM-DD HH:mm:ss')
+    },
     switchExpanded () {
       this.expanded = !this.expanded
     },

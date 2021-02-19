@@ -13,5 +13,11 @@ export default {
   findChannelAnalysisDailyList: { //  查询渠道分析【指定渠道】【列表】数据（分页）
     url: '/Guide/chanel/findChannelAnalysisDailyList',
     method: 'post'
+  },
+  exportFileTest: {
+    url: '',
+    method: 'post',
+    responseType: 'blob',
+    timeout: 600000
   }
 }
