@@ -2,7 +2,7 @@
 <template>
 <div class="channel-management">
   <!-- 渠道分析顶部搜索栏 -->
-  <el-form :inline="true" class="top-tool-bar">
+  <el-form :inline="true" class="top-tool-bar" v-show="activeName === '1'">
     <el-radio-group class="alalysis-radio" v-model="analysisDateField">
       <el-radio :label="1" border>全部</el-radio>
       <el-radio :label="2" border>近7天</el-radio>
@@ -183,10 +183,9 @@ export default {
       }
 
       if (newVal === 3) { // 近30天
-        const during30Days = new Date(new Date(new Date().toLocaleDateString()).getTime() - 30 * 24 * 3600 * 1000)
+        const during30Days = new Date(new Date(new Date().toLocaleDateString()).getTime() - 29 * 24 * 3600 * 1000)
         this.analysisSearchDate = [ this.formatTime(during30Days), endTimeStr ]
       }
-      window.console.log(this.analysisSearchDate)
     }
   },
   data: function () {
@@ -236,14 +235,16 @@ export default {
       expanded: false,
       analysetime: [],
       searchDate: '',
-      analysisDateField: 1,
-      analysisSearchDate: []
+      analysisDateField: 2,
+      analysisSearchDate: [
+        moment(new Date(new Date(new Date().toLocaleDateString()).getTime() - 6 * 24 * 3600 * 1000)).format('YYYY-MM-DD HH:mm:ss'),
+        moment(new Date((new Date(new Date().toLocaleDateString())).getTime() + 24 * 3600 * 1000 - 1)).format('YYYY-MM-DD HH:mm:ss')
+      ]
     }
   },
   mounted: function () {
     this.loadListFun()
   },
-
   computed: {
     collapseText () {
       return this.expanded ? '收起搜索' : '展开搜索'

@@ -4,7 +4,7 @@
     <div class="channel-total-position">
       <div class="circle-chart-statistics">
         <div class="data-item">
-          <span class="data-item-count">129,831</span>
+          <span class="data-item-count" @click="getChannelAnalysisChartData">129,831</span>
           <span class="data-item-label">线下添加好友</span>
         </div>
         <div class="data-item">
@@ -38,30 +38,17 @@ export default {
           type: 'scroll'
         },
         tooltip: {
-          trigger: 'item',
+          trigger: 'item'
           // formatter: '{b} {c} ({d}%)'
-          formatter: '{b}: {d}%'
+          // formatter: '{b}: {d}%'
         },
         dataset: [
           {
+            dimensions: ['date', '渠道1', '渠道2', '渠道3'],
             source: [
-              ['product', '2012', '2013', '2014', '2015', '2016', '2017'],
-              ['线下', 56.5, 82.1, 88.7, 70.1, 93.4, 85],
-              ['小程序', ...[1, 2, 3, 4, 5, 6].map(num => Math.random(0, 1) * 100)],
-              ['公众号', ...[1, 2, 3, 4, 5, 6].map(num => Math.random(0, 1) * 100)],
-              ['订阅号', ...[1, 2, 3, 4, 5, 6].map(num => Math.random(0, 1) * 100)],
-              ['订阅号1', ...[1, 2, 3, 4, 5, 6].map(num => Math.random(0, 1) * 100)],
-              ['订阅号2', ...[1, 2, 3, 4, 5, 6].map(num => Math.random(0, 1) * 100)],
-              ['订阅号3', ...[1, 2, 3, 4, 5, 6].map(num => Math.random(0, 1) * 100)],
-              ['订阅号4', ...[1, 2, 3, 4, 5, 6].map(num => Math.random(0, 1) * 100)],
-              ['订阅号5', ...[1, 2, 3, 4, 5, 6].map(num => Math.random(0, 1) * 100)],
-              ['订阅号6', ...[1, 2, 3, 4, 5, 6].map(num => Math.random(0, 1) * 100)],
-              ['订阅号7', ...[1, 2, 3, 4, 5, 6].map(num => Math.random(0, 1) * 100)],
-              ['订阅号8', ...[1, 2, 3, 4, 5, 6].map(num => Math.random(0, 1) * 100)],
-              ['订阅号9', ...[1, 2, 3, 4, 5, 6].map(num => Math.random(0, 1) * 100)],
-              ['订阅号10', ...[1, 2, 3, 4, 5, 6].map(num => Math.random(0, 1) * 100)],
-              ['订阅号11', ...[1, 2, 3, 4, 5, 6].map(num => Math.random(0, 1) * 100)],
-              ['订阅号12', ...[1, 2, 3, 4, 5, 6].map(num => Math.random(0, 1) * 100)]
+              { date: '2021-2-17', '渠道1': 56.5, '渠道2': 32.1, '渠道3': 88.7 },
+              { date: '2021-2-18', '渠道1': 22.5, '渠道2': 62.1, '渠道3': 78.7 },
+              { date: '2021-2-19', '渠道1': 54.5, '渠道2': 82.1, '渠道3': 38.7 }
             ]
           },
           {
@@ -75,23 +62,8 @@ export default {
         yAxis: { gridIndex: 0 },
         grid: { left: 50, right: '35%' },
         series: [
-          { type: 'line', seriesLayoutBy: 'row' },
-          { type: 'line', seriesLayoutBy: 'row' },
-          { type: 'line', seriesLayoutBy: 'row' },
-          { type: 'line', seriesLayoutBy: 'row' },
-          { type: 'line', seriesLayoutBy: 'row' },
-          { type: 'line', seriesLayoutBy: 'row' },
-          { type: 'line', seriesLayoutBy: 'row' },
-          { type: 'line', seriesLayoutBy: 'row' },
-          { type: 'line', seriesLayoutBy: 'row' },
-          { type: 'line', seriesLayoutBy: 'row' },
-          { type: 'line', seriesLayoutBy: 'row' },
-          { type: 'line', seriesLayoutBy: 'row' },
-          { type: 'line', seriesLayoutBy: 'row' },
-          { type: 'line', seriesLayoutBy: 'row' },
-          { type: 'line', seriesLayoutBy: 'row' },
-          { type: 'line', seriesLayoutBy: 'row' },
-          { type: 'line', seriesLayoutBy: 'row' },
+          { type: 'line' },
+          { type: 'line' },
           {
             type: 'pie',
             id: 'pie',
@@ -109,7 +81,27 @@ export default {
       }
     }
   },
-  methods: {}
+  mounted () {
+    this.getChannelAnalysisChartData()
+  },
+  methods: {
+    getChannelAnalysisChartData () {
+      this.$http.fetch(this.$api.guide.channel.findChannelAnalysisChartData, {
+        startTime: '',
+        endTime: '',
+        channelCodes: 'SG8105835895695622620707336257'
+      }).then(resp => {
+        window.console.log(resp)
+
+        this.chartOptions.dataset[0].dimensions = resp.result.channelLineChartData.dimensions
+        this.chartOptions.dataset[0].source = resp.result.channelLineChartData.source
+
+        this.chartOptions = { ...this.chartOptions }
+      }).catch(a => {
+        window.console.log(a)
+      })
+    }
+  }
 }
 </script>
 

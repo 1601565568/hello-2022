@@ -9,22 +9,25 @@
       <template v-slot:toolbar>
         <el-form :inline="true" class="top-tool-bar">
           <el-radio-group class="alalysis-radio" v-model="analysisDateField">
-            <el-radio label="1" border>全部</el-radio>
-            <el-radio label="2" border>近7天</el-radio>
-            <el-radio label="3" border>近30天</el-radio>
+            <el-radio :label="1" border>全部</el-radio>
+            <el-radio :label="2" border>近7天</el-radio>
+            <el-radio :label="3" border>近30天</el-radio>
           </el-radio-group>
           <span class="line"></span>
           <el-date-picker
             class="date-filter"
             v-model="searchDate"
-            type="daterange"
+            type="datetimerange"
+            value-format="yyyy-MM-dd HH:mm:ss"
+            :default-time="['00:00:00','23:59:59']"
             range-separator="至"
             start-placeholder="开始日期"
             end-placeholder="结束日期"
+            :clearable="false"
           ></el-date-picker>
-          <el-input placeholder="请输入渠道名称" v-model="filterText">
+          <!-- <el-input placeholder="请输入渠道名称" v-model="filterText">
             <Icon type="ns-search-copy" slot="suffix" style="font-size: 24px; margin-top: 2px"></Icon>
-          </el-input>
+          </el-input> -->
         </el-form>
         <ns-button class="export-button">导出CSV文件</ns-button>
       </template>
@@ -35,23 +38,25 @@
           class="table-form_reset"
           row-class-name="employee-table_row"
           header-cell-class-name="employee-talbe-header-cell"
-          :data="tableData"
+          :data="_data._table.data"
+          @sort-change="$orderChange$"
         >
-          <el-table-column prop="name" label="渠道名称"></el-table-column>
-          <el-table-column prop="totalAddCount" label="总添加人数" sortable></el-table-column>
-          <el-table-column prop="addCount" label="添加人数" sortable></el-table-column>
-          <el-table-column prop="delCount" label="删除人数" width="316" sortable>
+          <el-table-column prop="date" label="日期" sortable="date"></el-table-column>
+          <el-table-column prop="addTotalCount" label="总添加人数" sortable="addTotalCount"></el-table-column>
+          <el-table-column prop="addCount" label="添加人数" sortable="addCount"></el-table-column>
+          <el-table-column prop="deleteCount" label="删除人数" width="316" sortable="deleteCount">
           </el-table-column>
-          <el-table-column prop="deletedCount" label="被删除人数" sortable>
+          <el-table-column prop="beDeletedCount" label="被删除人数" sortable="beDeletedCount">
           </el-table-column>
         </el-table>
       </div>
       <el-pagination
+        v-if="_data._pagination.enable"
         class="template-table__pagination"
-        :page-sizes="[15, 25, 50, 100]"
-        :total="100"
-        :current-page="1"
-        :page-size="20"
+        :page-sizes="_data._pagination.sizeOpts"
+        :total="_data._pagination.total"
+        :current-page="_data._pagination.page"
+        :page-size="_data._pagination.size"
         :background="true"
         layout="total, sizes, prev, pager, next, jumper"
         @size-change="$sizeChange$"
@@ -62,39 +67,16 @@
 </template>
 
 <script>
+import ChannelDetail from './src/ChannelDetail'
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import ContentPanel from '../components/ContentPanel'
+import moment from 'moment'
 
-export default {
-  components: {
-    ContentPanel
-  },
-  mixins: [tableMixin],
-  data () {
-    return {
-      analysisDateField: '',
-      searchDate: '',
-      filterText: '',
-      tableData: [
-        {
-          name: '渠道名字',
-          totalAddCount: 100,
-          addCount: 88,
-          delCount: 55,
-          deletedCount: 23
-        },
-        {
-          name: '渠道名字',
-          totalAddCount: 99,
-          addCount: 89,
-          delCount: 25,
-          deletedCount: 21
-        }
-      ]
-    }
-  },
-  methods: {}
+ChannelDetail.components = {
+  ContentPanel
 }
+
+export default ChannelDetail
 </script>
 
 <style lang="scss" scoped>
