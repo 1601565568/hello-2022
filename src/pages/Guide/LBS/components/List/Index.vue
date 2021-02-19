@@ -5,14 +5,22 @@
       <template slot='search'>
         <el-form :inline="true" class='form-inline_top'>
           <el-form-item label="参与门店：">
-            <NsShopDialog :selfBtn='true' :appendToBody='true' :isButton="false" :auth="false" type="icon" btnTitle="" dialogTitle="选择员工" v-model="model.shopIdList" @input="handleChangeShop">
+            <!-- <NsShopDialog :selfBtn='true' :appendToBody='true' :isButton="false" :auth="false" type="icon" btnTitle="" dialogTitle="选择员工" v-model="model.shopIdList" @input="handleChangeShop">
               <template slot='btnIcon'>
                 <div class='self-btn'>
                   {{(model.shopIdList&&model.shopIdList.length)?`已选择${model.shopIdList.length}个门店`:'全部'}}
                   <Icon type="shop" class='guideIds-icon'></Icon>
                 </div>
               </template>
-            </NsShopDialog>
+            </NsShopDialog> -->
+            <shopSelect @callBack="handleChangeShop" :hasShopArr="model.shopIdList" shopStatus='1,-1' isDIYBtn>
+              <template slot='btnIcon'>
+                <div class='self-btn'>
+                  {{(model.shopIdList&&model.shopIdList.length)?`已选择${model.shopIdList.length}个门店`:'全部'}}
+                  <Icon type="shop" class='guideIds-icon'></Icon>
+                </div>
+              </template>
+            </shopSelect>
           </el-form-item>
           <el-form-item label="活动状态：" class='el-form__change'>
             <el-select v-model="model.state" placeholder="请选择" @change='(value)=>{changeSearchfrom({state:value})}'>
@@ -152,7 +160,7 @@
       <div class='master-close'>
         <i class="el-icon-close" @click="handleClose"></i>
       </div>
-      <ShopList v-if='drawer' :guid='dialogData.guid' @onNext='getOhter("next",handleShowDetail)' @onPrev='getOhter("prev",handleShowDetail)' />
+      <ShopList v-if='drawer' :guid='dialogData.guid' :type='type' @onNext='getOhter("next",handleShowDetail)' @onPrev='getOhter("prev",handleShowDetail)' />
     </el-drawer>
     <PreviewPoster :activityName='dialogData.activityName' :type='dialogData.type' :title='dialogData.type==="qrcode"?"二维码":"海报"' :dialogVisible='dialogVisible' :url='dialogData.placard' :link='dialogData.link' @onClose='dialogVisible = false' appendToBody/>
   </div>
@@ -164,8 +172,9 @@ import ElDrawer from '@nascent/nui/lib/drawer'
 import PreviewPoster from '../../../components/PreviewPoster'
 import ShopList from '../../components/ShopList'
 import NsShopDialog from '@/components/NsShopDialog'
+import shopSelect from '../../../components/selectShops'
 Index.components = {
-  PageTable, ElDrawer, PreviewPoster, ShopList, NsShopDialog
+  PageTable, ElDrawer, PreviewPoster, ShopList, NsShopDialog, shopSelect
 }
 export default Index
 </script>

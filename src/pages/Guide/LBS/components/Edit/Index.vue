@@ -32,11 +32,16 @@
                 </div>
                 <template slot='suffix'>
                   <div class='employee-suffix'>
-                    <NsShopDialog :selfBtn='true' :appendToBody='true' :isButton="false" :validNull="true" :auth="false"   btnTitle="" type='icon' dialogTitle="选择门店" v-model="model.shopIdList" @input="handleChangeShopList">
+                    <!-- <NsShopDialog :selfBtn='true' :appendToBody='true' :isButton="false" :validNull="true" :auth="false"   btnTitle="" type='icon' dialogTitle="选择门店" v-model="model.shopIdList" @input="handleChangeShopList">
                        <template slot='btnIcon'>
                         <Icon type="shop" class='shop-icon'></Icon>
                       </template>
-                    </NsShopDialog>
+                    </NsShopDialog> -->
+                    <shopSelect @callBack="handleChangeShopList" :hasShopArr="model.shopIdList" shopStatus='1,-1' isDIYBtn>
+                      <template slot='btnIcon'>
+                        <Icon type="shop" class='shop-icon'></Icon>
+                      </template>
+                    </shopSelect>
                   </div>
                 </template>
               </html-area>
@@ -284,8 +289,9 @@ import NsShopDialog from '@/components/NsShopDialog'
 import PhoneBox from '@/components/NewUi/PhoneBox'
 import ElInputNumber from '@nascent/nui/lib/input-number'
 import NsDatetime from '@nascent/ecrp-ecrm/src/components/NsDatetime'
+import shopSelect from '../../../components/selectShops'
 Index.components = {
-  VueDragResize, RecruitmentCollapse, LengthInput, PageEdit, DrapUpload, ElImage, NsShopDialog, HtmlArea, SimpleCollapse, PhoneBox, TagArea, ElInputNumber, NsDatetime
+  VueDragResize, RecruitmentCollapse, LengthInput, PageEdit, DrapUpload, ElImage, NsShopDialog, HtmlArea, SimpleCollapse, PhoneBox, TagArea, ElInputNumber, NsDatetime, shopSelect
 }
 export default Index
 </script>

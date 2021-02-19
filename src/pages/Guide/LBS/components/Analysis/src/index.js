@@ -127,6 +127,13 @@ export default {
       }
       this.dateValue = null
     },
+    handleChangeShopList (shopIdList) {
+      this.model = {
+        ...this.model,
+        shopIdList
+      }
+      this.getDataTotal()
+    },
     changeModelDate (startTime, endTime) {
       this.time = [startTime, endTime]
       this.model = {

@@ -25,7 +25,7 @@
               prop="status"
               label="状态">
               <template slot-scope="scope">
-                <el-tag :type="statusList[scope.row.status+''].color" class='scope-name_tag'>{{statusList[scope.row.status+''].value}}</el-tag>
+                <el-tag :type="statusList[scope.row.shopStatus+''].color" class='scope-name_tag'>{{statusList[scope.row.shopStatus+''].value}}</el-tag>
               </template>
             </el-table-column>
           </el-table>
@@ -66,7 +66,6 @@ export default {
         page: 1,
         total: 0
       },
-      url: this.$api.guide.lbs.getGroupShop,
       // 筛选数据
       model: {
         shopName: '',
@@ -93,7 +92,12 @@ export default {
       }
     }
   },
-  props: ['guid'],
+  props: ['guid', 'type'],
+  computed: {
+    url () {
+      return this.type === 'Group' ? this.$api.guide.lbs.getGroupShop : this.$api.guide.lbs.shopSearch
+    }
+  },
   components: {
     PageTable
   },

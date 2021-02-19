@@ -16,6 +16,11 @@ export default {
     url: `${groupPrefix}activityShop`,
     method: 'post'
   },
+  // 好友查询门店
+  shopSearch: {
+    url: `${friendsPrefix}shopSearch`,
+    method: 'post'
+  },
   // 群删除活动
   deleteGroupById: {
     url: `${groupPrefix}endActivity`,

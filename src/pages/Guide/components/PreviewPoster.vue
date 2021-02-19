@@ -16,12 +16,6 @@
         </el-form-item>
         <el-form-item label='海报图'>
           <div class='flex-box bottom'>
-            <!-- <div  class='preview-img'>
-              <div class='hover' @click='handlePreview(url)'>
-                预览
-              </div>
-              <img :src='url'/>
-            </div> -->
             <el-image
               class='preview-img'
               :src="url"
@@ -38,12 +32,6 @@
       <el-form class='normal-from' label-width="60px" label-position='left'>
         <el-form-item label='  '>
           <div class='flex-box bottom qrcode'>
-            <!-- <div  class='preview-img'>
-              <div class='hover' @click='handlePreview(url)'>
-                预览
-              </div>
-              <img :src='url'/>
-            </div> -->
             <qr-code :value="url" :size="220" :options="{size:220}"></qr-code>
             <ns-button class='copy' icon='el-icon-download' @click="handleDownloadQrcode(url)">
               下载

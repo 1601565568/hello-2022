@@ -135,6 +135,10 @@ export default {
       type: Boolean,
       default: false
     },
+    shopStatus: {
+      type: String,
+      default: '1'
+    },
     params: {},
     callBack: Function// 选择完后的回调
   },
@@ -279,7 +283,7 @@ export default {
       let param = {
         length: 99999999,
         searchMap: {
-          shopStatus: 1,
+          shopStatus: this.shopStatus,
           shopIds: this.storeInfo.fileIds,
           shopCate: this.param.shopCate.value,
           shopId: this.param.shopId,
@@ -368,7 +372,7 @@ export default {
         start: (this.pagination.page - 1) * this.pagination.size,
         length: this.pagination.size,
         searchMap: {
-          shopStatus: 1,
+          shopStatus: this.shopStatus,
           shopIds: this.storeInfo.fileIds,
           shopCate: this.param.shopCate.value,
           shopId: this.param.shopId,

@@ -28,14 +28,22 @@
       <template slot='search'>
         <el-form :inline="true" class='form-inline_top'>
           <el-form-item label="选择门店：">
-            <NsShopDialog :selfBtn='true' :appendToBody='true' :isButton="false" :auth="false" type="icon" btnTitle="" dialogTitle="选择门店" v-model="model.shopIdList" @input="getDataTotal">
+            <!-- <NsShopDialog :selfBtn='true' :appendToBody='true' :isButton="false" :auth="false" type="icon" btnTitle="" dialogTitle="选择门店" v-model="model.shopIdList" @input="getDataTotal">
               <template slot='btnIcon'>
                 <div class='self-btn'>
                   {{(model.shopIdList&&model.shopIdList.length)?`已选择${model.shopIdList.length}个门店`:'全部'}}
                   <Icon type="shop" class='guideIds-icon'></Icon>
                 </div>
               </template>
-            </NsShopDialog>
+            </NsShopDialog> -->
+            <shopSelect @callBack="handleChangeShopList" :hasShopArr="model.shopIdList" shopStatus='1,-1' isDIYBtn>
+              <template slot='btnIcon'>
+               <div class='self-btn'>
+                  {{(model.shopIdList&&model.shopIdList.length)?`已选择${model.shopIdList.length}个门店`:'全部'}}
+                  <Icon type="shop" class='guideIds-icon'></Icon>
+                </div>
+              </template>
+            </shopSelect>
           </el-form-item>
           <el-form-item v-if='type === "Group"' label="群码设置状态：" class='el-form__change'>
             <el-select v-model="model.setState" placeholder="请选择" @change='getDataTotal'>
@@ -105,10 +113,11 @@ import ShopTable from './components/ShopTable'
 import EmployeeTable from './components/EmployeeTable'
 import ShopFriendsTable from './components/ShopFriendsTable'
 import EmployeeFriendsTable from './components/EmployeeFriendsTable'
+import shopSelect from '../../../components/selectShops'
 
 export default Analysis
 Analysis.components = {
-  PageTable, NsShopDialog, ShopTable, EmployeeTable, ShopFriendsTable, EmployeeFriendsTable
+  PageTable, NsShopDialog, ShopTable, EmployeeTable, ShopFriendsTable, EmployeeFriendsTable, shopSelect
 }
 </script>
 <style lang="scss" scoped>
