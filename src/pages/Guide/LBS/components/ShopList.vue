@@ -78,7 +78,7 @@ export default {
           color: 'info'
         },
         '-1': {
-          value: '暂停',
+          value: '暂停营业',
           color: 'warning'
         },
         '1': {

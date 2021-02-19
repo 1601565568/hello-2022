@@ -3,7 +3,7 @@
     <page-table title='参与门店'>
       <template slot='table'>
         <div class='form-item_tip'>
-          客户选择此门店时，会随机添加以下的任意一名员工
+          客户选择此门店时，会随机添加以下的任意一名在职员工
         </div>
         <el-table
           :data="_data._table.data"
@@ -11,26 +11,21 @@
           @sort-change="handleSort"
           style="width: 100%">
           <el-table-column
-            prop="chatroomNum"
+            prop="userName"
             label="员工姓名">
           </el-table-column>
           <el-table-column
-            prop="guideName"
+            prop="workNumber"
             label="工号">
           </el-table-column>
           <el-table-column
-            prop="userNum"
+            prop="addUserNum"
             sortable="custom"
             label="添加好友数">
           </el-table-column>
           <el-table-column
-            prop="title"
+            prop="addTotalUserNum"
             label="好友总数">
-            <template slot-scope="scope">
-              <div class='btn-context'>
-                <ns-button type="text" class='detail-btn' @click='handleRemove(scope.row)'>移除</ns-button>
-              </div>
-            </template>
           </el-table-column>
         </el-table>
       </template>

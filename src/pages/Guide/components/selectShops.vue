@@ -135,6 +135,7 @@ export default {
       type: Boolean,
       default: false
     },
+    // 请求店铺状态，默认只请求正常营业
     shopStatus: {
       type: String,
       default: '1'

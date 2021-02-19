@@ -82,8 +82,12 @@ export default {
       input.setAttribute('type', 'hidden')
       input.setAttribute('name', 'url')
       input.setAttribute('value', url)
-      input.setAttribute('fileName', 'xx')
+      var input2 = document.createElement('input')
+      input2.setAttribute('type', 'hidden')
+      input2.setAttribute('name', 'fileName')
+      input2.setAttribute('value', this.activityName ? this.activityName + '的海报' : '海报')
       form.appendChild(input)
+      form.appendChild(input2)
       document.body.appendChild(form)
       form.submit()
     },
