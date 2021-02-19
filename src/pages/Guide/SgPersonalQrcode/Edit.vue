@@ -135,7 +135,7 @@
                 未选择标签
               </el-form-grid>
             </el-form-item>
-            <el-form-item label="海报" v-if="memberManagePlan == 1 && personalQrcode.type == 0">
+            <el-form-item label="海报" v-if="memberManagePlan == 1">
               <div class="poster-content">
                 <el-upload
                   size="xlg"
