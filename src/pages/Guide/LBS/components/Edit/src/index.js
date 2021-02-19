@@ -68,6 +68,9 @@ export default {
         ],
         qrcodePoster: [
           { required: true, message: '请上传海报背景', trigger: ['blur', 'change'] }
+        ],
+        qrcodeType: [
+          { required: true, message: '请选择聚合码设置', trigger: ['blur', 'change'] }
         ]
       },
       btnLoad: false,
@@ -118,7 +121,7 @@ export default {
     async loadData () {
       const result = await this.$http.fetch(this.loadApi, { guid: this.$route.query.guid })
       if (result.success) {
-        this.isStating = result.result.state === 2
+        this.isStating = result.result.state === 1
         return result.result
       } else {
         return false

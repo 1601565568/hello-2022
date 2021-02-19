@@ -48,8 +48,8 @@
             </el-form-item>
             <el-form-item label='有效时间' required prop='timeType'>
               <div class='form-item_toptext'>
-                <el-radio v-model="model.timeType" :label="1">固定时间</el-radio>
-                <el-radio v-model="model.timeType" :label="2">永久有效</el-radio>
+                <el-radio v-model="model.timeType" :label="1" :disabled='isStating'>固定时间</el-radio>
+                <el-radio v-model="model.timeType" :label="2" :disabled='isStating'>永久有效</el-radio>
               </div>
               <div class='form-item_time' v-if='model.timeType === 1'>
                 <div>时间范围</div>

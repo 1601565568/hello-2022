@@ -3,7 +3,7 @@
     <page-table title='参与门店'>
       <template slot='search'>
         <el-form :inline="true" class='form-inline_top'>
-          <el-form-item label="">
+          <el-form-item label=""  v-if='addState.includes(state)' class='addgroup-btn'>
             <NsChatRoomDialog btnTitle="添加群聊" @getChatRoomData="getChatRoomData" :showIcon='false'></NsChatRoomDialog>
           </el-form-item>
         </el-form>
@@ -102,7 +102,8 @@ export default {
           value: '提前结束',
           color: 'info'
         }
-      }
+      },
+      state: -1
     }
   },
   computed: {
@@ -110,7 +111,7 @@ export default {
       return this.$api.guide.lbs.deleteGroup
     }
   },
-  props: ['shopId', 'guid', 'shopName', 'configId'],
+  props: ['shopId', 'guid', 'shopName', 'configId', 'addState'],
   components: {
     PageTable, NsChatRoomDialog
   },
@@ -182,6 +183,7 @@ export default {
   watch: {
     shopId: {
       handler (newVal, oldVal) {
+        this.state = this.$route.query ? this.$route.query.state : -1
         this.model.shopId = newVal
         this.model.guid = this.guid
         this.model.configId = this.configId
@@ -261,4 +263,16 @@ export default {
       }
     }
   }
+</style>
+<style scoped>
+.form-inline_top .el-form-item.addgroup-btn {
+  padding: 0 16px;
+  line-height: 32px;
+  height: 32px;
+  border-radius: 2px;
+  >>> .el-button--small {
+    font-size: 14px;
+    padding: 7px 0 !important;
+  }
+}
 </style>

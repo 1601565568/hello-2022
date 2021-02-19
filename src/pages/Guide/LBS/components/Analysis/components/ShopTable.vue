@@ -12,7 +12,7 @@
             prop="shopName"
             label="参与门店">
             <template slot-scope="scope">
-              <div>{{scope.row.shopName}}{{scope.row.state === 0 ? '（已从活动移除）' : ''}}</div>
+              <div>{{scope.row.shopName}}{{scope.row.state === 3 ? '（已从活动移除）' : ''}}</div>
             </template>
           </el-table-column>
           <el-table-column
@@ -38,7 +38,7 @@
             <template slot-scope="scope">
               <div class='btn-context'>
                 <ns-button type="text" class='detail-btn' @click='handleDetail(scope.row,scope.$index)'>查看详情</ns-button>
-                <ns-button type="text" class='detail-btn' @click='handleAddGroup(scope.row)'>添加群聊</ns-button>
+                <ns-button v-if='addState.includes(state)' type="text" class='detail-btn' @click='handleAddGroup(scope.row)'>添加群聊</ns-button>
                 <!-- <NsChatRoomDialog btnTitle="添加群聊" @getChatRoomData="(list)=>{getChatRoomData(list,scope.row)}" :showIcon='false' :isLoaded='false'></NsChatRoomDialog> -->
               </div>
             </template>
@@ -70,7 +70,7 @@
       <div class='master-close'>
         <i class="el-icon-close" @click="handleClose"></i>
       </div>
-      <GroupList v-if='drawer' :shopName='shopName' :configId='configId' :shopId='shopId' :guid='model.guid' @onNext='getOhter("next",handleDetail)' @onPrev='getOhter("prev",handleDetail)' />
+      <GroupList v-if='drawer' :addState='addState' :shopName='shopName' :configId='configId' :shopId='shopId' :guid='model.guid' @onNext='getOhter("next",handleDetail)' @onPrev='getOhter("prev",handleDetail)' />
     </el-drawer>
   </div>
 </template>
@@ -90,7 +90,9 @@ export default {
       shopName: null,
       activeIndex: -1,
       model: {},
-      activeRow: {}
+      activeRow: {},
+      addState: ['0', '1'], // 能新建群聊的状态
+      state: -1
     }
   },
   components: {
@@ -198,6 +200,7 @@ export default {
     }
   },
   mounted () {
+    this.state = this.$route.query ? this.$route.query.state : -1
     this.$refs.nsChatRoomDialog.init()
   }
 }

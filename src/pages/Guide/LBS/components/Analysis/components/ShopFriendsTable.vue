@@ -11,6 +11,11 @@
           <el-table-column
             prop="shopName"
             label="参与门店">
+            <template slot-scope="scope">
+              <div class="scope-title">
+                {{scope.row.shopName||''}}{{scope.row.state === 3 ? '（已从活动移除）' : ''}}
+              </div>
+            </template>
           </el-table-column>
           <el-table-column
             prop="chatroomNum"
