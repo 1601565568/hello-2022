@@ -13,6 +13,8 @@
           <CustomIndicatorDialog
             :visible="customIndicatorDialogVisible"
             @close="customIndicatorDialogVisible = false"
+            @confirm="chooseCustomIndicator"
+            :selectedChannels="customIndicators"
           />
           <!-- 全屏查看渠道好友占比Dialog -->
           <ChannelFriendRateDialog
@@ -24,7 +26,7 @@
         </div>
       </template>
       <!-- echart图 -->
-      <ChannelChart class="channel-friend-rate-chart"/>
+      <ChannelChart class="channel-friend-rate-chart" :channelCodes="customIndicators"/>
     </content-panel>
     <content-panel title="渠道统计" class="channel-statistics">
       <template v-slot:toolbar>

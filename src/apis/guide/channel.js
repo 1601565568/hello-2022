@@ -2,6 +2,10 @@
  * 渠道管理相关接口
  */
 export default {
+  getChannelList: { // 自定义指标
+    url: '/Guide/chanel/getChannelList',
+    method: 'get'
+  },
   findChannelAnalysisChartData: { // 查询渠道分析【图表】数据
     url: '/Guide/chanel/findChannelAnalysisChartData',
     method: 'post'

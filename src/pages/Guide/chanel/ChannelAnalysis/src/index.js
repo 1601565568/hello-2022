@@ -20,6 +20,7 @@ export default {
     return {
       chartHeight: 200,
       customIndicatorDialogVisible: false, // 自定义指标dialog
+      customIndicators: [], // 已选自定义指标
       channelFriendRateDialogVisible: false, // 渠道好友占比
       url: this.$api.guide.channel.findChannelAnalysisList,
       model: {
@@ -46,6 +47,10 @@ export default {
     },
     customIndicator () {
       this.customIndicatorDialogVisible = true
+    },
+    async chooseCustomIndicator (indicators) { // 选择自定义指标
+      window.console.log('已选择的自定义指标', indicators)
+      this.customIndicators = indicators
     },
     showChannelFriendRateDialog () {
       this.chartHeight = document.documentElement.clientHeight || document.body.clientHeight

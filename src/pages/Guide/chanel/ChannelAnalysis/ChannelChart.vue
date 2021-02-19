@@ -29,6 +29,7 @@ export default {
   components: {
     NsEcharts
   },
+  props: [ 'channelCodes' ],
   data () {
     return {
       chartOptions: {
@@ -44,11 +45,11 @@ export default {
         },
         dataset: [
           {
-            dimensions: ['date', '渠道1', '渠道2', '渠道3'],
+            dimensions: ['date', '测试', '渠道2', '渠道3'],
             source: [
-              { date: '2021-2-17', '渠道1': 56.5, '渠道2': 32.1, '渠道3': 88.7 },
-              { date: '2021-2-18', '渠道1': 22.5, '渠道2': 62.1, '渠道3': 78.7 },
-              { date: '2021-2-19', '渠道1': 54.5, '渠道2': 82.1, '渠道3': 38.7 }
+              { date: '2021-2-17', '测试': 56.5, '渠道2': 32.1, '渠道3': 88.7 },
+              { date: '2021-2-18', '测试': 22.5, '渠道2': 62.1, '渠道3': 78.7 },
+              { date: '2021-2-19', '测试': 54.5, '渠道2': 82.1, '渠道3': 38.7 }
             ]
           },
           {
@@ -62,8 +63,9 @@ export default {
         yAxis: { gridIndex: 0 },
         grid: { left: 50, right: '35%' },
         series: [
-          { type: 'line' },
-          { type: 'line' },
+          // { type: 'line' },
+          // { type: 'line' },
+          // { type: 'line' },
           {
             type: 'pie',
             id: 'pie',
@@ -81,25 +83,36 @@ export default {
       }
     }
   },
+  watch: {
+    async channelCodes (newVal, oldVal) {
+      if (newVal.join(',') !== oldVal.join(',')) {
+        await this.getChannelAnalysisChartData()
+      }
+    }
+  },
   mounted () {
     this.getChannelAnalysisChartData()
   },
   methods: {
-    getChannelAnalysisChartData () {
-      this.$http.fetch(this.$api.guide.channel.findChannelAnalysisChartData, {
+    async getChannelAnalysisChartData () {
+      const res = await this.$http.fetch(this.$api.guide.channel.findChannelAnalysisChartData, {
         startTime: '',
         endTime: '',
-        channelCodes: 'SG8105835895695622620707336257'
-      }).then(resp => {
-        window.console.log(resp)
-
-        this.chartOptions.dataset[0].dimensions = resp.result.channelLineChartData.dimensions
-        this.chartOptions.dataset[0].source = resp.result.channelLineChartData.source
-
-        this.chartOptions = { ...this.chartOptions }
-      }).catch(a => {
-        window.console.log(a)
+        // channelCodes: 'SG8105835895695622620707336257,SG4319746901676736202624995038,SG2847297821636330798439885708,SG8368770410217426770957758695'
+        channelCodes: this.channelCodes.join(',')
       })
+
+      this.chartOptions.dataset[0].dimensions = res.result.channelLineChartData.dimensions
+      this.chartOptions.dataset[0].source = res.result.channelLineChartData.source
+      const pieChart = this.chartOptions.series.pop()
+      this.chartOptions.series = []
+      for (let i = 0; i < res.result.channelLineChartData.dimensions.length - 1; i++) {
+        this.chartOptions.series.push({ type: 'line' })
+      }
+
+      this.chartOptions.series.push(pieChart)
+      this.chartOptions = { ...this.chartOptions }
+      window.console.log('图数据', res)
     }
   }
 }

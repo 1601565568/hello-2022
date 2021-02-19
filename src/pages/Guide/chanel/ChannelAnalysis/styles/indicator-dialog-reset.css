@@ -1,7 +1,3 @@
->>> .el-dialog__header {
-  display: none;
-}
-
 .custom-header {
   >>> .el-input {
     width: 240px;
