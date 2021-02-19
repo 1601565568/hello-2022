@@ -79,17 +79,19 @@
                 {{ item.title }}
               </div>
               <div class="chatRecord_share__content">
-                <div class="chatRecord_share__Text">
-                  {{ item.description }}
-                </div>
+                  <div class="chatRecord_share__Text">
+                     <a class="link" :href="item.link_url" target=_blank>
+                      {{ item.description }}
+                     </a>
+                  </div>
                 <img class="chatRecord_share__img" :src="item.image_url" />
               </div>
-              <div class="chatRecord_share__user">
+<!--              <div class="chatRecord_share__user">-->
 <!--                <img class="chatRecord_share__user__img" :src="item.avatar" />-->
 <!--                <span class="chatRecord_share__user__name">{{-->
 <!--                  item.name-->
 <!--                }}</span>-->
-              </div>
+<!--              </div>-->
             </div>
             <div class="chatRecord_map" v-if="item.msgtype === 'location'">
               <div class="chatRecord_map_text">
@@ -404,6 +406,7 @@ export default {
       display: flex;
       align-items: center;
       .chatRecord_share__Text {
+        width: 192px;
         font-size: 14px;
         overflow: hidden;
         text-overflow: ellipsis;
