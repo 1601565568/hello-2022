@@ -18,8 +18,14 @@ export default {
     url: '/Guide/chanel/findChannelAnalysisDailyList',
     method: 'post'
   },
-  exportFileTest: {
-    url: '',
+  exportChannelAnalysisList: { // 导出渠道统计EXCEL表格数据
+    url: '/Guide/chanel/exportChannelAnalysisList',
+    method: 'post',
+    responseType: 'blob',
+    timeout: 600000
+  },
+  exportChannelAnalysisDailyListExcel: { // 导出渠道明细EXCEL表格数据
+    url: '/Guide/chanel/exportChannelAnalysisDailyListExcel',
     method: 'post',
     responseType: 'blob',
     timeout: 600000

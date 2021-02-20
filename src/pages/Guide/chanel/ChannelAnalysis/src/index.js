@@ -1,4 +1,5 @@
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
+import moment from 'moment'
 
 export default {
   mixins: [ tableMixin ],
@@ -14,6 +15,14 @@ export default {
       }
 
       this.searchform()
+    }
+  },
+  computed: {
+    exportTime () {
+      if (this.searchDate && this.searchDate.length === 2) {
+        return `（${this.searchDate.map(item => moment(item).format('YYYY-MM-DD')).join('至')}）`
+      }
+      return ''
     }
   },
   data () {
@@ -49,8 +58,8 @@ export default {
     searchform () {
       this.$searchAction$()
     },
-    checkDetail (channleCode) {
-      this.$router.push(`/Guide/chanel/ChannelDetail/${channleCode}`)
+    checkDetail (rowData) {
+      this.$router.push(`/Guide/chanel/ChannelDetail/${rowData.channelCode}/${rowData.channelName}`)
     },
     customIndicator () {
       this.customIndicatorDialogVisible = true
@@ -76,9 +85,9 @@ export default {
       }
 
       let param = this.$generateParams$()
-      // param.searchMap.type = 2
+
       this.$notify.info('导出中，请稍后片刻')
-      this.$http.fetch(this.$api.guide.channel.exportFileTest, param)
+      this.$http.fetch(this.$api.guide.channel.exportChannelAnalysisList, param)
         .then((resp) => {
           this.$notify.success('下载完成')
         }).catch((resp) => {
@@ -89,7 +98,8 @@ export default {
             let link = document.createElement('a')
             link.style.display = 'none'
             link.href = url
-            const fileName = `${this.$route.params.name || ''}-好友添加明细.CSV`
+
+            const fileName = `渠道分析统计${this.exportTime}.CSV`
             link.setAttribute('download', fileName)
             document.body.appendChild(link)
             link.click()

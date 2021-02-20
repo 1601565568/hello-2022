@@ -55,7 +55,7 @@
           </el-table-column>
           <el-table-column prop="count" label="操作">
             <template slot-scope="scope">
-              <ns-button type="text" @click="checkDetail(scope.row.channelCode)">查看明细</ns-button>
+              <ns-button type="text" @click="checkDetail(scope.row)">查看明细</ns-button>
             </template>
           </el-table-column>
         </el-table>

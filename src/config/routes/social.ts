@@ -224,7 +224,7 @@ export default {
               'component': () => import('@/pages/Guide/chanel/chanel.vue')
             },
             {
-              'path': '/Guide/chanel/ChannelDetail/:channelCode',
+              'path': '/Guide/chanel/ChannelDetail/:channelCode/:channelName',
               'name': 'ChannelDetail',
               'title': '渠道明细',
               'component': () => import('@/pages/Guide/chanel/ChannelAnalysis/ChannelDetail.vue')
