@@ -153,15 +153,17 @@ export default {
     handlerScroll () {
       if (!this.listIsScroll && this.getListMore) {
         this.listIsScroll = true
-        this.listParams.start = this.model.start + this.model.length
-        this.getKeyWordTopicList()
+        this.listParams.start = this.listParams.start + this.listParams.length
+        this.getKeyWordTopicList(true)
       }
     },
     /**
      * 获取话题列表
      */
-    getKeyWordTopicList () {
-      this.listLoading = true
+    getKeyWordTopicList (noLoding) {
+      if (!noLoding) {
+        this.listLoading = true
+      }
       // 清空数据
       this.keyWordsVoList = []
       this.table.tableData = []
@@ -183,6 +185,8 @@ export default {
           }
           if (res.result.length < this.listParams.length) {
             this.getListMore = false
+          } else {
+            this.getListMore = true
           }
           this.listLoading = false
           this.listIsScroll = false
@@ -325,6 +329,8 @@ export default {
             this.keyWordsVoList = []
             this.select = null
             this.selectKeyWordId = null
+            // 话题列表请求参数页码
+            this.listParams.start = 0
             this.getKeyWordTopicList()
           }
         })
@@ -432,7 +438,7 @@ export default {
         type: 1
       }
       let arr = await this.requestWeWorkChatDataToDb()
-      this.weWorkChatData.unshift(...arr)
+      this.weWorkChatData.unshift(...arr.reverse())
     },
     /**
      * 拉取企业微信最新聊天数据
@@ -447,13 +453,11 @@ export default {
           .then(res => {
             if (res.success) {
               const arr = res.result || []
-              const arrReverse = arr.reverse()
-              resolve(formatWeWorkChatData(arrReverse))
+              resolve(formatWeWorkChatData(arr))
             }
           })
           .catch(err => {
             this.$notify.error(err.msg)
-            // reject(new Error(err))
           })
       })
     },

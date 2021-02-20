@@ -4,6 +4,7 @@ import ItemDrawer from '../../components/ItemDrawer'
 import nsAddBorder from '../../topicAnalysis/image/ns-add-border.png'
 import infiniteScroll from 'vue-infinite-scroll'
 import AddSensitiveWords from '../../components/addSensitiveWords'
+import NsNoData from '@nascent/ecrp-ecrm/src/components/NsNoData.vue'
 import moment from 'moment'
 import { formatList, formatWeWorkChatData } from './format'
 export default {
@@ -12,7 +13,8 @@ export default {
     ChatRecordList,
     ElDrawer,
     ItemDrawer,
-    AddSensitiveWords
+    AddSensitiveWords,
+    NsNoData
   },
   data () {
     return {
@@ -90,8 +92,10 @@ export default {
     /**
      * 获取敏感词列表
      */
-    getList () {
-      this.listLoading = true
+    getList (noLoding) {
+      if (!noLoding) {
+        this.listLoading = true
+      }
       this.table.loading = true
       this.table.tableData = []
       this.$http
@@ -112,6 +116,8 @@ export default {
           }
           if (result.length < this.model.length) {
             this.getListMore = false
+          } else {
+            this.getListMore = true
           }
           this.listLoading = false
           this.listIsScroll = false
@@ -159,7 +165,7 @@ export default {
       if (!this.listIsScroll && this.getListMore) {
         this.listIsScroll = true
         this.model.start = this.model.start + this.model.length
-        this.getList()
+        this.getList(true)
       }
     },
     /**
@@ -284,7 +290,7 @@ export default {
       if (arr.length === 0) {
         this.$notify.error('暂无最新的记录，请稍后再试')
       }
-      this.weWorkChatData.push(...arr.reverse())
+      this.weWorkChatData.push(...arr)
     },
     /**
      * 聊天记录顶部加载更多历史数据
@@ -300,7 +306,7 @@ export default {
         type: 1
       }
       let arr = await this.requestWeWorkChatDataToDb()
-      this.weWorkChatData.unshift(...arr)
+      this.weWorkChatData.unshift(...arr.reverse())
     },
     /**
      * 拉取企业微信最新聊天数据
@@ -315,13 +321,11 @@ export default {
           .then(res => {
             if (res.success) {
               const arr = res.result || []
-              const arrReverse = arr.reverse()
-              resolve(formatWeWorkChatData(arrReverse))
+              resolve(formatWeWorkChatData(arr))
             }
           })
           .catch(err => {
             this.$notify.error(err.msg)
-            // reject(new Error(err))
           })
       })
     },

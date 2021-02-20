@@ -63,6 +63,17 @@
               /></span>
             </div>
           </div>
+          <p class="getMoreloading" v-if="getListMore && !listLoading">
+            加载中...
+          </p>
+          <p
+            class="getMoreloading"
+            v-if="!getListMore && !listLoading && list.length !== 0"
+          >
+            没有更多了
+          </p>
+          <NsNoData v-if="!listLoading && list.length === 0"
+          >暂无数据</NsNoData>
           <!-- </div> -->
         </div>
         <div class="content_bottom"></div>
@@ -210,6 +221,12 @@ export default Index
 .page-header__search {
   display: flex;
   justify-content: space-between;
+}
+.getMoreloading {
+  height: 64px;
+  line-height: 64px;
+  // padding: 0 16px;
+  text-align: center;
 }
 .content_header {
   display: flex;
