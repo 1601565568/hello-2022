@@ -3,8 +3,12 @@
     <NsEcharts class="echart-size" :options="chartOptions" :theme="'customed'" />
     <div class="channel-total-position">
       <div class="circle-chart-statistics">
-        <div class="data-item">
-          <span class="data-item-count" @click="getChannelAnalysisChartData">129,831</span>
+        <div class="data-item" v-for="(item, index) in chartOptions.dataset[1].source" :key="index">
+          <span class="data-item-count">{{item.addCount}}</span>
+          <span class="data-item-label">{{item.channelName}}</span>
+        </div>
+        <!-- <div class="data-item">
+          <span class="data-item-count">129,831</span>
           <span class="data-item-label">线下添加好友</span>
         </div>
         <div class="data-item">
@@ -14,7 +18,7 @@
         <div class="data-item">
           <span class="data-item-count">9,831</span>
           <span class="data-item-label">小程序添加好友</span>
-        </div>
+        </div> -->
       </div>
     </div>
   </div>
@@ -29,7 +33,7 @@ export default {
   components: {
     NsEcharts
   },
-  props: [ 'channelCodes', 'startTime', 'endTime' ],
+  props: [ 'channelCodes', 'searchDate' ],
   data () {
     return {
       chartOptions: {
@@ -53,9 +57,11 @@ export default {
             ]
           },
           {
+            dimensions: ['channelName', 'addCount'],
             source: [
-              ['线下', '小程序', '公众号', '订阅号'],
-              [50, 100, 80, 190]
+              { addCount: 100, channelName: '哈哈' },
+              { addCount: 10, channelName: '哈哈2' },
+              { addCount: 80, channelName: '哈哈3' }
             ]
           }
         ],
@@ -67,6 +73,7 @@ export default {
           // { type: 'line' },
           // { type: 'line' },
           {
+            datasetIndex: 1,
             type: 'pie',
             id: 'pie',
             top: '-20%',
@@ -76,8 +83,12 @@ export default {
             //   formatter: '{b}: {d}%'
             // },
             radius: ['30%', '50%'],
-            seriesLayoutBy: 'row',
-            datasetIndex: 1
+            tooltip: {
+              trigger: 'item',
+              formatter: function (tip) {
+                return `${tip.name}: ${tip.value.addCount} (${tip.percent}%)`
+              }
+            }
           }
         ]
       }
@@ -88,6 +99,9 @@ export default {
       if (newVal.join(',') !== oldVal.join(',')) {
         await this.getChannelAnalysisChartData()
       }
+    },
+    async searchDate (times) {
+      this.getChannelAnalysisChartData()
     }
   },
   mounted () {
@@ -95,23 +109,33 @@ export default {
   },
   methods: {
     async getChannelAnalysisChartData () {
-      const res = await this.$http.fetch(this.$api.guide.channel.findChannelAnalysisChartData, {
-        startTime: this.startTime || '',
-        endTime: this.endTime || '',
-        // channelCodes: 'SG8105835895695622620707336257,SG4319746901676736202624995038,SG2847297821636330798439885708,SG8368770410217426770957758695'
-        channelCodes: this.channelCodes.join(',')
-      })
-      window.console.log('图数据', res)
-      this.chartOptions.dataset[0].dimensions = res.result.channelLineChartData.dimensions
-      this.chartOptions.dataset[0].source = res.result.channelLineChartData.source
-      const pieChart = this.chartOptions.series.pop()
-      this.chartOptions.series = []
-      for (let i = 0; i < res.result.channelLineChartData.dimensions.length - 1; i++) {
-        this.chartOptions.series.push({ type: 'line' })
-      }
+      try {
+        const res = await this.$http.fetch(this.$api.guide.channel.findChannelAnalysisChartData, {
+          startTime: (this.searchDate && this.searchDate.length) ? this.searchDate[0] : '',
+          endTime: (this.searchDate && this.searchDate.length) ? this.searchDate[1] : '',
+          channelCodes: this.channelCodes.join(',')
+        })
 
-      this.chartOptions.series.push(pieChart)
-      this.chartOptions = { ...this.chartOptions }
+        window.console.log('图数据', res)
+        if (res.success) {
+          this.chartOptions.dataset[0].dimensions = res.result.channelLineChartData.dimensions
+          this.chartOptions.dataset[0].source = res.result.channelLineChartData.source
+          this.chartOptions.dataset[1].source = res.result.channelPieChartData
+
+          const pieChart = this.chartOptions.series.pop()
+          this.chartOptions.series = []
+          for (let i = 0; i < res.result.channelLineChartData.dimensions.length - 1; i++) {
+            this.chartOptions.series.push({ type: 'line' })
+          }
+          this.chartOptions.series.push(pieChart)
+
+          this.chartOptions = { ...this.chartOptions }
+        } else {
+          this.$notify.error('渠道好友占比数据获取失败')
+        }
+      } catch (error) {
+        this.$notify.error('渠道好友占比数据获取失败')
+      }
     }
   }
 }

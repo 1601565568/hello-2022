@@ -7,28 +7,11 @@
     </div>
     <ContentPanel class="channel-content">
       <template v-slot:toolbar>
-        <el-form :inline="true" class="top-tool-bar">
-          <el-radio-group class="alalysis-radio" v-model="analysisDateField">
-            <el-radio :label="1" border>全部</el-radio>
-            <el-radio :label="2" border>近7天</el-radio>
-            <el-radio :label="3" border>近30天</el-radio>
-          </el-radio-group>
-          <span class="line"></span>
-          <el-date-picker
-            class="date-filter"
-            v-model="searchDate"
-            type="datetimerange"
-            value-format="yyyy-MM-dd HH:mm:ss"
-            :default-time="['00:00:00','23:59:59']"
-            range-separator="至"
-            start-placeholder="开始日期"
-            end-placeholder="结束日期"
-            :clearable="false"
-          ></el-date-picker>
-          <!-- <el-input placeholder="请输入渠道名称" v-model="filterText">
-            <Icon type="ns-search-copy" slot="suffix" style="font-size: 24px; margin-top: 2px"></Icon>
-          </el-input> -->
-        </el-form>
+        <DatePickerBar
+          @change="changeSearchDate"
+          @initDate="setSearchDate"
+          :defaultPickDay="7"
+        />
         <ns-button class="export-button">导出CSV文件</ns-button>
       </template>
       <div class="new-table channel-detail-table">
@@ -71,9 +54,11 @@ import ChannelDetail from './src/ChannelDetail'
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import ContentPanel from '../components/ContentPanel'
 import moment from 'moment'
+import DatePickerBar from '@/components/NewUi/DatePickerBar'
 
 ChannelDetail.components = {
-  ContentPanel
+  ContentPanel,
+  DatePickerBar
 }
 
 export default ChannelDetail
@@ -105,18 +90,6 @@ export default ChannelDetail
   }
 
   .channel-content {
-    .top-tool-bar {
-      display: flex;
-      align-items: center;
-      margin-left: 16px;
-      .line {
-        margin-left: 8px;
-        margin-right: 24px;
-        display: inline-block;
-        height: 20px;
-        border: 1px solid #e8e8e8;
-      }
-    }
     .export-button {
       font-size: 14px;
       height: 32px;

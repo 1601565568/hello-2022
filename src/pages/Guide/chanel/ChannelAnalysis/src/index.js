@@ -14,8 +14,6 @@ export default {
       }
 
       this.searchform()
-
-      await this.$refs.channelChart.getChannelAnalysisChartData()
     }
   },
   data () {
@@ -36,7 +34,14 @@ export default {
       }
     }
   },
-  mounted () {
+  async mounted () {
+    if (this.searchDate && this.searchDate.length === 2) {
+      this.model.startTime = this.searchDate[0]
+      this.model.endTime = this.searchDate[1]
+    } else {
+      this.model.startTime = ''
+      this.model.endTime = ''
+    }
     this.searchform()
     window.console.log('渠道统计列表', this._data)
   },

@@ -2,24 +2,13 @@
 <template>
 <div class="channel-management">
   <!-- 渠道分析顶部搜索栏 -->
-  <el-form :inline="true" class="top-tool-bar" v-show="activeName === '1'">
-    <el-radio-group class="alalysis-radio" v-model="analysisDateField">
-      <el-radio :label="1" border>全部</el-radio>
-      <el-radio :label="2" border>近7天</el-radio>
-      <el-radio :label="3" border>近30天</el-radio>
-    </el-radio-group>
-    <span class="line"></span>
-    <el-date-picker
-      v-model="analysisSearchDate"
-      type="datetimerange"
-      value-format="yyyy-MM-dd HH:mm:ss"
-      :default-time="['00:00:00','23:59:59']"
-      range-separator="至"
-      start-placeholder="开始日期"
-      end-placeholder="结束日期"
-      :clearable="false"
-    ></el-date-picker>
-  </el-form>
+  <DatePickerBar
+    v-if="activeName === '1'"
+    class="top-tool-bar"
+    :defaultPickDay="7"
+    @change="changeChannelAnalysisSearchDate"
+    @initDate="changeChannelAnalysisSearchDate"
+  />
   <el-tabs v-model="activeName" @tab-click="tabHandleClick">
     <el-tab-pane label="渠道管理" name="0">
       <div class="template-table">
@@ -159,34 +148,15 @@ import { getErrorMsg } from '@/utils/toast'
 import echarts from 'echarts'
 import businessEcharts from '@nascent/ecrp-ecrm/src/components/NsEcharts'
 import ChannelAnalysis from './ChannelAnalysis/index.vue'
+import DatePickerBar from '@/components/NewUi/DatePickerBar'
 
 export default {
   name: 'chanel',
   mixins: [listPageMixin],
   components: {
     addModal,
-    ChannelAnalysis
-  },
-  watch: {
-    analysisDateField (newVal) {
-      const todayStartTime = new Date(new Date().toLocaleDateString())
-      const todayEndTeime = new Date(todayStartTime.getTime() + 24 * 3600 * 1000 - 1)
-      const endTimeStr = moment(todayEndTeime).format('YYYY-MM-DD HH:mm:ss')
-
-      if (newVal === 1) { // 全部
-        this.analysisSearchDate = []
-      }
-
-      if (newVal === 2) { // 近7天
-        const during7Days = new Date(new Date(new Date().toLocaleDateString()).getTime() - 6 * 24 * 3600 * 1000)
-        this.analysisSearchDate = [ this.formatTime(during7Days), endTimeStr ]
-      }
-
-      if (newVal === 3) { // 近30天
-        const during30Days = new Date(new Date(new Date().toLocaleDateString()).getTime() - 29 * 24 * 3600 * 1000)
-        this.analysisSearchDate = [ this.formatTime(during30Days), endTimeStr ]
-      }
-    }
+    ChannelAnalysis,
+    DatePickerBar
   },
   data: function () {
     return {
@@ -235,7 +205,6 @@ export default {
       expanded: false,
       analysetime: [],
       searchDate: '',
-      analysisDateField: 2,
       analysisSearchDate: [
         moment(new Date(new Date(new Date().toLocaleDateString()).getTime() - 6 * 24 * 3600 * 1000)).format('YYYY-MM-DD HH:mm:ss'),
         moment(new Date((new Date(new Date().toLocaleDateString())).getTime() + 24 * 3600 * 1000 - 1)).format('YYYY-MM-DD HH:mm:ss')
@@ -251,6 +220,9 @@ export default {
     }
   },
   methods: {
+    changeChannelAnalysisSearchDate (searchDate) {
+      this.analysisSearchDate = searchDate
+    },
     formatTime (date) {
       return moment(date).format('YYYY-MM-DD HH:mm:ss')
     },
