@@ -30,7 +30,7 @@ export default {
       let deleteStartTime = ''
       // 删除结束时间
       let deleteEndTime = ''
-      if (that.model.deleteTime.length === 2) {
+      if (that.model.deleteTime !== null && that.model.deleteTime.length === 2) {
         deleteStartTime = that.model.deleteTime[0]
         deleteEndTime = that.model.deleteTime[1]
       }
