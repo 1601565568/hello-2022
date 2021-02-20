@@ -10,11 +10,11 @@
     <!-- 主列表 -->
     <ns-table-repeat-customer ref='table' @onRedactFun="onRedactFun"></ns-table-repeat-customer>
     <!-- 查看导购详情开始-->
-    <el-dialog title="详情" :visible.sync="RepeatCustomerShow" width="600px" class="detail-dialog">
+    <el-dialog title="详情" :visible.sync="RepeatCustomerShow" width="800px" class="detail-dialog">
       <div class="detail-dialog__content">
         <div class="detail-rightside">
         </div>
-        <el-form label-width="90px" class="detail-leftside">
+        <el-form label-width="90px" :model="quickSearchModel" class="detail-leftside">
           <el-form-item >
             <el-form-grid>
               <el-image
@@ -43,7 +43,7 @@
                     {{scope.row.name}}
                   </template>
                 </el-table-column>
-                <el-table-column label="员工门店" width="250">
+                <el-table-column label="员工门店" width="400">
                   <template slot-scope="scope">
                     {{scope.row.shop_name}}
                   </template>
@@ -58,6 +58,13 @@
           </el-form-item>
         </el-form>
       </div>
+      <!-- 分页 -->
+      <el-pagination v-if="pagination.enable" class="drawer-footer"
+                     :page-sizes="pagination.sizeOpts" :total="pagination.total"
+                     :current-page="pagination.page" :page-size="pagination.size"
+                     layout="total, sizes, prev, pager, next, jumper" @size-change="$sizeChange$"
+                     @current-change="$currentChange$">
+      </el-pagination>
       <div slot="footer" class="dialog-footer">
         <ns-button @click="cleanGuide">关闭</ns-button>
       </div>
@@ -84,7 +91,16 @@ export default {
       channelList: [],
       shopList: [],
       guide: {},
-      shopFindLists: []
+      shopFindLists: [],
+      externalUserId: undefined,
+      quickSearchModel: {},
+      pagination: {
+        enable: true,
+        size: 15,
+        sizeOpts: [15, 25, 50, 100],
+        page: 1,
+        total: 0
+      }
     }
   },
   methods: {
@@ -100,10 +116,21 @@ export default {
     async getGuideExtShop (id) {
       let tableConfig = this._data._table
       var _this = this
+      if (id === undefined) {
+        id = _this.externalUserId
+      } else {
+        _this.externalUserId = id
+      }
       tableConfig.loadingtable = true
-      _this.$http.fetch(_this.$api.weWork.weWorkCustomer.getRepeatGuideList, { id: id }).then(resp => {
+      const params = {
+        id: id
+      }
+      params.start = (_this.pagination.page - 1) * _this.pagination.size
+      params.length = _this.pagination.size
+      _this.$http.fetch(_this.$api.weWork.weWorkCustomer.getRepeatGuideList, params).then(resp => {
         if (resp.success && resp.result != null) {
-          _this.shopFindLists = resp.result
+          _this.shopFindLists = resp.result.data
+          _this.pagination.total = parseInt(resp.result.recordsTotal)
         }
       }).catch((resp) => {
         return resp
@@ -117,6 +144,21 @@ export default {
       this._data._table.loadingtable = false
       this.guide = {}
       this.shopFindLists = []
+      this.pagination = {
+        enable: true,
+        size: 15,
+        sizeOpts: [15, 25, 50, 100],
+        page: 1,
+        total: 0
+      }
+    },
+    $currentChange$ (data) {
+      this.pagination.page = data
+      this.getGuideExtShop()
+    },
+    $sizeChange$ (data) {
+      this.pagination.size = data
+      this.getGuideExtShop()
     }
   }
 }

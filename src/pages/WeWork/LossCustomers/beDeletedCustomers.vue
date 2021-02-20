@@ -3,6 +3,32 @@
     <ns-page-table :colButton="0">
       <!-- 简单搜索 -->
       <template slot="searchSearch">
+        <el-form
+          @submit.native.prevent
+          class="pull-right"
+          :inline="true"
+        >
+          <el-form-item v-show="searchType.advanced === false">
+            <el-input
+              ref="quickText"
+              v-model="model.customerNick"
+              placeholder="请输入好友昵称"
+              style="width: 180px"
+              clearable
+            />
+            <ns-button type="primary" @click="submitForm('searchform')" class="searchbtn">搜索</ns-button>
+            <ns-button @click="resetForm('searchform')" class="resetbtn">重置</ns-button>
+          </el-form-item>
+          <el-form-item>
+            <ns-button type="text" @click="tabSearchType" style="padding-left: 10px;opacity: 0.5;color: #002041;">
+              {{searchType.tipText}}
+              <Icon :type="searchType.advanced ? 'up' : 'down'" />
+            </ns-button>
+          </el-form-item>
+        </el-form>
+      </template>
+      <!-- 高级搜索 -->
+      <template slot="advancedSearch" v-if="searchType.advanced">
         <el-form :model="model" :inline="true" label-width="60px">
           <el-form-item label="好友昵称：">
             <el-input

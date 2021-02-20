@@ -85,35 +85,6 @@ export default {
       this.$emit('onShowShopScope', data)
     },
     /**
-     * @msg: 删除智能欢迎语
-     * @param {type} scope.row
-     */
-    onDeleteFun (data) {
-      let _this = this
-      _this.$confirm('请确认是否进行删除操作!', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        let param = {}
-        param.welcomeCodeUuid = data.welcomeCodeUuid
-        _this.$http.fetch(_this.$api.weWork.welcomeCode.deleteWelcomeCode, param).then(resp => {
-          if (resp.success) {
-            _this.$notify.success('删除成功')
-            _this.$nextTick(() => {
-              _this.$reload()
-            })
-          } else {
-            _this.$notify.success(resp.msg)
-          }
-        }).catch((resp) => {
-          _this.$notify.error(resp.msg)
-        })
-      })
-
-      this.$emit('onDeleteFun', data)
-    },
-    /**
      * @msg: 转换附带内容类型 k-v
      * @param {Number} 附带内容类型值
      * @return: 附带内容类型名称
@@ -126,38 +97,16 @@ export default {
       return '-'
     },
     /**
-     * 更改启用状态
-     * @param call
-     * @param currVal
-     * @param row
-     */
-    onStatusChange: function (call, currVal, row) {
-      let that = this
-      let status
-      if (currVal === 1) {
-        status = 0
-      } else if (currVal === 0) {
-        status = 1
-      }
-      that.$http.fetch(that.$api.weChat.welcomes.setWelcomeCodeStatus, { uuid: row.welcomeCodeUuid, status: status, plan: 1 }).then(resp => {
-        if (resp.success) {
-          that.$notify.success('修改成功')
-          that.$nextTick(() => {
-            that.$reload()
-          })
-        } else {
-          that.$notify.error(resp.msg)
-        }
-      }).catch((resp) => {
-        that.$notify.error(resp.msg)
-      })
-    },
-    /**
      * @msg: 時間变更
      */
     changeTime (e) {
-      this.model.timeStart = moment(e[0]).format('YYYY-MM-DD HH:mm:ss')
-      this.model.timeEnd = moment(e[1]).format('YYYY-MM-DD HH:mm:ss')
+      if (e != null) {
+        this.model.timeStart = moment(e[0]).format('YYYY-MM-DD HH:mm:ss')
+        this.model.timeEnd = moment(e[1]).format('YYYY-MM-DD HH:mm:ss')
+      } else {
+        this.model.timeStart = ''
+        this.model.timeEnd = ''
+      }
     },
     onRedactFun (row) {
       window.console.log(row)
