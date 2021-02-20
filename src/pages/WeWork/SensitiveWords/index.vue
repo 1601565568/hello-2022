@@ -59,7 +59,7 @@
               <div class="topic-Number">
                 {{ item.count }}
               </div>
-              <span class="del" @click="listDeleteItem(item.id)">
+              <span class="del" @click.stop="listDeleteItem(item.id)">
                 <Icon type="delete"
               /></span>
             </li>
@@ -67,10 +67,8 @@
           <p class="getMoreloading" v-if="getListMore && !listLoading">
             加载中...
           </p>
-          <p
-            class="getMoreloading"
-            v-if="!getListMore && !listLoading && listLoading.length !== 0"
-          >
+          <p class="getMoreloading"
+            v-if="!getListMore && !listLoading && listLoading.length !== 0">
             没有更多了
           </p>
           <NsNoData v-if="!listLoading && listLoading.length === 0"
