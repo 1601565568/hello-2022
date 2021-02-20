@@ -337,6 +337,10 @@ export default {
       this.tableReload(this.$generateParams$())
     },
     $searchAction$: function () {
+      if (this.model.guideIds.length > 1) {
+        this.$notify.warning('选择员工不能超过1个')
+        return false
+      }
       this._data._table.searchMap = $.extend(true, {}, this.model)
       // 记录搜索的条件
       var prePage = 1
