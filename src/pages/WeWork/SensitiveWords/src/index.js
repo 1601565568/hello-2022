@@ -4,6 +4,7 @@ import ItemDrawer from '../../components/ItemDrawer'
 import nsAddBorder from '../../topicAnalysis/image/ns-add-border.png'
 import infiniteScroll from 'vue-infinite-scroll'
 import AddSensitiveWords from '../../components/addSensitiveWords'
+import NsNoData from '@nascent/ecrp-ecrm/src/components/NsNoData.vue'
 import moment from 'moment'
 import { formatList, formatWeWorkChatData } from './format'
 export default {
@@ -12,7 +13,8 @@ export default {
     ChatRecordList,
     ElDrawer,
     ItemDrawer,
-    AddSensitiveWords
+    AddSensitiveWords,
+    NsNoData
   },
   data () {
     return {
@@ -85,39 +87,35 @@ export default {
     async init () {
       this.listLoading = true
       this.getDate()
+      this.table.loading = true
       this.getList()
     },
     /**
      * 获取敏感词列表
      */
-    getList () {
-      this.listLoading = true
-      this.table.loading = true
-      this.table.tableData = []
+    getList (noLoding) {
+      if (!noLoding) {
+        this.listLoading = true
+      }
       this.$http
         .fetch(this.$api.weWork.sensitiveWords.list, this.model)
         .then(res => {
           const result = formatList(res.result)
           this.list = this.list.concat(result)
-          this.tableParams.start = 0
-          if (this.select === null) {
+          if (this.select === null && this.list.length !== 0) {
             this.select =
               this.list[0] && this.list[0].id ? this.list[0].id : null
-          }
-          if (this.list.length !== 0) {
+            this.tableParams.start = 0
             this.tableParams.id = this.select
             this.getContentList()
-          } else {
-            this.table.loading = false
           }
-          if (result.length < this.model.length) {
-            this.getListMore = false
-          }
+          this.getListMore = !(result.length < this.model.length)
           this.listLoading = false
           this.listIsScroll = false
         })
         .catch(err => {
           this.$notify.error(err.msg || '敏感词列表失败')
+          this.listLoading = false
         })
     },
     /**
@@ -134,12 +132,13 @@ export default {
      */
     handlerChangeTime (data) {
       if (data) {
-        this.tableParams.time = data
         this.model.time = data
+        this.tableParams.time = data
+        this.model.start = 0
+        this.table.loading = true
         this.select = null
         this.list = []
         this.getList()
-        // this.getContentList()
       } else {
         const nowDate = new Date()
         this.time = moment(nowDate).format('YYYY-MM-DD')
@@ -149,7 +148,14 @@ export default {
      * 输入框搜索
      */
     onSearch () {
+      if (this.table.loading) {
+        return
+      }
       this.list = []
+      this.select = null
+      this.table.tableData = []
+      this.table.loading = true
+      this.model.start = 0
       this.getList()
     },
     /**
@@ -159,7 +165,7 @@ export default {
       if (!this.listIsScroll && this.getListMore) {
         this.listIsScroll = true
         this.model.start = this.model.start + this.model.length
-        this.getList()
+        this.getList(true)
       }
     },
     /**
@@ -167,35 +173,39 @@ export default {
      * @param {i} // i list唯一标识ID
      */
     selectUser (i) {
+      if (this.table.loading) {
+        return
+      }
       this.select = i
       this.tableParams.id = i
       this.tableParams.start = 0
-      let _this = this
       this.table.loading = true
-      clearTimeout(this.getContentListTime)
-      this.getContentListTime = setTimeout(() => {
-        _this.getContentList()
-      }, 500)
+      this.getContentList()
     },
     /**
      * 敏感词列表删除
      * @param {number} // id list唯一标识ID
      */
     listDeleteItem (id) {
-      let _this = this
+      this.listLoading = true
+      this.table.loading = true
+      this.select = null
+      // 解决不了遮罩问题. 数据清空方便遮罩
+      this.list = []
+      this.table.tableData = []
       this.$http
         .fetch(this.$api.weWork.sensitiveWords.delete, { id })
         .then(res => {
           if (res.success) {
-            _this.$notify.success(res.msg)
-            _this.model.start = 0
-            this.select = null
-            this.list = []
-            _this.getList()
+            this.$notify.success(res.msg)
+            this.model.start = 0
+            this.getList()
           }
         })
         .catch(err => {
-          _this.$notify.error(err.msg || '删除失败')
+          this.$notify.error(err.msg || '删除失败')
+          this.listLoading = false
+          this.table.loading = false
         })
     },
     /**
@@ -217,6 +227,7 @@ export default {
             this.model.start = 0
             this.list = []
             this.select = null
+            this.table.loading = true
             this.getList()
           }
         })
@@ -247,6 +258,10 @@ export default {
      *  @param {object}
      */
     getContext (row) {
+      if (this.table.loading) {
+        return
+      }
+      this.table.loading = true
       this.WeWorkChatParam = {
         chatDateTime: this.time,
         sender: row.sender,
@@ -262,9 +277,11 @@ export default {
         .then(res => {
           this.weWorkChatData = formatWeWorkChatData(res.result)
           this.drawer = true
+          this.table.loading = false
         })
         .catch(err => {
           this.$notify.error(err.msg || '查询失败')
+          this.table.loading = false
         })
     },
     /**
@@ -284,7 +301,7 @@ export default {
       if (arr.length === 0) {
         this.$notify.error('暂无最新的记录，请稍后再试')
       }
-      this.weWorkChatData.push(...arr.reverse())
+      this.weWorkChatData.push(...arr)
     },
     /**
      * 聊天记录顶部加载更多历史数据
@@ -300,7 +317,7 @@ export default {
         type: 1
       }
       let arr = await this.requestWeWorkChatDataToDb()
-      this.weWorkChatData.unshift(...arr)
+      this.weWorkChatData.unshift(...arr.reverse())
     },
     /**
      * 拉取企业微信最新聊天数据
@@ -315,13 +332,11 @@ export default {
           .then(res => {
             if (res.success) {
               const arr = res.result || []
-              const arrReverse = arr.reverse()
-              resolve(formatWeWorkChatData(arrReverse))
+              resolve(formatWeWorkChatData(arr))
             }
           })
           .catch(err => {
             this.$notify.error(err.msg)
-            // reject(new Error(err))
           })
       })
     },

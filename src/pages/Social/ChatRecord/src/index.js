@@ -125,7 +125,7 @@ export default {
       if (data) {
         this.WeWorkChatParam.chatDateTime = data
         this.talkToGuideListParams.time = data
-        this.resetSenderParams()
+        this.resetToListParms(false)
         this.toListLoading = true
         this.weWorkChatDataLoading = true
         // 是否有聊天数据
@@ -157,7 +157,7 @@ export default {
       }
       this.activeName = tab
       this.noMore = true
-      this.resetSenderParams()
+      this.resetSenderParams(true)
       this.handlerLoading()
       if (tab === '1') {
         _this.requestExternalUserList()
@@ -174,35 +174,41 @@ export default {
         this.$notify.error('正在拉取数据，请稍后再试')
         return false
       }
-      // console.log(activeName, 'oldActiveName', oldActiveName)
     },
     /**
      * senderList 重置请求参数
      */
-    resetSenderParams () {
-      this.resetToListParms()
+    resetSenderParams (reset) {
+      this.resetSearchSender(reset)
       // 请求参数
       this.senderParams = { name: '', start: 0, length: 15 }
     },
     /**
-     * toListParams
+     * 搜索重置
      */
-    resetToListParms () {
-      // 数据
+    resetSearchSender (reset) {
       this.senderList = []
-      this.toList = []
-      this.weWorkChatData = []
       // 选中对象
       this.senderIndex = null
+      this.resetToListParms(reset)
+    },
+    /**
+     * toListParams  是否重置选中参数
+     */
+    resetToListParms (reset) {
+      this.toList = []
+      this.weWorkChatData = []
       // 第二个列表选中对象
       this.toListIndex = null
-      // 请求参数
-      this.talkToGuideListParams = {
-        id: '', // 查询iD
-        time: this.time, // 查询时间
-        name: '',
-        start: 0,
-        length: 15
+      if (reset) {
+        // 请求参数
+        this.talkToGuideListParams = {
+          id: '', // 查询iD
+          time: this.time, // 查询时间
+          name: '',
+          start: 0,
+          length: 15
+        }
       }
     },
     /**
@@ -231,7 +237,7 @@ export default {
      * senderList 搜索
      */
     onSenderSearch () {
-      this.resetToListParms()
+      this.resetSearchSender(true)
       this.handlerLoading()
       this.senderParams = { ...this.senderParams, start: 0, length: 15 }
       if (parseInt(this.activeName) === 1) {
@@ -515,6 +521,7 @@ export default {
             if (res.success) {
               resolve(formatWeWorkChatData(res.result))
               this.weWorkChatDataLoading = false
+              this.toListLoading = false
             }
           })
           .catch(err => {

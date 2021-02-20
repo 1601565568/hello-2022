@@ -56,6 +56,7 @@ export default {
       select: null, // 切换话题列表选中状态
       keyWordId: null,
       selectKeyWordId: null, // 切换关键字选中状态
+      cantRequest: false,
       getContentListTime: null, // 防抖处理
       topicId: null,
       delType: 1, // 1 删除话题列表  2 删除关键字
@@ -120,6 +121,7 @@ export default {
       this.list = []
       this.keyWordsVoList = []
       this.table.tableData = []
+      this.listParams.start = 0
       this.select = null
       this.selectKeyWordId = null
       this.getKeyWordTopicList()
@@ -153,20 +155,22 @@ export default {
     handlerScroll () {
       if (!this.listIsScroll && this.getListMore) {
         this.listIsScroll = true
-        this.listParams.start = this.model.start + this.model.length
-        this.getKeyWordTopicList()
+        this.listParams.start = this.listParams.start + this.listParams.length
+        this.getKeyWordTopicList(true)
       }
     },
     /**
      * 获取话题列表
      */
-    getKeyWordTopicList () {
-      this.listLoading = true
+    getKeyWordTopicList (noLoding) {
+      if (!noLoding) {
+        this.listLoading = true
+      }
       // 清空数据
-      this.keyWordsVoList = []
-      this.table.tableData = []
-      this.select = null
-      this.selectKeyWordId = null
+      // this.keyWordsVoList = []
+      // this.table.tableData = []
+      // this.select = null
+      // this.selectKeyWordId = null
       // 请求 话题列表
       this.$http
         .fetch(
@@ -175,21 +179,23 @@ export default {
         )
         .then(res => {
           this.list = this.list.concat(formatList(res.result))
+          this.listLoading = false
+          this.listIsScroll = false
           if (this.select === null && this.list.length > 0) {
             // 默认选中第一个
-            let def =
-              this.list[0] && this.list[0].topicId ? this.list[0] : null
+            let def = this.list[0] && this.list[0].topicId ? this.list[0] : null
             this.onChangeList(def)
           }
           if (res.result.length < this.listParams.length) {
             this.getListMore = false
+          } else {
+            this.getListMore = true
           }
-          this.listLoading = false
-          this.listIsScroll = false
         })
         .catch(err => {
           this.$notify.error(err.msg || '获取话题列表失败')
           this.listLoading = false
+          this.listIsScroll = false
         })
     },
     /**
@@ -197,6 +203,10 @@ export default {
      * @param {Object} // i 列表某一项
      */
     onChangeList (i) {
+      if (this.cantRequest) {
+        return
+      }
+      this.cantRequest = true
       // 话题列表
       this.keyWordsVoListLoding = true
       this.table.loading = true
@@ -211,6 +221,7 @@ export default {
           this.$api.weWork.topicAnalysis.getKeyWordTopicList,
           this.keyWordVoListReq
         ).then(res => {
+          this.cantRequest = false
           let response = res.result
           this.keyWordsVoList = response.length > 0 ? response[0].keyWordsVoList : []
           let defItem =
@@ -225,6 +236,7 @@ export default {
           }
           this.selectKeyWord(defItem)
         }).catch(error => {
+          this.cantRequest = false
           this.keyWordsVoListLoding = false
           this.table.loading = false
           this.$notify.error(error.msg)
@@ -247,6 +259,11 @@ export default {
      * @param {Object} // data 弹窗回传的对象
      */
     add (data) {
+      if (this.listLoading) {
+        return
+      }
+      this.listLoading = true
+      this.keyWordsVoListLoding = true
       this.$http
         .fetch(this.$api.weWork.topicAnalysis.addKeyWordTopic, data)
         .then(res => {
@@ -258,6 +275,7 @@ export default {
         .catch(err => {
           this.$notify.error(err.msg || '新增话题异常')
           this.listLoading = false
+          this.keyWordsVoListLoding = false
         })
     },
     /**
@@ -276,6 +294,8 @@ export default {
             this.keyWordsVoList = []
             this.table.tableData = []
             this.selectKeyWordId = null
+            // 话题列表请求参数页码
+            this.listParams.start = 0
             this.onChangeList()
           }
         })
@@ -325,6 +345,8 @@ export default {
             this.keyWordsVoList = []
             this.select = null
             this.selectKeyWordId = null
+            // 话题列表请求参数页码
+            this.listParams.start = 0
             this.getKeyWordTopicList()
           }
         })
@@ -344,11 +366,9 @@ export default {
         .then(res => {
           if (res.success) {
             this.$notify.success(res.msg)
-            this.list = []
             this.keyWordsVoList = []
-            this.select = null
             this.selectKeyWordId = null
-            this.getKeyWordTopicList()
+            this.onChangeList()
           }
         })
         .catch(err => {
@@ -359,6 +379,10 @@ export default {
      * 获取明细
      */
     getContentList () {
+      if (this.cantRequest) {
+        return
+      }
+      this.cantRequest = true
       this.table.loading = true
       this.$http
         .fetch(this.$api.weWork.topicAnalysis.contentList, this.tableParams)
@@ -367,11 +391,13 @@ export default {
             this.table.tableData = res.result.data
             this.pagination.total = parseInt(res.result.recordsTotal)
             this.table.loading = false
+            this.cantRequest = false
           }
         })
         .catch(err => {
           this.$notify.error(err.msg || '列表获取失败')
           this.table.loading = false
+          this.cantRequest = false
         })
     },
     /**
@@ -379,6 +405,10 @@ export default {
      *  @param {object}
      */
     getContext (row) {
+      if (this.cantRequest) {
+        return
+      }
+      this.cantRequest = true
       this.WeWorkChatParam = {
         chatDateTime: this.time,
         sender: row.sender,
@@ -394,8 +424,10 @@ export default {
         .then(res => {
           this.weWorkChatData = formatWeWorkChatData(res.result)
           this.drawer = true
+          this.cantRequest = false
         })
         .catch(err => {
+          this.cantRequest = false
           this.$notify.error(err.msg || '查询失败')
         })
     },
@@ -432,7 +464,7 @@ export default {
         type: 1
       }
       let arr = await this.requestWeWorkChatDataToDb()
-      this.weWorkChatData.unshift(...arr)
+      this.weWorkChatData.unshift(...arr.reverse())
     },
     /**
      * 拉取企业微信最新聊天数据
@@ -447,13 +479,11 @@ export default {
           .then(res => {
             if (res.success) {
               const arr = res.result || []
-              const arrReverse = arr.reverse()
-              resolve(formatWeWorkChatData(arrReverse))
+              resolve(formatWeWorkChatData(arr))
             }
           })
           .catch(err => {
             this.$notify.error(err.msg)
-            // reject(new Error(err))
           })
       })
     },

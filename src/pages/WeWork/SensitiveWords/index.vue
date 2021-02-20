@@ -59,11 +59,20 @@
               <div class="topic-Number">
                 {{ item.count }}
               </div>
-              <span class="del" @click="listDeleteItem(item.id)">
+              <span class="del" @click.stop="listDeleteItem(item.id)">
                 <Icon type="delete"
               /></span>
             </li>
           </ul>
+          <p class="getMoreloading" v-if="getListMore && !listLoading">
+            加载中...
+          </p>
+          <p class="getMoreloading"
+            v-if="!getListMore && !listLoading && listLoading.length !== 0">
+            没有更多了
+          </p>
+          <NsNoData v-if="!listLoading && listLoading.length === 0"
+          >暂无数据</NsNoData>
         </div>
         <div class="content_bottom"></div>
       </div>
@@ -169,6 +178,12 @@ export default Index
   display: flex;
   align-items: center;
   justify-content: space-between;
+}
+.getMoreloading {
+  height: 64px;
+  line-height: 64px;
+  // padding: 0 16px;
+  text-align: center;
 }
 .page-header {
   background: #ffffff;
