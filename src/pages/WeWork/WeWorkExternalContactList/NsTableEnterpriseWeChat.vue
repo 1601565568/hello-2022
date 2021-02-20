@@ -121,7 +121,7 @@
         <el-table-column :show-overflow-tooltip="true" type="default" prop="sex"
                          label="性别" :sortable="false" align="center" width="100">
           <template slot-scope="scope">
-            {{scope.row.sex === 0 ? '女' : scope.row.sex === 1 ? '男' : '-'}}
+            {{scope.row.sex === 2 ? '女' : scope.row.sex === 1 ? '男' : '-'}}
           </template>
         </el-table-column>
         <el-table-column :show-overflow-tooltip="true" type="default" prop="guideName"
