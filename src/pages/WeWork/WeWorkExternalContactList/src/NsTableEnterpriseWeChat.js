@@ -168,14 +168,7 @@ export default {
     saveBatchMarking: function () {
       let that = this
       if (that.checkedTagList && that.checkedTagList.length > 0) {
-        let checkedTagMap = {}
-        for (let checkTagId of that.checkedTagList) {
-          let obj = that.tagList.find((item) => {
-            return item.tagId === checkTagId
-          })
-          checkedTagMap[obj.tagId] = obj.tagName
-        }
-        that.$http.fetch(that.$api.weWork.externalContact.saveBatchMarking, { checkedCustomerList: that.checkedCustomerList, checkedTagMap: checkedTagMap }).then((resp) => {
+        that.$http.fetch(that.$api.weWork.externalContact.saveBatchMarking, { checkedCustomerList: that.checkedCustomerList, checkedTagList: that.checkedTagList }).then((resp) => {
           this.showBatchMarkingVisible = false
           this.checkedTagList = []
           this.$notify.success('批量打标成功')
@@ -198,8 +191,7 @@ export default {
       val.forEach(function (item) {
         checkedCustomerList.push({
           externalUserId: item.externalUserId,
-          userId: item.userId,
-          groupTags: item.group_tags
+          userId: item.userId
         })
       })
       this.checkedCustomerList = checkedCustomerList
