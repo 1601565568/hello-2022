@@ -232,6 +232,8 @@ export default {
           this.keyWordsVoListLoding = false
           if (defItem === null) {
             this.table.loading = false
+            this.table.tableData = []
+            this.selectKeyWordId = null
             return
           }
           this.selectKeyWord(defItem)
