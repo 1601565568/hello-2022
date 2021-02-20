@@ -21,12 +21,11 @@
             :visible="channelFriendRateDialogVisible"
             :chartHeight="chartHeight"
             @close="channelFriendRateDialogVisible = false"
-
           />
         </div>
       </template>
       <!-- echart图 -->
-      <ChannelChart class="channel-friend-rate-chart" :channelCodes="customIndicators"/>
+      <ChannelChart ref="channelChart" class="channel-friend-rate-chart" :channelCodes="customIndicators" :startTime="model.startTime" :endTime="model.endTime"/>
     </content-panel>
     <content-panel title="渠道统计" class="channel-statistics">
       <template v-slot:toolbar>

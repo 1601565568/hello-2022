@@ -1,7 +1,7 @@
 <template>
   <div class="channel-detail">
     <div class="channel-nav">
-      <!-- <Icon class="back" type="icon-fanhuishangyiji"  @click="$router.go(-1)"/> -->
+      <!-- <Icon class="back" type="fanhuishangyiji"  @click="$router.go(-1)"/> -->
       <Icon class="back" type="return" @click="$router.go(-1)" />
       <h3>渠道明细</h3>
     </div>
@@ -42,7 +42,7 @@
           @sort-change="$orderChange$"
         >
           <el-table-column prop="date" label="日期" sortable="date"></el-table-column>
-          <el-table-column prop="addTotalCount" label="总添加人数" sortable="addTotalCount"></el-table-column>
+          <el-table-column prop="addTotalCount" label="总添加人数"></el-table-column>
           <el-table-column prop="addCount" label="添加人数" sortable="addCount"></el-table-column>
           <el-table-column prop="deleteCount" label="删除人数" width="316" sortable="deleteCount">
           </el-table-column>

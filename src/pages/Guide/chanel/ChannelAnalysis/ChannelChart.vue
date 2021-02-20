@@ -29,7 +29,7 @@ export default {
   components: {
     NsEcharts
   },
-  props: [ 'channelCodes' ],
+  props: [ 'channelCodes', 'startTime', 'endTime' ],
   data () {
     return {
       chartOptions: {
@@ -96,12 +96,12 @@ export default {
   methods: {
     async getChannelAnalysisChartData () {
       const res = await this.$http.fetch(this.$api.guide.channel.findChannelAnalysisChartData, {
-        startTime: '',
-        endTime: '',
+        startTime: this.startTime || '',
+        endTime: this.endTime || '',
         // channelCodes: 'SG8105835895695622620707336257,SG4319746901676736202624995038,SG2847297821636330798439885708,SG8368770410217426770957758695'
         channelCodes: this.channelCodes.join(',')
       })
-
+      window.console.log('图数据', res)
       this.chartOptions.dataset[0].dimensions = res.result.channelLineChartData.dimensions
       this.chartOptions.dataset[0].source = res.result.channelLineChartData.source
       const pieChart = this.chartOptions.series.pop()
@@ -112,7 +112,6 @@ export default {
 
       this.chartOptions.series.push(pieChart)
       this.chartOptions = { ...this.chartOptions }
-      window.console.log('图数据', res)
     }
   }
 }

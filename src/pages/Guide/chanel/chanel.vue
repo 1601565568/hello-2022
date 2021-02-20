@@ -259,8 +259,9 @@ export default {
     },
     tabHandleClick (tab, event) {
       this.searchObj.searchMap.type = tab.name
-      this.activeName = tab.name
-      this.loadListFun()
+      if (tab.name === '0') {
+        this.loadListFun()
+      }
     },
     toAnalyse () {
       this.isAnalyce = 1
