@@ -80,7 +80,7 @@
               </div>
               <div class="chatRecord_share__content">
                   <div class="chatRecord_share__Text">
-                     <a class="link" :href="item.link_url" target=_blank>
+                     <a :href="item.link_url" target=_blank>
                       {{ item.description }}
                      </a>
                   </div>
