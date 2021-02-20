@@ -44,6 +44,19 @@ export const formatWeWorkChatData = result => {
         image_url: item.image_url
       }
     }
+    if (item.msgtype === 'text') {
+      let re = /(http[s]?:\/\/([\w-]+.)+([:\d+])?(\/[\w-./?%&=]*)?)/gi
+      let url = ''
+      let content = item.content.replace(re, function (a) {
+        url = a
+        return ''
+      })
+      obj = {
+        ...obj,
+        content: content,
+        content_url: url
+      }
+    }
     return obj
   })
 }
