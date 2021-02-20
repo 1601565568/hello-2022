@@ -8,18 +8,7 @@
 <template>
   <div>
     <!-- 主列表 -->
-    <ns-table-repeat-customer ref='table' @onRedactFun="onRedactFun"
-      @onShowEmployeeScope='onShowEmployeeScope'></ns-table-repeat-customer>
-    <!-- 使用员工 -->
-    <el-dialog ref="employeeDialog" :visible.sync="nsTableEmployeeScopeModel.visible"
-      @open='onOpenEmployeeDialog()' @closed='onCloseEmployeeDialog()'
-        title="使用员工"
-        width="720px">
-      <ns-table-employee-scope ref='employeeTable' :data="nsTableEmployeeScopeModel"></ns-table-employee-scope>
-      <div slot="footer" class="dialog-footer">
-        <ns-button @click="nsTableEmployeeScopeModel.visible = false">关闭</ns-button>
-      </div>
-    </el-dialog>
+    <ns-table-repeat-customer ref='table' @onRedactFun="onRedactFun"></ns-table-repeat-customer>
     <!-- 查看导购详情开始-->
     <el-dialog title="详情" :visible.sync="RepeatCustomerShow" width="600px" class="detail-dialog">
       <div class="detail-dialog__content">
@@ -54,12 +43,12 @@
                     {{scope.row.name}}
                   </template>
                 </el-table-column>
-                <el-table-column label="员工门店">
+                <el-table-column label="员工门店" width="250">
                   <template slot-scope="scope">
                     {{scope.row.shop_name}}
                   </template>
                 </el-table-column>
-                <el-table-column label="添加时间" width="220">
+                <el-table-column label="添加时间" width="200">
                   <template slot-scope="scope">
                     {{scope.row.add_time}}
                   </template>
@@ -80,7 +69,6 @@
 <script>
 import tableMixin from '@nascent/ecrp-ecrm/src/mixins/table'
 import NsTableRepeatCustomer from './components/NsTableRepeatCustomer.vue'
-import NsTableEmployeeScope from './components/NsTableEmployeeScope.vue'
 import ElImage from '@nascent/nui/lib/image'
 
 export default {
@@ -88,31 +76,11 @@ export default {
   name: 'welcomeCodeList',
   components: {
     NsTableRepeatCustomer,
-    NsTableEmployeeScope,
     ElImage
   },
   data () {
-    // 员工使用范围数据model
-    let nsTableEmployeeScopeModel = {
-      visible: false,
-      welcomeCodeUuid: ''
-    }
-    // 渠道使用范围数据model
-    let channelScopeModel = {
-      visible: false,
-      welcomeCodeUuid: '',
-      loadingtable: false
-    }
-    // 门店使用范围数据model
-    let nsTableShopScopeModel = {
-      visible: false,
-      welcomeCodeUuid: ''
-    }
     return {
       RepeatCustomerShow: false,
-      nsTableEmployeeScopeModel: nsTableEmployeeScopeModel,
-      channelScopeModel: channelScopeModel,
-      nsTableShopScopeModel: nsTableShopScopeModel,
       channelList: [],
       shopList: [],
       guide: {},
@@ -120,52 +88,6 @@ export default {
     }
   },
   methods: {
-    /**
-     * @msg: 打开弹框 重新刷新门店列表数据
-     */
-    onOpenShopDialog () {
-      // 重新刷新列表数据
-      this.$nextTick(() => {
-        this.$refs.shopTable.model.welcomeCodeUuid = this.nsTableShopScopeModel.welcomeCodeUuid
-        this.$refs.shopTable._data._table.searchMap.welcomeCodeUuid = this.nsTableShopScopeModel.welcomeCodeUuid
-        this.$refs.shopTable._data._table.quickSearchMap.welcomeCodeUuid = this.nsTableShopScopeModel.welcomeCodeUuid
-        this.$refs.shopTable.$reload()
-      })
-    },
-    /**
-     * todo 目前仅使用方法 onOpenEmployeeDialog 触发有效
-     * @msg: 查看欢迎语员工使用范围
-     * @param {scope.row}
-     */
-    onShowEmployeeScope (data) {
-      this.nsTableEmployeeScopeModel = {
-        welcomeCodeUuid: data.welcomeCodeUuid,
-        visible: true
-      }
-    },
-    /**
-     * @msg: 打开弹框 重新刷新列表数据
-     */
-    onOpenEmployeeDialog () {
-      // 重新刷新列表数据
-      this.$nextTick(() => {
-        this.$refs.employeeTable.model.welcomeCodeUuid = this.nsTableEmployeeScopeModel.welcomeCodeUuid
-        this.$refs.employeeTable._data._table.searchMap.welcomeCodeUuid = this.nsTableEmployeeScopeModel.welcomeCodeUuid
-        this.$refs.employeeTable._data._table.quickSearchMap.welcomeCodeUuid = this.nsTableEmployeeScopeModel.welcomeCodeUuid
-        this.$refs.employeeTable.$reload()
-      })
-    },
-    /**
-     * @msg: 打开弹框 重新刷新列表数据
-     */
-    onCloseEmployeeDialog () {
-      // 重新刷新列表数据
-      this.$nextTick(() => {
-        this.$refs.employeeTable.model.employeeName = null
-        this.$refs.employeeTable._data._table.searchMap.employeeName = null
-        this.$refs.employeeTable._data._table.quickSearchMap.employeeName = null
-      })
-    },
     // 打开员工详情页
     onRedactFun (row) {
       if (row) {
